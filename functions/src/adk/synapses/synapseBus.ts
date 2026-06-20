@@ -3,8 +3,14 @@ import type { AdkOrchestrator } from '../orchestrator';
 import { handleDriveIngest } from './driveIngestSynapse';
 import { handleDcapAlert } from './dcapAlertSynapse';
 import { handleJournalWoven } from './journalWovenSynapse';
+import { handleWidgetRecordingIngest } from './widgetRecordingIngestSynapse';
 import { applyParalysBreak } from './paralysBrytarenSynapse';
-import type { DriveIngestPayload, JournalWovenPayload, DcapAlertPayload } from '../types';
+import type {
+  DriveIngestPayload,
+  JournalWovenPayload,
+  DcapAlertPayload,
+  WidgetRecordingIngestedPayload,
+} from '../types';
 
 type SynapseHandler = (
   orchestrator: AdkOrchestrator,
@@ -28,6 +34,10 @@ const handlers: Record<SynapseTrigger, SynapseHandler> = {
     const text = String(event.payload.text ?? '');
     const microSteps = await applyParalysBreak(text);
     return { microSteps };
+  },
+  widget_recording_ingested: async (orchestrator, event) => {
+    const p = event.payload as unknown as WidgetRecordingIngestedPayload;
+    return handleWidgetRecordingIngest(orchestrator, p, process.env.GEMINI_API_KEY);
   },
 };
 

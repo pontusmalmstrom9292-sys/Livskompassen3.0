@@ -25,17 +25,7 @@ import {
   shouldRedirectMabraCoachToSpeglar,
 } from '../lib/mabraCoachGuard';
 import { analyzeWidgetRecording } from '../lib/widgetRecordingAnalyze';
-import {
-  blockWidgetKunskapRouting,
-  buildWidgetVaultTruth,
-  type WidgetRecordingMetadata,
-} from '../lib/widgetRecordingCommit';
-import {
-  buildInboxClassifyBlob,
-  classifyInboxDocument,
-  applyInkastConfidenceGate,
-} from '../lib/inboxClassifier';
-import { routeInboxToWorm } from '../lib/inboxPersist';
+import { type WidgetRecordingMetadata } from '../lib/widgetRecordingCommit';
 import { revokeVaultSession, readVaultSessionToken, assertVaultSession } from '../lib/vaultSessionGate';
 import {
   claimBarnportenPairingForUser,
@@ -721,49 +711,37 @@ export const ingestWidgetRecording = onCall(
       hasVaultSession = true;
     }
 
-    const analysisText = buildWidgetVaultTruth({
-      analysis,
-      transcript,
-      recordedAtIso: recordedAt,
-      evidenceUrl,
-      durationSeconds,
-      metadata,
-    });
-
-    const classifyBlob = buildInboxClassifyBlob(analysisText, 'widget_recording');
-    const rawClassification = await classifyInboxDocument(
-      classifyBlob,
-      'widget_recording.webm',
-      process.env.GEMINI_API_KEY,
-    );
-    const gated = applyInkastConfidenceGate(rawClassification);
-    const classification = blockWidgetKunskapRouting(gated);
-
-    const fileId = storagePath || sourceRef.replace(/^storage:/, 'widget_');
-    const routeResult = await routeInboxToWorm({
-      ownerId: uid,
-      fileId: fileId.slice(0, 120),
-      fileName: `${analysis.title.slice(0, 80)}.webm`,
-      mimeType: 'audio/webm',
-      classification,
-      analysisText,
-      evidenceUrl,
-      hasVaultSession,
-      isVerified: true,
-      allowBarnenAutoPersist: false,
-      sourceRef,
-      vaultAction: `widget_inspelning: ${analysis.title.slice(0, 80)}`,
-      vaultCategory: 'tyst_inspelning',
-      truthOverride: analysisText,
-    });
+    const synapseResult = (await emitSynapse(adkOrchestrator, {
+      trigger: 'widget_recording_ingested',
+      contextId: uid,
+      payload: {
+        ownerId: uid,
+        transcript,
+        recordedAtIso: recordedAt,
+        durationSeconds,
+        evidenceUrl,
+        sourceRef,
+        storagePath: storagePath || undefined,
+        analysis,
+        metadata,
+        hasVaultSession,
+      },
+    })) as {
+      analysis: typeof analysis;
+      classification: { routing: string };
+      action: 'queued' | 'persisted';
+      collection?: string;
+      docId?: string;
+      queueId?: string;
+    };
 
     return {
-      ...analysis,
-      classification,
-      action: routeResult.action,
-      collection: routeResult.collection,
-      docId: routeResult.docId,
-      queueId: routeResult.queueId,
+      ...synapseResult.analysis,
+      classification: synapseResult.classification,
+      action: synapseResult.action,
+      collection: synapseResult.collection,
+      docId: synapseResult.docId,
+      queueId: synapseResult.queueId,
     };
   }
 );
