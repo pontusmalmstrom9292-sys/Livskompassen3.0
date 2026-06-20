@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { FileText, Loader2, Lock, ShieldAlert } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { StepIndicator } from '@/core/ui/StepIndicator';
@@ -495,84 +496,90 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               </label>
             )}
 
-            {techniqueTags.length > 0 && (
-              <div>
-                <p className="mb-2 text-xs text-text-dim">
-                  Valfritt — filtrera valv på taktik (sidecar-metadata)
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {techniqueTags.map((tag) => (
-                    <button
-                      key={tag}
-                      type="button"
-                      onClick={() => toggleTechnique(tag)}
-                      className={
-                        techniqueFilter.includes(tag)
-                          ? 'rounded-full border border-accent/40 bg-accent/15 px-3 py-1 text-xs text-accent cursor-pointer'
-                          : 'rounded-full border border-border px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-accent/25'
-                      }
-                    >
-                      {tag}
-                    </button>
-                  ))}
+            <CalmCollapsible title="Valfria filter" meta="Taktik & kategori" defaultOpen={false} glow="blue">
+              {techniqueTags.length > 0 ? (
+                <div className="mb-3">
+                  <p className="mb-2 text-xs text-text-dim">
+                    Filtrera valv på taktik (sidecar-metadata)
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {techniqueTags.map((tag) => (
+                      <button
+                        key={tag}
+                        type="button"
+                        onClick={() => toggleTechnique(tag)}
+                        className={
+                          techniqueFilter.includes(tag)
+                            ? 'rounded-full border border-accent/40 bg-accent/15 px-3 py-1 text-xs text-accent cursor-pointer'
+                            : 'rounded-full border border-border px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-accent/25'
+                        }
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              ) : (
+                <p className="text-xs text-text-dim">Inga taktik-taggar i sidecar ännu.</p>
+              )}
 
-            {categoryTags.length > 0 && (
-              <div>
-                <p className="mb-2 text-xs text-text-dim">Valfritt — filtrera på kategori/tag</p>
-                <div className="flex flex-wrap gap-2">
-                  {categoryTags.map((tag) => (
-                    <button
-                      key={tag}
-                      type="button"
-                      onClick={() => toggleCategory(tag)}
-                      className={
-                        categoryFilter.includes(tag)
-                          ? 'rounded-full bg-amber-500/25 px-3 py-1 text-xs text-amber-100 cursor-pointer border border-accent/40'
-                          : 'rounded-full border border-border px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-accent/25'
-                      }
-                    >
-                      {tag}
-                    </button>
-                  ))}
+              {categoryTags.length > 0 ? (
+                <div>
+                  <p className="mb-2 text-xs text-text-dim">Filtrera på kategori/tag</p>
+                  <div className="flex flex-wrap gap-2">
+                    {categoryTags.map((tag) => (
+                      <button
+                        key={tag}
+                        type="button"
+                        onClick={() => toggleCategory(tag)}
+                        className={
+                          categoryFilter.includes(tag)
+                            ? 'rounded-full bg-amber-500/25 px-3 py-1 text-xs text-amber-100 cursor-pointer border border-accent/40'
+                            : 'rounded-full border border-border px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-accent/25'
+                        }
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              ) : null}
+            </CalmCollapsible>
 
-            <label className="flex cursor-pointer items-start gap-2 text-sm text-text-dim border-t border-border-strong/40 pt-3">
-              <input
-                type="checkbox"
-                checked={includeAiForeword}
-                onChange={(e) => {
-                  setIncludeAiForeword(e.target.checked);
-                  if (!e.target.checked) setShowTimelinePreview(false);
-                }}
-                className="mt-0.5 rounded border-border accent-accent"
-              />
-              <span>
-                {VAVAREN_DOSSIER_CHECKBOX}
-                <span className="mt-1 block text-xs text-text-muted">{VAVAREN_DOSSIER_HINT}</span>
-              </span>
-            </label>
-
-            {includeAiForeword && (
-              <label className="flex cursor-pointer items-start gap-2 text-sm text-text-dim pl-1">
+            <CalmCollapsible title="AI-förord & tidslinje" meta="Valfritt" defaultOpen={false} glow="blue">
+              <label className="flex cursor-pointer items-start gap-2 text-sm text-text-dim">
                 <input
                   type="checkbox"
-                  checked={showTimelinePreview}
-                  onChange={(e) => setShowTimelinePreview(e.target.checked)}
+                  checked={includeAiForeword}
+                  onChange={(e) => {
+                    setIncludeAiForeword(e.target.checked);
+                    if (!e.target.checked) setShowTimelinePreview(false);
+                  }}
                   className="mt-0.5 rounded border-border accent-accent"
                 />
                 <span>
-                  Visa AI-tidslinje i förhandsgranskning
-                  <span className="mt-1 block text-xs text-text-muted">
-                    Efter export — sammanfattning utanför WORM-hash.
-                  </span>
+                  {VAVAREN_DOSSIER_CHECKBOX}
+                  <span className="mt-1 block text-xs text-text-muted">{VAVAREN_DOSSIER_HINT}</span>
                 </span>
               </label>
-            )}
+
+              {includeAiForeword ? (
+                <label className="mt-3 flex cursor-pointer items-start gap-2 text-sm text-text-dim pl-1">
+                  <input
+                    type="checkbox"
+                    checked={showTimelinePreview}
+                    onChange={(e) => setShowTimelinePreview(e.target.checked)}
+                    className="mt-0.5 rounded border-border accent-accent"
+                  />
+                  <span>
+                    Visa AI-tidslinje i förhandsgranskning
+                    <span className="mt-1 block text-xs text-text-muted">
+                      Efter export — sammanfattning utanför WORM-hash.
+                    </span>
+                  </span>
+                </label>
+              ) : null}
+            </CalmCollapsible>
 
             <select
               value={reportType}

@@ -1,5 +1,9 @@
 import type { EvolutionHubDoc } from '@/core/types/firestore';
 import type { AdaptationPrefsDoc } from '@/core/types/adaptation';
+import {
+  CAPACITY_LOW_HOME_THRESHOLD,
+  normalizeStoredCapacityScore,
+} from '../../../../shared/evolution/capacityScore';
 
 /** Kognitiv nivå från evolution_hub (default 2 = normal kapacitet). */
 export function getHomeCognitiveLevel(doc: EvolutionHubDoc | null): number {
@@ -27,5 +31,6 @@ export function isLowHomeCapacity(
 
   const level = getHomeCognitiveLevel(evolutionDoc);
   if (level <= 1) return true;
-  return capacityScore > 0 && capacityScore < 35;
+  const normalized = normalizeStoredCapacityScore(capacityScore);
+  return normalized > 0 && normalized < CAPACITY_LOW_HOME_THRESHOLD;
 }

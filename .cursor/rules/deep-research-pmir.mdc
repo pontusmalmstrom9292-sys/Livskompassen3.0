@@ -1,7 +1,7 @@
 ---
 description: Kräv djupanalys (Deep Research) och PMIR före nya byggen
-globs: *
-alwaysApply: true
+alwaysApply: false
+globs: docs/evaluations/**,docs/specs/modules/**,**/module_plan.md
 ---
 # Deep Research & PMIR-rutin
 

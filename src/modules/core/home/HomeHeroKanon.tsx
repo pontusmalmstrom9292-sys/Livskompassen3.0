@@ -9,7 +9,7 @@ import { useLifeHubPreset } from '../lifeOs/useLifeHubPreset';
 import { HomeGreeting } from './HomeGreeting';
 import { HomeStreakChip } from './HomeStreakChip';
 import { HomeAdaptiveCompass } from './HomeAdaptiveCompass';
-import { HomeBrassLayoutA } from './HomeBrassLayoutA';
+import { HomeLayoutA } from './HomeLayoutA';
 import { BRUSHED_BRASS_THEME_ID } from '../theme/themePackBrushedBrass';
 
 type Props = {
@@ -17,8 +17,7 @@ type Props = {
 };
 
 /**
- * Hem — hälsning + adaptiv kompass (Obsidian Calm 2.0).
- * Mockup: kompass/navigation via dock — ingen dubbel orbit-disc på hem.
+ * Hem — Layout A (ankare + rutnät) som default · adaptiv kompass kvar för mockup/lab.
  */
 export function HomeHeroKanon({ onCheckInSaved }: Props) {
   const { themeId } = useTheme();
@@ -53,24 +52,32 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
   if (brassHome) {
     return (
       <div className="home-hero-kanon home-hero-kanon--brass-a">
-        <HomeBrassLayoutA onCheckInSaved={onCheckInSaved} />
+        <HomeLayoutA variant="brass" onCheckInSaved={onCheckInSaved} presetLabel={preset.label} />
+      </div>
+    );
+  }
+
+  if (mockup) {
+    return (
+      <div className={clsx('home-hero-kanon space-y-4', 'home-hero-kanon--mockup')}>
+        <div className="home-hero-kanon__bridge">
+          <div className="home-hero-kanon__compass-stage" aria-hidden />
+          <div className="home-hero-kanon__scenic-stack space-y-4">
+            {header}
+            <HomeAdaptiveCompass
+              onSaved={onCheckInSaved}
+              preset={preset}
+              presetId={presetId}
+            />
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
-    <div className={clsx('home-hero-kanon space-y-4', mockup && 'home-hero-kanon--mockup')}>
-      <div className="home-hero-kanon__bridge">
-        <div className="home-hero-kanon__compass-stage" aria-hidden />
-        <div className="home-hero-kanon__scenic-stack space-y-4">
-          {header}
-          <HomeAdaptiveCompass
-            onSaved={onCheckInSaved}
-            preset={preset}
-            presetId={presetId}
-          />
-        </div>
-      </div>
+    <div className="home-hero-kanon home-hero-kanon--layout-a">
+      <HomeLayoutA variant="calm" onCheckInSaved={onCheckInSaved} presetLabel={preset.label} />
     </div>
   );
 }

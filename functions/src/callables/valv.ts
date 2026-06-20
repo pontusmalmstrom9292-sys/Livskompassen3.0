@@ -9,6 +9,10 @@ import {
   issueVaultSession as createVaultSession,
 } from '../lib/vaultSessionGate';
 import {
+  beginVaultBiometricChallenge,
+  consumeVaultBiometricChallenge,
+} from '../lib/vaultBiometricChallenge';
+import {
   assertVaultWebAuthnContext,
   beginVaultWebAuthnChallenge,
   verifyVaultWebAuthnResponse,
@@ -65,19 +69,31 @@ export const issueVaultSession = onCall({ region: 'europe-west1' }, async (reque
 });
 
 /**
+ * Steg 1 — server-utmaning före native biometri (Capacitor Android/iOS).
+ * Klient: begin → OS-biometri → issueVaultSessionViaBiometric med challengeProof.
+ */
+export const beginVaultBiometricChallengeCallable = onCall(
+  { region: 'europe-west1' },
+  async (request) => {
+    const uid = await guardSensitiveCallableV2(
+      request,
+      'beginVaultBiometricChallenge',
+      10,
+    );
+    return beginVaultBiometricChallenge(uid);
+  },
+);
+
+/**
  * Nativ-biometri-kanal (Capacitor Android / iOS).
  *
- * Autentiseringsgaranti:
- *  1. Firebase ID-token — verifieras automatiskt av Cloud Functions runtime.
- *     Klienten kan inte förfalska detta utan att ha ett giltigt Google-konto.
- *  2. Android TEE / iOS Secure Enclave — klienten utför biometriverifiering
- *     INNAN detta anrop görs (performNativeBiometric() i nativeBiometricAuth.ts).
- *     Vi litar på OS-garantin precis som mobilbanks-appar gör.
+ * Autentiseringsgaranti (v1):
+ *  1. Firebase ID-token — verifieras av Cloud Functions runtime.
+ *  2. Kortlivad server-utmaning — måste begäras före issue och konsumeras en gång inom 90 s.
+ *  3. OS-biometri — klienten kör performNativeBiometric() mellan begin och issue.
+ *  4. App Check (prod) — APP_CHECK_ENFORCE + Play Integrity / DeviceCheck rekommenderas (PMIR fas 2).
  *
- * Rate-limiting: 10 anrop/minut per UID (samma som WebAuthn-kanalen).
- * Zero Footprint: Identisk sessionslivstid (1h idle) via createVaultSession().
- * WORM: Oförändrat — Firestore-regler kräver assertVaultSession() per write.
- * Audit: Loggpost per utfärdad session (uid + platform + tidsstämpel).
+ * Rate-limiting: 10 anrop/minut per UID.
  */
 export const issueVaultSessionViaBiometric = onCall(
   { region: 'europe-west1' },
@@ -85,7 +101,7 @@ export const issueVaultSessionViaBiometric = onCall(
     const uid = await guardSensitiveCallableV2(
       request,
       'issueVaultSessionViaBiometric',
-      10, // samma rate limit som WebAuthn-kanalen
+      10,
     );
 
     const platform = (request.data as { platform?: unknown })?.platform;
@@ -96,11 +112,15 @@ export const issueVaultSessionViaBiometric = onCall(
       );
     }
 
-    // Audit-spår: loggad server-side, aldrig i WORM reality_vault
-    console.info('[VaultSession] Biometric path issued:', {
-      uid,
+    const payload = request.data as {
+      challengeId?: unknown;
+      challengeProof?: unknown;
+    };
+
+    await consumeVaultBiometricChallenge(uid, {
+      challengeId: payload.challengeId,
+      challengeProof: payload.challengeProof,
       platform,
-      ts: new Date().toISOString(),
     });
 
     return createVaultSession(uid);

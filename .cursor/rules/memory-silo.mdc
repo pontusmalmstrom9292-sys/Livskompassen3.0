@@ -1,30 +1,30 @@
 ---
-description: Three knowledge silos — no cross-RAG between Kunskap, Valv, Barnen
+description: RAG-arkitektur — tre silos (Kunskap, Valv, Barnen), strikt separation, ingen cross-RAG
 alwaysApply: false
-globs: functions/src/lib/*Rag*.ts, functions/src/agents/valv*.ts, functions/src/agents/knowledgeVault*.ts
+globs: functions/src/lib/*Rag*.ts,functions/src/agents/valv*.ts,functions/src/agents/knowledgeVault*.ts,functions/src/callables/valv.ts,functions/src/callables/knowledgeVault*.ts
 ---
 
 # Memory silos (tre kunskapsytor)
 
-Skills: `livskompassen-memory-silo-guard`, `livskompassen-arkiv-master`  
+Skills: `livskompassen-memory-silo-guard`, `livskompassen-rag-retrieval`, `livskompassen-arkiv-master`  
 Kanon: `.context/arkiv-minne.md`, `.context/arkitektur-beslut.md` §1.5
 
-| Silo | Collections | Callable |
-|------|-------------|----------|
-| Kunskap | `kampspar`, `kb_docs` | `knowledgeVaultQuery` |
-| Valv | `reality_vault` | `valvChatQuery` |
-| Barnen | `children_logs` | `childrenLogsQuery` |
-| Utveckling (Vit) | `mabra_sessions`, `vit_hub` / `vit_entries` | **Ingen RAG** — `mabraCoach` parafras bank |
+| Silo | Collections | Callable | RAG-modul |
+|------|-------------|----------|-----------|
+| Kunskap | `kampspar`, `kb_docs` | `knowledgeVaultQuery` | `kampsparQueryRag.ts` |
+| Valv | `reality_vault` | `valvChatQuery` | `vaultRag.ts` |
+| Barnen | `children_logs` | `childrenLogsQuery` | barn-RAG i silo |
+| Utveckling (Vit) | `mabra_sessions`, `vit_hub` | **Ingen RAG** | `mabraCoach` parafras bank |
 
 Kanon U6: [`docs/INNEHALL-REGISTER.md`](../../docs/INNEHALL-REGISTER.md)
 
-## MUST NOT
+## Gör alltid
 
-- `knowledgeVaultQuery` läser `reality_vault` eller `children_logs`.
-- `valvChatQuery` läser `kampspar` eller `children_logs`.
-- Gemensam vector-namespace som blandar bevis + livsminne utan isolering.
-- "Sök överallt"-UI utan silo-etikett.
-- `mabra_*` / `vit_*` → `knowledgeVaultQuery` eller Vector ingest (Mabra-SPEC §14).
+- Håll silos strikt separerade vid sökningar: använd **enbart** `kampsparQueryRag.ts` för fakta och **enbart** `vaultRag.ts` för bevis — integrera aldrig resultat mellan dessa.
+- Låt `knowledgeVaultQuery` läsa endast `kampspar`/`kb_docs`; `valvChatQuery` endast `reality_vault`; `childrenLogsQuery` endast `children_logs`.
+- Etikettera all sök-UI med aktiv silo — ingen "sök överallt" utan silo-val.
+- Låt `mabra_*`/`vit_*` stanna i parafras-bank — routa inte till `knowledgeVaultQuery` eller Vector ingest (Mabra-SPEC §14).
+- Isolera vector-namespace per silo — blanda inte bevis och livsminne i samma index.
 
 ## Tillåtna korsläsningar (ej användar-RAG)
 

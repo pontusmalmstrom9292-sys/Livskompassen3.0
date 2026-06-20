@@ -1,7 +1,7 @@
 ---
 description: Backend AI agent architecture rules for functions and server code
 alwaysApply: false
-globs: functions/**,server/**,scripts/ai/**
+globs: functions/src/agents/**,functions/src/callables/**,functions/src/index.ts,functions/src/sharedRules.ts,functions/src/expertPrompts.ts,server/**,scripts/ai/**
 ---
 
 # Backend Agents

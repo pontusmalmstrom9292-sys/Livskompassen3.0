@@ -1,4 +1,4 @@
-import { BookOpen, Users } from 'lucide-react';
+import { BookOpen, ScrollText, Users } from 'lucide-react';
 import { FORENSIC_VAULT_TAB_LABELS } from '@/core/copy/valvNavCopy';
 
 export { VALV_ZONE_INGRESS, FORENSIC_TAB_INGRESS } from '@/core/copy/valvNavCopy';
@@ -25,8 +25,9 @@ export type ExporteraVaultTab = (typeof EXPORTERA_VAULT_TAB_IDS)[number];
 
 export const KUNSKAP_VAULT_TAB = 'kunskapsbank' as const;
 export const AKTORSKARTA_VAULT_TAB = 'aktorskarta' as const;
+export const DOCS_VAULT_TAB = 'docs' as const;
 
-export const KUNSKAP_VAULT_TAB_IDS = [KUNSKAP_VAULT_TAB, AKTORSKARTA_VAULT_TAB] as const;
+export const KUNSKAP_VAULT_TAB_IDS = [KUNSKAP_VAULT_TAB, AKTORSKARTA_VAULT_TAB, DOCS_VAULT_TAB] as const;
 export type KunskapVaultTab = (typeof KUNSKAP_VAULT_TAB_IDS)[number];
 
 /** Utvecklingszon (Vit) — separat från bevis-WORM. */
@@ -124,4 +125,5 @@ export function forensicVaultTabLabel(tab: ForensicVaultTab): string {
 export const VAULT_TAB_ICONS = {
   kunskapsbank: BookOpen,
   aktorskarta: Users,
+  docs: ScrollText,
 } as const;

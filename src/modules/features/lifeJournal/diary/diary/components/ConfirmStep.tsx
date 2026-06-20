@@ -1,4 +1,5 @@
 import { ChevronLeft, Loader2, Paperclip } from 'lucide-react';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { VAVAREN_CONFIRM_HINT } from '@/features/lifeJournal/evidence/vault/constants/vavarenCopy';
 import { getMoodDef } from '../constants/moods';
 
@@ -59,63 +60,68 @@ export function ConfirmStep({
         )}
       </div>
 
-      {showWeaveOptIn && VAVAREN_CONFIRM_HINT ? (
-        <p className="mb-3 text-xs text-text-dim">{VAVAREN_CONFIRM_HINT}</p>
-      ) : null}
+      {(showWeaveOptIn || onToggleTag) && (
+        <CalmCollapsible title="Märkning & Minne" meta="Valfritt" defaultOpen={false} glow="gold">
+          {showWeaveOptIn && VAVAREN_CONFIRM_HINT ? (
+            <p className="mb-3 text-xs text-text-dim">{VAVAREN_CONFIRM_HINT}</p>
+          ) : null}
 
-      {onToggleTag && (
-        <div className="reflektion-radar mb-6 mt-4 rounded-xl bg-white/5 border border-white/10 p-4">
-          <p className="text-sm font-medium text-white/90 mb-3">Märkning (Röd Flagg-Radar)</p>
-          <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={() => onToggleTag('red_flag')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                tags.includes('red_flag')
-                  ? 'bg-rose-500/20 text-rose-300 border border-rose-500/50 shadow-[0_0_10px_rgba(244,63,94,0.2)]'
-                  : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10'
-              }`}
-            >
-              🚩 Röd Flagg / Övertramp
-            </button>
-            <button
-              type="button"
-              onClick={() => onToggleTag('insight')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                tags.includes('insight')
-                  ? 'bg-amber-500/20 text-amber-300 border border-amber-500/50 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
-                  : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10'
-              }`}
-            >
-              💡 Insikt
-            </button>
-            <button
-              type="button"
-              onClick={() => onToggleTag('boundary')}
-              className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
-                tags.includes('boundary')
-                  ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/50 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
-                  : 'bg-white/5 text-white/60 border border-white/10 hover:bg-white/10'
-              }`}
-            >
-              🛡️ Gränssättning
-            </button>
-          </div>
-        </div>
-      )}
-      {showWeaveOptIn && (
-        <label className="reflektion-weave-opt mb-4 flex cursor-pointer items-start gap-2 text-sm text-text-muted">
-          <input
-            type="checkbox"
-            checked={weaveToKampspar}
-            onChange={(e) => onWeaveToKampsparChange(e.target.checked)}
-            disabled={saving}
-            className="mt-0.5"
-          />
-          <span>
-            Spara också en kort rad i Minne (valfritt — dagboken sparas oavsett).
-          </span>
-        </label>
+          {onToggleTag && (
+            <div className="reflektion-radar mb-4 rounded-xl border border-border bg-surface-2/40 p-4">
+              <p className="mb-3 text-sm font-medium text-text-muted">Märkning (Röd Flagg-Radar)</p>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => onToggleTag('red_flag')}
+                  className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
+                    tags.includes('red_flag')
+                      ? 'border-rose-500/50 bg-rose-500/20 text-rose-300 shadow-[0_0_10px_rgba(244,63,94,0.2)]'
+                      : 'border-border bg-surface-2/60 text-text-dim hover:bg-surface-3'
+                  }`}
+                >
+                  🚩 Röd Flagg / Övertramp
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onToggleTag('insight')}
+                  className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
+                    tags.includes('insight')
+                      ? 'border-amber-500/50 bg-amber-500/20 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                      : 'border-border bg-surface-2/60 text-text-dim hover:bg-surface-3'
+                  }`}
+                >
+                  💡 Insikt
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onToggleTag('boundary')}
+                  className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
+                    tags.includes('boundary')
+                      ? 'border-emerald-500/50 bg-emerald-500/20 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
+                      : 'border-border bg-surface-2/60 text-text-dim hover:bg-surface-3'
+                  }`}
+                >
+                  🛡️ Gränssättning
+                </button>
+              </div>
+            </div>
+          )}
+
+          {showWeaveOptIn && (
+            <label className="reflektion-weave-opt flex cursor-pointer items-start gap-2 text-sm text-text-muted">
+              <input
+                type="checkbox"
+                checked={weaveToKampspar}
+                onChange={(e) => onWeaveToKampsparChange(e.target.checked)}
+                disabled={saving}
+                className="mt-0.5"
+              />
+              <span>
+                Spara också en kort rad i Minne (valfritt — dagboken sparas oavsett).
+              </span>
+            </label>
+          )}
+        </CalmCollapsible>
       )}
 
       <div className="reflektion-actions">

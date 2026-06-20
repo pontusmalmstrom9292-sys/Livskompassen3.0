@@ -1,6 +1,6 @@
 ---
 description: Anti-hallucination — verifiera mot kod/moln innan påståenden; inga gissningar om deploy eller GAP-status
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Anti-hallucination
@@ -11,7 +11,7 @@ alwaysApply: true
 2. **Live sanning** — GCP: `docs/GCP-INVENTORY-LATEST.md`; GAP: `docs/specs/modules/Arkiv-GAP-REGISTER.md`. Vid konflikt om GAP done/open: **register vinner** — uppdatera inventering, markera inte GAP utan att läsa båda.
 3. **Stub vs live** — kontrollera `synapseBus.ts` handlers, inte bara äldre docs.
 4. **Citat** — fil:rad när du refererar beteende.
-5. **Osäkerhet** — säg "ej verifierat" och ange exakt kommando för bevis.
+5. **Osäkerhet** — säg "ej verifierat" och ange exakt kommando för bevis. Vid produkt-/domänbedömning utan tillräcklig källa: *"Ej tillräckligt data för bedömning."*
 
 ## MUST NOT
 

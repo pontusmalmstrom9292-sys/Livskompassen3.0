@@ -4,6 +4,7 @@ import { TabBar, type TabBarItem } from '../ui/TabBar';
 import { useStore } from '../store';
 import { getAutoModuleThemesEnabled, setAutoModuleThemesEnabled } from '../theme/moduleThemeMap';
 import { DrogfrihetCounterSettings } from '@/features/dailyLife/drogfrihet/components/DrogfrihetCounterSettings';
+import { NutritionSettingsPanel } from '@/features/dailyLife/wellbeing/naring/components/NutritionSettingsPanel';
 import {
   isStampOnHomeScreenEnabled,
   setStampOnHomeScreenEnabled,
@@ -16,7 +17,7 @@ import { AdaptationPrefsPanel } from '../adaptation/AdaptationPrefsPanel';
 import { ADAPTATION_LAYER_FLAG, useAdaptationStore } from '../store/useAdaptationStore';
 import { useEvolutionStore } from '../store/useEvolutionStore';
 
-export type InstallningarTab = 'allmant' | 'drogfrihet';
+export type InstallningarTab = 'allmant' | 'naring' | 'drogfrihet';
 
 export function InstallningarPage() {
   const { tabs, activeTab, setTab } = useHubTab('installningar');
@@ -32,8 +33,8 @@ export function InstallningarPage() {
   return (
     <HubPageShell
       eyebrow="Inställningar"
-      title="Konto · tema · drogfrihet"
-      lead="Känsliga val som nollställning av räknare finns bara här."
+      title="Konto · tema · näring"
+      lead="Känsliga val och utökade funktioner finns bara här."
       headerAside={<Settings className="h-5 w-5 text-text-dim" strokeWidth={1.5} />}
     >
       <TabBar<InstallningarTab>
@@ -90,6 +91,8 @@ export function InstallningarPage() {
           <ClearDevicePanel />
         </div>
       )}
+
+      {tab === 'naring' && <NutritionSettingsPanel uid={user?.uid} />}
 
       {tab === 'drogfrihet' && <DrogfrihetCounterSettings uid={user?.uid} />}
     </HubPageShell>

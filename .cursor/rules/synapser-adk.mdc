@@ -1,38 +1,36 @@
 ---
-description: ADK SynapseBus triggers, state, and ingest boundaries
+description: ADK SynapseBus — deterministisk routing, emitSynapse, driveIngestSynapse G10-klassificering
 alwaysApply: false
-globs: functions/src/adk/**
+globs: functions/src/adk/**,functions/src/triggers/**
 ---
 
 # ADK Synapser
 
 Skill: `.cursor/skills/livskompassen-synapser-adk/SKILL.md`  
-Runtime: `functions/src/adk/synapses/synapseBus.ts`, `stateStore.ts`
+Runtime: `functions/src/adk/synapses/synapseBus.ts`, `stateStore.ts`, `orchestrator.ts` (`gatekeeperSanitize`)
 
 ## Triggers
 
 | Trigger | Handler | Status | Effekt |
 |---------|---------|--------|--------|
-| `drive_file_ingested` | `driveIngestSynapse` | **live** (G10) | G10 klassificering → `kb_docs` \| `reality_vault` \| `children_logs` \| `inbox_queue` (HITL) |
+| `drive_file_ingested` | `driveIngestSynapse` | **live** (G10) | `classifyInboxDocument` (DCAP-first) → `kb_docs` \| `reality_vault` \| `children_logs` \| `inbox_queue` |
 | `user_overwhelm` | `paralysBrytarenSynapse` | **live** | Ett mikrosteg, max 30s |
 | `journal_woven` | `journalWovenSynapse` | **live** (G7) | Opt-in `optIn===true` → `kampspar` + vector |
 | `dcap_alert` | `dcapAlertSynapse` | **live** | HITL → `dcap_alerts` WORM vid risk ≥70 |
+| `widget_recording_ingested` | `widgetRecordingIngestSynapse` | **live** (G10 våg 3) | WH1 commit → `classifyInboxDocument` → `routeInboxToWorm` (block kunskap) |
 
-Koppling: `notifyNewFile` → `emitSynapse(..., drive_file_ingested)`.
+Koppling: `notifyNewFile` → `emitSynapse(..., drive_file_ingested)` · `ingestWidgetRecording` → `emitSynapse(..., widget_recording_ingested)`.
+
+## Gör alltid
+
+- Kör **DCAP/heuristik före LLM** i `classifyInboxDocument` — routing i kod, inte i prompt.
+- Routa bevis till `reality_vault` via `routeInboxToWorm`; routa fakta till `kb_docs`/`kampspar`; barnobservationer till `children_logs`.
+- Skicka trauma/LVU utan optIn till `inbox_queue` (HITL) — vänta på manuellt godkännande.
+- Hascha payload i synapse state (`hashPayload`) — lagra ingen rå PII.
+- Anropa `clearSynapseState` vid utloggning (Zero Footprint).
+- Läs prompts från `functions/src/sharedRules.ts` — hårdkoda inte runtime-prompter.
 
 ## ADK state ≠ SystemSynapse
 
 `firebase-blueprint.json` definierar Firestore `/synapses/{synapseId}` (`SystemSynapse`).  
-ADK använder in-memory `stateStore.ts` — **inte samma** schema (G9).
-
-## MUST
-
-- `hashPayload` i synapse state — ingen rå PII.
-- `clearSynapseState` vid utloggning (Zero Footprint).
-- Drive ingest (G10) → rätt silo via `classifyInboxDocument` + `routeInboxToWorm` — bevis **MUST** till `reality_vault`, **MUST NOT** till `kb_docs`; trauma/LVU utan optIn → `inbox_queue`.
-
-## MUST NOT
-
-- Auto-ingest trauma/Kladd till `kampspar` utan opt-in policy.
-- Dela synapse state mellan silor (Kunskap / Valv / Barnen).
-- Hardkoda prompts — kanon = `functions/src/sharedRules.ts`.
+ADK använder in-memory `stateStore.ts` — **inte samma** schema (G9). Håll synapse-state isolerat per silo.

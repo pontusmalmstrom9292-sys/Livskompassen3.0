@@ -18,6 +18,7 @@ server/.env
 firebase-debug.log
 firebase-debug.*.log
 .firebaserc.local
+# MCP/CLI refresh tokens live in ~/.config/firebase/ — never copy into repo
 
 # Personal Drive import — not project source (PII, family docs)
 docs/archive/drive-backup/
@@ -27,6 +28,12 @@ dist/
 build/
 functions/lib/
 *.tsbuildinfo
+
+# Playwright E2E artifacts
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
 
 # Google Drive sync temp upload artifacts
 .tmp.driveupload/

@@ -1,5 +1,132 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## Ingest våg 1 Kunskap (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| Leverans | G10 `kunskap` → `kb_docs` via `persistKunskapFromInbox` |
+| Gate | `smoke:orkester` + `smoke:synapse-triggers` — **PASS** |
+| Deploy | `functions:submitInkastLite,notifyNewFile` |
+| PMIR | [`evaluations/2026-06-19-pmir-ingest-vag-1.md`](./evaluations/2026-06-19-pmir-ingest-vag-1.md) |
+
+---
+
+## Frontend polish B1–B4 (2026-06-19)
+
+| Våg | Leverans | Gate |
+|-----|----------|------|
+| **B1** MåBra | VitHub primär + Näring snabb logg; Mer-fold | locked-ux + design-modules **PASS** |
+| **B2** Familjen | Barnfokus primär; Hamn BIFF primär, brus/kompass i fold | locked-ux **PASS** |
+| **B3** Hjärtat | Dagbok/Speglar primär; tips/evidence i fold | locked-ux **PASS** |
+| **B4** Vardagen | P3 Kanban primär; Fler verktyg fold | locked-ux + design-modules **PASS** |
+
+| Fält | Värde |
+|------|-------|
+| Branch | `main` (post-merge B1–B4) |
+| `npm run build` | **PASS** |
+| `functions` build | **PASS** |
+| `smoke:predeploy` | **PASS** (tier1 + valv-security + plausible-deniability + locked-icons + barn-epistemik + epistemic-guard + dcap-routing + e2e-locked-ux) |
+| `smoke:mabra` | static guards **PASS** · live callable/Firestore **SKIP** (saknar `.env` i CI) |
+| `smoke:content-mabra-static` | **PASS** |
+| `smoke:valv-security` | **PASS** |
+| Overall gate | **GO** |
+
+PMIR: `pmir-mabra-b1`, `pmir-familjen-b2`, `pmir-hjartat-b3`, `pmir-vardagen-b4`
+
+---
+
+## Valv Kanon docs A2.7 (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| Leverans | `vaultTab=docs` — routing primär; silos/WORM/domän/U6 i CalmCollapsible |
+| Gate | `smoke:locked-ux` + `smoke:design-modules` + `smoke:orkester` — **PASS** |
+| PMIR | [`evaluations/2026-06-19-pmir-valv-a2-7.md`](./evaluations/2026-06-19-pmir-valv-a2-7.md) |
+| USER | Valv → Kunskap → Kanon & routing |
+
+---
+
+## Valv Aktörskarta A2.6 (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| Leverans | Lista + lägg till primär; seed i `CalmCollapsible` |
+| Gate | `smoke:locked-ux` — **PASS** |
+| PMIR | [`evaluations/2026-06-19-pmir-valv-a2-6.md`](./evaluations/2026-06-19-pmir-valv-a2-6.md) |
+| USER | Valv → Aktörskarta — egna personer + formulär synligt |
+
+---
+
+## Dossier A2.5 + Hem A2 (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| Leverans | Dossier wizard + filter/AI fold · Hem snabbval + intro fold + mobil stack |
+| Gate | `smoke:locked-ux` + `smoke:design-modules` — **PASS** |
+| PMIR | [`evaluations/2026-06-19-pmir-a2-5-dossier-hem-a2.md`](./evaluations/2026-06-19-pmir-a2-5-dossier-hem-a2.md) |
+| USER | `/` Hem snabbval · Valv Dossier steg 2 fold |
+
+---
+
+## Valv A2.2–A2.4 (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| Leverans | Sök chat-first · Mönster frekvens-first · Orkester brusfilter-first |
+| Gate | `smoke:locked-ux` + `smoke:valv-mode` + `smoke:orkester` — **PASS** |
+| Audit | [`evaluations/2026-06-19-yolo-audit-valv-a2-2-4.md`](./evaluations/2026-06-19-yolo-audit-valv-a2-2-4.md) |
+| USER | Valv → Sök/Mönster/Orkester — primär yta först, fold för extra |
+
+---
+
+## Valv Samla A2.1 (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| Leverans | Inkast + granska primär; Manuell post + Drive i `CalmCollapsible` |
+| Gate | `smoke:locked-ux` + `smoke:valv-mode` — **PASS** |
+| Audit | [`evaluations/2026-06-19-yolo-audit-valv-a2-1.md`](./evaluations/2026-06-19-yolo-audit-valv-a2-1.md) |
+| USER | Valv → Samla → Inkast synlig; fold för manuell/Drive |
+
+---
+
+## Build vidare — P2 widget + hex (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| Branch | `cursor/yolo-build-vidare-7746` (merge PR #30) |
+| Leverans | `/widget/projekt`, zone-valv chunk, hex P2 Vit, våg 31 done |
+| Gate | `smoke:design-modules` + `smoke:locked-ux` + `typecheck:core-strict` — **PASS** |
+| Audit | [`evaluations/2026-06-19-yolo-audit-build-vidare.md`](./evaluations/2026-06-19-yolo-audit-build-vidare.md) |
+| Deploy | `hosting` — pending efter merge |
+| USER | Fyren → Projekt → bottom sheet (inte `/projekt/ny` direkt) |
+
+---
+
+## Rules + biometri deploy (2026-06-19)
+
+| Fält | Värde |
+|------|-------|
+| SHA | `189a9f1b2` |
+| Deploy | `firestore:rules` — **success** (job `1781873104091`) |
+| Deploy | `functions:beginVaultBiometricChallenge,issueVaultSessionViaBiometric` — **success** (job `1781873123994`) |
+| Gate | `smoke:valv-security` + `smoke:yolo` — **PASS** (mabra live SKIP — saknar `.env`) |
+| USER | `/vardagen?tab=mabra` → Näring & vätska; Valv biometri på Android efter cap sync |
+
+---
+
+## Hosting deploy (2026-06-19 — PR #25 Brusfiltret lab)
+
+| Fält | Värde |
+|------|-------|
+| SHA | `28a24de01` |
+| Deploy | `hosting` — **success** (job `1781872811578`) |
+| Gate | `YOLO_SKIP_BUILD=1 npm run smoke:yolo` — **PASS** |
+| Audit | [`evaluations/2026-06-19-yolo-audit-hosting-pr25.md`](./evaluations/2026-06-19-yolo-audit-hosting-pr25.md) |
+| USER | Hard refresh webb (`Cmd+Shift+R`); Brusfiltret lab polish |
+
+---
+
 ## USER smoke Motorola/Mac (2026-06-15 — Pontus)
 
 **Källa:** [`evaluations/2026-06-01-USER-nasta-steg.md`](./evaluations/2026-06-01-USER-nasta-steg.md)

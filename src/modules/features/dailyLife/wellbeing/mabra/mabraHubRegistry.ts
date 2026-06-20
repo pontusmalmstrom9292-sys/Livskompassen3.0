@@ -172,7 +172,7 @@ const CORE_ITEMS: MabraHubItem[] = [
   {
     id: 'nutrition-panel',
     title: 'Näring & vätska',
-    lead: 'Vatten och enkel markering',
+    lead: 'Snabb logg · vatten · mjuka påminnelser',
     emoji: '💧',
     category: 'akut',
     action: { type: 'tool', tool: 'nutrition' },

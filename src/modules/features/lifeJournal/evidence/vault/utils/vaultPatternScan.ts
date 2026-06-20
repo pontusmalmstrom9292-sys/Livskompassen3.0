@@ -97,3 +97,17 @@ export function scanTechniquesForLog(log: VaultLog): VaultTechnique[] {
 export function scanTechniquesForText(text: string): VaultTechnique[] {
   return [...new Set(scanTextForTactics(text).map((m) => m.technique))];
 }
+
+/** True om posten matchar taktik (live-regex + valfri sidecar-metadata). */
+export function logHasTechnique(
+  log: VaultLog & { id: string },
+  technique: string,
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>,
+): boolean {
+  const techniques = new Set<string>(scanTechniquesForLog(log));
+  const persisted = persistedTechniquesByLogId?.get(log.id);
+  if (persisted) {
+    for (const t of persisted) techniques.add(t);
+  }
+  return techniques.has(technique);
+}

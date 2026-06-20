@@ -1,6 +1,7 @@
 ---
 description: Locked Google web login AUTH-G1 — popup, firebaseapp.com, boot redirect
-alwaysApply: true
+alwaysApply: false
+globs: src/modules/core/auth/**,src/modules/core/firebase/init.ts,src/main.tsx,.context/locked-auth-google.md
 ---
 
 # Locked Google web login (AUTH-G1)

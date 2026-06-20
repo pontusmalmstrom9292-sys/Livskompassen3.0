@@ -1,6 +1,7 @@
 import { ChevronLeft, ChevronRight, Mic, MicOff, Sparkles } from 'lucide-react';
 import { useCallback, useRef, useEffect, useState } from 'react';
 import { useSpeechToText } from '@/core/hooks/useSpeechToText';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { getMoodDef } from '../constants/moods';
 import { MABRA_BRIDGE_LABELS } from '../constants/mabraBridge';
 import {
@@ -195,22 +196,28 @@ export function ReflectionStep({
       )}
 
       {supported && (
-        <div className="reflektion-voice">
-          <button
-            type="button"
-            onClick={isListening ? stop : start}
-            className="btn-pill--ghost"
-            aria-pressed={isListening}
-          >
-            {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-            {isListening ? 'Stoppa' : 'Prata in'}
-          </button>
-          {interim && <span className="text-xs text-text-dim">Hör: {interim}</span>}
-        </div>
+        <CalmCollapsible title="Röstinmatning" meta="Valfritt" defaultOpen={false} glow="gold">
+          <div className="reflektion-voice">
+            <button
+              type="button"
+              onClick={isListening ? stop : start}
+              className="btn-pill--ghost"
+              aria-pressed={isListening}
+            >
+              {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+              {isListening ? 'Stoppa' : 'Prata in'}
+            </button>
+            {interim && <span className="text-xs text-text-dim">Hör: {interim}</span>}
+          </div>
+          {error && <p className="mt-1 text-xs text-danger">{error}</p>}
+        </CalmCollapsible>
       )}
-      {error && <p className="mt-1 text-xs text-danger">{error}</p>}
 
-      {showHandoff && <HandoffBox className="mt-4" sourceText={text} />}
+      {showHandoff && (
+        <CalmCollapsible title="Vid gaslighting" meta="Valv-handoff" defaultOpen={false} glow="gold">
+          <HandoffBox sourceText={text} />
+        </CalmCollapsible>
+      )}
 
       <JournalDetailsPanel
         category={category}

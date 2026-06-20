@@ -1,6 +1,7 @@
 ---
-description: Operativ Guard- och Regelbok för subagenter — WORM, silos, Zero Footprint, PMIR-stopp
-alwaysApply: true
+description: Operativ Guard- och Regelbok — WORM, silos, Zero Footprint, PMIR-stopp för subagenter
+alwaysApply: false
+globs: firestore.rules,storage.rules,functions/**,src/modules/core/firebase/**,.cursor/agents/**
 ---
 
 # Guard- och Regelbok (operativ)

@@ -29,7 +29,8 @@ export type SynapseTrigger =
   | 'drive_file_ingested'
   | 'journal_woven'
   | 'dcap_alert'
-  | 'user_overwhelm';
+  | 'user_overwhelm'
+  | 'widget_recording_ingested';
 
 export interface SynapseEvent {
   trigger: SynapseTrigger;
@@ -80,4 +81,17 @@ export interface DcapAlertPayload {
   recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
   inputHash: string;
   detectionCount?: number;
+}
+
+export interface WidgetRecordingIngestedPayload {
+  ownerId: string;
+  transcript: string;
+  recordedAtIso: string;
+  durationSeconds?: number;
+  evidenceUrl: string;
+  sourceRef: string;
+  storagePath?: string;
+  analysis: { title: string; summary: string; category: string };
+  metadata: { vem: string; vad: string; varfor: string };
+  hasVaultSession: boolean;
 }

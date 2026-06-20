@@ -1,7 +1,7 @@
 ---
 description: Backend typsäkerhet, ingest-pipeline och silo-säkra dataflöden (prioritet auto kunskaps-ingest)
 alwaysApply: false
-globs: functions/src/**, firestore.rules, src/modules/capture/**, src/modules/core/firebase/**
+globs: functions/src/callables/**,functions/src/adk/**,functions/src/triggers/**,functions/src/lib/inboxClassifier.ts,functions/src/lib/inboxPersist.ts,functions/src/lib/ingestKampsparInternal.ts,firestore.rules,src/modules/capture/**,src/modules/core/firebase/**
 ---
 
 # Backend & Ingest-logik

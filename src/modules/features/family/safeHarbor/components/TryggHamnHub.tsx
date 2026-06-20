@@ -2,6 +2,7 @@ import { memo, useState, useEffect } from 'react';
 import { Link, Navigate, useSearchParams } from 'react-router-dom';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { KompassradPanel } from '@/features/dailyLife/wellbeing/compasses/components/KompassradPanel';
 import { BiffPublicPanel } from './BiffPublicPanel';
 import { hjartatTabHref } from '@/core/navigation/appNavigation';
@@ -40,6 +41,49 @@ type Props = {
   embedded?: boolean;
 };
 
+/** B2 — primär: BIFF-triage. Sekundär: brusfilter, kompass, lexikon (CalmCollapsible + meta). */
+function HamnBiffWorkflow({
+  initialMessage,
+  embeddedLead,
+}: {
+  initialMessage: string;
+  embeddedLead?: boolean;
+}) {
+  return (
+    <div className="space-y-3">
+      <BentoCard glow="indigo" className="!px-4 !py-3">
+        <p className="text-[10px] uppercase tracking-[0.2em] text-accent/80">Trygg hamn · BIFF</p>
+        {embeddedLead ? (
+          <p className="mt-1 text-xs text-text-dim">{HAMN_EMBEDDED_LEAD}</p>
+        ) : (
+          <p className="mt-1 text-xs text-text-dim">{HAMN_GREY_ROCK_LEAD}</p>
+        )}
+        <div className="mt-3">
+          <BiffPublicPanel initialMessage={initialMessage} />
+        </div>
+      </BentoCard>
+
+      <CalmCollapsible title="Brusfilter" meta="Före Grey Rock" defaultOpen={false} glow="blue">
+        <p className="text-xs text-text-muted">{HAMN_BRUSFILTER_LEAD}</p>
+        <p className="mt-2 text-xs text-text-muted" role="note">
+          {HAMN_BRUSFILTER_HINT}
+        </p>
+        <Link to={hjartatTabHref('speglar')} className="btn-pill--accent mt-3 inline-flex text-xs">
+          Öppna Speglar
+        </Link>
+      </CalmCollapsible>
+
+      <CalmCollapsible title="Kompassråd" meta="Dygnsrytm" defaultOpen={false} glow="blue">
+        <HamnModuleStack compassOnly biffPanel={null} />
+      </CalmCollapsible>
+
+      <CalmCollapsible title="Taktik-lexikon" meta="Metod · Valv-PIN" defaultOpen={false} glow="blue">
+        <HamnTaktikLexikonBro />
+      </CalmCollapsible>
+    </div>
+  );
+}
+
 /** D6 — Trygg Hamn hub. BIFF publikt; Analys via Valv-menyn. */
 export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', embedded = false }: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -73,79 +117,42 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
     return <Navigate to={vaultDrawerPath('hamn_analys')} replace />;
   }
 
-  // Om embedded, rendera endast BIFF-panelen för Obsidian Calm 2.0 (ingen TabBar)
   if (embedded) {
     return (
       <div className="calm-scroll-island space-y-4">
         <div className="flex justify-end">
           <ModuleHelpFromRegistry moduleId="hamn" />
         </div>
-        <BentoCard glow="indigo" className="!px-4 !py-3">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-accent/80">Trygg hamn · BIFF</p>
-          <p className="mt-1 text-xs text-text-dim">{HAMN_EMBEDDED_LEAD}</p>
-          <p className="mt-2 text-xs text-text-muted">{HAMN_GREY_ROCK_LEAD}</p>
-        </BentoCard>
-        <BentoCard
-          glow="indigo"
-          title="Steg 1 · Brusfilter"
-          description={HAMN_BRUSFILTER_LEAD}
-          className="!px-4 !py-3"
-        >
-          <p className="text-xs text-text-muted" role="note">
-            {HAMN_BRUSFILTER_HINT}
-          </p>
-          <Link to={hjartatTabHref('speglar')} className="btn-pill--accent mt-2 inline-flex text-xs">
-            Öppna Speglar
-          </Link>
-        </BentoCard>
-        <HamnModuleStack biffPanel={<BiffPublicPanel initialMessage={initialMessage} />} />
+        <HamnBiffWorkflow initialMessage={initialMessage} embeddedLead />
       </div>
     );
   }
 
   return (
     <div className="space-y-4">
-      {!embedded ? (
-        <div className="flex items-start justify-between gap-2">
-          <MaterialPackShortcuts preset={preset} hub="hamn" />
-          <ModuleHelpFromRegistry moduleId="hub_hamn" preset={preset} />
-        </div>
-      ) : (
-        <div className="flex justify-end">
-          <ModuleHelpFromRegistry moduleId="hamn" />
-        </div>
-      )}
+      <div className="flex items-start justify-between gap-2">
+        <MaterialPackShortcuts preset={preset} hub="hamn" />
+        <ModuleHelpFromRegistry moduleId="hub_hamn" preset={preset} />
+      </div>
       <TabBar tabs={[...HAMN_SUB_TABS]} active={subTab} onChange={onSubTabChange} />
 
       {subTab === 'oversikt' && (
         <div className="space-y-4">
-          {!embedded && <KompassradPanel />}
+          <KompassradPanel />
           <p className="text-xs text-text-dim">
             BIFF och Grey Rock finns under fliken BIFF. Brusfilter (logistik vs beten) visas efter analys.
             Riskanalys och bevis under Valv → Hamn · Analys.
           </p>
-          <HamnTaktikLexikonBro />
+          <CalmCollapsible title="Modulstack" meta="Kompass + BIFF" defaultOpen={false} glow="blue">
+            <HamnModuleStack biffPanel={<BiffPublicPanel initialMessage={initialMessage} />} />
+          </CalmCollapsible>
+          <CalmCollapsible title="Taktik-lexikon" meta="Metod · Valv-PIN" defaultOpen={false} glow="blue">
+            <HamnTaktikLexikonBro />
+          </CalmCollapsible>
         </div>
       )}
 
-      {subTab === 'biff' && (
-        <div className="space-y-3">
-          <BentoCard
-            glow="indigo"
-            title="Steg 1 · Brusfilter"
-            description={HAMN_BRUSFILTER_LEAD}
-            className="!px-4 !py-3"
-          >
-            <p className="text-xs text-text-muted" role="note">
-              {HAMN_BRUSFILTER_HINT}
-            </p>
-            <Link to={hjartatTabHref('speglar')} className="btn-pill--accent mt-2 inline-flex text-xs">
-              Öppna Speglar
-            </Link>
-          </BentoCard>
-          <HamnModuleStack biffPanel={<BiffPublicPanel initialMessage={initialMessage} />} />
-        </div>
-      )}
+      {subTab === 'biff' && <HamnBiffWorkflow initialMessage={initialMessage} />}
 
       {subTab === 'speglar' && (
         <BentoCard glow="indigo" className="!p-4 text-sm text-text-muted">

@@ -45,10 +45,13 @@ if (!skipBuild) {
 runNpm('smoke:manifest');
 runNpm('smoke:chrome-header');
 runNpm('smoke:locked-ux');
+runNpm('smoke:e2e-locked-ux');
 runNpm('smoke:orkester');
 runNpm('smoke:plausible-deniability');
 runNpm('smoke:valv-security');
 runNpm('smoke:innehall');
 runNpm('smoke:prompts');
 
-console.log('\n[yolo-gate] PASS — smoke:yolo klar. Kräver YOLO GO + named deploy.');
+console.log('\n[yolo-gate] PASS — smoke:yolo (snabb tier).');
+console.log('[yolo-gate] Deploy kräver: /yolo-vakt GO + npm run smoke:predeploy:build + Pontus OK vid PMIR.');
+console.log('[yolo-gate] Se docs/CURSOR-YOLO-MODEL-GUIDE.md');

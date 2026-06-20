@@ -3,6 +3,7 @@ import { useMemo, useState } from 'react';
 import { BarChart3, Loader2, RefreshCw } from 'lucide-react';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { EmptyState } from '@/core/ui/EmptyState';
 import type { VaultLog } from '@/core/types/firestore';
 import { buildVaultFrequencyReport } from '../utils/vaultPatternScan';
@@ -12,12 +13,24 @@ import { rescanPatternMetadata, assistPatternMetadata } from '../api/patternScan
 type Props = {
   logs: (VaultLog & { id: string })[];
   userId?: string;
+  /** Klick på frekvensrad → filtrera arkiv (Mönster → Samla). */
+  onTechniqueSelect?: (technique: string) => void;
 };
 
-function BarRow({ label, count, max }: { label: string; count: number; max: number }) {
+function BarRow({
+  label,
+  count,
+  max,
+  onSelect,
+}: {
+  label: string;
+  count: number;
+  max: number;
+  onSelect?: () => void;
+}) {
   const width = max > 0 ? Math.round((count / max) * 100) : 0;
-  return (
-    <div className="space-y-1">
+  const inner = (
+    <>
       <div className="flex justify-between text-xs text-text-dim">
         <span>{label}</span>
         <span>{count}</span>
@@ -28,11 +41,26 @@ function BarRow({ label, count, max }: { label: string; count: number; max: numb
           style={{ width: `${width}%` }}
         />
       </div>
-    </div>
+    </>
+  );
+
+  if (!onSelect) {
+    return <div className="space-y-1">{inner}</div>;
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      className="valv-monster-bar w-full space-y-1 rounded-lg border border-transparent px-1 py-1 text-left transition-colors hover:border-accent/25 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+      title={`Visa arkivposter med #${label}`}
+    >
+      {inner}
+    </button>
   );
 }
 
-export function VaultMonsterPanel({ logs, userId }: Props) {
+export function VaultMonsterPanel({ logs, userId, onTechniqueSelect }: Props) {
   const { techniquesByLogId, libraryVersion, reload } = usePatternScanMetadata(userId);
   const [rescanning, setRescanning] = useState(false);
   const [assisting, setAssisting] = useState(false);
@@ -110,7 +138,15 @@ export function VaultMonsterPanel({ logs, userId }: Props) {
             </p>
           ) : (
             report.topTechniques.map(({ technique, count }) => (
-              <BarRow key={technique} label={technique} count={count} max={maxTechnique} />
+              <BarRow
+                key={technique}
+                label={technique}
+                count={count}
+                max={maxTechnique}
+                onSelect={
+                  onTechniqueSelect ? () => onTechniqueSelect(technique) : undefined
+                }
+              />
             ))
           )}
         </div>
@@ -144,15 +180,15 @@ export function VaultMonsterPanel({ logs, userId }: Props) {
         </div>
       </BentoCard>
 
-      <BentoCard title="Poster per månad" description="Systematisk tidsfrekvens" glow="gold">
+      <CalmCollapsible title="Poster per månad" meta="Tidsfrekvens" defaultOpen={false} glow="gold">
         <div className="space-y-3">
           {report.monthlyCounts.map(({ month, count }) => (
             <BarRow key={month} label={month} count={count} max={maxMonth} />
           ))}
         </div>
-      </BentoCard>
+      </CalmCollapsible>
 
-      <BentoCard title="Kategorier i valvet" description="Fördelning" glow="gold">
+      <CalmCollapsible title="Kategorier i valvet" meta="Fördelning" defaultOpen={false} glow="gold">
         <div className="space-y-2 text-sm text-text-muted">
           {Object.entries(report.categoryCounts).map(([cat, count]) => (
             <p key={cat}>
@@ -160,7 +196,7 @@ export function VaultMonsterPanel({ logs, userId }: Props) {
             </p>
           ))}
         </div>
-      </BentoCard>
+      </CalmCollapsible>
     </div>
   );
 }

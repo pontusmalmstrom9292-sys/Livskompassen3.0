@@ -1,6 +1,6 @@
 ---
 description: Grunder U1–U5 — Life OS, tre silos, permanent minne, DCAP före LLM
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Grunder-kanon (U1–U5)
@@ -30,6 +30,8 @@ Session/synapse state rensas vid logout, blur, panic. Speglar utan persistent RA
 ## U5 — Orkestrering
 
 `AdkOrchestrator` + AgentCards + `emitSynapse`. Utöka executors utan att blanda silor.
+
+**Osäkerhet:** Vid saknad evidens — *"Ej tillräckligt data för bedömning."* Gissa aldrig WORM-innehåll eller silo-routing.
 
 ## U6 — Innehåll (fakta vs lek, låst)
 

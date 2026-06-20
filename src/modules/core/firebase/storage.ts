@@ -67,7 +67,7 @@ export async function uploadDiscreetRecording(
   file: File,
   recordedAt: Date,
   titleSlug: string,
-): Promise<string> {
+): Promise<{ storagePath: string; downloadUrl: string }> {
   const iso =
     recordedAt.toISOString().replace(/:/g, '-').replace(/\.\d{3}Z$/, 'Z') ??
     `${Date.now()}`;
@@ -76,5 +76,6 @@ export async function uploadDiscreetRecording(
   const path = `vault_evidence/${userId}/discreet/${iso}_${slug}.${ext}`;
   const storageRef = ref(storage, path);
   await uploadBytes(storageRef, file, { contentType: file.type });
-  return getDownloadURL(storageRef);
+  const downloadUrl = await getDownloadURL(storageRef);
+  return { storagePath: path, downloadUrl };
 }

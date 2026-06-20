@@ -1,14 +1,15 @@
 # YOLO-vakt — stående deploy-gate
 
 **Kanon:** Obligatorisk read-only audit + automatiserad smoke **före varje prod-deploy**.  
-**Agent:** [`.cursor/agents/yolo-vakt.md`](../.cursor/agents/yolo-vakt.md) · **Regel:** [`.cursor/rules/yolo-vakt-gate.mdc`](../.cursor/rules/yolo-vakt-gate.mdc)
+**Agent:** [`.cursor/agents/yolo-vakt.md`](../.cursor/agents/yolo-vakt.md) · **Regel:** [`.cursor/rules/yolo-vakt-gate.mdc`](../.cursor/rules/yolo-vakt-gate.mdc)  
+**Modell & YOLO-optimering:** [`docs/CURSOR-YOLO-MODEL-GUIDE.md`](./CURSOR-YOLO-MODEL-GUIDE.md) · [`.cursor/rules/model-routing.mdc`](../.cursor/rules/model-routing.mdc)
 
 ## Regel (MUST)
 
 Ingen `firebase deploy` utan:
 
 1. **YOLO GO** (read-only audit, PASS/GAP-tabell)
-2. **`npm run smoke:yolo` PASS**
+2. **`npm run smoke:predeploy:build` PASS** (deploy-minimum; snabb loop: `YOLO_SKIP_BUILD=1 npm run smoke:yolo`)
 3. **Pontus OK** vid PMIR-stopp (rules, Barnporten kanon-UI, Sacred UX, mass-radering, App Check Enforce)
 
 ## Tre lager
@@ -17,24 +18,28 @@ Ingen `firebase deploy` utan:
 |-------|-----|----------|
 | **1 Parallell** | specialist-security-auditor, specialist-ux-guardian, specialist-verifier, ev. zon-agenter | Zon-memos PASS/GAP |
 | **2 YOLO-vakt** | `/yolo-vakt` syntes | **GO / NO-GO** + ett nästa steg |
-| **3 Smoke** | `npm run smoke:yolo` + Tier 2 vid behov | Exit 0 |
+| **3 Smoke** | `smoke:predeploy:build` + Tier 2 vid behov | Exit 0 |
 
 ## Smoke-tiers
 
+Hierarki: `smoke:yolo` ⊂ `smoke:predeploy` ⊂ `smoke:predeploy:build` ⊂ `smoke:super-yolo`
+
 | Tier | Kommando | När |
 |------|----------|-----|
-| **YOLO gate** | `npm run smoke:yolo` | **Varje deploy** |
-| **0** | `smoke:manifest && smoke:tier1` | Sprint / stor diff |
-| **1** | build + locked-ux + orkester | Merge minimum (ingår i smoke:yolo) |
+| **A — Snabb** | `YOLO_SKIP_BUILD=1 npm run smoke:yolo` | Iteration, liten UI-diff |
+| **B — Static** | `npm run smoke:predeploy` | Efter functions build, utan frontend build |
+| **C — Deploy gate** | `npm run smoke:predeploy:build` | **Merge, deploy, YOLO GO** |
+| **D — Live** | `npm run smoke:predeploy:live` | Efter deploy (kräver `.env`) |
+| **E — Release** | `npm run smoke:super-yolo` | Stor release / sällan |
 | **2** | Domän-extra (matris nedan) | Efter diff-scope |
-| **3** | `orkester:night` | Nattpass / release |
+| **3** | `orkester:night` | Nattpass (ingen LLM) |
 
-### `npm run smoke:yolo`
+### `npm run smoke:yolo` (snabb — inte deploy-minimum)
 
-Kör (i ordning):
+Kör via `scripts/smoke_yolo_gate.mjs` (i ordning):
 
 ```bash
-npm run build
+npm run build                    # hoppas över om YOLO_SKIP_BUILD=1
 cd functions && npm run build && cd ..
 npm run smoke:manifest
 npm run smoke:chrome-header
@@ -43,9 +48,20 @@ npm run smoke:orkester
 npm run smoke:plausible-deniability
 npm run smoke:valv-security
 npm run smoke:innehall
+npm run smoke:prompts
 ```
 
 **Snabb körning (dev):** `YOLO_SKIP_BUILD=1 npm run smoke:yolo`
+
+### `npm run smoke:predeploy:build` (deploy-minimum)
+
+```bash
+cd functions && npm run build && cd ..
+npm run build
+npm run smoke:predeploy
+```
+
+Ingår bl.a. tier1 (synapse, inkast, weaver-hitl, biff, agents-ui, …), valv-security, dcap-routing, barn-epistemik.
 
 ## Tier 2 — domän-extra efter diff
 
@@ -92,7 +108,7 @@ npm run smoke:innehall
 1. `git diff origin/main...HEAD` — klassificera zon
 2. Parallellt read-only: security, UX, verifier
 3. `/yolo-vakt` → GO/NO-GO
-4. Vid GO: `npm run smoke:yolo` + Tier 2-extras
+4. Vid GO: `npm run smoke:predeploy:build` + Tier 2-extras
 5. Vid ALL PASS: named deploy enligt [`DEPLOY.md`](./DEPLOY.md)
 6. Hard refresh + rad i [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md)
 7. Spara audit: `docs/evaluations/YYYY-MM-DD-yolo-audit.md`

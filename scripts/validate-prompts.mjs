@@ -20,6 +20,8 @@ const PROMPT_PATHS = [
 const GOVERNANCE_PATHS = [
   '.cursor/rules/projectGuard.mdc',
   '.cursor/rules/guard-regelbok.mdc',
+  '.cursor/rules/anti-hallucination.mdc',
+  '.cursor/rules/grunder-kanon.mdc',
   'docs/governance/GUARD-REGLERBOK.md',
 ];
 
@@ -113,6 +115,10 @@ function validateSharedRulesRuntime() {
   assert(
     shared.includes('getAgentSystemPrompt'),
     'sharedRules.ts saknar getAgentSystemPrompt',
+  );
+  assert(
+    shared.includes('Hallucinera aldrig') || shared.includes('hallucinerar aldrig'),
+    'sharedRules.ts saknar anti-hallucination-instruktion',
   );
 
   const strayFiles = [

@@ -12,7 +12,11 @@ import { HOME_SUPERHUB_ROUTES } from './homeSuperhubRoutes';
 
 const MAX_STEPS = 3;
 
-export function HomeBrassDaySteps() {
+type Props = {
+  variant?: 'brass' | 'calm';
+};
+
+export function HomeBrassDaySteps({ variant = 'calm' }: Props) {
   const { tasks, loading, moveTask, user } = usePlanningTasks();
   const [busyId, setBusyId] = useState<string | null>(null);
 
@@ -28,39 +32,44 @@ export function HomeBrassDaySteps() {
     }
   };
 
+  const tileClass = clsx(
+    'home-layout-a__tile home-layout-a__tile--tall',
+    variant === 'brass' ? 'brass-glass' : 'calm-card glow-bottom-gold',
+  );
+
   return (
-    <div className="home-brass-a__tile home-brass-a__tile--tall brass-glass">
-      <p className="home-brass-a__label">Dagens steg</p>
+    <div className={tileClass}>
+      <p className="home-layout-a__label">Dagens steg</p>
 
       {loading ? (
-        <p className="home-brass-a__steps-loading flex items-center gap-2 text-xs text-text-muted">
+        <p className="home-layout-a__steps-loading flex items-center gap-2 text-xs text-text-muted">
           <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
           Laddar från Planering …
         </p>
       ) : steps.length === 0 ? (
-        <p className="home-brass-a__steps-empty text-xs leading-relaxed text-text-muted">
+        <p className="home-layout-a__steps-empty text-xs leading-relaxed text-text-muted">
           Inga öppna steg i Att göra.
         </p>
       ) : (
-        <ul className="home-brass-a__steps">
+        <ul className="home-layout-a__steps">
           {steps.map((task) => {
             const label = homeStepLabel(task);
             const isWaiting = task.status === 'waiting';
             const isBusy = busyId === task.id;
             return (
-              <li key={task.id} className="home-brass-a__step">
+              <li key={task.id} className="home-layout-a__step">
                 <button
                   type="button"
-                  className="home-brass-a__step-btn"
+                  className="home-layout-a__step-btn"
                   disabled={isBusy}
                   aria-label={`Markera klar: ${label}`}
                   onClick={() => void handleMarkDone(task)}
                 >
                   <span
                     className={clsx(
-                      'home-brass-a__check',
-                      isBusy && 'home-brass-a__check--on',
-                      isWaiting && 'home-brass-a__check--wait',
+                      'home-layout-a__check',
+                      isBusy && 'home-layout-a__check--on',
+                      isWaiting && 'home-layout-a__check--wait',
                     )}
                     aria-hidden
                   >
@@ -77,7 +86,7 @@ export function HomeBrassDaySteps() {
         </ul>
       )}
 
-      <Link to={HOME_SUPERHUB_ROUTES.planeringHub} className="home-brass-a__link">
+      <Link to={HOME_SUPERHUB_ROUTES.planeringHub} className="home-layout-a__link">
         {steps.length >= MAX_STEPS ? 'Visa alla i Planering →' : 'Öppna Planering →'}
       </Link>
     </div>

@@ -1,5 +1,5 @@
 import './planering.css';
-import { lazy, Suspense, useEffect, useMemo } from 'react';
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { Calendar, LayoutGrid, PenLine } from 'lucide-react';
 import { clsx } from 'clsx';
@@ -16,6 +16,7 @@ import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
 import { PlaneringMoreTabsBar } from './PlaneringMoreTabsBar';
 import { PlaneringErrorBoundary } from './PlaneringErrorBoundary';
 import { PlaneringBentoShell } from './PlaneringBentoShell';
+import { PlaneringHubCollapsible } from './PlaneringHubCollapsible';
 import {
   hasSeenGoraModulValjare,
   markGoraModulValjareSeen,
@@ -58,21 +59,20 @@ const PlaneringEmailRulesPanel = lazy(() =>
 const VerktygDrawer = lazy(() =>
   import('./VerktygDrawer').then((m) => ({ default: m.VerktygDrawer })),
 );
-const RoutinesPanel = lazy(() =>
-  import('./RoutinesPanel').then((m) => ({ default: m.RoutinesPanel })),
-);
-
 const WORK_TABS = new Set<PlaneringTab>(['handling', 'fokus', 'framsteg', 'inkorg', 'regler']);
 
 function PlaneringPanelFallback() {
   return <p className="text-sm text-text-dim">Laddar Handling…</p>;
 }
 
-/** PlaneringPage — P3 Kanban via GoraSuperModule. Fler verktyg via VerktygDrawer. */
+/** B4 — P3 Kanban primär på Handling. Fler verktyg via CalmCollapsible (samma mönster som Valv A2). */
 export function PlaneringPage() {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const [handlingExtrasOpen, setHandlingExtrasOpen] = useState(
+    () => location.hash === '#planering-rutiner',
+  );
   const { layoutId, setLayoutId } = usePlaneringHubLayout();
   const tab = parsePlaneringTab(searchParams.get('tab'));
   const picked = searchParams.get('picked') === '1';
@@ -98,7 +98,15 @@ export function PlaneringPage() {
     }
   }, [tab, showModulValjare]);
 
+  useEffect(() => {
+    if (location.hash === '#planering-rutiner') {
+      setHandlingExtrasOpen(true);
+    }
+  }, [location.hash]);
+
   const title = PLANERING_VIEW_TITLES[tab];
+  const showHandlingExtrasBelow = tab === 'handling' && !showModulValjare;
+  const showWorkChromeAbove = isWorkTab && !showModulValjare && !showHandlingExtrasBelow;
   const lead = isStart || showModulValjare ? PLANERING_HUB_LEAD : PLANERING_TAGLINE;
 
   const panel = useMemo(() => {
@@ -121,7 +129,9 @@ export function PlaneringPage() {
           <Suspense fallback={<PlaneringPanelFallback />}>
             <div className="space-y-4">
               <PlaneringQuickListPanel />
-              <PlaneringNotePinPanel />
+              <PlaneringHubCollapsible title="Fäst på skärm" meta="Modulnål" defaultOpen={false}>
+                <PlaneringNotePinPanel />
+              </PlaneringHubCollapsible>
             </div>
           </Suspense>
         );
@@ -136,11 +146,6 @@ export function PlaneringPage() {
             <Suspense fallback={<PlaneringPanelFallback />}>
               <GoraSuperModule variant="handling" />
             </Suspense>
-            <div id="planering-rutiner" className="mt-4">
-              <Suspense fallback={null}>
-                <RoutinesPanel defaultOpen={location.hash === '#planering-rutiner'} />
-              </Suspense>
-            </div>
           </>
         );
       case 'fokus':
@@ -170,7 +175,7 @@ export function PlaneringPage() {
       default:
         return null;
     }
-  }, [tab, showModulValjare, location.hash, showEmbeddedInputHub, embeddedInputMode]);
+  }, [tab, showModulValjare, showEmbeddedInputHub, embeddedInputMode]);
 
   void PlanningKanbanBoard;
   void PLANERING_MORE_TABS;
@@ -217,21 +222,21 @@ export function PlaneringPage() {
         <PlaneringBentoShell showZonePill={!showModulValjare}>
           <GoraHubTabBar />
 
-          {isWorkTab && !showModulValjare && <PlaneringMoreTabsBar activeTab={tab} />}
+          {showWorkChromeAbove && <PlaneringMoreTabsBar activeTab={tab} />}
 
-          {!showModulValjare && !isHub && !isStart && isWorkTab && (
+          {showWorkChromeAbove && (
             <Suspense fallback={null}>
               <VerktygDrawer activeTab={tab} />
             </Suspense>
           )}
+
+          {showWorkChromeAbove && <PlaneringNextStepSelect />}
 
           {isHub && (
             <Suspense fallback={<PlaneringPanelFallback />}>
               <PlaneringHubLayoutPicker activeId={layoutId} onSelect={setLayoutId} compact />
             </Suspense>
           )}
-
-          {isWorkTab && !showModulValjare && <PlaneringNextStepSelect />}
 
           <BentoCard
             glow="gold"
@@ -244,6 +249,24 @@ export function PlaneringPage() {
           >
             {panel}
           </BentoCard>
+
+          {showHandlingExtrasBelow && (
+            <PlaneringHubCollapsible
+              title="Fler verktyg"
+              meta="Fokus · Regler · Rutiner · Hub"
+              defaultOpen={handlingExtrasOpen}
+              open={handlingExtrasOpen}
+              onOpenChange={setHandlingExtrasOpen}
+            >
+              <div className="space-y-3">
+                <PlaneringMoreTabsBar activeTab={tab} />
+                <Suspense fallback={null}>
+                  <VerktygDrawer activeTab={tab} embedded />
+                </Suspense>
+                <PlaneringNextStepSelect />
+              </div>
+            </PlaneringHubCollapsible>
+          )}
         </PlaneringBentoShell>
       </HubPageShell>
     </PlaneringErrorBoundary>

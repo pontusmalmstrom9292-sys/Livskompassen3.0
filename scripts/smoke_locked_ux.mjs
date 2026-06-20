@@ -102,6 +102,7 @@ function main() {
     'monster: \'Mönster\'',
     'Kunskapsbank',
     'aktorskarta: \'Personer i ärendet\'',
+    'docs: \'Kanon & routing\'',
   );
   mustInclude(
     'src/modules/core/navigation/tabRegistry.ts',
@@ -139,6 +140,8 @@ function main() {
     "'orkester'",
     "'kunskapsbank'",
     "'aktorskarta'",
+    "'docs'",
+    'DOCS_VAULT_TAB',
     'SAMLA_VAULT_TAB_IDS',
     'ANALYSERA_VAULT_TAB_IDS',
     'KUNSKAP_VAULT_TAB_IDS',
@@ -165,6 +168,7 @@ function main() {
     'getSamlaVaultTabBarItems',
     'VaultSamlaHub',
     'WeaverPendingVaultBanner',
+    'Arkivlista',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvAnalyseraZone.tsx',
@@ -177,6 +181,8 @@ function main() {
     'getKunskapVaultTabBarItems',
     'VaultKunskapsbankPanel',
     'VaultAktorskartaPanel',
+    'VaultKanonDocsPanel',
+    'DOCS_VAULT_TAB',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvForensikZone.tsx',
@@ -210,6 +216,8 @@ function main() {
     'VaultInkastCompact',
     'Manuell post',
     'onOpenGranska',
+    'CalmCollapsible',
+    'Drive & oklara filer',
   );
   assert(
     !read('src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx').includes(
@@ -226,10 +234,20 @@ function main() {
     'inga Mönster/Orkester-länkar (Fas 1B)',
   );
   mustInclude(
+    'src/modules/features/lifeJournal/evidence/knowledge/components/VaultKanonDocsPanel.tsx',
+    'VaultKanonDocsPanel',
+    'CalmCollapsible',
+    'VALV_KANON_ROUTING_MD',
+    'ScrollText',
+  );
+  mustInclude(
     'src/modules/features/lifeJournal/evidence/knowledge/components/VaultAktorskartaPanel.tsx',
     'EntityAddForm',
     'fetchEntityProfileRegistry',
     'VaultAktorskartaPanel',
+    'CalmCollapsible',
+    'Nyckelentiteter (seed)',
+    'Dina tillagda personer',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/kompis/components/EntityAddForm.tsx',
@@ -255,6 +273,7 @@ function main() {
     'VALV_ZONE_LABELS.kunskap',
     'VALV_KUNSKAP_DRAWER_LEAF',
     'valv_aktorskarta',
+    'valv_docs',
     'valv_granska',
     'DAGBOK_BEVIS_DRAWER_LABEL',
   );
@@ -262,6 +281,7 @@ function main() {
     'src/modules/core/copy/valvNavCopy.ts',
     'Fråga & tidslinje',
     'Personer i ärendet',
+    'Metod & routing',
   );
   mustInclude(
     'src/modules/core/navigation/tabRegistry.ts',
@@ -274,6 +294,28 @@ function main() {
     'Frekvensanalys',
     'buildVaultFrequencyReport',
     'glow="gold"',
+    'CalmCollapsible',
+    'Poster per månad',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vaultChat/components/ValvChatPanel.tsx',
+    'CalmCollapsible',
+    'Tips & exempelfrågor',
+    'ValvChatExtendedHints',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/dossier/components/DossierPage.tsx',
+    'Dossier-Generator',
+    'CalmCollapsible',
+    'Valfria filter',
+    'AI-förord & tidslinje',
+    'generateDossier',
+  );
+  mustInclude(
+    'src/modules/core/home/HomeLayoutA.tsx',
+    'CalmCollapsible',
+    'getHomeSuperhubShortcutsForPreset',
+    'home-layout-a__snabbval',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx',
@@ -285,6 +327,8 @@ function main() {
     'OrkesterAgentTrio',
     "vaultTab=sok",
     'glow="blue"',
+    'CalmCollapsible',
+    'orkester-brusfilter',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/utils/vaultPatternScan.ts',
@@ -420,7 +464,12 @@ function main() {
   mustInclude('src/modules/core/layout/DrawerQuickActions.tsx', 'HUB_MORE_ACTIONS', 'Snabbval');
   mustInclude('src/modules/features/widgets/pages/WidgetRecordPage.tsx', 'useWidgetVaultRecording');
   mustInclude('src/modules/features/widgets/pages/WidgetFamiljenPage.tsx', 'widget_snabb');
-  mustInclude('src/modules/features/widgets/api/widgetVaultRecording.ts', 'SAMMANFATTNING');
+  mustInclude('src/modules/features/widgets/api/widgetVaultRecording.ts', 'withVaultSessionPayload');
+  mustInclude('src/modules/features/widgets/api/widgetVaultRecording.ts', 'sourceRef');
+  mustInclude('src/modules/features/widgets/api/widgetVaultRecording.ts', 'storageInboxSourceRef');
+  mustInclude('src/modules/features/widgets/api/widgetVaultRecording.ts', 'commit: true');
+  mustInclude('functions/src/lib/widgetRecordingCommit.ts', 'SAMMANFATTNING');
+  mustInclude('functions/src/lib/wormPayload.ts', 'buildInboxSourceRef');
   mustInclude('public/manifest.webmanifest', '/widget/inspelning', '/widget/familjen', '/widget/stampla');
   mustInclude(
     'src/modules/core/components/FyrenWidgetBar.tsx',
@@ -722,6 +771,23 @@ function main() {
   );
   mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/ValuesCompass.tsx', '<select');
   mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/MabraVitHub.tsx', 'Snabbstart');
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/components/MabraNutritionQuickLog.tsx',
+    'MabraNutritionQuickLog',
+    'appendNutritionEntry',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/lib/mabraNutritionNudges.ts',
+    'computeNutritionNudges',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/naring/components/NutritionSettingsPanel.tsx',
+    'NutritionSettingsPanel',
+    '/mabra/verktyg/nutrition',
+  );
+  mustInclude('src/modules/core/navigation/navTruth.ts', '/installningar?tab=naring');
+  mustInclude('.context/locked-ux-features.md', '## 20. Diskret näringsintag');
+  mustInclude('docs/specs/modules/NARING-INTAG-SPEC.md', 'LÅST UX');
   mustInclude(
     'src/modules/features/admin/planning/components/PlaneringPage.tsx',
     'HubPageShell',

@@ -1,37 +1,36 @@
 ---
-description: Firestore, data, and security invariants for Livskompassen
+description: Säkerhet & WORM — DCAP-riskklassning, firestore.rules, gatekeeperSanitize, append-only
 alwaysApply: false
-globs: firestore.rules,functions/**,server/**,dataconnect/**
+globs: firestore.rules,storage.rules,functions/src/sharedRules.ts,functions/src/agents/DCAP.ts,functions/src/adk/orchestrator.ts,functions/src/lib/callableGuards.ts,server/**,dataconnect/**
 ---
 
 # Security And Data Invariants
 
-Security is Layered Defense. Never implement mock security for shipped behavior.
+Security is Layered Defense. Implementera riktig säkerhet — inga mock-WORM eller stub-guards i prod.
 
-Mandatory invariants:
-- `VaultLog` and `CheckIn` are immutable after creation.
-- Every user-owned document must bind to exactly one `userId`.
-- Users may only read or write their own data.
-- Verified email is required for WORM silo access (`journal`, `reality_vault`, `children_logs`, `dossier_snapshots` read) unless `sign_in_provider == 'anonymous'` (dev/smoke).
-- WORM create must pass `keys().hasOnly([...])` — see `firestore.rules` helpers `isValid*Create`.
-- LLM callables use App Check (when `APP_CHECK_ENFORCE=true`) and per-UID rate limits (`callableGuards.ts`).
-- `NetworkMember` must validate category and importance.
-- `SystemSynapse` and `SystemScan` are owner-limited and critical.
+Kanon: `.context/security.md` · DCAP: `functions/src/agents/DCAP.ts` · Gatekeeper: `gatekeeperSanitize` i `orchestrator.ts`
 
-Block the Dirty Dozen:
-- Identity Spoofing on create or update.
-- Cross-User Leak on list or get.
-- Unauthenticated Write.
-- Bypassing Verification.
-- Malicious ID Injection.
-- Shadow Field Injection.
-- Resource Poisoning.
-- Vault Tampering.
-- State Shortcut for reconstructed CheckIn data.
-- System Synapse Hijack.
+## Gör alltid
 
-Implementation rules:
-- LLMs must not decide deterministic authorization or data-integrity outcomes.
-- Prefer server timestamps for evidence and immutable snapshots.
-- Do not expose keys, PII, or cryptographic material to frontend JS memory.
-- Clear local caches on logout, panic, or vault lock paths.
+- Kör **DCAP-riskklassning i kod** (`analyzeDcap`, `routeFromDcap`) före LLM-svar — LLM beslutar inte auth, silo eller WORM.
+- Sanitera agent-output via `gatekeeperSanitize` innan det returneras till klient.
+- Skriv WORM-poster append-only (`reality_vault`, `children_logs`, `journal`, `dossier_snapshots`) med server-tidsstämpel.
+- Validera WORM-create med `keys().hasOnly([...])` — se `isValid*Create` i `firestore.rules`.
+- Bind varje användardokument till exakt ett `userId` — läs/skriv endast egen data.
+- Kräv verifierad e-post för WORM-läs (utom `anonymous` dev/smoke).
+- Skydda LLM-callables med App Check (`APP_CHECK_ENFORCE`) och per-UID rate limits (`callableGuards.ts`).
+- Rensa lokala caches vid logout, panic och vault lock (Zero Footprint).
+
+## Data-invariants
+
+- `VaultLog` och `CheckIn` är immutable efter skapande.
+- `NetworkMember` validerar category och importance.
+- `SystemSynapse` och `SystemScan` är owner-limited och critical.
+
+## Blockera Dirty Dozen
+
+Identity Spoofing · Cross-User Leak · Unauthenticated Write · Bypassing Verification · Malicious ID Injection · Shadow Field Injection · Resource Poisoning · Vault Tampering · State Shortcut · System Synapse Hijack.
+
+## Runtime-prompter
+
+Kanon = `functions/src/sharedRules.ts` — dokumentera only; skriv om endast med PMIR + Pontus OK.

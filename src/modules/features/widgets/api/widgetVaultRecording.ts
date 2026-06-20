@@ -1,6 +1,8 @@
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '@/core/firebase/init';
-import { saveVaultLog } from '@/core/firebase/firestore';
+import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
+import { ensureVaultWriteReady } from '@/core/security/vaultWriteUnlock';
+import { storageInboxSourceRef } from '@/core/firebase/inboxSourceRef';
 import { uploadDiscreetRecording } from '@/core/firebase/storage';
 
 export type WidgetRecordingAnalysis = {
@@ -18,46 +20,52 @@ export type WidgetRecordingMetadata = {
 export type PreparedWidgetRecording = {
   analysis: WidgetRecordingAnalysis;
   evidenceUrl: string;
+  storagePath: string;
+  sourceRef: string;
   recordedAtIso: string;
   transcript: string;
   durationSeconds?: number;
 };
 
-const ingestCallable = httpsCallable<
+export type WidgetRecordingLockResult = {
+  action: 'persisted' | 'queued';
+  collection?: string;
+  docId?: string;
+  vaultId?: string;
+  queueId?: string;
+  title: string;
+  summary: string;
+};
+
+type WidgetAnalyzeResponse = WidgetRecordingAnalysis;
+
+type WidgetCommitResponse = WidgetRecordingAnalysis & {
+  action: 'persisted' | 'queued';
+  collection?: string;
+  docId?: string;
+  queueId?: string;
+};
+
+const analyzeCallable = httpsCallable<
   { transcript: string; recordedAt: string; durationSeconds?: number },
-  WidgetRecordingAnalysis
+  WidgetAnalyzeResponse
 >(functions, 'ingestWidgetRecording');
 
-function buildVaultTruth(
-  analysis: WidgetRecordingAnalysis,
-  transcript: string,
-  recordedAt: string,
-  evidenceUrl: string,
-  durationSeconds?: number,
-  metadata?: WidgetRecordingMetadata,
-): string {
-  const lines = [
-    `TITEL: ${analysis.title}`,
-    `SAMMANFATTNING:`,
-    analysis.summary,
-    '',
-    `INSPELAD: ${recordedAt}`,
-  ];
-  if (durationSeconds != null) lines.push(`LÄNGD_SEK: ${durationSeconds}`);
-  if (metadata) {
-    const vem = metadata.vem.trim();
-    const vad = metadata.vad.trim();
-    const varfor = metadata.varfor.trim();
-    if (vem || vad || varfor) {
-      lines.push('', 'KONTEXT (efter inspelning):');
-      if (vem) lines.push(`VEM: ${vem}`);
-      if (vad) lines.push(`VAD: ${vad}`);
-      if (varfor) lines.push(`VARFÖR: ${varfor}`);
-    }
-  }
-  lines.push('', 'TRANSKRIPT:', transcript.trim() || '(ingen transkription — se ljudfil)', '', `FIL: ${evidenceUrl}`);
-  return lines.join('\n');
-}
+const commitCallable = httpsCallable<
+  {
+    commit: true;
+    transcript: string;
+    recordedAt: string;
+    durationSeconds?: number;
+    evidenceUrl: string;
+    sourceRef: string;
+    storagePath: string;
+    analysis: WidgetRecordingAnalysis;
+    metadata: WidgetRecordingMetadata;
+    vaultSessionToken?: string;
+  },
+  WidgetCommitResponse
+>(functions, 'ingestWidgetRecording');
 
 async function runAnalysis(
   transcript: string,
@@ -66,7 +74,7 @@ async function runAnalysis(
 ): Promise<WidgetRecordingAnalysis> {
   const recordedAtIso = recordedAt.toISOString();
   try {
-    const res = await ingestCallable({
+    const res = await analyzeCallable({
       transcript,
       recordedAt: recordedAtIso,
       durationSeconds,
@@ -103,39 +111,61 @@ export async function prepareWidgetRecording(
 ): Promise<PreparedWidgetRecording> {
   const recordedAtIso = recordedAt.toISOString();
   const analysis = await runAnalysis(transcript, recordedAt, durationSeconds);
-  const evidenceUrl = await uploadDiscreetRecording(userId, file, recordedAt, analysis.title);
+  const { storagePath, downloadUrl } = await uploadDiscreetRecording(
+    userId,
+    file,
+    recordedAt,
+    analysis.title,
+  );
+  const sourceRef = storageInboxSourceRef(storagePath);
 
   return {
     analysis,
-    evidenceUrl,
+    evidenceUrl: downloadUrl,
+    storagePath,
+    sourceRef,
     recordedAtIso,
     transcript,
     durationSeconds,
   };
 }
 
-/** Lås i Valvet efter vem/vad/varför (WORM). */
+/** Lås via DCAP-kedja (classify → routeInboxToWorm) efter vem/vad/varför. */
 export async function lockWidgetRecordingToVault(
-  userId: string,
+  _userId: string,
   prepared: PreparedWidgetRecording,
   metadata: WidgetRecordingMetadata,
-): Promise<string> {
-  const truth = buildVaultTruth(
-    prepared.analysis,
-    prepared.transcript,
-    prepared.recordedAtIso,
-    prepared.evidenceUrl,
-    prepared.durationSeconds,
-    metadata,
+): Promise<WidgetRecordingLockResult> {
+  const unlock = await ensureVaultWriteReady();
+  if (unlock.ok === false) {
+    throw new Error(unlock.message);
+  }
+
+  const res = await commitCallable(
+    withVaultSessionPayload({
+      commit: true,
+      transcript: prepared.transcript,
+      recordedAt: prepared.recordedAtIso,
+      durationSeconds: prepared.durationSeconds,
+      evidenceUrl: prepared.evidenceUrl,
+      sourceRef: prepared.sourceRef,
+      storagePath: prepared.storagePath,
+      analysis: prepared.analysis,
+      metadata,
+    }),
   );
 
-  return saveVaultLog(userId, {
-    action: `widget_inspelning: ${prepared.analysis.title.slice(0, 80)}`,
-    category: 'tyst_inspelning',
-    truth,
-    evidenceUrl: prepared.evidenceUrl,
-    entryType: 'simple',
-  });
+  const data = res.data;
+  const docId = data.docId;
+  return {
+    action: data.action,
+    collection: data.collection,
+    docId,
+    vaultId: data.collection === 'reality_vault' ? docId : undefined,
+    queueId: data.queueId,
+    title: prepared.analysis.title,
+    summary: prepared.analysis.summary,
+  };
 }
 
 /** Legacy one-shot (anteckning utan metadata-steg). */
@@ -145,12 +175,17 @@ export async function ingestWidgetRecordingToVault(
   transcript: string,
   recordedAt: Date,
   durationSeconds?: number,
-): Promise<{ vaultId: string; analysis: WidgetRecordingAnalysis }> {
+): Promise<{ vaultId: string; analysis: WidgetRecordingAnalysis; queued?: boolean }> {
   const prepared = await prepareWidgetRecording(userId, file, transcript, recordedAt, durationSeconds);
-  const vaultId = await lockWidgetRecordingToVault(userId, prepared, {
+  const result = await lockWidgetRecordingToVault(userId, prepared, {
     vem: '',
     vad: '',
     varfor: '',
   });
-  return { vaultId, analysis: prepared.analysis };
+  const vaultId = result.vaultId ?? result.docId ?? result.queueId ?? '';
+  return {
+    vaultId,
+    analysis: prepared.analysis,
+    queued: result.action === 'queued',
+  };
 }

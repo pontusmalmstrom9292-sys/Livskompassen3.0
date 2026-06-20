@@ -1,6 +1,6 @@
 import { Check, Loader2, Wallet } from 'lucide-react';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
-import { useCapacityScore } from '@/core/store/useCapacityGate';
+import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
 import { EconomyEnvelopeSection } from '../../components/EconomyEnvelopeSection';
 import { useEconomyKuvertWrite } from '../hooks/useEconomyKuvertWrite';
 import { useEconomyTransactionWORM } from '../hooks/useEconomyTransactionWORM';
@@ -22,16 +22,10 @@ function buildKuvertExpenseLabel(envelopeTitle: string, optionalLabel: string): 
   return trimmed ? `Kuvert — ${envelopeTitle}: ${trimmed}` : `Kuvert — ${envelopeTitle}`;
 }
 
-/** Normaliserad kapacitet 0–1 — SPEC §4.3 / §4.5 */
-const STABILITY_THRESHOLD = 0.5;
-
-/**
- * Fas 8D — Kuvertbudget.
- * Mutable `budgets` via useEconomyKuvertWrite; utgifter → `transactions` via WORM hook.
- */
+/** Fas 8D — Kuvertbudget. */
 export function EkonomiKuvertDelegate({ userId }: EkonomiKuvertDelegateProps) {
-  const capacityScore = useCapacityScore();
-  const isLowCapacity = capacityScore < STABILITY_THRESHOLD;
+  const { level, circuitBreakerActive } = useEconomyLevel(userId);
+  const isLowCapacity = circuitBreakerActive || level === 'critical' || level === 1;
   const hasUser = Boolean(userId);
 
   const {

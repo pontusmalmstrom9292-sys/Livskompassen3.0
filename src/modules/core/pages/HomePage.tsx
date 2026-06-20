@@ -6,6 +6,7 @@ import { HomeHeroKanon } from '../home/HomeHeroKanon';
 import { AdaptiveMemoryCards } from '../home/AdaptiveMemoryCards';
 import { HemV3DevelopmentRail } from '../home/HemV3DevelopmentRail';
 import { CaptureSuperModule } from '../../capture';
+import { CalmCollapsible } from '../ui/CalmCollapsible';
 import { materialEnabled, useLifeHubPreset } from '../lifeOs';
 import { useStore } from '../store';
 import { useTheme } from '../theme';
@@ -24,29 +25,36 @@ export function HomePage() {
     !mockupSkin && isAuthenticated && materialEnabled(preset, 'home_adaptive_cards');
   const showDevelopmentRail =
     !mockupSkin && isAuthenticated && materialEnabled(preset, 'home_development_rail');
+  const usesLayoutA = !mockupSkin;
+  const showSecondaryFeed = showAdaptiveCards || showDevelopmentRail;
 
   return (
     <div
       className={clsx(
         'home-page home-page--kanon home-page--scenic space-y-4',
         mockupSkin && 'home-page--mockup-skin',
+        usesLayoutA && 'home-page--layout-a',
       )}
     >
       <HomeHeroKanon onCheckInSaved={() => setAdaptiveRefreshKey((k) => k + 1)} />
 
-      {showAdaptiveCards || showDevelopmentRail ? (
-        <div className="mx-auto w-full max-w-2xl space-y-4 px-1">
-          <p className="text-[10px] uppercase tracking-[0.2em] text-text-dim">Mer för dig</p>
-          {showAdaptiveCards ? (
-            <AdaptiveMemoryCards refreshKey={adaptiveRefreshKey} presetId={presetId} />
-          ) : null}
-          {showDevelopmentRail ? (
-            <HemV3DevelopmentRail refreshKey={adaptiveRefreshKey} />
-          ) : null}
+      {showSecondaryFeed ? (
+        <div className="mx-auto w-full max-w-2xl px-1">
+          <CalmCollapsible title="Mer för dig" meta="Valfritt" defaultOpen={false} glow="gold">
+            <div className="space-y-4 pt-1">
+              {showAdaptiveCards ? (
+                <AdaptiveMemoryCards refreshKey={adaptiveRefreshKey} presetId={presetId} />
+              ) : null}
+              {showDevelopmentRail ? (
+                <HemV3DevelopmentRail refreshKey={adaptiveRefreshKey} />
+              ) : null}
+            </div>
+          </CalmCollapsible>
         </div>
       ) : null}
 
-      {!mockupSkin &&
+      {!usesLayoutA &&
+        !mockupSkin &&
         materialEnabled(preset, 'home_inkast') &&
         !materialEnabled(preset, 'home_hero_checkin') &&
         isAuthenticated && <CaptureSuperModule variant="hem-capture" />}

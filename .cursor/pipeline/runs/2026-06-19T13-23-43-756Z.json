@@ -1,0 +1,104 @@
+{
+  "startedAt": "2026-06-19T13:23:43.756Z",
+  "git": {
+    "branch": "main",
+    "sha": "189a9f1b2",
+    "dirtyCount": 17,
+    "changedFiles": [
+      "ataconnect/.dataconnect/schema/prelude.gql",
+      "docs/architecture/INFINITE_EVOLUTION.md",
+      "exports/chatbot-handoff/chatbot-pack-security.md",
+      "src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx",
+      "src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaDriveHint.tsx",
+      "src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx",
+      "src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx",
+      ".cursor/pipeline/MASTER-PROMPT.md",
+      ".cursor/pipeline/jobs/",
+      ".cursor/pipeline/state.json",
+      ".npm-cache-local/",
+      "docs/evaluations/2026-06-19-cursor-pipeline.md",
+      "docs/evaluations/2026-06-19-fas-a21-valv-samla.md",
+      "exports/cursor-pipeline/",
+      "exports/repomix/",
+      "google-cloud-cli-darwin-arm.tar.gz",
+      "\"narcissistisk f\\303\\266r\\303\\244lder/\""
+    ]
+  },
+  "pack": [
+    {
+      "label": "pack:backend",
+      "cmd": "npm run repomix:karnkod-systemplan",
+      "status": "PASS",
+      "durationMs": 3348,
+      "packageId": "backend"
+    },
+    {
+      "label": "pack:ui-design",
+      "cmd": "npm run design:pack",
+      "status": "PASS",
+      "durationMs": 10122,
+      "packageId": "ui-design"
+    },
+    {
+      "label": "pack:security",
+      "cmd": "npm run chatbot:pack:security",
+      "status": "PASS",
+      "durationMs": 14322,
+      "packageId": "security"
+    },
+    {
+      "label": "pack:ai-agents",
+      "cmd": "npm run cursor:pipeline:pack:agents",
+      "status": "PASS",
+      "durationMs": 10243,
+      "packageId": "ai-agents"
+    }
+  ],
+  "build": [
+    {
+      "label": "Functions TypeScript build",
+      "cmd": "npm run build",
+      "status": "PASS",
+      "durationMs": 45426
+    },
+    {
+      "label": "Frontend Vite build",
+      "cmd": "npm run build",
+      "status": "FAIL",
+      "durationMs": 51889,
+      "error": "",
+      "stdout": "\n> livskompassen-v2@1.0.0 build\n> tsc -b && vite build\n\nsrc/modules/core/home/homeCapacityGate.ts(3,1): error TS6133: 'CAPACITY_LOW_HOME_THRESHOLD' is declared but its value is never read.\nsrc/modules/core/home/homeCapacityGate.ts(3,45): error TS2307: Cannot find module '../../../shared/evolution/capacityScore' or its corresponding type declarations.\nsrc/modules/core/home/homeCapacityGate.ts(4,1): error TS6133: 'normalizeStoredCapacityScore' is declared but its value is never read.\nsrc/modules/core/home/homeCapacityGate.ts(4,46): error TS2307: Cannot find module '../../../shared/evolution/capacityScore' or its corresponding type declarations.\nsrc/modules/features/admin/planning/hooks/usePlanningKanbanGate.ts(7,8): error TS2307: Cannot find module '../../../shared/evolution/capacityScore' or its corresponding type declarations.\n"
+    }
+  ],
+  "smoke": [
+    {
+      "label": "npm run smoke:predeploy",
+      "cmd": "npm run smoke:predeploy",
+      "status": "PASS",
+      "durationMs": 31764
+    }
+  ],
+  "state": {
+    "phase": "fix",
+    "attempt": 1,
+    "maxAttempts": 5,
+    "packages": [
+      "backend",
+      "ui-design",
+      "security",
+      "ai-agents"
+    ],
+    "failures": [
+      {
+        "label": "Frontend Vite build",
+        "cmd": "npm run build",
+        "status": "FAIL",
+        "durationMs": 51889,
+        "error": "",
+        "stdout": "\n> livskompassen-v2@1.0.0 build\n> tsc -b && vite build\n\nsrc/modules/core/home/homeCapacityGate.ts(3,1): error TS6133: 'CAPACITY_LOW_HOME_THRESHOLD' is declared but its value is never read.\nsrc/modules/core/home/homeCapacityGate.ts(3,45): error TS2307: Cannot find module '../../../shared/evolution/capacityScore' or its corresponding type declarations.\nsrc/modules/core/home/homeCapacityGate.ts(4,1): error TS6133: 'normalizeStoredCapacityScore' is declared but its value is never read.\nsrc/modules/core/home/homeCapacityGate.ts(4,46): error TS2307: Cannot find module '../../../shared/evolution/capacityScore' or its corresponding type declarations.\nsrc/modules/features/admin/planning/hooks/usePlanningKanbanGate.ts(7,8): error TS2307: Cannot find module '../../../shared/evolution/capacityScore' or its corresponding type declarations.\n"
+      }
+    ],
+    "nextAction": "read_fix_brief",
+    "pmirHits": []
+  }
+}

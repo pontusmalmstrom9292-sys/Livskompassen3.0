@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useStore } from '@/core/store';
 import { hasVaultGate } from '@/core/auth/sessionService';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { JournalArchiveReadonly } from '@/features/lifeJournal/diary/diary/components/JournalArchiveReadonly';
 import { ConfirmStep } from '@/features/lifeJournal/diary/diary/components/ConfirmStep';
 import { DagbokWizardErrorBoundary } from '@/features/lifeJournal/diary/diary/components/DagbokWizardErrorBoundary';
@@ -17,6 +18,7 @@ export type DagbokReflektionDelegateProps = {
 
 /**
  * Fas 11C — Reflektion wizard (mood → text → confirm → saved).
+ * B3 — primär: wizard. Sekundär: tips (CalmCollapsible).
  * Thin wrapper — all WORM writes via useJournalFlow (skrivskyddad kärna).
  */
 export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegateProps) {
@@ -71,12 +73,9 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
 
   return (
     <div className="dagbok-delegate dagbok-delegate--reflektion" data-write-target="journal_worm">
-      <header className="mb-4 space-y-1">
+      <header className="mb-4">
         <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
           Reflektera
-        </p>
-        <p className="text-xs text-text-dim">
-          Ta det lugnt — ett litet steg i taget. Inget måste bli perfekt.
         </p>
       </header>
 
@@ -155,6 +154,21 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
           {error && <p className="mt-2 text-sm text-danger">{error}</p>}
         </div>
       </DagbokWizardErrorBoundary>
+
+      <CalmCollapsible
+        title="Tips & låg energi"
+        meta="Valfritt"
+        defaultOpen={false}
+        glow="gold"
+      >
+        <div className="space-y-2 text-xs text-text-dim">
+          <p>Ta det lugnt — ett litet steg i taget. Inget måste bli perfekt.</p>
+          <p>
+            Du kan spara bara känslan, skriva tre ord, eller hoppa över text helt när energin är låg.
+          </p>
+          <p>Dagboken är din — formellt bevis sparas separat i Valv när du väljer det.</p>
+        </div>
+      </CalmCollapsible>
     </div>
   );
 }

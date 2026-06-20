@@ -2,7 +2,7 @@
   "version": 1,
   "sprint": "fas22-masterplan-v2",
   "startedAt": "2026-06-18T11:59:32.509Z",
-  "updatedAt": "2026-06-19T06:25:00.000Z",
+  "updatedAt": "2026-06-19T16:00:00.000Z",
   "completedAt": "2026-06-18T23:38:55.784Z",
   "status": "done",
   "nextWaveId": null,
@@ -21,14 +21,56 @@
     },
     {
       "id": "22.3",
-      "completedAt": "2026-06-19T06:25:00.000Z",
+      "completedAt": "2026-06-19T15:30:00.000Z",
       "deploy": "firestore:rules",
+      "jobId": "1781873104091",
+      "sha": "189a9f1b2",
       "smokes": [
         "smoke:mabra",
         "smoke:modulvaljare",
-        "smoke:innehall"
+        "smoke:innehall",
+        "smoke:valv-security",
+        "smoke:yolo"
       ],
-      "note": "Pontus godkände M3.0-C deploy 2026-06-19 — rules deploy pending terminal"
+      "note": "M3.0-C mabra_nutrition_log rules live i prod"
+    },
+    {
+      "id": "22.13",
+      "completedAt": "2026-06-19T16:00:00.000Z",
+      "deploy": "hosting",
+      "merge": "cursor/yolo-build-vidare-7746",
+      "sha": "32595dc83",
+      "smokes": [
+        "smoke:design-modules",
+        "smoke:locked-ux",
+        "typecheck:core-strict"
+      ],
+      "audit": "docs/evaluations/2026-06-19-yolo-audit-build-vidare.md",
+      "note": "P2 widget /widget/projekt + hex Vit + zone-valv chunk"
+    },
+      "completedAt": "2026-06-19T15:30:00.000Z",
+      "deploy": "functions:beginVaultBiometricChallenge,functions:issueVaultSessionViaBiometric",
+      "jobId": "1781873123994",
+      "sha": "189a9f1b2",
+      "smokes": [
+        "smoke:valv-security",
+        "smoke:yolo"
+      ],
+      "note": "Biometri challenge-attestation v1 live (PMIR CRITICAL)"
+    },
+    {
+      "id": "22.11",
+      "completedAt": "2026-06-19T14:00:00.000Z",
+      "deploy": "hosting",
+      "merge": "PR #25 cursor/brusfiltret-lab-polish-82f5",
+      "sha": "28a24de01",
+      "jobId": "1781872811578",
+      "smokes": [
+        "smoke:yolo",
+        "smoke:brusfiltret-lab"
+      ],
+      "audit": "docs/evaluations/2026-06-19-yolo-audit-hosting-pr25.md",
+      "note": "Hosting live efter merge — Brusfiltret lab polish"
     },
     {
       "id": "22.4",
@@ -114,6 +156,9 @@
     "22.8",
     "22.9",
     "22.10",
+    "22.11",
+    "22.12",
+    "22.13",
     "slutrapport"
   ],
   "waveDetails": [
@@ -192,7 +237,7 @@
   ],
   "git": {
     "branch": "main",
-    "sha": "e28480557",
+    "sha": "28a24de01",
     "dirty": 0
   },
   "policy": {
@@ -209,5 +254,5 @@
       "mass-delete"
     ]
   },
-  "notes": "Merged to main 2026-06-18. PMIR godkänd. våg31 ingest OK. 22.3 godkänd Pontus 2026-06-19 — firestore:rules deploy väntar terminal."
+  "notes": "B1–B4 mergat + 5-agent audit (YOLO GO, arkiv PASS, minnes-ingest doc, Android runbook). smoke:predeploy PASS inkl E2E."
 }

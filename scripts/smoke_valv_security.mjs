@@ -128,7 +128,15 @@ function main() {
     'request.resource.data.intention is string',
     'allow delete: if false',
   );
-  mustInclude('functions/src/index.ts', 'issueVaultSession', 'beginVaultWebAuthnChallenge', 'invalidateSession');
+  mustInclude('functions/src/index.ts', 'issueVaultSession', 'beginVaultWebAuthnChallenge', 'beginVaultBiometricChallenge', 'invalidateSession');
+  mustInclude('functions/src/lib/vaultBiometricChallenge.ts', 'beginVaultBiometricChallenge', 'consumeVaultBiometricChallenge');
+  mustInclude('functions/src/callables/valv.ts', 'beginVaultBiometricChallengeCallable', 'consumeVaultBiometricChallenge');
+  mustInclude(
+    'src/modules/core/auth/vaultServerSession.ts',
+    'issueVaultSessionAfterNativeBiometric',
+    'beginVaultBiometricChallenge',
+    'challengeProof',
+  );
   mustInclude('.github/workflows/firebase-hosting-main.yml', 'VITE_APP_CHECK_RECAPTCHA_SITE_KEY');
   mustInclude('functions/src/lib/vaultWebAuthn.ts', 'gen-lang-client-0481875058.firebaseapp.com');
   const authSvc = read('src/modules/core/auth/authService.ts');

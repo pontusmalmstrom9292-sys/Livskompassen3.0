@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Brain, Loader2, Send, Sparkles, User, X, FileText, ExternalLink } from 'lucide-react';
-import { BentoCard } from '@/shared/ui/BentoCard';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { VAVAREN_VALVCHAT_HINT } from '../../vault/constants/vavarenCopy';
 import type { ValvChatCitation } from '../api/valvChatService';
 import { useValvChatSession, type ValvChatMessage } from '../hooks/useValvChatSession';
@@ -11,10 +11,16 @@ import { EmptyState } from '@/core/ui/EmptyState';
 import { SanningsAnalytikernHeader } from './SanningsAnalytikernHeader';
 import { AgentResponseFooter } from '@/shared/agents/components/AgentResponseFooter';
 
+const EXAMPLE_QUESTIONS = [
+  'När sa hen att jag inte hämtade barnen?',
+  'Vilka sms nämner hämtningstider?',
+  'Finns mönster av tyst straff i arkivet?',
+] as const;
+
 type ValvChatPanelProps = {
   active: boolean;
   onCitationClick?: (docId: string) => void;
-  logs?: (VaultLog & { id: string })[]; // Tillagd prop för interaktiv källgranskning
+  logs?: (VaultLog & { id: string })[];
 };
 
 function CitationList({
@@ -91,11 +97,39 @@ function ChatBubble({
   );
 }
 
+function ValvChatExtendedHints({
+  onPickExample,
+}: {
+  onPickExample: (question: string) => void;
+}) {
+  return (
+    <div className="space-y-3 text-xs text-text-dim">
+      <p>{VAVAREN_VALVCHAT_HINT}</p>
+      <p>Källor länkas till låsta poster i Logga. Inget chattminne sparas efter stäng — Zero Footprint.</p>
+      <div>
+        <p className="mb-2 font-medium uppercase tracking-wider text-text-muted">Exempelfrågor</p>
+        <ul className="space-y-2">
+          {EXAMPLE_QUESTIONS.map((q) => (
+            <li key={q}>
+              <button
+                type="button"
+                className="w-full rounded-lg border border-border bg-surface-2/60 px-3 py-2 text-left text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3"
+                onClick={() => onPickExample(q)}
+              >
+                {q}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+/** A2.2 — primär: chatt. Sekundär: tips & exempelfrågor (CalmCollapsible). */
 export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPanelProps) {
   const { draft, setDraft, messages, loading, error, submit } = useValvChatSession(active);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  // Lokal state för källförhandsgranskning (Citation Preview Modal)
   const [previewLog, setPreviewLog] = useState<(VaultLog & { id: string }) | null>(null);
 
   useEffect(() => {
@@ -111,13 +145,12 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
     void submit(draft);
   };
 
-  // Fånga källklick och visa modal istället för att lämna chatten direkt
   const handleSourceClick = (docId: string) => {
     const matchedLog = logs.find((l) => l.id === docId);
     if (matchedLog) {
       setPreviewLog(matchedLog);
     } else if (onCitationClick) {
-      onCitationClick(docId); // Fallback till föräldern om logg ej hittas lokalt
+      onCitationClick(docId);
     }
   };
 
@@ -126,8 +159,7 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
       <div className="valv-chat-panel space-y-4">
         <SanningsAnalytikernHeader />
 
-        <BentoCard title="Chatt mot arkiv" description="Källor länkas till Logga" glow="blue">
-          <p className="mb-3 text-xs text-text-dim">{VAVAREN_VALVCHAT_HINT}</p>
+        <section className="calm-card glow-bottom-blue rounded-2xl border border-border p-4">
           <div className="flex max-h-[min(52vh,28rem)] min-h-[12rem] flex-col overflow-y-auto rounded-2xl border border-border bg-surface/40 p-3">
             {messages.length === 0 && !loading && (
               <div className="flex flex-1 flex-col items-center justify-center py-6 text-center">
@@ -168,9 +200,12 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
               <Send className="h-4 w-4" />
             </button>
           </form>
-        </BentoCard>
+        </section>
 
-        {/* —— INTERAKTIV KÄLLGRANSKNINGS-MODAL —— */}
+        <CalmCollapsible title="Tips & exempelfrågor" meta="Valv-silo" defaultOpen={false} glow="blue">
+          <ValvChatExtendedHints onPickExample={setDraft} />
+        </CalmCollapsible>
+
         {previewLog && (
           <div className="fixed inset-0 z-[250] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
             <div className="w-full max-w-lg rounded-2xl border border-accent/25 bg-surface-2 p-5 shadow-accent-glow relative max-h-[85vh] overflow-y-auto">

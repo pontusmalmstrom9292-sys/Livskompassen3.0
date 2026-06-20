@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { TabBar } from '@/core/ui/TabBar';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { getSamlaVaultTabBarItems } from '@/core/navigation/tabRegistry';
@@ -19,6 +19,8 @@ export type ValvSamlaZoneProps = {
   onBevisConfirmed: (docId: string) => void | Promise<void>;
   onCitationClick: (docId: string) => void;
   onOpenGranska?: () => void;
+  techniqueFilter?: string | null;
+  onClearTechniqueFilter?: () => void;
 };
 
 export function ValvSamlaZone({
@@ -30,10 +32,17 @@ export function ValvSamlaZone({
   onBevisConfirmed,
   onCitationClick,
   onOpenGranska,
+  techniqueFilter = null,
+  onClearTechniqueFilter,
 }: ValvSamlaZoneProps) {
   const [anchorsOnly, setAnchorsOnly] = useState(false);
+  const [manualEntryOpen, setManualEntryOpen] = useState(false);
   const { logs, loadFirstLogsPage } = useVaultStore();
   const { techniquesByLogId } = usePatternScanMetadata(userId);
+
+  useEffect(() => {
+    if (techniqueFilter) setAnchorsOnly(false);
+  }, [techniqueFilter]);
 
   return (
     <HubErrorBoundary
@@ -62,24 +71,43 @@ export function ValvSamlaZone({
             userId={userId}
             onBevisConfirmed={(docId) => void onBevisConfirmed(docId)}
             onOpenGranska={onOpenGranska}
+            manualEntryOpen={manualEntryOpen}
+            onManualEntryOpenChange={setManualEntryOpen}
           />
-          <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={() => setAnchorsOnly((v) => !v)}
-              className={`btn-pill--ghost text-xs ${anchorsOnly ? 'text-accent' : ''}`}
-              aria-pressed={anchorsOnly}
-            >
-              {anchorsOnly ? 'Visa alla bevis' : 'Endast ankare'}
-            </button>
+          <div className="flex flex-wrap items-center justify-between gap-2 px-0.5">
+            <p className="text-xs font-medium uppercase tracking-wider text-text-dim">Arkivlista</p>
+            <div className="flex flex-wrap items-center gap-2">
+              {techniqueFilter ? (
+                <button
+                  type="button"
+                  onClick={onClearTechniqueFilter}
+                  className="valv-technique-filter-chip btn-pill--ghost text-xs text-accent"
+                  aria-pressed
+                >
+                  Filter: #{techniqueFilter} · Rensa
+                </button>
+              ) : null}
+              <button
+                type="button"
+                onClick={() => setAnchorsOnly((v) => !v)}
+                className={`btn-pill--ghost text-xs ${anchorsOnly ? 'text-accent' : ''}`}
+                aria-pressed={anchorsOnly}
+              >
+                {anchorsOnly ? 'Visa alla bevis' : 'Endast ankare'}
+              </button>
+            </div>
           </div>
           <VaultLogList
             highlightLogId={highlightLogId}
             anchorsOnly={anchorsOnly}
+            techniqueFilter={techniqueFilter}
             persistedTechniquesByLogId={techniquesByLogId}
-            onLogFirstBevis={() =>
-              document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-            }
+            onLogFirstBevis={() => {
+              setManualEntryOpen(true);
+              requestAnimationFrame(() => {
+                document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              });
+            }}
           />
         </>
       )}

@@ -1,6 +1,6 @@
 import { LIVS_ARKIVARIEN_SYSTEM_PROMPT } from '../sharedRules';
 import { createGenAI } from '../lib/genaiClient';
-import { loadEntityProfileBundle } from '../lib/entityProfileStore';
+import { loadKunskapEntityBundle } from '../lib/entityProfileStore';
 import { fetchKampsparEvidenceForQuery } from '../lib/kampsparQueryRag';
 
 /** Google AI / Vertex via @google/genai — kräver GEMINI_API_KEY i prod om Vertex-modeller saknas. */
@@ -101,7 +101,7 @@ export async function askKnowledgeVaultWithRag(
 ): Promise<KnowledgeVaultResult> {
   const [chunks, entityBundle] = await Promise.all([
     fetchKampsparEvidenceForQuery(uid, question),
-    loadEntityProfileBundle(uid),
+    loadKunskapEntityBundle(uid),
   ]);
   const allowed = new Map<string, KnowledgeVaultCitation>();
   for (const c of chunks) {

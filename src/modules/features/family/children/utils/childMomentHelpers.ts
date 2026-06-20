@@ -12,7 +12,7 @@ export function resolveStundCategory(
   return saveAsAnchor ? 'ankare' : selected;
 }
 import type { ChildrenLogEntry } from '../types';
-import { coerceLogText } from './logFieldUtils';
+import { coerceLogText, barnfokusDisplayText } from './logFieldUtils';
 
 export function isFavoriteMoment(log: ChildrenLogEntry): boolean {
   if (log.category === 'positivt' || log.category === 'ankare') return true;
@@ -24,7 +24,7 @@ export function momentBody(log: ChildrenLogEntry): string {
   if (log.signals) {
     return `Sömn ${log.signals.somn} · Ångest ${log.signals.angest} · Aptit ${log.signals.aptit}`;
   }
-  return coerceLogText(log.observation) || coerceLogText(log.truth);
+  return barnfokusDisplayText(log.observation) || barnfokusDisplayText(log.truth);
 }
 
 export function categoryLabel(category?: string): string {

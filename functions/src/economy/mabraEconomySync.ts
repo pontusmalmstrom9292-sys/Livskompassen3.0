@@ -2,6 +2,11 @@ import { onDocumentWritten } from 'firebase-functions/v2/firestore';
 import * as admin from 'firebase-admin';
 import { GCP_REGION } from '../config';
 import { handleDcapAlert } from '../adk/synapses/dcapAlertSynapse';
+import {
+  CAPACITY_PLANNING_KANBAN_THRESHOLD,
+  MAABRA_MOOD_ENERGY_THRESHOLD,
+  moodEnergyAverageToNormalized,
+} from '../../../shared/evolution/capacityScore';
 
 export const mabraEconomySync = onDocumentWritten(
   {
@@ -62,12 +67,12 @@ export const mabraEconomySync = onDocumentWritten(
 
     const averageScore7d = count7d > 0 ? totalScore7d / count7d : 0;
     const averageScore48h = count48h > 0 ? totalScore48h / count48h : 0;
-    const SAFETY_THRESHOLD = 7.0;
+    const normalizedCapacity = moodEnergyAverageToNormalized(averageScore7d);
 
-    let economyAdvanced = averageScore7d >= SAFETY_THRESHOLD;
+    let economyAdvanced = averageScore7d >= MAABRA_MOOD_ENERGY_THRESHOLD;
 
     // Circuit Breaker validation: Verify last 48 hours trend
-    if (count48h > 0 && averageScore48h < SAFETY_THRESHOLD) {
+    if (count48h > 0 && averageScore48h < MAABRA_MOOD_ENERGY_THRESHOLD) {
       economyAdvanced = false;
 
       await handleDcapAlert({
@@ -79,6 +84,9 @@ export const mabraEconomySync = onDocumentWritten(
       });
       console.log(`[CircuitBreaker] Tripped for user ${uid}. Logged dcap_alert.`);
     }
+
+    const planningKanbanUnlocked =
+      economyAdvanced && normalizedCapacity >= CAPACITY_PLANNING_KANBAN_THRESHOLD;
 
     // WORM: vi uppdaterar bara den flaggan och lastUpdated, inget historiskt raderas
     await db.collection('user_economy_status').doc(uid).set(
@@ -101,6 +109,11 @@ export const mabraEconomySync = onDocumentWritten(
     } else {
       nextFlags.delete('economy_advanced');
     }
+    if (planningKanbanUnlocked) {
+      nextFlags.add('planning_kanban');
+    } else {
+      nextFlags.delete('planning_kanban');
+    }
     await hubRef.set(
       {
         userId: uid,
@@ -116,6 +129,7 @@ export const mabraEconomySync = onDocumentWritten(
         userId: uid,
         ownerId: uid,
         economy_advanced: economyAdvanced,
+        capacityScore: normalizedCapacity,
         lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
       },
       { merge: true }

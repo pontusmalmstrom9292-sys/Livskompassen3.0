@@ -1,0 +1,6 @@
+# Sacred paths — require owner review on private repo (GitHub Pro).
+
+firestore.rules @pontusmalmstrom9292-sys
+storage.rules @pontusmalmstrom9292-sys
+functions/src/sharedRules.ts @pontusmalmstrom9292-sys
+.context/locked-ux-features.md @pontusmalmstrom9292-sys

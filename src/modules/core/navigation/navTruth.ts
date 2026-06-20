@@ -232,6 +232,14 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     parentId: 'installningar',
   },
   {
+    id: 'installningar_naring',
+    label: 'Näring',
+    path: '/installningar?tab=naring',
+    section: 'vardag',
+    inDrawer: false,
+    parentId: 'installningar',
+  },
+  {
     id: 'installningar_drogfrihet',
     label: 'Drogfrihet',
     path: '/installningar?tab=drogfrihet',
@@ -403,6 +411,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
     'valv_grp_kunskap',
     VALV_KUNSKAP_DRAWER_LEAF.aktorskarta,
   ),
+  valvLeaf('valv_docs', 'docs', 'valv_grp_kunskap', VALV_KUNSKAP_DRAWER_LEAF.docs),
   {
     id: 'valv_grp_forensik',
     label: VALV_ZONE_LABELS.forensik,

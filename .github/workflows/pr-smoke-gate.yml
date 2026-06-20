@@ -1,0 +1,41 @@
+# PR gate — static smoke + typecheck before merge to main.
+# Complements firebase-hosting-main.yml (manual deploy only).
+
+name: PR smoke gate
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: pr-smoke-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build functions
+        run: cd functions && npm ci && npm run build
+
+      - name: Smoke pre-deploy gate (YOLO static)
+        run: npm run smoke:predeploy
+
+      - name: Typecheck core strict
+        run: npm run typecheck:core-strict
