@@ -1,5 +1,6 @@
 import { nutritionDateKey } from './mabraNutritionDayStorage';
-import type { NutritionIntakeEntry, NutritionQuality } from './mabraNutritionIntakeTypes';
+import { normalizeMacroInput } from './mabraNutritionMacroTotals';
+import type { NutritionIntakeEntry, NutritionMacroGrams, NutritionQuality } from './mabraNutritionIntakeTypes';
 
 const PREFIX = 'mabra_nutrition_entries_';
 const MAX_ENTRIES = 500;
@@ -18,7 +19,8 @@ function sanitizeEntry(raw: Partial<NutritionIntakeEntry>): NutritionIntakeEntry
       : 'ok';
   const note =
     typeof raw.note === 'string' ? raw.note.trim().slice(0, MAX_NOTE) : '';
-  return { id: raw.id, at: raw.at, kind, note, quality };
+  const macros = normalizeMacroInput(raw.macros as Partial<NutritionMacroGrams> | undefined);
+  return macros ? { id: raw.id, at: raw.at, kind, note, quality, macros } : { id: raw.id, at: raw.at, kind, note, quality };
 }
 
 export function readNutritionEntries(uid = 'local'): NutritionIntakeEntry[] {
@@ -49,14 +51,17 @@ export function appendNutritionEntry(
     note: string;
     quality: NutritionQuality;
     at?: string;
+    macros?: Partial<NutritionMacroGrams>;
   },
 ): NutritionIntakeEntry {
+  const macros = normalizeMacroInput(input.macros);
   const entry: NutritionIntakeEntry = {
     id: crypto.randomUUID(),
     at: input.at ?? new Date().toISOString(),
     kind: input.kind,
     note: input.note.trim().slice(0, MAX_NOTE),
     quality: input.quality,
+    ...(macros ? { macros } : {}),
   };
   const existing = readNutritionEntries(uid);
   writeNutritionEntries(uid, [entry, ...existing]);

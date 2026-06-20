@@ -5,12 +5,20 @@ export type NutritionIntakeKind = 'food' | 'drink';
 /** Energikänsla — inte moral. */
 export type NutritionQuality = 'good' | 'ok' | 'poor';
 
+/** Valfria gram per intag — N2, ingen kaloriräkning. */
+export type NutritionMacroGrams = {
+  proteinG?: number;
+  fatG?: number;
+  carbsG?: number;
+};
+
 export type NutritionIntakeEntry = {
   id: string;
   at: string;
   kind: NutritionIntakeKind;
   note: string;
   quality: NutritionQuality;
+  macros?: NutritionMacroGrams;
 };
 
 export type NutritionPrefs = {

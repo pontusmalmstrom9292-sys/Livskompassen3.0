@@ -41,8 +41,8 @@ const PREF_ROWS: PrefRow[] = [
   },
   {
     key: 'macroTracking',
-    title: 'Makron, våg och dietmallar',
-    description: 'Avancerat läge — aktivera när du vill väga mat och följa makron. UI kommer i nästa våg.',
+    title: 'Makron (P/F/K)',
+    description: 'Valfria gram per måltid + dagssumma. Ingen kaloriräkning, inga mål.',
     advanced: true,
   },
 ];
@@ -122,7 +122,7 @@ export function NutritionSettingsPanel({ uid }: Props) {
         </ul>
         {prefs.macroTracking ? (
           <p className="mt-3 rounded-xl border border-border bg-surface-2/60 px-3 py-2 text-xs text-text-dim">
-            Portionsguide visas i MåBra. Full makro- och våglogg kommer i nästa våg.
+            P/F/K-fält visas vid matlogg i MåBra. Våg och dietmallar kommer i senare våg.
           </p>
         ) : null}
       </BentoCard>
