@@ -1,6 +1,7 @@
 ---
 description: Fas 19 gate — pekare till fas-masterplan-guard (bakåtkompatibel)
 alwaysApply: false
+globs: docs/evaluations/*fas19*,docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md,.cursor/plans/**
 ---
 
 # Fas 19 — mästerplan-gate

@@ -1,7 +1,7 @@
 ---
 description: Lagen om Evig Tillväxt — evolution_ledger WORM, Barnporten ålderssegment, kapacitetsstyrd UI
 alwaysApply: false
-globs: functions/src/triggers/onEvolutionHubWrite.ts,src/modules/barnporten/**,src/modules/**/evolution*,src/modules/**/economy*,src/modules/**/planering*
+globs: **/evolution_hub/**,**/evolution_ledger/**,functions/src/**/evolution*.ts,functions/src/triggers/onEvolutionHubWrite.ts,shared/evolution/**,docs/architecture/INFINITE_EVOLUTION.md,src/modules/barnporten/**,src/modules/features/onboarding/barnporten/**,src/modules/**/evolution*,src/modules/**/economy*,src/modules/**/planering*
 ---
 
 # Infinite Evolution Engine (Lagen om Evig Tillväxt)

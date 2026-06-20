@@ -1,7 +1,7 @@
 ---
 description: Låsta UX-flöden — Barnfokus, Valv Mönster/Orkester, Barnporten HITL, Planering hybrid
 alwaysApply: false
-globs: src/modules/**/Vault*.tsx,src/modules/**/Familjen*.tsx,src/modules/features/family/**,src/modules/features/vault/**,src/modules/barnporten/**,src/modules/planering/**
+globs: src/modules/**/Vault*.tsx,src/modules/**/Familjen*.tsx,src/modules/features/family/**,src/modules/features/vault/**,src/modules/barnporten/**,src/modules/planering/**,src/modules/core/navigation/**,.context/locked-ux-features.md
 ---
 
 # Locked UX Features (MUST NOT REMOVE)

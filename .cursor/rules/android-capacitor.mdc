@@ -1,7 +1,7 @@
 ---
 description: Android Capacitor build, SHA-1 Google auth, cap sync — påminn användaren
 alwaysApply: false
-globs: android/**,capacitor.config.*,src/modules/core/auth/nativeGoogleAuth.ts
+globs: android/**,capacitor.config.*,docs/OFFLINE-ANDROID.md,docs/FIREBASE-AUTH-LATHUND.md,src/modules/core/auth/nativeGoogleAuth.ts
 ---
 
 # Android / Capacitor (MUST remind)
