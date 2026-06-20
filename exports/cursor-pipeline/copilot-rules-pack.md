@@ -1,0 +1,383 @@
+# Copilot rules pack
+Generated: 2026-06-20T20:28:59.767Z
+## DRIFT: none
+## index
+
+```
+---
+description: Livskompassen kärn-invariants — WORM, tre silos, DCAP, Zero Footprint (always-on)
+alwaysApply: true
+---
+
+# Livskompassen Kärn
+
+Läs dynamisk status före stor kod: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md), [`.context/system-plan.md`](../.context/system-plan.md).
+
+**Assistent-ton:** Progressive disclosure — max ett konkret steg i taget. Inget JADE (Justify, Argue, Defend, Explain); Grey Rock / BIFF / fakta vid konflikt.
+
+## Gör alltid
+
+- **WORM:** Append-only för `reality_vault`, `children_logs`, `journal`, `evolution_ledger` — server-tidsstämpel, beteende + datum (aldrig diagnos på motpart).
+- **Tre silos:** Håll sökningar strikt separerade — `knowledgeVaultQuery` → `kampspar`/`kb_docs` · `valvChatQuery` → `reality_vault` · `childrenLogsQuery` → `children_logs`. Använd `kampsparQueryRag.ts` för fakta, `vaultRag.ts` för bevis; integrera aldrig resultat mellan silor.
+- **DCAP före LLM:** Routing i kod (`routeFromDcap`, `classifyInboxDocument`, `resolveExecutorId`) — LLM beslutar inte auth, silo eller WORM.
+- **Zero Footprint:** Rensa session och synapse-state vid logout, blur och panic (`clearSynapseState`).
+- **Verifiera:** Läs kod/docs före påstående. Osäkerhet → *"Ej tillräckligt data för bedömning."*
+
+## PMIR-stopp (vänta explicit Pontus-OK)
+
+`firestore.rules` · `storage.rules` · locked UX · runtime-prompter (`sharedRules.ts`) · mass-radering · Sacred Features.
+
+## Regelindex (läs vid behov — duplicera inte)
+
+| Ämne | Regel |
+|------|-------|
+| Silos & RAG | [`memory-silo.mdc`](rules/memory-silo.mdc) |
+| ADK & synapser | [`synapser-adk.mdc`](rules/synapser-adk.mdc) |
+| Säkerhet & DCAP | [`security-firestore.mdc`](rules/security-firestore.mdc) |
+| Locked UX | [`locked-ux-features.mdc`](rules/locked-ux-features.mdc) |
+| Design Obsidian Calm | [`design-calm.mdc`](rules/design-calm.mdc) · [`ui-design.mdc`](rules/ui-design.mdc) pekare |
+| Deploy & YOLO | [`yolo-vakt-gate.mdc`](rules/yolo-vakt-gate.mdc) · [`model-routing.mdc`](rules/model-routing.mdc) · [`deploy-paminnelser.mdc`](rules/deploy-paminnelser.mdc) |
+| Merge & PMIR | [`git-main-trunk.mdc`](rules/git-main-trunk.mdc) · [`deep-research-pmir.mdc`](rules/deep-research-pmir.mdc) · [`fas-masterplan-guard.mdc`](rules/fas-masterplan-guard.mdc) |
+| Domän HCF | [`domän-covert-narcissism.mdc`](rules/domän-covert-narcissism.mdc) |
+| Assistent-ton | [`ai-cognitive-companion.mdc`](rules/ai-cognitive-companion.mdc) |
+
+Full governance: [`projectGuard.mdc`](rules/projectGuard.mdc) · [`docs/governance/GUARD-REGLERBOK.md`](../docs/governance/GUARD-REGLERBOK.md).
+
+```
+
+## grunder-kanon
+
+```
+---
+description: Grunder U1–U6 — Life OS, tre silos, WORM, DCAP, Zero Footprint, PMIR-stopp (full kanon)
+alwaysApply: false
+---
+
+# Grunder-kanon (U1–U6)
+
+Baseline: [`docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md`](../../docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md)  
+Mänsklig Guard-kanon: [`docs/governance/GUARD-REGLERBOK.md`](../../docs/governance/GUARD-REGLERBOK.md)
+
+## U1 — Tre silos (aldrig cross-RAG)
+
+| Silo | Collections / route | Callable | RAG-modul |
+|------|---------------------|----------|-----------|
+| Kunskap | `kampspar`, `kb_docs` | `knowledgeVaultQuery` | `kampsparQueryRag.ts` |
+| Valv | `reality_vault` | `valvChatQuery`, `analyzeMessage` | `vaultRag.ts` |
+| Barnen | `children_logs` | `childrenLogsQuery` | barn-RAG i silo |
+| Utveckling (Vit) | `mabra_sessions`, `vit_hub` | **Ingen RAG** | `mabraCoach` parafras bank |
+
+**MUST NOT:** fjärde silo · cross-read för bekvämlighet · LLM som enda källa för silo/auth · "sök överallt" utan silo-val.
+
+**Tillåtna korsläsningar (ej användar-RAG):** Vävaren metadata · Dossier wizard · Speglar token-match (Zero Footprint).
+
+Skill vid RAG/query: `.cursor/skills/livskompassen-memory-silo-guard/SKILL.md`
+
+## U2 — DCAP före LLM
+
+Riskklassning och routing i kod (`routeFromDcap`, `classifyInboxDocument`, `resolveExecutorId`). LLM får inte besluta auth, silo eller WORM.
+
+## U3 — Permanent minne (WORM)
+
+Append-only: `children_logs`, `reality_vault`, `journal`, `dossier_snapshots`, `evolution_ledger`, `dcap_alerts`.
+
+**MUST:** beteende + datum — aldrig diagnosetikett på motpart. Server-tidsstämpel på bevis.
+
+**MUST NOT:** `update`/`delete` på WORM-poster · mock-WORM · auto-promote barnlogg → Valv.
+
+## U4 — Zero Footprint + Kill Switch
+
+Session/synapse state rensas vid logout, blur, panic (`clearSynapseState`). Speglar/Hamn utan persistent RAG.
+
+**MUST NOT:** Lagra känslig kontext i klient-RAM efter kill switch · bypass av vault lock.
+
+## U5 — Orkestrering
+
+`AdkOrchestrator` + AgentCards + `emitSynapse`. Utöka executors utan att blanda silor. Skill: `.cursor/skills/livskompassen-synapser-adk/SKILL.md`
+
+## U6 — Innehåll (fakta vs lek, låst)
+
+Utvecklingszon **Vit** (`mabra_*`, `vit_*`) — **ingen** cross-RAG till Kunskap. `content_class`: FACT | REFLECTION | PLAY | EVIDENCE.
+
+| Klass | Zon | Kurator |
+|-------|-----|---------|
+| FACT | Kunskap | `specialist-kunskap-seed` |
+| REFLECTION / PLAY | Vit / MåBra | `specialist-mabra-curator` |
+| EVIDENCE | Valv / Barnen | ingest — ej lek-bank |
+
+**Dirigent:** `specialist-innehall-dirigent` · Register: [`docs/INNEHALL-REGISTER.md`](../../docs/INNEHALL-REGISTER.md) · [`.context/innehall-kanon.md`](../../.context/innehall-kanon.md)
+
+**MUST NOT:** LLM-FACT utan seed-bank · frågekort i prod utan Mabra-CONTENT-BANK (P1 `bankId`).
+
+## Locked UX (PMIR-stopp)
+
+Se [`locked-ux-features.mdc`](locked-ux-features.mdc) och `.context/locked-ux-features.md`.
+
+**MUST NOT:** Ta bort/dölj/byta namn på Barnfokus, Valv Mönster/Orkester, drawer plausible deniability, Barnporten HITL, Planering hybrid utan PMIR + uppdaterad locked-UX-register.
+
+## PMIR-gates (hard NO-GO)
+
+- `firestore.rules` / `storage.rules` (Fas 22.3 kräver godkänd 22.2 PMIR)
+- Barnporten kanon-UI · Sacred UX-borttagning
+- Mass-radering utan arkiv-först + Pontus OK
+- `functions/src/sharedRules.ts` / runtime-prompter utan PMIR ([`backend-agents.mdc`](backend-agents.mdc))
+- `APP_CHECK_ENFORCE` i Console (Pontus manuellt)
+
+Merge/deploy: [`git-main-trunk.mdc`](git-main-trunk.mdc) · YOLO: [`yolo-vakt-gate.mdc`](yolo-vakt-gate.mdc).
+
+## Hallucinationsskydd
+
+Verifiera mot kod/docs (fil:rad, register, smoke). Osäkerhet → *"Ej tillräckligt data för bedömning."* eller *"ej verifierat"* + exakt kommando. Se [`anti-hallucination.mdc`](anti-hallucination.mdc).
+
+## Governance-prompter (Cursor — ej runtime)
+
+- `prompts/safeClassificationPrompt.json`
+- `prompts/guardedAgentInstruction.json`
+- [`docs/prompts/SAKER-AI-PROMPTS.json`](../../docs/prompts/SAKER-AI-PROMPTS.json)
+
+Prod-runtime: endast `functions/src/sharedRules.ts` + `expertPrompts.ts` — dokumentera, skriv inte om utan PMIR.
+
+## Vid implementation
+
+Läs `.context/arkiv-minne.md` och skill `livskompassen-memory-silo-guard` vid RAG/query-ändringar.  
+Säkerhet: `.context/security.md` · [`security-firestore.mdc`](security-firestore.mdc)  
+Nytt innehåll: [`innehall-register.mdc`](innehall-register.mdc) + dirigent/kurator.
+
+```
+
+## security-firestore
+
+```
+---
+description: Säkerhet & WORM — pekare till security-kanon och Layered Defense
+alwaysApply: false
+globs: firestore.rules,storage.rules,functions/src/sharedRules.ts,functions/src/agents/DCAP.ts,functions/src/adk/orchestrator.ts,functions/src/lib/callableGuards.ts,server/**,dataconnect/**
+---
+
+# Security And Data Invariants
+
+**Kanon:** [`.context/security.md`](../../.context/security.md) · **U1–U4:** [`grunder-kanon.mdc`](grunder-kanon.mdc)  
+**Arkiv/WORM-audit:** skill `livskompassen-arkiv-master` · subagent `specialist-security-auditor`
+
+Layered Defense — inga mock-WORM eller stub-guards i prod.
+
+## Runtime-entry
+
+- DCAP: `functions/src/agents/DCAP.ts` (`analyzeDcap`, `routeFromDcap`)
+- Gatekeeper: `gatekeeperSanitize` i `orchestrator.ts`
+- Rules: `firestore.rules`, `storage.rules` — `isValid*Create`, per-UID bindning
+- Callables: `callableGuards.ts` — App Check, rate limits
+
+## MUST (kort)
+
+- DCAP i kod före LLM — LLM beslutar inte auth, silo eller WORM.
+- WORM append-only med server-tidsstämpel; beteende + datum, aldrig diagnos på motpart.
+- Zero Footprint vid logout, panic, vault lock.
+- Runtime-prompter: `sharedRules.ts` only — PMIR före omskrivning.
+
+## Dirty Dozen (blockera)
+
+Identity Spoofing · Cross-User Leak · Unauthenticated Write · Vault Tampering · System Synapse Hijack · m.fl. — se `.context/security.md`.
+
+Duplicera inte full säkerhetskanon här — följ `.context/security.md` + grunder-kanon.
+
+```
+
+## memory-silo
+
+```
+---
+description: RAG tre silos — pekare till memory-silo-guard skill och grunder-kanon
+alwaysApply: false
+globs: functions/src/lib/*Rag*.ts,functions/src/agents/valv*.ts,functions/src/agents/knowledgeVault*.ts,functions/src/callables/valv.ts,functions/src/callables/knowledgeVault*.ts
+---
+
+# Memory silos (tre kunskapsytor)
+
+**Läs skill (full kanon):** [`.cursor/skills/livskompassen-memory-silo-guard/SKILL.md`](../skills/livskompassen-memory-silo-guard/SKILL.md)  
+**U1/U6:** [`grunder-kanon.mdc`](grunder-kanon.mdc) · `.context/arkiv-minne.md`
+
+## Runtime-entry (grep här vid ändring)
+
+| Silo | RAG-modul | Callable |
+|------|-----------|----------|
+| Kunskap | `kampsparQueryRag.ts` | `knowledgeVaultQuery` |
+| Valv | `vaultRag.ts` | `valvChatQuery` |
+| Barnen | barn-RAG i silo | `childrenLogsQuery` |
+
+## MUST (kort)
+
+- Enbart rätt RAG-modul per silo — integrera aldrig resultat mellan silor.
+- `mabra_*`/`vit_*` → parafras-bank, **ingen** Kunskap-ingest.
+- Vector-namespace isolerat per silo.
+
+Duplicera inte skill-tabeller här — följ skill + grunder-kanon.
+
+```
+
+## locked-ux
+
+```
+---
+description: Låsta UX-flöden — Barnfokus, Valv Mönster/Orkester, Barnporten HITL, Planering hybrid
+alwaysApply: false
+globs: src/modules/**/Vault*.tsx,src/modules/**/Familjen*.tsx,src/modules/features/family/**,src/modules/features/vault/**,src/modules/barnporten/**,src/modules/planering/**,src/modules/core/navigation/**,.context/locked-ux-features.md
+---
+
+# Locked UX Features (MUST NOT REMOVE)
+
+Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-features.md)
+
+## Hard rules
+
+1. **Do not remove, hide behind feature flags, or rename** these user-visible flows without explicit user/product approval and an update to `.context/locked-ux-features.md`.
+2. **Before merging** refactors touching `FamiljenPage`, `VaultPage`, or related panels: run `npm run smoke:locked-ux` and keep it passing.
+
+## Barnfokus-frågor (Familjen)
+
+- Component: `src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx`
+- Hub: `FamiljenInputSuperModule` på `/familjen?tab=reflektion` (låst §12)
+- Pool: `BARNFOKUS_QUESTIONS` (gladje, kunskap, knas, lara_kanna, utveckling, valv_safe) — not middag-only label
+- Mounted via `FamiljenPage` → Superhub med optimistic `category: 'barnfokus'` saves
+- Button copy: **Spara till {ChildAlias}s logg** · **Minneslista** under form
+
+## Valv — Pansaret (Mönster + Orkester + Kunskapsbank + Aktörskarta)
+
+- Entry: drawer section **Valv** → `/valvet?vaultTab=…` (PIN in `VaultPage`)
+- Tabs: `logga`, `sok`, `monster`, `orkester`, `dossier`, **`kunskapsbank`**, **`aktorskarta`**
+- `VaultKunskapsbankPanel` — all Kunskap UI behind PIN (no public `/vardagen?tab=kunskap`)
+- `VaultAktorskartaPanel` + `EntityAddForm` + `addEntityProfile` — manuell aktörskarta (G9), append-only metadata
+- `VaultMonsterPanel` / `VaultOrkesterPanel` — unchanged locked behavior
+
+## Sidomeny (hamburger — design lock)
+
+- Kanon: `docs/design/references/MENU-DRAWER-KANON.md`
+- **Two sections:** Vardag (public hubs + sub-rows) · Valv (PIN — only when unlocked on Valv-route)
+- Source: `navTruth.ts` → `DRAWER_VARDAG_ITEMS` / `DRAWER_VALV_ITEMS`; Valv-sektion när `vaultOpen` (superhub: Vardag + Valv samtidigt)
+- Active row: gold only (not teal/turquoise)
+- **No** Valv toggle or drawer quick chips in public mode (`DrawerModeToggle` `showValvShell` only inside Valv)
+
+## Planering + Projekt (design lock — hybrid)
+
+- Canonical: `docs/design/PLANERING-PROJEKT-HYBRID.md`
+- **Handling fixed:** P3 Kanban must remain at `/planering` (todo/waiting/done)
+- **Projekt flexible:** lists, notes, images, custom plans at `/projekt`
+- Widget v2: `galleri/widget/v2/W1-kompakt-projekt.png` — do not revert to boring W1-only without approval
+
+## Planeringssidan + Fyren widget (design lock)
+
+- Specs: `docs/design/PLANERINGSSIDA-SPEC.md`, `docs/design/WIDGET-BAR-SPEC.md`
+- Do not remove P1–P4 / W1–W4 documentation or email-routing design without approval
+
+## Barnporten (barnens hub — design lock)
+
+- Spec: `docs/design/BARNPORTEN-SPEC.md`, infografik `docs/design/barnporten/infographic.html`
+- Registry: `src/modules/barnporten/constants/barnportenAgents.ts` (egen barn-Orkester)
+- Valv: only via parent HITL — never auto-promote private child logs
+- Child widget CB1–CB4 is **not** parent discreet recording (W1)
+- **Inkorg → Valv-bro (§7b):** kanon `barnporten-inkorg-valv-kanon.png` · `BarnportenInboxPanel` + `SaveAsEvidencePrompt` · `sourceRef` + SERVER-TIDSSTÄMPEL · **Granska i Valv** efter spar
+
+## Locked product icons (D1 · M2 — B1 app upplåst)
+
+- Register: [`.context/locked-icons.md`](../.context/locked-icons.md) · rule: [`locked-icons.mdc`](locked-icons.mdc)
+- App/favicon/Android: [`phone-icon-variants/PREVIEW.md`](../../docs/design/themes/phone-icon-variants/PREVIEW.md) — **ej** B1 Kanon ros som tvingad mall
+- Smoke: `npm run smoke:locked-icons`
+- New chrome icons: [`docs/design/ICON-STYLE-GUIDE.md`](../../docs/design/ICON-STYLE-GUIDE.md)
+
+## Forbidden without approval
+
+- Deleting `BARNFOKUS_QUESTIONS`, `FamiljenBarnfokusDelegate`, `FamiljenInputSuperModule`, `VaultMonsterPanel`, `VaultOrkesterPanel`, or `vaultPatternScan.ts`
+- Replacing locked D1/M2 icons without updating `.context/locked-icons.md`
+- Collapsing Mönster/Orkester into Dossier-only or removing tab bar entries
+- Replacing optimistic middag save with “refresh only after server” (degrades ADHD-safe feedback)
+- Removing Barnporten spec, agents registry, or Valv HITL bridge design
+- Removing `BarnportenInboxPanel`, HITL prompt, or auto-promoting child logs to Valv
+
+```
+
+## anti-hallucination
+
+```
+---
+description: Anti-hallucination — verifiera mot kod/moln innan påståenden; inga gissningar om deploy eller GAP-status
+alwaysApply: false
+---
+
+# Anti-hallucination
+
+## MUST
+
+1. **Läsa innan påstående** — grep/read `functions/src`, `firestore.rules`, `package.json` scripts.
+2. **Live sanning** — GCP: `docs/GCP-INVENTORY-LATEST.md`; GAP: `docs/specs/modules/Arkiv-GAP-REGISTER.md`. Vid konflikt om GAP done/open: **register vinner** — uppdatera inventering, markera inte GAP utan att läsa båda.
+3. **Stub vs live** — kontrollera `synapseBus.ts` handlers, inte bara äldre docs.
+4. **Citat** — fil:rad när du refererar beteende.
+5. **Osäkerhet** — säg "ej verifierat" och ange exakt kommando för bevis. Vid produkt-/domänbedömning utan tillräcklig källa: *"Ej tillräckligt data för bedömning."*
+
+## MUST NOT
+
+- Markera GAP som done/open utan att läsa register + kod.
+- Hitta på deploy-status, secrets, eller Vector-index utan inventering/smoke.
+- Använda LLM-output som källa för auth, ägarskap eller immutable evidence.
+- Skapa mock-säkerhet och kalla det WORM/CMEK.
+- Skapa `FACT` eller frågekort i prod utan godkänd content-bank (`INNEHALL-REGISTER`, U6).
+
+## Smoke före "klart"
+
+Minst: `npm run build`, `npm run smoke:locked-ux`, `npm run smoke:orkester` för ändringar som rör agents/synapser/UX locks.  
+Innehåll/kurator/bank: `npm run smoke:innehall`.
+
+```
+
+## copilot-instructions
+
+```
+# Livskompassen — Copilot instructions (repo-wide)
+
+Read before suggesting or reviewing changes in this repository.
+
+## Invariants (MUST)
+
+- **WORM append-only:** `reality_vault`, `journal`, `children_logs`, `evolution_ledger`, `dcap_alerts` — server timestamp, behavior + date (never diagnose third parties).
+- **Tre silos — no cross-RAG:** `knowledgeVaultQuery` → kampspar/kb_docs · `valvChatQuery` → reality_vault · `childrenLogsQuery` → children_logs.
+- **DCAP before LLM:** Routing in code (`routeFromDcap`, `classifyInboxDocument`, `resolveExecutorId`). LLM must not decide auth, silo, or WORM.
+- **Runtime prompts:** Only in `functions/src/sharedRules.ts` — never duplicate in callables or frontend.
+- **Zero Footprint:** Clear session/synapse state on logout and blur.
+
+## Locked UX (MUST NOT remove)
+
+- Barnfokus / Middagsfrågan
+- Valv Mönster / Orkester panels
+- Drawer: public mode hides Valv; unlocked shows Vardag + Valv
+- Planering hybrid widget
+- Barnporten HITL
+
+## Protected files (no structural changes without explicit owner OK)
+
+- `src/modules/core/layout/NavigationDrawer.tsx` (PROTECTED CORE)
+- `firestore.rules`, `storage.rules`, `.context/locked-ux-features.md`
+
+## Validate before merge
+
+```bash
+cd functions && npm run build && cd ..
+npm run smoke:predeploy
+npm run typecheck:core-strict
+```
+
+## MUST NOT
+
+- Force-push to `main`
+- Mock security as WORM/CMEK
+- Add legacy routes outside 3-zone system (`/hjartat`, `/vardagen`, `/familjen`)
+- Remove or bypass smoke gates
+- Commit secrets (`.env`, service account JSON)
+
+## Canonical docs
+
+- `.cursor/index.mdc` — core invariants
+- `docs/specs/modules/Arkiv-GAP-REGISTER.md` — GAP truth
+- `docs/governance/GUARD-REGLERBOK.md` — governance
+
+Copilot suggestions are **advisory**. Green CI `smoke` + human/YOLO gate required to merge.
+
+```

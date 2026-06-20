@@ -40,6 +40,12 @@ Efter varje specialist:
 - Uppdatera `.orkester/state.json` (`completedPhases`, `failures`, `nextPhase`).
 - Vid FAIL: fixa om felet är lokal/kod — annars logga och fortsätt (fail-soft utom Sacred/WORM).
 
+## Copilot + parallell orkestrering
+
+- Dag-/zon-jobb: delegera till `parallel-orchestrator` (pipeline packs parallellt).
+- Copilot PR-hygien: `copilot-bridge` (readonly — aldrig merge).
+- Copilot review ≠ PASS — YOLO GO krävs separat.
+
 ## Output
 
 Avsluta med **ett** nästa steg för användaren (progressive disclosure).

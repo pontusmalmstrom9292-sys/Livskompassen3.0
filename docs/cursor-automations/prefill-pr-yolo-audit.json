@@ -1,0 +1,21 @@
+{
+  "name": "pr-yolo-audit",
+  "description": "Readonly YOLO audit on PRs to main — advisory GO/NO-GO comment",
+  "workflow": {
+    "triggers": [
+      {
+        "git": {
+          "pullRequest": {
+            "repos": ["pontusmalmstrom9292-sys/Livskompassen3.0"],
+            "actions": ["GIT_PULL_REQUEST_ACTION_OPENED", "GIT_PULL_REQUEST_ACTION_PUSHED"]
+          }
+        }
+      }
+    ],
+    "actions": [{ "prComment": {} }],
+    "prompts": [
+      "Readonly YOLO audit for this PR against main.\n\nChecklist: WORM append-only, three silos (no cross-RAG), DCAP before LLM, prompts only in sharedRules.ts, Locked UX intact, no secrets in diff.\n\nRun static review from diff only. Comment GO or NO-GO with one next step.\n\nMUST NOT: merge, push to main, modify Sacred paths (firestore.rules, sharedRules.ts, locked UX) without PMIR.\n\nCopilot review is advisory — cite smoke commands if uncertain: npm run smoke:predeploy, npm run smoke:mdc."
+    ],
+    "memoryEnabled": true
+  }
+}
