@@ -1,5 +1,5 @@
 /**
- * Smoke: ingest våg 2b — widget → classifyInboxDocument → routeInboxToWorm
+ * Smoke: ingest våg 2b/3 — widget → SynapseBus → routeInboxToWorm
  * Usage: npm run smoke:widget-ingest
  */
 import { readFileSync, existsSync } from 'fs';
@@ -23,10 +23,12 @@ function readCanonical(relativePath) {
 function smokeStatic() {
   const agents = readCanonical('functions/src/callables/agents.ts');
   assert(agents.includes('ingestWidgetRecording'), 'agents.ts saknar ingestWidgetRecording');
-  assert(agents.includes('classifyInboxDocument'), 'ingestWidgetRecording saknar classifyInboxDocument');
-  assert(agents.includes('buildInboxClassifyBlob'), 'ingestWidgetRecording saknar buildInboxClassifyBlob');
-  assert(agents.includes('routeInboxToWorm'), 'ingestWidgetRecording saknar routeInboxToWorm');
-  assert(agents.includes('blockWidgetKunskapRouting'), 'ingestWidgetRecording saknar kunskap-block');
+  assert(agents.includes("trigger: 'widget_recording_ingested'"), 'commit ska emitSynapse widget_recording_ingested');
+
+  const synapse = readCanonical('functions/src/adk/synapses/widgetRecordingIngestSynapse.ts');
+  assert(synapse.includes('classifyInboxDocument'), 'widget synapse saknar classifyInboxDocument');
+  assert(synapse.includes('routeInboxToWorm'), 'widget synapse saknar routeInboxToWorm');
+  assert(synapse.includes('blockWidgetKunskapRouting'), 'widget synapse saknar kunskap-block');
 
   const widgetApi = readCanonical('src/modules/features/widgets/api/widgetVaultRecording.ts');
   assert(!widgetApi.includes('saveVaultLog'), 'widgetVaultRecording ska inte anropa saveVaultLog direkt');

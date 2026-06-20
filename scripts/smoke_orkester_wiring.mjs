@@ -45,11 +45,13 @@ function main() {
     'handleDriveIngest',
     'handleJournalWoven',
     'handleDcapAlert',
+    'handleWidgetRecordingIngest',
     'applyParalysBreak',
     'drive_file_ingested',
     'journal_woven',
     'dcap_alert',
     'user_overwhelm',
+    'widget_recording_ingested',
   );
   mustNotInclude('functions/src/adk/synapses/synapseBus.ts', 'stub log', 'TODO: implement');
 
@@ -102,6 +104,7 @@ function main() {
   );
   mustInclude('functions/src/callables/agents.ts', 'journalWovenToKampspar', "trigger: 'journal_woven'");
   mustInclude('functions/src/callables/agents.ts', 'breakDownResponse', "trigger: 'user_overwhelm'");
+  mustInclude('functions/src/callables/agents.ts', 'ingestWidgetRecording', "trigger: 'widget_recording_ingested'");
   mustInclude(
     'functions/src/index.ts',
     'journalWovenToKampspar',

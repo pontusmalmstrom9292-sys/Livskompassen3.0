@@ -1,5 +1,5 @@
 /**
- * Smoke: SynapseBus — 4 triggers registrerade (static).
+ * Smoke: SynapseBus — 5 triggers registrerade (static).
  * Usage: npm run smoke:synapse-triggers
  */
 import { readFileSync, existsSync } from 'fs';
@@ -31,11 +31,14 @@ function main() {
     'journal_woven',
     'dcap_alert',
     'user_overwhelm',
+    'widget_recording_ingested',
     'handleDriveIngest',
     'handleJournalWoven',
     'handleDcapAlert',
+    'handleWidgetRecordingIngest',
   );
   mustInclude('functions/src/adk/synapses/driveIngestSynapse.ts', 'routeInboxToWorm', 'persistKunskapFromInbox');
+  mustInclude('functions/src/adk/synapses/widgetRecordingIngestSynapse.ts', 'routeInboxToWorm', 'blockWidgetKunskapRouting');
   mustInclude('functions/src/lib/inboxPersist.ts', 'persistKunskapFromInbox', "collection: 'kb_docs'");
   mustInclude('functions/src/adk/synapses/journalWovenSynapse.ts', "collection('kampspar')");
   mustInclude('functions/src/adk/synapses/dcapAlertSynapse.ts', "collection('dcap_alerts')");
