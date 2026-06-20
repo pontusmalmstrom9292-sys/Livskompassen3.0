@@ -143,7 +143,7 @@ export async function lockWidgetRecordingToVault(
 
   const res = await commitCallable(
     withVaultSessionPayload({
-      commit: true,
+      commit: true as const,
       transcript: prepared.transcript,
       recordedAt: prepared.recordedAtIso,
       durationSeconds: prepared.durationSeconds,

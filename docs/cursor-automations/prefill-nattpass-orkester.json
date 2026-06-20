@@ -1,0 +1,12 @@
+{
+  "name": "nattpass-orkester",
+  "description": "Weekly readonly orkester night pass — report only, no deploy",
+  "workflow": {
+    "triggers": [{ "cron": { "cron": "0 3 * * 1" } }],
+    "actions": [],
+    "prompts": [
+      "Readonly nattpass for Livskompassen.\n\n1. Run npm run orkester:night (or document if shell unavailable).\n2. On FAIL: write docs/evaluations/YYYY-MM-DD-orkester-natt.md with one fix step.\n3. On PASS: brief summary only.\n\nMUST NOT: firebase deploy, merge to main, modify firestore.rules or sharedRules.ts."
+    ],
+    "memoryEnabled": true
+  }
+}
