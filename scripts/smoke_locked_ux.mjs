@@ -775,6 +775,12 @@ function main() {
     'src/modules/features/dailyLife/wellbeing/mabra/components/MabraNutritionQuickLog.tsx',
     'MabraNutritionQuickLog',
     'appendNutritionEntry',
+    'macroTracking',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/components/MabraNutritionMacroPanel.tsx',
+    'MabraNutritionMacroPanel',
+    'computeDailyMacroTotals',
   );
   mustInclude(
     'src/modules/features/dailyLife/wellbeing/mabra/lib/mabraNutritionNudges.ts',

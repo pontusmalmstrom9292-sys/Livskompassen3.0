@@ -104,6 +104,18 @@ async function main() {
     'utf8',
   );
   assert(rhythm.includes('computeNutritionRhythmInsights'), 'rhythm analysis saknas');
+  const macroTotals = readFileSync(
+    resolve(root, 'src/modules/features/dailyLife/wellbeing/mabra/lib/mabraNutritionMacroTotals.ts'),
+    'utf8',
+  );
+  const macroPanel = readFileSync(
+    resolve(root, 'src/modules/features/dailyLife/wellbeing/mabra/components/MabraNutritionMacroPanel.tsx'),
+    'utf8',
+  );
+  assert(macroTotals.includes('computeDailyMacroTotals'), 'macro totals saknas');
+  assert(macroPanel.includes('MabraNutritionMacroPanel'), 'macro panel saknas');
+  assert(quickLog.includes('macroTracking'), 'quick log saknar macroTracking prop');
+  console.log('[smoke] N2 makron P/F/K static guards OK');
   console.log('[smoke] M3.0-C+ diskret näringsintag static guards OK');
   console.log('[smoke] M3.0-C Phase 2 nutrition static guards OK');
 

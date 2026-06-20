@@ -22,7 +22,7 @@ import { MabraNutritionCoachPanel } from './MabraNutritionCoachPanel';
 import { MabraNutritionQuickLog } from './MabraNutritionQuickLog';
 import { MabraNutritionTrendPanel } from './MabraNutritionTrendPanel';
 import { MabraNutritionRhythmPanel, MabraNutritionTodayList } from './MabraNutritionRhythmPanel';
-import { MabraNutritionMacroStub } from './MabraNutritionMacroStub';
+import { MabraNutritionMacroPanel } from './MabraNutritionMacroPanel';
 
 const PREP_ITEMS = [
   'Koka ägg eller lägg fram kvarg',
@@ -159,6 +159,7 @@ export function MabraNutritionPanel({ uid }: Props) {
 
       <MabraNutritionQuickLog
         storageUid={storageUid}
+        macroTracking={prefs.macroTracking}
         onLogged={() => setIntakeVersion((v) => v + 1)}
       />
 
@@ -253,7 +254,9 @@ export function MabraNutritionPanel({ uid }: Props) {
 
       {prefs.detailedAnalysis ? <MabraNutritionRhythmPanel storageUid={storageUid} /> : null}
 
-      {prefs.macroTracking ? <MabraNutritionMacroStub /> : null}
+      {prefs.macroTracking ? (
+        <MabraNutritionMacroPanel storageUid={storageUid} refreshKey={intakeVersion} />
+      ) : null}
 
       {saveError ? <p className="mt-2 text-xs text-text-dim">{saveError}</p> : null}
       <p className="mt-4 text-xs text-text-dim">
