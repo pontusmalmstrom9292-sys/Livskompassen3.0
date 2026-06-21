@@ -53,5 +53,7 @@ export async function resolveDcapAlertForUser(
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
   });
 
+  await onDcapReviewFeedback(uid, alertId, decision);
+
   return { reviewId: docRef.id, alreadyReviewed: false };
 }

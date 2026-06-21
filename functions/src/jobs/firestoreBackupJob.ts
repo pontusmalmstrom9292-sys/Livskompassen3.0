@@ -133,7 +133,12 @@ export async function verifyBackupHealth(): Promise<{
     const storage = new Storage({ projectId: GCP_PROJECT_ID });
     const bucket = storage.bucket(BACKUP_BUCKET);
 
-    const [files] = await bucket.getFiles({ prefix: 'backups/', maxResults: 1, orderBy: 'updated desc' });
+    const [files] = await bucket.getFiles({ prefix: 'backups/' });
+    files.sort((a, b) => {
+      const tA = a.metadata.updated ? new Date(a.metadata.updated as string).getTime() : 0;
+      const tB = b.metadata.updated ? new Date(b.metadata.updated as string).getTime() : 0;
+      return tB - tA;
+    });
 
     if (files.length === 0) {
       monitor.log('WARNING', '[DR-Backup] No backups found in bucket');

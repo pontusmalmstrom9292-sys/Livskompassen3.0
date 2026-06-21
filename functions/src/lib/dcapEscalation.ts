@@ -69,7 +69,7 @@ export async function analyzeDcapTrend(ownerId: string): Promise<EscalationResul
     .orderBy('createdAt', 'desc')
     .get();
 
-  const alerts = alertsSnap.docs.map((doc) => ({
+  const alerts: DcapTrendEntry[] = alertsSnap.docs.map((doc) => ({
     alertId: doc.id,
     riskScore: (doc.data().riskScore as number) ?? 0,
     action: (doc.data().recommendedAction as string) ?? 'NONE',
