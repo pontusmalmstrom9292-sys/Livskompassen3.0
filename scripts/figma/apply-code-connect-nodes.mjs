@@ -60,26 +60,14 @@ function urlFor(id) {
   return `https://www.figma.com/design/${fileKey}/${fileSlug}?node-id=${id.replace(':', '-')}`;
 }
 
+const idsBlockLines = Object.keys(connectFiles).map(key => `  '${key}': '${nodes[key]}',`);
 const idsBlock = `export const FIGMA_COMPONENT_NODE_IDS = {
-  BentoCard: '${nodes.BentoCard}',
-  'Hub/Header': '${nodes['Hub/Header']}',
-  EmptyState: '${nodes.EmptyState}',
-  HubPanelSkeleton: '${nodes.HubPanelSkeleton}',
-  'Dock/Shell': '${nodes['Dock/Shell']}',
-  DockNavButton: '${nodes.DockNavButton}',
-  'Button/BIFF': '${nodes['Button/BIFF']}',
-  StatusBadge: '${nodes.StatusBadge}',
+${idsBlockLines.join('\n')}
 } as const;`;
 
+const urlsBlockLines = Object.keys(connectFiles).map(key => `  '${key}': '${urlFor(nodes[key])}',`);
 const urlsBlock = `export const FIGMA_CONNECT_URLS: Record<FigmaComponentKey, string> = {
-  BentoCard: '${urlFor(nodes.BentoCard)}',
-  'Hub/Header': '${urlFor(nodes['Hub/Header'])}',
-  EmptyState: '${urlFor(nodes.EmptyState)}',
-  HubPanelSkeleton: '${urlFor(nodes.HubPanelSkeleton)}',
-  'Dock/Shell': '${urlFor(nodes['Dock/Shell'])}',
-  DockNavButton: '${urlFor(nodes.DockNavButton)}',
-  'Button/BIFF': '${urlFor(nodes['Button/BIFF'])}',
-  StatusBadge: '${urlFor(nodes.StatusBadge)}',
+${urlsBlockLines.join('\n')}
 };`;
 
 let designSrc = readFileSync(designSystemPath, 'utf8');

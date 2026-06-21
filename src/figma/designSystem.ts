@@ -3,16 +3,16 @@ export const FIGMA_DESIGN_FILE_KEY = 'Qp6b3nSJXq7qgFiwvDBk2C';
 
 /** Uppdateras av L0-atoms-pluginet → scripts/figma/apply-code-connect-nodes.mjs */
 export const FIGMA_COMPONENT_NODE_IDS = {
-  BentoCard: '16:434',
+  'BentoCard': '16:434',
   'Hub/Header': '16:435',
-  EmptyState: '16:439',
-  HubPanelSkeleton: '16:441',
+  'EmptyState': '16:439',
+  'HubPanelSkeleton': '16:441',
   'Dock/Shell': '19:515',
-  DockNavButton: '19:514',
+  'DockNavButton': '19:514',
   'Button/BIFF': '19:555',
-  StatusBadge: '19:564',
-  HubDropdownNav: '16:442',
-  CognitiveLoadStrip: '16:443',
+  'StatusBadge': '19:564',
+  'HubDropdownNav': '16:442',
+  'CognitiveLoadStrip': '16:443',
 } as const;
 
 export type FigmaComponentKey = keyof typeof FIGMA_COMPONENT_NODE_IDS;
@@ -27,14 +27,14 @@ export function figmaDesignUrl(nodeId: string): string {
 
 /** Full URLs — speglas som string literals i src/figma/connect/*.figma.tsx (krav från Figma CLI). */
 export const FIGMA_CONNECT_URLS: Record<FigmaComponentKey, string> = {
-  BentoCard: 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=16-434',
+  'BentoCard': 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=16-434',
   'Hub/Header': 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=16-435',
-  EmptyState: 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=16-439',
-  HubPanelSkeleton: 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=16-441',
+  'EmptyState': 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=16-439',
+  'HubPanelSkeleton': 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=16-441',
   'Dock/Shell': 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=19-515',
-  DockNavButton: 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=19-514',
+  'DockNavButton': 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=19-514',
   'Button/BIFF': 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=19-555',
-  StatusBadge: 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=19-564',
-  HubDropdownNav: 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=16-442',
-  CognitiveLoadStrip: 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=16-443',
+  'StatusBadge': 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=19-564',
+  'HubDropdownNav': 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=16-442',
+  'CognitiveLoadStrip': 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=16-443',
 };
