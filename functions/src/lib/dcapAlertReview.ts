@@ -1,10 +1,12 @@
 import * as admin from 'firebase-admin';
+import { onDcapReviewFeedback } from './dcapEscalation';
 
 export type DcapReviewDecision = 'acknowledged' | 'dismissed';
 
 /**
  * Append-only granskning — muterar aldrig dcap_alerts (WORM).
  * Dubbel-granskning idempotent: returnerar befintlig reviewId.
+ * Triggers escalation re-analysis via feedback loop.
  */
 export async function resolveDcapAlertForUser(
   uid: string,
