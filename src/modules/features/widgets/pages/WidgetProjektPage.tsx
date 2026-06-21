@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { AuthGate } from '@/core/auth/AuthGate';
-import { ProjektPickerSheet } from '@/features/admin/projects';
+import { ProjektPickerSheet } from '@/features/admin/projects/components/ProjektPickerSheet';
 import { WidgetShell } from '../layout/WidgetShell';
 
 function WidgetProjektInner() {

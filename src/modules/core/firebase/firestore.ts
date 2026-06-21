@@ -56,6 +56,7 @@ import {
   inferEpistemicKind,
   type EpistemicKind,
 } from '@/features/family/children/utils/childObservationEpistemics';
+import { ensureVaultWriteReady } from '../security/vaultWriteUnlock';
 
 /** IndexedDB persistence via Firebase v12 local cache (ersätter enableIndexedDbPersistence). */
 function initFirestoreDb() {
@@ -303,7 +304,6 @@ export async function saveVaultLog(
   userId: string,
   log: Omit<VaultLog, 'userId' | 'createdAt'>
 ) {
-  const { ensureVaultWriteReady } = await import('../security/vaultWriteUnlock');
   const unlock = await ensureVaultWriteReady();
   if (unlock.ok === false) {
     throw new Error(unlock.message);

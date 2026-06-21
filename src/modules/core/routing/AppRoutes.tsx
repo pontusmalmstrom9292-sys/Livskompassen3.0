@@ -38,10 +38,10 @@ const MabraRoutes = lazy(() =>
   import('@/features/dailyLife/wellbeing/mabra').then((m) => ({ default: m.MabraRoutes })),
 );
 const PlaneringPage = lazy(() =>
-  import('@/features/admin/planning').then((m) => ({ default: m.PlaneringPage })),
+  import('@/features/admin/planning/components/PlaneringPage').then((m) => ({ default: m.PlaneringPage })),
 );
 const PlaneringKalenderPage = lazy(() =>
-  import('@/features/admin/planning').then((m) => ({ default: m.PlaneringKalenderPage })),
+  import('@/features/admin/planning/components/PlaneringKalenderPage').then((m) => ({ default: m.PlaneringKalenderPage })),
 );
 const ArbetslivHubPage = lazy(() =>
   import('@/features/dailyLife/arbetsliv').then((m) => ({ default: m.ArbetslivHubPage })),
@@ -309,7 +309,7 @@ export function AppRoutes() {
             <Suspense fallback={<RouteFallback />}>
             <Routes>
               <Route path={NAV_PATHS.HOME} element={<HomePage />} />
-              <Route path="/oversikt" element={<Navigate to="/dashboard" replace />} />
+
               <Route path="/dashboard" element={<NewDashboardHubPage />} />
               <Route
                 path="/kompis"
