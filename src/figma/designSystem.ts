@@ -11,6 +11,8 @@ export const FIGMA_COMPONENT_NODE_IDS = {
   DockNavButton: '19:514',
   'Button/BIFF': '19:555',
   StatusBadge: '19:564',
+  HubDropdownNav: '16:442',
+  CognitiveLoadStrip: '16:443',
 } as const;
 
 export type FigmaComponentKey = keyof typeof FIGMA_COMPONENT_NODE_IDS;
@@ -33,4 +35,6 @@ export const FIGMA_CONNECT_URLS: Record<FigmaComponentKey, string> = {
   DockNavButton: 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=19-514',
   'Button/BIFF': 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=19-555',
   StatusBadge: 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=19-564',
+  HubDropdownNav: 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=16-442',
+  CognitiveLoadStrip: 'https://www.figma.com/design/Qp6b3nSJXq7qgFiwvDBk2C/Livskompassen-Obsidian-Calm?node-id=16-443',
 };

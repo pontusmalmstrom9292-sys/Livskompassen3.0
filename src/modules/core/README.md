@@ -22,7 +22,7 @@ Ingen egen route. Wrappar hela appen via `MainLayout` och `AuthGate`.
 | `layout/MainLayout.tsx` | App shell, header, Kompis |
 | `layout/FloatingDock.tsx` | Bottennavigation |
 | `auth/AuthGate.tsx` | Skyddade routes |
-| `auth/useZeroFootprint.ts` | Valv idle timeout (1 h) |
+| `auth/useZeroFootprint.ts` | Valv idle timeout (1 h) + blur-lås vid tab/app-byte (G17) |
 | `firebase/init.ts` | Firebase + Functions (europe-west1) |
 | `firebase/firestore.ts` | Delade WORM-skrivningar (journal, valv, barnen) |
 | `ui/` | BentoCard, PinGate, tokens, TimelineEntry, … |

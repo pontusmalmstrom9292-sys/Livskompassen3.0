@@ -78,6 +78,9 @@ function main() {
     'src/modules/core/auth/useZeroFootprint.ts',
     'endVaultSession',
     'VAULT_SESSION_IDLE_MS',
+    'visibilitychange',
+    'pagehide',
+    'closeDrawer: true',
   );
   mustInclude(
     'src/modules/core/components/VaultLockedGate.tsx',

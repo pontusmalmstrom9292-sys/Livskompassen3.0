@@ -13,6 +13,7 @@ globs: functions/src/adk/**,functions/src/triggers/**
 
 - `functions/src/adk/synapses/synapseBus.ts`
 - `functions/src/adk/synapses/driveIngestSynapse.ts`
+- `functions/src/adk/synapses/widgetRecordingIngestSynapse.ts`
 - `functions/src/adk/stateStore.ts` — `clearSynapseState` (Zero Footprint)
 - `functions/src/adk/orchestrator.ts` — `gatekeeperSanitize`
 
@@ -20,6 +21,7 @@ globs: functions/src/adk/**,functions/src/triggers/**
 
 - DCAP/heuristik före LLM i `classifyInboxDocument`.
 - Bevis → `reality_vault`; trauma/LVU utan optIn → `inbox_queue` (HITL).
+- Widget WH1 → `widget_recording_ingested` (live); **MUST NOT** `kb_docs`.
 - Prompts från `sharedRules.ts` — hårdkoda inte runtime-prompter.
 - ADK `stateStore` ≠ Firestore `SystemSynapse` (G9).
 
