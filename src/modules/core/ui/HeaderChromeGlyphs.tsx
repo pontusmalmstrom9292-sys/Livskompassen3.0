@@ -23,7 +23,7 @@ function GoldGradient({ id }: { id: string }) {
     <defs>
       <linearGradient id={id} x1="3" y1="3" x2="21" y2="21">
         <stop offset="0%" stopColor="#f5e6b8" />
-        <stop offset="48%" stopColor="#d4af37" />
+        <stop offset="48%" stopColor="var(--color-accent-gold)" />
         <stop offset="100%" stopColor="#8a6b1a" />
       </linearGradient>
     </defs>

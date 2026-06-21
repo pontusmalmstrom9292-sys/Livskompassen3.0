@@ -190,7 +190,7 @@ export function OdDepthHemV3Lab({ onStatus }: { onStatus?: (msg: string) => void
               <p className="od-depth-v2__mini-lbl">Veckans lugn</p>
               <div className="od-depth-v2__spark" aria-hidden>
                 <svg viewBox="0 0 120 24" preserveAspectRatio="none">
-                  <polyline fill="none" stroke="#d4af37" strokeWidth="1.5" points="0,18 25,14 50,16 75,8 100,10 120,6" />
+                  <polyline fill="none" stroke="var(--color-accent-gold)" strokeWidth="1.5" points="0,18 25,14 50,16 75,8 100,10 120,6" />
                 </svg>
               </div>
               <p className="od-depth-v2__mini-trend">↑ stabilare sen fredag</p>

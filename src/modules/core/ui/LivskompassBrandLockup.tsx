@@ -68,15 +68,15 @@ export function LivskompassBrandLockup({ className, layout, compactScale }: Prop
         <defs>
           <linearGradient id={gold} x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="transparent" />
-            <stop offset="20%" stopColor="#d4af37" />
-            <stop offset="80%" stopColor="#d4af37" />
+            <stop offset="20%" stopColor="var(--color-accent-gold)" />
+            <stop offset="80%" stopColor="var(--color-accent-gold)" />
             <stop offset="100%" stopColor="transparent" />
           </linearGradient>
         </defs>
         <line x1="0" y1="4" x2="80" y2="4" stroke={`url(#${gold})`} strokeWidth="0.5" />
-        <path d="M36 4 L38 2 L40 4 L38 6 Z" fill="#d4af37" />
-        <path d="M32 4 L33.2 3 L34 4 L33.2 5 Z" fill="#d4af37" opacity="0.7" />
-        <path d="M44 4 L45.2 3 L46 4 L45.2 5 Z" fill="#d4af37" opacity="0.7" />
+        <path d="M36 4 L38 2 L40 4 L38 6 Z" fill="var(--color-accent-gold)" />
+        <path d="M32 4 L33.2 3 L34 4 L33.2 5 Z" fill="var(--color-accent-gold)" opacity="0.7" />
+        <path d="M44 4 L45.2 3 L46 4 L45.2 5 Z" fill="var(--color-accent-gold)" opacity="0.7" />
       </svg>
       ) : null}
     </div>

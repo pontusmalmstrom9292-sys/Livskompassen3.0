@@ -146,7 +146,7 @@ export const DEFAULT_PRINT_STYLES = `
   body {
     font-family: system-ui, -apple-system, sans-serif;
     padding: 24px;
-    color: #0f172a;
+    color: var(--bg-teal-deep);
     line-height: 1.5;
     max-width: 900px;
     margin: 0 auto;
@@ -154,7 +154,7 @@ export const DEFAULT_PRINT_STYLES = `
   h1 {
     font-size: 20px;
     margin: 0 0 12px 0;
-    color: #0f172a;
+    color: var(--bg-teal-deep);
   }
   h2 {
     font-size: 16px;
@@ -181,11 +181,11 @@ export const DEFAULT_PRINT_STYLES = `
     font-weight: 600;
   }
   tr:nth-child(even) {
-    background-color: #f8fafc;
+    background-color: var(--text);
   }
   .meta {
     font-size: 12px;
-    color: #64748b;
+    color: var(--text-dim);
     margin: 8px 0;
   }
   .disclaimer {
@@ -217,7 +217,7 @@ export const DOSSIER_PRINT_STYLES = `
     line-height: 1.5;
   }
   .dossier-header {
-    border-bottom: 2px solid #0f172a;
+    border-bottom: 2px solid var(--bg-teal-deep);
     padding-bottom: 16px;
     margin-bottom: 24px;
   }
@@ -227,11 +227,11 @@ export const DOSSIER_PRINT_STYLES = `
     text-transform: uppercase;
     letter-spacing: 0.06em;
     margin: 0;
-    color: #0f172a;
+    color: var(--bg-teal-deep);
   }
   .dossier-subtitle {
     font-size: 12px;
-    color: #64748b;
+    color: var(--text-dim);
     margin-top: 4px;
     margin-bottom: 0;
   }
@@ -241,7 +241,7 @@ export const DOSSIER_PRINT_STYLES = `
     gap: 12px;
     margin-top: 16px;
     font-size: 12px;
-    background: #f8fafc;
+    background: var(--text);
     padding: 14px;
     border-radius: 8px;
     border: 1px solid #e2e8f0;
@@ -259,14 +259,14 @@ export const DOSSIER_PRINT_STYLES = `
   }
   .dossier-hash-note {
     font-size: 9px;
-    color: #64748b;
+    color: var(--text-dim);
     font-weight: normal;
   }
   .dossier-ai-foreword {
     margin-top: 24px;
     padding: 16px;
-    background: #f8fafc;
-    border-left: 4px solid #6366f1;
+    background: var(--text);
+    border-left: 4px solid var(--accent-secondary);
     font-size: 11px;
     color: #334155;
   }
@@ -308,7 +308,7 @@ export const DOSSIER_PRINT_STYLES = `
   .dossier-cell-title {
     font-weight: 600;
     font-size: 12px;
-    color: #0f172a;
+    color: var(--bg-teal-deep);
   }
   .dossier-cell-preview {
     font-size: 12px;
@@ -321,14 +321,14 @@ export const DOSSIER_PRINT_STYLES = `
     padding: 8px 12px;
     font-weight: 700;
     font-size: 12px;
-    color: #0f172a;
+    color: var(--bg-teal-deep);
   }
   .dossier-footer {
     margin-top: 40px;
     border-top: 1px solid #cbd5e1;
     padding-top: 12px;
     font-size: 9px;
-    color: #94a3b8;
+    color: var(--text-muted);
     text-align: center;
   }
   @media print {
@@ -343,8 +343,8 @@ export const DOSSIER_PRINT_STYLES = `
 export const VIT_HUB_PRINT_STYLES = `
   .disclaimer-box {
     font-size: 11px;
-    color: #64748b;
-    background-color: #f8fafc;
+    color: var(--text-dim);
+    background-color: var(--text);
     border: 1px solid #e2e8f0;
     border-radius: 4px;
     padding: 12px;
