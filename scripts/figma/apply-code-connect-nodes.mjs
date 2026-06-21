@@ -25,6 +25,8 @@ const connectFiles = {
   DockNavButton: 'DockNavButton.figma.tsx',
   'Button/BIFF': 'BiffRewriteButton.figma.tsx',
   StatusBadge: 'StatusBadge.figma.tsx',
+  HubDropdownNav: 'HubDropdownNav.figma.tsx',
+  CognitiveLoadStrip: 'CognitiveLoadStrip.figma.tsx',
 };
 
 const rawArg = process.argv[2];

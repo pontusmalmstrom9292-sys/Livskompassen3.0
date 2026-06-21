@@ -1,0 +1,50 @@
+---
+description: YOLO polish eval-uppföljning — post-deploy backlog, USER vs agent smoke, G17/Android/content
+alwaysApply: false
+globs: docs/evaluations/*yolo*,docs/evaluations/*polish*,docs/SMOKE_RESULTS.md
+---
+
+# YOLO polish eval-uppföljning
+
+Kanon: [`docs/evaluations/2026-06-21-yolo-polish-deploy.md`](../../docs/evaluations/2026-06-21-yolo-polish-deploy.md) · Deploy-gate: [`yolo-vakt-gate.mdc`](yolo-vakt-gate.mdc) · GAP: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](../../docs/specs/modules/Arkiv-GAP-REGISTER.md)
+
+## Before implementation
+
+1. Läs eval + GAP-register — skilj **DEPLOYED** från **USER smoke PASS**
+2. Automatiserad gate ≠ prod-interaktiv (Google redirect, Fyren/PIN, Firestore-spar)
+
+## Deploy scope (2026-06-21 baseline)
+
+| Tillåtet | PMIR-stopp |
+|----------|------------|
+| `firebase deploy --only hosting` | `firestore.rules`, `storage.rules`, functions, App Check Enforce |
+
+## Öppna items (eval)
+
+| Item | Agent | USER |
+|------|-------|------|
+| G17 blur Zero Footprint | Kod + smoke | Fyren efter tab-byte |
+| Android G85 native Google | `cap:sync`, `smoke:android-platform` | Motorola login |
+| Kunskap våg 8 ingest | dry-run + `smoke:innehall` | KEEP-granskning seed-bank |
+| Figma publish | `figma:code-connect:parse` | Org Dev seat |
+
+## After delivery
+
+- Uppdatera [`docs/SMOKE_RESULTS.md`](../../docs/SMOKE_RESULTS.md)
+- Vid G17 close: markera G17 **done** i GAP-register
+- Auth-ändringar: kör `smoke:auth-login` + `smoke:android-platform`
+
+## Agent-delegering
+
+| Domän | Agent / skill |
+|-------|----------------|
+| Audit GO/NO-GO | `/yolo-vakt` |
+| Synapser / ingest | `livskompassen-synapser-adk` |
+| Android | `android-capacitor.mdc` |
+| Innehåll FACT | `innehall-register.mdc` + dirigent |
+
+## MUST NOT
+
+- Anta USER smoke PASS utan Pontus-bekräftelse
+- Committa `integration-night.launchd.err`
+- Kunskap v8 live ingest utan granskad content-bank

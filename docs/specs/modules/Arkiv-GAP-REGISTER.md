@@ -21,7 +21,7 @@
 | G13 | **done** | Tidshjulet → kampspar (2026-05-22) |
 | G14 | **done** | Gräns-Arkitekten (2026-05-22) |
 | G15–G16 | **done** | G15 + G16 + U5.5 **done** 2026-05-22 |
-| G17 | **open** | Zero Footprint **blur** — `endVaultSession` vid `visibilitychange`/`pagehide` saknas i core (idle 1 h + logout OK). YOLO 2026-06-21 — ej blocker hosting. |
+| G17 | **done** | Zero Footprint **blur** — `visibilitychange`/`pagehide` → `endVaultSession({ closeDrawer: true })` i [`useZeroFootprint.ts`](../../../src/modules/core/auth/useZeroFootprint.ts). PMIR [`2026-06-21-pmir-g17-blur.md`](../../evaluations/2026-06-21-pmir-g17-blur.md) · YOLO polish session 4. |
 | F8 | **done** | Super-Ekonomi Input (Fas 8A→8E) — Shadow→Live 2026-06-14 |
 | V1 | **wait** | Genkit — ej migrera |
 
@@ -162,15 +162,14 @@ Live `subscribeKampsparEntries`, ringar Dåtid/Nutid/Framtid via `eventDate`, kl
 
 ---
 
-### G17 — Zero Footprint blur (tab-byte) — **open**
+### G17 — Zero Footprint blur (tab-byte) — **done**
 
 | | |
 |---|---|
-| **Status** | **open** — YOLO audit 2026-06-21 |
-| **Nu** | `signOutUser` + `useZeroFootprint` idle (1 h) → `endVaultSession` ([`vaultSessionLifecycle.ts`](../../../src/modules/core/security/vaultSessionLifecycle.ts)) |
-| **GAP** | Ingen `document.visibilitychange` / `pagehide` i `src/modules/core/` — Valv-gate kvar vid app-byte utan aktivitet |
-| **Blocker** | Nej för hosting-only deploy |
-| **Nästa** | `visibilitychange` → `endVaultSession({ closeDrawer: true })` när `document.hidden` (PMIR + USER-test Fyren) |
+| **Status** | **done** — YOLO polish session 4 (2026-06-21) |
+| **Kod** | [`useZeroFootprint.ts`](../../../src/modules/core/auth/useZeroFootprint.ts) — `visibilitychange` + `pagehide` → `endVaultSession({ closeDrawer: true })` |
+| **PMIR** | [`2026-06-21-pmir-g17-blur.md`](../../evaluations/2026-06-21-pmir-g17-blur.md) |
+| **Smoke** | `smoke:valv-security`, `smoke:plausible-deniability`, `smoke:locked-ux` |
 
 ---
 
