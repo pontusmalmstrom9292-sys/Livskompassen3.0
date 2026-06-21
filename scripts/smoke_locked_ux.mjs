@@ -722,6 +722,19 @@ function main() {
     'hub-view-lock--fit .familjen-input-hub--flow',
   );
   mustInclude(
+    'src/modules/core/pages/ValvetRoutePage.tsx',
+    'useMinWidthSm',
+    'lockViewport',
+    'fitViewport',
+    'valvet-route-page--desktop',
+    'ModuleShell',
+  );
+  mustInclude(
+    'src/styles/obsidian-calm-2.css',
+    '.app-main:has(.valvet-route-page--desktop)',
+    'valvet-route-page--desktop',
+  );
+  mustInclude(
     'src/modules/core/pages/FamiljenPage.tsx',
     'HubDropdownNav',
     'glowColor="blue"',

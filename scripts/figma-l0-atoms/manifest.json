@@ -1,0 +1,11 @@
+{
+  "name": "Livskompassen L0-atoms",
+  "id": "livskompassen-l0-atoms-fix",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "capabilities": [],
+  "enableProposedApi": false,
+  "editorType": ["figma"],
+  "documentAccess": "dynamic-page"
+}

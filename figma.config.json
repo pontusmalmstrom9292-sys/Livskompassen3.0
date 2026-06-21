@@ -1,0 +1,22 @@
+{
+  "codeConnect": {
+    "parser": "react",
+    "include": [
+      "src/figma/connect/**/*.figma.tsx",
+      "src/modules/shared/ui/**/*.tsx",
+      "src/modules/core/**/*.tsx"
+    ],
+    "label": "React",
+    "language": "typescript",
+    "paths": {
+      "@/*": ["src/*"],
+      "@/core/*": ["src/modules/core/*"],
+      "@/shared/*": ["src/modules/shared/*"],
+      "@/shared/ui/*": ["src/modules/shared/ui/*"]
+    },
+    "importPaths": {
+      "@/shared/ui/*": "@/shared/ui/*",
+      "@/core/*": "@/core/*"
+    }
+  }
+}

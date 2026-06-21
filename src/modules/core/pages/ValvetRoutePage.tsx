@@ -1,6 +1,10 @@
 import { useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { HubPageShell } from '../layout/HubPageShell';
+import { clsx } from 'clsx';
+import { ModuleShell } from '../layout/ModuleShell';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { NAV_PATHS } from '../navigation/navTruth';
+import { useMinWidthSm } from '../hooks/useMinWidthSm';
 import { VaultPage } from '@/features/lifeJournal/evidence/vault';
 import {
   LEGACY_INBOX_VAULT_TAB,
@@ -18,6 +22,7 @@ import {
 /** Route-silo för `/valvet` — all säkerhetslogik sker i VaultPage. */
 export function ValvetRoutePage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const desktopHubLock = useMinWidthSm();
   const vaultTabRaw = searchParams.get('vaultTab');
 
   const vaultTab: VaultTab = useMemo(() => {
@@ -89,12 +94,26 @@ export function ValvetRoutePage() {
   };
 
   return (
-    <HubPageShell
-      eyebrow="Valv"
-      title="Sanningsarkiv"
-      depth={false}
+    <HubErrorBoundary
+      title="Valvet kunde inte laddas"
+      glow="blue"
+      backTo={NAV_PATHS.HJARTAT}
+      backLabel="Till Hjärtat"
+      logTag="ValvetRoutePage"
     >
-      <div className="mx-auto max-w-5xl pb-12">
+      <ModuleShell
+        eyebrow="Valv"
+        title="Sanningsarkiv"
+        lead="Bevis, mönster och kunskap — PIN-skyddat."
+        depth={false}
+        lockViewport={desktopHubLock}
+        fitViewport={desktopHubLock}
+        cognitiveStrip={false}
+        className={clsx(
+          'valvet-route-page',
+          desktopHubLock && 'valvet-route-page--desktop',
+        )}
+      >
         <main className="animate-fade-in">
           <VaultPage
             initialVaultTab={vaultTab}
@@ -103,7 +122,7 @@ export function ValvetRoutePage() {
             onValvModeChange={handleValvModeChange}
           />
         </main>
-      </div>
-    </HubPageShell>
+      </ModuleShell>
+    </HubErrorBoundary>
   );
 }

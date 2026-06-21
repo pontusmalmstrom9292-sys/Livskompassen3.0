@@ -61,9 +61,17 @@ export function mapAuthError(code: string): string {
     case 'auth/cancelled-popup-request':
     case 'auth/user-cancelled':
       return 'Inloggningen avbröts.';
+    case 'auth/redirect-operation-pending':
+      return 'Inloggning pågår redan. Vänta eller ladda om sidan.';
+    case 'auth/invalid-auth-event':
+    case 'auth/invalid-api-key':
+      return 'Inloggningssessionen gick ut. Stäng Google-fliken, gå tillbaka till appen och försök igen.';
     default:
       if (/developer_error/i.test(code)) {
         return 'Google-inloggning avvisades av Android. Kontrollera SHA-1 i Firebase (se docs/FIREBASE-AUTH-LATHUND.md) och installera om appen.';
+      }
+      if (/missing initial state|redirect.*state/i.test(code)) {
+        return 'Google-inloggning tappade sessionen. Stäng auth-fliken, gå tillbaka till appen och försök igen — tillåt popups i webbläsaren.';
       }
       if (code.includes('cancel') || code.includes('12501')) {
         return 'Inloggningen avbröts.';
@@ -146,8 +154,9 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
     } catch (err: unknown) {
       const code = err instanceof FirebaseError ? err.code : '';
       if (
-        code === 'auth/popup-blocked' ||
-        code === 'auth/operation-not-supported-in-this-environment'
+        shouldUseGoogleRedirect() &&
+        (code === 'auth/popup-blocked' ||
+          code === 'auth/operation-not-supported-in-this-environment')
       ) {
         await signInWithRedirect(auth, provider);
         return null;
@@ -168,8 +177,9 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
       } catch (err: unknown) {
         const code = err instanceof FirebaseError ? err.code : '';
         if (
-          code === 'auth/popup-blocked' ||
-          code === 'auth/operation-not-supported-in-this-environment'
+          shouldUseGoogleRedirect() &&
+          (code === 'auth/popup-blocked' ||
+            code === 'auth/operation-not-supported-in-this-environment')
         ) {
           await linkWithRedirect(current, provider);
           return null;

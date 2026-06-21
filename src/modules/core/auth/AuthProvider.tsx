@@ -26,6 +26,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoading(true);
     let unsub: (() => void) | undefined;
     let isUnmounted = false;
+    const loadingWatchdog = window.setTimeout(() => {
+      if (!isUnmounted) {
+        console.warn('[AuthProvider] auth boot watchdog — släpper laddningslås');
+        setLoading(false);
+      }
+    }, 12_000);
 
     void (async () => {
       if (isCapacitorAndroid()) {
@@ -42,7 +48,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await googleRedirectBoot.catch((err: unknown) => {
         console.error('[AuthProvider] getRedirectResult failed', err);
         const code = err instanceof FirebaseError ? err.code : '';
-        toast.error(mapAuthError(code) || 'Inloggningen misslyckades.', 6000);
+        const message = err instanceof Error ? err.message : '';
+        const missingState = /missing initial state|saknat initialt tillst/i.test(message);
+        toast.error(
+          missingState
+            ? 'Google-inloggning tappade sessionen. Stäng auth-fliken, gå tillbaka till appen och försök igen — tillåt popups i webbläsaren.'
+            : mapAuthError(code) || 'Inloggningen misslyckades.',
+          missingState ? 8000 : 6000,
+        );
         return null;
       });
       await auth.authStateReady();
@@ -57,6 +70,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })().finally(() => {
       if (isUnmounted) return;
       unsub = onAuthStateChanged(auth, async (firebaseUser) => {
+        window.clearTimeout(loadingWatchdog);
         if (firebaseUser) {
           if (isEmailAuthRequired() && firebaseUser.isAnonymous) {
             try {
@@ -109,6 +123,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     return () => {
       isUnmounted = true;
+      window.clearTimeout(loadingWatchdog);
       unsub?.();
     };
   }, [setUser, setLoading, resetState]);

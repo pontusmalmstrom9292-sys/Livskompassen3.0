@@ -109,6 +109,7 @@ src/dataconnect-generated/
 # Accidental SDK installs
 gcloud*/
 **/google-cloud-sdk/
+google-cloud-cli*.tar.gz
 
 # Cursor / agent tooling (lokal, ej repo)
 .agents/

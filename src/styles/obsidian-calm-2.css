@@ -370,6 +370,27 @@
     overflow: visible;
   }
 
+  /* Valvet desktop (≥640px) — bred vy, lugn scroll, dölj dock/Fyren */
+  @media (min-width: 640px) {
+    .app-shell:has(.valvet-route-page--desktop) {
+      --app-dock-clearance: 1.25rem;
+    }
+
+    .app-shell:has(.valvet-route-page--desktop) .dock-shell,
+    .app-shell:has(.valvet-route-page--desktop) .fyren-widget-bar {
+      display: none;
+    }
+
+    .app-main:has(.valvet-route-page--desktop) {
+      max-width: 64rem;
+      padding-bottom: max(1.25rem, env(safe-area-inset-bottom, 0px));
+    }
+
+    .valvet-route-page--desktop.hub-view-lock {
+      max-height: calc(100dvh - 5.75rem - 1.25rem);
+    }
+  }
+
   /* —— Liv launcher — stora kort (Fas 2) —— */
   .liv-launcher-grid {
     display: grid;

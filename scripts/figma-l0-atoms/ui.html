@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        font: 13px/1.5 Inter, system-ui, sans-serif;
+        margin: 16px;
+        color: #e2e8f0;
+        background: #0a0a0a;
+      }
+      h2 { font-size: 14px; margin: 0 0 12px; color: #d4af37; }
+      pre {
+        white-space: pre-wrap;
+        background: #111;
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 8px;
+        padding: 12px;
+        margin: 0 0 12px;
+      }
+      .err pre { border-color: rgba(239,68,68,0.4); color: #fca5a5; }
+      .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+      button {
+        background: #d4af37;
+        color: #0a0a0a;
+        border: 0;
+        border-radius: 8px;
+        padding: 8px 16px;
+        font-weight: 600;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Livskompassen L0-atoms A1+A2+A3</h2>
+    <div id="status"><pre>Kör...</pre></div>
+    <div class="actions">
+      <button id="copy-cc" style="display:none">Kopiera Code Connect-kommando</button>
+      <button id="close" style="display:none">Stäng</button>
+    </div>
+    <script>
+      var ccCommand = '';
+      document.getElementById('copy-cc').onclick = function () {
+        if (!ccCommand) return;
+        navigator.clipboard.writeText(ccCommand).then(function () {
+          document.getElementById('copy-cc').textContent = 'Kopierat!';
+        });
+      };
+      document.getElementById('close').onclick = function () {
+        parent.postMessage({ pluginMessage: { type: 'close' } }, '*');
+      };
+      window.onmessage = function (event) {
+        var msg = event.data.pluginMessage;
+        if (!msg) return;
+        if (msg.type === 'done') {
+          document.getElementById('status').innerHTML = '<pre>' + msg.text + '</pre>';
+          document.getElementById('close').style.display = 'block';
+          if (msg.codeConnect && Object.keys(msg.codeConnect).length > 0) {
+            ccCommand =
+              'node scripts/figma/apply-code-connect-nodes.mjs \'' +
+              JSON.stringify(msg.codeConnect) +
+              '\'';
+            document.getElementById('copy-cc').style.display = 'block';
+          }
+        }
+        if (msg.type === 'error') {
+          document.getElementById('status').className = 'err';
+          document.getElementById('status').innerHTML =
+            '<pre>FEL:\n' + msg.text + '</pre>';
+          document.getElementById('close').style.display = 'block';
+        }
+      };
+    </script>
+  </body>
+</html>
