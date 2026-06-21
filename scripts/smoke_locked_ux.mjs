@@ -657,7 +657,7 @@ function main() {
     'familjen_tillsammans',
   );
   mustInclude('src/modules/core/navigation/drawerNav.ts', 'DRAWER_VARDAG_ITEMS', 'DRAWER_VALV_ITEMS', 'navTruth');
-  mustInclude('src/modules/core/layout/HubPageShell.tsx', 'hubHeaderClasses', 'hub-page-shell');
+  mustInclude('src/modules/core/layout/HubPageShell.tsx', 'hubHeaderClasses', 'hub-page-shell', 'hub-page-shell--depth');
   mustInclude('src/modules/core/ui/typeScale.ts', 'hubHeaderClasses', 'titleHub');
   mustInclude(
     'src/modules/core/layout/NavigationDrawer.tsx',
