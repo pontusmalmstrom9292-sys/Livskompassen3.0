@@ -1,0 +1,40 @@
+# Copilot Setup Steps — förinstallerar beroenden i Jules miljö
+# Körs automatiskt när filen ändras, och kan triggas manuellt via Actions-fliken.
+
+name: "Copilot Setup Steps"
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+  pull_request:
+    paths:
+      - .github/workflows/copilot-setup-steps.yml
+
+jobs:
+  # Jobbet MÅSTE heta `copilot-setup-steps` för att Jules ska plocka upp det.
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+
+      - name: Install root dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Install functions dependencies
+        run: cd functions && npm ci --legacy-peer-deps
+
+      - name: Install Playwright Chromium (smoke gate)
+        run: npx playwright install chromium --with-deps
