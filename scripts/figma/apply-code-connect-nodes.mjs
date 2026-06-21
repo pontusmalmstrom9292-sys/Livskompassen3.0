@@ -21,6 +21,10 @@ const connectFiles = {
   'Hub/Header': 'HubHeader.figma.tsx',
   EmptyState: 'EmptyState.figma.tsx',
   HubPanelSkeleton: 'HubPanelSkeleton.figma.tsx',
+  'Dock/Shell': 'DockShell.figma.tsx',
+  DockNavButton: 'DockNavButton.figma.tsx',
+  'Button/BIFF': 'BiffRewriteButton.figma.tsx',
+  StatusBadge: 'StatusBadge.figma.tsx',
 };
 
 const rawArg = process.argv[2];
@@ -59,6 +63,10 @@ const idsBlock = `export const FIGMA_COMPONENT_NODE_IDS = {
   'Hub/Header': '${nodes['Hub/Header']}',
   EmptyState: '${nodes.EmptyState}',
   HubPanelSkeleton: '${nodes.HubPanelSkeleton}',
+  'Dock/Shell': '${nodes['Dock/Shell']}',
+  DockNavButton: '${nodes.DockNavButton}',
+  'Button/BIFF': '${nodes['Button/BIFF']}',
+  StatusBadge: '${nodes.StatusBadge}',
 } as const;`;
 
 const urlsBlock = `export const FIGMA_CONNECT_URLS: Record<FigmaComponentKey, string> = {
@@ -66,6 +74,10 @@ const urlsBlock = `export const FIGMA_CONNECT_URLS: Record<FigmaComponentKey, st
   'Hub/Header': '${urlFor(nodes['Hub/Header'])}',
   EmptyState: '${urlFor(nodes.EmptyState)}',
   HubPanelSkeleton: '${urlFor(nodes.HubPanelSkeleton)}',
+  'Dock/Shell': '${urlFor(nodes['Dock/Shell'])}',
+  DockNavButton: '${urlFor(nodes.DockNavButton)}',
+  'Button/BIFF': '${urlFor(nodes['Button/BIFF'])}',
+  StatusBadge: '${urlFor(nodes.StatusBadge)}',
 };`;
 
 let designSrc = readFileSync(designSystemPath, 'utf8');

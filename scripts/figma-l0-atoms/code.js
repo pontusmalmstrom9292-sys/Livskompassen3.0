@@ -1234,6 +1234,97 @@ function run() {
         lines.push('A3 HubPanelSkeleton');
       }
 
+      // ===== A4 — L1 components =====
+      var a4x = 1840;
+      var a4y = 0;
+
+      var dockNavSet = page.findOne(function (n) {
+        return n.name === 'DockNavButton' && n.type === 'COMPONENT_SET';
+      });
+      if (!dockNavSet) {
+        var dockIdle = createDockNavButton('Idle', 'Vardag', accentVar, mutedVar, textVar, borderVar, surface2Var);
+        var dockActive = createDockNavButton('Active', 'Handling', accentVar, mutedVar, textVar, borderVar, surface2Var);
+        page.appendChild(dockIdle);
+        page.appendChild(dockActive);
+        dockNavSet = figma.combineAsVariants([dockIdle, dockActive], page);
+        dockNavSet.name = 'DockNavButton';
+        dockNavSet.x = a4x;
+        dockNavSet.y = a4y;
+        dockNavSet.layoutMode = 'HORIZONTAL';
+        dockNavSet.itemSpacing = 16;
+        lines.push('A4 DockNavButton: Idle + Active');
+      } else {
+        lines.push('A4 DockNavButton: fanns redan');
+      }
+
+      if (!page.findOne(function (n) {
+        return n.name === 'Dock/Shell' && n.type === 'COMPONENT';
+      })) {
+        var dockShell = createDockShell(dockNavSet, accentVar, mutedVar, textVar, borderVar, surface2Var, bgVar);
+        dockShell.x = a4x;
+        dockShell.y = a4y + 100;
+        page.appendChild(dockShell);
+        lines.push('A4 Dock/Shell');
+      } else {
+        lines.push('A4 Dock/Shell: fanns redan');
+      }
+
+      if (!page.findOne(function (n) {
+        return n.name === 'Button/BIFF' && n.type === 'COMPONENT_SET';
+      })) {
+        var biffIdle = createBiffVariant('Idle', accentVar, mutedVar, surface2Var, borderVar);
+        var biffLoading = createBiffVariant('Loading', accentVar, mutedVar, surface2Var, borderVar);
+        var biffDisabled = createBiffVariant('Disabled', accentVar, mutedVar, surface2Var, borderVar);
+        page.appendChild(biffIdle);
+        page.appendChild(biffLoading);
+        page.appendChild(biffDisabled);
+        var biffSet = figma.combineAsVariants([biffIdle, biffLoading, biffDisabled], page);
+        biffSet.name = 'Button/BIFF';
+        biffSet.x = a4x;
+        biffSet.y = a4y + 220;
+        biffSet.layoutMode = 'HORIZONTAL';
+        biffSet.itemSpacing = 12;
+        lines.push('A4 Button/BIFF: Idle + Loading + Disabled');
+      } else {
+        lines.push('A4 Button/BIFF: fanns redan');
+      }
+
+      if (!page.findOne(function (n) {
+        return n.name === 'StatusBadge' && n.type === 'COMPONENT_SET';
+      })) {
+        var badgeDefs = [
+          { key: 'worm', label: 'WORM' },
+          { key: 'locked', label: 'Låst' },
+          { key: 'risk', label: 'Risk' },
+          { key: 'ai', label: 'AI' },
+        ];
+        var badgeParts = [];
+        for (i = 0; i < badgeDefs.length; i++) {
+          var bd = badgeDefs[i];
+          var badgeComp = createStatusBadgeVariant(
+            bd.key,
+            bd.label,
+            accentVar,
+            mutedVar,
+            borderVar,
+            surface2Var,
+            successVar,
+            accentSecondaryVar,
+          );
+          page.appendChild(badgeComp);
+          badgeParts.push(badgeComp);
+        }
+        var badgeSet = figma.combineAsVariants(badgeParts, page);
+        badgeSet.name = 'StatusBadge';
+        badgeSet.x = a4x;
+        badgeSet.y = a4y + 320;
+        badgeSet.layoutMode = 'HORIZONTAL';
+        badgeSet.itemSpacing = 10;
+        lines.push('A4 StatusBadge: worm / locked / risk / ai');
+      } else {
+        lines.push('A4 StatusBadge: fanns redan');
+      }
+
       var codeConnect = collectCodeConnectNodes(page);
       var ccKeys = Object.keys(codeConnect);
       if (ccKeys.length > 0) {
