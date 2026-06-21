@@ -45,6 +45,7 @@ function main() {
     '.od-depth__cta',
     '.od-depth__dock-inner',
     'module-shell--depth',
+    'hub-page-shell--depth',
     'module-mode-select',
     "html[data-theme='OD-obsidian-depth']",
   );

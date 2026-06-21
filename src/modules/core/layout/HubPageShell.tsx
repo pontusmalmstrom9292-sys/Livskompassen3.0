@@ -40,6 +40,7 @@ export function HubPageShell({
     <div
       className={clsx(
         'hub-page-shell hub-page-shell--obsidian-bento flex min-h-0 flex-col gap-4',
+        depth && 'hub-page-shell--depth',
         lockViewport && 'hub-view-lock',
         lockViewport && fitViewport && 'hub-view-lock--fit',
         className,
