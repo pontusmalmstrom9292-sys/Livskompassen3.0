@@ -1,5 +1,7 @@
 import * as admin from 'firebase-admin';
 import { hashPayload } from '../stateStore';
+import { analyzeDcapTrend, type EscalationResult } from '../../lib/dcapEscalation';
+import { monitor } from '../../lib/monitoring';
 
 export interface DcapAlertPayload {
   ownerId: string;
@@ -13,6 +15,7 @@ export interface DcapAlertPayload {
 export interface DcapAlertResult {
   alertId: string;
   hitlRequired: boolean;
+  escalation?: EscalationResult;
 }
 
 /**
@@ -66,5 +69,14 @@ export async function handleDcapAlert(payload: DcapAlertPayload): Promise<DcapAl
     `[Synapse:dcap_alert] HITL alertId=${docRef.id} uid=${ownerId} riskScore=${riskScore}`
   );
 
-  return { alertId: docRef.id, hitlRequired: true };
+  // Trigger escalation trend analysis
+  monitor.trackDcapAlert(riskScore, recommendedAction, ownerId);
+  let escalation: EscalationResult | undefined;
+  try {
+    escalation = await analyzeDcapTrend(ownerId);
+  } catch (err) {
+    console.warn('[Synapse:dcap_alert] Escalation analysis failed (non-blocking):', err);
+  }
+
+  return { alertId: docRef.id, hitlRequired: true, escalation };
 }
