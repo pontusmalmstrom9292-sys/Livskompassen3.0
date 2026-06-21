@@ -41,4 +41,21 @@ export function useZeroFootprint() {
       }
     };
   }, [isVaultUnlocked]);
+
+  /** G17 — Zero Footprint blur: lås Valv vid tab/app-byte (U4). */
+  useEffect(() => {
+    const lockOnHidden = () => {
+      if (!document.hidden) return;
+      if (!hasVaultGate() && !useStore.getState().ui.isVaultUnlocked) return;
+      void endVaultSession({ closeDrawer: true });
+    };
+
+    document.addEventListener('visibilitychange', lockOnHidden);
+    window.addEventListener('pagehide', lockOnHidden);
+
+    return () => {
+      document.removeEventListener('visibilitychange', lockOnHidden);
+      window.removeEventListener('pagehide', lockOnHidden);
+    };
+  }, []);
 }

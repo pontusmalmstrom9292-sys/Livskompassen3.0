@@ -1,20 +1,37 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## YOLO DCAP + WORM smoke (2026-06-21)
+
+| Kommando | Resultat |
+|----------|----------|
+| `smoke:dcap-routing` | **PASS** |
+| `smoke:vault-worm` | **PASS** |
+| `smoke:dcap-alerts-worm` | **PASS** (ny — stänger statisk-only GAP) |
+| YOLO | **GO** |
+| Eval | [`evaluations/2026-06-21-yolo-dcap-worm-smoke.md`](./evaluations/2026-06-21-yolo-dcap-worm-smoke.md) |
+
+---
+
 ## YOLO polish + hosting deploy (2026-06-21)
 
 | Fält | Värde |
 |------|-------|
-| Leverans | Valvet shell, auth UX (8s/12s timeout), Figma L0/Code Connect, Obsidian Depth 3D (`aa71b367a`→`bd4dd8f03`) |
+| Leverans | Valvet shell, auth UX (8s/12s timeout), Figma L0/Code Connect, Obsidian Depth 3D, **G17 blur**, yolo-polish-eval rule |
 | `npm run build` | **PASS** |
 | `npm run smoke:locked-ux` | **PASS** |
 | `npm run smoke:orkester` | **PASS** |
 | `npm run smoke:predeploy:build` | **PASS** (functions + vite + tier1 + e2e-locked-ux) |
-| `npm run smoke:design-modules` | **PASS** |
-| `functions` build | **PASS** |
-| Deploy | `firebase deploy --only hosting` — **PASS** → https://gen-lang-client-0481875058.web.app |
+| `npm run smoke:valv-security` | **PASS** (G17 visibilitychange) |
+| `npm run smoke:kunskap` | **PASS** (efter våg 8 seed) |
+| `npm run smoke:android-platform` | **PASS** |
+| `npm run figma:code-connect:parse` | **PASS** (10 mappings) |
+| `seed:kunskap-facts` | **PASS** — 10 nya, 189 skip |
+| Deploy | `firebase deploy --only hosting` — **PASS** session 3 → https://gen-lang-client-0481875058.web.app |
 | YOLO | **GO** (hosting-only) |
-| PMIR / eval | [`evaluations/2026-06-21-yolo-polish-deploy.md`](./evaluations/2026-06-21-yolo-polish-deploy.md) |
-| USER (efter deploy) | Google-inloggning · `/valvet` PIN → Mönster/Orkester/Kunskapsbank · `Cmd+Shift+R` |
+| PMIR / eval | [`evaluations/2026-06-21-yolo-polish-deploy.md`](./evaluations/2026-06-21-yolo-polish-deploy.md) · G17 [`2026-06-21-pmir-g17-blur.md`](./evaluations/2026-06-21-pmir-g17-blur.md) |
+| Agent post-plan static (session 4) | `smoke:locked-ux`, `smoke:hamn`, `smoke:barn-epistemik`, `smoke:auth-login` — **PASS** |
+| Android prep | `build:web` + `cap sync android` — **PASS** |
+| USER (efter deploy) | Google live login · Fyren/PIN prod · Barnfokus/Barnporten/Hamn interaktiv · G85 native Google · `Cmd+Shift+R` |
 
 ---
 
