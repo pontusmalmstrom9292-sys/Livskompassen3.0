@@ -22,6 +22,10 @@
     "src/modules/features/diary/**/*.ts",
     "src/modules/features/diary/**/*.tsx",
     "src/modules/features/admin/projects/**/*.ts",
-    "src/modules/features/admin/projects/**/*.tsx"
+    "src/modules/features/admin/projects/**/*.tsx",
+    "src/modules/features/dailyLife/arbetsliv/**/*.ts",
+    "src/modules/features/dailyLife/arbetsliv/**/*.tsx",
+    "src/modules/features/admin/planning/**/*.ts",
+    "src/modules/features/admin/planning/**/*.tsx"
   ]
 }

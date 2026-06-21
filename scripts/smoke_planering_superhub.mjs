@@ -34,7 +34,7 @@ function mustNotInclude(relPath, ...needles) {
 }
 
 const W1_FILES = [
-  'docs/evaluations/2026-06-14-planering-superhub-djupanalys.md',
+  'docs/archive/evaluations-fas19-2026-06/2026-06-14-planering-superhub-djupanalys.md',
   'docs/specs/Planering-INPUT-SUPERHUB-SPEC.md',
   'src/modules/features/admin/planning/supermodule/PlaneringInputSuperModule.tsx',
   'src/modules/features/admin/planning/supermodule/planeringInputModes.ts',
@@ -140,7 +140,7 @@ function main() {
     'PlaneringInputSuperModule',
   );
   mustInclude(
-    'docs/evaluations/2026-06-14-planering-superhub-djupanalys.md',
+    'docs/archive/evaluations-fas19-2026-06/2026-06-14-planering-superhub-djupanalys.md',
     'PlaneringInputSuperModule',
     'W1',
     'W3',
