@@ -45,6 +45,24 @@ try {
   process.exit(1);
 }
 
+let designSrc = readFileSync(designSystemPath, 'utf8');
+
+// Läs in befintliga IDs som fallback för att tillåta partiella uppdateringar
+const idMatch = designSrc.match(/export const FIGMA_COMPONENT_NODE_IDS = \{([\s\S]*?)\} as const;/);
+if (idMatch) {
+  const lines = idMatch[1].split('\n');
+  for (const line of lines) {
+    const match = line.match(/^\s*['"]?([^'":]+)['"]?\s*:\s*['"]([^'"]+)['"]/);
+    if (match) {
+      const key = match[1];
+      const val = match[2];
+      if (!nodes[key]) {
+        nodes[key] = val;
+      }
+    }
+  }
+}
+
 const required = Object.keys(connectFiles);
 for (const key of required) {
   if (!nodes[key] || !/^\d+:\d+$/.test(nodes[key])) {
@@ -70,7 +88,7 @@ const urlsBlock = `export const FIGMA_CONNECT_URLS: Record<FigmaComponentKey, st
 ${urlsBlockLines.join('\n')}
 };`;
 
-let designSrc = readFileSync(designSystemPath, 'utf8');
+// designSrc är redan inläst ovan
 designSrc = designSrc.replace(
   /export const FIGMA_COMPONENT_NODE_IDS = \{[\s\S]*?\} as const;/,
   idsBlock,
