@@ -45,6 +45,17 @@ function main() {
   mustInclude('functions/src/adk/synapses/paralysBrytarenSynapse.ts', 'applyParalysBreak');
   mustInclude('functions/src/index.ts', 'onVaultCreatePatternScan', 'onEvolutionHubWrite');
 
+  console.log('[smoke:synapse-triggers] Frontend masterManifest alignment…');
+  mustInclude(
+    'src/modules/core/manifest/domainContract.ts',
+    'widget_recording_ingested',
+  );
+  mustInclude(
+    'src/modules/core/manifest/masterManifest.ts',
+    "'widget_recording_ingested'",
+    'ingestWidgetRecording',
+  );
+
   console.log('\n[smoke:synapse-triggers] PASS');
 }
 

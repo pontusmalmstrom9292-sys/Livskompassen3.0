@@ -1,8 +1,8 @@
 # YOLO polish + deploy-gate — 2026-06-21
 
-**Plattform:** Cursor Agent (YOLO)  
-**Scope:** Baseline smoke, Figma Code Connect repo, auth UX, Valvet shell, deploy-readiness  
-**Status:** **GO** (hosting-only) — väntar Pontus OK
+**Plattform:** Cursor Agent (YOLO-vakt)  
+**Scope:** Baseline smoke, Figma Code Connect repo, auth UX, Valvet shell, **Familjen deploy-gate** (`src/modules/features/family`)  
+**Status:** **DEPLOYED** (hosting-only) — smoke + deploy PASS 2026-06-21 (session 3)
 
 ---
 
@@ -10,14 +10,27 @@
 
 | Gate | Resultat |
 |------|----------|
-| `npm run smoke:predeploy:build` | **PASS** |
+| `npm run smoke:predeploy:build` | **PASS** (2026-06-21 session 2 — functions + vite build + tier1 + e2e) |
+| `npm run typecheck:core-strict` | **PASS** |
+| `npm run smoke:barn-epistemik` | **PASS** — våg 29 epistemik + bracket catalog |
+| `npm run smoke:hamn` | **PASS** — Trygg Hamn BIFF wiring |
+| `npm run smoke:locked-ux` | **PASS** — Barnfokus, Barnporten HITL, drawer Vardag+Valv |
 | `npm run smoke:design-modules` | **PASS** |
 | `npm run figma:code-connect:parse` | **PASS** (4 mappings) |
-| YOLO-vakt audit | **GO** (hosting-only) |
+| YOLO-vakt Familjen audit | **GO** (hosting-only) |
+
+### Familjen silo-check (read-only)
+
+| Check | Status | Bevis |
+|-------|--------|-------|
+| Tre silos — `childrenLogsQuery` only | **PASS** | `childrenLogsService.ts:18` |
+| Barnporten HITL — ingen auto-promote | **PASS** | `SaveAsEvidencePrompt` + `WormSaveConfirmSheet` |
+| Barnfokus locked delegate | **PASS** | `FamiljenBarnfokusDelegate.tsx` + smoke |
+| Hamn deterministisk wire | **PASS** | `hamnTaktikWire.ts` — ingen cross-RAG |
 
 ---
 
-## Levererat i working tree (ej committat)
+## Levererat på main (committat)
 
 | Område | Ändring |
 |--------|---------|
@@ -34,6 +47,7 @@
 
 | Item | Varför |
 |------|--------|
+| **G17 Zero Footprint blur** | Ingen `visibilitychange` i `src/modules/core/` — idle (1 h) + logout täcks; blur-lås vid tab-byte **open** — se [`Arkiv-GAP-REGISTER.md`](../specs/modules/Arkiv-GAP-REGISTER.md) G17 |
 | Figma Code Connect **publish** | Starter View seat — kräver Org Dev seat |
 | Kunskap våg 8 ingest | Content bank partial (53 FACT) — separat content-pass |
 | Android native Google | USER-test på Motorola G85 |
@@ -49,11 +63,17 @@
 **Efter deploy — manuell smoke:**
 1. Google-inloggning (redirect/popup)
 2. `/valvet` — PIN → Mönster, Orkester, Kunskapsbank synliga
-3. Hard refresh `Cmd+Shift+R`
+3. `/familjen?tab=reflektion` — Barnfokus spara (optimistisk feedback)
+4. `/familjen?tab=barnporten` — HITL, **Granska i Valv** endast efter bekräftelse
+5. `/familjen?tab=hamn` — BIFF-wizard, ingen auto-spar till Valv
+6. Hard refresh `Cmd+Shift+R`
 
 ---
 
-## Nästa steg för Pontus
+## Deploy-logg
 
-1. Svara **"commit"** om du vill att agent committar working tree
-2. Svara **"deploy"** efter commit för hosting-deploy
+| Tid | Kommando | Resultat |
+|-----|----------|----------|
+| 2026-06-21 session 3 | `npm run build` + `smoke:locked-ux` + `smoke:orkester` + `smoke:predeploy:build` | **PASS** |
+| 2026-06-21 session 3 | `cd functions && npm run build` | **PASS** |
+| 2026-06-21 session 3 | `firebase deploy --only hosting` | **PASS** — https://gen-lang-client-0481875058.web.app (287 filer) |
