@@ -1,5 +1,23 @@
 # Smoke-resultat (Fas 3 + Minne)
 
+## YOLO polish + hosting deploy (2026-06-21)
+
+| Fält | Värde |
+|------|-------|
+| Leverans | Valvet shell, auth UX (8s/12s timeout), Figma L0/Code Connect, Obsidian Depth 3D (`aa71b367a`→`bd4dd8f03`) |
+| `npm run build` | **PASS** |
+| `npm run smoke:locked-ux` | **PASS** |
+| `npm run smoke:orkester` | **PASS** |
+| `npm run smoke:predeploy:build` | **PASS** (functions + vite + tier1 + e2e-locked-ux) |
+| `npm run smoke:design-modules` | **PASS** |
+| `functions` build | **PASS** |
+| Deploy | `firebase deploy --only hosting` — **PASS** → https://gen-lang-client-0481875058.web.app |
+| YOLO | **GO** (hosting-only) |
+| PMIR / eval | [`evaluations/2026-06-21-yolo-polish-deploy.md`](./evaluations/2026-06-21-yolo-polish-deploy.md) |
+| USER (efter deploy) | Google-inloggning · `/valvet` PIN → Mönster/Orkester/Kunskapsbank · `Cmd+Shift+R` |
+
+---
+
 ## Ingest våg 1 Kunskap (2026-06-19)
 
 | Fält | Värde |

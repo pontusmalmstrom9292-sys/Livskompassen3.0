@@ -56,7 +56,7 @@ const VALV_DOMAIN = {
   requiresVaultUnlock: true,
   requiresVerifiedEmail: true,
   synapseEmits: [],
-  synapseConsumes: ['drive_file_ingested', 'dcap_alert'],
+  synapseConsumes: ['drive_file_ingested', 'dcap_alert', 'widget_recording_ingested'],
   callables: ['valvChatQuery', 'analyzeMessage'],
   productAgentIds: ['agent_sannings_analytikern', 'agent_monster_arkivarien'],
 } as const satisfies DomainContract;
@@ -77,7 +77,7 @@ const FAMILJ_DOMAIN = {
   requiresVaultUnlock: false,
   requiresVerifiedEmail: true,
   synapseEmits: [],
-  synapseConsumes: ['drive_file_ingested'],
+  synapseConsumes: ['drive_file_ingested', 'widget_recording_ingested'],
   callables: ['childrenLogsQuery'],
   productAgentIds: [
     'agent_grans_arkitekten',
@@ -127,9 +127,9 @@ const VARDAG_DOMAIN = {
   allowedCrossReads: [],
   requiresVaultUnlock: false,
   requiresVerifiedEmail: true,
-  synapseEmits: ['journal_woven', 'user_overwhelm'],
+  synapseEmits: ['journal_woven', 'user_overwhelm', 'widget_recording_ingested'],
   synapseConsumes: [],
-  callables: [],
+  callables: ['ingestWidgetRecording'],
   productAgentIds: [
     'agent_paralys_brytaren',
     'agent_speglings_coachen',
@@ -159,12 +159,14 @@ const CORE_DOMAIN = {
     'journal_woven',
     'dcap_alert',
     'user_overwhelm',
+    'widget_recording_ingested',
   ],
   synapseConsumes: [
     'drive_file_ingested',
     'journal_woven',
     'dcap_alert',
     'user_overwhelm',
+    'widget_recording_ingested',
   ],
   callables: [
     'getAdaptationProfile',

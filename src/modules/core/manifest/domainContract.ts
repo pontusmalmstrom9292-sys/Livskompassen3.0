@@ -15,7 +15,8 @@ export type SynapseTrigger =
   | 'drive_file_ingested'
   | 'journal_woven'
   | 'dcap_alert'
-  | 'user_overwhelm';
+  | 'user_overwhelm'
+  | 'widget_recording_ingested';
 
 /** WORM mutation policy inherited by every collection in wormCollections. */
 export interface WormPolicy {

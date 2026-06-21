@@ -21,6 +21,7 @@
 | G13 | **done** | Tidshjulet → kampspar (2026-05-22) |
 | G14 | **done** | Gräns-Arkitekten (2026-05-22) |
 | G15–G16 | **done** | G15 + G16 + U5.5 **done** 2026-05-22 |
+| G17 | **open** | Zero Footprint **blur** — `endVaultSession` vid `visibilitychange`/`pagehide` saknas i core (idle 1 h + logout OK). YOLO 2026-06-21 — ej blocker hosting. |
 | F8 | **done** | Super-Ekonomi Input (Fas 8A→8E) — Shadow→Live 2026-06-14 |
 | V1 | **wait** | Genkit — ej migrera |
 
@@ -158,6 +159,18 @@ Live `subscribeKampsparEntries`, ringar Dåtid/Nutid/Framtid via `eventDate`, kl
 | **Spec** | [`Ekonomi-INPUT-SUPERHUB-SPEC.md`](../Ekonomi-INPUT-SUPERHUB-SPEC.md) · **Eval:** [`Ekonomi-INPUT-SUPERHUB-EVAL.md`](../../evaluations/Ekonomi-INPUT-SUPERHUB-EVAL.md) |
 | **Router** | `LivLauncherPage.tsx` — `EkonomiInputSuperModule` standard; `?superhub=true` avvecklad |
 | **Smoke** | `npm run build` · `smoke:ekonomi` · `smoke:evolution` |
+
+---
+
+### G17 — Zero Footprint blur (tab-byte) — **open**
+
+| | |
+|---|---|
+| **Status** | **open** — YOLO audit 2026-06-21 |
+| **Nu** | `signOutUser` + `useZeroFootprint` idle (1 h) → `endVaultSession` ([`vaultSessionLifecycle.ts`](../../../src/modules/core/security/vaultSessionLifecycle.ts)) |
+| **GAP** | Ingen `document.visibilitychange` / `pagehide` i `src/modules/core/` — Valv-gate kvar vid app-byte utan aktivitet |
+| **Blocker** | Nej för hosting-only deploy |
+| **Nästa** | `visibilitychange` → `endVaultSession({ closeDrawer: true })` när `document.hidden` (PMIR + USER-test Fyren) |
 
 ---
 
