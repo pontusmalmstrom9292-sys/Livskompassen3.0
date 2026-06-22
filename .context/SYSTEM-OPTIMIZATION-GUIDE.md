@@ -1,5 +1,5 @@
 # 🚀 LIVSKOMPASSEN 3.0 — SYSTEM OPTIMIZATION GUIDE
-**Status: Analyzeringskomplett | Datum: 2026-06-06 | Version: 1.1**
+**Status: Analyskomplett | Datum: 2026-06-06 | Version: 1.1**
 
 ---
 
@@ -102,7 +102,7 @@ Detta avsnitt läggs till för att tydliggöra att inga ändringar i produktion 
 
 ---
 
-## FÄRDIGA PROMPTS — CURSOR & GEMINI (KOPIERA/KLISSA)
+## FÄRDIGA PROMPTS — CURSOR & GEMINI (KOPIERA/KLISTRA)
 
 Nedan ligger färdiga prompts som du kan köra i Cursor och Gemini. Kopiera dem som de är.
 
@@ -220,4 +220,4 @@ CI: GitHub Actions ska verifiera steg 1–4 på varje PR (draft) och inte tillå
 
 **Document Version**: 1.1  
 **Last Updated**: 2026-06-06  
-**Status**: Uppdaterad i branch feature/system-optimization-guide. Klar för review ✅
+**Status**: Mergad till main. Klar för review ✅
