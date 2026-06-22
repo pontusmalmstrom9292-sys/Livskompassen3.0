@@ -30,6 +30,15 @@ Läs prompten och identifiera ämnet. Hänvisa till rätt specialist **innan** d
 | Tema, färger, design tokens, ikoner, UX-polish | `/specialist-theme-lab` | `livskompassen-theme-lab` |
 | Nattpass, orkester, batch-autorun, parallella agenter | `/orkester-conductor` | — |
 | Verifiering, rök-tester, smoke, pre-merge | `/specialist-verifier` · `/specialist-smoke-runner` | — |
+| **Ekonomi**, transactions WORM, veckopeng, sparmål, lönespec | `/specialist-ekonomi` | — |
+| **Dagbok**, journal WORM, Vävaren, wizard, röst-inmatning | `/specialist-dagbok` | — |
+| **Emotionellt Minne**, vit_entries, emotional_memory WORM | `/specialist-emotionellt-minne` | — |
+| **SOS**, AkutLanding, panikflöde, krisresurser, 113/1177 | `/specialist-sos` | — |
+| **Onboarding**, AuthGate, Google Auth, ny-användarupplevelse | `/specialist-onboarding` | — |
+| **Röst-till-Valv**, tyst inspelning, ingestWidgetRecording, Fyren Edge | `/specialist-rost-till-valv` | — |
+| **Widgets**, FyrenWidgetBar, Åtgärder-widget, Action Dashboard, Android-widgets | `/specialist-widgets` | — |
+| **Drogfrihet**, dagräknare, DF-REF-innehåll, krisresurser | `/specialist-drogfrihet` | — |
+| **Gräns-Arkitekten**, BIFF-Skölden, Brusfiltret, G14, Grey Rock | `/specialist-grans-arkitekten` | — |
 | **Vad ska vi göra härnäst? Projektläge? Beslutsstöd?** | `/specialist-beslutsstod` | — |
 
 ## Beslutsprocess

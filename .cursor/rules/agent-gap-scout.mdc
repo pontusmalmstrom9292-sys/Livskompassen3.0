@@ -25,6 +25,12 @@ Systemet ska alltid ha en dedikerad expert för varje del av appen. Den här reg
 - `specialist-myndighet-seed` — Myndighetsinfo
 - `specialist-neuro-psyk-seed` — Neuro/psyk-innehåll
 - `specialist-innehall-dirigent` — Innehållsklassning
+- `specialist-ekonomi` — Ekonomimodul, transactions WORM, lönespec
+- `specialist-dagbok` — Dagbokshubben, journal WORM, Vävaren
+- `specialist-emotionellt-minne` — Emotionellt Minne, vit_entries WORM
+- `specialist-sos` — SOS & AkutLanding, krisresurser
+- `specialist-drogfrihet` — Drogfrihet-hub, dagräknare, DF-innehåll
+- `specialist-grans-arkitekten` — BIFF-Skölden, Brusfiltret, Gräns-Arkitekten (G14)
 
 ### Teknikspecialister
 - `specialist-adk-weaver` — Synapser, ADK, triggers
@@ -33,6 +39,9 @@ Systemet ska alltid ha en dedikerad expert för varje del av appen. Den här reg
 - `specialist-security-auditor` — Säkerhetsaudit
 - `specialist-ux-guardian` — UI/UX-granskning
 - `specialist-theme-lab` — Design, tokens, ikoner
+- `specialist-onboarding` — Onboarding-flöde, AuthGate, auth-providers
+- `specialist-rost-till-valv` — Röst-till-Valv, tyst inspelning, ingestWidgetRecording
+- `specialist-widgets` — Widgets, FyrenWidgetBar, Åtgärder-widget, Action Dashboard
 
 ### Verifiering & orkester
 - `specialist-verifier` — Slutverifiering
@@ -51,19 +60,7 @@ Systemet ska alltid ha en dedikerad expert för varje del av appen. Den här reg
 
 ## Saknade agenter att bevaka
 
-Dessa funktioner i appen saknar dedikerad specialist:
-
-| App-område | Status | Agent att skapa |
-|------------|--------|-----------------|
-| `economy` — ekonomimodul, leverantörsavtal | ❌ Saknas | `specialist-ekonomi` |
-| `diary` — dagbok, journal | ❌ Saknas | `specialist-dagbok` |
-| `emotional-memory` — emotionellt minne | ❌ Saknas | `specialist-emotionellt-minne` |
-| `sos` — SOS-funktion | ❌ Saknas | `specialist-sos` |
-| `onboarding` — onboarding-flöde | ❌ Saknas | `specialist-onboarding` |
-| `voiceToVault` — röst-till-valv | ❌ Saknas | `specialist-rost-till-valv` |
-| `widgets` — widgets | ❌ Saknas | `specialist-widgets` |
-| `drogfrihet` — drogfrihetsstöd | ❌ Saknas | `specialist-drogfrihet` |
-| `Speglar / Gräns-Arkitekten` — gränshantering | ❌ Saknas | `specialist-grans-arkitekten` |
+Inga kända luckor just nu. Alla befintliga app-områden har dedikerade specialister.
 
 ## Befintliga skills (registret)
 
