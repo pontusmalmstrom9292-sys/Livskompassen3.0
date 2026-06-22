@@ -3,7 +3,9 @@ import { motion } from 'framer-motion';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { Sparkles, Loader2, Target, AlertTriangle, Lightbulb } from 'lucide-react';
 import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
-
+import { VaultLockedGate } from '@/core/components/VaultLockedGate';
+import { useStore } from '@/core/store';
+import { hasVaultGate } from '@/core/auth/sessionService';
 interface InsightPattern {
   pattern: string;
   confidence: number;
@@ -39,6 +41,22 @@ export const WeeklySummary: React.FC = () => {
       setLoading(false);
     }
   };
+
+  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked) || hasVaultGate();
+
+  if (!isVaultUnlocked) {
+    return (
+      <div className="bg-[var(--color-obsidian-calm)]/40 border border-white/10 rounded-2xl p-6 shadow-xl backdrop-blur-md mb-8">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-white flex items-center">
+            <Sparkles className="w-6 h-6 mr-3 text-emerald-400" />
+            Veckoinsikter
+          </h2>
+        </div>
+        <VaultLockedGate variant="card" />
+      </div>
+    );
+  }
 
   return (
     <motion.div

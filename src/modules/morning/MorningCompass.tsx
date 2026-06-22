@@ -6,6 +6,8 @@ import { Compass, Trash2, Loader2, CheckCircle2, Sparkles, Moon, ShieldCheck } f
 import { PageSkeleton } from '../../components/layout/PageSkeleton';
 import { getLocalIsoDate } from './lib/focusPoints';
 import { usePrimaryGoal } from '@/modules/features/dailyLife/wellbeing/mabra/hooks/usePrimaryGoal';
+import { VaultLockedGate } from '@/core/components/VaultLockedGate';
+import { hasVaultGate } from '@/core/auth/sessionService';
 
 const DailyTasksList = lazy(() =>
   import('./components/DailyTasksList').then((m) => ({ default: m.DailyTasksList })),
@@ -69,6 +71,7 @@ const FocusPointRow = memo(function FocusPointRow({
 
 export function MorningCompass() {
   const user = useStore((state) => state.user);
+  const isVaultUnlocked = useStore((state) => state.ui.isVaultUnlocked) || hasVaultGate();
   const {
     threeFocusPoints,
     setFocusPoint,
@@ -203,6 +206,10 @@ export function MorningCompass() {
     }
     await clearFocusPoints(user.uid);
   }, [user?.uid, isGoalLocked, setFocusPoint, saveFocus, clearFocusPoints]);
+
+  if (!isVaultUnlocked) {
+    return <VaultLockedGate variant="screen" />;
+  }
 
   if (!hasMounted && (isLoading || primaryGoalLoading || !storeReady)) {
     return <PageSkeleton />;

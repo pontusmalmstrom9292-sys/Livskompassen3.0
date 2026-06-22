@@ -6,9 +6,11 @@ import { FIRESTORE_COLLECTIONS } from '@/core/types/firestore';
 import { useStore } from '@/core/store';
 import { createPlanningTask } from '../../planning/api/planningTasksApi';
 import { uploadProjectMedia } from '@/core/firebase/storage';
+import { LayoutTemplate } from 'lucide-react';
 import { listenProjectBlocks, createProjectBlock, runProjectBlockOcr } from '../api/projectBlocksApi';
 import { updateProjectTitle } from '../api/projectsApi';
 import { ProjectMediaPicker } from './ProjectMediaPicker';
+import { ProjektWidgetSheet } from './ProjektWidgetSheet';
 import type { Project, ProjectBlock, ProjectBlockType } from '../types';
 
 const BLOCK_LABELS: Record<ProjectBlockType, string> = {
@@ -33,6 +35,7 @@ export function ProjektDetailPage() {
   const [pendingMedia, setPendingMedia] = useState<File | null>(null);
   const [mediaCaption, setMediaCaption] = useState('');
   const [ocrRunningId, setOcrRunningId] = useState<string | null>(null);
+  const [isWidgetSheetOpen, setIsWidgetSheetOpen] = useState(false);
 
   useEffect(() => {
     if (!user || !projectId) {
@@ -201,11 +204,20 @@ export function ProjektDetailPage() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 relative">
       <header className="px-0.5">
-        <Link to="/projekt" className="text-xs text-text-dim hover:text-accent">
-          ← Projekt
-        </Link>
+        <div className="flex items-center justify-between">
+          <Link to="/projekt" className="text-xs text-text-dim hover:text-accent">
+            ← Projekt
+          </Link>
+          <button 
+            onClick={() => setIsWidgetSheetOpen(true)}
+            className="flex items-center gap-1.5 px-2 py-1 bg-white/5 hover:bg-white/10 rounded-lg text-xs text-text-muted transition-colors border border-white/5"
+          >
+            <LayoutTemplate className="w-3.5 h-3.5" />
+            Widgets
+          </button>
+        </div>
         <input
           className="input-glass mt-2 w-full text-lg font-semibold"
           value={project.title}
@@ -221,6 +233,12 @@ export function ProjektDetailPage() {
       </header>
 
       {error && <p className="text-sm text-danger">{error}</p>}
+      
+      <ProjektWidgetSheet 
+        isOpen={isWidgetSheetOpen}
+        onClose={() => setIsWidgetSheetOpen(false)}
+        projectId={projectId}
+      />
 
       <div className="home-module-stack">
         {blocks.length === 0 && (
