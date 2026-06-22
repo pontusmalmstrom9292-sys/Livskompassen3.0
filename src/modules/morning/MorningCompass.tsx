@@ -101,6 +101,9 @@ export function MorningCompass() {
       yesterdayWasHighRisk: state.yesterdayWasHighRisk,
       isLowEnergyProtocolActive: state.isLowEnergyProtocolActive,
       setLowEnergyProtocolActive: state.setLowEnergyProtocolActive,
+      morningAnchor: state.morningAnchor,
+      isLoadingAnchor: state.isLoadingAnchor,
+      fetchMorningAnchor: state.fetchMorningAnchor,
     })),
   );
 
@@ -127,7 +130,7 @@ export function MorningCompass() {
     setStoreReady(false);
     setHasMounted(false);
 
-    Promise.all([fetchFocusPoints(user.uid), fetchLatestInsight(user.uid)]).then(() => {
+    Promise.all([fetchFocusPoints(user.uid), fetchLatestInsight(user.uid), fetchMorningAnchor()]).then(() => {
       if (!cancelled) setStoreReady(true);
     });
 
@@ -205,7 +208,7 @@ export function MorningCompass() {
       return;
     }
     await clearFocusPoints(user.uid);
-  }, [user?.uid, isGoalLocked, setFocusPoint, saveFocus, clearFocusPoints]);
+  }, [user, isGoalLocked, setFocusPoint, saveFocus, clearFocusPoints]);
 
   if (!isVaultUnlocked) {
     return <VaultLockedGate variant="screen" />;
@@ -272,6 +275,16 @@ export function MorningCompass() {
               ? 'Ditt MåBra-mål leder kompassen. Två fria platser till.'
               : 'Dina 3 viktigaste saker idag. Inget mer.'}
           </p>
+
+          {isLoadingAnchor ? (
+            <div className="mt-4 flex justify-center">
+              <Loader2 className="w-4 h-4 animate-spin text-white/30" />
+            </div>
+          ) : morningAnchor ? (
+            <div className="mt-6 p-4 rounded-xl bg-white/5 border border-white/10 text-left text-sm text-white/80 italic font-serif">
+              "{morningAnchor}"
+            </div>
+          ) : null}
         </div>
 
         {shouldSuggestLowEnergy && (

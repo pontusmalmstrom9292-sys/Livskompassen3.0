@@ -30,7 +30,8 @@ export type SynapseTrigger =
   | 'journal_woven'
   | 'dcap_alert'
   | 'user_overwhelm'
-  | 'widget_recording_ingested';
+  | 'widget_recording_ingested'
+  | 'kasam_aggregation';
 
 export interface SynapseEvent {
   trigger: SynapseTrigger;
@@ -94,4 +95,9 @@ export interface WidgetRecordingIngestedPayload {
   analysis: { title: string; summary: string; category: string };
   metadata: { vem: string; vad: string; varfor: string };
   hasVaultSession: boolean;
+}
+
+export interface KasamAggregationPayload {
+  ownerId: string;
+  triggerSource: string;
 }

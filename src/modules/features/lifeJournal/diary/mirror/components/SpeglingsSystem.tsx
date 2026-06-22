@@ -13,7 +13,9 @@ import {
   type MediaAttachment,
 } from '@/core/media/mediaAttachment';
 import { VIVIR_STEPS } from '../constants/vivirSteps';
-import { matchVaultEvidence } from '../utils/matchVaultEvidence';
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '@/core/firebase/init';
+import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
 import { ActCalibrationView } from './ActCalibrationView';
 import { VivirStepView } from './VivirStepView';
 import { EvidenceCompareView } from './EvidenceCompareView';
@@ -189,7 +191,7 @@ export function SpeglingsForensicPanel({ userId, initialFeeling = '' }: Forensic
   ).join('\n');
 
   const vaultLocked = !isVaultUnlocked && !hasVaultGate();
-  const [matches, setMatches] = useState<ReturnType<typeof matchVaultEvidence>>([]);
+  const [matches, setMatches] = useState<Array<{ log: any; score: number }>>([]);
 
   const resetSession = useCallback(() => {
     revokeMediaAttachments(attachmentsRef.current);
@@ -206,12 +208,19 @@ export function SpeglingsForensicPanel({ userId, initialFeeling = '' }: Forensic
 
   useEffect(() => {
     if (phase !== 'compare' || !userId || vaultLocked) return;
-    getAllVaultLogs(userId)
-      .then((logs) => {
-        const searchText = `${feeling} ${Object.values(vivirAnswers).join(' ')}`;
-        setMatches(matchVaultEvidence(searchText, logs));
-      })
-      .catch(() => setMatches([]));
+    const searchText = `${feeling} ${Object.values(vivirAnswers).join(' ')}`;
+    
+    const callBackend = httpsCallable<
+      { searchText: string },
+      { matches: Array<{ log: any; score: number }> }
+    >(functions, 'compareVaultEvidence');
+
+    callBackend(withVaultSessionPayload({ searchText }))
+      .then((res) => setMatches(res.data.matches || []))
+      .catch((err) => {
+        console.warn('Vector Search compare failed', err);
+        setMatches([]);
+      });
   }, [phase, userId, vaultLocked, feeling, vivirAnswers]);
 
   return (

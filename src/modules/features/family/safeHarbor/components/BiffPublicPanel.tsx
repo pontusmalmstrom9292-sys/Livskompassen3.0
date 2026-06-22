@@ -4,7 +4,7 @@ import { Loader2, Shield, AlertTriangle, Sparkles } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { useStore } from '@/core/store';
-import { saveVaultLog } from '@/core/firebase/firestore';
+import { saveVaultLog, saveEvolutionLedger } from '@/core/firebase/firestore';
 import { BiffTriagePanel } from './BiffTriagePanel';
 import { HandoffBox } from '@/features/lifeJournal/diary/diary/components/HandoffBox';
 import { SAVED_TO_VAULT_LABEL } from '@/core/copy/evidenceCopy';
@@ -20,73 +20,7 @@ type Props = {
   initialMessage?: string;
 };
 
-interface JadeViolation {
-  type: 'J' | 'A' | 'D' | 'E';
-  label: string;
-  description: string;
-}
-
-// Lokal realtidsanalys för JADE-mönster (Justify, Argue, Defend, Explain)
-function analyzeJadePatterns(text: string): JadeViolation[] {
-  const lower = text.toLowerCase();
-  const violations: JadeViolation[] = [];
-
-  if (
-    lower.includes('förklara') ||
-    lower.includes('måste förstå') ||
-    lower.includes('vill förtydliga') ||
-    lower.includes('meningen var')
-  ) {
-    violations.push({
-      type: 'J',
-      label: 'Justifiering (Förklaring)',
-      description:
-        'Du försöker få motparten att förstå eller godkänna dina skäl. Detta ger motparten mer "bränsle" att angripa.',
-    });
-  }
-  if (
-    lower.includes('ljuger') ||
-    lower.includes('du gjorde') ||
-    lower.includes('du alltid') ||
-    lower.includes('du aldrig') ||
-    lower.includes('du började')
-  ) {
-    violations.push({
-      type: 'A',
-      label: 'Argumentering (Anklagelse)',
-      description:
-        'Du går i motattack eller påpekar hens fel. Håll fokus helt på saklig logistik, aldrig hens karaktär.',
-    });
-  }
-  if (
-    lower.includes('mitt fel') ||
-    lower.includes('försvarar') ||
-    lower.includes('gjorde det för att') ||
-    lower.includes('inte sant')
-  ) {
-    violations.push({
-      type: 'D',
-      label: 'Försvar (Defensivitet)',
-      description:
-        'Du försvarar ditt beteende. Ett defensivt svar ger ofta motparten bekräftelse och fortsatt konflikt — Grey Rock avslutar utan bränsle.',
-    });
-  }
-  if (
-    lower.includes('eftersom') ||
-    lower.includes('därför att') ||
-    lower.includes('orsaken är') ||
-    lower.includes('anledningen var')
-  ) {
-    violations.push({
-      type: 'E',
-      label: 'Explikering (Förtydligande)',
-      description:
-        'Du förklarar bakomliggande detaljer eller motiv. En fientlig motpart är inte intresserad av "varför" — svara bara Ja, Nej eller ge fakta.',
-    });
-  }
-
-  return violations;
-}
+import { analyzeJadePatterns, type JadeViolation } from '../lib/jadeDetector';
 
 export function BiffPublicPanel({ initialMessage = '' }: Props) {
   const [message, setMessage] = useState(initialMessage);
@@ -109,6 +43,9 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
   const [autosortNote, setAutosortNote] = useState<string | null>(null);
   const [panelError, setPanelError] = useState<string | null>(null);
   const [jadeViolations, setJadeViolations] = useState<JadeViolation[]>([]);
+  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [coreQuestion, setCoreQuestion] = useState('');
+  const [userGoal, setUserGoal] = useState('');
   const fromSpeglar = Boolean(initialMessage.trim());
   const taktikSignal = detectHamnTaktikSignal(message);
 
@@ -131,11 +68,22 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
-    await analyze(message);
+    
+    // Konkatenera inmatningen om användaren angett kärnfråga och mål
+    const finalPayload = [
+      `Original/Utkast: ${message.trim()}`,
+      coreQuestion.trim() ? `Kärnfråga (Brusfilter): ${coreQuestion.trim()}` : '',
+      userGoal.trim() ? `Mål med svaret: ${userGoal.trim()}` : ''
+    ].filter(Boolean).join('\n\n');
+    
+    await analyze(finalPayload);
   };
 
   const handleKlar = useCallback(() => {
     setMessage('');
+    setCoreQuestion('');
+    setUserGoal('');
+    setStep(1);
     resetWizard();
     setAutosortNote(null);
     setPanelError(null);
@@ -177,66 +125,128 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
         </p>
       )}
       <form onSubmit={handleSubmit} className="space-y-3">
-        <textarea
-          value={message}
-          onChange={(e) => {
-            setMessage(e.target.value);
-            setSpeglarGuardDismissed(false);
-          }}
-          placeholder="Klistra in sms eller skriv ditt tänkta svar till motparten (inget JADE)…"
-          rows={4}
-          className={[
-            'input-glass text-sm resize-none',
-            jadeViolations.length > 0 ? 'border-danger/30 focus:border-danger/50' : '',
-          ].join(' ')}
-          disabled={loading}
-        />
+        {step === 1 && (
+          <div className="space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <textarea
+              value={message}
+              onChange={(e) => {
+                setMessage(e.target.value);
+                setSpeglarGuardDismissed(false);
+              }}
+              placeholder="Klistra in sms eller skriv ditt tänkta svar till motparten (inget JADE)…"
+              rows={4}
+              className={[
+                'input-glass text-sm resize-none',
+                jadeViolations.length > 0 ? 'border-danger/30 focus:border-danger/50' : '',
+              ].join(' ')}
+              disabled={loading}
+            />
 
-        {/* —— REALTIME JADE DETECTOR BAR —— */}
-        {jadeViolations.length > 0 && (
-          <div className="rounded-xl border border-danger/20 bg-danger/5 p-3.5 space-y-2">
-            <div className="flex items-center gap-1.5 text-xs font-semibold text-danger">
-              <AlertTriangle className="h-4 w-4 shrink-0" />
-              <span>Varning: Detekterade JADE-mönster</span>
-            </div>
-            <ul className="space-y-1.5 text-xs text-text-muted">
-              {jadeViolations.map((v, i) => (
-                <li key={i} className="leading-relaxed">
-                  <strong className="text-text">{v.label}:</strong> {v.description}
-                </li>
-              ))}
-            </ul>
-            <button
-              type="button"
-              onClick={handleCleanToGreyRock}
-              className="btn-pill--accent text-[11px] px-3 py-1.5 flex items-center gap-1.5"
+            {/* —— REALTIME JADE DETECTOR BAR —— */}
+            {jadeViolations.length > 0 && (
+              <div className="rounded-xl border border-danger/20 bg-danger/5 p-3.5 space-y-2">
+                <div className="flex items-center gap-1.5 text-xs font-semibold text-danger">
+                  <AlertTriangle className="h-4 w-4 shrink-0" />
+                  <span>Varning: Detekterade JADE-mönster</span>
+                </div>
+                <ul className="space-y-1.5 text-xs text-text-muted">
+                  {jadeViolations.map((v, i) => (
+                    <li key={i} className="leading-relaxed">
+                      <strong className="text-text">{v.label}:</strong> {v.description}
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  type="button"
+                  onClick={handleCleanToGreyRock}
+                  className="btn-pill--accent text-[11px] px-3 py-1.5 flex items-center gap-1.5"
+                >
+                  <Sparkles className="h-3.5 w-3.5" />
+                  Städa till Grey Rock-mall
+                </button>
+              </div>
+            )}
+
+            {shouldShowValvHandoff(message) && <HandoffBox className="mt-1" sourceText={message} />}
+            {shouldRedirectMabraCoachToSpeglar(message) && !speglarGuardDismissed && (
+              <MabraSpeglarGuardHint
+                className="mt-1"
+                onStay={() => setSpeglarGuardDismissed(true)}
+              />
+            )}
+            {taktikSignal && <HamnTaktikLexikonBro signal={taktikSignal} className="mt-1" />}
+            
+            <button 
+              type="button" 
+              onClick={() => setStep(2)} 
+              disabled={!message.trim()} 
+              className="btn-pill--accent w-full"
             >
-              <Sparkles className="h-3.5 w-3.5" />
-              Städa till Grey Rock-mall
+              Nästa: Brusfiltret
             </button>
           </div>
         )}
 
-        {shouldShowValvHandoff(message) && <HandoffBox className="mt-1" sourceText={message} />}
-        {shouldRedirectMabraCoachToSpeglar(message) && !speglarGuardDismissed && (
-          <MabraSpeglarGuardHint
-            className="mt-1"
-            onStay={() => setSpeglarGuardDismissed(true)}
-          />
+        {step === 2 && (
+          <div className="space-y-3 animate-in fade-in slide-in-from-right-2 duration-300">
+            <BentoCard glow="blue" className="!p-3">
+              <p className="text-xs font-medium text-accent">Steg 2: Brusfiltret</p>
+              <p className="mt-1 text-xs text-text-dim">
+                Skala bort manipulation, anklagelser och lögner. Vad är den rent logistiska eller faktiska frågan? (t.ex. "När hämtar du barnen?")
+              </p>
+              <textarea
+                value={coreQuestion}
+                onChange={(e) => setCoreQuestion(e.target.value)}
+                placeholder="Den objektiva kärnfrågan är..."
+                rows={2}
+                className="input-glass text-sm mt-3 resize-none"
+              />
+            </BentoCard>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setStep(1)} className="btn-pill--secondary flex-1">
+                Tillbaka
+              </button>
+              <button type="button" onClick={() => setStep(3)} className="btn-pill--accent flex-1">
+                Nästa: Mål
+              </button>
+            </div>
+          </div>
         )}
-        {taktikSignal && <HamnTaktikLexikonBro signal={taktikSignal} className="mt-1" />}
-        <button type="submit" disabled={loading || !message.trim()} className="btn-pill--accent w-full">
-          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-          Få Grey Rock-svar
-        </button>
+
+        {step === 3 && (
+          <div className="space-y-3 animate-in fade-in slide-in-from-right-2 duration-300">
+            <BentoCard glow="indigo" className="!p-3">
+              <p className="text-xs font-medium text-accent">Steg 3: Ditt mål</p>
+              <p className="mt-1 text-xs text-text-dim">
+                Vad vill du uppnå med svaret? (t.ex. "Skydda min tid", "Dokumentera för Valvet", "Bara säga nej")
+              </p>
+              <textarea
+                value={userGoal}
+                onChange={(e) => setUserGoal(e.target.value)}
+                placeholder="Mitt mål med svaret är..."
+                rows={2}
+                className="input-glass text-sm mt-3 resize-none"
+              />
+            </BentoCard>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setStep(2)} className="btn-pill--secondary flex-1">
+                Tillbaka
+              </button>
+              <button type="submit" disabled={loading} className="btn-pill--accent flex-1">
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                Få Grey Rock-svar
+              </button>
+            </div>
+          </div>
+        )}
       </form>
 
       {error || panelError ? (
         <p className="text-sm text-text-muted">{error || panelError}</p>
       ) : null}
 
-      {triageReady && !reply && (
-        <>
+      {triageReady && !reply && step === 3 && (
+        <div className="animate-in fade-in slide-in-from-bottom-2 duration-300">
           <BiffTriagePanel
             grans={gransAnalysis}
             riskScore={riskScore}
@@ -247,14 +257,14 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
           <button
             type="button"
             onClick={confirmReply}
-            className="btn-pill--accent w-full text-sm"
+            className="btn-pill--accent w-full text-sm mt-3"
           >
             Visa Grey Rock-svar
           </button>
-        </>
+        </div>
       )}
 
-      {!triageReady && !reply && !loading && !error && !message.trim() && (
+      {!triageReady && !reply && !loading && !error && !message.trim() && step === 1 && (
         <div className="space-y-2">
           <p className="text-xs text-text-dim">
             Tomt fält — klistra in meddelandet. Inget sparas förrän du trycker Klar. Behöver du riskanalys
@@ -329,15 +339,29 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
   const [evidenceSaved, setEvidenceSaved] = useState(false);
   const [panelError, setPanelError] = useState<string | null>(null);
 
+  const [step, setStep] = useState<1 | 2 | 3>(1);
+  const [coreQuestion, setCoreQuestion] = useState('');
+  const [userGoal, setUserGoal] = useState('');
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim()) return;
     setEvidenceSaved(false);
-    await analyze(message);
+
+    const finalPayload = [
+      `Original/Utkast: ${message.trim()}`,
+      coreQuestion.trim() ? `Kärnfråga (Brusfilter): ${coreQuestion.trim()}` : '',
+      userGoal.trim() ? `Mål med svaret: ${userGoal.trim()}` : ''
+    ].filter(Boolean).join('\n\n');
+
+    await analyze(finalPayload);
   };
 
   const handleKlar = useCallback(() => {
     setMessage('');
+    setCoreQuestion('');
+    setUserGoal('');
+    setStep(1);
     resetWizard();
     setAutosortNote(null);
     setPanelError(null);
@@ -375,6 +399,24 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
         biffUsed: true,
         entryType: 'simple',
       });
+      
+      // Dual-write: Om DCAP-data finns (hög risk eller gränser utvärderade), notera i evolution_ledger
+      if (riskScore !== null || gransAnalysis) {
+        await saveEvolutionLedger(user.uid, {
+          type: 'covert_tactic_detected',
+          pillar: 'system',
+          levelBefore: 0,
+          levelAfter: 0,
+          rationale: 'Sparat som bevis från Trygg Hamn via BIFF-triage',
+          metadata: {
+            riskScore,
+            hitlRequired,
+            gransDetected: !!gransAnalysis,
+            agentName,
+          },
+        });
+      }
+      
       setEvidenceSaved(true);
     } catch (err) {
       setPanelError(err instanceof Error ? err.message : 'Bevis kunde inte sparas. Försök igen.');
@@ -386,27 +428,88 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
   return (
     <div className="space-y-3">
       <form onSubmit={handleSubmit} className="space-y-3">
-        <textarea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          placeholder="Klistra in meddelandet för full analys…"
-          rows={4}
-          className="input-glass text-sm"
-          disabled={loading}
-        />
-        {shouldShowValvHandoff(message) && <HandoffBox className="mt-1" sourceText={message} />}
-        <button type="submit" disabled={loading || !message.trim()} className="btn-pill--accent w-full">
-          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-          Kör BIFF Triage
-        </button>
+        {step === 1 && (
+          <div className="space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
+            <textarea
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              placeholder="Klistra in meddelandet för full analys…"
+              rows={4}
+              className="input-glass text-sm resize-none"
+              disabled={loading}
+            />
+            {shouldShowValvHandoff(message) && <HandoffBox className="mt-1" sourceText={message} />}
+            <button 
+              type="button" 
+              onClick={() => setStep(2)} 
+              disabled={!message.trim()} 
+              className="btn-pill--accent w-full"
+            >
+              Nästa: Brusfiltret
+            </button>
+          </div>
+        )}
+
+        {step === 2 && (
+          <div className="space-y-3 animate-in fade-in slide-in-from-right-2 duration-300">
+            <BentoCard glow="blue" className="!p-3">
+              <p className="text-xs font-medium text-accent">Steg 2: Brusfiltret</p>
+              <p className="mt-1 text-xs text-text-dim">
+                Skala bort manipulation och känslobrus. Vad är kärnfrågan?
+              </p>
+              <textarea
+                value={coreQuestion}
+                onChange={(e) => setCoreQuestion(e.target.value)}
+                placeholder="Den objektiva kärnfrågan är..."
+                rows={2}
+                className="input-glass text-sm mt-3 resize-none"
+              />
+            </BentoCard>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setStep(1)} className="btn-pill--secondary flex-1">
+                Tillbaka
+              </button>
+              <button type="button" onClick={() => setStep(3)} className="btn-pill--accent flex-1">
+                Nästa: Mål
+              </button>
+            </div>
+          </div>
+        )}
+
+        {step === 3 && (
+          <div className="space-y-3 animate-in fade-in slide-in-from-right-2 duration-300">
+            <BentoCard glow="indigo" className="!p-3">
+              <p className="text-xs font-medium text-accent">Steg 3: Ditt mål</p>
+              <p className="mt-1 text-xs text-text-dim">
+                Vad vill du uppnå med denna interaktion?
+              </p>
+              <textarea
+                value={userGoal}
+                onChange={(e) => setUserGoal(e.target.value)}
+                placeholder="Mitt mål med analysen är..."
+                rows={2}
+                className="input-glass text-sm mt-3 resize-none"
+              />
+            </BentoCard>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setStep(2)} className="btn-pill--secondary flex-1">
+                Tillbaka
+              </button>
+              <button type="submit" disabled={loading} className="btn-pill--accent flex-1">
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                Kör BIFF Triage
+              </button>
+            </div>
+          </div>
+        )}
       </form>
 
       {error || panelError ? (
         <p className="text-sm text-text-muted">{error || panelError}</p>
       ) : null}
 
-      {triageReady && !reply && (
-        <>
+      {triageReady && !reply && step === 3 && (
+        <div className="animate-in fade-in slide-in-from-bottom-2 duration-300 mt-3">
           <BiffTriagePanel
             grans={gransAnalysis}
             riskScore={riskScore}
@@ -417,11 +520,11 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
           <button
             type="button"
             onClick={confirmReply}
-            className="btn-pill--accent w-full text-sm"
+            className="btn-pill--accent w-full text-sm mt-3"
           >
             Visa Grey Rock-svar
           </button>
-        </>
+        </div>
       )}
 
       {reply && (

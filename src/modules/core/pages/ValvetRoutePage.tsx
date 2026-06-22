@@ -8,12 +8,10 @@ import { useMinWidthSm } from '../hooks/useMinWidthSm';
 import { VaultPage } from '@/features/lifeJournal/evidence/vault';
 import {
   LEGACY_INBOX_VAULT_TAB,
-  parseVaultTab,
   type VaultTab,
 } from '@/features/lifeJournal/evidence/vault/utils/vaultTabs';
 import {
   canonicalValvRoute,
-  parseValvInputModeFromSearch,
   resolveValvInputModeFromVaultTab,
   vaultTabForValvInputMode,
   type ValvInputMode,
@@ -23,49 +21,35 @@ import {
 export function ValvetRoutePage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const desktopHubLock = useMinWidthSm();
+  
+  const valvModeRaw = searchParams.get('valvMode');
   const vaultTabRaw = searchParams.get('vaultTab');
+  const samlaViewRaw = searchParams.get('samlaView');
 
-  const vaultTab: VaultTab = useMemo(() => {
-    return parseVaultTab(vaultTabRaw);
-  }, [vaultTabRaw]);
-
-  const valvMode: ValvInputMode = useMemo(() => {
-    return parseValvInputModeFromSearch(
-      searchParams.get('valvMode'),
-      searchParams.get('samlaView'),
-      vaultTabRaw,
-    );
-  }, [searchParams, vaultTabRaw]);
+  const { vaultTab: canonTab, valvMode: canonMode } = useMemo(() => {
+    return canonicalValvRoute(valvModeRaw, vaultTabRaw, samlaViewRaw);
+  }, [valvModeRaw, vaultTabRaw, samlaViewRaw]);
 
   useEffect(() => {
-    const valvModeRaw = searchParams.get('valvMode');
-    const samlaView = searchParams.get('samlaView');
-    const tabRaw = searchParams.get('vaultTab');
-    const parsedTab = parseVaultTab(
-      tabRaw === LEGACY_INBOX_VAULT_TAB ? null : tabRaw,
-    );
-    const parsedMode = parseValvInputModeFromSearch(valvModeRaw, samlaView, tabRaw);
-    const { vaultTab: canonTab, valvMode: canonMode } = canonicalValvRoute(parsedTab, parsedMode);
-
     const needsSync =
-      samlaView != null ||
-      tabRaw === LEGACY_INBOX_VAULT_TAB ||
+      samlaViewRaw != null ||
+      vaultTabRaw === LEGACY_INBOX_VAULT_TAB ||
       valvModeRaw !== canonMode ||
-      tabRaw !== canonTab;
+      vaultTabRaw !== canonTab;
 
     if (!needsSync) return;
 
     setSearchParams(
       (prev) => {
         const params = new URLSearchParams(prev);
-        params.set('vaultTab', canonTab);
         params.set('valvMode', canonMode);
+        params.set('vaultTab', canonTab);
         params.delete('samlaView');
         return params;
       },
       { replace: true },
     );
-  }, [searchParams, setSearchParams]);
+  }, [valvModeRaw, vaultTabRaw, samlaViewRaw, canonMode, canonTab, setSearchParams]);
 
   const handleVaultTabChange = (next: VaultTab) => {
     setSearchParams(
@@ -85,7 +69,7 @@ export function ValvetRoutePage() {
       (prev) => {
         const params = new URLSearchParams(prev);
         params.set('valvMode', mode);
-        params.set('vaultTab', vaultTabForValvInputMode(mode, vaultTab));
+        params.set('vaultTab', vaultTabForValvInputMode(mode, canonTab));
         params.delete('samlaView');
         return params;
       },
@@ -115,8 +99,8 @@ export function ValvetRoutePage() {
       >
         <main className="animate-fade-in">
           <VaultPage
-            initialVaultTab={vaultTab}
-            initialValvMode={valvMode}
+            vaultTab={canonTab}
+            valvMode={canonMode}
             onVaultTabChange={handleVaultTabChange}
             onValvModeChange={handleValvModeChange}
           />

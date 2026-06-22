@@ -15,12 +15,7 @@ import { VaultLockedGate } from '@/core/components/VaultLockedGate';
 import { ValvBentoShell } from './ValvBentoShell';
 import { ValvInputSuperModule } from '../supermodule/ValvInputSuperModule';
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
-import {
-  type ValvInputMode,
-  canonicalValvRoute,
-  resolveValvInputModeFromVaultTab,
-  vaultTabForValvInputMode,
-} from '../supermodule/valvInputModes';
+import { type ValvInputMode } from '../supermodule/valvInputModes';
 import { resolveValvZone, type VaultTab } from '../utils/vaultTabs';
 
 export type { VaultTab, MainVaultTab, ValvZone } from '../utils/vaultTabs';
@@ -29,8 +24,8 @@ export { parseVaultTab } from '../utils/vaultTabs';
 type VaultPageProps = {
   embedded?: boolean;
   onClose?: () => void;
-  initialVaultTab?: VaultTab;
-  initialValvMode?: ValvInputMode;
+  vaultTab?: VaultTab;
+  valvMode?: ValvInputMode;
   onVaultTabChange?: (tab: VaultTab) => void;
   onValvModeChange?: (mode: ValvInputMode) => void;
 };
@@ -46,8 +41,8 @@ export function VaultPage(props: VaultPageProps) {
 function VaultPageInner({
   embedded = false,
   onClose,
-  initialVaultTab = 'logga',
-  initialValvMode = 'spara',
+  vaultTab: propVaultTab,
+  valvMode: propValvMode,
   onVaultTabChange,
   onValvModeChange,
 }: VaultPageProps) {
@@ -56,8 +51,12 @@ function VaultPageInner({
   const user = useStore((s) => s.user);
   const { loadFirstLogsPage, logs, hasMore: logsHasMore, loadingMore, loadMoreLogs } = useVaultStore();
 
-  const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
-  const [valvMode, setValvModeState] = useState<ValvInputMode>(initialValvMode);
+  const [internalVaultTab, setInternalVaultTab] = useState<VaultTab>('logga');
+  const [internalValvMode, setInternalValvMode] = useState<ValvInputMode>('spara');
+
+  const vaultTab = propVaultTab ?? internalVaultTab;
+  const valvMode = propValvMode ?? internalValvMode;
+
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
   const [techniqueFilter, setTechniqueFilter] = useState<string | null>(null);
   const [sessionSyncError, setSessionSyncError] = useState<string | null>(null);
@@ -66,48 +65,19 @@ function VaultPageInner({
 
   const setVaultTab = useCallback(
     (next: VaultTab) => {
-      setVaultTabState(next);
+      setInternalVaultTab(next);
       onVaultTabChange?.(next);
-      setValvModeState((currentMode) => {
-        if (currentMode === 'granska') return currentMode;
-        const derived = resolveValvInputModeFromVaultTab(next);
-        if (derived !== currentMode) {
-          onValvModeChange?.(derived);
-          return derived;
-        }
-        return currentMode;
-      });
     },
-    [onVaultTabChange, onValvModeChange],
+    [onVaultTabChange],
   );
 
   const setValvMode = useCallback(
     (mode: ValvInputMode) => {
-      setValvModeState(mode);
+      setInternalValvMode(mode);
       onValvModeChange?.(mode);
-      const nextTab = vaultTabForValvInputMode(mode, vaultTab);
-      if (nextTab !== vaultTab) {
-        setVaultTabState(nextTab);
-        onVaultTabChange?.(nextTab);
-      }
     },
-    [onValvModeChange, onVaultTabChange, vaultTab],
+    [onValvModeChange],
   );
-
-  useEffect(() => {
-    const { vaultTab: syncedTab, valvMode: syncedMode } = canonicalValvRoute(
-      initialVaultTab,
-      initialValvMode,
-    );
-    setVaultTabState(syncedTab);
-    setValvModeState(syncedMode);
-    if (syncedMode !== initialValvMode) {
-      onValvModeChange?.(syncedMode);
-    }
-    if (syncedTab !== initialVaultTab) {
-      onVaultTabChange?.(syncedTab);
-    }
-  }, [initialVaultTab, initialValvMode, onValvModeChange, onVaultTabChange]);
 
   const handleCitationClick = (docId: string) => {
     setHighlightLogId(docId);

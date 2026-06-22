@@ -12,7 +12,8 @@
  *  - Åtgärd: Returnerar en DcapResult med risknivå och föreslaget Grey Rock-svar.
  */
 
-import { VertexAI } from '@google-cloud/vertexai';
+import { genkit, z } from 'genkit';
+import { vertexAI, gemini15Flash } from '@genkit-ai/vertexai';
 import { DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT } from '../sharedRules';
 import { scanTextForTactics, type VaultTechnique } from '../lib/tacticPatternLibrary';
 
@@ -51,6 +52,18 @@ export interface DcapResult {
   recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
 }
 
+const SemanticResponseSchema = z.object({
+  technique: z.enum([
+    'DARVO', 'GASLIGHTING', 'LOVE_BOMBING', 'SILENT_TREATMENT',
+    'JADE_BAIT', 'THREAT', 'HOOVERING', 'SMEAR',
+    'ECONOMIC_CONTROL', 'MATERNAL_FACADE', 'TRAUMA_BONDING',
+    'LEGAL_PRESSURE', 'UNKNOWN'
+  ]),
+  confidence: z.enum(['HIGH', 'MEDIUM', 'LOW']).optional(),
+  riskScore: z.number().optional(),
+  greyRockSuggestion: z.string().optional()
+});
+
 // --- Lager 1: Regelbaserade Regex-mönster (kanon: shared/patterns) ---
 
 function runRegexLayer(text: string): { detections: DcapDetection[]; score: number } {
@@ -81,38 +94,33 @@ async function runSemanticLayer(
   text: string,
   projectId: string
 ): Promise<{ detections: DcapDetection[]; score: number; greyRockResponse?: string }> {
-  const vertexai = new VertexAI({ project: projectId, location: 'europe-west1' });
-  const model = vertexai.preview.getGenerativeModel({
-    model: 'gemini-2.5-flash',
-    systemInstruction: {
-      role: 'system',
-      parts: [{ text: DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT }],
-    },
+  const ai = genkit({
+    plugins: [vertexAI({ projectId, location: 'europe-west1' })],
   });
 
-  const result = await model.generateContent({
-    contents: [{ role: 'user', parts: [{ text: `Analysera denna text:\n\n"${text}"` }] }]
+  const { output } = await ai.generate({
+    model: gemini15Flash,
+    system: DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT,
+    prompt: `Analysera denna text:\n\n"${text}"`,
+    output: { schema: SemanticResponseSchema }
   });
 
-  const responseText = result.response.candidates?.[0]?.content?.parts?.[0]?.text ?? '{}';
-
-  try {
-    const parsed = JSON.parse(responseText);
-    const detections: DcapDetection[] = parsed.technique !== 'UNKNOWN' ? [{
-      technique: parsed.technique as ManipulationTechnique,
-      matchedPattern: 'Semantisk analys',
-      confidence: parsed.confidence ?? 'LOW',
-      layer: 'SEMANTIC',
-    }] : [];
-
-    return {
-      detections,
-      score: parsed.riskScore ?? 0,
-      greyRockResponse: parsed.greyRockSuggestion,
-    };
-  } catch {
+  if (!output) {
     return { detections: [], score: 0 };
   }
+
+  const detections: DcapDetection[] = output.technique !== 'UNKNOWN' ? [{
+    technique: output.technique as ManipulationTechnique,
+    matchedPattern: 'Semantisk analys',
+    confidence: output.confidence ?? 'LOW',
+    layer: 'SEMANTIC',
+  }] : [];
+
+  return {
+    detections,
+    score: output.riskScore ?? 0,
+    greyRockResponse: output.greyRockSuggestion,
+  };
 }
 
 // --- Huvud-API ---

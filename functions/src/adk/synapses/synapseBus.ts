@@ -5,11 +5,13 @@ import { handleDcapAlert } from './dcapAlertSynapse';
 import { handleJournalWoven } from './journalWovenSynapse';
 import { handleWidgetRecordingIngest } from './widgetRecordingIngestSynapse';
 import { applyParalysBreak } from './paralysBrytarenSynapse';
+import { handleKasamAggregation } from './kasamAggregationSynapse';
 import type {
   DriveIngestPayload,
   JournalWovenPayload,
   DcapAlertPayload,
   WidgetRecordingIngestedPayload,
+  KasamAggregationPayload,
 } from '../types';
 
 type SynapseHandler = (
@@ -38,6 +40,10 @@ const handlers: Record<SynapseTrigger, SynapseHandler> = {
   widget_recording_ingested: async (orchestrator, event) => {
     const p = event.payload as unknown as WidgetRecordingIngestedPayload;
     return handleWidgetRecordingIngest(orchestrator, p, process.env.GEMINI_API_KEY);
+  },
+  kasam_aggregation: async (_orchestrator, event) => {
+    const p = event.payload as unknown as KasamAggregationPayload;
+    return handleKasamAggregation(p);
   },
 };
 

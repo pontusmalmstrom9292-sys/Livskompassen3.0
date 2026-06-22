@@ -69,15 +69,15 @@ export function MaterialPackEditorSheet({ isOpen, onClose, presetId, hub, userId
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col justify-end bg-black/60 backdrop-blur-sm animate-fade-in">
+    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-black/60 backdrop-blur-sm animate-fade-in">
       <div
         className="absolute inset-0"
         onClick={onClose}
         aria-hidden="true"
       />
-      <div className="relative flex h-[85vh] w-full flex-col rounded-t-3xl border-t border-white/10 bg-[var(--color-obsidian-calm)] shadow-2xl animate-slide-up">
+      <div className="relative flex h-[85vh] w-full max-w-2xl flex-col rounded-t-[2rem] border-t border-[var(--border-strong)] bg-surface shadow-[0_-8px_30px_rgba(0,0,0,0.6)] animate-slide-up overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/5 px-6 py-4">
+        <div className="flex flex-shrink-0 items-center justify-between border-b border-[var(--border)] bg-surface-2 p-6 py-4">
           <div>
             <h2 className="text-lg font-medium text-white">Redigera genvägar</h2>
             <p className="text-xs text-white/50 uppercase tracking-widest mt-1">
@@ -147,10 +147,10 @@ export function MaterialPackEditorSheet({ isOpen, onClose, presetId, hub, userId
         </div>
 
         {/* Footer */}
-        <div className="border-t border-white/5 bg-[var(--color-obsidian-calm)] p-6 flex items-center justify-between gap-4 pb-safe">
+        <div className="border-t border-[var(--border)] bg-surface-2 p-6 flex flex-shrink-0 items-center justify-between gap-4 pb-[max(1.5rem,env(safe-area-inset-bottom,1.5rem))]">
           <button
             onClick={handleRestoreDefaults}
-            className="flex items-center gap-2 text-xs text-white/50 hover:text-white transition-colors"
+            className="flex items-center gap-2 text-xs text-text-muted hover:text-text transition-colors"
           >
             <RotateCcw className="h-3 w-3" />
             Återställ
@@ -159,13 +159,13 @@ export function MaterialPackEditorSheet({ isOpen, onClose, presetId, hub, userId
           <div className="flex items-center gap-3">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-sm text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors"
+              className="btn-pill--secondary"
             >
               Avbryt
             </button>
             <button
               onClick={handleSave}
-              className="px-4 py-2 bg-white/10 text-white hover:bg-white/20 rounded-full text-sm flex items-center gap-2 transition-colors"
+              className="btn-pill--accent"
             >
               <Save className="h-4 w-4" />
               Spara ändringar

@@ -155,29 +155,25 @@ export function vaultTabForValvInputMode(mode: ValvInputMode, currentTab?: Vault
   return def.defaultVaultTab;
 }
 
-/** Kanon URL-par — tab vinner vid desynk (Fas 1A). */
+/** Kanon URL-par — valvMode vinner (Fas 1B). */
 export function canonicalValvRoute(
-  vaultTab: VaultTab,
-  valvMode?: ValvInputMode | null,
+  valvModeRaw: string | null,
+  vaultTabRaw?: string | null,
+  samlaViewRaw?: string | null,
 ): { vaultTab: VaultTab; valvMode: ValvInputMode } {
-  let mode =
-    valvMode && (VALV_INPUT_MODE_IDS as readonly string[]).includes(valvMode)
-      ? valvMode
-      : resolveValvInputModeFromVaultTab(vaultTab);
-  if (!valvModeMatchesVaultTab(mode, vaultTab)) {
-    mode = resolveValvInputModeFromVaultTab(vaultTab);
-  }
-  const tab = vaultTabForValvInputMode(mode, vaultTab);
+  const mode = parseValvInputModeFromSearch(valvModeRaw, samlaViewRaw ?? null, vaultTabRaw ?? null);
+  const parsedTab = parseVaultTab(vaultTabRaw === LEGACY_INBOX_VAULT_TAB ? null : (vaultTabRaw ?? null));
+  const tab = vaultTabForValvInputMode(mode, parsedTab);
   return { vaultTab: tab, valvMode: mode };
 }
 
 export function buildValvSearchParams(
-  vaultTab: VaultTab,
-  valvMode?: ValvInputMode | null,
+  valvMode: ValvInputMode,
+  vaultTab?: VaultTab,
 ): URLSearchParams {
-  const { vaultTab: tab, valvMode: mode } = canonicalValvRoute(vaultTab, valvMode);
+  const { vaultTab: tab, valvMode: mode } = canonicalValvRoute(valvMode, vaultTab);
   const params = new URLSearchParams();
-  params.set('vaultTab', tab);
   params.set('valvMode', mode);
+  params.set('vaultTab', tab);
   return params;
 }

@@ -29,11 +29,11 @@ export class AdkOrchestrator {
 
     const executorCard = getAgentCard(executorId);
     if (!executorCard) {
-      return this.errorResult(contextId, productAgentId, `Executor ${executorId} saknas.`);
+      return await this.errorResult(contextId, productAgentId, `Executor ${executorId} saknas.`);
     }
 
     if (!this.intentAllowed(productAgentId, executorId, message.intent)) {
-      return this.errorResult(
+      return await this.errorResult(
         contextId,
         productAgentId,
         `Intent "${message.intent}" är inte registrerad för ${productAgentId}/${executorId}.`
@@ -44,10 +44,10 @@ export class AdkOrchestrator {
       this.enforceManifestPolicy(executorId, message, options);
     } catch (err) {
       const msg = err instanceof Error ? err.message : 'Manifest policy violation.';
-      return this.errorResult(contextId, productAgentId, msg);
+      return await this.errorResult(contextId, productAgentId, msg);
     }
 
-    const state = appendMutation(contextId, {
+    const state = await appendMutation(contextId, {
       fromAgentId: message.fromAgentId,
       toAgentId: executorId,
       intent: message.intent,
@@ -88,7 +88,7 @@ export class AdkOrchestrator {
       };
     } catch (err) {
       console.error('[ADK] Executor-fel:', err);
-      return this.errorResult(contextId, productAgentId, 'Agentexekvering misslyckades.');
+      return await this.errorResult(contextId, productAgentId, 'Agentexekvering misslyckades.');
     }
   }
 
@@ -116,8 +116,8 @@ export class AdkOrchestrator {
     });
   }
 
-  clearContext(contextId: string): void {
-    clearSynapseState(contextId);
+  async clearContext(contextId: string): Promise<void> {
+    await clearSynapseState(contextId);
   }
 
   private intentAllowed(productAgentId: string, executorId: string, intent: string): boolean {
@@ -143,14 +143,14 @@ export class AdkOrchestrator {
     }
   }
 
-  initTrace(contextId: string) {
-    return createTrace(contextId);
+  async initTrace(contextId: string) {
+    return await createTrace(contextId);
   }
 
-  private errorResult(contextId: string, agentId: string, error: string): OrchestrationResult {
+  private async errorResult(contextId: string, agentId: string, error: string): Promise<OrchestrationResult> {
     return {
       response: { agentId, status: 'ERROR', error },
-      state: createTrace(contextId),
+      state: await createTrace(contextId),
     };
   }
 }

@@ -1,10 +1,9 @@
-import { VertexAI } from '@google-cloud/vertexai';
+import { genkit } from 'genkit';
+import { vertexAI, gemini15Flash } from '@genkit-ai/vertexai';
 import type { A2AMessage } from '../../agents/types';
 import { GCP_PROJECT_ID, GCP_REGION } from '../../config';
 import { getAgentSystemPrompt } from '../../sharedRules';
 import { getOrCreateCache, generateWithCache } from '../../lib/vertexCache';
-
-const MODEL_ID = 'gemini-2.5-flash';
 
 function buildUserPrompt(message: A2AMessage): string {
   const lines = [
@@ -39,16 +38,16 @@ export async function runExecutor(
     }
   }
 
-  const vertexai = new VertexAI({ project: GCP_PROJECT_ID, location: GCP_REGION });
-  const model = vertexai.preview.getGenerativeModel({
-    model: MODEL_ID,
-    systemInstruction: { role: 'system', parts: [{ text: systemInstruction }] },
+  const ai = genkit({
+    plugins: [vertexAI({ projectId: GCP_PROJECT_ID, location: GCP_REGION })],
   });
 
-  const result = await model.generateContent({
-    contents: [{ role: 'user', parts: [{ text: buildUserPrompt(message) }] }],
-    generationConfig: { temperature: 0.2, maxOutputTokens: 1024 },
+  const { text } = await ai.generate({
+    model: gemini15Flash,
+    system: systemInstruction,
+    prompt: buildUserPrompt(message),
+    config: { temperature: 0.2, maxOutputTokens: 1024 }
   });
 
-  return result.response.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
+  return text ?? '';
 }

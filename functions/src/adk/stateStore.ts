@@ -1,7 +1,6 @@
 import crypto from 'crypto';
+import { getFirestore, FieldValue } from 'firebase-admin/firestore';
 import type { StateMutation, SynapseState } from './types';
-
-const stateByContext = new Map<string, SynapseState>();
 
 export function hashPayload(payload: Record<string, unknown>): string {
   return crypto
@@ -11,38 +10,85 @@ export function hashPayload(payload: Record<string, unknown>): string {
     .slice(0, 16);
 }
 
-export function createTrace(contextId: string): SynapseState {
+const TTL_HOURS = 24;
+
+export async function createTrace(contextId: string): Promise<SynapseState> {
+  const db = getFirestore();
   const state: SynapseState = {
     contextId,
     traceId: crypto.randomUUID(),
     mutations: [],
     createdAt: new Date().toISOString(),
   };
-  stateByContext.set(contextId, state);
+  
+  await db.collection('adk_traces').doc(contextId).set({
+    ...state,
+    expiresAt: new Date(Date.now() + TTL_HOURS * 3600 * 1000),
+  });
+  
   return state;
 }
 
-export function getTrace(contextId: string): SynapseState | undefined {
-  return stateByContext.get(contextId);
+export async function getTrace(contextId: string): Promise<SynapseState | undefined> {
+  const db = getFirestore();
+  const doc = await db.collection('adk_traces').doc(contextId).get();
+  if (!doc.exists) return undefined;
+  
+  const data = doc.data() as SynapseState;
+  return {
+    contextId: data.contextId,
+    traceId: data.traceId,
+    mutations: data.mutations || [],
+    createdAt: data.createdAt,
+  };
 }
 
-export function appendMutation(
+export async function appendMutation(
   contextId: string,
   mutation: Omit<StateMutation, 'timestamp' | 'payloadHash'> & { payload: Record<string, unknown> }
-): SynapseState {
-  const existing = stateByContext.get(contextId) ?? createTrace(contextId);
-  existing.mutations.push({
+): Promise<SynapseState> {
+  const db = getFirestore();
+  const ref = db.collection('adk_traces').doc(contextId);
+  
+  const newMutation = {
     fromAgentId: mutation.fromAgentId,
     toAgentId: mutation.toAgentId,
     intent: mutation.intent,
     payloadHash: hashPayload(mutation.payload),
     timestamp: new Date().toISOString(),
+  };
+
+  return db.runTransaction(async (t) => {
+    const doc = await t.get(ref);
+    if (!doc.exists) {
+      const state: SynapseState = {
+        contextId,
+        traceId: crypto.randomUUID(),
+        mutations: [newMutation],
+        createdAt: new Date().toISOString(),
+      };
+      t.set(ref, {
+        ...state,
+        expiresAt: new Date(Date.now() + TTL_HOURS * 3600 * 1000),
+      });
+      return state;
+    }
+
+    t.update(ref, {
+      mutations: FieldValue.arrayUnion(newMutation),
+      expiresAt: new Date(Date.now() + TTL_HOURS * 3600 * 1000),
+    });
+
+    const data = doc.data() as SynapseState;
+    return {
+      ...data,
+      mutations: [...(data.mutations || []), newMutation],
+    };
   });
-  stateByContext.set(contextId, existing);
-  return existing;
 }
 
 /** Zero Footprint — rensa ephemeralt synapstillstånd vid utloggning. */
-export function clearSynapseState(contextId: string): void {
-  stateByContext.delete(contextId);
+export async function clearSynapseState(contextId: string): Promise<void> {
+  const db = getFirestore();
+  await db.collection('adk_traces').doc(contextId).delete();
 }

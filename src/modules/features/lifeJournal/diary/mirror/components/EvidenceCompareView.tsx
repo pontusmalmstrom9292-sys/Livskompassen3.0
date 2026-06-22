@@ -1,8 +1,12 @@
 import { ExternalLink } from 'lucide-react';
 import type { VaultLog } from '@/core/types/firestore';
 import type { MediaAttachment } from '@/core/media/mediaAttachment';
-import type { VaultMatch } from '../utils/matchVaultEvidence';
 import type { SavedSpeglarEvidence } from './SpeglarEvidencePanel';
+
+export interface VaultMatch {
+  log: VaultLog & { id: string };
+  score: number;
+}
 
 interface Props {
   feeling: string;

@@ -15,6 +15,15 @@ export function parseKampsparDatapointId(datapointId: string): string | null {
   return datapointId.slice('kampspar:'.length);
 }
 
+export function vaultDatapointId(docId: string): string {
+  return `vault:${docId}`;
+}
+
+export function parseVaultDatapointId(datapointId: string): string | null {
+  if (!datapointId.startsWith('vault:')) return null;
+  return datapointId.slice('vault:'.length);
+}
+
 function getIndexId(): string {
   return process.env.VECTOR_SEARCH_INDEX_ID?.trim() || DEFAULT_VECTOR_SEARCH_INDEX_ID;
 }
@@ -80,6 +89,51 @@ export async function queryKampsparVectorNeighbors(
   }
 }
 
+/** ANN query — returns reality_vault docIds. Empty if endpoint ej live. */
+export async function queryVaultVectorNeighbors(
+  embedding: number[],
+  neighborCount = 20
+): Promise<string[]> {
+  const cfg = getAnnConfig();
+  if (!cfg || embedding.length === 0) return [];
+
+  try {
+    const { MatchServiceClient } = await import('@google-cloud/aiplatform');
+    const client = new MatchServiceClient({
+      apiEndpoint: `${LOCATION}-aiplatform.googleapis.com`,
+    });
+
+    const indexEndpoint = `projects/${GCP_PROJECT_ID}/locations/${LOCATION}/indexEndpoints/${cfg.endpointId}`;
+
+    const [response] = await client.findNeighbors({
+      indexEndpoint,
+      deployedIndexId: cfg.deployedIndexId,
+      queries: [
+        {
+          datapoint: {
+            datapointId: `query-${Date.now()}`,
+            featureVector: embedding,
+          },
+          neighborCount, // fetch more because we mix namespaces
+        },
+      ],
+    });
+
+    const neighbors = response.nearestNeighbors?.[0]?.neighbors ?? [];
+    const docIds: string[] = [];
+    for (const n of neighbors) {
+      const id = n.datapoint?.datapointId;
+      if (!id) continue;
+      const docId = parseVaultDatapointId(id);
+      if (docId) docIds.push(docId);
+    }
+    return docIds;
+  } catch (err) {
+    console.warn('[vectorSearch] Vault ANN findNeighbors misslyckades:', err);
+    return [];
+  }
+}
+
 /** Upsert embedding till Vector Search index (STREAM index, west1). */
 export async function upsertKampsparVector(docId: string, embedding: number[]): Promise<void> {
   if (embedding.length === 0) return;
@@ -104,5 +158,32 @@ export async function upsertKampsparVector(docId: string, embedding: number[]): 
     });
   } catch (err) {
     console.warn(`[vectorSearch] upsert misslyckades docId=${docId}:`, err);
+  }
+}
+
+/** Upsert embedding till Vector Search index for reality_vault. */
+export async function upsertVaultVector(docId: string, embedding: number[]): Promise<void> {
+  if (embedding.length === 0) return;
+
+  const indexId = getIndexId();
+
+  try {
+    const { IndexServiceClient } = await import('@google-cloud/aiplatform');
+    const client = new IndexServiceClient({
+      apiEndpoint: `${LOCATION}-aiplatform.googleapis.com`,
+    });
+
+    const index = `projects/${GCP_PROJECT_ID}/locations/${LOCATION}/indexes/${indexId}`;
+    await client.upsertDatapoints({
+      index,
+      datapoints: [
+        {
+          datapointId: vaultDatapointId(docId),
+          featureVector: embedding,
+        },
+      ],
+    });
+  } catch (err) {
+    console.warn(`[vectorSearch] upsert Vault misslyckades docId=${docId}:`, err);
   }
 }

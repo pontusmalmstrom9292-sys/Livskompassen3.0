@@ -4,6 +4,8 @@ import { LIVSLOGG_CATEGORIES, type LivsloggCategory } from '../../constants';
 import { SaveAsEvidencePrompt } from '../../components/SaveAsEvidencePrompt';
 import type { EpistemicKind } from '../../utils/childObservationEpistemics';
 import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
+import { analyzeJadePatterns, type JadeViolation } from '../../../safeHarbor/lib/jadeDetector';
+import { AlertTriangle } from 'lucide-react';
 
 const OBSERVATION_PLACEHOLDER: Record<EpistemicKind, string> = {
   citat: 'Ordagrant citat av barnet — t.ex. "Jag vill inte åka dit mer."',
@@ -23,6 +25,9 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [savedLogId, setSavedLogId] = useState<string | null>(null);
+  
+  const [jadeViolations, setJadeViolations] = useState<JadeViolation[]>([]);
+  const [bypassJadeGuard, setBypassJadeGuard] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -32,6 +37,8 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
       setStep('form');
       setSavedLogId(null);
       setError(null);
+      setJadeViolations([]);
+      setBypassJadeGuard(false);
     };
   }, [childAlias]);
 
@@ -42,6 +49,8 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
     setStep('form');
     setSavedLogId(null);
     setError(null);
+    setJadeViolations([]);
+    setBypassJadeGuard(false);
   };
 
   const handleSave = async () => {
@@ -49,6 +58,15 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
     if (!userId) {
       setError('Ej inloggad. Kan inte spara.');
       return;
+    }
+    
+    // Asynkron opt-in JADE-guard (Task 3)
+    if (!bypassJadeGuard) {
+      const violations = analyzeJadePatterns(observation);
+      if (violations.length > 0) {
+        setJadeViolations(violations);
+        return; // Stoppa här så användaren får varningen
+      }
     }
     
     setLoading(true);
@@ -142,7 +160,11 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
 
       <textarea
         value={observation}
-        onChange={(e) => setObservation(e.target.value)}
+        onChange={(e) => {
+          setObservation(e.target.value);
+          setJadeViolations([]);
+          setBypassJadeGuard(false);
+        }}
         placeholder={OBSERVATION_PLACEHOLDER[epistemicKind]}
         rows={3}
         className="input-glass w-full rounded-xl px-3 py-2"
@@ -158,15 +180,48 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
         disabled={loading}
       />
 
-      <button
-        type="button"
-        onClick={handleSave}
-        disabled={loading || !observation.trim()}
-        className="btn-pill--accent disabled:opacity-50"
-      >
-        {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-        Spara livslogg
-      </button>
+      {jadeViolations.length > 0 ? (
+        <div className="rounded-xl border border-danger/30 bg-danger/5 p-3 space-y-2 mt-2">
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-danger">
+            <AlertTriangle className="h-4 w-4 shrink-0" />
+            <span>Opt-in JADE-Guard (Kognitiv avlastning)</span>
+          </div>
+          <p className="text-xs text-text-muted">
+            Din observation innehåller {jadeViolations.length} JADE-mönster (t.ex. försvar eller anklagelse). 
+            WORM-livsloggen bör hållas strikt neutral för din egen sinnesro och bevisvärde.
+          </p>
+          <div className="flex gap-2 pt-1">
+            <button
+              type="button"
+              onClick={() => {
+                setBypassJadeGuard(true);
+                handleSave(); // Fortsätt spara ändå (bypass)
+              }}
+              disabled={loading}
+              className="btn-pill--ghost text-xs border-danger/20 text-danger"
+            >
+              Jag är säker, spara ändå
+            </button>
+            <button
+              type="button"
+              onClick={() => setJadeViolations([])}
+              className="btn-pill--secondary text-xs"
+            >
+              Avbryt och redigera
+            </button>
+          </div>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={handleSave}
+          disabled={loading || !observation.trim()}
+          className="btn-pill--accent disabled:opacity-50 mt-2"
+        >
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+          Spara livslogg
+        </button>
+      )}
       
       {error && <p className="mt-2 text-sm text-danger">{error}</p>}
     </div>

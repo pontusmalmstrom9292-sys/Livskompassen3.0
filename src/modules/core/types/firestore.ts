@@ -358,7 +358,7 @@ export interface UserWidgetRow extends UserWidget {
 }
 
 export type EvolutionPillar = 'kognitiv' | 'emotionell' | 'vardag' | 'relationell' | 'valv' | 'system';
-export type EvolutionMilestoneType = 'milestone_unlocked' | 'capacity_increased' | 'child_age_milestone' | 'pillar_rebalance';
+export type EvolutionMilestoneType = 'milestone_unlocked' | 'capacity_increased' | 'child_age_milestone' | 'pillar_rebalance' | 'covert_tactic_detected';
 
 export interface EvolutionLedgerEntry {
   userId: string;

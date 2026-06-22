@@ -316,6 +316,19 @@ export async function saveVaultLog(
   return docRef.id;
 }
 
+export async function saveEvolutionLedger(
+  userId: string,
+  entry: Omit<import('../types/firestore').EvolutionLedgerEntry, 'userId' | 'ownerId' | 'createdAt'>
+) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.evolution_ledger);
+  const payload = omitUndefinedFields({ ...entry, ownerId: userId } as unknown as FirestorePayload);
+  assertWormPayload(payload, 'evolution_ledger');
+  const ref = collection(db, FIRESTORE_COLLECTIONS.evolution_ledger);
+  const docRef = await guardedAddDoc(ref, withUserId(userId, payload));
+  return docRef.id;
+}
+
+
 export async function saveChildrenLog(
   userId: string,
   log: {

@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { doc, getDoc, setDoc, serverTimestamp, collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
-import { db } from '../core/firebase/firestore';
+import { httpsCallable } from 'firebase/functions';
+import { db, functions } from '../core/firebase/firestore';
 import { RiskAnalysisService } from '../oracle/services/RiskAnalysisService';
 import { CompassService } from './services/CompassService';
 import {
@@ -18,6 +19,8 @@ interface MorningCompassState {
   error: string | null;
   latestInsight: any | null;
   isLoadingInsight: boolean;
+  morningAnchor: string | null;
+  isLoadingAnchor: boolean;
   handledProtocolDate?: string;
   yesterdayWasHighRisk: boolean;
   isLowEnergyProtocolActive: boolean;
@@ -30,6 +33,7 @@ interface MorningCompassState {
   /** @deprecated Använd `saveFocus`. Behålls tills migrering bekräftad. */
   saveFocusPoints: (ownerId: string) => Promise<void>;
   fetchLatestInsight: (ownerId: string) => Promise<void>;
+  fetchMorningAnchor: () => Promise<void>;
   submitProtocolFeedback: (ownerId: string, protocol: string, action: 'accepted' | 'rejected' | 'adjusted', notes?: string) => Promise<void>;
 }
 
@@ -40,6 +44,8 @@ export const useMorningCompassStore = create<MorningCompassState>((set, get) => 
   error: null,
   latestInsight: null,
   isLoadingInsight: false,
+  morningAnchor: null,
+  isLoadingAnchor: false,
   handledProtocolDate: undefined,
   yesterdayWasHighRisk: false,
   isLowEnergyProtocolActive: false,
@@ -68,8 +74,24 @@ export const useMorningCompassStore = create<MorningCompassState>((set, get) => 
     }
   },
 
+  fetchMorningAnchor: async () => {
+    set({ isLoadingAnchor: true });
+    try {
+      const knowledgeVaultQuery = httpsCallable<{ prompt: string }, { answer: string }>(
+        functions,
+        'knowledgeVaultQuery'
+      );
+      const res = await knowledgeVaultQuery({ prompt: 'Ge mig ett kort, peppande ankare för dagen baserat på mina minnen och min kunskap.' });
+      set({ morningAnchor: res.data.answer, isLoadingAnchor: false });
+    } catch (err) {
+      console.error('[fetchMorningAnchor] failed:', err);
+      set({ isLoadingAnchor: false });
+    }
+  },
+
   setFocusPoint: (index, value) =>
     set((state) => {
+
       const newPoints = [...state.threeFocusPoints];
       newPoints[index] = value;
       return { threeFocusPoints: newPoints };
