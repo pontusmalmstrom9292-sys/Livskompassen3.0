@@ -5,6 +5,7 @@ import { vaultSessionGrantsVaultRead } from '../lib/vaultSessionGate';
 import { geminiApiKey } from '../lib/geminiSecret';
 import { GoogleGenAI } from '@google/genai';
 import { getAgentSystemPrompt } from '../sharedRules';
+import { GEMINI_PRO } from '../lib/modelRouter';
 
 export const generateWeeklyInsights = onCall(
   {
@@ -106,7 +107,7 @@ ${formatVault(vaultDocs) || 'Inga valv-poster registrerade.'}
 
       const ai = new GoogleGenAI({ apiKey: geminiApiKey.value() });
       const response = await ai.models.generateContent({
-        model: 'gemini-1.5-pro',
+        model: GEMINI_PRO,
         contents: [
           { role: 'user', parts: [{ text: promptData }] }
         ],

@@ -1,9 +1,8 @@
 import type { A2AMessage } from '../../agents/types';
 import { getAgentSystemPrompt } from '../../sharedRules';
 import { createGenAI } from '../../lib/genaiClient';
+import { selectModel, autoSelectTier } from '../../lib/modelRouter';
 import { getOrCreateCache, generateWithCache } from '../../lib/vertexCache';
-
-const MODEL_ID = 'gemini-2.5-flash';
 
 function buildUserPrompt(message: A2AMessage): string {
   const lines = [
@@ -15,8 +14,8 @@ function buildUserPrompt(message: A2AMessage): string {
 
 /**
  * AgentExecutor — kör A2A-meddelande mot Gemini.
+ * Modell väljs automatiskt: 3.1 Pro för djup analys, 3.5 Flash för snabba uppgifter.
  * Använder GEMINI_API_KEY (AI Studio, gratis) om satt, annars Vertex ADC.
- * Context cache (Vertex-feature) används om RAG-kontext finns och API-nyckel saknas.
  */
 export async function runExecutor(
   executorId: string,
@@ -25,6 +24,11 @@ export async function runExecutor(
 ): Promise<string> {
   const systemInstruction = getAgentSystemPrompt(executorId, message.intent);
   const contextId = message.contextId ?? 'anonymous';
+
+  const tier = autoSelectTier(message.intent, executorId);
+  const modelId = selectModel(tier);
+
+  console.log(`[runExecutor] ${executorId} intent=${message.intent} → model=${modelId}`);
 
   if (ragContext.length > 0 && !process.env.GEMINI_API_KEY) {
     const cached = await getOrCreateCache(`adk_${executorId}_${contextId}`, {
@@ -46,12 +50,12 @@ export async function runExecutor(
     : buildUserPrompt(message);
 
   const response = await ai.models.generateContent({
-    model: MODEL_ID,
+    model: modelId,
     contents: userPrompt,
     config: {
       systemInstruction,
-      temperature: 0.2,
-      maxOutputTokens: 1024,
+      temperature: tier === 'pro' ? 0.15 : 0.2,
+      maxOutputTokens: tier === 'pro' ? 2048 : 1024,
     },
   });
 

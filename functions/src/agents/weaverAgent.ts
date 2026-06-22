@@ -1,6 +1,7 @@
 import { VÄVAREN_SYSTEM_PROMPT } from '../sharedRules';
 import { fetchWeaverRagContext } from '../lib/kampsparRag';
 import { createGenAI } from '../lib/genaiClient';
+import { GEMINI_PRO } from '../lib/modelRouter';
 import { createWeaverPending } from '../lib/weaverPending';
 
 const ai = createGenAI();
@@ -50,7 +51,7 @@ Returnera JSON:
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-pro',
+      model: GEMINI_PRO,
       contents: prompt,
       config: {
         systemInstruction: VÄVAREN_SYSTEM_PROMPT,

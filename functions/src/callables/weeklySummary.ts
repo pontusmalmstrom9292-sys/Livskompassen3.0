@@ -4,6 +4,7 @@ import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import { vaultSessionGrantsVaultRead } from '../lib/vaultSessionGate';
 import { geminiApiKey } from '../lib/geminiSecret';
 import { GoogleGenAI } from '@google/genai';
+import { GEMINI_FLASH } from '../lib/modelRouter';
 
 export const generateWeeklySummary = onCall(
   {
@@ -90,7 +91,7 @@ ${vaultText || 'Inga reality vault-inlägg.'}
       // 5. Call LLM
       const ai = new GoogleGenAI({ apiKey: geminiApiKey.value() });
       const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash',
+        model: GEMINI_FLASH,
         contents: promptText,
       });
 

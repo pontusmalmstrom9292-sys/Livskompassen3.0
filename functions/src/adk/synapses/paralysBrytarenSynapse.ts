@@ -1,5 +1,5 @@
-import { VertexAI } from '@google-cloud/vertexai';
-import { GCP_PROJECT_ID, GCP_REGION } from '../../config';
+import { createGenAI } from '../../lib/genaiClient';
+import { GEMINI_FLASH } from '../../lib/modelRouter';
 import { PARALYS_BRYTAREN_SYSTEM_PROMPT } from '../../sharedRules';
 import { MICRO_STEP_MAX_SECONDS, type MicroStep } from '../types';
 
@@ -55,23 +55,18 @@ export async function breakIntoMicroSteps(text: string): Promise<MicroStep[]> {
   }
 
   try {
-    const vertexai = new VertexAI({ project: GCP_PROJECT_ID, location: GCP_REGION });
-    const model = vertexai.preview.getGenerativeModel({
-      model: 'gemini-1.5-flash-001',
-      systemInstruction: { role: 'system', parts: [{ text: PARALYS_BRYTAREN_SYSTEM_PROMPT }] },
+    const ai = createGenAI();
+    const result = await ai.models.generateContent({
+      model: GEMINI_FLASH,
+      contents: `Bryt ner detta API-svar till mikrosteg (max ${MICRO_STEP_MAX_SECONDS}s vardera):\n\n${text}`,
+      config: {
+        systemInstruction: PARALYS_BRYTAREN_SYSTEM_PROMPT,
+        temperature: 0.1,
+        maxOutputTokens: 512,
+      },
     });
 
-    const result = await model.generateContent({
-      contents: [
-        {
-          role: 'user',
-          parts: [{ text: `Bryt ner detta API-svar till mikrosteg (max ${MICRO_STEP_MAX_SECONDS}s vardera):\n\n${text}` }],
-        },
-      ],
-      generationConfig: { temperature: 0.1, maxOutputTokens: 512 },
-    });
-
-    const raw = result.response.candidates?.[0]?.content?.parts?.[0]?.text ?? '{}';
+    const raw = result.text ?? '{}';
     const parsed = JSON.parse(raw.replace(/```json\n?|\n?```/g, '').trim()) as {
       microSteps?: MicroStep[];
     };

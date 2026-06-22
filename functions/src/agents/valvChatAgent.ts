@@ -2,6 +2,7 @@ import { SANNING_ANALYTIKERN_SYSTEM_PROMPT } from '../sharedRules';
 import { loadEntityProfileBundle } from '../lib/entityProfileStore';
 import { fetchVaultEvidenceForQuery } from '../lib/vaultRag';
 import { createGenAI } from '../lib/genaiClient';
+import { GEMINI_PRO } from '../lib/modelRouter';
 import {
   VALV_CHAT_READ_TOOLS,
   validateValvChatResponse,
@@ -57,7 +58,7 @@ async function runValvChatGeneration(
 
   while (toolRound < 2) {
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: GEMINI_PRO,
       contents: contents as Parameters<typeof ai.models.generateContent>[0]['contents'],
       config,
     });

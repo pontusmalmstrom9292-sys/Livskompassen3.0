@@ -11,7 +11,7 @@ export type WeaverPendingDoc = {
   sourceMood: string;
   sourceTextPreview: string;
   truth: string;
-  weaverTags: WeaverResult & { model: 'gemini-1.5-pro'; journalEntryId: string };
+  weaverTags: WeaverResult & { model: string; journalEntryId: string };
   status: 'pending';
   createdAt: FirebaseFirestore.FieldValue;
 };

@@ -4,6 +4,7 @@ import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import { geminiApiKey } from '../lib/geminiSecret';
 import { GoogleGenAI } from '@google/genai';
 import { EXPERT_PROMPTS } from '../expertPrompts';
+import { GEMINI_FLASH } from '../lib/modelRouter';
 
 export interface ChatMessage {
   role: 'user' | 'model';
@@ -99,7 +100,7 @@ export const chatWithKompis = onCall(
 
       // 4. Anropa modellen
       const response = await ai.models.generateContent({
-        model: 'gemini-1.5-flash',
+        model: GEMINI_FLASH,
         contents: contents as any,
         config: {
           systemInstruction: dynamicSystemInstruction,

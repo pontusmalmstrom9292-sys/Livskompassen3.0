@@ -5,6 +5,7 @@ import { vaultSessionGrantsVaultRead } from '../lib/vaultSessionGate';
 import { geminiApiKey } from '../lib/geminiSecret';
 import { GoogleGenAI } from '@google/genai';
 import { KOMPASS_INSIKT_SYSTEM_PROMPT } from '../sharedRules';
+import { GEMINI_FLASH } from '../lib/modelRouter';
 
 export interface CompassInsightResponse {
   journalCount: number;
@@ -74,7 +75,7 @@ Generera ett svar i JSON-format med följande struktur:
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-flash',
+      model: GEMINI_FLASH,
       contents: prompt,
       config: {
         systemInstruction: KOMPASS_INSIKT_SYSTEM_PROMPT,
