@@ -61,6 +61,20 @@ När du bygger något, ge alltid:
 2. **Varför** det förbättrar appen
 3. **Risk** om något kan gå fel (eller "Låg risk — automatisk kontroll hanterar det")
 4. **Status** (Pågår / Klart / Behöver din godkännelse)
+5. **Mode** (se `mode-guide.mdc`) — vilket läge vi använder och varför
+
+### 6. Ange alltid vilket mode som används
+
+Varje svar som inleder en ny uppgift ska börja med:
+```
+📋 Mode: [Chat / Plan / Agent / Background Agent]
+Varför: [En mening]
+```
+
+Exempel:
+- `📋 Mode: Plan — Analyserar först innan vi skriver kod`
+- `📋 Mode: Background Agent — Känslig ändring i säkerhetsregler, säkrare att isolera`
+- `📋 Mode: Agent — Enkel rättning, låg risk`
 
 ## Undantag
 

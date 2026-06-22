@@ -1,0 +1,134 @@
+---
+description: Agent Gap Scout — identifierar saknade agenter och skills baserat på vad som byggs, och frågar Pontus om de ska skapas. Alltid aktiv.
+alwaysApply: true
+---
+
+# Agent Gap Scout — håll expertlistan uppdaterad
+
+Systemet ska alltid ha en dedikerad expert för varje del av appen. Den här regeln bevakar luckor och frågar Pontus om nya agenter/skills ska skapas.
+
+## Befintliga agenter (registret)
+
+### Zonbyggare
+- `specialist-valv-builder` — Verklighetsvalvet (Z1)
+- `specialist-hjartat-inkast-builder` — Hjärtat + Inkast (Z3+6)
+- `specialist-vardagen-builder` — Vardagen (Z4)
+- `specialist-familjen-hamn-builder` — Familjen + Hamn (Z5+2)
+- `specialist-planering` — Planering, Fyren, Morgonkompassen
+
+### Domänexperter
+- `specialist-hcf-domän` — HCF/covert narcissism
+- `specialist-barn-lek` — Barn, lek, epistemik
+- `specialist-aterhamtning-hälsa` — Återhämtning, hälsa
+- `specialist-mabra-curator` — MåBra-innehåll
+- `specialist-kunskap-seed` — Kunskapssådd/FACT
+- `specialist-myndighet-seed` — Myndighetsinfo
+- `specialist-neuro-psyk-seed` — Neuro/psyk-innehåll
+- `specialist-innehall-dirigent` — Innehållsklassning
+
+### Teknikspecialister
+- `specialist-adk-weaver` — Synapser, ADK, triggers
+- `specialist-dcap-routing` — DCAP-pipeline
+- `specialist-firestore-rules` — Firestore/storage-regler
+- `specialist-security-auditor` — Säkerhetsaudit
+- `specialist-ux-guardian` — UI/UX-granskning
+- `specialist-theme-lab` — Design, tokens, ikoner
+
+### Verifiering & orkester
+- `specialist-verifier` — Slutverifiering
+- `specialist-smoke-runner` — Smoke-tester
+- `orkester-conductor` — Nattpass
+- `yolo-vakt` — Säkerhetsgranskare
+- `specialist-beslutsstod` — Projektnavigator
+
+### Infrastruktur
+- `livskompassen-synapser-adk` — ADK-synapser (agent)
+- `livskompassen-arkiv-master` — Arkiv, RAG, dossier
+- `android-kompis` — Android/Capacitor
+- `minnes-arkitekten` — Auto kunskapsingest
+- `integration-conductor` — Extern AI-integrering
+- `parallel-orchestrator` — Parallella zon-paket
+
+## Saknade agenter att bevaka
+
+Dessa funktioner i appen saknar dedikerad specialist:
+
+| App-område | Status | Agent att skapa |
+|------------|--------|-----------------|
+| `economy` — ekonomimodul, leverantörsavtal | ❌ Saknas | `specialist-ekonomi` |
+| `diary` — dagbok, journal | ❌ Saknas | `specialist-dagbok` |
+| `emotional-memory` — emotionellt minne | ❌ Saknas | `specialist-emotionellt-minne` |
+| `sos` — SOS-funktion | ❌ Saknas | `specialist-sos` |
+| `onboarding` — onboarding-flöde | ❌ Saknas | `specialist-onboarding` |
+| `voiceToVault` — röst-till-valv | ❌ Saknas | `specialist-rost-till-valv` |
+| `widgets` — widgets | ❌ Saknas | `specialist-widgets` |
+| `drogfrihet` — drogfrihetsstöd | ❌ Saknas | `specialist-drogfrihet` |
+| `Speglar / Gräns-Arkitekten` — gränshantering | ❌ Saknas | `specialist-grans-arkitekten` |
+
+## Befintliga skills (registret)
+
+- `livskompassen-arkiv-master` — Hela arkivet
+- `livskompassen-deploy` — Deploy
+- `livskompassen-integration-hub` — Integrationer
+- `livskompassen-memory-agents` — Minnesagenter
+- `livskompassen-memory-silo-guard` — Silo-isolation
+- `livskompassen-rag-retrieval` — RAG-sökning
+- `livskompassen-synapser-adk` — ADK-synapser
+- `livskompassen-theme-lab` — Design/tema
+- `livskompassen-vector-search` — Vektorsökning
+
+## Saknade skills att bevaka
+
+| Uppgift | Status | Skill att skapa |
+|---------|--------|-----------------|
+| Ekonomi och leverantörsavtal | ❌ Saknas | `livskompassen-ekonomi` |
+| Android-deploy och Capacitor | ❌ Saknas | `livskompassen-android` |
+| Röstinspelning och transkribering | ❌ Saknas | `livskompassen-voice` |
+
+## Trigger — fråga Pontus om ny agent/skill
+
+Fråga proaktivt när något av detta sker:
+
+1. **Vi jobbar med ett område utan specialist** — ingen agent i listan ovan täcker det
+2. **En specialist används ofta** — kanske behövs en skill för smidigare aktivering
+3. **Ny funktionalitet planeras** — en ny expert behövs innan vi börjar bygga
+4. **Vi skapar en ny Cursor-regel** — kan behöva en agent som tillämpar den
+
+### Format — föreslå ny agent
+
+```
+🧩 Ny expert behövs
+
+Vi håller på med [område] men det finns ingen dedikerad specialist för det.
+
+Förslag: Skapa `specialist-[namn]`
+Den skulle ha koll på: [2-3 meningar om vad experten vet]
+Används när: [konkret scenario]
+
+👉 Vill du att jag skapar den? (Säg "ja" eller "skippa")
+```
+
+### Format — föreslå ny skill
+
+```
+⚡ Ny skill kan effektivisera detta
+
+Vi aktiverar [agent] ofta för [uppgift]. En skill gör det snabbare och 
+säkerställer att rätt kanon alltid läses automatiskt.
+
+Förslag: Skapa skill `livskompassen-[namn]`
+
+👉 Vill du att jag skapar den? (Säg "ja" eller "skippa")
+```
+
+## Periodisk påminnelse (varannan vecka)
+
+Vid nattpass (`orkester:night`) eller `/specialist-beslutsstod`:
+Checka listan ovan — finns det fortfarande saknade agenter? 
+Fråga Pontus om han vill skapa dem nu.
+
+## MUST NOT
+
+- Börja bygga ett nytt område utan att kolla om specialist finns
+- Skapa agenter/skills utan Pontus godkännande
+- Uppdatera registret ovan utan att faktiskt skapa filen i `.cursor/agents/`

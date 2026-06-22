@@ -1,0 +1,95 @@
+---
+description: Topic Drift — detekterar när chatten byter ämne och föreslår ny chatt med rätt prompt och mode. Alltid aktiv.
+alwaysApply: true
+---
+
+# Topic Drift — chattfokus och ämneshygien
+
+Pontus har ADHD och tenderar att blanda flera ämnen i samma chatt. Det leder till att agenter tappar kontext och kan hallucinera eller göra fel. Den här regeln vaktar fokuset.
+
+## Signaler att bevaka — reagera direkt
+
+Reagera när du märker något av följande under en pågående chatt:
+
+| Signal | Exempel |
+|--------|---------|
+| Nytt Cursor-område nämns | Pratar backend → börjar fråga om UI/design |
+| Nytt appområde introduceras | Valv-chatt → plötsligt fråga om Planering |
+| Stor konceptuell hopp | Bygge pågår → ny idé om helt ny funktion |
+| Flera oberoende uppgifter staplas | "Och sen kan vi också..." / "Förresten..." |
+| Lång chatt med många ämnen | Risk för tappad kontext och hallucinationer |
+| Fråga om något vi inte nyss pratat om | Indikerar minneslucka i chattens kontext |
+
+## Format — avbryt och föreslå ny chatt
+
+När du detekterar ett ämnesbyte, säg detta **omedelbart** och **tydligt**:
+
+```
+⚠️ Ämnesbyte detekterat
+
+Vi håller just nu på med: [nuvarande uppgift — 1 mening]
+
+Du nämnde nu: [nytt ämne]
+
+👉 Det är bättre att ta [nytt ämne] i en ny chatt så vi inte tappar fokus här.
+
+Starta en ny chatt i [MODE] med den här prompten:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[Klar, kopierbar prompt för den nya chatten — komplett med kontext]
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Jag fortsätter med [nuvarande uppgift] här — bekräfta med "fortsätt" 
+eller öppna den nya chatten när du är redo.
+```
+
+## Generera alltid en klar prompt för den nya chatten
+
+Prompten ska vara komplett och innehålla:
+1. Vilket område det gäller (t.ex. "Planering-modulen / Fyren-widget")
+2. Vad som ska göras (så specifikt som möjligt)
+3. Vilket mode (se `mode-guide.mdc`)
+4. Eventuell kontext som är relevant (t.ex. "Vi byggde nyss X i backend")
+
+**Exempelprompt (frontend-ärende):**
+```
+[PLAN MODE] Planering-modulen — Fyren-widget
+Jag vill lägga till en ny snabbåtkomstknapp i Fyren-widgeten för att 
+starta Morgonkompassen direkt. Vi har nyss byggt klart backend-delen 
+(planering API). Börja med att analysera nuvarande Fyren-komponent 
+och föreslå minimal ändring utan att bryta Locked UX.
+```
+
+## Hallucinationsrisk — extra varning
+
+Om du märker att chatten kommit till ett ämne som är **utanför din kontext** (du vet inte svaret med säkerhet), säg detta:
+
+```
+🔴 Hallucineringsrisk
+
+Jag är inte säker på [specifikt påstående] i denna chattkontext. 
+Chatten har blivit lång och jag kan ha tappat viktig information.
+
+Alternativ:
+1. Öppna en ny chatt och fråga specifikt om [ämnet]
+2. Jag verifierar mot kod/dokument direkt — säg "verifiera"
+```
+
+## Chatt-arkivering
+
+När en chatt är komplett och vi startat en ny, påminn Pontus:
+
+```
+✅ [Uppgift] är klar i denna chatt.
+
+Du kan arkivera den här konversationen i Cursor 
+(högerklicka → "Archive" eller stäng fliken).
+
+Den nya chatten om [nytt ämne] tar vid härifrån.
+```
+
+## MUST NOT
+
+- Fortsätta byta ämne utan att påpeka det
+- Svara på nya ämnen utan att erbjuda ny chatt-prompt
+- Anta att Pontus har koll på vad vi höll på med — påminn alltid
+- Lämna Pontus utan en klar kopierbar prompt för nästa chatt

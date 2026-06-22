@@ -47,8 +47,19 @@ Om uppgiften spänner över flera områden, välj den agent vars zon dominerar o
 - UI + deploy → `/specialist-ux-guardian` primär, skill `livskompassen-deploy` sekundär
 - Backend + DCAP → `/specialist-dcap-routing` primär, `/specialist-adk-weaver` sekundär
 
+## Kompletterande regler (alltid aktiva)
+
+| Regel | Funktion |
+|-------|---------|
+| `topic-drift.mdc` | Detekterar ämnesbyte — föreslår ny chatt med prompt |
+| `mode-guide.mdc` | Anger vilket Cursor-mode + cloud-val som passar |
+| `agent-gap-scout.mdc` | Bevakar saknade agenter/skills, frågar Pontus |
+| `klarsprak.mdc` | Tvingar klarspråk och mode-angivelse |
+
 ## MUST NOT
 
 - Börja koda i ett område utan att ha hänvisat till rätt specialist eller kontrollerat dess kanon.
 - Använda en agent utanför dess Scope-lista.
 - Blanda silo-logik utan att läsa `livskompassen-memory-silo-guard`.
+- Byta ämne utan att trigga `topic-drift.mdc`.
+- Starta kodning utan att ange mode (se `mode-guide.mdc`).
