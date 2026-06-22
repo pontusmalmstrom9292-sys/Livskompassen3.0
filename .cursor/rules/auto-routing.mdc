@@ -1,0 +1,53 @@
+---
+description: Auto-routing — matchar uppgiftstyp till rätt specialist-agent och skill. Alltid aktiv.
+alwaysApply: true
+---
+
+# Auto-routing: uppgift → specialist
+
+Läs prompten och identifiera ämnet. Hänvisa till rätt specialist **innan** du börjar koda eller svara djupare. Välj baserat på nyckelord och kontext nedan.
+
+## Routingmatris
+
+| Om uppgiften gäller… | Primär agent | Kompletterande skill |
+|---|---|---|
+| Valv, Mönster, Orkester, Inkast, vaultChat, WORM-evidence, Speglar, Hamn-upload | `/specialist-valv-builder` | `livskompassen-memory-silo-guard` |
+| Synapser, ADK, triggers, auto-ingest, Cloud Tasks, batch | `/specialist-adk-weaver` · skill `livskompassen-synapser-adk` | `livskompassen-synapser-adk` |
+| Firestore-regler, storage.rules, säkerhetsregler, WORM-enforcement | `/specialist-firestore-rules` | `livskompassen-memory-silo-guard` |
+| DCAP, routing, classifyInboxDocument, resolveExecutorId, riskklassning | `/specialist-dcap-routing` | — |
+| Säkerhetsaudit, Sacred Features, Zero Footprint, Kill Switch, GAP-analys | `/specialist-security-auditor` | — |
+| UI, design, Obsidian Calm, Nordic Dusk, Chameleon, komponenter, Tailwind | `/specialist-ux-guardian` · `/design-labbet` | `livskompassen-theme-lab` |
+| Familjen, Barn, Barnporten, Hamn, barnporten HITL, barn-PWA | `/specialist-familjen-hamn-builder` · `/specialist-barn-lek` | — |
+| Vardagen, MåBra, Planering, hybrid-widget, Fyren, Morgonkompassen | `/specialist-vardagen-builder` · `/specialist-planering` | — |
+| Hjärtat, Inkast, inkommande dokument, upload-routing | `/specialist-hjartat-inkast-builder` | — |
+| Arkiv, RAG, dossier, minne, tre silos, Hela Arkivet | `/livskompassen-arkiv-master` | `livskompassen-rag-retrieval` · `livskompassen-memory-silo-guard` |
+| Vektor-sökning, ANN, embeddings, vector index | `/livskompassen-arkiv-master` | `livskompassen-vector-search` |
+| Deploy, Firebase deploy, hosting, functions:deploy, CI | skill `livskompassen-deploy` | — |
+| Backend, functions, callables, sharedRules, Gemini/Vertex | `/specialist-adk-weaver` | `livskompassen-synapser-adk` |
+| Android, Capacitor, Gradle, APK, push notifications mobil | `/android-kompis` | — |
+| HCF, covert narcissism, Valv-domän, gaslighting, bevis-prior | `/specialist-hcf-domän` | — |
+| Innehåll, FACT/REFLECTION/PLAY/EVIDENCE-klassning, kunskapssådd | `/specialist-innehall-dirigent` | — |
+| Tema, färger, design tokens, ikoner, UX-polish | `/specialist-theme-lab` | `livskompassen-theme-lab` |
+| Nattpass, orkester, batch-autorun, parallella agenter | `/orkester-conductor` | — |
+| Verifiering, rök-tester, smoke, pre-merge | `/specialist-verifier` · `/specialist-smoke-runner` | — |
+
+## Beslutsprocess
+
+1. **Läs prompten** — identifiera vilket område uppgiften tillhör (kolumn 1 ovan).
+2. **Hänvisa** — nämn primär agent och skill i ditt svar.
+3. **Aktivera skill** om det finns en matchning — läs SKILL.md direkt.
+4. **Skapa ny specialist** om inget passar — namnge den `specialist-[område].md` i `.cursor/agents/` och registrera den här.
+
+## Kombinerade uppgifter
+
+Om uppgiften spänner över flera områden, välj den agent vars zon dominerar och nämn de sekundära:
+
+- Valv + säkerhet → `/specialist-valv-builder` primär, `/specialist-security-auditor` sekundär
+- UI + deploy → `/specialist-ux-guardian` primär, skill `livskompassen-deploy` sekundär
+- Backend + DCAP → `/specialist-dcap-routing` primär, `/specialist-adk-weaver` sekundär
+
+## MUST NOT
+
+- Börja koda i ett område utan att ha hänvisat till rätt specialist eller kontrollerat dess kanon.
+- Använda en agent utanför dess Scope-lista.
+- Blanda silo-logik utan att läsa `livskompassen-memory-silo-guard`.
