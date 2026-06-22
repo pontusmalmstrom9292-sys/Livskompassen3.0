@@ -170,7 +170,7 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 - [x] **RoutineTemplate + ModuleLink (Fas B)** — `routineTemplates.ts`, `RoutinesPanel` på `/planering`, deep links
 - [x] **MaterialPack (Fas C)** — `materialPacks.ts`, `MaterialPackShortcuts` på Familjen/MåBra/Hamn
 - [x] **Projekt P1 (del)** — `projects`, `project_blocks`, `/projekt/:id`, `projectId` på kanban
-- [ ] **Projekt P2+ / Fas D** — regler, bild-uppladdning, widget-sheet, full MaterialPack-editor
+- [x] **Projekt P2+ / Fas D** — regler, bild-uppladdning, widget-sheet, full MaterialPack-editor
 - [ ] Implementation: `kör kopplingar C` · `kör projekt P1` · se komihåg för fasering
 
 ## Fas 6 — Input Superhub (Superdagbok) · **AVSLUTAD**
@@ -332,5 +332,5 @@ När en Superhub-modul har **implementerats, testats och godkänts** av teknikle
 | Prioritet | Spår | Status |
 |-----------|------|--------|
 | **12B** | Adaptiv Hemkompass — superhub-broar från Hem | **done** 2026-06-14 |
-| **12C** | Säkerhet P2 — vault-gate `weeklySummary` / `compass` | backlog |
+| **12C** | Säkerhet P2 — vault-gate `weeklySummary` / `compass` | **done** |
 | **12D** | Dossier BBIC `reportType` | backlog |
