@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Mic, Loader2, Check, Send } from 'lucide-react';
+import { Mic, Loader2, Check, Send, Ear } from 'lucide-react';
 import { useQuickCaptureStore } from '../store/useQuickCaptureStore';
 import { speechService } from '../services/speechService';
 import { parseVoiceCommand } from '../api/voiceCommandService';
+import { fetchSpeglingsMirror } from '@/modules/features/lifeJournal/diary/mirror/api/speglingsCoachService';
 
 type Props = {
   onDone?: () => void;
@@ -22,6 +23,7 @@ export function QuickCapturePanel({ onDone, compact = false }: Props) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const [feedbackMsg, setFeedbackMsg] = useState('');
+  const [baraLyssna, setBaraLyssna] = useState(false);
 
   const handleToggleRecording = () => {
     if (isRecording) {
@@ -53,16 +55,23 @@ export function QuickCapturePanel({ onDone, compact = false }: Props) {
     setSubmitStatus('idle');
     setFeedbackMsg('');
     try {
-      const result = await parseVoiceCommand(transcript);
-      setSubmitStatus('success');
-      setFeedbackMsg(result.message);
-      window.setTimeout(() => {
-        close();
-        setSubmitStatus('idle');
-        setFeedbackMsg('');
-        reset();
-        onDone?.();
-      }, 2500);
+      if (baraLyssna) {
+        const mirrorText = await fetchSpeglingsMirror(transcript);
+        setSubmitStatus('success');
+        setFeedbackMsg(mirrorText);
+        // Ingen autostängning för Bara Lyssna
+      } else {
+        const result = await parseVoiceCommand(transcript);
+        setSubmitStatus('success');
+        setFeedbackMsg(result.message);
+        window.setTimeout(() => {
+          close();
+          setSubmitStatus('idle');
+          setFeedbackMsg('');
+          reset();
+          onDone?.();
+        }, 2500);
+      }
     } catch (error) {
       console.error('Failed to submit Quick Capture:', error);
       setSubmitStatus('error');
@@ -97,6 +106,19 @@ export function QuickCapturePanel({ onDone, compact = false }: Props) {
         </button>
 
         <div className="flex items-center gap-3">
+          <label className="flex cursor-pointer items-center gap-2 rounded-xl px-2 py-2 text-sm text-text-muted transition-colors hover:bg-surface/50 hover:text-text">
+            <input
+              type="checkbox"
+              className="sr-only"
+              checked={baraLyssna}
+              onChange={(e) => setBaraLyssna(e.target.checked)}
+            />
+            <Ear className={`h-4 w-4 transition-colors ${baraLyssna ? 'text-accent' : ''}`} />
+            <span className={`transition-colors ${baraLyssna ? 'text-accent font-medium' : ''}`}>
+              Bara lyssna
+            </span>
+          </label>
+
           <button
             type="button"
             onClick={reset}
