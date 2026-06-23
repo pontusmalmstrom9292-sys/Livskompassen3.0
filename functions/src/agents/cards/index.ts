@@ -4,6 +4,7 @@ import { AgentCard } from '../types';
 export const EXECUTOR_AGENT_IDS = {
   livsArkivarien: 'agent_livs_arkivarien',
   gransArkitekten: 'agent_grans_arkitekten',
+  sanningsAnalytikern: 'agent_sannings_analytikern',
 } as const;
 
 export const LivsArkivarienCard: AgentCard = {
@@ -259,8 +260,9 @@ export function resolveExecutorId(productAgentId: string): string {
   switch (productAgentId) {
     case BiffSkoldenCard.metadata.id:
     case BrusfiltretCard.metadata.id:
-    case SanningsAnalytikernCard.metadata.id:
       return EXECUTOR_AGENT_IDS.gransArkitekten;
+    case SanningsAnalytikernCard.metadata.id:
+      return EXECUTOR_AGENT_IDS.sanningsAnalytikern;
     case MonsterArkivarienCard.metadata.id:
       return EXECUTOR_AGENT_IDS.livsArkivarien;
     case ParalysBrytarenCard.metadata.id:
