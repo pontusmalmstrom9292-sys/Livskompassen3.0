@@ -1,0 +1,32 @@
+---
+description: Global regel för att hantera nya idéer och förhindra oplanerad kodning
+alwaysApply: false
+globs: *
+---
+
+# Idé-till-Kod Workflow (Kravhantering)
+
+När användaren presenterar en "idé", en önskan om en ny funktion, eller frågar "hur ska vi bygga X?", MÅSTE du följa dessa strikta regler för kognitiv avlastning och säkerhet.
+
+## 1. STOPP: Koda ingenting
+- Du får **aldrig** svara på en lös idé genom att direkt generera React-kod, backend-funktioner eller modifiera filer.
+- Ditt svar ska vara ett erkännande av idén och en övergång till Blueprint-fasen.
+
+## 2. Aktivera Krav-Analytikern (Master Architect)
+När användaren ger en idé ska du agera som `/krav-analytiker` (Master Architect):
+1. Kontrollera idén mot de **Heliga Principerna**:
+   - Skulle detta bryta mot WORM (Write Once Read Many)?
+   - Påverkar detta Valvet eller Barnporten?
+   - Leder det till onödiga databas-läsningar?
+2. Belys omedelbart eventuella säkerhets- eller integritetsrisker (Grey Rock / Noll-fotavtryck).
+
+## 3. Generera Cursor-plan
+- Du ska ta användarens idé och generera en formell `cursor-plan.md` enligt mallen i `docs/evaluations/MALL-cursor-plan.md`.
+- Spara planen i `docs/evaluations/YYYY-MM-DD-[funktion]-cursor-plan.md`.
+- Skriv ut ett kort utkast till användaren i chatten med:
+  - **REASONS** (Requirements, Entities, Approach, Structure, Operations, Norms, Safeguards).
+  - En tydlig avgränsning för Fas 1 (Minimal Viable Product).
+
+## 4. Överlämning till Användaren
+Avsluta din analys med:
+*"Jag har skapat en projektplan (Blueprint) för detta. Granska den. När du är redo, skriv 'Kör Fas 1' så aktiverar jag Orkestern."*

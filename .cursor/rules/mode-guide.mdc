@@ -1,6 +1,6 @@
 ---
 description: Mode Guide — visar vilket Cursor-mode och cloud-alternativ som passar uppgiften. Alltid aktiv.
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Mode Guide — välj rätt verktyg för uppgiften

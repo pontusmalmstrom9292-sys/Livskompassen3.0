@@ -21,25 +21,14 @@ Centrala moduler i `calm-card` (legacy: `glass-card`):
 - **Hörn:** `rounded-3xl` / `rounded-[2rem]` — aldrig under `2xl` på centrala modulkort
 - **Glass:** Subtila kanter t.ex. `border-white/5`, lågkontrast-ytor
 
-## 3. FÄRGKODAD BOTTEN-GLOW
+## 3. FÄRGKODAD BOTTEN-GLOW (BORTTAGET I MIDNIGHT GOLD)
 
-Varje kort: subtil gradient-glow + hårdare kantlinje **enbart i botten**, matchar silo:
+*Tidigare krävdes färgade glow-linjer i botten av korten (glow-bottom-gold, glow-bottom-blue). Detta är nu borttaget till förmån för Midnight Gold-stilen.*
 
-| Glow | Klass | Zoner / moduler |
-|------|--------|-----------------|
-| Guld | `glow-bottom-gold` | Vardagen ekonomi & mål, planering, kompasser, budget, sparmål |
-| Indigo | `glow-bottom-blue` | Familjen, Valv, Dagbok/bevis, Barnen, Trygg Hamn / BIFF |
-| Smaragd | `glow-bottom-green` | MåBra, Drogfrihet, neuro-nutrition, energi, återhämtning |
+Använd **aldrig** glow-linjer för att indikera silo. Kort ska vara strama och platta.
+Hjälpklasserna (t.ex. `.glow-bottom-gold`) behålls tills vidare för bakåtkompatibilitet men ska inte appliceras på nya kort.
 
-Hjälp-klasser (på kortet):
-
-- `.glow-bottom-gold` → `border-b-2 border-accent/70 shadow-[0_4px_20px_-2px_rgba(212,175,55,0.3)]`
-- `.glow-bottom-blue` → `border-b-2 border-indigo-500/70 shadow-[0_4px_20px_-2px_rgba(99,102,241,0.3)]`
-- `.glow-bottom-green` → `border-b-2 border-emerald-500/70 shadow-[0_4px_20px_-2px_rgba(16,185,129,0.3)]`
-
-Kombinera med `calm-card`. Glow i botten — aldrig runt hela kortet.
-
-**Aktiv chrome** (drawer, dock, tabs): guld enligt [`docs/design/COLOR-POLICY.md`](../../docs/design/COLOR-POLICY.md) — inte turkos/indigo som primär aktiv state. Sekundärt: Emerald `#2DD4BF` (spara), Indigo `#818CF8` (sekundära actions).
+**Aktiv chrome** (drawer, dock, tabs): guld enligt Midnight Gold-paletten. Sekundärt: Emerald `#2DD4BF` (spara), Indigo `#818CF8` (sekundära actions).
 
 ## 4. TYPOGRAFI
 

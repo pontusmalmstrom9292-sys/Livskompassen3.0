@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { Shield } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useTheme } from '../theme';
 import { getTheme } from '../theme';
@@ -11,6 +12,7 @@ import { HomeStreakChip } from './HomeStreakChip';
 import { HomeAdaptiveCompass } from './HomeAdaptiveCompass';
 import { HomeLayoutA } from './HomeLayoutA';
 import { BRUSHED_BRASS_THEME_ID } from '../theme/themePackBrushedBrass';
+import { usePansarStore } from '../store/usePansarStore';
 
 type Props = {
   onCheckInSaved?: () => void;
@@ -25,9 +27,21 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
   const brassHome = themeId === BRUSHED_BRASS_THEME_ID;
   const { active: designPackActive } = useDesignPack();
   const { preset, presetId } = useLifeHubPreset();
+  const { activate } = usePansarStore();
+
+  const sosTrigger = (
+    <button
+      type="button"
+      title="Nödläge (Pansar)"
+      onClick={() => activate('manual', 1)}
+      className="absolute top-4 right-4 z-50 p-2 text-slate-500 hover:text-indigo-400 opacity-20 hover:opacity-100 transition-all rounded-full"
+    >
+      <Shield size={18} />
+    </button>
+  );
 
   const header = (
-    <div className="home-hero-kanon__header">
+    <div className="home-hero-kanon__header relative">
       <BentoCard
         bare
         depth
@@ -51,7 +65,8 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
 
   if (brassHome) {
     return (
-      <div className="home-hero-kanon home-hero-kanon--brass-a">
+      <div className="home-hero-kanon home-hero-kanon--brass-a relative">
+        {sosTrigger}
         <HomeLayoutA variant="brass" onCheckInSaved={onCheckInSaved} presetLabel={preset.label} />
       </div>
     );
@@ -59,7 +74,8 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
 
   if (mockup) {
     return (
-      <div className={clsx('home-hero-kanon space-y-4', 'home-hero-kanon--mockup')}>
+      <div className={clsx('home-hero-kanon space-y-4 relative', 'home-hero-kanon--mockup')}>
+        {sosTrigger}
         <div className="home-hero-kanon__bridge">
           <div className="home-hero-kanon__compass-stage" aria-hidden />
           <div className="home-hero-kanon__scenic-stack space-y-4">
@@ -76,7 +92,8 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
   }
 
   return (
-    <div className="home-hero-kanon home-hero-kanon--layout-a">
+    <div className="home-hero-kanon home-hero-kanon--layout-a relative">
+      {sosTrigger}
       <HomeLayoutA variant="calm" onCheckInSaved={onCheckInSaved} presetLabel={preset.label} />
     </div>
   );

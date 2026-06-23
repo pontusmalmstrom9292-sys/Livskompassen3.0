@@ -1,5 +1,6 @@
+import { toast } from '@/modules/core/store/toastStore';
 import { useCallback, useEffect, useState } from 'react';
-import { Clock, Loader2 } from 'lucide-react';
+import { Clock, Loader2, Home } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { MetricTile } from '@/core/ui/MetricTile';
 import { EmptyState } from '@/core/ui/EmptyState';
@@ -89,10 +90,12 @@ export function StampClockPage() {
           kat: created.category,
           dagensTimmar: 0,
         });
+        toast.success(`Stämplade in: ${stampCategory}`);
       } else {
         await recordTimeOut(user.uid, openEntryId ?? undefined);
         setOpenEntryId(null);
         setStatus((s) => ({ ...s, instamplad: false, inTid: '', kat: '' }));
+        toast.info('Du har stämplat ut. Nu lämnar vi jobbet bakom oss.');
       }
       await reload();
     } catch (e) {
@@ -167,10 +170,11 @@ export function StampClockPage() {
                 disabled={busy || !isClockedIn}
                 onClick={() => void stamp('UT')}
                 className={
-                  isClockedIn && !busy ? 'btn-pill--success-solid' : 'btn-pill--ghost opacity-40'
+                  isClockedIn && !busy ? 'btn-pill--success-solid flex items-center justify-center gap-2' : 'btn-pill--ghost opacity-40 flex items-center justify-center gap-2'
                 }
               >
-                Stämpla ut
+                <Home className="h-4 w-4" />
+                Gick hem
               </button>
             </div>
           </>

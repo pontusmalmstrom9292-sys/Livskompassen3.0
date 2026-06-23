@@ -3,7 +3,7 @@
  */
 import { useCallback, useRef, useState } from 'react';
 import { clsx } from 'clsx';
-import { FileUp, Inbox } from 'lucide-react';
+import { FileUp, Inbox, Copy, Check, Mic, MicOff } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
 import { WormSaveConfirmSheet } from '@/core/security/WormSaveConfirmSheet';
@@ -33,6 +33,9 @@ import {
   resolveInkastMime,
 } from '@/modules/inkast/constants/inkastMimeTypes';
 import { CalmBreathingCircle } from './components/CalmBreathingCircle';
+import { useSpeechRecognition } from './hooks/useSpeechRecognition';
+
+const BARA_ORD_OPTIONS = ['Utmattad', 'Ångest', 'Ledsen', 'Lugn', 'Överväldigad'];
 
 export type InkastDirectPanelTone = 'hem' | 'valv';
 
@@ -64,8 +67,21 @@ export function InkastDirectPanel({
   const [wormConfirmOpen, setWormConfirmOpen] = useState(false);
   const [pendingPayload, setPendingPayload] = useState<InkastSubmitPayload | null>(null);
   const [wormContextLabel, setWormContextLabel] = useState<string | undefined>(undefined);
+  // Fas 3: Bara Lyssna-toggle
+  const [baraLyssna, setBaraLyssna] = useState(false);
+  // Fas 3: Clipboard copy feedback
+  const [copied, setCopied] = useState(false);
+  // Fas 3: Bara ord-läge
+  const [showBaraOrd, setShowBaraOrd] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const userId = useStore((s) => s.user?.uid);
+
+  // Fas 3: Röstinmatning (Töm Skallen)
+  const { isListening, toggleListening, supported: speechSupported } = useSpeechRecognition({
+    onResult: (transcript) => {
+      setText((prev) => prev + (prev.endsWith(' ') || prev.length === 0 ? '' : ' ') + transcript);
+    },
+  });
 
   const isValv = tone === 'valv';
 
@@ -179,8 +195,30 @@ export function InkastDirectPanel({
       setError('Skriv minst några rader (sms, mejl, anteckning).');
       return;
     }
-    void requestSubmit({ text: trimmed, fileName: 'inkast-klistra.txt' });
+    // Fas 3: skicka med baraLyssna-flagga som metadata
+    void requestSubmit({
+      text: trimmed,
+      fileName: 'inkast-klistra.txt',
+      ...(baraLyssna ? { sourceModule: `${sourceModule ?? 'inkast'}|bara_lyssna` } : {}),
+    });
   };
+
+  const handleBaraOrdSubmit = (ord: string) => {
+    void requestSubmit({
+      text: `Mående: ${ord}`,
+      fileName: 'inkast-bara-ord.txt',
+      sourceModule: `${sourceModule ?? 'inkast'}|bara_ord`,
+    });
+  };
+
+  // Fas 3: Clipboard copy
+  const handleCopy = useCallback(() => {
+    if (!text.trim()) return;
+    void navigator.clipboard.writeText(text).then(() => {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+    });
+  }, [text]);
 
   const handleFiles = async (files: FileList | null) => {
     if (!files?.length) return;
@@ -251,14 +289,36 @@ export function InkastDirectPanel({
           : 'Systemet föreslår Kunskap, Bevis eller Barnen. Osäkert hamnar i granskningskö — inget sparas i fel silo utan att du ser det.'}
       </p>
 
-      <textarea
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder={isValv ? 'Klistra sms eller mejl…' : 'Klistra sms, mejl eller anteckning…'}
-        rows={isValv ? 3 : 4}
-        className={textareaClass}
-        disabled={loading || wormConfirmOpen}
-      />
+      {showBaraOrd ? (
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 mb-2">
+          {BARA_ORD_OPTIONS.map((ord) => (
+            <button
+              key={ord}
+              type="button"
+              disabled={loading || wormConfirmOpen}
+              onClick={() => handleBaraOrdSubmit(ord)}
+              className="rounded-xl border border-border/30 bg-surface-2/40 p-3 text-sm text-text hover:border-accent/40 hover:bg-accent/5 transition-all disabled:opacity-50"
+            >
+              {ord}
+            </button>
+          ))}
+        </div>
+      ) : (
+        <>
+          <textarea
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder={isValv ? 'Klistra sms eller mejl…' : 'Klistra sms, mejl eller anteckning…'}
+            rows={isValv ? 3 : 4}
+            className={textareaClass}
+            disabled={loading || wormConfirmOpen || isListening}
+          />
+          {/* Fas 3: Teckenräknare */}
+          <p className="mt-0.5 text-right text-[11px] text-text-dim/40 pr-1">
+            {text.length} tecken
+          </p>
+        </>
+      )}
 
       {wormConfirmOpen && (
         <div className={isValv ? 'mt-2' : 'mt-3'}>
@@ -289,6 +349,24 @@ export function InkastDirectPanel({
             'Skicka till arkiv'
           )}
         </button>
+        {/* Fas 3: Clipboard copy-knapp */}
+        <button
+          type="button"
+          className="btn-pill--ghost text-xs"
+          disabled={loading || wormConfirmOpen || text.trim().length === 0}
+          onClick={handleCopy}
+          title="Kopiera text till urklipp"
+          aria-label="Kopiera till urklipp"
+        >
+          <span className="inline-flex items-center gap-1">
+            {copied ? (
+              <Check className="mr-1 inline h-3 w-3 text-emerald-400" />
+            ) : (
+              <Copy className="mr-1 inline h-3 w-3" />
+            )}
+            {copied ? 'Kopierat!' : 'Kopiera'}
+          </span>
+        </button>
         <button
           type="button"
           className="btn-pill--ghost text-xs"
@@ -300,6 +378,56 @@ export function InkastDirectPanel({
             {isValv ? 'Filer' : 'En fil eller flera'}
           </span>
         </button>
+
+        {/* Fas 3: Röstinmatning (Töm Skallen) */}
+        {speechSupported && !showBaraOrd && (
+          <button
+            type="button"
+            className={clsx(
+              "btn-pill--ghost text-xs transition-colors",
+              isListening ? "text-danger animate-pulse bg-danger/10" : ""
+            )}
+            disabled={loading || wormConfirmOpen}
+            onClick={toggleListening}
+            title={isListening ? "Klicka för att sluta lyssna" : "Töm skallen (Röst till text)"}
+          >
+            <span className="inline-flex items-center gap-1">
+              {isListening ? (
+                <MicOff className="mr-1 inline h-3 w-3" />
+              ) : (
+                <Mic className="mr-1 inline h-3 w-3" />
+              )}
+              {isListening ? 'Lyssnar...' : 'Prata'}
+            </span>
+          </button>
+        )}
+
+        {/* Fas 3: Bara ord-toggle */}
+        <button
+          type="button"
+          className={clsx(
+            "btn-pill--ghost text-xs ml-auto",
+            showBaraOrd ? "text-accent" : "text-text-dim"
+          )}
+          onClick={() => setShowBaraOrd(!showBaraOrd)}
+          disabled={loading || wormConfirmOpen}
+        >
+          Bara ord
+        </button>
+
+        {/* Fas 3: Bara Lyssna-toggle */}
+        {!showBaraOrd && (
+          <label className="inline-flex items-center gap-1.5 cursor-pointer select-none text-xs text-text-dim">
+            <input
+              type="checkbox"
+              checked={baraLyssna}
+              onChange={(e) => setBaraLyssna(e.target.checked)}
+              disabled={loading}
+              className="h-3 w-3 rounded accent-accent"
+            />
+            Bara lyssna
+          </label>
+        )}
         <input
           ref={inputRef}
           type="file"

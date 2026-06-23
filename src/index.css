@@ -19,18 +19,18 @@
 
 :root {
   /* Obsidian Calm — kanon (.cursorrules); runtime: applyTheme + themeRegistry */
-  --bg-teal-deep: #020617;
-  --bg-dusk: #050b14;
-  --compass-disk: #0d3b3b;
+  --bg-teal-deep: #050505;
+  --bg-dusk: #0a0a0a;
+  --compass-disk: #0d0d12;
   --text-gold: var(--color-accent-gold);
   --text-gold-dim: #9a7b2f;
   --accent-dim: #9a7b2f;
   --accent-ember: #f59e0b;
 
   --bg: var(--bg-teal-deep);
-  --surface: #050b14;
-  --surface-2: #09111e;
-  --surface-3: #111b2d;
+  --surface: #0a0a0a;
+  --surface-2: #0f0f0f;
+  --surface-3: #141414;
   --text: #f8fafc;
   --text-muted: #94a3b8;
   --text-dim: #64748b;
@@ -137,15 +137,15 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* Theme Pack E — prod default (Obsidian Calm + guld chrome) */
+  /* Theme Pack E — prod default (Midnight Gold / Obsidian Calm) */
   html[data-theme='E-skymning-prod'] {
-    --bg-teal-deep: #020617;
-    --bg: #020617;
-    --bg-dusk: #050b14;
-    --surface: #050b14;
-    --surface-2: #09111e;
-    --surface-3: #111b2d;
-    --compass-disk: #0d3b3b;
+    --bg-teal-deep: #050505;
+    --bg: #050505;
+    --bg-dusk: #0a0a0a;
+    --surface: #0a0a0a;
+    --surface-2: #0f0f0f;
+    --surface-3: #141414;
+    --compass-disk: #0d0d12;
     --accent: var(--color-accent-gold);
     --accent-secondary: #6366f1;
     --accent-light: #fde68a;
@@ -181,7 +181,7 @@
 
   html[data-theme='I-skymning'] {
     --bg: #0a1614;
-    --accent: #4fd1c5;
+    --accent: #d4af37;
     --border-strong: rgba(79, 209, 197, 0.28);
   }
 
@@ -5587,7 +5587,7 @@
   }
 
   .familjen-kunskap-panel {
-    @apply rounded-2xl border border-emerald-500/15 bg-[#0a1628]/60 p-1;
+    @apply rounded-2xl border border-emerald-500/15 bg-surface-3/60 p-1;
   }
 
   /* Dagbok — lägesnav (Snabb / Reflektera / Arkiv) */

@@ -63,7 +63,7 @@ type CapturePanelProps = {
   maxFiles?: number;
 };
 
-type Phase = 'compose' | 'brusfilter' | 'analyzing' | 'confirm' | 'edit' | 'done';
+type Phase = 'compose' | 'brusfilter' | 'analyzing' | 'confirm' | 'edit' | 'done' | 'debouncing';
 
 const DEFAULT_MAX_FILES = 8;
 
@@ -115,6 +115,9 @@ export function CapturePanel({
   const [showBarnenBridge, setShowBarnenBridge] = useState(true);
   const [showDagbokWeave, setShowDagbokWeave] = useState(true);
   const [brusfilterBiffDraft, setBrusfilterBiffDraft] = useState<string | null>(null);
+  const [debounceTimeLeft, setDebounceTimeLeft] = useState(10);
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const debounceIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const userId = useStore((s) => s.user?.uid);
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const canBrusfilter = hasVaultGate() || isVaultUnlocked;
@@ -123,7 +126,24 @@ export function CapturePanel({
   const hasFiles = pendingFiles.length > 0;
   const canPreview = hasText || hasFiles;
 
+  const clearDebounce = useCallback(() => {
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+    if (debounceIntervalRef.current) clearInterval(debounceIntervalRef.current);
+    debounceTimerRef.current = null;
+    debounceIntervalRef.current = null;
+  }, []);
+
+  useEffect(() => {
+    return () => clearDebounce();
+  }, [clearDebounce]);
+
+  const cancelDebounce = useCallback(() => {
+    clearDebounce();
+    setPhase('confirm');
+  }, [clearDebounce]);
+
   const resetFlow = useCallback(() => {
+    clearDebounce();
     setPhase('compose');
     setPreview(null);
     setError(null);
@@ -138,7 +158,7 @@ export function CapturePanel({
     setShowDagbokWeave(true);
     setBrusfilterBiffDraft(null);
     if (fileInputRef.current) fileInputRef.current.value = '';
-  }, []);
+  }, [clearDebounce]);
 
   const applyPreviewClassification = useCallback((classification: InboxClassification) => {
     setPreview(classification);
@@ -347,9 +367,20 @@ export function CapturePanel({
         setWormConfirmOpen(true);
         return;
       }
-      void persistInkast(manual);
+      setPendingManual(manual);
+      setPhase('debouncing');
+      setDebounceTimeLeft(10);
+
+      debounceIntervalRef.current = setInterval(() => {
+        setDebounceTimeLeft((prev) => prev - 1);
+      }, 1000);
+
+      debounceTimerRef.current = setTimeout(() => {
+        clearDebounce();
+        void persistInkast(manual);
+      }, 10000);
     },
-    [persistInkast, preview],
+    [persistInkast, preview, clearDebounce],
   );
 
   const handleManualSave = useCallback(
@@ -524,6 +555,42 @@ export function CapturePanel({
         <div className="flex flex-col items-center gap-3 py-6">
           <CalmBreathingCircle size="md" />
           <p className="text-sm text-text-dim">Sorterar…</p>
+        </div>
+      )}
+
+      {phase === 'debouncing' && (
+        <div className="flex flex-col items-center gap-4 py-8">
+          <div className="relative flex h-16 w-16 items-center justify-center rounded-full bg-surface-2 border border-border">
+            <span className="font-display text-xl text-text">{debounceTimeLeft}</span>
+            <svg className="absolute inset-0 h-full w-full -rotate-90 transform" viewBox="0 0 100 100">
+              <circle
+                cx="50"
+                cy="50"
+                r="48"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="4"
+                className="text-border"
+              />
+              <circle
+                cx="50"
+                cy="50"
+                r="48"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="4"
+                className="text-accent transition-all duration-1000 ease-linear"
+                strokeDasharray={`${(debounceTimeLeft / 10) * 301} 301`}
+              />
+            </svg>
+          </div>
+          <div className="text-center">
+            <h3 className="font-medium text-text">Sparar inkast...</h3>
+            <p className="mt-1 text-sm text-text-dim">Du kan ångra om du kom på något mer.</p>
+          </div>
+          <button type="button" onClick={cancelDebounce} className="btn-pill--ghost mt-2">
+            Ångra
+          </button>
         </div>
       )}
 

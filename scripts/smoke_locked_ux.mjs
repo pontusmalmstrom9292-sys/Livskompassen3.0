@@ -193,7 +193,7 @@ function main() {
     'src/modules/core/pages/ValvetRoutePage.tsx',
     "params.delete('samlaView')",
     'valvMode',
-    'parseValvInputModeFromSearch',
+    'resolveValvInputModeFromVaultTab',
     'canonicalValvRoute',
   );
   mustInclude(

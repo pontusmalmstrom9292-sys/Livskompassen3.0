@@ -840,38 +840,6 @@ export function getDrawerRoots(section: NavDrawerSection, vaultSessionOpen = fal
 export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, vaultSessionOpen = false): boolean
 ````
 
-## File: src/modules/core/routing/AppRoutes.tsx
-````typescript
-import { lazy, Suspense } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { MainLayout } from '../layout/MainLayout';
-import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
-import { ProtectedModule } from '../../../components/layout/ProtectedModule';
-⋮----
-import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
-import {
-  clusterTabNavigateTarget,
-  valvetNavigateTarget,
-  type LifeJournalTabKey,
-} from '../navigation/navigationRegistry';
-import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
-import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
-⋮----
-function RouteFallback()
-⋮----
-function RedirectToLifeJournalTab(
-⋮----
-/** Blockera `?tab=bevis` på Hjärtat — skicka till Valvet. */
-⋮----
-/** Legacy `/valv` och `/kunskap` → Valvet (separat silo). */
-⋮----
-/** Legacy `/hamn` → Familjen; `?tab=analys` → Valv forensic (hamn_analys). */
-⋮----
-<Navigate to=
-⋮----
-function RedirectArkivToValvet()
-````
-
 ## File: src/modules/shell/LivLauncherGrid.tsx
 ````typescript
 import type { LucideIcon } from 'lucide-react';
@@ -963,4 +931,36 @@ className=
 ⋮----
 setFyrenSideQuickHidden(false);
 setOpen(false);
+````
+
+## File: src/modules/core/routing/AppRoutes.tsx
+````typescript
+import { lazy, Suspense } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { MainLayout } from '../layout/MainLayout';
+import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
+import { ProtectedModule } from '../../../components/layout/ProtectedModule';
+⋮----
+import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
+import {
+  clusterTabNavigateTarget,
+  valvetNavigateTarget,
+  type LifeJournalTabKey,
+} from '../navigation/navigationRegistry';
+import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
+import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
+⋮----
+function RouteFallback()
+⋮----
+function RedirectToLifeJournalTab(
+⋮----
+/** Blockera `?tab=bevis` på Hjärtat — skicka till Valvet. */
+⋮----
+/** Legacy `/valv` och `/kunskap` → Valvet (separat silo). */
+⋮----
+/** Legacy `/hamn` → Familjen; `?tab=analys` → Valv forensic (hamn_analys). */
+⋮----
+<Navigate to=
+⋮----
+function RedirectArkivToValvet()
 ````

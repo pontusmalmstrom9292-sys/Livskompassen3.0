@@ -137,6 +137,7 @@ const MorningCompassPage = lazy(() =>
 );
 const ReflectionPage = lazy(() => import('../../reflection/ReflectionPage'));
 const OracleDashboardPage = lazy(() => import('../../oracle/OracleDashboard'));
+const BiochemicalShieldHub = lazy(() => import('@/komponenter/BiochemicalShieldHub').then((m) => ({ default: m.BiochemicalShieldHub })));
 
 function RouteFallback() {
   return <div className="p-6 text-center text-sm text-text-muted">Laddar…</div>;
@@ -197,7 +198,7 @@ function HjartatRoute() {
   }
   return (
     <ProtectedModule>
-      <HjartatPage />
+      <HomePage />
     </ProtectedModule>
   );
 }
@@ -330,7 +331,7 @@ export function AppRoutes() {
               />
 
               {/* —— LIV OCH GÖRA (launcher + fullsid-moduler) —— */}
-              <Route path={NAV_PATHS.VARDAGEN} element={<ProtectedModule><LivLauncherPage /></ProtectedModule>} />
+              <Route path={NAV_PATHS.VARDAGEN} element={<ProtectedModule><HomePage /></ProtectedModule>} />
               <Route
                 path="/morgon"
                 element={
@@ -400,7 +401,7 @@ export function AppRoutes() {
               <Route path="/liv/arbetsliv/*" element={<Navigate to="/arbetsliv" replace />} />
 
               {/* —— FAMILJEN ZON —— */}
-              <Route path={NAV_PATHS.FAMILJEN} element={<ProtectedModule><FamiljenPage /></ProtectedModule>} />
+              <Route path={NAV_PATHS.FAMILJEN} element={<ProtectedModule><HomePage /></ProtectedModule>} />
 
               <Route path="/familj" element={<Navigate to={`${NAV_PATHS.FAMILJEN}?tab=reflektion`} replace />} />
               <Route path="/barnen" element={<Navigate to={`${NAV_PATHS.FAMILJEN}?tab=reflektion`} replace />} />
@@ -452,6 +453,14 @@ export function AppRoutes() {
                 element={
                   <ProtectedModule>
                     <OracleDashboardPage />
+                  </ProtectedModule>
+                }
+              />
+              <Route
+                path="/biochem"
+                element={
+                  <ProtectedModule>
+                    <BiochemicalShieldHub />
                   </ProtectedModule>
                 }
               />

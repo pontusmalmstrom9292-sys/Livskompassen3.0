@@ -83,7 +83,7 @@ export const THEME_REGISTRY: ThemePack[] = [
       '--surface': '#0f1a18',
       '--surface-2': '#142220',
       '--surface-3': '#1a2b28',
-      '--accent': '#4fd1c5',
+      '--accent': '#d4af37',
       '--accent-secondary': '#2dd4bf',
       '--accent-light': '#99f6e4',
       '--accent-glow': 'rgba(79, 209, 197, 0.18)',
@@ -93,6 +93,31 @@ export const THEME_REGISTRY: ThemePack[] = [
       '--border': 'rgba(79, 209, 197, 0.12)',
       '--border-strong': 'rgba(79, 209, 197, 0.28)',
       '--compass-disk': '#0d3b3b',
+    },
+  },
+  {
+    id: 'I-skymning-darkest',
+    label: 'Nordic Skymning (Darkest)',
+    description: 'Minimal visuell belastning, djupsvart botten med dov mint.',
+    background: 'aurora',
+    preview: '/design/themes/I-architect-vault/03-nordic-skymning.png',
+    cssVars: {
+      ...shared,
+      '--bg': '#020504',
+      '--bg-dusk': '#05070a',
+      '--surface': '#060a09',
+      '--surface-2': '#0a110f',
+      '--surface-3': '#0e1816',
+      '--accent': '#d4af37',
+      '--accent-secondary': '#2dd4bf',
+      '--accent-light': '#99f6e4',
+      '--accent-glow': 'rgba(79, 209, 197, 0.08)',
+      '--success': '#2dd4bf',
+      '--glass': 'rgba(2, 5, 4, 0.85)',
+      '--glass-hero': 'rgba(2, 5, 4, 0.95)',
+      '--border': 'rgba(79, 209, 197, 0.08)',
+      '--border-strong': 'rgba(79, 209, 197, 0.18)',
+      '--compass-disk': '#061212',
     },
   },
   {
@@ -383,7 +408,7 @@ export const THEME_REGISTRY: ThemePack[] = [
   ...THEME_PACK_OBSIDIAN_DEPTH,
 ];
 
-export const DEFAULT_THEME_ID = 'SB-brushed-brass-neu';
+export const DEFAULT_THEME_ID = 'I-skymning-darkest';
 
 /** Legacy Theme Lab ids → canonical pack id. */
 export const THEME_ID_ALIASES: Record<string, string> = {

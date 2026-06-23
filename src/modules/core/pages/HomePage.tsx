@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect, useCallback } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { VALV_SAMLA_GRANSKA_LINK } from '@/modules/inkast/api/inkastService';
 import { clsx } from 'clsx';
 import { HomeHeroKanon } from '../home/HomeHeroKanon';
@@ -13,58 +13,107 @@ import { useTheme } from '../theme';
 import { getTheme } from '../theme';
 import { isMockupTheme } from '../theme/mockupTheme';
 import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
+import { ChameleonLive } from './ChameleonLive';
+import { getDefaultTarget, type ChameleonTarget } from './chameleonBridge';
+import type { ChameleonZoneId } from './chameleonZones';
 
 export function HomePage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const isAuthenticated = useStore((s) => s.isAuthenticated);
   const { preset, presetId } = useLifeHubPreset();
   const { themeId } = useTheme();
   const mockupSkin = isMockupTheme(themeId) || themeUsesDesignPackChrome(getTheme(themeId));
   const [adaptiveRefreshKey, setAdaptiveRefreshKey] = useState(0);
-  const showAdaptiveCards =
-    !mockupSkin && isAuthenticated && materialEnabled(preset, 'home_adaptive_cards');
-  const showDevelopmentRail =
-    !mockupSkin && isAuthenticated && materialEnabled(preset, 'home_development_rail');
+  
+  const showAdaptiveCards = !mockupSkin && isAuthenticated && materialEnabled(preset, 'home_adaptive_cards');
+  const showDevelopmentRail = !mockupSkin && isAuthenticated && materialEnabled(preset, 'home_development_rail');
   const usesLayoutA = !mockupSkin;
   const showSecondaryFeed = showAdaptiveCards || showDevelopmentRail;
+
+  let activeZone: ChameleonZoneId | 'hem' = 'hem';
+  if (location.pathname.startsWith('/hjartat') || location.pathname.startsWith('/dagbok')) activeZone = 'hjartat';
+  else if (location.pathname.startsWith('/vardagen') || location.pathname.startsWith('/planering') || location.pathname.startsWith('/mabra') || location.pathname.startsWith('/arbetsliv')) activeZone = 'vardagen';
+  else if (location.pathname.startsWith('/familjen')) activeZone = 'familjen';
+
+  const [target, setTarget] = useState<ChameleonTarget>(() => {
+    const defaultZone = activeZone === 'hem' ? 'hjartat' : activeZone;
+    const baseTarget = getDefaultTarget(defaultZone);
+    const queryTab = new URLSearchParams(location.search).get('tab');
+    if (defaultZone === 'vardagen') {
+      if (queryTab === 'mabra') return { ...baseTarget, module: 'mabra', mode: 'checkin' };
+      if (queryTab === 'planering') return { ...baseTarget, module: 'planering', mode: 'task_quick' };
+    }
+    return baseTarget;
+  });
+
+  useEffect(() => {
+    if (activeZone !== 'hem' && activeZone !== target.zone) {
+      const baseTarget = getDefaultTarget(activeZone);
+      const queryTab = new URLSearchParams(location.search).get('tab');
+      if (activeZone === 'vardagen' && queryTab === 'mabra') {
+        setTarget({ ...baseTarget, module: 'mabra', mode: 'checkin' });
+      } else {
+        setTarget(baseTarget);
+      }
+    }
+  }, [activeZone, target.zone, location.search]);
+
+  const handleTargetChange = useCallback((newTarget: ChameleonTarget) => {
+    setTarget(newTarget);
+    if (newTarget.zone === 'hjartat') navigate('/hjartat', { replace: true });
+    else if (newTarget.zone === 'vardagen') navigate('/vardagen', { replace: true });
+    else if (newTarget.zone === 'familjen') navigate('/familjen', { replace: true });
+  }, [navigate]);
 
   return (
     <div
       className={clsx(
-        'home-page home-page--kanon home-page--scenic space-y-4',
+        'home-page home-page--kanon home-page--scenic space-y-4 pb-32',
         mockupSkin && 'home-page--mockup-skin',
         usesLayoutA && 'home-page--layout-a',
       )}
     >
-      <HomeHeroKanon onCheckInSaved={() => setAdaptiveRefreshKey((k) => k + 1)} />
+      {activeZone === 'hem' && (
+        <>
+          <HomeHeroKanon onCheckInSaved={() => setAdaptiveRefreshKey((k) => k + 1)} />
 
-      {showSecondaryFeed ? (
-        <div className="mx-auto w-full max-w-2xl px-1">
-          <CalmCollapsible title="Mer för dig" meta="Valfritt" defaultOpen={false} glow="gold">
-            <div className="space-y-4 pt-1">
-              {showAdaptiveCards ? (
-                <AdaptiveMemoryCards refreshKey={adaptiveRefreshKey} presetId={presetId} />
-              ) : null}
-              {showDevelopmentRail ? (
-                <HemV3DevelopmentRail refreshKey={adaptiveRefreshKey} />
-              ) : null}
+          {showSecondaryFeed ? (
+            <div className="mx-auto w-full max-w-2xl px-1">
+              <CalmCollapsible title="Mer för dig" meta="Valfritt" defaultOpen={false} glow="gold">
+                <div className="space-y-4 pt-1">
+                  {showAdaptiveCards ? (
+                    <AdaptiveMemoryCards refreshKey={adaptiveRefreshKey} presetId={presetId} />
+                  ) : null}
+                  {showDevelopmentRail ? (
+                    <HemV3DevelopmentRail refreshKey={adaptiveRefreshKey} />
+                  ) : null}
+                </div>
+              </CalmCollapsible>
             </div>
-          </CalmCollapsible>
-        </div>
-      ) : null}
+          ) : null}
 
-      {!usesLayoutA &&
-        !mockupSkin &&
-        materialEnabled(preset, 'home_inkast') &&
-        !materialEnabled(preset, 'home_hero_checkin') &&
-        isAuthenticated && <CaptureSuperModule variant="hem-capture" />}
+          {!usesLayoutA && !mockupSkin && materialEnabled(preset, 'home_inkast') && !materialEnabled(preset, 'home_hero_checkin') && isAuthenticated && (
+            <CaptureSuperModule variant="hem-capture" />
+          )}
 
-      {!mockupSkin && materialEnabled(preset, 'home_inkast') && !isAuthenticated && (
-        <CaptureSuperModule
-          variant="hem-inkast"
-          onQueued={() => navigate(VALV_SAMLA_GRANSKA_LINK)}
-        />
+          {!mockupSkin && materialEnabled(preset, 'home_inkast') && !isAuthenticated && (
+            <CaptureSuperModule
+              variant="hem-inkast"
+              onQueued={() => navigate(VALV_SAMLA_GRANSKA_LINK)}
+            />
+          )}
+        </>
       )}
+
+      {/* Chameleon Supermodule replaces individual page contents */}
+      <div className="mx-auto w-full max-w-2xl px-1 mt-6">
+        <ChameleonLive 
+          target={target} 
+          onTargetChange={handleTargetChange} 
+          compact={activeZone === 'hem'} 
+        />
+      </div>
     </div>
   );
 }

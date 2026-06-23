@@ -2,7 +2,6 @@ import { Navigate } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { Anchor, BookHeart, Heart, HeartHandshake, Sparkles, Users } from 'lucide-react';
-import { Anchor, BookHeart, Heart, HeartHandshake, Sparkles, Users } from 'lucide-react';
 
 import { ModuleShell } from '../layout/ModuleShell';
 import { HubDropdownNav, type DropdownItem } from '../ui/HubDropdownNav';

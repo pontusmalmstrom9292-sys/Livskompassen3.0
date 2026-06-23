@@ -8,6 +8,7 @@
     "build": "tsc -b && vite build",
     "build:web": "vite build",
     "android:smoke-prep": "npm run cap:sync",
+    "android:live": "node scripts/android_dev.mjs",
     "cap:sync": "npm run build:web && npx cap sync android",
     "cap:sync:prod": "CAPACITOR_SERVER_URL=https://gen-lang-client-0481875058.web.app npm run build:web && npx cap sync android",
     "android:open": "npx cap open android",

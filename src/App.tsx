@@ -10,6 +10,7 @@ import { WidgetDeepLinkBridge } from '@/features/widgets/WidgetDeepLinkBridge';
 import { useBarnportenWebManifest } from '@/features/onboarding/barnporten/hooks/useBarnportenWebManifest';
 import { ToastContainer } from './modules/core/ui/ToastContainer';
 import { InactivityBlurOverlay } from './modules/core/ui/InactivityBlurOverlay';
+import { ZenModeTrigger } from './modules/core/ui/ZenModeTrigger';
 import { SOSOverlay } from './modules/features/sos/components/SOSOverlay';
 import { QuickCaptureOverlay } from './modules/features/voiceToVault/components/QuickCaptureOverlay';
 import { SystemStatusPanel } from '@/features/dev/SystemStatusPanel';
@@ -25,6 +26,7 @@ function AppShell() {
     <AppUnlockGate>
       <WidgetDeepLinkBridge />
       <InactivityBlurOverlay />
+      <ZenModeTrigger />
       <QuickCaptureOverlay />
       <SystemStatusPanel />
       <AppRoutes />

@@ -928,6 +928,21 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
+## 20. Diskret näringsintag (MåBra M3.0-C+)
+
+| | |
+|---|---|
+| **Route** | `/mabra/verktyg/nutrition` · inställningar `/installningar?tab=naring` |
+| **Syfte** | Snabb logg mat/dryck, mjuka nudges, valfri trend/rytm — utan kaloriräkning eller Valv-export |
+| **Spec** | [`docs/specs/modules/NARING-INTAG-SPEC.md`](../docs/specs/modules/NARING-INTAG-SPEC.md) |
+| **Kod** | `MabraNutritionPanel`, `MabraNutritionQuickLog`, `mabraNutritionNudges`, `NutritionSettingsPanel` |
+| **Krav** | Kärnläge från start; trend/analys/makron endast via inställningar; lokal intagslogg |
+| **Smoke** | `npm run smoke:mabra` · `npm run smoke:locked-ux` |
+
+**Får inte:** kaloriräkning som standard; auto-export till Valv; streak/XP; ta bort snabb logg utan PMIR.
+
+---
+
 ## Verifiering
 
 ```bash
@@ -1115,346 +1130,6 @@ G7–G16 backend: **done** — [`Arkiv-GAP-REGISTER.md`](../docs/specs/modules/A
 4. Inga secrets i git
 5. Kör relevanta rader i [`docs/SMOKE_CHECKLIST.md`](../docs/SMOKE_CHECKLIST.md)
 6. Jämför functions-lista mot [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md)
-````
-
-## File: .context/system-plan.md
-````markdown
-# Livskompassen v2 - System Plan (Canonical)
-
-Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
-
-**När det känns rörigt:** färdiga analysprompter och Sacred-register → [`docs/SYSTEMKONTROLL.md`](../docs/SYSTEMKONTROLL.md). **Git / grenar:** [`docs/GIT-LATHUND.md`](../docs/GIT-LATHUND.md) · [`docs/BRANCH-KARTA.md`](../docs/BRANCH-KARTA.md).
-
-## Fas 1 (Cleanup): Sanering & Mappstruktur
-- [x] Git-branch `cleanup-phase-1` - saker arbetskopia
-- [x] `.context/` systemlagar (arkitektur, sakerhet, databas, design)
-- [x] `.gitignore` - secrets, `dist/`, `functions/lib/`, genererad kod
-- [x] Borttaget fran git: `vertex-sa.json`, `server/.env`, `spejaren.js`, `server.js`, build-artefakter
-- [x] Frontend merge fran `livskompassen-v2` (`main.tsx`, layout, Kompis)
-- [x] Rensat: tomma placeholders, trasig `agentEngine.ts`, session-artefakter -> `docs/archive/`
-- [x] Agent Cards: 8 produktroller + deterministisk `routeFromDcap` -> executor
-- [x] Sakerhet: auth pa `knowledgeVaultQuery`, webhook-secret pa `notifyNewFile`
-- [x] Enhetligt `GCP_PROJECT_ID` via `functions/src/config.ts`
-- [x] HOME-klonens unika `src`-integration (firebase, store, vault-chat)
-- [x] Vault-sidor portade till `src/modules/` (verklighetsvalvet, kompasser, safe_harbor, ekonomi)
-- [x] Aktiv backend konsoliderad till `functions/` (legacy `server/` arkiverad)
-- [x] Redundanta projektkartor raderade (v2, PROD, drive-download, cursor-workspace, HOME-klon)
-
-## Fas 2 (Moduler): App-shell + aktivering
-- [x] BrowserRouter + routes (`/`, `/kompasser`, `/valv`, `/hamn`, `/ekonomi`, `/dagbok`, `/kunskap`, `/barnen`)
-- [x] FloatingDock navigation med aktiv route + long-press Shield (3 sek)
-- [x] AuthProvider (Firebase Anonymous) + AuthGate pa kansliga moduler
-- [x] Zero Footprint: vault unlock reset vid visibilitychange + timeout + `invalidateSession` callable
-- [x] Kunskapsvalv: `/kunskap` + Tidshjulet + auth-felhantering
-- [x] Kompasser: morgon/dag/kvall-floden + Firestore checkins
-- [x] Safe Harbor: BIFF-formular via `analyzeMessage` callable
-- [x] Verklighetsvalvet: long-press gate, PIN (lokal/env), VaultLog WORM
-- [x] Dagbok: DagbokPage + journal-persistens
-- [x] Barnens livsloggar: `/barnen`, PIN, Firestore `children_logs`
-- [x] Telefon-MVP: `vite --host` i dev-script + `manifest.webmanifest` (lägg till på hemskärm)
-- [x] Firestore rules: checkins, journal, reality_vault, children_logs
-
-## Kladd-konsolidering (2026-05-21)
-
-- [x] Notebook #1–#7 → [`docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md`](docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
-- [x] Minne-kandidater → [`docs/archive/kladd/Kladd-2026-05-21-kampspar-kandidater.md`](docs/archive/kladd/Kladd-2026-05-21-kampspar-kandidater.md)
-- [x] Gap-tabeller i alla `.context/modules/*.md` + `src/modules/*/module_plan.md` (ingen kod)
-- [x] Back-merge Kladd → `[MODUL]-SPEC.md` (§8, §12–13, Kladd-synk)
-- [x] Nya SPEC: [`Ekonomi-SPEC.md`](docs/specs/modules/Ekonomi-SPEC.md), [`Core-SPEC.md`](docs/specs/modules/Core-SPEC.md)
-- [x] [`docs/specs/p2-flode.md`](docs/specs/p2-flode.md) synkad mot kod
-- [x] Grunder Fas A — [`docs/specs/modules/grunder-slides/`](docs/specs/modules/grunder-slides/) + [`INVENTAR.md`](docs/specs/modules/grunder-slides/INVENTAR.md)
-- [x] Grunder U1–U5 + Fas C — [`docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md`](docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md)
-- [ ] Manuell ingest av minne-poster (opt-in trauma-policy)
-- [ ] Implementation per modul när användaren säger *kör [modul]*
-- [x] **Del B (2026-05-24):** [`docs/MODUL-FUNKTIONS-REGISTER.md`](../docs/MODUL-FUNKTIONS-REGISTER.md) + doc-drift-synk — `/planering` live på `main`
-
-## Aktuell status
-- [x] Design-tokens och fargpalett
-- [x] Bas-layout med Sub-Synaptic Background
-- [x] KompisAvatar
-- [x] Bento Grid dashboard
-- [x] Floating Dock (routing)
-- [x] Interaktivt Tidshjul (bas-UI pa `/kunskap`)
-- [x] Mobil-dashboard (`--host`)
-- [x] Verklighetsvalv UI (long-press + PIN + VaultLog)
-
-## Fas 3 (Firebase-synk)
-- [x] Firestore rules + indexes deployade
-- [x] Functions deployade; `notifyNewFile` deployad (G6 E2E **done** 2026-05-22)
-- [x] Firebase Hosting: https://gen-lang-client-0481875058.web.app
-- [x] Dokumentation: `docs/FIREBASE_SYNC.md`
-- [ ] Manuell smoke i app (#3 Valv, #4 Barnen, #2d bilaga) — sanning: [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) **Current truth**
-- [x] `NOTIFY_WEBHOOK_SECRET` + Drive E2E → `kb_docs` (G6 **done** 2026-05-22)
-
-## Drive wire-up (Apps Script → notifyNewFile)
-- [x] Kod redo: Script Properties i `sorter.gs`, webhook-secret fail-closed, `docs/DRIVE_AUTOMATION.md`
-- [x] G6 Drive E2E — `kb_docs` PASS 2026-05-22 ([`GCP-FAS4-RUNBOOK.md`](docs/GCP-FAS4-RUNBOOK.md) steg 2)
-
-## Firebase Fas 3 (synk)
-- [x] `.firebaserc` rättad; Firestore rules + indexes deployade
-- [x] Modul-Functions deployade (`europe-west1`); Hosting live — se `docs/DEPLOY.md`, `docs/FIREBASE_SYNC.md`
-- [x] `notifyNewFile` — G6 **done** 2026-05-22 (`kb_docs` E2E)
-- [x] Manuell smoke minimum (#1, #2, #18) **PASS** 2026-05-27
-- [x] Manuell smoke #2d **PASS** 2026-06-06 (USER)
-- [ ] Manuell smoke #3, #4 valfritt USER — autorun PASS 2026-06-06 · [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) **Current truth**
-
-## Data Connect
-- Deployat (example-schema); **appmoduler använder Firestore** — DC avvaktas tills ekonomi (se `docs/FIREBASE_SYNC.md`)
-
-## Modulmappning (`.context/modules/`)
-
-| Modul | Route | Kontextfil | Kod |
-| --- | --- | --- | --- |
-| Verklighetsvalvet | `/valvet` (Fyren + WebAuthn) | `.context/modules/verklighetsvalvet.md` | `src/modules/features/lifeJournal/evidence/vault/` |
-| Hjärtat (Dagbok) | `/hjartat` (legacy `/dagbok`) | `.context/modules/dagbokshubben.md` | `src/modules/features/lifeJournal/diary/` |
-| Familjen / Barnen | `/familjen` | `.context/modules/barnens_livsloggar.md` | `src/modules/features/family/children/` |
-| Speglings-Systemet | `/hjartat?tab=speglar` | `.context/modules/speglingssystemet.md` | `src/modules/features/lifeJournal/diary/mirror/` |
-| MåBra | `/mabra` | `.context/modules/mabra_sidan.md` | `src/modules/features/dailyLife/wellbeing/mabra/` |
-| Kompis / Kunskap | Valv PIN → `/valvet?vaultTab=kunskapsbank` | `.context/modules/kompis.md` | `src/modules/features/lifeJournal/evidence/kompis/` |
-
-## Permanent minne (låst princip)
-
-**Konsoliderad:** 2026-05-21 — se [`docs/archive/repomix/KONSOLIDERING-2026-05-21.md`](docs/archive/repomix/KONSOLIDERING-2026-05-21.md).
-
-Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns, utan arkitekturinvariant.
-
-| Collection | Roll | Glömmer? |
-|------------|------|----------|
-| `children_logs` | Barnens livslogg + fysiologi | Nej — append-only WORM |
-| `reality_vault` | Bevis (Sanningens Sköld) | Nej — append-only WORM |
-| `journal` | Dagbok Lager 1 | Nej — append-only WORM |
-| `kampspar` / `kb_docs` | Kunskapsvalvet (RAG) | WORM create; separat retention — **ersätter inte** barn/valv |
-| `dossier_snapshots` | Bevisad export | WORM snapshot |
-
-**Tre kunskapsytor** (se `arkitektur-beslut.md` §1.5) — blanda aldrig RAG mellan silor.
-
-**Repomix → kanon (legacy):** `vault`→`reality_vault`, `kids_records`→`children_logs`, `diary`→`journal`. Mock `Kampspar`-typ ≠ `KampsparEntry` (G11).
-
-**Idag (live — [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md), audit 2026-05-31):**
-- Kunskap RAG — smoke PASS; ANN G2/G3 **VERIFY PASS** (**173 vectors**, west1 defaults)
-- `valvChatQuery` — **deployad** (G1 **done**); smoke:valv PASS
-- Dossier `generateDossier` — **klart** (smoke PASS)
-- `notifyNewFile` — **deployad**; G6 **done** 2026-05-22
-- Vävaren HITL — `approveWeaverMetadata` / `rejectWeaverMetadata` **deployade**; `weaver_pending` rules + UI enligt PMIR 2026-05-31
-- Legacy Python us-central1 — **0 fn kvar** (FAS4 steg 1–5 **done** 2026-05-22)
-- Retention G5 **done**; mock Kampspar G11 **done**
-
-**GAP G1–G14:** **done** (2026-05-22) — [`Arkiv-GAP-REGISTER.md`](docs/specs/modules/Arkiv-GAP-REGISTER.md). Ny backlog utanför G-serien dokumenteras separat.
-
-**Sacred:** Permanent minne + korrekt silo = Zero Footprint + Kill Switch.
-
-## Kommande fas
-- [x] WebAuthn gate + Shake-to-Kill (15 m/s²) + Fyren progress
-- [x] Vävaren async tagging (Gemini 1.5 Pro → reality_vault) + kampsparRag
-- [x] Barnens: Kasper/Arvid, Balansmätare, fysiologi, JSON export
-- [x] Barnens *kör barnen* **done** — Spara som bevis + `sourceRef`, tredjepart-filter, Dossier-länk (`/familjen`)
-- [x] Speglings-Systemet: ACT + VIVIR + valvjämförelse (`/speglar`)
-- [x] `weaveJournalEntry` + hosting deploy (natt-batch — se `docs/NATT-CI.md`, historik: `docs/archive/OVERNIGHT_REPORT.md`)
-- [x] Minneloggning (uppladdning, tidsstampel, vektorisering) — **klart:** ingestKnowledgeDocument, ingestKampsparEntry, KunskapsvalvFileIngest, Kunskap RAG; Vector Search ANN VERIFY PASS (G2/G3)
-- [x] Kompasser notebook #1–#5 → låst SPEC; MVP *kör kompasser* **done** (AuthGate, tids-default, Paralys, KASAM, broar)
-- [x] Dossier notebook #1–#4 → låst SPEC; UI wizard + `generateDossier` backend **done** — deploy `functions:generateDossier` + rules
-- [x] Ekonomi kopplad till Firestore (`transactions` WORM + `economy_profiles`)
-- [x] Måbra-sidan MVP — hub + 4-7-8 andning + `mabra_sessions` (SPEC **done** 2026-05; se `docs/specs/modules/Mabra-SPEC.md`, `.context/modules/mabra_sidan.md`)
-- [x] Måbra fas 2a — reframing self_critical (4 steg + valfri 1-min andning, `exerciseType: reframing`)
-- [x] Måbra fas 2b — AkutLanding panic_rsd + panik-andning UX (tid kvar, fas-copy)
-- [x] Måbra fas 2c — hub-complete + Dagbok bro `?from=mabra&energy=low`
-- [x] Måbra fas 2d — ACT ValuesCompass + `mabra_progress/{uid}`
-- [x] Måbra fas 2e — coach callable + opt-in UI + Speglar guardrail
-- [x] Måbra fas 2f — Web Speech sv-SE (reframing + coach)
-
-## Life OS orchestrering (2026-05-23)
-
-- [x] Locked UX smoke + P1 design-moduler (D3, D11–D14, D16–D20, D22–D23, D29)
-- [x] Tema E tokens + `HomeHeroKanon` / `LivskompassHero` på Hem
-- [x] Evaluations A–F + 6 modul-rapporter (`docs/archive/evaluations-2026-05-23/`)
-- [x] `npm run smoke:all` + `.context/design-modules-mockup.md`
-- [x] Manuell smoke minimum (#1, #2, #18) **PASS** 2026-05-27; #19–20 **STATIC PASS** 2026-05-29
-- [x] Manuell smoke #2d **PASS** 2026-06-06 (USER)
-- [ ] Manuell smoke #3, #4 valfritt USER — autorun PASS 2026-06-06 · [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) **Current truth**
-
-## Fas 5 — Verifiering + polish (2026-05-31, post git-trunk)
-
-**Kanon:** [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) · checklista [`docs/evaluations/2026-05-31-fas5a-user-checklist.md`](../docs/evaluations/2026-05-31-fas5a-user-checklist.md)
-
-| Del | Status |
-|-----|--------|
-| **5A** Prod-verifiering (Vävaren HITL, smoke #3/#4/#2d) | Agent prep **PASS** — manuell USER kvar |
-| **5B** Valv/Hamn UI (Visa brus, ankare-filter, forensik-ingress) | **done** 2026-05-31 på `main` |
-| **5C** Inkorg I1/I3 produktbeslut | **DEFER** — [`docs/evaluations/2026-05-31-fas5c-inkorg-beslut.md`](../docs/evaluations/2026-05-31-fas5c-inkorg-beslut.md) |
-| **5D** Projekt P2 / Barnporten / Life OS Fas D | Backlog — [`docs/evaluations/2026-05-31-fas5d-backlog.md`](../docs/evaluations/2026-05-31-fas5d-backlog.md) |
-
-## Life OS kopplingar (backlog — komihåg 2026-05-26)
-
-**Kanon:** [`docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md`](../docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md) · Landning: [`docs/evaluations/2026-05-26-session-landning.md`](../docs/evaluations/2026-05-26-session-landning.md)
-
-- [x] **LifeHubPreset (Fas A)** — 4 presets i `src/modules/core/lifeOs/`, Hem-väljare, `materialFlags` per route
-- [x] **RoutineTemplate + ModuleLink (Fas B)** — `routineTemplates.ts`, `RoutinesPanel` på `/planering`, deep links
-- [x] **MaterialPack (Fas C)** — `materialPacks.ts`, `MaterialPackShortcuts` på Familjen/MåBra/Hamn
-- [x] **Projekt P1 (del)** — `projects`, `project_blocks`, `/projekt/:id`, `projectId` på kanban
-- [ ] **Projekt P2+ / Fas D** — regler, bild-uppladdning, widget-sheet, full MaterialPack-editor
-- [ ] Implementation: `kör kopplingar C` · `kör projekt P1` · se komihåg för fasering
-
-## Fas 6 — Input Superhub (Superdagbok) · **AVSLUTAD**
-
-**Status:** `[x]` **AVSLUTAD** 2026-06-14 — MåBra Superhub (Fas 6A→6E) implementerad och låst i `.context/locked-ux-features.md` §11.
-
-| Del | Status |
-|-----|--------|
-| **6A** Router-skelett (`MabraInputSuperModule`, `/mabra/input`, lägesväxlare) | **done** |
-| **6B** Vit + minneslista (`vit_*`, `EmotionalMemoryListPanel`) | **done** |
-| **6C** Reflection + RAM → explicit save (`reflection_tool`, `exercise_note`) | **done** |
-| **6D** Inkast + dagbok bridge (`inkast`, `dagbok_bridge`) | **done** |
-| **6E** Lås UX/arkitektur (locked-ux + systemplan) | **done** 2026-06-14 |
-
-**Problem:** Inmatning, uppladdning och reflektion är utspridda (Dagbok, Inkast, känslominnen, Valv, Barnen, MåBra, planering, ekonomi, arbetsliv m.fl.) — för många ingångar huller och buller.
-
-**Mål:** En **Universal Input Hub (Supermodul) per pelare/zon** med **meny för läge** — byt funktion utan att byta sida (t.ex. Dagbok ↔ minne ↔ Inkast ↔ reflektion ↔ filuppladdning).
-
----
-
-### Arkitekturlagar (Livskompassen 3.0 — obligatoriska)
-
-#### 1. Konsolidering och supermoduler
-
-Alla användarinmatningar — **dagboksanteckningar, minnen, snabb inkorg/Inkast, reflektioner och filuppladdningar** — **MÅSTE** centraliseras till polymorfa **Universal Input Hubs (Supermoduler)**.
-
-- Vi **slutar bygga spridda inmatningsformulär** i enskilda moduler.
-- Nya inmatningsflöden får endast tillkomma som **lägen (modes)** inuti en godkänd Superhub — inte som fristående formulär.
-- Befintliga formulär migreras zon för zon till respektive hub; duplicerade ingångar avvecklas efter migrering.
-
-#### 2. Kontextmedvetna zoner
-
-Varje Superhub **MÅSTE** anpassa sig dynamiskt till sin pelare/zon:
-
-| Zon / pelare | Exempel på hub |
-| --- | --- |
-| MåBra (Vit) | Super-MåBra Input |
-| Barnsidan / Familjen | Super-Familjen Input |
-| Ekonomi | Super-Ekonomi Input |
-| Arbetsliv | Super-Arbetsliv Input |
-| Planering | Super-Planering Input |
-| Hjärtat (Dagbok) | Superdagbok |
-
-Anpassning sker via:
-
-- **CSS-variabler ("Färgburkar")** — Obsidian Calm-tokens per zon (`tailwind.config.js`, semantiska `--surface`, `--accent`, glow per silo).
-- **Specifik metadatataggning** — varje sparat objekt bär zon, läge, `content_class` (U6) och silo-säker routing; ingen cross-RAG.
-
-#### 3. Nödvändig djupanalys (före implementation)
-
-Innan en Superhub implementeras i **någon** kategori **MÅSTE** en djupgående kod- och komponentanalys av den aktuella kategorin utföras:
-
-1. Kartlägg alla befintliga inmatningsvägar, duplicerade formulär och beroenden.
-2. Dokumentera säkerhetsgränser: WORM, silo (U1), HITL, Zero Footprint, offline-policy.
-3. Skriv migrationsplan + smoke-kriterier; godkänn plan **innan** kod.
-4. Referera [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md), relevant `*-SPEC.md` och `.context/locked-ux-features.md`.
-
-**Utan godkänd analys — ingen Superhub-implementation i zonen.**
-
-#### 4. Strikt låsningsmekanism (WORM och nollhallucinationer)
-
-När en Superhub-modul har **implementerats, testats och godkänts** av teknikledaren betraktas den som **låst**.
-
-- **Ingen AI-agent** får ändra, omstrukturera eller modifiera hubbens **kärnlogik** utan **uttryckligt, åsidosättande tillstånd** från teknikledaren (Pontus).
-- Låsning registreras i `.context/locked-ux-features.md` + zon-specifik eval i `docs/evaluations/` + obligatorisk smoke (`npm run smoke:locked-ux` m.fl.).
-- WORM-semantik på evidens/minne bevaras; Superhub får **aldrig** införa `update`/`delete` på låsta samlingar.
-- Syfte: **noll hallucinationer**, deterministisk stabilitet, inga oreviewade refactors som urholkar säkerhet eller UX.
-
----
-
-### Obligatorisk leveransordning (per zon)
-
-1. Djupanalys + eval-dokument (`docs/evaluations/`)
-2. Superhub-spec (lägen, API, metadata, Färgburkar)
-3. Migrering av befintliga inmatningsflöden
-4. Smoke + manuell verifiering
-5. **Lås** — registrera i locked-ux; därefter endast bugfix med PMIR + explicit OK
-
-### Referenser (nuläge)
-
-- Känslominne (delsteg): `/mabra/projekt/emotional_memory` · `src/modules/features/emotional-memory/`
-- Design: Obsidian Calm · [`docs/design/COLOR-POLICY.md`](../docs/design/COLOR-POLICY.md)
-- Innehåll/routing: U6 · [`docs/INNEHALL-REGISTER.md`](../docs/INNEHALL-REGISTER.md)
-- Framtida kickoff-eval: `docs/evaluations/` (skapas vid start av Fas 6 per zon)
-- **MåBra djupanalys (2026-06-14):** [`docs/evaluations/2026-06-14-fas6-mabra-superhub-djupanalys.md`](../docs/evaluations/2026-06-14-fas6-mabra-superhub-djupanalys.md)
-- **MåBra Superhub SPEC (låst 2026-06-14):** [`docs/specs/modules/Mabra-INPUT-SUPERHUB-SPEC.md`](../docs/specs/modules/Mabra-INPUT-SUPERHUB-SPEC.md) — Fas 6A→E **AVSLUTAD** · locked-ux §11
-
-## Fas 7 — Super-Familjen Input · **AVSLUTAD**
-
-**Status:** `[x]` **AVSLUTAD** 2026-06-14 — Familjen Superhub (Fas 7A→7E) implementerad och låst i `.context/locked-ux-features.md` §12.
-
-| Del | Status |
-|-----|--------|
-| **7A** Router-skelett (`FamiljenInputSuperModule`, lägesväxlare, `barnfokus`) | **done** |
-| **7B** Delegates stund + fysiologi + offline-fel | **done** |
-| **7C** Delegates observation + vardagsstruktur; avveckla duplicerad input | **done** |
-| **7D** Shadow mount + produktionstest (`?superhub=true`) | **done** |
-| **7E** Standardvy + legacy-borttagning + lås UX/arkitektur | **done** 2026-06-14 |
-
-**Spec:** [`docs/specs/Familjen-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Familjen-INPUT-SUPERHUB-SPEC.md) · **Eval:** [`docs/evaluations/Familjen-INPUT-SUPERHUB-EVAL.md`](../docs/evaluations/Familjen-INPUT-SUPERHUB-EVAL.md)
-
-## Fas 8 — Super-Ekonomi Input · **AVSLUTAD**
-
-**Status:** `[x]` **AVSLUTAD** 2026-06-14 — Ekonomi Superhub (Fas 8A→8E) låst i `.context/locked-ux-features.md` §14.
-
-| Del | Status |
-|-----|--------|
-| **8A** Router-skelett (`EkonomiInputSuperModule`) | **done** |
-| **8B** Mikrosteg + profil delegates | **done** |
-| **8C** Kuvert + spar + matprep delegates | **done** |
-| **8D** Impuls + inkast | **done** |
-| **8E** Shadow→Live på `/vardagen?tab=ekonomi` | **done** 2026-06-14 |
-
-**Spec:** [`docs/specs/Ekonomi-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Ekonomi-INPUT-SUPERHUB-SPEC.md) · **GAP:** F8 **done** i [`Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md)
-
-## Fas 9 — Super-Planering Input · **AVSLUTAD**
-
-**Status:** `[x]` **AVSLUTAD** 2026-06-14 — Planering Superhub (Fas 9A→9C + W3) låst i `.context/locked-ux-features.md` §15.
-
-| Del | Status |
-|-----|--------|
-| **9A** Djupanalys + SPEC | **done** |
-| **9B** `PlaneringInputSuperModule` + lägesväxlare | **done** |
-| **9C** Delegates: task_quick, inkast, quick_list | **done** |
-| **W3** `/planering/input` i AppRoutes + länk från PlaneringPage | **done** 2026-06-14 |
-
-**Spec:** [`docs/specs/Planering-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Planering-INPUT-SUPERHUB-SPEC.md)
-
-## Fas 10 — Super-Arbetsliv Input · **AVSLUTAD**
-
-**Status:** `[x]` **AVSLUTAD** 2026-06-14 — Arbetsliv Superhub (Fas 10A→10C + W3) låst i `.context/locked-ux-features.md` §16.
-
-| Del | Status |
-|-----|--------|
-| **10A** Djupanalys + SPEC | **done** |
-| **10B** `ArbetslivInputSuperModule` + lägesväxlare | **done** |
-| **10C** Delegates: stampla, tid, logg | **done** |
-| **W3** `/arbetsliv/input` + legacy redirect från `/arbetsliv` | **done** 2026-06-14 |
-
-**Spec:** [`docs/specs/Arbetsliv-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Arbetsliv-INPUT-SUPERHUB-SPEC.md)
-
-## Fas 11 — Superdagbok (Hjärtat) · **AVSLUTAD**
-
-**Status:** `[x]` **AVSLUTAD** 2026-06-14 — Superdagbok (Fas 11A→11C + W5) låst i `.context/locked-ux-features.md` §17.
-
-| Del | Status |
-|-----|--------|
-| **11A** Djupanalys + SPEC | **done** |
-| **11B** `DagbokInputSuperModule` + lägesväxlare | **done** |
-| **11C** Delegates: reflektion, quick_mirror, arkiv | **done** |
-| **W5** `/hjartat/input` i AppRoutes + HjartatPage embed | **done** 2026-06-14 |
-
-**Spec:** [`docs/specs/Superdagbok-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Superdagbok-INPUT-SUPERHUB-SPEC.md)
-
-## Fas 12 — Nästa (efter superhub-kö)
-
-**Kanon:** [`docs/SYSTEM_PLAN_v2.md`](../docs/SYSTEM_PLAN_v2.md) · **Gate 12A** smoke:orkester + hosting deploy 2026-06-14.
-
-| Prioritet | Spår | Status |
-|-----------|------|--------|
-| **12B** | Adaptiv Hemkompass — superhub-broar från Hem | **done** 2026-06-14 |
-| **12C** | Säkerhet P2 — vault-gate `weeklySummary` / `compass` | backlog |
-| **12D** | Dossier BBIC `reportType` | backlog |
 ````
 
 ## File: docs/architecture/INFINITE_EVOLUTION.md
@@ -1718,6 +1393,222 @@ Scripts/orkester:night default · prod callable-smoke en silo i taget · PMIR f�
 *Fullständig pre-flight syntes: Cursor-plan `fas_19_masterplan_v2_48298370.plan.md` (intern).*
 ````
 
+## File: docs/external-ai/repomix/KARNKOD-SYSTEMPLAN-PREAMBLE.md
+````markdown
+# Livskompassen — Avskalad Repomix: Kärnkod + Systemplan
+
+**Genererad pack:** `exports/repomix/karnkod-systemplan.md`  
+**Kör om:** `npm run repomix:karnkod-systemplan`
+
+---
+
+## Vad denna fil innehåller
+
+Detta är **inte** hela repot. Det är ett avskalat handoff-paket för extern AI eller arkitektgranskning:
+
+| Lager | Innehåll | Varför |
+|-------|----------|--------|
+| **Backend (100 % kärna)** | Hela `functions/src/**` | Callables, ADK, RAG, DCAP, ingest, WORM-logik |
+| **Säkerhetsregler** | `firestore.rules`, `storage.rules`, `sharedRules.ts` | Deterministisk auth — LLM får inte besluta |
+| **Systemplan (hela)** | `.context/system-plan.md`, `docs/SYSTEM_PLAN_v2.md`, Fas 19 masterplan | Fas 1–23 checkbox-historik + aktiv körplan |
+| **Minnesarkitektur** | `.context/arkiv-minne.md`, GAP-register, INFINITE_EVOLUTION | Tre silos, WORM, självlärande ingest |
+| **Frontend (minimal)** | Auth, Firebase init, typer, evolution store | Kontext för klient↔server — **ingen** full UI |
+
+**Uteslutet medvetet:** design-galleri, fullständiga sidkomponenter, smoke-scripts, `.npm-cache`, Android-native, test-fixtures.
+
+---
+
+## Varför självlärande + säkerhet är kärnan (inte polish)
+
+Livskompassen är ett **Life OS för högkonflikt, neuroinklusion och bevisarkivering**. Pontus behov:
+
+1. **Bevis får aldrig försvinna** — sms, mönster, barnobservationer, journal → WORM (`reality_vault`, `children_logs`, `journal`).
+2. **Systemet ska bli smartare över tid** — nya filer, dagbok, Drive → klassificeras och hamnar i **rätt silo** utan manuell copy-paste.
+3. **Säkerhet före bekvämlighet** — LLM får aldrig blanda bevis med faktabank eller barnlogg (cross-RAG = juridiskt och psykologiskt farligt).
+4. **Zero Footprint** — speglar, session, synapse-state rensas vid logout/panic (motpart får inte läsa RAM).
+
+Utan (2) blir appen en statisk journal. Utan (3)–(4) blir den ett läckage. **Självlärande måste byggas innanför silo-gränserna.**
+
+---
+
+## Självlärande system — i detalj
+
+### Begrepp
+
+| Term | Betydelse i Livskompassen |
+|------|---------------------------|
+| **Självlärande** | Automatisk ingest + routing: nya källor → DCAP/klassificering i **kod** → rätt collection + vector (Kunskap) eller WORM (Valv/Barnen) |
+| **Minnes-Arkitekten** | Cursor-agent + backend-pipeline som väver händelser utan cross-RAG |
+| **Synaps (ADK)** | Händelse på `SynapseBus` — kopplar modul → minne deterministiskt |
+| **Tre silos (U1)** | Kunskap (`kampspar`/`kb_docs`) · Valv (`reality_vault`) · Barnen (`children_logs`) |
+| **DCAP (U2)** | Riskklassning **före** LLM — `routeFromDcap`, `resolveExecutorId` |
+| **WORM (U3)** | Append-only — inga `update`/`delete` på bevis |
+| **Evolution Engine** | `evolution_hub` + `evolution_ledger` — kapacitetsstyrd UI, barn-ålderssegment, ekonomi-gating |
+
+### Live synapser (backend)
+
+| Trigger | Handler | Effekt |
+|---------|---------|--------|
+| `drive_file_ingested` | `driveIngestSynapse` | Drive/Inkast → G10-klassificering → kb_docs **eller** reality_vault **eller** children_logs **eller** inbox_queue (HITL) |
+| `journal_woven` | `journalWovenSynapse` | Opt-in dagbok → `kampspar` + vector (Kunskap-silo) |
+| `dcap_alert` | `dcapAlertSynapse` | Risk ≥70 → `dcap_alerts` WORM + HITL |
+| `user_overwhelm` | `paralysBrytarenSynapse` | Ett mikrosteg (kognitiv avlastning) |
+
+Kedja: `notifyNewFile` / `submitInkastLite` → `emitSynapse` → synapse handler → Firestore + (ev.) Vertex vector.
+
+### Säkerhetslager (deterministiskt)
+
+```
+Användarinmatning
+    → DCAP / inboxClassifier (kod)
+    → routeFromDcap → executor / silo
+    → callableGuards (App Check + rate limit)
+    → firestore.rules (WORM keys().hasOnly)
+    → AdkOrchestrator + manifest (silo-isolation)
+    → gatekeeperSanitize (PII bort)
+    → Zero Footprint (clearSynapseState vid logout)
+```
+
+**LLM roll:** parafras, sammanfattning, BIFF-utkast — **aldrig** auth, silo-val eller WORM-beslut.
+
+### Innehållsklass (U6)
+
+| Klass | Zon | Kurator | RAG? |
+|-------|-----|---------|------|
+| FACT | Kunskap | specialist-kunskap-seed | Ja (`kampspar`) |
+| REFLECTION / PLAY | MåBra (Vit) | specialist-mabra-curator | Nej |
+| EVIDENCE | Valv / Barnen | ingest | WORM, separat query |
+
+Prod-coach **MUST** parafrasera godkänd bank med `bankId` — ingen hallucinerad fakta.
+
+---
+
+## Viktigaste filer (snabbnavigering)
+
+### Backend entry & regler
+
+| Fil | Roll |
+|-----|------|
+| `functions/src/index.ts` | Alla callables + triggers export |
+| `functions/src/sharedRules.ts` | **Enda** prompt-kanon för agenter |
+| `functions/src/agents/DCAP.ts` | Risk + routing före LLM |
+| `functions/src/agents/cards/index.ts` | AgentCards → executor mapping |
+| `firestore.rules` | WORM, userId, verified email |
+
+### ADK & synapser
+
+| Fil | Roll |
+|-----|------|
+| `functions/src/adk/orchestrator.ts` | A2A dispatch, PII-gatekeeper |
+| `functions/src/adk/synapses/synapseBus.ts` | emitSynapse, trigger registry |
+| `functions/src/adk/synapses/driveIngestSynapse.ts` | Multi-silo Drive/Inkast ingest (G10) |
+| `functions/src/adk/manifest.ts` | Backend silo-isolation asserts |
+
+### RAG (tre separata queries)
+
+| Fil | Silo |
+|-----|------|
+| `functions/src/lib/kampsparQueryRag.ts` | Kunskap |
+| `functions/src/lib/vaultRag.ts` | Valv-bevis |
+| `functions/src/lib/childrenLogsQueryRag.ts` | Barnen |
+
+### Ingest & inkast
+
+| Fil | Roll |
+|-----|------|
+| `functions/src/lib/submitInkastLite.ts` | Smart Inkast entry |
+| `functions/src/lib/inboxClassifier.ts` | Dokumentklassificering |
+| `functions/src/lib/analyzeUploadForKnowledge.ts` | Kunskap-kandidat |
+| `functions/src/triggers/inkastStorageOnFinalize.ts` | Storage → pipeline |
+
+### Systemplan & status
+
+| Fil | Roll |
+|-----|------|
+| `.context/system-plan.md` | Fas 1–5 detalj + permanent minne |
+| `docs/SYSTEM_PLAN_v2.md` | Fas 9–23 aktiv styrning |
+| `docs/evaluations/2026-06-15-fas19-masterplan-v2.md` | **Enda körplan** Fas 19+ |
+| `docs/specs/modules/Arkiv-GAP-REGISTER.md` | G1–G16 done/open (sanning) |
+| `docs/MODUL-FUNKTIONS-REGISTER.md` | Modul ↔ route ↔ callable |
+
+---
+
+## Läsordning för extern AI
+
+1. Denna preamble  
+2. `.context/arkiv-minne.md` + `.context/security.md`  
+3. `docs/SYSTEM_PLAN_v2.md` (status) + Fas 19 masterplan (nästa steg)  
+4. `functions/src/index.ts` → ADK → synapser → RAG-lib  
+5. `firestore.rules` (WORM-validering)
+
+**Regel:** Jämför alltid påståenden mot `Arkiv-GAP-REGISTER.md` och levande kod — docs kan ligga efter.
+
+---
+
+## Relaterade packs (djupdyk per zon)
+
+| npm script | Fokus |
+|------------|-------|
+| `npm run gpt-handoff:pack:01` | Arkitektur + routing |
+| `npm run gpt-handoff:pack:02` | Valv + WORM |
+| `npm run chatbot:pack:security` | Synapser + säkerhet (litet) |
+| `npm run gemini:pack` | Modulvis (kompass, valv, inkast …) |
+````
+
+## File: docs/external-ai/LIFE-OS-BUILD-STATE.md
+````markdown
+# LIFE-OS-BUILD-STATE (levande sanning)
+
+Uppdateras vid varje CHECKPOINT. Register vinner över minne.
+
+**Senast uppdaterad:** 2026-06-18 (P4 + P6 LOCK efter smoke E2E)
+
+| Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
+|-----------|-------------|--------|-------|------------|
+| Security core (WORM + vault + guards) | `firestore.rules`, `unlockVault.ts`, `callableGuards.ts` | **LOCK** | valv-security + locked-ux 2026-06-18 | **CP-1** · **F19.1** |
+| Locked UX §11–17 | `.context/locked-ux-features.md` | **LOCK** | locked-ux PASS 2026-06-16 | **CP-1** |
+| G10 Inkast backend | `inboxClassifier.ts`, `submitInkastLite.ts`, `inkastStorageOnFinalize.ts` | **LOCK** | inkast + inbox + inkast-upload 2026-06-16 | **CP-3** |
+| G10 Inkast UI (CapturePanel + filer) | `CapturePanel.tsx`, `CaptureSuperModule.tsx` | **LOCK** | inkast PASS 2026-06-16 | **CP-4** |
+| Upload unified (Valv DirectPanel) | `InkastDirectPanel.tsx`, `VaultInkastCompact.tsx` | **LOCK** | inkast-upload + valv-compact 2026-06-16 | **CP-4b** |
+| SynapseBus (4 triggers) | `synapseBus.ts`, synapse handlers | **LOCK** | synapse-triggers + orkester 2026-06-16 | **CP-5** |
+| ADK Manifest runtime | `adk/manifest.ts`, `registry.ts`, `orchestrator.ts` | **LOCK** | manifest + orkester 2026-06-16 | **CP-5b** |
+| Valv chat E2E | `valvChatAgent.ts`, `valvChatQuery` | **LOCK** | valv-chat-e2e 2026-06-16 | **CP-8** |
+| App Check (kod) | `appCheck.ts`, `callableGuards.ts` | **LOCK** | tier1 2026-06-16 | **CP-6** |
+| Valv modul | `evidence/vault/` | **LOCK** | B1 + valv-mode 2026-06-16 | **B1** |
+| **P1 Brusfilter v1 (Valv Orkester)** | `processBrusfilter.ts`, `VaultOrkesterPanel.tsx` | **LOCK** | orkester 2026-06-17 | **P1** |
+| **P1 Brusfilter v2 (Inkast HITL)** | `InkastBrusfilterPreview.tsx`, `CapturePanel.tsx` | **LOCK** | inkast 2026-06-17 | **P1b** |
+| CI deploy | `.github/workflows/firebase-hosting-main.yml` | **LOCK** | smoke:tier1 + functions deploy | **CP-9** |
+| **P2 Dossier v2 (AI foreword)** | `dossierAiForeword.ts`, `generateDossierInternal.ts` | **LOCK** | dossier 2026-06-17 | **P2** |
+| **P3 Flow-assist (Mönster metadata)** | `assistPatternMetadata`, `VaultMonsterPanel.tsx`, `patternScanService.ts` | **LOCK** | pattern-metadata + orkester 2026-06-18 | **P3** |
+| **P4 MåBra bank_parafras** | `mabraCoach` mode `bank_parafras`, `VitCardFlowPanel`, `VitMemoryFlowPanel` | **LOCK** | smoke:mabra E2E PASS 2026-06-18 | **P4** |
+| **P6 Dossier Flow-tidslinje** | `dossierAiForeword.ts`, `generateDossierInternal.ts`, `DossierPage.tsx` | **LOCK** | smoke:dossier E2E PASS 2026-06-18 | **P6** |
+| Fas 19.1 security sprint | `invalidateSession` guard, D14 ParentReminderFooter | **LOCK** | valv-security 2026-06-18 | **F19.1** |
+| **Fas 19.2–19.5 (MåBra)** | hybrid-8, hex→tokens, JOY-17, evolution_ledger dual-write | **LOCK** | mabra + modulvaljare + evolution + innehall 2026-06-18 | **F19.2–19.5** |
+| Wave 29.1 barn-epistemik | `childObservationEpistemics.ts`, `saveChildrenLog` | **LOCK** | smoke:barn-epistemik 2026-06-18 | **V1** |
+| MB-PLAY-54321 | `MabraGrounding54321Wizard.tsx`, `grounding54321Play.ts` | **LOCK** | smoke:mabra 2026-06-18 | **V2** |
+| MB-REF-rsd-04 | `rsdErrorCopy.ts`, `mabraCoachService.ts`, `mabraContentBank.ts` | **LOCK** | smoke:mabra + innehall 2026-06-18 | **V3** |
+| Planering modulpinnar | `planningModulePinStorage.ts`, `PinnedPlaneringModuleSlot.tsx` | **LOCK** | locked-ux + planering 2026-06-18 | **PLAN-PIN** |
+| Barnporten barn-PWA | `barnportenRollout.ts`, `BarnportenPausedPanel.tsx` | **PAUSED** (`BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false`) | locked-ux 2026-06-18 | **V4** |
+| App Check Console Enforce | Firebase Console → Enforce | **LOCK** | Pontus Console 2026-06-17 | **V6** |
+| M3.0-C Fitness/Näring | evolution_hub | **DEFER** | — | **F19.N+** |
+| BP-PUSH (FCM barn) | — | **DEFER** | — | **V6** |
+| AI-assistent UI | — | **DEFER** | — | — |
+
+## Statusförklaring
+
+- **LOCK** — smoke PASS, får inte refaktoreras utan explicit OK + snapshot
+- **FREEZE** — backend-kärnan låst; endast bugfix + content ingest efter KEEP
+- **PAUSED** — implementerat men avstängt via flagga; kräver Pontus OK + PMIR för enable
+- **DEFER** — medvetet senarelagt
+
+## Nästa steg (Pontus)
+
+1. **Använd:** Familjen livslogg med citat/tolkning; MåBra 5-4-3-2-1-lek; Valv Mönster Flow-assist
+2. **Använd:** Dossier med AI-tidslinje (`includeAiForeword`) i Valv
+3. **DEFER:** BP-PUSH, barn-PWA rollout, M3.0-C Fitness/Näring, AI-assistent UI
+4. **Leverans:** `docs/evaluations/2026-06-18-produktkomplett-leverans.md`
+````
+
 ## File: docs/external-ai/SECURITY-LOCK-MANIFEST.md
 ````markdown
 # SECURITY-LOCK-MANIFEST (ChatBox PHASE-01)
@@ -1841,197 +1732,209 @@ Koppling: `notifyNewFile` → `emitSynapse(..., drive_file_ingested)`.
 - `.context/security.md`
 ````
 
-## File: docs/specs/modules/Arkiv-GAP-REGISTER.md
+## File: docs/DEPLOY.md
 ````markdown
-# Arkiv-GAP-REGISTER — implementation efter låsning
+# Deploy (Livskompassen3.0)
 
-**Datum:** 2026-05-21 (konsoliderad, live-synk)  
-**Regel:** Implementera **inte** kod förrän användaren säger `kör [GAP]`.  
-**Sanning (moln):** [`docs/GCP-INVENTORY-LATEST.md`](../../GCP-INVENTORY-LATEST.md) — ersätter arkiv [`GCP-INVENTORY-2026-05-21.md`](../../archive/GCP-INVENTORY-2026-05-21.md).
+Kanonisk rot: `Livskompassen3.0/` (projektrot med `firebase.json`).
 
-| ID | Status | Notering |
-|----|--------|----------|
-| G1 | **done** | `valvChatQuery` deployad west1 |
-| G2 | **done** | VERIFY PASS 2026-05-22 — endpoint live, kod-defaults, 54 vectors |
-| G3 | **done** | VERIFY PASS 2026-05-22 — embeddingDim 768, indexSync under ingest |
-| G4 | **done** | All legacy Python borta (steg 1–5 2026-05-22) |
-| G5 | **done** | WORM allowlist retention |
-| G6 | **done** | Drive E2E → `kb_docs` 2026-05-22 — [`GCP-FAS4-RUNBOOK.md`](../../GCP-FAS4-RUNBOOK.md) steg 2 |
-| G7 | **done** | `journal_woven` opt-in → `kampspar` + `journalWovenToKampspar` (2026-05-22) |
-| G8 | **done** | `childrenLogsQuery` + Mönster-Arkivarien Barnen (2026-05-22) |
-| G9 | **done** | EntityProfile / SystemSynapse (2026-05-22) |
-| G10 | **done** | Självsorterande inkorg (2026-05-22) |
-| G11 | **done** | Mock Kampspar UI-only (2026-05-22) |
-| G12 | **done** | Context Cache registry (2026-05-22) |
-| G13 | **done** | Tidshjulet → kampspar (2026-05-22) |
-| G14 | **done** | Gräns-Arkitekten (2026-05-22) |
-| G15–G16 | **done** | G15 + G16 + U5.5 **done** 2026-05-22 |
-| F8 | **done** | Super-Ekonomi Input (Fas 8A→8E) — Shadow→Live 2026-06-14 |
-| V1 | **wait** | Genkit — ej migrera |
+Firebase-projekt: `gen-lang-client-0481875058`  
+Region (Functions): `europe-west1`
 
----
+## Förutsättningar
 
-## Prioritet 1 — Prod-gaps (blockerar hela arkivet)
+1. **Auth-domäner + Google:** [`FIREBASE-AUTH-LATHUND.md`](./FIREBASE-AUTH-LATHUND.md) (Console-steg du gör själv).
+2. `.env` i projektroten med alla `VITE_FIREBASE_*` från [Firebase Console → Project settings](https://console.firebase.google.com/project/gen-lang-client-0481875058/settings/general).
+3. Firebase CLI inloggad: `firebase login` och `firebase use gen-lang-client-0481875058`.
+4. **Authentication → Anonymous** aktiverad i Firebase Console.
 
-### G1 — Deploy `valvChatQuery` — **done**
+## YOLO-vakt (MUST före deploy)
 
-| | |
-|---|---|
-| **Status** | **done** (2026-05-21 live inventering) |
-| **Bevis** | `valvChatQuery` i `firebase functions:list`; `smoke:valv` PASS |
-| **Säkerhet** | Endast `reality_vault`; Zero Footprint session |
+**Kanon:** [`YOLO-VAKT-GATE.md`](./YOLO-VAKT-GATE.md)
 
-### G2 — Vector Search endpoint + ANN wire — **done**
-
-| | |
-|---|---|
-| **Status** | **done** — VERIFY PASS 2026-05-22 |
-| **Live** | Endpoint `4956462078572363776`; index `2686894156982255616`; deploy `livskompassen_kv_deployed_v1`; **54 vectors** |
-| **Secrets** | `VECTOR_SEARCH_*` saknas i Secret Manager — kod-defaults i `vectorSearchClient.ts` räcker |
-| **Kod** | `functions/src/lib/kampsparQueryRag.ts` — ANN + token-match fallback |
-
-### G3 — Embeddings live — **done**
-
-| | |
-|---|---|
-| **Status** | **done** — VERIFY PASS 2026-05-22 |
-| **Live** | `text-embedding-004`, `embeddingDim` 768 vid ingest; indexSync 2026-05-22T00:57:43Z |
-| **Bevis** | Smoke + seed 47 poster; vectorsCount 54 i gcloud |
-
----
-
-## Prioritet 2 — Arkitekturhygien
-
-### G4 — Legacy Python RAG (us-central1) — **done**
-
-| Status | **done** — 0 Python functions kvar (FAS4 steg 1–5 **done** 2026-05-22) |
-
-| Function | Legacy roll | Node-motsvarighet | Status |
-|----------|-------------|-------------------|--------|
-| ~~`knowledge-base-webhook`~~ | Vertex AI Search KB webhook | `notifyNewFile` → `kb_docs` + Vector ANN | **raderad** steg 5 |
-| ~~`drive_sync_tool`~~ | Drive → legacy KB | `notifyNewFile` (Node) | **raderad** steg 3 |
-| ~~`biff_generator_tool`~~ | HTTP BIFF-prototyp | `analyzeMessage` | **raderad** steg 1 |
-| ~~`brusfiltret_tool`~~ | HTTP brusfilter | `analyzeMessage` | **raderad** steg 1 |
-
-**Smoke steg 5:** `smoke:kunskap` + `smoke:dossier` **PASS** 2026-05-22.
-
-### G5 — Retention vs permanent minne — **done**
-
-| | |
-|---|---|
-| **Status** | **done** — WORM allowlist i `retentionJob.ts` |
-| **Problem** | `retentionJob.ts` purgar `users/{uid}/kampspar`; live data = top-level `kampspar` |
-| **GCS** | `livskompassen-knowledge-vault-worm` har 30d retention |
-| **Åtgärd** | Explicit allowlist: **aldrig** radera `children_logs`, `reality_vault`, `journal`, `dossier_snapshots`, top-level `kampspar` WORM |
-| **Källa** | walkthrough legacy path ≠ prod; repomix output.txt T6 |
-
-### G6 — Drive smoke end-to-end — **done** 2026-05-22
-
-| | |
-|---|---|
-| **Status** | **done** — webhook → `kb_docs` · docId `irQNlDTYgcr15DFIuA3w` · `smoke:kunskap` PASS |
-| **Fix** | `documentAgent.ts` export för Google Docs; `await emitSynapse`; `gemini-2.5-flash` |
-| **Deploy** | `notifyNewFile` west1 — se [`GCP-FAS4-RUNBOOK.md`](../../GCP-FAS4-RUNBOOK.md) steg 2 |
-
-### G11 — Mock `Kampspar`-typ vs `KampsparEntry` — **done**
-
-| | |
-|---|---|
-| **Status** | **done** — `KompisUiKampsparTrack` UI-only |
-| **Problem** | `src/modules/kompis/types/kompis.ts` har mock `Kampspar` (challenge/milestone/routine) identisk med repomix output.txt |
-| **Risk** | Felkoppling till ingest — WORM-schema är `KampsparEntry` |
-| **Åtgärd** | Isolera/renamna mock till UI-only; dokumentera i komponent; aldrig skicka till `ingestKampsparEntry` |
-| **Källa** | ANALYS-repomix-output.txt T1/T2 |
-
----
-
-## Prioritet 3 — Life OS utbyggnad
-
-### G7 — `journal_woven` synaps — **done** 2026-05-22
-
-`journalWovenSynapse.ts` + callable `journalWovenToKampspar` + opt-in checkbox i Dagbok ConfirmStep. **MUST NOT** auto-ingest.
-
-### G8 — Familjen-RAG — **done** 2026-05-22
-
-`childrenLogsQuery` + `childrenLogsQueryRag` + `ChildrenLogsChat` i Familjen. **MUST NOT** route via `valvChatQuery`.
-
-### G9 — EntityProfile / SystemSynapse — **done** 2026-05-22
-
-`entity_profiles` + `system_synapses` (WORM, owner-bound), idempotent seed (`KEY_ENTITY_SEEDS`), `loadEntityProfileBundle` injiceras i valv/kunskap/barn-agenter (metadata — **MUST NOT** cross-RAG), callable `getEntityProfileRegistry`, UI `EntityRegistryCard` i Kunskap.
-
-### G10 — Självsorterande inkorg — **done** 2026-05-22
-
-`INKORG_SORTERARE` + `classifyInboxDocument` i `driveIngestSynapse`: bevis → `reality_vault`, kunskap → `kb_docs`, barnen → `children_logs`, trauma/oklar → `inbox_queue` (HITL). **MUST NOT** spara bevis till `kb_docs`. Callables: `getInboxQueue`, `confirmInboxItem`, `previewInboxClassification`. UI `InboxQueueCard`.
-
-### G12 — Context Cache delad registry — **done** 2026-05-22
-
-`context_cache_registry` (Firestore, delad mellan instanser), `contentHash` för RAG-invalidering, `invalidateCachesForUser` vid Kill Switch, `purgeExpiredRegistryEntries` i retention. Callable `getContextCacheStatus`. Best-effort Vertex cache create (fail-open).
-
-### G13 — Tidshjulet → `kampspar`-historik — **done** 2026-05-22
-
-Live `subscribeKampsparEntries`, ringar Dåtid/Nutid/Framtid via `eventDate`, klickbara noder, `TidshjulDetailCard`, deterministisk Mönster-hint. Citation → Tidshjulet för `kampspar`.
-
-### G14 — Gräns-Arkitekten agent card
-
-| | |
-|---|---|
-| **Status** | **done** — 2026-05-22 |
-| **Leverans** | `GransArkitektenCard`, `gransArkitektenAgent.ts`, Kompis-routing (DCAP + `module: safe_harbor`), Hamn-UI (Brusfilter + BIFF), `npm run smoke:grans` |
-| **Beslut** | Nionde produktroll = Gräns-Arkitekten (executor `agent_grans_arkitekten`); BIFF/Brusfiltret som produktkort kvar i A2A-registret |
-| **Källa** | cursor.txt + walkthrough legacy |
-
-### G15 — Grunder: injection-parity kanon (U1.5)
-
-| | |
-|---|---|
-| **Status** | **done** — `.context/security.md` § injection-parity (2026-05-22) |
-| **Källa** | [`GRUNDER-UTVARDERING-RESULTAT.md`](GRUNDER-UTVARDERING-RESULTAT.md) U1.5 |
-
-### G16 — Grunder: RSD-prompt + Barnen-routing (U4.3, U5.3, U5.5)
-
-| | |
-|---|---|
-| **Status** | **done** — RSD-prompt + PA appendix + U5.5 Kompis routing **done** 2026-05-22 |
-| **Källa** | [`GRUNDER-UTVARDERING-RESULTAT.md`](GRUNDER-UTVARDERING-RESULTAT.md) |
-
-### F8 — Super-Ekonomi Input (Fas 8A→8E) — **done**
-
-| | |
-|---|---|
-| **Status** | **done** — Fas 8E Shadow→Live **2026-06-14** |
-| **Leverans** | `EkonomiInputSuperModule` default på `/vardagen?tab=ekonomi`; legacy `EconomyOverviewPanel` via `?legacy=true` |
-| **Spec** | [`Ekonomi-INPUT-SUPERHUB-SPEC.md`](../Ekonomi-INPUT-SUPERHUB-SPEC.md) · **Eval:** [`Ekonomi-INPUT-SUPERHUB-EVAL.md`](../../evaluations/Ekonomi-INPUT-SUPERHUB-EVAL.md) |
-| **Router** | `LivLauncherPage.tsx` — `EkonomiInputSuperModule` standard; `?superhub=true` avvecklad |
-| **Smoke** | `npm run build` · `smoke:ekonomi` · `smoke:evolution` |
-
----
-
-## Dokumentation (konsolidering 2026-05-21)
-
-- [x] `.context/arkiv-minne.md` — terminologifällor, legacy schema, G11–G14
-- [x] `Arkiv-SPEC.md` — Appendix E/F, säkerhet, status
-- [x] `Arkiv-GAP-REGISTER.md` — denna fil (G11–G14 tillagda)
-- [x] `docs/archive/repomix/KONSOLIDERING-2026-05-21.md`
-- [x] `system-plan.md` § Permanent minne
-- [x] `system-plan.md` — uppdatera notifyNewFile/valvChat rader efter deploy (2026-05-21 multitask)
-
----
-
-## Kommando-cheat sheet (när användaren säger kör)
+1. Read-only audit: `/yolo-vakt` → **GO / NO-GO**
+2. Automatiserad gate: `npm run smoke:yolo` (PASS krävs)
+3. Pontus OK vid PMIR-stopp (rules, Barnporten kanon-UI, Sacred UX)
 
 ```bash
-# G1
-firebase deploy --only functions:valvChatQuery
-npm run smoke:valv
-
-# G2 (efter endpoint skapad)
-firebase functions:secrets:set VECTOR_SEARCH_INDEX_ID  # eller env i functions config
-firebase deploy --only functions:knowledgeVaultQuery,functions:ingestKampsparEntry
-npm run smoke:kunskap
-
-# G11 (exempel — isolera mock)
-# Granska src/modules/kompis/types/kompis.ts vs core/types/firestore.ts KampsparEntry
+npm run smoke:yolo
+firebase deploy --only hosting   # eller named functions enligt tabell nedan
 ```
+
+**Snabb dev:** `YOLO_SKIP_BUILD=1 npm run smoke:yolo`
+
+---
+
+## Bygg (lokalt)
+
+```bash
+cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
+cd functions && npm run build && cd ..
+npm run build
+```
+
+## Deploy — Firestore + Storage + modul-Functions
+
+**Full inventering (35 fn):** [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md)
+
+```bash
+cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
+firebase deploy --only firestore:rules,firestore:indexes
+firebase deploy --only storage
+firebase deploy --only functions:beginVaultWebAuthnChallenge,functions:issueVaultSession,functions:analyzeMessage,functions:invalidateSession,functions:generateEmbedding,functions:ingestKampsparEntry,functions:ingestKnowledgeDocument,functions:knowledgeVaultQuery,functions:valvChatQuery,functions:childrenLogsQuery,functions:getEntityProfileRegistry,functions:addEntityProfile,functions:scheduledRetentionJob,functions:weaveJournalEntry,functions:approveWeaverMetadata,functions:confirmInboxItem,functions:speglingsMirror,functions:generateDossier,functions:ingestWidgetRecording,functions:createBarnportenPairing,functions:claimBarnportenPairing --force
+```
+
+**Valv-session:** `beginVaultWebAuthnChallenge` + `issueVaultSession` måste deployas tillsammans — smoke: `npm run smoke:locked-ux`, `npm run smoke:valv-gate`.
+
+**Hjärtat (Speglar):** `speglingsMirror` måste deployas för AI-spegling i prod.
+
+**Storage:** `storage.rules` krävs för valv-media (`vault_evidence/{uid}/**`) och projektbilder (`project_media/{uid}/{projectId}/**`).
+
+**Första gången:** Aktivera Storage i [Firebase Console → Storage](https://console.firebase.google.com/project/gen-lang-client-0481875058/storage) (*Get Started*), välj region (t.ex. `europe-west1`), sedan:
+
+```bash
+firebase deploy --only storage
+```
+
+Utan aktiverad Storage + deploy misslyckas skärmdump-uppladdning i prod.
+
+Valfritt i samma körning (redan i repo, ej kritisk för hjärtat): `breakDownResponse`, `getAgentRegistry`, `generateDossier`.
+
+**Dossier smoke:** `npm run smoke:dossier` efter deploy av `functions:generateDossier`. Om signed URL failar i loggar: Functions service account behöver `iam.serviceAccounts.signBlob` — appen faller tillbaka till `pdfBase64` i svaret.
+
+**Obs:** En full deploy `firebase deploy --only functions` inkluderar `notifyNewFile`, som kräver secret (se nedan).
+
+**Kunskap / Gemini:** Projektet `gen-lang-client-*` har ofta **ingen** Vertex Publisher-modellåtkomst (404 i loggar). RAG-fallback fungerar utan LLM. För full syntes:
+
+```bash
+# 1) Skapa nyckel på https://aistudio.google.com/apikey (server-only, aldrig VITE_*)
+firebase functions:secrets:set GEMINI_API_KEY
+
+# 2) I functions/src/index.ts — lägg till secrets på knowledgeVaultQuery:
+#    { region: 'europe-west1', secrets: ['GEMINI_API_KEY'] }
+
+firebase deploy --only functions:knowledgeVaultQuery
+npm run smoke:kunskap
+```
+
+### `notifyNewFile` (Drive-webhook)
+
+Kräver secret innan deploy:
+
+```bash
+# Generera värde (spara i password manager — committa aldrig)
+openssl rand -base64 32
+
+# Interaktivt — klistra in värdet när CLI frågar
+firebase functions:secrets:set NOTIFY_WEBHOOK_SECRET
+
+firebase deploy --only functions:notifyNewFile
+```
+
+Samma värde ska sättas som `WEBHOOK_SECRET` i Apps Script (se [DRIVE_AUTOMATION.md](./DRIVE_AUTOMATION.md)).
+
+## Fas 1 — Säkerhetshårdning (2026-06-11)
+
+### 1.2 Prod: kräv e-postinloggning
+
+Bygg hosting med flaggan satt (Vite bäddar in vid build — inte runtime):
+
+```bash
+VITE_REQUIRE_EMAIL_AUTH=true npm run build
+firebase deploy --only hosting
+```
+
+- Lokalt/dev: lämna flaggan **av** i `.env` — anonym auth fungerar fortfarande.
+- Prod (valfritt): stäng av **Authentication → Anonymous** i Firebase Console när du kör e-postkrav.
+
+### 1.3 Firestore: `email_verified`
+
+Regler på WORM-silos (`journal`, `reality_vault`, `children_logs`, `dossier_snapshots` read): Google/e-post måste vara **verifierade**; anonym provider tillåts fortfarande för dev/smoke.
+
+```bash
+firebase deploy --only firestore:rules
+```
+
+### 1.4 Firebase App Check
+
+**Console (engångs):**
+
+1. [Firebase Console → App Check](https://console.firebase.google.com/project/gen-lang-client-0481875058/appcheck) → registrera **Web**-appen.
+2. Provider: **reCAPTCHA v3** — kopiera **site key** (visas bara i Console under web-appen, inte via API) till `.env`: `VITE_APP_CHECK_RECAPTCHA_SITE_KEY=…`
+   - Prod-hosting måste byggas om med nyckeln innan `APP_CHECK_ENFORCE=true` fungerar för riktiga användare (klienten initierar App Check i `main.tsx` → `initAppCheck()`).
+   - Functions: `APP_CHECK_ENFORCE=true` i `functions/.env.gen-lang-client-0481875058` (gitignored) laddas vid deploy.
+3. Lokal dev: App Check → **Manage debug tokens** → lägg token i `.env`: `VITE_APP_CHECK_DEBUG_TOKEN=…`
+4. **Android:** registrera `com.livskompassen.app` med **Play Integrity** (Capacitor) — samma App Check-projekt.
+5. När web+Android skickar tokens: aktivera enforcement på **Cloud Functions** i App Check-konsolen.
+
+**Functions (prod enforcement):**
+
+```bash
+# Sätt env på berörda functions (exempel — upprepa per LLM-callable eller via firebase.json)
+firebase functions:config:set appcheck.enforce=true   # legacy — prefer env APP_CHECK_ENFORCE
+
+# Rekommenderat: Firebase Functions v2 env (Google Cloud Console → Cloud Run / Functions)
+# APP_CHECK_ENFORCE=true
+```
+
+Kod: fail-open tills `APP_CHECK_ENFORCE=true` (eller `FUNCTIONS_EMULATOR=true` → alltid öppen). Deploy berörda callables efter aktivering:
+
+```bash
+cd functions && npm run build && cd ..
+firebase deploy --only functions:issueVaultSession,functions:beginVaultWebAuthnChallenge,functions:valvChatQuery,functions:analyzeMessage,functions:knowledgeVaultQuery,functions:childrenLogsQuery,functions:speglingsMirror,functions:mabraCoach,functions:generateDossier,functions:weaveJournalEntry,functions:ingestWidgetRecording,functions:generateEmbedding,functions:ingestKnowledgeDocument
+```
+
+### 1.5 Rate limits (LLM callables)
+
+Per-UID sliding window (60 s) via Firestore `_rate_limits` — ingen klientåtkomst. Deploy samma functions som ovan. Överskridande → `resource-exhausted`.
+
+### 1.6 WORM field allowlists
+
+`firestore.rules` använder `keys().hasOnly([...])` på create för `journal`, `reality_vault`, `children_logs`. Smoke: `npm run smoke:vault-worm`.
+
+## Deploy — Hosting (SPA)
+
+Efter frontend-ändringar:
+
+```bash
+npm run build
+firebase deploy --only hosting
+```
+
+**Produktions-URL:** https://gen-lang-client-0481875058.web.app  
+Alternativ: https://gen-lang-client-0481875058.firebaseapp.com
+
+## Smoke-test (manuellt)
+
+Se [SMOKE_CHECKLIST.md](./SMOKE_CHECKLIST.md). Kräver inloggad app (Anonymous Auth) och Firestore Console.
+
+## Felsökning
+
+| Problem | Åtgärd |
+|---------|--------|
+| `.firebaserc` parse-fel | Filen ska börja med `{` (inte `¨{`) |
+| `NOTIFY_WEBHOOK_SECRET` 404 vid functions-deploy | Sätt secret (ovan) innan `notifyNewFile` |
+| `knowledgeVaultQuery(us-central1)` konflikt | Använd `--force` vid deploy av functions-listan ovan, eller radera gammal region manuellt |
+| API key-varning vid functions-build | Sätt Vertex/Gemini-credentials i GCP för prod; lokalt kan varningen ignoreras om deploy lyckas |
+
+## Cloud Agent (Cursor) — deploy + säkerhet
+
+När deploy körs från **Cursor cloud agent** (ej Mac-terminal):
+
+1. **Auth:** MCP `firebase_login` → Pontus öppnar `auth.firebase.tools` → klistrar **engångs** authorization code i chat. Koden sparas **aldrig** i repo.
+2. **Gate:** `npm run build` + `YOLO_SKIP_BUILD=1 npm run smoke:yolo` (eller full `smoke:yolo`).
+3. **Named deploy** — inte full `firebase deploy` utan scope.
+4. **Audit (MUST):** `docs/evaluations/YYYY-MM-DD-yolo-audit.md` + rad i `docs/SMOKE_RESULTS.md`.
+5. **Orkester:** uppdatera `.orkester/fas22-state.json` med `deploy`, `sha`, `jobId`.
+
+```bash
+firebase use gen-lang-client-0481875058
+firebase deploy --only hosting
+```
+
+**MUST NOT:** committa `.env`, service-account JSON, `FIREBASE_TOKEN`, eller Firebase auth codes.
+
+**Verifiering efter deploy:** hard refresh (`Cmd+Shift+R`) på https://gen-lang-client-0481875058.web.app
 ````
 
 ## File: docs/GCP-INVENTORY-LATEST.md
@@ -2260,231 +2163,6 @@ gcloud secrets list --project=gen-lang-client-0481875058
 ```
 ````
 
-## File: docs/INNEHALL-REGISTER.md
-````markdown
-# Innehållsregister — fakta, lek och utveckling (1 sida)
-
-**Version:** 2026-05-27 · **Status:** **LÅST** med Grunder **U6** (`.cursor/rules/grunder-kanon.mdc`, `.cursor/rules/innehall-register.mdc`).
-
-**Syfte:** Hålla isär **fakta**, **reflektion/lek** och **bevis** så LLM inte blir sanning. Ingen fjärde RAG-silo — **Utvecklingszon (Vit)** utan cross-RAG. **Smoke:** `npm run smoke:innehall`.
-
-**Dirigent:** `.cursor/agents/specialist-innehall-dirigent.md` · **Kanon silos:** [`.context/arkiv-minne.md`](../.context/arkiv-minne.md) · **Röda tråden:** [`SYSTEMKONTROLL.md`](./SYSTEMKONTROLL.md)
-
----
-
-## Tre RAG-silor + en utvecklingszon
-
-| Zon | `content_class` | Data (Firestore) | RAG / callable | Kurator-agent |
-|-----|-----------------|------------------|----------------|---------------|
-| **Kunskap** | `FACT` | `kampspar`, `kb_docs` | `knowledgeVaultQuery` | `specialist-kunskap-seed` |
-| **Valv** | `EVIDENCE` | `reality_vault` | `valvChatQuery` | *(ingen content-kurator — bevis via ingest/HITL)* |
-| **Barnen** | `EVIDENCE` + `PLAY` | `children_logs` | `childrenLogsQuery` | `specialist-barn-lek` **aktiv** |
-| **Utveckling (Vit)** | `REFLECTION`, `PLAY` | `mabra_sessions`, `vit_hub` / `vit_entries` *(P1)* | **Ingen** export till Kunskap | `specialist-mabra-curator` |
-
-**MUST NOT:** `FACT` i MåBra-bank utan ingest till Kunskap · `PLAY` i `reality_vault` · auto-ingest Vit → Vector Search · “sök överallt”-UI.
-
----
-
-## `content_class` — snabbgrind
-
-| Klass | Exempel | LLM i produktion |
-|-------|---------|------------------|
-| **FACT** | Lagstöd, metod, diagnos-info med tier | RAG + citation JSON |
-| **REFLECTION** | Frågekort, självkänsla, KBT light | Parafras KEEP + `bankId` |
-| **PLAY** | Microlek ≤2 min, offline | Deterministisk UI, ingen sanning |
-| **EVIDENCE** | SMS, möte, observation barn | WORM, dossier — **inte** kurator-lek |
-
-**Skoj + fakta samma dag:** OK i UX · **inte** i samma post utan klass + **inte** i samma RAG-query.
-
----
-
-## Content-banker (dokument → kod)
-
-| Bank | Fil | Status | Implementation |
-|------|-----|--------|----------------|
-| MåBra | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) | **aktiv** | P1: `vit_entries` + `bankId` |
-| MåBra Daglig mix | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) § Daglig mix | **aktiv** | `dagligMixCatalog.ts` · DM-* · ingen streak/RAG |
-| Drogfrihet | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) § Drogfrihet + [`Drogfrihet-SPEC.md`](./specs/modules/Drogfrihet-SPEC.md) | **aktiv** | `drogfrihetCatalog.ts` · DF-REF-* · hub `/drogfrihet` |
-| Kunskap seed | [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) | **aktiv** | 142 FACT manifest · våg 27 ingest **PASS** 2026-06-16 · [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) |
-| Barnen lek | [`specs/modules/Barnen-PLAY-BANK.md`](./specs/modules/Barnen-PLAY-BANK.md) | **aktiv** | `barnfokusCatalog.ts` BP-PLAY-01..21 · ej Valv-promote |
-
-**Fält per KEEP-post (alla banker):** `id`, `status`, `content_class`, `source_tier`, `text_sv`, `why`.
-
----
-
-## Dirigent — när du är osäker
-
-| Du säger / har | Dirigent pekar till |
-|----------------|---------------------|
-| “Kurera frågekort / självkänsla / lek” | `kör mabra curator` |
-| “Fakta, artikel, referens till Kunskap” | `kör kunskap seed` |
-| “Barnfråga, lek med pojkarna” | `kör barn lek` *(när bank finns)* |
-| “SMS, bevis, dossier” | **Hamn / Valv** — ingen innehållskurator |
-| “Ex, gaslighting, BIFF” | **Speglar / Hamn** — ROUTE_SPEGLAR |
-
-Trigger: `dirigera innehåll: …` · Agent: `specialist-innehall-dirigent`
-
----
-
-## Runtime (ändras inte av kuratorer)
-
-| Roll | Var | Läser bank? |
-|------|-----|-------------|
-| Måbra-coach | `mabraCoach` | Parafras MåBra KEEP |
-| KBT-Transformator | `mabraCoach` transformator | Reframing, ej ny fakta |
-| Livs-Arkivarien | Kunskap RAG | `kampspar` / `kb_docs` |
-| Paralys / Uppgifts | ADK / Planering | Ej content-bank |
-
-Prompts: endast `functions/src/sharedRules.ts`.
-
----
-
-## Smoke (efter kod som rör zon)
-
-| Zon | Kommando |
-|-----|----------|
-| MåBra | `npm run smoke:mabra` |
-| Kunskap | `npm run smoke:kunskap` |
-| Låst UX (Barnfokus) | `npm run smoke:locked-ux` |
-| Silo-grind | `npm run smoke:orkester` |
-
----
-
-## Kunskap seed — KEEP 2026-05-29
-
-**Kurator:** `specialist-kunskap-seed` · **Klass:** FACT · **Silo:** `kampspar` / `kb_docs` · **Callable:** `knowledgeVaultQuery` only.
-
-| id | content_class | source_tier | status | category |
-|----|---------------|-------------|--------|----------|
-| kunskap-fact-001 | FACT | P2 | KEEP | adhd_vardag |
-| kunskap-fact-002 | FACT | P2 | KEEP | adhd_vardag |
-| kunskap-fact-003 | FACT | P2 | KEEP | medforaldraskap |
-| kunskap-fact-004 | FACT | P2 | KEEP | medforaldraskap |
-| kunskap-fact-005 | FACT | P1 | KEEP | kommunikation_metod |
-| kunskap-fact-006 | FACT | P1 | KEEP | kommunikation_metod |
-| kunskap-fact-007 | FACT | P2 | KEEP | barn_neuro |
-| kunskap-fact-008 | FACT | P2 | KEEP | barn_neuro |
-| kunskap-fact-009 | FACT | P1 | KEEP | ekonomi_vardag |
-| kunskap-fact-010 | FACT | P2 | KEEP | juridik_logistik |
-| kunskap-fact-011 | FACT | psychoeducation_general | KEEP | medforaldraskap |
-| kunskap-fact-012 | FACT | psychoeducation_general | KEEP | medforaldraskap |
-| kunskap-fact-013 | FACT | product_copy | KEEP | juridik_overview |
-| kunskap-fact-014 | FACT | psychoeducation_general | KEEP | medforaldraskap |
-| kunskap-fact-015 | FACT | P2 | KEEP | medforaldraskap |
-| kunskap-fact-016 | FACT | P2 | KEEP | adhd_vardag |
-| kunskap-fact-017 | FACT | P2 | KEEP | adhd_vardag |
-| kunskap-fact-018 | FACT | psychoeducation_general | KEEP | adhd_vardag |
-| kunskap-fact-019 | FACT | P2 | KEEP | adhd_vardag |
-| kunskap-fact-020 | FACT | psychoeducation_general | KEEP | adhd_vardag |
-| kunskap-fact-021 | FACT | psychoeducation_general | KEEP | adhd_vardag |
-| kunskap-fact-022 | FACT | product_copy | KEEP | produkt_sakerhet |
-| kunskap-fact-023 | FACT | product_copy | KEEP | produkt_arkitektur |
-| kunskap-fact-024 | FACT | P2 | KEEP | medforaldraskap |
-| kunskap-fact-025 | FACT | product_copy | KEEP | dagbok_produkt |
-| kunskap-fact-df-001 … 006 | FACT | P1/P2 | KEEP | beroende |
-
-**Kanon i bank:** [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) — batchar 2026-05-27, 2026-05-29, våg 24 (2026-06-15).
-
-### Våg 24 ingest (2026-06-15)
-
-| id | content_class | source_tier | status | category |
-|----|---------------|-------------|--------|----------|
-| kunskap-fact-jur-005 | FACT | P2 | **ingest** | juridik_overview |
-| kunskap-fact-jur-006 | FACT | P2 | **ingest** | juridik_overview |
-| kunskap-fact-jur-007 | FACT | P2 | **ingest** | juridik_overview |
-| kunskap-fact-ep-006 | FACT | P2 | **ingest** | epistemik_produkt |
-| kunskap-fact-cn-022 | FACT | P1 | **ingest** | covert_taktik |
-| kunskap-fact-bh-013 | FACT | P2 | **ingest** | barn_hcf |
-
-**MUST NOT:** ingest utan mänsklig granskning · BIFF-svar på konkret sms (→ Speglar/Hamn) · cross-RAG till `reality_vault` / `children_logs`.
-
-### Våg 25 ingest (2026-06-16)
-
-| id | content_class | source_tier | status | category |
-|----|---------------|-------------|--------|----------|
-| kunskap-fact-soc-001 | FACT | P2 | **ingest** | myndighet_soc |
-| kunskap-fact-skol-001 | FACT | P2 | **ingest** | skola_myndighet |
-| kunskap-fact-bup-001 | FACT | P2 | **ingest** | barn_hcf |
-| kunskap-fact-bh-014 | FACT | P2 | **ingest** | barn_hcf |
-| kunskap-fact-ep-007 | FACT | P2 | **ingest** | epistemik_produkt |
-| kunskap-fact-jur-008 | FACT | P2 | **ingest** | juridik_overview |
-
-### Våg 26 ingest (2026-06-16)
-
-| id | content_class | source_tier | status | category |
-|----|---------------|-------------|--------|----------|
-| kunskap-fact-cop-001 | FACT | P2 | **ingest** | medforaldraskap_logistik |
-| kunskap-fact-cop-002 | FACT | P2 | **ingest** | medforaldraskap_logistik |
-| kunskap-fact-cop-003 | FACT | P2 | **ingest** | medforaldraskap_logistik |
-| kunskap-fact-cop-004 | FACT | P2 | **ingest** | medforaldraskap_logistik |
-| kunskap-fact-cop-005 | FACT | P1 | **ingest** | kommunikation_metod |
-| kunskap-fact-ep-008 | FACT | P2 | **ingest** | epistemik_produkt |
-
-### Våg 27 ingest (2026-06-16)
-
-| id | content_class | source_tier | status | category |
-|----|---------------|-------------|--------|----------|
-| kunskap-fact-gad-036 | FACT | P1 | **ingest** | gad_angest |
-| kunskap-fact-gad-037 | FACT | P1 | **ingest** | gad_angest |
-| kunskap-fact-gad-038 | FACT | P1 | **ingest** | kanslor_vagus |
-| kunskap-fact-gad-039 | FACT | P1 | **ingest** | gad_angest |
-| kunskap-fact-adhd-029 | FACT | P2 | **ingest** | adhd_vardag |
-| kunskap-fact-adhd-030 | FACT | P2 | **ingest** | adhd_vardag |
-| kunskap-fact-eko-001 | FACT | P2 | **ingest** | ekonomi_vardag |
-| kunskap-fact-eko-002 | FACT | P2 | **ingest** | ekonomi_vardag |
-| kunskap-fact-eko-003 | FACT | P2 | **ingest** | ekonomi_vardag |
-| kunskap-fact-eko-004 | FACT | P2 | **ingest** | ekonomi_vardag |
-| kunskap-fact-eko-005 | FACT | P2 | **ingest** | ekonomi_vardag |
-| kunskap-fact-eko-006 | FACT | P2 | **ingest** | ekonomi_vardag |
-| kunskap-fact-eko-007 | FACT | P2 | **ingest** | ekonomi_vardag |
-| kunskap-fact-eko-008 | FACT | P2 | **ingest** | ekonomi_vardag |
-| kunskap-fact-cop-006 | FACT | P2 | **ingest** | medforaldraskap |
-| kunskap-fact-cop-007 | FACT | P1 | **ingest** | medforaldraskap_logistik |
-| kunskap-fact-jur-009 | FACT | P2 | **ingest** | juridik_logistik |
-| kunskap-fact-bh-015 | FACT | P1 | **ingest** | barn_hcf |
-| kunskap-fact-bh-016 | FACT | P1 | **ingest** | barn_hcf |
-| kunskap-fact-bh-017 | FACT | P1 | **ingest** | barn_hcf |
-| kunskap-fact-bh-018 | FACT | P1 | **ingest** | barn_hcf |
-| kunskap-fact-bh-019 | FACT | P1 | **ingest** | barn_hcf |
-| kunskap-fact-bh-020 | FACT | P1 | **ingest** | barn_hcf |
-
-### MåBra våg 27 KEEP (2026-06-16)
-
-MB-REF-GAD-07, MB-REF-GAD-08, MB-REF-ADHD-05, MB-REF-ADHD-06, MB-REF-ADHD-07, MB-PLAY-GAD-02, MB-PLAY-GAD-03, MB-PLAY-GAD-04 — bank KEEP; prod-wire vid curriculum/daglig mix PMIR.
-
-
-### Kunskap våg 28 KEEP (2026-06-18)
-
-| bankId | content_class | source_tier | status | category |
-|--------|---------------|-------------|--------|----------|
-| kunskap-fact-eko-009 | FACT | P1 | **ingest** | ekonomi_vardag |
-| kunskap-fact-cop-006 | FACT | P1 | **ingest** (STRENGTHEN) | medforaldraskap |
-| kunskap-fact-cn-048 | FACT | P2 | **ingest** | covert_taktik |
-
-### MåBra våg 28 KEEP (2026-06-18)
-
-MB-PLAY-54321, MB-REF-rsd-04 — bank KEEP; prod-wire wizard/UI PMIR separat.
-
-### Barnen PLAY våg 27 KEEP (2026-06-16)
-
-BP-PLAY-25..29 — bank KEEP; **catalog wire done** våg 29.3 (`barnfokusCatalog` + `barnfokusQuestionsForBracket`).
-
----
-
-## Nästa steg (implementation)
-
-1. ~~P1 `vit_hub` / `vit_entries` från MåBra-bank~~ — **done** våg 9 (2026-06-06)  
-2. ~~Exportera `kunskap-fact-001`–`010` till JSON-manifest → `seed_kampspar_profile.mjs`~~ — **done** våg 8  
-3. ~~P2 Valv-flik «Mitt Vit» + statistik~~ — **done** våg 10 (2026-06-06)  
-4. ~~P3 «Lär tillsammans» chatt via `mabraCoach` + silo-guard~~ — **done** våg 11 (2026-06-06)  
-5. ~~PDF-export Mitt Vit / känslominne-UI~~ — **done** våg 12 (2026-06-06)  
-6. ~~Minnes-filter / polish i Valv Mitt Vit~~ — **done** våg 13 (2026-06-06)  
-7. ~~Harmonisera Vit-hub copy: ingen skuld-streak~~ — **done** våg 14 (2026-06-06)  
-8. ~~Vit översikt P4 — senaste 3 + MåBra→Valv bro~~ — **done** våg 15 (2026-06-06)
-
-**Utskrift:** lägg vid [`SKOGSPAKET-LATHUND.md`](./SKOGSPAKET-LATHUND.md) om du jobbar på distans.
-````
-
 ## File: docs/MODUL-FUNKTIONS-REGISTER.md
 ````markdown
 # Modul- & funktionsregister — Livskompassen v2
@@ -2598,6 +2276,100 @@ Verklighetsvalvet · Sanningens Sköld · Morgonkompassen · Dossier-Generator �
 |--------|----------|
 | `feat/mabra-fragekort` | Frågekort — produktbeslut |
 | `feat/*` inkorg | Se [`BRANCH-KARTA.md`](./BRANCH-KARTA.md) |
+````
+
+## File: docs/MODUL-GAP-OVERSIKT.md
+````markdown
+# Modul-GAP — översikt (2026-06-15)
+
+**Syfte:** En sida — vad som är **klart i kod**, vad som är **öppet per modul**, och vad som körs **autonomt** vs **kräver dig**.
+
+**Senaste leverans:** Fas 19 masterplan-v2 **levererad** · Fas 13–18 sprint **done** · [`2026-06-15-fas19-masterplan-v2.md`](./evaluations/2026-06-15-fas19-masterplan-v2.md) · [`SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
+
+**Arkiv (G1–G16):** [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) — alla **done**.  
+**Modulregister:** [`MODUL-FUNKTIONS-REGISTER.md`](./MODUL-FUNKTIONS-REGISTER.md) · **Cursor-plan mall:** [`evaluations/MALL-cursor-plan.md`](./evaluations/MALL-cursor-plan.md)  
+**Plan-register:** [`evaluations/2026-05-26-session-landning.md`](./evaluations/2026-05-26-session-landning.md)  
+**PMIR batch:** [`evaluations/2026-05-29-pmir-modul-rollout-batch.md`](./evaluations/2026-05-29-pmir-modul-rollout-batch.md)  
+**Master YOLO (hela kön):** [`MASTER-YOLO-AUTORUN.md`](./MASTER-YOLO-AUTORUN.md) · `npm run master:yolo` · state [`.orkester/master-state.json`](../.orkester/master-state.json)
+
+---
+
+## Cursor-planer (2026-05-29) — **`closed`** (plan)
+
+Alla planfiler har `status: closed` överst. **Öppet arbete finns endast i tabellen Modul-GAP nedan** — inte i planerna.
+
+| Modul | Plan | Plan-status | Smoke 2026-05-29 |
+|-------|------|-------------|------------------|
+| Dagbok | [`dagbok-vertex-plan`](./evaluations/2026-05-29-dagbok-vertex-plan.md) | **closed** | build · orkester · locked-ux **PASS** |
+| Planering | [`planering-cursor-plan`](./evaluations/2026-05-29-planering-cursor-plan.md) | **closed** | locked-ux **PASS** |
+| MåBra | [`mabra-cursor-plan`](./evaluations/2026-05-29-mabra-cursor-plan.md) | **closed** | build · orkester **PASS** |
+| Projekt | [`projekt-cursor-plan`](./evaluations/2026-05-29-projekt-cursor-plan.md) | **closed** | locked-ux **PASS** |
+| Kunskap | [`kunskap-cursor-plan`](./evaluations/2026-05-29-kunskap-cursor-plan.md) | **closed** | orkester/innehall **PASS** |
+| Barnporten | [`barnporten-cursor-plan`](./evaluations/2026-05-29-barnporten-cursor-plan.md) | **closed** | locked-ux **PASS** |
+| Valv Samla | [`valv-samla-cursor-plan`](./evaluations/2026-05-29-valv-samla-cursor-plan.md) | **closed** (delvis kod) | locked-ux **PASS** |
+| Valv Privacy | [`valv-privacy-cursor-plan`](./evaluations/2026-05-29-valv-privacy-cursor-plan.md) | **closed** (deferred 2.1) | — |
+| Kompass widget | [`kompass-widget-snabbstart-plan`](./evaluations/2026-05-29-kompass-widget-snabbstart-plan.md) | **closed** | K1 integrerad |
+
+---
+
+## Arkiv-GAP (backend / minne)
+
+| ID | Status | Kort |
+|----|--------|------|
+| G1–G16 | **done** | Valv-RAG, Vector ANN, Drive E2E, journal_woven opt-in, Barnen-RAG, inkorg, Tidshjul, m.m. |
+| V1 | **wait** | Genkit-migrering — ej påbörjad |
+
+---
+
+## Modul-GAP (produkt / UI) — öppet
+
+| Modul | Route | Gap / nästa | Kommando / vem |
+|-------|-------|-------------|----------------|
+| **dagbok** | `/hjartat` · `/hjartat/input` | Superdagbok §17 **done** Fas 11 · Fas 13 WORM medium **done** | — |
+| **mabra** | `/vardagen?tab=mabra` | M3.0-B hybrid-8 **done** Fas 19.2 · M3.0-C näring **done** kod+rules (deploy rules USER 2026-06-19) · hex→tokens P0 **done** Fas 22 | `smoke:mabra` |
+| **planering** | `/vardagen?tab=handling` · `/planering/input` | Superhub §15 **done** · kalender P2 **done** | — |
+| **arbetsliv** | `/vardagen?tab=arbetsliv` · `/arbetsliv/input` | Superhub §16 **done** Fas 10 | — |
+| **ekonomi** | `/vardagen?tab=ekonomi` | Superhub §14 **done** Fas 8 | — |
+| **projekt** | `/projekt` | MaterialPack + Familjen-mount **done** · `project_rules` **done** | — |
+| **kompis/kunskap** | Valv `kunskapsbank` | våg 24 ingest **done** Fas 16 · våg 8 **partial** (53 FACT) | [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) |
+| **barnporten** | `/barnporten` | CB2–CB4 + QR **done** · Våg C push **defer** | USER #4 valfritt re-verify |
+| **valv** | `/valvet` | Vault-gate 12C **done** Fas 13 · unlockVault P0 **done** Fas 19.1 | `smoke:valv-security` |
+| **core** | `/` | Hemkompass 12B **done** · Adaptiv broar live | — |
+| **inkast** | Hem · Valv Samla | Inkast I1–I3 **done** Fas 15 · `InboxReviewQueue` kanon | `smoke:inkast` |
+| **liv** | `/vardagen` | LivSuper launcher **done** | — |
+| **dossier** | Valv `dossier` | BBIC `reportType` **done** Fas 13 (12D) | [`fas13-vag-3-evidence-e2e`](./evaluations/2026-06-15-fas13-vag-3-evidence-e2e.md) |
+| **hamn** | `/familjen?tab=hamn` | BIFF via `TryggHamnHub` · Gräns-Arkitekten G14 **done** | `smoke:design-modules` |
+| **auth/android** | app | cap sync **done** Fas 18 · native Google USER-test öppen | [`.context/android-capacitor.md`](../.context/android-capacitor.md) |
+| **evolution** | hub | `evolution_ledger` dual-write | **done** Fas 19.5 | `smoke:evolution-discovery` |
+
+**Låst UX:** Barnfokus, Valv Mönster/Orkester/Kunskapsbank, Planering P3, ikoner B1/D1/M2 — `npm run smoke:locked-ux` **PASS**.
+
+---
+
+## Autorun (ingen LLM)
+
+```bash
+npm run orkester:night
+```
+
+---
+
+## Kräver dig
+
+1. **Fas 5A #3 Valv** — **PASS** 2026-06-07 (USER) · [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md)
+2. **Fas 5A #4 Barnporten** — **PASS** 2026-06-06 (USER · Motorola) · [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md)
+3. **Valfritt USER** — superhub snabbtest · [`2026-05-29-smoke-manuell.md`](./evaluations/2026-05-29-smoke-manuell.md)
+
+---
+
+## Ett steg i taget (Fas 20 — 2026-06-15)
+
+| Prioritet | Gör |
+|-----------|-----|
+| 1 | **Doc-synk:** Tier-1 hubbar (denna fil + `SYSTEM_PLAN_v2` + `SESSION-INDEX`) |
+| 2 | **Hex→tokens P0** enligt masterplan 19.3 → Fas 20 |
+| 3 | **Arkiv 19.6:** Läs PMIR — [`2026-06-15-fas19-archive-pmir.md`](./evaluations/2026-06-15-fas19-archive-pmir.md) |
+| 4 | **Valfritt USER:** Motorola #3 Valv · #4 Barnporten · native Google |
 ````
 
 ## File: docs/SYSTEMKONTROLL.md
@@ -2885,24 +2657,22 @@ Uppdatera **datum överst** när:
 **Ägare:** du + Cursor — ingen automatisk sync.
 ````
 
-## File: functions/src/adk/synapses/dcapAlertSynapse.ts
+## File: functions/src/adk/synapses/driveIngestSynapse.ts
 ````typescript
-import { hashPayload } from '../stateStore';
+import { analyzeDriveFile } from '../../agents/documentAgent';
+import { MonsterArkivarienCard } from '../../agents/cards';
+import type { A2AMessage } from '../../agents/types';
+import type { AdkOrchestrator } from '../orchestrator';
+import type { DriveIngestPayload } from '../types';
+import { classifyInboxDocument, applyInkastConfidenceGate } from '../../lib/inboxClassifier';
+import { routeInboxToWorm } from '../../lib/inboxPersist';
 ⋮----
-export interface DcapAlertPayload {
-  ownerId: string;
-  riskScore: number;
-  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
-  inputHash: string;
-  detectionCount?: number;
-}
+export async function handleDriveIngest(
+  orchestrator: AdkOrchestrator,
+  payload: DriveIngestPayload
+): Promise<
 ⋮----
-export interface DcapAlertResult {
-  alertId: string;
-  hitlRequired: boolean;
-}
-⋮----
-export async function handleDcapAlert(payload: DcapAlertPayload): Promise<DcapAlertResult>
+function isHeavyResponse(text: string): boolean
 ````
 
 ## File: functions/src/adk/synapses/journalWovenSynapse.ts
@@ -2926,45 +2696,38 @@ export interface JournalWovenResult {
 export async function handleJournalWoven(payload: JournalWovenPayload): Promise<JournalWovenResult>
 ````
 
-## File: functions/src/adk/synapses/paralysBrytarenSynapse.ts
+## File: functions/src/adk/synapses/widgetRecordingIngestSynapse.ts
 ````typescript
-import { VertexAI } from '@google-cloud/vertexai';
-import { GCP_PROJECT_ID, GCP_REGION } from '../../config';
-import { PARALYS_BRYTAREN_SYSTEM_PROMPT } from '../../sharedRules';
-import { MICRO_STEP_MAX_SECONDS, type MicroStep } from '../types';
-⋮----
-export function isHeavyResponse(text: string): boolean
-⋮----
-function clampSeconds(n: number): number
-⋮----
-export function breakIntoMicroStepsDeterministic(text: string): MicroStep[]
-⋮----
-function inferPhysicalAnchor(instruction: string): string
-⋮----
-export async function breakIntoMicroSteps(text: string): Promise<MicroStep[]>
-⋮----
-export async function applyParalysBreak(agentText: string): Promise<MicroStep[]>
-````
-
-## File: functions/src/adk/synapses/synapseBus.ts
-````typescript
-import type { SynapseEvent, SynapseTrigger } from '../types';
+import { MonsterArkivarienCard } from '../../agents/cards';
+import type { A2AMessage } from '../../agents/types';
 import type { AdkOrchestrator } from '../orchestrator';
-import { handleDriveIngest } from './driveIngestSynapse';
-import { handleDcapAlert } from './dcapAlertSynapse';
-import { handleJournalWoven } from './journalWovenSynapse';
-import { applyParalysBreak } from './paralysBrytarenSynapse';
-import type { DriveIngestPayload, JournalWovenPayload, DcapAlertPayload } from '../types';
+import type { WidgetRecordingIngestedPayload } from '../types';
+import {
+  buildInboxClassifyBlob,
+  classifyInboxDocument,
+  applyInkastConfidenceGate,
+  type InboxClassification,
+} from '../../lib/inboxClassifier';
+import { routeInboxToWorm } from '../../lib/inboxPersist';
+import {
+  blockWidgetKunskapRouting,
+  buildWidgetVaultTruth,
+} from '../../lib/widgetRecordingCommit';
 ⋮----
-type SynapseHandler = (
-  orchestrator: AdkOrchestrator,
-  event: SynapseEvent
-) => Promise<unknown>;
+export interface WidgetRecordingIngestResult {
+  analysis: { title: string; summary: string; category: string };
+  classification: InboxClassification;
+  action: 'queued' | 'persisted';
+  collection?: string;
+  docId?: string;
+  queueId?: string;
+}
 ⋮----
-export async function emitSynapse(
+export async function handleWidgetRecordingIngest(
   orchestrator: AdkOrchestrator,
-  event: SynapseEvent
-): Promise<unknown>
+  payload: WidgetRecordingIngestedPayload,
+  geminiApiKey?: string,
+): Promise<WidgetRecordingIngestResult>
 ````
 
 ## File: functions/src/adk/index.ts
@@ -2972,44 +2735,50 @@ export async function emitSynapse(
 
 ````
 
-## File: functions/src/adk/orchestrator.ts
+## File: functions/src/adk/manifest.ts
 ````typescript
-import type { A2AMessage } from '../agents/types';
-import { resolveExecutorId } from '../agents/cards';
-import { runExecutor } from './executors/runExecutor';
-import { validateIntent, getAgentCard, assertCollectionAccess } from './registry';
-import { appendMutation, createTrace, clearSynapseState } from './stateStore';
-import { applyParalysBreak, isHeavyResponse } from './synapses/paralysBrytarenSynapse';
-import { assertBackendSiloIsolation, type SiloId } from './manifest';
-import type { DispatchOptions, OrchestrationResult } from './types';
+export type SiloId = 'kunskap' | 'valv' | 'barnen' | 'vardag' | 'core';
 ⋮----
-function gatekeeperSanitize(text: string): string
+export type DomainId = 'K' | 'V' | 'F' | 'L' | 'C';
 ⋮----
-export class AdkOrchestrator
+export type SynapseTrigger =
+  | 'drive_file_ingested'
+  | 'journal_woven'
+  | 'dcap_alert'
+  | 'user_overwhelm'
+  | 'widget_recording_ingested';
 ⋮----
-async dispatch(message: A2AMessage, options: DispatchOptions =
+export interface BackendDomainContract {
+  readonly id: DomainId;
+  readonly silo: SiloId;
+  readonly wormCollections: readonly string[];
+  readonly mutableCollections: readonly string[];
+  readonly adminOnlyCollections: readonly string[];
+  readonly allowedCrossReads: readonly SiloId[];
+  readonly requiresVaultUnlock: boolean;
+}
 ⋮----
-async dispatchFromSupervisor(
-    route: { productAgentId: string; executorId: string; intent: string },
-    userInput: string,
-    userId: string,
-    ragContext: string[],
-    dcapPayload: Record<string, unknown>
-): Promise<OrchestrationResult>
+export class BackendManifestError extends Error
 ⋮----
-clearContext(contextId: string): void
+constructor(message: string)
 ⋮----
-private intentAllowed(productAgentId: string, executorId: string, intent: string): boolean
+export function resolveBackendCollectionDomain(
+  collection: string,
+): BackendDomainContract | undefined
 ⋮----
-private enforceManifestPolicy(
-    executorId: string,
-    message: A2AMessage,
-    options: DispatchOptions,
-): void
+export function assertBackendSiloIsolation(fromSilo: SiloId, toSilo: SiloId): void
 ⋮----
-initTrace(contextId: string)
+export function assertBackendWorm(
+  collection: string,
+  operation: 'update' | 'delete',
+): boolean
 ⋮----
-private errorResult(contextId: string, agentId: string, error: string): OrchestrationResult
+export function assertBackendCollectionAccess(
+  domainId: DomainId,
+  collection: string,
+): boolean
+⋮----
+export function getBackendWormCollections(): string[]
 ````
 
 ## File: functions/src/adk/registry.ts
@@ -3037,106 +2806,6 @@ export function validateIntent(agentId: string, intent: string): boolean
 export function assertCollectionAccess(agentId: string, collection: string): boolean
 ````
 
-## File: functions/src/adk/stateStore.ts
-````typescript
-import crypto from 'crypto';
-import type { StateMutation, SynapseState } from './types';
-⋮----
-export function hashPayload(payload: Record<string, unknown>): string
-⋮----
-export function createTrace(contextId: string): SynapseState
-⋮----
-export function getTrace(contextId: string): SynapseState | undefined
-⋮----
-export function appendMutation(
-  contextId: string,
-  mutation: Omit<StateMutation, 'timestamp' | 'payloadHash'> & { payload: Record<string, unknown> }
-): SynapseState
-⋮----
-export function clearSynapseState(contextId: string): void
-````
-
-## File: functions/src/adk/types.ts
-````typescript
-import type { AgentResponse, A2AMessage } from '../agents/types';
-⋮----
-export interface MicroStep {
-  instruction: string;
-  estimatedSeconds: number;
-  physicalAnchor: string;
-}
-⋮----
-export interface StateMutation {
-  fromAgentId: string;
-  toAgentId: string;
-  intent: string;
-  payloadHash: string;
-  timestamp: string;
-}
-⋮----
-export interface SynapseState {
-  contextId: string;
-  traceId: string;
-  mutations: StateMutation[];
-  createdAt: string;
-}
-⋮----
-export type SynapseTrigger =
-  | 'drive_file_ingested'
-  | 'journal_woven'
-  | 'dcap_alert'
-  | 'user_overwhelm';
-⋮----
-export interface SynapseEvent {
-  trigger: SynapseTrigger;
-  contextId?: string;
-  payload: Record<string, unknown>;
-}
-⋮----
-export interface DispatchOptions {
-  ragContext?: string[];
-  applyParalysBreak?: boolean;
-  productAgentId?: string;
-  targetCollections?: string[];
-}
-⋮----
-export interface OrchestrationResult {
-  response: AgentResponse;
-  microSteps?: MicroStep[];
-  state: SynapseState;
-  rawAgentText?: string;
-}
-⋮----
-export type ExecutorFn = (
-  message: A2AMessage,
-  ragContext: string[]
-) => Promise<string>;
-⋮----
-export interface DriveIngestPayload {
-  fileId: string;
-  fileName: string;
-  mimeType: string;
-  ownerId?: string;
-  optInTrauma?: boolean;
-}
-⋮----
-export interface JournalWovenPayload {
-  ownerId: string;
-  journalEntryId: string;
-  mood: string;
-  text: string;
-  optIn: boolean;
-}
-⋮----
-export interface DcapAlertPayload {
-  ownerId: string;
-  riskScore: number;
-  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
-  inputHash: string;
-  detectionCount?: number;
-}
-````
-
 ## File: functions/src/agents/cards/index.ts
 ````typescript
 import { AgentCard } from '../types';
@@ -3155,51 +2824,43 @@ export function routeFromDcap(
 ): SupervisorRoute
 ````
 
-## File: functions/src/agents/DCAP.ts
+## File: functions/src/agents/childrenLogsAgent.ts
 ````typescript
-import { VertexAI } from '@google-cloud/vertexai';
-import { DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT } from '../sharedRules';
-import { scanTextForTactics, type VaultTechnique } from '../lib/tacticPatternLibrary';
+import { MONSTER_ARKIVARIEN_BARNEN_SYSTEM_PROMPT } from '../sharedRules';
+import { loadBarnenEntityBundle } from '../lib/entityProfileStore';
+import { fetchChildrenLogsForQuery } from '../lib/childrenLogsQueryRag';
+import { createGenAI } from '../lib/genaiClient';
 ⋮----
-export type ManipulationTechnique =
-  | 'DARVO'
-  | 'GASLIGHTING'
-  | 'LOVE_BOMBING'
-  | 'SILENT_TREATMENT'
-  | 'JADE_BAIT'
-  | 'THREAT'
-  | 'HOOVERING'
-  | 'SMEAR'
-  | 'ECONOMIC_CONTROL'
-  | 'MATERNAL_FACADE'
-  | 'TRAUMA_BONDING'
-  | 'LEGAL_PRESSURE'
-  | 'UNKNOWN';
-⋮----
-function vaultTechniqueToDcap(technique: VaultTechnique): ManipulationTechnique
-⋮----
-export interface DcapDetection {
-  technique: ManipulationTechnique;
-  matchedPattern: string;
-  confidence: 'HIGH' | 'MEDIUM' | 'LOW';
-  layer: 'REGEX' | 'SEMANTIC';
+export interface ChildrenLogCitation {
+  docId: string;
+  childAlias: string;
+  date: string;
+  excerpt: string;
 }
 ⋮----
-export interface DcapResult {
-  riskScore: number;
-  detections: DcapDetection[];
-  greyRockResponse?: string;
-  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
+export interface ChildrenLogsQueryResult {
+  answer: string;
+  citations: ChildrenLogCitation[];
+  silo: 'barnen';
 }
 ⋮----
-function runRegexLayer(text: string):
+function buildContextBlock(chunks: Awaited<ReturnType<typeof fetchChildrenLogsForQuery>>): string
 ⋮----
-async function runSemanticLayer(
-  text: string,
-  projectId: string
-): Promise<
+function parseChildrenLogsJson(
+  raw: string,
+  allowed: Map<string, ChildrenLogCitation>
+): ChildrenLogsQueryResult | null
 ⋮----
-export async function analyzeDcap(text: string, projectId: string): Promise<DcapResult>
+function buildDegradedResponse(
+  chunks: Awaited<ReturnType<typeof fetchChildrenLogsForQuery>>
+): ChildrenLogsQueryResult
+⋮----
+export async function askChildrenLogsQuery(
+  uid: string,
+  question: string,
+  childAlias?: string,
+  geminiApiKey?: string
+): Promise<ChildrenLogsQueryResult>
 ````
 
 ## File: functions/src/agents/documentAgent.ts
@@ -3215,6 +2876,109 @@ async function downloadDriveFileBuffer(
 ): Promise<
 ⋮----
 export const analyzeDriveFile = async (fileId: string, fileName: string, mimeType: string): Promise<string> =>
+````
+
+## File: functions/src/agents/gransArkitektenAgent.ts
+````typescript
+import type { DcapResult } from './DCAP';
+import { GRANS_ARKITEKTEN_SYSTEM_PROMPT } from '../sharedRules';
+import { createGenAI } from '../lib/genaiClient';
+⋮----
+export interface GransArkitektenResult {
+  cleanFacts: string[];
+  emotionalBait: string[];
+  greyRockReply: string;
+  techniques: string[];
+  coachingNote: string;
+  theoryWithoutEvidence?: boolean;
+}
+⋮----
+export function parseGransJson(raw: string, dcap: DcapResult): GransArkitektenResult
+⋮----
+function buildFallback(dcap: DcapResult): GransArkitektenResult
+⋮----
+export async function askGransArkitekten(
+  message: string,
+  dcap: DcapResult,
+  geminiApiKey?: string
+): Promise<GransArkitektenResult>
+````
+
+## File: functions/src/agents/knowledgeVaultAgent.ts
+````typescript
+import { LIVS_ARKIVARIEN_SYSTEM_PROMPT } from '../sharedRules';
+import { createGenAI } from '../lib/genaiClient';
+import { loadKunskapEntityBundle } from '../lib/entityProfileStore';
+import { fetchKampsparEvidenceForQuery } from '../lib/kampsparQueryRag';
+⋮----
+export interface KnowledgeVaultCitation {
+  docId: string;
+  collection: 'kampspar' | 'kb_docs';
+  date: string;
+  title: string;
+  excerpt: string;
+}
+⋮----
+export interface KnowledgeVaultResult {
+  answer: string;
+  citations: KnowledgeVaultCitation[];
+  moduleRoute?: {
+    path: string;
+    label: string;
+    silo: 'barnen';
+  };
+}
+⋮----
+function buildContextBlock(chunks: Awaited<ReturnType<typeof fetchKampsparEvidenceForQuery>>): string
+⋮----
+function citationKey(c: KnowledgeVaultCitation): string
+⋮----
+function parseKnowledgeVaultJson(
+  raw: string,
+  allowed: Map<string, KnowledgeVaultCitation>
+): KnowledgeVaultResult | null
+⋮----
+function buildDegradedResponse(chunks: KampsparEvidenceChunk[]): KnowledgeVaultResult
+⋮----
+type KampsparEvidenceChunk = Awaited<ReturnType<typeof fetchKampsparEvidenceForQuery>>[number];
+⋮----
+export async function askKnowledgeVaultWithRag(
+  uid: string,
+  question: string,
+  geminiApiKey?: string
+): Promise<KnowledgeVaultResult>
+````
+
+## File: functions/src/agents/kompis-supervisor.ts
+````typescript
+import {
+  AvailableAgents,
+  EXECUTOR_AGENT_IDS,
+  GransArkitektenCard,
+  routeFromDcap,
+} from './cards';
+import type { AgentResponse } from './types';
+import { GCP_PROJECT_ID } from '../config';
+import { analyzeDcap, DcapResult } from './DCAP';
+import { askGransArkitekten, parseGransJson, type GransArkitektenResult } from './gransArkitektenAgent';
+import { resolveHamnTheoryWithoutEvidence } from '../lib/epistemicGuard';
+import { getOrCreateCache, invalidateCachesForUser } from '../lib/vertexCache';
+import { KOMPIS_SYSTEM_PROMPT } from '../sharedRules';
+import { adkOrchestrator } from '../adk/orchestrator';
+import { emitSynapse } from '../adk/synapses/synapseBus';
+import { hashPayload } from '../adk/stateStore';
+import type { DcapAlertResult } from '../adk/synapses/dcapAlertSynapse';
+⋮----
+export class KompisSupervisor
+⋮----
+public async handleUserRequest(
+    userInput: string,
+    userId: string,
+    ragContext: string[] = [],
+    options?: { preferGransArkitekten?: boolean }
+): Promise<AgentResponse &
+⋮----
+public async invalidateUserSession(userId: string): Promise<void>
 ````
 
 ## File: functions/src/agents/types.ts
@@ -3259,125 +3023,182 @@ export interface AgentResponse {
 }
 ````
 
-## File: functions/src/agents/weaverAgent.ts
-````typescript
-import { VÄVAREN_SYSTEM_PROMPT } from '../sharedRules';
-import { fetchWeaverRagContext } from '../lib/kampsparRag';
-import { createGenAI } from '../lib/genaiClient';
-import { createWeaverPending } from '../lib/weaverPending';
-⋮----
-export type ThreatLevel = 'none' | 'low' | 'medium' | 'high';
-⋮----
-export interface WeaverResult {
-  emotions: string[];
-  actors: string[];
-  threatLevel: ThreatLevel;
-  threatScore?: number;
-  ragAnchors: { source: string; docId: string; excerpt?: string }[];
-}
-⋮----
-async function fetchRagContext(uid: string, text: string): Promise<string>
-⋮----
-function parseWeaverJson(raw: string): WeaverResult | null
-⋮----
-export async function weaveJournalEntry(
-  uid: string,
-  journalEntryId: string,
-  mood: string,
-  text: string
-): Promise<
-````
-
-## File: functions/src/callables/compass.ts
+## File: functions/src/callables/adaptation.ts
 ````typescript
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
-⋮----
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { vaultSessionGrantsVaultRead } from '../lib/vaultSessionGate';
-import { geminiApiKey } from '../lib/geminiSecret';
-import { GoogleGenAI } from '@google/genai';
-import { KOMPASS_INSIKT_SYSTEM_PROMPT } from '../sharedRules';
-⋮----
-export interface CompassInsightResponse {
-  journalCount: number;
-  vaultCount: number;
-  streak: number;
-  dominantEmotion: string | null;
-  latestInsight: string;
-  recommendedPhase: 'morgon' | 'dag' | 'kvall';
-  generatedAt: string;
-}
-⋮----
-function computeStreak(journalDocs: admin.firestore.DocumentData[]): number
-⋮----
-async function generateInsightFromLLM(data: {
-  journalCount: number;
-  vaultCount: number;
-  streak: number;
-  emotions: string[];
-}): Promise<
-````
-
-## File: functions/src/callables/generateWeeklyInsights.ts
-````typescript
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
-⋮----
-import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { vaultSessionGrantsVaultRead } from '../lib/vaultSessionGate';
-import { geminiApiKey } from '../lib/geminiSecret';
-import { GoogleGenAI } from '@google/genai';
-import { getAgentSystemPrompt } from '../sharedRules';
-⋮----
-const formatInsights = (docs: admin.firestore.DocumentData[]) =>
-⋮----
-const formatFocus = (docs: admin.firestore.DocumentData[]) =>
-⋮----
-const formatVault = (docs: admin.firestore.DocumentData[]) =>
-````
-
-## File: functions/src/callables/knowledge.ts
-````typescript
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
-⋮----
-import { askKnowledgeVaultWithRag } from '../agents/knowledgeVaultAgent';
-import { askChildrenLogsQuery } from '../agents/childrenLogsAgent';
-import { geminiApiKey } from '../lib/geminiSecret';
-import { generateEmbeddingInternal } from '../lib/generateEmbeddingInternal';
-import { listRegistryEntriesForUser } from '../lib/contextCacheRegistry';
-import { analyzeUploadForKnowledge } from '../lib/analyzeUploadForKnowledge';
-import { ingestKampsparForUser } from '../lib/ingestKampsparInternal';
+import { isAdaptationLayerEnabled } from '../lib/adaptationLayerGate';
 import {
-  BARNEN_MODULE_REDIRECT_MESSAGE,
-  BARNEN_MODULE_ROUTE,
-  shouldRouteKompisToBarnen,
-} from '../lib/barnenModuleRouteGuard';
-import { KNOWLEDGE_UPLOAD_MIMES, MAX_KNOWLEDGE_UPLOAD_BASE64_CHARS } from './shared';
-import { guardSensitiveCallableV1, guardSensitiveCallableV2 } from '../lib/callableGuards';
+  ensureAdaptationPrefsDoc,
+  getAdaptationPrefsDoc,
+  recordAdaptationSignalForUser,
+} from '../lib/adaptationPrefsStore';
+import type { AdaptationSilo } from '../../../shared/adaptation/adaptationTypes';
 ````
 
-## File: functions/src/callables/kompis.ts
+## File: functions/src/callables/adaptationSemantic.ts
+````typescript
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { isAdaptationSemanticEnabled } from '../lib/adaptationSemanticGate';
+import { getAdaptationSemanticProfileDoc } from '../lib/adaptationSemanticStore';
+import { rebuildAdaptationSemanticProfileForUser } from '../lib/adaptationSemanticRebuild';
+````
+
+## File: functions/src/callables/biffRewriteDraft.ts
+````typescript
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { createGenAI } from '../lib/genaiClient';
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { geminiApiKey } from '../lib/geminiSecret';
+import { BIFF_REWRITE_DRAFT_SYSTEM_PROMPT } from '../sharedRules';
+import {
+  biffRewriteDraftFallback,
+  parseBiffRewriteDraftJson,
+  type BiffRewriteDraftResult,
+} from '../lib/biffRewriteDraftParse';
+⋮----
+import { BIFF_REWRITE_RESPONSE_SCHEMA } from '../schemas/biffRewrite';
+⋮----
+export type BiffRewriteContext = 'dagbok' | 'hamn' | 'inkast';
+````
+
+## File: functions/src/callables/dcapAlert.ts
+````typescript
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { assertVaultSession } from '../lib/vaultSessionGate';
+import {
+  resolveDcapAlertForUser,
+  type DcapReviewDecision,
+} from '../lib/dcapAlertReview';
+````
+
+## File: functions/src/callables/evolutionLedger.ts
+````typescript
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { recordDiscoveryMilestoneServer } from '../lib/recordDiscoveryMilestoneServer';
+````
+
+## File: functions/src/callables/generateKompassrad.ts
+````typescript
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { createGenAI } from '../lib/genaiClient';
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { geminiApiKey } from '../lib/geminiSecret';
+import {
+  appendAdaptationSemanticContext,
+  loadAdaptationSemanticContext,
+} from '../lib/adaptationSemanticContext';
+import { KOMPASSRAD_SYSTEM_PROMPT } from '../sharedRules';
+⋮----
+export type KompassradFlow = 'morgon' | 'dag' | 'kvall';
+⋮----
+export interface GenerateKompassradResult {
+  advice: string;
+  tag: 'biff' | 'no-jade' | 'parallel' | 'rest';
+  flow: KompassradFlow;
+}
+⋮----
+function parseFlow(value: unknown): KompassradFlow
+⋮----
+function fallback(flow: KompassradFlow): GenerateKompassradResult
+````
+
+## File: functions/src/callables/inbox.ts
+````typescript
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { geminiApiKey } from '../lib/geminiSecret';
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { classifyInboxDocument, buildInboxClassifyBlob } from '../lib/inboxClassifier';
+import {
+  confirmInboxQueueItem,
+  dismissInboxQueueItem,
+  listPendingInboxQueue,
+  reprocessVaultInboxQueue as reprocessVaultInboxQueueForUser,
+} from '../lib/inboxPersist';
+import { submitInkastLiteForUser } from '../lib/submitInkastLite';
+import { assertVaultSession } from '../lib/vaultSessionGate';
+import {
+  normalizeInkastSourceModule,
+  stripInjectedSourceModuleFromText,
+} from '../lib/inkastSourceModule';
+````
+
+## File: functions/src/callables/journalSilentReflection.ts
+````typescript
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { createGenAI } from '../lib/genaiClient';
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { geminiApiKey } from '../lib/geminiSecret';
+import { JOURNAL_SILENT_REFLECTION_PROMPT } from '../sharedRules';
+⋮----
+export interface JournalSilentReflectionResult {
+  prompt: string;
+}
+````
+
+## File: functions/src/callables/pipelineStudio.ts
+````typescript
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { appendPipelineRun, type PipelineRunStatus } from '../lib/pipelineRunStore';
+````
+
+## File: functions/src/callables/processBrusfilter.ts
+````typescript
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { createGenAI } from '../lib/genaiClient';
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { assertVaultSession } from '../lib/vaultSessionGate';
+import { geminiApiKey } from '../lib/geminiSecret';
+import { adkOrchestrator } from '../adk';
+import { emitSynapse } from '../adk/synapses/synapseBus';
+import { hashPayload } from '../adk/stateStore';
+⋮----
+import { BRUSFILTER_RESPONSE_SCHEMA } from '../schemas/brusfilter';
+import { BRUSFILTER_SYSTEM_INSTRUCTION } from '../sharedRules';
+⋮----
+export type BrusfilterRecommendedAction = 'INGEN' | 'VARNING';
+⋮----
+export interface ProcessBrusfilterResult {
+  dcap_analysis: {
+    risk_score: number;
+    recommended_action: BrusfilterRecommendedAction;
+  };
+  isolated_logistics: string;
+  biff_draft_reply: string;
+}
+⋮----
+function stripJsonFences(raw: string): string
+⋮----
+/** Plocka första JSON-objektet om modellen lägger till brus före/efter. */
+function extractJsonObject(raw: string): string
+⋮----
+function normalizeRecommendedAction(
+  value: unknown,
+  riskScore: number,
+): BrusfilterRecommendedAction
+⋮----
+function clampRiskScore(value: unknown): number
+⋮----
+function buildBrusfilterFallback(): ProcessBrusfilterResult
+⋮----
+function parseBrusfilterResponse(raw: string): ProcessBrusfilterResult
+⋮----
+/**
+ * P1 Brusfilter — Valv-gated, read-only LLM-pipeline (ingen WORM-skrivning).
+ */
+````
+
+## File: functions/src/callables/projectMedia.ts
 ````typescript
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 ⋮----
+import { createGenAI } from '../lib/genaiClient';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { geminiApiKey } from '../lib/geminiSecret';
-import { GoogleGenAI } from '@google/genai';
-import { EXPERT_PROMPTS } from '../expertPrompts';
-⋮----
-export interface ChatMessage {
-  role: 'user' | 'model';
-  parts: { text: string }[];
-}
-⋮----
-export interface ChatWithKompisRequest {
-  history: ChatMessage[];
-  message: string;
-  expertId?: string;
-}
-⋮----
-export interface ChatWithKompisResponse {
-  reply: string;
-}
+import { OCR_PROMPT } from '../sharedRules';
 ````
 
 ## File: functions/src/callables/shared.ts
@@ -3395,16 +3216,49 @@ import { guardSensitiveCallableV2 } from "../lib/callableGuards";
 import { assertVaultSession, VAULT_SESSION_IDLE_MS } from "../lib/vaultSessionGate";
 ````
 
-## File: functions/src/callables/weeklySummary.ts
+## File: functions/src/callables/valv.ts
+````typescript
+import { onCall, HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
+⋮----
+import { askValvChat } from '../agents/valvChatAgent';
+import { generateDossierInternal } from '../lib/generateDossierInternal';
+import { rescanAllVaultPatternMetadata, writePatternScanMetadata, assistAllVaultFlowPatternMetadata, assistFlowPatternMetadataForSource, TACTIC_LIBRARY_VERSION } from '../lib/patternScanMetadata';
+import { addUserEntityProfile, loadEntityProfileBundle } from '../lib/entityProfileStore';
+import {
+  assertVaultSession,
+  issueVaultSession as createVaultSession,
+} from '../lib/vaultSessionGate';
+import {
+  beginVaultBiometricChallenge,
+  consumeVaultBiometricChallenge,
+} from '../lib/vaultBiometricChallenge';
+import {
+  assertVaultWebAuthnContext,
+  beginVaultWebAuthnChallenge,
+  verifyVaultWebAuthnResponse,
+} from '../lib/vaultWebAuthn';
+import { assertAppCheckV2, guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { assertRateLimit } from '../lib/rateLimit';
+import { geminiApiKey } from '../lib/geminiSecret';
+import type { EntityRole } from '../lib/entityProfileTypes';
+import type {
+  AuthenticationResponseJSON,
+  RegistrationResponseJSON,
+} from '@simplewebauthn/server';
+⋮----
+async function guardAssistPatternMetadata(request: CallableRequest): Promise<string>
+⋮----
+function readWebAuthnResponse(data: unknown): RegistrationResponseJSON | AuthenticationResponseJSON
+````
+
+## File: functions/src/callables/voiceCommand.ts
 ````typescript
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
 ⋮----
+import { createGenAI } from '../lib/genaiClient';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { vaultSessionGrantsVaultRead } from '../lib/vaultSessionGate';
-import { geminiApiKey } from '../lib/geminiSecret';
-import { GoogleGenAI } from '@google/genai';
-⋮----
-const formatEntries = (docs: admin.firestore.DocumentData[]) =>
+import { submitInkastLiteForUser } from '../lib/submitInkastLite';
+import { VOICE_COMMAND_SYSTEM_PROMPT } from '../sharedRules';
 ````
 
 ## File: functions/src/economy/vendor/__fixtures__/taxTable32-2026.json
@@ -3448,6 +3302,7 @@ import { onCall, HttpsError } from 'firebase-functions/v2/https';
 ⋮----
 import { GCP_REGION } from '../config';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { capacityScoreToScale10 } from '../../../shared/evolution/capacityScore';
 ````
 
 ## File: functions/src/economy/generatePayslipInternal.ts
@@ -3478,6 +3333,216 @@ export async function generatePayslipInternal(
 export async function generatePayslipsForAllProfiles(referenceDate = new Date()): Promise<number>
 ````
 
+## File: functions/src/economy/mabraEconomySync.ts
+````typescript
+import { onDocumentWritten } from 'firebase-functions/v2/firestore';
+⋮----
+import { GCP_REGION } from '../config';
+import { handleDcapAlert } from '../adk/synapses/dcapAlertSynapse';
+import {
+  CAPACITY_PLANNING_KANBAN_THRESHOLD,
+  MAABRA_MOOD_ENERGY_THRESHOLD,
+  moodEnergyAverageToNormalized,
+} from '../../../shared/evolution/capacityScore';
+````
+
+## File: functions/src/jobs/barnportenAgeEvalJob.ts
+````typescript
+import { onSchedule } from 'firebase-functions/v2/scheduler';
+⋮----
+import { GCP_REGION } from '../config';
+import { evaluateBarnportenBracketsForUser } from '../lib/barnportenAgeEvaluator';
+````
+
+## File: functions/src/jobs/retentionJob.ts
+````typescript
+import { Firestore, Timestamp } from '@google-cloud/firestore';
+⋮----
+import { GCP_PROJECT_ID } from '../config';
+import { purgeExpiredRegistryEntries } from '../lib/contextCacheRegistry';
+⋮----
+interface PurgeResult {
+  collection: string;
+  deletedCount: number;
+  prunedVectorIds: string[];
+}
+⋮----
+function getCutoffTimestamp(): Timestamp
+⋮----
+export function isWormProtectedCollection(collection: string): boolean
+⋮----
+async function purgeFirestoreCollection(
+  db: Firestore,
+  userId: string,
+  collection: string,
+  cutoff: Timestamp
+): Promise<PurgeResult>
+⋮----
+async function removeVectors(vectorIds: string[]): Promise<void>
+⋮----
+export default async function runRetention(): Promise<void>
+````
+
+## File: functions/src/lib/adaptationCoachTone.ts
+````typescript
+import type { CoachTone } from '../../../shared/adaptation/adaptationTypes';
+import { DEFAULT_ADAPTATION_PREFS } from '../../../shared/adaptation/adaptationTypes';
+import { isAdaptationLayerEnabled } from './adaptationLayerGate';
+import { getAdaptationPrefsDoc } from './adaptationPrefsStore';
+⋮----
+export async function resolveCoachToneForUser(uid: string): Promise<CoachTone>
+````
+
+## File: functions/src/lib/adaptationLayerGate.ts
+````typescript
+import { ADAPTATION_LAYER_FLAG } from '../../../shared/adaptation/adaptationTypes';
+⋮----
+export async function isAdaptationLayerEnabled(uid: string): Promise<boolean>
+````
+
+## File: functions/src/lib/adaptationPrefsLedgerServer.ts
+````typescript
+import {
+  adaptationLedgerDedupKey,
+  adaptationLedgerDedupKeyFromStored,
+  collectLedgerEntriesFromPrefsDiff,
+  prefsLedgerFingerprint,
+} from '../../../shared/adaptation/adaptationLedgerSync';
+import type {
+  AdaptationLedgerSource,
+  AdaptationLedgerWriteInput,
+  AdaptationPrefsDoc,
+  AdaptationSilo,
+} from '../../../shared/adaptation/adaptationTypes';
+⋮----
+async function loadExistingDedupKeys(
+  db: admin.firestore.Firestore,
+  userId: string,
+): Promise<Set<string>>
+⋮----
+async function appendLedgerEntry(
+  db: admin.firestore.Firestore,
+  entry: AdaptationLedgerWriteInput,
+  existingKeys: Set<string>,
+): Promise<void>
+⋮----
+export async function syncAdaptationPrefsToLedgerServer(
+  db: admin.firestore.Firestore,
+  userId: string,
+  prev: AdaptationPrefsDoc | null,
+  next: AdaptationPrefsDoc,
+  source: AdaptationLedgerSource = 'system',
+  silo: AdaptationSilo = 'core',
+): Promise<void>
+````
+
+## File: functions/src/lib/adaptationPrefsStore.ts
+````typescript
+import {
+  DEFAULT_ADAPTATION_PREFS,
+  type AdaptationPrefsDoc,
+  type AdaptationSilo,
+} from '../../../shared/adaptation/adaptationTypes';
+⋮----
+export function normalizeAdaptationPrefs(
+  uid: string,
+  data: admin.firestore.DocumentData | undefined,
+): AdaptationPrefsDoc
+⋮----
+export async function getAdaptationPrefsDoc(
+  uid: string,
+): Promise<AdaptationPrefsDoc | null>
+⋮----
+export async function ensureAdaptationPrefsDoc(uid: string): Promise<AdaptationPrefsDoc>
+⋮----
+export interface RecordAdaptationSignalInput {
+  signalKey: string;
+  increment?: number;
+  value?: number | string | boolean;
+  silo?: AdaptationSilo;
+}
+⋮----
+export async function recordAdaptationSignalForUser(
+  uid: string,
+  input: RecordAdaptationSignalInput,
+): Promise<AdaptationPrefsDoc>
+````
+
+## File: functions/src/lib/adaptationSemanticContext.ts
+````typescript
+import { isAdaptationSemanticEnabled } from './adaptationSemanticGate';
+import { getAdaptationSemanticProfileDoc } from './adaptationSemanticStore';
+⋮----
+export async function loadAdaptationSemanticContext(uid: string): Promise<string | null>
+⋮----
+export function appendAdaptationSemanticContext(
+  baseSystemInstruction: string,
+  adaptationContext: string | null | undefined,
+): string
+````
+
+## File: functions/src/lib/adaptationSemanticGate.ts
+````typescript
+import { ADAPTATION_SEMANTIC_FLAG } from '../../../shared/adaptation/adaptationSemanticTypes';
+import { isAdaptationLayerEnabled } from './adaptationLayerGate';
+⋮----
+function semanticFlagEnabled(data: admin.firestore.DocumentData | undefined): boolean
+⋮----
+export async function isAdaptationSemanticEnabled(uid: string): Promise<boolean>
+````
+
+## File: functions/src/lib/adaptationSemanticRebuild.ts
+````typescript
+import { prefsLedgerFingerprint } from '../../../shared/adaptation/adaptationLedgerSync';
+import {
+  buildSemanticProfileFromPrefs,
+  type AdaptationSemanticProfileDoc,
+} from '../../../shared/adaptation/adaptationSemanticTypes';
+import { getAdaptationPrefsDoc } from './adaptationPrefsStore';
+import {
+  getAdaptationSemanticProfileDoc,
+  saveAdaptationSemanticProfileDoc,
+} from './adaptationSemanticStore';
+import {
+  adaptationLedgerDedupKey,
+  adaptationLedgerDedupKeyFromStored,
+} from '../../../shared/adaptation/adaptationLedgerSync';
+⋮----
+async function appendSemanticIndexedLedger(
+  userId: string,
+  profile: AdaptationSemanticProfileDoc,
+): Promise<void>
+⋮----
+export interface RebuildAdaptationSemanticResult {
+  profile: AdaptationSemanticProfileDoc;
+  changed: boolean;
+  skipped: boolean;
+}
+⋮----
+export async function rebuildAdaptationSemanticProfileForUser(
+  uid: string,
+): Promise<RebuildAdaptationSemanticResult>
+````
+
+## File: functions/src/lib/adaptationSemanticStore.ts
+````typescript
+import type { AdaptationSemanticProfileDoc } from '../../../shared/adaptation/adaptationSemanticTypes';
+import { ADAPTATION_SEMANTIC_REBUILD_VERSION } from '../../../shared/adaptation/adaptationSemanticTypes';
+⋮----
+export function normalizeAdaptationSemanticProfile(
+  uid: string,
+  data: admin.firestore.DocumentData | undefined,
+): AdaptationSemanticProfileDoc | null
+⋮----
+export async function getAdaptationSemanticProfileDoc(
+  uid: string,
+): Promise<AdaptationSemanticProfileDoc | null>
+⋮----
+export async function saveAdaptationSemanticProfileDoc(
+  profile: AdaptationSemanticProfileDoc,
+): Promise<void>
+````
+
 ## File: functions/src/lib/analyzeUploadForKnowledge.ts
 ````typescript
 import { createGenAI } from './genaiClient';
@@ -3492,6 +3557,17 @@ export async function analyzeUploadForKnowledge(
 ## File: functions/src/lib/barnenModuleRouteGuard.ts
 ````typescript
 export function shouldRouteKompisToBarnen(text: string | undefined): boolean
+````
+
+## File: functions/src/lib/barnportenAgeEvaluator.ts
+````typescript
+type AgeBracket = 'toddler_preschool' | 'early_school' | 'pre_teen' | 'teen';
+⋮----
+function bracketFromAgeYears(ageYears: number): AgeBracket
+⋮----
+function ageFromBirthDate(birthDate: string, now = new Date()): number | null
+⋮----
+export async function evaluateBarnportenBracketsForUser(uid: string): Promise<
 ````
 
 ## File: functions/src/lib/barnportenPairing.ts
@@ -3531,31 +3607,73 @@ export async function claimBarnportenPairingForUser(
 ): Promise<BarnportenPairingClaimResult>
 ````
 
-## File: functions/src/lib/callableGuards.ts
+## File: functions/src/lib/biffRewriteDraftParse.ts
 ````typescript
-import { HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
+export type BiffRewriteToneCheck = 'pass' | 'still_emotional' | 'too_long';
 ⋮----
-import { assertRateLimit, RateLimitExceeded } from './rateLimit';
+export type BiffRewriteDraftResult = {
+  cleanedText: string;
+  toneCheck: BiffRewriteToneCheck;
+};
 ⋮----
-export function isAppCheckEnforcementEnabled(): boolean
+function stripJsonFences(raw: string): string
 ⋮----
-export function assertAppCheckV2(request: Pick<CallableRequest, 'app'>): void
+function extractJsonObject(raw: string): string
 ⋮----
-export function assertAppCheckV1(context: functions.https.CallableContext): void
+function normalizeToneCheck(value: unknown): BiffRewriteToneCheck
 ⋮----
-function rethrowRateLimitV1(err: unknown): never
+export function biffRewriteDraftFallback(draft: string): BiffRewriteDraftResult
 ⋮----
-export async function guardSensitiveCallableV2(
-  request: CallableRequest,
-  rateLimitKey: string,
-  maxPerMinute = 30,
-): Promise<string>
+export function parseBiffRewriteDraftJson(raw: string, draft: string): BiffRewriteDraftResult
+````
+
+## File: functions/src/lib/childObservationEpistemics.ts
+````typescript
+export type EpistemicKind = 'citat' | 'tolkning';
 ⋮----
-export async function guardSensitiveCallableV1(
-  context: functions.https.CallableContext,
-  rateLimitKey: string,
-  maxPerMinute = 30,
-): Promise<string>
+export function hasEpistemicPrefix(text: string): boolean
+⋮----
+export function formatChildObservation(text: string, kind: EpistemicKind): string
+⋮----
+export function inferEpistemicKind(input: {
+  authorRole?: string;
+  category?: string;
+  channel?: string;
+}): EpistemicKind
+⋮----
+export function isParentVisibleChildLog(data:
+````
+
+## File: functions/src/lib/childrenLogsQueryRag.ts
+````typescript
+import { isParentVisibleChildLog } from './childObservationEpistemics';
+⋮----
+function tokenize(text: string): string[]
+⋮----
+function formatDate(value: unknown): string
+⋮----
+function searchableText(data: admin.firestore.DocumentData): string
+⋮----
+function excerptForDoc(data: admin.firestore.DocumentData): string
+⋮----
+export interface ChildrenLogEvidenceChunk {
+  docId: string;
+  childAlias: string;
+  date: string;
+  action: string;
+  excerpt: string;
+  body: string;
+}
+⋮----
+/**
+ * Barnen-silo RAG — läser ENDAST `children_logs`. MUST NOT anropa valv/kampspar.
+ */
+export async function fetchChildrenLogsForQuery(
+  uid: string,
+  question: string,
+  childAlias?: string,
+  limit = 12
+): Promise<ChildrenLogEvidenceChunk[]>
 ````
 
 ## File: functions/src/lib/contextCacheRegistry.ts
@@ -3641,6 +3759,108 @@ export function buildCanonicalString(entries: CanonicalDossierEntry[]): string
 export function sha256Hex(content: string): string
 ⋮----
 export function computeDocumentHash(entries: CanonicalDossierEntry[]): string
+````
+
+## File: functions/src/lib/dossierPdf.ts
+````typescript
+import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import type { CanonicalDossierEntry } from './dossierCanonicalHash';
+import type { DossierAiForewordResult } from './dossierAiForeword';
+⋮----
+function wrapText(text: string): string[]
+⋮----
+function entryBody(entry: CanonicalDossierEntry): string
+⋮----
+type PdfBuildOptions = {
+  dossierId: string;
+  documentHash: string;
+  generatedAtIso: string;
+  reportType: string;
+  dateFrom: string;
+  dateTo: string;
+  includeAiForeword: boolean;
+  aiForeword?: DossierAiForewordResult;
+  entries: CanonicalDossierEntry[];
+  tacticSummary?: { technique: string; count: number }[];
+};
+⋮----
+export async function buildDossierPdf(options: PdfBuildOptions): Promise<Uint8Array>
+⋮----
+const drawLine = (text: string, bold = false) =>
+⋮----
+const drawBlock = (text: string, bold = false) =>
+````
+
+## File: functions/src/lib/entityProfileStore.ts
+````typescript
+import {
+  KEY_ENTITY_SEEDS,
+  SYSTEM_SYNAPSE_SEEDS,
+  type EntityProfileDoc,
+  type EntityRole,
+  type SystemSynapseDoc,
+} from './entityProfileTypes';
+⋮----
+export interface EntityProfileBundle {
+  profiles: EntityProfileDoc[];
+  synapses: SystemSynapseDoc[];
+  contextBlock: string;
+}
+⋮----
+function docToEntityProfile(
+  id: string,
+  data: admin.firestore.DocumentData
+): EntityProfileDoc
+⋮----
+function docToSystemSynapse(id: string, data: admin.firestore.DocumentData): SystemSynapseDoc
+⋮----
+export function buildEntityGroundingContextBlock(
+  profiles: EntityProfileDoc[],
+  synapses: SystemSynapseDoc[]
+): string
+⋮----
+async function hasEntityProfiles(uid: string): Promise<boolean>
+⋮----
+export async function ensureEntityProfilesSeeded(uid: string): Promise<
+⋮----
+export async function loadEntityProfileBundle(uid: string): Promise<EntityProfileBundle>
+⋮----
+export async function loadKunskapEntityBundle(uid: string): Promise<EntityProfileBundle>
+⋮----
+export async function loadBarnenEntityBundle(uid: string): Promise<EntityProfileBundle>
+⋮----
+export interface AddEntityProfileInput {
+  displayName: string;
+  role: EntityRole;
+  aliases?: string[];
+  groundingNotes?: string;
+}
+⋮----
+export interface AddEntityProfileResult {
+  entityKey: string;
+  displayName: string;
+  role: EntityRole;
+  aliases: string[];
+}
+⋮----
+function slugifyEntityKey(displayName: string): string
+⋮----
+function normalizeAliases(raw: string[] | undefined, displayName: string): string[]
+⋮----
+const push = (value: string) =>
+⋮----
+function validateAddEntityInput(input: AddEntityProfileInput): AddEntityProfileInput
+⋮----
+/** Append-only — användardefinierade personer (WORM via Admin SDK, klient skriver ej). */
+export async function addUserEntityProfile(
+  uid: string,
+  rawInput: AddEntityProfileInput
+): Promise<AddEntityProfileResult>
+⋮----
+export function resolveEntityKeysInText(
+  text: string,
+  profiles: EntityProfileDoc[]
+): string[]
 ````
 
 ## File: functions/src/lib/entityProfileTypes.ts
@@ -3765,11 +3985,204 @@ import { GCP_PROJECT_ID, GCP_REGION } from '../config';
 export function createGenAI(apiKeyOverride?: string): GoogleGenAI
 ````
 
+## File: functions/src/lib/generateDossierInternal.ts
+````typescript
+import { randomUUID } from 'crypto';
+import { isParentVisibleChildLog } from './childObservationEpistemics';
+import {
+  buildCanonicalString,
+  computeDocumentHash,
+  sha256Hex,
+  toCanonicalEntry,
+  type CanonicalDossierEntry,
+  type DossierCollection,
+} from './dossierCanonicalHash';
+import { buildDossierPdf } from './dossierPdf';
+import { generateDossierAiForeword, type DossierAiForewordResult } from './dossierAiForeword';
+import {
+  PATTERN_SCAN_METADATA_COLLECTION,
+} from './patternScanMetadata';
+⋮----
+export type GenerateDossierInput = {
+  dateFrom: string;
+  dateTo: string;
+  sources: {
+    reality_vault: boolean;
+    children_logs: boolean;
+    journal: boolean;
+  };
+  reportType: 'LEGAL' | 'BBIC';
+  includeAiForeword: boolean;
+  categoryFilter?: string[];
+  techniqueFilter?: string[];
+  includedDocIds: {
+    reality_vault: string[];
+    children_logs: string[];
+    journal: string[];
+  };
+};
+⋮----
+export type GenerateDossierResult = {
+  dossierId: string;
+  documentHash: string;
+  downloadUrl?: string;
+  pdfBase64?: string;
+  status: 'ready' | 'pending';
+  jobId?: string;
+  aiForeword?: DossierAiForewordResult;
+};
+⋮----
+function assertIsoDate(value: unknown, field: string): string
+⋮----
+function assertIdList(value: unknown): string[]
+⋮----
+function docDayInRange(createdAtIso: string, dateFrom: string, dateTo: string): boolean
+⋮----
+async function fetchOwnedDoc(
+  uid: string,
+  collection: DossierCollection,
+  docId: string,
+  dateFrom?: string,
+  dateTo?: string,
+): Promise<CanonicalDossierEntry | null>
+⋮----
+async function fetchVaultPatternContext(
+  uid: string,
+  vaultIds: string[],
+): Promise<
+⋮----
+export async function generateDossierInternal(
+  uid: string,
+  raw: GenerateDossierInput,
+  geminiApiKey?: string,
+): Promise<GenerateDossierResult>
+⋮----
+const loadBatch = async (collection: DossierCollection, ids: string[]) =>
+````
+
 ## File: functions/src/lib/generateEmbeddingInternal.ts
 ````typescript
 import { GCP_PROJECT_ID } from '../config';
 ⋮----
 export async function generateEmbeddingInternal(text: string): Promise<number[]>
+````
+
+## File: functions/src/lib/inboxPersist.ts
+````typescript
+import { requiresHumanReview, type InboxClassification } from './inboxClassifier';
+import { formatChildObservation, inferEpistemicKind } from './childObservationEpistemics';
+import { persistKbDocFromDrive, type PersistKbDocInput } from './persistKbDoc';
+import { isKunskapFactApproved } from './kunskapContentBankGate';
+import { assertServerWormPayload, CHILDREN_LOG_ALLOWED_KEYS, driveInboxSourceRef, REALITY_VAULT_ALLOWED_KEYS } from './wormPayload';
+⋮----
+export interface InboxQueueDoc {
+  ownerId: string;
+  userId: string;
+  driveFileId: string;
+  fileName: string;
+  mimeType: string;
+  proposedRouting: string;
+  tags: string[];
+  category: string;
+  confidence: number;
+  summary: string;
+  traumaSensitive: boolean;
+  rationale: string;
+  analysisExcerpt: string;
+  childAlias?: string | null;
+  status: 'pending' | 'confirmed' | 'dismissed';
+  persistedCollection?: string | null;
+  persistedDocId?: string | null;
+  createdAt?: FirebaseFirestore.Timestamp;
+  reviewedAt?: FirebaseFirestore.Timestamp;
+}
+⋮----
+export async function persistInboxQueueItem(input: {
+  ownerId: string;
+  driveFileId: string;
+  fileName: string;
+  mimeType: string;
+  classification: InboxClassification;
+  analysisExcerpt: string;
+  evidenceUrl?: string;
+}): Promise<
+⋮----
+export async function persistVaultFromInbox(input: {
+  ownerId: string;
+  fileName: string;
+  driveFileId: string;
+  mimeType: string;
+  classification: InboxClassification;
+  analysisText: string;
+  evidenceUrl?: string;
+  sourceRef?: string;
+  action?: string;
+  category?: string;
+  truthOverride?: string;
+}): Promise<
+⋮----
+export async function persistChildrenLogFromInbox(input: {
+  ownerId: string;
+  driveFileId: string;
+  fileName: string;
+  classification: InboxClassification;
+  analysisText: string;
+  sourceRef?: string;
+}): Promise<
+⋮----
+function mapInkastCategoryToJournal(category: string, tags: string[]): string
+⋮----
+export async function persistJournalFromInbox(input: {
+  ownerId: string;
+  classification: InboxClassification;
+  analysisText: string;
+}): Promise<
+⋮----
+export async function persistKunskapFromInbox(
+  kbInput: PersistKbDocInput,
+  classification: InboxClassification
+): Promise<
+⋮----
+export async function persistPlaneringFromInbox(input: {
+  ownerId: string;
+  classification: InboxClassification;
+  analysisText: string;
+}): Promise<
+⋮----
+export async function routeInboxToWorm(input: {
+  ownerId: string;
+  fileId: string;
+  fileName: string;
+  mimeType: string;
+  classification: InboxClassification;
+  analysisText: string;
+  optInTrauma?: boolean;
+  evidenceUrl?: string;
+  hasVaultSession: boolean;
+  isVerified: boolean;
+  allowBarnenAutoPersist?: boolean;
+  sourceRef?: string;
+  vaultAction?: string;
+  vaultCategory?: string;
+  truthOverride?: string;
+}): Promise<
+⋮----
+export type InboxQueueItem = InboxQueueDoc & { id: string };
+⋮----
+export async function listPendingInboxQueue(uid: string): Promise<InboxQueueItem[]>
+⋮----
+export async function confirmInboxQueueItem(input: {
+  uid: string;
+  queueId: string;
+  routing: 'kunskap' | 'bevis' | 'barnen' | 'dagbok' | 'planning';
+  childAlias?: string;
+  overrideTags?: string[];
+  overrideCategory?: string;
+}): Promise<
+⋮----
+export async function reprocessVaultInboxQueue(uid: string): Promise<
+⋮----
+export async function dismissInboxQueueItem(uid: string, queueId: string): Promise<void>
 ````
 
 ## File: functions/src/lib/ingestKampsparInternal.ts
@@ -3819,61 +4232,6 @@ export function parseJournalQuickMirrorJson(raw: string): JournalQuickMirrorResu
 export function journalQuickMirrorFallback(mood: string, quickText?: string): JournalQuickMirrorResult
 ````
 
-## File: functions/src/lib/kampsparQueryRag.ts
-````typescript
-import { generateEmbeddingInternal } from './generateEmbeddingInternal';
-import { isVectorSearchConfigured, queryKampsparVectorNeighbors } from './vectorSearchClient';
-⋮----
-function tokenize(text: string): string[]
-⋮----
-function formatDate(value: unknown): string
-⋮----
-export interface KampsparEvidenceChunk {
-  docId: string;
-  collection: 'kampspar' | 'kb_docs';
-  date: string;
-  title: string;
-  excerpt: string;
-  content: string;
-}
-⋮----
-async function fetchCollectionChunks(
-  uid: string,
-  collectionName: 'kampspar' | 'kb_docs',
-  limit: number
-): Promise<
-⋮----
-function chunkFromDoc(
-  collectionName: 'kampspar' | 'kb_docs',
-  id: string,
-  data: admin.firestore.DocumentData
-): KampsparEvidenceChunk
-⋮----
-function tokenMatchRank(
-  uid: string,
-  question: string,
-  limit: number
-): Promise<KampsparEvidenceChunk[]>
-⋮----
-async function fetchKampsparEvidenceTokenMatch(
-  uid: string,
-  question: string,
-  limit = 12
-): Promise<KampsparEvidenceChunk[]>
-⋮----
-async function fetchKampsparEvidenceAnn(
-  uid: string,
-  question: string,
-  limit: number
-): Promise<KampsparEvidenceChunk[]>
-⋮----
-export async function fetchKampsparEvidenceForQuery(
-  uid: string,
-  question: string,
-  limit = 12
-): Promise<KampsparEvidenceChunk[]>
-````
-
 ## File: functions/src/lib/kampsparRag.ts
 ````typescript
 import { generateEmbeddingInternal } from './generateEmbeddingInternal';
@@ -3901,9 +4259,179 @@ export function parseKbtTransformJson(raw: string): KbtTransformResult
 export function kbtTransformFallback(thought: string): KbtTransformResult
 ````
 
+## File: functions/src/lib/kunskapContentBankGate.ts
+````typescript
+import type { InboxClassification } from './inboxClassifier';
+⋮----
+export function isKunskapFactApproved(classification: InboxClassification): boolean
+````
+
+## File: functions/src/lib/mabraCapacityParafras.ts
+````typescript
+import type { CoachTone } from '../../../shared/adaptation/adaptationTypes';
+import { capacityScoreToScale10 } from '../../../shared/evolution/capacityScore';
+import {
+  parafraseCoachFromBank,
+  type MabraCoachBankEntry,
+  type MabraCoachExercise,
+  type MabraCoachHub,
+} from './mabraContentBank';
+⋮----
+export type CapacityBand = 'low' | 'mid' | 'high';
+⋮----
+export function normalizeCapacityScore(raw: number | undefined): number
+⋮----
+export function toCapacityBand(score: number): CapacityBand
+⋮----
+export async function fetchUserCapacityScore(uid: string): Promise<number>
+⋮----
+function firstSentence(text: string): string
+⋮----
+export type CapacityAwareCoachResult = {
+  coach: string;
+  capacityBand: CapacityBand;
+  microSteps?: string[];
+  coachToneApplied?: CoachTone;
+};
+⋮----
+export function parafraseCoachFromBankWithCapacity(
+  entry: MabraCoachBankEntry,
+  band: CapacityBand,
+  hubSymptom?: MabraCoachHub,
+  exerciseType?: MabraCoachExercise,
+  coachTone: CoachTone = 'standard',
+): CapacityAwareCoachResult
+````
+
 ## File: functions/src/lib/mabraCoachGuard.ts
 ````typescript
 export function shouldRedirectMabraCoachToSpeglar(text: string | undefined): boolean
+````
+
+## File: functions/src/lib/mabraContentBank.ts
+````typescript
+import type { CoachTone } from '../../../shared/adaptation/adaptationTypes';
+⋮----
+export type MabraCoachHub = 'panic_rsd' | 'self_critical' | 'find_self';
+export type MabraCoachVitHub = MabraCoachHub | 'who_am_i' | 'emotional_memory' | 'learn_together';
+export type MabraCoachExercise = 'breathing' | 'grounding' | 'reframing';
+⋮----
+export type MabraCoachBankEntry = {
+  bankId: string;
+  content_class: 'REFLECTION';
+  source_tier: 'P1' | 'product_copy' | 'psychoeducation_general';
+  status: 'KEEP';
+  hub?: MabraCoachVitHub;
+  lens: string;
+  text_sv: string;
+};
+⋮----
+export function getMabraCoachBankEntry(bankId: string): MabraCoachBankEntry | undefined
+⋮----
+export function resolveCoachBankId(
+  hubSymptom: MabraCoachHub,
+  exerciseType: MabraCoachExercise,
+  requestedBankId?: string,
+): string
+⋮----
+export function resolveVitChatBankId(seedPrompt?: string, requestedBankId?: string): string | undefined
+⋮----
+function firstSentence(text: string): string
+⋮----
+function buildAck(
+  hubSymptom?: MabraCoachHub,
+  exerciseType?: MabraCoachExercise,
+  coachTone: CoachTone = 'standard',
+): string
+⋮----
+export function resolveGoalAssistBankId(
+  draftGoal?: string,
+  requestedBankId?: string,
+): string
+⋮----
+export function parafraseGoalAssist(
+  entry: MabraCoachBankEntry,
+  draftGoal?: string,
+): string
+⋮----
+export function parafraseRsdErrorFromBank(entry: MabraCoachBankEntry): string
+⋮----
+export function resolveRsdErrorBankId(requestedBankId?: string): string
+⋮----
+export function resolveBankParafrasBankId(bankId: string): string
+⋮----
+export function parafraseCoachFromBank(
+  entry: MabraCoachBankEntry,
+  hubSymptom?: MabraCoachHub,
+  exerciseType?: MabraCoachExercise,
+  coachTone: CoachTone = 'standard',
+): string
+````
+
+## File: functions/src/lib/patternScanMetadata.ts
+````typescript
+import {
+  patternIdsHash,
+  scanTextForTactics,
+  TACTIC_LIBRARY_VERSION,
+  uniqueKunskapFactIds,
+  uniqueTechniques,
+  type TacticMatch,
+} from './tacticPatternLibrary';
+import {
+  dcapGatePatternAssist,
+  suggestPatternIdsViaLlm,
+  tacticMatchesFromLlmPatternIds,
+} from './patternMetadataAssist';
+⋮----
+export type PatternScanLayer = 'REGEX' | 'DCAP' | 'FLOW';
+⋮----
+export type PatternScanMetadataInput = {
+  userId: string;
+  sourceRef: string;
+  text: string;
+  scanLayer?: PatternScanLayer;
+};
+⋮----
+function vaultLogSearchableText(data: admin.firestore.DocumentData): string
+⋮----
+async function duplicateExists(
+  sourceRef: string,
+  libraryVersion: string,
+  scanLayer: PatternScanLayer,
+  patternHash: string,
+): Promise<boolean>
+⋮----
+async function loadVaultScanContext(
+  userId: string,
+  sourceRef: string,
+  _text: string,
+): Promise<
+⋮----
+async function existingPatternIdsForSource(sourceRef: string): Promise<Set<string>>
+⋮----
+export async function writePatternScanMetadataFromMatches(
+  input: PatternScanMetadataInput,
+  matches: TacticMatch[],
+): Promise<string | null>
+⋮----
+export async function writePatternScanMetadata(
+  input: PatternScanMetadataInput,
+): Promise<string | null>
+⋮----
+export async function assistFlowPatternMetadataForSource(
+  userId: string,
+  sourceRef: string,
+  geminiApiKey?: string,
+): Promise<string | null>
+⋮----
+export async function assistAllVaultFlowPatternMetadata(
+  uid: string,
+  geminiApiKey?: string,
+  limit = 25,
+): Promise<number>
+⋮----
+export async function rescanAllVaultPatternMetadata(uid: string): Promise<number>
 ````
 
 ## File: functions/src/lib/persistKbDoc.ts
@@ -3924,6 +4452,30 @@ export interface PersistKbDocInput {
 export async function persistKbDocFromDrive(input: PersistKbDocInput): Promise<
 ````
 
+## File: functions/src/lib/pipelineRunStore.ts
+````typescript
+import { getFirestore, FieldValue, type FieldValue as FieldValueType } from 'firebase-admin/firestore';
+⋮----
+export type PipelineRunStatus = 'spawned' | 'PASS' | 'FAIL' | 'validated' | 'exported';
+⋮----
+export interface PipelineRunRecord {
+  userId: string;
+  ownerId: string;
+  toolId: string;
+  status: PipelineRunStatus;
+  schemaVersion: string;
+  smokeTier?: number;
+  commitSha?: string;
+  errorCode?: string;
+  createdAt: FieldValueType;
+}
+⋮----
+export async function appendPipelineRun(
+  uid: string,
+  data: Omit<PipelineRunRecord, 'userId' | 'ownerId' | 'createdAt'>,
+): Promise<string>
+````
+
 ## File: functions/src/lib/rateLimit.ts
 ````typescript
 import { HttpsError } from 'firebase-functions/v2/https';
@@ -3940,6 +4492,150 @@ export async function assertRateLimit(
   maxCalls: number,
   windowMs = DEFAULT_WINDOW_MS,
 ): Promise<void>
+````
+
+## File: functions/src/lib/recordDiscoveryMilestoneServer.ts
+````typescript
+import {
+  ledgerEntryDedupKey,
+  ledgerEntryDedupKeyFromStored,
+} from '../../../shared/evolution/evolutionHubLedgerSync';
+⋮----
+export async function recordDiscoveryMilestoneServer(
+  userId: string,
+  categoryId: string,
+  firstBankId: string,
+): Promise<
+````
+
+## File: functions/src/lib/submitInkastLite.ts
+````typescript
+import { randomUUID } from 'crypto';
+import {
+  classifyInboxDocument,
+  buildManualInkastClassification,
+  buildInboxClassifyBlob,
+  applyInkastConfidenceGate,
+  type InboxClassification,
+  type InboxRouting,
+} from './inboxClassifier';
+import { routeInboxToWorm } from './inboxPersist';
+import { analyzeUploadForKnowledge } from './analyzeUploadForKnowledge';
+import { uploadInkastEvidence } from './uploadInkastEvidence';
+import { normalizeInkastSourceModule, stripInjectedSourceModuleFromText } from './inkastSourceModule';
+import { INKAST_AUDIO_MIMES, isInkastAudioMime } from './inkastConstants';
+import { transcribeInkastAudio } from './transcribeInkastAudio';
+⋮----
+export type SubmitInkastLiteInput = {
+  text?: string;
+  fileName?: string;
+  mimeType?: string;
+  base64?: string;
+  base64Files?: string[];
+  mimeTypes?: string[];
+  fileNames?: string[];
+  optInTrauma?: boolean;
+  sourceModule?: string;
+  manualRouting?: Exclude<InboxRouting, 'review'>;
+  manualCategory?: string;
+  manualTags?: string[];
+  manualComment?: string;
+  manualChildAlias?: string;
+};
+⋮----
+export type SubmitInkastLiteItemResult = {
+  classification: InboxClassification;
+  action: 'queued' | 'persisted';
+  collection?: string;
+  docId?: string;
+  queueId?: string;
+  fileId: string;
+  fileName: string;
+  evidenceUrl?: string;
+};
+⋮----
+export type SubmitInkastLiteResult = {
+  items: SubmitInkastLiteItemResult[];
+  processed: number;
+  persisted: number;
+  queued: number;
+  failed: number;
+  errors: Array<{ fileName: string; error: string }>;
+};
+⋮----
+type ManualInkastOverride = {
+  routing: Exclude<InboxRouting, 'review'>;
+  category?: string;
+  tags?: string[];
+  comment?: string;
+  childAlias?: string;
+};
+⋮----
+function normalizeManualTags(raw: unknown): string[] | undefined
+⋮----
+function resolveManualOverride(input: SubmitInkastLiteInput): ManualInkastOverride | undefined
+⋮----
+type InkastFileJob = {
+  fileName: string;
+  mimeType: string;
+  base64: string;
+};
+⋮----
+function resolveClassification(
+  classifyBlob: string,
+  fileName: string,
+  analysisText: string,
+  manual: ManualInkastOverride | undefined,
+  geminiApiKey?: string
+): Promise<InboxClassification> | InboxClassification
+⋮----
+async function finalizeClassification(
+  classification: InboxClassification | Promise<InboxClassification>,
+  manual: ManualInkastOverride | undefined
+): Promise<InboxClassification>
+⋮----
+function isPlainTextMime(mimeType: string, fileName: string): boolean
+⋮----
+function normalizeMimeType(raw: unknown, fileName: string): string
+⋮----
+function resolveFileJobs(input: SubmitInkastLiteInput): InkastFileJob[]
+⋮----
+async function extractAnalysisFromBuffer(
+  buffer: Buffer,
+  mimeType: string,
+  fileName: string
+): Promise<string>
+⋮----
+async function processOneInkastFile(
+  ownerId: string,
+  job: InkastFileJob,
+  sourceModule: string | undefined,
+  optInTrauma: boolean,
+  manual: ManualInkastOverride | undefined,
+  geminiApiKey: string | undefined,
+  hasVaultSession: boolean,
+  isVerified: boolean
+): Promise<SubmitInkastLiteItemResult>
+⋮----
+async function processTextInkast(
+  ownerId: string,
+  text: string,
+  fileName: string,
+  sourceModule: string | undefined,
+  optInTrauma: boolean,
+  manual: ManualInkastOverride | undefined,
+  geminiApiKey: string | undefined,
+  hasVaultSession: boolean,
+  isVerified: boolean
+): Promise<SubmitInkastLiteItemResult>
+⋮----
+export async function submitInkastLiteForUser(
+  ownerId: string,
+  input: SubmitInkastLiteInput,
+  geminiApiKey: string | undefined,
+  hasVaultSession: boolean,
+  isVerified: boolean
+): Promise<SubmitInkastLiteResult>
 ````
 
 ## File: functions/src/lib/tacticPatternLibrary.ts
@@ -3971,6 +4667,29 @@ export async function uploadInkastEvidence(input: {
 }): Promise<string>
 ````
 
+## File: functions/src/lib/vaultBiometricChallenge.ts
+````typescript
+import { createHash, randomBytes, timingSafeEqual } from 'crypto';
+import { HttpsError } from 'firebase-functions/v2/https';
+⋮----
+function challengeRef(uid: string)
+⋮----
+function hashProof(proof: string): string
+⋮----
+function safeEqualHex(a: string, b: string): boolean
+⋮----
+export async function beginVaultBiometricChallenge(uid: string): Promise<
+⋮----
+export async function consumeVaultBiometricChallenge(
+  uid: string,
+  input: {
+    challengeId: unknown;
+    challengeProof: unknown;
+    platform: 'android' | 'ios';
+  },
+): Promise<void>
+````
+
 ## File: functions/src/lib/vaultRag.ts
 ````typescript
 function tokenize(text: string): string[]
@@ -3992,6 +4711,30 @@ export async function fetchVaultEvidenceForQuery(
   question: string,
   limit = 12
 ): Promise<VaultEvidenceChunk[]>
+````
+
+## File: functions/src/lib/vaultSessionGate.ts
+````typescript
+import { randomBytes } from 'crypto';
+import { HttpsError } from 'firebase-functions/v2/https';
+⋮----
+function sessionRef(uid: string)
+⋮----
+export function readVaultSessionToken(data: unknown): string | null
+⋮----
+export async function issueVaultSession(
+  uid: string,
+): Promise<
+⋮----
+export async function revokeVaultSession(uid: string): Promise<void>
+⋮----
+async function clearVaultJwtClaims(uid: string): Promise<void>
+⋮----
+async function refreshVaultJwtClaims(uid: string, serverExpiresAt: string): Promise<void>
+⋮----
+export async function vaultSessionGrantsVaultRead(uid: string, data: unknown): Promise<boolean>
+⋮----
+export async function assertVaultSession(uid: string, data: unknown): Promise<void>
 ````
 
 ## File: functions/src/lib/vaultWebAuthn.ts
@@ -4076,28 +4819,6 @@ export async function verifyVaultWebAuthnResponse(
 ): Promise<void>
 ````
 
-## File: functions/src/lib/vectorSearchClient.ts
-````typescript
-import { GCP_PROJECT_ID } from '../config';
-⋮----
-export function kampsparDatapointId(docId: string): string
-⋮----
-export function parseKampsparDatapointId(datapointId: string): string | null
-⋮----
-function getIndexId(): string
-⋮----
-function getAnnConfig():
-⋮----
-export function isVectorSearchConfigured(): boolean
-⋮----
-export async function queryKampsparVectorNeighbors(
-  embedding: number[],
-  neighborCount = 12
-): Promise<string[]>
-⋮----
-export async function upsertKampsparVector(docId: string, embedding: number[]): Promise<void>
-````
-
 ## File: functions/src/lib/vertexCache.ts
 ````typescript
 import { VertexAI, HarmCategory, HarmBlockThreshold } from '@google-cloud/vertexai';
@@ -4166,6 +4887,152 @@ export async function analyzeWidgetRecording(
 ): Promise<WidgetRecordingAnalysis>
 ````
 
+## File: functions/src/lib/widgetRecordingCommit.ts
+````typescript
+import type { WidgetRecordingAnalysis } from './widgetRecordingAnalyze';
+⋮----
+export type WidgetRecordingMetadata = {
+  vem: string;
+  vad: string;
+  varfor: string;
+};
+⋮----
+export function buildWidgetVaultTruth(input: {
+  analysis: WidgetRecordingAnalysis;
+  transcript: string;
+  recordedAtIso: string;
+  evidenceUrl: string;
+  durationSeconds?: number;
+  metadata?: WidgetRecordingMetadata;
+}): string
+⋮----
+export function blockWidgetKunskapRouting<T extends { routing: string; rationale: string }>(
+  classification: T,
+): T
+````
+
+## File: functions/src/lib/wormPayload.ts
+````typescript
+export type InboxSourceKind = 'drive' | 'storage' | 'widget';
+⋮----
+export function buildInboxSourceRef(kind: InboxSourceKind | string, rawId: string): string
+⋮----
+export function driveInboxSourceRef(driveFileId: string): string
+⋮----
+export function storageInboxSourceRef(storagePath: string): string
+⋮----
+export function assertServerWormPayload(
+  data: Record<string, unknown>,
+  context: string,
+  allowedKeys: Set<string> = REALITY_VAULT_ALLOWED_KEYS,
+): void
+````
+
+## File: functions/src/schemas/biffRewrite.ts
+````typescript
+export type BiffToneCheck = 'pass' | 'still_emotional' | 'too_long';
+⋮----
+export interface BiffRewriteResponse {
+  cleanedText: string;
+  toneCheck: BiffToneCheck;
+}
+⋮----
+export function validateBiffRewriteResponse(value: unknown): BiffRewriteResponse | null
+````
+
+## File: functions/src/schemas/brusfilter.ts
+````typescript
+export type BrusfilterRecommendedAction = 'INGEN' | 'VARNING';
+⋮----
+export interface BrusfilterResponse {
+  dcap_analysis: {
+    risk_score: number;
+    recommended_action: BrusfilterRecommendedAction;
+  };
+  isolated_logistics: string;
+  biff_draft_reply: string;
+}
+⋮----
+export function validateBrusfilterResponse(value: unknown): BrusfilterResponse | null
+````
+
+## File: functions/src/schemas/dossierForeword.ts
+````typescript
+export interface DossierTimelineRow {
+  date: string;
+  fact: string;
+  sourceRef?: string;
+}
+⋮----
+export interface DossierForewordResponse {
+  foreword: string;
+  timeline: DossierTimelineRow[];
+}
+⋮----
+export function validateDossierForewordResponse(value: unknown): DossierForewordResponse | null
+````
+
+## File: functions/src/schemas/index.ts
+````typescript
+export type P1FlowToolId = (typeof P1_FLOW_TOOL_IDS)[number];
+````
+
+## File: functions/src/schemas/inkastClassify.ts
+````typescript
+export type InboxRouting =
+  | 'kunskap'
+  | 'bevis'
+  | 'barnen'
+  | 'dagbok'
+  | 'review'
+  | 'planning';
+⋮----
+export interface InkastClassifyResponse {
+  routing: InboxRouting;
+  tags: string[];
+  category: string;
+  confidence: number;
+  summary: string;
+  traumaSensitive: boolean;
+  childAlias?: string;
+  rationale: string;
+}
+⋮----
+export function validateInkastClassifyResponse(value: unknown): InkastClassifyResponse | null
+````
+
+## File: functions/src/schemas/patternAssist.ts
+````typescript
+export interface PatternAssistResponse {
+  pattern_ids: string[];
+}
+⋮----
+export function validatePatternAssistResponse(
+  value: unknown,
+  allowedIds: Set<string>,
+): PatternAssistResponse | null
+````
+
+## File: functions/src/schemas/valvChat.ts
+````typescript
+export interface ValvChatCitation {
+  docId: string;
+  date: string;
+  excerpt: string;
+}
+⋮----
+export interface ValvChatResponse {
+  answer: string;
+  citations: ValvChatCitation[];
+  theoryWithoutEvidence?: boolean;
+}
+⋮----
+export function validateValvChatResponse(
+  value: unknown,
+  allowedDocIds: Set<string>,
+): ValvChatResponse | null
+````
+
 ## File: functions/src/triggers/inkastStorageOnFinalize.ts
 ````typescript
 import { onObjectFinalized } from 'firebase-functions/v2/storage';
@@ -4180,6 +5047,19 @@ import { routeInboxToWorm } from '../lib/inboxPersist';
 import { transcribeInkastAudio } from '../lib/transcribeInkastAudio';
 import { analyzeUploadForKnowledge } from '../lib/analyzeUploadForKnowledge';
 import { isInkastAudioMime } from '../lib/inkastConstants';
+````
+
+## File: functions/src/triggers/onAdaptationPrefsWrite.ts
+````typescript
+import { onDocumentWritten } from 'firebase-functions/v2/firestore';
+⋮----
+import { GCP_REGION } from '../config';
+import { syncAdaptationPrefsToLedgerServer } from '../lib/adaptationPrefsLedgerServer';
+import { normalizeAdaptationPrefs } from '../lib/adaptationPrefsStore';
+import { isAdaptationSemanticEnabled } from '../lib/adaptationSemanticGate';
+import { rebuildAdaptationSemanticProfileForUser } from '../lib/adaptationSemanticRebuild';
+import { prefsLedgerFingerprint } from '../../../shared/adaptation/adaptationLedgerSync';
+import type { AdaptationPrefsDoc } from '../../../shared/adaptation/adaptationTypes';
 ````
 
 ## File: functions/src/triggers/onEvolutionHubWrite.ts
@@ -4203,39 +5083,44 @@ import { writePatternScanMetadata } from '../lib/patternScanMetadata';
 
 ````
 
-## File: functions/package.json
+## File: functions/src/expertPrompts.ts
+````typescript
+import {
+  ADHD_COACH_SYSTEM_PROMPT,
+  KOMPIS_SYSTEM_PROMPT,
+  REALITY_CHECKER_SYSTEM_PROMPT,
+} from './sharedRules';
+````
+
+## File: functions/src/sharedRules.ts
+````typescript
+export function getAgentSystemPrompt(agentId: string, intent?: string): string
+````
+
+## File: functions/tsconfig.json
 ````json
 {
-  "name": "functions",
-  "scripts": {
-    "build": "tsc",
-    "build:watch": "tsc --watch",
-    "serve": "npm run build && firebase emulators:start --only functions",
-    "shell": "npm run build && firebase functions:shell",
-    "start": "npm run shell",
-    "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+  "compilerOptions": {
+    "module": "commonjs",
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "outDir": "lib",
+    "sourceMap": true,
+    "strict": true,
+    "target": "es2021",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   },
-  "engines": {
-    "node": "20"
-  },
-  "main": "lib/functions/src/index.js",
-  "dependencies": {
-    "@google-cloud/aiplatform": "^3.25.0",
-    "@google-cloud/firestore": "^7.9.0",
-    "@google-cloud/vertexai": "^1.12.0",
-    "@google/genai": "^2.3.0",
-    "@simplewebauthn/server": "^13.3.1",
-    "firebase-admin": "^12.1.0",
-    "firebase-functions": "^5.0.0",
-    "googleapis": "^171.4.0",
-    "pdf-lib": "^1.17.1"
-  },
-  "devDependencies": {
-    "firebase-functions-test": "^3.1.0",
-    "typescript": "^5.0.0"
-  },
-  "private": true
+  "compileOnSave": true,
+  "include": [
+    "src",
+    "../shared/economy/**/*.ts",
+    "../shared/patterns/**/*.ts",
+    "../shared/evolution/**/*.ts",
+    "../shared/adaptation/**/*.ts"
+  ],
+  "exclude": ["../shared/**/*.test.ts"]
 }
 ````
 
@@ -4351,32 +5236,6 @@ type Props = {
 };
 ⋮----
 export function AuthGate(
-````
-
-## File: src/modules/core/auth/AuthProvider.tsx
-````typescript
-import { useEffect, type ReactNode } from 'react';
-import {
-  onAuthStateChanged,
-  signInAnonymously,
-  signOut,
-} from 'firebase/auth';
-import { auth } from '../firebase/init';
-import { googleRedirectBoot } from '../firebase/authRedirectBoot';
-import { useStore } from '../store';
-import { isCapacitorAndroid } from './capacitorPlatform';
-import { tryCompletePendingNativeGoogleSignIn } from './nativeGoogleAuth';
-import { consumeSkipAnonymousOnce } from './googleAuthProvider';
-import { isEmailAuthRequired } from './requireEmailAuth';
-import { enableAppUnlock, isAppUnlockSupported } from './appUnlock';
-import { consumeFingerprintSetupPending } from './appUnlockPrefs';
-import { toast } from '../store/toastStore';
-import { mapAuthError } from './authService';
-import { FirebaseError } from 'firebase/app';
-⋮----
-export function AuthProvider(
-⋮----
-/* ignore */
 ````
 
 ## File: src/modules/core/auth/callableErrorMessage.ts
@@ -4521,18 +5380,124 @@ export function isEmailAuthRequired(): boolean
 export function isVerifiedEmailUser(isAnonymous: boolean, email?: string): boolean
 ````
 
-## File: src/modules/core/auth/useZeroFootprint.ts
+## File: src/modules/core/auth/sessionService.ts
 ````typescript
-import { useEffect } from 'react';
+import { httpsCallable } from 'firebase/functions';
+import { functions, auth } from '../firebase/init';
+import { clearVaultServerSession } from './vaultServerSession';
+import type { VaultZoneId } from '../security/vaultZones';
+import { vaultZoneStorageKey, ALL_VAULT_ZONE_IDS } from '../security/vaultZones';
+⋮----
+export async function invalidateServerSession(): Promise<void>
+⋮----
+export function setVaultGate(): void
+⋮----
+export function clearVaultGate(): void
+⋮----
+export function hasVaultGate(): boolean
+⋮----
+export function setVaultZone(zone: VaultZoneId): void
+⋮----
+export function clearVaultZone(zone: VaultZoneId): void
+⋮----
+export function hasVaultZone(zone: VaultZoneId): boolean
+⋮----
+export function clearAllVaultZones(): void
+````
+
+## File: src/modules/core/auth/valvFyrenGate.ts
+````typescript
+import type { NavigateFunction } from 'react-router-dom';
+import { NAV_PATHS } from '../navigation/navTruth';
+import { setVaultGate, clearVaultGate } from './sessionService';
+import { isWebAuthnReliable, performVaultWebAuthnForSession } from './vaultWebAuthnClient';
+import { issueVaultServerSession, issueVaultSessionAfterNativeBiometric } from './vaultServerSession';
+import { applyVaultJwtClaim } from '../security/vaultWriteUnlock';
+import { isEmailAuthRequired } from './requireEmailAuth';
+import { isCapacitorNative } from '../platform/capacitorPlatform';
 import { useStore } from '../store';
-import { hasVaultGate, VAULT_SESSION_IDLE_MS } from './sessionService';
-import { endVaultSession, syncVaultUnlockedFromGate } from '../security/vaultSessionLifecycle';
 ⋮----
-export function useZeroFootprint()
+type OpenValvViaFyrenOptions = {
+  pathname?: string;
+  search?: string;
+  onDenied?: (message: string) => void;
+};
 ⋮----
-const endVaultSessionIdle = () =>
+export async function openValvViaFyren(
+  navigate: NavigateFunction,
+  options?: OpenValvViaFyrenOptions,
+): Promise<boolean>
 ⋮----
-const bump = () =>
+// ── GREN 2: Native Biometric (Capacitor Android / iOS — fallback) ──────────
+⋮----
+// ── GREN 3: Ingen autentisering tillgänglig ─────────────────────────────────
+````
+
+## File: src/modules/core/auth/vaultServerSession.ts
+````typescript
+import { httpsCallable } from 'firebase/functions';
+import type {
+  AuthenticationResponseJSON,
+  RegistrationResponseJSON,
+} from '@simplewebauthn/browser';
+import { functions } from '../firebase/init';
+import { getVaultWebAuthnContext, isWebAuthnReliable, performVaultWebAuthnForSession } from './vaultWebAuthnClient';
+import { formatCallableError } from './callableErrorMessage';
+import { isCapacitorNative } from '../platform/capacitorPlatform';
+import { performNativeBiometric } from './nativeBiometricAuth';
+⋮----
+type VaultSessionIssueResult = {
+  vaultSessionToken?: string;
+  expiresAt?: string;
+};
+⋮----
+type VaultSessionIssuePayload = {
+  webAuthnResponse: RegistrationResponseJSON | AuthenticationResponseJSON;
+  rpID: string;
+  origin: string;
+};
+⋮----
+export function getVaultSessionToken(): string | null
+⋮----
+export function clearVaultServerSession(): void
+⋮----
+export async function ensureVaultServerSession(): Promise<boolean>
+⋮----
+type VaultSessionTokenField = { vaultSessionToken?: string };
+⋮----
+interface VaultCallablePayloadBase {}
+⋮----
+export function withVaultSessionPayload<T extends VaultCallablePayloadBase>(
+  payload: T,
+): T & VaultSessionTokenField
+⋮----
+export type VaultSessionIssueOutcome =
+  | { ok: true }
+  | { ok: false; message: string };
+⋮----
+export async function issueVaultServerSession(
+  webAuthnResponse: RegistrationResponseJSON | AuthenticationResponseJSON,
+): Promise<VaultSessionIssueOutcome>
+⋮----
+type BiometricSessionPayload = {
+  platform: 'android' | 'ios';
+  challengeId: string;
+  challengeProof: string;
+};
+⋮----
+type BiometricChallengeResult = {
+  challengeId: string;
+  challengeProof: string;
+  expiresAt: string;
+};
+⋮----
+export async function issueVaultSessionAfterNativeBiometric(): Promise<VaultSessionIssueOutcome>
+⋮----
+export async function issueVaultSessionViaBiometric(
+  _platform: 'android' | 'ios',
+): Promise<VaultSessionIssueOutcome>
+⋮----
+export async function ensureVaultServerSessionFromGate(): Promise<VaultSessionIssueOutcome>
 ````
 
 ## File: src/modules/core/auth/vaultWebAuthnClient.ts
@@ -4649,295 +5614,65 @@ export function calculateScoreFromDocs(docs: any[]): number
 export async function calculateCapacityScore(uid: string): Promise<number>
 ````
 
-## File: src/modules/core/firebase/firestore.ts
+## File: src/modules/core/firebase/evolutionLedgerFirestore.ts
 ````typescript
-import {
-  addDoc,
-  collection,
-  deleteDoc,
-  doc,
-  getDoc,
-  getDocs,
-  getFirestore,
-  initializeFirestore,
-  limit,
-  onSnapshot,
-  orderBy,
-  persistentLocalCache,
-  persistentMultipleTabManager,
-  query,
-  serverTimestamp,
-  setDoc,
-  startAfter,
-  Timestamp,
-  updateDoc,
-  where,
-  type CollectionReference,
-  type DocumentData,
-  type DocumentReference,
-  type QueryDocumentSnapshot,
-  type SetOptions,
-  type UpdateData,
-  type WithFieldValue,
-} from 'firebase/firestore';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 import { app } from './init';
-import { assertOfflineWriteAllowed } from './offlineWritePolicy';
-import {
-  ManifestViolationError,
-  assertSiloIsolation,
-  assertWorm,
-  type SiloId,
-} from '../manifest';
-import type {
-  CheckIn,
-  CheckInRow,
-  KampsparEntryRow,
-  KbDocEntryRow,
-  MabraSession,
-  UserWidget,
-  UserWidgetRow,
-  VaultLog,
-  WeaverTags,
-} from '../types/firestore';
-import { FIRESTORE_COLLECTIONS } from '../types/firestore';
-import {
-  normalizeStringArray,
-  normalizeVaultLogFields,
-} from '@/features/lifeJournal/evidence/vault/utils/normalizeVaultLog';
-import {
-  formatChildObservation,
-  inferEpistemicKind,
-  type EpistemicKind,
-} from '@/features/family/children/utils/childObservationEpistemics';
+import type { DiscoveryCategoryId } from '@/features/dailyLife/wellbeing/compasses/content/discoveryBentoCatalog';
+import type { EvolutionHubDoc } from '../types/firestore';
 ⋮----
-function initFirestoreDb()
+function milestoneCacheKey(userId: string, categoryId: DiscoveryCategoryId): string
 ⋮----
-type FirestorePayload = Record<string, unknown>;
+function readMilestoneCache(userId: string, categoryId: DiscoveryCategoryId): boolean
 ⋮----
-function assertWormPayload(data: FirestorePayload, context: string): void
+function writeMilestoneCache(userId: string, categoryId: DiscoveryCategoryId): void
 ⋮----
-type FirestoreWriteOp = 'create' | 'update' | 'delete';
-⋮----
-interface CrossSiloContext {
-  readonly fromSilo: SiloId;
-  readonly toSilo: SiloId;
-}
-⋮----
-export function assertArchitectureWrite(
-  collectionId: string,
-  operation: FirestoreWriteOp,
-  crossSilo?: CrossSiloContext,
-): void
-⋮----
-function guardedAddDoc(
-  ref: CollectionReference,
-  data: WithFieldValue<DocumentData>,
-): ReturnType<typeof addDoc>
-⋮----
-function guardedSetDoc(
-  ref: DocumentReference,
-  data: WithFieldValue<DocumentData>,
-  options?: SetOptions,
-): Promise<void>
-⋮----
-function guardedUpdateDoc(
-  ref: DocumentReference,
-  data: UpdateData<DocumentData>,
-): Promise<void>
-⋮----
-function guardedDeleteDoc(ref: DocumentReference): Promise<void>
-⋮----
-function omitUndefinedFields(data: FirestorePayload): FirestorePayload
-⋮----
-function withUserId(userId: string, data: FirestorePayload): FirestorePayload
-⋮----
-function ownerScopedQuery(ref: ReturnType<typeof collection>, ownerId: string)
-⋮----
-function normalizeCreatedAt(value: unknown): string
-⋮----
-function sortByCreatedAtDesc<T extends
-⋮----
-export async function saveCheckIn(userId: string, checkIn: Omit<CheckIn, 'userId' | 'createdAt'>)
-⋮----
-export async function saveMabraCheckIn(
+export async function recordDiscoveryMilestoneIfNew(
   userId: string,
-  checkIn: {
-    energy: number;
-    mood: number;
-    notes?: string;
-  }
-)
+  categoryId: DiscoveryCategoryId,
+  firstBankId: string,
+): Promise<boolean>
 ⋮----
-export async function getLatestMabraCheckIn(userId: string): Promise<CheckInRow | null>
-⋮----
-export async function getRecentCheckIns(userId: string, limit = 20): Promise<CheckInRow[]>
-⋮----
-export type JournalAttachmentWrite = {
-  url: string;
-  storagePath: string;
-  name: string;
-  mimeType: string;
-  size: number;
-};
-⋮----
-export function createJournalEntryId(): string
-⋮----
-export async function saveJournalEntry(
-  userId: string,
-  entry: {
-    mood: string;
-    text: string;
-    category?: string;
-    tags?: string[];
-    attachment?: JournalAttachmentWrite;
-  },
-  options?: { entryId?: string },
-): Promise<string>
-⋮----
-export async function saveVaultLog(
-  userId: string,
-  log: Omit<VaultLog, 'userId' | 'createdAt'>
-)
-⋮----
-export async function saveChildrenLog(
-  userId: string,
-  log: {
-    childAlias: string;
-    observation: string;
-    childrenImpact?: string;
-    category?: string;
-    action?: string;
-    signals?: { somn: number; angest: number; aptit: number };
-    authorRole?: 'child' | 'parent';
-    channel?: 'barnporten' | 'familjen' | 'middag' | 'widget';
-    visibility?: 'private_child' | 'parent' | 'vault_candidate';
-    contentType?: 'text' | 'voice' | 'mood' | 'step' | 'image';
-    mediaUrl?: string;
-    bankId?: string;
-    epistemicKind?: EpistemicKind;
-  }
-)
-⋮----
-export async function saveMabraSession(
-  userId: string,
-  session: {
-    exerciseType:
-      | 'breathing'
-      | 'grounding'
-      | 'reframing'
-      | 'daglig_mix'
-      | 'explore_done'
-      | 'movement_micro'
-      | 'walk_reset'
-      | 'stretch_478';
-    durationSeconds: number;
-    hubSymptom?: string;
-    cardBankId?: string;
-    playBankId?: string;
-    mixDateKey?: string;
-  }
-)
-⋮----
-export async function listMabraSessionsRecent(
-  userId: string,
-  max = 30,
-): Promise<Pick<MabraSession, 'hubSymptom' | 'exerciseType' | 'createdAt'>[]>
-⋮----
-export async function getMabraProgress(userId: string): Promise<
-⋮----
-export async function saveMabraProgress(userId: string, coreValues: string[])
-⋮----
-export type VaultLogsCursor = QueryDocumentSnapshot<DocumentData>;
-⋮----
-export type VaultLogsPage = {
-  logs: (VaultLog & { id: string })[];
-  nextCursor: VaultLogsCursor | null;
-  hasMore: boolean;
-};
-⋮----
-export type GetVaultLogsOptions = {
-  limit?: number;
-  cursor?: VaultLogsCursor;
-};
-⋮----
-function mapVaultLogDoc(d: QueryDocumentSnapshot<DocumentData>): VaultLog &
-⋮----
-export async function getVaultLogs(
-  userId: string,
-  options?: GetVaultLogsOptions,
-): Promise<VaultLogsPage>
-⋮----
-export async function getAllVaultLogs(userId: string): Promise<(VaultLog &
-⋮----
-export async function getChildrenLogs(userId: string)
-⋮----
-function normalizeJournalAttachment(raw: unknown):
-  | { url: string; storagePath: string; name: string; mimeType: string; size: number }
-  | undefined {
-  if (!raw || typeof raw !== 'object') return undefined;
-⋮----
-function normalizeJournalEntry(id: string, data: Record<string, unknown>)
-⋮----
-export async function getJournalEntries(userId: string)
-⋮----
-function mapKampsparDoc(
-  d: { id: string; data: () => import('firebase/firestore').DocumentData },
-  userId: string
-): KampsparEntryRow
-⋮----
-export async function getKampsparEntries(userId: string): Promise<KampsparEntryRow[]>
-⋮----
-/** G13 — live Tidshjulet: real-time kampspar listener (silo: kunskap only). */
-export function subscribeKampsparEntries(
-  userId: string,
-  onData: (rows: KampsparEntryRow[]) => void,
-  onError?: (err: Error) => void
-): () => void
-⋮----
-function mapKbDocDoc(
-  d: { id: string; data: () => import('firebase/firestore').DocumentData },
-  userId: string,
-): KbDocEntryRow
-⋮----
-export async function getKbDocsEntries(userId: string): Promise<KbDocEntryRow[]>
-⋮----
-export function subscribeKbDocsEntries(
-  userId: string,
-  onData: (rows: KbDocEntryRow[]) => void,
-  onError?: (err: Error) => void,
-): () => void
-⋮----
-export async function saveEconomyTransaction(
-  userId: string,
-  tx: { label: string; amountSek: number; category: 'veckopeng' | 'matlada' | 'vinst' | 'ovrigt' },
-)
-⋮----
-export async function getEconomyTransactions(userId: string, limit = 30)
-⋮----
-export async function getEconomyProfile(userId: string)
-⋮----
-export async function setEconomyProfile(
-  userId: string,
-  profile: { weeklyBudgetSek: number; mealBoxPresetSek: number },
-)
-⋮----
-export async function saveUserWidget(
-  userId: string,
-  widget: Omit<UserWidget, 'userId' | 'ownerId' | 'createdAt'>
-): Promise<string>
-⋮----
-export async function updateUserWidgetConfig(
+export async function syncEvolutionHubToLedger(
   _userId: string,
-  widgetId: string,
-  config: UserWidget['config']
+  _prev: EvolutionHubDoc | null,
+  _next: EvolutionHubDoc,
 ): Promise<void>
 ⋮----
-export async function deleteUserWidget(userId: string, widgetId: string): Promise<void>
-⋮----
-export function subscribeUserWidgets(
+export async function recordPillarCapacityIncreases(
   userId: string,
-  onData: (widgets: UserWidgetRow[]) => void
-): () => void
+  prev: EvolutionHubDoc | null,
+  next: EvolutionHubDoc,
+): Promise<void>
+⋮----
+export async function recordFeatureUnlocks(
+  userId: string,
+  prev: EvolutionHubDoc | null,
+  next: EvolutionHubDoc,
+): Promise<void>
+⋮----
+export async function recordChildAgeMilestones(
+  userId: string,
+  prev: EvolutionHubDoc | null,
+  next: EvolutionHubDoc,
+): Promise<void>
+⋮----
+export async function recordBarnportenLevelIncrease(
+  userId: string,
+  prev: EvolutionHubDoc | null,
+  next: EvolutionHubDoc,
+): Promise<void>
+⋮----
+export async function recordUnlockedPackChanges(
+  userId: string,
+  prev: EvolutionHubDoc | null,
+  next: EvolutionHubDoc,
+): Promise<void>
+⋮----
+export async function mergeEvolutionHub(
+  userId: string,
+  patch: Record<string, unknown>,
+): Promise<void>
 ````
 
 ## File: src/modules/core/firebase/init.ts
@@ -5003,6 +5738,26 @@ const bump = () =>
 ## File: src/modules/core/security/vaultPin.ts
 ````typescript
 
+````
+
+## File: src/modules/core/security/vaultSessionLifecycle.ts
+````typescript
+import { clearSpeglarSession } from '@/features/lifeJournal/diary/mirror/utils/speglarSessionStorage';
+import { clearAllVaultZones, hasVaultGate, invalidateServerSession } from '../auth/sessionService';
+import { ensureVaultServerSession } from '../auth/vaultServerSession';
+import { useStore } from '../store';
+import { useVaultStore } from '../store/useVaultStore';
+⋮----
+type EndVaultSessionOptions = {
+  invalidateServer?: boolean;
+  closeDrawer?: boolean;
+};
+⋮----
+export async function endVaultSession(options?: EndVaultSessionOptions): Promise<void>
+⋮----
+export function syncVaultUnlockedFromGate(): void
+⋮----
+export async function ensureVaultSessionReady(): Promise<boolean>
 ````
 
 ## File: src/modules/core/security/vaultWriteUnlock.ts
@@ -5087,12 +5842,25 @@ export type VaultZoneId =
 export function vaultZoneStorageKey(zone: VaultZoneId): string
 ````
 
+## File: src/modules/core/security/WormSaveConfirmSheet.tsx
+````typescript
+import { Loader2, Shield } from 'lucide-react';
+⋮----
+type Props = {
+  contextLabel?: string;
+  busy?: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+};
+````
+
 ## File: src/modules/core/store/useCapacityGate.ts
 ````typescript
 import { create } from 'zustand';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase/firestore';
 import { FIRESTORE_COLLECTIONS, type UserCapabilityState } from '../types/firestore';
+import { normalizeStoredCapacityScore } from '../../../../shared/evolution/capacityScore';
 ⋮----
 export interface CapacityGateState {
   isEconomyAdvancedUnlocked: boolean;
@@ -5112,6 +5880,175 @@ export const useCapacityScore = ()
 export const useIsCapacityLoading = ()
 export const useCapacityError = ()
 export const useListenToCapacityState = ()
+````
+
+## File: src/modules/core/store/useEvolutionStore.ts
+````typescript
+import { create } from 'zustand';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from '../firebase/firestore';
+import { FIRESTORE_COLLECTIONS, type EvolutionHubDoc } from '../types/firestore';
+⋮----
+export interface EvolutionState {
+  doc: EvolutionHubDoc | null;
+  isLoading: boolean;
+  isInitialized: boolean;
+  error: string | null;
+  barnportenLevel: number;
+  unlockedPacks: string[];
+  hasSeenLevel2Animation: boolean;
+  setDoc: (doc: EvolutionHubDoc | null, options?: { userId?: string }) => void;
+  setLoading: (loading: boolean) => void;
+  setError: (error: string | null) => void;
+  listenToEvolutionHub: (uid: string) => () => void;
+  setHasSeenLevel2Animation: (seen: boolean) => void;
+  hasFeature: (flag: string) => boolean;
+  hasUnlockedPack: (packId: string) => boolean;
+  getChildBracket: (alias: string) => 'toddler_preschool' | 'early_school' | 'pre_teen' | 'teen';
+}
+````
+
+## File: AGENTS.md
+````markdown
+# Livskompassen Cursor Agent Brief
+
+## Project Overview
+
+Livskompassen v2 is a Life OS and multi-agent ecosystem for Lagen om Autonomi, Clean Input, cognitive offloading, and secure evidence handling. Kompis is the user-facing AI navigator; the backend protects user data through Layered Defense, deterministic code, Firebase, Google Cloud, and Vertex/Gemini.
+
+This repository is the current source of truth for React/Vite frontend work, Firebase configuration, Cloud Functions, Data Connect output, and AI-agent orchestration. Legacy Express routes live in `docs/archive/server-legacy/` only.
+
+## Before Writing Code
+
+1. Read `.context/system-plan.md` to confirm the current phase and active risks.
+2. Read `.context/domän-covert-narcissism.md` when working on Valv, Inkast, Hamn, Mönster, or upload routing (~80% HCF/covert bevis-prior).
+3. Read `.context/arkiv-minne.md` for Hela arkivet / permanent minne / three silos (required for RAG, Dossier, or cross-module memory work).
+4. Read `.context/architecture.md`, `.context/arkitektur-beslut.md`, `.context/security.md`, `.context/database.md`, `.context/design-language.md`, and `.context/agents.md`.
+5. Apply the relevant `.cursor/rules/*.mdc` files before editing.
+6. For substantial changes, prepare a REASONS plan: Requirements, Entities, Approach, Structure, Operations, Norms, Safeguards.
+7. Preserve Sacred Features: Verklighetsvalvet, Sanningens Sköld, Morgonkompassen, Dossier-Generator, Speglings-Systemet, Draft Layer, and Device Clear. Kill Switch (shake-to-kill) removed 2026-06-01 — see `.context/security.md`.
+8. Preserve **Locked UX Features** (do not remove): Middagsfrågan; Valv **Mönster** + **Orkester**; design locks for **Planering**, **Fyren widget**, **Barnporten** (barn PWA + egen Orkester + Valv HITL). Register: [`.context/locked-ux-features.md`](.context/locked-ux-features.md). Verify: `npm run smoke:locked-ux`.
+
+## Stack
+
+- Frontend: React, TypeScript, Vite, Tailwind CSS, Zustand.
+- Backend: Firebase Cloud Functions, Google Cloud, Vertex AI, Gemini.
+- Data: Firestore/Data Connect, RAG-oriented evidence structures, immutable snapshots.
+- AI: Kompis Supervisor, A2A agent cards, DCAP, shared prompt rules in `functions/src/sharedRules.ts`.
+- Tooling: Cursor rules/hooks/MCP and Firebase plugin in `.cursor/settings.json`.
+
+## Development
+
+- **Frontend:** `npm run dev` from repo root (Vite, port 5173).
+- **Functions:** `npm run build` from `functions/` compiles TypeScript.
+- **Lint:** `npx eslint .` from repo root (`eslint.config.js`).
+
+## Cursor Cloud specific instructions
+
+- The startup dependency refresh uses `npm ci --legacy-peer-deps` at the repo root because current npm strict peer resolution rejects the existing `firebase@12` and `@capacitor-firebase/authentication@6` peer range combination. Do not remove that flag until those package ranges are aligned.
+- Cloud shells may resolve `node` through `/exec-daemon` even after `nvm use`; when testing Functions runtime behavior, put the Node 20 nvm binary first in `PATH` before running `functions` commands.
+- Local app smoke tests need the ignored `.env` Firebase Web SDK values from `.env.example` / the active Firebase app config; do not commit `.env`.
+- Android Gradle builds need `ANDROID_HOME` / `ANDROID_SDK_ROOT`; in Cursor Cloud the SDK is under `$HOME/android-sdk` when present.
+
+## Cursor Subagents
+
+Built-in: `explore`, `bash`, `browser` — use for research, shell, browser (do not duplicate).
+
+### Orkester (nattpass)
+
+`npm run orkester:night` eller Conductor — [`docs/ORKESTER-AUTORUN.md`](docs/ORKESTER-AUTORUN.md) · [`.cursor/agents/orkester-conductor.md`](.cursor/agents/orkester-conductor.md)
+
+| Fas | Agent | Trigger |
+|-----|-------|---------|
+| 1–4 | ux-guardian, adk-weaver, security-auditor, smoke-runner | orkester nattpass |
+| 5 | Zone-builders (Z1, Z3+6, Z5+2, Z4) | `/specialist-valv-builder` etc. |
+| 6 | `specialist-verifier` | `/specialist-verifier` |
+| 7 | Conductor rapport | — |
+
+### Slutbygge (zon)
+
+| Agent | Zon | Trigger |
+|-------|-----|---------|
+| `specialist-valv-builder` | Z1 Valv | `/specialist-valv-builder` |
+| `specialist-hjartat-inkast-builder` | Z3+6 Hjärtat+Inkast | `/specialist-hjartat-inkast-builder` |
+| `specialist-familjen-hamn-builder` | Z5+2 Familjen+Hamn | `/specialist-familjen-hamn-builder` |
+| `specialist-vardagen-builder` | Z4 Vardagen | `/specialist-vardagen-builder` |
+| `specialist-verifier` | Alla (efter build) | `/specialist-verifier` |
+
+Deploy efter PASS: skill [`.cursor/skills/livskompassen-deploy/SKILL.md`](.cursor/skills/livskompassen-deploy/SKILL.md) — inte subagent.
+
+### Innehåll (routing)
+
+- **`specialist-innehall-dirigent`** — klassar FACT/REFLECTION/PLAY/EVIDENCE; kanon [`docs/INNEHALL-REGISTER.md`](docs/INNEHALL-REGISTER.md)
+- **MåBra-innehåll:** `specialist-mabra-curator` — REFLECTION/PLAY → [`docs/specs/modules/Mabra-CONTENT-BANK.md`](docs/specs/modules/Mabra-CONTENT-BANK.md).
+- **Kunskap-fakta:** `specialist-kunskap-seed` — FACT → [`docs/specs/modules/Kunskap-CONTENT-SEED.md`](docs/specs/modules/Kunskap-CONTENT-SEED.md) (ingest separat).
+- Keep direct edits in the parent agent unless a separate isolated exploration is clearly useful.
+
+### CTO Custom Modes (2026-06 audit)
+
+Pontus-godkända dagliga bollplank — regler i `.cursor/rules/backend-ingest-logic.mdc`, `chameleon-ui-modularity.mdc`, `ai-cognitive-companion.mdc`.
+
+| Agent | Slash-kommando (syns i `/`-menyn) | Subagent | Fokus |
+|-------|-----------------------------------|----------|-------|
+| YOLO-vakt | `/yolo-vakt` | `.cursor/agents/yolo-vakt.md` | Read-only säkerhetsaudit |
+| Minnes-Arkitekten | `/minnes-arkitekten` | `.cursor/agents/minnes-arkitekten.md` | Auto kunskaps-ingest |
+| Design-Labbet | `/design-labbet` | `.cursor/agents/design-labbet.md` | Chameleon UI |
+| Android-Kompis | `/android-kompis` | `.cursor/agents/android-kompis.md` | G85, cap sync, deploy |
+
+**Viktigt:** `/`-menyn läser **`.cursor/commands/*.md`**. `.cursor/agents/` är subagents (Task-delegation). Båda pekar på samma roll — använd slash-kommandot i chatten.
+
+## Skills & rules (uppgift → vägledning)
+
+| Uppgift | Skill | Cursor rule |
+| --- | --- | --- |
+| ADK synapser, auto-ingest | `livskompassen-synapser-adk` | `synapser-adk.mdc` |
+| RAG, silo, cross-read | `livskompassen-memory-silo-guard`, `livskompassen-rag-retrieval` | `memory-silo.mdc` |
+| Vector Search ANN | `livskompassen-vector-search` | — |
+| Hela arkivet / Dossier-minne | `livskompassen-arkiv-master` | `livskompassen-core.mdc` |
+| Agent cards / prompts | `livskompassen-memory-agents` | `backend-agents.mdc` |
+| Deploy / Firebase | plugin `firebase-basics` | `firebase-workflow.mdc`, **`deploy-paminnelser.mdc`** |
+| Planering / dubbelarbete | — | **`planering-kanon-guard.mdc`** |
+| Firestore rules / WORM | plugin `firebase-firestore-standard` | `security-firestore.mdc` |
+| Natt-/batch-autorun | — | `orkester-autorun.mdc`, `grunder-kanon.mdc`, `anti-hallucination.mdc` |
+| Innehåll fakta/lek (U6) | — | `innehall-register.mdc`, `grunder-kanon.mdc` |
+| Modulutökning (cursor-plan) | — | [`docs/evaluations/MALL-cursor-plan.md`](docs/evaluations/MALL-cursor-plan.md) + `*-SPEC.md` + `module_plan.md` |
+
+Kanon för arkitektur och säkerhet: `.context/` (system-plan, arkiv-minne, security). Dokumentationsindex: [`docs/README.md`](docs/README.md). **Systemkontroll / röda tråden:** [`docs/SYSTEMKONTROLL.md`](docs/SYSTEMKONTROLL.md). **Fas 19 gate (pre-flight):** [`.cursor/rules/fas19-masterplan-guard.mdc`](.cursor/rules/fas19-masterplan-guard.mdc) · [`docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md`](docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md).  
+Live GCP-sanning: [`docs/GCP-INVENTORY-LATEST.md`](docs/GCP-INVENTORY-LATEST.md).  
+GCP-konsolidering: [`docs/GCP-KONSOLIDERING-BESLUT.md`](docs/GCP-KONSOLIDERING-BESLUT.md).
+
+## Product Agent Roles
+
+| Role | Responsibility |
+| --- | --- |
+| Sannings-Analytikern | Clinical evidence analysis and strict JSON output. |
+| Brusfiltret | Converts emotionally loaded input into clean facts and timeline data. |
+| BIFF-Skölden | Produces Brief, Informative, Friendly, Firm Grey Rock communication. |
+| Paralys-Brytaren | Reduces executive dysfunction by showing exactly one micro-step. |
+| RSD-Kylaren | Provides rational alternatives for rejection-sensitive triggers. |
+| Uppgifts-Krossaren | Breaks overwhelming tasks into small, testable action atoms. |
+| Speglings-Coachen | Validates without fixing and separates emotion from evidence. |
+| Mönster-Arkivarien | Performs forensic long-term pattern analysis across evidence and Drive inputs. |
+
+These roles are project terminology in Cursor now. Runtime backend implementation happens through `functions/src/agents/`, `functions/src/agents/cards/`, and `functions/src/sharedRules.ts`.
+
+## Git & merge (HARD)
+
+- **Single trunk:** develop on `main`; push only `origin` (Livskompassen3.0). Never push `origin-old`.
+- Before merge/branch delete: write **Pre-Merge Impact Report** per [`docs/MERGE-IMPACT-RAPPORT.md`](docs/MERGE-IMPACT-RAPPORT.md) (följer med / försvinner / regelanalys).
+- Analyze: `.context/system-plan.md`, `grunder-kanon.mdc`, `locked-ux-features.md`, `.context/security.md` (Sacred, WORM, silos).
+- Run `npm run smoke:locked-ux` on `main` before calling merge complete.
+- **Wait for user OK** ("godkänn merge") before merge, push, or `git push origin --delete`.
+- Rule: [`.cursor/rules/git-main-trunk.mdc`](.cursor/rules/git-main-trunk.mdc) (`alwaysApply`). Quick ref: [`docs/GIT-LATHUND.md`](docs/GIT-LATHUND.md). Branches: [`docs/BRANCH-KARTA.md`](docs/BRANCH-KARTA.md).
+
+## Hard Rules
+
+- Do not commit secrets, `.env`, service-account keys, OAuth tokens, or credential JSON files.
+- Do not hardcode agent prompts outside `functions/src/sharedRules.ts`.
+- Do not use LLM output as the source of truth for authorization, data ownership, or immutable evidence decisions.
+- Do not degrade Sacred Features or weaken Device Clear, Draft Layer, or Verklighetsvalvet behavior.
+- Do not introduce nature-themed UI. Use Obsidian Calm and Nordic Dusk.
+- Keep changes tightly scoped to the requested task and preserve unrelated user work.
 ````
 
 ## File: firebase.json
@@ -5169,314 +6106,293 @@ export const useListenToCapacityState = ()
 }
 ````
 
-## File: docs/external-ai/repomix/KARNKOD-SYSTEMPLAN-PREAMBLE.md
-````markdown
-# Livskompassen — Avskalad Repomix: Kärnkod + Systemplan
+## File: storage.rules
+````
+rules_version = '2';
 
-**Genererad pack:** `exports/repomix/karnkod-systemplan.md`  
-**Kör om:** `npm run repomix:karnkod-systemplan`
+service firebase.storage {
+  match /b/{bucket}/o {
+    // WORM evidence media — uid-scoped, append-only (create + read, no update/delete)
+    match /vault_evidence/{userId}/{allPaths=**} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if false;
+    }
 
----
+    // Projekt bildblock — uid + projectId scoped (P2)
+    match /project_media/{userId}/{projectId}/{allPaths=**} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if false;
+    }
 
-## Vad denna fil innehåller
+    // Barnlivslogg-foto — ActionDashboard / widget (uid + childAlias scoped)
+    match /children_logs_media/{userId}/{childAlias}/{fileName} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if false;
+    }
 
-Detta är **inte** hela repot. Det är ett avskalat handoff-paket för extern AI eller arkitektgranskning:
+    // Dagbok Lager 1 — personliga minnen (WORM, skild från vault_evidence)
+    match /users/{userId}/journal_memories/{entryId}/{allPaths=**} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if false;
+    }
 
-| Lager | Innehåll | Varför |
-|-------|----------|--------|
-| **Backend (100 % kärna)** | Hela `functions/src/**` | Callables, ADK, RAG, DCAP, ingest, WORM-logik |
-| **Säkerhetsregler** | `firestore.rules`, `storage.rules`, `sharedRules.ts` | Deterministisk auth — LLM får inte besluta |
-| **Systemplan (hela)** | `.context/system-plan.md`, `docs/SYSTEM_PLAN_v2.md`, Fas 19 masterplan | Fas 1–23 checkbox-historik + aktiv körplan |
-| **Minnesarkitektur** | `.context/arkiv-minne.md`, GAP-register, INFINITE_EVOLUTION | Tre silos, WORM, självlärande ingest |
-| **Frontend (minimal)** | Auth, Firebase init, typer, evolution store | Kontext för klient↔server — **ingen** full UI |
-
-**Uteslutet medvetet:** design-galleri, fullständiga sidkomponenter, smoke-scripts, `.npm-cache`, Android-native, test-fixtures.
-
----
-
-## Varför självlärande + säkerhet är kärnan (inte polish)
-
-Livskompassen är ett **Life OS för högkonflikt, neuroinklusion och bevisarkivering**. Pontus behov:
-
-1. **Bevis får aldrig försvinna** — sms, mönster, barnobservationer, journal → WORM (`reality_vault`, `children_logs`, `journal`).
-2. **Systemet ska bli smartare över tid** — nya filer, dagbok, Drive → klassificeras och hamnar i **rätt silo** utan manuell copy-paste.
-3. **Säkerhet före bekvämlighet** — LLM får aldrig blanda bevis med faktabank eller barnlogg (cross-RAG = juridiskt och psykologiskt farligt).
-4. **Zero Footprint** — speglar, session, synapse-state rensas vid logout/panic (motpart får inte läsa RAM).
-
-Utan (2) blir appen en statisk journal. Utan (3)–(4) blir den ett läckage. **Självlärande måste byggas innanför silo-gränserna.**
-
----
-
-## Självlärande system — i detalj
-
-### Begrepp
-
-| Term | Betydelse i Livskompassen |
-|------|---------------------------|
-| **Självlärande** | Automatisk ingest + routing: nya källor → DCAP/klassificering i **kod** → rätt collection + vector (Kunskap) eller WORM (Valv/Barnen) |
-| **Minnes-Arkitekten** | Cursor-agent + backend-pipeline som väver händelser utan cross-RAG |
-| **Synaps (ADK)** | Händelse på `SynapseBus` — kopplar modul → minne deterministiskt |
-| **Tre silos (U1)** | Kunskap (`kampspar`/`kb_docs`) · Valv (`reality_vault`) · Barnen (`children_logs`) |
-| **DCAP (U2)** | Riskklassning **före** LLM — `routeFromDcap`, `resolveExecutorId` |
-| **WORM (U3)** | Append-only — inga `update`/`delete` på bevis |
-| **Evolution Engine** | `evolution_hub` + `evolution_ledger` — kapacitetsstyrd UI, barn-ålderssegment, ekonomi-gating |
-
-### Live synapser (backend)
-
-| Trigger | Handler | Effekt |
-|---------|---------|--------|
-| `drive_file_ingested` | `driveIngestSynapse` | Drive/Inkast → G10-klassificering → kb_docs **eller** reality_vault **eller** children_logs **eller** inbox_queue (HITL) |
-| `journal_woven` | `journalWovenSynapse` | Opt-in dagbok → `kampspar` + vector (Kunskap-silo) |
-| `dcap_alert` | `dcapAlertSynapse` | Risk ≥70 → `dcap_alerts` WORM + HITL |
-| `user_overwhelm` | `paralysBrytarenSynapse` | Ett mikrosteg (kognitiv avlastning) |
-
-Kedja: `notifyNewFile` / `submitInkastLite` → `emitSynapse` → synapse handler → Firestore + (ev.) Vertex vector.
-
-### Säkerhetslager (deterministiskt)
-
-```
-Användarinmatning
-    → DCAP / inboxClassifier (kod)
-    → routeFromDcap → executor / silo
-    → callableGuards (App Check + rate limit)
-    → firestore.rules (WORM keys().hasOnly)
-    → AdkOrchestrator + manifest (silo-isolation)
-    → gatekeeperSanitize (PII bort)
-    → Zero Footprint (clearSynapseState vid logout)
-```
-
-**LLM roll:** parafras, sammanfattning, BIFF-utkast — **aldrig** auth, silo-val eller WORM-beslut.
-
-### Innehållsklass (U6)
-
-| Klass | Zon | Kurator | RAG? |
-|-------|-----|---------|------|
-| FACT | Kunskap | specialist-kunskap-seed | Ja (`kampspar`) |
-| REFLECTION / PLAY | MåBra (Vit) | specialist-mabra-curator | Nej |
-| EVIDENCE | Valv / Barnen | ingest | WORM, separat query |
-
-Prod-coach **MUST** parafrasera godkänd bank med `bankId` — ingen hallucinerad fakta.
-
----
-
-## Viktigaste filer (snabbnavigering)
-
-### Backend entry & regler
-
-| Fil | Roll |
-|-----|------|
-| `functions/src/index.ts` | Alla callables + triggers export |
-| `functions/src/sharedRules.ts` | **Enda** prompt-kanon för agenter |
-| `functions/src/agents/DCAP.ts` | Risk + routing före LLM |
-| `functions/src/agents/cards/index.ts` | AgentCards → executor mapping |
-| `firestore.rules` | WORM, userId, verified email |
-
-### ADK & synapser
-
-| Fil | Roll |
-|-----|------|
-| `functions/src/adk/orchestrator.ts` | A2A dispatch, PII-gatekeeper |
-| `functions/src/adk/synapses/synapseBus.ts` | emitSynapse, trigger registry |
-| `functions/src/adk/synapses/driveIngestSynapse.ts` | Multi-silo Drive/Inkast ingest (G10) |
-| `functions/src/adk/manifest.ts` | Backend silo-isolation asserts |
-
-### RAG (tre separata queries)
-
-| Fil | Silo |
-|-----|------|
-| `functions/src/lib/kampsparQueryRag.ts` | Kunskap |
-| `functions/src/lib/vaultRag.ts` | Valv-bevis |
-| `functions/src/lib/childrenLogsQueryRag.ts` | Barnen |
-
-### Ingest & inkast
-
-| Fil | Roll |
-|-----|------|
-| `functions/src/lib/submitInkastLite.ts` | Smart Inkast entry |
-| `functions/src/lib/inboxClassifier.ts` | Dokumentklassificering |
-| `functions/src/lib/analyzeUploadForKnowledge.ts` | Kunskap-kandidat |
-| `functions/src/triggers/inkastStorageOnFinalize.ts` | Storage → pipeline |
-
-### Systemplan & status
-
-| Fil | Roll |
-|-----|------|
-| `.context/system-plan.md` | Fas 1–5 detalj + permanent minne |
-| `docs/SYSTEM_PLAN_v2.md` | Fas 9–23 aktiv styrning |
-| `docs/evaluations/2026-06-15-fas19-masterplan-v2.md` | **Enda körplan** Fas 19+ |
-| `docs/specs/modules/Arkiv-GAP-REGISTER.md` | G1–G16 done/open (sanning) |
-| `docs/MODUL-FUNKTIONS-REGISTER.md` | Modul ↔ route ↔ callable |
-
----
-
-## Läsordning för extern AI
-
-1. Denna preamble  
-2. `.context/arkiv-minne.md` + `.context/security.md`  
-3. `docs/SYSTEM_PLAN_v2.md` (status) + Fas 19 masterplan (nästa steg)  
-4. `functions/src/index.ts` → ADK → synapser → RAG-lib  
-5. `firestore.rules` (WORM-validering)
-
-**Regel:** Jämför alltid påståenden mot `Arkiv-GAP-REGISTER.md` och levande kod — docs kan ligga efter.
-
----
-
-## Relaterade packs (djupdyk per zon)
-
-| npm script | Fokus |
-|------------|-------|
-| `npm run gpt-handoff:pack:01` | Arkitektur + routing |
-| `npm run gpt-handoff:pack:02` | Valv + WORM |
-| `npm run chatbot:pack:security` | Synapser + säkerhet (litet) |
-| `npm run gemini:pack` | Modulvis (kompass, valv, inkast …) |
+    // Dossier PDF — skrivs av generateDossier (Admin SDK); nedladdning via signed URL
+    match /dossier_exports/{userId}/{fileName} {
+      allow read: if request.auth != null
+        && request.auth.uid == userId
+        && request.auth.token.vaultUnlocked == true
+        && request.time.toMillis() < request.auth.token.vaultExpiresAt;
+      allow write: if false;
+    }
+  }
+}
 ````
 
-## File: docs/external-ai/LIFE-OS-BUILD-STATE.md
+## File: docs/INNEHALL-REGISTER.md
 ````markdown
-# LIFE-OS-BUILD-STATE (levande sanning)
+# Innehållsregister — fakta, lek och utveckling (1 sida)
 
-Uppdateras vid varje CHECKPOINT. Register vinner över minne.
+**Version:** 2026-05-27 · **Status:** **LÅST** med Grunder **U6** (`.cursor/rules/grunder-kanon.mdc`, `.cursor/rules/innehall-register.mdc`).
 
-**Senast uppdaterad:** 2026-06-18 (P4 + P6 LOCK efter smoke E2E)
+**Syfte:** Hålla isär **fakta**, **reflektion/lek** och **bevis** så LLM inte blir sanning. Ingen fjärde RAG-silo — **Utvecklingszon (Vit)** utan cross-RAG. **Smoke:** `npm run smoke:innehall`.
 
-| Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
-|-----------|-------------|--------|-------|------------|
-| Security core (WORM + vault + guards) | `firestore.rules`, `unlockVault.ts`, `callableGuards.ts` | **LOCK** | valv-security + locked-ux 2026-06-18 | **CP-1** · **F19.1** |
-| Locked UX §11–17 | `.context/locked-ux-features.md` | **LOCK** | locked-ux PASS 2026-06-16 | **CP-1** |
-| G10 Inkast backend | `inboxClassifier.ts`, `submitInkastLite.ts`, `inkastStorageOnFinalize.ts` | **LOCK** | inkast + inbox + inkast-upload 2026-06-16 | **CP-3** |
-| G10 Inkast UI (CapturePanel + filer) | `CapturePanel.tsx`, `CaptureSuperModule.tsx` | **LOCK** | inkast PASS 2026-06-16 | **CP-4** |
-| Upload unified (Valv DirectPanel) | `InkastDirectPanel.tsx`, `VaultInkastCompact.tsx` | **LOCK** | inkast-upload + valv-compact 2026-06-16 | **CP-4b** |
-| SynapseBus (4 triggers) | `synapseBus.ts`, synapse handlers | **LOCK** | synapse-triggers + orkester 2026-06-16 | **CP-5** |
-| ADK Manifest runtime | `adk/manifest.ts`, `registry.ts`, `orchestrator.ts` | **LOCK** | manifest + orkester 2026-06-16 | **CP-5b** |
-| Valv chat E2E | `valvChatAgent.ts`, `valvChatQuery` | **LOCK** | valv-chat-e2e 2026-06-16 | **CP-8** |
-| App Check (kod) | `appCheck.ts`, `callableGuards.ts` | **LOCK** | tier1 2026-06-16 | **CP-6** |
-| Valv modul | `evidence/vault/` | **LOCK** | B1 + valv-mode 2026-06-16 | **B1** |
-| **P1 Brusfilter v1 (Valv Orkester)** | `processBrusfilter.ts`, `VaultOrkesterPanel.tsx` | **LOCK** | orkester 2026-06-17 | **P1** |
-| **P1 Brusfilter v2 (Inkast HITL)** | `InkastBrusfilterPreview.tsx`, `CapturePanel.tsx` | **LOCK** | inkast 2026-06-17 | **P1b** |
-| CI deploy | `.github/workflows/firebase-hosting-main.yml` | **LOCK** | smoke:tier1 + functions deploy | **CP-9** |
-| **P2 Dossier v2 (AI foreword)** | `dossierAiForeword.ts`, `generateDossierInternal.ts` | **LOCK** | dossier 2026-06-17 | **P2** |
-| **P3 Flow-assist (Mönster metadata)** | `assistPatternMetadata`, `VaultMonsterPanel.tsx`, `patternScanService.ts` | **LOCK** | pattern-metadata + orkester 2026-06-18 | **P3** |
-| **P4 MåBra bank_parafras** | `mabraCoach` mode `bank_parafras`, `VitCardFlowPanel`, `VitMemoryFlowPanel` | **LOCK** | smoke:mabra E2E PASS 2026-06-18 | **P4** |
-| **P6 Dossier Flow-tidslinje** | `dossierAiForeword.ts`, `generateDossierInternal.ts`, `DossierPage.tsx` | **LOCK** | smoke:dossier E2E PASS 2026-06-18 | **P6** |
-| Fas 19.1 security sprint | `invalidateSession` guard, D14 ParentReminderFooter | **LOCK** | valv-security 2026-06-18 | **F19.1** |
-| **Fas 19.2–19.5 (MåBra)** | hybrid-8, hex→tokens, JOY-17, evolution_ledger dual-write | **LOCK** | mabra + modulvaljare + evolution + innehall 2026-06-18 | **F19.2–19.5** |
-| Wave 29.1 barn-epistemik | `childObservationEpistemics.ts`, `saveChildrenLog` | **LOCK** | smoke:barn-epistemik 2026-06-18 | **V1** |
-| MB-PLAY-54321 | `MabraGrounding54321Wizard.tsx`, `grounding54321Play.ts` | **LOCK** | smoke:mabra 2026-06-18 | **V2** |
-| MB-REF-rsd-04 | `rsdErrorCopy.ts`, `mabraCoachService.ts`, `mabraContentBank.ts` | **LOCK** | smoke:mabra + innehall 2026-06-18 | **V3** |
-| Planering modulpinnar | `planningModulePinStorage.ts`, `PinnedPlaneringModuleSlot.tsx` | **LOCK** | locked-ux + planering 2026-06-18 | **PLAN-PIN** |
-| Barnporten barn-PWA | `barnportenRollout.ts`, `BarnportenPausedPanel.tsx` | **PAUSED** (`BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false`) | locked-ux 2026-06-18 | **V4** |
-| App Check Console Enforce | Firebase Console → Enforce | **LOCK** | Pontus Console 2026-06-17 | **V6** |
-| M3.0-C Fitness/Näring | evolution_hub | **DEFER** | — | **F19.N+** |
-| BP-PUSH (FCM barn) | — | **DEFER** | — | **V6** |
-| AI-assistent UI | — | **DEFER** | — | — |
-
-## Statusförklaring
-
-- **LOCK** — smoke PASS, får inte refaktoreras utan explicit OK + snapshot
-- **FREEZE** — backend-kärnan låst; endast bugfix + content ingest efter KEEP
-- **PAUSED** — implementerat men avstängt via flagga; kräver Pontus OK + PMIR för enable
-- **DEFER** — medvetet senarelagt
-
-## Nästa steg (Pontus)
-
-1. **Använd:** Familjen livslogg med citat/tolkning; MåBra 5-4-3-2-1-lek; Valv Mönster Flow-assist
-2. **Använd:** Dossier med AI-tidslinje (`includeAiForeword`) i Valv
-3. **DEFER:** BP-PUSH, barn-PWA rollout, M3.0-C Fitness/Näring, AI-assistent UI
-4. **Leverans:** `docs/evaluations/2026-06-18-produktkomplett-leverans.md`
-````
-
-## File: docs/MODUL-GAP-OVERSIKT.md
-````markdown
-# Modul-GAP — översikt (2026-06-15)
-
-**Syfte:** En sida — vad som är **klart i kod**, vad som är **öppet per modul**, och vad som körs **autonomt** vs **kräver dig**.
-
-**Senaste leverans:** Fas 19 masterplan-v2 **levererad** · Fas 13–18 sprint **done** · [`2026-06-15-fas19-masterplan-v2.md`](./evaluations/2026-06-15-fas19-masterplan-v2.md) · [`SENASTE-SAMMANFATTNING.md`](./evaluations/SENASTE-SAMMANFATTNING.md)
-
-**Arkiv (G1–G16):** [`specs/modules/Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) — alla **done**.  
-**Modulregister:** [`MODUL-FUNKTIONS-REGISTER.md`](./MODUL-FUNKTIONS-REGISTER.md) · **Cursor-plan mall:** [`evaluations/MALL-cursor-plan.md`](./evaluations/MALL-cursor-plan.md)  
-**Plan-register:** [`evaluations/2026-05-26-session-landning.md`](./evaluations/2026-05-26-session-landning.md)  
-**PMIR batch:** [`evaluations/2026-05-29-pmir-modul-rollout-batch.md`](./evaluations/2026-05-29-pmir-modul-rollout-batch.md)  
-**Master YOLO (hela kön):** [`MASTER-YOLO-AUTORUN.md`](./MASTER-YOLO-AUTORUN.md) · `npm run master:yolo` · state [`.orkester/master-state.json`](../.orkester/master-state.json)
+**Dirigent:** `.cursor/agents/specialist-innehall-dirigent.md` · **Kanon silos:** [`.context/arkiv-minne.md`](../.context/arkiv-minne.md) · **Röda tråden:** [`SYSTEMKONTROLL.md`](./SYSTEMKONTROLL.md)
 
 ---
 
-## Cursor-planer (2026-05-29) — **`closed`** (plan)
+## Tre RAG-silor + en utvecklingszon
 
-Alla planfiler har `status: closed` överst. **Öppet arbete finns endast i tabellen Modul-GAP nedan** — inte i planerna.
+| Zon | `content_class` | Data (Firestore) | RAG / callable | Kurator-agent |
+|-----|-----------------|------------------|----------------|---------------|
+| **Kunskap** | `FACT` | `kampspar`, `kb_docs` | `knowledgeVaultQuery` | `specialist-kunskap-seed` |
+| **Valv** | `EVIDENCE` | `reality_vault` | `valvChatQuery` | *(ingen content-kurator — bevis via ingest/HITL)* |
+| **Barnen** | `EVIDENCE` + `PLAY` | `children_logs` | `childrenLogsQuery` | `specialist-barn-lek` **aktiv** |
+| **Utveckling (Vit)** | `REFLECTION`, `PLAY` | `mabra_sessions`, `vit_hub` / `vit_entries` *(P1)* | **Ingen** export till Kunskap | `specialist-mabra-curator` |
 
-| Modul | Plan | Plan-status | Smoke 2026-05-29 |
-|-------|------|-------------|------------------|
-| Dagbok | [`dagbok-vertex-plan`](./evaluations/2026-05-29-dagbok-vertex-plan.md) | **closed** | build · orkester · locked-ux **PASS** |
-| Planering | [`planering-cursor-plan`](./evaluations/2026-05-29-planering-cursor-plan.md) | **closed** | locked-ux **PASS** |
-| MåBra | [`mabra-cursor-plan`](./evaluations/2026-05-29-mabra-cursor-plan.md) | **closed** | build · orkester **PASS** |
-| Projekt | [`projekt-cursor-plan`](./evaluations/2026-05-29-projekt-cursor-plan.md) | **closed** | locked-ux **PASS** |
-| Kunskap | [`kunskap-cursor-plan`](./evaluations/2026-05-29-kunskap-cursor-plan.md) | **closed** | orkester/innehall **PASS** |
-| Barnporten | [`barnporten-cursor-plan`](./evaluations/2026-05-29-barnporten-cursor-plan.md) | **closed** | locked-ux **PASS** |
-| Valv Samla | [`valv-samla-cursor-plan`](./evaluations/2026-05-29-valv-samla-cursor-plan.md) | **closed** (delvis kod) | locked-ux **PASS** |
-| Valv Privacy | [`valv-privacy-cursor-plan`](./evaluations/2026-05-29-valv-privacy-cursor-plan.md) | **closed** (deferred 2.1) | — |
-| Kompass widget | [`kompass-widget-snabbstart-plan`](./evaluations/2026-05-29-kompass-widget-snabbstart-plan.md) | **closed** | K1 integrerad |
+**MUST NOT:** `FACT` i MåBra-bank utan ingest till Kunskap · `PLAY` i `reality_vault` · auto-ingest Vit → Vector Search · “sök överallt”-UI.
 
 ---
 
-## Arkiv-GAP (backend / minne)
+## `content_class` — snabbgrind
 
-| ID | Status | Kort |
-|----|--------|------|
-| G1–G16 | **done** | Valv-RAG, Vector ANN, Drive E2E, journal_woven opt-in, Barnen-RAG, inkorg, Tidshjul, m.m. |
-| V1 | **wait** | Genkit-migrering — ej påbörjad |
+| Klass | Exempel | LLM i produktion |
+|-------|---------|------------------|
+| **FACT** | Lagstöd, metod, diagnos-info med tier | RAG + citation JSON |
+| **REFLECTION** | Frågekort, självkänsla, KBT light | Parafras KEEP + `bankId` |
+| **PLAY** | Microlek ≤2 min, offline | Deterministisk UI, ingen sanning |
+| **EVIDENCE** | SMS, möte, observation barn | WORM, dossier — **inte** kurator-lek |
 
----
-
-## Modul-GAP (produkt / UI) — öppet
-
-| Modul | Route | Gap / nästa | Kommando / vem |
-|-------|-------|-------------|----------------|
-| **dagbok** | `/hjartat` · `/hjartat/input` | Superdagbok §17 **done** Fas 11 · Fas 13 WORM medium **done** | — |
-| **mabra** | `/vardagen?tab=mabra` | M3.0-B hybrid-8 **done** Fas 19.2 · M3.0-C näring **done** kod+rules (deploy rules USER 2026-06-19) · hex→tokens P0 **done** Fas 22 | `smoke:mabra` |
-| **planering** | `/vardagen?tab=handling` · `/planering/input` | Superhub §15 **done** · kalender P2 **done** | — |
-| **arbetsliv** | `/vardagen?tab=arbetsliv` · `/arbetsliv/input` | Superhub §16 **done** Fas 10 | — |
-| **ekonomi** | `/vardagen?tab=ekonomi` | Superhub §14 **done** Fas 8 | — |
-| **projekt** | `/projekt` | MaterialPack + Familjen-mount **done** · `project_rules` **done** | — |
-| **kompis/kunskap** | Valv `kunskapsbank` | våg 24 ingest **done** Fas 16 · våg 8 **partial** (53 FACT) | [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) |
-| **barnporten** | `/barnporten` | CB2–CB4 + QR **done** · Våg C push **defer** | USER #4 valfritt re-verify |
-| **valv** | `/valvet` | Vault-gate 12C **done** Fas 13 · unlockVault P0 **done** Fas 19.1 | `smoke:valv-security` |
-| **core** | `/` | Hemkompass 12B **done** · Adaptiv broar live | — |
-| **inkast** | Hem · Valv Samla | Inkast I1–I3 **done** Fas 15 · `InboxReviewQueue` kanon | `smoke:inkast` |
-| **liv** | `/vardagen` | LivSuper launcher **done** | — |
-| **dossier** | Valv `dossier` | BBIC `reportType` **done** Fas 13 (12D) | [`fas13-vag-3-evidence-e2e`](./evaluations/2026-06-15-fas13-vag-3-evidence-e2e.md) |
-| **hamn** | `/familjen?tab=hamn` | BIFF via `TryggHamnHub` · Gräns-Arkitekten G14 **done** | `smoke:design-modules` |
-| **auth/android** | app | cap sync **done** Fas 18 · native Google USER-test öppen | [`.context/android-capacitor.md`](../.context/android-capacitor.md) |
-| **evolution** | hub | `evolution_ledger` dual-write | **done** Fas 19.5 | `smoke:evolution-discovery` |
-
-**Låst UX:** Barnfokus, Valv Mönster/Orkester/Kunskapsbank, Planering P3, ikoner B1/D1/M2 — `npm run smoke:locked-ux` **PASS**.
+**Skoj + fakta samma dag:** OK i UX · **inte** i samma post utan klass + **inte** i samma RAG-query.
 
 ---
 
-## Autorun (ingen LLM)
+## Content-banker (dokument → kod)
 
-```bash
-npm run orkester:night
-```
+| Bank | Fil | Status | Implementation |
+|------|-----|--------|----------------|
+| MåBra | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) | **aktiv** | P1: `vit_entries` + `bankId` |
+| MåBra Daglig mix | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) § Daglig mix | **aktiv** | `dagligMixCatalog.ts` · DM-* · ingen streak/RAG |
+| Drogfrihet | [`specs/modules/Mabra-CONTENT-BANK.md`](./specs/modules/Mabra-CONTENT-BANK.md) § Drogfrihet + [`Drogfrihet-SPEC.md`](./specs/modules/Drogfrihet-SPEC.md) | **aktiv** | `drogfrihetCatalog.ts` · DF-REF-* · hub `/drogfrihet` |
+| Kunskap seed | [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) | **aktiv** | 199 FACT manifest · våg 32 KEEP 2026-06-19 · våg 8 extension 048–057 KEEP 2026-06-20 · våg 27 ingest **PASS** 2026-06-16 · [`CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) |
+| Barnen lek | [`specs/modules/Barnen-PLAY-BANK.md`](./specs/modules/Barnen-PLAY-BANK.md) | **aktiv** | `barnfokusCatalog.ts` BP-PLAY-01..21 · ej Valv-promote |
 
----
-
-## Kräver dig
-
-1. **Fas 5A #3 Valv** — **PASS** 2026-06-07 (USER) · [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md)
-2. **Fas 5A #4 Barnporten** — **PASS** 2026-06-06 (USER · Motorola) · [`SMOKE_RESULTS.md`](./SMOKE_RESULTS.md)
-3. **Valfritt USER** — superhub snabbtest · [`2026-05-29-smoke-manuell.md`](./evaluations/2026-05-29-smoke-manuell.md)
+**Fält per KEEP-post (alla banker):** `id`, `status`, `content_class`, `source_tier`, `text_sv`, `why`.
 
 ---
 
-## Ett steg i taget (Fas 20 — 2026-06-15)
+## Dirigent — när du är osäker
 
-| Prioritet | Gör |
-|-----------|-----|
-| 1 | **Doc-synk:** Tier-1 hubbar (denna fil + `SYSTEM_PLAN_v2` + `SESSION-INDEX`) |
-| 2 | **Hex→tokens P0** enligt masterplan 19.3 → Fas 20 |
-| 3 | **Arkiv 19.6:** Läs PMIR — [`2026-06-15-fas19-archive-pmir.md`](./evaluations/2026-06-15-fas19-archive-pmir.md) |
-| 4 | **Valfritt USER:** Motorola #3 Valv · #4 Barnporten · native Google |
+| Du säger / har | Dirigent pekar till |
+|----------------|---------------------|
+| “Kurera frågekort / självkänsla / lek” | `kör mabra curator` |
+| “Fakta, artikel, referens till Kunskap” | `kör kunskap seed` |
+| “Barnfråga, lek med pojkarna” | `kör barn lek` *(när bank finns)* |
+| “SMS, bevis, dossier” | **Hamn / Valv** — ingen innehållskurator |
+| “Ex, gaslighting, BIFF” | **Speglar / Hamn** — ROUTE_SPEGLAR |
+
+Trigger: `dirigera innehåll: …` · Agent: `specialist-innehall-dirigent`
+
+---
+
+## Runtime (ändras inte av kuratorer)
+
+| Roll | Var | Läser bank? |
+|------|-----|-------------|
+| Måbra-coach | `mabraCoach` | Parafras MåBra KEEP |
+| KBT-Transformator | `mabraCoach` transformator | Reframing, ej ny fakta |
+| Livs-Arkivarien | Kunskap RAG | `kampspar` / `kb_docs` |
+| Paralys / Uppgifts | ADK / Planering | Ej content-bank |
+
+Prompts: endast `functions/src/sharedRules.ts`.
+
+---
+
+## Smoke (efter kod som rör zon)
+
+| Zon | Kommando |
+|-----|----------|
+| MåBra | `npm run smoke:mabra` |
+| Kunskap | `npm run smoke:kunskap` |
+| Låst UX (Barnfokus) | `npm run smoke:locked-ux` |
+| Silo-grind | `npm run smoke:orkester` |
+
+---
+
+## Kunskap seed — KEEP 2026-05-29
+
+**Kurator:** `specialist-kunskap-seed` · **Klass:** FACT · **Silo:** `kampspar` / `kb_docs` · **Callable:** `knowledgeVaultQuery` only.
+
+| id | content_class | source_tier | status | category |
+|----|---------------|-------------|--------|----------|
+| kunskap-fact-001 | FACT | P2 | KEEP | adhd_vardag |
+| kunskap-fact-002 | FACT | P2 | KEEP | adhd_vardag |
+| kunskap-fact-003 | FACT | P2 | KEEP | medforaldraskap |
+| kunskap-fact-004 | FACT | P2 | KEEP | medforaldraskap |
+| kunskap-fact-005 | FACT | P1 | KEEP | kommunikation_metod |
+| kunskap-fact-006 | FACT | P1 | KEEP | kommunikation_metod |
+| kunskap-fact-007 | FACT | P2 | KEEP | barn_neuro |
+| kunskap-fact-008 | FACT | P2 | KEEP | barn_neuro |
+| kunskap-fact-009 | FACT | P1 | KEEP | ekonomi_vardag |
+| kunskap-fact-010 | FACT | P2 | KEEP | juridik_logistik |
+| kunskap-fact-011 | FACT | psychoeducation_general | KEEP | medforaldraskap |
+| kunskap-fact-012 | FACT | psychoeducation_general | KEEP | medforaldraskap |
+| kunskap-fact-013 | FACT | product_copy | KEEP | juridik_overview |
+| kunskap-fact-014 | FACT | psychoeducation_general | KEEP | medforaldraskap |
+| kunskap-fact-015 | FACT | P2 | KEEP | medforaldraskap |
+| kunskap-fact-016 | FACT | P2 | KEEP | adhd_vardag |
+| kunskap-fact-017 | FACT | P2 | KEEP | adhd_vardag |
+| kunskap-fact-018 | FACT | psychoeducation_general | KEEP | adhd_vardag |
+| kunskap-fact-019 | FACT | P2 | KEEP | adhd_vardag |
+| kunskap-fact-020 | FACT | psychoeducation_general | KEEP | adhd_vardag |
+| kunskap-fact-021 | FACT | psychoeducation_general | KEEP | adhd_vardag |
+| kunskap-fact-022 | FACT | product_copy | KEEP | produkt_sakerhet |
+| kunskap-fact-023 | FACT | product_copy | KEEP | produkt_arkitektur |
+| kunskap-fact-024 | FACT | P2 | KEEP | medforaldraskap |
+| kunskap-fact-025 | FACT | product_copy | KEEP | dagbok_produkt |
+| kunskap-fact-df-001 … 006 | FACT | P1/P2 | KEEP | beroende |
+
+**Kanon i bank:** [`specs/modules/Kunskap-CONTENT-SEED.md`](./specs/modules/Kunskap-CONTENT-SEED.md) — batchar 2026-05-27, 2026-05-29, våg 24 (2026-06-15).
+
+### Våg 24 ingest (2026-06-15)
+
+| id | content_class | source_tier | status | category |
+|----|---------------|-------------|--------|----------|
+| kunskap-fact-jur-005 | FACT | P2 | **ingest** | juridik_overview |
+| kunskap-fact-jur-006 | FACT | P2 | **ingest** | juridik_overview |
+| kunskap-fact-jur-007 | FACT | P2 | **ingest** | juridik_overview |
+| kunskap-fact-ep-006 | FACT | P2 | **ingest** | epistemik_produkt |
+| kunskap-fact-cn-022 | FACT | P1 | **ingest** | covert_taktik |
+| kunskap-fact-bh-013 | FACT | P2 | **ingest** | barn_hcf |
+
+**MUST NOT:** ingest utan mänsklig granskning · BIFF-svar på konkret sms (→ Speglar/Hamn) · cross-RAG till `reality_vault` / `children_logs`.
+
+### Våg 25 ingest (2026-06-16)
+
+| id | content_class | source_tier | status | category |
+|----|---------------|-------------|--------|----------|
+| kunskap-fact-soc-001 | FACT | P2 | **ingest** | myndighet_soc |
+| kunskap-fact-skol-001 | FACT | P2 | **ingest** | skola_myndighet |
+| kunskap-fact-bup-001 | FACT | P2 | **ingest** | barn_hcf |
+| kunskap-fact-bh-014 | FACT | P2 | **ingest** | barn_hcf |
+| kunskap-fact-ep-007 | FACT | P2 | **ingest** | epistemik_produkt |
+| kunskap-fact-jur-008 | FACT | P2 | **ingest** | juridik_overview |
+
+### Våg 26 ingest (2026-06-16)
+
+| id | content_class | source_tier | status | category |
+|----|---------------|-------------|--------|----------|
+| kunskap-fact-cop-001 | FACT | P2 | **ingest** | medforaldraskap_logistik |
+| kunskap-fact-cop-002 | FACT | P2 | **ingest** | medforaldraskap_logistik |
+| kunskap-fact-cop-003 | FACT | P2 | **ingest** | medforaldraskap_logistik |
+| kunskap-fact-cop-004 | FACT | P2 | **ingest** | medforaldraskap_logistik |
+| kunskap-fact-cop-005 | FACT | P1 | **ingest** | kommunikation_metod |
+| kunskap-fact-ep-008 | FACT | P2 | **ingest** | epistemik_produkt |
+
+### Våg 27 ingest (2026-06-16)
+
+| id | content_class | source_tier | status | category |
+|----|---------------|-------------|--------|----------|
+| kunskap-fact-gad-036 | FACT | P1 | **ingest** | gad_angest |
+| kunskap-fact-gad-037 | FACT | P1 | **ingest** | gad_angest |
+| kunskap-fact-gad-038 | FACT | P1 | **ingest** | kanslor_vagus |
+| kunskap-fact-gad-039 | FACT | P1 | **ingest** | gad_angest |
+| kunskap-fact-adhd-029 | FACT | P2 | **ingest** | adhd_vardag |
+| kunskap-fact-adhd-030 | FACT | P2 | **ingest** | adhd_vardag |
+| kunskap-fact-eko-001 | FACT | P2 | **ingest** | ekonomi_vardag |
+| kunskap-fact-eko-002 | FACT | P2 | **ingest** | ekonomi_vardag |
+| kunskap-fact-eko-003 | FACT | P2 | **ingest** | ekonomi_vardag |
+| kunskap-fact-eko-004 | FACT | P2 | **ingest** | ekonomi_vardag |
+| kunskap-fact-eko-005 | FACT | P2 | **ingest** | ekonomi_vardag |
+| kunskap-fact-eko-006 | FACT | P2 | **ingest** | ekonomi_vardag |
+| kunskap-fact-eko-007 | FACT | P2 | **ingest** | ekonomi_vardag |
+| kunskap-fact-eko-008 | FACT | P2 | **ingest** | ekonomi_vardag |
+| kunskap-fact-cop-006 | FACT | P2 | **ingest** | medforaldraskap |
+| kunskap-fact-cop-007 | FACT | P1 | **ingest** | medforaldraskap_logistik |
+| kunskap-fact-jur-009 | FACT | P2 | **ingest** | juridik_logistik |
+| kunskap-fact-bh-015 | FACT | P1 | **ingest** | barn_hcf |
+| kunskap-fact-bh-016 | FACT | P1 | **ingest** | barn_hcf |
+| kunskap-fact-bh-017 | FACT | P1 | **ingest** | barn_hcf |
+| kunskap-fact-bh-018 | FACT | P1 | **ingest** | barn_hcf |
+| kunskap-fact-bh-019 | FACT | P1 | **ingest** | barn_hcf |
+| kunskap-fact-bh-020 | FACT | P1 | **ingest** | barn_hcf |
+
+### MåBra våg 27 KEEP (2026-06-16)
+
+MB-REF-GAD-07, MB-REF-GAD-08, MB-REF-ADHD-05, MB-REF-ADHD-06, MB-REF-ADHD-07, MB-PLAY-GAD-02, MB-PLAY-GAD-03, MB-PLAY-GAD-04 — bank KEEP; prod-wire vid curriculum/daglig mix PMIR.
+
+
+### Kunskap våg 28 KEEP (2026-06-18)
+
+| bankId | content_class | source_tier | status | category |
+|--------|---------------|-------------|--------|----------|
+| kunskap-fact-eko-009 | FACT | P1 | **ingest** | ekonomi_vardag |
+| kunskap-fact-cop-006 | FACT | P1 | **ingest** (STRENGTHEN) | medforaldraskap |
+| kunskap-fact-cn-048 | FACT | P2 | **ingest** | covert_taktik |
+
+### MåBra våg 28 KEEP (2026-06-18)
+
+MB-PLAY-54321, MB-REF-rsd-04 — bank KEEP; prod-wire wizard/UI PMIR separat.
+
+### Barnen PLAY våg 27 KEEP (2026-06-16)
+
+BP-PLAY-25..29 — bank KEEP; **catalog wire done** våg 29.3 (`barnfokusCatalog` + `barnfokusQuestionsForBracket`).
+
+---
+
+## Nästa steg (implementation)
+
+1. ~~P1 `vit_hub` / `vit_entries` från MåBra-bank~~ — **done** våg 9 (2026-06-06)  
+2. ~~Exportera `kunskap-fact-001`–`010` till JSON-manifest → `seed_kampspar_profile.mjs`~~ — **done** våg 8  
+3. ~~P2 Valv-flik «Mitt Vit» + statistik~~ — **done** våg 10 (2026-06-06)  
+4. ~~P3 «Lär tillsammans» chatt via `mabraCoach` + silo-guard~~ — **done** våg 11 (2026-06-06)  
+5. ~~PDF-export Mitt Vit / känslominne-UI~~ — **done** våg 12 (2026-06-06)  
+6. ~~Minnes-filter / polish i Valv Mitt Vit~~ — **done** våg 13 (2026-06-06)  
+7. ~~Harmonisera Vit-hub copy: ingen skuld-streak~~ — **done** våg 14 (2026-06-06)  
+8. ~~Vit översikt P4 — senaste 3 + MåBra→Valv bro~~ — **done** våg 15 (2026-06-06)
+
+
+### Kunskap våg 8 extension KEEP (2026-06-20)
+
+| id | content_class | source_tier | status | category |
+|----|---------------|-------------|--------|----------|
+| kunskap-fact-048 … 057 | FACT | P2/product_copy | **KEEP** | produkt_sakerhet, barn_neuro, juridik_logistik, adhd_vardag, gad_angest, produkt_arkitektur |
+
+**Ingest:** `npm run export:kunskap-seed` → mänsklig granskning → `npm run seed:kunskap-facts`
+
+**Utskrift:** lägg vid [`SKOGSPAKET-LATHUND.md`](./SKOGSPAKET-LATHUND.md) om du jobbar på distans.
+
+### Kunskap våg 32 KEEP (2026-06-19)
+
+| id | content_class | source_tier | status | category |
+|----|---------------|-------------|--------|----------|
+| kunskap-fact-kan-001 … kan-020 | FACT | P1/P2/psychoeducation | **KEEP** | kanslor_vagus, gad_angest, neuro_psyk, psykologi_grund |
+| kunskap-fact-psy-001 … psy-015 | FACT | P1/P2/psychoeducation | **KEEP** | psykologi_grund, neuro_psyk |
+
+**Curriculum:** CUR-FEEL-02 (kan-004, kan-005, kan-006, kan-012) · **Ingest:** `npm run export:kunskap-seed` → `npm run seed:kunskap-facts`
 ````
 
 ## File: docs/SYSTEM_PLAN_v2.md
@@ -5676,7 +6592,7 @@ Produkt-GAP: [`MODUL-GAP-OVERSIKT.md`](./MODUL-GAP-OVERSIKT.md)
 | **1** | Adaptiv Hemkompass — superhub-broar från Hem | **12B** | **done** 2026-06-14 | `homeSuperhubRoutes.ts` · `HomeSuperhubShortcuts` |
 | 2 | Vault-gate P2 (`weeklySummary`, `compass`) | **12C** | **done** 2026-06-15 | [`2026-06-15-fas13-vag-1-security-12c.md`](./evaluations/2026-06-15-fas13-vag-1-security-12c.md) |
 | 3 | Dossier BBIC `reportType` | **12D** | **done** 2026-06-15 | [`2026-06-15-fas13-vag-3-evidence-e2e.md`](./evaluations/2026-06-15-fas13-vag-3-evidence-e2e.md) |
-| — | Kunskap våg 8 (53 FACT partial) | — | kurator | [`content/CONTENT-WAVES.md`](./content/CONTENT-WAVES.md) |
+| — | Kunskap våg 8 (63 FACT bank — ingest 048–057 pending) | — | kurator | [`2026-06-20-yolo-d-kunskap-vag8.md`](./evaluations/2026-06-20-yolo-d-kunskap-vag8.md) |
 | — | Barnporten push (Våg C) | — | defer | — |
 | — | Genkit migration (V1) | — | **wait** | [`Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md) |
 
@@ -5745,181 +6661,300 @@ Källa: [`.context/system-plan.md`](../.context/system-plan.md) § Fas 6 Arkitek
 | [`BRANCH-KARTA.md`](./BRANCH-KARTA.md) | Git trunk `main` |
 ````
 
-## File: functions/src/adk/executors/runExecutor.ts
+## File: functions/src/adk/synapses/dcapAlertSynapse.ts
 ````typescript
-import { VertexAI } from '@google-cloud/vertexai';
-import type { A2AMessage } from '../../agents/types';
-import { GCP_PROJECT_ID, GCP_REGION } from '../../config';
-import { getAgentSystemPrompt } from '../../sharedRules';
-import { getOrCreateCache, generateWithCache } from '../../lib/vertexCache';
+import { hashPayload } from '../stateStore';
+import { analyzeDcapTrend, type EscalationResult } from '../../lib/dcapEscalation';
+import { monitor } from '../../lib/monitoring';
 ⋮----
-function buildUserPrompt(message: A2AMessage): string
+export interface DcapAlertPayload {
+  ownerId: string;
+  riskScore: number;
+  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
+  inputHash: string;
+  detectionCount?: number;
+}
 ⋮----
-export async function runExecutor(
-  executorId: string,
-  message: A2AMessage,
-  ragContext: string[] = []
-): Promise<string>
+export interface DcapAlertResult {
+  alertId: string;
+  hitlRequired: boolean;
+  escalation?: EscalationResult;
+}
+⋮----
+export async function handleDcapAlert(payload: DcapAlertPayload): Promise<DcapAlertResult>
 ````
 
-## File: functions/src/adk/synapses/driveIngestSynapse.ts
+## File: functions/src/adk/synapses/kasamAggregationSynapse.ts
 ````typescript
-import { analyzeDriveFile } from '../../agents/documentAgent';
-import { MonsterArkivarienCard } from '../../agents/cards';
-import type { A2AMessage } from '../../agents/types';
+export interface KasamAggregationPayload {
+  ownerId: string;
+  triggerSource: string;
+}
+⋮----
+export interface KasamAggregationResult {
+  docId: string;
+  aggregatedAt: string;
+}
+⋮----
+export async function handleKasamAggregation(payload: KasamAggregationPayload): Promise<KasamAggregationResult>
+````
+
+## File: functions/src/adk/synapses/paralysBrytarenSynapse.ts
+````typescript
+import { createGenAI } from '../../lib/genaiClient';
+import { GEMINI_FLASH } from '../../lib/modelRouter';
+import { PARALYS_BRYTAREN_SYSTEM_PROMPT } from '../../sharedRules';
+import { MICRO_STEP_MAX_SECONDS, type MicroStep } from '../types';
+⋮----
+export function isHeavyResponse(text: string): boolean
+⋮----
+function clampSeconds(n: number): number
+⋮----
+export function breakIntoMicroStepsDeterministic(text: string): MicroStep[]
+⋮----
+function inferPhysicalAnchor(instruction: string): string
+⋮----
+export async function breakIntoMicroSteps(text: string): Promise<MicroStep[]>
+⋮----
+export async function applyParalysBreak(agentText: string): Promise<MicroStep[]>
+````
+
+## File: functions/src/adk/synapses/synapseBus.ts
+````typescript
+import type { SynapseEvent, SynapseTrigger } from '../types';
 import type { AdkOrchestrator } from '../orchestrator';
-import type { DriveIngestPayload } from '../types';
-import { classifyInboxDocument, applyInkastConfidenceGate } from '../../lib/inboxClassifier';
-import { routeInboxToWorm } from '../../lib/inboxPersist';
+import { handleDriveIngest } from './driveIngestSynapse';
+import { handleDcapAlert } from './dcapAlertSynapse';
+import { handleJournalWoven } from './journalWovenSynapse';
+import { handleWidgetRecordingIngest } from './widgetRecordingIngestSynapse';
+import { applyParalysBreak } from './paralysBrytarenSynapse';
+import { handleKasamAggregation } from './kasamAggregationSynapse';
+import type {
+  DriveIngestPayload,
+  JournalWovenPayload,
+  DcapAlertPayload,
+  WidgetRecordingIngestedPayload,
+  KasamAggregationPayload,
+} from '../types';
 ⋮----
-export async function handleDriveIngest(
+type SynapseHandler = (
   orchestrator: AdkOrchestrator,
-  payload: DriveIngestPayload
-): Promise<
+  event: SynapseEvent
+) => Promise<unknown>;
 ⋮----
-function isHeavyResponse(text: string): boolean
+export async function emitSynapse(
+  orchestrator: AdkOrchestrator,
+  event: SynapseEvent
+): Promise<unknown>
 ````
 
-## File: functions/src/agents/childrenLogsAgent.ts
+## File: functions/src/adk/orchestrator.ts
 ````typescript
-import { MONSTER_ARKIVARIEN_BARNEN_SYSTEM_PROMPT } from '../sharedRules';
-import { loadBarnenEntityBundle } from '../lib/entityProfileStore';
-import { fetchChildrenLogsForQuery } from '../lib/childrenLogsQueryRag';
-import { createGenAI } from '../lib/genaiClient';
+import type { A2AMessage } from '../agents/types';
+import { resolveExecutorId } from '../agents/cards';
+import { runExecutor } from './executors/runExecutor';
+import { validateIntent, getAgentCard, assertCollectionAccess } from './registry';
+import { appendMutation, createTrace, clearSynapseState } from './stateStore';
+import { applyParalysBreak, isHeavyResponse } from './synapses/paralysBrytarenSynapse';
+import { assertBackendSiloIsolation, type SiloId } from './manifest';
+import type { DispatchOptions, OrchestrationResult } from './types';
 ⋮----
-export interface ChildrenLogCitation {
-  docId: string;
-  childAlias: string;
-  date: string;
-  excerpt: string;
-}
+function gatekeeperSanitize(text: string): string
 ⋮----
-export interface ChildrenLogsQueryResult {
-  answer: string;
-  citations: ChildrenLogCitation[];
-  silo: 'barnen';
-}
+export class AdkOrchestrator
 ⋮----
-function buildContextBlock(chunks: Awaited<ReturnType<typeof fetchChildrenLogsForQuery>>): string
+async dispatch(message: A2AMessage, options: DispatchOptions =
 ⋮----
-function parseChildrenLogsJson(
-  raw: string,
-  allowed: Map<string, ChildrenLogCitation>
-): ChildrenLogsQueryResult | null
-⋮----
-function buildDegradedResponse(
-  chunks: Awaited<ReturnType<typeof fetchChildrenLogsForQuery>>
-): ChildrenLogsQueryResult
-⋮----
-export async function askChildrenLogsQuery(
-  uid: string,
-  question: string,
-  childAlias?: string,
-  geminiApiKey?: string
-): Promise<ChildrenLogsQueryResult>
-````
-
-## File: functions/src/agents/gransArkitektenAgent.ts
-````typescript
-import type { DcapResult } from './DCAP';
-import { GRANS_ARKITEKTEN_SYSTEM_PROMPT } from '../sharedRules';
-import { createGenAI } from '../lib/genaiClient';
-⋮----
-export interface GransArkitektenResult {
-  cleanFacts: string[];
-  emotionalBait: string[];
-  greyRockReply: string;
-  techniques: string[];
-  coachingNote: string;
-  theoryWithoutEvidence?: boolean;
-}
-⋮----
-export function parseGransJson(raw: string, dcap: DcapResult): GransArkitektenResult
-⋮----
-function buildFallback(dcap: DcapResult): GransArkitektenResult
-⋮----
-export async function askGransArkitekten(
-  message: string,
-  dcap: DcapResult,
-  geminiApiKey?: string
-): Promise<GransArkitektenResult>
-````
-
-## File: functions/src/agents/knowledgeVaultAgent.ts
-````typescript
-import { LIVS_ARKIVARIEN_SYSTEM_PROMPT } from '../sharedRules';
-import { createGenAI } from '../lib/genaiClient';
-import { loadKunskapEntityBundle } from '../lib/entityProfileStore';
-import { fetchKampsparEvidenceForQuery } from '../lib/kampsparQueryRag';
-⋮----
-export interface KnowledgeVaultCitation {
-  docId: string;
-  collection: 'kampspar' | 'kb_docs';
-  date: string;
-  title: string;
-  excerpt: string;
-}
-⋮----
-export interface KnowledgeVaultResult {
-  answer: string;
-  citations: KnowledgeVaultCitation[];
-  moduleRoute?: {
-    path: string;
-    label: string;
-    silo: 'barnen';
-  };
-}
-⋮----
-function buildContextBlock(chunks: Awaited<ReturnType<typeof fetchKampsparEvidenceForQuery>>): string
-⋮----
-function citationKey(c: KnowledgeVaultCitation): string
-⋮----
-function parseKnowledgeVaultJson(
-  raw: string,
-  allowed: Map<string, KnowledgeVaultCitation>
-): KnowledgeVaultResult | null
-⋮----
-function buildDegradedResponse(chunks: KampsparEvidenceChunk[]): KnowledgeVaultResult
-⋮----
-type KampsparEvidenceChunk = Awaited<ReturnType<typeof fetchKampsparEvidenceForQuery>>[number];
-⋮----
-export async function askKnowledgeVaultWithRag(
-  uid: string,
-  question: string,
-  geminiApiKey?: string
-): Promise<KnowledgeVaultResult>
-````
-
-## File: functions/src/agents/kompis-supervisor.ts
-````typescript
-import {
-  AvailableAgents,
-  EXECUTOR_AGENT_IDS,
-  GransArkitektenCard,
-  routeFromDcap,
-} from './cards';
-import type { AgentResponse } from './types';
-import { GCP_PROJECT_ID } from '../config';
-import { analyzeDcap, DcapResult } from './DCAP';
-import { askGransArkitekten, parseGransJson, type GransArkitektenResult } from './gransArkitektenAgent';
-import { resolveHamnTheoryWithoutEvidence } from '../lib/epistemicGuard';
-import { getOrCreateCache, invalidateCachesForUser } from '../lib/vertexCache';
-import { KOMPIS_SYSTEM_PROMPT } from '../sharedRules';
-import { adkOrchestrator } from '../adk/orchestrator';
-import { emitSynapse } from '../adk/synapses/synapseBus';
-import { hashPayload } from '../adk/stateStore';
-import type { DcapAlertResult } from '../adk/synapses/dcapAlertSynapse';
-⋮----
-export class KompisSupervisor
-⋮----
-public async handleUserRequest(
+async dispatchFromSupervisor(
+    route: { productAgentId: string; executorId: string; intent: string },
     userInput: string,
     userId: string,
-    ragContext: string[] = [],
-    options?: { preferGransArkitekten?: boolean }
-): Promise<AgentResponse &
+    ragContext: string[],
+    dcapPayload: Record<string, unknown>
+): Promise<OrchestrationResult>
 ⋮----
-public async invalidateUserSession(userId: string): Promise<void>
+async clearContext(contextId: string): Promise<void>
+⋮----
+private intentAllowed(productAgentId: string, executorId: string, intent: string): boolean
+⋮----
+private enforceManifestPolicy(
+    executorId: string,
+    message: A2AMessage,
+    options: DispatchOptions,
+): void
+⋮----
+async initTrace(contextId: string)
+⋮----
+private async errorResult(contextId: string, agentId: string, error: string): Promise<OrchestrationResult>
+````
+
+## File: functions/src/adk/stateStore.ts
+````typescript
+import crypto from 'crypto';
+import { getFirestore, FieldValue } from 'firebase-admin/firestore';
+import type { StateMutation, SynapseState } from './types';
+⋮----
+export function hashPayload(payload: Record<string, unknown>): string
+⋮----
+export async function createTrace(contextId: string): Promise<SynapseState>
+⋮----
+export async function getTrace(contextId: string): Promise<SynapseState | undefined>
+⋮----
+export async function appendMutation(
+  contextId: string,
+  mutation: Omit<StateMutation, 'timestamp' | 'payloadHash'> & { payload: Record<string, unknown> }
+): Promise<SynapseState>
+⋮----
+export async function clearSynapseState(contextId: string): Promise<void>
+````
+
+## File: functions/src/adk/types.ts
+````typescript
+import type { AgentResponse, A2AMessage } from '../agents/types';
+⋮----
+export interface MicroStep {
+  instruction: string;
+  estimatedSeconds: number;
+  physicalAnchor: string;
+}
+⋮----
+export interface StateMutation {
+  fromAgentId: string;
+  toAgentId: string;
+  intent: string;
+  payloadHash: string;
+  timestamp: string;
+}
+⋮----
+export interface SynapseState {
+  contextId: string;
+  traceId: string;
+  mutations: StateMutation[];
+  createdAt: string;
+}
+⋮----
+export type SynapseTrigger =
+  | 'drive_file_ingested'
+  | 'journal_woven'
+  | 'dcap_alert'
+  | 'user_overwhelm'
+  | 'widget_recording_ingested'
+  | 'kasam_aggregation';
+⋮----
+export interface SynapseEvent {
+  trigger: SynapseTrigger;
+  contextId?: string;
+  payload: Record<string, unknown>;
+}
+⋮----
+export interface DispatchOptions {
+  ragContext?: string[];
+  applyParalysBreak?: boolean;
+  productAgentId?: string;
+  targetCollections?: string[];
+}
+⋮----
+export interface OrchestrationResult {
+  response: AgentResponse;
+  microSteps?: MicroStep[];
+  state: SynapseState;
+  rawAgentText?: string;
+}
+⋮----
+export type ExecutorFn = (
+  message: A2AMessage,
+  ragContext: string[]
+) => Promise<string>;
+⋮----
+export interface DriveIngestPayload {
+  fileId: string;
+  fileName: string;
+  mimeType: string;
+  ownerId?: string;
+  optInTrauma?: boolean;
+}
+⋮----
+export interface JournalWovenPayload {
+  ownerId: string;
+  journalEntryId: string;
+  mood: string;
+  text: string;
+  optIn: boolean;
+}
+⋮----
+export interface DcapAlertPayload {
+  ownerId: string;
+  riskScore: number;
+  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
+  inputHash: string;
+  detectionCount?: number;
+}
+⋮----
+export interface WidgetRecordingIngestedPayload {
+  ownerId: string;
+  transcript: string;
+  recordedAtIso: string;
+  durationSeconds?: number;
+  evidenceUrl: string;
+  sourceRef: string;
+  storagePath?: string;
+  analysis: { title: string; summary: string; category: string };
+  metadata: { vem: string; vad: string; varfor: string };
+  hasVaultSession: boolean;
+}
+⋮----
+export interface KasamAggregationPayload {
+  ownerId: string;
+  triggerSource: string;
+}
+````
+
+## File: functions/src/agents/DCAP.ts
+````typescript
+import { genkit, z } from 'genkit';
+import { vertexAI, gemini15Flash } from '@genkit-ai/vertexai';
+import { DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT } from '../sharedRules';
+import { scanTextForTactics, type VaultTechnique } from '../lib/tacticPatternLibrary';
+⋮----
+export type ManipulationTechnique =
+  | 'DARVO'
+  | 'GASLIGHTING'
+  | 'LOVE_BOMBING'
+  | 'SILENT_TREATMENT'
+  | 'JADE_BAIT'
+  | 'THREAT'
+  | 'HOOVERING'
+  | 'SMEAR'
+  | 'ECONOMIC_CONTROL'
+  | 'MATERNAL_FACADE'
+  | 'TRAUMA_BONDING'
+  | 'LEGAL_PRESSURE'
+  | 'UNKNOWN';
+⋮----
+function vaultTechniqueToDcap(technique: VaultTechnique): ManipulationTechnique
+⋮----
+export interface DcapDetection {
+  technique: ManipulationTechnique;
+  matchedPattern: string;
+  confidence: 'HIGH' | 'MEDIUM' | 'LOW';
+  layer: 'REGEX' | 'SEMANTIC';
+}
+⋮----
+export interface DcapResult {
+  riskScore: number;
+  detections: DcapDetection[];
+  greyRockResponse?: string;
+  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
+}
+⋮----
+function runRegexLayer(text: string):
+⋮----
+async function runSemanticLayer(
+  text: string,
+  projectId: string
+): Promise<
+⋮----
+export async function analyzeDcap(text: string, projectId: string): Promise<DcapResult>
 ````
 
 ## File: functions/src/agents/valvChatAgent.ts
@@ -5928,6 +6963,7 @@ import { SANNING_ANALYTIKERN_SYSTEM_PROMPT } from '../sharedRules';
 import { loadEntityProfileBundle } from '../lib/entityProfileStore';
 import { fetchVaultEvidenceForQuery } from '../lib/vaultRag';
 import { createGenAI } from '../lib/genaiClient';
+import { GEMINI_PRO } from '../lib/modelRouter';
 import {
   VALV_CHAT_READ_TOOLS,
   validateValvChatResponse,
@@ -5953,1445 +6989,6 @@ function tryParseJson(raw: string): unknown
 export async function askValvChat(uid: string, question: string): Promise<ValvChatResponse>
 ````
 
-## File: functions/src/callables/adaptation.ts
-````typescript
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
-import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { isAdaptationLayerEnabled } from '../lib/adaptationLayerGate';
-import {
-  ensureAdaptationPrefsDoc,
-  getAdaptationPrefsDoc,
-  recordAdaptationSignalForUser,
-} from '../lib/adaptationPrefsStore';
-import type { AdaptationSilo } from '../../../shared/adaptation/adaptationTypes';
-````
-
-## File: functions/src/callables/adaptationSemantic.ts
-````typescript
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
-import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { isAdaptationSemanticEnabled } from '../lib/adaptationSemanticGate';
-import { getAdaptationSemanticProfileDoc } from '../lib/adaptationSemanticStore';
-import { rebuildAdaptationSemanticProfileForUser } from '../lib/adaptationSemanticRebuild';
-````
-
-## File: functions/src/callables/dcapAlert.ts
-````typescript
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
-import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { assertVaultSession } from '../lib/vaultSessionGate';
-import {
-  resolveDcapAlertForUser,
-  type DcapReviewDecision,
-} from '../lib/dcapAlertReview';
-````
-
-## File: functions/src/callables/evolutionLedger.ts
-````typescript
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
-import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { recordDiscoveryMilestoneServer } from '../lib/recordDiscoveryMilestoneServer';
-````
-
-## File: functions/src/callables/inbox.ts
-````typescript
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
-import { geminiApiKey } from '../lib/geminiSecret';
-import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { classifyInboxDocument, buildInboxClassifyBlob } from '../lib/inboxClassifier';
-import {
-  confirmInboxQueueItem,
-  dismissInboxQueueItem,
-  listPendingInboxQueue,
-  reprocessVaultInboxQueue as reprocessVaultInboxQueueForUser,
-} from '../lib/inboxPersist';
-import { submitInkastLiteForUser } from '../lib/submitInkastLite';
-import { assertVaultSession } from '../lib/vaultSessionGate';
-import {
-  normalizeInkastSourceModule,
-  stripInjectedSourceModuleFromText,
-} from '../lib/inkastSourceModule';
-````
-
-## File: functions/src/callables/journalSilentReflection.ts
-````typescript
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
-import { createGenAI } from '../lib/genaiClient';
-import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { geminiApiKey } from '../lib/geminiSecret';
-import { JOURNAL_SILENT_REFLECTION_PROMPT } from '../sharedRules';
-⋮----
-export interface JournalSilentReflectionResult {
-  prompt: string;
-}
-````
-
-## File: functions/src/callables/pipelineStudio.ts
-````typescript
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
-import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { appendPipelineRun, type PipelineRunStatus } from '../lib/pipelineRunStore';
-````
-
-## File: functions/src/callables/projectMedia.ts
-````typescript
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
-⋮----
-import { createGenAI } from '../lib/genaiClient';
-import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { OCR_PROMPT } from '../sharedRules';
-````
-
-## File: functions/src/callables/voiceCommand.ts
-````typescript
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
-⋮----
-import { createGenAI } from '../lib/genaiClient';
-import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { submitInkastLiteForUser } from '../lib/submitInkastLite';
-import { VOICE_COMMAND_SYSTEM_PROMPT } from '../sharedRules';
-````
-
-## File: functions/src/jobs/barnportenAgeEvalJob.ts
-````typescript
-import { onSchedule } from 'firebase-functions/v2/scheduler';
-⋮----
-import { GCP_REGION } from '../config';
-import { evaluateBarnportenBracketsForUser } from '../lib/barnportenAgeEvaluator';
-````
-
-## File: functions/src/lib/adaptationCoachTone.ts
-````typescript
-import type { CoachTone } from '../../../shared/adaptation/adaptationTypes';
-import { DEFAULT_ADAPTATION_PREFS } from '../../../shared/adaptation/adaptationTypes';
-import { isAdaptationLayerEnabled } from './adaptationLayerGate';
-import { getAdaptationPrefsDoc } from './adaptationPrefsStore';
-⋮----
-export async function resolveCoachToneForUser(uid: string): Promise<CoachTone>
-````
-
-## File: functions/src/lib/adaptationLayerGate.ts
-````typescript
-import { ADAPTATION_LAYER_FLAG } from '../../../shared/adaptation/adaptationTypes';
-⋮----
-export async function isAdaptationLayerEnabled(uid: string): Promise<boolean>
-````
-
-## File: functions/src/lib/adaptationPrefsLedgerServer.ts
-````typescript
-import {
-  adaptationLedgerDedupKey,
-  adaptationLedgerDedupKeyFromStored,
-  collectLedgerEntriesFromPrefsDiff,
-  prefsLedgerFingerprint,
-} from '../../../shared/adaptation/adaptationLedgerSync';
-import type {
-  AdaptationLedgerSource,
-  AdaptationLedgerWriteInput,
-  AdaptationPrefsDoc,
-  AdaptationSilo,
-} from '../../../shared/adaptation/adaptationTypes';
-⋮----
-async function loadExistingDedupKeys(
-  db: admin.firestore.Firestore,
-  userId: string,
-): Promise<Set<string>>
-⋮----
-async function appendLedgerEntry(
-  db: admin.firestore.Firestore,
-  entry: AdaptationLedgerWriteInput,
-  existingKeys: Set<string>,
-): Promise<void>
-⋮----
-export async function syncAdaptationPrefsToLedgerServer(
-  db: admin.firestore.Firestore,
-  userId: string,
-  prev: AdaptationPrefsDoc | null,
-  next: AdaptationPrefsDoc,
-  source: AdaptationLedgerSource = 'system',
-  silo: AdaptationSilo = 'core',
-): Promise<void>
-````
-
-## File: functions/src/lib/adaptationPrefsStore.ts
-````typescript
-import {
-  DEFAULT_ADAPTATION_PREFS,
-  type AdaptationPrefsDoc,
-  type AdaptationSilo,
-} from '../../../shared/adaptation/adaptationTypes';
-⋮----
-export function normalizeAdaptationPrefs(
-  uid: string,
-  data: admin.firestore.DocumentData | undefined,
-): AdaptationPrefsDoc
-⋮----
-export async function getAdaptationPrefsDoc(
-  uid: string,
-): Promise<AdaptationPrefsDoc | null>
-⋮----
-export async function ensureAdaptationPrefsDoc(uid: string): Promise<AdaptationPrefsDoc>
-⋮----
-export interface RecordAdaptationSignalInput {
-  signalKey: string;
-  increment?: number;
-  value?: number | string | boolean;
-  silo?: AdaptationSilo;
-}
-⋮----
-export async function recordAdaptationSignalForUser(
-  uid: string,
-  input: RecordAdaptationSignalInput,
-): Promise<AdaptationPrefsDoc>
-````
-
-## File: functions/src/lib/adaptationSemanticContext.ts
-````typescript
-import { isAdaptationSemanticEnabled } from './adaptationSemanticGate';
-import { getAdaptationSemanticProfileDoc } from './adaptationSemanticStore';
-⋮----
-export async function loadAdaptationSemanticContext(uid: string): Promise<string | null>
-⋮----
-export function appendAdaptationSemanticContext(
-  baseSystemInstruction: string,
-  adaptationContext: string | null | undefined,
-): string
-````
-
-## File: functions/src/lib/adaptationSemanticGate.ts
-````typescript
-import { ADAPTATION_SEMANTIC_FLAG } from '../../../shared/adaptation/adaptationSemanticTypes';
-import { isAdaptationLayerEnabled } from './adaptationLayerGate';
-⋮----
-function semanticFlagEnabled(data: admin.firestore.DocumentData | undefined): boolean
-⋮----
-export async function isAdaptationSemanticEnabled(uid: string): Promise<boolean>
-````
-
-## File: functions/src/lib/adaptationSemanticRebuild.ts
-````typescript
-import { prefsLedgerFingerprint } from '../../../shared/adaptation/adaptationLedgerSync';
-import {
-  buildSemanticProfileFromPrefs,
-  type AdaptationSemanticProfileDoc,
-} from '../../../shared/adaptation/adaptationSemanticTypes';
-import { getAdaptationPrefsDoc } from './adaptationPrefsStore';
-import {
-  getAdaptationSemanticProfileDoc,
-  saveAdaptationSemanticProfileDoc,
-} from './adaptationSemanticStore';
-import {
-  adaptationLedgerDedupKey,
-  adaptationLedgerDedupKeyFromStored,
-} from '../../../shared/adaptation/adaptationLedgerSync';
-⋮----
-async function appendSemanticIndexedLedger(
-  userId: string,
-  profile: AdaptationSemanticProfileDoc,
-): Promise<void>
-⋮----
-export interface RebuildAdaptationSemanticResult {
-  profile: AdaptationSemanticProfileDoc;
-  changed: boolean;
-  skipped: boolean;
-}
-⋮----
-export async function rebuildAdaptationSemanticProfileForUser(
-  uid: string,
-): Promise<RebuildAdaptationSemanticResult>
-````
-
-## File: functions/src/lib/adaptationSemanticStore.ts
-````typescript
-import type { AdaptationSemanticProfileDoc } from '../../../shared/adaptation/adaptationSemanticTypes';
-import { ADAPTATION_SEMANTIC_REBUILD_VERSION } from '../../../shared/adaptation/adaptationSemanticTypes';
-⋮----
-export function normalizeAdaptationSemanticProfile(
-  uid: string,
-  data: admin.firestore.DocumentData | undefined,
-): AdaptationSemanticProfileDoc | null
-⋮----
-export async function getAdaptationSemanticProfileDoc(
-  uid: string,
-): Promise<AdaptationSemanticProfileDoc | null>
-⋮----
-export async function saveAdaptationSemanticProfileDoc(
-  profile: AdaptationSemanticProfileDoc,
-): Promise<void>
-````
-
-## File: functions/src/lib/barnportenAgeEvaluator.ts
-````typescript
-type AgeBracket = 'toddler_preschool' | 'early_school' | 'pre_teen' | 'teen';
-⋮----
-function bracketFromAgeYears(ageYears: number): AgeBracket
-⋮----
-function ageFromBirthDate(birthDate: string, now = new Date()): number | null
-⋮----
-export async function evaluateBarnportenBracketsForUser(uid: string): Promise<
-````
-
-## File: functions/src/lib/biffRewriteDraftParse.ts
-````typescript
-export type BiffRewriteToneCheck = 'pass' | 'still_emotional' | 'too_long';
-⋮----
-export type BiffRewriteDraftResult = {
-  cleanedText: string;
-  toneCheck: BiffRewriteToneCheck;
-};
-⋮----
-function stripJsonFences(raw: string): string
-⋮----
-function extractJsonObject(raw: string): string
-⋮----
-function normalizeToneCheck(value: unknown): BiffRewriteToneCheck
-⋮----
-export function biffRewriteDraftFallback(draft: string): BiffRewriteDraftResult
-⋮----
-export function parseBiffRewriteDraftJson(raw: string, draft: string): BiffRewriteDraftResult
-````
-
-## File: functions/src/lib/childObservationEpistemics.ts
-````typescript
-export type EpistemicKind = 'citat' | 'tolkning';
-⋮----
-export function hasEpistemicPrefix(text: string): boolean
-⋮----
-export function formatChildObservation(text: string, kind: EpistemicKind): string
-⋮----
-export function inferEpistemicKind(input: {
-  authorRole?: string;
-  category?: string;
-  channel?: string;
-}): EpistemicKind
-⋮----
-export function isParentVisibleChildLog(data:
-````
-
-## File: functions/src/lib/childrenLogsQueryRag.ts
-````typescript
-import { isParentVisibleChildLog } from './childObservationEpistemics';
-⋮----
-function tokenize(text: string): string[]
-⋮----
-function formatDate(value: unknown): string
-⋮----
-function searchableText(data: admin.firestore.DocumentData): string
-⋮----
-function excerptForDoc(data: admin.firestore.DocumentData): string
-⋮----
-export interface ChildrenLogEvidenceChunk {
-  docId: string;
-  childAlias: string;
-  date: string;
-  action: string;
-  excerpt: string;
-  body: string;
-}
-⋮----
-/**
- * Barnen-silo RAG — läser ENDAST `children_logs`. MUST NOT anropa valv/kampspar.
- */
-export async function fetchChildrenLogsForQuery(
-  uid: string,
-  question: string,
-  childAlias?: string,
-  limit = 12
-): Promise<ChildrenLogEvidenceChunk[]>
-````
-
-## File: functions/src/lib/dcapAlertReview.ts
-````typescript
-export type DcapReviewDecision = 'acknowledged' | 'dismissed';
-⋮----
-export async function resolveDcapAlertForUser(
-  uid: string,
-  alertId: string,
-  decision: DcapReviewDecision,
-): Promise<
-````
-
-## File: functions/src/lib/dossierPdf.ts
-````typescript
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
-import type { CanonicalDossierEntry } from './dossierCanonicalHash';
-import type { DossierAiForewordResult } from './dossierAiForeword';
-⋮----
-function wrapText(text: string): string[]
-⋮----
-function entryBody(entry: CanonicalDossierEntry): string
-⋮----
-type PdfBuildOptions = {
-  dossierId: string;
-  documentHash: string;
-  generatedAtIso: string;
-  reportType: string;
-  dateFrom: string;
-  dateTo: string;
-  includeAiForeword: boolean;
-  aiForeword?: DossierAiForewordResult;
-  entries: CanonicalDossierEntry[];
-  tacticSummary?: { technique: string; count: number }[];
-};
-⋮----
-export async function buildDossierPdf(options: PdfBuildOptions): Promise<Uint8Array>
-⋮----
-const drawLine = (text: string, bold = false) =>
-⋮----
-const drawBlock = (text: string, bold = false) =>
-````
-
-## File: functions/src/lib/inboxClassifier.ts
-````typescript
-import { INKORG_SORTERARE_SYSTEM_PROMPT } from '../sharedRules';
-import {
-  normalizeInkastSourceModule,
-  stripInjectedSourceModuleFromText,
-} from './inkastSourceModule';
-import { createGenAI } from './genaiClient';
-import { INKAST_CONFIDENCE_THRESHOLD } from './inkastConstants';
-⋮----
-export type InboxRouting = 'kunskap' | 'bevis' | 'barnen' | 'dagbok' | 'review' | 'planning';
-⋮----
-export interface InboxClassification {
-  routing: InboxRouting;
-  tags: string[];
-  category: string;
-  confidence: number;
-  summary: string;
-  traumaSensitive: boolean;
-  childAlias?: string;
-  rationale: string;
-}
-⋮----
-function parseClassificationJson(raw: string): InboxClassification | null
-⋮----
-// Normalise Swedish alias 'planering' → canonical 'planning' (prompt alignment guard).
-⋮----
-/** Deterministisk försortering — fail-safe innan LLM (anti-hallucination). */
-export function heuristicInboxClassify(
-  analysisText: string,
-  fileName: string
-): InboxClassification | null
-⋮----
-export function buildInboxClassifyBlob(analysisText: string, sourceModule?: string): string
-⋮----
-export async function classifyInboxDocument(
-  analysisText: string,
-  fileName: string,
-  geminiApiKey?: string
-): Promise<InboxClassification>
-⋮----
-export function applyInkastConfidenceGate(
-  classification: InboxClassification,
-): InboxClassification
-⋮----
-export function requiresHumanReview(
-  classification: InboxClassification,
-  optInTrauma?: boolean
-): boolean
-⋮----
-export function isManualInkastClassification(classification: InboxClassification): boolean
-⋮----
-export function buildManualInkastClassification(input: {
-  routing: Exclude<InboxRouting, 'review'>;
-  category?: string;
-  tags?: string[];
-  comment?: string;
-  analysisExcerpt?: string;
-  childAlias?: string;
-}): InboxClassification
-````
-
-## File: functions/src/lib/kunskapContentBankGate.ts
-````typescript
-import type { InboxClassification } from './inboxClassifier';
-⋮----
-export function isKunskapFactApproved(classification: InboxClassification): boolean
-````
-
-## File: functions/src/lib/pipelineRunStore.ts
-````typescript
-import { getFirestore, FieldValue, type FieldValue as FieldValueType } from 'firebase-admin/firestore';
-⋮----
-export type PipelineRunStatus = 'spawned' | 'PASS' | 'FAIL' | 'validated' | 'exported';
-⋮----
-export interface PipelineRunRecord {
-  userId: string;
-  ownerId: string;
-  toolId: string;
-  status: PipelineRunStatus;
-  schemaVersion: string;
-  smokeTier?: number;
-  commitSha?: string;
-  errorCode?: string;
-  createdAt: FieldValueType;
-}
-⋮----
-export async function appendPipelineRun(
-  uid: string,
-  data: Omit<PipelineRunRecord, 'userId' | 'ownerId' | 'createdAt'>,
-): Promise<string>
-````
-
-## File: functions/src/lib/recordDiscoveryMilestoneServer.ts
-````typescript
-import {
-  ledgerEntryDedupKey,
-  ledgerEntryDedupKeyFromStored,
-} from '../../../shared/evolution/evolutionHubLedgerSync';
-⋮----
-export async function recordDiscoveryMilestoneServer(
-  userId: string,
-  categoryId: string,
-  firstBankId: string,
-): Promise<
-````
-
-## File: functions/src/lib/submitInkastLite.ts
-````typescript
-import { randomUUID } from 'crypto';
-import {
-  classifyInboxDocument,
-  buildManualInkastClassification,
-  buildInboxClassifyBlob,
-  applyInkastConfidenceGate,
-  type InboxClassification,
-  type InboxRouting,
-} from './inboxClassifier';
-import { routeInboxToWorm } from './inboxPersist';
-import { analyzeUploadForKnowledge } from './analyzeUploadForKnowledge';
-import { uploadInkastEvidence } from './uploadInkastEvidence';
-import { normalizeInkastSourceModule, stripInjectedSourceModuleFromText } from './inkastSourceModule';
-import { INKAST_AUDIO_MIMES, isInkastAudioMime } from './inkastConstants';
-import { transcribeInkastAudio } from './transcribeInkastAudio';
-⋮----
-export type SubmitInkastLiteInput = {
-  text?: string;
-  fileName?: string;
-  mimeType?: string;
-  base64?: string;
-  base64Files?: string[];
-  mimeTypes?: string[];
-  fileNames?: string[];
-  optInTrauma?: boolean;
-  sourceModule?: string;
-  manualRouting?: Exclude<InboxRouting, 'review'>;
-  manualCategory?: string;
-  manualTags?: string[];
-  manualComment?: string;
-  manualChildAlias?: string;
-};
-⋮----
-export type SubmitInkastLiteItemResult = {
-  classification: InboxClassification;
-  action: 'queued' | 'persisted';
-  collection?: string;
-  docId?: string;
-  queueId?: string;
-  fileId: string;
-  fileName: string;
-  evidenceUrl?: string;
-};
-⋮----
-export type SubmitInkastLiteResult = {
-  items: SubmitInkastLiteItemResult[];
-  processed: number;
-  persisted: number;
-  queued: number;
-  failed: number;
-  errors: Array<{ fileName: string; error: string }>;
-};
-⋮----
-type ManualInkastOverride = {
-  routing: Exclude<InboxRouting, 'review'>;
-  category?: string;
-  tags?: string[];
-  comment?: string;
-  childAlias?: string;
-};
-⋮----
-function normalizeManualTags(raw: unknown): string[] | undefined
-⋮----
-function resolveManualOverride(input: SubmitInkastLiteInput): ManualInkastOverride | undefined
-⋮----
-type InkastFileJob = {
-  fileName: string;
-  mimeType: string;
-  base64: string;
-};
-⋮----
-function resolveClassification(
-  classifyBlob: string,
-  fileName: string,
-  analysisText: string,
-  manual: ManualInkastOverride | undefined,
-  geminiApiKey?: string
-): Promise<InboxClassification> | InboxClassification
-⋮----
-async function finalizeClassification(
-  classification: InboxClassification | Promise<InboxClassification>,
-  manual: ManualInkastOverride | undefined
-): Promise<InboxClassification>
-⋮----
-function isPlainTextMime(mimeType: string, fileName: string): boolean
-⋮----
-function normalizeMimeType(raw: unknown, fileName: string): string
-⋮----
-function resolveFileJobs(input: SubmitInkastLiteInput): InkastFileJob[]
-⋮----
-async function extractAnalysisFromBuffer(
-  buffer: Buffer,
-  mimeType: string,
-  fileName: string
-): Promise<string>
-⋮----
-async function processOneInkastFile(
-  ownerId: string,
-  job: InkastFileJob,
-  sourceModule: string | undefined,
-  optInTrauma: boolean,
-  manual: ManualInkastOverride | undefined,
-  geminiApiKey: string | undefined,
-  hasVaultSession: boolean,
-  isVerified: boolean
-): Promise<SubmitInkastLiteItemResult>
-⋮----
-async function processTextInkast(
-  ownerId: string,
-  text: string,
-  fileName: string,
-  sourceModule: string | undefined,
-  optInTrauma: boolean,
-  manual: ManualInkastOverride | undefined,
-  geminiApiKey: string | undefined,
-  hasVaultSession: boolean,
-  isVerified: boolean
-): Promise<SubmitInkastLiteItemResult>
-⋮----
-export async function submitInkastLiteForUser(
-  ownerId: string,
-  input: SubmitInkastLiteInput,
-  geminiApiKey: string | undefined,
-  hasVaultSession: boolean,
-  isVerified: boolean
-): Promise<SubmitInkastLiteResult>
-````
-
-## File: functions/src/lib/vaultBiometricChallenge.ts
-````typescript
-import { createHash, randomBytes, timingSafeEqual } from 'crypto';
-import { HttpsError } from 'firebase-functions/v2/https';
-⋮----
-function challengeRef(uid: string)
-⋮----
-function hashProof(proof: string): string
-⋮----
-function safeEqualHex(a: string, b: string): boolean
-⋮----
-export async function beginVaultBiometricChallenge(uid: string): Promise<
-⋮----
-export async function consumeVaultBiometricChallenge(
-  uid: string,
-  input: {
-    challengeId: unknown;
-    challengeProof: unknown;
-    platform: 'android' | 'ios';
-  },
-): Promise<void>
-````
-
-## File: functions/src/lib/vaultSessionGate.ts
-````typescript
-import { randomBytes } from 'crypto';
-import { HttpsError } from 'firebase-functions/v2/https';
-⋮----
-function sessionRef(uid: string)
-⋮----
-export function readVaultSessionToken(data: unknown): string | null
-⋮----
-export async function issueVaultSession(
-  uid: string,
-): Promise<
-⋮----
-export async function revokeVaultSession(uid: string): Promise<void>
-⋮----
-async function clearVaultJwtClaims(uid: string): Promise<void>
-⋮----
-async function refreshVaultJwtClaims(uid: string, serverExpiresAt: string): Promise<void>
-⋮----
-export async function vaultSessionGrantsVaultRead(uid: string, data: unknown): Promise<boolean>
-⋮----
-export async function assertVaultSession(uid: string, data: unknown): Promise<void>
-````
-
-## File: functions/src/lib/weaverPending.ts
-````typescript
-import type { WeaverResult } from '../agents/weaverAgent';
-import { assertServerWormPayload, REALITY_VAULT_ALLOWED_KEYS } from './wormPayload';
-⋮----
-export type WeaverPendingDoc = {
-  userId: string;
-  ownerId: string;
-  journalEntryId: string;
-  sourceMood: string;
-  sourceTextPreview: string;
-  truth: string;
-  weaverTags: WeaverResult & { model: 'gemini-1.5-pro'; journalEntryId: string };
-  status: 'pending';
-  createdAt: FirebaseFirestore.FieldValue;
-};
-⋮----
-export async function createWeaverPending(input: {
-  uid: string;
-  journalEntryId: string;
-  sourceMood: string;
-  sourceText: string;
-  tags: WeaverResult;
-}): Promise<
-⋮----
-async function assertPendingOwner(uid: string, pendingId: string)
-⋮----
-export async function approveWeaverPending(
-  uid: string,
-  pendingId: string,
-): Promise<
-⋮----
-export async function rejectWeaverPending(uid: string, pendingId: string): Promise<void>
-⋮----
-export async function listPendingWeaverForUser(uid: string, limit = 20)
-````
-
-## File: functions/src/schemas/biffRewrite.ts
-````typescript
-export type BiffToneCheck = 'pass' | 'still_emotional' | 'too_long';
-⋮----
-export interface BiffRewriteResponse {
-  cleanedText: string;
-  toneCheck: BiffToneCheck;
-}
-⋮----
-export function validateBiffRewriteResponse(value: unknown): BiffRewriteResponse | null
-````
-
-## File: functions/src/schemas/brusfilter.ts
-````typescript
-export type BrusfilterRecommendedAction = 'INGEN' | 'VARNING';
-⋮----
-export interface BrusfilterResponse {
-  dcap_analysis: {
-    risk_score: number;
-    recommended_action: BrusfilterRecommendedAction;
-  };
-  isolated_logistics: string;
-  biff_draft_reply: string;
-}
-⋮----
-export function validateBrusfilterResponse(value: unknown): BrusfilterResponse | null
-````
-
-## File: functions/src/schemas/dossierForeword.ts
-````typescript
-export interface DossierTimelineRow {
-  date: string;
-  fact: string;
-  sourceRef?: string;
-}
-⋮----
-export interface DossierForewordResponse {
-  foreword: string;
-  timeline: DossierTimelineRow[];
-}
-⋮----
-export function validateDossierForewordResponse(value: unknown): DossierForewordResponse | null
-````
-
-## File: functions/src/schemas/index.ts
-````typescript
-export type P1FlowToolId = (typeof P1_FLOW_TOOL_IDS)[number];
-````
-
-## File: functions/src/schemas/inkastClassify.ts
-````typescript
-export type InboxRouting =
-  | 'kunskap'
-  | 'bevis'
-  | 'barnen'
-  | 'dagbok'
-  | 'review'
-  | 'planning';
-⋮----
-export interface InkastClassifyResponse {
-  routing: InboxRouting;
-  tags: string[];
-  category: string;
-  confidence: number;
-  summary: string;
-  traumaSensitive: boolean;
-  childAlias?: string;
-  rationale: string;
-}
-⋮----
-export function validateInkastClassifyResponse(value: unknown): InkastClassifyResponse | null
-````
-
-## File: functions/src/schemas/patternAssist.ts
-````typescript
-export interface PatternAssistResponse {
-  pattern_ids: string[];
-}
-⋮----
-export function validatePatternAssistResponse(
-  value: unknown,
-  allowedIds: Set<string>,
-): PatternAssistResponse | null
-````
-
-## File: functions/src/schemas/valvChat.ts
-````typescript
-export interface ValvChatCitation {
-  docId: string;
-  date: string;
-  excerpt: string;
-}
-⋮----
-export interface ValvChatResponse {
-  answer: string;
-  citations: ValvChatCitation[];
-  theoryWithoutEvidence?: boolean;
-}
-⋮----
-export function validateValvChatResponse(
-  value: unknown,
-  allowedDocIds: Set<string>,
-): ValvChatResponse | null
-````
-
-## File: functions/src/expertPrompts.ts
-````typescript
-import {
-  ADHD_COACH_SYSTEM_PROMPT,
-  KOMPIS_SYSTEM_PROMPT,
-  REALITY_CHECKER_SYSTEM_PROMPT,
-} from './sharedRules';
-````
-
-## File: functions/tsconfig.json
-````json
-{
-  "compilerOptions": {
-    "module": "commonjs",
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "outDir": "lib",
-    "sourceMap": true,
-    "strict": true,
-    "target": "es2021",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "resolveJsonModule": true
-  },
-  "compileOnSave": true,
-  "include": [
-    "src",
-    "../shared/economy/**/*.ts",
-    "../shared/patterns/**/*.ts",
-    "../shared/evolution/**/*.ts",
-    "../shared/adaptation/**/*.ts"
-  ]
-}
-````
-
-## File: src/modules/core/auth/authService.ts
-````typescript
-import {
-  EmailAuthProvider,
-  linkWithCredential,
-  linkWithPopup,
-  linkWithRedirect,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signInWithPopup,
-  signInWithRedirect,
-  signOut,
-  type User,
-} from 'firebase/auth';
-import { auth } from '../firebase/init';
-import { clearAppUnlockSession } from './appUnlockPrefs';
-import { endVaultSession } from '../security/vaultSessionLifecycle';
-import { toast } from '../store/toastStore';
-import { FirebaseError } from 'firebase/app';
-import { clearSpeglarSession } from '@/features/lifeJournal/diary/mirror/utils/speglarSessionStorage';
-import { clearMaterialPackLocalCache } from '../lifeOs/materialPackApi';
-import { isCapacitorNative } from './capacitorPlatform';
-import { capacitorGoogleSignIn, capacitorNativeSignOut } from './nativeGoogleAuth';
-import {
-  createGoogleProvider,
-  markSkipAnonymousOnce,
-  shouldUseGoogleRedirect,
-} from './googleAuthProvider';
-import { clearAllDrafts } from '../../capture/draftQueue';
-import { flushBarnportenOfflineQueue } from '@/features/onboarding/barnporten/api/saveBarnportenLog';
-import { flushActionDashboardQueue } from '@/features/widgets/api/actionDashboardApi';
-import { clearAllPendingBarnportenLogs } from '@/features/onboarding/barnporten/api/barnportenOfflineQueue';
-import { clearPendingActionDashboardItemsForUser } from '@/features/widgets/api/actionDashboardOfflineQueue';
-import { resetAdaptationSignalThrottle } from '../adaptation/adaptationSignalThrottle';
-import { useAdaptationStore } from '../store/useAdaptationStore';
-⋮----
-export function mapAuthError(code: string): string
-⋮----
-export async function linkOrCreateEmailAccount(email: string, password: string): Promise<User>
-⋮----
-export async function signInWithEmail(email: string, password: string): Promise<User>
-⋮----
-export type SignInWithGoogleOptions = {
-  linkAnonymous?: boolean;
-};
-⋮----
-export async function signInWithGoogle(options: SignInWithGoogleOptions =
-⋮----
-const prepareGoogleSignIn = async (): Promise<void> =>
-⋮----
-const signInExistingGoogle = async (): Promise<User | null> =>
-⋮----
-export async function signOutUser(): Promise<void>
-````
-
-## File: src/modules/core/auth/sessionService.ts
-````typescript
-import { httpsCallable } from 'firebase/functions';
-import { functions, auth } from '../firebase/init';
-import { clearVaultServerSession } from './vaultServerSession';
-import type { VaultZoneId } from '../security/vaultZones';
-import { vaultZoneStorageKey, ALL_VAULT_ZONE_IDS } from '../security/vaultZones';
-⋮----
-export async function invalidateServerSession(): Promise<void>
-⋮----
-export function setVaultGate(): void
-⋮----
-export function clearVaultGate(): void
-⋮----
-export function hasVaultGate(): boolean
-⋮----
-export function setVaultZone(zone: VaultZoneId): void
-⋮----
-export function clearVaultZone(zone: VaultZoneId): void
-⋮----
-export function hasVaultZone(zone: VaultZoneId): boolean
-⋮----
-export function clearAllVaultZones(): void
-````
-
-## File: src/modules/core/auth/valvFyrenGate.ts
-````typescript
-import type { NavigateFunction } from 'react-router-dom';
-import { NAV_PATHS } from '../navigation/navTruth';
-import { setVaultGate, clearVaultGate } from './sessionService';
-import { isWebAuthnReliable, performVaultWebAuthnForSession } from './vaultWebAuthnClient';
-import { issueVaultServerSession, issueVaultSessionAfterNativeBiometric } from './vaultServerSession';
-import { applyVaultJwtClaim } from '../security/vaultWriteUnlock';
-import { isEmailAuthRequired } from './requireEmailAuth';
-import { isCapacitorNative } from '../platform/capacitorPlatform';
-import { useStore } from '../store';
-⋮----
-type OpenValvViaFyrenOptions = {
-  pathname?: string;
-  search?: string;
-  onDenied?: (message: string) => void;
-};
-⋮----
-export async function openValvViaFyren(
-  navigate: NavigateFunction,
-  options?: OpenValvViaFyrenOptions,
-): Promise<boolean>
-⋮----
-// ── GREN 2: Native Biometric (Capacitor Android / iOS — fallback) ──────────
-⋮----
-// ── GREN 3: Ingen autentisering tillgänglig ─────────────────────────────────
-````
-
-## File: src/modules/core/auth/vaultServerSession.ts
-````typescript
-import { httpsCallable } from 'firebase/functions';
-import type {
-  AuthenticationResponseJSON,
-  RegistrationResponseJSON,
-} from '@simplewebauthn/browser';
-import { functions } from '../firebase/init';
-import { getVaultWebAuthnContext, isWebAuthnReliable, performVaultWebAuthnForSession } from './vaultWebAuthnClient';
-import { formatCallableError } from './callableErrorMessage';
-import { isCapacitorNative } from '../platform/capacitorPlatform';
-import { performNativeBiometric } from './nativeBiometricAuth';
-⋮----
-type VaultSessionIssueResult = {
-  vaultSessionToken?: string;
-  expiresAt?: string;
-};
-⋮----
-type VaultSessionIssuePayload = {
-  webAuthnResponse: RegistrationResponseJSON | AuthenticationResponseJSON;
-  rpID: string;
-  origin: string;
-};
-⋮----
-export function getVaultSessionToken(): string | null
-⋮----
-export function clearVaultServerSession(): void
-⋮----
-export async function ensureVaultServerSession(): Promise<boolean>
-⋮----
-type VaultSessionTokenField = { vaultSessionToken?: string };
-⋮----
-interface VaultCallablePayloadBase {}
-⋮----
-export function withVaultSessionPayload<T extends VaultCallablePayloadBase>(
-  payload: T,
-): T & VaultSessionTokenField
-⋮----
-export type VaultSessionIssueOutcome =
-  | { ok: true }
-  | { ok: false; message: string };
-⋮----
-export async function issueVaultServerSession(
-  webAuthnResponse: RegistrationResponseJSON | AuthenticationResponseJSON,
-): Promise<VaultSessionIssueOutcome>
-⋮----
-type BiometricSessionPayload = {
-  platform: 'android' | 'ios';
-  challengeId: string;
-  challengeProof: string;
-};
-⋮----
-type BiometricChallengeResult = {
-  challengeId: string;
-  challengeProof: string;
-  expiresAt: string;
-};
-⋮----
-export async function issueVaultSessionAfterNativeBiometric(): Promise<VaultSessionIssueOutcome>
-⋮----
-export async function issueVaultSessionViaBiometric(
-  _platform: 'android' | 'ios',
-): Promise<VaultSessionIssueOutcome>
-⋮----
-export async function ensureVaultServerSessionFromGate(): Promise<VaultSessionIssueOutcome>
-````
-
-## File: src/modules/core/firebase/evolutionLedgerFirestore.ts
-````typescript
-import { getFunctions, httpsCallable } from 'firebase/functions';
-import { app } from './init';
-import type { DiscoveryCategoryId } from '@/features/dailyLife/wellbeing/compasses/content/discoveryBentoCatalog';
-import type { EvolutionHubDoc } from '../types/firestore';
-⋮----
-function milestoneCacheKey(userId: string, categoryId: DiscoveryCategoryId): string
-⋮----
-function readMilestoneCache(userId: string, categoryId: DiscoveryCategoryId): boolean
-⋮----
-function writeMilestoneCache(userId: string, categoryId: DiscoveryCategoryId): void
-⋮----
-export async function recordDiscoveryMilestoneIfNew(
-  userId: string,
-  categoryId: DiscoveryCategoryId,
-  firstBankId: string,
-): Promise<boolean>
-⋮----
-export async function syncEvolutionHubToLedger(
-  _userId: string,
-  _prev: EvolutionHubDoc | null,
-  _next: EvolutionHubDoc,
-): Promise<void>
-⋮----
-export async function recordPillarCapacityIncreases(
-  userId: string,
-  prev: EvolutionHubDoc | null,
-  next: EvolutionHubDoc,
-): Promise<void>
-⋮----
-export async function recordFeatureUnlocks(
-  userId: string,
-  prev: EvolutionHubDoc | null,
-  next: EvolutionHubDoc,
-): Promise<void>
-⋮----
-export async function recordChildAgeMilestones(
-  userId: string,
-  prev: EvolutionHubDoc | null,
-  next: EvolutionHubDoc,
-): Promise<void>
-⋮----
-export async function recordBarnportenLevelIncrease(
-  userId: string,
-  prev: EvolutionHubDoc | null,
-  next: EvolutionHubDoc,
-): Promise<void>
-⋮----
-export async function recordUnlockedPackChanges(
-  userId: string,
-  prev: EvolutionHubDoc | null,
-  next: EvolutionHubDoc,
-): Promise<void>
-⋮----
-export async function mergeEvolutionHub(
-  userId: string,
-  patch: Record<string, unknown>,
-): Promise<void>
-````
-
-## File: src/modules/core/security/vaultSessionLifecycle.ts
-````typescript
-import { clearSpeglarSession } from '@/features/lifeJournal/diary/mirror/utils/speglarSessionStorage';
-import { clearAllVaultZones, hasVaultGate, invalidateServerSession } from '../auth/sessionService';
-import { ensureVaultServerSession } from '../auth/vaultServerSession';
-import { useStore } from '../store';
-import { useVaultStore } from '../store/useVaultStore';
-⋮----
-type EndVaultSessionOptions = {
-  invalidateServer?: boolean;
-  closeDrawer?: boolean;
-};
-⋮----
-export async function endVaultSession(options?: EndVaultSessionOptions): Promise<void>
-⋮----
-export function syncVaultUnlockedFromGate(): void
-⋮----
-export async function ensureVaultSessionReady(): Promise<boolean>
-````
-
-## File: src/modules/core/security/WormSaveConfirmSheet.tsx
-````typescript
-import { Loader2, Shield } from 'lucide-react';
-⋮----
-type Props = {
-  contextLabel?: string;
-  busy?: boolean;
-  onConfirm: () => void;
-  onCancel: () => void;
-};
-````
-
-## File: src/modules/core/store/useEvolutionStore.ts
-````typescript
-import { create } from 'zustand';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { db } from '../firebase/firestore';
-import { FIRESTORE_COLLECTIONS, type EvolutionHubDoc } from '../types/firestore';
-⋮----
-export interface EvolutionState {
-  doc: EvolutionHubDoc | null;
-  isLoading: boolean;
-  isInitialized: boolean;
-  error: string | null;
-  barnportenLevel: number;
-  unlockedPacks: string[];
-  hasSeenLevel2Animation: boolean;
-  setDoc: (doc: EvolutionHubDoc | null, options?: { userId?: string }) => void;
-  setLoading: (loading: boolean) => void;
-  setError: (error: string | null) => void;
-  listenToEvolutionHub: (uid: string) => () => void;
-  setHasSeenLevel2Animation: (seen: boolean) => void;
-  hasFeature: (flag: string) => boolean;
-  hasUnlockedPack: (packId: string) => boolean;
-  getChildBracket: (alias: string) => 'toddler_preschool' | 'early_school' | 'pre_teen' | 'teen';
-}
-````
-
-## File: storage.rules
-````
-rules_version = '2';
-
-service firebase.storage {
-  match /b/{bucket}/o {
-    // WORM evidence media — uid-scoped, append-only (create + read, no update/delete)
-    match /vault_evidence/{userId}/{allPaths=**} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow create: if request.auth != null && request.auth.uid == userId;
-      allow update, delete: if false;
-    }
-
-    // Projekt bildblock — uid + projectId scoped (P2)
-    match /project_media/{userId}/{projectId}/{allPaths=**} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow create: if request.auth != null && request.auth.uid == userId;
-      allow update, delete: if false;
-    }
-
-    // Barnlivslogg-foto — ActionDashboard / widget (uid + childAlias scoped)
-    match /children_logs_media/{userId}/{childAlias}/{fileName} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow create: if request.auth != null && request.auth.uid == userId;
-      allow update, delete: if false;
-    }
-
-    // Dagbok Lager 1 — personliga minnen (WORM, skild från vault_evidence)
-    match /users/{userId}/journal_memories/{entryId}/{allPaths=**} {
-      allow read: if request.auth != null && request.auth.uid == userId;
-      allow create: if request.auth != null && request.auth.uid == userId;
-      allow update, delete: if false;
-    }
-
-    // Dossier PDF — skrivs av generateDossier (Admin SDK); nedladdning via signed URL
-    match /dossier_exports/{userId}/{fileName} {
-      allow read: if request.auth != null
-        && request.auth.uid == userId
-        && request.auth.token.vaultUnlocked == true
-        && request.time.toMillis() < request.auth.token.vaultExpiresAt;
-      allow write: if false;
-    }
-  }
-}
-````
-
-## File: docs/DEPLOY.md
-````markdown
-# Deploy (Livskompassen3.0)
-
-Kanonisk rot: `Livskompassen3.0/` (projektrot med `firebase.json`).
-
-Firebase-projekt: `gen-lang-client-0481875058`  
-Region (Functions): `europe-west1`
-
-## Förutsättningar
-
-1. **Auth-domäner + Google:** [`FIREBASE-AUTH-LATHUND.md`](./FIREBASE-AUTH-LATHUND.md) (Console-steg du gör själv).
-2. `.env` i projektroten med alla `VITE_FIREBASE_*` från [Firebase Console → Project settings](https://console.firebase.google.com/project/gen-lang-client-0481875058/settings/general).
-3. Firebase CLI inloggad: `firebase login` och `firebase use gen-lang-client-0481875058`.
-4. **Authentication → Anonymous** aktiverad i Firebase Console.
-
-## YOLO-vakt (MUST före deploy)
-
-**Kanon:** [`YOLO-VAKT-GATE.md`](./YOLO-VAKT-GATE.md)
-
-1. Read-only audit: `/yolo-vakt` → **GO / NO-GO**
-2. Automatiserad gate: `npm run smoke:yolo` (PASS krävs)
-3. Pontus OK vid PMIR-stopp (rules, Barnporten kanon-UI, Sacred UX)
-
-```bash
-npm run smoke:yolo
-firebase deploy --only hosting   # eller named functions enligt tabell nedan
-```
-
-**Snabb dev:** `YOLO_SKIP_BUILD=1 npm run smoke:yolo`
-
----
-
-## Bygg (lokalt)
-
-```bash
-cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
-cd functions && npm run build && cd ..
-npm run build
-```
-
-## Deploy — Firestore + Storage + modul-Functions
-
-**Full inventering (35 fn):** [`GCP-INVENTORY-LATEST.md`](./GCP-INVENTORY-LATEST.md)
-
-```bash
-cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
-firebase deploy --only firestore:rules,firestore:indexes
-firebase deploy --only storage
-firebase deploy --only functions:beginVaultWebAuthnChallenge,functions:issueVaultSession,functions:analyzeMessage,functions:invalidateSession,functions:generateEmbedding,functions:ingestKampsparEntry,functions:ingestKnowledgeDocument,functions:knowledgeVaultQuery,functions:valvChatQuery,functions:childrenLogsQuery,functions:getEntityProfileRegistry,functions:addEntityProfile,functions:scheduledRetentionJob,functions:weaveJournalEntry,functions:approveWeaverMetadata,functions:confirmInboxItem,functions:speglingsMirror,functions:generateDossier,functions:ingestWidgetRecording,functions:createBarnportenPairing,functions:claimBarnportenPairing --force
-```
-
-**Valv-session:** `beginVaultWebAuthnChallenge` + `issueVaultSession` måste deployas tillsammans — smoke: `npm run smoke:locked-ux`, `npm run smoke:valv-gate`.
-
-**Hjärtat (Speglar):** `speglingsMirror` måste deployas för AI-spegling i prod.
-
-**Storage:** `storage.rules` krävs för valv-media (`vault_evidence/{uid}/**`) och projektbilder (`project_media/{uid}/{projectId}/**`).
-
-**Första gången:** Aktivera Storage i [Firebase Console → Storage](https://console.firebase.google.com/project/gen-lang-client-0481875058/storage) (*Get Started*), välj region (t.ex. `europe-west1`), sedan:
-
-```bash
-firebase deploy --only storage
-```
-
-Utan aktiverad Storage + deploy misslyckas skärmdump-uppladdning i prod.
-
-Valfritt i samma körning (redan i repo, ej kritisk för hjärtat): `breakDownResponse`, `getAgentRegistry`, `generateDossier`.
-
-**Dossier smoke:** `npm run smoke:dossier` efter deploy av `functions:generateDossier`. Om signed URL failar i loggar: Functions service account behöver `iam.serviceAccounts.signBlob` — appen faller tillbaka till `pdfBase64` i svaret.
-
-**Obs:** En full deploy `firebase deploy --only functions` inkluderar `notifyNewFile`, som kräver secret (se nedan).
-
-**Kunskap / Gemini:** Projektet `gen-lang-client-*` har ofta **ingen** Vertex Publisher-modellåtkomst (404 i loggar). RAG-fallback fungerar utan LLM. För full syntes:
-
-```bash
-# 1) Skapa nyckel på https://aistudio.google.com/apikey (server-only, aldrig VITE_*)
-firebase functions:secrets:set GEMINI_API_KEY
-
-# 2) I functions/src/index.ts — lägg till secrets på knowledgeVaultQuery:
-#    { region: 'europe-west1', secrets: ['GEMINI_API_KEY'] }
-
-firebase deploy --only functions:knowledgeVaultQuery
-npm run smoke:kunskap
-```
-
-### `notifyNewFile` (Drive-webhook)
-
-Kräver secret innan deploy:
-
-```bash
-# Generera värde (spara i password manager — committa aldrig)
-openssl rand -base64 32
-
-# Interaktivt — klistra in värdet när CLI frågar
-firebase functions:secrets:set NOTIFY_WEBHOOK_SECRET
-
-firebase deploy --only functions:notifyNewFile
-```
-
-Samma värde ska sättas som `WEBHOOK_SECRET` i Apps Script (se [DRIVE_AUTOMATION.md](./DRIVE_AUTOMATION.md)).
-
-## Fas 1 — Säkerhetshårdning (2026-06-11)
-
-### 1.2 Prod: kräv e-postinloggning
-
-Bygg hosting med flaggan satt (Vite bäddar in vid build — inte runtime):
-
-```bash
-VITE_REQUIRE_EMAIL_AUTH=true npm run build
-firebase deploy --only hosting
-```
-
-- Lokalt/dev: lämna flaggan **av** i `.env` — anonym auth fungerar fortfarande.
-- Prod (valfritt): stäng av **Authentication → Anonymous** i Firebase Console när du kör e-postkrav.
-
-### 1.3 Firestore: `email_verified`
-
-Regler på WORM-silos (`journal`, `reality_vault`, `children_logs`, `dossier_snapshots` read): Google/e-post måste vara **verifierade**; anonym provider tillåts fortfarande för dev/smoke.
-
-```bash
-firebase deploy --only firestore:rules
-```
-
-### 1.4 Firebase App Check
-
-**Console (engångs):**
-
-1. [Firebase Console → App Check](https://console.firebase.google.com/project/gen-lang-client-0481875058/appcheck) → registrera **Web**-appen.
-2. Provider: **reCAPTCHA v3** — kopiera **site key** (visas bara i Console under web-appen, inte via API) till `.env`: `VITE_APP_CHECK_RECAPTCHA_SITE_KEY=…`
-   - Prod-hosting måste byggas om med nyckeln innan `APP_CHECK_ENFORCE=true` fungerar för riktiga användare (klienten initierar App Check i `main.tsx` → `initAppCheck()`).
-   - Functions: `APP_CHECK_ENFORCE=true` i `functions/.env.gen-lang-client-0481875058` (gitignored) laddas vid deploy.
-3. Lokal dev: App Check → **Manage debug tokens** → lägg token i `.env`: `VITE_APP_CHECK_DEBUG_TOKEN=…`
-4. **Android:** registrera `com.livskompassen.app` med **Play Integrity** (Capacitor) — samma App Check-projekt.
-5. När web+Android skickar tokens: aktivera enforcement på **Cloud Functions** i App Check-konsolen.
-
-**Functions (prod enforcement):**
-
-```bash
-# Sätt env på berörda functions (exempel — upprepa per LLM-callable eller via firebase.json)
-firebase functions:config:set appcheck.enforce=true   # legacy — prefer env APP_CHECK_ENFORCE
-
-# Rekommenderat: Firebase Functions v2 env (Google Cloud Console → Cloud Run / Functions)
-# APP_CHECK_ENFORCE=true
-```
-
-Kod: fail-open tills `APP_CHECK_ENFORCE=true` (eller `FUNCTIONS_EMULATOR=true` → alltid öppen). Deploy berörda callables efter aktivering:
-
-```bash
-cd functions && npm run build && cd ..
-firebase deploy --only functions:issueVaultSession,functions:beginVaultWebAuthnChallenge,functions:valvChatQuery,functions:analyzeMessage,functions:knowledgeVaultQuery,functions:childrenLogsQuery,functions:speglingsMirror,functions:mabraCoach,functions:generateDossier,functions:weaveJournalEntry,functions:ingestWidgetRecording,functions:generateEmbedding,functions:ingestKnowledgeDocument
-```
-
-### 1.5 Rate limits (LLM callables)
-
-Per-UID sliding window (60 s) via Firestore `_rate_limits` — ingen klientåtkomst. Deploy samma functions som ovan. Överskridande → `resource-exhausted`.
-
-### 1.6 WORM field allowlists
-
-`firestore.rules` använder `keys().hasOnly([...])` på create för `journal`, `reality_vault`, `children_logs`. Smoke: `npm run smoke:vault-worm`.
-
-## Deploy — Hosting (SPA)
-
-Efter frontend-ändringar:
-
-```bash
-npm run build
-firebase deploy --only hosting
-```
-
-**Produktions-URL:** https://gen-lang-client-0481875058.web.app  
-Alternativ: https://gen-lang-client-0481875058.firebaseapp.com
-
-## Smoke-test (manuellt)
-
-Se [SMOKE_CHECKLIST.md](./SMOKE_CHECKLIST.md). Kräver inloggad app (Anonymous Auth) och Firestore Console.
-
-## Felsökning
-
-| Problem | Åtgärd |
-|---------|--------|
-| `.firebaserc` parse-fel | Filen ska börja med `{` (inte `¨{`) |
-| `NOTIFY_WEBHOOK_SECRET` 404 vid functions-deploy | Sätt secret (ovan) innan `notifyNewFile` |
-| `knowledgeVaultQuery(us-central1)` konflikt | Använd `--force` vid deploy av functions-listan ovan, eller radera gammal region manuellt |
-| API key-varning vid functions-build | Sätt Vertex/Gemini-credentials i GCP för prod; lokalt kan varningen ignoreras om deploy lyckas |
-
-## Cloud Agent (Cursor) — deploy + säkerhet
-
-När deploy körs från **Cursor cloud agent** (ej Mac-terminal):
-
-1. **Auth:** MCP `firebase_login` → Pontus öppnar `auth.firebase.tools` → klistrar **engångs** authorization code i chat. Koden sparas **aldrig** i repo.
-2. **Gate:** `npm run build` + `YOLO_SKIP_BUILD=1 npm run smoke:yolo` (eller full `smoke:yolo`).
-3. **Named deploy** — inte full `firebase deploy` utan scope.
-4. **Audit (MUST):** `docs/evaluations/YYYY-MM-DD-yolo-audit.md` + rad i `docs/SMOKE_RESULTS.md`.
-5. **Orkester:** uppdatera `.orkester/fas22-state.json` med `deploy`, `sha`, `jobId`.
-
-```bash
-firebase use gen-lang-client-0481875058
-firebase deploy --only hosting
-```
-
-**MUST NOT:** committa `.env`, service-account JSON, `FIREBASE_TOKEN`, eller Firebase auth codes.
-
-**Verifiering efter deploy:** hard refresh (`Cmd+Shift+R`) på https://gen-lang-client-0481875058.web.app
-````
-
-## File: functions/src/adk/manifest.ts
-````typescript
-export type SiloId = 'kunskap' | 'valv' | 'barnen' | 'vardag' | 'core';
-⋮----
-export type DomainId = 'K' | 'V' | 'F' | 'L' | 'C';
-⋮----
-export type SynapseTrigger =
-  | 'drive_file_ingested'
-  | 'journal_woven'
-  | 'dcap_alert'
-  | 'user_overwhelm';
-⋮----
-export interface BackendDomainContract {
-  readonly id: DomainId;
-  readonly silo: SiloId;
-  readonly wormCollections: readonly string[];
-  readonly mutableCollections: readonly string[];
-  readonly adminOnlyCollections: readonly string[];
-  readonly allowedCrossReads: readonly SiloId[];
-  readonly requiresVaultUnlock: boolean;
-}
-⋮----
-export class BackendManifestError extends Error
-⋮----
-constructor(message: string)
-⋮----
-export function resolveBackendCollectionDomain(
-  collection: string,
-): BackendDomainContract | undefined
-⋮----
-export function assertBackendSiloIsolation(fromSilo: SiloId, toSilo: SiloId): void
-⋮----
-export function assertBackendWorm(
-  collection: string,
-  operation: 'update' | 'delete',
-): boolean
-⋮----
-export function assertBackendCollectionAccess(
-  domainId: DomainId,
-  collection: string,
-): boolean
-⋮----
-export function getBackendWormCollections(): string[]
-````
-
 ## File: functions/src/agents/vertexAgent.ts
 ````typescript
 import {
@@ -7407,6 +7004,7 @@ import {
   MABRA_MOVEMENT_COACH_SYSTEM_PROMPT,
 } from '../sharedRules';
 import { createGenAI } from '../lib/genaiClient';
+import { GEMINI_PRO, GEMINI_FLASH } from '../lib/modelRouter';
 import { appendAdaptationSemanticContext } from '../lib/adaptationSemanticContext';
 import {
   journalQuickMirrorFallback,
@@ -7497,90 +7095,240 @@ export const askVoiceParser = async (
 ): Promise<VoiceToVaultResult> =>
 ````
 
-## File: functions/src/callables/biffRewriteDraft.ts
+## File: functions/src/agents/weaverAgent.ts
 ````typescript
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { VÄVAREN_SYSTEM_PROMPT } from '../sharedRules';
+import { fetchWeaverRagContext } from '../lib/kampsparRag';
 import { createGenAI } from '../lib/genaiClient';
-import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { geminiApiKey } from '../lib/geminiSecret';
-import { BIFF_REWRITE_DRAFT_SYSTEM_PROMPT } from '../sharedRules';
-import {
-  biffRewriteDraftFallback,
-  parseBiffRewriteDraftJson,
-  type BiffRewriteDraftResult,
-} from '../lib/biffRewriteDraftParse';
+import { GEMINI_PRO } from '../lib/modelRouter';
+import { createWeaverPending } from '../lib/weaverPending';
 ⋮----
-import { BIFF_REWRITE_RESPONSE_SCHEMA } from '../schemas/biffRewrite';
+export type ThreatLevel = 'none' | 'low' | 'medium' | 'high';
 ⋮----
-export type BiffRewriteContext = 'dagbok' | 'hamn' | 'inkast';
-````
-
-## File: functions/src/callables/generateKompassrad.ts
-````typescript
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
-import { createGenAI } from '../lib/genaiClient';
-import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { geminiApiKey } from '../lib/geminiSecret';
-import {
-  appendAdaptationSemanticContext,
-  loadAdaptationSemanticContext,
-} from '../lib/adaptationSemanticContext';
-import { KOMPASSRAD_SYSTEM_PROMPT } from '../sharedRules';
-⋮----
-export type KompassradFlow = 'morgon' | 'dag' | 'kvall';
-⋮----
-export interface GenerateKompassradResult {
-  advice: string;
-  tag: 'biff' | 'no-jade' | 'parallel' | 'rest';
-  flow: KompassradFlow;
+export interface WeaverResult {
+  emotions: string[];
+  actors: string[];
+  threatLevel: ThreatLevel;
+  threatScore?: number;
+  ragAnchors: { source: string; docId: string; excerpt?: string }[];
 }
 ⋮----
-function parseFlow(value: unknown): KompassradFlow
+async function fetchRagContext(uid: string, text: string): Promise<string>
 ⋮----
-function fallback(flow: KompassradFlow): GenerateKompassradResult
+function parseWeaverJson(raw: string): WeaverResult | null
+⋮----
+export async function weaveJournalEntry(
+  uid: string,
+  journalEntryId: string,
+  mood: string,
+  text: string
+): Promise<
 ````
 
-## File: functions/src/economy/mabraEconomySync.ts
+## File: functions/src/callables/compass.ts
 ````typescript
-import { onDocumentWritten } from 'firebase-functions/v2/firestore';
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+⋮----
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { vaultSessionGrantsVaultRead } from '../lib/vaultSessionGate';
+import { geminiApiKey } from '../lib/geminiSecret';
+import { GoogleGenAI } from '@google/genai';
+import { KOMPASS_INSIKT_SYSTEM_PROMPT } from '../sharedRules';
+import { GEMINI_FLASH } from '../lib/modelRouter';
+⋮----
+export interface CompassInsightResponse {
+  journalCount: number;
+  vaultCount: number;
+  streak: number;
+  dominantEmotion: string | null;
+  latestInsight: string;
+  recommendedPhase: 'morgon' | 'dag' | 'kvall';
+  generatedAt: string;
+}
+⋮----
+function computeStreak(journalDocs: admin.firestore.DocumentData[]): number
+⋮----
+async function generateInsightFromLLM(data: {
+  journalCount: number;
+  vaultCount: number;
+  streak: number;
+  emotions: string[];
+}): Promise<
+````
+
+## File: functions/src/callables/generateWeeklyInsights.ts
+````typescript
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+⋮----
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { vaultSessionGrantsVaultRead } from '../lib/vaultSessionGate';
+import { geminiApiKey } from '../lib/geminiSecret';
+import { GoogleGenAI } from '@google/genai';
+import { getAgentSystemPrompt } from '../sharedRules';
+import { GEMINI_PRO } from '../lib/modelRouter';
+⋮----
+const formatInsights = (docs: admin.firestore.DocumentData[]) =>
+⋮----
+const formatFocus = (docs: admin.firestore.DocumentData[]) =>
+⋮----
+const formatVault = (docs: admin.firestore.DocumentData[]) =>
+````
+
+## File: functions/src/callables/knowledge.ts
+````typescript
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+⋮----
+import { askKnowledgeVaultWithRag } from '../agents/knowledgeVaultAgent';
+import { askChildrenLogsQuery } from '../agents/childrenLogsAgent';
+import { geminiApiKey } from '../lib/geminiSecret';
+import { generateEmbeddingInternal } from '../lib/generateEmbeddingInternal';
+import { listRegistryEntriesForUser } from '../lib/contextCacheRegistry';
+import { analyzeUploadForKnowledge } from '../lib/analyzeUploadForKnowledge';
+import { ingestKampsparForUser } from '../lib/ingestKampsparInternal';
+import {
+  BARNEN_MODULE_REDIRECT_MESSAGE,
+  BARNEN_MODULE_ROUTE,
+  shouldRouteKompisToBarnen,
+} from '../lib/barnenModuleRouteGuard';
+import { KNOWLEDGE_UPLOAD_MIMES, MAX_KNOWLEDGE_UPLOAD_BASE64_CHARS } from './shared';
+import { guardSensitiveCallableV1, guardSensitiveCallableV2 } from '../lib/callableGuards';
+````
+
+## File: functions/src/callables/kompis.ts
+````typescript
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+⋮----
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { geminiApiKey } from '../lib/geminiSecret';
+import { GoogleGenAI } from '@google/genai';
+import { EXPERT_PROMPTS } from '../expertPrompts';
+import { GEMINI_FLASH } from '../lib/modelRouter';
+⋮----
+export interface ChatMessage {
+  role: 'user' | 'model';
+  parts: { text: string }[];
+}
+⋮----
+export interface ChatWithKompisRequest {
+  history: ChatMessage[];
+  message: string;
+  expertId?: string;
+}
+⋮----
+export interface ChatWithKompisResponse {
+  reply: string;
+}
+````
+
+## File: functions/src/callables/weeklySummary.ts
+````typescript
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+⋮----
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { vaultSessionGrantsVaultRead } from '../lib/vaultSessionGate';
+import { geminiApiKey } from '../lib/geminiSecret';
+import { GoogleGenAI } from '@google/genai';
+import { GEMINI_FLASH } from '../lib/modelRouter';
+⋮----
+const formatEntries = (docs: admin.firestore.DocumentData[]) =>
+````
+
+## File: functions/src/jobs/transactionsAnalysisJob.ts
+````typescript
+import { onSchedule } from 'firebase-functions/v2/scheduler';
 ⋮----
 import { GCP_REGION } from '../config';
-import { handleDcapAlert } from '../adk/synapses/dcapAlertSynapse';
+import { ingestKampsparForUser } from '../lib/ingestKampsparInternal';
+import { createGenAI } from '../lib/genaiClient';
 ````
 
-## File: functions/src/jobs/retentionJob.ts
+## File: functions/src/lib/appCheckEnforcement.ts
 ````typescript
-import { Firestore, Timestamp } from '@google-cloud/firestore';
+import { HttpsError } from 'firebase-functions/v2/https';
+import type { CallableRequest } from 'firebase-functions/v2/https';
+import { monitor } from './monitoring';
 ⋮----
-import { GCP_PROJECT_ID } from '../config';
-import { purgeExpiredRegistryEntries } from '../lib/contextCacheRegistry';
+export type AppCheckMode = 'log' | 'warn' | 'enforce';
 ⋮----
-interface PurgeResult {
-  collection: string;
-  deletedCount: number;
-  prunedVectorIds: string[];
+export function assertAppCheck(
+  request: CallableRequest,
+  functionName: string
+): void
+⋮----
+export function getAppCheckStatus():
+````
+
+## File: functions/src/lib/callableGuards.ts
+````typescript
+import { HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
+⋮----
+import { assertRateLimit, RateLimitExceeded } from './rateLimit';
+⋮----
+export function isAppCheckEnforcementEnabled(): boolean
+⋮----
+export function assertAppCheckV2(request: Pick<CallableRequest, 'app'>): void
+⋮----
+export function assertAppCheckV1(context: functions.https.CallableContext): void
+⋮----
+function rethrowRateLimitV1(err: unknown): never
+⋮----
+export async function guardSensitiveCallableV2(
+  request: CallableRequest,
+  rateLimitKey: string,
+  maxPerMinute = 30,
+): Promise<string>
+⋮----
+export async function guardSensitiveCallableV1(
+  context: functions.https.CallableContext,
+  rateLimitKey: string,
+  maxPerMinute = 30,
+): Promise<string>
+````
+
+## File: functions/src/lib/circuitBreaker.ts
+````typescript
+import { monitor } from './monitoring';
+⋮----
+export type CircuitState = 'CLOSED' | 'OPEN' | 'HALF_OPEN';
+⋮----
+export interface CircuitBreakerConfig {
+  failureThreshold: number;
+  cooldownMs: number;
+  windowMs: number;
 }
 ⋮----
-function getCutoffTimestamp(): Timestamp
+interface CircuitRecord {
+  state: CircuitState;
+  failures: number[];
+  lastFailure: number;
+  openedAt: number;
+}
 ⋮----
-export function isWormProtectedCollection(collection: string): boolean
+export function registerCircuit(agentId: string, config?: Partial<CircuitBreakerConfig>): void
 ⋮----
-async function purgeFirestoreCollection(
-  db: Firestore,
-  userId: string,
-  collection: string,
-  cutoff: Timestamp
-): Promise<PurgeResult>
+export function canCall(agentId: string): boolean
 ⋮----
-async function removeVectors(vectorIds: string[]): Promise<void>
+export function recordSuccess(agentId: string): void
 ⋮----
-export default async function runRetention(): Promise<void>
+export function recordFailure(agentId: string): void
+⋮----
+export function getCircuitState(agentId: string):
+⋮----
+export function resetAllCircuits(): void
+⋮----
+function getOrCreateRecord(agentId: string): CircuitRecord
+⋮----
+export async function withCircuitBreaker<T>(
+  agentId: string,
+  fn: () => Promise<T>
+): Promise<T>
 ````
 
 ## File: functions/src/lib/dossierAiForeword.ts
 ````typescript
 import { HttpsError } from 'firebase-functions/v2/https';
 import { createGenAI } from './genaiClient';
+import { GEMINI_PRO } from './modelRouter';
 import type { CanonicalDossierEntry } from './dossierCanonicalHash';
 ⋮----
 import { DOSSIER_FOREWORD_RESPONSE_SCHEMA } from '../schemas/dossierForeword';
@@ -7627,474 +7375,152 @@ export async function generateDossierAiForeword(
 ): Promise<DossierAiForewordResult>
 ````
 
-## File: functions/src/lib/entityProfileStore.ts
+## File: functions/src/lib/inboxClassifier.ts
 ````typescript
+import { INKORG_SORTERARE_SYSTEM_PROMPT } from '../sharedRules';
 import {
-  KEY_ENTITY_SEEDS,
-  SYSTEM_SYNAPSE_SEEDS,
-  type EntityProfileDoc,
-  type EntityRole,
-  type SystemSynapseDoc,
-} from './entityProfileTypes';
+  normalizeInkastSourceModule,
+  stripInjectedSourceModuleFromText,
+} from './inkastSourceModule';
+import { createGenAI } from './genaiClient';
+import { INKAST_CONFIDENCE_THRESHOLD } from './inkastConstants';
 ⋮----
-export interface EntityProfileBundle {
-  profiles: EntityProfileDoc[];
-  synapses: SystemSynapseDoc[];
-  contextBlock: string;
-}
+export type InboxRouting = 'kunskap' | 'bevis' | 'barnen' | 'dagbok' | 'review' | 'planning';
 ⋮----
-function docToEntityProfile(
-  id: string,
-  data: admin.firestore.DocumentData
-): EntityProfileDoc
-⋮----
-function docToSystemSynapse(id: string, data: admin.firestore.DocumentData): SystemSynapseDoc
-⋮----
-export function buildEntityGroundingContextBlock(
-  profiles: EntityProfileDoc[],
-  synapses: SystemSynapseDoc[]
-): string
-⋮----
-async function hasEntityProfiles(uid: string): Promise<boolean>
-⋮----
-export async function ensureEntityProfilesSeeded(uid: string): Promise<
-⋮----
-export async function loadEntityProfileBundle(uid: string): Promise<EntityProfileBundle>
-⋮----
-export async function loadKunskapEntityBundle(uid: string): Promise<EntityProfileBundle>
-⋮----
-export async function loadBarnenEntityBundle(uid: string): Promise<EntityProfileBundle>
-⋮----
-export interface AddEntityProfileInput {
-  displayName: string;
-  role: EntityRole;
-  aliases?: string[];
-  groundingNotes?: string;
-}
-⋮----
-export interface AddEntityProfileResult {
-  entityKey: string;
-  displayName: string;
-  role: EntityRole;
-  aliases: string[];
-}
-⋮----
-function slugifyEntityKey(displayName: string): string
-⋮----
-function normalizeAliases(raw: string[] | undefined, displayName: string): string[]
-⋮----
-const push = (value: string) =>
-⋮----
-function validateAddEntityInput(input: AddEntityProfileInput): AddEntityProfileInput
-⋮----
-/** Append-only — användardefinierade personer (WORM via Admin SDK, klient skriver ej). */
-export async function addUserEntityProfile(
-  uid: string,
-  rawInput: AddEntityProfileInput
-): Promise<AddEntityProfileResult>
-⋮----
-export function resolveEntityKeysInText(
-  text: string,
-  profiles: EntityProfileDoc[]
-): string[]
-````
-
-## File: functions/src/lib/mabraCapacityParafras.ts
-````typescript
-import type { CoachTone } from '../../../shared/adaptation/adaptationTypes';
-import {
-  parafraseCoachFromBank,
-  type MabraCoachBankEntry,
-  type MabraCoachExercise,
-  type MabraCoachHub,
-} from './mabraContentBank';
-⋮----
-export type CapacityBand = 'low' | 'mid' | 'high';
-⋮----
-export function normalizeCapacityScore(raw: number | undefined): number
-⋮----
-export function toCapacityBand(score: number): CapacityBand
-⋮----
-export async function fetchUserCapacityScore(uid: string): Promise<number>
-⋮----
-function firstSentence(text: string): string
-⋮----
-export type CapacityAwareCoachResult = {
-  coach: string;
-  capacityBand: CapacityBand;
-  microSteps?: string[];
-  coachToneApplied?: CoachTone;
-};
-⋮----
-export function parafraseCoachFromBankWithCapacity(
-  entry: MabraCoachBankEntry,
-  band: CapacityBand,
-  hubSymptom?: MabraCoachHub,
-  exerciseType?: MabraCoachExercise,
-  coachTone: CoachTone = 'standard',
-): CapacityAwareCoachResult
-````
-
-## File: functions/src/lib/patternScanMetadata.ts
-````typescript
-import {
-  patternIdsHash,
-  scanTextForTactics,
-  TACTIC_LIBRARY_VERSION,
-  uniqueKunskapFactIds,
-  uniqueTechniques,
-  type TacticMatch,
-} from './tacticPatternLibrary';
-import {
-  dcapGatePatternAssist,
-  suggestPatternIdsViaLlm,
-  tacticMatchesFromLlmPatternIds,
-} from './patternMetadataAssist';
-⋮----
-export type PatternScanLayer = 'REGEX' | 'DCAP' | 'FLOW';
-⋮----
-export type PatternScanMetadataInput = {
-  userId: string;
-  sourceRef: string;
-  text: string;
-  scanLayer?: PatternScanLayer;
-};
-⋮----
-function vaultLogSearchableText(data: admin.firestore.DocumentData): string
-⋮----
-async function duplicateExists(
-  sourceRef: string,
-  libraryVersion: string,
-  scanLayer: PatternScanLayer,
-  patternHash: string,
-): Promise<boolean>
-⋮----
-async function loadVaultScanContext(
-  userId: string,
-  sourceRef: string,
-  _text: string,
-): Promise<
-⋮----
-async function existingPatternIdsForSource(sourceRef: string): Promise<Set<string>>
-⋮----
-export async function writePatternScanMetadataFromMatches(
-  input: PatternScanMetadataInput,
-  matches: TacticMatch[],
-): Promise<string | null>
-⋮----
-export async function writePatternScanMetadata(
-  input: PatternScanMetadataInput,
-): Promise<string | null>
-⋮----
-export async function assistFlowPatternMetadataForSource(
-  userId: string,
-  sourceRef: string,
-  geminiApiKey?: string,
-): Promise<string | null>
-⋮----
-export async function assistAllVaultFlowPatternMetadata(
-  uid: string,
-  geminiApiKey?: string,
-  limit = 25,
-): Promise<number>
-⋮----
-export async function rescanAllVaultPatternMetadata(uid: string): Promise<number>
-````
-
-## File: functions/src/lib/wormPayload.ts
-````typescript
-export function driveInboxSourceRef(driveFileId: string): string
-⋮----
-export function assertServerWormPayload(
-  data: Record<string, unknown>,
-  context: string,
-  allowedKeys: Set<string> = REALITY_VAULT_ALLOWED_KEYS,
-): void
-````
-
-## File: functions/src/triggers/onAdaptationPrefsWrite.ts
-````typescript
-import { onDocumentWritten } from 'firebase-functions/v2/firestore';
-⋮----
-import { GCP_REGION } from '../config';
-import { syncAdaptationPrefsToLedgerServer } from '../lib/adaptationPrefsLedgerServer';
-import { normalizeAdaptationPrefs } from '../lib/adaptationPrefsStore';
-import { isAdaptationSemanticEnabled } from '../lib/adaptationSemanticGate';
-import { rebuildAdaptationSemanticProfileForUser } from '../lib/adaptationSemanticRebuild';
-import { prefsLedgerFingerprint } from '../../../shared/adaptation/adaptationLedgerSync';
-import type { AdaptationPrefsDoc } from '../../../shared/adaptation/adaptationTypes';
-````
-
-## File: functions/src/callables/processBrusfilter.ts
-````typescript
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
-import { createGenAI } from '../lib/genaiClient';
-import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { assertVaultSession } from '../lib/vaultSessionGate';
-import { geminiApiKey } from '../lib/geminiSecret';
-import { adkOrchestrator } from '../adk';
-import { emitSynapse } from '../adk/synapses/synapseBus';
-import { hashPayload } from '../adk/stateStore';
-⋮----
-import { BRUSFILTER_RESPONSE_SCHEMA } from '../schemas/brusfilter';
-import { BRUSFILTER_SYSTEM_INSTRUCTION } from '../sharedRules';
-⋮----
-export type BrusfilterRecommendedAction = 'INGEN' | 'VARNING';
-⋮----
-export interface ProcessBrusfilterResult {
-  dcap_analysis: {
-    risk_score: number;
-    recommended_action: BrusfilterRecommendedAction;
-  };
-  isolated_logistics: string;
-  biff_draft_reply: string;
-}
-⋮----
-function stripJsonFences(raw: string): string
-⋮----
-/** Plocka första JSON-objektet om modellen lägger till brus före/efter. */
-function extractJsonObject(raw: string): string
-⋮----
-function normalizeRecommendedAction(
-  value: unknown,
-  riskScore: number,
-): BrusfilterRecommendedAction
-⋮----
-function clampRiskScore(value: unknown): number
-⋮----
-function buildBrusfilterFallback(): ProcessBrusfilterResult
-⋮----
-function parseBrusfilterResponse(raw: string): ProcessBrusfilterResult
-⋮----
-/**
- * P1 Brusfilter — Valv-gated, read-only LLM-pipeline (ingen WORM-skrivning).
- */
-````
-
-## File: functions/src/callables/valv.ts
-````typescript
-import { onCall, HttpsError, type CallableRequest } from 'firebase-functions/v2/https';
-⋮----
-import { askValvChat } from '../agents/valvChatAgent';
-import { generateDossierInternal } from '../lib/generateDossierInternal';
-import { rescanAllVaultPatternMetadata, writePatternScanMetadata, assistAllVaultFlowPatternMetadata, assistFlowPatternMetadataForSource, TACTIC_LIBRARY_VERSION } from '../lib/patternScanMetadata';
-import { addUserEntityProfile, loadEntityProfileBundle } from '../lib/entityProfileStore';
-import {
-  assertVaultSession,
-  issueVaultSession as createVaultSession,
-} from '../lib/vaultSessionGate';
-import {
-  beginVaultBiometricChallenge,
-  consumeVaultBiometricChallenge,
-} from '../lib/vaultBiometricChallenge';
-import {
-  assertVaultWebAuthnContext,
-  beginVaultWebAuthnChallenge,
-  verifyVaultWebAuthnResponse,
-} from '../lib/vaultWebAuthn';
-import { assertAppCheckV2, guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { assertRateLimit } from '../lib/rateLimit';
-import { geminiApiKey } from '../lib/geminiSecret';
-import type { EntityRole } from '../lib/entityProfileTypes';
-import type {
-  AuthenticationResponseJSON,
-  RegistrationResponseJSON,
-} from '@simplewebauthn/server';
-⋮----
-async function guardAssistPatternMetadata(request: CallableRequest): Promise<string>
-⋮----
-function readWebAuthnResponse(data: unknown): RegistrationResponseJSON | AuthenticationResponseJSON
-````
-
-## File: functions/src/lib/generateDossierInternal.ts
-````typescript
-import { randomUUID } from 'crypto';
-import { isParentVisibleChildLog } from './childObservationEpistemics';
-import {
-  buildCanonicalString,
-  computeDocumentHash,
-  sha256Hex,
-  toCanonicalEntry,
-  type CanonicalDossierEntry,
-  type DossierCollection,
-} from './dossierCanonicalHash';
-import { buildDossierPdf } from './dossierPdf';
-import { generateDossierAiForeword, type DossierAiForewordResult } from './dossierAiForeword';
-import {
-  PATTERN_SCAN_METADATA_COLLECTION,
-} from './patternScanMetadata';
-⋮----
-export type GenerateDossierInput = {
-  dateFrom: string;
-  dateTo: string;
-  sources: {
-    reality_vault: boolean;
-    children_logs: boolean;
-    journal: boolean;
-  };
-  reportType: 'LEGAL' | 'BBIC';
-  includeAiForeword: boolean;
-  categoryFilter?: string[];
-  techniqueFilter?: string[];
-  includedDocIds: {
-    reality_vault: string[];
-    children_logs: string[];
-    journal: string[];
-  };
-};
-⋮----
-export type GenerateDossierResult = {
-  dossierId: string;
-  documentHash: string;
-  downloadUrl?: string;
-  pdfBase64?: string;
-  status: 'ready' | 'pending';
-  jobId?: string;
-  aiForeword?: DossierAiForewordResult;
-};
-⋮----
-function assertIsoDate(value: unknown, field: string): string
-⋮----
-function assertIdList(value: unknown): string[]
-⋮----
-function docDayInRange(createdAtIso: string, dateFrom: string, dateTo: string): boolean
-⋮----
-async function fetchOwnedDoc(
-  uid: string,
-  collection: DossierCollection,
-  docId: string,
-  dateFrom?: string,
-  dateTo?: string,
-): Promise<CanonicalDossierEntry | null>
-⋮----
-async function fetchVaultPatternContext(
-  uid: string,
-  vaultIds: string[],
-): Promise<
-⋮----
-export async function generateDossierInternal(
-  uid: string,
-  raw: GenerateDossierInput,
-  geminiApiKey?: string,
-): Promise<GenerateDossierResult>
-⋮----
-const loadBatch = async (collection: DossierCollection, ids: string[]) =>
-````
-
-## File: functions/src/lib/inboxPersist.ts
-````typescript
-import { requiresHumanReview, type InboxClassification } from './inboxClassifier';
-import { formatChildObservation, inferEpistemicKind } from './childObservationEpistemics';
-import { persistKbDocFromDrive, type PersistKbDocInput } from './persistKbDoc';
-import { ingestKampsparForUser } from './ingestKampsparInternal';
-import { isKunskapFactApproved } from './kunskapContentBankGate';
-import { assertServerWormPayload, CHILDREN_LOG_ALLOWED_KEYS, driveInboxSourceRef, REALITY_VAULT_ALLOWED_KEYS } from './wormPayload';
-⋮----
-export interface InboxQueueDoc {
-  ownerId: string;
-  userId: string;
-  driveFileId: string;
-  fileName: string;
-  mimeType: string;
-  proposedRouting: string;
+export interface InboxClassification {
+  routing: InboxRouting;
   tags: string[];
   category: string;
   confidence: number;
   summary: string;
   traumaSensitive: boolean;
+  childAlias?: string;
   rationale: string;
-  analysisExcerpt: string;
-  childAlias?: string | null;
-  status: 'pending' | 'confirmed' | 'dismissed';
-  persistedCollection?: string | null;
-  persistedDocId?: string | null;
-  createdAt?: FirebaseFirestore.Timestamp;
-  reviewedAt?: FirebaseFirestore.Timestamp;
 }
 ⋮----
-export async function persistInboxQueueItem(input: {
-  ownerId: string;
-  driveFileId: string;
-  fileName: string;
-  mimeType: string;
-  classification: InboxClassification;
-  analysisExcerpt: string;
-  evidenceUrl?: string;
-}): Promise<
+function parseClassificationJson(raw: string): InboxClassification | null
 ⋮----
-export async function persistVaultFromInbox(input: {
-  ownerId: string;
-  fileName: string;
-  driveFileId: string;
-  mimeType: string;
-  classification: InboxClassification;
-  analysisText: string;
-  evidenceUrl?: string;
-}): Promise<
+// Normalise Swedish alias 'planering' → canonical 'planning' (prompt alignment guard).
 ⋮----
-export async function persistChildrenLogFromInbox(input: {
-  ownerId: string;
-  driveFileId: string;
-  fileName: string;
-  classification: InboxClassification;
-  analysisText: string;
-}): Promise<
+/** Deterministisk försortering — fail-safe innan LLM (anti-hallucination). */
+export function heuristicInboxClassify(
+  analysisText: string,
+  fileName: string
+): InboxClassification | null
 ⋮----
-function mapInkastCategoryToJournal(category: string, tags: string[]): string
+export function buildInboxClassifyBlob(analysisText: string, sourceModule?: string): string
 ⋮----
-export async function persistJournalFromInbox(input: {
-  ownerId: string;
-  classification: InboxClassification;
-  analysisText: string;
-}): Promise<
+export async function classifyInboxDocument(
+  analysisText: string,
+  fileName: string,
+  geminiApiKey?: string
+): Promise<InboxClassification>
 ⋮----
-export async function persistKunskapFromInbox(
-  kbInput: PersistKbDocInput,
-  classification: InboxClassification
-): Promise<
+export function applyInkastConfidenceGate(
+  classification: InboxClassification,
+): InboxClassification
 ⋮----
-export async function persistPlaneringFromInbox(input: {
-  ownerId: string;
-  classification: InboxClassification;
-  analysisText: string;
-}): Promise<
+export function requiresHumanReview(
+  classification: InboxClassification,
+  optInTrauma?: boolean
+): boolean
 ⋮----
-export async function routeInboxToWorm(input: {
-  ownerId: string;
-  fileId: string;
-  fileName: string;
-  mimeType: string;
-  classification: InboxClassification;
-  analysisText: string;
-  optInTrauma?: boolean;
-  evidenceUrl?: string;
-  hasVaultSession: boolean;
-  isVerified: boolean;
-  allowBarnenAutoPersist?: boolean;
-}): Promise<
+export function isManualInkastClassification(classification: InboxClassification): boolean
 ⋮----
-export type InboxQueueItem = InboxQueueDoc & { id: string };
-⋮----
-export async function listPendingInboxQueue(uid: string): Promise<InboxQueueItem[]>
-⋮----
-export async function confirmInboxQueueItem(input: {
-  uid: string;
-  queueId: string;
-  routing: 'kunskap' | 'bevis' | 'barnen' | 'dagbok' | 'planning';
+export function buildManualInkastClassification(input: {
+  routing: Exclude<InboxRouting, 'review'>;
+  category?: string;
+  tags?: string[];
+  comment?: string;
+  analysisExcerpt?: string;
   childAlias?: string;
-  overrideTags?: string[];
-  overrideCategory?: string;
-}): Promise<
+}): InboxClassification
+````
+
+## File: functions/src/lib/kampsparQueryRag.ts
+````typescript
+import { generateEmbeddingInternal } from './generateEmbeddingInternal';
+import { isVectorSearchConfigured, queryKampsparVectorNeighbors } from './vectorSearchClient';
 ⋮----
-export async function reprocessVaultInboxQueue(uid: string): Promise<
+function formatDate(value: unknown): string
 ⋮----
-export async function dismissInboxQueueItem(uid: string, queueId: string): Promise<void>
+export interface KampsparEvidenceChunk {
+  docId: string;
+  collection: 'kampspar' | 'kb_docs';
+  date: string;
+  title: string;
+  excerpt: string;
+  content: string;
+}
+⋮----
+function chunkFromDoc(
+  collectionName: 'kampspar' | 'kb_docs',
+  id: string,
+  data: admin.firestore.DocumentData
+): KampsparEvidenceChunk
+⋮----
+async function fetchKampsparEvidenceAnn(
+  uid: string,
+  question: string,
+  limit: number
+): Promise<KampsparEvidenceChunk[]>
+⋮----
+export async function fetchKampsparEvidenceForQuery(
+  uid: string,
+  question: string,
+  limit = 12
+): Promise<KampsparEvidenceChunk[]>
+````
+
+## File: functions/src/lib/modelRouter.ts
+````typescript
+export type GeminiTier = 'flash' | 'pro' | 'lite';
+⋮----
+export function selectModel(tier: GeminiTier): string
+⋮----
+export function autoSelectTier(intent: string, executorId?: string): GeminiTier
+````
+
+## File: functions/src/lib/monitoring.ts
+````typescript
+import { GCP_PROJECT_ID, GCP_REGION } from '../config';
+⋮----
+export type Severity = 'DEBUG' | 'INFO' | 'WARNING' | 'ERROR' | 'CRITICAL';
+⋮----
+export interface MetricEntry {
+  metric: string;
+  value: number;
+  labels: Record<string, string>;
+  timestamp: string;
+}
+⋮----
+export interface AlertCondition {
+  metric: string;
+  threshold: number;
+  window: string;
+  severity: Severity;
+}
+⋮----
+function structuredLog(severity: Severity, message: string, metadata?: Record<string, unknown>): void
+⋮----
+function trackLatency(functionName: string, startMs: number, metadata?: Record<string, unknown>): void
+⋮----
+function trackError(functionName: string, error: unknown, metadata?: Record<string, unknown>): void
+⋮----
+function trackVertexQuota(tokensUsed: number, model: string, metadata?: Record<string, unknown>): void
+⋮----
+function trackWormWrite(collection: string, docId: string, userId: string): void
+⋮----
+function trackDcapAlert(riskScore: number, action: string, userId: string): void
+⋮----
+function trackAgentInvocation(agentId: string, durationMs: number, success: boolean): void
 ````
 
 ## File: functions/src/lib/patternMetadataAssist.ts
 ````typescript
 import { HttpsError } from 'firebase-functions/v2/https';
 import { createGenAI } from './genaiClient';
+import { GEMINI_PRO } from './modelRouter';
 import {
   TACTIC_PATTERN_DEFS,
   type TacticMatch,
@@ -8121,6 +7547,223 @@ export async function suggestPatternIdsViaLlm(
 ): Promise<string[]>
 ⋮----
 export function tacticMatchesFromLlmPatternIds(text: string, patternIds: string[]): TacticMatch[]
+````
+
+## File: functions/src/lib/vaultRagTokenFallback.ts
+````typescript
+function tokenize(text: string): string[]
+⋮----
+function searchableText(log: any): string
+⋮----
+export function matchVaultEvidence(
+  vivirText: string,
+  vaultLogs: any[]
+):
+````
+
+## File: functions/src/lib/vectorSearchClient.ts
+````typescript
+import { GCP_PROJECT_ID } from '../config';
+⋮----
+export function kampsparDatapointId(docId: string): string
+⋮----
+export function parseKampsparDatapointId(datapointId: string): string | null
+⋮----
+export function vaultDatapointId(docId: string): string
+⋮----
+export function parseVaultDatapointId(datapointId: string): string | null
+⋮----
+function getIndexId(): string
+⋮----
+function getAnnConfig():
+⋮----
+export function isVectorSearchConfigured(): boolean
+⋮----
+export async function queryKampsparVectorNeighbors(
+  embedding: number[],
+  neighborCount = 12
+): Promise<string[]>
+⋮----
+export async function queryVaultVectorNeighbors(
+  embedding: number[],
+  neighborCount = 20
+): Promise<string[]>
+⋮----
+export async function upsertKampsparVector(docId: string, embedding: number[]): Promise<void>
+⋮----
+export async function upsertVaultVector(docId: string, embedding: number[]): Promise<void>
+````
+
+## File: functions/src/lib/weaverPending.ts
+````typescript
+import type { WeaverResult } from '../agents/weaverAgent';
+import { assertServerWormPayload, REALITY_VAULT_ALLOWED_KEYS } from './wormPayload';
+⋮----
+export type WeaverPendingDoc = {
+  userId: string;
+  ownerId: string;
+  journalEntryId: string;
+  sourceMood: string;
+  sourceTextPreview: string;
+  truth: string;
+  weaverTags: WeaverResult & { model: string; journalEntryId: string };
+  status: 'pending';
+  createdAt: FirebaseFirestore.FieldValue;
+};
+⋮----
+export async function createWeaverPending(input: {
+  uid: string;
+  journalEntryId: string;
+  sourceMood: string;
+  sourceText: string;
+  tags: WeaverResult;
+}): Promise<
+⋮----
+async function assertPendingOwner(uid: string, pendingId: string)
+⋮----
+export async function approveWeaverPending(
+  uid: string,
+  pendingId: string,
+): Promise<
+⋮----
+export async function rejectWeaverPending(uid: string, pendingId: string): Promise<void>
+⋮----
+export async function listPendingWeaverForUser(uid: string, limit = 20)
+````
+
+## File: functions/src/lib/wormHashChain.ts
+````typescript
+import crypto from 'crypto';
+⋮----
+import { monitor } from './monitoring';
+⋮----
+export interface HashChainEntry {
+  entryHash: string;
+  previousHash: string;
+  chainIndex: number;
+  collection: string;
+  docId: string;
+  userId: string;
+  createdAt: FirebaseFirestore.Timestamp;
+}
+⋮----
+export function computeEntryHash(payload: Record<string, unknown>): string
+⋮----
+export function computeChainHash(previousHash: string, entryHash: string, chainIndex: number): string
+⋮----
+export async function appendToHashChain(
+  userId: string,
+  collection: string,
+  docId: string,
+  payload: Record<string, unknown>
+): Promise<HashChainEntry>
+⋮----
+export async function verifyHashChain(
+  userId: string,
+  collection: string
+): Promise<
+````
+
+## File: functions/src/index.ts
+````typescript
+
+````
+
+## File: src/modules/core/auth/AuthProvider.tsx
+````typescript
+import { useEffect, type ReactNode } from 'react';
+import {
+  onAuthStateChanged,
+  signInAnonymously,
+  signOut,
+} from 'firebase/auth';
+import { auth } from '../firebase/init';
+import { googleRedirectBoot } from '../firebase/authRedirectBoot';
+import { useStore } from '../store';
+import { isCapacitorAndroid } from './capacitorPlatform';
+import { tryCompletePendingNativeGoogleSignIn } from './nativeGoogleAuth';
+import { consumeSkipAnonymousOnce } from './googleAuthProvider';
+import { isEmailAuthRequired } from './requireEmailAuth';
+import { enableAppUnlock, isAppUnlockSupported } from './appUnlock';
+import { consumeFingerprintSetupPending } from './appUnlockPrefs';
+import { toast } from '../store/toastStore';
+import { mapAuthError } from './authService';
+import { FirebaseError } from 'firebase/app';
+⋮----
+export function AuthProvider(
+⋮----
+/* ignore */
+````
+
+## File: src/modules/core/auth/authService.ts
+````typescript
+import {
+  EmailAuthProvider,
+  linkWithCredential,
+  linkWithPopup,
+  linkWithRedirect,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signInWithRedirect,
+  signOut,
+  type User,
+} from 'firebase/auth';
+import { auth } from '../firebase/init';
+import { clearAppUnlockSession } from './appUnlockPrefs';
+import { endVaultSession } from '../security/vaultSessionLifecycle';
+import { toast } from '../store/toastStore';
+import { FirebaseError } from 'firebase/app';
+import { clearSpeglarSession } from '@/features/lifeJournal/diary/mirror/utils/speglarSessionStorage';
+import { clearMaterialPackLocalCache } from '../lifeOs/materialPackApi';
+import { isCapacitorNative } from './capacitorPlatform';
+import { capacitorGoogleSignIn, capacitorNativeSignOut } from './nativeGoogleAuth';
+import {
+  createGoogleProvider,
+  markSkipAnonymousOnce,
+  shouldUseGoogleRedirect,
+} from './googleAuthProvider';
+import { clearAllDrafts } from '../../capture/draftQueue';
+import { flushBarnportenOfflineQueue } from '@/features/onboarding/barnporten/api/saveBarnportenLog';
+import { flushActionDashboardQueue } from '@/features/widgets/api/actionDashboardApi';
+import { clearAllPendingBarnportenLogs } from '@/features/onboarding/barnporten/api/barnportenOfflineQueue';
+import { clearPendingActionDashboardItemsForUser } from '@/features/widgets/api/actionDashboardOfflineQueue';
+import { resetAdaptationSignalThrottle } from '../adaptation/adaptationSignalThrottle';
+import { useAdaptationStore } from '../store/useAdaptationStore';
+⋮----
+export function mapAuthError(code: string): string
+⋮----
+export async function linkOrCreateEmailAccount(email: string, password: string): Promise<User>
+⋮----
+export async function signInWithEmail(email: string, password: string): Promise<User>
+⋮----
+export type SignInWithGoogleOptions = {
+  linkAnonymous?: boolean;
+};
+⋮----
+export async function signInWithGoogle(options: SignInWithGoogleOptions =
+⋮----
+const prepareGoogleSignIn = async (): Promise<void> =>
+⋮----
+const signInExistingGoogle = async (): Promise<User | null> =>
+⋮----
+export async function signOutUser(): Promise<void>
+````
+
+## File: src/modules/core/auth/useZeroFootprint.ts
+````typescript
+import { useEffect } from 'react';
+import { useStore } from '../store';
+import { hasVaultGate, VAULT_SESSION_IDLE_MS } from './sessionService';
+import { endVaultSession, syncVaultUnlockedFromGate } from '../security/vaultSessionLifecycle';
+⋮----
+export function useZeroFootprint()
+⋮----
+const endVaultSessionIdle = () =>
+⋮----
+const bump = () =>
+⋮----
+const lockOnHidden = () =>
 ````
 
 ## File: src/modules/core/types/firestore.ts
@@ -8473,7 +8116,7 @@ export interface UserWidgetRow extends UserWidget {
 }
 ⋮----
 export type EvolutionPillar = 'kognitiv' | 'emotionell' | 'vardag' | 'relationell' | 'valv' | 'system';
-export type EvolutionMilestoneType = 'milestone_unlocked' | 'capacity_increased' | 'child_age_milestone' | 'pillar_rebalance';
+export type EvolutionMilestoneType = 'milestone_unlocked' | 'capacity_increased' | 'child_age_milestone' | 'pillar_rebalance' | 'covert_tactic_detected';
 ⋮----
 export interface EvolutionLedgerEntry {
   userId: string;
@@ -8569,214 +8212,6 @@ export interface AllocationProposal {
   createdAt: IsoDateTime;
   expiresAt: IsoDateTime;
 }
-````
-
-## File: AGENTS.md
-````markdown
-# Livskompassen Cursor Agent Brief
-
-## Project Overview
-
-Livskompassen v2 is a Life OS and multi-agent ecosystem for Lagen om Autonomi, Clean Input, cognitive offloading, and secure evidence handling. Kompis is the user-facing AI navigator; the backend protects user data through Layered Defense, deterministic code, Firebase, Google Cloud, and Vertex/Gemini.
-
-This repository is the current source of truth for React/Vite frontend work, Firebase configuration, Cloud Functions, Data Connect output, and AI-agent orchestration. Legacy Express routes live in `docs/archive/server-legacy/` only.
-
-## Before Writing Code
-
-1. Read `.context/system-plan.md` to confirm the current phase and active risks.
-2. Read `.context/domän-covert-narcissism.md` when working on Valv, Inkast, Hamn, Mönster, or upload routing (~80% HCF/covert bevis-prior).
-3. Read `.context/arkiv-minne.md` for Hela arkivet / permanent minne / three silos (required for RAG, Dossier, or cross-module memory work).
-4. Read `.context/architecture.md`, `.context/arkitektur-beslut.md`, `.context/security.md`, `.context/database.md`, `.context/design-language.md`, and `.context/agents.md`.
-5. Apply the relevant `.cursor/rules/*.mdc` files before editing.
-6. For substantial changes, prepare a REASONS plan: Requirements, Entities, Approach, Structure, Operations, Norms, Safeguards.
-7. Preserve Sacred Features: Verklighetsvalvet, Sanningens Sköld, Morgonkompassen, Dossier-Generator, Speglings-Systemet, Draft Layer, and Device Clear. Kill Switch (shake-to-kill) removed 2026-06-01 — see `.context/security.md`.
-8. Preserve **Locked UX Features** (do not remove): Middagsfrågan; Valv **Mönster** + **Orkester**; design locks for **Planering**, **Fyren widget**, **Barnporten** (barn PWA + egen Orkester + Valv HITL). Register: [`.context/locked-ux-features.md`](.context/locked-ux-features.md). Verify: `npm run smoke:locked-ux`.
-
-## Stack
-
-- Frontend: React, TypeScript, Vite, Tailwind CSS, Zustand.
-- Backend: Firebase Cloud Functions, Google Cloud, Vertex AI, Gemini.
-- Data: Firestore/Data Connect, RAG-oriented evidence structures, immutable snapshots.
-- AI: Kompis Supervisor, A2A agent cards, DCAP, shared prompt rules in `functions/src/sharedRules.ts`.
-- Tooling: Cursor rules/hooks/MCP and Firebase plugin in `.cursor/settings.json`.
-
-## Development
-
-- **Frontend:** `npm run dev` from repo root (Vite, port 5173).
-- **Functions:** `npm run build` from `functions/` compiles TypeScript.
-- **Lint:** `npx eslint .` from repo root (`eslint.config.js`).
-
-## Cursor Cloud specific instructions
-
-- The startup dependency refresh uses `npm ci --legacy-peer-deps` at the repo root because current npm strict peer resolution rejects the existing `firebase@12` and `@capacitor-firebase/authentication@6` peer range combination. Do not remove that flag until those package ranges are aligned.
-- Cloud shells may resolve `node` through `/exec-daemon` even after `nvm use`; when testing Functions runtime behavior, put the Node 20 nvm binary first in `PATH` before running `functions` commands.
-- Local app smoke tests need the ignored `.env` Firebase Web SDK values from `.env.example` / the active Firebase app config; do not commit `.env`.
-- Android Gradle builds need `ANDROID_HOME` / `ANDROID_SDK_ROOT`; in Cursor Cloud the SDK is under `$HOME/android-sdk` when present.
-
-## Cursor Subagents
-
-Built-in: `explore`, `bash`, `browser` — use for research, shell, browser (do not duplicate).
-
-### Orkester (nattpass)
-
-`npm run orkester:night` eller Conductor — [`docs/ORKESTER-AUTORUN.md`](docs/ORKESTER-AUTORUN.md) · [`.cursor/agents/orkester-conductor.md`](.cursor/agents/orkester-conductor.md)
-
-| Fas | Agent | Trigger |
-|-----|-------|---------|
-| 1–4 | ux-guardian, adk-weaver, security-auditor, smoke-runner | orkester nattpass |
-| 5 | Zone-builders (Z1, Z3+6, Z5+2, Z4) | `/specialist-valv-builder` etc. |
-| 6 | `specialist-verifier` | `/specialist-verifier` |
-| 7 | Conductor rapport | — |
-
-### Slutbygge (zon)
-
-| Agent | Zon | Trigger |
-|-------|-----|---------|
-| `specialist-valv-builder` | Z1 Valv | `/specialist-valv-builder` |
-| `specialist-hjartat-inkast-builder` | Z3+6 Hjärtat+Inkast | `/specialist-hjartat-inkast-builder` |
-| `specialist-familjen-hamn-builder` | Z5+2 Familjen+Hamn | `/specialist-familjen-hamn-builder` |
-| `specialist-vardagen-builder` | Z4 Vardagen | `/specialist-vardagen-builder` |
-| `specialist-verifier` | Alla (efter build) | `/specialist-verifier` |
-
-Deploy efter PASS: skill [`.cursor/skills/livskompassen-deploy/SKILL.md`](.cursor/skills/livskompassen-deploy/SKILL.md) — inte subagent.
-
-### Innehåll (routing)
-
-- **`specialist-innehall-dirigent`** — klassar FACT/REFLECTION/PLAY/EVIDENCE; kanon [`docs/INNEHALL-REGISTER.md`](docs/INNEHALL-REGISTER.md)
-- **MåBra-innehåll:** `specialist-mabra-curator` — REFLECTION/PLAY → [`docs/specs/modules/Mabra-CONTENT-BANK.md`](docs/specs/modules/Mabra-CONTENT-BANK.md).
-- **Kunskap-fakta:** `specialist-kunskap-seed` — FACT → [`docs/specs/modules/Kunskap-CONTENT-SEED.md`](docs/specs/modules/Kunskap-CONTENT-SEED.md) (ingest separat).
-- Keep direct edits in the parent agent unless a separate isolated exploration is clearly useful.
-
-### CTO Custom Modes (2026-06 audit)
-
-Pontus-godkända dagliga bollplank — regler i `.cursor/rules/backend-ingest-logic.mdc`, `chameleon-ui-modularity.mdc`, `ai-cognitive-companion.mdc`.
-
-| Agent | Slash-kommando (syns i `/`-menyn) | Subagent | Fokus |
-|-------|-----------------------------------|----------|-------|
-| YOLO-vakt | `/yolo-vakt` | `.cursor/agents/yolo-vakt.md` | Read-only säkerhetsaudit |
-| Minnes-Arkitekten | `/minnes-arkitekten` | `.cursor/agents/minnes-arkitekten.md` | Auto kunskaps-ingest |
-| Design-Labbet | `/design-labbet` | `.cursor/agents/design-labbet.md` | Chameleon UI |
-| Android-Kompis | `/android-kompis` | `.cursor/agents/android-kompis.md` | G85, cap sync, deploy |
-
-**Viktigt:** `/`-menyn läser **`.cursor/commands/*.md`**. `.cursor/agents/` är subagents (Task-delegation). Båda pekar på samma roll — använd slash-kommandot i chatten.
-
-## Skills & rules (uppgift → vägledning)
-
-| Uppgift | Skill | Cursor rule |
-| --- | --- | --- |
-| ADK synapser, auto-ingest | `livskompassen-synapser-adk` | `synapser-adk.mdc` |
-| RAG, silo, cross-read | `livskompassen-memory-silo-guard`, `livskompassen-rag-retrieval` | `memory-silo.mdc` |
-| Vector Search ANN | `livskompassen-vector-search` | — |
-| Hela arkivet / Dossier-minne | `livskompassen-arkiv-master` | `livskompassen-core.mdc` |
-| Agent cards / prompts | `livskompassen-memory-agents` | `backend-agents.mdc` |
-| Deploy / Firebase | plugin `firebase-basics` | `firebase-workflow.mdc`, **`deploy-paminnelser.mdc`** |
-| Planering / dubbelarbete | — | **`planering-kanon-guard.mdc`** |
-| Firestore rules / WORM | plugin `firebase-firestore-standard` | `security-firestore.mdc` |
-| Natt-/batch-autorun | — | `orkester-autorun.mdc`, `grunder-kanon.mdc`, `anti-hallucination.mdc` |
-| Innehåll fakta/lek (U6) | — | `innehall-register.mdc`, `grunder-kanon.mdc` |
-| Modulutökning (cursor-plan) | — | [`docs/evaluations/MALL-cursor-plan.md`](docs/evaluations/MALL-cursor-plan.md) + `*-SPEC.md` + `module_plan.md` |
-
-Kanon för arkitektur och säkerhet: `.context/` (system-plan, arkiv-minne, security). Dokumentationsindex: [`docs/README.md`](docs/README.md). **Systemkontroll / röda tråden:** [`docs/SYSTEMKONTROLL.md`](docs/SYSTEMKONTROLL.md). **Fas 19 gate (pre-flight):** [`.cursor/rules/fas19-masterplan-guard.mdc`](.cursor/rules/fas19-masterplan-guard.mdc) · [`docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md`](docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md).  
-Live GCP-sanning: [`docs/GCP-INVENTORY-LATEST.md`](docs/GCP-INVENTORY-LATEST.md).  
-GCP-konsolidering: [`docs/GCP-KONSOLIDERING-BESLUT.md`](docs/GCP-KONSOLIDERING-BESLUT.md).
-
-## Product Agent Roles
-
-| Role | Responsibility |
-| --- | --- |
-| Sannings-Analytikern | Clinical evidence analysis and strict JSON output. |
-| Brusfiltret | Converts emotionally loaded input into clean facts and timeline data. |
-| BIFF-Skölden | Produces Brief, Informative, Friendly, Firm Grey Rock communication. |
-| Paralys-Brytaren | Reduces executive dysfunction by showing exactly one micro-step. |
-| RSD-Kylaren | Provides rational alternatives for rejection-sensitive triggers. |
-| Uppgifts-Krossaren | Breaks overwhelming tasks into small, testable action atoms. |
-| Speglings-Coachen | Validates without fixing and separates emotion from evidence. |
-| Mönster-Arkivarien | Performs forensic long-term pattern analysis across evidence and Drive inputs. |
-
-These roles are project terminology in Cursor now. Runtime backend implementation happens through `functions/src/agents/`, `functions/src/agents/cards/`, and `functions/src/sharedRules.ts`.
-
-## Git & merge (HARD)
-
-- **Single trunk:** develop on `main`; push only `origin` (Livskompassen3.0). Never push `origin-old`.
-- Before merge/branch delete: write **Pre-Merge Impact Report** per [`docs/MERGE-IMPACT-RAPPORT.md`](docs/MERGE-IMPACT-RAPPORT.md) (följer med / försvinner / regelanalys).
-- Analyze: `.context/system-plan.md`, `grunder-kanon.mdc`, `locked-ux-features.md`, `.context/security.md` (Sacred, WORM, silos).
-- Run `npm run smoke:locked-ux` on `main` before calling merge complete.
-- **Wait for user OK** ("godkänn merge") before merge, push, or `git push origin --delete`.
-- Rule: [`.cursor/rules/git-main-trunk.mdc`](.cursor/rules/git-main-trunk.mdc) (`alwaysApply`). Quick ref: [`docs/GIT-LATHUND.md`](docs/GIT-LATHUND.md). Branches: [`docs/BRANCH-KARTA.md`](docs/BRANCH-KARTA.md).
-
-## Hard Rules
-
-- Do not commit secrets, `.env`, service-account keys, OAuth tokens, or credential JSON files.
-- Do not hardcode agent prompts outside `functions/src/sharedRules.ts`.
-- Do not use LLM output as the source of truth for authorization, data ownership, or immutable evidence decisions.
-- Do not degrade Sacred Features or weaken Device Clear, Draft Layer, or Verklighetsvalvet behavior.
-- Do not introduce nature-themed UI. Use Obsidian Calm and Nordic Dusk.
-- Keep changes tightly scoped to the requested task and preserve unrelated user work.
-````
-
-## File: functions/src/lib/mabraContentBank.ts
-````typescript
-import type { CoachTone } from '../../../shared/adaptation/adaptationTypes';
-⋮----
-export type MabraCoachHub = 'panic_rsd' | 'self_critical' | 'find_self';
-export type MabraCoachVitHub = MabraCoachHub | 'who_am_i' | 'emotional_memory' | 'learn_together';
-export type MabraCoachExercise = 'breathing' | 'grounding' | 'reframing';
-⋮----
-export type MabraCoachBankEntry = {
-  bankId: string;
-  content_class: 'REFLECTION';
-  source_tier: 'P1' | 'product_copy' | 'psychoeducation_general';
-  status: 'KEEP';
-  hub?: MabraCoachVitHub;
-  lens: string;
-  text_sv: string;
-};
-⋮----
-export function getMabraCoachBankEntry(bankId: string): MabraCoachBankEntry | undefined
-⋮----
-export function resolveCoachBankId(
-  hubSymptom: MabraCoachHub,
-  exerciseType: MabraCoachExercise,
-  requestedBankId?: string,
-): string
-⋮----
-export function resolveVitChatBankId(seedPrompt?: string, requestedBankId?: string): string | undefined
-⋮----
-function firstSentence(text: string): string
-⋮----
-function buildAck(
-  hubSymptom?: MabraCoachHub,
-  exerciseType?: MabraCoachExercise,
-  coachTone: CoachTone = 'standard',
-): string
-⋮----
-export function resolveGoalAssistBankId(
-  draftGoal?: string,
-  requestedBankId?: string,
-): string
-⋮----
-export function parafraseGoalAssist(
-  entry: MabraCoachBankEntry,
-  draftGoal?: string,
-): string
-⋮----
-export function parafraseRsdErrorFromBank(entry: MabraCoachBankEntry): string
-⋮----
-export function resolveRsdErrorBankId(requestedBankId?: string): string
-⋮----
-export function resolveBankParafrasBankId(bankId: string): string
-⋮----
-export function parafraseCoachFromBank(
-  entry: MabraCoachBankEntry,
-  hubSymptom?: MabraCoachHub,
-  exerciseType?: MabraCoachExercise,
-  coachTone: CoachTone = 'standard',
-): string
-````
-
-## File: functions/src/sharedRules.ts
-````typescript
-export function getAgentSystemPrompt(agentId: string, intent?: string): string
 ````
 
 ## File: firestore.rules
@@ -9280,7 +8715,7 @@ service cloud.firestore {
 
     function isValidKat7ProjectId() {
       return request.resource.data.projectId in [
-        'self_esteem', 'emotional_memory', 'learn_together', 'who_am_i', 'recovery',
+        'self_esteem', 'emotional_memory', 'learn_together', 'who_am_i', 'recovery', 'ekonomi'
       ];
     }
 
@@ -10069,6 +9504,565 @@ service cloud.firestore {
 }
 ````
 
+## File: .context/system-plan.md
+````markdown
+# Livskompassen v2 - System Plan (Canonical)
+
+Denna fil ar aktiv systemplan. Root-filen `system_plan.md` ar endast en pekare.
+
+**När det känns rörigt:** färdiga analysprompter och Sacred-register → [`docs/SYSTEMKONTROLL.md`](../docs/SYSTEMKONTROLL.md). **Git / grenar:** [`docs/GIT-LATHUND.md`](../docs/GIT-LATHUND.md) · [`docs/BRANCH-KARTA.md`](../docs/BRANCH-KARTA.md).
+
+## Fas 1 (Cleanup): Sanering & Mappstruktur
+- [x] Git-branch `cleanup-phase-1` - saker arbetskopia
+- [x] `.context/` systemlagar (arkitektur, sakerhet, databas, design)
+- [x] `.gitignore` - secrets, `dist/`, `functions/lib/`, genererad kod
+- [x] Borttaget fran git: `vertex-sa.json`, `server/.env`, `spejaren.js`, `server.js`, build-artefakter
+- [x] Frontend merge fran `livskompassen-v2` (`main.tsx`, layout, Kompis)
+- [x] Rensat: tomma placeholders, trasig `agentEngine.ts`, session-artefakter -> `docs/archive/`
+- [x] Agent Cards: 8 produktroller + deterministisk `routeFromDcap` -> executor
+- [x] Sakerhet: auth pa `knowledgeVaultQuery`, webhook-secret pa `notifyNewFile`
+- [x] Enhetligt `GCP_PROJECT_ID` via `functions/src/config.ts`
+- [x] HOME-klonens unika `src`-integration (firebase, store, vault-chat)
+- [x] Vault-sidor portade till `src/modules/` (verklighetsvalvet, kompasser, safe_harbor, ekonomi)
+- [x] Aktiv backend konsoliderad till `functions/` (legacy `server/` arkiverad)
+- [x] Redundanta projektkartor raderade (v2, PROD, drive-download, cursor-workspace, HOME-klon)
+
+## Fas 2 (Moduler): App-shell + aktivering
+- [x] BrowserRouter + routes (`/`, `/kompasser`, `/valv`, `/hamn`, `/ekonomi`, `/dagbok`, `/kunskap`, `/barnen`)
+- [x] FloatingDock navigation med aktiv route + long-press Shield (3 sek)
+- [x] AuthProvider (Firebase Anonymous) + AuthGate pa kansliga moduler
+- [x] Zero Footprint: vault unlock reset vid visibilitychange + timeout + `invalidateSession` callable
+- [x] Kunskapsvalv: `/kunskap` + Tidshjulet + auth-felhantering
+- [x] Kompasser: morgon/dag/kvall-floden + Firestore checkins
+- [x] Safe Harbor: BIFF-formular via `analyzeMessage` callable
+- [x] Verklighetsvalvet: long-press gate, PIN (lokal/env), VaultLog WORM
+- [x] Dagbok: DagbokPage + journal-persistens
+- [x] Barnens livsloggar: `/barnen`, PIN, Firestore `children_logs`
+- [x] Telefon-MVP: `vite --host` i dev-script + `manifest.webmanifest` (lägg till på hemskärm)
+- [x] Firestore rules: checkins, journal, reality_vault, children_logs
+
+## Kladd-konsolidering (2026-05-21)
+
+- [x] Notebook #1–#7 → [`docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md`](docs/archive/kladd/Kladd-2026-05-21-PERSONAL-MASTER.md)
+- [x] Minne-kandidater → [`docs/archive/kladd/Kladd-2026-05-21-kampspar-kandidater.md`](docs/archive/kladd/Kladd-2026-05-21-kampspar-kandidater.md)
+- [x] Gap-tabeller i alla `.context/modules/*.md` + `src/modules/*/module_plan.md` (ingen kod)
+- [x] Back-merge Kladd → `[MODUL]-SPEC.md` (§8, §12–13, Kladd-synk)
+- [x] Nya SPEC: [`Ekonomi-SPEC.md`](docs/specs/modules/Ekonomi-SPEC.md), [`Core-SPEC.md`](docs/specs/modules/Core-SPEC.md)
+- [x] [`docs/specs/p2-flode.md`](docs/specs/p2-flode.md) synkad mot kod
+- [x] Grunder Fas A — [`docs/specs/modules/grunder-slides/`](docs/specs/modules/grunder-slides/) + [`INVENTAR.md`](docs/specs/modules/grunder-slides/INVENTAR.md)
+- [x] Grunder U1–U5 + Fas C — [`docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md`](docs/archive/evaluations-2026-05/GRUNDER-UTVARDERING-RESULTAT.md)
+- [ ] Manuell ingest av minne-poster (opt-in trauma-policy)
+- [ ] Implementation per modul när användaren säger *kör [modul]*
+- [x] **Del B (2026-05-24):** [`docs/MODUL-FUNKTIONS-REGISTER.md`](../docs/MODUL-FUNKTIONS-REGISTER.md) + doc-drift-synk — `/planering` live på `main`
+
+## Aktuell status
+- [x] Design-tokens och fargpalett
+- [x] Bas-layout med Sub-Synaptic Background
+- [x] KompisAvatar
+- [x] Bento Grid dashboard
+- [x] Floating Dock (routing)
+- [x] Interaktivt Tidshjul (bas-UI pa `/kunskap`)
+- [x] Mobil-dashboard (`--host`)
+- [x] Verklighetsvalv UI (long-press + PIN + VaultLog)
+
+## Fas 3 (Firebase-synk)
+- [x] Firestore rules + indexes deployade
+- [x] Functions deployade; `notifyNewFile` deployad (G6 E2E **done** 2026-05-22)
+- [x] Firebase Hosting: https://gen-lang-client-0481875058.web.app
+- [x] Dokumentation: `docs/FIREBASE_SYNC.md`
+- [ ] Manuell smoke i app (#3 Valv, #4 Barnen, #2d bilaga) — sanning: [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) **Current truth**
+- [x] `NOTIFY_WEBHOOK_SECRET` + Drive E2E → `kb_docs` (G6 **done** 2026-05-22)
+
+## Drive wire-up (Apps Script → notifyNewFile)
+- [x] Kod redo: Script Properties i `sorter.gs`, webhook-secret fail-closed, `docs/DRIVE_AUTOMATION.md`
+- [x] G6 Drive E2E — `kb_docs` PASS 2026-05-22 ([`GCP-FAS4-RUNBOOK.md`](docs/GCP-FAS4-RUNBOOK.md) steg 2)
+
+## Firebase Fas 3 (synk)
+- [x] `.firebaserc` rättad; Firestore rules + indexes deployade
+- [x] Modul-Functions deployade (`europe-west1`); Hosting live — se `docs/DEPLOY.md`, `docs/FIREBASE_SYNC.md`
+- [x] `notifyNewFile` — G6 **done** 2026-05-22 (`kb_docs` E2E)
+- [x] Manuell smoke minimum (#1, #2, #18) **PASS** 2026-05-27
+- [x] Manuell smoke #2d **PASS** 2026-06-06 (USER)
+- [ ] Manuell smoke #3, #4 valfritt USER — autorun PASS 2026-06-06 · [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) **Current truth**
+
+## Data Connect
+- Deployat (example-schema); **appmoduler använder Firestore** — DC avvaktas tills ekonomi (se `docs/FIREBASE_SYNC.md`)
+
+## Modulmappning (`.context/modules/`)
+
+| Modul | Route | Kontextfil | Kod |
+| --- | --- | --- | --- |
+| Verklighetsvalvet | `/valvet` (Fyren + WebAuthn) | `.context/modules/verklighetsvalvet.md` | `src/modules/features/lifeJournal/evidence/vault/` |
+| Hjärtat (Dagbok) | `/hjartat` (legacy `/dagbok`) | `.context/modules/dagbokshubben.md` | `src/modules/features/lifeJournal/diary/` |
+| Familjen / Barnen | `/familjen` | `.context/modules/barnens_livsloggar.md` | `src/modules/features/family/children/` |
+| Speglings-Systemet | `/hjartat?tab=speglar` | `.context/modules/speglingssystemet.md` | `src/modules/features/lifeJournal/diary/mirror/` |
+| MåBra | `/mabra` | `.context/modules/mabra_sidan.md` | `src/modules/features/dailyLife/wellbeing/mabra/` |
+| Kompis / Kunskap | Valv PIN → `/valvet?vaultTab=kunskapsbank` | `.context/modules/kompis.md` | `src/modules/features/lifeJournal/evidence/kompis/` |
+
+## Permanent minne (låst princip)
+
+**Konsoliderad:** 2026-05-21 — se [`docs/archive/repomix/KONSOLIDERING-2026-05-21.md`](docs/archive/repomix/KONSOLIDERING-2026-05-21.md).
+
+Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns, utan arkitekturinvariant.
+
+| Collection | Roll | Glömmer? |
+|------------|------|----------|
+| `children_logs` | Barnens livslogg + fysiologi | Nej — append-only WORM |
+| `reality_vault` | Bevis (Sanningens Sköld) | Nej — append-only WORM |
+| `journal` | Dagbok Lager 1 | Nej — append-only WORM |
+| `kampspar` / `kb_docs` | Kunskapsvalvet (RAG) | WORM create; separat retention — **ersätter inte** barn/valv |
+| `dossier_snapshots` | Bevisad export | WORM snapshot |
+
+**Tre kunskapsytor** (se `arkitektur-beslut.md` §1.5) — blanda aldrig RAG mellan silor.
+
+**Repomix → kanon (legacy):** `vault`→`reality_vault`, `kids_records`→`children_logs`, `diary`→`journal`. Mock `Kampspar`-typ ≠ `KampsparEntry` (G11).
+
+**Idag (live — [`docs/GCP-INVENTORY-LATEST.md`](../docs/GCP-INVENTORY-LATEST.md), audit 2026-05-31):**
+- Kunskap RAG — smoke PASS; ANN G2/G3 **VERIFY PASS** (**173 vectors**, west1 defaults)
+- `valvChatQuery` — **deployad** (G1 **done**); smoke:valv PASS
+- Dossier `generateDossier` — **klart** (smoke PASS)
+- `notifyNewFile` — **deployad**; G6 **done** 2026-05-22
+- Vävaren HITL — `approveWeaverMetadata` / `rejectWeaverMetadata` **deployade**; `weaver_pending` rules + UI enligt PMIR 2026-05-31
+- Legacy Python us-central1 — **0 fn kvar** (FAS4 steg 1–5 **done** 2026-05-22)
+- Retention G5 **done**; mock Kampspar G11 **done**
+
+**GAP G1–G14:** **done** (2026-05-22) — [`Arkiv-GAP-REGISTER.md`](docs/specs/modules/Arkiv-GAP-REGISTER.md). Ny backlog utanför G-serien dokumenteras separat.
+
+**Sacred:** Permanent minne + korrekt silo = Zero Footprint + Kill Switch.
+
+## Kommande fas
+- [x] WebAuthn gate + Shake-to-Kill (15 m/s²) + Fyren progress
+- [x] Vävaren async tagging (Gemini 1.5 Pro → reality_vault) + kampsparRag
+- [x] Barnens: Kasper/Arvid, Balansmätare, fysiologi, JSON export
+- [x] Barnens *kör barnen* **done** — Spara som bevis + `sourceRef`, tredjepart-filter, Dossier-länk (`/familjen`)
+- [x] Speglings-Systemet: ACT + VIVIR + valvjämförelse (`/speglar`)
+- [x] `weaveJournalEntry` + hosting deploy (natt-batch — se `docs/NATT-CI.md`, historik: `docs/archive/OVERNIGHT_REPORT.md`)
+- [x] Minneloggning (uppladdning, tidsstampel, vektorisering) — **klart:** ingestKnowledgeDocument, ingestKampsparEntry, KunskapsvalvFileIngest, Kunskap RAG; Vector Search ANN VERIFY PASS (G2/G3)
+- [x] Kompasser notebook #1–#5 → låst SPEC; MVP *kör kompasser* **done** (AuthGate, tids-default, Paralys, KASAM, broar)
+- [x] Dossier notebook #1–#4 → låst SPEC; UI wizard + `generateDossier` backend **done** — deploy `functions:generateDossier` + rules
+- [x] Ekonomi kopplad till Firestore (`transactions` WORM + `economy_profiles`)
+- [x] Måbra-sidan MVP — hub + 4-7-8 andning + `mabra_sessions` (SPEC **done** 2026-05; se `docs/specs/modules/Mabra-SPEC.md`, `.context/modules/mabra_sidan.md`)
+- [x] Måbra fas 2a — reframing self_critical (4 steg + valfri 1-min andning, `exerciseType: reframing`)
+- [x] Måbra fas 2b — AkutLanding panic_rsd + panik-andning UX (tid kvar, fas-copy)
+- [x] Måbra fas 2c — hub-complete + Dagbok bro `?from=mabra&energy=low`
+- [x] Måbra fas 2d — ACT ValuesCompass + `mabra_progress/{uid}`
+- [x] Måbra fas 2e — coach callable + opt-in UI + Speglar guardrail
+- [x] Måbra fas 2f — Web Speech sv-SE (reframing + coach)
+
+## Life OS orchestrering (2026-05-23)
+
+- [x] Locked UX smoke + P1 design-moduler (D3, D11–D14, D16–D20, D22–D23, D29)
+- [x] Tema E tokens + `HomeHeroKanon` / `LivskompassHero` på Hem
+- [x] Evaluations A–F + 6 modul-rapporter (`docs/archive/evaluations-2026-05-23/`)
+- [x] `npm run smoke:all` + `.context/design-modules-mockup.md`
+- [x] Manuell smoke minimum (#1, #2, #18) **PASS** 2026-05-27; #19–20 **STATIC PASS** 2026-05-29
+- [x] Manuell smoke #2d **PASS** 2026-06-06 (USER)
+- [ ] Manuell smoke #3, #4 valfritt USER — autorun PASS 2026-06-06 · [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) **Current truth**
+
+## Fas 5 — Verifiering + polish (2026-05-31, post git-trunk)
+
+**Kanon:** [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) · checklista [`docs/evaluations/2026-05-31-fas5a-user-checklist.md`](../docs/evaluations/2026-05-31-fas5a-user-checklist.md)
+
+| Del | Status |
+|-----|--------|
+| **5A** Prod-verifiering (Vävaren HITL, smoke #3/#4/#2d) | Agent prep **PASS** — manuell USER kvar |
+| **5B** Valv/Hamn UI (Visa brus, ankare-filter, forensik-ingress) | **done** 2026-05-31 på `main` |
+| **5C** Inkorg I1/I3 produktbeslut | **DEFER** — [`docs/evaluations/2026-05-31-fas5c-inkorg-beslut.md`](../docs/evaluations/2026-05-31-fas5c-inkorg-beslut.md) |
+| **5D** Projekt P2 / Barnporten / Life OS Fas D | Backlog — [`docs/evaluations/2026-05-31-fas5d-backlog.md`](../docs/evaluations/2026-05-31-fas5d-backlog.md) |
+
+## Life OS kopplingar (backlog — komihåg 2026-05-26)
+
+**Kanon:** [`docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md`](../docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md) · Landning: [`docs/evaluations/2026-05-26-session-landning.md`](../docs/evaluations/2026-05-26-session-landning.md)
+
+- [x] **LifeHubPreset (Fas A)** — 4 presets i `src/modules/core/lifeOs/`, Hem-väljare, `materialFlags` per route
+- [x] **RoutineTemplate + ModuleLink (Fas B)** — `routineTemplates.ts`, `RoutinesPanel` på `/planering`, deep links
+- [x] **MaterialPack (Fas C)** — `materialPacks.ts`, `MaterialPackShortcuts` på Familjen/MåBra/Hamn
+- [x] **Projekt P1 (del)** — `projects`, `project_blocks`, `/projekt/:id`, `projectId` på kanban
+- [x] **Projekt P2+ / Fas D** — regler, bild-uppladdning, widget-sheet, full MaterialPack-editor
+- [ ] Implementation: `kör kopplingar C` · `kör projekt P1` · se komihåg för fasering
+
+## Fas 6 — Input Superhub (Superdagbok) · **AVSLUTAD**
+
+**Status:** `[x]` **AVSLUTAD** 2026-06-14 — MåBra Superhub (Fas 6A→6E) implementerad och låst i `.context/locked-ux-features.md` §11.
+
+| Del | Status |
+|-----|--------|
+| **6A** Router-skelett (`MabraInputSuperModule`, `/mabra/input`, lägesväxlare) | **done** |
+| **6B** Vit + minneslista (`vit_*`, `EmotionalMemoryListPanel`) | **done** |
+| **6C** Reflection + RAM → explicit save (`reflection_tool`, `exercise_note`) | **done** |
+| **6D** Inkast + dagbok bridge (`inkast`, `dagbok_bridge`) | **done** |
+| **6E** Lås UX/arkitektur (locked-ux + systemplan) | **done** 2026-06-14 |
+
+**Problem:** Inmatning, uppladdning och reflektion är utspridda (Dagbok, Inkast, känslominnen, Valv, Barnen, MåBra, planering, ekonomi, arbetsliv m.fl.) — för många ingångar huller och buller.
+
+**Mål:** En **Universal Input Hub (Supermodul) per pelare/zon** med **meny för läge** — byt funktion utan att byta sida (t.ex. Dagbok ↔ minne ↔ Inkast ↔ reflektion ↔ filuppladdning).
+
+---
+
+### Arkitekturlagar (Livskompassen 3.0 — obligatoriska)
+
+#### 1. Konsolidering och supermoduler
+
+Alla användarinmatningar — **dagboksanteckningar, minnen, snabb inkorg/Inkast, reflektioner och filuppladdningar** — **MÅSTE** centraliseras till polymorfa **Universal Input Hubs (Supermoduler)**.
+
+- Vi **slutar bygga spridda inmatningsformulär** i enskilda moduler.
+- Nya inmatningsflöden får endast tillkomma som **lägen (modes)** inuti en godkänd Superhub — inte som fristående formulär.
+- Befintliga formulär migreras zon för zon till respektive hub; duplicerade ingångar avvecklas efter migrering.
+
+#### 2. Kontextmedvetna zoner
+
+Varje Superhub **MÅSTE** anpassa sig dynamiskt till sin pelare/zon:
+
+| Zon / pelare | Exempel på hub |
+| --- | --- |
+| MåBra (Vit) | Super-MåBra Input |
+| Barnsidan / Familjen | Super-Familjen Input |
+| Ekonomi | Super-Ekonomi Input |
+| Arbetsliv | Super-Arbetsliv Input |
+| Planering | Super-Planering Input |
+| Hjärtat (Dagbok) | Superdagbok |
+
+Anpassning sker via:
+
+- **CSS-variabler ("Färgburkar")** — Obsidian Calm-tokens per zon (`tailwind.config.js`, semantiska `--surface`, `--accent`, glow per silo).
+- **Specifik metadatataggning** — varje sparat objekt bär zon, läge, `content_class` (U6) och silo-säker routing; ingen cross-RAG.
+
+#### 3. Nödvändig djupanalys (före implementation)
+
+Innan en Superhub implementeras i **någon** kategori **MÅSTE** en djupgående kod- och komponentanalys av den aktuella kategorin utföras:
+
+1. Kartlägg alla befintliga inmatningsvägar, duplicerade formulär och beroenden.
+2. Dokumentera säkerhetsgränser: WORM, silo (U1), HITL, Zero Footprint, offline-policy.
+3. Skriv migrationsplan + smoke-kriterier; godkänn plan **innan** kod.
+4. Referera [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md), relevant `*-SPEC.md` och `.context/locked-ux-features.md`.
+
+**Utan godkänd analys — ingen Superhub-implementation i zonen.**
+
+#### 4. Strikt låsningsmekanism (WORM och nollhallucinationer)
+
+När en Superhub-modul har **implementerats, testats och godkänts** av teknikledaren betraktas den som **låst**.
+
+- **Ingen AI-agent** får ändra, omstrukturera eller modifiera hubbens **kärnlogik** utan **uttryckligt, åsidosättande tillstånd** från teknikledaren (Pontus).
+- Låsning registreras i `.context/locked-ux-features.md` + zon-specifik eval i `docs/evaluations/` + obligatorisk smoke (`npm run smoke:locked-ux` m.fl.).
+- WORM-semantik på evidens/minne bevaras; Superhub får **aldrig** införa `update`/`delete` på låsta samlingar.
+- Syfte: **noll hallucinationer**, deterministisk stabilitet, inga oreviewade refactors som urholkar säkerhet eller UX.
+
+---
+
+### Obligatorisk leveransordning (per zon)
+
+1. Djupanalys + eval-dokument (`docs/evaluations/`)
+2. Superhub-spec (lägen, API, metadata, Färgburkar)
+3. Migrering av befintliga inmatningsflöden
+4. Smoke + manuell verifiering
+5. **Lås** — registrera i locked-ux; därefter endast bugfix med PMIR + explicit OK
+
+### Referenser (nuläge)
+
+- Känslominne (delsteg): `/mabra/projekt/emotional_memory` · `src/modules/features/emotional-memory/`
+- Design: Obsidian Calm · [`docs/design/COLOR-POLICY.md`](../docs/design/COLOR-POLICY.md)
+- Innehåll/routing: U6 · [`docs/INNEHALL-REGISTER.md`](../docs/INNEHALL-REGISTER.md)
+- Framtida kickoff-eval: `docs/evaluations/` (skapas vid start av Fas 6 per zon)
+- **MåBra djupanalys (2026-06-14):** [`docs/evaluations/2026-06-14-fas6-mabra-superhub-djupanalys.md`](../docs/evaluations/2026-06-14-fas6-mabra-superhub-djupanalys.md)
+- **MåBra Superhub SPEC (låst 2026-06-14):** [`docs/specs/modules/Mabra-INPUT-SUPERHUB-SPEC.md`](../docs/specs/modules/Mabra-INPUT-SUPERHUB-SPEC.md) — Fas 6A→E **AVSLUTAD** · locked-ux §11
+
+## Fas 7 — Super-Familjen Input · **AVSLUTAD**
+
+**Status:** `[x]` **AVSLUTAD** 2026-06-14 — Familjen Superhub (Fas 7A→7E) implementerad och låst i `.context/locked-ux-features.md` §12.
+
+| Del | Status |
+|-----|--------|
+| **7A** Router-skelett (`FamiljenInputSuperModule`, lägesväxlare, `barnfokus`) | **done** |
+| **7B** Delegates stund + fysiologi + offline-fel | **done** |
+| **7C** Delegates observation + vardagsstruktur; avveckla duplicerad input | **done** |
+| **7D** Shadow mount + produktionstest (`?superhub=true`) | **done** |
+| **7E** Standardvy + legacy-borttagning + lås UX/arkitektur | **done** 2026-06-14 |
+
+**Spec:** [`docs/specs/Familjen-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Familjen-INPUT-SUPERHUB-SPEC.md) · **Eval:** [`docs/evaluations/Familjen-INPUT-SUPERHUB-EVAL.md`](../docs/evaluations/Familjen-INPUT-SUPERHUB-EVAL.md)
+
+## Fas 8 — Super-Ekonomi Input · **AVSLUTAD**
+
+**Status:** `[x]` **AVSLUTAD** 2026-06-14 — Ekonomi Superhub (Fas 8A→8E) låst i `.context/locked-ux-features.md` §14.
+
+| Del | Status |
+|-----|--------|
+| **8A** Router-skelett (`EkonomiInputSuperModule`) | **done** |
+| **8B** Mikrosteg + profil delegates | **done** |
+| **8C** Kuvert + spar + matprep delegates | **done** |
+| **8D** Impuls + inkast | **done** |
+| **8E** Shadow→Live på `/vardagen?tab=ekonomi` | **done** 2026-06-14 |
+
+**Spec:** [`docs/specs/Ekonomi-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Ekonomi-INPUT-SUPERHUB-SPEC.md) · **GAP:** F8 **done** i [`Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md)
+
+## Fas 9 — Super-Planering Input · **AVSLUTAD**
+
+**Status:** `[x]` **AVSLUTAD** 2026-06-14 — Planering Superhub (Fas 9A→9C + W3) låst i `.context/locked-ux-features.md` §15.
+
+| Del | Status |
+|-----|--------|
+| **9A** Djupanalys + SPEC | **done** |
+| **9B** `PlaneringInputSuperModule` + lägesväxlare | **done** |
+| **9C** Delegates: task_quick, inkast, quick_list | **done** |
+| **W3** `/planering/input` i AppRoutes + länk från PlaneringPage | **done** 2026-06-14 |
+
+**Spec:** [`docs/specs/Planering-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Planering-INPUT-SUPERHUB-SPEC.md)
+
+## Fas 10 — Super-Arbetsliv Input · **AVSLUTAD**
+
+**Status:** `[x]` **AVSLUTAD** 2026-06-14 — Arbetsliv Superhub (Fas 10A→10C + W3) låst i `.context/locked-ux-features.md` §16.
+
+| Del | Status |
+|-----|--------|
+| **10A** Djupanalys + SPEC | **done** |
+| **10B** `ArbetslivInputSuperModule` + lägesväxlare | **done** |
+| **10C** Delegates: stampla, tid, logg | **done** |
+| **W3** `/arbetsliv/input` + legacy redirect från `/arbetsliv` | **done** 2026-06-14 |
+
+**Spec:** [`docs/specs/Arbetsliv-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Arbetsliv-INPUT-SUPERHUB-SPEC.md)
+
+## Fas 11 — Superdagbok (Hjärtat) · **AVSLUTAD**
+
+**Status:** `[x]` **AVSLUTAD** 2026-06-14 — Superdagbok (Fas 11A→11C + W5) låst i `.context/locked-ux-features.md` §17.
+
+| Del | Status |
+|-----|--------|
+| **11A** Djupanalys + SPEC | **done** |
+| **11B** `DagbokInputSuperModule` + lägesväxlare | **done** |
+| **11C** Delegates: reflektion, quick_mirror, arkiv | **done** |
+| **W5** `/hjartat/input` i AppRoutes + HjartatPage embed | **done** 2026-06-14 |
+
+**Spec:** [`docs/specs/Superdagbok-INPUT-SUPERHUB-SPEC.md`](../docs/specs/Superdagbok-INPUT-SUPERHUB-SPEC.md)
+
+## Fas 12 — Nästa (efter superhub-kö)
+
+**Kanon:** [`docs/SYSTEM_PLAN_v2.md`](../docs/SYSTEM_PLAN_v2.md) · **Gate 12A** smoke:orkester + hosting deploy 2026-06-14.
+
+| Prioritet | Spår | Status |
+|-----------|------|--------|
+| **12B** | Adaptiv Hemkompass — superhub-broar från Hem | **done** 2026-06-14 |
+| **12C** | Säkerhet P2 — vault-gate `weeklySummary` / `compass` | **done** |
+| **12D** | Dossier BBIC `reportType` | backlog |
+
+## Fas 23 — Etapp 2 (Kognitiv Avlastning & Töm Skallen)
+
+**Kanon:** `docs/FAS23-SPRINT-PLAN.md` · `docs/ROADMAP-FUTURES.md` · `docs/specs/modules/Globalt-Pansarlage.md`
+
+| Prioritet | Spår | Status |
+|-----------|------|--------|
+| **23A** | **Globalt Pansarläge (Survival Mode)** — extrem offloading | TODO |
+| **23B** | **Töm Skallen-vy (Inkast-Dyk)** | TODO |
+| **23C** | **"Sista Utvägen" (MåBra Akut)** — SOS Ankare | TODO |
+| **23D** | Paralys-Brytaren i Planering | TODO |
+| **23E** | Tyst Läge (Darkest Mode) i Superdagbok | TODO |
+
+*Detta markerar övergången från Etapp 1 (Stealth/Burn/Blur) till Etapp 2. Alla superhubbar är konsoliderade (Fas 6-11) och vi bygger nu kognitiva skyddsnät som följer WORM och Three-Silo designen.*
+````
+
+## File: docs/specs/modules/Arkiv-GAP-REGISTER.md
+````markdown
+# Arkiv-GAP-REGISTER — implementation efter låsning
+
+**Datum:** 2026-05-21 (konsoliderad, live-synk)  
+**Regel:** Implementera **inte** kod förrän användaren säger `kör [GAP]`.  
+**Sanning (moln):** [`docs/GCP-INVENTORY-LATEST.md`](../../GCP-INVENTORY-LATEST.md) — ersätter arkiv [`GCP-INVENTORY-2026-05-21.md`](../../archive/GCP-INVENTORY-2026-05-21.md).
+
+| ID | Status | Notering |
+|----|--------|----------|
+| G1 | **done** | `valvChatQuery` deployad west1 |
+| G2 | **done** | VERIFY PASS 2026-05-22 — endpoint live, kod-defaults, 54 vectors |
+| G3 | **done** | VERIFY PASS 2026-05-22 — embeddingDim 768, indexSync under ingest |
+| G4 | **done** | All legacy Python borta (steg 1–5 2026-05-22) |
+| G5 | **done** | WORM allowlist retention |
+| G6 | **done** | Drive E2E → `kb_docs` 2026-05-22 — [`GCP-FAS4-RUNBOOK.md`](../../GCP-FAS4-RUNBOOK.md) steg 2 |
+| G7 | **done** | `journal_woven` opt-in → `kampspar` + `journalWovenToKampspar` (2026-05-22) |
+| G8 | **done** | `childrenLogsQuery` + Mönster-Arkivarien Barnen (2026-05-22) |
+| G9 | **done** | EntityProfile / SystemSynapse (2026-05-22) |
+| G10 | **done** | Självsorterande inkorg (2026-05-22) |
+| G11 | **done** | Mock Kampspar UI-only (2026-05-22) |
+| G12 | **done** | Context Cache registry (2026-05-22) |
+| G13 | **done** | Tidshjulet → kampspar (2026-05-22) |
+| G14 | **done** | Gräns-Arkitekten (2026-05-22) |
+| G15–G16 | **done** | G15 + G16 + U5.5 **done** 2026-05-22 |
+| G17 | **done** | Zero Footprint **blur** — `visibilitychange`/`pagehide` → `endVaultSession({ closeDrawer: true })` i [`useZeroFootprint.ts`](../../../src/modules/core/auth/useZeroFootprint.ts). PMIR [`2026-06-21-pmir-g17-blur.md`](../../evaluations/2026-06-21-pmir-g17-blur.md) · YOLO polish session 4. |
+| F8 | **done** | Super-Ekonomi Input (Fas 8A→8E) — Shadow→Live 2026-06-14 |
+| V1 | **wait** | Genkit — ej migrera |
+
+---
+
+## Prioritet 1 — Prod-gaps (blockerar hela arkivet)
+
+### G1 — Deploy `valvChatQuery` — **done**
+
+| | |
+|---|---|
+| **Status** | **done** (2026-05-21 live inventering) |
+| **Bevis** | `valvChatQuery` i `firebase functions:list`; `smoke:valv` PASS |
+| **Säkerhet** | Endast `reality_vault`; Zero Footprint session |
+
+### G2 — Vector Search endpoint + ANN wire — **done**
+
+| | |
+|---|---|
+| **Status** | **done** — VERIFY PASS 2026-05-22 |
+| **Live** | Endpoint `4956462078572363776`; index `2686894156982255616`; deploy `livskompassen_kv_deployed_v1`; **54 vectors** |
+| **Secrets** | `VECTOR_SEARCH_*` saknas i Secret Manager — kod-defaults i `vectorSearchClient.ts` räcker |
+| **Kod** | `functions/src/lib/kampsparQueryRag.ts` — ANN + token-match fallback |
+
+### G3 — Embeddings live — **done**
+
+| | |
+|---|---|
+| **Status** | **done** — VERIFY PASS 2026-05-22 |
+| **Live** | `text-embedding-004`, `embeddingDim` 768 vid ingest; indexSync 2026-05-22T00:57:43Z |
+| **Bevis** | Smoke + seed 47 poster; vectorsCount 54 i gcloud |
+
+---
+
+## Prioritet 2 — Arkitekturhygien
+
+### G4 — Legacy Python RAG (us-central1) — **done**
+
+| Status | **done** — 0 Python functions kvar (FAS4 steg 1–5 **done** 2026-05-22) |
+
+| Function | Legacy roll | Node-motsvarighet | Status |
+|----------|-------------|-------------------|--------|
+| ~~`knowledge-base-webhook`~~ | Vertex AI Search KB webhook | `notifyNewFile` → `kb_docs` + Vector ANN | **raderad** steg 5 |
+| ~~`drive_sync_tool`~~ | Drive → legacy KB | `notifyNewFile` (Node) | **raderad** steg 3 |
+| ~~`biff_generator_tool`~~ | HTTP BIFF-prototyp | `analyzeMessage` | **raderad** steg 1 |
+| ~~`brusfiltret_tool`~~ | HTTP brusfilter | `analyzeMessage` | **raderad** steg 1 |
+
+**Smoke steg 5:** `smoke:kunskap` + `smoke:dossier` **PASS** 2026-05-22.
+
+### G5 — Retention vs permanent minne — **done**
+
+| | |
+|---|---|
+| **Status** | **done** — WORM allowlist i `retentionJob.ts` |
+| **Problem** | `retentionJob.ts` purgar `users/{uid}/kampspar`; live data = top-level `kampspar` |
+| **GCS** | `livskompassen-knowledge-vault-worm` har 30d retention |
+| **Åtgärd** | Explicit allowlist: **aldrig** radera `children_logs`, `reality_vault`, `journal`, `dossier_snapshots`, top-level `kampspar` WORM |
+| **Källa** | walkthrough legacy path ≠ prod; repomix output.txt T6 |
+
+### G6 — Drive smoke end-to-end — **done** 2026-05-22
+
+| | |
+|---|---|
+| **Status** | **done** — webhook → `kb_docs` · docId `irQNlDTYgcr15DFIuA3w` · `smoke:kunskap` PASS |
+| **Fix** | `documentAgent.ts` export för Google Docs; `await emitSynapse`; `gemini-2.5-flash` |
+| **Deploy** | `notifyNewFile` west1 — se [`GCP-FAS4-RUNBOOK.md`](../../GCP-FAS4-RUNBOOK.md) steg 2 |
+
+### G11 — Mock `Kampspar`-typ vs `KampsparEntry` — **done**
+
+| | |
+|---|---|
+| **Status** | **done** — `KompisUiKampsparTrack` UI-only |
+| **Problem** | `src/modules/kompis/types/kompis.ts` har mock `Kampspar` (challenge/milestone/routine) identisk med repomix output.txt |
+| **Risk** | Felkoppling till ingest — WORM-schema är `KampsparEntry` |
+| **Åtgärd** | Isolera/renamna mock till UI-only; dokumentera i komponent; aldrig skicka till `ingestKampsparEntry` |
+| **Källa** | ANALYS-repomix-output.txt T1/T2 |
+
+---
+
+## Prioritet 3 — Life OS utbyggnad
+
+### G7 — `journal_woven` synaps — **done** 2026-05-22
+
+`journalWovenSynapse.ts` + callable `journalWovenToKampspar` + opt-in checkbox i Dagbok ConfirmStep. **MUST NOT** auto-ingest.
+
+### G8 — Familjen-RAG — **done** 2026-05-22
+
+`childrenLogsQuery` + `childrenLogsQueryRag` + `ChildrenLogsChat` i Familjen. **MUST NOT** route via `valvChatQuery`.
+
+### G9 — EntityProfile / SystemSynapse — **done** 2026-05-22
+
+`entity_profiles` + `system_synapses` (WORM, owner-bound), idempotent seed (`KEY_ENTITY_SEEDS`), `loadEntityProfileBundle` injiceras i valv/kunskap/barn-agenter (metadata — **MUST NOT** cross-RAG), callable `getEntityProfileRegistry`, UI `EntityRegistryCard` i Kunskap.
+
+### G10 — Självsorterande inkorg — **done** 2026-05-22
+
+`INKORG_SORTERARE` + `classifyInboxDocument` i `driveIngestSynapse`: bevis → `reality_vault`, kunskap → `kb_docs`, barnen → `children_logs`, trauma/oklar → `inbox_queue` (HITL). **MUST NOT** spara bevis till `kb_docs`. Callables: `getInboxQueue`, `confirmInboxItem`, `previewInboxClassification`. UI `InboxQueueCard`.
+
+### G12 — Context Cache delad registry — **done** 2026-05-22
+
+`context_cache_registry` (Firestore, delad mellan instanser), `contentHash` för RAG-invalidering, `invalidateCachesForUser` vid Kill Switch, `purgeExpiredRegistryEntries` i retention. Callable `getContextCacheStatus`. Best-effort Vertex cache create (fail-open).
+
+### G13 — Tidshjulet → `kampspar`-historik — **done** 2026-05-22
+
+Live `subscribeKampsparEntries`, ringar Dåtid/Nutid/Framtid via `eventDate`, klickbara noder, `TidshjulDetailCard`, deterministisk Mönster-hint. Citation → Tidshjulet för `kampspar`.
+
+### G14 — Gräns-Arkitekten agent card
+
+| | |
+|---|---|
+| **Status** | **done** — 2026-05-22 |
+| **Leverans** | `GransArkitektenCard`, `gransArkitektenAgent.ts`, Kompis-routing (DCAP + `module: safe_harbor`), Hamn-UI (Brusfilter + BIFF), `npm run smoke:grans` |
+| **Beslut** | Nionde produktroll = Gräns-Arkitekten (executor `agent_grans_arkitekten`); BIFF/Brusfiltret som produktkort kvar i A2A-registret |
+| **Källa** | cursor.txt + walkthrough legacy |
+
+### G15 — Grunder: injection-parity kanon (U1.5)
+
+| | |
+|---|---|
+| **Status** | **done** — `.context/security.md` § injection-parity (2026-05-22) |
+| **Källa** | [`GRUNDER-UTVARDERING-RESULTAT.md`](GRUNDER-UTVARDERING-RESULTAT.md) U1.5 |
+
+### G16 — Grunder: RSD-prompt + Barnen-routing (U4.3, U5.3, U5.5)
+
+| | |
+|---|---|
+| **Status** | **done** — RSD-prompt + PA appendix + U5.5 Kompis routing **done** 2026-05-22 |
+| **Källa** | [`GRUNDER-UTVARDERING-RESULTAT.md`](GRUNDER-UTVARDERING-RESULTAT.md) |
+
+### F8 — Super-Ekonomi Input (Fas 8A→8E) — **done**
+
+| | |
+|---|---|
+| **Status** | **done** — Fas 8E Shadow→Live **2026-06-14** |
+| **Leverans** | `EkonomiInputSuperModule` default på `/vardagen?tab=ekonomi`; legacy `EconomyOverviewPanel` via `?legacy=true` |
+| **Spec** | [`Ekonomi-INPUT-SUPERHUB-SPEC.md`](../Ekonomi-INPUT-SUPERHUB-SPEC.md) · **Eval:** [`Ekonomi-INPUT-SUPERHUB-EVAL.md`](../../evaluations/Ekonomi-INPUT-SUPERHUB-EVAL.md) |
+| **Router** | `LivLauncherPage.tsx` — `EkonomiInputSuperModule` standard; `?superhub=true` avvecklad |
+| **Smoke** | `npm run build` · `smoke:ekonomi` · `smoke:evolution` |
+
+---
+
+### G17 — Zero Footprint blur (tab-byte) — **done**
+
+| | |
+|---|---|
+| **Status** | **done** — YOLO polish session 4 (2026-06-21) |
+| **Kod** | [`useZeroFootprint.ts`](../../../src/modules/core/auth/useZeroFootprint.ts) — `visibilitychange` + `pagehide` → `endVaultSession({ closeDrawer: true })` |
+| **PMIR** | [`2026-06-21-pmir-g17-blur.md`](../../evaluations/2026-06-21-pmir-g17-blur.md) |
+| **Smoke** | `smoke:valv-security`, `smoke:plausible-deniability`, `smoke:locked-ux` |
+
+---
+
+## Dokumentation (konsolidering 2026-05-21)
+
+- [x] `.context/arkiv-minne.md` — terminologifällor, legacy schema, G11–G14
+- [x] `Arkiv-SPEC.md` — Appendix E/F, säkerhet, status
+- [x] `Arkiv-GAP-REGISTER.md` — denna fil (G11–G14 tillagda)
+- [x] `docs/archive/repomix/KONSOLIDERING-2026-05-21.md`
+- [x] `system-plan.md` § Permanent minne
+- [x] `system-plan.md` — uppdatera notifyNewFile/valvChat rader efter deploy (2026-05-21 multitask)
+
+---
+
+## Kommando-cheat sheet (när användaren säger kör)
+
+```bash
+# G1
+firebase deploy --only functions:valvChatQuery
+npm run smoke:valv
+
+# G2 (efter endpoint skapad)
+firebase functions:secrets:set VECTOR_SEARCH_INDEX_ID  # eller env i functions config
+firebase deploy --only functions:knowledgeVaultQuery,functions:ingestKampsparEntry
+npm run smoke:kunskap
+
+# G11 (exempel — isolera mock)
+# Granska src/modules/kompis/types/kompis.ts vs core/types/firestore.ts KampsparEntry
+```
+````
+
 ## File: functions/src/callables/agents.ts
 ````typescript
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
@@ -10095,12 +10089,12 @@ import {
   shouldRedirectMabraCoachToSpeglar,
 } from '../lib/mabraCoachGuard';
 import { analyzeWidgetRecording } from '../lib/widgetRecordingAnalyze';
-import { revokeVaultSession } from '../lib/vaultSessionGate';
+import { type WidgetRecordingMetadata } from '../lib/widgetRecordingCommit';
+import { revokeVaultSession, readVaultSessionToken, assertVaultSession } from '../lib/vaultSessionGate';
 import {
   claimBarnportenPairingForUser,
   createBarnportenPairingForUser,
 } from '../lib/barnportenPairing';
-import { assertVaultSession } from '../lib/vaultSessionGate';
 import { supervisor, trimSpeglingsMirror } from './shared';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import { resolveCoachToneForUser } from '../lib/adaptationCoachTone';
@@ -10128,9 +10122,480 @@ function invalidBankIdError(message: string): HttpsError
 async function clearVaultJwtClaims(uid: string): Promise<void>
 ````
 
-## File: functions/src/index.ts
+## File: functions/src/jobs/firestoreBackupJob.ts
 ````typescript
+import { GCP_PROJECT_ID, GCP_REGION } from '../config';
+import { monitor } from '../lib/monitoring';
+⋮----
+export interface BackupResult {
+  success: boolean;
+  outputUri: string;
+  collections: readonly string[];
+  durationMs: number;
+  error?: string;
+}
+⋮----
+export async function runFirestoreBackup(): Promise<BackupResult>
+⋮----
+export async function verifyBackupHealth(): Promise<
+````
 
+## File: functions/src/lib/costTracker.ts
+````typescript
+import { monitor } from './monitoring';
+⋮----
+export interface TokenUsage {
+  inputTokens: number;
+  outputTokens: number;
+  model: string;
+  functionName: string;
+  userId: string;
+}
+⋮----
+export interface CostEntry {
+  userId: string;
+  model: string;
+  functionName: string;
+  inputTokens: number;
+  outputTokens: number;
+  estimatedCostUsd: number;
+  createdAt: FirebaseFirestore.Timestamp;
+}
+⋮----
+function estimateCost(usage: TokenUsage): number
+⋮----
+export async function trackTokenUsage(usage: TokenUsage): Promise<void>
+⋮----
+export async function getUserCostSummary(
+  userId: string,
+  days: number = 30
+): Promise<
+````
+
+## File: functions/src/lib/dcapAlertReview.ts
+````typescript
+import { onDcapReviewFeedback } from './dcapEscalation';
+⋮----
+export type DcapReviewDecision = 'acknowledged' | 'dismissed';
+⋮----
+export async function resolveDcapAlertForUser(
+  uid: string,
+  alertId: string,
+  decision: DcapReviewDecision,
+): Promise<
+````
+
+## File: functions/src/lib/dcapEscalation.ts
+````typescript
+import { monitor } from './monitoring';
+⋮----
+export interface DcapTrendEntry {
+  alertId: string;
+  riskScore: number;
+  action: string;
+  createdAt: FirebaseFirestore.Timestamp;
+  reviewed: boolean;
+  decision?: string;
+}
+⋮----
+export interface DcapEscalationState {
+  ownerId: string;
+  tier: 'monitor' | 'elevated' | 'critical' | 'external';
+  alertCount30d: number;
+  avgRiskScore30d: number;
+  highRiskCount30d: number;
+  lastEscalatedAt: FirebaseFirestore.Timestamp | null;
+  lastAlertAt: FirebaseFirestore.Timestamp;
+  updatedAt: FirebaseFirestore.Timestamp;
+}
+⋮----
+export interface EscalationResult {
+  tier: DcapEscalationState['tier'];
+  shouldGenerateDossier: boolean;
+  shouldNotifyExternal: boolean;
+  trendSummary: {
+    alertCount30d: number;
+    avgRiskScore30d: number;
+    highRiskCount30d: number;
+    escalationReason: string;
+  };
+}
+⋮----
+export async function analyzeDcapTrend(ownerId: string): Promise<EscalationResult>
+⋮----
+function determineTier(
+  alertCount: number,
+  avgRisk: number,
+  highRiskCount: number
+): DcapEscalationState['tier']
+⋮----
+function buildEscalationReason(
+  tier: DcapEscalationState['tier'],
+  alertCount: number,
+  avgRisk: number,
+  highRiskCount: number
+): string
+⋮----
+async function persistEscalationState(ownerId: string, result: EscalationResult): Promise<void>
+⋮----
+export async function onDcapReviewFeedback(
+  ownerId: string,
+  _alertId: string,
+  _decision: 'acknowledged' | 'dismissed'
+): Promise<EscalationResult>
+````
+
+## File: src/modules/core/firebase/firestore.ts
+````typescript
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  getFirestore,
+  initializeFirestore,
+  limit,
+  onSnapshot,
+  orderBy,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+  query,
+  serverTimestamp,
+  setDoc,
+  startAfter,
+  Timestamp,
+  updateDoc,
+  where,
+  type CollectionReference,
+  type DocumentData,
+  type DocumentReference,
+  type QueryDocumentSnapshot,
+  type SetOptions,
+  type UpdateData,
+  type WithFieldValue,
+} from 'firebase/firestore';
+import { app } from './init';
+import { assertOfflineWriteAllowed } from './offlineWritePolicy';
+import {
+  ManifestViolationError,
+  assertSiloIsolation,
+  assertWorm,
+  type SiloId,
+} from '../manifest';
+import type {
+  CheckIn,
+  CheckInRow,
+  KampsparEntryRow,
+  KbDocEntryRow,
+  MabraSession,
+  UserWidget,
+  UserWidgetRow,
+  VaultLog,
+  WeaverTags,
+} from '../types/firestore';
+import { FIRESTORE_COLLECTIONS } from '../types/firestore';
+import {
+  normalizeStringArray,
+  normalizeVaultLogFields,
+} from '@/features/lifeJournal/evidence/vault/utils/normalizeVaultLog';
+import {
+  formatChildObservation,
+  inferEpistemicKind,
+  type EpistemicKind,
+} from '@/features/family/children/utils/childObservationEpistemics';
+import { ensureVaultWriteReady } from '../security/vaultWriteUnlock';
+⋮----
+function initFirestoreDb()
+⋮----
+type FirestorePayload = Record<string, unknown>;
+⋮----
+function assertWormPayload(data: FirestorePayload, context: string): void
+⋮----
+type FirestoreWriteOp = 'create' | 'update' | 'delete';
+⋮----
+interface CrossSiloContext {
+  readonly fromSilo: SiloId;
+  readonly toSilo: SiloId;
+}
+⋮----
+export function assertArchitectureWrite(
+  collectionId: string,
+  operation: FirestoreWriteOp,
+  crossSilo?: CrossSiloContext,
+): void
+⋮----
+function guardedAddDoc(
+  ref: CollectionReference,
+  data: WithFieldValue<DocumentData>,
+): ReturnType<typeof addDoc>
+⋮----
+function guardedSetDoc(
+  ref: DocumentReference,
+  data: WithFieldValue<DocumentData>,
+  options?: SetOptions,
+): Promise<void>
+⋮----
+function guardedUpdateDoc(
+  ref: DocumentReference,
+  data: UpdateData<DocumentData>,
+): Promise<void>
+⋮----
+function guardedDeleteDoc(ref: DocumentReference): Promise<void>
+⋮----
+function omitUndefinedFields(data: FirestorePayload): FirestorePayload
+⋮----
+function withUserId(userId: string, data: FirestorePayload): FirestorePayload
+⋮----
+function ownerScopedQuery(ref: ReturnType<typeof collection>, ownerId: string)
+⋮----
+function normalizeCreatedAt(value: unknown): string
+⋮----
+function sortByCreatedAtDesc<T extends
+⋮----
+export async function saveCheckIn(userId: string, checkIn: Omit<CheckIn, 'userId' | 'createdAt'>)
+⋮----
+export async function saveMabraCheckIn(
+  userId: string,
+  checkIn: {
+    energy: number;
+    mood: number;
+    notes?: string;
+  }
+)
+⋮----
+export async function getLatestMabraCheckIn(userId: string): Promise<CheckInRow | null>
+⋮----
+export async function getRecentCheckIns(userId: string, limit = 20): Promise<CheckInRow[]>
+⋮----
+export type JournalAttachmentWrite = {
+  url: string;
+  storagePath: string;
+  name: string;
+  mimeType: string;
+  size: number;
+};
+⋮----
+export function createJournalEntryId(): string
+⋮----
+export async function saveJournalEntry(
+  userId: string,
+  entry: {
+    mood: string;
+    text: string;
+    category?: string;
+    tags?: string[];
+    attachment?: JournalAttachmentWrite;
+  },
+  options?: { entryId?: string },
+): Promise<string>
+⋮----
+export async function saveVaultLog(
+  userId: string,
+  log: Omit<VaultLog, 'userId' | 'createdAt'>
+)
+⋮----
+export async function saveEvolutionLedger(
+  userId: string,
+  entry: Omit<import('../types/firestore').EvolutionLedgerEntry, 'userId' | 'ownerId' | 'createdAt'>
+)
+⋮----
+export async function saveChildrenLog(
+  userId: string,
+  log: {
+    childAlias: string;
+    observation: string;
+    childrenImpact?: string;
+    category?: string;
+    action?: string;
+    signals?: { somn: number; angest: number; aptit: number };
+    authorRole?: 'child' | 'parent';
+    channel?: 'barnporten' | 'familjen' | 'middag' | 'widget';
+    visibility?: 'private_child' | 'parent' | 'vault_candidate';
+    contentType?: 'text' | 'voice' | 'mood' | 'step' | 'image';
+    mediaUrl?: string;
+    bankId?: string;
+    epistemicKind?: EpistemicKind;
+  }
+)
+⋮----
+export async function saveMabraSession(
+  userId: string,
+  session: {
+    exerciseType:
+      | 'breathing'
+      | 'grounding'
+      | 'reframing'
+      | 'daglig_mix'
+      | 'explore_done'
+      | 'movement_micro'
+      | 'walk_reset'
+      | 'stretch_478';
+    durationSeconds: number;
+    hubSymptom?: string;
+    cardBankId?: string;
+    playBankId?: string;
+    mixDateKey?: string;
+  }
+)
+⋮----
+export async function listMabraSessionsRecent(
+  userId: string,
+  max = 30,
+): Promise<Pick<MabraSession, 'hubSymptom' | 'exerciseType' | 'createdAt'>[]>
+⋮----
+export async function getMabraProgress(userId: string): Promise<
+⋮----
+export async function saveMabraProgress(userId: string, coreValues: string[])
+⋮----
+export type VaultLogsCursor = QueryDocumentSnapshot<DocumentData>;
+⋮----
+export type VaultLogsPage = {
+  logs: (VaultLog & { id: string })[];
+  nextCursor: VaultLogsCursor | null;
+  hasMore: boolean;
+};
+⋮----
+export type GetVaultLogsOptions = {
+  limit?: number;
+  cursor?: VaultLogsCursor;
+};
+⋮----
+function mapVaultLogDoc(d: QueryDocumentSnapshot<DocumentData>): VaultLog &
+⋮----
+export async function getVaultLogs(
+  userId: string,
+  options?: GetVaultLogsOptions,
+): Promise<VaultLogsPage>
+⋮----
+export async function getAllVaultLogs(userId: string): Promise<(VaultLog &
+⋮----
+export async function getChildrenLogs(userId: string)
+⋮----
+function normalizeJournalAttachment(raw: unknown):
+  | { url: string; storagePath: string; name: string; mimeType: string; size: number }
+  | undefined {
+  if (!raw || typeof raw !== 'object') return undefined;
+⋮----
+function normalizeJournalEntry(id: string, data: Record<string, unknown>)
+⋮----
+export async function getJournalEntries(userId: string)
+⋮----
+function mapKampsparDoc(
+  d: { id: string; data: () => import('firebase/firestore').DocumentData },
+  userId: string
+): KampsparEntryRow
+⋮----
+export async function getKampsparEntries(userId: string): Promise<KampsparEntryRow[]>
+⋮----
+/** G13 — live Tidshjulet: real-time kampspar listener (silo: kunskap only). */
+export function subscribeKampsparEntries(
+  userId: string,
+  onData: (rows: KampsparEntryRow[]) => void,
+  onError?: (err: Error) => void
+): () => void
+⋮----
+function mapKbDocDoc(
+  d: { id: string; data: () => import('firebase/firestore').DocumentData },
+  userId: string,
+): KbDocEntryRow
+⋮----
+export async function getKbDocsEntries(userId: string): Promise<KbDocEntryRow[]>
+⋮----
+export function subscribeKbDocsEntries(
+  userId: string,
+  onData: (rows: KbDocEntryRow[]) => void,
+  onError?: (err: Error) => void,
+): () => void
+⋮----
+export async function saveEconomyTransaction(
+  userId: string,
+  tx: { label: string; amountSek: number; category: 'veckopeng' | 'matlada' | 'vinst' | 'ovrigt' },
+)
+⋮----
+export async function getEconomyTransactions(userId: string, limit = 30)
+⋮----
+export async function getEconomyProfile(userId: string)
+⋮----
+export async function setEconomyProfile(
+  userId: string,
+  profile: { weeklyBudgetSek: number; mealBoxPresetSek: number },
+)
+⋮----
+export async function saveUserWidget(
+  userId: string,
+  widget: Omit<UserWidget, 'userId' | 'ownerId' | 'createdAt'>
+): Promise<string>
+⋮----
+export async function updateUserWidgetConfig(
+  _userId: string,
+  widgetId: string,
+  config: UserWidget['config']
+): Promise<void>
+⋮----
+export async function deleteUserWidget(userId: string, widgetId: string): Promise<void>
+⋮----
+export function subscribeUserWidgets(
+  userId: string,
+  onData: (widgets: UserWidgetRow[]) => void
+): () => void
+````
+
+## File: functions/src/adk/executors/runExecutor.ts
+````typescript
+import type { A2AMessage } from '../../agents/types';
+import { getAgentSystemPrompt } from '../../sharedRules';
+import { createGenAI } from '../../lib/genaiClient';
+import { selectModel, autoSelectTier } from '../../lib/modelRouter';
+import { getOrCreateCache, generateWithCache } from '../../lib/vertexCache';
+⋮----
+function buildUserPrompt(message: A2AMessage): string
+⋮----
+export async function runExecutor(
+  executorId: string,
+  message: A2AMessage,
+  ragContext: string[] = []
+): Promise<string>
+````
+
+## File: functions/package.json
+````json
+{
+  "name": "functions",
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "serve": "npm run build && firebase emulators:start --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "engines": {
+    "node": "20"
+  },
+  "main": "lib/functions/src/index.js",
+  "dependencies": {
+    "@genkit-ai/vertexai": "^1.0.0",
+    "@google-cloud/aiplatform": "^6.8.1",
+    "@google-cloud/firestore": "^7.9.0",
+    "@google-cloud/vertexai": "^1.12.0",
+    "@google/genai": "^2.3.0",
+    "@simplewebauthn/server": "^13.3.1",
+    "firebase-admin": "^12.1.0",
+    "firebase-functions": "5.1.1",
+    "genkit": "^1.0.0",
+    "googleapis": "^171.4.0",
+    "pdf-lib": "^1.17.1",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "firebase-functions-test": "^3.1.0",
+    "typescript": "^5.0.0"
+  },
+  "private": true
+}
 ````
 
 ## File: package.json
@@ -10145,6 +10610,7 @@ async function clearVaultJwtClaims(uid: string): Promise<void>
     "build": "tsc -b && vite build",
     "build:web": "vite build",
     "android:smoke-prep": "npm run cap:sync",
+    "android:live": "node scripts/android_dev.mjs",
     "cap:sync": "npm run build:web && npx cap sync android",
     "cap:sync:prod": "CAPACITOR_SERVER_URL=https://gen-lang-client-0481875058.web.app npm run build:web && npx cap sync android",
     "android:open": "npx cap open android",
@@ -10167,6 +10633,9 @@ async function clearVaultJwtClaims(uid: string): Promise<void>
     "icons:hero-orbit-export": "node scripts/export_hero_orbit_assets.mjs",
     "preview": "vite preview",
     "lint": "eslint .",
+    "figma:code-connect:parse": "figma connect parse --config figma.config.json",
+    "figma:code-connect:publish": "figma connect publish --config figma.config.json",
+    "figma:code-connect:apply-nodes": "node scripts/figma/apply-code-connect-nodes.mjs",
     "typecheck:core-strict": "tsc -p tsconfig.core-strict.json --noEmit",
     "sync:system": "node scripts/sync_system_docs.mjs",
     "smoke:kunskap": "node scripts/smoke_kunskap.mjs",
@@ -10188,6 +10657,7 @@ async function clearVaultJwtClaims(uid: string): Promise<void>
     "smoke:child-moment": "node scripts/smoke_child_moment.mjs",
     "smoke:entities": "node scripts/smoke_entity_profiles.mjs",
     "smoke:inbox": "node scripts/smoke_inbox_sort.mjs",
+    "smoke:widget-ingest": "node scripts/smoke_widget_ingest.mjs",
     "smoke:inkast": "node scripts/smoke_inkast_lockdown.mjs",
     "smoke:inkast-vardag": "node scripts/smoke_inkast_vardag.mjs",
     "smoke:inkast-fas2": "node scripts/smoke_inkast_fas2.mjs",
@@ -10207,6 +10677,7 @@ async function clearVaultJwtClaims(uid: string): Promise<void>
     "smoke:arbetsliv-superhub": "node scripts/smoke_arbetsliv_superhub.mjs",
     "smoke:superdagbok-superhub": "node scripts/smoke_superdagbok_superhub.mjs",
     "smoke:vault-worm": "node scripts/smoke_vault_worm.mjs",
+    "smoke:dcap-alerts-worm": "node scripts/smoke_dcap_alerts_worm.mjs",
     "smoke:rollout": "node scripts/smoke_rollout_cursor_native.mjs",
     "rollout:night": "node scripts/rollout_autorun.mjs",
     "smoke:locked-ux": "node scripts/smoke_locked_ux.mjs",
@@ -10227,12 +10698,18 @@ async function clearVaultJwtClaims(uid: string): Promise<void>
     "smoke:hamn": "node scripts/smoke_hamn.mjs",
     "smoke:ekonomi": "node scripts/smoke_ekonomi.mjs",
     "smoke:innehall": "node scripts/smoke_innehall_register.mjs",
+    "smoke:mdc": "node scripts/smoke_mdc_rules.mjs",
+    "smoke:functions-pin": "node scripts/smoke_functions_runtime_pin.mjs",
     "smoke:prompts": "node scripts/validate-prompts.mjs",
     "smoke:guard": "node scripts/validate-prompts.mjs",
     "smoke:manifest": "node scripts/smoke_manifest_violation.mjs",
     "smoke:orkester": "node scripts/smoke_orkester_wiring.mjs",
     "smoke:agents-ui": "node scripts/smoke_agents_ui.mjs",
     "test:agents-ui": "npx vitest run src/modules/shared/agents/utils/resolveExecutorDisplay.test.ts src/modules/shared/agents/utils/routingBadgeText.test.ts",
+    "test:e2e": "playwright test",
+    "test:e2e:locked-ux": "playwright test e2e/locked-ux-public.spec.ts e2e/obsidian-calm-tokens.spec.ts",
+    "test:e2e:install": "playwright install chromium",
+    "smoke:e2e-locked-ux": "node scripts/smoke_e2e_locked_ux.mjs",
     "smoke:valv-chat-e2e": "node scripts/smoke_valv_chat_e2e.mjs",
     "smoke:inkast-upload": "node scripts/smoke_inkast_upload.mjs",
     "smoke:confirm-inbox": "node scripts/smoke_confirm_inbox.mjs",
@@ -10240,9 +10717,9 @@ async function clearVaultJwtClaims(uid: string): Promise<void>
     "smoke:synapse-triggers": "node scripts/smoke_synapse_triggers.mjs",
     "smoke:biff-rewrite": "node scripts/smoke_biff_rewrite.mjs",
     "smoke:dcap-routing": "node scripts/smoke_dcap_routing.mjs",
-    "smoke:tier1": "npm run smoke:locked-ux && npm run smoke:design-modules && npm run smoke:manifest && npm run smoke:orkester && npm run smoke:agents-ui && npm run smoke:innehall && npm run smoke:adaptation && npm run smoke:synapse-triggers && npm run smoke:inkast-upload && npm run smoke:weaver-hitl && npm run smoke:biff-rewrite && npm run smoke:prompts",
-    "smoke:predeploy": "npm run smoke:tier1 && npm run smoke:valv-security && npm run smoke:plausible-deniability && npm run smoke:locked-icons && npm run smoke:barn-epistemik && npm run smoke:epistemic-guard && npm run smoke:dcap-routing",
-    "smoke:predeploy:live": "npm run smoke:predeploy && npm run smoke:valv-gate && npm run smoke:children && npm run smoke:vault-worm && npm run smoke:inbox",
+    "smoke:tier1": "npm run smoke:locked-ux && npm run smoke:design-modules && npm run smoke:manifest && npm run smoke:functions-pin && npm run smoke:orkester && npm run smoke:agents-ui && npm run smoke:innehall && npm run smoke:mdc && npm run smoke:adaptation && npm run smoke:synapse-triggers && npm run smoke:inkast-upload && npm run smoke:weaver-hitl && npm run smoke:biff-rewrite && npm run smoke:prompts",
+    "smoke:predeploy": "npm run smoke:tier1 && npm run smoke:valv-security && npm run smoke:plausible-deniability && npm run smoke:locked-icons && npm run smoke:barn-epistemik && npm run smoke:epistemic-guard && npm run smoke:dcap-routing && npm run smoke:e2e-locked-ux",
+    "smoke:predeploy:live": "npm run smoke:predeploy && npm run smoke:valv-gate && npm run smoke:children && npm run smoke:vault-worm && npm run smoke:dcap-alerts-worm && npm run smoke:inbox",
     "smoke:predeploy:build": "cd functions && npm run build && cd .. && npm run build && npm run smoke:predeploy",
     "smoke:super-yolo": "npm run smoke:predeploy:build && npm run smoke:valv-chat-e2e && npm run smoke:confirm-inbox && npm run smoke:weaver-hitl && npm run smoke:entities && npm run smoke:evolution-discovery && npm run smoke:epistemic-guard && npm run smoke:barn-epistemik && npm run smoke:domän-specialister",
     "smoke:evolution": "node scripts/smoke_evolution.mjs",
@@ -10305,7 +10782,13 @@ async function clearVaultJwtClaims(uid: string): Promise<void>
     "gpt-handoff:pack:01": "node scripts/pack_gpt_handoff_repomix.mjs --only 01",
     "gpt-handoff:pack:02": "node scripts/pack_gpt_handoff_repomix.mjs --only 02",
     "gpt-handoff:pack:03": "node scripts/pack_gpt_handoff_repomix.mjs --only 03",
-    "gpt-handoff:pack:all": "node scripts/pack_gpt_handoff_repomix.mjs"
+    "gpt-handoff:pack:all": "node scripts/pack_gpt_handoff_repomix.mjs",
+    "cursor:pipeline:pack:copilot": "node scripts/cursor_pipeline/pack_copilot_rules.mjs",
+    "integration:sync:all": "npm run gemini:pack:all && npm run chatbot:sync:bifoga && npm run sync:system && npm run research:sync:handoff",
+    "integration:preflight": "npm run integration:sync:all && npm run smoke:mdc && npm run smoke:projekt-regler",
+    "integration:night": "npm run orkester:night && npm run integration:sync:all",
+    "integration:stale-check": "node scripts/integration_stale_check.mjs",
+    "integration:install-night": "bash scripts/integration_install_night.sh"
   },
   "dependencies": {
     "@aparajita/capacitor-biometric-auth": "^10.0.0",
@@ -10336,6 +10819,8 @@ async function clearVaultJwtClaims(uid: string): Promise<void>
   "devDependencies": {
     "@capacitor/cli": "^8.3.4",
     "@eslint/js": "^10.0.1",
+    "@figma/code-connect": "^1.4.8",
+    "@playwright/test": "^1.61.0",
     "@types/qrcode": "^1.5.6",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
@@ -10343,15 +10828,15 @@ async function clearVaultJwtClaims(uid: string): Promise<void>
     "autoprefixer": "^10.4.19",
     "eslint": "^10.4.0",
     "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.5.2",
+    "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.6.0",
-    "marked": "^12.0.2",
+    "marked": "^18.0.5",
     "postcss": "^8.4.38",
     "sharp": "^0.34.5",
     "tailwindcss": "^3.4.3",
-    "typescript": "^5.2.2",
+    "typescript": "^6.0.3",
     "typescript-eslint": "^8.59.4",
-    "vite": "^5.2.0",
+    "vite": "^8.0.16",
     "vite-plugin-pwa": "^1.3.0",
     "workbox-core": "^7.4.1",
     "workbox-window": "^7.4.1",

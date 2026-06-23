@@ -42,8 +42,6 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
     pendingMemoryFile,
     memoryError,
     saving,
-    memoryError,
-    saving,
     error,
     weaveToKampspar,
     validateOnly,

@@ -1,6 +1,6 @@
 ---
 description: Auto-routing — matchar uppgiftstyp till rätt specialist-agent och skill. Alltid aktiv.
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Auto-routing: uppgift → specialist

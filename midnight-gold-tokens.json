@@ -1,0 +1,98 @@
+{
+  "colors": {
+    "bg-base": {
+      "value": "#050505",
+      "type": "color"
+    },
+    "bg-dusk": {
+      "value": "#0a0a0a",
+      "type": "color"
+    },
+    "surface": {
+      "value": "#0a0a0a",
+      "type": "color"
+    },
+    "surface-2": {
+      "value": "#0f0f0f",
+      "type": "color"
+    },
+    "surface-3": {
+      "value": "#141414",
+      "type": "color"
+    },
+    "text-primary": {
+      "value": "#f8fafc",
+      "type": "color"
+    },
+    "text-muted": {
+      "value": "#94a3b8",
+      "type": "color"
+    },
+    "text-dim": {
+      "value": "#64748b",
+      "type": "color"
+    },
+    "accent-gold": {
+      "value": "#d4af37",
+      "type": "color"
+    },
+    "border-light": {
+      "value": "rgba(255, 255, 255, 0.05)",
+      "type": "color"
+    }
+  },
+  "fontFamilies": {
+    "heading": {
+      "value": "Outfit",
+      "type": "fontFamilies"
+    },
+    "body": {
+      "value": "Inter",
+      "type": "fontFamilies"
+    },
+    "display": {
+      "value": "Cinzel",
+      "type": "fontFamilies"
+    },
+    "sans": {
+      "value": "Inter",
+      "type": "fontFamilies"
+    },
+    "serif": {
+      "value": "Cinzel",
+      "type": "fontFamilies"
+    }
+  },
+  "fontWeights": {
+    "headingRegular": {
+      "value": "Regular",
+      "type": "fontWeights"
+    },
+    "headingBold": {
+      "value": "Bold",
+      "type": "fontWeights"
+    },
+    "bodyRegular": {
+      "value": "Regular",
+      "type": "fontWeights"
+    },
+    "bodyBold": {
+      "value": "Bold",
+      "type": "fontWeights"
+    },
+    "regular": {
+      "value": "Regular",
+      "type": "fontWeights"
+    },
+    "bold": {
+      "value": "Bold",
+      "type": "fontWeights"
+    }
+  },
+  "radii": {
+    "card": {
+      "value": "32px",
+      "type": "borderRadius"
+    }
+  }
+}

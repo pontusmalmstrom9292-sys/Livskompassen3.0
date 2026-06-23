@@ -1,7 +1,8 @@
 import { create } from 'zustand';
 import { doc, getDoc, setDoc, serverTimestamp, collection, query, where, orderBy, limit, getDocs } from 'firebase/firestore';
 import { httpsCallable } from 'firebase/functions';
-import { db, functions } from '../core/firebase/firestore';
+import { db } from '../core/firebase/firestore';
+import { functions } from '../core/firebase/init';
 import { RiskAnalysisService } from '../oracle/services/RiskAnalysisService';
 import { CompassService } from './services/CompassService';
 import {

@@ -1,0 +1,34 @@
+---
+description: Regler för att tolka bilder, skisser och wireframes till kod
+alwaysApply: false
+globs: *.png,*.jpg,*.jpeg,*.gif,*.webp,*.figma
+---
+
+# Bild-till-Kod Workflow
+
+Denna regel aktiveras när användaren bifogar en bild (skärmdump, skiss, foto) eller en länk till Figma.
+
+Din uppgift är att fungera som en länk mellan användarens visuella vision och den tekniska verkligheten i Livskompassen.
+
+## 1. Initiera Bild-Arkitekten
+Anropa (mentalt) arbetsflödet för `/bild-arkitekten`. Om du själv är Bild-Arkitekten, följ din rutin. Annars, bekräfta för användaren att du ska påbörja "Bild-till-Kod"-processen.
+
+## 2. Visuell Tolkning (Inga gissningar)
+- **Förbjudet:** Skriv ALDRIG ut godtyckliga HEX-koder eller standard-färger (t.ex. `bg-gray-100` eller `text-blue-500`).
+- **Krav:** Mappa *alla* visuella element från bilden till tokens definierade i `.cursor/rules/design-calm.mdc` och `docs/design/COLOR-POLICY.md`.
+  - Bakgrunder: `var(--surface)`, `var(--surface-raised)`
+  - Text: `var(--text)`, `var(--text-accent)`
+  - Border: `var(--border)`
+  - Transparens: Glassmorphism/backdrop-blur klasser
+
+## 3. UI-Arkitektur (Chameleon-principen)
+- Analysera om skissen visar en helt ny vy eller en ny state av en befintlig.
+- Appen bygger på `ChameleonInputShell`. Vi lägger *inte* till nya sid-routes (`/ny-sida`) om det kan vara en ny `Delegate` som morphar in.
+- Bekräfta touch-ytor. Om användaren ritat små knappar, informera om att "Mobil-först (Motorola G85)" kräver `44x44px` hit-areas och att du har anpassat koden därefter.
+
+## 4. Säkerhetskontroll
+- Om skissen innehåller formulär eller element som sparar data (t.ex. en knapp för "Spara till Valv"), måste du direkt informera användaren om att det krävs en säkerhetsgranskning av `/yolo-vakt` efter implementationen för att inte bryta mot WORM-principerna.
+
+## 5. Överlämning till Användaren
+Avsluta din tolkning med att lista exakt vilka komponenter och tokens som kommer skapas, och fråga:
+*"Ska jag generera Chameleon-koden för detta direkt via /design-labbet?"*
