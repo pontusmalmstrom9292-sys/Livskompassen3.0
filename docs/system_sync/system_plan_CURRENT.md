@@ -170,7 +170,7 @@ Livskompassen ska **aldrig glömma** användarens WORM-data — ingen tidsgräns
 - [x] **RoutineTemplate + ModuleLink (Fas B)** — `routineTemplates.ts`, `RoutinesPanel` på `/planering`, deep links
 - [x] **MaterialPack (Fas C)** — `materialPacks.ts`, `MaterialPackShortcuts` på Familjen/MåBra/Hamn
 - [x] **Projekt P1 (del)** — `projects`, `project_blocks`, `/projekt/:id`, `projectId` på kanban
-- [ ] **Projekt P2+ / Fas D** — regler, bild-uppladdning, widget-sheet, full MaterialPack-editor
+- [x] **Projekt P2+ / Fas D** — regler, bild-uppladdning, widget-sheet, full MaterialPack-editor
 - [ ] Implementation: `kör kopplingar C` · `kör projekt P1` · se komihåg för fasering
 
 ## Fas 6 — Input Superhub (Superdagbok) · **AVSLUTAD**
@@ -332,5 +332,19 @@ När en Superhub-modul har **implementerats, testats och godkänts** av teknikle
 | Prioritet | Spår | Status |
 |-----------|------|--------|
 | **12B** | Adaptiv Hemkompass — superhub-broar från Hem | **done** 2026-06-14 |
-| **12C** | Säkerhet P2 — vault-gate `weeklySummary` / `compass` | backlog |
+| **12C** | Säkerhet P2 — vault-gate `weeklySummary` / `compass` | **done** |
 | **12D** | Dossier BBIC `reportType` | backlog |
+
+## Fas 23 — Etapp 2 (Kognitiv Avlastning & Töm Skallen)
+
+**Kanon:** `docs/FAS23-SPRINT-PLAN.md` · `docs/ROADMAP-FUTURES.md` · `docs/specs/modules/Globalt-Pansarlage.md`
+
+| Prioritet | Spår | Status |
+|-----------|------|--------|
+| **23A** | **Globalt Pansarläge (Survival Mode)** — extrem offloading | TODO |
+| **23B** | **Töm Skallen-vy (Inkast-Dyk)** | TODO |
+| **23C** | **"Sista Utvägen" (MåBra Akut)** — SOS Ankare | TODO |
+| **23D** | Paralys-Brytaren i Planering | TODO |
+| **23E** | Tyst Läge (Darkest Mode) i Superdagbok | TODO |
+
+*Detta markerar övergången från Etapp 1 (Stealth/Burn/Blur) till Etapp 2. Alla superhubbar är konsoliderade (Fas 6-11) och vi bygger nu kognitiva skyddsnät som följer WORM och Three-Silo designen.*

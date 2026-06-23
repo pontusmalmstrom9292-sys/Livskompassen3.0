@@ -2725,36 +2725,36 @@ export function getDrawerRoots(section: NavDrawerSection, vaultSessionOpen = fal
 export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, vaultSessionOpen = false): boolean
 ````
 
-## File: src/modules/core/routing/AppRoutes.tsx
+## File: src/modules/features/admin/planning/components/PlaneringPage.tsx
 ````typescript
-import { lazy, Suspense } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { MainLayout } from '../layout/MainLayout';
-import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
-import { ProtectedModule } from '../../../components/layout/ProtectedModule';
-⋮----
-import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { Calendar, LayoutGrid, PenLine } from 'lucide-react';
+import { clsx } from 'clsx';
+import { HubPageShell } from '@/core/layout/HubPageShell';
+import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { PLANERING_TAGLINE, PLANERING_MORE_TABS } from '../constants';
+import type { PlaneringTab } from '../types';
+import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
+import { PlanningKanbanBoard } from './PlanningKanbanBoard';
+import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
+import { LivBackLink } from '@/modules/shell/LivBackLink';
+import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
+import { PlaneringMoreTabsBar } from './PlaneringMoreTabsBar';
+import { PlaneringErrorBoundary } from './PlaneringErrorBoundary';
+import { PlaneringBentoShell } from './PlaneringBentoShell';
+import { PlaneringHubCollapsible } from './PlaneringHubCollapsible';
 import {
-  clusterTabNavigateTarget,
-  valvetNavigateTarget,
-  type LifeJournalTabKey,
-} from '../navigation/navigationRegistry';
-import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
-import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
+  hasSeenGoraModulValjare,
+  markGoraModulValjareSeen,
+} from '../utils/goraModulValjareStorage';
+import {
+  isPlaneringInputMode,
+  type PlaneringInputMode,
+} from '../supermodule/planeringInputModes';
 ⋮----
-function RouteFallback()
-⋮----
-function RedirectToLifeJournalTab(
-⋮----
-/** Blockera `?tab=bevis` på Hjärtat — skicka till Valvet. */
-⋮----
-/** Legacy `/valv` och `/kunskap` → Valvet (separat silo). */
-⋮----
-/** Legacy `/hamn` → Familjen; `?tab=analys` → Valv forensic (hamn_analys). */
-⋮----
-<Navigate to=
-⋮----
-function RedirectArkivToValvet()
+function PlaneringPanelFallback()
 ````
 
 ## File: src/modules/shell/LivLauncherGrid.tsx
@@ -2814,38 +2814,6 @@ type LivLauncherId =
   | 'arbetsliv';
 ````
 
-## File: src/modules/features/admin/planning/components/PlaneringPage.tsx
-````typescript
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
-import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { Calendar, LayoutGrid, PenLine } from 'lucide-react';
-import { clsx } from 'clsx';
-import { HubPageShell } from '@/core/layout/HubPageShell';
-import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { PLANERING_TAGLINE, PLANERING_MORE_TABS } from '../constants';
-import type { PlaneringTab } from '../types';
-import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
-import { PlanningKanbanBoard } from './PlanningKanbanBoard';
-import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
-import { LivBackLink } from '@/modules/shell/LivBackLink';
-import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
-import { PlaneringMoreTabsBar } from './PlaneringMoreTabsBar';
-import { PlaneringErrorBoundary } from './PlaneringErrorBoundary';
-import { PlaneringBentoShell } from './PlaneringBentoShell';
-import { PlaneringHubCollapsible } from './PlaneringHubCollapsible';
-import {
-  hasSeenGoraModulValjare,
-  markGoraModulValjareSeen,
-} from '../utils/goraModulValjareStorage';
-import {
-  isPlaneringInputMode,
-  type PlaneringInputMode,
-} from '../supermodule/planeringInputModes';
-⋮----
-function PlaneringPanelFallback()
-````
-
 ## File: src/modules/core/components/FyrenWidgetBar.tsx
 ````typescript
 import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
@@ -2892,4 +2860,36 @@ className=
 ⋮----
 setFyrenSideQuickHidden(false);
 setOpen(false);
+````
+
+## File: src/modules/core/routing/AppRoutes.tsx
+````typescript
+import { lazy, Suspense } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { MainLayout } from '../layout/MainLayout';
+import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
+import { ProtectedModule } from '../../../components/layout/ProtectedModule';
+⋮----
+import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
+import {
+  clusterTabNavigateTarget,
+  valvetNavigateTarget,
+  type LifeJournalTabKey,
+} from '../navigation/navigationRegistry';
+import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
+import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
+⋮----
+function RouteFallback()
+⋮----
+function RedirectToLifeJournalTab(
+⋮----
+/** Blockera `?tab=bevis` på Hjärtat — skicka till Valvet. */
+⋮----
+/** Legacy `/valv` och `/kunskap` → Valvet (separat silo). */
+⋮----
+/** Legacy `/hamn` → Familjen; `?tab=analys` → Valv forensic (hamn_analys). */
+⋮----
+<Navigate to=
+⋮----
+function RedirectArkivToValvet()
 ````

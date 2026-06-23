@@ -2040,6 +2040,72 @@ export async function callProcessBrusfilter(rawInputText: string): Promise<Proce
 }
 </file>
 
+<file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvAnalyseraZone.tsx">
+import { lazy, Suspense } from 'react';
+import { TabBar } from '@/core/ui/TabBar';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { getAnalyseraVaultTabBarItems } from '@/core/navigation/tabRegistry';
+import { useVaultStore } from '@/core/store/useVaultStore';
+import { useStore } from '@/core/store';
+import { PansaretHeader } from '../PansaretHeader';
+import type { AnalyseraVaultTab } from '../../utils/vaultTabs';
+
+const VaultMonsterPanel = lazy(() =>
+  import('../VaultMonsterPanel').then((m) => ({ default: m.VaultMonsterPanel })),
+);
+const VaultOrkesterPanel = lazy(() =>
+  import('../VaultOrkesterPanel').then((m) => ({ default: m.VaultOrkesterPanel })),
+);
+
+function ValvPanelFallback() {
+  return <HubPanelSkeleton label="Laddar analys…" lines={5} />;
+}
+
+export type ValvAnalyseraZoneProps = {
+  tab: AnalyseraVaultTab;
+  onTabChange: (tab: AnalyseraVaultTab) => void;
+  onTechniqueSelect?: (technique: string) => void;
+};
+
+/** Locked UX — Mönster + Orkester (Pansaret). */
+export function ValvAnalyseraZone({ tab, onTabChange, onTechniqueSelect }: ValvAnalyseraZoneProps) {
+  const { logs } = useVaultStore();
+  const userId = useStore((s) => s.user?.uid);
+
+  return (
+    <HubErrorBoundary
+      title="Analys kunde inte laddas"
+      glow="blue"
+      logTag="ValvAnalyseraZone"
+    >
+      <div className="mb-3">
+        <TabBar
+          size="compact"
+          tabs={getAnalyseraVaultTabBarItems()}
+          active={tab}
+          onChange={onTabChange}
+        />
+      </div>
+      <Suspense fallback={<ValvPanelFallback />}>
+        {tab === 'orkester' ? (
+          <VaultOrkesterPanel logs={logs} />
+        ) : (
+          <>
+            <PansaretHeader />
+            <VaultMonsterPanel
+              logs={logs}
+              userId={userId}
+              onTechniqueSelect={onTechniqueSelect}
+            />
+          </>
+        )}
+      </Suspense>
+    </HubErrorBoundary>
+  );
+}
+</file>
+
 <file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvExporteraZone.tsx">
 import { DossierPage } from '../../dossier';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
@@ -2181,6 +2247,125 @@ export function ValvKunskapZone({ tab, onTabChange }: ValvKunskapZoneProps) {
       ) : tab === KUNSKAP_VAULT_TAB ? (
         <VaultKunskapsbankPanel />
       ) : null}
+    </HubErrorBoundary>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx">
+import { useEffect, useState } from 'react';
+import { TabBar } from '@/core/ui/TabBar';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { getSamlaVaultTabBarItems } from '@/core/navigation/tabRegistry';
+import { useVaultStore } from '@/core/store/useVaultStore';
+import { ValvChatPanel } from '@/features/lifeJournal/evidence/vaultChat';
+import { VaultLogList } from '../VaultLogList';
+import { VaultSamlaHub } from '../VaultSamlaHub';
+import { WeaverPendingVaultBanner } from '../WeaverPendingVaultBanner';
+import { usePatternScanMetadata } from '../../hooks/usePatternScanMetadata';
+import type { SamlaVaultTab } from '../../utils/vaultTabs';
+
+export type ValvSamlaZoneProps = {
+  tab: SamlaVaultTab;
+  onTabChange: (tab: SamlaVaultTab) => void;
+  userId: string;
+  gateOk: boolean;
+  highlightLogId: string | null;
+  onBevisConfirmed: (docId: string) => void | Promise<void>;
+  onCitationClick: (docId: string) => void;
+  onOpenGranska?: () => void;
+  techniqueFilter?: string | null;
+  onClearTechniqueFilter?: () => void;
+};
+
+export function ValvSamlaZone({
+  tab,
+  onTabChange,
+  userId,
+  gateOk,
+  highlightLogId,
+  onBevisConfirmed,
+  onCitationClick,
+  onOpenGranska,
+  techniqueFilter = null,
+  onClearTechniqueFilter,
+}: ValvSamlaZoneProps) {
+  const [anchorsOnly, setAnchorsOnly] = useState(false);
+  const [manualEntryOpen, setManualEntryOpen] = useState(false);
+  const { logs, loadFirstLogsPage } = useVaultStore();
+  const { techniquesByLogId } = usePatternScanMetadata(userId);
+
+  useEffect(() => {
+    if (techniqueFilter) setAnchorsOnly(false);
+  }, [techniqueFilter]);
+
+  return (
+    <HubErrorBoundary
+      title="Samla kunde inte laddas"
+      glow="blue"
+      logTag="ValvSamlaZone"
+    >
+      <div className="mb-3">
+        <TabBar
+          size="compact"
+          tabs={getSamlaVaultTabBarItems()}
+          active={tab}
+          onChange={onTabChange}
+        />
+      </div>
+      {tab === 'sok' ? (
+        <ValvChatPanel
+          active={gateOk}
+          onCitationClick={onCitationClick}
+          logs={logs}
+        />
+      ) : (
+        <>
+          <WeaverPendingVaultBanner userId={userId} onApproved={() => loadFirstLogsPage(userId)} />
+          <VaultSamlaHub
+            userId={userId}
+            onBevisConfirmed={(docId) => void onBevisConfirmed(docId)}
+            onOpenGranska={onOpenGranska}
+            manualEntryOpen={manualEntryOpen}
+            onManualEntryOpenChange={setManualEntryOpen}
+          />
+          <div className="flex flex-wrap items-center justify-between gap-2 px-0.5">
+            <p className="text-xs font-medium uppercase tracking-wider text-text-dim">Arkivlista</p>
+            <div className="flex flex-wrap items-center gap-2">
+              {techniqueFilter ? (
+                <button
+                  type="button"
+                  onClick={onClearTechniqueFilter}
+                  className="valv-technique-filter-chip btn-pill--ghost text-xs text-accent"
+                  aria-pressed
+                >
+                  Filter: #{techniqueFilter} · Rensa
+                </button>
+              ) : null}
+              <button
+                type="button"
+                onClick={() => setAnchorsOnly((v) => !v)}
+                className={`btn-pill--ghost text-xs ${anchorsOnly ? 'text-accent' : ''}`}
+                aria-pressed={anchorsOnly}
+              >
+                {anchorsOnly ? 'Visa alla bevis' : 'Endast ankare'}
+              </button>
+            </div>
+          </div>
+          <VaultLogList
+            highlightLogId={highlightLogId}
+            anchorsOnly={anchorsOnly}
+            techniqueFilter={techniqueFilter}
+            persistedTechniquesByLogId={techniquesByLogId}
+            onLogFirstBevis={() => {
+              setManualEntryOpen(true);
+              requestAnimationFrame(() => {
+                document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              });
+            }}
+          />
+        </>
+      )}
     </HubErrorBoundary>
   );
 }
@@ -2388,6 +2573,130 @@ export function PansaretHeader() {
 }
 </file>
 
+<file path="src/modules/features/lifeJournal/evidence/vault/components/valv.css">
+@tailwind components;
+
+/* Valv hub — Obsidian Calm Bento (indigo/gold forensic) */
+
+@layer components {
+  .valv-bento-shell {
+    @apply relative isolate min-h-0;
+    background-color: var(--color-obsidian-surface);
+    background-image: var(--zone-gradient-valv);
+  }
+
+  .valv-bg-watermark {
+    @apply pointer-events-none fixed left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 text-accent-secondary;
+    width: min(140vw, 1100px);
+    height: min(140vw, 1100px);
+    max-width: 1100px;
+    max-height: 1100px;
+    opacity: 0.04;
+  }
+
+  .valv-bento-shell__content {
+    @apply relative z-10 space-y-4;
+  }
+
+  .valv-zone-strip {
+    @apply mb-1 flex items-center justify-center;
+  }
+
+  .valv-zone-pill {
+    @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-accent-secondary;
+    border-color: var(--color-indigo-40);
+    background: var(--color-shell-scrim-35);
+  }
+
+  .valv-forensic-header {
+    @apply mb-3 space-y-1 border-b border-border-strong/60 pb-3;
+  }
+
+  .valv-forensic-eyebrow {
+    @apply font-display-serif text-[10px] uppercase tracking-[0.22em] text-accent-secondary;
+  }
+
+  .valv-forensic-title {
+    @apply font-display-serif text-base uppercase tracking-[0.2em] text-text;
+  }
+
+  .valv-forensic-lead {
+    @apply text-xs leading-relaxed text-text-dim;
+  }
+
+  .valv-log-list {
+    @apply space-y-2;
+  }
+
+  .valv-log-row {
+    @apply rounded-xl border p-3 text-sm transition-all duration-200;
+    border-color: rgba(99, 102, 241, 0.22);
+    background: linear-gradient(
+      165deg,
+      rgba(12, 18, 32, 0.85) 0%,
+      rgba(5, 11, 20, 0.75) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 4px 14px -4px rgba(0, 0, 0, 0.45);
+  }
+
+  .valv-log-row:hover {
+    border-color: rgba(99, 102, 241, 0.38);
+  }
+
+  .valv-log-row--anchor {
+    border-color: rgba(212, 175, 55, 0.35);
+    background: linear-gradient(
+      165deg,
+      rgba(30, 25, 18, 0.7) 0%,
+      rgba(8, 12, 20, 0.8) 100%
+    );
+  }
+
+  .valv-log-row--highlight {
+    @apply ring-2 ring-accent/45;
+  }
+
+  .valv-log-row--vavaren {
+    border-color: rgba(129, 140, 248, 0.28);
+    background: linear-gradient(
+      165deg,
+      rgba(20, 24, 48, 0.75) 0%,
+      rgba(8, 12, 24, 0.85) 100%
+    );
+  }
+
+  .valv-log-stamp {
+    @apply flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-text-dim;
+  }
+
+  .valv-log-meta {
+    @apply text-[10px] uppercase tracking-widest text-text-dim;
+  }
+
+  .valv-samla-panel {
+    @apply rounded-2xl border p-3;
+    border-color: rgba(99, 102, 241, 0.2);
+    background: linear-gradient(
+      180deg,
+      rgba(15, 23, 42, 0.55) 0%,
+      rgba(8, 12, 22, 0.75) 100%
+    );
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .valv-technique-filter-chip {
+    border-color: rgba(212, 175, 55, 0.35);
+  }
+
+  .valv-monster-bar {
+    cursor: pointer;
+  }
+}
+</file>
+
 <file path="src/modules/features/lifeJournal/evidence/vault/components/ValvBentoShell.tsx">
 import type { ReactNode } from 'react';
 import { Shield } from 'lucide-react';
@@ -2423,6 +2732,103 @@ export function ValvBentoShell({
       </div>
     </div>
   );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/ValvSuperModule.tsx">
+import { ValvAnalyseraZone } from './zones/ValvAnalyseraZone';
+import { ValvExporteraZone } from './zones/ValvExporteraZone';
+import { ValvForensikZone } from './zones/ValvForensikZone';
+import { ValvKunskapZone } from './zones/ValvKunskapZone';
+import { ValvSamlaZone } from './zones/ValvSamlaZone';
+import { ValvVitZone } from './zones/ValvVitZone';
+import {
+  KUNSKAP_VAULT_TAB,
+  type AnalyseraVaultTab,
+  type ForensicVaultTab,
+  type KunskapVaultTab,
+  type SamlaVaultTab,
+  type ValvZone,
+  type VaultTab,
+  isAnalyseraVaultTab,
+  isForensicVaultTab,
+  isKunskapVaultTab,
+  isSamlaVaultTab,
+} from '../utils/vaultTabs';
+
+export type ValvSuperVariant = ValvZone;
+
+export type ValvSuperModuleProps = {
+  variant: ValvSuperVariant;
+  vaultTab: VaultTab;
+  userId: string;
+  gateOk: boolean;
+  highlightLogId: string | null;
+  onBevisConfirmed: (docId: string) => void | Promise<void>;
+  onCitationClick: (docId: string) => void;
+  onVaultTabChange: (tab: VaultTab) => void;
+  /** Öppna granskningskö (ValvInputSuperModule granska-läge). */
+  onOpenGranska?: () => void;
+  techniqueFilter?: string | null;
+  onTechniqueSelect?: (technique: string) => void;
+  onClearTechniqueFilter?: () => void;
+};
+
+/**
+ * Canonical router för Valv-zoner.
+ * VaultPage behåller gate + zon-TabBar; sub-TabBar lever i zoner (Fas 2).
+ */
+export function ValvSuperModule({
+  variant,
+  vaultTab,
+  userId,
+  gateOk,
+  highlightLogId,
+  onBevisConfirmed,
+  onCitationClick,
+  onVaultTabChange,
+  onOpenGranska,
+  techniqueFilter,
+  onTechniqueSelect,
+  onClearTechniqueFilter,
+}: ValvSuperModuleProps) {
+  switch (variant) {
+    case 'samla': {
+      const tab: SamlaVaultTab = isSamlaVaultTab(vaultTab) ? vaultTab : 'logga';
+      return (
+        <ValvSamlaZone
+          tab={tab}
+          onTabChange={(next) => onVaultTabChange(next)}
+          userId={userId}
+          gateOk={gateOk}
+          highlightLogId={highlightLogId}
+          onBevisConfirmed={onBevisConfirmed}
+          onCitationClick={onCitationClick}
+          onOpenGranska={onOpenGranska}
+          techniqueFilter={techniqueFilter}
+          onClearTechniqueFilter={onClearTechniqueFilter}
+        />
+      );
+    }
+    case 'analysera': {
+      const tab: AnalyseraVaultTab = isAnalyseraVaultTab(vaultTab) ? vaultTab : 'monster';
+      return <ValvAnalyseraZone tab={tab} onTabChange={onVaultTabChange} onTechniqueSelect={onTechniqueSelect} />;
+    }
+    case 'kunskap': {
+      const tab: KunskapVaultTab = isKunskapVaultTab(vaultTab) ? vaultTab : KUNSKAP_VAULT_TAB;
+      return <ValvKunskapZone tab={tab} onTabChange={onVaultTabChange} />;
+    }
+    case 'vit':
+      return <ValvVitZone userId={userId} />;
+    case 'exportera':
+      return <ValvExporteraZone />;
+    case 'forensik': {
+      const tab: ForensicVaultTab = isForensicVaultTab(vaultTab) ? vaultTab : 'hamn_analys';
+      return <ValvForensikZone tab={tab} onTabChange={onVaultTabChange} gateOk={gateOk} />;
+    }
+    default:
+      return null;
+  }
 }
 </file>
 
@@ -3244,6 +3650,515 @@ export function VaultInkastCompact({ onQueued, onPersistedBevis }: Props) {
     />
   );
 }
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx">
+import { memo, useEffect, useRef, type RefObject } from 'react';
+import { FileDown, Loader2, Lock } from 'lucide-react';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import './valv.css';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+import { useVaultStore } from '@/core/store/useVaultStore';
+import type { VaultLog, WeaverTags } from '@/core/types/firestore';
+import {
+  VAVAREN_LOG_CATEGORY_LABEL,
+  VAVAREN_LOG_DISCLAIMER,
+} from '../constants/vavarenCopy';
+import { exportVaultRecordAsPdf } from '../utils/exportVaultRecord';
+import { normalizeStringArray } from '../utils/normalizeVaultLog';
+import { scanTechniquesForLog, logHasTechnique } from '../utils/vaultPatternScan';
+
+type VaultLogRow = VaultLog & { id: string; weaverTags?: WeaverTags };
+
+function resolveLogTechniques(
+  log: VaultLogRow,
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>,
+): string[] {
+  const persisted = persistedTechniquesByLogId?.get(log.id);
+  if (persisted && persisted.length > 0) return [...persisted];
+  return scanTechniquesForLog(log);
+}
+
+function isVavarenMetadata(log: VaultLog): boolean {
+  return log.category === 'vävaren_metadata';
+}
+
+type VaultLogListProps = {
+  highlightLogId?: string | null;
+  /** Tom lista — scroll till Samla-formuläret ovan. */
+  onLogFirstBevis?: () => void;
+  /** V2 — visa endast Sanningens Ankare (`pinned`). */
+  anchorsOnly?: boolean;
+  /** Sidecar-taktik från pattern_scan_metadata (prioriteras framför live-regex). */
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
+  /** Filtrera arkiv efter taktik (från Mönster drill-down). */
+  techniqueFilter?: string | null;
+};
+
+function asText(value: unknown): string {
+  if (value == null) return '';
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+  return String(value);
+}
+
+function formatLogBody(log: VaultLog): string {
+  if (log.entryType === 'two_column' && (log.theirVersion || log.myReality)) {
+    return `Hens: ${asText(log.theirVersion) || '—'}\nMin: ${asText(log.myReality) || '—'}`;
+  }
+  if (log.entryType === 'three_shield') {
+    return [log.shieldWhat, log.shieldFeeling, log.shieldBoundary]
+      .map(asText)
+      .filter(Boolean)
+      .join(' · ');
+  }
+  if (log.entryType === 'body_signal') {
+    const signals = normalizeStringArray(log.bodySignals);
+    if (signals.length > 0) {
+      const truth = asText(log.truth);
+      return `${signals.join(', ')}${truth ? ` — ${truth}` : ''}`;
+    }
+  }
+  return asText(log.truth);
+}
+
+function formatLogDate(createdAt: VaultLog['createdAt'] | undefined): string {
+  if (typeof createdAt === 'string') return createdAt.slice(0, 10);
+  if (createdAt == null) return '—';
+  return String(createdAt).slice(0, 10);
+}
+
+function formatServerTimestamp(createdAt: VaultLog['createdAt'] | undefined): string {
+  if (typeof createdAt === 'string') return createdAt;
+  if (createdAt == null) return '—';
+  return String(createdAt);
+}
+
+const LogRow = memo(function LogRow({
+  log,
+  highlightLogId,
+  highlightRef,
+  persistedTechniquesByLogId,
+}: {
+  log: VaultLogRow;
+  highlightLogId?: string | null;
+  highlightRef: RefObject<HTMLLIElement>;
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
+}) {
+  const vavaren = isVavarenMetadata(log);
+  const weaverTags = (log as VaultLogRow).weaverTags;
+  const tags = vavaren ? [] : resolveLogTechniques(log, persistedTechniquesByLogId);
+  
+  return (
+    <li
+      key={log.id}
+      ref={log.id === highlightLogId ? highlightRef : undefined}
+      className={`valv-log-row ${
+        log.pinned ? 'valv-log-row--anchor' : ''
+      } ${log.id === highlightLogId ? 'valv-log-row--highlight' : ''} ${
+        vavaren ? 'valv-log-row--vavaren' : ''
+      }`}
+    >
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <div className="valv-log-stamp mb-1">
+            <Lock className="text-indigo-400/60" size={12} />
+            <p>SERVER-TIDSSTÄMPEL · {formatServerTimestamp(log.createdAt)}</p>
+          </div>
+          <p className="valv-log-meta font-mono">ID · {log.id.slice(0, 12)}…</p>
+          <p className="valv-log-meta mt-1">
+            {log.pinned ? 'Ankare · ' : ''}
+            {vavaren ? VAVAREN_LOG_CATEGORY_LABEL : (log.category ?? 'allmänt')}
+            {!vavaren && log.entryType ? ` · ${log.entryType}` : ''} · {formatLogDate(log.createdAt)}
+          </p>
+          {vavaren && (
+            <p className="mt-1 text-[10px] text-indigo-200/80">{VAVAREN_LOG_DISCLAIMER}</p>
+          )}
+        </div>
+        <button
+          type="button"
+          onClick={() => exportVaultRecordAsPdf(log)}
+          className="btn-pill--ghost shrink-0 py-1 px-2"
+          title="Exportera som PDF (utskrift)"
+        >
+          <FileDown className="h-3 w-3" /> PDF
+        </button>
+      </div>
+      <p className={`mt-2 whitespace-pre-wrap ${vavaren ? 'text-indigo-100/90' : 'text-text-muted'}`}>
+        {formatLogBody(log)}
+      </p>
+      {vavaren && weaverTags && (
+        <div className="mt-3 flex flex-wrap gap-1">
+          {normalizeStringArray(weaverTags.emotions).map((e) => (
+            <span
+              key={`e-${e}`}
+              className="rounded-full border border-indigo-400/25 px-2 py-0.5 text-[10px] text-indigo-200/90"
+            >
+              {e}
+            </span>
+          ))}
+          {normalizeStringArray(weaverTags.actors).map((a) => (
+            <span
+              key={`a-${a}`}
+              className="rounded-full border border-border px-2 py-0.5 text-[10px] text-text-muted"
+            >
+              {a}
+            </span>
+          ))}
+          {weaverTags.threatLevel && weaverTags.threatLevel !== 'none' && (
+            <span className="rounded-full border border-amber-500/30 px-2 py-0.5 text-[10px] text-amber-200/90">
+              hot: {weaverTags.threatLevel}
+            </span>
+          )}
+        </div>
+      )}
+      {tags.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-1">
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full border border-accent/20 px-2 py-0.5 text-[10px] text-accent/80"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+      {log.evidenceUrl && (
+        <a
+          href={log.evidenceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 inline-block text-xs text-accent-secondary hover:underline"
+        >
+          Visa bifogat bevis
+        </a>
+      )}
+    </li>
+  );
+});
+
+export const VaultLogList = memo(function VaultLogList({
+  highlightLogId,
+  onLogFirstBevis,
+  anchorsOnly = false,
+  persistedTechniquesByLogId,
+  techniqueFilter = null,
+}: VaultLogListProps) {
+  const { logs, loading, hasMore, loadingMore, loadMoreLogs } = useVaultStore();
+  const highlightRef = useRef<HTMLLIElement>(null);
+  let visible = anchorsOnly ? logs.filter((l) => l.pinned) : logs;
+  if (techniqueFilter) {
+    visible = visible.filter((log) =>
+      logHasTechnique(log, techniqueFilter, persistedTechniquesByLogId),
+    );
+  }
+  const pinned = visible.filter((l) => l.pinned);
+  const rest = anchorsOnly ? [] : visible.filter((l) => !l.pinned);
+
+  useEffect(() => {
+    if (!highlightLogId) return;
+    const timer = window.setTimeout(() => {
+      highlightRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 120);
+    return () => window.clearTimeout(timer);
+  }, [highlightLogId, logs.length]);
+
+  return (
+    <BentoCard
+      title="Bevisarkiv"
+      glow="blue"
+      depth
+      noHover
+      className="mt-4"
+    >
+      {onLogFirstBevis && (
+        <div className="mb-3 flex justify-end">
+          <button type="button" onClick={onLogFirstBevis} className="btn-pill--secondary text-sm">
+            Logga bevis
+          </button>
+        </div>
+      )}
+      {loading && visible.length === 0 ? (
+        <HubPanelSkeleton label="Laddar bevisarkiv…" lines={4} />
+      ) : visible.length === 0 ? (
+        <EmptyState
+          message={
+            techniqueFilter
+              ? `Inga poster med #${techniqueFilter} i arkivet.`
+              : anchorsOnly
+                ? 'Inga ankare markerade ännu. Kryssa i «Sanningens Ankare» när du loggar bevis.'
+                : 'Inga poster i arkivet ännu. Öppna «Manuell post» ovan eller tryck «Logga bevis».'
+          }
+        />
+      ) : (
+        <div className="space-y-4">
+          {pinned.length > 0 && (
+            <div>
+              <p className="mb-2 flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-accent/80">
+                <Lock size={10} className="text-accent/60" /> Sanningens Ankare
+              </p>
+              <ul className="valv-log-list">
+                {pinned.map((log) => (
+                  <LogRow
+                    key={log.id}
+                    log={log}
+                    highlightLogId={highlightLogId}
+                    highlightRef={highlightRef}
+                    persistedTechniquesByLogId={persistedTechniquesByLogId}
+                  />
+                ))}
+              </ul>
+            </div>
+          )}
+          <ul className="valv-log-list">
+          {rest.map((log) => (
+            <LogRow
+              key={log.id}
+              log={log}
+              highlightLogId={highlightLogId}
+              highlightRef={highlightRef}
+              persistedTechniquesByLogId={persistedTechniquesByLogId}
+            />
+          ))}
+        </ul>
+          {hasMore && (
+            <div className="mt-4 flex justify-center">
+              <button
+                type="button"
+                onClick={() => {
+                  const uid = logs[0]?.ownerId;
+                  if (uid) {
+                    void loadMoreLogs(uid);
+                  }
+                }}
+                disabled={loadingMore}
+                className="btn-pill--ghost text-sm"
+              >
+                {loadingMore ? (
+                  <>
+                    <Loader2 className="mr-1 inline h-3 w-3 animate-spin" />
+                    Laddar fler…
+                  </>
+                ) : (
+                  'Visa fler'
+                )}
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+    </BentoCard>
+  );
+});
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultMonsterPanel.tsx">
+/** @locked-ux Valv Mönster — do not remove; see `.context/locked-ux-features.md` */
+import { useMemo, useState } from 'react';
+import { BarChart3, Loader2, RefreshCw } from 'lucide-react';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
+import { EmptyState } from '@/core/ui/EmptyState';
+import type { VaultLog } from '@/core/types/firestore';
+import { buildVaultFrequencyReport } from '../utils/vaultPatternScan';
+import { usePatternScanMetadata } from '../hooks/usePatternScanMetadata';
+import { rescanPatternMetadata, assistPatternMetadata } from '../api/patternScanService';
+
+type Props = {
+  logs: (VaultLog & { id: string })[];
+  userId?: string;
+  /** Klick på frekvensrad → filtrera arkiv (Mönster → Samla). */
+  onTechniqueSelect?: (technique: string) => void;
+};
+
+function BarRow({
+  label,
+  count,
+  max,
+  onSelect,
+}: {
+  label: string;
+  count: number;
+  max: number;
+  onSelect?: () => void;
+}) {
+  const width = max > 0 ? Math.round((count / max) * 100) : 0;
+  const inner = (
+    <>
+      <div className="flex justify-between text-xs text-text-dim">
+        <span>{label}</span>
+        <span>{count}</span>
+      </div>
+      <div className="h-2 overflow-hidden rounded-full bg-surface-3/50">
+        <div
+          className="h-full rounded-full bg-accent/70 transition-all"
+          style={{ width: `${width}%` }}
+        />
+      </div>
+    </>
+  );
+
+  if (!onSelect) {
+    return <div className="space-y-1">{inner}</div>;
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      className="valv-monster-bar w-full space-y-1 rounded-lg border border-transparent px-1 py-1 text-left transition-colors hover:border-accent/25 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+      title={`Visa arkivposter med #${label}`}
+    >
+      {inner}
+    </button>
+  );
+}
+
+export function VaultMonsterPanel({ logs, userId, onTechniqueSelect }: Props) {
+  const { techniquesByLogId, libraryVersion, reload } = usePatternScanMetadata(userId);
+  const [rescanning, setRescanning] = useState(false);
+  const [assisting, setAssisting] = useState(false);
+  const [rescanMsg, setRescanMsg] = useState<string | null>(null);
+
+  const report = useMemo(
+    () => buildVaultFrequencyReport(logs, techniquesByLogId),
+    [logs, techniquesByLogId],
+  );
+  const maxTechnique = report.topTechniques[0]?.count ?? 0;
+  const maxMonth = Math.max(...report.monthlyCounts.map((m) => m.count), 1);
+
+  const handleRescan = async () => {
+    if (!userId || rescanning || assisting) return;
+    setRescanning(true);
+    setRescanMsg(null);
+    try {
+      const { written } = await rescanPatternMetadata();
+      await reload();
+      setRescanMsg(written > 0 ? `${written} nya sidecar-poster sparade.` : 'Inga nya träffar att spara.');
+    } catch {
+      setRescanMsg('Skanna om misslyckades — kontrollera Valv-session.');
+    } finally {
+      setRescanning(false);
+    }
+  };
+
+  const handleFlowAssist = async () => {
+    if (!userId || rescanning || assisting) return;
+    setAssisting(true);
+    setRescanMsg(null);
+    try {
+      const { written } = await assistPatternMetadata();
+      await reload();
+      setRescanMsg(
+        written > 0
+          ? `Flow-assist: ${written} kompletterande sidecar-poster.`
+          : 'Flow-assist: inga nya mönster utöver regex.',
+      );
+    } catch {
+      setRescanMsg('Flow-assist misslyckades — kontrollera Valv-session.');
+    } finally {
+      setAssisting(false);
+    }
+  };
+
+  if (logs.length === 0) {
+    return (
+      <BentoCard title="Mönster" description="Pansaret · deterministisk frekvens" icon={<BarChart3 className="h-4 w-4" />} glow="gold">
+        <EmptyState message="Inga valvposter ännu. Spara under Arkiv — frekvensen visas här." />
+      </BentoCard>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="flex justify-end">
+        <ModuleHelpFromRegistry moduleId="valv_monster" />
+      </div>
+      <BentoCard
+        title="Frekvensanalys"
+        description="Pansaret · regex + valfri Flow-assist (metadata)"
+        icon={<BarChart3 className="h-4 w-4" />}
+        glow="gold"
+      >
+        <p className="text-sm text-text-muted">
+          {report.totalPosts} poster · {report.smsLikePosts} kommunikationsrelaterade ·
+          deterministisk skanning av dina låsta texter i arkivet.
+        </p>
+        <div className="mt-4 space-y-3">
+          {report.topTechniques.length === 0 ? (
+            <p className="text-sm text-text-dim">
+              Inga kända manipulationstaktiker hittades i befintliga poster (bra tecken, eller
+              kortare texter).
+            </p>
+          ) : (
+            report.topTechniques.map(({ technique, count }) => (
+              <BarRow
+                key={technique}
+                label={technique}
+                count={count}
+                max={maxTechnique}
+                onSelect={
+                  onTechniqueSelect ? () => onTechniqueSelect(technique) : undefined
+                }
+              />
+            ))
+          )}
+        </div>
+        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-border/40 pt-3">
+          <button
+            type="button"
+            disabled={!userId || rescanning || assisting}
+            onClick={() => void handleRescan()}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-accent/30 bg-accent/5 px-3 py-1.5 text-xs text-accent hover:bg-accent/10 disabled:opacity-40"
+          >
+            {rescanning ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
+            ) : (
+              <RefreshCw className="h-3.5 w-3.5" aria-hidden />
+            )}
+            Skanna om (batch)
+          </button>
+          <button
+            type="button"
+            disabled={!userId || rescanning || assisting}
+            onClick={() => void handleFlowAssist()}
+            className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-surface-3/40 px-3 py-1.5 text-xs text-text-muted hover:border-accent/30 hover:text-accent disabled:opacity-40"
+          >
+            {assisting ? (
+              <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
+            ) : null}
+            Flow-assist (kompletterande)
+          </button>
+          <span className="text-[10px] text-text-dim">Bibliotek {libraryVersion}</span>
+          {rescanMsg ? <span className="text-[10px] text-text-muted">{rescanMsg}</span> : null}
+        </div>
+      </BentoCard>
+
+      <CalmCollapsible title="Poster per månad" meta="Tidsfrekvens" defaultOpen={false} glow="gold">
+        <div className="space-y-3">
+          {report.monthlyCounts.map(({ month, count }) => (
+            <BarRow key={month} label={month} count={count} max={maxMonth} />
+          ))}
+        </div>
+      </CalmCollapsible>
+
+      <CalmCollapsible title="Kategorier i valvet" meta="Fördelning" defaultOpen={false} glow="gold">
+        <div className="space-y-2 text-sm text-text-muted">
+          {Object.entries(report.categoryCounts).map(([cat, count]) => (
+            <p key={cat}>
+              {cat}: <span className="text-accent">{count}</span>
+            </p>
+          ))}
+        </div>
+      </CalmCollapsible>
+    </div>
+  );
+}
+
+export { buildVaultFrequencyReport };
 </file>
 
 <file path="src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx">
@@ -6268,189 +7183,105 @@ export function ValvInputModePicker({ activeMode, onChange }: ValvInputModePicke
 }
 </file>
 
-<file path="src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts">
-import { VIT_VAULT_TAB_LABEL } from '@/core/copy/valvNavCopy';
+<file path="src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx">
+import { useCallback } from 'react';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import '../components/valv.css';
+import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
+import { ValvSuperModule } from '../components/ValvSuperModule';
+import { ValvInputModePicker } from './ValvInputModePicker';
 import {
-  KUNSKAP_VAULT_TAB,
-  LEGACY_INBOX_VAULT_TAB,
-  VIT_VAULT_TAB,
-  parseVaultTab,
-  resolveValvZone,
-  type ValvZone,
-  type VaultTab,
-} from '../utils/vaultTabs';
+  DEFAULT_VALV_INPUT_MODE,
+  valvInputModeDef,
+  type ValvInputMode,
+} from './valvInputModes';
+import { writeValvLastInputMode } from './valvLastModeStorage';
+import type { VaultTab } from '../utils/vaultTabs';
 
-/** Primära Valv-lägen — ersätter synlig 7-zons TabBar (inkl. borttagen inbox-zon). */
-export const VALV_INPUT_MODE_IDS = [
-  'spara',
-  'granska',
-  'analysera',
-  'kunskap',
-  'vit',
-  'rapporter',
-  'mer',
-] as const;
-
-export type ValvInputMode = (typeof VALV_INPUT_MODE_IDS)[number];
-
-export const DEFAULT_VALV_INPUT_MODE: ValvInputMode = 'spara';
-
-export type ValvInputModeDef = {
-  id: ValvInputMode;
-  label: string;
-  description: string;
-  /** Primär rad vs native «Mer…» (Fas 1B). */
-  tier: 'primary' | 'more';
-  zone: ValvZone;
-  defaultVaultTab: VaultTab;
+export type ValvInputSuperModuleProps = {
+  activeMode: ValvInputMode;
+  onModeChange: (mode: ValvInputMode) => void;
+  vaultTab: VaultTab;
+  userId: string;
+  gateOk: boolean;
+  highlightLogId: string | null;
+  onBevisConfirmed: (docId: string) => void | Promise<void>;
+  onCitationClick: (docId: string) => void;
+  onVaultTabChange: (tab: VaultTab) => void;
+  techniqueFilter?: string | null;
+  onTechniqueSelect?: (technique: string) => void;
+  onClearTechniqueFilter?: () => void;
 };
 
-export const VALV_INPUT_MODES: ValvInputModeDef[] = [
-  {
-    id: 'spara',
-    label: 'Inkast',
-    description: 'Släpp fil eller text — spara till arkiv',
-    tier: 'primary',
-    zone: 'samla',
-    defaultVaultTab: 'logga',
-  },
-  {
-    id: 'granska',
-    label: 'Granska',
-    description: 'Godkänn inkommande till WORM',
-    tier: 'primary',
-    zone: 'samla',
-    defaultVaultTab: 'logga',
-  },
-  {
-    id: 'analysera',
-    label: 'Analysera',
-    description: 'Mönster och meddelanden',
-    tier: 'primary',
-    zone: 'analysera',
-    defaultVaultTab: 'monster',
-  },
-  {
-    id: 'kunskap',
-    label: 'Kunskap',
-    description: 'Kunskapsbank och personer',
-    tier: 'primary',
-    zone: 'kunskap',
-    defaultVaultTab: KUNSKAP_VAULT_TAB,
-  },
-  {
-    id: 'vit',
-    label: VIT_VAULT_TAB_LABEL,
-    description: 'Frågekort och reflektioner — personlig utveckling',
-    tier: 'more',
-    zone: 'vit',
-    defaultVaultTab: VIT_VAULT_TAB,
-  },
-  {
-    id: 'rapporter',
-    label: 'Rapporter',
-    description: 'Dossier och export',
-    tier: 'more',
-    zone: 'exportera',
-    defaultVaultTab: 'dossier',
-  },
-  {
-    id: 'mer',
-    label: 'Mer',
-    description: 'Hamn, Speglar och djupare vyer',
-    tier: 'more',
-    zone: 'forensik',
-    defaultVaultTab: 'hamn_analys',
-  },
-];
+/**
+ * Canonical Valv navigation — primära lägen + «Mer…» (Fas 1B).
+ * Granska ersätter separat inbox-zon och `?samlaView=granska`.
+ */
+export function ValvInputSuperModule({
+  activeMode,
+  onModeChange,
+  vaultTab,
+  userId,
+  gateOk,
+  highlightLogId,
+  onBevisConfirmed,
+  onCitationClick,
+  onVaultTabChange,
+  techniqueFilter,
+  onTechniqueSelect,
+  onClearTechniqueFilter,
+}: ValvInputSuperModuleProps) {
+  const setMode = useCallback(
+    (mode: ValvInputMode) => {
+      writeValvLastInputMode(mode);
+      onModeChange(mode);
+    },
+    [onModeChange],
+  );
 
-export const VALV_INPUT_MODES_PRIMARY = VALV_INPUT_MODES.filter((m) => m.tier === 'primary');
-export const VALV_INPUT_MODES_MORE = VALV_INPUT_MODES.filter((m) => m.tier === 'more');
+  return (
+    <BentoCard
+      glow="blue"
+      depth
+      noHover
+      bare
+      className="!p-4 sm:!p-5"
+    >
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <ValvInputModePicker activeMode={activeMode} onChange={setMode} />
+        <ModuleHelpFromRegistry moduleId="valv" mode={activeMode} />
+      </div>
 
-const MODE_BY_ID = Object.fromEntries(VALV_INPUT_MODES.map((m) => [m.id, m])) as Record<
-  ValvInputMode,
-  ValvInputModeDef
->;
-
-export function valvInputModeDef(mode: ValvInputMode): ValvInputModeDef {
-  return MODE_BY_ID[mode];
-}
-
-export function parseValvInputMode(raw: string | null): ValvInputMode {
-  if (raw && (VALV_INPUT_MODE_IDS as readonly string[]).includes(raw)) {
-    return raw as ValvInputMode;
-  }
-  return DEFAULT_VALV_INPUT_MODE;
-}
-
-/** Legacy `?samlaView=granska` · `?vaultTab=inbox` → granska-läge. */
-export function parseValvInputModeFromSearch(
-  valvMode: string | null,
-  samlaView: string | null,
-  vaultTabRaw?: string | null,
-): ValvInputMode {
-  if (samlaView === 'granska') return 'granska';
-  if (vaultTabRaw === LEGACY_INBOX_VAULT_TAB) return 'granska';
-  if (valvMode && (VALV_INPUT_MODE_IDS as readonly string[]).includes(valvMode)) {
-    return valvMode as ValvInputMode;
-  }
-  if (vaultTabRaw) {
-    return resolveValvInputModeFromVaultTab(parseVaultTab(vaultTabRaw));
-  }
-  return DEFAULT_VALV_INPUT_MODE;
-}
-
-export function resolveValvInputModeFromVaultTab(tab: VaultTab): ValvInputMode {
-  const zone = resolveValvZone(tab);
-  if (zone === 'samla') {
-    return DEFAULT_VALV_INPUT_MODE;
-  }
-  const match = VALV_INPUT_MODES.find((m) => m.zone === zone);
-  return match?.id ?? DEFAULT_VALV_INPUT_MODE;
-}
-
-export function valvModeMatchesVaultTab(mode: ValvInputMode, tab: VaultTab): boolean {
-  if (mode === 'granska') {
-    return resolveValvZone(tab) === 'samla';
-  }
-  return valvInputModeDef(mode).zone === resolveValvZone(tab);
-}
-
-export function vaultTabForValvInputMode(mode: ValvInputMode, currentTab?: VaultTab): VaultTab {
-  const def = valvInputModeDef(mode);
-  if (mode === 'granska') return 'logga';
-  if (mode === 'spara' && currentTab === 'sok') return 'sok';
-  if (currentTab && resolveValvZone(currentTab) === def.zone) {
-    return currentTab;
-  }
-  return def.defaultVaultTab;
-}
-
-/** Kanon URL-par — tab vinner vid desynk (Fas 1A). */
-export function canonicalValvRoute(
-  vaultTab: VaultTab,
-  valvMode?: ValvInputMode | null,
-): { vaultTab: VaultTab; valvMode: ValvInputMode } {
-  let mode =
-    valvMode && (VALV_INPUT_MODE_IDS as readonly string[]).includes(valvMode)
-      ? valvMode
-      : resolveValvInputModeFromVaultTab(vaultTab);
-  if (!valvModeMatchesVaultTab(mode, vaultTab)) {
-    mode = resolveValvInputModeFromVaultTab(vaultTab);
-  }
-  const tab = vaultTabForValvInputMode(mode, vaultTab);
-  return { vaultTab: tab, valvMode: mode };
-}
-
-export function buildValvSearchParams(
-  vaultTab: VaultTab,
-  valvMode?: ValvInputMode | null,
-): URLSearchParams {
-  const { vaultTab: tab, valvMode: mode } = canonicalValvRoute(vaultTab, valvMode);
-  const params = new URLSearchParams();
-  params.set('vaultTab', tab);
-  params.set('valvMode', mode);
-  return params;
+      <div className="mt-2 pr-1">
+        {activeMode === 'granska' ? (
+          <InboxReviewQueue
+            prioritizeBevis
+            onBevisConfirmed={(docId) => {
+              void onBevisConfirmed(docId);
+              setMode(DEFAULT_VALV_INPUT_MODE);
+            }}
+            onBack={() => setMode('spara')}
+          />
+        ) : (
+          <ValvSuperModule
+            variant={valvInputModeDef(activeMode).zone}
+            vaultTab={vaultTab}
+            userId={userId}
+            gateOk={gateOk}
+            highlightLogId={highlightLogId}
+            onBevisConfirmed={onBevisConfirmed}
+            onCitationClick={onCitationClick}
+            onVaultTabChange={onVaultTabChange}
+            onOpenGranska={() => setMode('granska')}
+            techniqueFilter={techniqueFilter}
+            onTechniqueSelect={onTechniqueSelect}
+            onClearTechniqueFilter={onClearTechniqueFilter}
+          />
+        )}
+      </div>
+    </BentoCard>
+  );
 }
 </file>
 
@@ -6713,6 +7544,122 @@ export function markValvZoneModulValjareSeen(): void {
   } catch {
     /* ignore */
   }
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/utils/vaultPatternScan.ts">
+import type { VaultLog } from '@/core/types/firestore';
+import {
+  scanTextForTactics,
+  type VaultTechnique,
+  TACTIC_LIBRARY_VERSION,
+} from '@/shared/patterns/tacticPatternLibrary';
+import { normalizeStringArray } from './normalizeVaultLog';
+
+export type { VaultTechnique };
+export { TACTIC_LIBRARY_VERSION };
+
+function logText(log: VaultLog): string {
+  return [
+    log.truth,
+    log.theirVersion,
+    log.myReality,
+    log.shieldWhat,
+    log.shieldFeeling,
+    log.shieldBoundary,
+    ...(normalizeStringArray(log.bodySignals)),
+  ]
+    .filter(Boolean)
+    .join('\n');
+}
+
+export type VaultFrequencyReport = {
+  totalPosts: number;
+  smsLikePosts: number;
+  techniqueCounts: Record<string, number>;
+  categoryCounts: Record<string, number>;
+  monthlyCounts: { month: string; count: number }[];
+  topTechniques: { technique: string; count: number }[];
+  libraryVersion: string;
+};
+
+export function buildVaultFrequencyReport(
+  logs: (VaultLog & { id: string })[],
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>,
+): VaultFrequencyReport {
+  const techniqueCounts: Record<string, number> = {};
+  const categoryCounts: Record<string, number> = {};
+  const monthMap = new Map<string, number>();
+  let smsLikePosts = 0;
+
+  for (const log of logs) {
+    const text = logText(log);
+    const category = log.category || 'okategoriserad';
+    categoryCounts[category] = (categoryCounts[category] ?? 0) + 1;
+
+    const month = (log.createdAt ?? '').slice(0, 7) || 'okänd';
+    monthMap.set(month, (monthMap.get(month) ?? 0) + 1);
+
+    if (/sms|mejl|meddelande|kommunikation/i.test(`${category} ${log.action}`)) {
+      smsLikePosts += 1;
+    }
+
+    const techniques = new Set<string>();
+    for (const m of scanTextForTactics(text)) {
+      techniques.add(m.technique);
+    }
+    const persisted = persistedTechniquesByLogId?.get(log.id);
+    if (persisted) {
+      for (const t of persisted) techniques.add(t);
+    }
+
+    for (const technique of techniques) {
+      techniqueCounts[technique] = (techniqueCounts[technique] ?? 0) + 1;
+    }
+  }
+
+  const monthlyCounts = [...monthMap.entries()]
+    .sort(([a], [b]) => a.localeCompare(b))
+    .slice(-6)
+    .map(([month, count]) => ({ month, count }));
+
+  const topTechniques = Object.entries(techniqueCounts)
+    .sort(([, a], [, b]) => b - a)
+    .slice(0, 8)
+    .map(([technique, count]) => ({ technique, count }));
+
+  return {
+    totalPosts: logs.length,
+    smsLikePosts,
+    techniqueCounts,
+    categoryCounts,
+    monthlyCounts,
+    topTechniques,
+    libraryVersion: TACTIC_LIBRARY_VERSION,
+  };
+}
+
+export function scanTechniquesForLog(log: VaultLog): VaultTechnique[] {
+  const matches = scanTextForTactics(logText(log));
+  return [...new Set(matches.map((m) => m.technique))];
+}
+
+export function scanTechniquesForText(text: string): VaultTechnique[] {
+  return [...new Set(scanTextForTactics(text).map((m) => m.technique))];
+}
+
+/** True om posten matchar taktik (live-regex + valfri sidecar-metadata). */
+export function logHasTechnique(
+  log: VaultLog & { id: string },
+  technique: string,
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>,
+): boolean {
+  const techniques = new Set<string>(scanTechniquesForLog(log));
+  const persisted = persistedTechniquesByLogId?.get(log.id);
+  if (persisted) {
+    for (const t of persisted) techniques.add(t);
+  }
+  return techniques.has(technique);
 }
 </file>
 
@@ -7016,924 +7963,191 @@ Append-only, tidsstämplade sanningar. Skild från Dagbok (Lager 1). Plausible d
 - [valv_chatt README](../evidence/vaultChat/README.md)
 </file>
 
-<file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvAnalyseraZone.tsx">
-import { lazy, Suspense } from 'react';
-import { TabBar } from '@/core/ui/TabBar';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
-import { getAnalyseraVaultTabBarItems } from '@/core/navigation/tabRegistry';
-import { useVaultStore } from '@/core/store/useVaultStore';
-import { useStore } from '@/core/store';
-import { PansaretHeader } from '../PansaretHeader';
-import type { AnalyseraVaultTab } from '../../utils/vaultTabs';
-
-const VaultMonsterPanel = lazy(() =>
-  import('../VaultMonsterPanel').then((m) => ({ default: m.VaultMonsterPanel })),
-);
-const VaultOrkesterPanel = lazy(() =>
-  import('../VaultOrkesterPanel').then((m) => ({ default: m.VaultOrkesterPanel })),
-);
-
-function ValvPanelFallback() {
-  return <HubPanelSkeleton label="Laddar analys…" lines={5} />;
-}
-
-export type ValvAnalyseraZoneProps = {
-  tab: AnalyseraVaultTab;
-  onTabChange: (tab: AnalyseraVaultTab) => void;
-  onTechniqueSelect?: (technique: string) => void;
-};
-
-/** Locked UX — Mönster + Orkester (Pansaret). */
-export function ValvAnalyseraZone({ tab, onTabChange, onTechniqueSelect }: ValvAnalyseraZoneProps) {
-  const { logs } = useVaultStore();
-  const userId = useStore((s) => s.user?.uid);
-
-  return (
-    <HubErrorBoundary
-      title="Analys kunde inte laddas"
-      glow="blue"
-      logTag="ValvAnalyseraZone"
-    >
-      <div className="mb-3">
-        <TabBar
-          size="compact"
-          tabs={getAnalyseraVaultTabBarItems()}
-          active={tab}
-          onChange={onTabChange}
-        />
-      </div>
-      <Suspense fallback={<ValvPanelFallback />}>
-        {tab === 'orkester' ? (
-          <VaultOrkesterPanel logs={logs} />
-        ) : (
-          <>
-            <PansaretHeader />
-            <VaultMonsterPanel
-              logs={logs}
-              userId={userId}
-              onTechniqueSelect={onTechniqueSelect}
-            />
-          </>
-        )}
-      </Suspense>
-    </HubErrorBoundary>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx">
-import { useEffect, useState } from 'react';
-import { TabBar } from '@/core/ui/TabBar';
-import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
-import { getSamlaVaultTabBarItems } from '@/core/navigation/tabRegistry';
-import { useVaultStore } from '@/core/store/useVaultStore';
-import { ValvChatPanel } from '@/features/lifeJournal/evidence/vaultChat';
-import { VaultLogList } from '../VaultLogList';
-import { VaultSamlaHub } from '../VaultSamlaHub';
-import { WeaverPendingVaultBanner } from '../WeaverPendingVaultBanner';
-import { usePatternScanMetadata } from '../../hooks/usePatternScanMetadata';
-import type { SamlaVaultTab } from '../../utils/vaultTabs';
-
-export type ValvSamlaZoneProps = {
-  tab: SamlaVaultTab;
-  onTabChange: (tab: SamlaVaultTab) => void;
-  userId: string;
-  gateOk: boolean;
-  highlightLogId: string | null;
-  onBevisConfirmed: (docId: string) => void | Promise<void>;
-  onCitationClick: (docId: string) => void;
-  onOpenGranska?: () => void;
-  techniqueFilter?: string | null;
-  onClearTechniqueFilter?: () => void;
-};
-
-export function ValvSamlaZone({
-  tab,
-  onTabChange,
-  userId,
-  gateOk,
-  highlightLogId,
-  onBevisConfirmed,
-  onCitationClick,
-  onOpenGranska,
-  techniqueFilter = null,
-  onClearTechniqueFilter,
-}: ValvSamlaZoneProps) {
-  const [anchorsOnly, setAnchorsOnly] = useState(false);
-  const [manualEntryOpen, setManualEntryOpen] = useState(false);
-  const { logs, loadFirstLogsPage } = useVaultStore();
-  const { techniquesByLogId } = usePatternScanMetadata(userId);
-
-  useEffect(() => {
-    if (techniqueFilter) setAnchorsOnly(false);
-  }, [techniqueFilter]);
-
-  return (
-    <HubErrorBoundary
-      title="Samla kunde inte laddas"
-      glow="blue"
-      logTag="ValvSamlaZone"
-    >
-      <div className="mb-3">
-        <TabBar
-          size="compact"
-          tabs={getSamlaVaultTabBarItems()}
-          active={tab}
-          onChange={onTabChange}
-        />
-      </div>
-      {tab === 'sok' ? (
-        <ValvChatPanel
-          active={gateOk}
-          onCitationClick={onCitationClick}
-          logs={logs}
-        />
-      ) : (
-        <>
-          <WeaverPendingVaultBanner userId={userId} onApproved={() => loadFirstLogsPage(userId)} />
-          <VaultSamlaHub
-            userId={userId}
-            onBevisConfirmed={(docId) => void onBevisConfirmed(docId)}
-            onOpenGranska={onOpenGranska}
-            manualEntryOpen={manualEntryOpen}
-            onManualEntryOpenChange={setManualEntryOpen}
-          />
-          <div className="flex flex-wrap items-center justify-between gap-2 px-0.5">
-            <p className="text-xs font-medium uppercase tracking-wider text-text-dim">Arkivlista</p>
-            <div className="flex flex-wrap items-center gap-2">
-              {techniqueFilter ? (
-                <button
-                  type="button"
-                  onClick={onClearTechniqueFilter}
-                  className="valv-technique-filter-chip btn-pill--ghost text-xs text-accent"
-                  aria-pressed
-                >
-                  Filter: #{techniqueFilter} · Rensa
-                </button>
-              ) : null}
-              <button
-                type="button"
-                onClick={() => setAnchorsOnly((v) => !v)}
-                className={`btn-pill--ghost text-xs ${anchorsOnly ? 'text-accent' : ''}`}
-                aria-pressed={anchorsOnly}
-              >
-                {anchorsOnly ? 'Visa alla bevis' : 'Endast ankare'}
-              </button>
-            </div>
-          </div>
-          <VaultLogList
-            highlightLogId={highlightLogId}
-            anchorsOnly={anchorsOnly}
-            techniqueFilter={techniqueFilter}
-            persistedTechniquesByLogId={techniquesByLogId}
-            onLogFirstBevis={() => {
-              setManualEntryOpen(true);
-              requestAnimationFrame(() => {
-                document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              });
-            }}
-          />
-        </>
-      )}
-    </HubErrorBoundary>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/valv.css">
-@tailwind components;
-
-/* Valv hub — Obsidian Calm Bento (indigo/gold forensic) */
-
-@layer components {
-  .valv-bento-shell {
-    @apply relative isolate min-h-0;
-    background-color: var(--color-obsidian-surface);
-    background-image: var(--zone-gradient-valv);
-  }
-
-  .valv-bg-watermark {
-    @apply pointer-events-none fixed left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 text-accent-secondary;
-    width: min(140vw, 1100px);
-    height: min(140vw, 1100px);
-    max-width: 1100px;
-    max-height: 1100px;
-    opacity: 0.04;
-  }
-
-  .valv-bento-shell__content {
-    @apply relative z-10 space-y-4;
-  }
-
-  .valv-zone-strip {
-    @apply mb-1 flex items-center justify-center;
-  }
-
-  .valv-zone-pill {
-    @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-accent-secondary;
-    border-color: var(--color-indigo-40);
-    background: var(--color-shell-scrim-35);
-  }
-
-  .valv-forensic-header {
-    @apply mb-3 space-y-1 border-b border-border-strong/60 pb-3;
-  }
-
-  .valv-forensic-eyebrow {
-    @apply font-display-serif text-[10px] uppercase tracking-[0.22em] text-accent-secondary;
-  }
-
-  .valv-forensic-title {
-    @apply font-display-serif text-base uppercase tracking-[0.2em] text-text;
-  }
-
-  .valv-forensic-lead {
-    @apply text-xs leading-relaxed text-text-dim;
-  }
-
-  .valv-log-list {
-    @apply space-y-2;
-  }
-
-  .valv-log-row {
-    @apply rounded-xl border p-3 text-sm transition-all duration-200;
-    border-color: rgba(99, 102, 241, 0.22);
-    background: linear-gradient(
-      165deg,
-      rgba(12, 18, 32, 0.85) 0%,
-      rgba(5, 11, 20, 0.75) 100%
-    );
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.04),
-      0 4px 14px -4px rgba(0, 0, 0, 0.45);
-  }
-
-  .valv-log-row:hover {
-    border-color: rgba(99, 102, 241, 0.38);
-  }
-
-  .valv-log-row--anchor {
-    border-color: rgba(212, 175, 55, 0.35);
-    background: linear-gradient(
-      165deg,
-      rgba(30, 25, 18, 0.7) 0%,
-      rgba(8, 12, 20, 0.8) 100%
-    );
-  }
-
-  .valv-log-row--highlight {
-    @apply ring-2 ring-accent/45;
-  }
-
-  .valv-log-row--vavaren {
-    border-color: rgba(129, 140, 248, 0.28);
-    background: linear-gradient(
-      165deg,
-      rgba(20, 24, 48, 0.75) 0%,
-      rgba(8, 12, 24, 0.85) 100%
-    );
-  }
-
-  .valv-log-stamp {
-    @apply flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-text-dim;
-  }
-
-  .valv-log-meta {
-    @apply text-[10px] uppercase tracking-widest text-text-dim;
-  }
-
-  .valv-samla-panel {
-    @apply rounded-2xl border p-3;
-    border-color: rgba(99, 102, 241, 0.2);
-    background: linear-gradient(
-      180deg,
-      rgba(15, 23, 42, 0.55) 0%,
-      rgba(8, 12, 22, 0.75) 100%
-    );
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-  }
-
-  .valv-technique-filter-chip {
-    border-color: rgba(212, 175, 55, 0.35);
-  }
-
-  .valv-monster-bar {
-    cursor: pointer;
-  }
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/ValvSuperModule.tsx">
-import { ValvAnalyseraZone } from './zones/ValvAnalyseraZone';
-import { ValvExporteraZone } from './zones/ValvExporteraZone';
-import { ValvForensikZone } from './zones/ValvForensikZone';
-import { ValvKunskapZone } from './zones/ValvKunskapZone';
-import { ValvSamlaZone } from './zones/ValvSamlaZone';
-import { ValvVitZone } from './zones/ValvVitZone';
+<file path="src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts">
+import { VIT_VAULT_TAB_LABEL } from '@/core/copy/valvNavCopy';
 import {
   KUNSKAP_VAULT_TAB,
-  type AnalyseraVaultTab,
-  type ForensicVaultTab,
-  type KunskapVaultTab,
-  type SamlaVaultTab,
+  LEGACY_INBOX_VAULT_TAB,
+  VIT_VAULT_TAB,
+  parseVaultTab,
+  resolveValvZone,
   type ValvZone,
   type VaultTab,
-  isAnalyseraVaultTab,
-  isForensicVaultTab,
-  isKunskapVaultTab,
-  isSamlaVaultTab,
 } from '../utils/vaultTabs';
 
-export type ValvSuperVariant = ValvZone;
+/** Primära Valv-lägen — ersätter synlig 7-zons TabBar (inkl. borttagen inbox-zon). */
+export const VALV_INPUT_MODE_IDS = [
+  'spara',
+  'granska',
+  'analysera',
+  'kunskap',
+  'vit',
+  'rapporter',
+  'mer',
+] as const;
 
-export type ValvSuperModuleProps = {
-  variant: ValvSuperVariant;
-  vaultTab: VaultTab;
-  userId: string;
-  gateOk: boolean;
-  highlightLogId: string | null;
-  onBevisConfirmed: (docId: string) => void | Promise<void>;
-  onCitationClick: (docId: string) => void;
-  onVaultTabChange: (tab: VaultTab) => void;
-  /** Öppna granskningskö (ValvInputSuperModule granska-läge). */
-  onOpenGranska?: () => void;
-  techniqueFilter?: string | null;
-  onTechniqueSelect?: (technique: string) => void;
-  onClearTechniqueFilter?: () => void;
-};
+export type ValvInputMode = (typeof VALV_INPUT_MODE_IDS)[number];
 
-/**
- * Canonical router för Valv-zoner.
- * VaultPage behåller gate + zon-TabBar; sub-TabBar lever i zoner (Fas 2).
- */
-export function ValvSuperModule({
-  variant,
-  vaultTab,
-  userId,
-  gateOk,
-  highlightLogId,
-  onBevisConfirmed,
-  onCitationClick,
-  onVaultTabChange,
-  onOpenGranska,
-  techniqueFilter,
-  onTechniqueSelect,
-  onClearTechniqueFilter,
-}: ValvSuperModuleProps) {
-  switch (variant) {
-    case 'samla': {
-      const tab: SamlaVaultTab = isSamlaVaultTab(vaultTab) ? vaultTab : 'logga';
-      return (
-        <ValvSamlaZone
-          tab={tab}
-          onTabChange={(next) => onVaultTabChange(next)}
-          userId={userId}
-          gateOk={gateOk}
-          highlightLogId={highlightLogId}
-          onBevisConfirmed={onBevisConfirmed}
-          onCitationClick={onCitationClick}
-          onOpenGranska={onOpenGranska}
-          techniqueFilter={techniqueFilter}
-          onClearTechniqueFilter={onClearTechniqueFilter}
-        />
-      );
-    }
-    case 'analysera': {
-      const tab: AnalyseraVaultTab = isAnalyseraVaultTab(vaultTab) ? vaultTab : 'monster';
-      return <ValvAnalyseraZone tab={tab} onTabChange={onVaultTabChange} onTechniqueSelect={onTechniqueSelect} />;
-    }
-    case 'kunskap': {
-      const tab: KunskapVaultTab = isKunskapVaultTab(vaultTab) ? vaultTab : KUNSKAP_VAULT_TAB;
-      return <ValvKunskapZone tab={tab} onTabChange={onVaultTabChange} />;
-    }
-    case 'vit':
-      return <ValvVitZone userId={userId} />;
-    case 'exportera':
-      return <ValvExporteraZone />;
-    case 'forensik': {
-      const tab: ForensicVaultTab = isForensicVaultTab(vaultTab) ? vaultTab : 'hamn_analys';
-      return <ValvForensikZone tab={tab} onTabChange={onVaultTabChange} gateOk={gateOk} />;
-    }
-    default:
-      return null;
-  }
-}
-</file>
+export const DEFAULT_VALV_INPUT_MODE: ValvInputMode = 'spara';
 
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx">
-import { memo, useEffect, useRef, type RefObject } from 'react';
-import { FileDown, Loader2, Lock } from 'lucide-react';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import './valv.css';
-import { EmptyState } from '@/core/ui/EmptyState';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import { useVaultStore } from '@/core/store/useVaultStore';
-import type { VaultLog, WeaverTags } from '@/core/types/firestore';
-import {
-  VAVAREN_LOG_CATEGORY_LABEL,
-  VAVAREN_LOG_DISCLAIMER,
-} from '../constants/vavarenCopy';
-import { exportVaultRecordAsPdf } from '../utils/exportVaultRecord';
-import { normalizeStringArray } from '../utils/normalizeVaultLog';
-import { scanTechniquesForLog, logHasTechnique } from '../utils/vaultPatternScan';
-
-type VaultLogRow = VaultLog & { id: string; weaverTags?: WeaverTags };
-
-function resolveLogTechniques(
-  log: VaultLogRow,
-  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>,
-): string[] {
-  const persisted = persistedTechniquesByLogId?.get(log.id);
-  if (persisted && persisted.length > 0) return [...persisted];
-  return scanTechniquesForLog(log);
-}
-
-function isVavarenMetadata(log: VaultLog): boolean {
-  return log.category === 'vävaren_metadata';
-}
-
-type VaultLogListProps = {
-  highlightLogId?: string | null;
-  /** Tom lista — scroll till Samla-formuläret ovan. */
-  onLogFirstBevis?: () => void;
-  /** V2 — visa endast Sanningens Ankare (`pinned`). */
-  anchorsOnly?: boolean;
-  /** Sidecar-taktik från pattern_scan_metadata (prioriteras framför live-regex). */
-  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
-  /** Filtrera arkiv efter taktik (från Mönster drill-down). */
-  techniqueFilter?: string | null;
-};
-
-function asText(value: unknown): string {
-  if (value == null) return '';
-  if (typeof value === 'string') return value;
-  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
-  return String(value);
-}
-
-function formatLogBody(log: VaultLog): string {
-  if (log.entryType === 'two_column' && (log.theirVersion || log.myReality)) {
-    return `Hens: ${asText(log.theirVersion) || '—'}\nMin: ${asText(log.myReality) || '—'}`;
-  }
-  if (log.entryType === 'three_shield') {
-    return [log.shieldWhat, log.shieldFeeling, log.shieldBoundary]
-      .map(asText)
-      .filter(Boolean)
-      .join(' · ');
-  }
-  if (log.entryType === 'body_signal') {
-    const signals = normalizeStringArray(log.bodySignals);
-    if (signals.length > 0) {
-      const truth = asText(log.truth);
-      return `${signals.join(', ')}${truth ? ` — ${truth}` : ''}`;
-    }
-  }
-  return asText(log.truth);
-}
-
-function formatLogDate(createdAt: VaultLog['createdAt'] | undefined): string {
-  if (typeof createdAt === 'string') return createdAt.slice(0, 10);
-  if (createdAt == null) return '—';
-  return String(createdAt).slice(0, 10);
-}
-
-function formatServerTimestamp(createdAt: VaultLog['createdAt'] | undefined): string {
-  if (typeof createdAt === 'string') return createdAt;
-  if (createdAt == null) return '—';
-  return String(createdAt);
-}
-
-const LogRow = memo(function LogRow({
-  log,
-  highlightLogId,
-  highlightRef,
-  persistedTechniquesByLogId,
-}: {
-  log: VaultLogRow;
-  highlightLogId?: string | null;
-  highlightRef: RefObject<HTMLLIElement>;
-  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
-}) {
-  const vavaren = isVavarenMetadata(log);
-  const weaverTags = (log as VaultLogRow).weaverTags;
-  const tags = vavaren ? [] : resolveLogTechniques(log, persistedTechniquesByLogId);
-  
-  return (
-    <li
-      key={log.id}
-      ref={log.id === highlightLogId ? highlightRef : undefined}
-      className={`valv-log-row ${
-        log.pinned ? 'valv-log-row--anchor' : ''
-      } ${log.id === highlightLogId ? 'valv-log-row--highlight' : ''} ${
-        vavaren ? 'valv-log-row--vavaren' : ''
-      }`}
-    >
-      <div className="flex items-start justify-between gap-2">
-        <div>
-          <div className="valv-log-stamp mb-1">
-            <Lock className="text-indigo-400/60" size={12} />
-            <p>SERVER-TIDSSTÄMPEL · {formatServerTimestamp(log.createdAt)}</p>
-          </div>
-          <p className="valv-log-meta font-mono">ID · {log.id.slice(0, 12)}…</p>
-          <p className="valv-log-meta mt-1">
-            {log.pinned ? 'Ankare · ' : ''}
-            {vavaren ? VAVAREN_LOG_CATEGORY_LABEL : (log.category ?? 'allmänt')}
-            {!vavaren && log.entryType ? ` · ${log.entryType}` : ''} · {formatLogDate(log.createdAt)}
-          </p>
-          {vavaren && (
-            <p className="mt-1 text-[10px] text-indigo-200/80">{VAVAREN_LOG_DISCLAIMER}</p>
-          )}
-        </div>
-        <button
-          type="button"
-          onClick={() => exportVaultRecordAsPdf(log)}
-          className="btn-pill--ghost shrink-0 py-1 px-2"
-          title="Exportera som PDF (utskrift)"
-        >
-          <FileDown className="h-3 w-3" /> PDF
-        </button>
-      </div>
-      <p className={`mt-2 whitespace-pre-wrap ${vavaren ? 'text-indigo-100/90' : 'text-text-muted'}`}>
-        {formatLogBody(log)}
-      </p>
-      {vavaren && weaverTags && (
-        <div className="mt-3 flex flex-wrap gap-1">
-          {normalizeStringArray(weaverTags.emotions).map((e) => (
-            <span
-              key={`e-${e}`}
-              className="rounded-full border border-indigo-400/25 px-2 py-0.5 text-[10px] text-indigo-200/90"
-            >
-              {e}
-            </span>
-          ))}
-          {normalizeStringArray(weaverTags.actors).map((a) => (
-            <span
-              key={`a-${a}`}
-              className="rounded-full border border-border px-2 py-0.5 text-[10px] text-text-muted"
-            >
-              {a}
-            </span>
-          ))}
-          {weaverTags.threatLevel && weaverTags.threatLevel !== 'none' && (
-            <span className="rounded-full border border-amber-500/30 px-2 py-0.5 text-[10px] text-amber-200/90">
-              hot: {weaverTags.threatLevel}
-            </span>
-          )}
-        </div>
-      )}
-      {tags.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-1">
-          {tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-accent/20 px-2 py-0.5 text-[10px] text-accent/80"
-            >
-              #{tag}
-            </span>
-          ))}
-        </div>
-      )}
-      {log.evidenceUrl && (
-        <a
-          href={log.evidenceUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-3 inline-block text-xs text-accent-secondary hover:underline"
-        >
-          Visa bifogat bevis
-        </a>
-      )}
-    </li>
-  );
-});
-
-export const VaultLogList = memo(function VaultLogList({
-  highlightLogId,
-  onLogFirstBevis,
-  anchorsOnly = false,
-  persistedTechniquesByLogId,
-  techniqueFilter = null,
-}: VaultLogListProps) {
-  const { logs, loading, hasMore, loadingMore, loadMoreLogs } = useVaultStore();
-  const highlightRef = useRef<HTMLLIElement>(null);
-  let visible = anchorsOnly ? logs.filter((l) => l.pinned) : logs;
-  if (techniqueFilter) {
-    visible = visible.filter((log) =>
-      logHasTechnique(log, techniqueFilter, persistedTechniquesByLogId),
-    );
-  }
-  const pinned = visible.filter((l) => l.pinned);
-  const rest = anchorsOnly ? [] : visible.filter((l) => !l.pinned);
-
-  useEffect(() => {
-    if (!highlightLogId) return;
-    const timer = window.setTimeout(() => {
-      highlightRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 120);
-    return () => window.clearTimeout(timer);
-  }, [highlightLogId, logs.length]);
-
-  return (
-    <BentoCard
-      title="Bevisarkiv"
-      glow="blue"
-      depth
-      noHover
-      className="mt-4"
-    >
-      {onLogFirstBevis && (
-        <div className="mb-3 flex justify-end">
-          <button type="button" onClick={onLogFirstBevis} className="btn-pill--secondary text-sm">
-            Logga bevis
-          </button>
-        </div>
-      )}
-      {loading && visible.length === 0 ? (
-        <HubPanelSkeleton label="Laddar bevisarkiv…" lines={4} />
-      ) : visible.length === 0 ? (
-        <EmptyState
-          message={
-            techniqueFilter
-              ? `Inga poster med #${techniqueFilter} i arkivet.`
-              : anchorsOnly
-                ? 'Inga ankare markerade ännu. Kryssa i «Sanningens Ankare» när du loggar bevis.'
-                : 'Inga poster i arkivet ännu. Öppna «Manuell post» ovan eller tryck «Logga bevis».'
-          }
-        />
-      ) : (
-        <div className="space-y-4">
-          {pinned.length > 0 && (
-            <div>
-              <p className="mb-2 flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-accent/80">
-                <Lock size={10} className="text-accent/60" /> Sanningens Ankare
-              </p>
-              <ul className="valv-log-list">
-                {pinned.map((log) => (
-                  <LogRow
-                    key={log.id}
-                    log={log}
-                    highlightLogId={highlightLogId}
-                    highlightRef={highlightRef}
-                    persistedTechniquesByLogId={persistedTechniquesByLogId}
-                  />
-                ))}
-              </ul>
-            </div>
-          )}
-          <ul className="valv-log-list">
-          {rest.map((log) => (
-            <LogRow
-              key={log.id}
-              log={log}
-              highlightLogId={highlightLogId}
-              highlightRef={highlightRef}
-              persistedTechniquesByLogId={persistedTechniquesByLogId}
-            />
-          ))}
-        </ul>
-          {hasMore && (
-            <div className="mt-4 flex justify-center">
-              <button
-                type="button"
-                onClick={() => {
-                  const uid = logs[0]?.ownerId;
-                  if (uid) {
-                    void loadMoreLogs(uid);
-                  }
-                }}
-                disabled={loadingMore}
-                className="btn-pill--ghost text-sm"
-              >
-                {loadingMore ? (
-                  <>
-                    <Loader2 className="mr-1 inline h-3 w-3 animate-spin" />
-                    Laddar fler…
-                  </>
-                ) : (
-                  'Visa fler'
-                )}
-              </button>
-            </div>
-          )}
-        </div>
-      )}
-    </BentoCard>
-  );
-});
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultMonsterPanel.tsx">
-/** @locked-ux Valv Mönster — do not remove; see `.context/locked-ux-features.md` */
-import { useMemo, useState } from 'react';
-import { BarChart3, Loader2, RefreshCw } from 'lucide-react';
-import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
-import { EmptyState } from '@/core/ui/EmptyState';
-import type { VaultLog } from '@/core/types/firestore';
-import { buildVaultFrequencyReport } from '../utils/vaultPatternScan';
-import { usePatternScanMetadata } from '../hooks/usePatternScanMetadata';
-import { rescanPatternMetadata, assistPatternMetadata } from '../api/patternScanService';
-
-type Props = {
-  logs: (VaultLog & { id: string })[];
-  userId?: string;
-  /** Klick på frekvensrad → filtrera arkiv (Mönster → Samla). */
-  onTechniqueSelect?: (technique: string) => void;
-};
-
-function BarRow({
-  label,
-  count,
-  max,
-  onSelect,
-}: {
+export type ValvInputModeDef = {
+  id: ValvInputMode;
   label: string;
-  count: number;
-  max: number;
-  onSelect?: () => void;
-}) {
-  const width = max > 0 ? Math.round((count / max) * 100) : 0;
-  const inner = (
-    <>
-      <div className="flex justify-between text-xs text-text-dim">
-        <span>{label}</span>
-        <span>{count}</span>
-      </div>
-      <div className="h-2 overflow-hidden rounded-full bg-surface-3/50">
-        <div
-          className="h-full rounded-full bg-accent/70 transition-all"
-          style={{ width: `${width}%` }}
-        />
-      </div>
-    </>
-  );
+  description: string;
+  /** Primär rad vs native «Mer…» (Fas 1B). */
+  tier: 'primary' | 'more';
+  zone: ValvZone;
+  defaultVaultTab: VaultTab;
+};
 
-  if (!onSelect) {
-    return <div className="space-y-1">{inner}</div>;
-  }
+export const VALV_INPUT_MODES: ValvInputModeDef[] = [
+  {
+    id: 'spara',
+    label: 'Inkast',
+    description: 'Släpp fil eller text — spara till arkiv',
+    tier: 'primary',
+    zone: 'samla',
+    defaultVaultTab: 'logga',
+  },
+  {
+    id: 'granska',
+    label: 'Granska',
+    description: 'Godkänn inkommande till WORM',
+    tier: 'primary',
+    zone: 'samla',
+    defaultVaultTab: 'logga',
+  },
+  {
+    id: 'analysera',
+    label: 'Analysera',
+    description: 'Mönster och meddelanden',
+    tier: 'primary',
+    zone: 'analysera',
+    defaultVaultTab: 'monster',
+  },
+  {
+    id: 'kunskap',
+    label: 'Kunskap',
+    description: 'Kunskapsbank och personer',
+    tier: 'primary',
+    zone: 'kunskap',
+    defaultVaultTab: KUNSKAP_VAULT_TAB,
+  },
+  {
+    id: 'vit',
+    label: VIT_VAULT_TAB_LABEL,
+    description: 'Frågekort och reflektioner — personlig utveckling',
+    tier: 'more',
+    zone: 'vit',
+    defaultVaultTab: VIT_VAULT_TAB,
+  },
+  {
+    id: 'rapporter',
+    label: 'Rapporter',
+    description: 'Dossier och export',
+    tier: 'more',
+    zone: 'exportera',
+    defaultVaultTab: 'dossier',
+  },
+  {
+    id: 'mer',
+    label: 'Mer',
+    description: 'Hamn, Speglar och djupare vyer',
+    tier: 'more',
+    zone: 'forensik',
+    defaultVaultTab: 'hamn_analys',
+  },
+];
 
-  return (
-    <button
-      type="button"
-      onClick={onSelect}
-      className="valv-monster-bar w-full space-y-1 rounded-lg border border-transparent px-1 py-1 text-left transition-colors hover:border-accent/25 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
-      title={`Visa arkivposter med #${label}`}
-    >
-      {inner}
-    </button>
-  );
+export const VALV_INPUT_MODES_PRIMARY = VALV_INPUT_MODES.filter((m) => m.tier === 'primary');
+export const VALV_INPUT_MODES_MORE = VALV_INPUT_MODES.filter((m) => m.tier === 'more');
+
+const MODE_BY_ID = Object.fromEntries(VALV_INPUT_MODES.map((m) => [m.id, m])) as Record<
+  ValvInputMode,
+  ValvInputModeDef
+>;
+
+export function valvInputModeDef(mode: ValvInputMode): ValvInputModeDef {
+  return MODE_BY_ID[mode];
 }
 
-export function VaultMonsterPanel({ logs, userId, onTechniqueSelect }: Props) {
-  const { techniquesByLogId, libraryVersion, reload } = usePatternScanMetadata(userId);
-  const [rescanning, setRescanning] = useState(false);
-  const [assisting, setAssisting] = useState(false);
-  const [rescanMsg, setRescanMsg] = useState<string | null>(null);
-
-  const report = useMemo(
-    () => buildVaultFrequencyReport(logs, techniquesByLogId),
-    [logs, techniquesByLogId],
-  );
-  const maxTechnique = report.topTechniques[0]?.count ?? 0;
-  const maxMonth = Math.max(...report.monthlyCounts.map((m) => m.count), 1);
-
-  const handleRescan = async () => {
-    if (!userId || rescanning || assisting) return;
-    setRescanning(true);
-    setRescanMsg(null);
-    try {
-      const { written } = await rescanPatternMetadata();
-      await reload();
-      setRescanMsg(written > 0 ? `${written} nya sidecar-poster sparade.` : 'Inga nya träffar att spara.');
-    } catch {
-      setRescanMsg('Skanna om misslyckades — kontrollera Valv-session.');
-    } finally {
-      setRescanning(false);
-    }
-  };
-
-  const handleFlowAssist = async () => {
-    if (!userId || rescanning || assisting) return;
-    setAssisting(true);
-    setRescanMsg(null);
-    try {
-      const { written } = await assistPatternMetadata();
-      await reload();
-      setRescanMsg(
-        written > 0
-          ? `Flow-assist: ${written} kompletterande sidecar-poster.`
-          : 'Flow-assist: inga nya mönster utöver regex.',
-      );
-    } catch {
-      setRescanMsg('Flow-assist misslyckades — kontrollera Valv-session.');
-    } finally {
-      setAssisting(false);
-    }
-  };
-
-  if (logs.length === 0) {
-    return (
-      <BentoCard title="Mönster" description="Pansaret · deterministisk frekvens" icon={<BarChart3 className="h-4 w-4" />} glow="gold">
-        <EmptyState message="Inga valvposter ännu. Spara under Arkiv — frekvensen visas här." />
-      </BentoCard>
-    );
+export function parseValvInputMode(raw: string | null): ValvInputMode {
+  if (raw && (VALV_INPUT_MODE_IDS as readonly string[]).includes(raw)) {
+    return raw as ValvInputMode;
   }
-
-  return (
-    <div className="space-y-4">
-      <div className="flex justify-end">
-        <ModuleHelpFromRegistry moduleId="valv_monster" />
-      </div>
-      <BentoCard
-        title="Frekvensanalys"
-        description="Pansaret · regex + valfri Flow-assist (metadata)"
-        icon={<BarChart3 className="h-4 w-4" />}
-        glow="gold"
-      >
-        <p className="text-sm text-text-muted">
-          {report.totalPosts} poster · {report.smsLikePosts} kommunikationsrelaterade ·
-          deterministisk skanning av dina låsta texter i arkivet.
-        </p>
-        <div className="mt-4 space-y-3">
-          {report.topTechniques.length === 0 ? (
-            <p className="text-sm text-text-dim">
-              Inga kända manipulationstaktiker hittades i befintliga poster (bra tecken, eller
-              kortare texter).
-            </p>
-          ) : (
-            report.topTechniques.map(({ technique, count }) => (
-              <BarRow
-                key={technique}
-                label={technique}
-                count={count}
-                max={maxTechnique}
-                onSelect={
-                  onTechniqueSelect ? () => onTechniqueSelect(technique) : undefined
-                }
-              />
-            ))
-          )}
-        </div>
-        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-border/40 pt-3">
-          <button
-            type="button"
-            disabled={!userId || rescanning || assisting}
-            onClick={() => void handleRescan()}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-accent/30 bg-accent/5 px-3 py-1.5 text-xs text-accent hover:bg-accent/10 disabled:opacity-40"
-          >
-            {rescanning ? (
-              <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
-            ) : (
-              <RefreshCw className="h-3.5 w-3.5" aria-hidden />
-            )}
-            Skanna om (batch)
-          </button>
-          <button
-            type="button"
-            disabled={!userId || rescanning || assisting}
-            onClick={() => void handleFlowAssist()}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-surface-3/40 px-3 py-1.5 text-xs text-text-muted hover:border-accent/30 hover:text-accent disabled:opacity-40"
-          >
-            {assisting ? (
-              <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
-            ) : null}
-            Flow-assist (kompletterande)
-          </button>
-          <span className="text-[10px] text-text-dim">Bibliotek {libraryVersion}</span>
-          {rescanMsg ? <span className="text-[10px] text-text-muted">{rescanMsg}</span> : null}
-        </div>
-      </BentoCard>
-
-      <CalmCollapsible title="Poster per månad" meta="Tidsfrekvens" defaultOpen={false} glow="gold">
-        <div className="space-y-3">
-          {report.monthlyCounts.map(({ month, count }) => (
-            <BarRow key={month} label={month} count={count} max={maxMonth} />
-          ))}
-        </div>
-      </CalmCollapsible>
-
-      <CalmCollapsible title="Kategorier i valvet" meta="Fördelning" defaultOpen={false} glow="gold">
-        <div className="space-y-2 text-sm text-text-muted">
-          {Object.entries(report.categoryCounts).map(([cat, count]) => (
-            <p key={cat}>
-              {cat}: <span className="text-accent">{count}</span>
-            </p>
-          ))}
-        </div>
-      </CalmCollapsible>
-    </div>
-  );
+  return DEFAULT_VALV_INPUT_MODE;
 }
 
-export { buildVaultFrequencyReport };
+/** Legacy `?samlaView=granska` · `?vaultTab=inbox` → granska-läge. */
+export function parseValvInputModeFromSearch(
+  valvMode: string | null,
+  samlaView: string | null,
+  vaultTabRaw?: string | null,
+): ValvInputMode {
+  if (samlaView === 'granska') return 'granska';
+  if (vaultTabRaw === LEGACY_INBOX_VAULT_TAB) return 'granska';
+  if (valvMode && (VALV_INPUT_MODE_IDS as readonly string[]).includes(valvMode)) {
+    return valvMode as ValvInputMode;
+  }
+  if (vaultTabRaw) {
+    return resolveValvInputModeFromVaultTab(parseVaultTab(vaultTabRaw));
+  }
+  return DEFAULT_VALV_INPUT_MODE;
+}
+
+export function resolveValvInputModeFromVaultTab(tab: VaultTab): ValvInputMode {
+  const zone = resolveValvZone(tab);
+  if (zone === 'samla') {
+    return DEFAULT_VALV_INPUT_MODE;
+  }
+  const match = VALV_INPUT_MODES.find((m) => m.zone === zone);
+  return match?.id ?? DEFAULT_VALV_INPUT_MODE;
+}
+
+export function valvModeMatchesVaultTab(mode: ValvInputMode, tab: VaultTab): boolean {
+  if (mode === 'granska') {
+    return resolveValvZone(tab) === 'samla';
+  }
+  return valvInputModeDef(mode).zone === resolveValvZone(tab);
+}
+
+export function vaultTabForValvInputMode(mode: ValvInputMode, currentTab?: VaultTab): VaultTab {
+  const def = valvInputModeDef(mode);
+  if (mode === 'granska') return 'logga';
+  if (mode === 'spara' && currentTab === 'sok') return 'sok';
+  if (currentTab && resolveValvZone(currentTab) === def.zone) {
+    return currentTab;
+  }
+  return def.defaultVaultTab;
+}
+
+/** Kanon URL-par — valvMode vinner (Fas 1B). */
+export function canonicalValvRoute(
+  valvModeRaw: string | null,
+  vaultTabRaw?: string | null,
+  samlaViewRaw?: string | null,
+): { vaultTab: VaultTab; valvMode: ValvInputMode } {
+  const mode = parseValvInputModeFromSearch(valvModeRaw, samlaViewRaw ?? null, vaultTabRaw ?? null);
+  const parsedTab = parseVaultTab(vaultTabRaw === LEGACY_INBOX_VAULT_TAB ? null : (vaultTabRaw ?? null));
+  const tab = vaultTabForValvInputMode(mode, parsedTab);
+  return { vaultTab: tab, valvMode: mode };
+}
+
+export function buildValvSearchParams(
+  valvMode: ValvInputMode,
+  vaultTab?: VaultTab,
+): URLSearchParams {
+  const { vaultTab: tab, valvMode: mode } = canonicalValvRoute(valvMode, vaultTab);
+  const params = new URLSearchParams();
+  params.set('valvMode', mode);
+  params.set('vaultTab', tab);
+  return params;
+}
 </file>
 
 <file path="src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx">
 import { Lock, ShieldAlert, X, Settings } from 'lucide-react';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
@@ -7947,14 +8161,9 @@ import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
 import { VaultErrorBoundary } from './VaultErrorBoundary';
 import { VaultLockedGate } from '@/core/components/VaultLockedGate';
 import { ValvBentoShell } from './ValvBentoShell';
-import { ValvInputSuperModule } from '../supermodule/ValvInputSuperModule';
+const ValvInputSuperModule = lazy(() => import('../supermodule/ValvInputSuperModule').then(m => ({ default: m.ValvInputSuperModule })));
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
-import {
-  type ValvInputMode,
-  canonicalValvRoute,
-  resolveValvInputModeFromVaultTab,
-  vaultTabForValvInputMode,
-} from '../supermodule/valvInputModes';
+import { type ValvInputMode } from '../supermodule/valvInputModes';
 import { resolveValvZone, type VaultTab } from '../utils/vaultTabs';
 
 export type { VaultTab, MainVaultTab, ValvZone } from '../utils/vaultTabs';
@@ -7963,8 +8172,8 @@ export { parseVaultTab } from '../utils/vaultTabs';
 type VaultPageProps = {
   embedded?: boolean;
   onClose?: () => void;
-  initialVaultTab?: VaultTab;
-  initialValvMode?: ValvInputMode;
+  vaultTab?: VaultTab;
+  valvMode?: ValvInputMode;
   onVaultTabChange?: (tab: VaultTab) => void;
   onValvModeChange?: (mode: ValvInputMode) => void;
 };
@@ -7980,8 +8189,8 @@ export function VaultPage(props: VaultPageProps) {
 function VaultPageInner({
   embedded = false,
   onClose,
-  initialVaultTab = 'logga',
-  initialValvMode = 'spara',
+  vaultTab: propVaultTab,
+  valvMode: propValvMode,
   onVaultTabChange,
   onValvModeChange,
 }: VaultPageProps) {
@@ -7990,8 +8199,12 @@ function VaultPageInner({
   const user = useStore((s) => s.user);
   const { loadFirstLogsPage, logs, hasMore: logsHasMore, loadingMore, loadMoreLogs } = useVaultStore();
 
-  const [vaultTab, setVaultTabState] = useState<VaultTab>(initialVaultTab);
-  const [valvMode, setValvModeState] = useState<ValvInputMode>(initialValvMode);
+  const [internalVaultTab, setInternalVaultTab] = useState<VaultTab>('logga');
+  const [internalValvMode, setInternalValvMode] = useState<ValvInputMode>('spara');
+
+  const vaultTab = propVaultTab ?? internalVaultTab;
+  const valvMode = propValvMode ?? internalValvMode;
+
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
   const [techniqueFilter, setTechniqueFilter] = useState<string | null>(null);
   const [sessionSyncError, setSessionSyncError] = useState<string | null>(null);
@@ -8000,48 +8213,19 @@ function VaultPageInner({
 
   const setVaultTab = useCallback(
     (next: VaultTab) => {
-      setVaultTabState(next);
+      setInternalVaultTab(next);
       onVaultTabChange?.(next);
-      setValvModeState((currentMode) => {
-        if (currentMode === 'granska') return currentMode;
-        const derived = resolveValvInputModeFromVaultTab(next);
-        if (derived !== currentMode) {
-          onValvModeChange?.(derived);
-          return derived;
-        }
-        return currentMode;
-      });
     },
-    [onVaultTabChange, onValvModeChange],
+    [onVaultTabChange],
   );
 
   const setValvMode = useCallback(
     (mode: ValvInputMode) => {
-      setValvModeState(mode);
+      setInternalValvMode(mode);
       onValvModeChange?.(mode);
-      const nextTab = vaultTabForValvInputMode(mode, vaultTab);
-      if (nextTab !== vaultTab) {
-        setVaultTabState(nextTab);
-        onVaultTabChange?.(nextTab);
-      }
     },
-    [onValvModeChange, onVaultTabChange, vaultTab],
+    [onValvModeChange],
   );
-
-  useEffect(() => {
-    const { vaultTab: syncedTab, valvMode: syncedMode } = canonicalValvRoute(
-      initialVaultTab,
-      initialValvMode,
-    );
-    setVaultTabState(syncedTab);
-    setValvModeState(syncedMode);
-    if (syncedMode !== initialValvMode) {
-      onValvModeChange?.(syncedMode);
-    }
-    if (syncedTab !== initialVaultTab) {
-      onVaultTabChange?.(syncedTab);
-    }
-  }, [initialVaultTab, initialValvMode, onValvModeChange, onVaultTabChange]);
 
   const handleCitationClick = (docId: string) => {
     setHighlightLogId(docId);
@@ -8188,241 +8372,25 @@ function VaultPageInner({
         <PinnedPlaneringModuleSlot targetId="valv.kunskapsbank" />
       ) : null}
 
-      <ValvInputSuperModule
-        activeMode={valvMode}
-        onModeChange={setValvMode}
-        vaultTab={vaultTab}
-        userId={user.uid}
-        gateOk={gateOk}
-        highlightLogId={highlightLogId}
-        onBevisConfirmed={handleBevisConfirmed}
-        onCitationClick={handleCitationClick}
-        onVaultTabChange={setVaultTab}
-        techniqueFilter={techniqueFilter}
-        onTechniqueSelect={handleTechniqueSelect}
-        onClearTechniqueFilter={handleClearTechniqueFilter}
-      />
+      <Suspense fallback={<div className="p-4 text-center text-sm text-text-muted">Laddar valv-verktyg...</div>}>
+        <ValvInputSuperModule
+          activeMode={valvMode}
+          onModeChange={setValvMode}
+          vaultTab={vaultTab}
+          userId={user.uid}
+          gateOk={gateOk}
+          highlightLogId={highlightLogId}
+          onBevisConfirmed={handleBevisConfirmed}
+          onCitationClick={handleCitationClick}
+          onVaultTabChange={setVaultTab}
+          techniqueFilter={techniqueFilter}
+          onTechniqueSelect={handleTechniqueSelect}
+          onClearTechniqueFilter={handleClearTechniqueFilter}
+        />
+      </Suspense>
       </div>
     </ValvBentoShell>
   );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx">
-import { useCallback } from 'react';
-import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import '../components/valv.css';
-import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
-import { ValvSuperModule } from '../components/ValvSuperModule';
-import { ValvInputModePicker } from './ValvInputModePicker';
-import {
-  DEFAULT_VALV_INPUT_MODE,
-  valvInputModeDef,
-  type ValvInputMode,
-} from './valvInputModes';
-import { writeValvLastInputMode } from './valvLastModeStorage';
-import type { VaultTab } from '../utils/vaultTabs';
-
-export type ValvInputSuperModuleProps = {
-  activeMode: ValvInputMode;
-  onModeChange: (mode: ValvInputMode) => void;
-  vaultTab: VaultTab;
-  userId: string;
-  gateOk: boolean;
-  highlightLogId: string | null;
-  onBevisConfirmed: (docId: string) => void | Promise<void>;
-  onCitationClick: (docId: string) => void;
-  onVaultTabChange: (tab: VaultTab) => void;
-  techniqueFilter?: string | null;
-  onTechniqueSelect?: (technique: string) => void;
-  onClearTechniqueFilter?: () => void;
-};
-
-/**
- * Canonical Valv navigation — primära lägen + «Mer…» (Fas 1B).
- * Granska ersätter separat inbox-zon och `?samlaView=granska`.
- */
-export function ValvInputSuperModule({
-  activeMode,
-  onModeChange,
-  vaultTab,
-  userId,
-  gateOk,
-  highlightLogId,
-  onBevisConfirmed,
-  onCitationClick,
-  onVaultTabChange,
-  techniqueFilter,
-  onTechniqueSelect,
-  onClearTechniqueFilter,
-}: ValvInputSuperModuleProps) {
-  const setMode = useCallback(
-    (mode: ValvInputMode) => {
-      writeValvLastInputMode(mode);
-      onModeChange(mode);
-    },
-    [onModeChange],
-  );
-
-  return (
-    <BentoCard
-      glow="blue"
-      depth
-      noHover
-      bare
-      className="!p-4 sm:!p-5"
-    >
-      <div className="mb-3 flex items-center justify-between gap-2">
-        <ValvInputModePicker activeMode={activeMode} onChange={setMode} />
-        <ModuleHelpFromRegistry moduleId="valv" mode={activeMode} />
-      </div>
-
-      <div className="mt-2 pr-1">
-        {activeMode === 'granska' ? (
-          <InboxReviewQueue
-            prioritizeBevis
-            onBevisConfirmed={(docId) => {
-              void onBevisConfirmed(docId);
-              setMode(DEFAULT_VALV_INPUT_MODE);
-            }}
-            onBack={() => setMode('spara')}
-          />
-        ) : (
-          <ValvSuperModule
-            variant={valvInputModeDef(activeMode).zone}
-            vaultTab={vaultTab}
-            userId={userId}
-            gateOk={gateOk}
-            highlightLogId={highlightLogId}
-            onBevisConfirmed={onBevisConfirmed}
-            onCitationClick={onCitationClick}
-            onVaultTabChange={onVaultTabChange}
-            onOpenGranska={() => setMode('granska')}
-            techniqueFilter={techniqueFilter}
-            onTechniqueSelect={onTechniqueSelect}
-            onClearTechniqueFilter={onClearTechniqueFilter}
-          />
-        )}
-      </div>
-    </BentoCard>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/utils/vaultPatternScan.ts">
-import type { VaultLog } from '@/core/types/firestore';
-import {
-  scanTextForTactics,
-  type VaultTechnique,
-  TACTIC_LIBRARY_VERSION,
-} from '@/shared/patterns/tacticPatternLibrary';
-import { normalizeStringArray } from './normalizeVaultLog';
-
-export type { VaultTechnique };
-export { TACTIC_LIBRARY_VERSION };
-
-function logText(log: VaultLog): string {
-  return [
-    log.truth,
-    log.theirVersion,
-    log.myReality,
-    log.shieldWhat,
-    log.shieldFeeling,
-    log.shieldBoundary,
-    ...(normalizeStringArray(log.bodySignals)),
-  ]
-    .filter(Boolean)
-    .join('\n');
-}
-
-export type VaultFrequencyReport = {
-  totalPosts: number;
-  smsLikePosts: number;
-  techniqueCounts: Record<string, number>;
-  categoryCounts: Record<string, number>;
-  monthlyCounts: { month: string; count: number }[];
-  topTechniques: { technique: string; count: number }[];
-  libraryVersion: string;
-};
-
-export function buildVaultFrequencyReport(
-  logs: (VaultLog & { id: string })[],
-  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>,
-): VaultFrequencyReport {
-  const techniqueCounts: Record<string, number> = {};
-  const categoryCounts: Record<string, number> = {};
-  const monthMap = new Map<string, number>();
-  let smsLikePosts = 0;
-
-  for (const log of logs) {
-    const text = logText(log);
-    const category = log.category || 'okategoriserad';
-    categoryCounts[category] = (categoryCounts[category] ?? 0) + 1;
-
-    const month = (log.createdAt ?? '').slice(0, 7) || 'okänd';
-    monthMap.set(month, (monthMap.get(month) ?? 0) + 1);
-
-    if (/sms|mejl|meddelande|kommunikation/i.test(`${category} ${log.action}`)) {
-      smsLikePosts += 1;
-    }
-
-    const techniques = new Set<string>();
-    for (const m of scanTextForTactics(text)) {
-      techniques.add(m.technique);
-    }
-    const persisted = persistedTechniquesByLogId?.get(log.id);
-    if (persisted) {
-      for (const t of persisted) techniques.add(t);
-    }
-
-    for (const technique of techniques) {
-      techniqueCounts[technique] = (techniqueCounts[technique] ?? 0) + 1;
-    }
-  }
-
-  const monthlyCounts = [...monthMap.entries()]
-    .sort(([a], [b]) => a.localeCompare(b))
-    .slice(-6)
-    .map(([month, count]) => ({ month, count }));
-
-  const topTechniques = Object.entries(techniqueCounts)
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 8)
-    .map(([technique, count]) => ({ technique, count }));
-
-  return {
-    totalPosts: logs.length,
-    smsLikePosts,
-    techniqueCounts,
-    categoryCounts,
-    monthlyCounts,
-    topTechniques,
-    libraryVersion: TACTIC_LIBRARY_VERSION,
-  };
-}
-
-export function scanTechniquesForLog(log: VaultLog): VaultTechnique[] {
-  const matches = scanTextForTactics(logText(log));
-  return [...new Set(matches.map((m) => m.technique))];
-}
-
-export function scanTechniquesForText(text: string): VaultTechnique[] {
-  return [...new Set(scanTextForTactics(text).map((m) => m.technique))];
-}
-
-/** True om posten matchar taktik (live-regex + valfri sidecar-metadata). */
-export function logHasTechnique(
-  log: VaultLog & { id: string },
-  technique: string,
-  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>,
-): boolean {
-  const techniques = new Set<string>(scanTechniquesForLog(log));
-  const persisted = persistedTechniquesByLogId?.get(log.id);
-  if (persisted) {
-    for (const t of persisted) techniques.add(t);
-  }
-  return techniques.has(technique);
 }
 </file>
 
