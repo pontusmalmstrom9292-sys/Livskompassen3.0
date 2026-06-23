@@ -4,6 +4,7 @@ import { Target } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { ParalysPanel } from '@/features/dailyLife/wellbeing/compasses/components/ParalysPanel';
 import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
+import { ParalysBreakerWidget } from './ParalysBreakerWidget';
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
 import { useCognitiveGuard } from '../hooks/useCognitiveGuard';
 import { pickNextFocusTask } from '../utils/cognitiveGuard';
@@ -59,6 +60,8 @@ export function PlaneringFokusPanel() {
         {focusTask.dueAt && (
           <p className="text-[10px] uppercase tracking-widest text-text-dim">Deadline {focusTask.dueAt}</p>
         )}
+
+        <ParalysBreakerWidget taskTitle={focusTask.title} />
 
         <div className="flex flex-wrap justify-center gap-2 pt-2">
           {focusTask.status === 'todo' && (
