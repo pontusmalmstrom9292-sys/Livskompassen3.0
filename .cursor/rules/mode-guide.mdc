@@ -1,0 +1,96 @@
+---
+description: Mode Guide — visar vilket Cursor-mode och cloud-alternativ som passar uppgiften. Alltid aktiv.
+alwaysApply: true
+---
+
+# Mode Guide — välj rätt verktyg för uppgiften
+
+Varje gång en ny uppgift startar, ange vilket mode som passar bäst. Pontus ska aldrig behöva gissa.
+
+## Cursor-modes
+
+| Mode | Svenska namnet | Använd när |
+|------|---------------|------------|
+| **Chat** | Vanlig chatt | Frågor, förklaringar, analys utan kodbyte |
+| **Plan** | Planeringsläge | Ska byggas något nytt — analysera och planera INNAN kod |
+| **Agent** | Agentläge | Aktiv kodning, bygge, redigering av filer |
+| **Composer** | Kompositör | Skapa nya filer/moduler från grunden |
+| **Background Agent** | Molnagent (GitHub Copilot) | Parallellt arbete i molnet — säkrare för stora uppgifter |
+
+## Rekommendation per uppgiftstyp
+
+| Uppgift | Rekommenderat mode | Varför |
+|---------|-------------------|--------|
+| "Förklara hur X fungerar" | Chat | Ingen kod behövs |
+| "Planera en ny funktion" | **Plan → Agent** | Planera först, bygg sen |
+| "Fixa ett fel" | Agent | Direkt kodredigering |
+| "Bygg en ny modul från grunden" | Composer → Agent | Skapar struktur, sen bygger |
+| "Kör nattpass / batch" | Agent + `npm run orkester:night` | Automatiserat flöde |
+| "Granskning / säkerhetsaudit" | Chat (`/yolo-vakt`) | Read-only analys |
+| "Stor refaktor av flera filer" | **Background Agent** | Moln — parallellt, ej riskar lokal kontext |
+| "Känslig ändring (regler, WORM)" | Plan → Background Agent | Kräver godkännande + molnsäkerhet |
+
+## Visa alltid detta när en ny uppgift börjar
+
+```
+📋 Rekommenderat mode för denna uppgift:
+[MODE-NAMN] — [Kort förklaring varför]
+
+[Om Background Agent är bättre → se nedan]
+```
+
+## Background Agent (Copilot Cloud Agent)
+
+Background Agent är Copilots molntjänst. Den kör i molnet, parallellt med din lokala session.
+
+### Fördelar
+- Påverkar inte din lokala Cursor-kontext
+- Kan köra längre, mer komplexa uppgifter
+- Säkrare för stora ändringar — du granskar och godkänner PR
+- Du kan fortsätta med annat medan den bygger
+
+### Föreslå Background Agent när:
+- Uppgiften berör **mer än 5 filer**
+- Uppgiften är en **stor refaktor** eller arkitekturell ändring
+- Uppgiften är **säkerhetskritisk** (firestore.rules, DCAP, WORM)
+- Du håller på med något annat och vill inte avbryta
+
+### Format — föreslå Background Agent
+
+```
+☁️ Alternativ: Bygg detta i molnet (Background Agent)
+
+Fördelar för just denna uppgift:
+- [Specifik fördel — t.ex. "Berör 8 filer, säkrare att isolera"]
+- Du kan fortsätta med [nuvarande uppgift] medan den bygger
+
+Nackdel: Tar lite längre (5–15 min) och kräver att du granskar PR.
+
+Välj:
+1. "bygg lokalt" — startar direkt här
+2. "bygg i molnet" — öppnar Background Agent med denna prompt
+```
+
+## Plan Mode — alltid vid ny funktion
+
+**Regel:** Starta alltid i Plan mode innan du börjar koda en ny funktion.
+
+Plan mode innebär:
+1. Läs relevant kanon och specs
+2. Analysera påverkan (vilka filer, vilka risker)
+3. Presentera plan på klarspråk
+4. Vänta på Pontus godkännande
+5. Sedan Agent mode för kodning
+
+**Säg alltid:**
+```
+🔍 Jag börjar i Plan mode.
+Låt mig analysera [uppgiften] innan vi skriver en rad kod.
+```
+
+## MUST NOT
+
+- Starta kodning utan att nämna vilket mode som används
+- Byta från Plan till Agent utan att Pontus sagt "gör det" eller "kör"
+- Använda Agent mode för ren analys (onödig risk)
+- Glömma att erbjuda Background Agent för stora/känsliga uppgifter

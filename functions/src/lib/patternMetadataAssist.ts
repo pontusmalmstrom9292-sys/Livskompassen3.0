@@ -1,12 +1,13 @@
 import { HttpsError } from 'firebase-functions/v2/https';
 import { createGenAI } from './genaiClient';
+import { GEMINI_PRO } from './modelRouter';
 import {
   TACTIC_PATTERN_DEFS,
   type TacticMatch,
   compileTacticPatterns,
 } from './tacticPatternLibrary';
 
-const PATTERN_ASSIST_MODEL = 'gemini-2.5-flash';
+const PATTERN_ASSIST_MODEL = GEMINI_PRO;
 
 const ALLOWED_PATTERN_IDS = new Set(TACTIC_PATTERN_DEFS.map((d) => d.id));
 

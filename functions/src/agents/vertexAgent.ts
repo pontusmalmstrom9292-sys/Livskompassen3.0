@@ -11,6 +11,7 @@ import {
   MABRA_MOVEMENT_COACH_SYSTEM_PROMPT,
 } from '../sharedRules';
 import { createGenAI } from '../lib/genaiClient';
+import { GEMINI_PRO, GEMINI_FLASH } from '../lib/modelRouter';
 import { appendAdaptationSemanticContext } from '../lib/adaptationSemanticContext';
 import {
   journalQuickMirrorFallback,
@@ -30,9 +31,9 @@ import {
 } from '../lib/mabraContentBank';
 import type { CoachTone } from '../../../shared/adaptation/adaptationTypes';
 
-const SPEGLINGS_MODEL = 'gemini-2.5-flash';
-const MABRA_COACH_MODEL = 'gemini-2.5-flash';
-const DAGBOK_SNABB_MODEL = 'gemini-2.5-flash';
+const SPEGLINGS_MODEL = GEMINI_FLASH;
+const MABRA_COACH_MODEL = GEMINI_FLASH;
+const DAGBOK_SNABB_MODEL = GEMINI_FLASH;
 
 export const askKnowledgeVault = async (prompt: string): Promise<string> => {
   try {
@@ -40,7 +41,7 @@ export const askKnowledgeVault = async (prompt: string): Promise<string> => {
 
     const ai = createGenAI();
     const response = await ai.models.generateContent({
-      model: 'gemini-1.5-pro',
+      model: GEMINI_PRO,
       contents: prompt,
       config: {
         systemInstruction: LIVSKOMPASSEN_SYSTEM_CONFIG.aiPersona.systemInstruction,
@@ -296,7 +297,7 @@ export const askUppgiftsKrossaren = async (
   try {
     const ai = createGenAI(geminiApiKey);
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: GEMINI_FLASH,
       contents: `Bryt ner denna uppgift: ${task}`,
       config: {
         systemInstruction: UPPGIFTS_KROSSAREN_SYSTEM_PROMPT,
@@ -334,7 +335,7 @@ export const askVoiceParser = async (
   try {
     const ai = createGenAI(geminiApiKey);
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: GEMINI_FLASH,
       contents: `Analysera denna text: ${transcribedText}`,
       config: {
         systemInstruction: VOICE_TO_VAULT_SYSTEM_PROMPT,

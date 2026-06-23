@@ -1,0 +1,80 @@
+# Labeler-konfiguration — kopplar filmönster till PR-etiketter.
+# actions/labeler v5 format.
+
+"🔒 säkerhet":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "firestore.rules"
+      - "storage.rules"
+      - "functions/src/agents/DCAP.ts"
+      - "functions/src/lib/dcapEscalation.ts"
+      - "functions/src/lib/callableGuards.ts"
+      - ".context/security.md"
+
+"🗄️ valvet":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "src/modules/features/lifeJournal/evidence/vault/**"
+      - "src/modules/features/lifeJournal/evidence/vaultChat/**"
+      - "functions/src/agents/valvChatAgent.ts"
+      - "functions/src/callables/valv*.ts"
+
+"👨‍👩‍👧 familjen":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "src/modules/features/family/**"
+      - "src/modules/features/children/**"
+      - "functions/src/agents/childrenLogsAgent.ts"
+
+"📋 planering":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "src/modules/features/admin/planning/**"
+      - "src/modules/core/components/Fyren*.tsx"
+      - "src/modules/core/home/**"
+
+"🤖 backend":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "functions/src/**"
+      - "functions/package.json"
+
+"🎨 design":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "src/**/*.tsx"
+      - "src/**/*.css"
+      - "tailwind.config.*"
+      - "src/modules/core/design/**"
+
+"📦 beroenden":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "package.json"
+      - "package-lock.json"
+      - "functions/package.json"
+      - "functions/package-lock.json"
+
+"⚙️ konfiguration":
+  - changed-files:
+    - any-glob-to-any-file:
+      - ".cursor/**"
+      - ".github/**"
+      - "firebase.json"
+      - "vite.config.*"
+      - "tsconfig*.json"
+
+"🧪 tester":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "scripts/smoke_*.mjs"
+      - "e2e/**"
+      - "src/**/*.test.*"
+      - "src/**/*.spec.*"
+
+"📚 dokumentation":
+  - changed-files:
+    - any-glob-to-any-file:
+      - "docs/**"
+      - "*.md"
+      - ".context/**"

@@ -1,8 +1,7 @@
-import { genkit } from 'genkit';
-import { vertexAI, gemini15Flash } from '@genkit-ai/vertexai';
 import type { A2AMessage } from '../../agents/types';
-import { GCP_PROJECT_ID, GCP_REGION } from '../../config';
 import { getAgentSystemPrompt } from '../../sharedRules';
+import { createGenAI } from '../../lib/genaiClient';
+import { selectModel, autoSelectTier } from '../../lib/modelRouter';
 import { getOrCreateCache, generateWithCache } from '../../lib/vertexCache';
 
 function buildUserPrompt(message: A2AMessage): string {
@@ -14,7 +13,9 @@ function buildUserPrompt(message: A2AMessage): string {
 }
 
 /**
- * AgentExecutor — kör A2A-meddelande mot Vertex med prompt från sharedRules.
+ * AgentExecutor — kör A2A-meddelande mot Gemini.
+ * Modell väljs automatiskt: 3.1 Pro för djup analys, 3.5 Flash för snabba uppgifter.
+ * Använder GEMINI_API_KEY (AI Studio, gratis) om satt, annars Vertex ADC.
  */
 export async function runExecutor(
   executorId: string,
@@ -24,7 +25,12 @@ export async function runExecutor(
   const systemInstruction = getAgentSystemPrompt(executorId, message.intent);
   const contextId = message.contextId ?? 'anonymous';
 
-  if (ragContext.length > 0) {
+  const tier = autoSelectTier(message.intent, executorId);
+  const modelId = selectModel(tier);
+
+  console.log(`[runExecutor] ${executorId} intent=${message.intent} → model=${modelId}`);
+
+  if (ragContext.length > 0 && !process.env.GEMINI_API_KEY) {
     const cached = await getOrCreateCache(`adk_${executorId}_${contextId}`, {
       systemInstruction,
       backgroundDocuments: ragContext,
@@ -38,16 +44,20 @@ export async function runExecutor(
     }
   }
 
-  const ai = genkit({
-    plugins: [vertexAI({ projectId: GCP_PROJECT_ID, location: GCP_REGION })],
+  const ai = createGenAI();
+  const userPrompt = ragContext.length > 0
+    ? `${buildUserPrompt(message)}\n\nBAKGRUNDSKONTEXT:\n${ragContext.join('\n\n---\n\n')}`
+    : buildUserPrompt(message);
+
+  const response = await ai.models.generateContent({
+    model: modelId,
+    contents: userPrompt,
+    config: {
+      systemInstruction,
+      temperature: tier === 'pro' ? 0.15 : 0.2,
+      maxOutputTokens: tier === 'pro' ? 2048 : 1024,
+    },
   });
 
-  const { text } = await ai.generate({
-    model: gemini15Flash,
-    system: systemInstruction,
-    prompt: buildUserPrompt(message),
-    config: { temperature: 0.2, maxOutputTokens: 1024 }
-  });
-
-  return text ?? '';
+  return response.text ?? '';
 }

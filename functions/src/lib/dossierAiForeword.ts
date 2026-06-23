@@ -1,8 +1,9 @@
 import { HttpsError } from 'firebase-functions/v2/https';
 import { createGenAI } from './genaiClient';
+import { GEMINI_PRO } from './modelRouter';
 import type { CanonicalDossierEntry } from './dossierCanonicalHash';
 
-const DOSSIER_AI_MODEL = 'gemini-2.5-flash';
+const DOSSIER_AI_MODEL = GEMINI_PRO;
 
 import { DOSSIER_FOREWORD_RESPONSE_SCHEMA } from '../schemas/dossierForeword';
 
