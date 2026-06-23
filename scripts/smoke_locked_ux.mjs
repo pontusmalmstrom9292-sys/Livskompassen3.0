@@ -314,8 +314,8 @@ function main() {
   mustInclude(
     'src/modules/core/home/HomeLayoutA.tsx',
     'CalmCollapsible',
-    'getHomeSuperhubShortcutsForPreset',
-    'home-layout-a__snabbval',
+    'HOME_SUPERHUB_ROUTES',
+    'QUICK_CAPTURE',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx',

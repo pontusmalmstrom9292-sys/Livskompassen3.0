@@ -154,6 +154,22 @@
     --border-strong: rgba(99, 102, 241, 0.22);
   }
 
+  html[data-theme='E-skymning-darkest'] {
+    --bg-teal-deep: #000000;
+    --bg: #000000;
+    --bg-dusk: #020202;
+    --surface: #020202;
+    --surface-2: #040404;
+    --surface-3: #080808;
+    --compass-disk: #021010;
+    --accent: #9f852b;
+    --accent-secondary: #4338ca;
+    --accent-light: #b4a055;
+    --accent-ai: #4f46e5;
+    --success: #059669;
+    --border-strong: rgba(255, 255, 255, 0.1);
+  }
+
   /* Theme Pack I — CSS fallbacks (runtime: applyTheme + themeRegistry.ts) */
   html[data-theme='I-stone'],
   html[data-theme^='I-stone-draft'] {

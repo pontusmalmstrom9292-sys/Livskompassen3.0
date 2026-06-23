@@ -1,7 +1,7 @@
 import type { ThemePack } from './types';
 import { THEME_SHARED_VARS } from './themeShared';
 import { THEME_PACK_DESIGN } from './themePackDesign';
-import { THEME_PACK_E_PROD } from './themePackE';
+import { THEME_PACK_E_PROD, THEME_PACK_E_DARKEST } from './themePackE';
 import { THEME_PACK_MOCKUP } from './themePackMockup';
 import { THEME_PACK_K } from './themePackK';
 import { THEME_PACK_REDESIGN_A } from './themePackRedesignA';
@@ -20,6 +20,7 @@ export const THEME_REGISTRY: ThemePack[] = [
   ...THEME_PACK_MOCKUP,
   ...THEME_PACK_REDESIGN_C,
   THEME_PACK_E_PROD,
+  THEME_PACK_E_DARKEST,
   {
     id: 'I-stone',
     label: 'Architect Stone',
