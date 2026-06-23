@@ -24,6 +24,7 @@ type ChatWithKompisResponse = {
 
 const EXPERTS = [
   { id: 'default', label: 'Vännen', description: 'Empatisk & lyssnande' },
+  { id: 'speglingscoachen', label: 'Bara Lyssna', description: 'Validerar utan att ge råd' },
   { id: 'reality_checker', label: 'Verklighet', description: 'Motverkar gaslighting' },
   { id: 'adhd_coach', label: 'ADHD-Coach', description: 'Bryter paralys' },
 ];
@@ -137,15 +138,15 @@ export function KompisChat() {
                   <ReactMarkdown
                     remarkPlugins={[remarkGfm]}
                     components={{
-                      p: ({ node, ...props }) => <p className="mb-2 last:mb-0" {...props} />,
-                      ul: ({ node, ...props }) => <ul className="list-disc pl-5 mb-2 last:mb-0 space-y-1" {...props} />,
-                      ol: ({ node, ...props }) => <ol className="list-decimal pl-5 mb-2 last:mb-0 space-y-1" {...props} />,
-                      li: ({ node, ...props }) => <li {...props} />,
-                      strong: ({ node, ...props }) => <strong className="font-semibold" {...props} />,
-                      a: ({ node, ...props }) => <a className="text-accent hover:underline" {...props} />,
-                      h1: ({ node, ...props }) => <h1 className="text-lg font-bold mb-2" {...props} />,
-                      h2: ({ node, ...props }) => <h2 className="text-base font-bold mb-2" {...props} />,
-                      h3: ({ node, ...props }) => <h3 className="text-sm font-bold mb-2" {...props} />,
+                      p: ({ node: _node, ...props }) => <p className="mb-2 last:mb-0" {...props} />,
+                      ul: ({ node: _node, ...props }) => <ul className="list-disc pl-5 mb-2 last:mb-0 space-y-1" {...props} />,
+                      ol: ({ node: _node, ...props }) => <ol className="list-decimal pl-5 mb-2 last:mb-0 space-y-1" {...props} />,
+                      li: ({ node: _node, ...props }) => <li {...props} />,
+                      strong: ({ node: _node, ...props }) => <strong className="font-semibold" {...props} />,
+                      a: ({ node: _node, ...props }) => <a className="text-accent hover:underline" {...props} />,
+                      h1: ({ node: _node, ...props }) => <h1 className="text-lg font-bold mb-2" {...props} />,
+                      h2: ({ node: _node, ...props }) => <h2 className="text-base font-bold mb-2" {...props} />,
+                      h3: ({ node: _node, ...props }) => <h3 className="text-sm font-bold mb-2" {...props} />,
                     }}
                   >
                     {msg.parts[0].text}
