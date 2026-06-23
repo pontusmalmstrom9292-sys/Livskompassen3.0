@@ -45,17 +45,17 @@ async function fetchVectorRagExcerpts(uid: string, text: string): Promise<string
 
   try {
     const embedding = await generateEmbeddingInternal(text);
-    const docIds = await queryKampsparVectorNeighbors(embedding, 5);
-    if (docIds.length === 0) return [];
+    const neighbors = await queryKampsparVectorNeighbors(embedding, 5);
+    if (neighbors.length === 0) return [];
 
     const db = admin.firestore();
     const lines: string[] = [];
-    for (const id of docIds) {
-      const snap = await db.collection('kampspar').doc(id).get();
+    for (const { docId, collection } of neighbors) {
+      const snap = await db.collection(collection).doc(docId).get();
       if (!snap.exists) continue;
       const data = snap.data()!;
       if (data.ownerId !== uid && data.userId !== uid) continue;
-      lines.push(`[kampspar:${id}] ${truncate(String(data.content ?? data.text ?? ''))}`);
+      lines.push(`[${collection}:${docId}] ${truncate(String(data.content ?? data.text ?? ''))}`);
     }
     return lines;
   } catch (err) {

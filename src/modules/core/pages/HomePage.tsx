@@ -13,9 +13,10 @@ import { useTheme } from '../theme';
 import { getTheme } from '../theme';
 import { isMockupTheme } from '../theme/mockupTheme';
 import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
-import { ChameleonLive } from './ChameleonLive';
-import { getDefaultTarget, type ChameleonTarget } from './chameleonBridge';
-import type { ChameleonZoneId } from './chameleonZones';
+import { ChameleonLive } from '../home/ChameleonLive';
+import { getDefaultTarget, type ChameleonTarget } from '../home/chameleonBridge';
+import type { ChameleonZoneId } from '../home/chameleonZones';
+
 
 export function HomePage() {
   const navigate = useNavigate();

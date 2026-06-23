@@ -16,21 +16,13 @@ import {
 import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
 import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
 
-const HjartatPage = lazy(() =>
-  import('@/core/pages/DagbokPage').then((m) => ({ default: m.HjartatPage })),
-);
 const ValvetRoutePage = lazy(() =>
   import('../pages/ValvetRoutePage').then((m) => ({ default: m.ValvetRoutePage })),
 );
 const VaultSettingsPage = lazy(() =>
   import('@/features/lifeJournal/evidence/vault/components/VaultSettingsPage').then((m) => ({ default: m.VaultSettingsPage })),
 );
-const FamiljenPage = lazy(() =>
-  import('../pages/FamiljenPage').then((m) => ({ default: m.FamiljenPage })),
-);
-const LivLauncherPage = lazy(() =>
-  import('@/modules/shell/LivLauncherPage').then((m) => ({ default: m.LivLauncherPage })),
-);
+
 const KompisHubPage = lazy(() =>
   import('@/features/lifeJournal/evidence/kompis').then((m) => ({ default: m.KompisHubPage })),
 );

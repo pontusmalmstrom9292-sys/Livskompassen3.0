@@ -43,18 +43,18 @@ async function fetchKampsparEvidenceAnn(
   limit: number
 ): Promise<KampsparEvidenceChunk[]> {
   const embedding = await generateEmbeddingInternal(question);
-  const neighborDocIds = await queryKampsparVectorNeighbors(embedding, limit);
-  if (neighborDocIds.length === 0) return [];
+  const neighbors = await queryKampsparVectorNeighbors(embedding, limit);
+  if (neighbors.length === 0) return [];
 
   const db = admin.firestore();
   const chunks: KampsparEvidenceChunk[] = [];
 
-  for (const docId of neighborDocIds) {
-    const doc = await db.collection('kampspar').doc(docId).get();
+  for (const { docId, collection } of neighbors) {
+    const doc = await db.collection(collection).doc(docId).get();
     if (!doc.exists) continue;
     const data = doc.data();
     if (!data || data.ownerId !== uid) continue;
-    chunks.push(chunkFromDoc('kampspar', docId, data));
+    chunks.push(chunkFromDoc(collection, docId, data));
   }
 
   if (chunks.length > 0) {

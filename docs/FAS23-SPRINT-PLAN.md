@@ -10,9 +10,9 @@ Fokus ligger på UI, UX och routing för att minska tröskeln för interaktion d
 
 ### Huvuduppgifter
 - [ ] **Paralys-Brytare Mini-Widget i Planering:** Återanvänd logik från "Uppgifts-Krossaren" direkt i planeringen. En knapp ("Bryt ner") som tar en överväldigande uppgift och genererar 3 mikrosteg.
-- [ ] **"Töm Skallen" (Audio-inkast):** Bygg in Web Speech API i Inkast-vyn för att transkribera röst till text. Radera ljudfilen omedelbart (Zero Footprint).
-- [ ] **"Bara ord"-inmatning:** Extremt låg tröskel där användaren bara trycker på 3-5 förvalda känsloord istället för att skriva.
-- [ ] **"Bara Lyssna"-toggle:** Inställning i chatten/inkastet som tvingar "Speglings-Coachen" att enbart validera, utan råd eller frågor.
+- [x] **"Töm Skallen" (Audio-inkast):** Bygg in Web Speech API i Inkast-vyn för att transkribera röst till text. Radera ljudfilen omedelbart (Zero Footprint).
+- [x] **"Bara ord"-inmatning:** Extremt låg tröskel där användaren bara trycker på 3-5 förvalda känsloord istället för att skriva.
+- [x] **"Bara Lyssna"-toggle:** Inställning i chatten/inkastet som tvingar "Speglings-Coachen" att enbart validera, utan råd eller frågor.
 
 ### UI & Layout Polering (7-10 Punkters Masterplan)
 1. **Delade Design Tokens** – Konsekvent utseende (hörnradie 8-14px, samma färgskalor) för alla Superhubbar.
@@ -38,7 +38,7 @@ Dessa bygger vidare på existerande komponenter utan att äventyra Zero Footprin
 7. **Barnfokus: Åldersanpassade Frågor:** Stöd `minAge`/`maxAge` i `BARNFOKUS_QUESTIONS`.
 8. **Mönster-Highlight i Valvet:** Ren visuell regex-highlighting av trigger-ord i existerande bevis.
 9. **Arbetsliv: "Gick hem"-knapp:** Kognitiv avstängning av jobbet.
-10. **"Ångra Inkast" (Inom 10 sekunder):** Frontend-timer/debounce före Firestore-sparning.
+10. ~~**"Ångra Inkast" (Inom 10 sekunder):** Frontend-timer/debounce före Firestore-sparning.~~ *(REDAN BYGGT)*
 11. **Tysta Notiser ("Ghost Mode"):** Visuell dämpning av alla toasts (Plausible deniability).
 12. **Sök-autokomplettering i Kunskapsbanken:** Snabbare sök via in-memory indexering.
 13. **Sammanfogad "Veckans Puls" Dashboard:** Enkel graf över veckans energi.

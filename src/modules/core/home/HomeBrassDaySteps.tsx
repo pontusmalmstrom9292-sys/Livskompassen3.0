@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Check } from 'lucide-react';
 import { clsx } from 'clsx';
 import { usePlanningTasks } from '@/features/admin/planning/hooks/usePlanningTasks';
 import type { PlanningTask } from '@/features/admin/planning/types';
@@ -86,7 +86,7 @@ export function HomeBrassDaySteps({ variant = 'calm' }: Props) {
                           "w-4 h-4 flex items-center justify-center rounded border transition-colors",
                           isWaiting 
                             ? "border-dashed border-text-dim" 
-                            : "border-accent/40 group-hover:border-accent",
+                            : "border-accent/40 group-hover:border-accent bg-accent/5",
                           isBusy && "bg-accent/10"
                         )}
                         aria-hidden
@@ -94,7 +94,7 @@ export function HomeBrassDaySteps({ variant = 'calm' }: Props) {
                         {isBusy ? (
                           <Loader2 className="w-2.5 h-2.5 animate-spin text-accent" />
                         ) : (
-                          <span className="w-1.5 h-1.5 rounded-xs group-hover:bg-accent/40 transition-colors" />
+                          <Check className="w-3 h-3 text-accent opacity-0 group-hover:opacity-100 transition-opacity" />
                         )}
                       </span>
                       <span className={clsx(
@@ -118,7 +118,7 @@ export function HomeBrassDaySteps({ variant = 'calm' }: Props) {
         )}
       </div>
 
-      <div className="pt-2 border-t border-border/5 mt-auto">
+      <div className="pt-2 border-t border-border/5 mt-auto flex justify-center w-full">
         <Link 
           to={HOME_SUPERHUB_ROUTES.planeringHub} 
           className="text-[10px] font-semibold text-accent hover:text-accent-light transition-colors flex items-center gap-1"

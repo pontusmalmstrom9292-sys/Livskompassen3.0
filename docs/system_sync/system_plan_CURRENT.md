@@ -341,8 +341,8 @@ När en Superhub-modul har **implementerats, testats och godkänts** av teknikle
 
 | Prioritet | Spår | Status |
 |-----------|------|--------|
-| **23A** | **Globalt Pansarläge (Survival Mode)** — extrem offloading | TODO |
-| **23B** | **Töm Skallen-vy (Inkast-Dyk)** | TODO |
+| **23A** | **Globalt Pansarläge (Survival Mode)** — extrem offloading | **done** |
+| **23B** | **Töm Skallen-vy (Inkast-Dyk)** | **done** (Bara ord + Lyssna) |
 | **23C** | **"Sista Utvägen" (MåBra Akut)** — SOS Ankare | TODO |
 | **23D** | Paralys-Brytaren i Planering | TODO |
 | **23E** | Tyst Läge (Darkest Mode) i Superdagbok | TODO |

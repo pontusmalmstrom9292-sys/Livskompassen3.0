@@ -15,6 +15,15 @@ export function parseKampsparDatapointId(datapointId: string): string | null {
   return datapointId.slice('kampspar:'.length);
 }
 
+export function kbDatapointId(docId: string): string {
+  return `kb:${docId}`;
+}
+
+export function parseKbDatapointId(datapointId: string): string | null {
+  if (!datapointId.startsWith('kb:')) return null;
+  return datapointId.slice('kb:'.length);
+}
+
 export function vaultDatapointId(docId: string): string {
   return `vault:${docId}`;
 }
@@ -44,11 +53,16 @@ export function isVectorSearchConfigured(): boolean {
   return getAnnConfig() !== null;
 }
 
-/** ANN query — returns kampspar docIds. Empty if endpoint ej live. */
+export interface VectorNeighbor {
+  docId: string;
+  collection: 'kampspar' | 'kb_docs';
+}
+
+/** ANN query — returns kampspar and kb_docs neighbors. Empty if endpoint ej live. */
 export async function queryKampsparVectorNeighbors(
   embedding: number[],
   neighborCount = 12
-): Promise<string[]> {
+): Promise<VectorNeighbor[]> {
   const cfg = getAnnConfig();
   if (!cfg || embedding.length === 0) return [];
 
@@ -75,12 +89,20 @@ export async function queryKampsparVectorNeighbors(
     });
 
     const neighbors = response.nearestNeighbors?.[0]?.neighbors ?? [];
-    const docIds: string[] = [];
+    const docIds: VectorNeighbor[] = [];
     for (const n of neighbors) {
       const id = n.datapoint?.datapointId;
       if (!id) continue;
-      const docId = parseKampsparDatapointId(id);
-      if (docId) docIds.push(docId);
+      const kampsparId = parseKampsparDatapointId(id);
+      if (kampsparId) {
+        docIds.push({ docId: kampsparId, collection: 'kampspar' });
+        continue;
+      }
+      const kbId = parseKbDatapointId(id);
+      if (kbId) {
+        docIds.push({ docId: kbId, collection: 'kb_docs' });
+        continue;
+      }
     }
     return docIds;
   } catch (err) {
@@ -185,5 +207,32 @@ export async function upsertVaultVector(docId: string, embedding: number[]): Pro
     });
   } catch (err) {
     console.warn(`[vectorSearch] upsert Vault misslyckades docId=${docId}:`, err);
+  }
+}
+
+/** Upsert embedding till Vector Search index for kb_docs. */
+export async function upsertKbVector(docId: string, embedding: number[]): Promise<void> {
+  if (embedding.length === 0) return;
+
+  const indexId = getIndexId();
+
+  try {
+    const { IndexServiceClient } = await import('@google-cloud/aiplatform');
+    const client = new IndexServiceClient({
+      apiEndpoint: `${LOCATION}-aiplatform.googleapis.com`,
+    });
+
+    const index = `projects/${GCP_PROJECT_ID}/locations/${LOCATION}/indexes/${indexId}`;
+    await client.upsertDatapoints({
+      index,
+      datapoints: [
+        {
+          datapointId: kbDatapointId(docId),
+          featureVector: embedding,
+        },
+      ],
+    });
+  } catch (err) {
+    console.warn(`[vectorSearch] upsert kb_docs misslyckades docId=${docId}:`, err);
   }
 }
