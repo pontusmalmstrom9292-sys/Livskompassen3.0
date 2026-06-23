@@ -14,6 +14,7 @@ import {
   canonicalValvRoute,
   resolveValvInputModeFromVaultTab,
   vaultTabForValvInputMode,
+  parseValvInputModeFromSearch,
   type ValvInputMode,
 } from '@/features/lifeJournal/evidence/vault/supermodule/valvInputModes';
 

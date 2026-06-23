@@ -96,7 +96,7 @@ function main() {
     'weaveJournalEntry',
     'journalWovenToKampspar',
     'if (hasVaultGate())',
-    'weaveJournalEntry({ journalEntryId: id, mood, text: entryText })',
+    'weaveJournalEntry({ journalEntryId: id, mood, text: finalEntryText })',
   );
   mustNotInclude(
     'src/modules/features/lifeJournal/diary/diary/hooks/useJournalFlow.ts',

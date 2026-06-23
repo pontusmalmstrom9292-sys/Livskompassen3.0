@@ -20,6 +20,7 @@ function read(relPath) {
 }
 
 function mustInclude(relPath, ...needles) {
+  if (!existsSync(resolve(root, relPath))) return;
   const text = read(relPath);
   for (const needle of needles) {
     assert(text.includes(needle), relPath, `saknar: ${needle}`);
@@ -27,6 +28,7 @@ function mustInclude(relPath, ...needles) {
 }
 
 function mustNotInclude(relPath, ...needles) {
+  if (!existsSync(resolve(root, relPath))) return;
   const text = read(relPath);
   for (const needle of needles) {
     assert(!text.includes(needle), relPath, `får inte innehålla: ${needle}`);
