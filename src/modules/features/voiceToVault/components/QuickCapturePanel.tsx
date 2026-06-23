@@ -4,6 +4,7 @@ import { useQuickCaptureStore } from '../store/useQuickCaptureStore';
 import { speechService } from '../services/speechService';
 import { parseVoiceCommand } from '../api/voiceCommandService';
 import { fetchSpeglingsMirror } from '@/modules/features/lifeJournal/diary/mirror/api/speglingsCoachService';
+import { MOOD_CATALOG } from '@/modules/features/lifeJournal/diary/diary/constants/moods';
 
 type Props = {
   onDone?: () => void;
@@ -80,16 +81,41 @@ export function QuickCapturePanel({ onDone, compact = false }: Props) {
     }
   };
 
+  const handleMoodClick = (label: string) => {
+    const current = transcript.trim();
+    if (!current) {
+      setTranscript(label);
+    } else {
+      setTranscript(current + ', ' + label.toLowerCase());
+    }
+  };
+
   return (
     <div className={compact ? 'space-y-4' : 'space-y-6'}>
-      <textarea
-        value={transcript}
-        onChange={(e) => setTranscript(e.target.value)}
-        placeholder="Börja prata, eller skriv din anteckning här..."
-        className={`w-full resize-none rounded-xl border border-border bg-surface/40 p-4 text-text placeholder:text-text-dim focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/50 ${
-          compact ? 'h-28 text-sm' : 'h-32'
-        }`}
-      />
+      <div className="space-y-3">
+        <textarea
+          value={transcript}
+          onChange={(e) => setTranscript(e.target.value)}
+          placeholder="Börja prata, eller skriv din anteckning här..."
+          className={`w-full resize-none rounded-xl border border-border bg-surface/40 p-4 text-text placeholder:text-text-dim focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/50 ${
+            compact ? 'h-28 text-sm' : 'h-32'
+          }`}
+        />
+        
+        {/* Bara ord-inmatning */}
+        <div className="scrollbar-hide flex items-center gap-2 overflow-x-auto pb-1">
+          {MOOD_CATALOG.map((mood) => (
+            <button
+              key={mood.id}
+              type="button"
+              onClick={() => handleMoodClick(mood.label)}
+              className="shrink-0 rounded-full border border-border bg-surface/50 px-3 py-1.5 text-sm text-text-muted transition-colors hover:border-accent/30 hover:bg-surface hover:text-text active:scale-95"
+            >
+              {mood.emoji} {mood.label}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="flex items-center justify-between gap-3">
         <button
