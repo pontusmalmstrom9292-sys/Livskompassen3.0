@@ -88,7 +88,7 @@ export function QuickCapturePanel({ onDone, compact = false }: Props) {
           onClick={handleToggleRecording}
           className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full transition-all ${
             isRecording
-              ? 'animate-pulse border border-red-500/50 bg-red-500/20 text-red-400'
+              ? 'animate-pulse border border-accent/50 bg-accent/20 text-accent shadow-[0_0_15px_rgba(212,175,55,0.3)]'
               : 'border border-accent/30 bg-accent/10 text-accent hover:bg-accent/20'
           }`}
           aria-label={isRecording ? 'Stoppa inspelning' : 'Starta inspelning'}

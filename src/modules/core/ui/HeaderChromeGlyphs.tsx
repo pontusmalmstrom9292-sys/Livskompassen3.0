@@ -44,22 +44,24 @@ export function HeaderMenuGlyph({ className }: Props) {
   );
 }
 
-/** Konto — lås (ej inloggad). */
+/** Konto — lås (ej inloggad) - dämpad för plausible deniability. */
 export function HeaderLockGlyph({ className }: Props) {
   const uid = useId().replace(/:/g, '');
   const g = `hlg-${uid}`;
   return (
     <HeaderGlyphSvg className={className}>
       <GoldGradient id={g} />
-      <path
-        d="M8 11V8.5a4 4 0 1 1 8 0V11"
-        stroke={`url(#${g})`}
-        strokeWidth="1.65"
-        strokeLinecap="round"
-      />
-      <rect x="6.5" y="11" width="11" height="8.5" rx="2" stroke={`url(#${g})`} strokeWidth="1.65" />
-      <circle cx="12" cy="15" r="1.2" fill={`url(#${g})`} />
-      <path d="M12 16.2v1.6" stroke={`url(#${g})`} strokeWidth="1.3" strokeLinecap="round" />
+      <g opacity="0.4">
+        <path
+          d="M8 11V8.5a4 4 0 1 1 8 0V11"
+          stroke={`url(#${g})`}
+          strokeWidth="1.65"
+          strokeLinecap="round"
+        />
+        <rect x="6.5" y="11" width="11" height="8.5" rx="2" stroke={`url(#${g})`} strokeWidth="1.65" />
+        <circle cx="12" cy="15" r="1.2" fill={`url(#${g})`} />
+        <path d="M12 16.2v1.6" stroke={`url(#${g})`} strokeWidth="1.3" strokeLinecap="round" />
+      </g>
     </HeaderGlyphSvg>
   );
 }

@@ -47,7 +47,7 @@ function DashboardHubContent() {
           <h1 className="text-3xl font-bold tracking-tight text-white/90">Dagens Översikt</h1>
           <button
             onClick={() => setZenMode(true)}
-            className="px-4 py-2 bg-red-500/20 text-red-100 hover:bg-red-500/30 border border-red-500/30 rounded-lg text-sm font-medium transition-colors"
+            className="px-4 py-2 bg-surface-3/50 hover:bg-surface-3 text-text-muted hover:text-text border border-border/40 hover:border-border rounded-lg text-sm font-medium transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)]"
           >
             Överväldigad?
           </button>
