@@ -23,6 +23,38 @@ type ValvChatPanelProps = {
   logs?: (VaultLog & { id: string })[];
 };
 
+function renderTextWithCitations(
+  text: string,
+  citations?: ValvChatCitation[],
+  onCitationClick?: (docId: string) => void
+) {
+  if (!citations || citations.length === 0 || !onCitationClick) return text;
+
+  // Dela texten på mönstret [1], [2], etc.
+  const parts = text.split(/(\[\d+\])/g);
+  return parts.map((part, i) => {
+    const match = part.match(/\[(\d+)\]/);
+    if (match) {
+      const index = parseInt(match[1], 10) - 1;
+      const citation = citations[index];
+      if (citation) {
+        return (
+          <button
+            key={i}
+            type="button"
+            onClick={() => onCitationClick(citation.docId)}
+            className="inline-flex items-center justify-center px-1 py-0.5 mx-0.5 text-[10px] font-bold text-success border border-success/30 bg-success/10 rounded hover:bg-success/20 transition-colors cursor-pointer"
+            title="Granska källan"
+          >
+            {part}
+          </button>
+        );
+      }
+    }
+    return <span key={i}>{part}</span>;
+  });
+}
+
 function CitationList({
   citations,
   onCitationClick,
@@ -79,7 +111,9 @@ function ChatBubble({
               : 'rounded-bl-sm calm-card border border-border text-text-muted'
           }`}
         >
-          <div className="whitespace-pre-wrap text-sm leading-relaxed">{msg.text}</div>
+          <div className="whitespace-pre-wrap text-sm leading-relaxed">
+            {renderTextWithCitations(msg.text, msg.citations, onCitationClick)}
+          </div>
           {msg.role === 'assistant' && msg.theoryWithoutEvidence && <TheoryWithoutEvidenceBadge />}
           {msg.role === 'assistant' && (
             <AgentResponseFooter

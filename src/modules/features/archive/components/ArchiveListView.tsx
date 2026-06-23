@@ -15,7 +15,8 @@ import {
   Lightbulb, 
   CheckSquare,
   Clock,
-  Heart
+  Heart,
+  Lock
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -259,6 +260,7 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                                             <div className="flex items-center gap-1.5 text-purple-400">
                                               <Shield className="w-3.5 h-3.5" />
                                               <span className="text-[10px] font-bold uppercase tracking-wider">Valvsbevis</span>
+                                              <Lock className="w-3 h-3 ml-1 opacity-70" aria-label="WORM-skyddad" />
                                             </div>
                                           )}
                                         </div>

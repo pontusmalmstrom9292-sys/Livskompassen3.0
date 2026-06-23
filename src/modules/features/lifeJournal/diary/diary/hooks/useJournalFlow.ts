@@ -48,6 +48,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
   const [error, setError] = useState<string | null>(null);
   const [entries, setEntries] = useState<JournalEntry[]>([]);
   const [weaveToKampspar, setWeaveToKampspar] = useState(false);
+  const [validateOnly, setValidateOnly] = useState(false);
   const [quickJustSaved, setQuickJustSaved] = useState(false);
   const [quickMirror, setQuickMirror] = useState<JournalQuickMirrorResponse | null>(null);
   const [quickMirrorLoading, setQuickMirrorLoading] = useState(false);
@@ -68,6 +69,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       setSaving(false);
       setError(null);
       setWeaveToKampspar(false);
+      setValidateOnly(false);
       setQuickJustSaved(false);
       setQuickMirror(null);
       setQuickMirrorLoading(false);
@@ -147,11 +149,15 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
         }
       }
 
+      const finalEntryText = validateOnly 
+        ? `${entryText}\n\n[RULE: VALIDATE ONLY. NO ADVICE. NO FIXING.]` 
+        : entryText;
+
       const id = await saveJournalEntry(
         userId,
         {
           mood,
-          text: entryText,
+          text: finalEntryText,
           tags: opts.tags?.length ? opts.tags : undefined,
           category: opts.category ?? category,
           attachment,
@@ -160,10 +166,10 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       );
       setLastSavedEntryId(id);
       if (hasVaultGate()) {
-        weaveJournalEntry({ journalEntryId: id, mood, text: entryText });
+        weaveJournalEntry({ journalEntryId: id, mood, text: finalEntryText });
       }
       if (optInKampspar) {
-        journalWovenToKampspar({ journalEntryId: id, mood, text: entryText });
+        journalWovenToKampspar({ journalEntryId: id, mood, text: finalEntryText });
       }
       setWeaveToKampspar(false);
       setPendingMemoryFile(null);
@@ -181,7 +187,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       } catch (refreshErr) {
         console.warn('[Dagbok] refreshEntries after save failed', refreshErr);
       }
-      toast.success('Din reflektion är sparad i Hjärtat');
+      toast.success('Dina tankar är i säkert förvar. Du kan släppa dem nu.');
       return true;
     } catch (err) {
       const msg = uploadedAttachment
@@ -277,11 +283,13 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     error,
     entries,
     weaveToKampspar,
+    validateOnly,
     quickJustSaved,
     quickMirror,
     quickMirrorLoading,
     lastSavedEntryId,
     setWeaveToKampspar,
+    setValidateOnly,
     setCategory,
     setPendingMemoryFile,
     setMemoryError,

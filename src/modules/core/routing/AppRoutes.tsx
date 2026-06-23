@@ -290,7 +290,16 @@ function RedirectLivToVardagen() {
   return <Navigate to={NAV_PATHS.VARDAGEN} replace />;
 }
 
+import { usePansarStore } from '@/modules/core/store/usePansarStore';
+import { GlobalPansarView } from '@/modules/features/pansar/GlobalPansarView';
+
 export function AppRoutes() {
+  const isPansarActive = usePansarStore((state) => state.isPansarActive);
+
+  if (isPansarActive) {
+    return <GlobalPansarView />;
+  }
+
   return (
     <Routes>
       <Route path="/widget/*" element={<WidgetRoutes />} />

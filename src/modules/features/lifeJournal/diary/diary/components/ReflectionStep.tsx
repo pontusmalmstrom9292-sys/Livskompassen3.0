@@ -30,6 +30,9 @@ type ReflectionStepProps = {
   onBack: () => void;
   onContinue: () => void;
   lowEnergyBridge?: boolean;
+  lowCapacity?: boolean;
+  validateOnly?: boolean;
+  onValidateOnlyChange?: (val: boolean) => void;
   onSaveWithoutText?: () => void;
   saving?: boolean;
 };
@@ -47,6 +50,9 @@ export function ReflectionStep({
   onBack,
   onContinue,
   lowEnergyBridge = false,
+  lowCapacity = false,
+  validateOnly = false,
+  onValidateOnlyChange,
   onSaveWithoutText,
   saving = false,
 }: ReflectionStepProps) {
@@ -126,9 +132,11 @@ export function ReflectionStep({
           text={text}
           onChange={onTextChange}
           placeholder={
-            lowEnergyBridge
-              ? 'En kort rad räcker...'
-              : moodPrompt ?? 'Skriv vad du vill – ingen perfekt text.'
+            lowCapacity
+              ? 'Vad är det minsta som skaver just nu?'
+              : lowEnergyBridge
+                ? 'En kort rad räcker...'
+                : moodPrompt ?? 'Skriv vad du vill – ingen perfekt text.'
           }
         />
       )}
@@ -229,6 +237,19 @@ export function ReflectionStep({
         onMemoryFileChange={onMemoryFileChange}
         onMemoryValidationError={onMemoryValidationError}
       />
+
+      <div className="mt-4 mb-4 flex items-center justify-center gap-2">
+        <input
+          type="checkbox"
+          id="validateOnly"
+          checked={validateOnly}
+          onChange={(e) => onValidateOnlyChange?.(e.target.checked)}
+          className="checkbox-glass"
+        />
+        <label htmlFor="validateOnly" className="text-sm text-text-dim cursor-pointer select-none">
+          Bara lyssna (inga råd eller lösningar)
+        </label>
+      </div>
 
       <div className="reflektion-actions">
         <button type="button" onClick={onBack} className="btn-pill--ghost">

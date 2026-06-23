@@ -11,6 +11,7 @@ import {
   DagbokArkivDelegate,
   DagbokReflektionDelegate,
 } from './delegates/DagbokReflektionDelegate';
+import { DagbokBurnDelegate } from './delegates/DagbokBurnDelegate';
 import {
   DEFAULT_DAGBOK_INPUT_MODE,
   getDagbokInputModeMeta,
@@ -19,7 +20,7 @@ import {
 } from './dagbokInputModes';
 import { DagbokInputModePicker } from './DagbokInputModePicker';
 
-const LOW_CAPACITY_MODES: DagbokInputMode[] = ['reflektion', 'quick_mirror'];
+const LOW_CAPACITY_MODES: DagbokInputMode[] = ['reflektion', 'quick_mirror', 'burn'];
 
 export type DagbokInputSuperModuleProps = {
   /** Override URL-parsing (t.ex. Storybook). */
@@ -41,6 +42,8 @@ function DagbokInputModeDelegate({ mode, onSaved }: DelegateProps) {
       return <DagbokQuickMirrorDelegate onSaved={onSaved} />;
     case 'arkiv':
       return <DagbokArkivDelegate />;
+    case 'burn':
+      return <DagbokBurnDelegate />;
     default:
       return null;
   }

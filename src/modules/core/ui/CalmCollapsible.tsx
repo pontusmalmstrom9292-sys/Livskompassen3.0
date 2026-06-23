@@ -9,6 +9,7 @@ type CalmCollapsibleProps = {
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
   glow?: 'gold' | 'blue' | 'green';
+  variant?: 'card' | 'transparent';
   children: ReactNode;
 };
 
@@ -20,6 +21,7 @@ export function CalmCollapsible({
   open: controlledOpen,
   onOpenChange,
   glow,
+  variant = 'transparent',
   children,
 }: CalmCollapsibleProps) {
   const [internalOpen, setInternalOpen] = useState(defaultOpen);
@@ -37,6 +39,7 @@ export function CalmCollapsible({
       className={clsx(
         'calm-collapsible',
         open && 'calm-collapsible--open',
+        variant === 'card' && 'calm-card',
         glow === 'gold' && 'glow-bottom-gold',
         glow === 'blue' && 'glow-bottom-blue',
         glow === 'green' && 'glow-bottom-green',

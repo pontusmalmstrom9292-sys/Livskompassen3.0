@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { usePansarStore } from '@/modules/core/store/usePansarStore';
 import {
   Brain,
   Droplets,
@@ -30,9 +31,11 @@ export const BiochemicalShieldHub: React.FC = () => {
     // Exempel: await addDoc(collection(db, 'biometrics'), { type, timestamp: new Date() });
   };
 
+  const activatePansar = usePansarStore((state) => state.activate);
+
   const triggerPansarlage = () => {
     console.log('Låg energi/blodsocker detekterat. Triggar globalt Pansarläge...');
-    // Här kopplar vi in din befintliga Pansarläge-logik
+    activatePansar();
   };
 
   return (

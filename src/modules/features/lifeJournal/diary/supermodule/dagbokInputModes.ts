@@ -1,7 +1,7 @@
 /** Canonical input modes — DagbokInputSuperModule (Fas 11). */
-export type DagbokInputMode = 'reflektion' | 'quick_mirror' | 'arkiv';
+export type DagbokInputMode = 'reflektion' | 'quick_mirror' | 'arkiv' | 'burn';
 
-export type DagbokWriteTarget = 'journal_worm' | 'read_only';
+export type DagbokWriteTarget = 'journal_worm' | 'read_only' | 'none';
 
 export type DagbokInputModeMeta = {
   id: DagbokInputMode;
@@ -43,6 +43,15 @@ export const DAGBOK_INPUT_MODES: DagbokInputModeMeta[] = [
     tier: 'primary',
     writeTarget: 'read_only',
     legacyDagbokMode: 'arkiv',
+    usesQuickMirror: false,
+  },
+  {
+    id: 'burn',
+    label: 'Bränn',
+    description: 'Ventilera och förstör (Zero Footprint)',
+    tier: 'primary',
+    writeTarget: 'none',
+    legacyDagbokMode: 'reflektera',
     usesQuickMirror: false,
   },
 ];

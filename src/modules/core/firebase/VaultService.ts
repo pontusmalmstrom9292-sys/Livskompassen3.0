@@ -101,12 +101,9 @@ export class VaultService {
     if (!truth) {
       throw new Error('Valv-post kräver text.');
     }
-    assertArchitectureWrite(this.COLLECTION_NAME, 'create');
-    await saveVaultLog(entry.ownerId, {
-      action: 'vault_record',
-      truth,
-      entryType: 'simple',
-      isLocked: true,
+    await this.saveRecord(entry.ownerId, { 
+      content: truth, 
+      action: 'vault_record' 
     });
   }
 

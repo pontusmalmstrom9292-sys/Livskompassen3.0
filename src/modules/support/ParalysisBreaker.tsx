@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParalysisStore } from './store/paralysisStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
@@ -6,6 +6,12 @@ import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
 export function ParalysisBreaker() {
   const { isZenModeActive, isLoading, setZenMode, currentMicroTasks, breakDownTask, setMicroTasks } = useParalysisStore();
   const [taskInput, setTaskInput] = useState('');
+
+  const handleClose = useCallback(() => {
+    setZenMode(false);
+    setTaskInput('');
+    setMicroTasks([]);
+  }, [setZenMode, setMicroTasks]);
 
   // Lyssna på global tangentbindning (t.ex. Escape för att stänga)
   useEffect(() => {
@@ -16,13 +22,7 @@ export function ParalysisBreaker() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isZenModeActive]);
-
-  const handleClose = () => {
-    setZenMode(false);
-    setTaskInput('');
-    setMicroTasks([]);
-  };
+  }, [isZenModeActive, handleClose]);
 
   const handleBreakDown = () => {
     breakDownTask(taskInput);

@@ -11,6 +11,9 @@ import { SavedStep } from '@/features/lifeJournal/diary/diary/components/SavedSt
 import { JOURNAL_CATEGORIES } from '@/features/lifeJournal/diary/diary/constants/journalCategories';
 import { JOURNAL_STEPS } from '@/features/lifeJournal/diary/diary/constants/moods';
 import { useJournalFlow } from '@/features/lifeJournal/diary/diary/hooks/useJournalFlow';
+import { useCapacityScore } from '@/core/store/useCapacityGate';
+import { useEvolutionStore } from '@/core/store/useEvolutionStore';
+import { isLowHomeCapacity } from '@/core/home/homeCapacityGate';
 
 export type DagbokReflektionDelegateProps = {
   onSaved?: () => void;
@@ -26,6 +29,10 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const vaultSessionOpen = isVaultUnlocked || hasVaultGate();
 
+  const evolutionDoc = useEvolutionStore((s) => s.doc);
+  const capacityScore = useCapacityScore();
+  const lowCapacity = isLowHomeCapacity(evolutionDoc, capacityScore);
+
   const {
     step,
     mood,
@@ -35,10 +42,14 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
     pendingMemoryFile,
     memoryError,
     saving,
+    memoryError,
+    saving,
     error,
     weaveToKampspar,
+    validateOnly,
     lastSavedEntryId,
     setWeaveToKampspar,
+    setValidateOnly,
     setCategory,
     setPendingMemoryFile,
     setMemoryError,
@@ -116,6 +127,9 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
               onBack={() => goToStep('mood')}
               onContinue={() => goToStep('save')}
               lowEnergyBridge={lowEnergyBridge}
+              lowCapacity={lowCapacity}
+              validateOnly={validateOnly}
+              onValidateOnlyChange={setValidateOnly}
               onSaveWithoutText={lowEnergyBridge ? handleSaveWithoutText : undefined}
               saving={saving}
             />

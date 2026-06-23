@@ -2,7 +2,7 @@ import { Navigate } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { Anchor, BookHeart, Heart, HeartHandshake, Sparkles, Users } from 'lucide-react';
-import { DrogfrihetHubPage } from '@/features/dailyLife/drogfrihet';
+import { Anchor, BookHeart, Heart, HeartHandshake, Sparkles, Users } from 'lucide-react';
 
 import { ModuleShell } from '../layout/ModuleShell';
 import { HubDropdownNav, type DropdownItem } from '../ui/HubDropdownNav';
@@ -10,14 +10,17 @@ import { MaterialPackShortcuts, useLifeHubPreset } from '@/core/lifeOs';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
 import { vaultRedirectSearch } from '../navigation/vaultLegacyRedirect';
+import { lazy, Suspense } from 'react';
 import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
 import { FamiljenChildPicker } from '@/features/family/children/components/familjen/FamiljenChildPicker';
-import { FamiljenLivsloggTab } from '@/features/family/children/components/familjen/FamiljenLivsloggTab';
-import { FamiljenReflektionTab } from '@/features/family/children/components/familjen/FamiljenReflektionTab';
-import { FamiljenTillsammansTab } from '@/features/family/children/components/familjen/FamiljenTillsammansTab';
-import { SafeHarborPage } from '@/features/family/safeHarbor/components/SafeHarborPage';
-import { BarnportenParentHubPanel } from '@/features/onboarding/barnporten/components/BarnportenParentHubPanel';
-import { FamiljenInputSuperModule } from '@/features/family/children/supermodule/FamiljenInputSuperModule';
+
+const FamiljenLivsloggTab = lazy(() => import('@/features/family/children/components/familjen/FamiljenLivsloggTab').then(m => ({ default: m.FamiljenLivsloggTab })));
+const FamiljenReflektionTab = lazy(() => import('@/features/family/children/components/familjen/FamiljenReflektionTab').then(m => ({ default: m.FamiljenReflektionTab })));
+const FamiljenTillsammansTab = lazy(() => import('@/features/family/children/components/familjen/FamiljenTillsammansTab').then(m => ({ default: m.FamiljenTillsammansTab })));
+const SafeHarborPage = lazy(() => import('@/features/family/safeHarbor/components/SafeHarborPage').then(m => ({ default: m.SafeHarborPage })));
+const BarnportenParentHubPanel = lazy(() => import('@/features/onboarding/barnporten/components/BarnportenParentHubPanel').then(m => ({ default: m.BarnportenParentHubPanel })));
+const FamiljenInputSuperModule = lazy(() => import('@/features/family/children/supermodule/FamiljenInputSuperModule').then(m => ({ default: m.FamiljenInputSuperModule })));
+const DrogfrihetHubPage = lazy(() => import('@/features/dailyLife/drogfrihet').then(m => ({ default: m.DrogfrihetHubPage })));
 import {
   FAMILJEN_TAB_IDS,
   isFamiljenTabId,
@@ -172,44 +175,46 @@ export function FamiljenPage() {
             </BentoCard>
           )}
 
-          {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
-            <>
-              <div className="pt-4 pb-2">
-                <FamiljenInputSuperModule shell={shell} flowWithIsland={desktopHubLock} />
-              </div>
-              <div className="familjen-tab-panel">
-                {activeTab === 'reflektion' ? (
-                  <FamiljenReflektionTab shell={shell} />
-                ) : (
-                  <FamiljenLivsloggTab shell={shell} />
-                )}
-              </div>
-            </>
-          )}
+          <Suspense fallback={<div className="p-4 text-center text-sm text-text-muted">Laddar Familjen-verktyg...</div>}>
+            {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
+              <>
+                <div className="pt-4 pb-2">
+                  <FamiljenInputSuperModule shell={shell} flowWithIsland={desktopHubLock} />
+                </div>
+                <div className="familjen-tab-panel">
+                  {activeTab === 'reflektion' ? (
+                    <FamiljenReflektionTab shell={shell} />
+                  ) : (
+                    <FamiljenLivsloggTab shell={shell} />
+                  )}
+                </div>
+              </>
+            )}
 
-          {activeTab === 'tillsammans' && (
-            <BentoCard glow="blue" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
-              <FamiljenTillsammansTab shell={shell} />
-            </BentoCard>
-          )}
+            {activeTab === 'tillsammans' && (
+              <BentoCard glow="blue" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
+                <FamiljenTillsammansTab shell={shell} />
+              </BentoCard>
+            )}
 
-          {activeTab === 'barnporten' && (
-            <BentoCard glow="blue" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
-              <BarnportenParentHubPanel activeChild={shell.activeChild} />
-            </BentoCard>
-          )}
+            {activeTab === 'barnporten' && (
+              <BentoCard glow="blue" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
+                <BarnportenParentHubPanel activeChild={shell.activeChild} />
+              </BentoCard>
+            )}
 
-          {activeTab === 'hamn' && (
-            <BentoCard glow="blue" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
-              <SafeHarborPage embedded />
-            </BentoCard>
-          )}
+            {activeTab === 'hamn' && (
+              <BentoCard glow="blue" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
+                <SafeHarborPage embedded />
+              </BentoCard>
+            )}
 
-          {activeTab === 'drogfrihet' && (
-            <BentoCard glow="green" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
-              <DrogfrihetHubPage embedded />
-            </BentoCard>
-          )}
+            {activeTab === 'drogfrihet' && (
+              <BentoCard glow="green" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
+                <DrogfrihetHubPage embedded />
+              </BentoCard>
+            )}
+          </Suspense>
 
           {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
             <ParentReminderFooter childAlias={shell.activeChild} />

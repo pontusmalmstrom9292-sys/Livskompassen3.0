@@ -1,5 +1,5 @@
 import { Lock, ShieldAlert, X, Settings } from 'lucide-react';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
@@ -13,7 +13,7 @@ import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
 import { VaultErrorBoundary } from './VaultErrorBoundary';
 import { VaultLockedGate } from '@/core/components/VaultLockedGate';
 import { ValvBentoShell } from './ValvBentoShell';
-import { ValvInputSuperModule } from '../supermodule/ValvInputSuperModule';
+const ValvInputSuperModule = lazy(() => import('../supermodule/ValvInputSuperModule').then(m => ({ default: m.ValvInputSuperModule })));
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
 import { type ValvInputMode } from '../supermodule/valvInputModes';
 import { resolveValvZone, type VaultTab } from '../utils/vaultTabs';
@@ -224,20 +224,22 @@ function VaultPageInner({
         <PinnedPlaneringModuleSlot targetId="valv.kunskapsbank" />
       ) : null}
 
-      <ValvInputSuperModule
-        activeMode={valvMode}
-        onModeChange={setValvMode}
-        vaultTab={vaultTab}
-        userId={user.uid}
-        gateOk={gateOk}
-        highlightLogId={highlightLogId}
-        onBevisConfirmed={handleBevisConfirmed}
-        onCitationClick={handleCitationClick}
-        onVaultTabChange={setVaultTab}
-        techniqueFilter={techniqueFilter}
-        onTechniqueSelect={handleTechniqueSelect}
-        onClearTechniqueFilter={handleClearTechniqueFilter}
-      />
+      <Suspense fallback={<div className="p-4 text-center text-sm text-text-muted">Laddar valv-verktyg...</div>}>
+        <ValvInputSuperModule
+          activeMode={valvMode}
+          onModeChange={setValvMode}
+          vaultTab={vaultTab}
+          userId={user.uid}
+          gateOk={gateOk}
+          highlightLogId={highlightLogId}
+          onBevisConfirmed={handleBevisConfirmed}
+          onCitationClick={handleCitationClick}
+          onVaultTabChange={setVaultTab}
+          techniqueFilter={techniqueFilter}
+          onTechniqueSelect={handleTechniqueSelect}
+          onClearTechniqueFilter={handleClearTechniqueFilter}
+        />
+      </Suspense>
       </div>
     </ValvBentoShell>
   );

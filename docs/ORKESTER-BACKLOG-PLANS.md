@@ -101,3 +101,4 @@ Säg: **«Kör orkester nattpass»** → läs [`ORKESTER-AUTORUN.md`](./ORKESTER
 - [`ICON-STYLE-GUIDE.md`](./design/ICON-STYLE-GUIDE.md) · [`theme-lab/ICON-DECISIONS.md`](./design/theme-lab/ICON-DECISIONS.md)
 - [`INNEHALL-REGISTER.md`](./INNEHALL-REGISTER.md) — U6 smoke
 - [`.cursor/rules/orkester-autorun.mdc`](../.cursor/rules/orkester-autorun.mdc)
+- [`2026-06-22-ROADMAP-BACKLOG.md`](./evaluations/2026-06-22-ROADMAP-BACKLOG.md) — Konsoliderad sprint- och roadmap-planering (Juni 2026)

@@ -103,12 +103,13 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
   return (
     <div className={rootClass}>
       <div className="home-layout-a__intro">
-        <HomeGreeting hideEyebrow={variant === 'calm'} />
+        <HomeGreeting hideEyebrow={true} />
         <CalmCollapsible
           title="Profil & fas"
           meta={weekdayLabel(now)}
           defaultOpen={false}
           glow="gold"
+          variant="card"
         >
           <div className="home-layout-a__intro-meta space-y-1">
             <p className="home-layout-a__sub">
