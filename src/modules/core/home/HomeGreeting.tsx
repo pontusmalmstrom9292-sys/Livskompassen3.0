@@ -9,7 +9,7 @@ type Props = {
   hideEyebrow?: boolean;
 };
 
-export function HomeGreeting(props: Props) {
+export function HomeGreeting(_props?: Props) {
   const name = useHomeDisplayName();
   const now = new Date();
   const greeting = getTimeGreeting(now);

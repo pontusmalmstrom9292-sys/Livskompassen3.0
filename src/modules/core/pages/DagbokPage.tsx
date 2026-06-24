@@ -8,6 +8,7 @@ import { dagbokLegacyModeToInputMode } from '@/features/lifeJournal/diary/superm
 import { SpeglarSuperModule } from '@/features/lifeJournal/diary/mirror';
 import { HjartatBentoShell } from '@/features/lifeJournal/diary/components/HjartatBentoShell';
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
+import { Pencil } from 'lucide-react';
 
 const DagbokInputSuperModule = lazy(() =>
   import('@/features/lifeJournal/diary/supermodule/DagbokInputSuperModule').then((m) => ({
@@ -56,8 +57,29 @@ function HjartatReflektionPanel() {
 
 /** Hjärtat — Dagbok och Speglar endast. Ingen Valv-logik. */
 export function DagbokPage() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const layerTab = resolveLayerTab(searchParams.get('tab'));
+  const isWriting = searchParams.get('write') === 'true';
+
+  const toggleWrite = () => {
+    const next = new URLSearchParams(searchParams);
+    if (isWriting) {
+      next.delete('write');
+    } else {
+      next.set('write', 'true');
+    }
+    setSearchParams(next, { replace: true });
+  };
+
+  const headerAside = layerTab === 'reflektion' ? (
+    <button
+      onClick={toggleWrite}
+      className="text-accent hover:text-accent-light transition-colors p-1"
+      aria-label={isWriting ? "Stäng redigering" : "Skriv ny anteckning"}
+    >
+      <Pencil className="w-5 h-5" />
+    </button>
+  ) : undefined;
 
   return (
     <HubErrorBoundary
@@ -69,12 +91,11 @@ export function DagbokPage() {
     >
       {layerTab === 'speglar' ? (
         <ModuleShell
-          eyebrow="Hjärtat"
-          title="Speglar"
-          lead="Validering utan fix — känsla och fakta hålls isär."
+          eyebrow=""
+          title="SPEGLAR"
           lockViewport
           fitViewport
-          depth
+          depth={false}
           cognitiveStrip={false}
         >
           <HjartatBentoShell>
@@ -83,12 +104,12 @@ export function DagbokPage() {
         </ModuleShell>
       ) : (
         <ModuleShell
-          eyebrow="Hjärtat"
-          title="Dagbok"
-          lead="Reflektion och daglig logg — utanför Valvet."
+          eyebrow=""
+          title="DAGBOK"
+          headerAside={headerAside}
           lockViewport
           fitViewport
-          depth
+          depth={false}
           cognitiveStrip={false}
         >
           <HjartatBentoShell>

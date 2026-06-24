@@ -338,33 +338,6 @@ export const compareVaultEvidence = onCall(
       .map((d) => ({ id: d.id, ...(d.data() as any) }))
       .filter((d) => d.category !== 'vävaren_metadata');
 
-    try {
-      const { generateEmbeddingInternal } = await import('../lib/generateEmbeddingInternal');
-      const { queryVaultVectorNeighbors } = await import('../lib/vectorSearchClient');
-      
-      const embedding = await generateEmbeddingInternal(searchText);
-      if (embedding.length > 0) {
-        const neighborIds = await queryVaultVectorNeighbors(embedding, 15);
-        if (neighborIds.length > 0) {
-          // Filtrera de docs som matchar ANN (ordnade efter relevans från ANN)
-          const matchedDocs = neighborIds
-            .map((id) => docs.find((d) => d.id === id))
-            .filter(Boolean);
-          if (matchedDocs.length > 0) {
-            docs = matchedDocs as any[];
-            return {
-              matches: docs.slice(0, 5).map((log, i) => ({
-                log,
-                score: 10 - i, // Konstgjord score för ANN
-              })),
-            };
-          }
-        }
-      }
-    } catch (err) {
-      console.warn('[compareVaultEvidence] Vector Search fallback:', err);
-    }
-
     // Token-match fallback ifall Vector Search misslyckades eller inga ANN-resultat
     const { matchVaultEvidence } = await import('../lib/vaultRagTokenFallback');
     const matches = matchVaultEvidence(searchText, docs as any[]);

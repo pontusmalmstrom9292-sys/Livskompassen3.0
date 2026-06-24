@@ -1,6 +1,5 @@
 import * as admin from 'firebase-admin';
 import { generateEmbeddingInternal } from '../../lib/generateEmbeddingInternal';
-import { upsertKampsparVector } from '../../lib/vectorSearchClient';
 
 export interface JournalWovenPayload {
   ownerId: string;
@@ -67,7 +66,7 @@ export async function handleJournalWoven(payload: JournalWovenPayload): Promise<
     console.warn('[Synapse:journal_woven] Embedding misslyckades — sparar utan index:', err);
   }
 
-  const docRef = await admin.firestore().collection('kampspar').add({
+  const docData: any = {
     userId: ownerId,
     ownerId,
     title,
@@ -80,11 +79,13 @@ export async function handleJournalWoven(payload: JournalWovenPayload): Promise<
     tags: ['dagbok', 'opt-in'],
     embeddingDim,
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
-  });
+  };
 
   if (embedding.length > 0) {
-    await upsertKampsparVector(docRef.id, embedding);
+    docData.embedding = admin.firestore.FieldValue.vector(embedding);
   }
+
+  const docRef = await admin.firestore().collection('kampspar').add(docData);
 
   console.log(
     `[Synapse:journal_woven] kampspar docId=${docRef.id} journalEntryId=${journalEntryId} uid=${ownerId}`
