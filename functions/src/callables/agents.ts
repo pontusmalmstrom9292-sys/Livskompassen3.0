@@ -16,6 +16,7 @@ import { approveWeaverPending, rejectWeaverPending } from '../lib/weaverPending'
 import { adkOrchestrator, listAgentCards } from '../adk';
 import type { MicroStep } from '../adk/types';
 import { emitSynapse } from '../adk/synapses/synapseBus';
+import { geminiApiKey } from '../lib/geminiSecret';
 import {
   generatePayslipInternal,
   generatePayslipsForAllProfiles,
@@ -251,7 +252,7 @@ export const rejectWeaverMetadata = onCall(
 );
 
 export const journalWovenToKampspar = onCall(
-  { region: 'europe-west1' },
+  { region: 'europe-west1', secrets: [geminiApiKey] },
   async (request) => {
     const uid = await guardSensitiveCallableV2(request, 'journalWovenToKampspar', 10);
 
