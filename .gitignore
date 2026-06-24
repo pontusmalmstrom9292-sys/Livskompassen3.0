@@ -103,8 +103,8 @@ repomix-output*.xml
 *.log
 npm-debug.log*
 
-# Data Connect generated (regenereras)
-src/dataconnect-generated/
+# Data Connect / Cloud SQL emulator data (legacy — removed from project)
+dataconnect/.dataconnect/peliteData/
 
 # Accidental SDK installs
 gcloud*/

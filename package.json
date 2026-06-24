@@ -195,7 +195,6 @@
     "@capacitor/android": "^8.3.4",
     "@capacitor/app": "^8.1.0",
     "@capacitor/core": "^8.3.4",
-    "@dataconnect/generated": "file:src/dataconnect-generated",
     "@simplewebauthn/browser": "^13.3.0",
     "@tanstack-query-firebase/react": "^2.1.1",
     "clsx": "^2.1.1",
