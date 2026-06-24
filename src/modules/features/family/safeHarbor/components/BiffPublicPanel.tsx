@@ -46,6 +46,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [coreQuestion, setCoreQuestion] = useState('');
   const [userGoal, setUserGoal] = useState('');
+  const [trainingMode, setTrainingMode] = useState(false);
   const fromSpeglar = Boolean(initialMessage.trim());
   const taktikSignal = detectHamnTaktikSignal(message);
 
@@ -342,6 +343,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [coreQuestion, setCoreQuestion] = useState('');
   const [userGoal, setUserGoal] = useState('');
+  const [trainingMode, setTrainingMode] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -426,8 +428,17 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
   };
 
   return (
-    <div className="space-y-3">
-      <form onSubmit={handleSubmit} className="space-y-3">
+    <div className="flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-3 relative">
+        <label className="flex items-center gap-1.5 cursor-pointer text-[11px] text-text-dim hover:text-text mb-1">
+          <input
+            type="checkbox"
+            checked={trainingMode}
+            onChange={(e) => setTrainingMode(e.target.checked)}
+            className="h-3.5 w-3.5 rounded border-border/40 bg-surface-2/60 accent-accent"
+          />
+          Grey Rock Träningsläge (Sandbox — ingen sparning)
+        </label>
         {step === 1 && (
           <div className="space-y-3 animate-in fade-in slide-in-from-bottom-2 duration-300">
             <textarea
@@ -541,28 +552,36 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
           )}
           <p className="mt-2 whitespace-pre-wrap text-sm text-text-muted">{reply}</p>
           <div className="mt-3 flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={() => void handleAutosortToArkiv()}
-              disabled={autosorting || !message.trim()}
-              className="btn-pill--ghost flex items-center gap-2 text-xs"
-            >
-              {autosorting ? <Loader2 className="h-3 w-3 animate-spin" /> : null}
-              Sortera till arkiv
-            </button>
-            <button
-              type="button"
-              onClick={handleSaveAsEvidence}
-              disabled={savingEvidence || !user}
-              className="btn-pill--secondary flex items-center gap-2 text-xs"
-            >
-              {savingEvidence ? (
-                <Loader2 className="h-3 w-3 animate-spin" />
-              ) : (
-                <Shield className="h-3 w-3" />
-              )}
-              Spara som bevis
-            </button>
+            {!trainingMode ? (
+              <>
+                <button
+                  type="button"
+                  onClick={() => void handleAutosortToArkiv()}
+                  disabled={autosorting || !message.trim()}
+                  className="btn-pill--ghost flex items-center gap-2 text-xs"
+                >
+                  {autosorting ? <Loader2 className="h-3 w-3 animate-spin" /> : null}
+                  Sortera till arkiv
+                </button>
+                <button
+                  type="button"
+                  onClick={handleSaveAsEvidence}
+                  disabled={savingEvidence || !user}
+                  className="btn-pill--secondary flex items-center gap-2 text-xs"
+                >
+                  {savingEvidence ? (
+                    <Loader2 className="h-3 w-3 animate-spin" />
+                  ) : (
+                    <Shield className="h-3 w-3" />
+                  )}
+                  Spara som bevis
+                </button>
+              </>
+            ) : (
+              <p className="text-[11px] text-gold w-full mb-1">
+                Du är i träningsläge. Svaret sparas inte.
+              </p>
+            )}
             <button type="button" onClick={handleKlar} className="btn-pill--ghost text-xs">
               Klar — rensa
             </button>

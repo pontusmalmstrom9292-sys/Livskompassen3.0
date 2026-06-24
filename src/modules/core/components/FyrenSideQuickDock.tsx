@@ -24,6 +24,7 @@ import {
   getBreathingExercise,
 } from '../ui/ankare/breathingExercises';
 import { useBreathingCycle } from '../ui/ankare/useBreathingCycle';
+import { usePlanningTasks } from '@/features/admin/planning/hooks/usePlanningTasks';
 
 const HIDDEN_STORAGE_KEY = 'livskompassen.fyren-side-quick.hidden';
 const VISIBILITY_EVENT = 'fyren-side-quick-visibility';
@@ -146,6 +147,26 @@ function FyrenQuickBreathingRow({
   );
 }
 
+function FyrenQuickDagensFokus() {
+  const { tasks } = usePlanningTasks();
+  const activeTask = tasks.find(t => t.status === 'todo' || t.status === 'waiting');
+
+  if (!activeTask) return null;
+
+  return (
+    <div className="fyren-header-quick__row !flex-col !items-start !h-auto px-4 py-3 gap-1.5 border-b border-white/5 bg-accent/5">
+      <div className="flex items-center justify-between w-full">
+        <span className="text-[10px] font-semibold uppercase tracking-wider text-accent/80">
+          Dagens Fokus
+        </span>
+      </div>
+      <p className="text-sm font-medium leading-snug text-white/90 line-clamp-2">
+        {activeTask.title}
+      </p>
+    </div>
+  );
+}
+
 function FyrenHeaderQuickPanel() {
   const location = useLocation();
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
@@ -217,6 +238,7 @@ function FyrenHeaderQuickPanel() {
       >
         <div className="fyren-header-quick__panel fyren-header-quick__panel--camo">
           <nav className="fyren-header-quick__stack">
+            <FyrenQuickDagensFokus />
             <FyrenQuickBreathingRow
               active={breathingActive}
               onActiveChange={setBreathingActive}

@@ -24,6 +24,7 @@ import {
   InkastDagbokWeaveBridge,
   inkastDagbokWeaveProps,
 } from '@/modules/inkast/components/InkastDagbokWeaveBridge';
+import { CaptureBreathingWidget } from './components/CaptureBreathingWidget';
 import {
   INKAST_FILE_ACCEPT,
   INKAST_UNSUPPORTED_FORMAT_MSG,
@@ -437,6 +438,8 @@ export function InkastDirectPanel({
           onChange={(e) => void handleFiles(e.target.files)}
         />
       </div>
+      
+      <CaptureBreathingWidget />
 
       {error && (
         <p className={clsx('text-amber-400/90', isValv ? 'mt-2 text-xs' : 'mt-3 text-sm')}>{error}</p>

@@ -6,9 +6,10 @@ import { useStore } from '@/modules/core/store';
 
 type Props = {
   taskTitle: string;
+  onSelectAtom?: (atom: string) => void;
 };
 
-export function ParalysBreakerWidget({ taskTitle }: Props) {
+export function ParalysBreakerWidget({ taskTitle, onSelectAtom }: Props) {
   const [atoms, setAtoms] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -43,12 +44,31 @@ export function ParalysBreakerWidget({ taskTitle }: Props) {
           Dina första atomer (max 30s/steg)
         </p>
         <ul className="space-y-2 text-left">
-          {atoms.map((atom, idx) => (
-            <li key={idx} className="flex items-start gap-2 text-sm text-text-muted">
-              <span className="text-accent">•</span>
-              <span>{atom}</span>
-            </li>
-          ))}
+          {atoms.map((atom, idx) => {
+            const isClickable = !!onSelectAtom;
+            const content = (
+              <>
+                <span className="text-accent">•</span>
+                <span className="text-left">{atom}</span>
+              </>
+            );
+
+            return isClickable ? (
+              <li key={idx}>
+                <button
+                  type="button"
+                  onClick={() => onSelectAtom(atom)}
+                  className="flex items-start gap-2 text-sm text-text-muted transition-colors hover:text-text active:scale-95 w-full"
+                >
+                  {content}
+                </button>
+              </li>
+            ) : (
+              <li key={idx} className="flex items-start gap-2 text-sm text-text-muted">
+                {content}
+              </li>
+            );
+          })}
         </ul>
         <button 
           onClick={() => setAtoms([])}

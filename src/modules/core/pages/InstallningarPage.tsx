@@ -16,6 +16,8 @@ import { ClearDevicePanel } from '../security/ClearDevicePanel';
 import { AdaptationPrefsPanel } from '../adaptation/AdaptationPrefsPanel';
 import { ADAPTATION_LAYER_FLAG, useAdaptationStore } from '../store/useAdaptationStore';
 import { useEvolutionStore } from '../store/useEvolutionStore';
+import { DimModeToggle } from '../ui/DimModeToggle';
+import { GhostModeToggle } from '../ui/GhostModeToggle';
 
 export type InstallningarTab = 'allmant' | 'naring' | 'drogfrihet';
 
@@ -83,6 +85,9 @@ export function InstallningarPage() {
           </label>
 
           <LifeHubPresetPicker activeId={presetId} onSelect={setPresetId} />
+
+          <DimModeToggle />
+          <GhostModeToggle />
 
           {adaptationEnabled && user?.uid ? (
             <AdaptationPrefsPanel userId={user.uid} />

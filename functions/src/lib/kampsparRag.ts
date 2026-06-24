@@ -54,7 +54,7 @@ async function fetchVectorRagExcerpts(uid: string, text: string): Promise<string
         limit: limit,
         distanceMeasure: 'COSINE',
         distanceResultField: 'vectorDistance'
-      })
+      } as any)
       .get();
 
     // Sök i kb_docs
@@ -64,7 +64,7 @@ async function fetchVectorRagExcerpts(uid: string, text: string): Promise<string
         limit: limit,
         distanceMeasure: 'COSINE',
         distanceResultField: 'vectorDistance'
-      })
+      } as any)
       .get();
 
     const results: Array<{ distance: number, line: string }> = [];

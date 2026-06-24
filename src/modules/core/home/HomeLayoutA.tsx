@@ -198,7 +198,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
       >
         <div className="flex justify-between items-start mb-2">
           <p className="text-[9px] tracking-[0.2em] font-sans text-accent uppercase font-bold">
-            Dagens ankare
+            DAGENS ANKARE
           </p>
           {!isEditing && anchor.trim() ? (
             <div className="flex items-center gap-2">
@@ -227,7 +227,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
                 "focus:border-accent/40 focus:ring-1 focus:ring-accent/20 transition-all font-sans text-sm focus:outline-none"
               )}
               rows={2}
-              placeholder="T.ex. lugnt samtal med barnen efter skolan …"
+              placeholder="Ett mikrosteg räcker."
               value={anchor}
               onChange={(e) => {
                 setAnchor(e.target.value);
@@ -257,7 +257,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
         ) : (
           <div className="space-y-1 py-1 cursor-pointer animate-fade-in" onClick={() => setIsEditing(true)}>
             <h2 className="text-lg font-bold font-sans text-text leading-snug hover:text-accent-light transition-colors">
-              {anchor.trim()}
+              {anchor.trim() || 'Ett mikrosteg räcker.'}
             </h2>
             <p className="text-[10px] text-text-dim">Inte hela dagen — bara det viktigaste nu.</p>
           </div>
@@ -288,6 +288,36 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
         </div>
       </div>
 
+      {/* Närvaro & Ritual side-by-side (Mockup flat layout) */}
+      <div className="grid grid-cols-2 gap-2.5">
+        <button
+          type="button"
+          onClick={() => navigate('/vardagen?tab=mabra')}
+          className="calm-card-midnight p-3.5 text-left flex flex-col justify-between min-h-[96px] hover:border-accent/30 transition-all active:scale-[0.98]"
+        >
+          <span className="text-[9px] tracking-[0.12em] uppercase font-bold text-accent">NÄRVARO</span>
+          <div className="flex flex-col mt-2">
+            <span className="text-xl font-bold font-sans text-text leading-none">{presenceVal}</span>
+            <span className="text-[10px] text-success font-semibold mt-1">{presenceLabel}</span>
+          </div>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => navigate('/vardagen')}
+          className="calm-card-midnight p-3.5 text-left flex flex-col justify-between min-h-[96px] hover:border-accent/30 transition-all active:scale-[0.98]"
+        >
+          <span className="text-[9px] tracking-[0.12em] uppercase font-bold text-accent">RITUAL</span>
+          <div className="flex flex-col mt-2">
+            <span className="text-base font-bold font-sans text-text leading-none">{ritual.name}</span>
+            <span className="text-[9px] text-text-dim font-medium mt-1.5 flex items-center gap-1">
+              {RitualIcon && <RitualIcon className="w-3 h-3 text-accent" />} {ritual.time}
+            </span>
+          </div>
+        </button>
+      </div>
+
+      {/* Kompassråd below them */}
       <button
         type="button"
         onClick={() => navigate('/hjartat')}
@@ -303,43 +333,6 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
         </div>
         <ChevronRight className="w-4 h-4 text-accent flex-shrink-0 ml-4" />
       </button>
-
-      {/* Extra collapsible for Närvaro and Ritual functions to retain logic */}
-      <CalmCollapsible
-        title="Dagens status & rytm"
-        meta="Mer information"
-        defaultOpen={false}
-        glow="gold"
-        variant="card"
-      >
-        <div className="grid grid-cols-2 gap-2.5 pt-1">
-          <button
-            type="button"
-            onClick={() => navigate('/vardagen?tab=mabra')}
-            className="calm-card-midnight p-3.5 text-left flex flex-col justify-between min-h-[96px] hover:border-accent/30 transition-colors"
-          >
-            <span className="text-[9px] tracking-[0.12em] uppercase font-bold text-accent-dim">Närvaro</span>
-            <div className="flex flex-col mt-2">
-              <span className="text-xl font-bold font-sans text-text leading-none">{presenceVal}</span>
-              <span className="text-[10px] text-success font-semibold mt-1">{presenceLabel}</span>
-            </div>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => navigate('/vardagen')}
-            className="calm-card-midnight p-3.5 text-left flex flex-col justify-between min-h-[96px] hover:border-accent/30 transition-colors"
-          >
-            <span className="text-[9px] tracking-[0.12em] uppercase font-bold text-accent-dim">Ritual</span>
-            <div className="flex flex-col mt-2">
-              <span className="text-base font-bold font-sans text-text leading-none">{ritual.name}</span>
-              <span className="text-[9px] text-text-dim font-medium mt-1.5 flex items-center gap-1">
-                {RitualIcon && <RitualIcon className="w-3 h-3 text-accent" />} {ritual.time}
-              </span>
-            </div>
-          </button>
-        </div>
-      </CalmCollapsible>
 
       <PinnedPlaneringModuleSlot targetId="hem.brass.below-grid" />
     </div>

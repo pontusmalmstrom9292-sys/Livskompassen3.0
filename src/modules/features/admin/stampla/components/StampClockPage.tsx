@@ -95,7 +95,7 @@ export function StampClockPage() {
         await recordTimeOut(user.uid, openEntryId ?? undefined);
         setOpenEntryId(null);
         setStatus((s) => ({ ...s, instamplad: false, inTid: '', kat: '' }));
-        toast.info('Du har stämplat ut. Nu lämnar vi jobbet bakom oss.');
+        toast.info('Välkommen hem 🏡');
       }
       await reload();
     } catch (e) {
@@ -170,11 +170,13 @@ export function StampClockPage() {
                 disabled={busy || !isClockedIn}
                 onClick={() => void stamp('UT')}
                 className={
-                  isClockedIn && !busy ? 'btn-pill--success-solid flex items-center justify-center gap-2' : 'btn-pill--ghost opacity-40 flex items-center justify-center gap-2'
+                  isClockedIn && !busy 
+                    ? 'flex w-full items-center justify-center gap-2 rounded-xl border border-border/40 bg-surface-2/30 px-4 py-3 text-sm text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-2/60 hover:text-text' 
+                    : 'flex w-full items-center justify-center gap-2 rounded-xl border border-border/10 bg-transparent px-4 py-3 text-sm text-text-muted/40'
                 }
               >
                 <Home className="h-4 w-4" />
-                Gick hem
+                Gick hem — avsluta arbetsdagen
               </button>
             </div>
           </>

@@ -3,6 +3,7 @@ import { X } from 'lucide-react';
 import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
 import { KANBAN_COLUMNS } from '../constants';
 import type { PlanningTask, PlanningTaskStatus } from '../types';
+import { ParalysBreakerWidget } from './ParalysBreakerWidget';
 
 type Props = {
   task: PlanningTask;
@@ -59,16 +60,11 @@ export function PlanningTaskDetail({ task, onClose, onMove, onSaveMicroStep }: P
               placeholder="T.ex. Läs 2 sidor"
               className="input-glass w-full text-sm"
             />
-            <button
-              type="button"
-              onClick={() => setMicroStep("AI-trolleri: Ställ in mjölken i kylen 🥛")}
-              className="btn-pill--secondary shrink-0 px-3 text-lg"
-              title="Bryt ner med AI"
-            >
-              🪄
-            </button>
           </div>
         </label>
+        <div className="mt-1">
+          <ParalysBreakerWidget taskTitle={task.title} onSelectAtom={setMicroStep} />
+        </div>
         <button
           type="button"
           onClick={() => onSaveMicroStep(microStep)}

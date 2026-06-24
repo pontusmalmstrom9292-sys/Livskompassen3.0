@@ -10,6 +10,9 @@ import { ActivePlanningWidget } from './components/ActivePlanningWidget';
 import { MabraPulseWidget } from './components/MabraPulseWidget';
 import { ParalysisBreaker } from '../support/ParalysisBreaker';
 import { useParalysisStore } from '../support/store/paralysisStore';
+import { SleepPhysiologyWidget } from './components/SleepPhysiologyWidget';
+import { WeeklyPulseWidget } from './components/WeeklyPulseWidget';
+import { DailySummaryWidget } from './components/DailySummaryWidget';
 
 // Store exporteras från ./store/dashboardStore.ts
 
@@ -53,6 +56,10 @@ function DashboardHubContent() {
           </button>
         </header>
 
+        <div className="mb-6">
+          <DailySummaryWidget />
+        </div>
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Vänster kolumn: Morgonkompassen (Autonomi & Fokus) */}
           <div className="flex flex-col h-full">
@@ -60,7 +67,13 @@ function DashboardHubContent() {
           </div>
 
           {/* Höger kolumn: Ventilen (Kognitiv avlastning) */}
-          <div className="flex flex-col h-full">
+          <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-2 gap-4">
+              <SleepPhysiologyWidget />
+              <WeeklyPulseWidget />
+            </div>
+            <RecentIntakeWidget />
+            <ActivePlanningWidget />
             <InsightsInput />
           </div>
         </div>

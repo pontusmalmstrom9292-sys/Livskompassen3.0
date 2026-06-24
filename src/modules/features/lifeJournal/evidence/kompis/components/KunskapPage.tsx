@@ -61,6 +61,7 @@ export function KunskapPage({
   const [loadingEntries, setLoadingEntries] = useState(false);
   const [entriesError, setEntriesError] = useState<string | null>(null);
   const [citationNotice, setCitationNotice] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const tidshjulSectionRef = useRef<HTMLDivElement>(null);
   const highlightedRowRef = useRef<HTMLDivElement>(null);
@@ -260,13 +261,37 @@ export function KunskapPage({
             title={embedded ? 'Poster' : 'Senaste poster'}
             description={loadingEntries ? 'Laddar…' : `${entries.length} poster`}
           >
+            {entries.length > 0 && (
+              <div className="mb-4">
+                <input
+                  type="text"
+                  placeholder="Sök bland poster..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="input-glass w-full text-sm"
+                />
+              </div>
+            )}
+            
             {entries.length === 0 ? (
               <p className="text-sm text-text-dim">
                 Inga poster ännu — lägg till din första post ovan.
               </p>
             ) : (
               <div className="space-y-3">
-                {entries.slice(0, embedded ? 6 : 10).map((entry) => {
+                {entries
+                  .filter((e) => {
+                    if (!searchQuery) return true;
+                    const q = searchQuery.toLowerCase();
+                    return (
+                      (e.title && e.title.toLowerCase().includes(q)) ||
+                      (e.content && e.content.toLowerCase().includes(q)) ||
+                      (e.category && e.category.toLowerCase().includes(q)) ||
+                      (e.tags && e.tags.some(t => t.toLowerCase().includes(q)))
+                    );
+                  })
+                  .slice(0, embedded ? 6 : 10)
+                  .map((entry) => {
                   const isHighlighted = entry.id === highlightEntryId;
                   const isSelected = entry.id === selectedEntry?.id;
 

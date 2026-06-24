@@ -122,6 +122,29 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
     return date.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
   };
 
+  const formatRelativeJournalDate = (date: Date) => {
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+
+    const isToday = date.toDateString() === today.toDateString();
+    const isYesterday = date.toDateString() === yesterday.toDateString();
+
+    const timeString = date.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
+
+    if (isToday) {
+      return `idag ${timeString}`;
+    }
+    if (isYesterday) {
+      return `igår ${timeString}`;
+    }
+    
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
+
   if (!isWriting) {
     const dayEntries = entries.filter((e) => {
       if (!e.createdAt) return false;
@@ -152,7 +175,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
                 )}>
                   {date.getDate()}
                 </span>
-                <span className="text-[10px] tracking-wider text-text-dim mt-1.5 uppercase font-medium">
+                <span className="text-[10px] tracking-wider text-text-dim mt-1.5 font-medium">
                   {getSwedishWeekday(date)}
                 </span>
               </button>
@@ -180,7 +203,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
             </div>
             <div className="flex justify-between items-end mt-4">
               <span className="text-xs text-white/60 font-mono">
-                Kl. {formatEntryTime(activeEntry)}
+                {formatEntryTime(activeEntry)}
               </span>
               <span className="text-xs text-accent uppercase font-semibold tracking-wider">
                 {activeEntry.mood || 'Reflektion'}
@@ -228,8 +251,10 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
                   : entry.createdAt 
                     ? new Date(entry.createdAt) 
                     : new Date();
-                const dateString = date.toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' });
-                const timeString = date.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
+                const relativeDateString = formatRelativeJournalDate(date);
+                const titleText = entry.mood
+                  ? entry.mood.charAt(0).toUpperCase() + entry.mood.slice(1).toLowerCase()
+                  : 'Dagbok';
                 
                 return (
                   <div 
@@ -244,11 +269,11 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
                         <BookOpen className="w-4 h-4" />
                       </div>
                       <div>
-                        <h4 className="text-xs tracking-wider font-semibold text-text uppercase">
-                          {entry.mood ? entry.mood : 'Reflektion'}
+                        <h4 className="text-xs tracking-wider font-semibold text-text">
+                          {titleText}
                         </h4>
                         <p className="text-[10px] text-text-dim mt-0.5">
-                          {dateString} kl. {timeString}
+                          {relativeDateString}
                         </p>
                       </div>
                     </div>

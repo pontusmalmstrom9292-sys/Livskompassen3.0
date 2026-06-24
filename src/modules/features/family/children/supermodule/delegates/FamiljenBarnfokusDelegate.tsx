@@ -5,7 +5,7 @@ import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useEvolutionStore } from '@/core/store/useEvolutionStore';
 import {
-  barnfokusQuestionsForBracket,
+  barnfokusQuestionsForAge,
   BARNFOKUS_KIND_LABELS,
   type BarnfokusQuestion,
   type BarnfokusBracket,
@@ -46,8 +46,10 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
 
   // Bracket från evolution_hub — filtrerar barnfokus-pool per ålder (våg 29)
   const getChildBracket = useEvolutionStore((s) => s.getChildBracket);
+  const getChildAgeYears = useEvolutionStore((s) => s.getChildAgeYears);
   const bracket = getChildBracket(childAlias) as BarnfokusBracket | undefined;
-  const pool = barnfokusQuestionsForBracket(bracket);
+  const ageYears = getChildAgeYears(childAlias);
+  const pool = barnfokusQuestionsForAge(bracket, ageYears);
 
   const [answer, setAnswer] = useState('');
   const [epistemicKind, setEpistemicKind] = useState<EpistemicKind>('citat');

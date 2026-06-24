@@ -193,7 +193,7 @@ export function FyrenDockHandle({
         className,
       )}
       aria-expanded={open}
-      aria-label={open ? 'Stäng Fyren snabbval' : 'Öppna Fyren snabbval. Håll tre sekunder för Valv.'}
+      aria-label={open ? 'Stäng snabbåtkomst' : 'Öppna snabbåtkomst. Håll tre sekunder för Valv.'}
       style={
         progress > 0
           ? ({ ...style, '--fyren-hold': `${Math.round(progress * 100)}%` } as CSSProperties)
@@ -205,7 +205,7 @@ export function FyrenDockHandle({
     >
       {showFyrenRing ? <FyrenProgressRing progress={progress} /> : null}
       <span className="fyren-dock-handle__lip" aria-hidden />
-      <span className="fyren-dock-handle__label">Fyren</span>
+      <span className="fyren-dock-handle__label">Snabbåtkomst</span>
       <svg viewBox="0 0 12 8" aria-hidden className="fyren-dock-handle__chevron">
         <path
           d="M1.5 6.5 6 2.5l4.5 4"

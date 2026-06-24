@@ -12,6 +12,7 @@ import { ensureVaultSessionReady, endVaultSession } from '@/core/security/vaultS
 import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
 import { VaultErrorBoundary } from './VaultErrorBoundary';
 import { VaultLockedGate } from '@/core/components/VaultLockedGate';
+import { VaultCountdown } from '@/core/security/VaultCountdown';
 import { ValvBentoShell } from './ValvBentoShell';
 const ValvInputSuperModule = lazy(() => import('../supermodule/ValvInputSuperModule').then(m => ({ default: m.ValvInputSuperModule })));
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
@@ -192,6 +193,7 @@ function VaultPageInner({
       <div className="flex items-start justify-between gap-2 px-1">
         <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
         <div className="flex shrink-0 items-center gap-1">
+          <VaultCountdown />
           <button
             type="button"
             onClick={() => navigate('/valvet/installningar')}

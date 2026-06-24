@@ -52,8 +52,8 @@ export function HomeBrassDaySteps({ variant = 'calm' }: Props) {
   return (
     <div className={tileClass}>
       <div>
-        <p className="text-[10px] tracking-[0.2em] font-sans text-accent uppercase font-semibold mb-2">
-          Dagens steg
+        <p className="text-[10px] tracking-[0.2em] font-sans text-accent uppercase font-bold mb-2">
+          DAGENS STEG
         </p>
 
         {loading ? (
@@ -118,7 +118,7 @@ export function HomeBrassDaySteps({ variant = 'calm' }: Props) {
         )}
       </div>
 
-      <div className="pt-2 border-t border-border/5 mt-auto flex justify-center w-full">
+      <div className="pt-2 border-t border-border/5 mt-auto flex justify-end w-full">
         <Link 
           to={HOME_SUPERHUB_ROUTES.planeringHub} 
           className="text-[10px] font-semibold text-accent hover:text-accent-light transition-colors flex items-center gap-1"

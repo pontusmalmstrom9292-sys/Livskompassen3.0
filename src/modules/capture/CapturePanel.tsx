@@ -49,6 +49,7 @@ import {
 } from '../inkast/constants/inkastMimeTypes';
 import { inkastSourceModuleHint } from './captureDomainCopy';
 import { CalmBreathingCircle } from './components/CalmBreathingCircle';
+import { CaptureBreathingWidget } from './components/CaptureBreathingWidget';
 
 type CapturePanelProps = {
   sourceModule?: string;
@@ -536,6 +537,8 @@ export function CapturePanel({
               </button>
             )}
           </div>
+          
+          <CaptureBreathingWidget />
         </>
       )}
 

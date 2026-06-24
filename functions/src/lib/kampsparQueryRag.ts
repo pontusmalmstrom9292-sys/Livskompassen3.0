@@ -53,7 +53,7 @@ async function fetchKampsparEvidenceAnn(
       limit: limit,
       distanceMeasure: 'COSINE',
       distanceResultField: 'vectorDistance'
-    })
+    } as any)
     .get();
 
   // Sök i kb_docs
@@ -63,7 +63,7 @@ async function fetchKampsparEvidenceAnn(
       limit: limit,
       distanceMeasure: 'COSINE',
       distanceResultField: 'vectorDistance'
-    })
+    } as any)
     .get();
 
   const results: Array<{ distance: number, chunk: KampsparEvidenceChunk }> = [];

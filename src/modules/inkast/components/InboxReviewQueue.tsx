@@ -39,6 +39,7 @@ import {
   inboxReviewQueueRoutingLine,
   isProposedRoutingButton,
 } from '../inboxReviewQueueCopy';
+import { highlightPatterns } from '@/features/lifeJournal/evidence/vault/utils/vaultPatternHighlight';
 
 type Props = {
   compact?: boolean;
@@ -281,8 +282,14 @@ export function InboxReviewQueue({
             key={item.id}
             className="rounded-lg border border-border/60 bg-surface/40 px-3 py-3 text-sm"
           >
-            <p className="font-medium text-text">{item.fileName}</p>
-            <div className="mt-1 flex flex-wrap items-center gap-2">
+            <p className="font-medium leading-relaxed text-text">
+              {highlightPatterns(item.fileName).map((span, i) => (
+                <span key={i} className={span.className}>
+                  {span.text}
+                </span>
+              ))}
+            </p>
+            <div className="mt-2 flex flex-wrap items-center gap-2">
               <span
                 className={`inline-block ${inboxQueueStatusBadgeClass(inboxQueueDisplayStatus(item))}`}
               >

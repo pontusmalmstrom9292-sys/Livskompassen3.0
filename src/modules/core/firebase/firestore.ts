@@ -594,6 +594,7 @@ function normalizeJournalEntry(id: string, data: Record<string, unknown>) {
     category: typeof data.category === 'string' ? data.category : undefined,
     tags: Array.isArray(data.tags) ? data.tags.map(String) : undefined,
     attachment: normalizeJournalAttachment(data.attachment),
+    isPinned: data.isPinned === true,
   };
 }
 
@@ -603,6 +604,12 @@ export async function getJournalEntries(userId: string) {
   return sortByCreatedAtDesc(
     snap.docs.map((d) => normalizeJournalEntry(d.id, d.data() as Record<string, unknown>)),
   );
+}
+
+export async function toggleJournalEntryPin(entryId: string, currentPinned: boolean) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.journal);
+  const ref = doc(db, FIRESTORE_COLLECTIONS.journal, entryId);
+  await guardedUpdateDoc(ref, { isPinned: !currentPinned });
 }
 
 function mapKampsparDoc(

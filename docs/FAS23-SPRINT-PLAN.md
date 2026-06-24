@@ -9,19 +9,19 @@ Detta dokument sammanställer den omedelbara sprint-planeringen ("Etapp 2" / Kog
 Fokus ligger på UI, UX och routing för att minska tröskeln för interaktion dagar då den kognitiva kapaciteten är i botten.
 
 ### Huvuduppgifter
-- [ ] **Paralys-Brytare Mini-Widget i Planering:** Återanvänd logik från "Uppgifts-Krossaren" direkt i planeringen. En knapp ("Bryt ner") som tar en överväldigande uppgift och genererar 3 mikrosteg.
+- [x] **Paralys-Brytare Mini-Widget i Planering:** Återanvänd logik från "Uppgifts-Krossaren" direkt i planeringen. En knapp ("Bryt ner") som tar en överväldigande uppgift och genererar 3 mikrosteg.
 - [x] **"Töm Skallen" (Audio-inkast):** Bygg in Web Speech API i Inkast-vyn för att transkribera röst till text. Radera ljudfilen omedelbart (Zero Footprint).
 - [x] **"Bara ord"-inmatning:** Extremt låg tröskel där användaren bara trycker på 3-5 förvalda känsloord istället för att skriva.
 - [x] **"Bara Lyssna"-toggle:** Inställning i chatten/inkastet som tvingar "Speglings-Coachen" att enbart validera, utan råd eller frågor.
 
 ### UI & Layout Polering (7-10 Punkters Masterplan)
-1. **Delade Design Tokens** – Konsekvent utseende (hörnradie 8-14px, samma färgskalor) för alla Superhubbar.
-2. **Hem Layout A (Mobil & Token-synk)** – Åtgärda rutnät för mobiler och rätta till token-drift (Obsidian Calm).
-3. **Inkast-strip Preview & Hem V3 Genvägar** – Riktig preview på "Senaste" på startsidan, plus 2-klicks genvägar in i modulerna.
-4. **Valv Orkester – State-säker Collapsible (A2.4)** – Förhindra att Brusfilter-statet nollställs när containern fälls ihop. (Kritisk buggförebyggande).
-5. **Valv Samla – Progressiv Disclosure** – Lägg "Manuell post" och "Drive-hint" bakom en `CalmCollapsible`.
-6. **Chameleon Supermodul Transitions** – Sömlösa fade-transitions (300-400ms) vid mode-byten.
-7. **Lågmäld Feedback & Dämpad Låsikon** – Byt aggressiva "red dots" mot subtilt glow; dämpa Hänglåsikonen (förbättrad Plausible Deniability).
+1. ~~**Delade Design Tokens** – Konsekvent utseende (hörnradie 8-14px, samma färgskalor) för alla Superhubbar.~~ *(REDAN BYGGT)*
+2. ~~**Hem Layout A (Mobil & Token-synk)** – Åtgärda rutnät för mobiler och rätta till token-drift (Obsidian Calm).~~ *(REDAN BYGGT)*
+3. ~~**Inkast-strip Preview & Hem V3 Genvägar** – Riktig preview på "Senaste" på startsidan, plus 2-klicks genvägar in i modulerna.~~ *(REDAN BYGGT)*
+4. ~~**Valv Orkester – State-säker Collapsible (A2.4)** – Förhindra att Brusfilter-statet nollställs när containern fälls ihop.~~ *(REDAN BYGGT)*
+5. ~~**Valv Samla – Progressiv Disclosure** – Lägg "Manuell post" och "Drive-hint" bakom en `CalmCollapsible`.~~ *(REDAN BYGGT)*
+6. ~~**Chameleon Supermodul Transitions** – Sömlösa fade-transitions (300-400ms) vid mode-byten.~~ *(REDAN BYGGT)*
+7. [x] **Lågmäld Feedback & Dämpad Låsikon** – Byt aggressiva "red dots" mot subtilt glow; dämpa Hänglåsikonen (förbättrad Plausible Deniability).
 
 ---
 

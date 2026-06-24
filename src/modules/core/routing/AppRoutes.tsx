@@ -16,6 +16,13 @@ import {
 import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
 import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
 
+const DagbokPage = lazy(() =>
+  import('../pages/DagbokPage').then((m) => ({ default: m.DagbokPage })),
+);
+const FamiljenPage = lazy(() =>
+  import('../pages/FamiljenPage').then((m) => ({ default: m.FamiljenPage })),
+);
+
 const ValvetRoutePage = lazy(() =>
   import('../pages/ValvetRoutePage').then((m) => ({ default: m.ValvetRoutePage })),
 );
@@ -190,7 +197,7 @@ function HjartatRoute() {
   }
   return (
     <ProtectedModule>
-      <HomePage />
+      <DagbokPage />
     </ProtectedModule>
   );
 }
@@ -393,7 +400,7 @@ export function AppRoutes() {
               <Route path="/liv/arbetsliv/*" element={<Navigate to="/arbetsliv" replace />} />
 
               {/* —— FAMILJEN ZON —— */}
-              <Route path={NAV_PATHS.FAMILJEN} element={<ProtectedModule><HomePage /></ProtectedModule>} />
+              <Route path={NAV_PATHS.FAMILJEN} element={<ProtectedModule><FamiljenPage /></ProtectedModule>} />
 
               <Route path="/familj" element={<Navigate to={`${NAV_PATHS.FAMILJEN}?tab=reflektion`} replace />} />
               <Route path="/barnen" element={<Navigate to={`${NAV_PATHS.FAMILJEN}?tab=reflektion`} replace />} />
