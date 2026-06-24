@@ -413,12 +413,17 @@ Spec: [`../themes/K-PACK-EIGHT-VARIANTS.md`](../themes/K-PACK-EIGHT-VARIANTS.md)
 - Mockup: `docs/design-sandbox/mockups/01-brushed-brass-neu.html`
 ```
 
+## File: tailwind.config.js
+```javascript
+function cssVar(name)
+```
+
 ## File: src/modules/core/theme/themeRegistry.ts
 ```typescript
 import type { ThemePack } from './types';
 import { THEME_SHARED_VARS } from './themeShared';
 import { THEME_PACK_DESIGN } from './themePackDesign';
-import { THEME_PACK_E_PROD } from './themePackE';
+import { THEME_PACK_E_PROD, THEME_PACK_E_DARKEST } from './themePackE';
 import { THEME_PACK_MOCKUP } from './themePackMockup';
 import { THEME_PACK_K } from './themePackK';
 import { THEME_PACK_REDESIGN_A } from './themePackRedesignA';
@@ -437,6 +442,8 @@ export function getTheme(id: string): ThemePack
 @layer components {
 ⋮----
 .calm-card {
+⋮----
+.calm-card-midnight {
 ⋮----
 .bento-card {
 ⋮----
@@ -694,6 +701,8 @@ h1,
 .tabular-nums {
 ⋮----
 html[data-theme='E-skymning-prod'] {
+⋮----
+html[data-theme='E-skymning-darkest'] {
 ⋮----
 html[data-theme='I-stone'],
 ⋮----
@@ -989,9 +998,20 @@ a.dock-nav-btn {
 ⋮----
 .floating-dock__side-btn .dock-nav-btn__icon-shell--calm {
 ⋮----
-.floating-dock__side-btn:hover .dock-nav-btn__icon-shell--calm {
+/* Vardag (Tab 1) & Planering/Hantering (Tab 5) border colors */
+.floating-dock__side-btn--vardag .dock-nav-btn__icon-shell--calm,
+.floating-dock__side-btn--vardag:hover .dock-nav-btn__icon-shell--calm,
+.floating-dock__side-btn--vardag.dock-nav-btn--active .dock-nav-btn__icon-shell--calm,
 ⋮----
-.floating-dock__side-btn.dock-nav-btn--active .dock-nav-btn__icon-shell--calm {
+/* Familj (Tab 2) border colors */
+.floating-dock__side-btn--familj .dock-nav-btn__icon-shell--calm {
+.floating-dock__side-btn--familj:hover .dock-nav-btn__icon-shell--calm {
+.floating-dock__side-btn--familj.dock-nav-btn--active .dock-nav-btn__icon-shell--calm {
+⋮----
+/* Dagbok (Tab 4) border colors */
+.floating-dock__side-btn--dagbok .dock-nav-btn__icon-shell--calm {
+.floating-dock__side-btn--dagbok:hover .dock-nav-btn__icon-shell--calm {
+.floating-dock__side-btn--dagbok.dock-nav-btn--active .dock-nav-btn__icon-shell--calm {
 ⋮----
 .floating-dock__side-btn .dock-nav-btn__drawer-l2 {
 ⋮----
@@ -1465,9 +1485,15 @@ body.hub-preset-sheet-open {
 ⋮----
 .nav-drawer__lock-icon {
 ⋮----
+.nav-drawer__lock-btn:hover .nav-drawer__lock-icon {
+⋮----
 .nav-drawer__lock-copy {
 ⋮----
 .nav-drawer__lock-title {
+⋮----
+.nav-drawer__lock-btn:hover .nav-drawer__lock-title {
+⋮----
+@apply text-text;
 ⋮----
 .nav-drawer__lock-hint {
 ⋮----
@@ -2527,8 +2553,6 @@ html[data-theme^='I-stone'] .livskompass-hero--embedded .livskompass-hero__cente
 ⋮----
 .dagbok-mode-nav__tab:hover {
 ⋮----
-@apply text-text;
-⋮----
 .dagbok-mode-nav__tab--active {
 ⋮----
 .journal-archive-scroll {
@@ -2562,9 +2586,4 @@ html[data-theme^='I-stone'] .livskompass-hero--embedded .livskompass-hero__cente
 .reflektion-field {
 ⋮----
 .reflektion-field__label {
-```
-
-## File: tailwind.config.js
-```javascript
-function cssVar(name)
 ```

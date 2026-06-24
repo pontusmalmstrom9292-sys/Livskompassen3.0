@@ -1621,40 +1621,6 @@ export interface VaultEntry extends BaseEntry {
 export type Entry = JournalEntry | VaultEntry;
 ````
 
-## File: src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx
-````typescript
-import { useState } from 'react';
-import { Loader2, RefreshCw, Sparkles } from 'lucide-react';
-import { TimelineEntry } from '@/core/ui/TimelineEntry';
-import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { useEvolutionStore } from '@/core/store/useEvolutionStore';
-import {
-  barnfokusQuestionsForBracket,
-  BARNFOKUS_KIND_LABELS,
-  type BarnfokusQuestion,
-  type BarnfokusBracket,
-} from '../../constants';
-import {
-  type EpistemicKind,
-} from '../../utils/childObservationEpistemics';
-import { barnfokusDisplayText, formatChildLogDate } from '../../utils/logFieldUtils';
-import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
-import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
-⋮----
-function pickQuestion(
-  pool: BarnfokusQuestion[],
-  seed: number,
-  excludeId?: string,
-): BarnfokusQuestion
-⋮----
-function daySeed(childAlias: string): number
-⋮----
-const handleSave = async () =>
-⋮----
-const anotherQuestion = () =>
-````
-
 ## File: src/modules/features/family/children/supermodule/delegates/familjenDelegateTypes.ts
 ````typescript
 import type { FamiljenShell } from '../../hooks/useFamiljenShell';
@@ -2026,6 +1992,40 @@ export function readValvLastInputMode(): ValvInputMode | null
 export function writeValvLastInputMode(mode: ValvInputMode): void
 ````
 
+## File: src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx
+````typescript
+import { useState } from 'react';
+import { Loader2, RefreshCw, Sparkles } from 'lucide-react';
+import { TimelineEntry } from '@/core/ui/TimelineEntry';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { useEvolutionStore } from '@/core/store/useEvolutionStore';
+import {
+  barnfokusQuestionsForAge,
+  BARNFOKUS_KIND_LABELS,
+  type BarnfokusQuestion,
+  type BarnfokusBracket,
+} from '../../constants';
+import {
+  type EpistemicKind,
+} from '../../utils/childObservationEpistemics';
+import { barnfokusDisplayText, formatChildLogDate } from '../../utils/logFieldUtils';
+import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
+import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
+⋮----
+function pickQuestion(
+  pool: BarnfokusQuestion[],
+  seed: number,
+  excludeId?: string,
+): BarnfokusQuestion
+⋮----
+function daySeed(childAlias: string): number
+⋮----
+const handleSave = async () =>
+⋮----
+const anotherQuestion = () =>
+````
+
 ## File: src/modules/features/family/children/supermodule/delegates/FamiljenLivsloggObservationDelegate.tsx
 ````typescript
 import { useState, useEffect } from 'react';
@@ -2063,34 +2063,6 @@ const handleBurn = () =>
 <div className=
 ⋮----
 className=
-````
-
-## File: src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokReflektionDelegate.tsx
-````typescript
-import { useEffect } from 'react';
-import { useStore } from '@/core/store';
-import { hasVaultGate } from '@/core/auth/sessionService';
-import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
-import { JournalArchiveReadonly } from '@/features/lifeJournal/diary/diary/components/JournalArchiveReadonly';
-import { ConfirmStep } from '@/features/lifeJournal/diary/diary/components/ConfirmStep';
-import { DagbokWizardErrorBoundary } from '@/features/lifeJournal/diary/diary/components/DagbokWizardErrorBoundary';
-import { MoodStep } from '@/features/lifeJournal/diary/diary/components/MoodStep';
-import { ReflectionStep } from '@/features/lifeJournal/diary/diary/components/ReflectionStep';
-import { SavedStep } from '@/features/lifeJournal/diary/diary/components/SavedStep';
-import { JOURNAL_CATEGORIES } from '@/features/lifeJournal/diary/diary/constants/journalCategories';
-import { JOURNAL_STEPS } from '@/features/lifeJournal/diary/diary/constants/moods';
-import { useJournalFlow } from '@/features/lifeJournal/diary/diary/hooks/useJournalFlow';
-import { useCapacityScore } from '@/core/store/useCapacityGate';
-import { useEvolutionStore } from '@/core/store/useEvolutionStore';
-import { isLowHomeCapacity } from '@/core/home/homeCapacityGate';
-⋮----
-export type DagbokReflektionDelegateProps = {
-  onSaved?: () => void;
-};
-⋮----
-resetFlow();
-⋮----
-onContinue=
 ````
 
 ## File: src/modules/features/lifeJournal/diary/supermodule/dagbokInputModes.ts
@@ -2205,4 +2177,49 @@ export function buildValvSearchParams(
   valvMode: ValvInputMode,
   vaultTab?: VaultTab,
 ): URLSearchParams
+````
+
+## File: src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokReflektionDelegate.tsx
+````typescript
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { BookOpen, ChevronRight, Plus } from 'lucide-react';
+import { clsx } from 'clsx';
+import { useStore } from '@/core/store';
+import { hasVaultGate } from '@/core/auth/sessionService';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
+import { JournalArchiveReadonly } from '@/features/lifeJournal/diary/diary/components/JournalArchiveReadonly';
+import { ConfirmStep } from '@/features/lifeJournal/diary/diary/components/ConfirmStep';
+import { DagbokWizardErrorBoundary } from '@/features/lifeJournal/diary/diary/components/DagbokWizardErrorBoundary';
+import { MoodStep } from '@/features/lifeJournal/diary/diary/components/MoodStep';
+import { ReflectionStep } from '@/features/lifeJournal/diary/diary/components/ReflectionStep';
+import { SavedStep } from '@/features/lifeJournal/diary/diary/components/SavedStep';
+import { JOURNAL_CATEGORIES } from '@/features/lifeJournal/diary/diary/constants/journalCategories';
+import { JOURNAL_STEPS } from '@/features/lifeJournal/diary/diary/constants/moods';
+import { useJournalFlow } from '@/features/lifeJournal/diary/diary/hooks/useJournalFlow';
+import { useCapacityScore } from '@/core/store/useCapacityGate';
+import { useEvolutionStore } from '@/core/store/useEvolutionStore';
+import { isLowHomeCapacity } from '@/core/home/homeCapacityGate';
+⋮----
+export type DagbokReflektionDelegateProps = {
+  onSaved?: () => void;
+};
+⋮----
+const startWriting = () =>
+⋮----
+const getSwedishWeekday = (date: Date) =>
+⋮----
+const formatDateKey = (date: Date) =>
+⋮----
+const formatEntryTime = (entry: any) =>
+⋮----
+const formatRelativeJournalDate = (date: Date) =>
+⋮----
+<span className=
+⋮----
+setSelectedDateKey(formatDateKey(date));
+⋮----
+resetFlow();
+⋮----
+onContinue=
 ````

@@ -707,34 +707,6 @@ Våg 2 **klar** 2026-06-16 — F2 header «Hjärtat», F3 Familjen kompakt nav p
 B1 **klar** — snapshot `~/Livskompassen-snapshots/2026-06-16-valv`.
 ````
 
-## File: src/modules/core/layout/FloatingDock.tsx
-````typescript
-import { useCallback } from 'react';
-import type { CSSProperties } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { clsx } from 'clsx';
-import { openValvViaFyren } from '../auth/valvFyrenGate';
-import { getNavTruthById, NAV_PATHS } from '../navigation/navTruth';
-import { useLongPress } from '../hooks/useLongPress';
-import { useStore } from '../store';
-import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
-import { FyrenProgressRing } from '../ui/FyrenProgressRing';
-import { LivskompassMark } from '../ui/LivskompassMark';
-import { FyrenDockHandle } from '../components/FyrenWidgetBar';
-import { DockNavButton } from './DockNavButton';
-import { useHeaderPanelStyle } from './headerPanelStyle';
-⋮----
-type DockZone = {
-  id: string;
-  label: string;
-  to: string;
-  drawerIcon: DrawerL2HubId;
-  match: (pathname: string, search: string) => boolean;
-};
-⋮----
-active=
-````
-
 ## File: src/modules/core/layout/NavigationDrawer.tsx
 ````typescript
 import { clsx } from 'clsx';
@@ -883,6 +855,30 @@ type LivLauncherGridProps = {
 export function LivLauncherGrid(
 ⋮----
 className=
+````
+
+## File: src/modules/core/layout/FloatingDock.tsx
+````typescript
+import { useCallback } from 'react';
+⋮----
+import type { CSSProperties } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { clsx } from 'clsx';
+import { Landmark, PenLine, Inbox } from 'lucide-react';
+import { openValvViaFyren } from '../auth/valvFyrenGate';
+import { NAV_PATHS } from '../navigation/navTruth';
+import { useLongPress } from '../hooks/useLongPress';
+import { useStore } from '../store';
+import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
+import { LivskompassMark } from '../ui/LivskompassMark';
+import { FyrenDockHandle } from '../components/FyrenWidgetBar';
+import { DockNavButton } from './DockNavButton';
+import { useHeaderPanelStyle } from './headerPanelStyle';
+⋮----
+export function FloatingDock()
+⋮----
+onClick=
 ````
 
 ## File: src/modules/core/components/FyrenWidgetBar.tsx

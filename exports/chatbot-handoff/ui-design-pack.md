@@ -2631,34 +2631,6 @@ Launcher (`LivLauncherGrid`): **5 kort** — Handling borttagen (F1); Kanban nå
 Gemini påverkas inte av GPT-handoff. Delad kanon: `.context/locked-ux-features.md`, `docs/design/references/MENU-DRAWER-KANON.md`.
 ````
 
-## File: src/modules/core/layout/FloatingDock.tsx
-````typescript
-import { useCallback } from 'react';
-import type { CSSProperties } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { clsx } from 'clsx';
-import { openValvViaFyren } from '../auth/valvFyrenGate';
-import { getNavTruthById, NAV_PATHS } from '../navigation/navTruth';
-import { useLongPress } from '../hooks/useLongPress';
-import { useStore } from '../store';
-import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
-import { FyrenProgressRing } from '../ui/FyrenProgressRing';
-import { LivskompassMark } from '../ui/LivskompassMark';
-import { FyrenDockHandle } from '../components/FyrenWidgetBar';
-import { DockNavButton } from './DockNavButton';
-import { useHeaderPanelStyle } from './headerPanelStyle';
-⋮----
-type DockZone = {
-  id: string;
-  label: string;
-  to: string;
-  drawerIcon: DrawerL2HubId;
-  match: (pathname: string, search: string) => boolean;
-};
-⋮----
-active=
-````
-
 ## File: src/modules/core/navigation/navTruth.ts
 ````typescript
 import { HIDE_BEVIS_TAB } from './navFlags';
@@ -2812,6 +2784,30 @@ type LivLauncherId =
   | 'mabra'
   | 'projekt'
   | 'arbetsliv';
+````
+
+## File: src/modules/core/layout/FloatingDock.tsx
+````typescript
+import { useCallback } from 'react';
+⋮----
+import type { CSSProperties } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { clsx } from 'clsx';
+import { Landmark, PenLine, Inbox } from 'lucide-react';
+import { openValvViaFyren } from '../auth/valvFyrenGate';
+import { NAV_PATHS } from '../navigation/navTruth';
+import { useLongPress } from '../hooks/useLongPress';
+import { useStore } from '../store';
+import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
+import { LivskompassMark } from '../ui/LivskompassMark';
+import { FyrenDockHandle } from '../components/FyrenWidgetBar';
+import { DockNavButton } from './DockNavButton';
+import { useHeaderPanelStyle } from './headerPanelStyle';
+⋮----
+export function FloatingDock()
+⋮----
+onClick=
 ````
 
 ## File: src/modules/core/components/FyrenWidgetBar.tsx

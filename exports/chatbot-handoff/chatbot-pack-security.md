@@ -1001,27 +1001,6 @@ export async function handleDriveIngest(
 function isHeavyResponse(text: string): boolean
 ````
 
-## File: functions/src/adk/synapses/journalWovenSynapse.ts
-````typescript
-import { generateEmbeddingInternal } from '../../lib/generateEmbeddingInternal';
-import { upsertKampsparVector } from '../../lib/vectorSearchClient';
-⋮----
-export interface JournalWovenPayload {
-  ownerId: string;
-  journalEntryId: string;
-  mood: string;
-  text: string;
-  optIn: boolean;
-}
-⋮----
-export interface JournalWovenResult {
-  kampsparDocId: string;
-  embeddingDim: number | null;
-}
-⋮----
-export async function handleJournalWoven(payload: JournalWovenPayload): Promise<JournalWovenResult>
-````
-
 ## File: functions/src/agents/cards/index.ts
 ````typescript
 import { AgentCard } from '../types';
@@ -1104,20 +1083,6 @@ export async function vaultSessionGrantsVaultRead(uid: string, data: unknown): P
 export async function assertVaultSession(uid: string, data: unknown): Promise<void>
 ````
 
-## File: src/modules/core/firebase/appCheck.ts
-````typescript
-import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
-import { Capacitor } from '@capacitor/core';
-import { initializeAppCheck, ReCaptchaV3Provider, CustomProvider } from 'firebase/app-check';
-import { app } from './init';
-⋮----
-export function initAppCheck(): Promise<void>
-⋮----
-async function doInitAppCheck(): Promise<void>
-⋮----
-function debugTokenFromEnv(): string | undefined
-````
-
 ## File: src/modules/core/security/vaultWriteUnlock.ts
 ````typescript
 import { getAuth } from 'firebase/auth';
@@ -1164,6 +1129,26 @@ export interface DcapAlertResult {
 }
 ⋮----
 export async function handleDcapAlert(payload: DcapAlertPayload): Promise<DcapAlertResult>
+````
+
+## File: functions/src/adk/synapses/journalWovenSynapse.ts
+````typescript
+import { generateEmbeddingInternal } from '../../lib/generateEmbeddingInternal';
+⋮----
+export interface JournalWovenPayload {
+  ownerId: string;
+  journalEntryId: string;
+  mood: string;
+  text: string;
+  optIn: boolean;
+}
+⋮----
+export interface JournalWovenResult {
+  kampsparDocId: string;
+  embeddingDim: number | null;
+}
+⋮----
+export async function handleJournalWoven(payload: JournalWovenPayload): Promise<JournalWovenResult>
 ````
 
 ## File: functions/src/adk/synapses/paralysBrytarenSynapse.ts
@@ -1300,6 +1285,20 @@ export async function guardSensitiveCallableV1(
   rateLimitKey: string,
   maxPerMinute = 30,
 ): Promise<string>
+````
+
+## File: src/modules/core/firebase/appCheck.ts
+````typescript
+import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+import { Capacitor } from '@capacitor/core';
+import { initializeAppCheck, ReCaptchaV3Provider, CustomProvider } from 'firebase/app-check';
+import { app } from './init';
+⋮----
+export function initAppCheck(): Promise<void>
+⋮----
+async function doInitAppCheck(): Promise<void>
+⋮----
+function debugTokenFromEnv(): string | undefined
 ````
 
 ## File: firestore.rules
