@@ -21,7 +21,7 @@ export interface InboxClassification {
 
 const CLASSIFY_MODEL = 'gemini-2.5-flash';
 
-function parseClassificationJson(raw: string): InboxClassification | null {
+export function parseClassificationJson(raw: string): InboxClassification | null {
   try {
     const cleaned = raw.replace(/```json\n?|\n?```/g, '').trim();
     const parsed = JSON.parse(cleaned) as InboxClassification;

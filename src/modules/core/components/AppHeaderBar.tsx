@@ -1,9 +1,7 @@
 import type { ReactNode } from 'react';
-import { HeaderMenuGlyph } from '../ui/HeaderChromeGlyphs';
 import { useHeaderPanelStyle } from '../layout/headerPanelStyle';
 import { DesignPackCenterHeader } from '../design/DesignPackCenterHeader';
-import { useDesignPack } from '../design/useDesignPack';
-import { AppHeaderBrand } from './AppHeaderBrand';
+
 
 export type { HeaderPanelStyle } from '../layout/headerPanelStyle';
 

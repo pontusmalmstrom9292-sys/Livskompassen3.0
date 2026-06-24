@@ -46,7 +46,6 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [coreQuestion, setCoreQuestion] = useState('');
   const [userGoal, setUserGoal] = useState('');
-  const [trainingMode, setTrainingMode] = useState(false);
   const fromSpeglar = Boolean(initialMessage.trim());
   const taktikSignal = detectHamnTaktikSignal(message);
 

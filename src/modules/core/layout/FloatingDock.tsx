@@ -3,9 +3,9 @@ import { useCallback } from 'react';
 import type { CSSProperties } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { clsx } from 'clsx';
-import { Landmark } from 'lucide-react';
+import { Landmark, PenLine, Inbox } from 'lucide-react';
 import { openValvViaFyren } from '../auth/valvFyrenGate';
-import { getNavTruthById, NAV_PATHS } from '../navigation/navTruth';
+import { NAV_PATHS } from '../navigation/navTruth';
 import { useLongPress } from '../hooks/useLongPress';
 import { useStore } from '../store';
 import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
@@ -24,8 +24,7 @@ export function FloatingDock() {
   const panelStyle = useHeaderPanelStyle();
 
   const isFamiljen = pathname === '/familjen' || pathname.startsWith('/familjen/');
-  // Valv är aktivt om vi är inne på någon valv-sida
-  const isValv = pathname.startsWith('/valv');
+  const isHjartat = pathname === '/hjartat' || pathname.startsWith('/hjartat') || pathname.startsWith('/dagbok');
 
   const fyrenToValv = useCallback(
     () =>
@@ -50,11 +49,23 @@ export function FloatingDock() {
     <div className="dock-shell dock-shell--fyren">
       <FyrenDockHandle />
       <div className="dock-hub-band floating-dock" data-panel-style={panelStyle}>
+        
+        {/* Left outer capture shortcut */}
+        <DockNavButton
+          label="Anteckning"
+          tileVariant="calm"
+          icon={<PenLine className="h-5 w-5 opacity-80" strokeWidth={1.5} />}
+          active={pathname.startsWith('/widget/anteckning')}
+          variant="slot"
+          className="floating-dock__side-btn floating-dock__side-btn--anteckning"
+          onClick={() => navigate('/widget/anteckning')}
+        />
+
+        {/* Center pill containing the primary core zones and home compass */}
         <div className="dock-hub-band__rail dock-hub-band__rail--zones">
-          
-          <div className="floating-dock__side-group floating-dock__side-group--left justify-end pr-2">
+          <div className="floating-dock__side-group floating-dock__side-group--left justify-end pr-1">
             <DockNavButton
-              label={getNavTruthById('familjen')?.label ?? 'Familjen'}
+              label="Familj"
               tileVariant="calm"
               icon={<DrawerL2Icon hubId="familjen" className="dock-nav-btn__drawer-l2" />}
               active={isFamiljen}
@@ -90,18 +101,30 @@ export function FloatingDock() {
             <span className="absolute -bottom-1 text-[0.6rem] uppercase tracking-widest text-accent font-medium mt-1">Hamn</span>
           </div>
 
-          <div className="floating-dock__side-group floating-dock__side-group--right justify-start pl-2">
+          <div className="floating-dock__side-group floating-dock__side-group--right justify-start pl-1">
             <DockNavButton
-              label="Valv"
+              label="Ventil"
               tileVariant="calm"
-              icon={<Landmark className="h-6 w-6 opacity-80" strokeWidth={1.5} />}
-              active={isValv}
+              icon={<Landmark className="h-5 w-5 opacity-80" strokeWidth={1.5} />}
+              active={isHjartat}
               variant="slot"
               className="floating-dock__side-btn floating-dock__side-btn--valv"
-              onClick={fyrenToValv}
+              onClick={() => navigate(NAV_PATHS.HJARTAT)}
             />
           </div>
         </div>
+
+        {/* Right outer capture shortcut */}
+        <DockNavButton
+          label="Inkast"
+          tileVariant="calm"
+          icon={<Inbox className="h-5 w-5 opacity-80" strokeWidth={1.5} />}
+          active={pathname.startsWith('/planering/input')}
+          variant="slot"
+          className="floating-dock__side-btn floating-dock__side-btn--inkast"
+          onClick={() => navigate('/planering/input?inputMode=inkast')}
+        />
+        
       </div>
     </div>
   );
