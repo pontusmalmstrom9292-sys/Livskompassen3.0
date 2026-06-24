@@ -58,6 +58,10 @@ const TIER2 = [
     dest: '20-SYSTEM-AUDIT-MASTER-PROMPT.md',
     src: 'docs/external-ai/bifoga/03-prompter/GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER.md',
   },
+  {
+    dest: '21-GEMINI-PROMPT-FABRIK-STARTKOMMANDON.md',
+    src: 'docs/external-ai/gemini/GEMINI-PROMPT-FABRIK-STARTKOMMANDON.md',
+  },
 ];
 
 const EXTRA = [
