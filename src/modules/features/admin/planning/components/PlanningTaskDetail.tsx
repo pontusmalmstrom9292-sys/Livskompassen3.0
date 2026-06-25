@@ -62,9 +62,12 @@ export function PlanningTaskDetail({ task, onClose, onMove, onSaveMicroStep }: P
             />
           </div>
         </label>
-        <div className="mt-1">
-          <ParalysBreakerWidget taskTitle={task.title} onSelectAtom={setMicroStep} />
-        </div>
+        <ParalysBreakerWidget
+          taskTitle={task.title}
+          onSelectAtom={(atom) => {
+            setMicroStep(atom);
+          }}
+        />
         <button
           type="button"
           onClick={() => onSaveMicroStep(microStep)}

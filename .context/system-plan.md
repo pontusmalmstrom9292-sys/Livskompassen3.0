@@ -344,7 +344,7 @@ När en Superhub-modul har **implementerats, testats och godkänts** av teknikle
 | **23A** | **Globalt Pansarläge (Survival Mode)** — extrem offloading | **done** |
 | **23B** | **Töm Skallen-vy (Inkast-Dyk)** | **done** (Bara ord + Lyssna) |
 | **23C** | **"Sista Utvägen" (MåBra Akut)** — SOS Ankare | **done** 2026-06-25 |
-| **23D** | Paralys-Brytaren i Planering | TODO |
+| **23D** | Paralys-Brytaren i Planering | **done** 2026-06-25 |
 | **23E** | Tyst Läge (Darkest Mode) i Superdagbok | TODO |
 
 *Detta markerar övergången från Etapp 1 (Stealth/Burn/Blur) till Etapp 2. Alla superhubbar är konsoliderade (Fas 6-11) och vi bygger nu kognitiva skyddsnät som följer WORM och Three-Silo designen.*
@@ -364,10 +364,10 @@ När en Superhub-modul har **implementerats, testats och godkänts** av teknikle
 | **S24** | Zero Footprint widget/synapse clear · DCAP 4 band · `mabraCoachGuard` utökad | **done** 2026-06-25 | `smoke:s24`, `smoke:valv-security`, `smoke:dcap-routing` |
 | **HITL1** | Unified HITL preview (inkast först) | **done** 2026-06-25 | `smoke:hitl1`, `smoke:inkast`, `smoke:dcap` |
 | **24.dock** | Executive reference-dock (`ExecutiveDockBar`) | **done** 2026-06-25 | `smoke:locked-ux`, `smoke:chrome-header` |
-| **23D** | Paralys-Brytaren i Planering P3 | TODO | `smoke:planering`, `smoke:locked-ux` |
+| **23D** | Paralys-Brytaren i Planering P3 | **done** 2026-06-25 | `smoke:planering`, `smoke:locked-ux` |
 | **23E** | Tyst läge / dissociation i Superdagbok | TODO | `smoke:journal-2d`, `smoke:locked-ux` |
 
-**Byggsekvens (0–12 veckor):** ~~P0~~ → ~~PV1a~~ → ~~23C~~ → ~~S24~~ → ~~PV1b~~ → ~~HITL1~~ → **23D** → **23E**
+**Byggsekvens (0–12 veckor):** ~~P0~~ → ~~PV1a~~ → ~~23C~~ → ~~S24~~ → ~~PV1b~~ → ~~HITL1~~ → ~~23D~~ → **23E**
 
 **Defer från Fas 19 (om ej påbörjad):** 19.3 hex→tokens · 19.5 evolution_ledger · 19.6 arkiv-batch → se syntes §3 defer (6m+)
 

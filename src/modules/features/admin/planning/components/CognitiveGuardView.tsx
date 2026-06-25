@@ -2,6 +2,7 @@ import { Brain, Loader2, Check } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
 import type { PlanningTask } from '../types';
+import { ParalysBreakerWidget } from './ParalysBreakerWidget';
 
 interface CognitiveGuardViewProps {
   focusTask: PlanningTask;
@@ -74,6 +75,11 @@ export function CognitiveGuardView({
               </button>
             </div>
           </label>
+
+          <ParalysBreakerWidget
+            taskTitle={focusTask.title}
+            onSelectAtom={setMicroStepInput}
+          />
 
           <div className="flex gap-2 pt-2">
             <button
