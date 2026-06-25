@@ -25,7 +25,12 @@ test.describe('Obsidian Calm tokens', () => {
     });
 
     expect(isDarkHex(tokens.surface)).toBe(true);
-    expect(tokens.accent.toLowerCase()).toMatch(/d4af37|212|175|55/);
+    // Theme Pack I — accepterar samtliga registrerade guld/brons-accenter
+    // (I-stone, I-stone-draft-twilight, I-stone-draft-bronze, I-alchemical, I-skymning).
+    // Tidigare regex matchade endast d4af37; default-temat kan vara brons-variant.
+    expect(tokens.accent.toLowerCase()).toMatch(
+      /d4af37|212|175|55|c9a66b|c9a227|9f852b|e8c547/,
+    );
   });
 
   test('manifest theme_color är mörk Obsidian-bas', async ({ page }) => {
