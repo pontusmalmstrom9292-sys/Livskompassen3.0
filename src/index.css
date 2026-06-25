@@ -8,6 +8,7 @@
 @import './styles/executive-chrome.css';
 @import './styles/design-freeport.css';
 @import './styles/theme-lab-brusfiltret-supermodule.css';
+@import './styles/theme-lab-w1-widget.css';
 
 @tailwind base;
 @tailwind components;

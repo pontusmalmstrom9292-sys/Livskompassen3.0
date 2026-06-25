@@ -1,0 +1,330 @@
+/**
+ * Theme Lab — W1 kompakt projekt widget v2
+ * Route: /dev/theme-lab/w1-kompakt-projekt
+ * Mockup: docs/design/galleri/widget/v2/W1-kompakt-projekt.png
+ */
+
+.w1-lab-page {
+  @apply mx-auto flex w-full max-w-lg flex-col gap-6;
+}
+
+.w1-lab-phone {
+  @apply relative mx-auto w-full max-w-[22.5rem] overflow-hidden rounded-[1.35rem] border;
+  border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  background: linear-gradient(
+    168deg,
+    var(--home-hero-gradient-top, var(--bg)) 0%,
+    var(--home-hero-gradient-mid, var(--surface)) 48%,
+    var(--home-hero-gradient-bot, var(--bg-dusk)) 100%
+  );
+  box-shadow:
+    0 16px 48px var(--color-glass-dark-45, rgba(0, 0, 0, 0.45)),
+    inset 0 1px 0 var(--home-hero-inset-highlight, rgba(255, 255, 255, 0.04));
+}
+
+.w1-lab-phone__scroll {
+  @apply relative max-h-[38rem] overflow-y-auto px-3 pb-[5.75rem] pt-3;
+  scrollbar-width: thin;
+}
+
+.w1-lab-header {
+  @apply mb-3 grid grid-cols-[2.75rem_1fr_2.75rem] items-center gap-1;
+}
+
+.w1-lab-header__menu,
+.w1-lab-header__compass {
+  @apply flex min-h-[2.75rem] min-w-[2.75rem] items-center justify-center rounded-full border text-accent transition-colors;
+  border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+}
+
+.w1-lab-header__brand {
+  @apply text-center;
+}
+
+.w1-lab-header__title {
+  @apply font-display-serif text-[0.72rem] font-semibold uppercase tracking-[0.28em] text-accent;
+}
+
+.w1-lab-header__ornament {
+  @apply mt-1 flex items-center justify-center gap-1;
+}
+
+.w1-lab-header__ornament > span {
+  @apply h-px w-5;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 55%, transparent));
+}
+
+.w1-lab-header__ornament > span:last-child {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 55%, transparent), transparent);
+}
+
+.w1-lab-header__ornament-gem {
+  @apply h-1 w-1 rotate-45;
+  background: var(--accent);
+  box-shadow: 0 0 6px color-mix(in srgb, var(--accent) 45%, transparent);
+}
+
+.w1-lab-header__compass-mark {
+  @apply h-5 w-5;
+}
+
+.w1-lab-greeting {
+  @apply mb-3 flex items-start justify-between gap-2;
+}
+
+.w1-lab-greeting__name {
+  @apply flex items-center gap-1.5 font-display-serif text-lg font-semibold tracking-wide text-text;
+}
+
+.w1-lab-greeting__tagline {
+  @apply mt-0.5 text-[9px] font-semibold uppercase tracking-[0.2em] text-accent;
+}
+
+.w1-lab-greeting__eld {
+  @apply shrink-0;
+}
+
+.w1-lab-stage {
+  @apply relative mb-3;
+}
+
+.w1-lab-stage__main {
+  @apply pr-[3.25rem];
+}
+
+.w1-lab-stage__main .livskompass-hero--embedded {
+  @apply mb-0;
+}
+
+.w1-lab-stage__main .livskompass-hero__panel {
+  @apply border-0 bg-transparent p-0 shadow-none;
+}
+
+.w1-lab-rail {
+  @apply absolute right-0 top-2 z-[2] flex w-[3rem] flex-col items-center gap-1;
+}
+
+.w1-lab-rail__action {
+  @apply flex min-h-[2.75rem] w-full flex-col items-center gap-0.5 rounded-lg px-0.5 py-1 text-text-muted transition-colors;
+}
+
+.w1-lab-rail__action:hover,
+.w1-lab-rail__action--active {
+  @apply text-accent;
+}
+
+.w1-lab-rail__icon-shell {
+  @apply flex h-[2.35rem] w-[2.35rem] items-center justify-center rounded-xl border;
+  border-color: color-mix(in srgb, var(--accent) 20%, transparent);
+  background: color-mix(in srgb, var(--bg) 62%, transparent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.w1-lab-rail__action--active .w1-lab-rail__icon-shell {
+  border-color: color-mix(in srgb, var(--accent) 48%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.w1-lab-rail__glyph {
+  @apply h-4 w-4;
+}
+
+.w1-lab-rail__label {
+  @apply max-w-full truncate text-center text-[7px] font-medium uppercase leading-tight tracking-wide text-text-dim;
+}
+
+.w1-lab-rail__action--active .w1-lab-rail__label {
+  @apply text-accent/90;
+}
+
+.w1-lab-riktning {
+  @apply space-y-2;
+}
+
+.w1-lab-riktning__card {
+  @apply flex w-full min-h-[2.75rem] items-start gap-3 rounded-[0.875rem] border px-3 py-3 text-left backdrop-blur-md transition-colors;
+  border: 1.5px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  background: linear-gradient(
+    168deg,
+    var(--home-hero-gradient-top, var(--surface)) 0%,
+    var(--home-hero-gradient-mid, var(--surface-2)) 45%,
+    var(--home-hero-gradient-bot, var(--bg-dusk)) 100%
+  );
+  box-shadow:
+    0 8px 24px var(--color-glass-dark-45, rgba(0, 0, 0, 0.35)),
+    inset 0 1px 0 var(--home-hero-inset-highlight, rgba(255, 255, 255, 0.04));
+}
+
+.w1-lab-riktning__icon-wrap {
+  @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-lg border p-1;
+  border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+  background: color-mix(in srgb, var(--bg) 55%, transparent);
+}
+
+.w1-lab-riktning__compass {
+  @apply h-8 w-8;
+}
+
+.w1-lab-riktning__body {
+  @apply min-w-0 flex-1;
+}
+
+.w1-lab-riktning__eyebrow {
+  @apply block text-[9px] font-medium uppercase tracking-[0.24em] text-accent/80;
+}
+
+.w1-lab-riktning__quote {
+  @apply mt-1 block text-xs leading-snug text-text-muted;
+}
+
+.w1-lab-riktning__chevron {
+  @apply mt-2 h-4 w-4 shrink-0 text-accent/70;
+}
+
+.w1-lab-dots {
+  @apply flex items-center justify-center gap-1.5 py-1;
+}
+
+.w1-lab-dots__dot {
+  @apply h-1.5 w-1.5 rounded-full;
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+.w1-lab-dots__dot--active {
+  @apply w-4;
+  background: color-mix(in srgb, var(--accent) 72%, transparent);
+}
+
+.w1-lab-dock {
+  @apply absolute inset-x-0 bottom-0 grid grid-cols-3 items-end gap-1 border-t px-3 pb-3 pt-2;
+  border-color: color-mix(in srgb, var(--accent) 14%, transparent);
+  background: linear-gradient(180deg, transparent 0%, color-mix(in srgb, var(--surface) 88%, transparent) 35%, var(--bg) 100%);
+  backdrop-filter: blur(12px);
+}
+
+.w1-lab-dock__item {
+  @apply flex min-h-[2.75rem] flex-col items-center justify-end gap-1 text-[9px] font-medium uppercase tracking-wide text-text-dim transition-colors;
+}
+
+.w1-lab-dock__item--active {
+  @apply text-accent;
+}
+
+.w1-lab-dock__glyph {
+  @apply h-[1.15rem] w-[1.15rem];
+}
+
+.w1-lab-dock__glyph--valv {
+  @apply h-4 w-4 text-accent;
+}
+
+.w1-lab-dock__compass-slot {
+  @apply flex flex-col items-center gap-0.5;
+}
+
+.w1-lab-dock__compass {
+  @apply relative flex h-[3.35rem] w-[3.35rem] items-center justify-center rounded-full border-2 transition-transform;
+  border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+  background: radial-gradient(
+    circle at 50% 35%,
+    color-mix(in srgb, var(--accent) 18%, transparent),
+    color-mix(in srgb, var(--surface) 90%, transparent) 68%
+  );
+  box-shadow:
+    0 8px 24px rgba(0, 0, 0, 0.35),
+    0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent) inset;
+  margin-top: -1.35rem;
+}
+
+.w1-lab-dock__compass--active {
+  border-color: color-mix(in srgb, var(--accent) 62%, transparent);
+  box-shadow:
+    0 10px 28px rgba(0, 0, 0, 0.4),
+    0 0 18px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.w1-lab-dock__compass-mark {
+  @apply h-9 w-9;
+}
+
+.w1-lab-dock__compass-label {
+  @apply text-[9px] font-medium uppercase tracking-wide text-accent;
+}
+
+/* Picker overlay (inside phone) */
+.w1-lab-picker {
+  @apply absolute inset-0 z-20 flex items-end justify-center;
+}
+
+.w1-lab-picker__backdrop {
+  @apply absolute inset-0 border-0 bg-black/55 backdrop-blur-sm;
+}
+
+.w1-lab-picker__panel {
+  @apply relative z-[1] w-full rounded-t-2xl border px-4 pb-5 pt-3;
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--surface-2) 92%, transparent) 0%,
+    color-mix(in srgb, var(--bg) 96%, transparent) 100%
+  );
+  box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.45);
+}
+
+.w1-lab-picker__handle {
+  @apply mx-auto mb-3 h-1 w-10 rounded-full;
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.w1-lab-picker__header {
+  @apply mb-4 flex items-center justify-between gap-2;
+}
+
+.w1-lab-picker__title {
+  @apply font-display-serif text-sm font-semibold uppercase tracking-[0.2em] text-accent;
+}
+
+.w1-lab-picker__close {
+  @apply flex min-h-[2.75rem] min-w-[2.75rem] items-center justify-center rounded-full border text-text-muted transition-colors;
+  border-color: color-mix(in srgb, var(--border) 80%, transparent);
+}
+
+.w1-lab-picker__grid {
+  @apply grid grid-cols-2 gap-2;
+}
+
+.w1-lab-picker__tile {
+  @apply flex min-h-[5.5rem] flex-col items-center justify-center gap-2 rounded-xl border px-2 py-3 text-center transition-colors;
+  border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}
+
+.w1-lab-picker__tile:hover {
+  border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+  background: color-mix(in srgb, var(--accent) 6%, transparent);
+}
+
+.w1-lab-picker__tile-icon {
+  @apply flex h-11 w-11 items-center justify-center rounded-full border text-accent;
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.w1-lab-picker__tile-label {
+  @apply text-xs font-medium text-text;
+}
+
+.w1-lab-compare {
+  @apply grid gap-4 lg:grid-cols-2;
+}
+
+.w1-lab-compare__ref img {
+  @apply w-full rounded-xl border object-cover;
+  border-color: color-mix(in srgb, var(--border) 80%, transparent);
+}
+
+.w1-lab-status {
+  @apply rounded-lg border px-3 py-2 text-xs text-text-muted;
+  border-color: color-mix(in srgb, var(--border) 70%, transparent);
+  background: color-mix(in srgb, var(--surface) 55%, transparent);
+}
