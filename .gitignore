@@ -21,7 +21,8 @@ firebase-debug.*.log
 # MCP/CLI refresh tokens live in ~/.config/firebase/ — never copy into repo
 
 # Personal Drive import — not project source (PII, family docs)
-docs/archive/drive-backup/
+docs/archive/drive-backup/*
+!docs/archive/drive-backup/README.md
 
 # Build output
 dist/
