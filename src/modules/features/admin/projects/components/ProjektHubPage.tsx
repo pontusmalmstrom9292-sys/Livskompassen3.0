@@ -85,7 +85,13 @@ export function ProjektHubPage() {
   const [search, setSearch] = useState('');
   const [busyId, setBusyId] = useState<string | null>(null);
 
-  const counts = useMemo(() => computeProjectCounts(projects), [projects]);
+  // Pausade projekt visas tillsammans med aktiva (Pausade-fliken är borttagen).
+  const hubProjects = useMemo(
+    () => projects.map((p) => (p.status === 'paused' ? { ...p, status: 'active' as const } : p)),
+    [projects],
+  );
+
+  const counts = useMemo(() => computeProjectCounts(hubProjects), [hubProjects]);
 
   const total = totalProjects(counts);
   const showStatusTabs = shouldShowStatusTabs(counts);
@@ -93,8 +99,8 @@ export function ProjektHubPage() {
 
   const showSearch = shouldShowSearch(counts[effectiveStatus]);
   const visible = useMemo(
-    () => filterProjects(projects, effectiveStatus, search),
-    [projects, effectiveStatus, search],
+    () => filterProjects(hubProjects, effectiveStatus, search),
+    [hubProjects, effectiveStatus, search],
   );
 
   const changeStatus = async (project: Project, next: ProjectStatus) => {
