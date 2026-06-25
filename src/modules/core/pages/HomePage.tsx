@@ -13,6 +13,7 @@ import { useTheme } from '../theme';
 import { getTheme } from '../theme';
 import { isMockupTheme } from '../theme/mockupTheme';
 import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
+import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
 import { ChameleonLive } from '../home/ChameleonLive';
 import { getDefaultTarget, type ChameleonTarget } from '../home/chameleonBridge';
 import type { ChameleonZoneId } from '../home/chameleonZones';
@@ -25,6 +26,7 @@ export function HomePage() {
   const { preset, presetId } = useLifeHubPreset();
   const { themeId } = useTheme();
   const mockupSkin = isMockupTheme(themeId) || themeUsesDesignPackChrome(getTheme(themeId));
+  const executiveSkin = isMidnightExecutiveTheme(themeId);
   const [adaptiveRefreshKey, setAdaptiveRefreshKey] = useState(0);
   
   const showAdaptiveCards = !mockupSkin && isAuthenticated && materialEnabled(preset, 'home_adaptive_cards');
@@ -72,6 +74,7 @@ export function HomePage() {
       className={clsx(
         'home-page home-page--kanon home-page--scenic space-y-4 pb-32',
         mockupSkin && 'home-page--mockup-skin',
+        executiveSkin && 'home-page--executive',
         usesLayoutA && 'home-page--layout-a',
       )}
     >

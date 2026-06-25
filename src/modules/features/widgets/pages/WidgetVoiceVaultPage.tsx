@@ -5,8 +5,8 @@ import { WidgetShell } from '../layout/WidgetShell';
 function WidgetVoiceVaultInner() {
   return (
     <WidgetShell
-      title="Voice-to-Vault"
-      lead="Röst eller text — routas till rätt silo utan att spara förrän du bekräftar."
+      title="Bevis-röst"
+      lead="Röst eller text — välj silo och bekräfta innan det sparas."
     >
       <QuickCapturePanel compact />
     </WidgetShell>

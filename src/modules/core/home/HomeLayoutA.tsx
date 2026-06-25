@@ -7,6 +7,7 @@ import { useStore } from '@/core/store';
 import { CalmCollapsible } from '../ui/CalmCollapsible';
 import { HomeGreeting } from './HomeGreeting';
 import { HomeBrassDaySteps } from './HomeBrassDaySteps';
+import { HomeExecutiveSnabbstart } from './HomeExecutiveSnabbstart';
 import { HomeStreakChip } from './HomeStreakChip';
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
 import { HOME_SUPERHUB_ROUTES } from './homeSuperhubRoutes';
@@ -17,9 +18,11 @@ import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasse
 
 type Props = {
   onCheckInSaved?: () => void;
-  /** brass = Brushed Brass tema; calm = Obsidian Calm (default hem). */
-  variant?: 'brass' | 'calm';
+  /** brass = Brushed Brass tema; calm = Obsidian Calm; executive = Midnight Executive mockup. */
+  variant?: 'brass' | 'calm' | 'executive';
   presetLabel?: string;
+  /** Executive: greeting renderas i HomeHeroKanon scenic stack. */
+  hideIntro?: boolean;
 };
 
 const QUICK_CAPTURE = [
@@ -32,9 +35,12 @@ function weekdayLabel(date: Date): string {
   return date.toLocaleDateString('sv-SE', { weekday: 'long' });
 }
 
-function surfaceClass(variant: 'brass' | 'calm', extra?: string) {
+function surfaceClass(variant: 'brass' | 'calm' | 'executive', extra?: string) {
   if (variant === 'brass') {
     return clsx('brass-glass', extra);
+  }
+  if (variant === 'executive') {
+    return clsx('calm-card-midnight', extra);
   }
   return clsx('calm-card-midnight', extra);
 }
@@ -53,7 +59,7 @@ function getRitualMeta(now: Date) {
 }
 
 /** Hem layout A — ankare + asymmetriskt rutnät (HEM-LAYOUT-A-KANON). Wave A2 polish. */
-export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: Props) {
+export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hideIntro = false }: Props) {
   const navigate = useNavigate();
   const user = useStore((s) => s.user);
   const { preset } = useLifeHubPreset();
@@ -78,7 +84,12 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
         if (!active) return;
         
         // 1. Dagens ankare
-        const targetId = variant === 'brass' ? 'home_brass_anchor' : 'home_layout_a_anchor';
+        const targetId =
+          variant === 'brass'
+            ? 'home_brass_anchor'
+            : variant === 'executive'
+              ? 'home_executive_anchor'
+              : 'home_layout_a_anchor';
         const foundAnchor = history.find((c) => c.questionId === targetId);
         if (foundAnchor && foundAnchor.taskNote) {
           setAnchor(foundAnchor.taskNote);
@@ -115,7 +126,12 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
     setError(null);
     try {
       await saveCheckIn(user.uid, {
-        questionId: variant === 'brass' ? 'home_brass_anchor' : 'home_layout_a_anchor',
+        questionId:
+          variant === 'brass'
+            ? 'home_brass_anchor'
+            : variant === 'executive'
+              ? 'home_executive_anchor'
+              : 'home_layout_a_anchor',
         questionText: 'Dagens ankare',
         optionSelected: 'intention',
         taskCategory: 'morning',
@@ -151,6 +167,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
     'home-layout-a mx-auto w-full max-w-2xl space-y-4 pb-4',
     variant === 'brass' && 'home-brass-a',
     variant === 'calm' && 'home-layout-a--calm',
+    variant === 'executive' && 'home-layout-a--executive',
   );
 
   const insetClass =
@@ -163,10 +180,17 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
     clsx('home-layout-a__hero-card', variant === 'brass' && 'brass-glass--hero'),
   );
 
+  const cardClass =
+    variant === 'executive'
+      ? 'exec-surface-card'
+      : 'calm-card-midnight';
+
   return (
     <div className={rootClass}>
+      {!hideIntro ? (
       <div className="home-layout-a__intro">
-        <HomeGreeting hideEyebrow={true} />
+        <HomeGreeting hideEyebrow={variant === 'executive'} />
+        {variant !== 'executive' ? (
         <CalmCollapsible
           title="Profil & fas"
           meta={weekdayLabel(now)}
@@ -190,14 +214,19 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
             <HomeStreakChip />
           </div>
         </CalmCollapsible>
+        ) : null}
       </div>
+      ) : null}
 
       <section
         className={clsx('home-layout-a__hero relative p-4', heroSurface)}
         aria-label="Dagens ankare"
       >
-        <div className="flex justify-between items-start mb-2">
-          <p className="text-[9px] tracking-[0.2em] font-sans text-accent uppercase font-bold">
+        <div className="flex justify-between items-start mb-2 relative z-[1]">
+          <p className={clsx(
+            'text-[9px] tracking-[0.2em] uppercase font-bold text-accent',
+            variant === 'executive' && 'home-layout-a__section-label',
+          )}>
             DAGENS ANKARE
           </p>
           {!isEditing && anchor.trim() ? (
@@ -218,7 +247,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
         </div>
 
         {isEditing ? (
-          <div className="space-y-3">
+          <div className="space-y-3 relative z-[1]">
             <p className="text-xs text-text-muted">Inte hela dagen — bara det viktigaste nu.</p>
             <textarea
               id="home-layout-a-anchor"
@@ -255,8 +284,11 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
             </div>
           </div>
         ) : (
-          <div className="space-y-1 py-1 cursor-pointer animate-fade-in" onClick={() => setIsEditing(true)}>
-            <h2 className="text-lg font-bold font-sans text-text leading-snug hover:text-accent-light transition-colors">
+          <div className="space-y-1 py-1 cursor-pointer animate-fade-in relative z-[1]" onClick={() => setIsEditing(true)}>
+            <h2 className={clsx(
+              'text-lg font-bold leading-snug hover:text-accent-light transition-colors',
+              variant === 'executive' ? 'font-display-serif tracking-wide text-accent-light' : 'font-sans text-text',
+            )}>
               {anchor.trim() || 'Ett mikrosteg räcker.'}
             </h2>
             <p className="text-[10px] text-text-dim">Inte hela dagen — bara det viktigaste nu.</p>
@@ -266,8 +298,13 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
 
       <HomeBrassDaySteps variant={variant} />
 
+      {variant === 'executive' ? (
+        <HomeExecutiveSnabbstart />
+      ) : (
       <div className="space-y-2">
-        <p className="text-[9px] tracking-[0.2em] font-sans text-accent uppercase font-bold pl-1">
+        <p className={clsx(
+          'text-[9px] tracking-[0.2em] uppercase font-bold text-accent pl-1',
+        )}>
           SNABBSTART
         </p>
         <div className="grid grid-cols-3 gap-2.5">
@@ -278,7 +315,10 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
                 key={item.id}
                 type="button"
                 onClick={() => navigate(item.to)}
-                className="calm-card-midnight p-4 flex flex-col items-center justify-center gap-2 hover:border-accent/30 transition-all active:scale-[0.98]"
+                className={clsx(
+                  cardClass,
+                  'p-4 flex flex-col items-center justify-center gap-2 hover:border-accent/30 transition-all active:scale-[0.98]',
+                )}
               >
                 <Icon className="h-5 w-5 text-accent" aria-hidden />
                 <span className="text-[10px] font-semibold text-text-muted">{item.label}</span>
@@ -287,15 +327,19 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
           })}
         </div>
       </div>
+      )}
 
       {/* Närvaro & Ritual side-by-side (Mockup flat layout) */}
       <div className="grid grid-cols-2 gap-2.5">
         <button
           type="button"
           onClick={() => navigate('/vardagen?tab=mabra')}
-          className="calm-card-midnight p-3.5 text-left flex flex-col justify-between min-h-[96px] hover:border-accent/30 transition-all active:scale-[0.98]"
+          className={clsx(cardClass, 'p-3.5 text-left flex flex-col justify-between min-h-[96px] hover:border-accent/30 transition-all active:scale-[0.98]')}
         >
-          <span className="text-[9px] tracking-[0.12em] uppercase font-bold text-accent">NÄRVARO</span>
+          <span className={clsx(
+            'text-[9px] tracking-[0.12em] uppercase font-bold text-accent',
+            variant === 'executive' && 'home-layout-a__section-label',
+          )}>NÄRVARO</span>
           <div className="flex flex-col mt-2">
             <span className="text-xl font-bold font-sans text-text leading-none">{presenceVal}</span>
             <span className="text-[10px] text-success font-semibold mt-1">{presenceLabel}</span>
@@ -305,9 +349,12 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
         <button
           type="button"
           onClick={() => navigate('/vardagen')}
-          className="calm-card-midnight p-3.5 text-left flex flex-col justify-between min-h-[96px] hover:border-accent/30 transition-all active:scale-[0.98]"
+          className={clsx(cardClass, 'p-3.5 text-left flex flex-col justify-between min-h-[96px] hover:border-accent/30 transition-all active:scale-[0.98]')}
         >
-          <span className="text-[9px] tracking-[0.12em] uppercase font-bold text-accent">RITUAL</span>
+          <span className={clsx(
+            'text-[9px] tracking-[0.12em] uppercase font-bold text-accent',
+            variant === 'executive' && 'home-layout-a__section-label',
+          )}>RITUAL</span>
           <div className="flex flex-col mt-2">
             <span className="text-base font-bold font-sans text-text leading-none">{ritual.name}</span>
             <span className="text-[9px] text-text-dim font-medium mt-1.5 flex items-center gap-1">
@@ -321,10 +368,13 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
       <button
         type="button"
         onClick={() => navigate('/hjartat')}
-        className="w-full calm-card-midnight p-4 flex items-center justify-between text-left hover:border-accent/30 transition-all active:scale-[0.99]"
+        className={clsx(cardClass, 'w-full p-4 flex items-center justify-between text-left hover:border-accent/30 transition-all active:scale-[0.99]')}
       >
         <div className="space-y-1">
-          <p className="text-[9px] tracking-[0.2em] font-sans text-accent uppercase font-bold">
+          <p className={clsx(
+            'text-[9px] tracking-[0.2em] uppercase font-bold text-accent',
+            variant === 'executive' && 'home-layout-a__section-label',
+          )}>
             KOMPASSRÅD
           </p>
           <p className="text-xs font-semibold text-text leading-relaxed font-sans">

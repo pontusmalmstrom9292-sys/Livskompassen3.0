@@ -162,6 +162,14 @@ export function barnfokusQuestionsForAge(
   return allQuestions;
 }
 
+/** Kanon-alias — bracket-wire (smoke + barn-observation-epistemik). */
+export function barnfokusQuestionsForBracket(
+  bracket: BarnfokusBracket | undefined,
+  ageYears?: number,
+): BarnfokusQuestion[] {
+  return barnfokusQuestionsForAge(bracket, ageYears);
+}
+
 const KIND_ROTATION: BarnfokusQuestionKind[] = [
   'gladje',
   'kunskap',

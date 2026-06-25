@@ -5,6 +5,8 @@
 @import './styles/redesign-a-nordic-precision.css';
 @import './styles/redesign-c-aurora-prism.css';
 @import './styles/brushed-brass-neu.css';
+@import './styles/executive-chrome.css';
+@import './styles/design-freeport.css';
 @import './styles/theme-lab-brusfiltret-supermodule.css';
 
 @tailwind base;

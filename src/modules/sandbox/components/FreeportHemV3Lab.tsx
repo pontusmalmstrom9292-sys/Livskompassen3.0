@@ -1,14 +1,16 @@
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { PenLine, Mic, Inbox } from 'lucide-react';
 import {
   HEM_V3_SUPERMOD_COPY,
   type HemV3DevCard,
   type HemV3SuperModId,
 } from '@/core/home/hemV3DevelopmentCards';
+import { ExecutiveChecklistCard } from '@/core/ui/executive';
 import { FreeportChameleonLive } from './FreeportChameleonLive';
 import { FreeportDiscoveryCards } from './FreeportDiscoveryCards';
 import { FreeportModellAPhoneShell } from './FreeportModellAPhoneShell';
-import type { ModellADockId } from './FreeportModellADock';
+import type { HybridDockSlot } from './FreeportHybridDock';
 import { ExecutiveDecorCompass, ExecutiveMediaFrame } from './exec';
 import {
   getDefaultTarget,
@@ -30,6 +32,18 @@ const SNABB_TO_SUPERMOD: Partial<Record<SnabbstartItemId, HemV3SuperModId>> = {
   kompass: 'Kompass',
 };
 
+const MOCK_STEPS = [
+  { id: '1', label: 'Fixa packning', time: '09:30', done: true },
+  { id: '2', label: 'Ring Anna', time: '11:30', done: true },
+  { id: '3', label: 'Träna 20 min', time: '18:00', done: false },
+];
+
+const SNABB = [
+  { id: 'anteckning' as SnabbstartItemId, label: 'Anteckning', icon: PenLine },
+  { id: 'inspelning' as SnabbstartItemId, label: 'Inspelning', icon: Mic },
+  { id: 'inkast' as SnabbstartItemId, label: 'Inkast', icon: Inbox },
+];
+
 function getGreeting(): string {
   const h = new Date().getHours();
   if (h < 10) return 'God morgon';
@@ -37,14 +51,15 @@ function getGreeting(): string {
   return 'God kväll';
 }
 
-/** Hem (Modell A) — kompassmodul + Utforska + live Chameleon + zon-dock + Fyren-snabbstart. */
+/** Hem (Modell A) — hybrid dock + ankare + steg + snabbstart + Chameleon. */
 export function FreeportHemV3Lab({ lowCapacity = false, onStatus }: Props) {
   const [target, setTarget] = useState<FreeportChameleonTarget>(() => getDefaultTarget('hjartat'));
   const [activeMod, setActiveMod] = useState<HemV3SuperModId>('Dagbok');
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null);
-  const [dockActive, setDockActive] = useState<ModellADockId>('hem');
+  const [dockActive, setDockActive] = useState<HybridDockSlot>('hem');
   const [snabbstartOpen, setSnabbstartOpen] = useState(false);
   const [snabbActiveId, setSnabbActiveId] = useState<SnabbstartItemId | undefined>();
+  const [steps, setSteps] = useState(MOCK_STEPS);
 
   const modCopy = HEM_V3_SUPERMOD_COPY[activeMod];
 
@@ -65,8 +80,8 @@ export function FreeportHemV3Lab({ lowCapacity = false, onStatus }: Props) {
   }, []);
 
   const handleDockSelect = useCallback(
-    (id: ModellADockId) => {
-      if (id === 'fab') return;
+    (id: HybridDockSlot) => {
+      if (id === 'resurser' || id === 'mer') return;
       setDockActive(id);
       if (id === 'hem') {
         onStatus?.('Nav: hem');
@@ -107,6 +122,7 @@ export function FreeportHemV3Lab({ lowCapacity = false, onStatus }: Props) {
       onFabPress={handleFabPress}
       onSnabbstartSelect={handleSnabbstartSelect}
       onSnabbstartClose={() => setSnabbstartOpen(false)}
+      onStatus={onStatus}
     >
       <header className="design-freeport__exec-header design-freeport__exec-header--hero">
         <div>
@@ -114,6 +130,7 @@ export function FreeportHemV3Lab({ lowCapacity = false, onStatus }: Props) {
           <p className="design-freeport__exec-greeting design-freeport__exec-greeting--inline">
             {getGreeting()}, <span className="design-freeport__exec-greeting-name">Pontus</span>
           </p>
+          <p className="design-freeport__exec-subtitle">Den trygga hamnen</p>
         </div>
       </header>
 
@@ -139,6 +156,53 @@ export function FreeportHemV3Lab({ lowCapacity = false, onStatus }: Props) {
         />
       </article>
 
+      <ExecutiveChecklistCard
+        items={steps}
+        onToggle={(id) => {
+          setSteps((prev) => prev.map((s) => (s.id === id ? { ...s, done: !s.done } : s)));
+          onStatus?.('Steg togglad');
+        }}
+        onAdd={() => onStatus?.('Lägg till steg')}
+        className="design-freeport__exec-checklist-embed mx-0 mb-3"
+      />
+
+      <section className="design-freeport__exec-card design-freeport__exec-card--chrome">
+        <p className="design-freeport__exec-label">Snabbstart</p>
+        <div className="design-freeport__exec-snabb-grid">
+          {SNABB.map((item) => {
+            const Icon = item.icon;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                className="design-freeport__exec-snabb-btn"
+                onClick={() => handleSnabbstartSelect(item.id, getDefaultTarget('hjartat'))}
+              >
+                <Icon className="h-5 w-5" strokeWidth={1.5} />
+                <span>{item.label}</span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <div className="design-freeport__exec-status-grid">
+        <article className="design-freeport__exec-status-card">
+          <p className="design-freeport__exec-label">Närvaro</p>
+          <p className="design-freeport__exec-status-val">7/10</p>
+          <p className="design-freeport__exec-status-sub">Stabil</p>
+        </article>
+        <article className="design-freeport__exec-status-card">
+          <p className="design-freeport__exec-label">Ritual</p>
+          <p className="design-freeport__exec-status-val">Morgon</p>
+        </article>
+      </div>
+
+      <article className="design-freeport__exec-card design-freeport__exec-card--advice">
+        <p className="design-freeport__exec-label">Kompassråd</p>
+        <p className="design-freeport__exec-body">Ett mikrosteg kan förändra en hel dag.</p>
+      </article>
+
       <FreeportChameleonLive
         compact
         executiveSkin
@@ -152,7 +216,7 @@ export function FreeportHemV3Lab({ lowCapacity = false, onStatus }: Props) {
           ← Prod
         </Link>
         {' · '}
-        Hem Modell A — zon-dock · snabbstart · chameleon
+        Hem Modell A — hybrid dock · Resurser overlay · chameleon
       </p>
     </FreeportModellAPhoneShell>
   );

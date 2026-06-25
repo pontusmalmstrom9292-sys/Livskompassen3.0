@@ -1,7 +1,6 @@
 ---
 description: Global regel för att hantera nya idéer och förhindra oplanerad kodning
 alwaysApply: false
-globs: *
 ---
 
 # Idé-till-Kod Workflow (Kravhantering)

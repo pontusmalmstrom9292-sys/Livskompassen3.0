@@ -23,18 +23,18 @@ type WidgetAction = {
 
 const WIDGET_ACTIONS: WidgetAction[] = [
   { id: 'inkast', label: 'Inkast', to: '/#inkast-lite', hubId: 'dagbok' },
-  { id: 'brusfiltret', label: 'Brusfiltret', to: '/widget/hamn', hubId: 'hamn' },
-  { id: 'voice-vault', label: 'Voice-to-Vault', to: '/widget/voice-vault', widgetIcon: 'note' },
-  { id: 'snabbval', label: 'Snabbval', to: '/widget/snabbval', hubId: 'mabra' },
+  { id: 'brusfiltret', label: 'Hamn', to: '/widget/hamn', hubId: 'hamn' },
+  { id: 'voice-vault', label: 'Bevis-röst', to: '/widget/voice-vault', widgetIcon: 'note' },
+  { id: 'snabbval', label: 'MåBra', to: '/widget/snabbval', hubId: 'mabra' },
   {
     id: 'record',
-    label: 'Inspelning',
+    label: 'Bevis-ljud',
     to: '/widget/inspelning?autostart=1',
     widgetIcon: 'mic',
   },
   {
     id: 'note',
-    label: 'Anteckning',
+    label: 'Bevis-rad',
     to: '/widget/anteckning',
     widgetIcon: 'note',
   },

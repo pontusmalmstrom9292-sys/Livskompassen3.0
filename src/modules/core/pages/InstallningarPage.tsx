@@ -1,4 +1,7 @@
-import { Settings } from 'lucide-react';
+import { Bell, Settings, Shield, User } from 'lucide-react';
+import { useTheme } from '../theme';
+import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
+import { ExecutiveSettingsList, type ExecutiveSettingsGroup } from '../ui/executive';
 import { HubPageShell } from '../layout/HubPageShell';
 import { TabBar, type TabBarItem } from '../ui/TabBar';
 import { useStore } from '../store';
@@ -21,10 +24,32 @@ import { GhostModeToggle } from '../ui/GhostModeToggle';
 
 export type InstallningarTab = 'allmant' | 'naring' | 'drogfrihet';
 
+const EXEC_SETTINGS_GROUPS: ExecutiveSettingsGroup[] = [
+  {
+    id: 'konto',
+    title: 'Konto & profil',
+    rows: [
+      { id: 'profil', label: 'Profil', icon: User },
+      { id: 'sakerhet', label: 'Säkerhet & Valv', icon: Shield },
+      { id: 'notis', label: 'Notiser', icon: Bell },
+    ],
+  },
+  {
+    id: 'support',
+    title: 'Support',
+    rows: [
+      { id: 'support', label: 'Support' },
+      { id: 'om', label: 'Om Livskompassen' },
+    ],
+  },
+];
+
 export function InstallningarPage() {
   const { tabs, activeTab, setTab } = useHubTab('installningar');
   const tab = (activeTab || 'allmant') as InstallningarTab;
   const user = useStore((s) => s.user);
+  const { themeId } = useTheme();
+  const executiveSkin = isMidnightExecutiveTheme(themeId);
   const { presetId, setPresetId } = useLifeHubPreset();
   const [autoTheme, setAutoTheme] = useState(() => getAutoModuleThemesEnabled());
   const [stampOnHome, setStampOnHome] = useState(() => isStampOnHomeScreenEnabled());
@@ -38,6 +63,7 @@ export function InstallningarPage() {
       title="Konto · tema · näring"
       lead="Känsliga val och utökade funktioner finns bara här."
       headerAside={<Settings className="h-5 w-5 text-text-dim" strokeWidth={1.5} />}
+      executiveHeader={executiveSkin}
     >
       <TabBar<InstallningarTab>
         tabs={tabs as TabBarItem<InstallningarTab>[]}
@@ -46,7 +72,11 @@ export function InstallningarPage() {
       />
 
       {tab === 'allmant' && (
-        <div className="glass-card space-y-4 rounded-[2rem] border border-border p-5">
+        <div className="space-y-4">
+          {executiveSkin ? (
+            <ExecutiveSettingsList groups={EXEC_SETTINGS_GROUPS} />
+          ) : null}
+          <div className="glass-card space-y-4 rounded-[2rem] border border-border p-5">
           <p className="text-sm text-text-muted">
             Konto och inloggning: tryck på <strong className="text-text">låsikonen</strong> uppe till
             höger i headern.
@@ -94,6 +124,7 @@ export function InstallningarPage() {
           ) : null}
 
           <ClearDevicePanel />
+          </div>
         </div>
       )}
 

@@ -70,7 +70,7 @@ function main() {
     'compassLinked',
     'Hem Modell A',
     'exec-compass-module',
-    'FreeportModellADock',
+    'FreeportHybridDock',
   );
   mustInclude(
     'src/modules/sandbox/components/FreeportModellADock.tsx',
@@ -107,12 +107,26 @@ function main() {
   mustInclude(
     'src/modules/sandbox/components/FreeportEkonomiLab.tsx',
     'FreeportEkonomiLab',
-    'Månadsöversikt',
+    'Översikt',
   );
   mustInclude(
     'src/modules/sandbox/components/FreeportResurserLab.tsx',
     'FreeportResurserLab',
     'Resurser',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/FreeportHybridDock.tsx',
+    'FreeportHybridDock',
+    'hybrid-dock',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/FreeportResurserOverlay.tsx',
+    'FreeportResurserOverlay',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/FreeportHemLab.tsx',
+    'FreeportHemLab',
+    'Dagens ankare',
   );
   mustInclude(
     'src/modules/sandbox/components/FreeportDagbokLab.tsx',
@@ -145,6 +159,9 @@ function main() {
     'fpti-ref',
     'snabb-panel',
     'modell-a-dock',
+    'hybrid-dock',
+    'resurser-overlay',
+    'exec-honeycomb',
   );
   mustInclude(
     'src/modules/sandbox/freeportZones.ts',
@@ -238,7 +255,7 @@ function main() {
   }
 
   const fptiRef = read('src/modules/sandbox/components/FreeportFptiRefLab.tsx');
-  for (const screen of ['ekonomi', 'resurser', 'dagbok', 'installningar']) {
+  for (const screen of ['hem', 'ekonomi', 'resurser', 'dagbok', 'installningar']) {
     assert(fptiRef.includes(screen), `FreeportFptiRefLab saknar mock-skärm: ${screen}`);
   }
 

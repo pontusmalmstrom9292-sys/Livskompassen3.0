@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { FloatingDock } from './FloatingDock';
+import { ExecutiveHomeChromeProvider } from '../home/ExecutiveHomeChromeContext';
 import { FyrenWidgetBar } from '../components/FyrenWidgetBar';
 import {
   FyrenHeaderQuickProvider,
@@ -22,6 +23,7 @@ import { isBarnportenChildRoute } from '@/features/onboarding/barnporten/constan
 import { useStore } from '../store';
 import { useTheme } from '../theme';
 import { getTheme } from '../theme/themeRegistry';
+import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
 import { isMockupTheme } from '../theme/mockupTheme';
 import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
 import { useCapacityScore } from '../store/useCapacityGate';
@@ -37,7 +39,11 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   const setMenuOpen = useStore((s) => s.setMenuOpen);
   const { themeId } = useTheme();
   const { active: designPackActive } = useDesignPack();
-  const mockupSkin = isMockupTheme(themeId) || themeUsesDesignPackChrome(getTheme(themeId));
+  const mockupSkin =
+    isMockupTheme(themeId) ||
+    themeUsesDesignPackChrome(getTheme(themeId)) ||
+    isMidnightExecutiveTheme(themeId);
+  const executiveSkin = isMidnightExecutiveTheme(themeId);
   const barnportenChildShell = isBarnportenChildRoute(location.pathname);
   const [accountOpen, setAccountOpen] = useState(false);
   const slimHeaderChrome = designPackActive && isScenicHome;
@@ -52,6 +58,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <FyrenWidgetProvider>
     <FyrenHeaderQuickProvider>
+    <ExecutiveHomeChromeProvider enabled={executiveSkin}>
     <div
       className={clsx(
         'app-shell relative min-h-screen text-text font-sans selection:bg-accent/30',
@@ -110,6 +117,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         </>
       ) : null}
     </div>
+    </ExecutiveHomeChromeProvider>
     </FyrenHeaderQuickProvider>
     </FyrenWidgetProvider>
   );

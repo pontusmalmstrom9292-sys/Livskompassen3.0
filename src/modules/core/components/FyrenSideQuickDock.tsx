@@ -17,6 +17,9 @@ import { hasVaultGate } from '../auth/sessionService';
 import { useFyrenHeaderQuickAnchor } from '../hooks/useFyrenHeaderQuickAnchor';
 import { NAV_PATHS } from '../navigation/navTruth';
 import { useStore } from '../store';
+import { useTheme } from '../theme';
+import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
+import { ExecutiveDecorCompass } from '../ui/executive';
 import { LivskompassMark } from '../ui/LivskompassMark';
 import { FyrenShortcutMicIcon } from '../ui/widget-icons';
 import {
@@ -56,9 +59,9 @@ type QuickAction = {
 };
 
 const QUICK_ACTIONS: QuickAction[] = [
-  { id: 'voice-vault', label: 'Röst till Valv', to: '/widget/voice-vault', icon: 'mic' },
-  { id: 'brusfiltret', label: 'Brusfiltret', to: '/widget/hamn', icon: 'filter' },
-  { id: 'snabbanteckning', label: 'Snabbanteckning', to: '/widget/anteckning', icon: 'zap' },
+  { id: 'voice-vault', label: 'Bevis-röst', to: '/widget/voice-vault', icon: 'mic' },
+  { id: 'brusfiltret', label: 'Hamn', to: '/widget/hamn', icon: 'filter' },
+  { id: 'snabbanteckning', label: 'Bevis-rad', to: '/widget/anteckning', icon: 'zap' },
   { id: 'valv', label: 'Valv', to: NAV_PATHS.VALVET, icon: 'shield' },
 ];
 
@@ -338,6 +341,8 @@ export function FyrenHeaderQuickProvider({ children }: { children: ReactNode }) 
 /** Kompassknapp i header — samma plats som tidigare SOS. */
 export function FyrenHeaderQuickToggle() {
   const location = useLocation();
+  const { themeId } = useTheme();
+  const executive = isMidnightExecutiveTheme(themeId);
   const { open, setOpen, hidden, toggleBtnRef, toggleWrapRef } = useFyrenHeaderQuick();
 
   if (hidden || location.pathname.startsWith('/widget')) return null;
@@ -347,6 +352,7 @@ export function FyrenHeaderQuickToggle() {
       ref={toggleWrapRef as Ref<HTMLDivElement>}
       className={clsx(
         'fyren-header-quick__toggle-wrap',
+        executive && 'fyren-header-quick__toggle-wrap--executive',
         open && 'fyren-header-quick__toggle-wrap--open',
       )}
     >
@@ -355,13 +361,18 @@ export function FyrenHeaderQuickToggle() {
         type="button"
         className={clsx(
           'header-chrome-btn header-chrome-btn--round fyren-header-quick__toggle',
+          executive && 'fyren-header-quick__toggle--executive',
           open && 'fyren-header-quick__toggle--open',
         )}
         aria-expanded={open}
         aria-label={open ? 'Stäng snabbåtkomst' : 'Öppna snabbåtkomst'}
         onClick={() => setOpen((value) => !value)}
       >
-        <LivskompassMark className="fyren-header-quick__toggle-mark" />
+        {executive ? (
+          <ExecutiveDecorCompass size="sm" className="fyren-header-quick__toggle-mark fyren-header-quick__toggle-mark--executive" />
+        ) : (
+          <LivskompassMark className="fyren-header-quick__toggle-mark" />
+        )}
       </button>
       <ChevronDown className="fyren-header-quick__chevron" strokeWidth={2.25} aria-hidden />
     </div>

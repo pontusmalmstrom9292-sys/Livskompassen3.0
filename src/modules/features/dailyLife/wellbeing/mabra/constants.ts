@@ -233,6 +233,7 @@ export const MABRA_SPEGLAR_GUARD_COPY = {
 
 export const LOW_ENERGY_COPY = {
   toggleLabel: 'Jag orkar lite idag',
+  hubHint: 'Låg energi — färre val',
   breathTitle: 'Andning 1 min',
   breathLead: '4-7-8 — låg tröskel',
   reflectionTitle: 'Ett frågekort',

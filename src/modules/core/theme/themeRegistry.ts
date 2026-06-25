@@ -9,6 +9,7 @@ import { THEME_PACK_REDESIGN_C } from './themePackRedesignC';
 import { THEME_PACK_OBSIDIAN_DEPTH } from './themePackObsidianDepth';
 import { THEME_PACK_REMIX_E_HAMN } from './themePackRemix';
 import { THEME_BRUSHED_BRASS_NEU } from './themePackBrushedBrass';
+import { THEME_PACK_MIDNIGHT_EXECUTIVE } from './themePackMidnightExecutive';
 
 const shared = THEME_SHARED_VARS;
 
@@ -407,6 +408,8 @@ export const THEME_REGISTRY: ThemePack[] = [
   THEME_BRUSHED_BRASS_NEU,
   // Obsidian Depth — låst 3D shell (2026-06-14)
   ...THEME_PACK_OBSIDIAN_DEPTH,
+  // Midnight Executive — mockup v1 (2026-06)
+  ...THEME_PACK_MIDNIGHT_EXECUTIVE,
 ];
 
 export const DEFAULT_THEME_ID = 'I-skymning-darkest';

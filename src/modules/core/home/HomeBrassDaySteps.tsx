@@ -13,7 +13,7 @@ import { HOME_SUPERHUB_ROUTES } from './homeSuperhubRoutes';
 const MAX_STEPS = 3;
 
 type Props = {
-  variant?: 'brass' | 'calm';
+  variant?: 'brass' | 'calm' | 'executive';
 };
 
 function formatDueTime(dueAt?: string): string | null {

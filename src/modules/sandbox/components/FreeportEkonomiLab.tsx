@@ -4,15 +4,15 @@ import { TrendingUp } from 'lucide-react';
 import { ExecutiveDecorCompass, ExecutivePhoneShell, type ExecutiveNavId } from './exec';
 
 const ACCOUNTS = [
-  { id: 'biz', name: 'Företag', balance: '24 580 kr' },
-  { id: 'priv', name: 'Privat', balance: '8 420 kr' },
-  { id: 'spar', name: 'Sparkonto', balance: '12 100 kr' },
+  { id: 'biz', name: 'Företagskonto', balance: '128 400 kr' },
+  { id: 'priv', name: 'Privatkonto', balance: '87 200 kr' },
+  { id: 'spar', name: 'Sparkonto', balance: '245 000 kr' },
 ] as const;
 
 const TRANSACTIONS = [
-  { id: '1', label: 'ICA Maxi', amount: '-342 kr', positive: false },
-  { id: '2', label: 'Lön', amount: '+28 400 kr', positive: true },
-  { id: '3', label: 'Netflix', amount: '-119 kr', positive: false },
+  { id: '1', label: 'ICA Maxi', amount: '-358 kr', positive: false },
+  { id: '2', label: 'Lön', amount: '+27 500 kr', positive: true },
+  { id: '3', label: 'Netflix', amount: '-129 kr', positive: false },
 ] as const;
 
 const CHART_POINTS = [40, 52, 48, 61, 58, 72, 68, 80, 76, 88, 84, 92];
@@ -37,9 +37,9 @@ export function FreeportEkonomiLab({ onStatus }: Props) {
       </header>
 
       <article className="design-freeport__exec-card design-freeport__exec-card--chrome design-freeport__exec-card--balance">
-        <p className="design-freeport__exec-label">Månadsöversikt</p>
-        <p className="design-freeport__exec-balance">45 100 kr</p>
-        <p className="design-freeport__exec-balance-sub">Tillgängligt denna månad</p>
+        <p className="design-freeport__exec-label">Översikt — Augusti</p>
+        <p className="design-freeport__exec-balance">124 560 kr</p>
+        <p className="design-freeport__exec-balance-sub design-freeport__exec-balance-sub--pos">+3 240 kr</p>
         <div className="design-freeport__exec-graph design-freeport__exec-graph--glow" aria-hidden>
           <svg viewBox="0 0 280 100" className="design-freeport__exec-graph-svg" preserveAspectRatio="none">
             <defs>

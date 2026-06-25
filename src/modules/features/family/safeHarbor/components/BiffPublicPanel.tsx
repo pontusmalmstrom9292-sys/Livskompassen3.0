@@ -43,6 +43,8 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
   const [autosortNote, setAutosortNote] = useState<string | null>(null);
   const [panelError, setPanelError] = useState<string | null>(null);
   const [jadeViolations, setJadeViolations] = useState<JadeViolation[]>([]);
+  const [jadeUndoText, setJadeUndoText] = useState<string | null>(null);
+  const [copyCopied, setCopyCopied] = useState(false);
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [coreQuestion, setCoreQuestion] = useState('');
   const [userGoal, setUserGoal] = useState('');
@@ -88,14 +90,35 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
     setAutosortNote(null);
     setPanelError(null);
     setJadeViolations([]);
+    setJadeUndoText(null);
+    setCopyCopied(false);
   }, [resetWizard]);
 
   // "Städa till Grey Rock"-städningen (autokorrigering av ditt svar)
   const handleCleanToGreyRock = () => {
     const defaultTemplate =
       'Jag har tagit emot ditt meddelande. Vi håller oss till gällande schema. Hälsningar.';
+    setJadeUndoText(message);
     setMessage(defaultTemplate);
     setJadeViolations([]);
+  };
+
+  const handleUndoGreyRock = () => {
+    if (jadeUndoText === null) return;
+    setMessage(jadeUndoText);
+    setJadeUndoText(null);
+    setJadeViolations(analyzeJadePatterns(jadeUndoText));
+  };
+
+  const handleCopyReply = async () => {
+    if (!reply) return;
+    try {
+      await navigator.clipboard.writeText(reply);
+      setCopyCopied(true);
+      window.setTimeout(() => setCopyCopied(false), 2000);
+    } catch {
+      setPanelError('Kunde inte kopiera — markera texten manuellt.');
+    }
   };
 
   const handleAutosortToArkiv = async () => {
@@ -164,6 +187,15 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
                   <Sparkles className="h-3.5 w-3.5" />
                   Städa till Grey Rock-mall
                 </button>
+                {jadeUndoText !== null ? (
+                  <button
+                    type="button"
+                    onClick={handleUndoGreyRock}
+                    className="btn-pill--ghost text-[11px] px-3 py-1.5"
+                  >
+                    Ångra städning
+                  </button>
+                ) : null}
               </div>
             )}
 
@@ -283,22 +315,22 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
           <div className="mt-3 flex flex-wrap gap-2">
             <button
               type="button"
+              onClick={() => void handleCopyReply()}
+              className="btn-pill--accent text-xs"
+            >
+              {copyCopied ? 'Kopierat ✓' : 'Kopiera svar'}
+            </button>
+            <button type="button" onClick={handleKlar} className="btn-pill--ghost text-xs">
+              Rensa
+            </button>
+            <button
+              type="button"
               onClick={() => void handleAutosortToArkiv()}
               disabled={autosorting || !message.trim()}
               className="btn-pill--ghost text-xs"
             >
               {autosorting ? <Loader2 className="h-3 w-3 animate-spin" /> : null}
               Sortera till arkiv
-            </button>
-            <button
-              type="button"
-              onClick={() => navigator.clipboard.writeText(reply)}
-              className="text-xs text-accent/80"
-            >
-              Kopiera
-            </button>
-            <button type="button" onClick={handleKlar} className="btn-pill--ghost text-xs">
-              Klar — rensa
             </button>
           </div>
           {autosortNote && (

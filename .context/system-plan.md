@@ -348,3 +348,26 @@ När en Superhub-modul har **implementerats, testats och godkänts** av teknikle
 | **23E** | Tyst Läge (Darkest Mode) i Superdagbok | TODO |
 
 *Detta markerar övergången från Etapp 1 (Stealth/Burn/Blur) till Etapp 2. Alla superhubbar är konsoliderade (Fas 6-11) och vi bygger nu kognitiva skyddsnät som följer WORM och Three-Silo designen.*
+
+## Fas 24 — Produktvåg 1 (PO-syntes 2026-06-25) · **AKTIV**
+
+**Kanon:** [`docs/evaluations/2026-06-25-app-plan-syntes.md`](../docs/evaluations/2026-06-25-app-plan-syntes.md) · produktanalys [`01–12`](../docs/evaluations/2026-06-25-produktanalys/INDEX.md)
+
+**Premiss:** Fungerande mobil vardag under låg energi — säker fångst till rätt silo — före nya AI-demoer eller hubbar.
+
+| ID | Leverans | Status | Smoke / gate |
+|----|----------|--------|--------------|
+| **P0** | Smoke grön + Android G85 daily driver (7 dagar) | **AKTIV blocker** | `smoke:predeploy`, `build:web && cap sync` |
+| **PV1a** | Fyren silo-labels · MåBra lågenergi-filter · Hamn kopiera+rensa | TODO | `smoke:mabra`, `smoke:locked-ux`, `smoke:design-modules` |
+| **23C** | SOS Ankare `/mabra/recovery/sos` | TODO | `smoke:mabra` |
+| **PV1b** | Widget silo-chip + panik «Dölj» + rensa vid stäng | TODO | `smoke:widgets`, WH1 audit |
+| **S24** | Zero Footprint widget/synapse clear · DCAP 4 band · `mabraCoachGuard` utökad | TODO | `smoke:valv-security`, `smoke:inkast` |
+| **HITL1** | Unified HITL preview (inkast först) | TODO | `smoke:inkast`, `smoke:dcap` |
+| **23D** | Paralys-Brytaren i Planering P3 | TODO | `smoke:planering`, `smoke:locked-ux` |
+| **23E** | Tyst läge / dissociation i Superdagbok | TODO | `smoke:journal-2d`, `smoke:locked-ux` |
+
+**Byggsekvens (0–12 veckor):** P0 → PV1a → 23C → S24 → PV1b → HITL1 → 23D → 23E
+
+**Defer från Fas 19 (om ej påbörjad):** 19.3 hex→tokens · 19.5 evolution_ledger · 19.6 arkiv-batch → se syntes §3 defer (6m+)
+
+**Deploy-gate:** `npm run smoke:predeploy` → YOLO GO → Pontus OK

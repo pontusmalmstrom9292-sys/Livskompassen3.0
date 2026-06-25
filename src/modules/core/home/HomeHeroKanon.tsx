@@ -12,6 +12,7 @@ import { HomeStreakChip } from './HomeStreakChip';
 import { HomeAdaptiveCompass } from './HomeAdaptiveCompass';
 import { HomeLayoutA } from './HomeLayoutA';
 import { BRUSHED_BRASS_THEME_ID } from '../theme/themePackBrushedBrass';
+import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
 import { usePansarStore } from '../store/usePansarStore';
 
 type Props = {
@@ -25,6 +26,7 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
   const { themeId } = useTheme();
   const mockup = isMockupTheme(themeId) || themeUsesDesignPackChrome(getTheme(themeId));
   const brassHome = themeId === BRUSHED_BRASS_THEME_ID;
+  const executiveHome = isMidnightExecutiveTheme(themeId);
   const { active: designPackActive } = useDesignPack();
   const { preset, presetId } = useLifeHubPreset();
   const { activate } = usePansarStore();
@@ -68,6 +70,21 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
       <div className="home-hero-kanon home-hero-kanon--brass-a relative">
         {sosTrigger}
         <HomeLayoutA variant="brass" onCheckInSaved={onCheckInSaved} presetLabel={preset.label} />
+      </div>
+    );
+  }
+
+  if (executiveHome) {
+    return (
+      <div className="home-hero-kanon home-hero-kanon--executive relative space-y-4">
+        {sosTrigger}
+        <HomeGreeting variant="executive" />
+        <HomeLayoutA
+          variant="executive"
+          hideIntro
+          onCheckInSaved={onCheckInSaved}
+          presetLabel={preset.label}
+        />
       </div>
     );
   }

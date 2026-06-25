@@ -4,6 +4,9 @@ import { GCP_REGION } from '../config';
 import { ingestKampsparForUser } from '../lib/ingestKampsparInternal';
 import { createGenAI } from '../lib/genaiClient';
 
+/** Max users per Gemini batch call to stay within token limits. */
+const BATCH_SIZE = 10;
+
 export const scheduledTransactionsAnalysis = onSchedule(
   {
     schedule: '0 2 * * *',

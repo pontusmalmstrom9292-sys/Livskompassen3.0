@@ -27,6 +27,7 @@ import { K_PACK_THEME_IDS, THEME_PACK_K } from '../theme/themePackK';
 import { THEME_PACK_REDESIGN_A } from '../theme/themePackRedesignA';
 import { THEME_PACK_REMIX_E_HAMN } from '../theme/themePackRemix';
 import { THEME_PACK_OBSIDIAN_DEPTH } from '../theme/themePackObsidianDepth';
+import { THEME_PACK_MIDNIGHT_EXECUTIVE } from '../theme/themePackMidnightExecutive';
 import { J_PACK_THEME_IDS } from '../theme/themeRegistry';
 import { REDESIGN_C_THEME_IDS } from '../theme/themePackRedesignC';
 import type { ThemePack } from '../theme/types';
@@ -197,6 +198,23 @@ export function ThemeLabPage() {
           </a>
         </div>
       </section>
+
+      <ThemeLabPackSection
+        title="Midnight Executive — mockup v1 (2026-06)"
+        packs={THEME_PACK_MIDNIGHT_EXECUTIVE}
+        previewId={previewId}
+        themeId={themeId}
+        onPreview={applyPreview}
+        onApply={(id) => {
+          setTheme(id);
+          setAutoMode(false);
+          setPreviewId(id);
+        }}
+        extraLink={{
+          label: 'Design Freeport ↗',
+          href: '/dev/design-freeport',
+        }}
+      />
 
       <ThemeLabPackSection
         title="Obsidian Depth — låst 3D (2026-06-14)"

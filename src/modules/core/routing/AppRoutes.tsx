@@ -8,6 +8,9 @@ const HomePage = lazy(() =>
   import('../pages/HomePage').then((m) => ({ default: m.HomePage }))
 );
 import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
+const LivLauncherPage = lazy(() =>
+  import('@/modules/shell/LivLauncherPage').then((m) => ({ default: m.LivLauncherPage })),
+);
 import {
   clusterTabNavigateTarget,
   valvetNavigateTarget,
@@ -330,7 +333,7 @@ export function AppRoutes() {
               />
 
               {/* —— LIV OCH GÖRA (launcher + fullsid-moduler) —— */}
-              <Route path={NAV_PATHS.VARDAGEN} element={<ProtectedModule><HomePage /></ProtectedModule>} />
+              <Route path={NAV_PATHS.VARDAGEN} element={<ProtectedModule><LivLauncherPage /></ProtectedModule>} />
               <Route
                 path="/morgon"
                 element={

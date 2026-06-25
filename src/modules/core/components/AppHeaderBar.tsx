@@ -16,6 +16,7 @@ type Props = {
 export function AppHeaderBar({
   menuExpanded,
   onMenuClick,
+  actions,
   headerQuickToggle,
 }: Props) {
   const panelStyle = useHeaderPanelStyle();
@@ -28,7 +29,7 @@ export function AppHeaderBar({
       <DesignPackCenterHeader
         menuExpanded={menuExpanded}
         onMenuClick={onMenuClick}
-        actions={null} // Dölj öga/lås för att matcha designen
+        actions={actions}
         headerQuickToggle={headerQuickToggle}
       />
     </div>
