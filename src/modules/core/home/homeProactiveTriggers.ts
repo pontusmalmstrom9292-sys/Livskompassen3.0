@@ -63,7 +63,7 @@ export function buildProactiveTriggerCards(ctx: ProactiveTriggerContext): Adapti
       prompt: 'Du var i Hamn. Vill du spara sms eller analys som bevis i Valvet?',
       actionLabel: 'Spara i Valv',
       to: '/valvet',
-      search: '?valvMode=spara&vaultTab=logga',
+      search: '?valvMode=arkiv&vaultTab=logga',
       tone: 'indigo',
     });
   }

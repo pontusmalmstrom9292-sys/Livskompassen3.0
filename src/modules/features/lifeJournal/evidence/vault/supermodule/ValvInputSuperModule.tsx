@@ -3,7 +3,6 @@ import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import '../components/valv.css';
 import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
-import { InkastDirectPanel } from '@/modules/capture/InkastDirectPanel';
 import { ValvSuperModule } from '../components/ValvSuperModule';
 import { ValvInputModePicker } from './ValvInputModePicker';
 import {
@@ -30,9 +29,9 @@ export type ValvInputSuperModuleProps = {
 };
 
 /**
- * Canonical Valv navigation — primära lägen + «Mer…» (Fas 1B).
- * Granska ersätter separat inbox-zon och `?samlaView=granska`.
- * Spara (B1): InkastDirectPanel direkt — unified "en väg in", WORM-only append.
+ * Canonical Valv navigation — 3 primära lägen + «Mer…».
+ * Arkiv: inkast, granska, lista och sök i en modul.
+ * Granska-läge (deeplink): fullskärms kö, tillbaka till arkiv.
  */
 export function ValvInputSuperModule({
   activeMode,
@@ -65,19 +64,26 @@ export function ValvInputSuperModule({
             void onBevisConfirmed(docId);
             setMode(DEFAULT_VALV_INPUT_MODE);
           }}
-          onBack={() => setMode('spara')}
+          onBack={() => setMode(DEFAULT_VALV_INPUT_MODE)}
         />
       );
     }
 
-    if (activeMode === 'spara') {
+    if (activeMode === 'arkiv') {
       return (
-        <InkastDirectPanel
-          tone="valv"
-          sourceModule="valv_samla"
-          onQueued={() => setMode('granska')}
-          onPersistedBevis={(docId) => void onBevisConfirmed(docId)}
-          queueHintAsButton
+        <ValvSuperModule
+          variant="samla"
+          vaultTab={vaultTab}
+          userId={userId}
+          gateOk={gateOk}
+          highlightLogId={highlightLogId}
+          onBevisConfirmed={onBevisConfirmed}
+          onCitationClick={onCitationClick}
+          onVaultTabChange={onVaultTabChange}
+          onOpenGranska={() => setMode('granska')}
+          techniqueFilter={techniqueFilter}
+          onTechniqueSelect={onTechniqueSelect}
+          onClearTechniqueFilter={onClearTechniqueFilter}
         />
       );
     }

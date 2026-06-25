@@ -53,7 +53,7 @@ function VaultPageInner({
   const { loadFirstLogsPage, logs, hasMore: logsHasMore, loadingMore, loadMoreLogs } = useVaultStore();
 
   const [internalVaultTab, setInternalVaultTab] = useState<VaultTab>('logga');
-  const [internalValvMode, setInternalValvMode] = useState<ValvInputMode>('spara');
+  const [internalValvMode, setInternalValvMode] = useState<ValvInputMode>('arkiv');
 
   const vaultTab = propVaultTab ?? internalVaultTab;
   const valvMode = propValvMode ?? internalValvMode;
@@ -91,12 +91,12 @@ function VaultPageInner({
 
   const handleCitationClick = (docId: string) => {
     setHighlightLogId(docId);
-    applyCanonicalRoute('spara', 'logga');
+    applyCanonicalRoute('arkiv', 'logga');
   };
 
   const handleBevisConfirmed = async (docId: string) => {
     setHighlightLogId(docId);
-    applyCanonicalRoute('spara', 'logga');
+    applyCanonicalRoute('arkiv', 'logga');
     if (user) {
       try {
         await loadFirstLogsPage(user.uid);
@@ -109,7 +109,7 @@ function VaultPageInner({
   const handleTechniqueSelect = useCallback(
     (technique: string) => {
       setTechniqueFilter(technique);
-      applyCanonicalRoute('spara', 'logga');
+      applyCanonicalRoute('arkiv', 'logga');
     },
     [applyCanonicalRoute],
   );

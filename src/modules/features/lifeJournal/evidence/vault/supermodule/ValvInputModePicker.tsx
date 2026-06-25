@@ -11,16 +11,19 @@ export type ValvInputModePickerProps = {
   onChange: (mode: ValvInputMode) => void;
 };
 
-/** Primära lägen som pills + «Mer…» select (Fas 1B — samma mönster som Familjen). */
+/** 3 primära pills (Arkiv · Analysera · Kunskap) + «Mer…» select. */
 export function ValvInputModePicker({ activeMode, onChange }: ValvInputModePickerProps) {
   const activeMeta = valvInputModeDef(activeMode);
   const isMoreMode = activeMeta.tier === 'more';
+  const isDeeplinkMode = activeMeta.tier === 'deeplink';
+  const pickerActiveMode: ValvInputMode =
+    isDeeplinkMode ? 'arkiv' : activeMode;
 
   return (
     <div className="familjen-mode-picker" aria-label="Valv-lägen">
       <div className="familjen-mode-picker__pills" role="tablist">
         {VALV_INPUT_MODES_PRIMARY.map((mode) => {
-          const isActive = activeMode === mode.id;
+          const isActive = pickerActiveMode === mode.id;
           return (
             <button
               key={mode.id}

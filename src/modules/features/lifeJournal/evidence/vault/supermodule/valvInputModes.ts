@@ -9,9 +9,12 @@ import {
   type VaultTab,
 } from '../utils/vaultTabs';
 
-/** Primära Valv-lägen — ersätter synlig 7-zons TabBar (inkl. borttagen inbox-zon). */
+/** Legacy URL — `?valvMode=spara` mappas till arkiv. */
+export const LEGACY_SPARA_VALV_MODE = 'spara' as const;
+
+/** Primära Valv-lägen — 3 synliga pills + «Mer…» (granska = deeplink). */
 export const VALV_INPUT_MODE_IDS = [
-  'spara',
+  'arkiv',
   'granska',
   'analysera',
   'kunskap',
@@ -22,23 +25,25 @@ export const VALV_INPUT_MODE_IDS = [
 
 export type ValvInputMode = (typeof VALV_INPUT_MODE_IDS)[number];
 
-export const DEFAULT_VALV_INPUT_MODE: ValvInputMode = 'spara';
+export const DEFAULT_VALV_INPUT_MODE: ValvInputMode = 'arkiv';
+
+export type ValvInputModeTier = 'primary' | 'more' | 'deeplink';
 
 export type ValvInputModeDef = {
   id: ValvInputMode;
   label: string;
   description: string;
-  /** Primär rad vs native «Mer…» (Fas 1B). */
-  tier: 'primary' | 'more';
+  /** Primär rad · «Mer…» · endast deeplink (ej i picker). */
+  tier: ValvInputModeTier;
   zone: ValvZone;
   defaultVaultTab: VaultTab;
 };
 
 export const VALV_INPUT_MODES: ValvInputModeDef[] = [
   {
-    id: 'spara',
-    label: 'Inkast',
-    description: 'Släpp fil eller text — spara till arkiv',
+    id: 'arkiv',
+    label: 'Arkiv',
+    description: 'Inkast, granska och sök — allt samlat',
     tier: 'primary',
     zone: 'samla',
     defaultVaultTab: 'logga',
@@ -47,7 +52,7 @@ export const VALV_INPUT_MODES: ValvInputModeDef[] = [
     id: 'granska',
     label: 'Granska',
     description: 'Godkänn inkommande till WORM',
-    tier: 'primary',
+    tier: 'deeplink',
     zone: 'samla',
     defaultVaultTab: 'logga',
   },
@@ -62,7 +67,7 @@ export const VALV_INPUT_MODES: ValvInputModeDef[] = [
   {
     id: 'kunskap',
     label: 'Kunskap',
-    description: 'Kunskapsbank och personer',
+    description: 'Kunskapsbank, personer och kanon',
     tier: 'primary',
     zone: 'kunskap',
     defaultVaultTab: KUNSKAP_VAULT_TAB,
@@ -95,6 +100,7 @@ export const VALV_INPUT_MODES: ValvInputModeDef[] = [
 
 export const VALV_INPUT_MODES_PRIMARY = VALV_INPUT_MODES.filter((m) => m.tier === 'primary');
 export const VALV_INPUT_MODES_MORE = VALV_INPUT_MODES.filter((m) => m.tier === 'more');
+export const VALV_INPUT_MODES_PICKER = VALV_INPUT_MODES.filter((m) => m.tier !== 'deeplink');
 
 const MODE_BY_ID = Object.fromEntries(VALV_INPUT_MODES.map((m) => [m.id, m])) as Record<
   ValvInputMode,
@@ -105,11 +111,17 @@ export function valvInputModeDef(mode: ValvInputMode): ValvInputModeDef {
   return MODE_BY_ID[mode];
 }
 
-export function parseValvInputMode(raw: string | null): ValvInputMode {
+/** Normalisera legacy `spara` → arkiv. */
+export function normalizeValvInputMode(raw: string | null): ValvInputMode | null {
+  if (raw === LEGACY_SPARA_VALV_MODE) return 'arkiv';
   if (raw && (VALV_INPUT_MODE_IDS as readonly string[]).includes(raw)) {
     return raw as ValvInputMode;
   }
-  return DEFAULT_VALV_INPUT_MODE;
+  return null;
+}
+
+export function parseValvInputMode(raw: string | null): ValvInputMode {
+  return normalizeValvInputMode(raw) ?? DEFAULT_VALV_INPUT_MODE;
 }
 
 /** Legacy `?samlaView=granska` · `?vaultTab=inbox` → granska-läge. */
@@ -120,9 +132,8 @@ export function parseValvInputModeFromSearch(
 ): ValvInputMode {
   if (samlaView === 'granska') return 'granska';
   if (vaultTabRaw === LEGACY_INBOX_VAULT_TAB) return 'granska';
-  if (valvMode && (VALV_INPUT_MODE_IDS as readonly string[]).includes(valvMode)) {
-    return valvMode as ValvInputMode;
-  }
+  const normalized = normalizeValvInputMode(valvMode);
+  if (normalized) return normalized;
   if (vaultTabRaw) {
     return resolveValvInputModeFromVaultTab(parseVaultTab(vaultTabRaw));
   }
@@ -142,20 +153,23 @@ export function valvModeMatchesVaultTab(mode: ValvInputMode, tab: VaultTab): boo
   if (mode === 'granska') {
     return resolveValvZone(tab) === 'samla';
   }
+  if (mode === 'arkiv') {
+    return resolveValvZone(tab) === 'samla';
+  }
   return valvInputModeDef(mode).zone === resolveValvZone(tab);
 }
 
 export function vaultTabForValvInputMode(mode: ValvInputMode, currentTab?: VaultTab): VaultTab {
   const def = valvInputModeDef(mode);
   if (mode === 'granska') return 'logga';
-  if (mode === 'spara' && currentTab === 'sok') return 'sok';
+  if (mode === 'arkiv' && currentTab === 'sok') return 'sok';
   if (currentTab && resolveValvZone(currentTab) === def.zone) {
     return currentTab;
   }
   return def.defaultVaultTab;
 }
 
-/** Kanon URL-par — valvMode vinner (Fas 1B). */
+/** Kanon URL-par — valvMode vinner (Fas 1B). Legacy spara → arkiv. */
 export function canonicalValvRoute(
   valvModeRaw: string | null,
   vaultTabRaw?: string | null,
@@ -164,7 +178,8 @@ export function canonicalValvRoute(
   const mode = parseValvInputModeFromSearch(valvModeRaw, samlaViewRaw ?? null, vaultTabRaw ?? null);
   const parsedTab = parseVaultTab(vaultTabRaw === LEGACY_INBOX_VAULT_TAB ? null : (vaultTabRaw ?? null));
   const tab = vaultTabForValvInputMode(mode, parsedTab);
-  return { vaultTab: tab, valvMode: mode };
+  const canonMode = mode === 'granska' ? mode : normalizeValvInputMode(valvModeRaw) ?? mode;
+  return { vaultTab: tab, valvMode: canonMode };
 }
 
 export function buildValvSearchParams(

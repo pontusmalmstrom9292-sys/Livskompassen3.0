@@ -17,9 +17,9 @@ export const VAULT_MAIN_TAB_LABELS = {
 export type VaultMainTabLabelId = keyof typeof VAULT_MAIN_TAB_LABELS;
 
 export const VALV_ZONE_LABELS = {
-  samla: 'Spara & sök',
+  samla: 'Arkiv',
   analysera: 'Analysera',
-  kunskap: 'Kunskapsbank',
+  kunskap: 'Kunskap',
   vit: 'Min utveckling',
   exportera: 'Rapporter',
   forensik: 'Djupare',
@@ -28,9 +28,9 @@ export const VALV_ZONE_LABELS = {
 export type ValvZoneLabelId = keyof typeof VALV_ZONE_LABELS;
 
 export const VALV_ZONE_INGRESS: Record<ValvZoneLabelId, string> = {
-  samla: 'Samla in bevis och sök i loggen.',
+  samla: 'Inkast, granska och sök — allt i en vy.',
   analysera: 'Mönster och meddelanden — över tid, inte i stunden.',
-  kunskap: 'Fakta bakom PIN: Kunskapsbank, personer och kanon.',
+  kunskap: 'Fakta, personer och kanon — expandera det du behöver.',
   vit: 'Dina reflektioner och frågekort — inte bevis mot ex.',
   exportera: 'Dossier för export och översikt.',
   forensik: 'Hamn och fördjupad analys — ett steg i taget.',

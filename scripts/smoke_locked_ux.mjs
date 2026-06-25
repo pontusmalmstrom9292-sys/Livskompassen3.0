@@ -209,7 +209,8 @@ function main() {
     "tier: 'primary'",
     'VALV_INPUT_MODES_PRIMARY',
     'VALV_INPUT_MODES_MORE',
-    "label: 'Inkast'",
+    "label: 'Arkiv'",
+    'granska',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx',
