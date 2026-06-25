@@ -1,5 +1,15 @@
 # Runbook — Pausa & återstarta Vector Search ANN-endpoint
 
+> ⚠️ **OBSOLET 2026-06-25** — Denna runbook utgick från felaktig premiss (att koden använde Vertex Vector Search). Korrigerad analys visar att plattformen migrerat till **Firestore Native Vector Search** redan tidigare. Vertex-endpointen är **ORPHAN** — un-deploy ger ~$330/månad besparing **utan funktionsförlust** (inte "sämre kvalitet" som denna runbook tidigare påstod).
+>
+> **Använd istället:** [`VECTOR-SEARCH-DECOMMISSION.md`](./VECTOR-SEARCH-DECOMMISSION.md)
+>
+> Innehållet nedan behålls för historik men ska **inte följas**.
+
+---
+
+# (HISTORISK — använd VECTOR-SEARCH-DECOMMISSION.md istället)
+
 **Syfte:** Spara ~$300/månad genom att un-deploya ANN-indexet när Kunskapsvalvet inte används aktivt. Återaktivera på 5 minuter när du vill söka i kunskap.
 
 **Status (kanon):** [`docs/GCP-INVENTORY-LATEST.md`](../GCP-INVENTORY-LATEST.md)
