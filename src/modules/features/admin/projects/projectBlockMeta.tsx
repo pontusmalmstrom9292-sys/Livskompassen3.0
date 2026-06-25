@@ -21,10 +21,10 @@ export const DEFAULT_PROJECT_ICON: LucideIcon = FolderKanban;
 
 /** Svenskt namn för en projekttyp (faller tillbaka till "Projekt"). */
 export function projectBlockLabel(type?: ProjectBlockType): string {
-  return type ? PROJECT_BLOCK_META[type].label : 'Projekt';
+  return (type ? (PROJECT_BLOCK_META as Record<string, ProjectBlockMeta | undefined>)[type]?.label : undefined) ?? 'Projekt';
 }
 
 /** Ikon för en projekttyp (faller tillbaka till mapp-ikonen). */
 export function projectBlockIcon(type?: ProjectBlockType): LucideIcon {
-  return type ? PROJECT_BLOCK_META[type].icon : DEFAULT_PROJECT_ICON;
+  return (type ? (PROJECT_BLOCK_META as Record<string, ProjectBlockMeta | undefined>)[type]?.icon : undefined) ?? DEFAULT_PROJECT_ICON;
 }
