@@ -10,6 +10,23 @@ function isDarkHex(hex: string): boolean {
   return (r + g + b) / 3 < 90;
 }
 
+/**
+ * Gyllene accent (DAD: Executive Midnight "gyllene accenter"). Verifierar warm
+ * gold/brons-ton istället för en hårdkodad hex, så att test följer den aktiva
+ * prod-temat (ME-midnight-executive: #c9a66b) utan att gå sönder vid finjustering.
+ * Kräver röd ≥ grön > blå, tydlig varm bias och rimlig ljusstyrka — utesluter
+ * neon/blå/grå accenter.
+ */
+function isGoldAccent(hex: string): boolean {
+  const match = hex.trim().match(/^#([0-9a-f]{6})$/i);
+  if (!match) return false;
+  const value = Number.parseInt(match[1], 16);
+  const r = (value >> 16) & 255;
+  const g = (value >> 8) & 255;
+  const b = value & 255;
+  return r >= g && g > b && r - b >= 40 && r >= 140;
+}
+
 /** Obsidian Calm 2.0 — CSS-variabler och mörk bas i runtime. */
 test.describe('Obsidian Calm tokens', () => {
   test('index.css-variabler är mörka och guld-accent finns', async ({ page }) => {
@@ -25,7 +42,7 @@ test.describe('Obsidian Calm tokens', () => {
     });
 
     expect(isDarkHex(tokens.surface)).toBe(true);
-    expect(tokens.accent.toLowerCase()).toMatch(/d4af37|212|175|55/);
+    expect(isGoldAccent(tokens.accent)).toBe(true);
   });
 
   test('manifest theme_color är mörk Obsidian-bas', async ({ page }) => {
