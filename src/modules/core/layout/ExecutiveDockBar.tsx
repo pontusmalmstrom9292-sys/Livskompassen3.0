@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { Landmark, LayoutGrid, PenLine, Inbox } from 'lucide-react';
 import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
 import { FyrenProgressRing } from '../ui/FyrenProgressRing';
-import { LivskompassMark } from '../ui/LivskompassMark';
+import { ExecutiveDecorCompass } from '../ui/executive/ExecutiveDecorCompass';
 
 type SideProps = {
   label: string;
@@ -68,7 +68,7 @@ export function ExecutiveDockBar({
   return (
     <nav className="exec-dock-bar" aria-label="Huvudnavigation">
       <ExecDockSide
-        label="Anteckning"
+        label="Bevis-rad"
         active={pathname.startsWith('/widget/anteckning')}
         onClick={onAnteckning}
       >
@@ -104,11 +104,11 @@ export function ExecutiveDockBar({
           {...centerHoldHandlers}
         >
           {showFyrenRing ? <FyrenProgressRing progress={progress} /> : null}
-          <LivskompassMark className="exec-dock-bar__mark" />
+          <ExecutiveDecorCompass size="hero" className="exec-dock-bar__compass-mark" />
         </button>
       </div>
 
-      <ExecDockSide label="Ventil" active={isHjartat} onClick={onVentil}>
+      <ExecDockSide label="Hjärtat" active={isHjartat} onClick={onVentil}>
         <Landmark className="exec-dock-bar__glyph" strokeWidth={1.5} />
       </ExecDockSide>
 

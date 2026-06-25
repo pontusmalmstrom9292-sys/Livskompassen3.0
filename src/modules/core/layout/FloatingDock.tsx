@@ -97,7 +97,7 @@ export function FloatingDock() {
         <FyrenDockHandle />
         <div className="dock-hub-band floating-dock" data-panel-style={panelStyle}>
           <DockNavButton
-            label="Anteckning"
+            label="Bevis-rad"
             tileVariant="calm"
             icon={<PenLine className="h-5 w-5 opacity-80" strokeWidth={1.5} />}
             active={pathname.startsWith('/widget/anteckning')}
@@ -149,7 +149,7 @@ export function FloatingDock() {
 
             <div className="floating-dock__side-group floating-dock__side-group--right justify-start pl-1">
               <DockNavButton
-                label="Ventil"
+                label="Hjärtat"
                 tileVariant="calm"
                 icon={<Landmark className="h-5 w-5 opacity-80" strokeWidth={1.5} />}
                 active={isHjartat}

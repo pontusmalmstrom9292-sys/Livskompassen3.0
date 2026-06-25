@@ -23,20 +23,16 @@ type WidgetAction = {
 
 const WIDGET_ACTIONS: WidgetAction[] = [
   { id: 'inkast', label: 'Inkast', to: '/#inkast-lite', hubId: 'dagbok' },
+  { id: 'note', label: 'Bevis-rad', to: '/widget/anteckning', widgetIcon: 'note' },
+  { id: 'snabbval', label: 'Dagbok', to: '/widget/snabbval', hubId: 'dagbok' },
+  { id: 'barnobs', label: 'Barnobs', to: '/widget/familjen', hubId: 'familjen' },
   { id: 'brusfiltret', label: 'Hamn', to: '/widget/hamn', hubId: 'hamn' },
   { id: 'voice-vault', label: 'Bevis-röst', to: '/widget/voice-vault', widgetIcon: 'note' },
-  { id: 'snabbval', label: 'MåBra', to: '/widget/snabbval', hubId: 'mabra' },
   {
     id: 'record',
     label: 'Bevis-ljud',
     to: '/widget/inspelning?autostart=1',
     widgetIcon: 'mic',
-  },
-  {
-    id: 'note',
-    label: 'Bevis-rad',
-    to: '/widget/anteckning',
-    widgetIcon: 'note',
   },
   { id: 'list', label: 'Lista', to: '/widget/projekt', hubId: 'projekt' },
   { id: 'plan', label: 'Planering', to: '/planering?tab=handling&picked=1', hubId: 'planering' },

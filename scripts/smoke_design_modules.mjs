@@ -302,6 +302,8 @@ function main() {
     'EconomyTidPanel',
   );
   mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/MabraModulValjare.tsx', 'MabraModulValjare');
+  mustInclude('src/modules/features/dailyLife/wellbeing/mabra/mabraHubRegistry.ts', 'MABRA_LOW_ENERGY_ITEMS');
+  mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/MabraVitHub.tsx', 'lowEnergyMode');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/ValvZoneModulValjare.tsx', 'ValvZoneModulValjare');
   mustInclude('src/modules/features/admin/projects/components/ProjektTomStatePanel.tsx', 'ProjektTomStatePanel');
 

@@ -68,14 +68,29 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
     >
       <AmbientBackground />
 
-      <header className="app-header">
+      <header className={clsx('app-header', executiveSkin && 'app-header--executive-premium')}>
         <div className="app-header__inner">
           <AppHeaderBar
             menuExpanded={isMenuOpen}
             onMenuClick={() => setMenuOpen(true)}
-            headerQuickToggle={<FyrenHeaderQuickToggle />}
+            headerVariant={executiveSkin ? 'executive-premium' : 'default'}
+            centerAction={
+              executiveSkin ? (
+                <KompisHeaderVaultButton
+                  kompisAuraActive={kompisAuraActive}
+                  variant="executive-hero"
+                />
+              ) : undefined
+            }
+            headerQuickToggle={executiveSkin ? undefined : <FyrenHeaderQuickToggle />}
             actions={
-              slimHeaderChrome ? (
+              executiveSkin ? (
+                <AccountAuthMenu
+                  open={accountOpen}
+                  onOpenChange={setAccountOpen}
+                  compactTrigger
+                />
+              ) : slimHeaderChrome ? (
                 <KompisHeaderVaultButton kompisAuraActive={kompisAuraActive} />
               ) : (
                 <>
@@ -101,8 +116,12 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         className={clsx(
           'app-main relative z-10 mx-auto flex min-h-0 w-full max-w-2xl flex-col px-4',
           isScenicHome
-            ? 'pt-[calc(4.65rem+env(safe-area-inset-top,0px))]'
-            : 'pt-[calc(5.75rem+env(safe-area-inset-top,0px))]',
+            ? executiveSkin
+              ? 'pt-[calc(7.25rem+env(safe-area-inset-top,0px))]'
+              : 'pt-[calc(4.65rem+env(safe-area-inset-top,0px))]'
+            : executiveSkin
+              ? 'pt-[calc(7.75rem+env(safe-area-inset-top,0px))]'
+              : 'pt-[calc(5.75rem+env(safe-area-inset-top,0px))]',
           barnportenChildShell && 'pb-16',
         )}
       >

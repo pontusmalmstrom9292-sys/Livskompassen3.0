@@ -59,9 +59,11 @@ type QuickAction = {
 };
 
 const QUICK_ACTIONS: QuickAction[] = [
+  { id: 'dagbok', label: 'Dagbok', to: '/widget/snabbval', icon: 'zap' },
+  { id: 'snabbanteckning', label: 'Bevis-rad', to: '/widget/anteckning', icon: 'zap' },
+  { id: 'barnobs', label: 'Barnobs', to: '/widget/familjen', icon: 'zap' },
   { id: 'voice-vault', label: 'Bevis-röst', to: '/widget/voice-vault', icon: 'mic' },
   { id: 'brusfiltret', label: 'Hamn', to: '/widget/hamn', icon: 'filter' },
-  { id: 'snabbanteckning', label: 'Bevis-rad', to: '/widget/anteckning', icon: 'zap' },
   { id: 'valv', label: 'Valv', to: NAV_PATHS.VALVET, icon: 'shield' },
 ];
 

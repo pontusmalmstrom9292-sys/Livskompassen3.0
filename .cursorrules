@@ -6,7 +6,7 @@ Kanon ligger i **`.cursor/rules/`** (MDC). Kärn-invariants: **`.cursor/index.md
 
 | Zon | Auto-attached regel | Globs |
 |-----|---------------------|-------|
-| UI / Obsidian Calm | `design-calm.mdc` (kanon), `ui-design.mdc` (pekare) | `src/**/*.tsx`, `src/**/*.css` |
+| UI / Executive Midnight (DAD) | `design-calm.mdc` (kanon), `ui-design.mdc` (pekare) | `src/**/*.tsx`, `src/**/*.css` |
 | ADK & synapser | `synapser-adk.mdc` | `functions/src/adk/**`, `functions/src/triggers/**` |
 | RAG & silos | `memory-silo.mdc` | `functions/src/lib/*Rag*.ts` |
 | Säkerhet & WORM | `security-firestore.mdc` | `firestore.rules`, `functions/**`, `sharedRules.ts`, `DCAP.ts` |
@@ -27,4 +27,4 @@ Legacy-rutter (`/dagbok`, `/valv`, `/mabra`, `/planering` …) omdirigeras — s
 2. Fas 19+ körplan: [`docs/evaluations/2026-06-15-fas19-masterplan-v2.md`](docs/evaluations/2026-06-15-fas19-masterplan-v2.md)
 3. Deploy: `npm run smoke:predeploy` → YOLO GO → Pontus OK
 
-Design-detaljer (färger, typografi, Tailwind): se `design-calm.mdc` — **inte** duplicerade här.
+Design Authority Decision (Executive Midnight): se `design-calm.mdc` — **inte** duplicerade här.

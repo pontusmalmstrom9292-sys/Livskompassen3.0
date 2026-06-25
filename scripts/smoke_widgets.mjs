@@ -51,4 +51,14 @@ const panic = readCanonical('src/modules/features/widgets/hooks/useWidgetPanicHi
 assert(panic.includes("navigate('/', { replace: true })"), 'panik ska navigera neutral hem');
 assert(panic.includes('setVaultUnlocked(false)'), 'panik ska låsa Valv');
 
+console.log('[smoke:widgets] PV1a Fyren silo-labels…');
+const fyren = readCanonical('src/modules/core/components/FyrenWidgetBar.tsx');
+assert(fyren.includes("label: 'Dagbok'"), 'Fyren saknar Dagbok-label');
+assert(fyren.includes("label: 'Bevis-rad'"), 'Fyren saknar Bevis-rad-label');
+assert(fyren.includes("label: 'Barnobs'"), 'Fyren saknar Barnobs-label');
+assert(fyren.includes("to: '/widget/familjen'"), 'Fyren saknar barnobs-route');
+const sideDock = readCanonical('src/modules/core/components/FyrenSideQuickDock.tsx');
+assert(sideDock.includes("label: 'Dagbok'"), 'Side dock saknar Dagbok-label');
+assert(sideDock.includes("label: 'Barnobs'"), 'Side dock saknar Barnobs-label');
+
 console.log('[smoke:widgets] PASS');

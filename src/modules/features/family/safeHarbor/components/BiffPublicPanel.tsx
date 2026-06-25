@@ -15,6 +15,7 @@ import { MabraSpeglarGuardHint } from '@/features/dailyLife/wellbeing/mabra/comp
 import { detectHamnTaktikSignal } from '../lib/hamnTaktikWire';
 import { HamnTaktikLexikonBro } from './HamnTaktikLexikonBro';
 import { useHamnBiffWizard } from '../hooks/useHamnBiffWizard';
+import { HAMN_POST_COPY_CALM } from '../hamnCopy';
 
 type Props = {
   initialMessage?: string;
@@ -45,6 +46,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
   const [jadeViolations, setJadeViolations] = useState<JadeViolation[]>([]);
   const [jadeUndoText, setJadeUndoText] = useState<string | null>(null);
   const [copyCopied, setCopyCopied] = useState(false);
+  const [postCopyCalm, setPostCopyCalm] = useState(false);
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [coreQuestion, setCoreQuestion] = useState('');
   const [userGoal, setUserGoal] = useState('');
@@ -92,6 +94,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
     setJadeViolations([]);
     setJadeUndoText(null);
     setCopyCopied(false);
+    setPostCopyCalm(false);
   }, [resetWizard]);
 
   // "Städa till Grey Rock"-städningen (autokorrigering av ditt svar)
@@ -115,6 +118,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
     try {
       await navigator.clipboard.writeText(reply);
       setCopyCopied(true);
+      setPostCopyCalm(true);
       window.setTimeout(() => setCopyCopied(false), 2000);
     } catch {
       setPanelError('Kunde inte kopiera — markera texten manuellt.');
@@ -312,6 +316,11 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
       {reply && (
         <BentoCard glow="indigo" title="Föreslaget svar" className="!px-3 !py-3">
           <p className="mt-0 whitespace-pre-wrap text-sm text-text-muted">{reply}</p>
+          {postCopyCalm ? (
+            <p className="mt-3 text-xs text-text-muted" role="status">
+              {HAMN_POST_COPY_CALM}
+            </p>
+          ) : null}
           <div className="mt-3 flex flex-wrap gap-2">
             <button
               type="button"
@@ -321,7 +330,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               {copyCopied ? 'Kopierat ✓' : 'Kopiera svar'}
             </button>
             <button type="button" onClick={handleKlar} className="btn-pill--ghost text-xs">
-              Rensa
+              Klar — rensa
             </button>
             <button
               type="button"

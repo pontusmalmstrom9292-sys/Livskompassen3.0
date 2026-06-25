@@ -15,7 +15,7 @@ Anropa (mentalt) arbetsflödet för `/bild-arkitekten`. Om du själv är Bild-Ar
 
 ## 2. Visuell Tolkning (Inga gissningar)
 - **Förbjudet:** Skriv ALDRIG ut godtyckliga HEX-koder eller standard-färger (t.ex. `bg-gray-100` eller `text-blue-500`).
-- **Krav:** Mappa *alla* visuella element från bilden till tokens definierade i `.cursor/rules/design-calm.mdc` och `docs/design/COLOR-POLICY.md`.
+- **Krav:** Mappa *alla* visuella element från bilden till DAD i `.cursor/rules/design-calm.mdc` och `docs/design/COLOR-POLICY.md`.
   - Bakgrunder: `var(--surface)`, `var(--surface-raised)`
   - Text: `var(--text)`, `var(--text-accent)`
   - Border: `var(--border)`

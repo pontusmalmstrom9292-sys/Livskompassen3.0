@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { useId } from 'react';
 
-type Size = 'sm' | 'md' | 'lg' | 'dock' | 'dock-lg';
+type Size = 'sm' | 'md' | 'lg' | 'dock' | 'dock-lg' | 'hero';
 
 const SIZE_CLASS: Record<Size, string> = {
   sm: 'h-8 w-8',
@@ -9,6 +9,7 @@ const SIZE_CLASS: Record<Size, string> = {
   lg: 'h-16 w-16',
   dock: 'h-[2.65rem] w-[2.65rem]',
   'dock-lg': 'h-[2.65rem] w-[2.65rem]',
+  hero: 'h-[6rem] w-[6rem]',
 };
 
 type Props = {
@@ -16,12 +17,11 @@ type Props = {
   size?: Size;
 };
 
-/** Dekorativ kompass-ros — 8-spetsig guld (Midnight Executive). */
+/** Dekorativ kompass-ros — ren ytterring + 8-spetsig guld (Midnight Executive). */
 export function ExecutiveDecorCompass({ className = '', size = 'md' }: Props) {
   const uid = useId().replace(/:/g, '');
   const gold = `execGold-${uid}`;
   const goldDeep = `execGoldDeep-${uid}`;
-  const orb = `execOrb-${uid}`;
   const glow = `execGlow-${uid}`;
 
   return (
@@ -44,17 +44,11 @@ export function ExecutiveDecorCompass({ className = '', size = 'md' }: Props) {
           <stop offset="0%" stopColor="#fde68a" />
           <stop offset="100%" stopColor="#7a5c1a" />
         </linearGradient>
-        <radialGradient id={orb} cx="50%" cy="38%" r="58%">
-          <stop offset="0%" stopColor="rgba(253, 230, 138, 0.22)" />
-          <stop offset="55%" stopColor="rgba(201, 166, 107, 0.06)" />
-          <stop offset="100%" stopColor="rgba(0, 0, 0, 0)" />
-        </radialGradient>
         <filter id={glow} x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="1" stdDeviation="1.2" floodColor="#d4af37" floodOpacity="0.28" />
+          <feDropShadow dx="0" dy="1" stdDeviation="1.2" floodColor="#d4af37" floodOpacity="0.22" />
         </filter>
       </defs>
 
-      <circle cx="40" cy="40" r="36" fill={`url(#${orb})`} />
       <circle cx="40" cy="40" r="34" stroke={`url(#${gold})`} strokeWidth="1.75" fill="none" filter={`url(#${glow})`} />
 
       {/* Kardinalspetsar */}

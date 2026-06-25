@@ -12,13 +12,15 @@ import { FyrenProgressRing } from '../ui/FyrenProgressRing';
 
 type Props = {
   kompisAuraActive: boolean;
+  /** Premium executive — stort öga under logotyp. */
+  variant?: 'default' | 'executive-hero';
 };
 
 /**
  * Kompis-öga i toppmenyn — kort tryck → Kunskapsbank i Valv (PIN-gate om låst),
  * 3s håll → Valv-upplåsning (WebAuthn).
  */
-export function KompisHeaderVaultButton({ kompisAuraActive }: Props) {
+export function KompisHeaderVaultButton({ kompisAuraActive, variant = 'default' }: Props) {
   const navigate = useNavigate();
   const setSystemError = useStore((s) => s.setError);
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
@@ -48,24 +50,36 @@ export function KompisHeaderVaultButton({ kompisAuraActive }: Props) {
     ? 'Kunskapsbank (håll 3 sek för Valv)'
     : 'Håll 3 sekunder för upplåsning';
 
+  const executiveHero = variant === 'executive-hero';
+
   return (
     <button
       type="button"
       className={clsx(
         'header-chrome-btn header-chrome-btn--round relative shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+        executiveHero && 'exec-header-eye',
         isHolding && 'header-chrome-btn--holding',
+        executiveHero && isHolding && 'exec-header-eye--holding',
       )}
       aria-label={ariaLabel}
       title={title}
       {...holdHandlers}
     >
-      <span className="relative flex h-10 w-10 items-center justify-center">
+      <span
+        className={clsx(
+          'relative flex items-center justify-center',
+          executiveHero ? 'h-[4.25rem] w-[4.25rem]' : 'h-10 w-10',
+        )}
+      >
         {showRing ? <FyrenProgressRing progress={progress} /> : null}
         <KompisAvatar
-          size="sm"
+          size={executiveHero ? 'lg' : 'sm'}
           chromeEmbed
           state={kompisAuraActive ? 'analyzing' : 'idle'}
-          className="kompis-avatar--header-chrome relative z-[1] shrink-0"
+          className={clsx(
+            'kompis-avatar--header-chrome relative z-[1] shrink-0',
+            executiveHero && 'kompis-avatar--executive-hero',
+          )}
         />
       </span>
     </button>

@@ -358,7 +358,7 @@ När en Superhub-modul har **implementerats, testats och godkänts** av teknikle
 | ID | Leverans | Status | Smoke / gate |
 |----|----------|--------|--------------|
 | **P0** | Smoke grön + Android G85 daily driver (7 dagar) | **smoke PASS** 2026-06-25 · G85 7d kvar | `smoke:predeploy:build`, `build:web && cap sync` |
-| **PV1a** | Fyren silo-labels · MåBra lågenergi-filter · Hamn kopiera+rensa · executive reference-dock | **delvis** — dock done | `smoke:mabra`, `smoke:locked-ux`, `smoke:design-modules` |
+| **PV1a** | Fyren silo-labels · MåBra lågenergi-filter · Hamn kopiera+rensa · executive reference-dock | **done** 2026-06-25 | `smoke:mabra`, `smoke:locked-ux`, `smoke:design-modules` |
 | **23C** | SOS Ankare `/mabra/recovery/sos` | **done** 2026-06-25 | `smoke:mabra` |
 | **PV1b** | Widget silo-chip + panik «Dölj» + rensa vid stäng | **done** 2026-06-25 | `smoke:widgets`, WH1 audit |
 | **S24** | Zero Footprint widget/synapse clear · DCAP 4 band · `mabraCoachGuard` utökad | **done** 2026-06-25 | `smoke:s24`, `smoke:valv-security`, `smoke:dcap-routing` |
@@ -367,7 +367,7 @@ När en Superhub-modul har **implementerats, testats och godkänts** av teknikle
 | **23D** | Paralys-Brytaren i Planering P3 | TODO | `smoke:planering`, `smoke:locked-ux` |
 | **23E** | Tyst läge / dissociation i Superdagbok | TODO | `smoke:journal-2d`, `smoke:locked-ux` |
 
-**Byggsekvens (0–12 veckor):** ~~P0~~ → ~~23C~~ → ~~S24~~ → ~~PV1b~~ → ~~HITL1~~ → **PV1a-rest** → **23D** → **23E**
+**Byggsekvens (0–12 veckor):** ~~P0~~ → ~~PV1a~~ → ~~23C~~ → ~~S24~~ → ~~PV1b~~ → ~~HITL1~~ → **23D** → **23E**
 
 **Defer från Fas 19 (om ej påbörjad):** 19.3 hex→tokens · 19.5 evolution_ledger · 19.6 arkiv-batch → se syntes §3 defer (6m+)
 

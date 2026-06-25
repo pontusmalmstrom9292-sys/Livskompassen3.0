@@ -45,7 +45,7 @@ function WidgetFamiljenInner() {
   };
 
   return (
-    <WidgetShell title="Familjen" lead="Neutral rad → barnlogg (inte Valv automatiskt).">
+    <WidgetShell title="Barnobs" lead="Neutral rad → barnlogg (inte Valv automatiskt).">
       {done ? (
         <div className="elongated-module elongated-module--gold p-4">
           <p className="text-sm text-success">Sparat till {child}s logg</p>

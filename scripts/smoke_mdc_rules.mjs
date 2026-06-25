@@ -114,9 +114,9 @@ function main() {
   mustInclude('.cursor/rules/guard-regelbok.mdc', 'grunder-kanon.mdc', 'Ej tillräckligt data');
   mustInclude('.cursor/rules/grunder-kanon.mdc', 'U1', 'U6', 'PMIR-gates', 'Ej tillräckligt data');
 
-  // B2 — design merge
-  mustInclude('.cursor/rules/ui-design.mdc', 'design-calm.mdc', 'Kanon flyttad');
-  mustInclude('.cursor/rules/design-calm.mdc', 'OBSIDIAN CALM 2.0', 'Progressive disclosure');
+  // B2 — design merge (Executive Midnight DAD)
+  mustInclude('.cursor/rules/ui-design.mdc', 'design-calm.mdc', 'Executive Midnight');
+  mustInclude('.cursor/rules/design-calm.mdc', 'DESIGN AUTHORITY DECISION', 'Executive Midnight', 'KOMPASSEN (LÅST)');
 
   // B3 — assistant tone in index
   mustInclude('.cursor/index.mdc', 'Progressive disclosure', 'Inget JADE');
