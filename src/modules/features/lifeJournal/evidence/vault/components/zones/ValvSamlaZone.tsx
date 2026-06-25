@@ -74,7 +74,7 @@ export function ValvSamlaZone({
             manualEntryOpen={manualEntryOpen}
             onManualEntryOpenChange={setManualEntryOpen}
           />
-          <div className="flex flex-wrap items-center justify-between gap-2 px-0.5">
+          <div className="valv-samla-filter-row flex flex-wrap items-center justify-between gap-2 px-0.5">
             <p className="text-xs font-medium uppercase tracking-wider text-text-dim">Arkivlista</p>
             <div className="flex flex-wrap items-center gap-2">
               {techniqueFilter ? (

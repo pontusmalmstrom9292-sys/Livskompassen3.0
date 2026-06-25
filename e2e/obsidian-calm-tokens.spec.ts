@@ -25,11 +25,10 @@ test.describe('Obsidian Calm tokens', () => {
     });
 
     expect(isDarkHex(tokens.surface)).toBe(true);
-    // Theme Pack I — accepterar samtliga registrerade guld/brons-accenter
-    // (I-stone, I-stone-draft-twilight, I-stone-draft-bronze, I-alchemical, I-skymning).
-    // Tidigare regex matchade endast d4af37; default-temat kan vara brons-variant.
-    expect(tokens.accent.toLowerCase()).toMatch(
-      /d4af37|212|175|55|c9a66b|c9a227|9f852b|e8c547/,
+    // Executive Midnight + Theme Pack I: accept registered gold/bronze accents.
+    const normalizedAccent = tokens.accent.toLowerCase().replace(/[,\s]+/g, ',');
+    expect(normalizedAccent).toMatch(
+      /#?(d4af37|c9a66b|c9a227|9f852b|e8c547)|(?:rgb\()?((212,175,55)|(201,166,107)|(201,162,39)|(159,133,43)|(232,197,71))\)?/,
     );
   });
 
