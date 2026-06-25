@@ -90,6 +90,7 @@
     "smoke:obsidian-forge": "node scripts/smoke_obsidian_forge.mjs",
     "smoke:design-freeport": "node scripts/smoke_design_freeport.mjs",
     "capture:freeport-premium": "node scripts/capture_freeport_premium_gallery.mjs",
+    "figma:capture-hem-compare": "node scripts/figma_capture_hem_compare.mjs",
     "smoke:discovery-deck": "node scripts/smoke_discovery_deck.mjs",
     "smoke:evolution-discovery": "node scripts/smoke_evolution_discovery.mjs",
     "smoke:auth-login": "node scripts/smoke_auth_login.mjs",

@@ -1,6 +1,12 @@
 /** Livskompassen Obsidian Calm — master design file (Figma). */
 export const FIGMA_DESIGN_FILE_KEY = 'Qp6b3nSJXq7qgFiwvDBk2C';
 
+export const FIGMA_DESIGN_FILE_URL =
+  `https://www.figma.com/design/${FIGMA_DESIGN_FILE_KEY}/Livskompassen-Obsidian-Calm`;
+
+/** Executive Premium sandbox — flik i Design Freeport, mock-skärmar. */
+export const FIGMA_FREEPORT_PREMIUM_PAGE = `${FIGMA_DESIGN_FILE_URL}?node-id=0-1`;
+
 /** Uppdateras av L0-atoms-pluginet → scripts/figma/apply-code-connect-nodes.mjs */
 export const FIGMA_COMPONENT_NODE_IDS = {
   'BentoCard': '16:434',
