@@ -4839,6 +4839,20 @@
     background: rgba(0, 0, 0, 0.95);
   }
 
+  .widget-panic-blur-overlay {
+    @apply pointer-events-none fixed inset-0 z-[120];
+    background: rgba(0, 0, 0, 0.92);
+    backdrop-filter: blur(24px);
+  }
+
+  .widget-shell--panic {
+    @apply opacity-0;
+  }
+
+  .widget-silo-picker {
+    @apply rounded-xl border-[0.5px] border-border/60 bg-surface-2/40 p-3;
+  }
+
   .fyren-widget-bar__strip {
     @apply pointer-events-auto grid w-full grid-cols-4 gap-1.5 rounded-2xl border border-[0.5px] border-border/50 p-2;
     background: color-mix(in srgb, var(--surface-2) 68%, transparent);
