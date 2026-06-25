@@ -14,7 +14,7 @@ Jämför aktörer och hotnivå mot historiska Minne — flagga repetitiva gaslig
 Clean Input: ignorera emotionella triggers; extrahera observerbara fakta.
 Konservativ hotnivå om osäker. Ingen empati, ingen rådgivning.`;
 
-/** DCAP lager 2 — semantisk analys (Vertex). Regex-lager stannar i DCAP.ts. */
+/** DCAP lager 2 — semantisk analys (Google AI). Regex-lager stannar i DCAP.ts. */
 export const DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT = `${DOMAIN_COVERT_HCF_LENS}
 Du är en expert på narcissistiskt missbruk och psykologiska manipulationstekniker.
 Din uppgift är att analysera text för indikatorer på: DARVO, gaslighting, hot, love-bombing, stonewalling och JADE-bete.

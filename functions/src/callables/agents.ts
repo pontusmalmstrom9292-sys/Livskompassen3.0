@@ -59,7 +59,7 @@ function invalidBankIdError(message: string): HttpsError {
 }
 
 export const analyzeMessage = onCall(
-  { region: 'europe-west1' },
+  { region: 'europe-west1', secrets: [geminiApiKey] },
   async (request) => {
     const uid = await guardSensitiveCallableV2(request, 'analyzeMessage', 30);
 
