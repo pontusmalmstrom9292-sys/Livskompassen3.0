@@ -37,7 +37,7 @@ export function ExecutiveLivsloggCard({ activeChild = 'Kasper' }: Props) {
 
   return (
     <RAGErrorBoundary fallbackTitle="Nätverksfel i Barnloggar">
-      <article className="exec-home-card exec-home-card--livslogg relative">
+      <article className="calm-card exec-home-card exec-home-card--livslogg relative">
         <header className="exec-home-card__head">
           <MessageCircle className="h-4 w-4 text-accent" strokeWidth={1.5} />
           <div className="min-w-0">
@@ -58,7 +58,7 @@ export function ExecutiveLivsloggCard({ activeChild = 'Kasper' }: Props) {
         <div className="mt-3 flex flex-wrap gap-2">
           <button
             type="button"
-            className="exec-home-btn exec-home-btn--primary"
+            className="btn-pill--accent inline-flex items-center gap-1.5 text-xs"
             disabled={loading || !inputText.trim()}
             onClick={() => void handleAsk()}
           >
@@ -67,7 +67,7 @@ export function ExecutiveLivsloggCard({ activeChild = 'Kasper' }: Props) {
           </button>
           <button
             type="button"
-            className="exec-home-btn"
+            className="btn-pill--ghost text-xs"
             onClick={() => navigate('/familjen?tab=livslogg')}
           >
             Utforska

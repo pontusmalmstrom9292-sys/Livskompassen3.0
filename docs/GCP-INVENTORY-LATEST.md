@@ -15,8 +15,8 @@
 | Fynd | Status | Gap |
 |------|--------|-----|
 | `valvChatQuery` deployad (west1) | **done** | G1 |
-| Vector endpoint + `livskompassen_kv_deployed_v1` | **done** | G2 **VERIFY PASS** |
-| Index west1, **173 vectors** | **done** | G3 **VERIFY PASS** (sync 2026-05-31) |
+| Vector endpoint + `livskompassen_kv_deployed_v1` | **ORPHAN 2026-06-25** | migrerad till Firestore Native — decommission frigör ~$330/mån |
+| Index west1, **173 vectors** | **ORPHAN 2026-06-25** | embeddings finns på Firestore-docs |
 | `NOTIFY_WEBHOOK_SECRET` | **finns** | G6 **done** — E2E kb_docs 2026-05-22 |
 | Vävaren HITL callables | **deployade** | `approveWeaverMetadata`, `rejectWeaverMetadata` |
 | Legacy Python (0 fn kvar) | **avvecklad** | G4 **done** — steg 1–5 2026-05-22 |
@@ -114,16 +114,21 @@ Full lista live: `firebase functions:list --project gen-lang-client-0481875058`
 
 ---
 
-## Vertex AI Vector Search
+## Vertex AI Vector Search — DECOMMISSIONABLE 2026-06-25
 
-### west1 — **KEEP (kanonisk)**
+**Plattformen migrerade till Firestore Native Vector Search** (`FieldValue.vector()` + `findNearest()` med COSINE). Vertex AI Vector Search-resurserna nedan är **ORPHAN** — ingen kod anropar dem längre. Decommission ger **~$330/mån** besparing utan funktionsförlust.
+
+**Runbook:** [`runbooks/VECTOR-SEARCH-DECOMMISSION.md`](runbooks/VECTOR-SEARCH-DECOMMISSION.md)
+**Runtime-användning:** [`functions/src/lib/kampsparQueryRag.ts`](../functions/src/lib/kampsparQueryRag.ts), [`functions/src/lib/kampsparRag.ts`](../functions/src/lib/kampsparRag.ts), [`functions/src/lib/childrenLogsQueryRag.ts`](../functions/src/lib/childrenLogsQueryRag.ts)
+
+### west1 — **ORPHAN (decommissionable)**
 
 | Resurs | ID / namn | Status |
 |--------|-----------|--------|
-| Index | `2686894156982255616` (`livskompassen-kv-index`, STREAM, 768 dim) | aktiv |
-| Endpoint | `4956462078572363776` (`livskompassen-kv-endpoint`) | aktiv |
-| Deployed index | `livskompassen_kv_deployed_v1` | synkad 2026-05-31T00:19:07Z |
-| Vectors count | **173** | live (2026-05-31) |
+| Index | `2686894156982255616` (`livskompassen-kv-index`, STREAM, 768 dim) | ORPHAN — kan raderas |
+| Endpoint | `4956462078572363776` (`livskompassen-kv-endpoint`) | ORPHAN — un-deploya för $330/mån besparing |
+| Deployed index | `livskompassen_kv_deployed_v1` | ORPHAN |
+| Vectors count | 173 (senast 2026-05-31) | embeddings finns kvar som `embedding`-fält på Firestore-docs |
 
 ### north1 — **avvecklad steg 6**
 
@@ -131,8 +136,6 @@ Full lista live: `firebase functions:list --project gen-lang-client-0481875058`
 |--------|-----|--------|
 | ~~Index~~ | ~~`9094201410823651328`~~ (`kampspar_index`) | **raderad** 2026-05-22 |
 | Endpoints | — | 0 (oförändrat) |
-
-**Repo defaults:** [`functions/src/lib/vectorSearchClient.ts`](../functions/src/lib/vectorSearchClient.ts)
 
 ---
 
