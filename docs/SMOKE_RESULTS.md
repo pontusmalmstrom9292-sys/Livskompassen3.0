@@ -1,3 +1,19 @@
+## Fas 23E hosting-deploy (2026-06-25)
+
+| Fält | Värde |
+|------|-------|
+| Leverans | 23E Tyst läge / dissociation i Superdagbok (`DagbokTystDelegate`) |
+| Commit | `4fe2e0a03` |
+| `npm run smoke:predeploy:build` | **PASS** |
+| `smoke:journal-23e` | **PASS** |
+| YOLO-vakt | **GO** (hosting-only, sacred paths ej rörda) |
+| `git push origin main` | **PASS** |
+| `firebase deploy --only hosting` | **PASS** — 309 filer |
+| **Live** | https://gen-lang-client-0481875058.web.app |
+| Test-URL | `/hjartat?tab=reflektion&inputMode=tyst` |
+
+---
+
 ## Fas 24 hosting-deploy — predeploy gate (2026-06-25)
 
 | Fält | Värde |
