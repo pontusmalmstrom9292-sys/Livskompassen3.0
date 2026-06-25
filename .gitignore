@@ -62,6 +62,8 @@ docs/external-ai/gemini-kunskap/0*.md
 docs/external-ai/gemini-kunskap/0*.txt
 docs/external-ai/gemini-kunskap/tier-2-valfritt/*
 docs/external-ai/gemini-kunskap/tier-3-repomix/*
+docs/external-ai/gemini-kunskap/gemini-kanon/*
+docs/external-ai/gemini-kunskap/notebooklm-kanon/*
 !docs/external-ai/gemini-kunskap/LÄS-MIG.md
 
 # Generated GPT handoff repomix packs (npm run gpt-handoff:pack)

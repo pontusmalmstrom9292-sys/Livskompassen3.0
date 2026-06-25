@@ -9,7 +9,10 @@ import { THEME_PACK_REDESIGN_C } from './themePackRedesignC';
 import { THEME_PACK_OBSIDIAN_DEPTH } from './themePackObsidianDepth';
 import { THEME_PACK_REMIX_E_HAMN } from './themePackRemix';
 import { THEME_BRUSHED_BRASS_NEU } from './themePackBrushedBrass';
-import { THEME_PACK_MIDNIGHT_EXECUTIVE } from './themePackMidnightExecutive';
+import {
+  MIDNIGHT_EXECUTIVE_THEME_ID,
+  THEME_PACK_MIDNIGHT_EXECUTIVE,
+} from './themePackMidnightExecutive';
 
 const shared = THEME_SHARED_VARS;
 
@@ -412,7 +415,8 @@ export const THEME_REGISTRY: ThemePack[] = [
   ...THEME_PACK_MIDNIGHT_EXECUTIVE,
 ];
 
-export const DEFAULT_THEME_ID = 'I-skymning-darkest';
+/** Prod default — executive home + chrome (2026-06-25). */
+export const DEFAULT_THEME_ID = MIDNIGHT_EXECUTIVE_THEME_ID;
 
 /** Legacy Theme Lab ids → canonical pack id. */
 export const THEME_ID_ALIASES: Record<string, string> = {

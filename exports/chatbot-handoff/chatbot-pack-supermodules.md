@@ -1844,58 +1844,6 @@ const handleSave = async (
 ) =>
 ````
 
-## File: src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokTystDelegate.tsx
-````typescript
-import { useEffect, useState } from 'react';
-import { Flame, Loader2 } from 'lucide-react';
-import { useStore } from '@/core/store';
-import { MOOD_CATALOG } from '@/features/lifeJournal/diary/diary/constants/moods';
-import { SavedStep } from '@/features/lifeJournal/diary/diary/components/SavedStep';
-import { useJournalFlow } from '@/features/lifeJournal/diary/diary/hooks/useJournalFlow';
-import { useDiaryStore } from '@/features/lifeJournal/diary/diary/store/diaryStore';
-import { DagbokBurnDelegate } from './DagbokBurnDelegate';
-import {
-  DAGBOK_TYST_BURN_LABEL,
-  DAGBOK_TYST_DRAFT_BANNER,
-  DAGBOK_TYST_LEAD,
-  DAGBOK_TYST_MOOD_ONLY_LABEL,
-  DAGBOK_TYST_SAVE_LABEL,
-  DAGBOK_TYST_TRE_ORD_HINT,
-} from '../dagbokTystCopy';
-⋮----
-export type DagbokTystDelegateProps = {
-  onSaved?: () => void;
-  onSwitchToBurn?: () => void;
-};
-⋮----
-const handleSave = async () =>
-⋮----
-const handleMoodOnly = async () =>
-````
-
-## File: src/modules/features/lifeJournal/diary/supermodule/dagbok-tyst-lage.css
-````css
-.dagbok-tyst-lage {
-⋮----
-.dagbok-hub--tyst {
-⋮----
-.dagbok-tyst-lage__eyebrow {
-⋮----
-.dagbok-tyst-lage__lead {
-⋮----
-.dagbok-tyst-lage__draft {
-⋮----
-.dagbok-tyst-lage__tre-ord {
-⋮----
-.dagbok-tyst-lage__tre-ord input {
-⋮----
-.dagbok-tyst-lage__actions {
-⋮----
-.dagbok-tyst-lage__actions .btn-pill--accent {
-⋮----
-.dagbok-tyst-lage__mood select {
-````
-
 ## File: src/modules/features/lifeJournal/diary/supermodule/DagbokInputModePicker.tsx
 ````typescript
 import {
@@ -1917,16 +1865,6 @@ export function DagbokInputModePicker({
 }: DagbokInputModePickerProps)
 ⋮----
 export function activeDagbokModeLabel(mode: DagbokInputMode): string
-````
-
-## File: src/modules/features/lifeJournal/diary/supermodule/dagbokTystCopy.ts
-````typescript
-
-````
-
-## File: src/modules/features/lifeJournal/diary/supermodule/index.ts
-````typescript
-
 ````
 
 ## File: src/modules/features/lifeJournal/evidence/vault/components/ValvSuperModule.tsx
@@ -2084,76 +2022,66 @@ const handleBurn = () =>
 className=
 ````
 
-## File: src/modules/features/lifeJournal/diary/supermodule/dagbokInputModes.ts
+## File: src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokTystDelegate.tsx
 ````typescript
-export type DagbokInputMode = 'reflektion' | 'quick_mirror' | 'arkiv' | 'burn' | 'tyst';
+import { useEffect, useState } from 'react';
+import { Flame, Loader2 } from 'lucide-react';
+import { useStore } from '@/core/store';
+import { MOOD_CATALOG } from '@/features/lifeJournal/diary/diary/constants/moods';
+import { SavedStep } from '@/features/lifeJournal/diary/diary/components/SavedStep';
+import { useJournalFlow } from '@/features/lifeJournal/diary/diary/hooks/useJournalFlow';
+import { useDiaryStore } from '@/features/lifeJournal/diary/diary/store/diaryStore';
+import { DagbokBurnDelegate } from './DagbokBurnDelegate';
+import {
+  DAGBOK_TYST_BURN_LABEL,
+  DAGBOK_TYST_DRAFT_BANNER,
+  DAGBOK_TYST_LEAD,
+  DAGBOK_TYST_MOOD_ONLY_LABEL,
+  DAGBOK_TYST_SAVE_LABEL,
+  DAGBOK_TYST_TRE_ORD_HINT,
+} from '../dagbokTystCopy';
 ⋮----
-export type DagbokWriteTarget = 'journal_worm' | 'read_only' | 'none';
-⋮----
-export type DagbokInputModeMeta = {
-  id: DagbokInputMode;
-  label: string;
-  description: string;
-  tier: 'primary' | 'more';
-  writeTarget: DagbokWriteTarget;
-  legacyDagbokMode: 'reflektera' | 'snabb' | 'arkiv';
-  usesQuickMirror: boolean;
+export type DagbokTystDelegateProps = {
+  onSaved?: () => void;
+  onSwitchToBurn?: () => void;
 };
 ⋮----
-export function isDagbokInputMode(value: string | null | undefined): value is DagbokInputMode
+const handleSave = async () =>
 ⋮----
-export function parseDagbokInputMode(value: string | null | undefined): DagbokInputMode
-⋮----
-export function getDagbokInputModeMeta(mode: DagbokInputMode): DagbokInputModeMeta
-⋮----
-export function dagbokLegacyModeToInputMode(mode: string | null | undefined): DagbokInputMode
-⋮----
-export function parseDagbokCapacityParam(
-  capacity: string | null | undefined,
-  tyst: string | null | undefined,
-): DagbokInputMode | null
+const handleMoodOnly = async () =>
 ````
 
-## File: src/modules/features/lifeJournal/diary/supermodule/DagbokInputSuperModule.tsx
+## File: src/modules/features/lifeJournal/diary/supermodule/dagbok-tyst-lage.css
+````css
+.dagbok-tyst-lage {
+⋮----
+.dagbok-hub--tyst {
+⋮----
+.dagbok-tyst-lage__eyebrow {
+⋮----
+.dagbok-tyst-lage__lead {
+⋮----
+.dagbok-tyst-lage__draft {
+⋮----
+.dagbok-tyst-lage__tre-ord {
+⋮----
+.dagbok-tyst-lage__tre-ord input {
+⋮----
+.dagbok-tyst-lage__actions {
+⋮----
+.dagbok-tyst-lage__actions .btn-pill--accent {
+⋮----
+.dagbok-tyst-lage__mood select {
+````
+
+## File: src/modules/features/lifeJournal/diary/supermodule/dagbokTystCopy.ts
 ````typescript
-import { useCallback, useMemo } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { ChameleonInputShell } from '@/core/ui/ChameleonInputShell';
-import { useCapacityScore } from '@/core/store/useCapacityGate';
-import { useEvolutionStore } from '@/core/store/useEvolutionStore';
-import { isLowHomeCapacity } from '@/core/home/homeCapacityGate';
-import { DagbokRememberCard } from '@/features/lifeJournal/diary/diary/components/DagbokRememberCard';
-import { DagbokQuickMirrorDelegate } from './delegates/DagbokQuickMirrorDelegate';
-import {
-  DagbokArkivDelegate,
-  DagbokReflektionDelegate,
-} from './delegates/DagbokReflektionDelegate';
-import { DagbokBurnDelegate } from './delegates/DagbokBurnDelegate';
-import { DagbokTystDelegate } from './delegates/DagbokTystDelegate';
-import {
-  DEFAULT_DAGBOK_INPUT_MODE,
-  getDagbokInputModeMeta,
-  parseDagbokCapacityParam,
-  parseDagbokInputMode,
-  type DagbokInputMode,
-} from './dagbokInputModes';
-import { DagbokInputModePicker } from './DagbokInputModePicker';
-⋮----
-export type DagbokInputSuperModuleProps = {
-  initialMode?: DagbokInputMode;
-  onSaved?: (mode: DagbokInputMode) => void;
-};
-⋮----
-type DelegateProps = {
-  mode: DagbokInputMode;
-  onSaved?: () => void;
-  onSwitchMode?: (mode: DagbokInputMode) => void;
-};
-⋮----
-function DagbokInputModeDelegate(
-⋮----
-onSwitchToBurn=
+
+````
+
+## File: src/modules/features/lifeJournal/diary/supermodule/index.ts
+````typescript
+
 ````
 
 ## File: src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts
@@ -2245,6 +2173,78 @@ void onBevisConfirmed(docId);
 setMode(DEFAULT_VALV_INPUT_MODE);
 ⋮----
 onBack=
+````
+
+## File: src/modules/features/lifeJournal/diary/supermodule/dagbokInputModes.ts
+````typescript
+export type DagbokInputMode = 'reflektion' | 'quick_mirror' | 'arkiv' | 'burn' | 'tyst';
+⋮----
+export type DagbokWriteTarget = 'journal_worm' | 'read_only' | 'none';
+⋮----
+export type DagbokInputModeMeta = {
+  id: DagbokInputMode;
+  label: string;
+  description: string;
+  tier: 'primary' | 'more';
+  writeTarget: DagbokWriteTarget;
+  legacyDagbokMode: 'reflektera' | 'snabb' | 'arkiv';
+  usesQuickMirror: boolean;
+};
+⋮----
+export function isDagbokInputMode(value: string | null | undefined): value is DagbokInputMode
+⋮----
+export function parseDagbokInputMode(value: string | null | undefined): DagbokInputMode
+⋮----
+export function getDagbokInputModeMeta(mode: DagbokInputMode): DagbokInputModeMeta
+⋮----
+export function dagbokLegacyModeToInputMode(mode: string | null | undefined): DagbokInputMode
+⋮----
+export function parseDagbokCapacityParam(
+  capacity: string | null | undefined,
+  tyst: string | null | undefined,
+): DagbokInputMode | null
+````
+
+## File: src/modules/features/lifeJournal/diary/supermodule/DagbokInputSuperModule.tsx
+````typescript
+import { useCallback, useMemo } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { ChameleonInputShell } from '@/core/ui/ChameleonInputShell';
+import { useCapacityScore } from '@/core/store/useCapacityGate';
+import { useEvolutionStore } from '@/core/store/useEvolutionStore';
+import { isLowHomeCapacity } from '@/core/home/homeCapacityGate';
+import { DagbokRememberCard } from '@/features/lifeJournal/diary/diary/components/DagbokRememberCard';
+import { DagbokQuickMirrorDelegate } from './delegates/DagbokQuickMirrorDelegate';
+import {
+  DagbokArkivDelegate,
+  DagbokReflektionDelegate,
+} from './delegates/DagbokReflektionDelegate';
+import { DagbokBurnDelegate } from './delegates/DagbokBurnDelegate';
+import { DagbokTystDelegate } from './delegates/DagbokTystDelegate';
+import {
+  DEFAULT_DAGBOK_INPUT_MODE,
+  getDagbokInputModeMeta,
+  parseDagbokCapacityParam,
+  parseDagbokInputMode,
+  type DagbokInputMode,
+} from './dagbokInputModes';
+import { DagbokInputModePicker } from './DagbokInputModePicker';
+⋮----
+export type DagbokInputSuperModuleProps = {
+  initialMode?: DagbokInputMode;
+  onSaved?: (mode: DagbokInputMode) => void;
+};
+⋮----
+type DelegateProps = {
+  mode: DagbokInputMode;
+  onSaved?: () => void;
+  onSwitchMode?: (mode: DagbokInputMode) => void;
+};
+⋮----
+function DagbokInputModeDelegate(
+⋮----
+onSwitchToBurn=
 ````
 
 ## File: src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokReflektionDelegate.tsx
