@@ -9,7 +9,7 @@ type Props = {
   onMenuClick: () => void;
   actions: ReactNode;
   headerQuickToggle?: ReactNode;
-  /** Premium executive — öga under logotyp, sköld höger, ingen header-kompass. */
+  /** Premium executive — titel centrerad, actions (sköld+öga+kompass) höger. */
   variant?: 'default' | 'executive-premium';
   centerAction?: ReactNode;
 };
@@ -55,13 +55,13 @@ export function DesignPackCenterHeader({
           <span />
           <span />
         </div>
-        {executivePremium && centerAction ? (
-          <div className="design-pack-header__eye-slot">{centerAction}</div>
-        ) : null}
       </div>
 
       <div className="design-pack-header__side design-pack-header__side--right">
-        <div className="design-pack-header__actions">{actions}</div>
+        <div className="design-pack-header__actions">
+          {executivePremium && centerAction ? centerAction : null}
+          {actions}
+        </div>
         {!executivePremium ? headerQuickToggle : null}
       </div>
     </header>

@@ -29,6 +29,7 @@ import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
 import { useCapacityScore } from '../store/useCapacityGate';
 import { CAPACITY_LOW_HOME_THRESHOLD, normalizeStoredCapacityScore } from '../../../../shared/evolution/capacityScore';
 import { SosMainTrigger } from '@/modules/features/sos/components/SosMainTrigger';
+import { ExecutiveDecorCompass } from '../ui/executive/ExecutiveDecorCompass';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -74,23 +75,24 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
             menuExpanded={isMenuOpen}
             onMenuClick={() => setMenuOpen(true)}
             headerVariant={executiveSkin ? 'executive-premium' : 'default'}
-            centerAction={
-              executiveSkin ? (
-                <KompisHeaderVaultButton
-                  kompisAuraActive={kompisAuraActive}
-                  variant="executive-hero"
-                />
-              ) : undefined
-            }
             headerQuickToggle={executiveSkin ? undefined : <FyrenHeaderQuickToggle />}
             actions={
               executiveSkin ? (
-                <AccountAuthMenu
-                  open={accountOpen}
-                  onOpenChange={setAccountOpen}
-                  compactTrigger
-                  chromeVariant="executive"
-                />
+                <>
+                  <AccountAuthMenu
+                    open={accountOpen}
+                    onOpenChange={setAccountOpen}
+                    compactTrigger
+                    chromeVariant="executive"
+                  />
+                  <KompisHeaderVaultButton
+                    kompisAuraActive={kompisAuraActive}
+                    variant="executive-header"
+                  />
+                  <span className="exec-header-compass-mark" aria-hidden>
+                    <ExecutiveDecorCompass size="sm" />
+                  </span>
+                </>
               ) : slimHeaderChrome ? (
                 <KompisHeaderVaultButton kompisAuraActive={kompisAuraActive} />
               ) : (
@@ -118,10 +120,10 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           'app-main relative z-10 mx-auto flex min-h-0 w-full max-w-2xl flex-col px-4',
           isScenicHome
             ? executiveSkin
-              ? 'pt-[calc(7.25rem+env(safe-area-inset-top,0px))]'
+              ? 'pt-[calc(5.75rem+env(safe-area-inset-top,0px))]'
               : 'pt-[calc(4.65rem+env(safe-area-inset-top,0px))]'
             : executiveSkin
-              ? 'pt-[calc(7.75rem+env(safe-area-inset-top,0px))]'
+              ? 'pt-[calc(6.25rem+env(safe-area-inset-top,0px))]'
               : 'pt-[calc(5.75rem+env(safe-area-inset-top,0px))]',
           barnportenChildShell && 'pb-16',
         )}

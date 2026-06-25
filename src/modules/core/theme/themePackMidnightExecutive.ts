@@ -46,7 +46,7 @@ export const THEME_PACK_MIDNIGHT_EXECUTIVE: ThemePack[] = [
     description:
       'Mockup v1 — obsidian + varm brons (#c9a66b), executive chrome, platta midnight-kort.',
     background: 'obsidian',
-    preview: '/docs/design/galleri/mix-E-final-hem.png',
+    preview: '/docs/design/galleri/executive-home-extended-v1.png',
     cssVars: { ...midnightExecutiveVars },
     designPackId: 'D4',
   },

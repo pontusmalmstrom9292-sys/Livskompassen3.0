@@ -57,12 +57,19 @@ async function main() {
     localStorage.setItem('livskompassen_theme_auto_module', 'false');
   });
   await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded', timeout: 60_000 });
-  await page.waitForSelector('.executive-home-dashboard, .home-hero-kanon--executive', {
-    timeout: 45_000,
-  });
-  await page.waitForTimeout(2000);
-  const prodResult = await injectAndCapture(page, prodId, '.app-shell');
-  console.log('[figma:capture-hem]   prod result:', prodResult);
+  const prodReady = await page
+    .waitForSelector('.executive-home-dashboard, .home-hero-kanon--executive', {
+      timeout: 20_000,
+    })
+    .then(() => true)
+    .catch(() => false);
+  if (prodReady) {
+    await page.waitForTimeout(2000);
+    const prodResult = await injectAndCapture(page, prodId, '.app-shell');
+    console.log('[figma:capture-hem]   prod result:', prodResult);
+  } else {
+    console.warn('[figma:capture-hem]   prod skip — executive hem ej synlig (auth/tema?)');
+  }
 
   console.log('[figma:capture-hem] ▶ Sandbox Hem (FreeportPremiumScreensLab)');
   await page.addInitScript(() => {

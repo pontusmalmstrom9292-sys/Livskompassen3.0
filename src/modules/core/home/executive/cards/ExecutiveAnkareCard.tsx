@@ -83,6 +83,7 @@ export function ExecutiveAnkareCard({ onSaved }: Props) {
           <Star className="ml-auto h-3.5 w-3.5 fill-accent text-accent" />
         )}
       </header>
+      <p className="mt-1 text-[10px] text-text-dim">Inte hela dagen — bara det viktigaste nu.</p>
 
       {isEditing ? (
         <div className="mt-3 space-y-2">

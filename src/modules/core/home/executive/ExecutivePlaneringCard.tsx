@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CalendarDays, Loader2 } from 'lucide-react';
+import { CalendarDays, ChevronRight, LayoutList, Loader2 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { usePlanningTasks } from '@/features/admin/planning/hooks/usePlanningTasks';
 import { homeStepLabel, pickHomeDaySteps } from '@/features/admin/planning/utils/pickHomeDaySteps';
@@ -14,16 +14,27 @@ const TABS: { id: TabId; label: string }[] = [
   { id: 'inkorg', label: 'Inkorg' },
 ];
 
+function weekdayLabel(date: Date): string {
+  return date.toLocaleDateString('sv-SE', { weekday: 'long' });
+}
+
 export function ExecutivePlaneringCard() {
   const [tab, setTab] = useState<TabId>('handling');
   const { tasks, loading } = usePlanningTasks();
   const steps = useMemo(() => pickHomeDaySteps(tasks, 3), [tasks]);
+  const todayLabel = weekdayLabel(new Date());
 
   return (
     <article className="exec-home-card exec-home-card--planering">
-      <header className="exec-home-card__head">
-        <CalendarDays className="h-4 w-4 text-accent" strokeWidth={1.5} />
-        <p className="exec-home-label mb-0">PLANERING</p>
+      <header className="exec-home-card__head exec-home-card__head--split">
+        <div className="flex items-center gap-2">
+          <CalendarDays className="h-4 w-4 text-accent" strokeWidth={1.5} />
+          <p className="exec-home-label mb-0">PLANERING</p>
+        </div>
+        <span className="exec-planering-date-chip">
+          <CalendarDays className="h-3 w-3" strokeWidth={1.5} aria-hidden />
+          {todayLabel.charAt(0).toUpperCase() + todayLabel.slice(1)}
+        </span>
       </header>
 
       <div className="exec-planering-tabs mt-3" role="tablist" aria-label="Planering">
@@ -44,29 +55,36 @@ export function ExecutivePlaneringCard() {
       <div className="mt-4 min-h-[4.5rem]">
         {tab === 'handling' ? (
           <>
-            <p className="mb-2 text-[10px] uppercase tracking-wider text-text-dim">Dagens uppgifter</p>
-            {loading ? (
-              <p className="flex items-center gap-2 text-xs text-text-muted">
-                <Loader2 className="h-3 w-3 animate-spin" />
-                Laddar…
-              </p>
-            ) : steps.length === 0 ? (
-              <p className="text-xs text-text-dim">Inga öppna uppgifter idag.</p>
-            ) : (
-              <ul className="space-y-2">
+            <Link
+              to={HOME_SUPERHUB_ROUTES.planeringHub}
+              className="exec-planering-task-row"
+            >
+              <span className="exec-planering-task-row__icon" aria-hidden>
+                <LayoutList className="h-4 w-4" strokeWidth={1.5} />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-[10px] uppercase tracking-wider text-text-dim">
+                  Dagens uppgifter
+                </span>
+                <span className="block text-xs text-text-muted">
+                  {loading
+                    ? 'Laddar…'
+                    : steps.length === 0
+                      ? 'Inga öppna uppgifter idag.'
+                      : `${steps.length} öppna uppgifter`}
+                </span>
+              </span>
+              <ChevronRight className="h-4 w-4 shrink-0 text-accent" strokeWidth={1.75} aria-hidden />
+            </Link>
+            {!loading && steps.length > 0 ? (
+              <ul className="mt-2 space-y-1.5 pl-1">
                 {steps.map((task) => (
                   <li key={task.id} className="text-xs text-text-muted">
                     {homeStepLabel(task)}
                   </li>
                 ))}
               </ul>
-            )}
-            <Link
-              to={HOME_SUPERHUB_ROUTES.planeringHub}
-              className="mt-3 inline-block text-[10px] font-semibold uppercase tracking-wider text-accent"
-            >
-              Visa allt i Planering
-            </Link>
+            ) : null}
           </>
         ) : null}
 

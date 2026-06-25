@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom';
-import { Target } from 'lucide-react';
+import { ChevronRight, Target } from 'lucide-react';
 import { useLifeHubPreset } from '@/core/lifeOs';
 
 const FOCUS_PILLS = [
   { id: 'barnfokus', label: 'Barnfokus', active: true },
   { id: 'ny-stund', label: 'Ny stund', active: false },
   { id: 'fysiologi', label: 'Fysiologi', active: false },
+  { id: 'mer', label: 'Mer…', active: false },
 ] as const;
 
 export function ExecutiveFocusCard() {
@@ -37,6 +38,14 @@ export function ExecutiveFocusCard() {
           </button>
         ))}
       </div>
+      <button
+        type="button"
+        className="exec-home-card__footer-link mt-auto pt-3"
+        onClick={() => navigate('/familjen?tab=barnfokus')}
+      >
+        Lär känna
+        <ChevronRight className="h-3 w-3" strokeWidth={2} aria-hidden />
+      </button>
     </article>
   );
 }

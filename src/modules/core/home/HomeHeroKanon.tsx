@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import { Shield } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -12,6 +13,12 @@ import { HomeStreakChip } from './HomeStreakChip';
 import { HomeAdaptiveCompass } from './HomeAdaptiveCompass';
 import { HomeLayoutA } from './HomeLayoutA';
 import { ExecutiveHomeDashboard } from './executive/ExecutiveHomeDashboard';
+import { ExecutiveMixEHomeDashboard } from './executive/ExecutiveMixEHomeDashboard';
+import {
+  getExecutiveHomeLayoutMode,
+  HOME_LAYOUT_CHANGED_EVENT,
+  type ExecutiveHomeLayoutMode,
+} from './executive/homeLayoutPreference';
 import { BRUSHED_BRASS_THEME_ID } from '../theme/themePackBrushedBrass';
 import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
 import { usePansarStore } from '../store/usePansarStore';
@@ -28,9 +35,20 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
   const mockup = isMockupTheme(themeId) || themeUsesDesignPackChrome(getTheme(themeId));
   const brassHome = themeId === BRUSHED_BRASS_THEME_ID;
   const executiveHome = isMidnightExecutiveTheme(themeId);
+  const [homeLayout, setHomeLayout] = useState<ExecutiveHomeLayoutMode>(() =>
+    executiveHome ? getExecutiveHomeLayoutMode() : 'extended',
+  );
   const { active: designPackActive } = useDesignPack();
   const { preset, presetId } = useLifeHubPreset();
   const { activate } = usePansarStore();
+
+  useEffect(() => {
+    if (!executiveHome) return;
+    const sync = () => setHomeLayout(getExecutiveHomeLayoutMode());
+    sync();
+    window.addEventListener(HOME_LAYOUT_CHANGED_EVENT, sync);
+    return () => window.removeEventListener(HOME_LAYOUT_CHANGED_EVENT, sync);
+  }, [executiveHome]);
 
   const sosTrigger = (
     <button
@@ -79,7 +97,11 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
     return (
       <div className="home-hero-kanon home-hero-kanon--executive relative">
         {sosTrigger}
-        <ExecutiveHomeDashboard onCheckInSaved={onCheckInSaved} />
+        {homeLayout === 'mix-e' ? (
+          <ExecutiveMixEHomeDashboard onCheckInSaved={onCheckInSaved} />
+        ) : (
+          <ExecutiveHomeDashboard onCheckInSaved={onCheckInSaved} />
+        )}
       </div>
     );
   }

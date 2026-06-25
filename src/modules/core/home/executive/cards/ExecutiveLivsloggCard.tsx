@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MessageCircle, Sparkles } from 'lucide-react';
+import { MessageCircle, Send, Sparkles } from 'lucide-react';
 import { callChildrenLogsQuery, type ChildrenLogCitation } from '@/features/family/children/api/childrenLogsService';
 import type { ChildAlias } from '@/features/family/children/constants';
 import { RAGErrorBoundary } from '@/shared/ui/RAGErrorBoundary';
@@ -37,10 +37,15 @@ export function ExecutiveLivsloggCard({ activeChild = 'Kasper' }: Props) {
 
   return (
     <RAGErrorBoundary fallbackTitle="Nätverksfel i Barnloggar">
-      <article className="exec-home-card exec-home-card--livslogg">
+      <article className="exec-home-card exec-home-card--livslogg relative">
         <header className="exec-home-card__head">
           <MessageCircle className="h-4 w-4 text-accent" strokeWidth={1.5} />
-          <p className="exec-home-label mb-0">FRÅGA LIVSLOGGARNA</p>
+          <div className="min-w-0">
+            <p className="exec-home-label mb-0">FRÅGA LIVSLOGGARNA</p>
+            <p className="mt-0.5 text-[9px] uppercase tracking-wider text-text-dim">
+              Mönster-arkivarien · endast {activeChild}
+            </p>
+          </div>
         </header>
         <textarea
           value={inputText}
@@ -75,6 +80,15 @@ export function ExecutiveLivsloggCard({ activeChild = 'Kasper' }: Props) {
         {citations.length > 0 ? (
           <p className="mt-1 text-[10px] text-text-dim">{citations.length} källor i livslogg</p>
         ) : null}
+        <button
+          type="button"
+          className="exec-livslogg-fab"
+          aria-label="Skicka fråga"
+          disabled={loading || !inputText.trim()}
+          onClick={() => void handleAsk()}
+        >
+          <Send className="h-4 w-4" strokeWidth={1.5} />
+        </button>
       </article>
     </RAGErrorBoundary>
   );

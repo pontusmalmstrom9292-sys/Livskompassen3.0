@@ -12,8 +12,8 @@ import { FyrenProgressRing } from '../ui/FyrenProgressRing';
 
 type Props = {
   kompisAuraActive: boolean;
-  /** Premium executive — stort öga under logotyp. */
-  variant?: 'default' | 'executive-hero';
+  /** Premium executive — kompakt öga i header-rad (höger). */
+  variant?: 'default' | 'executive-hero' | 'executive-header';
 };
 
 /**
@@ -51,15 +51,17 @@ export function KompisHeaderVaultButton({ kompisAuraActive, variant = 'default' 
     : 'Håll 3 sekunder för upplåsning';
 
   const executiveHero = variant === 'executive-hero';
+  const executiveHeader = variant === 'executive-header';
+  const executiveChrome = executiveHero || executiveHeader;
 
   return (
     <button
       type="button"
       className={clsx(
         'header-chrome-btn header-chrome-btn--round relative shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
-        executiveHero && 'exec-header-eye',
+        executiveChrome && 'exec-header-eye',
         isHolding && 'header-chrome-btn--holding',
-        executiveHero && isHolding && 'exec-header-eye--holding',
+        executiveChrome && isHolding && 'exec-header-eye--holding',
       )}
       aria-label={ariaLabel}
       title={title}
@@ -68,7 +70,7 @@ export function KompisHeaderVaultButton({ kompisAuraActive, variant = 'default' 
       <span
         className={clsx(
           'relative flex items-center justify-center',
-          executiveHero ? 'h-[4.25rem] w-[4.25rem]' : 'h-10 w-10',
+          executiveHero ? 'h-[4.25rem] w-[4.25rem]' : executiveHeader ? 'h-10 w-10' : 'h-10 w-10',
         )}
       >
         {showRing ? <FyrenProgressRing progress={progress} /> : null}
@@ -79,6 +81,7 @@ export function KompisHeaderVaultButton({ kompisAuraActive, variant = 'default' 
           className={clsx(
             'kompis-avatar--header-chrome relative z-[1] shrink-0',
             executiveHero && 'kompis-avatar--executive-hero',
+            executiveHeader && 'kompis-avatar--executive-header',
           )}
         />
       </span>
