@@ -137,4 +137,19 @@
       grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
+
+  /* Desktop — typografi-skala för bättre läsbarhet på dator (HEAVY tier polish) */
+  @media (min-width: 1024px) {
+    .valvet-route-page--desktop .valv-forensic-title {
+      @apply text-lg;
+    }
+
+    .valvet-route-page--desktop .valv-forensic-lead {
+      @apply text-sm;
+    }
+
+    .valvet-route-page--desktop .valv-log-row {
+      @apply p-4;
+    }
+  }
 }
