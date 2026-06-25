@@ -110,14 +110,16 @@ export function HomePage() {
         </>
       )}
 
-      {/* Chameleon Supermodule replaces individual page contents */}
-      <div className="mx-auto w-full max-w-2xl px-1 mt-6">
-        <ChameleonLive 
-          target={target} 
-          onTargetChange={handleTargetChange} 
-          compact={activeZone === 'hem'} 
-        />
-      </div>
+      {/* Chameleon — döljs på executive hem (dashboard-kort ersätter) */}
+      {!(executiveSkin && activeZone === 'hem') ? (
+        <div className="mx-auto w-full max-w-2xl px-1 mt-6">
+          <ChameleonLive
+            target={target}
+            onTargetChange={handleTargetChange}
+            compact={activeZone === 'hem'}
+          />
+        </div>
+      ) : null}
     </div>
   );
 }

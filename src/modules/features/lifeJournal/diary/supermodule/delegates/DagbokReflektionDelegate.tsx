@@ -373,6 +373,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
 
           {step === 'done' && (
             <SavedStep
+              minimalDone={lowCapacity}
               onNewEntry={() => {
                 resetFlow();
               }}

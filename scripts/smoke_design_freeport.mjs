@@ -36,6 +36,7 @@ function main() {
     'tactile-cold',
     'tactile-slate',
     'tactile-obsidian',
+    'executive-premium',
     '--fp-accent',
     '--fp-elevation-2',
     '--fp-inset-top',
@@ -52,6 +53,7 @@ function main() {
     'DesignFreeportPage',
     'FreeportHemV3Lab',
     'FreeportFptiRefLab',
+    'FreeportPremiumScreensLab',
     'FreeportSuperhubPlayground',
     'FreeportPlaneringHub',
     'FreeportHjartatHub',
@@ -60,9 +62,33 @@ function main() {
     'FreeportChromeShell',
     'loadFreeportTheme',
     'Hem (Modell A)',
+    'Executive Premium',
     'fpti-ref',
+    'premium',
   );
-  mustInclude('src/modules/sandbox/freeportThemes.ts', 'tactile-slate', 'tactile-obsidian', 'Skiffer sammet');
+  mustInclude('src/modules/sandbox/freeportThemes.ts', 'tactile-slate', 'tactile-obsidian', 'executive-premium', 'Executive Premium');
+  mustInclude(
+    'src/modules/sandbox/components/FreeportPremiumScreensLab.tsx',
+    'FreeportPremiumScreensLab',
+    'PREMIUM_SCREENS',
+    'FreeportValvetLab',
+    'FreeportBarnfokusLab',
+    'FreeportKanbanLab',
+    'FreeportInkorgLab',
+    'FreeportCheckinLab',
+    'FreeportMonsterLab',
+    'design-freeport__premium-gallery',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/premium/CalmCard.tsx',
+    'design-freeport__premium-calm-card',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/premium/PremiumCard.tsx',
+    'design-freeport__premium-card',
+  );
+  mustInclude('e2e/freeport-premium-gallery.spec.ts', 'executive-premium', 'freeport-premium');
+  mustInclude('scripts/capture_freeport_premium_gallery.mjs', 'capture:freeport-premium');
   mustInclude(
     'src/modules/sandbox/components/FreeportHemV3Lab.tsx',
     'FreeportModellAPhoneShell',
@@ -162,6 +188,8 @@ function main() {
     'hybrid-dock',
     'resurser-overlay',
     'exec-honeycomb',
+    'design-freeport__premium-gallery',
+    'executive-premium',
   );
   mustInclude(
     'src/modules/sandbox/freeportZones.ts',
@@ -250,7 +278,7 @@ function main() {
   );
 
   const page = read('src/modules/sandbox/DesignFreeportPage.tsx');
-  for (const tab of ['hem', 'hjartat', 'mabra', 'familjen', 'planering', 'live', 'fpti-ref']) {
+  for (const tab of ['hem', 'hjartat', 'mabra', 'familjen', 'planering', 'live', 'fpti-ref', 'premium']) {
     assert(page.includes(tab), `DesignFreeportPage saknar flik: ${tab}`);
   }
 
@@ -266,7 +294,7 @@ function main() {
     'design-freeport ska ligga utanför MainLayout',
   );
 
-  console.log('[smoke:design-freeport] PASS — Modell A kanon + FP-TI ref + hubs + chameleon.');
+  console.log('[smoke:design-freeport] PASS — Modell A kanon + Executive Premium gallery + hubs + chameleon.');
 }
 
 try {

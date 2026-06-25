@@ -28,6 +28,7 @@ type PersistOptions = {
   tags?: string[];
   category?: string;
   skipDoneStep?: boolean;
+  moodOverride?: string;
 };
 
 type UseJournalFlowOptions = {
@@ -117,7 +118,8 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       setError('Du måste vara inloggad för att spara.');
       return false;
     }
-    if (!mood) {
+    const activeMood = opts.moodOverride ?? mood;
+    if (!activeMood) {
       setError('Välj en känsla innan du sparar.');
       return false;
     }
@@ -156,7 +158,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       const id = await saveJournalEntry(
         userId,
         {
-          mood,
+          mood: activeMood,
           text: finalEntryText,
           tags: opts.tags?.length ? opts.tags : undefined,
           category: opts.category ?? category,
@@ -166,10 +168,10 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       );
       setLastSavedEntryId(id);
       if (hasVaultGate()) {
-        weaveJournalEntry({ journalEntryId: id, mood, text: finalEntryText });
+        weaveJournalEntry({ journalEntryId: id, mood: activeMood, text: finalEntryText });
       }
       if (optInKampspar) {
-        journalWovenToKampspar({ journalEntryId: id, mood, text: finalEntryText });
+        journalWovenToKampspar({ journalEntryId: id, mood: activeMood, text: finalEntryText });
       }
       setWeaveToKampspar(false);
       setPendingMemoryFile(null);
@@ -215,7 +217,19 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       await persistEntry(MABRA_MOOD_ONLY_TEXT[mabraHub]);
       return;
     }
-    await persistEntry(MOOD_ONLY_STUB(mood));
+    await persistEntry(MOOD_ONLY_STUB(mood), { moodOverride: mood || undefined });
+  };
+
+  /** Fas 23E — tyst läge: spara utan confirm/weave-UI. */
+  const handleTystSave = async (moodVal: string, textVal: string) => {
+    if (!moodVal) {
+      setError('Välj en känsla innan du sparar.');
+      return;
+    }
+    setMood(moodVal);
+    setText(textVal);
+    const entryText = textVal.trim() || MOOD_ONLY_STUB(moodVal);
+    await persistEntry(entryText, { moodOverride: moodVal });
   };
 
   const handleSaveWithoutText = async () => {
@@ -300,6 +314,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     goToStep,
     handleSave,
     handleSaveMoodOnly,
+    handleTystSave,
     handleSaveWithoutText,
     handleQuickSave,
     resetFlow,

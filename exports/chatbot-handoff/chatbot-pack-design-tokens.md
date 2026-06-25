@@ -418,25 +418,6 @@ Spec: [`../themes/K-PACK-EIGHT-VARIANTS.md`](../themes/K-PACK-EIGHT-VARIANTS.md)
 function cssVar(name)
 ```
 
-## File: src/modules/core/theme/themeRegistry.ts
-```typescript
-import type { ThemePack } from './types';
-import { THEME_SHARED_VARS } from './themeShared';
-import { THEME_PACK_DESIGN } from './themePackDesign';
-import { THEME_PACK_E_PROD, THEME_PACK_E_DARKEST } from './themePackE';
-import { THEME_PACK_MOCKUP } from './themePackMockup';
-import { THEME_PACK_K } from './themePackK';
-import { THEME_PACK_REDESIGN_A } from './themePackRedesignA';
-import { THEME_PACK_REDESIGN_C } from './themePackRedesignC';
-import { THEME_PACK_OBSIDIAN_DEPTH } from './themePackObsidianDepth';
-import { THEME_PACK_REMIX_E_HAMN } from './themePackRemix';
-import { THEME_BRUSHED_BRASS_NEU } from './themePackBrushedBrass';
-⋮----
-export function resolveThemeId(id: string): string
-⋮----
-export function getTheme(id: string): ThemePack
-```
-
 ## File: src/styles/obsidian-calm-2.css
 ```css
 @layer components {
@@ -678,6 +659,26 @@ a.btn-pill--ghost:active:not(:disabled),
 .home-layout-a--calm .home-layout-a__strip-text span {
 ⋮----
 .home-page--layout-a.home-page--scenic {
+```
+
+## File: src/modules/core/theme/themeRegistry.ts
+```typescript
+import type { ThemePack } from './types';
+import { THEME_SHARED_VARS } from './themeShared';
+import { THEME_PACK_DESIGN } from './themePackDesign';
+import { THEME_PACK_E_PROD, THEME_PACK_E_DARKEST } from './themePackE';
+import { THEME_PACK_MOCKUP } from './themePackMockup';
+import { THEME_PACK_K } from './themePackK';
+import { THEME_PACK_REDESIGN_A } from './themePackRedesignA';
+import { THEME_PACK_REDESIGN_C } from './themePackRedesignC';
+import { THEME_PACK_OBSIDIAN_DEPTH } from './themePackObsidianDepth';
+import { THEME_PACK_REMIX_E_HAMN } from './themePackRemix';
+import { THEME_BRUSHED_BRASS_NEU } from './themePackBrushedBrass';
+import { THEME_PACK_MIDNIGHT_EXECUTIVE } from './themePackMidnightExecutive';
+⋮----
+export function resolveThemeId(id: string): string
+⋮----
+export function getTheme(id: string): ThemePack
 ```
 
 ## File: src/index.css
@@ -2249,6 +2250,12 @@ html[data-theme^='I-stone'] .livskompass-hero--embedded .livskompass-hero__cente
 .fyren-widget-bar__backdrop {
 ⋮----
 .widget-record-discreet-overlay {
+⋮----
+.widget-panic-blur-overlay {
+⋮----
+.widget-shell--panic {
+⋮----
+.widget-silo-picker {
 ⋮----
 .fyren-widget-bar__strip {
 ⋮----

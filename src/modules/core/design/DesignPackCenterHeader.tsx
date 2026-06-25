@@ -24,8 +24,9 @@ export function DesignPackCenterHeader({
   centerAction,
 }: Props) {
   const { pathname } = useLocation();
-  const title = useDesignPackCenterTitle(pathname) ?? 'LIVSKOMPASSEN';
+  const routeTitle = useDesignPackCenterTitle(pathname) ?? 'LIVSKOMPASSEN';
   const executivePremium = variant === 'executive-premium';
+  const title = executivePremium ? 'LIVSKOMPASSEN' : routeTitle;
 
   return (
     <header

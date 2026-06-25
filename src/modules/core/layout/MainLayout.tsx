@@ -89,6 +89,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
                   open={accountOpen}
                   onOpenChange={setAccountOpen}
                   compactTrigger
+                  chromeVariant="executive"
                 />
               ) : slimHeaderChrome ? (
                 <KompisHeaderVaultButton kompisAuraActive={kompisAuraActive} />

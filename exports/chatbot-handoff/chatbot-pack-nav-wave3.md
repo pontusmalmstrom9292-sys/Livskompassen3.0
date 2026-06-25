@@ -857,30 +857,6 @@ export function LivLauncherGrid(
 className=
 ````
 
-## File: src/modules/core/layout/FloatingDock.tsx
-````typescript
-import { useCallback } from 'react';
-⋮----
-import type { CSSProperties } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { clsx } from 'clsx';
-import { Landmark, PenLine, Inbox } from 'lucide-react';
-import { openValvViaFyren } from '../auth/valvFyrenGate';
-import { NAV_PATHS } from '../navigation/navTruth';
-import { useLongPress } from '../hooks/useLongPress';
-import { useStore } from '../store';
-import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
-import { FyrenProgressRing } from '../ui/FyrenProgressRing';
-import { LivskompassMark } from '../ui/LivskompassMark';
-import { FyrenDockHandle } from '../components/FyrenWidgetBar';
-import { DockNavButton } from './DockNavButton';
-import { useHeaderPanelStyle } from './headerPanelStyle';
-⋮----
-export function FloatingDock()
-⋮----
-onClick=
-````
-
 ## File: src/modules/core/components/FyrenWidgetBar.tsx
 ````typescript
 import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
@@ -929,6 +905,46 @@ setFyrenSideQuickHidden(false);
 setOpen(false);
 ````
 
+## File: src/modules/core/layout/FloatingDock.tsx
+````typescript
+import { useCallback, useState } from 'react';
+⋮----
+import type { CSSProperties } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { clsx } from 'clsx';
+import { Landmark, LayoutGrid, PenLine, Inbox } from 'lucide-react';
+import { openValvViaFyren } from '../auth/valvFyrenGate';
+import { useExecutiveHomeChrome } from '../home/ExecutiveHomeChromeContext';
+import { NAV_PATHS } from '../navigation/navTruth';
+import { ResurserOverlay } from '../navigation/ResurserOverlay';
+import { useLongPress } from '../hooks/useLongPress';
+import { useStore } from '../store';
+import { useTheme } from '../theme';
+import { getTheme } from '../theme';
+import { isMockupTheme } from '../theme/mockupTheme';
+import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
+import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
+import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
+import { LivskompassMark } from '../ui/LivskompassMark';
+import { FyrenDockHandle } from '../components/FyrenWidgetBar';
+import { DockNavButton } from './DockNavButton';
+import { ExecutiveDockBar } from './ExecutiveDockBar';
+import { useHeaderPanelStyle } from './headerPanelStyle';
+⋮----
+export function FloatingDock()
+⋮----
+onFamiljen=
+⋮----
+onResurser=
+⋮----
+active=
+⋮----
+onClick=
+⋮----
+className=
+````
+
 ## File: src/modules/core/routing/AppRoutes.tsx
 ````typescript
 import { lazy, Suspense } from 'react';
@@ -938,6 +954,7 @@ import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
 import { ProtectedModule } from '../../../components/layout/ProtectedModule';
 ⋮----
 import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
+⋮----
 import {
   clusterTabNavigateTarget,
   valvetNavigateTarget,

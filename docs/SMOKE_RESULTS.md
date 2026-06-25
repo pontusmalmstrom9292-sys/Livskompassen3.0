@@ -1,3 +1,23 @@
+## Fas 24 hosting-deploy — predeploy gate (2026-06-25)
+
+| Fält | Värde |
+|------|-------|
+| Branch | `main` — **8 commits** ahead of `origin/main` (PV1a, 23C, PV1b, S24, HITL1, executive-dock, 23D) |
+| `npm run smoke:predeploy:build` | **PASS** (functions tsc + vite build + tier1 + e2e-locked-ux 10/10) |
+| `smoke:planering-gora-e` (23D) | **PASS** |
+| `smoke:s24` | **PASS** |
+| `smoke:hitl1` | **PASS** |
+| Sacred check | **PASS** — inga ändringar i `firestore.rules`, `sharedRules.ts`, WORM-collections |
+| YOLO-vakt | **GO** (hosting-only) |
+| `git push origin main` | **PASS** — redan synkad (`fc4c75825`) |
+| `firebase deploy --only hosting` | **PASS** 2026-06-25 → https://gen-lang-client-0481875058.web.app |
+| Deploy | **DONE** — hosting-only, 308 filer |
+| Nästa efter deploy | **23E** Tyst läge / dissociation i Superdagbok (23D redan i bundle) |
+
+Commits: `6ecb6ec1d` … `fc4c75825`
+
+---
+
 # Smoke-resultat (Fas 3 + Minne)
 
 ## YOLO DCAP + WORM smoke (2026-06-21)

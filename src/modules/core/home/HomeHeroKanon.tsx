@@ -11,6 +11,7 @@ import { HomeGreeting } from './HomeGreeting';
 import { HomeStreakChip } from './HomeStreakChip';
 import { HomeAdaptiveCompass } from './HomeAdaptiveCompass';
 import { HomeLayoutA } from './HomeLayoutA';
+import { ExecutiveHomeDashboard } from './executive/ExecutiveHomeDashboard';
 import { BRUSHED_BRASS_THEME_ID } from '../theme/themePackBrushedBrass';
 import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
 import { usePansarStore } from '../store/usePansarStore';
@@ -76,15 +77,9 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
 
   if (executiveHome) {
     return (
-      <div className="home-hero-kanon home-hero-kanon--executive relative space-y-4">
+      <div className="home-hero-kanon home-hero-kanon--executive relative">
         {sosTrigger}
-        <HomeGreeting variant="executive" />
-        <HomeLayoutA
-          variant="executive"
-          hideIntro
-          onCheckInSaved={onCheckInSaved}
-          presetLabel={preset.label}
-        />
+        <ExecutiveHomeDashboard onCheckInSaved={onCheckInSaved} />
       </div>
     );
   }

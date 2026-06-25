@@ -1,0 +1,77 @@
+/* Fas 23E — Darkest Mode / dissociation ultraminimal Superdagbok */
+
+.dagbok-tyst-lage {
+  --tyst-bg: #030508;
+  --tyst-surface: rgba(8, 10, 14, 0.92);
+  --tyst-border: rgba(212, 175, 55, 0.12);
+  min-height: min(70vh, 560px);
+  margin: -0.5rem;
+  padding: 1.25rem 1rem 1.5rem;
+  border-radius: 1.25rem;
+  background: radial-gradient(ellipse 120% 80% at 50% 0%, #0a0e16 0%, var(--tyst-bg) 55%);
+  border: 1px solid var(--tyst-border);
+}
+
+.dagbok-hub--tyst {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.dagbok-tyst-lage__eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.dagbok-tyst-lage__lead {
+  margin-top: 0.35rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: color-mix(in srgb, var(--text) 85%, transparent);
+}
+
+.dagbok-tyst-lage__draft {
+  margin-top: 1rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: 0.85rem;
+  border: 1px dashed var(--tyst-border);
+  background: var(--tyst-surface);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.dagbok-tyst-lage__tre-ord {
+  margin-top: 1.25rem;
+}
+
+.dagbok-tyst-lage__tre-ord input {
+  width: 100%;
+  border-radius: 0.85rem;
+  border: 1px solid var(--tyst-border);
+  background: var(--tyst-surface);
+  padding: 0.85rem 1rem;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.dagbok-tyst-lage__actions {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.dagbok-tyst-lage__actions .btn-pill--accent {
+  min-height: 48px;
+}
+
+.dagbok-tyst-lage__mood select {
+  width: 100%;
+  margin-top: 0.5rem;
+  border-radius: 0.85rem;
+  border: 1px solid var(--tyst-border);
+  background: var(--tyst-surface);
+  padding: 0.75rem 1rem;
+  color: var(--text);
+}

@@ -1844,6 +1844,58 @@ const handleSave = async (
 ) =>
 ````
 
+## File: src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokTystDelegate.tsx
+````typescript
+import { useEffect, useState } from 'react';
+import { Flame, Loader2 } from 'lucide-react';
+import { useStore } from '@/core/store';
+import { MOOD_CATALOG } from '@/features/lifeJournal/diary/diary/constants/moods';
+import { SavedStep } from '@/features/lifeJournal/diary/diary/components/SavedStep';
+import { useJournalFlow } from '@/features/lifeJournal/diary/diary/hooks/useJournalFlow';
+import { useDiaryStore } from '@/features/lifeJournal/diary/diary/store/diaryStore';
+import { DagbokBurnDelegate } from './DagbokBurnDelegate';
+import {
+  DAGBOK_TYST_BURN_LABEL,
+  DAGBOK_TYST_DRAFT_BANNER,
+  DAGBOK_TYST_LEAD,
+  DAGBOK_TYST_MOOD_ONLY_LABEL,
+  DAGBOK_TYST_SAVE_LABEL,
+  DAGBOK_TYST_TRE_ORD_HINT,
+} from '../dagbokTystCopy';
+⋮----
+export type DagbokTystDelegateProps = {
+  onSaved?: () => void;
+  onSwitchToBurn?: () => void;
+};
+⋮----
+const handleSave = async () =>
+⋮----
+const handleMoodOnly = async () =>
+````
+
+## File: src/modules/features/lifeJournal/diary/supermodule/dagbok-tyst-lage.css
+````css
+.dagbok-tyst-lage {
+⋮----
+.dagbok-hub--tyst {
+⋮----
+.dagbok-tyst-lage__eyebrow {
+⋮----
+.dagbok-tyst-lage__lead {
+⋮----
+.dagbok-tyst-lage__draft {
+⋮----
+.dagbok-tyst-lage__tre-ord {
+⋮----
+.dagbok-tyst-lage__tre-ord input {
+⋮----
+.dagbok-tyst-lage__actions {
+⋮----
+.dagbok-tyst-lage__actions .btn-pill--accent {
+⋮----
+.dagbok-tyst-lage__mood select {
+````
+
 ## File: src/modules/features/lifeJournal/diary/supermodule/DagbokInputModePicker.tsx
 ````typescript
 import {
@@ -1865,6 +1917,11 @@ export function DagbokInputModePicker({
 }: DagbokInputModePickerProps)
 ⋮----
 export function activeDagbokModeLabel(mode: DagbokInputMode): string
+````
+
+## File: src/modules/features/lifeJournal/diary/supermodule/dagbokTystCopy.ts
+````typescript
+
 ````
 
 ## File: src/modules/features/lifeJournal/diary/supermodule/index.ts
@@ -1943,44 +2000,6 @@ export type ValvInputModePickerProps = {
   activeMode: ValvInputMode;
   onChange: (mode: ValvInputMode) => void;
 };
-````
-
-## File: src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx
-````typescript
-import { useCallback } from 'react';
-import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { BentoCard } from '@/shared/ui/BentoCard';
-⋮----
-import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
-import { ValvSuperModule } from '../components/ValvSuperModule';
-import { ValvInputModePicker } from './ValvInputModePicker';
-import {
-  DEFAULT_VALV_INPUT_MODE,
-  valvInputModeDef,
-  type ValvInputMode,
-} from './valvInputModes';
-import { writeValvLastInputMode } from './valvLastModeStorage';
-import type { VaultTab } from '../utils/vaultTabs';
-⋮----
-export type ValvInputSuperModuleProps = {
-  activeMode: ValvInputMode;
-  onModeChange: (mode: ValvInputMode) => void;
-  vaultTab: VaultTab;
-  userId: string;
-  gateOk: boolean;
-  highlightLogId: string | null;
-  onBevisConfirmed: (docId: string) => void | Promise<void>;
-  onCitationClick: (docId: string) => void;
-  onVaultTabChange: (tab: VaultTab) => void;
-  techniqueFilter?: string | null;
-  onTechniqueSelect?: (technique: string) => void;
-  onClearTechniqueFilter?: () => void;
-};
-⋮----
-void onBevisConfirmed(docId);
-setMode(DEFAULT_VALV_INPUT_MODE);
-⋮----
-onBack=
 ````
 
 ## File: src/modules/features/lifeJournal/evidence/vault/supermodule/valvLastModeStorage.ts
@@ -2067,7 +2086,7 @@ className=
 
 ## File: src/modules/features/lifeJournal/diary/supermodule/dagbokInputModes.ts
 ````typescript
-export type DagbokInputMode = 'reflektion' | 'quick_mirror' | 'arkiv' | 'burn';
+export type DagbokInputMode = 'reflektion' | 'quick_mirror' | 'arkiv' | 'burn' | 'tyst';
 ⋮----
 export type DagbokWriteTarget = 'journal_worm' | 'read_only' | 'none';
 ⋮----
@@ -2088,6 +2107,11 @@ export function parseDagbokInputMode(value: string | null | undefined): DagbokIn
 export function getDagbokInputModeMeta(mode: DagbokInputMode): DagbokInputModeMeta
 ⋮----
 export function dagbokLegacyModeToInputMode(mode: string | null | undefined): DagbokInputMode
+⋮----
+export function parseDagbokCapacityParam(
+  capacity: string | null | undefined,
+  tyst: string | null | undefined,
+): DagbokInputMode | null
 ````
 
 ## File: src/modules/features/lifeJournal/diary/supermodule/DagbokInputSuperModule.tsx
@@ -2106,9 +2130,11 @@ import {
   DagbokReflektionDelegate,
 } from './delegates/DagbokReflektionDelegate';
 import { DagbokBurnDelegate } from './delegates/DagbokBurnDelegate';
+import { DagbokTystDelegate } from './delegates/DagbokTystDelegate';
 import {
   DEFAULT_DAGBOK_INPUT_MODE,
   getDagbokInputModeMeta,
+  parseDagbokCapacityParam,
   parseDagbokInputMode,
   type DagbokInputMode,
 } from './dagbokInputModes';
@@ -2122,9 +2148,12 @@ export type DagbokInputSuperModuleProps = {
 type DelegateProps = {
   mode: DagbokInputMode;
   onSaved?: () => void;
+  onSwitchMode?: (mode: DagbokInputMode) => void;
 };
 ⋮----
 function DagbokInputModeDelegate(
+⋮----
+onSwitchToBurn=
 ````
 
 ## File: src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts
@@ -2177,6 +2206,45 @@ export function buildValvSearchParams(
   valvMode: ValvInputMode,
   vaultTab?: VaultTab,
 ): URLSearchParams
+````
+
+## File: src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx
+````typescript
+import { useCallback } from 'react';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
+import { BentoCard } from '@/shared/ui/BentoCard';
+⋮----
+import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
+import { InkastDirectPanel } from '@/modules/capture/InkastDirectPanel';
+import { ValvSuperModule } from '../components/ValvSuperModule';
+import { ValvInputModePicker } from './ValvInputModePicker';
+import {
+  DEFAULT_VALV_INPUT_MODE,
+  valvInputModeDef,
+  type ValvInputMode,
+} from './valvInputModes';
+import { writeValvLastInputMode } from './valvLastModeStorage';
+import type { VaultTab } from '../utils/vaultTabs';
+⋮----
+export type ValvInputSuperModuleProps = {
+  activeMode: ValvInputMode;
+  onModeChange: (mode: ValvInputMode) => void;
+  vaultTab: VaultTab;
+  userId: string;
+  gateOk: boolean;
+  highlightLogId: string | null;
+  onBevisConfirmed: (docId: string) => void | Promise<void>;
+  onCitationClick: (docId: string) => void;
+  onVaultTabChange: (tab: VaultTab) => void;
+  techniqueFilter?: string | null;
+  onTechniqueSelect?: (technique: string) => void;
+  onClearTechniqueFilter?: () => void;
+};
+⋮----
+void onBevisConfirmed(docId);
+setMode(DEFAULT_VALV_INPUT_MODE);
+⋮----
+onBack=
 ````
 
 ## File: src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokReflektionDelegate.tsx

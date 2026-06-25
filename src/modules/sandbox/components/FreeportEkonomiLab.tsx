@@ -55,7 +55,7 @@ export function FreeportEkonomiLab({ onStatus }: Props) {
             <polyline
               points={CHART_POINTS.map((p, i) => `${(i / (CHART_POINTS.length - 1)) * 280},${100 - p}`).join(' ')}
               fill="none"
-              stroke="#d4af37"
+              stroke="var(--fp-accent)"
               strokeWidth="2"
             />
           </svg>

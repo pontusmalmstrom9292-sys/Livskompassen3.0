@@ -10,6 +10,7 @@ import { FreeportPlaneringHub } from './components/FreeportPlaneringHub';
 import { FreeportHjartatHub } from './components/FreeportHjartatHub';
 import { FreeportMabraHub } from './components/FreeportMabraHub';
 import { FreeportFamiljenHub } from './components/FreeportFamiljenHub';
+import { FreeportPremiumScreensLab } from './components/FreeportPremiumScreensLab';
 
 type PanelId =
   | 'hem'
@@ -18,7 +19,8 @@ type PanelId =
   | 'familjen'
   | 'planering'
   | 'live'
-  | 'fpti-ref';
+  | 'fpti-ref'
+  | 'premium';
 
 const PANELS: { id: PanelId; label: string }[] = [
   { id: 'hem', label: 'Hem (Modell A)' },
@@ -28,6 +30,7 @@ const PANELS: { id: PanelId; label: string }[] = [
   { id: 'planering', label: 'Planering hub' },
   { id: 'live', label: 'Supermoduler (full)' },
   { id: 'fpti-ref', label: 'FP-TI ref (mock)' },
+  { id: 'premium', label: 'Executive Premium' },
 ];
 
 /**
@@ -118,6 +121,7 @@ export function DesignFreeportPage() {
         {panel === 'planering' ? <FreeportPlaneringHub /> : null}
         {panel === 'live' ? <FreeportSuperhubPlayground /> : null}
         {panel === 'fpti-ref' ? <FreeportFptiRefLab onStatus={setStatus} /> : null}
+        {panel === 'premium' ? <FreeportPremiumScreensLab onStatus={setStatus} /> : null}
       </div>
     </FreeportChromeShell>
   );
