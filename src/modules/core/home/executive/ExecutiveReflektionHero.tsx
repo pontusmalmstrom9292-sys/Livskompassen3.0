@@ -57,7 +57,7 @@ export function ExecutiveReflektionHero() {
           )}
           <button
             type="button"
-            className="exec-reflektion-hero__cta mt-2 inline-flex items-center gap-2 rounded-full border border-accent/40 px-4 py-2 text-[10px] font-semibold uppercase tracking-widest text-accent transition-colors hover:border-accent/60 hover:bg-accent/5"
+            className="exec-reflektion-hero__cta exec-home-btn exec-home-btn--primary"
             onClick={goWrite}
           >
             <PenLine className="h-3.5 w-3.5" strokeWidth={1.5} />
