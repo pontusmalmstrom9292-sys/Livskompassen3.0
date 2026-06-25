@@ -64,6 +64,8 @@ Inga kända luckor just nu. Alla befintliga app-områden har dedikerade speciali
 
 ## Befintliga skills (registret)
 
+### Infrastruktur (`.cursor/skills/`)
+
 - `livskompassen-arkiv-master` — Hela arkivet
 - `livskompassen-deploy` — Deploy
 - `livskompassen-integration-hub` — Integrationer
@@ -74,13 +76,25 @@ Inga kända luckor just nu. Alla befintliga app-områden har dedikerade speciali
 - `livskompassen-theme-lab` — Design/tema
 - `livskompassen-vector-search` — Vektorsökning
 
+### Produkt/agenter (`.agents/skills/`)
+
+- `android-kompis` — Capacitor/Android (agent: `android-kompis`)
+- `beslutsstod` — Nästa steg (agent: `specialist-beslutsstod`)
+- `bild-arkitekten` — Skiss → UI (agent: `bild-arkitekten`)
+- `design-labbet` — Chameleon/Theme Lab (agent: `design-labbet`)
+- `krav-analytiker` — Krav → spec (ingen dedikerad agent ännu)
+- `minnes-arkitekten` — Auto-ingest (agent: `minnes-arkitekten`)
+- `yolo-vakt` — Deploy-gate (agent: `yolo-vakt`)
+
+**Master-register:** `docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md`  
+**Runtime-speglar:** `npm run prompts:sync` efter ändring i `sharedRules.ts`
+
 ## Saknade skills att bevaka
 
 | Uppgift | Status | Skill att skapa |
 |---------|--------|-----------------|
-| Ekonomi och leverantörsavtal | ❌ Saknas | `livskompassen-ekonomi` |
-| Android-deploy och Capacitor | ❌ Saknas | `livskompassen-android` |
-| Röstinspelning och transkribering | ❌ Saknas | `livskompassen-voice` |
+| Ekonomi och leverantörsavtal | Öppen | `livskompassen-ekonomi` (agent `specialist-ekonomi` finns) |
+| Röstinspelning och transkribering | Öppen | `livskompassen-voice` (agent `specialist-rost-till-valv` finns) |
 
 ## Trigger — fråga Pontus om ny agent/skill
 

@@ -3,6 +3,9 @@ name: livskompassen-vector-search
 description: Vertex AI Vector Search for Livskompassen Minne — indexes, endpoints, embeddings, VECTOR_SEARCH_* env. Use when wiring ANN or GCP provisioning.
 ---
 
+> **Register:** `docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md` · Runtime-prompter: `npm run prompts:sync`
+
+
 # Vector Search
 
 ## GCP inventory (gen-lang-client-0481875058) — live 2026-05-22

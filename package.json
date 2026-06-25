@@ -104,6 +104,7 @@
     "smoke:innehall": "node scripts/smoke_innehall_register.mjs",
     "smoke:mdc": "node scripts/smoke_mdc_rules.mjs",
     "smoke:functions-pin": "node scripts/smoke_functions_runtime_pin.mjs",
+    "prompts:sync": "node scripts/sync-prompt-mirrors.mjs",
     "smoke:prompts": "node scripts/validate-prompts.mjs",
     "smoke:guard": "node scripts/validate-prompts.mjs",
     "smoke:manifest": "node scripts/smoke_manifest_violation.mjs",

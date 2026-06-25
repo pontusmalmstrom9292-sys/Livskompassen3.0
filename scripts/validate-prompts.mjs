@@ -6,6 +6,7 @@
 import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { spawnSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -70,12 +71,36 @@ function validateRegistryExtendedPhrase() {
     'SAKER-AI-PROMPTS.json: templates saknas eller otillräcklig.',
   );
   for (const tpl of registry.templates) {
+    const text =
+      tpl.template ??
+      (tpl.canonicalSource
+        ? readFileSync(resolve(root, tpl.canonicalSource), 'utf-8')
+        : '');
     assert(
-      tpl.template.includes('Ej tillräckligt data'),
+      text.includes('Ej tillräckligt data'),
       `Template ${tpl.id} saknar osäkerhetsfras.`,
     );
   }
   console.log('SAKER-AI-PROMPTS.json registry-fält validerade OK.');
+}
+
+function validatePromptMirrors() {
+  const registerPath = resolve(root, 'docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md');
+  assert(existsSync(registerPath), 'saknar docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md');
+
+  const syncScript = resolve(root, 'scripts/sync-prompt-mirrors.mjs');
+  assert(existsSync(syncScript), 'saknar scripts/sync-prompt-mirrors.mjs');
+
+  const result = spawnSync(process.execPath, [syncScript, '--check'], {
+    cwd: root,
+    encoding: 'utf-8',
+  });
+  if (result.status !== 0) {
+    throw new Error(
+      `Prompt-speglar ej synkade med sharedRules.ts — kör: npm run prompts:sync\n${result.stdout ?? ''}${result.stderr ?? ''}`,
+    );
+  }
+  console.log('prompt mirror sync check OK.');
 }
 
 function validateGovernanceFiles() {
@@ -146,6 +171,7 @@ function main() {
   }
   validateRegistryExtendedPhrase();
   validateSharedRulesRuntime();
+  validatePromptMirrors();
   console.log('[smoke:guard] PASS');
 }
 
