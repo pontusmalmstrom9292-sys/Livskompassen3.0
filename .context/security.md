@@ -36,7 +36,7 @@ Dessa funktioner får **inte** försvagas eller mockas. Verifiera via [`docs/SMO
 | **Draft Layer** | Utkast i IndexedDB tills sync eller «Rensa enheten» | `src/modules/capture/` |
 | **Device Clear** | Frivillig lokal rensning (ersätter Kill Switch) | Inställningar → Rensa enheten |
 
-**Permanent minne:** WORM-collections (`children_logs`, `reality_vault`, `journal`, `dossier_snapshots`) raderas **aldrig** av retention. Se [`.context/arkiv-minne.md`](./arkiv-minne.md).
+**Permanent minne:** WORM-collections (`reality_vault`, `children_logs`, `journal`, `dcap_alerts`, `dossier_snapshots`, `evolution_ledger`) raderas **aldrig** av retention. Se [`.context/arkiv-minne.md`](./arkiv-minne.md).
 
 ---
 
@@ -73,16 +73,16 @@ Dessa funktioner får **inte** försvagas eller mockas. Verifiera via [`docs/SMO
 
 Append-only collections (create ja, update/delete nej):
 
-- `reality_vault`, `journal`, `children_logs`, `dossier_snapshots`, `checkins`, `transactions`
+- `reality_vault`, `children_logs`, `journal`, `dcap_alerts`, `dossier_snapshots`, `evolution_ledger`
 - `kampspar` / `kb_docs`: WORM create; separat retention tillåten (ersätter **inte** barn/valv)
 
 **Retention:** `scheduledRetentionJob` (G5 **done**) — allowlist exkluderar permanent minne.
 
 **Källkod:** [`firestore.rules`](../firestore.rules)
 
-**Fas 1.3 (2026-06-11):** WORM-silos kräver `email_verified` för Google/e-post, eller anonym provider (dev). Create validerar `keys().hasOnly([...])` per collection (1.6).
+**Phase 19 (Backend FREEZE, 2026-06-11):** WORM-silos kräver `email_verified` för Google/e-post, eller anonym provider (dev). Create validerar `keys().hasOnly([...])` per collection (1.6).
 
-**Fas 1.4–1.5:** App Check + rate limits på LLM-callables — se [`docs/DEPLOY.md`](../docs/DEPLOY.md) § Fas 1.
+**Phase 19 (Backend FREEZE):** App Check + rate limits på LLM-callables — se [`docs/DEPLOY.md`](../docs/DEPLOY.md) § Phase 19.
 
 ---
 
@@ -150,7 +150,7 @@ Digital Conversation Analysis Pipeline skyddar mot psykologiskt missbruk och pro
 | Zero Footprint logout | `signOutUser` utan `invalidateSession` | **done** — `authService.ts` anropar `invalidateServerSession` |
 | Valv WebAuthn bypass | `issueVaultSession` utan biometri | **done** — server verifierar via `vaultWebAuthn.ts` |
 | Manuell smoke app | #3 Valv, #4 Barnen, #2d | **USER** — se [`SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) |
-| App Check på callables | LLM/Valv utan enhetsattest | **done (kod)** — `APP_CHECK_ENFORCE=true` + Console pending |
+| App Check på callables | LLM/Valv utan enhetsattest | **LOCK** — `APP_CHECK_ENFORCE=true` + Console Enforce completed 2026-06-17 |
 | Rate limits LLM | DoS på Vertex/Gemini | **done (kod)** — `_rate_limits` + `callableGuards.ts` |
 | Anonym auth + WORM | Prod ska kräva e-post | **delvis** — `VITE_REQUIRE_EMAIL_AUTH` + rules `isSensitiveAuth` |
 | WORM shadow fields | Extra fält på create | **done** — `keys().hasOnly` i rules |
