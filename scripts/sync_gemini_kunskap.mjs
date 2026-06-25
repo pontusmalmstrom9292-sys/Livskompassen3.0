@@ -1,15 +1,22 @@
 #!/usr/bin/env node
 /**
  * Synkar kanon till docs/external-ai/gemini-kunskap/ för Gemini Custom Gem upload.
+ * Rensar tier-2, tier-3 och kanon-speglar före kopiering (inga kvarlämnade filer).
  * Kör: npm run gemini:sync:kunskap
+ * Full refresh (rekommenderat): npm run gemini:pack:all
  */
 import { copyFileSync, mkdirSync, readdirSync, statSync, writeFileSync } from 'node:fs';
-import { basename, join } from 'node:path';
+import { join } from 'node:path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'node:path';
+import { cleanDir, mirrorDirectory } from './lib/external_ai_sync_utils.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const outRoot = join(root, 'docs/external-ai/gemini-kunskap');
+const tier2Dir = join(outRoot, 'tier-2-valfritt');
+const tier3Dir = join(outRoot, 'tier-3-repomix');
+const geminiKanonDir = join(outRoot, 'gemini-kanon');
+const notebooklmKanonDir = join(outRoot, 'notebooklm-kanon');
 
 /** @type {{ dest: string; src: string }[]} */
 const TIER1 = [
@@ -62,6 +69,22 @@ const TIER2 = [
     dest: '21-GEMINI-PROMPT-FABRIK-STARTKOMMANDON.md',
     src: 'docs/external-ai/gemini/GEMINI-PROMPT-FABRIK-STARTKOMMANDON.md',
   },
+  {
+    dest: '22-GEMINI-GEM-SETUP.md',
+    src: 'docs/external-ai/gemini/GEMINI-GEM-SETUP.md',
+  },
+  {
+    dest: '23-GEMINI-GEM-BASELINE-VERIFY.md',
+    src: 'docs/external-ai/gemini/GEMINI-GEM-BASELINE-VERIFY.md',
+  },
+  {
+    dest: '24-GEMINI-FIRST-MODULE-GATE.md',
+    src: 'docs/external-ai/gemini/GEMINI-FIRST-MODULE-GATE.md',
+  },
+  {
+    dest: '25-GEMINI-GEM-SYSTEM-INSTRUCTION.md',
+    src: 'docs/external-ai/gemini/GEMINI-GEM-SYSTEM-INSTRUCTION.md',
+  },
 ];
 
 const EXTRA = [
@@ -72,7 +95,6 @@ const EXTRA = [
 ];
 
 const REPOMIX_SRC = join(root, 'exports/gemini-handoff/repomix');
-const REPOMIX_DEST = join(outRoot, 'tier-3-repomix');
 
 function copyMapped(entries, destDir) {
   mkdirSync(destDir, { recursive: true });
@@ -94,7 +116,6 @@ function copyMapped(entries, destDir) {
 }
 
 function copyRepomixPacks() {
-  mkdirSync(REPOMIX_DEST, { recursive: true });
   const synced = [];
   const missing = [];
 
@@ -102,7 +123,7 @@ function copyRepomixPacks() {
     const files = readdirSync(REPOMIX_SRC).filter((f) => f.endsWith('.md'));
     for (const file of files) {
       const from = join(REPOMIX_SRC, file);
-      const to = join(REPOMIX_DEST, file);
+      const to = join(tier3Dir, file);
       copyFileSync(from, to);
       synced.push({ src: `exports/gemini-handoff/repomix/${file}`, dest: to.replace(root + '/', '') });
     }
@@ -113,20 +134,46 @@ function copyRepomixPacks() {
 }
 
 function main() {
+  cleanDir(tier2Dir);
+  cleanDir(tier3Dir);
+  cleanDir(geminiKanonDir);
+  cleanDir(notebooklmKanonDir);
+
   const tier1 = copyMapped(TIER1, outRoot);
-  const tier2 = copyMapped(TIER2, join(outRoot, 'tier-2-valfritt'));
+  const tier2 = copyMapped(TIER2, tier2Dir);
   const extra = copyMapped(EXTRA, outRoot);
   const repomix = copyRepomixPacks();
+  const geminiKanon = mirrorDirectory(root, 'docs/external-ai/gemini', geminiKanonDir);
+  const notebooklmKanon = mirrorDirectory(root, 'docs/external-ai/notebooklm', notebooklmKanonDir);
 
   const stamp = new Date().toISOString().slice(0, 19).replace('T', ' ');
   writeFileSync(
     join(outRoot, 'SYNC-STAMP.txt'),
-    `Senast synkad: ${stamp}\nKommando: npm run gemini:sync:kunskap\n`,
+    [
+      `Senast synkad: ${stamp}`,
+      'Kommando: npm run gemini:pack:all',
+      'Delsteg: gemini:pack:refresh → notebooklm:pack:all → gemini:sync:kunskap',
+      '',
+    ].join('\n'),
     'utf8',
   );
 
-  const allSynced = [...tier1.synced, ...tier2.synced, ...extra.synced, ...repomix.synced];
-  const allMissing = [...tier1.missing, ...tier2.missing, ...extra.missing, ...repomix.missing];
+  const allSynced = [
+    ...tier1.synced,
+    ...tier2.synced,
+    ...extra.synced,
+    ...repomix.synced,
+    ...geminiKanon.synced,
+    ...notebooklmKanon.synced,
+  ];
+  const allMissing = [
+    ...tier1.missing,
+    ...tier2.missing,
+    ...extra.missing,
+    ...repomix.missing,
+    ...geminiKanon.missing,
+    ...notebooklmKanon.missing,
+  ];
 
   console.log('[gemini:sync:kunskap] Synkade', allSynced.length, 'filer till docs/external-ai/gemini-kunskap/');
   for (const row of allSynced) {
@@ -135,6 +182,7 @@ function main() {
   if (allMissing.length) {
     console.warn('[gemini:sync:kunskap] Saknade källor (hoppade över):');
     for (const m of allMissing) console.warn('  ', m);
+    process.exitCode = 1;
   }
 }
 

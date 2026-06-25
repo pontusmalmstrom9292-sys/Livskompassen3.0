@@ -9,3 +9,13 @@ globs: .cursor/agents/integration-*.md,.cursor/agents/gemini-orkester-bridge.md,
 Kanon: [`docs/external-ai/INTEGRATION-SAFETY-MANIFEST.md`](../../docs/external-ai/INTEGRATION-SAFETY-MANIFEST.md)
 
 Cursor = enda kodskrivare. `external-ai-import-gate` före extern implementation. `yolo-vakt` före deploy.
+
+## Gemini + NotebookLM sync
+
+Vid ändring i `docs/external-ai/gemini/`, `gemini-kunskap/` eller `notebooklm/` — kör **alltid**:
+
+```bash
+npm run gemini:pack:all
+```
+
+Det uppdaterar **alla** exportmappar (repomix, NotebookLM-pack, gemini-kunskap tier 1–3 + kanon-speglar). Se [`external-ai-sync.mdc`](./external-ai-sync.mdc).
