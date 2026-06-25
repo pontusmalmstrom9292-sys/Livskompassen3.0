@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { CalendarDays, ChevronRight, LayoutList, Loader2 } from 'lucide-react';
+import { CalendarDays, ChevronRight, LayoutList } from 'lucide-react';
 import { clsx } from 'clsx';
 import { usePlanningTasks } from '@/features/admin/planning/hooks/usePlanningTasks';
 import { homeStepLabel, pickHomeDaySteps } from '@/features/admin/planning/utils/pickHomeDaySteps';
