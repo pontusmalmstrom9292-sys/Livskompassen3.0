@@ -118,4 +118,23 @@
   .valv-monster-bar {
     cursor: pointer;
   }
+
+  /* Desktop — bredare arkivlista och bevisrader i grid (Z1 Valv primärvy på dator) */
+  @media (min-width: 1024px) {
+    .valvet-route-page--desktop .valv-log-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    .valvet-route-page--desktop .valv-log-list > * {
+      margin-top: 0;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .valvet-route-page--desktop .valv-log-list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
 }
