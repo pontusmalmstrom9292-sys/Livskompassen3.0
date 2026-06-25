@@ -277,10 +277,10 @@ export const MABRA_LOW_ENERGY_ITEMS: MabraHubItem[] = [
   {
     id: 'akut-panic',
     title: 'Panik / RSD',
-    lead: 'Akut landning + andning',
+    lead: 'SOS Ankare — andas eller jordning',
     emoji: '🌧',
     category: 'akut',
-    action: { type: 'symptom', hub: 'panic_rsd' },
+    action: { type: 'tool', tool: 'recovery_sos' },
   },
   {
     id: 'low-checkin',
