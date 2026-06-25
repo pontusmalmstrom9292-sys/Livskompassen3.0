@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Archive, ArchiveRestore, FolderKanban, Plus, Search, Settings2, Sparkles } from 'lucide-react';
 import { useAllProjects } from '../hooks/useProjects';
 import { updateProjectStatus } from '../api/projectsApi';
-import { DEFAULT_PROJECT_ICON, PROJECT_BLOCK_META, projectBlockLabel } from '../projectBlockMeta';
+import { projectBlockIcon, projectBlockLabel } from '../projectBlockMeta';
 import {
   computeProjectCounts,
   filterProjects,
@@ -42,9 +42,7 @@ function ProjectRow({
   onArchive: (project: Project) => void;
   onRestore: (project: Project) => void;
 }) {
-  const Icon = project.primaryBlockType
-    ? PROJECT_BLOCK_META[project.primaryBlockType].icon
-    : DEFAULT_PROJECT_ICON;
+  const Icon = projectBlockIcon(project.primaryBlockType);
   const isArchived = project.status === 'archived';
 
   return (
