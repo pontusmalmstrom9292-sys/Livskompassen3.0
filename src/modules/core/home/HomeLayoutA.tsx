@@ -2,6 +2,9 @@ import { useMemo, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Anchor, Inbox, Mic, PenLine, Sun, Moon, Clock, Sparkles, Edit2, ChevronRight, Star } from 'lucide-react';
 import { ExecutiveJournalHistoryRail } from './executive/ExecutiveJournalHistoryRail';
+import { ExecutiveReflektionHero } from './executive/ExecutiveReflektionHero';
+import { ExecutiveFocusCard } from './executive/cards/ExecutiveFocusCard';
+import { ExecutiveLivsloggCard } from './executive/cards/ExecutiveLivsloggCard';
 import { clsx } from 'clsx';
 import { saveCheckIn, getRecentCheckIns } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
@@ -167,7 +170,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
     'home-layout-a mx-auto w-full max-w-2xl space-y-4 pb-4',
     variant === 'brass' && 'home-brass-a',
     variant === 'calm' && 'home-layout-a--calm',
-    variant === 'executive' && 'home-layout-a--executive',
+    variant === 'executive' && 'home-layout-a--executive executive-home-dashboard calm-scroll-island',
   );
 
   const insetClass =
@@ -185,10 +188,19 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
 
   return (
     <div className={rootClass}>
-      {!hideIntro ? (
+      {variant === 'executive' ? (
+        <>
+          <ExecutiveReflektionHero />
+          <div className="executive-home-grid">
+            <ExecutiveFocusCard />
+            <ExecutiveLivsloggCard />
+          </div>
+        </>
+      ) : null}
+
+      {!hideIntro && variant !== 'executive' ? (
       <div className="home-layout-a__intro">
-        <HomeGreeting hideEyebrow={variant === 'executive'} />
-        {variant !== 'executive' ? (
+        <HomeGreeting />
         <CalmCollapsible
           title="Profil & fas"
           meta={weekdayLabel(now)}
@@ -212,7 +224,6 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
             <HomeStreakChip />
           </div>
         </CalmCollapsible>
-        ) : null}
       </div>
       ) : null}
 

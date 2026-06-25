@@ -186,7 +186,14 @@ function HomePlaneringPanel() {
       </div>
 
       <div className="mt-3 min-h-[4rem]" role="tabpanel">
-        {tab === 'handling' ? <HomeHandlingTasks /> : null}
+        {tab === 'handling' ? (
+          <div className="space-y-2">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-text-dim">
+              Dagens uppgifter
+            </p>
+            <HomeHandlingTasks />
+          </div>
+        ) : null}
 
         {tab === 'projekt' ? (
           <div className="space-y-2 py-1">
