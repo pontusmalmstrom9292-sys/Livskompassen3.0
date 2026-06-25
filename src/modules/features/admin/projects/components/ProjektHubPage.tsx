@@ -4,6 +4,13 @@ import { Archive, ArchiveRestore, FolderKanban, Plus, Search, Settings2, Sparkle
 import { useAllProjects } from '../hooks/useProjects';
 import { updateProjectStatus } from '../api/projectsApi';
 import { DEFAULT_PROJECT_ICON, PROJECT_BLOCK_META, projectBlockLabel } from '../projectBlockMeta';
+import {
+  computeProjectCounts,
+  filterProjects,
+  shouldShowSearch,
+  shouldShowStatusTabs,
+  totalProjects,
+} from '../projectHubFilters';
 import type { Project, ProjectStatus } from '../types';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
@@ -79,28 +86,17 @@ export function ProjektHubPage() {
   const [search, setSearch] = useState('');
   const [busyId, setBusyId] = useState<string | null>(null);
 
-  const counts = useMemo(
-    () => ({
-      active: projects.filter((p) => p.status === 'active').length,
-      paused: projects.filter((p) => p.status === 'paused').length,
-      archived: projects.filter((p) => p.status === 'archived').length,
-    }),
-    [projects],
-  );
+  const counts = useMemo(() => computeProjectCounts(projects), [projects]);
 
-  const total = counts.active + counts.paused + counts.archived;
-  const showStatusTabs = counts.paused > 0 || counts.archived > 0;
+  const total = totalProjects(counts);
+  const showStatusTabs = shouldShowStatusTabs(counts);
   const effectiveStatus: ProjectStatus = showStatusTabs ? status : 'active';
 
-  const inStatus = useMemo(
-    () => projects.filter((p) => p.status === effectiveStatus),
-    [projects, effectiveStatus],
+  const showSearch = shouldShowSearch(counts[effectiveStatus]);
+  const visible = useMemo(
+    () => filterProjects(projects, effectiveStatus, search),
+    [projects, effectiveStatus, search],
   );
-  const showSearch = inStatus.length > 4;
-  const visible = useMemo(() => {
-    const q = search.trim().toLowerCase();
-    return q ? inStatus.filter((p) => p.title.toLowerCase().includes(q)) : inStatus;
-  }, [inStatus, search]);
 
   const changeStatus = async (project: Project, next: ProjectStatus) => {
     if (!user) return;
