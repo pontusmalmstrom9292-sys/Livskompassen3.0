@@ -109,7 +109,7 @@ export function ProjektHubPage() {
     try {
       await updateProjectStatus(user.uid, project.id, next);
     } finally {
-      setBusyId(null);
+      setBusyId((current) => (current === project.id ? null : current));
     }
   };
 
