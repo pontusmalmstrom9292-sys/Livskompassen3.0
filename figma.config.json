@@ -7,6 +7,10 @@
       "src/modules/core/**/*.tsx",
       "src/modules/sandbox/components/premium/**/*.tsx"
     ],
+    "exclude": [
+      "src/figma/connect/HubDropdownNav.figma.tsx",
+      "src/figma/connect/CognitiveLoadStrip.figma.tsx"
+    ],
     "label": "React",
     "language": "typescript",
     "paths": {

@@ -17,7 +17,9 @@ export const FIGMA_COMPONENT_NODE_IDS = {
   'DockNavButton': '19:514',
   'Button/BIFF': '19:555',
   'StatusBadge': '19:564',
+  /** Pending — node 16:442 is not a Figma component yet (Code Connect publish skipped). */
   'HubDropdownNav': '16:442',
+  /** Pending — node 16:443 is not a Figma component yet (Code Connect publish skipped). */
   'CognitiveLoadStrip': '16:443',
 } as const;
 
