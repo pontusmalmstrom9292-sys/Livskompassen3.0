@@ -40,12 +40,12 @@ describe('computeProjectCounts', () => {
 });
 
 describe('shouldShowStatusTabs', () => {
-  it('döljs när allt är aktivt', () => {
+  it('döljs när inget är arkiverat', () => {
     expect(shouldShowStatusTabs({ active: 3, paused: 0, archived: 0 })).toBe(false);
+    expect(shouldShowStatusTabs({ active: 1, paused: 1, archived: 0 })).toBe(false);
   });
 
-  it('visas när något är pausat eller arkiverat', () => {
-    expect(shouldShowStatusTabs({ active: 1, paused: 1, archived: 0 })).toBe(true);
+  it('visas när något är arkiverat', () => {
     expect(shouldShowStatusTabs({ active: 0, paused: 0, archived: 2 })).toBe(true);
   });
 });

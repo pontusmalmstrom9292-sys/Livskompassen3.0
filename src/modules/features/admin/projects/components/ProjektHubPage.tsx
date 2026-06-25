@@ -21,7 +21,6 @@ import { ProjektTomStatePanel } from './ProjektTomStatePanel';
 
 const STATUS_TABS: TabBarItem<ProjectStatus>[] = [
   { id: 'active', label: 'Aktiva' },
-  { id: 'paused', label: 'Pausade' },
   { id: 'archived', label: 'Arkiv' },
 ];
 

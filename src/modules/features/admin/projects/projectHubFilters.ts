@@ -15,9 +15,9 @@ export function totalProjects(counts: ProjectCounts): number {
   return counts.active + counts.paused + counts.archived;
 }
 
-/** Statusflikar visas progressivt — endast när det finns något pausat eller arkiverat. */
+/** Statusflikar (Aktiva/Arkiv) visas progressivt — endast när det finns något arkiverat. */
 export function shouldShowStatusTabs(counts: ProjectCounts): boolean {
-  return counts.paused > 0 || counts.archived > 0;
+  return counts.archived > 0;
 }
 
 /** Projekt i vald status, valfritt filtrerade på fritextsökning i titeln. */
