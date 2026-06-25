@@ -121,7 +121,10 @@ export function HomeBrassDaySteps({ variant = 'calm' }: Props) {
       <div className="pt-2 border-t border-border/5 mt-auto flex justify-end w-full">
         <Link 
           to={HOME_SUPERHUB_ROUTES.planeringHub} 
-          className="text-[10px] font-semibold text-accent hover:text-accent-light transition-colors flex items-center gap-1"
+          className={clsx(
+            'text-[10px] font-semibold text-accent hover:text-accent-light transition-colors flex items-center gap-1',
+            variant === 'executive' && 'uppercase tracking-wider',
+          )}
         >
           + Lägg till steg
         </Link>

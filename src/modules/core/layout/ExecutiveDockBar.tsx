@@ -1,9 +1,10 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { clsx } from 'clsx';
-import { Landmark, LayoutGrid, PenLine, Inbox } from 'lucide-react';
+import { CalendarDays, Landmark, LayoutGrid, PenLine, Inbox, Vault } from 'lucide-react';
 import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
 import { FyrenProgressRing } from '../ui/FyrenProgressRing';
 import { ExecutiveDecorCompass } from '../ui/executive/ExecutiveDecorCompass';
+import type { ExecutiveHomeLayoutMode } from '../home/executive/homeLayoutPreference';
 
 type SideProps = {
   label: string;
@@ -30,10 +31,13 @@ function ExecDockSide({ label, active, onClick, children }: SideProps) {
 }
 
 type Props = {
+  dockVariant?: ExecutiveHomeLayoutMode;
   pathname: string;
   isHome: boolean;
   isFamiljen: boolean;
   isHjartat: boolean;
+  isPlanering: boolean;
+  isValvet: boolean;
   resurserOpen: boolean;
   snabbstartOpen: boolean;
   showFyrenRing: boolean;
@@ -45,14 +49,19 @@ type Props = {
   onVentil: () => void;
   onInkast: () => void;
   onResurser: () => void;
+  onValv: () => void;
+  onPlanering: () => void;
 };
 
-/** Referensdock — platt bar, etiketter, stor kompass (ingen båge). */
+/** Referensdock — extended (6 zoner) eller mix-E (4 zoner). */
 export function ExecutiveDockBar({
+  dockVariant = 'extended',
   pathname,
   isHome,
   isFamiljen,
   isHjartat,
+  isPlanering,
+  isValvet,
   resurserOpen,
   snabbstartOpen,
   showFyrenRing,
@@ -64,11 +73,54 @@ export function ExecutiveDockBar({
   onVentil,
   onInkast,
   onResurser,
+  onValv,
+  onPlanering,
 }: Props) {
+  const mixE = dockVariant === 'mix-e';
+
+  if (mixE) {
+    return (
+      <nav className="exec-dock-bar exec-dock-bar--mix-e" aria-label="Huvudnavigation">
+        <ExecDockSide label="Familjen" active={isFamiljen} onClick={onFamiljen}>
+          <DrawerL2Icon hubId="familjen" className="exec-dock-bar__glyph exec-dock-bar__glyph--l2" />
+        </ExecDockSide>
+
+        <div className="exec-dock-bar__compass-slot">
+          <button
+            type="button"
+            className={clsx(
+              'exec-dock-bar__compass',
+              isHome && 'exec-dock-bar__compass--home',
+              isHolding && 'exec-dock-bar__compass--holding',
+            )}
+            aria-label="Hamn. Håll tre sekunder för Valv."
+            style={
+              progress > 0
+                ? ({ '--dock-hold': `${Math.round(progress * 100)}%` } as CSSProperties)
+                : undefined
+            }
+            {...centerHoldHandlers}
+          >
+            {showFyrenRing ? <FyrenProgressRing progress={progress} /> : null}
+            <ExecutiveDecorCompass size="hero" className="exec-dock-bar__compass-mark" />
+          </button>
+        </div>
+
+        <ExecDockSide label="Valv" active={isValvet} onClick={onValv}>
+          <Vault className="exec-dock-bar__glyph" strokeWidth={1.5} />
+        </ExecDockSide>
+
+        <ExecDockSide label="Planering" active={isPlanering} onClick={onPlanering}>
+          <CalendarDays className="exec-dock-bar__glyph" strokeWidth={1.5} />
+        </ExecDockSide>
+      </nav>
+    );
+  }
+
   return (
-    <nav className="exec-dock-bar" aria-label="Huvudnavigation">
+    <nav className="exec-dock-bar exec-dock-bar--extended" aria-label="Huvudnavigation">
       <ExecDockSide
-        label="Bevis-rad"
+        label="Anteckning"
         active={pathname.startsWith('/widget/anteckning')}
         onClick={onAnteckning}
       >

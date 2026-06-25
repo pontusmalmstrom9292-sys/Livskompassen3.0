@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BookOpen } from 'lucide-react';
+import { BookOpen, ChevronUp } from 'lucide-react';
 import { useStore } from '@/core/store';
 import { useJournalFlow } from '@/features/lifeJournal/diary/diary/hooks/useJournalFlow';
 import { formatRelativeJournalDate, journalEntryDate } from './execJournalUtils';
@@ -21,7 +21,17 @@ export function ExecutiveJournalHistoryRail() {
 
   return (
     <section className="exec-journal-rail" aria-label="Tidigare anteckningar">
-      <h3 className="exec-home-label px-1">TIDIGARE ANTECKNINGAR</h3>
+      <div className="exec-journal-rail__head">
+        <h3 className="exec-home-label mb-0">TIDIGARE ANTECKNINGAR</h3>
+        <button
+          type="button"
+          className="exec-journal-rail__all"
+          onClick={() => navigate('/hjartat?tab=reflektion')}
+        >
+          Visa alla
+          <ChevronUp className="h-3 w-3" strokeWidth={2} aria-hidden />
+        </button>
+      </div>
       {recent.length === 0 ? (
         <p className="px-1 text-xs text-text-dim italic">Inga tidigare anteckningar.</p>
       ) : (

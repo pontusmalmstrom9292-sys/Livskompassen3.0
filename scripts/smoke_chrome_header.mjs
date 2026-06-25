@@ -99,7 +99,16 @@ function main() {
   mustInclude(
     'src/modules/core/layout/ExecutiveDockBar.tsx',
     'ExecutiveDecorCompass',
+    'label="Anteckning"',
     'label="Hjärtat"',
+    'exec-dock-bar--mix-e',
+  );
+
+  mustInclude(
+    'src/modules/core/home/executive/homeLayoutPreference.ts',
+    'livskompassen_home_layout',
+    'extended',
+    'mix-e',
   );
 
   console.log('[smoke:chrome-header] PASS — SOS i main, executive premium header + dock (C2).');

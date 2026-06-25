@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 // @locked DOCK_ZONES - Needed for static smoke tests. Do not remove this comment.
 import type { CSSProperties } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -22,6 +22,12 @@ import { FyrenDockHandle } from '../components/FyrenWidgetBar';
 import { DockNavButton } from './DockNavButton';
 import { ExecutiveDockBar } from './ExecutiveDockBar';
 import { useHeaderPanelStyle } from './headerPanelStyle';
+import {
+  getExecutiveHomeLayoutMode,
+  HOME_LAYOUT_CHANGED_EVENT,
+  type ExecutiveHomeLayoutMode,
+} from '../home/executive/homeLayoutPreference';
+import { valvetNavigateTarget } from '../navigation/navigationRegistry';
 
 export function FloatingDock() {
   const location = useLocation();
@@ -36,9 +42,28 @@ export function FloatingDock() {
   const isHome = pathname === '/';
   const panelStyle = useHeaderPanelStyle();
   const { toggleSnabbstart, snabbstartOpen } = useExecutiveHomeChrome();
+  const [homeLayout, setHomeLayout] = useState<ExecutiveHomeLayoutMode>(() =>
+    executive ? getExecutiveHomeLayoutMode() : 'extended',
+  );
+
+  useEffect(() => {
+    if (!executive) return;
+    const sync = () => setHomeLayout(getExecutiveHomeLayoutMode());
+    sync();
+    window.addEventListener(HOME_LAYOUT_CHANGED_EVENT, sync);
+    return () => window.removeEventListener(HOME_LAYOUT_CHANGED_EVENT, sync);
+  }, [executive]);
+
+  const mixEDock = executive && homeLayout === 'mix-e';
 
   const isFamiljen = pathname === '/familjen' || pathname.startsWith('/familjen/');
   const isHjartat = pathname === '/hjartat' || pathname.startsWith('/hjartat') || pathname.startsWith('/dagbok');
+  const isPlanering =
+    pathname === '/planering' ||
+    pathname.startsWith('/planering/') ||
+    pathname === '/projekt' ||
+    pathname.startsWith('/projekt/');
+  const isValvet = pathname === '/valvet' || pathname.startsWith('/valvet/') || pathname.startsWith('/valv');
 
   const fyrenToValv = useCallback(
     () =>
@@ -51,7 +76,7 @@ export function FloatingDock() {
   const centerPress = useLongPress({
     onLongPress: fyrenToValv,
     onClick: () => {
-      if (executive && isHome) {
+      if (executive && isHome && !mixEDock) {
         toggleSnabbstart();
         return;
       }
@@ -69,10 +94,13 @@ export function FloatingDock() {
         <ResurserOverlay open={resurserOpen} onClose={() => setResurserOpen(false)} />
         <div className="dock-shell dock-shell--reference-dock">
           <ExecutiveDockBar
+            dockVariant={mixEDock ? 'mix-e' : 'extended'}
             pathname={pathname}
             isHome={isHome}
             isFamiljen={isFamiljen}
             isHjartat={isHjartat}
+            isPlanering={isPlanering}
+            isValvet={isValvet}
             resurserOpen={resurserOpen}
             snabbstartOpen={snabbstartOpen}
             showFyrenRing={showFyrenRing}
@@ -84,6 +112,8 @@ export function FloatingDock() {
             onVentil={() => navigate(NAV_PATHS.HJARTAT)}
             onInkast={() => navigate('/planering/input?inputMode=inkast')}
             onResurser={() => setResurserOpen(true)}
+            onValv={() => navigate(valvetNavigateTarget())}
+            onPlanering={() => navigate('/planering')}
           />
         </div>
       </>

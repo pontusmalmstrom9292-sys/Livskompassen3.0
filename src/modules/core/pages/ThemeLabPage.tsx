@@ -28,6 +28,11 @@ import { THEME_PACK_REDESIGN_A } from '../theme/themePackRedesignA';
 import { THEME_PACK_REMIX_E_HAMN } from '../theme/themePackRemix';
 import { THEME_PACK_OBSIDIAN_DEPTH } from '../theme/themePackObsidianDepth';
 import { THEME_PACK_MIDNIGHT_EXECUTIVE } from '../theme/themePackMidnightExecutive';
+import {
+  getExecutiveHomeLayoutMode,
+  setExecutiveHomeLayoutMode,
+  type ExecutiveHomeLayoutMode,
+} from '../home/executive/homeLayoutPreference';
 import { J_PACK_THEME_IDS } from '../theme/themeRegistry';
 import { REDESIGN_C_THEME_IDS } from '../theme/themePackRedesignC';
 import type { ThemePack } from '../theme/types';
@@ -116,6 +121,9 @@ function DraftTokenChips({ pack }: { pack: ThemePack }) {
 export function ThemeLabPage() {
   const { themeId, setTheme, setAutoMode } = useTheme();
   const [previewId, setPreviewId] = useState('I-stone');
+  const [homeLayout, setHomeLayout] = useState<ExecutiveHomeLayoutMode>(() =>
+    getExecutiveHomeLayoutMode(),
+  );
   const previewPack =
     THEME_REGISTRY.find((t) => t.id === previewId) ??
     THEME_LAB_DRAFTS.find((t) => t.id === previewId) ??
@@ -215,6 +223,30 @@ export function ThemeLabPage() {
           href: '/dev/design-freeport',
         }}
       />
+
+      {themeId === 'ME-midnight-executive' ? (
+        <section className="glass-card p-4 space-y-3">
+          <h2 className="text-sm font-semibold text-accent">Executive hem-layout</h2>
+          <p className="text-xs text-text-muted">
+            Extended = reflektion + 2×2. mix-E = hälsning + kompass-scen + dagens riktning.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {(['extended', 'mix-e'] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                className={homeLayout === mode ? 'btn-pill--primary text-xs' : 'btn-pill--ghost text-xs'}
+                onClick={() => {
+                  setExecutiveHomeLayoutMode(mode);
+                  setHomeLayout(mode);
+                }}
+              >
+                {mode === 'extended' ? 'Extended (facit)' : 'mix-E klassisk'}
+              </button>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <ThemeLabPackSection
         title="Obsidian Depth — låst 3D (2026-06-14)"

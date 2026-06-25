@@ -443,12 +443,37 @@
 .exec-dock-bar__side:nth-child(2),
 .exec-dock-bar__side:nth-child(4),
 .exec-dock-bar__side:nth-child(5) {
-  border-right: 1px solid color-mix(in srgb, var(--accent) 14%, transparent);
+  border-right: 0;
 }
 
-.exec-dock-bar__compass-slot {
-  border-left: 1px solid color-mix(in srgb, var(--accent) 14%, transparent);
-  border-right: 1px solid color-mix(in srgb, var(--accent) 14%, transparent);
+.exec-dock-bar--extended .exec-dock-bar__compass-slot,
+.exec-dock-bar--mix-e .exec-dock-bar__compass-slot {
+  border-left: 0;
+  border-right: 0;
+}
+
+.exec-dock-bar--mix-e {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.exec-dock-bar--mix-e .exec-dock-bar__compass-slot {
+  grid-column: 2;
+}
+
+.exec-dock-bar--mix-e .exec-dock-bar__side:nth-child(1) {
+  grid-column: 1;
+}
+
+.exec-dock-bar--mix-e .exec-dock-bar__side:nth-child(3) {
+  grid-column: 3;
+}
+
+.exec-dock-bar--mix-e .exec-dock-bar__side:nth-child(4) {
+  grid-column: 4;
+}
+
+.exec-decor-compass--textured {
+  filter: drop-shadow(0 0 16px color-mix(in srgb, var(--accent) 42%, transparent));
 }
 
 .exec-dock-bar__side--active {
@@ -592,21 +617,14 @@
 
 [data-theme='ME-midnight-executive'] .design-pack-header--executive-premium {
   max-width: min(100vw - 0.5rem, 28rem);
-  min-height: 6.75rem;
-  padding: 0.55rem 0.25rem 0.4rem;
-  border-radius: 1.15rem;
-  border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
-  background: linear-gradient(
-    168deg,
-    color-mix(in srgb, var(--surface-2) 62%, transparent) 0%,
-    color-mix(in srgb, var(--surface) 88%, #020617) 100%
-  );
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  box-shadow:
-    0 1px 0 color-mix(in srgb, var(--accent-light) 14%, transparent) inset,
-    0 0 28px color-mix(in srgb, var(--accent) 10%, transparent),
-    0 10px 32px rgba(0, 0, 0, 0.45);
+  min-height: 3.75rem;
+  padding: 0.4rem 0.35rem 0.35rem;
+  border-radius: 0;
+  border: 0;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  box-shadow: none;
 }
 
 [data-theme='ME-midnight-executive'] .design-pack-header--executive-premium .design-pack-header__title {
@@ -624,9 +642,22 @@
 }
 
 [data-theme='ME-midnight-executive'] .design-pack-header__eye-slot {
+  display: none;
+}
+
+[data-theme='ME-midnight-executive'] .exec-header-compass-mark {
   display: flex;
+  align-items: center;
   justify-content: center;
-  margin-top: 0.15rem;
+  opacity: 0.92;
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--accent) 28%, transparent));
+}
+
+[data-theme='ME-midnight-executive'] .kompis-avatar--executive-header {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 38%, transparent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 18%, transparent);
 }
 
 [data-theme='ME-midnight-executive'] .exec-header-eye {
@@ -737,6 +768,8 @@
   backdrop-filter: blur(10px);
   padding: 1rem 1.1rem;
   min-height: 9.5rem;
+  display: flex;
+  flex-direction: column;
 }
 
 [data-theme='ME-midnight-executive'] .exec-home-card__head {
@@ -751,7 +784,7 @@
   gap: 0.75rem;
 }
 
-@media (min-width: 520px) {
+@media (min-width: 360px) {
   [data-theme='ME-midnight-executive'] .executive-home-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -884,4 +917,143 @@
 
 [data-theme='ME-midnight-executive'] .exec-reflektion-hero__cta:active {
   transform: scale(0.98);
+}
+
+[data-theme='ME-midnight-executive'] .exec-reflektion-hero__watermark {
+  pointer-events: none;
+  position: absolute;
+  right: -1rem;
+  top: 50%;
+  width: 9rem;
+  height: 9rem;
+  transform: translateY(-50%);
+  opacity: 0.22;
+  background: center / contain no-repeat url('/icons/b1-kanon-ros.svg');
+  filter: drop-shadow(0 0 24px color-mix(in srgb, var(--accent) 35%, transparent));
+}
+
+[data-theme='ME-midnight-executive'] .exec-home-card__footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-left: auto;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+[data-theme='ME-midnight-executive'] .exec-livslogg-fab {
+  position: absolute;
+  right: 0.85rem;
+  bottom: 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
+  background: color-mix(in srgb, var(--accent) 14%, var(--surface-3));
+  color: var(--accent-light);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+
+[data-theme='ME-midnight-executive'] .exec-livslogg-fab:disabled {
+  opacity: 0.45;
+}
+
+[data-theme='ME-midnight-executive'] .exec-home-card__head--split {
+  justify-content: space-between;
+}
+
+[data-theme='ME-midnight-executive'] .exec-planering-date-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  padding: 0.2rem 0.55rem;
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: capitalize;
+  color: var(--accent-light);
+}
+
+[data-theme='ME-midnight-executive'] .exec-planering-task-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 16%, transparent);
+  background: color-mix(in srgb, var(--surface-3) 70%, transparent);
+  padding: 0.65rem 0.75rem;
+  text-decoration: none;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+[data-theme='ME-midnight-executive'] .exec-planering-task-row:hover {
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+  background: color-mix(in srgb, var(--accent) 6%, var(--surface-3));
+}
+
+[data-theme='ME-midnight-executive'] .exec-planering-task-row__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 8%, var(--surface-2));
+}
+
+[data-theme='ME-midnight-executive'] .exec-journal-rail__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0 0.25rem;
+}
+
+[data-theme='ME-midnight-executive'] .exec-journal-rail__all {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  border: 0;
+  background: transparent;
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+[data-theme='ME-midnight-executive'] .exec-journal-rail__card {
+  width: 9.25rem;
+  min-height: 5.5rem;
+}
+
+[data-theme='ME-midnight-executive'] .executive-home-dashboard--mix-e .exec-mix-e-greeting {
+  position: relative;
+}
+
+[data-theme='ME-midnight-executive'] .executive-home-dashboard--mix-e .exec-mix-e-greeting__eld {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+[data-theme='ME-midnight-executive'] .home-layout-a__tile--executive .home-streak-chip,
+[data-theme='ME-midnight-executive'] .executive-home-dashboard--mix-e .home-streak-chip {
+  border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+  padding: 0.45rem 0.65rem;
 }

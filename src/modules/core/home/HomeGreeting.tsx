@@ -12,7 +12,7 @@ type Props = {
   variant?: 'default' | 'executive';
 };
 
-export function HomeGreeting({ variant = 'default' }: Props) {
+export function HomeGreeting({ mockupCopy = false, variant = 'default' }: Props) {
   const name = useHomeDisplayName();
   const now = new Date();
   const greeting = getTimeGreeting(now);
@@ -43,7 +43,11 @@ export function HomeGreeting({ variant = 'default' }: Props) {
             {greeting}, {name}
           </p>
           <p className="text-[10px] tracking-[0.2em] font-sans text-accent uppercase font-semibold">
-            {preset?.label ? preset.label.toUpperCase() : 'DEN TRYGGA HAMNEN'}
+            {mockupCopy
+              ? 'Styr med mening. Lev med riktning.'
+              : preset?.label
+                ? preset.label.toUpperCase()
+                : 'DEN TRYGGA HAMNEN'}
           </p>
         </div>
         {!isExecutive ? (
