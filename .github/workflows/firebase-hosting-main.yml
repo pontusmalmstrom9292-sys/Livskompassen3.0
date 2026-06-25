@@ -68,4 +68,4 @@ jobs:
 
       - name: Deploy to Firebase Hosting
         # Exclude scheduler-backed functions: the deploy service account lacks Cloud Scheduler update permission.
-        run: npx firebase-tools@13.35.1 deploy --except functions:scheduledRetentionJob,functions:scheduledGeneratePayslip --project gen-lang-client-0481875058 --non-interactive
+        run: npx firebase-tools@13.35.1 deploy --only hosting,functions,firestore:rules,storage --except functions:scheduledRetentionJob,functions:scheduledGeneratePayslip --project gen-lang-client-0481875058 --non-interactive
