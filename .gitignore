@@ -114,6 +114,16 @@ gcloud*/
 **/google-cloud-sdk/
 google-cloud-cli*.tar.gz
 
+# Mac-Finder copies & misplaced root files
+*\ \(kopia\)*
+*\ copy.*
+/npm
+/~
+~/Downloads/
+
+# Firebase emulator export (testdata, ej källa)
+exportedData/
+
 # Cursor / agent tooling (lokal, ej repo)
 .agents/
 skills-lock.json
