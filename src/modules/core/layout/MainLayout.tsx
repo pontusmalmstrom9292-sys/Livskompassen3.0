@@ -134,7 +134,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
       {!barnportenChildShell ? (
         <>
-          <FyrenWidgetBar />
+          {!executiveSkin ? <FyrenWidgetBar /> : null}
           <FloatingDock />
         </>
       ) : null}

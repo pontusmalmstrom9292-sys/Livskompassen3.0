@@ -100,7 +100,7 @@ function main() {
     'src/modules/core/layout/ExecutiveDockBar.tsx',
     'ExecutiveDecorCompass',
     'label="Anteckning"',
-    'label="Hjärtat"',
+    'label="Mentil"',
     'exec-dock-bar--mix-e',
   );
 
