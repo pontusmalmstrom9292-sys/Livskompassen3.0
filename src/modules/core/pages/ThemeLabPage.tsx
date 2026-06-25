@@ -207,6 +207,26 @@ export function ThemeLabPage() {
         </div>
       </section>
 
+      <section className="glass-card p-4">
+        <h2 className="text-xs uppercase tracking-widest text-text-dim">Widget W1 v2 — Kompakt projekt</h2>
+        <p className="mt-2 text-sm text-text-muted">
+          Höger rail · Kognitiv sköld · Dagens riktning · Nytt projekt-picker (BYGG enligt mockup).
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Link to="/dev/theme-lab/w1-kompakt-projekt" className="btn-pill--accent text-xs">
+            Öppna W1 kompakt projekt lab
+          </Link>
+          <a
+            href="/docs/design/galleri/widget/v2/W1-kompakt-projekt.png"
+            target="_blank"
+            rel="noreferrer"
+            className="btn-pill--ghost text-xs"
+          >
+            Mockup ↗
+          </a>
+        </div>
+      </section>
+
       <ThemeLabPackSection
         title="Midnight Executive — mockup v1 (2026-06)"
         packs={THEME_PACK_MIDNIGHT_EXECUTIVE}

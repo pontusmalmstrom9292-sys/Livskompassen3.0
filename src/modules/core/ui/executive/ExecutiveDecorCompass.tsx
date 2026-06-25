@@ -9,10 +9,12 @@ const SIZE_CLASS: Record<Size, string> = {
   lg: 'h-16 w-16',
   dock: 'h-[2.65rem] w-[2.65rem]',
   'dock-lg': 'h-[2.65rem] w-[2.65rem]',
-  hero: 'h-[6rem] w-[6rem]',
+  hero: 'h-[5.15rem] w-[5.15rem]',
 };
 
 const TEXTURED_SIZES = new Set<Size>(['dock', 'dock-lg', 'hero', 'lg']);
+const HERO_ASSET = '/design/kompass-dock-rose.svg';
+const DOCK_ASSET = '/icons/b1-kanon-ros.svg';
 
 type Props = {
   className?: string;
@@ -27,14 +29,16 @@ export function ExecutiveDecorCompass({ className = '', size = 'md' }: Props) {
   const glow = `execGlow-${uid}`;
 
   if (TEXTURED_SIZES.has(size)) {
+    const src = size === 'hero' ? HERO_ASSET : DOCK_ASSET;
     return (
       <img
-        src="/icons/b1-kanon-ros.svg"
+        src={src}
         alt=""
         aria-hidden
         className={clsx(
           SIZE_CLASS[size],
           'exec-decor-compass--textured object-contain',
+          size === 'hero' && 'exec-decor-compass--hero',
           className,
         )}
       />

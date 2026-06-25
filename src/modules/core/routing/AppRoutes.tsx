@@ -116,6 +116,11 @@ const BrusfiltretSupermoduleLabPage = lazy(() =>
     default: m.BrusfiltretSupermoduleLabPage,
   })),
 );
+const W1KompaktProjektLabPage = lazy(() =>
+  import('../pages/W1KompaktProjektLabPage').then((m) => ({
+    default: m.W1KompaktProjektLabPage,
+  })),
+);
 const DesignFreeportPage = lazy(() =>
   import('@/modules/sandbox/DesignFreeportPage').then((m) => ({
     default: m.DesignFreeportPage,
@@ -556,6 +561,10 @@ export function AppRoutes() {
               <Route
                 path="/dev/theme-lab/brusfiltret-supermodule"
                 element={<BrusfiltretSupermoduleLabPage />}
+              />
+              <Route
+                path="/dev/theme-lab/w1-kompakt-projekt"
+                element={<W1KompaktProjektLabPage />}
               />
               <Route path="/dev/hub-lab" element={<HubLabPage />} />
               <Route path="/dev/obsidian-depth" element={<ObsidianDepthMockupPage />} />

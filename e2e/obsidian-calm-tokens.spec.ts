@@ -25,7 +25,8 @@ test.describe('Obsidian Calm tokens', () => {
     });
 
     expect(isDarkHex(tokens.surface)).toBe(true);
-    expect(tokens.accent.toLowerCase()).toMatch(/d4af37|212|175|55/);
+    // Prod default ME-midnight-executive: #c9a66b · legacy I-stone: #d4af37
+    expect(tokens.accent.toLowerCase()).toMatch(/d4af37|c9a66b|c9a227|9f852b|e8c547/);
   });
 
   test('manifest theme_color är mörk Obsidian-bas', async ({ page }) => {

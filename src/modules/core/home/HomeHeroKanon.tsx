@@ -12,7 +12,6 @@ import { HomeGreeting } from './HomeGreeting';
 import { HomeStreakChip } from './HomeStreakChip';
 import { HomeAdaptiveCompass } from './HomeAdaptiveCompass';
 import { HomeLayoutA } from './HomeLayoutA';
-import { ExecutiveHomeDashboard } from './executive/ExecutiveHomeDashboard';
 import { ExecutiveMixEHomeDashboard } from './executive/ExecutiveMixEHomeDashboard';
 import {
   getExecutiveHomeLayoutMode,
@@ -100,7 +99,7 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
         {homeLayout === 'mix-e' ? (
           <ExecutiveMixEHomeDashboard onCheckInSaved={onCheckInSaved} />
         ) : (
-          <ExecutiveHomeDashboard onCheckInSaved={onCheckInSaved} />
+          <HomeLayoutA variant="executive" hideIntro onCheckInSaved={onCheckInSaved} />
         )}
       </div>
     );

@@ -21,7 +21,8 @@ firebase-debug.*.log
 # MCP/CLI refresh tokens live in ~/.config/firebase/ — never copy into repo
 
 # Personal Drive import — not project source (PII, family docs)
-docs/archive/drive-backup/
+docs/archive/drive-backup/*
+!docs/archive/drive-backup/README.md
 
 # Build output
 dist/
@@ -112,6 +113,16 @@ dataconnect/.dataconnect/peliteData/
 gcloud*/
 **/google-cloud-sdk/
 google-cloud-cli*.tar.gz
+
+# Mac-Finder copies & misplaced root files
+*\ \(kopia\)*
+*\ copy.*
+/npm
+/~
+~/Downloads/
+
+# Firebase emulator export (testdata, ej källa)
+exportedData/
 
 # Cursor / agent tooling (lokal, ej repo)
 .agents/

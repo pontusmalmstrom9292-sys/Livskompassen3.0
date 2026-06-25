@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { clsx } from 'clsx';
-import { CalendarDays, Landmark, LayoutGrid, PenLine, Inbox, Vault } from 'lucide-react';
+import { CalendarDays, Landmark, LayoutGrid, PenLine, Inbox, Users, Vault } from 'lucide-react';
 import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
 import { FyrenProgressRing } from '../ui/FyrenProgressRing';
 import { ExecutiveDecorCompass } from '../ui/executive/ExecutiveDecorCompass';
@@ -128,7 +128,7 @@ export function ExecutiveDockBar({
       </ExecDockSide>
 
       <ExecDockSide label="Familj" active={isFamiljen} onClick={onFamiljen}>
-        <DrawerL2Icon hubId="familjen" className="exec-dock-bar__glyph exec-dock-bar__glyph--l2" />
+        <Users className="exec-dock-bar__glyph" strokeWidth={1.5} />
       </ExecDockSide>
 
       <div className="exec-dock-bar__compass-slot">
@@ -160,7 +160,7 @@ export function ExecutiveDockBar({
         </button>
       </div>
 
-      <ExecDockSide label="Hjärtat" active={isHjartat} onClick={onVentil}>
+      <ExecDockSide label="Mentil" active={isHjartat} onClick={onVentil}>
         <Landmark className="exec-dock-bar__glyph" strokeWidth={1.5} />
       </ExecDockSide>
 

@@ -1,3 +1,20 @@
+## YOLO hosting-deploy — Fas 24 gate (2026-06-25, kväll)
+
+| Fält | Värde |
+|------|-------|
+| Uppdrag | Beslutsstöd + YOLO-vakt → hosting-deploy efter Pontus OK |
+| Commit | `d86f1885a` (executive hero + HomeLayoutA calm-cards) |
+| `npm run smoke:predeploy:build` | **PASS** (functions tsc + vite build + tier1 + e2e-locked-ux 10/10) |
+| Sacred check | **PASS** — inga ändringar i `firestore.rules`, `sharedRules.ts`, WORM |
+| YOLO-vakt | **GO** (hosting-only) |
+| `git push origin main` | **PASS** — redan synkad |
+| `firebase deploy --only hosting` | **PASS** — 300 filer |
+| **Live** | https://gen-lang-client-0481875058.web.app |
+| USER efter deploy | `Cmd+Shift+R` · executive header/dock · Hamn kopiera+rensa · Fyren silo-labels · G85 daily driver (7d kvar) |
+| Nästa bygg | **23D** Paralys-Brytaren P3 → **23E** Tyst läge |
+
+---
+
 ## Fas 23E hosting-deploy (2026-06-25)
 
 | Fält | Värde |

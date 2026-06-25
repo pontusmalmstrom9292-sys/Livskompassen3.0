@@ -399,6 +399,44 @@
     }
   }
 
+  /* Valvet desktop — bredare layout på lg/xl/2xl (Pontus mål: webbapp för dator). */
+  @media (min-width: 1024px) {
+    .app-main:has(.valvet-route-page--desktop) {
+      max-width: 80rem;
+    }
+
+    .valvet-route-page--desktop .module-shell__stack {
+      max-width: none;
+    }
+
+    .valvet-route-page--desktop .valv-samla-filter-row {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      background: linear-gradient(
+        to bottom,
+        color-mix(in srgb, var(--surface) 92%, transparent) 0%,
+        color-mix(in srgb, var(--surface) 80%, transparent) 100%
+      );
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .app-main:has(.valvet-route-page--desktop) {
+      max-width: 90rem;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .app-main:has(.valvet-route-page--desktop) {
+      max-width: 100rem;
+    }
+  }
+
   /* —— Liv launcher — stora kort (Fas 2) —— */
   .liv-launcher-grid {
     display: grid;
@@ -902,5 +940,13 @@
 
   .home-page--layout-a.home-page--scenic {
     background-image: radial-gradient(ellipse 90% 45% at 50% -5%, rgba(212, 175, 55, 0.05), transparent 55%);
+  }
+
+  /* Hem — planering panel (Figma Make mock) */
+  .home-planering-panel__tabs .btn-pill--ghost[aria-selected='true'] {
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    color: var(--accent);
+    box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--accent) 55%, transparent);
   }
 }
