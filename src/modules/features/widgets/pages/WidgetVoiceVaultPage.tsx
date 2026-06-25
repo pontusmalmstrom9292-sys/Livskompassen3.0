@@ -1,8 +1,13 @@
 import { AuthGate } from '@/core/auth/AuthGate';
 import { QuickCapturePanel } from '@/features/voiceToVault/components/QuickCapturePanel';
+import { useQuickCaptureStore } from '@/features/voiceToVault/store/useQuickCaptureStore';
 import { WidgetShell } from '../layout/WidgetShell';
+import { useWidgetShellClear } from '../context/widgetShellContext';
 
 function WidgetVoiceVaultInner() {
+  const resetCapture = useQuickCaptureStore((s) => s.reset);
+  useWidgetShellClear(resetCapture);
+
   return (
     <WidgetShell
       title="Bevis-röst"

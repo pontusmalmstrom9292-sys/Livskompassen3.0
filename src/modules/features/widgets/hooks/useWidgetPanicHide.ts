@@ -13,7 +13,9 @@ export function useWidgetPanicHide(onBeforeHide?: () => void) {
     useStore.getState().setActiveDrawer(null);
     sessionStorage.removeItem('livskompassen_recovery_sos_session');
     sessionStorage.removeItem('livskompassen_recovery_reality_draft');
-    sessionStorage.removeItem(WIDGET_SILO_STORAGE_KEY);
-    navigate('/', { replace: true });
+  sessionStorage.removeItem(WIDGET_SILO_STORAGE_KEY);
+  sessionStorage.removeItem('widget_recording_ethics_accepted');
+  localStorage.removeItem('widget_recording_ethics_accepted');
+  navigate('/', { replace: true });
   }, [navigate, onBeforeHide]);
 }

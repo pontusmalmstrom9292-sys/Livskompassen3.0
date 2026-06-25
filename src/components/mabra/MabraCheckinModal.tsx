@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { X, Smile, Zap } from 'lucide-react';
 import { useMabraStore } from '@/modules/features/dailyLife/wellbeing/mabra/store/mabraStore';
 import { useStore } from '@/core/store';
 import { toast } from '@/modules/core/store/toastStore';
+import { shouldRedirectMabraCoachToSpeglar } from '@/modules/features/dailyLife/wellbeing/mabra/lib/mabraCoachGuard';
+import { MABRA_SPEGLAR_GUARD_COPY } from '@/modules/features/dailyLife/wellbeing/mabra/constants';
 
 interface MabraCheckinModalProps {
   isOpen: boolean;
@@ -22,6 +25,7 @@ export function MabraCheckinModal({
   const [mood, setMood] = useState(5);
   const [notes, setNotes] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [speglarRedirect, setSpeglarRedirect] = useState(false);
 
   const user = useStore((s) => s.user);
   const saveMabraCheckIn = useMabraStore((s) => s.saveMabraCheckIn);
@@ -32,6 +36,11 @@ export function MabraCheckinModal({
   const handleSave = async () => {
     if (!user?.uid) {
       toast.error('Du måste vara inloggad för att spara incheckningen.');
+      return;
+    }
+
+    if (notes.trim() && shouldRedirectMabraCoachToSpeglar(notes)) {
+      setSpeglarRedirect(true);
       return;
     }
 
@@ -143,12 +152,36 @@ export function MabraCheckinModal({
             </label>
             <textarea
               value={notes}
-              onChange={(e) => setNotes(e.target.value)}
+              onChange={(e) => {
+                setNotes(e.target.value);
+                if (speglarRedirect) setSpeglarRedirect(false);
+              }}
               placeholder="Hur känns det just nu? Vad tar din energi?"
               rows={3}
               className="w-full p-3 text-sm rounded-xl bg-surface/60 border border-border/20 text-white placeholder-text-dim focus:outline-none focus:border-accent/40 focus:ring-1 focus:ring-accent/40 resize-none transition-colors"
             />
           </div>
+
+          {speglarRedirect ? (
+            <div
+              className="rounded-xl border border-accent/25 bg-surface/40 p-3 text-xs text-text-muted"
+              role="status"
+            >
+              <p>{MABRA_SPEGLAR_GUARD_COPY.message}</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <Link to="/hjartat?tab=speglar" className="btn-pill--accent text-xs">
+                  {MABRA_SPEGLAR_GUARD_COPY.goLabel}
+                </Link>
+                <button
+                  type="button"
+                  className="btn-pill--ghost text-xs"
+                  onClick={() => setSpeglarRedirect(false)}
+                >
+                  {MABRA_SPEGLAR_GUARD_COPY.stayLabel}
+                </button>
+              </div>
+            </div>
+          ) : null}
         </div>
 
       <div className={`flex justify-end gap-3 ${isInline ? 'mt-6' : 'mt-8'}`}>

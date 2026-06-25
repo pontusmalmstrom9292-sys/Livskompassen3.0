@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
 import { AuthGate } from '@/core/auth/AuthGate';
@@ -6,6 +6,7 @@ import { saveChildrenLog } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
 import { CHILD_ALIASES, type ChildAlias } from '@/features/family/children/constants';
 import { WidgetShell } from '../layout/WidgetShell';
+import { useWidgetShellClear } from '../context/widgetShellContext';
 
 function WidgetFamiljenInner() {
   const user = useStore((s) => s.user);
@@ -14,6 +15,14 @@ function WidgetFamiljenInner() {
   const [saving, setSaving] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const resetForm = useCallback(() => {
+    setText('');
+    setDone(false);
+    setError(null);
+  }, []);
+
+  useWidgetShellClear(resetForm);
 
   const handleSave = async () => {
     if (!user || !text.trim()) return;
@@ -46,7 +55,7 @@ function WidgetFamiljenInner() {
           <button
             type="button"
             className="btn-pill--ghost mt-2 w-full text-xs"
-            onClick={() => setDone(false)}
+            onClick={resetForm}
           >
             Ny rad
           </button>

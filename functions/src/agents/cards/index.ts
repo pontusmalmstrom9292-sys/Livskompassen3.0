@@ -279,7 +279,7 @@ export type SupervisorRoute = {
   intent: string;
 };
 
-/** DCAP → deterministisk agent + intent (KompisSupervisor använder executorId) */
+/** DCAP → deterministisk agent + intent — Fas S24: 4 band (0–29 / 30–49 / 50–69 / 70+). */
 export function routeFromDcap(
   riskScore: number,
   recommendedAction: 'NONE' | 'COACHING' | 'ALERT'
@@ -291,11 +291,18 @@ export function routeFromDcap(
       intent: 'generateGreyRockResponse',
     };
   }
-  if (recommendedAction === 'COACHING' || riskScore >= 30) {
+  if (riskScore >= 50) {
     return {
       productAgentId: GransArkitektenCard.metadata.id,
       executorId: EXECUTOR_AGENT_IDS.gransArkitekten,
       intent: 'analyzeCommunication',
+    };
+  }
+  if (riskScore >= 30 || recommendedAction === 'COACHING') {
+    return {
+      productAgentId: SpeglingsCoachenCard.metadata.id,
+      executorId: EXECUTOR_AGENT_IDS.livsArkivarien,
+      intent: 'mirrorFeeling',
     };
   }
   return {
