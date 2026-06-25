@@ -4,7 +4,9 @@ import { createGenAI } from '../lib/genaiClient';
 import { GEMINI_PRO } from '../lib/modelRouter';
 import { createWeaverPending } from '../lib/weaverPending';
 
-const ai = createGenAI();
+function getAi() {
+  return createGenAI();
+}
 
 export type ThreatLevel = 'none' | 'low' | 'medium' | 'high';
 
@@ -50,7 +52,7 @@ Returnera JSON:
 {"emotions":["..."],"actors":["..."],"threatLevel":"none|low|medium|high","threatScore":0,"ragAnchors":[{"source":"journal|reality_vault","docId":"...","excerpt":"..."}]}`;
 
   try {
-    const response = await ai.models.generateContent({
+    const response = await getAi().models.generateContent({
       model: GEMINI_PRO,
       contents: prompt,
       config: {

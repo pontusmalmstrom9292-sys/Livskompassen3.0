@@ -8,6 +8,7 @@ import {
   dismissInbox,
   fetchInboxQueue,
   type InboxQueueItem,
+  type InboxRouting,
 } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import { createPlanningTask } from '@/features/admin/planning/api/planningTasksApi';
 import { usePlanningEmailRules } from '@/features/admin/planning/hooks/usePlanningEmailRules';
@@ -39,6 +40,47 @@ import {
   inboxReviewQueueRoutingLine,
   isProposedRoutingButton,
 } from '../inboxReviewQueueCopy';
+import { UnifiedHitlPreview } from './UnifiedHitlPreview';
+import { ROUTING_LABELS } from '../api/inkastService';
+import {
+  INKAST_SILO_DESCRIPTIONS,
+  INKAST_SILO_LABELS,
+  routingToUiSilo,
+} from '../constants/inkastSiloOptions';
+import { highlightPatterns } from '@/features/lifeJournal/evidence/vault/utils/vaultPatternHighlight';
+
+type InboxConfirmRouting = 'kunskap' | 'bevis' | 'barnen' | 'dagbok';
+
+function inboxProposedConfirmAction(
+  item: InboxQueueItem,
+): { type: 'routing'; routing: InboxConfirmRouting } | { type: 'planering' } | { type: 'manual' } {
+  if (isPlaneringInboxItem(item)) return { type: 'planering' };
+  const routing = item.proposedRouting;
+  if (routing === 'bevis' || routing === 'dagbok' || routing === 'kunskap' || routing === 'barnen') {
+    return { type: 'routing', routing };
+  }
+  return { type: 'manual' };
+}
+
+function inboxUiSiloLabel(item: InboxQueueItem): string {
+  if (isPlaneringInboxItem(item)) return 'Planering (Handling)';
+  const routing = item.proposedRouting as keyof typeof ROUTING_LABELS;
+  return ROUTING_LABELS[routing] ?? 'Granska manuellt';
+}
+
+function inboxUiSiloHint(item: InboxQueueItem): string | undefined {
+  if (isPlaneringInboxItem(item)) return INKAST_SILO_LABELS.planering;
+  const routing = item.proposedRouting as InboxRouting;
+  if (routing === 'review' || routing === 'planning') return undefined;
+  return INKAST_SILO_LABELS[routingToUiSilo(routing)];
+}
+
+function inboxUiSiloDescription(item: InboxQueueItem): string | undefined {
+  if (isPlaneringInboxItem(item)) return INKAST_SILO_DESCRIPTIONS.planering;
+  const routing = item.proposedRouting as InboxRouting;
+  if (routing === 'review' || routing === 'planning') return undefined;
+  return INKAST_SILO_DESCRIPTIONS[routingToUiSilo(routing)];
+}
 
 type Props = {
   compact?: boolean;
@@ -77,6 +119,7 @@ export function InboxReviewQueue({
   const [barnenBridge, setBarnenBridge] = useState<InkastBarnenBridgePayload | null>(null);
   const [dagbokWeave, setDagbokWeave] = useState<InkastDagbokWeavePayload | null>(null);
   const [handlingLink, setHandlingLink] = useState(false);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const load = useCallback(async () => {
     if (!isAuthenticated) return;
@@ -281,8 +324,14 @@ export function InboxReviewQueue({
             key={item.id}
             className="rounded-lg border border-border/60 bg-surface/40 px-3 py-3 text-sm"
           >
-            <p className="font-medium text-text">{item.fileName}</p>
-            <div className="mt-1 flex flex-wrap items-center gap-2">
+            <p className="font-medium leading-relaxed text-text">
+              {highlightPatterns(item.fileName).map((span, i) => (
+                <span key={i} className={span.className}>
+                  {span.text}
+                </span>
+              ))}
+            </p>
+            <div className="mt-2 flex flex-wrap items-center gap-2">
               <span
                 className={`inline-block ${inboxQueueStatusBadgeClass(inboxQueueDisplayStatus(item))}`}
               >
@@ -308,56 +357,97 @@ export function InboxReviewQueue({
                 Planering · kan bli uppgift i Handling
               </p>
             )}
-            <div className="mt-3 flex flex-wrap gap-2">
-              <button
-                type="button"
-                disabled={busyId === item.id}
-                className={routingBtnClass('bevis')}
-                onClick={() => handleConfirm(item, 'bevis')}
-              >
-                → Arkiv
-              </button>
-              <button
-                type="button"
-                disabled={busyId === item.id}
-                className={routingBtnClass('dagbok')}
-                onClick={() => handleConfirm(item, 'dagbok')}
-              >
-                → Dagbok
-              </button>
-              <button
-                type="button"
-                disabled={busyId === item.id}
-                className={routingBtnClass('kunskap')}
-                onClick={() => handleConfirm(item, 'kunskap')}
-              >
-                → Kunskap
-              </button>
-              <button
-                type="button"
-                disabled={busyId === item.id}
-                className={routingBtnClass('barnen')}
-                onClick={() => handleConfirm(item, 'barnen')}
-              >
-                → Barnen
-              </button>
-              <button
-                type="button"
-                disabled={busyId === item.id}
-                className="btn-pill--accent text-xs"
-                onClick={() => void handlePlanering(item)}
-              >
-                → Handling
-              </button>
-              <button
-                type="button"
-                disabled={busyId === item.id}
-                className="btn-pill--ghost text-xs"
-                onClick={() => handleDismiss(item)}
-              >
-                Avvisa
-              </button>
-            </div>
+            {editingId === item.id ? (
+              <div className="mt-3 flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  disabled={busyId === item.id}
+                  className={routingBtnClass('bevis')}
+                  onClick={() => {
+                    void handleConfirm(item, 'bevis').then(() => setEditingId(null));
+                  }}
+                >
+                  → Arkiv
+                </button>
+                <button
+                  type="button"
+                  disabled={busyId === item.id}
+                  className={routingBtnClass('dagbok')}
+                  onClick={() => {
+                    void handleConfirm(item, 'dagbok').then(() => setEditingId(null));
+                  }}
+                >
+                  → Dagbok
+                </button>
+                <button
+                  type="button"
+                  disabled={busyId === item.id}
+                  className={routingBtnClass('kunskap')}
+                  onClick={() => {
+                    void handleConfirm(item, 'kunskap').then(() => setEditingId(null));
+                  }}
+                >
+                  → Kunskap
+                </button>
+                <button
+                  type="button"
+                  disabled={busyId === item.id}
+                  className={routingBtnClass('barnen')}
+                  onClick={() => {
+                    void handleConfirm(item, 'barnen').then(() => setEditingId(null));
+                  }}
+                >
+                  → Barnen
+                </button>
+                <button
+                  type="button"
+                  disabled={busyId === item.id}
+                  className="btn-pill--accent text-xs"
+                  onClick={() => {
+                    void handlePlanering(item).then(() => setEditingId(null));
+                  }}
+                >
+                  → Handling
+                </button>
+                <button
+                  type="button"
+                  disabled={busyId === item.id}
+                  className="btn-pill--ghost text-xs"
+                  onClick={() => setEditingId(null)}
+                >
+                  Tillbaka
+                </button>
+              </div>
+            ) : (
+              <div className="mt-3">
+                <UnifiedHitlPreview
+                  hitlBadge={inboxReviewQueueHitlBadge(item)}
+                  siloLabel={inboxUiSiloLabel(item)}
+                  siloHint={inboxUiSiloHint(item)}
+                  siloDescription={inboxUiSiloDescription(item)}
+                  confidencePct={Math.round(
+                    (typeof item.confidence === 'number' ? item.confidence : 0) * 100,
+                  )}
+                  summary={item.summary}
+                  busy={busyId === item.id}
+                  onConfirm={() => {
+                    const action = inboxProposedConfirmAction(item);
+                    if (action.type === 'routing') {
+                      void handleConfirm(item, action.routing);
+                      return;
+                    }
+                    if (action.type === 'planering') {
+                      void handlePlanering(item);
+                      return;
+                    }
+                    setEditingId(item.id);
+                  }}
+                  onEdit={() => setEditingId(item.id)}
+                  onDismiss={() => void handleDismiss(item)}
+                  panelClass="bg-surface/30"
+                />
+              </div>
+            )}
           </li>
           );
         })}

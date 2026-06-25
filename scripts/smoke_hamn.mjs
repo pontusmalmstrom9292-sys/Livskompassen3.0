@@ -35,6 +35,7 @@ function main() {
     'HAMN_GREY_ROCK_LEAD',
     'HAMN_BRUSFILTER_HINT',
     'HAMN_TAKTIK_LEXIKON_LEAD',
+    'HAMN_POST_COPY_CALM',
     'Zero Footprint',
   );
   mustInclude(
@@ -44,6 +45,9 @@ function main() {
     'Visa Grey Rock-svar',
     'triageReady',
     'handleKlar',
+    'handleCopyReply',
+    'HAMN_POST_COPY_CALM',
+    'Klar — rensa',
     'sourceModule: \'hamn_biff\'',
     'detectHamnTaktikSignal',
     'HamnTaktikLexikonBro',

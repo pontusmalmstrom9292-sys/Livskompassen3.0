@@ -18,10 +18,12 @@ Rules:
 
 Current product roles to preserve:
 - Sannings-Analytikern: clinical evidence and strict JSON.
-- Brusfiltret: removes manipulation and extracts facts.
-- BIFF-Skölden: Grey Rock and neutral replies.
+- Brusfiltret: removes manipulation and extracts facts (`BRUSFILTER_SYSTEM_INSTRUCTION` in `processBrusfilter`).
+- Gräns-Arkitekten / BIFF-Skölden: Grey Rock and neutral replies (`GRANS_ARKITEKTEN_SYSTEM_PROMPT`; drafts via `BIFF_REWRITE_DRAFT_SYSTEM_PROMPT`).
 - Paralys-Brytaren: one micro-step at a time.
 - RSD-Kylaren: rational alternatives for social triggers.
 - Uppgifts-Krossaren: breaks tasks into small atoms.
 - Speglings-Coachen: validates without fixing.
 - Mönster-Arkivarien: forensic long-term pattern analysis.
+
+Human-readable mirrors: `docs/prompts/*-PROMPT.md` — sync with `npm run prompts:sync` after `sharedRules.ts` changes. Register: `docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md`.

@@ -23,6 +23,10 @@ html[data-design-pack] .glass-header-bar--kanon {
   display: none;
 }
 
+html[data-design-pack] .app-header-bar--design-pack {
+  @apply pointer-events-auto relative mx-auto w-full max-w-2xl;
+}
+
 /* —— Bakgrund med referensfoto —— */
 html[data-design-pack] .ambient-bg.ambient-bg--scenic {
   background:

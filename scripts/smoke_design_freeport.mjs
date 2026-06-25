@@ -36,6 +36,7 @@ function main() {
     'tactile-cold',
     'tactile-slate',
     'tactile-obsidian',
+    'executive-premium',
     '--fp-accent',
     '--fp-elevation-2',
     '--fp-inset-top',
@@ -52,6 +53,7 @@ function main() {
     'DesignFreeportPage',
     'FreeportHemV3Lab',
     'FreeportFptiRefLab',
+    'FreeportPremiumScreensLab',
     'FreeportSuperhubPlayground',
     'FreeportPlaneringHub',
     'FreeportHjartatHub',
@@ -60,9 +62,33 @@ function main() {
     'FreeportChromeShell',
     'loadFreeportTheme',
     'Hem (Modell A)',
+    'Executive Premium',
     'fpti-ref',
+    'premium',
   );
-  mustInclude('src/modules/sandbox/freeportThemes.ts', 'tactile-slate', 'tactile-obsidian', 'Skiffer sammet');
+  mustInclude('src/modules/sandbox/freeportThemes.ts', 'tactile-slate', 'tactile-obsidian', 'executive-premium', 'Executive Premium');
+  mustInclude(
+    'src/modules/sandbox/components/FreeportPremiumScreensLab.tsx',
+    'FreeportPremiumScreensLab',
+    'PREMIUM_SCREENS',
+    'FreeportValvetLab',
+    'FreeportBarnfokusLab',
+    'FreeportKanbanLab',
+    'FreeportInkorgLab',
+    'FreeportCheckinLab',
+    'FreeportMonsterLab',
+    'design-freeport__premium-gallery',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/premium/CalmCard.tsx',
+    'design-freeport__premium-calm-card',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/premium/PremiumCard.tsx',
+    'design-freeport__premium-card',
+  );
+  mustInclude('e2e/freeport-premium-gallery.spec.ts', 'executive-premium', 'freeport-premium');
+  mustInclude('scripts/capture_freeport_premium_gallery.mjs', 'capture:freeport-premium');
   mustInclude(
     'src/modules/sandbox/components/FreeportHemV3Lab.tsx',
     'FreeportModellAPhoneShell',
@@ -70,7 +96,7 @@ function main() {
     'compassLinked',
     'Hem Modell A',
     'exec-compass-module',
-    'FreeportModellADock',
+    'FreeportHybridDock',
   );
   mustInclude(
     'src/modules/sandbox/components/FreeportModellADock.tsx',
@@ -107,12 +133,26 @@ function main() {
   mustInclude(
     'src/modules/sandbox/components/FreeportEkonomiLab.tsx',
     'FreeportEkonomiLab',
-    'Månadsöversikt',
+    'Översikt',
   );
   mustInclude(
     'src/modules/sandbox/components/FreeportResurserLab.tsx',
     'FreeportResurserLab',
     'Resurser',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/FreeportHybridDock.tsx',
+    'FreeportHybridDock',
+    'hybrid-dock',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/FreeportResurserOverlay.tsx',
+    'FreeportResurserOverlay',
+  );
+  mustInclude(
+    'src/modules/sandbox/components/FreeportHemLab.tsx',
+    'FreeportHemLab',
+    'Dagens ankare',
   );
   mustInclude(
     'src/modules/sandbox/components/FreeportDagbokLab.tsx',
@@ -145,6 +185,11 @@ function main() {
     'fpti-ref',
     'snabb-panel',
     'modell-a-dock',
+    'hybrid-dock',
+    'resurser-overlay',
+    'exec-honeycomb',
+    'design-freeport__premium-gallery',
+    'executive-premium',
   );
   mustInclude(
     'src/modules/sandbox/freeportZones.ts',
@@ -233,12 +278,12 @@ function main() {
   );
 
   const page = read('src/modules/sandbox/DesignFreeportPage.tsx');
-  for (const tab of ['hem', 'hjartat', 'mabra', 'familjen', 'planering', 'live', 'fpti-ref']) {
+  for (const tab of ['hem', 'hjartat', 'mabra', 'familjen', 'planering', 'live', 'fpti-ref', 'premium']) {
     assert(page.includes(tab), `DesignFreeportPage saknar flik: ${tab}`);
   }
 
   const fptiRef = read('src/modules/sandbox/components/FreeportFptiRefLab.tsx');
-  for (const screen of ['ekonomi', 'resurser', 'dagbok', 'installningar']) {
+  for (const screen of ['hem', 'ekonomi', 'resurser', 'dagbok', 'installningar']) {
     assert(fptiRef.includes(screen), `FreeportFptiRefLab saknar mock-skärm: ${screen}`);
   }
 
@@ -249,7 +294,7 @@ function main() {
     'design-freeport ska ligga utanför MainLayout',
   );
 
-  console.log('[smoke:design-freeport] PASS — Modell A kanon + FP-TI ref + hubs + chameleon.');
+  console.log('[smoke:design-freeport] PASS — Modell A kanon + Executive Premium gallery + hubs + chameleon.');
 }
 
 try {

@@ -11,7 +11,6 @@ figma.connect(
         Idle: false,
         Active: true,
       }),
-      tileVariant: figma.constant('calm'),
       icon: figma.instance('Icon'),
     },
     example: ({ label, active, icon }) => (

@@ -3,6 +3,9 @@ name: livskompassen-arkiv-master
 description: Editorial review of Hela arkivet / Life OS memory architecture. Use for cross-module memory, permanent minne, three silos, Dossier vs RAG, or final review before merge.
 ---
 
+> **Register:** `docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md` · Runtime-prompter: `npm run prompts:sync`
+
+
 # Livskompassen — Arkiv Master
 
 ## Canonical sources (read first)

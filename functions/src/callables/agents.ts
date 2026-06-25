@@ -16,6 +16,7 @@ import { approveWeaverPending, rejectWeaverPending } from '../lib/weaverPending'
 import { adkOrchestrator, listAgentCards } from '../adk';
 import type { MicroStep } from '../adk/types';
 import { emitSynapse } from '../adk/synapses/synapseBus';
+import { geminiApiKey } from '../lib/geminiSecret';
 import {
   generatePayslipInternal,
   generatePayslipsForAllProfiles,
@@ -58,7 +59,7 @@ function invalidBankIdError(message: string): HttpsError {
 }
 
 export const analyzeMessage = onCall(
-  { region: 'europe-west1' },
+  { region: 'europe-west1', secrets: [geminiApiKey] },
   async (request) => {
     const uid = await guardSensitiveCallableV2(request, 'analyzeMessage', 30);
 
@@ -251,7 +252,7 @@ export const rejectWeaverMetadata = onCall(
 );
 
 export const journalWovenToKampspar = onCall(
-  { region: 'europe-west1' },
+  { region: 'europe-west1', secrets: [geminiApiKey] },
   async (request) => {
     const uid = await guardSensitiveCallableV2(request, 'journalWovenToKampspar', 10);
 
@@ -337,33 +338,6 @@ export const compareVaultEvidence = onCall(
     let docs = vaultSnap.docs
       .map((d) => ({ id: d.id, ...(d.data() as any) }))
       .filter((d) => d.category !== 'vävaren_metadata');
-
-    try {
-      const { generateEmbeddingInternal } = await import('../lib/generateEmbeddingInternal');
-      const { queryVaultVectorNeighbors } = await import('../lib/vectorSearchClient');
-      
-      const embedding = await generateEmbeddingInternal(searchText);
-      if (embedding.length > 0) {
-        const neighborIds = await queryVaultVectorNeighbors(embedding, 15);
-        if (neighborIds.length > 0) {
-          // Filtrera de docs som matchar ANN (ordnade efter relevans från ANN)
-          const matchedDocs = neighborIds
-            .map((id) => docs.find((d) => d.id === id))
-            .filter(Boolean);
-          if (matchedDocs.length > 0) {
-            docs = matchedDocs as any[];
-            return {
-              matches: docs.slice(0, 5).map((log, i) => ({
-                log,
-                score: 10 - i, // Konstgjord score för ANN
-              })),
-            };
-          }
-        }
-      }
-    } catch (err) {
-      console.warn('[compareVaultEvidence] Vector Search fallback:', err);
-    }
 
     // Token-match fallback ifall Vector Search misslyckades eller inga ANN-resultat
     const { matchVaultEvidence } = await import('../lib/vaultRagTokenFallback');

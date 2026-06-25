@@ -45,8 +45,12 @@ function main() {
     'MainLayout.tsx: SosMainTrigger måste vara före {children} i main',
   );
   assert(
-    mainLayout.includes('headerQuickToggle={<FyrenHeaderQuickToggle />}'),
-    'MainLayout.tsx: headerQuickToggle ska vara prop till AppHeaderBar, inte i actions',
+    mainLayout.includes('headerQuickToggle') || mainLayout.includes('headerVariant'),
+    'MainLayout.tsx: headerQuickToggle eller headerVariant (executive premium) måste finnas',
+  );
+  assert(
+    mainLayout.includes("headerVariant={executiveSkin ? 'executive-premium' : 'default'}"),
+    'MainLayout.tsx: executive premium headerVariant saknas',
   );
   assert(
     !/actions=\{[\s\S]*FyrenHeaderQuickToggle/.test(mainLayout),
@@ -60,15 +64,15 @@ function main() {
   mustInclude(
     'src/modules/core/components/AppHeaderBar.tsx',
     'headerQuickToggle?: ReactNode',
-    '{headerQuickToggle}',
+    'headerVariant?:',
+    'centerAction?:',
     'glass-header-bar--kanon',
   );
 
   const appHeader = read('src/modules/core/components/AppHeaderBar.tsx');
-  const kanonBlock = appHeader.slice(appHeader.indexOf('glass-header-bar--kanon'));
   assert(
-    kanonBlock.includes('{headerQuickToggle}'),
-    'AppHeaderBar.tsx: headerQuickToggle måste renderas i glass-header-bar--kanon',
+    appHeader.includes('variant={headerVariant}') && appHeader.includes('centerAction={centerAction}'),
+    'AppHeaderBar.tsx: executive premium props måste vidarebefordras till DesignPackCenterHeader',
   );
 
   mustInclude(
@@ -85,7 +89,29 @@ function main() {
     'fyren-header-quick__toggle-wrap',
   );
 
-  console.log('[smoke:chrome-header] PASS — SOS i main, kompass-toggle i header-bar (C2).');
+  mustInclude(
+    'src/modules/core/design/DesignPackCenterHeader.tsx',
+    'executive-premium',
+    'centerAction',
+    'design-pack-header__actions',
+  );
+
+  mustInclude(
+    'src/modules/core/layout/ExecutiveDockBar.tsx',
+    'ExecutiveDecorCompass',
+    'label="Anteckning"',
+    'label="Mentil"',
+    'exec-dock-bar--mix-e',
+  );
+
+  mustInclude(
+    'src/modules/core/home/executive/homeLayoutPreference.ts',
+    'livskompassen_home_layout',
+    'extended',
+    'mix-e',
+  );
+
+  console.log('[smoke:chrome-header] PASS — SOS i main, executive premium header + dock (C2).');
 }
 
 try {

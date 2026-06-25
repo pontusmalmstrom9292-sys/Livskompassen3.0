@@ -10,6 +10,8 @@ type CalmCollapsibleProps = {
   onOpenChange?: (open: boolean) => void;
   glow?: 'gold' | 'blue' | 'green';
   variant?: 'card' | 'transparent';
+  /** Om true (default) unmountas children när komponenten stängs. Om false döljs de med CSS. */
+  unmountOnHide?: boolean;
   children: ReactNode;
 };
 
@@ -22,6 +24,7 @@ export function CalmCollapsible({
   onOpenChange,
   glow,
   variant = 'transparent',
+  unmountOnHide = true,
   children,
 }: CalmCollapsibleProps) {
   const [internalOpen, setInternalOpen] = useState(defaultOpen);
@@ -55,7 +58,15 @@ export function CalmCollapsible({
         {meta ? <span className="calm-collapsible__meta">{meta}</span> : null}
         <ChevronDown className="calm-collapsible__chevron" aria-hidden />
       </button>
-      {open ? <div className="calm-collapsible__body">{children}</div> : null}
+      {unmountOnHide ? (
+        open ? (
+          <div className="calm-collapsible__body">{children}</div>
+        ) : null
+      ) : (
+        <div className={clsx("calm-collapsible__body", !open && "hidden")}>
+          {children}
+        </div>
+      )}
     </section>
   );
 }

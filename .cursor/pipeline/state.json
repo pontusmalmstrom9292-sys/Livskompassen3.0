@@ -1,14 +1,41 @@
 {
-  "phase": "done",
+  "phase": "fix",
   "attempt": 1,
   "maxAttempts": 5,
   "packages": [
     "backend",
     "ui-design",
     "security",
-    "ai-agents"
+    "ai-agents",
+    "external-ai-handoff",
+    "copilot-sync"
   ],
-  "failures": [],
-  "nextAction": "idle",
+  "failures": [
+    {
+      "label": "Frontend Vite build",
+      "cmd": "npm run build",
+      "status": "FAIL",
+      "durationMs": 14341,
+      "error": "",
+      "stdout": "\n> livskompassen-v2@1.0.0 build\n> tsc -b && vite build\n\nsrc/modules/core/pages/ValvetRoutePage.tsx(17,3): error TS6133: 'parseValvInputModeFromSearch' is declared but its value is never read.\nsrc/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx(18,30): error TS6133: 'canonicalValvRoute' is declared but its value is never read.\n"
+    },
+    {
+      "label": "Pre-deploy smoke gate",
+      "cmd": "npm run smoke:predeploy",
+      "status": "FAIL",
+      "durationMs": 102353,
+      "error": "11:59:54 AM [vite] warning: `esbuild` option was specified by \"vite:react-babel\" plugin. This option is deprecated, please use `oxc` instead.\n`optimizeDeps.rollupOptions` / `ssr.optimizeDeps.rollupOptions` is deprecated. Use `optimizeDeps.rolldownOptions` instead. Note that this option may be set by a plugin. Set VITE_DEPRECATION_TRACE=1 to see where it is called.\nBoth esbuild and oxc options were set. oxc options will be used and esbuild options will be ignored. The following esbuild options were set: `{ jsx: 'automatic', jsxImportSource: undefined }`\n[vite:react-babel] We recommend switching to `@vitejs/plugin-react-oxc` for improved performance. More information at https://vite.dev/rolldown\n[smoke:e2e-locked-ux] FAIL — playwright test\n",
+      "stdout": "\n> livskompassen-v2@1.0.0 smoke:predeploy\n> npm run smoke:tier1 && npm run smoke:valv-security && npm run smoke:plausible-deniability && npm run smoke:locked-icons && npm run smoke:barn-epistemik && npm run smoke:epistemic-guard && npm run smoke:dcap-routing && npm run smoke:e2e-locked-ux\n\n\n> livskompassen-v2@1.0.0 smoke:tier1\n> npm run smoke:locked-ux && npm run smoke:design-modules && npm run smoke:manifest && npm run smoke:functions-pin && npm run smoke:orkester && npm run smoke:agents-ui && npm run smoke:innehall && npm run smoke:mdc && npm run smoke:adaptation && npm run smoke:synapse-triggers && npm run smoke:inkast-upload && npm run smoke:weaver-hitl && npm run smoke:biff-rewrite && npm run smoke:prompts\n\n\n> livskompassen-v2@1.0.0 smoke:locked-ux\n> node scripts/smoke_locked_ux.mjs\n\n[smoke:obsidian-depth] PASS — låst 3D-skalet, theme pack, mockup, kanonbilder.\n[smoke:locked-ux] PASS — Barnfokus, Valv-baksida (Mönster/Orkester/Kunskapsbank), drawer Vardag+Valv, Planering, Widget, Barnporten.\n[smoke:chrome-header] PASS — SOS i main, kompass-toggle i header-bar (C2).\n[smoke:auth-login] PASS — AUTH-G1 Google web login låst (popup, firebaseapp.com, boot redirect).\n\n> livskompassen-v2@1.0.0 smoke:design-modules\n> node scripts/smoke_design_modules.mjs\n\n[smoke:design-modules] Modulväljare rollout...\n[smoke:design-modules] Adaptiv Hemkompass...\n[smoke:design-modules] Module help (?-widget)…\n[smoke:design-modules] Shared module shell…\n[smoke:design-modules] Fas 19.3 zone hub tokens…\n[smoke:design-modules] Fas 22 hex→tokens P0…\n[smoke:design-modules] Fas 24 hex→tokens P2…\nsmoke:design-modules PASS\n\n> livskompassen-v2@1.0.0 smoke:manifest\n> node scripts/smoke_manifest_violation.mjs\n\n[smoke:manifest] Static wiring — firestore + VaultService guards...\n[smoke:manifest] U1 — silo-isolated domains must have empty allowedCrossReads...\n[smoke:manifest] validateSiloIsolationManifest: OK (K/V/F)\n[smoke:manifest] Manifest ↔ firestore.rules WORM alignment (sample)...\n[smoke:manifest] WORM sample alignment: OK\n[smoke:manifest] Isolated runtime — guard violations (no Firestore)...\n[smoke:manifest] assertWorm(reality_vault, update): STOPPAD (OK) — WORM collection \"reality_vault\" forbids update\n[smoke:manifest] VaultService/reality_vault WORM update (assertArchitectureWrite): STOPPAD (OK) — Architecture Violation [WORM_VIOLATION]: WORM collection \"reality_vault\" forbids update\n[smoke:manifest] assertSiloIsolation(kunskap → valv): STOPPAD (OK) — Cross-RAG forbidden: kunskap → valv (U1)\n[smoke:manifest] Cross-silo data path (kunskap → valv via assertArchitectureWrite): STOPPAD (OK) — Architecture Violation [SILO_ISOLATION]: Cross-RAG forbidden: kunskap → valv (U1)\n[smoke:manifest] Allowed write paths: OK (no throw)\n\n[smoke:manifest] PASS — manifest guards stop violations in isolated probes.\n\n> livskompassen-v2@1.0.0 smoke:functions-pin\n> node scripts/smoke_functions_runtime_pin.mjs\n\n[smoke:functions-pin] firebase-functions pin + v1 hybrid…\n[smoke:functions-pin] PASS — firebase-functions 5.1.1 (v5.x pin).\n\n> livskompassen-v2@1.0.0 smoke:orkester\n> node scripts/smoke_orkester_wiring.mjs\n\n[smoke:orkester] SynapseBus handlers...\n[smoke:orkester] journal_woven opt-in...\n[smoke:orkester] dcap_alert WORM...\n[smoke:orkester] Supervisor → dcap_alert...\n[smoke:orkester] Dagbok frontend weave...\n[smoke:orkester] Valv-zoner...\n[smoke:orkester] Arbetsliv hub...\n[smoke:orkester] Orkester UI registry...\n[smoke:orkester] Specialist agents + conductor...\n[smoke:orkester] Innehållskanon U6...\n[smoke:orkester] Capacitor Google auth (Android)...\n[smoke:orkester] functions build...\n[smoke:orkester] PASS\n\n> livskompassen-v2@1.0.0 smoke:agents-ui\n> node scripts/smoke_agents_ui.mjs\n\n[smoke:agents-ui] Shared agents module...\n[smoke:agents-ui] Valv Orkester wiring...\n[smoke:agents-ui] Valv Sök P1...\n[smoke:agents-ui] Backend callable...\n[smoke:agents-ui] Unit tests...\n\n\u001b[1m\u001b[30m\u001b[46m RUN \u001b[49m\u001b[39m\u001b[22m \u001b[36mv4.1.9 \u001b[39m\u001b[90m/Users/Livskompassen/StudioProjects/Livskompassen3"
+    },
+    {
+      "label": "npm run smoke:predeploy",
+      "cmd": "npm run smoke:predeploy",
+      "status": "FAIL",
+      "durationMs": 1967,
+      "error": "file:///Users/Livskompassen/StudioProjects/Livskompassen3.0/scripts/smoke_design_modules.mjs:13\n  if (!condition) throw new Error(`${rel}: ${message}`);\n                        ^\n\nError: src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx: saknar: canonicalValvRoute\n    at assert (file:///Users/Livskompassen/StudioProjects/Livskompassen3.0/scripts/smoke_design_modules.mjs:13:25)\n    at mustInclude (file:///Users/Livskompassen/StudioProjects/Livskompassen3.0/scripts/smoke_design_modules.mjs:26:5)\n    at main (file:///Users/Livskompassen/StudioProjects/Livskompassen3.0/scripts/smoke_design_modules.mjs:151:3)\n    at file:///Users/Livskompassen/StudioProjects/Livskompassen3.0/scripts/smoke_design_modules.mjs:545:1\n    at ModuleJob.run (node:internal/modules/esm/module_job:437:25)\n    at async node:internal/modules/esm/loader:639:26\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)\n\nNode.js v24.15.0\n",
+      "stdout": "\n> livskompassen-v2@1.0.0 smoke:predeploy\n> npm run smoke:tier1 && npm run smoke:valv-security && npm run smoke:plausible-deniability && npm run smoke:locked-icons && npm run smoke:barn-epistemik && npm run smoke:epistemic-guard && npm run smoke:dcap-routing && npm run smoke:e2e-locked-ux\n\n\n> livskompassen-v2@1.0.0 smoke:tier1\n> npm run smoke:locked-ux && npm run smoke:design-modules && npm run smoke:manifest && npm run smoke:functions-pin && npm run smoke:orkester && npm run smoke:agents-ui && npm run smoke:innehall && npm run smoke:mdc && npm run smoke:adaptation && npm run smoke:synapse-triggers && npm run smoke:inkast-upload && npm run smoke:weaver-hitl && npm run smoke:biff-rewrite && npm run smoke:prompts\n\n\n> livskompassen-v2@1.0.0 smoke:locked-ux\n> node scripts/smoke_locked_ux.mjs\n\n[smoke:obsidian-depth] PASS — låst 3D-skalet, theme pack, mockup, kanonbilder.\n[smoke:locked-ux] PASS — Barnfokus, Valv-baksida (Mönster/Orkester/Kunskapsbank), drawer Vardag+Valv, Planering, Widget, Barnporten.\n[smoke:chrome-header] PASS — SOS i main, kompass-toggle i header-bar (C2).\n[smoke:auth-login] PASS — AUTH-G1 Google web login låst (popup, firebaseapp.com, boot redirect).\n\n> livskompassen-v2@1.0.0 smoke:design-modules\n> node scripts/smoke_design_modules.mjs\n\n"
+    }
+  ],
+  "nextAction": "read_fix_brief",
   "pmirHits": []
 }

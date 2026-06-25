@@ -1,7 +1,6 @@
 import * as admin from 'firebase-admin';
 
 import { generateEmbeddingInternal } from './generateEmbeddingInternal';
-import { isVectorSearchConfigured, queryKampsparVectorNeighbors } from './vectorSearchClient';
 
 function truncate(text: string, max = 120): string {
   return text.length <= max ? text : `${text.slice(0, max)}…`;
@@ -39,31 +38,59 @@ async function fetchFirestoreRag(uid: string): Promise<string[]> {
   return lines;
 }
 
-/** Vector Search ANN för Vävaren — fallback tom om endpoint ej live. */
+/** Vector Search ANN för Vävaren — via Firestore Native Vector Search. */
 async function fetchVectorRagExcerpts(uid: string, text: string): Promise<string[]> {
-  if (!isVectorSearchConfigured()) return [];
-
   try {
     const embedding = await generateEmbeddingInternal(text);
-    const docIds = await queryKampsparVectorNeighbors(embedding, 5);
-    if (docIds.length === 0) return [];
+    if (embedding.length === 0) return [];
 
     const db = admin.firestore();
-    const lines: string[] = [];
-    for (const id of docIds) {
-      const snap = await db.collection('kampspar').doc(id).get();
-      if (!snap.exists) continue;
-      const data = snap.data()!;
-      if (data.ownerId !== uid && data.userId !== uid) continue;
-      lines.push(`[kampspar:${id}] ${truncate(String(data.content ?? data.text ?? ''))}`);
+    const limit = 5;
+
+    // Sök i kampspar
+    const kampsparSnap = await db.collection('kampspar')
+      .where('ownerId', '==', uid)
+      .findNearest('embedding', admin.firestore.FieldValue.vector(embedding), {
+        limit: limit,
+        distanceMeasure: 'COSINE',
+        distanceResultField: 'vectorDistance'
+      } as any)
+      .get();
+
+    // Sök i kb_docs
+    const kbSnap = await db.collection('kb_docs')
+      .where('ownerId', '==', uid)
+      .findNearest('embedding', admin.firestore.FieldValue.vector(embedding), {
+        limit: limit,
+        distanceMeasure: 'COSINE',
+        distanceResultField: 'vectorDistance'
+      } as any)
+      .get();
+
+    const results: Array<{ distance: number, line: string }> = [];
+
+    for (const doc of kampsparSnap.docs) {
+      const data = doc.data();
+      const dist = data.vectorDistance ?? Number.MAX_VALUE;
+      const line = `[kampspar:${doc.id}] ${truncate(String(data.content ?? data.text ?? ''))}`;
+      results.push({ distance: dist, line });
     }
-    return lines;
+
+    for (const doc of kbSnap.docs) {
+      const data = doc.data();
+      const dist = data.vectorDistance ?? Number.MAX_VALUE;
+      const line = `[kb_docs:${doc.id}] ${truncate(String(data.content ?? data.text ?? ''))}`;
+      results.push({ distance: dist, line });
+    }
+
+    results.sort((a, b) => a.distance - b.distance);
+    return results.slice(0, limit).map(r => r.line);
+
   } catch (err) {
     console.warn('[kampsparRag] ANN misslyckades — Firestore-fallback:', err);
     return [];
   }
 }
-
 /** RAG-kontext för Vävaren: journal + valv + Minne (+ Vector Search stub). */
 export async function fetchWeaverRagContext(uid: string, journalText: string): Promise<string> {
   const firestoreLines = await fetchFirestoreRag(uid);

@@ -1,3 +1,5 @@
+> **Register:** `docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md`
+
 # Livskompassen Integration Hub
 
 Kanon: `docs/external-ai/INTEGRATION-SAFETY-MANIFEST.md`

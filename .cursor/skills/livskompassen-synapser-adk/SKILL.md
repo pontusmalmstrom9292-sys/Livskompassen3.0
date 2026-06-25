@@ -3,6 +3,9 @@ name: livskompassen-synapser-adk
 description: ADK SynapseBus, driveIngestSynapse (G10 multi-silo), journal_woven, dcap_alert, widget_recording_ingested, Zero Footprint synapse state. Use when wiring auto-ingest between modules and Minne.
 ---
 
+> **Register:** `docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md` · Runtime-prompter: `npm run prompts:sync`
+
+
 # Synapser & ADK
 
 ## Scope

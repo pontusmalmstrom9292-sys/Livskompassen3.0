@@ -1,5 +1,6 @@
+import { toast } from '@/modules/core/store/toastStore';
 import { useCallback, useEffect, useState } from 'react';
-import { Clock, Loader2 } from 'lucide-react';
+import { Clock, Loader2, Home } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { MetricTile } from '@/core/ui/MetricTile';
 import { EmptyState } from '@/core/ui/EmptyState';
@@ -89,10 +90,12 @@ export function StampClockPage() {
           kat: created.category,
           dagensTimmar: 0,
         });
+        toast.success(`Stämplade in: ${stampCategory}`);
       } else {
         await recordTimeOut(user.uid, openEntryId ?? undefined);
         setOpenEntryId(null);
         setStatus((s) => ({ ...s, instamplad: false, inTid: '', kat: '' }));
+        toast.info('Välkommen hem 🏡');
       }
       await reload();
     } catch (e) {
@@ -167,10 +170,13 @@ export function StampClockPage() {
                 disabled={busy || !isClockedIn}
                 onClick={() => void stamp('UT')}
                 className={
-                  isClockedIn && !busy ? 'btn-pill--success-solid' : 'btn-pill--ghost opacity-40'
+                  isClockedIn && !busy 
+                    ? 'flex w-full items-center justify-center gap-2 rounded-xl border border-border/40 bg-surface-2/30 px-4 py-3 text-sm text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-2/60 hover:text-text' 
+                    : 'flex w-full items-center justify-center gap-2 rounded-xl border border-border/10 bg-transparent px-4 py-3 text-sm text-text-muted/40'
                 }
               >
-                Stämpla ut
+                <Home className="h-4 w-4" />
+                Gick hem — avsluta arbetsdagen
               </button>
             </div>
           </>

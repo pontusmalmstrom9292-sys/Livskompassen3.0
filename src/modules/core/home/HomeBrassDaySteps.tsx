@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Check } from 'lucide-react';
 import { clsx } from 'clsx';
 import { usePlanningTasks } from '@/features/admin/planning/hooks/usePlanningTasks';
 import type { PlanningTask } from '@/features/admin/planning/types';
@@ -13,8 +13,20 @@ import { HOME_SUPERHUB_ROUTES } from './homeSuperhubRoutes';
 const MAX_STEPS = 3;
 
 type Props = {
-  variant?: 'brass' | 'calm';
+  variant?: 'brass' | 'calm' | 'executive';
 };
+
+function formatDueTime(dueAt?: string): string | null {
+  if (!dueAt) return null;
+  if (/^\d{2}[:.]\d{2}$/.test(dueAt)) return dueAt;
+  try {
+    const d = new Date(dueAt);
+    if (isNaN(d.getTime())) return null;
+    return d.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
+  } catch {
+    return null;
+  }
+}
 
 export function HomeBrassDaySteps({ variant = 'calm' }: Props) {
   const { tasks, loading, moveTask, user } = usePlanningTasks();
@@ -33,62 +45,91 @@ export function HomeBrassDaySteps({ variant = 'calm' }: Props) {
   };
 
   const tileClass = clsx(
-    'home-layout-a__tile home-layout-a__tile--tall',
-    variant === 'brass' ? 'brass-glass' : 'calm-card glow-bottom-gold',
+    'home-layout-a__tile home-layout-a__tile--tall flex flex-col justify-between min-h-[160px]',
+    variant === 'brass' ? 'brass-glass' : 'calm-card',
   );
 
   return (
     <div className={tileClass}>
-      <p className="home-layout-a__label">Dagens steg</p>
+      <div>
+        <p className="text-[10px] tracking-[0.2em] font-sans text-accent uppercase font-bold mb-2">
+          DAGENS STEG
+        </p>
 
-      {loading ? (
-        <p className="home-layout-a__steps-loading flex items-center gap-2 text-xs text-text-muted">
-          <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
-          Laddar från Planering …
-        </p>
-      ) : steps.length === 0 ? (
-        <p className="home-layout-a__steps-empty text-xs leading-relaxed text-text-muted">
-          Inga öppna steg i Att göra.
-        </p>
-      ) : (
-        <ul className="home-layout-a__steps">
-          {steps.map((task) => {
-            const label = homeStepLabel(task);
-            const isWaiting = task.status === 'waiting';
-            const isBusy = busyId === task.id;
-            return (
-              <li key={task.id} className="home-layout-a__step">
-                <button
-                  type="button"
-                  className="home-layout-a__step-btn"
-                  disabled={isBusy}
-                  aria-label={`Markera klar: ${label}`}
-                  onClick={() => void handleMarkDone(task)}
-                >
-                  <span
-                    className={clsx(
-                      'home-layout-a__check',
-                      isBusy && 'home-layout-a__check--on',
-                      isWaiting && 'home-layout-a__check--wait',
-                    )}
-                    aria-hidden
+        {loading ? (
+          <p className="flex items-center gap-2 text-xs text-text-muted py-2">
+            <Loader2 className="h-3 w-3 animate-spin text-accent" aria-hidden />
+            Laddar från Planering …
+          </p>
+        ) : steps.length === 0 ? (
+          <p className="text-xs leading-relaxed text-text-dim py-2">
+            Inga öppna steg i Att göra.
+          </p>
+        ) : (
+          <ul className="divide-y divide-border/5">
+            {steps.map((task) => {
+              const label = homeStepLabel(task);
+              const isWaiting = task.status === 'waiting';
+              const isBusy = busyId === task.id;
+              return (
+                <li key={task.id} className="group py-2 first:pt-1 last:pb-1">
+                  <button
+                    type="button"
+                    className="w-full flex items-center justify-between text-left disabled:opacity-50"
+                    disabled={isBusy}
+                    aria-label={`Markera klar: ${label}`}
+                    onClick={() => void handleMarkDone(task)}
                   >
-                    {isBusy ? '…' : ''}
-                  </span>
-                  <span className={clsx(isWaiting && 'text-text-dim')}>
-                    {label}
-                    {isWaiting ? ' · väntar' : ''}
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+                    <div className="flex items-center gap-2.5">
+                      <span
+                        className={clsx(
+                          "w-4 h-4 flex items-center justify-center rounded border transition-colors",
+                          isWaiting 
+                            ? "border-dashed border-text-dim" 
+                            : "border-accent/40 group-hover:border-accent bg-accent/5",
+                          isBusy && "bg-accent/10"
+                        )}
+                        aria-hidden
+                      >
+                        {isBusy ? (
+                          <Loader2 className="w-2.5 h-2.5 animate-spin text-accent" />
+                        ) : (
+                          <Check className="w-3 h-3 text-accent opacity-0 group-hover:opacity-100 transition-opacity" />
+                        )}
+                      </span>
+                      <span className={clsx(
+                        "text-[11px] font-medium text-text",
+                        isWaiting && "text-text-dim italic"
+                      )}>
+                        {label}
+                        {isWaiting ? ' (väntar)' : ''}
+                      </span>
+                    </div>
+                    {task.dueAt && (
+                      <span className="text-[10px] text-text-dim font-mono">
+                        {formatDueTime(task.dueAt) || ''}
+                      </span>
+                    )}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </div>
 
-      <Link to={HOME_SUPERHUB_ROUTES.planeringHub} className="home-layout-a__link">
-        {steps.length >= MAX_STEPS ? 'Visa alla i Planering →' : 'Öppna Planering →'}
-      </Link>
+      <div className="pt-2 border-t border-border/5 mt-auto flex justify-end w-full">
+        <Link 
+          to={HOME_SUPERHUB_ROUTES.planeringHub} 
+          className={clsx(
+            'text-[10px] font-semibold text-accent hover:text-accent-light transition-colors flex items-center gap-1',
+            variant === 'executive' && 'uppercase tracking-wider',
+          )}
+        >
+          + Lägg till steg
+        </Link>
+      </div>
     </div>
   );
 }
+

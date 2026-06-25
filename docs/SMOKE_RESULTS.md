@@ -1,3 +1,56 @@
+## YOLO hosting-deploy — Fas 24 gate (2026-06-25, kväll)
+
+| Fält | Värde |
+|------|-------|
+| Uppdrag | Beslutsstöd + YOLO-vakt → hosting-deploy efter Pontus OK |
+| Commit | `d86f1885a` (executive hero + HomeLayoutA calm-cards) |
+| `npm run smoke:predeploy:build` | **PASS** (functions tsc + vite build + tier1 + e2e-locked-ux 10/10) |
+| Sacred check | **PASS** — inga ändringar i `firestore.rules`, `sharedRules.ts`, WORM |
+| YOLO-vakt | **GO** (hosting-only) |
+| `git push origin main` | **PASS** — redan synkad |
+| `firebase deploy --only hosting` | **PASS** — 300 filer |
+| **Live** | https://gen-lang-client-0481875058.web.app |
+| USER efter deploy | `Cmd+Shift+R` · executive header/dock · Hamn kopiera+rensa · Fyren silo-labels · G85 daily driver (7d kvar) |
+| Nästa bygg | **23D** Paralys-Brytaren P3 → **23E** Tyst läge |
+
+---
+
+## Fas 23E hosting-deploy (2026-06-25)
+
+| Fält | Värde |
+|------|-------|
+| Leverans | 23E Tyst läge / dissociation i Superdagbok (`DagbokTystDelegate`) |
+| Commit | `4fe2e0a03` |
+| `npm run smoke:predeploy:build` | **PASS** |
+| `smoke:journal-23e` | **PASS** |
+| YOLO-vakt | **GO** (hosting-only, sacred paths ej rörda) |
+| `git push origin main` | **PASS** |
+| `firebase deploy --only hosting` | **PASS** — 309 filer |
+| **Live** | https://gen-lang-client-0481875058.web.app |
+| Test-URL | `/hjartat?tab=reflektion&inputMode=tyst` |
+
+---
+
+## Fas 24 hosting-deploy — predeploy gate (2026-06-25)
+
+| Fält | Värde |
+|------|-------|
+| Branch | `main` — **8 commits** ahead of `origin/main` (PV1a, 23C, PV1b, S24, HITL1, executive-dock, 23D) |
+| `npm run smoke:predeploy:build` | **PASS** (functions tsc + vite build + tier1 + e2e-locked-ux 10/10) |
+| `smoke:planering-gora-e` (23D) | **PASS** |
+| `smoke:s24` | **PASS** |
+| `smoke:hitl1` | **PASS** |
+| Sacred check | **PASS** — inga ändringar i `firestore.rules`, `sharedRules.ts`, WORM-collections |
+| YOLO-vakt | **GO** (hosting-only) |
+| `git push origin main` | **PASS** — redan synkad (`fc4c75825`) |
+| `firebase deploy --only hosting` | **PASS** 2026-06-25 → https://gen-lang-client-0481875058.web.app |
+| Deploy | **DONE** — hosting-only, 308 filer |
+| Nästa efter deploy | **23E** Tyst läge / dissociation i Superdagbok (23D redan i bundle) |
+
+Commits: `6ecb6ec1d` … `fc4c75825`
+
+---
+
 # Smoke-resultat (Fas 3 + Minne)
 
 ## YOLO DCAP + WORM smoke (2026-06-21)

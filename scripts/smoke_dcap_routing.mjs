@@ -35,6 +35,14 @@ function mustNotInclude(relPath, ...needles) {
 }
 
 function main() {
+  console.log('[smoke:dcap-routing] DCAP 4 band…');
+  mustInclude(
+    'functions/src/agents/cards/index.ts',
+    'intent: \'mirrorFeeling\'',
+    'riskScore >= 50',
+    'riskScore >= 30',
+  );
+
   console.log('[smoke:dcap-routing] DCAP → executor kedja…');
 
   mustInclude(

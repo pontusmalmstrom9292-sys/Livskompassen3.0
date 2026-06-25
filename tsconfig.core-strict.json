@@ -12,6 +12,8 @@
     "src/modules/shared/**/*.ts",
     "src/modules/shared/**/*.tsx",
     "src/modules/features/**/*.ts",
+    "src/modules/features/admin/projects/**/*.ts",
+    "src/modules/features/admin/projects/**/*.tsx",
     "src/modules/features/**/*.tsx",
     "src/modules/morning/**/*.ts",
     "src/modules/morning/**/*.tsx"

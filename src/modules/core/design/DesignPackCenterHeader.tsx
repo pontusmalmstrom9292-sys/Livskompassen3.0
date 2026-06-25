@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { clsx } from 'clsx';
 import { useLocation } from 'react-router-dom';
 import { HeaderMenuGlyph } from '../ui/HeaderChromeGlyphs';
 import { useDesignPackCenterTitle } from './useDesignPack';
@@ -8,6 +9,9 @@ type Props = {
   onMenuClick: () => void;
   actions: ReactNode;
   headerQuickToggle?: ReactNode;
+  /** Premium executive — titel centrerad, actions (sköld+öga+kompass) höger. */
+  variant?: 'default' | 'executive-premium';
+  centerAction?: ReactNode;
 };
 
 /** Mockup-header — symmetrisk 3-kolumns layout, centrerad titel. */
@@ -16,12 +20,22 @@ export function DesignPackCenterHeader({
   onMenuClick,
   actions,
   headerQuickToggle,
+  variant = 'default',
+  centerAction,
 }: Props) {
   const { pathname } = useLocation();
-  const title = useDesignPackCenterTitle(pathname) ?? 'LIVSKOMPASSEN';
+  const routeTitle = useDesignPackCenterTitle(pathname) ?? 'LIVSKOMPASSEN';
+  const executivePremium = variant === 'executive-premium';
+  const title = executivePremium ? 'LIVSKOMPASSEN' : routeTitle;
 
   return (
-    <header className="design-pack-header" aria-label={title}>
+    <header
+      className={clsx(
+        'design-pack-header',
+        executivePremium && 'design-pack-header--executive-premium',
+      )}
+      aria-label={title}
+    >
       <div className="design-pack-header__side design-pack-header__side--left">
         <button
           type="button"
@@ -44,8 +58,11 @@ export function DesignPackCenterHeader({
       </div>
 
       <div className="design-pack-header__side design-pack-header__side--right">
-        <div className="design-pack-header__actions">{actions}</div>
-        {headerQuickToggle}
+        <div className="design-pack-header__actions">
+          {executivePremium && centerAction ? centerAction : null}
+          {actions}
+        </div>
+        {!executivePremium ? headerQuickToggle : null}
       </div>
     </header>
   );

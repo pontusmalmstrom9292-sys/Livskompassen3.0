@@ -11,17 +11,11 @@
     "src/modules/core/**/*.tsx",
     "src/modules/shared/**/*.ts",
     "src/modules/shared/**/*.tsx",
-    "src/modules/features/dailyLife/wellbeing/mabra/**/*.ts",
-    "src/modules/features/dailyLife/wellbeing/mabra/**/*.tsx",
-    "src/modules/morning/**/*.ts",
-    "src/modules/morning/**/*.tsx",
-    "src/modules/features/archive/**/*.ts",
-    "src/modules/features/archive/**/*.tsx",
-    "src/modules/features/lifeJournal/diary/**/*.ts",
-    "src/modules/features/lifeJournal/diary/**/*.tsx",
-    "src/modules/features/diary/**/*.ts",
-    "src/modules/features/diary/**/*.tsx",
+    "src/modules/features/**/*.ts",
     "src/modules/features/admin/projects/**/*.ts",
-    "src/modules/features/admin/projects/**/*.tsx"
+    "src/modules/features/admin/projects/**/*.tsx",
+    "src/modules/features/**/*.tsx",
+    "src/modules/morning/**/*.ts",
+    "src/modules/morning/**/*.tsx"
   ]
 }

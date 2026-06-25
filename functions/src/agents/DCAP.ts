@@ -8,14 +8,18 @@
  *
  * Arkitektur:
  *  - Lager 1 (Snabb/Deterministisk): Regelbaserade Regex-mönster för explicita indikatorer.
- *  - Lager 2 (Djup/Semantisk): Vertex AI (Gemini) för kontextuell analys av implicita mönster.
+ *  - Lager 2 (Djup/Semantisk): Google AI (Gemini) för kontextuell analys av implicita mönster.
  *  - Åtgärd: Returnerar en DcapResult med risknivå och föreslaget Grey Rock-svar.
  */
 
-import { genkit, z } from 'genkit';
-import { vertexAI, gemini15Flash } from '@genkit-ai/vertexai';
+import { createGenAI } from '../lib/genaiClient';
+import { GEMINI_FLASH } from '../lib/modelRouter';
 import { DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT } from '../sharedRules';
 import { scanTextForTactics, type VaultTechnique } from '../lib/tacticPatternLibrary';
+import {
+  DCAP_SEMANTIC_RESPONSE_SCHEMA,
+  parseDcapSemanticResponse,
+} from '../schemas/dcapSemantic';
 
 // --- Typer ---
 
@@ -52,18 +56,6 @@ export interface DcapResult {
   recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
 }
 
-const SemanticResponseSchema = z.object({
-  technique: z.enum([
-    'DARVO', 'GASLIGHTING', 'LOVE_BOMBING', 'SILENT_TREATMENT',
-    'JADE_BAIT', 'THREAT', 'HOOVERING', 'SMEAR',
-    'ECONOMIC_CONTROL', 'MATERNAL_FACADE', 'TRAUMA_BONDING',
-    'LEGAL_PRESSURE', 'UNKNOWN'
-  ]),
-  confidence: z.enum(['HIGH', 'MEDIUM', 'LOW']).optional(),
-  riskScore: z.number().optional(),
-  greyRockSuggestion: z.string().optional()
-});
-
 // --- Lager 1: Regelbaserade Regex-mönster (kanon: shared/patterns) ---
 
 function runRegexLayer(text: string): { detections: DcapDetection[]; score: number } {
@@ -88,38 +80,56 @@ function runRegexLayer(text: string): { detections: DcapDetection[]; score: numb
   return { detections, score: Math.min(score, 60) };
 }
 
-// --- Lager 2: Semantisk Analys via Vertex AI ---
+// --- Lager 2: Semantisk analys via Google AI ---
 
 async function runSemanticLayer(
   text: string,
-  projectId: string
 ): Promise<{ detections: DcapDetection[]; score: number; greyRockResponse?: string }> {
-  const ai = genkit({
-    plugins: [vertexAI({ projectId, location: 'europe-west1' })],
+  const ai = createGenAI();
+  const response = await ai.models.generateContent({
+    model: GEMINI_FLASH,
+    contents: `Analysera denna text:\n\n"${text}"`,
+    config: {
+      systemInstruction: DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT,
+      temperature: 0.1,
+      maxOutputTokens: 512,
+      responseMimeType: 'application/json',
+      responseSchema: DCAP_SEMANTIC_RESPONSE_SCHEMA,
+    },
   });
 
-  const { output } = await ai.generate({
-    model: gemini15Flash,
-    system: DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT,
-    prompt: `Analysera denna text:\n\n"${text}"`,
-    output: { schema: SemanticResponseSchema }
-  });
-
-  if (!output) {
+  const raw = response.text?.trim() ?? '';
+  if (!raw) {
     return { detections: [], score: 0 };
   }
 
-  const detections: DcapDetection[] = output.technique !== 'UNKNOWN' ? [{
-    technique: output.technique as ManipulationTechnique,
-    matchedPattern: 'Semantisk analys',
-    confidence: output.confidence ?? 'LOW',
-    layer: 'SEMANTIC',
-  }] : [];
+  let parsed: ReturnType<typeof parseDcapSemanticResponse>;
+  try {
+    parsed = parseDcapSemanticResponse(JSON.parse(raw));
+  } catch {
+    return { detections: [], score: 0 };
+  }
+
+  if (!parsed) {
+    return { detections: [], score: 0 };
+  }
+
+  const detections: DcapDetection[] =
+    parsed.technique !== 'UNKNOWN'
+      ? [
+          {
+            technique: parsed.technique as ManipulationTechnique,
+            matchedPattern: 'Semantisk analys',
+            confidence: parsed.confidence ?? 'LOW',
+            layer: 'SEMANTIC',
+          },
+        ]
+      : [];
 
   return {
     detections,
-    score: output.riskScore ?? 0,
-    greyRockResponse: output.greyRockSuggestion,
+    score: parsed.riskScore ?? 0,
+    greyRockResponse: parsed.greyRockSuggestion,
   };
 }
 
@@ -128,16 +138,16 @@ async function runSemanticLayer(
 /**
  * Kör hela DCAP-pipelinen (Regex + Semantisk) mot given text.
  * @param text Texten som ska analyseras (t.ex. ett mottaget SMS).
- * @param projectId GCP-projekt-ID.
+ * @param _projectId Legacy — ignoreras (Vertex borttagen).
  */
-export async function analyzeDcap(text: string, projectId: string): Promise<DcapResult> {
+export async function analyzeDcap(text: string, _projectId?: string): Promise<DcapResult> {
   const regexResult = runRegexLayer(text);
   let semanticResult: Awaited<ReturnType<typeof runSemanticLayer>> = {
     detections: [],
     score: 0,
   };
   try {
-    semanticResult = await runSemanticLayer(text, projectId);
+    semanticResult = await runSemanticLayer(text);
   } catch (err) {
     console.warn('[DCAP] Semantic layer skipped (regex-only):', err);
   }

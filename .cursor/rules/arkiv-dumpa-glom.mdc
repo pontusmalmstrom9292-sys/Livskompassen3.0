@@ -14,4 +14,4 @@ globs: src/features/lifeJournal/evidence/kompis/components/AutonomousArchivePane
 3. **HUMAN-IN-THE-LOOP (HITL):**
    - Inkast-funktionen måste alltid kräva ett mänskligt klick ("Godkänn") innan data sparas till en av de tre silorna ovan.
 4. **NOLL KOGNITIV BELASTNING:**
-   - Frontend (`AutonomousArchivePanel`) ska endast bygga på 'Obsidian Calm'-tema med max 3 visuella nivåer öppet samtidigt.
+   - Frontend (`AutonomousArchivePanel`) ska endast bygga på Executive Midnight-tema med max 3 visuella nivåer öppet samtidigt.

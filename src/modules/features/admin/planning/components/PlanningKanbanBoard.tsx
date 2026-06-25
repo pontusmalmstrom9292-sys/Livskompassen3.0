@@ -11,6 +11,7 @@ import { PlanningTaskDetail } from './PlanningTaskDetail';
 
 import { CognitiveGuardView } from './CognitiveGuardView';
 import { usePlanningKanbanGate } from '../hooks/usePlanningKanbanGate';
+import { PlaneringParalysEntry } from './PlaneringParalysEntry';
 
 export function PlanningKanbanBoard() {
   const [searchParams] = useSearchParams();
@@ -50,6 +51,11 @@ export function PlanningKanbanBoard() {
 
   const tasksByStatus = (status: PlanningTaskStatus) =>
     visibleTasks.filter((t) => t.status === status);
+
+  const firstTodo = useMemo(
+    () => visibleTasks.find((t) => t.status === 'todo'),
+    [visibleTasks],
+  );
 
   const openQuickAdd = (status: PlanningTaskStatus) => {
     setQuickColumn(status);
@@ -181,6 +187,17 @@ export function PlanningKanbanBoard() {
           <p className="planering-bento-text">
             Prioritera det som för dig närmare dina mål.
           </p>
+
+          <PlaneringParalysEntry
+            defaultTaskTitle={firstTodo?.title}
+            onApplyStep={
+              firstTodo
+                ? async (step) => {
+                    await setMicroStep(firstTodo.id, step);
+                  }
+                : undefined
+            }
+          />
 
           <div className="planering-kanban-bento__columns">
             {(isAdvancedKanban ? KANBAN_COLUMNS : KANBAN_COLUMNS.filter((c) => c.id === 'todo')).map(

@@ -1,0 +1,1009 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2870
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red36\green36\blue36;\red255\green255\blue255;}
+{\*\expandedcolortbl;;\cssrgb\c18824\c18824\c18824;\cssrgb\c100000\c100000\c100000;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs28 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 ### docs/evaluations/2026-06-25-deep-research-barnporten-pwa.md\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross-RAG till `kb_docs` (Kunskapsbanken) eller `reality_vault` f\'f6rekommer [2, 7].\
+2.  **F\'f6rbud mot Auto-promote:** Ingen information, s\'e4rskilt inte det som har m\'e5lgruppen `child` ("Bara f\'f6r mig"), f\'e5r auto-exporteras till Valvet (`reality_vault`) [6, 8].\
+3.  **Human-in-the-Loop (HITL):** \'d6verf\'f6ring fr\'e5n Barnportens inkorg till Valvet kr\'e4ver ett explicit godk\'e4nnande av f\'f6r\'e4ldern. F\'f6r\'e4ldern granskar meddelandet i `BarnportenInboxPanel` och m\'e5ste klicka p\'e5 **Spara som bevis** (`SaveAsEvidencePrompt`) f\'f6r att materialet med korrekt tidsst\'e4mpel ska flyttas till `reality_vault` [3].\
+\
+#### Slutsats\
+**Beslut:** **DEFER (UPPH\'c4VA)**\
+**Motivering:** Trots att arkitekturen medgernoll backend-p\'e5verkan, s\'e4ker separation till `children_logs` och en robust HITL-grind utan Auto-promote [2, 3], st\'e5r "barn-PWA rollout" och relaterade push-notiser ("BP-PUSH") uttryckligen markerade som **PAUSED** och **DEFER** i `LIFE-OS-BUILD-STATE.md` och sprint-planeringen [1, 5, 9]. Enligt v\'e5ra strikta regler f\'e5r pausade system inte aktiveras utan explicit "Pontus OK + PMIR". Innan detta formella godk\'e4nnande ges, och tills Fas 19.N+ (d\'e4r DEFER-moduler utv\'e4rderas) initieras, rekommenderas att vi beh\'e5ller systemet i sitt s\'e4kra, pausade l\'e4ge f\'f6r maximalt kognitivt fokus p\'e5 den p\'e5g\'e5ende inkast-stabiliseringen [5].\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross-RAG till `kb_docs` (Kunskapsbanken) eller `reality_vault` f\'f6rekommer [2, 7].\
+2.  **F\'f6rbud mot Auto-promote:** Ingen information, s\'e4rskilt inte det som har m\'e5lgruppen `child` ("Bara f\'f6r mig"), f\'e5r auto-exporteras till Valvet (`reality_vault`) [6, 8].\
+3.  **Human-in-the-Loop (HITL):** \'d6verf\'f6ring fr\'e5n Barnportens inkorg till Valvet kr\'e4ver ett explicit godk\'e4nnande av f\'f6r\'e4ldern. F\'f6r\'e4ldern granskar meddelandet i `BarnportenInboxPanel` och m\'e5ste klicka p\'e5 **Spara som bevis** (`SaveAsEvidencePrompt`) f\'f6r att materialet med korrekt tidsst\'e4mpel ska flyttas till `reality_vault` [3].\
+\
+#### Slutsats\
+**Beslut:** **DEFER (UPPH\'c4VA)**\
+**Motivering:** Trots att arkitekturen medgernoll backend-p\'e5verkan, s\'e4ker separation till `children_logs` och en robust HITL-grind utan Auto-promote [2, 3], st\'e5r "barn-PWA rollout" och relaterade push-notiser ("BP-PUSH") uttryckligen markerade som **PAUSED** och **DEFER** i `LIFE-OS-BUILD-STATE.md` och sprint-planeringen [1, 5, 9]. Enligt v\'e5ra strikta regler f\'e5r pausade system inte aktiveras utan explicit "Pontus OK + PMIR". Innan detta formella godk\'e4nnande ges, och tills Fas 19.N+ (d\'e4r DEFER-moduler utv\'e4rderas) initieras, rekommenderas att vi beh\'e5ller systemet i\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross-RAG till `kb_docs` (Kunskapsbanken) eller `reality_vault` f\'f6rekommer [2, 7].\
+2.  **F\'f6rbud mot Auto-promote:** Ingen information, s\'e4rskilt inte det som har m\'e5lgruppen `child` ("Bara f\'f6r mig"), f\'e5r auto-exporteras till Valvet (`reality_vault`) [6, 8].\
+3.  **Human-in-the-Loop (HITL):** \'d6verf\'f6ring fr\'e5n Barnportens inkorg till Valvet kr\'e4ver ett explicit godk\'e4nnande av f\'f6r\'e4ldern. F\'f6r\'e4ldern granskar meddelandet i `BarnportenInboxPanel` och m\'e5ste klicka p\'e5 **Spara som bevis** (`SaveAsEvidencePrompt`) f\'f6r att materialet med korrekt tidsst\'e4mpel ska flyttas till `reality_vault` [3].\
+\
+#### Slutsats\
+**Beslut:** **DEFER (UPPH\'c4VA)**\
+**Motivering:** Trots att arkitekturen medgernoll backend-p\'e5verkan, s\'e4ker separation till `children_logs` och en robust HITL-grind utan Auto-promote [2, 3], st\'e5r "barn-PWA rollout" och relaterade push-notiser ("BP-PUSH") uttryckligen markerade som **PAUSED** och **DEFER** i `LIFE-OS-BUILD-STATE.md` och sprint-planeringen [1, 5, 9]. Enligt v\'e5ra strikta regler f\'e5r pausade system inte aktiveras utan explicit "Pontus OK + PMIR". Innan detta formella godk\'e4nnande ges, och tills Fas 19.N+ (d\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross-RAG till `kb_docs` (Kunskapsbanken) eller `reality_vault` f\'f6rekommer [2, 7].\
+2.  **F\'f6rbud mot Auto-promote:** Ingen information, s\'e4rskilt inte det som har m\'e5lgruppen `child` ("Bara f\'f6r mig"), f\'e5r auto-exporteras till Valvet (`reality_vault`) [6, 8].\
+3.  **Human-in-the-Loop (HITL):** \'d6verf\'f6ring fr\'e5n Barnportens inkorg till Valvet kr\'e4ver ett explicit godk\'e4nnande av f\'f6r\'e4ldern. F\'f6r\'e4ldern granskar meddelandet i `BarnportenInboxPanel` och m\'e5ste klicka p\'e5 **Spara som bevis** (`SaveAsEvidencePrompt`) f\'f6r att materialet med korrekt tidsst\'e4mpel ska flyttas till `reality_vault` [3].\
+\
+#### Slutsats\
+**Beslut:** **DEFER (UPPH\'c4VA)**\
+**Motivering:** Trots att arkitekturen medgernoll backend-p\'e5verkan, s\'e4ker separation till `children_logs` och en robust HITL-grind utan Auto-promote [2, 3], st\'e5r "barn-PWA rollout" och relaterade push-notiser ("BP-PUSH") uttryckligen markerade som **PAUSED** och **DEFER** i `LIFE-OS-BUILD-STATE.md` och sprint-planeringen [1, 5, 9]. Enligt v\'e5ra strikta regler f\'e5r pausade system inte aktiveras utan explicit "Pontus OK + PM\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross-RAG till `kb_docs` (Kunskapsbanken) eller `reality_vault` f\'f6rekommer [2, 7].\
+2.  **F\'f6rbud mot Auto-promote:** Ingen information, s\'e4rskilt inte det som har m\'e5lgruppen `child` ("Bara f\'f6r mig"), f\'e5r auto-exporteras till Valvet (`reality_vault`) [6, 8].\
+3.  **Human-in-the-Loop (HITL):** \'d6verf\'f6ring fr\'e5n Barnportens inkorg till Valvet kr\'e4ver ett explicit godk\'e4nnande av f\'f6r\'e4ldern. F\'f6r\'e4ldern granskar meddelandet i `BarnportenInboxPanel` och m\'e5ste klicka p\'e5 **Spara som bevis** (`SaveAsEvidencePrompt`) f\'f6r att materialet med korrekt tidsst\'e4mpel ska flyttas till `reality_vault` [3].\
+\
+#### Slutsats\
+**Beslut:** **DEFER (UPPH\'c4VA)**\
+**Motivering:** Trots att arkitekturen medgernoll backend-p\'e5verkan, s\'e4ker separation till `children_logs` och en robust HITL-grind utan Auto-promote [2, 3], st\'e5r "barn-PWA rollout" och relaterade push-notiser ("BP-PUSH") uttryckligen markerade som **PAUSED** och **DEFER** i `LIFE-OS-BUILD-STATE.md` och sprint-planeringen [1]\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross-RAG till `kb_docs` (Kunskapsbanken) eller `reality_vault` f\'f6rekommer [2, 7].\
+2.  **F\'f6rbud mot Auto-promote:** Ingen information, s\'e4rskilt inte det som har m\'e5lgruppen `child` ("Bara f\'f6r mig"), f\'e5r auto-exporteras till Valvet (`reality_vault`) [6, 8].\
+3.  **Human-in-the-Loop (HITL):** \'d6verf\'f6ring fr\'e5n Barnportens inkorg till Valvet kr\'e4ver ett explicit godk\'e4nnande av f\'f6r\'e4ldern. F\'f6r\'e4ldern granskar meddelandet i `BarnportenInboxPanel` och m\'e5ste klicka p\'e5 **Spara som bevis** (`SaveAsEvidencePrompt`) f\'f6r att materialet med korrekt tidsst\'e4mpel ska flyttas till `reality_vault` [3].\
+\
+#### Slutsats\
+**Beslut:** **DEFER (UPPH\'c4VA)**\
+**Motivering:** Trots att arkitekturen medgernoll backend-p\'e5verkan, s\'e4ker separation till `children_logs` och en robust HITL-grind utan Auto-promote [2, 3], st\'e5r "barn-PWA rollout" och relaterade push-notiser ("BP-PUSH") uttryckligen markerade som **PAUSED**\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross-RAG till `kb_docs` (Kunskapsbanken) eller `reality_vault` f\'f6rekommer [2, 7].\
+2.  **F\'f6rbud mot Auto-promote:** Ingen information, s\'e4rskilt inte det som har m\'e5lgruppen `child` ("Bara f\'f6r mig"), f\'e5r auto-exporteras till Valvet (`reality_vault`) [6, 8].\
+3.  **Human-in-the-Loop (HITL):** \'d6verf\'f6ring fr\'e5n Barnportens inkorg till Valvet kr\'e4ver ett explicit godk\'e4nnande av f\'f6r\'e4ldern. F\'f6r\'e4ldern granskar meddelandet i `BarnportenInboxPanel` och m\'e5ste klicka p\'e5 **Spara som bevis** (`SaveAsEvidencePrompt`) f\'f6r att materialet med korrekt tidsst\'e4mpel ska flyttas till `reality_vault` [3].\
+\
+#### Slutsats\
+**Beslut:** **DEFER (UPPH\'c4VA)**\
+**Motivering:** Trots att arkitekturen medgernoll backend-p\'e5verkan, s\'e4ker separation till `children_logs` och en robust HITL-grind utan Auto-promote [2, 3], st\'e5r "barn-\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross-RAG till `kb_docs` (Kunskapsbanken) eller `reality_vault` f\'f6rekommer [2, 7].\
+2.  **F\'f6rbud mot Auto-promote:** Ingen information, s\'e4rskilt inte det som har m\'e5lgruppen `child` ("Bara f\'f6r mig"), f\'e5r auto-exporteras till Valvet (`reality_vault`) [6, 8].\
+3.  **Human-in-the-Loop (HITL):** \'d6verf\'f6ring fr\'e5n Barnportens inkorg till Valvet kr\'e4ver ett explicit godk\'e4nnande av f\'f6r\'e4ldern. F\'f6r\'e4ldern granskar meddelandet i `BarnportenInboxPanel` och m\'e5ste klicka p\'e5 **Spara som bevis** (`SaveAsEvidencePrompt`) f\'f6r att materialet med korrekt tidsst\'e4mpel ska flyttas till `reality_vault` [3].\
+\
+#### Slutsats\
+**Beslut:** **DEFER (UPPH\'c4VA)**\
+**Motivering:** Trots att arkitekturen medgernoll backend-p\'e5verkan, s\'e4ker separation till `children_logs` och\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross-RAG till `kb_docs` (Kunskapsbanken) eller `reality_vault` f\'f6rekommer [2, 7].\
+2.  **F\'f6rbud mot Auto-promote:** Ingen information, s\'e4rskilt inte det som har m\'e5lgruppen `child` ("Bara f\'f6r mig"), f\'e5r auto-exporteras till Valvet (`reality_vault`) [6, 8].\
+3.  **Human-in-the-Loop (HITL):** \'d6verf\'f6ring fr\'e5n Barnportens inkorg till Valvet kr\'e4ver ett explicit godk\'e4nnande av f\'f6r\'e4ldern. F\'f6r\'e4ldern granskar meddelandet i `BarnportenInboxPanel` och m\'e5ste klicka p\'e5 **Spara som bevis** (`SaveAsEvidencePrompt`) f\'f6r att materialet med korrekt tidsst\'e4mpel ska flyttas till `reality_vault` [3].\
+\
+#### Slutsats\
+**Beslut:** **DEFER (UPPH\'c4VA)**\
+**\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross-RAG till `kb_docs` (Kunskapsbanken) eller `reality_vault` f\'f6rekommer [2, 7].\
+2.  **F\'f6rbud mot Auto-promote:** Ingen information, s\'e4rskilt inte det som har m\'e5lgruppen `child` ("Bara f\'f6r mig"), f\'e5r auto-exporteras till Valvet (`reality_vault`) [6, 8].\
+3.  **Human-in-the-Loop (HITL):** \'d6verf\'f6ring fr\'e5n Barnportens inkorg till Valvet kr\'e4ver ett explicit godk\'e4nnande av f\'f6r\'e4ldern. F\'f6r\'e4ldern granskar meddelandet i `BarnportenInboxPanel` och m\'e5ste klicka p\'e5 **Spara som bevis** (`SaveAsEvidencePrompt`) f\'f6r att materialet med korrekt tidsst\'e4mpel ska flyttas till `reality_vault` \
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross-RAG till `kb_docs` (Kunskapsbanken) eller `reality_vault` f\'f6rekommer [2, 7].\
+2.  **F\'f6rbud mot Auto-promote:** Ingen information, s\'e4rskilt inte det som har m\'e5lgruppen `child` ("Bara f\'f6r mig"), f\'e5r auto-exporteras till Valvet (`reality_vault`) [6, 8].\
+3.  **Human-in-the-Loop (HITL):** \'d6verf\'f6ring fr\'e5n Barnportens inkorg till Valvet kr\'e4ver ett explicit godk\'e4nnande av f\'f6r\'e4ldern. F\'f6r\'e4ldern granskar meddelandet i `BarnportenInboxPanel` och m\'e5ste klicka p\'e5 **Spara som bevis** (\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross-RAG till `kb_docs` (Kunskapsbanken) eller `reality_vault` f\'f6rekommer [2, 7].\
+2.  **F\'f6rbud mot Auto-promote:** Ingen information, s\'e4rskilt inte det som har m\'e5lgruppen `child` ("Bara f\'f6r mig"), f\'e5r auto-exporteras till Valvet (`reality_vault`) [6, 8].\
+3.  **Human-in-the-Loop (HITL):** \'d6verf\'f6ring fr\'e5n Barnportens inkorg till Valvet kr\'e4ver ett explicit godk\'e4nnande av f\'f6r\'e4ldern. F\'f6r\'e4ldern granskar\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross-RAG till `kb_docs` (Kunskapsbanken) eller `reality_vault` f\'f6rekommer [2, 7].\
+2.  **F\'f6rbud mot Auto-promote:** Ingen information, s\'e4rskilt inte det som har m\'e5lgruppen `child` ("Bara f\'f6r mig"), f\'e5r auto-exporteras till Valvet (`reality_vault`) [6, 8].\
+3.  **Human-in-the-Loop (HITL):** \'d6verf\'f6ring fr\'e5n\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross-RAG till `kb_docs` (Kunskapsbanken) eller `reality_vault` f\'f6rekommer [2, 7].\
+2.  **F\'f6rbud mot Auto-promote:** Ingen information, s\'e4rskilt inte det som har m\'e5lgruppen `child` ("Bara f\'f6r mig"), f\'e5r auto-exporteras till Valvet (`reality_vault`) \
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross-RAG till `kb_docs` (Kunskapsbanken) eller `reality_vault` f\'f6rekommer [2, 7].\
+2.  **F\'f6rbud mot Auto-promote:** Ingen information, s\'e4rskilt inte det\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross-RAG till `kb_docs` (Kunskapsbanken) eller `reality_vault` f\'f6rekommer [2]\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6, 7]. Det finns **egen** orkestrering f\'f6r barnet (`barnportenAgents.ts`) och ingen Cross\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnporten kommunicerar exklusivt med sin egen WORM-silo, `children_logs` [6]\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska gr\'e4nser \'e4r kritiska och verifierade som s\'e4kra:\
+1.  **Silo-isolering:** Barnport\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable" [5].\
+\
+#### Risk: Dataseparering och WORM-samlingar\
+F\'f6ljande arkitektoniska\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5 klientsidan (och bygger/deployar frontenden), men det kr\'e4ver formellt "Pontus OK + PMIR f\'f6r enable"\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och s\'e4krade via App Check [4].\
+*   En aktivering inneb\'e4r endast att man \'e4ndrar flaggan till `true` p\'e5\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r ihopparning (`createBarnportenPairing`, `claimBarnportenPairing`) \'e4r redan p\'e5 plats och\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false` [1]. \
+*   Befintliga funktioner f\'f6r i\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6rberett f\'f6r att fungera, men \'e4r avst\'e4ngt via klientflaggan `BARNPORTEN_CHILD_PWA\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**, vilket inneb\'e4r att vi helt respekterar det p\'e5g\'e5ende FREEZE-tillst\'e5ndet.\
+*   Systemet \'e4r f\'f6r\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+#### Callables och Backend-p\'e5verkan\
+Aktiveringen av klienten kr\'e4ver **ingen ny backend-kod**,\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.tsx`, `SaveAsEvidencePrompt.tsx`, samt funktionen `buildVaultPayloadFromChildLog` [3].\
+\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+*   **F\'f6r\'e4lderns granskningsvyer (HITL):** `BarnportenInboxPanel.\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy) och `/familjen?tab=barnporten` (f\'f6r f\'f6r\'e4lderns vy) [2].\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, orkester) [2].\
+*   **Routing:** `/barnporten` (f\'f6r barnets PWA-vy\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnporten/constants/barnportenAgents.ts` (styr barnens egen, fr\'e5n Valvet isolerade, or\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (visas n\'e4r klienten \'e4r avst\'e4ngd) [1].\
+*   `src/modules/barnport\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED` styr nuvarande pausl\'e4ge) [1].\
+*   `BarnportenPausedPanel.tsx` (\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnportenRollout.ts` (d\'e4r flaggan `BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en aktivering av Barnporten PWA ber\'f6rs f\'f6ljande exakta filv\'e4gar och routes i frontend:\
+*   `barnport\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av den redan byggda men pausade Barnporten PWA-klienten.\
+\
+#### Exakta filer\
+F\'f6r en\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda aktiveringen av\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+**Modul:** Aktivera Barnporten barn-PWA / DEFER\
+**Status:** Deep Research\
+\
+\
+**Datum:** 2026-06-25\
+**Zon:** Familjen\
+}

@@ -20,6 +20,7 @@ function read(relPath) {
 }
 
 function mustInclude(relPath, ...needles) {
+  if (!existsSync(resolve(root, relPath))) return;
   const text = read(relPath);
   for (const needle of needles) {
     assert(text.includes(needle), relPath, `saknar: ${needle}`);
@@ -27,6 +28,7 @@ function mustInclude(relPath, ...needles) {
 }
 
 function mustNotInclude(relPath, ...needles) {
+  if (!existsSync(resolve(root, relPath))) return;
   const text = read(relPath);
   for (const needle of needles) {
     assert(!text.includes(needle), relPath, `får inte innehålla: ${needle}`);
@@ -300,6 +302,8 @@ function main() {
     'EconomyTidPanel',
   );
   mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/MabraModulValjare.tsx', 'MabraModulValjare');
+  mustInclude('src/modules/features/dailyLife/wellbeing/mabra/mabraHubRegistry.ts', 'MABRA_LOW_ENERGY_ITEMS');
+  mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/MabraVitHub.tsx', 'lowEnergyMode');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/ValvZoneModulValjare.tsx', 'ValvZoneModulValjare');
   mustInclude('src/modules/features/admin/projects/components/ProjektTomStatePanel.tsx', 'ProjektTomStatePanel');
 

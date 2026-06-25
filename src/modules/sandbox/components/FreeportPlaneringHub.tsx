@@ -12,6 +12,11 @@ export function FreeportPlaneringHub() {
 
   return (
     <div>
+      <div className="design-freeport__exec-hub-scenic">
+        <p className="design-freeport__exec-label">Planering hub</p>
+        <h3 className="design-freeport__exec-hub-scenic-title">Vecka & projekt</h3>
+        <p className="design-freeport__hint mt-2">Kanban · kalender · inkorg</p>
+      </div>
       <section className="design-freeport__section">
         <p className="design-freeport__section-title">Planering — 8 hub-layouter</p>
         <p className="design-freeport__hint mt-1">

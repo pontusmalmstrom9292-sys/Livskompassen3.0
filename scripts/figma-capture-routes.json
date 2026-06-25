@@ -24,5 +24,9 @@
   { "name": "23 — Projekt", "path": "/projekt" },
   { "name": "24 — Barnporten PWA", "path": "/barnporten" },
   { "name": "25 — Inställningar", "path": "/installningar" },
-  { "name": "26 — Kompis", "path": "/kompis" }
+  { "name": "26 — Kompis", "path": "/kompis" },
+  { "name": "FP-01 — Sandbox Hem (Executive Premium)", "path": "/dev/design-freeport", "figmaNote": "Flik Executive Premium → Hem" },
+  { "name": "FP-02 — Sandbox Valvet", "path": "/dev/design-freeport", "figmaNote": "Flik Executive Premium → Valvet" },
+  { "name": "FP-03 — Sandbox Barnfokus", "path": "/dev/design-freeport", "figmaNote": "Flik Executive Premium → Barnfokus" },
+  { "name": "FP-04 — Sandbox Kanban", "path": "/dev/design-freeport", "figmaNote": "Flik Executive Premium → Kanban" }
 ]

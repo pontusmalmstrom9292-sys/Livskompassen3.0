@@ -1,4 +1,5 @@
 import * as admin from 'firebase-admin';
+import { generateEmbeddingInternal } from './generateEmbeddingInternal';
 
 export interface PersistKbDocInput {
   ownerId: string;
@@ -27,21 +28,38 @@ export async function persistKbDocFromDrive(input: PersistKbDocInput): Promise<{
     return { docId: existing.docs[0].id, created: false };
   }
 
-  const docRef = await db.collection('kb_docs').add({
+  const contentToSave = input.content.slice(0, 12000);
+  let embeddingDim = input.embeddingDim ?? null;
+  let embedding: number[] = [];
+
+  try {
+    embedding = await generateEmbeddingInternal([input.title, contentToSave].join('\n'));
+    embeddingDim = embedding.length;
+  } catch (err) {
+    console.warn(`[persistKbDoc] Kunde inte generera embedding för driveFileId=${input.driveFileId}:`, err);
+  }
+
+  const docData: any = {
     userId: input.ownerId,
     ownerId: input.ownerId,
     title: input.title,
-    content: input.content.slice(0, 12000),
+    content: contentToSave,
     folderId: input.folderId ?? 'drive',
     source: 'drive',
     driveFileId: input.driveFileId,
     mimeType: input.mimeType,
-    embeddingDim: input.embeddingDim ?? null,
+    embeddingDim,
     inboxTags: input.inboxTags ?? null,
     inboxCategory: input.inboxCategory ?? null,
     proposedRouting: input.proposedRouting ?? null,
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
-  });
+  };
+
+  if (embedding.length > 0) {
+    docData.embedding = admin.firestore.FieldValue.vector(embedding);
+  }
+
+  const docRef = await db.collection('kb_docs').add(docData);
 
   return { docId: docRef.id, created: true };
 }

@@ -5,6 +5,7 @@ import type { CapacitorConfig } from '@capacitor/cli';
  * WebView loads live Hosting UI after push to main; native widgets stay in APK.
  */
 const prodServerUrl = process.env.CAPACITOR_SERVER_URL?.trim();
+const devServerUrl = process.env.CAPACITOR_DEV_SERVER_URL?.trim();
 
 /** Native Android/iOS shell — widgets deep-link into WebView routes under /widget/* */
 const config: CapacitorConfig = {
@@ -17,6 +18,7 @@ const config: CapacitorConfig = {
   server: {
     androidScheme: 'https',
     ...(prodServerUrl ? { url: prodServerUrl, cleartext: false } : {}),
+    ...(devServerUrl ? { url: devServerUrl, cleartext: true } : {}),
   },
   plugins: {
     FirebaseAuthentication: {

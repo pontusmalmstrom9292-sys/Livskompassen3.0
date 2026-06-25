@@ -6,6 +6,8 @@ Kör **parallellt** (Task tool, en subagent per paket):
 - **ui-design** (UI / Obsidian Calm): läs `.cursor/pipeline/jobs/ui-design-brief.md`, modell `composer-2.5-fast`, starta Task-subagent parallellt.
 - **security** (Säkerhet + WORM + silos): läs `.cursor/pipeline/jobs/security-brief.md`, modell `claude-4.6-sonnet-medium-thinking`, starta Task-subagent parallellt.
 - **ai-agents** (ADK + SynapseBus + agent cards): läs `.cursor/pipeline/jobs/ai-agents-brief.md`, modell `composer-2.5-fast`, starta Task-subagent parallellt.
+- **external-ai-handoff** (Extern AI kanon-sync): läs `.cursor/pipeline/jobs/external-ai-handoff-brief.md`, modell `composer-2.5-fast`, starta Task-subagent parallellt.
+- **copilot-sync** (Copilot instructions sync): läs `.cursor/pipeline/jobs/copilot-sync-brief.md`, modell `composer-2.5-fast`, starta Task-subagent parallellt.
 
 ## Ordning efter agent-jobb
 

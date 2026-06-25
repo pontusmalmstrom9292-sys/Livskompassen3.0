@@ -82,6 +82,8 @@ Pontus-godkända dagliga bollplank — regler i `.cursor/rules/backend-ingest-lo
 | Minnes-Arkitekten | `/minnes-arkitekten` | `.cursor/agents/minnes-arkitekten.md` | Auto kunskaps-ingest |
 | Design-Labbet | `/design-labbet` | `.cursor/agents/design-labbet.md` | Chameleon UI |
 | Android-Kompis | `/android-kompis` | `.cursor/agents/android-kompis.md` | G85, cap sync, deploy |
+| Bild-Arkitekten | `/bild-arkitekten` | `.cursor/agents/bild-arkitekten.md` | Bild till kod (Chameleon) |
+| Krav-Analytiker | `/krav-analytiker` | `.cursor/agents/livskompassen-master-architect.md` | Idé till Blueprint (Plan) |
 
 **Viktigt:** `/`-menyn läser **`.cursor/commands/*.md`**. `.cursor/agents/` är subagents (Task-delegation). Båda pekar på samma roll — använd slash-kommandot i chatten.
 

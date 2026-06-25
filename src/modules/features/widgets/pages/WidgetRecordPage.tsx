@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { AuthGate } from '@/core/auth/AuthGate';
 import { useStore } from '@/core/store';
 import { WidgetShell } from '../layout/WidgetShell';
+import { useWidgetShellClear } from '../context/widgetShellContext';
 import { useWidgetVaultRecording } from '../hooks/useWidgetVaultRecording';
 import { WidgetRecordMetadataForm } from '../components/WidgetRecordMetadataForm';
 import {
@@ -18,6 +19,8 @@ function WidgetRecordInner() {
   const { accepted: ethicsOk, accept: acceptEthics } = useWidgetRecordingEthicsAccepted();
   const rec = useWidgetVaultRecording(user?.uid);
   const autostarted = useRef(false);
+
+  useWidgetShellClear(rec.reset);
 
   useEffect(() => {
     if (

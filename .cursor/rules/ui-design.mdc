@@ -1,11 +1,11 @@
 ---
-description: Pekare till Obsidian Calm 2.0 — full UI-kanon i design-calm.mdc
+description: Pekare till Executive Midnight DAD — full UI-kanon i design-calm.mdc
 alwaysApply: false
 globs: src/**/*.tsx,src/**/*.ts,src/**/*.css,tailwind.config.*
 ---
 
 # UI Design Language
 
-**Kanon flyttad till** [`design-calm.mdc`](design-calm.mdc) — Obsidian Calm 2.0, typografi, interaktion och färg-glow.
+**Kanon:** [`design-calm.mdc`](design-calm.mdc) — Design Authority Decision (DAD) v1.0, Executive Midnight UI.
 
 Läs `design-calm.mdc` vid alla UI-ändringar. Duplicera inte regler här.

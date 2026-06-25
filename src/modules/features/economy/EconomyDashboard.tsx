@@ -13,6 +13,7 @@ import {
   ShoppingCart,
   Plus,
   Loader2,
+  Download,
 } from 'lucide-react';
 import type {
   EconomyLedgerRow,
@@ -20,6 +21,31 @@ import type {
   BudgetSavingsRow,
   EconomyImpulseRow,
 } from '@/core/types/firestore';
+import { AutoKategoriseringStub } from './components/AutoKategoriseringStub';
+
+function downloadCsv(rows: Record<string, unknown>[], filename: string) {
+  if (!rows.length) return;
+  const headers = Object.keys(rows[0]);
+  const csvContent = [
+    headers.join(','),
+    ...rows.map(row =>
+      headers.map(h => {
+        const val = row[h as keyof typeof row];
+        const str = val == null ? '' : String(val);
+        return /[,"\n]/.test(str) ? `"${str.replace(/"/g, '""')}"` : str;
+      }).join(',')
+    )
+  ].join('\n');
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
 /** Huvudingång för avancerad ekonomi — /ekonomi och /ekonomi/avancerad. */
 export default function EconomyDashboard() {
   const user = useStore((state) => state.user);
@@ -230,6 +256,9 @@ export default function EconomyDashboard() {
               Öppna Pauslistan
             </button>
           </div>
+          <div className="md:col-span-2 lg:col-span-3">
+            <AutoKategoriseringStub />
+          </div>
 
           <div className="md:col-span-2 lg:col-span-3 rounded-xl border border-border bg-surface-2 p-5 shadow-accent-glow">
             <div className="flex items-center justify-between border-b border-border/20 pb-3">
@@ -237,9 +266,20 @@ export default function EconomyDashboard() {
                 <Clock className="h-5 w-5 text-accent" />
                 <h3 className="font-semibold text-text">Ekonomilogg (WORM)</h3>
               </div>
-              <span className="text-[10px] uppercase tracking-wider text-text-dim bg-surface-3 border border-border/50 px-2 py-0.5 rounded-full">
-                Säker Beviskedja
-              </span>
+              <div className="flex items-center gap-3">
+                <span className="text-[10px] uppercase tracking-wider text-text-dim bg-surface-3 border border-border/50 px-2 py-0.5 rounded-full">
+                  Säker Beviskedja
+                </span>
+                <button
+                  onClick={() => downloadCsv(ledger as unknown as Record<string, unknown>[], `ekonomi_export_${new Date().toISOString().slice(0, 10)}.csv`)}
+                  disabled={ledger.length === 0}
+                  className="flex items-center gap-1.5 rounded-lg border border-border/40 px-2.5 py-1 text-[10px] uppercase tracking-wider text-text-muted transition-colors hover:border-accent/30 hover:text-text disabled:opacity-50"
+                  title="Exportera ekonomihistorik som CSV"
+                >
+                  <Download className="h-3 w-3" />
+                  CSV
+                </button>
+              </div>
             </div>
 
             <div className="mt-4 overflow-x-auto">

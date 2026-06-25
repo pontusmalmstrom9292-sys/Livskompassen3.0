@@ -23,20 +23,16 @@ type WidgetAction = {
 
 const WIDGET_ACTIONS: WidgetAction[] = [
   { id: 'inkast', label: 'Inkast', to: '/#inkast-lite', hubId: 'dagbok' },
-  { id: 'brusfiltret', label: 'Brusfiltret', to: '/widget/hamn', hubId: 'hamn' },
-  { id: 'voice-vault', label: 'Voice-to-Vault', to: '/widget/voice-vault', widgetIcon: 'note' },
-  { id: 'snabbval', label: 'Snabbval', to: '/widget/snabbval', hubId: 'mabra' },
+  { id: 'note', label: 'Bevis-rad', to: '/widget/anteckning', widgetIcon: 'note' },
+  { id: 'snabbval', label: 'Dagbok', to: '/widget/snabbval', hubId: 'dagbok' },
+  { id: 'barnobs', label: 'Barnobs', to: '/widget/familjen', hubId: 'familjen' },
+  { id: 'brusfiltret', label: 'Hamn', to: '/widget/hamn', hubId: 'hamn' },
+  { id: 'voice-vault', label: 'Bevis-röst', to: '/widget/voice-vault', widgetIcon: 'note' },
   {
     id: 'record',
-    label: 'Inspelning',
+    label: 'Bevis-ljud',
     to: '/widget/inspelning?autostart=1',
     widgetIcon: 'mic',
-  },
-  {
-    id: 'note',
-    label: 'Anteckning',
-    to: '/widget/anteckning',
-    widgetIcon: 'note',
   },
   { id: 'list', label: 'Lista', to: '/widget/projekt', hubId: 'projekt' },
   { id: 'plan', label: 'Planering', to: '/planering?tab=handling&picked=1', hubId: 'planering' },
@@ -193,7 +189,7 @@ export function FyrenDockHandle({
         className,
       )}
       aria-expanded={open}
-      aria-label={open ? 'Stäng Fyren snabbval' : 'Öppna Fyren snabbval. Håll tre sekunder för Valv.'}
+      aria-label={open ? 'Stäng snabbåtkomst' : 'Öppna snabbåtkomst. Håll tre sekunder för Valv.'}
       style={
         progress > 0
           ? ({ ...style, '--fyren-hold': `${Math.round(progress * 100)}%` } as CSSProperties)
@@ -205,7 +201,7 @@ export function FyrenDockHandle({
     >
       {showFyrenRing ? <FyrenProgressRing progress={progress} /> : null}
       <span className="fyren-dock-handle__lip" aria-hidden />
-      <span className="fyren-dock-handle__label">Fyren</span>
+      <span className="fyren-dock-handle__label">Snabbåtkomst</span>
       <svg viewBox="0 0 12 8" aria-hidden className="fyren-dock-handle__chevron">
         <path
           d="M1.5 6.5 6 2.5l4.5 4"

@@ -1,3 +1,5 @@
+> **Register:** `docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md`
+
 # Livskompassen Deploy Skill
 
 Use when zone-builders or verifier report PASS and prod deploy is needed. **Deploy is a skill, not a subagent.**

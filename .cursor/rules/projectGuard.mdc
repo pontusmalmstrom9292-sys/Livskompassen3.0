@@ -16,10 +16,15 @@ alwaysApply: false
 | Locked UX | [`locked-ux-features.mdc`](locked-ux-features.mdc) |
 | Deploy-gate | [`yolo-vakt-gate.mdc`](yolo-vakt-gate.mdc) |
 | Runtime-prompter (PMIR) | [`backend-agents.mdc`](backend-agents.mdc) |
+| Master-register (prompter/skills) | [`docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md`](../../docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md) |
 
 ## Prompt-smoke
 
-Vid ändring i `prompts/` eller `docs/prompts/`: `npm run smoke:prompts` (alias `smoke:guard`). Ingår i `smoke:tier1` / `smoke:predeploy`.
+Vid ändring i `prompts/` eller `docs/prompts/`:
+
+1. Runtime: redigera `functions/src/sharedRules.ts` (PMIR)
+2. Speglar: `npm run prompts:sync`
+3. Validering: `npm run smoke:prompts` (alias `smoke:guard`) — ingår i `smoke:tier1` / `smoke:predeploy`.
 
 Osäkerhet → se [`grunder-kanon.mdc`](grunder-kanon.mdc): *Ej tillräckligt data för bedömning.*
 

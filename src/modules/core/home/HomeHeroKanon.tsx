@@ -1,4 +1,6 @@
+import { useEffect, useState } from 'react';
 import { clsx } from 'clsx';
+import { Shield } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useTheme } from '../theme';
 import { getTheme } from '../theme';
@@ -10,7 +12,15 @@ import { HomeGreeting } from './HomeGreeting';
 import { HomeStreakChip } from './HomeStreakChip';
 import { HomeAdaptiveCompass } from './HomeAdaptiveCompass';
 import { HomeLayoutA } from './HomeLayoutA';
+import { ExecutiveMixEHomeDashboard } from './executive/ExecutiveMixEHomeDashboard';
+import {
+  getExecutiveHomeLayoutMode,
+  HOME_LAYOUT_CHANGED_EVENT,
+  type ExecutiveHomeLayoutMode,
+} from './executive/homeLayoutPreference';
 import { BRUSHED_BRASS_THEME_ID } from '../theme/themePackBrushedBrass';
+import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
+import { usePansarStore } from '../store/usePansarStore';
 
 type Props = {
   onCheckInSaved?: () => void;
@@ -23,11 +33,35 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
   const { themeId } = useTheme();
   const mockup = isMockupTheme(themeId) || themeUsesDesignPackChrome(getTheme(themeId));
   const brassHome = themeId === BRUSHED_BRASS_THEME_ID;
+  const executiveHome = isMidnightExecutiveTheme(themeId);
+  const [homeLayout, setHomeLayout] = useState<ExecutiveHomeLayoutMode>(() =>
+    executiveHome ? getExecutiveHomeLayoutMode() : 'extended',
+  );
   const { active: designPackActive } = useDesignPack();
   const { preset, presetId } = useLifeHubPreset();
+  const { activate } = usePansarStore();
+
+  useEffect(() => {
+    if (!executiveHome) return;
+    const sync = () => setHomeLayout(getExecutiveHomeLayoutMode());
+    sync();
+    window.addEventListener(HOME_LAYOUT_CHANGED_EVENT, sync);
+    return () => window.removeEventListener(HOME_LAYOUT_CHANGED_EVENT, sync);
+  }, [executiveHome]);
+
+  const sosTrigger = (
+    <button
+      type="button"
+      title="Nödläge (Pansar)"
+      onClick={() => activate('manual', 1)}
+      className="absolute top-4 right-4 z-50 p-2 text-slate-500 hover:text-indigo-400 opacity-20 hover:opacity-100 transition-all rounded-full"
+    >
+      <Shield size={18} />
+    </button>
+  );
 
   const header = (
-    <div className="home-hero-kanon__header">
+    <div className="home-hero-kanon__header relative">
       <BentoCard
         bare
         depth
@@ -51,15 +85,30 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
 
   if (brassHome) {
     return (
-      <div className="home-hero-kanon home-hero-kanon--brass-a">
+      <div className="home-hero-kanon home-hero-kanon--brass-a relative">
+        {sosTrigger}
         <HomeLayoutA variant="brass" onCheckInSaved={onCheckInSaved} presetLabel={preset.label} />
+      </div>
+    );
+  }
+
+  if (executiveHome) {
+    return (
+      <div className="home-hero-kanon home-hero-kanon--executive relative">
+        {sosTrigger}
+        {homeLayout === 'mix-e' ? (
+          <ExecutiveMixEHomeDashboard onCheckInSaved={onCheckInSaved} />
+        ) : (
+          <HomeLayoutA variant="executive" hideIntro onCheckInSaved={onCheckInSaved} />
+        )}
       </div>
     );
   }
 
   if (mockup) {
     return (
-      <div className={clsx('home-hero-kanon space-y-4', 'home-hero-kanon--mockup')}>
+      <div className={clsx('home-hero-kanon space-y-4 relative', 'home-hero-kanon--mockup')}>
+        {sosTrigger}
         <div className="home-hero-kanon__bridge">
           <div className="home-hero-kanon__compass-stage" aria-hidden />
           <div className="home-hero-kanon__scenic-stack space-y-4">
@@ -76,7 +125,8 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
   }
 
   return (
-    <div className="home-hero-kanon home-hero-kanon--layout-a">
+    <div className="home-hero-kanon home-hero-kanon--layout-a relative">
+      {sosTrigger}
       <HomeLayoutA variant="calm" onCheckInSaved={onCheckInSaved} presetLabel={preset.label} />
     </div>
   );

@@ -13,6 +13,7 @@ import {
 import { exportVaultRecordAsPdf } from '../utils/exportVaultRecord';
 import { normalizeStringArray } from '../utils/normalizeVaultLog';
 import { scanTechniquesForLog, logHasTechnique } from '../utils/vaultPatternScan';
+import { highlightPatterns } from '../utils/vaultPatternHighlight';
 
 type VaultLogRow = VaultLog & { id: string; weaverTags?: WeaverTags };
 
@@ -88,7 +89,7 @@ const LogRow = memo(function LogRow({
 }: {
   log: VaultLogRow;
   highlightLogId?: string | null;
-  highlightRef: RefObject<HTMLLIElement>;
+  highlightRef: RefObject<HTMLLIElement | null>;
   persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
 }) {
   const vavaren = isVavarenMetadata(log);
@@ -131,7 +132,21 @@ const LogRow = memo(function LogRow({
         </button>
       </div>
       <p className={`mt-2 whitespace-pre-wrap ${vavaren ? 'text-indigo-100/90' : 'text-text-muted'}`}>
-        {formatLogBody(log)}
+        {vavaren
+          ? formatLogBody(log)
+          : highlightPatterns(formatLogBody(log)).map((span, i) =>
+              span.className ? (
+                <span
+                  key={i}
+                  className={span.className}
+                  title={span.category}
+                >
+                  {span.text}
+                </span>
+              ) : (
+                span.text
+              ),
+            )}
       </p>
       {vavaren && weaverTags && (
         <div className="mt-3 flex flex-wrap gap-1">

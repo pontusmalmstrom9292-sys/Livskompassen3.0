@@ -1,0 +1,49 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2870
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 # Deep Research: Valv UI (Upload unified DirectPanel)\
+\
+**Datum:** 2026-06-25\
+**Zon:** Ventil (Valvet)\
+**Modul:** Valv modul (supermodul UI) / PHASE-08\
+**Status:** Deep Research pre-flight\
+\
+---\
+\
+#### Uppgift\
+G\'f6r en Deep Research f\'f6r att f\'f6rbereda UI-v\'e5g B1. Identifiera exakta filer, callables och eventuell backend-p\'e5verkan f\'f6r "Upload unified Valv DirectPanel" (PHASE-08).\
+\
+#### Exakta filer\
+F\'f6r att bygga och integrera **Upload unified Valv DirectPanel** i Valvets UI-v\'e5g B1 p\'e5verkas f\'f6ljande exakta frontend- och routing-filer:\
+\
+* `src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx`\
+* `src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts`\
+* `src/modules/capture/InkastDirectPanel.tsx`\
+* `src/modules/capture/VaultInkastCompact.tsx`\
+* `src/modules/capture/CapturePanel.tsx` och `src/modules/capture/CaptureSuperModule.tsx` (anv\'e4nds som bas f\'f6r polymorf inmatning)\
+\
+#### Callables och Backend-p\'e5verkan\
+Implementationen inneb\'e4r **ingen ny backend-arkitektur** om vi strikt \'e5teranv\'e4nder de l\'e5sta funktionerna fr\'e5n PHASE-03/04:\
+\
+* **`submitInkastLite`** \'96 Huvudanrop f\'f6r klassificering och uppladdning av bevis.\
+* **`uploadVaultEvidence`** \'96 F\'f6r direktuppladdning i Valv-l\'e4ge.\
+* **`confirmInboxItem` / `dismissInboxItem`** \'96 F\'f6r att hantera inkorgsk\'f6n via Human-in-the-Loop (HITL) n\'e4r s\'e4kerhetstr\'f6skeln kr\'e4ver granskning.\
+* **`unlockVault` / `issueVaultSession`** \'96 Valvet kr\'e4ver ett aktivt JWT-pass (1 timmes TTL) f\'f6r all direkt interaktion.\
+\
+**Backend-p\'e5verkan:** Mycket l\'e5g. Backend \'e4r redan markerad som "FREEZE". All routing \'e4r l\'e5st via g\'e4llande `firestore.rules` och `vaultSessionGate.ts`. Uppladdningar utan en \'f6ppen Vault-session hamnar helt korrekt i `inbox_queue` i v\'e4ntan p\'e5 HITL-godk\'e4nnande.\
+\
+#### Risk: WORM-samlingar och Tre RAG-silos\
+F\'f6ljande arkitektoniska lagar m\'e5ste respekteras rigor\'f6st f\'f6r att f\'f6rhindra WORM-brott och RAG-kollapser:\
+\
+1. **WORM-skydd:** Valvets huvudsakliga lagring, `reality_vault`, \'e4r strikt append-only. Frontend-panelen f\'e5r absolut inte inneh\'e5lla logik f\'f6r att radera (`delete`) eller uppdatera (`update`) inskickade bevis.\
+2. **Tre separata silos (U1):** Den nya DirectPanel-uppladdningen f\'e5r **aldrig** anv\'e4nda Cross-RAG. Material som klassificeras som bevis ska g\'e5 direkt till `reality_vault` eller `inbox_queue` och f\'e5r absolut inte dirigeras till `kb_docs` (Kunskapsbanken).\
+3. **Ingen Auto-promote:** Ingen automatisk flytt fr\'e5n `children_logs` (Barnens silo) till Valvet f\'e5r f\'f6rekomma; varje \'f6verf\'f6ring m\'e5ste g\'e5 via `SaveAsEvidencePrompt` (HITL).\
+\
+#### Slutsats\
+**Beslut:** **BUILD** (med strikta WORM/HITL-grindar).\
+\
+**Motivering:** M\'e5let med Livskompassen 3.0 \'e4r maximal kognitiv avlastning f\'f6r anv\'e4ndare med ADHD och kognitiv tr\'f6tthet. Att erbjuda spridda inmatningsformul\'e4r skapar on\'f6dig friktion. Genom att implementera "Upload unified Valv DirectPanel" via det standardiserade `InputSuperModule`-m\'f6nstret konsoliderar vi uppladdningen till en enda polymorf vy ("en v\'e4g in") i Valv-zonen. D\'e5 UI-v\'e5g B1 redan har etablerat Valvets Supermodul, \'e4r det helt r\'e4tt tillf\'e4lle att slutf\'f6ra Upload Unified, f\'f6rutsatt att inga befintliga backend-regler (`firestore.rules` eller `appCheck`) refaktoreras.}

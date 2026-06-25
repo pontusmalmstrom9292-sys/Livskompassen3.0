@@ -12,10 +12,11 @@ import { ensureVaultSessionReady, endVaultSession } from '@/core/security/vaultS
 import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
 import { VaultErrorBoundary } from './VaultErrorBoundary';
 import { VaultLockedGate } from '@/core/components/VaultLockedGate';
+import { VaultCountdown } from '@/core/security/VaultCountdown';
 import { ValvBentoShell } from './ValvBentoShell';
 const ValvInputSuperModule = lazy(() => import('../supermodule/ValvInputSuperModule').then(m => ({ default: m.ValvInputSuperModule })));
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
-import { type ValvInputMode } from '../supermodule/valvInputModes';
+import { type ValvInputMode, canonicalValvRoute } from '../supermodule/valvInputModes';
 import { resolveValvZone, type VaultTab } from '../utils/vaultTabs';
 
 export type { VaultTab, MainVaultTab, ValvZone } from '../utils/vaultTabs';
@@ -79,16 +80,23 @@ function VaultPageInner({
     [onValvModeChange],
   );
 
+  const applyCanonicalRoute = useCallback(
+    (mode: ValvInputMode, tab?: VaultTab) => {
+      const { vaultTab: nextTab, valvMode: nextMode } = canonicalValvRoute(mode, tab ?? vaultTab);
+      setValvMode(nextMode);
+      setVaultTab(nextTab);
+    },
+    [setValvMode, setVaultTab, vaultTab],
+  );
+
   const handleCitationClick = (docId: string) => {
     setHighlightLogId(docId);
-    setValvMode('spara');
-    setVaultTab('logga');
+    applyCanonicalRoute('spara', 'logga');
   };
 
   const handleBevisConfirmed = async (docId: string) => {
     setHighlightLogId(docId);
-    setValvMode('spara');
-    setVaultTab('logga');
+    applyCanonicalRoute('spara', 'logga');
     if (user) {
       try {
         await loadFirstLogsPage(user.uid);
@@ -101,10 +109,9 @@ function VaultPageInner({
   const handleTechniqueSelect = useCallback(
     (technique: string) => {
       setTechniqueFilter(technique);
-      setValvMode('spara');
-      setVaultTab('logga');
+      applyCanonicalRoute('spara', 'logga');
     },
-    [setValvMode, setVaultTab],
+    [applyCanonicalRoute],
   );
 
   const handleClearTechniqueFilter = useCallback(() => {
@@ -192,6 +199,7 @@ function VaultPageInner({
       <div className="flex items-start justify-between gap-2 px-1">
         <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
         <div className="flex shrink-0 items-center gap-1">
+          <VaultCountdown />
           <button
             type="button"
             onClick={() => navigate('/valvet/installningar')}

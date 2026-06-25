@@ -1,4 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { BookOpen, ChevronRight, Plus } from 'lucide-react';
+import { clsx } from 'clsx';
 import { useStore } from '@/core/store';
 import { hasVaultGate } from '@/core/auth/sessionService';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
@@ -20,8 +23,8 @@ export type DagbokReflektionDelegateProps = {
 };
 
 /**
- * Fas 11C — Reflektion wizard (mood → text → confirm → saved).
- * B3 — primär: wizard. Sekundär: tips (CalmCollapsible).
+ * Fas 11C — Reflektion wizard (mood → text → confirm → saved) or Dashboard Hub.
+ * B3 — primär: dashboard/wizard. Sekundär: tips (CalmCollapsible).
  * Thin wrapper — all WORM writes via useJournalFlow (skrivskyddad kärna).
  */
 export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegateProps) {
@@ -33,6 +36,15 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
   const capacityScore = useCapacityScore();
   const lowCapacity = isLowHomeCapacity(evolutionDoc, capacityScore);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const isWriting = searchParams.get('write') === 'true';
+
+  const startWriting = () => {
+    const next = new URLSearchParams(searchParams);
+    next.set('write', 'true');
+    setSearchParams(next, { replace: true });
+  };
+
   const {
     step,
     mood,
@@ -40,8 +52,6 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
     tags,
     category,
     pendingMemoryFile,
-    memoryError,
-    saving,
     memoryError,
     saving,
     error,
@@ -62,7 +72,31 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
     handleSaveMoodOnly,
     handleSaveWithoutText,
     resetFlow,
+    entries,
+    refreshEntries,
   } = useJournalFlow({ userId: user?.uid });
+
+  const days = Array.from({ length: 7 }).map((_, i) => {
+    const d = new Date();
+    d.setDate(d.getDate() - (6 - i));
+    return d;
+  });
+
+  const getSwedishWeekday = (date: Date) => {
+    const weekdays = ['Sön', 'Mån', 'Tis', 'Ons', 'Tor', 'Fre', 'Lör'];
+    return weekdays[date.getDay()];
+  };
+
+  const formatDateKey = (date: Date) => {
+    return date.toISOString().split('T')[0];
+  };
+
+  const [selectedDateKey, setSelectedDateKey] = useState(() => formatDateKey(new Date()));
+
+  useEffect(() => {
+    if (!user) return;
+    refreshEntries().catch(() => undefined);
+  }, [user, refreshEntries]);
 
   if (!user) {
     return (
@@ -81,6 +115,190 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
       onSaved?.();
     }
   }, [step, onSaved]);
+
+  const formatEntryTime = (entry: any) => {
+    if (!entry.createdAt) return '';
+    const date = entry.createdAt.toDate ? entry.createdAt.toDate() : new Date(entry.createdAt);
+    return date.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
+  };
+
+  const formatRelativeJournalDate = (date: Date) => {
+    const today = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(today.getDate() - 1);
+
+    const isToday = date.toDateString() === today.toDateString();
+    const isYesterday = date.toDateString() === yesterday.toDateString();
+
+    const timeString = date.toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' });
+
+    if (isToday) {
+      return `idag ${timeString}`;
+    }
+    if (isYesterday) {
+      return `igår ${timeString}`;
+    }
+    
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
+
+  if (!isWriting) {
+    const dayEntries = entries.filter((e) => {
+      if (!e.createdAt) return false;
+      const entryDate = (e.createdAt as any).toDate 
+        ? (e.createdAt as any).toDate() 
+        : new Date(e.createdAt);
+      return formatDateKey(entryDate) === selectedDateKey;
+    });
+    const activeEntry = dayEntries[0];
+
+    return (
+      <div className="dagbok-hub-dashboard" data-write-target="read_only">
+        {/* Date picker strip */}
+        <div className="flex justify-between items-center mb-6 py-2 px-1 overflow-x-auto gap-2">
+          {days.map((date) => {
+            const key = formatDateKey(date);
+            const isSelected = key === selectedDateKey;
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setSelectedDateKey(key)}
+                className="flex flex-col items-center flex-1 min-w-[48px] p-1.5 rounded-2xl focus:outline-none transition-all"
+              >
+                <span className={clsx(
+                  "w-10 h-10 flex items-center justify-center rounded-full text-sm font-semibold transition-all",
+                  isSelected ? "bg-accent text-[#050505] font-bold shadow-md shadow-accent/20" : "text-text-muted hover:text-text"
+                )}>
+                  {date.getDate()}
+                </span>
+                <span className="text-[10px] tracking-wider text-text-dim mt-1.5 font-medium">
+                  {getSwedishWeekday(date)}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Dagens reflektion Hero Card */}
+        {activeEntry ? (
+          <div 
+            className="relative overflow-hidden rounded-[2rem] border border-white/5 p-6 min-h-[190px] flex flex-col justify-between mb-8"
+            style={{
+              backgroundImage: `linear-gradient(to bottom, rgba(12, 12, 14, 0.35), rgba(12, 12, 14, 0.9)), url('https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            <div className="space-y-2">
+              <span className="text-[10px] tracking-[0.2em] text-accent uppercase font-bold">
+                DAGENS REFLEKTION
+              </span>
+              <p className="text-base text-white/90 font-medium leading-relaxed italic line-clamp-4">
+                "{activeEntry.text}"
+              </p>
+            </div>
+            <div className="flex justify-between items-end mt-4">
+              <span className="text-xs text-white/60 font-mono">
+                {formatEntryTime(activeEntry)}
+              </span>
+              <span className="text-xs text-accent uppercase font-semibold tracking-wider">
+                {activeEntry.mood || 'Reflektion'}
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div 
+            className="relative overflow-hidden rounded-[2rem] border border-white/5 p-6 min-h-[190px] flex flex-col justify-between mb-8 cursor-pointer hover:border-accent/10 transition-colors"
+            onClick={startWriting}
+            style={{
+              backgroundImage: `linear-gradient(to bottom, rgba(12, 12, 14, 0.45), rgba(12, 12, 14, 0.95)), url('https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&w=600&q=80')`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center'
+            }}
+          >
+            <div className="space-y-2">
+              <span className="text-[10px] tracking-[0.2em] text-accent/80 uppercase font-bold">
+                DAGENS REFLEKTION
+              </span>
+              <p className="text-sm text-white/70 font-sans leading-relaxed">
+                Ingen anteckning sparad för den här dagen. Ta en stund för att landa i dina tankar och känslor.
+              </p>
+            </div>
+            <div className="mt-4">
+              <span className="text-xs text-accent/60 uppercase font-semibold tracking-wider">
+                + Skriv nu
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* Tidigare anteckningar list */}
+        <div className="space-y-4 mb-8">
+          <h3 className="text-[10px] tracking-[0.2em] text-accent uppercase font-bold mb-3 px-1">
+            TIDIGARE ANTECKNINGAR
+          </h3>
+          {entries.length === 0 ? (
+            <p className="text-xs text-text-dim italic px-1">Inga tidigare anteckningar.</p>
+          ) : (
+            <div className="space-y-2.5">
+              {entries.map((entry) => {
+                const date = (entry.createdAt as any)?.toDate 
+                  ? (entry.createdAt as any).toDate() 
+                  : entry.createdAt 
+                    ? new Date(entry.createdAt) 
+                    : new Date();
+                const relativeDateString = formatRelativeJournalDate(date);
+                const titleText = entry.mood
+                  ? entry.mood.charAt(0).toUpperCase() + entry.mood.slice(1).toLowerCase()
+                  : 'Dagbok';
+                
+                return (
+                  <div 
+                    key={entry.id} 
+                    className="calm-card-midnight flex items-center justify-between p-4 cursor-pointer hover:border-accent/20 transition-all active:scale-[0.99]"
+                    onClick={() => {
+                      setSelectedDateKey(formatDateKey(date));
+                    }}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center text-accent">
+                        <BookOpen className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="text-xs tracking-wider font-semibold text-text">
+                          {titleText}
+                        </h4>
+                        <p className="text-[10px] text-text-dim mt-0.5">
+                          {relativeDateString}
+                        </p>
+                      </div>
+                    </div>
+                    <ChevronRight className="w-4 h-4 text-accent" />
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Capsule button for new entry */}
+        <div className="flex justify-center pt-2 pb-6">
+          <button
+            type="button"
+            onClick={startWriting}
+            className="flex items-center gap-2 px-6 py-3 rounded-full border border-accent/40 text-accent text-xs font-semibold uppercase tracking-widest hover:bg-accent/5 hover:border-accent transition-all active:scale-95"
+          >
+            <Plus className="w-4 h-4" />
+            Ny anteckning
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="dagbok-delegate dagbok-delegate--reflektion" data-write-target="journal_worm">
@@ -155,6 +373,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
 
           {step === 'done' && (
             <SavedStep
+              minimalDone={lowCapacity}
               onNewEntry={() => {
                 resetFlow();
               }}

@@ -3,6 +3,9 @@ name: livskompassen-rag-retrieval
 description: Kunskapsvalvet RAG — kampsparQueryRag, knowledgeVaultQuery, citations JSON. Use when editing retrieval, not Vector index provisioning.
 ---
 
+> **Register:** `docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md` · Runtime-prompter: `npm run prompts:sync`
+
+
 # RAG Retrieval (Kunskap)
 
 ## Scope

@@ -34,7 +34,7 @@ export function BiffRewriteButton({
     try {
       const result = await fetchBiffRewriteDraft(trimmed, context);
       if (!result?.cleanedText?.trim()) {
-        toast.error('BIFF-tvätt svarar inte just nu — texten är oförändrad.');
+        toast.error('BIFF-analys svarar inte just nu — texten är oförändrad.');
         return;
       }
       setUndoText(trimmed);
@@ -44,7 +44,7 @@ export function BiffRewriteButton({
       } else if (result.toneCheck === 'too_long') {
         toast.info('Förslaget är längre — korta gärna innan du skickar.');
       } else {
-        toast.success('Utkastet är tvättat enligt BIFF.');
+        toast.success('BIFF-analys slutförd.');
       }
     } finally {
       setLoading(false);
@@ -68,8 +68,8 @@ export function BiffRewriteButton({
           onClick={handleUndo}
           disabled={loading}
           className="flex h-8 w-8 items-center justify-center rounded-full bg-surface/50 text-text-muted transition-colors hover:bg-surface hover:text-accent"
-          title="Ångra BIFF-tvätt"
-          aria-label="Ångra BIFF-tvätt"
+          title="Ångra BIFF-analys"
+          aria-label="Ångra BIFF-analys"
         >
           <Undo2 className="h-4 w-4" />
         </button>
@@ -84,8 +84,8 @@ export function BiffRewriteButton({
             ? 'bg-accent/15 text-accent'
             : 'bg-surface/50 text-text-muted hover:bg-accent/10 hover:text-accent',
         )}
-        title="Tvätta enligt BIFF"
-        aria-label="Tvätta enligt BIFF"
+        title="BIFF-analys"
+        aria-label="BIFF-analys"
       >
         {loading ? (
           <Loader2 className="h-4 w-4 animate-spin" aria-hidden />

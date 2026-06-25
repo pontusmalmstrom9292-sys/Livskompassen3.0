@@ -10,17 +10,23 @@ import { registerSW } from 'virtual:pwa-register';
 
 applyDefaultTheme();
 
-void googleRedirectBoot.finally(() => {
+console.log("Starting boot"); void googleRedirectBoot.finally(() => {
   // SW efter redirect-hantering — undvik reload mitt i Google OAuth.
   registerSW({ immediate: true });
 
   void initAppCheck().finally(() => {
-    createRoot(document.getElementById('root')!).render(
-      <StrictMode>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </StrictMode>,
-    );
+    console.log("App Check finished, calling createRoot...");
+    try {
+      createRoot(document.getElementById('root')!).render(
+        <StrictMode>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </StrictMode>,
+      );
+      console.log("createRoot.render() executed successfully");
+    } catch (err) {
+      console.error("createRoot.render() threw an error:", err);
+    }
   });
 });

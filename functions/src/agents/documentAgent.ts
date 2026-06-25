@@ -2,7 +2,9 @@ import { google, drive_v3 } from 'googleapis';
 import { LIVSKOMPASSEN_SYSTEM_CONFIG } from '../sharedRules';
 import { createGenAI } from '../lib/genaiClient';
 
-const ai = createGenAI();
+function getAi() {
+  return createGenAI();
+}
 
 /** Same model family as knowledgeVaultAgent (verified in prod smoke). */
 const DRIVE_ANALYSIS_MODEL = 'gemini-2.5-flash';
@@ -55,7 +57,7 @@ export const analyzeDriveFile = async (fileId: string, fileName: string, mimeTyp
 
     console.log(`[File Pipeline] Fil nedladdad. Skickar till ${DRIVE_ANALYSIS_MODEL}...`);
 
-    const aiResponse = await ai.models.generateContent({
+    const aiResponse = await getAi().models.generateContent({
       model: DRIVE_ANALYSIS_MODEL,
       contents: [
         {

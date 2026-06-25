@@ -2422,60 +2422,6 @@ Filer i `docs/design/` som **används nu** — rör ej vid städning.
 **Regel:** Flytta, radera inte — förrän Pontus godkänt HYGIENE-LOG-rad.
 ````
 
-## File: docs/external-ai/LIFE-OS-BUILD-STATE.md
-````markdown
-# LIFE-OS-BUILD-STATE (levande sanning)
-
-Uppdateras vid varje CHECKPOINT. Register vinner över minne.
-
-**Senast uppdaterad:** 2026-06-18 (P4 + P6 LOCK efter smoke E2E)
-
-| Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
-|-----------|-------------|--------|-------|------------|
-| Security core (WORM + vault + guards) | `firestore.rules`, `unlockVault.ts`, `callableGuards.ts` | **LOCK** | valv-security + locked-ux 2026-06-18 | **CP-1** · **F19.1** |
-| Locked UX §11–17 | `.context/locked-ux-features.md` | **LOCK** | locked-ux PASS 2026-06-16 | **CP-1** |
-| G10 Inkast backend | `inboxClassifier.ts`, `submitInkastLite.ts`, `inkastStorageOnFinalize.ts` | **LOCK** | inkast + inbox + inkast-upload 2026-06-16 | **CP-3** |
-| G10 Inkast UI (CapturePanel + filer) | `CapturePanel.tsx`, `CaptureSuperModule.tsx` | **LOCK** | inkast PASS 2026-06-16 | **CP-4** |
-| Upload unified (Valv DirectPanel) | `InkastDirectPanel.tsx`, `VaultInkastCompact.tsx` | **LOCK** | inkast-upload + valv-compact 2026-06-16 | **CP-4b** |
-| SynapseBus (4 triggers) | `synapseBus.ts`, synapse handlers | **LOCK** | synapse-triggers + orkester 2026-06-16 | **CP-5** |
-| ADK Manifest runtime | `adk/manifest.ts`, `registry.ts`, `orchestrator.ts` | **LOCK** | manifest + orkester 2026-06-16 | **CP-5b** |
-| Valv chat E2E | `valvChatAgent.ts`, `valvChatQuery` | **LOCK** | valv-chat-e2e 2026-06-16 | **CP-8** |
-| App Check (kod) | `appCheck.ts`, `callableGuards.ts` | **LOCK** | tier1 2026-06-16 | **CP-6** |
-| Valv modul | `evidence/vault/` | **LOCK** | B1 + valv-mode 2026-06-16 | **B1** |
-| **P1 Brusfilter v1 (Valv Orkester)** | `processBrusfilter.ts`, `VaultOrkesterPanel.tsx` | **LOCK** | orkester 2026-06-17 | **P1** |
-| **P1 Brusfilter v2 (Inkast HITL)** | `InkastBrusfilterPreview.tsx`, `CapturePanel.tsx` | **LOCK** | inkast 2026-06-17 | **P1b** |
-| CI deploy | `.github/workflows/firebase-hosting-main.yml` | **LOCK** | smoke:tier1 + functions deploy | **CP-9** |
-| **P2 Dossier v2 (AI foreword)** | `dossierAiForeword.ts`, `generateDossierInternal.ts` | **LOCK** | dossier 2026-06-17 | **P2** |
-| **P3 Flow-assist (Mönster metadata)** | `assistPatternMetadata`, `VaultMonsterPanel.tsx`, `patternScanService.ts` | **LOCK** | pattern-metadata + orkester 2026-06-18 | **P3** |
-| **P4 MåBra bank_parafras** | `mabraCoach` mode `bank_parafras`, `VitCardFlowPanel`, `VitMemoryFlowPanel` | **LOCK** | smoke:mabra E2E PASS 2026-06-18 | **P4** |
-| **P6 Dossier Flow-tidslinje** | `dossierAiForeword.ts`, `generateDossierInternal.ts`, `DossierPage.tsx` | **LOCK** | smoke:dossier E2E PASS 2026-06-18 | **P6** |
-| Fas 19.1 security sprint | `invalidateSession` guard, D14 ParentReminderFooter | **LOCK** | valv-security 2026-06-18 | **F19.1** |
-| **Fas 19.2–19.5 (MåBra)** | hybrid-8, hex→tokens, JOY-17, evolution_ledger dual-write | **LOCK** | mabra + modulvaljare + evolution + innehall 2026-06-18 | **F19.2–19.5** |
-| Wave 29.1 barn-epistemik | `childObservationEpistemics.ts`, `saveChildrenLog` | **LOCK** | smoke:barn-epistemik 2026-06-18 | **V1** |
-| MB-PLAY-54321 | `MabraGrounding54321Wizard.tsx`, `grounding54321Play.ts` | **LOCK** | smoke:mabra 2026-06-18 | **V2** |
-| MB-REF-rsd-04 | `rsdErrorCopy.ts`, `mabraCoachService.ts`, `mabraContentBank.ts` | **LOCK** | smoke:mabra + innehall 2026-06-18 | **V3** |
-| Planering modulpinnar | `planningModulePinStorage.ts`, `PinnedPlaneringModuleSlot.tsx` | **LOCK** | locked-ux + planering 2026-06-18 | **PLAN-PIN** |
-| Barnporten barn-PWA | `barnportenRollout.ts`, `BarnportenPausedPanel.tsx` | **PAUSED** (`BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false`) | locked-ux 2026-06-18 | **V4** |
-| App Check Console Enforce | Firebase Console → Enforce | **LOCK** | Pontus Console 2026-06-17 | **V6** |
-| M3.0-C Fitness/Näring | evolution_hub | **DEFER** | — | **F19.N+** |
-| BP-PUSH (FCM barn) | — | **DEFER** | — | **V6** |
-| AI-assistent UI | — | **DEFER** | — | — |
-
-## Statusförklaring
-
-- **LOCK** — smoke PASS, får inte refaktoreras utan explicit OK + snapshot
-- **FREEZE** — backend-kärnan låst; endast bugfix + content ingest efter KEEP
-- **PAUSED** — implementerat men avstängt via flagga; kräver Pontus OK + PMIR för enable
-- **DEFER** — medvetet senarelagt
-
-## Nästa steg (Pontus)
-
-1. **Använd:** Familjen livslogg med citat/tolkning; MåBra 5-4-3-2-1-lek; Valv Mönster Flow-assist
-2. **Använd:** Dossier med AI-tidslinje (`includeAiForeword`) i Valv
-3. **DEFER:** BP-PUSH, barn-PWA rollout, M3.0-C Fitness/Näring, AI-assistent UI
-4. **Leverans:** `docs/evaluations/2026-06-18-produktkomplett-leverans.md`
-````
-
 ## File: docs/gpt-handoff/README.md
 ````markdown
 # GPT-handoff — RepoMix-paket för extern arkitekturgranskning
@@ -2631,34 +2577,6 @@ Launcher (`LivLauncherGrid`): **5 kort** — Handling borttagen (F1); Kanban nå
 Gemini påverkas inte av GPT-handoff. Delad kanon: `.context/locked-ux-features.md`, `docs/design/references/MENU-DRAWER-KANON.md`.
 ````
 
-## File: src/modules/core/layout/FloatingDock.tsx
-````typescript
-import { useCallback } from 'react';
-import type { CSSProperties } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { clsx } from 'clsx';
-import { openValvViaFyren } from '../auth/valvFyrenGate';
-import { getNavTruthById, NAV_PATHS } from '../navigation/navTruth';
-import { useLongPress } from '../hooks/useLongPress';
-import { useStore } from '../store';
-import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
-import { FyrenProgressRing } from '../ui/FyrenProgressRing';
-import { LivskompassMark } from '../ui/LivskompassMark';
-import { FyrenDockHandle } from '../components/FyrenWidgetBar';
-import { DockNavButton } from './DockNavButton';
-import { useHeaderPanelStyle } from './headerPanelStyle';
-⋮----
-type DockZone = {
-  id: string;
-  label: string;
-  to: string;
-  drawerIcon: DrawerL2HubId;
-  match: (pathname: string, search: string) => boolean;
-};
-⋮----
-active=
-````
-
 ## File: src/modules/core/navigation/navTruth.ts
 ````typescript
 import { HIDE_BEVIS_TAB } from './navFlags';
@@ -2725,38 +2643,6 @@ export function getDrawerRoots(section: NavDrawerSection, vaultSessionOpen = fal
 export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, vaultSessionOpen = false): boolean
 ````
 
-## File: src/modules/core/routing/AppRoutes.tsx
-````typescript
-import { lazy, Suspense } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { MainLayout } from '../layout/MainLayout';
-import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
-import { ProtectedModule } from '../../../components/layout/ProtectedModule';
-⋮----
-import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
-import {
-  clusterTabNavigateTarget,
-  valvetNavigateTarget,
-  type LifeJournalTabKey,
-} from '../navigation/navigationRegistry';
-import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
-import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
-⋮----
-function RouteFallback()
-⋮----
-function RedirectToLifeJournalTab(
-⋮----
-/** Blockera `?tab=bevis` på Hjärtat — skicka till Valvet. */
-⋮----
-/** Legacy `/valv` och `/kunskap` → Valvet (separat silo). */
-⋮----
-/** Legacy `/hamn` → Familjen; `?tab=analys` → Valv forensic (hamn_analys). */
-⋮----
-<Navigate to=
-⋮----
-function RedirectArkivToValvet()
-````
-
 ## File: src/modules/shell/LivLauncherGrid.tsx
 ````typescript
 import type { LucideIcon } from 'lucide-react';
@@ -2814,6 +2700,61 @@ type LivLauncherId =
   | 'arbetsliv';
 ````
 
+## File: docs/external-ai/LIFE-OS-BUILD-STATE.md
+````markdown
+# LIFE-OS-BUILD-STATE (levande sanning)
+
+Uppdateras vid varje CHECKPOINT. Register vinner över minne.
+
+**Senast uppdaterad:** 2026-06-25 (B1 supermodule UI LOCK)
+
+| Komponent | Nyckelfiler | Status | Smoke | CHECKPOINT |
+|-----------|-------------|--------|-------|------------|
+| Security core (WORM + vault + guards) | `firestore.rules`, `unlockVault.ts`, `callableGuards.ts` | **LOCK** | valv-security + locked-ux 2026-06-18 | **CP-1** · **F19.1** |
+| Locked UX §11–17 | `.context/locked-ux-features.md` | **LOCK** | locked-ux PASS 2026-06-16 | **CP-1** |
+| G10 Inkast backend | `inboxClassifier.ts`, `submitInkastLite.ts`, `inkastStorageOnFinalize.ts` | **LOCK** | inkast + inbox + inkast-upload 2026-06-16 | **CP-3** |
+| G10 Inkast UI (CapturePanel + filer) | `CapturePanel.tsx`, `CaptureSuperModule.tsx` | **LOCK** | inkast PASS 2026-06-16 | **CP-4** |
+| Upload unified (Valv DirectPanel) | `InkastDirectPanel.tsx`, `VaultInkastCompact.tsx` | **LOCK** | inkast-upload + valv-compact 2026-06-16 | **CP-4b** |
+| SynapseBus (4 triggers) | `synapseBus.ts`, synapse handlers | **LOCK** | synapse-triggers + orkester 2026-06-16 | **CP-5** |
+| ADK Manifest runtime | `adk/manifest.ts`, `registry.ts`, `orchestrator.ts` | **LOCK** | manifest + orkester 2026-06-16 | **CP-5b** |
+| Valv chat E2E | `valvChatAgent.ts`, `valvChatQuery` | **LOCK** | valv-chat-e2e 2026-06-16 | **CP-8** |
+| App Check (kod) | `appCheck.ts`, `callableGuards.ts` | **LOCK** | tier1 2026-06-16 | **CP-6** |
+| Valv modul | `evidence/vault/` | **LOCK** | B1 + valv-mode 2026-06-16 | **B1** |
+| Valv modul (supermodule UI) | `ValvInputSuperModule.tsx` | **LOCK** | locked-ux PASS 2026-06-25 | **B1** |
+| **P1 Brusfilter v1 (Valv Orkester)** | `processBrusfilter.ts`, `VaultOrkesterPanel.tsx` | **LOCK** | orkester 2026-06-17 | **P1** |
+| **P1 Brusfilter v2 (Inkast HITL)** | `InkastBrusfilterPreview.tsx`, `CapturePanel.tsx` | **LOCK** | inkast 2026-06-17 | **P1b** |
+| CI deploy | `.github/workflows/firebase-hosting-main.yml` | **LOCK** | smoke:tier1 + functions deploy | **CP-9** |
+| **P2 Dossier v2 (AI foreword)** | `dossierAiForeword.ts`, `generateDossierInternal.ts` | **LOCK** | dossier 2026-06-17 | **P2** |
+| **P3 Flow-assist (Mönster metadata)** | `assistPatternMetadata`, `VaultMonsterPanel.tsx`, `patternScanService.ts` | **LOCK** | pattern-metadata + orkester 2026-06-18 | **P3** |
+| **P4 MåBra bank_parafras** | `mabraCoach` mode `bank_parafras`, `VitCardFlowPanel`, `VitMemoryFlowPanel` | **LOCK** | smoke:mabra E2E PASS 2026-06-18 | **P4** |
+| **P6 Dossier Flow-tidslinje** | `dossierAiForeword.ts`, `generateDossierInternal.ts`, `DossierPage.tsx` | **LOCK** | smoke:dossier E2E PASS 2026-06-18 | **P6** |
+| Fas 19.1 security sprint | `invalidateSession` guard, D14 ParentReminderFooter | **LOCK** | valv-security 2026-06-18 | **F19.1** |
+| **Fas 19.2–19.5 (MåBra)** | hybrid-8, hex→tokens, JOY-17, evolution_ledger dual-write | **LOCK** | mabra + modulvaljare + evolution + innehall 2026-06-18 | **F19.2–19.5** |
+| Wave 29.1 barn-epistemik | `childObservationEpistemics.ts`, `saveChildrenLog` | **LOCK** | smoke:barn-epistemik 2026-06-18 | **V1** |
+| MB-PLAY-54321 | `MabraGrounding54321Wizard.tsx`, `grounding54321Play.ts` | **LOCK** | smoke:mabra 2026-06-18 | **V2** |
+| MB-REF-rsd-04 | `rsdErrorCopy.ts`, `mabraCoachService.ts`, `mabraContentBank.ts` | **LOCK** | smoke:mabra + innehall 2026-06-18 | **V3** |
+| Planering modulpinnar | `planningModulePinStorage.ts`, `PinnedPlaneringModuleSlot.tsx` | **LOCK** | locked-ux + planering 2026-06-18 | **PLAN-PIN** |
+| Barnporten barn-PWA | `barnportenRollout.ts`, `BarnportenPausedPanel.tsx` | **PAUSED** (`BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED=false`) | locked-ux 2026-06-18 | **V4** |
+| App Check Console Enforce | Firebase Console → Enforce | **LOCK** | Pontus Console 2026-06-17 | **V6** |
+| M3.0-C Fitness/Näring | evolution_hub | **DEFER** | — | **F19.N+** |
+| BP-PUSH (FCM barn) | — | **DEFER** | — | **V6** |
+| AI-assistent UI | — | **DEFER** | — | — |
+
+## Statusförklaring
+
+- **LOCK** — smoke PASS, får inte refaktoreras utan explicit OK + snapshot
+- **FREEZE** — backend-kärnan låst; endast bugfix + content ingest efter KEEP
+- **PAUSED** — implementerat men avstängt via flagga; kräver Pontus OK + PMIR för enable
+- **DEFER** — medvetet senarelagt
+
+## Nästa steg (Pontus)
+
+1. **Använd:** Familjen livslogg med citat/tolkning; MåBra 5-4-3-2-1-lek; Valv Mönster Flow-assist
+2. **Använd:** Dossier med AI-tidslinje (`includeAiForeword`) i Valv
+3. **DEFER:** BP-PUSH, barn-PWA rollout, M3.0-C Fitness/Näring, AI-assistent UI
+4. **Leverans:** `docs/evaluations/2026-06-18-produktkomplett-leverans.md`
+````
+
 ## File: src/modules/features/admin/planning/components/PlaneringPage.tsx
 ````typescript
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
@@ -2821,6 +2762,8 @@ import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-do
 import { Calendar, LayoutGrid, PenLine } from 'lucide-react';
 import { clsx } from 'clsx';
 import { HubPageShell } from '@/core/layout/HubPageShell';
+import { useTheme } from '@/core/theme';
+import { isMidnightExecutiveTheme } from '@/core/theme/themePackMidnightExecutive';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { PLANERING_TAGLINE, PLANERING_MORE_TABS } from '../constants';
@@ -2892,4 +2835,77 @@ className=
 ⋮----
 setFyrenSideQuickHidden(false);
 setOpen(false);
+````
+
+## File: src/modules/core/layout/FloatingDock.tsx
+````typescript
+import { useCallback, useState } from 'react';
+⋮----
+import type { CSSProperties } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { clsx } from 'clsx';
+import { Landmark, LayoutGrid, PenLine, Inbox } from 'lucide-react';
+import { openValvViaFyren } from '../auth/valvFyrenGate';
+import { useExecutiveHomeChrome } from '../home/ExecutiveHomeChromeContext';
+import { NAV_PATHS } from '../navigation/navTruth';
+import { ResurserOverlay } from '../navigation/ResurserOverlay';
+import { useLongPress } from '../hooks/useLongPress';
+import { useStore } from '../store';
+import { useTheme } from '../theme';
+import { getTheme } from '../theme';
+import { isMockupTheme } from '../theme/mockupTheme';
+import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
+import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
+import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
+import { LivskompassMark } from '../ui/LivskompassMark';
+import { FyrenDockHandle } from '../components/FyrenWidgetBar';
+import { DockNavButton } from './DockNavButton';
+import { ExecutiveDockBar } from './ExecutiveDockBar';
+import { useHeaderPanelStyle } from './headerPanelStyle';
+⋮----
+export function FloatingDock()
+⋮----
+onFamiljen=
+⋮----
+onResurser=
+⋮----
+active=
+⋮----
+onClick=
+⋮----
+className=
+````
+
+## File: src/modules/core/routing/AppRoutes.tsx
+````typescript
+import { lazy, Suspense } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { MainLayout } from '../layout/MainLayout';
+import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
+import { ProtectedModule } from '../../../components/layout/ProtectedModule';
+⋮----
+import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
+⋮----
+import {
+  clusterTabNavigateTarget,
+  valvetNavigateTarget,
+  type LifeJournalTabKey,
+} from '../navigation/navigationRegistry';
+import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
+import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
+⋮----
+function RouteFallback()
+⋮----
+function RedirectToLifeJournalTab(
+⋮----
+/** Blockera `?tab=bevis` på Hjärtat — skicka till Valvet. */
+⋮----
+/** Legacy `/valv` och `/kunskap` → Valvet (separat silo). */
+⋮----
+/** Legacy `/hamn` → Familjen; `?tab=analys` → Valv forensic (hamn_analys). */
+⋮----
+<Navigate to=
+⋮----
+function RedirectArkivToValvet()
 ````

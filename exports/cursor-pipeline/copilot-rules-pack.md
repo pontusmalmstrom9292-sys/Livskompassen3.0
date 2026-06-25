@@ -1,5 +1,5 @@
 # Copilot rules pack
-Generated: 2026-06-20T23:48:14.285Z
+Generated: 2026-06-23T09:47:27.909Z
 ## DRIFT: none
 ## index
 

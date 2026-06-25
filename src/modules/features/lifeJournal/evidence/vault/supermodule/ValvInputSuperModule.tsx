@@ -3,6 +3,7 @@ import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import '../components/valv.css';
 import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
+import { InkastDirectPanel } from '@/modules/capture/InkastDirectPanel';
 import { ValvSuperModule } from '../components/ValvSuperModule';
 import { ValvInputModePicker } from './ValvInputModePicker';
 import {
@@ -31,6 +32,7 @@ export type ValvInputSuperModuleProps = {
 /**
  * Canonical Valv navigation — primära lägen + «Mer…» (Fas 1B).
  * Granska ersätter separat inbox-zon och `?samlaView=granska`.
+ * Spara (B1): InkastDirectPanel direkt — unified "en väg in", WORM-only append.
  */
 export function ValvInputSuperModule({
   activeMode,
@@ -54,6 +56,50 @@ export function ValvInputSuperModule({
     [onModeChange],
   );
 
+  const renderZoneContent = () => {
+    if (activeMode === 'granska') {
+      return (
+        <InboxReviewQueue
+          prioritizeBevis
+          onBevisConfirmed={(docId) => {
+            void onBevisConfirmed(docId);
+            setMode(DEFAULT_VALV_INPUT_MODE);
+          }}
+          onBack={() => setMode('spara')}
+        />
+      );
+    }
+
+    if (activeMode === 'spara') {
+      return (
+        <InkastDirectPanel
+          tone="valv"
+          sourceModule="valv_samla"
+          onQueued={() => setMode('granska')}
+          onPersistedBevis={(docId) => void onBevisConfirmed(docId)}
+          queueHintAsButton
+        />
+      );
+    }
+
+    return (
+      <ValvSuperModule
+        variant={valvInputModeDef(activeMode).zone}
+        vaultTab={vaultTab}
+        userId={userId}
+        gateOk={gateOk}
+        highlightLogId={highlightLogId}
+        onBevisConfirmed={onBevisConfirmed}
+        onCitationClick={onCitationClick}
+        onVaultTabChange={onVaultTabChange}
+        onOpenGranska={() => setMode('granska')}
+        techniqueFilter={techniqueFilter}
+        onTechniqueSelect={onTechniqueSelect}
+        onClearTechniqueFilter={onClearTechniqueFilter}
+      />
+    );
+  };
+
   return (
     <BentoCard
       glow="blue"
@@ -68,31 +114,7 @@ export function ValvInputSuperModule({
       </div>
 
       <div className="mt-2 pr-1">
-        {activeMode === 'granska' ? (
-          <InboxReviewQueue
-            prioritizeBevis
-            onBevisConfirmed={(docId) => {
-              void onBevisConfirmed(docId);
-              setMode(DEFAULT_VALV_INPUT_MODE);
-            }}
-            onBack={() => setMode('spara')}
-          />
-        ) : (
-          <ValvSuperModule
-            variant={valvInputModeDef(activeMode).zone}
-            vaultTab={vaultTab}
-            userId={userId}
-            gateOk={gateOk}
-            highlightLogId={highlightLogId}
-            onBevisConfirmed={onBevisConfirmed}
-            onCitationClick={onCitationClick}
-            onVaultTabChange={onVaultTabChange}
-            onOpenGranska={() => setMode('granska')}
-            techniqueFilter={techniqueFilter}
-            onTechniqueSelect={onTechniqueSelect}
-            onClearTechniqueFilter={onClearTechniqueFilter}
-          />
-        )}
+        {renderZoneContent()}
       </div>
     </BentoCard>
   );

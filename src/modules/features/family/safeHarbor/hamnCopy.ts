@@ -13,6 +13,10 @@ export const HAMN_BRUSFILTER_HINT =
 export const HAMN_EMBEDDED_LEAD =
   'Klistra in meddelandet — få kort Grey Rock-svar. Inget skickas automatiskt. Tryck Klar när du är färdig (Zero Footprint).';
 
+/** PV1a — efter kopiera: lågaffektiv paus, ingen skyldighet att svara direkt. */
+export const HAMN_POST_COPY_CALM =
+  'Kopierat. Du behöver inte svara nu — klistra in när det passar dig.';
+
 /** Fas 3 — referens till Kunskapsbank (PIN), inte sms-coaching. */
 export const HAMN_TAKTIK_LEXIKON_LEAD =
   'Taktik-lexikon är metod och begrepp (hoovering, smear, ekonomisk kontroll) — bakom Valv-PIN. Hamn ger bara BIFF-svar på ditt meddelande.';
