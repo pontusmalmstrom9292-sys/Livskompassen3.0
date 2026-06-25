@@ -1,13 +1,14 @@
 import { clsx } from 'clsx';
 import { useId } from 'react';
 
-type Size = 'sm' | 'md' | 'lg' | 'dock';
+type Size = 'sm' | 'md' | 'lg' | 'dock' | 'dock-lg';
 
 const SIZE_CLASS: Record<Size, string> = {
   sm: 'h-8 w-8',
   md: 'h-12 w-12',
   lg: 'h-16 w-16',
   dock: 'h-[2.65rem] w-[2.65rem]',
+  'dock-lg': 'h-[2.65rem] w-[2.65rem]',
 };
 
 type Props = {
@@ -44,13 +45,12 @@ export function ExecutiveDecorCompass({ className = '', size = 'md' }: Props) {
           <stop offset="100%" stopColor="#7a5c1a" />
         </linearGradient>
         <radialGradient id={orb} cx="50%" cy="38%" r="58%">
-          <stop offset="0%" stopColor="rgba(253, 230, 138, 0.55)" />
-          <stop offset="55%" stopColor="rgba(201, 166, 107, 0.12)" />
+          <stop offset="0%" stopColor="rgba(253, 230, 138, 0.22)" />
+          <stop offset="55%" stopColor="rgba(201, 166, 107, 0.06)" />
           <stop offset="100%" stopColor="rgba(0, 0, 0, 0)" />
         </radialGradient>
-        <filter id={glow} x="-40%" y="-40%" width="180%" height="180%">
-          <feDropShadow dx="0" dy="2" stdDeviation="2.5" floodColor="#d4af37" floodOpacity="0.55" />
-          <feDropShadow dx="0" dy="0" stdDeviation="5" floodColor="#fde68a" floodOpacity="0.25" />
+        <filter id={glow} x="-20%" y="-20%" width="140%" height="140%">
+          <feDropShadow dx="0" dy="1" stdDeviation="1.2" floodColor="#d4af37" floodOpacity="0.28" />
         </filter>
       </defs>
 

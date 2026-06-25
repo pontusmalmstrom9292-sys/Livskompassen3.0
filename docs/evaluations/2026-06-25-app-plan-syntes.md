@@ -58,11 +58,11 @@ Livskompassen är ett **personligt Life OS** under juridiskt och psykologiskt tr
 
 | ID | Leverans | Status | Källa |
 |----|----------|--------|-------|
-| **P0** | Smoke grön + Android daily driver | Blocker | [12-produkagare](./2026-06-25-produktanalys/12-produkagare-nasta-bygg.md) #5 |
-| **23C** | SOS Ankare `/mabra/recovery/sos` | TODO | [07-mabra](./2026-06-25-produktanalys/07-mabra-vit-lagtröskel.md) |
+| **P0** | Smoke grön + Android daily driver | **smoke PASS** 2026-06-25 · G85 7d kvar | [12-produkagare](./2026-06-25-produktanalys/12-produkagare-nasta-bygg.md) #5 |
+| **23C** | SOS Ankare `/mabra/recovery/sos` | **done** | [07-mabra](./2026-06-25-produktanalys/07-mabra-vit-lagtröskel.md) |
 | **23D** | Paralys-Brytaren i Planering P3 | TODO | [09-agenter](./2026-06-25-produktanalys/09-agenter-synapser-ai.md) |
 | **23E** | Tyst läge / dissociation i Dagbok | TODO | [03-dagbok](./2026-06-25-produktanalys/03-dagbok-hjartat.md) topp #1 |
-| **PV1** | Produktvåg 1 (Hamn/MåBra/Widget/Fyren) | Ny | [05–08](./2026-06-25-produktanalys/INDEX.md) |
+| **PV1** | Produktvåg 1 (Hamn/MåBra/Widget/Fyren) | **delvis done** | [05–08](./2026-06-25-produktanalys/INDEX.md) |
 
 ### Defer (explicit)
 

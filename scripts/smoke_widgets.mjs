@@ -22,7 +22,8 @@ function readCanonical(relativePath) {
 const shell = readCanonical('src/modules/features/widgets/layout/WidgetShell.tsx');
 assert(shell.includes('Dölj nu'), 'WidgetShell saknar panik «Dölj nu»');
 assert(shell.includes('WidgetShellProvider'), 'WidgetShell saknar rensa-vid-stäng provider');
-assert(shell.includes('widget-panic-blur-overlay'), 'WidgetShell saknar panik-blur');
+assert(shell.includes('widget-shell--panic'), 'WidgetShell saknar panik-blur på innehåll');
+assert(shell.includes('widget-panic-blur-overlay'), 'WidgetShell saknar panik-overlay');
 
 const note = readCanonical('src/modules/features/widgets/pages/WidgetNotePage.tsx');
 assert(note.includes('WidgetSiloChipPicker'), 'WidgetNotePage saknar silo-chip');

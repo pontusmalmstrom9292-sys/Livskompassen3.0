@@ -21,13 +21,14 @@ function WidgetShellFrame({ title, lead, children }: Props) {
     setPanicBlur(true);
     window.setTimeout(() => {
       panicHide();
-    }, 120);
+    }, 400);
   };
 
   return (
     <>
-      {panicBlur ? <div className="widget-panic-blur-overlay" aria-hidden /> : null}
-      <div className={`widget-shell relative min-h-screen bg-bg text-text ${panicBlur ? 'widget-shell--panic' : ''}`}>
+      <div
+        className={`widget-shell relative min-h-screen bg-bg text-text ${panicBlur ? 'widget-shell--panic' : ''}`}
+      >
         <header className="widget-shell__header">
           <div className="flex items-start justify-between gap-3">
             <Link to="/" className="widget-shell__brand" aria-label="Öppna Livskompassen">
@@ -49,6 +50,7 @@ function WidgetShellFrame({ title, lead, children }: Props) {
         </header>
         <main className="widget-shell__main">{children}</main>
       </div>
+      {panicBlur ? <div className="widget-panic-blur-overlay" aria-hidden /> : null}
     </>
   );
 }

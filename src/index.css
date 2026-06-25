@@ -4836,17 +4836,24 @@
 
   .widget-record-discreet-overlay {
     @apply pointer-events-none fixed inset-0 z-[100];
-    background: rgba(0, 0, 0, 0.95);
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
   }
 
   .widget-panic-blur-overlay {
     @apply pointer-events-none fixed inset-0 z-[120];
-    background: rgba(0, 0, 0, 0.92);
-    backdrop-filter: blur(24px);
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    transition: backdrop-filter 0.25s ease, background 0.25s ease;
   }
 
   .widget-shell--panic {
-    @apply opacity-0;
+    filter: blur(20px);
+    opacity: 0.25;
+    pointer-events: none;
+    transition: filter 0.25s ease, opacity 0.25s ease;
   }
 
   .widget-silo-picker {
@@ -6502,6 +6509,10 @@ html.dim-mode {
     background: transparent !important;
     pointer-events: none;
     padding-bottom: max(0.5rem, env(safe-area-inset-bottom)) !important;
+  }
+
+  .dock-shell.dock-shell--reference-dock {
+    padding-bottom: 0 !important;
   }
 
   /* The main outer dock bar */

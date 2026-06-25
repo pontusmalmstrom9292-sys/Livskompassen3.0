@@ -343,7 +343,7 @@ När en Superhub-modul har **implementerats, testats och godkänts** av teknikle
 |-----------|------|--------|
 | **23A** | **Globalt Pansarläge (Survival Mode)** — extrem offloading | **done** |
 | **23B** | **Töm Skallen-vy (Inkast-Dyk)** | **done** (Bara ord + Lyssna) |
-| **23C** | **"Sista Utvägen" (MåBra Akut)** — SOS Ankare | TODO |
+| **23C** | **"Sista Utvägen" (MåBra Akut)** — SOS Ankare | **done** 2026-06-25 |
 | **23D** | Paralys-Brytaren i Planering | TODO |
 | **23E** | Tyst Läge (Darkest Mode) i Superdagbok | TODO |
 
@@ -357,16 +357,17 @@ När en Superhub-modul har **implementerats, testats och godkänts** av teknikle
 
 | ID | Leverans | Status | Smoke / gate |
 |----|----------|--------|--------------|
-| **P0** | Smoke grön + Android G85 daily driver (7 dagar) | **AKTIV blocker** | `smoke:predeploy`, `build:web && cap sync` |
-| **PV1a** | Fyren silo-labels · MåBra lågenergi-filter · Hamn kopiera+rensa | TODO | `smoke:mabra`, `smoke:locked-ux`, `smoke:design-modules` |
-| **23C** | SOS Ankare `/mabra/recovery/sos` | TODO | `smoke:mabra` |
-| **PV1b** | Widget silo-chip + panik «Dölj» + rensa vid stäng | TODO | `smoke:widgets`, WH1 audit |
-| **S24** | Zero Footprint widget/synapse clear · DCAP 4 band · `mabraCoachGuard` utökad | TODO | `smoke:valv-security`, `smoke:inkast` |
-| **HITL1** | Unified HITL preview (inkast först) | TODO | `smoke:inkast`, `smoke:dcap` |
+| **P0** | Smoke grön + Android G85 daily driver (7 dagar) | **smoke PASS** 2026-06-25 · G85 7d kvar | `smoke:predeploy:build`, `build:web && cap sync` |
+| **PV1a** | Fyren silo-labels · MåBra lågenergi-filter · Hamn kopiera+rensa · executive reference-dock | **delvis** — dock done | `smoke:mabra`, `smoke:locked-ux`, `smoke:design-modules` |
+| **23C** | SOS Ankare `/mabra/recovery/sos` | **done** 2026-06-25 | `smoke:mabra` |
+| **PV1b** | Widget silo-chip + panik «Dölj» + rensa vid stäng | **done** 2026-06-25 | `smoke:widgets`, WH1 audit |
+| **S24** | Zero Footprint widget/synapse clear · DCAP 4 band · `mabraCoachGuard` utökad | **done** 2026-06-25 | `smoke:s24`, `smoke:valv-security`, `smoke:dcap-routing` |
+| **HITL1** | Unified HITL preview (inkast först) | **done** 2026-06-25 | `smoke:hitl1`, `smoke:inkast`, `smoke:dcap` |
+| **24.dock** | Executive reference-dock (`ExecutiveDockBar`) | **done** 2026-06-25 | `smoke:locked-ux`, `smoke:chrome-header` |
 | **23D** | Paralys-Brytaren i Planering P3 | TODO | `smoke:planering`, `smoke:locked-ux` |
 | **23E** | Tyst läge / dissociation i Superdagbok | TODO | `smoke:journal-2d`, `smoke:locked-ux` |
 
-**Byggsekvens (0–12 veckor):** P0 → PV1a → 23C → S24 → PV1b → HITL1 → 23D → 23E
+**Byggsekvens (0–12 veckor):** ~~P0~~ → ~~23C~~ → ~~S24~~ → ~~PV1b~~ → ~~HITL1~~ → **PV1a-rest** → **23D** → **23E**
 
 **Defer från Fas 19 (om ej påbörjad):** 19.3 hex→tokens · 19.5 evolution_ledger · 19.6 arkiv-batch → se syntes §3 defer (6m+)
 
