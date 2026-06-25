@@ -67,4 +67,5 @@ jobs:
         uses: google-github-actions/setup-gcloud@v2
 
       - name: Deploy to Firebase Hosting
-        run: npx firebase-tools@13.35.1 deploy --only hosting,functions,firestore:rules,storage --project gen-lang-client-0481875058 --non-interactive
+        # Exclude scheduler-backed functions: the deploy service account lacks Cloud Scheduler update permission.
+        run: npx firebase-tools@13.35.1 deploy --except functions:scheduledRetentionJob,functions:scheduledGeneratePayslip --project gen-lang-client-0481875058 --non-interactive
