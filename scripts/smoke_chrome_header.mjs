@@ -92,8 +92,8 @@ function main() {
   mustInclude(
     'src/modules/core/design/DesignPackCenterHeader.tsx',
     'executive-premium',
-    'design-pack-header__eye-slot',
     'centerAction',
+    'design-pack-header__actions',
   );
 
   mustInclude(
