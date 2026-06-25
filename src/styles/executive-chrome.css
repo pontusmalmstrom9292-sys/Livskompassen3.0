@@ -520,9 +520,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  font-size: 0.4375rem;
+  font-size: 0.4rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   line-height: 1.1;
   color: color-mix(in srgb, var(--accent) 72%, var(--text-muted));
@@ -563,23 +563,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 5.65rem;
-  height: 5.65rem;
-  margin-top: -4.15rem;
-  margin-bottom: 0.1rem;
+  width: 5.35rem;
+  height: 5.85rem;
+  margin-top: -4.35rem;
+  margin-bottom: 0.15rem;
   padding: 0;
-  border: 1px solid color-mix(in srgb, var(--accent) 38%, transparent);
-  border-radius: 50%;
-  background: radial-gradient(
-    circle at 50% 42%,
-    color-mix(in srgb, var(--accent) 8%, transparent) 0%,
-    color-mix(in srgb, var(--surface-2) 42%, transparent) 42%,
-    transparent 72%
-  );
+  border: 1px solid color-mix(in srgb, var(--accent-light) 42%, transparent);
+  border-radius: 50% / 46%;
+  background: transparent;
   box-shadow:
-    0 0 0 1px color-mix(in srgb, var(--accent) 10%, transparent),
-    0 0 22px color-mix(in srgb, var(--accent) 28%, transparent),
-    0 8px 20px rgba(0, 0, 0, 0.35);
+    0 0 18px color-mix(in srgb, var(--accent) 34%, transparent),
+    inset 0 0 12px color-mix(in srgb, var(--accent) 8%, transparent);
   transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease;
 }
 
