@@ -105,6 +105,10 @@ export function valvInputModeDef(mode: ValvInputMode): ValvInputModeDef {
   return MODE_BY_ID[mode];
 }
 
+export function shouldShowValvModePicker(mode: ValvInputMode): boolean {
+  return mode === 'spara' || mode === 'granska';
+}
+
 export function parseValvInputMode(raw: string | null): ValvInputMode {
   if (raw && (VALV_INPUT_MODE_IDS as readonly string[]).includes(raw)) {
     return raw as ValvInputMode;

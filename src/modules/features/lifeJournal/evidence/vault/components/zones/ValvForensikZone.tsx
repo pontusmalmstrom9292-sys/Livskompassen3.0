@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { TabBar } from '@/core/ui/TabBar';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { getForensicVaultTabBarItems } from '@/core/navigation/tabRegistry';
 import { VaultForensicPanel } from '../VaultForensicPanel';
@@ -49,18 +50,17 @@ export function ValvForensikZone({ tab, onTabChange, gateOk }: ValvForensikZoneP
           </button>
         )}
       </div>
-      <section
-        className="mb-4 rounded-xl border border-[0.5px] border-border/30 bg-surface-2/50 p-4"
-        aria-label="DCAP säkerhetsgranskning"
+      <CalmCollapsible
+        title="Säkerhetsgranskning"
+        meta="DCAP HITL"
+        defaultOpen={false}
+        glow="blue"
       >
-        <p className="mb-2 font-display-serif text-xs uppercase tracking-[0.2em] text-accent-dim">
-          Säkerhetsgranskning
-        </p>
         <p className="mb-3 text-xs text-text-muted">
           Väntande DCAP-eskaleringar — granska manuellt innan åtgärd. Hash-only logg.
         </p>
         <VaultDcapAlertsPanel gateOk={gateOk} />
-      </section>
+      </CalmCollapsible>
       <VaultForensicPanel tab={tab} />
     </HubErrorBoundary>
   );

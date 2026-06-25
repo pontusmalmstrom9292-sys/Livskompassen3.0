@@ -3,11 +3,11 @@ import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import '../components/valv.css';
 import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
-import { InkastDirectPanel } from '@/modules/capture/InkastDirectPanel';
 import { ValvSuperModule } from '../components/ValvSuperModule';
 import { ValvInputModePicker } from './ValvInputModePicker';
 import {
   DEFAULT_VALV_INPUT_MODE,
+  shouldShowValvModePicker,
   valvInputModeDef,
   type ValvInputMode,
 } from './valvInputModes';
@@ -30,9 +30,9 @@ export type ValvInputSuperModuleProps = {
 };
 
 /**
- * Canonical Valv navigation — primära lägen + «Mer…» (Fas 1B).
+ * Canonical Valv navigation — primära Samla-lägen + djupflikar via zoner.
  * Granska ersätter separat inbox-zon och `?samlaView=granska`.
- * Spara (B1): InkastDirectPanel direkt — unified "en väg in", WORM-only append.
+ * Spara (B1): Samla-zonen samlar inkast, granskning, arkiv och sök i samma yta.
  */
 export function ValvInputSuperModule({
   activeMode,
@@ -72,12 +72,19 @@ export function ValvInputSuperModule({
 
     if (activeMode === 'spara') {
       return (
-        <InkastDirectPanel
-          tone="valv"
-          sourceModule="valv_samla"
-          onQueued={() => setMode('granska')}
-          onPersistedBevis={(docId) => void onBevisConfirmed(docId)}
-          queueHintAsButton
+        <ValvSuperModule
+          variant="samla"
+          vaultTab={vaultTab}
+          userId={userId}
+          gateOk={gateOk}
+          highlightLogId={highlightLogId}
+          onBevisConfirmed={onBevisConfirmed}
+          onCitationClick={onCitationClick}
+          onVaultTabChange={onVaultTabChange}
+          onOpenGranska={() => setMode('granska')}
+          techniqueFilter={techniqueFilter}
+          onTechniqueSelect={onTechniqueSelect}
+          onClearTechniqueFilter={onClearTechniqueFilter}
         />
       );
     }
@@ -100,6 +107,8 @@ export function ValvInputSuperModule({
     );
   };
 
+  const showModePicker = shouldShowValvModePicker(activeMode);
+
   return (
     <BentoCard
       glow="blue"
@@ -108,10 +117,12 @@ export function ValvInputSuperModule({
       bare
       className="!p-4 sm:!p-5"
     >
-      <div className="mb-3 flex items-center justify-between gap-2">
-        <ValvInputModePicker activeMode={activeMode} onChange={setMode} />
-        <ModuleHelpFromRegistry moduleId="valv" mode={activeMode} />
-      </div>
+      {showModePicker ? (
+        <div className="mb-3 flex items-center justify-between gap-2">
+          <ValvInputModePicker activeMode={activeMode} onChange={setMode} />
+          <ModuleHelpFromRegistry moduleId="valv" mode={activeMode} />
+        </div>
+      ) : null}
 
       <div className="mt-2 pr-1">
         {renderZoneContent()}

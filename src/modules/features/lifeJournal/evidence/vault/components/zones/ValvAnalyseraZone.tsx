@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react';
 import { TabBar } from '@/core/ui/TabBar';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { getAnalyseraVaultTabBarItems } from '@/core/navigation/tabRegistry';
 import { useVaultStore } from '@/core/store/useVaultStore';
 import { useStore } from '@/core/store';
@@ -49,7 +50,14 @@ export function ValvAnalyseraZone({ tab, onTabChange, onTechniqueSelect }: ValvA
           <VaultOrkesterPanel logs={logs} />
         ) : (
           <>
-            <PansaretHeader />
+            <CalmCollapsible
+              title="Vad betyder Pansaret?"
+              meta="Kort förklaring"
+              defaultOpen={false}
+              glow="gold"
+            >
+              <PansaretHeader />
+            </CalmCollapsible>
             <VaultMonsterPanel
               logs={logs}
               userId={userId}

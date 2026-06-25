@@ -10,6 +10,8 @@
 
 Samma `vaultTab`-IDs och callables som tidigare. Endast **zon-navigation** (färre val åt gången) och drawer-grupper ändras.
 
+**Förenkling 2026-06-25:** Samla-läget ska vara en sammanhållen Valv-yta: inkast, granskning, arkivlista och sök/Valv-Chat. Djupflikar (Mönster, Orkester, Kunskap, Rapporter, Forensik) visar inte extra lägesrad ovanpå sin egen flikrad. Stora förklarings-/säkerhetsblock startar stängda via `CalmCollapsible`.
+
 | Zon (UI) | Flikar (`vaultTab`) | Användning |
 |----------|---------------------|------------|
 | **Samla** | `logga`, `sok` | Bevis, sms, triage, Valv-Chat |

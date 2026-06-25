@@ -16,7 +16,7 @@ import { VaultCountdown } from '@/core/security/VaultCountdown';
 import { ValvBentoShell } from './ValvBentoShell';
 const ValvInputSuperModule = lazy(() => import('../supermodule/ValvInputSuperModule').then(m => ({ default: m.ValvInputSuperModule })));
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
-import { type ValvInputMode, canonicalValvRoute } from '../supermodule/valvInputModes';
+import { type ValvInputMode, canonicalValvRoute, shouldShowValvModePicker } from '../supermodule/valvInputModes';
 import { resolveValvZone, type VaultTab } from '../utils/vaultTabs';
 
 export type { VaultTab, MainVaultTab, ValvZone } from '../utils/vaultTabs';
@@ -63,6 +63,7 @@ function VaultPageInner({
   const [sessionSyncError, setSessionSyncError] = useState<string | null>(null);
   const gateOk = hasVaultGate();
   const valvZone = resolveValvZone(vaultTab);
+  const showBreadcrumb = !shouldShowValvModePicker(valvMode);
 
   const setVaultTab = useCallback(
     (next: VaultTab) => {
@@ -196,8 +197,8 @@ function VaultPageInner({
   return (
     <ValvBentoShell showZonePill={false}>
       <div className="space-y-4">
-      <div className="flex items-start justify-between gap-2 px-1">
-        <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
+      <div className={`flex items-start gap-2 px-1 ${showBreadcrumb ? 'justify-between' : 'justify-end'}`}>
+        {showBreadcrumb ? <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} /> : null}
         <div className="flex shrink-0 items-center gap-1">
           <VaultCountdown />
           <button
