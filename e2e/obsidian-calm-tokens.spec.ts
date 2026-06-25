@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+const APPROVED_WARM_GOLD_ACCENTS = new Set(['#d4af37', '#c9a66b']);
+
 function isDarkHex(hex: string): boolean {
   const match = hex.trim().match(/^#([0-9a-f]{6})$/i);
   if (!match) return false;
@@ -12,7 +14,7 @@ function isDarkHex(hex: string): boolean {
 
 /** Obsidian Calm 2.0 — CSS-variabler och mörk bas i runtime. */
 test.describe('Obsidian Calm tokens', () => {
-  test('index.css-variabler är mörka och guld-accent finns', async ({ page }) => {
+  test('index.css-variabler är mörka och varm guldaccent finns', async ({ page }) => {
     await page.goto('/');
     await page.waitForSelector('.home-hero-kanon', { timeout: 30_000 });
 
@@ -25,7 +27,7 @@ test.describe('Obsidian Calm tokens', () => {
     });
 
     expect(isDarkHex(tokens.surface)).toBe(true);
-    expect(tokens.accent.toLowerCase()).toMatch(/d4af37|212|175|55/);
+    expect(APPROVED_WARM_GOLD_ACCENTS).toContain(tokens.accent.toLowerCase());
   });
 
   test('manifest theme_color är mörk Obsidian-bas', async ({ page }) => {
