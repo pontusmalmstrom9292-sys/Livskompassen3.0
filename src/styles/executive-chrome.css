@@ -394,134 +394,131 @@
   backdrop-filter: blur(14px);
 }
 
-/* —— Executive bottom dock (mockup bild) —— */
-.dock-shell--executive {
-  --exec-dock-fab-size: 5.35rem;
+/* —— Executive: klassisk dock (Familj · kompass · Ventil) — polerad —— */
+[data-theme='ME-midnight-executive'] {
+  --app-dock-clearance: calc(7.25rem + env(safe-area-inset-bottom, 0px) + 0.85rem);
 }
 
-.exec-floating-dock {
-  position: relative;
-  z-index: 6;
-  pointer-events: auto;
+.dock-shell--executive-chrome {
+  --dock-stack-height: 6.85rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.dock-shell--executive-chrome .floating-dock {
+  width: 100%;
+  max-width: 42rem;
   margin-inline: auto;
-  width: min(100%, 26rem);
-  padding: 0.2rem 0.65rem calc(0.55rem + env(safe-area-inset-bottom, 0px));
 }
 
-.exec-floating-dock__rail {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr var(--exec-dock-fab-size) 1fr 1fr;
-  align-items: center;
-  gap: 0.1rem;
-  padding: 0.65rem 0.45rem calc(var(--exec-dock-fab-size) * 0.46 + 0.35rem);
-  border-radius: 1.45rem;
-  border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+.dock-shell--executive-chrome .dock-hub-band__rail {
+  border-radius: 1.2rem;
+  border-color: color-mix(in srgb, var(--accent) 32%, transparent);
   background: linear-gradient(
-    180deg,
+    168deg,
     color-mix(in srgb, var(--surface-2) 96%, transparent) 0%,
-    color-mix(in srgb, var(--surface) 98%, #000) 100%
+    color-mix(in srgb, var(--surface) 98%, #020617) 100%
   );
   box-shadow:
-    0 1px 0 color-mix(in srgb, var(--accent) 16%, transparent) inset,
-    0 14px 38px rgba(0, 0, 0, 0.55),
-    0 0 28px color-mix(in srgb, var(--accent) 8%, transparent);
+    0 1px 0 color-mix(in srgb, var(--accent-light) 12%, transparent) inset,
+    0 10px 32px rgba(0, 0, 0, 0.52),
+    0 0 24px color-mix(in srgb, var(--accent) 10%, transparent);
 }
 
-.exec-floating-dock__fab-gap {
-  width: var(--exec-dock-fab-size);
+.dock-shell--executive-chrome .floating-dock .dock-hub-band__rail {
+  padding: 0.55rem 0.65rem 0.5rem;
+  border-radius: 1.2rem;
 }
 
-.exec-floating-dock__item {
-  display: flex;
+.dock-shell--executive-chrome .floating-dock .dock-hub-band__rail--zones {
+  max-width: none;
+  min-height: 3.15rem;
   align-items: center;
-  justify-content: center;
-  justify-self: center;
-  min-width: 2.85rem;
+  padding: 0 0.15rem;
+}
+
+.dock-shell--executive-chrome .floating-dock .dock-nav-btn__label {
+  display: none;
+}
+
+.dock-shell--executive-chrome .floating-dock__side-btn {
   min-height: 2.85rem;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: color-mix(in srgb, var(--text-muted) 88%, var(--accent) 12%);
-  transition: color 0.2s ease, transform 0.15s ease;
-}
-
-.exec-floating-dock__item--active {
-  color: var(--accent-light);
-}
-
-.exec-floating-dock__item-icon {
-  display: flex;
-  align-items: center;
+  padding-bottom: 0;
   justify-content: center;
+}
+
+.dock-shell--executive-chrome .floating-dock__side-btn .dock-nav-btn__icon-shell--calm {
   width: 2.75rem;
   height: 2.75rem;
-  border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--accent) 14%, transparent);
-  background: color-mix(in srgb, var(--surface-3) 55%, transparent);
-  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 0.75rem;
+  border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+  background: color-mix(in srgb, var(--surface-3) 70%, transparent);
+  box-shadow:
+    0 1px 0 color-mix(in srgb, var(--accent-light) 8%, transparent) inset,
+    0 4px 12px rgba(0, 0, 0, 0.35);
 }
 
-.exec-floating-dock__glyph {
-  width: 1.45rem;
-  height: 1.45rem;
-}
-
-.exec-floating-dock__item--active .exec-floating-dock__item-icon {
-  border-color: color-mix(in srgb, var(--accent) 48%, transparent);
+.dock-shell--executive-chrome .floating-dock__side-btn.dock-nav-btn--active .dock-nav-btn__icon-shell--calm {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
   background: color-mix(in srgb, var(--accent) 12%, var(--surface-3));
-  box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 32%, transparent);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--accent) 28%, transparent);
 }
 
-.exec-floating-dock__item:hover .exec-floating-dock__item-icon {
-  border-color: color-mix(in srgb, var(--accent) 32%, transparent);
-  color: var(--accent-light);
+.dock-shell--executive-chrome .floating-dock .dock-hub-band__rail--zones > .floating-dock__center-wrapper {
+  grid-column: 3;
+  grid-row: 1;
+  justify-self: center;
+  z-index: 4;
+  transform: translateY(-0.5rem);
 }
 
-.exec-floating-dock__item:active {
-  transform: scale(0.94);
+.dock-shell--executive-chrome .floating-dock .dock-hub-band__rail--zones > .floating-dock__center-wrapper .dock-hub-band__center {
+  margin-top: 0;
 }
 
-.exec-floating-dock__fab {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  z-index: 7;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--exec-dock-fab-size);
-  height: var(--exec-dock-fab-size);
-  border: 2.5px solid color-mix(in srgb, var(--accent) 68%, transparent);
-  border-radius: 999px;
-  background:
-    radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--accent) 14%, var(--surface-3)) 0%, var(--surface) 68%);
+.dock-shell--executive-chrome .floating-dock__center-glow {
+  width: 5.5rem;
+  height: 5.5rem;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent) 38%, transparent) 0%,
+    color-mix(in srgb, var(--accent) 12%, transparent) 45%,
+    transparent 72%
+  );
+}
+
+.dock-shell--executive-chrome .floating-dock__plate {
+  width: 4.65rem;
+  height: 4.65rem;
+  border-width: 2px;
+  border-color: color-mix(in srgb, var(--accent) 58%, transparent);
+  background: radial-gradient(
+    circle at 50% 30%,
+    color-mix(in srgb, var(--accent) 14%, var(--surface-3)) 0%,
+    color-mix(in srgb, var(--surface-2) 92%, #000) 72%
+  );
   box-shadow:
-    0 0 0 4px color-mix(in srgb, var(--accent) 10%, transparent),
-    0 0 36px color-mix(in srgb, var(--accent) 42%, transparent),
-    0 10px 28px rgba(0, 0, 0, 0.55);
-  transform: translate(-50%, -58%);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    0 0 0 3px color-mix(in srgb, var(--accent) 8%, transparent),
+    0 0 28px color-mix(in srgb, var(--accent) 38%, transparent),
+    0 8px 22px rgba(0, 0, 0, 0.5);
 }
 
-.exec-floating-dock__fab--home {
-  transform: translate(-50%, -60%);
+.dock-shell--executive-chrome .floating-dock__mark--executive {
+  width: 2.85rem;
+  height: 2.85rem;
+  filter: drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 55%, transparent));
 }
 
-.exec-floating-dock__fab--snabb-open {
-  border-color: color-mix(in srgb, var(--accent-light) 75%, transparent);
+.dock-shell--executive-chrome .dock-hub-band__center--snabb-open .floating-dock__plate {
+  border-color: color-mix(in srgb, var(--accent-light) 72%, transparent);
   box-shadow:
-    0 0 0 5px color-mix(in srgb, var(--accent) 14%, transparent),
-    0 0 48px color-mix(in srgb, var(--accent) 55%, transparent),
-    0 12px 32px rgba(0, 0, 0, 0.58);
+    0 0 0 4px color-mix(in srgb, var(--accent) 12%, transparent),
+    0 0 36px color-mix(in srgb, var(--accent) 48%, transparent),
+    0 10px 26px rgba(0, 0, 0, 0.52);
 }
 
-.exec-floating-dock__fab--holding {
-  transform: translate(-50%, -58%) scale(0.97);
-}
-
-.exec-floating-dock__fab-compass {
-  filter: drop-shadow(0 0 14px color-mix(in srgb, var(--accent) 65%, transparent));
+.dock-shell--executive-chrome .floating-dock__arc {
+  opacity: 0.55;
 }
 
 /* Header — kompass + kompis */

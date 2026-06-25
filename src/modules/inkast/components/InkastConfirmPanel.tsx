@@ -1,4 +1,3 @@
-import { CheckCircle2, Loader2 } from 'lucide-react';
 import { clsx } from 'clsx';
 import type { InboxClassification } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import { ROUTING_LABELS } from '../api/inkastService';

@@ -7,7 +7,7 @@ const SIZE_CLASS: Record<Size, string> = {
   sm: 'h-8 w-8',
   md: 'h-12 w-12',
   lg: 'h-16 w-16',
-  dock: 'h-[4.25rem] w-[4.25rem]',
+  dock: 'h-[2.65rem] w-[2.65rem]',
 };
 
 type Props = {
