@@ -1,13 +1,16 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Inbox, Mic, PenLine, Sun, Moon, Clock, Sparkles, Edit2, ChevronRight, Star } from 'lucide-react';
+import { Anchor, Inbox, Mic, PenLine, Sun, Moon, Clock, Sparkles, Edit2, ChevronRight, Star } from 'lucide-react';
+import { ExecutiveJournalHistoryRail } from './executive/ExecutiveJournalHistoryRail';
+import { ExecutiveReflektionHero } from './executive/ExecutiveReflektionHero';
+import { ExecutiveFocusCard } from './executive/cards/ExecutiveFocusCard';
+import { ExecutiveLivsloggCard } from './executive/cards/ExecutiveLivsloggCard';
 import { clsx } from 'clsx';
 import { saveCheckIn, getRecentCheckIns } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
 import { CalmCollapsible } from '../ui/CalmCollapsible';
 import { HomeGreeting } from './HomeGreeting';
 import { HomeBrassDaySteps } from './HomeBrassDaySteps';
-import { HomeExecutiveSnabbstart } from './HomeExecutiveSnabbstart';
 import { HomeStreakChip } from './HomeStreakChip';
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
 import { HOME_SUPERHUB_ROUTES } from './homeSuperhubRoutes';
@@ -167,7 +170,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
     'home-layout-a mx-auto w-full max-w-2xl space-y-4 pb-4',
     variant === 'brass' && 'home-brass-a',
     variant === 'calm' && 'home-layout-a--calm',
-    variant === 'executive' && 'home-layout-a--executive',
+    variant === 'executive' && 'home-layout-a--executive executive-home-dashboard calm-scroll-island',
   );
 
   const insetClass =
@@ -175,22 +178,29 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
       ? 'home-layout-a__hero-inset brass-inset neu-inset w-full resize-none border-0 bg-transparent px-3 py-2 text-sm text-text'
       : 'home-layout-a__hero-inset w-full resize-none rounded-xl border border-border/20 bg-surface-3 px-3 py-2 text-sm text-text';
 
-  const heroSurface = surfaceClass(
-    variant,
-    clsx('home-layout-a__hero-card', variant === 'brass' && 'brass-glass--hero'),
+  const heroSurface = clsx(
+    'home-layout-a__hero-card',
+    variant === 'brass' ? surfaceClass(variant, 'brass-glass--hero') : 'calm-card',
+    variant === 'executive' && 'home-layout-a__hero-card--executive',
   );
 
-  const cardClass =
-    variant === 'executive'
-      ? 'exec-surface-card'
-      : 'calm-card-midnight';
+  const cardClass = variant === 'brass' ? 'brass-glass' : 'calm-card';
 
   return (
     <div className={rootClass}>
-      {!hideIntro ? (
+      {variant === 'executive' ? (
+        <>
+          <ExecutiveReflektionHero />
+          <div className="executive-home-grid">
+            <ExecutiveFocusCard />
+            <ExecutiveLivsloggCard />
+          </div>
+        </>
+      ) : null}
+
+      {!hideIntro && variant !== 'executive' ? (
       <div className="home-layout-a__intro">
-        <HomeGreeting hideEyebrow={variant === 'executive'} />
-        {variant !== 'executive' ? (
+        <HomeGreeting />
         <CalmCollapsible
           title="Profil & fas"
           meta={weekdayLabel(now)}
@@ -214,7 +224,6 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
             <HomeStreakChip />
           </div>
         </CalmCollapsible>
-        ) : null}
       </div>
       ) : null}
 
@@ -222,85 +231,108 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
         className={clsx('home-layout-a__hero relative p-4', heroSurface)}
         aria-label="Dagens ankare"
       >
-        <div className="flex justify-between items-start mb-2 relative z-[1]">
-          <p className={clsx(
-            'text-[9px] tracking-[0.2em] uppercase font-bold text-accent',
-            variant === 'executive' && 'home-layout-a__section-label',
-          )}>
-            DAGENS ANKARE
-          </p>
+        <div className="relative z-[1] mb-3 flex items-start justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <Anchor className="h-4 w-4 text-accent" strokeWidth={1.5} aria-hidden />
+            <p className={clsx(
+              'mb-0 text-[9px] font-bold uppercase tracking-[0.2em] text-accent',
+              variant === 'executive' && 'home-layout-a__section-label',
+            )}>
+              Dagens ankare
+            </p>
+          </div>
           {!isEditing && anchor.trim() ? (
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={() => setIsEditing(true)}
-                className="text-text-dim hover:text-accent transition-colors p-1"
+                className="p-1 text-text-dim transition-colors hover:text-accent"
                 title="Redigera ankare"
               >
-                <Edit2 className="w-3.5 h-3.5" />
+                <Edit2 className="h-3.5 w-3.5" />
               </button>
-              <Star className="w-3.5 h-3.5 text-accent fill-accent" />
+              <Star className="h-3.5 w-3.5 fill-accent text-accent" />
             </div>
           ) : (
-            <Star className="w-3.5 h-3.5 text-accent fill-accent" />
+            <Star className="h-3.5 w-3.5 fill-accent text-accent" />
           )}
         </div>
 
+        <div className="relative z-[1] space-y-1">
+          <h2 className={clsx(
+            'text-lg font-bold leading-snug text-text',
+            variant === 'executive' ? 'font-display-serif tracking-wide text-accent-light' : 'font-display-serif',
+          )}>
+            Vad är viktigast idag?
+          </h2>
+          <p className="text-xs text-text-muted">Inte hela dagen — bara det viktigaste nu.</p>
+        </div>
+
         {isEditing ? (
-          <div className="space-y-3 relative z-[1]">
-            <p className="text-xs text-text-muted">Inte hela dagen — bara det viktigaste nu.</p>
+          <div className="relative z-[1] mt-4 space-y-3">
+            <label htmlFor="home-layout-a-anchor" className="text-[10px] font-medium text-text-dim">
+              Dagens ankare
+            </label>
             <textarea
               id="home-layout-a-anchor"
               className={clsx(
                 insetClass,
-                "focus:border-accent/40 focus:ring-1 focus:ring-accent/20 transition-all font-sans text-sm focus:outline-none"
+                'font-sans text-sm transition-all focus:border-accent/40 focus:outline-none focus:ring-1 focus:ring-accent/20',
               )}
-              rows={2}
-              placeholder="Ett mikrosteg räcker."
+              rows={3}
+              placeholder="T.ex. lugnt samtal med barnen efter skolan …"
               value={anchor}
               onChange={(e) => {
                 setAnchor(e.target.value);
               }}
             />
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
               <button
                 type="button"
-                className="px-3.5 py-1.5 text-[10px] font-semibold tracking-wider uppercase bg-accent text-bg-base hover:bg-accent-light transition-colors rounded"
+                className="btn-pill--accent text-[10px] font-semibold uppercase tracking-wider"
                 disabled={saving}
                 onClick={() => void handleAnchorSave()}
               >
                 {saving ? 'Sparar …' : 'Spara ankare'}
               </button>
-              {anchor.trim() && (
+              {anchor.trim() ? (
                 <button
                   type="button"
-                  className="px-3.5 py-1.5 text-[10px] font-semibold tracking-wider uppercase border border-border/20 text-text-muted hover:text-text transition-colors rounded"
+                  className="btn-pill--ghost text-[10px] font-semibold uppercase tracking-wider"
                   onClick={() => setIsEditing(false)}
                 >
                   Avbryt
                 </button>
-              )}
-              {error ? <p className="text-xs text-danger ml-2">{error}</p> : null}
+              ) : null}
+              {error ? <p className="text-xs text-danger">{error}</p> : null}
             </div>
           </div>
         ) : (
-          <div className="space-y-1 py-1 cursor-pointer animate-fade-in relative z-[1]" onClick={() => setIsEditing(true)}>
-            <h2 className={clsx(
-              'text-lg font-bold leading-snug hover:text-accent-light transition-colors',
-              variant === 'executive' ? 'font-display-serif tracking-wide text-accent-light' : 'font-sans text-text',
+          <button
+            type="button"
+            className="relative z-[1] mt-4 w-full animate-fade-in text-left"
+            onClick={() => setIsEditing(true)}
+          >
+            <p className={clsx(
+              'text-base font-semibold leading-snug text-text hover:text-accent-light',
+              variant === 'executive' && 'font-display-serif tracking-wide text-accent-light',
             )}>
               {anchor.trim() || 'Ett mikrosteg räcker.'}
-            </h2>
-            <p className="text-[10px] text-text-dim">Inte hela dagen — bara det viktigaste nu.</p>
-          </div>
+            </p>
+          </button>
         )}
       </section>
 
-      <HomeBrassDaySteps variant={variant} />
+      <PinnedPlaneringModuleSlot targetId="hem.brass.below-grid" />
 
       {variant === 'executive' ? (
-        <HomeExecutiveSnabbstart />
-      ) : (
+        <ExecutiveJournalHistoryRail />
+      ) : null}
+
+      {variant !== 'executive' ? (
+        <>
+      <HomeBrassDaySteps variant={variant} />
+
       <div className="space-y-2">
         <p className={clsx(
           'text-[9px] tracking-[0.2em] uppercase font-bold text-accent pl-1',
@@ -327,7 +359,6 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
           })}
         </div>
       </div>
-      )}
 
       {/* Närvaro & Ritual side-by-side (Mockup flat layout) */}
       <div className="grid grid-cols-2 gap-2.5">
@@ -338,7 +369,6 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
         >
           <span className={clsx(
             'text-[9px] tracking-[0.12em] uppercase font-bold text-accent',
-            variant === 'executive' && 'home-layout-a__section-label',
           )}>NÄRVARO</span>
           <div className="flex flex-col mt-2">
             <span className="text-xl font-bold font-sans text-text leading-none">{presenceVal}</span>
@@ -353,7 +383,6 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
         >
           <span className={clsx(
             'text-[9px] tracking-[0.12em] uppercase font-bold text-accent',
-            variant === 'executive' && 'home-layout-a__section-label',
           )}>RITUAL</span>
           <div className="flex flex-col mt-2">
             <span className="text-base font-bold font-sans text-text leading-none">{ritual.name}</span>
@@ -371,10 +400,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
         className={clsx(cardClass, 'w-full p-4 flex items-center justify-between text-left hover:border-accent/30 transition-all active:scale-[0.99]')}
       >
         <div className="space-y-1">
-          <p className={clsx(
-            'text-[9px] tracking-[0.2em] uppercase font-bold text-accent',
-            variant === 'executive' && 'home-layout-a__section-label',
-          )}>
+          <p className="text-[9px] tracking-[0.2em] uppercase font-bold text-accent">
             KOMPASSRÅD
           </p>
           <p className="text-xs font-semibold text-text leading-relaxed font-sans">
@@ -383,8 +409,9 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
         </div>
         <ChevronRight className="w-4 h-4 text-accent flex-shrink-0 ml-4" />
       </button>
+        </>
+      ) : null}
 
-      <PinnedPlaneringModuleSlot targetId="hem.brass.below-grid" />
     </div>
   );
 }

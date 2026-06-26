@@ -46,7 +46,7 @@ export function HomeBrassDaySteps({ variant = 'calm' }: Props) {
 
   const tileClass = clsx(
     'home-layout-a__tile home-layout-a__tile--tall flex flex-col justify-between min-h-[160px]',
-    variant === 'brass' ? 'brass-glass' : 'calm-card-midnight',
+    variant === 'brass' ? 'brass-glass' : 'calm-card',
   );
 
   return (

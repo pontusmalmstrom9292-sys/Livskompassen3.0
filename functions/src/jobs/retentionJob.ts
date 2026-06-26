@@ -82,19 +82,16 @@ async function purgeFirestoreCollection(
   return { collection, deletedCount: snapshot.size, prunedVectorIds };
 }
 
-async function removeVectors(vectorIds: string[]): Promise<void> {
-  const indexId = process.env.VECTOR_SEARCH_INDEX_ID;
-  if (!indexId || vectorIds.length === 0) return;
-
-  const { IndexServiceClient } = await import('@google-cloud/aiplatform');
-  const client = new IndexServiceClient({ apiEndpoint: `europe-west1-aiplatform.googleapis.com` });
-
-  await client.removeDatapoints({
-    index: `projects/${PROJECT_ID}/locations/europe-west1/indexes/${indexId}`,
-    datapointIds: vectorIds,
-  });
-
-  console.log(`[RetentionJob] ${vectorIds.length} vektorer borttagna från Vector Search.`);
+/**
+ * No-op efter Firestore Native Vector Search-migrering (2026-06-25).
+ * Tidigare anropade detta Vertex AI Vector Search för att rensa vektorer när
+ * dokument raderades. Vektorerna lever nu som `embedding`-fält direkt på
+ * Firestore-dokumentet → de raderas automatiskt när dokumentet raderas.
+ * WORM-collections (`kampspar`, `kb_docs`) raderas aldrig av retention, så
+ * denna funktion anropas i praktiken med tom lista.
+ */
+async function removeVectors(_vectorIds: string[]): Promise<void> {
+  // Intentionally empty — embedding-fältet följer med Firestore-dokumentet.
 }
 
 export default async function runRetention(): Promise<void> {

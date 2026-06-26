@@ -1,23 +1,44 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ChevronRight, FileText, List } from 'lucide-react';
+import { CalendarDays, ChevronRight, FileText, LayoutList, List, Loader2 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { ElongatedModule } from '@/core/ui/ElongatedModule';
 import { usePlanningModulePins } from '../hooks/usePlanningModulePins';
+import { usePlanningTasks } from '../hooks/usePlanningTasks';
 import type { PlaneringModulePin } from '../planningModulePinStorage';
 import type { PlaneringPinTargetId } from '../planningPinRegistry';
+import type { PlanningTask } from '../types';
+import {
+  homeStepLabel,
+  pickHomeDaySteps,
+} from '../utils/pickHomeDaySteps';
 import {
   getQuickList,
   openItems,
   toggleQuickListItem,
 } from '../quickListStorage';
+import { HOME_SUPERHUB_ROUTES } from '@/core/home/homeSuperhubRoutes';
+import './planering.css';
 
 type Props = {
   targetId: PlaneringPinTargetId;
   contextKey?: string;
   className?: string;
 };
+
+type HomeTabId = 'handling' | 'projekt' | 'habit' | 'makro';
+
+const HOME_TABS: { id: HomeTabId; label: string }[] = [
+  { id: 'handling', label: 'Handling' },
+  { id: 'projekt', label: 'Projekt' },
+  { id: 'habit', label: 'Habit' },
+  { id: 'makro', label: 'Makro' },
+];
+
+function weekdayLabel(date: Date): string {
+  return date.toLocaleDateString('sv-SE', { weekday: 'long' });
+}
 
 function PinListBody({
   pin,
@@ -65,6 +86,157 @@ function PinNoteBody({ pin }: { pin: PlaneringModulePin }) {
   );
 }
 
+function HomeHandlingTasks() {
+  const { tasks, loading, moveTask, user } = usePlanningTasks();
+  const [busyId, setBusyId] = useState<string | null>(null);
+  const steps = useMemo(() => pickHomeDaySteps(tasks, 6), [tasks]);
+
+  const handleMarkDone = async (task: PlanningTask) => {
+    if (!user || task.status === 'done' || busyId) return;
+    setBusyId(task.id);
+    try {
+      await moveTask(task.id, 'done');
+    } finally {
+      setBusyId(null);
+    }
+  };
+
+  if (loading) {
+    return (
+      <p className="flex items-center gap-2 py-2 text-xs text-text-muted">
+        <Loader2 className="h-3.5 w-3.5 animate-spin text-accent" aria-hidden />
+        Laddar dagens uppgifter …
+      </p>
+    );
+  }
+
+  if (steps.length === 0) {
+    return (
+      <p className="py-2 text-xs leading-relaxed text-text-dim">
+        Inga öppna uppgifter idag — fånga ett mikrosteg i Planering.
+      </p>
+    );
+  }
+
+  return (
+    <ul className="planering-quicklist planering-quicklist--compact">
+      {steps.map((task) => {
+        const label = homeStepLabel(task);
+        const isBusy = busyId === task.id;
+        return (
+          <li key={task.id} className="planering-quicklist__row">
+            <button
+              type="button"
+              className={clsx('planering-quicklist__check', isBusy && 'planering-quicklist__check--on')}
+              aria-label={`Klar: ${label}`}
+              disabled={isBusy}
+              onClick={() => void handleMarkDone(task)}
+            >
+              {isBusy ? (
+                <Loader2 className="h-3 w-3 animate-spin text-accent" aria-hidden />
+              ) : (
+                <span className="planering-quicklist__check-ring" />
+              )}
+            </button>
+            <span className="planering-quicklist__text">{label}</span>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
+
+function HomePlaneringPanel() {
+  const [tab, setTab] = useState<HomeTabId>('handling');
+  const todayLabel = weekdayLabel(new Date());
+
+  return (
+    <article className="calm-card home-planering-panel p-4" aria-label="Planering">
+      <header className="flex items-start justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <CalendarDays className="h-4 w-4 text-accent" strokeWidth={1.5} aria-hidden />
+          <p className="mb-0 text-[9px] font-bold uppercase tracking-[0.2em] text-accent">Planering</p>
+        </div>
+        <span className="inline-flex items-center gap-1 rounded-full border border-border/30 bg-surface-3/60 px-2 py-0.5 text-[10px] capitalize text-text-dim">
+          <CalendarDays className="h-3 w-3 text-accent" strokeWidth={1.5} aria-hidden />
+          {todayLabel}
+        </span>
+      </header>
+
+      <div
+        className="home-planering-panel__tabs mt-3 flex gap-1 border-b border-border/20 pb-2"
+        role="tablist"
+        aria-label="Planering-vyer"
+      >
+        {HOME_TABS.map((t) => (
+          <button
+            key={t.id}
+            type="button"
+            role="tab"
+            aria-selected={tab === t.id}
+            className={clsx(
+              'btn-pill--ghost flex-1 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider',
+              tab === t.id && 'border-accent/40 bg-accent/10 text-accent',
+            )}
+            onClick={() => setTab(t.id)}
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="mt-3 min-h-[4rem]" role="tabpanel">
+        {tab === 'handling' ? (
+          <div className="space-y-2">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-text-dim">
+              Dagens uppgifter
+            </p>
+            <HomeHandlingTasks />
+          </div>
+        ) : null}
+
+        {tab === 'projekt' ? (
+          <div className="space-y-2 py-1">
+            <p className="text-xs text-text-muted">Projektlistor, anteckningar och bilder.</p>
+            <Link to="/projekt" className="btn-pill--ghost inline-flex text-xs">
+              Öppna Projekt
+              <ChevronRight className="ml-1 h-3.5 w-3.5" aria-hidden />
+            </Link>
+          </div>
+        ) : null}
+
+        {tab === 'habit' ? (
+          <div className="space-y-2 py-1">
+            <p className="text-xs text-text-muted">Rutiner och vanor — ett steg i taget.</p>
+            <Link to="/planering?tab=fokus" className="btn-pill--ghost inline-flex text-xs">
+              Öppna Fokus
+              <ChevronRight className="ml-1 h-3.5 w-3.5" aria-hidden />
+            </Link>
+          </div>
+        ) : null}
+
+        {tab === 'makro' ? (
+          <div className="space-y-2 py-1">
+            <p className="text-xs text-text-muted">Makron och näring — lugnt överblick.</p>
+            <Link to="/vardagen?tab=mabra" className="btn-pill--ghost inline-flex text-xs">
+              Öppna MåBra
+              <ChevronRight className="ml-1 h-3.5 w-3.5" aria-hidden />
+            </Link>
+          </div>
+        ) : null}
+      </div>
+
+      <Link
+        to={HOME_SUPERHUB_ROUTES.planeringHub}
+        className="btn-pill--ghost mt-3 flex w-full items-center justify-center gap-1 text-xs"
+      >
+        <LayoutList className="h-3.5 w-3.5" aria-hidden />
+        Öppna Planering
+      </Link>
+    </article>
+  );
+}
+
 function SinglePinnedModule({ pin }: { pin: PlaneringModulePin }) {
   const [expanded, setExpanded] = useState(false);
   const Icon = pin.content.kind === 'list' ? List : FileText;
@@ -90,7 +262,7 @@ function SinglePinnedModule({ pin }: { pin: PlaneringModulePin }) {
 
   if (pin.layout === 'compact') {
     return (
-      <div className="pinned-planering-module pinned-planering-module--compact rounded-xl border border-border/30 bg-surface-2/60 px-3 py-2">
+      <div className="pinned-planering-module pinned-planering-module--compact calm-card px-3 py-2">
         <p className="text-[10px] uppercase tracking-wider text-accent">{pin.title}</p>
         {pin.content.kind === 'list' ? <PinListBody pin={pin} compact /> : <PinNoteBody pin={pin} />}
       </div>
@@ -107,7 +279,7 @@ function SinglePinnedModule({ pin }: { pin: PlaneringModulePin }) {
       title={pin.title}
       description="Från Planering"
       glow="gold"
-      className={clsx('pinned-planering-module rounded-2xl border border-border/30', cardClass)}
+      className={clsx('pinned-planering-module calm-card', cardClass)}
     >
       {pin.content.kind === 'list' ? <PinListBody pin={pin} /> : <PinNoteBody pin={pin} />}
       <Link
@@ -121,13 +293,16 @@ function SinglePinnedModule({ pin }: { pin: PlaneringModulePin }) {
   );
 }
 
-/** Renderar alla fästa moduler för en skärmplats. */
+/** Renderar hem-planering + fästa moduler för en skärmplats. */
 export function PinnedPlaneringModuleSlot({ targetId, contextKey, className }: Props) {
   const pins = usePlanningModulePins({ targetId, contextKey });
-  if (pins.length === 0) return null;
+  const isHome = targetId === 'hem.brass.below-grid';
+
+  if (!isHome && pins.length === 0) return null;
 
   return (
-    <div className={clsx('pinned-planering-slot space-y-3', className)} aria-label="Fästa moduler">
+    <div className={clsx('pinned-planering-slot space-y-3', className)} aria-label="Planering">
+      {isHome ? <HomePlaneringPanel /> : null}
       {pins.map((pin) => (
         <SinglePinnedModule key={pin.id} pin={pin} />
       ))}
