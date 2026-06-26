@@ -33,17 +33,25 @@ jobs:
   guard:
     name: Säkerhetsnät · checklist-gate
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Verifiera kryssruta
+        env:
+          # Skicka som env-variabler för att förhindra GitHub Actions
+          # script-injection via free-text inputs. Se docs/SAKERHETSNAT.md.
+          CHECKLIST_CONFIRMED: ${{ inputs.pr_checklist_confirmed }}
+          DEPLOY_NOTE: ${{ inputs.deploy_note }}
+          ACTOR: ${{ github.actor }}
         run: |
-          if [ "${{ inputs.pr_checklist_confirmed }}" != "true" ]; then
+          if [ "$CHECKLIST_CONFIRMED" != "true" ]; then
             echo "::error title=Säkerhetsnät · Lås 3::Kryssrutan 'Jag har läst PR-checklistan' är inte ikryssad. Deploy avbruten."
             echo ""
             echo "Åtgärd: kör om workflow_dispatch och kryssa i rutan."
             echo "Läs docs/SAKERHETSNAT.md innan du kryssar."
             exit 1
           fi
-          echo "Checklist bekräftad av ${{ github.actor }}: ${{ inputs.deploy_note }}"
+          echo "Checklist bekräftad av $ACTOR: $DEPLOY_NOTE"
 
   build_and_deploy:
     needs: guard

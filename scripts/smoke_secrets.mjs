@@ -19,7 +19,7 @@
  *   1  — minst en misstänkt secret hittad
  */
 
-import { execSync } from 'node:child_process';
+import { execSync, execFileSync } from 'node:child_process';
 import { readFileSync, statSync } from 'node:fs';
 import { extname, relative, resolve } from 'node:path';
 
@@ -88,7 +88,8 @@ const SECRET_PATTERNS = [
   },
   {
     label: 'OpenAI API key',
-    re: /\bsk-(?:proj-)?[A-Za-z0-9_-]{20,}/,
+    // Negativ lookahead efter "ant-" så vi inte dubbel-matchar Anthropic-nycklar.
+    re: /\bsk-(?!ant-)(?:proj-)?[A-Za-z0-9_-]{20,}/,
   },
   {
     label: 'Anthropic API key',
@@ -142,7 +143,25 @@ function getAllTrackedFiles() {
   }
 }
 
+function readStagedBlob(path) {
+  // Läser den staged versionen av filen (vad git commit faktiskt skapar),
+  // inte working tree-versionen. Hindrar att en staged secret undgår
+  // upptäckt om användaren tar bort den ur working tree efter staging.
+  // Använder execFileSync (inte execSync) så att path-argumentet
+  // inte tolkas av en shell.
+  try {
+    const buf = execFileSync('git', ['show', `:${path}`], {
+      stdio: ['ignore', 'pipe', 'ignore'],
+      maxBuffer: 4 * 1024 * 1024,
+    });
+    return buf.toString('utf8');
+  } catch {
+    return null;
+  }
+}
+
 function readSafe(path) {
+  // Fallback för icke-staging-läge (CI / manuell genomgång) — läs working tree.
   try {
     const abs = resolve(ROOT, path);
     const st = statSync(abs);
@@ -155,7 +174,7 @@ function readSafe(path) {
   }
 }
 
-function scan(files) {
+function scan(files, { staged }) {
   const findings = [];
 
   for (const file of files) {
@@ -172,8 +191,10 @@ function scan(files) {
 
     if (SKIP_EXTENSIONS.has(extname(rel).toLowerCase())) continue;
 
-    const content = readSafe(rel);
+    // I staging-läge: läs staged blob (vad git committar) i stället för disk.
+    const content = staged ? readStagedBlob(rel) : readSafe(rel);
     if (!content) continue;
+    if (content.length > 2 * 1024 * 1024) continue;
 
     const lines = content.split('\n');
     for (let i = 0; i < lines.length; i++) {
@@ -220,15 +241,17 @@ function printFindings(findings) {
 function main() {
   printHeader();
   let files = getStagedFiles();
+  let staged = true;
   if (files === null) {
     console.log('[smoke:secrets] Inget git-staging-läge — skannar alla spårade filer som fallback.');
     files = getAllTrackedFiles();
+    staged = false;
   } else if (files.length === 0) {
     console.log('[smoke:secrets] Inga staged filer. PASS.');
     process.exit(0);
   }
 
-  const findings = scan(files);
+  const findings = scan(files, { staged });
   if (findings.length === 0) {
     console.log(`[smoke:secrets] PASS — inga hemligheter hittade (${files.length} filer skannade).`);
     process.exit(0);
