@@ -1,0 +1,27 @@
+#!/usr/bin/env sh
+# Lås 1 · Säkerhetsnät för otekninsk användare
+# Kör validate:session innan push så att smoke + typecheck + e2e PASSar lokalt.
+# Kanon: docs/SAKERHETSNAT.md  ·  Regel: .cursor/rules/sakerhetsnat-husky.mdc
+#
+# Detta är ett dyrt steg (~2–3 min). Det körs medvetet för att slippa
+# trasiga PR:er och röda CI-körningar.
+
+echo ""
+echo "[husky · pre-push] Kör validate:session (smoke + typecheck + e2e tokens)…"
+echo "[husky · pre-push] Detta kan ta några minuter. Avbryt EJ med Ctrl+C om du vill ha en grön PR."
+echo ""
+
+npm run validate:session
+status=$?
+if [ "$status" -ne 0 ]; then
+  echo ""
+  echo "[husky · pre-push] STOPP — pushen avbruten."
+  echo "Något i validate:session failade. Rätta felet och kör om:"
+  echo "  npm run validate:session"
+  echo ""
+  echo "Vill du absolut pusha trots felet (t.ex. för en WIP-draft-PR)?"
+  echo "  git push --no-verify origin <branch>"
+  echo "Använd --no-verify endast i nöd och berätta för ägaren efteråt."
+  exit 1
+fi
+exit 0

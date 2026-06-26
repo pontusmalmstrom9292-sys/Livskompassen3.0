@@ -1,0 +1,49 @@
+#!/usr/bin/env sh
+# Lås 1 · Säkerhetsnät för otekninsk användare
+# Varnar om det finns ohanterade ändringar (untracked eller modified) när du
+# byter branch — så att du inte glömmer kvar arbete på fel ställe.
+# Kanon: docs/SAKERHETSNAT.md  ·  Regel: .cursor/rules/sakerhetsnat-husky.mdc
+#
+# Argument från git:
+#   $1 — previous HEAD
+#   $2 — new HEAD
+#   $3 — flag: 1 = branch checkout, 0 = file checkout
+#
+# Varna ENDAST vid branch-checkout (annars spammar det vid `git checkout <fil>`).
+
+prev_head="$1"
+new_head="$2"
+branch_flag="$3"
+
+if [ "$branch_flag" != "1" ]; then
+  exit 0
+fi
+
+# Lista ohanterade och modifierade filer
+untracked=$(git ls-files --others --exclude-standard 2>/dev/null)
+modified=$(git diff --name-only 2>/dev/null)
+
+if [ -z "$untracked" ] && [ -z "$modified" ]; then
+  exit 0
+fi
+
+printf '\n[husky · post-checkout] VARNING — du har ohanterade ändringar efter branch-byte.\n' >&2
+
+if [ -n "$modified" ]; then
+  printf '\nModifierade (ej committade):\n' >&2
+  printf '%s\n' "$modified" | sed 's/^/  - /' >&2
+fi
+
+if [ -n "$untracked" ]; then
+  printf '\nOhanterade (untracked) filer:\n' >&2
+  printf '%s\n' "$untracked" | sed 's/^/  - /' >&2
+fi
+
+printf '\nKom ihåg:\n' >&2
+printf '  • Ohanterade filer följer MED branchbytet — de stannar i arbetsträdet.\n' >&2
+printf '  • Vill du ta med dem till ny branch: git add . && git commit\n' >&2
+printf '  • Vill du parkera dem temporärt: git stash push -u -m "wip"\n' >&2
+printf '  • Vill du slänga dem: git clean -fd  (OBS — kan inte ångras)\n\n' >&2
+
+# Varning, inte fel — exit 0 för att inte blockera checkout.
+exit 0
