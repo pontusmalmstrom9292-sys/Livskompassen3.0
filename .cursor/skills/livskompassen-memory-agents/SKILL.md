@@ -3,6 +3,9 @@ name: livskompassen-memory-agents
 description: Memory-related agents — Livs-Arkivarien, Mönster-Arkivarien, Sannings-Analytikern, agent cards, sharedRules. Use when editing agent routing or prompts for archive/RAG.
 ---
 
+> **Register:** `docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md` · Runtime-prompter: `npm run prompts:sync`
+
+
 # Memory Agents
 
 ## Central prompts

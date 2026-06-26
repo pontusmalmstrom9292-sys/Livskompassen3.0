@@ -1,0 +1,37 @@
+---
+description: Tvinga full Gemini + NotebookLM sync när external-ai-mappar uppdateras.
+alwaysApply: false
+globs: docs/external-ai/gemini/**,docs/external-ai/gemini-kunskap/**,docs/external-ai/notebooklm/**,exports/google-ai-pro/**,scripts/sync_gemini_kunskap.mjs,scripts/sync_notebooklm.mjs
+---
+
+# External AI — full sync (Gemini + NotebookLM)
+
+## MUST
+
+När du ändrar **källfiler** i `docs/external-ai/gemini/` eller `docs/external-ai/notebooklm/`, eller när användaren ber om uppdatering av Gemini/NotebookLM-mapparna:
+
+1. Kör **alltid** full refresh:
+
+```bash
+npm run gemini:pack:all
+```
+
+2. Detta uppdaterar **alla** exportmappar i ett svep:
+   - `exports/gemini-handoff/repomix/` (tier-3 repomix)
+   - `exports/google-ai-pro/notebooklm/` (NotebookLM-upload)
+   - `docs/external-ai/gemini-kunskap/` (Tier 1 + Tier 2 + Tier 3 + `gemini-kanon/` + `notebooklm-kanon/`)
+
+3. Verifiera `SYNC-STAMP.txt` i `gemini-kunskap/` och `exports/google-ai-pro/notebooklm/`.
+
+## MUST NOT
+
+- Kör **inte** bara `gemini:sync:kunskap` utan föregående `gemini:pack:refresh` — då blir tier-3 repomix inaktuella.
+- Lämna **inte** manuellt kopierade filer i `tier-2-valfritt/` eller `tier-3-repomix/` — skripten rensar dessa mappar vid varje sync.
+
+## Upload (Pontus)
+
+| Tjänst | Mapp |
+|--------|------|
+| Gemini Gem Knowledge | `docs/external-ai/gemini-kunskap/` (01–08 + valfritt tier-2/tier-3) |
+| Gemini Instructions | `00-SYSTEM-INSTRUCTION-KLISTRA-IN.txt` |
+| NotebookLM | `exports/google-ai-pro/notebooklm/` (hela mappen) |

@@ -25,8 +25,8 @@ export function ChameleonInputShell<T>({
     <div className={clsx('chameleon-input-shell', className)}>
       <div
         className={clsx(
-          'chameleon-input-shell__viewport calm-scroll-island transition-opacity',
-          fading && 'opacity-40',
+          'chameleon-input-shell__viewport calm-scroll-island transition-all duration-300 ease-in-out',
+          fading ? 'opacity-0 scale-[0.98] blur-[2px]' : 'opacity-100 scale-100 blur-0',
           viewportClassName,
         )}
         style={{ transitionDuration: `${morphMs}ms` }}

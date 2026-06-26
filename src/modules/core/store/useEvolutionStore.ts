@@ -24,6 +24,7 @@ export interface EvolutionState {
   hasFeature: (flag: string) => boolean;
   hasUnlockedPack: (packId: string) => boolean;
   getChildBracket: (alias: string) => 'toddler_preschool' | 'early_school' | 'pre_teen' | 'teen';
+  getChildAgeYears: (alias: string) => number;
 }
 
 export const useEvolutionStore = create<EvolutionState>((set, get) => ({
@@ -123,14 +124,21 @@ export const useEvolutionStore = create<EvolutionState>((set, get) => ({
     const { doc } = get();
     if (!doc) return 'toddler_preschool';
     
-    // Antar att alias är små bokstäver som i mock/types ('kasper', 'arvid')
     const key = alias.toLowerCase() as keyof EvolutionHubDoc['childrenAgeState'];
-    const childState = doc.childrenAgeState?.[key];
-    
-    if (childState) {
-      return childState.currentBracket;
-    }
-    
-    return 'toddler_preschool';
+    const stateObj = doc?.childrenAgeState?.[key];
+    if (!stateObj?.ageYears) return 'early_school'; // fallback
+
+    const age = stateObj.ageYears;
+    if (age <= 5) return 'toddler_preschool';
+    if (age <= 9) return 'early_school';
+    if (age <= 12) return 'pre_teen';
+    return 'teen';
+  },
+
+  getChildAgeYears: (alias: string) => {
+    const { doc } = get();
+    const key = alias.toLowerCase() as keyof EvolutionHubDoc['childrenAgeState'];
+    const stateObj = doc?.childrenAgeState?.[key];
+    return stateObj?.ageYears ?? 7; // fallback to 7
   },
 }));

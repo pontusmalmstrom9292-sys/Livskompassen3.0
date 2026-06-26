@@ -1,28 +1,36 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Inbox, Mic, PenLine } from 'lucide-react';
+import { Anchor, Inbox, Mic, PenLine, Sun, Moon, Clock, Sparkles, Edit2, ChevronRight, Star } from 'lucide-react';
+import { ExecutiveJournalHistoryRail } from './executive/ExecutiveJournalHistoryRail';
+import { ExecutiveReflektionHero } from './executive/ExecutiveReflektionHero';
+import { ExecutiveFocusCard } from './executive/cards/ExecutiveFocusCard';
+import { ExecutiveLivsloggCard } from './executive/cards/ExecutiveLivsloggCard';
 import { clsx } from 'clsx';
-import { saveCheckIn } from '@/core/firebase/firestore';
+import { saveCheckIn, getRecentCheckIns } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
 import { CalmCollapsible } from '../ui/CalmCollapsible';
 import { HomeGreeting } from './HomeGreeting';
 import { HomeBrassDaySteps } from './HomeBrassDaySteps';
 import { HomeStreakChip } from './HomeStreakChip';
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
-import { HOME_SUPERHUB_ROUTES, getHomeSuperhubShortcutsForPreset } from './homeSuperhubRoutes';
+import { HOME_SUPERHUB_ROUTES } from './homeSuperhubRoutes';
 import { getHomeCompassPhase, phaseLead } from './homeCompassPhase';
-import { materialEnabled, useLifeHubPreset } from '../lifeOs';
+import { useLifeHubPreset } from '../lifeOs';
+import { getCompassAdvice } from '@/features/dailyLife/wellbeing/compasses/utils/compassAdvice';
+import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 
 type Props = {
   onCheckInSaved?: () => void;
-  /** brass = Brushed Brass tema; calm = Obsidian Calm (default hem). */
-  variant?: 'brass' | 'calm';
+  /** brass = Brushed Brass tema; calm = Obsidian Calm; executive = Midnight Executive mockup. */
+  variant?: 'brass' | 'calm' | 'executive';
   presetLabel?: string;
+  /** Executive: greeting renderas i HomeHeroKanon scenic stack. */
+  hideIntro?: boolean;
 };
 
 const QUICK_CAPTURE = [
   { id: 'note', label: 'Anteckning', icon: PenLine, to: HOME_SUPERHUB_ROUTES.hjartatReflektion },
-  { id: 'voice', label: 'Röst', icon: Mic, to: HOME_SUPERHUB_ROUTES.hjartatQuickMirror },
+  { id: 'voice', label: 'Inspelning', icon: Mic, to: HOME_SUPERHUB_ROUTES.hjartatQuickMirror },
   { id: 'inbox', label: 'Inkast', icon: Inbox, to: HOME_SUPERHUB_ROUTES.planeringInkast },
 ] as const;
 
@@ -30,30 +38,82 @@ function weekdayLabel(date: Date): string {
   return date.toLocaleDateString('sv-SE', { weekday: 'long' });
 }
 
-function surfaceClass(variant: 'brass' | 'calm', extra?: string) {
+function surfaceClass(variant: 'brass' | 'calm' | 'executive', extra?: string) {
   if (variant === 'brass') {
     return clsx('brass-glass', extra);
   }
-  return clsx('calm-card glow-bottom-gold', extra);
+  if (variant === 'executive') {
+    return clsx('calm-card-midnight', extra);
+  }
+  return clsx('calm-card-midnight', extra);
+}
+
+function getRitualMeta(now: Date) {
+  const hour = now.getHours();
+  if (hour >= 5 && hour < 11) {
+    return { name: 'Morgon', time: '05:00-11:00', icon: 'Sun' };
+  } else if (hour >= 11 && hour < 17) {
+    return { name: 'Dagen', time: '11:00-17:00', icon: 'Clock' };
+  } else if (hour >= 17 && hour < 22) {
+    return { name: 'Afton', time: '17:00-22:00', icon: 'Moon' };
+  } else {
+    return { name: 'Natt', time: '22:00-05:00', icon: 'Sparkles' };
+  }
 }
 
 /** Hem layout A — ankare + asymmetriskt rutnät (HEM-LAYOUT-A-KANON). Wave A2 polish. */
-export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: Props) {
+export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hideIntro = false }: Props) {
   const navigate = useNavigate();
   const user = useStore((s) => s.user);
-  const { preset, presetId } = useLifeHubPreset();
+  const { preset } = useLifeHubPreset();
   const now = useMemo(() => new Date(), []);
   const phase = getHomeCompassPhase(now);
-  const showSnabbval = materialEnabled(preset, 'home_snabbval');
-  const snabbvalShortcuts = useMemo(
-    () => getHomeSuperhubShortcutsForPreset(presetId),
-    [presetId],
-  );
 
   const [anchor, setAnchor] = useState('');
+  const [isEditing, setIsEditing] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const [presenceVal, setPresenceVal] = useState('7/10');
+  const [presenceLabel, setPresenceLabel] = useState('Stabil');
+
+  // Load history on mount
+  useEffect(() => {
+    if (!user) return;
+    let active = true;
+
+    getRecentCheckIns(user.uid, 20)
+      .then((history) => {
+        if (!active) return;
+        
+        // 1. Dagens ankare
+        const targetId =
+          variant === 'brass'
+            ? 'home_brass_anchor'
+            : variant === 'executive'
+              ? 'home_executive_anchor'
+              : 'home_layout_a_anchor';
+        const foundAnchor = history.find((c) => c.questionId === targetId);
+        if (foundAnchor && foundAnchor.taskNote) {
+          setAnchor(foundAnchor.taskNote);
+          setIsEditing(false);
+        }
+
+        // 2. Närvaro (MåBra checkin)
+        const foundMabra = history.find((c) => c.questionId === 'mabra_checkin');
+        if (foundMabra && foundMabra.energy !== undefined) {
+          setPresenceVal(`${foundMabra.energy}/10`);
+          if (foundMabra.energy >= 7) setPresenceLabel('Stabil');
+          else if (foundMabra.energy >= 4) setPresenceLabel('Balanserad');
+          else setPresenceLabel('Utsatt');
+        }
+      })
+      .catch((err) => console.error('Failed to load checkins', err));
+
+    return () => {
+      active = false;
+    };
+  }, [user, variant]);
 
   const handleAnchorSave = async () => {
     const text = anchor.trim();
@@ -69,13 +129,18 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
     setError(null);
     try {
       await saveCheckIn(user.uid, {
-        questionId: variant === 'brass' ? 'home_brass_anchor' : 'home_layout_a_anchor',
+        questionId:
+          variant === 'brass'
+            ? 'home_brass_anchor'
+            : variant === 'executive'
+              ? 'home_executive_anchor'
+              : 'home_layout_a_anchor',
         questionText: 'Dagens ankare',
         optionSelected: 'intention',
         taskCategory: 'morning',
         taskNote: text,
       });
-      setSaved(true);
+      setIsEditing(false);
       onCheckInSaved?.();
     } catch {
       setError('Kunde inte spara. Kontrollera nätverk.');
@@ -84,26 +149,58 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
     }
   };
 
+  const ritual = useMemo(() => getRitualMeta(now), [now]);
+  const RitualIcon = {
+    Sun: Sun,
+    Moon: Moon,
+    Clock: Clock,
+    Sparkles: Sparkles
+  }[ritual.icon];
+
+  const compassAdvice = useMemo(() => {
+    try {
+      const flow = getDefaultCompassByTime();
+      return getCompassAdvice(flow, now);
+    } catch {
+      return 'Ett mikrosteg i taget.';
+    }
+  }, [now]);
+
   const rootClass = clsx(
-    'home-layout-a mx-auto w-full max-w-2xl space-y-3.5',
+    'home-layout-a mx-auto w-full max-w-2xl space-y-4 pb-4',
     variant === 'brass' && 'home-brass-a',
     variant === 'calm' && 'home-layout-a--calm',
+    variant === 'executive' && 'home-layout-a--executive executive-home-dashboard calm-scroll-island',
   );
 
   const insetClass =
     variant === 'brass'
       ? 'home-layout-a__hero-inset brass-inset neu-inset w-full resize-none border-0 bg-transparent px-3 py-2 text-sm text-text'
-      : 'home-layout-a__hero-inset w-full resize-none rounded-xl border border-border/40 bg-surface-2/80 px-3 py-2 text-sm text-text';
+      : 'home-layout-a__hero-inset w-full resize-none rounded-xl border border-border/20 bg-surface-3 px-3 py-2 text-sm text-text';
 
-  const heroSurface = surfaceClass(
-    variant,
-    clsx('home-layout-a__hero-card', variant === 'brass' && 'brass-glass--hero'),
+  const heroSurface = clsx(
+    'home-layout-a__hero-card',
+    variant === 'brass' ? surfaceClass(variant, 'brass-glass--hero') : 'calm-card',
+    variant === 'executive' && 'home-layout-a__hero-card--executive',
   );
+
+  const cardClass = variant === 'brass' ? 'brass-glass' : 'calm-card';
 
   return (
     <div className={rootClass}>
+      {variant === 'executive' ? (
+        <>
+          <ExecutiveReflektionHero />
+          <div className="executive-home-grid">
+            <ExecutiveFocusCard />
+            <ExecutiveLivsloggCard />
+          </div>
+        </>
+      ) : null}
+
+      {!hideIntro && variant !== 'executive' ? (
       <div className="home-layout-a__intro">
-        <HomeGreeting hideEyebrow={true} />
+        <HomeGreeting />
         <CalmCollapsible
           title="Profil & fas"
           meta={weekdayLabel(now)}
@@ -128,97 +225,193 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel }: P
           </div>
         </CalmCollapsible>
       </div>
+      ) : null}
 
       <section
-        className={clsx('home-layout-a__hero', heroSurface)}
+        className={clsx('home-layout-a__hero relative p-4', heroSurface)}
         aria-label="Dagens ankare"
       >
-        <p className="home-layout-a__label">Dagens ankare</p>
-        <h2 className="home-layout-a__hero-title font-display-serif">
-          {anchor.trim() || 'Vad är viktigast idag?'}
-        </h2>
-        <p className="home-layout-a__hero-lead">Inte hela dagen — bara det viktigaste nu.</p>
-        <label className="sr-only" htmlFor="home-layout-a-anchor">
-          Dagens ankare
-        </label>
-        <textarea
-          id="home-layout-a-anchor"
-          className={insetClass}
-          rows={2}
-          placeholder="T.ex. lugnt samtal med barnen efter skolan …"
-          value={anchor}
-          onChange={(e) => {
-            setAnchor(e.target.value);
-            setSaved(false);
-          }}
-        />
-        <div className="mt-2 flex flex-wrap items-center gap-2">
+        <div className="relative z-[1] mb-3 flex items-start justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <Anchor className="h-4 w-4 text-accent" strokeWidth={1.5} aria-hidden />
+            <p className={clsx(
+              'mb-0 text-[9px] font-bold uppercase tracking-[0.2em] text-accent',
+              variant === 'executive' && 'home-layout-a__section-label',
+            )}>
+              Dagens ankare
+            </p>
+          </div>
+          {!isEditing && anchor.trim() ? (
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setIsEditing(true)}
+                className="p-1 text-text-dim transition-colors hover:text-accent"
+                title="Redigera ankare"
+              >
+                <Edit2 className="h-3.5 w-3.5" />
+              </button>
+              <Star className="h-3.5 w-3.5 fill-accent text-accent" />
+            </div>
+          ) : (
+            <Star className="h-3.5 w-3.5 fill-accent text-accent" />
+          )}
+        </div>
+
+        <div className="relative z-[1] space-y-1">
+          <h2 className={clsx(
+            'text-lg font-bold leading-snug text-text',
+            variant === 'executive' ? 'font-display-serif tracking-wide text-accent-light' : 'font-display-serif',
+          )}>
+            Vad är viktigast idag?
+          </h2>
+          <p className="text-xs text-text-muted">Inte hela dagen — bara det viktigaste nu.</p>
+        </div>
+
+        {isEditing ? (
+          <div className="relative z-[1] mt-4 space-y-3">
+            <label htmlFor="home-layout-a-anchor" className="text-[10px] font-medium text-text-dim">
+              Dagens ankare
+            </label>
+            <textarea
+              id="home-layout-a-anchor"
+              className={clsx(
+                insetClass,
+                'font-sans text-sm transition-all focus:border-accent/40 focus:outline-none focus:ring-1 focus:ring-accent/20',
+              )}
+              rows={3}
+              placeholder="T.ex. lugnt samtal med barnen efter skolan …"
+              value={anchor}
+              onChange={(e) => {
+                setAnchor(e.target.value);
+              }}
+            />
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                className="btn-pill--accent text-[10px] font-semibold uppercase tracking-wider"
+                disabled={saving}
+                onClick={() => void handleAnchorSave()}
+              >
+                {saving ? 'Sparar …' : 'Spara ankare'}
+              </button>
+              {anchor.trim() ? (
+                <button
+                  type="button"
+                  className="btn-pill--ghost text-[10px] font-semibold uppercase tracking-wider"
+                  onClick={() => setIsEditing(false)}
+                >
+                  Avbryt
+                </button>
+              ) : null}
+              {error ? <p className="text-xs text-danger">{error}</p> : null}
+            </div>
+          </div>
+        ) : (
           <button
             type="button"
-            className="btn-pill--accent px-4 py-2 text-xs uppercase tracking-wide"
-            disabled={saving}
-            onClick={() => void handleAnchorSave()}
+            className="relative z-[1] mt-4 w-full animate-fade-in text-left"
+            onClick={() => setIsEditing(true)}
           >
-            {saving ? 'Sparar …' : saved ? 'Sparat ✓' : 'Spara ankare'}
+            <p className={clsx(
+              'text-base font-semibold leading-snug text-text hover:text-accent-light',
+              variant === 'executive' && 'font-display-serif tracking-wide text-accent-light',
+            )}>
+              {anchor.trim() || 'Ett mikrosteg räcker.'}
+            </p>
           </button>
-          {error ? <p className="text-xs text-danger">{error}</p> : null}
-        </div>
+        )}
       </section>
 
-      {showSnabbval && snabbvalShortcuts.length > 0 ? (
-        <div className="home-layout-a__snabbval flex flex-wrap gap-2" aria-label="Snabbval från hemprofil">
-          {snabbvalShortcuts.map((item) => {
+      <PinnedPlaneringModuleSlot targetId="hem.brass.below-grid" />
+
+      {variant === 'executive' ? (
+        <ExecutiveJournalHistoryRail />
+      ) : null}
+
+      {variant !== 'executive' ? (
+        <>
+      <HomeBrassDaySteps variant={variant} />
+
+      <div className="space-y-2">
+        <p className={clsx(
+          'text-[9px] tracking-[0.2em] uppercase font-bold text-accent pl-1',
+        )}>
+          SNABBSTART
+        </p>
+        <div className="grid grid-cols-3 gap-2.5">
+          {QUICK_CAPTURE.map((item) => {
             const Icon = item.icon;
             return (
               <button
                 key={item.id}
                 type="button"
-                className={clsx('home-layout-a__snabbval-chip', surfaceClass(variant))}
                 onClick={() => navigate(item.to)}
-                title={item.lead}
+                className={clsx(
+                  cardClass,
+                  'p-4 flex flex-col items-center justify-center gap-2 hover:border-accent/30 transition-all active:scale-[0.98]',
+                )}
               >
-                <Icon className="h-3.5 w-3.5 text-accent" aria-hidden />
-                <span>{item.label}</span>
+                <Icon className="h-5 w-5 text-accent" aria-hidden />
+                <span className="text-[10px] font-semibold text-text-muted">{item.label}</span>
               </button>
             );
           })}
         </div>
-      ) : null}
-
-      <div className="home-layout-a__grid" aria-label="Steg och snabbstart">
-        <HomeBrassDaySteps variant={variant} />
-
-        {QUICK_CAPTURE.slice(0, 2).map((item) => {
-          const Icon = item.icon;
-          return (
-            <button
-              key={item.id}
-              type="button"
-              className={clsx('home-layout-a__tile home-layout-a__tile--icon', surfaceClass(variant))}
-              onClick={() => navigate(item.to)}
-            >
-              <Icon className="home-layout-a__tile-icon" aria-hidden />
-              <span>{item.label}</span>
-            </button>
-          );
-        })}
       </div>
 
+      {/* Närvaro & Ritual side-by-side (Mockup flat layout) */}
+      <div className="grid grid-cols-2 gap-2.5">
+        <button
+          type="button"
+          onClick={() => navigate('/vardagen?tab=mabra')}
+          className={clsx(cardClass, 'p-3.5 text-left flex flex-col justify-between min-h-[96px] hover:border-accent/30 transition-all active:scale-[0.98]')}
+        >
+          <span className={clsx(
+            'text-[9px] tracking-[0.12em] uppercase font-bold text-accent',
+          )}>NÄRVARO</span>
+          <div className="flex flex-col mt-2">
+            <span className="text-xl font-bold font-sans text-text leading-none">{presenceVal}</span>
+            <span className="text-[10px] text-success font-semibold mt-1">{presenceLabel}</span>
+          </div>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => navigate('/vardagen')}
+          className={clsx(cardClass, 'p-3.5 text-left flex flex-col justify-between min-h-[96px] hover:border-accent/30 transition-all active:scale-[0.98]')}
+        >
+          <span className={clsx(
+            'text-[9px] tracking-[0.12em] uppercase font-bold text-accent',
+          )}>RITUAL</span>
+          <div className="flex flex-col mt-2">
+            <span className="text-base font-bold font-sans text-text leading-none">{ritual.name}</span>
+            <span className="text-[9px] text-text-dim font-medium mt-1.5 flex items-center gap-1">
+              {RitualIcon && <RitualIcon className="w-3 h-3 text-accent" />} {ritual.time}
+            </span>
+          </div>
+        </button>
+      </div>
+
+      {/* Kompassråd below them */}
       <button
         type="button"
-        className={clsx('home-layout-a__strip', surfaceClass(variant))}
-        onClick={() => navigate(QUICK_CAPTURE[2].to)}
+        onClick={() => navigate('/hjartat')}
+        className={clsx(cardClass, 'w-full p-4 flex items-center justify-between text-left hover:border-accent/30 transition-all active:scale-[0.99]')}
       >
-        <span className="home-layout-a__strip-ico" aria-hidden>
-          ▦
-        </span>
-        <span className="home-layout-a__strip-text">
-          <strong>Senaste · Inkast</strong>
-          <span>Tryck för att fånga något nytt</span>
-        </span>
+        <div className="space-y-1">
+          <p className="text-[9px] tracking-[0.2em] uppercase font-bold text-accent">
+            KOMPASSRÅD
+          </p>
+          <p className="text-xs font-semibold text-text leading-relaxed font-sans">
+            {compassAdvice}
+          </p>
+        </div>
+        <ChevronRight className="w-4 h-4 text-accent flex-shrink-0 ml-4" />
       </button>
+        </>
+      ) : null}
 
-      <PinnedPlaneringModuleSlot targetId="hem.brass.below-grid" />
     </div>
   );
 }

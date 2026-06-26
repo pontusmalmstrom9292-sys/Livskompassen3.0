@@ -56,9 +56,15 @@ export function ReflectionStep({
   onSaveWithoutText,
   saving = false,
 }: ReflectionStepProps) {
-  const [mode, setMode] = useState<WriteMode>('fritt');
+  const [mode, setMode] = useState<WriteMode>(lowCapacity ? 'tre-ord' : 'fritt');
   const moodDef = getMoodDef(mood);
   const moodPrompt = mood && MOOD_REFLECTION_PROMPTS[mood];
+
+  useEffect(() => {
+    if (lowCapacity && mode === 'fritt') {
+      setMode('tre-ord');
+    }
+  }, [lowCapacity, mode]);
 
   const textRef = useRef(text);
   useEffect(() => {

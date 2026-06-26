@@ -272,15 +272,23 @@ export const MABRA_HUB_ITEMS: MabraHubItem[] = [
 
 export const MABRA_HUB_QUICK_ITEMS = MABRA_HUB_ITEMS.filter((i) => i.quick);
 
-/** Lågenergi — två stora val (Fas 2 §1). */
+/** Lågenergi — akut, check-in, ett Vit-kort (PV1a). */
 export const MABRA_LOW_ENERGY_ITEMS: MabraHubItem[] = [
   {
-    id: 'low-breath-1',
-    title: 'Andning 1 min',
-    lead: '4-7-8 — låg tröskel',
-    emoji: '🌬',
+    id: 'akut-panic',
+    title: 'Panik / RSD',
+    lead: 'SOS Ankare — andas eller jordning',
+    emoji: '🌧',
     category: 'akut',
-    action: { type: 'breathing', variant: 'panic_rsd', minutes: 1 },
+    action: { type: 'tool', tool: 'recovery_sos' },
+  },
+  {
+    id: 'low-checkin',
+    title: 'Check-in',
+    lead: 'Humör och energi — ett steg',
+    emoji: '✓',
+    category: 'akut',
+    action: { type: 'tool', tool: 'feeling_cards' },
   },
   {
     id: 'low-reflection',

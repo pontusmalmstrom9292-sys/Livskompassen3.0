@@ -4,6 +4,7 @@ export {
 } from './DagbokInputSuperModule';
 export { DagbokReflektionDelegate } from './delegates/DagbokReflektionDelegate';
 export { DagbokQuickMirrorDelegate } from './delegates/DagbokQuickMirrorDelegate';
+export { DagbokTystDelegate } from './delegates/DagbokTystDelegate';
 export {
   DAGBOK_INPUT_MODES,
   DAGBOK_INPUT_MODES_FAS11C,
@@ -11,6 +12,7 @@ export {
   DAGBOK_INPUT_MODES_PRIMARY,
   DEFAULT_DAGBOK_INPUT_MODE,
   dagbokLegacyModeToInputMode,
+  parseDagbokCapacityParam,
   getDagbokInputModeMeta,
   isDagbokInputMode,
   parseDagbokInputMode,

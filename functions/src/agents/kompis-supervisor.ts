@@ -5,12 +5,10 @@ import {
   routeFromDcap,
 } from './cards';
 import type { AgentResponse } from './types';
-import { GCP_PROJECT_ID } from '../config';
 import { analyzeDcap, DcapResult } from './DCAP';
 import { askGransArkitekten, parseGransJson, type GransArkitektenResult } from './gransArkitektenAgent';
 import { resolveHamnTheoryWithoutEvidence } from '../lib/epistemicGuard';
-import { getOrCreateCache, invalidateCachesForUser } from '../lib/vertexCache';
-import { KOMPIS_SYSTEM_PROMPT } from '../sharedRules';
+import { deleteRegistryEntriesForUser } from '../lib/contextCacheRegistry';
 import { adkOrchestrator } from '../adk/orchestrator';
 import { emitSynapse } from '../adk/synapses/synapseBus';
 import { hashPayload } from '../adk/stateStore';
@@ -30,17 +28,7 @@ export class KompisSupervisor {
   ): Promise<AgentResponse & { dcap?: DcapResult }> {
     console.log(`[Kompis] Anrop från uid=${userId}, inputlängd=${userInput.length}`);
 
-    const [dcapResult] = await Promise.all([
-      analyzeDcap(userInput, GCP_PROJECT_ID),
-      getOrCreateCache(`kompis_${userId}`, {
-        systemInstruction: KOMPIS_SYSTEM_PROMPT,
-        backgroundDocuments: ragContext,
-        ttlSeconds: 3600,
-      }).catch((err) => {
-        console.warn('[Kompis] Context cache skipped (best-effort):', err);
-        return null;
-      }),
-    ]);
+    const dcapResult = await analyzeDcap(userInput);
 
     console.log(`[Kompis] DCAP riskScore=${dcapResult.riskScore}, action=${dcapResult.recommendedAction}`);
 
@@ -150,8 +138,8 @@ export class KompisSupervisor {
   }
 
   public async invalidateUserSession(userId: string): Promise<void> {
-    await invalidateCachesForUser(userId);
+    await deleteRegistryEntriesForUser(userId);
     adkOrchestrator.clearContext(userId);
-    console.log(`[Kompis] Session + ADK-state + context cache rensad för uid=${userId}`);
+    console.log(`[Kompis] Session + ADK-state rensad för uid=${userId}`);
   }
 }

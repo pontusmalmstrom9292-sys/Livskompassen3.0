@@ -497,7 +497,7 @@ service cloud.firestore {
 
     function isValidKat7ProjectId() {
       return request.resource.data.projectId in [
-        'self_esteem', 'emotional_memory', 'learn_together', 'who_am_i', 'recovery',
+        'self_esteem', 'emotional_memory', 'learn_together', 'who_am_i', 'recovery', 'ekonomi'
       ];
     }
 

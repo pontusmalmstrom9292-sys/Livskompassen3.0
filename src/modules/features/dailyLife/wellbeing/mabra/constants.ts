@@ -231,8 +231,21 @@ export const MABRA_SPEGLAR_GUARD_COPY = {
   goLabel: 'Ja, öppna Speglar',
 } as const;
 
+/** Fas 23C — SOS Ankare (`/mabra/recovery/sos`), ingen logg default. */
+export const RECOVERY_SOS_ANCHOR_COPY = {
+  anchorLine: 'Du är här. Det här känns jobbigt — du behöver inte agera nu.',
+  breatheLabel: 'Andas',
+  breatheLead: '4-7-8 — följ cirkeln',
+  groundLabel: 'Jordning',
+  groundLead: '5-4-3-2-1 — ett steg i taget',
+  closeLabel: 'Stäng',
+  emergencyHint: 'Akut fara:',
+  emergencyNumber: '113',
+} as const;
+
 export const LOW_ENERGY_COPY = {
   toggleLabel: 'Jag orkar lite idag',
+  hubHint: 'Låg energi — färre val',
   breathTitle: 'Andning 1 min',
   breathLead: '4-7-8 — låg tröskel',
   reflectionTitle: 'Ett frågekort',

@@ -45,6 +45,10 @@ export type BarnfokusQuestion = {
   bankId?: string;
   /** Åldersbracketing (evolution_hub.currentBracket) — undefined = alla åldrar. */
   bracket?: BarnfokusBracket;
+  /** Optionell åldersgräns nedåt. */
+  minAge?: number;
+  /** Optionell åldersgräns uppåt. */
+  maxAge?: number;
 };
 
 export const BARNFOKUS_KIND_LABELS: Record<BarnfokusQuestionKind, string> = {
@@ -97,7 +101,9 @@ function wireBarnfokusQuestion(question: BarnfokusQuestion): BarnfokusQuestion {
     text: catalog.text_sv,
     hint: catalog.hint_sv ?? question.hint,
     source: catalog.source ?? question.source,
-    bracket: catalog.bracket,
+    bracket: catalog.bracket ?? question.bracket,
+    minAge: catalog.minAge ?? question.minAge,
+    maxAge: catalog.maxAge ?? question.maxAge,
   };
 }
 
@@ -110,8 +116,9 @@ export const BARNFOKUS_QUESTIONS: BarnfokusQuestion[] =
  * Inkluderar bracket-specifika frågor (BP-PLAY-25..29) + universella builtin.
  * MUST NOT: ingen diagnos, ingen vuxenkonflikt, ingen cross-RAG.
  */
-export function barnfokusQuestionsForBracket(
+export function barnfokusQuestionsForAge(
   bracket: BarnfokusBracket | undefined,
+  ageYears?: number
 ): BarnfokusQuestion[] {
   // Catalog-rader för bracket (inkl. bracket=undefined = universella)
   const catalogRows = barnfokusCatalogForBracket(bracket);
@@ -136,11 +143,31 @@ export function barnfokusQuestionsForBracket(
       source: r.source,
       bankId: r.bankId,
       bracket: r.bracket,
+      minAge: r.minAge,
+      maxAge: r.maxAge,
     }));
 
   void catalogLegacyIds; // referenced via barnfokusCatalogForBracket above
 
-  return [...builtinFiltered.map(wireBarnfokusQuestion), ...bracketSpecific];
+  const allQuestions = [...builtinFiltered.map(wireBarnfokusQuestion), ...bracketSpecific];
+
+  if (ageYears !== undefined) {
+    return allQuestions.filter(q => {
+      if (q.minAge !== undefined && ageYears < q.minAge) return false;
+      if (q.maxAge !== undefined && ageYears > q.maxAge) return false;
+      return true;
+    });
+  }
+
+  return allQuestions;
+}
+
+/** Kanon-alias — bracket-wire (smoke + barn-observation-epistemik). */
+export function barnfokusQuestionsForBracket(
+  bracket: BarnfokusBracket | undefined,
+  ageYears?: number,
+): BarnfokusQuestion[] {
+  return barnfokusQuestionsForAge(bracket, ageYears);
 }
 
 const KIND_ROTATION: BarnfokusQuestionKind[] = [

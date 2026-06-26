@@ -1,3 +1,4 @@
+@import './styles/basta-design.css';
 @import './styles/design-packs.css';
 @import './styles/obsidian-calm-2.css';
 @import './styles/obsidian-depth-mockup.css';
@@ -5,7 +6,10 @@
 @import './styles/redesign-a-nordic-precision.css';
 @import './styles/redesign-c-aurora-prism.css';
 @import './styles/brushed-brass-neu.css';
+@import './styles/executive-chrome.css';
+@import './styles/design-freeport.css';
 @import './styles/theme-lab-brusfiltret-supermodule.css';
+@import './styles/theme-lab-w1-widget.css';
 
 @tailwind base;
 @tailwind components;
@@ -19,18 +23,18 @@
 
 :root {
   /* Obsidian Calm — kanon (.cursorrules); runtime: applyTheme + themeRegistry */
-  --bg-teal-deep: #020617;
-  --bg-dusk: #050b14;
-  --compass-disk: #0d3b3b;
+  --bg-teal-deep: #050505;
+  --bg-dusk: #0a0a0a;
+  --compass-disk: #0d0d12;
   --text-gold: var(--color-accent-gold);
   --text-gold-dim: #9a7b2f;
   --accent-dim: #9a7b2f;
   --accent-ember: #f59e0b;
 
   --bg: var(--bg-teal-deep);
-  --surface: #050b14;
-  --surface-2: #09111e;
-  --surface-3: #111b2d;
+  --surface: #0a0a0a;
+  --surface-2: #0f0f0f;
+  --surface-3: #141414;
   --text: #f8fafc;
   --text-muted: #94a3b8;
   --text-dim: #64748b;
@@ -137,21 +141,37 @@
     font-variant-numeric: tabular-nums;
   }
 
-  /* Theme Pack E — prod default (Obsidian Calm + guld chrome) */
+  /* Theme Pack E — prod default (Midnight Gold / Obsidian Calm) */
   html[data-theme='E-skymning-prod'] {
-    --bg-teal-deep: #020617;
-    --bg: #020617;
-    --bg-dusk: #050b14;
-    --surface: #050b14;
-    --surface-2: #09111e;
-    --surface-3: #111b2d;
-    --compass-disk: #0d3b3b;
+    --bg-teal-deep: #050505;
+    --bg: #050505;
+    --bg-dusk: #0a0a0a;
+    --surface: #0a0a0a;
+    --surface-2: #0f0f0f;
+    --surface-3: #141414;
+    --compass-disk: #0d0d12;
     --accent: var(--color-accent-gold);
     --accent-secondary: #6366f1;
     --accent-light: #fde68a;
     --accent-ai: #818cf8;
     --success: #10b981;
     --border-strong: rgba(99, 102, 241, 0.22);
+  }
+
+  html[data-theme='E-skymning-darkest'] {
+    --bg-teal-deep: #000000;
+    --bg: #000000;
+    --bg-dusk: #020202;
+    --surface: #020202;
+    --surface-2: #040404;
+    --surface-3: #080808;
+    --compass-disk: #021010;
+    --accent: #9f852b;
+    --accent-secondary: #4338ca;
+    --accent-light: #b4a055;
+    --accent-ai: #4f46e5;
+    --success: #059669;
+    --border-strong: rgba(255, 255, 255, 0.1);
   }
 
   /* Theme Pack I — CSS fallbacks (runtime: applyTheme + themeRegistry.ts) */
@@ -181,7 +201,7 @@
 
   html[data-theme='I-skymning'] {
     --bg: #0a1614;
-    --accent: #4fd1c5;
+    --accent: #d4af37;
     --border-strong: rgba(79, 209, 197, 0.28);
   }
 
@@ -1107,18 +1127,12 @@
     flex: 0 0 auto;
     width: 3.15rem;
     height: 3.15rem;
-    border: 1.5px solid color-mix(in srgb, var(--accent) 40%, transparent);
     background: linear-gradient(
       168deg,
       var(--chrome-plate-a) 0%,
       var(--chrome-plate-b) 48%,
       var(--chrome-plate-c) 100%
     );
-    box-shadow:
-      0 1px 0 var(--chrome-highlight) inset,
-      0 -2px 8px rgba(0, 0, 0, 0.32) inset,
-      0 4px 12px rgba(0, 0, 0, 0.38),
-      0 0 10px rgba(212, 175, 55, 0.1);
     transform: none;
     transition:
       border-color 0.16s ease,
@@ -1127,19 +1141,78 @@
       background 0.16s ease;
   }
 
-  .floating-dock__side-btn:hover .dock-nav-btn__icon-shell--calm {
+  /* Vardag (Tab 1) & Planering/Hantering (Tab 5) border colors */
+  .floating-dock__side-btn--vardag .dock-nav-btn__icon-shell--calm,
+  .floating-dock__side-btn--planering .dock-nav-btn__icon-shell--calm {
+    border: 1.5px solid rgba(0, 240, 210, 0.45);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.08) inset,
+      0 -2px 8px rgba(0, 0, 0, 0.32) inset,
+      0 4px 12px rgba(0, 0, 0, 0.38),
+      0 0 10px rgba(0, 240, 210, 0.15);
+  }
+  .floating-dock__side-btn--vardag:hover .dock-nav-btn__icon-shell--calm,
+  .floating-dock__side-btn--planering:hover .dock-nav-btn__icon-shell--calm {
     transform: translateY(-2px);
-    border-color: color-mix(in srgb, var(--accent-light) 42%, transparent);
+    border-color: rgba(0, 240, 210, 0.75);
     box-shadow:
       0 4px 14px rgba(0, 0, 0, 0.42),
-      0 0 12px color-mix(in srgb, var(--accent) 12%, transparent);
+      0 0 12px rgba(0, 240, 210, 0.25);
+  }
+  .floating-dock__side-btn--vardag.dock-nav-btn--active .dock-nav-btn__icon-shell--calm,
+  .floating-dock__side-btn--planering.dock-nav-btn--active .dock-nav-btn__icon-shell--calm {
+    border-color: rgba(0, 240, 210, 0.95);
+    background: rgba(0, 240, 210, 0.12);
+    box-shadow:
+      0 0 16px rgba(0, 240, 210, 0.35),
+      inset 0 1px 0 rgba(255, 248, 220, 0.1);
   }
 
-  .floating-dock__side-btn.dock-nav-btn--active .dock-nav-btn__icon-shell--calm {
-    border-color: color-mix(in srgb, var(--accent-light) 58%, transparent);
-    background: color-mix(in srgb, var(--accent) 11%, transparent);
+  /* Familj (Tab 2) border colors */
+  .floating-dock__side-btn--familj .dock-nav-btn__icon-shell--calm {
+    border: 1.5px solid rgba(168, 85, 247, 0.45);
     box-shadow:
-      0 0 16px color-mix(in srgb, var(--accent) 20%, transparent),
+      0 1px 0 rgba(255, 255, 255, 0.08) inset,
+      0 -2px 8px rgba(0, 0, 0, 0.32) inset,
+      0 4px 12px rgba(0, 0, 0, 0.38),
+      0 0 10px rgba(168, 85, 247, 0.15);
+  }
+  .floating-dock__side-btn--familj:hover .dock-nav-btn__icon-shell--calm {
+    transform: translateY(-2px);
+    border-color: rgba(168, 85, 247, 0.75);
+    box-shadow:
+      0 4px 14px rgba(0, 0, 0, 0.42),
+      0 0 12px rgba(168, 85, 247, 0.25);
+  }
+  .floating-dock__side-btn--familj.dock-nav-btn--active .dock-nav-btn__icon-shell--calm {
+    border-color: rgba(168, 85, 247, 0.95);
+    background: rgba(168, 85, 247, 0.12);
+    box-shadow:
+      0 0 16px rgba(168, 85, 247, 0.35),
+      inset 0 1px 0 rgba(255, 248, 220, 0.1);
+  }
+
+  /* Dagbok (Tab 4) border colors */
+  .floating-dock__side-btn--dagbok .dock-nav-btn__icon-shell--calm {
+    border: 1.5px solid rgba(212, 175, 55, 0.45);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.08) inset,
+      0 -2px 8px rgba(0, 0, 0, 0.32) inset,
+      0 4px 12px rgba(0, 0, 0, 0.38),
+      0 0 10px rgba(212, 175, 55, 0.15);
+  }
+  .floating-dock__side-btn--dagbok:hover .dock-nav-btn__icon-shell--calm {
+    transform: translateY(-2px);
+    border-color: rgba(212, 175, 55, 0.75);
+    box-shadow:
+      0 4px 14px rgba(0, 0, 0, 0.42),
+      0 0 12px rgba(212, 175, 55, 0.25);
+  }
+  .floating-dock__side-btn--dagbok.dock-nav-btn--active .dock-nav-btn__icon-shell--calm {
+    border-color: rgba(212, 175, 55, 0.95);
+    background: rgba(212, 175, 55, 0.12);
+    box-shadow:
+      0 0 16px rgba(212, 175, 55, 0.35),
       inset 0 1px 0 rgba(255, 248, 220, 0.1);
   }
 
@@ -1192,7 +1265,25 @@
   }
 
   .floating-dock__arc {
-    display: none;
+    position: absolute;
+    bottom: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6.5rem;
+    height: 5.5rem;
+    background: linear-gradient(
+      180deg,
+      rgba(20, 28, 43, 0.95) 0%,
+      rgba(5, 11, 20, 0.98) 100%
+    );
+    border: 1px solid rgba(212, 175, 55, 0.22);
+    border-bottom: none;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 248, 220, 0.1),
+      0 -4px 12px rgba(0, 0, 0, 0.5);
+    z-index: -1;
+    pointer-events: none;
   }
 
   .fyren-dock-handle {
@@ -1200,17 +1291,17 @@
     min-width: 5.5rem;
     padding: 0.28rem 0.85rem 0.34rem;
     margin-bottom: -0.1rem;
-    border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+    border: 1px solid var(--accent);
     border-bottom: none;
-    border-radius: 0.8rem 0.8rem 0.15rem 0.15rem;
+    border-radius: 0.8rem 0.8rem 0 0;
     background: linear-gradient(
       180deg,
       color-mix(in srgb, var(--surface-2) 94%, transparent) 0%,
       color-mix(in srgb, var(--bg) 90%, transparent) 100%
     );
-    color: color-mix(in srgb, var(--accent-light) 90%, white);
+    color: var(--accent);
     box-shadow:
-      0 -2px 14px rgba(212, 175, 55, 0.1),
+      0 -2px 14px rgba(212, 175, 55, 0.15),
       0 4px 12px rgba(0, 0, 0, 0.32),
       inset 0 1px 0 rgba(255, 248, 220, 0.1);
     touch-action: none;
@@ -1239,15 +1330,16 @@
 
   .fyren-dock-handle__chevron {
     @apply relative z-[1] h-3 w-3 shrink-0;
-    filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.28));
+    color: #00f0d2;
+    filter: drop-shadow(0 0 6px rgba(0, 240, 210, 0.58));
     transition: transform 0.18s ease;
   }
 
   .fyren-dock-handle:hover {
     transform: translateY(-1px);
-    border-color: color-mix(in srgb, var(--accent-light) 48%, transparent);
+    border-color: var(--accent-light);
     box-shadow:
-      0 -2px 18px rgba(212, 175, 55, 0.16),
+      0 -2px 18px rgba(212, 175, 55, 0.22),
       0 6px 16px rgba(0, 0, 0, 0.38),
       inset 0 1px 0 rgba(255, 248, 220, 0.14);
   }
@@ -1255,7 +1347,7 @@
   .fyren-dock-handle--open {
     margin-bottom: 0;
     border-radius: 0.75rem 0.75rem 0 0;
-    border-bottom: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+    border-bottom: 1px solid transparent;
     background: color-mix(in srgb, var(--surface-2) 96%, transparent);
   }
 
@@ -2601,22 +2693,27 @@
 
   .nav-drawer__lock-btn {
     @apply relative z-10 mx-2 mt-3 flex w-[calc(100%-1rem)] cursor-pointer items-center gap-3 rounded-xl border px-3 py-3 text-left transition-colors;
-    border-color: rgba(239, 68, 68, 0.28);
-    background: rgba(17, 27, 45, 0.45);
+    border-color: var(--color-border-subtle);
+    background: rgba(17, 27, 45, 0.25);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     touch-action: manipulation;
   }
 
   .nav-drawer__lock-btn:hover {
-    background: rgba(239, 68, 68, 0.1);
-    border-color: rgba(239, 68, 68, 0.38);
+    background: rgba(17, 27, 45, 0.45);
+    border-color: var(--color-border);
   }
 
   .nav-drawer__lock-icon {
-    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border text-danger;
-    border-color: rgba(239, 68, 68, 0.28);
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-transparent text-text-muted transition-all duration-300;
     background: rgba(2, 6, 23, 0.55);
+  }
+
+  .nav-drawer__lock-btn:hover .nav-drawer__lock-icon {
+    @apply text-accent;
+    border-color: rgba(212, 175, 55, 0.28);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
   }
 
   .nav-drawer__lock-copy {
@@ -2624,7 +2721,11 @@
   }
 
   .nav-drawer__lock-title {
-    @apply block text-xs font-semibold text-danger;
+    @apply block text-xs font-semibold text-text-muted transition-colors duration-300;
+  }
+
+  .nav-drawer__lock-btn:hover .nav-drawer__lock-title {
+    @apply text-text;
   }
 
   .nav-drawer__lock-hint {
@@ -4737,7 +4838,28 @@
 
   .widget-record-discreet-overlay {
     @apply pointer-events-none fixed inset-0 z-[100];
-    background: rgba(0, 0, 0, 0.95);
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+  }
+
+  .widget-panic-blur-overlay {
+    @apply pointer-events-none fixed inset-0 z-[120];
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    transition: backdrop-filter 0.25s ease, background 0.25s ease;
+  }
+
+  .widget-shell--panic {
+    filter: blur(20px);
+    opacity: 0.25;
+    pointer-events: none;
+    transition: filter 0.25s ease, opacity 0.25s ease;
+  }
+
+  .widget-silo-picker {
+    @apply rounded-xl border-[0.5px] border-border/60 bg-surface-2/40 p-3;
   }
 
   .fyren-widget-bar__strip {
@@ -5587,7 +5709,7 @@
   }
 
   .familjen-kunskap-panel {
-    @apply rounded-2xl border border-emerald-500/15 bg-[#0a1628]/60 p-1;
+    @apply rounded-2xl border border-emerald-500/15 bg-surface-3/60 p-1;
   }
 
   /* Dagbok — lägesnav (Snabb / Reflektera / Arkiv) */
@@ -6361,3 +6483,296 @@
     @apply rounded-lg border border-success/25 bg-success/5 px-3 py-2 text-sm text-text-muted;
   }
 }
+
+
+
+
+/* Skymningsläge — extra låg kontrast för sena kvällar/migrän */
+html.dim-mode {
+  --color-text: rgba(160, 160, 180, 0.7);
+  --color-text-muted: rgba(120, 120, 140, 0.55);
+  --color-text-dim: rgba(90, 90, 110, 0.45);
+  filter: brightness(0.65) saturate(0.6);
+  transition: filter 0.8s ease;
+}
+/* ═══════════════════════════════════════════════════════════════
+   MOCKUP GLASSMORPHIC PILL DOCK OVERRIDE v3 — Minimal, sleek, fully contained
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 9999px) {
+  .fyren-dock-handle { display: none !important; }
+
+  .dock-shell--fyren {
+    --dock-stack-height: 5rem;
+    background: transparent !important;
+    padding-bottom: 0.5rem !important;
+  }
+
+  .dock-shell {
+    background: transparent !important;
+    pointer-events: none;
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom)) !important;
+  }
+
+  .dock-shell.dock-shell--reference-dock {
+    padding-bottom: 0 !important;
+  }
+
+  /* The main outer dock bar */
+  .floating-dock.dock-hub-band {
+    width: fit-content !important;
+    max-width: 98vw !important;
+    margin: 0 auto !important;
+    background: linear-gradient(180deg, rgba(20, 20, 25, 0.94), rgba(10, 10, 10, 0.98)) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 2.2rem !important;
+    backdrop-filter: blur(30px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(30px) saturate(160%) !important;
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.8),
+      inset 0 1px 1px rgba(255, 255, 255, 0.06),
+      0 0 15px rgba(212, 175, 55, 0.06) !important;
+    padding: 0.25rem 0.3rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.2rem !important;
+    pointer-events: auto !important;
+    min-height: 4rem !important;
+  }
+
+  /* The inner center pill container */
+  .floating-dock .dock-hub-band__rail,
+  .floating-dock .dock-hub-band__rail--zones {
+    border-radius: 1.8rem !important;
+    border: 1px solid rgba(212, 175, 55, 0.45) !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.7) !important;
+    overflow: visible !important;
+    width: fit-content !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 0.4rem !important;
+    min-height: 3.5rem !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0.15rem !important;
+  }
+
+  .floating-dock .dock-hub-band__rail::before,
+  .floating-dock .dock-hub-band__rail::after {
+    display: none !important;
+  }
+
+  .floating-dock__side-group {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100% !important;
+    gap: 0 !important;
+    flex: 1 1 0% !important;
+    min-width: 3.1rem !important;
+  }
+
+  /* Clear all legacy icon shell styles */
+  .floating-dock__side-btn .dock-nav-btn__icon-shell--calm {
+    width: auto !important;
+    height: auto !important;
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    transform: none !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+  }
+
+  /* Unified button style for all 5 buttons */
+  .floating-dock__side-btn {
+    min-height: 3.5rem !important;
+    min-width: 3.1rem !important;
+    max-width: 4.8rem !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 0 0.2rem !important;
+    margin: 0 !important;
+    background: transparent !important;
+    border-radius: 0.8rem !important;
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Active state highlight background */
+  .floating-dock__side-btn.dock-nav-btn--active {
+    background: rgba(212, 175, 55, 0.06) !important;
+  }
+
+  .floating-dock__side-btn.dock-nav-btn--active::before { display: none !important; }
+
+  /* Icons */
+  .floating-dock__side-btn svg,
+  .floating-dock__side-btn .dock-nav-btn__drawer-l2 {
+    height: 1.35rem !important;
+    width: 1.35rem !important;
+    opacity: 0.75 !important;
+    color: rgba(212, 175, 55, 0.8) !important;
+    transition: all 0.2s ease !important;
+    filter: none !important;
+    transform: none !important;
+  }
+
+  /* Active/Hover Icon styling */
+  .floating-dock__side-btn:hover svg,
+  .floating-dock__side-btn:hover .dock-nav-btn__drawer-l2 {
+    opacity: 1 !important;
+    color: #fde68a !important;
+    transform: translateY(-1px) !important;
+  }
+
+  .floating-dock__side-btn.dock-nav-btn--active svg,
+  .floating-dock__side-btn.dock-nav-btn--active .dock-nav-btn__drawer-l2 {
+    opacity: 1 !important;
+    color: #d4af37 !important;
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6)) !important;
+    transform: scale(1.05) !important;
+  }
+
+  /* Labels: highly optimized for Swedish text wrapping & mobile */
+  .floating-dock__side-btn .dock-nav-btn__label {
+    display: block !important;
+    font-size: 0.52rem !important;
+    line-height: 1.1 !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.02em !important;
+    color: rgba(212, 175, 55, 0.6) !important;
+    margin-top: 0.25rem !important;
+    text-align: center !important;
+    width: 100% !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    transition: color 0.2s ease !important;
+  }
+
+  /* Active/Hover Label styling */
+  .floating-dock__side-btn:hover .dock-nav-btn__label {
+    color: #fde68a !important;
+  }
+
+  .floating-dock__side-btn.dock-nav-btn--active .dock-nav-btn__label {
+    color: #d4af37 !important;
+    text-shadow: 0 0 6px rgba(212, 175, 55, 0.2) !important;
+  }
+
+  /* Adjustments for the outer buttons to keep dock clean */
+  .floating-dock__side-btn--anteckning,
+  .floating-dock__side-btn--inkast {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 0.2rem !important;
+    max-width: 4.5rem !important;
+  }
+
+  /* Center Compass structure inside the pill */
+  .floating-dock .dock-hub-band__rail--zones > .floating-dock__center-wrapper {
+    margin: 0 0.15rem !important;
+  }
+
+  .floating-dock .dock-hub-band__rail--zones > .floating-dock__center-wrapper > .dock-hub-band__center {
+    position: relative !important;
+    transform: none !important;
+    width: 3.1rem !important;
+    height: 3.1rem !important;
+    margin: 0 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    z-index: 10 !important;
+    background: transparent !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Compass background disc & plate hygiene */
+  .floating-dock__plate {
+    background: rgba(15, 15, 20, 0.85) !important;
+    border: 1px solid rgba(212, 175, 55, 0.35) !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) !important;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  .floating-dock__mark {
+    height: 1.6rem !important;
+    width: 1.6rem !important;
+    color: #d4af37 !important;
+    filter: drop-shadow(0 0 4px rgba(212,175,55,0.4)) !important;
+    transition: all 0.25s ease !important;
+  }
+
+  .floating-dock .dock-hub-band__center:hover .floating-dock__plate {
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 14px rgba(212,175,55,0.3) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  .floating-dock .dock-hub-band__center:hover .floating-dock__mark {
+    color: #fde68a !important;
+    filter: drop-shadow(0 0 8px rgba(212,175,55,0.7)) !important;
+  }
+
+  .floating-dock .dock-hub-band__center--active .floating-dock__plate,
+  .floating-dock .dock-hub-band__center--holding .floating-dock__plate {
+    border-color: #d4af37 !important;
+    background: rgba(212, 175, 55, 0.12) !important;
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.4) !important;
+    transform: scale(1.05) !important;
+  }
+
+  .floating-dock .dock-hub-band__center--active .floating-dock__mark,
+  .floating-dock .dock-hub-band__center--holding .floating-dock__mark {
+    color: #d4af37 !important;
+    filter: drop-shadow(0 0 10px rgba(212,175,55,0.8)) !important;
+  }
+
+  /* Center Compass label layout */
+  .floating-dock__center-wrapper > span {
+    position: absolute !important;
+    bottom: -0.5rem !important;
+    font-size: 0.52rem !important;
+    line-height: 1.1 !important;
+    font-weight: 600 !important;
+    color: rgba(212, 175, 55, 0.6) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.02em !important;
+    pointer-events: none !important;
+    transition: color 0.2s ease !important;
+    z-index: 20 !important;
+  }
+
+  .floating-dock__center-wrapper:hover > span {
+    color: #fde68a !important;
+  }
+
+  .floating-dock .dock-hub-band__center--active + span,
+  .floating-dock .dock-hub-band__center--holding + span {
+    color: #d4af37 !important;
+  }
+
+  .floating-dock__center-glow { display: none !important; }
+}
+

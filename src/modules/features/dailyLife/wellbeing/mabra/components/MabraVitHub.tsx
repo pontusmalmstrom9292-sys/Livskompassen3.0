@@ -9,6 +9,7 @@ import {
   type MabraHubCategory,
   type MabraHubItem,
 } from '../mabraHubRegistry';
+import { LOW_ENERGY_COPY } from '../constants';
 
 type Props = {
   openCategory: MabraHubCategory | null;
@@ -46,6 +47,7 @@ export function MabraVitHub({
     return (
       <div className="mabra-vit-hub">
         {profileSlot ? <div className="mabra-vit-hub__profile">{profileSlot}</div> : null}
+        <p className="mabra-vit-hub__intro text-sm text-text-muted">{LOW_ENERGY_COPY.hubHint}</p>
         <div className="mabra-vit-hub__low-energy" role="list" aria-label="Lågenergi">
           {MABRA_LOW_ENERGY_ITEMS.map((item) => (
             <MabraHubLargeTile key={item.id} item={item} onSelectItem={onSelectItem} />

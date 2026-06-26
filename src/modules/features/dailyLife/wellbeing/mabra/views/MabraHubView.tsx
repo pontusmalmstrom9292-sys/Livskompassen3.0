@@ -200,6 +200,10 @@ export const MabraHubView = memo(function MabraHubView() {
 
   const handleSelectHubItem = (item: MabraHubItem) => {
     setHubOpenCategory(item.category);
+    if (item.id === 'low-checkin') {
+      navigate('/mabra/input?inputMode=checkin');
+      return;
+    }
     if (item.id === 'low-reflection') {
       const { card } = pickDailyReflectionCard({ uid: userId });
       navigate(`/mabra/verktyg/reflection_deck?initialBankId=${card.bankId}`);
@@ -371,23 +375,6 @@ export const MabraHubView = memo(function MabraHubView() {
                 </MabraHubCollapsible>
               </div>
             </MabraHubCollapsible>
-          )}
-
-          {lowEnergyMode && (
-            <div className="mt-4">
-              <MabraHubCollapsible title="Historik" meta="Senaste sessioner" defaultOpen={false}>
-                <HubErrorBoundary
-                  title="Historik kunde inte laddas"
-                  errorBody={getMabraRsdErrorCopy()}
-                  logTag="MabraHistoryView"
-                  glow="green"
-                >
-                  <Suspense fallback={<HubPanelSkeleton label="Laddar historik…" lines={3} />}>
-                    <MabraHistoryViewLazy />
-                  </Suspense>
-                </HubErrorBoundary>
-              </MabraHubCollapsible>
-            </div>
           )}
 
           {valuesSavedHint && (

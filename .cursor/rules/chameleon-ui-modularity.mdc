@@ -41,7 +41,7 @@ Agent får **inte** blanda Firestore/callable-logik direkt i stora JSX-träd med
 
 - **Tokens:** `var(--surface)`, `text-accent`, `border-border` — **inte** `#d4af37` i `features/`.
 - **Theme packs:** `useDesignPack()`, `themeRegistry` — experiment i `/dev/theme-lab`, inte prod-routes.
-- **Silo-glow:** `glow-bottom-gold|blue|green` via prop/klass — se `design-calm.mdc`.
+- **Silo-glow:** Undvik färgade glow-linjer — se `design-calm.mdc` (Executive Midnight).
 - **Sandbox:** Fri styling endast i `src/modules/sandbox/**` och `/dev/design-freeport*`.
 
 ### 4. Mobil-first (Motorola G85)

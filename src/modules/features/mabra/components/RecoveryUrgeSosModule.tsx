@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { X } from 'lucide-react';
+import { ArrowLeft, X } from 'lucide-react';
 import {
   BREATH_PHASE_SECONDS,
   GROUNDING_STEPS,
+  RECOVERY_SOS_ANCHOR_COPY,
 } from '@/features/dailyLife/wellbeing/mabra/constants';
 
 type BreathPhase = keyof typeof BREATH_PHASE_SECONDS;
-type SosTool = 'breathing' | 'grounding';
+type SosScreen = 'anchor' | 'breathing' | 'grounding';
 
 const PHASE_LABEL: Record<BreathPhase, string> = {
   inhale: 'Andas in…',
@@ -30,9 +31,9 @@ type Props = {
   onClose: () => void;
 };
 
-/** Kat 8 — offline-först SOS / urge surfing (Obsidian Calm, Zero Footprint). */
+/** Kat 8 / Fas 23C — offline-först SOS Ankare (Obsidian Calm, Zero Footprint, ingen logg). */
 export function RecoveryUrgeSosModule({ onClose }: Props) {
-  const [tool, setTool] = useState<SosTool>('breathing');
+  const [screen, setScreen] = useState<SosScreen>('anchor');
   const [phase, setPhase] = useState<BreathPhase>('inhale');
   const [groundStep, setGroundStep] = useState(0);
   const timeoutRef = useRef<number | null>(null);
@@ -45,7 +46,7 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
   }, []);
 
   useEffect(() => {
-    if (tool !== 'breathing') {
+    if (screen !== 'breathing') {
       clearTimer();
       return;
     }
@@ -62,11 +63,11 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
 
     schedule('inhale');
     return clearTimer;
-  }, [tool, clearTimer]);
+  }, [screen, clearTimer]);
 
   useEffect(() => {
     setGroundStep(0);
-  }, [tool]);
+  }, [screen]);
 
   const groundStepData = GROUNDING_STEPS[groundStep];
   const isLastGroundStep = groundStep === GROUNDING_STEPS.length - 1;
@@ -79,67 +80,77 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
     setGroundStep((i) => i + 1);
   };
 
+  const handleBackToAnchor = () => {
+    clearTimer();
+    setScreen('anchor');
+  };
+
   return (
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="Akut stöd — andning och jordning"
+      aria-label="SOS Ankare — akut stöd"
       className="fixed inset-0 z-[60] flex flex-col bg-gradient-to-b from-bg via-surface to-surface-2"
     >
       <header className="flex shrink-0 items-center justify-between border-b-[0.5px] border-border px-4 py-3 sm:px-6">
-        <p className="font-display-serif text-[10px] uppercase tracking-[0.22em] text-text-dim">
-          Akut stöd
-        </p>
+        {screen === 'anchor' ? (
+          <p className="font-display-serif text-[10px] uppercase tracking-[0.22em] text-text-dim">
+            SOS Ankare
+          </p>
+        ) : (
+          <button
+            type="button"
+            onClick={handleBackToAnchor}
+            className="inline-flex items-center gap-1.5 rounded-xl border-[0.5px] border-border/60 px-2 py-1.5 text-xs text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3 hover:text-text"
+          >
+            <ArrowLeft className="h-4 w-4" strokeWidth={1.5} aria-hidden />
+            Tillbaka
+          </button>
+        )}
         <button
           type="button"
           onClick={onClose}
           className="rounded-xl border-[0.5px] border-border/60 p-2 text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3 hover:text-text"
-          aria-label="Stäng akut stöd"
+          aria-label="Stäng SOS Ankare"
         >
           <X className="h-5 w-5" strokeWidth={1.5} />
         </button>
       </header>
 
       <div className="calm-scroll-island flex flex-1 flex-col items-center px-4 py-6 sm:px-6">
-        <p className="max-w-md text-center text-sm leading-relaxed text-text-muted">
-          Det här känns jobbigt. Du behöver inte agera nu.
-        </p>
-
-        <div
-          role="tablist"
-          aria-label="Välj stödverktyg"
-          className="mt-6 flex w-full max-w-sm gap-2 rounded-xl border-[0.5px] border-border bg-surface-2/80 p-1"
-        >
-          <button
-            type="button"
-            role="tab"
-            aria-selected={tool === 'breathing'}
-            onClick={() => setTool('breathing')}
-            className={`flex-1 rounded-lg px-3 py-2 text-xs uppercase tracking-[0.16em] transition-colors ${
-              tool === 'breathing'
-                ? 'bg-surface-3 text-accent'
-                : 'text-text-dim hover:text-text-muted'
-            }`}
-          >
-            Andning 4-7-8
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={tool === 'grounding'}
-            onClick={() => setTool('grounding')}
-            className={`flex-1 rounded-lg px-3 py-2 text-xs uppercase tracking-[0.16em] transition-colors ${
-              tool === 'grounding'
-                ? 'bg-surface-3 text-accent'
-                : 'text-text-dim hover:text-text-muted'
-            }`}
-          >
-            5-4-3-2-1
-          </button>
-        </div>
-
-        <div className="mt-8 flex w-full max-w-md flex-1 flex-col items-center justify-center">
-          {tool === 'breathing' ? (
+        {screen === 'anchor' ? (
+          <div className="flex w-full max-w-sm flex-1 flex-col justify-center gap-6">
+            <p className="text-center font-display-serif text-lg leading-relaxed text-accent">
+              {RECOVERY_SOS_ANCHOR_COPY.anchorLine}
+            </p>
+            <div className="flex flex-col gap-3">
+              <button
+                type="button"
+                onClick={() => setScreen('breathing')}
+                className="btn-pill--accent flex flex-col items-center gap-1 py-4"
+              >
+                <span>{RECOVERY_SOS_ANCHOR_COPY.breatheLabel}</span>
+                <span className="text-xs font-normal normal-case tracking-normal opacity-80">
+                  {RECOVERY_SOS_ANCHOR_COPY.breatheLead}
+                </span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setScreen('grounding')}
+                className="btn-pill--secondary flex flex-col items-center gap-1 py-4"
+              >
+                <span>{RECOVERY_SOS_ANCHOR_COPY.groundLabel}</span>
+                <span className="text-xs font-normal normal-case tracking-normal opacity-80">
+                  {RECOVERY_SOS_ANCHOR_COPY.groundLead}
+                </span>
+              </button>
+              <button type="button" onClick={onClose} className="btn-pill--ghost py-3 text-sm">
+                {RECOVERY_SOS_ANCHOR_COPY.closeLabel}
+              </button>
+            </div>
+          </div>
+        ) : screen === 'breathing' ? (
+          <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center">
             <div className="flex flex-col items-center space-y-6">
               <p className="text-xs uppercase tracking-[0.2em] text-text-dim">4 · 7 · 8</p>
               <div className="relative flex h-52 w-52 items-center justify-center">
@@ -165,7 +176,9 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
                 Suget stiger och faller. Du surfar bara.
               </p>
             </div>
-          ) : (
+          </div>
+        ) : (
+          <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center">
             <div className="flex w-full flex-col items-center space-y-6">
               <p className="text-xs uppercase tracking-[0.2em] text-text-dim">Jordning</p>
               <div className="w-full rounded-2xl border-[0.5px] border-border bg-surface-2/70 px-5 py-6 text-center backdrop-blur-sm">
@@ -185,12 +198,12 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
                 {isLastGroundStep ? 'Börja om' : 'Gå vidare'}
               </button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         <p className="mt-auto pt-6 text-center text-[11px] text-text-dim">
-          Akut fara:{' '}
-          <span className="text-danger">113</span>
+          {RECOVERY_SOS_ANCHOR_COPY.emergencyHint}{' '}
+          <span className="text-danger">{RECOVERY_SOS_ANCHOR_COPY.emergencyNumber}</span>
         </p>
       </div>
     </div>

@@ -91,6 +91,29 @@ function main() {
     'PlaneringFramstegPanel',
   );
 
+  console.log('[smoke:planering-gora-e] Fas 23D Paralys-Brytaren…');
+  mustInclude(
+    'src/modules/features/admin/planning/components/PlanningKanbanBoard.tsx',
+    'PlaneringParalysEntry',
+    'setMicroStep',
+  );
+  mustInclude(
+    'src/modules/features/admin/planning/components/PlaneringParalysEntry.tsx',
+    'fetchMicroSteps',
+    'PLANERING_PARALYS_ONE_STEP',
+    'Lägg i Att göra',
+  );
+  mustInclude(
+    'src/modules/features/admin/planning/components/ParalysBreakerWidget.tsx',
+    'fetchMicroSteps',
+    'PLANERING_PARALYS_ONE_STEP',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/compasses/api/compassService.ts',
+    'breakDownResponse',
+  );
+  mustInclude('functions/src/callables/agents.ts', "trigger: 'user_overwhelm'");
+
   mustInclude(
     'src/modules/features/admin/planning/components/PlaneringFokusPanel.tsx',
     'ParalysPanel',

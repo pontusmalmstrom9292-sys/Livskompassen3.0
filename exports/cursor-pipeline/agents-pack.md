@@ -65,423 +65,6 @@ The content is organized as follows:
 - Bevara WORM, CMEK och Zero Footprint.
 ```
 
-## File: functions/src/adk/synapses/dcapAlertSynapse.ts
-```typescript
-import { hashPayload } from '../stateStore';
-⋮----
-export interface DcapAlertPayload {
-  ownerId: string;
-  riskScore: number;
-  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
-  inputHash: string;
-  detectionCount?: number;
-}
-⋮----
-export interface DcapAlertResult {
-  alertId: string;
-  hitlRequired: boolean;
-}
-⋮----
-export async function handleDcapAlert(payload: DcapAlertPayload): Promise<DcapAlertResult>
-```
-
-## File: functions/src/adk/synapses/journalWovenSynapse.ts
-```typescript
-import { generateEmbeddingInternal } from '../../lib/generateEmbeddingInternal';
-import { upsertKampsparVector } from '../../lib/vectorSearchClient';
-⋮----
-export interface JournalWovenPayload {
-  ownerId: string;
-  journalEntryId: string;
-  mood: string;
-  text: string;
-  optIn: boolean;
-}
-⋮----
-export interface JournalWovenResult {
-  kampsparDocId: string;
-  embeddingDim: number | null;
-}
-⋮----
-export async function handleJournalWoven(payload: JournalWovenPayload): Promise<JournalWovenResult>
-```
-
-## File: functions/src/adk/synapses/paralysBrytarenSynapse.ts
-```typescript
-import { VertexAI } from '@google-cloud/vertexai';
-import { GCP_PROJECT_ID, GCP_REGION } from '../../config';
-import { PARALYS_BRYTAREN_SYSTEM_PROMPT } from '../../sharedRules';
-import { MICRO_STEP_MAX_SECONDS, type MicroStep } from '../types';
-⋮----
-export function isHeavyResponse(text: string): boolean
-⋮----
-function clampSeconds(n: number): number
-⋮----
-export function breakIntoMicroStepsDeterministic(text: string): MicroStep[]
-⋮----
-function inferPhysicalAnchor(instruction: string): string
-⋮----
-export async function breakIntoMicroSteps(text: string): Promise<MicroStep[]>
-⋮----
-export async function applyParalysBreak(agentText: string): Promise<MicroStep[]>
-```
-
-## File: functions/src/adk/synapses/synapseBus.ts
-```typescript
-import type { SynapseEvent, SynapseTrigger } from '../types';
-import type { AdkOrchestrator } from '../orchestrator';
-import { handleDriveIngest } from './driveIngestSynapse';
-import { handleDcapAlert } from './dcapAlertSynapse';
-import { handleJournalWoven } from './journalWovenSynapse';
-import { applyParalysBreak } from './paralysBrytarenSynapse';
-import type { DriveIngestPayload, JournalWovenPayload, DcapAlertPayload } from '../types';
-⋮----
-type SynapseHandler = (
-  orchestrator: AdkOrchestrator,
-  event: SynapseEvent
-) => Promise<unknown>;
-⋮----
-export async function emitSynapse(
-  orchestrator: AdkOrchestrator,
-  event: SynapseEvent
-): Promise<unknown>
-```
-
-## File: functions/src/adk/index.ts
-```typescript
-
-```
-
-## File: functions/src/adk/orchestrator.ts
-```typescript
-import type { A2AMessage } from '../agents/types';
-import { resolveExecutorId } from '../agents/cards';
-import { runExecutor } from './executors/runExecutor';
-import { validateIntent, getAgentCard, assertCollectionAccess } from './registry';
-import { appendMutation, createTrace, clearSynapseState } from './stateStore';
-import { applyParalysBreak, isHeavyResponse } from './synapses/paralysBrytarenSynapse';
-import { assertBackendSiloIsolation, type SiloId } from './manifest';
-import type { DispatchOptions, OrchestrationResult } from './types';
-⋮----
-function gatekeeperSanitize(text: string): string
-⋮----
-export class AdkOrchestrator
-⋮----
-async dispatch(message: A2AMessage, options: DispatchOptions =
-⋮----
-async dispatchFromSupervisor(
-    route: { productAgentId: string; executorId: string; intent: string },
-    userInput: string,
-    userId: string,
-    ragContext: string[],
-    dcapPayload: Record<string, unknown>
-): Promise<OrchestrationResult>
-⋮----
-clearContext(contextId: string): void
-⋮----
-private intentAllowed(productAgentId: string, executorId: string, intent: string): boolean
-⋮----
-private enforceManifestPolicy(
-    executorId: string,
-    message: A2AMessage,
-    options: DispatchOptions,
-): void
-⋮----
-initTrace(contextId: string)
-⋮----
-private errorResult(contextId: string, agentId: string, error: string): OrchestrationResult
-```
-
-## File: functions/src/adk/registry.ts
-```typescript
-import {
-  AvailableAgents,
-  resolveExecutorId,
-  type SupervisorRoute,
-  routeFromDcap,
-} from '../agents/cards';
-import type { AgentCard } from '../agents/types';
-import {
-  assertBackendCollectionAccess,
-  assertBackendSiloIsolation,
-  resolveBackendCollectionDomain,
-  type SiloId,
-} from './manifest';
-⋮----
-export function getAgentCard(agentId: string): AgentCard | undefined
-⋮----
-export function listAgentCards(): AgentCard[]
-⋮----
-export function validateIntent(agentId: string, intent: string): boolean
-⋮----
-export function assertCollectionAccess(agentId: string, collection: string): boolean
-```
-
-## File: functions/src/adk/stateStore.ts
-```typescript
-import crypto from 'crypto';
-import type { StateMutation, SynapseState } from './types';
-⋮----
-export function hashPayload(payload: Record<string, unknown>): string
-⋮----
-export function createTrace(contextId: string): SynapseState
-⋮----
-export function getTrace(contextId: string): SynapseState | undefined
-⋮----
-export function appendMutation(
-  contextId: string,
-  mutation: Omit<StateMutation, 'timestamp' | 'payloadHash'> & { payload: Record<string, unknown> }
-): SynapseState
-⋮----
-export function clearSynapseState(contextId: string): void
-```
-
-## File: functions/src/adk/types.ts
-```typescript
-import type { AgentResponse, A2AMessage } from '../agents/types';
-⋮----
-export interface MicroStep {
-  instruction: string;
-  estimatedSeconds: number;
-  physicalAnchor: string;
-}
-⋮----
-export interface StateMutation {
-  fromAgentId: string;
-  toAgentId: string;
-  intent: string;
-  payloadHash: string;
-  timestamp: string;
-}
-⋮----
-export interface SynapseState {
-  contextId: string;
-  traceId: string;
-  mutations: StateMutation[];
-  createdAt: string;
-}
-⋮----
-export type SynapseTrigger =
-  | 'drive_file_ingested'
-  | 'journal_woven'
-  | 'dcap_alert'
-  | 'user_overwhelm';
-⋮----
-export interface SynapseEvent {
-  trigger: SynapseTrigger;
-  contextId?: string;
-  payload: Record<string, unknown>;
-}
-⋮----
-export interface DispatchOptions {
-  ragContext?: string[];
-  applyParalysBreak?: boolean;
-  productAgentId?: string;
-  targetCollections?: string[];
-}
-⋮----
-export interface OrchestrationResult {
-  response: AgentResponse;
-  microSteps?: MicroStep[];
-  state: SynapseState;
-  rawAgentText?: string;
-}
-⋮----
-export type ExecutorFn = (
-  message: A2AMessage,
-  ragContext: string[]
-) => Promise<string>;
-⋮----
-export interface DriveIngestPayload {
-  fileId: string;
-  fileName: string;
-  mimeType: string;
-  ownerId?: string;
-  optInTrauma?: boolean;
-}
-⋮----
-export interface JournalWovenPayload {
-  ownerId: string;
-  journalEntryId: string;
-  mood: string;
-  text: string;
-  optIn: boolean;
-}
-⋮----
-export interface DcapAlertPayload {
-  ownerId: string;
-  riskScore: number;
-  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
-  inputHash: string;
-  detectionCount?: number;
-}
-```
-
-## File: functions/src/agents/cards/index.ts
-```typescript
-import { AgentCard } from '../types';
-⋮----
-export function resolveExecutorId(productAgentId: string): string
-⋮----
-export type SupervisorRoute = {
-  productAgentId: string;
-  executorId: string;
-  intent: string;
-};
-⋮----
-export function routeFromDcap(
-  riskScore: number,
-  recommendedAction: 'NONE' | 'COACHING' | 'ALERT'
-): SupervisorRoute
-```
-
-## File: functions/src/agents/DCAP.ts
-```typescript
-import { VertexAI } from '@google-cloud/vertexai';
-import { DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT } from '../sharedRules';
-import { scanTextForTactics, type VaultTechnique } from '../lib/tacticPatternLibrary';
-⋮----
-export type ManipulationTechnique =
-  | 'DARVO'
-  | 'GASLIGHTING'
-  | 'LOVE_BOMBING'
-  | 'SILENT_TREATMENT'
-  | 'JADE_BAIT'
-  | 'THREAT'
-  | 'HOOVERING'
-  | 'SMEAR'
-  | 'ECONOMIC_CONTROL'
-  | 'MATERNAL_FACADE'
-  | 'TRAUMA_BONDING'
-  | 'LEGAL_PRESSURE'
-  | 'UNKNOWN';
-⋮----
-function vaultTechniqueToDcap(technique: VaultTechnique): ManipulationTechnique
-⋮----
-export interface DcapDetection {
-  technique: ManipulationTechnique;
-  matchedPattern: string;
-  confidence: 'HIGH' | 'MEDIUM' | 'LOW';
-  layer: 'REGEX' | 'SEMANTIC';
-}
-⋮----
-export interface DcapResult {
-  riskScore: number;
-  detections: DcapDetection[];
-  greyRockResponse?: string;
-  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
-}
-⋮----
-function runRegexLayer(text: string):
-⋮----
-async function runSemanticLayer(
-  text: string,
-  projectId: string
-): Promise<
-⋮----
-export async function analyzeDcap(text: string, projectId: string): Promise<DcapResult>
-```
-
-## File: functions/src/agents/documentAgent.ts
-```typescript
-import { google, drive_v3 } from 'googleapis';
-import { LIVSKOMPASSEN_SYSTEM_CONFIG } from '../sharedRules';
-import { createGenAI } from '../lib/genaiClient';
-⋮----
-async function downloadDriveFileBuffer(
-  drive: drive_v3.Drive,
-  fileId: string,
-  mimeType: string
-): Promise<
-⋮----
-export const analyzeDriveFile = async (fileId: string, fileName: string, mimeType: string): Promise<string> =>
-```
-
-## File: functions/src/agents/types.ts
-```typescript
-export interface AgentMetadata {
-  id: string;
-  name: string;
-  description: string;
-  version: string;
-}
-⋮----
-export interface AgentCapability {
-  name: string;
-  description: string;
-  parameters: Record<string, any>;
-}
-⋮----
-export interface AgentCard {
-  metadata: AgentMetadata;
-  capabilities: AgentCapability[];
-  dataAccessPolicy: {
-    canAccessPII: boolean;
-    allowedCollections: string[];
-  };
-}
-⋮----
-export interface A2AMessage {
-  fromAgentId: string;
-  toAgentId: string;
-  timestamp: string;
-  intent: string;
-  payload: Record<string, any>;
-  contextId?: string;
-}
-⋮----
-export interface AgentResponse {
-  agentId: string;
-  status: 'SUCCESS' | 'ERROR' | 'DELEGATED';
-  data?: any;
-  error?: string;
-  delegatedTo?: string;
-}
-```
-
-## File: functions/src/agents/weaverAgent.ts
-```typescript
-import { VÄVAREN_SYSTEM_PROMPT } from '../sharedRules';
-import { fetchWeaverRagContext } from '../lib/kampsparRag';
-import { createGenAI } from '../lib/genaiClient';
-import { createWeaverPending } from '../lib/weaverPending';
-⋮----
-export type ThreatLevel = 'none' | 'low' | 'medium' | 'high';
-⋮----
-export interface WeaverResult {
-  emotions: string[];
-  actors: string[];
-  threatLevel: ThreatLevel;
-  threatScore?: number;
-  ragAnchors: { source: string; docId: string; excerpt?: string }[];
-}
-⋮----
-async function fetchRagContext(uid: string, text: string): Promise<string>
-⋮----
-function parseWeaverJson(raw: string): WeaverResult | null
-⋮----
-export async function weaveJournalEntry(
-  uid: string,
-  journalEntryId: string,
-  mood: string,
-  text: string
-): Promise<
-```
-
-## File: scripts/smoke_synapse_triggers.mjs
-```javascript
-/**
- * Smoke: SynapseBus — 4 triggers registrerade (static).
- * Usage: npm run smoke:synapse-triggers
- */
-⋮----
-function assert(condition, message)
-⋮----
-function mustInclude(relPath, ...needles)
-⋮----
-function main()
-```
-
 ## File: docs/pipeline-studio/tools/flow_biff_rewrite.json
 ```json
 {
@@ -596,23 +179,6 @@ function main()
 }
 ```
 
-## File: functions/src/adk/executors/runExecutor.ts
-```typescript
-import { VertexAI } from '@google-cloud/vertexai';
-import type { A2AMessage } from '../../agents/types';
-import { GCP_PROJECT_ID, GCP_REGION } from '../../config';
-import { getAgentSystemPrompt } from '../../sharedRules';
-import { getOrCreateCache, generateWithCache } from '../../lib/vertexCache';
-⋮----
-function buildUserPrompt(message: A2AMessage): string
-⋮----
-export async function runExecutor(
-  executorId: string,
-  message: A2AMessage,
-  ragContext: string[] = []
-): Promise<string>
-```
-
 ## File: functions/src/adk/synapses/driveIngestSynapse.ts
 ```typescript
 import { analyzeDriveFile } from '../../agents/documentAgent';
@@ -629,6 +195,155 @@ export async function handleDriveIngest(
 ): Promise<
 ⋮----
 function isHeavyResponse(text: string): boolean
+```
+
+## File: functions/src/adk/synapses/journalWovenSynapse.ts
+```typescript
+import { generateEmbeddingInternal } from '../../lib/generateEmbeddingInternal';
+import { upsertKampsparVector } from '../../lib/vectorSearchClient';
+⋮----
+export interface JournalWovenPayload {
+  ownerId: string;
+  journalEntryId: string;
+  mood: string;
+  text: string;
+  optIn: boolean;
+}
+⋮----
+export interface JournalWovenResult {
+  kampsparDocId: string;
+  embeddingDim: number | null;
+}
+⋮----
+export async function handleJournalWoven(payload: JournalWovenPayload): Promise<JournalWovenResult>
+```
+
+## File: functions/src/adk/synapses/widgetRecordingIngestSynapse.ts
+```typescript
+import { MonsterArkivarienCard } from '../../agents/cards';
+import type { A2AMessage } from '../../agents/types';
+import type { AdkOrchestrator } from '../orchestrator';
+import type { WidgetRecordingIngestedPayload } from '../types';
+import {
+  buildInboxClassifyBlob,
+  classifyInboxDocument,
+  applyInkastConfidenceGate,
+  type InboxClassification,
+} from '../../lib/inboxClassifier';
+import { routeInboxToWorm } from '../../lib/inboxPersist';
+import {
+  blockWidgetKunskapRouting,
+  buildWidgetVaultTruth,
+} from '../../lib/widgetRecordingCommit';
+⋮----
+export interface WidgetRecordingIngestResult {
+  analysis: { title: string; summary: string; category: string };
+  classification: InboxClassification;
+  action: 'queued' | 'persisted';
+  collection?: string;
+  docId?: string;
+  queueId?: string;
+}
+⋮----
+export async function handleWidgetRecordingIngest(
+  orchestrator: AdkOrchestrator,
+  payload: WidgetRecordingIngestedPayload,
+  geminiApiKey?: string,
+): Promise<WidgetRecordingIngestResult>
+```
+
+## File: functions/src/adk/index.ts
+```typescript
+
+```
+
+## File: functions/src/adk/manifest.ts
+```typescript
+export type SiloId = 'kunskap' | 'valv' | 'barnen' | 'vardag' | 'core';
+⋮----
+export type DomainId = 'K' | 'V' | 'F' | 'L' | 'C';
+⋮----
+export type SynapseTrigger =
+  | 'drive_file_ingested'
+  | 'journal_woven'
+  | 'dcap_alert'
+  | 'user_overwhelm'
+  | 'widget_recording_ingested';
+⋮----
+export interface BackendDomainContract {
+  readonly id: DomainId;
+  readonly silo: SiloId;
+  readonly wormCollections: readonly string[];
+  readonly mutableCollections: readonly string[];
+  readonly adminOnlyCollections: readonly string[];
+  readonly allowedCrossReads: readonly SiloId[];
+  readonly requiresVaultUnlock: boolean;
+}
+⋮----
+export class BackendManifestError extends Error
+⋮----
+constructor(message: string)
+⋮----
+export function resolveBackendCollectionDomain(
+  collection: string,
+): BackendDomainContract | undefined
+⋮----
+export function assertBackendSiloIsolation(fromSilo: SiloId, toSilo: SiloId): void
+⋮----
+export function assertBackendWorm(
+  collection: string,
+  operation: 'update' | 'delete',
+): boolean
+⋮----
+export function assertBackendCollectionAccess(
+  domainId: DomainId,
+  collection: string,
+): boolean
+⋮----
+export function getBackendWormCollections(): string[]
+```
+
+## File: functions/src/adk/registry.ts
+```typescript
+import {
+  AvailableAgents,
+  resolveExecutorId,
+  type SupervisorRoute,
+  routeFromDcap,
+} from '../agents/cards';
+import type { AgentCard } from '../agents/types';
+import {
+  assertBackendCollectionAccess,
+  assertBackendSiloIsolation,
+  resolveBackendCollectionDomain,
+  type SiloId,
+} from './manifest';
+⋮----
+export function getAgentCard(agentId: string): AgentCard | undefined
+⋮----
+export function listAgentCards(): AgentCard[]
+⋮----
+export function validateIntent(agentId: string, intent: string): boolean
+⋮----
+export function assertCollectionAccess(agentId: string, collection: string): boolean
+```
+
+## File: functions/src/agents/cards/index.ts
+```typescript
+import { AgentCard } from '../types';
+⋮----
+export function resolveExecutorId(productAgentId: string): string
+⋮----
+export type SupervisorRoute = {
+  productAgentId: string;
+  executorId: string;
+  intent: string;
+};
+⋮----
+export function routeFromDcap(
+  riskScore: number,
+  recommendedAction: 'NONE' | 'COACHING' | 'ALERT'
+): SupervisorRoute
 ```
 
 ## File: functions/src/agents/childrenLogsAgent.ts
@@ -668,6 +383,21 @@ export async function askChildrenLogsQuery(
   childAlias?: string,
   geminiApiKey?: string
 ): Promise<ChildrenLogsQueryResult>
+```
+
+## File: functions/src/agents/documentAgent.ts
+```typescript
+import { google, drive_v3 } from 'googleapis';
+import { LIVSKOMPASSEN_SYSTEM_CONFIG } from '../sharedRules';
+import { createGenAI } from '../lib/genaiClient';
+⋮----
+async function downloadDriveFileBuffer(
+  drive: drive_v3.Drive,
+  fileId: string,
+  mimeType: string
+): Promise<
+⋮----
+export const analyzeDriveFile = async (fileId: string, fileName: string, mimeType: string): Promise<string> =>
 ```
 
 ## File: functions/src/agents/gransArkitektenAgent.ts
@@ -773,35 +503,46 @@ public async handleUserRequest(
 public async invalidateUserSession(userId: string): Promise<void>
 ```
 
-## File: functions/src/agents/valvChatAgent.ts
+## File: functions/src/agents/types.ts
 ```typescript
-import { SANNING_ANALYTIKERN_SYSTEM_PROMPT } from '../sharedRules';
-import { loadEntityProfileBundle } from '../lib/entityProfileStore';
-import { fetchVaultEvidenceForQuery } from '../lib/vaultRag';
-import { createGenAI } from '../lib/genaiClient';
-import {
-  VALV_CHAT_READ_TOOLS,
-  validateValvChatResponse,
-  type ValvChatCitation,
-  type ValvChatResponse,
-} from '../schemas/valvChat';
+export interface AgentMetadata {
+  id: string;
+  name: string;
+  description: string;
+  version: string;
+}
 ⋮----
-function buildContextBlock(
-  chunks: Awaited<ReturnType<typeof fetchVaultEvidenceForQuery>>,
-): string
+export interface AgentCapability {
+  name: string;
+  description: string;
+  parameters: Record<string, any>;
+}
 ⋮----
-function buildPrompt(question: string, entityBlock: string, contextBlock: string): string
+export interface AgentCard {
+  metadata: AgentMetadata;
+  capabilities: AgentCapability[];
+  dataAccessPolicy: {
+    canAccessPII: boolean;
+    allowedCollections: string[];
+  };
+}
 ⋮----
-async function runValvChatGeneration(
-  prompt: string,
-  allowedDocIds: Set<string>,
-  uid: string,
-  enableTools: boolean,
-): Promise<ValvChatResponse>
+export interface A2AMessage {
+  fromAgentId: string;
+  toAgentId: string;
+  timestamp: string;
+  intent: string;
+  payload: Record<string, any>;
+  contextId?: string;
+}
 ⋮----
-function tryParseJson(raw: string): unknown
-⋮----
-export async function askValvChat(uid: string, question: string): Promise<ValvChatResponse>
+export interface AgentResponse {
+  agentId: string;
+  status: 'SUCCESS' | 'ERROR' | 'DELEGATED';
+  data?: any;
+  error?: string;
+  delegatedTo?: string;
+}
 ```
 
 ## File: functions/src/callables/pipelineStudio.ts
@@ -872,156 +613,6 @@ export function listToolIds()
 ## File: scripts/pipeline-studio/worktree_spawn.mjs
 ```javascript
 /** npm run pipeline:worktree -- <toolId> */
-```
-
-## File: functions/src/adk/manifest.ts
-```typescript
-export type SiloId = 'kunskap' | 'valv' | 'barnen' | 'vardag' | 'core';
-⋮----
-export type DomainId = 'K' | 'V' | 'F' | 'L' | 'C';
-⋮----
-export type SynapseTrigger =
-  | 'drive_file_ingested'
-  | 'journal_woven'
-  | 'dcap_alert'
-  | 'user_overwhelm';
-⋮----
-export interface BackendDomainContract {
-  readonly id: DomainId;
-  readonly silo: SiloId;
-  readonly wormCollections: readonly string[];
-  readonly mutableCollections: readonly string[];
-  readonly adminOnlyCollections: readonly string[];
-  readonly allowedCrossReads: readonly SiloId[];
-  readonly requiresVaultUnlock: boolean;
-}
-⋮----
-export class BackendManifestError extends Error
-⋮----
-constructor(message: string)
-⋮----
-export function resolveBackendCollectionDomain(
-  collection: string,
-): BackendDomainContract | undefined
-⋮----
-export function assertBackendSiloIsolation(fromSilo: SiloId, toSilo: SiloId): void
-⋮----
-export function assertBackendWorm(
-  collection: string,
-  operation: 'update' | 'delete',
-): boolean
-⋮----
-export function assertBackendCollectionAccess(
-  domainId: DomainId,
-  collection: string,
-): boolean
-⋮----
-export function getBackendWormCollections(): string[]
-```
-
-## File: functions/src/agents/vertexAgent.ts
-```typescript
-import {
-  DAGBOK_SNABB_COACHEN_SYSTEM_PROMPT,
-  LIVSKOMPASSEN_SYSTEM_CONFIG,
-  KBT_TRANSFORMATOR_SYSTEM_PROMPT,
-  MABRA_COACHEN_SYSTEM_PROMPT,
-  VIT_CHAT_COACH_SYSTEM_PROMPT,
-  SPEGLINGS_COACHEN_SYSTEM_PROMPT,
-  UPPGIFTS_KROSSAREN_SYSTEM_PROMPT,
-  VOICE_TO_VAULT_SYSTEM_PROMPT,
-  MABRA_NUTRITION_COACH_SYSTEM_PROMPT,
-  MABRA_MOVEMENT_COACH_SYSTEM_PROMPT,
-} from '../sharedRules';
-import { createGenAI } from '../lib/genaiClient';
-import { appendAdaptationSemanticContext } from '../lib/adaptationSemanticContext';
-import {
-  journalQuickMirrorFallback,
-  parseJournalQuickMirrorJson,
-  type JournalQuickMirrorResult,
-} from '../lib/journalQuickMirrorParse';
-import {
-  kbtTransformFallback,
-  parseKbtTransformJson,
-  type KbtTransformResult,
-} from '../lib/kbtTransformatorParse';
-import {
-  type MabraCoachBankEntry,
-  type MabraCoachExercise,
-  type MabraCoachHub,
-  parafraseCoachFromBank,
-} from '../lib/mabraContentBank';
-import type { CoachTone } from '../../../shared/adaptation/adaptationTypes';
-⋮----
-export const askKnowledgeVault = async (prompt: string): Promise<string> =>
-⋮----
-function mirrorFeelingFallback(reflection: string): string
-⋮----
-export function isSpeglingsFallback(text: string, reflection: string): boolean
-⋮----
-function vitChatFallback(projectId: string, bankEntry?: MabraCoachBankEntry): string
-⋮----
-export const askVitChatCoach = async (
-  projectId: string,
-  userMessage: string,
-  bankEntry: MabraCoachBankEntry | undefined,
-  geminiApiKey?: string,
-): Promise<string> =>
-⋮----
-export const askMabraCoach = async (
-  hubSymptom: MabraCoachHub,
-  exerciseType: MabraCoachExercise,
-  bankEntry: MabraCoachBankEntry,
-  optionalNote?: string,
-  geminiApiKey?: string,
-  adaptationContext?: string | null,
-  coachTone: CoachTone = 'standard',
-): Promise<string> =>
-⋮----
-export const askMabraNutritionCoach = async (
-  message: string,
-  geminiApiKey?: string,
-): Promise<string> =>
-⋮----
-export const askMabraMovementCoach = async (
-  message: string,
-  geminiApiKey?: string,
-): Promise<string> =>
-⋮----
-export const askKbtTransformator = async (
-  thought: string,
-  geminiApiKey?: string,
-): Promise<KbtTransformResult> =>
-⋮----
-export const askSpeglingsCoach = async (
-  reflection: string,
-  mood?: string,
-  geminiApiKey?: string
-): Promise<string> =>
-⋮----
-export const askDagbokSnabbCoach = async (
-  mood: string,
-  tags: string[],
-  optionalText?: string,
-  geminiApiKey?: string,
-): Promise<JournalQuickMirrorResult> =>
-⋮----
-export const askUppgiftsKrossaren = async (
-  task: string,
-  geminiApiKey?: string,
-): Promise<string[]> =>
-⋮----
-export interface VoiceToVaultResult {
-  intent: 'task' | 'vault_fact';
-  summary: string;
-  confidence: number;
-  originalText: string;
-}
-⋮----
-export const askVoiceParser = async (
-  transcribedText: string,
-  geminiApiKey?: string,
-): Promise<VoiceToVaultResult> =>
 ```
 
 ## File: scripts/smoke_agents_ui.mjs
@@ -1203,6 +794,484 @@ These roles are project terminology in Cursor now. Runtime backend implementatio
 - Keep changes tightly scoped to the requested task and preserve unrelated user work.
 ```
 
+## File: functions/src/adk/synapses/dcapAlertSynapse.ts
+```typescript
+import { hashPayload } from '../stateStore';
+import { analyzeDcapTrend, type EscalationResult } from '../../lib/dcapEscalation';
+import { monitor } from '../../lib/monitoring';
+⋮----
+export interface DcapAlertPayload {
+  ownerId: string;
+  riskScore: number;
+  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
+  inputHash: string;
+  detectionCount?: number;
+}
+⋮----
+export interface DcapAlertResult {
+  alertId: string;
+  hitlRequired: boolean;
+  escalation?: EscalationResult;
+}
+⋮----
+export async function handleDcapAlert(payload: DcapAlertPayload): Promise<DcapAlertResult>
+```
+
+## File: functions/src/adk/synapses/kasamAggregationSynapse.ts
+```typescript
+export interface KasamAggregationPayload {
+  ownerId: string;
+  triggerSource: string;
+}
+⋮----
+export interface KasamAggregationResult {
+  docId: string;
+  aggregatedAt: string;
+}
+⋮----
+export async function handleKasamAggregation(payload: KasamAggregationPayload): Promise<KasamAggregationResult>
+```
+
+## File: functions/src/adk/synapses/paralysBrytarenSynapse.ts
+```typescript
+import { createGenAI } from '../../lib/genaiClient';
+import { GEMINI_FLASH } from '../../lib/modelRouter';
+import { PARALYS_BRYTAREN_SYSTEM_PROMPT } from '../../sharedRules';
+import { MICRO_STEP_MAX_SECONDS, type MicroStep } from '../types';
+⋮----
+export function isHeavyResponse(text: string): boolean
+⋮----
+function clampSeconds(n: number): number
+⋮----
+export function breakIntoMicroStepsDeterministic(text: string): MicroStep[]
+⋮----
+function inferPhysicalAnchor(instruction: string): string
+⋮----
+export async function breakIntoMicroSteps(text: string): Promise<MicroStep[]>
+⋮----
+export async function applyParalysBreak(agentText: string): Promise<MicroStep[]>
+```
+
+## File: functions/src/adk/synapses/synapseBus.ts
+```typescript
+import type { SynapseEvent, SynapseTrigger } from '../types';
+import type { AdkOrchestrator } from '../orchestrator';
+import { handleDriveIngest } from './driveIngestSynapse';
+import { handleDcapAlert } from './dcapAlertSynapse';
+import { handleJournalWoven } from './journalWovenSynapse';
+import { handleWidgetRecordingIngest } from './widgetRecordingIngestSynapse';
+import { applyParalysBreak } from './paralysBrytarenSynapse';
+import { handleKasamAggregation } from './kasamAggregationSynapse';
+import type {
+  DriveIngestPayload,
+  JournalWovenPayload,
+  DcapAlertPayload,
+  WidgetRecordingIngestedPayload,
+  KasamAggregationPayload,
+} from '../types';
+⋮----
+type SynapseHandler = (
+  orchestrator: AdkOrchestrator,
+  event: SynapseEvent
+) => Promise<unknown>;
+⋮----
+export async function emitSynapse(
+  orchestrator: AdkOrchestrator,
+  event: SynapseEvent
+): Promise<unknown>
+```
+
+## File: functions/src/adk/orchestrator.ts
+```typescript
+import type { A2AMessage } from '../agents/types';
+import { resolveExecutorId } from '../agents/cards';
+import { runExecutor } from './executors/runExecutor';
+import { validateIntent, getAgentCard, assertCollectionAccess } from './registry';
+import { appendMutation, createTrace, clearSynapseState } from './stateStore';
+import { applyParalysBreak, isHeavyResponse } from './synapses/paralysBrytarenSynapse';
+import { assertBackendSiloIsolation, type SiloId } from './manifest';
+import type { DispatchOptions, OrchestrationResult } from './types';
+⋮----
+function gatekeeperSanitize(text: string): string
+⋮----
+export class AdkOrchestrator
+⋮----
+async dispatch(message: A2AMessage, options: DispatchOptions =
+⋮----
+async dispatchFromSupervisor(
+    route: { productAgentId: string; executorId: string; intent: string },
+    userInput: string,
+    userId: string,
+    ragContext: string[],
+    dcapPayload: Record<string, unknown>
+): Promise<OrchestrationResult>
+⋮----
+async clearContext(contextId: string): Promise<void>
+⋮----
+private intentAllowed(productAgentId: string, executorId: string, intent: string): boolean
+⋮----
+private enforceManifestPolicy(
+    executorId: string,
+    message: A2AMessage,
+    options: DispatchOptions,
+): void
+⋮----
+async initTrace(contextId: string)
+⋮----
+private async errorResult(contextId: string, agentId: string, error: string): Promise<OrchestrationResult>
+```
+
+## File: functions/src/adk/stateStore.ts
+```typescript
+import crypto from 'crypto';
+import { getFirestore, FieldValue } from 'firebase-admin/firestore';
+import type { StateMutation, SynapseState } from './types';
+⋮----
+export function hashPayload(payload: Record<string, unknown>): string
+⋮----
+export async function createTrace(contextId: string): Promise<SynapseState>
+⋮----
+export async function getTrace(contextId: string): Promise<SynapseState | undefined>
+⋮----
+export async function appendMutation(
+  contextId: string,
+  mutation: Omit<StateMutation, 'timestamp' | 'payloadHash'> & { payload: Record<string, unknown> }
+): Promise<SynapseState>
+⋮----
+export async function clearSynapseState(contextId: string): Promise<void>
+```
+
+## File: functions/src/adk/types.ts
+```typescript
+import type { AgentResponse, A2AMessage } from '../agents/types';
+⋮----
+export interface MicroStep {
+  instruction: string;
+  estimatedSeconds: number;
+  physicalAnchor: string;
+}
+⋮----
+export interface StateMutation {
+  fromAgentId: string;
+  toAgentId: string;
+  intent: string;
+  payloadHash: string;
+  timestamp: string;
+}
+⋮----
+export interface SynapseState {
+  contextId: string;
+  traceId: string;
+  mutations: StateMutation[];
+  createdAt: string;
+}
+⋮----
+export type SynapseTrigger =
+  | 'drive_file_ingested'
+  | 'journal_woven'
+  | 'dcap_alert'
+  | 'user_overwhelm'
+  | 'widget_recording_ingested'
+  | 'kasam_aggregation';
+⋮----
+export interface SynapseEvent {
+  trigger: SynapseTrigger;
+  contextId?: string;
+  payload: Record<string, unknown>;
+}
+⋮----
+export interface DispatchOptions {
+  ragContext?: string[];
+  applyParalysBreak?: boolean;
+  productAgentId?: string;
+  targetCollections?: string[];
+}
+⋮----
+export interface OrchestrationResult {
+  response: AgentResponse;
+  microSteps?: MicroStep[];
+  state: SynapseState;
+  rawAgentText?: string;
+}
+⋮----
+export type ExecutorFn = (
+  message: A2AMessage,
+  ragContext: string[]
+) => Promise<string>;
+⋮----
+export interface DriveIngestPayload {
+  fileId: string;
+  fileName: string;
+  mimeType: string;
+  ownerId?: string;
+  optInTrauma?: boolean;
+}
+⋮----
+export interface JournalWovenPayload {
+  ownerId: string;
+  journalEntryId: string;
+  mood: string;
+  text: string;
+  optIn: boolean;
+}
+⋮----
+export interface DcapAlertPayload {
+  ownerId: string;
+  riskScore: number;
+  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
+  inputHash: string;
+  detectionCount?: number;
+}
+⋮----
+export interface WidgetRecordingIngestedPayload {
+  ownerId: string;
+  transcript: string;
+  recordedAtIso: string;
+  durationSeconds?: number;
+  evidenceUrl: string;
+  sourceRef: string;
+  storagePath?: string;
+  analysis: { title: string; summary: string; category: string };
+  metadata: { vem: string; vad: string; varfor: string };
+  hasVaultSession: boolean;
+}
+⋮----
+export interface KasamAggregationPayload {
+  ownerId: string;
+  triggerSource: string;
+}
+```
+
+## File: functions/src/agents/DCAP.ts
+```typescript
+import { genkit, z } from 'genkit';
+import { vertexAI, gemini15Flash } from '@genkit-ai/vertexai';
+import { DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT } from '../sharedRules';
+import { scanTextForTactics, type VaultTechnique } from '../lib/tacticPatternLibrary';
+⋮----
+export type ManipulationTechnique =
+  | 'DARVO'
+  | 'GASLIGHTING'
+  | 'LOVE_BOMBING'
+  | 'SILENT_TREATMENT'
+  | 'JADE_BAIT'
+  | 'THREAT'
+  | 'HOOVERING'
+  | 'SMEAR'
+  | 'ECONOMIC_CONTROL'
+  | 'MATERNAL_FACADE'
+  | 'TRAUMA_BONDING'
+  | 'LEGAL_PRESSURE'
+  | 'UNKNOWN';
+⋮----
+function vaultTechniqueToDcap(technique: VaultTechnique): ManipulationTechnique
+⋮----
+export interface DcapDetection {
+  technique: ManipulationTechnique;
+  matchedPattern: string;
+  confidence: 'HIGH' | 'MEDIUM' | 'LOW';
+  layer: 'REGEX' | 'SEMANTIC';
+}
+⋮----
+export interface DcapResult {
+  riskScore: number;
+  detections: DcapDetection[];
+  greyRockResponse?: string;
+  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
+}
+⋮----
+function runRegexLayer(text: string):
+⋮----
+async function runSemanticLayer(
+  text: string,
+  projectId: string
+): Promise<
+⋮----
+export async function analyzeDcap(text: string, projectId: string): Promise<DcapResult>
+```
+
+## File: functions/src/agents/valvChatAgent.ts
+```typescript
+import { SANNING_ANALYTIKERN_SYSTEM_PROMPT } from '../sharedRules';
+import { loadEntityProfileBundle } from '../lib/entityProfileStore';
+import { fetchVaultEvidenceForQuery } from '../lib/vaultRag';
+import { createGenAI } from '../lib/genaiClient';
+import { GEMINI_PRO } from '../lib/modelRouter';
+import {
+  VALV_CHAT_READ_TOOLS,
+  validateValvChatResponse,
+  type ValvChatCitation,
+  type ValvChatResponse,
+} from '../schemas/valvChat';
+⋮----
+function buildContextBlock(
+  chunks: Awaited<ReturnType<typeof fetchVaultEvidenceForQuery>>,
+): string
+⋮----
+function buildPrompt(question: string, entityBlock: string, contextBlock: string): string
+⋮----
+async function runValvChatGeneration(
+  prompt: string,
+  allowedDocIds: Set<string>,
+  uid: string,
+  enableTools: boolean,
+): Promise<ValvChatResponse>
+⋮----
+function tryParseJson(raw: string): unknown
+⋮----
+export async function askValvChat(uid: string, question: string): Promise<ValvChatResponse>
+```
+
+## File: functions/src/agents/vertexAgent.ts
+```typescript
+import {
+  DAGBOK_SNABB_COACHEN_SYSTEM_PROMPT,
+  LIVSKOMPASSEN_SYSTEM_CONFIG,
+  KBT_TRANSFORMATOR_SYSTEM_PROMPT,
+  MABRA_COACHEN_SYSTEM_PROMPT,
+  VIT_CHAT_COACH_SYSTEM_PROMPT,
+  SPEGLINGS_COACHEN_SYSTEM_PROMPT,
+  UPPGIFTS_KROSSAREN_SYSTEM_PROMPT,
+  VOICE_TO_VAULT_SYSTEM_PROMPT,
+  MABRA_NUTRITION_COACH_SYSTEM_PROMPT,
+  MABRA_MOVEMENT_COACH_SYSTEM_PROMPT,
+} from '../sharedRules';
+import { createGenAI } from '../lib/genaiClient';
+import { GEMINI_PRO, GEMINI_FLASH } from '../lib/modelRouter';
+import { appendAdaptationSemanticContext } from '../lib/adaptationSemanticContext';
+import {
+  journalQuickMirrorFallback,
+  parseJournalQuickMirrorJson,
+  type JournalQuickMirrorResult,
+} from '../lib/journalQuickMirrorParse';
+import {
+  kbtTransformFallback,
+  parseKbtTransformJson,
+  type KbtTransformResult,
+} from '../lib/kbtTransformatorParse';
+import {
+  type MabraCoachBankEntry,
+  type MabraCoachExercise,
+  type MabraCoachHub,
+  parafraseCoachFromBank,
+} from '../lib/mabraContentBank';
+import type { CoachTone } from '../../../shared/adaptation/adaptationTypes';
+⋮----
+export const askKnowledgeVault = async (prompt: string): Promise<string> =>
+⋮----
+function mirrorFeelingFallback(reflection: string): string
+⋮----
+export function isSpeglingsFallback(text: string, reflection: string): boolean
+⋮----
+function vitChatFallback(projectId: string, bankEntry?: MabraCoachBankEntry): string
+⋮----
+export const askVitChatCoach = async (
+  projectId: string,
+  userMessage: string,
+  bankEntry: MabraCoachBankEntry | undefined,
+  geminiApiKey?: string,
+): Promise<string> =>
+⋮----
+export const askMabraCoach = async (
+  hubSymptom: MabraCoachHub,
+  exerciseType: MabraCoachExercise,
+  bankEntry: MabraCoachBankEntry,
+  optionalNote?: string,
+  geminiApiKey?: string,
+  adaptationContext?: string | null,
+  coachTone: CoachTone = 'standard',
+): Promise<string> =>
+⋮----
+export const askMabraNutritionCoach = async (
+  message: string,
+  geminiApiKey?: string,
+): Promise<string> =>
+⋮----
+export const askMabraMovementCoach = async (
+  message: string,
+  geminiApiKey?: string,
+): Promise<string> =>
+⋮----
+export const askKbtTransformator = async (
+  thought: string,
+  geminiApiKey?: string,
+): Promise<KbtTransformResult> =>
+⋮----
+export const askSpeglingsCoach = async (
+  reflection: string,
+  mood?: string,
+  geminiApiKey?: string
+): Promise<string> =>
+⋮----
+export const askDagbokSnabbCoach = async (
+  mood: string,
+  tags: string[],
+  optionalText?: string,
+  geminiApiKey?: string,
+): Promise<JournalQuickMirrorResult> =>
+⋮----
+export const askUppgiftsKrossaren = async (
+  task: string,
+  geminiApiKey?: string,
+): Promise<string[]> =>
+⋮----
+export interface VoiceToVaultResult {
+  intent: 'task' | 'vault_fact';
+  summary: string;
+  confidence: number;
+  originalText: string;
+}
+⋮----
+export const askVoiceParser = async (
+  transcribedText: string,
+  geminiApiKey?: string,
+): Promise<VoiceToVaultResult> =>
+```
+
+## File: functions/src/agents/weaverAgent.ts
+```typescript
+import { VÄVAREN_SYSTEM_PROMPT } from '../sharedRules';
+import { fetchWeaverRagContext } from '../lib/kampsparRag';
+import { createGenAI } from '../lib/genaiClient';
+import { GEMINI_PRO } from '../lib/modelRouter';
+import { createWeaverPending } from '../lib/weaverPending';
+⋮----
+export type ThreatLevel = 'none' | 'low' | 'medium' | 'high';
+⋮----
+export interface WeaverResult {
+  emotions: string[];
+  actors: string[];
+  threatLevel: ThreatLevel;
+  threatScore?: number;
+  ragAnchors: { source: string; docId: string; excerpt?: string }[];
+}
+⋮----
+async function fetchRagContext(uid: string, text: string): Promise<string>
+⋮----
+function parseWeaverJson(raw: string): WeaverResult | null
+⋮----
+export async function weaveJournalEntry(
+  uid: string,
+  journalEntryId: string,
+  mood: string,
+  text: string
+): Promise<
+```
+
+## File: scripts/smoke_synapse_triggers.mjs
+```javascript
+/**
+ * Smoke: SynapseBus — 5 triggers registrerade (static).
+ * Usage: npm run smoke:synapse-triggers
+ */
+⋮----
+function assert(condition, message)
+⋮----
+function mustInclude(relPath, ...needles)
+⋮----
+function main()
+```
+
 ## File: functions/src/callables/agents.ts
 ```typescript
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
@@ -1229,12 +1298,12 @@ import {
   shouldRedirectMabraCoachToSpeglar,
 } from '../lib/mabraCoachGuard';
 import { analyzeWidgetRecording } from '../lib/widgetRecordingAnalyze';
-import { revokeVaultSession } from '../lib/vaultSessionGate';
+import { type WidgetRecordingMetadata } from '../lib/widgetRecordingCommit';
+import { revokeVaultSession, readVaultSessionToken, assertVaultSession } from '../lib/vaultSessionGate';
 import {
   claimBarnportenPairingForUser,
   createBarnportenPairingForUser,
 } from '../lib/barnportenPairing';
-import { assertVaultSession } from '../lib/vaultSessionGate';
 import { supervisor, trimSpeglingsMirror } from './shared';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import { resolveCoachToneForUser } from '../lib/adaptationCoachTone';
@@ -1260,4 +1329,21 @@ import {
 function invalidBankIdError(message: string): HttpsError
 ⋮----
 async function clearVaultJwtClaims(uid: string): Promise<void>
+```
+
+## File: functions/src/adk/executors/runExecutor.ts
+```typescript
+import type { A2AMessage } from '../../agents/types';
+import { getAgentSystemPrompt } from '../../sharedRules';
+import { createGenAI } from '../../lib/genaiClient';
+import { selectModel, autoSelectTier } from '../../lib/modelRouter';
+import { getOrCreateCache, generateWithCache } from '../../lib/vertexCache';
+⋮----
+function buildUserPrompt(message: A2AMessage): string
+⋮----
+export async function runExecutor(
+  executorId: string,
+  message: A2AMessage,
+  ragContext: string[] = []
+): Promise<string>
 ```

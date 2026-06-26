@@ -16,7 +16,7 @@ import { KNOWLEDGE_UPLOAD_MIMES, MAX_KNOWLEDGE_UPLOAD_BASE64_CHARS } from './sha
 import { guardSensitiveCallableV1, guardSensitiveCallableV2 } from '../lib/callableGuards';
 
 export const generateEmbedding = onCall(
-  { region: 'europe-west1' },
+  { region: 'europe-west1', secrets: [geminiApiKey] },
   async (request) => {
     const uid = await guardSensitiveCallableV2(request, 'generateEmbedding', 60);
 
@@ -31,7 +31,7 @@ export const generateEmbedding = onCall(
       return { embedding };
     } catch (error) {
       console.error('[generateEmbedding] Fel:', error);
-      throw new HttpsError('internal', 'Kunde inte generera inbäddning via Vertex AI.');
+      throw new HttpsError('internal', 'Kunde inte generera inbäddning via Google AI.');
     }
   }
 );

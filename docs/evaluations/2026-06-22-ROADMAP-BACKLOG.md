@@ -1,5 +1,7 @@
 # Konsoliderad Roadmap & Backlog (Juni 2026)
 
+> **Superseded 2026-06-25:** Aktiv planering finns i [`2026-06-25-app-plan-syntes.md`](./2026-06-25-app-plan-syntes.md) och `.context/system-plan.md` § Fas 24. Denna fil behålls som historisk referens.
+
 **Sammanställning av AI-diskussioner och prioriteringar (2026-06-22)**
 *Denna fil sammanfattar insikterna från diskussionerna kring prioriteringar, optimering, sprintplanering och den pragmatiska roadmapen.*
 

@@ -3,6 +3,9 @@ name: livskompassen-theme-lab
 description: Theme Lab workflow for Livskompassen — I-stone variants, icons, dock/menu/compass. Preview at /dev/theme-lab. Use when editing theme packs, chrome icons, or Obsidian Calm tokens in sandbox.
 ---
 
+> **Register:** `docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md` · Runtime-prompter: `npm run prompts:sync`
+
+
 # Livskompassen Theme Lab Skill
 
 Use when Pontus or agents work on **visual variants** without breaking locked UX.

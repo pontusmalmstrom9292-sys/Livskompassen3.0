@@ -1,7 +1,7 @@
 import type { ThemePack } from './types';
 import { THEME_SHARED_VARS } from './themeShared';
 import { THEME_PACK_DESIGN } from './themePackDesign';
-import { THEME_PACK_E_PROD } from './themePackE';
+import { THEME_PACK_E_PROD, THEME_PACK_E_DARKEST } from './themePackE';
 import { THEME_PACK_MOCKUP } from './themePackMockup';
 import { THEME_PACK_K } from './themePackK';
 import { THEME_PACK_REDESIGN_A } from './themePackRedesignA';
@@ -9,6 +9,10 @@ import { THEME_PACK_REDESIGN_C } from './themePackRedesignC';
 import { THEME_PACK_OBSIDIAN_DEPTH } from './themePackObsidianDepth';
 import { THEME_PACK_REMIX_E_HAMN } from './themePackRemix';
 import { THEME_BRUSHED_BRASS_NEU } from './themePackBrushedBrass';
+import {
+  THEME_PACK_MIDNIGHT_EXECUTIVE,
+} from './themePackMidnightExecutive';
+import { BASTA_DESIGN_THEME_ID, THEME_PACK_BASTA_DESIGN } from './themePackBastaDesign';
 
 const shared = THEME_SHARED_VARS;
 
@@ -20,6 +24,7 @@ export const THEME_REGISTRY: ThemePack[] = [
   ...THEME_PACK_MOCKUP,
   ...THEME_PACK_REDESIGN_C,
   THEME_PACK_E_PROD,
+  THEME_PACK_E_DARKEST,
   {
     id: 'I-stone',
     label: 'Architect Stone',
@@ -83,7 +88,7 @@ export const THEME_REGISTRY: ThemePack[] = [
       '--surface': '#0f1a18',
       '--surface-2': '#142220',
       '--surface-3': '#1a2b28',
-      '--accent': '#4fd1c5',
+      '--accent': '#d4af37',
       '--accent-secondary': '#2dd4bf',
       '--accent-light': '#99f6e4',
       '--accent-glow': 'rgba(79, 209, 197, 0.18)',
@@ -93,6 +98,31 @@ export const THEME_REGISTRY: ThemePack[] = [
       '--border': 'rgba(79, 209, 197, 0.12)',
       '--border-strong': 'rgba(79, 209, 197, 0.28)',
       '--compass-disk': '#0d3b3b',
+    },
+  },
+  {
+    id: 'I-skymning-darkest',
+    label: 'Nordic Skymning (Darkest)',
+    description: 'Minimal visuell belastning, djupsvart botten med dov mint.',
+    background: 'aurora',
+    preview: '/design/themes/I-architect-vault/03-nordic-skymning.png',
+    cssVars: {
+      ...shared,
+      '--bg': '#020504',
+      '--bg-dusk': '#05070a',
+      '--surface': '#060a09',
+      '--surface-2': '#0a110f',
+      '--surface-3': '#0e1816',
+      '--accent': '#d4af37',
+      '--accent-secondary': '#2dd4bf',
+      '--accent-light': '#99f6e4',
+      '--accent-glow': 'rgba(79, 209, 197, 0.08)',
+      '--success': '#2dd4bf',
+      '--glass': 'rgba(2, 5, 4, 0.85)',
+      '--glass-hero': 'rgba(2, 5, 4, 0.95)',
+      '--border': 'rgba(79, 209, 197, 0.08)',
+      '--border-strong': 'rgba(79, 209, 197, 0.18)',
+      '--compass-disk': '#061212',
     },
   },
   {
@@ -381,9 +411,14 @@ export const THEME_REGISTRY: ThemePack[] = [
   THEME_BRUSHED_BRASS_NEU,
   // Obsidian Depth — låst 3D shell (2026-06-14)
   ...THEME_PACK_OBSIDIAN_DEPTH,
+  // Midnight Executive — mockup v1 (2026-06)
+  ...THEME_PACK_MIDNIGHT_EXECUTIVE,
+  // Bästa design — Figma-export guld (2026-06)
+  ...THEME_PACK_BASTA_DESIGN,
 ];
 
-export const DEFAULT_THEME_ID = 'SB-brushed-brass-neu';
+/** Prod default — Bästa design Figma-ref (2026-06). */
+export const DEFAULT_THEME_ID = BASTA_DESIGN_THEME_ID;
 
 /** Legacy Theme Lab ids → canonical pack id. */
 export const THEME_ID_ALIASES: Record<string, string> = {

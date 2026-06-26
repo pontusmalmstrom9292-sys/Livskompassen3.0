@@ -78,6 +78,17 @@ export function FreeportMabraHub({ lowCapacity = false, onStatus }: Props) {
 
   return (
     <div>
+      <div className="design-freeport__exec-hub-scenic">
+        <p className="design-freeport__exec-label">MåBra hub</p>
+        <h3 className="design-freeport__exec-hub-scenic-title">Ett steg i taget</h3>
+      </div>
+      <div className="design-freeport__exec-honeycomb" aria-hidden>
+        {['Check-in', 'Stöd', 'Ritualer', 'Utforskning', 'Känslospegel', 'Reflektion'].map((label) => (
+          <div key={label} className="design-freeport__exec-honeycomb-cell">
+            {label}
+          </div>
+        ))}
+      </div>
       <section className="design-freeport__section">
         <p className="design-freeport__section-title">MåBra — hub-layouter</p>
         <p className="design-freeport__hint mt-1">{layout.lead}</p>

@@ -1,5 +1,5 @@
 /** Canonical input modes — DagbokInputSuperModule (Fas 11). */
-export type DagbokInputMode = 'reflektion' | 'quick_mirror' | 'arkiv' | 'burn';
+export type DagbokInputMode = 'reflektion' | 'quick_mirror' | 'arkiv' | 'burn' | 'tyst';
 
 export type DagbokWriteTarget = 'journal_worm' | 'read_only' | 'none';
 
@@ -54,6 +54,15 @@ export const DAGBOK_INPUT_MODES: DagbokInputModeMeta[] = [
     legacyDagbokMode: 'reflektera',
     usesQuickMirror: false,
   },
+  {
+    id: 'tyst',
+    label: 'Tyst läge',
+    description: 'Ultraminimal vy vid dissociation — humör, tre ord, eller bränn',
+    tier: 'primary',
+    writeTarget: 'journal_worm',
+    legacyDagbokMode: 'reflektera',
+    usesQuickMirror: false,
+  },
 ];
 
 export const DAGBOK_INPUT_MODES_PRIMARY = DAGBOK_INPUT_MODES.filter((m) => m.tier === 'primary');
@@ -89,4 +98,13 @@ export function dagbokLegacyModeToInputMode(mode: string | null | undefined): Da
   if (mode === 'arkiv') return 'arkiv';
   if (mode === 'reflektera') return 'reflektion';
   return DEFAULT_DAGBOK_INPUT_MODE;
+}
+
+/** Fas 23E — `?capacity=minimal` eller `?tyst=1` → dissociation-läge. */
+export function parseDagbokCapacityParam(
+  capacity: string | null | undefined,
+  tyst: string | null | undefined,
+): DagbokInputMode | null {
+  if (tyst === '1' || capacity === 'minimal') return 'tyst';
+  return null;
 }

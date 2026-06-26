@@ -3,6 +3,9 @@ name: livskompassen-memory-silo-guard
 description: Enforces three knowledge silos — blocks cross-RAG between Kunskap, Valv-Chat, and Barnen. Use in any PR touching RAG, queries, or Firestore reads for AI.
 ---
 
+> **Register:** `docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md` · Runtime-prompter: `npm run prompts:sync`
+
+
 # Memory Silo Guard
 
 ## Three silos (MUST NOT mix RAG)
