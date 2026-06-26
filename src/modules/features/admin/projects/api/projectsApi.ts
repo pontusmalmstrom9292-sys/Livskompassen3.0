@@ -62,6 +62,23 @@ export function listenProjects(
   );
 }
 
+export function listenAllProjects(
+  userId: string,
+  onRows: (projects: Project[]) => void,
+): Unsubscribe {
+  const ref = collection(db, FIRESTORE_COLLECTIONS.projects);
+  const q = query(ref, where('ownerId', '==', userId));
+  return onSnapshot(
+    q,
+    (snap) => {
+      const rows = snap.docs.map((d) => mapProject(d.id, d.data() as FirestoreProject));
+      rows.sort((a, b) => (b.updatedAt ?? b.createdAt ?? '').localeCompare(a.updatedAt ?? a.createdAt ?? ''));
+      onRows(rows);
+    },
+    () => onRows([]),
+  );
+}
+
 export async function createProject(
   userId: string,
   input: { title: string; primaryBlockType?: ProjectBlockType },
@@ -85,6 +102,19 @@ export async function updateProjectTitle(_userId: string, projectId: string, tit
   const ref = doc(db, FIRESTORE_COLLECTIONS.projects, projectId);
   await updateDoc(ref, {
     title: title.trim(),
+    updatedAt: serverTimestamp(),
+  });
+}
+
+export async function updateProjectStatus(
+  _userId: string,
+  projectId: string,
+  status: ProjectStatus,
+): Promise<void> {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.projects);
+  const ref = doc(db, FIRESTORE_COLLECTIONS.projects, projectId);
+  await updateDoc(ref, {
+    status,
     updatedAt: serverTimestamp(),
   });
 }
