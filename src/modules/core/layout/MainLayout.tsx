@@ -133,7 +133,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
         className={clsx(
           'app-main relative z-10 mx-auto flex min-h-0 w-full max-w-2xl flex-col',
           bastaDesignSkin
-            ? clsx(isScenicHome ? 'px-0 pt-0' : 'px-4 pt-4', 'pb-28')
+            ? clsx(isScenicHome ? 'px-0 pt-0' : 'px-4 pt-4')
             : clsx(
                 'px-4',
                 isScenicHome

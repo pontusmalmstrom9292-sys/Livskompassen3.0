@@ -1,9 +1,32 @@
 /**
  * Bästa design — Figma-export (jun 2026).
- * Tokens only — inga hex i TSX utanför sandbox.
+ * Tokens on html[data-theme] so prod chrome (header/dock) resolves colors.
  */
 
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap');
+
+html[data-theme='ME-basta-design'] {
+  --bd-bg: #080a12;
+  --bd-card: #10131e;
+  --bd-accent: #c9a435;
+  --bd-accent-fg: #080a12;
+  --bd-text: #f0ead8;
+  --bd-text-body: #d8d0c0;
+  --bd-text-muted: #7a7a9a;
+  --bd-text-sub: #b8b0a0;
+  --bd-border: rgba(201, 164, 53, 0.15);
+  --bd-border-strong: rgba(201, 164, 53, 0.3);
+  --bd-accent-soft: rgba(201, 164, 53, 0.12);
+  --bd-success: #4ade80;
+  --bd-danger: #f87171;
+  --bd-font-display: 'Cinzel', Georgia, serif;
+  --bd-font-serif: 'Lora', Georgia, serif;
+  --bd-font-body: 'Inter', system-ui, sans-serif;
+  --bd-radius: 0.75rem;
+  --bd-radius-lg: 1rem;
+  --bd-radius-xl: 1.25rem;
+  --app-dock-clearance: calc(5.75rem + env(safe-area-inset-bottom, 0px) + 1rem);
+}
 
 .basta-design {
   --bd-bg: #080a12;
@@ -547,6 +570,193 @@
   border-top: 1px solid var(--bd-border);
 }
 
+/* —— Prod dock (premium glass + hero kompass) —— */
+
+.dock-shell.dock-shell--basta-design {
+  --dock-stack-height: 5.85rem;
+  --app-dock-clearance: calc(5.65rem + env(safe-area-inset-bottom, 0px) + 0.75rem);
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.basta-dock-bar {
+  pointer-events: auto;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  align-items: end;
+  width: 100%;
+  max-width: 42rem;
+  min-height: 3.35rem;
+  margin: 0 auto;
+  padding: 2.15rem 0.4rem 0;
+  padding-bottom: calc(0.45rem + env(safe-area-inset-bottom, 0px));
+  border-radius: 1.35rem 1.35rem 0 0;
+  border: 1px solid color-mix(in srgb, var(--bd-accent) 22%, transparent);
+  border-bottom: 0;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--bd-card) 72%, transparent) 0%,
+    color-mix(in srgb, var(--bd-bg) 98%, #020617) 100%
+  );
+  backdrop-filter: blur(20px) saturate(145%);
+  -webkit-backdrop-filter: blur(20px) saturate(145%);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--bd-accent) 24%, transparent),
+    0 -8px 32px color-mix(in srgb, var(--bd-accent) 12%, transparent),
+    0 12px 32px rgba(0, 0, 0, 0.55);
+  overflow: visible;
+}
+
+.basta-dock-bar::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 8%;
+  right: 8%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--bd-accent) 65%, transparent) 24%,
+    color-mix(in srgb, var(--bd-text) 35%, var(--bd-accent)) 50%,
+    color-mix(in srgb, var(--bd-accent) 65%, transparent) 76%,
+    transparent 100%
+  );
+  box-shadow: 0 0 14px color-mix(in srgb, var(--bd-accent) 38%, transparent);
+  pointer-events: none;
+}
+
+.basta-dock-bar__side {
+  grid-row: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.3rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  margin: 0 auto;
+  padding: 0 0.1rem 0.15rem;
+  border: 0;
+  background: transparent;
+  color: var(--bd-text-muted);
+  cursor: pointer;
+  transition: color 0.18s ease, transform 0.18s ease;
+}
+
+.basta-dock-bar__side:nth-child(1) {
+  grid-column: 1;
+}
+.basta-dock-bar__side:nth-child(2) {
+  grid-column: 2;
+}
+.basta-dock-bar__side:nth-child(4) {
+  grid-column: 4;
+}
+.basta-dock-bar__side:nth-child(5) {
+  grid-column: 5;
+}
+
+.basta-dock-bar__side--active {
+  color: var(--bd-accent);
+}
+
+.basta-dock-bar__side:active {
+  transform: scale(0.96);
+}
+
+.basta-dock-bar__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  color: inherit;
+  opacity: 0.88;
+  filter: drop-shadow(0 0 4px color-mix(in srgb, var(--bd-accent) 0%, transparent));
+  transition: opacity 0.18s ease, filter 0.18s ease;
+}
+
+.basta-dock-bar__side--active .basta-dock-bar__icon {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--bd-accent) 42%, transparent));
+}
+
+.basta-dock-bar__label {
+  font-family: var(--bd-font-display);
+  font-size: 0.5625rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: inherit;
+  max-width: 4.25rem;
+  text-align: center;
+}
+
+.basta-dock-bar__compass-slot {
+  grid-column: 3;
+  grid-row: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.basta-dock-bar__compass {
+  pointer-events: auto;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.65rem;
+  height: 4.65rem;
+  margin-top: -3.35rem;
+  margin-bottom: 0.1rem;
+  padding: 0;
+  border: 0;
+  border-radius: 9999px;
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.basta-dock-bar__compass::before {
+  content: '';
+  position: absolute;
+  inset: -0.15rem;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--bd-accent) 35%, transparent);
+  box-shadow:
+    0 0 24px color-mix(in srgb, var(--bd-accent) 45%, transparent),
+    0 0 8px color-mix(in srgb, var(--bd-accent) 28%, transparent),
+    0 10px 28px rgba(0, 0, 0, 0.65);
+  pointer-events: none;
+  animation: bd-compass-pulse 3.5s ease-in-out infinite;
+}
+
+.basta-dock-bar__compass--home::before {
+  border-color: color-mix(in srgb, var(--bd-accent) 52%, transparent);
+}
+
+.basta-dock-bar__compass-mark {
+  position: relative;
+  z-index: 1;
+  width: 3.65rem;
+  height: 3.65rem;
+  display: block;
+}
+
+.basta-dock-bar__compass:active {
+  transform: scale(1.04);
+}
+
+.basta-dock-bar__compass:active::before {
+  animation: none;
+}
+
 .basta-design__dock-inner {
   display: flex;
   align-items: flex-end;
@@ -729,6 +939,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .basta-design__dock-fab,
+  .basta-dock-bar__compass::before,
   .basta-design__hero-img,
   .basta-design__header-ornament-gem,
   .basta-design__header-title,

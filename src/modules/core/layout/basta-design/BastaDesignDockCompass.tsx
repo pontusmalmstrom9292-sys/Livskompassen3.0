@@ -1,7 +1,11 @@
+type Props = {
+  className?: string;
+};
+
 /** Gyllene kompass — Figma-ref dock FAB. */
-export function BastaDesignDockCompass() {
+export function BastaDesignDockCompass({ className = 'basta-dock-bar__compass-mark' }: Props) {
   return (
-    <svg width="64" height="64" viewBox="0 0 180 180" fill="none" aria-hidden>
+    <svg className={className} viewBox="0 0 180 180" fill="none" aria-hidden>
       <defs>
         <radialGradient id="bdDockGoldGlow">
           <stop offset="0%" stopColor="#F7D774" />

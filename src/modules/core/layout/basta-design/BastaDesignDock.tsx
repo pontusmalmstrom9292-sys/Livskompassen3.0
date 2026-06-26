@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { clsx } from 'clsx';
 import { NotebookPen, Users2, UtensilsCrossed, Library } from 'lucide-react';
 import { openValvViaFyren } from '../../auth/valvFyrenGate';
 import { NAV_PATHS } from '../../navigation/navTruth';
@@ -8,7 +9,34 @@ import { useLongPress } from '../../hooks/useLongPress';
 import { useStore } from '../../store';
 import { BastaDesignDockCompass } from './BastaDesignDockCompass';
 
-/** Figma-ref bottom dock — prod routes. */
+function SideItem({
+  label,
+  active,
+  onClick,
+  children,
+  expanded,
+}: {
+  label: string;
+  active?: boolean;
+  expanded?: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      className={clsx('basta-dock-bar__side', active && 'basta-dock-bar__side--active')}
+      onClick={onClick}
+      aria-current={active ? 'page' : undefined}
+      aria-expanded={expanded}
+    >
+      <span className="basta-dock-bar__icon">{children}</span>
+      <span className="basta-dock-bar__label">{label}</span>
+    </button>
+  );
+}
+
+/** Figma-ref bottom dock — prod routes, premium glass. */
 export function BastaDesignDock() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -44,80 +72,50 @@ export function BastaDesignDock() {
   return (
     <>
       <ResurserOverlay open={resurserOpen} onClose={() => setResurserOpen(false)} />
-      <nav className="basta-design__dock basta-design__dock--prod" aria-label="Huvudnavigering">
-        <div className="basta-design__dock-inner">
-          <button
-            type="button"
-            className="basta-design__dock-item"
+      <div className="dock-shell dock-shell--basta-design">
+        <nav className="basta-dock-bar" aria-label="Huvudnavigering">
+          <SideItem
+            label="Anteckningar"
+            active={isAnteckning}
             onClick={() => navigate(`${NAV_PATHS.HJARTAT}?tab=reflektion`)}
-            aria-current={isAnteckning ? 'page' : undefined}
           >
-            <span style={{ color: isAnteckning ? 'var(--bd-accent)' : 'var(--bd-text-muted)' }}>
-              <NotebookPen size={18} />
-            </span>
-            <span className={`basta-design__dock-label ${isAnteckning ? 'basta-design__dock-label--on' : ''}`}>
-              ANTECKNINGAR
-            </span>
-          </button>
+            <NotebookPen size={18} strokeWidth={1.5} />
+          </SideItem>
 
-          <button
-            type="button"
-            className="basta-design__dock-item"
-            onClick={() => navigate(NAV_PATHS.FAMILJEN)}
-            aria-current={isFamiljen ? 'page' : undefined}
-          >
-            <span style={{ color: isFamiljen ? 'var(--bd-accent)' : 'var(--bd-text-muted)' }}>
-              <Users2 size={18} />
-            </span>
-            <span className={`basta-design__dock-label ${isFamiljen ? 'basta-design__dock-label--on' : ''}`}>
-              FAMILJ
-            </span>
-          </button>
+          <SideItem label="Familj" active={isFamiljen} onClick={() => navigate(NAV_PATHS.FAMILJEN)}>
+            <Users2 size={18} strokeWidth={1.5} />
+          </SideItem>
 
-          <button
-            type="button"
-            className="basta-design__dock-item basta-design__dock-item--fab"
-            aria-label="Kompassen. Håll tre sekunder för Valv."
-            onClick={centerClick}
-            {...centerHoldHandlers}
-          >
-            <div className="basta-design__dock-fab">
+          <div className="basta-dock-bar__compass-slot">
+            <button
+              type="button"
+              className={clsx('basta-dock-bar__compass', isHome && 'basta-dock-bar__compass--home')}
+              aria-label="Kompassen. Håll tre sekunder för Valv."
+              onClick={centerClick}
+              {...centerHoldHandlers}
+            >
               <BastaDesignDockCompass />
-            </div>
-            <span className={`basta-design__dock-label ${isHome ? 'basta-design__dock-label--on' : ''}`}>
-              KOMPASSEN
-            </span>
-          </button>
+            </button>
+          </div>
 
-          <button
-            type="button"
-            className="basta-design__dock-item"
+          <SideItem
+            label="Recept"
+            active={isEkonomi}
             onClick={() => navigate('/vardagen?tab=ekonomi')}
-            aria-current={isEkonomi ? 'page' : undefined}
           >
-            <span style={{ color: isEkonomi ? 'var(--bd-accent)' : 'var(--bd-text-muted)' }}>
-              <UtensilsCrossed size={18} />
-            </span>
-            <span className={`basta-design__dock-label ${isEkonomi ? 'basta-design__dock-label--on' : ''}`}>
-              RECEPT
-            </span>
-          </button>
+            <UtensilsCrossed size={18} strokeWidth={1.5} />
+          </SideItem>
 
-          <button
-            type="button"
-            className="basta-design__dock-item"
+          <SideItem
+            label="Resurser"
+            active={resurserOpen}
+            expanded={resurserOpen}
             onClick={() => setResurserOpen(true)}
-            aria-expanded={resurserOpen}
           >
-            <span style={{ color: resurserOpen ? 'var(--bd-accent)' : 'var(--bd-text-muted)' }}>
-              <Library size={18} />
-            </span>
-            <span className={`basta-design__dock-label ${resurserOpen ? 'basta-design__dock-label--on' : ''}`}>
-              RESURSER
-            </span>
-          </button>
-        </div>
-      </nav>
+            <Library size={18} strokeWidth={1.5} />
+          </SideItem>
+        </nav>
+      </div>
     </>
   );
 }
