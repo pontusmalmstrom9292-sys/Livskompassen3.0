@@ -31,7 +31,7 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 - **Functions:** `npm run build` from `functions/` compiles TypeScript.
 - **Lint:** `npx eslint .` from repo root (`eslint.config.js`).
 - **Iterative validation bundle:** `npm run validate:session`
-- **Agent/synapse local preflight:** `npm run validate:agents-local`
+- **Agent/synapse env-free local preflight:** `npm run validate:agents-local`
 
 ## Cursor Cloud specific instructions
 
