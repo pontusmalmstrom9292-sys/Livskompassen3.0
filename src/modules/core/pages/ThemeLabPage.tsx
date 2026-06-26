@@ -27,6 +27,13 @@ import { K_PACK_THEME_IDS, THEME_PACK_K } from '../theme/themePackK';
 import { THEME_PACK_REDESIGN_A } from '../theme/themePackRedesignA';
 import { THEME_PACK_REMIX_E_HAMN } from '../theme/themePackRemix';
 import { THEME_PACK_OBSIDIAN_DEPTH } from '../theme/themePackObsidianDepth';
+import { THEME_PACK_MIDNIGHT_EXECUTIVE } from '../theme/themePackMidnightExecutive';
+import { THEME_PACK_BASTA_DESIGN } from '../theme/themePackBastaDesign';
+import {
+  getExecutiveHomeLayoutMode,
+  setExecutiveHomeLayoutMode,
+  type ExecutiveHomeLayoutMode,
+} from '../home/executive/homeLayoutPreference';
 import { J_PACK_THEME_IDS } from '../theme/themeRegistry';
 import { REDESIGN_C_THEME_IDS } from '../theme/themePackRedesignC';
 import type { ThemePack } from '../theme/types';
@@ -115,6 +122,9 @@ function DraftTokenChips({ pack }: { pack: ThemePack }) {
 export function ThemeLabPage() {
   const { themeId, setTheme, setAutoMode } = useTheme();
   const [previewId, setPreviewId] = useState('I-stone');
+  const [homeLayout, setHomeLayout] = useState<ExecutiveHomeLayoutMode>(() =>
+    getExecutiveHomeLayoutMode(),
+  );
   const previewPack =
     THEME_REGISTRY.find((t) => t.id === previewId) ??
     THEME_LAB_DRAFTS.find((t) => t.id === previewId) ??
@@ -197,6 +207,84 @@ export function ThemeLabPage() {
           </a>
         </div>
       </section>
+
+      <section className="glass-card p-4">
+        <h2 className="text-xs uppercase tracking-widest text-text-dim">Widget W1 v2 — Kompakt projekt</h2>
+        <p className="mt-2 text-sm text-text-muted">
+          Höger rail · Kognitiv sköld · Dagens riktning · Nytt projekt-picker (BYGG enligt mockup).
+        </p>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Link to="/dev/theme-lab/w1-kompakt-projekt" className="btn-pill--accent text-xs">
+            Öppna W1 kompakt projekt lab
+          </Link>
+          <a
+            href="/docs/design/galleri/widget/v2/W1-kompakt-projekt.png"
+            target="_blank"
+            rel="noreferrer"
+            className="btn-pill--ghost text-xs"
+          >
+            Mockup ↗
+          </a>
+        </div>
+      </section>
+
+      <ThemeLabPackSection
+        title="Bästa design — Figma-ref (2026-06)"
+        packs={THEME_PACK_BASTA_DESIGN}
+        previewId={previewId}
+        themeId={themeId}
+        onPreview={applyPreview}
+        onApply={(id) => {
+          setTheme(id);
+          setAutoMode(false);
+          setPreviewId(id);
+        }}
+        extraLink={{
+          label: 'Öppna full mock ↗',
+          href: '/dev/basta-design',
+        }}
+      />
+
+      <ThemeLabPackSection
+        title="Midnight Executive — mockup v1 (2026-06)"
+        packs={THEME_PACK_MIDNIGHT_EXECUTIVE}
+        previewId={previewId}
+        themeId={themeId}
+        onPreview={applyPreview}
+        onApply={(id) => {
+          setTheme(id);
+          setAutoMode(false);
+          setPreviewId(id);
+        }}
+        extraLink={{
+          label: 'Design Freeport ↗',
+          href: '/dev/design-freeport',
+        }}
+      />
+
+      {themeId === 'ME-midnight-executive' || themeId === 'ME-basta-design' ? (
+        <section className="glass-card p-4 space-y-3">
+          <h2 className="text-sm font-semibold text-accent">Executive hem-layout</h2>
+          <p className="text-xs text-text-muted">
+            Extended = reflektion + 2×2. mix-E = hälsning + kompass-scen + dagens riktning.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {(['extended', 'mix-e'] as const).map((mode) => (
+              <button
+                key={mode}
+                type="button"
+                className={homeLayout === mode ? 'btn-pill--primary text-xs' : 'btn-pill--ghost text-xs'}
+                onClick={() => {
+                  setExecutiveHomeLayoutMode(mode);
+                  setHomeLayout(mode);
+                }}
+              >
+                {mode === 'extended' ? 'Extended (facit)' : 'mix-E klassisk'}
+              </button>
+            ))}
+          </div>
+        </section>
+      ) : null}
 
       <ThemeLabPackSection
         title="Obsidian Depth — låst 3D (2026-06-14)"

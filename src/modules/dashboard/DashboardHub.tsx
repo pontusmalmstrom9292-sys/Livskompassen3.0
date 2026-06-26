@@ -10,6 +10,9 @@ import { ActivePlanningWidget } from './components/ActivePlanningWidget';
 import { MabraPulseWidget } from './components/MabraPulseWidget';
 import { ParalysisBreaker } from '../support/ParalysisBreaker';
 import { useParalysisStore } from '../support/store/paralysisStore';
+import { SleepPhysiologyWidget } from './components/SleepPhysiologyWidget';
+import { WeeklyPulseWidget } from './components/WeeklyPulseWidget';
+import { DailySummaryWidget } from './components/DailySummaryWidget';
 
 // Store exporteras från ./store/dashboardStore.ts
 
@@ -47,11 +50,15 @@ function DashboardHubContent() {
           <h1 className="text-3xl font-bold tracking-tight text-white/90">Dagens Översikt</h1>
           <button
             onClick={() => setZenMode(true)}
-            className="px-4 py-2 bg-red-500/20 text-red-100 hover:bg-red-500/30 border border-red-500/30 rounded-lg text-sm font-medium transition-colors"
+            className="px-4 py-2 bg-surface-3/50 hover:bg-surface-3 text-text-muted hover:text-text border border-border/40 hover:border-border rounded-lg text-sm font-medium transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)]"
           >
             Överväldigad?
           </button>
         </header>
+
+        <div className="mb-6">
+          <DailySummaryWidget />
+        </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Vänster kolumn: Morgonkompassen (Autonomi & Fokus) */}
@@ -60,7 +67,13 @@ function DashboardHubContent() {
           </div>
 
           {/* Höger kolumn: Ventilen (Kognitiv avlastning) */}
-          <div className="flex flex-col h-full">
+          <div className="flex flex-col gap-6">
+            <div className="grid grid-cols-2 gap-4">
+              <SleepPhysiologyWidget />
+              <WeeklyPulseWidget />
+            </div>
+            <RecentIntakeWidget />
+            <ActivePlanningWidget />
             <InsightsInput />
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
+import { clsx } from 'clsx';
 import { Fingerprint, LogOut, ShieldCheck, X } from 'lucide-react';
 import { HeaderLockGlyph, HeaderShieldGlyph } from '../ui/HeaderChromeGlyphs';
 import { useStore } from '../store';
@@ -19,9 +20,11 @@ type Props = {
   onOpenChange?: (open: boolean) => void;
   /** Mindre trigger i kanon-header (ikon utan etikett på smal skärm). */
   compactTrigger?: boolean;
+  /** Executive premium — guld sköld-styling. */
+  chromeVariant?: 'default' | 'executive';
 };
 
-export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTrigger }: Props) {
+export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTrigger, chromeVariant = 'default' }: Props) {
   const user = useStore((s) => s.user);
   const [internalOpen, setInternalOpen] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
@@ -179,7 +182,10 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="header-chrome-btn header-chrome-btn--round header-glass-btn header-glass-btn--kanon"
+          className={clsx(
+            'header-chrome-btn header-chrome-btn--round header-glass-btn header-glass-btn--kanon',
+            chromeVariant === 'executive' && 'exec-header-shield',
+          )}
           aria-expanded={open}
           aria-haspopup="dialog"
           aria-label="Konto och inloggning"
@@ -188,7 +194,12 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
           {!user || isAnonymous ? (
             <HeaderLockGlyph className="header-chrome-btn__glyph h-[1.15rem] w-[1.15rem]" />
           ) : (
-            <HeaderShieldGlyph className="header-chrome-btn__glyph header-chrome-btn__glyph--success h-[1.15rem] w-[1.15rem]" />
+            <HeaderShieldGlyph
+              className={clsx(
+                'header-chrome-btn__glyph h-[1.15rem] w-[1.15rem]',
+                chromeVariant === 'executive' ? 'text-accent' : 'header-chrome-btn__glyph--success',
+              )}
+            />
           )}
         </button>
       ) : (

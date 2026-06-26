@@ -5,7 +5,8 @@ export type FreeportThemeId =
   | 'tactile-chrome'
   | 'tactile-cold'
   | 'tactile-slate'
-  | 'tactile-obsidian';
+  | 'tactile-obsidian'
+  | 'executive-premium';
 
 export type FreeportTheme = {
   id: FreeportThemeId;
@@ -39,12 +40,17 @@ export const FREEPORT_THEMES: FreeportTheme[] = [
     label: 'Obsidian lager',
     description: 'S1 E — dämpat guld, Cinzel zon, Depth-linje',
   },
+  {
+    id: 'executive-premium',
+    label: 'Executive Premium',
+    description: 'Navy #07101D + guld #D4AF37 — Cormorant + Inter, 80/15/5',
+  },
 ];
 
 const STORAGE_KEY = 'lk.freeport.theme';
 
-/** Pontus godkände E 2026-06-18 — Obsidian lager. */
-export const DEFAULT_FREEPORT_THEME: FreeportThemeId = 'tactile-obsidian';
+/** Executive Premium — ChatGPT Nordic Obsidian Calm palett (2026-06-25). */
+export const DEFAULT_FREEPORT_THEME: FreeportThemeId = 'executive-premium';
 
 export function loadFreeportTheme(): FreeportThemeId {
   if (typeof window === 'undefined') return DEFAULT_FREEPORT_THEME;
@@ -54,7 +60,8 @@ export function loadFreeportTheme(): FreeportThemeId {
     raw === 'tactile-chrome' ||
     raw === 'tactile-cold' ||
     raw === 'tactile-slate' ||
-    raw === 'tactile-obsidian'
+    raw === 'tactile-obsidian' ||
+    raw === 'executive-premium'
   )
     return raw;
   return DEFAULT_FREEPORT_THEME;

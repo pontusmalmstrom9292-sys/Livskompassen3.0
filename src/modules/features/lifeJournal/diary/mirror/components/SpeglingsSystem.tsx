@@ -5,7 +5,7 @@ import { BentoCard } from '@/shared/ui/BentoCard';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { useStore } from '@/core/store';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { getAllVaultLogs } from '@/core/firebase/firestore';
+
 import { hasVaultGate } from '@/core/auth/sessionService';
 import { readJournalBridgeContext } from '@/core/types/journalBridge';
 import {

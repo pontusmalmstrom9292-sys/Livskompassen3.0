@@ -5,8 +5,8 @@ import { WidgetShell } from '../layout/WidgetShell';
 function WidgetSnabbvalInner() {
   return (
     <WidgetShell
-      title="Snabbval"
-      lead="Dagbok, mikrosteg, frågesport och luckor — utan brus på Hem."
+      title="Dagbok"
+      lead="Humör, mikrosteg och luckor — utan brus på Hem."
     >
       <HomeQuickModules />
     </WidgetShell>

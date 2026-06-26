@@ -41,6 +41,11 @@ export function FreeportFamiljenHub({ onStatus }: Props) {
 
   return (
     <div>
+      <div className="design-freeport__exec-hub-scenic">
+        <p className="design-freeport__exec-label">Familjen hub</p>
+        <h3 className="design-freeport__exec-hub-scenic-title">Den trygga hamnen</h3>
+        <p className="design-freeport__hint mt-2">Barnfokus · livslogg · minnen</p>
+      </div>
       <section className="design-freeport__section">
         <p className="design-freeport__section-title">Familjen — hub-layouter</p>
         <p className="design-freeport__hint mt-1">{layout.lead}</p>

@@ -2,14 +2,20 @@
 
 **En mapp** med alla filer för Gemini Custom Gem **Knowledge**.
 
-Kanon ligger på andra ställen i repot — denna mapp är **speglade kopior**. Uppdatera med:
+Kanon ligger på andra ställen i repot — denna mapp är **speglade kopior**.
+
+## Uppdatera ALLT (obligatoriskt)
+
+Kör **alltid** full refresh — uppdaterar repomix, NotebookLM-pack och hela denna mapp:
 
 ```bash
 cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
-npm run gemini:sync:kunskap
+npm run gemini:pack:all
 ```
 
-(Eller `npm run gemini:pack:all` — inkluderar sync.)
+Kör **inte** bara `gemini:sync:kunskap` — då missar du färska repomix-packs.
+
+Vid varje sync **renas** `tier-2-valfritt/`, `tier-3-repomix/`, `gemini-kanon/` och `notebooklm-kanon/` och fylls på nytt.
 
 ---
 
@@ -38,20 +44,27 @@ Markera `01`–`08` i Finder → dra till Gem Knowledge:
 
 `00-SYSTEM-INSTRUCTION-KLISTRA-IN.txt` → klistra in under **Instructions**, inte Knowledge.
 
-## Tier 2 — valfritt (rekommenderat för orkester)
+## Tier 2 — register + prompter (09–25)
 
-Mappen `tier-2-valfritt/` — inkl. orkester + Flow:
+Mappen `tier-2-valfritt/` — inkl. orkester, Flow, setup, baseline:
 
 | Fil | Innehåll |
 |-----|----------|
 | `14-GEMINI-ORKESTER-MASTER-PROMPT.md` | Huvuddator-kedja |
-| `15-flow-pipeline-karta.md` | P1 Brusfilter, P2 Dossier v2 |
-| `16-MALL-deep-research-modul.md` | Mall före varje bygg |
-| `17-GEMINI-FLOW-CHAT-PROMPTS.md` | **Klistra-in-prompter** Flow P1 · ChatBox Opus/Sonnet |
+| `17-GEMINI-FLOW-CHAT-PROMPTS.md` | Flow P1 · ChatBox |
+| `22-GEMINI-GEM-SETUP.md` | Gem-setup |
+| `23-GEMINI-GEM-BASELINE-VERIFY.md` | Baseline-frågor |
 
 ## Tier 3 — repomix per zon
 
-Mappen `tier-3-repomix/` — fylls efter `npm run gemini:pack`. Välj en pack (t.ex. `gemini-pack-valv.md`) när du jobbar med en zon.
+Mappen `tier-3-repomix/` — alla `gemini-pack-*.md` efter `gemini:pack:refresh`.
+
+## Kanon-speglar (alla källfiler)
+
+| Mapp | Innehåll |
+|------|----------|
+| `gemini-kanon/` | **Alla** `.md`/`.txt` från `docs/external-ai/gemini/` |
+| `notebooklm-kanon/` | **Alla** `.md`/`.txt` från `docs/external-ai/notebooklm/` |
 
 ---
 
@@ -63,4 +76,4 @@ Mappen `tier-3-repomix/` — fylls efter `npm run gemini:pack`. Välj en pack (t
 
 `Cmd + Shift + G` i Finder → klistra in sökvägen ovan.
 
-Setup: [`../GEMINI-GEM-SETUP.md`](../GEMINI-GEM-SETUP.md)
+Setup: [`../gemini/GEMINI-GEM-SETUP.md`](../gemini/GEMINI-GEM-SETUP.md)

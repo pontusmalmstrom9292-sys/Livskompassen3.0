@@ -34,11 +34,44 @@ export const THEME_PACK_E_PROD: ThemePack = {
   },
 };
 
-/** Subtil hub-tint på ytor — chrome förblir guld via COLOR-POLICY. */
 export const E_HUB_SURFACE_TINTS: Record<string, Partial<ThemePack['cssVars']>> = {
   mabra: { '--surface-2': '#1a1520', '--surface-3': '#221c28' },
   planering: { '--surface-2': '#161410', '--surface-3': '#1e1a14' },
   familjen: { '--surface-2': '#181410', '--surface-3': '#221c16' },
+};
+
+/**
+ * Darkest Mode — Extra låg kontrast för sena kvällar/migrän.
+ * Bygger på E-skymning men mörkar ner alla ytor till nära ren svart.
+ */
+export const THEME_PACK_E_DARKEST: ThemePack = {
+  id: 'E-skymning-darkest',
+  label: 'Nordic Skymning (Darkest)',
+  description: 'Extremt lågkontrast för sena kvällar, migrän och kognitiv avlastning.',
+  background: 'aurora',
+  preview: '/design/references/E-home-hero-kanon.png', // Or another appropriate preview
+  cssVars: {
+    ...shared,
+    '--bg': '#000000',
+    '--bg-dusk': '#020202',
+    '--surface': '#020202',
+    '--surface-2': '#040404',
+    '--surface-3': '#080808',
+    '--accent': '#9f852b', // Dimmer gold
+    '--accent-secondary': '#4338ca', // Dimmer indigo
+    '--accent-light': '#b4a055',
+    '--accent-ai': '#4f46e5',
+    '--accent-glow': 'rgba(159, 133, 43, 0.1)',
+    '--success': '#059669', // Dimmer green
+    '--glass': 'rgba(2, 2, 2, 0.95)',
+    '--glass-hero': 'rgba(0, 0, 0, 0.98)',
+    '--border': 'rgba(255, 255, 255, 0.05)',
+    '--border-strong': 'rgba(255, 255, 255, 0.1)',
+    '--compass-disk': '#021010',
+    '--text': 'rgba(255, 255, 255, 0.65)',
+    '--text-muted': 'rgba(255, 255, 255, 0.45)',
+    '--text-dim': 'rgba(255, 255, 255, 0.3)',
+  },
 };
 
 export const E_PROD_THEME_ID = THEME_PACK_E_PROD.id;

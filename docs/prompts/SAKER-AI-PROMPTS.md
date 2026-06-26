@@ -1,53 +1,30 @@
 # Säkra AI-prompter (governance)
 
-**Registry:** `SAKER-AI-PROMPTS.json` · **Kanon:** `docs/governance/GUARD-REGLERBOK.md`
+**Registry:** `SAKER-AI-PROMPTS.json` v3 · **Master-register:** `PROMPTER-SKILLS-FUNKTIONER-REGISTER.md`
 
-## Syfte
+## Tre lager
 
-Governance-mallar för Cursor-agenter och manuell silo-klassificering. **Inte** runtime callables.
+| Lager | Källa | Kommando |
+|-------|-------|----------|
+| Runtime (prod) | `functions/src/sharedRules.ts` | PMIR + functions deploy |
+| Speglar (läsbar) | `docs/prompts/*-PROMPT.md` | `npm run prompts:sync` |
+| Governance | `prompts/*.json` + denna mapp | `npm run smoke:prompts` |
 
-Prod använder `functions/src/sharedRules.ts` — ändring där kräver PMIR (`backend-agents.mdc`).
-
-## Filer
+## Kanoniska governance-filer
 
 | Fil | Roll |
 |-----|------|
 | `prompts/guardedAgentInstruction.json` | Agent-grundinstruktion (system) |
-| `prompts/safeClassificationPrompt.json` | Dokument → silo (JSON-output) |
-| `docs/prompts/SAKER-AI-PROMPTS.json` | Registry + korta mallar |
+| `prompts/safeClassificationPrompt.json` | Dokument → silo |
+| `docs/prompts/EXPERT-AGENT-DIRECTIVES.json` | 8 paste-ready Cursor-specialister |
 
-## Osäkerhetsfras (kanon)
+`SAKER-AI-PROMPTS.json` **refererar** till root JSON — duplicera inte text manuellt.
 
-- Kort: *Ej tillräckligt data*
-- Utökad: *Ej tillräckligt data för bedömning.*
+## Osäkerhetsfras
 
-## Validering
+`Ej tillräckligt data för bedömning.`
 
-```bash
-npm run smoke:prompts
-npm run smoke:guard
-```
+## Borttagna dubletter (2026-06-25)
 
-Kontrollerar JSON, WORM/silo/låsta flöden, utökad osäkerhetsfras, samt att `projectGuard.mdc`, `guard-regelbok.mdc` och `GUARD-REGLERBOK.md` finns.
-
-## Användning
-
-### Agent-säkerhet (system)
-
-Klistra in mallen `ai-agent-sakerhetsinstruktion` från registry, eller använd hela `guardedAgentInstruction.json` → `systemInstruction`.
-
-### Säker klassificering (user)
-
-Ersätt `{{documentText}}` i mallen `saker-klassificering`. Vid osäkerhet → `review`, inte gissning.
-
-## Korsreferenser
-
-- `.cursor/rules/projectGuard.mdc` — index
-- `.cursor/rules/guard-regelbok.mdc` — operativ
-- `.cursor/rules/anti-hallucination.mdc`
-- `.cursor/rules/grunder-kanon.mdc`
-- `.cursor/rules/locked-ux-features.mdc`
-
-## Produktion (runtime)
-
-Inkast-klassificering: `INKORG_SORTERARE_SYSTEM_PROMPT` i `sharedRules.ts`. Håll semantik aligned via PMIR — inte ad hoc copy från governance JSON.
+- `BARA-LYSSNA-LAGET-PROMPT.md` → ersatt av `SPEGLINGSCOACHEN-PROMPT.md`
+- `BIFF-SKOLDEN-PROMPT.md` → ersatt av `GRANS-ARKITEKTEN-PROMPT.md` + `BIFF-REWRITE-DRAFT-PROMPT.md`

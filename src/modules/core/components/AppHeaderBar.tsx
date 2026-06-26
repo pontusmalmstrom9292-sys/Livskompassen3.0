@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
-import { HeaderMenuGlyph } from '../ui/HeaderChromeGlyphs';
+import { clsx } from 'clsx';
 import { useHeaderPanelStyle } from '../layout/headerPanelStyle';
 import { DesignPackCenterHeader } from '../design/DesignPackCenterHeader';
 import { useDesignPack } from '../design/useDesignPack';
-import { AppHeaderBrand } from './AppHeaderBrand';
+
 
 export type { HeaderPanelStyle } from '../layout/headerPanelStyle';
 
@@ -13,6 +13,9 @@ type Props = {
   actions: ReactNode;
   /** Kompass-toggle — direkt barn i glass-header-bar (index 2). */
   headerQuickToggle?: ReactNode;
+  /** Premium executive — öga i centrum, ingen header-kompass. */
+  headerVariant?: 'default' | 'executive-premium';
+  centerAction?: ReactNode;
 };
 
 export function AppHeaderBar({
@@ -20,18 +23,37 @@ export function AppHeaderBar({
   onMenuClick,
   actions,
   headerQuickToggle,
+  headerVariant = 'default',
+  centerAction,
 }: Props) {
-  const { active, chrome } = useDesignPack();
   const panelStyle = useHeaderPanelStyle();
+  const { active: designPackActive } = useDesignPack();
+  const executivePremium = headerVariant === 'executive-premium';
+  const useDesignPackShell = designPackActive || executivePremium;
 
-  if (active && chrome?.header === 'center-ornament') {
+  const header = (
+    <DesignPackCenterHeader
+      menuExpanded={menuExpanded}
+      onMenuClick={onMenuClick}
+      actions={actions}
+      headerQuickToggle={headerQuickToggle}
+      variant={headerVariant}
+      centerAction={centerAction}
+    />
+  );
+
+  if (useDesignPackShell) {
     return (
-      <DesignPackCenterHeader
-        menuExpanded={menuExpanded}
-        onMenuClick={onMenuClick}
-        actions={actions}
-        headerQuickToggle={headerQuickToggle}
-      />
+      <div
+        className={clsx(
+          'app-header-bar app-header-bar--design-pack',
+          executivePremium && 'app-header-bar--executive-premium',
+        )}
+        data-panel-style={panelStyle}
+        data-header-variant={executivePremium ? 'executive-premium' : undefined}
+      >
+        {header}
+      </div>
     );
   }
 
@@ -39,22 +61,9 @@ export function AppHeaderBar({
     <div
       className="glass-header-bar glass-header-bar--kanon"
       data-panel-style={panelStyle}
+      data-header-variant={executivePremium ? 'executive-premium' : undefined}
     >
-      <div className="glass-header-bar__leading">
-        <button
-          type="button"
-          className="header-chrome-btn header-chrome-btn--round header-menu-btn header-menu-btn--kanon"
-          aria-label="Öppna meny"
-          aria-expanded={menuExpanded}
-          onClick={onMenuClick}
-        >
-          <HeaderMenuGlyph className="header-chrome-btn__glyph h-8 w-8" />
-        </button>
-        <AppHeaderBrand />
-      </div>
-
-      <div className="app-header__actions app-header__actions--kanon">{actions}</div>
-      {headerQuickToggle}
+      {header}
     </div>
   );
 }

@@ -21,7 +21,8 @@ firebase-debug.*.log
 # MCP/CLI refresh tokens live in ~/.config/firebase/ — never copy into repo
 
 # Personal Drive import — not project source (PII, family docs)
-docs/archive/drive-backup/
+docs/archive/drive-backup/*
+!docs/archive/drive-backup/README.md
 
 # Build output
 dist/
@@ -62,6 +63,8 @@ docs/external-ai/gemini-kunskap/0*.md
 docs/external-ai/gemini-kunskap/0*.txt
 docs/external-ai/gemini-kunskap/tier-2-valfritt/*
 docs/external-ai/gemini-kunskap/tier-3-repomix/*
+docs/external-ai/gemini-kunskap/gemini-kanon/*
+docs/external-ai/gemini-kunskap/notebooklm-kanon/*
 !docs/external-ai/gemini-kunskap/LÄS-MIG.md
 
 # Generated GPT handoff repomix packs (npm run gpt-handoff:pack)
@@ -103,13 +106,23 @@ repomix-output*.xml
 *.log
 npm-debug.log*
 
-# Data Connect generated (regenereras)
-src/dataconnect-generated/
+# Data Connect / Cloud SQL emulator data (legacy — removed from project)
+dataconnect/.dataconnect/peliteData/
 
 # Accidental SDK installs
 gcloud*/
 **/google-cloud-sdk/
 google-cloud-cli*.tar.gz
+
+# Mac-Finder copies & misplaced root files
+*\ \(kopia\)*
+*\ copy.*
+/npm
+/~
+~/Downloads/
+
+# Firebase emulator export (testdata, ej källa)
+exportedData/
 
 # Cursor / agent tooling (lokal, ej repo)
 .agents/

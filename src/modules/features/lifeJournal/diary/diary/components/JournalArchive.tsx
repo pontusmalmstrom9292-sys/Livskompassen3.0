@@ -8,6 +8,7 @@ import {
 } from '../utils/filterJournalEntries';
 import { JournalArchiveToolbar, type ArchiveToolbarState } from './JournalArchiveToolbar';
 import { JournalEntryCard } from './JournalEntryCard';
+import { Pin } from 'lucide-react';
 
 const DEFAULT_FILTERS: ArchiveToolbarState = {
   query: '',
@@ -34,8 +35,12 @@ export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalA
   const groups = useMemo(() => groupJournalEntriesByDay(filtered), [filtered]);
 
   const flatFiltered = useMemo(() => groups.flatMap((g) => g.entries), [groups]);
-  const visible = flatFiltered.slice(0, visibleCount);
-  const hasMore = flatFiltered.length > visibleCount;
+  
+  const pinnedEntries = useMemo(() => flatFiltered.filter(e => e.isPinned), [flatFiltered]);
+  const unpinnedFlat = useMemo(() => flatFiltered.filter(e => !e.isPinned), [flatFiltered]);
+  
+  const visible = unpinnedFlat.slice(0, visibleCount);
+  const hasMore = unpinnedFlat.length > visibleCount;
 
   const visibleIds = new Set(visible.map((e) => e.id));
 
@@ -59,6 +64,19 @@ export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalA
       <EmptyState message="Inga träffar — prova ett annat sökord eller filter." />
     ) : (
       <>
+        {pinnedEntries.length > 0 && (
+          <div className="mb-8 space-y-3">
+            <h3 className="flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-accent">
+              <Pin className="h-3.5 w-3.5 fill-current" />
+              Fästa Händelser
+            </h3>
+            <ul className="space-y-3">
+              {pinnedEntries.map((entry) => (
+                <JournalEntryCard key={entry.id} entry={entry} />
+              ))}
+            </ul>
+          </div>
+        )}
         <div className="space-y-6">
           {groups.map((group) => {
             const groupVisible = group.entries.filter((e) => visibleIds.has(e.id));
@@ -86,7 +104,7 @@ export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalA
             onClick={() => setVisibleCount((n) => n + pageSize)}
             className="btn-pill--ghost mt-6 w-full"
           >
-            Visa fler ({flatFiltered.length - visibleCount} kvar)
+            Visa fler ({unpinnedFlat.length - visibleCount} kvar)
           </button>
         )}
       </>

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { FloatingDock } from './FloatingDock';
+import { ExecutiveHomeChromeProvider } from '../home/ExecutiveHomeChromeContext';
 import { FyrenWidgetBar } from '../components/FyrenWidgetBar';
 import {
   FyrenHeaderQuickProvider,
@@ -22,11 +23,16 @@ import { isBarnportenChildRoute } from '@/features/onboarding/barnporten/constan
 import { useStore } from '../store';
 import { useTheme } from '../theme';
 import { getTheme } from '../theme/themeRegistry';
+import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
+import { isBastaDesignTheme } from '../theme/themePackBastaDesign';
 import { isMockupTheme } from '../theme/mockupTheme';
 import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
 import { useCapacityScore } from '../store/useCapacityGate';
 import { CAPACITY_LOW_HOME_THRESHOLD, normalizeStoredCapacityScore } from '../../../../shared/evolution/capacityScore';
 import { SosMainTrigger } from '@/modules/features/sos/components/SosMainTrigger';
+import { ExecutiveDecorCompass } from '../ui/executive/ExecutiveDecorCompass';
+import { BastaDesignHeader } from './basta-design/BastaDesignHeader';
+import { BastaDesignDock } from './basta-design/BastaDesignDock';
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   const location = useLocation();
@@ -37,7 +43,13 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   const setMenuOpen = useStore((s) => s.setMenuOpen);
   const { themeId } = useTheme();
   const { active: designPackActive } = useDesignPack();
-  const mockupSkin = isMockupTheme(themeId) || themeUsesDesignPackChrome(getTheme(themeId));
+  const bastaDesignSkin = isBastaDesignTheme(themeId);
+  const mockupSkin =
+    isMockupTheme(themeId) ||
+    themeUsesDesignPackChrome(getTheme(themeId)) ||
+    isMidnightExecutiveTheme(themeId) ||
+    bastaDesignSkin;
+  const executiveSkin = isMidnightExecutiveTheme(themeId) && !bastaDesignSkin;
   const barnportenChildShell = isBarnportenChildRoute(location.pathname);
   const [accountOpen, setAccountOpen] = useState(false);
   const slimHeaderChrome = designPackActive && isScenicHome;
@@ -52,23 +64,49 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
   return (
     <FyrenWidgetProvider>
     <FyrenHeaderQuickProvider>
+    <ExecutiveHomeChromeProvider enabled={executiveSkin}>
     <div
       className={clsx(
         'app-shell relative min-h-screen text-text font-sans selection:bg-accent/30',
         mockupSkin && 'app-shell--mockup-skin',
+        bastaDesignSkin && 'app-shell--basta-design',
         isLowCapacity && 'capacity-low'
       )}
     >
       <AmbientBackground />
 
-      <header className="app-header">
+      {bastaDesignSkin ? (
+        <BastaDesignHeader
+          onMenuClick={() => setMenuOpen(true)}
+          accountOpen={accountOpen}
+          onAccountOpenChange={setAccountOpen}
+        />
+      ) : (
+      <header className={clsx('app-header', executiveSkin && 'app-header--executive-premium')}>
         <div className="app-header__inner">
           <AppHeaderBar
             menuExpanded={isMenuOpen}
             onMenuClick={() => setMenuOpen(true)}
-            headerQuickToggle={<FyrenHeaderQuickToggle />}
+            headerVariant={executiveSkin ? 'executive-premium' : 'default'}
+            headerQuickToggle={executiveSkin ? undefined : <FyrenHeaderQuickToggle />}
             actions={
-              slimHeaderChrome ? (
+              executiveSkin ? (
+                <>
+                  <AccountAuthMenu
+                    open={accountOpen}
+                    onOpenChange={setAccountOpen}
+                    compactTrigger
+                    chromeVariant="executive"
+                  />
+                  <KompisHeaderVaultButton
+                    kompisAuraActive={kompisAuraActive}
+                    variant="executive-header"
+                  />
+                  <span className="exec-header-compass-mark" aria-hidden>
+                    <ExecutiveDecorCompass size="sm" />
+                  </span>
+                </>
+              ) : slimHeaderChrome ? (
                 <KompisHeaderVaultButton kompisAuraActive={kompisAuraActive} />
               ) : (
                 <>
@@ -84,6 +122,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           />
         </div>
       </header>
+      )}
 
       <NavigationDrawer />
 
@@ -92,10 +131,19 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
       <main
         className={clsx(
-          'app-main relative z-10 mx-auto flex min-h-0 w-full max-w-2xl flex-col px-4',
-          isScenicHome
-            ? 'pt-[calc(4.65rem+env(safe-area-inset-top,0px))]'
-            : 'pt-[calc(5.75rem+env(safe-area-inset-top,0px))]',
+          'app-main relative z-10 mx-auto flex min-h-0 w-full max-w-2xl flex-col',
+          bastaDesignSkin
+            ? clsx(isScenicHome ? 'px-0 pt-0' : 'px-4 pt-4')
+            : clsx(
+                'px-4',
+                isScenicHome
+                  ? executiveSkin
+                    ? 'pt-[calc(5.75rem+env(safe-area-inset-top,0px))]'
+                    : 'pt-[calc(4.65rem+env(safe-area-inset-top,0px))]'
+                  : executiveSkin
+                    ? 'pt-[calc(6.25rem+env(safe-area-inset-top,0px))]'
+                    : 'pt-[calc(5.75rem+env(safe-area-inset-top,0px))]',
+              ),
           barnportenChildShell && 'pb-16',
         )}
       >
@@ -105,11 +153,12 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
 
       {!barnportenChildShell ? (
         <>
-          <FyrenWidgetBar />
-          <FloatingDock />
+          {!executiveSkin && !bastaDesignSkin ? <FyrenWidgetBar /> : null}
+          {bastaDesignSkin ? <BastaDesignDock /> : <FloatingDock />}
         </>
       ) : null}
     </div>
+    </ExecutiveHomeChromeProvider>
     </FyrenHeaderQuickProvider>
     </FyrenWidgetProvider>
   );

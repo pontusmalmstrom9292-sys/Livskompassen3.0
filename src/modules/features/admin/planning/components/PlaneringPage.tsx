@@ -4,6 +4,8 @@ import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-do
 import { Calendar, LayoutGrid, PenLine } from 'lucide-react';
 import { clsx } from 'clsx';
 import { HubPageShell } from '@/core/layout/HubPageShell';
+import { useTheme } from '@/core/theme';
+import { isMidnightExecutiveTheme } from '@/core/theme/themePackMidnightExecutive';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { PLANERING_TAGLINE, PLANERING_MORE_TABS } from '../constants';
@@ -70,6 +72,8 @@ export function PlaneringPage() {
   const [searchParams] = useSearchParams();
   const location = useLocation();
   const navigate = useNavigate();
+  const { themeId } = useTheme();
+  const executiveHeader = isMidnightExecutiveTheme(themeId);
   const [handlingExtrasOpen, setHandlingExtrasOpen] = useState(
     () => location.hash === '#planering-rutiner',
   );
@@ -186,6 +190,7 @@ export function PlaneringPage() {
         eyebrow="Vardagen"
         title={title}
         lead={lead}
+        executiveHeader={executiveHeader}
         headerAside={
           <div className="flex items-center gap-2">
             <LivBackLink />

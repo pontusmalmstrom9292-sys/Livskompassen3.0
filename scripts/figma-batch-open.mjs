@@ -34,6 +34,7 @@ if (!captureId) {
 }
 
 const endpoint = encodeURIComponent(`https://mcp.figma.com/mcp/capture/${captureId}/submit`);
-const url = `http://localhost:5173${pathPart}#figmacapture=${captureId}&figmaendpoint=${endpoint}&figmadelay=5000`;
+const PORT = process.env.VITE_PORT || process.env.PORT || '5173';
+const url = `http://localhost:${PORT}${pathPart}#figmacapture=${captureId}&figmaendpoint=${endpoint}&figmadelay=5000`;
 console.log(url);
 execSync(`open "${url}"`, { stdio: 'inherit' });

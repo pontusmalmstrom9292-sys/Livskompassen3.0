@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { clsx } from 'clsx';
+import { ExecutiveHubHeader } from '../ui/executive';
 import { hubHeaderClasses } from '../ui/typeScale';
 
 type Props = {
@@ -15,6 +16,8 @@ type Props = {
   fitViewport?: boolean;
   /** Obsidian Depth 3D glass banner on header */
   depth?: boolean;
+  /** Midnight Executive scenic header band */
+  executiveHeader?: boolean;
   /** When lockViewport: wrap body in calm-scroll-island (default true). Set false for split fixed+scroll layouts. */
   contentIsland?: boolean;
   children: ReactNode;
@@ -31,10 +34,45 @@ export function HubPageShell({
   lockViewport = false,
   fitViewport = false,
   depth = true,
+  executiveHeader = false,
   contentIsland = true,
   children,
 }: Props) {
   const h = hubHeaderClasses();
+
+  if (executiveHeader) {
+    return (
+      <div
+        className={clsx(
+          'hub-page-shell hub-page-shell--obsidian-bento flex min-h-0 flex-col gap-4',
+          depth && 'hub-page-shell--depth',
+          lockViewport && 'hub-view-lock',
+          lockViewport && fitViewport && 'hub-view-lock--fit',
+          className,
+        )}
+      >
+        <ExecutiveHubHeader
+          eyebrow={eyebrow}
+          title={title}
+          lead={lead}
+          aside={headerAside}
+          scenic
+        />
+        <div className="hub-page-shell__body flex min-h-0 flex-1 flex-col gap-4">
+          {lockViewport && contentIsland !== false ? (
+            <div className="calm-scroll-island space-y-4">{children}</div>
+          ) : lockViewport ? (
+            <div className="flex min-h-0 flex-1 flex-col">{children}</div>
+          ) : (
+            children
+          )}
+        </div>
+        {footerSlot ? (
+          <footer className="hub-page-shell__footer shrink-0">{footerSlot}</footer>
+        ) : null}
+      </div>
+    );
+  }
 
   return (
     <div

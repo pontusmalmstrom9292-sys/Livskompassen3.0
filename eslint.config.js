@@ -10,7 +10,6 @@ export default defineConfig([
     'dist',
     'android/**',
     'docs/archive/**',
-    'src/dataconnect-generated/**',
     'functions/lib/**',
     '.orkester/runs/**',
   ]),

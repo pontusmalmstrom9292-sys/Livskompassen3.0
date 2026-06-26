@@ -334,3 +334,41 @@ När en Superhub-modul har **implementerats, testats och godkänts** av teknikle
 | **12B** | Adaptiv Hemkompass — superhub-broar från Hem | **done** 2026-06-14 |
 | **12C** | Säkerhet P2 — vault-gate `weeklySummary` / `compass` | **done** |
 | **12D** | Dossier BBIC `reportType` | backlog |
+
+## Fas 23 — Etapp 2 (Kognitiv Avlastning & Töm Skallen)
+
+**Kanon:** `docs/FAS23-SPRINT-PLAN.md` · `docs/ROADMAP-FUTURES.md` · `docs/specs/modules/Globalt-Pansarlage.md`
+
+| Prioritet | Spår | Status |
+|-----------|------|--------|
+| **23A** | **Globalt Pansarläge (Survival Mode)** — extrem offloading | **done** |
+| **23B** | **Töm Skallen-vy (Inkast-Dyk)** | **done** (Bara ord + Lyssna) |
+| **23C** | **"Sista Utvägen" (MåBra Akut)** — SOS Ankare | **done** 2026-06-25 |
+| **23D** | Paralys-Brytaren i Planering | **done** 2026-06-25 |
+| **23E** | Tyst Läge (Darkest Mode) i Superdagbok | **done** 2026-06-25 |
+
+*Detta markerar övergången från Etapp 1 (Stealth/Burn/Blur) till Etapp 2. Alla superhubbar är konsoliderade (Fas 6-11) och vi bygger nu kognitiva skyddsnät som följer WORM och Three-Silo designen.*
+
+## Fas 24 — Produktvåg 1 (PO-syntes 2026-06-25) · **AKTIV**
+
+**Kanon:** [`docs/evaluations/2026-06-25-app-plan-syntes.md`](../docs/evaluations/2026-06-25-app-plan-syntes.md) · produktanalys [`01–12`](../docs/evaluations/2026-06-25-produktanalys/INDEX.md)
+
+**Premiss:** Fungerande mobil vardag under låg energi — säker fångst till rätt silo — före nya AI-demoer eller hubbar.
+
+| ID | Leverans | Status | Smoke / gate |
+|----|----------|--------|--------------|
+| **P0** | Smoke grön + Android G85 daily driver (7 dagar) | **smoke PASS** 2026-06-25 · G85 7d kvar | `smoke:predeploy:build`, `build:web && cap sync` |
+| **PV1a** | Fyren silo-labels · MåBra lågenergi-filter · Hamn kopiera+rensa · executive reference-dock | **done** 2026-06-25 | `smoke:mabra`, `smoke:locked-ux`, `smoke:design-modules` |
+| **23C** | SOS Ankare `/mabra/recovery/sos` | **done** 2026-06-25 | `smoke:mabra` |
+| **PV1b** | Widget silo-chip + panik «Dölj» + rensa vid stäng | **done** 2026-06-25 | `smoke:widgets`, WH1 audit |
+| **S24** | Zero Footprint widget/synapse clear · DCAP 4 band · `mabraCoachGuard` utökad | **done** 2026-06-25 | `smoke:s24`, `smoke:valv-security`, `smoke:dcap-routing` |
+| **HITL1** | Unified HITL preview (inkast först) | **done** 2026-06-25 | `smoke:hitl1`, `smoke:inkast`, `smoke:dcap` |
+| **24.dock** | Executive reference-dock (`ExecutiveDockBar`) | **done** 2026-06-25 | `smoke:locked-ux`, `smoke:chrome-header` |
+| **23D** | Paralys-Brytaren i Planering P3 | **done** 2026-06-25 | `smoke:planering`, `smoke:locked-ux` |
+| **23E** | Tyst läge / dissociation i Superdagbok | **done** 2026-06-25 | `smoke:journal-23e`, `smoke:locked-ux` |
+
+**Byggsekvens (0–12 veckor):** ~~P0~~ → ~~PV1a~~ → ~~23C~~ → ~~S24~~ → ~~PV1b~~ → ~~HITL1~~ → ~~23D~~ → ~~23E~~
+
+**Defer från Fas 19 (om ej påbörjad):** 19.3 hex→tokens · 19.5 evolution_ledger · 19.6 arkiv-batch → se syntes §3 defer (6m+)
+
+**Deploy-gate:** `npm run smoke:predeploy` → YOLO GO → Pontus OK

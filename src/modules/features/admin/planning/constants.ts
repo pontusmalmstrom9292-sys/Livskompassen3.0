@@ -27,3 +27,12 @@ export const SOURCE_LABELS: Record<string, string> = {
   authority: 'Myndighet',
   voice_to_vault: 'Röst',
 };
+
+/** Fas 23D — Paralys-Brytaren i P3 (user_overwhelm, ett steg). */
+export const PLANERING_PARALYS_ONE_STEP = 'Bara ett steg' as const;
+
+export const PLANERING_PARALYS_LEAD =
+  'Listan känns tung? Ett mikrosteg i taget — ingen prestation.' as const;
+
+export const PLANERING_PARALYS_CALM =
+  'Bara detta — resten kan vänta.' as const;

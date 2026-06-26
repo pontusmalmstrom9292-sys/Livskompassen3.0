@@ -86,6 +86,9 @@ export function MorningCompass() {
     yesterdayWasHighRisk,
     isLowEnergyProtocolActive,
     setLowEnergyProtocolActive,
+    morningAnchor,
+    isLoadingAnchor,
+    fetchMorningAnchor,
   } = useMorningCompassStore(
     useShallow((state) => ({
       threeFocusPoints: state.threeFocusPoints,

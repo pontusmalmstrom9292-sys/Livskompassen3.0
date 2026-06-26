@@ -1,6 +1,5 @@
 import * as admin from 'firebase-admin';
 import { generateEmbeddingInternal } from './generateEmbeddingInternal';
-import { isVectorSearchConfigured, queryKampsparVectorNeighbors } from './vectorSearchClient';
 
 function formatDate(value: unknown): string {
   if (value && typeof value === 'object' && 'toDate' in value) {
@@ -43,19 +42,52 @@ async function fetchKampsparEvidenceAnn(
   limit: number
 ): Promise<KampsparEvidenceChunk[]> {
   const embedding = await generateEmbeddingInternal(question);
-  const neighborDocIds = await queryKampsparVectorNeighbors(embedding, limit);
-  if (neighborDocIds.length === 0) return [];
+  if (embedding.length === 0) return [];
 
   const db = admin.firestore();
-  const chunks: KampsparEvidenceChunk[] = [];
+  
+  // Sök i kampspar
+  const kampsparSnap = await db.collection('kampspar')
+    .where('ownerId', '==', uid)
+    .findNearest('embedding', admin.firestore.FieldValue.vector(embedding), {
+      limit: limit,
+      distanceMeasure: 'COSINE',
+      distanceResultField: 'vectorDistance'
+    } as any)
+    .get();
 
-  for (const docId of neighborDocIds) {
-    const doc = await db.collection('kampspar').doc(docId).get();
-    if (!doc.exists) continue;
+  // Sök i kb_docs
+  const kbSnap = await db.collection('kb_docs')
+    .where('ownerId', '==', uid)
+    .findNearest('embedding', admin.firestore.FieldValue.vector(embedding), {
+      limit: limit,
+      distanceMeasure: 'COSINE',
+      distanceResultField: 'vectorDistance'
+    } as any)
+    .get();
+
+  const results: Array<{ distance: number, chunk: KampsparEvidenceChunk }> = [];
+
+  for (const doc of kampsparSnap.docs) {
     const data = doc.data();
-    if (!data || data.ownerId !== uid) continue;
-    chunks.push(chunkFromDoc('kampspar', docId, data));
+    results.push({
+      distance: data.vectorDistance ?? Number.MAX_VALUE,
+      chunk: chunkFromDoc('kampspar', doc.id, data)
+    });
   }
+
+  for (const doc of kbSnap.docs) {
+    const data = doc.data();
+    results.push({
+      distance: data.vectorDistance ?? Number.MAX_VALUE,
+      chunk: chunkFromDoc('kb_docs', doc.id, data)
+    });
+  }
+
+  // Sortera så att lägst avstånd (mest likt) kommer först
+  results.sort((a, b) => a.distance - b.distance);
+
+  const chunks = results.map(r => r.chunk).slice(0, limit);
 
   if (chunks.length > 0) {
     console.log(`[kampsparQueryRag] ANN ${chunks.length} träffar för uid=${uid}`);
@@ -63,22 +95,17 @@ async function fetchKampsparEvidenceAnn(
   return chunks;
 }
 
-/** Minne-scoped RAG: ANN (kampspar) via Vertex Vector Search. */
+/** Minne-scoped RAG: ANN via Firestore Native Vector Search. */
 export async function fetchKampsparEvidenceForQuery(
   uid: string,
   question: string,
   limit = 12
 ): Promise<KampsparEvidenceChunk[]> {
-  if (isVectorSearchConfigured()) {
-    try {
-      const annChunks = await fetchKampsparEvidenceAnn(uid, question, limit);
-      return annChunks.slice(0, limit);
-    } catch (err) {
-      console.warn('[kampsparQueryRag] ANN misslyckades:', err);
-      return [];
-    }
+  try {
+    const annChunks = await fetchKampsparEvidenceAnn(uid, question, limit);
+    return annChunks;
+  } catch (err) {
+    console.warn('[kampsparQueryRag] ANN misslyckades:', err);
+    return [];
   }
-
-  console.warn('[kampsparQueryRag] Vector Search ej konfigurerad. Returnerar [].');
-  return [];
 }

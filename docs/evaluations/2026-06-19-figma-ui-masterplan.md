@@ -1,7 +1,8 @@
 # Figma MCP — UI Masterplan (Obsidian Calm)
 
 **Datum:** 2026-06-19  
-**Status:** aktiv — våg 0 (setup)  
+**Status:** aktiv — våg **B2** (`figma-L1-dock`, sida `01 — Chrome`)
+**Figma-fil:** [Obsidian Calm Master](https://www.figma.com/design/ua5am9TPvb3wSGKfUJxIV5) · `fileKey=ua5am9TPvb3wSGKfUJxIV5` · PR [#41](https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0/pull/41) merged 2026-06-20  
 **Ägare:** Pontus · **Agent:** Design-Labbet / specialist-theme-lab / Cloud Agent  
 **Kanon:** [`docs/specs/design-master.md`](../specs/design-master.md) · [`.context/design-language.md`](../../.context/design-language.md) · [`.context/locked-ux-features.md`](../../.context/locked-ux-features.md)
 
@@ -62,7 +63,7 @@ Repo har redan MCP-config:
 | Tokens | `src/modules/core/ui/tokens.ts`, `src/index.css`, `tailwind.config.js` |
 | Theme packs | `src/modules/core/theme/themeRegistry.ts`, `themeLabVariants.ts` |
 | Shell | `ChameleonInputShell.tsx`, `HubPageShell`, `BentoCard.tsx` |
-| Chrome | `DockClassicTriad`, `NavigationDrawer`, `FyrenSmartWidgetBar` |
+| Chrome | `ExecutiveDockBar` / `FloatingDock`, `NavigationDrawer`, `FyrenWidgetBar` · legacy CSS `dock-classic*` |
 | Kanonbilder | `docs/design/references/MENU-DRAWER-KANON.png`, `DOCK-KANON.md`, `HOME-HERO-KANON.md` |
 
 ### 0.4 Hårda gränser (MUST NOT)
@@ -114,7 +115,7 @@ Varje våg = **en chatt** / **ett fokus**. Max 3 beslutspunkter till Pontus per 
 | Våg | ID | Leverans | Kod |
 |-----|-----|----------|-----|
 | B1 | `figma-L1-drawer` | Drawer enligt MENU-DRAWER-KANON | `NavigationDrawer.tsx`, `drawerNav.ts` |
-| B2 | `figma-L1-dock` | Classic triad + Valv-ark | `DockClassicTriad.tsx` |
+| B2 | `figma-L1-dock` | Classic triad + Executive extended/mix-E + Valv-ark | `ExecutiveDockBar.tsx`, `FloatingDock.tsx`, `DOCK-KANON.md` |
 | B3 | `figma-L1-widget` | Fyren peek/expanded/hidden | `FyrenSmartWidgetBar.tsx` |
 | B4 | `figma-L1-header` | Meny, lås, sköld-glyphs | `HeaderChromeGlyphs.tsx` |
 
@@ -134,6 +135,15 @@ Varje våg = **en chatt** / **ett fokus**. Max 3 beslutspunkter till Pontus per 
 |-----|-----|----------|
 | D1 | `figma-L4-states` | Loading skeleton, fel, tomma listor — alla hubbar |
 | D2 | `figma-L4-android` | G85 viewport 390×844, touch 44px, cap sync |
+
+### ⚠️ Namnkrock — Figma B1–B4 vs hub-polish B1–B4
+
+| Term | Betyder | Var dokumenterat |
+|------|---------|------------------|
+| **Figma L1 B1–B4** | Chrome-vågor: drawer, dock, widget, header | Denna masterplan · `docs/evaluations/2026-06-20-figma-b1-drawer-sync.md` |
+| **Hub-polish B1–B4** | Progressive disclosure i hubbar (MåBra, Familjen, Hjärtat, Planering) | `docs/BRANCH-KARTA.md` · `docs/SMOKE_RESULTS.md` · redan på `main` (2026-06-19) |
+
+Hub-polish **är inte** Figma chrome — blanda inte våg-ID i beslutsregister.
 
 ---
 
@@ -214,9 +224,12 @@ Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta 
 
 | Datum | Våg | Beslut | Status |
 |-------|-----|--------|--------|
-| 2026-06-19 | — | Masterplan skapad | aktiv |
-| | A1 | | väntar |
-| | B1 | | väntar |
+| 2026-06-19 | — | Masterplan skapad (PR #41) | merged |
+| 2026-06-20 | A1 | Tokens + variables på sida `00 — Tokens & Components` | **PASS** |
+| 2026-06-20 | B1 | Drawer mocks sida `01 — Chrome` · kod sync doc | **PASS** — se [`2026-06-20-figma-b1-drawer-sync.md`](./2026-06-20-figma-b1-drawer-sync.md) |
+| 2026-06-25 | B2 | Dock ClassicTriad + ExecutiveDock · DOCK-KANON | **pågår** — se [`2026-06-25-figma-b2-dock-sync.md`](./2026-06-25-figma-b2-dock-sync.md) |
+| | B3 | Fyren widget bar | väntar |
+| | B4 | Header glyphs | väntar |
 
 Uppdatera även `docs/design/theme-lab/VARIANTS.md` när en variant godkänns.
 
@@ -235,6 +248,12 @@ Uppdatera även `docs/design/theme-lab/VARIANTS.md` när en variant godkänns.
 
 ## Nästa steg (enda aktiva)
 
-**Våg 0.1:** Autentisera Figma MCP i Cursor Desktop och skapa filen `Livskompassen — Obsidian Calm (Master)`.
+**Våg B2 (`figma-L1-dock`):** Bygg/uppdatera dock-frames på Figma-sida `01 — Chrome` i fil [`ua5am9TPvb3wSGKfUJxIV5`](https://www.figma.com/design/ua5am9TPvb3wSGKfUJxIV5).
 
-När det är grönt — starta **A1** (`figma-L0-tokens`) med agent eller prompt-mallen ovan.
+Leveranser: `Dock/ClassicTriad` (DOCK-KANON) · `Dock/ExecutiveExtended` · `Dock/ExecutiveMixE` · states (idle / aktiv / holding).
+
+Spec + MCP-skript: [`2026-06-25-figma-b2-dock-sync.md`](./2026-06-25-figma-b2-dock-sync.md).
+
+**Förutsättning:** Figma MCP grön i Cursor Desktop (`Settings → MCP → Figma`).
+
+Efter B2 PASS → **B3** (`figma-L1-widget`).

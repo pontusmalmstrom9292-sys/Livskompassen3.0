@@ -164,13 +164,19 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
       </div>
       <OrkesterAgentTrio onAgentAction={handleTrioAgentAction} />
 
-      <div ref={brusfilterRef} id="orkester-brusfilter">
-      <BentoCard
+      <CalmCollapsible
         title="P1 Brusfilter"
-        description="Rå inkommande meddelande — logistik och BIFF utan JADE"
-        icon={<Filter className="h-4 w-4" />}
+        meta="Logistik och BIFF"
+        defaultOpen={true}
         glow="blue"
+        unmountOnHide={false}
       >
+        <div ref={brusfilterRef} id="orkester-brusfilter">
+          <BentoCard
+            description="Rå inkommande meddelande — logistik och BIFF utan JADE"
+            icon={<Filter className="h-4 w-4" />}
+            glow="blue"
+          >
         <p className="mb-3 text-sm text-text-muted">
           Klistra in sms eller mejl. Brusfiltret extraherar ren logistik (~10 %) och föreslår ett kort
           Grey Rock-svar. Inget sparas automatiskt.
@@ -274,8 +280,9 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
             </div>
           </div>
         )}
-      </BentoCard>
-      </div>
+          </BentoCard>
+        </div>
+      </CalmCollapsible>
 
       <CalmCollapsible title="ADK & assistentroller" meta="Registry" defaultOpen={false} glow="blue">
         <section aria-labelledby="vault-orkester-assistentroller">

@@ -1,77 +1,262 @@
 ---
-description: Obsidian Calm 2.0 — designlagar, typografi, interaktion, färg-glow (sammanslagen UI-kanon)
+description: Executive Midnight UI — Design Authority Decision (DAD) v1.0 APPROVED CRITICAL
 alwaysApply: false
 globs: src/**/*.tsx,src/**/*.ts,src/**/*.css,tailwind.config.*
 ---
-# UI-LAGAR: OBSIDIAN CALM 2.0
 
-Obsidian Calm + Nordic Dusk. UI ska minska kognitiv belastning och undvika sensoriskt brus.
+# DESIGN AUTHORITY DECISION (DAD)
 
-## 1. GRUNDTEMAT
+# Livskompassen 3.0 — Executive Midnight UI
 
-Alltid mörkt tema (Obsidian). Basbakgrund: `#020617` → `#0f172a`. Noll vertikal skrollning på hub-zoner — `hub-view-lock` på shell, `calm-scroll-island` för innehåll som måste scrolla.
+# Status: APPROVED
 
-## 2. KORTAARKITEKTUR (Snygg-stilen)
+# Priority: CRITICAL
 
-Centrala moduler i `calm-card` (legacy: `glass-card`):
+# Version: 1.0
 
-- **Bakgrund:** Semi-transparent mörk (`bg-surface-2/70`)
-- **Effekt:** `backdrop-blur-xl`
-- **Kantlinje:** `border border-border/30`
-- **Hörn:** `rounded-3xl` / `rounded-[2rem]` — aldrig under `2xl` på centrala modulkort
-- **Glass:** Subtila kanter t.ex. `border-white/5`, lågkontrast-ytor
+## Beslut
 
-## 3. FÄRGKODAD BOTTEN-GLOW
+Den design som visas i referensbilden är härmed fastställd som officiell designriktning för Livskompassen 3.0.
 
-Varje kort: subtil gradient-glow + hårdare kantlinje **enbart i botten**, matchar silo:
+Detta ersätter tidigare experimentella varianter av Header, Dock, Navigation och Home Screen.
 
-| Glow | Klass | Zoner / moduler |
-|------|--------|-----------------|
-| Guld | `glow-bottom-gold` | Vardagen ekonomi & mål, planering, kompasser, budget, sparmål |
-| Indigo | `glow-bottom-blue` | Familjen, Valv, Dagbok/bevis, Barnen, Trygg Hamn / BIFF |
-| Smaragd | `glow-bottom-green` | MåBra, Drogfrihet, neuro-nutrition, energi, återhämtning |
+Framtida UI-arbete skall utgå från denna design och inte återgå till tidigare koncept utan uttryckligt beslut.
 
-Hjälp-klasser (på kortet):
+---
 
-- `.glow-bottom-gold` → `border-b-2 border-accent/70 shadow-[0_4px_20px_-2px_rgba(212,175,55,0.3)]`
-- `.glow-bottom-blue` → `border-b-2 border-indigo-500/70 shadow-[0_4px_20px_-2px_rgba(99,102,241,0.3)]`
-- `.glow-bottom-green` → `border-b-2 border-emerald-500/70 shadow-[0_4px_20px_-2px_rgba(16,185,129,0.3)]`
+# DESIGNFILOSOFI
 
-Kombinera med `calm-card`. Glow i botten — aldrig runt hela kortet.
+Livskompassen är inte:
 
-**Aktiv chrome** (drawer, dock, tabs): guld enligt [`docs/design/COLOR-POLICY.md`](../../docs/design/COLOR-POLICY.md) — inte turkos/indigo som primär aktiv state. Sekundärt: Emerald `#2DD4BF` (spara), Indigo `#818CF8` (sekundära actions).
+* En produktivitetsapp
+* Ett dashboardsystem
+* Ett projektverktyg
+* Ett gamifierat Life OS
 
-## 4. TYPOGRAFI
+Livskompassen är:
 
-- **Rubriker:** Outfit (`font-display-serif`), `tracking-[0.2em]`, uppercase — guld `text-accent` eller neutral `text-text`
-- **Brödtext:** Inter (`font-sans`), `text-text`
-- **Etiketter:** `text-text-muted`, `text-xs`, `uppercase`, `tracking-wider`
-- Inga tunga fetstilar i hub-innehåll
+"Ett neuroanpassat premium Life OS."
 
-## 5. INTERAKTION
+Designen skall kommunicera:
 
-- Progressive disclosure — ett steg i taget
-- Clean Input — inga textkommandon för kärnflöden
-- Tactical Macro-Dock: BIFF, vault upload, emotion logging
-- Kompass: mutera lokal state direkt — undvik onödig route/reload
-- Deterministisk feedback på kritiska actions
+* Trygghet
+* Lugn
+* Tydlighet
+* Exklusivitet
+* Reflektion
+* Riktning
 
-## 6. HUVUDVY-LOCK
+Varje designbeslut skall utvärderas mot dessa värden.
 
-- `hub-view-lock` på `HubPageShell` eller zon-hub-rot
-- Endast barn till `.calm-scroll-island` får `overflow-y: auto`
-- Dock, header, TabBar: `shrink-0`
+---
 
-## 7. FÖRBJUDET
+# OFFICIELL VISUELL IDENTITET
 
-Naturtema · regnbågsgradienter · streak/XP · turkos/indigo som aktiv chrome · count-up · ljusa bakgrunder · natur-tema
+## Tema
 
-## Undantag — Design Freeport
+Executive Midnight
 
-Gäller **inte** `src/modules/sandbox/**`, `src/styles/design-freeport.css`, routes `/dev/design-freeport*`. Där: Tactile Mid-Depth med `--fp-*` tokens.
+Kärnelement:
 
-## Implementering (kod)
+* Mörk marinblå bakgrund
+* Gyllene accenter
+* Glasmaterial
+* Djup och ljus
+* Premiumkänsla
+* Hög kontrast
 
-- **CSS:** [`src/styles/obsidian-calm-2.css`](../../src/styles/obsidian-calm-2.css) — sist i [`src/index.css`](../../src/index.css)
-- **React:** `BentoCard` prop `glow?: 'gold' | 'blue' | 'green'`
-- **Referens:** [`docs/specs/design-master.md`](../../docs/specs/design-master.md) — visuella 2.0-detaljer vinner vid konflikt
+Undvik:
+
+* Neon
+* Gamingestetik
+* Sci-fi HUD
+* Cyberpunk
+* Material 3-standardutseende
+* Standard SaaS-design
+
+---
+
+# HEADER (LÅST)
+
+## Visuell Hierarki
+
+1. Livskompassen
+2. Ögat
+3. Övriga funktioner
+
+Headern är inte en toolbar.
+
+Headern är appens krona.
+
+---
+
+## Strukturen skall vara
+
+```
+[Meny]
+
+LIVSKOMPASSEN
+
+◇ ◇ ◇
+
+[Skydd] [Ögat] [Sekundär funktion]
+```
+
+---
+
+## Regler
+
+Ögat är primär funktion.
+
+Livskompassen är identitet.
+
+Ingen ikon får konkurrera med logotypen.
+
+Ingen framtida redesign får göra headern mer komplex.
+
+---
+
+# KOMPASSEN (LÅST)
+
+## Kompassen är appens signatur
+
+Kompassen är inte en navigationsikon.
+
+Kompassen är Livskompassens centrala symbol.
+
+Alla framtida designbeslut skall behandla kompassen som produktens ikoniska objekt.
+
+---
+
+## Kompassen skall
+
+* Vara större än alla andra navigationselement
+* Bryta ut ur docken
+* Vara placerad exakt i mitten
+* Fungera som visuell ankare
+
+---
+
+## Kompassen får aldrig
+
+* Flyttas in i docken
+* Reduceras till samma storlek som övriga ikoner
+* Ersättas av standardnavigation
+* Gömmas bakom menyer
+
+---
+
+# BOTTOM DOCK (LÅST)
+
+## Filosofi
+
+Docken existerar för att bära kompassen.
+
+Inte tvärtom.
+
+---
+
+## Struktur
+
+```
+Anteckning
+Familj
+
+KOMPASS
+
+Hjärtat / Ventil
+Inkast
+Resurser
+```
+
+---
+
+## Regler
+
+Docken skall vara:
+
+* Lågmäld
+* Elegant
+* Tunn
+* Glasbaserad
+
+Docken får aldrig bli huvudfokus.
+
+Kompassen skall alltid dominera docken visuellt.
+
+---
+
+# HOME SCREEN (LÅST)
+
+## Visuell Hierarki
+
+Användarens blick skall följa:
+
+1. Livskompassen
+2. Ögat
+3. Dagens Reflektion
+4. Kompassen
+5. Övrigt innehåll
+
+---
+
+## Hero-kort
+
+"Dagens Reflektion" är officiellt startsidans primära innehållsmodul.
+
+Alla framtida startsidor skall utgå från detta.
+
+---
+
+# DESIGNREGLER FÖR AI-AGENTER
+
+Om flera designlösningar är möjliga skall AI välja den lösning som:
+
+1. Förstärker kompassen
+2. Förstärker lugn
+3. Förstärker premiumkänsla
+4. Minskar visuell komplexitet
+5. Ökar tydligheten
+
+---
+
+# FÖRBJUDNA ÄNDRINGAR
+
+AI får inte utan uttryckligt godkännande:
+
+* Flytta kompassen från mitten
+* Ta bort den fristående kompassen
+* Byta Executive Midnight-temat
+* Ersätta glasestetiken
+* Ersätta gulddetaljerna
+* Göra UI mer "app-likt"
+* Göra UI mer Material Design-likt
+* Göra UI mer gaming-likt
+
+---
+
+# DESIGNMANTRA
+
+Om osäkerhet uppstår:
+
+Välj alltid det alternativ som känns mer som:
+
+"En exklusiv personlig kompass för livet"
+
+och mindre som:
+
+"En vanlig produktivitetsapp."
+
+SLUT PÅ BESLUT.
+
+---
+
+## Teknisk implementering (pekare)
+
+Vid kodändringar — håll DAD ovan som auktoritet; använd befintliga stilar:
+
+- **Executive chrome:** [`src/styles/executive-chrome.css`](../../src/styles/executive-chrome.css)
+- **Bas-tokens:** [`src/styles/obsidian-calm-2.css`](../../src/styles/obsidian-calm-2.css) (legacy filnamn — tema är Executive Midnight)
+- **Referensbilder:** [`docs/design/references/`](../../docs/design/references/) · [`docs/design/galleri/KOMPASS-LOCKED-kanon.png`](../../docs/design/galleri/KOMPASS-LOCKED-kanon.png)
+
+**Undantag — Design Freeport:** Gäller inte `src/modules/sandbox/**`, `src/styles/design-freeport.css`, routes `/dev/design-freeport*`.

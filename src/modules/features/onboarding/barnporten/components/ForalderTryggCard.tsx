@@ -33,9 +33,23 @@ export function ForalderTryggCard({ barnportenLevel }: ForalderTryggCardProps) {
   }
 
   return (
-    <div className="group relative mt-6 flex flex-col gap-3 overflow-hidden rounded-2xl border border-border/50 bg-surface-2/50 p-5 transition-all">
-      {/* Blur Overlay */}
-      <div className="absolute inset-0 z-10 flex items-center justify-center bg-surface-2/60 backdrop-blur-sm">
+    <div className="group mt-6 grid overflow-hidden rounded-2xl border border-border/50 bg-surface-2/50 transition-all">
+      {/* Content Layer */}
+      <div className="col-start-1 row-start-1 flex flex-col gap-3 p-5 opacity-30">
+        <div className="flex items-center gap-3">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface-3 text-text-muted">
+            <ShieldCheck className="h-5 w-5" />
+          </div>
+          <div className="flex flex-col">
+            <h3 className="text-base font-medium text-text">Förälder Trygg</h3>
+            <p className="text-xs text-text-muted">Tre spetsar för en stabil vardag</p>
+          </div>
+        </div>
+        <div className="mt-2 h-9 rounded-xl bg-surface-3/30"></div>
+      </div>
+
+      {/* Blur Overlay Layer */}
+      <div className="col-start-1 row-start-1 z-10 flex items-center justify-center bg-surface-2/60 backdrop-blur-sm p-5">
         <div className="flex flex-col items-center gap-2 text-center px-4">
           <div className="flex h-10 w-10 items-center justify-center rounded-full bg-surface-3 text-text-muted">
             <Lock className="h-5 w-5" />
@@ -45,17 +59,6 @@ export function ForalderTryggCard({ barnportenLevel }: ForalderTryggCardProps) {
           </span>
         </div>
       </div>
-
-      <div className="flex items-center gap-3 opacity-30">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-surface-3 text-text-muted">
-          <ShieldCheck className="h-5 w-5" />
-        </div>
-        <div className="flex flex-col">
-          <h3 className="text-base font-medium text-text">Förälder Trygg</h3>
-          <p className="text-xs text-text-muted">Tre spetsar för en stabil vardag</p>
-        </div>
-      </div>
-      <div className="mt-2 h-9 rounded-xl bg-surface-3/30 opacity-30"></div>
     </div>
   );
 }

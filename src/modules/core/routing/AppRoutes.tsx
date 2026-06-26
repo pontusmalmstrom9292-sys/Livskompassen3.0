@@ -8,6 +8,9 @@ const HomePage = lazy(() =>
   import('../pages/HomePage').then((m) => ({ default: m.HomePage }))
 );
 import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
+const LivLauncherPage = lazy(() =>
+  import('@/modules/shell/LivLauncherPage').then((m) => ({ default: m.LivLauncherPage })),
+);
 import {
   clusterTabNavigateTarget,
   valvetNavigateTarget,
@@ -16,21 +19,20 @@ import {
 import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
 import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
 
-const HjartatPage = lazy(() =>
-  import('@/core/pages/DagbokPage').then((m) => ({ default: m.HjartatPage })),
+const DagbokPage = lazy(() =>
+  import('../pages/DagbokPage').then((m) => ({ default: m.DagbokPage })),
 );
+const FamiljenPage = lazy(() =>
+  import('../pages/FamiljenPage').then((m) => ({ default: m.FamiljenPage })),
+);
+
 const ValvetRoutePage = lazy(() =>
   import('../pages/ValvetRoutePage').then((m) => ({ default: m.ValvetRoutePage })),
 );
 const VaultSettingsPage = lazy(() =>
   import('@/features/lifeJournal/evidence/vault/components/VaultSettingsPage').then((m) => ({ default: m.VaultSettingsPage })),
 );
-const FamiljenPage = lazy(() =>
-  import('../pages/FamiljenPage').then((m) => ({ default: m.FamiljenPage })),
-);
-const LivLauncherPage = lazy(() =>
-  import('@/modules/shell/LivLauncherPage').then((m) => ({ default: m.LivLauncherPage })),
-);
+
 const KompisHubPage = lazy(() =>
   import('@/features/lifeJournal/evidence/kompis').then((m) => ({ default: m.KompisHubPage })),
 );
@@ -114,9 +116,19 @@ const BrusfiltretSupermoduleLabPage = lazy(() =>
     default: m.BrusfiltretSupermoduleLabPage,
   })),
 );
+const W1KompaktProjektLabPage = lazy(() =>
+  import('../pages/W1KompaktProjektLabPage').then((m) => ({
+    default: m.W1KompaktProjektLabPage,
+  })),
+);
 const DesignFreeportPage = lazy(() =>
   import('@/modules/sandbox/DesignFreeportPage').then((m) => ({
     default: m.DesignFreeportPage,
+  })),
+);
+const BastaDesignLabPage = lazy(() =>
+  import('@/modules/sandbox/BastaDesignLabPage').then((m) => ({
+    default: m.BastaDesignLabPage,
   })),
 );
 const DagensAnkareLabPage = lazy(() =>
@@ -137,6 +149,7 @@ const MorningCompassPage = lazy(() =>
 );
 const ReflectionPage = lazy(() => import('../../reflection/ReflectionPage'));
 const OracleDashboardPage = lazy(() => import('../../oracle/OracleDashboard'));
+const BiochemicalShieldHub = lazy(() => import('@/komponenter/BiochemicalShieldHub').then((m) => ({ default: m.BiochemicalShieldHub })));
 
 function RouteFallback() {
   return <div className="p-6 text-center text-sm text-text-muted">Laddar…</div>;
@@ -197,7 +210,7 @@ function HjartatRoute() {
   }
   return (
     <ProtectedModule>
-      <HjartatPage />
+      <DagbokPage />
     </ProtectedModule>
   );
 }
@@ -308,6 +321,14 @@ export function AppRoutes() {
         element={
           <Suspense fallback={<RouteFallback />}>
             <DesignFreeportPage />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/dev/basta-design"
+        element={
+          <Suspense fallback={<RouteFallback />}>
+            <BastaDesignLabPage />
           </Suspense>
         }
       />
@@ -455,6 +476,14 @@ export function AppRoutes() {
                   </ProtectedModule>
                 }
               />
+              <Route
+                path="/biochem"
+                element={
+                  <ProtectedModule>
+                    <BiochemicalShieldHub />
+                  </ProtectedModule>
+                }
+              />
 
               {/* Legacy omdirigeringar — förhindrar loopar */}
               <Route path="/dagbok" element={<RedirectDagbokLegacy />} />
@@ -545,6 +574,10 @@ export function AppRoutes() {
               <Route
                 path="/dev/theme-lab/brusfiltret-supermodule"
                 element={<BrusfiltretSupermoduleLabPage />}
+              />
+              <Route
+                path="/dev/theme-lab/w1-kompakt-projekt"
+                element={<W1KompaktProjektLabPage />}
               />
               <Route path="/dev/hub-lab" element={<HubLabPage />} />
               <Route path="/dev/obsidian-depth" element={<ObsidianDepthMockupPage />} />

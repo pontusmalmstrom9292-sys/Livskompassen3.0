@@ -63,7 +63,7 @@ Fas 6 Fixa      → tillbaka till Fas 3–5        (tills PASS eller PMIR-stopp)
 | Modell (Cursor) | Använd till | Smoke-minimum | Agent/subagent |
 |-----------------|-------------|---------------|----------------|
 | **Claude Opus 4.8 Thinking** (+ fast) | WORM-audit, `firestore.rules`, PMIR, arkitektur, Valv/Hamn domän | `smoke:predeploy:build` + Tier 2 | `/yolo-vakt`, `specialist-security-auditor` |
-| **Claude Sonnet 4.6 High Thinking** | React/Superhub, locked UX, Obsidian Calm | `YOLO_SKIP_BUILD=1 npm run smoke:yolo` eller `smoke:locked-ux` | `specialist-ux-guardian`, zon-builders UI |
+| **Claude Sonnet 4.6 High Thinking** | React/Superhub, locked UX, Executive Midnight DAD | `YOLO_SKIP_BUILD=1 npm run smoke:yolo` eller `smoke:locked-ux` | `specialist-ux-guardian`, zon-builders UI |
 | **GPT-5.5 High** (+ fast) | Functions, synapser, ADK, callable-implementering | `smoke:predeploy` + domän-extra | `specialist-adk-weaver`, `specialist-smoke-runner` |
 | **GPT-5.4 High / Codex High** | Enfil-debug, types, scripts, smoke-fix | `smoke:yolo` eller mål-smoke | — |
 | **Composer 2.5** (+ fast) | Snabb CSS/copy, triviala komponenter, docs-städ | `smoke:locked-ux` vid UI-touch | — |

@@ -16,7 +16,7 @@ Läs prompten och identifiera ämnet. Hänvisa till rätt specialist **innan** d
 | Firestore-regler, storage.rules, säkerhetsregler, WORM-enforcement | `/specialist-firestore-rules` | `livskompassen-memory-silo-guard` |
 | DCAP, routing, classifyInboxDocument, resolveExecutorId, riskklassning | `/specialist-dcap-routing` | — |
 | Säkerhetsaudit, Sacred Features, Zero Footprint, Kill Switch, GAP-analys | `/specialist-security-auditor` | — |
-| UI, design, Obsidian Calm, Nordic Dusk, Chameleon, komponenter, Tailwind | `/specialist-ux-guardian` · `/design-labbet` | `livskompassen-theme-lab` |
+| UI, design, Executive Midnight, DAD, Chameleon, komponenter, Tailwind | `/specialist-ux-guardian` · `/design-labbet` | `livskompassen-theme-lab` |
 | Familjen, Barn, Barnporten, Hamn, barnporten HITL, barn-PWA | `/specialist-familjen-hamn-builder` · `/specialist-barn-lek` | — |
 | Vardagen, MåBra, Planering, hybrid-widget, Fyren, Morgonkompassen | `/specialist-vardagen-builder` · `/specialist-planering` | — |
 | Hjärtat, Inkast, inkommande dokument, upload-routing | `/specialist-hjartat-inkast-builder` | — |

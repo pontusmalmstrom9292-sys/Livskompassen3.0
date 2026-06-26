@@ -1,6 +1,5 @@
 import * as admin from 'firebase-admin';
 import { generateEmbeddingInternal } from './generateEmbeddingInternal';
-import { upsertKampsparVector } from './vectorSearchClient';
 
 export type IngestKampsparPayload = {
   title: string;
@@ -39,7 +38,7 @@ export async function ingestKampsparForUser(
     console.warn('[ingestKampsparForUser] Embedding misslyckades:', err);
   }
 
-  const docRef = await admin.firestore().collection('kampspar').add({
+  const docData: any = {
     userId: uid,
     ownerId: uid,
     title,
@@ -51,11 +50,13 @@ export async function ingestKampsparForUser(
     eventDate: input.eventDate || null,
     embeddingDim,
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
-  });
+  };
 
   if (embedding.length > 0) {
-    await upsertKampsparVector(docRef.id, embedding);
+    docData.embedding = admin.firestore.FieldValue.vector(embedding);
   }
+
+  const docRef = await admin.firestore().collection('kampspar').add(docData);
 
   return { docId: docRef.id, embeddingDim };
 }

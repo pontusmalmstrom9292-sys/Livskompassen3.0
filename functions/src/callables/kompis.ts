@@ -4,7 +4,7 @@ import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import { geminiApiKey } from '../lib/geminiSecret';
 import { GoogleGenAI } from '@google/genai';
 import { EXPERT_PROMPTS } from '../expertPrompts';
-import { GEMINI_FLASH } from '../lib/modelRouter';
+import { GEMINI_FLASH, GEMINI_PRO } from '../lib/modelRouter';
 
 export interface ChatMessage {
   role: 'user' | 'model';
@@ -100,7 +100,7 @@ export const chatWithKompis = onCall(
 
       // 4. Anropa modellen
       const response = await ai.models.generateContent({
-        model: GEMINI_FLASH,
+        model: data.expertId === 'speglingscoachen' ? GEMINI_PRO : GEMINI_FLASH,
         contents: contents as any,
         config: {
           systemInstruction: dynamicSystemInstruction,

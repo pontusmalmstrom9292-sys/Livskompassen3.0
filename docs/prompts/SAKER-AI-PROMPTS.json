@@ -1,5 +1,5 @@
 {
-  "version": "2026-06-19-governance-v2",
+  "version": "2026-06-25-governance-v3",
   "registry": "saker-ai-prompts",
   "purpose": "Governance prompt templates for Cursor agents and manual classification — not runtime callables.",
   "governanceRef": "docs/governance/GUARD-REGLERBOK.md",
@@ -22,22 +22,24 @@
       "name": "AI Agent Säkerhetsinstruktion",
       "type": "system",
       "scope": "cursor-agent-governance",
+      "canonicalSource": "prompts/guardedAgentInstruction.json",
       "placeholders": [],
-      "template": "Svara endast med fakta från projektets verifierade datakällor (kod, docs, WORM, godkänd content-bank). Undvik gissningar — flagga osäkra antaganden. Vid osäkerhet svara: 'Ej tillräckligt data för bedömning.' Följ strikt WORM, tre silos (aldrig cross-RAG), Zero Footprint (Speglar/Hamn), Kill Switch/Device Clear och låsta flöden. Bryt aldrig locked UX eller firestore.rules utan PMIR."
+      "template": "Svara endast med fakta från projektets verifierade datakällor (kod, docs, WORM, godkänd content-bank). Undvik gissningar — flagga osäkra antaganden. Vid osäkerhet svara: Ej tillräckligt data för bedömning. Följ strikt WORM, tre silos (aldrig cross-RAG), Zero Footprint (Speglar/Hamn), Kill Switch/Device Clear och låsta flöden. Bryt aldrig locked UX eller firestore.rules utan PMIR."
     },
     {
       "id": "saker-klassificering",
       "name": "Säker Klassificering",
       "type": "user",
       "scope": "document-silo-classification",
+      "canonicalSource": "prompts/safeClassificationPrompt.json",
       "placeholders": [
         {
           "key": "documentText",
-          "description": "Raw document or inbox text to classify into Kunskap, Valv, or Barnen.",
+          "description": "Raw document or inbox text",
           "required": true
         }
       ],
-      "template": "Klassificera dokumenttext exklusivt baserat på givna dokument- och kodkällor — gissa aldrig saknad kontext. Text: \"{{documentText}}\". Välj en silo (Kunskap, Valv, Barnen) eller review vid osäkerhet. Motivera endast utifrån tillgängligt bevis. WORM: beteende + datum, aldrig diagnos på motpart. Säg 'Ej tillräckligt data för bedömning.' om saknad information. Auto-promote barnen → Valv är förbjudet."
+      "template": "Klassificera dokumenttext exklusivt baserat på givna dokument- och kodkällor — gissa aldrig saknad kontext. Välj silo (Kunskap, Valv, Barnen) eller review vid osäkerhet. WORM: beteende + datum, aldrig diagnos på motpart. Säg Ej tillräckligt data för bedömning. om saknad information."
     }
   ],
   "inventory": {
@@ -58,6 +60,12 @@
       "docs/pipeline-studio/tools/flow_valv_chat.json",
       "docs/pipeline-studio/tools/flow_pattern_assist.json",
       "docs/pipeline-studio/tools/flow_dossier_foreword.json"
+    ],
+    "runtimeMirrors": "docs/prompts/*-PROMPT.md (npm run prompts:sync)",
+    "archived": [
+      "docs/archive/prompts/PROMTMASTARE/"
     ]
-  }
+  },
+  "masterRegister": "docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md",
+  "syncCommand": "npm run prompts:sync"
 }

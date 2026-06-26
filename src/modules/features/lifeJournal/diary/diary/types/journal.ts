@@ -14,6 +14,7 @@ export interface JournalEntry {
   category?: string;
   tags?: string[];
   attachment?: JournalAttachment;
+  isPinned?: boolean;
 }
 
 export type JournalSavePayload = {

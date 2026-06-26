@@ -3,13 +3,13 @@ import * as admin from 'firebase-admin';
 import { randomUUID } from 'crypto';
 import { GCP_STORAGE_BUCKET, GCP_STORAGE_TRIGGER_REGION } from '../config';
 import {
-  classifyInboxDocument,
   applyInkastConfidenceGate,
+  heuristicInboxClassify,
 } from '../lib/inboxClassifier';
 import { routeInboxToWorm } from '../lib/inboxPersist';
 import { transcribeInkastAudio } from '../lib/transcribeInkastAudio';
-import { analyzeUploadForKnowledge } from '../lib/analyzeUploadForKnowledge';
 import { isInkastAudioMime } from '../lib/inkastConstants';
+import { analyzeAndClassifyUpload } from '../lib/analyzeAndClassifyUpload';
 
 const INKAST_PATH_RE = /^vault_evidence\/([^/]+)\/inkast\//;
 
@@ -21,6 +21,8 @@ export const onInkastEvidenceFinalized = onObjectFinalized(
   {
     bucket: GCP_STORAGE_BUCKET,
     region: GCP_STORAGE_TRIGGER_REGION,
+    cpu: 'gcf_gen1',
+    memory: '256MiB',
   },
   async (event) => {
     const object = event.data;
@@ -50,29 +52,74 @@ export const onInkastEvidenceFinalized = onObjectFinalized(
       return;
     }
 
-    let analysisText: string;
-    try {
-      if (isInkastAudioMime(mimeType)) {
-        analysisText = await transcribeInkastAudio(buffer, mimeType, fileName);
-      } else {
-        const extracted = await analyzeUploadForKnowledge(buffer, mimeType, fileName);
-        analysisText = extracted.content;
-      }
-    } catch (err) {
-      console.error('[onInkastEvidenceFinalized] extract failed', name, err);
-      return;
+    // --- Start Refactored Logic ---
+
+    // For audio files, we still need to transcribe first.
+    if (isInkastAudioMime(mimeType)) {
+        try {
+            const analysisText = await transcribeInkastAudio(buffer, mimeType, fileName);
+            if (analysisText.trim().length < 12) return;
+
+            // After transcription, run the heuristic check.
+            let classification = heuristicInboxClassify(analysisText, fileName);
+            if (!classification) {
+                // If heuristics don't match, we would need a classification-only call.
+                // For now, we are skipping the expensive classification and sending to review.
+                // This path is less common than document uploads.
+                console.warn(`[onInkastEvidenceFinalized] Audio file '${name}' did not match heuristics, sending to review.`);
+                classification = {
+                    routing: 'review',
+                    tags: ['audio', 'transcribed'],
+                    category: 'review',
+                    confidence: 0.5,
+                    summary: 'Transkriberad ljudfil kräver manuell granskning.',
+                    traumaSensitive: false,
+                    rationale: 'Audio file did not match any heuristic classifiers.',
+                };
+            }
+            
+            // Proceed with the routing logic from here...
+            await continueWithRouting(ownerId, name, fileName, mimeType, customMeta, file, applyInkastConfidenceGate(classification), analysisText);
+            return;
+
+        } catch (err) {
+            console.error('[onInkastEvidenceFinalized] Audio transcription failed', name, err);
+            return;
+        }
     }
 
-    if (analysisText.trim().length < 12) return;
+    // For all other files, use the new combined analysis function.
+    try {
+      const analysisResult = await analyzeAndClassifyUpload(buffer, mimeType, fileName);
+      if (!analysisResult) {
+        console.error('[onInkastEvidenceFinalized] Combined analysis failed, aborting.', name);
+        return;
+      }
 
+      let { classification, knowledge } = analysisResult;
+      const analysisText = `## ${knowledge.title}\n\n${knowledge.summary}\n\n### Fakta\n${knowledge.facts.join('\n- ')}\n\n### Datum och parter\n${knowledge.datesAndParties}`;
+      
+      if (analysisText.trim().length < 12) return;
+
+      classification = applyInkastConfidenceGate(classification);
+      await continueWithRouting(ownerId, name, fileName, mimeType, customMeta, file, classification, analysisText);
+
+    } catch (err) {
+      console.error('[onInkastEvidenceFinalized] Combined analysis and classification failed', name, err);
+      return;
+    }
+    
+    // --- End Refactored Logic ---
+  },
+);
+
+
+async function continueWithRouting(ownerId: string, name: string, fileName: string, mimeType: string, customMeta: any, file: any, classification: any, analysisText: string) {
     const encoded = encodeURIComponent(name);
     const token = customMeta.firebaseStorageDownloadTokens;
     const evidenceUrl = token
-      ? `https://firebasestorage.googleapis.com/v0/b/${bucket.name}/o/${encoded}?alt=media&token=${token}`
+      ? `https://firebasestorage.googleapis.com/v0/b/${file.bucket.name}/o/${encoded}?alt=media&token=${token}`
       : undefined;
-
-    let classification = await classifyInboxDocument(analysisText, fileName);
-    classification = applyInkastConfidenceGate(classification);
 
     const fileId = `storage_inkast_${randomUUID()}`;
     const routeResult = await routeInboxToWorm({
@@ -103,5 +150,5 @@ export const onInkastEvidenceFinalized = onObjectFinalized(
     console.log(
       `[onInkastEvidenceFinalized] ${name} routing=${classification.routing} action=${routeResult.action}`,
     );
-  },
-);
+}
+

@@ -10,7 +10,9 @@ import {
   type ValvChatResponse,
 } from '../schemas/valvChat';
 
-const ai = createGenAI();
+function getAi() {
+  return createGenAI();
+}
 
 export type { ValvChatCitation, ValvChatResponse };
 
@@ -57,6 +59,7 @@ async function runValvChatGeneration(
   let toolRound = 0;
 
   while (toolRound < 2) {
+    const ai = getAi();
     const response = await ai.models.generateContent({
       model: GEMINI_PRO,
       contents: contents as Parameters<typeof ai.models.generateContent>[0]['contents'],

@@ -6,6 +6,25 @@ Livskompassen v2 is a Life OS and multi-agent ecosystem for Lagen om Autonomi, C
 
 This repository is the current source of truth for React/Vite frontend work, Firebase configuration, Cloud Functions, Data Connect output, and AI-agent orchestration. Legacy Express routes live in `docs/archive/server-legacy/` only.
 
+## Master-regel för AI-hjälp
+
+När du hjälper användaren ska du alltid:
+
+1. ange plattformen du arbetar i (GitHub Copilot, Cursor, Gemini eller annan)
+2. om möjligt ange modell eller läge
+3. tydligt separera **Analys**, **Förslag** och **Faktiska ändringar**
+4. läsa viktiga filer/regler först (`README.md`, `AGENTS.md`, relevanta workflows, config-filer och AI-/agentinstruktioner)
+5. prioritera säkerhet, regler, beroenden, secrets, CI/CD, permissions och kostnader
+6. minimera manuellt arbete och låta AI-agenter göra så mycket som möjligt
+7. tydligt markera vad som kräver användarens godkännande innan ändring
+8. anpassa svar och prompts efter aktuell plattform/modell
+9. förklara kort och enkelt för icke-teknisk användare
+10. undvika lösningar som skapar onödiga månadskostnader
+11. fråga innan du gissar om plattform, modell eller mål är oklart
+12. alltid ange tydligt om du bara analyserar eller faktiskt ändrar kod
+
+När du skriver en prompt åt användaren ska den vara plattformsanpassad och tydligt märkt för Copilot, Cursor, Gemini eller annan modell.
+
 ## Before Writing Code
 
 1. Read `.context/system-plan.md` to confirm the current phase and active risks.
@@ -30,6 +49,8 @@ This repository is the current source of truth for React/Vite frontend work, Fir
 - **Frontend:** `npm run dev` from repo root (Vite, port 5173).
 - **Functions:** `npm run build` from `functions/` compiles TypeScript.
 - **Lint:** `npx eslint .` from repo root (`eslint.config.js`).
+- **Iterative validation bundle:** `npm run validate:session` (intentional fast-fail order: `smoke:predeploy` → `typecheck:core-strict` → `obsidian-calm-tokens`)
+- **Agent/synapse env-free local preflight:** `npm run validate:agents-local`
 
 ## Cursor Cloud specific instructions
 
@@ -82,6 +103,8 @@ Pontus-godkända dagliga bollplank — regler i `.cursor/rules/backend-ingest-lo
 | Minnes-Arkitekten | `/minnes-arkitekten` | `.cursor/agents/minnes-arkitekten.md` | Auto kunskaps-ingest |
 | Design-Labbet | `/design-labbet` | `.cursor/agents/design-labbet.md` | Chameleon UI |
 | Android-Kompis | `/android-kompis` | `.cursor/agents/android-kompis.md` | G85, cap sync, deploy |
+| Bild-Arkitekten | `/bild-arkitekten` | `.cursor/agents/bild-arkitekten.md` | Bild till kod (Chameleon) |
+| Krav-Analytiker | `/krav-analytiker` | `.cursor/agents/livskompassen-master-architect.md` | Idé till Blueprint (Plan) |
 
 **Viktigt:** `/`-menyn läser **`.cursor/commands/*.md`**. `.cursor/agents/` är subagents (Task-delegation). Båda pekar på samma roll — använd slash-kommandot i chatten.
 
@@ -104,6 +127,13 @@ Pontus-godkända dagliga bollplank — regler i `.cursor/rules/backend-ingest-lo
 Kanon för arkitektur och säkerhet: `.context/` (system-plan, arkiv-minne, security). Dokumentationsindex: [`docs/README.md`](docs/README.md). **Systemkontroll / röda tråden:** [`docs/SYSTEMKONTROLL.md`](docs/SYSTEMKONTROLL.md). **Fas 19 gate (pre-flight):** [`.cursor/rules/fas19-masterplan-guard.mdc`](.cursor/rules/fas19-masterplan-guard.mdc) · [`docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md`](docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md).  
 Live GCP-sanning: [`docs/GCP-INVENTORY-LATEST.md`](docs/GCP-INVENTORY-LATEST.md).  
 GCP-konsolidering: [`docs/GCP-KONSOLIDERING-BESLUT.md`](docs/GCP-KONSOLIDERING-BESLUT.md).
+
+## Agent / synapse workflow
+
+- Reread `.context/system-plan.md`, `.context/security.md`, and `.context/arkiv-minne.md` before changing agents, synapses, or callables.
+- Keep runtime prompts only in `functions/src/sharedRules.ts`; if mirrors drift, run `npm run prompts:sync` then `npm run smoke:prompts`.
+- Prefer `/specialist-verifier` before manual smoke when agent/synapse behavior changes.
+- Use progress reporting to group related edits into clear checkpoints before final PR wording.
 
 ## Product Agent Roles
 

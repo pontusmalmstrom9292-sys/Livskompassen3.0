@@ -36,6 +36,10 @@ export type BarnfokusCatalogEntry = {
   hint_sv?: string;
   /** Bracket från evolution_hub.currentBracket — undefined = alla åldrar. */
   bracket?: BarnfokusBracket;
+  /** Optionell åldersgräns nedåt. */
+  minAge?: number;
+  /** Optionell åldersgräns uppåt. */
+  maxAge?: number;
   /** Kunskap FACT-bro (våg 20 barn_hcf) — deterministisk, ingen RAG i Barnen. */
   knowledgeFactId?: string;
   source?: 'builtin' | 'valv_curated';

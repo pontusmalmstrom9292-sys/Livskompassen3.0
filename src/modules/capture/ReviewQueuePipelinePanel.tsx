@@ -255,7 +255,7 @@ export function ReviewQueuePipelinePanel({
               );
             })}
             {failedDrafts.map((d) => (
-              <li key={d.id} className="rounded-xl border border-rose-500/30 bg-surface/40 px-3 py-2">
+              <li key={d.id} className="rounded-xl border border-danger/20 bg-danger/5 px-3 py-2">
                 <span className={inboxQueueStatusBadgeClass('rejected')}>{draftFailedStatusLabel()}</span>
                 <p className="mt-1 text-text-muted">{d.errorMessage ?? draftSummary(d)}</p>
                 {retryingId === d.id ? (
