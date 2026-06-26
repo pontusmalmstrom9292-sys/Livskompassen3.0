@@ -1,6 +1,6 @@
 ---
 description: Säkerhetsnät — alla AI-agenter måste respektera huskys nej; bypass förbjudet utan Pontus OK
-alwaysApply: true
+alwaysApply: false
 globs: .husky/**,scripts/smoke_secrets.mjs,.github/dependabot.yml,.github/workflows/firebase-hosting-main.yml,.github/workflows/dependabot-auto-merge.yml,docs/SAKERHETSNAT.md
 ---
 
