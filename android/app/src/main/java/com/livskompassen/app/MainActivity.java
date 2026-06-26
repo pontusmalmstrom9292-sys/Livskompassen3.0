@@ -2,6 +2,7 @@ package com.livskompassen.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.WindowManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
 
@@ -22,6 +23,13 @@ public class MainActivity extends BridgeActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Zero Footprint / Layered Defense: block screenshots, screen recording
+        // and hide app content in the recent-apps overview (sensitive custody,
+        // journal and evidence data). Applies app-wide to the single Activity.
+        getWindow().setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE,
+            WindowManager.LayoutParams.FLAG_SECURE
+        );
         captureWidgetPath(getIntent());
         dispatchPendingWidgetPath();
     }

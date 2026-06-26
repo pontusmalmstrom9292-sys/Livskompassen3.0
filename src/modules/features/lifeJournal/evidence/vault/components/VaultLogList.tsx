@@ -89,7 +89,7 @@ const LogRow = memo(function LogRow({
 }: {
   log: VaultLogRow;
   highlightLogId?: string | null;
-  highlightRef: RefObject<HTMLLIElement>;
+  highlightRef: RefObject<HTMLLIElement | null>;
   persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
 }) {
   const vavaren = isVavarenMetadata(log);
