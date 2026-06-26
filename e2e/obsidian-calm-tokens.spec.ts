@@ -24,9 +24,10 @@ test.describe('Obsidian Calm tokens', () => {
       };
     });
 
+    const allowedGoldAccents = new Set(['#d4af37', '#9f852b', '#c9a227', '#c9a66b', '#e8c547']);
+
     expect(isDarkHex(tokens.surface)).toBe(true);
-    // Prod default ME-midnight-executive: #c9a66b · legacy I-stone: #d4af37
-    expect(tokens.accent.toLowerCase()).toMatch(/d4af37|c9a66b|c9a227|9f852b|e8c547/);
+    expect(allowedGoldAccents.has(tokens.accent.toLowerCase())).toBe(true);
   });
 
   test('manifest theme_color är mörk Obsidian-bas', async ({ page }) => {
