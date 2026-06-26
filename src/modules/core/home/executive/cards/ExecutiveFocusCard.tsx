@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom';
 import { ChevronRight, Target } from 'lucide-react';
-import { clsx } from 'clsx';
 import { useLifeHubPreset } from '@/core/lifeOs';
 
 const FOCUS_PILLS = [
@@ -15,7 +14,7 @@ export function ExecutiveFocusCard() {
   const { preset } = useLifeHubPreset();
 
   return (
-    <article className="calm-card exec-home-card exec-home-card--focus">
+    <article className="exec-home-card exec-home-card--focus">
       <header className="exec-home-card__head">
         <Target className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <p className="exec-home-label mb-0">DAGENS FOKUS</p>
@@ -28,10 +27,11 @@ export function ExecutiveFocusCard() {
           <button
             key={pill.id}
             type="button"
-            className={clsx(
-              'btn-pill--ghost px-2 py-0.5 text-[9px] font-semibold uppercase tracking-wider',
-              pill.active && 'border-accent/40 bg-accent/10 text-accent',
-            )}
+            className={
+              pill.active
+                ? 'exec-home-pill exec-home-pill--active'
+                : 'exec-home-pill'
+            }
             onClick={() => navigate('/familjen?tab=reflektion')}
           >
             {pill.label}

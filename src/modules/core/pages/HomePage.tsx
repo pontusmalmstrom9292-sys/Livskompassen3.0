@@ -14,6 +14,8 @@ import { getTheme } from '../theme';
 import { isMockupTheme } from '../theme/mockupTheme';
 import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
 import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
+import { isBastaDesignTheme } from '../theme/themePackBastaDesign';
+import { BastaDesignHome } from '../home/basta-design/BastaDesignHome';
 import { ChameleonLive } from '../home/ChameleonLive';
 import { getDefaultTarget, type ChameleonTarget } from '../home/chameleonBridge';
 import type { ChameleonZoneId } from '../home/chameleonZones';
@@ -25,6 +27,7 @@ export function HomePage() {
   const isAuthenticated = useStore((s) => s.isAuthenticated);
   const { preset, presetId } = useLifeHubPreset();
   const { themeId } = useTheme();
+  const bastaDesignSkin = isBastaDesignTheme(themeId);
   const mockupSkin = isMockupTheme(themeId) || themeUsesDesignPackChrome(getTheme(themeId));
   const executiveSkin = isMidnightExecutiveTheme(themeId);
   const [adaptiveRefreshKey, setAdaptiveRefreshKey] = useState(0);
@@ -68,6 +71,14 @@ export function HomePage() {
     else if (newTarget.zone === 'vardagen') navigate('/vardagen', { replace: true });
     else if (newTarget.zone === 'familjen') navigate('/familjen', { replace: true });
   }, [navigate]);
+
+  if (bastaDesignSkin && activeZone === 'hem') {
+    return (
+      <div className="home-page home-page--basta-design">
+        <BastaDesignHome onCheckInSaved={() => setAdaptiveRefreshKey((k) => k + 1)} />
+      </div>
+    );
+  }
 
   return (
     <div
