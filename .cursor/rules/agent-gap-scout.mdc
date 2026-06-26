@@ -1,6 +1,6 @@
 ---
 description: Agent Gap Scout — identifierar saknade agenter och skills baserat på vad som byggs, och frågar Pontus om de ska skapas. Alltid aktiv.
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Agent Gap Scout — håll expertlistan uppdaterad

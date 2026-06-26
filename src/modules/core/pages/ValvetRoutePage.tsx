@@ -12,6 +12,7 @@ import {
 } from '@/features/lifeJournal/evidence/vault/utils/vaultTabs';
 import {
   canonicalValvRoute,
+  parseValvInputModeFromSearch,
   resolveValvInputModeFromVaultTab,
   vaultTabForValvInputMode,
   type ValvInputMode,
@@ -27,7 +28,8 @@ export function ValvetRoutePage() {
   const samlaViewRaw = searchParams.get('samlaView');
 
   const { vaultTab: canonTab, valvMode: canonMode } = useMemo(() => {
-    return canonicalValvRoute(valvModeRaw, vaultTabRaw, samlaViewRaw);
+    const mode = parseValvInputModeFromSearch(valvModeRaw, samlaViewRaw ?? null, vaultTabRaw ?? null);
+    return canonicalValvRoute(mode, vaultTabRaw, samlaViewRaw);
   }, [valvModeRaw, vaultTabRaw, samlaViewRaw]);
 
   useEffect(() => {

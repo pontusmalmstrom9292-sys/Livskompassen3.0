@@ -1,6 +1,6 @@
 ---
 description: Topic Drift — detekterar när chatten byter ämne och föreslår ny chatt med rätt prompt och mode. Alltid aktiv.
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Topic Drift — chattfokus och ämneshygien

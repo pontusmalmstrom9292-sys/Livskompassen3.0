@@ -1,6 +1,6 @@
 ---
 description: Klarspråk — alla agenter kommunicerar med ägaren på enkelt, konkret svenska utan tekniska termer. Alltid aktiv.
-alwaysApply: true
+alwaysApply: false
 ---
 
 # Klarspråk — kommunikationsregel för Pontus

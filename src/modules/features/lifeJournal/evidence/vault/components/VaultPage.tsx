@@ -15,7 +15,7 @@ import { VaultLockedGate } from '@/core/components/VaultLockedGate';
 import { ValvBentoShell } from './ValvBentoShell';
 const ValvInputSuperModule = lazy(() => import('../supermodule/ValvInputSuperModule').then(m => ({ default: m.ValvInputSuperModule })));
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
-import { type ValvInputMode } from '../supermodule/valvInputModes';
+import { canonicalValvRoute, type ValvInputMode } from '../supermodule/valvInputModes';
 import { resolveValvZone, type VaultTab } from '../utils/vaultTabs';
 
 export type { VaultTab, MainVaultTab, ValvZone } from '../utils/vaultTabs';
@@ -54,8 +54,10 @@ function VaultPageInner({
   const [internalVaultTab, setInternalVaultTab] = useState<VaultTab>('logga');
   const [internalValvMode, setInternalValvMode] = useState<ValvInputMode>('spara');
 
-  const vaultTab = propVaultTab ?? internalVaultTab;
-  const valvMode = propValvMode ?? internalValvMode;
+  const { vaultTab, valvMode } = canonicalValvRoute(
+    propValvMode ?? internalValvMode,
+    propVaultTab ?? internalVaultTab,
+  );
 
   const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
   const [techniqueFilter, setTechniqueFilter] = useState<string | null>(null);
