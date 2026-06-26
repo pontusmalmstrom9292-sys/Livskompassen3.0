@@ -1,0 +1,85 @@
+---
+description: Säkerhetsnät — alla AI-agenter måste respektera huskys nej; bypass förbjudet utan Pontus OK
+alwaysApply: true
+globs: .husky/**,scripts/smoke_secrets.mjs,.github/dependabot.yml,.github/workflows/firebase-hosting-main.yml,.github/workflows/dependabot-auto-merge.yml,docs/SAKERHETSNAT.md
+---
+
+# Säkerhetsnät · Husky-regler för AI-agenter
+
+Kanon: [`docs/SAKERHETSNAT.md`](../../docs/SAKERHETSNAT.md)
+
+## Bakgrund
+
+Pontus är icke-tekniker och kör YOLO-deploy med flera parallella AI-agenter.
+Säkerhetsnätet är tre lås (husky · GitHub · deploy) som fångar fel innan
+de når produktion. Det är där av en anledning — respektera det.
+
+## MUST
+
+1. **Respektera huskys nej.** Om `commit-msg`, `pre-commit` eller `pre-push`
+   avvisar en operation: **rätta det underliggande problemet**, inte hookenden.
+2. **Conventional Commits.** Alla commit-meddelanden måste börja med
+   `<type>(<scope>)?: <beskrivning>` där type ∈ {feat, fix, docs, style,
+   refactor, perf, test, build, ci, chore, revert} och vara ≥ 15 tecken.
+3. **Secret-skanning.** Innan en commit skapas — kontrollera att inga API-nycklar,
+   tokens eller credentials läckt in i staged filer. Kör `npm run smoke:secrets`
+   för verifikation.
+4. **Validate-session lokalt.** Innan push: kör `npm run validate:session` (smoke
+   + typecheck + e2e). Pushar du utan att ha kört detta riskerar du röd CI.
+5. **Anpassa språket.** Felmeddelanden, dokumentation och PR-beskrivningar som
+   visas för Pontus ska vara på svenska. Kod-kommentarer i tekniska filer får
+   vara på engelska om filen redan följer det.
+
+## MUST NOT
+
+- **Aldrig** `git commit --no-verify` utan explicit Pontus-OK i samtalet.
+- **Aldrig** `git push --no-verify` eller `git push --force` mot `main`.
+- **Aldrig** skapa workarounds som inaktiverar husky (t.ex. tomma hookar,
+  `HUSKY=0`, omdöpning av `.husky/`).
+- **Aldrig** lägga riktiga secrets i koden — använd `.env` (lokalt) eller
+  GitHub Actions secrets (CI). Publika Firebase web-konfig-värden
+  (`VITE_FIREBASE_*`) är OK i `.env.example` men aldrig i committad `.env`.
+- **Aldrig** rekommendera att Pontus stänger av säkerhetsnätet "för att gå
+  snabbare". Snabbhet utan säkerhet är en kostnadsfälla.
+
+## Vad du gör när hooken stoppar dig
+
+| Felmeddelande | Åtgärd |
+|---------------|--------|
+| `commit-meddelandet är för kort` | Skriv om till ≥ 15 tecken, beskriv *vad* och *varför*. |
+| `saknar conventional-prefix` | Lägg till `feat:`, `fix:`, `docs:` … framför. |
+| `Misstänkt API Key` i `pre-commit` | Flytta nyckeln till `.env` eller GitHub secrets. Är det en placeholder: lägg till `// sakerhetsnat:allow` på raden. |
+| `Förbjuden filsökväg` (`.env` etc) | `git restore --staged <fil>` — committa aldrig nyckelfiler. |
+| `validate:session` failar i `pre-push` | Läs felet, fixa det. Re-pusha. **Bypassa inte.** |
+| `post-checkout` varnar | Bara en varning. Bestäm: ta med (stage+commit), parkera (`git stash`), eller släng (`git clean`). |
+
+## Hjälp till Pontus
+
+När du skapar en PR — skriv beskrivningen så att Pontus kan kryssa
+"Jag har läst PR-checklistan" på riktigt:
+
+- Vad ändrades (på svenska, kort).
+- Vilka smoke-script du körde + resultat.
+- Eventuella manuella verifieringssteg (skärmdumpar / länkar).
+- Risker eller saker som kan behöva manuell QA.
+
+Saknas något — fråga (`AskUserQuestion`) hellre än att gissa.
+
+## Relaterade regler
+
+- [`git-main-trunk.mdc`](git-main-trunk.mdc) — main trunk + PMIR före merge
+- [`anti-hallucination.mdc`](anti-hallucination.mdc) — verifiera mot kod
+- [`deploy-paminnelser.mdc`](deploy-paminnelser.mdc) — var och när du deployar
+
+## Verifiering
+
+```bash
+# Att hookarna är installerade
+ls -la .husky/
+
+# Att smoke:secrets fungerar
+npm run smoke:secrets
+
+# Att validate:session fungerar
+npm run validate:session
+```

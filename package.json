@@ -197,7 +197,9 @@
     "integration:preflight": "npm run integration:sync:all && npm run smoke:mdc && npm run smoke:projekt-regler",
     "integration:night": "npm run orkester:night && npm run integration:sync:all",
     "integration:stale-check": "node scripts/integration_stale_check.mjs",
-    "integration:install-night": "bash scripts/integration_install_night.sh"
+    "integration:install-night": "bash scripts/integration_install_night.sh",
+    "smoke:secrets": "node scripts/smoke_secrets.mjs",
+    "prepare": "husky"
   },
   "dependencies": {
     "@aparajita/capacitor-biometric-auth": "^10.0.0",
@@ -238,6 +240,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.3",
     "globals": "^17.6.0",
+    "husky": "^9.1.7",
     "marked": "^18.0.5",
     "postcss": "^8.4.38",
     "sharp": "^0.34.5",
