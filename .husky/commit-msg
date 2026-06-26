@@ -1,0 +1,51 @@
+#!/usr/bin/env sh
+# Lås 1 · Säkerhetsnät för otekninsk användare
+# Avvisar commit-meddelanden som är för korta eller saknar conventional-prefix.
+# Kanon: docs/SAKERHETSNAT.md  ·  Regel: .cursor/rules/sakerhetsnat-husky.mdc
+#
+# Conventional Commits-prefix vi accepterar:
+#   feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert
+# Specialfall vi släpper igenom utan kontroll:
+#   - Merge-commits (git skapar dem automatiskt)
+#   - Revert-commits skapade via `git revert`
+#   - Fixup/squash-commits (rebase-flöde)
+
+msg_file="$1"
+msg=$(cat "$msg_file")
+
+# Hämta första raden (subject) utan kommentarer
+first_line=$(printf '%s\n' "$msg" | grep -v '^#' | sed '/^$/d' | head -n 1)
+
+# Släpp igenom auto-genererade commits
+case "$first_line" in
+  "Merge "*|"Revert "*|"fixup! "*|"squash! "*|"amend! "*)
+    exit 0
+    ;;
+esac
+
+# Mät längd på subject-raden
+length=$(printf '%s' "$first_line" | awk '{print length}')
+
+if [ "$length" -lt 15 ]; then
+  printf '\n[husky · commit-msg] STOPP — commit-meddelandet är för kort (%s tecken, minst 15).\n' "$length" >&2
+  printf '\nDitt meddelande:\n  %s\n' "$first_line" >&2
+  printf '\nSkriv något mer beskrivande, t.ex.:\n' >&2
+  printf '  fix(valv): hindra duplicerade WORM-poster vid retry\n' >&2
+  printf '  docs(sakerhetsnat): lägg till GCP-budget-steg\n\n' >&2
+  exit 1
+fi
+
+# Kräver conventional-prefix: type(scope)?: meddelande
+if ! printf '%s' "$first_line" | grep -Eq '^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([a-z0-9._\-]+\))?!?: .+'; then
+  printf '\n[husky · commit-msg] STOPP — saknar conventional-prefix.\n' >&2
+  printf '\nDitt meddelande:\n  %s\n' "$first_line" >&2
+  printf '\nFormat: <type>(<scope>)?: <kort beskrivning>\n' >&2
+  printf 'Giltiga typer: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert\n\n' >&2
+  printf 'Exempel:\n' >&2
+  printf '  feat(valv): lägg till Mönster-vy\n' >&2
+  printf '  fix(android): justera FLAG_SECURE timing\n' >&2
+  printf '  docs(sakerhetsnat): klick-för-klick branch protection\n\n' >&2
+  exit 1
+fi
+
+exit 0
