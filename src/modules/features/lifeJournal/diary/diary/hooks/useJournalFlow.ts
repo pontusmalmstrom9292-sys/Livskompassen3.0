@@ -168,11 +168,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       );
       setLastSavedEntryId(id);
       if (hasVaultGate()) {
-<<<<<<< HEAD
-        weaveJournalEntry({ journalEntryId: id, mood, text: entryText });
-=======
-        weaveJournalEntry({ journalEntryId: id, mood: activeMood, text: finalEntryText });
->>>>>>> origin/main
+        weaveJournalEntry({ journalEntryId: id, mood: activeMood, text: entryText });
       }
       if (optInKampspar) {
         journalWovenToKampspar({ journalEntryId: id, mood: activeMood, text: finalEntryText });

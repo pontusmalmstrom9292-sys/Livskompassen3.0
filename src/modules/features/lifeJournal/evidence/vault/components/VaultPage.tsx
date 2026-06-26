@@ -16,11 +16,7 @@ import { VaultCountdown } from '@/core/security/VaultCountdown';
 import { ValvBentoShell } from './ValvBentoShell';
 const ValvInputSuperModule = lazy(() => import('../supermodule/ValvInputSuperModule').then(m => ({ default: m.ValvInputSuperModule })));
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
-<<<<<<< HEAD
-import { canonicalValvRoute, type ValvInputMode } from '../supermodule/valvInputModes';
-=======
 import { type ValvInputMode, canonicalValvRoute } from '../supermodule/valvInputModes';
->>>>>>> origin/main
 import { resolveValvZone, type VaultTab } from '../utils/vaultTabs';
 
 export type { VaultTab, MainVaultTab, ValvZone } from '../utils/vaultTabs';
