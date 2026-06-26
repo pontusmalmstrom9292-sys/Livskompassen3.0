@@ -1136,3 +1136,80 @@
   border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
   padding: 0.45rem 0.65rem;
 }
+
+/* —— Executive hem motion (Figma-ref + DAD) —— */
+@keyframes exec-hero-drift {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+
+@keyframes exec-badge-breathe {
+  0%,
+  100% {
+    opacity: 0.88;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+}
+
+:is([data-theme='ME-midnight-executive'], [data-theme='ME-basta-design']) .exec-reflektion-hero__bg {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background: url('/design/home-hero-scenic.png') center / cover no-repeat;
+  animation: exec-hero-drift 20s ease-in-out infinite;
+  transform-origin: center;
+}
+
+:is([data-theme='ME-midnight-executive'], [data-theme='ME-basta-design']) .exec-reflektion-hero__shade {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(12, 12, 14, 0.35),
+    rgba(12, 12, 14, 0.88)
+  );
+}
+
+:is([data-theme='ME-midnight-executive'], [data-theme='ME-basta-design']) .exec-reflektion-hero__badge {
+  animation: exec-badge-breathe 5.5s ease-in-out infinite;
+  transform-origin: center;
+}
+
+:is([data-theme='ME-midnight-executive'], [data-theme='ME-basta-design']) .exec-home-pill {
+  transition:
+    border-color 0.22s ease,
+    color 0.22s ease,
+    background 0.22s ease,
+    transform 0.18s ease;
+}
+
+:is([data-theme='ME-midnight-executive'], [data-theme='ME-basta-design']) .exec-home-pill--active {
+  transform: translateY(-1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is([data-theme='ME-midnight-executive'], [data-theme='ME-basta-design']) .exec-reflektion-hero__bg,
+  :is([data-theme='ME-midnight-executive'], [data-theme='ME-basta-design']) .exec-reflektion-hero__badge,
+  :is([data-theme='ME-midnight-executive'], [data-theme='ME-basta-design']) .exec-dock-bar__compass,
+  :is([data-theme='ME-midnight-executive'], [data-theme='ME-basta-design']) .exec-snabbstart-hub__glow {
+    animation: none !important;
+  }
+
+  :is([data-theme='ME-midnight-executive'], [data-theme='ME-basta-design']) .exec-home-pill,
+  :is([data-theme='ME-midnight-executive'], [data-theme='ME-basta-design']) .exec-home-pill--active {
+    transform: none;
+    transition-duration: 0.01ms;
+  }
+}

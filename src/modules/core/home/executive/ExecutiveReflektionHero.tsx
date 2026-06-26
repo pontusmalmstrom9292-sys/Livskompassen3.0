@@ -4,7 +4,7 @@ import { Heart, PenLine, Star } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useStore } from '@/core/store';
 import { useJournalFlow } from '@/features/lifeJournal/diary/diary/hooks/useJournalFlow';
-import { EXEC_REFLEKTION_BG, formatJournalDateKey, journalEntryDate } from './execJournalUtils';
+import { formatJournalDateKey, journalEntryDate } from './execJournalUtils';
 
 const DEFAULT_ASIDE = {
   lead: 'Du är den trygga hamnen — även när världen känns splittrad.',
@@ -30,13 +30,10 @@ export function ExecutiveReflektionHero() {
   return (
     <section
       className="exec-reflektion-hero relative overflow-hidden rounded-[2rem] border border-accent/15 min-h-[14.5rem] p-5"
-      style={{
-        backgroundImage: EXEC_REFLEKTION_BG,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-      }}
       aria-label="Dagens reflektion"
     >
+      <div className="exec-reflektion-hero__bg" aria-hidden />
+      <div className="exec-reflektion-hero__shade" aria-hidden />
       <div className="exec-reflektion-hero__watermark" aria-hidden />
       <div className="exec-reflektion-hero__grid relative z-[1] grid gap-4 sm:grid-cols-[1fr_auto]">
         <div className="min-w-0 space-y-2">

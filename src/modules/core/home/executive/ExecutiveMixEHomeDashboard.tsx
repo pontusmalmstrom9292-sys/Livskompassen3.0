@@ -3,6 +3,7 @@ import { HomeGreeting } from '../HomeGreeting';
 import { HomeStreakChip } from '../HomeStreakChip';
 import { HomeExecutiveSnabbstart } from '../HomeExecutiveSnabbstart';
 import { DagensRiktningCard } from '../DagensRiktningCard';
+import { ExecutiveHomeStagger, ExecutiveHomeStaggerItem } from './ExecutiveHomeStagger';
 
 type Props = {
   onCheckInSaved?: () => void;
@@ -13,19 +14,25 @@ export function ExecutiveMixEHomeDashboard({ onCheckInSaved }: Props) {
   const [riktningOpen, setRiktningOpen] = useState(false);
 
   return (
-    <div className="executive-home-dashboard executive-home-dashboard--mix-e mx-auto w-full max-w-2xl space-y-4 pb-4">
-      <div className="exec-mix-e-greeting relative">
-        <HomeGreeting variant="executive" mockupCopy hideEyebrow />
-        <div className="exec-mix-e-greeting__eld">
-          <HomeStreakChip />
+    <ExecutiveHomeStagger className="executive-home-dashboard executive-home-dashboard--mix-e mx-auto w-full max-w-2xl space-y-4 pb-4">
+      <ExecutiveHomeStaggerItem>
+        <div className="exec-mix-e-greeting relative">
+          <HomeGreeting variant="executive" mockupCopy hideEyebrow />
+          <div className="exec-mix-e-greeting__eld">
+            <HomeStreakChip />
+          </div>
         </div>
-      </div>
-      <HomeExecutiveSnabbstart className="exec-mix-e-snabbstart" />
-      <DagensRiktningCard
-        open={riktningOpen}
-        onOpenChange={setRiktningOpen}
-        onCheckInSaved={onCheckInSaved}
-      />
-    </div>
+      </ExecutiveHomeStaggerItem>
+      <ExecutiveHomeStaggerItem>
+        <HomeExecutiveSnabbstart className="exec-mix-e-snabbstart" />
+      </ExecutiveHomeStaggerItem>
+      <ExecutiveHomeStaggerItem>
+        <DagensRiktningCard
+          open={riktningOpen}
+          onOpenChange={setRiktningOpen}
+          onCheckInSaved={onCheckInSaved}
+        />
+      </ExecutiveHomeStaggerItem>
+    </ExecutiveHomeStagger>
   );
 }

@@ -1,55 +1,30 @@
 import { useCallback, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { clsx } from 'clsx';
-import { NotebookPen, Users2, UtensilsCrossed, Library } from 'lucide-react';
 import { openValvViaFyren } from '../../auth/valvFyrenGate';
 import { NAV_PATHS } from '../../navigation/navTruth';
 import { ResurserOverlay } from '../../navigation/ResurserOverlay';
 import { useLongPress } from '../../hooks/useLongPress';
 import { useStore } from '../../store';
-import { BastaDesignDockCompass } from './BastaDesignDockCompass';
+import { ExecutiveDockBar } from '../ExecutiveDockBar';
 
-function SideItem({
-  label,
-  active,
-  onClick,
-  children,
-  expanded,
-}: {
-  label: string;
-  active?: boolean;
-  expanded?: boolean;
-  onClick: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      className={clsx('basta-dock-bar__side', active && 'basta-dock-bar__side--active')}
-      onClick={onClick}
-      aria-current={active ? 'page' : undefined}
-      aria-expanded={expanded}
-    >
-      <span className="basta-dock-bar__icon">{children}</span>
-      <span className="basta-dock-bar__label">{label}</span>
-    </button>
-  );
-}
-
-/** Figma-ref bottom dock — prod routes, premium glass. */
+/** Bästa design — kanon-bottom dock (6 zoner + hero-kompass). */
 export function BastaDesignDock() {
   const location = useLocation();
   const navigate = useNavigate();
   const setSystemError = useStore((s) => s.setError);
   const [resurserOpen, setResurserOpen] = useState(false);
-  const { pathname, search } = location;
+  const { pathname } = location;
   const isHome = pathname === '/';
   const isFamiljen = pathname === NAV_PATHS.FAMILJEN || pathname.startsWith(`${NAV_PATHS.FAMILJEN}/`);
-  const isAnteckning =
-    pathname.startsWith('/widget/anteckning') ||
-    pathname.startsWith('/hjartat') ||
+  const isHjartat =
+    pathname === NAV_PATHS.HJARTAT ||
+    pathname.startsWith(`${NAV_PATHS.HJARTAT}/`) ||
     pathname.startsWith('/dagbok');
-  const isEkonomi = pathname.startsWith('/vardagen') && search.includes('tab=ekonomi');
+  const isPlanering =
+    pathname === '/planering' ||
+    pathname.startsWith('/planering/') ||
+    pathname === '/projekt' ||
+    pathname.startsWith('/projekt/');
 
   const fyrenToValv = useCallback(
     () =>
@@ -67,54 +42,35 @@ export function BastaDesignDock() {
     delayMs: 3000,
   });
 
-  const { onClick: centerClick, ...centerHoldHandlers } = centerPress;
+  const { progress, isHolding, ...centerHoldHandlers } = centerPress;
+  const showFyrenRing = progress > 0;
 
   return (
     <>
       <ResurserOverlay open={resurserOpen} onClose={() => setResurserOpen(false)} />
       <div className="dock-shell dock-shell--basta-design">
-        <nav className="basta-dock-bar" aria-label="Huvudnavigering">
-          <SideItem
-            label="Anteckningar"
-            active={isAnteckning}
-            onClick={() => navigate(`${NAV_PATHS.HJARTAT}?tab=reflektion`)}
-          >
-            <NotebookPen size={18} strokeWidth={1.5} />
-          </SideItem>
-
-          <SideItem label="Familj" active={isFamiljen} onClick={() => navigate(NAV_PATHS.FAMILJEN)}>
-            <Users2 size={18} strokeWidth={1.5} />
-          </SideItem>
-
-          <div className="basta-dock-bar__compass-slot">
-            <button
-              type="button"
-              className={clsx('basta-dock-bar__compass', isHome && 'basta-dock-bar__compass--home')}
-              aria-label="Kompassen. Håll tre sekunder för Valv."
-              onClick={centerClick}
-              {...centerHoldHandlers}
-            >
-              <BastaDesignDockCompass />
-            </button>
-          </div>
-
-          <SideItem
-            label="Recept"
-            active={isEkonomi}
-            onClick={() => navigate('/vardagen?tab=ekonomi')}
-          >
-            <UtensilsCrossed size={18} strokeWidth={1.5} />
-          </SideItem>
-
-          <SideItem
-            label="Resurser"
-            active={resurserOpen}
-            expanded={resurserOpen}
-            onClick={() => setResurserOpen(true)}
-          >
-            <Library size={18} strokeWidth={1.5} />
-          </SideItem>
-        </nav>
+        <ExecutiveDockBar
+          dockVariant="extended"
+          pathname={pathname}
+          isHome={isHome}
+          isFamiljen={isFamiljen}
+          isHjartat={isHjartat}
+          isPlanering={isPlanering}
+          isValvet={false}
+          resurserOpen={resurserOpen}
+          snabbstartOpen={false}
+          showFyrenRing={showFyrenRing}
+          progress={progress}
+          isHolding={isHolding}
+          centerHoldHandlers={centerHoldHandlers}
+          onAnteckning={() => navigate('/widget/anteckning')}
+          onFamiljen={() => navigate(NAV_PATHS.FAMILJEN)}
+          onVentil={() => navigate(NAV_PATHS.HJARTAT)}
+          onInkast={() => navigate('/planering/input?inputMode=inkast')}
+          onResurser={() => setResurserOpen(true)}
+          onValv={() => navigate(NAV_PATHS.VALVET)}
+          onPlanering={() => navigate('/planering')}
+        />
       </div>
     </>
   );

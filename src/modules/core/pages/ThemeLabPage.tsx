@@ -22,7 +22,7 @@ import { THEME_LAB_DRAFTS, THEME_LAB_DRAFT_IDS } from '../theme/themeLabVariants
 import { THEME_PACK_DESIGN } from '../theme/themePackDesign';
 import { THEME_PACK_MOCKUP } from '../theme/themePackMockup';
 import { THEME_PACK_REDESIGN_C } from '../theme/themePackRedesignC';
-import { DEFAULT_THEME_ID, THEME_BY_ID, THEME_REGISTRY } from '../theme/themeRegistry';
+import { DEFAULT_THEME_ID, THEME_BY_ID, THEME_REGISTRY, THEME_LOCKED } from '../theme/themeRegistry';
 import { K_PACK_THEME_IDS, THEME_PACK_K } from '../theme/themePackK';
 import { THEME_PACK_REDESIGN_A } from '../theme/themePackRedesignA';
 import { THEME_PACK_REMIX_E_HAMN } from '../theme/themePackRemix';
@@ -140,13 +140,25 @@ export function ThemeLabPage() {
       <header className="glass-card p-4">
         <h1 className="font-display text-xl font-light text-accent">Theme Lab</h1>
         <p className="mt-2 text-sm text-text-muted">
-          <strong className="text-accent">Designpaket (5):</strong> header, dock, kort, meny och bakgrund
-          byts samtidigt — välj D1–D5.
+          {THEME_LOCKED ? (
+            <>
+              <strong className="text-accent">Prod-tema låst:</strong> endast{' '}
+              <strong>Bästa design</strong> är aktiv i hela appen. Förhandsvisning här nedan
+              påverkar inte prod.
+            </>
+          ) : (
+            <>
+              <strong className="text-accent">Designpaket (5):</strong> header, dock, kort, meny och bakgrund
+              byts samtidigt — välj D1–D5.
+            </>
+          )}
         </p>
+        {!THEME_LOCKED ? (
         <p className="mt-1 text-xs text-text-dim">
           Jämför utkast, ikoner och detaljer. Prod-tema ändras först när du godkänner i{' '}
           <code className="text-accent">docs/design/theme-lab/VARIANTS.md</code>.
         </p>
+        ) : null}
         <div className="mt-3 flex flex-wrap gap-2">
           <Link to="/dev/themes" className="btn-pill--ghost">
             Enkel skin-väljare

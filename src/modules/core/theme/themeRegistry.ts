@@ -420,6 +420,13 @@ export const THEME_REGISTRY: ThemePack[] = [
 /** Prod default — Bästa design Figma-ref (2026-06). */
 export const DEFAULT_THEME_ID = BASTA_DESIGN_THEME_ID;
 
+/** Enda tillåtna prod-tema — alla övriga id mappas hit. */
+export const LOCKED_THEME_ID = BASTA_DESIGN_THEME_ID;
+export const THEME_LOCKED = true;
+
+/** Picker / ThemeProvider — endast låst pack. */
+export const PROD_THEME_REGISTRY: ThemePack[] = [...THEME_PACK_BASTA_DESIGN];
+
 /** Legacy Theme Lab ids → canonical pack id. */
 export const THEME_ID_ALIASES: Record<string, string> = {
   'D4-flat-luxe': 'D4-flat-deluxe',
@@ -442,6 +449,7 @@ export const THEME_BY_ID = Object.fromEntries(
 ) as Record<string, ThemePack>;
 
 export function resolveThemeId(id: string): string {
+  if (THEME_LOCKED) return LOCKED_THEME_ID;
   return THEME_ID_ALIASES[id] ?? id;
 }
 

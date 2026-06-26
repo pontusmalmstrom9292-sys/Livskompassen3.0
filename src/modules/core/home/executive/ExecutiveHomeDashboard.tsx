@@ -1,3 +1,4 @@
+import { ExecutiveHomeStagger, ExecutiveHomeStaggerItem } from './ExecutiveHomeStagger';
 import { ExecutiveReflektionHero } from './ExecutiveReflektionHero';
 import { ExecutiveFocusCard } from './cards/ExecutiveFocusCard';
 import { ExecutiveLivsloggCard } from './cards/ExecutiveLivsloggCard';
@@ -13,18 +14,26 @@ type Props = {
 /** Midnight Executive hem — mockup mix-E som prod-UI. */
 export function ExecutiveHomeDashboard({ onCheckInSaved }: Props) {
   return (
-    <div className="executive-home-dashboard calm-scroll-island mx-auto w-full max-w-2xl space-y-4 pb-4">
-      <ExecutiveReflektionHero />
+    <ExecutiveHomeStagger className="executive-home-dashboard calm-scroll-island mx-auto w-full max-w-2xl space-y-4 pb-4">
+      <ExecutiveHomeStaggerItem>
+        <ExecutiveReflektionHero />
+      </ExecutiveHomeStaggerItem>
 
-      <div className="executive-home-grid">
-        <ExecutiveFocusCard />
-        <ExecutiveLivsloggCard />
-        <ExecutiveAnkareCard onSaved={onCheckInSaved} />
-        <ExecutiveDayStepsCard />
-      </div>
+      <ExecutiveHomeStaggerItem>
+        <div className="executive-home-grid">
+          <ExecutiveFocusCard />
+          <ExecutiveLivsloggCard />
+          <ExecutiveAnkareCard onSaved={onCheckInSaved} />
+          <ExecutiveDayStepsCard />
+        </div>
+      </ExecutiveHomeStaggerItem>
 
-      <ExecutivePlaneringCard />
-      <ExecutiveJournalHistoryRail />
-    </div>
+      <ExecutiveHomeStaggerItem>
+        <ExecutivePlaneringCard />
+      </ExecutiveHomeStaggerItem>
+      <ExecutiveHomeStaggerItem>
+        <ExecutiveJournalHistoryRail />
+      </ExecutiveHomeStaggerItem>
+    </ExecutiveHomeStagger>
   );
 }
