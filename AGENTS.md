@@ -49,6 +49,8 @@ När du skriver en prompt åt användaren ska den vara plattformsanpassad och ty
 - **Frontend:** `npm run dev` from repo root (Vite, port 5173).
 - **Functions:** `npm run build` from `functions/` compiles TypeScript.
 - **Lint:** `npx eslint .` from repo root (`eslint.config.js`).
+- **Iterative validation bundle:** `npm run validate:session` (intentional fast-fail order: `smoke:predeploy` → `typecheck:core-strict` → `obsidian-calm-tokens`)
+- **Agent/synapse env-free local preflight:** `npm run validate:agents-local`
 
 ## Cursor Cloud specific instructions
 
@@ -125,6 +127,13 @@ Pontus-godkända dagliga bollplank — regler i `.cursor/rules/backend-ingest-lo
 Kanon för arkitektur och säkerhet: `.context/` (system-plan, arkiv-minne, security). Dokumentationsindex: [`docs/README.md`](docs/README.md). **Systemkontroll / röda tråden:** [`docs/SYSTEMKONTROLL.md`](docs/SYSTEMKONTROLL.md). **Fas 19 gate (pre-flight):** [`.cursor/rules/fas19-masterplan-guard.mdc`](.cursor/rules/fas19-masterplan-guard.mdc) · [`docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md`](docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md).  
 Live GCP-sanning: [`docs/GCP-INVENTORY-LATEST.md`](docs/GCP-INVENTORY-LATEST.md).  
 GCP-konsolidering: [`docs/GCP-KONSOLIDERING-BESLUT.md`](docs/GCP-KONSOLIDERING-BESLUT.md).
+
+## Agent / synapse workflow
+
+- Reread `.context/system-plan.md`, `.context/security.md`, and `.context/arkiv-minne.md` before changing agents, synapses, or callables.
+- Keep runtime prompts only in `functions/src/sharedRules.ts`; if mirrors drift, run `npm run prompts:sync` then `npm run smoke:prompts`.
+- Prefer `/specialist-verifier` before manual smoke when agent/synapse behavior changes.
+- Use progress reporting to group related edits into clear checkpoints before final PR wording.
 
 ## Product Agent Roles
 

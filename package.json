@@ -35,6 +35,8 @@
     "figma:code-connect:publish": "figma connect publish --config figma.config.json",
     "figma:code-connect:apply-nodes": "node scripts/figma/apply-code-connect-nodes.mjs",
     "typecheck:core-strict": "tsc -p tsconfig.core-strict.json --noEmit",
+    "validate:session": "npm run smoke:predeploy && npm run typecheck:core-strict && npx playwright test e2e/obsidian-calm-tokens.spec.ts --reporter=line",
+    "validate:agents-local": "cd functions && npm run build && cd .. && npm run smoke:synapse-triggers && npm run smoke:dcap-routing && npm run smoke:inkast-fas2 && npm run smoke:orkester",
     "sync:system": "node scripts/sync_system_docs.mjs",
     "smoke:kunskap": "node scripts/smoke_kunskap.mjs",
     "smoke:speglar": "node scripts/smoke_speglar.mjs",
