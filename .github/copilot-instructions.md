@@ -33,7 +33,7 @@ npm run typecheck:core-strict
 
 ## Local workflow shortcuts
 
-- Iterative validation bundle: `npm run validate:session`
+- Iterative validation bundle: `npm run validate:session` (intentional fast-fail order: `smoke:predeploy` → `typecheck:core-strict` → `obsidian-calm-tokens`)
 - Agent/synapse env-free local preflight: `npm run validate:agents-local`
 - When editing agents/synapses, reread `.context/system-plan.md`, `.context/security.md`, and `.context/arkiv-minne.md` first.
 - Keep runtime prompts in `functions/src/sharedRules.ts`, and prefer `/specialist-verifier` before manual smoke.
