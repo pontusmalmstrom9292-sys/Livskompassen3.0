@@ -31,13 +31,15 @@ function main() {
     'src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts',
     'canonicalValvRoute',
     'buildValvSearchParams',
+    'parseValvInputModeFromSearch',
     "if (mode === 'granska') return 'logga'",
     'LEGACY_INBOX_VAULT_TAB',
   );
   mustInclude(
     'src/modules/core/pages/ValvetRoutePage.tsx',
     'canonicalValvRoute',
-    'parseValvInputModeFromSearch',
+    'resolveValvInputModeFromVaultTab',
+    'vaultTabForValvInputMode',
     "params.set('valvMode'",
     "params.delete('samlaView')",
     'LEGACY_INBOX_VAULT_TAB',
