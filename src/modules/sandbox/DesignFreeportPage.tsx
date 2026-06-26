@@ -11,9 +11,11 @@ import { FreeportHjartatHub } from './components/FreeportHjartatHub';
 import { FreeportMabraHub } from './components/FreeportMabraHub';
 import { FreeportFamiljenHub } from './components/FreeportFamiljenHub';
 import { FreeportPremiumScreensLab } from './components/FreeportPremiumScreensLab';
+import { BastaDesignApp } from './basta-design/BastaDesignApp';
 
 type PanelId =
   | 'hem'
+  | 'basta-design'
   | 'hjartat'
   | 'mabra'
   | 'familjen'
@@ -24,6 +26,7 @@ type PanelId =
 
 const PANELS: { id: PanelId; label: string }[] = [
   { id: 'hem', label: 'Hem (Modell A)' },
+  { id: 'basta-design', label: 'Bästa design' },
   { id: 'hjartat', label: 'Hjärtat hub' },
   { id: 'mabra', label: 'MåBra hub' },
   { id: 'familjen', label: 'Familjen hub' },
@@ -93,6 +96,9 @@ export function DesignFreeportPage() {
           </p>
 
           <div className="design-freeport__links">
+            <Link to="/dev/basta-design" className="design-freeport__link">
+              Bästa design (Figma)
+            </Link>
             <Link to="/dev/theme-lab" className="design-freeport__link">
               Theme Lab
             </Link>
@@ -110,6 +116,17 @@ export function DesignFreeportPage() {
 
         {panel === 'hem' ? (
           <FreeportHemV3Lab lowCapacity={lowCapacity} onStatus={setStatus} />
+        ) : null}
+        {panel === 'basta-design' ? (
+          <div className="mt-4">
+            <p className="design-freeport__hint mb-3">
+              Figma-export — full skärm med egen header + kompass-dock.{' '}
+              <Link to="/dev/basta-design" className="design-freeport__link">
+                Öppna helskärm ↗
+              </Link>
+            </p>
+            <BastaDesignApp />
+          </div>
         ) : null}
         {panel === 'hjartat' ? (
           <FreeportHjartatHub lowCapacity={lowCapacity} onStatus={setStatus} />

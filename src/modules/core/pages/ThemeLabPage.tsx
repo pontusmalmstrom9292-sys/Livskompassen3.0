@@ -28,6 +28,7 @@ import { THEME_PACK_REDESIGN_A } from '../theme/themePackRedesignA';
 import { THEME_PACK_REMIX_E_HAMN } from '../theme/themePackRemix';
 import { THEME_PACK_OBSIDIAN_DEPTH } from '../theme/themePackObsidianDepth';
 import { THEME_PACK_MIDNIGHT_EXECUTIVE } from '../theme/themePackMidnightExecutive';
+import { THEME_PACK_BASTA_DESIGN } from '../theme/themePackBastaDesign';
 import {
   getExecutiveHomeLayoutMode,
   setExecutiveHomeLayoutMode,
@@ -228,6 +229,23 @@ export function ThemeLabPage() {
       </section>
 
       <ThemeLabPackSection
+        title="Bästa design — Figma-ref (2026-06)"
+        packs={THEME_PACK_BASTA_DESIGN}
+        previewId={previewId}
+        themeId={themeId}
+        onPreview={applyPreview}
+        onApply={(id) => {
+          setTheme(id);
+          setAutoMode(false);
+          setPreviewId(id);
+        }}
+        extraLink={{
+          label: 'Öppna full mock ↗',
+          href: '/dev/basta-design',
+        }}
+      />
+
+      <ThemeLabPackSection
         title="Midnight Executive — mockup v1 (2026-06)"
         packs={THEME_PACK_MIDNIGHT_EXECUTIVE}
         previewId={previewId}
@@ -244,7 +262,7 @@ export function ThemeLabPage() {
         }}
       />
 
-      {themeId === 'ME-midnight-executive' ? (
+      {themeId === 'ME-midnight-executive' || themeId === 'ME-basta-design' ? (
         <section className="glass-card p-4 space-y-3">
           <h2 className="text-sm font-semibold text-accent">Executive hem-layout</h2>
           <p className="text-xs text-text-muted">

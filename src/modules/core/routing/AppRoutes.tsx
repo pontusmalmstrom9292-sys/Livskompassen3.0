@@ -126,6 +126,11 @@ const DesignFreeportPage = lazy(() =>
     default: m.DesignFreeportPage,
   })),
 );
+const BastaDesignLabPage = lazy(() =>
+  import('@/modules/sandbox/BastaDesignLabPage').then((m) => ({
+    default: m.BastaDesignLabPage,
+  })),
+);
 const DagensAnkareLabPage = lazy(() =>
   import('../pages/DagensAnkareLabPage').then((m) => ({
     default: m.DagensAnkareLabPage,
@@ -316,6 +321,14 @@ export function AppRoutes() {
         element={
           <Suspense fallback={<RouteFallback />}>
             <DesignFreeportPage />
+          </Suspense>
+        }
+      />
+      <Route
+        path="/dev/basta-design"
+        element={
+          <Suspense fallback={<RouteFallback />}>
+            <BastaDesignLabPage />
           </Suspense>
         }
       />
