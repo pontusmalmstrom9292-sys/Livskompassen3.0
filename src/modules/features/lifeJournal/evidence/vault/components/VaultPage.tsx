@@ -55,7 +55,7 @@ function VaultPageInner({
   const [internalValvMode, setInternalValvMode] = useState<ValvInputMode>('spara');
 
   const { vaultTab, valvMode } = canonicalValvRoute(
-    propValvMode ?? internalValvMode,
+    propValvMode ?? (propVaultTab ? null : internalValvMode),
     propVaultTab ?? internalVaultTab,
   );
 
