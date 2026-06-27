@@ -1,5 +1,8 @@
 blank_issues_enabled: false
 contact_links:
+  - name: Copilot Jules (moln-bygg)
+    url: https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0/blob/main/docs/governance/COPILOT-JULES-MOLN.md
+    about: Säker moln-agent — issue-mall, GRÖN/GUL/RÖD, assign Copilot på GitHub.
   - name: Livskompassen docs
     url: https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0/tree/main/docs
     about: Planering, GAP-register och deploy — läs här innan du skapar ärende.

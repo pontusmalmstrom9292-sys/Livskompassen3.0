@@ -1,0 +1,94 @@
+name: Copilot Jules (moln)
+description: Skicka en säker bygguppgift till GitHub Copilot Coding Agent i molnet
+title: "[Jules] "
+labels:
+  - enhancement
+  - copilot-jules
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Moln-bygg (Jules)** — Copilot jobbar i GitHub Actions och öppnar PR.
+        Kanon: [`docs/governance/COPILOT-JULES-MOLN.md`](../../docs/governance/COPILOT-JULES-MOLN.md)
+
+        **Efter du skapat issue:** GitHub → Assignee → **Copilot** (Coding Agent).
+
+  - type: dropdown
+    id: cloud_safe
+    attributes:
+      label: Uppgiftstyp (moln-säker?)
+      description: Välj endast GRÖN eller GUL utan PMIR-kryss nedan.
+      options:
+        - "GRÖN — UI/polish, smoke-fix, typecheck, docs (rekommenderat)"
+        - "GUL — ny feature i vanlig modul (en filgrupp, ingen rules)"
+        - "RÖD — rules/deploy/Sacred (PMIR — använd INTE Jules utan OK)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: zon
+    attributes:
+      label: Zon
+      options:
+        - Hjärtat (/hjartat)
+        - Valvet (/valvet)
+        - Vardagen (/vardagen)
+        - Familjen (/familjen)
+        - Backend (functions, ej rules)
+        - Design / Executive Midnight
+        - Android (Capacitor, ej prod-deploy)
+        - Docs / smoke / CI
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Exakt scope (en uppgift)
+      description: En sak i taget. Nämn filer om du kan.
+      placeholder: |
+        Ex: Fixa första FAIL i npm run smoke:tier1 — minimal diff.
+        Filer: scripts/smoke_*.mjs eller berörd komponent under src/modules/...
+        MUST NOT: firestore.rules, storage.rules, sharedRules.ts, NavigationDrawer.tsx
+    validations:
+      required: true
+
+  - type: textarea
+    id: verify
+    attributes:
+      label: Verifiering (CI/smoke)
+      value: |
+        cd functions && npm run build && cd ..
+        npm run build
+        npm run smoke:predeploy
+      description: Jules ska få dessa gröna i PR. Ändra vid behov.
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: pmir
+    attributes:
+      label: PMIR — stoppa Jules om något stämmer
+      options:
+        - label: Rör firestore.rules, storage.rules eller sharedRules.ts
+        - label: Rör Locked UX (Barnfokus, Valv Mönster/Orkester, Planering-widget)
+        - label: Kräver firebase deploy till prod
+        - label: Mass-radering eller App Check Enforce
+      validations:
+        required: false
+
+  - type: textarea
+    id: agent_prompt
+    attributes:
+      label: Prompt till Copilot (kopiera till issue-kommentar om behövs)
+      description: Färdig text — Jules läser issue + .github/copilot-instructions.md
+      value: |
+        Livskompassen Jules — implementera ENDAST scope ovan.
+
+        MUST: WORM · tre silos · DCAP före LLM · Zero Footprint · Locked UX intakt.
+        MUST NOT: firestore.rules · storage.rules · sharedRules.ts · NavigationDrawer · deploy.
+        Kör verifiering i verify-fältet. Öppna PR mot main. Ingen merge utan smoke PASS.
+
+        Jämför mot hela repo-kontext. Minimal diff. Rapportera vad, varför, smoke, risk.
+    validations:
+      required: true
