@@ -1,5 +1,5 @@
 # Copilot rules pack
-Generated: 2026-06-27T21:24:29.320Z
+Generated: 2026-06-23T09:47:27.909Z
 ## DRIFT: none
 ## index
 
@@ -35,7 +35,7 @@ Läs dynamisk status före stor kod: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`
 | ADK & synapser | [`synapser-adk.mdc`](rules/synapser-adk.mdc) |
 | Säkerhet & DCAP | [`security-firestore.mdc`](rules/security-firestore.mdc) |
 | Locked UX | [`locked-ux-features.mdc`](rules/locked-ux-features.mdc) |
-| Design Executive Midnight (DAD) | [`design-calm.mdc`](rules/design-calm.mdc) · [`ui-design.mdc`](rules/ui-design.mdc) pekare |
+| Design Obsidian Calm | [`design-calm.mdc`](rules/design-calm.mdc) · [`ui-design.mdc`](rules/ui-design.mdc) pekare |
 | Deploy & YOLO | [`yolo-vakt-gate.mdc`](rules/yolo-vakt-gate.mdc) · [`model-routing.mdc`](rules/model-routing.mdc) · [`deploy-paminnelser.mdc`](rules/deploy-paminnelser.mdc) |
 | Merge & PMIR | [`git-main-trunk.mdc`](rules/git-main-trunk.mdc) · [`deep-research-pmir.mdc`](rules/deep-research-pmir.mdc) · [`fas-masterplan-guard.mdc`](rules/fas-masterplan-guard.mdc) |
 | Domän HCF | [`domän-covert-narcissism.mdc`](rules/domän-covert-narcissism.mdc) |
@@ -331,36 +331,53 @@ Innehåll/kurator/bank: `npm run smoke:innehall`.
 ## copilot-instructions
 
 ```
-# Livskompassen — GitHub Copilot instructions
+# Livskompassen — Copilot instructions (repo-wide)
 
-**Roll:** Readonly analys, review och SPEC. **Cursor** är enda kodskrivare — ändra inte Sacred paths utan explicit Pontus-OK (PMIR).
+Read before suggesting or reviewing changes in this repository.
 
-## Kärn-invariants
+## Invariants (MUST)
 
-- **WORM:** Append-only för `reality_vault`, `children_logs`, `journal`, `evolution_ledger`. Server-tidsstämpel. Beteende + datum — aldrig diagnos på motpart.
-- **Tre silos:** Håll RAG strikt separerat — Kunskap (`kampspar`/`kb_docs`), Valv (`reality_vault`), Familjen (`children_logs`). Ingen cross-RAG mellan silor.
-- **DCAP före LLM:** Routing i kod (`routeFromDcap`, `classifyInboxDocument`, `resolveExecutorId`) — LLM beslutar inte auth, silo eller WORM.
-- **Zero Footprint:** Rensa session och synapse-state vid logout, blur och panic.
-- **Locked UX:** Bevara Valv, Familjen/Barnporten, Planering-widget och övriga låsta moduler intakta.
+- **WORM append-only:** `reality_vault`, `journal`, `children_logs`, `evolution_ledger`, `dcap_alerts` — server timestamp, behavior + date (never diagnose third parties).
+- **Tre silos — no cross-RAG:** `knowledgeVaultQuery` → kampspar/kb_docs · `valvChatQuery` → reality_vault · `childrenLogsQuery` → children_logs.
+- **DCAP before LLM:** Routing in code (`routeFromDcap`, `classifyInboxDocument`, `resolveExecutorId`). LLM must not decide auth, silo, or WORM.
+- **Runtime prompts:** Only in `functions/src/sharedRules.ts` — never duplicate in callables or frontend.
+- **Zero Footprint:** Clear session/synapse state on logout and blur.
 
-## PMIR-stopp (vänta explicit OK)
+## Locked UX (MUST NOT remove)
 
-`firestore.rules` · `storage.rules` · locked UX · runtime-prompter (`sharedRules.ts`) · mass-radering · Sacred Features.
+- Barnfokus / Middagsfrågan
+- Valv Mönster / Orkester panels
+- Drawer: public mode hides Valv; unlocked shows Vardag + Valv
+- Planering hybrid widget
+- Barnporten HITL
 
-## Verifiering före merge/deploy
+## Protected files (no structural changes without explicit owner OK)
 
-Kör eller referera: `npm run smoke:predeploy` · `npm run smoke:locked-ux` · YOLO GO före prod.
+- `src/modules/core/layout/NavigationDrawer.tsx` (PROTECTED CORE)
+- `firestore.rules`, `storage.rules`, `.context/locked-ux-features.md`
 
-## Ton och arbetssätt
+## Validate before merge
 
-Progressive disclosure — ett konkret steg i taget. Inget JADE. Verifiera mot kod/docs; osäkerhet → *"Ej tillräckligt data för bedömning."*
+```bash
+cd functions && npm run build && cd ..
+npm run smoke:predeploy
+npm run typecheck:core-strict
+```
 
-## 3-zonsystem
+## MUST NOT
 
-- **Hjärtat** `/hjartat` — Dagbok, Speglar; Valv via `/valvet`
-- **Vardagen** `/vardagen` — MåBra, Planering, Ekonomi, Arbetsliv
-- **Familjen** `/familjen` — Barnfokus, Livslogg, Barnporten, Trygg Hamn
+- Force-push to `main`
+- Mock security as WORM/CMEK
+- Add legacy routes outside 3-zone system (`/hjartat`, `/vardagen`, `/familjen`)
+- Remove or bypass smoke gates
+- Commit secrets (`.env`, service account JSON)
 
-Kanon: `.cursor/index.mdc` · `docs/specs/modules/Arkiv-GAP-REGISTER.md` · `docs/governance/GUARD-REGLERBOK.md`
+## Canonical docs
+
+- `.cursor/index.mdc` — core invariants
+- `docs/specs/modules/Arkiv-GAP-REGISTER.md` — GAP truth
+- `docs/governance/GUARD-REGLERBOK.md` — governance
+
+Copilot suggestions are **advisory**. Green CI `smoke` + human/YOLO gate required to merge.
 
 ```

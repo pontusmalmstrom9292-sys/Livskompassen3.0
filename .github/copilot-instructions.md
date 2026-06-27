@@ -1,31 +1,75 @@
-# Livskompassen — GitHub Copilot instructions
+# Livskompassen — Copilot instructions (repo-wide)
 
-**Roll:** Readonly analys, review och SPEC. **Cursor** är enda kodskrivare — ändra inte Sacred paths utan explicit Pontus-OK (PMIR).
+Read before suggesting or reviewing changes in this repository.
 
-## Kärn-invariants
+## Master-regel för AI-hjälp
 
-- **WORM:** Append-only för `reality_vault`, `children_logs`, `journal`, `evolution_ledger`. Server-tidsstämpel. Beteende + datum — aldrig diagnos på motpart.
-- **Tre silos:** Håll RAG strikt separerat — Kunskap (`kampspar`/`kb_docs`), Valv (`reality_vault`), Familjen (`children_logs`). Ingen cross-RAG mellan silor.
-- **DCAP före LLM:** Routing i kod (`routeFromDcap`, `classifyInboxDocument`, `resolveExecutorId`) — LLM beslutar inte auth, silo eller WORM.
-- **Zero Footprint:** Rensa session och synapse-state vid logout, blur och panic.
-- **Locked UX:** Bevara Valv, Familjen/Barnporten, Planering-widget och övriga låsta moduler intakta.
+När du hjälper användaren ska du alltid:
 
-## PMIR-stopp (vänta explicit OK)
+1. ange plattformen du arbetar i (GitHub Copilot, Cursor, Gemini eller annan)
+2. om möjligt ange modell eller läge
+3. tydligt separera **Analys**, **Förslag** och **Faktiska ändringar**
+4. läsa viktiga filer/regler först (`README.md`, `AGENTS.md`, relevanta workflows, config-filer och AI-/agentinstruktioner)
+5. prioritera säkerhet, regler, beroenden, secrets, CI/CD, permissions och kostnader
+6. minimera manuellt arbete och låta AI-agenter göra så mycket som möjligt
+7. tydligt markera vad som kräver användarens godkännande innan ändring
+8. anpassa svar och prompts efter aktuell plattform/modell
+9. förklara kort och enkelt för icke-teknisk användare
+10. undvika lösningar som skapar onödiga månadskostnader
+11. fråga innan du gissar om plattform, modell eller mål är oklart
+12. alltid ange tydligt om du bara analyserar eller faktiskt ändrar kod
 
-`firestore.rules` · `storage.rules` · locked UX · runtime-prompter (`sharedRules.ts`) · mass-radering · Sacred Features.
+När du skriver en prompt åt användaren ska den vara plattformsanpassad och tydligt märkt för Copilot, Cursor, Gemini eller annan modell.
 
-## Verifiering före merge/deploy
+## Invariants (MUST)
 
-Kör eller referera: `npm run smoke:predeploy` · `npm run smoke:locked-ux` · YOLO GO före prod.
+- **WORM append-only:** `reality_vault`, `journal`, `children_logs`, `evolution_ledger`, `dcap_alerts` — server timestamp, behavior + date (never diagnose third parties).
+- **Tre silos — no cross-RAG:** `knowledgeVaultQuery` → kampspar/kb_docs · `valvChatQuery` → reality_vault · `childrenLogsQuery` → children_logs.
+- **DCAP before LLM:** Routing in code (`routeFromDcap`, `classifyInboxDocument`, `resolveExecutorId`). LLM must not decide auth, silo, or WORM.
+- **Runtime prompts:** Only in `functions/src/sharedRules.ts` — never duplicate in callables or frontend.
+- **Zero Footprint:** Clear session/synapse state on logout and blur.
 
-## Ton och arbetssätt
+## Locked UX (MUST NOT remove)
 
-Progressive disclosure — ett konkret steg i taget. Inget JADE. Verifiera mot kod/docs; osäkerhet → *"Ej tillräckligt data för bedömning."*
+- Barnfokus / Middagsfrågan
+- Valv Mönster / Orkester panels
+- Drawer: public mode hides Valv; unlocked shows Vardag + Valv
+- Planering hybrid widget
+- Barnporten HITL
 
-## 3-zonsystem
+## Protected files (no structural changes without explicit owner OK)
 
-- **Hjärtat** `/hjartat` — Dagbok, Speglar; Valv via `/valvet`
-- **Vardagen** `/vardagen` — MåBra, Planering, Ekonomi, Arbetsliv
-- **Familjen** `/familjen` — Barnfokus, Livslogg, Barnporten, Trygg Hamn
+- `src/modules/core/layout/NavigationDrawer.tsx` (PROTECTED CORE)
+- `firestore.rules`, `storage.rules`, `.context/locked-ux-features.md`
 
-Kanon: `.cursor/index.mdc` · `docs/specs/modules/Arkiv-GAP-REGISTER.md` · `docs/governance/GUARD-REGLERBOK.md`
+## Validate before merge
+
+```bash
+cd functions && npm run build && cd ..
+npm run smoke:predeploy
+npm run typecheck:core-strict
+```
+
+## Local workflow shortcuts
+
+- Iterative validation bundle: `npm run validate:session` (intentional fast-fail order: `smoke:predeploy` → `typecheck:core-strict` → `obsidian-calm-tokens`)
+- Agent/synapse env-free local preflight: `npm run validate:agents-local`
+- When editing agents/synapses, reread `.context/system-plan.md`, `.context/security.md`, and `.context/arkiv-minne.md` first.
+- Keep runtime prompts in `functions/src/sharedRules.ts`, and prefer `/specialist-verifier` before manual smoke.
+- Use progress reporting to bundle related edits into stable checkpoints before final PR polish.
+
+## MUST NOT
+
+- Force-push to `main`
+- Mock security as WORM/CMEK
+- Add legacy routes outside 3-zone system (`/hjartat`, `/vardagen`, `/familjen`)
+- Remove or bypass smoke gates
+- Commit secrets (`.env`, service account JSON)
+
+## Canonical docs
+
+- `.cursor/index.mdc` — core invariants
+- `docs/specs/modules/Arkiv-GAP-REGISTER.md` — GAP truth
+- `docs/governance/GUARD-REGLERBOK.md` — governance
+
+Copilot suggestions are **advisory**. Green CI `smoke` + human/YOLO gate required to merge.
