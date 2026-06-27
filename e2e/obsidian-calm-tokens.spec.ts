@@ -10,10 +10,10 @@ function isDarkHex(hex: string): boolean {
   return (r + g + b) / 3 < 90;
 }
 
-/** Kanon guld/brons-accenter — DEFAULT_THEME_ID = ME-midnight-executive (#c9a66b). */
+/** Kanon guld-accenter — DEFAULT_THEME_ID = ME-basta-design (#d4af37). */
 const CANONICAL_GOLD_ACCENTS = new Set([
-  'd4af37', // I-skymning / legacy Obsidian Calm
-  'c9a66b', // ME-midnight-executive (DAD default)
+  'd4af37', // ME-basta-design (prod default)
+  'c9a66b', // ME-midnight-executive (legacy)
   'c9a227', // I-stone-draft-twilight
   'e8c547', // I-alchemical
   '9f852b', // E-skymning-darkest
@@ -28,7 +28,7 @@ function isCanonicalGoldAccent(hex: string): boolean {
 test.describe('Obsidian Calm tokens', () => {
   test('index.css-variabler är mörka och guld-accent finns', async ({ page }) => {
     await page.goto('/');
-    await page.waitForSelector('.home-hero-kanon', { timeout: 30_000 });
+    await page.waitForSelector('.home-page--basta-design', { timeout: 30_000 });
 
     const tokens = await page.evaluate(() => {
       const root = getComputedStyle(document.documentElement);

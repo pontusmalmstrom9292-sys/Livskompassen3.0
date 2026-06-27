@@ -160,7 +160,7 @@ export function ExecutiveDockBar({
         </button>
       </div>
 
-      <ExecDockSide label="Mentil" active={isHjartat} onClick={onVentil}>
+      <ExecDockSide label="Hjärtat" active={isHjartat} onClick={onVentil}>
         <Landmark className="exec-dock-bar__glyph" strokeWidth={1.5} />
       </ExecDockSide>
 

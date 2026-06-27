@@ -1,7 +1,11 @@
-import { useReducedMotion } from 'framer-motion';
-import type { Transition, Variants } from 'framer-motion';
+import type { Transition } from 'framer-motion';
+import {
+  EXEC_HOME_ITEM_TRANSITION,
+  execHomeStaggerContainer,
+  execHomeStaggerItem,
+  useExecutiveHomeMotion,
+} from '@/core/home/executive/executiveHomeMotion';
 
-/** Executive Midnight — lugn easing, ingen bounce. */
 const BD_EASE = [0.45, 0, 0.55, 1] as const;
 
 export const BD_SCREEN_TRANSITION: Transition = {
@@ -9,29 +13,13 @@ export const BD_SCREEN_TRANSITION: Transition = {
   ease: BD_EASE,
 };
 
-export const BD_ITEM_TRANSITION: Transition = {
-  duration: 0.52,
-  ease: BD_EASE,
-};
+export const BD_ITEM_TRANSITION = EXEC_HOME_ITEM_TRANSITION;
+export const bdStaggerContainer = execHomeStaggerContainer;
+export const bdStaggerItem = execHomeStaggerItem;
 
-export const bdStaggerContainer: Variants = {
-  hidden: {},
-  visible: {
-    transition: { staggerChildren: 0.08, delayChildren: 0.04 },
-  },
-};
-
-export const bdStaggerItem: Variants = {
-  hidden: { opacity: 0, y: 14 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: BD_ITEM_TRANSITION,
-  },
-};
-
+/** Sandbox-flikbyte + stagger — samma timing som prod Hem. */
 export function useBastaDesignMotion() {
-  const reduced = useReducedMotion() ?? false;
+  const { reduced, staggerRoot, staggerChild } = useExecutiveHomeMotion();
 
   return {
     reduced,
@@ -48,5 +36,7 @@ export function useBastaDesignMotion() {
     instant: reduced
       ? { initial: false as const, animate: { opacity: 1, y: 0 } }
       : { initial: { opacity: 0, y: 14 }, animate: { opacity: 1, y: 0 }, transition: BD_ITEM_TRANSITION },
+    staggerRoot,
+    staggerChild,
   };
 }

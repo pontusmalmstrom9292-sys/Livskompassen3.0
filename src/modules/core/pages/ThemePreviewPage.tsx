@@ -3,15 +3,18 @@ import { useTheme } from '../theme';
 import { resolveThemeForPath } from '../theme/moduleThemeMap';
 
 export function ThemePreviewPage() {
-  const { themeId, mode, setTheme, setAutoMode, themes } = useTheme();
+  const { themeId, mode, setTheme, setAutoMode, themes, themeLocked } = useTheme();
 
   return (
     <div className="module-list">
       <header className="glass-card p-4">
         <h1 className="font-display text-xl font-light text-accent">Theme Pack Preview</h1>
         <p className="mt-2 text-sm text-text-muted">
-          Byt skin live. Standard: Architect Stone på alla sidor. Auto: {mode === 'auto' ? 'på' : 'av'}.
+          {themeLocked
+            ? 'Prod-tema är låst till Bästa design i hela appen.'
+            : `Byt skin live. Standard: Architect Stone på alla sidor. Auto: ${mode === 'auto' ? 'på' : 'av'}.`}
         </p>
+        {!themeLocked ? (
         <div className="mt-3 flex flex-wrap gap-2">
           <button
             type="button"
@@ -34,6 +37,16 @@ export function ThemePreviewPage() {
             Till hem
           </Link>
         </div>
+        ) : (
+        <div className="mt-3 flex flex-wrap gap-2">
+          <Link to="/dev/theme-lab" className="btn-pill--accent">
+            Theme Lab
+          </Link>
+          <Link to="/" className="btn-pill--ghost">
+            Till hem
+          </Link>
+        </div>
+        )}
       </header>
 
       <div className="adaptive-card-grid">

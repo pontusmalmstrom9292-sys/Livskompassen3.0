@@ -5,6 +5,7 @@ import { ExecutiveJournalHistoryRail } from './executive/ExecutiveJournalHistory
 import { ExecutiveReflektionHero } from './executive/ExecutiveReflektionHero';
 import { ExecutiveFocusCard } from './executive/cards/ExecutiveFocusCard';
 import { ExecutiveLivsloggCard } from './executive/cards/ExecutiveLivsloggCard';
+import { ExecutiveHomeStagger, ExecutiveHomeStaggerItem } from './executive/ExecutiveHomeStagger';
 import { clsx } from 'clsx';
 import { saveCheckIn, getRecentCheckIns } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
@@ -186,16 +187,128 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
 
   const cardClass = variant === 'brass' ? 'brass-glass' : 'calm-card';
 
+  const anchorSection = (
+    <section
+      className={clsx('home-layout-a__hero relative p-4', heroSurface)}
+      aria-label="Dagens ankare"
+    >
+      <div className="relative z-[1] mb-3 flex items-start justify-between gap-2">
+        <div className="flex items-center gap-2">
+          <Anchor className="h-4 w-4 text-accent" strokeWidth={1.5} aria-hidden />
+          <p
+            className={clsx(
+              'mb-0 text-[9px] font-bold uppercase tracking-[0.2em] text-accent',
+              variant === 'executive' && 'home-layout-a__section-label',
+            )}
+          >
+            Dagens ankare
+          </p>
+        </div>
+        {!isEditing && anchor.trim() ? (
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setIsEditing(true)}
+              className="p-1 text-text-dim transition-colors hover:text-accent"
+              title="Redigera ankare"
+            >
+              <Edit2 className="h-3.5 w-3.5" />
+            </button>
+            <Star className="h-3.5 w-3.5 fill-accent text-accent" />
+          </div>
+        ) : (
+          <Star className="h-3.5 w-3.5 fill-accent text-accent" />
+        )}
+      </div>
+
+      <div className="relative z-[1] space-y-1">
+        <h2
+          className={clsx(
+            'text-lg font-bold leading-snug text-text',
+            variant === 'executive' ? 'font-display-serif tracking-wide text-accent-light' : 'font-display-serif',
+          )}
+        >
+          Vad är viktigast idag?
+        </h2>
+        <p className="text-xs text-text-muted">Inte hela dagen — bara det viktigaste nu.</p>
+      </div>
+
+      {isEditing ? (
+        <div className="relative z-[1] mt-4 space-y-3">
+          <label htmlFor="home-layout-a-anchor" className="text-[10px] font-medium text-text-dim">
+            Dagens ankare
+          </label>
+          <textarea
+            id="home-layout-a-anchor"
+            className={clsx(
+              insetClass,
+              'font-sans text-sm transition-all focus:border-accent/40 focus:outline-none focus:ring-1 focus:ring-accent/20',
+            )}
+            rows={3}
+            placeholder="T.ex. lugnt samtal med barnen efter skolan …"
+            value={anchor}
+            onChange={(e) => {
+              setAnchor(e.target.value);
+            }}
+          />
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              className="btn-pill--accent text-[10px] font-semibold uppercase tracking-wider"
+              disabled={saving}
+              onClick={() => void handleAnchorSave()}
+            >
+              {saving ? 'Sparar …' : 'Spara ankare'}
+            </button>
+            {anchor.trim() ? (
+              <button
+                type="button"
+                className="btn-pill--ghost text-[10px] font-semibold uppercase tracking-wider"
+                onClick={() => setIsEditing(false)}
+              >
+                Avbryt
+              </button>
+            ) : null}
+            {error ? <p className="text-xs text-danger">{error}</p> : null}
+          </div>
+        </div>
+      ) : (
+        <button
+          type="button"
+          className="relative z-[1] mt-4 w-full animate-fade-in text-left"
+          onClick={() => setIsEditing(true)}
+        >
+          <p
+            className={clsx(
+              'text-base font-semibold leading-snug text-text hover:text-accent-light',
+              variant === 'executive' && 'font-display-serif tracking-wide text-accent-light',
+            )}
+          >
+            {anchor.trim() || 'Ett mikrosteg räcker.'}
+          </p>
+        </button>
+      )}
+    </section>
+  );
+
   return (
     <div className={rootClass}>
       {variant === 'executive' ? (
-        <>
-          <ExecutiveReflektionHero />
-          <div className="executive-home-grid">
-            <ExecutiveFocusCard />
-            <ExecutiveLivsloggCard />
-          </div>
-        </>
+        <ExecutiveHomeStagger className="space-y-4">
+          <ExecutiveHomeStaggerItem>
+            <ExecutiveReflektionHero />
+          </ExecutiveHomeStaggerItem>
+          <ExecutiveHomeStaggerItem>
+            <div className="executive-home-grid">
+              <ExecutiveFocusCard />
+              <ExecutiveLivsloggCard />
+            </div>
+          </ExecutiveHomeStaggerItem>
+          <ExecutiveHomeStaggerItem>{anchorSection}</ExecutiveHomeStaggerItem>
+          <ExecutiveHomeStaggerItem>
+            <ExecutiveJournalHistoryRail />
+          </ExecutiveHomeStaggerItem>
+        </ExecutiveHomeStagger>
       ) : null}
 
       {!hideIntro && variant !== 'executive' ? (
@@ -227,107 +340,9 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
       </div>
       ) : null}
 
-      <section
-        className={clsx('home-layout-a__hero relative p-4', heroSurface)}
-        aria-label="Dagens ankare"
-      >
-        <div className="relative z-[1] mb-3 flex items-start justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <Anchor className="h-4 w-4 text-accent" strokeWidth={1.5} aria-hidden />
-            <p className={clsx(
-              'mb-0 text-[9px] font-bold uppercase tracking-[0.2em] text-accent',
-              variant === 'executive' && 'home-layout-a__section-label',
-            )}>
-              Dagens ankare
-            </p>
-          </div>
-          {!isEditing && anchor.trim() ? (
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setIsEditing(true)}
-                className="p-1 text-text-dim transition-colors hover:text-accent"
-                title="Redigera ankare"
-              >
-                <Edit2 className="h-3.5 w-3.5" />
-              </button>
-              <Star className="h-3.5 w-3.5 fill-accent text-accent" />
-            </div>
-          ) : (
-            <Star className="h-3.5 w-3.5 fill-accent text-accent" />
-          )}
-        </div>
-
-        <div className="relative z-[1] space-y-1">
-          <h2 className={clsx(
-            'text-lg font-bold leading-snug text-text',
-            variant === 'executive' ? 'font-display-serif tracking-wide text-accent-light' : 'font-display-serif',
-          )}>
-            Vad är viktigast idag?
-          </h2>
-          <p className="text-xs text-text-muted">Inte hela dagen — bara det viktigaste nu.</p>
-        </div>
-
-        {isEditing ? (
-          <div className="relative z-[1] mt-4 space-y-3">
-            <label htmlFor="home-layout-a-anchor" className="text-[10px] font-medium text-text-dim">
-              Dagens ankare
-            </label>
-            <textarea
-              id="home-layout-a-anchor"
-              className={clsx(
-                insetClass,
-                'font-sans text-sm transition-all focus:border-accent/40 focus:outline-none focus:ring-1 focus:ring-accent/20',
-              )}
-              rows={3}
-              placeholder="T.ex. lugnt samtal med barnen efter skolan …"
-              value={anchor}
-              onChange={(e) => {
-                setAnchor(e.target.value);
-              }}
-            />
-            <div className="flex flex-wrap items-center gap-2">
-              <button
-                type="button"
-                className="btn-pill--accent text-[10px] font-semibold uppercase tracking-wider"
-                disabled={saving}
-                onClick={() => void handleAnchorSave()}
-              >
-                {saving ? 'Sparar …' : 'Spara ankare'}
-              </button>
-              {anchor.trim() ? (
-                <button
-                  type="button"
-                  className="btn-pill--ghost text-[10px] font-semibold uppercase tracking-wider"
-                  onClick={() => setIsEditing(false)}
-                >
-                  Avbryt
-                </button>
-              ) : null}
-              {error ? <p className="text-xs text-danger">{error}</p> : null}
-            </div>
-          </div>
-        ) : (
-          <button
-            type="button"
-            className="relative z-[1] mt-4 w-full animate-fade-in text-left"
-            onClick={() => setIsEditing(true)}
-          >
-            <p className={clsx(
-              'text-base font-semibold leading-snug text-text hover:text-accent-light',
-              variant === 'executive' && 'font-display-serif tracking-wide text-accent-light',
-            )}>
-              {anchor.trim() || 'Ett mikrosteg räcker.'}
-            </p>
-          </button>
-        )}
-      </section>
+      {variant !== 'executive' ? anchorSection : null}
 
       <PinnedPlaneringModuleSlot targetId="hem.brass.below-grid" />
-
-      {variant === 'executive' ? (
-        <ExecutiveJournalHistoryRail />
-      ) : null}
 
       {variant !== 'executive' ? (
         <>

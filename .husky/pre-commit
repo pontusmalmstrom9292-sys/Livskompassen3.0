@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+# Lås 1 · Säkerhetsnät för otekninsk användare
+# Skannar staged filer efter API-nycklar, tokens och credentials INNAN commit.
+# Kanon: docs/SAKERHETSNAT.md  ·  Regel: .cursor/rules/sakerhetsnat-husky.mdc
+
+echo ""
+echo "[husky · pre-commit] Kör smoke:secrets…"
+npm run smoke:secrets --silent
+status=$?
+if [ "$status" -ne 0 ]; then
+  echo ""
+  echo "[husky · pre-commit] STOPP — committen avbruten."
+  echo "Läs meddelandet ovan och åtgärda. Tvinga aldrig commit med --no-verify"
+  echo "utan att först ha frågat ägaren (säkerhetsnätet är där av en anledning)."
+  exit 1
+fi
+exit 0

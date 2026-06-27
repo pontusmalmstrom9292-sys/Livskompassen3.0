@@ -1,12 +1,10 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { applyTheme, getStoredThemeOverride, setStoredThemeOverride } from './applyTheme';
+import { applyTheme, setStoredThemeOverride } from './applyTheme';
 import {
-  getAutoModuleThemesEnabled,
-  resolveThemeForPath,
-  setAutoModuleThemesEnabled,
-} from './moduleThemeMap';
-import { DEFAULT_THEME_ID, THEME_REGISTRY } from './themeRegistry';
+  LOCKED_THEME_ID,
+  PROD_THEME_REGISTRY,
+  THEME_LOCKED,
+} from './themeRegistry';
 import type { ThemeMode } from './types';
 
 type ThemeContextValue = {
@@ -14,54 +12,46 @@ type ThemeContextValue = {
   mode: ThemeMode;
   setTheme: (id: string) => void;
   setAutoMode: (auto: boolean) => void;
-  themes: typeof THEME_REGISTRY;
+  themes: typeof PROD_THEME_REGISTRY;
+  themeLocked: boolean;
 };
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const location = useLocation();
-  const [themeId, setThemeId] = useState(DEFAULT_THEME_ID);
-  const [mode, setMode] = useState<ThemeMode>(() =>
-    getAutoModuleThemesEnabled() ? 'auto' : 'manual',
-  );
+function syncLockedTheme(): string {
+  if (THEME_LOCKED) {
+    setStoredThemeOverride(null);
+  }
+  applyTheme(LOCKED_THEME_ID);
+  return LOCKED_THEME_ID;
+}
 
-  const syncTheme = useCallback((pathname: string) => {
-    const override = getStoredThemeOverride();
-    const auto = getAutoModuleThemesEnabled();
-    const next =
-      auto && !override ? resolveThemeForPath(pathname) : override ?? resolveThemeForPath(pathname);
-    applyTheme(next);
-    setThemeId(next);
-  }, []);
+export function ThemeProvider({ children }: { children: React.ReactNode }) {
+  const [themeId, setThemeId] = useState(LOCKED_THEME_ID);
+  const [mode] = useState<ThemeMode>('manual');
 
   useEffect(() => {
-    syncTheme(location.pathname);
-  }, [location.pathname, syncTheme]);
-
-  const setTheme = useCallback((id: string) => {
-    setStoredThemeOverride(id);
-    setMode('manual');
-    setAutoModuleThemesEnabled(false);
-    applyTheme(id);
-    setThemeId(id);
+    setThemeId(syncLockedTheme());
   }, []);
 
-  const setAutoMode = useCallback(
-    (auto: boolean) => {
-      setAutoModuleThemesEnabled(auto);
-      setMode(auto ? 'auto' : 'manual');
-      if (auto) {
-        setStoredThemeOverride(null);
-        syncTheme(location.pathname);
-      }
-    },
-    [location.pathname, syncTheme],
-  );
+  const setTheme = useCallback((_id: string) => {
+    setThemeId(syncLockedTheme());
+  }, []);
+
+  const setAutoMode = useCallback((_auto: boolean) => {
+    setThemeId(syncLockedTheme());
+  }, []);
 
   const value = useMemo(
-    () => ({ themeId, mode, setTheme, setAutoMode, themes: THEME_REGISTRY }),
-    [themeId, mode, setTheme, setAutoMode],
+    () => ({
+      themeId,
+      mode,
+      setTheme,
+      setAutoMode,
+      themes: PROD_THEME_REGISTRY,
+      themeLocked: THEME_LOCKED,
+    }),
+    [themeId, setTheme, setAutoMode],
   );
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;

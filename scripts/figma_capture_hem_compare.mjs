@@ -51,14 +51,13 @@ async function main() {
   });
   const page = await context.newPage();
 
-  console.log('[figma:capture-hem] ▶ Prod Hem (ExecutiveHomeDashboard)');
+  console.log('[figma:capture-hem] ▶ Prod Hem (Bästa design)');
   await page.addInitScript(() => {
-    localStorage.setItem('livskompassen_theme_override', 'ME-midnight-executive');
-    localStorage.setItem('livskompassen_theme_auto_module', 'false');
+    localStorage.removeItem('livskompassen_theme_override');
   });
   await page.goto(`${BASE}/`, { waitUntil: 'domcontentloaded', timeout: 60_000 });
   const prodReady = await page
-    .waitForSelector('.executive-home-dashboard, .home-hero-kanon--executive', {
+    .waitForSelector('.home-page--basta-design, .basta-design__hero', {
       timeout: 20_000,
     })
     .then(() => true)
