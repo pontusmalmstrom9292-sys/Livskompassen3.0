@@ -15,3 +15,4 @@
 | 21:42:49 | ingest-vag1-deploy-prep | smoke FAIL | fail | kör yolo igen eller yolo skip |
 | 23:48:08 | ingest-vag1-deploy-prep | PASS | ok | Verifierat: submitInkastLite + notifyNewFile kod klar. Smoke PASS (`functions build`, `smoke:inkast-fas2`, `smoke:innehall`, `smoke:predeploy`). Deploy-instruktion: vänta Pontus OK, kör sedan `firebase deploy --only functions:submitInkastLite,functions:notifyNewFile` och därefter `npm run smoke:kunskap` manuellt. |
 | 23:50:04 | ingest-vag1-deploy-prep | BLOCKED | fail | Pontus OK mottagen och deploy körd men stoppad av GCP: `secretmanager.googleapis.com` 403 (billing ej aktiverad för projekt `gen-lang-client-0481875058`). `npm run smoke:kunskap` efteråt gav `FAIL — internal`. |
+| 23:06:49 | modul-smoke-fix-loop | preflight FAIL | fail | orkester:night |
