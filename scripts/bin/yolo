@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="/Users/Livskompassen/StudioProjects/Livskompassen3.0"
+cd "$ROOT"
+exec npm run copilot:yolo -- "$@"
