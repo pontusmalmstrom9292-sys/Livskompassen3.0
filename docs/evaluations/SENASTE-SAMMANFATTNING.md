@@ -1,13 +1,15 @@
 # Senaste sammanfattning — systemstatus
 
-**Datum:** 2026-06-19 · **Gren:** `main` @ `b952a9311`+  
+**Datum:** 2026-06-27 · **Gren:** `main` @ `b952a9311`+  
 **Kanon:** [`2026-06-15-fas19-masterplan-v2.md`](./2026-06-15-fas19-masterplan-v2.md) · **Smoke:** [`SMOKE_RESULTS.md`](../SMOKE_RESULTS.md)
 
 ---
 
 ## Nuläge i en mening
 
-**B1–B4 zon-polish DONE** · **Valv A2.1–A2.7 DONE** · **Ingest våg 1** (kunskap → `kb_docs`) kod på `main`, **deploy väntar** · `smoke:predeploy` **PASS** 2026-06-19 · Modellrouting (`@model-routing`) aktiv.
+**B1–B4 zon-polish DONE** · **Valv A2.1–A2.7 DONE** · **Ingest våg 1** (kunskap → `kb_docs`) kod på `main`, **deploy väntar** · `smoke:predeploy` **PASS** 2026-06-27 · Modellrouting (`@model-routing`) aktiv.
+
+**2026-06-27 ingest deploy-prep:** `submitInkastLite` + `notifyNewFile` verifierade i `functions/src` (export + callable/onRequest finns och är deploy-klara). Obligatorisk smoke-kedja PASS: `cd functions && npm run build` + `smoke:inkast-fas2` + `smoke:innehall` + `smoke:predeploy`. **Live smoke:kunskap körs först efter Pontus OK + deploy.**
 
 ---
 

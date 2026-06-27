@@ -1,11 +1,14 @@
 {
   "version": 1,
   "startedAt": "2026-06-27T21:32:21.757Z",
-  "updatedAt": "2026-06-27T21:34:43.714Z",
-  "currentTaskId": null,
+  "updatedAt": "2026-06-27T21:48:08.300Z",
+  "currentTaskId": "modul-smoke-fix-loop",
   "completedTaskIds": [
     "w2-backend-audit",
-    "executive-home-motion"
+    "executive-home-motion",
+    "lifeos-kopplingar-c",
+    "projekt-p1-widget",
+    "ingest-vag1-deploy-prep"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
