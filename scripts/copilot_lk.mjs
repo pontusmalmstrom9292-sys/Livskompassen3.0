@@ -24,8 +24,6 @@ const copilot = findCopilotBin();
 const args = [
   '--yolo',
   '--autopilot',
-  '--mode',
-  'autopilot',
   '--experimental',
   '--max-autopilot-continues',
   '30',

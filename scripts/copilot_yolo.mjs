@@ -1,14 +1,18 @@
 #!/usr/bin/env node
 /**
- * Copilot YOLO launcher — nästa uppgift + full autopilot via GitHub Copilot CLI.
+ * Copilot Safe YOLO v2 — kanon + preflight + PMIR + deploy-lås + loop.
  *
  * Usage:
- *   npm run copilot:yolo              # kör nästa kö-uppgift
- *   npm run copilot:yolo -- status    # visa nästa
- *   npm run copilot:yolo -- reset     # nollställ state (behåll kö)
- *   npm run copilot:yolo -- done      # markera nuvarande som klar
- *   npm run copilot:yolo -- skip      # hoppa över nuvarande
- *   npm run copilot:yolo -- task w2-backend-audit
+ *   npm run copilot:yolo              # nästa kö-uppgift (safe)
+ *   npm run copilot:yolo -- loop      # kör våg efter våg tills fail/tom
+ *   npm run copilot:yolo -- status    # visa nästa + backlog-hints
+ *   npm run copilot:yolo -- sync      # synka hints från MODUL-GAP + master-state
+ *   npm run copilot:yolo -- reset     # nollställ state
+ *   npm run copilot:yolo -- done|skip|task <id>
+ *
+ * Env:
+ *   COPILOT_YOLO_SKIP_PREFLIGHT=1     hoppa orkester:night före våg
+ *   COPILOT_YOLO_ALLOW_PMIR=1         tillåt PMIR-filer (endast med Pontus OK)
  *
  * Kräver: brew install copilot-cli && copilot login
  */
@@ -21,8 +25,24 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 const queuePath = resolve(root, '.orkester/copilot-yolo-queue.json');
 const statePath = resolve(root, '.orkester/copilot-yolo-state.json');
+const hintsPath = resolve(root, '.orkester/copilot-yolo-backlog-hints.json');
+const rulesPackPath = resolve(root, 'exports/cursor-pipeline/copilot-rules-pack.md');
+const modulGapPath = resolve(root, 'docs/evaluations/MODUL-GAP-OVERSIKT.md');
+const masterStatePath = resolve(root, '.orkester/master-state.json');
 const today = new Date().toISOString().slice(0, 10);
 const logPath = resolve(root, 'docs/evaluations', `${today}-copilot-yolo-log.md`);
+
+const PMIR_PATHS = [
+  'firestore.rules',
+  'storage.rules',
+  'functions/src/sharedRules.ts',
+  '.context/locked-ux-features.md',
+  'src/modules/core/layout/NavigationDrawer.tsx',
+];
+
+const PMIR_GREP = new RegExp(
+  PMIR_PATHS.map((p) => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'),
+);
 
 const argv = process.argv.slice(2);
 const cmd = argv[0] ?? 'run';
@@ -41,13 +61,20 @@ function writeJson(path, data) {
   writeFileSync(path, `${JSON.stringify(data, null, 2)}\n`, 'utf8');
 }
 
+function readText(path, max = 0) {
+  if (!existsSync(path)) return '';
+  const t = readFileSync(path, 'utf8');
+  return max > 0 ? t.slice(0, max) : t;
+}
+
 function gitSnapshot() {
   try {
     const branch = execSync('git rev-parse --abbrev-ref HEAD', { cwd: root, encoding: 'utf8' }).trim();
-    const sha = execSync('git rev-parse --short HEAD', { cwd: root, encoding: 'utf8' }).trim();
-    return { branch, sha };
+    const sha = execSync('git rev-parse HEAD', { cwd: root, encoding: 'utf8' }).trim();
+    const short = sha.slice(0, 7);
+    return { branch, sha, short };
   } catch {
-    return { branch: 'unknown', sha: 'unknown' };
+    return { branch: 'unknown', sha: 'unknown', short: 'unknown' };
   }
 }
 
@@ -58,10 +85,10 @@ function ensureLogHeader() {
   writeFileSync(
     logPath,
     [
-      `# Copilot YOLO log — ${today}`,
+      `# Copilot Safe YOLO log — ${today}`,
       '',
-      `**Git:** ${git.branch} @ ${git.sha}`,
-      `**Kanon:** .github/copilot-instructions.md · AGENTS.md · .cursor/index.mdc`,
+      `**Git:** ${git.branch} @ ${git.short}`,
+      `**Kanon:** copilot-rules-pack · copilot-instructions · AGENTS.md`,
       '',
       '| Tid | Task | Status | Smoke | Notering |',
       '|-----|------|--------|-------|----------|',
@@ -74,11 +101,18 @@ function ensureLogHeader() {
 function appendLog(taskId, status, smoke, note) {
   ensureLogHeader();
   const ts = new Date().toISOString().slice(11, 19);
-  appendFileSync(
-    logPath,
-    `| ${ts} | ${taskId} | ${status} | ${smoke} | ${note} |\n`,
-    'utf8',
-  );
+  appendFileSync(logPath, `| ${ts} | ${taskId} | ${status} | ${smoke} | ${note} |\n`, 'utf8');
+}
+
+function runStep(label, command) {
+  console.log(`[copilot:yolo] ${label} → ${command}`);
+  const r = spawnSync(command, {
+    cwd: root,
+    shell: true,
+    stdio: 'inherit',
+    env: process.env,
+  });
+  return r.status === 0;
 }
 
 function loadQueue() {
@@ -92,9 +126,22 @@ function loadQueue() {
 
 function loadState(queue) {
   const existing = readJson(statePath, null);
-  if (existing?.version === 1) return existing;
+  if (existing?.version === 2) return existing;
+  if (existing?.version === 1) {
+    return {
+      version: 2,
+      startedAt: existing.startedAt ?? new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      currentTaskId: existing.currentTaskId ?? null,
+      completedTaskIds: existing.completedTaskIds ?? [],
+      skippedTaskIds: existing.skippedTaskIds ?? [],
+      failedTaskIds: existing.failedTaskIds ?? [],
+      taskOrder: existing.taskOrder ?? queue.tasks.map((t) => t.id),
+      taskStartSha: existing.taskStartSha ?? null,
+    };
+  }
   return {
-    version: 1,
+    version: 2,
     startedAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     currentTaskId: null,
@@ -102,6 +149,7 @@ function loadState(queue) {
     skippedTaskIds: [],
     failedTaskIds: [],
     taskOrder: queue.tasks.map((t) => t.id),
+    taskStartSha: null,
   };
 }
 
@@ -128,54 +176,154 @@ function resolveTask(queue, state, taskId) {
   return null;
 }
 
-function buildPrompt(task) {
-  const pmir = task.pmir
-    ? `PMIR-AKTIV: Rör INTE ${task.deploy ?? 'Sacred paths'} utan explicit "Pontus OK" i chatten. Förbered kod+smoke, deploy endast om användaren skriver det.`
-    : 'PMIR: Rör INTE firestore.rules, storage.rules, sharedRules.ts, Locked UX utan explicit Pontus OK.';
+function syncBacklogHints() {
+  const hints = {
+    syncedAt: new Date().toISOString(),
+    modulGap: [],
+    masterYolo: null,
+    openSystemPlan: [],
+  };
 
-  const smoke = (task.smoke ?? ['npm run smoke:predeploy']).join(' && ');
+  const gapText = readText(modulGapPath);
+  if (gapText) {
+    for (const line of gapText.split('\n')) {
+      if (!line.startsWith('|') || line.includes('Modul | Route')) continue;
+      const lower = line.toLowerCase();
+      if (/\*\*done\*\*/.test(lower) && !/(partial|defer|user|öppen|wait|våg 8)/.test(lower)) continue;
+      if (/(partial|defer|user-test|user |öppen|wait|våg 8|nästa)/i.test(line)) {
+        hints.modulGap.push(line.trim().slice(0, 220));
+      }
+    }
+  }
+
+  const master = readJson(masterStatePath, null);
+  if (master) {
+    hints.masterYolo = {
+      status: master.status,
+      nextWaveId: master.nextWaveId,
+      completed: master.completedWaves?.length ?? 0,
+    };
+  }
+
+  const planPath = resolve(root, '.context/system-plan.md');
+  const plan = readText(planPath);
+  for (const line of plan.split('\n')) {
+    if (line.startsWith('- [ ]')) hints.openSystemPlan.push(line.replace('- [ ]', '').trim().slice(0, 160));
+  }
+
+  writeJson(hintsPath, hints);
+  return hints;
+}
+
+function getSmokeSteps(task) {
+  const steps = [...(task.smoke ?? [])];
+  const fullGate = 'npm run smoke:predeploy:build';
+  if (task.fullGate !== false && !steps.includes(fullGate)) steps.push(fullGate);
+  if (steps.length === 0) return [fullGate];
+  return steps;
+}
+
+function kanonExcerpt() {
+  const pack = readText(rulesPackPath, 3500);
+  if (pack) return pack;
+  return readText(resolve(root, '.github/copilot-instructions.md'), 2500);
+}
+
+function buildPrompt(task) {
+  const smoke = getSmokeSteps(task).join(' && ');
+  const deploy = task.deploy && task.deploy !== 'none' ? task.deploy : null;
 
   return [
-    `Livskompassen YOLO — uppgift "${task.id}": ${task.title}`,
+    `Livskompassen SAFE YOLO v2 — uppgift "${task.id}": ${task.title}`,
     '',
-    'Du är GitHub Copilot CLI i full autopilot. Bygg klart uppgiften autonomt.',
+    'Du är GitHub Copilot CLI i autopilot. Bygg ENDAST scope för denna våg.',
     '',
-    'Läs först (kort):',
-    '- .github/copilot-instructions.md',
-    '- AGENTS.md',
-    '- .cursor/index.mdc',
+    '=== KANON (MUST) ===',
+    readText(resolve(root, '.github/copilot-instructions.md'), 1800),
     '',
-    `Plan: ${task.plan}`,
+    '=== RULES PACK (utdrag) ===',
+    kanonExcerpt().slice(0, 2000),
     '',
-    'MUST:',
-    '- WORM append-only · tre silos (ingen cross-RAG) · DCAP före LLM · Zero Footprint',
-    '- Bevara Locked UX (Valv, Familjen/Barnporten, Planering-widget)',
-    `- Verifiera innan du avslutar: ${smoke}`,
-    '- Committa med: copilot-yolo: <task-id> — <kort varför>',
-    pmir,
+    `=== PLAN ===`,
+    task.plan,
+    task.gapRef ? `GAP/modul: ${task.gapRef}` : '',
     '',
-    'Arbeta tills smoke PASS eller du blockeras (PMIR). Rapportera kort: vad, varför, verifiering, risk.',
-  ].join('\n');
+    '=== MUST ===',
+    '- WORM · tre silos · DCAP före LLM · Zero Footprint · Locked UX intakt',
+    '- Prompts endast i functions/src/sharedRules.ts',
+    `- Verifiera: ${smoke}`,
+    '- Committa: copilot-yolo: <task-id> — <kort varför>',
+    '',
+    '=== MUST NOT (PMIR — hard stop) ===',
+    '- Ändra INTE: firestore.rules, storage.rules, sharedRules.ts, NavigationDrawer.tsx, locked-ux-features',
+    '- Kör ALDRIG firebase deploy (skriv kommando i slutrapport om deploy behövs)',
+    '- Ingen force-push · ingen cross-RAG · ingen mock-WORM',
+    deploy
+      ? `- Deploy föreslås efter Pontus OK: firebase deploy --only ${deploy}`
+      : '- Deploy: none för denna våg',
+    '',
+    'LEVERANS: vad · varför · smoke-resultat · risk · ev. deploy-kommando (ej kört).',
+  ]
+    .filter(Boolean)
+    .join('\n');
+}
+
+function runPreflight() {
+  if (process.env.COPILOT_YOLO_SKIP_PREFLIGHT === '1') {
+    console.log('[copilot:yolo] Pre-flight hoppad (COPILOT_YOLO_SKIP_PREFLIGHT=1)');
+    return true;
+  }
+  console.log('[copilot:yolo] Pre-flight: orkester:night (deterministisk, ingen LLM)...');
+  return runStep('preflight', 'npm run orkester:night');
 }
 
 function runSmoke(task) {
-  const steps = task.smoke ?? ['npm run smoke:predeploy'];
-  for (const step of steps) {
-    console.log(`[copilot:yolo] smoke → ${step}`);
-    const r = spawnSync(step, {
-      cwd: root,
-      shell: true,
-      stdio: 'inherit',
-      env: process.env,
-    });
-    if (r.status !== 0) return false;
+  for (const step of getSmokeSteps(task)) {
+    if (!runStep('smoke', step)) return false;
   }
   return true;
 }
 
+function changedFilesSince(sha) {
+  if (!sha || sha === 'unknown') {
+    try {
+      return execSync('git diff --name-only HEAD', { cwd: root, encoding: 'utf8' })
+        .trim()
+        .split('\n')
+        .filter(Boolean);
+    } catch {
+      return [];
+    }
+  }
+  try {
+    return execSync(`git diff --name-only ${sha}`, { cwd: root, encoding: 'utf8' })
+      .trim()
+      .split('\n')
+      .filter(Boolean);
+  } catch {
+    return [];
+  }
+}
+
+function checkPmirViolations(files) {
+  return files.filter((f) => PMIR_GREP.test(f));
+}
+
+function printDeployInstructions(task) {
+  if (!task.deploy || task.deploy === 'none') return;
+  const cmd = `firebase use gen-lang-client-0481875058 && firebase deploy --only ${task.deploy}`;
+  console.log('');
+  console.log('══════════════════════════════════════════════════');
+  console.log('  DEPLOY-LÅS — kräver Pontus OK');
+  console.log('══════════════════════════════════════════════════');
+  console.log(cmd);
+  console.log('Efter deploy (valfritt live): npm run smoke:predeploy:live');
+  console.log('');
+  appendLog(task.id, 'deploy-ready', '—', cmd);
+}
+
 function findCopilotBin() {
-  const candidates = ['copilot', '/opt/homebrew/bin/copilot'];
-  for (const bin of candidates) {
+  for (const bin of ['copilot', '/opt/homebrew/bin/copilot']) {
     const r = spawnSync('which', [bin], { encoding: 'utf8' });
     if (r.status === 0 && r.stdout.trim()) return r.stdout.trim();
     if (existsSync(bin)) return bin;
@@ -186,14 +334,11 @@ function findCopilotBin() {
 
 function launchCopilot(task) {
   const copilot = findCopilotBin();
-  const prompt = buildPrompt(task);
   const args = [
     '-i',
-    prompt,
+    buildPrompt(task),
     '--yolo',
     '--autopilot',
-    '--mode',
-    'autopilot',
     '--no-ask-user',
     '--experimental',
     '--max-autopilot-continues',
@@ -203,40 +348,98 @@ function launchCopilot(task) {
     '--model',
     'auto',
     '--name',
-    `lk-yolo-${task.id}`,
+    `lk-safe-yolo-${task.id}`,
     '-C',
     root,
   ];
 
   console.log('');
   console.log('══════════════════════════════════════════════════');
-  console.log(`  COPILOT YOLO — ${task.id}`);
+  console.log(`  COPILOT SAFE YOLO — ${task.id}`);
   console.log(`  ${task.title}`);
   console.log('══════════════════════════════════════════════════');
-  console.log('[copilot:yolo] Startar Copilot CLI (autopilot + yolo)...');
-  console.log('[copilot:yolo] Avsluta session med Ctrl+C om du behöver pausa.');
+  console.log('[copilot:yolo] Copilot autopilot + yolo (deploy låst i prompt)...');
   console.log('');
 
   return spawnSync(copilot, args, {
     cwd: root,
     stdio: 'inherit',
-    env: {
-      ...process.env,
-      COPILOT_ALLOW_ALL: 'true',
-    },
+    env: { ...process.env, COPILOT_ALLOW_ALL: 'true' },
   });
 }
 
 function printStatus(queue, state) {
   const next = resolveTask(queue, state);
+  const hints = readJson(hintsPath, null);
+  console.log('[copilot:yolo] Safe YOLO v2');
   console.log('[copilot:yolo] State:', statePath);
   console.log('[copilot:yolo] Klara:', state.completedTaskIds.length, '/', state.taskOrder.length);
   if (state.currentTaskId) console.log('[copilot:yolo] Pågår:', state.currentTaskId);
-  if (next) {
-    console.log('[copilot:yolo] Nästa:', next.id, '—', next.title);
-  } else {
-    console.log('[copilot:yolo] Kö tom — lägg till tasks i .orkester/copilot-yolo-queue.json');
+  if (next) console.log('[copilot:yolo] Nästa:', next.id, '—', next.title);
+  else console.log('[copilot:yolo] Kö tom.');
+  if (hints?.modulGap?.length) {
+    console.log('[copilot:yolo] MODUL-GAP hints:', hints.modulGap.length, '(kör sync för detalj)');
   }
+  if (hints?.openSystemPlan?.length) {
+    console.log('[copilot:yolo] system-plan öppet:', hints.openSystemPlan[0]);
+  }
+}
+
+/** @returns {boolean} true = våg klar, false = stopp */
+function runOneWave(queue, state, task) {
+  const startSha = gitSnapshot().sha;
+  state.currentTaskId = task.id;
+  state.taskStartSha = startSha;
+  saveState(state);
+
+  if (!runPreflight()) {
+    appendLog(task.id, 'preflight FAIL', 'fail', 'orkester:night');
+    console.error('[copilot:yolo] ✗ Pre-flight FAIL — fixa innan nästa försök.');
+    return false;
+  }
+
+  const result = launchCopilot(task);
+  if (result.status !== 0) {
+    if (result.signal) {
+      appendLog(task.id, 'interrupted', '—', result.signal);
+      console.log('[copilot:yolo] Avbruten.');
+    } else {
+      appendLog(task.id, 'copilot FAIL', '—', `exit ${result.status ?? 'unknown'}`);
+      console.error('[copilot:yolo] Copilot startade inte — smoke hoppas över.');
+    }
+    return false;
+  }
+
+  const changed = changedFilesSince(startSha);
+  const pmirHits = checkPmirViolations(changed);
+  if (pmirHits.length && process.env.COPILOT_YOLO_ALLOW_PMIR !== '1') {
+    appendLog(task.id, 'PMIR BLOCK', '—', pmirHits.join(', '));
+    console.error('[copilot:yolo] ✗ PMIR-stopp — Sacred-filer ändrade:');
+    pmirHits.forEach((f) => console.error(`  - ${f}`));
+    console.error('[copilot:yolo] Reverta eller kör med Pontus OK: COPILOT_YOLO_ALLOW_PMIR=1 yolo');
+    return false;
+  }
+
+  console.log('');
+  console.log('[copilot:yolo] Smoke-gate (alltid smoke:predeploy:build)...');
+  const smokeOk = runSmoke(task);
+
+  if (!smokeOk) {
+    if (!state.failedTaskIds.includes(task.id)) state.failedTaskIds.push(task.id);
+    saveState(state);
+    appendLog(task.id, 'smoke FAIL', 'fail', 'kör yolo igen eller yolo skip');
+    console.error('[copilot:yolo] ✗ Smoke FAIL');
+    return false;
+  }
+
+  if (!state.completedTaskIds.includes(task.id)) state.completedTaskIds.push(task.id);
+  state.currentTaskId = null;
+  state.taskStartSha = null;
+  saveState(state);
+  appendLog(task.id, 'PASS', 'ok', task.title);
+  console.log('[copilot:yolo] ✓ Våg klar:', task.id);
+  printDeployInstructions(task);
+  return true;
 }
 
 function main() {
@@ -248,9 +451,18 @@ function main() {
     return;
   }
 
+  if (cmd === 'sync') {
+    const hints = syncBacklogHints();
+    console.log('[copilot:yolo] Sync klar →', hintsPath);
+    console.log('[copilot:yolo] MODUL-GAP hints:', hints.modulGap.length);
+    console.log('[copilot:yolo] system-plan öppet:', hints.openSystemPlan.length);
+    if (hints.masterYolo) console.log('[copilot:yolo] master-state:', hints.masterYolo.status, hints.masterYolo.nextWaveId);
+    return;
+  }
+
   if (cmd === 'reset') {
     state = {
-      version: 1,
+      version: 2,
       startedAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
       currentTaskId: null,
@@ -258,9 +470,11 @@ function main() {
       skippedTaskIds: [],
       failedTaskIds: [],
       taskOrder: queue.tasks.map((t) => t.id),
+      taskStartSha: null,
     };
     saveState(state);
-    console.log('[copilot:yolo] State nollställd.');
+    syncBacklogHints();
+    console.log('[copilot:yolo] State nollställd + backlog sync.');
     printStatus(queue, state);
     return;
   }
@@ -268,14 +482,13 @@ function main() {
   if (cmd === 'done') {
     const id = state.currentTaskId;
     if (!id) {
-      console.error('[copilot:yolo] Ingen pågående task. Kör copilot:yolo först.');
+      console.error('[copilot:yolo] Ingen pågående task.');
       process.exit(1);
     }
     if (!state.completedTaskIds.includes(id)) state.completedTaskIds.push(id);
     state.currentTaskId = null;
     saveState(state);
-    appendLog(id, 'done (manual)', '—', 'markerad klar');
-    console.log('[copilot:yolo] Markerad klar:', id);
+    appendLog(id, 'done (manual)', '—', '');
     printStatus(queue, state);
     return;
   }
@@ -289,7 +502,7 @@ function main() {
     if (!state.skippedTaskIds.includes(id)) state.skippedTaskIds.push(id);
     state.currentTaskId = null;
     saveState(state);
-    appendLog(id, 'skipped', '—', 'hoppad över');
+    appendLog(id, 'skipped', '—', '');
     console.log('[copilot:yolo] Hoppade över:', id);
     printStatus(queue, state);
     return;
@@ -301,42 +514,41 @@ function main() {
     process.exit(1);
   }
 
+  syncBacklogHints();
+
+  if (cmd === 'loop') {
+    console.log('[copilot:yolo] LOOP — kör tills smoke fail, PMIR eller tom kö.');
+    let n = 0;
+    while (n < 20) {
+      const task = resolveTask(queue, state);
+      if (!task) {
+        console.log('[copilot:yolo] Kö tom — loop klar.');
+        break;
+      }
+      console.log(`[copilot:yolo] Loop våg ${n + 1}: ${task.id}`);
+      const ok = runOneWave(queue, state, task);
+      state = loadState(queue);
+      if (!ok) {
+        console.log('[copilot:yolo] Loop stoppad — fixa eller yolo skip');
+        break;
+      }
+      n += 1;
+      printStatus(queue, state);
+    }
+    return;
+  }
+
   const task = resolveTask(queue, state, taskIdArg);
   if (!task) {
     console.log('[copilot:yolo] Alla uppgifter klara eller hoppade över.');
-    console.log('[copilot:yolo] Kör: npm run copilot:yolo -- reset');
     return;
   }
 
-  state.currentTaskId = task.id;
-  saveState(state);
-
-  const result = launchCopilot(task);
-  if (result.status !== 0 && result.signal) {
-    appendLog(task.id, 'interrupted', '—', result.signal);
-    console.log('[copilot:yolo] Avbruten. Kör yolo igen för att fortsätta.');
-    return;
-  }
-
-  console.log('');
-  console.log('[copilot:yolo] Copilot avslutad — kör smoke-gate...');
-  const smokeOk = runSmoke(task);
-
-  if (smokeOk) {
-    if (!state.completedTaskIds.includes(task.id)) state.completedTaskIds.push(task.id);
-    state.currentTaskId = null;
-    saveState(state);
-    appendLog(task.id, 'PASS', 'ok', task.title);
-    console.log('[copilot:yolo] ✓ Smoke PASS — uppgift klar:', task.id);
+  const ok = runOneWave(queue, state, task);
+  if (ok) {
     printStatus(queue, state);
     console.log('');
-    console.log('[copilot:yolo] Skriv yolo igen för nästa uppgift.');
-  } else {
-    if (!state.failedTaskIds.includes(task.id)) state.failedTaskIds.push(task.id);
-    saveState(state);
-    appendLog(task.id, 'smoke FAIL', 'fail', 'kör yolo igen eller yolo skip');
-    console.error('[copilot:yolo] ✗ Smoke FAIL — samma uppgift körs vid nästa yolo.');
-    console.error('[copilot:yolo] Eller: npm run copilot:yolo -- skip');
+    console.log('[copilot:yolo] Nästa: yolo  |  alla vågar: yolo loop');
   }
 }
 

@@ -37,8 +37,8 @@
     {
       "id": "ingest-vag1-deploy-prep",
       "title": "Ingest våg 1 — deploy-prep (ej deploy utan Pontus OK)",
-      "plan": "docs/evaluations/SENASTE-SAMMANFATTNING.md — verify submitInkastLite + notifyNewFile kod klar. Kör smoke:kunskap + smoke:inkast-upload. PMIR: ingen firebase deploy — bara kod + smoke PASS + deploy-instruktion i logg.",
-      "smoke": ["cd functions && npm run build", "npm run smoke:kunskap", "npm run smoke:inkast-upload", "npm run smoke:predeploy"],
+      "plan": "docs/evaluations/SENASTE-SAMMANFATTNING.md — verify submitInkastLite + notifyNewFile kod klar. Skriv deploy-instruktion i logg. Live smoke:kunskap kräver deploy — kör manuellt efter Pontus OK.",
+      "smoke": ["cd functions && npm run build", "npm run smoke:inkast-fas2", "npm run smoke:innehall", "npm run smoke:predeploy"],
       "pmir": true,
       "deploy": "functions:submitInkastLite,functions:notifyNewFile"
     },
