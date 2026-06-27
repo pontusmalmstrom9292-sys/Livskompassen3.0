@@ -95,12 +95,12 @@ function main() {
     'src/modules/features/lifeJournal/diary/diary/hooks/useJournalFlow.ts',
     'weaveJournalEntry',
     'journalWovenToKampspar',
-    'if (hasVaultGate())',
     'weaveJournalEntry({ journalEntryId: id, mood: activeMood, text: finalEntryText })',
   );
   mustNotInclude(
     'src/modules/features/lifeJournal/diary/diary/hooks/useJournalFlow.ts',
     'optInKampspar && hasVaultGate()',
+    'if (hasVaultGate()) {\n        weaveJournalEntry',
   );
   mustInclude('functions/src/callables/agents.ts', 'journalWovenToKampspar', "trigger: 'journal_woven'");
   mustInclude('functions/src/callables/agents.ts', 'breakDownResponse', "trigger: 'user_overwhelm'");

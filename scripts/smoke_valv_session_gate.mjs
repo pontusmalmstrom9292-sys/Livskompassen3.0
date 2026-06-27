@@ -1,5 +1,6 @@
 /**
- * Smoke: Valv-session gate — valvChatQuery, getEntityProfileRegistry, weaveJournalEntry utan token nekas.
+ * Smoke: Valv-session gate — valvChatQuery, getEntityProfileRegistry utan token nekas.
+ * weaveJournalEntry kräver auth men inte Valv-session (Lager 1 async → weaver_pending).
  * Usage: npm run smoke:valv-gate
  */
 import { readFileSync, existsSync } from 'fs';
@@ -66,7 +67,8 @@ async function main() {
   mustInclude('functions/src/callables/valv.ts', 'verifyVaultWebAuthnResponse', 'readWebAuthnResponse');
   mustInclude('functions/src/lib/vaultWebAuthn.ts', 'beginVaultWebAuthnChallenge', 'verifyVaultWebAuthnResponse');
   mustInclude('functions/src/index.ts', 'beginVaultWebAuthnChallenge', 'issueVaultSession');
-  mustInclude('functions/src/callables/agents.ts', 'weaveJournalEntry', 'assertVaultSession');
+  mustInclude('functions/src/callables/agents.ts', 'weaveJournalEntry', 'approveWeaverMetadata');
+  mustInclude('functions/src/callables/agents.ts', 'approveWeaverMetadata', 'assertVaultSession');
   mustInclude('functions/src/callables/weeklySummary.ts', 'vaultSessionGrantsVaultRead', 'reality_vault');
   mustInclude('functions/src/callables/compass.ts', 'vaultSessionGrantsVaultRead', 'reality_vault');
 
@@ -96,11 +98,6 @@ async function main() {
 
   const registry = httpsCallable(functions, 'getEntityProfileRegistry');
   await expectDenied('getEntityProfileRegistry utan vaultSessionToken', () => registry({}));
-
-  const weaver = httpsCallable(functions, 'weaveJournalEntry');
-  await expectDenied('weaveJournalEntry utan vaultSessionToken', () =>
-    weaver({ journalEntryId: 'smoke-gate', mood: 'neutral', text: 'Smoke gate — ska nekas utan session.' }),
-  );
 
   const issueVault = httpsCallable(functions, 'issueVaultSession');
   let liveWebAuthnGate = false;

@@ -203,7 +203,8 @@ export const weaveJournalEntry = onCall(
   { region: 'europe-west1' },
   async (request) => {
     const uid = await guardSensitiveCallableV2(request, 'weaveJournalEntry', 15);
-    await assertVaultSession(uid, request.data);
+    // Lager 1: async tagging efter journal-save — kräver inte Valv-session.
+    // Skriver endast weaver_pending (HITL); reality_vault via approveWeaverMetadata + assertVaultSession.
 
     const { journalEntryId, mood, text } = request.data;
     if (!journalEntryId || !mood || !text) {

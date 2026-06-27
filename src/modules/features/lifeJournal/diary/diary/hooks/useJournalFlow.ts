@@ -7,7 +7,6 @@ import {
 } from '@/core/firebase/firestore';
 import { uploadJournalMemory } from '../utils/journalUploadHelper';
 import type { JournalCategoryId } from '../constants/journalCategories';
-import { hasVaultGate } from '@/core/auth/sessionService';
 import { weaveJournalEntry } from '../api/weaverService';
 import { journalWovenToKampspar } from '../api/journalWovenService';
 import type { MabraBridgeHub } from '../constants/mabraBridge';
@@ -167,9 +166,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
         entryId ? { entryId } : undefined,
       );
       setLastSavedEntryId(id);
-      if (hasVaultGate()) {
-        weaveJournalEntry({ journalEntryId: id, mood: activeMood, text: finalEntryText });
-      }
+      weaveJournalEntry({ journalEntryId: id, mood: activeMood, text: finalEntryText });
       if (optInKampspar) {
         journalWovenToKampspar({ journalEntryId: id, mood: activeMood, text: finalEntryText });
       }
