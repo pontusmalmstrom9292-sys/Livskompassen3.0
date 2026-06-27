@@ -10,7 +10,6 @@
 
 Det är ett vanligt missförstånd. Använd **en** av vägarna nedan.
 
----
 
 ## Väg A — Webbläsare (enklast)
 
