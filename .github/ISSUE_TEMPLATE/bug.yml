@@ -1,0 +1,64 @@
+name: Bug
+description: Något fungerar inte som det ska
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Kort och konkret — ett steg i taget räcker.
+
+  - type: dropdown
+    id: zon
+    attributes:
+      label: Var i appen?
+      options:
+        - Hjärtat (/hjartat — Dagbok, Speglar)
+        - Valvet (/valvet)
+        - Vardagen (/vardagen — MåBra, Planering, Ekonomi)
+        - Familjen (/familjen — Barnfokus, Hamn)
+        - Backend / Functions
+        - Android
+        - Övrigt / vet inte
+    validations:
+      required: true
+
+  - type: textarea
+    id: vad
+    attributes:
+      label: Vad hände?
+      description: Vad förväntade du dig — och vad hände istället?
+      placeholder: "T.ex. Klickade Spara i dagbok → inget sparas, ingen felruta."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steg
+    attributes:
+      label: Steg att återskapa (valfritt)
+      placeholder: |
+        1. Gå till /hjartat
+        2. Skriv en rad
+        3. Klicka Spara
+    validations:
+      required: false
+
+  - type: dropdown
+    id: miljo
+    attributes:
+      label: Miljö
+      options:
+        - Webb (lokal npm run dev)
+        - Webb (prod / hosting)
+        - Android
+        - Vet inte
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: sacred
+    attributes:
+      label: Känslig zon? (valfritt)
+      options:
+        - label: Rör Valv, WORM, regler eller barn-data — kräver extra försiktighet
+          required: false

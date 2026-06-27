@@ -1,0 +1,53 @@
+name: Uppgift
+description: Något att bygga eller förbättra senare
+title: "[Uppgift] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Parkera idéer här om du inte fixar dem direkt i Cursor.
+
+  - type: dropdown
+    id: zon
+    attributes:
+      label: Vilken zon?
+      options:
+        - Hjärtat (/hjartat)
+        - Valvet (/valvet)
+        - Vardagen (/vardagen)
+        - Familjen (/familjen)
+        - Backend / ADK / synapser
+        - Design / Theme Lab
+        - Android
+        - Dokumentation / process
+        - Övrigt
+    validations:
+      required: true
+
+  - type: textarea
+    id: mal
+    attributes:
+      label: Vad ska bli bättre?
+      placeholder: "T.ex. Morgonkompassen ska visa dagens första steg utan scroll."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: prioritet
+    attributes:
+      label: Prioritet
+      options:
+        - Nu — blockerar mig
+        - Snart — inom denna fas
+        - Senare — backlog
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: pmir
+    attributes:
+      label: Kräver godkännande?
+      options:
+        - label: Rör firestore.rules, storage.rules, locked UX eller deploy — PMIR / Pontus OK
+          required: false

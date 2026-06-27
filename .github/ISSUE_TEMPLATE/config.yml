@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Livskompassen docs
+    url: https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0/tree/main/docs
+    about: Planering, GAP-register och deploy — läs här innan du skapar ärende.
