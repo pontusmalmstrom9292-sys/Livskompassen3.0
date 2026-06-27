@@ -41,17 +41,16 @@ async function tryPlaywrightScreenshot() {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ viewport: { width: 412, height: 915 } });
   await page.addInitScript(() => {
-    localStorage.setItem('livskompassen_theme_override', 'ME-midnight-executive');
-    localStorage.setItem('livskompassen_theme_auto_module', 'false');
+    localStorage.removeItem('livskompassen_theme_override');
     localStorage.setItem('livskompassen_home_layout', 'extended');
   });
 
   try {
     await page.goto(`${base}/`, { waitUntil: 'domcontentloaded', timeout: 12_000 });
-    await page.waitForSelector('.app-shell--mockup-skin .executive-home-dashboard', {
+    await page.waitForSelector('.app-shell--basta-design .basta-design__hero, .home-page--basta-design', {
       timeout: 12_000,
     });
-    const shell = page.locator('.app-shell--mockup-skin');
+    const shell = page.locator('.app-shell--basta-design');
     await shell.screenshot({
       path: resolve(root, 'docs/design/galleri/executive-home-capture-latest.png'),
     });

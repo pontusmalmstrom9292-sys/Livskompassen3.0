@@ -1,6 +1,10 @@
 # Deploy Firebase Hosting (Livskompassen3.0).
 # PAUSAD: auto-deploy på push till main är av — kör manuellt via Actions → workflow_dispatch.
 # Återaktivera: avkommentera push-blocket nedan.
+#
+# Säkerhetsnät · Lås 3 — Pontus måste kryssa i "Jag har läst PR-checklistan"
+# innan deploy startas. Detta är en mjuk men obligatorisk gate som hindrar
+# oavsiktliga prod-pushar. Se docs/SAKERHETSNAT.md.
 
 name: Deploy Hosting (main)
 
@@ -9,13 +13,48 @@ on:
   #   branches:
   #     - main
   workflow_dispatch:
+    inputs:
+      pr_checklist_confirmed:
+        description: "Jag har läst PR-checklistan och smoke-rapporten (kryssa = JA)"
+        type: boolean
+        required: true
+        default: false
+      deploy_note:
+        description: "Kort anteckning (vad och varför) — syns i körningens loggar"
+        type: string
+        required: true
+        default: "Manuell deploy efter smoke PASS"
 
 concurrency:
   group: firebase-hosting-main
   cancel-in-progress: true
 
 jobs:
+  guard:
+    name: Säkerhetsnät · checklist-gate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Verifiera kryssruta
+        env:
+          # Skicka som env-variabler för att förhindra GitHub Actions
+          # script-injection via free-text inputs. Se docs/SAKERHETSNAT.md.
+          CHECKLIST_CONFIRMED: ${{ inputs.pr_checklist_confirmed }}
+          DEPLOY_NOTE: ${{ inputs.deploy_note }}
+          ACTOR: ${{ github.actor }}
+        run: |
+          if [ "$CHECKLIST_CONFIRMED" != "true" ]; then
+            echo "::error title=Säkerhetsnät · Lås 3::Kryssrutan 'Jag har läst PR-checklistan' är inte ikryssad. Deploy avbruten."
+            echo ""
+            echo "Åtgärd: kör om workflow_dispatch och kryssa i rutan."
+            echo "Läs docs/SAKERHETSNAT.md innan du kryssar."
+            exit 1
+          fi
+          echo "Checklist bekräftad av $ACTOR: $DEPLOY_NOTE"
+
   build_and_deploy:
+    needs: guard
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -23,10 +62,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: "22"
           cache: npm

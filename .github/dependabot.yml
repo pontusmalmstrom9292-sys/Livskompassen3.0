@@ -1,15 +1,24 @@
 version: 2
+# Säkerhetsnät · Lås 2 — gratis dependabot + auto-merge för patch.
+# Auto-merge sker via .github/workflows/dependabot-auto-merge.yml och
+# kräver att PR smoke gate är grön. Major och minor kräver alltid manuell
+# granskning. Se docs/SAKERHETSNAT.md.
 updates:
   - package-ecosystem: npm
     directory: /
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
-    # Patch och minor-uppdateringar av dev-beroenden mergas automatiskt efter smoke-gate PASS.
-    # Major-versioner kräver alltid manuell genomgång.
+    # Auto-merge: patch på alla beroenden, minor på dev-beroenden (smoke-PASS krävs).
+    # Major-versioner kräver alltid manuell genomgång (Pontus OK).
+    labels:
+      - dependencies
+      - säkerhetsnät
     groups:
       production-dependencies:
         dependency-type: production
+        update-types:
+          - patch
       dev-dependencies:
         dependency-type: development
         update-types:
@@ -20,6 +29,10 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    labels:
+      - dependencies
+      - functions
+      - säkerhetsnät
     # firebase-functions v7+ bryter v1 callables (functions.region, CallableContext).
     # Uppgradera endast manuellt efter PMIR + smoke:functions-pin + functions build.
     ignore:
@@ -31,3 +44,8 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 3
+    labels:
+      - dependencies
+      - github-actions
+      - säkerhetsnät
+

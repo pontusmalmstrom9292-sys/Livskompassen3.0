@@ -10,11 +10,25 @@ function isDarkHex(hex: string): boolean {
   return (r + g + b) / 3 < 90;
 }
 
-/** Obsidian Calm 2.0 — CSS-variabler och mörk bas i runtime. */
+/** Kanon guld-accenter — DEFAULT_THEME_ID = ME-basta-design (#d4af37). */
+const CANONICAL_GOLD_ACCENTS = new Set([
+  'd4af37', // ME-basta-design (prod default)
+  'c9a66b', // ME-midnight-executive (legacy)
+  'c9a227', // I-stone-draft-twilight
+  'e8c547', // I-alchemical
+  '9f852b', // E-skymning-darkest
+]);
+
+function isCanonicalGoldAccent(hex: string): boolean {
+  const normalized = hex.trim().toLowerCase().replace(/^#/, '');
+  return CANONICAL_GOLD_ACCENTS.has(normalized);
+}
+
+/** Obsidian Calm 2.0 + Executive Midnight — CSS-variabler och mörk bas i runtime. */
 test.describe('Obsidian Calm tokens', () => {
   test('index.css-variabler är mörka och guld-accent finns', async ({ page }) => {
     await page.goto('/');
-    await page.waitForSelector('.home-hero-kanon', { timeout: 30_000 });
+    await page.waitForSelector('.home-page--basta-design', { timeout: 30_000 });
 
     const tokens = await page.evaluate(() => {
       const root = getComputedStyle(document.documentElement);
@@ -25,8 +39,7 @@ test.describe('Obsidian Calm tokens', () => {
     });
 
     expect(isDarkHex(tokens.surface)).toBe(true);
-    // Prod default ME-midnight-executive: #c9a66b · legacy I-stone: #d4af37
-    expect(tokens.accent.toLowerCase()).toMatch(/d4af37|c9a66b|c9a227|9f852b|e8c547/);
+    expect(isCanonicalGoldAccent(tokens.accent)).toBe(true);
   });
 
   test('manifest theme_color är mörk Obsidian-bas', async ({ page }) => {

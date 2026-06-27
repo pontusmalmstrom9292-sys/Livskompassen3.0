@@ -10,9 +10,12 @@ async function expectPublicLoginWall(page: import('@playwright/test').Page) {
  * Kompletterar scripts/smoke_locked_ux.mjs (statisk källkod).
  */
 test.describe('Locked UX — publikt läge', () => {
-  test('Hem laddar Obsidian Calm hero', async ({ page }) => {
+  test('Hem laddar Basta Design hero (prod default)', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('.home-hero-kanon')).toBeVisible({ timeout: 20_000 });
+    await expect(page.locator('.home-page--basta-design')).toBeVisible({
+      timeout: 20_000,
+    });
+    await expect(page.locator('.basta-design__hero')).toBeVisible();
 
     const surface = await page.evaluate(() =>
       getComputedStyle(document.documentElement).getPropertyValue('--surface').trim(),
@@ -62,7 +65,7 @@ test.describe('Locked UX — publikt läge', () => {
 
   test('Menyknapp finns i header (touch target)', async ({ page }) => {
     await page.goto('/');
-    const menuBtn = page.getByRole('button', { name: 'Öppna meny' });
+    const menuBtn = page.getByRole('button', { name: /Meny|Öppna meny/ });
     await expect(menuBtn).toBeVisible();
     const box = await menuBtn.boundingBox();
     expect(box).not.toBeNull();

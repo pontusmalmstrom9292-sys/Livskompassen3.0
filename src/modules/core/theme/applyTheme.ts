@@ -2,7 +2,7 @@ import { THEME_APPLIED_EVENT } from './themeEvents';
 import { THEME_LAB_DRAFTS } from './themeLabVariants';
 import { OBSIDIAN_DEPTH_THEME_ID } from './themePackObsidianDepth';
 import { REDESIGN_A_THEME_ID } from './themePackRedesignA';
-import { getTheme, DEFAULT_THEME_ID, resolveThemeId } from './themeRegistry';
+import { getTheme, DEFAULT_THEME_ID, resolveThemeId, LOCKED_THEME_ID, THEME_LOCKED } from './themeRegistry';
 import type { ThemePack } from './types';
 
 function resolveThemePack(themeId: string): ThemePack {
@@ -22,6 +22,14 @@ export function getStoredThemeOverride(): string | null {
 }
 
 export function setStoredThemeOverride(id: string | null): void {
+  if (THEME_LOCKED) {
+    try {
+      localStorage.removeItem(STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
+    return;
+  }
   try {
     if (id) localStorage.setItem(STORAGE_KEY, id);
     else localStorage.removeItem(STORAGE_KEY);
@@ -66,6 +74,11 @@ export function applyTheme(themeId: string): void {
 }
 
 export function applyDefaultTheme(): void {
+  if (THEME_LOCKED) {
+    setStoredThemeOverride(null);
+    applyTheme(LOCKED_THEME_ID);
+    return;
+  }
   const override = getStoredThemeOverride();
   applyTheme(override ?? DEFAULT_THEME_ID);
 }

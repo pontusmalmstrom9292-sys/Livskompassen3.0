@@ -11,6 +11,9 @@ export {
   THEME_REGISTRY,
   THEME_BY_ID,
   DEFAULT_THEME_ID,
+  LOCKED_THEME_ID,
+  THEME_LOCKED,
+  PROD_THEME_REGISTRY,
   getTheme,
 } from './themeRegistry';
 export { K_PACK_THEME_IDS, THEME_PACK_K } from './themePackK';

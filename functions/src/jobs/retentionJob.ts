@@ -18,6 +18,7 @@ export const WORM_COLLECTIONS_NEVER_PURGE = [
   'children_logs',
   'reality_vault',
   'journal',
+  'dcap_alerts',
   'emotional_memory',
   'vit_entries',
   'dossier_snapshots',
