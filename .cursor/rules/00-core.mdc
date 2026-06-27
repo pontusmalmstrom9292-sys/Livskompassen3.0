@@ -2,7 +2,6 @@
 description: Core engineering rules for Livskompassen3.0
 globs:
   - "**/*"
-alwaysApply: true
 ---
 
 # Core Rules (apply to all changes)

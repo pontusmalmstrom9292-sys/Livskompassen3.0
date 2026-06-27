@@ -2,7 +2,6 @@
 description: Pull request quality checklist
 globs:
   - "**/*"
-alwaysApply: true
 ---
 
 # PR Checklist (must be satisfied before merge)

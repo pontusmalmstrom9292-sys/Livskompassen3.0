@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, type RefObject } from 'react';
+import { memo, useEffect, useRef, type Ref } from 'react';
 import { FileDown, Loader2, Lock } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import './valv.css';
@@ -89,7 +89,7 @@ const LogRow = memo(function LogRow({
 }: {
   log: VaultLogRow;
   highlightLogId?: string | null;
-  highlightRef: RefObject<HTMLLIElement | null>;
+  highlightRef: Ref<HTMLLIElement>;
   persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
 }) {
   const vavaren = isVavarenMetadata(log);
