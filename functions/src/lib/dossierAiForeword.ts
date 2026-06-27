@@ -18,6 +18,21 @@ REGLER:
 - Hänvisa inte till känslor som sanning — citera beteenden och logistik
 - Om underlaget är tunt: säg det explicit`;
 
+const DOSSIER_AI_SYSTEM_BBIC = `Du skriver ett neutralt AI-försätt och en tematisk BBIC-strukturerad tidslinje till en dossier-export från Livskompassen.
+
+BBIC = Barns Behov I Centrum. Teman: Barnets utveckling, Föräldraförmåga, Skydd & trygghet, Familj & relationer.
+
+REGLER:
+- Svenska, klinisk och lågaffektiv ton
+- Endast observerbara fakta från underlaget — inga diagnoser, inga partietiketter
+- foreword: max 4 korta stycken, sammanfattar underlaget ur barnets perspektiv (inte juridisk rådgivning)
+- Fokusera på barnets behov, omsorgssituation och skyddsaspekter — inte förälders känslomässiga upplevelse
+- timeline: max 12 rader, kronologisk, datum YYYY-MM-DD eller "okänt"
+- Varje timeline-rad bör relatera till en BBIC-dimension (utveckling, förmåga, skydd, relationer) om möjligt
+- sourceRef (valfritt): collection/docId för källpost när fakta kan kopplas till en post (max 80 tecken)
+- Hänvisa inte till känslor som sanning — citera beteenden och logistik
+- Om underlaget är tunt: säg det explicit`;
+
 export type DossierTimelineRow = {
   date: string;
   fact: string;
@@ -155,11 +170,12 @@ Returnera JSON enligt schema.`;
 
   try {
     const ai = createGenAI(geminiApiKey);
+    const systemPrompt = reportType === 'BBIC' ? DOSSIER_AI_SYSTEM_BBIC : DOSSIER_AI_SYSTEM;
     const response = await ai.models.generateContent({
       model: DOSSIER_AI_MODEL,
       contents: prompt,
       config: {
-        systemInstruction: DOSSIER_AI_SYSTEM,
+        systemInstruction: systemPrompt,
         temperature: 0.12,
         maxOutputTokens: 1800,
         responseMimeType: 'application/json',

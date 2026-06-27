@@ -39,6 +39,112 @@ function entryBody(entry: CanonicalDossierEntry): string {
   return parts.join('\n') || '(tom post)';
 }
 
+/* ─── BBIC domain classification ─── */
+
+type BbicDomain = 'utveckling' | 'foraldraformaga' | 'skydd' | 'relationer' | 'ovrigt';
+
+const BBIC_DOMAIN_LABELS: Record<BbicDomain, string> = {
+  utveckling: 'Barnets utveckling',
+  foraldraformaga: 'Föräldraförmåga',
+  skydd: 'Skydd & trygghet',
+  relationer: 'Familj & relationer',
+  ovrigt: 'Övriga observationer',
+};
+
+const BBIC_DOMAIN_ORDER: BbicDomain[] = [
+  'utveckling',
+  'foraldraformaga',
+  'skydd',
+  'relationer',
+  'ovrigt',
+];
+
+/** Strip diacritics for keyword matching (ö→o, ä→a, å→a, etc.) */
+function stripDiacritics(s: string): string {
+  return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+/**
+ * Deterministic heuristic to classify a dossier entry into a BBIC domain.
+ * Uses category, payload keywords, and collection type.
+ * Normalizes diacritics so both 'föräldraförmåga' and 'foraldraformaga' match.
+ */
+function classifyBbicDomain(entry: CanonicalDossierEntry): BbicDomain {
+  const cat = stripDiacritics((entry.payload.category ?? '').toLowerCase());
+  const text = stripDiacritics(Object.values(entry.payload).join(' ').toLowerCase());
+
+  // Child development indicators
+  if (
+    cat.includes('utveckling') ||
+    cat.includes('fysiologi') ||
+    text.includes('fysiologi') ||
+    text.includes('somn') ||
+    text.includes('aptit') ||
+    text.includes('skola') ||
+    text.includes('utveckling')
+  ) {
+    return 'utveckling';
+  }
+
+  // Protection / safety
+  if (
+    cat.includes('skydd') ||
+    cat.includes('hot') ||
+    cat.includes('sakerhet') ||
+    text.includes('hotade') ||
+    text.includes('skydd') ||
+    text.includes('vald') ||
+    text.includes('darvo') ||
+    text.includes('gaslighting') ||
+    entry.payload.shieldWhat ||
+    entry.payload.shieldBoundary
+  ) {
+    return 'skydd';
+  }
+
+  // Parental capacity
+  if (
+    cat.includes('foraldraformaga') ||
+    cat.includes('omsorg') ||
+    cat.includes('hamtning') ||
+    cat.includes('rutin') ||
+    text.includes('hamta') ||
+    text.includes('rutin') ||
+    text.includes('umgange') ||
+    text.includes('omsorg') ||
+    text.includes('foraldra')
+  ) {
+    return 'foraldraformaga';
+  }
+
+  // Family & relationships
+  if (
+    entry.collection === 'children_logs' ||
+    cat.includes('relation') ||
+    cat.includes('familj') ||
+    cat.includes('barn') ||
+    text.includes('relation') ||
+    entry.payload.childAlias
+  ) {
+    return 'relationer';
+  }
+
+  return 'ovrigt';
+}
+
+function groupByBbicDomain(
+  entries: CanonicalDossierEntry[],
+): Map<BbicDomain, CanonicalDossierEntry[]> {
+  const groups = new Map<BbicDomain, CanonicalDossierEntry[]>();
+  for (const entry of entries) {
+    const domain = classifyBbicDomain(entry);
+    const list = groups.get(domain) ?? [];
+    list.push(entry);
+    groups.set(domain, list);
+  }
+  return groups;
+}
+
 type PdfBuildOptions = {
   dossierId: string;
   documentHash: string;
@@ -111,21 +217,54 @@ export async function buildDossierPdf(options: PdfBuildOptions): Promise<Uint8Ar
     drawLine('');
   }
 
-  drawLine('— Bevis (kronologiskt) —', true);
+  drawLine('— Bevis —', true);
 
-  const sorted = [...options.entries].sort((a, b) => {
-    const t = a.createdAt.localeCompare(b.createdAt);
-    if (t !== 0) return t;
-    return `${a.collection}:${a.docId}`.localeCompare(`${b.collection}:${b.docId}`);
-  });
-
-  for (const entry of sorted) {
+  if (options.reportType === 'BBIC') {
+    // BBIC: group entries by domain, then chronological within each domain
+    drawLine('Strukturerad enligt BBIC-teman (Barns Behov I Centrum).');
     drawLine('');
-    drawLine(
-      `[${entry.createdAt.slice(0, 10)}] ${entry.collection} / ${entry.docId}`,
-      true,
-    );
-    drawBlock(entryBody(entry));
+
+    const groups = groupByBbicDomain(options.entries);
+
+    for (const domain of BBIC_DOMAIN_ORDER) {
+      const domainEntries = groups.get(domain);
+      if (!domainEntries || domainEntries.length === 0) continue;
+
+      const sorted = [...domainEntries].sort((a, b) => {
+        const t = a.createdAt.localeCompare(b.createdAt);
+        if (t !== 0) return t;
+        return `${a.collection}:${a.docId}`.localeCompare(`${b.collection}:${b.docId}`);
+      });
+
+      drawLine('');
+      drawLine(`== ${BBIC_DOMAIN_LABELS[domain]} (${sorted.length} poster) ==`, true);
+      drawLine('');
+
+      for (const entry of sorted) {
+        drawLine(
+          `[${entry.createdAt.slice(0, 10)}] ${entry.collection} / ${entry.docId}`,
+          true,
+        );
+        drawBlock(entryBody(entry));
+        drawLine('');
+      }
+    }
+  } else {
+    // LEGAL: pure chronological order
+    const sorted = [...options.entries].sort((a, b) => {
+      const t = a.createdAt.localeCompare(b.createdAt);
+      if (t !== 0) return t;
+      return `${a.collection}:${a.docId}`.localeCompare(`${b.collection}:${b.docId}`);
+    });
+
+    for (const entry of sorted) {
+      drawLine('');
+      drawLine(
+        `[${entry.createdAt.slice(0, 10)}] ${entry.collection} / ${entry.docId}`,
+        true,
+      );
+      drawBlock(entryBody(entry));
+    }
   }
 
   if (options.tacticSummary && options.tacticSummary.length > 0) {

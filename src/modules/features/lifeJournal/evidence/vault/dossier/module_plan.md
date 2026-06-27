@@ -17,7 +17,7 @@ Se Dossier-SPEC tabell. Fyren A, backend PDF, snapshot WORM evigt, hela dokument
 | Wizard + period/källor | Ombud/soc export | Ja | **done** |
 | `generateDossier` + hash | Sacred Feature | Ja | **done** |
 | `dossier_snapshots` WORM | Evigt snapshot | Ja | **done** |
-| BBIC `reportType` | §I.4 öppen | Nej | **planned** |
+| BBIC `reportType` | §I.4 öppen | Ja | **done** |
 | Flik Dossier i Valv | Logga/Sök/Dossier | Ja | **done** |
 | Bro från Barnen | Kladd | Nej | **planned** |
 | Vävaren försätt opt-in | AI endast försätt | Nej | **planned** |
