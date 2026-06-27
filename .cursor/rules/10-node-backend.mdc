@@ -1,0 +1,42 @@
+---
+description: Node.js backend conventions
+globs:
+  - "**/*.js"
+  - "**/*.cjs"
+  - "**/*.mjs"
+  - "**/*.ts"
+alwaysApply: true
+---
+
+# Node Backend Rules
+
+## Runtime & style
+- Follow existing module system in repo (ESM/CommonJS). Do not mix styles in same area.
+- Use async/await over raw Promise chains where practical.
+- Validate input at boundaries (HTTP handlers, queue consumers, cron jobs).
+
+## API/handlers
+- Keep handlers thin: parse/validate -> call service -> map response.
+- Put business logic in service/domain layer, not directly in route/controller.
+- Return consistent error objects/status codes according to existing patterns.
+
+## Errors & logging
+- Never swallow errors.
+- Include actionable context in logs, but never log secrets/PII.
+- Prefer structured logs if project already uses them.
+
+## Data access
+- Reuse existing data access patterns (repository/service/db client).
+- Avoid N+1 style query loops when batching is possible.
+- Keep transactions explicit where needed.
+
+## Tests
+- Add/update tests for changed behavior.
+- Cover:
+  - happy path
+  - one relevant failure path
+- Do not rewrite unrelated tests.
+
+## Performance & reliability
+- Avoid blocking operations in request path.
+- Add timeouts/retries only where existing architecture supports it.

@@ -1,0 +1,29 @@
+---
+description: Pull request quality checklist
+globs:
+  - "**/*"
+alwaysApply: true
+---
+
+# PR Checklist (must be satisfied before merge)
+
+## Scope
+- Change is limited to requested task.
+- No unrelated refactors.
+
+## Quality gates
+- Lint passes (if configured).
+- Tests pass (existing + new/updated relevant tests).
+- Build/typecheck passes (if configured).
+
+## Risk control
+- Backward compatibility considered.
+- No secrets introduced.
+- Config/infra/auth/db migration changes explicitly approved.
+
+## PR description must include
+1. Summary of changes
+2. Motivation
+3. Verification steps + results
+4. Risks and rollback notes
+5. Follow-up tasks (if any)
