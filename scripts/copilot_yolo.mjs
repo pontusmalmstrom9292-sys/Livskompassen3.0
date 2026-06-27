@@ -104,13 +104,13 @@ function appendLog(taskId, status, smoke, note) {
   appendFileSync(logPath, `| ${ts} | ${taskId} | ${status} | ${smoke} | ${note} |\n`, 'utf8');
 }
 
-function runStep(label, command) {
+function runStep(label, command, extraEnv = {}) {
   console.log(`[copilot:yolo] ${label} → ${command}`);
   const r = spawnSync(command, {
     cwd: root,
     shell: true,
     stdio: 'inherit',
-    env: process.env,
+    env: { ...process.env, ...extraEnv },
   });
   return r.status === 0;
 }
@@ -273,8 +273,8 @@ function runPreflight() {
     console.log('[copilot:yolo] Pre-flight hoppad (COPILOT_YOLO_SKIP_PREFLIGHT=1)');
     return true;
   }
-  console.log('[copilot:yolo] Pre-flight: orkester:night (deterministisk, ingen LLM)...');
-  return runStep('preflight', 'npm run orkester:night');
+  console.log('[copilot:yolo] Pre-flight: orkester:night (deterministisk, live-progress)...');
+  return runStep('preflight', 'npm run orkester:night', { ORKESTER_LIVE: '1' });
 }
 
 function runSmoke(task) {

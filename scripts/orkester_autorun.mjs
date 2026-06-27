@@ -41,8 +41,13 @@ function ensureDirs() {
 function runPhase(phase) {
   const cwd = phase.cwd ? resolve(root, phase.cwd) : root;
   const started = Date.now();
+  const live = process.env.ORKESTER_LIVE === '1';
   try {
-    execSync(phase.cmd, { cwd, stdio: 'pipe', encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 });
+    execSync(phase.cmd, {
+      cwd,
+      stdio: live ? 'inherit' : 'pipe',
+      ...(live ? {} : { encoding: 'utf8', maxBuffer: 10 * 1024 * 1024 }),
+    });
     return {
       id: phase.id,
       label: phase.label,
@@ -51,8 +56,10 @@ function runPhase(phase) {
       optional: phase.optional ?? false,
     };
   } catch (err) {
-    const stderr = err.stderr?.toString?.() ?? err.message ?? String(err);
-    const stdout = err.stdout?.toString?.() ?? '';
+    const stderr = live
+      ? (err.message ?? String(err))
+      : (err.stderr?.toString?.() ?? err.message ?? String(err));
+    const stdout = live ? '' : (err.stdout?.toString?.() ?? '');
     return {
       id: phase.id,
       label: phase.label,
@@ -127,6 +134,9 @@ function main() {
   writeFileSync(statePath, JSON.stringify(state, null, 2), 'utf8');
 
   console.log(`[orkester:night] Start ${startedAt}`);
+  if (process.env.ORKESTER_LIVE === '1') {
+    console.log('[orkester:night] Live output (ORKESTER_LIVE=1)');
+  }
   const phaseResults = [];
 
   for (const phase of PHASES) {
