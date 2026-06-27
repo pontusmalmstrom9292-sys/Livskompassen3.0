@@ -11,6 +11,8 @@
 
 **2026-06-27 ingest deploy-prep:** `submitInkastLite` + `notifyNewFile` verifierade i `functions/src` (export + callable/onRequest finns och är deploy-klara). Obligatorisk smoke-kedja PASS: `cd functions && npm run build` + `smoke:inkast-fas2` + `smoke:innehall` + `smoke:predeploy`. **Live smoke:kunskap körs först efter Pontus OK + deploy.**
 
+**2026-06-27 deployförsök efter Pontus OK:** `firebase deploy --only functions:submitInkastLite,functions:notifyNewFile` blockerad av GCP 403 (`secretmanager.googleapis.com` kräver aktiverad billing i projekt `gen-lang-client-0481875058`). `smoke:kunskap` efter deployförsök gav `FAIL — internal`.
+
 ---
 
 ## 2026-06-19 leveranser
