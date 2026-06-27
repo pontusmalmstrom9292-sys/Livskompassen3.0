@@ -45,10 +45,10 @@ type BbicDomain = 'utveckling' | 'foraldraformaga' | 'skydd' | 'relationer' | 'o
 
 const BBIC_DOMAIN_LABELS: Record<BbicDomain, string> = {
   utveckling: 'Barnets utveckling',
-  foraldraformaga: 'Foraldraformaga',
+  foraldraformaga: 'Föräldraförmåga',
   skydd: 'Skydd & trygghet',
   relationer: 'Familj & relationer',
-  ovrigt: 'Ovriga observationer',
+  ovrigt: 'Övriga observationer',
 };
 
 const BBIC_DOMAIN_ORDER: BbicDomain[] = [
@@ -59,13 +59,19 @@ const BBIC_DOMAIN_ORDER: BbicDomain[] = [
   'ovrigt',
 ];
 
+/** Strip diacritics for keyword matching (ö→o, ä→a, å→a, etc.) */
+function stripDiacritics(s: string): string {
+  return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
 /**
  * Deterministic heuristic to classify a dossier entry into a BBIC domain.
  * Uses category, payload keywords, and collection type.
+ * Normalizes diacritics so both 'föräldraförmåga' and 'foraldraformaga' match.
  */
 function classifyBbicDomain(entry: CanonicalDossierEntry): BbicDomain {
-  const cat = (entry.payload.category ?? '').toLowerCase();
-  const text = Object.values(entry.payload).join(' ').toLowerCase();
+  const cat = stripDiacritics((entry.payload.category ?? '').toLowerCase());
+  const text = stripDiacritics(Object.values(entry.payload).join(' ').toLowerCase());
 
   // Child development indicators
   if (

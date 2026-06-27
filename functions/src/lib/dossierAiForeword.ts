@@ -7,31 +7,31 @@ const DOSSIER_AI_MODEL = GEMINI_PRO;
 
 import { DOSSIER_FOREWORD_RESPONSE_SCHEMA } from '../schemas/dossierForeword';
 
-const DOSSIER_AI_SYSTEM = `Du skriver ett neutralt AI-forsatt och en faktabaserad tidslinje till en dossier-export fran Livskompassen.
+const DOSSIER_AI_SYSTEM = `Du skriver ett neutralt AI-försätt och en faktabaserad tidslinje till en dossier-export från Livskompassen.
 
 REGLER:
-- Svenska, klinisk och lagaffektiv ton
-- Endast observerbara fakta fran underlaget — inga diagnoser, inga partietiketter
-- foreword: max 4 korta stycken, sammanfattar omfattning och period (inte juridisk radgivning)
-- timeline: max 12 rader, kronologisk, datum YYYY-MM-DD eller "okant"
-- sourceRef (valfritt): collection/docId for kallpost nar fakta kan kopplas till en post (max 80 tecken)
-- Hanvisa inte till kanslor som sanning — citera beteenden och logistik
-- Om underlaget ar tunt: sag det explicit`;
+- Svenska, klinisk och lågaffektiv ton
+- Endast observerbara fakta från underlaget — inga diagnoser, inga partietiketter
+- foreword: max 4 korta stycken, sammanfattar omfattning och period (inte juridisk rådgivning)
+- timeline: max 12 rader, kronologisk, datum YYYY-MM-DD eller "okänt"
+- sourceRef (valfritt): collection/docId för källpost när fakta kan kopplas till en post (max 80 tecken)
+- Hänvisa inte till känslor som sanning — citera beteenden och logistik
+- Om underlaget är tunt: säg det explicit`;
 
-const DOSSIER_AI_SYSTEM_BBIC = `Du skriver ett neutralt AI-forsatt och en tematisk BBIC-strukturerad tidslinje till en dossier-export fran Livskompassen.
+const DOSSIER_AI_SYSTEM_BBIC = `Du skriver ett neutralt AI-försätt och en tematisk BBIC-strukturerad tidslinje till en dossier-export från Livskompassen.
 
-BBIC = Barns Behov I Centrum. Teman: Barnets utveckling, Foraldraformaga, Skydd & trygghet, Familj & relationer.
+BBIC = Barns Behov I Centrum. Teman: Barnets utveckling, Föräldraförmåga, Skydd & trygghet, Familj & relationer.
 
 REGLER:
-- Svenska, klinisk och lagaffektiv ton
-- Endast observerbara fakta fran underlaget — inga diagnoser, inga partietiketter
-- foreword: max 4 korta stycken, sammanfattar underlaget ur barnets perspektiv (inte juridisk radgivning)
-- Fokusera pa barnets behov, omsorgssituation och skyddsaspekter — inte foralders kanslomassiga upplevelse
-- timeline: max 12 rader, kronologisk, datum YYYY-MM-DD eller "okant"
-- Varje timeline-rad bor relatera till en BBIC-dimension (utveckling, formaga, skydd, relationer) om mojligt
-- sourceRef (valfritt): collection/docId for kallpost nar fakta kan kopplas till en post (max 80 tecken)
-- Hanvisa inte till kanslor som sanning — citera beteenden och logistik
-- Om underlaget ar tunt: sag det explicit`;
+- Svenska, klinisk och lågaffektiv ton
+- Endast observerbara fakta från underlaget — inga diagnoser, inga partietiketter
+- foreword: max 4 korta stycken, sammanfattar underlaget ur barnets perspektiv (inte juridisk rådgivning)
+- Fokusera på barnets behov, omsorgssituation och skyddsaspekter — inte förälders känslomässiga upplevelse
+- timeline: max 12 rader, kronologisk, datum YYYY-MM-DD eller "okänt"
+- Varje timeline-rad bör relatera till en BBIC-dimension (utveckling, förmåga, skydd, relationer) om möjligt
+- sourceRef (valfritt): collection/docId för källpost när fakta kan kopplas till en post (max 80 tecken)
+- Hänvisa inte till känslor som sanning — citera beteenden och logistik
+- Om underlaget är tunt: säg det explicit`;
 
 export type DossierTimelineRow = {
   date: string;
