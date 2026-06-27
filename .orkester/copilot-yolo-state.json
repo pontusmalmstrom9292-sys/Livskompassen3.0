@@ -1,7 +1,7 @@
 {
-  "version": 1,
+  "version": 2,
   "startedAt": "2026-06-27T21:32:21.757Z",
-  "updatedAt": "2026-06-27T21:48:08.300Z",
+  "updatedAt": "2026-06-27T21:52:17.760Z",
   "currentTaskId": "modul-smoke-fix-loop",
   "completedTaskIds": [
     "w2-backend-audit",
@@ -20,5 +20,6 @@
     "ingest-vag1-deploy-prep",
     "modul-smoke-fix-loop",
     "android-g85-prep"
-  ]
+  ],
+  "taskStartSha": "af87391ed34d4a889a5fa95170d4e5c2ac43dbe5"
 }
