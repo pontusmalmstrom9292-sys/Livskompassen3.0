@@ -9,7 +9,7 @@
 
 ## Purpose
 
-Canonical specification for **performance** in Livskompassen. Memoization, lazy routes, backdrop-blur budget, lighthouse ≥85, g85 targets, scale-to-zero.
+Canonical specification for **performance** in Livskompassen. Memoization, lazy routes, backdrop-blur budget, Lighthouse ≥85, G85 targets, scale-to-zero.
 
 ## Philosophy
 

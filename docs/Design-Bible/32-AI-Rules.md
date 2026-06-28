@@ -9,7 +9,7 @@
 
 ## Purpose
 
-Canonical specification for **ai rules** in Livskompassen. Dad forbidden changes, agent decision tree, smoke:locked-ux, locked ux hard stops, pmir gates.
+Canonical specification for **AI Rules** in Livskompassen. DAD forbidden changes, agent decision tree, smoke:locked-ux, Locked UX hard stops, PMIR gates.
 
 ## Philosophy
 

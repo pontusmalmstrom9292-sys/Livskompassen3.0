@@ -37,11 +37,11 @@ Every future UI decision must trace back to a chapter here.
 | 25 | [25-Journal.md](./25-Journal.md) | Journal | 274 | Complete |
 | 26 | [26-Planning.md](./26-Planning.md) | Planning | 252 | Complete |
 | 27 | [27-Dashboard.md](./27-Dashboard.md) | Dashboard | 277 | Complete |
-| 28 | [28-Accessibility.md](./28-Accessibility.md) | Accessibility | 240 | Incomplete |
-| 29 | [29-Dark-Mode.md](./29-Dark-Mode.md) | Dark Mode | 163 | Incomplete |
-| 30 | [30-Performance.md](./30-Performance.md) | Performance | 214 | Incomplete |
-| 31 | [31-Code-Standards.md](./31-Code-Standards.md) | Code Standards | 223 | Incomplete |
-| 32 | [32-AI-Rules.md](./32-AI-Rules.md) | AI Rules | 235 | Incomplete |
+| 28 | [28-Accessibility.md](./28-Accessibility.md) | Accessibility | 87 | Incomplete |
+| 29 | [29-Dark-Mode.md](./29-Dark-Mode.md) | Dark Mode | 87 | Incomplete |
+| 30 | [30-Performance.md](./30-Performance.md) | Performance | 87 | Incomplete |
+| 31 | [31-Code-Standards.md](./31-Code-Standards.md) | Code Standards | 87 | Incomplete |
+| 32 | [32-AI-Rules.md](./32-AI-Rules.md) | AI Rules | 87 | Incomplete |
 
 ## Required chapter structure
 
@@ -49,4 +49,4 @@ Purpose · Philosophy · Visual Rules · Sizing · Spacing · States · Examples
 
 ## Reading order
 
-Foundation: 01 → 03 → 04 → 06 → 09 → 12 · Chrome: 17 → 18 → 19 · Components: 16 → 20 → 21 → 22 → 23 · Domains: 25 → 26 → 27 · Governance: 28 → 31 → 32
+Foundation: 01 → 03 → 04 → 06 → 09 → 12 · Chrome: 17 → 18 → 19 · Components: 16 → 20 → 21 → 22 → 23 · Domains: 25 → 26 → 27 · Governance: 28 → 29 → 30 → 31 → 32

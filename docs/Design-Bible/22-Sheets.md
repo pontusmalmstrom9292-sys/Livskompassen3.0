@@ -3,7 +3,7 @@
 > **Design Bible · Livskompassen 3.0**  
 > **Theme:** Executive Midnight (DAD v1.0)  
 > **Previous chapter:** [21-Inputs.md](./21-Inputs.md)  
-> **Next chapter:** [28-Accessibility.md](./28-Accessibility.md)
+> **Next chapter:** [23-Modals.md](./23-Modals.md)
 
 
 ---

@@ -9,7 +9,7 @@
 
 ## Purpose
 
-Canonical specification for **dark mode** in Livskompassen. Executive midnight is dark mode.
+Canonical specification for **dark mode** in Livskompassen. Executive Midnight is dark mode.
 
 ## Philosophy
 
