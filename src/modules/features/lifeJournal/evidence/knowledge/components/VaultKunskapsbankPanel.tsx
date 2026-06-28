@@ -50,7 +50,7 @@ export function VaultKunskapsbankPanel() {
               type="button"
               onClick={() => entriesMeta?.reload()}
               disabled={entriesMeta?.loading}
-              className="btn-pill--secondary inline-flex items-center gap-1.5 text-xs"
+              className="ds-btn ds-btn--secondary inline-flex items-center gap-1.5 text-xs"
             >
               <RefreshCw className="h-3 w-3" aria-hidden />
               Försök igen
@@ -72,7 +72,7 @@ export function VaultKunskapsbankPanel() {
               <button
                 type="button"
                 onClick={() => setRequestTab('tidshjul')}
-                className="btn-pill--secondary text-sm"
+                className="ds-btn ds-btn--secondary text-sm"
               >
                 Öppna Tidshjulet
               </button>

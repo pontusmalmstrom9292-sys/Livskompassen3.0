@@ -84,7 +84,7 @@ export function PlaneringEmailRulesPanel() {
         <button
           type="button"
           disabled={saving}
-          className="btn-pill--secondary mt-3 w-full text-sm"
+          className="ds-btn ds-btn--secondary mt-3 w-full text-sm"
           onClick={() => void handleSuggest()}
         >
           Lägg till föreslagna regler
@@ -153,7 +153,7 @@ export function PlaneringEmailRulesPanel() {
           <button
             type="button"
             disabled={saving || !draft.label.trim() || !draft.pattern.trim()}
-            className="btn-pill--accent w-full text-sm"
+            className="ds-btn ds-btn--accent w-full text-sm"
             onClick={() => void handleAdd()}
           >
             Spara regel

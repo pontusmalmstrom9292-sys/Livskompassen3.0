@@ -1,34 +1,33 @@
 ---
-description: Livskompassen Governance — Roadmap, Kostnads-filosofi och Projekt-filosofi. Ska styra ALLA tekniska beslut.
+description: "SUPERSEDED pointer — product philosophy only; workflow in ai-governance-entry.mdc"
 alwaysApply: false
 globs: docs/**,.cursor/plans/**,AGENTS.md,.context/system-plan.md
 ---
 
-# Livskompassen Governance
+# Livskompassen Governance (product philosophy)
 
-Följ dessa principer i alla interaktioner. Bryt aldrig mot dessa.
+> **Workflow superseded by:** [`ai-governance-entry.mdc`](ai-governance-entry.mdc) · [`docs/AI-GOVERNANCE.md`](../../docs/AI-GOVERNANCE.md) · [`docs/PROJECT_STATE.md`](../../docs/PROJECT_STATE.md)  
+> **Roadmap / phase order:** Use `PROJECT_STATE.md` (system Fas) + `docs/ROADMAP.md` (active program) — not the numbered list below for phase gates.
 
-## 1. Roadmap (Färdigställande)
-Prioriteringsordning:
-1. Adaptiv Hemkompass (UI/UX Executive Midnight DAD).
-2. Smart Inkast (Integration till Dagbok, Valv, Barnen).
-3. Familjehubben (BIFF/Grey Rock i 'Trygg Hamn').
-4. Säkerhet (WORM-valv, upplåsningsmekanism).
-5. Ekonomi/Tid (Impulsparkeringen, tidrapportering).
+## Product principles (still valid)
 
-## 2. Kostnads-filosofi (Non-negotiable)
-- GRATIS FÖRST: Firebase gratis-tier är basen. Inga tunga Cloud Functions.
-- UNDVIK API-TRÄSK: Inga externa OAuth-integrationer (Kalender/Gmail). Manuell synk via Inkastet.
-- KREDIT-EFFEKTIVITET: Skriv aldrig ny kod om befintlig komponent (`HubDropdownNav`, `CognitiveLoadStrip` etc.) kan återanvändas.
-- DONE IS BETTER THAN PERFECT: Färdigställ moduler före 'polish'.
+### Kostnads-filosofi
+- GRATIS FÖRST: Firebase gratis-tier; inga tunga Cloud Functions i onödan
+- UNDVIK API-TRÄSK: Ingen Gmail/Calendar OAuth — manuell synk via Inkast
+- Återanvänd befintliga komponenter före ny kod
+- DONE IS BETTER THAN PERFECT — färdigställ före polish
 
-## 3. Projekt-filosofi (Användarprofil: Pontus)
-- Självrehabilitering: Fokus på 'här och nu'.
-- Kommunikation: Grey Rock & BIFF (Brief, Informative, Friendly, Firm).
-- Inget JADE: AI:n ska stoppa Pontus från att förklara/försvara sig.
-- Design: Executive Midnight (mörk marinblå, guld, glas).
+### Projekt-filosofi (Pontus)
+- Självrehabilitering: fokus på här och nu
+- Grey Rock & BIFF — inget JADE
+- Executive Midnight design (mörk marinblå, guld, glas)
 
-## 4. Operativa regler för AI
-- Innan du föreslår ny kod: fråga 'Kan detta lösas med existerande komponenter?'.
-- Vid buggar: skicka endast relevanta kodblock, inte hela filer.
-- Om Pontus blir överväldigad: prioritera stressreglering (andning/kyla) framför kod-fixar.
+### Operativa AI-regler
+- Fråga: kan detta lösas med existerande komponenter?
+- Vid överväldigande: stressreglering före kod-fixar
+
+## Historical product priority (orientation only — not phase gate)
+
+1. Adaptiv Hemkompass · 2. Smart Inkast · 3. Familjehubben · 4. Säkerhet · 5. Ekonomi/Tid
+
+For **current** system phase and program: [`docs/PROJECT_STATE.md`](../../docs/PROJECT_STATE.md).

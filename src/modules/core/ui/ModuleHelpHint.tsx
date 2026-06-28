@@ -80,7 +80,7 @@ export function ModuleHelpHint({ title, lines, action, className }: Props) {
           {action ? (
             <Link
               to={{ pathname: action.to, search: action.search ?? '' }}
-              className="btn-pill--ghost mt-3 inline-flex text-xs"
+              className="ds-btn ds-btn--ghost mt-3 inline-flex text-xs"
               onClick={() => setOpen(false)}
             >
               {action.label} →

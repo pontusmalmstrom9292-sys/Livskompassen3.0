@@ -137,7 +137,7 @@ export function VitChatFlowPanel({ userId, projectId, onSaved }: Props) {
           type="button"
           onClick={() => void handleSend()}
           disabled={sending}
-          className="btn-pill--accent w-full text-sm"
+          className="ds-btn ds-btn--accent w-full text-sm"
         >
           {sending ? (
             <>

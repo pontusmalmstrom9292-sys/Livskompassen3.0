@@ -127,7 +127,7 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
               <button
                 type="button"
                 onClick={() => setScreen('breathing')}
-                className="btn-pill--accent flex flex-col items-center gap-1 py-4"
+                className="ds-btn ds-btn--accent flex flex-col items-center gap-1 py-4"
               >
                 <span>{RECOVERY_SOS_ANCHOR_COPY.breatheLabel}</span>
                 <span className="text-xs font-normal normal-case tracking-normal opacity-80">
@@ -137,14 +137,14 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
               <button
                 type="button"
                 onClick={() => setScreen('grounding')}
-                className="btn-pill--secondary flex flex-col items-center gap-1 py-4"
+                className="ds-btn ds-btn--secondary flex flex-col items-center gap-1 py-4"
               >
                 <span>{RECOVERY_SOS_ANCHOR_COPY.groundLabel}</span>
                 <span className="text-xs font-normal normal-case tracking-normal opacity-80">
                   {RECOVERY_SOS_ANCHOR_COPY.groundLead}
                 </span>
               </button>
-              <button type="button" onClick={onClose} className="btn-pill--ghost py-3 text-sm">
+              <button type="button" onClick={onClose} className="ds-btn ds-btn--ghost py-3 text-sm">
                 {RECOVERY_SOS_ANCHOR_COPY.closeLabel}
               </button>
             </div>
@@ -194,7 +194,7 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
               <p className="text-sm text-text-dim">
                 Steg {groundStep + 1} av {GROUNDING_STEPS.length}
               </p>
-              <button type="button" onClick={handleGroundNext} className="btn-pill--secondary w-full max-w-sm">
+              <button type="button" onClick={handleGroundNext} className="ds-btn ds-btn--secondary w-full max-w-sm">
                 {isLastGroundStep ? 'Börja om' : 'Gå vidare'}
               </button>
             </div>

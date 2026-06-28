@@ -73,7 +73,7 @@ export function JournalDetailsPanel({
             <p className="reflektion-panel__hint">Lägg till ett minne (max 1)</p>
             <button
               type="button"
-              className="btn-pill--ghost shrink-0 p-1.5"
+              className="ds-btn ds-btn--ghost shrink-0 p-1.5"
               aria-label="Om formellt bevis i arkiv"
               aria-expanded={showVaultInfo}
               onClick={() => setShowVaultInfo((v) => !v)}

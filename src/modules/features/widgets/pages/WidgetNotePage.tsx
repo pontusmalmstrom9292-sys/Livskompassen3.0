@@ -61,10 +61,10 @@ function WidgetNoteInner() {
             {doneSilo === 'bevis' ? <Lock className="h-4 w-4" /> : null}
             {doneCopy.message}
           </p>
-          <Link to={doneCopy.linkTo} className="btn-pill--accent mt-3 inline-flex text-xs">
+          <Link to={doneCopy.linkTo} className="ds-btn ds-btn--accent mt-3 inline-flex text-xs">
             {doneCopy.linkLabel}
           </Link>
-          <button type="button" className="btn-pill--ghost mt-2 w-full text-xs" onClick={resetForm}>
+          <button type="button" className="ds-btn ds-btn--ghost mt-2 w-full text-xs" onClick={resetForm}>
             Ny anteckning
           </button>
         </div>
@@ -77,7 +77,7 @@ function WidgetNoteInner() {
                 <button
                   key={alias}
                   type="button"
-                  className={child === alias ? 'btn-pill--accent flex-1 text-xs' : 'btn-pill--ghost flex-1 text-xs'}
+                  className={child === alias ? 'ds-btn ds-btn--accent flex-1 text-xs' : 'ds-btn ds-btn--ghost flex-1 text-xs'}
                   onClick={() => setChild(alias)}
                 >
                   {alias}
@@ -95,7 +95,7 @@ function WidgetNoteInner() {
           <button
             type="button"
             disabled={saving || !text.trim()}
-            className="btn-pill--accent w-full"
+            className="ds-btn ds-btn--accent w-full"
             onClick={() => void handleSave()}
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : widgetSiloSaveLabel(silo)}

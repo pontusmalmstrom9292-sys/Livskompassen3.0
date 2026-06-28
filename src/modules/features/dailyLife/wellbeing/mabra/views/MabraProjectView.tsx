@@ -33,7 +33,7 @@ export const MabraProjectView = memo(function MabraProjectView() {
     return (
       <div className="p-4 text-center">
         <p className="text-text-muted">Okänt projekt: {projectId}</p>
-        <button type="button" onClick={returnToHub} className="btn-pill--ghost mt-4">
+        <button type="button" onClick={returnToHub} className="ds-btn ds-btn--ghost mt-4">
           Tillbaka
         </button>
       </div>

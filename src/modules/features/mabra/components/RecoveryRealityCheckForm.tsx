@@ -391,7 +391,7 @@ export function RecoveryRealityCheckForm({ userId, onSaved, onComplete }: Props)
 
       <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-between">
         {stepIndex > 0 ? (
-          <button type="button" onClick={handleBack} className="btn-pill--ghost text-sm">
+          <button type="button" onClick={handleBack} className="ds-btn ds-btn--ghost text-sm">
             {COPY.back}
           </button>
         ) : (
@@ -399,19 +399,19 @@ export function RecoveryRealityCheckForm({ userId, onSaved, onComplete }: Props)
         )}
 
         {stepIndex < TOTAL_STEPS - 1 ? (
-          <button type="button" onClick={handleNext} className="btn-pill--secondary sm:ml-auto">
+          <button type="button" onClick={handleNext} className="ds-btn ds-btn--secondary sm:ml-auto">
             {COPY.next}
           </button>
         ) : (
           <div className="flex w-full flex-col gap-2 sm:ml-auto sm:w-auto sm:flex-row">
-            <button type="button" onClick={handleReset} className="btn-pill--ghost text-sm">
+            <button type="button" onClick={handleReset} className="ds-btn ds-btn--ghost text-sm">
               {COPY.doneWithoutSave}
             </button>
             <button
               type="button"
               onClick={() => void handleSave()}
               disabled={!userId || saving || saved || summaryRows.length === 0}
-              className="btn-pill--secondary inline-flex items-center justify-center gap-2"
+              className="ds-btn ds-btn--secondary inline-flex items-center justify-center gap-2"
             >
               {saving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
               {COPY.save}

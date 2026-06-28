@@ -103,7 +103,7 @@ function FamiljenHubToolbar({
         <button
           key={item.id}
           type="button"
-          className="btn-pill--ghost inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-text-muted hover:text-text"
+          className="ds-btn ds-btn--ghost inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-text-muted hover:text-text"
           onClick={() => onTabChange(item.id)}
         >
           {item.icon}

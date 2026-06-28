@@ -27,3 +27,6 @@
 | 07:41:07 | zone-polish-familjen | PASS | ok | Cursor — zon-intro + flikväxlare på /familjen |
 | 08:08:29 | valv-chat-e2e-fix | PASS | ok | GEMINI secret på valvChatQuery + smoke degraded pass tills deploy |
 | 08:45:21 | commit-ui-dirty | PASS | ok | Modal/Sheet design-system + overlay migration |
+| 08:58:55 | commit-ui-dirty | PASS | ok | Committa öppna UI-ändringar från yolo-loop |
+| 09:13:54 | super-yolo-gate | smoke FAIL | fail | kör yolo igen eller yolo skip |
+| 09:31:49 | super-yolo-gate | PASS | ok | smoke:super-yolo grön efter mdc/governance sync |

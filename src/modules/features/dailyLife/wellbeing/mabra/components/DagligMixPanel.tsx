@@ -63,7 +63,7 @@ export function DagligMixPanel({ uid, onComplete }: Props) {
               placeholder="Ett ord räcker…"
             />
           </label>
-          <button type="button" onClick={() => setStep('play')} className="btn-pill--secondary w-full">
+          <button type="button" onClick={() => setStep('play')} className="ds-btn ds-btn--secondary w-full">
             {COPY.next}
           </button>
         </div>
@@ -77,10 +77,10 @@ export function DagligMixPanel({ uid, onComplete }: Props) {
             <p className="mt-2 text-xs text-text-dim">{COPY.playHint}</p>
           </div>
           <div className="flex flex-col gap-2">
-            <button type="button" onClick={finish} className="btn-pill--secondary">
+            <button type="button" onClick={finish} className="ds-btn ds-btn--secondary">
               {COPY.finish}
             </button>
-            <button type="button" onClick={finish} className="btn-pill--ghost text-sm">
+            <button type="button" onClick={finish} className="ds-btn ds-btn--ghost text-sm">
               {COPY.skipPlay}
             </button>
           </div>

@@ -21,6 +21,12 @@ Kanon ligger i **`.cursor/rules/`** (MDC). Kärn-invariants: **`.cursor/index.md
 
 Legacy-rutter (`/dagbok`, `/valv`, `/mabra`, `/planering` …) omdirigeras — skapa inga nya utanför 3-zonsystemet.
 
+## AI Governance (alla agenter)
+
+1. Läs [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) → [`docs/AI-GOVERNANCE.md`](docs/AI-GOVERNANCE.md) före arbete
+2. Efter varje uppgift: uppdatera `TODO`, `DASHBOARD`, `PROGRESS`, `PROJECT_STATE`
+3. Validera: `npm run smoke:governance`
+
 ## Vid stor ändring
 
 1. Läs aktiv fas i [`.context/system-plan.md`](.context/system-plan.md) — **Fas 24 AKTIV**

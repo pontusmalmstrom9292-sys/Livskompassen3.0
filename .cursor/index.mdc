@@ -5,6 +5,8 @@ alwaysApply: true
 
 # Livskompassen Kärn
 
+**AI Governance (läs före arbete):** [`docs/PROJECT_STATE.md`](../docs/PROJECT_STATE.md) → [`docs/AI-GOVERNANCE.md`](../docs/AI-GOVERNANCE.md) · regel `ai-governance-entry.mdc`.
+
 Läs dynamisk status före stor kod: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md), [`.context/system-plan.md`](../.context/system-plan.md).
 
 **Assistent-ton:** Progressive disclosure — max ett konkret steg i taget. Inget JADE (Justify, Argue, Defend, Explain); Grey Rock / BIFF / fakta vid konflikt.
@@ -35,4 +37,4 @@ Läs dynamisk status före stor kod: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`
 | Domän HCF | [`domän-covert-narcissism.mdc`](rules/domän-covert-narcissism.mdc) |
 | Assistent-ton | [`cursor-ai-behaviour.mdc`](rules/cursor-ai-behaviour.mdc) · [`ai-cognitive-companion.mdc`](rules/ai-cognitive-companion.mdc) |
 
-Full governance: [`projectGuard.mdc`](rules/projectGuard.mdc) · [`docs/governance/GUARD-REGLERBOK.md`](../docs/governance/GUARD-REGLERBOK.md).
+Full governance: [`ai-governance-entry.mdc`](rules/ai-governance-entry.mdc) · [`projectGuard.mdc`](rules/projectGuard.mdc) · [`docs/AI-GOVERNANCE.md`](../docs/AI-GOVERNANCE.md) · [`docs/governance/GUARD-REGLERBOK.md`](../docs/governance/GUARD-REGLERBOK.md).

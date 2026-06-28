@@ -37,11 +37,11 @@ export function WormSaveConfirmSheet({ contextLabel, busy = false, onConfirm, on
           type="button"
           disabled={busy}
           onClick={onConfirm}
-          className="btn-pill--secondary text-sm"
+          className="ds-btn ds-btn--secondary text-sm"
         >
           {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : 'Ja — lås som bevis'}
         </button>
-        <button type="button" disabled={busy} onClick={onCancel} className="btn-pill--ghost text-sm">
+        <button type="button" disabled={busy} onClick={onCancel} className="ds-btn ds-btn--ghost text-sm">
           Avbryt
         </button>
       </div>

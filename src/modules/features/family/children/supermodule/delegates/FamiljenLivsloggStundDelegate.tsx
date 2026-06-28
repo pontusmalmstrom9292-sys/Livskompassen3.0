@@ -163,7 +163,7 @@ export function FamiljenLivsloggStundDelegate({ shell, onSaved }: FamiljenDelega
         type="button"
         onClick={handleSave}
         disabled={loading || !observation.trim()}
-        className="btn-pill--accent disabled:opacity-50"
+        className="ds-btn ds-btn--accent disabled:opacity-50"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
         Spara stund

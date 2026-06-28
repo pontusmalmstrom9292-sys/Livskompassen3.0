@@ -44,8 +44,8 @@ export function DagbokBurnDelegate() {
             onClick={handleBurn}
             disabled={burning || !text.trim()}
             className={clsx(
-              "btn-pill shadow-sm transition-all flex items-center gap-2",
-              burning ? "bg-red-500 text-white" : "btn-pill--primary"
+              'ds-btn shadow-sm transition-all flex items-center gap-2',
+              burning ? 'bg-red-500 text-white' : 'ds-btn--accent',
             )}
           >
             <Flame className="w-4 h-4" />

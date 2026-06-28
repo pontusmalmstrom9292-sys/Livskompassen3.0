@@ -314,7 +314,7 @@ export function HomeAdaptiveCompass({
                         <button
                           type="button"
                           onClick={() => navigate(HOME_SUPERHUB_ROUTES.hjartatQuickMirror)}
-                          className="btn-pill--ghost mx-auto block text-xs"
+                          className="ds-btn ds-btn--ghost mx-auto block text-xs"
                         >
                           Öppna Dagbok
                         </button>
@@ -322,7 +322,7 @@ export function HomeAdaptiveCompass({
                         <button
                           type="button"
                           onClick={() => navigate(HOME_SUPERHUB_ROUTES.hjartatReflektion)}
-                          className="btn-pill--ghost mx-auto block text-xs"
+                          className="ds-btn ds-btn--ghost mx-auto block text-xs"
                         >
                           Öppna full reflektion i Hjärtat
                         </button>

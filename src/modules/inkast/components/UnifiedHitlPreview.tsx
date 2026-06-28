@@ -81,20 +81,20 @@ export function UnifiedHitlPreview({
           type="button"
           onClick={onConfirm}
           disabled={busy}
-          className="btn-pill--primary flex flex-1 items-center justify-center gap-2 text-xs"
+          className="ds-btn ds-btn--accent flex flex-1 items-center justify-center gap-2 text-xs"
         >
           {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
           <CheckCircle2 className="h-4 w-4" aria-hidden />
           {confirmLabel}
         </button>
-        <button type="button" onClick={onEdit} disabled={busy} className="btn-pill--ghost text-xs">
+        <button type="button" onClick={onEdit} disabled={busy} className="ds-btn ds-btn--ghost text-xs">
           Ändra
         </button>
         <button
           type="button"
           onClick={onDismiss}
           disabled={busy}
-          className="btn-pill--ghost text-xs text-text-dim"
+          className="ds-btn ds-btn--ghost text-xs text-text-dim"
         >
           {dismissLabel}
         </button>

@@ -40,10 +40,10 @@ export function MabraVitEvidencePrompt({ userId, vitEntryId, summary, bankId, on
     return (
       <div className="mt-4 space-y-2 rounded-xl border border-success/30 bg-success/5 px-4 py-3">
         <p className="text-sm text-success">Sparat som bevis med länk till Vit-posten.</p>
-        <Link to="/valvet" className="btn-pill--ghost text-sm">
+        <Link to="/valvet" className="ds-btn ds-btn--ghost text-sm">
           Öppna {VAULT_UI_NAME}
         </Link>
-        <button type="button" onClick={onDone} className="btn-pill--secondary mt-2 text-sm">
+        <button type="button" onClick={onDone} className="ds-btn ds-btn--secondary mt-2 text-sm">
           Klar
         </button>
       </div>
@@ -63,11 +63,11 @@ export function MabraVitEvidencePrompt({ userId, vitEntryId, summary, bankId, on
           type="button"
           disabled={saving}
           onClick={() => void handleSave()}
-          className="btn-pill--secondary text-sm"
+          className="ds-btn ds-btn--secondary text-sm"
         >
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Spara som bevis'}
         </button>
-        <button type="button" onClick={onDone} className="btn-pill--ghost text-sm">
+        <button type="button" onClick={onDone} className="ds-btn ds-btn--ghost text-sm">
           Nej tack
         </button>
       </div>

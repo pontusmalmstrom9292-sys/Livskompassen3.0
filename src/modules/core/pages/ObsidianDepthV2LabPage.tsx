@@ -22,16 +22,16 @@ export function ObsidianDepthV2LabPage() {
           <strong>Theme Lab</strong> styr bara färgtema på prod; det här är layout-preview.
         </p>
         <div className="od-depth-lab__links">
-          <Link to="/dev/obsidian-depth" className="btn-pill--ghost text-xs">
+          <Link to="/dev/obsidian-depth" className="ds-btn ds-btn--ghost text-xs">
             Depth v1 (låst)
           </Link>
-          <Link to="/dev/dagens-ankare" className="btn-pill--ghost text-xs">
+          <Link to="/dev/dagens-ankare" className="ds-btn ds-btn--ghost text-xs">
             Dagens Ankare
           </Link>
-          <Link to="/dev/theme-lab" className="btn-pill--ghost text-xs">
+          <Link to="/dev/theme-lab" className="ds-btn ds-btn--ghost text-xs">
             Theme Lab
           </Link>
-          <Link to="/" className="btn-pill--ghost text-xs">
+          <Link to="/" className="ds-btn ds-btn--ghost text-xs">
             Hem prod
           </Link>
         </div>

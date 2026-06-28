@@ -12,3 +12,6 @@ export { Section, type SectionProps } from './Section';
 export { Header, HeaderButton, type HeaderProps, type HeaderButtonProps } from './Header';
 export { Dock, DockCompassSlot, type DockProps, type DockCompassSlotProps } from './Dock';
 export { Navigation, NavItem, NavLabel, type NavigationProps, type NavItemProps, type NavLabelProps } from './Navigation';
+export { Skeleton, SkeletonStack, type SkeletonProps, type SkeletonStackProps } from './Skeleton';
+export { Spinner, type SpinnerProps } from './Spinner';
+export { ErrorFallback, type ErrorFallbackProps, type ErrorFallbackGlow } from './ErrorFallback';

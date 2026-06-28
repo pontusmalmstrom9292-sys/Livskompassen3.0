@@ -117,13 +117,13 @@ export function ObsidianForgeLabPage() {
           <code className="text-accent">OD-obsidian-depth</code>.
         </p>
         <div className="od-forge-lab__links">
-          <Link to="/dev/theme-lab" className="btn-pill--ghost text-xs">
+          <Link to="/dev/theme-lab" className="ds-btn ds-btn--ghost text-xs">
             Theme Lab
           </Link>
-          <Link to="/dev/obsidian-depth" className="btn-pill--ghost text-xs">
+          <Link to="/dev/obsidian-depth" className="ds-btn ds-btn--ghost text-xs">
             Obsidian Depth (låst)
           </Link>
-          <Link to="/" className="btn-pill--ghost text-xs">
+          <Link to="/" className="ds-btn ds-btn--ghost text-xs">
             Hem (prod)
           </Link>
         </div>

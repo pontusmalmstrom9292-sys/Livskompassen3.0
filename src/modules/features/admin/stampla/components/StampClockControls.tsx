@@ -18,7 +18,7 @@ export function StampClockControls({ isClockedIn, busy, compact, onStampIn, onSt
         disabled={busy || isClockedIn}
         onClick={onStampIn}
         className={`${btnClass} ${
-          isClockedIn || busy ? 'btn-pill--ghost opacity-40' : 'btn-pill--primary'
+          isClockedIn || busy ? 'ds-btn ds-btn--ghost opacity-40' : 'ds-btn ds-btn--accent'
         }`}
       >
         {busy && !isClockedIn ? (
@@ -34,7 +34,7 @@ export function StampClockControls({ isClockedIn, busy, compact, onStampIn, onSt
         disabled={busy || !isClockedIn}
         onClick={onStampOut}
         className={`${btnClass} ${
-          isClockedIn && !busy ? 'btn-pill--success-solid' : 'btn-pill--ghost opacity-40'
+          isClockedIn && !busy ? 'ds-btn ds-btn--success-solid' : 'ds-btn ds-btn--ghost opacity-40'
         }`}
       >
         {busy && isClockedIn ? (

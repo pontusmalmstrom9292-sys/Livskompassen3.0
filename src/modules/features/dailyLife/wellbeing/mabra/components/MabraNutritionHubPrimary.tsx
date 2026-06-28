@@ -27,7 +27,7 @@ export function MabraNutritionHubPrimary({ uid, onLogged }: Props) {
 
       <Link
         to="/mabra/verktyg/nutrition"
-        className="btn-pill--ghost mt-3 inline-flex text-xs"
+        className="ds-btn ds-btn--ghost mt-3 inline-flex text-xs"
       >
         Öppna full näring-vy
       </Link>

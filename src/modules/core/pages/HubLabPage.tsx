@@ -27,13 +27,13 @@ export function HubLabPage() {
           syns på <code className="text-accent">/planering</code>.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Link to="/planering" className="btn-pill--accent">
+          <Link to="/planering" className="ds-btn ds-btn--accent">
             Öppna Planering
           </Link>
-          <Link to="/dev/theme-lab" className="btn-pill--ghost">
+          <Link to="/dev/theme-lab" className="ds-btn ds-btn--ghost">
             Theme Lab
           </Link>
-          <button type="button" className="btn-pill--ghost" onClick={applyToPlanering}>
+          <button type="button" className="ds-btn ds-btn--ghost" onClick={applyToPlanering}>
             Använd i Planering
           </button>
         </div>
@@ -87,7 +87,7 @@ export function HubLabPage() {
               </div>
               <button
                 type="button"
-                className="btn-pill--ghost mt-2 w-full text-xs"
+                className="ds-btn ds-btn--ghost mt-2 w-full text-xs"
                 onClick={() => {
                   setPreviewId(layout.id);
                   setLayoutId(layout.id);

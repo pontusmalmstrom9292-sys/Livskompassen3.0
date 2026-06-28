@@ -28,7 +28,7 @@ export function AutoKategoriseringStub() {
 
         <button 
           disabled
-          className="w-full btn-pill--ghost text-xs opacity-50 cursor-not-allowed"
+          className="w-full ds-btn ds-btn--ghost text-xs opacity-50 cursor-not-allowed"
         >
           Aktivera integration (Kommer snart)
         </button>

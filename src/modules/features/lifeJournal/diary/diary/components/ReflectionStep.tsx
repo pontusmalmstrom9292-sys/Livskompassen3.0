@@ -215,7 +215,7 @@ export function ReflectionStep({
             <button
               type="button"
               onClick={isListening ? stop : start}
-              className="btn-pill--ghost"
+              className="ds-btn ds-btn--ghost"
               aria-pressed={isListening}
             >
               {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
@@ -258,14 +258,14 @@ export function ReflectionStep({
       </div>
 
       <div className="reflektion-actions">
-        <button type="button" onClick={onBack} className="btn-pill--ghost">
+        <button type="button" onClick={onBack} className="ds-btn ds-btn--ghost">
           <ChevronLeft className="h-4 w-4" /> Tillbaka
         </button>
         <button
           type="button"
           disabled={!canContinue}
           onClick={onContinue}
-          className="btn-pill--secondary"
+          className="ds-btn ds-btn--secondary"
         >
           Nästa <ChevronRight className="h-4 w-4" />
         </button>
@@ -274,7 +274,7 @@ export function ReflectionStep({
             type="button"
             disabled={saving}
             onClick={onSaveWithoutText}
-            className="btn-pill--ghost text-sm"
+            className="ds-btn ds-btn--ghost text-sm"
           >
             {MABRA_BRIDGE_LABELS.skipText}
           </button>

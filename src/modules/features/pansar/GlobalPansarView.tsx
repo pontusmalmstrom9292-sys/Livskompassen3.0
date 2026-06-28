@@ -71,7 +71,7 @@ export const GlobalPansarView: React.FC = () => {
             type="button" 
             onClick={handleUnlock}
             disabled={isUnlocking}
-            className="btn-pill--accent w-full flex items-center justify-center gap-2"
+            className="ds-btn ds-btn--accent w-full flex items-center justify-center gap-2"
           >
             {isUnlocking ? <Loader2 size={16} className="animate-spin" /> : <LockOpen size={16} />}
             <span>{isUnlocking ? 'Verifierar...' : 'Verifiera med biometri'}</span>
@@ -83,7 +83,7 @@ export const GlobalPansarView: React.FC = () => {
             type="button" 
             onClick={() => setShowUnlockGate(false)}
             disabled={isUnlocking}
-            className="mt-2 btn-pill--ghost text-xs w-full"
+            className="mt-2 ds-btn ds-btn--ghost text-xs w-full"
           >
             Avbryt
           </button>

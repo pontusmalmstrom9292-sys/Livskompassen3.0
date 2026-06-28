@@ -136,7 +136,7 @@ export function ProjektHubPage() {
           {user && (
             <Link
               to="/projekt/ny"
-              className="btn-pill--accent flex w-full items-center justify-center gap-2 py-3"
+              className="ds-btn ds-btn--accent flex w-full items-center justify-center gap-2 py-3"
             >
               <Plus className="h-4 w-4" />
               Nytt projekt
@@ -200,14 +200,14 @@ export function ProjektHubPage() {
             <p className="text-xs uppercase tracking-widest text-text-dim">Verktyg</p>
             <Link
               to="/projekt/regler"
-              className="btn-pill--ghost flex w-full items-center justify-center gap-2 text-sm"
+              className="ds-btn ds-btn--ghost flex w-full items-center justify-center gap-2 text-sm"
             >
               <Settings2 className="h-4 w-4" />
               Regler & automation
             </Link>
             <Link
               to="/projekt/genvagar"
-              className="btn-pill--ghost flex w-full flex-col items-center justify-center gap-0.5 py-3 text-sm"
+              className="ds-btn ds-btn--ghost flex w-full flex-col items-center justify-center gap-0.5 py-3 text-sm"
             >
               <span className="inline-flex items-center gap-2">
                 <Sparkles className="h-4 w-4" />

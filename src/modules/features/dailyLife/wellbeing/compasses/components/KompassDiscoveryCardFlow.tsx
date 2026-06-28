@@ -70,7 +70,7 @@ export function KompassDiscoveryCardFlow({
     return wrapFlow(
       <>
         <p className="text-sm text-text-muted">Kunde inte ladda kort — försök igen.</p>
-        <button type="button" onClick={onBack} className="btn-pill--ghost mt-3 text-sm">
+        <button type="button" onClick={onBack} className="ds-btn ds-btn--ghost mt-3 text-sm">
           Tillbaka
         </button>
       </>,
@@ -144,11 +144,11 @@ export function KompassDiscoveryCardFlow({
             type="button"
             disabled={saving}
             onClick={() => void handleSave()}
-            className="btn-pill--secondary text-sm"
+            className="ds-btn ds-btn--secondary text-sm"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Spara till Vit'}
           </button>
-          <button type="button" onClick={onDone} className="btn-pill--ghost text-sm">
+          <button type="button" onClick={onDone} className="ds-btn ds-btn--ghost text-sm">
             Hoppa över
           </button>
         </div>
@@ -165,7 +165,7 @@ export function KompassDiscoveryCardFlow({
             />
           ) : null}
           {!userId ? (
-            <button type="button" onClick={onDone} className="btn-pill--ghost mt-2 text-sm">
+            <button type="button" onClick={onDone} className="ds-btn ds-btn--ghost mt-2 text-sm">
               Klar
             </button>
           ) : null}

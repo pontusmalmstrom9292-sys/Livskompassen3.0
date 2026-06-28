@@ -32,18 +32,18 @@ export function SavedStep({
           <Check className="h-5 w-5" />
           <span className="text-sm">{DAGBOK_TYST_DONE_LABEL}</span>
         </div>
-        <button type="button" onClick={onNewEntry} className="btn-pill--accent w-full sm:w-auto">
+        <button type="button" onClick={onNewEntry} className="ds-btn ds-btn--accent w-full sm:w-auto">
           Klart
         </button>
         <CalmCollapsible title="Om du vill …" meta="Valfritt" defaultOpen={false} glow="gold">
           <div className="flex flex-wrap gap-2">
-            <button type="button" onClick={onNewEntry} className="btn-pill--ghost text-sm">
+            <button type="button" onClick={onNewEntry} className="ds-btn ds-btn--ghost text-sm">
               Ny post
             </button>
             <Link
               to={hjartatTabHref('speglar')}
               state={{ journalContext }}
-              className="btn-pill--ghost text-sm"
+              className="ds-btn ds-btn--ghost text-sm"
             >
               Känslospegeln
             </Link>
@@ -67,13 +67,13 @@ export function SavedStep({
         />
       ) : null}
       <div className="flex flex-wrap gap-2">
-        <button type="button" onClick={onNewEntry} className="btn-pill--accent">
+        <button type="button" onClick={onNewEntry} className="ds-btn ds-btn--accent">
           Ny post
         </button>
         <Link
           to={hjartatTabHref('speglar')}
           state={{ journalContext }}
-          className="btn-pill border-accent-secondary/40 text-accent-secondary hover:bg-accent-secondary/10"
+          className="ds-btn ds-btn--ghost border-accent-secondary/40 text-accent-secondary hover:bg-accent-secondary/10"
         >
           Känns det som gaslighting? → Gå till Speglar
         </Link>

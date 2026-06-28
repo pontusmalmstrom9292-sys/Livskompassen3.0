@@ -70,7 +70,7 @@ export function NutritionSettingsPanel({ uid }: Props) {
         </p>
         <Link
           to="/mabra/verktyg/nutrition"
-          className="btn-pill--secondary mt-3 inline-flex w-full justify-center text-sm"
+          className="ds-btn ds-btn--secondary mt-3 inline-flex w-full justify-center text-sm"
         >
           Öppna snabb logg
         </Link>

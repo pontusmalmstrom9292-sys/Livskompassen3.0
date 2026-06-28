@@ -75,7 +75,7 @@ export function VaultKanonDocsPanel() {
 
         <Link
           to={vaultDrawerPath('kunskapsbank')}
-          className="btn-pill--ghost mb-4 inline-flex items-center gap-2 text-xs"
+          className="ds-btn ds-btn--ghost mb-4 inline-flex items-center gap-2 text-xs"
         >
           <BookOpen className="h-3 w-3" />
           Till Kunskapsbank

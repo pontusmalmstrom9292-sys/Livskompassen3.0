@@ -129,7 +129,7 @@ export function InkastManualEditForm({
       <div className="flex flex-wrap gap-2">
         <button
           type="button"
-          className="btn-pill--primary text-xs"
+          className="ds-btn ds-btn--accent text-xs"
           disabled={busy || (silo === 'barnen' && !childAlias.trim())}
           onClick={handleSave}
         >
@@ -142,7 +142,7 @@ export function InkastManualEditForm({
             'Spara'
           )}
         </button>
-        <button type="button" className="btn-pill--ghost text-xs" disabled={busy} onClick={onCancel}>
+        <button type="button" className="ds-btn ds-btn--ghost text-xs" disabled={busy} onClick={onCancel}>
           Avbryt
         </button>
       </div>

@@ -50,8 +50,8 @@ export function WidgetSiloChipPicker({ value, onChange }: Props) {
             onClick={() => onChange(chip.id)}
             className={
               value === chip.id
-                ? 'btn-pill--accent px-3 py-1.5 text-xs'
-                : 'btn-pill--ghost px-3 py-1.5 text-xs'
+                ? 'ds-btn ds-btn--accent px-3 py-1.5 text-xs'
+                : 'ds-btn ds-btn--ghost px-3 py-1.5 text-xs'
             }
           >
             {chip.label}

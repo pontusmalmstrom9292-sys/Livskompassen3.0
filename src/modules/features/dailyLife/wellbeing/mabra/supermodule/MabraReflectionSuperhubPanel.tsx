@@ -107,11 +107,11 @@ export function MabraReflectionSuperhubPanel({
       ) : null}
 
       <div className="mt-4 flex gap-2">
-        <button type="button" onClick={prev} className="btn-pill--ghost flex-1 text-sm">
+        <button type="button" onClick={prev} className="ds-btn ds-btn--ghost flex-1 text-sm">
           <ChevronLeft className="mr-1 inline h-4 w-4" />
           Förra
         </button>
-        <button type="button" onClick={next} className="btn-pill--secondary flex-1 text-sm">
+        <button type="button" onClick={next} className="ds-btn ds-btn--secondary flex-1 text-sm">
           Nästa
           <ChevronRight className="ml-1 inline h-4 w-4" />
         </button>

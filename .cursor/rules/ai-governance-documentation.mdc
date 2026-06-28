@@ -1,0 +1,54 @@
+---
+description: Who updates governance docs, when, and how — phases, features, releases
+alwaysApply: false
+globs: docs/**,.context/**,.cursor/plans/**
+---
+
+# Documentation Governance
+
+**Human-readable:** [`docs/WORKFLOWS/documentation-governance.md`](../../docs/WORKFLOWS/documentation-governance.md)
+
+## Who updates what
+
+| File | Owner | Trigger |
+|------|-------|---------|
+| `docs/PROJECT_STATE.md` | Completing agent | Phase change, blocker, smoke status |
+| `docs/ROADMAP.md` | Completing agent | Phase boundaries, estimates, deferrals |
+| `docs/TODO.md` | Completing agent | Every task wave |
+| `docs/DASHBOARD.md` | Completing agent | Status/metrics after merge wave |
+| `docs/PROGRESS.md` | Completing agent | Every completed task (log entry) |
+| `.context/system-plan.md` | Pontus + architect | New system phase (Fas N) |
+| `docs/MODUL-FUNKTIONS-REGISTER.md` | Feature agent | New module or route |
+| `docs/evaluations/*` | Audit agent | YOLO, security, large reviews |
+
+## New system phases (Fas N)
+
+1. Pontus approves masterplan eval (`docs/evaluations/`)
+2. Update `.context/system-plan.md` with **AKTIV** marker
+3. Update `docs/PROJECT_STATE.md` — agents read this first
+4. Add or update program section in `docs/ROADMAP.md` if a new implementation program starts
+5. Reset or branch `docs/TODO.md` for new work
+
+## New program phases (within a Fas)
+
+Update `docs/ROADMAP.md`, `docs/TODO.md`, `docs/DASHBOARD.md` — not `.context/system-plan.md` unless system Fas changes.
+
+## New features
+
+1. Check `docs/MODUL-FUNKTIONS-REGISTER.md` and GAP register
+2. PMIR if locked UX, WORM, or sacred
+3. Add TODO items before coding (`ide-till-kod.mdc`)
+
+## Releases
+
+1. `npm run smoke:predeploy:build`
+2. yolo-vakt read-only audit → GO/NO-GO
+3. Pontus OK
+4. Deploy per `livskompassen-deploy` skill
+5. `docs/PROGRESS.md` + `docs/PROJECT_STATE.md` last verified dates
+
+## Validation
+
+```bash
+npm run smoke:governance
+```

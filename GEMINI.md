@@ -1,5 +1,7 @@
 # GEMINI.md
 
-Canonical architecture, safety, and persona rules live in `.context/`.
-Read `.context/architecture.md`, `.context/security.md`, `.context/database.md`,
-`.context/design-language.md`, `.context/agents.md`, and `.context/system-plan.md`.
+Read: `docs/PROJECT_STATE.md` → `docs/AI-GOVERNANCE.md` → `AGENTS.md`
+
+Optional: `npm run sync:system` then upload `docs/system_sync/*_CURRENT.*`
+
+No native `.mdc` support — pass project state each session.

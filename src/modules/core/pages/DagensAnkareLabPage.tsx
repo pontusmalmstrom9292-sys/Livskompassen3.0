@@ -19,15 +19,15 @@ export function DagensAnkareLabPage() {
           Forge (andning: box / 4-7-8 / 4-2-6) + Taktisk (mikrosteg). Testa på Hem → Morgon-flik.
         </p>
         <div className="mt-4 flex flex-wrap justify-center gap-2">
-          <Link to="/" className="btn-pill--ghost text-xs">
+          <Link to="/" className="ds-btn ds-btn--ghost text-xs">
             Hem
           </Link>
-          <Link to="/dev/obsidian-forge" className="btn-pill--ghost text-xs">
+          <Link to="/dev/obsidian-forge" className="ds-btn ds-btn--ghost text-xs">
             Obsidian Forge
           </Link>
           <a
             href="/docs/design-sandbox/waves/wave-2/ref-compass-life-os/hem-v3-compass-merge.html"
-            className="btn-pill--ghost text-xs"
+            className="ds-btn ds-btn--ghost text-xs"
           >
             HTML merge
           </a>
