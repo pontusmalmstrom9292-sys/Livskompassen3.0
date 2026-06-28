@@ -22,3 +22,4 @@
 | 04:47:26 | predeploy-live-prep | PASS | ok | Predeploy live-prep: `npm run smoke:predeploy:build` PASS. Deploy-ready: `firebase use gen-lang-client-0481875058 && firebase deploy --only hosting,functions` (inte kört); live smoke `npm run smoke:predeploy:live` kräver `.env` + Pontus OK. |
 | 02:50:32 | predeploy-live-prep | PASS | ok | Predeploy live-prep (ej deploy) |
 | 02:50:32 | predeploy-live-prep | deploy-ready | — | firebase use gen-lang-client-0481875058 && firebase deploy --only hosting,functions |
+| 06:11:43 | zone-polish-hjartat | PASS | ok | Cursor — zon-intro Dagbok/Speglar + växlare |
