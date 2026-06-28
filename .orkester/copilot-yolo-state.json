@@ -1,18 +1,31 @@
 {
   "version": 2,
-  "startedAt": "2026-06-28T10:43:00.000Z",
+  "startedAt": "2026-06-28T06:08:27.592Z",
   "updatedAt": "2026-06-28T08:45:21.838Z",
-  "currentTaskId": "commit-ui-dirty",
-  "completedTaskIds": [],
+  "currentTaskId": null,
+  "completedTaskIds": [
+    "tier2-smoke-fix-loop",
+    "lifeos-kopplingar-d",
+    "design-hex-tokens-p2",
+    "fas24-governance-sync",
+    "g85-daily-driver",
+    "zone-polish-valv",
+    "predeploy-live-prep",
+    "zone-polish-hjartat",
+    "zone-polish-familjen",
+    "valv-chat-e2e-fix",
+    "commit-ui-dirty"
+  ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
   "taskOrder": [
-    "commit-ui-dirty",
     "super-yolo-gate",
     "vite-bundle-split",
     "empty-states",
     "typecheck-features",
-    "predeploy-live-prep"
+    "zone-polish-vardagen",
+    "hosting-deploy-prep",
+    "g85-prod-sync"
   ],
-  "taskStartSha": "1264684a1500007fbe1dd86d6b8e4ee8e4693cd5"
+  "taskStartSha": null
 }

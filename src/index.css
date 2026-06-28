@@ -79,6 +79,7 @@
   --color-indigo-28: rgba(99, 102, 241, 0.28);
   --color-indigo-35: rgba(99, 102, 241, 0.35);
   --color-indigo-38: rgba(99, 102, 241, 0.38);
+  --color-indigo-40: rgba(99, 102, 241, 0.4);
   --color-emerald-08: rgba(16, 185, 129, 0.08);
   --color-emerald-35: rgba(16, 185, 129, 0.35);
   --color-lavender-06: rgba(167, 139, 250, 0.06);
@@ -127,6 +128,10 @@
     radial-gradient(ellipse at top left, var(--color-emerald-08) 0%, transparent 52%),
     radial-gradient(ellipse at bottom right, var(--color-lavender-06) 0%, transparent 55%),
     radial-gradient(circle at center, var(--color-panel-obsidian-88) 0%, transparent 68%);
+  --zone-gradient-vardagen:
+    radial-gradient(ellipse at top right, var(--color-emerald-08) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom left, var(--color-gold-06) 0%, transparent 48%),
+    radial-gradient(circle at center, var(--color-panel-obsidian-85) 0%, transparent 70%);
 
   /* Hem scenic — kall obsidian/graphit (ej espresso/brunt) */
   --home-hero-gradient-top: rgba(20, 28, 43, 0.82);

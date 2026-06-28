@@ -24,3 +24,5 @@
 | 02:50:32 | predeploy-live-prep | deploy-ready | — | firebase use gen-lang-client-0481875058 && firebase deploy --only hosting,functions |
 | 07:41:07 | zone-polish-familjen | PASS | ok | Cursor — zon-intro + flikväxlare på /familjen |
 | 08:08:29 | valv-chat-e2e-fix | PASS | ok | GEMINI secret på valvChatQuery + smoke degraded pass tills deploy |
+| 06:11:43 | zone-polish-hjartat | PASS | ok | Cursor — zon-intro Dagbok/Speglar + växlare |
+| 08:45:21 | commit-ui-dirty | PASS | ok | Modal/Sheet design-system + overlay migration |
