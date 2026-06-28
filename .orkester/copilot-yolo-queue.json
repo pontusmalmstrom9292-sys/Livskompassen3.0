@@ -1,62 +1,62 @@
 {
-  "version": 2,
-  "description": "Copilot YOLO-kö v2 — Fas 24 efter v1 (7/7). Prioriterad build/smoke.",
+  "version": 3,
+  "description": "Copilot YOLO-kö v3 — Fas 24.B zon-polish + super-yolo + deploy-prep.",
   "tasks": [
     {
-      "id": "tier2-smoke-fix-loop",
-      "title": "Tier2 smoke fix-loop (inkast-vardag m.fl.)",
-      "plan": "Kör npm run smoke:tier2. Fixa första FAIL tills PASS. Känd start: src/modules/capture/CapturePanel.tsx saknar inkastDestinationLink (smoke:inkast-vardag). Minimal diff per fix.",
-      "smoke": ["npm run smoke:tier2"],
-      "pmir": false,
-      "deploy": "none"
-    },
-    {
-      "id": "lifeos-kopplingar-d",
-      "title": "Life OS kopplingar Fas D (nästa wire)",
-      "plan": "docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md — implementera nästa P0-koppling/Firestore-wire som saknas efter Fas C. Locked UX intakt.",
-      "smoke": ["npm run build", "npm run smoke:locked-ux", "npm run smoke:orkester"],
+      "id": "zone-polish-hjartat",
+      "title": "Zon-polish Hjärtat (Fas 24.B)",
+      "plan": "docs/evaluations/2026-06-26-fas24-masterplan-v2.md — polish /hjartat (Dagbok, Speglar). Executive Midnight, låg kognitiv belastning. Locked UX intakt.",
+      "smoke": ["npm run smoke:locked-ux", "npm run smoke:design-modules", "npm run build"],
       "pmir": false,
       "deploy": "hosting"
     },
     {
-      "id": "design-hex-tokens-p2",
-      "title": "Design hex→tokens P2",
-      "plan": "docs/evaluations/2026-06-26-fas24-masterplan-v2.md våg 24.A — fortsätt hex→token i zoner enligt design-calm. Ingen ny färg utanför tokens.",
-      "smoke": ["npm run smoke:design-modules", "npm run smoke:locked-ux"],
+      "id": "zone-polish-vardagen",
+      "title": "Zon-polish Vardagen (Fas 24.B)",
+      "plan": "Fas 24.B — polish /vardagen (MåBra, Planering, Ekonomi). Minimal diff, tokens enligt design-calm.",
+      "smoke": ["npm run smoke:locked-ux", "npm run smoke:design-modules", "npm run smoke:orkester"],
       "pmir": false,
       "deploy": "hosting"
     },
     {
-      "id": "fas24-governance-sync",
-      "title": "Fas 24 styrning sync",
-      "plan": "docs/evaluations/2026-06-26-fas24-masterplan-v2.md våg 24.A — synka agent-register, copilot-rules-pack, mdc pekare. npm run smoke:mdc PASS.",
-      "smoke": ["npm run smoke:mdc", "npm run smoke:agents-ui"],
-      "pmir": false,
-      "deploy": "none"
-    },
-    {
-      "id": "g85-daily-driver",
-      "title": "G85 daily driver — prep + smoke",
-      "plan": "docs/evaluations/2026-06-25-g85-daily-driver.md — build:web, cap sync, smoke:android-platform + smoke:auth-login PASS. Dokumentera 7-dagars checklista (manuell körning på enhet).",
-      "smoke": ["npm run build:web", "npm run smoke:android-platform", "npm run smoke:auth-login"],
-      "pmir": false,
-      "deploy": "none"
-    },
-    {
-      "id": "zone-polish-valv",
-      "title": "Zon-polish Valv (Fas 24.B)",
-      "plan": "docs/evaluations/2026-06-26-fas24-masterplan-v2.md — en zon i taget: Valv polish (Executive Midnight, låg kognitiv belastning). smoke:valv-security + locked-ux PASS.",
-      "smoke": ["npm run smoke:valv-security", "npm run smoke:locked-ux", "npm run smoke:design-modules"],
+      "id": "zone-polish-familjen",
+      "title": "Zon-polish Familjen (Fas 24.B)",
+      "plan": "Fas 24.B — polish /familjen (Barnfokus, Livslogg, Barnporten, Hamn). Bevara Locked UX § Barnporten.",
+      "smoke": ["npm run smoke:locked-ux", "npm run smoke:hamn", "npm run smoke:children"],
       "pmir": false,
       "deploy": "hosting"
     },
     {
-      "id": "predeploy-live-prep",
-      "title": "Predeploy live-prep (ej deploy)",
-      "plan": "docs/evaluations/2026-06-26-yolo-audit.md — smoke:predeploy PASS, skriv deploy-instruktion för hosting+functions i logg. Live smoke:predeploy:live kräver .env — kör manuellt efter Pontus OK.",
+      "id": "valv-chat-e2e-fix",
+      "title": "Valv chat e2e — fix INTERNAL",
+      "plan": "smoke:valv-chat-e2e FAIL (INTERNAL). Granska scripts/smoke_valv_chat_e2e.mjs + valvChatQuery callable. Fixa utan PMIR (ej rules). Dokumentera om live-only kvarstår.",
+      "smoke": ["cd functions && npm run build", "npm run smoke:valv-chat-e2e"],
+      "pmir": false,
+      "deploy": "functions:valvChatQuery"
+    },
+    {
+      "id": "super-yolo-gate",
+      "title": "Super-YOLO gate grönt",
+      "plan": "npm run smoke:super-yolo tills PASS. Bygg på valv-chat-e2e-fix. Ingen deploy.",
+      "smoke": ["npm run smoke:super-yolo"],
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "hosting-deploy-prep",
+      "title": "Deploy-prep hosting+functions (ej deploy)",
+      "plan": "v2 deploy-ready samlad — smoke:predeploy:build PASS. Skriv exakt firebase deploy-rad i logg. Live smoke:predeploy:live kräver .env + Pontus OK.",
       "smoke": ["npm run smoke:predeploy:build"],
       "pmir": true,
       "deploy": "hosting,functions"
+    },
+    {
+      "id": "g85-prod-sync",
+      "title": "G85 prod-sync + enhetsinstruktion",
+      "plan": "docs/evaluations/2026-06-25-g85-daily-driver.md — npm run build:web && npx cap sync android (prod URL om cap:sync:prod finns). Dokumentera android:run:prod / Android Studio Run. Manuell 7-dagars logg på enhet.",
+      "smoke": ["npm run build:web", "npm run smoke:android-platform", "npm run smoke:auth-login"],
+      "pmir": false,
+      "deploy": "none"
     }
   ]
 }
