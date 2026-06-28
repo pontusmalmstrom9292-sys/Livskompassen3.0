@@ -1,6 +1,6 @@
 ---
 description: AI Governance entry — mandatory pre-flight docs before any implementation
-alwaysApply: true
+alwaysApply: false
 ---
 
 # AI Governance — Entry

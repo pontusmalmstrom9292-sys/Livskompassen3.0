@@ -89,10 +89,22 @@ if (existsSync(legacyGov)) {
 }
 
 const entryPath = join(root, '.cursor/rules/ai-governance-entry.mdc');
+const indexPath = join(root, '.cursor/index.mdc');
+if (existsSync(indexPath)) {
+  const index = readFileSync(indexPath, 'utf8');
+  if (!index.includes('alwaysApply: true')) {
+    errors.push('index.mdc must be sole alwaysApply: true (smoke:mdc kanon)');
+  }
+  if (!index.includes('ai-governance-entry.mdc') && !index.includes('AI-GOVERNANCE')) {
+    errors.push('index.mdc must reference ai-governance-entry or AI-GOVERNANCE');
+  }
+}
 if (existsSync(entryPath)) {
   const entry = readFileSync(entryPath, 'utf8');
-  if (!entry.includes('alwaysApply: true')) {
-    errors.push('ai-governance-entry.mdc must have alwaysApply: true for Cursor');
+  if (entry.includes('alwaysApply: true')) {
+    errors.push(
+      'ai-governance-entry.mdc must not use alwaysApply: true — index.mdc is sole always-on (smoke:mdc)',
+    );
   }
   if (!entry.includes('ROADMAP.md')) {
     errors.push('ai-governance-entry.mdc must reference ROADMAP.md in after-task updates');
