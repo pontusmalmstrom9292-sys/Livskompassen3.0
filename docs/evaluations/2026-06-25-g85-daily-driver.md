@@ -3,7 +3,7 @@
 **Plattform:** Motorola G85 · Capacitor Android  
 **Start:** 2026-06-25  
 **Mål:** P0 — appen som vardagsverktyg, inte bara grön smoke  
-**Prod-URL i appen:** https://gen-lang-client-0481875058.web.app (`cap:sync:prod` körd 2026-06-25)
+**Prod-URL i appen:** https://gen-lang-client-0481875058.web.app (`cap:sync:prod` körd 2026-06-28 efter hosting deploy)
 
 ---
 
@@ -97,11 +97,23 @@ Dag 7:
 | `smoke:auth-login` | PASS 2026-06-28 |
 | `smoke:predeploy:build` | PASS 2026-06-28 |
 | `build:web` | PASS 2026-06-25, 2026-06-28 |
-| `cap:sync:prod` | PASS 2026-06-25 |
+| `cap:sync:prod` | PASS 2026-06-28 (efter hosting deploy) |
+| `smoke:android-prod-sync` | PASS 2026-06-28 |
 | Hosting live (23E) | https://gen-lang-client-0481875058.web.app |
 | SHA-1 / `client_type: 1` | Verifierad i smoke |
 
 Kanon: [`.context/android-capacitor.md`](../../.context/android-capacitor.md) · [`docs/FIREBASE-AUTH-LATHUND.md`](../FIREBASE-AUTH-LATHUND.md)
+
+### Körning 2026-06-28 (YOLO #7 g85-prod-sync)
+
+- `npm run build:web` — PASS
+- `npm run cap:sync:prod` — PASS (WebView → live Hosting)
+- `npm run smoke:android-platform` — PASS
+- `npm run smoke:auth-login` — PASS
+- `npm run smoke:android-prod-sync` — PASS
+- **Fix:** `cap:sync:prod` exporterar nu `CAPACITOR_SERVER_URL` till både build och `cap sync` (tidigare saknades `server.url` i APK).
+
+**Kör på G85 nu:** USB + felsökning → `npm run android:open` → Gradle Sync → Run. Eller: `npm run android:run:prod` om `adb devices` visar telefonen.
 
 ### Körning 2026-06-28 (prep + smoke)
 

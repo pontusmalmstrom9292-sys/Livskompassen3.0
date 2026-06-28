@@ -6549,7 +6549,7 @@ html.dim-mode {
   }
 
   .dock-shell.dock-shell--reference-dock {
-    padding-bottom: 0 !important;
+    padding-bottom: max(0.7rem, env(safe-area-inset-bottom)) !important;
   }
 
   /* The main outer dock bar */
