@@ -1,10 +1,11 @@
 {
   "version": 2,
   "startedAt": "2026-06-28T01:37:16.372Z",
-  "updatedAt": "2026-06-28T02:12:31.974Z",
-  "currentTaskId": "lifeos-kopplingar-d",
+  "updatedAt": "2026-06-28T02:20:22.716Z",
+  "currentTaskId": "design-hex-tokens-p2",
   "completedTaskIds": [
-    "tier2-smoke-fix-loop"
+    "tier2-smoke-fix-loop",
+    "lifeos-kopplingar-d"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
@@ -17,5 +18,5 @@
     "zone-polish-valv",
     "predeploy-live-prep"
   ],
-  "taskStartSha": "a2939d5d9113bd338b9d9a2227022f79c1bd6e3e"
+  "taskStartSha": "df025b3ba1fc9dfa1a2f86bd229619e7a6133e85"
 }
