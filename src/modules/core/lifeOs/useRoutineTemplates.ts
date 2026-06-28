@@ -8,12 +8,13 @@ export function useRoutineTemplates(presetId: LifeHubPresetId) {
   const user = useStore((s) => s.user);
   const [templates, setTemplates] = useState<RoutineTemplate[]>([]);
   const [loading, setLoading] = useState(true);
-  const migratedRef = useRef(false);
+  const seededForUserRef = useRef<string | null>(null);
 
   useEffect(() => {
     if (!user) {
       setTemplates([]);
       setLoading(false);
+      seededForUserRef.current = null;
       return;
     }
     setLoading(true);
@@ -25,19 +26,19 @@ export function useRoutineTemplates(presetId: LifeHubPresetId) {
   }, [user]);
 
   useEffect(() => {
-    if (!user || loading || migratedRef.current) return;
+    if (!user || loading || seededForUserRef.current === user.uid) return;
     if (templates.length > 0) {
-      migratedRef.current = true;
+      seededForUserRef.current = user.uid;
       return;
     }
-    migratedRef.current = true;
+    seededForUserRef.current = user.uid;
     void (async () => {
       try {
         for (const tpl of ROUTINE_TEMPLATES) {
           await seedRoutineTemplate(user.uid, tpl);
         }
       } catch {
-        migratedRef.current = false;
+        seededForUserRef.current = null;
       }
     })();
   }, [user, loading, templates.length]);
