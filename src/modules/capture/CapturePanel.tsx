@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { FileUp, Filter, PenLine, X } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
@@ -8,9 +9,11 @@ import { WormSaveConfirmSheet } from '@/core/security/WormSaveConfirmSheet';
 import { fileToBase64 } from '@/features/lifeJournal/evidence/kompis/api/ingestKnowledgeDocumentService';
 import {
   previewInboxClassification,
+  inkastDestinationLink,
   primaryInkastItem,
   submitInkastLite,
   tagsFromInkastClassification,
+  VALV_SAMLA_GRANSKA_LINK,
   type SubmitInkastLiteResult,
 } from '../inkast/api/inkastService';
 import {
@@ -421,6 +424,7 @@ export function CapturePanel({
       : text.trim().slice(0, 80) || 'Inkast';
   const domainHint = inkastSourceModuleHint(sourceModule);
   const primaryItem = lastBatch ? primaryInkastItem(lastBatch) : null;
+  const destinationLink = primaryItem ? inkastDestinationLink(primaryItem) : null;
   const barnenBridge =
     showBarnenBridge && primaryItem && userId ? inkastBarnenBridgeProps(primaryItem) : null;
   const dagbokWeave =
@@ -652,6 +656,22 @@ export function CapturePanel({
       )}
       {phase === 'done' && lastBatch && (
         <InkastPostSubmitPanel result={lastBatch} tone="hem">
+          {destinationLink && (
+            <Link
+              to={{ pathname: destinationLink.pathname, search: destinationLink.search }}
+              className="inline-block text-xs text-accent underline-offset-2 hover:underline"
+            >
+              {destinationLink.label}
+            </Link>
+          )}
+          {lastBatch.queued > 0 && (
+            <Link
+              to={{ pathname: VALV_SAMLA_GRANSKA_LINK.pathname, search: VALV_SAMLA_GRANSKA_LINK.search }}
+              className="inline-block text-xs text-accent underline-offset-2 hover:underline"
+            >
+              Öppna granskningskö
+            </Link>
+          )}
           {barnenBridge && userId && (
             <InkastBarnenValvBridge
               userId={userId}
