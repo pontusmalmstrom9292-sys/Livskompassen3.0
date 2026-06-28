@@ -31,3 +31,4 @@
 | 09:13:54 | super-yolo-gate | smoke FAIL | fail | kör yolo igen eller yolo skip |
 | 09:31:49 | super-yolo-gate | PASS | ok | smoke:super-yolo grön efter mdc/governance sync |
 | 22:00:00 | g85-prod-sync | PASS | ok | build:web + cap:sync:prod + smoke:android-platform + smoke:auth-login + smoke:android-prod-sync PASS. Fix: export CAPACITOR_SERVER_URL till cap sync. Manuell 7-dagars logg kvar på G85. |
+| 22:05:06 | g85-prod-sync | PASS | ok | G85 prod-sync + enhetsinstruktion |
