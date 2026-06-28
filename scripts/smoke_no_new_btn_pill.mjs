@@ -3,17 +3,21 @@
  * Fails if diff introduces new btn-pill-- usage in src/modules (Premium UI Polish gate).
  * Usage: node scripts/smoke_no_new_btn_pill.mjs [baseRef]
  */
-import { execSync } from 'node:child_process';
+import { execFileSync } from 'node:child_process';
 import { join } from 'node:path';
 
 const base = process.argv[2] ?? 'main';
 const root = join(import.meta.dirname, '..');
 
 try {
-  const diff = execSync(`git diff ${base}...HEAD --unified=0 -- src/modules`, {
-    encoding: 'utf8',
-    cwd: root,
-  });
+  const diff = execFileSync(
+    'git',
+    ['diff', `${base}...HEAD`, '--unified=0', '--', 'src/modules'],
+    {
+      encoding: 'utf8',
+      cwd: root,
+    },
+  );
   const added = diff
     .split('\n')
     .filter((line) => line.startsWith('+') && !line.startsWith('+++'))
