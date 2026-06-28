@@ -25,6 +25,15 @@ Run `scripts/count_design_debt.mjs` when implemented (Phase 9).
 
 ---
 
+## Delivery workflow hardening (2026-06-28)
+
+- **Status:** Done
+- **Scope:** Practical delivery plan + safe Git branch/merge routine added
+- **Files:** `docs/DELIVERY_PLAN.md`, `docs/GIT_WORKFLOW.md`, `.github/workflows/pr-smoke-gate.yml`, `package.json`
+- **Quality signal:** PR smoke gate now also runs `npm run test:agents-ui`
+
+---
+
 ## Chrome (locked — polish only)
 
 ### Premium Header

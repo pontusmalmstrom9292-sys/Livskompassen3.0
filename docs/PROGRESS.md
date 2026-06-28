@@ -37,6 +37,39 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-28 — Delivery + Git workflow hardening
+
+**Completed work:**
+- Added concrete delivery execution plan (`docs/DELIVERY_PLAN.md`) with milestones, next-up, risks, implementation order, and DoD per step.
+- Added practical anti-kodförlust guide (`docs/GIT_WORKFLOW.md`) for daily branching, safe sync, conflict handling, and recovery.
+- Strengthened PR quality signal by adding `npm run test:agents-ui` to `.github/workflows/pr-smoke-gate.yml`.
+- Added local baseline command `npm run quality:baseline` (`build + test:agents-ui + smoke:governance`).
+
+**Files changed:**
+- docs/DELIVERY_PLAN.md
+- docs/GIT_WORKFLOW.md
+- .github/workflows/pr-smoke-gate.yml
+- package.json
+- docs/TODO.md
+- docs/DASHBOARD.md
+
+**Metrics:**
+- Baseline before change: `npm run build` PASS, `npm run test:agents-ui` PASS, `npm run smoke:governance` PASS.
+- Baseline before change: `npm run lint` FAIL (legacy pre-existing issues outside this scoped task).
+
+**Reasoning:**
+- Focused on low-risk workflow/documentation hardening plus one CI signal improvement to reduce merge risk and code-loss anxiety.
+- Avoided broad lint cleanup in this PR because current lint debt spans many unrelated files/modules.
+
+**Next steps:**
+- Execute TODO Phase 0 baseline metrics and screenshots.
+- Handle lint debt in dedicated scoped cleanup PR(s) before making lint a required gate.
+
+**Blockers:**
+- Repository-wide lint debt currently prevents adding lint as mandatory CI gate without unrelated mass fixes.
+
+---
+
 
 ---
 

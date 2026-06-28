@@ -19,7 +19,8 @@ Each item is independently completable. Link files in Dashboard when done.
 - [ ] Screenshot baseline: /familjen
 - [ ] Screenshot baseline: /hjartat
 - [ ] Record btn-pill file count in Dashboard metrics
-- [ ] Add PR checklist to team workflow (Testing-Strategy.md)
+- [x] Add PR checklist to team workflow (Testing-Strategy.md)
+- [x] Add delivery + safe git workflow docs (`DELIVERY_PLAN.md`, `GIT_WORKFLOW.md`)
 
 ---
 
