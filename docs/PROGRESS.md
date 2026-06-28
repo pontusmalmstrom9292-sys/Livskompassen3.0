@@ -37,6 +37,128 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-28 — Delivery + Git workflow hardening
+
+**Completed work:**
+- Added concrete delivery execution plan (`docs/DELIVERY_PLAN.md`) with milestones, next-up, risks, implementation order, and DoD per step.
+- Added practical anti-kodförlust guide (`docs/GIT_WORKFLOW.md`) for daily branching, safe sync, conflict handling, and recovery.
+- Strengthened PR quality signal by adding `npm run test:agents-ui` to `.github/workflows/pr-smoke-gate.yml`.
+- Added local baseline command `npm run quality:baseline` (`build + test:agents-ui + smoke:governance`).
+
+**Files changed:**
+- docs/DELIVERY_PLAN.md
+- docs/GIT_WORKFLOW.md
+- .github/workflows/pr-smoke-gate.yml
+- package.json
+- docs/TODO.md
+- docs/DASHBOARD.md
+
+**Metrics:**
+- Baseline before change: `npm run build` PASS, `npm run test:agents-ui` PASS, `npm run smoke:governance` PASS.
+- Baseline before change: `npm run lint` FAIL (legacy pre-existing issues outside this scoped task).
+
+**Reasoning:**
+- Focused on low-risk workflow/documentation hardening plus one CI signal improvement to reduce merge risk and code-loss anxiety.
+- Avoided broad lint cleanup in this PR because current lint debt spans many unrelated files/modules.
+
+**Next steps:**
+- Execute TODO Phase 0 baseline metrics and screenshots.
+- Handle lint debt in dedicated scoped cleanup PR(s) before making lint a required gate.
+
+**Blockers:**
+- Repository-wide lint debt currently prevents adding lint as mandatory CI gate without unrelated mass fixes.
+
+---
+
+
+---
+
+## 2026-06-28 — SAFE YOLO v2: typecheck-features
+
+**Completed work:**
+- Expanded `typecheck:core-strict` include scope to the full `src/modules/features/` tree via `src/modules/features/**/*`.
+- Kept wave scope isolated to strict typecheck configuration + required governance docs.
+
+**Files changed:**
+- tsconfig.core-strict.json
+- docs/TODO.md
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run typecheck:core-strict PASS
+- npm run smoke:predeploy:build PASS
+
+**Reasoning:**
+- Full features coverage in strict typecheck closes drift between feature modules and core/shared strict checks.
+
+**Next steps:**
+- None for this wave.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-28 — SAFE YOLO v2: friendly empty-states wave
+
+**Completed work:**
+- Added calmer empty-state treatment in the Dagbok archive, Planering quick list, and Familjen livslogg list views.
+- Replaced null renders in the touched list views with friendly empty states so the UI always resolves visibly.
+- Polished the shared `EmptyState` primitive for a softer, more consistent list-view treatment.
+
+**Files changed:**
+- src/modules/core/ui/EmptyState.tsx
+- src/modules/features/lifeJournal/diary/diary/components/JournalArchive.tsx
+- src/modules/features/admin/planning/components/PlaneringQuickListPanel.tsx
+- src/modules/features/family/children/components/familjen/ChildMomentStunderPanel.tsx
+- src/modules/features/family/children/components/PositivaMinnesankare.tsx
+- src/modules/features/family/children/components/familjen/FamiljenLivsloggTab.tsx
+- docs/TODO.md
+- docs/DASHBOARD.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+- npm run smoke:predeploy:build PASS
+
+**Reasoning:**
+- List views should explain absence of content instead of collapsing to blank space, especially in low-energy flows.
+
+**Next steps:**
+- Continue the wider Phase 5 empty-state pass across remaining list surfaces.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-28 — SAFE YOLO v2: vite-bundle-split (/valvet + /familjen)
+
+**Completed work:**
+- Bekräftade lazy route-entry för `/valvet` och `/familjen` i Vite route-split wave (kod redan i aktiv branch vid körning).
+- Verifierade att `zone-valv` minskade kraftigt i build output (från 768.53 kB till 2.65 kB) med uppdelning till separata lazy chunks (bl.a. `VaultPage` och `ValvInputSuperModule`).
+- Körde obligatoriska smoke/build-kommandon för vågen.
+
+**Files changed:**
+- docs/TODO.md
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- zone-valv js: 768.53 kB → 2.65 kB
+- smoke:locked-ux PASS
+- smoke:predeploy:build PASS
+- npm run build PASS
+
+**Reasoning:**
+- Route-nivå split minskar initial Valv-last och håller Locked UX intakt utan ändring av flows eller PMIR-filer.
+
+**Next steps:**
+- Fortsätt Phase 0-baseline med smoke:design-modules + screenshot-baseline.
+
+**Blockers:**
+- None
 
 ---
 

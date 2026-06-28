@@ -11,7 +11,9 @@ Each item is independently completable. Link files in Dashboard when done.
 ## Phase 0 — Baseline
 
 - [ ] Record smoke:design-modules output in PROGRESS.md
-- [ ] Record smoke:locked-ux output in PROGRESS.md
+- [x] Record smoke:locked-ux output in PROGRESS.md
+- [x] Vite bundle split wave: lazy route-entry for `/valvet` + `/familjen` and verify build smoke (2026-06-28)
+- [x] SAFE YOLO v2: expand `typecheck:core-strict` scope över `src/modules/features/` (2026-06-28)
 - [ ] Screenshot baseline: / @ 390×844 and 1280×800
 - [ ] Screenshot baseline: /vardagen
 - [ ] Screenshot baseline: /planering
@@ -19,7 +21,8 @@ Each item is independently completable. Link files in Dashboard when done.
 - [ ] Screenshot baseline: /familjen
 - [ ] Screenshot baseline: /hjartat
 - [ ] Record btn-pill file count in Dashboard metrics
-- [ ] Add PR checklist to team workflow (Testing-Strategy.md)
+- [x] Add PR checklist to team workflow (Testing-Strategy.md)
+- [x] Add delivery + safe git workflow docs (`DELIVERY_PLAN.md`, `GIT_WORKFLOW.md`)
 
 ---
 
@@ -102,7 +105,8 @@ Each item is independently completable. Link files in Dashboard when done.
 - [ ] Migrate RAGErrorBoundary
 - [ ] Migrate DagbokWizardErrorBoundary
 - [ ] Align PageSkeleton with DS Skeleton
-- [ ] EmptyState token pass (core/ui/EmptyState.tsx)
+- [x] EmptyState token pass (core/ui/EmptyState.tsx)
+- [x] Friendly empty-states for Dagbok, Planering, Familjen list views
 
 ---
 

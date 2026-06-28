@@ -19,9 +19,20 @@
 | ad-hoc role=dialog | ~14 | TBD | 0 undocumented |
 | index.css LOC | 6816 | TBD | ≤5000 (stretch) |
 | smoke:design-modules | TBD | TBD | green |
-| smoke:locked-ux | TBD | TBD | green |
+| smoke:locked-ux | TBD | PASS (2026-06-28) | green |
+| `zone-valv` route chunk (js) | 768.53 kB | 2.65 kB | keep route-entry small |
+| `typecheck:core-strict` scope | core/shared/morning | core/shared/features/morning (PASS 2026-06-28) | features included |
 
 Run `scripts/count_design_debt.mjs` when implemented (Phase 9).
+
+---
+
+## Delivery workflow hardening (2026-06-28)
+
+- **Status:** Done
+- **Scope:** Practical delivery plan + safe Git branch/merge routine added
+- **Files:** `docs/DELIVERY_PLAN.md`, `docs/GIT_WORKFLOW.md`, `.github/workflows/pr-smoke-gate.yml`, `package.json`
+- **Quality signal:** PR smoke gate now also runs `npm run test:agents-ui`
 
 ---
 
@@ -98,6 +109,11 @@ Run `scripts/count_design_debt.mjs` when implemented (Phase 9).
 - **Status:** Not Started
 - **Priority:** Medium
 - **Files:** HubPanelSkeleton.tsx, PageSkeleton.tsx → DS Skeleton
+
+### Empty State
+- **Status:** In Progress
+- **Priority:** Medium
+- **Files:** core/ui/EmptyState.tsx, JournalArchive.tsx, PlaneringQuickListPanel.tsx, ChildMomentStunderPanel.tsx, PositivaMinnesankare.tsx, FamiljenLivsloggTab.tsx
 
 ### Error Boundaries
 - **Status:** In Progress
