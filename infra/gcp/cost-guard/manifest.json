@@ -59,12 +59,10 @@
     "datafusion.googleapis.com",
     "memcache.googleapis.com",
     "file.googleapis.com",
-    "cloudscheduler.googleapis.com",
     "cloudtasks.googleapis.com",
     "workstations.googleapis.com",
     "gkehub.googleapis.com",
-    "container.googleapis.com",
-    "compute.googleapis.com"
+    "container.googleapis.com"
   ],
   "safeToDisableApis": [
     "bigquery.googleapis.com",
