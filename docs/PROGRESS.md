@@ -270,3 +270,23 @@ Copy the template below for each entry. Newest first.
 **Next steps:** Pontus visual sign-off; optional Phase 10 legacy CSS sunset; Playwright screenshot baseline
 
 **Blockers:** None
+
+---
+
+## 2026-06-28 — Dock polish vs KOMPASS-LOCKED-kanon (GAP-analys)
+
+**Referens:** `docs/design/galleri/KOMPASS-LOCKED-kanon.png`
+
+**Visuella GAP (före polish):**
+1. **Pill-form + guld outer ring** — Dock var platt topp-bar (`border-radius` bara upptill, `border-bottom: 0`, full bredd). Referens: svävande kapsel med helrundad pill + tydlig guldkant.
+2. **Vertikala guld-dividers** — Saknades helt (CSS nollställde `border-right`). Referens: tunna vertikala guldlinjer mellan alla zoner (Anteckning | Familj | KOMPASS | Hjärtat | Inkast | Resurser).
+3. **Kompass storlek / overlap / metallic** — Kompass mindre (4.85rem), svagare glow, ingen synlig "Hamn"-label. Referens: större 3D-guld-ankare som bryter ur pill + varm halo.
+4. **Ikon + label typografi** — Labels 0.4rem utan serif. Referens: läsbar uppercase guld (Cinzel), ~9px minimum.
+5. **Glas / djup / skugga** — Tunn flat bar mot skärmkant. Referens: mörk glas-kapsel med ambient skugga under, inre ljus-reflektion.
+
+**Polish åtgärder (denna wave):**
+- Flytande guld-pill i `executive-chrome.css` + `premium-polish.css`
+- Vertikala zone-dividers via pseudo-element
+- Större kompass + "Hamn"-label i `ExecutiveDockBar.tsx`
+- Cinzel uppercase labels, touch ≥44px, reduced-motion + reduced-transparency fallbacks
+

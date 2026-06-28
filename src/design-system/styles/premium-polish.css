@@ -198,11 +198,14 @@
     backdrop-filter: blur(var(--ds-blur-lg)) saturate(var(--ds-glass-saturate));
     -webkit-backdrop-filter: blur(var(--ds-blur-lg)) saturate(var(--ds-glass-saturate));
     box-shadow: var(--ds-elevation-dock);
-    border: 1px solid color-mix(in srgb, var(--ds-color-accent) 22%, transparent);
+    border: 1px solid color-mix(in srgb, var(--ds-color-accent) 38%, transparent);
   }
 
+  .dock-shell--reference-dock .exec-dock-bar,
   .dock-shell--basta-design .exec-dock-bar {
-    box-shadow: var(--ds-elevation-dock);
+    box-shadow:
+      var(--ds-elevation-dock),
+      0 0 24px color-mix(in srgb, var(--ds-color-accent) 8%, transparent);
   }
 
   .exec-dock-bar__side,
@@ -240,7 +243,9 @@
 
   /* Legibility — dock labels (was 6.4px) */
   .exec-dock-bar__label,
+  .exec-dock-bar__compass-label,
   .ds-nav-item__label {
+    font-family: 'Cinzel', 'Outfit', serif;
     font-size: max(var(--ds-font-size-2xs), 0.5625rem);
     letter-spacing: var(--ds-letter-spacing-normal);
   }
@@ -499,5 +504,18 @@
 
   .basta-design__hero-img {
     animation: none !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .exec-dock-bar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: color-mix(in srgb, var(--ds-color-surface, var(--surface)) 96%, #020617);
+  }
+
+  .exec-dock-bar::before,
+  .exec-dock-bar::after {
+    opacity: 0.35;
   }
 }
