@@ -2,6 +2,7 @@ import { Lock, ShieldAlert, X, Settings } from 'lucide-react';
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
+import { VALV_ZONE_INGRESS, VALV_ZONE_LABELS } from '@/core/copy/valvNavCopy';
 import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
@@ -224,6 +225,14 @@ function VaultPageInner({
           {sessionSyncError}
         </p>
       ) : null}
+
+      <section className="valv-zone-intro" aria-label="Valv zonöversikt">
+        <div className="valv-zone-intro__header">
+          <span className="valv-zone-intro__eyebrow">Zon</span>
+          <span className="valv-zone-intro__title">{VALV_ZONE_LABELS[valvZone]}</span>
+        </div>
+        <p className="valv-zone-intro__lead">{VALV_ZONE_INGRESS[valvZone]}</p>
+      </section>
 
       {vaultTab === 'logga' ? (
         <PinnedPlaneringModuleSlot targetId="valv.logga" />

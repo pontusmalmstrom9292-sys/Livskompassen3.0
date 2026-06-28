@@ -275,8 +275,8 @@ function runPreflight() {
     return true;
   }
   if (process.env.COPILOT_YOLO_FULL_PREFLIGHT === '1') {
-    console.log('[copilot:yolo] Pre-flight: orkester:night (full)...');
-    return runStep('preflight', 'npm run orkester:night');
+    console.log('[copilot:yolo] Pre-flight: orkester:night (full, live-progress)...');
+    return runStep('preflight', 'npm run orkester:night', { ORKESTER_LIVE: '1' });
   }
   // Static gate — no Firestore capability gate, no long rollout network phase
   console.log('[copilot:yolo] Pre-flight: static (locked-ux + orkester + build)...');
@@ -352,8 +352,6 @@ function launchCopilot(task) {
     '--experimental',
     '--max-autopilot-continues',
     '30',
-    '--effort',
-    'high',
     '--model',
     'auto',
     '--name',

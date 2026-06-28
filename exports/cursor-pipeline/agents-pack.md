@@ -179,6 +179,29 @@ The content is organized as follows:
 }
 ```
 
+## File: functions/src/adk/synapses/dcapAlertSynapse.ts
+```typescript
+import { hashPayload } from '../stateStore';
+import { analyzeDcapTrend, type EscalationResult } from '../../lib/dcapEscalation';
+import { monitor } from '../../lib/monitoring';
+⋮----
+export interface DcapAlertPayload {
+  ownerId: string;
+  riskScore: number;
+  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
+  inputHash: string;
+  detectionCount?: number;
+}
+⋮----
+export interface DcapAlertResult {
+  alertId: string;
+  hitlRequired: boolean;
+  escalation?: EscalationResult;
+}
+⋮----
+export async function handleDcapAlert(payload: DcapAlertPayload): Promise<DcapAlertResult>
+```
+
 ## File: functions/src/adk/synapses/driveIngestSynapse.ts
 ```typescript
 import { analyzeDriveFile } from '../../agents/documentAgent';
@@ -197,25 +220,68 @@ export async function handleDriveIngest(
 function isHeavyResponse(text: string): boolean
 ```
 
-## File: functions/src/adk/synapses/journalWovenSynapse.ts
+## File: functions/src/adk/synapses/kasamAggregationSynapse.ts
 ```typescript
-import { generateEmbeddingInternal } from '../../lib/generateEmbeddingInternal';
-import { upsertKampsparVector } from '../../lib/vectorSearchClient';
-⋮----
-export interface JournalWovenPayload {
+export interface KasamAggregationPayload {
   ownerId: string;
-  journalEntryId: string;
-  mood: string;
-  text: string;
-  optIn: boolean;
+  triggerSource: string;
 }
 ⋮----
-export interface JournalWovenResult {
-  kampsparDocId: string;
-  embeddingDim: number | null;
+export interface KasamAggregationResult {
+  docId: string;
+  aggregatedAt: string;
 }
 ⋮----
-export async function handleJournalWoven(payload: JournalWovenPayload): Promise<JournalWovenResult>
+export async function handleKasamAggregation(payload: KasamAggregationPayload): Promise<KasamAggregationResult>
+```
+
+## File: functions/src/adk/synapses/paralysBrytarenSynapse.ts
+```typescript
+import { createGenAI } from '../../lib/genaiClient';
+import { GEMINI_FLASH } from '../../lib/modelRouter';
+import { PARALYS_BRYTAREN_SYSTEM_PROMPT } from '../../sharedRules';
+import { MICRO_STEP_MAX_SECONDS, type MicroStep } from '../types';
+⋮----
+export function isHeavyResponse(text: string): boolean
+⋮----
+function clampSeconds(n: number): number
+⋮----
+export function breakIntoMicroStepsDeterministic(text: string): MicroStep[]
+⋮----
+function inferPhysicalAnchor(instruction: string): string
+⋮----
+export async function breakIntoMicroSteps(text: string): Promise<MicroStep[]>
+⋮----
+export async function applyParalysBreak(agentText: string): Promise<MicroStep[]>
+```
+
+## File: functions/src/adk/synapses/synapseBus.ts
+```typescript
+import type { SynapseEvent, SynapseTrigger } from '../types';
+import type { AdkOrchestrator } from '../orchestrator';
+import { handleDriveIngest } from './driveIngestSynapse';
+import { handleDcapAlert } from './dcapAlertSynapse';
+import { handleJournalWoven } from './journalWovenSynapse';
+import { handleWidgetRecordingIngest } from './widgetRecordingIngestSynapse';
+import { applyParalysBreak } from './paralysBrytarenSynapse';
+import { handleKasamAggregation } from './kasamAggregationSynapse';
+import type {
+  DriveIngestPayload,
+  JournalWovenPayload,
+  DcapAlertPayload,
+  WidgetRecordingIngestedPayload,
+  KasamAggregationPayload,
+} from '../types';
+⋮----
+type SynapseHandler = (
+  orchestrator: AdkOrchestrator,
+  event: SynapseEvent
+) => Promise<unknown>;
+⋮----
+export async function emitSynapse(
+  orchestrator: AdkOrchestrator,
+  event: SynapseEvent
+): Promise<unknown>
 ```
 
 ## File: functions/src/adk/synapses/widgetRecordingIngestSynapse.ts
@@ -303,584 +369,6 @@ export function assertBackendCollectionAccess(
 export function getBackendWormCollections(): string[]
 ```
 
-## File: functions/src/adk/registry.ts
-```typescript
-import {
-  AvailableAgents,
-  resolveExecutorId,
-  type SupervisorRoute,
-  routeFromDcap,
-} from '../agents/cards';
-import type { AgentCard } from '../agents/types';
-import {
-  assertBackendCollectionAccess,
-  assertBackendSiloIsolation,
-  resolveBackendCollectionDomain,
-  type SiloId,
-} from './manifest';
-⋮----
-export function getAgentCard(agentId: string): AgentCard | undefined
-⋮----
-export function listAgentCards(): AgentCard[]
-⋮----
-export function validateIntent(agentId: string, intent: string): boolean
-⋮----
-export function assertCollectionAccess(agentId: string, collection: string): boolean
-```
-
-## File: functions/src/agents/cards/index.ts
-```typescript
-import { AgentCard } from '../types';
-⋮----
-export function resolveExecutorId(productAgentId: string): string
-⋮----
-export type SupervisorRoute = {
-  productAgentId: string;
-  executorId: string;
-  intent: string;
-};
-⋮----
-export function routeFromDcap(
-  riskScore: number,
-  recommendedAction: 'NONE' | 'COACHING' | 'ALERT'
-): SupervisorRoute
-```
-
-## File: functions/src/agents/childrenLogsAgent.ts
-```typescript
-import { MONSTER_ARKIVARIEN_BARNEN_SYSTEM_PROMPT } from '../sharedRules';
-import { loadBarnenEntityBundle } from '../lib/entityProfileStore';
-import { fetchChildrenLogsForQuery } from '../lib/childrenLogsQueryRag';
-import { createGenAI } from '../lib/genaiClient';
-⋮----
-export interface ChildrenLogCitation {
-  docId: string;
-  childAlias: string;
-  date: string;
-  excerpt: string;
-}
-⋮----
-export interface ChildrenLogsQueryResult {
-  answer: string;
-  citations: ChildrenLogCitation[];
-  silo: 'barnen';
-}
-⋮----
-function buildContextBlock(chunks: Awaited<ReturnType<typeof fetchChildrenLogsForQuery>>): string
-⋮----
-function parseChildrenLogsJson(
-  raw: string,
-  allowed: Map<string, ChildrenLogCitation>
-): ChildrenLogsQueryResult | null
-⋮----
-function buildDegradedResponse(
-  chunks: Awaited<ReturnType<typeof fetchChildrenLogsForQuery>>
-): ChildrenLogsQueryResult
-⋮----
-export async function askChildrenLogsQuery(
-  uid: string,
-  question: string,
-  childAlias?: string,
-  geminiApiKey?: string
-): Promise<ChildrenLogsQueryResult>
-```
-
-## File: functions/src/agents/documentAgent.ts
-```typescript
-import { google, drive_v3 } from 'googleapis';
-import { LIVSKOMPASSEN_SYSTEM_CONFIG } from '../sharedRules';
-import { createGenAI } from '../lib/genaiClient';
-⋮----
-async function downloadDriveFileBuffer(
-  drive: drive_v3.Drive,
-  fileId: string,
-  mimeType: string
-): Promise<
-⋮----
-export const analyzeDriveFile = async (fileId: string, fileName: string, mimeType: string): Promise<string> =>
-```
-
-## File: functions/src/agents/gransArkitektenAgent.ts
-```typescript
-import type { DcapResult } from './DCAP';
-import { GRANS_ARKITEKTEN_SYSTEM_PROMPT } from '../sharedRules';
-import { createGenAI } from '../lib/genaiClient';
-⋮----
-export interface GransArkitektenResult {
-  cleanFacts: string[];
-  emotionalBait: string[];
-  greyRockReply: string;
-  techniques: string[];
-  coachingNote: string;
-  theoryWithoutEvidence?: boolean;
-}
-⋮----
-export function parseGransJson(raw: string, dcap: DcapResult): GransArkitektenResult
-⋮----
-function buildFallback(dcap: DcapResult): GransArkitektenResult
-⋮----
-export async function askGransArkitekten(
-  message: string,
-  dcap: DcapResult,
-  geminiApiKey?: string
-): Promise<GransArkitektenResult>
-```
-
-## File: functions/src/agents/knowledgeVaultAgent.ts
-```typescript
-import { LIVS_ARKIVARIEN_SYSTEM_PROMPT } from '../sharedRules';
-import { createGenAI } from '../lib/genaiClient';
-import { loadKunskapEntityBundle } from '../lib/entityProfileStore';
-import { fetchKampsparEvidenceForQuery } from '../lib/kampsparQueryRag';
-⋮----
-export interface KnowledgeVaultCitation {
-  docId: string;
-  collection: 'kampspar' | 'kb_docs';
-  date: string;
-  title: string;
-  excerpt: string;
-}
-⋮----
-export interface KnowledgeVaultResult {
-  answer: string;
-  citations: KnowledgeVaultCitation[];
-  moduleRoute?: {
-    path: string;
-    label: string;
-    silo: 'barnen';
-  };
-}
-⋮----
-function buildContextBlock(chunks: Awaited<ReturnType<typeof fetchKampsparEvidenceForQuery>>): string
-⋮----
-function citationKey(c: KnowledgeVaultCitation): string
-⋮----
-function parseKnowledgeVaultJson(
-  raw: string,
-  allowed: Map<string, KnowledgeVaultCitation>
-): KnowledgeVaultResult | null
-⋮----
-function buildDegradedResponse(chunks: KampsparEvidenceChunk[]): KnowledgeVaultResult
-⋮----
-type KampsparEvidenceChunk = Awaited<ReturnType<typeof fetchKampsparEvidenceForQuery>>[number];
-⋮----
-export async function askKnowledgeVaultWithRag(
-  uid: string,
-  question: string,
-  geminiApiKey?: string
-): Promise<KnowledgeVaultResult>
-```
-
-## File: functions/src/agents/kompis-supervisor.ts
-```typescript
-import {
-  AvailableAgents,
-  EXECUTOR_AGENT_IDS,
-  GransArkitektenCard,
-  routeFromDcap,
-} from './cards';
-import type { AgentResponse } from './types';
-import { GCP_PROJECT_ID } from '../config';
-import { analyzeDcap, DcapResult } from './DCAP';
-import { askGransArkitekten, parseGransJson, type GransArkitektenResult } from './gransArkitektenAgent';
-import { resolveHamnTheoryWithoutEvidence } from '../lib/epistemicGuard';
-import { getOrCreateCache, invalidateCachesForUser } from '../lib/vertexCache';
-import { KOMPIS_SYSTEM_PROMPT } from '../sharedRules';
-import { adkOrchestrator } from '../adk/orchestrator';
-import { emitSynapse } from '../adk/synapses/synapseBus';
-import { hashPayload } from '../adk/stateStore';
-import type { DcapAlertResult } from '../adk/synapses/dcapAlertSynapse';
-⋮----
-export class KompisSupervisor
-⋮----
-public async handleUserRequest(
-    userInput: string,
-    userId: string,
-    ragContext: string[] = [],
-    options?: { preferGransArkitekten?: boolean }
-): Promise<AgentResponse &
-⋮----
-public async invalidateUserSession(userId: string): Promise<void>
-```
-
-## File: functions/src/agents/types.ts
-```typescript
-export interface AgentMetadata {
-  id: string;
-  name: string;
-  description: string;
-  version: string;
-}
-⋮----
-export interface AgentCapability {
-  name: string;
-  description: string;
-  parameters: Record<string, any>;
-}
-⋮----
-export interface AgentCard {
-  metadata: AgentMetadata;
-  capabilities: AgentCapability[];
-  dataAccessPolicy: {
-    canAccessPII: boolean;
-    allowedCollections: string[];
-  };
-}
-⋮----
-export interface A2AMessage {
-  fromAgentId: string;
-  toAgentId: string;
-  timestamp: string;
-  intent: string;
-  payload: Record<string, any>;
-  contextId?: string;
-}
-⋮----
-export interface AgentResponse {
-  agentId: string;
-  status: 'SUCCESS' | 'ERROR' | 'DELEGATED';
-  data?: any;
-  error?: string;
-  delegatedTo?: string;
-}
-```
-
-## File: functions/src/callables/pipelineStudio.ts
-```typescript
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
-import { guardSensitiveCallableV2 } from '../lib/callableGuards';
-import { appendPipelineRun, type PipelineRunStatus } from '../lib/pipelineRunStore';
-```
-
-## File: functions/src/lib/pipelineRunStore.ts
-```typescript
-import { getFirestore, FieldValue, type FieldValue as FieldValueType } from 'firebase-admin/firestore';
-⋮----
-export type PipelineRunStatus = 'spawned' | 'PASS' | 'FAIL' | 'validated' | 'exported';
-⋮----
-export interface PipelineRunRecord {
-  userId: string;
-  ownerId: string;
-  toolId: string;
-  status: PipelineRunStatus;
-  schemaVersion: string;
-  smokeTier?: number;
-  commitSha?: string;
-  errorCode?: string;
-  createdAt: FieldValueType;
-}
-⋮----
-export async function appendPipelineRun(
-  uid: string,
-  data: Omit<PipelineRunRecord, 'userId' | 'ownerId' | 'createdAt'>,
-): Promise<string>
-```
-
-## File: scripts/pipeline-studio/lib/ftdLoader.mjs
-```javascript
-/** Load P1 Flow Tool Definitions from docs/pipeline-studio/tools/ */
-⋮----
-/**
- * @param {string} [toolId]
- */
-export function loadFtd(toolId)
-⋮----
-export function loadAllFtd()
-⋮----
-export function listToolIds()
-```
-
-## File: scripts/pipeline-studio/cursor_pack.mjs
-```javascript
-/** npm run pipeline:cursor-pack -- <toolId> */
-```
-
-## File: scripts/pipeline-studio/export.mjs
-```javascript
-/** npm run pipeline:export -- <toolId> */
-```
-
-## File: scripts/pipeline-studio/run_smoke.mjs
-```javascript
-/** npm run pipeline:run-smoke -- <toolId> */
-```
-
-## File: scripts/pipeline-studio/validate.mjs
-```javascript
-/** npm run pipeline:validate [-- toolId] */
-```
-
-## File: scripts/pipeline-studio/worktree_spawn.mjs
-```javascript
-/** npm run pipeline:worktree -- <toolId> */
-```
-
-## File: scripts/smoke_agents_ui.mjs
-```javascript
-/**
- * Static + unit smoke: Agent UX P0/P1 wiring.
- * Usage: npm run smoke:agents-ui
- */
-⋮----
-function assert(condition, message)
-⋮----
-function read(relPath)
-⋮----
-function mustInclude(relPath, ...needles)
-```
-
-## File: scripts/smoke_orkester_wiring.mjs
-```javascript
-/**
- * Static smoke: ADK synapse wiring + orkester integration (no Firebase).
- * Usage: npm run smoke:orkester
- */
-⋮----
-function assert(condition, message)
-⋮----
-function read(relPath)
-⋮----
-function mustInclude(relPath, ...needles)
-⋮----
-function mustNotInclude(relPath, ...needles)
-⋮----
-function run(cmd, cwd = root)
-⋮----
-function main()
-⋮----
-// W3: legacy shim redirects frånvaro/lön via vaultRedirectSearch; canonical Valv-länkar i supermodule.
-```
-
-## File: AGENTS.md
-```markdown
-# Livskompassen Cursor Agent Brief
-
-## Project Overview
-
-Livskompassen v2 is a Life OS and multi-agent ecosystem for Lagen om Autonomi, Clean Input, cognitive offloading, and secure evidence handling. Kompis is the user-facing AI navigator; the backend protects user data through Layered Defense, deterministic code, Firebase, Google Cloud, and Vertex/Gemini.
-
-This repository is the current source of truth for React/Vite frontend work, Firebase configuration, Cloud Functions, Data Connect output, and AI-agent orchestration. Legacy Express routes live in `docs/archive/server-legacy/` only.
-
-## Before Writing Code
-
-1. Read `.context/system-plan.md` to confirm the current phase and active risks.
-2. Read `.context/domän-covert-narcissism.md` when working on Valv, Inkast, Hamn, Mönster, or upload routing (~80% HCF/covert bevis-prior).
-3. Read `.context/arkiv-minne.md` for Hela arkivet / permanent minne / three silos (required for RAG, Dossier, or cross-module memory work).
-4. Read `.context/architecture.md`, `.context/arkitektur-beslut.md`, `.context/security.md`, `.context/database.md`, `.context/design-language.md`, and `.context/agents.md`.
-5. Apply the relevant `.cursor/rules/*.mdc` files before editing.
-6. For substantial changes, prepare a REASONS plan: Requirements, Entities, Approach, Structure, Operations, Norms, Safeguards.
-7. Preserve Sacred Features: Verklighetsvalvet, Sanningens Sköld, Morgonkompassen, Dossier-Generator, Speglings-Systemet, Draft Layer, and Device Clear. Kill Switch (shake-to-kill) removed 2026-06-01 — see `.context/security.md`.
-8. Preserve **Locked UX Features** (do not remove): Middagsfrågan; Valv **Mönster** + **Orkester**; design locks for **Planering**, **Fyren widget**, **Barnporten** (barn PWA + egen Orkester + Valv HITL). Register: [`.context/locked-ux-features.md`](.context/locked-ux-features.md). Verify: `npm run smoke:locked-ux`.
-
-## Stack
-
-- Frontend: React, TypeScript, Vite, Tailwind CSS, Zustand.
-- Backend: Firebase Cloud Functions, Google Cloud, Vertex AI, Gemini.
-- Data: Firestore/Data Connect, RAG-oriented evidence structures, immutable snapshots.
-- AI: Kompis Supervisor, A2A agent cards, DCAP, shared prompt rules in `functions/src/sharedRules.ts`.
-- Tooling: Cursor rules/hooks/MCP and Firebase plugin in `.cursor/settings.json`.
-
-## Development
-
-- **Frontend:** `npm run dev` from repo root (Vite, port 5173).
-- **Functions:** `npm run build` from `functions/` compiles TypeScript.
-- **Lint:** `npx eslint .` from repo root (`eslint.config.js`).
-
-## Cursor Cloud specific instructions
-
-- The startup dependency refresh uses `npm ci --legacy-peer-deps` at the repo root because current npm strict peer resolution rejects the existing `firebase@12` and `@capacitor-firebase/authentication@6` peer range combination. Do not remove that flag until those package ranges are aligned.
-- Cloud shells may resolve `node` through `/exec-daemon` even after `nvm use`; when testing Functions runtime behavior, put the Node 20 nvm binary first in `PATH` before running `functions` commands.
-- Local app smoke tests need the ignored `.env` Firebase Web SDK values from `.env.example` / the active Firebase app config; do not commit `.env`.
-- Android Gradle builds need `ANDROID_HOME` / `ANDROID_SDK_ROOT`; in Cursor Cloud the SDK is under `$HOME/android-sdk` when present.
-
-## Cursor Subagents
-
-Built-in: `explore`, `bash`, `browser` — use for research, shell, browser (do not duplicate).
-
-### Orkester (nattpass)
-
-`npm run orkester:night` eller Conductor — [`docs/ORKESTER-AUTORUN.md`](docs/ORKESTER-AUTORUN.md) · [`.cursor/agents/orkester-conductor.md`](.cursor/agents/orkester-conductor.md)
-
-| Fas | Agent | Trigger |
-|-----|-------|---------|
-| 1–4 | ux-guardian, adk-weaver, security-auditor, smoke-runner | orkester nattpass |
-| 5 | Zone-builders (Z1, Z3+6, Z5+2, Z4) | `/specialist-valv-builder` etc. |
-| 6 | `specialist-verifier` | `/specialist-verifier` |
-| 7 | Conductor rapport | — |
-
-### Slutbygge (zon)
-
-| Agent | Zon | Trigger |
-|-------|-----|---------|
-| `specialist-valv-builder` | Z1 Valv | `/specialist-valv-builder` |
-| `specialist-hjartat-inkast-builder` | Z3+6 Hjärtat+Inkast | `/specialist-hjartat-inkast-builder` |
-| `specialist-familjen-hamn-builder` | Z5+2 Familjen+Hamn | `/specialist-familjen-hamn-builder` |
-| `specialist-vardagen-builder` | Z4 Vardagen | `/specialist-vardagen-builder` |
-| `specialist-verifier` | Alla (efter build) | `/specialist-verifier` |
-
-Deploy efter PASS: skill [`.cursor/skills/livskompassen-deploy/SKILL.md`](.cursor/skills/livskompassen-deploy/SKILL.md) — inte subagent.
-
-### Innehåll (routing)
-
-- **`specialist-innehall-dirigent`** — klassar FACT/REFLECTION/PLAY/EVIDENCE; kanon [`docs/INNEHALL-REGISTER.md`](docs/INNEHALL-REGISTER.md)
-- **MåBra-innehåll:** `specialist-mabra-curator` — REFLECTION/PLAY → [`docs/specs/modules/Mabra-CONTENT-BANK.md`](docs/specs/modules/Mabra-CONTENT-BANK.md).
-- **Kunskap-fakta:** `specialist-kunskap-seed` — FACT → [`docs/specs/modules/Kunskap-CONTENT-SEED.md`](docs/specs/modules/Kunskap-CONTENT-SEED.md) (ingest separat).
-- Keep direct edits in the parent agent unless a separate isolated exploration is clearly useful.
-
-### CTO Custom Modes (2026-06 audit)
-
-Pontus-godkända dagliga bollplank — regler i `.cursor/rules/backend-ingest-logic.mdc`, `chameleon-ui-modularity.mdc`, `ai-cognitive-companion.mdc`.
-
-| Agent | Slash-kommando (syns i `/`-menyn) | Subagent | Fokus |
-|-------|-----------------------------------|----------|-------|
-| YOLO-vakt | `/yolo-vakt` | `.cursor/agents/yolo-vakt.md` | Read-only säkerhetsaudit |
-| Minnes-Arkitekten | `/minnes-arkitekten` | `.cursor/agents/minnes-arkitekten.md` | Auto kunskaps-ingest |
-| Design-Labbet | `/design-labbet` | `.cursor/agents/design-labbet.md` | Chameleon UI |
-| Android-Kompis | `/android-kompis` | `.cursor/agents/android-kompis.md` | G85, cap sync, deploy |
-
-**Viktigt:** `/`-menyn läser **`.cursor/commands/*.md`**. `.cursor/agents/` är subagents (Task-delegation). Båda pekar på samma roll — använd slash-kommandot i chatten.
-
-## Skills & rules (uppgift → vägledning)
-
-| Uppgift | Skill | Cursor rule |
-| --- | --- | --- |
-| ADK synapser, auto-ingest | `livskompassen-synapser-adk` | `synapser-adk.mdc` |
-| RAG, silo, cross-read | `livskompassen-memory-silo-guard`, `livskompassen-rag-retrieval` | `memory-silo.mdc` |
-| Vector Search ANN | `livskompassen-vector-search` | — |
-| Hela arkivet / Dossier-minne | `livskompassen-arkiv-master` | `livskompassen-core.mdc` |
-| Agent cards / prompts | `livskompassen-memory-agents` | `backend-agents.mdc` |
-| Deploy / Firebase | plugin `firebase-basics` | `firebase-workflow.mdc`, **`deploy-paminnelser.mdc`** |
-| Planering / dubbelarbete | — | **`planering-kanon-guard.mdc`** |
-| Firestore rules / WORM | plugin `firebase-firestore-standard` | `security-firestore.mdc` |
-| Natt-/batch-autorun | — | `orkester-autorun.mdc`, `grunder-kanon.mdc`, `anti-hallucination.mdc` |
-| Innehåll fakta/lek (U6) | — | `innehall-register.mdc`, `grunder-kanon.mdc` |
-| Modulutökning (cursor-plan) | — | [`docs/evaluations/MALL-cursor-plan.md`](docs/evaluations/MALL-cursor-plan.md) + `*-SPEC.md` + `module_plan.md` |
-
-Kanon för arkitektur och säkerhet: `.context/` (system-plan, arkiv-minne, security). Dokumentationsindex: [`docs/README.md`](docs/README.md). **Systemkontroll / röda tråden:** [`docs/SYSTEMKONTROLL.md`](docs/SYSTEMKONTROLL.md). **Fas 19 gate (pre-flight):** [`.cursor/rules/fas19-masterplan-guard.mdc`](.cursor/rules/fas19-masterplan-guard.mdc) · [`docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md`](docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md).  
-Live GCP-sanning: [`docs/GCP-INVENTORY-LATEST.md`](docs/GCP-INVENTORY-LATEST.md).  
-GCP-konsolidering: [`docs/GCP-KONSOLIDERING-BESLUT.md`](docs/GCP-KONSOLIDERING-BESLUT.md).
-
-## Product Agent Roles
-
-| Role | Responsibility |
-| --- | --- |
-| Sannings-Analytikern | Clinical evidence analysis and strict JSON output. |
-| Brusfiltret | Converts emotionally loaded input into clean facts and timeline data. |
-| BIFF-Skölden | Produces Brief, Informative, Friendly, Firm Grey Rock communication. |
-| Paralys-Brytaren | Reduces executive dysfunction by showing exactly one micro-step. |
-| RSD-Kylaren | Provides rational alternatives for rejection-sensitive triggers. |
-| Uppgifts-Krossaren | Breaks overwhelming tasks into small, testable action atoms. |
-| Speglings-Coachen | Validates without fixing and separates emotion from evidence. |
-| Mönster-Arkivarien | Performs forensic long-term pattern analysis across evidence and Drive inputs. |
-
-These roles are project terminology in Cursor now. Runtime backend implementation happens through `functions/src/agents/`, `functions/src/agents/cards/`, and `functions/src/sharedRules.ts`.
-
-## Git & merge (HARD)
-
-- **Single trunk:** develop on `main`; push only `origin` (Livskompassen3.0). Never push `origin-old`.
-- Before merge/branch delete: write **Pre-Merge Impact Report** per [`docs/MERGE-IMPACT-RAPPORT.md`](docs/MERGE-IMPACT-RAPPORT.md) (följer med / försvinner / regelanalys).
-- Analyze: `.context/system-plan.md`, `grunder-kanon.mdc`, `locked-ux-features.md`, `.context/security.md` (Sacred, WORM, silos).
-- Run `npm run smoke:locked-ux` on `main` before calling merge complete.
-- **Wait for user OK** ("godkänn merge") before merge, push, or `git push origin --delete`.
-- Rule: [`.cursor/rules/git-main-trunk.mdc`](.cursor/rules/git-main-trunk.mdc) (`alwaysApply`). Quick ref: [`docs/GIT-LATHUND.md`](docs/GIT-LATHUND.md). Branches: [`docs/BRANCH-KARTA.md`](docs/BRANCH-KARTA.md).
-
-## Hard Rules
-
-- Do not commit secrets, `.env`, service-account keys, OAuth tokens, or credential JSON files.
-- Do not hardcode agent prompts outside `functions/src/sharedRules.ts`.
-- Do not use LLM output as the source of truth for authorization, data ownership, or immutable evidence decisions.
-- Do not degrade Sacred Features or weaken Device Clear, Draft Layer, or Verklighetsvalvet behavior.
-- Do not introduce nature-themed UI. Use Obsidian Calm and Nordic Dusk.
-- Keep changes tightly scoped to the requested task and preserve unrelated user work.
-```
-
-## File: functions/src/adk/synapses/dcapAlertSynapse.ts
-```typescript
-import { hashPayload } from '../stateStore';
-import { analyzeDcapTrend, type EscalationResult } from '../../lib/dcapEscalation';
-import { monitor } from '../../lib/monitoring';
-⋮----
-export interface DcapAlertPayload {
-  ownerId: string;
-  riskScore: number;
-  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
-  inputHash: string;
-  detectionCount?: number;
-}
-⋮----
-export interface DcapAlertResult {
-  alertId: string;
-  hitlRequired: boolean;
-  escalation?: EscalationResult;
-}
-⋮----
-export async function handleDcapAlert(payload: DcapAlertPayload): Promise<DcapAlertResult>
-```
-
-## File: functions/src/adk/synapses/kasamAggregationSynapse.ts
-```typescript
-export interface KasamAggregationPayload {
-  ownerId: string;
-  triggerSource: string;
-}
-⋮----
-export interface KasamAggregationResult {
-  docId: string;
-  aggregatedAt: string;
-}
-⋮----
-export async function handleKasamAggregation(payload: KasamAggregationPayload): Promise<KasamAggregationResult>
-```
-
-## File: functions/src/adk/synapses/paralysBrytarenSynapse.ts
-```typescript
-import { createGenAI } from '../../lib/genaiClient';
-import { GEMINI_FLASH } from '../../lib/modelRouter';
-import { PARALYS_BRYTAREN_SYSTEM_PROMPT } from '../../sharedRules';
-import { MICRO_STEP_MAX_SECONDS, type MicroStep } from '../types';
-⋮----
-export function isHeavyResponse(text: string): boolean
-⋮----
-function clampSeconds(n: number): number
-⋮----
-export function breakIntoMicroStepsDeterministic(text: string): MicroStep[]
-⋮----
-function inferPhysicalAnchor(instruction: string): string
-⋮----
-export async function breakIntoMicroSteps(text: string): Promise<MicroStep[]>
-⋮----
-export async function applyParalysBreak(agentText: string): Promise<MicroStep[]>
-```
-
-## File: functions/src/adk/synapses/synapseBus.ts
-```typescript
-import type { SynapseEvent, SynapseTrigger } from '../types';
-import type { AdkOrchestrator } from '../orchestrator';
-import { handleDriveIngest } from './driveIngestSynapse';
-import { handleDcapAlert } from './dcapAlertSynapse';
-import { handleJournalWoven } from './journalWovenSynapse';
-import { handleWidgetRecordingIngest } from './widgetRecordingIngestSynapse';
-import { applyParalysBreak } from './paralysBrytarenSynapse';
-import { handleKasamAggregation } from './kasamAggregationSynapse';
-import type {
-  DriveIngestPayload,
-  JournalWovenPayload,
-  DcapAlertPayload,
-  WidgetRecordingIngestedPayload,
-  KasamAggregationPayload,
-} from '../types';
-⋮----
-type SynapseHandler = (
-  orchestrator: AdkOrchestrator,
-  event: SynapseEvent
-) => Promise<unknown>;
-⋮----
-export async function emitSynapse(
-  orchestrator: AdkOrchestrator,
-  event: SynapseEvent
-): Promise<unknown>
-```
-
 ## File: functions/src/adk/orchestrator.ts
 ```typescript
 import type { A2AMessage } from '../agents/types';
@@ -919,6 +407,31 @@ private enforceManifestPolicy(
 async initTrace(contextId: string)
 ⋮----
 private async errorResult(contextId: string, agentId: string, error: string): Promise<OrchestrationResult>
+```
+
+## File: functions/src/adk/registry.ts
+```typescript
+import {
+  AvailableAgents,
+  resolveExecutorId,
+  type SupervisorRoute,
+  routeFromDcap,
+} from '../agents/cards';
+import type { AgentCard } from '../agents/types';
+import {
+  assertBackendCollectionAccess,
+  assertBackendSiloIsolation,
+  resolveBackendCollectionDomain,
+  type SiloId,
+} from './manifest';
+⋮----
+export function getAgentCard(agentId: string): AgentCard | undefined
+⋮----
+export function listAgentCards(): AgentCard[]
+⋮----
+export function validateIntent(agentId: string, intent: string): boolean
+⋮----
+export function assertCollectionAccess(agentId: string, collection: string): boolean
 ```
 
 ## File: functions/src/adk/stateStore.ts
@@ -1042,84 +555,156 @@ export interface KasamAggregationPayload {
 }
 ```
 
-## File: functions/src/agents/DCAP.ts
+## File: functions/src/agents/childrenLogsAgent.ts
 ```typescript
-import { genkit, z } from 'genkit';
-import { vertexAI, gemini15Flash } from '@genkit-ai/vertexai';
-import { DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT } from '../sharedRules';
-import { scanTextForTactics, type VaultTechnique } from '../lib/tacticPatternLibrary';
+import { MONSTER_ARKIVARIEN_BARNEN_SYSTEM_PROMPT } from '../sharedRules';
+import { loadBarnenEntityBundle } from '../lib/entityProfileStore';
+import { fetchChildrenLogsForQuery } from '../lib/childrenLogsQueryRag';
+import { createGenAI } from '../lib/genaiClient';
 ⋮----
-export type ManipulationTechnique =
-  | 'DARVO'
-  | 'GASLIGHTING'
-  | 'LOVE_BOMBING'
-  | 'SILENT_TREATMENT'
-  | 'JADE_BAIT'
-  | 'THREAT'
-  | 'HOOVERING'
-  | 'SMEAR'
-  | 'ECONOMIC_CONTROL'
-  | 'MATERNAL_FACADE'
-  | 'TRAUMA_BONDING'
-  | 'LEGAL_PRESSURE'
-  | 'UNKNOWN';
-⋮----
-function vaultTechniqueToDcap(technique: VaultTechnique): ManipulationTechnique
-⋮----
-export interface DcapDetection {
-  technique: ManipulationTechnique;
-  matchedPattern: string;
-  confidence: 'HIGH' | 'MEDIUM' | 'LOW';
-  layer: 'REGEX' | 'SEMANTIC';
+export interface ChildrenLogCitation {
+  docId: string;
+  childAlias: string;
+  date: string;
+  excerpt: string;
 }
 ⋮----
-export interface DcapResult {
-  riskScore: number;
-  detections: DcapDetection[];
-  greyRockResponse?: string;
-  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
+export interface ChildrenLogsQueryResult {
+  answer: string;
+  citations: ChildrenLogCitation[];
+  silo: 'barnen';
 }
 ⋮----
-function runRegexLayer(text: string):
+function buildContextBlock(chunks: Awaited<ReturnType<typeof fetchChildrenLogsForQuery>>): string
 ⋮----
-async function runSemanticLayer(
-  text: string,
-  projectId: string
-): Promise<
+function parseChildrenLogsJson(
+  raw: string,
+  allowed: Map<string, ChildrenLogCitation>
+): ChildrenLogsQueryResult | null
 ⋮----
-export async function analyzeDcap(text: string, projectId: string): Promise<DcapResult>
+function buildDegradedResponse(
+  chunks: Awaited<ReturnType<typeof fetchChildrenLogsForQuery>>
+): ChildrenLogsQueryResult
+⋮----
+export async function askChildrenLogsQuery(
+  uid: string,
+  question: string,
+  childAlias?: string,
+  geminiApiKey?: string
+): Promise<ChildrenLogsQueryResult>
 ```
 
-## File: functions/src/agents/valvChatAgent.ts
+## File: functions/src/agents/gransArkitektenAgent.ts
 ```typescript
-import { SANNING_ANALYTIKERN_SYSTEM_PROMPT } from '../sharedRules';
-import { loadEntityProfileBundle } from '../lib/entityProfileStore';
-import { fetchVaultEvidenceForQuery } from '../lib/vaultRag';
+import type { DcapResult } from './DCAP';
+import { GRANS_ARKITEKTEN_SYSTEM_PROMPT } from '../sharedRules';
 import { createGenAI } from '../lib/genaiClient';
-import { GEMINI_PRO } from '../lib/modelRouter';
-import {
-  VALV_CHAT_READ_TOOLS,
-  validateValvChatResponse,
-  type ValvChatCitation,
-  type ValvChatResponse,
-} from '../schemas/valvChat';
 ⋮----
-function buildContextBlock(
-  chunks: Awaited<ReturnType<typeof fetchVaultEvidenceForQuery>>,
-): string
+export interface GransArkitektenResult {
+  cleanFacts: string[];
+  emotionalBait: string[];
+  greyRockReply: string;
+  techniques: string[];
+  coachingNote: string;
+  theoryWithoutEvidence?: boolean;
+}
 ⋮----
-function buildPrompt(question: string, entityBlock: string, contextBlock: string): string
+export function parseGransJson(raw: string, dcap: DcapResult): GransArkitektenResult
 ⋮----
-async function runValvChatGeneration(
-  prompt: string,
-  allowedDocIds: Set<string>,
+function buildFallback(dcap: DcapResult): GransArkitektenResult
+⋮----
+export async function askGransArkitekten(
+  message: string,
+  dcap: DcapResult,
+  geminiApiKey?: string
+): Promise<GransArkitektenResult>
+```
+
+## File: functions/src/agents/knowledgeVaultAgent.ts
+```typescript
+import { LIVS_ARKIVARIEN_SYSTEM_PROMPT } from '../sharedRules';
+import { createGenAI } from '../lib/genaiClient';
+import { loadKunskapEntityBundle } from '../lib/entityProfileStore';
+import { fetchKampsparEvidenceForQuery } from '../lib/kampsparQueryRag';
+⋮----
+export interface KnowledgeVaultCitation {
+  docId: string;
+  collection: 'kampspar' | 'kb_docs';
+  date: string;
+  title: string;
+  excerpt: string;
+}
+⋮----
+export interface KnowledgeVaultResult {
+  answer: string;
+  citations: KnowledgeVaultCitation[];
+  moduleRoute?: {
+    path: string;
+    label: string;
+    silo: 'barnen';
+  };
+}
+⋮----
+function buildContextBlock(chunks: Awaited<ReturnType<typeof fetchKampsparEvidenceForQuery>>): string
+⋮----
+function citationKey(c: KnowledgeVaultCitation): string
+⋮----
+function parseKnowledgeVaultJson(
+  raw: string,
+  allowed: Map<string, KnowledgeVaultCitation>
+): KnowledgeVaultResult | null
+⋮----
+function buildDegradedResponse(chunks: KampsparEvidenceChunk[]): KnowledgeVaultResult
+⋮----
+type KampsparEvidenceChunk = Awaited<ReturnType<typeof fetchKampsparEvidenceForQuery>>[number];
+⋮----
+export async function askKnowledgeVaultWithRag(
   uid: string,
-  enableTools: boolean,
-): Promise<ValvChatResponse>
+  question: string,
+  geminiApiKey?: string
+): Promise<KnowledgeVaultResult>
+```
+
+## File: functions/src/agents/types.ts
+```typescript
+export interface AgentMetadata {
+  id: string;
+  name: string;
+  description: string;
+  version: string;
+}
 ⋮----
-function tryParseJson(raw: string): unknown
+export interface AgentCapability {
+  name: string;
+  description: string;
+  parameters: Record<string, any>;
+}
 ⋮----
-export async function askValvChat(uid: string, question: string): Promise<ValvChatResponse>
+export interface AgentCard {
+  metadata: AgentMetadata;
+  capabilities: AgentCapability[];
+  dataAccessPolicy: {
+    canAccessPII: boolean;
+    allowedCollections: string[];
+  };
+}
+⋮----
+export interface A2AMessage {
+  fromAgentId: string;
+  toAgentId: string;
+  timestamp: string;
+  intent: string;
+  payload: Record<string, any>;
+  contextId?: string;
+}
+⋮----
+export interface AgentResponse {
+  agentId: string;
+  status: 'SUCCESS' | 'ERROR' | 'DELEGATED';
+  data?: any;
+  error?: string;
+  delegatedTo?: string;
+}
 ```
 
 ## File: functions/src/agents/vertexAgent.ts
@@ -1228,6 +813,274 @@ export const askVoiceParser = async (
 ): Promise<VoiceToVaultResult> =>
 ```
 
+## File: functions/src/callables/pipelineStudio.ts
+```typescript
+import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { appendPipelineRun, type PipelineRunStatus } from '../lib/pipelineRunStore';
+```
+
+## File: functions/src/lib/pipelineRunStore.ts
+```typescript
+import { getFirestore, FieldValue, type FieldValue as FieldValueType } from 'firebase-admin/firestore';
+⋮----
+export type PipelineRunStatus = 'spawned' | 'PASS' | 'FAIL' | 'validated' | 'exported';
+⋮----
+export interface PipelineRunRecord {
+  userId: string;
+  ownerId: string;
+  toolId: string;
+  status: PipelineRunStatus;
+  schemaVersion: string;
+  smokeTier?: number;
+  commitSha?: string;
+  errorCode?: string;
+  createdAt: FieldValueType;
+}
+⋮----
+export async function appendPipelineRun(
+  uid: string,
+  data: Omit<PipelineRunRecord, 'userId' | 'ownerId' | 'createdAt'>,
+): Promise<string>
+```
+
+## File: scripts/pipeline-studio/lib/ftdLoader.mjs
+```javascript
+/** Load P1 Flow Tool Definitions from docs/pipeline-studio/tools/ */
+⋮----
+/**
+ * @param {string} [toolId]
+ */
+export function loadFtd(toolId)
+⋮----
+export function loadAllFtd()
+⋮----
+export function listToolIds()
+```
+
+## File: scripts/pipeline-studio/cursor_pack.mjs
+```javascript
+/** npm run pipeline:cursor-pack -- <toolId> */
+```
+
+## File: scripts/pipeline-studio/export.mjs
+```javascript
+/** npm run pipeline:export -- <toolId> */
+```
+
+## File: scripts/pipeline-studio/run_smoke.mjs
+```javascript
+/** npm run pipeline:run-smoke -- <toolId> */
+```
+
+## File: scripts/pipeline-studio/validate.mjs
+```javascript
+/** npm run pipeline:validate [-- toolId] */
+```
+
+## File: scripts/pipeline-studio/worktree_spawn.mjs
+```javascript
+/** npm run pipeline:worktree -- <toolId> */
+```
+
+## File: scripts/smoke_agents_ui.mjs
+```javascript
+/**
+ * Static + unit smoke: Agent UX P0/P1 wiring.
+ * Usage: npm run smoke:agents-ui
+ */
+⋮----
+function assert(condition, message)
+⋮----
+function read(relPath)
+⋮----
+function mustInclude(relPath, ...needles)
+```
+
+## File: scripts/smoke_synapse_triggers.mjs
+```javascript
+/**
+ * Smoke: SynapseBus — 5 triggers registrerade (static).
+ * Usage: npm run smoke:synapse-triggers
+ */
+⋮----
+function assert(condition, message)
+⋮----
+function mustInclude(relPath, ...needles)
+⋮----
+function main()
+```
+
+## File: functions/src/adk/synapses/journalWovenSynapse.ts
+```typescript
+import { generateEmbeddingInternal } from '../../lib/generateEmbeddingInternal';
+⋮----
+export interface JournalWovenPayload {
+  ownerId: string;
+  journalEntryId: string;
+  mood: string;
+  text: string;
+  optIn: boolean;
+}
+⋮----
+export interface JournalWovenResult {
+  kampsparDocId: string;
+  embeddingDim: number | null;
+}
+⋮----
+export async function handleJournalWoven(payload: JournalWovenPayload): Promise<JournalWovenResult>
+```
+
+## File: functions/src/agents/cards/index.ts
+```typescript
+import { AgentCard } from '../types';
+⋮----
+export function resolveExecutorId(productAgentId: string): string
+⋮----
+export type SupervisorRoute = {
+  productAgentId: string;
+  executorId: string;
+  intent: string;
+};
+⋮----
+export function routeFromDcap(
+  riskScore: number,
+  recommendedAction: 'NONE' | 'COACHING' | 'ALERT'
+): SupervisorRoute
+```
+
+## File: functions/src/agents/DCAP.ts
+```typescript
+import { createGenAI } from '../lib/genaiClient';
+import { GEMINI_FLASH } from '../lib/modelRouter';
+import { DCAP_SEMANTIC_LAYER_SYSTEM_PROMPT } from '../sharedRules';
+import { scanTextForTactics, type VaultTechnique } from '../lib/tacticPatternLibrary';
+import {
+  DCAP_SEMANTIC_RESPONSE_SCHEMA,
+  parseDcapSemanticResponse,
+} from '../schemas/dcapSemantic';
+⋮----
+export type ManipulationTechnique =
+  | 'DARVO'
+  | 'GASLIGHTING'
+  | 'LOVE_BOMBING'
+  | 'SILENT_TREATMENT'
+  | 'JADE_BAIT'
+  | 'THREAT'
+  | 'HOOVERING'
+  | 'SMEAR'
+  | 'ECONOMIC_CONTROL'
+  | 'MATERNAL_FACADE'
+  | 'TRAUMA_BONDING'
+  | 'LEGAL_PRESSURE'
+  | 'UNKNOWN';
+⋮----
+function vaultTechniqueToDcap(technique: VaultTechnique): ManipulationTechnique
+⋮----
+export interface DcapDetection {
+  technique: ManipulationTechnique;
+  matchedPattern: string;
+  confidence: 'HIGH' | 'MEDIUM' | 'LOW';
+  layer: 'REGEX' | 'SEMANTIC';
+}
+⋮----
+export interface DcapResult {
+  riskScore: number;
+  detections: DcapDetection[];
+  greyRockResponse?: string;
+  recommendedAction: 'NONE' | 'COACHING' | 'ALERT';
+}
+⋮----
+function runRegexLayer(text: string):
+⋮----
+async function runSemanticLayer(
+  text: string,
+): Promise<
+⋮----
+export async function analyzeDcap(text: string, _projectId?: string): Promise<DcapResult>
+```
+
+## File: functions/src/agents/documentAgent.ts
+```typescript
+import { google, drive_v3 } from 'googleapis';
+import { LIVSKOMPASSEN_SYSTEM_CONFIG } from '../sharedRules';
+import { createGenAI } from '../lib/genaiClient';
+⋮----
+function getAi()
+⋮----
+async function downloadDriveFileBuffer(
+  drive: drive_v3.Drive,
+  fileId: string,
+  mimeType: string
+): Promise<
+⋮----
+export const analyzeDriveFile = async (fileId: string, fileName: string, mimeType: string): Promise<string> =>
+```
+
+## File: functions/src/agents/kompis-supervisor.ts
+```typescript
+import {
+  AvailableAgents,
+  EXECUTOR_AGENT_IDS,
+  GransArkitektenCard,
+  routeFromDcap,
+} from './cards';
+import type { AgentResponse } from './types';
+import { analyzeDcap, DcapResult } from './DCAP';
+import { askGransArkitekten, parseGransJson, type GransArkitektenResult } from './gransArkitektenAgent';
+import { resolveHamnTheoryWithoutEvidence } from '../lib/epistemicGuard';
+import { deleteRegistryEntriesForUser } from '../lib/contextCacheRegistry';
+import { adkOrchestrator } from '../adk/orchestrator';
+import { emitSynapse } from '../adk/synapses/synapseBus';
+import { hashPayload } from '../adk/stateStore';
+import type { DcapAlertResult } from '../adk/synapses/dcapAlertSynapse';
+⋮----
+export class KompisSupervisor
+⋮----
+public async handleUserRequest(
+    userInput: string,
+    userId: string,
+    ragContext: string[] = [],
+    options?: { preferGransArkitekten?: boolean }
+): Promise<AgentResponse &
+⋮----
+public async invalidateUserSession(userId: string): Promise<void>
+```
+
+## File: functions/src/agents/valvChatAgent.ts
+```typescript
+import { SANNING_ANALYTIKERN_SYSTEM_PROMPT } from '../sharedRules';
+import { loadEntityProfileBundle } from '../lib/entityProfileStore';
+import { fetchVaultEvidenceForQuery } from '../lib/vaultRag';
+import { createGenAI } from '../lib/genaiClient';
+import { GEMINI_PRO } from '../lib/modelRouter';
+import {
+  VALV_CHAT_READ_TOOLS,
+  validateValvChatResponse,
+  type ValvChatCitation,
+  type ValvChatResponse,
+} from '../schemas/valvChat';
+⋮----
+function getAi()
+⋮----
+function buildContextBlock(
+  chunks: Awaited<ReturnType<typeof fetchVaultEvidenceForQuery>>,
+): string
+⋮----
+function buildPrompt(question: string, entityBlock: string, contextBlock: string): string
+⋮----
+async function runValvChatGeneration(
+  prompt: string,
+  allowedDocIds: Set<string>,
+  uid: string,
+  enableTools: boolean,
+): Promise<ValvChatResponse>
+⋮----
+function tryParseJson(raw: string): unknown
+⋮----
+export async function askValvChat(uid: string, question: string): Promise<ValvChatResponse>
+```
+
 ## File: functions/src/agents/weaverAgent.ts
 ```typescript
 import { VÄVAREN_SYSTEM_PROMPT } from '../sharedRules';
@@ -1235,6 +1088,8 @@ import { fetchWeaverRagContext } from '../lib/kampsparRag';
 import { createGenAI } from '../lib/genaiClient';
 import { GEMINI_PRO } from '../lib/modelRouter';
 import { createWeaverPending } from '../lib/weaverPending';
+⋮----
+function getAi()
 ⋮----
 export type ThreatLevel = 'none' | 'low' | 'medium' | 'high';
 ⋮----
@@ -1258,18 +1113,43 @@ export async function weaveJournalEntry(
 ): Promise<
 ```
 
-## File: scripts/smoke_synapse_triggers.mjs
+## File: functions/src/adk/executors/runExecutor.ts
+```typescript
+import type { A2AMessage } from '../../agents/types';
+import { getAgentSystemPrompt } from '../../sharedRules';
+import { createGenAI } from '../../lib/genaiClient';
+import { selectModel, autoSelectTier, type GeminiTier } from '../../lib/modelRouter';
+import { checkAiCostCaps } from '../../lib/costCapGuard';
+⋮----
+function buildUserPrompt(message: A2AMessage): string
+⋮----
+export async function runExecutor(
+  executorId: string,
+  message: A2AMessage,
+  ragContext: string[] = []
+): Promise<string>
+```
+
+## File: scripts/smoke_orkester_wiring.mjs
 ```javascript
 /**
- * Smoke: SynapseBus — 5 triggers registrerade (static).
- * Usage: npm run smoke:synapse-triggers
+ * Static smoke: ADK synapse wiring + orkester integration (no Firebase).
+ * Usage: npm run smoke:orkester
  */
 ⋮----
 function assert(condition, message)
 ⋮----
+function read(relPath)
+⋮----
 function mustInclude(relPath, ...needles)
 ⋮----
+function mustNotInclude(relPath, ...needles)
+⋮----
+function run(cmd, cwd = root)
+⋮----
 function main()
+⋮----
+// W3: legacy shim redirects frånvaro/lön via vaultRedirectSearch; canonical Valv-länkar i supermodule.
 ```
 
 ## File: functions/src/callables/agents.ts
@@ -1289,6 +1169,7 @@ import { approveWeaverPending, rejectWeaverPending } from '../lib/weaverPending'
 import { adkOrchestrator, listAgentCards } from '../adk';
 import type { MicroStep } from '../adk/types';
 import { emitSynapse } from '../adk/synapses/synapseBus';
+import { geminiApiKey } from '../lib/geminiSecret';
 import {
   generatePayslipInternal,
   generatePayslipsForAllProfiles,
@@ -1331,19 +1212,42 @@ function invalidBankIdError(message: string): HttpsError
 async function clearVaultJwtClaims(uid: string): Promise<void>
 ```
 
-## File: functions/src/adk/executors/runExecutor.ts
-```typescript
-import type { A2AMessage } from '../../agents/types';
-import { getAgentSystemPrompt } from '../../sharedRules';
-import { createGenAI } from '../../lib/genaiClient';
-import { selectModel, autoSelectTier } from '../../lib/modelRouter';
-import { getOrCreateCache, generateWithCache } from '../../lib/vertexCache';
-⋮----
-function buildUserPrompt(message: A2AMessage): string
-⋮----
-export async function runExecutor(
-  executorId: string,
-  message: A2AMessage,
-  ragContext: string[] = []
-): Promise<string>
+## File: AGENTS.md
+```markdown
+# AGENTS.md — Livskompassen3.0
+
+This file defines how coding agents should work in this repository.
+
+## Principles
+- Make minimal, safe, task-scoped changes.
+- Follow existing architecture and coding conventions.
+- Ask clarifying questions when requirements are ambiguous.
+
+## Hard boundaries
+Do not change any of the following without explicit human approval:
+- CI/CD workflows
+- secrets/auth configuration
+- infrastructure/deployment config
+- database migrations
+- major dependency changes
+
+## Definition of Done
+A task is considered done when:
+1. Relevant tests are added/updated and passing
+2. Lint is passing (if configured)
+3. Build/typecheck is passing (if configured)
+4. Change summary + verification + risk notes are provided
+
+## Implementation guidance
+- Keep controllers/handlers thin; business logic belongs in services.
+- Reuse existing utilities before introducing new abstractions.
+- Handle errors explicitly; do not swallow exceptions.
+- Avoid logging secrets or sensitive personal data.
+
+## Delivery format
+When presenting completed work, always include:
+1. What changed
+2. Why
+3. How it was tested
+4. Risks / follow-ups
 ```

@@ -93,9 +93,19 @@ Dag 7:
 
 | Gate | Status |
 |------|--------|
-| `smoke:android-platform` | PASS 2026-06-25 |
+| `smoke:android-platform` | PASS 2026-06-25, 2026-06-28 |
+| `smoke:auth-login` | PASS 2026-06-28 |
+| `smoke:predeploy:build` | PASS 2026-06-28 |
+| `build:web` | PASS 2026-06-25, 2026-06-28 |
 | `cap:sync:prod` | PASS 2026-06-25 |
 | Hosting live (23E) | https://gen-lang-client-0481875058.web.app |
 | SHA-1 / `client_type: 1` | Verifierad i smoke |
 
 Kanon: [`.context/android-capacitor.md`](../../.context/android-capacitor.md) · [`docs/FIREBASE-AUTH-LATHUND.md`](../FIREBASE-AUTH-LATHUND.md)
+
+### Körning 2026-06-28 (prep + smoke)
+
+- `npm run build:web` — PASS
+- `npm run smoke:android-platform` — PASS
+- `npm run smoke:auth-login` — PASS
+- `npm run smoke:predeploy:build` — PASS

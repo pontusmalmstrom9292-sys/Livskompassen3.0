@@ -1,5 +1,5 @@
 ---
-description: Agent Gap Scout — identifierar saknade agenter och skills baserat på vad som byggs, och frågar Pontus om de ska skapas. Alltid aktiv.
+description: Agent Gap Scout — identifierar saknade agenter och skills baserat på vad som byggs, och frågar Pontus om de ska skapas.
 alwaysApply: false
 ---
 
@@ -53,10 +53,21 @@ Systemet ska alltid ha en dedikerad expert för varje del av appen. Den här reg
 ### Infrastruktur
 - `livskompassen-synapser-adk` — ADK-synapser (agent)
 - `livskompassen-arkiv-master` — Arkiv, RAG, dossier
+- `livskompassen-master-architect` — Editorial Technical Architect
 - `android-kompis` — Android/Capacitor
 - `minnes-arkitekten` — Auto kunskapsingest
 - `integration-conductor` — Extern AI-integrering
 - `parallel-orchestrator` — Parallella zon-paket
+- `copilot-bridge` — Copilot Pro bridge, PR hygiene
+- `copilot-research-handoff` — Copilot research packs
+- `external-ai-import-gate` — Validerar extern AI-import
+- `frontend-modul-auditor` — Frontend modul-audit (HubErrorBoundary, tokens)
+- `gemini-orkester-bridge` — Gemini/NotebookLM lane
+- `mcp-guardian` — MCP safety wrapper
+- `mcp-ops-runner` — Firebase deploy, Playwright smoke
+- `specialist-aterhamtning-hälsa` — Återhämtning, vagus, parent fysio
+- `specialist-hcf-domän` — HCF domänforskare (redan under Domänexperter)
+- `specialist-utveckling-kurator` — Utveckling, ACT/KBT-light, RSD
 
 ## Saknade agenter att bevaka
 

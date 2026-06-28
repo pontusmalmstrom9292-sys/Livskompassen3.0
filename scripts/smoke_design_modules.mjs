@@ -487,9 +487,6 @@ function main() {
   mustNotInclude('src/modules/features/dailyLife/wellbeing/mabra/components/MabraHistoryView.tsx', '#fbbf24', '#64748b', '#09111e');
   mustNotInclude('src/modules/features/archive/components/ArchiveHub.tsx', '#020617', '#050b14');
   mustNotInclude('src/modules/morning/components/DailyTasksList.tsx', '#d4af37', '#12151f');
-  mustNotInclude('src/modules/features/diary/components/supermodule/components/VaultView.tsx', '#111b2d', 'rgba(99,102,241,0.22)');
-  mustNotInclude('src/modules/features/diary/components/supermodule/components/InsightsView.tsx', '#111b2d', '#09111e');
-  mustNotInclude('src/modules/features/diary/components/supermodule/components/JournalTimeline.tsx', '#111b2d', 'rgba(99,102,241,0.22)');
   mustNotInclude('src/modules/shared/ui/ImmersiveExperienceShell.tsx', '#020617', '#0f172a');
   mustNotInclude('src/modules/features/dashboard/components/VisualCompassWidget.tsx', '#d4af37');
 

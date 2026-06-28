@@ -23,9 +23,10 @@ Legacy-rutter (`/dagbok`, `/valv`, `/mabra`, `/planering` …) omdirigeras — s
 
 ## Vid stor ändring
 
-1. Läs [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](docs/specs/modules/Arkiv-GAP-REGISTER.md)
-2. Fas 19+ körplan: [`docs/evaluations/2026-06-15-fas19-masterplan-v2.md`](docs/evaluations/2026-06-15-fas19-masterplan-v2.md)
-3. Deploy: `npm run smoke:predeploy` → YOLO GO → Pontus OK
+1. Läs aktiv fas i [`.context/system-plan.md`](.context/system-plan.md) — **Fas 24 AKTIV**
+2. GAP-register: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](docs/specs/modules/Arkiv-GAP-REGISTER.md)
+3. Fas 24 syntes: [`docs/evaluations/2026-06-25-app-plan-syntes.md`](docs/evaluations/2026-06-25-app-plan-syntes.md)
+4. Deploy: `npm run smoke:predeploy` → YOLO GO → Pontus OK
 
 Kostnadsvakt: [`docs/governance/GCP-KOSTNADSVAKT.md`](docs/governance/GCP-KOSTNADSVAKT.md) · `npm run smoke:cost-guard`
 
