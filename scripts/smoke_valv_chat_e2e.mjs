@@ -115,8 +115,14 @@ async function main() {
     });
   } catch (err) {
     const code = err?.code ?? '';
-    if (code === 'functions/internal' || code === 'internal') {
-      console.log('\n[smoke] PASS — valvChatQuery session auth OK (RAG/Vertex ej tillgänglig i smoke-env).');
+    const msg = String(err?.message ?? '');
+    const ragUnavailable =
+      (code === 'functions/internal' || code === 'internal') &&
+      (msg.includes('Valv-Chat kunde inte svara') || msg.includes('Vertex') || msg.includes('Gemini'));
+    if (ragUnavailable) {
+      console.log(
+        '\n[smoke] SKIP — valvChatQuery session auth OK (LLM/RAG-backend ej tillgänglig i smoke-env).',
+      );
       process.exit(0);
     }
     throw err;
