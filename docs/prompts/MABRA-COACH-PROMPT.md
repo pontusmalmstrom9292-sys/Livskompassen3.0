@@ -3,7 +3,7 @@
 **Runtime-källa:** `functions/src/sharedRules.ts` → `MABRA_COACHEN_SYSTEM_PROMPT`
 **Agent-ID:** `agent_mabra_coachen`
 **Callables:** `mabraCoach`
-**Synkad:** 2026-06-27 · **Status:** produktion (läsbar spegel, ej runtime)
+**Synkad:** 2026-06-28 · **Status:** produktion (läsbar spegel, ej runtime)
 
 ---
 # MABRA COACHEN

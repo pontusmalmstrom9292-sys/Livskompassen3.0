@@ -27,4 +27,6 @@ Legacy-rutter (`/dagbok`, `/valv`, `/mabra`, `/planering` …) omdirigeras — s
 2. Fas 19+ körplan: [`docs/evaluations/2026-06-15-fas19-masterplan-v2.md`](docs/evaluations/2026-06-15-fas19-masterplan-v2.md)
 3. Deploy: `npm run smoke:predeploy` → YOLO GO → Pontus OK
 
+Kostnadsvakt: [`docs/governance/GCP-KOSTNADSVAKT.md`](docs/governance/GCP-KOSTNADSVAKT.md) · `npm run smoke:cost-guard`
+
 Design Authority Decision (Executive Midnight): se `design-calm.mdc` — **inte** duplicerade här.
