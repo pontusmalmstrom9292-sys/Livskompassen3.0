@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+const HOME_HERO_SELECTOR = '.home-hero-kanon, .basta-design__hero';
+
 async function expectPublicLoginWall(page: import('@playwright/test').Page) {
   const wall = page.getByRole('heading', { name: /Logga in|Inloggning krävs|Säkra ditt konto/ });
   await expect(wall.first()).toBeVisible({ timeout: 25_000 });
@@ -12,7 +14,7 @@ async function expectPublicLoginWall(page: import('@playwright/test').Page) {
 test.describe('Locked UX — publikt läge', () => {
   test('Hem laddar Obsidian Calm hero', async ({ page }) => {
     await page.goto('/');
-    await expect(page.locator('.home-hero-kanon')).toBeVisible({ timeout: 20_000 });
+    await expect(page.locator(HOME_HERO_SELECTOR).first()).toBeVisible({ timeout: 20_000 });
 
     const surface = await page.evaluate(() =>
       getComputedStyle(document.documentElement).getPropertyValue('--surface').trim(),
@@ -62,7 +64,7 @@ test.describe('Locked UX — publikt läge', () => {
 
   test('Menyknapp finns i header (touch target)', async ({ page }) => {
     await page.goto('/');
-    const menuBtn = page.getByRole('button', { name: 'Öppna meny' });
+    const menuBtn = page.getByRole('button', { name: /^(Öppna )?Meny$/ });
     await expect(menuBtn).toBeVisible();
     const box = await menuBtn.boundingBox();
     expect(box).not.toBeNull();

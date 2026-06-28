@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 
+const HOME_HERO_SELECTOR = '.home-hero-kanon, .basta-design__hero';
+
 function isDarkHex(hex: string): boolean {
   const match = hex.trim().match(/^#([0-9a-f]{6})$/i);
   if (!match) return false;
@@ -14,6 +16,7 @@ function isDarkHex(hex: string): boolean {
 const CANONICAL_GOLD_ACCENTS = new Set([
   'd4af37', // I-skymning / legacy Obsidian Calm
   'c9a66b', // ME-midnight-executive (DAD default)
+  'c9a435', // Basta Design gold accent
   'c9a227', // I-stone-draft-twilight
   'e8c547', // I-alchemical
   '9f852b', // E-skymning-darkest
@@ -28,7 +31,7 @@ function isCanonicalGoldAccent(hex: string): boolean {
 test.describe('Obsidian Calm tokens', () => {
   test('index.css-variabler är mörka och guld-accent finns', async ({ page }) => {
     await page.goto('/');
-    await page.waitForSelector('.home-hero-kanon', { timeout: 30_000 });
+    await page.waitForSelector(HOME_HERO_SELECTOR, { timeout: 30_000 });
 
     const tokens = await page.evaluate(() => {
       const root = getComputedStyle(document.documentElement);
