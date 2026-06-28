@@ -1,0 +1,49 @@
+---
+description: Kostnadsvakt — blockera dyra GCP-tjänster, skala-till-noll, PMIR för Pro/Vertex/BigQuery
+globs:
+  - functions/**
+  - infra/**
+  - scripts/gcp*.mjs
+  - scripts/*vertex*
+  - firebase.json
+  - .github/**
+alwaysApply: false
+---
+
+# Kostnadsvakt (GCP + AI)
+
+Kanon: [`docs/governance/GCP-KOSTNADSVAKT.md`](../../docs/governance/GCP-KOSTNADSVAKT.md) · Manifest: [`infra/gcp/cost-guard/manifest.json`](../../infra/gcp/cost-guard/manifest.json)
+
+## MUST (gratis tier först)
+
+- **AI:** `@google/genai` + `GEMINI_API_KEY` — **inte** Vertex SDK, Genkit eller Agent Engine i prod.
+- **Modell:** `autoSelectTier()` → default **flash**. Pro endast för låst lista (valv, dossier, vävaren).
+- **Functions:** Ingen `minInstances` / always-on. Minne ≤ 1 GiB (undantag endast i manifest).
+- **RAG:** Firestore Native Vector Search — **inte** Vertex Matching Engine / dedikerad Vector Search-index.
+- **Smoke:** `npm run smoke:cost-guard` måste PASS före merge/deploy.
+
+## PMIR-stopp (hard NO-GO utan Pontus OK)
+
+- Aktivera API: BigQuery, Cloud SQL, Spanner, Dataproc, Composer, Redis, AlloyDB, Compute Engine, GKE
+- Nya npm-deps: `@google-cloud/vertexai`, `@google-cloud/aiplatform`, `@genkit-ai/*`, `genkit`, `@google-cloud/bigquery`
+- `minInstances` > 0 på Cloud Functions / Cloud Run
+- Vertex Reasoning Engine / Agent Engine deploy
+- Cloud Scheduler / Cloud Tasks (schemalagda kostnader)
+- Månadsbudget > 500 SEK utan motivering
+
+## Agent MUST NOT
+
+- Föreslå "vi aktiverar BigQuery/Cloud SQL för enkelhet"
+- Lägga till always-on instanser "för prestanda"
+- Byta default-modell till Pro globalt
+- Deploya infra utan `smoke:cost-guard` PASS
+
+## Verifiering
+
+```bash
+npm run smoke:cost-guard          # offline, CI
+npm run gcp:audit-apis            # live API-granskning
+npm run gcp:setup-cost-alerts     # budget + avvikelser (Console-guide)
+```
+
+Live audit: [`scripts/gcp_audit_enabled_apis.mjs`](../../scripts/gcp_audit_enabled_apis.mjs)
