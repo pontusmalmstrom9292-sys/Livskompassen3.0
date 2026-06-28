@@ -14,6 +14,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Record smoke:locked-ux output in PROGRESS.md
 - [x] Vite bundle split wave: lazy route-entry for `/valvet` + `/familjen` and verify build smoke (2026-06-28)
 - [x] SAFE YOLO v2: expand `typecheck:core-strict` scope över `src/modules/features/` (2026-06-28)
+- [x] SAFE YOLO v2: hosting deploy-prep (`smoke:predeploy:build` + deploy-rad loggad, ej deploy) (2026-06-28)
 - [ ] Screenshot baseline: / @ 390×844 and 1280×800
 - [ ] Screenshot baseline: /vardagen
 - [ ] Screenshot baseline: /planering
