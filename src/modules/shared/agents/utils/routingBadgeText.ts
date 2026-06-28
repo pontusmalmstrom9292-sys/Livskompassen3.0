@@ -15,7 +15,7 @@ export function formatAgentRoutingLabel(input: {
     Boolean(product && executor && product.toLowerCase() !== executor.toLowerCase()) ||
     Boolean(!product && legacy && executor);
 
-  if (showExecutor && executor && product) {
+  if (showExecutor && executor) {
     return `Dirigerad av ${displayName} via ${executor}`;
   }
   return `Dirigerad av ${displayName}`;
