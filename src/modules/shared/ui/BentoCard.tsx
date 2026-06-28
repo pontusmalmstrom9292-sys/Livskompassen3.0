@@ -3,6 +3,7 @@
  * Preserves full BentoCard API (title, description, icon on root).
  */
 import type { ReactNode } from 'react';
+import { cn } from '@/design-system/utils/cn';
 import {
   Card,
   CardHeader,
@@ -32,10 +33,16 @@ export function BentoCard({
   interactive,
   glow,
   depth = true,
+  className,
   ...rest
 }: BentoCardProps) {
   return (
-    <Card interactive={noHover ? false : interactive ?? true} glow={glow} depth={depth} {...rest}>
+    <Card
+      interactive={noHover ? false : interactive ?? true}
+      glow={glow}
+      className={cn(className, depth && 'module-bento-card--depth')}
+      {...rest}
+    >
       {(title || description || icon) && (
         <CardHeader title={title} description={description} icon={icon} glow={glow} />
       )}

@@ -1,7 +1,7 @@
 export { Card, CardHeader, CardBody, type CardProps, type CardHeaderProps, type CardGlow } from './Card';
 export { GlassPanel, type GlassPanelProps } from './GlassPanel';
 export { Banner, type BannerProps, type BannerVariant } from './Banner';
-export { Button, BUTTON_LEGACY_VARIANT, type ButtonProps, type ButtonVariant, type ButtonSize } from './Button';
+export { Button, ButtonLink, BUTTON_LEGACY_VARIANT, buttonClassName, type ButtonProps, type ButtonLinkProps, type ButtonVariant, type ButtonSize } from './Button';
 export { Input, TextArea, type InputProps, type TextAreaProps } from './Input';
 export { Modal, ModalFooter, type ModalProps, type ModalFooterProps } from './Modal';
 export { Sheet, SheetBody, SheetFooter, type SheetProps, type SheetBodyProps, type SheetFooterProps } from './Sheet';

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Loader2, Zap } from 'lucide-react';
+import { Button } from '@/design-system';
 import {
   fetchMicroSteps,
   type MicroStep,
@@ -71,9 +72,10 @@ export function PlaneringParalysEntry({ defaultTaskTitle, onApplyStep }: Props) 
     return (
       <div className="planering-paralys-entry planering-paralys-entry--collapsed">
         <p className="text-xs text-text-muted">{PLANERING_PARALYS_LEAD}</p>
-        <button
-          type="button"
-          className="btn-pill--ghost mt-2 text-xs inline-flex items-center gap-1.5"
+        <Button
+          variant="ghost"
+          size="sm"
+          className="mt-2 inline-flex items-center gap-1.5"
           onClick={() => {
             setOpen(true);
             if (defaultTaskTitle && !context.trim()) {
@@ -83,13 +85,13 @@ export function PlaneringParalysEntry({ defaultTaskTitle, onApplyStep }: Props) 
         >
           <Zap className="h-3.5 w-3.5" aria-hidden />
           {PLANERING_PARALYS_ONE_STEP}
-        </button>
+        </Button>
       </div>
     );
   }
 
   return (
-    <div className="planering-paralys-entry rounded-2xl border border-accent/20 bg-accent/5 p-4 space-y-3">
+    <div className="planering-paralys-entry space-y-3 rounded-2xl border border-accent/20 bg-accent/5 p-4">
       <p className="text-xs text-text-muted">{PLANERING_PARALYS_LEAD}</p>
 
       {!step ? (
@@ -106,42 +108,38 @@ export function PlaneringParalysEntry({ defaultTaskTitle, onApplyStep }: Props) 
           </label>
           {error ? <p className="text-xs text-danger">{error}</p> : null}
           <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
+            <Button
+              variant="accent"
+              size="sm"
+              className="inline-flex items-center gap-1.5"
               disabled={loading}
               onClick={() => void handleFetch()}
-              className="btn-pill--accent text-xs inline-flex items-center gap-1.5"
             >
               {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}
               {PLANERING_PARALYS_ONE_STEP}
-            </button>
-            <button type="button" onClick={handleDismiss} className="btn-pill--ghost text-xs">
+            </Button>
+            <Button variant="ghost" size="sm" onClick={handleDismiss}>
               Stäng
-            </button>
+            </Button>
           </div>
         </>
       ) : (
         <>
-          <p className="text-sm text-text leading-relaxed">{step.instruction}</p>
+          <p className="text-sm leading-relaxed text-text">{step.instruction}</p>
           <p className="text-[10px] text-text-dim">
             ~{step.estimatedSeconds}s · {step.physicalAnchor}
           </p>
           <p className="text-xs text-text-muted">{PLANERING_PARALYS_CALM}</p>
           <div className="flex flex-wrap gap-2">
             {onApplyStep ? (
-              <button
-                type="button"
-                disabled={applying}
-                onClick={() => void handleApply()}
-                className="btn-pill--accent text-xs"
-              >
+              <Button variant="accent" size="sm" disabled={applying} onClick={() => void handleApply()}>
                 {applying ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}
                 Lägg i Att göra
-              </button>
+              </Button>
             ) : null}
-            <button type="button" onClick={handleDismiss} className="btn-pill--ghost text-xs">
+            <Button variant="ghost" size="sm" onClick={handleDismiss}>
               Klart
-            </button>
+            </Button>
           </div>
         </>
       )}

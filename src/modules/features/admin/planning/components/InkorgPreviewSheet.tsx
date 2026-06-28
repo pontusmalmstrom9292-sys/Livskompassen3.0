@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { formatDisplayDate } from '@/shared/utils/dateHelpers';
-import { Sheet, SheetFooter } from '@/design-system';
+import { Button, Sheet, SheetFooter } from '@/design-system';
 import type { PasteClassification } from '../rules/pasteClassifier';
 
 function formatPasteDueDate(iso: string): string {
@@ -82,17 +82,17 @@ export function InkorgPreviewSheet({ open, classification, saving, onConfirm, on
       </dl>
 
       <SheetFooter className="flex-col sm:flex-row">
-        <button
-          type="button"
+        <Button
+          variant="accent"
           disabled={saving || classification.routeToHamn}
           onClick={onConfirm}
-          className="btn-pill--accent flex-1 disabled:opacity-50"
+          className="flex-1"
         >
           {saving ? 'Sparar…' : 'Skapa uppgift'}
-        </button>
-        <button type="button" onClick={onCancel} className="btn-pill--ghost flex-1">
+        </Button>
+        <Button variant="ghost" onClick={onCancel} className="flex-1">
           Tillbaka
-        </button>
+        </Button>
       </SheetFooter>
     </Sheet>
   );

@@ -396,6 +396,57 @@
   .ds-section__title {
     letter-spacing: var(--ds-letter-spacing-wide);
   }
+
+  /* ═══════════════════════════════════════════
+     ZONE POLISH — Planering · Valv (Wave 3)
+     ═══════════════════════════════════════════ */
+
+  .planering-bento-card,
+  .planering-snabbstart-banner,
+  .planering-guard-bar {
+    box-shadow: var(--ds-elevation-card);
+    transition:
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      transform var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  .planering-bento-card:hover {
+    box-shadow: var(--ds-elevation-card-hover);
+  }
+
+  .planering-paralys-entry {
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 4%, transparent);
+  }
+
+  .valv-samla-panel,
+  .valv-zone-intro {
+    box-shadow: var(--ds-elevation-2);
+    transition:
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  .valv-log-row {
+    box-shadow:
+      inset 0 1px 0 var(--ds-glass-highlight),
+      var(--ds-elevation-1);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium),
+      transform var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  .valv-log-row:hover {
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 8%, transparent),
+      var(--ds-elevation-2);
+  }
+
+  .valv-monster-bar:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

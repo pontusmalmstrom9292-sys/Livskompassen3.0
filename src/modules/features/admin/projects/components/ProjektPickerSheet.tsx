@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { CheckSquare, FileText, Image, List, X, Film } from 'lucide-react';
-import { Sheet } from '@/design-system';
+import { Button, Sheet } from '@/design-system';
 import type { ProjectBlockType } from '../types';
 
 const TILES: { id: ProjectBlockType; label: string; icon: typeof List }[] = [
@@ -53,16 +53,17 @@ export function ProjektPickerSheet({ open, onClose }: Props) {
           );
         })}
       </div>
-      <button
-        type="button"
-        className="btn-pill--ghost mt-3 w-full text-xs"
+      <Button
+        variant="ghost"
+        size="sm"
+        className="mt-3 w-full"
         onClick={() => {
           onClose();
           navigate('/projekt/regler');
         }}
       >
         Regler & automation
-      </button>
+      </Button>
     </Sheet>
   );
 }

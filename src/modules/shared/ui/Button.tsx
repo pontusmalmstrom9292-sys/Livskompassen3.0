@@ -1,6 +1,8 @@
 import {
   Button as DSButton,
+  ButtonLink as DSButtonLink,
   type ButtonProps as DSButtonProps,
+  type ButtonLinkProps as DSButtonLinkProps,
   type ButtonVariant as DSVariant,
 } from '@/design-system';
 
@@ -22,4 +24,12 @@ export function Button({ variant = 'primaryGold', ...rest }: ButtonProps) {
   return <DSButton variant={LEGACY_VARIANT[variant]} {...rest} />;
 }
 
-export { BUTTON_LEGACY_VARIANT } from '@/design-system';
+export type ButtonLinkProps = Omit<DSButtonLinkProps, 'variant'> & {
+  variant?: ButtonVariant;
+};
+
+export function ButtonLink({ variant = 'primaryGold', ...rest }: ButtonLinkProps) {
+  return <DSButtonLink variant={LEGACY_VARIANT[variant]} {...rest} />;
+}
+
+export { BUTTON_LEGACY_VARIANT, buttonClassName } from '@/design-system';

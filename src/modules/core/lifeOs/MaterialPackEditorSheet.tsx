@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { X, Plus, Trash2, Save, RotateCcw } from 'lucide-react';
-import { Sheet, SheetBody } from '@/design-system';
+import { Button, Sheet, SheetBody } from '@/design-system';
 import type { LifeHubPresetId } from './lifeHubPresets';
 import type { MaterialPackHub, MaterialShortcut } from './materialPacks';
 import { getDefaultMaterialShortcuts } from './materialPacks';
@@ -158,13 +158,13 @@ export function MaterialPackEditorSheet({ isOpen, onClose, presetId, hub, userId
         </button>
 
         <div className="flex items-center gap-3">
-          <button type="button" onClick={onClose} className="btn-pill--secondary">
+          <Button variant="secondary" onClick={onClose}>
             Avbryt
-          </button>
-          <button type="button" onClick={handleSave} className="btn-pill--accent">
+          </Button>
+          <Button variant="accent" onClick={handleSave}>
             <Save className="h-4 w-4" />
             Spara ändringar
-          </button>
+          </Button>
         </div>
       </div>
     </Sheet>
