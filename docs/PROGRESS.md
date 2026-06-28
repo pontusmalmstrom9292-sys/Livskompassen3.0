@@ -73,6 +73,95 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-28 — SAFE YOLO v2: typecheck-features
+
+**Completed work:**
+- Expanded `typecheck:core-strict` include scope to the full `src/modules/features/` tree via `src/modules/features/**/*`.
+- Kept wave scope isolated to strict typecheck configuration + required governance docs.
+
+**Files changed:**
+- tsconfig.core-strict.json
+- docs/TODO.md
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run typecheck:core-strict PASS
+- npm run smoke:predeploy:build PASS
+
+**Reasoning:**
+- Full features coverage in strict typecheck closes drift between feature modules and core/shared strict checks.
+
+**Next steps:**
+- None for this wave.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-28 — SAFE YOLO v2: friendly empty-states wave
+
+**Completed work:**
+- Added calmer empty-state treatment in the Dagbok archive, Planering quick list, and Familjen livslogg list views.
+- Replaced null renders in the touched list views with friendly empty states so the UI always resolves visibly.
+- Polished the shared `EmptyState` primitive for a softer, more consistent list-view treatment.
+
+**Files changed:**
+- src/modules/core/ui/EmptyState.tsx
+- src/modules/features/lifeJournal/diary/diary/components/JournalArchive.tsx
+- src/modules/features/admin/planning/components/PlaneringQuickListPanel.tsx
+- src/modules/features/family/children/components/familjen/ChildMomentStunderPanel.tsx
+- src/modules/features/family/children/components/PositivaMinnesankare.tsx
+- src/modules/features/family/children/components/familjen/FamiljenLivsloggTab.tsx
+- docs/TODO.md
+- docs/DASHBOARD.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+- npm run smoke:predeploy:build PASS
+
+**Reasoning:**
+- List views should explain absence of content instead of collapsing to blank space, especially in low-energy flows.
+
+**Next steps:**
+- Continue the wider Phase 5 empty-state pass across remaining list surfaces.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-28 — SAFE YOLO v2: vite-bundle-split (/valvet + /familjen)
+
+**Completed work:**
+- Bekräftade lazy route-entry för `/valvet` och `/familjen` i Vite route-split wave (kod redan i aktiv branch vid körning).
+- Verifierade att `zone-valv` minskade kraftigt i build output (från 768.53 kB till 2.65 kB) med uppdelning till separata lazy chunks (bl.a. `VaultPage` och `ValvInputSuperModule`).
+- Körde obligatoriska smoke/build-kommandon för vågen.
+
+**Files changed:**
+- docs/TODO.md
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- zone-valv js: 768.53 kB → 2.65 kB
+- smoke:locked-ux PASS
+- smoke:predeploy:build PASS
+- npm run build PASS
+
+**Reasoning:**
+- Route-nivå split minskar initial Valv-last och håller Locked UX intakt utan ändring av flows eller PMIR-filer.
+
+**Next steps:**
+- Fortsätt Phase 0-baseline med smoke:design-modules + screenshot-baseline.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-28 — Governance audit v1.1 (internal consistency)
 
 **Completed work:**
