@@ -41,7 +41,7 @@ export function ExamplePreviewCard({
         type="button"
         onClick={onStart}
         disabled={disabled}
-        className="btn-pill--accent mt-3 min-h-[48px] w-full touch-manipulation text-xs active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+        className="ds-btn ds-btn--accent mt-3 min-h-[48px] w-full touch-manipulation text-xs active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
       >
         {disabled ? 'Kommer snart' : ctaLabel}
       </button>

@@ -197,13 +197,13 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
             {recQueued ? 'Inspelning köad — synkas till Valvet vid nät.' : `Låst i Valvet: ${recTitle}`}
           </p>
           {!recQueued && (
-            <Link to="/valvet" className="btn-pill--accent inline-flex text-xs">
+            <Link to="/valvet" className="ds-btn ds-btn--accent inline-flex text-xs">
               Öppna Valv
             </Link>
           )}
           <button
             type="button"
-            className="btn-pill--ghost w-full text-xs"
+            className="ds-btn ds-btn--ghost w-full text-xs"
             onClick={() => {
               setRecPhase('idle');
               setRecTitle(null);
@@ -225,11 +225,11 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
             {queued ? 'Reflektion köad — synkas till Valvet vid nät.' : 'Låst i Valvet.'}
           </p>
           {!queued && (
-            <Link to="/valvet" className="btn-pill--accent inline-flex text-xs">
+            <Link to="/valvet" className="ds-btn ds-btn--accent inline-flex text-xs">
               Öppna Valv
             </Link>
           )}
-          <button type="button" className="btn-pill--ghost w-full text-xs" onClick={() => setDone(false)}>
+          <button type="button" className="ds-btn ds-btn--ghost w-full text-xs" onClick={() => setDone(false)}>
             Ny reflektion
           </button>
         </div>
@@ -252,7 +252,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
             <button
               type="button"
               onClick={stopRecording}
-              className="btn-pill--accent mt-3 flex w-full min-h-11 items-center justify-center gap-2"
+              className="ds-btn ds-btn--accent mt-3 flex w-full min-h-11 items-center justify-center gap-2"
             >
               <Square className="h-4 w-4" aria-hidden />
               Stoppa och spara i Valvet
@@ -294,7 +294,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
                 type="button"
                 onClick={handleMicClick}
                 disabled={!speech.supported || !audio.supported || saving}
-                className="btn-pill--ghost flex min-h-11 items-center justify-center gap-2 text-sm disabled:opacity-40"
+                className="ds-btn ds-btn--ghost flex min-h-11 items-center justify-center gap-2 text-sm disabled:opacity-40"
                 aria-label="Röstinspelning till Valvet"
               >
                 <Mic className="h-4 w-4" aria-hidden />
@@ -304,7 +304,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
                 type="button"
                 onClick={() => void handleSaveText()}
                 disabled={saving || !text.trim()}
-                className="btn-pill--accent flex min-h-11 items-center justify-center gap-2 text-sm disabled:opacity-50"
+                className="ds-btn ds-btn--accent flex min-h-11 items-center justify-center gap-2 text-sm disabled:opacity-50"
               >
                 {saving ? (
                   <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
@@ -600,7 +600,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
             <button
               type="button"
               onClick={clearAttachedPhoto}
-              className="btn-pill--ghost shrink-0 text-[10px]"
+              className="ds-btn ds-btn--ghost shrink-0 text-[10px]"
             >
               Ta bort
             </button>
@@ -611,7 +611,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
           type="button"
           onClick={() => void handleSave()}
           disabled={loading || (!observation.trim() && !attachedPhoto)}
-          className="btn-pill--accent flex w-full min-h-11 items-center justify-center gap-2 disabled:opacity-50"
+          className="ds-btn ds-btn--accent flex w-full min-h-11 items-center justify-center gap-2 disabled:opacity-50"
         >
           {loading ? (
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden />

@@ -70,7 +70,7 @@ export function JournalMemoryPicker({
         <button
           type="button"
           disabled={disabled}
-          className="btn-pill--secondary inline-flex w-full items-center justify-center gap-2 text-sm"
+          className="ds-btn ds-btn--secondary inline-flex w-full items-center justify-center gap-2 text-sm"
           onClick={() => inputRef.current?.click()}
         >
           <ImagePlus className="h-4 w-4" aria-hidden />
@@ -84,7 +84,7 @@ export function JournalMemoryPicker({
             </p>
             <button
               type="button"
-              className="btn-pill--ghost shrink-0 p-1"
+              className="ds-btn ds-btn--ghost shrink-0 p-1"
               aria-label="Ta bort fil"
               disabled={disabled}
               onClick={clear}

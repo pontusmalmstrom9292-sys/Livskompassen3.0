@@ -198,6 +198,7 @@
     backdrop-filter: blur(var(--ds-blur-lg)) saturate(var(--ds-glass-saturate));
     -webkit-backdrop-filter: blur(var(--ds-blur-lg)) saturate(var(--ds-glass-saturate));
     box-shadow: var(--ds-elevation-dock);
+    border: 1px solid color-mix(in srgb, var(--ds-color-accent) 22%, transparent);
   }
 
   .dock-shell--basta-design .exec-dock-bar {
@@ -307,8 +308,22 @@
     border-color: color-mix(in srgb, var(--ds-color-accent) 18%, var(--ds-color-border));
   }
 
-  .ds-badge {
-    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 6%, transparent);
+  .ds-skeleton {
+    animation: ds-skeleton-pulse var(--ds-duration-slow) var(--ds-ease-premium) infinite;
+  }
+
+  @keyframes ds-skeleton-pulse {
+    0%,
+    100% {
+      opacity: 0.55;
+    }
+    50% {
+      opacity: 0.85;
+    }
+  }
+
+  .ds-error-fallback {
+    box-shadow: var(--ds-elevation-card);
   }
 
   /* ═══════════════════════════════════════════
@@ -444,6 +459,25 @@
   }
 
   .valv-monster-bar:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
+  /* ═══════════════════════════════════════════
+     WIDGETS · widget-shell
+     ═══════════════════════════════════════════ */
+
+  .widget-shell__header {
+    backdrop-filter: blur(var(--ds-blur-md)) saturate(var(--ds-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--ds-blur-md)) saturate(var(--ds-glass-saturate));
+    box-shadow: var(--ds-elevation-1);
+  }
+
+  .widget-shell__title {
+    text-shadow: 0 0 16px color-mix(in srgb, var(--ds-color-accent) 18%, transparent);
+  }
+
+  .widget-shell .ds-btn:focus-visible {
     outline: var(--ds-focus-ring);
     outline-offset: var(--ds-focus-offset);
   }

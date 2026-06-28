@@ -62,7 +62,7 @@
   gap: 0.65rem;
 }
 
-.dagbok-tyst-lage__actions .btn-pill--accent {
+.dagbok-tyst-lage__actions .ds-btn--accent {
   min-height: 48px;
 }
 

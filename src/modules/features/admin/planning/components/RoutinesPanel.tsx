@@ -116,7 +116,7 @@ export function RoutinesPanel({ defaultOpen = false }: Props) {
           ) : null}
           <button
             type="button"
-            className="btn-pill--secondary mt-3 w-full text-sm"
+            className="ds-btn ds-btn--secondary mt-3 w-full text-sm"
             disabled={busyId !== null || !pickedRoutine}
             onClick={() => pickedRoutine && void onRun(pickedRoutine)}
           >

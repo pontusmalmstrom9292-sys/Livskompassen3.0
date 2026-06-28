@@ -349,7 +349,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
           </p>
           <Link
             to="/valvet"
-            className="btn-pill--secondary inline-flex text-sm"
+            className="ds-btn ds-btn--secondary inline-flex text-sm"
           >
             Öppna Arkiv
           </Link>
@@ -413,7 +413,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                   setDateTo(defaultDateRange().dateTo);
                   setDateFrom(shiftMonths(defaultDateRange().dateTo, -3));
                 }}
-                className="btn-pill--ghost text-xs"
+                className="ds-btn ds-btn--ghost text-xs"
               >
                 Senaste 3 månaderna
               </button>
@@ -423,7 +423,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                   setDateTo(defaultDateRange().dateTo);
                   setDateFrom(shiftMonths(defaultDateRange().dateTo, -6));
                 }}
-                className="btn-pill--ghost text-xs"
+                className="ds-btn ds-btn--ghost text-xs"
               >
                 Senaste 6 månaderna
               </button>
@@ -431,7 +431,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
             <button
               type="button"
               onClick={() => setStep('sources')}
-              className="btn-pill--accent w-full"
+              className="ds-btn ds-btn--accent w-full"
             >
               Fortsätt
             </button>
@@ -595,7 +595,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               <button
                 type="button"
                 onClick={() => setStep('period')}
-                className="btn-pill--ghost flex-1 text-sm"
+                className="ds-btn ds-btn--ghost flex-1 text-sm"
               >
                 Tillbaka
               </button>
@@ -603,7 +603,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                 type="button"
                 disabled={sources.journal && !journalAck}
                 onClick={() => setStep('review')}
-                className="btn-pill--accent flex-1 text-sm disabled:opacity-40"
+                className="ds-btn ds-btn--accent flex-1 text-sm disabled:opacity-40"
               >
                 Granska urval
               </button>
@@ -667,7 +667,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               <button
                 type="button"
                 onClick={() => setStep('sources')}
-                className="btn-pill--ghost flex-1 text-sm"
+                className="ds-btn ds-btn--ghost flex-1 text-sm"
               >
                 Tillbaka
               </button>
@@ -759,7 +759,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
             <div className="flex gap-2 pt-2">
               <button
                 type="button"
-                className="btn-pill--accent flex-1 text-xs justify-center"
+                className="ds-btn ds-btn--accent flex-1 text-xs justify-center"
                 onClick={() => void handleGenerateDossier()}
               >
                 Skriv ut / Spara igen
@@ -767,7 +767,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               <button
                 type="button"
                 onClick={clearSession}
-                className="btn-pill--ghost flex-1 text-xs justify-center"
+                className="ds-btn ds-btn--ghost flex-1 text-xs justify-center"
               >
                 Klar — rensa från enheten
               </button>

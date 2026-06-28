@@ -86,7 +86,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
           <button
             type="button"
             onClick={() => setSosOpen(true)}
-            className="btn-pill--secondary w-full text-sm uppercase tracking-[0.14em]"
+            className="ds-btn ds-btn--secondary w-full text-sm uppercase tracking-[0.14em]"
           >
             SOS — sug nu
           </button>
@@ -139,7 +139,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
             <div className="mt-4 flex gap-2">
               <button
                 type="button"
-                className="btn-pill--secondary flex-1"
+                className="ds-btn ds-btn--secondary flex-1"
                 onClick={() =>
                   setReflectionIndex((i) => (i + 1) % DROGFRIHET_CARDS.length)
                 }
@@ -166,7 +166,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
               <button
                 type="button"
                 onClick={() => setRealityCheckOpen(true)}
-                className="btn-pill--ghost shrink-0 text-xs uppercase tracking-[0.14em]"
+                className="ds-btn ds-btn--ghost shrink-0 text-xs uppercase tracking-[0.14em]"
               >
                 Öppna
               </button>

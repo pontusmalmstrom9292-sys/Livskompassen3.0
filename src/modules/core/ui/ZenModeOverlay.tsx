@@ -143,7 +143,7 @@ export function ZenModeOverlay({ isOpen, onClose }: ZenModeOverlayProps) {
               <button
                 type="button"
                 onClick={handleDiscard}
-                className="btn-pill--ghost text-sm"
+                className="ds-btn ds-btn--ghost text-sm"
                 disabled={saving}
               >
                 Kasta & Stäng
@@ -151,7 +151,7 @@ export function ZenModeOverlay({ isOpen, onClose }: ZenModeOverlayProps) {
               <button
                 type="button"
                 onClick={() => void handleSaveAndClose()}
-                className="btn-pill--primary text-sm"
+                className="ds-btn ds-btn--accent text-sm"
                 disabled={saving || text.trim().length < MIN_LENGTH}
               >
                 {saving ? 'Sparar…' : 'Spara & Stäng'}

@@ -92,7 +92,7 @@ export function EconomyOverviewPanel({ userId }: Props) {
         <button
           type="button"
           onClick={() => setShowPicker(true)}
-          className="btn-pill--ghost shrink-0 p-2"
+          className="ds-btn ds-btn--ghost shrink-0 p-2"
           title="Välj verktyg"
           aria-label="Öppna modulväljare"
         >
@@ -101,7 +101,7 @@ export function EconomyOverviewPanel({ userId }: Props) {
         {isEconomyAdvancedUnlocked && (
           <Link
             to="/ekonomi/avancerad"
-            className="btn-pill--ghost shrink-0 p-2 flex items-center justify-center border border-accent/20 bg-accent/5 hover:bg-accent/10 hover:text-accent transition-colors rounded-lg"
+            className="ds-btn ds-btn--ghost shrink-0 p-2 flex items-center justify-center border border-accent/20 bg-accent/5 hover:bg-accent/10 hover:text-accent transition-colors rounded-lg"
             title="Avancerad instrumentpanel"
             aria-label="Gå till avancerad ekonomi"
           >

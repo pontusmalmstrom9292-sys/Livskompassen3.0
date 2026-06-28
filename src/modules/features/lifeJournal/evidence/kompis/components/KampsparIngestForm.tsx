@@ -206,7 +206,7 @@ export function KampsparIngestForm({ onSaved, compact = false }: Props) {
         <button
           type="submit"
           disabled={loading || !title.trim() || !content.trim() || !user}
-          className="btn-pill--success flex items-center gap-2"
+          className="ds-btn ds-btn--success flex items-center gap-2"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
           Spara i Minne

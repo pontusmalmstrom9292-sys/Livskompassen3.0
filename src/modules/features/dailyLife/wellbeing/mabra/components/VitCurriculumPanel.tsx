@@ -49,7 +49,7 @@ function ChapterExerciseButtons({
       <button
         type="button"
         disabled={!picked}
-        className="btn-pill--ghost w-full text-xs disabled:opacity-40"
+        className="ds-btn ds-btn--ghost w-full text-xs disabled:opacity-40"
         onClick={() => {
           if (!picked) return;
           if (picked.kind === 'reflection') onOpenReflection(picked.bankId);
@@ -101,7 +101,7 @@ function CurriculumDetail({
           {curriculum.broLinks && curriculum.broLinks.length > 0 && (
             <div className="flex flex-wrap gap-2 border-t border-border-strong pt-4">
               {curriculum.broLinks.map((link) => (
-                <Link key={link.route} to={link.route} className="btn-pill--ghost text-xs">
+                <Link key={link.route} to={link.route} className="ds-btn ds-btn--ghost text-xs">
                   {link.label}
                 </Link>
               ))}
@@ -153,7 +153,7 @@ export function VitCurriculumPanel({ onOpenReflection, onOpenPlay }: Props) {
       <button
         type="button"
         disabled={!pendingId}
-        className="btn-pill--secondary mt-3 w-full text-sm disabled:opacity-40"
+        className="ds-btn ds-btn--secondary mt-3 w-full text-sm disabled:opacity-40"
         onClick={() => setSelectedId(pendingId)}
       >
         Öppna kurs

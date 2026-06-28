@@ -68,7 +68,7 @@ function HamnBiffWorkflow({
         <p className="mt-2 text-xs text-text-muted" role="note">
           {HAMN_BRUSFILTER_HINT}
         </p>
-        <Link to={hjartatTabHref('speglar')} className="btn-pill--accent mt-3 inline-flex text-xs">
+        <Link to={hjartatTabHref('speglar')} className="ds-btn ds-btn--accent mt-3 inline-flex text-xs">
           Öppna Speglar
         </Link>
       </CalmCollapsible>
@@ -159,7 +159,7 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
           <p className="text-text-dim">
             Akut känslovalidering (ACT) och bevisjämförelse — innan du formulerar svar här.
           </p>
-          <Link to={hjartatTabHref('speglar')} className="btn-pill--accent mt-3 inline-flex text-xs">
+          <Link to={hjartatTabHref('speglar')} className="ds-btn ds-btn--accent mt-3 inline-flex text-xs">
             Öppna Speglar
           </Link>
         </BentoCard>
@@ -170,7 +170,7 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
           <p className="text-text-dim">
             Barnfokus och minnesankare ligger i Familjen — separat från ex-kommunikation.
           </p>
-          <Link to="/familjen?tab=reflektion" className="btn-pill--accent mt-3 inline-flex text-xs">
+          <Link to="/familjen?tab=reflektion" className="ds-btn ds-btn--accent mt-3 inline-flex text-xs">
             Öppna Familjen
           </Link>
         </BentoCard>

@@ -66,7 +66,7 @@ export function SvartPaVittForm() {
         type="button"
         onClick={() => void handleLock()}
         disabled={loading || !user || !theirVersion.trim() || !myReality.trim()}
-        className="btn-pill--accent mt-3 flex items-center gap-2 disabled:opacity-50"
+        className="ds-btn ds-btn--accent mt-3 flex items-center gap-2 disabled:opacity-50"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
         Lås bevis mot gaslighting

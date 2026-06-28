@@ -1,13 +1,15 @@
 {
   "version": 2,
   "startedAt": "2026-06-28T10:43:00.000Z",
-  "updatedAt": "2026-06-28T08:59:18.879Z",
+  "updatedAt": "2026-06-28T09:13:54.273Z",
   "currentTaskId": "super-yolo-gate",
   "completedTaskIds": [
     "commit-ui-dirty"
   ],
   "skippedTaskIds": [],
-  "failedTaskIds": [],
+  "failedTaskIds": [
+    "super-yolo-gate"
+  ],
   "taskOrder": [
     "commit-ui-dirty",
     "super-yolo-gate",

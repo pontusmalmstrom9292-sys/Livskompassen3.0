@@ -163,7 +163,7 @@ export function EconomyImpulsePanel() {
           type="button"
           disabled={busy || !gateway || !draft.trim()}
           onClick={() => void handlePark()}
-          className="btn-pill--ghost rounded-lg border border-border/50 bg-surface-3 px-3 py-1.5 text-xs"
+          className="ds-btn ds-btn--ghost rounded-lg border border-border/50 bg-surface-3 px-3 py-1.5 text-xs"
         >
           Parkera
         </button>
@@ -196,7 +196,7 @@ export function EconomyImpulsePanel() {
                         type="button"
                         disabled={busy || isLowCapacity}
                         onClick={() => void handleResolve(item.id, 'bought')}
-                        className="btn-pill--secondary px-2 py-1 text-[10px] disabled:opacity-50"
+                        className="ds-btn ds-btn--secondary px-2 py-1 text-[10px] disabled:opacity-50"
                       >
                         Fortfarande ja
                       </button>
@@ -204,7 +204,7 @@ export function EconomyImpulsePanel() {
                         type="button"
                         disabled={busy}
                         onClick={() => void handleResolve(item.id, 'skipped')}
-                        className="btn-pill--ghost px-2 py-1 text-[10px]"
+                        className="ds-btn ds-btn--ghost px-2 py-1 text-[10px]"
                       >
                         Strunt i det
                       </button>

@@ -67,7 +67,7 @@ export function ProfileSeedImport({ entries, onImported }: Props) {
         type="button"
         onClick={handleImport}
         disabled={loading}
-        className="btn-pill--success flex items-center gap-2"
+        className="ds-btn ds-btn--success flex items-center gap-2"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
         Importera min profil ({SEED_TOTAL} poster)

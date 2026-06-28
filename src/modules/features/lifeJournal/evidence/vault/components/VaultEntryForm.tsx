@@ -265,7 +265,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
             />
             <button
               type="button"
-              className="btn-pill--ghost mt-2 text-xs"
+              className="ds-btn ds-btn--ghost mt-2 text-xs"
               disabled={smsThreadPaste.trim().length < 20}
               onClick={() => {
                 const parsed = parseSmsThreadToTwoColumn(smsThreadPaste);
@@ -335,7 +335,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
                     <button
                       type="button"
                       onClick={() => setShieldStep(idx - 1)}
-                      className="btn-pill--ghost"
+                      className="ds-btn ds-btn--ghost"
                     >
                       Tillbaka
                     </button>
@@ -345,7 +345,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
                       type="button"
                       disabled={!value.trim()}
                       onClick={() => setShieldStep(idx + 1)}
-                      className="btn-pill--secondary disabled:opacity-50"
+                      className="ds-btn ds-btn--secondary disabled:opacity-50"
                     >
                       Fortsätt
                     </button>
@@ -402,7 +402,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
       <div className="glass-card space-y-2 p-3">
         <p className="text-[10px] uppercase tracking-widest text-text-dim">Bifoga bevis</p>
         <div className="flex flex-wrap items-center gap-2">
-          <label className="btn-pill--ghost cursor-pointer">
+          <label className="ds-btn ds-btn--ghost cursor-pointer">
             <ImagePlus className="h-4 w-4" />
             Skärmdump
             <input
@@ -416,7 +416,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
             <button
               type="button"
               onClick={isListening ? stop : start}
-              className="btn-pill--ghost"
+              className="ds-btn ds-btn--ghost"
             >
               {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
               Röstmemo
@@ -450,7 +450,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
           type="button"
           onClick={requestSave}
           disabled={busy || !canSave}
-          className="btn-pill--success disabled:opacity-50"
+          className="ds-btn ds-btn--success disabled:opacity-50"
         >
           <span className="inline-flex items-center gap-2">
             <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden>

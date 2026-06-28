@@ -43,7 +43,7 @@ export function VivirStepView({ answers, onChange, onComplete }: Props) {
 
       <div className="flex gap-2">
         {stepIndex > 0 && (
-          <button type="button" onClick={() => setStepIndex((i) => i - 1)} className="btn-pill--ghost">
+          <button type="button" onClick={() => setStepIndex((i) => i - 1)} className="ds-btn ds-btn--ghost">
             <ChevronLeft className="h-4 w-4" /> Tillbaka
           </button>
         )}
@@ -52,7 +52,7 @@ export function VivirStepView({ answers, onChange, onComplete }: Props) {
             type="button"
             disabled={!value.trim()}
             onClick={() => setStepIndex((i) => i + 1)}
-            className="btn-pill--secondary disabled:opacity-50"
+            className="ds-btn ds-btn--secondary disabled:opacity-50"
           >
             Nästa <ChevronRight className="h-4 w-4" />
           </button>
@@ -61,7 +61,7 @@ export function VivirStepView({ answers, onChange, onComplete }: Props) {
             type="button"
             disabled={!value.trim()}
             onClick={onComplete}
-            className="btn-pill--secondary disabled:opacity-50"
+            className="ds-btn ds-btn--secondary disabled:opacity-50"
           >
             Jämför med valvet
           </button>

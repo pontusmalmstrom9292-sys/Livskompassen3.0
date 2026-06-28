@@ -1,0 +1,43 @@
+---
+description: AI Governance entry — mandatory pre-flight docs before any implementation
+alwaysApply: true
+---
+
+# AI Governance — Entry
+
+**Full workflow:** [`docs/AI-GOVERNANCE.md`](../../docs/AI-GOVERNANCE.md) · **State:** [`docs/PROJECT_STATE.md`](../../docs/PROJECT_STATE.md)
+
+## Before starting work (MUST)
+
+Read in order — **never guess phase**:
+
+1. `docs/PROJECT_STATE.md`
+2. `docs/ROADMAP.md`
+3. `docs/TODO.md`
+4. `docs/DASHBOARD.md`
+5. `docs/AI-GOVERNANCE.md`
+
+Active **system phase** and **active program** come from `docs/PROJECT_STATE.md` — never guess. Kanon: [`.cursor/index.mdc`](../index.mdc).
+
+## During work (MUST NOT)
+
+- Work ahead of active phase/program
+- Redesign layout or remove functionality
+- Skip post-task documentation updates
+- Touch PMIR areas without Pontus OK (`firestore.rules`, locked UX, `sharedRules.ts`, prod deploy)
+
+## After task (MUST)
+
+Update `TODO.md`, `DASHBOARD.md`, `PROGRESS.md`, `ROADMAP.md` (if program phase/estimates changed), `PROJECT_STATE.md` (if system phase/blockers changed). Task **incomplete** without docs.
+
+Run `npm run smoke:governance` when governance files change.
+
+## Related rules (read when relevant)
+
+| Topic | Rule |
+|-------|------|
+| Definition of Done | `ai-governance-definition-of-done.mdc` |
+| Self-review | `ai-governance-self-review.mdc` |
+| Doc ownership | `ai-governance-documentation.mdc` |
+| Domain kanon | `grunder-kanon.mdc`, `projectGuard.mdc` |
+| Phase gate | `fas-masterplan-guard.mdc` |

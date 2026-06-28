@@ -31,6 +31,7 @@ export function buttonClassName(
 /** Legacy alias map for gradual migration */
 export const BUTTON_LEGACY_VARIANT = {
   primaryGold: 'accent',
+  primary: 'accent',
   continue: 'secondary',
   save: 'success',
   ghost: 'ghost',

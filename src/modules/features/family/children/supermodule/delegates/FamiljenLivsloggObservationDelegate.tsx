@@ -198,14 +198,14 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
                 handleSave(); // Fortsätt spara ändå (bypass)
               }}
               disabled={loading}
-              className="btn-pill--ghost text-xs border-danger/20 text-danger"
+              className="ds-btn ds-btn--ghost text-xs border-danger/20 text-danger"
             >
               Jag är säker, spara ändå
             </button>
             <button
               type="button"
               onClick={() => setJadeViolations([])}
-              className="btn-pill--secondary text-xs"
+              className="ds-btn ds-btn--secondary text-xs"
             >
               Avbryt och redigera
             </button>
@@ -216,7 +216,7 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
           type="button"
           onClick={handleSave}
           disabled={loading || !observation.trim()}
-          className="btn-pill--accent disabled:opacity-50 mt-2"
+          className="ds-btn ds-btn--accent disabled:opacity-50 mt-2"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
           Spara livslogg

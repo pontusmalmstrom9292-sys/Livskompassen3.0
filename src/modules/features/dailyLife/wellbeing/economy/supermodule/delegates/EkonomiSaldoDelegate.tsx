@@ -193,7 +193,7 @@ export function EkonomiSaldoDelegate({ userId }: EkonomiSaldoDelegateProps) {
         <button
           type="submit"
           disabled={inputsDisabled || !customAmount.trim()}
-          className="btn-pill--primary w-full text-sm disabled:opacity-60"
+          className="ds-btn ds-btn--accent w-full text-sm disabled:opacity-60"
         >
           {saving ? (
             <span className="inline-flex items-center justify-center gap-2">

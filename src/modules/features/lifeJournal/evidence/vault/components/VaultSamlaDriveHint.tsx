@@ -16,7 +16,7 @@ export function VaultSamlaDriveHint({ pendingCount, onOpenQueue, embedded = fals
         Filer från Google Drive sparas <strong className="font-normal text-text-muted">inte</strong>{' '}
         automatiskt som bevis. De hamnar i granskningskö — välj «→ Arkiv» när du är redo.
       </p>
-      <button type="button" className="btn-pill--secondary mt-3 text-xs" onClick={onOpenQueue}>
+      <button type="button" className="ds-btn ds-btn--secondary mt-3 text-xs" onClick={onOpenQueue}>
         {pendingCount != null && pendingCount > 0
           ? `Öppna granskningskö (${pendingCount})`
           : 'Öppna granskningskö'}

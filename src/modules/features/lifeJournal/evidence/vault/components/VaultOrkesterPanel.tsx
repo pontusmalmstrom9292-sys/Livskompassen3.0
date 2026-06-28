@@ -199,7 +199,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
             type="button"
             onClick={() => void handleBrusfilter()}
             disabled={brusLoading || !rawInput.trim()}
-            className="btn-pill--accent inline-flex items-center gap-2 disabled:opacity-50"
+            className="ds-btn ds-btn--accent inline-flex items-center gap-2 disabled:opacity-50"
           >
             {brusLoading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
             Filtrera bort brus
@@ -267,7 +267,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
                 <button
                   type="button"
                   onClick={() => void handleCopyReply()}
-                  className="btn-pill--ghost mt-3 inline-flex items-center gap-1.5 text-xs"
+                  className="ds-btn ds-btn--ghost mt-3 inline-flex items-center gap-1.5 text-xs"
                 >
                   {copiedReply ? (
                     <Check className="h-3 w-3 text-success" aria-hidden />
@@ -348,7 +348,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
           type="button"
           onClick={handleScan}
           disabled={loading || !thread.trim()}
-          className="btn-pill--accent mt-3 disabled:opacity-50"
+          className="ds-btn ds-btn--accent mt-3 disabled:opacity-50"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           Kör mönstersökning

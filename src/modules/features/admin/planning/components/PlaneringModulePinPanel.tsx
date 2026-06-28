@@ -100,7 +100,7 @@ export function PlaneringModulePinPanel({ title, content, onPinned }: Props) {
         </div>
         <button
           type="button"
-          className={clsx('btn-pill--ghost text-xs shrink-0', open && 'text-accent')}
+          className={clsx('ds-btn ds-btn--ghost text-xs shrink-0', open && 'text-accent')}
           onClick={() => setOpen((v) => !v)}
         >
           <Plus className="h-3.5 w-3.5" />
@@ -119,7 +119,7 @@ export function PlaneringModulePinPanel({ title, content, onPinned }: Props) {
             onContextKeyChange={setContextKey}
             compact
           />
-          <button type="button" className="btn-pill--accent w-full text-sm" onClick={handlePin}>
+          <button type="button" className="ds-btn ds-btn--accent w-full text-sm" onClick={handlePin}>
             Fäst modul här
           </button>
         </div>
@@ -137,7 +137,7 @@ export function PlaneringModulePinPanel({ title, content, onPinned }: Props) {
               </span>
               <button
                 type="button"
-                className="btn-pill--ghost shrink-0 px-2 py-1 text-[10px]"
+                className="ds-btn ds-btn--ghost shrink-0 px-2 py-1 text-[10px]"
                 onClick={() => handleRemove(pin.id)}
               >
                 <PinOff className="h-3 w-3" />

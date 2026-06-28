@@ -19,14 +19,14 @@ export function W1KompaktProjektLabPage() {
           Prototyp — ingen prod-wire.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Link to="/dev/theme-lab" className="btn-pill--ghost text-xs">
+          <Link to="/dev/theme-lab" className="ds-btn ds-btn--ghost text-xs">
             ← Theme Lab
           </Link>
           <a
             href="/docs/design/galleri/index.html#widget"
             target="_blank"
             rel="noreferrer"
-            className="btn-pill--ghost text-xs"
+            className="ds-btn ds-btn--ghost text-xs"
           >
             Designgalleri ↗
           </a>

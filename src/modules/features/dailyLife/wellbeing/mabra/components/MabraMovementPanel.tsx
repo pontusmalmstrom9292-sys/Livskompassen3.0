@@ -103,7 +103,7 @@ export function MabraMovementPanel({ uid, onComplete }: Props) {
         <p className="mt-2 text-sm text-text-muted">{COPY.doneLead}</p>
         <button
           type="button"
-          className="btn-pill--ghost mt-4 w-full text-sm"
+          className="ds-btn ds-btn--ghost mt-4 w-full text-sm"
           onClick={() => {
             setActive(null);
             resetTimer();
@@ -126,12 +126,12 @@ export function MabraMovementPanel({ uid, onComplete }: Props) {
         <div className="mt-4 flex flex-col gap-2">
           <button
             type="button"
-            className="btn-pill--secondary w-full"
+            className="ds-btn ds-btn--secondary w-full"
             onClick={() => setPaused((p) => !p)}
           >
             {paused ? COPY.resume : COPY.pause}
           </button>
-          <button type="button" className="btn-pill--ghost w-full text-sm" onClick={finish}>
+          <button type="button" className="ds-btn ds-btn--ghost w-full text-sm" onClick={finish}>
             {COPY.done}
           </button>
         </div>

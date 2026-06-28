@@ -147,11 +147,11 @@ export const AddonView = memo(function AddonView() {
             setAddonBreathing(true);
             navigate('/mabra/ovning/breathing');
           }}
-          className="btn-pill--secondary"
+          className="ds-btn ds-btn--secondary"
         >
           {BREATHING_ADDON_COPY.startLabel}
         </button>
-        <button type="button" onClick={() => void finishReframingSession()} className="btn-pill--ghost text-sm">
+        <button type="button" onClick={() => void finishReframingSession()} className="ds-btn ds-btn--ghost text-sm">
           {BREATHING_ADDON_COPY.skipLabel}
         </button>
       </div>

@@ -163,7 +163,7 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
                       setSigningOut(false);
                     }
                   }}
-                  className="btn-pill--ghost mt-4 flex items-center gap-2 text-sm"
+                  className="ds-btn ds-btn--ghost mt-4 flex items-center gap-2 text-sm"
                 >
                   <LogOut className="h-4 w-4" />
                   Logga ut

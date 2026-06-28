@@ -115,7 +115,7 @@ export function VaultZoneGate({
         type="button"
         disabled={webAuthnPending}
         onClick={() => void tryUnlock()}
-        className="btn-pill--accent flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 disabled:opacity-60"
+        className="ds-btn ds-btn--accent flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 disabled:opacity-60"
       >
         <Fingerprint className="h-4 w-4" strokeWidth={2} />
         {webAuthnPending ? 'Verifierar…' : 'Lås upp med biometri'}

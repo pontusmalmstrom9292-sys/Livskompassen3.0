@@ -83,7 +83,7 @@ export function BarnportenInboxPanel() {
             )}
             <button
               type="button"
-              className="btn-pill--secondary text-xs"
+              className="ds-btn ds-btn--secondary text-xs"
               onClick={() => setPromoteId(row.id)}
             >
               Granska i arkiv
@@ -118,7 +118,7 @@ export function BarnportenInboxPanel() {
             ) : (
               <button
                 type="button"
-                className="btn-pill--accent text-xs"
+                className="ds-btn ds-btn--accent text-xs"
                 onClick={() => setPromoteId(row.id)}
               >
                 Flytta till Valv (HITL)

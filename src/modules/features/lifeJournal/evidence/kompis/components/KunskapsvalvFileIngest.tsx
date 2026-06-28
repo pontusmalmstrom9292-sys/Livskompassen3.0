@@ -153,7 +153,7 @@ export function KunskapsvalvFileIngest({
         type="button"
         disabled={loading}
         onClick={() => inputRef.current?.click()}
-        className="btn-pill--secondary mt-3 inline-flex items-center gap-2 disabled:opacity-50"
+        className="ds-btn ds-btn--secondary mt-3 inline-flex items-center gap-2 disabled:opacity-50"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileUp className="h-4 w-4" />}
         {loading ? 'Analyserar…' : 'Välj PDF, bild eller text'}

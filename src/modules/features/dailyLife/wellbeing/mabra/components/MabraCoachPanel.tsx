@@ -123,7 +123,7 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
               <button
                 type="button"
                 onClick={isListening ? stopSpeech : startSpeech}
-                className="btn-pill--ghost text-sm"
+                className="ds-btn ds-btn--ghost text-sm"
                 aria-pressed={isListening}
               >
                 {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
@@ -137,7 +137,7 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
             type="button"
             onClick={() => void handleCoach()}
             disabled={loading}
-            className="btn-pill--secondary w-full disabled:opacity-50"
+            className="ds-btn ds-btn--secondary w-full disabled:opacity-50"
           >
             {loading ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : MABRA_COACH_COPY.buttonLabel}
           </button>

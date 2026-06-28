@@ -1,0 +1,33 @@
+---
+description: AI self-review checklist before marking any task complete
+alwaysApply: false
+globs: src/**,functions/**
+---
+
+# AI Self-Review (mandatory before done)
+
+Fix all failures before declaring completion. Log issues in `docs/PROGRESS.md`.
+
+## Checklist
+
+| # | Area | Verify |
+|---|------|--------|
+| 1 | **Architecture** | 3-zone routes; tre silos; DCAP before LLM; WORM intact |
+| 2 | **Performance** | No unnecessary deps; `prefers-reduced-motion`; scale-to-zero |
+| 3 | **Accessibility** | Focus visible; aria-labels; 44px touch; contrast on navy/glass |
+| 4 | **Design** | Executive Midnight DAD; DS tokens; no new `btn-pill--` in modules |
+| 5 | **Tokens** | `--ds-*` / design-system — no hardcoded hex in `src/modules/**` |
+| 6 | **Responsive** | 320–1440px; dock clearance; widgets if touched |
+| 7 | **Duplication** | Reused existing components (`HubErrorBoundary`, `Button`, etc.) |
+| 8 | **Testing** | Relevant smoke + tests for changed behaviour |
+| 9 | **Documentation** | `TODO`, `DASHBOARD`, `PROGRESS`, `ROADMAP` (if program), `PROJECT_STATE` (if system) updated |
+
+## UI changes additionally
+
+- `npm run smoke:design-modules`
+- `npm run smoke:locked-ux`
+- Pontus visual OK per zone (polish, not redesign)
+
+## If any check fails
+
+Fix first. Do not mark TODO complete. Do not skip with "follow-up later" unless Pontus explicitly defers.

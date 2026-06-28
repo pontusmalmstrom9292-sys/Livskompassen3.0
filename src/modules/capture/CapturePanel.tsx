@@ -474,7 +474,7 @@ export function CapturePanel({
               <div className="mt-3 flex flex-wrap items-center gap-2">
                 <button
                   type="button"
-                  className="btn-pill--ghost text-xs"
+                  className="ds-btn ds-btn--ghost text-xs"
                   disabled={phase !== 'compose'}
                   onClick={() => fileInputRef.current?.click()}
                 >
@@ -520,7 +520,7 @@ export function CapturePanel({
             {canBrusfilter && hasText && !hasFiles && (
               <button
                 type="button"
-                className="btn-pill--secondary inline-flex items-center gap-1.5 text-sm"
+                className="ds-btn ds-btn--secondary inline-flex items-center gap-1.5 text-sm"
                 onClick={startBrusfilterStep}
               >
                 <Filter className="h-3.5 w-3.5" aria-hidden />
@@ -529,14 +529,14 @@ export function CapturePanel({
             )}
             <button
               type="button"
-              className="btn-pill--primary text-sm"
+              className="ds-btn ds-btn--accent text-sm"
               disabled={!canPreview}
               onClick={() => void handlePreview()}
             >
               Förhandsgranska
             </button>
             {phase === 'done' && (
-              <button type="button" className="btn-pill--ghost text-sm" onClick={resetFlow}>
+              <button type="button" className="ds-btn ds-btn--ghost text-sm" onClick={resetFlow}>
                 Nytt inkast
               </button>
             )}
@@ -595,7 +595,7 @@ export function CapturePanel({
             <h3 className="font-medium text-text">Sparar inkast...</h3>
             <p className="mt-1 text-sm text-text-dim">Du kan ångra om du kom på något mer.</p>
           </div>
-          <button type="button" onClick={cancelDebounce} className="btn-pill--ghost mt-2">
+          <button type="button" onClick={cancelDebounce} className="ds-btn ds-btn--ghost mt-2">
             Ångra
           </button>
         </div>

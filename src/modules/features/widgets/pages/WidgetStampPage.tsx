@@ -76,7 +76,7 @@ function WidgetStampInner() {
           />
         )}
 
-        <button type="button" className="btn-pill--ghost mt-4 w-full text-sm" onClick={() => navigate('/')}>
+        <button type="button" className="ds-btn ds-btn--ghost mt-4 w-full text-sm" onClick={() => navigate('/')}>
           Till hem
         </button>
       </div>

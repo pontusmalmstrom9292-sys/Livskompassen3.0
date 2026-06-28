@@ -50,7 +50,7 @@ export function WidgetRecordingEthicsGate({
   return (
     <div className={className ?? 'elongated-module elongated-module--gold p-4'}>
       <p className="text-sm text-text-muted">{ethicsBodyText(mode)}</p>
-      <button type="button" className="btn-pill--accent mt-4 w-full" onClick={onAccept}>
+      <button type="button" className="ds-btn ds-btn--accent mt-4 w-full" onClick={onAccept}>
         Jag förstår — fortsätt
       </button>
     </div>

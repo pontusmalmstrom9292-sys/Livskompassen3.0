@@ -137,7 +137,7 @@ export function AdaptationPrefsPanel({ userId }: Props) {
           </p>
           <button
             type="button"
-            className="btn-pill--ghost mt-2 text-xs"
+            className="ds-btn ds-btn--ghost mt-2 text-xs"
             disabled={saving}
             onClick={dismissParalysTip}
           >

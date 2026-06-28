@@ -7,6 +7,8 @@ import { glass, type GlassToken } from './glass';
 import { elevation, type ElevationToken } from './elevation';
 import { shadow, type ShadowToken } from './shadow';
 import { animation, transitions, type AnimationToken } from './animation';
+import { focus, type FocusToken } from './focus';
+import { zIndex, type ZIndexToken } from './zIndex';
 
 export {
   colors,
@@ -20,6 +22,8 @@ export {
   shadow,
   animation,
   transitions,
+  focus,
+  zIndex,
 };
 
 export type {
@@ -33,6 +37,8 @@ export type {
   ElevationToken,
   ShadowToken,
   AnimationToken,
+  FocusToken,
+  ZIndexToken,
 };
 
 /** Aggregated token object for programmatic access. */
@@ -48,4 +54,6 @@ export const tokens = {
   shadow,
   animation,
   transitions,
+  focus,
+  zIndex,
 } as const;

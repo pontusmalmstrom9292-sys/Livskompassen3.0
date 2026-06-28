@@ -1,51 +1,28 @@
-# AGENTS.md — Livskompassen3.0
+# AGENTS.md — Livskompassen v2
 
-This file defines how coding agents should work in this repository.
+For Claude Code, OpenAI Codex/CLI, Gemini CLI, terminal agents.
 
-## Principles
-- Make minimal, safe, task-scoped changes.
-- Follow existing architecture and coding conventions.
-- Ask clarifying questions when requirements are ambiguous.
+## Phase hierarchy
 
-## Hard boundaries
-Do not change any of the following without explicit human approval:
-- CI/CD workflows
-- secrets/auth configuration
-- infrastructure/deployment config
-- database migrations
-- major dependency changes
+- **System phase:** `docs/PROJECT_STATE.md` (Fas 24) — wins on conflict
+- **Active program:** `docs/ROADMAP.md` (Premium UI Polish Phase 0)
 
-## Definition of Done
-A task is considered done when:
-1. Relevant tests are added/updated and passing
-2. Lint is passing (if configured)
-3. Build/typecheck is passing (if configured)
-4. Change summary + verification + risk notes are provided
+## Every session — read in order
 
-## Implementation guidance
-- Keep controllers/handlers thin; business logic belongs in services.
-- Reuse existing utilities before introducing new abstractions.
-- Handle errors explicitly; do not swallow exceptions.
-- Avoid logging secrets or sensitive personal data.
+1. `docs/PROJECT_STATE.md`
+2. `docs/ROADMAP.md`
+3. `docs/TODO.md`
+4. `docs/DASHBOARD.md`
+5. `docs/AI-GOVERNANCE.md`
 
-## Delivery format
-When presenting completed work, always include:
-1. What changed
-2. Why
-3. How it was tested
-4. Risks / follow-ups
+Preflight: `node scripts/ai_preflight.mjs`
 
-## Lead UI Engineer (permanent)
+## Rules
 
-You are the permanent **Lead UI Engineer** for Livskompassen. Maintain the highest design quality.
+WORM · tre silos · DCAP · Zero Footprint · Locked UX · PMIR gates  
+After task: update TODO, DASHBOARD, PROGRESS, ROADMAP (if needed), PROJECT_STATE (if needed)  
+Validate: `npm run smoke:governance` · merge: `npm run smoke:predeploy:build`
 
-Whenever you touch any UI component (`src/**`), automatically:
-
-- Review nearby code · improve consistency · spacing · animations · accessibility · performance · typography
-- Remove duplication · refactor when appropriate
-- Never ask for permission unless **functionality** changes
-- Always leave the codebase cleaner than you found it
-- Every commit should increase perceived quality — think Apple polishing iOS before release
-- Never stop at "good enough" — aim for world-class quality
-
-Canon: `.cursor/rules/lead-ui-engineer.mdc` · `design-calm.mdc` · `premium-ui.mdc` · `component-standards.mdc`. Polish — never redesign locked UX.
+Cursor → `.cursor/rules/ai-governance-entry.mdc`  
+Copilot → `.github/copilot-instructions.md`  
+DoD → `docs/DEFINITION-OF-DONE.md`

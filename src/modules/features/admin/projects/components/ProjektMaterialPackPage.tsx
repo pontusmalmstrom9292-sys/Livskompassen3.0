@@ -159,7 +159,7 @@ export function ProjektMaterialPackPage() {
                 <button
                   key={h}
                   type="button"
-                  className={hub === h ? 'btn-pill--accent text-xs' : 'btn-pill--ghost text-xs'}
+                  className={hub === h ? 'ds-btn ds-btn--accent text-xs' : 'ds-btn ds-btn--ghost text-xs'}
                   onClick={() => setHub(h)}
                 >
                   {HUB_LABELS[h]}
@@ -242,7 +242,7 @@ export function ProjektMaterialPackPage() {
               <button
                 type="button"
                 disabled={!user || shortcuts.length >= 12}
-                className="btn-pill--accent shadow-lg shadow-accent/20"
+                className="ds-btn ds-btn--accent shadow-lg shadow-accent/20"
                 onClick={() => persist([...shortcuts, newShortcut()])}
               >
                 + Lägg till genväg
@@ -251,7 +251,7 @@ export function ProjektMaterialPackPage() {
                 <button
                   type="button"
                   disabled={!user}
-                  className="btn-pill--ghost"
+                  className="ds-btn ds-btn--ghost"
                   onClick={resetToDefault}
                 >
                   Återställ standard

@@ -11,6 +11,7 @@ globs:
 - Preserve existing architecture and conventions unless explicitly asked to refactor.
 
 ## Before coding
+- Read [`docs/PROJECT_STATE.md`](../../docs/PROJECT_STATE.md) and [`docs/AI-GOVERNANCE.md`](../../docs/AI-GOVERNANCE.md) per `ai-governance-entry.mdc`.
 - If requirements are unclear, ask 1–3 clarifying questions first.
 - Identify impacted files and keep scope tight.
 

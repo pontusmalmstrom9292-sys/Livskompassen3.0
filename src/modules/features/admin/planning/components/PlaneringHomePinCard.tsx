@@ -48,7 +48,7 @@ export function PlaneringHomePinCard() {
       </ul>
       <Link
         to={`/planering?tab=inkop`}
-        className="btn-pill--ghost mt-3 flex w-full items-center justify-center gap-1 text-sm"
+        className="ds-btn ds-btn--ghost mt-3 flex w-full items-center justify-center gap-1 text-sm"
       >
         Öppna listan
         <ChevronRight className="h-4 w-4" />

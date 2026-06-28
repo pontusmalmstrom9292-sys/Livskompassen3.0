@@ -62,7 +62,7 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
             className="mt-1 w-full rounded-lg border border-border-strong bg-surface/40 px-3 py-2 text-sm text-text"
           />
         </label>
-        <button type="button" onClick={applyCustomDate} className="btn-pill--secondary mt-3 w-full">
+        <button type="button" onClick={applyCustomDate} className="ds-btn ds-btn--secondary mt-3 w-full">
           Spara startdatum
         </button>
         <button
@@ -74,7 +74,7 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
             if (uid) void syncRecoveryProfileStartDate(uid, today);
             setConfirmReset(false);
           }}
-          className="btn-pill--ghost mt-2 w-full text-sm"
+          className="ds-btn ds-btn--ghost mt-2 w-full text-sm"
         >
           Starta från idag
         </button>
@@ -88,7 +88,7 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
           <button
             type="button"
             onClick={() => setConfirmReset(true)}
-            className="btn-pill--ghost mt-3 w-full text-sm text-danger"
+            className="ds-btn ds-btn--ghost mt-3 w-full text-sm text-danger"
           >
             Nollställ räknare…
           </button>
@@ -106,7 +106,7 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
                 if (uid) void syncRecoveryProfileStartDate(uid, today);
                 setConfirmReset(false);
               }}
-              className="btn-pill--secondary w-full"
+              className="ds-btn ds-btn--secondary w-full"
             >
               Ja — nollställ och starta från idag
             </button>
@@ -117,14 +117,14 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
                 setCustomDate('');
                 setConfirmReset(false);
               }}
-              className="btn-pill--ghost w-full text-sm"
+              className="ds-btn ds-btn--ghost w-full text-sm"
             >
               Ta bort räknaren helt
             </button>
             <button
               type="button"
               onClick={() => setConfirmReset(false)}
-              className="btn-pill--ghost w-full text-sm"
+              className="ds-btn ds-btn--ghost w-full text-sm"
             >
               Avbryt
             </button>

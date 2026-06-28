@@ -204,7 +204,7 @@ function VaultPageInner({
           <button
             type="button"
             onClick={() => navigate('/valvet/installningar')}
-            className="btn-pill--ghost flex items-center gap-1"
+            className="ds-btn ds-btn--ghost flex items-center gap-1"
             title="Valv-inställningar"
           >
             <Settings className="h-3 w-3" /> Inställningar
@@ -212,7 +212,7 @@ function VaultPageInner({
           <button
             type="button"
             onClick={handleCloseToLayer1}
-            className="btn-pill--ghost flex items-center gap-1"
+            className="ds-btn ds-btn--ghost flex items-center gap-1"
             title="Stäng valv — tillbaka till vardag"
           >
             <X className="h-3 w-3" /> Stäng

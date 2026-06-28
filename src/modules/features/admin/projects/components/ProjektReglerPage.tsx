@@ -160,7 +160,7 @@ export function ProjektReglerPage() {
         ))}
       </div>
 
-      <button type="button" disabled={!user || loading} className="btn-pill--accent mt-4 text-sm" onClick={() => void handleAdd()}>
+      <button type="button" disabled={!user || loading} className="ds-btn ds-btn--accent mt-4 text-sm" onClick={() => void handleAdd()}>
         + Lägg till regel
       </button>
 

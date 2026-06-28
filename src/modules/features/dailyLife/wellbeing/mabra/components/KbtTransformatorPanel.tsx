@@ -78,7 +78,7 @@ export function KbtTransformatorPanel() {
         type="button"
         onClick={() => void handleTransform()}
         disabled={loading || !trimmed}
-        className="btn-pill--accent mt-3 w-full disabled:opacity-50"
+        className="ds-btn ds-btn--accent mt-3 w-full disabled:opacity-50"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
         Transformera tanke

@@ -183,7 +183,7 @@ export function TaggSelector({ value, onChange, userId, disabled = false }: Prop
               type="button"
               disabled={disabled || customBusy || !userId}
               onClick={() => void handleCreateCustomTag()}
-              className="btn-pill--ghost inline-flex items-center gap-1 text-xs"
+              className="ds-btn ds-btn--ghost inline-flex items-center gap-1 text-xs"
             >
               {customBusy ? (
                 <Loader2 className="h-3 w-3 animate-spin" aria-hidden />

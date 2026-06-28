@@ -102,7 +102,7 @@ export function ProjektTomStatePanel() {
       </div>
       <button
         type="button"
-        className="btn-pill--ghost w-full text-sm"
+        className="ds-btn ds-btn--ghost w-full text-sm"
         onClick={() => setPickerOpen(true)}
       >
         Välj typ i sheet (samma som widget)

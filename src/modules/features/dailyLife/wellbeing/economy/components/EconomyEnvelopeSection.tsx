@@ -124,7 +124,7 @@ export function EconomyEnvelopeSection({ disabled = false }: { disabled?: boolea
                     type="button"
                     disabled={busy || disabled}
                     onClick={() => void handleDelete(env.id)}
-                    className="btn-pill--ghost p-2 text-text-dim"
+                    className="ds-btn ds-btn--ghost p-2 text-text-dim"
                     aria-label={`Ta bort ${env.title}`}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -174,7 +174,7 @@ export function EconomyEnvelopeSection({ disabled = false }: { disabled?: boolea
             min={0}
           />
         </label>
-        <button type="submit" disabled={busy || disabled || !user} className="btn-pill--secondary w-full text-sm">
+        <button type="submit" disabled={busy || disabled || !user} className="ds-btn ds-btn--secondary w-full text-sm">
           {busy ? 'Sparar…' : 'Skapa kuvert'}
         </button>
       </form>

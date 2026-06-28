@@ -29,7 +29,7 @@ export function PlaneringKalenderPage() {
           <LivBackLink />
           <Link
             to="/planering?tab=inkorg&inbox=kalender"
-            className="btn-pill--ghost shrink-0 p-2 text-xs text-text-muted hover:text-accent"
+            className="ds-btn ds-btn--ghost shrink-0 p-2 text-xs text-text-muted hover:text-accent"
           >
             Inkorg
           </Link>

@@ -102,7 +102,7 @@ export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalA
           <button
             type="button"
             onClick={() => setVisibleCount((n) => n + pageSize)}
-            className="btn-pill--ghost mt-6 w-full"
+            className="ds-btn ds-btn--ghost mt-6 w-full"
           >
             Visa fler ({unpinnedFlat.length - visibleCount} kvar)
           </button>

@@ -58,7 +58,7 @@ export function ChildrenLogsChat({ activeChild }: ChildrenLogsChatProps) {
             className="input-glass"
             disabled={loading}
           />
-          <button type="submit" disabled={loading || !inputText.trim()} className="btn-pill--secondary">
+          <button type="submit" disabled={loading || !inputText.trim()} className="ds-btn ds-btn--secondary">
             {loading ? 'Söker…' : 'Ställ fråga'}
           </button>
         </form>

@@ -32,11 +32,11 @@ export function MabraSpeglarGuardHint({ className = '', onStay }: Props) {
           ref={stayRef}
           type="button"
           onClick={onStay}
-          className="btn-pill--secondary text-sm"
+          className="ds-btn ds-btn--secondary text-sm"
         >
           {MABRA_SPEGLAR_GUARD_COPY.stayLabel}
         </button>
-        <Link to={hjartatTabHref('speglar')} className="btn-pill--ghost text-sm">
+        <Link to={hjartatTabHref('speglar')} className="ds-btn ds-btn--ghost text-sm">
           {MABRA_SPEGLAR_GUARD_COPY.goLabel}
         </Link>
       </div>

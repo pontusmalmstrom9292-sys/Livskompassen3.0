@@ -30,3 +30,7 @@ Every commit should increase perceived quality.
 - Do not redesign screens, move modules, or remove functionality — refine and elevate (see `premium-ui.mdc`, `design-calm.mdc`).
 - Locked UX: wait for Pontus OK (`locked-ux-features.mdc`).
 - Tokens and design system: `component-standards.mdc`, `design-calm.mdc`.
+
+## Global (Mac)
+
+Synkas till `~/.cursor/instructions/` och `~/.copilot/instructions/`. Cursor User Rules: se `~/.cursor/user-rules/livskompassen-lead-ui-engineer.md`.

@@ -87,16 +87,16 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
         </p>
         <p className="text-center text-[10px] text-text-dim">Gaslighting? Bro — inget sparas automatiskt.</p>
         <div className="flex flex-col gap-2">
-          <Link to={hjartatTabHref('speglar')} className="btn-pill--ghost text-xs">
+          <Link to={hjartatTabHref('speglar')} className="ds-btn ds-btn--ghost text-xs">
             Jämför känsla med fakta (Speglar)
           </Link>
-          <Link to={NAV_PATHS.VALVET} className="btn-pill--ghost text-xs">
+          <Link to={NAV_PATHS.VALVET} className="ds-btn ds-btn--ghost text-xs">
             Dokumentera neutralt (Bevis)
           </Link>
-          <Link to="/vardagen?tab=mabra" className="btn-pill--ghost text-xs">
+          <Link to="/vardagen?tab=mabra" className="ds-btn ds-btn--ghost text-xs">
             Landning (MåBra)
           </Link>
-          <button type="button" onClick={onKlar} className="btn-pill--success text-xs">
+          <button type="button" onClick={onKlar} className="ds-btn ds-btn--success text-xs">
             Klar
           </button>
         </div>
@@ -112,22 +112,22 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
         </p>
         <BentoCard title="Gaslighting?" description="Bro till Speglar — inget sparas automatiskt">
           <div className="flex flex-col gap-2">
-            <Link to={hjartatTabHref('speglar')} className="btn-pill--ghost text-sm">
+            <Link to={hjartatTabHref('speglar')} className="ds-btn ds-btn--ghost text-sm">
               Jämför känsla med fakta (Speglar)
             </Link>
-            <Link to={NAV_PATHS.VALVET} className="btn-pill--ghost text-sm">
+            <Link to={NAV_PATHS.VALVET} className="ds-btn ds-btn--ghost text-sm">
               Dokumentera neutralt (Bevis)
             </Link>
           </div>
         </BentoCard>
         <div className="flex flex-col gap-2">
-          <Link to="/vardagen?tab=mabra" className="btn-pill--ghost text-sm">
+          <Link to="/vardagen?tab=mabra" className="ds-btn ds-btn--ghost text-sm">
             Landning (MåBra)
           </Link>
-          <Link to="/familjen" className="btn-pill--ghost text-sm">
+          <Link to="/familjen" className="ds-btn ds-btn--ghost text-sm">
             Livslogg barnen
           </Link>
-          <button type="button" onClick={onKlar} className="btn-pill--success text-sm">
+          <button type="button" onClick={onKlar} className="ds-btn ds-btn--success text-sm">
             Klar
           </button>
         </div>
@@ -156,7 +156,7 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
         <button
           type="button"
           onClick={handleNext}
-          className={embedded ? 'btn-pill--secondary w-full text-xs' : 'btn-pill--secondary mt-4'}
+          className={embedded ? 'ds-btn ds-btn--secondary w-full text-xs' : 'ds-btn ds-btn--secondary mt-4'}
         >
           Nästa
         </button>
@@ -166,7 +166,7 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
           disabled={saving}
           onClick={() => void handleSave()}
           className={
-            embedded ? 'btn-pill--accent w-full text-xs disabled:opacity-40' : 'btn-pill--success mt-4'
+            embedded ? 'ds-btn ds-btn--accent w-full text-xs disabled:opacity-40' : 'ds-btn ds-btn--success mt-4'
           }
         >
           {saving ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : 'Spara kväll'}

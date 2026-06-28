@@ -5,7 +5,8 @@ alwaysApply: false
 
 # Fas masterplan-gate
 
-**Läs först:** [`.context/system-plan.md`](../../.context/system-plan.md) — aktiv fas och scope.
+**Agent entry (phase):** [`docs/PROJECT_STATE.md`](../../docs/PROJECT_STATE.md) — system Fas + active program.  
+**Canonical history:** [`.context/system-plan.md`](../../.context/system-plan.md) — full Fas 1–24+ log.
 
 ## Gemensam gate (alla faser)
 

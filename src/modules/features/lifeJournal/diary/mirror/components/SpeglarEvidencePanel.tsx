@@ -93,7 +93,7 @@ export function SpeglarEvidencePanel({
                     type="button"
                     onClick={() => saveToVault(item)}
                     disabled={!userId || savingId === item.id}
-                    className="btn-pill--secondary text-xs disabled:opacity-50"
+                    className="ds-btn ds-btn--secondary text-xs disabled:opacity-50"
                   >
                     {savingId === item.id ? (
                       <Loader2 className="h-3 w-3 animate-spin" />

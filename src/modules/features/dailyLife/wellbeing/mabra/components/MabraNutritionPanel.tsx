@@ -144,7 +144,7 @@ export function MabraNutritionPanel({ uid }: Props) {
               <button
                 type="button"
                 aria-label="Stäng påminnelse"
-                className="btn-pill--ghost h-8 w-8 shrink-0 rounded-lg p-0"
+                className="ds-btn ds-btn--ghost h-8 w-8 shrink-0 rounded-lg p-0"
                 onClick={() => {
                   dismissNutritionNudge(storageUid, nudge.id);
                   setIntakeVersion((v) => v + 1);
@@ -175,7 +175,7 @@ export function MabraNutritionPanel({ uid }: Props) {
               <button
                 type="button"
                 aria-label="Minska glas vatten"
-                className="btn-pill--ghost h-10 w-10 rounded-xl text-lg"
+                className="ds-btn ds-btn--ghost h-10 w-10 rounded-xl text-lg"
                 onClick={() => adjustWater(-1)}
               >
                 −
@@ -184,7 +184,7 @@ export function MabraNutritionPanel({ uid }: Props) {
               <button
                 type="button"
                 aria-label="Öka glas vatten"
-                className="btn-pill--secondary h-10 w-10 rounded-xl text-lg"
+                className="ds-btn ds-btn--secondary h-10 w-10 rounded-xl text-lg"
                 onClick={() => adjustWater(1)}
               >
                 +
