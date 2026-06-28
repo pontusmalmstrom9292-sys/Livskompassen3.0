@@ -107,6 +107,20 @@
   --ds-glass-border: var(--ds-color-glass-border);
   --ds-glass-blur: var(--ds-blur-xl);
   --ds-glass-highlight: color-mix(in srgb, var(--ds-color-text) 10%, transparent);
+  --ds-glass-sheen: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--ds-color-text) 14%, transparent) 0%,
+    transparent 42%,
+    transparent 100%
+  );
+  --ds-glass-saturate: 145%;
+  --ds-ambient-rim: color-mix(in srgb, var(--ds-color-accent) 12%, transparent);
+  --ds-ambient-falloff: color-mix(in srgb, var(--ds-color-bg) 55%, transparent);
+  --ds-hover-lift: -2px;
+  --ds-press-scale: 0.985;
+  --ds-press-scale-strong: 0.96;
+  --ds-focus-ring: 2px solid color-mix(in srgb, var(--ds-color-accent) 55%, transparent);
+  --ds-focus-offset: 2px;
 
   /* —— Elevation (layered shadows) —— */
   --ds-elevation-0: none;
@@ -120,19 +134,39 @@
     0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 6%, transparent);
   --ds-elevation-3:
     inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 8%, transparent),
-    0 10px 30px color-mix(in srgb, var(--ds-color-bg) 50%, transparent);
+    inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 28%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 5%, transparent),
+    0 12px 32px -10px var(--ds-ambient-falloff);
   --ds-elevation-4:
     inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 12%, transparent),
-    0 16px 40px color-mix(in srgb, var(--ds-color-bg) 45%, transparent);
+    inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 22%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 14%, transparent),
+    0 20px 44px -12px var(--ds-ambient-falloff),
+    0 8px 24px -8px color-mix(in srgb, var(--ds-color-accent-glow) 65%, transparent);
+  --ds-elevation-card:
+    inset 0 1px 0 var(--ds-glass-highlight),
+    inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 28%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 5%, transparent),
+    0 12px 32px -10px var(--ds-ambient-falloff),
+    0 4px 16px -6px color-mix(in srgb, var(--ds-color-bg) 70%, transparent);
+  --ds-elevation-card-hover:
+    inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 14%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 22%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 14%, transparent),
+    0 20px 44px -12px var(--ds-ambient-falloff),
+    0 8px 24px -8px color-mix(in srgb, var(--ds-color-accent-glow) 65%, transparent);
   --ds-elevation-dock:
-    0 1px 0 color-mix(in srgb, var(--ds-color-accent) 18%, transparent) inset,
-    0 16px 48px -12px color-mix(in srgb, var(--ds-color-bg) 55%, transparent);
+    inset 0 1px 0 color-mix(in srgb, var(--ds-color-accent-light) 22%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 35%, transparent),
+    0 -8px 32px color-mix(in srgb, var(--ds-color-accent) 12%, transparent),
+    0 16px 48px -10px color-mix(in srgb, var(--ds-color-bg) 58%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 8%, transparent);
 
   /* —— Shadow (semantic) —— */
   --ds-shadow-sm: var(--ds-elevation-1);
   --ds-shadow-md: var(--ds-elevation-2);
-  --ds-shadow-lg: var(--ds-elevation-3);
-  --ds-shadow-xl: var(--ds-elevation-4);
+  --ds-shadow-lg: var(--ds-elevation-card);
+  --ds-shadow-xl: var(--ds-elevation-card-hover);
   --ds-shadow-accent-glow: 0 0 16px var(--ds-color-accent-glow);
   --ds-shadow-accent-glow-lg: 0 0 32px var(--ds-color-accent-glow);
 
