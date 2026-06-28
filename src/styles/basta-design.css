@@ -136,7 +136,16 @@ html[data-theme='ME-basta-design'] {
 .basta-design__header-ornament-line {
   width: 1.5rem;
   height: 1px;
-  background: rgba(201, 164, 53, 0.4);
+  background: color-mix(in srgb, var(--bd-accent) 40%, transparent);
+}
+
+.basta-design__header-ornament svg {
+  color: var(--bd-accent);
+}
+
+.basta-design__header-ornament polygon,
+.basta-design__header-ornament circle {
+  fill: currentColor;
 }
 
 .basta-design__header-actions {
@@ -897,6 +906,121 @@ html[data-theme='ME-basta-design'] {
 
 .basta-design__main-inner--prod {
   padding-top: 1rem;
+}
+
+.basta-design__card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.basta-design__card-header-main {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.basta-design__card-header-icon {
+  display: inline-flex;
+  color: var(--bd-accent);
+  flex-shrink: 0;
+}
+
+.basta-design__card-header-main .basta-design__section-label {
+  margin-bottom: 0;
+}
+
+.basta-design__hero-title--quote {
+  font-size: 1.125rem;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.basta-design__btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.basta-design__btn-gold--spaced {
+  margin-top: 0.5rem;
+}
+
+.basta-design__anchor-display {
+  margin: 0;
+  padding: 0.5rem;
+  border-radius: var(--bd-radius);
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--bd-font-serif);
+  font-size: 0.875rem;
+  font-style: italic;
+  color: var(--bd-text-body);
+  cursor: pointer;
+}
+
+.basta-design__tabs-row--plan {
+  align-items: center;
+}
+
+.basta-design__plan-weekday {
+  margin-left: auto;
+  font-size: 0.625rem;
+  color: var(--bd-text-muted);
+  text-transform: capitalize;
+}
+
+.basta-design__task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.basta-design__link--spaced {
+  margin-top: 0.5rem;
+}
+
+.basta-design__notes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.basta-design__notes-header .basta-design__section-label {
+  margin-bottom: 0;
+}
+
+.basta-design__link--sm {
+  font-size: 0.625rem;
+}
+
+.basta-design__notes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.basta-design__note-main {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.basta-design__note-title {
+  font-size: 0.75rem;
+  color: var(--bd-text-body);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.basta-design__note-date {
+  flex-shrink: 0;
+  font-size: 0.625rem;
+  color: var(--bd-text-muted);
 }
 
 .home-page--basta-design {
