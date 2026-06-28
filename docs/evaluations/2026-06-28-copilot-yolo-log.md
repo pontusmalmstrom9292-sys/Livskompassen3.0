@@ -14,3 +14,5 @@
 | 02:20:22 | lifeos-kopplingar-d | deploy-ready | — | firebase use gen-lang-client-0481875058 && firebase deploy --only hosting |
 | 02:27:16 | design-hex-tokens-p2 | PASS | ok | Design hex→tokens P2 |
 | 02:27:16 | design-hex-tokens-p2 | deploy-ready | — | firebase use gen-lang-client-0481875058 && firebase deploy --only hosting |
+| 02:32:20 | fas24-governance-sync | PASS | ok | Fas 24 styrning sync |
+| 04:35:34 | g85-daily-driver | PASS | ok | G85 daily driver prep + smoke: build:web, smoke:android-platform, smoke:auth-login, smoke:predeploy:build PASS. 7-dagars manuell checklista kvar på enhet. |
