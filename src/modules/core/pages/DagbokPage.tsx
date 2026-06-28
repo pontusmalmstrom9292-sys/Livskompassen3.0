@@ -7,6 +7,7 @@ import { NAV_PATHS } from '../navigation/navTruth';
 import { dagbokLegacyModeToInputMode } from '@/features/lifeJournal/diary/supermodule/dagbokInputModes';
 import { SpeglarSuperModule } from '@/features/lifeJournal/diary/mirror';
 import { HjartatBentoShell } from '@/features/lifeJournal/diary/components/HjartatBentoShell';
+import { HjartatZoneIntro } from '@/features/lifeJournal/diary/components/HjartatZoneIntro';
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
 import { Pencil } from 'lucide-react';
 
@@ -99,6 +100,7 @@ export function DagbokPage() {
           cognitiveStrip={false}
         >
           <HjartatBentoShell>
+            <HjartatZoneIntro layerTab="speglar" />
             <SpeglarSuperModule variant="dagbok" />
           </HjartatBentoShell>
         </ModuleShell>
@@ -113,6 +115,7 @@ export function DagbokPage() {
           cognitiveStrip={false}
         >
           <HjartatBentoShell>
+            <HjartatZoneIntro layerTab="reflektion" />
             <HjartatReflektionPanel />
             <PinnedPlaneringModuleSlot targetId="hjartat.dagbok" className="mt-4" />
           </HjartatBentoShell>
