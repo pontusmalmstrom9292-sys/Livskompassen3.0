@@ -1,25 +1,21 @@
 {
   "version": 2,
-  "startedAt": "2026-06-27T21:32:21.757Z",
-  "updatedAt": "2026-06-28T00:01:59.357Z",
-  "currentTaskId": "modul-smoke-fix-loop",
+  "startedAt": "2026-06-28T01:37:16.372Z",
+  "updatedAt": "2026-06-28T02:12:31.974Z",
+  "currentTaskId": "lifeos-kopplingar-d",
   "completedTaskIds": [
-    "w2-backend-audit",
-    "executive-home-motion",
-    "lifeos-kopplingar-c",
-    "projekt-p1-widget",
-    "ingest-vag1-deploy-prep"
+    "tier2-smoke-fix-loop"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
   "taskOrder": [
-    "w2-backend-audit",
-    "executive-home-motion",
-    "lifeos-kopplingar-c",
-    "projekt-p1-widget",
-    "ingest-vag1-deploy-prep",
-    "modul-smoke-fix-loop",
-    "android-g85-prep"
+    "tier2-smoke-fix-loop",
+    "lifeos-kopplingar-d",
+    "design-hex-tokens-p2",
+    "fas24-governance-sync",
+    "g85-daily-driver",
+    "zone-polish-valv",
+    "predeploy-live-prep"
   ],
-  "taskStartSha": "d2a0a38a57754e4f9de0843d90dd3766586a8087"
+  "taskStartSha": "a2939d5d9113bd338b9d9a2227022f79c1bd6e3e"
 }

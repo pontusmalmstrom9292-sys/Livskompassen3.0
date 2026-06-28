@@ -352,8 +352,6 @@ function launchCopilot(task) {
     '--experimental',
     '--max-autopilot-continues',
     '30',
-    '--effort',
-    'high',
     '--model',
     'auto',
     '--name',
