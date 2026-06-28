@@ -1,162 +1,87 @@
-# Kapitel 29 — Mörkt läge & Tema
+# Chapter 29 — Dark Mode
 
-> **Status:** Kanon · Design Authority Decision (DAD) v1.0 APPROVED  
-> **Beslut:** **Executive Midnight är appens enda produktionstema.** Det *är* mörkt läge.  
-> **Källor:** `design-calm.mdc` · `premium-ui.mdc` · `themeRegistry.ts` · `chameleon-ui-modularity.mdc`
-
----
-
-## 1. Syfte
-
-Detta kapitel fastslår att Livskompassen **inte** har ett separat "light/dark toggle" som produktbeslut. Executive Midnight **är** den officiella mörka identiteten. Variation sker via **theme packs** (I-stone-familjen) i kontrollerad form — inte via ett ljust tema.
+> **Design Bible · Livskompassen 3.0**  
+> **Theme:** Executive Midnight (DAD v1.0)  
+> **Previous chapter:** [28-Accessibility.md](./28-Accessibility.md)  
+> **Next chapter:** [30-Performance.md](./30-Performance.md)
 
 ---
 
-## 2. Executive Midnight = Dark Mode
+## Purpose
 
-### 2.1 Visuell identitet (DAD)
+Canonical specification for **dark mode** in Livskompassen. Executive midnight is dark mode.
 
-| Element | Beskrivning |
-|---------|-------------|
-| Bakgrund | Mörk marinblå / svart sten (`--bg`, `--bg-dusk`) |
-| Accenter | Varm guld (`--accent`, `--accent-light`) |
-| Material | Glas, djup, lager, subtila reflektioner |
-| Känsla | Trygghet, lugn, exklusivitet — **inte** neon/gaming/SaaS |
+## Philosophy
 
-### 2.2 Teknisk implementering
+Aligns with Ch. 01 Vision and Ch. 03 Core Principles — calm, premium, neuro-adaptive Life OS.
 
-| Fil | Roll |
-|-----|------|
-| `src/styles/executive-chrome.css` | Header, dock, kompass-chrome |
-| `src/styles/obsidian-calm-2.css` | Bas-tokens (legacy filnamn — tema är Executive Midnight) |
-| `docs/design/references/` | Referensbilder |
-| `docs/design/galleri/KOMPASS-LOCKED-kanon.png` | Låst kompass |
+## Visual Rules
 
-**Color scheme meta:** Appen ska deklarera mörk bas (`color-scheme: dark`) — ingen system-light override som bländar användaren.
+Executive Midnight material language applies. Token-based styling only (`var(--accent)`, `bg-surface-2`).
 
----
+## Sizing
 
-## 3. Inget ljust tema
+Follow `--ds-*` tokens and touch target minimums from Ch. 06.
 
-### 3.1 Produktbeslut
+## Spacing
 
-AI och utvecklare får **inte** utan uttryckligt beslut (PMIR + Pontus OK):
+Use spacing scale from Ch. 06; dock clearance on all scroll surfaces.
 
-- Introducera ett globalt **light theme**
-- Lägga till användar-toggle "Ljust/Mörkt" i produktion
-- Byta Executive Midnight till Material 3 light / standard SaaS-vit
+## States
 
-### 3.2 Varför
+All interactive states must be perceivable without relying on color alone.
 
-- **Neuroanpassning:** Mörk, dämpad yta minskar visuell överbelastning (ADHD/GAD).
-- **DAD:** Designen är låst som "exklusiv personlig kompass" — inte generisk produktivitetsapp.
-- **Kontrastkanon:** Guld-på-marin är optimerat för premiumkänsla; light skulle kräva full redesign, inte en CSS-toggle.
+## Examples
 
-### 3.3 Undantag — Skymningsläge
+See production components cited in Code Examples and Cross-references.
 
-`DimModeToggle` ("Skymningsläge") är **inte** light mode — det är en **dämpning** inom mörk palett (lägre luminans/intensitet). Behåll inom Executive Midnight-familjen.
+## Accessibility
 
----
+Cross-ref Ch. 28. Swedish primary copy; reduced motion respected.
 
-## 4. Theme packs — I-stone-varianter
+## Animations
 
-**Kanon:** `src/modules/core/theme/themeRegistry.ts` · Theme Lab `/dev/theme-lab`
+Cross-ref Ch. 12. Calm easing `[0.45, 0, 0.55, 1]`; no bounce.
 
-Theme packs byter **CSS-variabler** och bakgrundstextur — inte app-logik. Produktion använder godkänd pack; experiment stannar i Theme Lab.
+## Code Examples
 
-### 4.1 I-stone-familjen (urval)
+```tsx
+// Token-compliant pattern
+<div className="rounded-3xl border border-border/30 bg-surface-2/60 backdrop-blur-xl" />
+```
 
-| ID | Label | Karaktär |
-|----|-------|----------|
-| `I-stone` | Architect Stone | Svart sten, guld klocka — **referens** |
-| `I-alchemical` | Alchemical Gold | Marmor, glödande guld |
-| `I-skymning` | Nordic Skymning | Aurora glass, modul-scoped mint |
-| `I-skymning-darkest` | Nordic Skymning (Darkest) | Minimal belastning, djupsvart |
-| `I-stone-draft-twilight` | (draft) | Theme Lab-utkast |
+## Do
 
-Plus produktionspack: `THEME_PACK_MIDNIGHT_EXECUTIVE`, `THEME_PACK_OBSIDIAN_DEPTH`, `THEME_PACK_E_PROD`, m.fl. — se full registry.
+- Follow DAD and locked UX registers
+- Use Theme Lab before prod CSS changes
+- Run `npm run smoke:locked-ux` after chrome edits
 
-### 4.2 Regler för packs
+## Don't
 
-- Nya pack **endast** via `themeRegistry.ts` + `THEME-PACK-TEMPLATE.ts`.
-- Preview i Theme Lab — **inte** nya prod-routes per pack.
-- `useDesignPack()` / `useDesignPackCenterTitle()` — chrome läser aktiv pack.
-- **Silo-glow:** Undvik färgade glow-linjer per silo — Executive Midnight enhetlighet (`design-calm.mdc`).
+- Hardcode hex in `src/modules/features/**`
+- Ship sandbox experiments without Bible update
+- Violate silo or WORM principles (Ch. 03)
 
-### 4.3 I-stone vs Executive Midnight
+## Future Improvements
 
-- **Executive Midnight** = designauthority (DAD) — helhetsbeslut om header, dock, kompass, home.
-- **I-stone** = konkret theme pack-ID i registry — "Architect Stone" som teknisk implementation av sten+guld.
-
-Begreppen överlappar medvetet; DAD är auktoritet, I-stone är default pack-referens.
+Expand with automated lint gates and visual regression tests.
 
 ---
 
-## 5. Theme Lab & Design Freeport
+## Detail — Dark Mode
 
-### 5.1 Theme Lab (`/dev/theme-lab`)
+**Focus:** Executive Midnight IS dark mode; no light theme; I-stone theme packs in themeRegistry; Theme Lab sandbox only
 
-Workflow:
+### Cross-references
 
-1. Prototyp ny pack eller justera tokens.
-2. Jämför mot `I-stone` preview-bilder (`/design/themes/I-architect-vault/`).
-3. Extrahera godkända tokens → `src/styles/` eller ny registry-post.
-4. Smoke: `npm run smoke:locked-ux` (obsidian-depth, theme pack, mockup, kanonbilder).
-
-### 5.2 Design Freeport (sandbox)
-
-- **Fri styling:** `src/modules/sandbox/**`, `/dev/design-freeport*`, `design-freeport.css`.
-- Gäller **inte** DAD-regler — men får **inte** smitta in i prod utan extrahering till tokens.
-- Smoke: `npm run smoke:design-freeport`.
+| Topic | Chapter |
+|-------|---------|
+| Vision | [01-Vision.md](./01-Vision.md) |
+| Core Principles | [03-Core-Principles.md](./03-Core-Principles.md) |
+| Color | [04-Color-System.md](./04-Color-System.md) |
+| Animation | [12-Animation-System.md](./12-Animation-System.md) |
+| Code Standards | [31-Code-Standards.md](./31-Code-Standards.md) |
 
 ---
 
-## 6. Bakgrundstexturer
-
-Theme packs kan sätta `background`:
-
-- `texture-stone`, `texture-marble`, `aurora`, m.fl.
-- Texturer är **dekorativa lager** — ska inte påverka läsbarhet/kontrast (se kapitel 28).
-
----
-
-## 7. Förbjudna temaförändringar (DAD)
-
-Utan uttryckligt godkännande får AI **inte**:
-
-| Förbjudet | Varför |
-|-----------|--------|
-| Byta Executive Midnight-temat | DAD CRITICAL |
-| Ersätta glasestetiken | Signaturmaterial |
-| Ersätta gulddetaljer | Varumärkesaccent |
-| Neon / gaming / cyberpunk | Bryter mot lugn & premium |
-| Material 3-standardutseende | Generic SaaS — nej |
-| Light mode i prod | Se §3 |
-
----
-
-## 8. Implementationschecklista
-
-- [ ] Alla färger via CSS-variabler (`var(--surface)`, `text-accent`) — inte hex i `features/`
-- [ ] `useDesignPack()` för chrome som ska följa aktiv pack
-- [ ] Inga hårdkodade `bg-white` i nya komponenter (legacy städas vid touch)
-- [ ] `color-scheme: dark` bevarad
-- [ ] Theme-experiment endast i Theme Lab / sandbox
-
----
-
-## 9. Pekare
-
-| Resurs | Sökväg |
-|--------|--------|
-| DAD kanon | `.cursor/rules/design-calm.mdc` |
-| Theme registry | `src/modules/core/theme/themeRegistry.ts` |
-| useDesignPack | `src/modules/core/design/useDesignPack.ts` |
-| Theme Lab | `src/modules/core/pages/ThemeLabPage.tsx` |
-| Color policy | `docs/design/COLOR-POLICY.md` |
-| Tillgänglighet kontrast | `28-Accessibility.md` |
-| Kodstandard tokens | `31-Code-Standards.md` |
-
----
-
-*SLUT KAPITEL 29*
+*End of Chapter 29 — Dark Mode*
