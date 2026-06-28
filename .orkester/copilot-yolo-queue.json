@@ -3,41 +3,6 @@
   "description": "Copilot YOLO-kö v3 — Fas 24.B zon-polish + design-system UI + super-yolo.",
   "tasks": [
     {
-<<<<<<< HEAD
-      "id": "zone-polish-hjartat",
-      "title": "Zon-polish Hjärtat (Fas 24.B)",
-      "plan": "docs/evaluations/2026-06-26-fas24-masterplan-v2.md — polish /hjartat (Dagbok, Speglar). Executive Midnight, låg kognitiv belastning. Locked UX intakt.",
-      "smoke": ["npm run smoke:locked-ux", "npm run smoke:design-modules", "npm run build"],
-      "pmir": false,
-      "deploy": "hosting"
-    },
-    {
-      "id": "zone-polish-vardagen",
-      "title": "Zon-polish Vardagen (Fas 24.B)",
-      "plan": "Fas 24.B — polish /vardagen (MåBra, Planering, Ekonomi). Minimal diff, tokens enligt design-calm.",
-      "smoke": ["npm run smoke:locked-ux", "npm run smoke:design-modules", "npm run smoke:orkester"],
-      "pmir": false,
-      "deploy": "hosting"
-    },
-    {
-      "id": "zone-polish-familjen",
-      "title": "Zon-polish Familjen (Fas 24.B)",
-      "plan": "Fas 24.B — polish /familjen (Barnfokus, Livslogg, Barnporten, Hamn). Bevara Locked UX § Barnporten.",
-      "smoke": ["npm run smoke:locked-ux", "npm run smoke:hamn", "npm run smoke:children"],
-      "pmir": false,
-      "deploy": "hosting"
-    },
-    {
-      "id": "valv-chat-e2e-fix",
-      "title": "Valv chat e2e — fix INTERNAL",
-      "plan": "smoke:valv-chat-e2e FAIL (INTERNAL). Granska scripts/smoke_valv_chat_e2e.mjs + valvChatQuery callable. Fixa utan PMIR (ej rules). Dokumentera om live-only kvarstår.",
-      "smoke": ["cd functions && npm run build", "npm run smoke:valv-chat-e2e"],
-      "pmir": false,
-      "deploy": "functions:valvChatQuery"
-    },
-    {
-=======
->>>>>>> origin/main
       "id": "super-yolo-gate",
       "title": "Super-YOLO gate grönt",
       "plan": "npm run smoke:super-yolo tills PASS. Bygg på valv-chat-e2e-fix + UI Modal/Sheet. Ingen deploy.",

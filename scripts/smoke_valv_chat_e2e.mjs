@@ -132,7 +132,6 @@ async function main() {
     });
   } catch (err) {
     const code = err?.code ?? '';
-<<<<<<< HEAD
     const msg = String(err?.message ?? '');
     const ragUnavailable =
       (code === 'functions/internal' || code === 'internal') &&
@@ -141,10 +140,6 @@ async function main() {
       console.log(
         '\n[smoke] SKIP — valvChatQuery session auth OK (LLM/RAG-backend ej tillgänglig i smoke-env).',
       );
-=======
-    if (code === 'functions/internal' || code === 'internal' || isInternalCallableError(err)) {
-      console.log('\n[smoke] PASS — valvChatQuery session auth OK (RAG/Vertex ej tillgänglig i smoke-env).');
->>>>>>> origin/main
       process.exit(0);
     }
     throw err;
