@@ -4,7 +4,7 @@
 > **Theme:** Executive Midnight  
 > **Authority:** Design Authority Decision (DAD) v1.0 — APPROVED  
 > **Previous chapter:** [10-Lighting.md](./10-Lighting.md)  
-> **Next chapter:** [12-Components-Overview.md](./12-Components-Overview.md)
+> **Next chapter:** [12-Animation-System.md](./12-Animation-System.md)
 
 ---
 
