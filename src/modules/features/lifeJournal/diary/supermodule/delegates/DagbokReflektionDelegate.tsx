@@ -171,7 +171,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
               >
                 <span className={clsx(
                   "w-10 h-10 flex items-center justify-center rounded-full text-sm font-semibold transition-all",
-                  isSelected ? "bg-accent text-[#050505] font-bold shadow-md shadow-accent/20" : "text-text-muted hover:text-text"
+                  isSelected ? "bg-accent text-bg font-bold shadow-md shadow-accent/20" : "text-text-muted hover:text-text"
                 )}>
                   {date.getDate()}
                 </span>
