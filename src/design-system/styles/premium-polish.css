@@ -1,0 +1,469 @@
+/**
+ * Premium Polish Pass — global refinement layer.
+ * No layout or navigation changes. Token-only depth, glass, motion.
+ * Load last in index.css.
+ */
+
+@layer components {
+  /* ═══════════════════════════════════════════
+     CARDS — calm-card · bento-card · ds-card
+     ═══════════════════════════════════════════ */
+
+  .calm-card,
+  .glass-card,
+  .ds-card {
+    box-shadow: var(--ds-elevation-card);
+    transition:
+      transform var(--ds-duration-normal) var(--ds-ease-premium),
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  .calm-card::after,
+  .glass-card::after,
+  .ds-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: var(--ds-glass-sheen);
+    opacity: 0.55;
+    z-index: 0;
+  }
+
+  .bento-card:not(.module-bento-card--depth):hover,
+  .ds-card--interactive:hover {
+    transform: translateY(var(--ds-hover-lift));
+    box-shadow: var(--ds-elevation-card-hover);
+    border-color: color-mix(in srgb, var(--ds-color-accent) 28%, var(--ds-color-border));
+  }
+
+  .bento-card:not(.module-bento-card--depth):active,
+  .ds-card--interactive:active {
+    transform: translateY(0) scale(var(--ds-press-scale));
+    transition-duration: var(--ds-duration-fast);
+  }
+
+  .bento-card:not(.module-bento-card--depth) {
+    transition:
+      transform var(--ds-duration-normal) var(--ds-ease-premium),
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  .glass-hero,
+  .ds-card--hero {
+    box-shadow: var(--ds-elevation-card-hover);
+  }
+
+  /* Basta prod cards */
+  .basta-design__card {
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--ds-elevation-card);
+    transition:
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium),
+      transform var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  .basta-design__card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--bd-accent) 45%, transparent),
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  .basta-design__card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 90% 55% at 50% -10%,
+      color-mix(in srgb, var(--bd-accent) 8%, transparent),
+      transparent 62%
+    );
+  }
+
+  .basta-design__card:active {
+    transform: scale(var(--ds-press-scale));
+  }
+
+  /* ═══════════════════════════════════════════
+     GLASS PANELS · HUB HEADERS · BANNERS
+     ═══════════════════════════════════════════ */
+
+  .ds-glass-panel,
+  .hub-page-shell__header--bento,
+  .module-shell__toolbar--bento {
+    backdrop-filter: blur(var(--ds-glass-blur)) saturate(var(--ds-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--ds-glass-blur)) saturate(var(--ds-glass-saturate));
+    box-shadow: var(--ds-shadow-md);
+  }
+
+  .hub-page-shell__header--bento {
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 10%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 30%, transparent),
+      0 10px 28px -10px var(--ds-ambient-falloff);
+  }
+
+  .module-section-banner--depth,
+  .ds-banner {
+    box-shadow: var(--ds-shadow-md);
+  }
+
+  .alert-banner--info,
+  .alert-banner--warning,
+  .alert-banner--danger {
+    backdrop-filter: blur(var(--ds-blur-md)) saturate(var(--ds-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--ds-blur-md)) saturate(var(--ds-glass-saturate));
+  }
+
+  /* ═══════════════════════════════════════════
+     HEADER — design pack · basta prod
+     ═══════════════════════════════════════════ */
+
+  .design-pack-header,
+  .basta-design__header--prod {
+    backdrop-filter: blur(var(--ds-blur-md)) saturate(var(--ds-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--ds-blur-md)) saturate(var(--ds-glass-saturate));
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--ds-color-accent-light) 16%, transparent),
+      0 8px 24px -12px var(--ds-ambient-falloff);
+  }
+
+  .design-pack-header__title,
+  .basta-design__header-title {
+    text-shadow: 0 0 20px color-mix(in srgb, var(--ds-color-accent) 28%, transparent);
+  }
+
+  .design-pack-header__ornament span,
+  .basta-design__header-ornament-line {
+    box-shadow: 0 0 8px color-mix(in srgb, var(--ds-color-accent) 35%, transparent);
+  }
+
+  .header-chrome-btn,
+  .basta-design__header-btn {
+    transition:
+      transform var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium),
+      background var(--ds-duration-fast) var(--ds-ease-premium),
+      border-color var(--ds-duration-fast) var(--ds-ease-premium);
+  }
+
+  .header-chrome-btn:hover,
+  .basta-design__header-btn:hover {
+    box-shadow: 0 0 14px color-mix(in srgb, var(--ds-color-accent) 22%, transparent);
+  }
+
+  .header-chrome-btn:active,
+  .basta-design__header-btn:active {
+    transform: scale(var(--ds-press-scale-strong));
+  }
+
+  .header-chrome-btn:focus-visible,
+  .basta-design__header-btn:focus-visible,
+  .design-pack-header__menu:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
+  /* Touch target fix — prod header icons */
+  .basta-design__header-icon-btn,
+  .basta-design__header--prod .basta-design__header-vault .header-chrome-btn {
+    min-width: var(--ds-touch-target);
+    min-height: var(--ds-touch-target);
+    width: var(--ds-touch-target);
+    height: var(--ds-touch-target);
+  }
+
+  /* ═══════════════════════════════════════════
+     DOCK — exec-dock-bar · basta shell
+     ═══════════════════════════════════════════ */
+
+  .exec-dock-bar {
+    backdrop-filter: blur(var(--ds-blur-lg)) saturate(var(--ds-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--ds-blur-lg)) saturate(var(--ds-glass-saturate));
+    box-shadow: var(--ds-elevation-dock);
+  }
+
+  .dock-shell--basta-design .exec-dock-bar {
+    box-shadow: var(--ds-elevation-dock);
+  }
+
+  .exec-dock-bar__side,
+  .ds-nav-item {
+    min-width: var(--ds-touch-target);
+    min-height: var(--ds-touch-target);
+    transition:
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      transform var(--ds-duration-fast) var(--ds-ease-premium),
+      background var(--ds-duration-fast) var(--ds-ease-premium),
+      filter var(--ds-duration-fast) var(--ds-ease-premium);
+  }
+
+  .exec-dock-bar__side:hover,
+  .ds-nav-item:hover {
+    color: var(--ds-color-accent-light);
+  }
+
+  .exec-dock-bar__side--active .exec-dock-bar__glyph,
+  .exec-dock-bar__side--active .exec-dock-bar__icon {
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--ds-color-accent) 40%, transparent));
+  }
+
+  .exec-dock-bar__side:active,
+  .ds-nav-item:active {
+    transform: scale(var(--ds-press-scale-strong));
+  }
+
+  .exec-dock-bar__side:focus-visible,
+  .exec-dock-bar__compass:focus-visible,
+  .ds-nav-item:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
+  /* Legibility — dock labels (was 6.4px) */
+  .exec-dock-bar__label,
+  .ds-nav-item__label {
+    font-size: max(var(--ds-font-size-2xs), 0.5625rem);
+    letter-spacing: var(--ds-letter-spacing-normal);
+  }
+
+  .exec-dock-bar__compass {
+    transition:
+      transform var(--ds-duration-normal) var(--ds-ease-premium),
+      filter var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  .exec-dock-bar__compass:hover {
+    filter: drop-shadow(0 0 14px color-mix(in srgb, var(--ds-color-accent) 48%, transparent));
+  }
+
+  .exec-dock-bar__compass:active {
+    transform: scale(var(--ds-press-scale));
+  }
+
+  .exec-decor-compass--textured,
+  .exec-decor-compass--hero {
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--ds-color-accent) 38%, transparent))
+      drop-shadow(0 0 24px color-mix(in srgb, var(--ds-color-accent) 18%, transparent));
+  }
+
+  /* ═══════════════════════════════════════════
+     BUTTONS · INPUTS · BADGES
+     ═══════════════════════════════════════════ */
+
+  .btn-pill,
+  .ds-btn {
+    transition:
+      transform var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium),
+      background var(--ds-duration-fast) var(--ds-ease-premium),
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      border-color var(--ds-duration-fast) var(--ds-ease-premium);
+  }
+
+  .btn-pill--accent:active:not(:disabled),
+  .ds-btn--accent:active:not(:disabled) {
+    transform: translateY(1px) scale(var(--ds-press-scale));
+    transition-timing-function: var(--ds-ease-premium);
+  }
+
+  .btn-pill--ghost:hover:not(:disabled),
+  .ds-btn--ghost:hover:not(:disabled) {
+    border-color: color-mix(in srgb, var(--ds-color-accent) 28%, transparent);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--ds-color-accent) 12%, transparent);
+  }
+
+  .btn-pill:focus-visible,
+  .ds-btn:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
+  .ds-input {
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 4%, transparent);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium);
+  }
+
+  .ds-input:hover:not(:focus):not(:focus-visible) {
+    border-color: color-mix(in srgb, var(--ds-color-accent) 18%, var(--ds-color-border));
+  }
+
+  .ds-badge {
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 6%, transparent);
+  }
+
+  /* ═══════════════════════════════════════════
+     MODALS · SHEETS
+     ═══════════════════════════════════════════ */
+
+  .ds-overlay {
+    animation: ds-overlay-in var(--ds-duration-normal) var(--ds-ease-enter);
+  }
+
+  .ds-modal-panel,
+  .ds-sheet-panel {
+    box-shadow: var(--ds-elevation-card-hover);
+    animation: ds-panel-in var(--ds-duration-normal) var(--ds-ease-enter);
+  }
+
+  @keyframes ds-overlay-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes ds-panel-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px) scale(0.985);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* ═══════════════════════════════════════════
+     HOME HERO · BASTA REFLECTION
+     ═══════════════════════════════════════════ */
+
+  .basta-design__hero-overlay {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--bd-bg) 15%, transparent) 0%,
+      color-mix(in srgb, var(--bd-bg) 55%, transparent) 48%,
+      color-mix(in srgb, var(--bd-bg) 92%, transparent) 100%
+    );
+  }
+
+  .basta-design__hero-title {
+    text-shadow:
+      0 0 24px color-mix(in srgb, var(--bd-accent) 32%, transparent),
+      0 2px 12px color-mix(in srgb, var(--bd-bg) 65%, transparent);
+  }
+
+  .basta-design__gold-divider {
+    box-shadow: 0 0 10px color-mix(in srgb, var(--bd-accent) 25%, transparent);
+  }
+
+  /* Executive surface cards */
+  .exec-surface-card,
+  .home-layout-a--executive .home-layout-a__hero-card {
+    box-shadow: var(--ds-elevation-card);
+    transition:
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      transform var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  .exec-surface-card:hover,
+  .home-layout-a--executive .home-layout-a__hero-card:hover {
+    box-shadow: var(--ds-elevation-card-hover);
+  }
+
+  .exec-surface-card:active {
+    transform: scale(var(--ds-press-scale));
+  }
+
+  /* Bento icon boxes — subtle inner light */
+  .bento-icon-box {
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 10%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 25%, transparent),
+      0 2px 8px -2px var(--ds-ambient-falloff);
+  }
+
+  /* Typography hierarchy — section eyebrows minimum readable size */
+  .module-section-banner__title,
+  .ds-section__title {
+    letter-spacing: var(--ds-letter-spacing-wide);
+  }
+
+  /* ═══════════════════════════════════════════
+     ZONE POLISH — Planering · Valv (Wave 3)
+     ═══════════════════════════════════════════ */
+
+  .planering-bento-card,
+  .planering-snabbstart-banner,
+  .planering-guard-bar {
+    box-shadow: var(--ds-elevation-card);
+    transition:
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      transform var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  .planering-bento-card:hover {
+    box-shadow: var(--ds-elevation-card-hover);
+  }
+
+  .planering-paralys-entry {
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 4%, transparent);
+  }
+
+  .valv-samla-panel,
+  .valv-zone-intro {
+    box-shadow: var(--ds-elevation-2);
+    transition:
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  .valv-log-row {
+    box-shadow:
+      inset 0 1px 0 var(--ds-glass-highlight),
+      var(--ds-elevation-1);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium),
+      transform var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  .valv-log-row:hover {
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 8%, transparent),
+      var(--ds-elevation-2);
+  }
+
+  .valv-monster-bar:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-overlay,
+  .ds-modal-panel,
+  .ds-sheet-panel {
+    animation: none !important;
+  }
+
+  .bento-card:not(.module-bento-card--depth):hover,
+  .ds-card--interactive:hover,
+  .exec-dock-bar__compass:hover {
+    transform: none;
+    filter: none;
+  }
+
+  .basta-design__hero-img {
+    animation: none !important;
+  }
+}

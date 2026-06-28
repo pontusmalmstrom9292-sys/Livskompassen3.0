@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Button } from '@/design-system';
 import { TabBar } from '@/core/ui/TabBar';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { getSamlaVaultTabBarItems } from '@/core/navigation/tabRegistry';
@@ -78,23 +79,25 @@ export function ValvSamlaZone({
             <p className="text-xs font-medium uppercase tracking-wider text-text-dim">Arkivlista</p>
             <div className="flex flex-wrap items-center gap-2">
               {techniqueFilter ? (
-                <button
-                  type="button"
-                  onClick={onClearTechniqueFilter}
-                  className="valv-technique-filter-chip btn-pill--ghost text-xs text-accent"
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="valv-technique-filter-chip text-accent"
                   aria-pressed
+                  onClick={onClearTechniqueFilter}
                 >
                   Filter: #{techniqueFilter} · Rensa
-                </button>
+                </Button>
               ) : null}
-              <button
-                type="button"
-                onClick={() => setAnchorsOnly((v) => !v)}
-                className={`btn-pill--ghost text-xs ${anchorsOnly ? 'text-accent' : ''}`}
+              <Button
+                variant="ghost"
+                size="sm"
+                className={anchorsOnly ? 'text-accent' : undefined}
                 aria-pressed={anchorsOnly}
+                onClick={() => setAnchorsOnly((v) => !v)}
               >
                 {anchorsOnly ? 'Visa alla bevis' : 'Endast ankare'}
-              </button>
+              </Button>
             </div>
           </div>
           <VaultLogList

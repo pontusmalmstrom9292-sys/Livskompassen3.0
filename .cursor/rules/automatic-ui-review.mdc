@@ -1,0 +1,18 @@
+---
+description: Automatic UI Review — aktiverar Lead UI Engineer-mandat
+alwaysApply: false
+globs:
+  - "src/**/*"
+  - "android/app/src/main/res/layout/**"
+  - "android/app/src/main/res/drawable/**"
+---
+
+# Automatic UI Review
+
+**Kanon:** [`lead-ui-engineer.mdc`](lead-ui-engineer.mdc)
+
+Every UI edit triggers the Lead UI Engineer polish pass — no separate approval needed for visual/quality fixes.
+
+Also review: visual hierarchy, contrast, responsiveness, depth, shadows.
+
+If something looks inconsistent — fix it. Do not leave visual or technical debt in touched files.

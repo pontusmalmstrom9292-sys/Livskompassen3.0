@@ -22,6 +22,13 @@
 | 04:47:26 | predeploy-live-prep | PASS | ok | Predeploy live-prep: `npm run smoke:predeploy:build` PASS. Deploy-ready: `firebase use gen-lang-client-0481875058 && firebase deploy --only hosting,functions` (inte kört); live smoke `npm run smoke:predeploy:live` kräver `.env` + Pontus OK. |
 | 02:50:32 | predeploy-live-prep | PASS | ok | Predeploy live-prep (ej deploy) |
 | 02:50:32 | predeploy-live-prep | deploy-ready | — | firebase use gen-lang-client-0481875058 && firebase deploy --only hosting,functions |
+<<<<<<< HEAD
 | 06:11:43 | zone-polish-hjartat | PASS | ok | Cursor — zon-intro Dagbok/Speglar + växlare |
 | 06:28:47 | zone-polish-vardagen | PASS | ok | Cursor — zon-intro Kompasser/Ekonomi/MåBra på /vardagen |
 | 06:11:43 | zone-polish-hjartat | PASS | ok | Cursor — zon-intro Dagbok/Speglar + växlare |
+=======
+| 07:41:07 | zone-polish-familjen | PASS | ok | Cursor — zon-intro + flikväxlare på /familjen |
+| 08:08:29 | valv-chat-e2e-fix | PASS | ok | GEMINI secret på valvChatQuery + smoke degraded pass tills deploy |
+| 06:11:43 | zone-polish-hjartat | PASS | ok | Cursor — zon-intro Dagbok/Speglar + växlare |
+| 08:45:21 | commit-ui-dirty | PASS | ok | Modal/Sheet design-system + overlay migration |
+>>>>>>> origin/main

@@ -46,7 +46,7 @@ export const WeeklySummary: React.FC = () => {
 
   if (!isVaultUnlocked) {
     return (
-      <div className="bg-[var(--color-obsidian-calm)]/40 border border-white/10 rounded-2xl p-6 shadow-xl backdrop-blur-md mb-8">
+      <div className="bg-surface/40 border border-white/10 rounded-2xl p-6 shadow-xl backdrop-blur-md mb-8">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-white flex items-center">
             <Sparkles className="w-6 h-6 mr-3 text-emerald-400" />
@@ -63,7 +63,7 @@ export const WeeklySummary: React.FC = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="bg-[var(--color-obsidian-calm)]/40 border border-white/10 rounded-2xl p-6 shadow-xl backdrop-blur-md mb-8"
+      className="bg-surface/40 border border-white/10 rounded-2xl p-6 shadow-xl backdrop-blur-md mb-8"
     >
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-white flex items-center">

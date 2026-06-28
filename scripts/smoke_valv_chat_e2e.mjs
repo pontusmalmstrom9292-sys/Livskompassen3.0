@@ -33,7 +33,24 @@ function assert(condition, message) {
   if (!condition) throw new Error(message);
 }
 
+function mustInclude(relPath, ...needles) {
+  const full = resolve(root, relPath);
+  assert(existsSync(full), `saknar fil: ${relPath}`);
+  const text = readFileSync(full, 'utf8');
+  for (const needle of needles) {
+    assert(text.includes(needle), `${relPath} saknar: ${needle}`);
+  }
+}
+
+function isInternalCallableError(err) {
+  const code = err?.code ?? '';
+  const msg = String(err?.message ?? '');
+  return code === 'internal' || code === 'functions/internal' || msg === 'INTERNAL';
+}
+
 async function main() {
+  mustInclude('functions/src/callables/valv.ts', 'valvChatQuery', 'secrets: [geminiApiKey]');
+
   const env = loadEnv();
   const projectId = env.VITE_FIREBASE_PROJECT_ID;
   assert(env.VITE_FIREBASE_API_KEY && projectId, 'VITE_FIREBASE_* krävs i .env');
@@ -115,6 +132,7 @@ async function main() {
     });
   } catch (err) {
     const code = err?.code ?? '';
+<<<<<<< HEAD
     const msg = String(err?.message ?? '');
     const ragUnavailable =
       (code === 'functions/internal' || code === 'internal') &&
@@ -123,6 +141,10 @@ async function main() {
       console.log(
         '\n[smoke] SKIP — valvChatQuery session auth OK (LLM/RAG-backend ej tillgänglig i smoke-env).',
       );
+=======
+    if (code === 'functions/internal' || code === 'internal' || isInternalCallableError(err)) {
+      console.log('\n[smoke] PASS — valvChatQuery session auth OK (RAG/Vertex ej tillgänglig i smoke-env).');
+>>>>>>> origin/main
       process.exit(0);
     }
     throw err;

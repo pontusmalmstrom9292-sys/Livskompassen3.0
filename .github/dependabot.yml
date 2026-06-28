@@ -33,8 +33,8 @@ updates:
       - dependencies
       - functions
       - säkerhetsnät
-    # firebase-functions v7+ bryter v1 callables (functions.region, CallableContext).
-    # Uppgradera endast manuellt efter PMIR + smoke:functions-pin + functions build.
+    # firebase-functions nu på v7 (v2-only API). Blockera semver-major för att förhindra
+    # oavsiktlig uppgradering till v8+ utan PMIR + smoke:functions-pin + functions build.
     ignore:
       - dependency-name: firebase-functions
         update-types: [version-update:semver-major]

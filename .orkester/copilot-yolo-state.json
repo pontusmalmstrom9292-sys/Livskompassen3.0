@@ -1,5 +1,6 @@
 {
   "version": 2,
+<<<<<<< HEAD
   "startedAt": "2026-06-28T01:37:16.372Z",
   "updatedAt": "2026-06-28T06:46:53.437Z",
   "currentTaskId": "zone-polish-familjen",
@@ -7,15 +8,39 @@
     "zone-polish-hjartat",
     "zone-polish-vardagen",
     "zone-polish-hjartat"
+=======
+  "startedAt": "2026-06-28T06:08:27.592Z",
+  "updatedAt": "2026-06-28T08:45:21.838Z",
+  "currentTaskId": null,
+  "completedTaskIds": [
+    "tier2-smoke-fix-loop",
+    "lifeos-kopplingar-d",
+    "design-hex-tokens-p2",
+    "fas24-governance-sync",
+    "g85-daily-driver",
+    "zone-polish-valv",
+    "predeploy-live-prep",
+    "zone-polish-hjartat",
+    "zone-polish-familjen",
+    "valv-chat-e2e-fix",
+    "commit-ui-dirty"
+>>>>>>> origin/main
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
   "taskOrder": [
+<<<<<<< HEAD
     "zone-polish-hjartat",
     "zone-polish-vardagen",
     "zone-polish-familjen",
     "valv-chat-e2e-fix",
+=======
+>>>>>>> origin/main
     "super-yolo-gate",
+    "vite-bundle-split",
+    "empty-states",
+    "typecheck-features",
+    "zone-polish-vardagen",
     "hosting-deploy-prep",
     "g85-prod-sync"
   ],

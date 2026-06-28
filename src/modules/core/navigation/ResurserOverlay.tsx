@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, X } from 'lucide-react';
 import { clsx } from 'clsx';
@@ -13,6 +13,8 @@ type Props = {
 export function ResurserOverlay({ open, onClose }: Props) {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
+  const searchRef = useRef<HTMLInputElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -21,6 +23,23 @@ export function ResurserOverlay({ open, onClose }: Props) {
       (r) => r.label.toLowerCase().includes(q) || r.sub.toLowerCase().includes(q),
     );
   }, [query]);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    document.body.style.overflow = 'hidden';
+    searchRef.current?.focus();
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [open, onClose]);
 
   const handlePick = useCallback(
     (path: string) => {
@@ -40,13 +59,18 @@ export function ResurserOverlay({ open, onClose }: Props) {
       aria-modal="true"
       aria-label="Resurser"
     >
-      <div className="resurser-overlay__backdrop absolute inset-0 bg-bg/90 backdrop-blur-md" onClick={onClose} aria-hidden />
+      <div
+        className="resurser-overlay__backdrop absolute inset-0 bg-bg/90 backdrop-blur-md"
+        onClick={onClose}
+        aria-hidden
+      />
       <div className="resurser-overlay__panel relative z-10 mx-auto flex h-full w-full max-w-2xl flex-col px-4 pb-[calc(var(--app-dock-clearance,5.5rem)+env(safe-area-inset-bottom,0px))] pt-[calc(4.5rem+env(safe-area-inset-top,0px))]">
         <header className="resurser-overlay__header mb-4 flex items-center justify-between">
           <h2 className="font-display-serif text-lg uppercase tracking-[0.2em] text-accent">Resurser</h2>
           <button
+            ref={closeRef}
             type="button"
-            className="resurser-overlay__close flex h-11 w-11 items-center justify-center rounded-full border border-border/30 text-text-muted"
+            className="resurser-overlay__close flex h-11 w-11 items-center justify-center rounded-full border border-border/30 text-text-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
             aria-label="Stäng resurser"
             onClick={onClose}
           >
@@ -57,11 +81,12 @@ export function ResurserOverlay({ open, onClose }: Props) {
         <label className="resurser-overlay__search mb-4 flex min-h-[44px] items-center gap-2 rounded-2xl border border-border/30 bg-surface-2/80 px-4">
           <Search className="h-4 w-4 shrink-0 text-text-dim" strokeWidth={1.5} />
           <input
+            ref={searchRef}
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Sök i resurser"
-            className="min-w-0 flex-1 bg-transparent text-sm text-text placeholder:text-text-dim focus:outline-none"
+            className="min-w-0 flex-1 bg-transparent text-sm text-text placeholder:text-text-dim focus:outline-none focus-visible:ring-0"
           />
         </label>
 
@@ -75,6 +100,7 @@ export function ResurserOverlay({ open, onClose }: Props) {
                   className={clsx(
                     'resurser-overlay__row flex min-h-[52px] w-full items-center gap-3 rounded-2xl px-4 py-3 text-left',
                     'border border-transparent hover:border-border/30 hover:bg-surface-2/60',
+                    'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/40',
                   )}
                   onClick={() => handlePick(row.path)}
                 >

@@ -1,8 +1,9 @@
 {
   "version": 3,
-  "description": "Copilot YOLO-kö v3 — Fas 24.B zon-polish + super-yolo + deploy-prep.",
+  "description": "Copilot YOLO-kö v3 — Fas 24.B zon-polish + design-system UI + super-yolo.",
   "tasks": [
     {
+<<<<<<< HEAD
       "id": "zone-polish-hjartat",
       "title": "Zon-polish Hjärtat (Fas 24.B)",
       "plan": "docs/evaluations/2026-06-26-fas24-masterplan-v2.md — polish /hjartat (Dagbok, Speglar). Executive Midnight, låg kognitiv belastning. Locked UX intakt.",
@@ -35,17 +36,51 @@
       "deploy": "functions:valvChatQuery"
     },
     {
+=======
+>>>>>>> origin/main
       "id": "super-yolo-gate",
       "title": "Super-YOLO gate grönt",
-      "plan": "npm run smoke:super-yolo tills PASS. Bygg på valv-chat-e2e-fix. Ingen deploy.",
+      "plan": "npm run smoke:super-yolo tills PASS. Bygg på valv-chat-e2e-fix + UI Modal/Sheet. Ingen deploy.",
       "smoke": ["npm run smoke:super-yolo"],
       "pmir": false,
       "deploy": "none"
     },
     {
+      "id": "vite-bundle-split",
+      "title": "Vite lazy-loading /valvet + /familjen",
+      "plan": "Roadmap Vecka 1: dynamic import() för /valvet och /familjen routes. Verifiera zone-valv-chunk minskar. smoke:locked-ux PASS.",
+      "smoke": ["npm run build", "npm run smoke:locked-ux"],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "empty-states",
+      "title": "Vänliga empty-states i listvyer",
+      "plan": "Mjuka tomma tillstånd i minst 3 listvyer (Dagbok, Planering, Familjen Livslogg). Inga null-renders.",
+      "smoke": ["npm run build", "npm run smoke:locked-ux"],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "typecheck-features",
+      "title": "Expandera typecheck:core-strict över features/",
+      "plan": "Utöka tsconfig scope till src/modules/features/. npm run typecheck:core-strict PASS.",
+      "smoke": ["npm run typecheck:core-strict"],
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "zone-polish-vardagen",
+      "title": "Zon-polish Vardagen (Fas 24.B)",
+      "plan": "Fas 24.B — polish /vardagen (MåBra, Planering, Ekonomi). Minimal diff, tokens enligt design-calm.",
+      "smoke": ["npm run smoke:locked-ux", "npm run smoke:design-modules", "npm run smoke:orkester"],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
       "id": "hosting-deploy-prep",
       "title": "Deploy-prep hosting+functions (ej deploy)",
-      "plan": "v2 deploy-ready samlad — smoke:predeploy:build PASS. Skriv exakt firebase deploy-rad i logg. Live smoke:predeploy:live kräver .env + Pontus OK.",
+      "plan": "smoke:predeploy:build PASS. Skriv exakt firebase deploy-rad i logg. Live smoke kräver .env + Pontus OK.",
       "smoke": ["npm run smoke:predeploy:build"],
       "pmir": true,
       "deploy": "hosting,functions"
@@ -53,7 +88,7 @@
     {
       "id": "g85-prod-sync",
       "title": "G85 prod-sync + enhetsinstruktion",
-      "plan": "docs/evaluations/2026-06-25-g85-daily-driver.md — npm run build:web && npx cap sync android (prod URL om cap:sync:prod finns). Dokumentera android:run:prod / Android Studio Run. Manuell 7-dagars logg på enhet.",
+      "plan": "docs/evaluations/2026-06-25-g85-daily-driver.md — build:web + cap sync. Manuell 7-dagars logg på enhet.",
       "smoke": ["npm run build:web", "npm run smoke:android-platform", "npm run smoke:auth-login"],
       "pmir": false,
       "deploy": "none"
