@@ -36,6 +36,16 @@ Run `scripts/count_design_debt.mjs` when implemented (Phase 9).
 
 ---
 
+## SAFE YOLO v2 — hosting deploy-prep (2026-06-28)
+
+- **Status:** Done
+- **Scope:** Verifierad predeploy build-smoke för hosting+functions utan live deploy.
+- **Smoke:** `npm run smoke:predeploy:build` PASS
+- **Deploy-ready rad (ej körd):** `firebase deploy --only hosting,functions`
+- **Risk/notering:** Live smoke (`npm run smoke:predeploy:live`) kräver `.env` + Pontus OK.
+
+---
+
 ## Chrome (locked — polish only)
 
 ### Premium Header

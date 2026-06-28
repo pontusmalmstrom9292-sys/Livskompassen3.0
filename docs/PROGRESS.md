@@ -37,6 +37,34 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-28 — SAFE YOLO v2: hosting-deploy-prep
+
+**Completed work:**
+- Ran deploy-prep wave for hosting+functions without running live deploy.
+- Executed `npm run smoke:predeploy:build` and confirmed green result.
+- Logged exact deploy command line for later approved execution.
+
+**Files changed:**
+- docs/evaluations/2026-06-28-copilot-yolo-log.md
+- docs/TODO.md
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+- .orkester/copilot-yolo-state.json
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run smoke:predeploy:build PASS
+
+**Reasoning:**
+- Keeps PMIR hard-stop intact by preparing release command only, with no deploy execution.
+
+**Next steps:**
+- Live smoke and deploy only after Pontus OK and valid `.env`.
+
+**Blockers:**
+- Pontus OK required for deploy/live smoke.
+
+---
+
 ## 2026-06-28 — Delivery + Git workflow hardening
 
 **Completed work:**

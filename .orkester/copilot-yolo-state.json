@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-06-28T01:37:16.372Z",
-  "updatedAt": "2026-06-28T08:45:21.838Z",
-  "currentTaskId": null,
+  "updatedAt": "2026-06-28T21:37:02.000Z",
+  "currentTaskId": "g85-prod-sync",
   "completedTaskIds": [
     "tier2-smoke-fix-loop",
     "lifeos-kopplingar-d",
@@ -15,7 +15,12 @@
     "zone-polish-vardagen",
     "zone-polish-familjen",
     "valv-chat-e2e-fix",
-    "commit-ui-dirty"
+    "commit-ui-dirty",
+    "super-yolo-gate",
+    "vite-bundle-split",
+    "empty-states",
+    "typecheck-features",
+    "hosting-deploy-prep"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],

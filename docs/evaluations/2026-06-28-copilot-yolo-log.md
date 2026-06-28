@@ -30,3 +30,5 @@
 | 08:58:55 | commit-ui-dirty | PASS | ok | Committa öppna UI-ändringar från yolo-loop |
 | 09:13:54 | super-yolo-gate | smoke FAIL | fail | kör yolo igen eller yolo skip |
 | 09:31:49 | super-yolo-gate | PASS | ok | smoke:super-yolo grön efter mdc/governance sync |
+| 23:37:02 | hosting-deploy-prep | PASS | ok | Deploy-prep hosting+functions (ej deploy): `npm run smoke:predeploy:build` PASS. |
+| 23:37:02 | hosting-deploy-prep | deploy-ready | — | firebase deploy --only hosting,functions |
