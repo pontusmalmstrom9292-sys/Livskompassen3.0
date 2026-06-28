@@ -19,7 +19,8 @@
 | ad-hoc role=dialog | ~14 | TBD | 0 undocumented |
 | index.css LOC | 6816 | TBD | ≤5000 (stretch) |
 | smoke:design-modules | TBD | TBD | green |
-| smoke:locked-ux | TBD | TBD | green |
+| smoke:locked-ux | TBD | PASS (2026-06-28) | green |
+| `zone-valv` route chunk (js) | 768.53 kB | 2.65 kB | keep route-entry small |
 
 Run `scripts/count_design_debt.mjs` when implemented (Phase 9).
 

@@ -73,6 +73,35 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-28 — SAFE YOLO v2: vite-bundle-split (/valvet + /familjen)
+
+**Completed work:**
+- Bekräftade lazy route-entry för `/valvet` och `/familjen` i Vite route-split wave (kod redan i aktiv branch vid körning).
+- Verifierade att `zone-valv` minskade kraftigt i build output (från 768.53 kB till 2.65 kB) med uppdelning till separata lazy chunks (bl.a. `VaultPage` och `ValvInputSuperModule`).
+- Körde obligatoriska smoke/build-kommandon för vågen.
+
+**Files changed:**
+- docs/TODO.md
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- zone-valv js: 768.53 kB → 2.65 kB
+- smoke:locked-ux PASS
+- smoke:predeploy:build PASS
+- npm run build PASS
+
+**Reasoning:**
+- Route-nivå split minskar initial Valv-last och håller Locked UX intakt utan ändring av flows eller PMIR-filer.
+
+**Next steps:**
+- Fortsätt Phase 0-baseline med smoke:design-modules + screenshot-baseline.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-28 — Governance audit v1.1 (internal consistency)
 
 **Completed work:**
