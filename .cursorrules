@@ -6,7 +6,7 @@ Kanon ligger i **`.cursor/rules/`** (MDC). Kärn-invariants: **`.cursor/index.md
 
 | Zon | Auto-attached regel | Globs |
 |-----|---------------------|-------|
-| UI / Executive Midnight (DAD) | `design-calm.mdc` (kanon), `premium-ui.mdc`, `component-standards.mdc`, `automatic-ui-review.mdc`, `ui-design.mdc` (pekare) | `src/**/*` |
+| UI / Executive Midnight (DAD) | `lead-ui-engineer.mdc` (mandat), `design-calm.mdc` (kanon), `premium-ui.mdc`, `component-standards.mdc`, `automatic-ui-review.mdc`, `ui-design.mdc` (pekare) | `src/**/*` |
 | ADK & synapser | `synapser-adk.mdc` | `functions/src/adk/**`, `functions/src/triggers/**` |
 | RAG & silos | `memory-silo.mdc` | `functions/src/lib/*Rag*.ts` |
 | Säkerhet & WORM | `security-firestore.mdc` | `firestore.rules`, `functions/**`, `sharedRules.ts`, `DCAP.ts` |

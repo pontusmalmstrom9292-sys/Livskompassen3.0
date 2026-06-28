@@ -1,34 +1,25 @@
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
-import { clsx } from 'clsx';
+import {
+  Button as DSButton,
+  type ButtonProps as DSButtonProps,
+  type ButtonVariant as DSVariant,
+} from '@/design-system';
 
+/** Legacy variant names — mapped to design-system tokens. */
 export type ButtonVariant = 'primaryGold' | 'continue' | 'save' | 'ghost';
 
-const VARIANT_CLASS: Record<ButtonVariant, string> = {
-  primaryGold: 'btn-pill--accent',
-  continue: 'btn-pill--secondary',
-  save: 'btn-pill--success',
-  ghost: 'btn-pill--ghost',
+const LEGACY_VARIANT: Record<ButtonVariant, DSVariant> = {
+  primaryGold: 'accent',
+  continue: 'secondary',
+  save: 'success',
+  ghost: 'ghost',
 };
 
-export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
+export type ButtonProps = Omit<DSButtonProps, 'variant'> & {
   variant?: ButtonVariant;
-  children: ReactNode;
 };
 
-export function Button({
-  variant = 'primaryGold',
-  className,
-  children,
-  type = 'button',
-  ...rest
-}: ButtonProps) {
-  return (
-    <button
-      type={type}
-      className={clsx(VARIANT_CLASS[variant], className)}
-      {...rest}
-    >
-      {children}
-    </button>
-  );
+export function Button({ variant = 'primaryGold', ...rest }: ButtonProps) {
+  return <DSButton variant={LEGACY_VARIANT[variant]} {...rest} />;
 }
+
+export { BUTTON_LEGACY_VARIANT } from '@/design-system';

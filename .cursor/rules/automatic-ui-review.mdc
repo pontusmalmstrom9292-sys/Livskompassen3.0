@@ -1,40 +1,18 @@
 ---
-description: Automatic UI Review
+description: Automatic UI Review — aktiverar Lead UI Engineer-mandat
 alwaysApply: false
 globs:
   - "src/**/*"
+  - "android/app/src/main/res/layout/**"
+  - "android/app/src/main/res/drawable/**"
 ---
 
-Every time you edit UI:
+# Automatic UI Review
 
-Review:
+**Kanon:** [`lead-ui-engineer.mdc`](lead-ui-engineer.mdc)
 
-Visual hierarchy
+Every UI edit triggers the Lead UI Engineer polish pass — no separate approval needed for visual/quality fixes.
 
-Spacing
+Also review: visual hierarchy, contrast, responsiveness, depth, shadows.
 
-Consistency
-
-Contrast
-
-Animations
-
-Accessibility
-
-Responsiveness
-
-Depth
-
-Shadows
-
-Typography
-
-If something looks inconsistent:
-
-Fix it.
-
-Do not leave technical or visual debt.
-
-Always improve nearby code if it clearly increases quality.
-
-Think like a senior designer performing a polish pass.
+If something looks inconsistent — fix it. Do not leave visual or technical debt in touched files.

@@ -5,6 +5,8 @@ globs:
   - "src/**/*"
 ---
 
+**Mandat:** [`lead-ui-engineer.mdc`](lead-ui-engineer.mdc) — auto-polish vid varje komponentändring.
+
 Every component must satisfy:
 
 Single responsibility

@@ -21,12 +21,14 @@ Proceed.
 
 Only ask the user if the decision changes
 
-UX
+UX flows or functionality
 
 Business logic
 
 Architecture
 
 or long-term maintainability.
+
+**UI polish** (spacing, tokens, a11y, animation, typography, dedup) — decide automatically per [`lead-ui-engineer.mdc`](lead-ui-engineer.mdc). Never ask permission for quality-only fixes.
 
 Everything else should be decided automatically.

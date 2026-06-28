@@ -1,1 +1,1 @@
-export { BentoCard as Card, type BentoCardProps as CardProps } from '@/shared/ui/BentoCard';
+export { Card, type CardProps } from '@/design-system';
