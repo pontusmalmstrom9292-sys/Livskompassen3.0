@@ -190,7 +190,9 @@ export const addEntityProfile = onCall({ region: 'europe-west1' }, async (reques
   }
 });
 
-export const valvChatQuery = onCall({ region: 'europe-west1', memory: '512MiB' }, async (request) => {
+export const valvChatQuery = onCall(
+  { region: 'europe-west1', memory: '512MiB', secrets: [geminiApiKey] },
+  async (request) => {
   const uid = await guardSensitiveCallableV2(request, 'valvChatQuery', 30);
   await assertVaultSession(uid, request.data);
 
@@ -203,9 +205,16 @@ export const valvChatQuery = onCall({ region: 'europe-west1', memory: '512MiB' }
     throw new HttpsError('invalid-argument', 'Frågan får vara max 2000 tecken.');
   }
 
-  const result = await askValvChat(uid, question.trim());
-  return result;
-});
+  try {
+    const result = await askValvChat(uid, question.trim(), geminiApiKey.value());
+    return result;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Valv-Chat kunde inte svara.';
+    console.error('[valvChatQuery]', error);
+    throw new HttpsError('internal', message);
+  }
+  },
+);
 
 export const rescanPatternMetadata = onCall({ region: 'europe-west1' }, async (request) => {
   const uid = await guardSensitiveCallableV2(request, 'rescanPatternMetadata', 3);

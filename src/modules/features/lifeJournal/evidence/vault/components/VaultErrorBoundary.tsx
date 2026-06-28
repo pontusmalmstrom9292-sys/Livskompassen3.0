@@ -1,4 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
+import { Button } from '@/design-system';
 
 type Props = {
   children: ReactNode;
@@ -27,16 +28,16 @@ export class VaultErrorBoundary extends Component<Props, State> {
           <p className="mt-1 text-xs text-text-muted">
             Dina sparade bevis påverkas inte — prova att ladda om sidan om felet kvarstår.
           </p>
-          <button
-            type="button"
-            className="btn-pill--accent mt-3"
+          <Button
+            variant="accent"
+            className="mt-3"
             onClick={() => {
               this.setState({ hasError: false });
               this.props.onReset?.();
             }}
           >
             Försök igen
-          </button>
+          </Button>
         </div>
       );
     }

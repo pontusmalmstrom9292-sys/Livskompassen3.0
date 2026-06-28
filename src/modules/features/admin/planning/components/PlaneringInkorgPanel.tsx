@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Calendar, Inbox, Mail } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
 import { ReviewQueuePipelinePanel } from '@/modules/capture/ReviewQueuePipelinePanel';
@@ -209,14 +210,14 @@ export function PlaneringInkorgPanel() {
               </p>
             )}
             {error && <p className="mt-2 text-sm text-danger">{error}</p>}
-            <button
-              type="button"
+            <Button
+              variant="accent"
+              className="mt-3 w-full"
               disabled={!user || saving || !paste.trim()}
               onClick={() => void handleCreate()}
-              className="btn-pill--accent mt-3 w-full disabled:opacity-50"
             >
               Granska och skapa
-            </button>
+            </Button>
             {saved && (
               <p className="mt-2 text-xs text-success">Sparat — se Handling-fliken.</p>
             )}
@@ -236,13 +237,14 @@ export function PlaneringInkorgPanel() {
               </button>{' '}
               (sparade i molnet; Gmail-synk i senare fas).
             </p>
-            <button
-              type="button"
-              className="btn-pill--ghost mt-3 w-full text-xs"
+            <Button
+              variant="ghost"
+              size="sm"
+              className="mt-3 w-full"
               onClick={() => navigate('/projekt/ny?from=inkast')}
             >
               Skapa projekt från inkorg (fas 3)
-            </button>
+            </Button>
           </BentoCard>
 
           <ReviewQueuePipelinePanel

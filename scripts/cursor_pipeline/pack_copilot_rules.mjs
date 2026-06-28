@@ -17,6 +17,10 @@ const sources = [
   { label: 'memory-silo', path: '.cursor/rules/memory-silo.mdc' },
   { label: 'locked-ux', path: '.cursor/rules/locked-ux-features.mdc' },
   { label: 'anti-hallucination', path: '.cursor/rules/anti-hallucination.mdc' },
+  { label: 'lead-ui-engineer', path: '.cursor/rules/lead-ui-engineer.mdc' },
+  { label: 'premium-ui', path: '.cursor/rules/premium-ui.mdc' },
+  { label: 'component-standards', path: '.cursor/rules/component-standards.mdc' },
+  { label: 'lead-ui-engineer', path: '.cursor/rules/lead-ui-engineer.mdc' },
   { label: 'copilot-instructions', path: '.github/copilot-instructions.md' },
 ];
 
@@ -27,6 +31,7 @@ const requiredPhrases = [
   'sharedRules.ts',
   'smoke:predeploy',
   'Locked UX',
+  'Lead UI Engineer',
 ];
 
 function read(path) {

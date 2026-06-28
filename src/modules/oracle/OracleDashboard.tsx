@@ -226,7 +226,7 @@ export default function OracleDashboard() {
 
   if (error) {
     return (
-      <div className="p-8 text-red-500 bg-[var(--color-nordic-dusk)] min-h-screen">
+      <div className="p-8 text-red-500 bg-[var(--bg-dusk)] min-h-screen">
         <p>Ett fel uppstod: {error}</p>
       </div>
     );
@@ -236,7 +236,7 @@ export default function OracleDashboard() {
 
   return (
     <ProtectedModule>
-      <div className="min-h-screen bg-[var(--color-nordic-dusk)] text-white p-6 md:p-12">
+      <div className="min-h-screen bg-[var(--bg-dusk)] text-white p-6 md:p-12">
         <div className="max-w-5xl mx-auto space-y-8">
           <header className="space-y-2">
             <div className="flex justify-between items-start">

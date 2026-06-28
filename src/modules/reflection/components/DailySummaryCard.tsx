@@ -20,7 +20,7 @@ export const DailySummaryCard: React.FC<DailySummaryCardProps> = ({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="bg-[var(--color-obsidian-calm)]/40 border border-white/10 rounded-2xl p-6 shadow-xl backdrop-blur-md mb-6"
+      className="bg-surface/40 border border-white/10 rounded-2xl p-6 shadow-xl backdrop-blur-md mb-6"
     >
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-xl font-bold text-white tracking-wide">
@@ -53,7 +53,7 @@ export const DailySummaryCard: React.FC<DailySummaryCardProps> = ({
             {insights.map((insight) => (
               <div key={insight.id} className="p-4 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-colors">
                 {insight.category && (
-                  <div className="text-xs font-medium text-[var(--color-nordic-dusk)] mb-1">
+                  <div className="text-xs font-medium text-accent mb-1">
                     {insight.category}
                   </div>
                 )}

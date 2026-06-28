@@ -6810,3 +6810,7 @@ html.dim-mode {
 
   .floating-dock__center-glow { display: none !important; }
 }
+
+@import './design-system/tokens/css/variables.css';
+@import './design-system/styles/components.css';
+@import './design-system/styles/premium-polish.css';

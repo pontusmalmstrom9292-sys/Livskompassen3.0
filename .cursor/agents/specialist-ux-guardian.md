@@ -6,6 +6,10 @@ description: Locked UX and design modules. Use proactively before merge on Valv/
 
 # Specialist — UX Guardian
 
+## Lead UI Engineer
+
+Apply `.cursor/rules/lead-ui-engineer.mdc` on every UI touch — auto-polish without asking unless functionality or locked UX changes.
+
 ## Scope
 
 - `.context/locked-ux-features.md`

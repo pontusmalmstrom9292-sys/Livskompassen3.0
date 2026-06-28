@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import { Brain } from 'lucide-react';
+import { ButtonLink } from '@/design-system';
 
 type Props = {
   activeCount: number;
@@ -13,15 +13,15 @@ export function CognitiveGuardOverloadBanner({ activeCount }: Props) {
       role="status"
     >
       <div className="flex items-start gap-2">
-        <Brain className="h-4 w-4 shrink-0 text-accent animate-pulse" aria-hidden />
+        <Brain className="h-4 w-4 shrink-0 animate-pulse text-accent" aria-hidden />
         <p>
           <span className="font-medium text-text">Kognitivt skydd aktivt.</span>{' '}
           Du har {activeCount} oavslutade uppgifter — Pansarläge visas på Handling (ett steg i taget).
         </p>
       </div>
-      <Link to="/planering?tab=handling" className="btn-pill--accent shrink-0 text-xs text-center">
+      <ButtonLink to="/planering?tab=handling" variant="accent" size="sm" className="shrink-0 text-center">
         Öppna Handling
-      </Link>
+      </ButtonLink>
     </div>
   );
 }
