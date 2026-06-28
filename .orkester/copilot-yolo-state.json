@@ -1,14 +1,16 @@
 {
   "version": 2,
   "startedAt": "2026-06-28T01:37:16.372Z",
-  "updatedAt": "2026-06-28T02:35:34.000Z",
-  "currentTaskId": "zone-polish-valv",
+  "updatedAt": "2026-06-28T02:50:32.663Z",
+  "currentTaskId": null,
   "completedTaskIds": [
     "tier2-smoke-fix-loop",
     "lifeos-kopplingar-d",
     "design-hex-tokens-p2",
     "fas24-governance-sync",
-    "g85-daily-driver"
+    "g85-daily-driver",
+    "zone-polish-valv",
+    "predeploy-live-prep"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
@@ -21,5 +23,5 @@
     "zone-polish-valv",
     "predeploy-live-prep"
   ],
-  "taskStartSha": "5e57f3837be56f4e2ca723900af5f28e27dd6ea8"
+  "taskStartSha": null
 }
