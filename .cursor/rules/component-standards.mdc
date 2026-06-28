@@ -1,6 +1,8 @@
 ---
 description: Component Standards
-alwaysApply: true
+alwaysApply: false
+globs:
+  - "src/**/*"
 ---
 
 Every component must satisfy:

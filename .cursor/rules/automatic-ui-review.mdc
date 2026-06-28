@@ -1,6 +1,8 @@
 ---
 description: Automatic UI Review
-alwaysApply: true
+alwaysApply: false
+globs:
+  - "src/**/*"
 ---
 
 Every time you edit UI:

@@ -1,6 +1,6 @@
 ---
 description: Cursor AI Behaviour
-alwaysApply: true
+alwaysApply: false
 ---
 
 You are expected to make technical decisions.

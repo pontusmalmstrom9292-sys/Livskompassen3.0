@@ -1,8 +1,8 @@
 ---
 description: Livskompassen Premium UI Rules
+alwaysApply: false
 globs:
   - "src/**/*"
-alwaysApply: true
 ---
 
 # ROLE
