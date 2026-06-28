@@ -30,6 +30,7 @@ import { EmptyState } from '@/core/ui/EmptyState';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { FamiljenBentoShell } from '@/features/family/children/components/familjen/FamiljenBentoShell';
+import { FamiljenZoneIntro } from '@/features/family/children/components/familjen/FamiljenZoneIntro';
 import { ParentReminderFooter } from '@/features/family/children/components/ParentReminderFooter';
 import { useMinWidthSm } from '../hooks/useMinWidthSm';
 
@@ -155,7 +156,7 @@ export function FamiljenPage() {
       <ModuleShell
         eyebrow="Familjen"
         title=""
-        lead="Relationell närvaro."
+        lead="Barnfokus, logg och trygg hamn — ett steg i taget."
         headerAside={<ModuleHelpFromRegistry moduleId="hub_familjen" preset={preset} />}
         lockViewport={desktopHubLock}
         fitViewport={desktopHubLock}
@@ -164,6 +165,7 @@ export function FamiljenPage() {
         }
       >
         <FamiljenBentoShell className={clsx(!desktopHubLock && 'pb-2')}>
+          <FamiljenZoneIntro activeTab={activeTab} />
           {showChildPicker && (
             <BentoCard glow="blue" noHover className="!p-3">
               <FamiljenChildPicker
