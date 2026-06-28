@@ -104,7 +104,8 @@ Each item is independently completable. Link files in Dashboard when done.
 - [ ] Migrate RAGErrorBoundary
 - [ ] Migrate DagbokWizardErrorBoundary
 - [ ] Align PageSkeleton with DS Skeleton
-- [ ] EmptyState token pass (core/ui/EmptyState.tsx)
+- [x] EmptyState token pass (core/ui/EmptyState.tsx)
+- [x] Friendly empty-states for Dagbok, Planering, Familjen list views
 
 ---
 

@@ -109,6 +109,11 @@ Run `scripts/count_design_debt.mjs` when implemented (Phase 9).
 - **Priority:** Medium
 - **Files:** HubPanelSkeleton.tsx, PageSkeleton.tsx → DS Skeleton
 
+### Empty State
+- **Status:** In Progress
+- **Priority:** Medium
+- **Files:** core/ui/EmptyState.tsx, JournalArchive.tsx, PlaneringQuickListPanel.tsx, ChildMomentStunderPanel.tsx, PositivaMinnesankare.tsx, FamiljenLivsloggTab.tsx
+
 ### Error Boundaries
 - **Status:** In Progress
 - **Priority:** Medium

@@ -73,6 +73,39 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-28 — SAFE YOLO v2: friendly empty-states wave
+
+**Completed work:**
+- Added calmer empty-state treatment in the Dagbok archive, Planering quick list, and Familjen livslogg list views.
+- Replaced null renders in the touched list views with friendly empty states so the UI always resolves visibly.
+- Polished the shared `EmptyState` primitive for a softer, more consistent list-view treatment.
+
+**Files changed:**
+- src/modules/core/ui/EmptyState.tsx
+- src/modules/features/lifeJournal/diary/diary/components/JournalArchive.tsx
+- src/modules/features/admin/planning/components/PlaneringQuickListPanel.tsx
+- src/modules/features/family/children/components/familjen/ChildMomentStunderPanel.tsx
+- src/modules/features/family/children/components/PositivaMinnesankare.tsx
+- src/modules/features/family/children/components/familjen/FamiljenLivsloggTab.tsx
+- docs/TODO.md
+- docs/DASHBOARD.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+- npm run smoke:predeploy:build PASS
+
+**Reasoning:**
+- List views should explain absence of content instead of collapsing to blank space, especially in low-energy flows.
+
+**Next steps:**
+- Continue the wider Phase 5 empty-state pass across remaining list surfaces.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-28 — SAFE YOLO v2: vite-bundle-split (/valvet + /familjen)
 
 **Completed work:**
