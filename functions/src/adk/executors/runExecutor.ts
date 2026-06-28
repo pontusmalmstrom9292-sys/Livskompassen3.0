@@ -1,7 +1,8 @@
 import type { A2AMessage } from '../../agents/types';
 import { getAgentSystemPrompt } from '../../sharedRules';
 import { createGenAI } from '../../lib/genaiClient';
-import { selectModel, autoSelectTier } from '../../lib/modelRouter';
+import { selectModel, autoSelectTier, type GeminiTier } from '../../lib/modelRouter';
+import { checkAiCostCaps } from '../../lib/costCapGuard';
 
 function buildUserPrompt(message: A2AMessage): string {
   const lines = [
@@ -23,7 +24,17 @@ export async function runExecutor(
 ): Promise<string> {
   const systemInstruction = getAgentSystemPrompt(executorId, message.intent);
 
-  const tier = autoSelectTier(message.intent, executorId);
+  let tier: GeminiTier = autoSelectTier(message.intent, executorId);
+  const userId = message.contextId ?? (message.payload?.userId as string | undefined) ?? 'system';
+
+  if (tier === 'pro') {
+    const cap = await checkAiCostCaps(userId);
+    if (!cap.allowed) {
+      console.warn(`[runExecutor] Pro nedgraderad till flash — ${cap.reason}`);
+      tier = 'flash';
+    }
+  }
+
   const modelId = selectModel(tier);
 
   console.log(`[runExecutor] ${executorId} intent=${message.intent} → model=${modelId}`);

@@ -30,7 +30,7 @@ Läs dynamisk status före stor kod: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`
 | Säkerhet & DCAP | [`security-firestore.mdc`](rules/security-firestore.mdc) |
 | Locked UX | [`locked-ux-features.mdc`](rules/locked-ux-features.mdc) |
 | Design Executive Midnight (DAD) | [`design-calm.mdc`](rules/design-calm.mdc) · [`ui-design.mdc`](rules/ui-design.mdc) pekare |
-| Deploy & YOLO | [`yolo-vakt-gate.mdc`](rules/yolo-vakt-gate.mdc) · [`model-routing.mdc`](rules/model-routing.mdc) · [`deploy-paminnelser.mdc`](rules/deploy-paminnelser.mdc) |
+| Deploy & YOLO | [`yolo-vakt-gate.mdc`](rules/yolo-vakt-gate.mdc) · [`model-routing.mdc`](rules/model-routing.mdc) · [`deploy-paminnelser.mdc`](rules/deploy-paminnelser.mdc) · [`cost-guard.mdc`](rules/cost-guard.mdc) |
 | Merge & PMIR | [`git-main-trunk.mdc`](rules/git-main-trunk.mdc) · [`deep-research-pmir.mdc`](rules/deep-research-pmir.mdc) · [`fas-masterplan-guard.mdc`](rules/fas-masterplan-guard.mdc) |
 | Domän HCF | [`domän-covert-narcissism.mdc`](rules/domän-covert-narcissism.mdc) |
 | Assistent-ton | [`ai-cognitive-companion.mdc`](rules/ai-cognitive-companion.mdc) |
