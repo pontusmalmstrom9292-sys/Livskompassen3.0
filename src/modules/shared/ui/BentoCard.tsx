@@ -31,10 +31,11 @@ export function BentoCard({
   noHover,
   interactive,
   glow,
+  depth = true,
   ...rest
 }: BentoCardProps) {
   return (
-    <Card interactive={noHover ? false : interactive ?? true} glow={glow} {...rest}>
+    <Card interactive={noHover ? false : interactive ?? true} glow={glow} depth={depth} {...rest}>
       {(title || description || icon) && (
         <CardHeader title={title} description={description} icon={icon} glow={glow} />
       )}

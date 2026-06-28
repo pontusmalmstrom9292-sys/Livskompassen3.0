@@ -1,14 +1,20 @@
 import { useEffect, useId, useRef, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { cn } from '../utils/cn';
 
 export type ModalProps = {
   open: boolean;
   onClose: () => void;
-  title: string;
+  title?: string;
   description?: string;
+  ariaLabel?: string;
   children: ReactNode;
   className?: string;
   panelClassName?: string;
+  hideHeader?: boolean;
+  headerAction?: ReactNode;
+  portal?: boolean;
+  lockScroll?: boolean;
   /** Initial focus element — defaults to panel */
   initialFocusRef?: React.RefObject<HTMLElement>;
 };
@@ -21,14 +27,20 @@ export function Modal({
   onClose,
   title,
   description,
+  ariaLabel,
   children,
   className,
   panelClassName,
+  hideHeader = false,
+  headerAction,
+  portal = true,
+  lockScroll = true,
   initialFocusRef,
 }: ModalProps) {
   const titleId = useId();
   const descId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
+  const dialogLabel = title ?? ariaLabel;
 
   useEffect(() => {
     if (!open) return;
@@ -41,12 +53,21 @@ export function Modal({
     const focusTarget = initialFocusRef?.current ?? panelRef.current;
     focusTarget?.focus();
 
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [open, onClose, initialFocusRef]);
+    if (lockScroll) {
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      if (lockScroll) {
+        document.body.style.overflow = '';
+      }
+    };
+  }, [open, onClose, initialFocusRef, lockScroll]);
 
   if (!open) return null;
 
-  return (
+  const content = (
     <div
       className={cn('ds-overlay ds-overlay--center', className)}
       role="presentation"
@@ -58,26 +79,40 @@ export function Modal({
         ref={panelRef}
         role="dialog"
         aria-modal="true"
-        aria-labelledby={titleId}
+        aria-label={hideHeader && !title ? ariaLabel : undefined}
+        aria-labelledby={!hideHeader && dialogLabel ? titleId : undefined}
         aria-describedby={description ? descId : undefined}
         tabIndex={-1}
         className={cn('ds-modal-panel ds-card glow-bottom-gold outline-none', panelClassName)}
       >
-        <h2
-          id={titleId}
-          className="font-[family-name:var(--ds-font-display)] text-[length:var(--ds-font-size-lg)] text-accent"
-        >
-          {title}
-        </h2>
-        {description ? (
-          <p id={descId} className="mt-1 text-[length:var(--ds-font-size-xs)] text-text-dim">
-            {description}
-          </p>
+        {!hideHeader && dialogLabel ? (
+          <div className="flex items-start justify-between gap-[var(--ds-space-3)]">
+            <div className="min-w-0 flex-1">
+              <h2
+                id={titleId}
+                className="font-[family-name:var(--ds-font-display)] text-[length:var(--ds-font-size-lg)] text-accent"
+              >
+                {title}
+              </h2>
+              {description ? (
+                <p id={descId} className="mt-1 text-[length:var(--ds-font-size-xs)] text-text-dim">
+                  {description}
+                </p>
+              ) : null}
+            </div>
+            {headerAction ? <div className="shrink-0">{headerAction}</div> : null}
+          </div>
         ) : null}
-        <div className="mt-[var(--ds-space-4)]">{children}</div>
+        <div className={hideHeader ? undefined : 'mt-[var(--ds-space-4)]'}>{children}</div>
       </div>
     </div>
   );
+
+  if (portal && typeof document !== 'undefined') {
+    return createPortal(content, document.body);
+  }
+
+  return content;
 }
 
 export type ModalFooterProps = {

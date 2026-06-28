@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { X, CheckSquare, FolderPlus, Lock, Sparkles, AlertTriangle, Loader2 } from 'lucide-react';
+import { Modal } from '@/design-system';
 import { createPlanningTask } from '@/features/admin/planning/api/planningTasksApi';
 import { useActiveProjects } from '@/features/admin/projects/hooks/useProjects';
 import { VaultService } from '@/core/firebase/VaultService';
@@ -27,51 +28,42 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
   const [isSaving, setIsSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // Task form state
   const [taskTitle, setTaskTitle] = useState('');
   const [taskSummary, setTaskSummary] = useState('');
   const [taskStatus, setTaskStatus] = useState<'todo' | 'waiting' | 'done'>('todo');
   const [taskProjectId, setTaskProjectId] = useState('');
 
-  // Project form state
   const [projectTitle, setProjectTitle] = useState('');
   const [projectStatus, setProjectStatus] = useState<'active' | 'paused' | 'archived'>('active');
 
-  // Vault form state
   const [vaultContent, setVaultContent] = useState('');
 
-  // Get active projects for dropdown
   const { projects, loading: projectsLoading } = useActiveProjects();
 
-  // Reset/populate form fields when item changes
   useEffect(() => {
     if (item) {
       const displayContent = item.content || item.title || '';
       setTaskTitle(displayContent);
       setTaskSummary(item.summary || '');
-      setTaskStatus((item.status as any) || 'todo');
+      setTaskStatus((item.status as 'todo' | 'waiting' | 'done') || 'todo');
       setTaskProjectId(item.projectId || '');
 
       setProjectTitle(displayContent);
       setProjectStatus('active');
 
       setVaultContent(displayContent);
-      
-      // Default tab: if it's already a task, default to 'task' (to update).
-      // If it's a vault entry, we default to 'task' to categorize it.
       setActiveTab('task');
       setErrorMsg(null);
     }
   }, [item]);
 
-  if (!isOpen || !item) return null;
+  if (!item) return null;
 
   const handleSaveTask = async () => {
     setIsSaving(true);
     setErrorMsg(null);
     try {
       if (item.type === 'task') {
-        // Update existing task doc in planning_tasks
         const taskRef = doc(db, 'planning_tasks', item.id);
         await updateDoc(taskRef, {
           title: taskTitle.trim(),
@@ -81,19 +73,18 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
           updatedAt: serverTimestamp(),
         });
       } else {
-        // Create new task doc
         await createPlanningTask(userId, {
           title: taskTitle.trim(),
           status: taskStatus,
-          source: (item.source as any) || 'voice_to_vault',
+          source: (item.source as 'voice_to_vault' | 'manual') || 'voice_to_vault',
           summary: taskSummary.trim() || undefined,
           projectId: taskProjectId || undefined,
         });
       }
       onClose();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setErrorMsg(err.message || 'Kunde inte spara uppgiften.');
+      setErrorMsg(err instanceof Error ? err.message : 'Kunde inte spara uppgiften.');
     } finally {
       setIsSaving(false);
     }
@@ -103,7 +94,6 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
     setIsSaving(true);
     setErrorMsg(null);
     try {
-      // Create project doc in projects collection
       const projectRef = await addDoc(collection(db, 'projects'), {
         userId,
         ownerId: userId,
@@ -113,7 +103,6 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
         updatedAt: serverTimestamp(),
       });
 
-      // If the triage item is a task, link the task to this new project
       if (item.type === 'task') {
         const taskRef = doc(db, 'planning_tasks', item.id);
         await updateDoc(taskRef, {
@@ -122,9 +111,9 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
         });
       }
       onClose();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setErrorMsg(err.message || 'Kunde inte skapa projektet.');
+      setErrorMsg(err instanceof Error ? err.message : 'Kunde inte skapa projektet.');
     } finally {
       setIsSaving(false);
     }
@@ -141,147 +130,140 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
         entryType: 'simple',
       });
       onClose();
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err);
-      setErrorMsg(err.message || 'Kunde inte spara i valvet.');
+      setErrorMsg(err instanceof Error ? err.message : 'Kunde inte spara i valvet.');
     } finally {
       setIsSaving(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-obsidian-bg/85 backdrop-blur-md animate-in fade-in duration-300">
-      <div className="relative w-full max-w-lg max-h-[90vh] flex flex-col bg-surface-1 border border-border-strong shadow-2xl rounded-3xl overflow-hidden animate-in zoom-in-95 duration-300">
-        
-        {/* Glow Effects */}
-        <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-accent-ai/5 to-transparent pointer-events-none" />
-        <div className="absolute -top-32 -right-32 w-64 h-64 bg-accent-ai/10 rounded-full blur-3xl pointer-events-none" />
+    <Modal
+      open={isOpen}
+      onClose={onClose}
+      ariaLabel="Triage och dirigering"
+      hideHeader
+      className="z-[110]"
+      panelClassName="flex max-h-[90vh] max-w-lg flex-col overflow-hidden rounded-3xl border border-border-strong bg-surface p-0 shadow-2xl"
+    >
+      <div className="relative flex max-h-[90vh] flex-col overflow-hidden">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-accent-ai/5 to-transparent" />
+        <div className="pointer-events-none absolute -right-32 -top-32 h-64 w-64 rounded-full bg-accent-ai/10 blur-3xl" />
 
-        {/* Header */}
-        <div className="relative z-10 flex items-center justify-between px-6 py-5 border-b border-border/30 bg-surface-2/80 backdrop-blur-xl">
+        <div className="relative z-10 flex items-center justify-between border-b border-border/30 bg-surface-2/80 px-6 py-5 backdrop-blur-xl">
           <div className="flex items-center gap-4">
-            <div className="p-2.5 bg-accent-ai/10 rounded-xl border border-accent-ai/20">
-              <Sparkles className="w-5 h-5 text-accent-ai animate-pulse" />
+            <div className="rounded-xl border border-accent-ai/20 bg-accent-ai/10 p-2.5">
+              <Sparkles className="h-5 w-5 animate-pulse text-accent-ai" />
             </div>
             <div>
               <h2 className="text-xl font-medium tracking-wide text-white">Triage & Dirigering</h2>
-              <p className="text-xs text-text-muted font-light tracking-widest uppercase">Kategorisera rått intag</p>
+              <p className="text-xs font-light uppercase tracking-widest text-text-muted">Kategorisera rått intag</p>
             </div>
           </div>
           <button
+            type="button"
             onClick={onClose}
-            className="p-2 text-text-muted hover:text-white hover:bg-surface-3 rounded-full transition-colors"
+            className="rounded-full p-2 text-text-muted transition-colors hover:bg-surface-3 hover:text-white"
             aria-label="Stäng"
           >
-            <X className="w-5 h-5" />
+            <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Content Area */}
-        <div className="relative z-10 flex-1 overflow-y-auto p-6 md:p-8 space-y-6 scrollbar-thin scrollbar-thumb-surface-3">
-          
-          {/* Raw Intake Preview */}
-          <div className="bg-surface-2/70 border border-border/30 rounded-2xl p-4 space-y-2">
-            <div className="flex justify-between items-center text-[10px] text-text-dim uppercase tracking-wider font-mono">
+        <div className="relative z-10 flex-1 space-y-6 overflow-y-auto p-6 scrollbar-thin scrollbar-thumb-surface-3 md:p-8">
+          <div className="space-y-2 rounded-2xl border border-border/30 bg-surface-2/70 p-4">
+            <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-text-dim">
               <span>Källa: {item.source === 'voice_to_vault' ? 'Röstagent' : 'Manuell / System'}</span>
               <span>Typ: {item.type === 'task' ? 'Uppgift' : 'Valv-post'}</span>
             </div>
-            <div className="text-sm text-white/90 leading-relaxed italic break-words">
-              "{item.content}"
-            </div>
+            <div className="break-words text-sm italic leading-relaxed text-white/90">&quot;{item.content}&quot;</div>
           </div>
 
-          {/* Action Tabs */}
-          <div className="flex bg-surface-2/50 border border-border-strong rounded-xl p-1 gap-1">
+          <div className="flex gap-1 rounded-xl border border-border-strong bg-surface-2/50 p-1">
             <button
               type="button"
               onClick={() => setActiveTab('task')}
-              className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${
+              className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
                 activeTab === 'task'
-                  ? 'bg-accent/15 text-accent border border-accent/20'
-                  : 'text-text-muted hover:text-white hover:bg-surface-3/50'
+                  ? 'border border-accent/20 bg-accent/15 text-accent'
+                  : 'text-text-muted hover:bg-surface-3/50 hover:text-white'
               }`}
             >
-              <CheckSquare className="w-4 h-4" />
+              <CheckSquare className="h-4 w-4" />
               Uppgift
             </button>
             <button
               type="button"
               onClick={() => setActiveTab('project')}
-              className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${
+              className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
                 activeTab === 'project'
-                  ? 'bg-accent/15 text-accent border border-accent/20'
-                  : 'text-text-muted hover:text-white hover:bg-surface-3/50'
+                  ? 'border border-accent/20 bg-accent/15 text-accent'
+                  : 'text-text-muted hover:bg-surface-3/50 hover:text-white'
               }`}
             >
-              <FolderPlus className="w-4 h-4" />
+              <FolderPlus className="h-4 w-4" />
               Projekt
             </button>
             <button
               type="button"
               onClick={() => setActiveTab('vault')}
-              className={`flex-1 py-2 px-3 rounded-lg text-sm font-medium transition-all flex items-center justify-center gap-2 ${
+              className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
                 activeTab === 'vault'
-                  ? 'bg-accent/15 text-accent border border-accent/20'
-                  : 'text-text-muted hover:text-white hover:bg-surface-3/50'
+                  ? 'border border-accent/20 bg-accent/15 text-accent'
+                  : 'text-text-muted hover:bg-surface-3/50 hover:text-white'
               }`}
             >
-              <Lock className="w-4 h-4" />
+              <Lock className="h-4 w-4" />
               Valvet
             </button>
           </div>
 
-          {/* Error Message */}
           {errorMsg && (
-            <div className="p-4 bg-danger/10 border border-danger/20 rounded-xl text-danger text-sm flex gap-2">
-              <AlertTriangle className="w-4 h-4 shrink-0 mt-0.5" />
+            <div className="flex gap-2 rounded-xl border border-danger/20 bg-danger/10 p-4 text-sm text-danger">
+              <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
               <span>{errorMsg}</span>
             </div>
           )}
 
-          {/* Forms */}
           {activeTab === 'task' && (
             <div className="space-y-4">
               <div>
-                <label className="text-xs text-text-muted font-medium uppercase tracking-wider mb-1.5 block">
-                  Titel
-                </label>
+                <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-text-muted">Titel</label>
                 <input
                   type="text"
                   value={taskTitle}
                   onChange={(e) => setTaskTitle(e.target.value)}
-                  className="w-full bg-surface-3/50 border border-border-strong rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 transition-all"
+                  className="w-full rounded-xl border border-border-strong bg-surface-3/50 px-4 py-3 text-sm text-white transition-all focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/30"
                   placeholder="Skriv en titel..."
                 />
               </div>
 
               <div>
-                <label className="text-xs text-text-muted font-medium uppercase tracking-wider mb-1.5 block">
+                <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-text-muted">
                   Beskrivning / Sammanfattning (Valfritt)
                 </label>
                 <textarea
                   value={taskSummary}
                   onChange={(e) => setTaskSummary(e.target.value)}
                   rows={3}
-                  className="w-full bg-surface-3/50 border border-border-strong rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 transition-all"
+                  className="w-full rounded-xl border border-border-strong bg-surface-3/50 px-4 py-3 text-sm text-white transition-all focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/30"
                   placeholder="Skriv en kort sammanfattning..."
                 />
               </div>
 
               <div>
-                <label className="text-xs text-text-muted font-medium uppercase tracking-wider mb-2 block">
-                  Status
-                </label>
+                <label className="mb-2 block text-xs font-medium uppercase tracking-wider text-text-muted">Status</label>
                 <div className="grid grid-cols-3 gap-2">
                   {(['todo', 'waiting', 'done'] as const).map((statusOption) => (
                     <button
                       key={statusOption}
                       type="button"
                       onClick={() => setTaskStatus(statusOption)}
-                      className={`py-2.5 px-3 rounded-lg border text-xs font-mono uppercase tracking-wider transition-all ${
+                      className={`rounded-lg border px-3 py-2.5 font-mono text-xs uppercase tracking-wider transition-all ${
                         taskStatus === statusOption
-                          ? 'bg-accent/15 text-accent border-accent/40 shadow-sm'
-                          : 'bg-surface-3/30 text-text-dim border-border-strong hover:text-text-muted'
+                          ? 'border-accent/40 bg-accent/15 text-accent shadow-sm'
+                          : 'border-border-strong bg-surface-3/30 text-text-dim hover:text-text-muted'
                       }`}
                     >
                       {statusOption === 'todo' ? 'Att göra' : statusOption === 'waiting' ? 'Väntar' : 'Klar'}
@@ -291,20 +273,22 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
               </div>
 
               <div>
-                <label className="text-xs text-text-muted font-medium uppercase tracking-wider mb-1.5 block">
+                <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-text-muted">
                   Koppla till befintligt projekt (Valfritt)
                 </label>
                 {projectsLoading ? (
-                  <div className="text-xs text-text-dim animate-pulse py-2">Laddar projekt...</div>
+                  <div className="animate-pulse py-2 text-xs text-text-dim">Laddar projekt...</div>
                 ) : projects.length === 0 ? (
-                  <div className="text-xs text-text-dim py-1">Inga aktiva projekt tillgängliga.</div>
+                  <div className="py-1 text-xs text-text-dim">Inga aktiva projekt tillgängliga.</div>
                 ) : (
                   <select
                     value={taskProjectId}
                     onChange={(e) => setTaskProjectId(e.target.value)}
-                    className="w-full bg-surface-3/50 border border-border-strong rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-accent/50 transition-all cursor-pointer"
+                    className="w-full cursor-pointer rounded-xl border border-border-strong bg-surface-3/50 px-4 py-3 text-sm text-white transition-all focus:border-accent/50 focus:outline-none"
                   >
-                    <option value="" className="bg-obsidian-bg text-text-dim">-- Inget projekt --</option>
+                    <option value="" className="bg-obsidian-bg text-text-dim">
+                      -- Inget projekt --
+                    </option>
                     {projects.map((proj) => (
                       <option key={proj.id} value={proj.id} className="bg-obsidian-bg text-white">
                         {proj.title}
@@ -319,13 +303,9 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
                   type="button"
                   disabled={isSaving || !taskTitle.trim()}
                   onClick={handleSaveTask}
-                  className="w-full py-3.5 bg-accent hover:bg-accent/90 text-obsidian-bg disabled:bg-accent/40 disabled:text-obsidian-bg/50 rounded-xl font-medium tracking-wide transition-all flex items-center justify-center gap-2"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium tracking-wide text-obsidian-bg transition-all hover:bg-accent/90 disabled:bg-accent/40 disabled:text-obsidian-bg/50"
                 >
-                  {isSaving ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <CheckSquare className="w-4 h-4" />
-                  )}
+                  {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckSquare className="h-4 w-4" />}
                   {item.type === 'task' ? 'Uppdatera Uppgift' : 'Spara som Uppgift'}
                 </button>
               </div>
@@ -335,32 +315,30 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
           {activeTab === 'project' && (
             <div className="space-y-4">
               <div>
-                <label className="text-xs text-text-muted font-medium uppercase tracking-wider mb-1.5 block">
+                <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-text-muted">
                   Projekttitel
                 </label>
                 <input
                   type="text"
                   value={projectTitle}
                   onChange={(e) => setProjectTitle(e.target.value)}
-                  className="w-full bg-surface-3/50 border border-border-strong rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 transition-all"
+                  className="w-full rounded-xl border border-border-strong bg-surface-3/50 px-4 py-3 text-sm text-white transition-all focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/30"
                   placeholder="Skriv projekttitel..."
                 />
               </div>
 
               <div>
-                <label className="text-xs text-text-muted font-medium uppercase tracking-wider mb-2 block">
-                  Projektstatus
-                </label>
+                <label className="mb-2 block text-xs font-medium uppercase tracking-wider text-text-muted">Projektstatus</label>
                 <div className="grid grid-cols-3 gap-2">
                   {(['active', 'paused', 'archived'] as const).map((statusOption) => (
                     <button
                       key={statusOption}
                       type="button"
                       onClick={() => setProjectStatus(statusOption)}
-                      className={`py-2.5 px-3 rounded-lg border text-xs font-mono uppercase tracking-wider transition-all ${
+                      className={`rounded-lg border px-3 py-2.5 font-mono text-xs uppercase tracking-wider transition-all ${
                         projectStatus === statusOption
-                          ? 'bg-accent/15 text-accent border-accent/40 shadow-sm'
-                          : 'bg-surface-3/30 text-text-dim border-border-strong hover:text-text-muted'
+                          ? 'border-accent/40 bg-accent/15 text-accent shadow-sm'
+                          : 'border-border-strong bg-surface-3/30 text-text-dim hover:text-text-muted'
                       }`}
                     >
                       {statusOption === 'active' ? 'Aktivt' : statusOption === 'paused' ? 'Pausat' : 'Arkiverat'}
@@ -374,13 +352,9 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
                   type="button"
                   disabled={isSaving || !projectTitle.trim()}
                   onClick={handleSaveProject}
-                  className="w-full py-3.5 bg-accent hover:bg-accent/90 text-obsidian-bg disabled:bg-accent/40 disabled:text-obsidian-bg/50 rounded-xl font-medium tracking-wide transition-all flex items-center justify-center gap-2"
+                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium tracking-wide text-obsidian-bg transition-all hover:bg-accent/90 disabled:bg-accent/40 disabled:text-obsidian-bg/50"
                 >
-                  {isSaving ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <FolderPlus className="w-4 h-4" />
-                  )}
+                  {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <FolderPlus className="h-4 w-4" />}
                   Skapa Projekt
                 </button>
               </div>
@@ -390,36 +364,38 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
           {activeTab === 'vault' && (
             <div className="space-y-4">
               {item.type === 'vault' ? (
-                <div className="p-4 bg-white/5 border border-white/10 rounded-2xl flex gap-3 text-sm text-text-muted">
-                  <Lock className="w-5 h-5 text-accent shrink-0 mt-0.5" />
+                <div className="flex gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-text-muted">
+                  <Lock className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
                   <div>
                     <h4 className="font-medium text-white">Redan säkrad i Valvet</h4>
-                    <p className="text-xs text-text-muted mt-1 leading-relaxed">
-                      Detta objekt är redan förseglat i Verklighetsvalvet (WORM) och kan inte skrivas över eller ändras. Du kan fortfarande konvertera det till en uppgift eller ett projekt under de andra flikarna.
+                    <p className="mt-1 text-xs leading-relaxed text-text-muted">
+                      Detta objekt är redan förseglat i Verklighetsvalvet (WORM) och kan inte skrivas över eller ändras.
+                      Du kan fortfarande konvertera det till en uppgift eller ett projekt under de andra flikarna.
                     </p>
                   </div>
                 </div>
               ) : (
                 <>
-                  <div className="p-4 bg-yellow-500/10 border border-yellow-500/20 rounded-2xl flex gap-3 text-sm text-yellow-200">
-                    <AlertTriangle className="w-5 h-5 text-yellow-400 shrink-0 mt-0.5" />
+                  <div className="flex gap-3 rounded-2xl border border-yellow-500/20 bg-yellow-500/10 p-4 text-sm text-yellow-200">
+                    <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-yellow-400" />
                     <div>
                       <h4 className="font-medium">WORM Dataintegritet</h4>
-                      <p className="text-xs text-text-muted mt-1 leading-relaxed">
-                        Verklighetsvalvet tillämpar <strong>Write Once, Read Many (WORM)</strong>. När denna post väl har förseglats kan den aldrig raderas, redigeras eller skrivas över.
+                      <p className="mt-1 text-xs leading-relaxed text-text-muted">
+                        Verklighetsvalvet tillämpar <strong>Write Once, Read Many (WORM)</strong>. När denna post väl har
+                        förseglats kan den aldrig raderas, redigeras eller skrivas över.
                       </p>
                     </div>
                   </div>
 
                   <div>
-                    <label className="text-xs text-text-muted font-medium uppercase tracking-wider mb-1.5 block">
+                    <label className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-text-muted">
                       Innehåll att försegla
                     </label>
                     <textarea
                       value={vaultContent}
                       onChange={(e) => setVaultContent(e.target.value)}
                       rows={4}
-                      className="w-full bg-surface-3/50 border border-border-strong rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/30 transition-all"
+                      className="w-full rounded-xl border border-border-strong bg-surface-3/50 px-4 py-3 text-sm text-white transition-all focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/30"
                       placeholder="Skriv det som ska förseglas..."
                     />
                   </div>
@@ -429,13 +405,9 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
                       type="button"
                       disabled={isSaving || !vaultContent.trim()}
                       onClick={handleSaveVault}
-                      className="w-full py-3.5 bg-accent hover:bg-accent/90 text-obsidian-bg disabled:bg-accent/40 disabled:text-obsidian-bg/50 rounded-xl font-medium tracking-wide transition-all flex items-center justify-center gap-2"
+                      className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium tracking-wide text-obsidian-bg transition-all hover:bg-accent/90 disabled:bg-accent/40 disabled:text-obsidian-bg/50"
                     >
-                      {isSaving ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      ) : (
-                        <Lock className="w-4 h-4" />
-                      )}
+                      {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
                       Försegla i Valvet (WORM)
                     </button>
                   </div>
@@ -443,9 +415,8 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
               )}
             </div>
           )}
-
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }

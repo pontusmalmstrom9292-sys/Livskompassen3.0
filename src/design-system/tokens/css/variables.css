@@ -189,6 +189,10 @@
   --ds-z-overlay: 50;
   --ds-z-modal: 60;
   --ds-z-toast: 70;
+
+  /* Legacy aliases — deprecated routes (/reflection, /dashboard, /orakel) */
+  --color-nordic-dusk: var(--bg-dusk, var(--bg));
+  --color-obsidian-calm: var(--surface, var(--bg));
 }
 
 @media (prefers-reduced-motion: reduce) {

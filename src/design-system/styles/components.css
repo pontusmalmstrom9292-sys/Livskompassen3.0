@@ -453,6 +453,24 @@
     padding: var(--ds-space-5);
   }
 
+  .ds-sheet-panel--tall {
+    display: flex;
+    flex-direction: column;
+    max-width: 42rem;
+    max-height: 85vh;
+    overflow: hidden;
+    padding: 0;
+    border-radius: var(--ds-radius-3xl) var(--ds-radius-3xl) 0 0;
+    border-bottom: none;
+  }
+
+  @media (min-width: 640px) {
+    .ds-sheet-panel--tall {
+      border-radius: var(--ds-radius-3xl);
+      border-bottom: 1px solid color-mix(in srgb, var(--ds-color-border) 40%, transparent);
+    }
+  }
+
   /* —— Icon wrapper —— */
   .ds-icon {
     display: inline-flex;

@@ -1,62 +1,54 @@
 {
   "version": 2,
-  "description": "Copilot YOLO-kö v2 — Fas 24 efter v1 (7/7). Prioriterad build/smoke.",
+  "description": "Copilot YOLO-kö v3 — Fas 24 efter Node22+ffv7 deploy. UI-commits, bundle-split, typecheck, empty-states.",
   "tasks": [
     {
-      "id": "tier2-smoke-fix-loop",
-      "title": "Tier2 smoke fix-loop (inkast-vardag m.fl.)",
-      "plan": "Kör npm run smoke:tier2. Fixa första FAIL tills PASS. Känd start: src/modules/capture/CapturePanel.tsx saknar inkastDestinationLink (smoke:inkast-vardag). Minimal diff per fix.",
-      "smoke": ["npm run smoke:tier2"],
+      "id": "commit-ui-dirty",
+      "title": "Committa öppna UI-ändringar från yolo-loop",
+      "plan": "git status visar 21 smutsiga UI-filer (design-tokens, Modal, Sheet, DashboardHub, m.fl.). Verifiera att build + smoke:locked-ux PASS, sedan commit med konventionellt meddelande. Inga infra-filer.",
+      "smoke": ["npm run build", "npm run smoke:locked-ux"],
       "pmir": false,
       "deploy": "none"
     },
     {
-      "id": "lifeos-kopplingar-d",
-      "title": "Life OS kopplingar Fas D (nästa wire)",
-      "plan": "docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md — implementera nästa P0-koppling/Firestore-wire som saknas efter Fas C. Locked UX intakt.",
-      "smoke": ["npm run build", "npm run smoke:locked-ux", "npm run smoke:orkester"],
-      "pmir": false,
-      "deploy": "hosting"
-    },
-    {
-      "id": "design-hex-tokens-p2",
-      "title": "Design hex→tokens P2",
-      "plan": "docs/evaluations/2026-06-26-fas24-masterplan-v2.md våg 24.A — fortsätt hex→token i zoner enligt design-calm. Ingen ny färg utanför tokens.",
-      "smoke": ["npm run smoke:design-modules", "npm run smoke:locked-ux"],
-      "pmir": false,
-      "deploy": "hosting"
-    },
-    {
-      "id": "fas24-governance-sync",
-      "title": "Fas 24 styrning sync",
-      "plan": "docs/evaluations/2026-06-26-fas24-masterplan-v2.md våg 24.A — synka agent-register, copilot-rules-pack, mdc pekare. npm run smoke:mdc PASS.",
-      "smoke": ["npm run smoke:mdc", "npm run smoke:agents-ui"],
+      "id": "super-yolo-gate",
+      "title": "Super-yolo gate (full smoke-svit)",
+      "plan": "Kör npm run smoke:super-yolo. Fixa första FAIL minimalt. Ska PASS innan nästa deploy.",
+      "smoke": ["npm run smoke:super-yolo"],
       "pmir": false,
       "deploy": "none"
     },
     {
-      "id": "g85-daily-driver",
-      "title": "G85 daily driver — prep + smoke",
-      "plan": "docs/evaluations/2026-06-25-g85-daily-driver.md — build:web, cap sync, smoke:android-platform + smoke:auth-login PASS. Dokumentera 7-dagars checklista (manuell körning på enhet).",
-      "smoke": ["npm run build:web", "npm run smoke:android-platform", "npm run smoke:auth-login"],
-      "pmir": false,
-      "deploy": "none"
-    },
-    {
-      "id": "zone-polish-valv",
-      "title": "Zon-polish Valv (Fas 24.B)",
-      "plan": "docs/evaluations/2026-06-26-fas24-masterplan-v2.md — en zon i taget: Valv polish (Executive Midnight, låg kognitiv belastning). smoke:valv-security + locked-ux PASS.",
-      "smoke": ["npm run smoke:valv-security", "npm run smoke:locked-ux", "npm run smoke:design-modules"],
+      "id": "vite-bundle-split",
+      "title": "Vite lazy-loading /valvet + /familjen",
+      "plan": "Roadmap Vecka 1: Sätt upp dynamic import() för /valvet och /familjen routes i src/App.tsx (eller router-fil). Verifiera att zone-valv-chunk minskar i dist/. smoke:locked-ux PASS.",
+      "smoke": ["npm run build", "npm run smoke:locked-ux"],
       "pmir": false,
       "deploy": "hosting"
+    },
+    {
+      "id": "empty-states",
+      "title": "Vänliga empty-states i listvyer",
+      "plan": "Roadmap Low-Effort/High-Impact: Lägg till mjuka tomma tillstånd ('Det är tryggt och tomt här...') i minst 3 listvyer (Dagbok, Planering, Familjen Livslogg). Känsla av omtanke, inga null-renders.",
+      "smoke": ["npm run build", "npm run smoke:locked-ux"],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "typecheck-features",
+      "title": "Expandera typecheck:core-strict över features/",
+      "plan": "Roadmap Vecka 1: Utöka tsconfig.strict/core-strict scope till src/modules/features/. Kör npm run typecheck:core-strict, fixa fel i grupper (max 30 min per session). Noll nya suppressions.",
+      "smoke": ["npm run typecheck:core-strict"],
+      "pmir": false,
+      "deploy": "none"
     },
     {
       "id": "predeploy-live-prep",
-      "title": "Predeploy live-prep (ej deploy)",
-      "plan": "docs/evaluations/2026-06-26-yolo-audit.md — smoke:predeploy PASS, skriv deploy-instruktion för hosting+functions i logg. Live smoke:predeploy:live kräver .env — kör manuellt efter Pontus OK.",
+      "title": "Predeploy + live-deploy (hosting)",
+      "plan": "Kör npm run smoke:predeploy:build PASS. Deploy hosting med Pontus OK: firebase deploy --only hosting.",
       "smoke": ["npm run smoke:predeploy:build"],
       "pmir": true,
-      "deploy": "hosting,functions"
+      "deploy": "hosting"
     }
   ]
 }

@@ -33,7 +33,7 @@ function DashboardHubContent() {
 
   if (error) {
     return (
-      <div className="w-full h-full min-h-[80vh] p-8 text-red-500 bg-[var(--color-nordic-dusk)]">
+      <div className="w-full h-full min-h-[80vh] p-8 text-red-500 bg-[var(--bg-dusk)]">
         <h2>Ett fel uppstod:</h2>
         <p>{error}</p>
       </div>
@@ -41,10 +41,7 @@ function DashboardHubContent() {
   }
 
   return (
-    <div 
-      className="w-full h-full min-h-[80vh] p-4 sm:p-6 md:p-8 text-white transition-colors duration-300 relative"
-      style={{ backgroundColor: 'var(--color-nordic-dusk)' }}
-    >
+    <div className="w-full h-full min-h-[80vh] bg-[var(--bg-dusk)] p-4 text-white transition-colors duration-300 relative sm:p-6 md:p-8">
       <div className="max-w-6xl mx-auto space-y-8">
         <header className="flex items-center justify-between mb-4">
           <h1 className="text-3xl font-bold tracking-tight text-white/90">Dagens Översikt</h1>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { X, Smile, Zap } from 'lucide-react';
+import { Modal } from '@/design-system';
 import { useMabraStore } from '@/modules/features/dailyLife/wellbeing/mabra/store/mabraStore';
 import { useStore } from '@/core/store';
 import { toast } from '@/modules/core/store/toastStore';
@@ -208,8 +209,14 @@ export function MabraCheckinModal({
   if (isInline) return card;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-obsidian-bg/85 backdrop-blur-md">
+    <Modal
+      open={isOpen}
+      onClose={onClose}
+      ariaLabel="Ny MåBra-incheckning"
+      hideHeader
+      panelClassName="max-w-md border-0 bg-transparent p-0 shadow-none backdrop-blur-none"
+    >
       {card}
-    </div>
+    </Modal>
   );
 }
