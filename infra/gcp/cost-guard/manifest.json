@@ -59,7 +59,6 @@
     "datafusion.googleapis.com",
     "memcache.googleapis.com",
     "file.googleapis.com",
-    "cloudscheduler.googleapis.com",
     "cloudtasks.googleapis.com",
     "workstations.googleapis.com",
     "gkehub.googleapis.com",
