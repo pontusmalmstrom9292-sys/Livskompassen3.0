@@ -1,31 +1,20 @@
 {
   "version": 2,
-  "startedAt": "2026-06-28T06:08:27.592Z",
-  "updatedAt": "2026-06-28T08:45:21.838Z",
-  "currentTaskId": null,
+  "startedAt": "2026-06-28T10:43:00.000Z",
+  "updatedAt": "2026-06-28T08:59:18.879Z",
+  "currentTaskId": "super-yolo-gate",
   "completedTaskIds": [
-    "tier2-smoke-fix-loop",
-    "lifeos-kopplingar-d",
-    "design-hex-tokens-p2",
-    "fas24-governance-sync",
-    "g85-daily-driver",
-    "zone-polish-valv",
-    "predeploy-live-prep",
-    "zone-polish-hjartat",
-    "zone-polish-familjen",
-    "valv-chat-e2e-fix",
     "commit-ui-dirty"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
   "taskOrder": [
+    "commit-ui-dirty",
     "super-yolo-gate",
     "vite-bundle-split",
     "empty-states",
     "typecheck-features",
-    "zone-polish-vardagen",
-    "hosting-deploy-prep",
-    "g85-prod-sync"
+    "predeploy-live-prep"
   ],
-  "taskStartSha": null
+  "taskStartSha": "2998d8ca7990e35e4a45a8902b065018d882c0d2"
 }
