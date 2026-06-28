@@ -1,11 +1,12 @@
 {
   "version": 2,
   "startedAt": "2026-06-28T01:37:16.372Z",
-  "updatedAt": "2026-06-28T02:20:22.716Z",
-  "currentTaskId": "design-hex-tokens-p2",
+  "updatedAt": "2026-06-28T02:27:16.799Z",
+  "currentTaskId": "fas24-governance-sync",
   "completedTaskIds": [
     "tier2-smoke-fix-loop",
-    "lifeos-kopplingar-d"
+    "lifeos-kopplingar-d",
+    "design-hex-tokens-p2"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
@@ -18,5 +19,5 @@
     "zone-polish-valv",
     "predeploy-live-prep"
   ],
-  "taskStartSha": "df025b3ba1fc9dfa1a2f86bd229619e7a6133e85"
+  "taskStartSha": "eb7e6db5816665d669ff59d33dc2699dee5260d1"
 }

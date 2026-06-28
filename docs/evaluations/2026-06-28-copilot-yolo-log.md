@@ -12,3 +12,5 @@
 | 02:12:31 | tier2-smoke-fix-loop | PASS | ok | Tier2 smoke fix-loop (inkast-vardag m.fl.) |
 | 02:20:22 | lifeos-kopplingar-d | PASS | ok | Life OS kopplingar Fas D (nästa wire) |
 | 02:20:22 | lifeos-kopplingar-d | deploy-ready | — | firebase use gen-lang-client-0481875058 && firebase deploy --only hosting |
+| 02:27:16 | design-hex-tokens-p2 | PASS | ok | Design hex→tokens P2 |
+| 02:27:16 | design-hex-tokens-p2 | deploy-ready | — | firebase use gen-lang-client-0481875058 && firebase deploy --only hosting |
