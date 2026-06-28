@@ -32,3 +32,5 @@ Kräver Pontus OK. Kör `npm run smoke:predeploy:build` före prod.
 | `smoke:yolo` | PASS | Snabb tier |
 
 **Deploy-rekommendation:** Static gate grön. Live e2e (`smoke:predeploy:live`) körs manuellt med `.env` före prod.
+
+**Deploy-instruktion:** `firebase use gen-lang-client-0481875058 && firebase deploy --only hosting,functions` (inte kört här).
