@@ -9,7 +9,7 @@
 
 ## Purpose
 
-Canonical specification for **code standards** in Livskompassen. Tokens only, no hex in features/, chameleon logic/shell/skin, component-standards, ds primitives.
+Canonical specification for **code standards** in Livskompassen. Tokens only, no hex in `features/`, Chameleon logic/shell/skin, Component Standards, DS primitives.
 
 ## Philosophy
 

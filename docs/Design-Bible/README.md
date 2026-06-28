@@ -31,7 +31,7 @@ Every future UI decision must trace back to a chapter here.
 | 19 | [19-Compass.md](./19-Compass.md) | Compass | 252 | Complete |
 | 20 | [20-Buttons.md](./20-Buttons.md) | Buttons | 257 | Complete |
 | 21 | [21-Inputs.md](./21-Inputs.md) | Inputs | 261 | Complete |
-| 22 | [22-Sheets.md](./22-Sheets.md) | Sheets | 294 | Complete |
+| 22 | [22-Sheets.md](./22-Sheets.md) | Sheets | 293 | Complete |
 | 23 | [23-Modals.md](./23-Modals.md) | Modals | 266 | Complete |
 | 24 | [24-Lists.md](./24-Lists.md) | Lists | 284 | Complete |
 | 25 | [25-Journal.md](./25-Journal.md) | Journal | 274 | Complete |

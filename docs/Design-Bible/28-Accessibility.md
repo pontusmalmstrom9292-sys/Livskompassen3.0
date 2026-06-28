@@ -9,7 +9,7 @@
 
 ## Purpose
 
-Canonical specification for **accessibility** in Livskompassen. WCAG AA, 44px touch, reduced motion, Swedish SR labels, cognitive a11y, usesReducedMotion.
+Canonical specification for **accessibility** in Livskompassen. WCAG AA, 44px touch, reduced motion, Swedish screen reader labels, cognitive a11y, `useReducedMotion`.
 
 ## Philosophy
 
