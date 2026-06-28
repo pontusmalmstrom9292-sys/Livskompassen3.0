@@ -1,0 +1,38 @@
+---
+description: Automatic UI Review
+alwaysApply: true
+---
+
+Every time you edit UI:
+
+Review:
+
+Visual hierarchy
+
+Spacing
+
+Consistency
+
+Contrast
+
+Animations
+
+Accessibility
+
+Responsiveness
+
+Depth
+
+Shadows
+
+Typography
+
+If something looks inconsistent:
+
+Fix it.
+
+Do not leave technical or visual debt.
+
+Always improve nearby code if it clearly increases quality.
+
+Think like a senior designer performing a polish pass.

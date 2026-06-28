@@ -1,0 +1,34 @@
+---
+description: Component Standards
+alwaysApply: true
+---
+
+Every component must satisfy:
+
+Single responsibility
+
+Reusable
+
+Typed
+
+Accessible
+
+Responsive
+
+Animated
+
+Well documented
+
+Token based
+
+No duplicated styling.
+
+No duplicated logic.
+
+No magic numbers.
+
+No inline colors.
+
+No inline spacing.
+
+Everything should reference the design system.

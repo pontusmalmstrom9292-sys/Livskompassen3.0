@@ -1,27 +1,23 @@
 {
   "version": 2,
-  "startedAt": "2026-06-28T01:37:16.372Z",
-  "updatedAt": "2026-06-28T02:50:32.663Z",
+  "startedAt": "2026-06-28T06:08:27.592Z",
+  "updatedAt": "2026-06-28T08:45:00.000Z",
   "currentTaskId": null,
   "completedTaskIds": [
-    "tier2-smoke-fix-loop",
-    "lifeos-kopplingar-d",
-    "design-hex-tokens-p2",
-    "fas24-governance-sync",
-    "g85-daily-driver",
-    "zone-polish-valv",
-    "predeploy-live-prep"
+    "zone-polish-hjartat",
+    "zone-polish-vardagen",
+    "zone-polish-familjen"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
   "taskOrder": [
-    "tier2-smoke-fix-loop",
-    "lifeos-kopplingar-d",
-    "design-hex-tokens-p2",
-    "fas24-governance-sync",
-    "g85-daily-driver",
-    "zone-polish-valv",
-    "predeploy-live-prep"
+    "zone-polish-hjartat",
+    "zone-polish-vardagen",
+    "zone-polish-familjen",
+    "valv-chat-e2e-fix",
+    "super-yolo-gate",
+    "hosting-deploy-prep",
+    "g85-prod-sync"
   ],
   "taskStartSha": null
 }
