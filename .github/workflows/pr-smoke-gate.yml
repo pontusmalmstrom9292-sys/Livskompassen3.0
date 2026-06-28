@@ -40,5 +40,8 @@ jobs:
       - name: Smoke pre-deploy gate (YOLO static)
         run: npm run smoke:predeploy
 
+      - name: Agents UI unit tests
+        run: npm run test:agents-ui
+
       - name: Typecheck core strict
         run: npm run typecheck:core-strict
