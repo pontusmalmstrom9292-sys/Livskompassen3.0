@@ -1,9 +1,11 @@
 {
   "version": 2,
   "startedAt": "2026-06-28T06:08:27.592Z",
-  "updatedAt": "2026-06-28T06:08:27.592Z",
+  "updatedAt": "2026-06-28T06:15:00.000Z",
   "currentTaskId": null,
-  "completedTaskIds": [],
+  "completedTaskIds": [
+    "zone-polish-hjartat"
+  ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
   "taskOrder": [
