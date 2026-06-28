@@ -37,6 +37,33 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — PlaneringPage shell polish
+
+**Completed work:**
+- Polished the Planering shell with layered ambient sheen, softened card surfaces, and clearer focus states.
+- Kept the smoke-required `PlanningKanbanBoard` and `PLANERING_MORE_TABS` references intact while removing stray dead-code churn.
+
+**Files changed:**
+- src/modules/features/admin/planning/components/PlaneringPage.tsx
+- src/modules/features/admin/planning/components/planering.css
+- docs/TODO.md
+- docs/DASHBOARD.md
+
+**Metrics:** (btn-pill count, smoke results)
+- Build PASS
+- smoke:locked-ux PASS
+
+**Reasoning:**
+- Planering is the first open in-flight zone in the roadmap, so finishing the hub shell first keeps the visual system consistent before the deeper panels are tackled.
+
+**Next steps:**
+- Continue with `PlanningKanbanBoard` or the next open Planering subpanel.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Executive home card depth pass
 
 **Completed work:**

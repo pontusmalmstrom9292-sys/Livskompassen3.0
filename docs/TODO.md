@@ -116,7 +116,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] ExecutiveReflektionHero polish
 - [x] Executive home cards (Livslogg, etc.)
 - [ ] LivLauncherPage bento grid
-- [ ] PlaneringPage (complete in-flight)
+- [x] PlaneringPage (complete in-flight)
 - [ ] PlanningKanbanBoard (in-flight)
 - [ ] PlaneringInkorgPanel (in-flight)
 - [ ] InkorgPreviewSheet (in-flight)

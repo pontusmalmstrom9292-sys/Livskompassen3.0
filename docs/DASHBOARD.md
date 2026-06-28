@@ -143,6 +143,7 @@ Run `scripts/count_design_debt.mjs` when implemented (Phase 9).
 - **Priority:** High
 - **Dependencies:** Button, Sheet
 - **Files:** PlaneringPage, PlanningKanbanBoard, InkorgPreviewSheet, CognitiveGuard*, PlaneringFokusPanel, PlaneringInkorgPanel, PlaneringParalysEntry
+- **Notes:** PlaneringPage shell polish landed; the remaining planning panels are still open as separate passes.
 
 ### Valv
 - **Status:** In Progress
