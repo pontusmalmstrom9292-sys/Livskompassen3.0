@@ -11,7 +11,8 @@
  *   npm run copilot:yolo -- done|skip|task <id>
  *
  * Env:
- *   COPILOT_YOLO_SKIP_PREFLIGHT=1     hoppa orkester:night före våg
+ *   COPILOT_YOLO_SKIP_PREFLIGHT=1     hoppa pre-flight före våg
+ *   COPILOT_YOLO_FULL_PREFLIGHT=1     kör hela orkester:night (långsam, kräver ev. billing)
  *   COPILOT_YOLO_ALLOW_PMIR=1         tillåt PMIR-filer (endast med Pontus OK)
  *
  * Kräver: brew install copilot-cli && copilot login
@@ -104,13 +105,13 @@ function appendLog(taskId, status, smoke, note) {
   appendFileSync(logPath, `| ${ts} | ${taskId} | ${status} | ${smoke} | ${note} |\n`, 'utf8');
 }
 
-function runStep(label, command) {
+function runStep(label, command, extraEnv = {}) {
   console.log(`[copilot:yolo] ${label} → ${command}`);
   const r = spawnSync(command, {
     cwd: root,
     shell: true,
     stdio: 'inherit',
-    env: process.env,
+    env: { ...process.env, ...extraEnv },
   });
   return r.status === 0;
 }
@@ -273,8 +274,16 @@ function runPreflight() {
     console.log('[copilot:yolo] Pre-flight hoppad (COPILOT_YOLO_SKIP_PREFLIGHT=1)');
     return true;
   }
-  console.log('[copilot:yolo] Pre-flight: orkester:night (deterministisk, ingen LLM)...');
-  return runStep('preflight', 'npm run orkester:night');
+  if (process.env.COPILOT_YOLO_FULL_PREFLIGHT === '1') {
+    console.log('[copilot:yolo] Pre-flight: orkester:night (full, live-progress)...');
+    return runStep('preflight', 'npm run orkester:night', { ORKESTER_LIVE: '1' });
+  }
+  // Static gate — no Firestore capability gate, no long rollout network phase
+  console.log('[copilot:yolo] Pre-flight: static (locked-ux + orkester + build)...');
+  return runStep(
+    'preflight',
+    'npm run smoke:locked-ux && npm run smoke:orkester && cd functions && npm run build && cd .. && npm run build',
+  );
 }
 
 function runSmoke(task) {
