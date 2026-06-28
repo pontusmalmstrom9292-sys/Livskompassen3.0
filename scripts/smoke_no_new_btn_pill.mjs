@@ -10,14 +10,10 @@ const base = process.argv[2] ?? 'main';
 const root = join(import.meta.dirname, '..');
 
 try {
-  const diff = execFileSync(
-    'git',
-    ['diff', `${base}...HEAD`, '--unified=0', '--', 'src/modules'],
-    {
-      encoding: 'utf8',
-      cwd: root,
-    },
-  );
+  const diff = execFileSync('git', ['diff', `${base}...HEAD`, '--unified=0', '--', 'src/modules'], {
+    encoding: 'utf8',
+    cwd: root,
+  });
   const added = diff
     .split('\n')
     .filter((line) => line.startsWith('+') && !line.startsWith('+++'))
