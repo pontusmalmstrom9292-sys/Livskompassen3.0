@@ -1,15 +1,14 @@
 {
   "version": 2,
   "startedAt": "2026-06-28T10:43:00.000Z",
-  "updatedAt": "2026-06-28T09:13:54.273Z",
-  "currentTaskId": "super-yolo-gate",
+  "updatedAt": "2026-06-28T11:30:00.000Z",
+  "currentTaskId": null,
   "completedTaskIds": [
-    "commit-ui-dirty"
-  ],
-  "skippedTaskIds": [],
-  "failedTaskIds": [
+    "commit-ui-dirty",
     "super-yolo-gate"
   ],
+  "skippedTaskIds": [],
+  "failedTaskIds": [],
   "taskOrder": [
     "commit-ui-dirty",
     "super-yolo-gate",
@@ -18,5 +17,5 @@
     "typecheck-features",
     "predeploy-live-prep"
   ],
-  "taskStartSha": "2998d8ca7990e35e4a45a8902b065018d882c0d2"
+  "taskStartSha": null
 }
