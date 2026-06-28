@@ -22,6 +22,34 @@
     @apply relative z-10 space-y-4;
   }
 
+  .valv-zone-intro {
+    @apply rounded-2xl border px-3 py-2;
+    border-color: var(--color-indigo-20);
+    background: linear-gradient(
+      180deg,
+      var(--color-panel-obsidian-55) 0%,
+      var(--color-panel-obsidian-70) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .valv-zone-intro__header {
+    @apply mb-1 flex items-center gap-2;
+  }
+
+  .valv-zone-intro__eyebrow {
+    @apply text-[10px] uppercase tracking-[0.18em] text-accent-secondary;
+  }
+
+  .valv-zone-intro__title {
+    @apply text-sm font-medium text-text;
+  }
+
+  .valv-zone-intro__lead {
+    @apply text-xs leading-relaxed text-text-dim;
+  }
+
   .valv-zone-strip {
     @apply mb-1 flex items-center justify-center;
   }
