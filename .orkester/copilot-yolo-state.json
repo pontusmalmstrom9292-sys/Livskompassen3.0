@@ -1,17 +1,11 @@
 {
   "version": 2,
   "startedAt": "2026-06-28T06:08:27.592Z",
-  "updatedAt": "2026-06-28T06:15:00.000Z",
+  "updatedAt": "2026-06-28T08:30:00.000Z",
   "currentTaskId": null,
   "completedTaskIds": [
-    "tier2-smoke-fix-loop",
-    "lifeos-kopplingar-d",
-    "design-hex-tokens-p2",
-    "fas24-governance-sync",
-    "g85-daily-driver",
-    "zone-polish-valv",
-    "predeploy-live-prep",
-    "zone-polish-hjartat"
+    "zone-polish-hjartat",
+    "zone-polish-vardagen"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],

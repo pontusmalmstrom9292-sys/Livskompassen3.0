@@ -23,3 +23,4 @@
 | 02:50:32 | predeploy-live-prep | PASS | ok | Predeploy live-prep (ej deploy) |
 | 02:50:32 | predeploy-live-prep | deploy-ready | — | firebase use gen-lang-client-0481875058 && firebase deploy --only hosting,functions |
 | 06:11:43 | zone-polish-hjartat | PASS | ok | Cursor — zon-intro Dagbok/Speglar + växlare |
+| 06:28:47 | zone-polish-vardagen | PASS | ok | Cursor — zon-intro Kompasser/Ekonomi/MåBra på /vardagen |
