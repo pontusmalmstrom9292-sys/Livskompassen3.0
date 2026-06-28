@@ -21,6 +21,7 @@
 | smoke:design-modules | TBD | TBD | green |
 | smoke:locked-ux | TBD | PASS (2026-06-28) | green |
 | `zone-valv` route chunk (js) | 768.53 kB | 2.65 kB | keep route-entry small |
+| `typecheck:core-strict` scope | core/shared/morning | core/shared/features/morning (PASS 2026-06-28) | features included |
 
 Run `scripts/count_design_debt.mjs` when implemented (Phase 9).
 

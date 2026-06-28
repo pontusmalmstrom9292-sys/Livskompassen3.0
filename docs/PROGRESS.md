@@ -73,6 +73,33 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-28 — SAFE YOLO v2: typecheck-features
+
+**Completed work:**
+- Expanded `typecheck:core-strict` include scope to the full `src/modules/features/` tree via `src/modules/features/**/*`.
+- Kept wave scope isolated to strict typecheck configuration + required governance docs.
+
+**Files changed:**
+- tsconfig.core-strict.json
+- docs/TODO.md
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run typecheck:core-strict PASS
+- npm run smoke:predeploy:build PASS
+
+**Reasoning:**
+- Full features coverage in strict typecheck closes drift between feature modules and core/shared strict checks.
+
+**Next steps:**
+- None for this wave.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-28 — SAFE YOLO v2: friendly empty-states wave
 
 **Completed work:**
