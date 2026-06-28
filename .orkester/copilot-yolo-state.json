@@ -1,7 +1,7 @@
 {
   "version": 2,
   "startedAt": "2026-06-28T01:37:16.372Z",
-  "updatedAt": "2026-06-28T08:45:21.838Z",
+  "updatedAt": "2026-06-28T22:00:00.000Z",
   "currentTaskId": null,
   "completedTaskIds": [
     "tier2-smoke-fix-loop",
@@ -15,7 +15,13 @@
     "zone-polish-vardagen",
     "zone-polish-familjen",
     "valv-chat-e2e-fix",
-    "commit-ui-dirty"
+    "commit-ui-dirty",
+    "super-yolo-gate",
+    "vite-bundle-split",
+    "empty-states",
+    "typecheck-features",
+    "hosting-deploy-prep",
+    "g85-prod-sync"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
@@ -28,5 +34,5 @@
     "hosting-deploy-prep",
     "g85-prod-sync"
   ],
-  "taskStartSha": "32e8b64abd59050e611398ef8d497e2ea73a96a4"
+  "taskStartSha": "6d0370f80d16b3f7c0a07ec592a7aa88fd032584"
 }
