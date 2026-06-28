@@ -34,7 +34,7 @@ export function StampClockControls({ isClockedIn, busy, compact, onStampIn, onSt
         disabled={busy || !isClockedIn}
         onClick={onStampOut}
         className={`${btnClass} ${
-          isClockedIn && !busy ? 'ds-btn ds-btn--success-solid' : 'ds-btn ds-btn--ghost opacity-40'
+          isClockedIn && !busy ? 'ds-btn ds-btn--success' : 'ds-btn ds-btn--ghost opacity-40'
         }`}
       >
         {busy && isClockedIn ? (

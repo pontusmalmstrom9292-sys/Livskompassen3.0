@@ -1,8 +1,8 @@
-import type { HTMLAttributes } from 'react';
+import type { SVGProps } from 'react';
 import { Loader2 } from 'lucide-react';
 import { cn } from '../utils/cn';
 
-export type SpinnerProps = HTMLAttributes<SVGSVGElement> & {
+export type SpinnerProps = SVGProps<SVGSVGElement> & {
   size?: 'sm' | 'md' | 'lg';
 };
 
