@@ -8,6 +8,8 @@
 | File | Purpose |
 |------|---------|
 | [`01-Vision.md`](./01-Vision.md) | Product vision and design north star |
+| [`02-Design-Philosophy.md`](./02-Design-Philosophy.md) | How to think when making design decisions |
+| [`03-Core-Principles.md`](./03-Core-Principles.md) | Non-negotiable invariants for UI and data integrity |
 
 ## Canonical sources (outside folder)
 
