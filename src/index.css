@@ -127,6 +127,10 @@
     radial-gradient(ellipse at top left, var(--color-emerald-08) 0%, transparent 52%),
     radial-gradient(ellipse at bottom right, var(--color-lavender-06) 0%, transparent 55%),
     radial-gradient(circle at center, var(--color-panel-obsidian-88) 0%, transparent 68%);
+  --zone-gradient-vardagen:
+    radial-gradient(ellipse at top right, var(--color-emerald-08) 0%, transparent 50%),
+    radial-gradient(ellipse at bottom left, var(--color-gold-06) 0%, transparent 48%),
+    radial-gradient(circle at center, var(--color-panel-obsidian-85) 0%, transparent 70%);
 
   /* Hem scenic — kall obsidian/graphit (ej espresso/brunt) */
   --home-hero-gradient-top: rgba(20, 28, 43, 0.82);
