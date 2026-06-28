@@ -32,6 +32,7 @@ import { BentoCard } from '@/shared/ui/BentoCard';
 import { FamiljenBentoShell } from '@/features/family/children/components/familjen/FamiljenBentoShell';
 import { ParentReminderFooter } from '@/features/family/children/components/ParentReminderFooter';
 import { useMinWidthSm } from '../hooks/useMinWidthSm';
+import type { FamiljenInputMode } from '@/features/family/children/supermodule/familjenInputModes';
 
 const FAMILJ_OPTIONS: DropdownItem<FamiljenTabId>[] = [
   { id: 'reflektion', label: 'Dagens Barnfokus', icon: <Sparkles className="h-4 w-4" /> },
@@ -48,6 +49,30 @@ const VALID_TABS = new Set<FamiljenTabId>(FAMILJEN_TAB_IDS);
 
 /** F3 — Barnfokus/Livslogg: supermodule-picker räcker; full HubDropdownNav på övriga flikar. */
 const FAMILJEN_INPUT_HUB_TABS: FamiljenTabId[] = ['reflektion', 'livslogg'];
+
+type FamiljenTabPolish = {
+  eyebrow: string;
+  lead: string;
+};
+
+const FAMILJEN_TAB_POLISH: Partial<Record<FamiljenTabId, FamiljenTabPolish>> = {
+  reflektion: {
+    eyebrow: 'Barnfokus',
+    lead: 'Ett tryggt mikrosteg i taget. Fråga, lyssna, logga — utan att översvämma vardagen.',
+  },
+  livslogg: {
+    eyebrow: 'Livslogg',
+    lead: 'Samla stunder, mönster och signaler med tydlig barnsilo och lugn dokumentation.',
+  },
+  barnporten: {
+    eyebrow: 'Barnporten',
+    lead: 'Barnens kanal hålls separat. Granskning sker i föräldraflödet innan något lyfts vidare.',
+  },
+  hamn: {
+    eyebrow: 'Trygg Hamn',
+    lead: 'BIFF och Grey Rock för svåra meddelanden. Inget skickas automatiskt och panelen rensas vid avslut.',
+  },
+};
 
 function FamiljenHubToolbar({
   activeTab,
@@ -143,6 +168,9 @@ export function FamiljenPage() {
 
   const showChildPicker =
     activeTab === 'reflektion' || activeTab === 'livslogg' || activeTab === 'barnporten';
+  const tabPolish = FAMILJEN_TAB_POLISH[activeTab];
+  const initialInputMode: FamiljenInputMode | undefined =
+    activeTab === 'livslogg' ? 'livslogg_stund' : undefined;
 
   return (
     <HubErrorBoundary
@@ -174,11 +202,24 @@ export function FamiljenPage() {
             </BentoCard>
           )}
 
+          {tabPolish && (
+            <BentoCard glow="blue" noHover className="!p-3 sm:!p-4">
+              <p className="text-[10px] uppercase tracking-[0.18em] text-accent-secondary/80">
+                {tabPolish.eyebrow}
+              </p>
+              <p className="mt-1 text-xs text-text-dim">{tabPolish.lead}</p>
+            </BentoCard>
+          )}
+
           <Suspense fallback={<div className="p-4 text-center text-sm text-text-muted">Laddar Familjen-verktyg...</div>}>
             {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
               <>
                 <div className="pt-4 pb-2">
-                  <FamiljenInputSuperModule shell={shell} flowWithIsland={desktopHubLock} />
+                  <FamiljenInputSuperModule
+                    shell={shell}
+                    flowWithIsland={desktopHubLock}
+                    initialMode={initialInputMode}
+                  />
                 </div>
                 <div className="familjen-tab-panel">
                   {activeTab === 'reflektion' ? (
