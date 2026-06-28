@@ -1,38 +1,19 @@
 {
   "version": 2,
-  "startedAt": "2026-06-28T01:37:16.372Z",
-  "updatedAt": "2026-06-28T22:05:06.726Z",
+  "startedAt": "2026-06-28T22:15:00.000Z",
+  "updatedAt": "2026-06-28T22:15:00.000Z",
   "currentTaskId": null,
-  "completedTaskIds": [
-    "tier2-smoke-fix-loop",
-    "lifeos-kopplingar-d",
-    "design-hex-tokens-p2",
-    "fas24-governance-sync",
-    "g85-daily-driver",
-    "zone-polish-valv",
-    "predeploy-live-prep",
-    "zone-polish-hjartat",
-    "zone-polish-vardagen",
-    "zone-polish-familjen",
-    "valv-chat-e2e-fix",
-    "commit-ui-dirty",
-    "super-yolo-gate",
-    "vite-bundle-split",
-    "empty-states",
-    "typecheck-features",
-    "hosting-deploy-prep",
-    "g85-prod-sync"
-  ],
+  "completedTaskIds": [],
   "skippedTaskIds": [],
   "failedTaskIds": [],
   "taskOrder": [
-    "super-yolo-gate",
-    "vite-bundle-split",
-    "empty-states",
-    "typecheck-features",
-    "zone-polish-vardagen",
-    "hosting-deploy-prep",
-    "g85-prod-sync"
+    "design-bible-merge",
+    "premium-ui-debt-baseline",
+    "focus-visible-quickwin",
+    "lazy-routes-vardagen-hjartat",
+    "hub-eyebrow-polish",
+    "hosting-deploy-wave",
+    "g85-friction-d4"
   ],
   "taskStartSha": null
 }

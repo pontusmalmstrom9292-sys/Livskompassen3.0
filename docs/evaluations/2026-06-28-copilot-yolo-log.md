@@ -32,3 +32,20 @@
 | 09:31:49 | super-yolo-gate | PASS | ok | smoke:super-yolo grön efter mdc/governance sync |
 | 22:00:00 | g85-prod-sync | PASS | ok | build:web + cap:sync:prod + smoke:android-platform + smoke:auth-login + smoke:android-prod-sync PASS. Fix: export CAPACITOR_SERVER_URL till cap sync. Manuell 7-dagars logg kvar på G85. |
 | 22:05:06 | g85-prod-sync | PASS | ok | G85 prod-sync + enhetsinstruktion |
+
+---
+
+## YOLO v4 start — Fas 24.C
+
+**Kö:** `.orkester/copilot-yolo-queue.json` v4 · 7 uppgifter · state nollställd 2026-06-28.
+
+| # | ID | Titel |
+|---|-----|-------|
+| 1 | design-bible-merge | Design Bible kap 19–22 → main |
+| 2 | premium-ui-debt-baseline | Design-debt baseline i DASHBOARD |
+| 3 | focus-visible-quickwin | Focus-visible polish |
+| 4 | lazy-routes-vardagen-hjartat | Lazy /vardagen + /hjartat |
+| 5 | hub-eyebrow-polish | Hub shells → textStyles.eyebrow |
+| 6 | hosting-deploy-wave | Deploy hosting efter polish |
+| 7 | g85-friction-d4 | G85 friktionslogg dag 4 |
+
