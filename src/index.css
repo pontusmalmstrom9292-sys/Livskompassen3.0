@@ -567,13 +567,6 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 
-  .dock-classic__center--holding .dock-classic__plate {
-    border-color: rgba(212, 175, 55, 0.62);
-    box-shadow:
-      0 0 0 1px rgba(212, 175, 55, 0.2),
-      0 0 calc(8px + var(--dock-hold, 0) * 0.12) rgba(212, 175, 55, 0.22);
-  }
-
   /* L2 hub-chrome tile (dock band, Mer-panel) */
   .hub-chrome-tile {
     @apply relative flex shrink-0 items-center justify-center;
