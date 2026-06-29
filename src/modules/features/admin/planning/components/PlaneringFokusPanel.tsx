@@ -43,7 +43,7 @@ export function PlaneringFokusPanel() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="planering-fokus-panel space-y-4">
       {isOverloaded && cognitiveGuardEnabled && (
         <CognitiveGuardOverloadBanner activeCount={activeTasks.length} />
       )}
@@ -53,7 +53,7 @@ export function PlaneringFokusPanel() {
         noHover
         title="Ditt mikrosteg nu"
         icon={<Target className="h-4 w-4" />}
-        className="space-y-4 text-center"
+        className="planering-fokus-panel__card space-y-4 text-center"
       >
         <p className="font-display text-xl text-accent">{focusTask.microStep ?? focusTask.title}</p>
         {focusTask.microStep && <p className="text-xs text-text-muted">Uppgift: {focusTask.title}</p>}
@@ -87,7 +87,7 @@ export function PlaneringFokusPanel() {
         </ButtonLink>
 
         {!focusTask.microStep && (
-          <div className="border-t border-white/10 pt-4 text-left">
+          <div className="planering-fokus-panel__paralys border-t border-white/10 pt-4 text-left">
             <Button variant="ghost" size="sm" onClick={() => setShowParalys((o) => !o)}>
               {showParalys ? `Dölj ${MICRO_STEP_PANEL_TITLE.toLowerCase()}` : 'Behöver du ett mikrosteg?'}
             </Button>
