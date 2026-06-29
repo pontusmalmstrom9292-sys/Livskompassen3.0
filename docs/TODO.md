@@ -192,6 +192,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Deprecate shared/ui re-exports
 - [x] Remove dead smart-bar / unlock-gate CSS from prod bundle
 - [x] Remove dead nav-drawer calm-2 selector
+- [x] Remove dead projekt-picker-sheet selectors
 
 ---
 
