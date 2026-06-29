@@ -63,6 +63,44 @@
     background: var(--color-shell-scrim);
   }
 
+  /* --- Bento icon boxes and typography --- */
+  .planering-bento-icon-box {
+    @apply mb-5 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10;
+  }
+
+  .planering-bento-icon-box--blue {
+    @apply border-blue-500/20 bg-blue-900/30 text-blue-400;
+  }
+
+  .planering-bento-icon-box--amber {
+    @apply border-amber-500/20 bg-amber-900/30 text-amber-400;
+  }
+
+  .planering-bento-icon-box--emerald {
+    @apply border-emerald-500/20 bg-emerald-900/30 text-emerald-400;
+  }
+
+  .planering-bento-title {
+    @apply mb-2 text-lg font-medium tracking-wide text-accent-light;
+  }
+
+  .planering-bento-text {
+    @apply text-sm leading-relaxed text-text-muted;
+  }
+
+  .planering-bento-footer {
+    @apply mt-5 border-t border-white/5 pt-4 text-xs text-text-dim;
+  }
+
+  /* --- Guard bar --- */
+  .planering-guard-bar {
+    @apply flex items-center justify-between rounded-2xl border px-4 py-3 text-xs;
+    border-color: var(--color-gold-15);
+    background: var(--color-panel-obsidian-60-dark);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
   /* --- Bento cards (glass) --- */
   .planering-kanban-bento__columns {
     @apply -mx-1 mt-5 flex gap-3 overflow-x-auto pb-2;

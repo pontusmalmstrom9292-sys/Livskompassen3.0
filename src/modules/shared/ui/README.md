@@ -6,7 +6,8 @@ Small, prop-driven primitives. Export from `index.ts`:
 - **Card** — thin wrapper
 - **BentoCard** — Obsidian Calm hub card (canonical)
 - **Input** — form field
-- **Modal** — dialog shell
+
+> **Modal** is available from the design-system: `import { Modal } from '@/design-system'`
 
 Import the module-local primitives directly:
 
