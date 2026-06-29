@@ -84,7 +84,7 @@ function main() {
   );
 
   mustInclude(
-    'src/index.css',
+    'src/modules/core/layout/coreLayoutChrome.css',
     'grid-cols-[minmax(0,1fr)_auto_auto]',
     'fyren-header-quick__toggle-wrap',
   );
