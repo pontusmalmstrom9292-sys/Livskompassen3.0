@@ -229,6 +229,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Remove dead dock-nav-btn--active dock-nav-btn__chrome-v4 selector
 - [x] Remove dead dock-nav-btn__glyph selector
 - [x] Remove dead floating-dock__side-btn--planering selectors
+- [x] Remove dead floating-dock__side-btn--dagbok selectors
 
 ---
 

@@ -37,6 +37,33 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — Dead floating-dock dagbok side selectors removed
+
+**Completed work:**
+- Removed unused `.floating-dock__side-btn--dagbok` selector references from `src/index.css`.
+- Kept active floating-dock side selector groups unchanged in this micro-wave.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3138
+- `npm run build`: PASS
+
+**Reasoning:**
+- `floating-dock__side-btn--dagbok` has no active `src` consumers, so pruning those selector arms safely trims dead dock CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead floating-dock planering side selectors removed
 
 **Completed work:**
