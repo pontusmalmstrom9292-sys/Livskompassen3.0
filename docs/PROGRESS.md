@@ -37,6 +37,34 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — Widget bar CSS localized
+
+**Completed work:**
+- Moved the Fyren widget bar styles out of `src/index.css` and into the existing widget shell stylesheet.
+- Kept the widget bar component wired to the localized stylesheet so behavior stays unchanged.
+
+**Files changed:**
+- src/index.css
+- src/modules/core/components/FyrenWidgetBar.tsx
+- src/modules/features/widgets/layout/WidgetShell.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3762
+
+**Reasoning:**
+- Widget bar chrome is feature-local presentation and no longer needs to live in the global stylesheet.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Valv wave complete
 
 **Completed work:**

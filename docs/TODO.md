@@ -165,6 +165,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] WidgetVoiceVaultPage
 - [x] WidgetProjektPage
 - [x] WidgetActionDashboardPage
+- [x] FyrenWidgetBar CSS localization into WidgetShell.css
 - [x] smoke:widgets
 - [x] Motorola G85 manual test pass
 
