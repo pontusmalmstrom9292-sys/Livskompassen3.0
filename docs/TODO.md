@@ -208,6 +208,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Remove dead kompis-hub-page__intro selector
 - [x] Remove dead dock-center__label selector
 - [x] Remove dead dock-classic__context-close selector
+- [x] Remove dead dock-classic__context-title selector
 
 ---
 
