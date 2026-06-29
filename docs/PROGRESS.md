@@ -38,6 +38,32 @@ Copy the template below for each entry. Newest first.
 ---
 
 
+## 2026-06-29 — Dead btn-pill--primary selector removed
+
+**Completed work:**
+- Removed unused `.btn-pill--primary` from `src/index.css`.
+- Kept active `btn-pill--secondary` and `btn-pill--success` styling intact.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3404
+
+**Reasoning:**
+- `btn-pill--primary` had no active `src` consumers, so removing it safely trims global CSS without UX impact.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead ambient blob variants removed
 
 **Completed work:**

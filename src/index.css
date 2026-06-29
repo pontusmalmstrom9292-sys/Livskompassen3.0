@@ -2318,10 +2318,6 @@
     outline-offset: 2px;
   }
 
-  .btn-pill--primary {
-    @apply btn-pill border-accent/50 bg-accent/15 text-accent-light hover:bg-accent/25;
-  }
-
   .btn-pill--secondary {
     @apply btn-pill;
     position: relative;
