@@ -567,13 +567,6 @@
       inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 
-  .dock-classic__center--active .dock-classic__plate {
-    border-color: rgba(212, 175, 55, 0.48);
-    box-shadow:
-      0 4px 14px var(--color-glass-dark-50),
-      0 0 14px rgba(212, 175, 55, 0.14);
-  }
-
   .dock-classic__center--holding .dock-classic__plate {
     border-color: rgba(212, 175, 55, 0.62);
     box-shadow:
