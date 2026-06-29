@@ -924,30 +924,6 @@
       inset 0 1px 0 rgba(255, 248, 220, 0.1);
   }
 
-  /* Dagbok (Tab 4) border colors */
-  .floating-dock__side-btn--dagbok .dock-nav-btn__icon-shell--calm {
-    border: 1.5px solid rgba(212, 175, 55, 0.45);
-    box-shadow:
-      0 1px 0 rgba(255, 255, 255, 0.08) inset,
-      0 -2px 8px rgba(0, 0, 0, 0.32) inset,
-      0 4px 12px rgba(0, 0, 0, 0.38),
-      0 0 10px rgba(212, 175, 55, 0.15);
-  }
-  .floating-dock__side-btn--dagbok:hover .dock-nav-btn__icon-shell--calm {
-    transform: translateY(-2px);
-    border-color: rgba(212, 175, 55, 0.75);
-    box-shadow:
-      0 4px 14px rgba(0, 0, 0, 0.42),
-      0 0 12px rgba(212, 175, 55, 0.25);
-  }
-  .floating-dock__side-btn--dagbok.dock-nav-btn--active .dock-nav-btn__icon-shell--calm {
-    border-color: rgba(212, 175, 55, 0.95);
-    background: rgba(212, 175, 55, 0.12);
-    box-shadow:
-      0 0 16px rgba(212, 175, 55, 0.35),
-      inset 0 1px 0 rgba(255, 248, 220, 0.1);
-  }
-
   .floating-dock__side-btn .dock-nav-btn__drawer-l2 {
     height: 1.65rem;
     width: 1.65rem;
