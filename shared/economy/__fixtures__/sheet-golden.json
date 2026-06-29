@@ -1,5 +1,5 @@
 {
-  "_comment": "Golden vectors för payTimeRules — verifiera mot Pontus Stämpelklocka/CSV. ISO-vecka: jämn=30h, ojämn=50h.",
+  "_comment": "Golden vectors för payTimeRules + payAbsenceRules — verifiera mot Pontus Stämpelklocka/CSV och löneark.",
   "weekTargets": {
     "evenWeekExample": { "isoDate": "2026-05-25", "isoWeek": 22, "expectEven": true, "flexTargetHours": 30 },
     "oddWeekExample": { "isoDate": "2026-05-19", "isoWeek": 21, "expectEven": false, "flexTargetHours": 50 }
@@ -177,5 +177,106 @@
   "absenceCategories": {
     "expectAbsent": ["Semester", "VAB", "Sjuk", "Sjuk dag 15+"],
     "expectWork": ["Arbete"]
+  },
+  "absence": {
+    "periodMay2026": { "from": "2026-05-01", "to": "2026-05-31" },
+    "sickEntryTemplate": {
+      "clockIn": "08:00",
+      "clockOut": "16:00",
+      "category": "Sjuk",
+      "breakMinutes": 30,
+      "scopePercent": 100,
+      "hoursWorked": 8
+    },
+    "vabSingleDay": {
+      "entry": {
+        "date": "2026-05-10",
+        "clockIn": "08:00",
+        "clockOut": "12:00",
+        "category": "VAB",
+        "breakMinutes": 0,
+        "scopePercent": 100,
+        "hoursWorked": 4
+      },
+      "expectTotalDeductionSek": 841.6,
+      "expectTotalExpectedIncomeSek": 471.3,
+      "expectLineDescriptionContains": "VAB"
+    },
+    "sickDay1Karens": {
+      "entry": {
+        "date": "2026-05-10",
+        "clockIn": "08:00",
+        "clockOut": "16:00",
+        "category": "Sjuk",
+        "breakMinutes": 30,
+        "scopePercent": 100,
+        "hoursWorked": 8
+      },
+      "expectTotalDeductionSek": 1683.2,
+      "expectTotalExpectedIncomeSek": 0,
+      "expectLineDescriptionContains": "karens"
+    },
+    "sickDay2EmployerLoss": {
+      "entries": [
+        {
+          "date": "2026-05-10",
+          "clockIn": "08:00",
+          "clockOut": "16:00",
+          "category": "Sjuk",
+          "breakMinutes": 30,
+          "scopePercent": 100,
+          "hoursWorked": 8
+        },
+        {
+          "date": "2026-05-11",
+          "clockIn": "08:00",
+          "clockOut": "16:00",
+          "category": "Sjuk",
+          "breakMinutes": 30,
+          "scopePercent": 100,
+          "hoursWorked": 8
+        }
+      ],
+      "expectTotalDeductionSek": 2019.84,
+      "expectDay2DeductionSek": 336.64,
+      "expectDay2DescriptionContains": "Sjuk dag 2"
+    },
+    "sickDay15PlusCategory": {
+      "entry": {
+        "date": "2026-05-10",
+        "clockIn": "08:00",
+        "clockOut": "16:00",
+        "category": "Sjuk dag 15+",
+        "breakMinutes": 30,
+        "scopePercent": 100,
+        "hoursWorked": 8
+      },
+      "expectTotalDeductionSek": 1199.01,
+      "expectLineDescriptionContains": "dagsavdrag"
+    },
+    "groupSickEpisodes": {
+      "inputDates": ["2026-05-10", "2026-05-11", "2026-05-20"],
+      "expectEpisodes": [["2026-05-10", "2026-05-11"], ["2026-05-20"]]
+    },
+    "karensWaiver": {
+      "referenceDate": "2026-05-20",
+      "priorKarensEpisodeDates": [
+        "2025-05-31",
+        "2025-06-14",
+        "2025-06-28",
+        "2025-07-12",
+        "2025-07-26",
+        "2025-08-09",
+        "2025-08-23",
+        "2025-09-06",
+        "2025-09-20",
+        "2025-10-04"
+      ],
+      "newSickDate": "2026-05-20",
+      "expectKarensDaysInLookback": 10,
+      "expectShouldWaiveKarens": true,
+      "expectNewDayDeductionSek": 0,
+      "expectNewDayDescriptionContains": "karens upphävd"
+    }
   }
 }
