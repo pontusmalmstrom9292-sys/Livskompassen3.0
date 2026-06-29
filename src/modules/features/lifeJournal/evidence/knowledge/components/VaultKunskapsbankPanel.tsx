@@ -39,7 +39,7 @@ export function VaultKunskapsbankPanel() {
         : undefined;
 
   return (
-    <div className="space-y-4">
+    <div className="valv-zone-stack space-y-4">
       <KunskapsbankHeader compact />
 
       {showNetworkError && (

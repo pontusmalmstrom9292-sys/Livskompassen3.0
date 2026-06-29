@@ -176,7 +176,7 @@ export function VaultVitHubPanel({ userId }: Props) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="valv-zone-stack space-y-4">
       <BentoCard glow="green" bare noHover className="!p-0">
         <div className="rounded-xl border border-border-strong border-b-2 border-b-emerald-500/50 bg-surface-2/60 px-4 py-3 shadow-[0_4px_20px_-2px_rgba(16,185,129,0.15)]">
           <p className="flex items-center gap-2 text-sm font-medium text-accent">

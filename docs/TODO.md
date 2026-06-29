@@ -141,12 +141,12 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] FamiljenBarnfokusDelegate UI
 - [x] Barnporten parent panels (not child fullscreen)
 - [x] Trygg Hamn / Biff panels
-- [ ] VaultPage + zone tabs
-- [ ] ValvSamlaZone (in-flight)
-- [ ] WeaverPendingVaultBanner (in-flight)
-- [ ] VaultErrorBoundary (in-flight)
-- [ ] Remaining vault zones
-- [ ] DossierPage style-only pass
+- [x] VaultPage + zone tabs
+- [x] ValvSamlaZone (in-flight)
+- [x] WeaverPendingVaultBanner (in-flight)
+- [x] VaultErrorBoundary (in-flight)
+- [x] Remaining vault zones
+- [x] DossierPage style-only pass
 - [ ] smoke:valv-security after Valv wave
 
 ---

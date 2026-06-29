@@ -37,6 +37,101 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — Valv wave complete
+
+**Completed work:**
+- Finished the remaining Valv shell pass, including Dossier, the Valv zones, and the supporting knowledge panels.
+- Synced TODO, Dashboard, and the session plan to reflect the completed Valv wave.
+
+**Files changed:**
+- docs/TODO.md
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+- /Users/Livskompassen/.copilot/session-state/fbd7d8ea-389e-4374-81d4-86a9304a2de0/plan.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- smoke:valv-security PASS
+- smoke:locked-ux PASS
+
+**Reasoning:**
+- Valv was the next open zone after Familjen, and this wave finished the visible shell consistency pass without changing the underlying flows.
+
+**Next steps:**
+- Continue the loop on the next open zone if requested.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Valv zone shells
+
+**Completed work:**
+- Tightened VaultPage, ValvSamlaZone, the Weaver banner, and the remaining Valv zone shells with the shared Valv frame.
+- Kept the session lifecycle, WORM gate, and content flows intact.
+
+**Files changed:**
+- src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/WeaverPendingVaultBanner.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/VaultErrorBoundary.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/valv.css
+- src/modules/features/lifeJournal/evidence/vault/components/zones/ValvAnalyseraZone.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/zones/ValvKunskapZone.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/zones/ValvVitZone.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/zones/ValvForensikZone.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/zones/ValvExporteraZone.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/zones/ValvInboxZone.tsx
+- src/modules/features/lifeJournal/evidence/knowledge/components/VaultKunskapsbankPanel.tsx
+- src/modules/features/lifeJournal/evidence/knowledge/components/VaultAktorskartaPanel.tsx
+- src/modules/features/lifeJournal/evidence/knowledge/components/VaultKanonDocsPanel.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/VaultVitHubPanel.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- smoke:valv-security PASS
+- smoke:locked-ux PASS
+
+**Reasoning:**
+- Valv was the next open zone after Familjen, and the remaining shell work needed to be consistent across the main page, tabs, and the supporting zone panels.
+
+**Next steps:**
+- Finish the remaining Valv style-only pass items, especially Dossier, then continue the loop if needed.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Familjen wave complete
+
+**Completed work:**
+- Closed the remaining Familjen tab and parent-panel polish items in the backlog.
+- Synced TODO, Dashboard, and the session plan to reflect the finished Familjen wave.
+
+**Files changed:**
+- docs/TODO.md
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+- /Users/Livskompassen/.copilot/session-state/fbd7d8ea-389e-4374-81d4-86a9304a2de0/plan.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+
+**Reasoning:**
+- The visible Familjen work is now complete, so the tracking docs needed to match the implemented state.
+
+**Next steps:**
+- Move on to the next open zone when continuing the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Familjen mönster + kunskap polish
 
 **Completed work:**

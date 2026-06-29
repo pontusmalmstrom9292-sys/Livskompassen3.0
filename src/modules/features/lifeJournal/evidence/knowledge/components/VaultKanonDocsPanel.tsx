@@ -59,7 +59,7 @@ function KanonMarkdown({ content }: { content: string }) {
 /** A2.7 — primär: routing-guide. Sekundär: silos, WORM, domän, innehåll (CalmCollapsible). */
 export function VaultKanonDocsPanel() {
   return (
-    <div className="space-y-4">
+    <div className="valv-zone-stack space-y-4">
       <section className="calm-card glow-bottom-blue rounded-2xl border border-border p-4">
         <div className="mb-3 flex items-start gap-3">
           <div className="rounded-xl border border-accent/25 bg-accent/10 p-2">

@@ -147,10 +147,11 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). ds-btn-- files: 
 - **Notes:** PlaneringPage, the Kanban board shell, the Inkorg panel shell, the preview sheet shell, the focus/paralys helpers, and CognitiveGuard are polished; remaining planning panels stay open as separate passes.
 
 ### Valv
-- **Status:** In Progress
+- **Status:** Done
 - **Priority:** High
 - **Dependencies:** Button, Banner
 - **Files:** ValvSamlaZone, WeaverPendingVaultBanner, VaultErrorBoundary, VaultPage
+- **Notes:** VaultPage, the Samla zone, Weaver pending banner, the error boundary, the remaining vault zone shells, and Dossier now share the calmer Valv frame.
 
 ### MåBra
 - **Status:** Not Started
