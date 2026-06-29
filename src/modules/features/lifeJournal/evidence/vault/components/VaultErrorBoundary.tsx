@@ -25,7 +25,7 @@ export class VaultErrorBoundary extends Component<Props, State> {
       return (
         <ErrorFallback
           title="Något gick fel i Valv-vyn"
-          body="Dina sparade bevis påverkas inte — prova att ladda om sidan om felet kvarstår."
+          body="Dina sparade bevis påverkas inte. Ladda om vyn eller gå tillbaka till Valv om felet kvarstår."
           glow="danger"
           onRetry={() => {
             this.setState({ hasError: false });
