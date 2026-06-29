@@ -610,10 +610,6 @@
     backdrop-filter: blur(8px);
   }
 
-  .dock-classic__context-body {
-    @apply mt-1 text-xs leading-relaxed text-text-muted;
-  }
-
   /* L2 hub-chrome tile (dock band, Mer-panel) */
   .hub-chrome-tile {
     @apply relative flex shrink-0 items-center justify-center;
