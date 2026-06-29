@@ -37,61 +37,14 @@ Copy the template below for each entry. Newest first.
 
 ---
 
-## 2026-06-29 — PR smoke gate fix: prompt mirror sync
+## 2026-06-29 — PlaneringPage shell polish
 
 **Completed work:**
-- Investigated failing GitHub Actions job `PR smoke gate / smoke (pull_request)` (job `83954036826`) and traced failure to `smoke:prompts`.
-- Reproduced locally: `npm run smoke:prompts` failed with prompt mirror drift against `functions/src/sharedRules.ts`.
-- Ran `npm run prompts:sync` to regenerate drifting prompt mirror docs.
-- Re-ran `npm run smoke:prompts` and `npm run smoke:predeploy` successfully after sync.
+- Polished the Planering shell with layered ambient sheen, softened card surfaces, and clearer focus states.
+- Kept the smoke-required `PlanningKanbanBoard` and `PLANERING_MORE_TABS` references intact while removing stray dead-code churn.
 
 **Files changed:**
-- docs/prompts/BIFF-REWRITE-DRAFT-PROMPT.md
-- docs/prompts/DAGBOK-SNABB-COACH-PROMPT.md
-- docs/prompts/DCAP-SEMANTIC-PROMPT.md
-- docs/prompts/GRANS-ARKITEKTEN-PROMPT.md
-- docs/prompts/INKORG-SORTERARE-PROMPT.md
-- docs/prompts/JOURNAL-SILENT-REFLECTION-PROMPT.md
-- docs/prompts/KBT-TRANSFORMATOR-PROMPT.md
-- docs/prompts/KOMPASSRAD-PROMPT.md
-- docs/prompts/KOMPIS-PROMPT.md
-- docs/prompts/LIVS-ARKIVARIEN-PROMPT.md
-- docs/prompts/MABRA-COACH-PROMPT.md
-- docs/prompts/MONSTER-ARKIVARIEN-BARNEN-PROMPT.md
-- docs/prompts/PARALYS-BRYTAREN-PROMPT.md
-- docs/prompts/VAVAREN-PROMPT.md
-- docs/prompts/VIT-CHAT-COACH-PROMPT.md
-- docs/prompts/VOICE-COMMAND-PROMPT.md
-- docs/prompts/VOICE-TO-VAULT-PROMPT.md
-- docs/TODO.md
-- docs/DASHBOARD.md
-- docs/PROGRESS.md
-
-**Metrics:** (btn-pill count, smoke results)
-- npm run smoke:prompts PASS
-- npm run smoke:predeploy PASS
-
-**Reasoning:**
-- The CI failure was caused by stale prompt mirror markdown files, not runtime logic or workflow configuration.
-- Syncing mirror files is the smallest safe fix because `validate-prompts.mjs` explicitly enforces parity with `sharedRules.ts`.
-
-**Next steps:**
-- Keep running `npm run prompts:sync` whenever shared prompt definitions are changed.
-
-**Blockers:**
-- None
-
----
-
-## 2026-06-29 — CognitiveGuard banner polish
-
-**Completed work:**
-- Added glass-depth and clearer focus treatment to the CognitiveGuard panel and overload banner.
-- Kept the Pansarläge behavior and route back to Handling unchanged.
-
-**Files changed:**
-- src/modules/features/admin/planning/components/CognitiveGuardView.tsx
-- src/modules/features/admin/planning/components/CognitiveGuardOverloadBanner.tsx
+- src/modules/features/admin/planning/components/PlaneringPage.tsx
 - src/modules/features/admin/planning/components/planering.css
 - docs/TODO.md
 - docs/DASHBOARD.md
@@ -101,10 +54,189 @@ Copy the template below for each entry. Newest first.
 - smoke:locked-ux PASS
 
 **Reasoning:**
-- The overload state is the most attention-sensitive Planering path, so it benefits from a calmer, clearer visual shell without changing behavior.
+- Planering is the first open in-flight zone in the roadmap, so finishing the hub shell first keeps the visual system consistent before the deeper panels are tackled.
 
 **Next steps:**
-- Continue with `PlaneringFokusPanel` or the next open planning subpanel.
+- Continue with `PlanningKanbanBoard` or the next open Planering subpanel.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Executive home card depth pass
+
+**Completed work:**
+- Added DS-glass depth and sheen to the executive home hero card in `HomeLayoutA`.
+- Tightened executive home title/section-label glow so the top hero reads more premium without changing the layout.
+
+**Files changed:**
+- src/design-system/styles/premium-polish.css
+
+**Metrics:** (btn-pill count, smoke results)
+- Build PASS after home card pass
+
+**Reasoning:**
+- The home hero and the executive card stack are the highest-visibility landing surfaces. Small depth and glow improvements increase perceived quality while preserving the existing flow and content.
+
+**Next steps:**
+- Home depth pass is complete; move on to the next open zone when ready.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — PageSkeleton DS alignment
+
+**Completed work:**
+- Confirmed `PageSkeleton` already uses DS Skeleton primitives and marked the state item complete.
+
+**Files changed:**
+- docs/TODO.md
+
+**Metrics:** (btn-pill count, smoke results)
+- No code change; documentation-only alignment
+
+**Reasoning:**
+- The dashboard TODO still listed an already-complete loading-state migration. Clearing it keeps the roadmap honest and avoids duplicate work later.
+
+**Next steps:**
+- Continue with remaining chrome/state items as needed.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Compass + ambient background polish
+
+**Completed work:**
+- Tokenized the home compass card, tab strip, quick buttons, and inkast toggle against DS glass/focus tokens.
+- Refined `ExecutiveDecorCompass` SVG for sharper rendering and better scaling behavior.
+- Added `decoding="async"` and `draggable={false}` to textured compass assets for cleaner chrome behavior.
+- Refined `LivskompassMark` rendering for sharper stroke/glow behavior while preserving the locked icon.
+- Tokenized scenic ambient background overlays and theme variants to reduce hardcoded color drift.
+
+**Files changed:**
+- src/index.css
+- src/modules/core/ui/executive/ExecutiveDecorCompass.tsx
+
+**Metrics:** (btn-pill count, smoke results)
+- Build PASS after compass + ambient pass
+
+**Reasoning:**
+- Compass and ambient background are high-visibility chrome surfaces. Aligning them to DS tokens improves consistency across the home experience while preserving the existing flow and layout.
+
+**Next steps:**
+- Remaining chrome batch: LivskompassMark stroke/glow, or move to state/polish items if the compass batch is sufficient for now.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Navigation drawer token pass
+
+**Completed work:**
+- Tokenized the nav drawer shell, scenic layer, recent chips, mode toggle, row states, and lock CTA against DS glass/accent tokens.
+- Preserved the locked drawer component and UX; only the skin was refined.
+
+**Files changed:**
+- src/index.css
+
+**Metrics:** (btn-pill count, smoke results)
+- Build PASS after nav drawer pass
+- smoke:locked-ux PASS after nav drawer pass
+
+**Reasoning:**
+- The drawer is one of the most visible chrome surfaces. Aligning it with DS tokens keeps the premium shell coherent and reduces hardcoded color drift.
+
+**Next steps:**
+- Continue remaining chrome batch items or capture a new visual baseline if needed.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Executive dock token pass
+
+**Completed work:**
+- Refined `.exec-dock-bar` to use DS glass tokens for blur, border, and elevation while preserving the existing dock geometry.
+- Adjusted reference-dock padding to use DS spacing tokens instead of a hardcoded literal.
+- Added DS glass sheen to the dock surface for better parity with the premium chrome system.
+
+**Files changed:**
+- src/styles/executive-chrome.css
+
+**Metrics:** (btn-pill count, smoke results)
+- Build PASS after dock pass
+
+**Reasoning:**
+- The dock is a core piece of chrome and should read from the same token system as the header. This keeps the premium shell visually coherent without changing navigation behavior.
+
+**Next steps:**
+- Continue Premium Dock polish or move to the remaining chrome batch once the visual baseline is captured.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Executive header chrome token pass
+
+**Completed work:**
+- Refined `.glass-header-bar` to use DS glass tokens for background, blur, border, shadow, and highlight sheen.
+- Kept the existing shell and layout intact; this is a visual/token pass only.
+
+**Files changed:**
+- src/index.css
+
+**Metrics:** (btn-pill count, smoke results)
+- Build PASS after header pass
+- validate:session PASS after header pass
+
+**Reasoning:**
+- The header chrome had hardcoded glass styling mixed into legacy CSS. Moving it onto DS tokens improves consistency with the premium chrome system and keeps future polish aligned with the design system.
+
+**Next steps:**
+- Continue Phase 2 chrome polish on AppHeaderBar / Header / Dock.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Phase 0 baseline + Phase 1 discovery + ChameleonInputShell token sync
+
+**Completed work:**
+- Ran `smoke:design-modules` → PASS (chrome-header, executive-home-visual, modulväljare, hemkompass, module help, shared shell, zone hub tokens, hex→tokens)
+- Audited Phase 1 TODO items: focus.ts, zIndex.ts, motion/presets.ts, useDsReducedMotion, Skeleton, Spinner, ErrorFallback, design-system/README.md, tailwind ds-* bridge — all already exist; marked done
+- Synced `ChameleonInputShell` transition to `var(--ds-duration-morph)` (CSS token, respects prefers-reduced-motion override automatically)
+- Recorded btn-pill-- baseline: **10 files** (down from estimated ~195 — migration largely complete)
+- Recorded index.css LOC: **6819**
+- Updated DASHBOARD.md, TODO.md metrics
+
+**Files changed:**
+- src/modules/core/ui/ChameleonInputShell.tsx
+- docs/TODO.md
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+
+**Metrics:**
+- smoke:design-modules: PASS
+- btn-pill-- file count: 10 (CSS definitions only; 1 TSX = canonical Button.tsx)
+- index.css LOC: 6819
+
+**Reasoning:**
+- Phase 0 baseline required recording smoke and btn-pill metrics before Phase 1 work begins
+- ChameleonInputShell was using a hardcoded JS `${morphMs}ms` where the CSS token `var(--ds-duration-morph)` should be used — this also ensures the reduced-motion CSS override (`--ds-duration-morph: 0ms`) takes effect visually
+
+**Next steps:**
+- Audit hardcoded hex in src/index.css :root (Phase 1)
+- Phase 2 Chrome: Premium Header token pass (AppHeaderBar)
+- Run validate:session
 
 **Blockers:**
 - None

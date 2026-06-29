@@ -17,7 +17,7 @@ export function PlanningKanbanColumn({ label, status, tasks, onAdd, onSelectTask
         <p className="planering-kanban-column__label">{label}</p>
         <span className="planering-kanban-column__count">{tasks.length}</span>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="planering-kanban-column__list">
         {tasks.map((task) => (
           <PlanningTaskCard key={task.id} task={task} onSelect={onSelectTask} />
         ))}

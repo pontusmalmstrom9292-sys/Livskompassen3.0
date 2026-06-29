@@ -2,7 +2,7 @@
 
 # Premium UI Polish — Dashboard
 
-**Version:** 1.1 | **Last updated:** 2026-06-28
+**Version:** 1.2 | **Last updated:** 2026-06-29
 
 **Rule:** Update this file after each merge wave. Do **not** use guessed progress % — use Status + metric columns.
 
@@ -14,11 +14,11 @@
 
 | Metric | Baseline | Current | Target |
 |--------|----------|---------|--------|
-| btn-pill-- file count | ~195 | TBD | 0 new after start |
+| btn-pill-- file count | ~195 (estimated) | **10** (2026-06-29) | 0 new after start |
 | DS Modal/Sheet consumers | ~14 | TBD | All blocking overlays |
 | ad-hoc role=dialog | ~14 | TBD | 0 undocumented |
-| index.css LOC | 6816 | TBD | ≤5000 (stretch) |
-| smoke:design-modules | TBD | TBD | green |
+| index.css LOC | 6816 | **6819** (2026-06-29) | ≤5000 (stretch) |
+| smoke:design-modules | TBD | **PASS** (2026-06-29) | green |
 | smoke:locked-ux | TBD | PASS (2026-06-28) | green |
 | `zone-valv` route chunk (js) | 768.53 kB | 2.65 kB | keep route-entry small |
 | `typecheck:core-strict` scope | core/shared/morning | core/shared/features/morning (PASS 2026-06-28) | features included |
@@ -40,25 +40,25 @@ Run `scripts/count_design_debt.mjs` when implemented (Phase 9).
 ## Chrome (locked — polish only)
 
 ### Premium Header
-- **Status:** Not Started
+- **Status:** Done
 - **Priority:** Critical
 - **Dependencies:** Phase 1 tokens
 - **Files:** src/modules/core/components/AppHeaderBar.tsx, src/design-system/components/Header.tsx, src/styles/executive-chrome.css
 
 ### Premium Dock
-- **Status:** Not Started
+- **Status:** Done
 - **Priority:** Critical
 - **Dependencies:** Tokens
 - **Files:** src/modules/core/layout/ExecutiveDockBar.tsx, FloatingDock.tsx, src/design-system/components/Dock.tsx
 
 ### Premium Compass
-- **Status:** Not Started
+- **Status:** Done
 - **Priority:** Critical
 - **Dependencies:** Dock
 - **Files:** src/modules/core/home/HomeAdaptiveCompass.tsx, LivskompassMark.tsx, ExecutiveDecorCompass.tsx
 
 ### Navigation Drawer
-- **Status:** Not Started
+- **Status:** Done
 - **Priority:** High
 - **Dependencies:** Chrome
 - **Files:** src/modules/core/layout/NavigationDrawer.tsx
@@ -68,7 +68,7 @@ Run `scripts/count_design_debt.mjs` when implemented (Phase 9).
 ## Design system primitives
 
 ### Design Tokens
-- **Status:** In Progress
+- **Status:** Done
 - **Priority:** Critical
 - **Dependencies:** —
 - **Files:** src/design-system/tokens/**, variables.css
@@ -107,9 +107,9 @@ Run `scripts/count_design_debt.mjs` when implemented (Phase 9).
 - **Files:** Input.tsx; journal, ekonomi, inkast forms
 
 ### Loading / Skeleton
-- **Status:** Not Started
+- **Status:** Done (DS components exist; PageSkeleton alignment is Phase 5)
 - **Priority:** Medium
-- **Files:** HubPanelSkeleton.tsx, PageSkeleton.tsx → DS Skeleton
+- **Files:** src/design-system/components/Skeleton.tsx, src/design-system/components/Spinner.tsx
 
 ### Empty State
 - **Status:** In Progress
@@ -123,26 +123,28 @@ Run `scripts/count_design_debt.mjs` when implemented (Phase 9).
 - **Files:** HubErrorBoundary, PlaneringErrorBoundary, VaultErrorBoundary, RAGErrorBoundary, DagbokWizardErrorBoundary
 
 ### Motion System
-- **Status:** Not Started
+- **Status:** Done
 - **Priority:** Medium
-- **Metric:** ~24 framer-motion files outside DS
-- **Files:** NEW src/design-system/motion/
+- **Metric:** presets.ts + useDsReducedMotion.ts in src/design-system/motion/; ChameleonInputShell synced to --ds-duration-morph (2026-06-29)
+- **Files:** src/design-system/motion/presets.ts, src/design-system/motion/useDsReducedMotion.ts
 
 ---
 
 ## Zones
 
 ### Hem / Home
-- **Status:** Not Started
+- **Status:** Done
 - **Priority:** Critical
 - **Dependencies:** Chrome
 - **Files:** HomePage.tsx, ExecutiveReflektionHero.tsx, executive cards
+- **Notes:** ExecutiveReflektionHero and the executive card stack now share the premium home chrome treatment.
 
 ### Planering
 - **Status:** In Progress
 - **Priority:** High
 - **Dependencies:** Button, Sheet
 - **Files:** PlaneringPage, PlanningKanbanBoard, InkorgPreviewSheet, CognitiveGuard*, PlaneringFokusPanel, PlaneringInkorgPanel, PlaneringParalysEntry
+- **Notes:** PlaneringPage, the Kanban board shell, the Inkorg panel shell, the preview sheet shell, and CognitiveGuard are polished; remaining planning panels stay open as separate passes.
 
 ### Valv
 - **Status:** In Progress
