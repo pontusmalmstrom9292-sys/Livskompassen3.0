@@ -618,10 +618,6 @@
     @apply mt-1 text-xs leading-relaxed text-text-muted;
   }
 
-  .dock-classic__context-close {
-    @apply absolute right-2 top-2 rounded-full border-0 bg-transparent p-1 text-text-dim transition-colors hover:text-text;
-  }
-
   /* L2 hub-chrome tile (dock band, Mer-panel) */
   .hub-chrome-tile {
     @apply relative flex shrink-0 items-center justify-center;
