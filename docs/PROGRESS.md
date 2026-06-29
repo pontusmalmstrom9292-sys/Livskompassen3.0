@@ -38,6 +38,33 @@ Copy the template below for each entry. Newest first.
 ---
 
 
+## 2026-06-29 — Dead kompis-hub-page__intro selector removed
+
+**Completed work:**
+- Removed unused `.kompis-hub-page__intro p` from `src/index.css`.
+- Kept active `kompis-hub-page` selector untouched.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3277
+- `npm run build`: PASS
+
+**Reasoning:**
+- `kompis-hub-page__intro` had no active `src` consumers, so removing it safely trims global CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead kompis-hub-page__avatar selector removed
 
 **Completed work:**
