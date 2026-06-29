@@ -253,7 +253,7 @@ function main() {
   mustInclude('src/modules/core/layout/headerPanelStyle.ts', "return 'ember'");
   mustInclude('src/modules/core/layout/FloatingDock.tsx', 'data-panel-style={panelStyle}');
   mustInclude(
-    'src/index.css',
+    'src/styles/obsidian-depth-mockup.css',
     ".dock-hub-band[data-panel-style='ember'] .dock-hub-band__rail",
     ".glass-header-bar--kanon[data-panel-style='ember']",
   );
