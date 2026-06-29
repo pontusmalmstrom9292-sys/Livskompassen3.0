@@ -504,6 +504,63 @@
     @apply min-h-[3.5rem] rounded-lg border border-dashed border-border-strong/80 bg-surface/20;
   }
 
+  .planering-fokus-panel__card,
+  .planering-paralys-entry,
+  .planering-cognitive-banner {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .planering-fokus-panel__card::before,
+  .planering-paralys-entry::before,
+  .planering-cognitive-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--accent) 7%, transparent),
+      transparent 38%
+    );
+    opacity: 0.55;
+  }
+
+  .planering-fokus-panel__card > *,
+  .planering-paralys-entry > *,
+  .planering-cognitive-banner > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .planering-fokus-panel__paralys,
+  .planering-paralys-entry--open {
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+
+  .planering-paralys-entry__toggle:focus-visible,
+  .planering-paralys-entry__actions button:focus-visible,
+  .planering-fokus-panel__paralys button:focus-visible,
+  .planering-cognitive-banner a:focus-visible,
+  .planering-cognitive-banner button:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
+  .planering-cognitive-banner {
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--accent) 10%, transparent),
+      0 12px 30px -20px rgba(0, 0, 0, 0.7);
+  }
+
+  .planering-cognitive-banner__lead {
+    min-width: 0;
+  }
+
+  .planering-cognitive-banner__cta {
+    align-self: flex-start;
+  }
+
   .planering-tool-card--compact {
     @apply p-3;
   }

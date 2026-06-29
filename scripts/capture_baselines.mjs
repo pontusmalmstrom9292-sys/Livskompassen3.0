@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
  * Phase 0 baseline screenshots — 6 core routes @ mobile + desktop.
- * Requires running dev server on port 5174 (npm run dev).
+ * Requires a running Vite dev server. Example: `npm run dev -- --port 5174`
  * Output: docs/design/baselines/{route}-{viewport}-{date}.png
  *
- * Usage: node scripts/capture_baselines.mjs [--port 5174]
+ * Usage: node scripts/capture_baselines.mjs [--port 5174|--port=5174]
  */
 
 import { existsSync, mkdirSync } from 'fs';
@@ -14,7 +14,27 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 
+<<<<<<< HEAD
+function resolvePort(argv, env) {
+  const isValidPort = (value) => {
+    const parsed = Number.parseInt(String(value), 10);
+    return Number.isInteger(parsed) && parsed >= 1 && parsed <= 65535;
+  };
+  const cliPort = argv.reduce((value, arg, index) => {
+    if (value) return value;
+    if (/^\d{4,5}$/.test(arg)) return arg;
+    if (arg === '--port') return argv[index + 1];
+    if (arg.startsWith('--port=')) return arg.slice('--port='.length);
+    return value;
+  }, null);
+  const candidate = cliPort ?? env.VITE_PORT ?? env.PORT ?? '5174';
+  return isValidPort(candidate) ? String(candidate) : '5174';
+}
+
+const port = resolvePort(process.argv.slice(2), process.env);
+=======
 const port = process.argv.find((a) => a.match(/^\d{4}$/)) ?? '5174';
+>>>>>>> origin/main
 const base = `http://127.0.0.1:${port}`;
 const outDir = resolve(root, 'docs/design/baselines');
 
@@ -39,7 +59,11 @@ async function run() {
   try {
     ({ chromium } = await import('@playwright/test'));
   } catch {
+<<<<<<< HEAD
+    console.error('[baselines] Playwright not installed — run: npm install, then npx playwright install chromium');
+=======
     console.error('[baselines] Playwright not installed — run: npx playwright install chromium');
+>>>>>>> origin/main
     process.exit(1);
   }
 
@@ -65,7 +89,12 @@ async function run() {
         console.log(`[baselines] ✓ ${route.path} @ ${vp.label}`);
         captured++;
       } catch (err) {
+<<<<<<< HEAD
+        const message = err instanceof Error ? err.message : String(err);
+        console.warn(`[baselines] ✗ ${route.path} @ ${vp.label}: ${message}`);
+=======
         console.warn(`[baselines] ✗ ${route.path} @ ${vp.label}: ${err.message}`);
+>>>>>>> origin/main
       }
     }
 
@@ -77,6 +106,7 @@ async function run() {
 }
 
 run().catch((err) => {
-  console.error('[baselines] Fatal:', err.message);
+  const message = err instanceof Error ? err.message : String(err);
+  console.error('[baselines] Fatal:', message);
   process.exit(1);
 });

@@ -33,6 +33,7 @@ Run `scripts/count_design_debt.mjs` when implemented (Phase 9).
 - **Scope:** Practical delivery plan + safe Git branch/merge routine added
 - **Files:** `docs/DELIVERY_PLAN.md`, `docs/GIT_WORKFLOW.md`, `.github/workflows/pr-smoke-gate.yml`, `package.json`
 - **Quality signal:** PR smoke gate now also runs `npm run test:agents-ui`
+- **2026-06-29 note:** `smoke:prompts` drift fixed by syncing `docs/prompts/*` mirrors with `sharedRules.ts` (PR smoke gate root cause).
 
 ---
 

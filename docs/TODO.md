@@ -23,6 +23,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Record btn-pill file count in Dashboard metrics (2026-06-29)
 - [x] Add PR checklist to team workflow (Testing-Strategy.md)
 - [x] Add delivery + safe git workflow docs (`DELIVERY_PLAN.md`, `GIT_WORKFLOW.md`)
+- [x] Sync prompt mirrors in `docs/prompts/*` with `functions/src/sharedRules.ts` to keep `smoke:prompts` green (2026-06-29)
 
 ---
 
