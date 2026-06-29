@@ -203,9 +203,13 @@
 
   .dock-shell--reference-dock .exec-dock-bar,
   .dock-shell--basta-design .exec-dock-bar {
+    border-color: color-mix(in srgb, var(--ds-color-accent) 44%, transparent);
     box-shadow:
       var(--ds-elevation-dock),
-      0 0 24px color-mix(in srgb, var(--ds-color-accent) 8%, transparent);
+      inset 0 1px 0 color-mix(in srgb, var(--ds-color-accent-light, var(--accent-light)) 22%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 16%, transparent),
+      0 14px 40px rgba(0, 0, 0, 0.55),
+      0 0 32px color-mix(in srgb, var(--ds-color-accent) 12%, transparent);
   }
 
   .exec-dock-bar__side,
@@ -394,9 +398,45 @@
       box-shadow var(--ds-duration-normal) var(--ds-ease-premium);
   }
 
+  .home-layout-a--executive .home-layout-a__hero-card {
+    position: relative;
+    overflow: hidden;
+    border-color: color-mix(in srgb, var(--ds-color-accent) 26%, transparent);
+    background:
+      linear-gradient(
+        155deg,
+        color-mix(in srgb, var(--ds-glass-bg) 92%, transparent) 0%,
+        color-mix(in srgb, var(--ds-color-surface-2) 95%, transparent) 48%,
+        color-mix(in srgb, var(--ds-color-bg) 98%, transparent) 100%
+      );
+    backdrop-filter: blur(var(--ds-glass-blur));
+    -webkit-backdrop-filter: blur(var(--ds-glass-blur));
+  }
+
+  .home-layout-a--executive .home-layout-a__hero-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, var(--ds-glass-highlight) 0%, transparent 18%),
+      radial-gradient(
+        ellipse 90% 55% at 50% -10%,
+        color-mix(in srgb, var(--ds-color-accent) 9%, transparent),
+        transparent 62%
+      );
+    opacity: 0.9;
+  }
+
   .exec-surface-card:hover,
   .home-layout-a--executive .home-layout-a__hero-card:hover {
     box-shadow: var(--ds-elevation-card-hover);
+  }
+
+  .home-layout-a--executive .home-layout-a__section-label,
+  .home-layout-a--executive .home-layout-a__hero-card .font-display-serif {
+    text-shadow: 0 0 16px color-mix(in srgb, var(--ds-color-accent) 22%, transparent);
   }
 
   .exec-surface-card:active {

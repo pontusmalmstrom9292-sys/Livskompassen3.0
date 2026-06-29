@@ -24,14 +24,14 @@ export function BastaDesignHeader({ accountOpen, onAccountOpenChange, onMenuClic
         <h1 className="basta-design__header-title">Livskompassen</h1>
         <div className="basta-design__header-ornament" aria-hidden>
           <div className="basta-design__header-ornament-line" />
-          <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
-            <polygon points="5,0 8,3 5,6 2,3" fill="#c9a435" opacity="0.7" />
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden>
+            <polygon points="5,0 8,3 5,6 2,3" opacity="0.7" />
           </svg>
-          <svg width="5" height="5" viewBox="0 0 5 5" fill="none" className="basta-design__header-ornament-gem">
-            <circle cx="2.5" cy="2.5" r="1.5" fill="#c9a435" opacity="0.5" />
+          <svg width="5" height="5" viewBox="0 0 5 5" fill="none" className="basta-design__header-ornament-gem" aria-hidden>
+            <circle cx="2.5" cy="2.5" r="1.5" opacity="0.5" />
           </svg>
-          <svg width="10" height="6" viewBox="0 0 10 6" fill="none">
-            <polygon points="5,0 8,3 5,6 2,3" fill="#c9a435" opacity="0.7" />
+          <svg width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden>
+            <polygon points="5,0 8,3 5,6 2,3" opacity="0.7" />
           </svg>
           <div className="basta-design__header-ornament-line" />
         </div>
