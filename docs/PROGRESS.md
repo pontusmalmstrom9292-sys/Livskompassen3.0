@@ -38,6 +38,33 @@ Copy the template below for each entry. Newest first.
 ---
 
 
+## 2026-06-29 — Dead kompis-hub-page__avatar selector removed
+
+**Completed work:**
+- Removed unused `.kompis-hub-page__avatar` from `src/index.css`.
+- Kept active `kompis-hub-page` and familjen week-bar selectors untouched.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3281
+- `npm run build`: PASS
+
+**Reasoning:**
+- `kompis-hub-page__avatar` had no active `src` consumers, so removing it safely trims global CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead familjen-kunskap-panel selector removed
 
 **Completed work:**

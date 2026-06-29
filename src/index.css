@@ -2490,12 +2490,6 @@
     @apply relative;
   }
 
-  .kompis-hub-page__avatar {
-    border: 1.5px solid color-mix(in srgb, var(--accent) 40%, transparent);
-    background: color-mix(in srgb, var(--bg) 75%, transparent);
-    box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 12%, transparent);
-  }
-
   .kompis-hub-page__intro p {
     @apply leading-relaxed;
   }
