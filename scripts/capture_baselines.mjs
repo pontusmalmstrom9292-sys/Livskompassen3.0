@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
  * Phase 0 baseline screenshots — 6 core routes @ mobile + desktop.
- * Requires running dev server on port 5174 (npm run dev).
+ * Requires a running Vite dev server. Example: `npm run dev -- --port 5174`
  * Output: docs/design/baselines/{route}-{viewport}-{date}.png
  *
- * Usage: node scripts/capture_baselines.mjs [--port 5174]
+ * Usage: node scripts/capture_baselines.mjs [--port 5174|--port=5174]
  */
 
 import { existsSync, mkdirSync } from 'fs';
