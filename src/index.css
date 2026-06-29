@@ -876,9 +876,8 @@
       background 0.16s ease;
   }
 
-  /* Vardag (Tab 1) & Planering/Hantering (Tab 5) border colors */
-  .floating-dock__side-btn--vardag .dock-nav-btn__icon-shell--calm,
-  .floating-dock__side-btn--planering .dock-nav-btn__icon-shell--calm {
+  /* Vardag (Tab 1) border colors */
+  .floating-dock__side-btn--vardag .dock-nav-btn__icon-shell--calm {
     border: 1.5px solid rgba(0, 240, 210, 0.45);
     box-shadow:
       0 1px 0 rgba(255, 255, 255, 0.08) inset,
@@ -886,16 +885,14 @@
       0 4px 12px rgba(0, 0, 0, 0.38),
       0 0 10px rgba(0, 240, 210, 0.15);
   }
-  .floating-dock__side-btn--vardag:hover .dock-nav-btn__icon-shell--calm,
-  .floating-dock__side-btn--planering:hover .dock-nav-btn__icon-shell--calm {
+  .floating-dock__side-btn--vardag:hover .dock-nav-btn__icon-shell--calm {
     transform: translateY(-2px);
     border-color: rgba(0, 240, 210, 0.75);
     box-shadow:
       0 4px 14px rgba(0, 0, 0, 0.42),
       0 0 12px rgba(0, 240, 210, 0.25);
   }
-  .floating-dock__side-btn--vardag.dock-nav-btn--active .dock-nav-btn__icon-shell--calm,
-  .floating-dock__side-btn--planering.dock-nav-btn--active .dock-nav-btn__icon-shell--calm {
+  .floating-dock__side-btn--vardag.dock-nav-btn--active .dock-nav-btn__icon-shell--calm {
     border-color: rgba(0, 240, 210, 0.95);
     background: rgba(0, 240, 210, 0.12);
     box-shadow:

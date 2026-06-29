@@ -37,6 +37,33 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — Dead floating-dock planering side selectors removed
+
+**Completed work:**
+- Removed unused `.floating-dock__side-btn--planering` selector references from `src/index.css`.
+- Kept the existing `.floating-dock__side-btn--vardag` styling intact in this micro-wave.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3162
+- `npm run build`: PASS
+
+**Reasoning:**
+- `floating-dock__side-btn--planering` has no active `src` consumers, so pruning those selector arms safely removes dead legacy dock CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead dock-nav-btn__glyph selector removed
 
 **Completed work:**
