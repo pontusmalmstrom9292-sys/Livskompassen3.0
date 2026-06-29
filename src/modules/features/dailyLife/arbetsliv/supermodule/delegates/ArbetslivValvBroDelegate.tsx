@@ -17,7 +17,7 @@ export function ArbetslivValvBroDelegate() {
 
   return (
     <div className="arbetsliv-delegate arbetsliv-delegate--valv-bro space-y-4">
-      <BentoCard title="Lönespec & frånvaro" glow="blue">
+      <BentoCard title="Lönespec & frånvaro" glow="blue" className="overflow-hidden">
         <p className="mb-3 text-sm text-text-muted">
           Nästa lönespec: <span className="text-text">16 {nextPayday.split(' ').slice(1).join(' ')}</span>
         </p>

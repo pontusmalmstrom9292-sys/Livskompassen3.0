@@ -6,7 +6,10 @@ import { StampClockPage } from '@/features/admin/stampla/components/StampClockPa
  */
 export function ArbetslivStamplaDelegate() {
   return (
-    <div className="arbetsliv-delegate arbetsliv-delegate--stampla" data-write-target="time_entries">
+    <div
+      className="arbetsliv-delegate arbetsliv-delegate--stampla overflow-hidden rounded-2xl border border-border-strong bg-surface/25 p-1"
+      data-write-target="time_entries"
+    >
       <StampClockPage />
     </div>
   );

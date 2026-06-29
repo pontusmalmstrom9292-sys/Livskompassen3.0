@@ -51,8 +51,11 @@ export function ArbetslivFlexDelegate() {
   }
 
   return (
-    <div className="arbetsliv-delegate arbetsliv-delegate--flex" data-write-target="read_only">
-      <BentoCard title="Tid & flex" glow="blue">
+    <div
+      className="arbetsliv-delegate arbetsliv-delegate--flex overflow-hidden rounded-2xl border border-border-strong bg-surface/25 p-1"
+      data-write-target="read_only"
+    >
+      <BentoCard title="Tid & flex" glow="blue" className="overflow-hidden">
         <WorkWeekSummary
           dagensTimmar={workStats.todayStatus.dagensTimmar}
           weekTotal={workStats.weekTotal}
