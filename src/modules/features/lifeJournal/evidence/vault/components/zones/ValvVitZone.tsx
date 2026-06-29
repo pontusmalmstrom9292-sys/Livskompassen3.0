@@ -9,7 +9,9 @@ export type ValvVitZoneProps = {
 export function ValvVitZone({ userId }: ValvVitZoneProps) {
   return (
     <HubErrorBoundary title="Mitt Vit kunde inte laddas" glow="green" logTag="ValvVitZone">
-      <VaultVitHubPanel userId={userId} />
+      <div className="valv-zone-stack">
+        <VaultVitHubPanel userId={userId} />
+      </div>
     </HubErrorBoundary>
   );
 }

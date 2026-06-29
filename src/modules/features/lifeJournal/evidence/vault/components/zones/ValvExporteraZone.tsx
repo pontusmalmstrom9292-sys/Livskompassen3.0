@@ -5,7 +5,9 @@ import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 export function ValvExporteraZone() {
   return (
     <HubErrorBoundary title="Dossier kunde inte laddas" glow="blue" logTag="ValvExporteraZone">
-      <DossierPage embedded />
+      <div className="valv-zone-stack">
+        <DossierPage embedded />
+      </div>
     </HubErrorBoundary>
   );
 }

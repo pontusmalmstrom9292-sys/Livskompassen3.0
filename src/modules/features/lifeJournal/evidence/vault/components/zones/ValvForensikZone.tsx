@@ -49,10 +49,7 @@ export function ValvForensikZone({ tab, onTabChange, gateOk }: ValvForensikZoneP
           </button>
         )}
       </div>
-      <section
-        className="mb-4 rounded-xl border border-[0.5px] border-border/30 bg-surface-2/50 p-4"
-        aria-label="DCAP säkerhetsgranskning"
-      >
+      <section className="valv-zone-stack mb-4" aria-label="DCAP säkerhetsgranskning">
         <p className="mb-2 font-display-serif text-xs uppercase tracking-[0.2em] text-accent-dim">
           Säkerhetsgranskning
         </p>
