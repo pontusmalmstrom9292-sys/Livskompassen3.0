@@ -198,6 +198,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Remove dead pin-gate / input-glass--pin selectors
 - [x] Remove dead glass-nav selector
 - [x] Remove dead familjen-hub__aurora selectors
+- [x] Remove dead mabra-vit-hub__quick selector
 
 ---
 
