@@ -693,10 +693,6 @@
     transform: translateY(0);
   }
 
-  .dock-nav-btn__glyph {
-    display: none;
-  }
-
   .dock-nav-btn__label {
     @apply max-w-full truncate px-0.5 text-[9px] font-medium leading-tight text-text-muted;
   }
