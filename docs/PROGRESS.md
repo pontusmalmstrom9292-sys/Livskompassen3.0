@@ -37,6 +37,52 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — PR smoke gate fix: prompt mirror sync
+
+**Completed work:**
+- Investigated failing GitHub Actions job `PR smoke gate / smoke (pull_request)` (job `83954036826`) and traced failure to `smoke:prompts`.
+- Reproduced locally: `npm run smoke:prompts` failed with prompt mirror drift against `functions/src/sharedRules.ts`.
+- Ran `npm run prompts:sync` to regenerate drifting prompt mirror docs.
+- Re-ran `npm run smoke:prompts` and `npm run smoke:predeploy` successfully after sync.
+
+**Files changed:**
+- docs/prompts/BIFF-REWRITE-DRAFT-PROMPT.md
+- docs/prompts/DAGBOK-SNABB-COACH-PROMPT.md
+- docs/prompts/DCAP-SEMANTIC-PROMPT.md
+- docs/prompts/GRANS-ARKITEKTEN-PROMPT.md
+- docs/prompts/INKORG-SORTERARE-PROMPT.md
+- docs/prompts/JOURNAL-SILENT-REFLECTION-PROMPT.md
+- docs/prompts/KBT-TRANSFORMATOR-PROMPT.md
+- docs/prompts/KOMPASSRAD-PROMPT.md
+- docs/prompts/KOMPIS-PROMPT.md
+- docs/prompts/LIVS-ARKIVARIEN-PROMPT.md
+- docs/prompts/MABRA-COACH-PROMPT.md
+- docs/prompts/MONSTER-ARKIVARIEN-BARNEN-PROMPT.md
+- docs/prompts/PARALYS-BRYTAREN-PROMPT.md
+- docs/prompts/VAVAREN-PROMPT.md
+- docs/prompts/VIT-CHAT-COACH-PROMPT.md
+- docs/prompts/VOICE-COMMAND-PROMPT.md
+- docs/prompts/VOICE-TO-VAULT-PROMPT.md
+- docs/TODO.md
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run smoke:prompts PASS
+- npm run smoke:predeploy PASS
+
+**Reasoning:**
+- The CI failure was caused by stale prompt mirror markdown files, not runtime logic or workflow configuration.
+- Syncing mirror files is the smallest safe fix because `validate-prompts.mjs` explicitly enforces parity with `sharedRules.ts`.
+
+**Next steps:**
+- Keep running `npm run prompts:sync` whenever shared prompt definitions are changed.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — CognitiveGuard banner polish
 
 **Completed work:**
