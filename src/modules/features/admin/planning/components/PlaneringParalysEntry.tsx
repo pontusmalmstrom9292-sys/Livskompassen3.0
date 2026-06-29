@@ -75,7 +75,7 @@ export function PlaneringParalysEntry({ defaultTaskTitle, onApplyStep }: Props) 
         <Button
           variant="ghost"
           size="sm"
-          className="mt-2 inline-flex items-center gap-1.5"
+          className="planering-paralys-entry__toggle mt-2 inline-flex items-center gap-1.5"
           onClick={() => {
             setOpen(true);
             if (defaultTaskTitle && !context.trim()) {
@@ -91,7 +91,7 @@ export function PlaneringParalysEntry({ defaultTaskTitle, onApplyStep }: Props) 
   }
 
   return (
-    <div className="planering-paralys-entry space-y-3 rounded-2xl border border-accent/20 bg-accent/5 p-4">
+    <div className="planering-paralys-entry planering-paralys-entry--open space-y-3 rounded-2xl border border-accent/20 bg-accent/5 p-4">
       <p className="text-xs text-text-muted">{PLANERING_PARALYS_LEAD}</p>
 
       {!step ? (
@@ -107,7 +107,7 @@ export function PlaneringParalysEntry({ defaultTaskTitle, onApplyStep }: Props) 
             />
           </label>
           {error ? <p className="text-xs text-danger">{error}</p> : null}
-          <div className="flex flex-wrap gap-2">
+          <div className="planering-paralys-entry__actions flex flex-wrap gap-2">
             <Button
               variant="accent"
               size="sm"
