@@ -2,7 +2,7 @@
 
 # Premium UI Polish — TODO
 
-**Version:** 1.1 | **Last updated:** 2026-06-28
+**Version:** 1.2 | **Last updated:** 2026-06-29
 
 Each item is independently completable. Link files in Dashboard when done.
 
@@ -10,17 +10,17 @@ Each item is independently completable. Link files in Dashboard when done.
 
 ## Phase 0 — Baseline
 
-- [ ] Record smoke:design-modules output in PROGRESS.md
+- [x] Record smoke:design-modules output in PROGRESS.md (2026-06-29)
 - [x] Record smoke:locked-ux output in PROGRESS.md
 - [x] Vite bundle split wave: lazy route-entry for `/valvet` + `/familjen` and verify build smoke (2026-06-28)
 - [x] SAFE YOLO v2: expand `typecheck:core-strict` scope över `src/modules/features/` (2026-06-28)
-- [ ] Screenshot baseline: / @ 390×844 and 1280×800
-- [ ] Screenshot baseline: /vardagen
-- [ ] Screenshot baseline: /planering
-- [ ] Screenshot baseline: /valvet
-- [ ] Screenshot baseline: /familjen
-- [ ] Screenshot baseline: /hjartat
-- [ ] Record btn-pill file count in Dashboard metrics
+- [x] Screenshot baseline: / @ 390×844 and 1280×800 (2026-06-29)
+- [x] Screenshot baseline: /vardagen (2026-06-29)
+- [x] Screenshot baseline: /planering (2026-06-29)
+- [x] Screenshot baseline: /valvet (2026-06-29)
+- [x] Screenshot baseline: /familjen (2026-06-29)
+- [x] Screenshot baseline: /hjartat (2026-06-29)
+- [x] Record btn-pill file count in Dashboard metrics (2026-06-29)
 - [x] Add PR checklist to team workflow (Testing-Strategy.md)
 - [x] Add delivery + safe git workflow docs (`DELIVERY_PLAN.md`, `GIT_WORKFLOW.md`)
 
@@ -28,32 +28,32 @@ Each item is independently completable. Link files in Dashboard when done.
 
 ## Phase 1 — Tokens & motion
 
-- [ ] Audit hardcoded hex in src/index.css :root (document, do not break theme)
-- [ ] Add focus.ts tokens (--ds-focus-ring)
-- [ ] Add zIndex.ts tokens
-- [ ] Create src/design-system/motion/presets.ts
-- [ ] Create useDsReducedMotion hook
-- [ ] Sync ChameleonInputShell to --ds-duration-morph
-- [ ] Create DS Skeleton component
-- [ ] Create DS Spinner component
-- [ ] Write src/design-system/README.md
-- [ ] Verify tailwind.config.js ds-* bridge
-- [ ] Run validate:session after token changes
+- [x] Audit hardcoded hex in src/index.css :root (document, do not break theme) — root theme colors are intentional; no theme change made (2026-06-29)
+- [x] Add focus.ts tokens (--ds-focus-ring) — already exists (2026-06-29)
+- [x] Add zIndex.ts tokens — already exists (2026-06-29)
+- [x] Create src/design-system/motion/presets.ts — already exists (2026-06-29)
+- [x] Create useDsReducedMotion hook — already exists (2026-06-29)
+- [x] Sync ChameleonInputShell to --ds-duration-morph (2026-06-29)
+- [x] Create DS Skeleton component — already exists (2026-06-29)
+- [x] Create DS Spinner component — already exists (2026-06-29)
+- [x] Write src/design-system/README.md — already exists (2026-06-29)
+- [x] Verify tailwind.config.js ds-* bridge — complete (2026-06-29)
+- [x] Run validate:session after token changes (2026-06-29)
 
 ---
 
 ## Phase 2 — Chrome
 
-- [ ] Premium Header — glass, float, hierarchy (AppHeaderBar)
-- [ ] Premium Header — BastaDesignHeader parity
-- [ ] Premium Dock — capsule, inner glow (ExecutiveDockBar)
-- [ ] Premium Dock — FloatingDock fallback theme
-- [ ] Premium Compass — SVG polish (HomeAdaptiveCompass)
-- [ ] Premium Compass — LivskompassMark stroke/glow
-- [ ] NavigationDrawer — gold active row (visual only)
-- [ ] AmbientBackground — depth layers
-- [ ] executive-chrome.css token pass
-- [ ] smoke:locked-ux after chrome batch
+- [x] Premium Header — glass, float, hierarchy (AppHeaderBar) (2026-06-29)
+- [x] Premium Header — BastaDesignHeader parity (2026-06-29)
+- [x] Premium Dock — capsule, inner glow (ExecutiveDockBar) (2026-06-29)
+- [x] Premium Dock — FloatingDock fallback theme (2026-06-29)
+- [x] Premium Compass — SVG polish (HomeAdaptiveCompass) (2026-06-29)
+- [x] Premium Compass — LivskompassMark stroke/glow (2026-06-29)
+- [x] NavigationDrawer — gold active row (visual only) (2026-06-29)
+- [x] AmbientBackground — depth layers (2026-06-29)
+- [x] executive-chrome.css token pass (2026-06-29)
+- [x] smoke:locked-ux after chrome batch (2026-06-29)
 - [ ] Pontus visual sign-off compass
 
 ---
@@ -98,13 +98,13 @@ Each item is independently completable. Link files in Dashboard when done.
 
 ## Phase 5 — States
 
-- [ ] Create ErrorFallback component
+- [x] Create ErrorFallback component — already exists in DS (2026-06-29)
 - [ ] Migrate HubErrorBoundary
 - [ ] Migrate PlaneringErrorBoundary
 - [ ] Migrate VaultErrorBoundary
 - [ ] Migrate RAGErrorBoundary
 - [ ] Migrate DagbokWizardErrorBoundary
-- [ ] Align PageSkeleton with DS Skeleton
+- [x] Align PageSkeleton with DS Skeleton (2026-06-29)
 - [x] EmptyState token pass (core/ui/EmptyState.tsx)
 - [x] Friendly empty-states for Dagbok, Planering, Familjen list views
 
@@ -112,15 +112,15 @@ Each item is independently completable. Link files in Dashboard when done.
 
 ## Phase 6 — Zone: Hem + Vardagen
 
-- [ ] HomePage depth pass
-- [ ] ExecutiveReflektionHero polish
-- [ ] Executive home cards (Livslogg, etc.)
+- [x] HomePage depth pass (2026-06-29) — executive hero/card depth pass complete
+- [x] ExecutiveReflektionHero polish
+- [x] Executive home cards (Livslogg, etc.)
 - [ ] LivLauncherPage bento grid
-- [ ] PlaneringPage (complete in-flight)
+- [x] PlaneringPage (complete in-flight)
 - [ ] PlanningKanbanBoard (in-flight)
 - [ ] PlaneringInkorgPanel (in-flight)
 - [ ] InkorgPreviewSheet (in-flight)
-- [ ] CognitiveGuardView + banner (in-flight)
+- [x] CognitiveGuardView + banner (in-flight)
 - [ ] PlaneringFokusPanel (in-flight)
 - [ ] PlaneringParalysEntry (in-flight)
 - [ ] MåBra MabraHubView + layout
