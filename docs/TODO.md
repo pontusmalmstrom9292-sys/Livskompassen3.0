@@ -206,6 +206,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Remove dead familjen-kunskap-panel selector
 - [x] Remove dead kompis-hub-page__avatar selector
 - [x] Remove dead kompis-hub-page__intro selector
+- [x] Remove dead dock-center__label selector
 
 ---
 
