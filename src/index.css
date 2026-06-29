@@ -4836,6 +4836,24 @@
     @apply mt-1 text-xs text-text-muted;
   }
 
+  .widget-shell__main {
+    @apply mx-auto w-full max-w-[42rem];
+  }
+
+  .widget-shell__surface {
+    @apply rounded-3xl border border-border-strong bg-surface/55 p-4 shadow-[0_18px_40px_-26px_rgba(0,0,0,0.7)] backdrop-blur-xl sm:p-5;
+  }
+
+  .widget-shell__surface > * + * {
+    margin-top: 1rem;
+  }
+
+  .widget-shell__surface .elongated-module,
+  .widget-shell__surface .bento-card,
+  .widget-shell__surface .calm-card {
+    @apply overflow-hidden;
+  }
+
   .widget-record__dot {
     @apply mx-auto block h-3 w-3 rounded-full bg-accent/80;
     box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
