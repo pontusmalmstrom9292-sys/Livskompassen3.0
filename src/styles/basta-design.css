@@ -582,10 +582,6 @@ html[data-theme='ME-basta-design'] {
 /* —— Prod dock v2 (kanon 6 zoner + hero-kompass via exec-dock-bar) —— */
 /* Shell = reference-dock | basta-design. Base pill/glass/gold ring lives in executive-chrome.css. */
 
-.dock-shell.dock-shell--basta-design {
-  /* clearance inherited from shared reference-dock block in executive-chrome.css */
-}
-
 .dock-shell--basta-design .exec-dock-bar {
   width: 100%;
   max-width: min(100%, 42rem);

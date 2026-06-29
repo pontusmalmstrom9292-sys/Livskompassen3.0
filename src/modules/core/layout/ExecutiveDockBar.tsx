@@ -116,7 +116,7 @@ export function ExecutiveDockBar({
         </ExecDockSide>
 
         <ExecDockSide label="Planering" active={isPlanering} onClick={onPlanering}>
-          <CalendarDays className="exec-dock-bar__glyph" strokeWidth={1.5} />
+          <CalendarDays className="exec-dock-bar__glyph" strokeWidth={1.75} />
         </ExecDockSide>
       </nav>
     );
@@ -171,7 +171,7 @@ export function ExecutiveDockBar({
       </div>
 
       <ExecDockSide label="Hjärtat" active={isHjartat} onClick={onVentil}>
-        <Landmark className="exec-dock-bar__glyph" strokeWidth={1.5} />
+        <Landmark className="exec-dock-bar__glyph" strokeWidth={1.75} />
       </ExecDockSide>
 
       <ExecDockSide
@@ -179,11 +179,11 @@ export function ExecutiveDockBar({
         active={pathname.startsWith('/planering/input')}
         onClick={onInkast}
       >
-        <Inbox className="exec-dock-bar__glyph" strokeWidth={1.5} />
+        <Inbox className="exec-dock-bar__glyph" strokeWidth={1.75} />
       </ExecDockSide>
 
       <ExecDockSide label="Resurser" active={resurserOpen} onClick={onResurser}>
-        <LayoutGrid className="exec-dock-bar__glyph" strokeWidth={1.5} />
+        <LayoutGrid className="exec-dock-bar__glyph" strokeWidth={1.75} />
       </ExecDockSide>
     </nav>
   );
