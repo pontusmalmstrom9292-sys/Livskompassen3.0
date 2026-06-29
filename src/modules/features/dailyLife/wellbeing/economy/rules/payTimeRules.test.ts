@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import golden from '@economy/__fixtures__/sheet-golden.json';
 import {
+  buildPerDayFlexRows,
   computeDayFlexDelta,
   computeHoursWorkedOnClockOut,
   computeWeekFlexSummary,
@@ -8,9 +9,46 @@ import {
   getWeekFlexTarget,
   isAbsenceCategory,
   isEvenISOWeek,
+  isWorkCategory,
   resolveBreakMinutesOnClockOut,
 } from './payTimeRules';
 import type { TimeEntryLike } from './payTimeRules';
+
+type AutoBreakCase = {
+  date: string;
+  clockIn: string;
+  clockOut: string;
+  breakMinutesIn: number;
+  scopePercent?: number;
+  expectBreakMinutes: number;
+  expectHoursWorked?: number;
+  expectHoursWorkedMin?: number;
+};
+
+function assertAutoBreakCase(c: AutoBreakCase) {
+  const br = resolveBreakMinutesOnClockOut({
+    date: c.date,
+    clockIn: c.clockIn,
+    clockOut: c.clockOut,
+    breakMinutes: c.breakMinutesIn,
+  });
+  expect(br).toBe(c.expectBreakMinutes);
+
+  const { hoursWorked } = computeHoursWorkedOnClockOut({
+    date: c.date,
+    clockIn: c.clockIn,
+    clockOut: c.clockOut,
+    breakMinutes: c.breakMinutesIn,
+    scopePercent: c.scopePercent ?? 100,
+  });
+
+  if (c.expectHoursWorked != null) {
+    expect(hoursWorked).toBe(c.expectHoursWorked);
+  }
+  if (c.expectHoursWorkedMin != null) {
+    expect(hoursWorked).toBeGreaterThanOrEqual(c.expectHoursWorkedMin);
+  }
+}
 
 describe('payTimeRules', () => {
   it('jämn/ojämn vecka enligt golden weekTargets', () => {
@@ -23,42 +61,11 @@ describe('payTimeRules', () => {
   });
 
   it('auto-rast vid pass > 5 h', () => {
-    const c = golden.autoBreak.longShiftNoBreak;
-    const br = resolveBreakMinutesOnClockOut({
-      date: c.date,
-      clockIn: c.clockIn,
-      clockOut: c.clockOut,
-      breakMinutes: c.breakMinutesIn,
-    });
-    expect(br).toBe(c.expectBreakMinutes);
-    const { hoursWorked } = computeHoursWorkedOnClockOut({
-      date: c.date,
-      clockIn: c.clockIn,
-      clockOut: c.clockOut,
-      breakMinutes: c.breakMinutesIn,
-      scopePercent: 100,
-    });
-    expect(hoursWorked).toBeGreaterThanOrEqual(c.expectHoursWorkedMin);
+    assertAutoBreakCase(golden.autoBreak.longShiftNoBreak);
   });
 
   it('ingen auto-rast vid kort pass', () => {
-    const c = golden.autoBreak.shortShiftNoBreak;
-    expect(
-      resolveBreakMinutesOnClockOut({
-        date: c.date,
-        clockIn: c.clockIn,
-        clockOut: c.clockOut,
-        breakMinutes: c.breakMinutesIn,
-      }),
-    ).toBe(0);
-    const { hoursWorked } = computeHoursWorkedOnClockOut({
-      date: c.date,
-      clockIn: c.clockIn,
-      clockOut: c.clockOut,
-      breakMinutes: c.breakMinutesIn,
-      scopePercent: 100,
-    });
-    expect(hoursWorked).toBe(c.expectHoursWorked);
+    assertAutoBreakCase(golden.autoBreak.shortShiftNoBreak);
   });
 
   it('behåller befintlig rast', () => {
@@ -73,6 +80,18 @@ describe('payTimeRules', () => {
     ).toBe(c.expectBreakMinutes);
   });
 
+  it('ingen auto-rast vid exakt 5 h (tröskel > 5)', () => {
+    assertAutoBreakCase(golden.autoBreak.exactlyFiveHours);
+  });
+
+  it('auto-rast vid pass strax över 5 h', () => {
+    assertAutoBreakCase(golden.autoBreak.justOverFiveHours);
+  });
+
+  it('delomfattning påverkar hoursWorked efter utstämpling', () => {
+    assertAutoBreakCase(golden.autoBreak.partialScope);
+  });
+
   it('flex: endast Arbete mot veckomål', () => {
     const ref = new Date('2026-05-19');
     const arbete = golden.flexWeek.arbeteOnly as TimeEntryLike[];
@@ -84,17 +103,58 @@ describe('payTimeRules', () => {
     expect(s2.workHoursWeek).toBe(golden.flexWeek.expectWorkHoursWeekAbsence);
   });
 
-  it('frånvarokategorier', () => {
-    expect(isAbsenceCategory('VAB')).toBe(true);
-    expect(isAbsenceCategory('Sjuk dag 15+')).toBe(true);
-    expect(isAbsenceCategory('Arbete')).toBe(false);
+  it('flex: veckosaldo ojämn/jämn vecka enligt golden', () => {
+    const odd = golden.flexWeek.oddWeekSummary;
+    const oddSummary = computeWeekFlexSummary(
+      golden.flexWeek.arbeteOnly as TimeEntryLike[],
+      new Date(odd.referenceDate),
+    );
+    expect(oddSummary.flexTarget).toBe(odd.expectFlexTarget);
+    expect(oddSummary.flexLeft).toBe(odd.expectFlexLeft);
+    expect(oddSummary.weekType).toBe(odd.expectWeekType);
+
+    const even = golden.flexWeek.evenWeekSummary;
+    const evenSummary = computeWeekFlexSummary(
+      even.entries as TimeEntryLike[],
+      new Date(even.referenceDate),
+    );
+    expect(evenSummary.workHoursWeek).toBe(even.expectWorkHoursWeek);
+    expect(evenSummary.flexTarget).toBe(even.expectFlexTarget);
+    expect(evenSummary.flexLeft).toBe(even.expectFlexLeft);
+    expect(evenSummary.weekType).toBe(even.expectWeekType);
   });
 
-  it('dagflex för Arbete', () => {
-    const d = golden.dayFlex.arbeteEightHours;
-    expect(computeDayFlexDelta(d.entry as TimeEntryLike)).toBe(d.expectDayFlexDelta);
-    const u = golden.dayFlex.arbeteUnderTarget;
-    expect(computeDayFlexDelta(u.entry as TimeEntryLike)).toBe(u.expectDayFlexDelta);
+  it('frånvarokategorier enligt golden absenceCategories', () => {
+    for (const cat of golden.absenceCategories.expectAbsent) {
+      expect(isAbsenceCategory(cat)).toBe(true);
+      expect(isWorkCategory(cat)).toBe(false);
+    }
+    for (const cat of golden.absenceCategories.expectWork) {
+      expect(isAbsenceCategory(cat)).toBe(false);
+      expect(isWorkCategory(cat)).toBe(true);
+    }
+  });
+
+  it('dagflex för Arbete och frånvaro enligt golden dayFlex', () => {
+    const cases = [
+      golden.dayFlex.arbeteEightHours,
+      golden.dayFlex.arbeteUnderTarget,
+      golden.dayFlex.arbeteOverTarget,
+      golden.dayFlex.partialScopeBalanced,
+      golden.dayFlex.vabZeroFlex,
+      golden.dayFlex.semesterZeroFlex,
+    ];
+    for (const row of cases) {
+      expect(computeDayFlexDelta(row.entry as TimeEntryLike)).toBe(row.expectDayFlexDelta);
+    }
+  });
+
+  it('dagflex summerar flera pass samma dag', () => {
+    const m = golden.dayFlex.multiPassSameDay;
+    const rows = buildPerDayFlexRows(m.entries as TimeEntryLike[], new Date(m.referenceDate));
+    expect(rows).toHaveLength(1);
+    expect(rows[0].flexDelta).toBe(m.expectDayFlexDelta);
+    expect(rows[0].hoursWorked).toBe(m.expectHoursWorkedDay);
   });
 
   it('describeWeekForDate', () => {
