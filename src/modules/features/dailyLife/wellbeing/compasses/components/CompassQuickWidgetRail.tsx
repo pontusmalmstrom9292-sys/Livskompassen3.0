@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import type { CompassFlow } from '../utils/compassTime';
 import { getCompassWidgets } from '../config/compassWidgetCatalog';
+import './compasses.css';
 
 type Props = {
   flow: CompassFlow;

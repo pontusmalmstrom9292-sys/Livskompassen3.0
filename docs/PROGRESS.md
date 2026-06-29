@@ -545,7 +545,7 @@ Copy the template below for each entry. Newest first.
 - Audited Phase 1 TODO items: focus.ts, zIndex.ts, motion/presets.ts, useDsReducedMotion, Skeleton, Spinner, ErrorFallback, design-system/README.md, tailwind ds-* bridge — all already exist; marked done
 - Synced `ChameleonInputShell` transition to `var(--ds-duration-morph)` (CSS token, respects prefers-reduced-motion override automatically)
 - Recorded btn-pill-- baseline: **10 files** (down from estimated ~195 — migration largely complete)
-- Recorded index.css LOC: **3909**
+- Recorded index.css LOC: **3837**
 - Updated DASHBOARD.md, TODO.md metrics
 
 **Files changed:**
@@ -557,7 +557,7 @@ Copy the template below for each entry. Newest first.
 **Metrics:**
 - smoke:design-modules: PASS
 - btn-pill-- file count: 10 (CSS definitions only; 1 TSX = canonical Button.tsx)
-- index.css LOC: 3909
+- index.css LOC: 3837
 
 **Reasoning:**
 - Phase 0 baseline required recording smoke and btn-pill metrics before Phase 1 work begins

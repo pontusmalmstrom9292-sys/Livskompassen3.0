@@ -185,7 +185,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Audit unused calm-card classes
 - [x] Extract planering.css patterns to DS
 - [x] Remove dead lab CSS from prod bundle
-- [x] Reduce index.css toward 5000 LOC target (3909 LOC)
+- [x] Reduce index.css toward 5000 LOC target (3837 LOC)
 - [x] Deprecate shared/ui re-exports
 
 ---

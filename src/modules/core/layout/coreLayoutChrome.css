@@ -227,6 +227,10 @@
     @apply inline-flex w-auto max-w-[min(100vw-0.75rem,40rem)] items-end justify-center border-0 bg-transparent p-0 shadow-none;
   }
 
+  .dock-nav-btn__chrome-v5 {
+    @apply h-6 w-6;
+  }
+
   /* Block underlying widget/dock when the menu is open */
   body.nav-drawer-open .fyren-smart-bar,
   body.nav-drawer-open .fyren-home-rail,
