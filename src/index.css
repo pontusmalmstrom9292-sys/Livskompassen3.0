@@ -522,14 +522,6 @@
 
   /* glass-card / glass-hero / glow — obsidian-calm-2.css */
 
-  .glass-nav {
-    background: rgba(15, 23, 42, 0.88);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 8px 32px rgba(2, 6, 23, 0.45);
-  }
-
   /* Båge under kompass borttagen 2026-05-23 — se VALV-ICON-KANON / DOCK-KANON */
 
   .dock-classic {
