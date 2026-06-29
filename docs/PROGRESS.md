@@ -37,6 +37,33 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — Dead dock-nav-btn active chrome-v4 selector removed
+
+**Completed work:**
+- Removed unused `.dock-nav-btn--active .dock-nav-btn__chrome-v4` selector from `src/index.css`.
+- Kept other dock-nav button selectors untouched for this micro-wave.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3169
+- `npm run build`: PASS
+
+**Reasoning:**
+- `dock-nav-btn__chrome-v4` has no active `src` consumers, so pruning this state selector safely trims dead CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead hub-chrome-tile--side selector removed
 
 **Completed work:**
