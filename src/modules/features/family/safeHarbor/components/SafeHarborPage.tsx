@@ -19,7 +19,7 @@ export function SafeHarborPage({ embedded = false }: Props) {
   }, []);
 
   return (
-    <div className="space-y-4">
+    <div className="familjen-tab-surface space-y-4">
       {!embedded && (
         <header className="px-0.5">
           <p className="home-page__eyebrow">Trygg hamn</p>

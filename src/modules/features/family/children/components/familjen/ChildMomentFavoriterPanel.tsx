@@ -23,7 +23,7 @@ export function ChildMomentFavoriterPanel({ shell }: Props) {
   );
 
   return (
-    <div className="space-y-4">
+    <div className="familjen-tab-surface space-y-4">
       <BentoCard
         glow="blue"
         title="Favoriter"

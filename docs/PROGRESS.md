@@ -37,6 +37,117 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — Familjen mönster + kunskap polish
+
+**Completed work:**
+- Tightened the remaining Familjen tab surfaces for pattern overview, knowledge search, and känslotemplet support.
+- Kept the search, counters, and child-facing guidance unchanged while making the shells read consistently.
+
+**Files changed:**
+- src/modules/features/family/children/components/familjen/FamiljenMonsterTab.tsx
+- src/modules/features/family/children/components/familjen/FamiljenKunskapHubTab.tsx
+- src/modules/features/family/children/components/familjen/KanslotempletParentCard.tsx
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+
+**Reasoning:**
+- These were the remaining visible Familjen tab surfaces after the earlier wave, and they benefit from the same premium shell framing.
+
+**Next steps:**
+- Continue with the remaining Valv/Familjen surfaces or move to the next open zone.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Familjen child moments + Barnporten polish
+
+**Completed work:**
+- Gave the remaining child-moment surfaces the shared Familjen tab frame.
+- Tightened the Barnporten QR, inbox, and orchestra panels to match the same calmer shell treatment.
+
+**Files changed:**
+- src/modules/features/family/children/components/familjen/ChildMomentStunderPanel.tsx
+- src/modules/features/family/children/components/familjen/ChildMomentOmPanel.tsx
+- src/modules/features/family/children/components/familjen/ChildMomentFavoriterPanel.tsx
+- src/modules/features/onboarding/barnporten/components/BarnportenQrPanel.tsx
+- src/modules/features/onboarding/barnporten/components/BarnportenInboxPanel.tsx
+- src/modules/features/onboarding/barnporten/components/BarnportenOrkesterPanel.tsx
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+
+**Reasoning:**
+- These were the remaining visible child/parent panel surfaces in the Familjen wave, and they needed the same shell consistency before moving on.
+
+**Next steps:**
+- Continue with any still-open Familjen/Valv surfaces or move to the next open backlog zone.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Familjen BIFF panel polish
+
+**Completed work:**
+- Gave the Trygg Hamn and BIFF panels the same calmer shell treatment as the rest of Familjen.
+- Kept the BIFF workflow, child-safe redirects, and validation copy unchanged.
+
+**Files changed:**
+- src/modules/features/family/safeHarbor/components/SafeHarborPage.tsx
+- src/modules/features/family/safeHarbor/components/TryggHamnHub.tsx
+- src/modules/features/family/safeHarbor/components/BiffPublicPanel.tsx
+- src/modules/features/family/safeHarbor/components/BiffTriagePanel.tsx
+- src/modules/features/onboarding/barnporten/components/BarnportenParentHubPanel.tsx
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+
+**Reasoning:**
+- The remaining open Familjen wave was the parent-facing BIFF and Barnporten surfaces, and they needed the same premium shell consistency before deeper logic work.
+
+**Next steps:**
+- Continue with any remaining Familjen tabs or move to the next open zone in the backlog.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Familjen parent panels polish
+
+**Completed work:**
+- Tightened the Barnporten parent hub and Trygg Hamn surfaces with the same calmer shell treatment as the rest of Familjen.
+- Kept the BIFF workflow and parent-facing navigation intact while making the panels read more consistently inside the Familjen hub.
+
+**Files changed:**
+- src/modules/features/family/safeHarbor/components/SafeHarborPage.tsx
+- src/modules/features/family/safeHarbor/components/TryggHamnHub.tsx
+- src/modules/features/onboarding/barnporten/components/BarnportenParentHubPanel.tsx
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+
+**Reasoning:**
+- The next open Familjen items were the parent-facing panels, and they benefit from the same shell consistency before deeper tab work.
+
+**Next steps:**
+- Continue with the remaining Familjen tabs and the remaining parent/child panels.
+
+**Blockers:**
+- None
+
+---
 
 ## 2026-06-29 — Familjen page + input shell polish
 

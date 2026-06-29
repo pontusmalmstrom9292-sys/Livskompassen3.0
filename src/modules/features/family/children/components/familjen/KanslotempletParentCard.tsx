@@ -97,6 +97,7 @@ export function KanslotempletParentCard({ activeChild, userId }: Props) {
       title="Känsloväder & Medreglering"
       description={`Avkodat stöd för ${activeChild}`}
       icon={<Heart className="h-4 w-4 text-accent" />}
+      className="familjen-tab-surface !p-4"
     >
       {loading ? (
         <HubPanelSkeleton label="Läser känsloläge…" lines={3} />

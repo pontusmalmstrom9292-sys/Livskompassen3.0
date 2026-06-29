@@ -145,7 +145,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
   };
 
   return (
-    <div className="space-y-3">
+    <div className="familjen-tab-surface space-y-3">
       {fromSpeglar && (
         <p className="text-xs text-text-dim">
           Text från Speglar är förifylld — redigera fritt innan du hämtar svar.

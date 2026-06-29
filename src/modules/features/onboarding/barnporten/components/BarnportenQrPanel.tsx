@@ -110,7 +110,7 @@ export function BarnportenQrPanel() {
   if (!user) return null;
 
   return (
-    <div ref={zoneRef} className="barnporten-zone elongated-module space-y-3 border border-amber-400/20 p-4">
+    <div ref={zoneRef} className="barnporten-zone familjen-tab-surface space-y-3">
       <div className="flex items-center gap-2">
         <Smartphone className="h-4 w-4 text-accent" aria-hidden />
         <p className="text-[10px] uppercase tracking-widest text-accent/90">Koppla barns telefon</p>

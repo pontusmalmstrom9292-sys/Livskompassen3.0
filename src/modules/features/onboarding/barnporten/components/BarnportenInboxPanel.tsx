@@ -60,7 +60,7 @@ export function BarnportenInboxPanel() {
   if (!user) return null;
 
   return (
-    <div className="space-y-4">
+    <div className="familjen-tab-surface space-y-4">
       <div>
         <p className="text-[10px] uppercase tracking-widest text-text-dim">Barnporten · Inkorg → Valv</p>
         <p className="mt-1 text-xs italic text-text-dim">Skapa trygghet. Bygg tillit.</p>

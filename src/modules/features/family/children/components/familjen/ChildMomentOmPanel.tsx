@@ -25,7 +25,7 @@ export function ChildMomentOmPanel({ shell }: Props) {
   const profile = CHILD_PROFILES.find((p) => p.alias === activeChild);
 
   return (
-    <div className="space-y-4">
+    <div className="familjen-tab-surface space-y-4">
       {profile && (
         <BentoCard glow="blue" title={profile.alias} description={profile.focus} className="!p-4">
           <ul className="flex flex-wrap gap-2">

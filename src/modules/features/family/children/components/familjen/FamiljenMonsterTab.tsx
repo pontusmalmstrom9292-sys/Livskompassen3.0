@@ -29,11 +29,12 @@ export function FamiljenMonsterTab({ shell }: Props) {
   ).length;
 
   return (
-    <div className="space-y-4">
+    <div className="familjen-tab-surface space-y-4">
       <BentoCard
         title="Mönster i familjen"
         description="Frekvens i livsloggar — ingen LLM, bara räkning"
         icon={<BarChart3 className="h-4 w-4" />}
+        className="!p-4"
       >
         <p className="text-xs text-text-dim">
           För SMS, BIFF och juridisk frekvens: använd Valv → Mönster (Pansaret).
@@ -46,7 +47,7 @@ export function FamiljenMonsterTab({ shell }: Props) {
         </Link>
       </BentoCard>
 
-      <BentoCard title={`${activeChild} — kategorier`}>
+      <BentoCard title={`${activeChild} — kategorier`} className="!p-4">
         {childCats.length === 0 ? (
           <p className="text-sm text-text-dim">Inga livsloggar ännu.</p>
         ) : (
@@ -62,7 +63,7 @@ export function FamiljenMonsterTab({ shell }: Props) {
         <p className="mt-3 text-xs text-text-dim">Fysiologi-poster: {physioCount}</p>
       </BentoCard>
 
-      <BentoCard title="Hela familjen">
+      <BentoCard title="Hela familjen" className="!p-4">
         <ul className="space-y-2">
           {familyCats.map(([cat, n]) => (
             <li key={cat} className="flex justify-between text-sm">

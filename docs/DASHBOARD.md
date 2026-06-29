@@ -163,10 +163,10 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). ds-btn-- files: 
 - **Files:** Economy* panels, EkonomiInputSuperModule
 
 ### Familjen
-- **Status:** In Progress
+- **Status:** Done
 - **Priority:** High
 - **Files:** FamiljenPage, tab panels, Barnfokus delegate
-- **Notes:** FamiljenPage, the universal input hub, and the Barnfokus/reflektion/tillsammans surfaces now share a calmer frame; the remaining tabs stay open.
+- **Notes:** FamiljenPage, the universal input hub, the Barnfokus/reflektion/tillsammans surfaces, the child-moment tabs, the mönster/kunskap/känslotemplet surfaces, and the parent-facing Hamn/Barnporten panels now share a calmer frame.
 
 ### Hjärtat / Dagbok
 - **Status:** In Progress

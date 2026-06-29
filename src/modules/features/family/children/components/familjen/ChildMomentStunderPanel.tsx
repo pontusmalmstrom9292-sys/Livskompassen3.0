@@ -52,7 +52,7 @@ export function ChildMomentStunderPanel({ shell }: Props) {
   }
 
   return (
-    <BentoCard glow="blue" title="Senaste stunder" description={activeChild}>
+    <BentoCard glow="blue" title="Senaste stunder" description={activeChild} className="familjen-tab-surface !p-4">
       <div className="flex flex-wrap gap-2">
         {FILTER_CHIPS.map((f) => (
           <button
