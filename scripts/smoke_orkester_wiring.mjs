@@ -179,7 +179,7 @@ function main() {
     'arbetsliv_lon',
   );
   mustInclude('src/modules/shell/LivLauncherPage.tsx', 'arbetsliv', '/arbetsliv');
-  mustInclude('src/modules/core/routing/AppRoutes.tsx', 'NAV_PATHS.VARDAGEN', 'LivLauncherPage');
+  mustInclude('src/modules/core/routing/AppRoutes.tsx', 'NAV_PATHS.VARDAGEN', 'VardagenRoutePage');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/arbetsliv"', 'ArbetslivHubPage');
   mustInclude('functions/src/index.ts', 'generatePayslip');
   mustInclude('firestore.rules', 'match /time_entries/{docId}');
