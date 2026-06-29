@@ -524,21 +524,6 @@
 
   /* Båge under kompass borttagen 2026-05-23 — se VALV-ICON-KANON / DOCK-KANON */
 
-  .dock-classic__plate {
-    @apply relative flex h-11 w-11 items-center justify-center rounded-full;
-    background: linear-gradient(
-      165deg,
-      rgba(26, 20, 16, 0.95) 0%,
-      rgba(10, 10, 10, 0.88) 55%,
-      rgba(2, 6, 23, 0.8) 100%
-    );
-    border: 1.5px solid rgba(212, 175, 55, 0.38);
-    box-shadow:
-      0 4px 14px var(--color-glass-dark-45),
-      0 0 12px rgba(212, 175, 55, 0.1),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  }
-
   /* L2 hub-chrome tile (dock band, Mer-panel) */
   .hub-chrome-tile {
     @apply relative flex shrink-0 items-center justify-center;
