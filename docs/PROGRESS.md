@@ -37,6 +37,32 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — Dead CSS removed
+
+**Completed work:**
+- Removed dead `fyren-smart-bar` and `app-unlock-gate__card` CSS from `src/index.css`.
+- Kept the remaining shared layout and utility styles intact.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3430
+
+**Reasoning:**
+- These selectors had no active `src` consumers, so removing them safely lowers global CSS without changing behavior.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Review queue statuses localized
 
 **Completed work:**
