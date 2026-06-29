@@ -414,7 +414,7 @@ export function AppRoutes() {
                   </ProtectedModule>
                 }
               />
-              <Route path={NAV_PATHS.HJARTAT} element={<ProtectedModule><HjartatRoutePage /></ProtectedModule>} />
+              <Route path={NAV_PATHS.HJARTAT} element={<HjartatRoutePage />} />
 
               {/* —— VALVET — egen silo, säkerhet inuti VaultPage —— */}
               <Route
