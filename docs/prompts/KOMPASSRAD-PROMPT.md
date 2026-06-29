@@ -2,7 +2,7 @@
 
 **Runtime-källa:** `functions/src/sharedRules.ts` → `KOMPASSRAD_SYSTEM_PROMPT`
 **Callables:** `generateKompassrad`
-**Synkad:** 2026-06-28 · **Status:** produktion (läsbar spegel, ej runtime)
+**Synkad:** 2026-06-29 · **Status:** produktion (läsbar spegel, ej runtime)
 
 ---
 # KOMPASSRAD
