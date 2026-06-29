@@ -166,7 +166,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] WidgetProjektPage
 - [x] WidgetActionDashboardPage
 - [x] smoke:widgets
-- [ ] Motorola G85 manual test pass
+- [x] Motorola G85 manual test pass
 
 ---
 
