@@ -1,8 +1,11 @@
+import { textStyles } from '@/design-system';
+
 /**
  * Runtime typography scale — canonical: docs/design/TYPE-SCALE.md
+ * Hub eyebrows delegate to design-system textStyles.eyebrow (CSS var tokens).
  */
 export const typeScale = {
-  eyebrow: 'text-[10px] uppercase tracking-[0.24em] text-text-dim',
+  eyebrow: textStyles.eyebrow,
   titleHub: 'font-display-serif text-xl font-light text-accent',
   leadHub: 'text-sm leading-relaxed text-text-muted',
   titleSection: 'font-display-serif text-sm font-semibold text-accent',
@@ -19,11 +22,11 @@ export function hubHeaderClasses(): {
   lead: string;
 } {
   return {
-    eyebrow: `home-page__eyebrow ${typeScale.eyebrow}`,
+    eyebrow: `home-page__eyebrow ${textStyles.eyebrow}`,
     title: `home-page__title ${typeScale.titleHub}`,
     lead: `home-page__lead ${typeScale.leadHub}`,
   };
 }
 
 /** In-hub section label (same eyebrow token as hub header). */
-export const sectionEyebrowClass = `home-page__eyebrow ${typeScale.eyebrow}`;
+export const sectionEyebrowClass = `home-page__eyebrow ${textStyles.eyebrow}`;
