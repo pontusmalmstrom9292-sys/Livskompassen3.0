@@ -37,6 +37,34 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — CognitiveGuard banner polish
+
+**Completed work:**
+- Added glass-depth and clearer focus treatment to the CognitiveGuard panel and overload banner.
+- Kept the Pansarläge behavior and route back to Handling unchanged.
+
+**Files changed:**
+- src/modules/features/admin/planning/components/CognitiveGuardView.tsx
+- src/modules/features/admin/planning/components/CognitiveGuardOverloadBanner.tsx
+- src/modules/features/admin/planning/components/planering.css
+- docs/TODO.md
+- docs/DASHBOARD.md
+
+**Metrics:** (btn-pill count, smoke results)
+- Build PASS
+- smoke:locked-ux PASS
+
+**Reasoning:**
+- The overload state is the most attention-sensitive Planering path, so it benefits from a calmer, clearer visual shell without changing behavior.
+
+**Next steps:**
+- Continue with `PlaneringFokusPanel` or the next open planning subpanel.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-28 — Delivery + Git workflow hardening
 
 **Completed work:**
@@ -289,4 +317,3 @@ Copy the template below for each entry. Newest first.
 - Vertikala zone-dividers via pseudo-element
 - Större kompass + "Hamn"-label i `ExecutiveDockBar.tsx`
 - Cinzel uppercase labels, touch ≥44px, reduced-motion + reduced-transparency fallbacks
-
