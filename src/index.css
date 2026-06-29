@@ -587,11 +587,6 @@
       0 0 14px rgba(212, 175, 55, 0.14);
   }
 
-  .dock-classic__mark {
-    @apply h-5 w-5 text-accent;
-    opacity: 0.92;
-  }
-
   .dock-classic__center--holding .dock-classic__plate {
     border-color: rgba(212, 175, 55, 0.62);
     box-shadow:
