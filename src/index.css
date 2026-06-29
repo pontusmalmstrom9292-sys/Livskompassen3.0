@@ -299,10 +299,6 @@
     background: rgba(212, 175, 55, 0.12);
   }
 
-  .ambient-blob--indigo {
-    background: rgba(13, 59, 59, 0.35);
-  }
-
   .ambient-blob--accent-secondary {
     background: color-mix(in srgb, var(--accent-secondary) 28%, transparent);
   }
@@ -522,10 +518,6 @@
 
   html[data-theme^='M-mockup-'] .app-main {
     padding-bottom: calc(var(--app-dock-clearance) + 0.5rem);
-  }
-
-  .ambient-blob--white {
-    background: rgba(255, 255, 255, 0.04);
   }
 
   /* glass-card / glass-hero / glow — obsidian-calm-2.css */
