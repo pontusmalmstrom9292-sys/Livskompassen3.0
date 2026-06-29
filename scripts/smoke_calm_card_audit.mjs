@@ -3,7 +3,7 @@
  * Audits calm-card-style class usage outside the core definition styles.
  * Fails if any tracked variant has no usage in the app/theme sources.
  */
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { join, extname } from 'node:path';
 
 const root = join(import.meta.dirname, '..');

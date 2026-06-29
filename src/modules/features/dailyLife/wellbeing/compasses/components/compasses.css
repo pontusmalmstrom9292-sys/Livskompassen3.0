@@ -62,7 +62,7 @@
   .compass-quick-widget-rail__chip:hover {
     border-color: rgba(253, 230, 138, 0.55);
     background: rgba(212, 175, 55, 0.12);
-    color: #fde68a;
+    color: var(--accent-light);
   }
 
   .compass-quick-widget-rail--compact .compass-quick-widget-rail__label {
