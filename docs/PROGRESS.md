@@ -38,6 +38,32 @@ Copy the template below for each entry. Newest first.
 ---
 
 
+## 2026-06-29 — Dead dock-hub-band pad selector removed
+
+**Completed work:**
+- Removed unused `.dock-hub-band__pad` from `src/index.css`.
+- Kept active dock-hub rail/nav button selectors untouched.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3318
+
+**Reasoning:**
+- `dock-hub-band__pad` had no active `src` consumers, so removing it safely trims global CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead dock-hub-band context selector removed
 
 **Completed work:**
