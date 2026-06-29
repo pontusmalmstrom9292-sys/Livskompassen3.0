@@ -86,6 +86,117 @@
     scroll-padding-bottom: var(--app-dock-clearance);
   }
 
+
+
+  html[data-theme^='M-mockup-'] .hub-page-shell__title,
+  html[data-theme^='M-mockup-'] .home-page__title,
+  html[data-theme^='M-mockup-'] .home-greeting__title {
+    font-family: 'Cinzel', 'Outfit', serif;
+    letter-spacing: 0.06em;
+  }
+
+  .hub-page-shell__header {
+    @apply px-0.5;
+  }
+
+  .hub-page-shell__footer {
+    @apply border-t border-border pt-4;
+  }
+
+  .app-header__inner {
+    @apply pointer-events-none mx-auto max-w-2xl px-4 pb-2;
+    padding-top: max(0.75rem, env(safe-area-inset-top, 0px));
+  }
+
+  .glass-header-bar--kanon {
+    @apply grid h-[5rem] grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-2 px-3;
+    background: var(--glass);
+    border-color: var(--border-strong);
+  }
+
+  .glass-header-bar--kanon .glass-header-bar__leading {
+    @apply relative z-10 flex min-w-0 items-center gap-0.5 sm:gap-1;
+  }
+
+  .glass-header-bar--kanon .app-header__brand--kanon {
+    @apply pointer-events-auto static flex min-w-0 translate-x-0 translate-y-0 flex-row items-center;
+    max-width: min(calc(100vw - 7.5rem), 22rem);
+  }
+
+  .glass-header-bar--home-quick {
+    @apply grid-cols-[minmax(0,1fr)_auto_auto] gap-1.5 px-2;
+  }
+
+  .glass-header-bar__leading {
+    @apply relative z-10 flex min-w-0 items-center gap-1.5;
+  }
+
+  .glass-header-bar--home-quick .app-header__brand--kanon {
+    @apply min-w-0;
+  }
+
+  .glass-header-bar--home-quick .app-header__title--kanon {
+    font-size: 0.9rem;
+    letter-spacing: 0.08em;
+  }
+
+  .glass-header-bar--home-quick .app-header__tagline {
+    @apply hidden sm:block;
+  }
+
+  .livskompass-brand-lockup--inline .livskompass-brand-lockup__mark {
+    filter: drop-shadow(0 2px 3px var(--color-glass-dark-50))
+      drop-shadow(0 0 14px rgba(212, 175, 55, 0.42));
+  }
+
+  .livskompass-brand-lockup--header .livskompass-brand-lockup__mark {
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4))
+      drop-shadow(0 0 6px rgba(212, 175, 55, 0.18));
+  }
+
+  .livskompass-brand-lockup__title {
+    background: linear-gradient(180deg, #faf3e0 0%, #e8d48a 38%, var(--color-accent-gold) 72%, #a68b2e 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 1px 2px var(--color-glass-dark-45));
+  }
+
+  .livskompass-brand-lockup__title--inline {
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    filter: drop-shadow(0 1px 2px var(--color-glass-dark-50))
+      drop-shadow(0 0 18px rgba(212, 175, 55, 0.28));
+  }
+
+  /* Header — solid guld (filter + background-clip:text = osynlig text i WebKit) */
+  .livskompass-brand-lockup--header .livskompass-brand-lockup__title {
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    color: #dcc06a;
+    filter: none;
+    text-shadow: 0 1px 1px var(--color-glass-dark-45);
+  }
+
+  .livskompass-brand-lockup--header .livskompass-brand-lockup__title--inline {
+    filter: none;
+  }
+
+  @media (min-width: 640px) {
+    .livskompass-brand-lockup__title--inline {
+      letter-spacing: 0.34em;
+    }
+  }
+
+  .glass-header-bar--kanon .app-header__page-badge {
+    @apply ml-1.5 shrink-0 self-center rounded-md border border-accent/25 bg-black/30 px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.12em] text-accent/90;
+  }
+
+  .glass-header-bar--kanon > .fyren-header-quick__toggle-wrap {
+    @apply pointer-events-auto shrink-0 justify-self-end;
+  }
+
   .dock-shell--fyren {
     @apply flex-col items-center gap-0;
     --dock-stack-height: 8.5rem;
@@ -114,6 +225,53 @@
 
   .dock-nav--hub {
     @apply inline-flex w-auto max-w-[min(100vw-0.75rem,40rem)] items-end justify-center border-0 bg-transparent p-0 shadow-none;
+  }
+
+  /* Block underlying widget/dock when the menu is open */
+  body.nav-drawer-open .fyren-smart-bar,
+  body.nav-drawer-open .fyren-home-rail,
+  body.nav-drawer-open .fyren-header-quick,
+  body.nav-drawer-open .fyren-header-quick__dismiss,
+  body.nav-drawer-open .fyren-header-strip,
+  body.nav-drawer-open .dock-nav--hub,
+  body.nav-drawer-open .dock-classic,
+  body.nav-drawer-open .dock-hub-band {
+    pointer-events: none;
+  }
+
+  .fyren-home-rail {
+    @apply pointer-events-auto fixed right-0 z-[45] flex flex-col gap-0.5 rounded-l-2xl border border-r-0 py-2 pl-1 pr-1;
+    top: calc(4.75rem + env(safe-area-inset-top, 0px));
+    bottom: calc(3.75rem + env(safe-area-inset-bottom, 0px));
+    max-height: min(72vh, 520px);
+    overflow-y: auto;
+    border-color: rgba(212, 175, 55, 0.35);
+    background: rgba(10, 10, 10, 0.72);
+    backdrop-filter: blur(14px);
+    box-shadow: -8px 0 32px var(--color-glass-dark-45);
+  }
+
+  .fyren-home-rail__row {
+    @apply flex cursor-pointer flex-col items-center gap-1 rounded-xl border-0 px-2 py-2.5 text-center transition-colors;
+    background: transparent;
+    color: var(--text);
+    touch-action: manipulation;
+    min-width: 4.25rem;
+  }
+
+  .fyren-home-rail__row:hover {
+    background: rgba(212, 175, 55, 0.1);
+  }
+
+  .fyren-home-rail__icon {
+    @apply flex h-11 w-11 items-center justify-center rounded-full text-accent;
+    border: 1.5px solid rgba(212, 175, 55, 0.45);
+    background: rgba(10, 10, 10, 0.65);
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.12);
+  }
+
+  .fyren-home-rail__label {
+    @apply max-w-[4.5rem] text-[9px] font-medium leading-tight text-accent/90;
   }
 
   .dock-orbit-stage {
