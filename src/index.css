@@ -1,3 +1,6 @@
+@import './design-system/tokens/css/variables.css';
+@import './design-system/styles/components.css';
+@import './design-system/styles/premium-polish.css';
 @import './styles/basta-design.css';
 @import './styles/design-packs.css';
 @import './styles/obsidian-calm-2.css';
@@ -6806,7 +6809,3 @@ html.dim-mode {
 
   .floating-dock__center-glow { display: none !important; }
 }
-
-@import './design-system/tokens/css/variables.css';
-@import './design-system/styles/components.css';
-@import './design-system/styles/premium-polish.css';

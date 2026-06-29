@@ -26,12 +26,8 @@ async function sumDailyCostUsd(userId?: string): Promise<number> {
     q = q.where('userId', '==', userId);
   }
 
-  const snap = await q.get();
-  let total = 0;
-  for (const doc of snap.docs) {
-    total += (doc.data().estimatedCostUsd as number) ?? 0;
-  }
-  return total;
+  const agg = await q.aggregate({ total: admin.firestore.AggregateField.sum('estimatedCostUsd') }).get();
+  return (agg.data().total as number) ?? 0;
 }
 
 export interface CostCapCheckResult {

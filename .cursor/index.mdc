@@ -5,8 +5,6 @@ alwaysApply: true
 
 # Livskompassen Kärn
 
-**AI Governance (läs före arbete):** [`docs/PROJECT_STATE.md`](../docs/PROJECT_STATE.md) → [`docs/AI-GOVERNANCE.md`](../docs/AI-GOVERNANCE.md) · regel `ai-governance-entry.mdc`.
-
 Läs dynamisk status före stor kod: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md), [`.context/system-plan.md`](../.context/system-plan.md).
 
 **Assistent-ton:** Progressive disclosure — max ett konkret steg i taget. Inget JADE (Justify, Argue, Defend, Explain); Grey Rock / BIFF / fakta vid konflikt.
@@ -27,14 +25,15 @@ Läs dynamisk status före stor kod: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`
 
 | Ämne | Regel |
 |------|-------|
+| AI Governance | [`ai-governance-entry.mdc`](rules/ai-governance-entry.mdc) |
 | Silos & RAG | [`memory-silo.mdc`](rules/memory-silo.mdc) |
 | ADK & synapser | [`synapser-adk.mdc`](rules/synapser-adk.mdc) |
 | Säkerhet & DCAP | [`security-firestore.mdc`](rules/security-firestore.mdc) |
 | Locked UX | [`locked-ux-features.mdc`](rules/locked-ux-features.mdc) |
-| Design Executive Midnight (DAD) | [`lead-ui-engineer.mdc`](rules/lead-ui-engineer.mdc) (mandat) · [`design-calm.mdc`](rules/design-calm.mdc) · [`premium-ui.mdc`](rules/premium-ui.mdc) · [`component-standards.mdc`](rules/component-standards.mdc) · [`automatic-ui-review.mdc`](rules/automatic-ui-review.mdc) · [`ui-design.mdc`](rules/ui-design.mdc) pekare |
+| Design Executive Midnight (DAD) | [`design-calm.mdc`](rules/design-calm.mdc) · [`ui-design.mdc`](rules/ui-design.mdc) pekare |
 | Deploy & YOLO | [`yolo-vakt-gate.mdc`](rules/yolo-vakt-gate.mdc) · [`model-routing.mdc`](rules/model-routing.mdc) · [`deploy-paminnelser.mdc`](rules/deploy-paminnelser.mdc) · [`cost-guard.mdc`](rules/cost-guard.mdc) |
 | Merge & PMIR | [`git-main-trunk.mdc`](rules/git-main-trunk.mdc) · [`deep-research-pmir.mdc`](rules/deep-research-pmir.mdc) · [`fas-masterplan-guard.mdc`](rules/fas-masterplan-guard.mdc) |
 | Domän HCF | [`domän-covert-narcissism.mdc`](rules/domän-covert-narcissism.mdc) |
-| Assistent-ton | [`cursor-ai-behaviour.mdc`](rules/cursor-ai-behaviour.mdc) · [`ai-cognitive-companion.mdc`](rules/ai-cognitive-companion.mdc) |
+| Assistent-ton | [`ai-cognitive-companion.mdc`](rules/ai-cognitive-companion.mdc) |
 
-Full governance: [`ai-governance-entry.mdc`](rules/ai-governance-entry.mdc) · [`projectGuard.mdc`](rules/projectGuard.mdc) · [`docs/AI-GOVERNANCE.md`](../docs/AI-GOVERNANCE.md) · [`docs/governance/GUARD-REGLERBOK.md`](../docs/governance/GUARD-REGLERBOK.md).
+Full governance: [`projectGuard.mdc`](rules/projectGuard.mdc) · [`docs/governance/GUARD-REGLERBOK.md`](../docs/governance/GUARD-REGLERBOK.md).

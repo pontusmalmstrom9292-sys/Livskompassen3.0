@@ -36,4 +36,6 @@ Legacy-rutter (`/dagbok`, `/valv`, `/mabra`, `/planering` …) omdirigeras — s
 
 Kostnadsvakt: [`docs/governance/GCP-KOSTNADSVAKT.md`](docs/governance/GCP-KOSTNADSVAKT.md) · `npm run smoke:cost-guard`
 
+Kostnadsvakt: [`docs/governance/GCP-KOSTNADSVAKT.md`](docs/governance/GCP-KOSTNADSVAKT.md) · `npm run smoke:cost-guard`
+
 Design Authority Decision (Executive Midnight): se `design-calm.mdc` — **inte** duplicerade här.
