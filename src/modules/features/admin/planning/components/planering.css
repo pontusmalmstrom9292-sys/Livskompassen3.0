@@ -191,8 +191,8 @@
     @apply rounded-full border border-accent/25 px-2 py-0.5 text-[10px] text-text-dim;
   }
 
-  .planering-kanban-column__header + .flex {
-    @apply min-h-[8rem];
+  .planering-kanban-column__list {
+    @apply flex min-h-[8rem] flex-col gap-2;
   }
 
   .planering-task-card {

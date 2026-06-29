@@ -7,6 +7,7 @@
     "dev": "vite --host",
     "build": "tsc -b && vite build",
     "build:web": "vite build",
+    "baselines:capture": "node scripts/capture_baselines.mjs",
     "android:smoke-prep": "npm run cap:sync",
     "android:live": "node scripts/android_dev.mjs",
     "cap:sync": "npm run build:web && npx cap sync android",
