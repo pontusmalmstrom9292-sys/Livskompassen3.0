@@ -38,6 +38,32 @@ Copy the template below for each entry. Newest first.
 ---
 
 
+## 2026-06-29 — Dead pin-gate selectors removed
+
+**Completed work:**
+- Removed unused `input-glass--pin` and `pin-gate*` selectors from `src/index.css`.
+- Kept active `input-glass` and shared chip styles untouched.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3357
+
+**Reasoning:**
+- `input-glass--pin` and `pin-gate*` had no active `src` consumers, so removing them safely trims global CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead btn-pill--primary selector removed
 
 **Completed work:**
