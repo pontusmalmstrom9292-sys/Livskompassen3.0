@@ -2425,22 +2425,6 @@
     @apply relative isolate;
   }
 
-  .familjen-hub__aurora {
-    @apply pointer-events-none absolute inset-x-0 top-0 h-56 overflow-hidden;
-  }
-
-  .familjen-hub__aurora::before {
-    content: '';
-    @apply absolute left-1/2 top-0 h-48 w-[120%] -translate-x-1/2;
-    background: radial-gradient(
-      ellipse 70% 100% at 50% 0%,
-      rgba(45, 212, 191, 0.14) 0%,
-      rgba(129, 140, 248, 0.06) 45%,
-      transparent 72%
-    );
-    filter: blur(2px);
-  }
-
   .familjen-hub__header {
     @apply relative text-center;
   }

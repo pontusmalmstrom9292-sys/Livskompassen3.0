@@ -38,6 +38,32 @@ Copy the template below for each entry. Newest first.
 ---
 
 
+## 2026-06-29 — Dead familjen aurora selectors removed
+
+**Completed work:**
+- Removed unused `.familjen-hub__aurora` and `.familjen-hub__aurora::before` from `src/index.css`.
+- Kept active `familjen-hub` shell selectors untouched.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3333
+
+**Reasoning:**
+- `familjen-hub__aurora` selectors had no active `src` consumers, so removing them safely trims global CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead glass-nav selector removed
 
 **Completed work:**
