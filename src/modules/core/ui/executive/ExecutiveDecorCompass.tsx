@@ -35,6 +35,8 @@ export function ExecutiveDecorCompass({ className = '', size = 'md' }: Props) {
         src={src}
         alt=""
         aria-hidden
+        decoding="async"
+        draggable={false}
         className={clsx(
           SIZE_CLASS[size],
           'exec-decor-compass--textured object-contain',
@@ -51,7 +53,10 @@ export function ExecutiveDecorCompass({ className = '', size = 'md' }: Props) {
       viewBox="0 0 80 80"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      aria-hidden
+      aria-hidden="true"
+      focusable="false"
+      shapeRendering="geometricPrecision"
+      preserveAspectRatio="xMidYMid meet"
     >
       <defs>
         <linearGradient id={gold} x1="12" y1="10" x2="68" y2="70">
@@ -68,15 +73,26 @@ export function ExecutiveDecorCompass({ className = '', size = 'md' }: Props) {
         </filter>
       </defs>
 
-      <circle cx="40" cy="40" r="34" stroke={`url(#${gold})`} strokeWidth="1.75" fill="none" filter={`url(#${glow})`} />
+      <circle
+        cx="40"
+        cy="40"
+        r="34"
+        stroke={`url(#${gold})`}
+        strokeWidth="1.75"
+        fill="none"
+        vectorEffect="non-scaling-stroke"
+        filter={`url(#${glow})`}
+      />
       <path
         d="M40 8 L44.5 30 L40 40 L35.5 30 Z M40 72 L44.5 50 L40 40 L35.5 50 Z M8 40 L30 35.5 L40 40 L30 44.5 Z M72 40 L50 35.5 L40 40 L50 44.5 Z"
         fill={`url(#${gold})`}
+        vectorEffect="non-scaling-stroke"
         filter={`url(#${glow})`}
       />
       <path
         d="M40 40 L54 26 L48 34 Z M40 40 L54 54 L48 46 Z M40 40 L26 54 L34 46 Z M40 40 L26 26 L34 34 Z"
         fill={`url(#${goldDeep})`}
+        vectorEffect="non-scaling-stroke"
         filter={`url(#${glow})`}
         opacity="0.95"
       />

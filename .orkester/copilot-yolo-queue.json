@@ -1,60 +1,64 @@
 {
-  "version": 3,
-  "description": "Copilot YOLO-kö v3 — Fas 24.B zon-polish + design-system UI + super-yolo.",
+  "version": 4,
+  "description": "Copilot YOLO-kö v4 — Fas 24.C Premium UI Phase 0, Design Bible merge, G85 friktionslogg.",
   "tasks": [
     {
-      "id": "super-yolo-gate",
-      "title": "Super-YOLO gate grönt",
-      "plan": "npm run smoke:super-yolo tills PASS. Bygg på valv-chat-e2e-fix + UI Modal/Sheet. Ingen deploy.",
-      "smoke": ["npm run smoke:super-yolo"],
+      "id": "design-bible-merge",
+      "title": "Design Bible kap 19–22 → main",
+      "plan": "PR #120 (docs/design-bible-complete): CI smoke grön → merge. Verifiera smoke:governance PASS.",
+      "smoke": ["npm run smoke:governance"],
       "pmir": false,
       "deploy": "none"
     },
     {
-      "id": "vite-bundle-split",
-      "title": "Vite lazy-loading /valvet + /familjen",
-      "plan": "Roadmap Vecka 1: dynamic import() för /valvet och /familjen routes. Verifiera zone-valv-chunk minskar. smoke:locked-ux PASS.",
+      "id": "premium-ui-debt-baseline",
+      "title": "Design-debt baseline i DASHBOARD",
+      "plan": "Kör smoke:design-debt. Skriv btn-pill/ds-metrics till docs/DASHBOARD.md (Phase 0). Inga kodändringar utöver dashboard.",
+      "smoke": ["npm run smoke:design-debt", "npm run build"],
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "focus-visible-quickwin",
+      "title": "Focus-visible polish (Quick win #2)",
+      "plan": "premium-polish.css — enhetlig focus-visible enligt design-calm. Minimal diff.",
+      "smoke": ["npm run smoke:design-modules", "npm run smoke:locked-ux"],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "lazy-routes-vardagen-hjartat",
+      "title": "Lazy route-entry /vardagen + /hjartat",
+      "plan": "Fortsätt vite-bundle-split: dynamic import för VardagenPage och Hjartat-routes. Verifiera zone-chunks i build.",
       "smoke": ["npm run build", "npm run smoke:locked-ux"],
       "pmir": false,
       "deploy": "hosting"
     },
     {
-      "id": "empty-states",
-      "title": "Vänliga empty-states i listvyer",
-      "plan": "Mjuka tomma tillstånd i minst 3 listvyer (Dagbok, Planering, Familjen Livslogg). Inga null-renders.",
-      "smoke": ["npm run build", "npm run smoke:locked-ux"],
+      "id": "hub-eyebrow-polish",
+      "title": "Hub shells → textStyles.eyebrow",
+      "plan": "Quick win #5: ModuleShell/HubPageShell eyebrow via textStyles.eyebrow — tokens, ingen ny CSS-fil.",
+      "smoke": ["npm run smoke:design-modules", "npm run smoke:orkester"],
       "pmir": false,
       "deploy": "hosting"
     },
     {
-      "id": "typecheck-features",
-      "title": "Expandera typecheck:core-strict över features/",
-      "plan": "Utöka tsconfig scope till src/modules/features/. npm run typecheck:core-strict PASS.",
-      "smoke": ["npm run typecheck:core-strict"],
-      "pmir": false,
-      "deploy": "none"
-    },
-    {
-      "id": "zone-polish-vardagen",
-      "title": "Zon-polish Vardagen (Fas 24.B)",
-      "plan": "Fas 24.B — polish /vardagen (MåBra, Planering, Ekonomi). Minimal diff, tokens enligt design-calm.",
-      "smoke": ["npm run smoke:locked-ux", "npm run smoke:design-modules", "npm run smoke:orkester"],
-      "pmir": false,
-      "deploy": "hosting"
-    },
-    {
-      "id": "hosting-deploy-prep",
-      "title": "Deploy-prep hosting+functions (ej deploy)",
-      "plan": "smoke:predeploy:build PASS. Skriv exakt firebase deploy-rad i logg. Live smoke kräver .env + Pontus OK.",
+      "id": "hosting-deploy-wave",
+      "title": "Deploy hosting efter polish-våg",
+      "plan": "smoke:predeploy:build PASS. Deploy hosting (Pontus OK). Logga deploy-rad. Ej functions utan PMIR.",
       "smoke": ["npm run smoke:predeploy:build"],
       "pmir": true,
-      "deploy": "hosting,functions"
+      "deploy": "hosting"
     },
     {
-      "id": "g85-prod-sync",
-      "title": "G85 prod-sync + enhetsinstruktion",
-      "plan": "docs/evaluations/2026-06-25-g85-daily-driver.md — build:web + cap sync. Manuell 7-dagars logg på enhet.",
-      "smoke": ["npm run build:web", "npm run smoke:android-platform", "npm run smoke:auth-login"],
+      "id": "g85-friction-d4",
+      "title": "G85 friktionslogg dag 4 + prod-sync verify",
+      "plan": "docs/evaluations/2026-06-25-g85-daily-driver.md — förbered dag 4-rad. cap:sync:prod + smoke:android-prod-sync. Manuell test på G85 kvar.",
+      "smoke": [
+        "npm run cap:sync:prod",
+        "npm run smoke:android-platform",
+        "npm run smoke:android-prod-sync"
+      ],
       "pmir": false,
       "deploy": "none"
     }

@@ -56,10 +56,22 @@
   border: 1px solid color-mix(in srgb, var(--accent) 32%, transparent);
   border-radius: var(--exec-card-radius);
   background:
-    linear-gradient(165deg, color-mix(in srgb, var(--surface-2) 55%, transparent) 0%, color-mix(in srgb, var(--surface) 95%, #000) 100%);
-  box-shadow:
-    0 1px 0 color-mix(in srgb, var(--accent) 18%, transparent) inset,
-    0 16px 40px rgba(0, 0, 0, 0.45);
+    linear-gradient(165deg, color-mix(in srgb, var(--ds-glass-bg) 86%, transparent) 0%, color-mix(in srgb, var(--surface) 96%, transparent) 100%);
+  backdrop-filter: blur(var(--ds-glass-blur)) saturate(var(--ds-glass-saturate));
+  -webkit-backdrop-filter: blur(var(--ds-glass-blur)) saturate(var(--ds-glass-saturate));
+  box-shadow: var(--ds-elevation-card);
+}
+
+.home-layout-a--executive .home-layout-a__hero-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, var(--ds-glass-highlight) 0%, transparent 16%),
+    radial-gradient(ellipse 85% 55% at 50% -10%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 58%);
+  opacity: 0.85;
 }
 
 .home-layout-a--executive .home-layout-a__hero-card::before {
@@ -68,7 +80,7 @@
   inset: 0;
   background:
     radial-gradient(ellipse 80% 60% at 15% 0%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 55%),
-    linear-gradient(180deg, rgba(2, 6, 23, 0.15) 0%, rgba(2, 6, 23, 0.72) 100%);
+    linear-gradient(180deg, color-mix(in srgb, var(--bg) 15%, transparent) 0%, color-mix(in srgb, var(--bg) 72%, transparent) 100%);
   pointer-events: none;
 }
 
@@ -81,6 +93,7 @@
 .home-layout-a--executive .home-layout-a__section-label {
   font-family: 'Cinzel', 'Outfit', serif;
   letter-spacing: 0.18em;
+  text-shadow: 0 0 16px color-mix(in srgb, var(--accent) 20%, transparent);
 }
 
 .home-layout-a--executive .exec-surface-card {
@@ -371,7 +384,7 @@
 .dock-shell.dock-shell--reference-dock {
   --dock-stack-height: 6.85rem;
   --app-dock-clearance: calc(6.55rem + env(safe-area-inset-bottom, 0px) + 0.85rem);
-  padding: 0 0.75rem max(0.7rem, env(safe-area-inset-bottom)) !important;
+  padding: 0 var(--ds-space-3) max(0.7rem, env(safe-area-inset-bottom)) !important;
   background: transparent !important;
 }
 
@@ -388,20 +401,24 @@
   padding: 2.65rem 0.45rem 0.65rem;
   padding-bottom: calc(0.65rem + env(safe-area-inset-bottom, 0px));
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--accent) 42%, transparent);
+  border: 1px solid var(--ds-glass-border);
   background:
+    var(--ds-glass-sheen),
     linear-gradient(
       180deg,
-      color-mix(in srgb, var(--surface-2) 62%, transparent) 0%,
+      color-mix(in srgb, var(--ds-color-text) 6%, transparent) 0%,
+      transparent 18%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--ds-glass-bg) 78%, transparent) 0%,
       color-mix(in srgb, var(--surface) 94%, #020617) 100%
     );
-  backdrop-filter: blur(22px) saturate(150%);
-  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  backdrop-filter: blur(var(--ds-glass-blur)) saturate(var(--ds-glass-saturate));
+  -webkit-backdrop-filter: blur(var(--ds-glass-blur)) saturate(var(--ds-glass-saturate));
   box-shadow:
+    var(--ds-elevation-dock),
     inset 0 1px 0 color-mix(in srgb, var(--accent-light) 26%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, var(--accent) 10%, transparent),
-    0 0 0 1px color-mix(in srgb, var(--accent) 14%, transparent),
-    0 10px 36px rgba(0, 0, 0, 0.58),
     0 0 28px color-mix(in srgb, var(--accent) 10%, transparent);
   overflow: visible;
 }
@@ -862,6 +879,16 @@
   color: var(--accent);
 }
 
+[data-theme='ME-midnight-executive'] :is(.exec-reflektion-hero, .exec-home-card),
+[data-theme='ME-basta-design'] :is(.exec-reflektion-hero, .exec-home-card) {
+  border-color: color-mix(in srgb, var(--accent) 18%, transparent);
+  background:
+    linear-gradient(165deg, color-mix(in srgb, var(--ds-glass-bg) 88%, transparent) 0%, color-mix(in srgb, var(--surface) 96%, transparent) 100%);
+  box-shadow: var(--ds-elevation-card);
+  backdrop-filter: blur(var(--ds-glass-blur)) saturate(var(--ds-glass-saturate));
+  -webkit-backdrop-filter: blur(var(--ds-glass-blur)) saturate(var(--ds-glass-saturate));
+}
+
 [data-theme='ME-midnight-executive'] .exec-home-card {
   border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
   border-radius: 1.25rem;
@@ -871,12 +898,56 @@
   min-height: 9.5rem;
   display: flex;
   flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+[data-theme='ME-midnight-executive'] .exec-home-card::before,
+[data-theme='ME-basta-design'] .exec-home-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 60% at 50% 0%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 62%),
+    linear-gradient(to bottom, color-mix(in srgb, var(--ds-glass-sheen) 55%, transparent), transparent 34%);
+  opacity: 0.75;
+  z-index: 0;
+}
+
+[data-theme='ME-midnight-executive'] .exec-home-card > *,
+[data-theme='ME-basta-design'] .exec-home-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 [data-theme='ME-midnight-executive'] .exec-home-card__head {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+}
+
+[data-theme='ME-midnight-executive'] .exec-home-card--focus,
+[data-theme='ME-basta-design'] .exec-home-card--focus {
+  min-height: 11rem;
+}
+
+[data-theme='ME-midnight-executive'] .exec-home-card--ankare,
+[data-theme='ME-basta-design'] .exec-home-card--ankare {
+  min-height: 11rem;
+}
+
+[data-theme='ME-midnight-executive'] .exec-home-card--livslogg,
+[data-theme='ME-basta-design'] .exec-home-card--livslogg {
+  min-height: 12rem;
+  padding-bottom: 3.5rem;
+}
+
+[data-theme='ME-midnight-executive'] .exec-home-card--planering,
+[data-theme='ME-basta-design'] .exec-home-card--planering {
+  min-height: 12.5rem;
 }
 
 [data-theme='ME-midnight-executive'] .executive-home-grid {
@@ -982,7 +1053,7 @@
   border: 0;
   background: transparent;
   min-height: 0;
-  padding: 1rem 1.1rem;
+  padding: 1rem 1.1rem 1.1rem;
 }
 
 [data-theme='ME-midnight-executive'] .exec-planering-tabs {
@@ -1028,6 +1099,7 @@
   border: 1px solid color-mix(in srgb, var(--accent) 16%, transparent);
   background: color-mix(in srgb, var(--surface-2) 82%, transparent);
   text-align: left;
+  box-shadow: var(--ds-elevation-card);
 }
 
 [data-theme='ME-midnight-executive'] .exec-journal-rail__icon {
@@ -1071,7 +1143,7 @@
   filter: drop-shadow(0 0 24px color-mix(in srgb, var(--accent) 35%, transparent));
 }
 
-[data-theme='ME-midnight-executive'] #zen-mode-trigger {
+:is([data-theme='ME-midnight-executive'], [data-theme='ME-basta-design']) #zen-mode-trigger {
   display: none;
 }
 
@@ -1153,6 +1225,13 @@
 [data-theme='ME-midnight-executive'] .exec-planering-task-row:hover {
   border-color: color-mix(in srgb, var(--accent) 30%, transparent);
   background: color-mix(in srgb, var(--accent) 6%, var(--surface-3));
+}
+
+[data-theme='ME-midnight-executive'] .exec-planering-task-row:focus-visible,
+[data-theme='ME-midnight-executive'] .exec-home-btn:focus-visible,
+[data-theme='ME-midnight-executive'] .exec-home-pill:focus-visible {
+  outline: var(--ds-focus-ring);
+  outline-offset: var(--ds-focus-offset);
 }
 
 [data-theme='ME-midnight-executive'] .exec-planering-task-row__icon {
@@ -1250,8 +1329,8 @@
   z-index: 1;
   background: linear-gradient(
     to bottom,
-    rgba(12, 12, 14, 0.35),
-    rgba(12, 12, 14, 0.88)
+    color-mix(in srgb, var(--bg) 35%, transparent),
+    color-mix(in srgb, var(--bg) 88%, transparent)
   );
 }
 

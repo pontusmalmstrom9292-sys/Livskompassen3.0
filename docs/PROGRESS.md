@@ -37,7 +37,6 @@ Copy the template below for each entry. Newest first.
 
 ---
 
-<<<<<<< Updated upstream
 ## 2026-06-29 — PlaneringPage shell polish
 
 **Completed work:**
@@ -46,17 +45,6 @@ Copy the template below for each entry. Newest first.
 
 **Files changed:**
 - src/modules/features/admin/planning/components/PlaneringPage.tsx
-=======
-## 2026-06-29 — CognitiveGuard polish
-
-**Completed work:**
-- Gave the CognitiveGuard panel and overload banner the same premium glass-depth treatment as the rest of Planering.
-- Kept the Pansarläge flow and route back to Handling unchanged.
-
-**Files changed:**
-- src/modules/features/admin/planning/components/CognitiveGuardView.tsx
-- src/modules/features/admin/planning/components/CognitiveGuardOverloadBanner.tsx
->>>>>>> Stashed changes
 - src/modules/features/admin/planning/components/planering.css
 - docs/TODO.md
 - docs/DASHBOARD.md
@@ -66,7 +54,6 @@ Copy the template below for each entry. Newest first.
 - smoke:locked-ux PASS
 
 **Reasoning:**
-<<<<<<< Updated upstream
 - Planering is the first open in-flight zone in the roadmap, so finishing the hub shell first keeps the visual system consistent before the deeper panels are tackled.
 
 **Next steps:**
@@ -250,12 +237,6 @@ Copy the template below for each entry. Newest first.
 - Audit hardcoded hex in src/index.css :root (Phase 1)
 - Phase 2 Chrome: Premium Header token pass (AppHeaderBar)
 - Run validate:session
-=======
-- The overload state is the most attention-sensitive Planering path, so it benefits from a calmer, clearer visual shell without altering behavior.
-
-**Next steps:**
-- Continue with `PlaneringFokusPanel` or the next open planning subpanel.
->>>>>>> Stashed changes
 
 **Blockers:**
 - None
