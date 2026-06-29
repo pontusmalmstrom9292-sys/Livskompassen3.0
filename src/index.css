@@ -565,8 +565,7 @@
   }
 
   /* Dölj eventuell centrum-text — endast kompass (DOCK-KANON) */
-  .dock-classic__center .dock-classic__side-label,
-  .dock-center__label {
+  .dock-classic__center .dock-classic__side-label {
     display: none !important;
   }
 
