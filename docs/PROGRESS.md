@@ -38,6 +38,32 @@ Copy the template below for each entry. Newest first.
 ---
 
 
+## 2026-06-29 — Dead familjen hub header/tabs selectors removed
+
+**Completed work:**
+- Removed unused `familjen-hub__header`, `familjen-hub__title`, and `familjen-hub__tabs*` selectors from `src/index.css`.
+- Kept active `familjen-child-chip*` selectors untouched.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3296
+
+**Reasoning:**
+- `familjen-hub__header/title/tabs*` had no active `src` consumers, so removing them safely trims global CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead dock-hub-band pad selector removed
 
 **Completed work:**
