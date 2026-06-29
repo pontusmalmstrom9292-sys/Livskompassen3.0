@@ -610,10 +610,6 @@
     backdrop-filter: blur(8px);
   }
 
-  .dock-classic__context-title {
-    @apply pr-6 text-sm font-medium text-accent;
-  }
-
   .dock-classic__context-body {
     @apply mt-1 text-xs leading-relaxed text-text-muted;
   }
