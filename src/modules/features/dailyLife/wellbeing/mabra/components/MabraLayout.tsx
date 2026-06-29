@@ -37,8 +37,10 @@ export const MabraLayout = memo(function MabraLayout() {
         headerAside={<LivBackLink />}
         executiveHeader={executiveHeader}
       >
-        <MabraBentoShell>
-          <Outlet />
+        <MabraBentoShell className="mabra-layout-shell">
+          <div className="mabra-layout-shell__body">
+            <Outlet />
+          </div>
         </MabraBentoShell>
       </HubPageShell>
     </HubErrorBoundary>

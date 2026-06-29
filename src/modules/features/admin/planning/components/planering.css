@@ -154,8 +154,20 @@
     @apply -mx-1 mt-5 flex gap-3 overflow-x-auto pb-2;
   }
 
+  .planering-kanban-board__columns {
+    padding-top: 0.125rem;
+  }
+
   .planering-kanban-bento {
     @apply relative overflow-hidden;
+  }
+
+  .planering-kanban-board__lead {
+    @apply flex items-start gap-4;
+  }
+
+  .planering-kanban-board__copy {
+    @apply min-w-0 flex-1;
   }
 
   .planering-kanban-bento::before {
@@ -426,6 +438,34 @@
     @apply grid gap-3;
   }
 
+  .planering-inkorg-panel__head {
+    @apply flex items-start gap-3;
+  }
+
+  .planering-inkorg-panel__icon {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-surface/30 text-accent;
+  }
+
+  .planering-inkorg-panel__eyebrow {
+    @apply text-[10px] font-semibold uppercase tracking-[0.15em] text-accent;
+  }
+
+  .planering-inkorg-panel__title {
+    @apply text-sm font-medium text-text;
+  }
+
+  .planering-inkorg-panel__lead {
+    @apply max-w-2xl;
+  }
+
+  .planering-inkorg-preview-sheet__alert {
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+
+  .planering-inkorg-preview-sheet__summary {
+    @apply rounded-2xl border border-border/60 bg-surface-2/50 p-3;
+  }
+
   .planering-inbox-connect {
     @apply relative overflow-hidden rounded-2xl border border-border-strong bg-bg/40 p-4;
   }
@@ -531,6 +571,22 @@
   .planering-cognitive-banner > * {
     position: relative;
     z-index: 1;
+  }
+
+  .planering-fokus-panel__lead {
+    @apply min-w-0;
+  }
+
+  .planering-fokus-panel__actions {
+    @apply w-full;
+  }
+
+  .planering-fokus-panel__empty {
+    @apply rounded-2xl border border-border-strong/70 bg-bg/30 p-4;
+  }
+
+  .planering-paralys-entry__lead {
+    @apply max-w-xl;
   }
 
   .planering-fokus-panel__paralys,

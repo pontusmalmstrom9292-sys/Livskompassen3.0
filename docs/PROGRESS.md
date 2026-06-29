@@ -37,6 +37,62 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — Planering focus + paralys polish
+
+**Completed work:**
+- Tightened the focus panel hierarchy with a clearer lead/action structure and a cleaner empty state.
+- Added shell polish to the paralys helper entry so the collapsed and open states read consistently.
+
+**Files changed:**
+- src/modules/features/admin/planning/components/PlaneringFokusPanel.tsx
+- src/modules/features/admin/planning/components/PlaneringParalysEntry.tsx
+- src/modules/features/admin/planning/components/planering.css
+- docs/TODO.md
+- docs/DASHBOARD.md
+
+**Metrics:** (btn-pill count, smoke results)
+- Build PASS
+- smoke:locked-ux PASS
+
+**Reasoning:**
+- These attention-sensitive helper surfaces need to feel calmer and more readable than the surrounding task board, without changing behavior.
+
+**Next steps:**
+- Continue with the next open planning surface or the next zone in the roadmap.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Planering Kanban + Inkorg polish
+
+**Completed work:**
+- Reframed `PlanningKanbanBoard` with a clearer board lead, tighter column framing, and smoother visual hierarchy.
+- Added a more deliberate shell to `PlaneringInkorgPanel` and a calmer preview-sheet summary block.
+
+**Files changed:**
+- src/modules/features/admin/planning/components/PlanningKanbanBoard.tsx
+- src/modules/features/admin/planning/components/PlaneringInkorgPanel.tsx
+- src/modules/features/admin/planning/components/InkorgPreviewSheet.tsx
+- src/modules/features/admin/planning/components/planering.css
+- docs/TODO.md
+
+**Metrics:** (btn-pill count, smoke results)
+- Build PASS
+- smoke:locked-ux PASS
+
+**Reasoning:**
+- These are the front-door planning surfaces users hit most often, so the shell and hierarchy needed to read more premium before deeper microflow polish.
+
+**Next steps:**
+- Continue with Planering focus/paralys polish or move into the next open zone.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — PlaneringPage shell polish
 
 **Completed work:**

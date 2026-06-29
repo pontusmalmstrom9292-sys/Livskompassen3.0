@@ -22,6 +22,14 @@
     @apply relative z-10 space-y-4;
   }
 
+  .mabra-layout-shell {
+    min-height: 0;
+  }
+
+  .mabra-layout-shell__body {
+    @apply space-y-4;
+  }
+
   .mabra-zone-strip {
     @apply mb-1 flex items-center justify-center;
   }

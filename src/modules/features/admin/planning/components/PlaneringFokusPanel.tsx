@@ -36,7 +36,7 @@ export function PlaneringFokusPanel() {
 
   if (!focusTask) {
     return (
-      <BentoCard glow="gold" noHover className="text-sm text-text-muted">
+      <BentoCard glow="gold" noHover className="planering-fokus-panel__empty text-sm text-text-muted">
         Inga öppna uppgifter i Handling. Lägg till ett kort under fliken Handling.
       </BentoCard>
     );
@@ -55,15 +55,17 @@ export function PlaneringFokusPanel() {
         icon={<Target className="h-4 w-4" />}
         className="planering-fokus-panel__card space-y-4 text-center"
       >
-        <p className="font-display text-xl text-accent">{focusTask.microStep ?? focusTask.title}</p>
-        {focusTask.microStep && <p className="text-xs text-text-muted">Uppgift: {focusTask.title}</p>}
+        <div className="planering-fokus-panel__lead space-y-1">
+          <p className="font-display text-xl text-accent">{focusTask.microStep ?? focusTask.title}</p>
+          {focusTask.microStep && <p className="text-xs text-text-muted">Uppgift: {focusTask.title}</p>}
+        </div>
         {focusTask.dueAt && (
           <p className="text-[10px] uppercase tracking-widest text-text-dim">Deadline {focusTask.dueAt}</p>
         )}
 
         <ParalysBreakerWidget taskTitle={focusTask.title} />
 
-        <div className="flex flex-wrap justify-center gap-2 pt-2">
+        <div className="planering-fokus-panel__actions flex flex-wrap justify-center gap-2 pt-2">
           {focusTask.status === 'todo' && (
             <Button variant="secondary" size="sm" onClick={() => void handleMove('waiting')}>
               Markera väntar

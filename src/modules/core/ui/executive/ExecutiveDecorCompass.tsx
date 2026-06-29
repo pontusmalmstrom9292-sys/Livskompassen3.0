@@ -9,7 +9,7 @@ const SIZE_CLASS: Record<Size, string> = {
   lg: 'h-16 w-16',
   dock: 'h-[2.65rem] w-[2.65rem]',
   'dock-lg': 'h-[2.65rem] w-[2.65rem]',
-  hero: 'h-[5.15rem] w-[5.15rem]',
+  hero: 'h-[5.45rem] w-[5.45rem]',
 };
 
 const TEXTURED_SIZES = new Set<Size>(['dock', 'dock-lg', 'hero', 'lg']);

@@ -36,7 +36,7 @@ export function InkorgPreviewSheet({ open, classification, saving, onConfirm, on
       placement="center"
     >
       {classification.routeToHamn && (
-        <div className="rounded-xl border border-indigo-500/30 bg-indigo-500/10 px-3 py-2 text-sm text-text-muted">
+        <div className="planering-inkorg-preview-sheet__alert rounded-xl border border-indigo-500/30 bg-indigo-500/10 px-3 py-2 text-sm text-text-muted">
           <p className="text-[10px] uppercase tracking-widest text-accent-secondary/80">Brusfilter</p>
           <p className="mt-1">
             {classification.matchedRuleLabel ?? 'Ex/konflikt'} — routing till Hamn, inte Handling.{' '}
@@ -47,7 +47,7 @@ export function InkorgPreviewSheet({ open, classification, saving, onConfirm, on
         </div>
       )}
 
-      <dl className="mt-4 space-y-2 text-sm">
+      <dl className="planering-inkorg-preview-sheet__summary mt-4 space-y-2 text-sm">
         <div>
           <dt className="text-[10px] uppercase tracking-widest text-text-dim">Titel</dt>
           <dd className="text-text">{classification.title}</dd>

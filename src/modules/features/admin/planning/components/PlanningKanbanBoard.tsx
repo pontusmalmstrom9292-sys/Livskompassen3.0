@@ -112,7 +112,7 @@ export function PlanningKanbanBoard() {
   }
 
   return (
-    <div className="planering-kanban-bento space-y-4">
+    <div className="planering-kanban-board planering-kanban-bento space-y-4">
       <div className="planering-guard-bar">
         <div className="flex items-center gap-2">
           <Brain
@@ -179,15 +179,17 @@ export function PlanningKanbanBoard() {
           bare
           className="planering-bento-card planering-bento-card--full !p-6"
         >
-          <div className="flex items-start justify-between">
+          <div className="planering-kanban-board__lead">
             <div className="planering-bento-icon-box planering-bento-icon-box--amber">
               <ListTodo className="h-6 w-6" aria-hidden />
             </div>
+            <div className="planering-kanban-board__copy">
+              <h2 className="planering-bento-title">Dagens uppgifter</h2>
+              <p className="planering-bento-text">
+                Prioritera det som för dig närmare dina mål.
+              </p>
+            </div>
           </div>
-          <h2 className="planering-bento-title">Dagens uppgifter</h2>
-          <p className="planering-bento-text">
-            Prioritera det som för dig närmare dina mål.
-          </p>
 
           <PlaneringParalysEntry
             defaultTaskTitle={firstTodo?.title}
@@ -200,7 +202,7 @@ export function PlanningKanbanBoard() {
             }
           />
 
-          <div className="planering-kanban-bento__columns">
+          <div className="planering-kanban-board__columns planering-kanban-bento__columns">
             {(isAdvancedKanban ? KANBAN_COLUMNS : KANBAN_COLUMNS.filter((c) => c.id === 'todo')).map(
               (col) => (
               <PlanningKanbanColumn
@@ -214,7 +216,7 @@ export function PlanningKanbanBoard() {
             ))}
           </div>
 
-          <p className="planering-bento-footer">
+          <p className="planering-kanban-board__footer planering-bento-footer">
             {isAdvancedKanban ? 'Att göra · Väntar · Klart' : 'Att göra — förenklat läge'}
           </p>
         </BentoCard>

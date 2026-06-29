@@ -118,12 +118,12 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Executive home cards (Livslogg, etc.)
 - [ ] LivLauncherPage bento grid
 - [x] PlaneringPage (complete in-flight)
-- [ ] PlanningKanbanBoard (in-flight)
-- [ ] PlaneringInkorgPanel (in-flight)
-- [ ] InkorgPreviewSheet (in-flight)
+- [x] PlanningKanbanBoard (in-flight)
+- [x] PlaneringInkorgPanel (in-flight)
+- [x] InkorgPreviewSheet (in-flight)
 - [x] CognitiveGuardView + banner (in-flight)
-- [ ] PlaneringFokusPanel (in-flight)
-- [ ] PlaneringParalysEntry (in-flight)
+- [x] PlaneringFokusPanel (in-flight)
+- [x] PlaneringParalysEntry (in-flight)
 - [ ] MåBra MabraHubView + layout
 - [ ] MåBra flow views
 - [ ] Ekonomi panels (EconomyPage, log, budget)
