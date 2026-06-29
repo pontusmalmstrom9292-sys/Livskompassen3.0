@@ -1,15 +1,17 @@
 {
-  "syncedAt": "2026-06-28T22:15:00.000Z",
+  "syncedAt": "2026-06-28T00:01:59.306Z",
   "modulGap": [],
   "masterYolo": {
-    "status": "active",
-    "nextWaveId": "copilot-yolo-v4",
+    "status": "done",
+    "nextWaveId": null,
     "completed": 19
   },
   "openSystemPlan": [
     "Manuell ingest av minne-poster (opt-in trauma-policy)",
-    "P0 G85 7-dagars daily driver (friktionslogg dag 4–7)",
-    "Premium UI Phase 0 baseline — screenshots + DASHBOARD metrics",
-    "Implementation per modul när användaren säger *kör [modul]*"
+    "Implementation per modul när användaren säger *kör [modul]*",
+    "Manuell smoke i app (#3 Valv, #4 Barnen, #2d bilaga) — sanning: [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) **Current truth**",
+    "Manuell smoke #3, #4 valfritt USER — autorun PASS 2026-06-06 · [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) **Current truth**",
+    "Manuell smoke #3, #4 valfritt USER — autorun PASS 2026-06-06 · [`docs/SMOKE_RESULTS.md`](../docs/SMOKE_RESULTS.md) **Current truth**",
+    "Implementation: `kör kopplingar C` · `kör projekt P1` · se komihåg för fasering"
   ]
 }
