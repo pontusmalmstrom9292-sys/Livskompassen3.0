@@ -161,7 +161,7 @@ export function StampClockPage() {
                 type="button"
                 disabled={busy || isClockedIn}
                 onClick={() => void stamp('IN')}
-                className={isClockedIn || busy ? 'btn-pill--ghost opacity-40' : 'btn-pill--primary'}
+                className={isClockedIn || busy ? 'ds-btn ds-btn--ghost opacity-40' : 'ds-btn ds-btn--accent'}
               >
                 Stämpla in
               </button>

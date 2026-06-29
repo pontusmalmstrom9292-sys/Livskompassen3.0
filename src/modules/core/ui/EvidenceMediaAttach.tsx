@@ -49,15 +49,15 @@ export function EvidenceMediaAttach({
       </p>
 
       <div className="flex flex-wrap gap-2">
-        <button type="button" onClick={pickGallery} disabled={disabled || atLimit} className="btn-pill--ghost">
+        <button type="button" onClick={pickGallery} disabled={disabled || atLimit} className="ds-btn ds-btn--ghost">
           <ImagePlus className="h-4 w-4" />
           Fil / skärmdump
         </button>
-        <button type="button" onClick={pickCamera} disabled={disabled || atLimit} className="btn-pill--ghost">
+        <button type="button" onClick={pickCamera} disabled={disabled || atLimit} className="ds-btn ds-btn--ghost">
           <Camera className="h-4 w-4" />
           Ta foto
         </button>
-        <button type="button" onClick={pickMedia} disabled={disabled || atLimit} className="btn-pill--ghost">
+        <button type="button" onClick={pickMedia} disabled={disabled || atLimit} className="ds-btn ds-btn--ghost">
           <Video className="h-4 w-4" />
           Ljud / video
         </button>
@@ -66,7 +66,7 @@ export function EvidenceMediaAttach({
             type="button"
             onClick={isRecording ? stop : start}
             disabled={disabled || atLimit}
-            className="btn-pill--ghost"
+            className="ds-btn ds-btn--ghost"
           >
             {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
             {isRecording ? 'Stoppa inspelning' : 'Spela in ljud'}

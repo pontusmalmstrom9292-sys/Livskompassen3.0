@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { Anchor } from 'lucide-react';
 import { useMemo } from 'react';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { EmptyState } from '@/core/ui/EmptyState';
 import type { FamiljenShell } from '../../hooks/useFamiljenShell';
 import type { ChildAlias } from '../../constants';
 import { useChildMomentView } from '../../hooks/useChildMomentView';
@@ -26,13 +27,16 @@ export function FamiljenLivsloggTab({ shell }: Props) {
     [shell.logs, activeChild],
   );
 
-  if (!user) return null;
+  if (!user) {
+    return <EmptyState message="Logga in för att öppna livsloggen." />;
+  }
 
   const featuredText = featured ? momentBody(featured) : null;
+  const hasLogs = shell.logs.some((log) => log.childAlias === activeChild && log.action === 'livslogg');
 
   return (
     <div className="space-y-4">
-      {featuredText && (
+      {featuredText ? (
         <BentoCard
           glow="blue"
           title={`Uthållen stund — ${activeChild}`}
@@ -40,6 +44,14 @@ export function FamiljenLivsloggTab({ shell }: Props) {
         >
           <p className="text-sm leading-relaxed text-text-muted">&ldquo;{featuredText}&rdquo;</p>
         </BentoCard>
+      ) : (
+        <EmptyState
+          message={
+            hasLogs
+              ? `Inga tydliga ankare ännu för ${activeChild}. Stunderna finns under flikarna nedan.`
+              : `Inga livsloggar ännu för ${activeChild}. Börja med en liten stund i Reflektion.`
+          }
+        />
       )}
 
       <ChildMomentTabs active={view} childAlias={activeChild} onChange={setView} />

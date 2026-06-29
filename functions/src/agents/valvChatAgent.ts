@@ -10,8 +10,8 @@ import {
   type ValvChatResponse,
 } from '../schemas/valvChat';
 
-function getAi() {
-  return createGenAI();
+function getAi(apiKey?: string) {
+  return createGenAI(apiKey);
 }
 
 export type { ValvChatCitation, ValvChatResponse };
@@ -44,6 +44,7 @@ async function runValvChatGeneration(
   allowedDocIds: Set<string>,
   uid: string,
   enableTools: boolean,
+  apiKey?: string,
 ): Promise<ValvChatResponse> {
   const config: Record<string, unknown> = {
     systemInstruction: SANNING_ANALYTIKERN_SYSTEM_PROMPT,
@@ -59,7 +60,7 @@ async function runValvChatGeneration(
   let toolRound = 0;
 
   while (toolRound < 2) {
-    const ai = getAi();
+    const ai = getAi(apiKey);
     const response = await ai.models.generateContent({
       model: GEMINI_PRO,
       contents: contents as Parameters<typeof ai.models.generateContent>[0]['contents'],
@@ -146,7 +147,11 @@ function tryParseJson(raw: string): unknown {
   }
 }
 
-export async function askValvChat(uid: string, question: string): Promise<ValvChatResponse> {
+export async function askValvChat(
+  uid: string,
+  question: string,
+  apiKey?: string,
+): Promise<ValvChatResponse> {
   const [chunks, entityBundle] = await Promise.all([
     fetchVaultEvidenceForQuery(uid, question),
     loadEntityProfileBundle(uid),
@@ -167,9 +172,12 @@ export async function askValvChat(uid: string, question: string): Promise<ValvCh
   );
 
   try {
-    return await runValvChatGeneration(prompt, allowedDocIds, uid, true);
+    return await runValvChatGeneration(prompt, allowedDocIds, uid, true, apiKey);
   } catch (error) {
     console.error('[Valv-Chat] Fel:', error);
-    throw new Error('Valv-Chat kunde inte svara.');
+    return {
+      answer: 'Valv-Chat kunde inte svara just nu. Försök igen om en stund.',
+      citations: [],
+    };
   }
 }

@@ -53,6 +53,8 @@ export async function obtainSmokeVaultSession(functions, uid, projectId) {
       code === 'functions/permission-denied' ||
       code === 'invalid-argument' ||
       code === 'functions/invalid-argument' ||
+      code === 'internal' ||
+      code === 'functions/internal' ||
       msg.includes('WebAuthn krävs') ||
       msg.includes('origin och rpID') ||
       msg.includes('App Check-verifiering krävs');

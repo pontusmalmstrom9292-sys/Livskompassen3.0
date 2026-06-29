@@ -144,7 +144,7 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
                 <button
                   type="button"
                   disabled={busy}
-                  className={scope === 'vardag' ? 'btn-pill--primary w-full' : 'btn-pill--ghost'}
+                  className={scope === 'vardag' ? 'ds-btn ds-btn--accent w-full' : 'ds-btn ds-btn--ghost'}
                   onClick={() => void logMoney('utgift')}
                 >
                   Utgift
@@ -153,7 +153,7 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
                   <button
                     type="button"
                     disabled={busy}
-                    className="btn-pill--primary"
+                    className="ds-btn ds-btn--accent"
                     onClick={() => void logMoney('inkomst')}
                   >
                     Inkomst
@@ -199,7 +199,7 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
                 value={billAmount}
                 onChange={(e) => setBillAmount(e.target.value)}
               />
-              <button type="button" disabled={busy} className="btn-pill--primary text-sm" onClick={() => void addBill()}>
+              <button type="button" disabled={busy} className="ds-btn ds-btn--accent text-sm" onClick={() => void addBill()}>
                 Lägg till
               </button>
             </div>

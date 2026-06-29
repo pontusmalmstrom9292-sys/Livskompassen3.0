@@ -66,7 +66,7 @@ function WidgetRecordInner() {
           {rec.phase === 'idle' && (
             <button
               type="button"
-              className="widget-record__pulse btn-pill--primary w-full py-4"
+              className="widget-record__pulse ds-btn ds-btn--accent w-full py-4"
               onClick={() => void rec.start()}
               disabled={!rec.recordSupported}
             >
@@ -83,7 +83,7 @@ function WidgetRecordInner() {
               {rec.interim && (
                 <p className="mt-2 text-xs text-text-muted line-clamp-3">{rec.interim}</p>
               )}
-              <button type="button" className="btn-pill--accent mt-4 w-full" onClick={rec.stop}>
+              <button type="button" className="ds-btn ds-btn--accent mt-4 w-full" onClick={rec.stop}>
                 Stoppa
               </button>
             </div>
@@ -113,10 +113,10 @@ function WidgetRecordInner() {
               <p className="mt-2 font-display text-base text-accent">{rec.result.title}</p>
               <p className="mt-2 text-sm text-text-muted">{rec.result.summary}</p>
               <div className="mt-4 flex flex-col gap-2">
-                <Link to="/valvet" className="btn-pill--accent text-center text-xs">
+                <Link to="/valvet" className="ds-btn ds-btn--accent text-center text-xs">
                   Öppna Valv
                 </Link>
-                <button type="button" className="btn-pill--ghost text-xs" onClick={rec.reset}>
+                <button type="button" className="ds-btn ds-btn--ghost text-xs" onClick={rec.reset}>
                   Ny anteckning
                 </button>
               </div>

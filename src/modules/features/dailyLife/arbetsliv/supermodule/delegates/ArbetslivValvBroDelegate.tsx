@@ -27,14 +27,14 @@ export function ArbetslivValvBroDelegate() {
         <div className="flex flex-wrap gap-2">
           <Link
             to={vaultDrawerPath('arbetsliv_lon')}
-            className="btn-pill--ghost inline-flex items-center gap-2 text-xs"
+            className="ds-btn ds-btn--ghost inline-flex items-center gap-2 text-xs"
           >
             <Wallet className="h-3.5 w-3.5 text-accent-secondary" aria-hidden />
             Lönespec i Valv
           </Link>
           <Link
             to={vaultDrawerPath('arbetsliv_franvaro')}
-            className="btn-pill--ghost inline-flex items-center gap-2 text-xs"
+            className="ds-btn ds-btn--ghost inline-flex items-center gap-2 text-xs"
           >
             <Shield className="h-3.5 w-3.5 text-accent-secondary" aria-hidden />
             Frånvaro i Valv

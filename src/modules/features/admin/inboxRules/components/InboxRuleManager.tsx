@@ -119,7 +119,7 @@ export function InboxRuleManager() {
           <button
             type="button"
             disabled={saving || !draft.label.trim() || !draft.pattern.trim()}
-            className="btn-pill--accent w-full text-sm"
+            className="ds-btn ds-btn--accent w-full text-sm"
             onClick={() => void handleAdd()}
           >
             Spara regel

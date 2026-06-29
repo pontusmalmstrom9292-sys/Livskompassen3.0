@@ -9,10 +9,12 @@ import {
   addQuickListItem,
   clearDoneQuickListItems,
   getQuickList,
+  openItems,
   removeQuickListItem,
   toggleQuickListItem,
 } from '../quickListStorage';
 import type { QuickList } from '../types';
+import { EmptyState } from '@/core/ui/EmptyState';
 
 type Props = {
   listId?: string;
@@ -43,8 +45,8 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
       setMessage('Logga in för att spara som projekt.');
       return;
     }
-    const openItems = list.items.filter((i) => !i.done);
-    if (openItems.length === 0) {
+    const itemsToSave = openItems(list);
+    if (itemsToSave.length === 0) {
       setMessage('Lägg till minst en punkt först.');
       return;
     }
@@ -60,7 +62,7 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
         primaryBlockType: 'list',
       });
       await Promise.all(
-        openItems.map((item, order) =>
+        itemsToSave.map((item, order) =>
           createProjectBlock(user.uid, {
             projectId,
             type: 'list',
@@ -77,7 +79,7 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
     }
   };
 
-  const open = list.items.filter((i) => !i.done);
+  const open = openItems(list);
   const done = list.items.filter((i) => i.done);
 
   return (
@@ -94,16 +96,13 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && addItem()}
         />
-        <button type="button" className="btn-pill--secondary shrink-0" onClick={addItem}>
+        <button type="button" className="ds-btn ds-btn--secondary shrink-0" onClick={addItem}>
           <Plus className="h-4 w-4" />
           Lägg till
         </button>
       </div>
 
       <ul className="planering-quicklist__items" aria-label={list.title}>
-        {open.length === 0 && (
-          <li className="planering-quicklist__empty">Inga punkter än — lägg till ovan.</li>
-        )}
         {open.map((item) => (
           <li key={item.id} className="planering-quicklist__row">
             <button
@@ -126,6 +125,10 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
           </li>
         ))}
       </ul>
+
+      {open.length === 0 && (
+        <EmptyState message="Inga punkter än. Lägg till något ovan för att bygga listan i lugn takt." />
+      )}
 
       {done.length > 0 && (
         <div className="planering-quicklist__done-block">
@@ -154,7 +157,7 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
           </ul>
           <button
             type="button"
-            className="btn-pill--ghost mt-2 w-full text-xs"
+            className="ds-btn ds-btn--ghost mt-2 w-full text-xs"
             onClick={() => setList(clearDoneQuickListItems(listId))}
           >
             Rensa klara
@@ -165,7 +168,7 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
       <div className="planering-quicklist__actions">
         <button
           type="button"
-          className="btn-pill--secondary w-full"
+          className="ds-btn ds-btn--secondary w-full"
           disabled={saving}
           onClick={() => void saveAsProject()}
         >

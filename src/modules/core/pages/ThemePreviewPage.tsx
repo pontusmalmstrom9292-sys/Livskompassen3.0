@@ -18,31 +18,31 @@ export function ThemePreviewPage() {
         <div className="mt-3 flex flex-wrap gap-2">
           <button
             type="button"
-            className={mode === 'auto' ? 'btn-pill--accent' : 'btn-pill--ghost'}
+            className={mode === 'auto' ? 'ds-btn ds-btn--accent' : 'ds-btn ds-btn--ghost'}
             onClick={() => setAutoMode(true)}
           >
             Auto per modul
           </button>
           <button
             type="button"
-            className={mode === 'manual' ? 'btn-pill--accent' : 'btn-pill--ghost'}
+            className={mode === 'manual' ? 'ds-btn ds-btn--accent' : 'ds-btn ds-btn--ghost'}
             onClick={() => setAutoMode(false)}
           >
             Manuellt val
           </button>
-          <Link to="/dev/theme-lab" className="btn-pill--accent">
+          <Link to="/dev/theme-lab" className="ds-btn ds-btn--accent">
             Theme Lab
           </Link>
-          <Link to="/" className="btn-pill--ghost">
+          <Link to="/" className="ds-btn ds-btn--ghost">
             Till hem
           </Link>
         </div>
         ) : (
         <div className="mt-3 flex flex-wrap gap-2">
-          <Link to="/dev/theme-lab" className="btn-pill--accent">
+          <Link to="/dev/theme-lab" className="ds-btn ds-btn--accent">
             Theme Lab
           </Link>
-          <Link to="/" className="btn-pill--ghost">
+          <Link to="/" className="ds-btn ds-btn--ghost">
             Till hem
           </Link>
         </div>

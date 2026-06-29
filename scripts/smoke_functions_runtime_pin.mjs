@@ -13,8 +13,8 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 
-const PINNED_MAJOR = 5;
-const REQUIRED_V1_IMPORT = "import * as functions from 'firebase-functions/v1'";
+const PINNED_MAJOR = 7;
+const REQUIRED_V2_IMPORT = "from 'firebase-functions/v2";
 
 function assert(condition, message) {
   if (!condition) throw new Error(message);
@@ -37,25 +37,18 @@ function parseFirebaseFunctionsVersion(pkgJsonText) {
 }
 
 function main() {
-  console.log('[smoke:functions-pin] firebase-functions pin + v1 hybrid…');
+  console.log('[smoke:functions-pin] firebase-functions pin (v2 only)…');
 
   const fnPkg = read('functions/package.json');
   const { raw, major } = parseFirebaseFunctionsVersion(fnPkg);
 
   assert(
     major === PINNED_MAJOR,
-    `firebase-functions måste vara v${PINNED_MAJOR}.x (nu: ${raw}) — v7 kräver PMIR-migrering`,
+    `firebase-functions måste vara v${PINNED_MAJOR}.x (nu: ${raw})`,
   );
   assert(
     !/^[\^~]/.test(raw),
     `firebase-functions ska vara exakt pin utan ^/~ (nu: ${raw})`,
-  );
-
-  const lock = read('functions/package-lock.json');
-  assert(
-    lock.includes('"firebase-functions": "5.1.1"') ||
-      lock.includes('"version": "5.1.1"'),
-    'functions/package-lock.json saknar låst firebase-functions 5.1.1',
   );
 
   const dependabot = read('.github/dependabot.yml');
@@ -71,8 +64,8 @@ function main() {
   for (const rel of ['functions/src/callables/agents.ts', 'functions/src/callables/knowledge.ts']) {
     const text = read(rel);
     assert(
-      text.includes(REQUIRED_V1_IMPORT),
-      `${rel} saknar ${REQUIRED_V1_IMPORT}`,
+      text.includes(REQUIRED_V2_IMPORT),
+      `${rel} saknar ${REQUIRED_V2_IMPORT}`,
     );
   }
 

@@ -12,7 +12,7 @@ export function HomeTaskPanel() {
       </p>
       <Link
         to={HOME_SUPERHUB_ROUTES.planeringTask}
-        className="btn-pill--accent inline-flex w-full items-center justify-center gap-2 sm:w-auto"
+        className="ds-btn ds-btn--accent inline-flex w-full items-center justify-center gap-2 sm:w-auto"
       >
         <ClipboardList className="h-4 w-4" aria-hidden />
         Snabb uppgift i Planering

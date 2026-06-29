@@ -58,7 +58,7 @@ export function ExecutiveLivsloggCard({ activeChild = 'Kasper' }: Props) {
         <div className="mt-3 flex flex-wrap gap-2">
           <button
             type="button"
-            className="btn-pill--accent inline-flex items-center gap-1.5 text-xs"
+            className="ds-btn ds-btn--accent inline-flex items-center gap-1.5 text-xs"
             disabled={loading || !inputText.trim()}
             onClick={() => void handleAsk()}
           >
@@ -67,7 +67,7 @@ export function ExecutiveLivsloggCard({ activeChild = 'Kasper' }: Props) {
           </button>
           <button
             type="button"
-            className="btn-pill--ghost text-xs"
+            className="ds-btn ds-btn--ghost text-xs"
             onClick={() => navigate('/familjen?tab=livslogg')}
           >
             Utforska

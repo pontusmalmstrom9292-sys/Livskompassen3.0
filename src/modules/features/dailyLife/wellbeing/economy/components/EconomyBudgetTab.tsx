@@ -40,7 +40,7 @@ export function EconomyBudgetTab() {
         type="button"
         disabled={saving || !user}
         onClick={() => void quickAdd('Vinst — du gjorde det', 0, 'vinst')}
-        className="btn-pill--ghost w-full text-sm"
+        className="ds-btn ds-btn--ghost w-full text-sm"
       >
         Vinst-knapp — markera ett litet steg
       </button>

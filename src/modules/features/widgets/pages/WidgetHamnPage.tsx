@@ -13,7 +13,7 @@ function WidgetHamnInner() {
     <WidgetShell title="Hamn · BIFF" lead={HAMN_EMBEDDED_LEAD}>
       <div className="space-y-4">
         <BiffPublicPanel initialMessage={initialMessage} />
-        <Link to="/familjen?tab=hamn" className="btn-pill--accent inline-flex text-xs">
+        <Link to="/familjen?tab=hamn" className="ds-btn ds-btn--accent inline-flex text-xs">
           Full Trygg Hamn
         </Link>
       </div>

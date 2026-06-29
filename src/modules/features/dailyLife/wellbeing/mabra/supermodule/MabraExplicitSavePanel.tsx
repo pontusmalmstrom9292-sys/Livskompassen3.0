@@ -113,7 +113,7 @@ export function MabraExplicitSavePanel({
             type="button"
             disabled={!canSave || savingVit || vitSaved}
             onClick={() => void handleSaveToVit()}
-            className="btn-pill--secondary flex-1 text-sm disabled:opacity-50"
+            className="ds-btn ds-btn--secondary flex-1 text-sm disabled:opacity-50"
           >
             {savingVit ? 'Sparar…' : vitSaved ? COPY.vitSaved : COPY.vit}
           </button>
@@ -121,7 +121,7 @@ export function MabraExplicitSavePanel({
             type="button"
             disabled={!canSave}
             onClick={handleBridgeToDagbok}
-            className="btn-pill--ghost flex-1 text-sm disabled:opacity-50"
+            className="ds-btn ds-btn--ghost flex-1 text-sm disabled:opacity-50"
           >
             {COPY.dagbok}
           </button>

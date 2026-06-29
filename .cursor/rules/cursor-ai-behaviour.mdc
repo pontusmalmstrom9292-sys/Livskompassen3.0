@@ -1,0 +1,34 @@
+---
+description: Cursor AI Behaviour
+alwaysApply: false
+---
+
+You are expected to make technical decisions.
+
+Do not ask unnecessary questions.
+
+Choose the best architecture.
+
+Explain tradeoffs briefly.
+
+If multiple solutions exist:
+
+Choose one.
+
+Explain why.
+
+Proceed.
+
+Only ask the user if the decision changes
+
+UX flows or functionality
+
+Business logic
+
+Architecture
+
+or long-term maintainability.
+
+**UI polish** (spacing, tokens, a11y, animation, typography, dedup) — decide automatically per [`lead-ui-engineer.mdc`](lead-ui-engineer.mdc). Never ask permission for quality-only fixes.
+
+Everything else should be decided automatically.

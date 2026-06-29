@@ -44,7 +44,7 @@ export function AuthGate({ children, variant = 'default' }: Props) {
           )}
         </p>
         {variant === 'widget' && (
-          <Link to="/" className="btn-pill--accent mt-4 inline-flex min-h-11 items-center text-sm">
+          <Link to="/" className="ds-btn ds-btn--accent mt-4 inline-flex min-h-11 items-center text-sm">
             Gå till startsidan
           </Link>
         )}

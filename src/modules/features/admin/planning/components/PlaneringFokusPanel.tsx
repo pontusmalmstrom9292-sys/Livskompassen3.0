@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Target } from 'lucide-react';
+import { Button, ButtonLink } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { ParalysPanel } from '@/features/dailyLife/wellbeing/compasses/components/ParalysPanel';
 import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
@@ -43,7 +43,7 @@ export function PlaneringFokusPanel() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="planering-fokus-panel space-y-4">
       {isOverloaded && cognitiveGuardEnabled && (
         <CognitiveGuardOverloadBanner activeCount={activeTasks.length} />
       )}
@@ -53,7 +53,7 @@ export function PlaneringFokusPanel() {
         noHover
         title="Ditt mikrosteg nu"
         icon={<Target className="h-4 w-4" />}
-        className="space-y-4 text-center"
+        className="planering-fokus-panel__card space-y-4 text-center"
       >
         <p className="font-display text-xl text-accent">{focusTask.microStep ?? focusTask.title}</p>
         {focusTask.microStep && <p className="text-xs text-text-muted">Uppgift: {focusTask.title}</p>}
@@ -65,48 +65,32 @@ export function PlaneringFokusPanel() {
 
         <div className="flex flex-wrap justify-center gap-2 pt-2">
           {focusTask.status === 'todo' && (
-            <button
-              type="button"
-              className="btn-pill--secondary text-xs"
-              onClick={() => void handleMove('waiting')}
-            >
+            <Button variant="secondary" size="sm" onClick={() => void handleMove('waiting')}>
               Markera väntar
-            </button>
+            </Button>
           )}
           {focusTask.status !== 'done' && (
-            <button
-              type="button"
-              className="btn-pill--accent text-xs"
-              onClick={() => void handleMove('done')}
-            >
+            <Button variant="accent" size="sm" onClick={() => void handleMove('done')}>
               Klar
-            </button>
+            </Button>
           )}
         </div>
 
         {nextTask && (
-          <button
-            type="button"
-            className="btn-pill--ghost text-xs"
-            onClick={() => setManualFocus(nextTask)}
-          >
+          <Button variant="ghost" size="sm" onClick={() => setManualFocus(nextTask)}>
             Föreslå nästa: {nextTask.microStep ?? nextTask.title}
-          </button>
+          </Button>
         )}
 
-        <Link to="/planering?tab=handling&picked=1" className="btn-pill--ghost inline-flex text-xs">
+        <ButtonLink to="/planering?tab=handling&picked=1" variant="ghost" size="sm">
           Redigera i Handling
-        </Link>
+        </ButtonLink>
 
         {!focusTask.microStep && (
-          <div className="pt-4 border-t border-white/10 text-left">
-            <button
-              type="button"
-              className="btn-pill--ghost text-xs"
-              onClick={() => setShowParalys((o) => !o)}
-            >
+          <div className="planering-fokus-panel__paralys border-t border-white/10 pt-4 text-left">
+            <Button variant="ghost" size="sm" onClick={() => setShowParalys((o) => !o)}>
               {showParalys ? `Dölj ${MICRO_STEP_PANEL_TITLE.toLowerCase()}` : 'Behöver du ett mikrosteg?'}
-            </button>
+            </Button>
             {showParalys && (
               <div className="mt-3">
                 <ParalysPanel onDone={() => setShowParalys(false)} />

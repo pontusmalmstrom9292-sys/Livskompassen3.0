@@ -1,5 +1,4 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
-import * as functions from 'firebase-functions/v1';
 import { askKnowledgeVaultWithRag } from '../agents/knowledgeVaultAgent';
 import { askChildrenLogsQuery } from '../agents/childrenLogsAgent';
 import { geminiApiKey } from '../lib/geminiSecret';
@@ -13,7 +12,7 @@ import {
   shouldRouteKompisToBarnen,
 } from '../lib/barnenModuleRouteGuard';
 import { KNOWLEDGE_UPLOAD_MIMES, MAX_KNOWLEDGE_UPLOAD_BASE64_CHARS } from './shared';
-import { guardSensitiveCallableV1, guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 
 export const generateEmbedding = onCall(
   { region: 'europe-west1', secrets: [geminiApiKey] },
@@ -111,11 +110,11 @@ export const getContextCacheStatus = onCall({ region: 'europe-west1' }, async (r
   };
 });
 
-export const ingestKampsparEntry = functions
-  .region('europe-west1')
-  .runWith({ memory: '512MB', timeoutSeconds: 60 })
-  .https.onCall(async (data, context) => {
-    const uid = await guardSensitiveCallableV1(context, 'ingestKampsparEntry', 10);
+export const ingestKampsparEntry = onCall(
+  { region: 'europe-west1', memory: '512MiB', timeoutSeconds: 60 },
+  async (request) => {
+    const uid = await guardSensitiveCallableV2(request, 'ingestKampsparEntry', 10);
+    const data = request.data;
 
     const title = typeof data.title === 'string' ? data.title.trim() : '';
     const content = typeof data.content === 'string' ? data.content.trim() : '';
@@ -136,10 +135,10 @@ export const ingestKampsparEntry = functions
     }
 
     if (!title || title.length > 200) {
-      throw new functions.https.HttpsError('invalid-argument', 'title krävs (max 200 tecken).');
+      throw new HttpsError('invalid-argument', 'title krävs (max 200 tecken).');
     }
     if (!content || content.length > 8000) {
-      throw new functions.https.HttpsError('invalid-argument', 'content krävs (max 8000 tecken).');
+      throw new HttpsError('invalid-argument', 'content krävs (max 8000 tecken).');
     }
 
     return ingestKampsparForUser(uid, {
@@ -151,13 +150,14 @@ export const ingestKampsparEntry = functions
       source,
       eventDate,
     });
-  });
+  }
+);
 
-export const ingestKnowledgeDocument = functions
-  .region('europe-west1')
-  .runWith({ memory: '1GB', timeoutSeconds: 120, secrets: ['GEMINI_API_KEY'] })
-  .https.onCall(async (data, context) => {
-    const uid = await guardSensitiveCallableV1(context, 'ingestKnowledgeDocument', 10);
+export const ingestKnowledgeDocument = onCall(
+  { region: 'europe-west1', memory: '1GiB', timeoutSeconds: 120, secrets: [geminiApiKey] },
+  async (request) => {
+    const uid = await guardSensitiveCallableV2(request, 'ingestKnowledgeDocument', 10);
+    const data = request.data;
 
     const fileName = typeof data.fileName === 'string' ? data.fileName.trim() : '';
     const mimeType = typeof data.mimeType === 'string' ? data.mimeType.trim() : '';
@@ -166,16 +166,16 @@ export const ingestKnowledgeDocument = functions
       typeof data.sourceLabel === 'string' ? data.sourceLabel.trim() : 'kunskap_upload';
 
     if (!fileName || fileName.length > 200) {
-      throw new functions.https.HttpsError('invalid-argument', 'fileName krävs (max 200 tecken).');
+      throw new HttpsError('invalid-argument', 'fileName krävs (max 200 tecken).');
     }
     if (!mimeType || !KNOWLEDGE_UPLOAD_MIMES.has(mimeType)) {
-      throw new functions.https.HttpsError('invalid-argument', 'mimeType stöds inte för kunskaps-index.');
+      throw new HttpsError('invalid-argument', 'mimeType stöds inte för kunskaps-index.');
     }
     if (!base64 || base64.length < 16) {
-      throw new functions.https.HttpsError('invalid-argument', 'base64 saknas.');
+      throw new HttpsError('invalid-argument', 'base64 saknas.');
     }
     if (base64.length > MAX_KNOWLEDGE_UPLOAD_BASE64_CHARS) {
-      throw new functions.https.HttpsError(
+      throw new HttpsError(
         'invalid-argument',
         'Uppladdningen är för stor (max ~8 MB).',
       );
@@ -185,7 +185,7 @@ export const ingestKnowledgeDocument = functions
     try {
       buffer = Buffer.from(base64, 'base64');
     } catch {
-      throw new functions.https.HttpsError('invalid-argument', 'Ogiltig base64.');
+      throw new HttpsError('invalid-argument', 'Ogiltig base64.');
     }
 
     let title = fileName;
@@ -199,7 +199,7 @@ export const ingestKnowledgeDocument = functions
     if (isPlainText) {
       content = buffer.toString('utf8').trim();
       if (content.length < 12) {
-        throw new functions.https.HttpsError('invalid-argument', 'Textfilen är tom eller för kort.');
+        throw new HttpsError('invalid-argument', 'Textfilen är tom eller för kort.');
       }
     } else {
       const extracted = await analyzeUploadForKnowledge(buffer, mimeType, fileName);
@@ -227,4 +227,5 @@ export const ingestKnowledgeDocument = functions
     });
 
     return { ...result, fileName, mimeType, analyzed: !isPlainText };
-  });
+  }
+);

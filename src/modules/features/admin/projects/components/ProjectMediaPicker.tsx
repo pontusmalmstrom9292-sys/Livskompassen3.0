@@ -57,7 +57,7 @@ export function ProjectMediaPicker({ disabled, onPick, acceptVideo = false }: Pr
       <button
         type="button"
         disabled={disabled}
-        className="btn-pill--secondary inline-flex items-center gap-2 text-sm"
+        className="ds-btn ds-btn--secondary inline-flex items-center gap-2 text-sm"
         onClick={() => inputRef.current?.click()}
       >
         {acceptVideo ? <Film className="h-4 w-4" /> : <ImagePlus className="h-4 w-4" />}

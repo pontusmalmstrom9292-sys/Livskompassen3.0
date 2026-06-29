@@ -5,7 +5,8 @@ alwaysApply: false
 
 # Fas masterplan-gate
 
-**Läs först:** [`.context/system-plan.md`](../../.context/system-plan.md) — aktiv fas och scope.
+**Agent entry (phase):** [`docs/PROJECT_STATE.md`](../../docs/PROJECT_STATE.md) — system Fas + active program.  
+**Canonical history:** [`.context/system-plan.md`](../../.context/system-plan.md) — full Fas 1–24+ log.
 
 ## Gemensam gate (alla faser)
 
@@ -28,8 +29,10 @@ alwaysApply: false
 | 20 | [`2026-06-18-fas20-masterplan-v2.md`](../../docs/evaluations/2026-06-18-fas20-masterplan-v2.md) | [`FAS20-SPRINT-AUTORUN.md`](../../docs/FAS20-SPRINT-AUTORUN.md) |
 | 21 | [`2026-06-18-fas21-masterplan-v2.md`](../../docs/evaluations/2026-06-18-fas21-masterplan-v2.md) | [`FAS21-SPRINT-AUTORUN.md`](../../docs/FAS21-SPRINT-AUTORUN.md) |
 | 22 | [`2026-06-18-fas22-masterplan-v2.md`](../../docs/evaluations/2026-06-18-fas22-masterplan-v2.md) | [`FAS22-SPRINT-AUTORUN.md`](../../docs/FAS22-SPRINT-AUTORUN.md) |
+| 23 | [`docs/FAS23-SPRINT-PLAN.md`](../../docs/FAS23-SPRINT-PLAN.md) | Etapp 2 — kognitiv avlastning |
+| **24** | [`2026-06-25-app-plan-syntes.md`](../../docs/evaluations/2026-06-25-app-plan-syntes.md) · **AKTIV** | [`FAS24-SPRINT-AUTORUN.md`](../../docs/FAS24-SPRINT-AUTORUN.md) |
 
-Pre-flight prompt: [`docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md`](../../docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md)
+Pre-flight: [`FAS24-PREFLIGHT-SUPERPROMPT.md`](../../docs/prompts/FAS24-PREFLIGHT-SUPERPROMPT.md) · historik: [`FAS19-PREFLIGHT-SUPERPROMPT.md`](../../docs/prompts/FAS19-PREFLIGHT-SUPERPROMPT.md)
 
 ## PMIR-stopp (hard NO-GO)
 

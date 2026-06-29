@@ -18,10 +18,10 @@ const ReflectionPageContent: React.FC = () => {
   }, [user?.uid, fetchReflectionData]);
 
   return (
-    <div className="min-h-screen bg-[var(--color-nordic-dusk)] p-6 md:p-12 relative overflow-hidden">
+    <div className="min-h-screen bg-[var(--bg-dusk)] p-6 md:p-12 relative overflow-hidden">
       {/* Bakgrundseffekter */}
-      <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-[var(--color-obsidian-calm)] rounded-full mix-blend-overlay filter blur-[100px] opacity-50 pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[-5%] w-96 h-96 bg-[var(--color-obsidian-calm)] rounded-full mix-blend-overlay filter blur-[100px] opacity-30 pointer-events-none" />
+      <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-surface rounded-full mix-blend-overlay filter blur-[100px] opacity-50 pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-5%] w-96 h-96 bg-surface rounded-full mix-blend-overlay filter blur-[100px] opacity-30 pointer-events-none" />
 
       <div className="max-w-4xl mx-auto relative z-10">
         <motion.div

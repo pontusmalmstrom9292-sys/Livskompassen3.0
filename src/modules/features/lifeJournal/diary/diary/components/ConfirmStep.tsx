@@ -125,14 +125,14 @@ export function ConfirmStep({
       )}
 
       <div className="reflektion-actions">
-        <button type="button" onClick={onBack} className="btn-pill--ghost">
+        <button type="button" onClick={onBack} className="ds-btn ds-btn--ghost">
           <ChevronLeft className="h-4 w-4" /> Ändra
         </button>
         <button
           type="button"
           onClick={() => void onSave()}
           disabled={saving || Boolean(memoryError)}
-          className="btn-pill--success"
+          className="ds-btn ds-btn--success"
         >
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           Spara i dagboken

@@ -35,7 +35,7 @@ export function HandoffBox({ className = '', sourceText }: HandoffBoxProps) {
         motpart, familjerätt eller myndighet — spara den i {VAULT_UI_NAME.toLowerCase()}et. Där blir datum, text och
         bilagor strukturerade som bevis. Dagboken förblir privat och flyttas inte hit automatiskt.
       </p>
-      <Link to={valvTarget} state={valvState} className="journal-handoff__cta btn-pill--ghost">
+      <Link to={valvTarget} state={valvState} className="journal-handoff__cta ds-btn ds-btn--ghost">
         Öppna {VAULT_UI_NAME} →
       </Link>
     </aside>

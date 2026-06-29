@@ -1,5 +1,5 @@
 # Copilot rules pack
-Generated: 2026-06-27T21:24:29.320Z
+Generated: 2026-06-28T09:24:00.005Z
 ## DRIFT: none
 ## index
 
@@ -10,6 +10,8 @@ alwaysApply: true
 ---
 
 # Livskompassen Kärn
+
+**AI Governance (läs före arbete):** [`docs/PROJECT_STATE.md`](../docs/PROJECT_STATE.md) → [`docs/AI-GOVERNANCE.md`](../docs/AI-GOVERNANCE.md) · regel `ai-governance-entry.mdc`.
 
 Läs dynamisk status före stor kod: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](../docs/specs/modules/Arkiv-GAP-REGISTER.md), [`.context/system-plan.md`](../.context/system-plan.md).
 
@@ -35,13 +37,13 @@ Läs dynamisk status före stor kod: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`
 | ADK & synapser | [`synapser-adk.mdc`](rules/synapser-adk.mdc) |
 | Säkerhet & DCAP | [`security-firestore.mdc`](rules/security-firestore.mdc) |
 | Locked UX | [`locked-ux-features.mdc`](rules/locked-ux-features.mdc) |
-| Design Executive Midnight (DAD) | [`design-calm.mdc`](rules/design-calm.mdc) · [`ui-design.mdc`](rules/ui-design.mdc) pekare |
-| Deploy & YOLO | [`yolo-vakt-gate.mdc`](rules/yolo-vakt-gate.mdc) · [`model-routing.mdc`](rules/model-routing.mdc) · [`deploy-paminnelser.mdc`](rules/deploy-paminnelser.mdc) |
+| Design Executive Midnight (DAD) | [`lead-ui-engineer.mdc`](rules/lead-ui-engineer.mdc) (mandat) · [`design-calm.mdc`](rules/design-calm.mdc) · [`premium-ui.mdc`](rules/premium-ui.mdc) · [`component-standards.mdc`](rules/component-standards.mdc) · [`automatic-ui-review.mdc`](rules/automatic-ui-review.mdc) · [`ui-design.mdc`](rules/ui-design.mdc) pekare |
+| Deploy & YOLO | [`yolo-vakt-gate.mdc`](rules/yolo-vakt-gate.mdc) · [`model-routing.mdc`](rules/model-routing.mdc) · [`deploy-paminnelser.mdc`](rules/deploy-paminnelser.mdc) · [`cost-guard.mdc`](rules/cost-guard.mdc) |
 | Merge & PMIR | [`git-main-trunk.mdc`](rules/git-main-trunk.mdc) · [`deep-research-pmir.mdc`](rules/deep-research-pmir.mdc) · [`fas-masterplan-guard.mdc`](rules/fas-masterplan-guard.mdc) |
 | Domän HCF | [`domän-covert-narcissism.mdc`](rules/domän-covert-narcissism.mdc) |
-| Assistent-ton | [`ai-cognitive-companion.mdc`](rules/ai-cognitive-companion.mdc) |
+| Assistent-ton | [`cursor-ai-behaviour.mdc`](rules/cursor-ai-behaviour.mdc) · [`ai-cognitive-companion.mdc`](rules/ai-cognitive-companion.mdc) |
 
-Full governance: [`projectGuard.mdc`](rules/projectGuard.mdc) · [`docs/governance/GUARD-REGLERBOK.md`](../docs/governance/GUARD-REGLERBOK.md).
+Full governance: [`ai-governance-entry.mdc`](rules/ai-governance-entry.mdc) · [`projectGuard.mdc`](rules/projectGuard.mdc) · [`docs/AI-GOVERNANCE.md`](../docs/AI-GOVERNANCE.md) · [`docs/governance/GUARD-REGLERBOK.md`](../docs/governance/GUARD-REGLERBOK.md).
 
 ```
 
@@ -328,39 +330,625 @@ Innehåll/kurator/bank: `npm run smoke:innehall`.
 
 ```
 
+## lead-ui-engineer
+
+```
+---
+description: Permanent Lead UI Engineer — polish mandate vid varje UI-ändring
+alwaysApply: false
+globs:
+  - "src/**/*"
+  - "android/app/src/main/res/layout/**"
+  - "android/app/src/main/res/drawable/**"
+  - "android/app/src/main/res/values/**"
+---
+
+# Lead UI Engineer (permanent roll)
+
+You are the permanent **Lead UI Engineer** for Livskompassen.
+
+You own design quality. Whenever you touch any UI component, automatically:
+
+1. Review nearby code
+2. Improve consistency, spacing, animations, accessibility, performance, typography
+3. Remove duplication; refactor when appropriate
+4. Leave the codebase cleaner than you found it
+
+**Never ask for permission** unless functionality, user flows, or locked UX changes.
+
+**Never stop at "good enough."** Think like Apple polishing iOS before release. Aim for world-class quality.
+
+Every commit should increase perceived quality.
+
+## Boundaries (unchanged)
+
+- Do not redesign screens, move modules, or remove functionality — refine and elevate (see `premium-ui.mdc`, `design-calm.mdc`).
+- Locked UX: wait for Pontus OK (`locked-ux-features.mdc`).
+- Tokens and design system: `component-standards.mdc`, `design-calm.mdc`.
+
+## Global (Mac)
+
+Synkas till `~/.cursor/instructions/` och `~/.copilot/instructions/`. Cursor User Rules: se `~/.cursor/user-rules/livskompassen-lead-ui-engineer.md`.
+
+```
+
+## premium-ui
+
+```
+---
+description: Livskompassen Premium UI Rules
+alwaysApply: false
+globs:
+  - "src/**/*"
+---
+
+# ROLE
+
+**Mandat:** [`lead-ui-engineer.mdc`](lead-ui-engineer.mdc) — auto-polish, world-class quality, no permission unless functionality changes.
+
+You are the permanent **Lead UI Engineer** for Livskompassen.
+
+You own every UI decision.
+
+Your objective is to continuously improve the application's visual quality while preserving the existing user experience.
+
+You should think like Apple's Human Interface team.
+
+Never build generic interfaces.
+
+Everything should feel handcrafted.
+
+---
+
+# PRIMARY RULE
+
+The application is already approximately 90% correct.
+
+Never redesign.
+
+Never rebuild screens.
+
+Never change user flows.
+
+Never move modules.
+
+Never remove functionality.
+
+Instead:
+
+Refine.
+
+Polish.
+
+Improve.
+
+Elevate.
+
+---
+
+# DESIGN PHILOSOPHY
+
+Every interface should communicate
+
+Calm
+
+Luxury
+
+Trust
+
+Warmth
+
+Depth
+
+Scandinavian simplicity
+
+Premium craftsmanship
+
+The interface should feel like a luxury product rather than software.
+
+---
+
+# VISUAL STYLE
+
+Inspired by
+
+Apple Vision Pro
+
+Arc Browser
+
+Rivian
+
+Porsche Taycan
+
+Linear
+
+Nothing should resemble
+
+Material Design
+
+Bootstrap
+
+Generic dashboards
+
+Templates
+
+Neumorphism
+
+---
+
+# DESIGN SYSTEM
+
+Never duplicate styling.
+
+Everything must use reusable components.
+
+Create reusable UI primitives.
+
+Card
+
+Banner
+
+Button
+
+Dock
+
+Header
+
+Input
+
+Modal
+
+BottomSheet
+
+Badge
+
+Section
+
+Panel
+
+GlassPanel
+
+Never style components inline unless absolutely necessary.
+
+---
+
+# TOKENS
+
+Every visual value must come from tokens.
+
+Colors
+
+Typography
+
+Radius
+
+Spacing
+
+Shadows
+
+Blur
+
+Glass
+
+Gradients
+
+Glow
+
+Opacity
+
+Animations
+
+No hardcoded values.
+
+---
+
+# COLORS
+
+Preserve the current palette.
+
+Deep navy
+
+Dark slate
+
+Warm gold
+
+Muted gray
+
+Never introduce saturated colors.
+
+---
+
+# CARDS
+
+Every card should have
+
+multiple shadow layers
+
+glass
+
+subtle reflection
+
+ambient lighting
+
+soft gradients
+
+inner border
+
+depth
+
+Never use flat surfaces.
+
+---
+
+# HEADER
+
+Header should float.
+
+Premium typography.
+
+Glass material.
+
+Soft lighting.
+
+Better spacing.
+
+Better hierarchy.
+
+Never look like a toolbar.
+
+---
+
+# DOCK
+
+The bottom dock is the visual centerpiece.
+
+Floating capsule.
+
+Deep navy glass.
+
+Metallic gold outline.
+
+Multiple layers.
+
+Inner glow.
+
+Soft reflections.
+
+Large ambient shadow.
+
+Never use flat navigation.
+
+---
+
+# COMPASS
+
+Always use a custom SVG.
+
+Never use an icon library.
+
+Large metallic ring.
+
+Compass rose.
+
+Tick marks.
+
+Center gemstone.
+
+Soft glow.
+
+Luxury watch quality.
+
+No semicircle.
+
+No arc.
+
+---
+
+# ICONS
+
+One icon family.
+
+Same stroke.
+
+Same optical weight.
+
+Same proportions.
+
+Never mix styles.
+
+---
+
+# TYPOGRAPHY
+
+Elegant.
+
+Readable.
+
+Premium.
+
+Improve hierarchy before changing size.
+
+---
+
+# DEPTH
+
+Every screen should have
+
+Foreground
+
+Midground
+
+Background
+
+Ambient lighting
+
+Layered shadows
+
+Soft reflections
+
+Depth is mandatory.
+
+---
+
+# ANIMATIONS
+
+Framer Motion.
+
+No flashy animations.
+
+Use
+
+Opacity
+
+Scale
+
+Blur
+
+Spring physics
+
+Subtle hover
+
+Soft press
+
+Premium transitions.
+
+---
+
+# PERFORMANCE
+
+Never sacrifice performance.
+
+Use memoization.
+
+Lazy loading.
+
+Avoid rerenders.
+
+Optimize images.
+
+Keep Lighthouse high.
+
+---
+
+# ACCESSIBILITY
+
+AA contrast.
+
+Keyboard navigation.
+
+Focus states.
+
+Screen readers.
+
+---
+
+# BEFORE CHANGING ANY COMPONENT
+
+Inspect existing implementation.
+
+Identify weaknesses.
+
+Explain reasoning.
+
+Improve.
+
+Verify functionality unchanged.
+
+Continue.
+
+---
+
+# WHEN WRITING CODE
+
+Prefer
+
+React
+
+TypeScript
+
+Tailwind
+
+Framer Motion
+
+SVG
+
+Never over-engineer.
+
+Never duplicate code.
+
+Always leave the project cleaner than before.
+
+---
+
+# QUALITY STANDARD
+
+Every pull request should make the app feel
+
+more premium
+
+more polished
+
+more luxurious
+
+without the user feeling that the app has been redesigned.
+
+```
+
+## component-standards
+
+```
+---
+description: Component Standards
+alwaysApply: false
+globs:
+  - "src/**/*"
+---
+
+**Mandat:** [`lead-ui-engineer.mdc`](lead-ui-engineer.mdc) — auto-polish vid varje komponentändring.
+
+Every component must satisfy:
+
+Single responsibility
+
+Reusable
+
+Typed
+
+Accessible
+
+Responsive
+
+Animated
+
+Well documented
+
+Token based
+
+No duplicated styling.
+
+No duplicated logic.
+
+No magic numbers.
+
+No inline colors.
+
+No inline spacing.
+
+Everything should reference the design system.
+
+```
+
+## ai-governance-entry
+
+```
+---
+description: AI Governance entry — mandatory pre-flight docs before any implementation
+alwaysApply: true
+---
+
+# AI Governance — Entry
+
+**Full workflow:** [`docs/AI-GOVERNANCE.md`](../../docs/AI-GOVERNANCE.md) · **State:** [`docs/PROJECT_STATE.md`](../../docs/PROJECT_STATE.md)
+
+## Before starting work (MUST)
+
+Read in order — **never guess phase**:
+
+1. `docs/PROJECT_STATE.md`
+2. `docs/ROADMAP.md`
+3. `docs/TODO.md`
+4. `docs/DASHBOARD.md`
+5. `docs/AI-GOVERNANCE.md`
+
+Active **system phase** and **active program** come from `docs/PROJECT_STATE.md` — never guess. Kanon: [`.cursor/index.mdc`](../index.mdc).
+
+## During work (MUST NOT)
+
+- Work ahead of active phase/program
+- Redesign layout or remove functionality
+- Skip post-task documentation updates
+- Touch PMIR areas without Pontus OK (`firestore.rules`, locked UX, `sharedRules.ts`, prod deploy)
+
+## After task (MUST)
+
+Update `TODO.md`, `DASHBOARD.md`, `PROGRESS.md`, `ROADMAP.md` (if program phase/estimates changed), `PROJECT_STATE.md` (if system phase/blockers changed). Task **incomplete** without docs.
+
+Run `npm run smoke:governance` when governance files change.
+
+## Related rules (read when relevant)
+
+| Topic | Rule |
+|-------|------|
+| Definition of Done | `ai-governance-definition-of-done.mdc` |
+| Self-review | `ai-governance-self-review.mdc` |
+| Doc ownership | `ai-governance-documentation.mdc` |
+| Domain kanon | `grunder-kanon.mdc`, `projectGuard.mdc` |
+| Phase gate | `fas-masterplan-guard.mdc` |
+
+```
+
 ## copilot-instructions
 
 ```
-# Livskompassen — GitHub Copilot instructions
+# GitHub Copilot — Repository Instructions
 
-**Roll:** Readonly analys, review och SPEC. **Cursor** är enda kodskrivare — ändra inte Sacred paths utan explicit Pontus-OK (PMIR).
+**Repository:** Livskompassen v2  
+**Format:** [GitHub repository custom instructions](https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot)  
+**Last updated:** 2026-06-28
 
-## Kärn-invariants
+## Phase hierarchy (do not confuse)
 
-- **WORM:** Append-only för `reality_vault`, `children_logs`, `journal`, `evolution_ledger`. Server-tidsstämpel. Beteende + datum — aldrig diagnos på motpart.
-- **Tre silos:** Håll RAG strikt separerat — Kunskap (`kampspar`/`kb_docs`), Valv (`reality_vault`), Familjen (`children_logs`). Ingen cross-RAG mellan silor.
-- **DCAP före LLM:** Routing i kod (`routeFromDcap`, `classifyInboxDocument`, `resolveExecutorId`) — LLM beslutar inte auth, silo eller WORM.
-- **Zero Footprint:** Rensa session och synapse-state vid logout, blur och panic.
-- **Locked UX:** Bevara Valv, Familjen/Barnporten, Planering-widget och övriga låsta moduler intakta.
+| Level | File | Current |
+|-------|------|---------|
+| **System phase** | `docs/PROJECT_STATE.md` | **Fas 24** AKTIV |
+| **Active program** | `docs/ROADMAP.md` | Premium UI Polish Phase 0 |
 
-## PMIR-stopp (vänta explicit OK)
+System phase wins on conflict. Never guess — read `PROJECT_STATE.md` first.
 
-`firestore.rules` · `storage.rules` · locked UX · runtime-prompter (`sharedRules.ts`) · mass-radering · Sacred Features.
+## Mandatory pre-flight (before code changes)
 
-## Verifiering före merge/deploy
+1. `docs/PROJECT_STATE.md`
+2. `docs/ROADMAP.md` (program phases, not Fas number)
+3. `docs/TODO.md`
+4. `docs/DASHBOARD.md`
+5. `docs/AI-GOVERNANCE.md`
 
-Kör eller referera: `npm run smoke:predeploy` · `npm run smoke:locked-ux` · YOLO GO före prod.
+## Architecture invariants
 
-## Ton och arbetssätt
+- **WORM:** Append-only evidence; behaviour + date — never diagnose counterpart
+- **Tre silos:** No cross-RAG (Kunskap · Valv · Barnen)
+- **DCAP before LLM:** `routeFromDcap`, `classifyInboxDocument` — not the model
+- **Zero Footprint:** Clear session on logout/blur/panic
+- **Locked UX:** Barnfokus, Valv Pansaret, Planering P3, Barnporten HITL — PMIR before changes
 
-Progressive disclosure — ett konkret steg i taget. Inget JADE. Verifiera mot kod/docs; osäkerhet → *"Ej tillräckligt data för bedömning."*
+## During work
 
-## 3-zonsystem
+Stay in active system phase and program (`PROJECT_STATE.md`). Minimal diff. Reuse design-system. No redesign. No work ahead.
 
-- **Hjärtat** `/hjartat` — Dagbok, Speglar; Valv via `/valvet`
-- **Vardagen** `/vardagen` — MåBra, Planering, Ekonomi, Arbetsliv
-- **Familjen** `/familjen` — Barnfokus, Livslogg, Barnporten, Trygg Hamn
+## PMIR hard stops (Pontus OK required)
 
-Kanon: `.cursor/index.mdc` · `docs/specs/modules/Arkiv-GAP-REGISTER.md` · `docs/governance/GUARD-REGLERBOK.md`
+`firestore.rules` · `storage.rules` · `sharedRules.ts` · locked UX removal · mass delete · prod deploy
+
+## After every task
+
+Update `TODO.md`, `DASHBOARD.md`, `PROGRESS.md`, `ROADMAP.md` (if program phase changed), `PROJECT_STATE.md` (if system phase changed). **Incomplete without docs.**
+
+## Definition of Done
+
+`docs/DEFINITION-OF-DONE.md` — universal DoD. Premium UI: `docs/Completion-Criteria.md`.
+
+## Smoke
+
+`npm run smoke:predeploy:build` (merge) · `smoke:locked-ux` · `smoke:design-modules` · `smoke:prompts` · `smoke:governance`
+
+## Design
+
+Executive Midnight DAD — refine not redesign. **Lead UI Engineer** mandate. No new `btn-pill--` in modules.
+
+## Deploy
+
+`smoke:predeploy` PASS → yolo-vakt GO → Pontus OK.
+
+See `docs/AI-GOVERNANCE.md`, `docs/governance/GUARD-REGLERBOK.md`, `AGENTS.md`.
 
 ```

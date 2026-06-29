@@ -22,7 +22,7 @@ type Props = {
 export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, userId }: Props) {
   return (
     <div className="space-y-4">
-      <button type="button" onClick={onBack} className="btn-pill--ghost text-xs">
+      <button type="button" onClick={onBack} className="ds-btn ds-btn--ghost text-xs">
         Tillbaka till projekt
       </button>
 

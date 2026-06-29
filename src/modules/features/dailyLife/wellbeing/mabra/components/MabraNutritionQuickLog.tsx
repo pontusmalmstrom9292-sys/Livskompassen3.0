@@ -75,7 +75,7 @@ export function MabraNutritionQuickLog({ storageUid, macroTracking = false, onLo
           type="button"
           onClick={() => setKind('food')}
           className={clsx(
-            'btn-pill--ghost flex flex-1 items-center justify-center gap-1.5 text-xs',
+            'ds-btn ds-btn--ghost flex flex-1 items-center justify-center gap-1.5 text-xs',
             kind === 'food' && 'border-success/40 bg-success/10 text-success',
           )}
         >
@@ -86,7 +86,7 @@ export function MabraNutritionQuickLog({ storageUid, macroTracking = false, onLo
           type="button"
           onClick={() => setKind('drink')}
           className={clsx(
-            'btn-pill--ghost flex flex-1 items-center justify-center gap-1.5 text-xs',
+            'ds-btn ds-btn--ghost flex flex-1 items-center justify-center gap-1.5 text-xs',
             kind === 'drink' && 'border-accent-secondary/40 bg-accent-secondary/10 text-accent-light',
           )}
         >
@@ -169,7 +169,7 @@ export function MabraNutritionQuickLog({ storageUid, macroTracking = false, onLo
       <button
         type="button"
         onClick={handleSave}
-        className="btn-pill--secondary mt-3 w-full text-sm"
+        className="ds-btn ds-btn--secondary mt-3 w-full text-sm"
       >
         {savedFlash ? 'Sparat ✓' : 'Spara intag'}
       </button>

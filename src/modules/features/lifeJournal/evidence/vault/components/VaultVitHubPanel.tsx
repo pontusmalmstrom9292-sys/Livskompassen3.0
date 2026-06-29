@@ -154,7 +154,7 @@ export function VaultVitHubPanel({ userId }: Props) {
           <button
             type="button"
             onClick={() => void reload()}
-            className="btn-pill--secondary text-xs"
+            className="ds-btn ds-btn--secondary text-xs"
           >
             Försök igen
           </button>
@@ -218,7 +218,7 @@ export function VaultVitHubPanel({ userId }: Props) {
           <EmptyState
             message="Inga sparade svar ännu."
             action={
-              <Link to={mabraHref} className="btn-pill--secondary text-xs">
+              <Link to={mabraHref} className="ds-btn ds-btn--secondary text-xs">
                 Öppna MåBra
               </Link>
             }
@@ -264,7 +264,7 @@ export function VaultVitHubPanel({ userId }: Props) {
             );
           })}
         </ul>
-        <Link to={mabraHref} className="btn-pill--ghost mt-3 inline-flex text-xs">
+        <Link to={mabraHref} className="ds-btn ds-btn--ghost mt-3 inline-flex text-xs">
           Fortsätt i MåBra
         </Link>
       </section>
@@ -281,7 +281,7 @@ export function VaultVitHubPanel({ userId }: Props) {
           <button
             type="button"
             onClick={() => printVitHubReport(exportReport)}
-            className="btn-pill--accent inline-flex items-center gap-2 text-xs"
+            className="ds-btn ds-btn--accent inline-flex items-center gap-2 text-xs"
             disabled={filteredEntries.length === 0}
           >
             <Printer className="h-3.5 w-3.5" aria-hidden />
@@ -290,7 +290,7 @@ export function VaultVitHubPanel({ userId }: Props) {
           <button
             type="button"
             onClick={() => downloadVitHubReportJson(exportReport)}
-            className="btn-pill--ghost inline-flex items-center gap-2 text-xs"
+            className="ds-btn ds-btn--ghost inline-flex items-center gap-2 text-xs"
             disabled={filteredEntries.length === 0}
           >
             <Download className="h-3.5 w-3.5" aria-hidden />

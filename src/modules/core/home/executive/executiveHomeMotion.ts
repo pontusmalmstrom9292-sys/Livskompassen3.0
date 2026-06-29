@@ -1,11 +1,12 @@
 import { useReducedMotion } from 'framer-motion';
 import type { Transition, Variants } from 'framer-motion';
+import { dsEasePremium, dsMotionDuration } from '@/design-system/motion';
 
 /** Executive Midnight — lugn easing, ingen bounce. */
-const EXEC_HOME_EASE = [0.45, 0, 0.55, 1] as const;
+const EXEC_HOME_EASE = [...dsEasePremium] as Transition['ease'];
 
 export const EXEC_HOME_ITEM_TRANSITION: Transition = {
-  duration: 0.52,
+  duration: dsMotionDuration.slow,
   ease: EXEC_HOME_EASE,
 };
 

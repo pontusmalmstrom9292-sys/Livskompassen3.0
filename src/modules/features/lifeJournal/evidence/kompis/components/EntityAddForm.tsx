@@ -129,7 +129,7 @@ export function EntityAddForm({ onSaved }: Props) {
       <button
         type="submit"
         disabled={loading || !displayName.trim()}
-        className="btn-pill--primary inline-flex items-center gap-2"
+        className="ds-btn ds-btn--accent inline-flex items-center gap-2"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <UserPlus className="h-4 w-4" />}
         Lägg till person

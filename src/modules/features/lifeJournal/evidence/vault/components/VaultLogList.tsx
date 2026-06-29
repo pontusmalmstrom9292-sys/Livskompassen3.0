@@ -125,7 +125,7 @@ const LogRow = memo(function LogRow({
         <button
           type="button"
           onClick={() => exportVaultRecordAsPdf(log)}
-          className="btn-pill--ghost shrink-0 py-1 px-2"
+          className="ds-btn ds-btn--ghost shrink-0 py-1 px-2"
           title="Exportera som PDF (utskrift)"
         >
           <FileDown className="h-3 w-3" /> PDF
@@ -235,7 +235,7 @@ export const VaultLogList = memo(function VaultLogList({
     >
       {onLogFirstBevis && (
         <div className="mb-3 flex justify-end">
-          <button type="button" onClick={onLogFirstBevis} className="btn-pill--secondary text-sm">
+          <button type="button" onClick={onLogFirstBevis} className="ds-btn ds-btn--secondary text-sm">
             Logga bevis
           </button>
         </div>
@@ -294,7 +294,7 @@ export const VaultLogList = memo(function VaultLogList({
                   }
                 }}
                 disabled={loadingMore}
-                className="btn-pill--ghost text-sm"
+                className="ds-btn ds-btn--ghost text-sm"
               >
                 {loadingMore ? (
                   <>

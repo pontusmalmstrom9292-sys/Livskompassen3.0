@@ -13,7 +13,7 @@ export function BarnportenOrkesterPanel() {
           </li>
         ))}
       </ul>
-      <Link to="/valvet?vaultTab=orkester" className="btn-pill--ghost mt-3 inline-flex text-xs">
+      <Link to="/valvet?vaultTab=orkester" className="ds-btn ds-btn--ghost mt-3 inline-flex text-xs">
         Öppna meddelande-analys i arkiv
       </Link>
     </div>

@@ -165,7 +165,7 @@ export function HomeVaultLearningPanel({ mode, onSaved }: Props) {
             type="button"
             disabled={saving || answer.trim().length < 2}
             onClick={handleSave}
-            className="btn-pill--success inline-flex items-center gap-2"
+            className="ds-btn ds-btn--success inline-flex items-center gap-2"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
             Uppdatera valvet
@@ -174,7 +174,7 @@ export function HomeVaultLearningPanel({ mode, onSaved }: Props) {
             type="button"
             disabled={loadingQ}
             onClick={loadQuestion}
-            className="btn-pill--ghost inline-flex items-center gap-2"
+            className="ds-btn ds-btn--ghost inline-flex items-center gap-2"
           >
             <RefreshCw className="h-4 w-4" />
             Ny fråga

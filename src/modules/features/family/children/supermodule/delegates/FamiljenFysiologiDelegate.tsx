@@ -112,7 +112,7 @@ export function FamiljenFysiologiDelegate({ shell, onSaved }: FamiljenDelegateBa
         type="button"
         onClick={handleSave}
         disabled={loading}
-        className="btn-pill--accent w-full disabled:opacity-50 mt-2"
+        className="ds-btn ds-btn--accent w-full disabled:opacity-50 mt-2"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
         Spara mätvärden till loggen

@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Brain, ListTodo, ToggleLeft, ToggleRight } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { KANBAN_COLUMNS } from '../constants';
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
@@ -241,21 +242,18 @@ export function PlanningKanbanBoard() {
             />
           </label>
           <div className="mt-2 flex gap-2">
-            <button
-              type="button"
+            <Button
+              variant="accent"
+              size="sm"
+              className="flex-1"
               disabled={saving || !quickTitle.trim()}
               onClick={() => void submitQuickAdd()}
-              className="btn-pill--accent flex-1 text-xs"
             >
               Spara
-            </button>
-            <button
-              type="button"
-              onClick={() => setQuickColumn(null)}
-              className="btn-pill--ghost text-xs"
-            >
+            </Button>
+            <Button variant="ghost" size="sm" onClick={() => setQuickColumn(null)}>
               Avbryt
-            </button>
+            </Button>
           </div>
         </div>
       )}

@@ -12,7 +12,7 @@ export function VivirQuickEntry({ onStart }: Props) {
         <p className="text-sm font-medium text-accent">VIVIR-snabbkoll</p>
         <p className="text-xs text-text-muted">Akut — fem steg, ett i taget.</p>
       </div>
-      <button type="button" onClick={onStart} className="btn-pill--accent flex items-center gap-2 text-xs">
+      <button type="button" onClick={onStart} className="ds-btn ds-btn--accent flex items-center gap-2 text-xs">
         <Zap className="h-3.5 w-3.5" />
         Kör test
       </button>

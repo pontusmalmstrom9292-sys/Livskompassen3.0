@@ -64,7 +64,7 @@ const VerktygDrawer = lazy(() =>
 const WORK_TABS = new Set<PlaneringTab>(['handling', 'fokus', 'framsteg', 'inkorg', 'regler']);
 
 function PlaneringPanelFallback() {
-  return <p className="text-sm text-text-dim">Laddar Handling…</p>;
+  return <p className="text-sm text-text-dim">Laddar planeringsvy…</p>;
 }
 
 /** B4 — P3 Kanban primär på Handling. Fler verktyg via CalmCollapsible (samma mönster som Valv A2). */
@@ -196,7 +196,7 @@ export function PlaneringPage() {
             <LivBackLink />
             <Link
               to="/planering/input"
-              className="btn-pill--ghost shrink-0 p-2"
+              className="ds-btn ds-btn--ghost shrink-0 p-2"
               title="Snabbinmatning"
               aria-label="Öppna planeringsinmatningshub"
             >
@@ -204,7 +204,7 @@ export function PlaneringPage() {
             </Link>
             <Link
               to="/planering/kalender"
-              className="btn-pill--ghost shrink-0 p-2"
+              className="ds-btn ds-btn--ghost shrink-0 p-2"
               title="Veckokalender"
               aria-label="Öppna veckokalender"
             >
@@ -214,7 +214,7 @@ export function PlaneringPage() {
               <button
                 type="button"
                 onClick={() => navigate('/planering?tab=start')}
-                className="btn-pill--ghost shrink-0 p-2"
+                className="ds-btn ds-btn--ghost shrink-0 p-2"
                 title="Välj verktyg"
                 aria-label="Öppna modulväljare"
               >

@@ -6,6 +6,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { COPILOT_REQUIRED_PHRASES } from '../lib/governance_phrases.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const output = join(root, 'exports/cursor-pipeline/copilot-rules-pack.md');
@@ -17,17 +18,14 @@ const sources = [
   { label: 'memory-silo', path: '.cursor/rules/memory-silo.mdc' },
   { label: 'locked-ux', path: '.cursor/rules/locked-ux-features.mdc' },
   { label: 'anti-hallucination', path: '.cursor/rules/anti-hallucination.mdc' },
+  { label: 'lead-ui-engineer', path: '.cursor/rules/lead-ui-engineer.mdc' },
+  { label: 'premium-ui', path: '.cursor/rules/premium-ui.mdc' },
+  { label: 'component-standards', path: '.cursor/rules/component-standards.mdc' },
+  { label: 'ai-governance-entry', path: '.cursor/rules/ai-governance-entry.mdc' },
   { label: 'copilot-instructions', path: '.github/copilot-instructions.md' },
 ];
 
-const requiredPhrases = [
-  'WORM',
-  'tre silos',
-  'DCAP',
-  'sharedRules.ts',
-  'smoke:predeploy',
-  'Locked UX',
-];
+const requiredPhrases = COPILOT_REQUIRED_PHRASES;
 
 function read(path) {
   const abs = join(root, path);

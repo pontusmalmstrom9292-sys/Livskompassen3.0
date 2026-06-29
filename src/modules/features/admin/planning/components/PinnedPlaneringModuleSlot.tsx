@@ -175,7 +175,7 @@ function HomePlaneringPanel() {
             role="tab"
             aria-selected={tab === t.id}
             className={clsx(
-              'btn-pill--ghost flex-1 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider',
+              'ds-btn ds-btn--ghost flex-1 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider',
               tab === t.id && 'border-accent/40 bg-accent/10 text-accent',
             )}
             onClick={() => setTab(t.id)}
@@ -198,7 +198,7 @@ function HomePlaneringPanel() {
         {tab === 'projekt' ? (
           <div className="space-y-2 py-1">
             <p className="text-xs text-text-muted">Projektlistor, anteckningar och bilder.</p>
-            <Link to="/projekt" className="btn-pill--ghost inline-flex text-xs">
+            <Link to="/projekt" className="ds-btn ds-btn--ghost inline-flex text-xs">
               Öppna Projekt
               <ChevronRight className="ml-1 h-3.5 w-3.5" aria-hidden />
             </Link>
@@ -208,7 +208,7 @@ function HomePlaneringPanel() {
         {tab === 'habit' ? (
           <div className="space-y-2 py-1">
             <p className="text-xs text-text-muted">Rutiner och vanor — ett steg i taget.</p>
-            <Link to="/planering?tab=fokus" className="btn-pill--ghost inline-flex text-xs">
+            <Link to="/planering?tab=fokus" className="ds-btn ds-btn--ghost inline-flex text-xs">
               Öppna Fokus
               <ChevronRight className="ml-1 h-3.5 w-3.5" aria-hidden />
             </Link>
@@ -218,7 +218,7 @@ function HomePlaneringPanel() {
         {tab === 'makro' ? (
           <div className="space-y-2 py-1">
             <p className="text-xs text-text-muted">Makron och näring — lugnt överblick.</p>
-            <Link to="/vardagen?tab=mabra" className="btn-pill--ghost inline-flex text-xs">
+            <Link to="/vardagen?tab=mabra" className="ds-btn ds-btn--ghost inline-flex text-xs">
               Öppna MåBra
               <ChevronRight className="ml-1 h-3.5 w-3.5" aria-hidden />
             </Link>
@@ -228,7 +228,7 @@ function HomePlaneringPanel() {
 
       <Link
         to={HOME_SUPERHUB_ROUTES.planeringHub}
-        className="btn-pill--ghost mt-3 flex w-full items-center justify-center gap-1 text-xs"
+        className="ds-btn ds-btn--ghost mt-3 flex w-full items-center justify-center gap-1 text-xs"
       >
         <LayoutList className="h-3.5 w-3.5" aria-hidden />
         Öppna Planering
@@ -253,7 +253,7 @@ function SinglePinnedModule({ pin }: { pin: PlaneringModulePin }) {
         onToggle={() => setExpanded((v) => !v)}
       >
         {pin.content.kind === 'list' ? <PinListBody pin={pin} /> : <PinNoteBody pin={pin} />}
-        <Link to={editLink} className="btn-pill--ghost mt-2 inline-flex text-xs">
+        <Link to={editLink} className="ds-btn ds-btn--ghost mt-2 inline-flex text-xs">
           Redigera i Planering
         </Link>
       </ElongatedModule>
@@ -284,7 +284,7 @@ function SinglePinnedModule({ pin }: { pin: PlaneringModulePin }) {
       {pin.content.kind === 'list' ? <PinListBody pin={pin} /> : <PinNoteBody pin={pin} />}
       <Link
         to={editLink}
-        className="btn-pill--ghost mt-3 flex w-full items-center justify-center gap-1 text-sm"
+        className="ds-btn ds-btn--ghost mt-3 flex w-full items-center justify-center gap-1 text-sm"
       >
         Öppna i Planering
         <ChevronRight className="h-4 w-4" />

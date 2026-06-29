@@ -43,6 +43,12 @@ export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalA
   const hasMore = unpinnedFlat.length > visibleCount;
 
   const visibleIds = new Set(visible.map((e) => e.id));
+  const visibleGroups = groups
+    .map((group) => ({
+      ...group,
+      entries: group.entries.filter((entry) => visibleIds.has(entry.id)),
+    }))
+    .filter((group) => group.entries.length > 0);
 
   useEffect(() => {
     setVisibleCount(pageSize);
@@ -78,31 +84,27 @@ export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalA
           </div>
         )}
         <div className="space-y-6">
-          {groups.map((group) => {
-            const groupVisible = group.entries.filter((e) => visibleIds.has(e.id));
-            if (groupVisible.length === 0) return null;
-            return (
-              <section key={group.dayKey} aria-labelledby={`journal-day-${group.dayKey}`}>
-                <h3
-                  id={`journal-day-${group.dayKey}`}
-                  className="journal-archive-day mb-3 text-xs font-medium uppercase tracking-widest text-text-dim"
-                >
-                  {group.label}
-                </h3>
-                <ul className="space-y-3">
-                  {groupVisible.map((entry) => (
-                    <JournalEntryCard key={entry.id} entry={entry} />
-                  ))}
-                </ul>
-              </section>
-            );
-          })}
+          {visibleGroups.map((group) => (
+            <section key={group.dayKey} aria-labelledby={`journal-day-${group.dayKey}`}>
+              <h3
+                id={`journal-day-${group.dayKey}`}
+                className="journal-archive-day mb-3 text-xs font-medium uppercase tracking-widest text-text-dim"
+              >
+                {group.label}
+              </h3>
+              <ul className="space-y-3">
+                {group.entries.map((entry) => (
+                  <JournalEntryCard key={entry.id} entry={entry} />
+                ))}
+              </ul>
+            </section>
+          ))}
         </div>
         {hasMore && (
           <button
             type="button"
             onClick={() => setVisibleCount((n) => n + pageSize)}
-            className="btn-pill--ghost mt-6 w-full"
+            className="ds-btn ds-btn--ghost mt-6 w-full"
           >
             Visa fler ({unpinnedFlat.length - visibleCount} kvar)
           </button>

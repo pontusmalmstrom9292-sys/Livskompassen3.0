@@ -224,7 +224,7 @@ export function ReviewQueuePipelinePanel({
                 ) : (
                   <button
                     type="button"
-                    className="btn-pill--ghost mt-2 text-xs"
+                    className="ds-btn ds-btn--ghost mt-2 text-xs"
                     onClick={() => void handleRetry(d.id)}
                   >
                     Försök igen
@@ -266,7 +266,7 @@ export function ReviewQueuePipelinePanel({
                 ) : (
                   <button
                     type="button"
-                    className="btn-pill--ghost mt-2 text-xs"
+                    className="ds-btn ds-btn--ghost mt-2 text-xs"
                     onClick={() => void handleRetry(d.id)}
                   >
                     Försök igen

@@ -179,7 +179,7 @@ export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
               type="button"
               disabled={inputsDisabled || !draft.trim()}
               onClick={() => void handlePark()}
-              className="btn-pill--ghost rounded-lg border border-border/50 bg-surface-3 px-3 py-2 text-xs disabled:opacity-60"
+              className="ds-btn ds-btn--ghost rounded-lg border border-border/50 bg-surface-3 px-3 py-2 text-xs disabled:opacity-60"
             >
               {queueSaving && !txSaving ? 'Sparar…' : 'Parkera'}
             </button>
@@ -241,7 +241,7 @@ export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
                               !(purchaseAmounts[item.id] ?? '').trim()
                             }
                             onClick={() => void handleBuy(item.id, item.label)}
-                            className="btn-pill--secondary px-2 py-1 text-[10px] disabled:opacity-50"
+                            className="ds-btn ds-btn--secondary px-2 py-1 text-[10px] disabled:opacity-50"
                           >
                             Fortfarande ja
                           </button>
@@ -249,7 +249,7 @@ export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
                             type="button"
                             disabled={inputsDisabled}
                             onClick={() => void handleSkip(item.id)}
-                            className="btn-pill--ghost px-2 py-1 text-[10px] disabled:opacity-60"
+                            className="ds-btn ds-btn--ghost px-2 py-1 text-[10px] disabled:opacity-60"
                           >
                             Strunt i det
                           </button>

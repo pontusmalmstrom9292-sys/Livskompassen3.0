@@ -54,7 +54,7 @@ export function MabraNutritionCoachPanel({ uid }: Props) {
         type="button"
         onClick={() => void handleCoach()}
         disabled={loading || !uid}
-        className="btn-pill--secondary w-full"
+        className="ds-btn ds-btn--secondary w-full"
       >
         {loading ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : 'Fråga Kost-Coachen'}
       </button>

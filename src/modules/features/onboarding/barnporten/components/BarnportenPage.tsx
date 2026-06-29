@@ -191,7 +191,7 @@ export function BarnportenPage() {
       <button
         type="button"
         disabled={saving}
-        className="btn-pill--secondary mt-4 flex w-full items-center justify-center gap-2 text-sm"
+        className="ds-btn ds-btn--secondary mt-4 flex w-full items-center justify-center gap-2 text-sm"
         onClick={() => {
           const text = window.prompt('Allvarligt — behöver prata med pappa:', '') ?? '';
           if (text.trim()) void postLog('message', text.trim(), 'allvarligt', true);

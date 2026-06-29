@@ -75,6 +75,7 @@ async function main() {
   assert(Array.isArray(queue.data?.items), 'getInboxQueue ska returnera items[]');
   console.log('[smoke:confirm-inbox] getInboxQueue OK — items:', queue.data.items.length);
   console.log('\n[smoke:confirm-inbox] PASS');
+  process.exit(0);
 }
 
 main().catch((err) => {

@@ -254,7 +254,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
           <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
-              className="btn-pill--accent text-[10px] font-semibold uppercase tracking-wider"
+              className="ds-btn ds-btn--accent text-[10px] font-semibold uppercase tracking-wider"
               disabled={saving}
               onClick={() => void handleAnchorSave()}
             >
@@ -263,7 +263,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
             {anchor.trim() ? (
               <button
                 type="button"
-                className="btn-pill--ghost text-[10px] font-semibold uppercase tracking-wider"
+                className="ds-btn ds-btn--ghost text-[10px] font-semibold uppercase tracking-wider"
                 onClick={() => setIsEditing(false)}
               >
                 Avbryt

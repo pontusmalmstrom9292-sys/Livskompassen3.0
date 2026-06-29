@@ -1,6 +1,5 @@
-import { useEffect } from 'react';
-import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
+import { Sheet } from '@/design-system';
 import { LifeHubPresetPicker } from './LifeHubPresetPicker';
 import type { LifeHubPresetId } from './lifeHubPresets';
 
@@ -12,47 +11,33 @@ type Props = {
 };
 
 export function HubPresetSheet({ open, activeId, onSelect, onClose }: Props) {
-  useEffect(() => {
-    if (!open) return;
-    document.body.classList.add('hub-preset-sheet-open');
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-    };
-    window.addEventListener('keydown', onKey);
-    return () => {
-      document.body.classList.remove('hub-preset-sheet-open');
-      window.removeEventListener('keydown', onKey);
-    };
-  }, [open, onClose]);
-
-  if (!open) return null;
-
-  return createPortal(
-    <>
-      <button
-        type="button"
-        className="hub-preset-sheet__backdrop"
-        aria-label="Stäng hub-väljare"
-        onClick={onClose}
-      />
-      <div className="hub-preset-sheet" role="dialog" aria-label="Välj hub">
+  return (
+    <Sheet
+      open={open}
+      onClose={onClose}
+      ariaLabel="Välj hub"
+      hideHeader
+      placement="center"
+      className="z-[232]"
+      panelClassName="relative max-w-md rounded-[2rem] border-border bg-bg/95 p-5 shadow-xl"
+      headerAction={
         <button
           type="button"
-          className="hub-preset-sheet__close"
+          className="absolute right-3 top-3 rounded-full border border-border bg-bg p-1.5 text-text-dim"
           aria-label="Stäng"
           onClick={onClose}
         >
           <X className="h-4 w-4" />
         </button>
-        <LifeHubPresetPicker
-          activeId={activeId}
-          onSelect={(id) => {
-            onSelect(id);
-            onClose();
-          }}
-        />
-      </div>
-    </>,
-    document.body,
+      }
+    >
+      <LifeHubPresetPicker
+        activeId={activeId}
+        onSelect={(id) => {
+          onSelect(id);
+          onClose();
+        }}
+      />
+    </Sheet>
   );
 }

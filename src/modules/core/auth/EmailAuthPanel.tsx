@@ -132,7 +132,7 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
         type="button"
         disabled={loading || googleLoading}
         onClick={() => void handleGoogle()}
-        className="btn-pill--ghost mb-4 flex w-full items-center justify-center gap-2 border border-border"
+        className="ds-btn ds-btn--ghost mb-4 flex w-full items-center justify-center gap-2 border border-border"
       >
         {googleLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
         Fortsätt med Google
@@ -205,7 +205,7 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
                 setError(null);
                 setSuccess(null);
               }}
-              className={mode === 'create' ? 'btn-pill--success' : 'btn-pill--ghost'}
+              className={mode === 'create' ? 'ds-btn ds-btn--success' : 'ds-btn ds-btn--ghost'}
             >
               Skapa konto
             </button>
@@ -216,7 +216,7 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
                 setError(null);
                 setSuccess(null);
               }}
-              className={mode === 'signin' ? 'btn-pill--success' : 'btn-pill--ghost'}
+              className={mode === 'signin' ? 'ds-btn ds-btn--success' : 'ds-btn ds-btn--ghost'}
             >
               Logga in
             </button>
@@ -255,7 +255,7 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
                 disabled={loading}
               />
             )}
-            <button type="submit" disabled={loading} className="btn-pill--success flex w-full items-center justify-center gap-2">
+            <button type="submit" disabled={loading} className="ds-btn ds-btn--success flex w-full items-center justify-center gap-2">
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
               {mode === 'create' ? 'Skapa konto och spara' : 'Logga in'}
             </button>

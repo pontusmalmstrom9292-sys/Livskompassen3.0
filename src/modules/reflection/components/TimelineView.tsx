@@ -45,7 +45,7 @@ export const TimelineView: React.FC = () => {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-white/50">
-        <Loader2 className="w-8 h-8 animate-spin mb-4 text-[var(--color-nordic-dusk)]" />
+        <Loader2 className="w-8 h-8 animate-spin mb-4 text-accent" />
         <p className="tracking-widest uppercase text-xs">Laddar journal...</p>
       </div>
     );

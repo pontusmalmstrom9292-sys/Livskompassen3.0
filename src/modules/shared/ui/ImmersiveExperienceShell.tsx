@@ -43,7 +43,7 @@ export function ImmersiveExperienceShell({ title, onExit, themeId, children }: P
         <button
           type="button"
           onClick={onExit}
-          className="btn-pill--ghost inline-flex items-center gap-1.5 text-xs"
+          className="ds-btn ds-btn--ghost inline-flex items-center gap-1.5 text-xs"
         >
           <X className="h-4 w-4" aria-hidden />
           Avsluta

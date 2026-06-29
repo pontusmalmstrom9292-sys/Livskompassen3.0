@@ -69,15 +69,15 @@ export function BrusfiltretSupermoduleLabPage() {
           Indigo silo · flikrad · samma 5-lagers anatomi som kanon. Prototyp — inte prod-wire än.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Link to="/dev/theme-lab" className="btn-pill--ghost text-xs">
+          <Link to="/dev/theme-lab" className="ds-btn ds-btn--ghost text-xs">
             ← Theme Lab
           </Link>
-          <Link to="/widget/hamn" className="btn-pill--accent text-xs">
+          <Link to="/widget/hamn" className="ds-btn ds-btn--accent text-xs">
             Prod Brusfiltret
           </Link>
           <button
             type="button"
-            className="btn-pill--ghost text-xs"
+            className="ds-btn ds-btn--ghost text-xs"
             onClick={() => setLivePanel((v) => !v)}
           >
             {livePanel ? 'Demo-läge' : 'Live BiffPublicPanel'}
@@ -126,7 +126,7 @@ export function BrusfiltretSupermoduleLabPage() {
                             </li>
                           ))}
                         </ul>
-                        <button type="button" className="btn-pill--ghost mt-2 text-[11px]">
+                        <button type="button" className="ds-btn ds-btn--ghost mt-2 text-[11px]">
                           <Sparkles className="mr-1 inline h-3.5 w-3.5" />
                           Städa till Grey Rock-mall
                         </button>
@@ -161,7 +161,7 @@ export function BrusfiltretSupermoduleLabPage() {
                         ? 'Kör analys i fliken Klistra in — svaret visas här.'
                         : demoReply}
                     </p>
-                    <button type="button" className="btn-pill--ghost w-full text-xs">
+                    <button type="button" className="ds-btn ds-btn--ghost w-full text-xs">
                       Kopiera · Klar
                     </button>
                   </div>
@@ -197,7 +197,7 @@ export function BrusfiltretSupermoduleLabPage() {
                   <button type="button" className="bf-supermodule__cta">
                     Sortera till arkiv
                   </button>
-                  <button type="button" className="btn-pill--ghost w-full text-xs">
+                  <button type="button" className="ds-btn ds-btn--ghost w-full text-xs">
                     Spara som bevis (Valv · HITL)
                   </button>
                   <p className="bf-supermodule__help">

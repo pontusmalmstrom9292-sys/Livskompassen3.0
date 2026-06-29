@@ -164,7 +164,7 @@ export function MabraGoalPanel() {
           <div className="mt-3 flex flex-wrap gap-2">
             <button
               type="button"
-              className="btn-pill--ghost text-xs text-text-dim"
+              className="ds-btn ds-btn--ghost text-xs text-text-dim"
               onClick={beginCustomEdit}
               disabled={saving}
             >
@@ -173,7 +173,7 @@ export function MabraGoalPanel() {
             </button>
             <button
               type="button"
-              className="btn-pill--ghost text-xs text-text-dim"
+              className="ds-btn ds-btn--ghost text-xs text-text-dim"
               onClick={() => void handleClear()}
               disabled={saving}
             >
@@ -223,7 +223,7 @@ export function MabraGoalPanel() {
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
-              className="btn-pill text-sm"
+              className="ds-btn ds-btn--ghost text-sm"
               onClick={() => void handleConfirm()}
               disabled={saving || !draftText.trim()}
             >
@@ -238,7 +238,7 @@ export function MabraGoalPanel() {
             </button>
             <button
               type="button"
-              className="btn-pill--ghost text-sm text-text-dim"
+              className="ds-btn ds-btn--ghost text-sm text-text-dim"
               onClick={() => void handleAssist()}
               disabled={saving || assistLoading}
             >
@@ -256,7 +256,7 @@ export function MabraGoalPanel() {
             </button>
             <button
               type="button"
-              className="btn-pill--ghost text-sm text-text-dim"
+              className="ds-btn ds-btn--ghost text-sm text-text-dim"
               onClick={cancelDraft}
               disabled={saving}
             >
@@ -275,14 +275,14 @@ export function MabraGoalPanel() {
               </p>
               <button
                 type="button"
-                className="btn-pill--ghost text-sm text-text-dim"
+                className="ds-btn ds-btn--ghost text-sm text-text-dim"
                 onClick={beginCustomEdit}
               >
                 {COPY.adjust}
               </button>
               <button
                 type="button"
-                className="btn-pill--ghost text-sm text-text-dim"
+                className="ds-btn ds-btn--ghost text-sm text-text-dim"
                 onClick={() => void handleAssist()}
                 disabled={assistLoading}
               >
@@ -304,7 +304,7 @@ export function MabraGoalPanel() {
                   </p>
                   <button
                     type="button"
-                    className="btn-pill mt-3 text-xs"
+                    className="ds-btn ds-btn--ghost mt-3 text-xs"
                     onClick={() => beginSelection(candidate)}
                     disabled={saving}
                   >

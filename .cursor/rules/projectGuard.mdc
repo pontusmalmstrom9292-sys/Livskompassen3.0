@@ -9,6 +9,7 @@ alwaysApply: false
 
 | Ämne | Regel / doc |
 |------|-------------|
+| **AI workflow (pre-flight, DoD, docs)** | [`ai-governance-entry.mdc`](ai-governance-entry.mdc) · [`docs/AI-GOVERNANCE.md`](../../docs/AI-GOVERNANCE.md) · [`docs/PROJECT_STATE.md`](../../docs/PROJECT_STATE.md) |
 | Full kanon U1–U6, WORM, PMIR | [`grunder-kanon.mdc`](grunder-kanon.mdc) |
 | Operativ subagent-checklista | [`guard-regelbok.mdc`](guard-regelbok.mdc) |
 | Mänsklig Guard-kanon | [`docs/governance/GUARD-REGLERBOK.md`](../../docs/governance/GUARD-REGLERBOK.md) |

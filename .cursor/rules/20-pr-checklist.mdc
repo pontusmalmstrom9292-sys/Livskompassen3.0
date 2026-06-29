@@ -6,6 +6,10 @@ globs:
 
 # PR Checklist (must be satisfied before merge)
 
+**Governance DoD:** [`docs/DEFINITION-OF-DONE.md`](../../docs/DEFINITION-OF-DONE.md) · [`ai-governance-definition-of-done.mdc`](ai-governance-definition-of-done.mdc)
+
+**Governance DoD:** [`ai-governance-definition-of-done.mdc`](ai-governance-definition-of-done.mdc) · [`docs/DEFINITION-OF-DONE.md`](../../docs/DEFINITION-OF-DONE.md)
+
 ## Scope
 - Change is limited to requested task.
 - No unrelated refactors.

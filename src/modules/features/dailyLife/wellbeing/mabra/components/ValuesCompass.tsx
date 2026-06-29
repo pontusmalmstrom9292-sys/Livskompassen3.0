@@ -143,10 +143,10 @@ export function ValuesCompass({ userId, onDone, onExit }: Props) {
       {error && <p className="text-sm text-danger">{error}</p>}
 
       <div className="flex w-full max-w-sm flex-col gap-2">
-        <button type="button" disabled={!canSave} onClick={handleSave} className="btn-pill--secondary">
+        <button type="button" disabled={!canSave} onClick={handleSave} className="ds-btn ds-btn--secondary">
           {saving ? 'Sparar…' : VALUES_COMPASS_COPY.saveLabel}
         </button>
-        <button type="button" onClick={onExit} className="btn-pill--ghost text-sm">
+        <button type="button" onClick={onExit} className="ds-btn ds-btn--ghost text-sm">
           Avsluta nu
         </button>
       </div>

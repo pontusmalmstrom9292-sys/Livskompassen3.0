@@ -128,7 +128,7 @@ export function ArbetslivInkomstDelegate() {
             <button
               type="button"
               disabled={busy}
-              className="btn-pill--primary w-full"
+              className="ds-btn ds-btn--accent w-full"
               onClick={() => void save()}
             >
               Spara inkomst

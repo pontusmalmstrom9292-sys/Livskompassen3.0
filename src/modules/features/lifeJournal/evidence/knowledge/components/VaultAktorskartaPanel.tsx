@@ -62,7 +62,7 @@ export function VaultAktorskartaPanel() {
 
         <Link
           to={vaultDrawerPath('kunskapsbank')}
-          className="btn-pill--ghost mb-4 inline-flex items-center gap-2 text-xs"
+          className="ds-btn ds-btn--ghost mb-4 inline-flex items-center gap-2 text-xs"
         >
           <BookOpen className="h-3 w-3" />
           Till Kunskapsbank
@@ -73,7 +73,7 @@ export function VaultAktorskartaPanel() {
           <EmptyState
             message={error}
             action={
-              <button type="button" onClick={() => void load()} className="btn-pill--secondary text-xs">
+              <button type="button" onClick={() => void load()} className="ds-btn ds-btn--secondary text-xs">
                 Försök igen
               </button>
             }

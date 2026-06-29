@@ -1,31 +1,60 @@
-# Livskompassen — GitHub Copilot instructions
+# GitHub Copilot — Repository Instructions
 
-**Roll:** Readonly analys, review och SPEC. **Cursor** är enda kodskrivare — ändra inte Sacred paths utan explicit Pontus-OK (PMIR).
+**Repository:** Livskompassen v2  
+**Format:** [GitHub repository custom instructions](https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot)  
+**Last updated:** 2026-06-28
 
-## Kärn-invariants
+## Phase hierarchy (do not confuse)
 
-- **WORM:** Append-only för `reality_vault`, `children_logs`, `journal`, `evolution_ledger`. Server-tidsstämpel. Beteende + datum — aldrig diagnos på motpart.
-- **Tre silos:** Håll RAG strikt separerat — Kunskap (`kampspar`/`kb_docs`), Valv (`reality_vault`), Familjen (`children_logs`). Ingen cross-RAG mellan silor.
-- **DCAP före LLM:** Routing i kod (`routeFromDcap`, `classifyInboxDocument`, `resolveExecutorId`) — LLM beslutar inte auth, silo eller WORM.
-- **Zero Footprint:** Rensa session och synapse-state vid logout, blur och panic.
-- **Locked UX:** Bevara Valv, Familjen/Barnporten, Planering-widget och övriga låsta moduler intakta.
+| Level | File | Current |
+|-------|------|---------|
+| **System phase** | `docs/PROJECT_STATE.md` | **Fas 24** AKTIV |
+| **Active program** | `docs/ROADMAP.md` | Premium UI Polish Phase 0 |
 
-## PMIR-stopp (vänta explicit OK)
+System phase wins on conflict. Never guess — read `PROJECT_STATE.md` first.
 
-`firestore.rules` · `storage.rules` · locked UX · runtime-prompter (`sharedRules.ts`) · mass-radering · Sacred Features.
+## Mandatory pre-flight (before code changes)
 
-## Verifiering före merge/deploy
+1. `docs/PROJECT_STATE.md`
+2. `docs/ROADMAP.md` (program phases, not Fas number)
+3. `docs/TODO.md`
+4. `docs/DASHBOARD.md`
+5. `docs/AI-GOVERNANCE.md`
 
-Kör eller referera: `npm run smoke:predeploy` · `npm run smoke:locked-ux` · YOLO GO före prod.
+## Architecture invariants
 
-## Ton och arbetssätt
+- **WORM:** Append-only evidence; behaviour + date — never diagnose counterpart
+- **Tre silos:** No cross-RAG (Kunskap · Valv · Barnen)
+- **DCAP before LLM:** `routeFromDcap`, `classifyInboxDocument` — not the model
+- **Zero Footprint:** Clear session on logout/blur/panic
+- **Locked UX:** Barnfokus, Valv Pansaret, Planering P3, Barnporten HITL — PMIR before changes
 
-Progressive disclosure — ett konkret steg i taget. Inget JADE. Verifiera mot kod/docs; osäkerhet → *"Ej tillräckligt data för bedömning."*
+## During work
 
-## 3-zonsystem
+Stay in active system phase and program (`PROJECT_STATE.md`). Minimal diff. Reuse design-system. No redesign. No work ahead.
 
-- **Hjärtat** `/hjartat` — Dagbok, Speglar; Valv via `/valvet`
-- **Vardagen** `/vardagen` — MåBra, Planering, Ekonomi, Arbetsliv
-- **Familjen** `/familjen` — Barnfokus, Livslogg, Barnporten, Trygg Hamn
+## PMIR hard stops (Pontus OK required)
 
-Kanon: `.cursor/index.mdc` · `docs/specs/modules/Arkiv-GAP-REGISTER.md` · `docs/governance/GUARD-REGLERBOK.md`
+`firestore.rules` · `storage.rules` · `sharedRules.ts` · locked UX removal · mass delete · prod deploy
+
+## After every task
+
+Update `TODO.md`, `DASHBOARD.md`, `PROGRESS.md`, `ROADMAP.md` (if program phase changed), `PROJECT_STATE.md` (if system phase changed). **Incomplete without docs.**
+
+## Definition of Done
+
+`docs/DEFINITION-OF-DONE.md` — universal DoD. Premium UI: `docs/Completion-Criteria.md`.
+
+## Smoke
+
+`npm run smoke:predeploy:build` (merge) · `smoke:locked-ux` · `smoke:design-modules` · `smoke:prompts` · `smoke:governance`
+
+## Design
+
+Executive Midnight DAD — refine not redesign. **Lead UI Engineer** mandate. No new `btn-pill--` in modules.
+
+## Deploy
+
+`smoke:predeploy` PASS → yolo-vakt GO → Pontus OK.
+
+See `docs/AI-GOVERNANCE.md`, `docs/governance/GUARD-REGLERBOK.md`, `AGENTS.md`.

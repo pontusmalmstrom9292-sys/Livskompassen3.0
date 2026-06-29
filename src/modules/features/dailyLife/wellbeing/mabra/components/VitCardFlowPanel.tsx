@@ -110,7 +110,7 @@ export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
           type="button"
           onClick={() => void handleSave()}
           disabled={saving}
-          className="btn-pill--accent w-full text-sm"
+          className="ds-btn ds-btn--accent w-full text-sm"
         >
           {saving ? (
             <>

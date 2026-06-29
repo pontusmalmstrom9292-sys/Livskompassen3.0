@@ -335,7 +335,7 @@ export function InkastDirectPanel({
       <div className={clsx('flex flex-wrap gap-2', isValv ? 'mt-2' : 'mt-3')}>
         <button
           type="button"
-          className={isValv ? 'btn-pill--secondary text-xs' : 'btn-pill--primary text-xs'}
+          className={isValv ? 'ds-btn ds-btn--secondary text-xs' : 'ds-btn ds-btn--accent text-xs'}
           disabled={loading || wormConfirmOpen || text.trim().length < 12}
           onClick={handlePasteSubmit}
         >
@@ -353,7 +353,7 @@ export function InkastDirectPanel({
         {/* Fas 3: Clipboard copy-knapp */}
         <button
           type="button"
-          className="btn-pill--ghost text-xs"
+          className="ds-btn ds-btn--ghost text-xs"
           disabled={loading || wormConfirmOpen || text.trim().length === 0}
           onClick={handleCopy}
           title="Kopiera text till urklipp"
@@ -370,7 +370,7 @@ export function InkastDirectPanel({
         </button>
         <button
           type="button"
-          className="btn-pill--ghost text-xs"
+          className="ds-btn ds-btn--ghost text-xs"
           disabled={loading || wormConfirmOpen}
           onClick={() => inputRef.current?.click()}
         >
@@ -385,7 +385,7 @@ export function InkastDirectPanel({
           <button
             type="button"
             className={clsx(
-              "btn-pill--ghost text-xs transition-colors",
+              "ds-btn ds-btn--ghost text-xs transition-colors",
               isListening ? "text-danger animate-pulse bg-danger/10" : ""
             )}
             disabled={loading || wormConfirmOpen}
@@ -407,7 +407,7 @@ export function InkastDirectPanel({
         <button
           type="button"
           className={clsx(
-            "btn-pill--ghost text-xs ml-auto",
+            "ds-btn ds-btn--ghost text-xs ml-auto",
             showBaraOrd ? "text-accent" : "text-text-dim"
           )}
           onClick={() => setShowBaraOrd(!showBaraOrd)}

@@ -1,5 +1,5 @@
 ---
-description: Auto-routing — matchar uppgiftstyp till rätt specialist-agent och skill. Alltid aktiv.
+description: Auto-routing — matchar uppgiftstyp till rätt specialist-agent och skill.
 alwaysApply: false
 ---
 
@@ -16,7 +16,7 @@ Läs prompten och identifiera ämnet. Hänvisa till rätt specialist **innan** d
 | Firestore-regler, storage.rules, säkerhetsregler, WORM-enforcement | `/specialist-firestore-rules` | `livskompassen-memory-silo-guard` |
 | DCAP, routing, classifyInboxDocument, resolveExecutorId, riskklassning | `/specialist-dcap-routing` | — |
 | Säkerhetsaudit, Sacred Features, Zero Footprint, Kill Switch, GAP-analys | `/specialist-security-auditor` | — |
-| UI, design, Executive Midnight, DAD, Chameleon, komponenter, Tailwind | `/specialist-ux-guardian` · `/design-labbet` | `livskompassen-theme-lab` |
+| UI, design, Executive Midnight, DAD, Chameleon, komponenter, Tailwind | `/specialist-ux-guardian` · `/design-labbet` | `livskompassen-theme-lab` · regel [`lead-ui-engineer.mdc`](lead-ui-engineer.mdc) |
 | Familjen, Barn, Barnporten, Hamn, barnporten HITL, barn-PWA | `/specialist-familjen-hamn-builder` · `/specialist-barn-lek` | — |
 | Vardagen, MåBra, Planering, hybrid-widget, Fyren, Morgonkompassen | `/specialist-vardagen-builder` · `/specialist-planering` | — |
 | Hjärtat, Inkast, inkommande dokument, upload-routing | `/specialist-hjartat-inkast-builder` | — |
@@ -39,7 +39,11 @@ Läs prompten och identifiera ämnet. Hänvisa till rätt specialist **innan** d
 | **Widgets**, FyrenWidgetBar, Åtgärder-widget, Action Dashboard, Android-widgets | `/specialist-widgets` | — |
 | **Drogfrihet**, dagräknare, DF-REF-innehåll, krisresurser | `/specialist-drogfrihet` | — |
 | **Gräns-Arkitekten**, BIFF-Skölden, Brusfiltret, G14, Grey Rock | `/specialist-grans-arkitekten` | — |
-| **Vad ska vi göra härnäst? Projektläge? Beslutsstöd?** | `/specialist-beslutsstod` | — |
+| **Repo-städ, audit, governance sync** | `/specialist-beslutsstod` · `/yolo-vakt` | `docs/audit/` |
+| **Copilot bridge, PR hygiene** | `/copilot-bridge` | — |
+| **Extern AI import (Gemini paste)** | `/external-ai-import-gate` | — |
+| **Frontend modul-audit (tokens, HubErrorBoundary)** | `/frontend-modul-auditor` | — |
+| **MCP ops (Firebase, Playwright)** | `/mcp-ops-runner` · `/mcp-guardian` | — |
 
 ## Beslutsprocess
 

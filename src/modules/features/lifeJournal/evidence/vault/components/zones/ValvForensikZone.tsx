@@ -34,7 +34,7 @@ export function ValvForensikZone({ tab, onTabChange, gateOk }: ValvForensikZoneP
         {!showAllTabs ? (
           <button
             type="button"
-            className="btn-pill--ghost text-xs"
+            className="ds-btn ds-btn--ghost text-xs"
             onClick={() => setShowAllTabs(true)}
           >
             Visa fler
@@ -42,7 +42,7 @@ export function ValvForensikZone({ tab, onTabChange, gateOk }: ValvForensikZoneP
         ) : (
           <button
             type="button"
-            className="btn-pill--ghost text-xs"
+            className="ds-btn ds-btn--ghost text-xs"
             onClick={() => setShowAllTabs(false)}
           >
             Färre flikar

@@ -141,7 +141,7 @@ export function DagbokInputSuperModule({
           />
           <Link
             to="/hjartat?tab=speglar"
-            className="btn-pill--secondary text-xs shadow-sm transition-transform hover:scale-105"
+            className="ds-btn ds-btn--secondary text-xs shadow-sm transition-transform hover:scale-105"
             title="Låt AI validera och spegla dina senaste tankar"
           >
             Känslospegeln

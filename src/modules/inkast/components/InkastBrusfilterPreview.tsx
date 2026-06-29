@@ -124,13 +124,13 @@ export function InkastBrusfilterPreview({ rawText, onAccept, onKeepOriginal, onB
               {error}
             </p>
             <div className="flex flex-wrap gap-2">
-              <button type="button" className="btn-pill--ghost text-sm" onClick={() => void runFilter()}>
+              <button type="button" className="ds-btn ds-btn--ghost text-sm" onClick={() => void runFilter()}>
                 Försök igen
               </button>
-              <button type="button" className="btn-pill--secondary text-sm" onClick={onKeepOriginal}>
+              <button type="button" className="ds-btn ds-btn--secondary text-sm" onClick={onKeepOriginal}>
                 Hoppa över — original
               </button>
-              <button type="button" className="btn-pill--ghost text-sm" onClick={onBack}>
+              <button type="button" className="ds-btn ds-btn--ghost text-sm" onClick={onBack}>
                 Tillbaka
               </button>
             </div>
@@ -163,7 +163,7 @@ export function InkastBrusfilterPreview({ rawText, onAccept, onKeepOriginal, onB
                 <button
                   type="button"
                   onClick={() => void handleCopyReply()}
-                  className="btn-pill--ghost mt-2 inline-flex items-center gap-1.5 text-xs"
+                  className="ds-btn ds-btn--ghost mt-2 inline-flex items-center gap-1.5 text-xs"
                 >
                   {copiedReply ? (
                     <Check className="h-3 w-3 text-success" aria-hidden />
@@ -176,13 +176,13 @@ export function InkastBrusfilterPreview({ rawText, onAccept, onKeepOriginal, onB
             </div>
 
             <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-              <button type="button" className="btn-pill--primary text-sm" onClick={handleAccept}>
+              <button type="button" className="ds-btn ds-btn--accent text-sm" onClick={handleAccept}>
                 Fortsätt med rensad text
               </button>
-              <button type="button" className="btn-pill--secondary text-sm" onClick={onKeepOriginal}>
+              <button type="button" className="ds-btn ds-btn--secondary text-sm" onClick={onKeepOriginal}>
                 Behåll original
               </button>
-              <button type="button" className="btn-pill--ghost text-sm" onClick={onBack}>
+              <button type="button" className="ds-btn ds-btn--ghost text-sm" onClick={onBack}>
                 Tillbaka
               </button>
             </div>

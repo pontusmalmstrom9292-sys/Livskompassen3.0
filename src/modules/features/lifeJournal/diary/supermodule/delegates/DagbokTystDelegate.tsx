@@ -131,7 +131,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
           <div className="mt-2 flex flex-wrap gap-2">
             <button
               type="button"
-              className="btn-pill--ghost text-xs"
+              className="ds-btn ds-btn--ghost text-xs"
               onClick={() => {
                 const words = diaryDraft.trim().split(/\s+/).filter(Boolean).slice(0, 3).join(' ');
                 setTreOrd(words);
@@ -142,7 +142,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
             </button>
             <button
               type="button"
-              className="btn-pill--ghost text-xs"
+              className="ds-btn ds-btn--ghost text-xs"
               onClick={() => {
                 clearDiaryDraft();
                 setDraftDismissed(true);
@@ -194,7 +194,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
           type="button"
           disabled={!activeMood || saving}
           onClick={() => void handleSave()}
-          className="btn-pill--accent w-full"
+          className="ds-btn ds-btn--accent w-full"
         >
           {saving ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : DAGBOK_TYST_SAVE_LABEL}
         </button>
@@ -202,7 +202,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
           type="button"
           disabled={!activeMood || saving}
           onClick={() => void handleMoodOnly()}
-          className="btn-pill--ghost w-full text-sm"
+          className="ds-btn ds-btn--ghost w-full text-sm"
         >
           {DAGBOK_TYST_MOOD_ONLY_LABEL}
         </button>
@@ -215,7 +215,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
             }
             setShowBurn(true);
           }}
-          className="btn-pill--ghost w-full flex items-center justify-center gap-2 text-sm text-text-muted"
+          className="ds-btn ds-btn--ghost w-full flex items-center justify-center gap-2 text-sm text-text-muted"
         >
           <Flame className="h-4 w-4" aria-hidden />
           {DAGBOK_TYST_BURN_LABEL}

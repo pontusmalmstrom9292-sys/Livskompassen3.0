@@ -86,24 +86,29 @@ export function ExecutiveDockBar({
         </ExecDockSide>
 
         <div className="exec-dock-bar__compass-slot">
-          <button
-            type="button"
-            className={clsx(
-              'exec-dock-bar__compass',
-              isHome && 'exec-dock-bar__compass--home',
-              isHolding && 'exec-dock-bar__compass--holding',
-            )}
-            aria-label="Hamn. Håll tre sekunder för Valv."
-            style={
-              progress > 0
-                ? ({ '--dock-hold': `${Math.round(progress * 100)}%` } as CSSProperties)
-                : undefined
-            }
-            {...centerHoldHandlers}
-          >
-            {showFyrenRing ? <FyrenProgressRing progress={progress} /> : null}
-            <ExecutiveDecorCompass size="hero" className="exec-dock-bar__compass-mark" />
-          </button>
+          <div className="exec-dock-bar__compass-wrap">
+            <button
+              type="button"
+              className={clsx(
+                'exec-dock-bar__compass',
+                isHome && 'exec-dock-bar__compass--home',
+                isHolding && 'exec-dock-bar__compass--holding',
+              )}
+              aria-label="Hamn. Håll tre sekunder för Valv."
+              style={
+                progress > 0
+                  ? ({ '--dock-hold': `${Math.round(progress * 100)}%` } as CSSProperties)
+                  : undefined
+              }
+              {...centerHoldHandlers}
+            >
+              {showFyrenRing ? <FyrenProgressRing progress={progress} /> : null}
+              <ExecutiveDecorCompass size="hero" className="exec-dock-bar__compass-mark" />
+            </button>
+            <span className="exec-dock-bar__compass-label" aria-hidden>
+              Hamn
+            </span>
+          </div>
         </div>
 
         <ExecDockSide label="Valv" active={isValvet} onClick={onValv}>
@@ -132,32 +137,37 @@ export function ExecutiveDockBar({
       </ExecDockSide>
 
       <div className="exec-dock-bar__compass-slot">
-        <button
-          type="button"
-          className={clsx(
-            'exec-dock-bar__compass',
-            isHome && 'exec-dock-bar__compass--home',
-            snabbstartOpen && 'exec-dock-bar__compass--open',
-            isHolding && 'exec-dock-bar__compass--holding',
-          )}
-          aria-label={
-            isHome
-              ? snabbstartOpen
-                ? 'Stäng snabbstart. Håll tre sekunder för Valv.'
-                : 'Öppna snabbstart. Håll tre sekunder för Valv.'
-              : 'Hamn. Håll tre sekunder för Valv.'
-          }
-          aria-expanded={isHome ? snabbstartOpen : undefined}
-          style={
-            progress > 0
-              ? ({ '--dock-hold': `${Math.round(progress * 100)}%` } as CSSProperties)
-              : undefined
-          }
-          {...centerHoldHandlers}
-        >
-          {showFyrenRing ? <FyrenProgressRing progress={progress} /> : null}
-          <ExecutiveDecorCompass size="hero" className="exec-dock-bar__compass-mark" />
-        </button>
+        <div className="exec-dock-bar__compass-wrap">
+          <button
+            type="button"
+            className={clsx(
+              'exec-dock-bar__compass',
+              isHome && 'exec-dock-bar__compass--home',
+              snabbstartOpen && 'exec-dock-bar__compass--open',
+              isHolding && 'exec-dock-bar__compass--holding',
+            )}
+            aria-label={
+              isHome
+                ? snabbstartOpen
+                  ? 'Stäng snabbstart. Håll tre sekunder för Valv.'
+                  : 'Öppna snabbstart. Håll tre sekunder för Valv.'
+                : 'Hamn. Håll tre sekunder för Valv.'
+            }
+            aria-expanded={isHome ? snabbstartOpen : undefined}
+            style={
+              progress > 0
+                ? ({ '--dock-hold': `${Math.round(progress * 100)}%` } as CSSProperties)
+                : undefined
+            }
+            {...centerHoldHandlers}
+          >
+            {showFyrenRing ? <FyrenProgressRing progress={progress} /> : null}
+            <ExecutiveDecorCompass size="hero" className="exec-dock-bar__compass-mark" />
+          </button>
+          <span className="exec-dock-bar__compass-label" aria-hidden>
+            Hamn
+          </span>
+        </div>
       </div>
 
       <ExecDockSide label="Hjärtat" active={isHjartat} onClick={onVentil}>

@@ -139,7 +139,7 @@ export function JournalQuickMode({
       <div className="reflektion-actions">
         <button
           type="button"
-          className="btn-pill--primary w-full"
+          className="ds-btn ds-btn--accent w-full"
           disabled={!canSave}
           onClick={handleSubmit}
         >

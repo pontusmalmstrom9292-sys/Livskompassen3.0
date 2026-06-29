@@ -19,17 +19,20 @@ export function ChameleonInputShell<T>({
   className,
   viewportClassName,
 }: Props<T>) {
-  const { displayed, fading, morphMs } = useChameleonMorph(mode);
+  const { displayed, fading } = useChameleonMorph(mode);
 
   return (
     <div className={clsx('chameleon-input-shell', className)}>
       <div
         className={clsx(
-          'chameleon-input-shell__viewport calm-scroll-island transition-all duration-300 ease-in-out',
+          'chameleon-input-shell__viewport calm-scroll-island transition-all ease-in-out',
           fading ? 'opacity-0 scale-[0.98] blur-[2px]' : 'opacity-100 scale-100 blur-0',
           viewportClassName,
         )}
-        style={{ transitionDuration: `${morphMs}ms` }}
+        style={{
+          transitionDuration: 'var(--ds-duration-morph)',
+          transitionTimingFunction: 'var(--ds-ease-premium)',
+        }}
       >
         {children(displayed)}
       </div>
