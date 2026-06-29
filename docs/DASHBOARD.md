@@ -14,16 +14,16 @@
 
 | Metric | Baseline | Current | Target |
 |--------|----------|---------|--------|
-| btn-pill-- file count | ~195 (estimated) | **10** (2026-06-29) | 0 new after start |
-| DS Modal/Sheet consumers | ~14 | TBD | All blocking overlays |
-| ad-hoc role=dialog | ~14 | TBD | 0 undocumented |
-| index.css LOC | 6816 | **6819** (2026-06-29) | ≤5000 (stretch) |
+| btn-pill-- file count | ~195 (estimated) | **1** (2026-06-29, smoke:design-debt) | 0 new after start |
+| DS import files (`@/design-system`) | ~14 | **28** (2026-06-29) | All blocking overlays migrated |
+| ad-hoc role=dialog | ~14 | **0** (2026-06-29) | 0 undocumented |
+| index.css LOC | 6816 | **6813** (2026-06-29) | ≤5000 (stretch) |
 | smoke:design-modules | TBD | **PASS** (2026-06-29) | green |
 | smoke:locked-ux | TBD | PASS (2026-06-28) | green |
 | `zone-valv` route chunk (js) | 768.53 kB | 2.65 kB | keep route-entry small |
 | `typecheck:core-strict` scope | core/shared/morning | core/shared/features/morning (PASS 2026-06-28) | features included |
 
-Run `scripts/count_design_debt.mjs` when implemented (Phase 9).
+Baseline recorded via `npm run smoke:design-debt` (2026-06-29). ds-btn-- files: **202**. Re-run before each merge wave.
 
 ---
 

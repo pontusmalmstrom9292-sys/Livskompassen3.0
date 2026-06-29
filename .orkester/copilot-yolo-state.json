@@ -1,9 +1,12 @@
 {
   "version": 2,
   "startedAt": "2026-06-28T22:15:00.000Z",
-  "updatedAt": "2026-06-28T22:15:00.000Z",
+  "updatedAt": "2026-06-29T01:15:00.000Z",
   "currentTaskId": null,
-  "completedTaskIds": [],
+  "completedTaskIds": [
+    "design-bible-merge",
+    "premium-ui-debt-baseline"
+  ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
   "taskOrder": [
