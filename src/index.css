@@ -1865,8 +1865,7 @@
   }
 
   /* Obsidian Depth — drawer scroll + sections */
-  .nav-drawer--obsidian-depth .nav-drawer__calm-scroll,
-  .nav-drawer--calm-2 .nav-drawer__calm-scroll {
+  .nav-drawer--obsidian-depth .nav-drawer__calm-scroll {
     position: relative;
     z-index: 1;
     flex: 1;
