@@ -154,18 +154,18 @@ Each item is independently completable. Link files in Dashboard when done.
 ## Phase 8 — Widgets + Android
 
 - [x] WidgetShell polish
-- [ ] WidgetRecordPage
-- [ ] WidgetNotePage
-- [ ] WidgetCompassPage
-- [ ] WidgetHamnPage
-- [ ] WidgetFamiljenPage
-- [ ] WidgetStampPage
-- [ ] WidgetBarnportenPage
-- [ ] WidgetSnabbvalPage
-- [ ] WidgetVoiceVaultPage
-- [ ] WidgetProjektPage
-- [ ] WidgetActionDashboardPage
-- [ ] smoke:widgets
+- [x] WidgetRecordPage
+- [x] WidgetNotePage
+- [x] WidgetCompassPage
+- [x] WidgetHamnPage
+- [x] WidgetFamiljenPage
+- [x] WidgetStampPage
+- [x] WidgetBarnportenPage
+- [x] WidgetSnabbvalPage
+- [x] WidgetVoiceVaultPage
+- [x] WidgetProjektPage
+- [x] WidgetActionDashboardPage
+- [x] smoke:widgets
 - [ ] Motorola G85 manual test pass
 
 ---
