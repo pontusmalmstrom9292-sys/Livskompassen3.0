@@ -2412,11 +2412,6 @@
     @apply chip border-border-strong text-text-muted hover:border-border-strong hover:text-text-muted;
   }
 
-  /* Familjen hub — aurora + guld (mockup E / barnfokus) */
-  .familjen-hub {
-    @apply relative isolate;
-  }
-
   .familjen-child-chip {
     @apply flex-1 rounded-2xl border py-2.5 text-sm font-medium transition;
   }
