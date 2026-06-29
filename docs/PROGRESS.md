@@ -551,3 +551,41 @@ Copy the template below for each entry. Newest first.
 - Vertikala zone-dividers via pseudo-element
 - Större kompass + "Hamn"-label i `ExecutiveDockBar.tsx`
 - Cinzel uppercase labels, touch ≥44px, reduced-motion + reduced-transparency fallbacks
+
+---
+
+## 2026-06-29 — Dock polish mot referensbild (Executive Midnight)
+
+**GAP-lista (före → efter):**
+- Pill + guld outer ring: svagare kant och flat glas → skarpare gradient-ring (`::before`), dubbel guld-outline + djupare skugga
+- Vertikala guld-dividers: korta/svaga → fullhöjd (6–10% top/bottom), starkare guld + glow mellan alla 6 zoner
+- Kompass: mörk navy-platta bakom ros → transparent knapp, 3D-ros + radial glow (`::before`) och subtil guldring (`::after`)
+- Kompass storlek/overlap: 5.15rem / −4.85rem → 5.45rem / −5.35rem, bryter tydligare ur pill
+- Ikon + label: tunn stroke/muted guld → Cinzel uppercase, accent-light, drop-shadow på glyphs (stroke 1.75)
+- Glas/djup: generisk glass-border → mörkare bottengradient, rim-light top, ambient falloff
+
+**Completed work:**
+- Polerade `exec-dock-bar` i executive-chrome + premium-polish för `reference-dock` (prod) utan flödesändring
+- Synkade basta-design dock-overrides till samma bas
+- Minimal markup: strokeWidth 1.75 på dock-glyphs
+
+**Files changed:**
+- src/styles/executive-chrome.css
+- src/design-system/styles/premium-polish.css
+- src/styles/basta-design.css
+- src/modules/core/layout/ExecutiveDockBar.tsx
+- src/modules/core/ui/executive/ExecutiveDecorCompass.tsx
+
+**Metrics:**
+- smoke:locked-ux PASS
+- smoke:design-modules PASS
+- npm run build PASS
+
+**Reasoning:**
+- Referenspolish fanns delvis i basta-design men prod kör `dock-shell--reference-dock` — polish flyttad till delad bas.
+
+**Next steps:**
+- Pontus visuell OK på G85 (screenshot instruktion nedan)
+
+**Blockers:**
+- None
