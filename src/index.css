@@ -529,12 +529,6 @@
     padding-bottom: max(0.25rem, env(safe-area-inset-bottom, 0px));
   }
 
-  .dock-classic__side-icon {
-    @apply flex h-8 w-8 items-center justify-center rounded-full border;
-    border-color: rgba(212, 175, 55, 0.28);
-    background: rgba(10, 10, 10, 0.55);
-  }
-
   .dock-classic__plate {
     @apply relative flex h-11 w-11 items-center justify-center rounded-full;
     background: linear-gradient(
