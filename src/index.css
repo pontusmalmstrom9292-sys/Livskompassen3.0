@@ -2490,10 +2490,6 @@
     @apply relative;
   }
 
-  .kompis-hub-page__intro p {
-    @apply leading-relaxed;
-  }
-
   .kompis-hub-page .glass-card {
     border-color: color-mix(in srgb, var(--accent) 20%, transparent);
   }
