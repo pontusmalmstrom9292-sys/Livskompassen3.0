@@ -37,6 +37,33 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — Dead hub-chrome-tile--side selector removed
+
+**Completed work:**
+- Removed unused `.hub-chrome-tile--side` selector from `src/index.css`.
+- Kept active dock and shared `hub-chrome-tile` selectors untouched.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3174
+- `npm run build`: PASS
+
+**Reasoning:**
+- `hub-chrome-tile--side` had no active `src` consumers, so removing it safely trims global CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead dock-classic__plate selector removed
 
 **Completed work:**

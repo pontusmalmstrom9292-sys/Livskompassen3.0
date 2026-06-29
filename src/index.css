@@ -561,10 +561,6 @@
     pointer-events: none;
   }
 
-  .hub-chrome-tile--side {
-    @apply rounded-full;
-  }
-
   .hub-chrome-tile--dock {
     @apply h-[2.9rem] w-[2.9rem] rounded-[0.85rem];
     border-width: 1.5px;
