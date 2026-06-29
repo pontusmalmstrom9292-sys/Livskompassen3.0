@@ -2184,19 +2184,6 @@
     pointer-events: auto;
   }
 
-  .projekt-picker-sheet {
-    @apply fixed inset-0 z-[60] flex items-end justify-center;
-  }
-
-  .projekt-picker-sheet__backdrop {
-    @apply absolute inset-0 bg-black/55;
-  }
-
-  .projekt-picker-sheet__panel {
-    @apply relative z-10 w-full max-w-2xl rounded-t-[2rem] border border-white/10 p-4 pb-8;
-    background: linear-gradient(168deg, rgba(42, 34, 22, 0.98), rgba(6, 8, 18, 0.95));
-  }
-
   .module-list {
     @apply flex flex-col gap-3;
   }
