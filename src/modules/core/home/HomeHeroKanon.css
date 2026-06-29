@@ -17,6 +17,10 @@
     @apply pb-2;
   }
 
+  html[data-theme^='M-mockup-'] .home-greeting--mockup .home-greeting__tagline {
+    @apply mx-auto mt-3 max-w-[19rem] text-[13px] leading-relaxed text-text-muted sm:max-w-sm sm:text-sm;
+  }
+
   .home-page--mockup-skin .home-hero-kanon__bridge {
     @apply relative mx-auto w-full max-w-lg;
   }
