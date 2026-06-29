@@ -37,6 +37,34 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — Planering Kanban + Inkorg polish
+
+**Completed work:**
+- Reframed `PlanningKanbanBoard` with a clearer board lead, tighter column framing, and smoother visual hierarchy.
+- Added a more deliberate shell to `PlaneringInkorgPanel` and a calmer preview-sheet summary block.
+
+**Files changed:**
+- src/modules/features/admin/planning/components/PlanningKanbanBoard.tsx
+- src/modules/features/admin/planning/components/PlaneringInkorgPanel.tsx
+- src/modules/features/admin/planning/components/InkorgPreviewSheet.tsx
+- src/modules/features/admin/planning/components/planering.css
+- docs/TODO.md
+
+**Metrics:** (btn-pill count, smoke results)
+- Build PASS
+- smoke:locked-ux PASS
+
+**Reasoning:**
+- These are the front-door planning surfaces users hit most often, so the shell and hierarchy needed to read more premium before deeper microflow polish.
+
+**Next steps:**
+- Continue with Planering focus/paralys polish or move into the next open zone.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — PlaneringPage shell polish
 
 **Completed work:**

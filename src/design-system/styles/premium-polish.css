@@ -203,13 +203,18 @@
 
   .dock-shell--reference-dock .exec-dock-bar,
   .dock-shell--basta-design .exec-dock-bar {
-    border-color: color-mix(in srgb, var(--ds-color-accent) 44%, transparent);
+    border-color: color-mix(in srgb, var(--ds-color-accent) 48%, transparent);
     box-shadow:
       var(--ds-elevation-dock),
-      inset 0 1px 0 color-mix(in srgb, var(--ds-color-accent-light, var(--accent-light)) 22%, transparent),
-      0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 16%, transparent),
-      0 14px 40px rgba(0, 0, 0, 0.55),
-      0 0 32px color-mix(in srgb, var(--ds-color-accent) 12%, transparent);
+      inset 0 1px 0 color-mix(in srgb, var(--ds-color-accent-light, var(--accent-light)) 28%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 18%, transparent),
+      0 16px 44px rgba(0, 0, 0, 0.58),
+      0 0 36px color-mix(in srgb, var(--ds-color-accent) 14%, transparent);
+  }
+
+  .dock-shell--reference-dock .exec-dock-bar__compass:hover,
+  .dock-shell--basta-design .exec-dock-bar__compass:hover {
+    filter: drop-shadow(0 0 18px color-mix(in srgb, var(--ds-color-accent) 52%, transparent));
   }
 
   .exec-dock-bar__side,
@@ -557,5 +562,9 @@
   .exec-dock-bar::before,
   .exec-dock-bar::after {
     opacity: 0.35;
+  }
+
+  .exec-dock-bar__compass::before {
+    opacity: 0.55;
   }
 }
