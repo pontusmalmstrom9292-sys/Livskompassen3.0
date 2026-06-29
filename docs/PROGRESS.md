@@ -38,6 +38,33 @@ Copy the template below for each entry. Newest first.
 ---
 
 
+## 2026-06-29 — Dead dock-classic__side--active side-icon selector removed
+
+**Completed work:**
+- Removed unused `.dock-classic__side--active .dock-classic__side-icon` selector from `src/index.css`.
+- Kept base `.dock-classic__side-icon` selector untouched.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3235
+- `npm run build`: PASS
+
+**Reasoning:**
+- `dock-classic__side--active .dock-classic__side-icon` had no active `src` consumers, so removing it safely trims global CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead dock-classic__side--active selector removed
 
 **Completed work:**

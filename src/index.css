@@ -539,11 +539,6 @@
     background: rgba(10, 10, 10, 0.55);
   }
 
-  .dock-classic__side--active .dock-classic__side-icon {
-    border-color: rgba(212, 175, 55, 0.5);
-    box-shadow: 0 0 10px rgba(212, 175, 55, 0.16);
-  }
-
   .dock-classic__side-label {
     @apply max-w-[3.25rem] truncate text-[8px] font-medium leading-none tracking-wide text-text-muted;
   }
