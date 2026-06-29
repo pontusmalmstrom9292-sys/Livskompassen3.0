@@ -210,6 +210,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Remove dead dock-classic__context-close selector
 - [x] Remove dead dock-classic__context-title selector
 - [x] Remove dead dock-classic__context-body selector
+- [x] Remove dead dock-classic__context selector
 
 ---
 

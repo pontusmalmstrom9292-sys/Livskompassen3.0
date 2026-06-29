@@ -38,6 +38,33 @@ Copy the template below for each entry. Newest first.
 ---
 
 
+## 2026-06-29 — Dead dock-classic__context selector removed
+
+**Completed work:**
+- Removed unused `.dock-classic__context` selector from `src/index.css`.
+- Kept surrounding dock chrome selectors untouched.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3257
+- `npm run build`: PASS
+
+**Reasoning:**
+- `dock-classic__context` had no active `src` consumers, so removing it safely trims global CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead dock-classic__context-body selector removed
 
 **Completed work:**
