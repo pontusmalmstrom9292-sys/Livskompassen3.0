@@ -2417,28 +2417,6 @@
     @apply relative isolate;
   }
 
-  .familjen-hub__header {
-    @apply relative text-center;
-  }
-
-  .familjen-hub__title {
-    @apply mt-2 font-display text-2xl tracking-tight text-text;
-    text-shadow: 0 0 40px rgba(45, 212, 191, 0.12);
-  }
-
-  .familjen-hub__tabs {
-    @apply relative -mx-1 overflow-x-auto pb-1;
-    scrollbar-width: none;
-  }
-
-  .familjen-hub__tabs::-webkit-scrollbar {
-    display: none;
-  }
-
-  .familjen-hub__tabs .flex {
-    @apply min-w-max flex-nowrap gap-2 px-1;
-  }
-
   .familjen-child-chip {
     @apply flex-1 rounded-2xl border py-2.5 text-sm font-medium transition;
   }
