@@ -37,6 +37,33 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — Dead dock-nav-btn__chrome-v5 selector removed from index.css
+
+**Completed work:**
+- Removed unused `.dock-nav-btn__chrome-v5` selector from `src/index.css`.
+- Left `coreLayoutChrome.css` unchanged in this micro-wave.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3110
+- `npm run build`: PASS
+
+**Reasoning:**
+- `.dock-nav-btn__chrome-v5` has no active `ts/tsx/js/jsx` consumers, so pruning the global `index.css` rule safely removes dead CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead floating-dock vardag side selectors removed
 
 **Completed work:**
