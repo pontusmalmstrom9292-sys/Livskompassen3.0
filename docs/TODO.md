@@ -118,6 +118,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Executive home cards (Livslogg, etc.)
 - [x] LivLauncherPage bento grid
 - [x] ClusterGrid module-card CSS localization
+- [x] ReviewQueue status badge CSS localization
 - [x] PlaneringPage (complete in-flight)
 - [x] PlanningKanbanBoard (in-flight)
 - [x] PlaneringInkorgPanel (in-flight)

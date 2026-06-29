@@ -37,6 +37,35 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — Review queue statuses localized
+
+**Completed work:**
+- Moved the review queue status badge styles out of `src/index.css` and into `planering.css`.
+- Wired both `InboxReviewQueue` and `InkorgPreviewSheet` to the localized planning stylesheet.
+
+**Files changed:**
+- src/index.css
+- src/modules/features/admin/planning/components/InkorgPreviewSheet.tsx
+- src/modules/features/admin/planning/components/planering.css
+- src/modules/inkast/components/InboxReviewQueue.tsx
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3675
+
+**Reasoning:**
+- Review queue statuses are shared by planning and inkast review surfaces, so they belong in the planning-local stylesheet rather than global CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — ClusterGrid styles localized
 
 **Completed work:**

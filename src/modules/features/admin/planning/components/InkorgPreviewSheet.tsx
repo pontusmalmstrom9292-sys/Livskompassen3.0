@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { formatDisplayDate } from '@/shared/utils/dateHelpers';
 import { Button, Sheet, SheetFooter } from '@/design-system';
 import type { PasteClassification } from '../rules/pasteClassifier';
+import './planering.css';
 
 function formatPasteDueDate(iso: string): string {
   const [y, m, d] = iso.split('-').map(Number);
