@@ -231,6 +231,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Remove dead floating-dock__side-btn--planering selectors
 - [x] Remove dead floating-dock__side-btn--dagbok selectors
 - [x] Remove dead floating-dock__side-btn--vardag selectors
+- [x] Remove dead dock-nav-btn__chrome-v5 selector from index.css
 
 ---
 

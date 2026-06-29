@@ -1479,10 +1479,6 @@
     opacity: 0.95;
   }
 
-  .dock-nav-btn__chrome-v5 {
-    @apply h-6 w-6;
-  }
-
   @keyframes nav-drawer-in {
     from {
       transform: translateX(-100%);
