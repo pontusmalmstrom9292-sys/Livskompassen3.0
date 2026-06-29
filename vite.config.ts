@@ -55,6 +55,8 @@ export default defineConfig({
           // Route-split wave: keep lightweight, deterministic route-entry chunks for zone loading.
           if (id.includes('/modules/core/pages/ValvetRoutePage.tsx')) return 'zone-valv';
           if (id.includes('/modules/core/pages/FamiljenPage.tsx')) return 'zone-familjen';
+          if (id.includes('/modules/core/pages/VardagenRoutePage.tsx')) return 'zone-vardagen';
+          if (id.includes('/modules/core/pages/HjartatRoutePage.tsx')) return 'zone-hjartat';
         },
       },
     },

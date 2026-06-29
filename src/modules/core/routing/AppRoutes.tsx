@@ -8,8 +8,8 @@ const HomePage = lazy(() =>
   import('../pages/HomePage').then((m) => ({ default: m.HomePage }))
 );
 import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
-const LivLauncherPage = lazy(() =>
-  import('@/modules/shell/LivLauncherPage').then((m) => ({ default: m.LivLauncherPage })),
+const VardagenRoutePage = lazy(() =>
+  import('../pages/VardagenRoutePage').then((m) => ({ default: m.VardagenRoutePage })),
 );
 import {
   clusterTabNavigateTarget,
@@ -19,8 +19,8 @@ import {
 import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
 import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
 
-const DagbokPage = lazy(() =>
-  import('../pages/DagbokPage').then((m) => ({ default: m.DagbokPage })),
+const HjartatRoutePage = lazy(() =>
+  import('../pages/HjartatRoutePage').then((m) => ({ default: m.HjartatRoutePage })),
 );
 const FamiljenPage = lazy(() =>
   import('../pages/FamiljenPage').then((m) => ({ default: m.FamiljenPage })),
@@ -192,28 +192,6 @@ function RedirectDagbokLegacy() {
   );
 }
 
-/** Blockera `?tab=bevis` på Hjärtat — skicka till Valvet. */
-function HjartatRoute() {
-  const location = useLocation();
-  const params = new URLSearchParams(location.search);
-  if (params.get('tab') === 'bevis') {
-    const vaultTab = params.get('vaultTab') ?? 'logga';
-    params.delete('tab');
-    params.set('vaultTab', vaultTab);
-    const search = params.toString();
-    return (
-      <Navigate
-        to={{ pathname: NAV_PATHS.VALVET, search: search ? `?${search}` : '' }}
-        replace
-      />
-    );
-  }
-  return (
-    <ProtectedModule>
-      <DagbokPage />
-    </ProtectedModule>
-  );
-}
 
 /** Legacy `/valv` och `/kunskap` → Valvet (separat silo). */
 function RedirectToValvet({ vaultTab }: { vaultTab?: string }) {
@@ -351,7 +329,7 @@ export function AppRoutes() {
               />
 
               {/* —— LIV OCH GÖRA (launcher + fullsid-moduler) —— */}
-              <Route path={NAV_PATHS.VARDAGEN} element={<ProtectedModule><LivLauncherPage /></ProtectedModule>} />
+              <Route path={NAV_PATHS.VARDAGEN} element={<ProtectedModule><VardagenRoutePage /></ProtectedModule>} />
               <Route
                 path="/morgon"
                 element={
@@ -436,7 +414,7 @@ export function AppRoutes() {
                   </ProtectedModule>
                 }
               />
-              <Route path={NAV_PATHS.HJARTAT} element={<HjartatRoute />} />
+              <Route path={NAV_PATHS.HJARTAT} element={<ProtectedModule><HjartatRoutePage /></ProtectedModule>} />
 
               {/* —— VALVET — egen silo, säkerhet inuti VaultPage —— */}
               <Route
