@@ -137,10 +137,10 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] DagbokInputSuperModule shell
 - [x] Dagbok delegates (reflektion, tyst, burn)
 - [x] SpeglarSuperModule
-- [ ] FamiljenPage + 6 tabs
-- [ ] FamiljenBarnfokusDelegate UI
-- [ ] Barnporten parent panels (not child fullscreen)
-- [ ] Trygg Hamn / Biff panels
+- [x] FamiljenPage + 6 tabs
+- [x] FamiljenBarnfokusDelegate UI
+- [x] Barnporten parent panels (not child fullscreen)
+- [x] Trygg Hamn / Biff panels
 - [ ] VaultPage + zone tabs
 - [ ] ValvSamlaZone (in-flight)
 - [ ] WeaverPendingVaultBanner (in-flight)
