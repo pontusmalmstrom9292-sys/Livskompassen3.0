@@ -195,6 +195,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Remove dead projekt-picker-sheet selectors
 - [x] Remove dead ambient blob variants (indigo/white)
 - [x] Remove dead btn-pill--primary selector
+- [x] Remove dead pin-gate / input-glass--pin selectors
 
 ---
 
