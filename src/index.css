@@ -2509,10 +2509,6 @@
     box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 22%, transparent);
   }
 
-  .familjen-kunskap-panel {
-    @apply rounded-2xl border border-emerald-500/15 bg-surface-3/60 p-1;
-  }
-
   /* Dagbok — lägesnav (Snabb / Reflektera / Arkiv) */
   .dagbok-mode-nav {
     @apply flex gap-0 rounded-xl border border-border-strong/80 bg-surface/30 p-0.5;

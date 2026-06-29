@@ -38,6 +38,32 @@ Copy the template below for each entry. Newest first.
 ---
 
 
+## 2026-06-29 — Dead familjen-kunskap-panel selector removed
+
+**Completed work:**
+- Removed unused `.familjen-kunskap-panel` from `src/index.css`.
+- Kept active Familjen card/weekbar selectors untouched.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3287
+
+**Reasoning:**
+- `familjen-kunskap-panel` had no active `src` consumers, so removing it safely trims global CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead familjen-hub selector removed
 
 **Completed work:**

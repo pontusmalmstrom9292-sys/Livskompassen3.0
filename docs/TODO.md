@@ -203,6 +203,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Remove dead dock-hub-band__pad selector
 - [x] Remove dead familjen-hub header/title/tabs selectors
 - [x] Remove dead familjen-hub selector
+- [x] Remove dead familjen-kunskap-panel selector
 
 ---
 
