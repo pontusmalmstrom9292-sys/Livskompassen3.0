@@ -10,6 +10,7 @@ import { FyrenProgressRing } from '../ui/FyrenProgressRing';
 import { FyrenShortcutMicIcon, FyrenShortcutNoteIcon } from '../ui/widget-icons';
 import { useFyrenWidget } from './fyrenWidgetContext';
 import { readFyrenSideQuickHidden, setFyrenSideQuickHidden } from './FyrenSideQuickDock';
+import '../../features/widgets/layout/WidgetShell.css';
 
 type WidgetIconKind = 'mic' | 'note';
 

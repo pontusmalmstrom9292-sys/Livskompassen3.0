@@ -104,6 +104,8 @@
     "smoke:design-modules": "npm run smoke:chrome-header && npm run smoke:executive-home-visual && node scripts/smoke_design_modules.mjs",
     "smoke:design-debt": "node scripts/count_design_debt.mjs",
     "smoke:no-new-btn-pill": "node scripts/smoke_no_new_btn_pill.mjs",
+    "smoke:freeport-premium-compare": "npx playwright test e2e/freeport-premium-gallery-compare.spec.ts --project=g85-mobile",
+    "smoke:calm-card-audit": "node scripts/smoke_calm_card_audit.mjs",
     "smoke:modulvaljare": "node scripts/smoke_modulvaljare.mjs",
     "smoke:journal-2d": "node scripts/smoke_journal_2d.mjs",
     "smoke:journal-23e": "node scripts/smoke_journal_23e.mjs",

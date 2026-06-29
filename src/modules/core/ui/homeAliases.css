@@ -1,0 +1,21 @@
+@layer components {
+  .home-module-panel__lead {
+    @apply mb-3 text-sm text-text-muted;
+  }
+
+  .home-module-panel__question-box {
+    @apply rounded-xl border border-accent/20 bg-accent/5 px-4 py-3;
+  }
+
+  .home-page__eyebrow {
+    @apply text-[10px] uppercase tracking-[0.24em] text-text-dim;
+  }
+
+  .home-page__title {
+    @apply mt-1 font-display-serif text-xl font-light text-accent;
+  }
+
+  .home-page__lead {
+    @apply mt-2 text-sm leading-relaxed text-text-muted;
+  }
+}

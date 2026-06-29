@@ -4,6 +4,8 @@
  * Mockup: docs/design/galleri/widget/v2/W1-kompakt-projekt.png
  */
 
+@tailwind components;
+
 .w1-lab-page {
   @apply mx-auto flex w-full max-w-lg flex-col gap-6;
 }

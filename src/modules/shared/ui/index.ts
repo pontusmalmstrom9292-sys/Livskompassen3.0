@@ -3,27 +3,4 @@ export { BentoCard, CardHeader, CardBody, type BentoCardProps, type CalmCardGlow
 export { Card, type CardProps } from './Card';
 export { Input, TextArea, type InputProps, type TextAreaProps } from './Input';
 
-export {
-  GlassPanel,
-  Banner,
-  Modal,
-  ModalFooter,
-  Sheet,
-  SheetFooter,
-  Badge,
-  Avatar,
-  Icon,
-  Section,
-  Header,
-  HeaderButton,
-  Dock,
-  DockCompassSlot,
-  Navigation,
-  NavItem,
-  NavLabel,
-  tokens,
-  textStyles,
-  cn,
-} from '@/design-system';
-
 export { ImmersiveExperienceShell } from './ImmersiveExperienceShell';

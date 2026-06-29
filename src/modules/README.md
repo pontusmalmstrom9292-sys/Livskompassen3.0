@@ -27,7 +27,7 @@ src/modules/
 │   └── onboarding/       # Barnporten
 ```
 
-**Inga rot-shims** (`diary/`, `evidence/`, `wellbeing/` m.fl.) — borttagna efter P0/P1. Importera alltid via `@/features/*` eller `@/core` / `@/shared`.
+**Inga rot-shims** (`diary/`, `evidence/`, `wellbeing/` m.fl.) — borttagna efter P0/P1. Importera alltid via `@/features/*` eller `@/core`; `@/shared` är numera endast lokala helpers/primitive barrels.
 
 Navigation: [`navigationRegistry.ts`](./core/navigation/navigationRegistry.ts) · [`navTruth.ts`](./core/navigation/navTruth.ts) · [`TAB-REGISTRY.md`](../docs/design/TAB-REGISTRY.md)
 
@@ -50,7 +50,7 @@ Legacy-redirects (behålls): `/dagbok` → `/hjartat` eller `/valvet`; `/liv` �
 ## Import convention
 
 ```tsx
-import { BentoCard, formatDateLocal } from '@/shared';
+import { BentoCard } from '@/shared/ui';
 import { VaultPage } from '@/features/lifeJournal/evidence/vault';
 import { LivLauncherPage } from '@/modules/shell/LivLauncherPage';
 import { FamiljenPage } from '@/core/pages/FamiljenPage';

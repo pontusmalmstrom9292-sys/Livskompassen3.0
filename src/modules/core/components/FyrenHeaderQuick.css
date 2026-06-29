@@ -1,0 +1,146 @@
+@tailwind components;
+
+@layer components {
+  .fyren-header-quick {
+    --fyren-camo-blur: 16px;
+    --fyren-panel-max-h: 28rem;
+    @apply pointer-events-none;
+    width: var(--fyren-panel-width, 2.85rem);
+  }
+
+  .fyren-header-quick__dismiss {
+    @apply fixed inset-0 z-[54] border-0 bg-transparent;
+    pointer-events: auto;
+    touch-action: manipulation;
+  }
+
+  .fyren-header-quick__panel {
+    @apply overflow-hidden rounded-b-2xl border border-t-0;
+    border-color: rgba(212, 175, 55, 0.24);
+    opacity: 0;
+    max-height: 0;
+    transform: translateY(-4px);
+    transform-origin: top center;
+    transition:
+      max-height 0.26s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.18s ease,
+      transform 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .fyren-header-quick__panel--camo {
+    background: linear-gradient(165deg, rgba(20, 28, 43, 0.78), rgba(2, 6, 23, 0.88));
+    backdrop-filter: blur(var(--fyren-camo-blur)) saturate(130%);
+    -webkit-backdrop-filter: blur(var(--fyren-camo-blur)) saturate(130%);
+    box-shadow:
+      0 10px 24px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 248, 220, 0.04);
+  }
+
+  .fyren-header-quick--over-content {
+    --fyren-camo-blur: 20px;
+  }
+
+  .fyren-header-quick--over-content .fyren-header-quick__panel--camo {
+    background: linear-gradient(165deg, rgba(20, 28, 43, 0.62), rgba(2, 6, 23, 0.72));
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.2);
+  }
+
+  .fyren-header-quick--open {
+    @apply pointer-events-auto;
+  }
+
+  .fyren-header-quick--open .fyren-header-quick__panel {
+    opacity: 1;
+    max-height: var(--fyren-panel-max-h, 28rem);
+    transform: translateY(0);
+  }
+
+  .fyren-header-quick__stack {
+    @apply flex max-h-[inherit] flex-col items-center gap-1 overflow-y-auto px-1 pb-1.5 pt-1.5;
+    scrollbar-width: none;
+  }
+
+  .fyren-header-quick__stack::-webkit-scrollbar {
+    display: none;
+  }
+
+  .fyren-header-quick__toggle-wrap {
+    @apply relative mr-1 inline-flex flex-col items-center;
+  }
+
+  .fyren-header-quick__toggle-wrap--open .fyren-header-quick__chevron {
+    @apply opacity-0;
+  }
+
+  .fyren-header-quick__toggle-wrap--open .fyren-header-quick__toggle {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-color: transparent;
+    box-shadow: none;
+  }
+
+  .fyren-header-quick__toggle-mark {
+    @apply h-6 w-6;
+    filter: drop-shadow(0 0 5px rgba(212, 175, 55, 0.28));
+  }
+
+  .fyren-header-quick__chevron {
+    @apply pointer-events-none absolute left-1/2 top-full mt-0.5 h-2 w-2 -translate-x-1/2 text-accent/45 transition-all duration-200;
+  }
+
+  .fyren-header-quick__toggle-wrap--open .fyren-header-quick__chevron {
+    transform: rotate(180deg);
+  }
+
+  .fyren-header-quick__toggle--open {
+    border-color: rgba(212, 175, 55, 0.38);
+  }
+
+  .fyren-header-quick__row {
+    @apply relative flex w-full flex-col items-center rounded-lg border-0 bg-transparent p-0.5 text-center transition-colors;
+    color: var(--text);
+    touch-action: manipulation;
+  }
+
+  .fyren-header-quick__row:hover {
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+
+  .fyren-header-quick__icon-shell {
+    @apply relative flex h-9 w-9 items-center justify-center rounded-full;
+    border: 1px solid rgba(212, 175, 55, 0.32);
+    background: rgba(2, 6, 23, 0.55);
+    box-shadow: inset 0 1px 0 rgba(255, 248, 220, 0.05);
+  }
+
+  .fyren-header-quick__icon-shell--breathing-active {
+    border-color: rgba(212, 175, 55, 0.52);
+    background: color-mix(in srgb, var(--accent) 10%, rgba(2, 6, 23, 0.55));
+  }
+
+  .fyren-header-quick__breathing-ring {
+    @apply pointer-events-none absolute inset-0 origin-center rounded-full border border-accent ease-in-out;
+    transition-property: transform, opacity;
+  }
+
+  .fyren-header-quick__glyph {
+    @apply relative z-[1] h-[1.05rem] w-[1.05rem] text-accent-light;
+  }
+
+  .fyren-header-quick__row-label {
+    @apply sr-only;
+  }
+
+  .fyren-header-quick__hide {
+    @apply mx-auto mb-1.5 mt-0.5 flex h-8 w-8 items-center justify-center rounded-full border-0 bg-transparent text-text-dim transition-colors;
+    touch-action: manipulation;
+  }
+
+  .fyren-header-quick__hide:hover {
+    @apply bg-surface-3/60 text-accent;
+  }
+
+  .fyren-header-quick__hide-icon {
+    @apply h-3.5 w-3.5 text-accent/60;
+  }
+}

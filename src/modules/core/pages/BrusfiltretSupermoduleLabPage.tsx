@@ -7,6 +7,7 @@ import {
 } from '@/modules/sandbox/brusfiltret/BrusfiltretSupermoduleShell';
 import { BiffPublicPanel } from '@/features/family/safeHarbor/components/BiffPublicPanel';
 import brusfiltretKanonRef from '../../../../docs/design/references/brusfiltret-modul-kanon-ref.png';
+import '@/styles/theme-lab-brusfiltret-supermodule.css';
 
 const MOCK_REPLY =
   'Noterat. Vi håller oss till gällande schema för onsdag 17:00. Hälsningar.';

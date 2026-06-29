@@ -11,6 +11,7 @@ import {
 } from '../config/compassTimeIcons';
 import { DashboardPage } from './DashboardPage';
 import { CompassQuickWidgetRail } from './CompassQuickWidgetRail';
+import './compasses.css';
 
 const FLOW_TONE: Record<CompassFlow, ElongatedModuleTone> = {
   morning: 'gold',

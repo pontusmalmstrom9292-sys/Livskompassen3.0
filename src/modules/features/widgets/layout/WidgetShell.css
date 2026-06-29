@@ -1,0 +1,100 @@
+@tailwind components;
+
+@layer components {
+  .widget-shell {
+    @apply min-h-screen px-4 pb-8 pt-6;
+    padding-top: max(1.5rem, env(safe-area-inset-top));
+    padding-bottom: max(2rem, env(safe-area-inset-bottom));
+  }
+
+  .widget-shell__header {
+    @apply mb-6;
+  }
+
+  .widget-shell__brand {
+    @apply mb-3 inline-flex items-center gap-2;
+  }
+
+  .widget-shell__title {
+    @apply font-display text-xl font-light text-accent;
+  }
+
+  .widget-shell__lead {
+    @apply mt-1 text-xs text-text-muted;
+  }
+
+  .widget-shell__main {
+    @apply mx-auto w-full max-w-[42rem];
+  }
+
+  .widget-shell__surface {
+    @apply rounded-3xl border border-border-strong bg-surface/55 p-4 shadow-[0_18px_40px_-26px_rgba(0,0,0,0.7)] backdrop-blur-xl sm:p-5;
+  }
+
+  .widget-shell__surface > * + * {
+    margin-top: 1rem;
+  }
+
+  .widget-shell__surface .elongated-module,
+  .widget-shell__surface .bento-card,
+  .widget-shell__surface .calm-card {
+    @apply overflow-hidden;
+  }
+
+  .widget-record__dot {
+    @apply mx-auto block h-3 w-3 rounded-full bg-accent/80;
+    box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
+    animation: widget-pulse 1.6s ease-in-out infinite;
+  }
+
+  @keyframes widget-pulse {
+    0%,
+    100% {
+      opacity: 0.55;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.15);
+    }
+  }
+
+  .fyren-widget-bar {
+    @apply pointer-events-none fixed left-1/2 z-[56] flex w-full max-w-[26rem] -translate-x-1/2 flex-col items-center;
+    bottom: calc(var(--dock-stack-height, 7.35rem) + env(safe-area-inset-bottom, 0px));
+  }
+
+  .fyren-widget-bar--open {
+    bottom: calc(var(--dock-stack-height, 7.35rem) + 0.15rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .fyren-widget-bar__backdrop {
+    @apply pointer-events-auto fixed inset-0 z-[54] border-0 bg-black/25 backdrop-blur-[1px];
+  }
+
+  .widget-record-discreet-overlay {
+    @apply pointer-events-none fixed inset-0 z-[100];
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+  }
+
+  .widget-panic-blur-overlay {
+    @apply pointer-events-none fixed inset-0 z-[120];
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    transition: backdrop-filter 0.25s ease, background 0.25s ease;
+  }
+
+  .widget-shell--panic {
+    filter: blur(20px);
+    opacity: 0.25;
+    pointer-events: none;
+    transition: filter 0.25s ease, opacity 0.25s ease;
+  }
+
+  .widget-silo-picker {
+    @apply rounded-xl border-[0.5px] border-border/60 bg-surface-2/40 p-3;
+  }
+}

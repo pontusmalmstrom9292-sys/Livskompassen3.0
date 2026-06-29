@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { FloatingDock } from './FloatingDock';
+import './coreLayoutChrome.css';
 import { ExecutiveHomeChromeProvider } from '../home/ExecutiveHomeChromeContext';
 import { FyrenWidgetBar } from '../components/FyrenWidgetBar';
 import {

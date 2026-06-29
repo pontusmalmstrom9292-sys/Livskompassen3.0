@@ -14,12 +14,14 @@
 
 | Metric | Baseline | Current | Target |
 |--------|----------|---------|--------|
-| btn-pill-- file count | ~195 (estimated) | **1** (2026-06-29, smoke:design-debt) | 0 new after start |
+| btn-pill-- file count | ~195 (estimated) | **0** (2026-06-29, smoke:design-debt) | 0 new after start |
+| calm-card variant audit | not tracked | **PASS** (2026-06-29, smoke:calm-card-audit) | no unused variants |
 | DS import files (`@/design-system`) | ~14 | **28** (2026-06-29) | All blocking overlays migrated |
 | ad-hoc role=dialog | ~14 | **0** (2026-06-29) | 0 undocumented |
-| index.css LOC | 6816 | **6813** (2026-06-29) | ≤5000 (stretch) |
+| index.css LOC | 6816 | **3429** (2026-06-29) | ≤5000 (stretch) |
 | smoke:design-modules | TBD | **PASS** (2026-06-29) | green |
 | smoke:locked-ux | TBD | PASS (2026-06-28) | green |
+| smoke:freeport-premium-compare | TBD | **PASS** (2026-06-29) | visual compare green |
 | `zone-valv` route chunk (js) | 768.53 kB | 2.65 kB | keep route-entry small |
 | `typecheck:core-strict` scope | core/shared/morning | core/shared/features/morning (PASS 2026-06-28) | features included |
 
@@ -183,9 +185,16 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). ds-btn-- files: 
 - **Files:** src/modules/features/widgets/**
 
 ### Legacy CSS sunset
-- **Status:** Not Started
+- **Status:** In Progress
 - **Priority:** Low (stretch)
 - **Files:** src/index.css
+- **Notes:** Planering card shell polish lives in premium-polish; lab CSS and widget/core chrome moved to route/layout chunks, trimming the global bundle.
+
+### shared/ui re-exports
+- **Status:** Done
+- **Priority:** Low (stretch)
+- **Files:** src/modules/shared/ui/index.ts, src/modules/shared/ui/README.md, src/modules/README.md
+- **Notes:** The barrel now stays local to shared primitives; design-system re-exports were removed.
 
 ### Accessibility WCAG AA
 - **Status:** Not Started

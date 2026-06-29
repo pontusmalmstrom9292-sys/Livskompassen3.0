@@ -37,6 +37,143 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — Dead nav drawer selector removed
+
+**Completed work:**
+- Removed the unused `nav-drawer--calm-2` selector from the nav drawer calm-scroll rule.
+- Left the active `nav-drawer--obsidian-depth` behavior intact.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3429
+
+**Reasoning:**
+- `nav-drawer--calm-2` had no `src` consumers, so removing it safely trims global CSS without affecting the drawer.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Dead CSS removed
+
+**Completed work:**
+- Removed dead `fyren-smart-bar` and `app-unlock-gate__card` CSS from `src/index.css`.
+- Kept the remaining shared layout and utility styles intact.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3430
+
+**Reasoning:**
+- These selectors had no active `src` consumers, so removing them safely lowers global CSS without changing behavior.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Review queue statuses localized
+
+**Completed work:**
+- Moved the review queue status badge styles out of `src/index.css` and into `planering.css`.
+- Wired both `InboxReviewQueue` and `InkorgPreviewSheet` to the localized planning stylesheet.
+
+**Files changed:**
+- src/index.css
+- src/modules/features/admin/planning/components/InkorgPreviewSheet.tsx
+- src/modules/features/admin/planning/components/planering.css
+- src/modules/inkast/components/InboxReviewQueue.tsx
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3675
+
+**Reasoning:**
+- Review queue statuses are shared by planning and inkast review surfaces, so they belong in the planning-local stylesheet rather than global CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — ClusterGrid styles localized
+
+**Completed work:**
+- Moved the `ClusterGrid` module-card and chip styles out of `src/index.css` into a component-local stylesheet.
+- Kept shared `module-list` and adaptive grid styles global because they are used by multiple surfaces.
+
+**Files changed:**
+- src/index.css
+- src/modules/core/ui/ClusterGrid.tsx
+- src/modules/core/ui/ClusterGrid.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3697
+
+**Reasoning:**
+- `ClusterGrid` is a self-contained component with isolated card styling, so local CSS reduces global surface area without changing behavior.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Widget bar CSS localized
+
+**Completed work:**
+- Moved the Fyren widget bar styles out of `src/index.css` and into the existing widget shell stylesheet.
+- Kept the widget bar component wired to the localized stylesheet so behavior stays unchanged.
+
+**Files changed:**
+- src/index.css
+- src/modules/core/components/FyrenWidgetBar.tsx
+- src/modules/features/widgets/layout/WidgetShell.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3762
+
+**Reasoning:**
+- Widget bar chrome is feature-local presentation and no longer needs to live in the global stylesheet.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Valv wave complete
 
 **Completed work:**
@@ -545,7 +682,7 @@ Copy the template below for each entry. Newest first.
 - Audited Phase 1 TODO items: focus.ts, zIndex.ts, motion/presets.ts, useDsReducedMotion, Skeleton, Spinner, ErrorFallback, design-system/README.md, tailwind ds-* bridge — all already exist; marked done
 - Synced `ChameleonInputShell` transition to `var(--ds-duration-morph)` (CSS token, respects prefers-reduced-motion override automatically)
 - Recorded btn-pill-- baseline: **10 files** (down from estimated ~195 — migration largely complete)
-- Recorded index.css LOC: **6819**
+- Recorded index.css LOC: **3837**
 - Updated DASHBOARD.md, TODO.md metrics
 
 **Files changed:**
@@ -557,7 +694,7 @@ Copy the template below for each entry. Newest first.
 **Metrics:**
 - smoke:design-modules: PASS
 - btn-pill-- file count: 10 (CSS definitions only; 1 TSX = canonical Button.tsx)
-- index.css LOC: 6819
+- index.css LOC: 3837
 
 **Reasoning:**
 - Phase 0 baseline required recording smoke and btn-pill metrics before Phase 1 work begins

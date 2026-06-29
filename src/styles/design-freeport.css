@@ -3,6 +3,8 @@
  * Gäller endast .design-freeport — påverkar inte prod Obsidian Calm.
  */
 
+@tailwind components;
+
 .design-freeport {
   min-height: 100%;
   color: var(--fp-text);

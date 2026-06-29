@@ -48,6 +48,7 @@ import {
   routingToUiSilo,
 } from '../constants/inkastSiloOptions';
 import { highlightPatterns } from '@/features/lifeJournal/evidence/vault/utils/vaultPatternHighlight';
+import '@/modules/features/admin/planning/components/planering.css';
 
 type InboxConfirmRouting = 'kunskap' | 'bevis' | 'barnen' | 'dagbok';
 

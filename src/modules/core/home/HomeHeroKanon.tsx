@@ -13,6 +13,7 @@ import { HomeStreakChip } from './HomeStreakChip';
 import { HomeAdaptiveCompass } from './HomeAdaptiveCompass';
 import { HomeLayoutA } from './HomeLayoutA';
 import { ExecutiveMixEHomeDashboard } from './executive/ExecutiveMixEHomeDashboard';
+import './HomeHeroKanon.css';
 import {
   getExecutiveHomeLayoutMode,
   HOME_LAYOUT_CHANGED_EVENT,

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Compass, LifeBuoy, Shield, Sparkles } from 'lucide-react';
 import { useStore } from '../store';
 import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
+import '@/styles/obsidian-forge-lab.css';
 import {
   OdForgeBentoGrid,
   OdForgeDockChrome,

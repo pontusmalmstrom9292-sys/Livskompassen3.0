@@ -1,0 +1,68 @@
+@tailwind components;
+
+@layer components {
+  .module-card {
+    @apply block rounded-2xl border border-white/10 p-4 transition-colors;
+    background: rgba(15, 23, 42, 0.55);
+  }
+
+  .module-card:hover {
+    @apply border-white/15;
+    background: rgba(15, 23, 42, 0.72);
+  }
+
+  .module-card__head {
+    @apply flex items-start gap-3;
+  }
+
+  .module-card__icon {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .module-card__title {
+    @apply font-display text-base font-semibold text-text;
+  }
+
+  .module-card__desc {
+    @apply mt-0.5 text-sm text-text-muted;
+  }
+
+  .module-card__chevron {
+    @apply text-text-dim;
+  }
+
+  .module-card__modules {
+    @apply mt-3 flex flex-wrap gap-2 border-t border-white/10 pt-3;
+  }
+
+  .module-chip {
+    @apply rounded-full border border-white/10 px-3 py-1 text-xs text-text-muted transition-colors;
+    background: rgba(2, 6, 23, 0.45);
+  }
+
+  .module-chip:hover {
+    @apply border-accent/30 text-accent;
+    background: rgba(212, 175, 55, 0.08);
+  }
+
+  .module-card--gold .module-card__icon {
+    border-color: rgba(212, 175, 55, 0.25);
+    color: var(--color-accent-gold);
+  }
+
+  .module-card--indigo .module-card__icon {
+    border-color: rgba(129, 140, 248, 0.25);
+    color: var(--color-accent-gold);
+  }
+
+  .module-card--lavender .module-card__icon {
+    border-color: rgba(129, 140, 248, 0.2);
+    color: #a5b4fc;
+  }
+
+  .module-card--emerald .module-card__icon {
+    border-color: rgba(45, 212, 191, 0.25);
+    color: #2dd4bf;
+  }
+}

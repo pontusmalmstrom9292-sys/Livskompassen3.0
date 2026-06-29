@@ -64,92 +64,6 @@
   }
 
   /* --- Bento cards (glass) --- */
-  .planering-bento-card {
-    @apply relative flex flex-col overflow-hidden rounded-3xl border p-6 transition-all duration-300;
-    border-color: var(--color-gold-15);
-    background: linear-gradient(
-      180deg,
-      var(--color-panel-obsidian-60) 0%,
-      var(--color-panel-obsidian-80) 100%
-    );
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  }
-
-  .planering-bento-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background: linear-gradient(
-      160deg,
-      color-mix(in srgb, var(--accent) 8%, transparent),
-      transparent 28%
-    );
-    opacity: 0.65;
-  }
-
-  .planering-bento-card:hover {
-    @apply -translate-y-0.5;
-    border-color: var(--color-gold-40);
-    box-shadow:
-      0 15px 40px rgba(0, 0, 0, 0.6),
-      0 0 20px var(--color-gold-05);
-  }
-
-  .planering-bento-card--full {
-    @apply col-span-full;
-  }
-
-  .planering-bento-icon-box {
-    @apply mb-5 flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/10;
-  }
-
-  .planering-bento-icon-box--blue {
-    @apply border-blue-500/20 bg-blue-900/30 text-blue-400;
-  }
-
-  .planering-bento-icon-box--amber {
-    @apply border-amber-500/20 bg-amber-900/30 text-amber-400;
-  }
-
-  .planering-bento-icon-box--emerald {
-    @apply border-emerald-500/20 bg-emerald-900/30 text-emerald-400;
-  }
-
-  .planering-bento-title {
-    @apply mb-2 text-lg font-medium tracking-wide text-accent-light;
-  }
-
-  .planering-bento-text {
-    @apply text-sm leading-relaxed text-text-muted;
-  }
-
-  .planering-bento-footer {
-    @apply mt-5 border-t border-white/5 pt-4 text-xs text-text-dim;
-  }
-
-  .planering-snabbstart-banner {
-    @apply rounded-2xl border p-5;
-    border-color: var(--color-gold-15);
-    background: var(--color-panel-obsidian-60-dark);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
-  .planering-snabbstart-label {
-    @apply mb-3 block text-[0.65rem] font-semibold uppercase tracking-[0.15em] text-text-muted;
-  }
-
-  .planering-guard-bar {
-    @apply flex items-center justify-between rounded-2xl border px-4 py-3 text-xs;
-    border-color: var(--color-gold-15);
-    background: var(--color-panel-obsidian-60-dark);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-  }
-
   .planering-kanban-bento__columns {
     @apply -mx-1 mt-5 flex gap-3 overflow-x-auto pb-2;
   }
@@ -464,6 +378,28 @@
 
   .planering-inkorg-preview-sheet__summary {
     @apply rounded-2xl border border-border/60 bg-surface-2/50 p-3;
+  }
+
+  .review-queue-status {
+    @apply rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider;
+  }
+
+  .review-queue-status--routed {
+    border: 0.5px solid color-mix(in srgb, var(--accent) 32%, transparent);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
+    color: var(--accent);
+  }
+
+  .review-queue-status--review {
+    border: 0.5px solid color-mix(in srgb, var(--accent-secondary) 32%, transparent);
+    background: color-mix(in srgb, var(--accent-secondary) 8%, transparent);
+    color: var(--accent-secondary);
+  }
+
+  .review-queue-status--rejected {
+    border: 0.5px solid color-mix(in srgb, var(--danger, #f87171) 28%, transparent);
+    background: color-mix(in srgb, var(--danger, #f87171) 8%, transparent);
+    color: color-mix(in srgb, var(--danger, #fca5a5) 92%, white);
   }
 
   .planering-inbox-connect {

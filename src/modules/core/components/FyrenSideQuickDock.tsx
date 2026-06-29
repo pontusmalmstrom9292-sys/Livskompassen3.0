@@ -28,6 +28,7 @@ import {
 } from '../ui/ankare/breathingExercises';
 import { useBreathingCycle } from '../ui/ankare/useBreathingCycle';
 import { usePlanningTasks } from '@/features/admin/planning/hooks/usePlanningTasks';
+import './FyrenHeaderQuick.css';
 
 const HIDDEN_STORAGE_KEY = 'livskompassen.fyren-side-quick.hidden';
 const VISIBILITY_EVENT = 'fyren-side-quick-visibility';

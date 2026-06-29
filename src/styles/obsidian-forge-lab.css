@@ -5,6 +5,8 @@
  * Guld (#d4af37) endast — inga regnbågs-accenter i chrome.
  */
 
+@tailwind components;
+
 @layer components {
   .od-forge {
     --of-gold: #d4af37;

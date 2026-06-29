@@ -3,6 +3,7 @@ import { Compass, EyeOff } from 'lucide-react';
 import { useState, type ReactNode } from 'react';
 import { WidgetShellProvider, useWidgetShellContext } from '../context/widgetShellContext';
 import { useWidgetPanicHide } from '../hooks/useWidgetPanicHide';
+import './WidgetShell.css';
 
 type Props = {
   title: string;
