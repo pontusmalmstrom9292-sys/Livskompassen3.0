@@ -3,7 +3,7 @@
 **Plattform:** Motorola G85 · Capacitor Android  
 **Start:** 2026-06-25  
 **Mål:** P0 — appen som vardagsverktyg, inte bara grön smoke  
-**Prod-URL i appen:** https://gen-lang-client-0481875058.web.app (`cap:sync:prod` körd 2026-06-28 efter hosting deploy)
+**Prod-URL i appen:** https://gen-lang-client-0481875058.web.app (`cap:sync:prod` körd 2026-06-29 efter YOLO v4 polish deploy)
 
 ---
 
@@ -43,7 +43,7 @@ Gör detta **en gång per dag** i 7 dagar. Skriv max 1–2 meningar per rad i ta
 | 1 | 2026-06-25 | | | | |
 | 2 | 2026-06-26 | | | | |
 | 3 | 2026-06-27 | | | | |
-| 4 | 2026-06-28 | | | | |
+| 4 | 2026-06-28 | — | cap:sync:prod + hosting polish-våg (YOLO v4) | Manuell mikro-checklista ej körd än — kör på G85 | P1 tills testad |
 | 5 | 2026-06-29 | | | | |
 | 6 | 2026-06-30 | | | | |
 | 7 | 2026-07-01 | | | | |
@@ -97,12 +97,19 @@ Dag 7:
 | `smoke:auth-login` | PASS 2026-06-28 |
 | `smoke:predeploy:build` | PASS 2026-06-28 |
 | `build:web` | PASS 2026-06-25, 2026-06-28 |
-| `cap:sync:prod` | PASS 2026-06-28 (efter hosting deploy) |
-| `smoke:android-prod-sync` | PASS 2026-06-28 |
+| `cap:sync:prod` | PASS 2026-06-28, 2026-06-29 (efter polish-våg) |
+| `smoke:android-prod-sync` | PASS 2026-06-28, 2026-06-29 |
 | Hosting live (23E) | https://gen-lang-client-0481875058.web.app |
 | SHA-1 / `client_type: 1` | Verifierad i smoke |
 
 Kanon: [`.context/android-capacitor.md`](../../.context/android-capacitor.md) · [`docs/FIREBASE-AUTH-LATHUND.md`](../FIREBASE-AUTH-LATHUND.md)
+
+### Körning 2026-06-29 (YOLO v4 #7 g85-friction-d4)
+
+- `npm run cap:sync:prod` — PASS (WebView → live Hosting efter polish deploy)
+- `npm run smoke:android-platform` — PASS
+- `npm run smoke:android-prod-sync` — PASS
+- **Manuellt kvar:** Dag 4 mikro-checklista (~5 min) på G85 — USB + `npm run android:open` → Run
 
 ### Körning 2026-06-28 (YOLO #7 g85-prod-sync)
 
