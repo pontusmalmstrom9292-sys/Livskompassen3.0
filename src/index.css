@@ -552,10 +552,6 @@
     @apply max-w-[3.25rem] truncate text-[8px] font-medium leading-none tracking-wide text-text-muted;
   }
 
-  .dock-classic__side--active .dock-classic__side-label {
-    @apply text-accent/90;
-  }
-
   .dock-classic__center {
     @apply flex min-h-[44px] min-w-[44px] shrink-0 flex-col items-center justify-center border-0 bg-transparent p-0 text-accent transition-transform;
   }
