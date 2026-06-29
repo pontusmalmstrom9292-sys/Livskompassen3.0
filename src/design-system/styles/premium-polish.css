@@ -6,6 +6,46 @@
 
 @layer components {
   /* ═══════════════════════════════════════════
+     FOCUS — unified keyboard ring (Quick win #2, design-calm)
+     Tokens: --ds-focus-ring · --ds-focus-offset
+     ═══════════════════════════════════════════ */
+
+  :where(
+    button:not(:disabled),
+    [role='button']:not([aria-disabled='true']),
+    [role='tab'],
+    [role='link'],
+    a[href],
+    summary
+  ):focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  :where(
+    button:not(:disabled),
+    [role='button']:not([aria-disabled='true']),
+    [role='tab'],
+    [role='link'],
+    a[href],
+    input:not([type='hidden']):not([type='checkbox']):not([type='radio']),
+    textarea,
+    select,
+    summary,
+    .home-adaptive-compass__quick-btn,
+    .home-adaptive-compass__tab,
+    .exec-home-pill,
+    .exec-home-btn
+  ):focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
+  .ds-input:focus-visible,
+  .ds-textarea:focus-visible {
+    border-color: var(--ds-color-accent);
+  }
+
+  /* ═══════════════════════════════════════════
      CARDS — calm-card · bento-card · ds-card
      ═══════════════════════════════════════════ */
 
