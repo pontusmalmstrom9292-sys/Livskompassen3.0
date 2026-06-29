@@ -69,7 +69,7 @@ export function EconomyOverviewPanel({ userId }: Props) {
   }
 
   return (
-    <div className="calm-card glow-bottom-gold p-1">
+    <div className="calm-card glow-bottom-gold overflow-hidden p-1">
       <div className="mb-2 flex items-center justify-between gap-2 px-2 pt-2">
         <div className="flex flex-1 gap-1 overflow-x-auto rounded-t-xl border-b border-border/30 bg-surface-2 p-1 calm-scroll-island">
           {visibleTabs.map(({ id, label, icon: Icon }) => (

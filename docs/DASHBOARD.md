@@ -147,30 +147,35 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). ds-btn-- files: 
 - **Notes:** PlaneringPage, the Kanban board shell, the Inkorg panel shell, the preview sheet shell, the focus/paralys helpers, and CognitiveGuard are polished; remaining planning panels stay open as separate passes.
 
 ### Valv
-- **Status:** In Progress
+- **Status:** Done
 - **Priority:** High
 - **Dependencies:** Button, Banner
 - **Files:** ValvSamlaZone, WeaverPendingVaultBanner, VaultErrorBoundary, VaultPage
+- **Notes:** VaultPage, the Samla zone, Weaver pending banner, the error boundary, the remaining vault zone shells, and Dossier now share the calmer Valv frame.
 
 ### MåBra
-- **Status:** Not Started
+- **Status:** Done
 - **Priority:** High
-- **Files:** MabraHubView, MabraLayout, flow views
+- **Files:** MabraHubView, MabraLayout, flow views, LivLauncherPage
+- **Notes:** MåBra now shares the calmer hub shell, launcher surface, and flow-card treatment.
 
 ### Ekonomi
-- **Status:** Not Started
+- **Status:** Done
 - **Priority:** Medium
-- **Files:** Economy* panels, EkonomiInputSuperModule
+- **Files:** EconomyPage, EconomyBudgetTab, EconomyLogPanel, EconomyOverviewPanel
+- **Notes:** Ekonomi now uses the calmer page shell and the budget/log panels share the same restrained frame.
 
 ### Familjen
-- **Status:** Not Started
+- **Status:** Done
 - **Priority:** High
 - **Files:** FamiljenPage, tab panels, Barnfokus delegate
+- **Notes:** FamiljenPage, the universal input hub, the Barnfokus/reflektion/tillsammans surfaces, the child-moment tabs, the mönster/kunskap/känslotemplet surfaces, and the parent-facing Hamn/Barnporten panels now share a calmer frame.
 
 ### Hjärtat / Dagbok
-- **Status:** Not Started
+- **Status:** In Progress
 - **Priority:** High
 - **Files:** DagbokInputSuperModule, SpeglarSuperModule
+- **Notes:** DagbokInputSuperModule shell, the Dagbok delegates, and SpeglarSuperModule now share a calmer premium frame; remaining Hjärtat surfaces stay open.
 
 ### Widgets (11 routes)
 - **Status:** Not Started

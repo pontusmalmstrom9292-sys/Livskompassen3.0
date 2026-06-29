@@ -24,21 +24,21 @@ export function ValvKunskapZone({ tab, onTabChange }: ValvKunskapZoneProps) {
       glow="blue"
       logTag="ValvKunskapZone"
     >
-      <div className="mb-3">
+      <div className="valv-zone-stack mb-3 space-y-3">
         <TabBar
           size="compact"
           tabs={getKunskapVaultTabBarItems()}
           active={tab}
           onChange={onTabChange}
         />
+        {tab === AKTORSKARTA_VAULT_TAB ? (
+          <VaultAktorskartaPanel />
+        ) : tab === DOCS_VAULT_TAB ? (
+          <VaultKanonDocsPanel />
+        ) : tab === KUNSKAP_VAULT_TAB ? (
+          <VaultKunskapsbankPanel />
+        ) : null}
       </div>
-      {tab === AKTORSKARTA_VAULT_TAB ? (
-        <VaultAktorskartaPanel />
-      ) : tab === DOCS_VAULT_TAB ? (
-        <VaultKanonDocsPanel />
-      ) : tab === KUNSKAP_VAULT_TAB ? (
-        <VaultKunskapsbankPanel />
-      ) : null}
     </HubErrorBoundary>
   );
 }

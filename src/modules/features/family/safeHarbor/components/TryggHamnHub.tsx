@@ -119,7 +119,7 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
 
   if (embedded) {
     return (
-      <div className="calm-scroll-island space-y-4">
+      <div className="calm-scroll-island familjen-tab-surface space-y-4">
         <div className="flex justify-end">
           <ModuleHelpFromRegistry moduleId="hamn" />
         </div>
@@ -129,7 +129,7 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
   }
 
   return (
-    <div className="space-y-4">
+    <div className="familjen-tab-surface space-y-4">
       <div className="flex items-start justify-between gap-2">
         <MaterialPackShortcuts preset={preset} hub="hamn" />
         <ModuleHelpFromRegistry moduleId="hub_hamn" preset={preset} />

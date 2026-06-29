@@ -111,11 +111,11 @@ export function ArbetslivFranvaroPanel({
   }
 
   return (
-    <>
+    <div className="arbetsliv-franvaro-shell space-y-4">
       {error && <p className="text-sm text-danger">{error}</p>}
 
       {activeTab === 'franvaro' && (
-        <BentoCard title="Frånvaro / manuellt pass">
+        <BentoCard title="Frånvaro / manuellt pass" className="overflow-hidden">
           <div className="space-y-3 text-sm">
             <div className="grid grid-cols-2 gap-2">
               <input
@@ -211,7 +211,7 @@ export function ArbetslivFranvaroPanel({
       )}
 
       {activeTab === 'historik' && (
-        <BentoCard title="Aktivitetslogg (tid)">
+        <BentoCard title="Aktivitetslogg (tid)" className="overflow-hidden">
           {timeLogs.length === 0 ? (
             <EmptyState message="Inga pass." />
           ) : (
@@ -235,6 +235,6 @@ export function ArbetslivFranvaroPanel({
           )}
         </BentoCard>
       )}
-    </>
+    </div>
   );
 }

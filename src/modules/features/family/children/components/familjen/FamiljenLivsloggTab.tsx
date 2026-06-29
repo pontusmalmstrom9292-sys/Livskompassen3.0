@@ -35,7 +35,7 @@ export function FamiljenLivsloggTab({ shell }: Props) {
   const hasLogs = shell.logs.some((log) => log.childAlias === activeChild && log.action === 'livslogg');
 
   return (
-    <div className="space-y-4">
+    <div className="familjen-tab-surface space-y-4">
       {featuredText ? (
         <BentoCard
           glow="blue"

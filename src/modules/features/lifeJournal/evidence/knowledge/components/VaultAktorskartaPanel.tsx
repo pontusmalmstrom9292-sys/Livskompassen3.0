@@ -46,7 +46,7 @@ export function VaultAktorskartaPanel() {
   const userProfiles = profiles.filter((profile) => !profile.isKeyEntity);
 
   return (
-    <div className="space-y-4">
+    <div className="valv-zone-stack space-y-4">
       <section className="calm-card glow-bottom-blue rounded-2xl border border-border p-4">
         <div className="mb-3 flex items-start gap-3">
           <div className="rounded-xl border border-accent/25 bg-accent/10 p-2">

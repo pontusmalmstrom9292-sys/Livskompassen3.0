@@ -95,47 +95,49 @@ export function LivLauncherPage() {
         title="Vardagsstart"
         lead="Daglig rytm, planering och mående — ett kort i taget."
       >
-      <VardagenBentoShell>
-      <div className="mx-auto max-w-5xl space-y-4 pb-12">
-        <CognitiveLoadStrip
-          label="Ett steg i taget"
-          hint="Tryck ett kort. Kompass, ekonomi och MåBra visas här; projekt och arbetsliv öppnas på egna sidor."
-        />
+        <VardagenBentoShell>
+          <div className="liv-launcher-page mx-auto max-w-5xl space-y-4 pb-12">
+            <div className="space-y-4">
+              <CognitiveLoadStrip
+                label="Ett steg i taget"
+                hint="Tryck ett kort. Kompass, ekonomi och MåBra visas här; projekt och arbetsliv öppnas på egna sidor."
+              />
 
-        <VardagenZoneIntro activeTab={activeTab} />
+              <VardagenZoneIntro activeTab={activeTab} />
 
-        <LivLauncherGrid activeId={activeTab} onSelect={handleChange} />
+              <LivLauncherGrid activeId={activeTab} onSelect={handleChange} />
+            </div>
 
-        <main className="calm-scroll-island mt-2 animate-fade-in">
-          {activeTab === 'kompasser' && (
-            <BentoCard glow="gold" depth noHover bare className="!p-4 sm:!p-5">
-              <div className="space-y-4">
-                <CompassQuickWidgetRail flow={compassFlow} className="compass-quick-widget-rail--in-module" />
-                <CompassDashboard forcedFlow={compassFlow} />
-              </div>
-            </BentoCard>
-          )}
+            <main className="calm-scroll-island liv-launcher-page__surface mt-2 animate-fade-in">
+              {activeTab === 'kompasser' && (
+                <BentoCard glow="gold" depth noHover bare className="!p-4 sm:!p-5">
+                  <div className="space-y-4">
+                    <CompassQuickWidgetRail flow={compassFlow} className="compass-quick-widget-rail--in-module" />
+                    <CompassDashboard forcedFlow={compassFlow} />
+                  </div>
+                </BentoCard>
+              )}
 
-          {activeTab === 'ekonomi' && (
-            <BentoCard glow="gold" depth noHover bare className="!p-4 sm:!p-5">
-              <div className="space-y-4">
-                {useLegacyEkonomi ? (
-                  <EconomyOverviewPanel userId={user?.uid ?? ''} />
-                ) : (
-                  <EkonomiInputSuperModule userId={user?.uid ?? ''} />
-                )}
-              </div>
-            </BentoCard>
-          )}
+              {activeTab === 'ekonomi' && (
+                <BentoCard glow="gold" depth noHover bare className="!p-4 sm:!p-5">
+                  <div className="space-y-4">
+                    {useLegacyEkonomi ? (
+                      <EconomyOverviewPanel userId={user?.uid ?? ''} />
+                    ) : (
+                      <EkonomiInputSuperModule userId={user?.uid ?? ''} />
+                    )}
+                  </div>
+                </BentoCard>
+              )}
 
-          {activeTab === 'mabra' && (
-            <BentoCard glow="green" depth noHover bare className="!p-4 sm:!p-5">
-              <MabraHubView />
-            </BentoCard>
-          )}
-        </main>
-      </div>
-      </VardagenBentoShell>
+              {activeTab === 'mabra' && (
+                <BentoCard glow="green" depth noHover bare className="!p-4 sm:!p-5">
+                  <MabraHubView />
+                </BentoCard>
+              )}
+            </main>
+          </div>
+        </VardagenBentoShell>
       </HubPageShell>
     </HubErrorBoundary>
   );

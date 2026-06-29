@@ -37,6 +37,280 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — Valv wave complete
+
+**Completed work:**
+- Finished the remaining Valv shell pass, including Dossier, the Valv zones, and the supporting knowledge panels.
+- Synced TODO, Dashboard, and the session plan to reflect the completed Valv wave.
+
+**Files changed:**
+- docs/TODO.md
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+- /Users/Livskompassen/.copilot/session-state/fbd7d8ea-389e-4374-81d4-86a9304a2de0/plan.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- smoke:valv-security PASS
+- smoke:locked-ux PASS
+
+**Reasoning:**
+- Valv was the next open zone after Familjen, and this wave finished the visible shell consistency pass without changing the underlying flows.
+
+**Next steps:**
+- Continue the loop on the next open zone if requested.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Valv zone shells
+
+**Completed work:**
+- Tightened VaultPage, ValvSamlaZone, the Weaver banner, and the remaining Valv zone shells with the shared Valv frame.
+- Kept the session lifecycle, WORM gate, and content flows intact.
+
+**Files changed:**
+- src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/WeaverPendingVaultBanner.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/VaultErrorBoundary.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/valv.css
+- src/modules/features/lifeJournal/evidence/vault/components/zones/ValvAnalyseraZone.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/zones/ValvKunskapZone.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/zones/ValvVitZone.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/zones/ValvForensikZone.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/zones/ValvExporteraZone.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/zones/ValvInboxZone.tsx
+- src/modules/features/lifeJournal/evidence/knowledge/components/VaultKunskapsbankPanel.tsx
+- src/modules/features/lifeJournal/evidence/knowledge/components/VaultAktorskartaPanel.tsx
+- src/modules/features/lifeJournal/evidence/knowledge/components/VaultKanonDocsPanel.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/VaultVitHubPanel.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- smoke:valv-security PASS
+- smoke:locked-ux PASS
+
+**Reasoning:**
+- Valv was the next open zone after Familjen, and the remaining shell work needed to be consistent across the main page, tabs, and the supporting zone panels.
+
+**Next steps:**
+- Finish the remaining Valv style-only pass items, especially Dossier, then continue the loop if needed.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Familjen wave complete
+
+**Completed work:**
+- Closed the remaining Familjen tab and parent-panel polish items in the backlog.
+- Synced TODO, Dashboard, and the session plan to reflect the finished Familjen wave.
+
+**Files changed:**
+- docs/TODO.md
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+- /Users/Livskompassen/.copilot/session-state/fbd7d8ea-389e-4374-81d4-86a9304a2de0/plan.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+
+**Reasoning:**
+- The visible Familjen work is now complete, so the tracking docs needed to match the implemented state.
+
+**Next steps:**
+- Move on to the next open zone when continuing the loop.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Familjen mönster + kunskap polish
+
+**Completed work:**
+- Tightened the remaining Familjen tab surfaces for pattern overview, knowledge search, and känslotemplet support.
+- Kept the search, counters, and child-facing guidance unchanged while making the shells read consistently.
+
+**Files changed:**
+- src/modules/features/family/children/components/familjen/FamiljenMonsterTab.tsx
+- src/modules/features/family/children/components/familjen/FamiljenKunskapHubTab.tsx
+- src/modules/features/family/children/components/familjen/KanslotempletParentCard.tsx
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+
+**Reasoning:**
+- These were the remaining visible Familjen tab surfaces after the earlier wave, and they benefit from the same premium shell framing.
+
+**Next steps:**
+- Continue with the remaining Valv/Familjen surfaces or move to the next open zone.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Familjen child moments + Barnporten polish
+
+**Completed work:**
+- Gave the remaining child-moment surfaces the shared Familjen tab frame.
+- Tightened the Barnporten QR, inbox, and orchestra panels to match the same calmer shell treatment.
+
+**Files changed:**
+- src/modules/features/family/children/components/familjen/ChildMomentStunderPanel.tsx
+- src/modules/features/family/children/components/familjen/ChildMomentOmPanel.tsx
+- src/modules/features/family/children/components/familjen/ChildMomentFavoriterPanel.tsx
+- src/modules/features/onboarding/barnporten/components/BarnportenQrPanel.tsx
+- src/modules/features/onboarding/barnporten/components/BarnportenInboxPanel.tsx
+- src/modules/features/onboarding/barnporten/components/BarnportenOrkesterPanel.tsx
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+
+**Reasoning:**
+- These were the remaining visible child/parent panel surfaces in the Familjen wave, and they needed the same shell consistency before moving on.
+
+**Next steps:**
+- Continue with any still-open Familjen/Valv surfaces or move to the next open backlog zone.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Familjen BIFF panel polish
+
+**Completed work:**
+- Gave the Trygg Hamn and BIFF panels the same calmer shell treatment as the rest of Familjen.
+- Kept the BIFF workflow, child-safe redirects, and validation copy unchanged.
+
+**Files changed:**
+- src/modules/features/family/safeHarbor/components/SafeHarborPage.tsx
+- src/modules/features/family/safeHarbor/components/TryggHamnHub.tsx
+- src/modules/features/family/safeHarbor/components/BiffPublicPanel.tsx
+- src/modules/features/family/safeHarbor/components/BiffTriagePanel.tsx
+- src/modules/features/onboarding/barnporten/components/BarnportenParentHubPanel.tsx
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+
+**Reasoning:**
+- The remaining open Familjen wave was the parent-facing BIFF and Barnporten surfaces, and they needed the same premium shell consistency before deeper logic work.
+
+**Next steps:**
+- Continue with any remaining Familjen tabs or move to the next open zone in the backlog.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Familjen parent panels polish
+
+**Completed work:**
+- Tightened the Barnporten parent hub and Trygg Hamn surfaces with the same calmer shell treatment as the rest of Familjen.
+- Kept the BIFF workflow and parent-facing navigation intact while making the panels read more consistently inside the Familjen hub.
+
+**Files changed:**
+- src/modules/features/family/safeHarbor/components/SafeHarborPage.tsx
+- src/modules/features/family/safeHarbor/components/TryggHamnHub.tsx
+- src/modules/features/onboarding/barnporten/components/BarnportenParentHubPanel.tsx
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+
+**Reasoning:**
+- The next open Familjen items were the parent-facing panels, and they benefit from the same shell consistency before deeper tab work.
+
+**Next steps:**
+- Continue with the remaining Familjen tabs and the remaining parent/child panels.
+
+**Blockers:**
+- None
+
+---
+
+## 2026-06-29 — Familjen page + input shell polish
+
+**Completed work:**
+- Tightened the Familjen hub frame with a calmer page header, tab surfaces, and a cleaner child-picker area.
+- Added shell polish to the universal input router, Barnfokus delegate, and the main reflektion/livslogg/tillsammans tab surfaces.
+
+**Files changed:**
+- src/modules/core/pages/FamiljenPage.tsx
+- src/modules/features/family/children/supermodule/FamiljenInputSuperModule.tsx
+- src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx
+- src/modules/features/family/children/components/familjen/FamiljenReflektionTab.tsx
+- src/modules/features/family/children/components/familjen/FamiljenLivsloggTab.tsx
+- src/modules/features/family/children/components/familjen/FamiljenTillsammansTab.tsx
+- src/modules/features/family/children/components/familjen/familjen.css
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+
+**Reasoning:**
+- Familjen was the next open zone after Hjärtat, and these surfaces are the visible entry points that benefit most from shell consistency before the deeper tabs.
+
+**Next steps:**
+- Continue with the remaining Familjen tabs and parent-facing panels.
+
+**Blockers:**
+- None
+
+---
+
+
+## 2026-06-29 — Dagbok delegates + Speglar polish
+
+**Completed work:**
+- Polished the Dagbok quick-mirror, reflektion, burn, and tyst delegates with shared calmer shells and headers.
+- Added a premium frame to Speglar and its forensic panel, and fixed Dagbok reflektion hook ordering while keeping behavior intact.
+
+**Files changed:**
+- src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokReflektionDelegate.tsx
+- src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokQuickMirrorDelegate.tsx
+- src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokBurnDelegate.tsx
+- src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokTystDelegate.tsx
+- src/modules/features/lifeJournal/diary/mirror/components/SpeglarSuperModule.tsx
+- src/modules/features/lifeJournal/diary/mirror/components/SpeglingsSystem.tsx
+- src/modules/features/lifeJournal/diary/components/hjartat.css
+- docs/TODO.md
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+
+**Reasoning:**
+- Hjärtat was the next open zone after Valv, and the delegates were the remaining visible Dagbok surfaces in the current wave.
+
+**Next steps:**
+- Continue into the next open Hjärtat/Familjen surface, starting with FamiljenPage or the next unchecked TODO item.
+
+**Blockers:**
+- None
+
+---
+
+
 ## 2026-06-29 — Planering focus + paralys polish
 
 **Completed work:**

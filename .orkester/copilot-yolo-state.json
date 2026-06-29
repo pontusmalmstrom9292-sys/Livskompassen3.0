@@ -1,13 +1,16 @@
 {
   "version": 2,
   "startedAt": "2026-06-28T22:15:00.000Z",
-  "updatedAt": "2026-06-29T02:20:00.000Z",
+  "updatedAt": "2026-06-29T04:40:00.000Z",
   "currentTaskId": null,
   "completedTaskIds": [
     "design-bible-merge",
     "premium-ui-debt-baseline",
     "focus-visible-quickwin",
-    "lazy-routes-vardagen-hjartat"
+    "lazy-routes-vardagen-hjartat",
+    "hub-eyebrow-polish",
+    "hosting-deploy-wave",
+    "g85-friction-d4"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],

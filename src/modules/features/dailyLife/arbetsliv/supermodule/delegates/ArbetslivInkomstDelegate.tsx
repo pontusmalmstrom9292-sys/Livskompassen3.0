@@ -89,11 +89,14 @@ export function ArbetslivInkomstDelegate() {
   };
 
   return (
-    <div className="arbetsliv-delegate arbetsliv-delegate--inkomster" data-write-target="economy_ledger">
-      <div className="space-y-4">
+    <div
+      className="arbetsliv-delegate arbetsliv-delegate--inkomster overflow-hidden rounded-2xl border border-border-strong bg-surface/25 p-1"
+      data-write-target="economy_ledger"
+    >
+      <div className="space-y-4 p-3 sm:p-4">
         {error && <p className="text-sm text-danger">{error}</p>}
 
-        <BentoCard title="Registrera inkomst" glow="blue">
+        <BentoCard title="Registrera inkomst" glow="blue" className="overflow-hidden">
           <div className="space-y-3 text-sm">
             <input
               type="date"
@@ -136,7 +139,7 @@ export function ArbetslivInkomstDelegate() {
           </div>
         </BentoCard>
 
-        <BentoCard title="Inkomster i appen" glow="blue">
+        <BentoCard title="Inkomster i appen" glow="blue" className="overflow-hidden">
           {loading ? (
             <p className="flex items-center gap-2 text-sm text-text-dim">
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden />

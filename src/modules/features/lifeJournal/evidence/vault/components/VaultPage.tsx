@@ -196,67 +196,67 @@ function VaultPageInner({
 
   return (
     <ValvBentoShell showZonePill={false}>
-      <div className="space-y-4">
-      <div className="flex items-start justify-between gap-2 px-1">
-        <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
-        <div className="flex shrink-0 items-center gap-1">
-          <VaultCountdown />
-          <button
-            type="button"
-            onClick={() => navigate('/valvet/installningar')}
-            className="ds-btn ds-btn--ghost flex items-center gap-1"
-            title="Valv-inställningar"
-          >
-            <Settings className="h-3 w-3" /> Inställningar
-          </button>
-          <button
-            type="button"
-            onClick={handleCloseToLayer1}
-            className="ds-btn ds-btn--ghost flex items-center gap-1"
-            title="Stäng valv — tillbaka till vardag"
-          >
-            <X className="h-3 w-3" /> Stäng
-          </button>
+      <div className="valv-page-shell space-y-4">
+        <div className="valv-page-shell__chrome flex items-start justify-between gap-2 px-1">
+          <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
+          <div className="flex shrink-0 items-center gap-1">
+            <VaultCountdown />
+            <button
+              type="button"
+              onClick={() => navigate('/valvet/installningar')}
+              className="ds-btn ds-btn--ghost flex items-center gap-1"
+              title="Valv-inställningar"
+            >
+              <Settings className="h-3 w-3" /> Inställningar
+            </button>
+            <button
+              type="button"
+              onClick={handleCloseToLayer1}
+              className="ds-btn ds-btn--ghost flex items-center gap-1"
+              title="Stäng valv — tillbaka till vardag"
+            >
+              <X className="h-3 w-3" /> Stäng
+            </button>
+          </div>
         </div>
-      </div>
 
-      {sessionSyncError ? (
-        <p className="rounded-xl border border-accent/30 bg-surface-2/80 px-3 py-2 text-xs text-text-muted">
-          {sessionSyncError}
-        </p>
-      ) : null}
+        {sessionSyncError ? (
+          <p className="rounded-xl border border-accent/30 bg-surface-2/80 px-3 py-2 text-xs text-text-muted">
+            {sessionSyncError}
+          </p>
+        ) : null}
 
-      <section className="valv-zone-intro" aria-label="Valv zonöversikt">
-        <div className="valv-zone-intro__header">
-          <span className="valv-zone-intro__eyebrow">Zon</span>
-          <span className="valv-zone-intro__title">{VALV_ZONE_LABELS[valvZone]}</span>
-        </div>
-        <p className="valv-zone-intro__lead">{VALV_ZONE_INGRESS[valvZone]}</p>
-      </section>
+        <section className="valv-zone-intro valv-page-shell__intro" aria-label="Valv zonöversikt">
+          <div className="valv-zone-intro__header">
+            <span className="valv-zone-intro__eyebrow">Zon</span>
+            <span className="valv-zone-intro__title">{VALV_ZONE_LABELS[valvZone]}</span>
+          </div>
+          <p className="valv-zone-intro__lead">{VALV_ZONE_INGRESS[valvZone]}</p>
+        </section>
 
-      {vaultTab === 'logga' ? (
-        <PinnedPlaneringModuleSlot targetId="valv.logga" />
-      ) : null}
-      {vaultTab === 'kunskapsbank' ? (
-        <PinnedPlaneringModuleSlot targetId="valv.kunskapsbank" />
-      ) : null}
+        {vaultTab === 'logga' ? (
+          <PinnedPlaneringModuleSlot targetId="valv.logga" />
+        ) : null}
+        {vaultTab === 'kunskapsbank' ? (
+          <PinnedPlaneringModuleSlot targetId="valv.kunskapsbank" />
+        ) : null}
 
-      <Suspense fallback={<div className="p-4 text-center text-sm text-text-muted">Laddar valv-verktyg...</div>}>
-        <ValvInputSuperModule
-          activeMode={valvMode}
-          onModeChange={setValvMode}
-          vaultTab={vaultTab}
-          userId={user.uid}
-          gateOk={gateOk}
-          highlightLogId={highlightLogId}
-          onBevisConfirmed={handleBevisConfirmed}
-          onCitationClick={handleCitationClick}
-          onVaultTabChange={setVaultTab}
-          techniqueFilter={techniqueFilter}
-          onTechniqueSelect={handleTechniqueSelect}
-          onClearTechniqueFilter={handleClearTechniqueFilter}
-        />
-      </Suspense>
+        <Suspense fallback={<div className="valv-page-shell__loading p-4 text-center text-sm text-text-muted">Laddar valv-verktyg...</div>}>
+          <ValvInputSuperModule
+            activeMode={valvMode}
+            onModeChange={setValvMode}
+            vaultTab={vaultTab}
+            userId={user.uid}
+            gateOk={gateOk}
+            highlightLogId={highlightLogId}
+            onBevisConfirmed={handleBevisConfirmed}
+            onCitationClick={handleCitationClick}
+            onVaultTabChange={setVaultTab}
+            techniqueFilter={techniqueFilter}
+            onTechniqueSelect={handleTechniqueSelect}
+            onClearTechniqueFilter={handleClearTechniqueFilter}
+          />
+        </Suspense>
       </div>
     </ValvBentoShell>
   );

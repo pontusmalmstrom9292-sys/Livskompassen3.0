@@ -158,7 +158,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
 
   return (
     <AgentRegistryProvider>
-    <div className="space-y-4">
+    <div className="valv-zone-stack space-y-4">
       <div className="flex justify-end">
         <ModuleHelpFromRegistry moduleId="valv_orkester" />
       </div>

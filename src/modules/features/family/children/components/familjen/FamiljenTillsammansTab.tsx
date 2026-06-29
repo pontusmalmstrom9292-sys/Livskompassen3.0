@@ -21,7 +21,7 @@ export function FamiljenTillsammansTab({ shell }: Props) {
     : '';
 
   return (
-    <div className="space-y-4">
+    <div className="familjen-tab-surface space-y-4">
       <div className="space-y-2">
         <FamiljenFeatureCard
           title="Tid tillsammans"

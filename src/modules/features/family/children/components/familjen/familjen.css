@@ -22,6 +22,26 @@
     @apply relative z-10 space-y-4;
   }
 
+  .familjen-page {
+    @apply space-y-4;
+  }
+
+  .familjen-page__header {
+    @apply rounded-2xl border p-4;
+    border-color: var(--color-indigo-20);
+    background: linear-gradient(
+      180deg,
+      var(--color-panel-obsidian-55) 0%,
+      var(--color-panel-obsidian-70) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .familjen-page__card {
+    @apply min-h-0;
+  }
+
   .familjen-zone-strip {
     @apply mb-1 flex items-center justify-center;
   }
@@ -83,6 +103,74 @@
 
   .familjen-tab-panel {
     @apply min-h-0;
+  }
+
+  .familjen-tab-surface {
+    @apply rounded-2xl border p-4;
+    border-color: var(--color-indigo-20);
+    background: linear-gradient(
+      180deg,
+      var(--color-panel-obsidian-55) 0%,
+      var(--color-panel-obsidian-75) 100%
+    );
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .familjen-input-hub {
+    @apply rounded-2xl border;
+    border-color: var(--color-indigo-20);
+    background: linear-gradient(
+      180deg,
+      var(--color-panel-obsidian-55) 0%,
+      var(--color-panel-obsidian-75) 100%
+    );
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .familjen-input-hub__chrome {
+    @apply border-b border-border-strong/50;
+  }
+
+  .familjen-input-hub__header {
+    @apply min-w-0;
+  }
+
+  .familjen-input-hub__viewport {
+    @apply min-h-0;
+  }
+
+  .barnfokus-fragan-panel {
+    @apply rounded-2xl border p-4;
+    border-color: var(--color-indigo-20);
+    background: linear-gradient(
+      180deg,
+      var(--color-panel-obsidian-55) 0%,
+      var(--color-panel-obsidian-75) 100%
+    );
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .barnfokus-fragan-panel__banner {
+    @apply border-b border-border-strong/40 pb-3;
+  }
+
+  .barnfokus-fragan-panel__question {
+    @apply min-h-0;
+  }
+
+  .barnfokus-fragan-panel__kinds {
+    @apply pt-1;
+  }
+
+  .barnfokus-fragan-panel__field {
+    @apply min-h-[96px];
+  }
+
+  .barnfokus-fragan-panel__cta {
+    @apply pt-1;
   }
 
   .familjen-child-picker-shell {

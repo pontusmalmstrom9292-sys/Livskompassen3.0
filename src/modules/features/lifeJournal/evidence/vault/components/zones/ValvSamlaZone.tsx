@@ -51,69 +51,69 @@ export function ValvSamlaZone({
       glow="blue"
       logTag="ValvSamlaZone"
     >
-      <div className="mb-3">
+      <div className="valv-samla-stack mb-3 space-y-3">
         <TabBar
           size="compact"
           tabs={getSamlaVaultTabBarItems()}
           active={tab}
           onChange={onTabChange}
         />
-      </div>
-      {tab === 'sok' ? (
-        <ValvChatPanel
-          active={gateOk}
-          onCitationClick={onCitationClick}
-          logs={logs}
-        />
-      ) : (
-        <>
-          <WeaverPendingVaultBanner userId={userId} onApproved={() => loadFirstLogsPage(userId)} />
-          <VaultSamlaHub
-            userId={userId}
-            onBevisConfirmed={(docId) => void onBevisConfirmed(docId)}
-            onOpenGranska={onOpenGranska}
-            manualEntryOpen={manualEntryOpen}
-            onManualEntryOpenChange={setManualEntryOpen}
+        {tab === 'sok' ? (
+          <ValvChatPanel
+            active={gateOk}
+            onCitationClick={onCitationClick}
+            logs={logs}
           />
-          <div className="valv-samla-filter-row flex flex-wrap items-center justify-between gap-2 px-0.5">
-            <p className="text-xs font-medium uppercase tracking-wider text-text-dim">Arkivlista</p>
-            <div className="flex flex-wrap items-center gap-2">
-              {techniqueFilter ? (
+        ) : (
+          <>
+            <WeaverPendingVaultBanner userId={userId} onApproved={() => loadFirstLogsPage(userId)} />
+            <VaultSamlaHub
+              userId={userId}
+              onBevisConfirmed={(docId) => void onBevisConfirmed(docId)}
+              onOpenGranska={onOpenGranska}
+              manualEntryOpen={manualEntryOpen}
+              onManualEntryOpenChange={setManualEntryOpen}
+            />
+            <div className="valv-samla-filter-row flex flex-wrap items-center justify-between gap-2 px-0.5">
+              <p className="text-xs font-medium uppercase tracking-wider text-text-dim">Arkivlista</p>
+              <div className="flex flex-wrap items-center gap-2">
+                {techniqueFilter ? (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="valv-technique-filter-chip text-accent"
+                    aria-pressed
+                    onClick={onClearTechniqueFilter}
+                  >
+                    Filter: #{techniqueFilter} · Rensa
+                  </Button>
+                ) : null}
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="valv-technique-filter-chip text-accent"
-                  aria-pressed
-                  onClick={onClearTechniqueFilter}
+                  className={anchorsOnly ? 'text-accent' : undefined}
+                  aria-pressed={anchorsOnly}
+                  onClick={() => setAnchorsOnly((v) => !v)}
                 >
-                  Filter: #{techniqueFilter} · Rensa
+                  {anchorsOnly ? 'Visa alla bevis' : 'Endast ankare'}
                 </Button>
-              ) : null}
-              <Button
-                variant="ghost"
-                size="sm"
-                className={anchorsOnly ? 'text-accent' : undefined}
-                aria-pressed={anchorsOnly}
-                onClick={() => setAnchorsOnly((v) => !v)}
-              >
-                {anchorsOnly ? 'Visa alla bevis' : 'Endast ankare'}
-              </Button>
+              </div>
             </div>
-          </div>
-          <VaultLogList
-            highlightLogId={highlightLogId}
-            anchorsOnly={anchorsOnly}
-            techniqueFilter={techniqueFilter}
-            persistedTechniquesByLogId={techniquesByLogId}
-            onLogFirstBevis={() => {
-              setManualEntryOpen(true);
-              requestAnimationFrame(() => {
-                document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              });
-            }}
-          />
-        </>
-      )}
+            <VaultLogList
+              highlightLogId={highlightLogId}
+              anchorsOnly={anchorsOnly}
+              techniqueFilter={techniqueFilter}
+              persistedTechniquesByLogId={techniquesByLogId}
+              onLogFirstBevis={() => {
+                setManualEntryOpen(true);
+                requestAnimationFrame(() => {
+                  document.getElementById('vault-samla-entry')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+              }}
+            />
+          </>
+        )}
+      </div>
     </HubErrorBoundary>
   );
 }

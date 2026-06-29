@@ -28,7 +28,7 @@ export function FamiljenReflektionTab({ shell }: Props) {
   } = shell;
 
   return (
-    <div className="space-y-4">
+    <div className="familjen-tab-surface space-y-4">
       <ChildProfileCards
         selected={activeChild}
         onSelect={setActiveChild}

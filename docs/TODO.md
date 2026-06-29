@@ -116,7 +116,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] HomePage depth pass (2026-06-29) — executive hero/card depth pass complete
 - [x] ExecutiveReflektionHero polish
 - [x] Executive home cards (Livslogg, etc.)
-- [ ] LivLauncherPage bento grid
+- [x] LivLauncherPage bento grid
 - [x] PlaneringPage (complete in-flight)
 - [x] PlanningKanbanBoard (in-flight)
 - [x] PlaneringInkorgPanel (in-flight)
@@ -124,29 +124,29 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] CognitiveGuardView + banner (in-flight)
 - [x] PlaneringFokusPanel (in-flight)
 - [x] PlaneringParalysEntry (in-flight)
-- [ ] MåBra MabraHubView + layout
-- [ ] MåBra flow views
-- [ ] Ekonomi panels (EconomyPage, log, budget)
-- [ ] Arbetsliv hub + delegates
-- [ ] MorningCompass polish
+- [x] MåBra MabraHubView + layout
+- [x] MåBra flow views
+- [x] Ekonomi panels (EconomyPage, log, budget)
+- [x] Arbetsliv hub + delegates
+- [x] MorningCompass polish
 
 ---
 
 ## Phase 7 — Zone: Hjärtat + Familjen + Valv
 
-- [ ] DagbokInputSuperModule shell
-- [ ] Dagbok delegates (reflektion, tyst, burn)
-- [ ] SpeglarSuperModule
-- [ ] FamiljenPage + 6 tabs
-- [ ] FamiljenBarnfokusDelegate UI
-- [ ] Barnporten parent panels (not child fullscreen)
-- [ ] Trygg Hamn / Biff panels
-- [ ] VaultPage + zone tabs
-- [ ] ValvSamlaZone (in-flight)
-- [ ] WeaverPendingVaultBanner (in-flight)
-- [ ] VaultErrorBoundary (in-flight)
-- [ ] Remaining vault zones
-- [ ] DossierPage style-only pass
+- [x] DagbokInputSuperModule shell
+- [x] Dagbok delegates (reflektion, tyst, burn)
+- [x] SpeglarSuperModule
+- [x] FamiljenPage + 6 tabs
+- [x] FamiljenBarnfokusDelegate UI
+- [x] Barnporten parent panels (not child fullscreen)
+- [x] Trygg Hamn / Biff panels
+- [x] VaultPage + zone tabs
+- [x] ValvSamlaZone (in-flight)
+- [x] WeaverPendingVaultBanner (in-flight)
+- [x] VaultErrorBoundary (in-flight)
+- [x] Remaining vault zones
+- [x] DossierPage style-only pass
 - [ ] smoke:valv-security after Valv wave
 
 ---

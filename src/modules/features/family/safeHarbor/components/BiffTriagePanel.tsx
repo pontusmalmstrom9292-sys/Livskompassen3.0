@@ -40,7 +40,7 @@ export function BiffTriagePanel({
   const hasBait = baitCount > 0;
 
   return (
-    <BentoCard glow="indigo" title="BIFF-triage" icon={<Shield className="h-4 w-4" />} className="!p-4">
+    <BentoCard glow="indigo" title="BIFF-triage" icon={<Shield className="h-4 w-4" />} className="familjen-tab-surface !p-4">
       {agentName && (
         <p className="-mt-2 mb-3 text-right text-[10px] uppercase tracking-widest text-text-dim">
           {agentName}

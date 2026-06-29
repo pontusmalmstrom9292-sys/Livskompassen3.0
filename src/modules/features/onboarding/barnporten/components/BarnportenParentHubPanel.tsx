@@ -16,7 +16,7 @@ type Props = {
  */
 export function BarnportenParentHubPanel({ activeChild }: Props) {
   return (
-    <div className="space-y-4">
+    <div className="familjen-tab-surface space-y-4">
       <div className="flex justify-end">
         <ModuleHelpFromRegistry moduleId="barnporten" />
       </div>

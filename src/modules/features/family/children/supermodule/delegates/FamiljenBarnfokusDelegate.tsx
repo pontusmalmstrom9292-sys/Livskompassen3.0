@@ -93,7 +93,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
       glow="green"
       className="barnfokus-fragan-panel !border-x-0 !border-t-0 !bg-transparent !p-0 !shadow-none hover:!shadow-none [&>div]:flex [&>div]:flex-col [&>div]:gap-4"
     >
-      <div className="od-depth__banner flex flex-wrap items-center justify-between gap-2">
+      <div className="barnfokus-fragan-panel__banner od-depth__banner flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-2">
           <span className="od-depth__bento-icon !mb-0 !h-8 !w-8">
             <Sparkles className="h-3.5 w-3.5" />
@@ -106,7 +106,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
         <span className="od-depth__kind-chip">{kindLabel}</span>
       </div>
 
-      <div className="od-depth__question-card">
+      <div className="barnfokus-fragan-panel__question od-depth__question-card">
         <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
@@ -123,7 +123,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
         ) : null}
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="barnfokus-fragan-panel__kinds flex flex-wrap gap-2">
         {(['citat', 'tolkning'] as const).map((kind) => (
           <button
             key={kind}
@@ -145,10 +145,10 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
         onChange={(e) => setAnswer(e.target.value)}
         placeholder={`${childAlias}s svar — rakt av, med barnets egna ord…`}
         rows={3}
-        className="od-depth__field"
+        className="barnfokus-fragan-panel__field od-depth__field"
       />
 
-      <div className="od-depth__cta-wrap relative z-10 !mt-0">
+      <div className="barnfokus-fragan-panel__cta od-depth__cta-wrap relative z-10 !mt-0">
         <button
           type="button"
           onClick={handleSave}

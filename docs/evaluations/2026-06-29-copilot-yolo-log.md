@@ -6,3 +6,6 @@
 | 01:15:00 | design-bible-merge | PASS | ok | PR #120 mergad till main 2026-06-29. |
 | 01:45:00 | focus-visible-quickwin | PASS | ok | Unified focus-visible block i premium-polish.css (--ds-focus-ring). smoke:design-modules + smoke:locked-ux PASS. Deploy-ready: hosting. |
 | 02:20:00 | lazy-routes-vardagen-hjartat | PASS | ok | VardagenRoutePage + HjartatRoutePage lazy shells. zone-vardagen 2.0kB, zone-hjartat 1.9kB. build + smoke:locked-ux PASS. |
+| 03:02:00 | hub-eyebrow-polish | PASS | ok | PR #136 mergad. Hub eyebrows via textStyles.eyebrow (typeScale.ts). smoke:design-modules + smoke:orkester PASS. |
+| 03:22:00 | hosting-deploy-wave | PASS | ok | smoke:predeploy PASS (build + e2e). Deploy hosting @ 979567f9d → https://gen-lang-client-0481875058.web.app (339 filer). Ej functions. Pontus OK via kör 6. |
+| 03:32:00 | g85-friction-d4 | PASS | ok | cap:sync:prod + smoke:android-platform + smoke:android-prod-sync PASS. G85 dag 4-rad förberedd — manuell mikro-checklista kvar på telefon.

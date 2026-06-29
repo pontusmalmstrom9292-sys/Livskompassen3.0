@@ -38,12 +38,12 @@ export function FamiljenKunskapHubTab({ activeChild }: Props) {
   };
 
   return (
-    <div className="space-y-4">
-      <div className="familjen-kunskap-panel">
+    <div className="familjen-tab-surface space-y-4">
       <BentoCard
         title="Barnloggar"
         description={`Sök i livsloggar för ${activeChild}`}
         icon={<Search className="h-4 w-4" />}
+        className="!p-4"
       >
         <form onSubmit={(e) => void handleSearch(e)} className="mt-4 flex flex-col gap-3">
           <textarea
@@ -82,7 +82,6 @@ export function FamiljenKunskapHubTab({ activeChild }: Props) {
           </ul>
         )}
       </BentoCard>
-      </div>
 
       <div className="flex items-start gap-2 rounded-2xl border border-gold/20 bg-gold/5 p-3">
         <Shield className="mt-0.5 h-4 w-4 shrink-0 text-gold" />

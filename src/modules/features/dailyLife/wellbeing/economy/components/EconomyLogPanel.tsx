@@ -102,7 +102,7 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
   };
 
   return (
-    <div className="space-y-4">
+    <div className="economy-log-shell space-y-4">
       {error && <p className="text-sm text-danger">{error}</p>}
       {loading && (
         <p className="flex items-center gap-2 text-sm text-text-dim">
@@ -112,7 +112,7 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
 
       {!loading && (
         <>
-          <BentoCard title={scope === 'vardag' ? 'Logga utgift' : 'Logga utgift / inkomst'}>
+          <BentoCard title={scope === 'vardag' ? 'Logga utgift' : 'Logga utgift / inkomst'} className="overflow-hidden">
             <div className="space-y-3 text-sm">
               <input
                 type="date"
@@ -163,7 +163,7 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
             </div>
           </BentoCard>
 
-          <BentoCard title="Fasta räkningar">
+          <BentoCard title="Fasta räkningar" className="overflow-hidden">
             {bills.length === 0 ? (
               <EmptyState message="Inga fasta räkningar." />
             ) : (
@@ -205,7 +205,7 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
             </div>
           </BentoCard>
 
-          <BentoCard title="Senaste loggrader">
+          <BentoCard title="Senaste loggrader" className="overflow-hidden">
             {ledger.length === 0 ? (
               <EmptyState message="Inga rader ännu." />
             ) : (

@@ -341,7 +341,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
 
   if (!vaultOpen) {
     return (
-      <div className={embedded ? 'space-y-4' : 'space-y-6'}>
+      <div className={`valv-zone-stack ${embedded ? 'space-y-4' : 'space-y-6'}`}>
         <BentoCard title="Dossier-Generator" icon={<Lock className="h-4 w-4" />}>
           <p className="mb-4 text-sm text-text-muted">
             Dossier kräver upplåst Valv (Fyren). I bottenmenyn: tryck på <strong>Hjärtat</strong>{' '}
@@ -359,7 +359,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
   }
 
   return (
-    <div className={embedded ? 'space-y-4' : 'space-y-6'}>
+    <div className={`valv-zone-stack ${embedded ? 'space-y-4' : 'space-y-6'}`}>
       <BentoCard
         title={embedded ? 'Dossier' : 'Dossier-Generator'}
         description={embedded ? 'Samlad arkiv-export' : undefined}

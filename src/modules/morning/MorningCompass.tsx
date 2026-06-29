@@ -35,14 +35,14 @@ const FocusPointRow = memo(function FocusPointRow({
 
   return (
     <div
-      className={`group relative p-4 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-md shadow-sm transition-all hover:bg-white/10 focus-within:bg-white/10 focus-within:border-white/20 ${
+      className={`group relative rounded-2xl border border-white/10 bg-white/5 p-4 shadow-sm backdrop-blur-md transition-all hover:bg-white/10 focus-within:bg-white/10 focus-within:border-white/20 ${
         lowEnergyDimmed ? 'opacity-20 pointer-events-none' : ''
       } ${lowEnergyHighlighted ? 'ring-1 ring-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.1)]' : ''} ${
         locked ? 'border-accent/25 bg-accent/5' : ''
       }`}
     >
       <div className="flex items-center gap-4">
-        <div className="w-8 h-8 flex-shrink-0 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-white/40 font-medium">
+        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 font-medium text-white/40">
           {index + 1}
         </div>
         <div className="min-w-0 flex-1">
@@ -258,8 +258,8 @@ export function MorningCompass() {
   };
 
   return (
-    <div className="w-full min-h-[80vh] flex flex-col items-center p-4 sm:p-6 md:p-8 animate-fade-in">
-      <div className="max-w-md w-full space-y-8 mt-12 relative">
+    <div className="morning-compass-shell flex min-h-[80vh] w-full flex-col items-center p-4 sm:p-6 md:p-8 animate-fade-in">
+      <div className="morning-compass-shell__surface relative mt-12 w-full max-w-md space-y-8 rounded-3xl border border-white/10 bg-black/20 p-5 shadow-[0_24px_60px_-36px_rgba(0,0,0,0.75)] backdrop-blur-xl sm:p-6">
         <div className="absolute -top-8 right-0 text-white/30 flex items-center gap-2 text-xs">
           {saveStatus === 'saving' && <Loader2 className="w-3 h-3 animate-spin" />}
           {saveStatus === 'saved' && <CheckCircle2 className="w-3 h-3 text-white/60" />}
@@ -301,6 +301,7 @@ export function MorningCompass() {
                 </p>
                 <div className="mt-4 flex flex-wrap gap-2">
                   <button
+                    type="button"
                     onClick={() => {
                       setLowEnergyProtocolActive(true);
                       if (!isGoalLocked) {
@@ -314,6 +315,7 @@ export function MorningCompass() {
                     Aktivera Low-Energy
                   </button>
                   <button
+                    type="button"
                     onClick={() => setDismissedLowEnergy(true)}
                     className="text-xs px-3 py-1.5 rounded-lg text-amber-300/70 hover:text-amber-200 hover:bg-white/5 transition-colors"
                   >
@@ -363,12 +365,14 @@ export function MorningCompass() {
                     <p className="text-sm text-indigo-100 mt-1">{todayProtocol}</p>
                     <div className="mt-4 flex flex-wrap gap-2">
                       <button
+                        type="button"
                         onClick={handleAcceptProtocol}
                         className="text-xs px-3 py-1.5 rounded-lg bg-indigo-500/30 text-indigo-100 hover:bg-indigo-500/50 transition-colors"
                       >
                         Acceptera
                       </button>
                       <button
+                        type="button"
                         onClick={() => {
                           setAdjustedText(todayProtocol);
                           setIsAdjusting(true);
@@ -378,6 +382,7 @@ export function MorningCompass() {
                         Justera
                       </button>
                       <button
+                        type="button"
                         onClick={handleRejectProtocol}
                         className="text-xs px-3 py-1.5 rounded-lg text-indigo-300/70 hover:text-indigo-200 hover:bg-white/5 transition-colors"
                       >
@@ -418,6 +423,7 @@ export function MorningCompass() {
 
         <div className="pt-8 flex justify-center">
           <button
+            type="button"
             onClick={() => void handleClearCompass()}
             className="flex items-center gap-2 px-4 py-2 text-sm text-white/40 hover:text-white/80 transition-colors rounded-lg hover:bg-white/5"
           >

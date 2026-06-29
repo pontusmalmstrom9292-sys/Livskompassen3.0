@@ -287,14 +287,11 @@ export const MabraHubView = memo(function MabraHubView() {
   );
 
   return (
-    <>
+    <div className="mabra-hub-shell space-y-4">
       <MabraRecoveryBanner />
       {showHubPicker && (
         <div className="calm-card glow-bottom-green overflow-hidden rounded-2xl p-4 sm:p-5">
-          <MabraModulValjare
-            onSelect={handleModulChoice}
-            onSkip={() => setShowHubPicker(false)}
-          />
+          <MabraModulValjare onSelect={handleModulChoice} onSkip={() => setShowHubPicker(false)} />
         </div>
       )}
 
@@ -330,9 +327,7 @@ export const MabraHubView = memo(function MabraHubView() {
             }
           />
 
-          {!lowEnergyMode && (
-            <MabraNutritionHubPrimary uid={userId} />
-          )}
+          {!lowEnergyMode && <MabraNutritionHubPrimary uid={userId} />}
 
           {!lowEnergyMode && (
             <MabraHubCollapsible title="Mer på hubben" meta="Mix · Mål · Kurser · Historik" defaultOpen={false}>
@@ -353,10 +348,7 @@ export const MabraHubView = memo(function MabraHubView() {
                   </HubErrorBoundary>
                 </MabraHubCollapsible>
                 <MabraHubCollapsible title="Dina kurser" meta={`${CURRICULUMS.length} kurser`} defaultOpen={false}>
-                  <VitCurriculumPanel
-                    onOpenReflection={openCurriculumReflection}
-                    onOpenPlay={openCurriculumPlay}
-                  />
+                  <VitCurriculumPanel onOpenReflection={openCurriculumReflection} onOpenPlay={openCurriculumPlay} />
                 </MabraHubCollapsible>
                 <MabraHubCollapsible title="Utvecklingsprojekt" meta="Vit-zon" defaultOpen={false}>
                   <MabraVitProjectsPanel lastSeen={vitLastSeen} onOpenProject={openVitProject} />
@@ -377,11 +369,9 @@ export const MabraHubView = memo(function MabraHubView() {
             </MabraHubCollapsible>
           )}
 
-          {valuesSavedHint && (
-            <p className="text-center text-sm text-text-muted">{VALUES_COMPASS_COPY.savedHint}</p>
-          )}
+          {valuesSavedHint && <p className="text-center text-sm text-text-muted">{VALUES_COMPASS_COPY.savedHint}</p>}
         </>
       )}
-    </>
+    </div>
   );
 });
