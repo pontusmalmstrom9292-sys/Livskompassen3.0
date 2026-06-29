@@ -689,11 +689,6 @@
       drop-shadow(0 0 12px rgba(212, 175, 55, 0.32));
   }
 
-  .dock-nav-btn--active .dock-nav-btn__chrome-v4 {
-    filter: drop-shadow(0 2px 4px var(--color-glass-dark-45))
-      drop-shadow(0 0 14px rgba(212, 175, 55, 0.4));
-  }
-
   .dock-nav-btn:active .dock-nav-btn__icon-shell.hub-chrome-tile {
     transform: translateY(0);
   }
