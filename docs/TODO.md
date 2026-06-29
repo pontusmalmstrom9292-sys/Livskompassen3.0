@@ -227,6 +227,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Remove dead dock-classic__plate selector
 - [x] Remove dead hub-chrome-tile--side selector
 - [x] Remove dead dock-nav-btn--active dock-nav-btn__chrome-v4 selector
+- [x] Remove dead dock-nav-btn__glyph selector
 
 ---
 
