@@ -37,6 +37,34 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — ClusterGrid styles localized
+
+**Completed work:**
+- Moved the `ClusterGrid` module-card and chip styles out of `src/index.css` into a component-local stylesheet.
+- Kept shared `module-list` and adaptive grid styles global because they are used by multiple surfaces.
+
+**Files changed:**
+- src/index.css
+- src/modules/core/ui/ClusterGrid.tsx
+- src/modules/core/ui/ClusterGrid.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3697
+
+**Reasoning:**
+- `ClusterGrid` is a self-contained component with isolated card styling, so local CSS reduces global surface area without changing behavior.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Widget bar CSS localized
 
 **Completed work:**

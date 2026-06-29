@@ -4,6 +4,7 @@ import { BookOpen, Anchor, Heart, Compass, ChevronRight, Sparkles } from 'lucide
 import { HIDE_BEVIS_TAB } from '../navigation/navFlags';
 import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
 import { DAGBOK_BEVIS_DRAWER_LABEL } from '../copy/valvNavCopy';
+import './ClusterGrid.css';
 
 type ModuleLink = {
   label: string;
