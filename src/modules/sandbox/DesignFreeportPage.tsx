@@ -12,6 +12,7 @@ import { FreeportMabraHub } from './components/FreeportMabraHub';
 import { FreeportFamiljenHub } from './components/FreeportFamiljenHub';
 import { FreeportPremiumScreensLab } from './components/FreeportPremiumScreensLab';
 import { BastaDesignApp } from './basta-design/BastaDesignApp';
+import '@/styles/design-freeport.css';
 
 type PanelId =
   | 'hem'

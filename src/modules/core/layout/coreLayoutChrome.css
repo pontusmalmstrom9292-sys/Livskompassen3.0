@@ -1,0 +1,489 @@
+@tailwind components;
+
+@layer components {
+  .app-header {
+    @apply pointer-events-none fixed top-0 left-0 right-0 z-[220];
+    background: linear-gradient(to bottom, rgba(2, 6, 23, 0.88), rgba(2, 6, 23, 0));
+  }
+
+  .glass-header-bar {
+    @apply pointer-events-auto relative mx-auto flex h-[3.75rem] max-w-2xl items-center justify-between gap-3 overflow-hidden rounded-2xl px-4;
+    background:
+      linear-gradient(180deg, color-mix(in srgb, var(--ds-color-text) 5%, transparent) 0%, transparent 18%),
+      color-mix(in srgb, var(--ds-glass-bg) 92%, transparent);
+    backdrop-filter: blur(var(--ds-glass-blur)) saturate(var(--ds-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--ds-glass-blur)) saturate(var(--ds-glass-saturate));
+    border: 1px solid var(--ds-glass-border);
+    box-shadow: var(--ds-elevation-card);
+  }
+
+  .glass-header-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--ds-glass-highlight), transparent);
+    pointer-events: none;
+  }
+
+  .app-header__brand {
+    @apply relative z-10 flex min-w-0 items-center gap-3;
+  }
+
+  .app-header__logo {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl;
+    background: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.22);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .app-header__title {
+    @apply truncate font-display text-sm font-semibold uppercase tracking-[0.18em] text-text;
+  }
+
+  .app-header__actions {
+    @apply relative z-10 flex shrink-0 items-center gap-2;
+  }
+
+  .header-glass-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-xs font-medium uppercase tracking-widest text-text-muted transition-all;
+    background: rgba(15, 23, 42, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .header-glass-btn:hover {
+    color: rgba(248, 250, 252, 0.95);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .header-glass-btn--active {
+    color: var(--color-accent-gold);
+    background: rgba(212, 175, 55, 0.14);
+    border-color: rgba(212, 175, 55, 0.38);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 0 20px rgba(212, 175, 55, 0.12);
+  }
+
+  .header-glass-btn--avatar {
+    @apply cursor-default px-2 py-2;
+  }
+
+  .header-glass-btn--avatar:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: inherit;
+  }
+
+  .app-main {
+    padding-bottom: var(--app-dock-clearance);
+    scroll-padding-bottom: var(--app-dock-clearance);
+  }
+
+  .dock-shell--fyren {
+    @apply flex-col items-center gap-0;
+    --dock-stack-height: 8.5rem;
+  }
+
+  .dock-shell {
+    @apply pointer-events-none fixed bottom-0 left-0 right-0 z-50 flex justify-center px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-0;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--bg) 92%, transparent) 0%,
+      transparent 78%
+    );
+  }
+
+  .dock-shell .dock-classic {
+    @apply rounded-2xl border px-3 py-1.5;
+    border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+    background: color-mix(in srgb, var(--glass) 85%, transparent);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 28px var(--color-glass-dark-45);
+  }
+
+  .dock-nav {
+    @apply pointer-events-auto flex items-center justify-center;
+  }
+
+  .dock-nav--hub {
+    @apply inline-flex w-auto max-w-[min(100vw-0.75rem,40rem)] items-end justify-center border-0 bg-transparent p-0 shadow-none;
+  }
+
+  .dock-orbit-stage {
+    @apply relative flex items-center justify-center;
+  }
+
+  /* ═══════════════════════════════════════════════════════════════
+     MOCKUP GLASSMORPHIC PILL DOCK OVERRIDE v3 — Minimal, sleek, fully contained
+     ═══════════════════════════════════════════════════════════════ */
+  @media (max-width: 9999px) {
+    .fyren-dock-handle {
+      display: none !important;
+    }
+
+    .dock-shell--fyren {
+      --dock-stack-height: 5rem;
+      background: transparent !important;
+      padding-bottom: 0.5rem !important;
+    }
+
+    .dock-shell {
+      background: transparent !important;
+      pointer-events: none;
+      padding-bottom: max(0.5rem, env(safe-area-inset-bottom)) !important;
+    }
+
+    .dock-shell.dock-shell--reference-dock,
+    .dock-shell.dock-shell--basta-design {
+      padding-left: 0.75rem !important;
+      padding-right: 0.75rem !important;
+      padding-bottom: max(0.7rem, env(safe-area-inset-bottom)) !important;
+    }
+
+    .floating-dock.dock-hub-band {
+      width: fit-content !important;
+      max-width: 98vw !important;
+      margin: 0 auto !important;
+      background: linear-gradient(180deg, rgba(20, 20, 25, 0.94), rgba(10, 10, 10, 0.98)) !important;
+      border: 1px solid rgba(255, 255, 255, 0.08) !important;
+      border-radius: 2.2rem !important;
+      backdrop-filter: blur(30px) saturate(160%) !important;
+      -webkit-backdrop-filter: blur(30px) saturate(160%) !important;
+      box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.8),
+        inset 0 1px 1px rgba(255, 255, 255, 0.06),
+        0 0 15px rgba(212, 175, 55, 0.06) !important;
+      padding: 0.25rem 0.3rem !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0.2rem !important;
+      pointer-events: auto !important;
+      min-height: 4rem !important;
+    }
+
+    .floating-dock .dock-hub-band__rail,
+    .floating-dock .dock-hub-band__rail--zones {
+      border-radius: 1.8rem !important;
+      border: 1px solid rgba(212, 175, 55, 0.45) !important;
+      background: rgba(0, 0, 0, 0.5) !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.7) !important;
+      overflow: visible !important;
+      width: fit-content !important;
+      min-width: 0 !important;
+      margin: 0 !important;
+      padding: 0 0.4rem !important;
+      min-height: 3.5rem !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      gap: 0.15rem !important;
+    }
+
+    .floating-dock .dock-hub-band__rail::before,
+    .floating-dock .dock-hub-band__rail::after {
+      display: none !important;
+    }
+
+    .floating-dock__side-group {
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      height: 100% !important;
+      gap: 0 !important;
+      flex: 1 1 0% !important;
+      min-width: 3.1rem !important;
+    }
+
+    .floating-dock__side-btn .dock-nav-btn__icon-shell--calm {
+      width: auto !important;
+      height: auto !important;
+      background: none !important;
+      border: none !important;
+      box-shadow: none !important;
+      border-radius: 0 !important;
+      padding: 0 !important;
+      transform: none !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
+
+    .floating-dock__side-btn {
+      min-height: 3.5rem !important;
+      min-width: 3.1rem !important;
+      max-width: 4.8rem !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+      padding: 0 0.2rem !important;
+      margin: 0 !important;
+      background: transparent !important;
+      border-radius: 0.8rem !important;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    .floating-dock__side-btn.dock-nav-btn--active {
+      background: rgba(212, 175, 55, 0.06) !important;
+    }
+
+    .floating-dock__side-btn.dock-nav-btn--active::before {
+      display: none !important;
+    }
+
+    .floating-dock__side-btn svg,
+    .floating-dock__side-btn .dock-nav-btn__drawer-l2 {
+      height: 1.35rem !important;
+      width: 1.35rem !important;
+      opacity: 0.75 !important;
+      color: rgba(212, 175, 55, 0.8) !important;
+      transition: all 0.2s ease !important;
+      filter: none !important;
+      transform: none !important;
+    }
+
+    .floating-dock__side-btn:hover svg,
+    .floating-dock__side-btn:hover .dock-nav-btn__drawer-l2 {
+      opacity: 1 !important;
+      color: #fde68a !important;
+      transform: translateY(-1px) !important;
+    }
+
+    .floating-dock__side-btn.dock-nav-btn--active svg,
+    .floating-dock__side-btn.dock-nav-btn--active .dock-nav-btn__drawer-l2 {
+      opacity: 1 !important;
+      color: #d4af37 !important;
+      filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6)) !important;
+      transform: scale(1.05) !important;
+    }
+
+    .floating-dock__side-btn .dock-nav-btn__label {
+      display: block !important;
+      font-size: 0.52rem !important;
+      line-height: 1.1 !important;
+      font-weight: 600 !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.02em !important;
+      color: rgba(212, 175, 55, 0.6) !important;
+      margin-top: 0.25rem !important;
+      text-align: center !important;
+      width: 100% !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+      transition: color 0.2s ease !important;
+    }
+
+    .floating-dock__side-btn:hover .dock-nav-btn__label {
+      color: #fde68a !important;
+    }
+
+    .floating-dock__side-btn.dock-nav-btn--active .dock-nav-btn__label {
+      color: #d4af37 !important;
+      text-shadow: 0 0 6px rgba(212, 175, 55, 0.2) !important;
+    }
+
+    .floating-dock__side-btn--anteckning,
+    .floating-dock__side-btn--inkast {
+      background: transparent !important;
+      border: none !important;
+      padding: 0 0.2rem !important;
+      max-width: 4.5rem !important;
+    }
+
+    .floating-dock .dock-hub-band__rail--zones > .floating-dock__center-wrapper {
+      margin: 0 0.15rem !important;
+    }
+
+    .floating-dock .dock-hub-band__rail--zones > .floating-dock__center-wrapper > .dock-hub-band__center {
+      position: relative !important;
+      transform: none !important;
+      width: 3.1rem !important;
+      height: 3.1rem !important;
+      margin: 0 !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      z-index: 10 !important;
+      background: transparent !important;
+      border: none !important;
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    .floating-dock__plate {
+      background: rgba(15, 15, 20, 0.85) !important;
+      border: 1px solid rgba(212, 175, 55, 0.35) !important;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) !important;
+      width: 2.5rem !important;
+      height: 2.5rem !important;
+      border-radius: 50% !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    .floating-dock__mark {
+      height: 1.6rem !important;
+      width: 1.6rem !important;
+      color: #d4af37 !important;
+      filter: drop-shadow(0 0 4px rgba(212,175,55,0.4)) !important;
+      transition: all 0.25s ease !important;
+    }
+
+    .floating-dock .dock-hub-band__center:hover .floating-dock__plate {
+      border-color: #d4af37 !important;
+      box-shadow: 0 0 14px rgba(212,175,55,0.3) !important;
+      transform: translateY(-1px) !important;
+    }
+
+    .floating-dock .dock-hub-band__center:hover .floating-dock__mark {
+      color: #fde68a !important;
+      filter: drop-shadow(0 0 8px rgba(212,175,55,0.7)) !important;
+    }
+
+    .floating-dock .dock-hub-band__center--active .floating-dock__plate,
+    .floating-dock .dock-hub-band__center--holding .floating-dock__plate {
+      border-color: #d4af37 !important;
+      background: rgba(212, 175, 55, 0.12) !important;
+      box-shadow: 0 0 18px rgba(212, 175, 55, 0.4) !important;
+      transform: scale(1.05) !important;
+    }
+
+    .floating-dock .dock-hub-band__center--active .floating-dock__mark,
+    .floating-dock .dock-hub-band__center--holding .floating-dock__mark {
+      color: #d4af37 !important;
+      filter: drop-shadow(0 0 10px rgba(212,175,55,0.8)) !important;
+    }
+
+    .floating-dock__center-wrapper > span {
+      position: absolute !important;
+      bottom: -0.5rem !important;
+      font-size: 0.52rem !important;
+      line-height: 1.1 !important;
+      font-weight: 600 !important;
+      color: rgba(212, 175, 55, 0.6) !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.02em !important;
+      pointer-events: none !important;
+      transition: color 0.2s ease !important;
+      z-index: 20 !important;
+    }
+
+    .floating-dock__center-wrapper:hover > span {
+      color: #fde68a !important;
+    }
+
+    .floating-dock .dock-hub-band__center--active + span,
+    .floating-dock .dock-hub-band__center--holding + span {
+      color: #d4af37 !important;
+    }
+
+    .floating-dock__center-glow {
+      display: none !important;
+    }
+
+    .hub-preset-sheet__backdrop {
+      @apply fixed inset-0 z-[232] cursor-pointer border-0 bg-black/55 backdrop-blur-[2px];
+    }
+
+    .hub-preset-sheet {
+      @apply fixed left-4 right-4 top-1/2 z-[233] mx-auto max-w-md -translate-y-1/2 rounded-[2rem] border border-border bg-bg/95 p-5 shadow-xl;
+    }
+
+    .hub-preset-sheet__close {
+      @apply absolute right-3 top-3 rounded-full border border-border bg-bg p-1.5 text-text-dim;
+    }
+
+    body.hub-preset-sheet-open {
+      overflow: hidden;
+    }
+
+    .module-hub-panel {
+      @apply pointer-events-auto mx-auto mb-3 max-w-sm rounded-2xl border border-white/10 p-4;
+      background: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      box-shadow: 0 8px 32px rgba(2, 6, 23, 0.55);
+    }
+
+    .module-hub-panel__grid {
+      @apply flex flex-col items-stretch gap-2;
+    }
+
+    .module-hub-panel__row {
+      @apply grid grid-cols-2 gap-2;
+    }
+
+    .module-hub-tile {
+      @apply flex flex-col items-center justify-center gap-1 rounded-xl border border-white/10 px-3 py-3 text-center transition-colors;
+      background: rgba(15, 23, 42, 0.55);
+    }
+
+    .module-hub-tile:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+
+    .module-hub-tile--active {
+      @apply border-accent/40 text-accent;
+      background: rgba(212, 175, 55, 0.08);
+    }
+
+    .module-hub-tile--center {
+      @apply py-4;
+    }
+
+    .module-hub-tile--gold.module-hub-tile--active {
+      border-color: rgba(212, 175, 55, 0.4);
+      color: var(--color-accent-gold);
+      background: rgba(212, 175, 55, 0.08);
+    }
+
+    .module-hub-tile--indigo.module-hub-tile--active {
+      border-color: rgba(129, 140, 248, 0.4);
+      color: #a5b4fc;
+      background: rgba(129, 140, 248, 0.08);
+    }
+
+    .module-hub-tile--lavender.module-hub-tile--active {
+      border-color: rgba(167, 139, 250, 0.4);
+      color: #c4b5fd;
+      background: rgba(167, 139, 250, 0.08);
+    }
+
+    .module-hub-tile--emerald.module-hub-tile--active {
+      border-color: rgba(45, 212, 191, 0.4);
+      color: #2dd4bf;
+      background: rgba(45, 212, 191, 0.08);
+    }
+
+    .module-hub-tile__icon {
+      @apply relative flex h-9 w-9 items-center justify-center;
+    }
+
+    .module-hub-tile__label {
+      @apply text-[10px] font-semibold uppercase tracking-widest text-text;
+    }
+
+    .module-hub-tile__desc {
+      @apply text-[9px] text-text-dim;
+    }
+
+    .module-hub-panel__close {
+      @apply mt-3 w-full rounded-full border border-white/10 py-2 text-[10px] uppercase tracking-widest text-text-dim transition-colors hover:text-text-muted;
+    }
+  }
+}

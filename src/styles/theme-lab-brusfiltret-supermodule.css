@@ -4,6 +4,8 @@
  * Kanon: docs/design/references/BRUSFILTRET-MODUL-KANON.md
  */
 
+@tailwind components;
+
 .bf-supermodule-lab {
   @apply mx-auto flex w-full max-w-lg flex-col gap-6;
 }

@@ -8,4 +8,6 @@ Small, prop-driven primitives. Export from `index.ts`:
 - **Input** — form field
 - **Modal** — dialog shell
 
-Import: `import { BentoCard, Modal } from '@/shared/ui'` or `@/shared`.
+Import the module-local primitives directly:
+
+`import { BentoCard, Button } from '@/shared/ui'`

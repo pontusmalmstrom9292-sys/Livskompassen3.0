@@ -5,6 +5,38 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
+const noBtnPillInModulesRule = {
+  meta: {
+    type: 'problem',
+    docs: {
+      description: 'Warn on new btn-pill-- usage inside src/modules',
+    },
+    schema: [],
+    messages: {
+      forbidden: 'Use ds-btn instead of btn-pill-- in src/modules.',
+    },
+  },
+  create(context) {
+    const filename = context.getFilename()
+    if (!filename.includes('/src/modules/')) {
+      return {}
+    }
+
+    return {
+      Literal(node) {
+        if (typeof node.value === 'string' && node.value.includes('btn-pill--')) {
+          context.report({ node, messageId: 'forbidden' })
+        }
+      },
+      TemplateLiteral(node) {
+        if (node.quasis.some((quasi) => quasi.value.raw.includes('btn-pill--'))) {
+          context.report({ node, messageId: 'forbidden' })
+        }
+      },
+    }
+  },
+}
+
 export default defineConfig([
   globalIgnores([
     'dist',
@@ -27,6 +59,13 @@ export default defineConfig([
         ...globals.node,
       },
     },
+    plugins: {
+      local: {
+        rules: {
+          'no-btn-pill-in-modules': noBtnPillInModulesRule,
+        },
+      },
+    },
     rules: {
       // Existing patterns (data fetch on mount, vault lock reset) — fix incrementally
       'react-hooks/set-state-in-effect': 'off',
@@ -39,6 +78,7 @@ export default defineConfig([
         'error',
         { argsIgnorePattern: '^_', varsIgnorePattern: '^_' },
       ],
+      'local/no-btn-pill-in-modules': 'warn',
     },
   },
 ])

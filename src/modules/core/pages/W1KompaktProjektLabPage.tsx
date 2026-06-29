@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { W1KompaktProjektPreview } from '@/modules/sandbox/widget/W1KompaktProjektPreview';
 import w1MockupRef from '../../../../docs/design/galleri/widget/v2/W1-kompakt-projekt.png';
 import pickerMockupRef from '../../../../docs/design/galleri/widget/v2/projekt-ny-picker.png';
+import '@/styles/theme-lab-w1-widget.css';
 
 export function W1KompaktProjektLabPage() {
   const [status, setStatus] = useState('Tryck på höger rail, Dagens riktning eller dock.');

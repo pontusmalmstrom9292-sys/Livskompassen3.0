@@ -5,6 +5,7 @@ import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasse
 import { EVENING_HERO, getFlowConfig } from '@/features/dailyLife/wellbeing/compasses/config/compassFlows';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { HomeQuickModules } from './HomeQuickModules';
+import './HomeActionHub.css';
 
 type Props = {
   onCheckInSaved?: () => void;

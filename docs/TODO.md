@@ -147,7 +147,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] VaultErrorBoundary (in-flight)
 - [x] Remaining vault zones
 - [x] DossierPage style-only pass
-- [ ] smoke:valv-security after Valv wave
+- [x] smoke:valv-security after Valv wave
 
 ---
 
@@ -172,21 +172,21 @@ Each item is independently completable. Link files in Dashboard when done.
 
 ## Phase 9 — Testing infrastructure
 
-- [ ] Implement scripts/count_design_debt.mjs
-- [ ] Implement scripts/smoke_no_new_btn_pill.mjs
-- [ ] ESLint rule: warn btn-pill-- in modules
-- [ ] Optional: Playwright screenshot compare
-- [ ] Document results in Dashboard metrics
+- [x] Implement scripts/count_design_debt.mjs
+- [x] Implement scripts/smoke_no_new_btn_pill.mjs
+- [x] ESLint rule: warn btn-pill-- in modules
+- [x] Optional: Playwright screenshot compare
+- [x] Document results in Dashboard metrics
 
 ---
 
 ## Phase 10 — Legacy sunset (stretch)
 
-- [ ] Audit unused calm-card classes
-- [ ] Extract planering.css patterns to DS
-- [ ] Remove dead lab CSS from prod bundle
-- [ ] Reduce index.css toward 5000 LOC target
-- [ ] Deprecate shared/ui re-exports
+- [x] Audit unused calm-card classes
+- [x] Extract planering.css patterns to DS
+- [x] Remove dead lab CSS from prod bundle
+- [x] Reduce index.css toward 5000 LOC target (6153 LOC)
+- [x] Deprecate shared/ui re-exports
 
 ---
 
