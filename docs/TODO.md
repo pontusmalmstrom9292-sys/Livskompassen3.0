@@ -221,6 +221,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Remove dead dock-classic__center side-label selector
 - [x] Remove dead dock-classic__center selector
 - [x] Remove dead dock-classic__side-label selector
+- [x] Remove dead dock-classic__side selector
 
 ---
 
