@@ -38,6 +38,32 @@ Copy the template below for each entry. Newest first.
 ---
 
 
+## 2026-06-29 — Dead ambient blob variants removed
+
+**Completed work:**
+- Removed unused `ambient-blob--indigo` and `ambient-blob--white` selectors from `src/index.css`.
+- Kept active ambient blob variants (`--gold`, `--accent-secondary`) untouched.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3408
+
+**Reasoning:**
+- `ambient-blob--indigo` and `ambient-blob--white` had no active `src` consumers, so removing them safely trims global CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead projekt picker selectors removed
 
 **Completed work:**
