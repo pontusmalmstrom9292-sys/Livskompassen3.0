@@ -25,6 +25,7 @@ Läs dynamisk status före stor kod: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`
 
 | Ämne | Regel |
 |------|-------|
+| AI Governance | [`ai-governance-entry.mdc`](rules/ai-governance-entry.mdc) |
 | Silos & RAG | [`memory-silo.mdc`](rules/memory-silo.mdc) |
 | ADK & synapser | [`synapser-adk.mdc`](rules/synapser-adk.mdc) |
 | Säkerhet & DCAP | [`security-firestore.mdc`](rules/security-firestore.mdc) |
