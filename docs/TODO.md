@@ -128,7 +128,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] MåBra flow views
 - [x] Ekonomi panels (EconomyPage, log, budget)
 - [x] Arbetsliv hub + delegates
-- [ ] MorningCompass polish
+- [x] MorningCompass polish
 
 ---
 
