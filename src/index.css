@@ -539,10 +539,6 @@
     background: rgba(10, 10, 10, 0.55);
   }
 
-  .dock-classic__side-label {
-    @apply max-w-[3.25rem] truncate text-[8px] font-medium leading-none tracking-wide text-text-muted;
-  }
-
   .dock-classic__plate {
     @apply relative flex h-11 w-11 items-center justify-center rounded-full;
     background: linear-gradient(
