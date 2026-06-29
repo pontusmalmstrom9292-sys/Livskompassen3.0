@@ -112,11 +112,11 @@ export function ExecutiveDockBar({
         </div>
 
         <ExecDockSide label="Valv" active={isValvet} onClick={onValv}>
-          <Vault className="exec-dock-bar__glyph" strokeWidth={1.5} />
+          <Vault className="exec-dock-bar__glyph" strokeWidth={1.75} />
         </ExecDockSide>
 
         <ExecDockSide label="Planering" active={isPlanering} onClick={onPlanering}>
-          <CalendarDays className="exec-dock-bar__glyph" strokeWidth={1.5} />
+          <CalendarDays className="exec-dock-bar__glyph" strokeWidth={1.75} />
         </ExecDockSide>
       </nav>
     );
@@ -129,11 +129,11 @@ export function ExecutiveDockBar({
         active={pathname.startsWith('/widget/anteckning')}
         onClick={onAnteckning}
       >
-        <PenLine className="exec-dock-bar__glyph" strokeWidth={1.5} />
+        <PenLine className="exec-dock-bar__glyph" strokeWidth={1.75} />
       </ExecDockSide>
 
       <ExecDockSide label="Familj" active={isFamiljen} onClick={onFamiljen}>
-        <Users className="exec-dock-bar__glyph" strokeWidth={1.5} />
+        <Users className="exec-dock-bar__glyph" strokeWidth={1.75} />
       </ExecDockSide>
 
       <div className="exec-dock-bar__compass-slot">
@@ -171,7 +171,7 @@ export function ExecutiveDockBar({
       </div>
 
       <ExecDockSide label="Hjärtat" active={isHjartat} onClick={onVentil}>
-        <Landmark className="exec-dock-bar__glyph" strokeWidth={1.5} />
+        <Landmark className="exec-dock-bar__glyph" strokeWidth={1.75} />
       </ExecDockSide>
 
       <ExecDockSide
@@ -179,11 +179,11 @@ export function ExecutiveDockBar({
         active={pathname.startsWith('/planering/input')}
         onClick={onInkast}
       >
-        <Inbox className="exec-dock-bar__glyph" strokeWidth={1.5} />
+        <Inbox className="exec-dock-bar__glyph" strokeWidth={1.75} />
       </ExecDockSide>
 
       <ExecDockSide label="Resurser" active={resurserOpen} onClick={onResurser}>
-        <LayoutGrid className="exec-dock-bar__glyph" strokeWidth={1.5} />
+        <LayoutGrid className="exec-dock-bar__glyph" strokeWidth={1.75} />
       </ExecDockSide>
     </nav>
   );

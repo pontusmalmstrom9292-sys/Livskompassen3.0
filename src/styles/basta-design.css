@@ -580,14 +580,7 @@ html[data-theme='ME-basta-design'] {
 }
 
 /* —— Prod dock v2 (kanon 6 zoner + hero-kompass via exec-dock-bar) —— */
-/* Shell = reference-dock. Base pill/glass/gold ring lives in executive-chrome.css. */
-
-.dock-shell.dock-shell--basta-design {
-  --dock-stack-height: 6.85rem;
-  --app-dock-clearance: calc(6.55rem + env(safe-area-inset-bottom, 0px) + 0.85rem);
-  padding: 0 0.75rem max(0.7rem, env(safe-area-inset-bottom)) !important;
-  background: transparent !important;
-}
+/* Shell = reference-dock | basta-design. Base pill/glass/gold ring lives in executive-chrome.css. */
 
 .dock-shell--basta-design .exec-dock-bar {
   width: 100%;
@@ -614,36 +607,14 @@ html[data-theme='ME-basta-design'] {
   color: var(--accent-light);
 }
 
-/* Taller gold dividers flanking hero-kompass */
+/* Taller gold dividers flanking hero-kompass — synced with executive-chrome base */
 .dock-shell--basta-design .exec-dock-bar--extended .exec-dock-bar__compass-slot::before,
 .dock-shell--basta-design .exec-dock-bar--extended .exec-dock-bar__compass-slot::after,
 .dock-shell--basta-design .exec-dock-bar--mix-e .exec-dock-bar__compass-slot::before,
 .dock-shell--basta-design .exec-dock-bar--mix-e .exec-dock-bar__compass-slot::after {
   top: 4%;
-  bottom: 10%;
-  box-shadow: 0 0 8px color-mix(in srgb, var(--accent) 34%, transparent);
-}
-
-/* Hero-kompass — stronger breakout + metallic glow */
-.dock-shell--basta-design .exec-dock-bar__compass {
-  width: 6.1rem;
-  height: 6.55rem;
-  margin-top: -5.05rem;
-  border-color: color-mix(in srgb, var(--accent-light) 58%, transparent);
-  box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--accent) 16%, transparent),
-    0 0 36px color-mix(in srgb, var(--accent) 48%, transparent),
-    0 12px 32px rgba(0, 0, 0, 0.55),
-    inset 0 0 18px color-mix(in srgb, var(--accent) 12%, transparent);
-}
-
-.dock-shell--basta-design .exec-dock-bar__compass-mark,
-.dock-shell--basta-design .exec-dock-bar__compass .exec-decor-compass--hero {
-  width: 5.35rem !important;
-  height: 5.35rem !important;
-  filter:
-    drop-shadow(0 0 12px color-mix(in srgb, var(--accent) 72%, transparent))
-    drop-shadow(0 0 26px color-mix(in srgb, var(--accent) 38%, transparent));
+  bottom: 8%;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 38%, transparent);
 }
 
 /* Referens har ingen Töm Huvudet-knapp i dock-zonen — se executive-chrome.css */

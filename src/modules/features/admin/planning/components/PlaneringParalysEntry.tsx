@@ -71,7 +71,7 @@ export function PlaneringParalysEntry({ defaultTaskTitle, onApplyStep }: Props) 
   if (!open) {
     return (
       <div className="planering-paralys-entry planering-paralys-entry--collapsed">
-        <p className="text-xs text-text-muted">{PLANERING_PARALYS_LEAD}</p>
+        <p className="planering-paralys-entry__lead text-xs text-text-muted">{PLANERING_PARALYS_LEAD}</p>
         <Button
           variant="ghost"
           size="sm"
@@ -92,7 +92,7 @@ export function PlaneringParalysEntry({ defaultTaskTitle, onApplyStep }: Props) 
 
   return (
     <div className="planering-paralys-entry planering-paralys-entry--open space-y-3 rounded-2xl border border-accent/20 bg-accent/5 p-4">
-      <p className="text-xs text-text-muted">{PLANERING_PARALYS_LEAD}</p>
+      <p className="planering-paralys-entry__lead text-xs text-text-muted">{PLANERING_PARALYS_LEAD}</p>
 
       {!step ? (
         <>

@@ -111,12 +111,15 @@ export function PlaneringInkorgPanel() {
   };
 
   return (
-    <BentoCard glow="gold" bare noHover className="space-y-4 !p-4 sm:!p-5">
-      <div className="flex items-center gap-2">
-        <Inbox className="h-4 w-4 text-accent" aria-hidden />
-        <p className="font-display-serif text-xs uppercase tracking-[0.15em] text-accent">
-          Inkorg
-        </p>
+    <BentoCard glow="gold" bare noHover className="planering-inkorg-panel space-y-4 !p-4 sm:!p-5">
+      <div className="planering-inkorg-panel__head">
+        <div className="planering-inkorg-panel__icon" aria-hidden>
+          <Inbox className="h-4 w-4" />
+        </div>
+        <div className="min-w-0">
+          <p className="planering-inkorg-panel__eyebrow">Inkorg</p>
+          <p className="planering-inkorg-panel__title">Samla, sortera, förbered</p>
+        </div>
       </div>
 
       <TabBar
@@ -128,7 +131,7 @@ export function PlaneringInkorgPanel() {
 
       {view === 'oversikt' && (
         <div className="space-y-4">
-          <p className="text-sm text-text-muted">
+          <p className="planering-inkorg-panel__lead text-sm text-text-muted">
             Koppla mejl och kalender hit — en plats att sortera innan Handling. Synk med Google
             aktiveras i nästa fas; du kan förbereda med ditt inloggade konto nu.
           </p>
