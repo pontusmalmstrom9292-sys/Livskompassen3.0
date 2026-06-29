@@ -134,9 +134,9 @@ Each item is independently completable. Link files in Dashboard when done.
 
 ## Phase 7 — Zone: Hjärtat + Familjen + Valv
 
-- [ ] DagbokInputSuperModule shell
-- [ ] Dagbok delegates (reflektion, tyst, burn)
-- [ ] SpeglarSuperModule
+- [x] DagbokInputSuperModule shell
+- [x] Dagbok delegates (reflektion, tyst, burn)
+- [x] SpeglarSuperModule
 - [ ] FamiljenPage + 6 tabs
 - [ ] FamiljenBarnfokusDelegate UI
 - [ ] Barnporten parent panels (not child fullscreen)

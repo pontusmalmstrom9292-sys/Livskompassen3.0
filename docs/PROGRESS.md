@@ -37,6 +37,74 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+
+## 2026-06-29 — Familjen page + input shell polish
+
+**Completed work:**
+- Tightened the Familjen hub frame with a calmer page header, tab surfaces, and a cleaner child-picker area.
+- Added shell polish to the universal input router, Barnfokus delegate, and the main reflektion/livslogg/tillsammans tab surfaces.
+
+**Files changed:**
+- src/modules/core/pages/FamiljenPage.tsx
+- src/modules/features/family/children/supermodule/FamiljenInputSuperModule.tsx
+- src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx
+- src/modules/features/family/children/components/familjen/FamiljenReflektionTab.tsx
+- src/modules/features/family/children/components/familjen/FamiljenLivsloggTab.tsx
+- src/modules/features/family/children/components/familjen/FamiljenTillsammansTab.tsx
+- src/modules/features/family/children/components/familjen/familjen.css
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+
+**Reasoning:**
+- Familjen was the next open zone after Hjärtat, and these surfaces are the visible entry points that benefit most from shell consistency before the deeper tabs.
+
+**Next steps:**
+- Continue with the remaining Familjen tabs and parent-facing panels.
+
+**Blockers:**
+- None
+
+---
+
+
+## 2026-06-29 — Dagbok delegates + Speglar polish
+
+**Completed work:**
+- Polished the Dagbok quick-mirror, reflektion, burn, and tyst delegates with shared calmer shells and headers.
+- Added a premium frame to Speglar and its forensic panel, and fixed Dagbok reflektion hook ordering while keeping behavior intact.
+
+**Files changed:**
+- src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokReflektionDelegate.tsx
+- src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokQuickMirrorDelegate.tsx
+- src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokBurnDelegate.tsx
+- src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokTystDelegate.tsx
+- src/modules/features/lifeJournal/diary/mirror/components/SpeglarSuperModule.tsx
+- src/modules/features/lifeJournal/diary/mirror/components/SpeglingsSystem.tsx
+- src/modules/features/lifeJournal/diary/components/hjartat.css
+- docs/TODO.md
+- docs/DASHBOARD.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- npm run build PASS
+- npm run smoke:locked-ux PASS
+
+**Reasoning:**
+- Hjärtat was the next open zone after Valv, and the delegates were the remaining visible Dagbok surfaces in the current wave.
+
+**Next steps:**
+- Continue into the next open Hjärtat/Familjen surface, starting with FamiljenPage or the next unchecked TODO item.
+
+**Blockers:**
+- None
+
+---
+
+
 ## 2026-06-29 — Planering focus + paralys polish
 
 **Completed work:**

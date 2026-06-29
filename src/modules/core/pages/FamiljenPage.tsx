@@ -192,78 +192,82 @@ export function FamiljenPage() {
           <FamiljenHubToolbar activeTab={activeTab} onTabChange={handleTabChange} />
         }
       >
-        <FamiljenBentoShell className={clsx(!desktopHubLock && 'pb-2')}>
-          <FamiljenZoneIntro activeTab={activeTab} />
-          {showChildPicker && (
-            <BentoCard glow="blue" noHover className="!p-3">
-              <FamiljenChildPicker
-                activeChild={shell.activeChild}
-                children={shell.childAliases}
-                onChange={shell.setActiveChild}
-              />
-            </BentoCard>
-          )}
-
-          {tabPolish && (
-            <BentoCard glow="blue" noHover className="!p-3 sm:!p-4">
-              <p className="text-[10px] uppercase tracking-[0.18em] text-accent-secondary/80">
-                {tabPolish.eyebrow}
-              </p>
-              <p className="mt-1 text-xs text-text-dim">{tabPolish.lead}</p>
-            </BentoCard>
-          )}
-
-          <Suspense fallback={<div className="p-4 text-center text-sm text-text-muted">Laddar Familjen-verktyg...</div>}>
-            {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
-              <>
-                <div className="pt-4 pb-2">
-                  <FamiljenInputSuperModule
-                    shell={shell}
-                    flowWithIsland={desktopHubLock}
-                    initialMode={initialInputMode}
+        <div className="familjen-page">
+          <FamiljenBentoShell className={clsx(!desktopHubLock && 'pb-2')}>
+            <div className="familjen-page__header space-y-4">
+              <FamiljenZoneIntro activeTab={activeTab} />
+              {showChildPicker && (
+                <BentoCard glow="blue" noHover className="familjen-page__card !p-3">
+                  <FamiljenChildPicker
+                    activeChild={shell.activeChild}
+                    children={shell.childAliases}
+                    onChange={shell.setActiveChild}
                   />
-                </div>
-                <div className="familjen-tab-panel">
-                  {activeTab === 'reflektion' ? (
-                    <FamiljenReflektionTab shell={shell} />
-                  ) : (
-                    <FamiljenLivsloggTab shell={shell} />
-                  )}
-                </div>
-              </>
+                </BentoCard>
+              )}
+
+              {tabPolish && (
+                <BentoCard glow="blue" noHover className="familjen-page__card !p-3 sm:!p-4">
+                  <p className="text-[10px] uppercase tracking-[0.18em] text-accent-secondary/80">
+                    {tabPolish.eyebrow}
+                  </p>
+                  <p className="mt-1 text-xs text-text-dim">{tabPolish.lead}</p>
+                </BentoCard>
+              )}
+            </div>
+
+            <Suspense fallback={<div className="p-4 text-center text-sm text-text-muted">Laddar Familjen-verktyg...</div>}>
+              {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
+                <>
+                  <div className="pt-4 pb-2">
+                    <FamiljenInputSuperModule
+                      shell={shell}
+                      flowWithIsland={desktopHubLock}
+                      initialMode={initialInputMode}
+                    />
+                  </div>
+                  <div className="familjen-tab-panel">
+                    {activeTab === 'reflektion' ? (
+                      <FamiljenReflektionTab shell={shell} />
+                    ) : (
+                      <FamiljenLivsloggTab shell={shell} />
+                    )}
+                  </div>
+                </>
+              )}
+
+              {activeTab === 'tillsammans' && (
+                <BentoCard glow="blue" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
+                  <FamiljenTillsammansTab shell={shell} />
+                </BentoCard>
+              )}
+
+              {activeTab === 'barnporten' && (
+                <BentoCard glow="blue" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
+                  <BarnportenParentHubPanel activeChild={shell.activeChild} />
+                </BentoCard>
+              )}
+
+              {activeTab === 'hamn' && (
+                <BentoCard glow="blue" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
+                  <SafeHarborPage embedded />
+                </BentoCard>
+              )}
+
+              {activeTab === 'drogfrihet' && (
+                <BentoCard glow="green" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
+                  <DrogfrihetHubPage embedded />
+                </BentoCard>
+              )}
+            </Suspense>
+
+            {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
+              <ParentReminderFooter childAlias={shell.activeChild} />
             )}
 
-            {activeTab === 'tillsammans' && (
-              <BentoCard glow="blue" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
-                <FamiljenTillsammansTab shell={shell} />
-              </BentoCard>
-            )}
-
-            {activeTab === 'barnporten' && (
-              <BentoCard glow="blue" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
-                <BarnportenParentHubPanel activeChild={shell.activeChild} />
-              </BentoCard>
-            )}
-
-            {activeTab === 'hamn' && (
-              <BentoCard glow="blue" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
-                <SafeHarborPage embedded />
-              </BentoCard>
-            )}
-
-            {activeTab === 'drogfrihet' && (
-              <BentoCard glow="green" bare noHover className="familjen-tab-panel !p-4 sm:!p-5">
-                <DrogfrihetHubPage embedded />
-              </BentoCard>
-            )}
-          </Suspense>
-
-          {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
-            <ParentReminderFooter childAlias={shell.activeChild} />
-          )}
-
-          <MaterialPackShortcuts preset={preset} hub="familjen" />
-        </FamiljenBentoShell>
+            <MaterialPackShortcuts preset={preset} hub="familjen" />
+          </FamiljenBentoShell>
+        </div>
       </ModuleShell>
     </HubErrorBoundary>
   );

@@ -98,6 +98,12 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
     refreshEntries().catch(() => undefined);
   }, [user, refreshEntries]);
 
+  useEffect(() => {
+    if (step === 'done') {
+      onSaved?.();
+    }
+  }, [step, onSaved]);
+
   if (!user) {
     return (
       <p className="text-sm text-text-muted p-4 text-center">
@@ -109,12 +115,6 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
   const categoryLabel = category
     ? JOURNAL_CATEGORIES.find((c) => c.id === category)?.label
     : null;
-
-  useEffect(() => {
-    if (step === 'done') {
-      onSaved?.();
-    }
-  }, [step, onSaved]);
 
   const formatEntryTime = (entry: any) => {
     if (!entry.createdAt) return '';
