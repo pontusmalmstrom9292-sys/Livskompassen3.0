@@ -154,14 +154,16 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). ds-btn-- files: 
 - **Notes:** VaultPage, the Samla zone, Weaver pending banner, the error boundary, the remaining vault zone shells, and Dossier now share the calmer Valv frame.
 
 ### MåBra
-- **Status:** Not Started
+- **Status:** Done
 - **Priority:** High
-- **Files:** MabraHubView, MabraLayout, flow views
+- **Files:** MabraHubView, MabraLayout, flow views, LivLauncherPage
+- **Notes:** MåBra now shares the calmer hub shell, launcher surface, and flow-card treatment.
 
 ### Ekonomi
-- **Status:** Not Started
+- **Status:** Done
 - **Priority:** Medium
-- **Files:** Economy* panels, EkonomiInputSuperModule
+- **Files:** EconomyPage, EconomyBudgetTab, EconomyLogPanel, EconomyOverviewPanel
+- **Notes:** Ekonomi now uses the calmer page shell and the budget/log panels share the same restrained frame.
 
 ### Familjen
 - **Status:** Done

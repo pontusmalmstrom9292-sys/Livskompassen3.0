@@ -33,17 +33,19 @@ export const ValuesView = memo(function ValuesView() {
   }
 
   return (
-    <BentoCard title={VALUES_COMPASS_COPY.title} icon={<Sparkles className="h-4 w-4" />}>
-      <ValuesCompass
-        userId={userId}
-        onDone={() => {
-          setValuesSavedHint(true);
-          setHubOpenCategory('identitet');
-          setHubFocusToken((n) => n + 1);
-          navigate('/mabra');
-        }}
-        onExit={() => navigate('/mabra')}
-      />
+    <BentoCard className="mabra-flow-card" title={VALUES_COMPASS_COPY.title} icon={<Sparkles className="h-4 w-4" />}>
+      <div className="mabra-flow-shell">
+        <ValuesCompass
+          userId={userId}
+          onDone={() => {
+            setValuesSavedHint(true);
+            setHubOpenCategory('identitet');
+            setHubFocusToken((n) => n + 1);
+            navigate('/mabra');
+          }}
+          onExit={() => navigate('/mabra')}
+        />
+      </div>
     </BentoCard>
   );
 });
@@ -69,10 +71,9 @@ export const AkutView = memo(function AkutView() {
   }
 
   return (
-    <AkutLanding
-      onContinue={() => navigate('/mabra/tid')}
-      onExit={() => returnToHub('akut')}
-    />
+    <div className="mabra-flow-shell">
+      <AkutLanding onContinue={() => navigate('/mabra/tid')} onExit={() => returnToHub('akut')} />
+    </div>
   );
 });
 
@@ -89,13 +90,15 @@ export const DurationView = memo(function DurationView() {
   if (hub !== 'panic_rsd') return null;
 
   return (
-    <DurationPicker
-      hub={hub}
-      value={durationMinutes}
-      onChange={setDurationMinutes}
-      onStart={() => navigate('/mabra/ovning/breathing')}
-      onBack={() => navigate('/mabra/akut')}
-    />
+    <div className="mabra-flow-shell">
+      <DurationPicker
+        hub={hub}
+        value={durationMinutes}
+        onChange={setDurationMinutes}
+        onStart={() => navigate('/mabra/ovning/breathing')}
+        onBack={() => navigate('/mabra/akut')}
+      />
+    </div>
   );
 });
 
@@ -135,12 +138,12 @@ export const AddonView = memo(function AddonView() {
   }, [userId, hub, setCompletedExerciseType, setAddonBreathing, setSaveError, navigate]);
 
   return (
-    <div className="flex flex-col items-center space-y-6 py-4">
-      <div className="w-full max-w-sm rounded-xl border border-border-strong bg-surface/40 px-5 py-6 text-center">
+    <div className="mabra-flow-shell flex flex-col items-center space-y-6 py-4">
+      <div className="mabra-flow-shell__surface w-full max-w-sm rounded-xl px-5 py-6 text-center">
         <p className="text-base text-accent">{BREATHING_ADDON_COPY.prompt}</p>
         <p className="mt-2 text-sm text-text-muted">{BREATHING_ADDON_COPY.detail}</p>
       </div>
-      <div className="flex w-full max-w-sm flex-col gap-2">
+      <div className="mabra-flow-shell__actions flex w-full max-w-sm flex-col gap-2">
         <button
           type="button"
           onClick={() => {
@@ -188,22 +191,24 @@ export const CompleteView = memo(function CompleteView() {
   }, [navigate, setHubOpenCategory, setHubFocusToken]);
 
   return (
-    <BentoCard title="Klart" icon={<Sparkles className="h-4 w-4" />}>
-      <MabraComplete
-        hub={hub}
-        exerciseType={completedExerciseType}
-        onOpenReflectionCard={openDailyReflectionCard}
-        onDone={() => {
-          const cat: MabraHubCategory =
-            hub === 'find_self' || hub === 'panic_rsd'
-              ? 'akut'
-              : hub === 'self_critical'
-                ? 'tankar'
-                : 'akut';
-          returnToHub(cat);
-        }}
-      />
-      {saveError && <p className="mt-2 text-sm text-text-dim">{saveError}</p>}
+    <BentoCard className="mabra-flow-card" title="Klart" icon={<Sparkles className="h-4 w-4" />}>
+      <div className="mabra-flow-shell">
+        <MabraComplete
+          hub={hub}
+          exerciseType={completedExerciseType}
+          onOpenReflectionCard={openDailyReflectionCard}
+          onDone={() => {
+            const cat: MabraHubCategory =
+              hub === 'find_self' || hub === 'panic_rsd'
+                ? 'akut'
+                : hub === 'self_critical'
+                  ? 'tankar'
+                  : 'akut';
+            returnToHub(cat);
+          }}
+        />
+        {saveError && <p className="mt-2 text-sm text-text-dim">{saveError}</p>}
+      </div>
     </BentoCard>
   );
 });

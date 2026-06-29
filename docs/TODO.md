@@ -116,7 +116,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] HomePage depth pass (2026-06-29) — executive hero/card depth pass complete
 - [x] ExecutiveReflektionHero polish
 - [x] Executive home cards (Livslogg, etc.)
-- [ ] LivLauncherPage bento grid
+- [x] LivLauncherPage bento grid
 - [x] PlaneringPage (complete in-flight)
 - [x] PlanningKanbanBoard (in-flight)
 - [x] PlaneringInkorgPanel (in-flight)
@@ -124,9 +124,9 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] CognitiveGuardView + banner (in-flight)
 - [x] PlaneringFokusPanel (in-flight)
 - [x] PlaneringParalysEntry (in-flight)
-- [ ] MåBra MabraHubView + layout
-- [ ] MåBra flow views
-- [ ] Ekonomi panels (EconomyPage, log, budget)
+- [x] MåBra MabraHubView + layout
+- [x] MåBra flow views
+- [x] Ekonomi panels (EconomyPage, log, budget)
 - [ ] Arbetsliv hub + delegates
 - [ ] MorningCompass polish
 

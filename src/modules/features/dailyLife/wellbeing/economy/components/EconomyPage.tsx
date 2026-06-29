@@ -10,27 +10,30 @@ type EconomyPageProps = {
 
 export function EconomyPage({ embedded = false }: EconomyPageProps) {
   return (
-    <div className="space-y-4">
-      <EconomyBudgetTab />
+    <div className="economy-page-shell mx-auto max-w-5xl space-y-4 pb-12">
+      <div className="space-y-4">
+        <EconomyBudgetTab />
 
-      {!embedded && (
-        <BentoCard
-          title="Arbetsliv"
-          icon={<Briefcase className="h-4 w-4" />}
-          description="Stämpel, inkomster och lönespec — separat hub"
-        >
-          <div className="flex flex-col gap-2 text-sm">
-            <Link to="/arbetsliv/input" className="text-accent-secondary hover:underline">
-              Öppna Arbetsliv-hubben
-            </Link>
-            <Link to="/vardagen?tab=ekonomi&inputMode=logg" className="text-accent hover:underline">
-              Logg & fasta räkningar (privatekonomi)
-            </Link>
-          </div>
-        </BentoCard>
-      )}
+        {!embedded && (
+          <BentoCard
+            title="Arbetsliv"
+            icon={<Briefcase className="h-4 w-4" />}
+            description="Stämpel, inkomster och lönespec — separat hub"
+            className="overflow-hidden"
+          >
+            <div className="flex flex-col gap-2 text-sm">
+              <Link to="/arbetsliv/input" className="text-accent-secondary hover:underline">
+                Öppna Arbetsliv-hubben
+              </Link>
+              <Link to="/vardagen?tab=ekonomi&inputMode=logg" className="text-accent hover:underline">
+                Logg & fasta räkningar (privatekonomi)
+              </Link>
+            </div>
+          </BentoCard>
+        )}
 
-      <EconomySavingsPanel />
+        <EconomySavingsPanel />
+      </div>
     </div>
   );
 }
