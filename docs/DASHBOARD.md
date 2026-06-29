@@ -18,7 +18,7 @@
 | calm-card variant audit | not tracked | **PASS** (2026-06-29, smoke:calm-card-audit) | no unused variants |
 | DS import files (`@/design-system`) | ~14 | **28** (2026-06-29) | All blocking overlays migrated |
 | ad-hoc role=dialog | ~14 | **0** (2026-06-29) | 0 undocumented |
-| index.css LOC | 6816 | **3357** (2026-06-29) | ≤5000 (stretch) |
+| index.css LOC | 6816 | **3349** (2026-06-29) | ≤5000 (stretch) |
 | smoke:design-modules | TBD | **PASS** (2026-06-29) | green |
 | smoke:locked-ux | TBD | PASS (2026-06-28) | green |
 | smoke:freeport-premium-compare | TBD | **PASS** (2026-06-29) | visual compare green |
