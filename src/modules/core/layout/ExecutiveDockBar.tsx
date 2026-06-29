@@ -112,7 +112,7 @@ export function ExecutiveDockBar({
         </div>
 
         <ExecDockSide label="Valv" active={isValvet} onClick={onValv}>
-          <Vault className="exec-dock-bar__glyph" strokeWidth={1.5} />
+          <Vault className="exec-dock-bar__glyph" strokeWidth={1.75} />
         </ExecDockSide>
 
         <ExecDockSide label="Planering" active={isPlanering} onClick={onPlanering}>
@@ -129,11 +129,11 @@ export function ExecutiveDockBar({
         active={pathname.startsWith('/widget/anteckning')}
         onClick={onAnteckning}
       >
-        <PenLine className="exec-dock-bar__glyph" strokeWidth={1.5} />
+        <PenLine className="exec-dock-bar__glyph" strokeWidth={1.75} />
       </ExecDockSide>
 
       <ExecDockSide label="Familj" active={isFamiljen} onClick={onFamiljen}>
-        <Users className="exec-dock-bar__glyph" strokeWidth={1.5} />
+        <Users className="exec-dock-bar__glyph" strokeWidth={1.75} />
       </ExecDockSide>
 
       <div className="exec-dock-bar__compass-slot">

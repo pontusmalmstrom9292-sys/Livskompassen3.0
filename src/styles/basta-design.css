@@ -621,12 +621,6 @@ html[data-theme='ME-basta-design'] {
   box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 38%, transparent);
 }
 
-/* Hero-kompass — reference-dock base handles size; basta keeps stronger open glow */
-.dock-shell--basta-design .exec-dock-bar__compass--home,
-.dock-shell--basta-design .exec-dock-bar__compass:not(.exec-dock-bar__compass--holding) {
-  /* transparent plate — glow via ::before in executive-chrome */
-}
-
 /* Referens har ingen Töm Huvudet-knapp i dock-zonen — se executive-chrome.css */
 
 /* Legacy sandbox dock (BastaDesignApp) — .basta-dock-bar */
