@@ -524,11 +524,6 @@
 
   /* Båge under kompass borttagen 2026-05-23 — se VALV-ICON-KANON / DOCK-KANON */
 
-  .dock-classic {
-    @apply pointer-events-auto relative inline-flex w-auto max-w-[min(100vw-1.5rem,22rem)] items-center justify-center gap-2 px-1;
-    padding-bottom: max(0.25rem, env(safe-area-inset-bottom, 0px));
-  }
-
   .dock-classic__plate {
     @apply relative flex h-11 w-11 items-center justify-center rounded-full;
     background: linear-gradient(

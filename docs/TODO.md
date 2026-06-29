@@ -223,6 +223,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Remove dead dock-classic__side-label selector
 - [x] Remove dead dock-classic__side selector
 - [x] Remove dead dock-classic__side-icon selector
+- [x] Remove dead dock-classic selector
 
 ---
 
