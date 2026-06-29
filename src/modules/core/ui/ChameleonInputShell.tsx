@@ -19,7 +19,7 @@ export function ChameleonInputShell<T>({
   className,
   viewportClassName,
 }: Props<T>) {
-  const { displayed, fading, morphMs } = useChameleonMorph(mode);
+  const { displayed, fading } = useChameleonMorph(mode);
 
   return (
     <div className={clsx('chameleon-input-shell', className)}>
@@ -30,7 +30,7 @@ export function ChameleonInputShell<T>({
           viewportClassName,
         )}
         style={{
-          transitionDuration: `${morphMs}ms`,
+          transitionDuration: 'var(--ds-duration-morph)',
           transitionTimingFunction: 'var(--ds-ease-premium)',
         }}
       >
