@@ -118,7 +118,7 @@ export function ReframingExercise({ onComplete, onExit, hubSymptom }: Props) {
             <button
               type="button"
               onClick={isListening ? stop : start}
-              className="btn-pill--ghost text-sm"
+              className="ds-btn ds-btn--ghost text-sm"
               aria-pressed={isListening}
             >
               {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
@@ -139,10 +139,10 @@ export function ReframingExercise({ onComplete, onExit, hubSymptom }: Props) {
         Steg {stepIndex + 1} av {REFRAMING_STEPS.length}
       </p>
       <div className="flex w-full max-w-sm flex-col gap-2">
-        <button type="button" onClick={handleNext} className="btn-pill--secondary">
+        <button type="button" onClick={handleNext} className="ds-btn ds-btn--secondary">
           {isLast ? 'Klar' : 'Gå vidare'}
         </button>
-        <button type="button" onClick={handleExit} className="btn-pill--ghost text-sm">
+        <button type="button" onClick={handleExit} className="ds-btn ds-btn--ghost text-sm">
           Avsluta nu
         </button>
       </div>

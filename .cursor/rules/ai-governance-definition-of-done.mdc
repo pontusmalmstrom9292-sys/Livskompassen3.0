@@ -1,0 +1,26 @@
+---
+description: Reusable Definition of Done — every implementation must pass before completion
+alwaysApply: false
+globs: src/**,functions/**,docs/**,.github/**
+---
+
+# Definition of Done
+
+**Full checklist:** [`docs/DEFINITION-OF-DONE.md`](../../docs/DEFINITION-OF-DONE.md)
+
+## Task is NOT complete until
+
+1. **Scope** — Matches `docs/TODO.md` item for active program in `docs/PROJECT_STATE.md`
+2. **Build** — `npm run build` passes (functions build if backend touched)
+3. **Smoke** — Area-specific smoke green (matrix in `PROJECT_STATE.md`)
+4. **Self-review** — `ai-governance-self-review.mdc` checklist passed
+5. **Docs** — `TODO`, `DASHBOARD`, `PROGRESS` updated; `ROADMAP` if program phase changed; `PROJECT_STATE` if system phase/blockers changed
+6. **PMIR** — No forbidden changes without Pontus OK
+
+## Program-specific
+
+Premium UI Polish: [`docs/Completion-Criteria.md`](../../docs/Completion-Criteria.md)
+
+## Release merge
+
+`npm run smoke:predeploy:build` → yolo-vakt GO → Pontus OK.

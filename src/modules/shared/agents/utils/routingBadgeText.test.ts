@@ -22,6 +22,15 @@ describe('formatAgentRoutingLabel', () => {
     );
   });
 
+  it('visar legacy agentName med executor', () => {
+    expect(
+      formatAgentRoutingLabel({
+        agentName: 'Hamn',
+        executorName: 'Gräns-Arkitekten',
+      }),
+    ).toBe('Dirigerad av Hamn via Gräns-Arkitekten');
+  });
+
   it('hoppar över via när produkt och executor är samma', () => {
     expect(
       formatAgentRoutingLabel({

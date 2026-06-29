@@ -69,7 +69,7 @@ export function VaultLockedGate({ variant = 'screen', extra }: Props) {
         ) : (
           <button
             type="button"
-            className="btn-pill--accent w-full"
+            className="ds-btn ds-btn--accent w-full"
             disabled={busy}
             onClick={tryUnlock}
           >
@@ -99,7 +99,7 @@ export function VaultLockedGate({ variant = 'screen', extra }: Props) {
       {!busy && (
         <button
           type="button"
-          className="btn-pill--accent mt-6"
+          className="ds-btn ds-btn--accent mt-6"
           disabled={busy}
           onClick={tryUnlock}
         >

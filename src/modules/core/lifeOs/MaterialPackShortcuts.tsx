@@ -58,7 +58,7 @@ export function MaterialPackShortcuts({ preset, hub, shortcutsOverride }: Props)
           const to = `${link.pathname}${link.search ?? ''}${link.hash ?? ''}`;
           return (
             <li key={`${item.label}-${to}`}>
-              <Link to={to} className="btn-pill--accent inline-flex w-full justify-center text-xs">
+              <Link to={to} className="ds-btn ds-btn--accent inline-flex w-full justify-center text-xs">
                 {item.label}
               </Link>
             </li>

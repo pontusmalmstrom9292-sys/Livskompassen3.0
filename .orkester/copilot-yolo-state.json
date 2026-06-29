@@ -1,25 +1,19 @@
 {
   "version": 2,
-  "startedAt": "2026-06-27T21:32:21.757Z",
-  "updatedAt": "2026-06-28T00:01:59.357Z",
-  "currentTaskId": "modul-smoke-fix-loop",
-  "completedTaskIds": [
-    "w2-backend-audit",
-    "executive-home-motion",
-    "lifeos-kopplingar-c",
-    "projekt-p1-widget",
-    "ingest-vag1-deploy-prep"
-  ],
+  "startedAt": "2026-06-28T22:15:00.000Z",
+  "updatedAt": "2026-06-28T22:15:00.000Z",
+  "currentTaskId": null,
+  "completedTaskIds": [],
   "skippedTaskIds": [],
   "failedTaskIds": [],
   "taskOrder": [
-    "w2-backend-audit",
-    "executive-home-motion",
-    "lifeos-kopplingar-c",
-    "projekt-p1-widget",
-    "ingest-vag1-deploy-prep",
-    "modul-smoke-fix-loop",
-    "android-g85-prep"
+    "design-bible-merge",
+    "premium-ui-debt-baseline",
+    "focus-visible-quickwin",
+    "lazy-routes-vardagen-hjartat",
+    "hub-eyebrow-polish",
+    "hosting-deploy-wave",
+    "g85-friction-d4"
   ],
-  "taskStartSha": "d2a0a38a57754e4f9de0843d90dd3766586a8087"
+  "taskStartSha": null
 }

@@ -76,7 +76,7 @@ export function SanningensAnkarePreview() {
       <p className="text-sm leading-relaxed text-text-muted">{truncateTruth(anchor.truth)}</p>
       <Link
         to="/valvet?vaultTab=logga"
-        className="btn-pill--ghost mt-2 inline-flex text-[10px]"
+        className="ds-btn ds-btn--ghost mt-2 inline-flex text-[10px]"
       >
         Öppna i Valv
       </Link>

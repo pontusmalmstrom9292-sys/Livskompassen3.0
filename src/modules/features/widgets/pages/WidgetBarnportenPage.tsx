@@ -60,12 +60,12 @@ function WidgetBarnportenInner() {
             <p className="text-sm text-success">
               {queued ? 'Köad — synkas när nätet finns.' : 'Skickat till pappas inkorg.'}
             </p>
-            <Link to="/barnporten" className="btn-pill--accent mt-3 inline-flex text-xs">
+            <Link to="/barnporten" className="ds-btn ds-btn--accent mt-3 inline-flex text-xs">
               Öppna Barnporten
             </Link>
             <button
               type="button"
-              className="btn-pill--ghost mt-2 w-full text-xs"
+              className="ds-btn ds-btn--ghost mt-2 w-full text-xs"
               onClick={() => setDone(false)}
             >
               Ny rad
@@ -84,7 +84,7 @@ function WidgetBarnportenInner() {
             <button
               type="button"
               disabled={saving || !text.trim()}
-              className="btn-pill--accent w-full"
+              className="ds-btn ds-btn--accent w-full"
               onClick={() => void handleSave()}
             >
               {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Skicka till pappa'}
@@ -101,8 +101,8 @@ function WidgetBarnportenInner() {
                     type="button"
                     className={
                       variant === row.id
-                        ? 'btn-pill--accent w-full text-left text-xs'
-                        : 'btn-pill--ghost w-full text-left text-xs'
+                        ? 'ds-btn ds-btn--accent w-full text-left text-xs'
+                        : 'ds-btn ds-btn--ghost w-full text-left text-xs'
                     }
                     aria-pressed={variant === row.id}
                     onClick={() => setVariant(row.id)}
@@ -113,7 +113,7 @@ function WidgetBarnportenInner() {
                 ))}
               </div>
             </fieldset>
-            <Link to="/barnporten" className="btn-pill--ghost block w-full text-center text-xs">
+            <Link to="/barnporten" className="ds-btn ds-btn--ghost block w-full text-center text-xs">
               Hela Barnporten
             </Link>
           </div>

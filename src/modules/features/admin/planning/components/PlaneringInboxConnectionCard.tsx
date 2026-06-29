@@ -71,7 +71,7 @@ export function PlaneringInboxConnectionCard({
       {!prepared ? (
         <button
           type="button"
-          className="btn-pill--accent mt-3 w-full disabled:opacity-50"
+          className="ds-btn ds-btn--accent mt-3 w-full disabled:opacity-50"
           disabled={disabled}
           onClick={onPrepare}
         >
@@ -89,7 +89,7 @@ export function PlaneringInboxConnectionCard({
           <span className="planering-inbox-connect__badge">Synk kommer snart</span>
           <button
             type="button"
-            className="btn-pill--ghost text-xs"
+            className="ds-btn ds-btn--ghost text-xs"
             onClick={onDisconnect}
           >
             Koppla bort

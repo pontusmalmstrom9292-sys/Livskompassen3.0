@@ -186,7 +186,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
                 <button
                   type="button"
                   onClick={handleCleanToGreyRock}
-                  className="btn-pill--accent text-[11px] px-3 py-1.5 flex items-center gap-1.5"
+                  className="ds-btn ds-btn--accent text-[11px] px-3 py-1.5 flex items-center gap-1.5"
                 >
                   <Sparkles className="h-3.5 w-3.5" />
                   Städa till Grey Rock-mall
@@ -195,7 +195,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
                   <button
                     type="button"
                     onClick={handleUndoGreyRock}
-                    className="btn-pill--ghost text-[11px] px-3 py-1.5"
+                    className="ds-btn ds-btn--ghost text-[11px] px-3 py-1.5"
                   >
                     Ångra städning
                   </button>
@@ -216,7 +216,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               type="button" 
               onClick={() => setStep(2)} 
               disabled={!message.trim()} 
-              className="btn-pill--accent w-full"
+              className="ds-btn ds-btn--accent w-full"
             >
               Nästa: Brusfiltret
             </button>
@@ -239,10 +239,10 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               />
             </BentoCard>
             <div className="flex gap-2">
-              <button type="button" onClick={() => setStep(1)} className="btn-pill--secondary flex-1">
+              <button type="button" onClick={() => setStep(1)} className="ds-btn ds-btn--secondary flex-1">
                 Tillbaka
               </button>
-              <button type="button" onClick={() => setStep(3)} className="btn-pill--accent flex-1">
+              <button type="button" onClick={() => setStep(3)} className="ds-btn ds-btn--accent flex-1">
                 Nästa: Mål
               </button>
             </div>
@@ -265,10 +265,10 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               />
             </BentoCard>
             <div className="flex gap-2">
-              <button type="button" onClick={() => setStep(2)} className="btn-pill--secondary flex-1">
+              <button type="button" onClick={() => setStep(2)} className="ds-btn ds-btn--secondary flex-1">
                 Tillbaka
               </button>
-              <button type="submit" disabled={loading} className="btn-pill--accent flex-1">
+              <button type="submit" disabled={loading} className="ds-btn ds-btn--accent flex-1">
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                 Få Grey Rock-svar
               </button>
@@ -293,7 +293,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
           <button
             type="button"
             onClick={confirmReply}
-            className="btn-pill--accent w-full text-sm mt-3"
+            className="ds-btn ds-btn--accent w-full text-sm mt-3"
           >
             Visa Grey Rock-svar
           </button>
@@ -325,18 +325,18 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
             <button
               type="button"
               onClick={() => void handleCopyReply()}
-              className="btn-pill--accent text-xs"
+              className="ds-btn ds-btn--accent text-xs"
             >
               {copyCopied ? 'Kopierat ✓' : 'Kopiera svar'}
             </button>
-            <button type="button" onClick={handleKlar} className="btn-pill--ghost text-xs">
+            <button type="button" onClick={handleKlar} className="ds-btn ds-btn--ghost text-xs">
               Klar — rensa
             </button>
             <button
               type="button"
               onClick={() => void handleAutosortToArkiv()}
               disabled={autosorting || !message.trim()}
-              className="btn-pill--ghost text-xs"
+              className="ds-btn ds-btn--ghost text-xs"
             >
               {autosorting ? <Loader2 className="h-3 w-3 animate-spin" /> : null}
               Sortera till arkiv
@@ -494,7 +494,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
               type="button" 
               onClick={() => setStep(2)} 
               disabled={!message.trim()} 
-              className="btn-pill--accent w-full"
+              className="ds-btn ds-btn--accent w-full"
             >
               Nästa: Brusfiltret
             </button>
@@ -517,10 +517,10 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
               />
             </BentoCard>
             <div className="flex gap-2">
-              <button type="button" onClick={() => setStep(1)} className="btn-pill--secondary flex-1">
+              <button type="button" onClick={() => setStep(1)} className="ds-btn ds-btn--secondary flex-1">
                 Tillbaka
               </button>
-              <button type="button" onClick={() => setStep(3)} className="btn-pill--accent flex-1">
+              <button type="button" onClick={() => setStep(3)} className="ds-btn ds-btn--accent flex-1">
                 Nästa: Mål
               </button>
             </div>
@@ -543,10 +543,10 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
               />
             </BentoCard>
             <div className="flex gap-2">
-              <button type="button" onClick={() => setStep(2)} className="btn-pill--secondary flex-1">
+              <button type="button" onClick={() => setStep(2)} className="ds-btn ds-btn--secondary flex-1">
                 Tillbaka
               </button>
-              <button type="submit" disabled={loading} className="btn-pill--accent flex-1">
+              <button type="submit" disabled={loading} className="ds-btn ds-btn--accent flex-1">
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
                 Kör BIFF Triage
               </button>
@@ -571,7 +571,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
           <button
             type="button"
             onClick={confirmReply}
-            className="btn-pill--accent w-full text-sm mt-3"
+            className="ds-btn ds-btn--accent w-full text-sm mt-3"
           >
             Visa Grey Rock-svar
           </button>
@@ -598,7 +598,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
                   type="button"
                   onClick={() => void handleAutosortToArkiv()}
                   disabled={autosorting || !message.trim()}
-                  className="btn-pill--ghost flex items-center gap-2 text-xs"
+                  className="ds-btn ds-btn--ghost flex items-center gap-2 text-xs"
                 >
                   {autosorting ? <Loader2 className="h-3 w-3 animate-spin" /> : null}
                   Sortera till arkiv
@@ -607,7 +607,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
                   type="button"
                   onClick={handleSaveAsEvidence}
                   disabled={savingEvidence || !user}
-                  className="btn-pill--secondary flex items-center gap-2 text-xs"
+                  className="ds-btn ds-btn--secondary flex items-center gap-2 text-xs"
                 >
                   {savingEvidence ? (
                     <Loader2 className="h-3 w-3 animate-spin" />
@@ -622,7 +622,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
                 Du är i träningsläge. Svaret sparas inte.
               </p>
             )}
-            <button type="button" onClick={handleKlar} className="btn-pill--ghost text-xs">
+            <button type="button" onClick={handleKlar} className="ds-btn ds-btn--ghost text-xs">
               Klar — rensa
             </button>
           </div>

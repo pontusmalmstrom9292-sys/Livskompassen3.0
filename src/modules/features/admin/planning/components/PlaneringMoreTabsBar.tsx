@@ -12,7 +12,7 @@ export function PlaneringMoreTabsBar({ activeTab }: { activeTab: PlaneringTab })
           <Link
             key={id}
             to={`/planering?tab=${id}`}
-            className={`btn-pill--ghost text-xs ${
+            className={`ds-btn ds-btn--ghost text-xs ${
               active ? 'border-accent/40 bg-accent/10 text-accent' : 'text-text-muted'
             }`}
             aria-current={active ? 'page' : undefined}

@@ -123,19 +123,19 @@ export function KnowledgeVaultChat({
       >
         {/* NY KOD: Snabbknappar / Genvägar */}
         <div className="mb-4 flex flex-wrap gap-2">
-          <Link to="/hjartat" className="btn-pill--ghost text-xs hover:bg-white/5">
+          <Link to="/hjartat" className="ds-btn ds-btn--ghost text-xs hover:bg-white/5">
             📖 Dagboken
           </Link>
-          <Link to="/familjen" className="btn-pill--ghost text-xs hover:bg-white/5">
+          <Link to="/familjen" className="ds-btn ds-btn--ghost text-xs hover:bg-white/5">
             🧸 Barnens logg
           </Link>
-          <Link to="/planering" className="btn-pill--ghost text-xs hover:bg-white/5">
+          <Link to="/planering" className="ds-btn ds-btn--ghost text-xs hover:bg-white/5">
             📝 Ny Planering
           </Link>
           <button 
             type="button" 
             onClick={() => setInputText("Kan du hjälpa mig att bryta ner en stor uppgift i mindre steg: ")}
-            className="btn-pill--ghost text-xs hover:bg-white/5"
+            className="ds-btn ds-btn--ghost text-xs hover:bg-white/5"
           >
             ⚡ Bryt ner uppgift
           </button>
@@ -151,7 +151,7 @@ export function KnowledgeVaultChat({
             className="input-glass"
             disabled={isLoading}
           />
-          <button type="submit" disabled={isLoading} className="btn-pill--secondary self-end">
+          <button type="submit" disabled={isLoading} className="ds-btn ds-btn--secondary self-end">
             {isLoading ? 'Söker...' : 'Skicka fråga'}
           </button>
         </form>
@@ -164,7 +164,7 @@ export function KnowledgeVaultChat({
                 type="button"
                 onClick={handleRetry}
                 disabled={isLoading}
-                className="btn-pill--secondary inline-flex items-center gap-1.5 text-sm"
+                className="ds-btn ds-btn--secondary inline-flex items-center gap-1.5 text-sm"
               >
                 <RefreshCw className="h-3.5 w-3.5" aria-hidden />
                 Försök igen
@@ -180,7 +180,7 @@ export function KnowledgeVaultChat({
             {moduleRoute && (
               <Link
                 to={moduleRoute.path}
-                className="btn-pill--secondary mt-4 inline-flex text-sm"
+                className="ds-btn ds-btn--secondary mt-4 inline-flex text-sm"
               >
                 Öppna {moduleRoute.label}
               </Link>

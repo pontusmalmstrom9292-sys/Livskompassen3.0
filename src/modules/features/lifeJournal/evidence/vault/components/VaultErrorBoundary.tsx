@@ -1,4 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
+import { ErrorFallback } from '@/design-system';
 
 type Props = {
   children: ReactNode;
@@ -22,22 +23,15 @@ export class VaultErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       return (
-        <div className="rounded-xl border border-danger/30 bg-surface/40 p-4 text-center">
-          <p className="text-sm text-danger">Något gick fel i Valv-vyn.</p>
-          <p className="mt-1 text-xs text-text-muted">
-            Dina sparade bevis påverkas inte — prova att ladda om sidan om felet kvarstår.
-          </p>
-          <button
-            type="button"
-            className="btn-pill--accent mt-3"
-            onClick={() => {
-              this.setState({ hasError: false });
-              this.props.onReset?.();
-            }}
-          >
-            Försök igen
-          </button>
-        </div>
+        <ErrorFallback
+          title="Något gick fel i Valv-vyn"
+          body="Dina sparade bevis påverkas inte — prova att ladda om sidan om felet kvarstår."
+          glow="danger"
+          onRetry={() => {
+            this.setState({ hasError: false });
+            this.props.onReset?.();
+          }}
+        />
       );
     }
     return this.props.children;

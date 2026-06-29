@@ -273,7 +273,7 @@ export function InboxReviewQueue({
       icon={<Inbox className="h-4 w-4 text-accent" />}
     >
       {onBack && (
-        <button type="button" className="btn-pill--ghost mb-3 text-xs" onClick={onBack}>
+        <button type="button" className="ds-btn ds-btn--ghost mb-3 text-xs" onClick={onBack}>
           ← Tillbaka till logga
         </button>
       )}
@@ -316,8 +316,8 @@ export function InboxReviewQueue({
           const domainHint = inboxReviewQueueDomainHint(item);
           const routingBtnClass = (routing: 'kunskap' | 'bevis' | 'barnen' | 'dagbok') =>
             isProposedRoutingButton(routing, item)
-              ? 'btn-pill--accent text-xs ring-1 ring-accent/40'
-              : 'btn-pill--secondary text-xs';
+              ? 'ds-btn ds-btn--accent text-xs ring-1 ring-accent/40'
+              : 'ds-btn ds-btn--secondary text-xs';
 
           return (
           <li
@@ -402,7 +402,7 @@ export function InboxReviewQueue({
                 <button
                   type="button"
                   disabled={busyId === item.id}
-                  className="btn-pill--accent text-xs"
+                  className="ds-btn ds-btn--accent text-xs"
                   onClick={() => {
                     void handlePlanering(item).then(() => setEditingId(null));
                   }}
@@ -412,7 +412,7 @@ export function InboxReviewQueue({
                 <button
                   type="button"
                   disabled={busyId === item.id}
-                  className="btn-pill--ghost text-xs"
+                  className="ds-btn ds-btn--ghost text-xs"
                   onClick={() => setEditingId(null)}
                 >
                   Tillbaka

@@ -1,60 +1,64 @@
 {
-  "version": 1,
-  "description": "Copilot YOLO-kö — prioriterad kod/build. Uppdatera tasks vid behov.",
+  "version": 4,
+  "description": "Copilot YOLO-kö v4 — Fas 24.C Premium UI Phase 0, Design Bible merge, G85 friktionslogg.",
   "tasks": [
     {
-      "id": "w2-backend-audit",
-      "title": "Våg 2 — read-only backend audit (WORM, silos, DCAP)",
-      "plan": "docs/evaluations/2026-06-26-vag1-build-gate-leverans.md (Nästa). Granska functions/src för WORM, tre silos, DCAP. Fixa endast tydliga GAP utan PMIR. Skriv docs/evaluations/YYYY-MM-DD-copilot-yolo-w2-audit.md.",
+      "id": "design-bible-merge",
+      "title": "Design Bible kap 19–22 → main",
+      "plan": "PR #120 (docs/design-bible-complete): CI smoke grön → merge. Verifiera smoke:governance PASS.",
+      "smoke": ["npm run smoke:governance"],
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "premium-ui-debt-baseline",
+      "title": "Design-debt baseline i DASHBOARD",
+      "plan": "Kör smoke:design-debt. Skriv btn-pill/ds-metrics till docs/DASHBOARD.md (Phase 0). Inga kodändringar utöver dashboard.",
+      "smoke": ["npm run smoke:design-debt", "npm run build"],
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "focus-visible-quickwin",
+      "title": "Focus-visible polish (Quick win #2)",
+      "plan": "premium-polish.css — enhetlig focus-visible enligt design-calm. Minimal diff.",
+      "smoke": ["npm run smoke:design-modules", "npm run smoke:locked-ux"],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "lazy-routes-vardagen-hjartat",
+      "title": "Lazy route-entry /vardagen + /hjartat",
+      "plan": "Fortsätt vite-bundle-split: dynamic import för VardagenPage och Hjartat-routes. Verifiera zone-chunks i build.",
+      "smoke": ["npm run build", "npm run smoke:locked-ux"],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "hub-eyebrow-polish",
+      "title": "Hub shells → textStyles.eyebrow",
+      "plan": "Quick win #5: ModuleShell/HubPageShell eyebrow via textStyles.eyebrow — tokens, ingen ny CSS-fil.",
+      "smoke": ["npm run smoke:design-modules", "npm run smoke:orkester"],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "hosting-deploy-wave",
+      "title": "Deploy hosting efter polish-våg",
+      "plan": "smoke:predeploy:build PASS. Deploy hosting (Pontus OK). Logga deploy-rad. Ej functions utan PMIR.",
       "smoke": ["npm run smoke:predeploy:build"],
-      "pmir": false,
-      "deploy": "none"
-    },
-    {
-      "id": "executive-home-motion",
-      "title": "Städa executive home-motion + build-gate grönt",
-      "plan": "Slutför dirty home-motion polish (Executive Midnight). npm run build + smoke:predeploy PASS. Committa atomärt.",
-      "smoke": ["npm run build", "npm run smoke:predeploy"],
-      "pmir": false,
-      "deploy": "hosting"
-    },
-    {
-      "id": "lifeos-kopplingar-c",
-      "title": "Life OS kopplingar Fas C (kod)",
-      "plan": "docs/design/LIFE-OS-KOPPLINGAR-KOMIHAG.md — implementera nästa P0-koppling som saknar wire. Locked UX intakt.",
-      "smoke": ["npm run build", "npm run smoke:locked-ux", "npm run smoke:orkester"],
-      "pmir": false,
-      "deploy": "hosting"
-    },
-    {
-      "id": "projekt-p1-widget",
-      "title": "Projekt P1 widget-polish",
-      "plan": "docs/evaluations/2026-06-19-yolo-audit-build-vidare.md spår — /widget/projekt + zone-valv chunk. typecheck:core-strict PASS.",
-      "smoke": ["npm run typecheck:core-strict", "npm run smoke:design-modules", "npm run smoke:locked-ux"],
-      "pmir": false,
-      "deploy": "hosting"
-    },
-    {
-      "id": "ingest-vag1-deploy-prep",
-      "title": "Ingest våg 1 — deploy-prep (ej deploy utan Pontus OK)",
-      "plan": "docs/evaluations/SENASTE-SAMMANFATTNING.md — verify submitInkastLite + notifyNewFile kod klar. Skriv deploy-instruktion i logg. Live smoke:kunskap kräver deploy — kör manuellt efter Pontus OK.",
-      "smoke": ["cd functions && npm run build", "npm run smoke:inkast-fas2", "npm run smoke:innehall", "npm run smoke:predeploy"],
       "pmir": true,
-      "deploy": "functions:submitInkastLite,functions:notifyNewFile"
+      "deploy": "hosting"
     },
     {
-      "id": "modul-smoke-fix-loop",
-      "title": "Modul-smoke fix-loop (tier1 grönt)",
-      "plan": "Kör npm run smoke:tier1. Fixa första FAIL tills PASS. Minimal diff per fix.",
-      "smoke": ["npm run smoke:tier1"],
-      "pmir": false,
-      "deploy": "none"
-    },
-    {
-      "id": "android-g85-prep",
-      "title": "Android G85 — sync + platform smoke",
-      "plan": "npm run build:web && npx cap sync android. npm run smoke:android-platform PASS. Dokumentera kvarvarande manuella steg.",
-      "smoke": ["npm run build:web", "npm run smoke:android-platform"],
+      "id": "g85-friction-d4",
+      "title": "G85 friktionslogg dag 4 + prod-sync verify",
+      "plan": "docs/evaluations/2026-06-25-g85-daily-driver.md — förbered dag 4-rad. cap:sync:prod + smoke:android-prod-sync. Manuell test på G85 kvar.",
+      "smoke": [
+        "npm run cap:sync:prod",
+        "npm run smoke:android-platform",
+        "npm run smoke:android-prod-sync"
+      ],
       "pmir": false,
       "deploy": "none"
     }

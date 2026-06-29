@@ -220,7 +220,7 @@ export function KunskapPage({
                   type="button"
                   onClick={() => reloadEntries()}
                   disabled={loadingEntries}
-                  className="btn-pill--secondary inline-flex items-center gap-1.5 text-xs"
+                  className="ds-btn ds-btn--secondary inline-flex items-center gap-1.5 text-xs"
                 >
                   <RefreshCw className="h-3 w-3" aria-hidden />
                   Försök igen

@@ -1,11 +1,10 @@
-import { useEffect, useMemo } from 'react';
+import { lazy, Suspense, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { ModuleShell } from '../layout/ModuleShell';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { NAV_PATHS } from '../navigation/navTruth';
 import { useMinWidthSm } from '../hooks/useMinWidthSm';
-import { VaultPage } from '@/features/lifeJournal/evidence/vault';
 import {
   LEGACY_INBOX_VAULT_TAB,
   type VaultTab,
@@ -16,6 +15,12 @@ import {
   vaultTabForValvInputMode,
   type ValvInputMode,
 } from '@/features/lifeJournal/evidence/vault/supermodule/valvInputModes';
+
+const VaultPage = lazy(() =>
+  import('@/features/lifeJournal/evidence/vault/components/VaultPage').then((m) => ({
+    default: m.VaultPage,
+  })),
+);
 
 /** Route-silo för `/valvet` — all säkerhetslogik sker i VaultPage. */
 export function ValvetRoutePage() {
@@ -98,12 +103,14 @@ export function ValvetRoutePage() {
         )}
       >
         <main className="animate-fade-in">
-          <VaultPage
-            vaultTab={canonTab}
-            valvMode={canonMode}
-            onVaultTabChange={handleVaultTabChange}
-            onValvModeChange={handleValvModeChange}
-          />
+          <Suspense fallback={<div className="p-4 text-center text-sm text-text-muted">Laddar valv...</div>}>
+            <VaultPage
+              vaultTab={canonTab}
+              valvMode={canonMode}
+              onVaultTabChange={handleVaultTabChange}
+              onValvModeChange={handleValvModeChange}
+            />
+          </Suspense>
         </main>
       </ModuleShell>
     </HubErrorBoundary>

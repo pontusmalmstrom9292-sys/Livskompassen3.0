@@ -20,7 +20,7 @@ export function SpeechMicRow({ onAppend, className = '' }: Props) {
       <button
         type="button"
         onClick={isListening ? stop : start}
-        className="btn-pill--ghost text-sm"
+        className="ds-btn ds-btn--ghost text-sm"
         aria-pressed={isListening}
       >
         {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}

@@ -6,6 +6,8 @@ globs: src/**/*.tsx,src/**/*.ts,src/**/*.css,tailwind.config.*
 
 # UI Design Language
 
+**Mandat:** [`lead-ui-engineer.mdc`](lead-ui-engineer.mdc) — polish pass vid varje UI-ändring.
+
 **Kanon:** [`design-calm.mdc`](design-calm.mdc) — Design Authority Decision (DAD) v1.0, Executive Midnight UI.
 
-Läs `design-calm.mdc` vid alla UI-ändringar. Duplicera inte regler här.
+Läs `lead-ui-engineer.mdc` + `design-calm.mdc` vid alla UI-ändringar. Duplicera inte regler här.

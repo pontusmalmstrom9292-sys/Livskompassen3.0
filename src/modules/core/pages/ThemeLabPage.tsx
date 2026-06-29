@@ -160,21 +160,21 @@ export function ThemeLabPage() {
         </p>
         ) : null}
         <div className="mt-3 flex flex-wrap gap-2">
-          <Link to="/dev/themes" className="btn-pill--ghost">
+          <Link to="/dev/themes" className="ds-btn ds-btn--ghost">
             Enkel skin-väljare
           </Link>
-          <Link to="/dev/obsidian-depth" className="btn-pill--accent text-xs">
+          <Link to="/dev/obsidian-depth" className="ds-btn ds-btn--accent text-xs">
             Obsidian Depth mockup
           </Link>
-          <Link to="/dev/obsidian-forge" className="btn-pill--accent text-xs">
+          <Link to="/dev/obsidian-forge" className="ds-btn ds-btn--accent text-xs">
             Obsidian Forge (utvärdering)
           </Link>
-          <Link to="/" className="btn-pill--ghost">
+          <Link to="/" className="ds-btn ds-btn--ghost">
             Testa på Hem
           </Link>
           <button
             type="button"
-            className="btn-pill--ghost"
+            className="ds-btn ds-btn--ghost"
             onClick={() => setAutoMode(false)}
           >
             Manuellt tema
@@ -206,14 +206,14 @@ export function ThemeLabPage() {
           Variant B (indigo + flikar) — interaktiv prototyp jämförd mot kanon-referens.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Link to="/dev/theme-lab/brusfiltret-supermodule" className="btn-pill--accent text-xs">
+          <Link to="/dev/theme-lab/brusfiltret-supermodule" className="ds-btn ds-btn--accent text-xs">
             Öppna Brusfiltret SuperModule lab
           </Link>
           <a
             href="/docs/design/references/BRUSFILTRET-MODUL-KANON.md"
             target="_blank"
             rel="noreferrer"
-            className="btn-pill--ghost text-xs"
+            className="ds-btn ds-btn--ghost text-xs"
           >
             Layoutkanon ↗
           </a>
@@ -226,14 +226,14 @@ export function ThemeLabPage() {
           Höger rail · Kognitiv sköld · Dagens riktning · Nytt projekt-picker (BYGG enligt mockup).
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Link to="/dev/theme-lab/w1-kompakt-projekt" className="btn-pill--accent text-xs">
+          <Link to="/dev/theme-lab/w1-kompakt-projekt" className="ds-btn ds-btn--accent text-xs">
             Öppna W1 kompakt projekt lab
           </Link>
           <a
             href="/docs/design/galleri/widget/v2/W1-kompakt-projekt.png"
             target="_blank"
             rel="noreferrer"
-            className="btn-pill--ghost text-xs"
+            className="ds-btn ds-btn--ghost text-xs"
           >
             Mockup ↗
           </a>
@@ -285,7 +285,7 @@ export function ThemeLabPage() {
               <button
                 key={mode}
                 type="button"
-                className={homeLayout === mode ? 'btn-pill--primary text-xs' : 'btn-pill--ghost text-xs'}
+                className={homeLayout === mode ? 'ds-btn ds-btn--accent text-xs' : 'ds-btn ds-btn--ghost text-xs'}
                 onClick={() => {
                   setExecutiveHomeLayoutMode(mode);
                   setHomeLayout(mode);
@@ -448,7 +448,7 @@ export function ThemeLabPage() {
           </div>
           <button
             type="button"
-            className="btn-pill--ghost text-xs"
+            className="ds-btn ds-btn--ghost text-xs"
             onClick={() => applyPreview(DEFAULT_THEME_ID)}
           >
             Jämför med prod
@@ -706,10 +706,10 @@ function ThemeLabCard({
         <p className="mt-1 text-xs text-text-muted">{pack.description}</p>
         {extra}
         <div className="mt-3 flex flex-wrap gap-2">
-          <button type="button" className="btn-pill--ghost text-xs" onClick={onPreview}>
+          <button type="button" className="ds-btn ds-btn--ghost text-xs" onClick={onPreview}>
             Förhandsgranska
           </button>
-          <button type="button" className="btn-pill--accent text-xs" onClick={onApply}>
+          <button type="button" className="ds-btn ds-btn--accent text-xs" onClick={onApply}>
             {applied
               ? 'Aktiv i appen'
               : applyLabel ?? 'Använd i appen'}

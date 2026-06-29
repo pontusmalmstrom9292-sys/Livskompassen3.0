@@ -16,7 +16,7 @@ export function ClearDevicePanel() {
       </p>
       <button
         type="button"
-        className="btn-pill--ghost inline-flex items-center gap-2 text-sm text-rose-200/90"
+        className="ds-btn ds-btn--ghost inline-flex items-center gap-2 text-sm text-rose-200/90"
         disabled={busy}
         onClick={() => {
           if (!window.confirm('Rensa känslig lokal data på denna enhet?')) return;

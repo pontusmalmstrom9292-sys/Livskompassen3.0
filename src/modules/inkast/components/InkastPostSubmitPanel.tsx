@@ -90,7 +90,7 @@ function OutcomeBody({
         <p className="text-xs text-text-muted">{detail}</p>
         {showQueueCta &&
           (queueHintAsButton && onOpenReviewQueue ? (
-            <button type="button" className="btn-pill--secondary text-xs" onClick={onOpenReviewQueue}>
+            <button type="button" className="ds-btn ds-btn--secondary text-xs" onClick={onOpenReviewQueue}>
               Öppna granskningskö
             </button>
           ) : (

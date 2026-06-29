@@ -35,7 +35,7 @@ export function FingerprintUnlockPanel({ compact = false, autoTry = false, onSuc
     <>
       <button
         type="button"
-        className="btn-pill--accent flex w-full items-center justify-center gap-2"
+        className="ds-btn ds-btn--accent flex w-full items-center justify-center gap-2"
         disabled={pending}
         onClick={() => void tryUnlock()}
       >

@@ -119,7 +119,7 @@ export function CaptureSuperModule({
           <div className="mb-2 flex justify-end">
             <button
               type="button"
-              className="btn-pill--ghost text-xs text-text-dim"
+              className="ds-btn ds-btn--ghost text-xs text-text-dim"
               onClick={() => setShowCapturePicker(true)}
             >
               Byt ingång

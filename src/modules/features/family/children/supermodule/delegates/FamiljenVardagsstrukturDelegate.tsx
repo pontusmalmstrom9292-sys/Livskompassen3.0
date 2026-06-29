@@ -127,7 +127,7 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
             <option value="granser">Gränssättning</option>
             <option value="rutin">Vardagsrutin</option>
           </select>
-          <button type="submit" className="btn-pill--secondary shrink-0 text-xs py-2">
+          <button type="submit" className="ds-btn ds-btn--secondary shrink-0 text-xs py-2">
             <Plus className="h-3 w-3" /> Lägg till
           </button>
         </div>
@@ -153,7 +153,7 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
           type="button"
           disabled={loading || !observation.trim()}
           onClick={() => void handleSaveObservation()}
-          className="btn-pill--accent w-full text-xs py-2 mt-2"
+          className="ds-btn ds-btn--accent w-full text-xs py-2 mt-2"
         >
           {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Check className="h-3 w-3" />}
           Spara observation i livslogg

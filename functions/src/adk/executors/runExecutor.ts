@@ -25,7 +25,7 @@ export async function runExecutor(
   const systemInstruction = getAgentSystemPrompt(executorId, message.intent);
 
   let tier: GeminiTier = autoSelectTier(message.intent, executorId);
-  const userId = message.contextId ?? (message.payload?.userId as string | undefined) ?? 'system';
+  const userId = (message.payload?.userId as string | undefined) ?? message.contextId ?? 'system';
 
   if (tier === 'pro') {
     const cap = await checkAiCostCaps(userId);

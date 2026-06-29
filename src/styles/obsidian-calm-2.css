@@ -7,7 +7,7 @@
   /* —— Bas: Obsidian Calm Bento glass —— */
   .calm-card {
     @apply relative overflow-hidden rounded-3xl border border-border/30 bg-surface-2/60 backdrop-blur-xl;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: var(--ds-elevation-card, 0 10px 30px rgba(0, 0, 0, 0.5));
     -webkit-backdrop-filter: blur(24px);
   }
 
@@ -23,17 +23,17 @@
     border-color: color-mix(in srgb, var(--glass-border) 85%, transparent);
   }
 
-  .bento-card:not(.module-bento-card--depth):hover {
-    transform: translateY(-2px);
-    border-color: color-mix(in srgb, var(--accent) 30%, var(--glass-border));
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
-  }
-
   .bento-card:not(.module-bento-card--depth) {
     transition:
-      transform 0.3s ease,
-      border-color 0.3s ease,
-      box-shadow 0.3s ease;
+      transform var(--ds-duration-normal, 0.3s) var(--ds-ease-premium, ease),
+      border-color var(--ds-duration-normal, 0.3s) var(--ds-ease-premium, ease),
+      box-shadow var(--ds-duration-normal, 0.3s) var(--ds-ease-premium, ease);
+  }
+
+  .bento-card:not(.module-bento-card--depth):hover {
+    transform: translateY(var(--ds-hover-lift, -2px));
+    border-color: color-mix(in srgb, var(--accent) 30%, var(--glass-border));
+    box-shadow: var(--ds-elevation-card-hover, 0 15px 40px rgba(0, 0, 0, 0.6));
   }
 
   .calm-card::before {
@@ -46,7 +46,7 @@
     background: linear-gradient(
       90deg,
       transparent,
-      rgba(255, 255, 255, 0.1),
+      color-mix(in srgb, var(--text) 10%, transparent),
       transparent
     );
     pointer-events: none;

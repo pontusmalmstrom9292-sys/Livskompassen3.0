@@ -72,7 +72,7 @@ export function PlaneringWeekCalendar({ tasks, prepared = true }: Props) {
       <div className="mt-3 flex flex-wrap items-center gap-2">
         <button
           type="button"
-          className="btn-pill--ghost text-xs disabled:opacity-40"
+          className="ds-btn ds-btn--ghost text-xs disabled:opacity-40"
           disabled={exportableCount === 0}
           onClick={() => downloadPlaneringIcs(tasks)}
         >

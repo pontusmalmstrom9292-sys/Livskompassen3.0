@@ -128,7 +128,7 @@ export function RecoveryTwelveStepJournal({ userId }: Props) {
                     type="button"
                     disabled={!userId || savingStep === step.stepNumber}
                     onClick={() => void handleSaveStep(step.stepNumber)}
-                    className="btn-pill--secondary inline-flex items-center gap-2 text-sm"
+                    className="ds-btn ds-btn--secondary inline-flex items-center gap-2 text-sm"
                   >
                     {savingStep === step.stepNumber ? (
                       <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
@@ -137,7 +137,7 @@ export function RecoveryTwelveStepJournal({ userId }: Props) {
                   </button>
                   <button
                     type="button"
-                    className="btn-pill--ghost text-sm"
+                    className="ds-btn ds-btn--ghost text-sm"
                     onClick={() =>
                       setExpandedStep((s) => Math.min(12, s + 1))
                     }

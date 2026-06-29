@@ -147,14 +147,14 @@ export function ArbetslivFranvaroPanel({
             <div className="flex gap-2">
               <button
                 type="button"
-                className={`btn-pill--ghost text-xs ${mMode === 'heldag' ? 'ring-1 ring-accent-primary' : ''}`}
+                className={`ds-btn ds-btn--ghost text-xs ${mMode === 'heldag' ? 'ring-1 ring-accent-primary' : ''}`}
                 onClick={() => setMMode('heldag')}
               >
                 Heldag
               </button>
               <button
                 type="button"
-                className={`btn-pill--ghost text-xs ${mMode === 'timmar' ? 'ring-1 ring-accent-primary' : ''}`}
+                className={`ds-btn ds-btn--ghost text-xs ${mMode === 'timmar' ? 'ring-1 ring-accent-primary' : ''}`}
                 onClick={() => setMMode('timmar')}
               >
                 Timmar
@@ -201,7 +201,7 @@ export function ArbetslivFranvaroPanel({
             <button
               type="button"
               disabled={busy}
-              className="btn-pill--primary w-full"
+              className="ds-btn ds-btn--accent w-full"
               onClick={() => void saveManual()}
             >
               {busy ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : 'Spara i loggen'}

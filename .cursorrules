@@ -6,7 +6,7 @@ Kanon ligger i **`.cursor/rules/`** (MDC). Kärn-invariants: **`.cursor/index.md
 
 | Zon | Auto-attached regel | Globs |
 |-----|---------------------|-------|
-| UI / Executive Midnight (DAD) | `design-calm.mdc` (kanon), `ui-design.mdc` (pekare) | `src/**/*.tsx`, `src/**/*.css` |
+| UI / Executive Midnight (DAD) | `lead-ui-engineer.mdc` (mandat), `design-calm.mdc` (kanon), `premium-ui.mdc`, `component-standards.mdc`, `automatic-ui-review.mdc`, `ui-design.mdc` (pekare) | `src/**/*` |
 | ADK & synapser | `synapser-adk.mdc` | `functions/src/adk/**`, `functions/src/triggers/**` |
 | RAG & silos | `memory-silo.mdc` | `functions/src/lib/*Rag*.ts` |
 | Säkerhet & WORM | `security-firestore.mdc` | `firestore.rules`, `functions/**`, `sharedRules.ts`, `DCAP.ts` |
@@ -21,11 +21,20 @@ Kanon ligger i **`.cursor/rules/`** (MDC). Kärn-invariants: **`.cursor/index.md
 
 Legacy-rutter (`/dagbok`, `/valv`, `/mabra`, `/planering` …) omdirigeras — skapa inga nya utanför 3-zonsystemet.
 
+## AI Governance (alla agenter)
+
+1. Läs [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) → [`docs/AI-GOVERNANCE.md`](docs/AI-GOVERNANCE.md) före arbete
+2. Efter varje uppgift: uppdatera `TODO`, `DASHBOARD`, `PROGRESS`, `PROJECT_STATE`
+3. Validera: `npm run smoke:governance`
+
 ## Vid stor ändring
 
-1. Läs [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](docs/specs/modules/Arkiv-GAP-REGISTER.md)
-2. Fas 19+ körplan: [`docs/evaluations/2026-06-15-fas19-masterplan-v2.md`](docs/evaluations/2026-06-15-fas19-masterplan-v2.md)
-3. Deploy: `npm run smoke:predeploy` → YOLO GO → Pontus OK
+1. Läs aktiv fas i [`.context/system-plan.md`](.context/system-plan.md) — **Fas 24 AKTIV**
+2. GAP-register: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](docs/specs/modules/Arkiv-GAP-REGISTER.md)
+3. Fas 24 syntes: [`docs/evaluations/2026-06-25-app-plan-syntes.md`](docs/evaluations/2026-06-25-app-plan-syntes.md)
+4. Deploy: `npm run smoke:predeploy` → YOLO GO → Pontus OK
+
+Kostnadsvakt: [`docs/governance/GCP-KOSTNADSVAKT.md`](docs/governance/GCP-KOSTNADSVAKT.md) · `npm run smoke:cost-guard`
 
 Kostnadsvakt: [`docs/governance/GCP-KOSTNADSVAKT.md`](docs/governance/GCP-KOSTNADSVAKT.md) · `npm run smoke:cost-guard`
 

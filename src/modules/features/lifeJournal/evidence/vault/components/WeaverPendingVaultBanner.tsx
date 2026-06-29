@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Button } from '@/design-system';
 import type { WeaverPendingRow } from '@/features/lifeJournal/diary/diary/api/weaverApprovalService';
 import {
   approveWeaverMetadata,
@@ -68,22 +69,22 @@ export function WeaverPendingVaultBanner({ userId, onApproved }: Props) {
             ))}
           </div>
           <div className="mt-2 flex flex-wrap gap-2">
-            <button
-              type="button"
+            <Button
+              variant="accent"
+              size="sm"
               disabled={busyId === row.id}
               onClick={() => void handleApprove(row.id)}
-              className="btn-pill--accent text-xs disabled:opacity-50"
             >
               Godkänn
-            </button>
-            <button
-              type="button"
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
               disabled={busyId === row.id}
               onClick={() => void handleDismiss(row.id)}
-              className="btn-pill--ghost text-xs disabled:opacity-50"
             >
               Hoppa över
-            </button>
+            </Button>
           </div>
         </div>
       ))}

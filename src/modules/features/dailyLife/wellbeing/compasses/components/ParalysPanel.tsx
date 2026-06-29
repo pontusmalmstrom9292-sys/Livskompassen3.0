@@ -66,7 +66,7 @@ export function ParalysPanel({ onDone, embedded = false, simplified = false }: P
           type="button"
           disabled={taskText.trim().length < 2}
           onClick={onDone}
-          className="btn-pill--accent mt-3 w-full text-xs disabled:opacity-40"
+          className="ds-btn ds-btn--accent mt-3 w-full text-xs disabled:opacity-40"
         >
           Klart för nu
         </button>
@@ -88,7 +88,7 @@ export function ParalysPanel({ onDone, embedded = false, simplified = false }: P
           type="button"
           disabled={loading}
           onClick={() => loadSteps(false)}
-          className="btn-pill--accent mt-3 w-full text-xs disabled:opacity-40"
+          className="ds-btn ds-btn--accent mt-3 w-full text-xs disabled:opacity-40"
         >
           {loading ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : 'Hjälp mig börja'}
         </button>
@@ -142,7 +142,7 @@ export function ParalysPanel({ onDone, embedded = false, simplified = false }: P
             type="button"
             disabled={loading}
             onClick={() => setCursor((c) => c + BATCH_SIZE)}
-            className="btn-pill--ghost text-xs"
+            className="ds-btn ds-btn--ghost text-xs"
           >
             Nästa steg i listan
           </button>
@@ -151,11 +151,11 @@ export function ParalysPanel({ onDone, embedded = false, simplified = false }: P
           type="button"
           disabled={loading}
           onClick={() => loadSteps(true)}
-          className="btn-pill--secondary text-xs"
+          className="ds-btn ds-btn--secondary text-xs"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Ge mig 3 till'}
         </button>
-        <button type="button" onClick={onDone} className="btn-pill--success text-xs">
+        <button type="button" onClick={onDone} className="ds-btn ds-btn--success text-xs">
           Klar
         </button>
       </div>

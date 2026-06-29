@@ -100,7 +100,7 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
             type="button"
             onClick={() => void handleMirror()}
             disabled={!safeFeeling.trim() || loading}
-            className="btn-pill--secondary mt-2 inline-flex items-center gap-2 disabled:opacity-50"
+            className="ds-btn ds-btn--secondary mt-2 inline-flex items-center gap-2 disabled:opacity-50"
           >
             {loading ? (
               <span
@@ -123,7 +123,7 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
               <button
                 type="button"
                 onClick={onContinue}
-                className="btn-pill--accent mt-4 inline-flex w-full items-center justify-center gap-2"
+                className="ds-btn ds-btn--accent mt-4 inline-flex w-full items-center justify-center gap-2"
               >
                 Fortsätt till VIVIR
                 <ChevronRight className="h-4 w-4" aria-hidden />

@@ -29,7 +29,7 @@ export function DailySummaryWidget() {
             två inkommande händelser med Grey Rock. Kognitiv belastning är låg.
           </p>
           <div className="mt-3 flex gap-2">
-            <button className="btn-pill--accent text-[11px] px-3 py-1">Visa detaljer</button>
+            <button className="ds-btn ds-btn--accent text-[11px] px-3 py-1">Visa detaljer</button>
           </div>
         </div>
       </div>

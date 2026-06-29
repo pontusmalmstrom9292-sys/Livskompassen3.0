@@ -218,7 +218,7 @@ export function AnchorVariantForge({
           type="button"
           onClick={onSave}
           disabled={disabled || saving || intention.trim().length < 2}
-          className="btn-pill--accent w-full text-xs disabled:opacity-40"
+          className="ds-btn ds-btn--accent w-full text-xs disabled:opacity-40"
         >
           {saving ? (
             <Loader2 className="mx-auto h-4 w-4 animate-spin" />

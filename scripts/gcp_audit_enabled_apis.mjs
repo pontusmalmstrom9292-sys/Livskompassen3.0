@@ -6,7 +6,7 @@
  * Kräver: gcloud inloggad med läsrättighet på projektet.
  * Skapar INTE resurser — read-only.
  */
-import { readFileSync, writeFileSync } from 'fs';
+import { readFileSync, existsSync, writeFileSync } from 'fs';
 import { execSync } from 'child_process';
 import { resolve, dirname, join } from 'path';
 import { fileURLToPath } from 'url';

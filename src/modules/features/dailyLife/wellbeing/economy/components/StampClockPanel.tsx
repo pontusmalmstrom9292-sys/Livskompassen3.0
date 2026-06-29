@@ -49,7 +49,7 @@ export function StampClockPanel({
           type="button"
           disabled={busy || instamplad}
           onClick={onStampIn}
-          className="btn-pill--primary disabled:opacity-40"
+          className="ds-btn ds-btn--accent disabled:opacity-40"
         >
           Stämpla in
         </button>
@@ -57,7 +57,7 @@ export function StampClockPanel({
           type="button"
           disabled={busy || !canStampOut}
           onClick={onStampOut}
-          className="btn-pill--ghost disabled:opacity-40"
+          className="ds-btn ds-btn--ghost disabled:opacity-40"
         >
           Stämpla ut
         </button>

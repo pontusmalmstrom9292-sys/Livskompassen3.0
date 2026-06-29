@@ -47,7 +47,9 @@ export function ChildMomentStunderPanel({ shell }: Props) {
     [logs, activeChild, filter],
   );
 
-  if (!user) return null;
+  if (!user) {
+    return <EmptyState message="Logga in för att se stunderna för barnet." />;
+  }
 
   return (
     <BentoCard glow="blue" title="Senaste stunder" description={activeChild}>

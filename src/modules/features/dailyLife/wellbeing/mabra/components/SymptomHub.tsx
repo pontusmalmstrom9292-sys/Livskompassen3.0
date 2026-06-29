@@ -21,7 +21,7 @@ export function SymptomHub({ onSelect, onOpenValues }: Props) {
           <p className="mt-1 text-sm text-text-dim">{option.hint}</p>
         </button>
       ))}
-      <button type="button" onClick={onOpenValues} className="btn-pill--ghost w-full text-sm">
+      <button type="button" onClick={onOpenValues} className="ds-btn ds-btn--ghost w-full text-sm">
         {VALUES_COMPASS_COPY.hubLinkLabel}
       </button>
     </div>

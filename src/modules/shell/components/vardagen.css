@@ -1,0 +1,86 @@
+@tailwind components;
+
+/* Vardagen hub — Obsidian Calm Bento (emerald silo) */
+
+@layer components {
+  .vardagen-bento-shell {
+    @apply relative isolate min-h-0;
+    background-color: var(--color-obsidian-surface);
+    background-image: var(--zone-gradient-vardagen);
+  }
+
+  .vardagen-bg-watermark {
+    @apply pointer-events-none fixed left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2;
+    color: var(--color-emerald-success);
+    width: min(130vw, 1000px);
+    height: min(130vw, 1000px);
+    max-width: 1000px;
+    max-height: 1000px;
+    opacity: 0.035;
+  }
+
+  .vardagen-bento-shell__content {
+    @apply relative z-10 space-y-4;
+  }
+
+  .vardagen-zone-strip {
+    @apply mb-1 flex items-center justify-center;
+  }
+
+  .vardagen-zone-pill {
+    @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em];
+    color: var(--color-emerald-success);
+    border-color: var(--color-emerald-35);
+    background: var(--color-shell-scrim);
+  }
+
+  .vardagen-zone-intro {
+    @apply rounded-2xl border px-3 py-2;
+    border-color: var(--color-emerald-35);
+    background: linear-gradient(
+      180deg,
+      rgba(16, 185, 129, 0.06) 0%,
+      var(--color-panel-obsidian-65) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .vardagen-zone-intro__header {
+    @apply mb-1 flex items-center gap-2;
+  }
+
+  .vardagen-zone-intro__eyebrow {
+    @apply text-[10px] uppercase tracking-[0.18em];
+    color: var(--color-emerald-success);
+  }
+
+  .vardagen-zone-intro__title {
+    @apply text-sm font-medium text-text;
+  }
+
+  .vardagen-zone-intro__lead {
+    @apply text-xs leading-relaxed text-text-dim;
+  }
+
+  .vardagen-layer-switch {
+    @apply mt-2 flex flex-wrap gap-2;
+  }
+
+  .vardagen-layer-switch__link {
+    @apply rounded-full border px-3 py-1 text-[11px] font-medium text-text-muted transition-colors;
+    border-color: rgba(16, 185, 129, 0.22);
+    background: var(--color-shell-scrim-35);
+  }
+
+  .vardagen-layer-switch__link:hover {
+    color: var(--color-emerald-success);
+    border-color: var(--color-emerald-35);
+  }
+
+  .vardagen-layer-switch__link--active {
+    color: var(--color-emerald-success);
+    border-color: var(--color-emerald-35);
+    background: var(--color-shell-scrim);
+  }
+}

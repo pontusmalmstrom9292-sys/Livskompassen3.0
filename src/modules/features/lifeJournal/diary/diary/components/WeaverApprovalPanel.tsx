@@ -143,7 +143,7 @@ export function WeaverApprovalPanel({ userId, journalEntryId, enabled = true }: 
           type="button"
           disabled={busy}
           onClick={() => void handleApprove()}
-          className="btn-pill--accent text-xs disabled:opacity-50"
+          className="ds-btn ds-btn--accent text-xs disabled:opacity-50"
         >
           {VAVAREN_APPROVAL_APPROVE_BUTTON}
         </button>
@@ -151,7 +151,7 @@ export function WeaverApprovalPanel({ userId, journalEntryId, enabled = true }: 
           type="button"
           disabled={busy}
           onClick={() => void handleDismiss()}
-          className="btn-pill--ghost text-xs disabled:opacity-50"
+          className="ds-btn ds-btn--ghost text-xs disabled:opacity-50"
         >
           Hoppa över
         </button>

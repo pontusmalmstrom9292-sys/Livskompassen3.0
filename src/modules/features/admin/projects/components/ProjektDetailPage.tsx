@@ -196,7 +196,7 @@ export function ProjektDetailPage() {
     return (
       <div className="space-y-3">
         <p className="text-sm text-text-muted">Projektet hittades inte.</p>
-        <Link to="/projekt" className="btn-pill--ghost text-sm">
+        <Link to="/projekt" className="ds-btn ds-btn--ghost text-sm">
           Tillbaka
         </Link>
       </div>
@@ -262,7 +262,7 @@ export function ProjektDetailPage() {
                     type="button"
                     disabled={ocrRunningId === block.id}
                     onClick={() => void handleOcr(block.id)}
-                    className="btn-pill--ghost text-xs"
+                    className="ds-btn ds-btn--ghost text-xs"
                   >
                     {ocrRunningId === block.id ? 'Läser text...' : 'Läs ut text (OCR)'}
                   </button>
@@ -280,7 +280,7 @@ export function ProjektDetailPage() {
             {block.type === 'task' && block.planningTaskId && (
               <Link
                 to={`/planering?tab=handling&picked=1&projectId=${projectId}`}
-                className="btn-pill--secondary mt-2 inline-flex text-xs"
+                className="ds-btn ds-btn--secondary mt-2 inline-flex text-xs"
               >
                 Öppna i kanban
               </Link>
@@ -295,7 +295,7 @@ export function ProjektDetailPage() {
           <button
             type="button"
             disabled={saving}
-            className="btn-pill--secondary text-xs"
+            className="ds-btn ds-btn--secondary text-xs"
             onClick={() => {
               const title = window.prompt('Rubrik för lista:', 'Min lista');
               if (title?.trim()) void addBlock('list', title.trim());
@@ -306,7 +306,7 @@ export function ProjektDetailPage() {
           <button
             type="button"
             disabled={saving}
-            className="btn-pill--secondary text-xs"
+            className="ds-btn ds-btn--secondary text-xs"
             onClick={() => void addBlock('note', 'Anteckning', noteDraft || undefined)}
           >
             Anteckning
@@ -314,7 +314,7 @@ export function ProjektDetailPage() {
           <button
             type="button"
             disabled={saving}
-            className="btn-pill--secondary text-xs"
+            className="ds-btn ds-btn--secondary text-xs"
             onClick={() => void addKanbanTask()}
           >
             Uppgift → Handling
@@ -333,7 +333,7 @@ export function ProjektDetailPage() {
           <button
             type="button"
             disabled={saving || !pendingMedia}
-            className="btn-pill--accent mt-2 text-xs"
+            className="ds-btn ds-btn--accent mt-2 text-xs"
             onClick={() => void addMediaBlock()}
           >
             Ladda upp mediablock
@@ -356,7 +356,7 @@ export function ProjektDetailPage() {
           <button
             type="button"
             disabled={saving || !newListItem.trim()}
-            className="btn-pill--secondary text-xs"
+            className="ds-btn ds-btn--secondary text-xs"
             onClick={() => {
               void addBlock('list', newListItem.trim());
               setNewListItem('');

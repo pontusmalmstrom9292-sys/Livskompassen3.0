@@ -259,7 +259,7 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
               type="button"
               disabled={saving}
               onClick={() => void handleComplete()}
-              className="btn-pill--secondary w-full"
+              className="ds-btn ds-btn--secondary w-full"
             >
               {COPY.complete}
             </button>
@@ -267,7 +267,7 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
               type="button"
               disabled={saving || skipCount >= EXPLORE_MAX_SKIPS}
               onClick={handleSkip}
-              className="btn-pill--ghost text-sm"
+              className="ds-btn ds-btn--ghost text-sm"
             >
               {skipCount >= EXPLORE_MAX_SKIPS ? COPY.skipLimit : COPY.skip}
             </button>
@@ -280,7 +280,7 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
             type="button"
             disabled={saving}
             onClick={() => void handleRegenerate()}
-            className="btn-pill--secondary w-full"
+            className="ds-btn ds-btn--secondary w-full"
           >
             {COPY.generate}
           </button>

@@ -81,7 +81,7 @@ export function BiffTriagePanel({
                 <button
                   type="button"
                   onClick={() => setShowBait((v) => !v)}
-                  className="btn-pill--ghost flex items-center gap-1 text-[10px] uppercase tracking-widest"
+                  className="ds-btn ds-btn--ghost flex items-center gap-1 text-[10px] uppercase tracking-widest"
                   aria-pressed={showBait}
                 >
                   {showBait ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}

@@ -59,7 +59,7 @@ export function BarnportenBracketPanel({
       <button
         type="button"
         disabled={disabled}
-        className="btn-pill--secondary mt-4 flex w-full items-center justify-center gap-2 text-sm"
+        className="ds-btn ds-btn--secondary mt-4 flex w-full items-center justify-center gap-2 text-sm"
         onClick={onBreathing}
       >
         <Wind className="h-4 w-4" aria-hidden />

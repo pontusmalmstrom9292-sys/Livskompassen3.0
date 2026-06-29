@@ -1,0 +1,205 @@
+/**
+ * Livskompassen Premium UI — design tokens (Executive Midnight).
+ * Bridges runtime theme vars (--bg, --accent, …) to stable DS namespace (--ds-*).
+ * Never hardcode prod hex here — always alias semantic theme variables.
+ */
+
+:root {
+  /* —— Colors —— */
+  --ds-color-bg: var(--bg);
+  --ds-color-bg-dusk: var(--bg-dusk);
+  --ds-color-surface-1: var(--surface);
+  --ds-color-surface-2: var(--surface-2);
+  --ds-color-surface-3: var(--surface-3);
+  --ds-color-text: var(--text);
+  --ds-color-text-muted: var(--text-muted);
+  --ds-color-text-dim: var(--text-dim);
+  --ds-color-accent: var(--accent);
+  --ds-color-accent-light: var(--accent-light);
+  --ds-color-accent-secondary: var(--accent-secondary);
+  --ds-color-accent-glow: var(--accent-glow);
+  --ds-color-success: var(--success);
+  --ds-color-warning: var(--warning);
+  --ds-color-danger: var(--danger);
+  --ds-color-border: var(--border);
+  --ds-color-border-strong: var(--border-strong);
+  --ds-color-glass-border: var(--glass-border, var(--border));
+
+  /* —— Spacing (4px base) —— */
+  --ds-space-0: 0;
+  --ds-space-px: 1px;
+  --ds-space-0-5: 0.125rem;
+  --ds-space-1: 0.25rem;
+  --ds-space-1-5: 0.375rem;
+  --ds-space-2: 0.5rem;
+  --ds-space-2-5: 0.625rem;
+  --ds-space-3: 0.75rem;
+  --ds-space-3-5: 0.875rem;
+  --ds-space-4: 1rem;
+  --ds-space-5: 1.25rem;
+  --ds-space-6: 1.5rem;
+  --ds-space-7: 1.75rem;
+  --ds-space-8: 2rem;
+  --ds-space-10: 2.5rem;
+  --ds-space-12: 3rem;
+  --ds-space-16: 4rem;
+  --ds-space-20: 5rem;
+  --ds-space-dock-clearance: var(--app-dock-clearance);
+  --ds-touch-target: 2.75rem;
+
+  /* —— Typography —— */
+  --ds-font-display: var(--bd-font-display, var(--ds-font-display-fallback));
+  --ds-font-display-fallback: 'Cormorant Garamond', Georgia, serif;
+  --ds-font-body: var(--bd-font-body, var(--ds-font-body-fallback));
+  --ds-font-body-fallback: 'Inter', system-ui, sans-serif;
+  --ds-font-chrome: var(--ds-font-chrome-fallback);
+  --ds-font-chrome-fallback: 'Cinzel', 'Outfit', serif;
+  --ds-font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --ds-font-size-2xs: 0.625rem;
+  --ds-font-size-xs: 0.75rem;
+  --ds-font-size-sm: 0.875rem;
+  --ds-font-size-md: 1rem;
+  --ds-font-size-lg: 1.125rem;
+  --ds-font-size-xl: 1.25rem;
+  --ds-font-size-2xl: 1.5rem;
+  --ds-font-size-3xl: 1.875rem;
+
+  --ds-line-height-tight: 1.2;
+  --ds-line-height-snug: 1.35;
+  --ds-line-height-normal: 1.5;
+  --ds-line-height-relaxed: 1.625;
+
+  --ds-letter-spacing-tight: 0.02em;
+  --ds-letter-spacing-normal: 0.08em;
+  --ds-letter-spacing-wide: 0.16em;
+  --ds-letter-spacing-wider: 0.22em;
+  --ds-letter-spacing-widest: 0.24em;
+
+  --ds-font-weight-regular: 400;
+  --ds-font-weight-medium: 500;
+  --ds-font-weight-semibold: 600;
+  --ds-font-weight-bold: 700;
+
+  /* —— Radius —— */
+  --ds-radius-none: 0;
+  --ds-radius-sm: 0.5rem;
+  --ds-radius-md: 0.75rem;
+  --ds-radius-lg: 1rem;
+  --ds-radius-xl: 1.25rem;
+  --ds-radius-2xl: 1.5rem;
+  --ds-radius-3xl: 2rem;
+  --ds-radius-card: var(--ui-card-radius, var(--ds-radius-2xl));
+  --ds-radius-dock: var(--bd-radius-xl, 1.75rem);
+  --ds-radius-pill: 9999px;
+
+  /* —— Blur —— */
+  --ds-blur-none: 0;
+  --ds-blur-sm: 8px;
+  --ds-blur-md: 12px;
+  --ds-blur-lg: 16px;
+  --ds-blur-xl: 24px;
+  --ds-blur-2xl: 40px;
+
+  /* —— Glass —— */
+  --ds-glass-bg: var(--glass);
+  --ds-glass-hero-bg: var(--glass-hero);
+  --ds-glass-border: var(--ds-color-glass-border);
+  --ds-glass-blur: var(--ds-blur-xl);
+  --ds-glass-highlight: color-mix(in srgb, var(--ds-color-text) 10%, transparent);
+  --ds-glass-sheen: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--ds-color-text) 14%, transparent) 0%,
+    transparent 42%,
+    transparent 100%
+  );
+  --ds-glass-saturate: 145%;
+  --ds-ambient-rim: color-mix(in srgb, var(--ds-color-accent) 12%, transparent);
+  --ds-ambient-falloff: color-mix(in srgb, var(--ds-color-bg) 55%, transparent);
+  --ds-hover-lift: -2px;
+  --ds-press-scale: 0.985;
+  --ds-press-scale-strong: 0.96;
+  --ds-focus-ring: 2px solid color-mix(in srgb, var(--ds-color-accent) 55%, transparent);
+  --ds-focus-offset: 2px;
+
+  /* —— Elevation (layered shadows) —— */
+  --ds-elevation-0: none;
+  --ds-elevation-1:
+    inset 0 1px 0 var(--ds-glass-highlight),
+    0 4px 14px -6px color-mix(in srgb, var(--ds-color-bg) 90%, transparent);
+  --ds-elevation-2:
+    inset 0 1px 0 var(--ds-glass-highlight),
+    inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 32%, transparent),
+    0 8px 24px -8px color-mix(in srgb, var(--ds-color-bg) 65%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 6%, transparent);
+  --ds-elevation-3:
+    inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 8%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 28%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 5%, transparent),
+    0 12px 32px -10px var(--ds-ambient-falloff);
+  --ds-elevation-4:
+    inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 12%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 22%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 14%, transparent),
+    0 20px 44px -12px var(--ds-ambient-falloff),
+    0 8px 24px -8px color-mix(in srgb, var(--ds-color-accent-glow) 65%, transparent);
+  --ds-elevation-card:
+    inset 0 1px 0 var(--ds-glass-highlight),
+    inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 28%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 5%, transparent),
+    0 12px 32px -10px var(--ds-ambient-falloff),
+    0 4px 16px -6px color-mix(in srgb, var(--ds-color-bg) 70%, transparent);
+  --ds-elevation-card-hover:
+    inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 14%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 22%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 14%, transparent),
+    0 20px 44px -12px var(--ds-ambient-falloff),
+    0 8px 24px -8px color-mix(in srgb, var(--ds-color-accent-glow) 65%, transparent);
+  --ds-elevation-dock:
+    inset 0 1px 0 color-mix(in srgb, var(--ds-color-accent-light) 22%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 35%, transparent),
+    0 -8px 32px color-mix(in srgb, var(--ds-color-accent) 12%, transparent),
+    0 16px 48px -10px color-mix(in srgb, var(--ds-color-bg) 58%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 8%, transparent);
+
+  /* —— Shadow (semantic) —— */
+  --ds-shadow-sm: var(--ds-elevation-1);
+  --ds-shadow-md: var(--ds-elevation-2);
+  --ds-shadow-lg: var(--ds-elevation-card);
+  --ds-shadow-xl: var(--ds-elevation-card-hover);
+  --ds-shadow-accent-glow: 0 0 16px var(--ds-color-accent-glow);
+  --ds-shadow-accent-glow-lg: 0 0 32px var(--ds-color-accent-glow);
+
+  /* —— Animation —— */
+  --ds-duration-instant: 0ms;
+  --ds-duration-fast: 150ms;
+  --ds-duration-normal: 250ms;
+  --ds-duration-morph: 350ms;
+  --ds-duration-slow: 520ms;
+  --ds-ease-premium: cubic-bezier(0.45, 0, 0.55, 1);
+  --ds-ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ds-ease-exit: cubic-bezier(0.45, 0, 0.55, 1);
+  --ds-ease-spring: cubic-bezier(0.34, 1.2, 0.64, 1);
+
+  /* —— Z-index scale —— */
+  --ds-z-base: 0;
+  --ds-z-raised: 10;
+  --ds-z-header: 30;
+  --ds-z-dock: 40;
+  --ds-z-overlay: 50;
+  --ds-z-modal: 60;
+  --ds-z-toast: 70;
+
+  /* Legacy aliases — deprecated routes (/reflection, /dashboard, /orakel) */
+  --color-nordic-dusk: var(--bg-dusk, var(--bg));
+  --color-obsidian-calm: var(--surface, var(--bg));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ds-duration-fast: 0ms;
+    --ds-duration-normal: 0ms;
+    --ds-duration-morph: 0ms;
+    --ds-duration-slow: 0ms;
+  }
+}

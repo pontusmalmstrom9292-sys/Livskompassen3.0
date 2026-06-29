@@ -147,12 +147,12 @@ export function ProjektNyPage() {
         <button
           type="button"
           disabled={saving || !user || !mediaFile}
-          className="btn-pill--accent mt-4 text-sm"
+          className="ds-btn ds-btn--accent mt-4 text-sm"
           onClick={() => void startProject(preselected)}
         >
           Skapa projekt med fil
         </button>
-        <Link to="/projekt" className="btn-pill--ghost mt-4 inline-flex text-sm">
+        <Link to="/projekt" className="ds-btn ds-btn--ghost mt-4 inline-flex text-sm">
           Avbryt
         </Link>
       </HubPageShell>
@@ -198,10 +198,10 @@ export function ProjektNyPage() {
         })}
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
-        <Link to="/projekt/regler" className="btn-pill--ghost text-sm">
+        <Link to="/projekt/regler" className="ds-btn ds-btn--ghost text-sm">
           Regler
         </Link>
-        <Link to="/projekt" className="btn-pill--ghost text-sm">
+        <Link to="/projekt" className="ds-btn ds-btn--ghost text-sm">
           Tillbaka
         </Link>
       </div>

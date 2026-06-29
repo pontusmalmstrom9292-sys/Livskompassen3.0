@@ -126,7 +126,7 @@ export function HemV3DevelopmentRail({ refreshKey = 0 }: Props) {
           </p>
           <Link
             to={{ pathname: selected.to, search: selected.search ?? '' }}
-            className="btn-pill--ghost mt-3 inline-flex text-xs"
+            className="ds-btn ds-btn--ghost mt-3 inline-flex text-xs"
           >
             {selected.actionLabel}
           </Link>

@@ -72,7 +72,7 @@ export function AgentRegistryCard({
         <button
           type="button"
           onClick={() => onAction(agent.metadata.id)}
-          className="btn-pill--ghost mt-3 w-full text-[10px] uppercase tracking-widest"
+          className="ds-btn ds-btn--ghost mt-3 w-full text-[10px] uppercase tracking-widest"
         >
           {actionLabel}
         </button>

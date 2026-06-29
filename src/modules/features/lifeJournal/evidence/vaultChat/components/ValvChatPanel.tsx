@@ -228,7 +228,7 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
             <button
               type="submit"
               disabled={loading || !draft.trim()}
-              className="btn-pill--secondary flex shrink-0 items-center gap-1 self-end"
+              className="ds-btn ds-btn--secondary flex shrink-0 items-center gap-1 self-end"
               aria-label="Skicka fråga"
             >
               <Send className="h-4 w-4" />
@@ -305,7 +305,7 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
                       href={previewLog.evidenceUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-pill--ghost text-[10px] px-2.5 py-1 inline-flex items-center gap-1"
+                      className="ds-btn ds-btn--ghost text-[10px] px-2.5 py-1 inline-flex items-center gap-1"
                     >
                       <ExternalLink className="h-3 w-3" /> Öppna bilaga
                     </a>
@@ -319,14 +319,14 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
                       if (onCitationClick) onCitationClick(previewLog.id);
                       setPreviewLog(null);
                     }}
-                    className="btn-pill--accent text-xs flex-1"
+                    className="ds-btn ds-btn--accent text-xs flex-1"
                   >
                     Visa och highlighta i loggen
                   </button>
                   <button
                     type="button"
                     onClick={() => setPreviewLog(null)}
-                    className="btn-pill--ghost text-xs flex-1"
+                    className="ds-btn ds-btn--ghost text-xs flex-1"
                   >
                     Stäng
                   </button>

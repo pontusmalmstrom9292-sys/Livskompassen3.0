@@ -32,6 +32,55 @@
     background: var(--color-shell-scrim);
   }
 
+  .hjartat-zone-intro {
+    @apply rounded-2xl border px-3 py-2;
+    border-color: var(--color-accent-gold-18);
+    background: linear-gradient(
+      180deg,
+      var(--color-panel-lilac-50) 0%,
+      var(--color-panel-obsidian-65) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .hjartat-zone-intro__header {
+    @apply mb-1 flex items-center gap-2;
+  }
+
+  .hjartat-zone-intro__eyebrow {
+    @apply text-[10px] uppercase tracking-[0.18em] text-accent-light;
+  }
+
+  .hjartat-zone-intro__title {
+    @apply text-sm font-medium text-text;
+  }
+
+  .hjartat-zone-intro__lead {
+    @apply text-xs leading-relaxed text-text-dim;
+  }
+
+  .hjartat-layer-switch {
+    @apply mt-2 flex flex-wrap gap-2;
+  }
+
+  .hjartat-layer-switch__link {
+    @apply rounded-full border px-3 py-1 text-[11px] font-medium text-text-muted transition-colors;
+    border-color: var(--color-accent-gold-18);
+    background: var(--color-shell-scrim-35);
+  }
+
+  .hjartat-layer-switch__link:hover {
+    @apply text-accent-light;
+    border-color: var(--color-accent-gold-35);
+  }
+
+  .hjartat-layer-switch__link--active {
+    @apply text-accent-light;
+    border-color: var(--color-accent-gold-35);
+    background: var(--color-shell-scrim);
+  }
+
   .hjartat-tab-panel {
     @apply min-h-0;
   }
@@ -41,9 +90,9 @@
     border-color: var(--color-accent-gold-18);
     background: linear-gradient(
       145deg,
-      rgba(30, 25, 45, 0.5) 0%,
-      rgba(5, 11, 20, 0.45) 55%,
-      rgba(2, 6, 23, 0.65) 100%
+      var(--color-panel-lilac-50) 0%,
+      var(--color-panel-obsidian-45) 55%,
+      var(--color-panel-obsidian-65) 100%
     );
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);

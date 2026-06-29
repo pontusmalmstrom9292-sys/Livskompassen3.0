@@ -49,12 +49,12 @@ function WidgetFamiljenInner() {
       {done ? (
         <div className="elongated-module elongated-module--gold p-4">
           <p className="text-sm text-success">Sparat till {child}s logg</p>
-          <Link to="/familjen" className="btn-pill--accent mt-3 inline-flex text-xs">
+          <Link to="/familjen" className="ds-btn ds-btn--accent mt-3 inline-flex text-xs">
             Öppna Familjen
           </Link>
           <button
             type="button"
-            className="btn-pill--ghost mt-2 w-full text-xs"
+            className="ds-btn ds-btn--ghost mt-2 w-full text-xs"
             onClick={resetForm}
           >
             Ny rad
@@ -67,7 +67,7 @@ function WidgetFamiljenInner() {
               <button
                 key={alias}
                 type="button"
-                className={child === alias ? 'btn-pill--accent flex-1 text-xs' : 'btn-pill--ghost flex-1 text-xs'}
+                className={child === alias ? 'ds-btn ds-btn--accent flex-1 text-xs' : 'ds-btn ds-btn--ghost flex-1 text-xs'}
                 onClick={() => setChild(alias)}
               >
                 {alias}
@@ -84,7 +84,7 @@ function WidgetFamiljenInner() {
           <button
             type="button"
             disabled={saving || !text.trim()}
-            className="btn-pill--accent w-full"
+            className="ds-btn ds-btn--accent w-full"
             onClick={() => void handleSave()}
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : `Spara till ${child}s logg`}

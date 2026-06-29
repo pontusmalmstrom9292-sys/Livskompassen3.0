@@ -25,7 +25,7 @@ export function AgentRoutingBadge({
   const legacy = agentName?.trim();
   const showExecutor =
     Boolean(product && executor && product.toLowerCase() !== executor.toLowerCase()) ||
-    Boolean(!product && legacy);
+    Boolean(!product && legacy && executor);
 
   return (
     <p
@@ -34,7 +34,7 @@ export function AgentRoutingBadge({
     >
       Dirigerad av{' '}
       <span className="text-accent">{product ?? legacy}</span>
-      {showExecutor && executor && product ? (
+      {showExecutor && executor ? (
         <>
           {' '}
           via <span className="text-text-muted normal-case tracking-normal">{executor}</span>

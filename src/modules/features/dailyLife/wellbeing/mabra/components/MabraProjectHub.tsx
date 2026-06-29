@@ -67,13 +67,13 @@ export function MabraProjectHub({ onSelectProject, onSelectAkut, onOpenValues }:
 
       <Link
         to={VAULT_VIT_TAB_LINK}
-        className="btn-pill--ghost inline-flex w-full items-center justify-center gap-2 text-sm"
+        className="ds-btn ds-btn--ghost inline-flex w-full items-center justify-center gap-2 text-sm"
       >
         <Archive className="h-4 w-4" aria-hidden />
         {VIT_HUB_VAULT_LINK}
       </Link>
 
-      <button type="button" onClick={onOpenValues} className="btn-pill--ghost w-full text-sm">
+      <button type="button" onClick={onOpenValues} className="ds-btn ds-btn--ghost w-full text-sm">
         {VALUES_COMPASS_COPY.hubLinkLabel}
       </button>
     </div>

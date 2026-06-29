@@ -61,7 +61,7 @@ export function MabraComplete({
         </Link>
       </div>
 
-      <button type="button" onClick={onDone} className="btn-pill--secondary mt-2">
+      <button type="button" onClick={onDone} className="ds-btn ds-btn--secondary mt-2">
         Klar
       </button>
     </div>

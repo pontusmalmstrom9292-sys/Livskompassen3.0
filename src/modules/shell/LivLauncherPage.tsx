@@ -18,6 +18,8 @@ import {
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
+import { VardagenBentoShell } from './components/VardagenBentoShell';
+import { VardagenZoneIntro } from './components/VardagenZoneIntro';
 
 type LivInlineTab = 'kompasser' | 'ekonomi' | 'mabra';
 
@@ -89,15 +91,18 @@ export function LivLauncherPage() {
       logTag="LivLauncherPage"
     >
       <HubPageShell
-        eyebrow="Liv och göra"
+        eyebrow="Vardagen"
         title="Vardagsstart"
-        lead="Välj ett kort. Kompass och ekonomi visas här — MåBra, planering och arbetsliv öppnas på egna sidor med Universal Input."
+        lead="Daglig rytm, planering och mående — ett kort i taget."
       >
+      <VardagenBentoShell>
       <div className="mx-auto max-w-5xl space-y-4 pb-12">
         <CognitiveLoadStrip
           label="Ett steg i taget"
-          hint="Tryck ett kort. Inline-val visas nedan; övriga tar dig till rätt verktyg direkt."
+          hint="Tryck ett kort. Kompass, ekonomi och MåBra visas här; projekt och arbetsliv öppnas på egna sidor."
         />
+
+        <VardagenZoneIntro activeTab={activeTab} />
 
         <LivLauncherGrid activeId={activeTab} onSelect={handleChange} />
 
@@ -130,6 +135,7 @@ export function LivLauncherPage() {
           )}
         </main>
       </div>
+      </VardagenBentoShell>
       </HubPageShell>
     </HubErrorBoundary>
   );

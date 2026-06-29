@@ -1,8 +1,6 @@
-import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import { onCall, onRequest, HttpsError } from 'firebase-functions/v2/https';
+import { onSchedule } from 'firebase-functions/v2/scheduler';
 import * as admin from 'firebase-admin';
-// firebase-functions v1 behålls enbart för schedulers och onRequest (notifyNewFile, scheduledRetentionJob,
-// scheduledGeneratePayslip) — dessa är ej callables och v2-scheduler-API skiljer sig åt.
-import * as functions from 'firebase-functions/v1';
 import {
   askMabraCoach,
   askVitChatCoach,
@@ -129,27 +127,26 @@ export const invalidateSession = onCall(
   }
 );
 
-export const scheduledRetentionJob = functions
-  .region('europe-west1')
-  .pubsub.schedule('0 3 * * *')
-  .timeZone('Europe/Stockholm')
-  .onRun(async (_context) => {
+export const scheduledRetentionJob = onSchedule(
+  { schedule: '0 3 * * *', timeZone: 'Europe/Stockholm', region: 'europe-west1' },
+  async (_event) => {
     console.log('[scheduledRetentionJob] Startar GDPR-rensning...');
     const { default: runRetention } = await import('../jobs/retentionJob');
     if (typeof runRetention === 'function') {
       await runRetention();
     }
     console.log('[scheduledRetentionJob] Klar.');
-  });
+  }
+);
 
-export const notifyNewFile = functions
-  .region('europe-west1')
-  .runWith({
+export const notifyNewFile = onRequest(
+  {
+    region: 'europe-west1',
     secrets: ['NOTIFY_WEBHOOK_SECRET'],
     timeoutSeconds: 300,
-    memory: '512MB',
-  })
-  .https.onRequest(async (req, res) => {
+    memory: '512MiB',
+  },
+  async (req, res) => {
     if (req.method !== 'POST') {
       res.status(405).send('Method Not Allowed');
       return;
@@ -819,15 +816,14 @@ export const crushTask = onCall(
   }
 );
 
-export const scheduledGeneratePayslip = functions
-  .region('europe-west1')
-  .pubsub.schedule('0 8 16 * *')
-  .timeZone('Europe/Stockholm')
-  .onRun(async () => {
+export const scheduledGeneratePayslip = onSchedule(
+  { schedule: '0 8 16 * *', timeZone: 'Europe/Stockholm', region: 'europe-west1' },
+  async () => {
     console.log('[scheduledGeneratePayslip] Startar…');
     const count = await generatePayslipsForAllProfiles();
     console.log(`[scheduledGeneratePayslip] Klar. ${count} lönespec(er).`);
-  });
+  }
+);
 
 export const createBarnportenPairing = onCall({ region: 'europe-west1' }, async (request) => {
   const uid = await guardSensitiveCallableV2(request, 'createBarnportenPairing', 10);

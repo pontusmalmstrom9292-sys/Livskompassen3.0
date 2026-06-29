@@ -28,7 +28,7 @@ export function AdkAgentRegistryPanel() {
           type="button"
           onClick={() => void reload()}
           disabled={loading}
-          className="btn-pill--ghost inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest disabled:opacity-50"
+          className="ds-btn ds-btn--ghost inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest disabled:opacity-50"
           aria-label="Uppdatera agentregistret"
         >
           {loading ? (

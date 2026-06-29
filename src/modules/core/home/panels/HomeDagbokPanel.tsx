@@ -12,14 +12,14 @@ export function HomeDagbokPanel() {
       <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
         <Link
           to={HOME_SUPERHUB_ROUTES.hjartatQuickMirror}
-          className="btn-pill--accent inline-flex items-center justify-center gap-2"
+          className="ds-btn ds-btn--accent inline-flex items-center justify-center gap-2"
         >
           <PenLine className="h-4 w-4" aria-hidden />
           Snabb spegling
         </Link>
         <Link
           to={HOME_SUPERHUB_ROUTES.hjartatReflektion}
-          className="btn-pill--ghost inline-flex items-center justify-center gap-2"
+          className="ds-btn ds-btn--ghost inline-flex items-center justify-center gap-2"
         >
           <BookOpen className="h-4 w-4" aria-hidden />
           Reflektera steg för steg

@@ -14,10 +14,10 @@ export function AkutLanding({ onContinue, onExit }: Props) {
         <p className="mt-4 text-xs text-text-dim">{AKUT_LANDING_COPY.hint}</p>
       </div>
       <div className="flex w-full max-w-sm flex-col gap-2">
-        <button type="button" onClick={onContinue} className="btn-pill--secondary">
+        <button type="button" onClick={onContinue} className="ds-btn ds-btn--secondary">
           {AKUT_LANDING_COPY.continueLabel}
         </button>
-        <button type="button" onClick={onExit} className="btn-pill--ghost text-sm">
+        <button type="button" onClick={onExit} className="ds-btn ds-btn--ghost text-sm">
           {AKUT_LANDING_COPY.exitLabel}
         </button>
       </div>
