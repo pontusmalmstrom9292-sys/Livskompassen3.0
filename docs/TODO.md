@@ -122,8 +122,8 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] PlaneringInkorgPanel (in-flight)
 - [x] InkorgPreviewSheet (in-flight)
 - [x] CognitiveGuardView + banner (in-flight)
-- [ ] PlaneringFokusPanel (in-flight)
-- [ ] PlaneringParalysEntry (in-flight)
+- [x] PlaneringFokusPanel (in-flight)
+- [x] PlaneringParalysEntry (in-flight)
 - [ ] MåBra MabraHubView + layout
 - [ ] MåBra flow views
 - [ ] Ekonomi panels (EconomyPage, log, budget)
