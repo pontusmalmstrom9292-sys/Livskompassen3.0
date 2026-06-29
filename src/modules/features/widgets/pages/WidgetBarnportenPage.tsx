@@ -56,7 +56,7 @@ function WidgetBarnportenInner() {
         lead="Snabb sändning — hamnar i pappas inkorg (inte i Valv automatiskt)."
       >
         {done ? (
-          <div className="elongated-module elongated-module--gold p-4">
+          <div className="elongated-module elongated-module--gold overflow-hidden p-4">
             <p className="text-sm text-success">
               {queued ? 'Köad — synkas när nätet finns.' : 'Skickat till pappas inkorg.'}
             </p>

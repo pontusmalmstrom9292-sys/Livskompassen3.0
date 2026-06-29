@@ -153,7 +153,7 @@ Each item is independently completable. Link files in Dashboard when done.
 
 ## Phase 8 — Widgets + Android
 
-- [ ] WidgetShell polish
+- [x] WidgetShell polish
 - [ ] WidgetRecordPage
 - [ ] WidgetNotePage
 - [ ] WidgetCompassPage

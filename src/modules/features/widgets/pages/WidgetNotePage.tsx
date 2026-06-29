@@ -56,7 +56,7 @@ function WidgetNoteInner() {
   return (
     <WidgetShell title="Snabbanteckning" lead="Välj silo — default Inkast (inte auto-Valv).">
       {doneCopy ? (
-        <div className="elongated-module elongated-module--gold p-4">
+        <div className="elongated-module elongated-module--gold overflow-hidden p-4">
           <p className="flex items-center gap-2 text-sm text-success">
             {doneSilo === 'bevis' ? <Lock className="h-4 w-4" /> : null}
             {doneCopy.message}

@@ -48,7 +48,9 @@ function WidgetShellFrame({ title, lead, children }: Props) {
           <h1 className="widget-shell__title">{title}</h1>
           {lead ? <p className="widget-shell__lead">{lead}</p> : null}
         </header>
-        <main className="widget-shell__main">{children}</main>
+        <main className="widget-shell__main">
+          <div className="widget-shell__surface">{children}</div>
+        </main>
       </div>
       {panicBlur ? <div className="widget-panic-blur-overlay" aria-hidden /> : null}
     </>

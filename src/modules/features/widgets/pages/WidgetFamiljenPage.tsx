@@ -47,7 +47,7 @@ function WidgetFamiljenInner() {
   return (
     <WidgetShell title="Barnobs" lead="Neutral rad → barnlogg (inte Valv automatiskt).">
       {done ? (
-        <div className="elongated-module elongated-module--gold p-4">
+        <div className="elongated-module elongated-module--gold overflow-hidden p-4">
           <p className="text-sm text-success">Sparat till {child}s logg</p>
           <Link to="/familjen" className="ds-btn ds-btn--accent mt-3 inline-flex text-xs">
             Öppna Familjen

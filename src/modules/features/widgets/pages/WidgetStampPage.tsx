@@ -38,7 +38,7 @@ function WidgetStampInner() {
           : 'In eller ut — ett tryck. Lägg till denna vy som widget på Motorola.'
       }
     >
-      <div className="widget-stamp">
+      <div className="widget-stamp overflow-hidden rounded-3xl border border-border-strong bg-surface/35 p-4 shadow-[0_18px_40px_-26px_rgba(0,0,0,0.7)] backdrop-blur-xl space-y-4">
         {error && (
           <p className="rounded-lg border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger">
             {error}
