@@ -37,6 +37,32 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+## 2026-06-29 — Dead nav drawer selector removed
+
+**Completed work:**
+- Removed the unused `nav-drawer--calm-2` selector from the nav drawer calm-scroll rule.
+- Left the active `nav-drawer--obsidian-depth` behavior intact.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3429
+
+**Reasoning:**
+- `nav-drawer--calm-2` had no `src` consumers, so removing it safely trims global CSS without affecting the drawer.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead CSS removed
 
 **Completed work:**
