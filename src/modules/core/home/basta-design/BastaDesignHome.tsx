@@ -1,16 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import {
-  Target,
-  Anchor,
-  MessageSquare,
-  PenLine,
-  Plus,
-  Check,
-  Star,
-  ChevronRight,
-} from 'lucide-react';
+import { Target, Anchor, MessageSquare, Plus, Check, Star, ChevronRight } from 'lucide-react';
 import { saveCheckIn, getRecentCheckIns } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
 import { usePlanningTasks } from '@/features/admin/planning/hooks/usePlanningTasks';
@@ -18,14 +9,20 @@ import { pickHomeDaySteps, homeStepLabel } from '@/features/admin/planning/utils
 import { useJournalFlow } from '@/features/lifeJournal/diary/diary/hooks/useJournalFlow';
 import { formatJournalDateKey, journalEntryDate } from '../executive/execJournalUtils';
 import { useBastaDesignMotion } from './bastaDesignMotion';
-import { BastaCard, BastaGoldDivider, BastaSectionLabel } from './bastaDesignParts';
+import {
+  BastaButton,
+  BastaCard,
+  BastaCardHeader,
+  BastaSectionLabel,
+} from './bastaDesignParts';
+import { BastaDesignHero } from './BastaDesignHero';
 import { HOME_SUPERHUB_ROUTES } from '../homeSuperhubRoutes';
 
 type Props = {
   onCheckInSaved?: () => void;
 };
 
-/** Prod hem — Figma-ref layout med riktiga routes och data. */
+/** Prod hem — Figma Make «bästa-design» layout med riktiga routes och data. */
 export function BastaDesignHome({ onCheckInSaved }: Props) {
   const navigate = useNavigate();
   const user = useStore((s) => s.user);
@@ -122,59 +119,16 @@ export function BastaDesignHome({ onCheckInSaved }: Props) {
 
   return (
     <motion.div className="basta-design__main-inner basta-design__main-inner--prod" {...staggerRoot}>
-      <motion.div className="basta-design__hero" {...staggerChild}>
-        <img
-          src="/design/home-hero-scenic.png"
-          alt="Solnedgång över berg och vatten"
-          className="basta-design__hero-img"
+      <motion.div {...staggerChild}>
+        <BastaDesignHero
+          todayEntry={todayEntry ? { text: todayEntry.text } : null}
+          onWrite={() => navigate('/hjartat?tab=reflektion&write=true')}
         />
-        <div className="basta-design__hero-overlay" />
-        <div className="basta-design__hero-content">
-          <div className="basta-design__hero-main">
-            <BastaSectionLabel>Dagens reflektion</BastaSectionLabel>
-            {todayEntry ? (
-              <p className="basta-design__hero-title" style={{ fontSize: '1rem', fontStyle: 'italic' }}>
-                &ldquo;{todayEntry.text?.slice(0, 120)}&rdquo;
-              </p>
-            ) : (
-              <>
-                <h2 className="basta-design__hero-title">
-                  Stanna upp.
-                  <br />
-                  <em>Känn efter.</em>
-                </h2>
-                <p className="basta-design__hero-lead">
-                  En stund för dig själv,
-                  <br />
-                  är aldrig bortkastad.
-                </p>
-              </>
-            )}
-            <button
-              type="button"
-              className="basta-design__btn-gold"
-              onClick={() => navigate('/hjartat?tab=reflektion&write=true')}
-            >
-              <PenLine size={12} />
-              Skriv nu
-            </button>
-          </div>
-          <aside className="basta-design__hero-aside">
-            <p className="basta-design__hero-aside-label">Reflektionsfråga</p>
-            <p>Du är den trygga hamnen — även när världen känns splittrad.</p>
-            <BastaGoldDivider />
-            <p className="basta-design__hero-aside-label">Vad vill din inre röst säga — en sak?</p>
-            <p className="basta-design__hero-aside-foot">Skriv det första som dyker upp...</p>
-          </aside>
-        </div>
       </motion.div>
 
       <motion.div className="basta-design__grid-2" {...staggerChild}>
         <BastaCard>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-            <Target size={14} color="var(--bd-accent)" />
-            <BastaSectionLabel>Dagens fokus</BastaSectionLabel>
-          </div>
+          <BastaCardHeader icon={<Target size={14} />} label="Dagens fokus" />
           <h3 className="basta-design__card-title">Barnfokus</h3>
           <p className="basta-design__card-meta">Dagens fokus — ett steg i taget</p>
           <div className="basta-design__tabs-row">
@@ -193,37 +147,32 @@ export function BastaDesignHome({ onCheckInSaved }: Props) {
             ))}
           </div>
           <button type="button" className="basta-design__link" onClick={() => navigate('/familjen?tab=barnfokus')}>
-            Lär känna <ChevronRight size={12} />
+            Lär känna <ChevronRight size={12} aria-hidden />
           </button>
         </BastaCard>
 
         <BastaCard>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-            <MessageSquare size={14} color="var(--bd-accent)" />
-            <BastaSectionLabel>Fråga livscoachen</BastaSectionLabel>
-          </div>
+          <BastaCardHeader icon={<MessageSquare size={14} />} label="Fråga livscoachen" />
           <p className="basta-design__card-meta">Har du någon fråga du vill ställa?</p>
           <div className="basta-design__coach-bubble">Hur har det gått sedan senast veckan?</div>
-          <div style={{ display: 'flex', gap: '0.5rem' }}>
-            <button type="button" className="basta-design__btn-gold" onClick={() => navigate('/vardagen?tab=mabra')}>
+          <div className="basta-design__btn-row">
+            <BastaButton type="button" onClick={() => navigate('/vardagen?tab=mabra')}>
               Fråga
-            </button>
-            <button type="button" className="basta-design__btn-ghost" onClick={() => navigate('/vardagen')}>
+            </BastaButton>
+            <BastaButton type="button" variant="ghost" onClick={() => navigate('/vardagen')}>
               Utforska
-            </button>
+            </BastaButton>
           </div>
         </BastaCard>
       </motion.div>
 
       <motion.div {...staggerChild}>
         <BastaCard>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Anchor size={14} color="var(--bd-accent)" />
-              <BastaSectionLabel>Dagens ankar</BastaSectionLabel>
-            </div>
-            <Star size={14} color="var(--bd-accent)" />
-          </div>
+          <BastaCardHeader
+            icon={<Anchor size={14} />}
+            label="Dagens ankar"
+            trailing={<Star size={14} className="basta-design__card-header-icon" aria-hidden />}
+          />
           {editAnchor ? (
             <>
               <textarea
@@ -231,21 +180,20 @@ export function BastaDesignHome({ onCheckInSaved }: Props) {
                 value={anchor}
                 onChange={(e) => setAnchor(e.target.value)}
                 placeholder="Din ankarmening kan skrivas här..."
+                aria-label="Dagens ankarmening"
               />
-              <button
+              <BastaButton
                 type="button"
-                className="basta-design__btn-gold"
-                style={{ marginTop: '0.75rem' }}
+                className="basta-design__btn-gold--spaced"
                 disabled={saving}
                 onClick={() => void handleAnchorSave()}
               >
                 {saving ? 'Sparar …' : 'Spara ankar'}
-              </button>
+              </BastaButton>
             </>
           ) : (
             <p
-              className="basta-design__card-meta"
-              style={{ fontFamily: 'var(--bd-font-serif)', fontStyle: 'italic', cursor: 'pointer' }}
+              className="basta-design__anchor-display"
               onClick={() => setEditAnchor(true)}
               onKeyDown={(e) => e.key === 'Enter' && setEditAnchor(true)}
               role="button"
@@ -259,11 +207,8 @@ export function BastaDesignHome({ onCheckInSaved }: Props) {
 
       <motion.div {...staggerChild}>
         <BastaCard>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
-            <Target size={14} color="var(--bd-accent)" />
-            <BastaSectionLabel>Planering</BastaSectionLabel>
-          </div>
-          <div className="basta-design__tabs-row">
+          <BastaCardHeader icon={<Target size={14} />} label="Planering" />
+          <div className="basta-design__tabs-row basta-design__tabs-row--plan">
             {planTabs.map((t) => (
               <button
                 key={t.id}
@@ -277,7 +222,7 @@ export function BastaDesignHome({ onCheckInSaved }: Props) {
                 {t.label.toUpperCase()}
               </button>
             ))}
-            <span style={{ marginLeft: 'auto', fontSize: '0.625rem', color: 'var(--bd-text-muted)' }}>
+            <span className="basta-design__plan-weekday">
               {new Date().toLocaleDateString('sv-SE', { weekday: 'long' })}
             </span>
           </div>
@@ -287,7 +232,7 @@ export function BastaDesignHome({ onCheckInSaved }: Props) {
           ) : daySteps.length === 0 ? (
             <p className="basta-design__card-meta">Inga öppna steg idag.</p>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+            <div className="basta-design__task-list">
               {daySteps.map((task) => {
                 const done = task.status === 'done';
                 return (
@@ -295,7 +240,7 @@ export function BastaDesignHome({ onCheckInSaved }: Props) {
                     <div
                       className={`basta-design__checkbox ${done ? 'basta-design__checkbox--done' : 'basta-design__checkbox--open'}`}
                     >
-                      {done ? <Check size={10} color="var(--bd-accent-fg)" /> : null}
+                      {done ? <Check size={10} color="var(--bd-accent-fg)" aria-hidden /> : null}
                     </div>
                     <span className={`basta-design__task-text ${done ? 'basta-design__task-text--done' : ''}`}>
                       {homeStepLabel(task)}
@@ -305,35 +250,40 @@ export function BastaDesignHome({ onCheckInSaved }: Props) {
               })}
             </div>
           )}
-          <button type="button" className="basta-design__link" style={{ marginTop: '0.75rem' }} onClick={() => navigate('/planering')}>
-            <Plus size={10} /> Lägg till uppgift
+          <button type="button" className="basta-design__link basta-design__link--spaced" onClick={() => navigate('/planering')}>
+            <Plus size={10} aria-hidden /> Lägg till uppgift
           </button>
         </BastaCard>
       </motion.div>
 
-      {notes.length > 0 ? (
-        <motion.div {...staggerChild}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-            <BastaSectionLabel>Tidigare anteckningar</BastaSectionLabel>
-            <button type="button" className="basta-design__link" style={{ fontSize: '0.625rem' }} onClick={() => navigate('/hjartat?tab=reflektion')}>
-              Visa alla →
-            </button>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+      <motion.div {...staggerChild}>
+        <div className="basta-design__notes-header">
+          <BastaSectionLabel>Tidigare anteckningar</BastaSectionLabel>
+          <button type="button" className="basta-design__link basta-design__link--sm" onClick={() => navigate('/hjartat?tab=reflektion')}>
+            Visa alla →
+          </button>
+        </div>
+        {notes.length === 0 ? (
+          <BastaCard>
+            <p className="basta-design__card-meta">Inga anteckningar ännu.</p>
+            <BastaButton type="button" onClick={() => navigate('/hjartat?tab=reflektion&write=true')}>
+              Skriv första raden
+            </BastaButton>
+          </BastaCard>
+        ) : (
+          <div className="basta-design__notes-list">
             {notes.map((n) => (
               <BastaCard key={n.id} className="basta-design__note-row">
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', minWidth: 0 }}>
+                <div className="basta-design__note-main">
                   <span className="basta-design__badge">{n.type}</span>
-                  <span className="basta-design__task-text" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {n.title}
-                  </span>
+                  <span className="basta-design__note-title">{n.title}</span>
                 </div>
-                <span style={{ fontSize: '0.625rem', color: 'var(--bd-text-muted)', flexShrink: 0 }}>{n.date}</span>
+                <span className="basta-design__note-date">{n.date}</span>
               </BastaCard>
             ))}
           </div>
-        </motion.div>
-      ) : null}
+        )}
+      </motion.div>
     </motion.div>
   );
 }
