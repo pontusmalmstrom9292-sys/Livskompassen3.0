@@ -37,6 +37,33 @@ Copy the template below for each entry. Newest first.
 
 ---
 
+
+## 2026-06-29 — Dead projekt picker selectors removed
+
+**Completed work:**
+- Removed unused `projekt-picker-sheet`, `projekt-picker-sheet__backdrop`, and `projekt-picker-sheet__panel` selectors from `src/index.css`.
+- Kept active shared card/list and unlock-gate styles untouched.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3416
+
+**Reasoning:**
+- `projekt-picker-sheet*` had no active `src` consumers, so removing the block safely trims global CSS without UX impact.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead nav drawer selector removed
 
 **Completed work:**
