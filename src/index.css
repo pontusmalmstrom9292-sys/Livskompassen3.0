@@ -547,11 +547,6 @@
     @apply flex min-h-[44px] min-w-[44px] shrink-0 flex-col items-center justify-center border-0 bg-transparent p-0 text-accent transition-transform;
   }
 
-  /* Dölj eventuell centrum-text — endast kompass (DOCK-KANON) */
-  .dock-classic__center .dock-classic__side-label {
-    display: none !important;
-  }
-
   .dock-classic__plate {
     @apply relative flex h-11 w-11 items-center justify-center rounded-full;
     background: linear-gradient(

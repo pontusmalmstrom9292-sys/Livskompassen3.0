@@ -38,6 +38,33 @@ Copy the template below for each entry. Newest first.
 ---
 
 
+## 2026-06-29 — Dead dock-classic__center side-label selector removed
+
+**Completed work:**
+- Removed unused `.dock-classic__center .dock-classic__side-label` selector from `src/index.css`.
+- Kept base `.dock-classic__center` and `.dock-classic__side-label` selectors untouched.
+
+**Files changed:**
+- src/index.css
+- docs/DASHBOARD.md
+- docs/TODO.md
+- docs/PROGRESS.md
+
+**Metrics:** (btn-pill count, smoke results)
+- index.css LOC: 3216
+- `npm run build`: PASS
+
+**Reasoning:**
+- `dock-classic__center .dock-classic__side-label` had no active `src` consumers, so removing it safely trims global CSS.
+
+**Next steps:**
+- Continue the next safe extraction candidate in the loop.
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-06-29 — Dead dock-classic__center--holding selector removed
 
 **Completed work:**
