@@ -36,28 +36,28 @@ export function ValvAnalyseraZone({ tab, onTabChange, onTechniqueSelect }: ValvA
       glow="blue"
       logTag="ValvAnalyseraZone"
     >
-      <div className="mb-3">
+      <div className="valv-zone-stack mb-3 space-y-3">
         <TabBar
           size="compact"
           tabs={getAnalyseraVaultTabBarItems()}
           active={tab}
           onChange={onTabChange}
         />
+        <Suspense fallback={<ValvPanelFallback />}>
+          {tab === 'orkester' ? (
+            <VaultOrkesterPanel logs={logs} />
+          ) : (
+            <>
+              <PansaretHeader />
+              <VaultMonsterPanel
+                logs={logs}
+                userId={userId}
+                onTechniqueSelect={onTechniqueSelect}
+              />
+            </>
+          )}
+        </Suspense>
       </div>
-      <Suspense fallback={<ValvPanelFallback />}>
-        {tab === 'orkester' ? (
-          <VaultOrkesterPanel logs={logs} />
-        ) : (
-          <>
-            <PansaretHeader />
-            <VaultMonsterPanel
-              logs={logs}
-              userId={userId}
-              onTechniqueSelect={onTechniqueSelect}
-            />
-          </>
-        )}
-      </Suspense>
     </HubErrorBoundary>
   );
 }

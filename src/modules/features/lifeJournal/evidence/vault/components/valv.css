@@ -32,6 +32,7 @@
     background: linear-gradient(
       180deg,
       var(--color-panel-obsidian-55) 0%,
+      var(--color-panel-obsidian-70) 100%
     );
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
