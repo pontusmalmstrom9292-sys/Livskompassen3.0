@@ -1,4 +1,5 @@
 import { Loader2, Network, RefreshCw } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { AgentRegistryCard } from '@/shared/agents/components/AgentRegistryCard';
 import { useAgentRegistry } from '@/shared/agents/hooks/useAgentRegistry';
@@ -24,11 +25,13 @@ export function AdkAgentRegistryPanel() {
             ? 'Offline-läge — visar lokal lista tills molnet svarar.'
             : 'Hämtat från backend AgentCards (A2A).'}
         </p>
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="sm"
+          className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest disabled:opacity-50"
           onClick={() => void reload()}
           disabled={loading}
-          className="ds-btn ds-btn--ghost inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest disabled:opacity-50"
           aria-label="Uppdatera agentregistret"
         >
           {loading ? (
@@ -37,7 +40,7 @@ export function AdkAgentRegistryPanel() {
             <RefreshCw className="h-3 w-3" aria-hidden />
           )}
           Uppdatera
-        </button>
+        </Button>
       </div>
 
       {loading && agents.length === 0 && (
