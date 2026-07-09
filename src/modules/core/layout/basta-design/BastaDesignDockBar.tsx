@@ -65,11 +65,11 @@ export function BastaDesignDockBar({
         active={pathname.startsWith('/widget/anteckning')}
         onClick={onAnteckning}
       >
-        <PenLine size={20} strokeWidth={1.9} />
+        <PenLine size={22} strokeWidth={1.9} />
       </DockSide>
 
       <DockSide label="Familj" active={isFamiljen} onClick={onFamiljen}>
-        <Users2 size={20} strokeWidth={1.9} />
+        <Users2 size={22} strokeWidth={1.9} />
       </DockSide>
 
       <div className="basta-dock-bar__compass-slot">
@@ -94,7 +94,7 @@ export function BastaDesignDockBar({
       </div>
 
       <DockSide label="Mentil" active={isHjartat} onClick={onVentil}>
-        <Landmark size={20} strokeWidth={1.9} />
+        <Landmark size={22} strokeWidth={1.9} />
       </DockSide>
 
       <DockSide
@@ -102,7 +102,7 @@ export function BastaDesignDockBar({
         active={pathname.startsWith('/planering/input')}
         onClick={onInkast}
       >
-        <Inbox size={20} strokeWidth={1.9} />
+        <Inbox size={22} strokeWidth={1.9} />
       </DockSide>
     </nav>
   );

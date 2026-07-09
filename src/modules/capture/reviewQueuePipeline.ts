@@ -16,6 +16,7 @@ export function inboxQueueDisplayStatus(item: InboxQueueItem): InboxQueueDisplay
   return 'routed';
 }
 
+/** @deprecated Use inboxQueueStatusBadgeVariant + DS Badge — kept for smoke:inkast-fas2. */
 export function inboxQueueStatusBadgeClass(status: InboxQueueDisplayStatus): string {
   if (status === 'routed') return 'review-queue-status review-queue-status--routed';
   if (status === 'rejected') return 'review-queue-status review-queue-status--rejected';

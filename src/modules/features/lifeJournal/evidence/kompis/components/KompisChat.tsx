@@ -1,3 +1,4 @@
+import { TextArea } from '@/design-system';
 import { useState, useRef, useEffect } from 'react';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { Send, Loader2 } from 'lucide-react';
@@ -172,7 +173,7 @@ export function KompisChat() {
 
       <div className="p-3 bg-surface/50 border-t border-border/15">
         <form onSubmit={handleSubmit} className="relative flex items-center">
-          <textarea
+          <TextArea
             value={inputText}
             onChange={(e) => setInputText(e.target.value)}
             onKeyDown={(e) => {
@@ -182,7 +183,7 @@ export function KompisChat() {
               }
             }}
             placeholder="Skriv ett meddelande..."
-            className="input-glass w-full resize-none py-3 pl-4 pr-12 min-h-[44px] max-h-[120px] rounded-xl overflow-y-auto"
+            className="input-glass neu-inset w-full resize-none py-3 pl-4 pr-12 min-h-[44px] max-h-[120px] rounded-xl overflow-y-auto"
             rows={1}
             disabled={isLoading}
           />

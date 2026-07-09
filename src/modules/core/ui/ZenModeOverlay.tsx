@@ -11,7 +11,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Brain } from 'lucide-react';
 import { submitInkastLite } from '@/modules/inkast/api/inkastService';
 import { useStore } from '@/core/store';
-import { Button, Modal } from '@/design-system';
+import { Button, Modal, TextArea } from '@/design-system';
 import {
   immersiveModalOverlayClass,
   immersiveModalPanelClass,
@@ -94,7 +94,7 @@ export function ZenModeOverlay({ isOpen, onClose }: ZenModeOverlayProps) {
           <p className="mb-4 text-xs text-text-dim/60 tracking-wide">
             Skriv allt som är i vägen. Inget kategoriseras, inget visas för andra.
           </p>
-          <textarea
+          <TextArea
             autoFocus
             value={text}
             onChange={(e) => setText(e.target.value)}

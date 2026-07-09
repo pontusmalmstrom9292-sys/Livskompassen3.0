@@ -418,28 +418,6 @@
     @apply rounded-2xl border border-border/60 bg-surface-2/50 p-3;
   }
 
-  .review-queue-status {
-    @apply rounded-full px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider;
-  }
-
-  .review-queue-status--routed {
-    border: 0.5px solid color-mix(in srgb, var(--accent) 32%, transparent);
-    background: color-mix(in srgb, var(--accent) 8%, transparent);
-    color: var(--accent);
-  }
-
-  .review-queue-status--review {
-    border: 0.5px solid color-mix(in srgb, var(--accent-secondary) 32%, transparent);
-    background: color-mix(in srgb, var(--accent-secondary) 8%, transparent);
-    color: var(--accent-secondary);
-  }
-
-  .review-queue-status--rejected {
-    border: 0.5px solid color-mix(in srgb, var(--danger, #f87171) 28%, transparent);
-    background: color-mix(in srgb, var(--danger, #f87171) 8%, transparent);
-    color: color-mix(in srgb, var(--danger, #fca5a5) 92%, white);
-  }
-
   .planering-inbox-connect {
     @apply relative overflow-hidden rounded-2xl border border-border-strong bg-bg/40 p-4;
   }

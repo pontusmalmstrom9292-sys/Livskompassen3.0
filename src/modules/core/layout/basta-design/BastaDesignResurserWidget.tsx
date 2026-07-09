@@ -4,6 +4,7 @@ import { ChevronDown, LayoutGrid } from 'lucide-react';
 import { RESURSER_NAV_ROWS } from '../../navigation/resurserNavConfig';
 
 type Props = {
+  placement?: 'header' | 'dock';
   open: boolean;
   onToggle: () => void;
   onOpenFull: () => void;
@@ -11,13 +12,24 @@ type Props = {
 
 const QUICK_IDS = ['ekonomi', 'plan', 'mabra', 'dagbok', 'familjen', 'install'] as const;
 
-/** Utfällbar Resurser-widget — fästs vid dockens högerkant (ej i dock-raden). */
-export function BastaDesignResurserWidget({ open, onToggle, onOpenFull }: Props) {
+/** Utfällbar Resurser — header (prod) eller legacy dock-fäste. */
+export function BastaDesignResurserWidget({
+  placement = 'header',
+  open,
+  onToggle,
+  onOpenFull,
+}: Props) {
   const navigate = useNavigate();
   const rows = RESURSER_NAV_ROWS.filter((r) => (QUICK_IDS as readonly string[]).includes(r.id));
 
   return (
-    <div className={clsx('basta-resurser-widget', open && 'basta-resurser-widget--open')}>
+    <div
+      className={clsx(
+        'basta-resurser-widget',
+        placement === 'header' && 'basta-resurser-widget--header',
+        open && 'basta-resurser-widget--open',
+      )}
+    >
       <div
         className="basta-resurser-widget__panel"
         id="basta-resurser-widget-panel"
@@ -63,8 +75,10 @@ export function BastaDesignResurserWidget({ open, onToggle, onOpenFull }: Props)
         aria-label={open ? 'Stäng resurser' : 'Fäll ut resurser'}
         onClick={onToggle}
       >
-        <LayoutGrid size={15} strokeWidth={1.75} aria-hidden />
-        <span className="basta-resurser-widget__tab-label">Res</span>
+        <LayoutGrid size={placement === 'header' ? 14 : 15} strokeWidth={1.75} aria-hidden />
+        <span className="basta-resurser-widget__tab-label">
+          {placement === 'header' ? 'Resurser' : 'Res'}
+        </span>
         <ChevronDown
           size={10}
           className={clsx('basta-resurser-widget__chevron', open && 'basta-resurser-widget__chevron--up')}

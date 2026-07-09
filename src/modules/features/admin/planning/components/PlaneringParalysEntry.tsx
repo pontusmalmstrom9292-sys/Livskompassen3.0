@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Loader2, Zap } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, Input } from '@/design-system';
 import {
   fetchMicroSteps,
   type MicroStep,
@@ -98,7 +98,7 @@ export function PlaneringParalysEntry({ defaultTaskTitle, onApplyStep }: Props) 
         <>
           <label className="block text-[10px] uppercase tracking-widest text-text-dim">
             Vad känns tungt?
-            <input
+            <Input
               type="text"
               value={context}
               onChange={(e) => setContext(e.target.value)}

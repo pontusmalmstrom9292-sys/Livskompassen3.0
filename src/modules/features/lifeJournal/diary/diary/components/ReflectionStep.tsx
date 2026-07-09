@@ -1,6 +1,6 @@
 import { ChevronLeft, ChevronRight, Mic, MicOff, Sparkles } from 'lucide-react';
 import { useCallback, useRef, useEffect, useState } from 'react';
-import { Button } from '@/design-system';
+import { Button, Input, TextArea } from '@/design-system';
 import { useSpeechToText } from '@/core/hooks/useSpeechToText';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { getMoodDef } from '../constants/moods';
@@ -180,12 +180,12 @@ export function ReflectionStep({
             <Sparkles className="h-4 w-4" aria-hidden />
             Ge mig ett förslag
           </button>
-          <textarea
+          <TextArea
             value={text}
             onChange={(e) => onTextChange(e.target.value)}
             placeholder="Din text växer här"
             rows={3}
-            className="input-glass reflektion-textarea mt-3"
+            className="input-glass neu-inset reflektion-textarea mt-3 resize-none"
           />
         </div>
       )}
@@ -193,7 +193,7 @@ export function ReflectionStep({
       {mode === 'tre-ord' && (
         <div className="reflektion-tre-ord">
           <p className="reflektion-panel__hint">Max tre ord – det räcker.</p>
-          <input
+          <Input
             type="text"
             value={text}
             onChange={(e) => {

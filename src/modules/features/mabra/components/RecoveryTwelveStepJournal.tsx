@@ -3,7 +3,7 @@ import { Loader2 } from 'lucide-react';
 import { ensureVitHub, saveVitEntry } from '@/core/firebase/vitHubFirestore';
 import { upsertRecoveryProfile } from '@/features/dailyLife/drogfrihet/api/recoveryProfileService';
 import { RECOVERY_TWELVE_STEP_PROMPTS } from '@/features/dailyLife/drogfrihet/content/recoveryTwelveStepCatalog';
-import { Button } from '@/design-system';
+import { Button, TextArea } from '@/design-system';
 
 const DRAFT_PREFIX = 'livskompassen_recovery_step_draft_';
 
@@ -116,12 +116,12 @@ export function RecoveryTwelveStepJournal({ userId }: Props) {
             {isOpen ? (
               <div className="mt-4 space-y-3">
                 <p className="text-sm text-accent">{step.prompt}</p>
-                <textarea
+                <TextArea
                   value={drafts[step.stepNumber] ?? ''}
                   onChange={(e) => updateDraft(step.stepNumber, e.target.value)}
                   rows={4}
                   maxLength={5000}
-                  className="input-glass w-full resize-none text-sm"
+                  className="input-glass neu-inset w-full resize-none text-sm"
                   placeholder="Ditt svar…"
                 />
                 <div className="flex gap-2">

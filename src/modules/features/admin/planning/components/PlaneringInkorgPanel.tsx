@@ -1,7 +1,7 @@
 import { useState, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Calendar, Inbox, Mail } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, TextArea } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
 import { ReviewQueuePipelinePanel } from '@/modules/capture/ReviewQueuePipelinePanel';
@@ -188,12 +188,12 @@ export function PlaneringInkorgPanel() {
             }
             icon={<Mail className="h-4 w-4" />}
           >
-            <textarea
+            <TextArea
               value={paste}
               onChange={(e) => setPaste(e.target.value)}
               placeholder="Klistra in ämne och text från mejl…"
               rows={5}
-              className="input-glass w-full text-sm"
+              className="input-glass neu-inset w-full resize-none text-sm"
               disabled={!user || saving}
             />
             {pasteRoutingHint?.routeToHamn && (

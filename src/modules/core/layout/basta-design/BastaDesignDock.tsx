@@ -1,20 +1,16 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { openValvViaFyren } from '../../auth/valvFyrenGate';
 import { NAV_PATHS } from '../../navigation/navTruth';
-import { ResurserOverlay } from '../../navigation/ResurserOverlay';
 import { useLongPress } from '../../hooks/useLongPress';
 import { useStore } from '../../store';
 import { BastaDesignDockBar } from './BastaDesignDockBar';
-import { BastaDesignResurserWidget } from './BastaDesignResurserWidget';
 
-/** Bästa design — kanon-bottom dock (5 zoner + hero-kompass + resurser-widget). */
+/** Bästa design — kanon-bottom dock (5 zoner + hero-kompass). Resurser i header. */
 export function BastaDesignDock() {
   const location = useLocation();
   const navigate = useNavigate();
   const setSystemError = useStore((s) => s.setError);
-  const [resurserOpen, setResurserOpen] = useState(false);
-  const [resurserWidgetOpen, setResurserWidgetOpen] = useState(false);
   const { pathname } = location;
   const isHome = pathname === '/';
   const isFamiljen = pathname === NAV_PATHS.FAMILJEN || pathname.startsWith(`${NAV_PATHS.FAMILJEN}/`);
@@ -43,32 +39,21 @@ export function BastaDesignDock() {
   const showFyrenRing = progress > 0;
 
   return (
-    <>
-      <ResurserOverlay open={resurserOpen} onClose={() => setResurserOpen(false)} />
-      <div className="dock-shell dock-shell--basta-design dock-shell--basta-v2">
-        <BastaDesignDockBar
-          pathname={pathname}
-          isHome={isHome}
-          isFamiljen={isFamiljen}
-          isHjartat={isHjartat}
-          showFyrenRing={showFyrenRing}
-          progress={progress}
-          isHolding={isHolding}
-          centerHoldHandlers={centerHoldHandlers}
-          onAnteckning={() => navigate('/widget/anteckning')}
-          onFamiljen={() => navigate(NAV_PATHS.FAMILJEN)}
-          onVentil={() => navigate(NAV_PATHS.HJARTAT)}
-          onInkast={() => navigate('/planering/input?inputMode=inkast')}
-        />
-        <BastaDesignResurserWidget
-          open={resurserWidgetOpen}
-          onToggle={() => setResurserWidgetOpen((v) => !v)}
-          onOpenFull={() => {
-            setResurserWidgetOpen(false);
-            setResurserOpen(true);
-          }}
-        />
-      </div>
-    </>
+    <div className="dock-shell dock-shell--basta-design dock-shell--basta-v2">
+      <BastaDesignDockBar
+        pathname={pathname}
+        isHome={isHome}
+        isFamiljen={isFamiljen}
+        isHjartat={isHjartat}
+        showFyrenRing={showFyrenRing}
+        progress={progress}
+        isHolding={isHolding}
+        centerHoldHandlers={centerHoldHandlers}
+        onAnteckning={() => navigate('/widget/anteckning')}
+        onFamiljen={() => navigate(NAV_PATHS.FAMILJEN)}
+        onVentil={() => navigate(NAV_PATHS.HJARTAT)}
+        onInkast={() => navigate('/planering/input?inputMode=inkast')}
+      />
+    </div>
   );
 }

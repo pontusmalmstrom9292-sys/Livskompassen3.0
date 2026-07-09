@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button } from '@/design-system';
+import { Button, Input, TextArea } from '@/design-system';
 import { Shield, Plus, Check, Loader2 } from 'lucide-react';
 import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
 
@@ -112,7 +112,7 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
 
       <form onSubmit={handleAddRule} className="space-y-2 border-t border-border-strong/40 pt-4">
         <p className="text-[10px] uppercase tracking-widest text-text-dim">Lägg till struktur</p>
-        <input
+        <Input
           value={newRule}
           onChange={(e) => setNewRule(e.target.value)}
           placeholder="T.ex. Efter skolan landar vi 15 minuter i soffan..."
@@ -142,12 +142,12 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
           Notera hur {childAlias} reagerar på era rutiner. Spara t.ex. om barnet slappnar av, sover
           bättre eller uttrycker oro efter överlämning.
         </p>
-        <textarea
+        <TextArea
           value={observation}
           onChange={(e) => setObservation(e.target.value)}
           placeholder="T.ex. Kasper somnade inom 10 minuter efter vår kvällsrutin, inga mardrömmar inatt..."
           rows={3}
-          className="input-glass w-full rounded-xl px-3 py-2 text-sm"
+          className="input-glass neu-inset w-full resize-none rounded-xl px-3 py-2 text-sm"
           disabled={loading}
         />
         <Button
