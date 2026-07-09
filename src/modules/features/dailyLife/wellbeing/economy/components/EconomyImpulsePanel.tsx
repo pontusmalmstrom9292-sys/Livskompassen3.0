@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Clock, Loader2, AlertTriangle } from 'lucide-react';
+import { Button } from '@/design-system';
 import { useStore } from '@/core/store';
 import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
 import { EconomyGateway } from '@/features/economy/economy_gateway';
@@ -159,14 +160,14 @@ export function EconomyImpulsePanel() {
           className="input-glass flex-1 rounded-lg px-3 py-1.5 text-xs"
           disabled={busy || !gateway}
         />
-        <button
-          type="button"
+        <Button
+          variant="ghost"
           disabled={busy || !gateway || !draft.trim()}
           onClick={() => void handlePark()}
-          className="ds-btn ds-btn--ghost rounded-lg border border-border/50 bg-surface-3 px-3 py-1.5 text-xs"
+          className="rounded-lg border border-border/50 bg-surface-3 px-3 py-1.5 text-xs"
         >
           Parkera
-        </button>
+        </Button>
       </div>
 
       {loading ? (
@@ -192,22 +193,22 @@ export function EconomyImpulsePanel() {
                 {isReady && (
                   <div className="mt-2 space-y-2">
                     <div className="flex flex-wrap gap-2">
-                      <button
-                        type="button"
+                      <Button
+                        variant="secondary"
                         disabled={busy || isLowCapacity}
                         onClick={() => void handleResolve(item.id, 'bought')}
-                        className="ds-btn ds-btn--secondary px-2 py-1 text-[10px] disabled:opacity-50"
+                        className="px-2 py-1 text-[10px] disabled:opacity-50"
                       >
                         Fortfarande ja
-                      </button>
-                      <button
-                        type="button"
+                      </Button>
+                      <Button
+                        variant="ghost"
                         disabled={busy}
                         onClick={() => void handleResolve(item.id, 'skipped')}
-                        className="ds-btn ds-btn--ghost px-2 py-1 text-[10px]"
+                        className="px-2 py-1 text-[10px]"
                       >
                         Strunt i det
-                      </button>
+                      </Button>
                     </div>
                     {isLowCapacity && (
                       <p className="flex items-start gap-1.5 text-[10px] leading-relaxed text-danger/90">

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Button } from '@/design-system';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
 import type { TimeEntryRow } from '@/core/types/firestore';
@@ -45,22 +46,12 @@ export function StampClockPanel({
       </label>
 
       <div className="mb-4 grid grid-cols-2 gap-2">
-        <button
-          type="button"
-          disabled={busy || instamplad}
-          onClick={onStampIn}
-          className="ds-btn ds-btn--accent disabled:opacity-40"
-        >
+        <Button disabled={busy || instamplad} onClick={onStampIn} className="disabled:opacity-40">
           Stämpla in
-        </button>
-        <button
-          type="button"
-          disabled={busy || !canStampOut}
-          onClick={onStampOut}
-          className="ds-btn ds-btn--ghost disabled:opacity-40"
-        >
+        </Button>
+        <Button variant="ghost" disabled={busy || !canStampOut} onClick={onStampOut} className="disabled:opacity-40">
           Stämpla ut
-        </button>
+        </Button>
       </div>
 
       {logs.length === 0 ? (

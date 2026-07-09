@@ -1,5 +1,6 @@
 import { Wallet, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
@@ -36,14 +37,14 @@ export function EconomyBudgetTab() {
 
       <EconomyQuickBalancePanel />
 
-      <button
-        type="button"
+      <Button
+        variant="ghost"
         disabled={saving || !user}
         onClick={() => void quickAdd('Vinst — du gjorde det', 0, 'vinst')}
-        className="ds-btn ds-btn--ghost w-full text-sm"
+        className="w-full text-sm"
       >
         Vinst-knapp — markera ett litet steg
-      </button>
+      </Button>
 
       <EconomyAdvancedGate featureLabel="Kuvert, profil och transaktionslogg" compact>
         <div className="space-y-5">
