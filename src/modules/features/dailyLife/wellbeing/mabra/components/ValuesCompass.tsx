@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { useCallback, useEffect, useState } from 'react';
+import { Button } from '@/design-system';
 import { getMabraProgress, saveMabraProgress } from '@/core/firebase/firestore';
 import {
   ACT_VALUES,
@@ -143,12 +144,12 @@ export function ValuesCompass({ userId, onDone, onExit }: Props) {
       {error && <p className="text-sm text-danger">{error}</p>}
 
       <div className="flex w-full max-w-sm flex-col gap-2">
-        <button type="button" disabled={!canSave} onClick={handleSave} className="ds-btn ds-btn--secondary">
+        <Button variant="secondary" disabled={!canSave} onClick={handleSave}>
           {saving ? 'Sparar…' : VALUES_COMPASS_COPY.saveLabel}
-        </button>
-        <button type="button" onClick={onExit} className="ds-btn ds-btn--ghost text-sm">
+        </Button>
+        <Button variant="ghost" className="text-sm" onClick={onExit}>
           Avsluta nu
-        </button>
+        </Button>
       </div>
     </div>
   );

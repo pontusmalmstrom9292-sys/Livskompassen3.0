@@ -3,7 +3,7 @@
 **Runtime-källa:** `functions/src/sharedRules.ts` → `BIFF_REWRITE_DRAFT_SYSTEM_PROMPT`
 **Agent-ID:** `agent_biff_skolden`
 **Callables:** `biffRewriteDraft`
-**Synkad:** 2026-06-29 · **Status:** produktion (läsbar spegel, ej runtime)
+**Synkad:** 2026-07-09 · **Status:** produktion (läsbar spegel, ej runtime)
 
 ---
 # BIFF REWRITE DRAFT

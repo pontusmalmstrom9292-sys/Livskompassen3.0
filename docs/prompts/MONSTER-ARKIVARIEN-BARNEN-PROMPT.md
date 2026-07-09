@@ -3,7 +3,7 @@
 **Runtime-källa:** `functions/src/sharedRules.ts` → `MONSTER_ARKIVARIEN_BARNEN_SYSTEM_PROMPT`
 **Agent-ID:** `agent_monster_arkivarien_barnen`
 **Callables:** `childrenLogsQuery`
-**Synkad:** 2026-06-29 · **Status:** produktion (läsbar spegel, ej runtime)
+**Synkad:** 2026-07-09 · **Status:** produktion (läsbar spegel, ej runtime)
 
 ---
 # MONSTER ARKIVARIEN BARNEN

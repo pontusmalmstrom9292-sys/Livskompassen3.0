@@ -1,3 +1,53 @@
+## 2026-07-09 — Deploy våg 9 live (bekräftad)
+
+Hosting deploy klar: https://gen-lang-client-0481875058.web.app — MåBra rest (34 filer) live.
+
+---
+
+## 2026-07-09 — Deploy våg 8 + YOLO VÅG 9 — MåBra rest
+
+**Deploy våg 8:** hosting live — https://gen-lang-client-0481875058.web.app
+
+**Completed work (VÅG 9):**
+- Alla `ds-btn` i `dailyLife/wellbeing/mabra` → DS `Button`/`ButtonLink` (34 filer).
+- Scope: MabraGoalPanel, Nutrition, Vit-flöden, AkutLanding, övningar, supermodule-paneler.
+
+**Metrics:**
+- `dailyLife/wellbeing/mabra` `.tsx`: 0 `ds-btn`
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`: PASS
+
+**Next steps:**
+- Deploy våg 9 (väntar på Pontus "deploy")
+- VÅG 10: Ekonomi + Arbetsliv + Drogfrihet + Kompasser
+
+**Blockers:**
+- None
+
+---
+
+## 2026-07-09 — YOLO VÅG 8 — Familjen + Widgets + Barnporten
+
+**Completed work:**
+- VÅG 8: alla kvarvarande `ds-btn` i Familjen-zon, widgets och Barnporten → DS `Button`/`ButtonLink` (29 filer).
+- Locked UX orörd (Barnfokus-flöden, Orkester, navigation) — endast knapp-polish.
+
+**Scope:** `family/children`, `family/safeHarbor`, `onboarding/barnporten`, `features/widgets`, `FamiljenPage`.
+
+**Metrics:**
+- Våg 8 scope `.tsx`: 0 `ds-btn`
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`: PASS
+
+**Next steps:**
+- Deploy våg 8 (väntar på Pontus "deploy")
+- VÅG 9: MåBra rest (`dailyLife/wellbeing/mabra`)
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-07-09 — Deploy våg 6 + YOLO VÅG 7 — Dagbok/Speglar/Kunskap
 
 **Completed work:**

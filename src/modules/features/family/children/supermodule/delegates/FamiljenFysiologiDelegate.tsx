@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from '@/design-system';
 import { Loader2 } from 'lucide-react';
 import { SIGNAL_LABELS } from '../../constants';
 import type { SignalScale } from '../../types';
@@ -108,15 +109,16 @@ export function FamiljenFysiologiDelegate({ shell, onSaved }: FamiljenDelegateBa
         />
       </div>
 
-      <button
+      <Button
         type="button"
+        variant="accent"
         onClick={handleSave}
         disabled={loading}
-        className="ds-btn ds-btn--accent w-full disabled:opacity-50 mt-2"
+        className="w-full disabled:opacity-50 mt-2"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
         Spara mätvärden till loggen
-      </button>
+      </Button>
 
       {success && <p className="mt-2 text-sm text-success text-center">Fysiologi sparad för {childAlias}.</p>}
       {error && <p className="mt-2 text-sm text-danger text-center">{error}</p>}

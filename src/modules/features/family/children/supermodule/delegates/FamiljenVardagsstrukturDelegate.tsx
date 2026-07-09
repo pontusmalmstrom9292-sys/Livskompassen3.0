@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from '@/design-system';
 import { Shield, Plus, Check, Loader2 } from 'lucide-react';
 import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
 
@@ -127,9 +128,9 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
             <option value="granser">Gränssättning</option>
             <option value="rutin">Vardagsrutin</option>
           </select>
-          <button type="submit" className="ds-btn ds-btn--secondary shrink-0 text-xs py-2">
+          <Button type="submit" variant="secondary" className="shrink-0 text-xs py-2">
             <Plus className="h-3 w-3" /> Lägg till
-          </button>
+          </Button>
         </div>
       </form>
 
@@ -149,15 +150,16 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
           className="input-glass w-full rounded-xl px-3 py-2 text-sm"
           disabled={loading}
         />
-        <button
+        <Button
           type="button"
+          variant="accent"
           disabled={loading || !observation.trim()}
           onClick={() => void handleSaveObservation()}
-          className="ds-btn ds-btn--accent w-full text-xs py-2 mt-2"
+          className="w-full text-xs py-2 mt-2"
         >
           {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Check className="h-3 w-3" />}
           Spara observation i livslogg
-        </button>
+        </Button>
         {success && (
           <p className="text-xs text-success text-center mt-2">Sparat i {childAlias}s livslogg.</p>
         )}

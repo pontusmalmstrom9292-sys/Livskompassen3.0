@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from '@/design-system';
 import { MessageCircle } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { callChildrenLogsQuery, type ChildrenLogCitation } from '../api/childrenLogsService';
@@ -58,9 +59,9 @@ export function ChildrenLogsChat({ activeChild }: ChildrenLogsChatProps) {
             className="input-glass"
             disabled={loading}
           />
-          <button type="submit" disabled={loading || !inputText.trim()} className="ds-btn ds-btn--secondary">
+          <Button type="submit" variant="secondary" disabled={loading || !inputText.trim()}>
             {loading ? 'Söker…' : 'Ställ fråga'}
-          </button>
+          </Button>
         </form>
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}
         {answer && (

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Lock } from 'lucide-react';
+import { Button } from '@/design-system';
 import type { WidgetRecordingMetadata } from '../api/widgetVaultRecording';
 
 type Props = {
@@ -71,24 +72,26 @@ export function WidgetRecordMetadataForm({
         />
       </label>
 
-      <button
+      <Button
         type="button"
-        className="ds-btn ds-btn--accent flex w-full items-center justify-center gap-2"
+        variant="accent"
+        className="flex w-full items-center justify-center gap-2"
         disabled={busy || submitting}
         onClick={() => void run(() => onLock({ vem, vad, varfor }))}
       >
         <Lock className="h-4 w-4" />
         {busy || submitting ? 'Låser…' : 'Lås i Valvet'}
-      </button>
+      </Button>
 
-      <button
+      <Button
         type="button"
-        className="ds-btn ds-btn--ghost w-full text-xs"
+        variant="ghost"
+        className="w-full text-xs"
         disabled={busy || submitting}
         onClick={() => void run(onSkip)}
       >
         Hoppa över kontext — lås ändå
-      </button>
+      </Button>
     </div>
   );
 }

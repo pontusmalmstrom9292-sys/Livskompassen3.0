@@ -1,4 +1,5 @@
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import { Button, ButtonLink } from '@/design-system';
 import { Loader2, Lock } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { AuthGate } from '@/core/auth/AuthGate';
@@ -64,14 +65,15 @@ function WidgetRecordInner() {
       <WidgetShell title={shellTitle} lead={shellLead}>
         <div className="space-y-4">
           {rec.phase === 'idle' && (
-            <button
+            <Button
               type="button"
-              className="widget-record__pulse ds-btn ds-btn--accent w-full py-4"
+              variant="accent"
+              className="widget-record__pulse w-full py-4"
               onClick={() => void rec.start()}
               disabled={!rec.recordSupported}
             >
               {discreet ? 'Ny anteckning (ljud)' : 'Starta inspelning'}
-            </button>
+            </Button>
           )}
 
           {rec.phase === 'recording' && (
@@ -83,9 +85,9 @@ function WidgetRecordInner() {
               {rec.interim && (
                 <p className="mt-2 text-xs text-text-muted line-clamp-3">{rec.interim}</p>
               )}
-              <button type="button" className="ds-btn ds-btn--accent mt-4 w-full" onClick={rec.stop}>
+              <Button type="button" variant="accent" className="mt-4 w-full" onClick={rec.stop}>
                 Stoppa
-              </button>
+              </Button>
             </div>
           )}
 
@@ -113,12 +115,12 @@ function WidgetRecordInner() {
               <p className="mt-2 font-display text-base text-accent">{rec.result.title}</p>
               <p className="mt-2 text-sm text-text-muted">{rec.result.summary}</p>
               <div className="mt-4 flex flex-col gap-2">
-                <Link to="/valvet" className="ds-btn ds-btn--accent text-center text-xs">
+                <ButtonLink to="/valvet" variant="accent" className="text-center text-xs">
                   Öppna Valv
-                </Link>
-                <button type="button" className="ds-btn ds-btn--ghost text-xs" onClick={rec.reset}>
+                </ButtonLink>
+                <Button type="button" variant="ghost" className="text-xs" onClick={rec.reset}>
                   Ny anteckning
-                </button>
+                </Button>
               </div>
             </div>
           )}

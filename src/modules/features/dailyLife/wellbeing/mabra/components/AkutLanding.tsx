@@ -1,3 +1,4 @@
+import { Button } from '@/design-system';
 import { AKUT_LANDING_COPY } from '../constants';
 
 type Props = {
@@ -14,12 +15,12 @@ export function AkutLanding({ onContinue, onExit }: Props) {
         <p className="mt-4 text-xs text-text-dim">{AKUT_LANDING_COPY.hint}</p>
       </div>
       <div className="flex w-full max-w-sm flex-col gap-2">
-        <button type="button" onClick={onContinue} className="ds-btn ds-btn--secondary">
+        <Button variant="secondary" onClick={onContinue}>
           {AKUT_LANDING_COPY.continueLabel}
-        </button>
-        <button type="button" onClick={onExit} className="ds-btn ds-btn--ghost text-sm">
+        </Button>
+        <Button variant="ghost" className="text-sm" onClick={onExit}>
           {AKUT_LANDING_COPY.exitLabel}
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+import { Button } from '@/design-system';
 import type { MabraDurationMinutes, MabraSymptomHub } from '../types';
 import {
   DEFAULT_MABRA_DURATION,
@@ -39,12 +40,12 @@ export function DurationPicker({ hub, value, onChange, onStart, onBack }: Props)
         <p className="text-xs text-text-dim">{copy.hint}</p>
       )}
       <div className="flex gap-2 pt-2">
-        <button type="button" onClick={onBack} className="ds-btn ds-btn--ghost flex-1">
+        <Button variant="ghost" className="flex-1" onClick={onBack}>
           Tillbaka
-        </button>
-        <button type="button" onClick={onStart} className="ds-btn ds-btn--secondary flex-1">
+        </Button>
+        <Button variant="secondary" className="flex-1" onClick={onStart}>
           {copy.startLabel}
-        </button>
+        </Button>
       </div>
     </div>
   );

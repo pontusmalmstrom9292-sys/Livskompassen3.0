@@ -1,4 +1,5 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { AuthGate } from '@/core/auth/AuthGate';
 import { BiffPublicPanel } from '@/features/family/safeHarbor/components/BiffPublicPanel';
 import { HAMN_EMBEDDED_LEAD } from '@/features/family/safeHarbor/hamnCopy';
@@ -13,9 +14,9 @@ function WidgetHamnInner() {
     <WidgetShell title="Hamn · BIFF" lead={HAMN_EMBEDDED_LEAD}>
       <div className="space-y-4">
         <BiffPublicPanel initialMessage={initialMessage} />
-        <Link to="/familjen?tab=hamn" className="ds-btn ds-btn--accent inline-flex text-xs">
+        <ButtonLink to="/familjen?tab=hamn" variant="accent" className="inline-flex text-xs">
           Full Trygg Hamn
-        </Link>
+        </ButtonLink>
       </div>
     </WidgetShell>
   );

@@ -1,6 +1,7 @@
 import { Loader2 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from '@/design-system';
 import { ensureVitHub, saveVitEntry } from '@/core/firebase/vitHubFirestore';
 import { VIT_HUB_LANDED, VIT_HUB_VAULT_LINK } from '../lib/vitHubCopy';
 import { vitHubFilteredLink } from '../lib/vitHubLinks';
@@ -133,11 +134,11 @@ export function VitChatFlowPanel({ userId, projectId, onSaved }: Props) {
       {!userId ? (
         <p className="text-xs text-text-dim">{COPY.login}</p>
       ) : (
-        <button
-          type="button"
+        <Button
+          variant="accent"
+          className="w-full text-sm"
           onClick={() => void handleSend()}
           disabled={sending}
-          className="ds-btn ds-btn--accent w-full text-sm"
         >
           {sending ? (
             <>
@@ -147,7 +148,7 @@ export function VitChatFlowPanel({ userId, projectId, onSaved }: Props) {
           ) : (
             COPY.send
           )}
-        </button>
+        </Button>
       )}
 
       {coachReply ? (

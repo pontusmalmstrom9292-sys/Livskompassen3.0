@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { ExternalLink, Smartphone } from 'lucide-react';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -29,13 +29,14 @@ export function BarnportenParentHubPanel({ activeChild }: Props) {
               Barnet öppnar <strong className="font-normal text-text">/barnporten</strong> på sin
               enhet — separat manifest, ingen Valv-exponering.
             </p>
-            <Link
+            <ButtonLink
               to="/barnporten"
-              className="ds-btn ds-btn--accent mt-3 inline-flex items-center gap-2 text-xs"
+              variant="accent"
+              className="mt-3 inline-flex items-center gap-2 text-xs"
             >
               <ExternalLink className="h-3.5 w-3.5" aria-hidden />
               Öppna Barnporten (föräldraläge)
-            </Link>
+            </ButtonLink>
           </div>
         </div>
       </BentoCard>

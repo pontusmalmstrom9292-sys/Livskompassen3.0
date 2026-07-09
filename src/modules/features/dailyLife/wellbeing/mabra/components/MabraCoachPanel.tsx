@@ -1,5 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 import { Loader2, Mic, MicOff } from 'lucide-react';
+import { Button } from '@/design-system';
 import { useSpeechToText } from '@/core/hooks/useSpeechToText';
 import { fetchMabraCoach, fetchRsdErrorCoach } from '../api/mabraCoachService';
 import { MABRA_COACH_COPY } from '../constants';
@@ -120,27 +121,27 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
           )}
           {speechSupported && (
             <div className="flex flex-wrap items-center justify-center gap-2">
-              <button
-                type="button"
+              <Button
+                variant="ghost"
+                className="text-sm"
                 onClick={isListening ? stopSpeech : startSpeech}
-                className="ds-btn ds-btn--ghost text-sm"
                 aria-pressed={isListening}
               >
                 {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
                 {isListening ? 'Stoppa röst' : 'Tala in (sv-SE)'}
-              </button>
+              </Button>
             </div>
           )}
           {speechError && <p className="text-center text-xs text-danger">{speechError}</p>}
           <p className="text-center text-[10px] text-text-dim">{MABRA_COACH_COPY.noteHint}</p>
-          <button
-            type="button"
+          <Button
+            variant="secondary"
+            className="w-full disabled:opacity-50"
             onClick={() => void handleCoach()}
             disabled={loading}
-            className="ds-btn ds-btn--secondary w-full disabled:opacity-50"
           >
             {loading ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : MABRA_COACH_COPY.buttonLabel}
-          </button>
+          </Button>
         </>
       )}
 

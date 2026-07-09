@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Button } from '@/design-system';
 import {
   COMPLETE_COPY,
   COMPLETE_LANDING_STRIP,
@@ -61,9 +62,9 @@ export function MabraComplete({
         </Link>
       </div>
 
-      <button type="button" onClick={onDone} className="ds-btn ds-btn--secondary mt-2">
+      <Button variant="secondary" className="mt-2" onClick={onDone}>
         Klar
-      </button>
+      </Button>
     </div>
   );
 }

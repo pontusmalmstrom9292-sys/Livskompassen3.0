@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from '@/design-system';
 import { Loader2, Search, Shield } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { callChildrenLogsQuery, type ChildrenLogCitation } from '../../api/childrenLogsService';
@@ -54,14 +55,15 @@ export function FamiljenKunskapHubTab({ activeChild }: Props) {
             placeholder={`T.ex. Hur har ${activeChild}s sömn varit?`}
             disabled={loading}
           />
-          <button
+          <Button
             type="submit"
+            variant="accent"
             disabled={loading || !query.trim()}
-            className="ds-btn ds-btn--accent inline-flex items-center justify-center gap-2 disabled:opacity-50"
+            className="inline-flex items-center justify-center gap-2 disabled:opacity-50"
           >
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
             Sök och analysera
-          </button>
+          </Button>
         </form>
 
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}

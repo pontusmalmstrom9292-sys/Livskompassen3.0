@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from '@/design-system';
 import { AlertTriangle, Eye, EyeOff, Shield } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import type { GransAnalysis } from '../api/biffService';
@@ -78,15 +79,16 @@ export function BiffTriagePanel({
             <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
               <p className="text-[10px] uppercase tracking-widest text-text-dim">Beten — ignorera</p>
               {hasBait && (
-                <button
+                <Button
                   type="button"
+                  variant="ghost"
                   onClick={() => setShowBait((v) => !v)}
-                  className="ds-btn ds-btn--ghost flex items-center gap-1 text-[10px] uppercase tracking-widest"
+                  className="flex items-center gap-1 text-[10px] uppercase tracking-widest"
                   aria-pressed={showBait}
                 >
                   {showBait ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
                   {showBait ? 'Dölj brus' : 'Visa brus'}
-                </button>
+                </Button>
               )}
             </div>
             {hasBait ? (
