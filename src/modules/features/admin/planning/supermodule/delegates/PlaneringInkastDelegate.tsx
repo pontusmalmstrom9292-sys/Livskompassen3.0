@@ -1,4 +1,5 @@
 import { CaptureSuperModule } from '@/modules/capture/CaptureSuperModule';
+import { textStyles } from '@/design-system';
 import { useStore } from '@/core/store';
 
 export type PlaneringInkastDelegateProps = {
@@ -23,7 +24,7 @@ export function PlaneringInkastDelegate({ onSaved }: PlaneringInkastDelegateProp
   return (
     <div className="space-y-4">
       <header className="space-y-1">
-        <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
+        <p className={textStyles.eyebrow}>
           Smart inkast
         </p>
         <p className="text-xs leading-relaxed text-text-muted">

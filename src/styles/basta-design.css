@@ -866,6 +866,62 @@ html[data-theme='ME-basta-design'] {
 
 .basta-design__header--prod {
   top: env(safe-area-inset-top, 0px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 4.25rem;
+  padding: 0.65rem 0.85rem;
+}
+
+.basta-design__header-start {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  justify-self: start;
+  min-width: 0;
+}
+
+.basta-design__header--prod .basta-design__header-brand {
+  justify-self: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.25rem;
+}
+
+.basta-design__header--prod .basta-design__header-title {
+  font-size: clamp(1rem, 4.2vw, 1.1875rem);
+  font-weight: 650;
+  letter-spacing: 0.34em;
+  margin-right: -0.34em;
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--bd-accent, #d4af37) 96%, #fff) 0%,
+    color-mix(in srgb, var(--bd-accent, #d4af37) 72%, #8a7340) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.45));
+  animation: bd-header-title-glow-prod 7s ease-in-out infinite;
+}
+
+.basta-design__header--prod .basta-design__header-ornament {
+  gap: 0.35rem;
+}
+
+.basta-design__header--prod .basta-design__header-ornament-line {
+  width: 2.25rem;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--bd-accent, #d4af37) 55%, transparent) 50%,
+    transparent 100%
+  );
+}
+
+.basta-design__header--prod .basta-design__header-actions {
+  justify-self: end;
 }
 
 .basta-design__header--prod .basta-design__header-vault .header-chrome-btn {
@@ -1041,6 +1097,16 @@ html[data-theme='ME-basta-design'] {
   50% {
     opacity: 0.95;
     transform: scale(1.2);
+  }
+}
+
+@keyframes bd-header-title-glow-prod {
+  0%,
+  100% {
+    filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.45));
+  }
+  50% {
+    filter: drop-shadow(0 0 16px rgba(201, 164, 53, 0.32)) drop-shadow(0 1px 0 rgba(0, 0, 0, 0.45));
   }
 }
 

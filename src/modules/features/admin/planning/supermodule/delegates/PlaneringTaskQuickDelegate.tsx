@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
-import { Input } from '@/design-system';
+import { Input, textStyles } from '@/design-system';
 import { usePlanningTasks } from '../../hooks/usePlanningTasks';
 import type { PlanningTaskStatus } from '../../types';
 
@@ -66,7 +66,7 @@ export function PlaneringTaskQuickDelegate({ onSaved }: PlaneringTaskQuickDelega
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <header className="space-y-1">
-        <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
+        <p className={textStyles.eyebrow}>
           Snabb uppgift
         </p>
         <p className="text-xs text-text-dim">

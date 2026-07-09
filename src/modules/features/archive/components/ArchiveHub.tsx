@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { hubHeaderClasses } from '@/core/ui/typeScale';
 import { useArchiveData } from '../hooks/useArchiveData';
 import { useArchiveExport } from '../hooks/useArchiveExport';
 import { ArchiveListView } from './ArchiveListView';
@@ -17,6 +18,7 @@ import {
 type ViewMode = 'list' | 'calendar';
 
 export function ArchiveHub() {
+  const h = hubHeaderClasses();
   const user = useStore(s => s.user);
   const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [currentMonthDate, setCurrentMonthDate] = useState<Date>(new Date());
@@ -66,8 +68,8 @@ export function ArchiveHub() {
                 <Archive className="w-5 h-5 text-accent" />
               </div>
               <div>
-                <h1 className="text-xl font-semibold tracking-[0.15em] font-display-serif uppercase text-text">Minnesarkivet</h1>
-                <p className="text-[10px] text-text-muted uppercase tracking-widest mt-0.5">Ditt WORM-arkiverade liv</p>
+                <p className={h.eyebrow}>Ditt WORM-arkiverade liv</p>
+                <h1 className={h.title}>Minnesarkivet</h1>
               </div>
             </div>
 

@@ -2,6 +2,7 @@ import { useState, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Calendar, Inbox, Mail } from 'lucide-react';
 import { Button, TextArea } from '@/design-system';
+import { sectionEyebrowClass, typeScale } from '@/core/ui/typeScale';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
 import { ReviewQueuePipelinePanel } from '@/modules/capture/ReviewQueuePipelinePanel';
@@ -117,8 +118,8 @@ export function PlaneringInkorgPanel() {
           <Inbox className="h-4 w-4" />
         </div>
         <div className="min-w-0">
-          <p className="planering-inkorg-panel__eyebrow">Inkorg</p>
-          <p className="planering-inkorg-panel__title">Samla, sortera, förbered</p>
+          <p className={`planering-inkorg-panel__eyebrow ${sectionEyebrowClass}`}>Inkorg</p>
+          <p className={`planering-inkorg-panel__title ${typeScale.titleSection}`}>Samla, sortera, förbered</p>
         </div>
       </div>
 

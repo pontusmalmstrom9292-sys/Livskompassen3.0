@@ -1,3 +1,4 @@
+/* PROTECTED BASTA-DESIGN DOCK LOCK — docs/design/BASTA-DESIGN-DOCK-LOCK.md · npm run smoke:basta-dock-lock */
 import { useId } from 'react';
 
 type Props = {

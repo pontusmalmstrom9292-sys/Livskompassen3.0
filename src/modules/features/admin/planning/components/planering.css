@@ -246,6 +246,10 @@
     @apply mb-4 inline-flex items-center gap-1 text-sm font-medium text-accent/90 transition-colors hover:text-accent;
   }
 
+  .planering-back-link:focus-visible {
+    @apply rounded-sm outline outline-2 outline-offset-2 outline-accent/50;
+  }
+
   .planering-hub__hint {
     @apply mb-4 text-center text-sm leading-relaxed text-text-muted;
   }
@@ -396,14 +400,6 @@
 
   .planering-inkorg-panel__icon {
     @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-surface/30 text-accent;
-  }
-
-  .planering-inkorg-panel__eyebrow {
-    @apply text-[10px] font-semibold uppercase tracking-[0.15em] text-accent;
-  }
-
-  .planering-inkorg-panel__title {
-    @apply text-sm font-medium text-text;
   }
 
   .planering-inkorg-panel__lead {

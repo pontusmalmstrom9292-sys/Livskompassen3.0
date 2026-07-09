@@ -1,3 +1,4 @@
+import { textStyles } from '@/design-system';
 import { PlaneringQuickListPanel } from '../../components/PlaneringQuickListPanel';
 import { PlaneringNotePinPanel } from '../../components/PlaneringNotePinPanel';
 
@@ -18,7 +19,7 @@ export function PlaneringQuickListDelegate({
     return (
       <div className="space-y-3">
         <header className="space-y-1">
-          <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
+          <p className={textStyles.eyebrow}>
             Anteckning att fästa
           </p>
         </header>
@@ -30,7 +31,7 @@ export function PlaneringQuickListDelegate({
   return (
     <div className="space-y-3">
       <header className="space-y-1">
-        <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
+        <p className={textStyles.eyebrow}>
           Inköpslista
         </p>
         <p className="text-xs text-text-dim">

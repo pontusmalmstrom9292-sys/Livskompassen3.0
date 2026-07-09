@@ -451,6 +451,22 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
+
+---
+
+## 21. Bästa design — Dock + Header (ME-basta-design prod)
+
+| | |
+|---|---|
+| **Tema** | `ME-basta-design` · `app-shell--basta-design` |
+| **Spec** | [`docs/design/BASTA-DESIGN-DOCK-LOCK.md`](../docs/design/BASTA-DESIGN-DOCK-LOCK.md) |
+| **Header** | `BastaDesignHeader` — **Resurser** via `BastaDesignResurserWidget` `placement="header"` |
+| **Dock** | `BastaDesignDock` → `BastaDesignDockBar` (`basta-dock-bar--v2`) — Anteckning · Familj · kompass · Mentil · Inkast |
+| **Förbjudet** | Resurser i dock-raden · krympa dock för sidwidget · byta till ExecutiveDockBar i prod |
+| **Smoke** | `npm run smoke:basta-dock-lock` (ingår i `smoke:chrome-header` / `smoke:locked-ux`) |
+
+**Får inte:** flytta Resurser tillbaka till dock-shell; ta bort fullbredd dock eller hero-kompass breakout utan Pontus OK.
+
 ## Verifiering
 
 ```bash

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Download, Printer, Sparkles } from 'lucide-react';
-import { Button, ButtonLink } from '@/design-system';
+import { Button, ButtonLink, textStyles } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
@@ -176,7 +176,7 @@ export function VaultVitHubPanel({ userId }: Props) {
     <div className="valv-zone-stack space-y-4">
       <BentoCard glow="green" bare noHover className="!p-0">
         <div className="rounded-xl border border-border-strong border-b-2 border-b-emerald-500/50 bg-surface-2/60 px-4 py-3 shadow-[0_4px_20px_-2px_rgba(16,185,129,0.15)]">
-          <p className="flex items-center gap-2 text-sm font-medium text-accent">
+          <p className={`flex items-center gap-2 ${textStyles.eyebrow}`}>
             <Sparkles className="h-4 w-4" aria-hidden />
             {VIT_VAULT_TAB_LABEL}
           </p>
@@ -197,7 +197,7 @@ export function VaultVitHubPanel({ userId }: Props) {
 
       <BentoCard title="Minneslista" glow="green" bare noHover className="!p-0">
       <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="Minneslista">
-        <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">Minneslista</h2>
+        <h2 className={textStyles.eyebrow}>Minneslista</h2>
         <VitEntryFilterBar
           filter={filter}
           kindCounts={kindCounts}
@@ -315,7 +315,7 @@ function StatTile({
   return (
     <div className="rounded-xl border border-border-strong bg-surface-2/50 px-3 py-3 text-center">
       <p className="text-2xl font-medium tabular-nums text-accent">{value}</p>
-      <p className="text-[10px] uppercase tracking-wider text-text-dim">{label}</p>
+      <p className={`${textStyles.eyebrow} mt-2`}>{label}</p>
       {hint ? <p className="mt-1 text-[10px] text-text-dim">{hint}</p> : null}
     </div>
   );

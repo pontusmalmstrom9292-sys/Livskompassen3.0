@@ -1,3 +1,4 @@
+/* PROTECTED BASTA-DESIGN DOCK LOCK — docs/design/BASTA-DESIGN-DOCK-LOCK.md · npm run smoke:basta-dock-lock */
 import type { CSSProperties, ReactNode } from 'react';
 import { clsx } from 'clsx';
 import { Inbox, Landmark, PenLine, Users2 } from 'lucide-react';
@@ -43,7 +44,7 @@ type Props = {
   onInkast: () => void;
 };
 
-/** Prod dock — bästa designv2: 4 zoner + hero-kompass (Resurser = utfällbar widget). */
+/** Prod dock — bästa designv2: 4 zoner + hero-kompass (Resurser lives in header only). */
 export function BastaDesignDockBar({
   pathname,
   isHome,

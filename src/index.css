@@ -2236,6 +2236,7 @@
 
   .chip {
     @apply rounded-full border px-3 py-1 text-xs transition-colors;
+    min-height: var(--ds-touch-target, 2.75rem);
   }
 
   .chip--active {
@@ -2502,6 +2503,11 @@
 
   .reflektion-actions__ghost {
     @apply w-full rounded-xl border border-accent/15 bg-surface/20 px-3 py-2 text-text-muted transition-colors hover:border-accent/30 hover:text-accent;
+    min-height: var(--ds-touch-target, 2.75rem);
+  }
+
+  .reflektion-actions__ghost:focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-accent/50;
   }
 
   .reflektion-panel {

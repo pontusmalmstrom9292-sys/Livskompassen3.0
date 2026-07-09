@@ -1,3 +1,4 @@
+/* PROTECTED BASTA-DESIGN DOCK LOCK — docs/design/BASTA-DESIGN-DOCK-LOCK.md · npm run smoke:basta-dock-lock */
 import { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { openValvViaFyren } from '../../auth/valvFyrenGate';
