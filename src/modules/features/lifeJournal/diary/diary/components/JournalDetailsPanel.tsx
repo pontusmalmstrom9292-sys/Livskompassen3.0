@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Info } from 'lucide-react';
+import { Button } from '@/design-system';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { JOURNAL_CATEGORIES, type JournalCategoryId } from '../constants/journalCategories';
 import { HandoffBox } from './HandoffBox';
@@ -71,15 +72,17 @@ export function JournalDetailsPanel({
         <div>
           <div className="mb-2 flex items-center justify-between gap-2">
             <p className="reflektion-panel__hint">Lägg till ett minne (max 1)</p>
-            <button
+            <Button
               type="button"
-              className="ds-btn ds-btn--ghost shrink-0 p-1.5"
+              variant="ghost"
+              size="icon"
+              className="shrink-0"
               aria-label="Om formellt bevis i arkiv"
               aria-expanded={showVaultInfo}
               onClick={() => setShowVaultInfo((v) => !v)}
             >
               <Info className="h-4 w-4 text-text-muted" aria-hidden />
-            </button>
+            </Button>
           </div>
           {showVaultInfo && <HandoffBox className="mb-3" />}
           <JournalMemoryPicker

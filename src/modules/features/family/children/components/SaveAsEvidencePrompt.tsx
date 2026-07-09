@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Button, ButtonLink } from '@/design-system';
 import { Shield } from 'lucide-react';
 import { saveVaultLog } from '@/core/firebase/firestore';
 import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
@@ -58,12 +58,12 @@ export function SaveAsEvidencePrompt({
     return (
       <div className="mt-4 space-y-2 rounded-xl border border-success/30 bg-success/5 px-4 py-3">
         <p className="text-sm text-success">Sparat som bevis med länk till livsloggen.</p>
-        <Link to="/valvet" className="ds-btn ds-btn--ghost text-sm">
+        <ButtonLink to="/valvet" variant="ghost" className="text-sm">
           Öppna {VAULT_UI_NAME}
-        </Link>
-        <button type="button" onClick={onDone} className="ds-btn ds-btn--secondary mt-2 text-sm">
+        </ButtonLink>
+        <Button type="button" variant="secondary" onClick={onDone} className="mt-2 text-sm">
           Klar
-        </button>
+        </Button>
       </div>
     );
   }
@@ -86,17 +86,18 @@ export function SaveAsEvidencePrompt({
         />
       ) : (
         <div className="flex flex-col gap-2 sm:flex-row">
-          <button
+          <Button
             type="button"
+            variant="secondary"
             disabled={saving}
             onClick={() => setConfirmOpen(true)}
-            className="ds-btn ds-btn--secondary text-sm"
+            className="text-sm"
           >
             Spara som bevis
-          </button>
-          <button type="button" onClick={onDone} className="ds-btn ds-btn--ghost text-sm">
+          </Button>
+          <Button type="button" variant="ghost" onClick={onDone} className="text-sm">
             Nej, bara livslogg
-          </button>
+          </Button>
         </div>
       )}
       {error && !confirmOpen && <p className="text-sm text-danger">{error}</p>}

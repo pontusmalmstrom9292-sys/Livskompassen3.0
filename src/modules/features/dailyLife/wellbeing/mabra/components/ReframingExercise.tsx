@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Mic, MicOff } from 'lucide-react';
+import { Button } from '@/design-system';
 import { useSpeechToText } from '@/core/hooks/useSpeechToText';
 import { REFRAMING_STEPS } from '../constants';
 import { shouldRedirectMabraCoachToSpeglar } from '../lib/mabraCoachGuard';
@@ -115,15 +116,15 @@ export function ReframingExercise({ onComplete, onExit, hubSymptom }: Props) {
         />
         {supported && (
           <div className="mt-2 flex flex-wrap items-center gap-2">
-            <button
-              type="button"
+            <Button
+              variant="ghost"
+              className="text-sm"
               onClick={isListening ? stop : start}
-              className="ds-btn ds-btn--ghost text-sm"
               aria-pressed={isListening}
             >
               {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
               {isListening ? 'Stoppa röst' : 'Tala in (sv-SE)'}
-            </button>
+            </Button>
             {interim && <span className="text-xs text-text-dim">Hör: {interim}</span>}
           </div>
         )}
@@ -139,12 +140,12 @@ export function ReframingExercise({ onComplete, onExit, hubSymptom }: Props) {
         Steg {stepIndex + 1} av {REFRAMING_STEPS.length}
       </p>
       <div className="flex w-full max-w-sm flex-col gap-2">
-        <button type="button" onClick={handleNext} className="ds-btn ds-btn--secondary">
+        <Button variant="secondary" onClick={handleNext}>
           {isLast ? 'Klar' : 'Gå vidare'}
-        </button>
-        <button type="button" onClick={handleExit} className="ds-btn ds-btn--ghost text-sm">
+        </Button>
+        <Button variant="ghost" className="text-sm" onClick={handleExit}>
           Avsluta nu
-        </button>
+        </Button>
       </div>
     </div>
   );

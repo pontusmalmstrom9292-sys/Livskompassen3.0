@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Check, Loader2, Moon } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Button, ButtonLink } from '@/design-system';
 import { hjartatTabHref } from '@/core/navigation/appNavigation';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -87,18 +87,18 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
         </p>
         <p className="text-center text-[10px] text-text-dim">Gaslighting? Bro — inget sparas automatiskt.</p>
         <div className="flex flex-col gap-2">
-          <Link to={hjartatTabHref('speglar')} className="ds-btn ds-btn--ghost text-xs">
+          <ButtonLink to={hjartatTabHref('speglar')} variant="ghost" size="sm">
             Jämför känsla med fakta (Speglar)
-          </Link>
-          <Link to={NAV_PATHS.VALVET} className="ds-btn ds-btn--ghost text-xs">
+          </ButtonLink>
+          <ButtonLink to={NAV_PATHS.VALVET} variant="ghost" size="sm">
             Dokumentera neutralt (Bevis)
-          </Link>
-          <Link to="/vardagen?tab=mabra" className="ds-btn ds-btn--ghost text-xs">
+          </ButtonLink>
+          <ButtonLink to="/vardagen?tab=mabra" variant="ghost" size="sm">
             Landning (MåBra)
-          </Link>
-          <button type="button" onClick={onKlar} className="ds-btn ds-btn--success text-xs">
+          </ButtonLink>
+          <Button variant="success" size="sm" onClick={onKlar}>
             Klar
-          </button>
+          </Button>
         </div>
       </>
     );
@@ -112,24 +112,24 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
         </p>
         <BentoCard title="Gaslighting?" description="Bro till Speglar — inget sparas automatiskt">
           <div className="flex flex-col gap-2">
-            <Link to={hjartatTabHref('speglar')} className="ds-btn ds-btn--ghost text-sm">
+            <ButtonLink to={hjartatTabHref('speglar')} variant="ghost">
               Jämför känsla med fakta (Speglar)
-            </Link>
-            <Link to={NAV_PATHS.VALVET} className="ds-btn ds-btn--ghost text-sm">
+            </ButtonLink>
+            <ButtonLink to={NAV_PATHS.VALVET} variant="ghost">
               Dokumentera neutralt (Bevis)
-            </Link>
+            </ButtonLink>
           </div>
         </BentoCard>
         <div className="flex flex-col gap-2">
-          <Link to="/vardagen?tab=mabra" className="ds-btn ds-btn--ghost text-sm">
+          <ButtonLink to="/vardagen?tab=mabra" variant="ghost">
             Landning (MåBra)
-          </Link>
-          <Link to="/familjen" className="ds-btn ds-btn--ghost text-sm">
+          </ButtonLink>
+          <ButtonLink to="/familjen" variant="ghost">
             Livslogg barnen
-          </Link>
-          <button type="button" onClick={onKlar} className="ds-btn ds-btn--success text-sm">
+          </ButtonLink>
+          <Button variant="success" onClick={onKlar}>
             Klar
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -153,24 +153,24 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
       />
       {error && <p className="text-center text-xs text-danger">{error}</p>}
       {stepIndex < KASAM_STEPS.length - 1 ? (
-        <button
-          type="button"
+        <Button
+          variant="secondary"
           onClick={handleNext}
-          className={embedded ? 'ds-btn ds-btn--secondary w-full text-xs' : 'ds-btn ds-btn--secondary mt-4'}
+          className={embedded ? 'w-full text-xs' : 'mt-4'}
+          size={embedded ? 'sm' : 'md'}
         >
           Nästa
-        </button>
+        </Button>
       ) : (
-        <button
-          type="button"
+        <Button
+          variant={embedded ? 'accent' : 'success'}
           disabled={saving}
           onClick={() => void handleSave()}
-          className={
-            embedded ? 'ds-btn ds-btn--accent w-full text-xs disabled:opacity-40' : 'ds-btn ds-btn--success mt-4'
-          }
+          className={embedded ? 'w-full text-xs disabled:opacity-40' : 'mt-4'}
+          size={embedded ? 'sm' : 'md'}
         >
           {saving ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : 'Spara kväll'}
-        </button>
+        </Button>
       )}
     </>
   );

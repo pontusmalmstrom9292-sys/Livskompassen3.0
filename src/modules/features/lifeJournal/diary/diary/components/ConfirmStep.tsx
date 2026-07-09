@@ -1,4 +1,5 @@
 import { ChevronLeft, Loader2, Paperclip } from 'lucide-react';
+import { Button } from '@/design-system';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { VAVAREN_CONFIRM_HINT } from '@/features/lifeJournal/evidence/vault/constants/vavarenCopy';
 import { getMoodDef } from '../constants/moods';
@@ -125,18 +126,18 @@ export function ConfirmStep({
       )}
 
       <div className="reflektion-actions">
-        <button type="button" onClick={onBack} className="ds-btn ds-btn--ghost">
+        <Button type="button" variant="ghost" onClick={onBack}>
           <ChevronLeft className="h-4 w-4" /> Ändra
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
+          variant="success"
           onClick={() => void onSave()}
           disabled={saving || Boolean(memoryError)}
-          className="ds-btn ds-btn--success"
         >
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           Spara i dagboken
-        </button>
+        </Button>
       </div>
       {memoryError && (
         <p className="mt-2 text-sm text-danger" role="alert">

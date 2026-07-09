@@ -1,10 +1,11 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
-import { ErrorFallback } from '@/design-system';
+import { ErrorFallback, type ErrorFallbackGlow } from '@/design-system';
 import { BentoCard } from '@/modules/shared/ui/BentoCard';
 
 interface Props {
   children: ReactNode;
   fallbackTitle?: string;
+  glow?: ErrorFallbackGlow;
 }
 
 interface State {
@@ -33,7 +34,7 @@ export class RAGErrorBoundary extends Component<Props, State> {
           <ErrorFallback
             title={this.props.fallbackTitle || 'Något gick fel'}
             body={this.state.errorMessage}
-            glow="danger"
+            glow={this.props.glow ?? 'danger'}
             onRetry={() => this.setState({ hasError: false, errorMessage: '' })}
             className="border-0 bg-transparent p-0 shadow-none"
           />

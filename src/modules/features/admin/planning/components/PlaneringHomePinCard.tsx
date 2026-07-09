@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { ChevronRight } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { getPlaneringHomePin } from '../planeringHomePin';
@@ -46,13 +46,15 @@ export function PlaneringHomePinCard() {
           ))
         )}
       </ul>
-      <Link
-        to={`/planering?tab=inkop`}
-        className="ds-btn ds-btn--ghost mt-3 flex w-full items-center justify-center gap-1 text-sm"
+      <ButtonLink
+        to="/planering?tab=inkop"
+        variant="ghost"
+        size="sm"
+        className="mt-3 flex w-full items-center justify-center gap-1"
       >
         Öppna listan
         <ChevronRight className="h-4 w-4" />
-      </Link>
+      </ButtonLink>
     </BentoCard>
   );
 }

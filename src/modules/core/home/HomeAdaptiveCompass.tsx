@@ -4,6 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { ChevronDown, Moon, Sparkles, Sun, Sunrise } from 'lucide-react';
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
+import { Button } from '@/design-system';
 import { CaptureSuperModule } from '@/modules/capture/CaptureSuperModule';
 import { ParalysPanel } from '@/features/dailyLife/wellbeing/compasses/components/ParalysPanel';
 import { KasamEvening } from '@/features/dailyLife/wellbeing/compasses/components/KasamEvening';
@@ -311,21 +312,23 @@ export function HomeAdaptiveCompass({
                           : 'Landning i kväll — en kort rad i Dagbok räcker om du vill.'}
                       </p>
                       {!showInkast ? (
-                        <button
-                          type="button"
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="mx-auto block"
                           onClick={() => navigate(HOME_SUPERHUB_ROUTES.hjartatQuickMirror)}
-                          className="ds-btn ds-btn--ghost mx-auto block text-xs"
                         >
                           Öppna Dagbok
-                        </button>
+                        </Button>
                       ) : (
-                        <button
-                          type="button"
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="mx-auto block"
                           onClick={() => navigate(HOME_SUPERHUB_ROUTES.hjartatReflektion)}
-                          className="ds-btn ds-btn--ghost mx-auto block text-xs"
                         >
                           Öppna full reflektion i Hjärtat
-                        </button>
+                        </Button>
                       )}
                     </>
                   )}

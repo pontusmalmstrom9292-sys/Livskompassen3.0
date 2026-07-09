@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Button } from '@/design-system';
 import { MABRA_REFLECTION_CARDS } from '../../content/mabraReflectionCards';
 import { DROGFRIHET_CARDS } from '@/features/dailyLife/drogfrihet/content/drogfrihetCatalog';
 import { MabraToolShell } from './MabraToolShell';
@@ -73,14 +74,14 @@ export function MabraReflectionDeckTool({ onBack, initialBankId }: Props) {
       ) : null}
 
       <div className="mt-4 flex gap-2">
-        <button type="button" onClick={prev} className="ds-btn ds-btn--ghost flex-1 text-sm">
+        <Button variant="ghost" className="flex-1 text-sm" onClick={prev}>
           <ChevronLeft className="mr-1 inline h-4 w-4" />
           Förra
-        </button>
-        <button type="button" onClick={next} className="ds-btn ds-btn--secondary flex-1 text-sm">
+        </Button>
+        <Button variant="secondary" className="flex-1 text-sm" onClick={next}>
           Nästa
           <ChevronRight className="ml-1 inline h-4 w-4" />
-        </button>
+        </Button>
       </div>
     </MabraToolShell>
   );

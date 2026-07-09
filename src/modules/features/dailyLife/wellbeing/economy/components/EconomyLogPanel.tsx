@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
@@ -141,23 +142,18 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
                 onChange={(e) => setUBelopp(e.target.value)}
               />
               <div className={scope === 'vardag' ? '' : 'grid grid-cols-2 gap-2'}>
-                <button
-                  type="button"
+                <Button
+                  variant={scope === 'vardag' ? 'accent' : 'ghost'}
                   disabled={busy}
-                  className={scope === 'vardag' ? 'ds-btn ds-btn--accent w-full' : 'ds-btn ds-btn--ghost'}
+                  className={scope === 'vardag' ? 'w-full' : undefined}
                   onClick={() => void logMoney('utgift')}
                 >
                   Utgift
-                </button>
+                </Button>
                 {scope === 'all' ? (
-                  <button
-                    type="button"
-                    disabled={busy}
-                    className="ds-btn ds-btn--accent"
-                    onClick={() => void logMoney('inkomst')}
-                  >
+                  <Button disabled={busy} onClick={() => void logMoney('inkomst')}>
                     Inkomst
-                  </button>
+                  </Button>
                 ) : null}
               </div>
             </div>
@@ -199,9 +195,9 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
                 value={billAmount}
                 onChange={(e) => setBillAmount(e.target.value)}
               />
-              <button type="button" disabled={busy} className="ds-btn ds-btn--accent text-sm" onClick={() => void addBill()}>
+              <Button size="sm" disabled={busy} onClick={() => void addBill()}>
                 Lägg till
-              </button>
+              </Button>
             </div>
           </BentoCard>
 

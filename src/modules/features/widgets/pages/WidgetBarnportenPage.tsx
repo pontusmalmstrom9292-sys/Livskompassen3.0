@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import { Button, ButtonLink } from '@/design-system';
 import { Loader2 } from 'lucide-react';
 import { AuthGate } from '@/core/auth/AuthGate';
 import { useStore } from '@/core/store';
@@ -60,16 +61,12 @@ function WidgetBarnportenInner() {
             <p className="text-sm text-success">
               {queued ? 'Köad — synkas när nätet finns.' : 'Skickat till pappas inkorg.'}
             </p>
-            <Link to="/barnporten" className="ds-btn ds-btn--accent mt-3 inline-flex text-xs">
+            <ButtonLink to="/barnporten" variant="accent" className="mt-3 inline-flex text-xs">
               Öppna Barnporten
-            </Link>
-            <button
-              type="button"
-              className="ds-btn ds-btn--ghost mt-2 w-full text-xs"
-              onClick={() => setDone(false)}
-            >
+            </ButtonLink>
+            <Button type="button" variant="ghost" className="mt-2 w-full text-xs" onClick={() => setDone(false)}>
               Ny rad
-            </button>
+            </Button>
           </div>
         ) : (
           <div className="space-y-3">
@@ -81,14 +78,15 @@ function WidgetBarnportenInner() {
               className="input-glass w-full text-sm"
               placeholder="Skriv här…"
             />
-            <button
+            <Button
               type="button"
+              variant="accent"
               disabled={saving || !text.trim()}
-              className="ds-btn ds-btn--accent w-full"
+              className="w-full"
               onClick={() => void handleSave()}
             >
               {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Skicka till pappa'}
-            </button>
+            </Button>
             {error && <p className="text-sm text-danger">{error}</p>}
             <fieldset className="space-y-2 rounded-xl border border-amber-400/15 p-3">
               <legend className="px-1 text-[10px] uppercase tracking-widest text-text-dim">
@@ -96,26 +94,23 @@ function WidgetBarnportenInner() {
               </legend>
               <div className="grid grid-cols-2 gap-2">
                 {BARNPORTEN_WIDGET_VARIANTS.map((row) => (
-                  <button
+                  <Button
                     key={row.id}
                     type="button"
-                    className={
-                      variant === row.id
-                        ? 'ds-btn ds-btn--accent w-full text-left text-xs'
-                        : 'ds-btn ds-btn--ghost w-full text-left text-xs'
-                    }
+                    variant={variant === row.id ? 'accent' : 'ghost'}
+                    className="w-full text-left text-xs"
                     aria-pressed={variant === row.id}
                     onClick={() => setVariant(row.id)}
                   >
                     <span className="block font-medium">{row.label}</span>
                     <span className="block text-[10px] opacity-80">{row.hint}</span>
-                  </button>
+                  </Button>
                 ))}
               </div>
             </fieldset>
-            <Link to="/barnporten" className="ds-btn ds-btn--ghost block w-full text-center text-xs">
+            <ButtonLink to="/barnporten" variant="ghost" className="block w-full text-center text-xs">
               Hela Barnporten
-            </Link>
+            </ButtonLink>
           </div>
         )}
       </WidgetShell>

@@ -1,3 +1,4 @@
+import { Button } from '@/design-system';
 import type { MabraSymptomHub } from '../types';
 import { SYMPTOM_HUB_OPTIONS, VALUES_COMPASS_COPY } from '../constants';
 
@@ -21,9 +22,9 @@ export function SymptomHub({ onSelect, onOpenValues }: Props) {
           <p className="mt-1 text-sm text-text-dim">{option.hint}</p>
         </button>
       ))}
-      <button type="button" onClick={onOpenValues} className="ds-btn ds-btn--ghost w-full text-sm">
+      <Button variant="ghost" className="w-full text-sm" onClick={onOpenValues}>
         {VALUES_COMPASS_COPY.hubLinkLabel}
-      </button>
+      </Button>
     </div>
   );
 }

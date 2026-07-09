@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Cloud, Inbox } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
 import { useStore } from '@/core/store';
@@ -222,13 +223,9 @@ export function ReviewQueuePipelinePanel({
                     Synkar…
                   </span>
                 ) : (
-                  <button
-                    type="button"
-                    className="ds-btn ds-btn--ghost mt-2 text-xs"
-                    onClick={() => void handleRetry(d.id)}
-                  >
+                  <Button variant="ghost" size="sm" className="mt-2" onClick={() => void handleRetry(d.id)}>
                     Försök igen
-                  </button>
+                  </Button>
                 )}
               </li>
             ))}
@@ -264,13 +261,9 @@ export function ReviewQueuePipelinePanel({
                     Synkar…
                   </span>
                 ) : (
-                  <button
-                    type="button"
-                    className="ds-btn ds-btn--ghost mt-2 text-xs"
-                    onClick={() => void handleRetry(d.id)}
-                  >
+                  <Button variant="ghost" size="sm" className="mt-2" onClick={() => void handleRetry(d.id)}>
                     Försök igen
-                  </button>
+                  </Button>
                 )}
               </li>
             ))}

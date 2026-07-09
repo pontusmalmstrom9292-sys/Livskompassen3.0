@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { Droplets } from 'lucide-react';
 import { MabraNutritionQuickLog } from './MabraNutritionQuickLog';
 
@@ -25,12 +25,9 @@ export function MabraNutritionHubPrimary({ uid, onLogged }: Props) {
 
       <MabraNutritionQuickLog storageUid={storageUid} onLogged={onLogged} />
 
-      <Link
-        to="/mabra/verktyg/nutrition"
-        className="ds-btn ds-btn--ghost mt-3 inline-flex text-xs"
-      >
+      <ButtonLink to="/mabra/verktyg/nutrition" variant="ghost" className="mt-3 inline-flex text-xs">
         Öppna full näring-vy
-      </Link>
+      </ButtonLink>
     </section>
   );
 }

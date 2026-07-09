@@ -1,6 +1,7 @@
 import { Coffee, Utensils } from 'lucide-react';
 import { useState } from 'react';
 import { clsx } from 'clsx';
+import { Button } from '@/design-system';
 import {
   appendNutritionEntry,
   entriesForDate,
@@ -71,28 +72,28 @@ export function MabraNutritionQuickLog({ storageUid, macroTracking = false, onLo
       <p className="mt-1 text-xs text-text-dim">Vad åt eller drack du? Ingen kaloriräkning.</p>
 
       <div className="mt-3 flex gap-2">
-        <button
-          type="button"
-          onClick={() => setKind('food')}
+        <Button
+          variant="ghost"
           className={clsx(
-            'ds-btn ds-btn--ghost flex flex-1 items-center justify-center gap-1.5 text-xs',
+            'flex flex-1 items-center justify-center gap-1.5 text-xs',
             kind === 'food' && 'border-success/40 bg-success/10 text-success',
           )}
+          onClick={() => setKind('food')}
         >
           <Utensils className="h-3.5 w-3.5" aria-hidden />
           Mat
-        </button>
-        <button
-          type="button"
-          onClick={() => setKind('drink')}
+        </Button>
+        <Button
+          variant="ghost"
           className={clsx(
-            'ds-btn ds-btn--ghost flex flex-1 items-center justify-center gap-1.5 text-xs',
+            'flex flex-1 items-center justify-center gap-1.5 text-xs',
             kind === 'drink' && 'border-accent-secondary/40 bg-accent-secondary/10 text-accent-light',
           )}
+          onClick={() => setKind('drink')}
         >
           <Coffee className="h-3.5 w-3.5" aria-hidden />
           Dryck
-        </button>
+        </Button>
       </div>
 
       <input
@@ -166,13 +167,9 @@ export function MabraNutritionQuickLog({ storageUid, macroTracking = false, onLo
         </div>
       ) : null}
 
-      <button
-        type="button"
-        onClick={handleSave}
-        className="ds-btn ds-btn--secondary mt-3 w-full text-sm"
-      >
+      <Button variant="secondary" className="mt-3 w-full text-sm" onClick={handleSave}>
         {savedFlash ? 'Sparat ✓' : 'Spara intag'}
-      </button>
+      </Button>
     </div>
   );
 }

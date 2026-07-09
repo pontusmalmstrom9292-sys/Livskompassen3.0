@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Pin } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
 import type { JournalEntry } from '../types/journal';
@@ -8,7 +10,6 @@ import {
 } from '../utils/filterJournalEntries';
 import { JournalArchiveToolbar, type ArchiveToolbarState } from './JournalArchiveToolbar';
 import { JournalEntryCard } from './JournalEntryCard';
-import { Pin } from 'lucide-react';
 
 const DEFAULT_FILTERS: ArchiveToolbarState = {
   query: '',
@@ -101,13 +102,14 @@ export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalA
           ))}
         </div>
         {hasMore && (
-          <button
+          <Button
             type="button"
+            variant="ghost"
+            className="mt-6 w-full"
             onClick={() => setVisibleCount((n) => n + pageSize)}
-            className="ds-btn ds-btn--ghost mt-6 w-full"
           >
             Visa fler ({unpinnedFlat.length - visibleCount} kvar)
-          </button>
+          </Button>
         )}
       </>
     );

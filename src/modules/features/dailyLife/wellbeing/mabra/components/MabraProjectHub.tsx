@@ -1,5 +1,5 @@
 import { Archive, CloudRain, HeartCrack, Leaf } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Button, ButtonLink } from '@/design-system';
 import { ElongatedModule } from '@/core/ui/ElongatedModule';
 import { sectionEyebrowClass } from '@/core/ui/typeScale';
 import { VIT_HUB_KRAVLOST, VIT_HUB_VAULT_LINK } from '../lib/vitHubCopy';
@@ -65,17 +65,18 @@ export function MabraProjectHub({ onSelectProject, onSelectAkut, onOpenValues }:
         </div>
       </div>
 
-      <Link
+      <ButtonLink
         to={VAULT_VIT_TAB_LINK}
-        className="ds-btn ds-btn--ghost inline-flex w-full items-center justify-center gap-2 text-sm"
+        variant="ghost"
+        className="inline-flex w-full items-center justify-center gap-2 text-sm"
       >
         <Archive className="h-4 w-4" aria-hidden />
         {VIT_HUB_VAULT_LINK}
-      </Link>
+      </ButtonLink>
 
-      <button type="button" onClick={onOpenValues} className="ds-btn ds-btn--ghost w-full text-sm">
+      <Button variant="ghost" className="w-full text-sm" onClick={onOpenValues}>
         {VALUES_COMPASS_COPY.hubLinkLabel}
-      </button>
+      </Button>
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Button, ButtonLink } from '@/design-system';
 import { Loader2 } from 'lucide-react';
 import { AuthGate } from '@/core/auth/AuthGate';
 import { saveChildrenLog } from '@/core/firebase/firestore';
@@ -49,29 +49,26 @@ function WidgetFamiljenInner() {
       {done ? (
         <div className="elongated-module elongated-module--gold overflow-hidden p-4">
           <p className="text-sm text-success">Sparat till {child}s logg</p>
-          <Link to="/familjen" className="ds-btn ds-btn--accent mt-3 inline-flex text-xs">
+          <ButtonLink to="/familjen" variant="accent" className="mt-3 inline-flex text-xs">
             Öppna Familjen
-          </Link>
-          <button
-            type="button"
-            className="ds-btn ds-btn--ghost mt-2 w-full text-xs"
-            onClick={resetForm}
-          >
+          </ButtonLink>
+          <Button type="button" variant="ghost" className="mt-2 w-full text-xs" onClick={resetForm}>
             Ny rad
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="space-y-3">
           <div className="flex gap-2">
             {CHILD_ALIASES.map((alias) => (
-              <button
+              <Button
                 key={alias}
                 type="button"
-                className={child === alias ? 'ds-btn ds-btn--accent flex-1 text-xs' : 'ds-btn ds-btn--ghost flex-1 text-xs'}
+                variant={child === alias ? 'accent' : 'ghost'}
+                className="flex-1 text-xs"
                 onClick={() => setChild(alias)}
               >
                 {alias}
-              </button>
+              </Button>
             ))}
           </div>
           <textarea
@@ -81,14 +78,15 @@ function WidgetFamiljenInner() {
             className="input-glass w-full text-sm"
             placeholder="Kort observation…"
           />
-          <button
+          <Button
             type="button"
+            variant="accent"
             disabled={saving || !text.trim()}
-            className="ds-btn ds-btn--accent w-full"
+            className="w-full"
             onClick={() => void handleSave()}
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : `Spara till ${child}s logg`}
-          </button>
+          </Button>
           {error && <p className="text-sm text-danger">{error}</p>}
         </div>
       )}

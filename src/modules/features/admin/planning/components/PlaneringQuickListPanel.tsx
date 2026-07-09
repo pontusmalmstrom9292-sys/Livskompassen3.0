@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Button } from '@/design-system';
 import { Check, Loader2, Plus, Trash2, X } from 'lucide-react';
 import { useStore } from '@/core/store';
 import { createProject } from '../../projects/api/projectsApi';
@@ -96,10 +97,10 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && addItem()}
         />
-        <button type="button" className="ds-btn ds-btn--secondary shrink-0" onClick={addItem}>
+        <Button type="button" variant="secondary" className="shrink-0" onClick={addItem}>
           <Plus className="h-4 w-4" />
           Lägg till
-        </button>
+        </Button>
       </div>
 
       <ul className="planering-quicklist__items" aria-label={list.title}>
@@ -155,26 +156,29 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
               </li>
             ))}
           </ul>
-          <button
+          <Button
             type="button"
-            className="ds-btn ds-btn--ghost mt-2 w-full text-xs"
+            variant="ghost"
+            size="sm"
+            className="mt-2 w-full"
             onClick={() => setList(clearDoneQuickListItems(listId))}
           >
             Rensa klara
-          </button>
+          </Button>
         </div>
       )}
 
       <div className="planering-quicklist__actions">
-        <button
+        <Button
           type="button"
-          className="ds-btn ds-btn--secondary w-full"
+          variant="secondary"
+          className="w-full"
           disabled={saving}
           onClick={() => void saveAsProject()}
         >
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           Spara som projekt
-        </button>
+        </Button>
       </div>
 
       <PlaneringModulePinPanel

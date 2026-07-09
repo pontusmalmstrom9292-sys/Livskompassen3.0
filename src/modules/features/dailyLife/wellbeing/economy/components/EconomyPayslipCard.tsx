@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FileText, Loader2 } from 'lucide-react';
 import { httpsCallable } from 'firebase/functions';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { functions } from '@/core/firebase/init';
 import { useStore } from '@/core/store';
@@ -68,14 +69,14 @@ export function EconomyPayslipCard() {
       ) : (
         <p className="text-sm text-text-dim">Ingen lönespec ännu. Genereras automatiskt den 16:e kl 08:00.</p>
       )}
-      <button
-        type="button"
+      <Button
+        variant="ghost"
         disabled={busy || !user}
         onClick={() => void generate()}
-        className="ds-btn ds-btn--ghost mt-3 w-full text-sm"
+        className="mt-3 w-full text-sm"
       >
         {busy ? 'Genererar…' : 'Generera lönespec nu'}
-      </button>
+      </Button>
     </BentoCard>
   );
 }

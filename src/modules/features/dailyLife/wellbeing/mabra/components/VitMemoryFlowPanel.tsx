@@ -1,6 +1,7 @@
 import { Loader2 } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from '@/design-system';
 import { ensureVitHub, saveVitEntry } from '@/core/firebase/vitHubFirestore';
 import type { MabraProjectId } from '../constants/mabraProjects';
 import { VIT_HUB_LANDED, VIT_HUB_VAULT_LINK } from '../lib/vitHubCopy';
@@ -131,11 +132,11 @@ export function VitMemoryFlowPanel({ userId, projectId, onSaved }: Props) {
       {!userId ? (
         <p className="text-xs text-text-dim">{COPY.login}</p>
       ) : (
-        <button
-          type="button"
+        <Button
+          variant="accent"
+          className="w-full text-sm"
           onClick={() => void handleSave()}
           disabled={saving}
-          className="ds-btn ds-btn--accent w-full text-sm"
         >
           {saving ? (
             <>
@@ -145,7 +146,7 @@ export function VitMemoryFlowPanel({ userId, projectId, onSaved }: Props) {
           ) : (
             COPY.save
           )}
-        </button>
+        </Button>
       )}
 
       {saved ? (

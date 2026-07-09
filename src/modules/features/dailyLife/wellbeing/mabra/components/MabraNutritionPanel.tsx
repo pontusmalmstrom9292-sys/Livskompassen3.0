@@ -1,5 +1,6 @@
 import { Droplets, Utensils, X } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   nutritionDateKey,
@@ -141,17 +142,17 @@ export function MabraNutritionPanel({ uid }: Props) {
               className="flex items-start gap-2 rounded-xl border border-border bg-surface-2/60 px-3 py-2"
             >
               <p className="flex-1 text-sm leading-relaxed text-text-muted">{nudge.message}</p>
-              <button
-                type="button"
+              <Button
+                variant="ghost"
                 aria-label="Stäng påminnelse"
-                className="ds-btn ds-btn--ghost h-8 w-8 shrink-0 rounded-lg p-0"
+                className="h-8 w-8 shrink-0 rounded-lg p-0"
                 onClick={() => {
                   dismissNutritionNudge(storageUid, nudge.id);
                   setIntakeVersion((v) => v + 1);
                 }}
               >
                 <X className="h-3.5 w-3.5" aria-hidden />
-              </button>
+              </Button>
             </li>
           ))}
         </ul>
@@ -172,23 +173,23 @@ export function MabraNutritionPanel({ uid }: Props) {
           <div className="mt-4 rounded-xl border border-border bg-surface-2/80 px-4 py-3">
             <p className="text-xs font-medium uppercase tracking-wider text-text-dim">{COPY.water}</p>
             <div className="mt-3 flex items-center justify-between gap-3">
-              <button
-                type="button"
+              <Button
+                variant="ghost"
                 aria-label="Minska glas vatten"
-                className="ds-btn ds-btn--ghost h-10 w-10 rounded-xl text-lg"
+                className="h-10 w-10 rounded-xl text-lg"
                 onClick={() => adjustWater(-1)}
               >
                 −
-              </button>
+              </Button>
               <span className="font-display-serif text-2xl text-accent">{state.waterGlasses}</span>
-              <button
-                type="button"
+              <Button
+                variant="secondary"
                 aria-label="Öka glas vatten"
-                className="ds-btn ds-btn--secondary h-10 w-10 rounded-xl text-lg"
+                className="h-10 w-10 rounded-xl text-lg"
                 onClick={() => adjustWater(1)}
               >
                 +
-              </button>
+              </Button>
             </div>
           </div>
 

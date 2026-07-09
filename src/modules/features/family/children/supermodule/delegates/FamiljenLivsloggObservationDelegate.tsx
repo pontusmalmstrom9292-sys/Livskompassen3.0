@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Button } from '@/design-system';
 import { Plus, Loader2, Check } from 'lucide-react';
 import { LIVSLOGG_CATEGORIES, type LivsloggCategory } from '../../constants';
 import { SaveAsEvidencePrompt } from '../../components/SaveAsEvidencePrompt';
@@ -191,36 +192,39 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
             WORM-livsloggen bör hållas strikt neutral för din egen sinnesro och bevisvärde.
           </p>
           <div className="flex gap-2 pt-1">
-            <button
+            <Button
               type="button"
+              variant="ghost"
               onClick={() => {
                 setBypassJadeGuard(true);
-                handleSave(); // Fortsätt spara ändå (bypass)
+                handleSave();
               }}
               disabled={loading}
-              className="ds-btn ds-btn--ghost text-xs border-danger/20 text-danger"
+              className="text-xs border-danger/20 text-danger"
             >
               Jag är säker, spara ändå
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
+              variant="secondary"
               onClick={() => setJadeViolations([])}
-              className="ds-btn ds-btn--secondary text-xs"
+              className="text-xs"
             >
               Avbryt och redigera
-            </button>
+            </Button>
           </div>
         </div>
       ) : (
-        <button
+        <Button
           type="button"
+          variant="accent"
           onClick={handleSave}
           disabled={loading || !observation.trim()}
-          className="ds-btn ds-btn--accent disabled:opacity-50 mt-2"
+          className="disabled:opacity-50 mt-2"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
           Spara livslogg
-        </button>
+        </Button>
       )}
       
       {error && <p className="mt-2 text-sm text-danger">{error}</p>}

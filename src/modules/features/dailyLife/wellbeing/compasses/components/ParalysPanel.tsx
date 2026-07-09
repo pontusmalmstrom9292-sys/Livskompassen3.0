@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Loader2, Zap } from 'lucide-react';
 import { clsx } from 'clsx';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { fetchMicroSteps, type MicroStep } from '../api/compassService';
 import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
@@ -62,14 +63,14 @@ export function ParalysPanel({ onDone, embedded = false, simplified = false }: P
           placeholder="Nästa minsta steg …"
           className="input-glass w-full text-sm"
         />
-        <button
-          type="button"
+        <Button
           disabled={taskText.trim().length < 2}
           onClick={onDone}
-          className="ds-btn ds-btn--accent mt-3 w-full text-xs disabled:opacity-40"
+          className="mt-3 w-full text-xs disabled:opacity-40"
+          size="sm"
         >
           Klart för nu
-        </button>
+        </Button>
       </>
     ) : (
       <>
@@ -84,14 +85,14 @@ export function ParalysPanel({ onDone, embedded = false, simplified = false }: P
           className="input-glass w-full text-sm"
         />
         {error && <p className="mt-2 text-xs text-danger">{error}</p>}
-        <button
-          type="button"
+        <Button
           disabled={loading}
           onClick={() => loadSteps(false)}
-          className="ds-btn ds-btn--accent mt-3 w-full text-xs disabled:opacity-40"
+          className="mt-3 w-full text-xs disabled:opacity-40"
+          size="sm"
         >
           {loading ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : 'Hjälp mig börja'}
-        </button>
+        </Button>
       </>
     );
 
@@ -138,26 +139,16 @@ export function ParalysPanel({ onDone, embedded = false, simplified = false }: P
       )}
       <div className="flex flex-col gap-2">
         {hasMore && (
-          <button
-            type="button"
-            disabled={loading}
-            onClick={() => setCursor((c) => c + BATCH_SIZE)}
-            className="ds-btn ds-btn--ghost text-xs"
-          >
+          <Button variant="ghost" disabled={loading} onClick={() => setCursor((c) => c + BATCH_SIZE)} size="sm">
             Nästa steg i listan
-          </button>
+          </Button>
         )}
-        <button
-          type="button"
-          disabled={loading}
-          onClick={() => loadSteps(true)}
-          className="ds-btn ds-btn--secondary text-xs"
-        >
+        <Button variant="secondary" disabled={loading} onClick={() => loadSteps(true)} size="sm">
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Ge mig 3 till'}
-        </button>
-        <button type="button" onClick={onDone} className="ds-btn ds-btn--success text-xs">
+        </Button>
+        <Button variant="success" onClick={onDone} size="sm">
           Klar
-        </button>
+        </Button>
       </div>
     </>
   );

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Fingerprint, Loader2 } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { authenticateAppUnlock } from './appUnlock';
 import { markAppUnlockedThisSession } from './appUnlockPrefs';
@@ -33,15 +34,14 @@ export function FingerprintUnlockPanel({ compact = false, autoTry = false, onSuc
 
   const body = (
     <>
-      <button
-        type="button"
-        className="ds-btn ds-btn--accent flex w-full items-center justify-center gap-2"
+      <Button
+        className="flex w-full items-center justify-center gap-2"
         disabled={pending}
         onClick={() => void tryUnlock()}
       >
         {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Fingerprint className="h-4 w-4" />}
         {pending ? 'Verifierar…' : 'Lås upp med fingeravtryck'}
-      </button>
+      </Button>
       {!compact && (
         <p className="mt-3 text-center text-xs text-text-dim">
           Google-kontot är redan inloggat — fingeravtryck verifierar bara att det är du.

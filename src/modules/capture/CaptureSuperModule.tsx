@@ -1,5 +1,6 @@
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
 import { CapturePanel } from './CapturePanel';
@@ -117,13 +118,9 @@ export function CaptureSuperModule({
         </div>
         {variant === 'hem-capture' && (
           <div className="mb-2 flex justify-end">
-            <button
-              type="button"
-              className="ds-btn ds-btn--ghost text-xs text-text-dim"
-              onClick={() => setShowCapturePicker(true)}
-            >
+            <Button variant="ghost" size="sm" className="text-text-dim" onClick={() => setShowCapturePicker(true)}>
               Byt ingång
-            </button>
+            </Button>
           </div>
         )}
         <CapturePanel

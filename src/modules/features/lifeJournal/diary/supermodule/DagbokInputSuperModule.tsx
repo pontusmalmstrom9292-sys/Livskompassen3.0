@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { ChameleonInputShell } from '@/core/ui/ChameleonInputShell';
 import { useCapacityScore } from '@/core/store/useCapacityGate';
@@ -139,13 +140,15 @@ export function DagbokInputSuperModule({
             onChange={setActiveMode}
             hiddenModes={lowCapacity ? ['arkiv'] : undefined}
           />
-          <Link
+          <ButtonLink
             to="/hjartat?tab=speglar"
-            className="ds-btn ds-btn--secondary text-xs shadow-sm transition-transform hover:scale-105"
+            variant="secondary"
+            size="sm"
+            className="shadow-sm transition-transform hover:scale-105"
             title="Låt AI validera och spegla dina senaste tankar"
           >
             Känslospegeln
-          </Link>
+          </ButtonLink>
         </div>
       ) : (
         <div className="mb-3">

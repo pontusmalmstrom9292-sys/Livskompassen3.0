@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import { BarChart3 } from 'lucide-react';
+import { ButtonLink } from '@/design-system';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 
 /** Efter logg eller vid mönster-nyckelord — länk till Mönster (ingen auto-analys). */
@@ -17,9 +17,9 @@ export function VaultPatternHandoff({ className = '' }: { className?: string }) 
       <p className="journal-handoff__body">
         När du har flera poster kan Mönster-fliken visa upprepningar över tid. Inget körs automatiskt.
       </p>
-      <Link to={vaultDrawerPath('monster')} className="journal-handoff__cta ds-btn ds-btn--ghost">
+      <ButtonLink to={vaultDrawerPath('monster')} variant="ghost" className="journal-handoff__cta">
         Öppna Mönster →
-      </Link>
+      </ButtonLink>
     </aside>
   );
 }

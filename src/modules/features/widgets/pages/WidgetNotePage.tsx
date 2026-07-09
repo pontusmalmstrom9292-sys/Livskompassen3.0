@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Button, ButtonLink } from '@/design-system';
 import { Loader2, Lock } from 'lucide-react';
 import { AuthGate } from '@/core/auth/AuthGate';
 import { useStore } from '@/core/store';
@@ -61,12 +61,12 @@ function WidgetNoteInner() {
             {doneSilo === 'bevis' ? <Lock className="h-4 w-4" /> : null}
             {doneCopy.message}
           </p>
-          <Link to={doneCopy.linkTo} className="ds-btn ds-btn--accent mt-3 inline-flex text-xs">
+          <ButtonLink to={doneCopy.linkTo} variant="accent" className="mt-3 inline-flex text-xs">
             {doneCopy.linkLabel}
-          </Link>
-          <button type="button" className="ds-btn ds-btn--ghost mt-2 w-full text-xs" onClick={resetForm}>
+          </ButtonLink>
+          <Button type="button" variant="ghost" className="mt-2 w-full text-xs" onClick={resetForm}>
             Ny anteckning
-          </button>
+          </Button>
         </div>
       ) : (
         <div className="space-y-4">
@@ -74,14 +74,15 @@ function WidgetNoteInner() {
           {silo === 'barn' ? (
             <div className="flex gap-2">
               {CHILD_ALIASES.map((alias) => (
-                <button
+                <Button
                   key={alias}
                   type="button"
-                  className={child === alias ? 'ds-btn ds-btn--accent flex-1 text-xs' : 'ds-btn ds-btn--ghost flex-1 text-xs'}
+                  variant={child === alias ? 'accent' : 'ghost'}
+                  className="flex-1 text-xs"
                   onClick={() => setChild(alias)}
                 >
                   {alias}
-                </button>
+                </Button>
               ))}
             </div>
           ) : null}
@@ -92,14 +93,15 @@ function WidgetNoteInner() {
             className="input-glass w-full text-sm"
             placeholder="Fakta, observation eller tanke…"
           />
-          <button
+          <Button
             type="button"
+            variant="accent"
             disabled={saving || !text.trim()}
-            className="ds-btn ds-btn--accent w-full"
+            className="w-full"
             onClick={() => void handleSave()}
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : widgetSiloSaveLabel(silo)}
-          </button>
+          </Button>
           {error && <p className="text-sm text-danger">{error}</p>}
         </div>
       )}

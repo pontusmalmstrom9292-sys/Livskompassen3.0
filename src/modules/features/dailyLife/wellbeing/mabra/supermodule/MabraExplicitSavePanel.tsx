@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from '@/design-system';
 import { VIT_VAULT_TAB_LABEL } from '@/core/copy/valvNavCopy';
 import { useNavigate } from 'react-router-dom';
 import { ensureVitHub, saveVitEntry } from '@/core/firebase/vitHubFirestore';
@@ -109,22 +110,22 @@ export function MabraExplicitSavePanel({
         <p className="mt-3 text-xs text-text-dim">{COPY.login}</p>
       ) : (
         <div className="mt-4 flex flex-col gap-2 sm:flex-row">
-          <button
-            type="button"
+          <Button
+            variant="secondary"
+            className="flex-1 text-sm disabled:opacity-50"
             disabled={!canSave || savingVit || vitSaved}
             onClick={() => void handleSaveToVit()}
-            className="ds-btn ds-btn--secondary flex-1 text-sm disabled:opacity-50"
           >
             {savingVit ? 'Sparar…' : vitSaved ? COPY.vitSaved : COPY.vit}
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
+            variant="ghost"
+            className="flex-1 text-sm disabled:opacity-50"
             disabled={!canSave}
             onClick={handleBridgeToDagbok}
-            className="ds-btn ds-btn--ghost flex-1 text-sm disabled:opacity-50"
           >
             {COPY.dagbok}
-          </button>
+          </Button>
         </div>
       )}
 

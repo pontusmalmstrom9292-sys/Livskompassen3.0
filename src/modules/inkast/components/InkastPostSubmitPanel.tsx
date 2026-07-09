@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { AlertCircle, CheckCircle2, Clock, Lock, Shield } from 'lucide-react';
 import { clsx } from 'clsx';
+import { Button } from '@/design-system';
 import {
   COLLECTION_LABELS,
   formatInkastResultMessage,
@@ -90,9 +91,9 @@ function OutcomeBody({
         <p className="text-xs text-text-muted">{detail}</p>
         {showQueueCta &&
           (queueHintAsButton && onOpenReviewQueue ? (
-            <button type="button" className="ds-btn ds-btn--secondary text-xs" onClick={onOpenReviewQueue}>
+            <Button variant="secondary" size="sm" onClick={onOpenReviewQueue}>
               Öppna granskningskö
-            </button>
+            </Button>
           ) : (
             <Link
               to={VALV_SAMLA_GRANSKA_LINK}

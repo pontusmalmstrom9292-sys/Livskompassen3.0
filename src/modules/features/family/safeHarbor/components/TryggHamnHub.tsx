@@ -1,5 +1,6 @@
 import { memo, useState, useEffect } from 'react';
-import { Link, Navigate, useSearchParams } from 'react-router-dom';
+import { Navigate, useSearchParams } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
@@ -68,9 +69,9 @@ function HamnBiffWorkflow({
         <p className="mt-2 text-xs text-text-muted" role="note">
           {HAMN_BRUSFILTER_HINT}
         </p>
-        <Link to={hjartatTabHref('speglar')} className="ds-btn ds-btn--accent mt-3 inline-flex text-xs">
+        <ButtonLink to={hjartatTabHref('speglar')} variant="accent" className="mt-3 inline-flex text-xs">
           Öppna Speglar
-        </Link>
+        </ButtonLink>
       </CalmCollapsible>
 
       <CalmCollapsible title="Kompassråd" meta="Dygnsrytm" defaultOpen={false} glow="blue">
@@ -159,9 +160,9 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
           <p className="text-text-dim">
             Akut känslovalidering (ACT) och bevisjämförelse — innan du formulerar svar här.
           </p>
-          <Link to={hjartatTabHref('speglar')} className="ds-btn ds-btn--accent mt-3 inline-flex text-xs">
+          <ButtonLink to={hjartatTabHref('speglar')} variant="accent" className="mt-3 inline-flex text-xs">
             Öppna Speglar
-          </Link>
+          </ButtonLink>
         </BentoCard>
       )}
 
@@ -170,9 +171,9 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
           <p className="text-text-dim">
             Barnfokus och minnesankare ligger i Familjen — separat från ex-kommunikation.
           </p>
-          <Link to="/familjen?tab=reflektion" className="ds-btn ds-btn--accent mt-3 inline-flex text-xs">
+          <ButtonLink to="/familjen?tab=reflektion" variant="accent" className="mt-3 inline-flex text-xs">
             Öppna Familjen
-          </Link>
+          </ButtonLink>
         </BentoCard>
       )}
     </div>

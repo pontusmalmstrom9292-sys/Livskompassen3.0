@@ -1,6 +1,7 @@
 import { BookOpen, Brain, HeartHandshake, Shield, Sparkles, X } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { Button } from '@/design-system';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -83,13 +84,13 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
       {tab === 'idag' && (
         <>
           <DrogfrihetCounterBadge uid={user?.uid} />
-          <button
-            type="button"
+          <Button
+            variant="secondary"
             onClick={() => setSosOpen(true)}
-            className="ds-btn ds-btn--secondary w-full text-sm uppercase tracking-[0.14em]"
+            className="w-full text-sm uppercase tracking-[0.14em]"
           >
             SOS — sug nu
-          </button>
+          </Button>
           <BentoCard title="Idag" icon={<HeartHandshake className="h-4 w-4" />} glow="green">
             <div className="home-module-panel__question-box">
               <p className="text-base text-accent">{idag.card.text_sv}</p>
@@ -137,15 +138,15 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
               <p className="mt-2 text-xs text-text-dim">Inget fel svar — ett ord räcker.</p>
             </div>
             <div className="mt-4 flex gap-2">
-              <button
-                type="button"
-                className="ds-btn ds-btn--secondary flex-1"
+              <Button
+                variant="secondary"
+                className="flex-1"
                 onClick={() =>
                   setReflectionIndex((i) => (i + 1) % DROGFRIHET_CARDS.length)
                 }
               >
                 Nästa kort
-              </button>
+              </Button>
             </div>
             <p className="mt-3 text-xs text-text-muted">
               {DROGFRIHET_CARDS.length} kort i poolen — inga poäng, ingen missad dag.
@@ -163,13 +164,13 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
                   KBT — granska en tanke steg för steg. Sparas i Vit-zonen, inte Valv.
                 </p>
               </div>
-              <button
-                type="button"
+              <Button
+                variant="ghost"
                 onClick={() => setRealityCheckOpen(true)}
-                className="ds-btn ds-btn--ghost shrink-0 text-xs uppercase tracking-[0.14em]"
+                className="shrink-0 text-xs uppercase tracking-[0.14em]"
               >
                 Öppna
-              </button>
+              </Button>
             </div>
           </section>
         </>

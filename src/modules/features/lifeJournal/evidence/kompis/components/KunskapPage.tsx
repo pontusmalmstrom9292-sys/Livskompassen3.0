@@ -10,6 +10,7 @@ import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
 import { Compass, RefreshCw, Sparkles } from 'lucide-react';
+import { Button } from '@/design-system';
 import { useStore } from '@/core/store';
 import { getKampsparEntries, subscribeKampsparEntries } from '@/core/firebase/firestore';
 import type { KampsparEntryRow } from '@/core/types/firestore';
@@ -216,15 +217,17 @@ export function KunskapPage({
             {entriesError && (
               <div className="mb-3 flex flex-wrap items-center gap-3">
                 <p className="text-sm text-amber-400/90">{entriesError}</p>
-                <button
+                <Button
                   type="button"
+                  variant="secondary"
+                  size="sm"
+                  className="inline-flex items-center gap-1.5"
                   onClick={() => reloadEntries()}
                   disabled={loadingEntries}
-                  className="ds-btn ds-btn--secondary inline-flex items-center gap-1.5 text-xs"
                 >
                   <RefreshCw className="h-3 w-3" aria-hidden />
                   Försök igen
-                </button>
+                </Button>
               </div>
             )}
             <div ref={tidshjulSectionRef}>

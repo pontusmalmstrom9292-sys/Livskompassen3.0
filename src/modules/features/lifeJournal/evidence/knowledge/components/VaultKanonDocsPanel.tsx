@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { BookOpen, ScrollText } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import {
@@ -73,13 +73,15 @@ export function VaultKanonDocsPanel() {
           </div>
         </div>
 
-        <Link
+        <ButtonLink
           to={vaultDrawerPath('kunskapsbank')}
-          className="ds-btn ds-btn--ghost mb-4 inline-flex items-center gap-2 text-xs"
+          variant="ghost"
+          size="sm"
+          className="mb-4 inline-flex items-center gap-2"
         >
           <BookOpen className="h-3 w-3" />
           Till Kunskapsbank
-        </Link>
+        </ButtonLink>
 
         <KanonMarkdown content={VALV_KANON_ROUTING_MD} />
       </section>

@@ -1,4 +1,5 @@
 import './barnporten.css';
+import { Button } from '@/design-system';
 import { useEffect, useState, lazy, Suspense } from 'react';
 import { Heart, MessageCircle, Smile, Lock, AlertCircle, Loader2 } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
@@ -188,10 +189,11 @@ export function BarnportenPage() {
         )}
       </div>
 
-      <button
+      <Button
         type="button"
+        variant="secondary"
         disabled={saving}
-        className="ds-btn ds-btn--secondary mt-4 flex w-full items-center justify-center gap-2 text-sm"
+        className="mt-4 flex w-full items-center justify-center gap-2 text-sm"
         onClick={() => {
           const text = window.prompt('Allvarligt — behöver prata med pappa:', '') ?? '';
           if (text.trim()) void postLog('message', text.trim(), 'allvarligt', true);
@@ -199,7 +201,7 @@ export function BarnportenPage() {
       >
         <AlertCircle className="h-4 w-4" aria-hidden />
         Allvarligt / trygg vuxen
-      </button>
+      </Button>
 
       {childBracket !== 'toddler_preschool' && (
         <>

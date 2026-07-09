@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Loader2, Plus, Shield } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { saveVaultLog } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
@@ -203,14 +204,15 @@ export function KampsparIngestForm({ onSaved, compact = false }: Props) {
           </span>
         </label>
 
-        <button
+        <Button
           type="submit"
+          variant="success"
+          className="flex items-center gap-2"
           disabled={loading || !title.trim() || !content.trim() || !user}
-          className="ds-btn ds-btn--success flex items-center gap-2"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
           Spara i Minne
-        </button>
+        </Button>
       </form>
 
       {!user && <p className="mt-3 text-sm text-danger">Logga in för att spara i Minne.</p>}

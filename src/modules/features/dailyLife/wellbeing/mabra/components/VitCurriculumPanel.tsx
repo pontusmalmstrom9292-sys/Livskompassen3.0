@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Button, ButtonLink } from '@/design-system';
 import { Sparkles } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { CURRICULUMS, type VitCurriculum, type CurriculumExercise } from '../content/curriculumCatalog';
@@ -46,10 +46,10 @@ function ChapterExerciseButtons({
           ))}
         </select>
       </label>
-      <button
-        type="button"
+      <Button
+        variant="ghost"
+        className="w-full text-xs disabled:opacity-40"
         disabled={!picked}
-        className="ds-btn ds-btn--ghost w-full text-xs disabled:opacity-40"
         onClick={() => {
           if (!picked) return;
           if (picked.kind === 'reflection') onOpenReflection(picked.bankId);
@@ -57,7 +57,7 @@ function ChapterExerciseButtons({
         }}
       >
         Öppna övning
-      </button>
+      </Button>
     </div>
   );
 }
@@ -101,9 +101,9 @@ function CurriculumDetail({
           {curriculum.broLinks && curriculum.broLinks.length > 0 && (
             <div className="flex flex-wrap gap-2 border-t border-border-strong pt-4">
               {curriculum.broLinks.map((link) => (
-                <Link key={link.route} to={link.route} className="ds-btn ds-btn--ghost text-xs">
+                <ButtonLink key={link.route} to={link.route} variant="ghost" className="text-xs">
                   {link.label}
-                </Link>
+                </ButtonLink>
               ))}
             </div>
           )}
@@ -150,14 +150,14 @@ export function VitCurriculumPanel({ onOpenReflection, onOpenPlay }: Props) {
           ))}
         </select>
       </label>
-      <button
-        type="button"
+      <Button
+        variant="secondary"
+        className="mt-3 w-full text-sm disabled:opacity-40"
         disabled={!pendingId}
-        className="ds-btn ds-btn--secondary mt-3 w-full text-sm disabled:opacity-40"
         onClick={() => setSelectedId(pendingId)}
       >
         Öppna kurs
-      </button>
+      </Button>
       <p className="mt-3 flex items-center gap-2 text-[10px] text-text-dim">
         <Sparkles className="h-3 w-3" aria-hidden />
         FACT från Kunskap-seed — övningar från MåBra-bank (U6).

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Button } from '@/design-system';
 import { MB_PLAY_54321_STEPS } from '../content/grounding54321Play';
 
 type Props = {
@@ -44,12 +45,12 @@ export function GroundingExercise({ onComplete, onExit }: Props) {
         Steg {stepIndex + 1} av {MB_PLAY_54321_STEPS.length}
       </p>
       <div className="flex w-full max-w-sm flex-col gap-2">
-        <button type="button" onClick={handleNext} className="ds-btn ds-btn--secondary">
+        <Button variant="secondary" onClick={handleNext}>
           {isLast ? 'Klar' : 'Gå vidare'}
-        </button>
-        <button type="button" onClick={onExit} className="ds-btn ds-btn--ghost text-sm">
+        </Button>
+        <Button variant="ghost" className="text-sm" onClick={onExit}>
           Avsluta nu
-        </button>
+        </Button>
       </div>
     </div>
   );

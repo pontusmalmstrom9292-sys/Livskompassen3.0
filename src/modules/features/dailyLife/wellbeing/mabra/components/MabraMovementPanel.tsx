@@ -1,5 +1,6 @@
 import { Activity } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   MOVEMENT_PROGRAMS,
@@ -101,9 +102,9 @@ export function MabraMovementPanel({ uid, onComplete }: Props) {
       <BentoCard title={COPY.eyebrow} icon={<Activity className="h-4 w-4" />} glow="green">
         <p className="text-base text-success">{COPY.doneTitle}</p>
         <p className="mt-2 text-sm text-text-muted">{COPY.doneLead}</p>
-        <button
-          type="button"
-          className="ds-btn ds-btn--ghost mt-4 w-full text-sm"
+        <Button
+          variant="ghost"
+          className="mt-4 w-full text-sm"
           onClick={() => {
             setActive(null);
             resetTimer();
@@ -111,7 +112,7 @@ export function MabraMovementPanel({ uid, onComplete }: Props) {
           }}
         >
           {COPY.pickAnother}
-        </button>
+        </Button>
       </BentoCard>
     );
   }
@@ -124,16 +125,12 @@ export function MabraMovementPanel({ uid, onComplete }: Props) {
           {formatRemaining(remainingSec)}
         </p>
         <div className="mt-4 flex flex-col gap-2">
-          <button
-            type="button"
-            className="ds-btn ds-btn--secondary w-full"
-            onClick={() => setPaused((p) => !p)}
-          >
+          <Button variant="secondary" className="w-full" onClick={() => setPaused((p) => !p)}>
             {paused ? COPY.resume : COPY.pause}
-          </button>
-          <button type="button" className="ds-btn ds-btn--ghost w-full text-sm" onClick={finish}>
+          </Button>
+          <Button variant="ghost" className="w-full text-sm" onClick={finish}>
             {COPY.done}
-          </button>
+          </Button>
         </div>
       </BentoCard>
     );

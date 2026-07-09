@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { Button } from '@/design-system';
 import {
   BREATH_PHASE_SECONDS,
   BREATHING_VARIANT_COPY,
@@ -127,9 +128,9 @@ export function BreathingExercise({ durationMinutes, variant, onComplete, onExit
       <p className="text-sm text-text-muted">
         {isPanic ? `Tid kvar: ${secondsLeft}s` : `Cykel ${cycleCount + 1} · ca ${secondsLeft}s kvar`}
       </p>
-      <button type="button" onClick={handleExit} className="ds-btn ds-btn--ghost text-sm">
+      <Button variant="ghost" className="text-sm" onClick={handleExit}>
         Avsluta nu
-      </button>
+      </Button>
     </div>
   );
 }

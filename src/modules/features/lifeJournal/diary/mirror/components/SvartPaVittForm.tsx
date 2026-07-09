@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Loader2, Lock } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
 import { saveVaultLog } from '@/core/firebase/firestore';
@@ -62,15 +63,16 @@ export function SvartPaVittForm() {
           />
         </div>
       </div>
-      <button
+      <Button
         type="button"
+        variant="accent"
+        className="mt-3 flex items-center gap-2"
         onClick={() => void handleLock()}
         disabled={loading || !user || !theirVersion.trim() || !myReality.trim()}
-        className="ds-btn ds-btn--accent mt-3 flex items-center gap-2 disabled:opacity-50"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
         Lås bevis mot gaslighting
-      </button>
+      </Button>
       {error && <p className="mt-2 text-sm text-text-muted">{error}</p>}
       {saved && (
         <p className="mt-2 text-xs text-success">

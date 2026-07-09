@@ -1,5 +1,6 @@
 import { Compass } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   buildWeeklyAvailableTasks,
@@ -255,35 +256,35 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
             <p className="mt-2 text-sm text-text-muted">{currentTask.rule_sv}</p>
           </div>
           <div className="flex flex-col gap-2">
-            <button
-              type="button"
+            <Button
+              variant="secondary"
+              className="w-full"
               disabled={saving}
               onClick={() => void handleComplete()}
-              className="ds-btn ds-btn--secondary w-full"
             >
               {COPY.complete}
-            </button>
-            <button
-              type="button"
+            </Button>
+            <Button
+              variant="ghost"
+              className="text-sm"
               disabled={saving || skipCount >= EXPLORE_MAX_SKIPS}
               onClick={handleSkip}
-              className="ds-btn ds-btn--ghost text-sm"
             >
               {skipCount >= EXPLORE_MAX_SKIPS ? COPY.skipLimit : COPY.skip}
-            </button>
+            </Button>
           </div>
         </div>
       ) : (
         <div className="space-y-3">
           <p className="text-sm text-text-muted">{COPY.empty}</p>
-          <button
-            type="button"
+          <Button
+            variant="secondary"
+            className="w-full"
             disabled={saving}
             onClick={() => void handleRegenerate()}
-            className="ds-btn ds-btn--secondary w-full"
           >
             {COPY.generate}
-          </button>
+          </Button>
         </div>
       )}
     </BentoCard>

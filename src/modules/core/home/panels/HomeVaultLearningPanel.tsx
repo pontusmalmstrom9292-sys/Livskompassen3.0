@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Check, Loader2, RefreshCw, Sparkles } from 'lucide-react';
+import { Button } from '@/design-system';
 import { useStore } from '../../store';
 import { getKampsparEntries } from '../../firebase/firestore';
 import { callKnowledgeVault } from '@/features/lifeJournal/evidence/kompis/api/knowledgeVaultService';
@@ -111,7 +112,7 @@ export function HomeVaultLearningPanel({ mode, onSaved }: Props) {
   }
 
   return (
-    <RAGErrorBoundary fallbackTitle="Kunde inte hämta fråga från Kunskapsvalvet">
+    <RAGErrorBoundary fallbackTitle="Kunde inte hämta fråga från Kunskapsvalvet" glow="gold">
       <div className="home-module-panel">
         <div className="home-module-panel__question-box">
           <p className="text-[10px] uppercase tracking-widest text-text-dim">
@@ -161,24 +162,24 @@ export function HomeVaultLearningPanel({ mode, onSaved }: Props) {
         )}
 
         <div className="mt-4 flex flex-wrap gap-2">
-          <button
-            type="button"
+          <Button
+            variant="success"
             disabled={saving || answer.trim().length < 2}
             onClick={handleSave}
-            className="ds-btn ds-btn--success inline-flex items-center gap-2"
+            className="inline-flex items-center gap-2"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
             Uppdatera valvet
-          </button>
-          <button
-            type="button"
+          </Button>
+          <Button
+            variant="ghost"
             disabled={loadingQ}
             onClick={loadQuestion}
-            className="ds-btn ds-btn--ghost inline-flex items-center gap-2"
+            className="inline-flex items-center gap-2"
           >
             <RefreshCw className="h-4 w-4" />
             Ny fråga
-          </button>
+          </Button>
         </div>
       </div>
     </RAGErrorBoundary>

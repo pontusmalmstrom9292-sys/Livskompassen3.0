@@ -7,6 +7,7 @@ import { ExecutiveFocusCard } from './executive/cards/ExecutiveFocusCard';
 import { ExecutiveLivsloggCard } from './executive/cards/ExecutiveLivsloggCard';
 import { ExecutiveHomeStagger, ExecutiveHomeStaggerItem } from './executive/ExecutiveHomeStagger';
 import { clsx } from 'clsx';
+import { Button } from '@/design-system';
 import { saveCheckIn, getRecentCheckIns } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
 import { CalmCollapsible } from '../ui/CalmCollapsible';
@@ -252,22 +253,21 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
             }}
           />
           <div className="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              className="ds-btn ds-btn--accent text-[10px] font-semibold uppercase tracking-wider"
+            <Button
+              className="text-[10px] font-semibold uppercase tracking-wider"
               disabled={saving}
               onClick={() => void handleAnchorSave()}
             >
               {saving ? 'Sparar …' : 'Spara ankare'}
-            </button>
+            </Button>
             {anchor.trim() ? (
-              <button
-                type="button"
-                className="ds-btn ds-btn--ghost text-[10px] font-semibold uppercase tracking-wider"
+              <Button
+                variant="ghost"
+                className="text-[10px] font-semibold uppercase tracking-wider"
                 onClick={() => setIsEditing(false)}
               >
                 Avbryt
-              </button>
+              </Button>
             ) : null}
             {error ? <p className="text-xs text-danger">{error}</p> : null}
           </div>

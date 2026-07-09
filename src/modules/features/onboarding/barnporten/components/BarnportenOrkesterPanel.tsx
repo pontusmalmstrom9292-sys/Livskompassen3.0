@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { BARNPORTEN_AGENTS } from '../constants/barnportenAgents';
 
 /** Förälder — barn-Orkester (länk till Valv, ingen cross-RAG). */
@@ -13,9 +13,9 @@ export function BarnportenOrkesterPanel() {
           </li>
         ))}
       </ul>
-      <Link to="/valvet?vaultTab=orkester" className="ds-btn ds-btn--ghost mt-3 inline-flex text-xs">
+      <ButtonLink to="/valvet?vaultTab=orkester" variant="ghost" className="mt-3 inline-flex text-xs">
         Öppna meddelande-analys i arkiv
-      </Link>
+      </ButtonLink>
     </div>
   );
 }

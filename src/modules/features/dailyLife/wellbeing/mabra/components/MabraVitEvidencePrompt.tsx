@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Button, ButtonLink } from '@/design-system';
 import { Loader2, Shield } from 'lucide-react';
 import { saveVaultLog } from '@/core/firebase/firestore';
 import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
@@ -40,12 +40,12 @@ export function MabraVitEvidencePrompt({ userId, vitEntryId, summary, bankId, on
     return (
       <div className="mt-4 space-y-2 rounded-xl border border-success/30 bg-success/5 px-4 py-3">
         <p className="text-sm text-success">Sparat som bevis med länk till Vit-posten.</p>
-        <Link to="/valvet" className="ds-btn ds-btn--ghost text-sm">
+        <ButtonLink to="/valvet" variant="ghost" className="text-sm">
           Öppna {VAULT_UI_NAME}
-        </Link>
-        <button type="button" onClick={onDone} className="ds-btn ds-btn--secondary mt-2 text-sm">
+        </ButtonLink>
+        <Button variant="secondary" className="mt-2 text-sm" onClick={onDone}>
           Klar
-        </button>
+        </Button>
       </div>
     );
   }
@@ -59,17 +59,17 @@ export function MabraVitEvidencePrompt({ userId, vitEntryId, summary, bankId, on
       <p className="text-xs text-text-dim">Inget sparas automatiskt — endast om du väljer explicit.</p>
       {error ? <p className="text-sm text-danger">{error}</p> : null}
       <div className="flex flex-col gap-2 sm:flex-row">
-        <button
-          type="button"
+        <Button
+          variant="secondary"
+          className="text-sm"
           disabled={saving}
           onClick={() => void handleSave()}
-          className="ds-btn ds-btn--secondary text-sm"
         >
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Spara som bevis'}
-        </button>
-        <button type="button" onClick={onDone} className="ds-btn ds-btn--ghost text-sm">
+        </Button>
+        <Button variant="ghost" className="text-sm" onClick={onDone}>
           Nej tack
-        </button>
+        </Button>
       </div>
     </div>
   );

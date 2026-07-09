@@ -1,7 +1,8 @@
-import { Link } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { ExternalLink, Smartphone } from 'lucide-react';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { BarnportenQrPanel } from './BarnportenQrPanel';
 import { BarnportenInboxPanel } from './BarnportenInboxPanel';
 import { BarnportenOrkesterPanel } from './BarnportenOrkesterPanel';
@@ -16,7 +17,12 @@ type Props = {
  */
 export function BarnportenParentHubPanel({ activeChild }: Props) {
   return (
-    <div className="familjen-tab-surface space-y-4">
+    <HubErrorBoundary
+      title="Barnporten kunde inte laddas"
+      glow="blue"
+      logTag="BarnportenParentHubPanel"
+    >
+      <div className="familjen-tab-surface space-y-4">
       <div className="flex justify-end">
         <ModuleHelpFromRegistry moduleId="barnporten" />
       </div>
@@ -29,13 +35,14 @@ export function BarnportenParentHubPanel({ activeChild }: Props) {
               Barnet öppnar <strong className="font-normal text-text">/barnporten</strong> på sin
               enhet — separat manifest, ingen Valv-exponering.
             </p>
-            <Link
+            <ButtonLink
               to="/barnporten"
-              className="ds-btn ds-btn--accent mt-3 inline-flex items-center gap-2 text-xs"
+              variant="accent"
+              className="mt-3 inline-flex items-center gap-2 text-xs"
             >
               <ExternalLink className="h-3.5 w-3.5" aria-hidden />
               Öppna Barnporten (föräldraläge)
-            </Link>
+            </ButtonLink>
           </div>
         </div>
       </BentoCard>
@@ -44,6 +51,7 @@ export function BarnportenParentHubPanel({ activeChild }: Props) {
       <p className="text-xs text-text-dim">Aktivt barn i hubben: {activeChild}</p>
       <BarnportenInboxPanel />
       <BarnportenOrkesterPanel />
-    </div>
+      </div>
+    </HubErrorBoundary>
   );
 }

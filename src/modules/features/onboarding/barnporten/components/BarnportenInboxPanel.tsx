@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from '@/design-system';
 import { ArrowRight, Shield } from 'lucide-react';
 import { collection, onSnapshot, query, where, limit } from 'firebase/firestore';
 import { db } from '@/core/firebase/firestore';
@@ -81,13 +82,14 @@ export function BarnportenInboxPanel() {
             {row.visibility === 'vault_candidate' && (
               <p className="text-xs font-medium text-accent">Granska i Valv?</p>
             )}
-            <button
+            <Button
               type="button"
-              className="ds-btn ds-btn--secondary text-xs"
+              variant="secondary"
+              className="text-xs"
               onClick={() => setPromoteId(row.id)}
             >
               Granska i arkiv
-            </button>
+            </Button>
           </div>
 
           <div className="hidden items-center justify-center text-accent md:flex" aria-hidden>
@@ -116,13 +118,14 @@ export function BarnportenInboxPanel() {
                 </Link>
               </>
             ) : (
-              <button
+              <Button
                 type="button"
-                className="ds-btn ds-btn--accent text-xs"
+                variant="accent"
+                className="text-xs"
                 onClick={() => setPromoteId(row.id)}
               >
                 Flytta till Valv (HITL)
-              </button>
+              </Button>
             )}
           </div>
         </div>
