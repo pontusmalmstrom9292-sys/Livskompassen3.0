@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Button } from '@/design-system';
 import { MapPin, PinOff, Plus } from 'lucide-react';
 import { clsx } from 'clsx';
 import {
@@ -98,14 +99,16 @@ export function PlaneringModulePinPanel({ title, content, onPinned }: Props) {
             Välj skärm och form — Hem, Barnfokus, Valv, Ekonomi m.fl.
           </p>
         </div>
-        <button
+        <Button
           type="button"
-          className={clsx('ds-btn ds-btn--ghost text-xs shrink-0', open && 'text-accent')}
+          variant="ghost"
+          size="sm"
+          className={clsx('shrink-0', open && 'text-accent')}
           onClick={() => setOpen((v) => !v)}
         >
           <Plus className="h-3.5 w-3.5" />
           {open ? 'Stäng' : 'Fäst …'}
-        </button>
+        </Button>
       </div>
 
       {open ? (
@@ -119,9 +122,9 @@ export function PlaneringModulePinPanel({ title, content, onPinned }: Props) {
             onContextKeyChange={setContextKey}
             compact
           />
-          <button type="button" className="ds-btn ds-btn--accent w-full text-sm" onClick={handlePin}>
+          <Button type="button" variant="accent" size="sm" className="w-full" onClick={handlePin}>
             Fäst modul här
-          </button>
+          </Button>
         </div>
       ) : null}
 
@@ -135,14 +138,16 @@ export function PlaneringModulePinPanel({ title, content, onPinned }: Props) {
               <span className="text-text-muted">
                 {planeringPinTargetLabel(pin.targetId, pin.contextKey)} · {pin.layout}
               </span>
-              <button
+              <Button
                 type="button"
-                className="ds-btn ds-btn--ghost shrink-0 px-2 py-1 text-[10px]"
+                variant="ghost"
+                size="sm"
+                className="shrink-0 px-2 py-1 text-[10px]"
                 onClick={() => handleRemove(pin.id)}
               >
                 <PinOff className="h-3 w-3" />
                 Loss
-              </button>
+              </Button>
             </li>
           ))}
         </ul>

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Button, ButtonLink } from '@/design-system';
 import { CalendarDays, ChevronRight, FileText, LayoutList, List, Loader2 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -169,19 +169,21 @@ function HomePlaneringPanel() {
         aria-label="Planering-vyer"
       >
         {HOME_TABS.map((t) => (
-          <button
+          <Button
             key={t.id}
             type="button"
             role="tab"
+            variant="ghost"
+            size="sm"
             aria-selected={tab === t.id}
             className={clsx(
-              'ds-btn ds-btn--ghost flex-1 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider',
+              'flex-1 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider',
               tab === t.id && 'border-accent/40 bg-accent/10 text-accent',
             )}
             onClick={() => setTab(t.id)}
           >
             {t.label}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -198,41 +200,43 @@ function HomePlaneringPanel() {
         {tab === 'projekt' ? (
           <div className="space-y-2 py-1">
             <p className="text-xs text-text-muted">Projektlistor, anteckningar och bilder.</p>
-            <Link to="/projekt" className="ds-btn ds-btn--ghost inline-flex text-xs">
+            <ButtonLink to="/projekt" variant="ghost" size="sm" className="inline-flex">
               Öppna Projekt
               <ChevronRight className="ml-1 h-3.5 w-3.5" aria-hidden />
-            </Link>
+            </ButtonLink>
           </div>
         ) : null}
 
         {tab === 'habit' ? (
           <div className="space-y-2 py-1">
             <p className="text-xs text-text-muted">Rutiner och vanor — ett steg i taget.</p>
-            <Link to="/planering?tab=fokus" className="ds-btn ds-btn--ghost inline-flex text-xs">
+            <ButtonLink to="/planering?tab=fokus" variant="ghost" size="sm" className="inline-flex">
               Öppna Fokus
               <ChevronRight className="ml-1 h-3.5 w-3.5" aria-hidden />
-            </Link>
+            </ButtonLink>
           </div>
         ) : null}
 
         {tab === 'makro' ? (
           <div className="space-y-2 py-1">
             <p className="text-xs text-text-muted">Makron och näring — lugnt överblick.</p>
-            <Link to="/vardagen?tab=mabra" className="ds-btn ds-btn--ghost inline-flex text-xs">
+            <ButtonLink to="/vardagen?tab=mabra" variant="ghost" size="sm" className="inline-flex">
               Öppna MåBra
               <ChevronRight className="ml-1 h-3.5 w-3.5" aria-hidden />
-            </Link>
+            </ButtonLink>
           </div>
         ) : null}
       </div>
 
-      <Link
+      <ButtonLink
         to={HOME_SUPERHUB_ROUTES.planeringHub}
-        className="ds-btn ds-btn--ghost mt-3 flex w-full items-center justify-center gap-1 text-xs"
+        variant="ghost"
+        size="sm"
+        className="mt-3 flex w-full items-center justify-center gap-1"
       >
         <LayoutList className="h-3.5 w-3.5" aria-hidden />
         Öppna Planering
-      </Link>
+      </ButtonLink>
     </article>
   );
 }
@@ -253,9 +257,9 @@ function SinglePinnedModule({ pin }: { pin: PlaneringModulePin }) {
         onToggle={() => setExpanded((v) => !v)}
       >
         {pin.content.kind === 'list' ? <PinListBody pin={pin} /> : <PinNoteBody pin={pin} />}
-        <Link to={editLink} className="ds-btn ds-btn--ghost mt-2 inline-flex text-xs">
+        <ButtonLink to={editLink} variant="ghost" size="sm" className="mt-2 inline-flex">
           Redigera i Planering
-        </Link>
+        </ButtonLink>
       </ElongatedModule>
     );
   }
@@ -282,13 +286,15 @@ function SinglePinnedModule({ pin }: { pin: PlaneringModulePin }) {
       className={clsx('pinned-planering-module calm-card', cardClass)}
     >
       {pin.content.kind === 'list' ? <PinListBody pin={pin} /> : <PinNoteBody pin={pin} />}
-      <Link
+      <ButtonLink
         to={editLink}
-        className="ds-btn ds-btn--ghost mt-3 flex w-full items-center justify-center gap-1 text-sm"
+        variant="ghost"
+        size="sm"
+        className="mt-3 flex w-full items-center justify-center gap-1"
       >
         Öppna i Planering
         <ChevronRight className="h-4 w-4" />
-      </Link>
+      </ButtonLink>
     </BentoCard>
   );
 }

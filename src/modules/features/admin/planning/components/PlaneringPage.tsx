@@ -195,32 +195,38 @@ export function PlaneringPage() {
         headerAside={
           <div className="flex items-center gap-2">
             <LivBackLink />
-            <Link
+            <ButtonLink
               to="/planering/input"
-              className="ds-btn ds-btn--ghost shrink-0 p-2"
+              variant="ghost"
+              size="icon"
+              className="shrink-0 p-2"
               title="Snabbinmatning"
               aria-label="Öppna planeringsinmatningshub"
             >
               <PenLine className="h-4 w-4 text-accent/70" />
-            </Link>
-            <Link
+            </ButtonLink>
+            <ButtonLink
               to="/planering/kalender"
-              className="ds-btn ds-btn--ghost shrink-0 p-2"
+              variant="ghost"
+              size="icon"
+              className="shrink-0 p-2"
               title="Veckokalender"
               aria-label="Öppna veckokalender"
             >
               <Calendar className="h-4 w-4 text-accent/70" />
-            </Link>
+            </ButtonLink>
             {!showModulValjare && !isStart && (
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="icon"
+                className="shrink-0 p-2"
                 onClick={() => navigate('/planering?tab=start')}
-                className="ds-btn ds-btn--ghost shrink-0 p-2"
                 title="Välj verktyg"
                 aria-label="Öppna modulväljare"
               >
                 <LayoutGrid className="h-4 w-4 text-accent/70" />
-              </button>
+              </Button>
             )}
           </div>
         }

@@ -1,4 +1,5 @@
 import type { LucideIcon } from 'lucide-react';
+import { Button } from '@/design-system';
 import { CheckCircle2, Circle, Loader2 } from 'lucide-react';
 import { clsx } from 'clsx';
 import {
@@ -69,9 +70,10 @@ export function PlaneringInboxConnectionCard({
       <p className="planering-inbox-connect__note">{meta.syncNote}</p>
 
       {!prepared ? (
-        <button
+        <Button
           type="button"
-          className="ds-btn ds-btn--accent mt-3 w-full disabled:opacity-50"
+          variant="accent"
+          className="mt-3 w-full disabled:opacity-50"
           disabled={disabled}
           onClick={onPrepare}
         >
@@ -83,17 +85,13 @@ export function PlaneringInboxConnectionCard({
           ) : (
             'Förbered med Google-konto'
           )}
-        </button>
+        </Button>
       ) : (
         <div className="mt-3 flex flex-wrap gap-2">
           <span className="planering-inbox-connect__badge">Synk kommer snart</span>
-          <button
-            type="button"
-            className="ds-btn ds-btn--ghost text-xs"
-            onClick={onDisconnect}
-          >
+          <Button type="button" variant="ghost" size="sm" onClick={onDisconnect}>
             Koppla bort
-          </button>
+          </Button>
         </div>
       )}
     </article>
