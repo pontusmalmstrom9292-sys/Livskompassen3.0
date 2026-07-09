@@ -12,6 +12,7 @@ import { updateProjectTitle } from '../api/projectsApi';
 import { ProjectMediaPicker } from './ProjectMediaPicker';
 import { ProjektWidgetSheet } from './ProjektWidgetSheet';
 import type { Project, ProjectBlock, ProjectBlockType } from '../types';
+import { Button, ButtonLink } from '@/design-system';
 
 const BLOCK_LABELS: Record<ProjectBlockType, string> = {
   list: 'Lista',
@@ -196,9 +197,9 @@ export function ProjektDetailPage() {
     return (
       <div className="space-y-3">
         <p className="text-sm text-text-muted">Projektet hittades inte.</p>
-        <Link to="/projekt" className="ds-btn ds-btn--ghost text-sm">
+        <ButtonLink to="/projekt" variant="ghost" className="--ghost text-sm">
           Tillbaka
-        </Link>
+        </ButtonLink>
       </div>
     );
   }
@@ -258,14 +259,9 @@ export function ProjektDetailPage() {
                   className="max-h-56 w-full rounded-lg border border-white/10 object-cover"
                 />
                 {!block.content && (
-                  <button
-                    type="button"
-                    disabled={ocrRunningId === block.id}
-                    onClick={() => void handleOcr(block.id)}
-                    className="ds-btn ds-btn--ghost text-xs"
-                  >
+                  <Button type="button" disabled={ocrRunningId === block.id} onClick={() => void handleOcr(block.id)} variant="ghost" className="--ghost text-xs">
                     {ocrRunningId === block.id ? 'Läser text...' : 'Läs ut text (OCR)'}
-                  </button>
+                  </Button>
                 )}
               </div>
             )}
@@ -278,12 +274,9 @@ export function ProjektDetailPage() {
             )}
             {block.content && <p className="mt-2 whitespace-pre-wrap text-text-muted">{block.content}</p>}
             {block.type === 'task' && block.planningTaskId && (
-              <Link
-                to={`/planering?tab=handling&picked=1&projectId=${projectId}`}
-                className="ds-btn ds-btn--secondary mt-2 inline-flex text-xs"
-              >
+              <ButtonLink to={`/planering?tab=handling&picked=1&projectId=${projectId}`} variant="secondary" className="--secondary mt-2 inline-flex text-xs">
                 Öppna i kanban
-              </Link>
+              </ButtonLink>
             )}
           </div>
         ))}
@@ -292,33 +285,15 @@ export function ProjektDetailPage() {
       <div className="space-y-2 rounded-xl border border-white/10 p-3">
         <p className="text-[10px] uppercase tracking-widest text-text-dim">Lägg till block</p>
         <div className="flex flex-wrap gap-2">
-          <button
-            type="button"
-            disabled={saving}
-            className="ds-btn ds-btn--secondary text-xs"
-            onClick={() => {
-              const title = window.prompt('Rubrik för lista:', 'Min lista');
-              if (title?.trim()) void addBlock('list', title.trim());
-            }}
-          >
+          <Button type="button" disabled={saving} variant="secondary" className="--secondary text-xs" onClick={() => { const title = window.prompt('Rubrik för lista:', 'Min lista'); if (title?.trim()) void addBlock('list', title.trim()); }}>
             Lista
-          </button>
-          <button
-            type="button"
-            disabled={saving}
-            className="ds-btn ds-btn--secondary text-xs"
-            onClick={() => void addBlock('note', 'Anteckning', noteDraft || undefined)}
-          >
+          </Button>
+          <Button type="button" disabled={saving} variant="secondary" className="--secondary text-xs" onClick={() => void addBlock('note', 'Anteckning', noteDraft || undefined)}>
             Anteckning
-          </button>
-          <button
-            type="button"
-            disabled={saving}
-            className="ds-btn ds-btn--secondary text-xs"
-            onClick={() => void addKanbanTask()}
-          >
+          </Button>
+          <Button type="button" disabled={saving} variant="secondary" className="--secondary text-xs" onClick={() => void addKanbanTask()}>
             Uppgift → Handling
-          </button>
+          </Button>
         </div>
         <div className="mt-3 rounded-lg border border-white/10 p-2">
           <p className="text-[10px] uppercase tracking-widest text-text-dim">Media</p>
@@ -330,14 +305,9 @@ export function ProjektDetailPage() {
             value={mediaCaption}
             onChange={(e) => setMediaCaption(e.target.value)}
           />
-          <button
-            type="button"
-            disabled={saving || !pendingMedia}
-            className="ds-btn ds-btn--accent mt-2 text-xs"
-            onClick={() => void addMediaBlock()}
-          >
+          <Button type="button" disabled={saving || !pendingMedia} variant="accent" className="--accent mt-2 text-xs" onClick={() => void addMediaBlock()}>
             Ladda upp mediablock
-          </button>
+          </Button>
         </div>
         <textarea
           className="input-glass mt-2 w-full text-sm"
@@ -353,17 +323,9 @@ export function ProjektDetailPage() {
             value={newListItem}
             onChange={(e) => setNewListItem(e.target.value)}
           />
-          <button
-            type="button"
-            disabled={saving || !newListItem.trim()}
-            className="ds-btn ds-btn--secondary text-xs"
-            onClick={() => {
-              void addBlock('list', newListItem.trim());
-              setNewListItem('');
-            }}
-          >
+          <Button type="button" disabled={saving || !newListItem.trim()} variant="secondary" className="--secondary text-xs" onClick={() => { void addBlock('list', newListItem.trim()); setNewListItem(''); }}>
             + punkt
-          </button>
+          </Button>
         </div>
       </div>
     </div>

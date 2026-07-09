@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
 import { useTheme } from '../theme';
 import { resolveThemeForPath } from '../theme/moduleThemeMap';
+import { Button, ButtonLink } from '@/design-system';
 
 export function ThemePreviewPage() {
   const { themeId, mode, setTheme, setAutoMode, themes, themeLocked } = useTheme();
@@ -16,35 +16,27 @@ export function ThemePreviewPage() {
         </p>
         {!themeLocked ? (
         <div className="mt-3 flex flex-wrap gap-2">
-          <button
-            type="button"
-            className={mode === 'auto' ? 'ds-btn ds-btn--accent' : 'ds-btn ds-btn--ghost'}
-            onClick={() => setAutoMode(true)}
-          >
+          <Button type="button" variant={mode === 'auto' ? 'accent' : 'ghost'} onClick={() => setAutoMode(true)}>
             Auto per modul
-          </button>
-          <button
-            type="button"
-            className={mode === 'manual' ? 'ds-btn ds-btn--accent' : 'ds-btn ds-btn--ghost'}
-            onClick={() => setAutoMode(false)}
-          >
+          </Button>
+          <Button type="button" variant={mode === 'manual' ? 'accent' : 'ghost'} onClick={() => setAutoMode(false)}>
             Manuellt val
-          </button>
-          <Link to="/dev/theme-lab" className="ds-btn ds-btn--accent">
+          </Button>
+          <ButtonLink to="/dev/theme-lab" variant="accent" className="--accent">
             Theme Lab
-          </Link>
-          <Link to="/" className="ds-btn ds-btn--ghost">
+          </ButtonLink>
+          <ButtonLink to="/" variant="ghost" className="--ghost">
             Till hem
-          </Link>
+          </ButtonLink>
         </div>
         ) : (
         <div className="mt-3 flex flex-wrap gap-2">
-          <Link to="/dev/theme-lab" className="ds-btn ds-btn--accent">
+          <ButtonLink to="/dev/theme-lab" variant="accent" className="--accent">
             Theme Lab
-          </Link>
-          <Link to="/" className="ds-btn ds-btn--ghost">
+          </ButtonLink>
+          <ButtonLink to="/" variant="ghost" className="--ghost">
             Till hem
-          </Link>
+          </ButtonLink>
         </div>
         )}
       </header>

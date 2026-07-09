@@ -1,4 +1,5 @@
 import { Loader2 } from 'lucide-react';
+import { Button } from '@/design-system';
 
 type Props = {
   isClockedIn: boolean;
@@ -13,14 +14,7 @@ export function StampClockControls({ isClockedIn, busy, compact, onStampIn, onSt
 
   return (
     <div className={compact ? 'flex gap-1.5' : 'grid grid-cols-2 gap-2'}>
-      <button
-        type="button"
-        disabled={busy || isClockedIn}
-        onClick={onStampIn}
-        className={`${btnClass} ${
-          isClockedIn || busy ? 'ds-btn ds-btn--ghost opacity-40' : 'ds-btn ds-btn--accent'
-        }`}
-      >
+      <Button type="button" disabled={busy || isClockedIn} onClick={onStampIn} variant={isClockedIn || busy ? 'ghost' : 'accent'} className={`${btnClass}${isClockedIn || busy ? ' opacity-40' : ''}`}>
         {busy && !isClockedIn ? (
           <Loader2 className="mx-auto h-4 w-4 animate-spin" />
         ) : compact ? (
@@ -28,15 +22,8 @@ export function StampClockControls({ isClockedIn, busy, compact, onStampIn, onSt
         ) : (
           'Stämpla in'
         )}
-      </button>
-      <button
-        type="button"
-        disabled={busy || !isClockedIn}
-        onClick={onStampOut}
-        className={`${btnClass} ${
-          isClockedIn && !busy ? 'ds-btn ds-btn--success' : 'ds-btn ds-btn--ghost opacity-40'
-        }`}
-      >
+      </Button>
+      <Button type="button" disabled={busy || !isClockedIn} onClick={onStampOut} variant={isClockedIn && !busy ? 'success' : 'ghost'} className={`${btnClass}${isClockedIn && !busy ? '' : ' opacity-40'}`}>
         {busy && isClockedIn ? (
           <Loader2 className="mx-auto h-4 w-4 animate-spin" />
         ) : compact ? (
@@ -44,7 +31,7 @@ export function StampClockControls({ isClockedIn, busy, compact, onStampIn, onSt
         ) : (
           'Stämpla ut'
         )}
-      </button>
+      </Button>
     </div>
   );
 }

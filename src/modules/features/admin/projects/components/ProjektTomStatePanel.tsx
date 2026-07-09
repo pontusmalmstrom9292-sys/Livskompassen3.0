@@ -4,6 +4,7 @@ import { ExamplePreviewCard } from '@/shared/ui/ExamplePreviewCard';
 import { ProjektPreviewMini } from '@/features/admin/planning/components/previews/GoraModulePreviews';
 import { ProjektPickerSheet } from './ProjektPickerSheet';
 import type { ProjectBlockType } from '../types';
+import { Button } from '@/design-system';
 
 function NotePreviewMini() {
   return (
@@ -100,13 +101,9 @@ export function ProjektTomStatePanel() {
           onStart={() => go('task')}
         />
       </div>
-      <button
-        type="button"
-        className="ds-btn ds-btn--ghost w-full text-sm"
-        onClick={() => setPickerOpen(true)}
-      >
+      <Button type="button" variant="ghost" className="--ghost w-full text-sm" onClick={() => setPickerOpen(true)}>
         Välj typ i sheet (samma som widget)
-      </button>
+      </Button>
       <ProjektPickerSheet open={pickerOpen} onClose={() => setPickerOpen(false)} />
     </div>
   );

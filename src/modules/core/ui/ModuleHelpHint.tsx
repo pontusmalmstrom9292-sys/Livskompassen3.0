@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { HelpCircle, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
 import { clsx } from 'clsx';
+import { ButtonLink } from '@/design-system';
 
 export type ModuleHelpLine = {
   label: string;
@@ -78,13 +78,9 @@ export function ModuleHelpHint({ title, lines, action, className }: Props) {
             ))}
           </ul>
           {action ? (
-            <Link
-              to={{ pathname: action.to, search: action.search ?? '' }}
-              className="ds-btn ds-btn--ghost mt-3 inline-flex text-xs"
-              onClick={() => setOpen(false)}
-            >
+            <ButtonLink to={{ pathname: action.to, search: action.search ?? '' }} variant="ghost" className="--ghost mt-3 inline-flex text-xs" onClick={() => setOpen(false)}>
               {action.label} →
-            </Link>
+            </ButtonLink>
           ) : null}
         </div>
       ) : null}

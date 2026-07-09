@@ -5,6 +5,7 @@ import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
 import { useProjectRules } from '../hooks/useProjectRules';
 import type { ProjectAutomationAction } from '../types';
 import type { ProjectRule, ProjectRuleInput } from '../types/projectRule';
+import { Button } from '@/design-system';
 
 function emptyRule(): ProjectRuleInput {
   return {
@@ -160,9 +161,9 @@ export function ProjektReglerPage() {
         ))}
       </div>
 
-      <button type="button" disabled={!user || loading} className="ds-btn ds-btn--accent mt-4 text-sm" onClick={() => void handleAdd()}>
+      <Button type="button" disabled={!user || loading} variant="accent" className="--accent mt-4 text-sm" onClick={() => void handleAdd()}>
         + Lägg till regel
-      </button>
+      </Button>
 
       <p className="mt-4 text-xs text-text-dim">
         Granskningskö:{' '}

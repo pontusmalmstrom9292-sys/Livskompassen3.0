@@ -1,5 +1,6 @@
 import { Sparkles, X } from 'lucide-react';
 import { useState } from 'react';
+import { Button } from '@/design-system';
 
 export function DailySummaryWidget() {
   const [visible, setVisible] = useState(true);
@@ -29,7 +30,7 @@ export function DailySummaryWidget() {
             två inkommande händelser med Grey Rock. Kognitiv belastning är låg.
           </p>
           <div className="mt-3 flex gap-2">
-            <button className="ds-btn ds-btn--accent text-[11px] px-3 py-1">Visa detaljer</button>
+            <Button variant="accent" className="--accent text-[11px] px-3 py-1">Visa detaljer</Button>
           </div>
         </div>
       </div>
