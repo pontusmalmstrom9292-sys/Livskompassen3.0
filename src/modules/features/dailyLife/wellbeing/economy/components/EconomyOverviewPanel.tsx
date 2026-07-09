@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 import { LayoutGrid, Wallet, Leaf, PiggyBank, ScrollText, PauseCircle, Sparkles } from 'lucide-react';
 import { clsx } from 'clsx';
+import { Button, ButtonLink } from '@/design-system';
 import { EconomyBudgetTab } from './EconomyBudgetTab';
 import { EconomyMealPrepPanel } from './EconomyMealPrepPanel';
 import { EconomyImpulsePanel } from './EconomyImpulsePanel';
@@ -89,24 +89,26 @@ export function EconomyOverviewPanel({ userId }: Props) {
             </button>
           ))}
         </div>
-        <button
-          type="button"
+        <Button
+          variant="ghost"
+          size="icon"
           onClick={() => setShowPicker(true)}
-          className="ds-btn ds-btn--ghost shrink-0 p-2"
           title="Välj verktyg"
           aria-label="Öppna modulväljare"
         >
           <LayoutGrid className="h-4 w-4 text-accent/70" />
-        </button>
+        </Button>
         {isEconomyAdvancedUnlocked && (
-          <Link
+          <ButtonLink
             to="/ekonomi/avancerad"
-            className="ds-btn ds-btn--ghost shrink-0 p-2 flex items-center justify-center border border-accent/20 bg-accent/5 hover:bg-accent/10 hover:text-accent transition-colors rounded-lg"
+            variant="ghost"
+            size="icon"
+            className="flex items-center justify-center border border-accent/20 bg-accent/5 hover:bg-accent/10 hover:text-accent transition-colors rounded-lg"
             title="Avancerad instrumentpanel"
             aria-label="Gå till avancerad ekonomi"
           >
             <Sparkles className="h-4 w-4 text-accent" />
-          </Link>
+          </ButtonLink>
         )}
       </div>
 
