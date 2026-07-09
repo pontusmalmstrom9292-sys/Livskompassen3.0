@@ -1,3 +1,23 @@
+## 2026-07-09 — YOLO VÅG 10 — Ekonomi + Arbetsliv + Drogfrihet + Kompasser
+
+**Completed work:**
+- Alla `ds-btn` i VÅG 10-scope → DS `Button`/`ButtonLink` (20 filer).
+- Scope: `dailyLife/wellbeing/economy/`, `dailyLife/arbetsliv/`, `dailyLife/drogfrihet/`, `wellbeing/compasses/`, `features/economy/AutoKategoriseringStub`.
+
+**Metrics:**
+- Våg 10 scope `.tsx`: 0 `ds-btn`
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`: PASS
+
+**Next steps:**
+- Deploy våg 10 (väntar på Pontus "deploy")
+- VÅG 11: Core + Home + Auth + Capture + Inkast
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-07-09 — Deploy våg 9 live (bekräftad)
 
 Hosting deploy klar: https://gen-lang-client-0481875058.web.app — MåBra rest (34 filer) live.
