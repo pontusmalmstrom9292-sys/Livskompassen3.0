@@ -9,6 +9,7 @@
 @import './styles/redesign-c-aurora-prism.css';
 @import './styles/brushed-brass-neu.css';
 @import './styles/executive-chrome.css';
+@import './styles/dock-kanon-match.css';
 @import './modules/core/ui/homeAliases.css';
 
 @tailwind base;

@@ -1,0 +1,130 @@
+/* Dock kanon-match — referens 2026-06-28 (överstyr executive-chrome dock-tokens) */
+
+.dock-shell.dock-shell--reference-dock,
+.dock-shell.dock-shell--basta-design {
+  --dock-stack-height: 7.65rem;
+  --app-dock-clearance: calc(7.25rem + env(safe-area-inset-bottom, 0px) + 0.85rem);
+}
+
+.exec-dock-bar {
+  grid-template-columns: 0.92fr 0.92fr 1.28fr 0.92fr 0.92fr 0.92fr;
+  min-height: 2.45rem;
+  padding: 2.35rem 0.28rem 0.42rem;
+  padding-bottom: calc(0.42rem + env(safe-area-inset-bottom, 0px));
+  border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent-light) 24%, transparent) 0%,
+      color-mix(in srgb, var(--accent-light) 6%, transparent) 1px,
+      transparent 2px
+    ),
+    var(--ds-glass-sheen),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent-light) 6%, transparent) 0%,
+      transparent 12%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--ds-glass-bg) 68%, transparent) 0%,
+      color-mix(in srgb, var(--surface) 98%, #020617) 100%
+    );
+  box-shadow:
+    var(--ds-elevation-dock),
+    inset 0 1px 0 color-mix(in srgb, var(--accent-light) 48%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent),
+    0 12px 36px rgba(0, 0, 0, 0.55),
+    0 0 28px color-mix(in srgb, var(--accent) 9%, transparent);
+}
+
+.exec-dock-bar--extended .exec-dock-bar__side:nth-child(1)::after,
+.exec-dock-bar--extended .exec-dock-bar__side:nth-child(2)::after,
+.exec-dock-bar--extended .exec-dock-bar__side:nth-child(4)::after,
+.exec-dock-bar--extended .exec-dock-bar__side:nth-child(5)::after,
+.exec-dock-bar--mix-e .exec-dock-bar__side:nth-child(1)::after,
+.exec-dock-bar--mix-e .exec-dock-bar__side:nth-child(3)::after,
+.exec-dock-bar--extended .exec-dock-bar__compass-slot::before,
+.exec-dock-bar--extended .exec-dock-bar__compass-slot::after,
+.exec-dock-bar--mix-e .exec-dock-bar__compass-slot::before,
+.exec-dock-bar--mix-e .exec-dock-bar__compass-slot::after {
+  top: 4%;
+  bottom: 8%;
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 42%, transparent);
+}
+
+.exec-dock-bar__label {
+  max-width: 4.1rem;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+  color: color-mix(in srgb, var(--accent-light) 90%, var(--text-muted));
+  text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 14%, transparent);
+}
+
+.exec-dock-bar__glyph {
+  width: 1.3rem;
+  height: 1.3rem;
+  opacity: 0.94;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--accent) 32%, transparent));
+}
+
+.exec-dock-bar__compass-label,
+.dock-shell--basta-design .exec-dock-bar__compass-label {
+  display: none !important;
+}
+
+.exec-dock-bar__compass {
+  width: 7.15rem;
+  height: 7.35rem;
+  margin-top: -6.1rem;
+}
+
+.exec-dock-bar__compass::before {
+  inset: 0.5rem;
+  filter: blur(8px);
+  background: radial-gradient(
+    circle at 50% 42%,
+    color-mix(in srgb, var(--accent) 28%, transparent) 0%,
+    color-mix(in srgb, var(--accent) 10%, transparent) 45%,
+    transparent 72%
+  );
+}
+
+.exec-dock-bar__compass::after {
+  content: none;
+}
+
+.exec-dock-bar__compass--open::after {
+  content: '';
+  position: absolute;
+  inset: -0.1rem;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--accent-light) 42%, transparent);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--accent) 10%, transparent),
+    0 0 32px color-mix(in srgb, var(--accent) 34%, transparent);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.exec-dock-bar__compass-mark,
+.exec-dock-bar__compass .exec-decor-compass--hero,
+.exec-decor-compass--hero {
+  width: 7rem !important;
+  height: 7rem !important;
+  filter:
+    drop-shadow(0 0 14px color-mix(in srgb, var(--accent) 78%, transparent))
+    drop-shadow(0 0 28px color-mix(in srgb, var(--accent) 42%, transparent))
+    drop-shadow(0 6px 14px rgba(0, 0, 0, 0.45));
+}
+
+.dock-shell--basta-design .exec-dock-bar__label {
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 0.5rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: color-mix(in srgb, var(--accent) 90%, var(--text-muted));
+}
