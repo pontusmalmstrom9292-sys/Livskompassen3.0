@@ -1,6 +1,6 @@
 import { Check, Loader2 } from 'lucide-react';
 import { useEffect, type FormEvent } from 'react';
-import { Button } from '@/design-system';
+import { Button, Input } from '@/design-system';
 import { useEconomyProfilWrite } from '../hooks/useEconomyProfilWrite';
 
 export type EkonomiProfilDelegateProps = {
@@ -69,7 +69,7 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
               <span className="text-[10px] uppercase tracking-wider text-text-dim">
                 Veckobudget (kr)
               </span>
-              <input
+              <Input
                 type="number"
                 min={0}
                 step={50}
@@ -87,7 +87,7 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
               <span className="text-[10px] uppercase tracking-wider text-text-dim">
                 Matlåda-preset (kr)
               </span>
-              <input
+              <Input
                 type="number"
                 min={0}
                 step={5}

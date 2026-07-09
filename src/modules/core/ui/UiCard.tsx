@@ -11,6 +11,7 @@ type Props<T extends ElementType = 'div'> = {
 
 /**
  * App-kort — `ui-card` under designpaket, annars `glass-card`.
+ * @deprecated Prod ska använda `BentoCard` / DS `Card`. Endast `/dev`-routes och Theme Lab.
  */
 export function UiCard<T extends ElementType = 'div'>({
   as,

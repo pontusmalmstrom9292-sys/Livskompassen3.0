@@ -29,8 +29,8 @@ Method: static analysis + route inventory + component grep. Severity: Critical |
 | V-03 | InsightsInput hardcoded bg-black/20 border-white/10 | Medium | Map to --ds-color-surface | 1h |
 | V-04 | Three card APIs: Card, BentoCard, UiCard | High | BentoCard prod; UiCard dev-only | 2d |
 | V-05 | module-bento-card--depth excludes hover intentionally | Low | Document in Design-System-Plan | 1h |
-| V-06 | Mixed glow classes glow-bottom-gold vs ds elevation | Medium | Standardize on --ds-elevation-* | 2d |
-| V-07 | Hub title sizes differ ModuleShell vs HubPageShell | Medium | textStyles.titleHub everywhere | 1d |
+| V-06 | Mixed glow classes glow-bottom-gold vs ds elevation | Medium | Batch hub-shells use calm-card glow-bottom-gold (våg 32) | partial |
+| V-07 | Hub title sizes differ ModuleShell vs HubPageShell | Medium | textStyles.eyebrow batch (våg 32) | partial |
 | V-08 | Arbitrary Tailwind spacing p-[13px] in older panels | Low | --ds-space-* on touch | 2d |
 
 ---
@@ -62,11 +62,11 @@ Method: static analysis + route inventory + component grep. Severity: Critical |
 |----|-------------|----------|----------------|--------|
 | X-01 | Icon-only btn-pill without aria-label | High | Button migration + aria | 2d |
 | X-02 | ~14 ad-hoc dialogs without DS focus trap | High | Phase 4 overlay migration | 3d |
-| X-03 | Inconsistent focus-visible on ghost buttons | Medium | premium-polish.css block | 4h |
-| X-04 | Touch targets < 44px in chip rows | Medium | min-h-[var(--ds-touch-target)] | 1d |
+| X-03 | Inconsistent focus-visible on ghost buttons | Medium | premium-polish + hub batch (våg 33) | partial |
+| X-04 | Touch targets < 44px in chip rows | Medium | min-h-[var(--ds-touch-target)] chips (våg 33) | done |
 | X-05 | Gold on navy contrast not verified all states | High | Contrast audit disabled/hover | 1d |
 | X-06 | prefers-reduced-transparency not handled | Medium | Fallback solid surfaces | 4h |
-| X-07 | ModuleHelpHint popover keyboard | Medium | Migrate or add roving tabindex | 4h |
+| X-07 | ModuleHelpHint popover keyboard | Medium | Escape + Tab roving (våg 33) | done |
 | X-08 | Native checkbox unstyled in forms | Low | Future Checkbox primitive | 2d |
 
 ---

@@ -1,6 +1,6 @@
 import { memo, useState, useEffect } from 'react';
 import { Navigate, useSearchParams } from 'react-router-dom';
-import { ButtonLink } from '@/design-system';
+import { ButtonLink, textStyles } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
@@ -53,7 +53,7 @@ function HamnBiffWorkflow({
   return (
     <div className="space-y-3">
       <BentoCard glow="indigo" className="!px-4 !py-3">
-        <p className="text-[10px] uppercase tracking-[0.2em] text-accent/80">Trygg hamn · BIFF</p>
+        <p className={textStyles.eyebrow}>Trygg hamn · BIFF</p>
         {embeddedLead ? (
           <p className="mt-1 text-xs text-text-dim">{HAMN_EMBEDDED_LEAD}</p>
         ) : (

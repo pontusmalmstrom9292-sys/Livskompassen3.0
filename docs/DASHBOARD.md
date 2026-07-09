@@ -16,10 +16,10 @@
 |--------|----------|---------|--------|
 | btn-pill-- file count | ~195 (estimated) | **0** (2026-06-29, smoke:design-debt) | 0 new after start |
 | calm-card variant audit | not tracked | **PASS** (2026-06-29, smoke:calm-card-audit) | no unused variants |
-| DS import files (`@/design-system`) | ~14 | **234** (2026-07-09, våg 22–26) | All blocking overlays migrated |
-| ad-hoc role=dialog | ~14 | **4** (2026-07-09 — sandbox×2, ResurserOverlay locked, ImmersiveShell) | ≤4 documented |
+| DS import files (`@/design-system`) | ~14 | **241** (2026-07-09, våg 27–34) | All blocking overlays migrated |
+| ad-hoc role=dialog | ~14 | **3** (2026-07-09 — sandbox×2, ResurserOverlay locked) | ≤3 documented |
 | index.css LOC | 6816 | **3112** (2026-07-09) | ≤5000 (stretch) |
-| smoke:design-modules | TBD | **PASS** (2026-07-09, våg 22–26) | green |
+| smoke:design-modules | TBD | **PASS** (2026-07-09, våg 27–34) | green |
 | smoke:locked-ux | TBD | **PASS** (2026-07-09) | green |
 | smoke:freeport-premium-compare | TBD | **PASS** (2026-06-29) | visual compare green |
 | `zone-valv` route chunk (js) | 768.53 kB | 2.65 kB | keep route-entry small |

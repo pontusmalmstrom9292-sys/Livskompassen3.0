@@ -1,3 +1,33 @@
+## 2026-07-09 — YOLO VÅG 27–34 — Overlay · Input · Error · Badge · A11y · Governance
+
+**Plattform:** Cursor (Auto) · **Läge:** Agent · **Ändringar:** minimal diff
+
+**Completed work:**
+- VÅG 27: `ImmersiveExperienceShell` → DS `Modal` fullscreen; `WormSaveConfirmSheet` dokumenterad (`role="region"`); sandbox `role="dialog"`×2 ej prod.
+- VÅG 28: DS `Input`/`TextArea` i `PlaneringNotePinPanel`, `InboxRuleManager`, `JournalArchiveToolbar`.
+- VÅG 29: DS inputs i Ekonomi-delegates, `EconomyBudgetTab`, MåBra coach/reflection, `SvartPaVittForm`, `ArbetslivInkomstDelegate`.
+- VÅG 30: Error boundaries verifierade — alla DS `ErrorFallback` + silo-glow; `VaultPage` explicit `glow="blue"`.
+- VÅG 31: `BentoCard` prod-API; `UiCard` deprecated; `KompisHubPage` → glass-card; inbox status + `TheoryWithoutEvidenceBadge` → DS `Badge`.
+- VÅG 32: `textStyles.eyebrow` i TryggHamn, Kompis, MabraReflection; glow redan på hub-shells.
+- VÅG 33: `ModuleHelpHint` focus trap + Escape; chip touch ≥44px; ekonomi tab focus-visible.
+- VÅG 34: metrics + governance + predeploy PASS.
+
+**Metrics (smoke:design-debt 2026-07-09):**
+- `btnPillFiles`: **0**
+- `dsBtnFiles`: **1** (`tokens.ts` legacy alias)
+- `designSystemImportFiles`: **241**
+- `adHocDialogFiles`: **3** (ResurserOverlay locked, sandbox×2)
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`, `smoke:design-debt`, `smoke:chrome-header`, `smoke:governance`, `smoke:predeploy`: PASS
+
+**Keyboard checklist (våg 27+33):** Esc stänger DS Modal (Zen, SOS, Immersive, AccountAuth); `ModuleHelpHint` Esc + Tab-roving; chip-rader ≥44px.
+
+**Deploy:** Väntar på Pontus `deploy`.
+
+**Blockers:** None
+
+---
+
 ## 2026-07-09 — Deploy hosting våg 22–26
 
 **Deploy:** Hosting live — https://gen-lang-client-0481875058.web.app (våg 22–26: overlay DS Modal, input primitives, badge/eyebrow, dock checklist).

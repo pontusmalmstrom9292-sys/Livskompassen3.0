@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, TextArea, textStyles } from '@/design-system';
 import { DROGFRIHET_CARDS } from '@/features/dailyLife/drogfrihet/content/drogfrihetCatalog';
 import { MABRA_REFLECTION_CARDS } from '../content/mabraReflectionCards';
 import type { MabraProjectId } from '../constants/mabraProjects';
@@ -85,14 +85,14 @@ export function MabraReflectionSuperhubPanel({
       <p className="rounded-xl border border-border-strong bg-surface/40 px-4 py-5 text-base leading-relaxed text-text">
         {card?.text_sv}
       </p>
-      <p className="text-center text-[10px] uppercase tracking-wider text-text-dim">
+      <p className={`text-center ${textStyles.eyebrow}`}>
         {card?.lens}
       </p>
 
       <label className="mt-4 block text-xs text-text-muted">
         Ditt svar (valfritt)
         <span className="ml-1 text-text-dim">— inget fel svar, ett ord räcker</span>
-        <textarea
+        <TextArea
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
           rows={3}

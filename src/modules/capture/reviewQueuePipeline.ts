@@ -1,3 +1,4 @@
+import type { BadgeVariant } from '@/design-system';
 import type { InboxQueueItem } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
 import { ROUTING_LABELS } from '@/modules/inkast/api/inkastService';
 import { isPlaneringInboxItem } from '@/modules/inkast/planeringInboxItem';
@@ -19,6 +20,13 @@ export function inboxQueueStatusBadgeClass(status: InboxQueueDisplayStatus): str
   if (status === 'routed') return 'review-queue-status review-queue-status--routed';
   if (status === 'rejected') return 'review-queue-status review-queue-status--rejected';
   return 'review-queue-status review-queue-status--review';
+}
+
+/** DS Badge variant for inbox queue status pills. */
+export function inboxQueueStatusBadgeVariant(status: InboxQueueDisplayStatus): BadgeVariant {
+  if (status === 'routed') return 'accent';
+  if (status === 'rejected') return 'danger';
+  return 'warning';
 }
 
 /** Delad G10-etikett — samma semantik i Hem-summary och Valv InboxReviewQueue. */

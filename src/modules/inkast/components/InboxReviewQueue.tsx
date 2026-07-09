@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Inbox } from 'lucide-react';
 import { clsx } from 'clsx';
-import { Button, type ButtonVariant } from '@/design-system';
+import { Button, Badge, type ButtonVariant } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '../../core/store';
 import {
@@ -22,7 +22,7 @@ import {
 } from '@/modules/inkast/planeringInboxItem';
 import {
   inboxQueueDisplayStatus,
-  inboxQueueStatusBadgeClass,
+  inboxQueueStatusBadgeVariant,
   inboxQueueStatusLabel,
   sortInboxForValvSamla,
 } from '@/modules/capture/reviewQueuePipeline';
@@ -339,14 +339,15 @@ export function InboxReviewQueue({
               ))}
             </p>
             <div className="mt-2 flex flex-wrap items-center gap-2">
-              <span
-                className={`inline-block ${inboxQueueStatusBadgeClass(inboxQueueDisplayStatus(item))}`}
+              <Badge
+                variant={inboxQueueStatusBadgeVariant(inboxQueueDisplayStatus(item))}
+                className="text-[10px] uppercase tracking-wider"
               >
                 {inboxQueueStatusLabel(item)}
-              </span>
-              <span className="review-queue-status review-queue-status--review">
+              </Badge>
+              <Badge variant="warning" className="text-[10px] uppercase tracking-wider">
                 {inboxReviewQueueHitlBadge(item)}
-              </span>
+              </Badge>
             </div>
             <p className="mt-1 text-xs text-accent/90">{inboxReviewQueueRoutingLine(item)}</p>
             {domainHint && (

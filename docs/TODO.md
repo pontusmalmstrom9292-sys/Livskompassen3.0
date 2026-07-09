@@ -74,37 +74,39 @@ Each item is independently completable. Link files in Dashboard when done.
 
 ## Phase 3 — Primitives: Other
 
-- [ ] Input: JournalQuickMode, ReflectionEditor
-- [ ] Input: EconomyLogPanel, inkast forms
-- [ ] Banner: deprecate AlertBanner usages
-- [ ] Banner: deprecate ModuleSectionBanner usages
-- [ ] Card: document BentoCard as sole module API
-- [ ] UiCard: restrict to /dev routes
-- [ ] Badge: map worm/locked/risk to ds-badge
+- [x] Input: JournalQuickMode, ReflectionEditor (våg 24)
+- [x] Input: EconomyLogPanel, inkast forms (våg 24)
+- [x] Input: PlaneringNotePinPanel, InboxRuleManager, JournalArchiveToolbar (våg 28)
+- [x] Input: Ekonomi/MåBra/Arbetsliv batch (våg 29)
+- [x] Banner: deprecate AlertBanner usages (våg 25 — DS Banner wrapper)
+- [x] Banner: deprecate ModuleSectionBanner usages (våg 25)
+- [x] Card: document BentoCard as sole module API (våg 31)
+- [x] UiCard: restrict to /dev routes (våg 31 — KompisHubPage → glass-card)
+- [x] Badge: map worm/locked/risk to ds-badge (våg 25 + inbox status våg 31)
 
 ---
 
 ## Phase 4 — Overlays
 
-- [ ] Migrate ZenModeOverlay → DS Modal
-- [ ] Migrate RecoveryUrgeSosModule dialog
-- [ ] Migrate AccountAuthMenu dialog
-- [ ] Migrate PlanningTaskDetail dialog
-- [ ] Migrate DrogfrihetHubPage dialog section
-- [ ] Evaluate ImmersiveExperienceShell → Modal
-- [ ] Fix/rename WormSaveConfirmSheet
-- [ ] Keyboard test each migrated overlay
+- [x] Migrate ZenModeOverlay → DS Modal (våg 23)
+- [x] Migrate RecoveryUrgeSosModule dialog (våg 23)
+- [x] Migrate AccountAuthMenu dialog (våg 22)
+- [x] Migrate PlanningTaskDetail dialog (våg 19 — redan DS Modal)
+- [x] Migrate DrogfrihetHubPage dialog section (våg 23)
+- [x] Evaluate ImmersiveExperienceShell → Modal (våg 27)
+- [x] Fix/rename WormSaveConfirmSheet (våg 27 — role=region dokumenterat)
+- [x] Keyboard test each migrated overlay (våg 27 + 33 checklist i PROGRESS)
 
 ---
 
 ## Phase 5 — States
 
 - [x] Create ErrorFallback component — already exists in DS (2026-06-29)
-- [ ] Migrate HubErrorBoundary
-- [ ] Migrate PlaneringErrorBoundary
-- [ ] Migrate VaultErrorBoundary
-- [ ] Migrate RAGErrorBoundary
-- [ ] Migrate DagbokWizardErrorBoundary
+- [x] Migrate HubErrorBoundary (våg 12)
+- [x] Migrate PlaneringErrorBoundary (våg 12 — HubErrorBoundary glow=gold)
+- [x] Migrate VaultErrorBoundary (våg 12 + våg 30 glow=blue explicit)
+- [x] Migrate RAGErrorBoundary (våg 12 — DS ErrorFallback)
+- [x] Migrate DagbokWizardErrorBoundary (våg 12 — DS ErrorFallback glow=gold)
 - [x] Align PageSkeleton with DS Skeleton (2026-06-29)
 - [x] EmptyState token pass (core/ui/EmptyState.tsx)
 - [x] Friendly empty-states for Dagbok, Planering, Familjen list views

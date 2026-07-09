@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, TextArea } from '@/design-system';
 import { fetchMovementCoach } from '../api/mabraCoachService';
 
 type Props = {
@@ -44,7 +44,7 @@ export function MabraMovementCoachPanel({ uid }: Props) {
   return (
     <div className="mt-4 w-full text-left">
       <p className="mb-2 text-xs text-text-dim">Vill du ha ett specifikt mikropass utformat för hur du känner dig just nu?</p>
-      <textarea
+      <TextArea
         value={note}
         onChange={(e) => setNote(e.target.value.slice(0, 300))}
         placeholder="T.ex: Jag känner mig stel i nacken och behöver ny energi."

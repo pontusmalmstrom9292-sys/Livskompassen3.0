@@ -1,6 +1,7 @@
 /**
- * Premium Card — re-export from design-system.
- * Preserves full BentoCard API (title, description, icon on root).
+ * Premium Card — **prod-API** for module cards (title, description, icon, glow).
+ * Re-export from design-system `Card` with BentoCard naming for legacy imports.
+ * Prefer this over `UiCard` in features — see `src/modules/core/ui/UiCard.tsx` (dev-only).
  */
 import type { ReactNode } from 'react';
 import { cn } from '@/design-system/utils/cn';

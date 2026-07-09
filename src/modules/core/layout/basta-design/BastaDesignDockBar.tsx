@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { clsx } from 'clsx';
-import { Inbox, Landmark, LayoutGrid, PenLine, Users2 } from 'lucide-react';
+import { Inbox, Landmark, PenLine, Users2 } from 'lucide-react';
 import { FyrenProgressRing } from '../../ui/FyrenProgressRing';
 import { BastaDesignDockCompass } from './BastaDesignDockCompass';
 
@@ -20,8 +20,8 @@ function DockSide({ label, active, onClick, children }: SideProps) {
       aria-current={active ? 'page' : undefined}
       onClick={onClick}
     >
-      <span className="basta-dock-bar__icon" aria-hidden>
-        {children}
+      <span className="basta-dock-bar__icon-well" aria-hidden>
+        <span className="basta-dock-bar__icon">{children}</span>
       </span>
       <span className="basta-dock-bar__label">{label}</span>
     </button>
@@ -33,7 +33,6 @@ type Props = {
   isHome: boolean;
   isFamiljen: boolean;
   isHjartat: boolean;
-  resurserOpen: boolean;
   showFyrenRing: boolean;
   progress: number;
   isHolding: boolean;
@@ -42,16 +41,14 @@ type Props = {
   onFamiljen: () => void;
   onVentil: () => void;
   onInkast: () => void;
-  onResurser: () => void;
 };
 
-/** Prod dock — Figma «bästa designv2» (6 zoner + hero-kompass). */
+/** Prod dock — bästa designv2: 4 zoner + hero-kompass (Resurser = utfällbar widget). */
 export function BastaDesignDockBar({
   pathname,
   isHome,
   isFamiljen,
   isHjartat,
-  resurserOpen,
   showFyrenRing,
   progress,
   isHolding,
@@ -60,7 +57,6 @@ export function BastaDesignDockBar({
   onFamiljen,
   onVentil,
   onInkast,
-  onResurser,
 }: Props) {
   return (
     <nav className="basta-dock-bar basta-dock-bar--v2" aria-label="Huvudnavigation">
@@ -69,11 +65,11 @@ export function BastaDesignDockBar({
         active={pathname.startsWith('/widget/anteckning')}
         onClick={onAnteckning}
       >
-        <PenLine size={20} strokeWidth={1.75} />
+        <PenLine size={20} strokeWidth={1.9} />
       </DockSide>
 
       <DockSide label="Familj" active={isFamiljen} onClick={onFamiljen}>
-        <Users2 size={20} strokeWidth={1.75} />
+        <Users2 size={20} strokeWidth={1.9} />
       </DockSide>
 
       <div className="basta-dock-bar__compass-slot">
@@ -98,7 +94,7 @@ export function BastaDesignDockBar({
       </div>
 
       <DockSide label="Mentil" active={isHjartat} onClick={onVentil}>
-        <Landmark size={20} strokeWidth={1.75} />
+        <Landmark size={20} strokeWidth={1.9} />
       </DockSide>
 
       <DockSide
@@ -106,11 +102,7 @@ export function BastaDesignDockBar({
         active={pathname.startsWith('/planering/input')}
         onClick={onInkast}
       >
-        <Inbox size={20} strokeWidth={1.75} />
-      </DockSide>
-
-      <DockSide label="Resurser" active={resurserOpen} onClick={onResurser}>
-        <LayoutGrid size={20} strokeWidth={1.75} />
+        <Inbox size={20} strokeWidth={1.9} />
       </DockSide>
     </nav>
   );

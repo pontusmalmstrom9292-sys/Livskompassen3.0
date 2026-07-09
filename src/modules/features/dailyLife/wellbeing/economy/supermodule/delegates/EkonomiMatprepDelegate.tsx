@@ -1,6 +1,7 @@
 import { Check, CheckCircle2, Loader2, Utensils } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { Input } from '@/design-system';
 import { useEconomyMatprepRead } from '../hooks/useEconomyMatprepRead';
 import { useEconomyTransactionWORM } from '../hooks/useEconomyTransactionWORM';
 
@@ -160,7 +161,7 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
               <span className="text-[10px] uppercase tracking-wider text-text-dim">
                 Uppskattad besparing (kr)
               </span>
-              <input
+              <Input
                 type="text"
                 inputMode="decimal"
                 value={estimatedSavings}
@@ -179,7 +180,7 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
               <span className="text-[10px] uppercase tracking-wider text-text-dim">
                 Anteckning (valfritt)
               </span>
-              <input
+              <Input
                 type="text"
                 value={prepNote}
                 disabled={inputsDisabled}

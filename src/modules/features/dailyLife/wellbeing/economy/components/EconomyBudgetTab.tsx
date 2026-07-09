@@ -1,6 +1,6 @@
 import { Wallet, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/design-system';
+import { Button, Input } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
@@ -52,7 +52,7 @@ export function EconomyBudgetTab() {
             <div className="flex flex-wrap gap-3 text-sm">
               <label className="flex flex-col gap-1">
                 <span className="text-text-dim">Veckobudget (kr)</span>
-                <input
+                <Input
                   type="number"
                   value={weeklyBudget}
                   onChange={(e) => setWeeklyBudget(Number(e.target.value) || 0)}
@@ -62,7 +62,7 @@ export function EconomyBudgetTab() {
               </label>
               <label className="flex flex-col gap-1">
                 <span className="text-text-dim">Matlåda (kr)</span>
-                <input
+                <Input
                   type="number"
                   value={mealPreset}
                   onChange={(e) => setMealPreset(Number(e.target.value) || 0)}

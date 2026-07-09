@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, Input } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
@@ -99,7 +99,7 @@ export function ArbetslivInkomstDelegate() {
 
         <BentoCard title="Registrera inkomst" glow="blue" className="overflow-hidden">
           <div className="space-y-3 text-sm">
-            <input
+            <Input
               type="date"
               className="input-glass w-full"
               value={date}
@@ -116,13 +116,13 @@ export function ArbetslivInkomstDelegate() {
                 </option>
               ))}
             </select>
-            <input
+            <Input
               className="input-glass w-full"
               placeholder="Beskrivning (t.ex. maj-lön, FK sjukpenning)"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
-            <input
+            <Input
               type="number"
               className="input-glass w-full"
               placeholder="Belopp (kr)"
