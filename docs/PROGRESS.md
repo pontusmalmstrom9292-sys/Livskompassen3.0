@@ -1,3 +1,11 @@
+## 2026-07-09 — Deploy hosting våg 27–34
+
+**Deploy:** Hosting live — https://gen-lang-client-0481875058.web.app (våg 27–34: ImmersiveShell Modal, input batches, badges, a11y).
+
+**Gate:** `npm run smoke:predeploy:build` PASS före deploy.
+
+---
+
 ## 2026-07-09 — YOLO VÅG 27–34 — Overlay · Input · Error · Badge · A11y · Governance
 
 **Plattform:** Cursor (Auto) · **Läge:** Agent · **Ändringar:** minimal diff
@@ -22,7 +30,7 @@
 
 **Keyboard checklist (våg 27+33):** Esc stänger DS Modal (Zen, SOS, Immersive, AccountAuth); `ModuleHelpHint` Esc + Tab-roving; chip-rader ≥44px.
 
-**Deploy:** Väntar på Pontus `deploy`.
+**Deploy:** Hosting live — https://gen-lang-client-0481875058.web.app (2026-07-09).
 
 **Blockers:** None
 
