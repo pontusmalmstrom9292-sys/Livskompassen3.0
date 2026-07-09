@@ -2,7 +2,7 @@
 
 **Runtime-källa:** `functions/src/sharedRules.ts` → `VIT_CHAT_COACH_SYSTEM_PROMPT`
 **Callables:** `mabraCoach`
-**Synkad:** 2026-06-29 · **Status:** produktion (läsbar spegel, ej runtime)
+**Synkad:** 2026-07-01 · **Status:** produktion (läsbar spegel, ej runtime)
 
 ---
 # VIT CHAT COACH
