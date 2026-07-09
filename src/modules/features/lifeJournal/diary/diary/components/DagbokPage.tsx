@@ -1,6 +1,7 @@
 import { BookOpen } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { hasVaultGate } from '@/core/auth/sessionService';
 import { useStore } from '@/core/store';
@@ -136,13 +137,15 @@ export function DagbokPage({
 
           <div className="flex flex-wrap items-center gap-2">
             <DagbokRememberCard />
-            <Link
+            <ButtonLink
               to="/hjartat?tab=speglar"
-              className="ds-btn ds-btn--secondary text-xs shadow-sm transition-transform hover:scale-105"
+              variant="secondary"
+              size="sm"
+              className="shadow-sm transition-transform hover:scale-105"
               title="Låt AI validera och spegla dina senaste tankar"
             >
               🔮 Känslospegeln
-            </Link>
+            </ButtonLink>
           </div>
         </div>
 

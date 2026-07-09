@@ -1,5 +1,6 @@
 import { memo, useEffect, useRef, type Ref } from 'react';
 import { FileDown, Loader2, Lock } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import './valv.css';
 import { EmptyState } from '@/core/ui/EmptyState';
@@ -122,14 +123,16 @@ const LogRow = memo(function LogRow({
             <p className="mt-1 text-[10px] text-indigo-200/80">{VAVAREN_LOG_DISCLAIMER}</p>
           )}
         </div>
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="sm"
+          className="shrink-0 py-1 px-2"
           onClick={() => exportVaultRecordAsPdf(log)}
-          className="ds-btn ds-btn--ghost shrink-0 py-1 px-2"
           title="Exportera som PDF (utskrift)"
         >
           <FileDown className="h-3 w-3" /> PDF
-        </button>
+        </Button>
       </div>
       <p className={`mt-2 whitespace-pre-wrap ${vavaren ? 'text-indigo-100/90' : 'text-text-muted'}`}>
         {vavaren
@@ -235,9 +238,9 @@ export const VaultLogList = memo(function VaultLogList({
     >
       {onLogFirstBevis && (
         <div className="mb-3 flex justify-end">
-          <button type="button" onClick={onLogFirstBevis} className="ds-btn ds-btn--secondary text-sm">
+          <Button type="button" variant="secondary" size="sm" onClick={onLogFirstBevis}>
             Logga bevis
-          </button>
+          </Button>
         </div>
       )}
       {loading && visible.length === 0 ? (
@@ -285,8 +288,10 @@ export const VaultLogList = memo(function VaultLogList({
         </ul>
           {hasMore && (
             <div className="mt-4 flex justify-center">
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="sm"
                 onClick={() => {
                   const uid = logs[0]?.ownerId;
                   if (uid) {
@@ -294,7 +299,6 @@ export const VaultLogList = memo(function VaultLogList({
                   }
                 }}
                 disabled={loadingMore}
-                className="ds-btn ds-btn--ghost text-sm"
               >
                 {loadingMore ? (
                   <>
@@ -304,7 +308,7 @@ export const VaultLogList = memo(function VaultLogList({
                 ) : (
                   'Visa fler'
                 )}
-              </button>
+              </Button>
             </div>
           )}
         </div>

@@ -1,4 +1,5 @@
 import { Lock, ShieldAlert, X, Settings } from 'lucide-react';
+import { Button } from '@/design-system';
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
@@ -201,22 +202,26 @@ function VaultPageInner({
           <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
           <div className="flex shrink-0 items-center gap-1">
             <VaultCountdown />
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="sm"
+              className="flex items-center gap-1"
               onClick={() => navigate('/valvet/installningar')}
-              className="ds-btn ds-btn--ghost flex items-center gap-1"
               title="Valv-inställningar"
             >
               <Settings className="h-3 w-3" /> Inställningar
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
+              variant="ghost"
+              size="sm"
+              className="flex items-center gap-1"
               onClick={handleCloseToLayer1}
-              className="ds-btn ds-btn--ghost flex items-center gap-1"
               title="Stäng valv — tillbaka till vardag"
             >
               <X className="h-3 w-3" /> Stäng
-            </button>
+            </Button>
           </div>
         </div>
 

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button } from '@/design-system';
 import { TabBar } from '@/core/ui/TabBar';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { getForensicVaultTabBarItems } from '@/core/navigation/tabRegistry';
@@ -32,21 +33,13 @@ export function ValvForensikZone({ tab, onTabChange, gateOk }: ValvForensikZoneP
           onChange={onTabChange}
         />
         {!showAllTabs ? (
-          <button
-            type="button"
-            className="ds-btn ds-btn--ghost text-xs"
-            onClick={() => setShowAllTabs(true)}
-          >
+          <Button type="button" variant="ghost" size="sm" onClick={() => setShowAllTabs(true)}>
             Visa fler
-          </button>
+          </Button>
         ) : (
-          <button
-            type="button"
-            className="ds-btn ds-btn--ghost text-xs"
-            onClick={() => setShowAllTabs(false)}
-          >
+          <Button type="button" variant="ghost" size="sm" onClick={() => setShowAllTabs(false)}>
             Färre flikar
-          </button>
+          </Button>
         )}
       </div>
       <section className="valv-zone-stack mb-4" aria-label="DCAP säkerhetsgranskning">

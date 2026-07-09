@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { FileText, Loader2, Lock, ShieldAlert } from 'lucide-react';
+import { Button, ButtonLink } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { EmptyState } from '@/core/ui/EmptyState';
@@ -347,12 +348,9 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
             Dossier kräver upplåst Valv (Fyren). I bottenmenyn: tryck på <strong>Hjärtat</strong>{' '}
             (bok-ikonen) och <strong>håll 3 sekunder</strong>, eller öppna Valvet och tryck <strong>Lås upp Valvet (biometri)</strong>.
           </p>
-          <Link
-            to="/valvet"
-            className="ds-btn ds-btn--secondary inline-flex text-sm"
-          >
+          <ButtonLink to="/valvet" variant="secondary" size="sm" className="inline-flex">
             Öppna Arkiv
-          </Link>
+          </ButtonLink>
         </BentoCard>
       </div>
     );
@@ -407,34 +405,32 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               </label>
             </div>
             <div className="flex flex-wrap gap-2">
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="sm"
                 onClick={() => {
                   setDateTo(defaultDateRange().dateTo);
                   setDateFrom(shiftMonths(defaultDateRange().dateTo, -3));
                 }}
-                className="ds-btn ds-btn--ghost text-xs"
               >
                 Senaste 3 månaderna
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
+                variant="ghost"
+                size="sm"
                 onClick={() => {
                   setDateTo(defaultDateRange().dateTo);
                   setDateFrom(shiftMonths(defaultDateRange().dateTo, -6));
                 }}
-                className="ds-btn ds-btn--ghost text-xs"
               >
                 Senaste 6 månaderna
-              </button>
+              </Button>
             </div>
-            <button
-              type="button"
-              onClick={() => setStep('sources')}
-              className="ds-btn ds-btn--accent w-full"
-            >
+            <Button type="button" variant="accent" className="w-full" onClick={() => setStep('sources')}>
               Fortsätt
-            </button>
+            </Button>
           </div>
         )}
 
@@ -592,21 +588,19 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
             </select>
 
             <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setStep('period')}
-                className="ds-btn ds-btn--ghost flex-1 text-sm"
-              >
+              <Button type="button" variant="ghost" size="sm" className="flex-1" onClick={() => setStep('period')}>
                 Tillbaka
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
+                variant="accent"
+                size="sm"
+                className="flex-1"
                 disabled={sources.journal && !journalAck}
                 onClick={() => setStep('review')}
-                className="ds-btn ds-btn--accent flex-1 text-sm disabled:opacity-40"
               >
                 Granska urval
-              </button>
+              </Button>
             </div>
           </div>
         )}
@@ -664,13 +658,9 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
             </p>
             {error && <p className="text-sm text-danger text-center">{error}</p>}
             <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={() => setStep('sources')}
-                className="ds-btn ds-btn--ghost flex-1 text-sm"
-              >
+              <Button type="button" variant="ghost" size="sm" className="flex-1" onClick={() => setStep('sources')}>
                 Tillbaka
-              </button>
+              </Button>
               <button
                 type="button"
                 disabled={generating || includedIds.size === 0}
@@ -757,20 +747,24 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               )}
 
             <div className="flex gap-2 pt-2">
-              <button
+              <Button
                 type="button"
-                className="ds-btn ds-btn--accent flex-1 text-xs justify-center"
+                variant="accent"
+                size="sm"
+                className="flex-1 justify-center"
                 onClick={() => void handleGenerateDossier()}
               >
                 Skriv ut / Spara igen
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
+                variant="ghost"
+                size="sm"
+                className="flex-1 justify-center"
                 onClick={clearSession}
-                className="ds-btn ds-btn--ghost flex-1 text-xs justify-center"
               >
                 Klar — rensa från enheten
-              </button>
+              </Button>
             </div>
           </div>
         )}

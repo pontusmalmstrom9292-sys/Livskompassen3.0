@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Check, Loader2 } from 'lucide-react';
+import { Button } from '@/design-system';
 import { MOOD_CATALOG, getMoodDef } from '../constants/moods';
 import {
   JOURNAL_SUGGESTED_TAGS,
@@ -137,12 +138,7 @@ export function JournalQuickMode({
       )}
 
       <div className="reflektion-actions">
-        <button
-          type="button"
-          className="ds-btn ds-btn--accent w-full"
-          disabled={!canSave}
-          onClick={handleSubmit}
-        >
+        <Button type="button" variant="accent" className="w-full" disabled={!canSave} onClick={handleSubmit}>
           {saving ? (
             <>
               <Loader2 className="mr-2 inline h-4 w-4 animate-spin" aria-hidden />
@@ -151,7 +147,7 @@ export function JournalQuickMode({
           ) : (
             'Spara tanken'
           )}
-        </button>
+        </Button>
       </div>
 
       {justSaved && (

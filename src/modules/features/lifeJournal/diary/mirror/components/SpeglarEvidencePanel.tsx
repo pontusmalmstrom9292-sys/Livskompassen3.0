@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Loader2, ShieldCheck } from 'lucide-react';
+import { Button } from '@/design-system';
 import { saveVaultLog } from '@/core/firebase/firestore';
 import { uploadVaultEvidence } from '@/core/firebase/storage';
 import { EvidenceMediaAttach } from '@/core/ui/EvidenceMediaAttach';
@@ -89,18 +90,19 @@ export function SpeglarEvidencePanel({
                     Sparat i valvet
                   </span>
                 ) : (
-                  <button
+                  <Button
                     type="button"
+                    variant="secondary"
+                    size="sm"
                     onClick={() => saveToVault(item)}
                     disabled={!userId || savingId === item.id}
-                    className="ds-btn ds-btn--secondary text-xs disabled:opacity-50"
                   >
                     {savingId === item.id ? (
                       <Loader2 className="h-3 w-3 animate-spin" />
                     ) : (
                       'Lås som bevis'
                     )}
-                  </button>
+                  </Button>
                 )}
               </div>
             );

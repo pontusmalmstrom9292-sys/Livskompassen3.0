@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Download, Loader2 } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { getProfileSeedEntryCount, importProfileSeed } from '../api/profileSeedService';
 import type { KampsparEntryRow } from '@/core/types/firestore';
@@ -63,15 +64,16 @@ export function ProfileSeedImport({ entries, onImported }: Props) {
         konto så chatten kan svara.
       </p>
 
-      <button
+      <Button
         type="button"
+        variant="success"
+        className="flex items-center gap-2"
         onClick={handleImport}
         disabled={loading}
-        className="ds-btn ds-btn--success flex items-center gap-2"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
         Importera min profil ({SEED_TOTAL} poster)
-      </button>
+      </Button>
 
       {progress && (
         <p className="mt-3 text-sm text-accent">

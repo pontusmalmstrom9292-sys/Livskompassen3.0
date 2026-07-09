@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { Button } from '@/design-system';
 import type { WeaverPendingRow } from '../api/weaverApprovalService';
 import {
   approveWeaverMetadata,
@@ -139,22 +140,12 @@ export function WeaverApprovalPanel({ userId, journalEntryId, enabled = true }: 
       </div>
       {error ? <p className="text-xs text-danger">{error}</p> : null}
       <div className="flex flex-wrap gap-2">
-        <button
-          type="button"
-          disabled={busy}
-          onClick={() => void handleApprove()}
-          className="ds-btn ds-btn--accent text-xs disabled:opacity-50"
-        >
+        <Button type="button" variant="accent" size="sm" disabled={busy} onClick={() => void handleApprove()}>
           {VAVAREN_APPROVAL_APPROVE_BUTTON}
-        </button>
-        <button
-          type="button"
-          disabled={busy}
-          onClick={() => void handleDismiss()}
-          className="ds-btn ds-btn--ghost text-xs disabled:opacity-50"
-        >
+        </Button>
+        <Button type="button" variant="ghost" size="sm" disabled={busy} onClick={() => void handleDismiss()}>
           Hoppa över
-        </button>
+        </Button>
       </div>
     </div>
   );

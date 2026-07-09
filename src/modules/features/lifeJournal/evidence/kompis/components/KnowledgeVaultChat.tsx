@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Button, ButtonLink } from '@/design-system';
 import {
   callKnowledgeVault,
   type KnowledgeVaultCitation,
@@ -123,22 +123,24 @@ export function KnowledgeVaultChat({
       >
         {/* NY KOD: Snabbknappar / Genvägar */}
         <div className="mb-4 flex flex-wrap gap-2">
-          <Link to="/hjartat" className="ds-btn ds-btn--ghost text-xs hover:bg-white/5">
+          <ButtonLink to="/hjartat" variant="ghost" size="sm" className="hover:bg-white/5">
             📖 Dagboken
-          </Link>
-          <Link to="/familjen" className="ds-btn ds-btn--ghost text-xs hover:bg-white/5">
+          </ButtonLink>
+          <ButtonLink to="/familjen" variant="ghost" size="sm" className="hover:bg-white/5">
             🧸 Barnens logg
-          </Link>
-          <Link to="/planering" className="ds-btn ds-btn--ghost text-xs hover:bg-white/5">
+          </ButtonLink>
+          <ButtonLink to="/planering" variant="ghost" size="sm" className="hover:bg-white/5">
             📝 Ny Planering
-          </Link>
-          <button 
-            type="button" 
-            onClick={() => setInputText("Kan du hjälpa mig att bryta ner en stor uppgift i mindre steg: ")}
-            className="ds-btn ds-btn--ghost text-xs hover:bg-white/5"
+          </ButtonLink>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            className="hover:bg-white/5"
+            onClick={() => setInputText('Kan du hjälpa mig att bryta ner en stor uppgift i mindre steg: ')}
           >
             ⚡ Bryt ner uppgift
-          </button>
+          </Button>
         </div>
         {/* SLUT PÅ NY KOD */}
 
@@ -151,24 +153,26 @@ export function KnowledgeVaultChat({
             className="input-glass"
             disabled={isLoading}
           />
-          <button type="submit" disabled={isLoading} className="ds-btn ds-btn--secondary self-end">
+          <Button type="submit" variant="secondary" className="self-end" disabled={isLoading}>
             {isLoading ? 'Söker...' : 'Skicka fråga'}
-          </button>
+          </Button>
         </form>
 
         {error && (
           <div className="mt-4 flex flex-wrap items-center gap-3 px-4">
             <p className="text-danger">{error}</p>
             {lastPrompt && (
-              <button
+              <Button
                 type="button"
+                variant="secondary"
+                size="sm"
+                className="inline-flex items-center gap-1.5"
                 onClick={handleRetry}
                 disabled={isLoading}
-                className="ds-btn ds-btn--secondary inline-flex items-center gap-1.5 text-sm"
               >
                 <RefreshCw className="h-3.5 w-3.5" aria-hidden />
                 Försök igen
-              </button>
+              </Button>
             )}
           </div>
         )}
@@ -178,12 +182,9 @@ export function KnowledgeVaultChat({
             <h3 className="mb-2 font-display font-semibold text-accent">Svar</h3>
             <p className="whitespace-pre-wrap text-text-muted">{aiResponse}</p>
             {moduleRoute && (
-              <Link
-                to={moduleRoute.path}
-                className="ds-btn ds-btn--secondary mt-4 inline-flex text-sm"
-              >
+              <ButtonLink to={moduleRoute.path} variant="secondary" size="sm" className="mt-4 inline-flex">
                 Öppna {moduleRoute.label}
-              </Link>
+              </ButtonLink>
             )}
             {citations.length > 0 && (
               <div className="mt-4">

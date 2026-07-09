@@ -1,6 +1,7 @@
-import { Download, Printer, Sparkles } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
+import { Download, Printer, Sparkles } from 'lucide-react';
+import { Button, ButtonLink } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
@@ -151,13 +152,9 @@ export function VaultVitHubPanel({ userId }: Props) {
       <EmptyState
         message={error ?? 'Ingen data.'}
         action={
-          <button
-            type="button"
-            onClick={() => void reload()}
-            className="ds-btn ds-btn--secondary text-xs"
-          >
+          <Button type="button" variant="secondary" size="sm" onClick={() => void reload()}>
             Försök igen
-          </button>
+          </Button>
         }
       />
     );
@@ -218,9 +215,9 @@ export function VaultVitHubPanel({ userId }: Props) {
           <EmptyState
             message="Inga sparade svar ännu."
             action={
-              <Link to={mabraHref} className="ds-btn ds-btn--secondary text-xs">
+              <ButtonLink to={mabraHref} variant="secondary" size="sm">
                 Öppna MåBra
-              </Link>
+              </ButtonLink>
             }
           />
         ) : (
@@ -264,9 +261,9 @@ export function VaultVitHubPanel({ userId }: Props) {
             );
           })}
         </ul>
-        <Link to={mabraHref} className="ds-btn ds-btn--ghost mt-3 inline-flex text-xs">
+        <ButtonLink to={mabraHref} variant="ghost" size="sm" className="mt-3 inline-flex">
           Fortsätt i MåBra
-        </Link>
+        </ButtonLink>
       </section>
 
       <VitMabraPassPanel stats={stats} />
@@ -278,24 +275,28 @@ export function VaultVitHubPanel({ userId }: Props) {
           {activeFilterLabel ? ` Exporterar filter: ${activeFilterLabel}.` : null}
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <button
+          <Button
             type="button"
+            variant="accent"
+            size="sm"
+            className="inline-flex items-center gap-2"
             onClick={() => printVitHubReport(exportReport)}
-            className="ds-btn ds-btn--accent inline-flex items-center gap-2 text-xs"
             disabled={filteredEntries.length === 0}
           >
             <Printer className="h-3.5 w-3.5" aria-hidden />
             Skriv ut / PDF
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
+            variant="ghost"
+            size="sm"
+            className="inline-flex items-center gap-2"
             onClick={() => downloadVitHubReportJson(exportReport)}
-            className="ds-btn ds-btn--ghost inline-flex items-center gap-2 text-xs"
             disabled={filteredEntries.length === 0}
           >
             <Download className="h-3.5 w-3.5" aria-hidden />
             Ladda ner JSON
-          </button>
+          </Button>
         </div>
       </section>
     </div>

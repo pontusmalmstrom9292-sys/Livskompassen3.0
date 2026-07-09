@@ -1,5 +1,5 @@
 import { Check } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Button, ButtonLink } from '@/design-system';
 import { hjartatTabHref } from '@/core/navigation/appNavigation';
 import { VAVAREN_SAVED_HINT } from '@/features/lifeJournal/evidence/vault/constants/vavarenCopy';
 import type { JournalBridgeContext } from '@/core/types/journalBridge';
@@ -32,21 +32,22 @@ export function SavedStep({
           <Check className="h-5 w-5" />
           <span className="text-sm">{DAGBOK_TYST_DONE_LABEL}</span>
         </div>
-        <button type="button" onClick={onNewEntry} className="ds-btn ds-btn--accent w-full sm:w-auto">
+        <Button type="button" variant="accent" className="w-full sm:w-auto" onClick={onNewEntry}>
           Klart
-        </button>
+        </Button>
         <CalmCollapsible title="Om du vill …" meta="Valfritt" defaultOpen={false} glow="gold">
           <div className="flex flex-wrap gap-2">
-            <button type="button" onClick={onNewEntry} className="ds-btn ds-btn--ghost text-sm">
+            <Button type="button" variant="ghost" size="sm" onClick={onNewEntry}>
               Ny post
-            </button>
-            <Link
+            </Button>
+            <ButtonLink
               to={hjartatTabHref('speglar')}
               state={{ journalContext }}
-              className="ds-btn ds-btn--ghost text-sm"
+              variant="ghost"
+              size="sm"
             >
               Känslospegeln
-            </Link>
+            </ButtonLink>
           </div>
         </CalmCollapsible>
       </>
@@ -67,16 +68,17 @@ export function SavedStep({
         />
       ) : null}
       <div className="flex flex-wrap gap-2">
-        <button type="button" onClick={onNewEntry} className="ds-btn ds-btn--accent">
+        <Button type="button" variant="accent" onClick={onNewEntry}>
           Ny post
-        </button>
-        <Link
+        </Button>
+        <ButtonLink
           to={hjartatTabHref('speglar')}
           state={{ journalContext }}
-          className="ds-btn ds-btn--ghost border-accent-secondary/40 text-accent-secondary hover:bg-accent-secondary/10"
+          variant="ghost"
+          className="border-accent-secondary/40 text-accent-secondary hover:bg-accent-secondary/10"
         >
           Känns det som gaslighting? → Gå till Speglar
-        </Link>
+        </ButtonLink>
       </div>
     </>
   );

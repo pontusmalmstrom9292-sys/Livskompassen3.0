@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Flame } from 'lucide-react';
 import { clsx } from 'clsx';
+import { Button } from '@/design-system';
 import { ReflectionEditor } from '@/features/lifeJournal/diary/diary/components/ReflectionEditor';
 
 export function DagbokBurnDelegate() {
@@ -39,18 +40,19 @@ export function DagbokBurnDelegate() {
         />
         
         <div className="mt-4 flex justify-end">
-          <button 
-            type="button" 
+          <Button
+            type="button"
             onClick={handleBurn}
             disabled={burning || !text.trim()}
+            variant="accent"
             className={clsx(
-              'ds-btn shadow-sm transition-all flex items-center gap-2',
-              burning ? 'bg-red-500 text-white' : 'ds-btn--accent',
+              'shadow-sm transition-all flex items-center gap-2',
+              burning && 'border-red-500 bg-red-500 text-white',
             )}
           >
             <Flame className="w-4 h-4" />
             {burning ? 'Bränner...' : 'Bränn'}
-          </button>
+          </Button>
         </div>
       </div>
     </div>
