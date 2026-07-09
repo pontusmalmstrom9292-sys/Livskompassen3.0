@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   MATCH_TYPE_LABELS,
@@ -81,14 +82,16 @@ export function PlaneringEmailRulesPanel() {
         <p className="text-xs text-text-dim">
           Lägg till skola, myndighet m.fl. Du fyller själv i en separat regel för ex-partner (Hamn).
         </p>
-        <button
+        <Button
           type="button"
+          variant="secondary"
+          size="sm"
+          className="mt-3 w-full"
           disabled={saving}
-          className="ds-btn ds-btn--secondary mt-3 w-full text-sm"
           onClick={() => void handleSuggest()}
         >
           Lägg till föreslagna regler
-        </button>
+        </Button>
       </BentoCard>
 
       <BentoCard title="Ny regel">
@@ -150,14 +153,16 @@ export function PlaneringEmailRulesPanel() {
               }
             />
           </label>
-          <button
+          <Button
             type="button"
+            variant="accent"
+            size="sm"
+            className="w-full"
             disabled={saving || !draft.label.trim() || !draft.pattern.trim()}
-            className="ds-btn ds-btn--accent w-full text-sm"
             onClick={() => void handleAdd()}
           >
             Spara regel
-          </button>
+          </Button>
         </div>
       </BentoCard>
 

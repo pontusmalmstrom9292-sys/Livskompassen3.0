@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { Button } from '@/design-system';
 import { ChevronDown, Loader2, Route } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { clsx } from 'clsx';
@@ -114,9 +115,11 @@ export function RoutinesPanel({ defaultOpen = false }: Props) {
           {pickedRoutine?.lead ? (
             <p className="mt-2 text-xs text-text-dim">{pickedRoutine.lead}</p>
           ) : null}
-          <button
+          <Button
             type="button"
-            className="ds-btn ds-btn--secondary mt-3 w-full text-sm"
+            variant="secondary"
+            size="sm"
+            className="mt-3 w-full"
             disabled={busyId !== null || !pickedRoutine}
             onClick={() => pickedRoutine && void onRun(pickedRoutine)}
           >
@@ -128,7 +131,7 @@ export function RoutinesPanel({ defaultOpen = false }: Props) {
             ) : (
               'Kör rutin'
             )}
-          </button>
+          </Button>
           {lastMsg ? <p className="routines-panel__msg routines-panel__msg--ok">{lastMsg}</p> : null}
           {error ? <p className="routines-panel__msg routines-panel__msg--err">{error}</p> : null}
         </div>
