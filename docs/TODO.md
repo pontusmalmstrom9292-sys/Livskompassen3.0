@@ -187,6 +187,8 @@ Each item is independently completable. Link files in Dashboard when done.
 
 ## Phase 10 — Legacy sunset (stretch)
 
+- [x] Våg 35–42: Input batches Planering/Familjen/Hjärtat, Badge cleanup, titleHub/a11y, index sunset batch (2026-07-09)
+
 - [x] Audit unused calm-card classes
 - [x] Extract planering.css patterns to DS
 - [x] Remove dead lab CSS from prod bundle

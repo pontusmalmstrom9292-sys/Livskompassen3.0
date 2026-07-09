@@ -1,4 +1,4 @@
-/* PROTECTED BASTA-DESIGN DOCK LOCK — docs/design/BASTA-DESIGN-DOCK-LOCK.md · npm run smoke:basta-dock-lock */
+/* PROTECTED BASTA-DESIGN CHROME LOCK — docs/design/BASTA-DESIGN-CHROME-LOCK.md · npm run smoke:basta-dock-lock */
 import { useState } from 'react';
 import { Menu, Settings } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';

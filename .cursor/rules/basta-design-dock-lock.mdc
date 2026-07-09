@@ -1,36 +1,44 @@
 ---
-description: Låst Bästa design dock + header (Resurser i header, v2 fullbredd dock, 5 zoner)
+description: Låst Bästa design chrome — header (grid, Resurser vänster) + dock v2 + hem-paritet
 alwaysApply: false
-globs: src/modules/core/layout/basta-design/**,src/styles/dock-kanon-match.css,docs/design/BASTA-DESIGN-DOCK-LOCK.md
+globs: src/modules/core/layout/basta-design/**,src/modules/core/home/basta-design/**,src/styles/dock-kanon-match.css,src/styles/basta-design.css,docs/design/BASTA-DESIGN-*.md
 ---
 
-# Bästa design — Dock + Header (LOCKED)
+# Bästa design — Header + Dock (LOCKED)
 
-Kanon: [`docs/design/BASTA-DESIGN-DOCK-LOCK.md`](../../docs/design/BASTA-DESIGN-DOCK-LOCK.md) · register: [`.context/locked-ux-features.md`](../.context/locked-ux-features.md) §21
+Kanon: [`docs/design/BASTA-DESIGN-CHROME-LOCK.md`](../../docs/design/BASTA-DESIGN-CHROME-LOCK.md)  
+Paritet: [`docs/design/BASTA-DESIGN-V2-PARITY.md`](../../docs/design/BASTA-DESIGN-V2-PARITY.md)  
+Register: [`.context/locked-ux-features.md`](../.context/locked-ux-features.md) §21
 
-## MUST NOT (utan explicit Pontus OK)
+## Header MUST NOT (utan Pontus OK)
 
-1. Flytta **Resurser** tillbaka till dock-shell eller in i `BastaDesignDockBar`
-2. Ersätta prod-dock med `ExecutiveDockBar` / `FloatingDock` under `ME-basta-design`
-3. Ta bort zoner, byta etiketter (Anteckning · Familj · **Mentil** · Inkast) eller lägga Resurser i dock-raden
-4. Krympa dock till `margin-right: 2.2rem` / reservera spalt för sidwidget
-5. Ta bort hero-kompass breakout eller `BastaDesignDockCompass` v2-SVG
-6. Ta bort opaque scrim (`.dock-shell--basta-v2::before`) — orsakar bleed-through
+1. Flytta **Resurser** från `basta-design__header-start` till `header-actions`
+2. Ta bort 3-kolumns grid (`header-start` \| `header-brand` \| `header-actions`)
+3. Ersätta `BastaDesignHeader` med `AppHeaderBar` under `ME-basta-design`
+4. Ta bort centrerad **Livskompassen**-brand + ornament
+5. Flytta `ResurserOverlay` ut ur headern
 
-## MUST behålla
+## Header MUST behålla
 
-| Del | Krav |
-|-----|------|
-| Resurser | `BastaDesignResurserWidget` `placement="header"` i `BastaDesignHeader` + `ResurserOverlay` där |
-| Dock | `BastaDesignDock` → `BastaDesignDockBar` + `basta-dock-bar--v2` |
-| Bredd | `dock-kanon-match.css`: dock `width: 100%`, `margin-right: 0` |
-| Zoner | 4 sidknappar + kompass — **inte** 6 zoner i rad |
+- Vänster: meny + `BastaDesignResurserWidget` `placement="header"`
+- Center: `Livskompassen` + ornament (prod-typografi i `.basta-design__header--prod`)
+- Höger: inställningar · konto · Kompis-öga
 
-## Efter ändring (om godkänd)
+## Dock MUST NOT
+
+1. Resurser i dock-raden eller dock-shell widget
+2. `ExecutiveDockBar` / krympa fullbredd dock
+3. Byta zonetiketter eller ta bort hero-kompass
+
+## Hem (v2-ref)
+
+`HomePage` → `BastaDesignHome` när `ME-basta-design`. Sektioner: hero · fokus/coach · ankar · planering · anteckningar.
+
+## Efter godkänd ändring
 
 ```bash
 npm run smoke:basta-dock-lock
 npm run smoke:locked-ux
 ```
 
-Uppdatera `BASTA-DESIGN-DOCK-LOCK.md` och `.context/locked-ux-features.md` §21 vid avsiktlig layoutändring.
+Uppdatera `BASTA-DESIGN-CHROME-LOCK.md` + `BASTA-DESIGN-V2-PARITY.md` vid avsiktlig layoutändring.

@@ -454,18 +454,19 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
-## 21. Bästa design — Dock + Header (ME-basta-design prod)
+## 21. Bästa design — Header + Dock + Hem (ME-basta-design prod)
 
 | | |
 |---|---|
 | **Tema** | `ME-basta-design` · `app-shell--basta-design` |
-| **Spec** | [`docs/design/BASTA-DESIGN-DOCK-LOCK.md`](../docs/design/BASTA-DESIGN-DOCK-LOCK.md) |
-| **Header** | `BastaDesignHeader` — **Resurser** via `BastaDesignResurserWidget` `placement="header"` |
+| **Spec** | [`docs/design/BASTA-DESIGN-CHROME-LOCK.md`](../docs/design/BASTA-DESIGN-CHROME-LOCK.md) · paritet [`BASTA-DESIGN-V2-PARITY.md`](../docs/design/BASTA-DESIGN-V2-PARITY.md) |
+| **Header** | `BastaDesignHeader` — grid: meny+Resurser vänster · Livskompassen center · inställningar/konto/öga höger |
 | **Dock** | `BastaDesignDock` → `BastaDesignDockBar` (`basta-dock-bar--v2`) — Anteckning · Familj · kompass · Mentil · Inkast |
-| **Förbjudet** | Resurser i dock-raden · krympa dock för sidwidget · byta till ExecutiveDockBar i prod |
-| **Smoke** | `npm run smoke:basta-dock-lock` (ingår i `smoke:chrome-header` / `smoke:locked-ux`) |
+| **Hem** | `BastaDesignHome` + `BastaDesignHero` (v2-sektioner på `/`) |
+| **Förbjudet** | Resurser i dock eller höger header-actions · krympa dock · byta header/dock-komponenter |
+| **Smoke** | `npm run smoke:basta-dock-lock` (ingår i `smoke:locked-ux`) |
 
-**Får inte:** flytta Resurser tillbaka till dock-shell; ta bort fullbredd dock eller hero-kompass breakout utan Pontus OK.
+**Får inte:** bryta header-grid, flytta Resurser till höger, ta bort hem-sektioner eller hero-kompass utan Pontus OK.
 
 ## Verifiering
 

@@ -1,5 +1,5 @@
 /**
- * Static smoke: Bästa design prod dock + header layout lock (2026-07-09).
+ * Static smoke: Bästa design prod chrome lock — header + dock + hem-paritet (2026-07-09).
  * Usage: npm run smoke:basta-dock-lock
  */
 import { readFileSync, existsSync } from 'fs';
@@ -34,17 +34,42 @@ function mustNotInclude(relPath, ...needles) {
 }
 
 function main() {
-  mustInclude('docs/design/BASTA-DESIGN-DOCK-LOCK.md', 'LÅST 2026-07-09', 'placement="header"');
-  mustInclude('.cursor/rules/basta-design-dock-lock.mdc', 'BASTA-DESIGN-DOCK-LOCK.md', 'MUST NOT');
+  mustInclude(
+    'docs/design/BASTA-DESIGN-CHROME-LOCK.md',
+    'LÅST 2026-07-09',
+    'header-start',
+    'placement="header"',
+  );
+  mustInclude('docs/design/BASTA-DESIGN-V2-PARITY.md', 'bästa designv2', 'BastaDesignHero');
+  mustInclude('.cursor/rules/basta-design-dock-lock.mdc', 'BASTA-DESIGN', 'MUST NOT');
 
   const header = read('src/modules/core/layout/basta-design/BastaDesignHeader.tsx');
   assert(header.includes('BastaDesignResurserWidget'), 'BastaDesignHeader: Resurser-widget saknas');
   assert(header.includes('placement="header"'), 'BastaDesignHeader: placement="header" saknas');
   assert(header.includes('ResurserOverlay'), 'BastaDesignHeader: ResurserOverlay saknas');
+  assert(header.includes('basta-design__header-start'), 'BastaDesignHeader: header-start saknas');
+  assert(header.includes('basta-design__header-brand'), 'BastaDesignHeader: header-brand saknas');
+  assert(header.includes('basta-design__header-actions'), 'BastaDesignHeader: header-actions saknas');
+  assert(header.includes('Livskompassen'), 'BastaDesignHeader: titel saknas');
   assert(
-    header.includes('BASTA-DESIGN DOCK LOCK') || header.includes('BASTA-DESIGN-DOCK-LOCK'),
+    /basta-design__header-start[\s\S]*BastaDesignResurserWidget/.test(header),
+    'BastaDesignHeader: Resurser måste ligga i header-start (vänster)',
+  );
+  assert(
+    !/basta-design__header-actions[\s\S]*BastaDesignResurserWidget/.test(header),
+    'BastaDesignHeader: Resurser får inte ligga i header-actions (höger)',
+  );
+  assert(
+    header.includes('BASTA-DESIGN DOCK LOCK') || header.includes('BASTA-DESIGN-CHROME-LOCK'),
     'BastaDesignHeader: PROTECTED-kommentar saknas',
   );
+
+  const headerCss = read('src/styles/basta-design.css');
+  assert(
+    headerCss.includes('.basta-design__header--prod') && headerCss.includes('grid-template-columns'),
+    'basta-design.css: prod header grid saknas',
+  );
+  assert(headerCss.includes('.basta-design__header-start'), 'basta-design.css: header-start saknas');
 
   const dock = read('src/modules/core/layout/basta-design/BastaDesignDock.tsx');
   assert(!dock.includes('BastaDesignResurserWidget'), 'BastaDesignDock: Resurser-widget får inte ligga i dock');
@@ -65,22 +90,47 @@ function main() {
 
   mustInclude('src/modules/core/layout/MainLayout.tsx', 'BastaDesignHeader', 'BastaDesignDock');
 
-  const css = read('src/styles/dock-kanon-match.css');
-  assert(css.includes('basta-resurser-widget--header'), 'dock-kanon-match: header-widget-variant saknas');
+  mustInclude(
+    'src/modules/core/pages/HomePage.tsx',
+    'BastaDesignHome',
+    'home-page--basta-design',
+    'isBastaDesignTheme',
+  );
+
+  mustInclude(
+    'src/modules/core/home/basta-design/BastaDesignHome.tsx',
+    'BastaDesignHero',
+    'Dagens fokus',
+    'Fråga livscoachen',
+    'Dagens ankar',
+    'Planering',
+    'Tidigare anteckningar',
+  );
+
+  mustInclude(
+    'src/modules/core/home/basta-design/BastaDesignHero.tsx',
+    'Dagens reflektion',
+    'Reflektionsfråga',
+    'Stanna upp',
+    'Skriv nu',
+  );
+
+  const dockCss = read('src/styles/dock-kanon-match.css');
+  assert(dockCss.includes('basta-resurser-widget--header'), 'dock-kanon-match: header-widget-variant saknas');
   assert(
-    /\.dock-shell--basta-v2 \.basta-dock-bar[\s\S]*width:\s*100%/.test(css),
+    /\.dock-shell--basta-v2 \.basta-dock-bar[\s\S]*width:\s*100%/.test(dockCss),
     'dock-kanon-match: dock width 100% saknas',
   );
   assert(
-    /\.dock-shell--basta-v2 \.basta-dock-bar[\s\S]*margin-right:\s*0/.test(css),
+    /\.dock-shell--basta-v2 \.basta-dock-bar[\s\S]*margin-right:\s*0/.test(dockCss),
     'dock-kanon-match: margin-right 0 saknas',
   );
-  assert(!css.includes('margin-right: 2.2rem'), 'dock-kanon-match: gammal widget-marginal får inte finnas');
+  assert(!dockCss.includes('margin-right: 2.2rem'), 'dock-kanon-match: gammal widget-marginal får inte finnas');
 
-  mustInclude('src/index.css', 'dock-kanon-match.css');
+  mustInclude('src/index.css', 'dock-kanon-match.css', 'basta-design.css');
 
   console.log(
-    '[smoke:basta-dock-lock] PASS — Resurser i header, fullbredd v2-dock, 5 zoner (Anteckning/Familj/kompass/Mentil/Inkast).',
+    '[smoke:basta-dock-lock] PASS — header (vänster Resurser + brand) + dock v2 + hem v2-paritet.',
   );
 }
 

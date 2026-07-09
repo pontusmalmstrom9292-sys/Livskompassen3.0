@@ -1,3 +1,37 @@
+## 2026-07-09 — YOLO VÅG 35–42 — Input · Badge · Typografi · A11y · Sunset · Governance
+
+**Plattform:** Cursor (Auto) · **Läge:** Agent · **Ändringar:** minimal diff
+
+**Completed work:**
+- VÅG 35: DS `Input`/`TextArea` i PlaneringInkorgPanel, PlaneringEmailRulesPanel, PlaneringTaskQuickDelegate, PlaneringParalysEntry.
+- VÅG 36: DS inputs i FamiljenBarnfokusDelegate, LivsloggObservation/Stund, VardagsstrukturDelegate.
+- VÅG 37: DS inputs i ReflectionStep, VivirStepView, ActCalibrationView, RecoveryRealityCheckForm, RecoveryTwelveStepJournal, KompisChat, ZenModeOverlay.
+- VÅG 38: InkorgPreviewSheet → DS `Badge` + `inboxQueueStatusBadgeVariant`; deprecated `inboxQueueStatusBadgeClass`; rensade `.review-queue-status*` i planering.css.
+- VÅG 39: `hubHeaderClasses`/`textStyles.eyebrow` i ArchiveHub, VaultVitHubPanel (StatTile), Planering inkorg + input delegates.
+- VÅG 40: `focus-visible` planering-back-link + reflektion-actions__ghost; TabBar/chip ≥44px; ModuleHelpHint Esc+Tab oförändrad.
+- VÅG 41: index.css chip touch + ghost focus; planering.css badge-dead CSS bort; smoke:calm-card-audit PASS.
+- VÅG 42: metrics + governance + predeploy PASS.
+
+**Metrics (smoke:design-debt 2026-07-09):**
+- `btnPillFiles`: **0**
+- `dsBtnFiles`: **1** (`tokens.ts` legacy alias)
+- `designSystemImportFiles`: **247**
+- `adHocDialogFiles`: **3** (ResurserOverlay locked, sandbox×2)
+- `indexCssLoc`: **3118**
+- `npm run build`: PASS
+- Per-våg smoke (build, locked-ux, design-modules, design-debt, chrome-header): PASS
+- `smoke:calm-card-audit`, `smoke:inkast-fas2`, `smoke:governance`, `smoke:predeploy:build`: PASS
+
+**Keyboard checklist (våg 40):** Esc stänger DS Modal; ModuleHelpHint Esc + Tab-roving; TabBar/chip-rader ≥44px; ghost focus-visible i Planering + Dagbok.
+
+**Kvarvarande inputs (ej våg 35–37):** widgets, onboarding, compasses, voiceToVault — dokumenterat för nästa batch.
+
+**Deploy:** Väntar på Pontus `deploy`.
+
+**Blockers:** None
+
+---
+
 ## 2026-07-09 — Deploy hosting våg 27–34
 
 **Deploy:** Hosting live — https://gen-lang-client-0481875058.web.app (våg 27–34: ImmersiveShell Modal, input batches, badges, a11y).

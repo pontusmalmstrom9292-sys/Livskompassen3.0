@@ -864,6 +864,7 @@ html[data-theme='ME-basta-design'] {
   background: #07101d;
 }
 
+/* LOCKED: basta-design__header--prod — se docs/design/BASTA-DESIGN-CHROME-LOCK.md */
 .basta-design__header--prod {
   top: env(safe-area-inset-top, 0px);
   display: grid;
