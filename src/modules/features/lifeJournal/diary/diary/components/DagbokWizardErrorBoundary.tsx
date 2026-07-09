@@ -1,9 +1,10 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
-import { ErrorFallback } from '@/design-system';
+import { ErrorFallback, type ErrorFallbackGlow } from '@/design-system';
 
 type Props = {
   children: ReactNode;
   onReset?: () => void;
+  glow?: ErrorFallbackGlow;
 };
 
 type State = { hasError: boolean };
@@ -26,7 +27,7 @@ export class DagbokWizardErrorBoundary extends Component<Props, State> {
         <ErrorFallback
           title="Något gick fel i vyn"
           body="Din text kan redan vara sparad — kolla Arkiv-fliken."
-          glow="danger"
+          glow={this.props.glow ?? 'gold'}
           retryLabel="Ny post"
           onRetry={() => {
             this.setState({ hasError: false });

@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Heart, PenLine, Star } from 'lucide-react';
 import { clsx } from 'clsx';
+import { Button } from '@/design-system';
 import { useStore } from '@/core/store';
 import { useJournalFlow } from '@/features/lifeJournal/diary/diary/hooks/useJournalFlow';
 import { formatJournalDateKey, journalEntryDate } from './execJournalUtils';
@@ -52,14 +53,13 @@ export function ExecutiveReflektionHero() {
               </p>
             </>
           )}
-          <button
-            type="button"
-            className="ds-btn ds-btn--accent inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider"
+          <Button
+            className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider"
             onClick={goWrite}
           >
             <PenLine className="h-3.5 w-3.5" strokeWidth={1.5} />
             Skriv nu
-          </button>
+          </Button>
         </div>
 
         <aside className="exec-reflektion-hero__aside flex max-w-[12.5rem] flex-col items-center gap-2 sm:items-end">

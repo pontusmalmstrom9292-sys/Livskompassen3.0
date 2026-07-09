@@ -190,7 +190,7 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
   };
 
   return (
-    <RAGErrorBoundary fallbackTitle="Nätverksfel i Valv-Chat">
+    <RAGErrorBoundary fallbackTitle="Nätverksfel i Valv-Chat" glow="blue">
       <div className="valv-chat-panel space-y-4">
         <SanningsAnalytikernHeader />
 

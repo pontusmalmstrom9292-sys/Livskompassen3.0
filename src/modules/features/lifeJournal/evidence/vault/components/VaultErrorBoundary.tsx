@@ -1,9 +1,10 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
-import { ErrorFallback } from '@/design-system';
+import { ErrorFallback, type ErrorFallbackGlow } from '@/design-system';
 
 type Props = {
   children: ReactNode;
   onReset?: () => void;
+  glow?: ErrorFallbackGlow;
 };
 
 type State = { hasError: boolean };
@@ -26,7 +27,7 @@ export class VaultErrorBoundary extends Component<Props, State> {
         <ErrorFallback
           title="Något gick fel i Valv-vyn"
           body="Dina sparade bevis påverkas inte. Ladda om vyn eller gå tillbaka till Valv om felet kvarstår."
-          glow="danger"
+          glow={this.props.glow ?? 'blue'}
           onRetry={() => {
             this.setState({ hasError: false });
             this.props.onReset?.();

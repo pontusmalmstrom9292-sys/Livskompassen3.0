@@ -1,3 +1,64 @@
+## 2026-07-09 — YOLO VÅG 13 — Lab/dev-sidor + deploy våg 10–13
+
+**Completed work:**
+- Alla `ds-btn` i lab/dev-scope → DS `Button`/`ButtonLink` (8 filer).
+- Scope: ThemeLab, HubLab, ObsidianForge, ObsidianDepth v1/v2, DagensAnkare, Brusfiltret SuperModule lab, W1 kompakt projekt lab.
+- Externa länkar: `buttonClassName` på `<a>`.
+
+**Metrics:**
+- Lab/dev `.tsx`: 0 `ds-btn`
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`, `smoke:obsidian-depth`: PASS
+
+**Deploy:**
+- Hosting live: https://gen-lang-client-0481875058.web.app (våg 10–13).
+
+**Blockers:**
+- None
+
+---
+
+## 2026-07-09 — YOLO VÅG 12 — ErrorBoundary glow tokens + Familjen hubs
+
+**Completed work:**
+- `RAGErrorBoundary`, `DagbokWizardErrorBoundary`, `VaultErrorBoundary` — `glow?: ErrorFallbackGlow` prop med silo-defaults.
+- Zone-glow vid call sites: Familjen/Valv → `blue`, Hem/Hjärtat/Dagbok → `gold`, MåBra → `green` (befintligt).
+- `PlaneringErrorBoundary` → `glow="gold"`.
+- Familjen per-tab `HubErrorBoundary glow="blue"`: `FamiljenInputSuperModule`, `BarnportenParentHubPanel`, `SafeHarborPage`.
+- CSS: `glow-bottom-danger` token + capacity-low fallback.
+
+**Metrics:**
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`: PASS
+
+**Next steps:**
+- Deploy våg 10–12 (väntar på Pontus "deploy")
+- VÅG 13: Lab/dev-sidor (ThemeLab, HubLab, ObsidianForge)
+
+**Blockers:**
+- None
+
+---
+
+## 2026-07-09 — YOLO VÅG 11 — Core + Home + Auth + Capture + Inkast
+
+**Completed work:**
+- Alla `ds-btn` i VÅG 11-scope → DS `Button`/`ButtonLink` (24 filer).
+- Scope: `core/home/`, `core/auth/`, `capture/`, `inkast/`.
+
+**Metrics:**
+- Våg 11 scope `.tsx`: 0 `ds-btn`
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`: PASS
+
+**Next steps:**
+- Deploy våg 10–12 (väntar på Pontus "deploy")
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-07-09 — YOLO VÅG 10 — Ekonomi + Arbetsliv + Drogfrihet + Kompasser
 
 **Completed work:**

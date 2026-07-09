@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { OdDepthHemV3Lab } from '../ui/od-depth';
 
 /**
@@ -22,18 +22,18 @@ export function ObsidianDepthV2LabPage() {
           <strong>Theme Lab</strong> styr bara färgtema på prod; det här är layout-preview.
         </p>
         <div className="od-depth-lab__links">
-          <Link to="/dev/obsidian-depth" className="ds-btn ds-btn--ghost text-xs">
+          <ButtonLink to="/dev/obsidian-depth" variant="ghost" size="sm" className="text-xs">
             Depth v1 (låst)
-          </Link>
-          <Link to="/dev/dagens-ankare" className="ds-btn ds-btn--ghost text-xs">
+          </ButtonLink>
+          <ButtonLink to="/dev/dagens-ankare" variant="ghost" size="sm" className="text-xs">
             Dagens Ankare
-          </Link>
-          <Link to="/dev/theme-lab" className="ds-btn ds-btn--ghost text-xs">
+          </ButtonLink>
+          <ButtonLink to="/dev/theme-lab" variant="ghost" size="sm" className="text-xs">
             Theme Lab
-          </Link>
-          <Link to="/" className="ds-btn ds-btn--ghost text-xs">
+          </ButtonLink>
+          <ButtonLink to="/" variant="ghost" size="sm" className="text-xs">
             Hem prod
-          </Link>
+          </ButtonLink>
         </div>
         <p className="mt-3 text-xs text-text-muted" aria-live="polite">
           {status}

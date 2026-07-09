@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FileUp, Filter, PenLine, X } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
 import { toast } from '@/modules/core/store/toastStore';
@@ -472,9 +473,9 @@ export function CapturePanel({
           {allowFiles && (
             <>
               <div className="mt-3 flex flex-wrap items-center gap-2">
-                <button
-                  type="button"
-                  className="ds-btn ds-btn--ghost text-xs"
+                <Button
+                  variant="ghost"
+                  size="sm"
                   disabled={phase !== 'compose'}
                   onClick={() => fileInputRef.current?.click()}
                 >
@@ -482,7 +483,7 @@ export function CapturePanel({
                     <FileUp className="h-3 w-3" />
                     En fil eller flera
                   </span>
-                </button>
+                </Button>
                 <input
                   ref={fileInputRef}
                   type="file"
@@ -518,27 +519,22 @@ export function CapturePanel({
 
           <div className="mt-3 flex flex-wrap items-center gap-2">
             {canBrusfilter && hasText && !hasFiles && (
-              <button
-                type="button"
-                className="ds-btn ds-btn--secondary inline-flex items-center gap-1.5 text-sm"
+              <Button
+                variant="secondary"
+                className="inline-flex items-center gap-1.5"
                 onClick={startBrusfilterStep}
               >
                 <Filter className="h-3.5 w-3.5" aria-hidden />
                 Filtrera brus först
-              </button>
+              </Button>
             )}
-            <button
-              type="button"
-              className="ds-btn ds-btn--accent text-sm"
-              disabled={!canPreview}
-              onClick={() => void handlePreview()}
-            >
+            <Button disabled={!canPreview} onClick={() => void handlePreview()}>
               Förhandsgranska
-            </button>
+            </Button>
             {phase === 'done' && (
-              <button type="button" className="ds-btn ds-btn--ghost text-sm" onClick={resetFlow}>
+              <Button variant="ghost" onClick={resetFlow}>
                 Nytt inkast
-              </button>
+              </Button>
             )}
           </div>
           
@@ -595,9 +591,9 @@ export function CapturePanel({
             <h3 className="font-medium text-text">Sparar inkast...</h3>
             <p className="mt-1 text-sm text-text-dim">Du kan ångra om du kom på något mer.</p>
           </div>
-          <button type="button" onClick={cancelDebounce} className="ds-btn ds-btn--ghost mt-2">
+          <Button variant="ghost" onClick={cancelDebounce} className="mt-2">
             Ångra
-          </button>
+          </Button>
         </div>
       )}
 

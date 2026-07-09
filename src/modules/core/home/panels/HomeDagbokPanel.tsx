@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { ArrowRight, BookOpen, PenLine } from 'lucide-react';
+import { ButtonLink } from '@/design-system';
 import { HOME_SUPERHUB_ROUTES } from '../homeSuperhubRoutes';
 
 /** Hem — bro till Superdagbok (ingen duplicerad journal-form). */
@@ -10,20 +11,21 @@ export function HomeDagbokPanel() {
         Skriv i Superdagbok — reflektion, snabb spegling eller minneslista på ett ställe.
       </p>
       <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-        <Link
+        <ButtonLink
           to={HOME_SUPERHUB_ROUTES.hjartatQuickMirror}
-          className="ds-btn ds-btn--accent inline-flex items-center justify-center gap-2"
+          className="inline-flex items-center justify-center gap-2"
         >
           <PenLine className="h-4 w-4" aria-hidden />
           Snabb spegling
-        </Link>
-        <Link
+        </ButtonLink>
+        <ButtonLink
           to={HOME_SUPERHUB_ROUTES.hjartatReflektion}
-          className="ds-btn ds-btn--ghost inline-flex items-center justify-center gap-2"
+          variant="ghost"
+          className="inline-flex items-center justify-center gap-2"
         >
           <BookOpen className="h-4 w-4" aria-hidden />
           Reflektera steg för steg
-        </Link>
+        </ButtonLink>
       </div>
       <Link
         to={HOME_SUPERHUB_ROUTES.hjartatArkiv}

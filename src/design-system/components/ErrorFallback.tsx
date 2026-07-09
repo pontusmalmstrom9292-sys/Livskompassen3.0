@@ -20,7 +20,7 @@ const GLOW_CLASS: Record<ErrorFallbackGlow, string> = {
   gold: 'glow-bottom-gold',
   blue: 'glow-bottom-blue',
   green: 'glow-bottom-green',
-  danger: 'border-danger/30',
+  danger: 'glow-bottom-danger border-danger/30',
 };
 
 /**

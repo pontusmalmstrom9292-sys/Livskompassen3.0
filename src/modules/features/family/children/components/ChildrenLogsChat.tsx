@@ -40,7 +40,7 @@ export function ChildrenLogsChat({ activeChild }: ChildrenLogsChatProps) {
   };
 
   return (
-    <RAGErrorBoundary fallbackTitle="Nätverksfel i Barnloggar">
+    <RAGErrorBoundary fallbackTitle="Nätverksfel i Barnloggar" glow="blue">
       <BentoCard
         glow="blue"
         title="Fråga livsloggarna"

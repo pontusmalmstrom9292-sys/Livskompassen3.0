@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { BookOpen } from 'lucide-react';
+import { Button, ButtonLink } from '@/design-system';
 import { journalWovenToKampspar } from '@/features/lifeJournal/diary/diary/api/journalWovenService';
 import { VALV_KUNSKAP_INBOX_LINK } from '../api/inkastService';
 import type { SubmitInkastLiteItemResult } from '../api/inkastService';
@@ -62,15 +62,15 @@ export function InkastDagbokWeaveBridge({ journalEntryId, text, mood, onDone }: 
     return (
       <div className="mt-4 space-y-2 rounded-xl border border-success/30 bg-success/5 px-4 py-3">
         <p className="text-sm text-success">Kort rad sparad i Minne (opt-in).</p>
-        <Link
+        <ButtonLink
           to={{ pathname: VALV_KUNSKAP_INBOX_LINK.pathname, search: VALV_KUNSKAP_INBOX_LINK.search }}
-          className="ds-btn ds-btn--ghost text-sm"
+          variant="ghost"
         >
           Öppna Kunskapsbank (Valv)
-        </Link>
-        <button type="button" onClick={onDone} className="ds-btn ds-btn--secondary mt-2 text-sm">
+        </ButtonLink>
+        <Button variant="secondary" onClick={onDone} className="mt-2">
           Klar
-        </button>
+        </Button>
       </div>
     );
   }
@@ -85,12 +85,12 @@ export function InkastDagbokWeaveBridge({ journalEntryId, text, mood, onDone }: 
         Valfritt — dagboksposten är redan sparad. Inget vävs utan att du väljer explicit.
       </p>
       <div className="flex flex-col gap-2 sm:flex-row">
-        <button type="button" className="ds-btn ds-btn--secondary text-sm" onClick={handleWeave}>
+        <Button variant="secondary" onClick={handleWeave}>
           Ja, spara i Minne
-        </button>
-        <button type="button" className="ds-btn ds-btn--ghost text-sm" onClick={onDone}>
+        </Button>
+        <Button variant="ghost" onClick={onDone}>
           Nej, bara dagbok
-        </button>
+        </Button>
       </div>
     </div>
   );

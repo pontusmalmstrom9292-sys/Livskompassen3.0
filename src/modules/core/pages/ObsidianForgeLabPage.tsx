@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { Compass, LifeBuoy, Shield, Sparkles } from 'lucide-react';
 import { useStore } from '../store';
 import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
@@ -118,15 +118,15 @@ export function ObsidianForgeLabPage() {
           <code className="text-accent">OD-obsidian-depth</code>.
         </p>
         <div className="od-forge-lab__links">
-          <Link to="/dev/theme-lab" className="ds-btn ds-btn--ghost text-xs">
+          <ButtonLink to="/dev/theme-lab" variant="ghost" size="sm" className="text-xs">
             Theme Lab
-          </Link>
-          <Link to="/dev/obsidian-depth" className="ds-btn ds-btn--ghost text-xs">
+          </ButtonLink>
+          <ButtonLink to="/dev/obsidian-depth" variant="ghost" size="sm" className="text-xs">
             Obsidian Depth (låst)
-          </Link>
-          <Link to="/" className="ds-btn ds-btn--ghost text-xs">
+          </ButtonLink>
+          <ButtonLink to="/" variant="ghost" size="sm" className="text-xs">
             Hem (prod)
-          </Link>
+          </ButtonLink>
         </div>
       </header>
 

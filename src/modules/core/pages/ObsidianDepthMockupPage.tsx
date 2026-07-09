@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import {
   CalendarDays,
   Compass,
@@ -103,15 +103,15 @@ export function ObsidianDepthMockupPage() {
           <code className="text-accent"> OD-obsidian-depth</code>.
         </p>
         <div className="od-depth-lab__links">
-          <Link to="/dev/theme-lab" className="ds-btn ds-btn--ghost text-xs">
+          <ButtonLink to="/dev/theme-lab" variant="ghost" size="sm" className="text-xs">
             Theme Lab
-          </Link>
-          <Link to="/dev/obsidian-depth-v2" className="ds-btn ds-btn--accent text-xs">
+          </ButtonLink>
+          <ButtonLink to="/dev/obsidian-depth-v2" variant="accent" size="sm" className="text-xs">
             Depth v2 (Hem v3)
-          </Link>
-          <Link to="/" className="ds-btn ds-btn--ghost text-xs">
+          </ButtonLink>
+          <ButtonLink to="/" variant="ghost" size="sm" className="text-xs">
             Hem (prod)
-          </Link>
+          </ButtonLink>
         </div>
       </header>
 

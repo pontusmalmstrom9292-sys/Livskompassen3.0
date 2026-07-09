@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { clsx } from 'clsx';
 import { Fingerprint, LogOut, ShieldCheck, X } from 'lucide-react';
+import { Button } from '@/design-system';
 import { HeaderLockGlyph, HeaderShieldGlyph } from '../ui/HeaderChromeGlyphs';
 import { useStore } from '../store';
 import { EmailAuthPanel } from './EmailAuthPanel';
@@ -150,8 +151,8 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
                   </div>
                 )}
 
-                <button
-                  type="button"
+                <Button
+                  variant="ghost"
                   disabled={signingOut}
                   onClick={async () => {
                     setSigningOut(true);
@@ -163,11 +164,11 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
                       setSigningOut(false);
                     }
                   }}
-                  className="ds-btn ds-btn--ghost mt-4 flex items-center gap-2 text-sm"
+                  className="mt-4 flex items-center gap-2 text-sm"
                 >
                   <LogOut className="h-4 w-4" />
                   Logga ut
-                </button>
+                </Button>
               </div>
             )}
           </div>

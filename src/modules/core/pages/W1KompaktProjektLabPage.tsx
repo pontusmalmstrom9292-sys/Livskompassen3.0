@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { ButtonLink, buttonClassName } from '@/design-system';
 import { W1KompaktProjektPreview } from '@/modules/sandbox/widget/W1KompaktProjektPreview';
 import w1MockupRef from '../../../../docs/design/galleri/widget/v2/W1-kompakt-projekt.png';
 import pickerMockupRef from '../../../../docs/design/galleri/widget/v2/projekt-ny-picker.png';
@@ -20,14 +20,14 @@ export function W1KompaktProjektLabPage() {
           Prototyp — ingen prod-wire.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Link to="/dev/theme-lab" className="ds-btn ds-btn--ghost text-xs">
+          <ButtonLink to="/dev/theme-lab" variant="ghost" size="sm" className="text-xs">
             ← Theme Lab
-          </Link>
+          </ButtonLink>
           <a
             href="/docs/design/galleri/index.html#widget"
             target="_blank"
             rel="noreferrer"
-            className="ds-btn ds-btn--ghost text-xs"
+            className={buttonClassName('ghost', 'sm', 'text-xs')}
           >
             Designgalleri ↗
           </a>

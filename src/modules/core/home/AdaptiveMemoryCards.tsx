@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
+import { Button, ButtonLink } from '@/design-system';
 import { useStore } from '../store';
 import { getRecentCheckIns, getJournalEntries } from '../firebase/firestore';
 import { filterAdaptiveCardsForPreset, type LifeHubPresetId } from '../lifeOs/lifeHubPresets';
@@ -85,27 +86,24 @@ export function AdaptiveMemoryCards({
               >
                 <p className="text-[10px] uppercase tracking-widest text-text-dim">{card.title}</p>
                 <p className="mt-2 text-sm text-text-muted">{card.prompt}</p>
-                <Link
+                <ButtonLink
                   to={{
                     pathname: card.to,
                     search: card.search ?? '',
                     hash: card.hash ? `#${card.hash.replace(/^#/, '')}` : '',
                   }}
-                  className="ds-btn ds-btn--ghost mt-3 inline-flex text-xs"
+                  variant="ghost"
+                  className="mt-3 inline-flex text-xs"
                 >
                   {card.actionLabel}
-                </Link>
+                </ButtonLink>
               </article>
             ))}
           </div>
           {cards.length > initialVisibleCount ? (
-            <button
-              type="button"
-              onClick={() => setExpanded((v) => !v)}
-              className="ds-btn ds-btn--ghost text-xs"
-            >
+            <Button variant="ghost" size="sm" onClick={() => setExpanded((v) => !v)}>
               {expanded ? 'Visa färre' : `Visa mer (${cards.length - initialVisibleCount})`}
-            </button>
+            </Button>
           ) : null}
         </>
       )}

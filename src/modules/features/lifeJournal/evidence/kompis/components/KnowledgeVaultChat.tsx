@@ -112,7 +112,7 @@ export function KnowledgeVaultChat({
   }
 
   return (
-    <RAGErrorBoundary fallbackTitle="Nätverksfel i Kunskapsvalvet">
+    <RAGErrorBoundary fallbackTitle="Nätverksfel i Kunskapsvalvet" glow="blue">
       <BentoCard
         title={embedded ? 'Fråga Minne' : 'Kunskapsvalvet'}
         description={

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Button, ButtonLink } from '@/design-system';
 import { PlaneringHubBody } from '@/features/admin/planning/components/PlaneringHubBody';
 import { PlaneringHubLayoutPicker } from '@/features/admin/planning/components/PlaneringHubLayoutPicker';
 import {
@@ -27,15 +27,15 @@ export function HubLabPage() {
           syns på <code className="text-accent">/planering</code>.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Link to="/planering" className="ds-btn ds-btn--accent">
+          <ButtonLink to="/planering" variant="accent">
             Öppna Planering
-          </Link>
-          <Link to="/dev/theme-lab" className="ds-btn ds-btn--ghost">
+          </ButtonLink>
+          <ButtonLink to="/dev/theme-lab" variant="ghost">
             Theme Lab
-          </Link>
-          <button type="button" className="ds-btn ds-btn--ghost" onClick={applyToPlanering}>
+          </ButtonLink>
+          <Button type="button" variant="ghost" onClick={applyToPlanering}>
             Använd i Planering
-          </button>
+          </Button>
         </div>
       </header>
 
@@ -85,16 +85,18 @@ export function HubLabPage() {
               <div className="hub-lab-card__preview">
                 <PlaneringHubBody layout={layout} className="hub-lab-card__body" />
               </div>
-              <button
+              <Button
                 type="button"
-                className="ds-btn ds-btn--ghost mt-2 w-full text-xs"
+                variant="ghost"
+                size="sm"
+                className="mt-2 w-full text-xs"
                 onClick={() => {
                   setPreviewId(layout.id);
                   setLayoutId(layout.id);
                 }}
               >
                 Välj i Planering
-              </button>
+              </Button>
             </article>
           ))}
         </div>
