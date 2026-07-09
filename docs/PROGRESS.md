@@ -1,3 +1,71 @@
+## 2026-07-09 — Deploy hosting våg 22–26
+
+**Deploy:** Hosting live — https://gen-lang-client-0481875058.web.app (våg 22–26: overlay DS Modal, input primitives, badge/eyebrow, dock checklist).
+
+**Gate:** `npm run smoke:predeploy:build` PASS före deploy.
+
+---
+
+## 2026-07-09 — YOLO VÅG 22–26 — Overlay · Input · Badge · Governance
+
+**Plattform:** Cursor (Auto) · **Läge:** Agent · **Ändringar:** minimal diff
+
+**Completed work:**
+- VÅG 22: `AccountAuthMenu` → DS `Modal`; `ModuleHelpHint` → `role="region"` (ankrat popover, ej modal).
+- VÅG 23: `ZenModeOverlay`, `RecoveryUrgeSosModule`, `DrogfrihetHubPage` reality-check → DS `Modal` fullscreen (`zenModeOverlayClasses.ts`). `ResurserOverlay`/`NavigationDrawer` orörda.
+- VÅG 24: DS `Input`/`TextArea` i `JournalQuickMode`, `ReflectionEditor`, `EconomyLogPanel`, `InkastManualEditForm`; `TextArea` forwardRef.
+- VÅG 25: `StatusBadge`/`AlertBanner`/`ModuleSectionBanner` → DS `Badge`/`Banner` wrappers; eyebrow → `textStyles.eyebrow` (recovery/drogfrihet hubs).
+- VÅG 26: `dock-pixel-diff-checklist.md`; metrics + governance/predeploy PASS.
+
+**Metrics (smoke:design-debt 2026-07-09):**
+- `btnPillFiles`: **0**
+- `dsBtnFiles`: **1** (`tokens.ts` legacy alias)
+- `designSystemImportFiles`: **234**
+- `adHocDialogFiles`: **4** (ResurserOverlay locked, ImmersiveExperienceShell, sandbox×2)
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`, `smoke:design-debt`, `smoke:chrome-header`, `smoke:governance`, `smoke:predeploy`: PASS
+
+**Deploy:** Väntar på Pontus `deploy`.
+
+**Blockers:** None
+
+---
+
+## 2026-07-09 — Deploy hosting våg 18–21
+
+**Deploy:** Hosting live — https://gen-lang-client-0481875058.web.app (våg 18–21, inkl. dock-kanon-match + design-debt metrics).
+
+**Gate:** `npm run build` + `npm run smoke:predeploy` PASS före deploy.
+
+---
+
+## 2026-07-09 — YOLO VÅG 18–21 — btn-pill · Modal-audit · Dock kanon · Governance
+
+**Plattform:** Cursor (Auto) · **Läge:** Agent · **Ändringar:** minimal diff (metrics + docs)
+
+**Completed work:**
+- VÅG 18: `src/modules` redan utan `btn-pill--` (0 filer). `count_design_debt.mjs` — räknar btn-pill i modules only; fixade `@/design-system` + `role="dialog"` quote-buggar.
+- VÅG 19: Modal-audit i scope (PlanningTaskDetail, ekonomi, inkast) — inga råa overlays kvar; TaskDetail använder redan DS `Modal`.
+- VÅG 20: `ExecutiveDockBar` + `DockZoneIcon` + `dock-kanon-match.css` verifierade mot kanon; `dock-pixel-diff-checklist.md` saknas (ej blocker). NavigationDrawer orörd.
+- VÅG 21: `smoke:governance` + `smoke:predeploy` PASS.
+
+**Metrics:**
+- `btnPillFiles`: **0** (modules)
+- `src/modules/**/*.tsx`: **0 ds-btn**
+- `dsBtnFiles` (modules): 1 (`tokens.ts` legacy alias-map)
+- `designSystemImportFiles`: 229
+- `adHocDialogFiles`: 9 (immersiva overlays utanför våg 19-scope; NavigationDrawer exkluderad)
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`, `smoke:design-debt`, `smoke:chrome-header`, `smoke:executive-home-visual`, `smoke:governance`, `smoke:predeploy`: PASS
+
+**Deploy:**
+- Väntar på Pontus `deploy` (skriv "deploy" för hosting).
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-07-09 — YOLO VÅG 14–17 — Planering · Projekt · Core/shell · Recovery
 
 **Completed work:**

@@ -5,7 +5,7 @@ import { NAV_PATHS } from '../../navigation/navTruth';
 import { ResurserOverlay } from '../../navigation/ResurserOverlay';
 import { useLongPress } from '../../hooks/useLongPress';
 import { useStore } from '../../store';
-import { ExecutiveDockBar } from '../ExecutiveDockBar';
+import { BastaDesignDockBar } from './BastaDesignDockBar';
 
 /** Bästa design — kanon-bottom dock (6 zoner + hero-kompass). */
 export function BastaDesignDock() {
@@ -20,11 +20,6 @@ export function BastaDesignDock() {
     pathname === NAV_PATHS.HJARTAT ||
     pathname.startsWith(`${NAV_PATHS.HJARTAT}/`) ||
     pathname.startsWith('/dagbok');
-  const isPlanering =
-    pathname === '/planering' ||
-    pathname.startsWith('/planering/') ||
-    pathname === '/projekt' ||
-    pathname.startsWith('/projekt/');
 
   const fyrenToValv = useCallback(
     () =>
@@ -48,17 +43,13 @@ export function BastaDesignDock() {
   return (
     <>
       <ResurserOverlay open={resurserOpen} onClose={() => setResurserOpen(false)} />
-      <div className="dock-shell dock-shell--basta-design">
-        <ExecutiveDockBar
-          dockVariant="extended"
+      <div className="dock-shell dock-shell--basta-design dock-shell--basta-v2">
+        <BastaDesignDockBar
           pathname={pathname}
           isHome={isHome}
           isFamiljen={isFamiljen}
           isHjartat={isHjartat}
-          isPlanering={isPlanering}
-          isValvet={false}
           resurserOpen={resurserOpen}
-          snabbstartOpen={false}
           showFyrenRing={showFyrenRing}
           progress={progress}
           isHolding={isHolding}
@@ -68,8 +59,6 @@ export function BastaDesignDock() {
           onVentil={() => navigate(NAV_PATHS.HJARTAT)}
           onInkast={() => navigate('/planering/input?inputMode=inkast')}
           onResurser={() => setResurserOpen(true)}
-          onValv={() => navigate(NAV_PATHS.VALVET)}
-          onPlanering={() => navigate('/planering')}
         />
       </div>
     </>

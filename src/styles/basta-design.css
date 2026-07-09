@@ -25,7 +25,7 @@ html[data-theme='ME-basta-design'] {
   --bd-radius: 1rem;
   --bd-radius-lg: 1.5rem;
   --bd-radius-xl: 1.75rem;
-  --app-dock-clearance: calc(6.55rem + env(safe-area-inset-bottom, 0px) + 0.85rem);
+  --app-dock-clearance: calc(7.5rem + env(safe-area-inset-bottom, 0px) + 1rem);
 }
 
 .basta-design {
@@ -997,7 +997,8 @@ html[data-theme='ME-basta-design'] {
 }
 
 .home-page--basta-design {
-  padding-bottom: 0;
+  padding-bottom: var(--app-dock-clearance);
+  scroll-margin-bottom: var(--app-dock-clearance);
 }
 
 [data-theme='ME-basta-design'] .app-shell--basta-design .ambient-bg {

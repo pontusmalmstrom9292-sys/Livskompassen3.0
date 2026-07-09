@@ -21,9 +21,9 @@ function rgCount(pattern, glob = '*.tsx') {
   }
 }
 
-function rgFiles(pattern) {
+function rgFiles(pattern, searchRoot = src) {
   try {
-    return execSync(`rg -l "${pattern}" "${src}" -g '*.tsx' -g '*.ts' 2>/dev/null`, {
+    return execSync(`rg -l '${pattern}' "${searchRoot}" -g '*.tsx' -g '*.ts' 2>/dev/null`, {
       encoding: 'utf8',
       cwd: root,
     })
@@ -35,10 +35,25 @@ function rgFiles(pattern) {
   }
 }
 
-const btnPill = rgFiles('btn-pill--');
-const dsBtn = rgFiles('ds-btn--');
-const dsModal = rgFiles("from '@/design-system'") + rgFiles('from "@/design-system"');
-const adHocDialog = rgFiles('role="dialog"');
+const modules = join(src, 'modules');
+// btn-pill migration target: src/modules only (DS Button.tsx keeps legacy CSS bridge comment)
+const btnPill = rgFiles('btn-pill--', modules);
+const dsBtn = rgFiles('ds-btn--', modules);
+const dsModal = rgFiles('@/design-system');
+// Ad-hoc dialogs in modules excluding DS Modal/Sheet and locked NavigationDrawer
+const adHocDialogRaw = execSync(
+  `rg -l 'role="dialog"' "${modules}" -g '*.tsx' -g '*.ts' 2>/dev/null || true`,
+  { encoding: 'utf8', cwd: root },
+)
+  .trim()
+  .split('\n')
+  .filter(Boolean)
+  .filter(
+    (f) =>
+      !f.includes('design-system/') &&
+      !f.endsWith('NavigationDrawer.tsx'),
+  ).length;
+const adHocDialog = adHocDialogRaw;
 const indexCss = existsSync(join(root, 'src/index.css'))
   ? readFileSync(join(root, 'src/index.css'), 'utf8').split('\n').length
   : 0;

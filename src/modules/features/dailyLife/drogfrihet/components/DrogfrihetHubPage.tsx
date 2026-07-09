@@ -1,8 +1,12 @@
 import { BookOpen, Brain, HeartHandshake, Shield, Sparkles, X } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Button } from '@/design-system';
+import { Button, Modal, textStyles } from '@/design-system';
 import { HubPageShell } from '@/core/layout/HubPageShell';
+import {
+  immersiveModalOverlayClass,
+  immersiveModalPanelClass,
+} from '@/core/ui/zenModeOverlayClasses';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar, type TabBarItem } from '@/core/ui/TabBar';
@@ -156,7 +160,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
           <section className="rounded-2xl border-[0.5px] border-border bg-gradient-to-br from-surface-2/80 via-surface to-surface-2 p-4 sm:p-5">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div className="min-w-0 space-y-1">
-                <p className="flex items-center gap-2 font-display-serif text-[10px] uppercase tracking-[0.22em] text-text-dim">
+                <p className={`flex items-center gap-2 ${textStyles.eyebrow}`}>
                   <Brain className="h-3 w-3 shrink-0 text-accent/70" strokeWidth={1.5} aria-hidden />
                   Verklighetskontroll
                 </p>
@@ -200,34 +204,36 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
     </>
   );
 
-  const realityCheckOverlay = realityCheckOpen ? (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="Verklighetskontroll"
-      className="fixed inset-0 z-[60] flex flex-col bg-gradient-to-b from-bg via-surface to-surface-2"
+  const realityCheckOverlay = (
+    <Modal
+      open={realityCheckOpen}
+      onClose={() => setRealityCheckOpen(false)}
+      hideHeader
+      ariaLabel="Verklighetskontroll"
+      className={`${immersiveModalOverlayClass} !z-[60]`}
+      panelClassName={`${immersiveModalPanelClass} !bg-gradient-to-b !from-bg !via-surface !to-surface-2`}
     >
-      <header className="flex shrink-0 items-center justify-between border-b-[0.5px] border-border px-4 py-3 sm:px-6">
-        <p className="font-display-serif text-[10px] uppercase tracking-[0.22em] text-text-dim">
-          Verklighetskontroll
-        </p>
-        <button
-          type="button"
-          onClick={() => setRealityCheckOpen(false)}
-          className="rounded-xl border-[0.5px] border-border/60 p-2 text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3 hover:text-text"
-          aria-label="Stäng verklighetskontroll"
-        >
-          <X className="h-5 w-5" strokeWidth={1.5} />
-        </button>
-      </header>
-      <div className="calm-scroll-island flex-1 overflow-y-auto px-4 py-4 sm:px-6 sm:py-6">
-        <RecoveryRealityCheckForm
-          userId={user?.uid}
-          onComplete={() => setRealityCheckOpen(false)}
-        />
+      <div className="flex h-full min-h-[100dvh] flex-col">
+        <header className="flex shrink-0 items-center justify-between border-b-[0.5px] border-border px-4 py-3 sm:px-6">
+          <p className={textStyles.eyebrow}>Verklighetskontroll</p>
+          <button
+            type="button"
+            onClick={() => setRealityCheckOpen(false)}
+            className="rounded-xl border-[0.5px] border-border/60 p-2 text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3 hover:text-text"
+            aria-label="Stäng verklighetskontroll"
+          >
+            <X className="h-5 w-5" strokeWidth={1.5} />
+          </button>
+        </header>
+        <div className="calm-scroll-island flex-1 overflow-y-auto px-4 py-4 sm:px-6 sm:py-6">
+          <RecoveryRealityCheckForm
+            userId={user?.uid}
+            onComplete={() => setRealityCheckOpen(false)}
+          />
+        </div>
       </div>
-    </div>
-  ) : null;
+    </Modal>
+  );
 
   const sosOverlay = sosOpen ? <RecoveryUrgeSosModule onClose={() => setSosOpen(false)} /> : null;
 

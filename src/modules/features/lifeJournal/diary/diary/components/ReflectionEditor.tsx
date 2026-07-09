@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback, useState } from 'react';
 import { Mic, MicOff, Sparkles } from 'lucide-react';
+import { TextArea } from '@/design-system';
 import { useDiaryStore } from '../store/diaryStore';
 import { useSpeechToText } from '../hooks/useSpeechToText';
 import { BiffRewriteButton } from '@/shared/ui/BiffRewriteButton';
@@ -70,7 +71,7 @@ export function ReflectionEditor({
       {silentPrompt && (
         <p className="mb-2 text-xs text-text-muted italic">{silentPrompt}</p>
       )}
-      <textarea
+      <TextArea
         ref={textareaRef}
         value={text}
         onChange={(e) => onChange(e.target.value)}

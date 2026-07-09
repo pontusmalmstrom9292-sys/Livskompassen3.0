@@ -19,6 +19,7 @@ type Props = {
 export function ModuleHelpHint({ title, lines, action, className }: Props) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
+  const titleId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -55,12 +56,14 @@ export function ModuleHelpHint({ title, lines, action, className }: Props) {
       {open ? (
         <div
           id={panelId}
-          role="dialog"
-          aria-label={title}
+          role="region"
+          aria-labelledby={titleId}
           className="module-help-hint__panel absolute right-0 top-full z-50 mt-2 w-[min(20rem,calc(100vw-2rem))] rounded-xl border border-border/40 bg-surface-2/95 p-3 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.65)] backdrop-blur-md"
         >
           <div className="mb-2 flex items-start justify-between gap-2">
-            <p className="pr-2 text-xs font-semibold leading-snug text-accent">{title}</p>
+            <p id={titleId} className="pr-2 text-xs font-semibold leading-snug text-accent">
+              {title}
+            </p>
             <button
               type="button"
               className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-text-muted hover:bg-surface-3/60 hover:text-text"
