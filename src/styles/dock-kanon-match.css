@@ -7,7 +7,7 @@
 }
 
 .exec-dock-bar {
-  grid-template-columns: 0.92fr 0.92fr 1.28fr 0.92fr 0.92fr 0.92fr;
+  grid-template-columns: 1fr 0.88fr 1.22fr 0.88fr 0.88fr 1fr;
   min-height: 2.45rem;
   padding: 2.35rem 0.28rem 0.42rem;
   padding-bottom: calc(0.42rem + env(safe-area-inset-bottom, 0px));
@@ -54,11 +54,14 @@
 }
 
 .exec-dock-bar__label {
-  max-width: 4.1rem;
+  max-width: 5.6rem;
+  overflow: visible;
+  text-overflow: clip;
+  white-space: nowrap;
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: 0.5rem;
+  font-size: 0.48rem;
   font-weight: 500;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.035em;
   line-height: 1.1;
   color: color-mix(in srgb, var(--accent-light) 90%, var(--text-muted));
   text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 14%, transparent);
@@ -123,8 +126,8 @@
 
 .dock-shell--basta-design .exec-dock-bar__label {
   font-family: 'Outfit', system-ui, sans-serif;
-  font-size: 0.5rem;
+  font-size: 0.48rem;
   font-weight: 500;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.035em;
   color: color-mix(in srgb, var(--accent) 90%, var(--text-muted));
 }

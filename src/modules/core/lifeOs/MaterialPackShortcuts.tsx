@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Edit2 } from 'lucide-react';
 import type { MaterialPackHub, MaterialShortcut } from './materialPacks';
 import type { LifeHubPreset } from './lifeHubPresets';
@@ -7,6 +6,7 @@ import { resolveModuleLink } from './moduleLink';
 import { useMaterialShortcuts } from './useMaterialShortcuts';
 import { useStore } from '@/core/store';
 import { MaterialPackEditorSheet } from './MaterialPackEditorSheet';
+import { ButtonLink } from '@/design-system';
 
 type Props = {
   preset: LifeHubPreset;
@@ -58,9 +58,9 @@ export function MaterialPackShortcuts({ preset, hub, shortcutsOverride }: Props)
           const to = `${link.pathname}${link.search ?? ''}${link.hash ?? ''}`;
           return (
             <li key={`${item.label}-${to}`}>
-              <Link to={to} className="ds-btn ds-btn--accent inline-flex w-full justify-center text-xs">
+              <ButtonLink to={to} variant="accent" className="--accent inline-flex w-full justify-center text-xs">
                 {item.label}
-              </Link>
+              </ButtonLink>
             </li>
           );
         })}

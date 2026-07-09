@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CheckSquare, FileText, Image, List, Film } from 'lucide-react';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
@@ -10,6 +10,7 @@ import { createProjectBlock } from '../api/projectBlocksApi';
 import { createPlanningTask } from '../../planning/api/planningTasksApi';
 import { ProjectMediaPicker } from './ProjectMediaPicker';
 import type { ProjectBlockType } from '../types';
+import { Button, ButtonLink } from '@/design-system';
 
 const PICKER: { id: ProjectBlockType; label: string; icon: typeof List }[] = [
   { id: 'list', label: 'Lista', icon: List },
@@ -144,17 +145,12 @@ export function ProjektNyPage() {
           value={mediaCaption}
           onChange={(e) => setMediaCaption(e.target.value)}
         />
-        <button
-          type="button"
-          disabled={saving || !user || !mediaFile}
-          className="ds-btn ds-btn--accent mt-4 text-sm"
-          onClick={() => void startProject(preselected)}
-        >
+        <Button type="button" disabled={saving || !user || !mediaFile} variant="accent" className="--accent mt-4 text-sm" onClick={() => void startProject(preselected)}>
           Skapa projekt med fil
-        </button>
-        <Link to="/projekt" className="ds-btn ds-btn--ghost mt-4 inline-flex text-sm">
+        </Button>
+        <ButtonLink to="/projekt" variant="ghost" className="--ghost mt-4 inline-flex text-sm">
           Avbryt
-        </Link>
+        </ButtonLink>
       </HubPageShell>
     );
   }
@@ -198,12 +194,12 @@ export function ProjektNyPage() {
         })}
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
-        <Link to="/projekt/regler" className="ds-btn ds-btn--ghost text-sm">
+        <ButtonLink to="/projekt/regler" variant="ghost" className="--ghost text-sm">
           Regler
-        </Link>
-        <Link to="/projekt" className="ds-btn ds-btn--ghost text-sm">
+        </ButtonLink>
+        <ButtonLink to="/projekt" variant="ghost" className="--ghost text-sm">
           Tillbaka
-        </Link>
+        </ButtonLink>
       </div>
     </HubPageShell>
   );

@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { X } from 'lucide-react';
+import { Button } from '@/design-system';
 
 type Props = {
   title?: string;
@@ -40,14 +41,10 @@ export function ImmersiveExperienceShell({ title, onExit, themeId, children }: P
     >
       <header className="flex shrink-0 items-center justify-between border-b border-white/5 px-4 py-3 pt-[max(0.75rem,env(safe-area-inset-top))]">
         {title ? <h2 className="text-sm font-medium text-text">{title}</h2> : <span aria-hidden />}
-        <button
-          type="button"
-          onClick={onExit}
-          className="ds-btn ds-btn--ghost inline-flex items-center gap-1.5 text-xs"
-        >
+        <Button type="button" onClick={onExit} variant="ghost" className="--ghost inline-flex items-center gap-1.5 text-xs">
           <X className="h-4 w-4" aria-hidden />
           Avsluta
-        </button>
+        </Button>
       </header>
       <div className="flex-1 overflow-y-auto overscroll-contain px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-4">
         {children}

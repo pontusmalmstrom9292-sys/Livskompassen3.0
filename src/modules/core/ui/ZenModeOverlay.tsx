@@ -11,6 +11,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Brain } from 'lucide-react';
 import { submitInkastLite } from '@/modules/inkast/api/inkastService';
 import { useStore } from '@/core/store';
+import { Button } from '@/design-system';
 
 type ZenModeOverlayProps = {
   isOpen: boolean;
@@ -140,22 +141,12 @@ export function ZenModeOverlay({ isOpen, onClose }: ZenModeOverlayProps) {
 
             {/* Åtgärder */}
             <div className="mt-5 flex gap-3 max-w-lg w-full justify-end">
-              <button
-                type="button"
-                onClick={handleDiscard}
-                className="ds-btn ds-btn--ghost text-sm"
-                disabled={saving}
-              >
+              <Button type="button" onClick={handleDiscard} variant="ghost" className="--ghost text-sm" disabled={saving}>
                 Kasta & Stäng
-              </button>
-              <button
-                type="button"
-                onClick={() => void handleSaveAndClose()}
-                className="ds-btn ds-btn--accent text-sm"
-                disabled={saving || text.trim().length < MIN_LENGTH}
-              >
+              </Button>
+              <Button type="button" onClick={() => void handleSaveAndClose()} variant="accent" className="--accent text-sm" disabled={saving || text.trim().length < MIN_LENGTH}>
                 {saving ? 'Sparar…' : 'Spara & Stäng'}
-              </button>
+              </Button>
             </div>
 
             {/* Zero Footprint-notering */}

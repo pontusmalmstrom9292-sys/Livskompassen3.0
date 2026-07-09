@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { Camera, FileUp, ImagePlus, Loader2, Mic, MicOff, Trash2, Video } from 'lucide-react';
 import { useAudioRecorder } from '../hooks/useAudioRecorder';
 import { createMediaAttachment, type MediaAttachment } from '../media/mediaAttachment';
+import { Button } from '@/design-system';
 
 type EvidenceMediaAttachProps = {
   attachments: MediaAttachment[];
@@ -49,28 +50,23 @@ export function EvidenceMediaAttach({
       </p>
 
       <div className="flex flex-wrap gap-2">
-        <button type="button" onClick={pickGallery} disabled={disabled || atLimit} className="ds-btn ds-btn--ghost">
+        <Button type="button" onClick={pickGallery} disabled={disabled || atLimit} variant="ghost" className="--ghost">
           <ImagePlus className="h-4 w-4" />
           Fil / skärmdump
-        </button>
-        <button type="button" onClick={pickCamera} disabled={disabled || atLimit} className="ds-btn ds-btn--ghost">
+        </Button>
+        <Button type="button" onClick={pickCamera} disabled={disabled || atLimit} variant="ghost" className="--ghost">
           <Camera className="h-4 w-4" />
           Ta foto
-        </button>
-        <button type="button" onClick={pickMedia} disabled={disabled || atLimit} className="ds-btn ds-btn--ghost">
+        </Button>
+        <Button type="button" onClick={pickMedia} disabled={disabled || atLimit} variant="ghost" className="--ghost">
           <Video className="h-4 w-4" />
           Ljud / video
-        </button>
+        </Button>
         {recordSupported && (
-          <button
-            type="button"
-            onClick={isRecording ? stop : start}
-            disabled={disabled || atLimit}
-            className="ds-btn ds-btn--ghost"
-          >
+          <Button type="button" onClick={isRecording ? stop : start} disabled={disabled || atLimit} variant="ghost" className="--ghost">
             {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
             {isRecording ? 'Stoppa inspelning' : 'Spela in ljud'}
-          </button>
+          </Button>
         )}
       </div>
 

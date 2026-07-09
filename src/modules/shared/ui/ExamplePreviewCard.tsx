@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Button } from '@/design-system';
 
 export type ExamplePreviewCardProps = {
   title: string;
@@ -37,14 +38,9 @@ export function ExamplePreviewCard({
       </div>
       <h3 className="font-display-serif text-sm tracking-wide text-accent">{title}</h3>
       <p className="mt-1 text-xs text-text-muted">{lead}</p>
-      <button
-        type="button"
-        onClick={onStart}
-        disabled={disabled}
-        className="ds-btn ds-btn--accent mt-3 min-h-[48px] w-full touch-manipulation text-xs active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
-      >
+      <Button type="button" onClick={onStart} disabled={disabled} variant="accent" className="--accent mt-3 min-h-[48px] w-full touch-manipulation text-xs active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50">
         {disabled ? 'Kommer snart' : ctaLabel}
-      </button>
+      </Button>
     </article>
   );
 }

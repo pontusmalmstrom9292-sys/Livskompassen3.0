@@ -3,6 +3,7 @@ import { BentoCard } from '@/shared/ui/BentoCard';
 import { useInboxRules } from '../hooks/useInboxRules';
 import type { InboxRuleMatchType, InboxCategorizationRuleInput } from '../types/inboxRule';
 import type { InboxRouting } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
+import { Button } from '@/design-system';
 
 const MATCH_TYPE_LABELS: Record<InboxRuleMatchType, string> = {
   contains: 'Innehåller (text)',
@@ -116,14 +117,9 @@ export function InboxRuleManager() {
               </option>
             ))}
           </select>
-          <button
-            type="button"
-            disabled={saving || !draft.label.trim() || !draft.pattern.trim()}
-            className="ds-btn ds-btn--accent w-full text-sm"
-            onClick={() => void handleAdd()}
-          >
+          <Button type="button" disabled={saving || !draft.label.trim() || !draft.pattern.trim()} variant="accent" className="--accent w-full text-sm" onClick={() => void handleAdd()}>
             Spara regel
-          </button>
+          </Button>
         </div>
       </BentoCard>
 

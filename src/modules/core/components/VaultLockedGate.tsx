@@ -5,6 +5,7 @@ import { openValvViaFyren } from '../auth/valvFyrenGate';
 import { useStore } from '../store';
 import { isCapacitorNative } from '../platform/capacitorPlatform';
 import { CalmBreathingCircle } from '@/modules/capture/components/CalmBreathingCircle';
+import { Button } from '@/design-system';
 
 type Props = {
   /** Inline card (VaultPage) vs full-screen (DagbokPage). */
@@ -67,14 +68,9 @@ export function VaultLockedGate({ variant = 'screen', extra }: Props) {
             <p className="mt-2 text-xs text-text-dim">Verifierar kryptografi...</p>
           </div>
         ) : (
-          <button
-            type="button"
-            className="ds-btn ds-btn--accent w-full"
-            disabled={busy}
-            onClick={tryUnlock}
-          >
+          <Button type="button" variant="accent" className="--accent w-full" disabled={busy} onClick={tryUnlock}>
             {buttonLabel}
-          </button>
+          </Button>
         )}
         {errorBlock}
       </div>
@@ -97,14 +93,9 @@ export function VaultLockedGate({ variant = 'screen', extra }: Props) {
       <p className="mt-2 max-w-sm text-sm text-text-muted">{hint}</p>
       
       {!busy && (
-        <button
-          type="button"
-          className="ds-btn ds-btn--accent mt-6"
-          disabled={busy}
-          onClick={tryUnlock}
-        >
+        <Button type="button" variant="accent" className="--accent mt-6" disabled={busy} onClick={tryUnlock}>
           {buttonLabel}
-        </button>
+        </Button>
       )}
       {errorBlock}
       {extra}

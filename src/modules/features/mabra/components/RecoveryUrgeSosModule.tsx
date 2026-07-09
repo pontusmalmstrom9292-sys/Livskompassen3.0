@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowLeft, X } from 'lucide-react';
+import { Button } from '@/design-system';
 import {
   BREATH_PHASE_SECONDS,
   GROUNDING_STEPS,
@@ -124,29 +125,21 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
               {RECOVERY_SOS_ANCHOR_COPY.anchorLine}
             </p>
             <div className="flex flex-col gap-3">
-              <button
-                type="button"
-                onClick={() => setScreen('breathing')}
-                className="ds-btn ds-btn--accent flex flex-col items-center gap-1 py-4"
-              >
+              <Button type="button" onClick={() => setScreen('breathing')} variant="accent" className="--accent flex flex-col items-center gap-1 py-4">
                 <span>{RECOVERY_SOS_ANCHOR_COPY.breatheLabel}</span>
                 <span className="text-xs font-normal normal-case tracking-normal opacity-80">
                   {RECOVERY_SOS_ANCHOR_COPY.breatheLead}
                 </span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setScreen('grounding')}
-                className="ds-btn ds-btn--secondary flex flex-col items-center gap-1 py-4"
-              >
+              </Button>
+              <Button type="button" onClick={() => setScreen('grounding')} variant="secondary" className="--secondary flex flex-col items-center gap-1 py-4">
                 <span>{RECOVERY_SOS_ANCHOR_COPY.groundLabel}</span>
                 <span className="text-xs font-normal normal-case tracking-normal opacity-80">
                   {RECOVERY_SOS_ANCHOR_COPY.groundLead}
                 </span>
-              </button>
-              <button type="button" onClick={onClose} className="ds-btn ds-btn--ghost py-3 text-sm">
+              </Button>
+              <Button type="button" onClick={onClose} variant="ghost" className="--ghost py-3 text-sm">
                 {RECOVERY_SOS_ANCHOR_COPY.closeLabel}
-              </button>
+              </Button>
             </div>
           </div>
         ) : screen === 'breathing' ? (
@@ -194,9 +187,9 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
               <p className="text-sm text-text-dim">
                 Steg {groundStep + 1} av {GROUNDING_STEPS.length}
               </p>
-              <button type="button" onClick={handleGroundNext} className="ds-btn ds-btn--secondary w-full max-w-sm">
+              <Button type="button" onClick={handleGroundNext} variant="secondary" className="--secondary w-full max-w-sm">
                 {isLastGroundStep ? 'Börja om' : 'Gå vidare'}
-              </button>
+              </Button>
             </div>
           </div>
         )}

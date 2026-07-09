@@ -3,6 +3,7 @@ import { Loader2 } from 'lucide-react';
 import { ensureVitHub, saveVitEntry } from '@/core/firebase/vitHubFirestore';
 import { upsertRecoveryProfile } from '@/features/dailyLife/drogfrihet/api/recoveryProfileService';
 import { RECOVERY_TWELVE_STEP_PROMPTS } from '@/features/dailyLife/drogfrihet/content/recoveryTwelveStepCatalog';
+import { Button } from '@/design-system';
 
 const DRAFT_PREFIX = 'livskompassen_recovery_step_draft_';
 
@@ -124,26 +125,15 @@ export function RecoveryTwelveStepJournal({ userId }: Props) {
                   placeholder="Ditt svar…"
                 />
                 <div className="flex gap-2">
-                  <button
-                    type="button"
-                    disabled={!userId || savingStep === step.stepNumber}
-                    onClick={() => void handleSaveStep(step.stepNumber)}
-                    className="ds-btn ds-btn--secondary inline-flex items-center gap-2 text-sm"
-                  >
+                  <Button type="button" disabled={!userId || savingStep === step.stepNumber} onClick={() => void handleSaveStep(step.stepNumber)} variant="secondary" className="--secondary inline-flex items-center gap-2 text-sm">
                     {savingStep === step.stepNumber ? (
                       <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
                     ) : null}
                     Spara steg
-                  </button>
-                  <button
-                    type="button"
-                    className="ds-btn ds-btn--ghost text-sm"
-                    onClick={() =>
-                      setExpandedStep((s) => Math.min(12, s + 1))
-                    }
-                  >
+                  </Button>
+                  <Button type="button" variant="ghost" className="--ghost text-sm" onClick={() => setExpandedStep((s) => Math.min(12, s + 1)) }>
                     Nästa utan spar
-                  </button>
+                  </Button>
                 </div>
               </div>
             ) : null}

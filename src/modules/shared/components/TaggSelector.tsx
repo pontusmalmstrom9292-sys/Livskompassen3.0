@@ -14,6 +14,7 @@ import {
   type InkastTagGroupId,
 } from '@/modules/inkast/api/inkastService';
 import { createUserTag, listenUserTags, userTagStorageId } from '@/shared/tags/userTagsApi';
+import { Button } from '@/design-system';
 
 type Props = {
   value: string[];
@@ -179,19 +180,14 @@ export function TaggSelector({ value, onChange, userId, disabled = false }: Prop
                 }
               }}
             />
-            <button
-              type="button"
-              disabled={disabled || customBusy || !userId}
-              onClick={() => void handleCreateCustomTag()}
-              className="ds-btn ds-btn--ghost inline-flex items-center gap-1 text-xs"
-            >
+            <Button type="button" disabled={disabled || customBusy || !userId} onClick={() => void handleCreateCustomTag()} variant="ghost" className="--ghost inline-flex items-center gap-1 text-xs">
               {customBusy ? (
                 <Loader2 className="h-3 w-3 animate-spin" aria-hidden />
               ) : (
                 <Plus className="h-3 w-3" aria-hidden />
               )}
               Spara tagg
-            </button>
+            </Button>
           </div>
           {!userId ? (
             <p className="mt-2 text-xs text-text-dim">Logga in för att spara egna taggar.</p>

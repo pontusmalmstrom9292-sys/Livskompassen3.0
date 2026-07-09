@@ -7,6 +7,7 @@ import { EmptyState } from '@/core/ui/EmptyState';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
 import { useStore } from '@/core/store';
 import type { TimeEntryRow } from '@/core/types/firestore';
+import { Button } from '@/design-system';
 import {
   getOpenTimeEntry,
   getWeekFlexDetail,
@@ -157,14 +158,9 @@ export function StampClockPage() {
               </select>
             </label>
             <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                disabled={busy || isClockedIn}
-                onClick={() => void stamp('IN')}
-                className={isClockedIn || busy ? 'ds-btn ds-btn--ghost opacity-40' : 'ds-btn ds-btn--accent'}
-              >
+              <Button type="button" disabled={busy || isClockedIn} onClick={() => void stamp('IN')} variant={isClockedIn || busy ? 'ghost' : 'accent'} className={isClockedIn || busy ? 'opacity-40' : ''}>
                 Stämpla in
-              </button>
+              </Button>
               <button
                 type="button"
                 disabled={busy || !isClockedIn}

@@ -1,5 +1,6 @@
 import { clsx } from 'clsx';
 import { useId } from 'react';
+import { BastaDesignDockCompass } from '../../layout/basta-design/BastaDesignDockCompass';
 
 type Size = 'sm' | 'md' | 'lg' | 'dock' | 'dock-lg' | 'hero';
 
@@ -9,11 +10,9 @@ const SIZE_CLASS: Record<Size, string> = {
   lg: 'h-16 w-16',
   dock: 'h-[2.65rem] w-[2.65rem]',
   'dock-lg': 'h-[2.65rem] w-[2.65rem]',
-  hero: 'h-[5.45rem] w-[5.45rem]',
+  hero: 'h-[7rem] w-[7rem]',
 };
 
-const TEXTURED_SIZES = new Set<Size>(['dock', 'dock-lg', 'hero', 'lg']);
-const HERO_ASSET = '/design/kompass-dock-rose.svg';
 const DOCK_ASSET = '/icons/b1-kanon-ros.svg';
 
 type Props = {
@@ -21,28 +20,34 @@ type Props = {
   size?: Size;
 };
 
-/** Dekorativ kompass-ros — texturerad kanon-asset på dock/hero, SVG på små ytor. */
+/** Dekorativ kompass-ros — kanon inline-SVG på hero/dock, asset på små ytor. */
 export function ExecutiveDecorCompass({ className = '', size = 'md' }: Props) {
   const uid = useId().replace(/:/g, '');
   const gold = `execGold-${uid}`;
   const goldDeep = `execGoldDeep-${uid}`;
   const glow = `execGlow-${uid}`;
 
-  if (TEXTURED_SIZES.has(size)) {
-    const src = size === 'hero' ? HERO_ASSET : DOCK_ASSET;
+  if (size === 'hero') {
+    return (
+      <BastaDesignDockCompass
+        className={clsx(
+          SIZE_CLASS[size],
+          'exec-decor-compass--textured exec-decor-compass--hero object-contain',
+          className,
+        )}
+      />
+    );
+  }
+
+  if (size === 'dock' || size === 'dock-lg') {
     return (
       <img
-        src={src}
+        src={DOCK_ASSET}
         alt=""
         aria-hidden
         decoding="async"
         draggable={false}
-        className={clsx(
-          SIZE_CLASS[size],
-          'exec-decor-compass--textured object-contain',
-          size === 'hero' && 'exec-decor-compass--hero',
-          className,
-        )}
+        className={clsx(SIZE_CLASS[size], 'exec-decor-compass--textured object-contain', className)}
       />
     );
   }

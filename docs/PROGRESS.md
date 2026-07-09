@@ -1,3 +1,25 @@
+## 2026-07-09 — YOLO VÅG 14–17 — Planering · Projekt · Core/shell · Recovery
+
+**Completed work:**
+- VÅG 14: Planering `components/` (12 filer) — redan i HEAD före denna körning.
+- VÅG 15: Projekt `components/` (7 filer) → `Button` / `ButtonLink`.
+- VÅG 16: Core/ui, security, shell, shared, stampla, inbox, dashboard, nutrition, pansar (22 filer).
+- VÅG 17: Recovery legacy `mabra/components/` (3 filer).
+
+**Metrics:**
+- Scope totalt: 33 filer migrerade denna session (våg 15–17); planering 0 ds-btn (våg 14 i HEAD).
+- `src/modules/**/*.tsx`: **0 ds-btn**
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`: PASS
+
+**Deploy:**
+- Väntar på Pontus `deploy` (våg 10–13 redan live).
+
+**Blockers:**
+- None
+
+---
+
 ## 2026-07-09 — YOLO VÅG 13 — Lab/dev-sidor + deploy våg 10–13
 
 **Completed work:**

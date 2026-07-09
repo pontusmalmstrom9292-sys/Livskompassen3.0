@@ -1,10 +1,10 @@
 import type { CSSProperties, ReactNode } from 'react';
 import { clsx } from 'clsx';
-import { CalendarDays, Landmark, LayoutGrid, PenLine, Inbox, Users, Vault } from 'lucide-react';
 import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
 import { FyrenProgressRing } from '../ui/FyrenProgressRing';
 import { ExecutiveDecorCompass } from '../ui/executive/ExecutiveDecorCompass';
 import type { ExecutiveHomeLayoutMode } from '../home/executive/homeLayoutPreference';
+import { DockZoneIcon } from './DockZoneIcon';
 
 type SideProps = {
   label: string;
@@ -53,7 +53,7 @@ type Props = {
   onPlanering: () => void;
 };
 
-/** Referensdock — extended (6 zoner) eller mix-E (4 zoner). */
+/** Referensdock — extended (6 zoner) eller mix-E (4 zoner). Kanon 2026-06-28. */
 export function ExecutiveDockBar({
   dockVariant = 'extended',
   pathname,
@@ -105,18 +105,15 @@ export function ExecutiveDockBar({
               {showFyrenRing ? <FyrenProgressRing progress={progress} /> : null}
               <ExecutiveDecorCompass size="hero" className="exec-dock-bar__compass-mark" />
             </button>
-            <span className="exec-dock-bar__compass-label" aria-hidden>
-              Hamn
-            </span>
           </div>
         </div>
 
         <ExecDockSide label="Valv" active={isValvet} onClick={onValv}>
-          <Vault className="exec-dock-bar__glyph" strokeWidth={1.75} />
+          <DockZoneIcon id="valv" />
         </ExecDockSide>
 
         <ExecDockSide label="Planering" active={isPlanering} onClick={onPlanering}>
-          <CalendarDays className="exec-dock-bar__glyph" strokeWidth={1.75} />
+          <DockZoneIcon id="planering" />
         </ExecDockSide>
       </nav>
     );
@@ -129,11 +126,11 @@ export function ExecutiveDockBar({
         active={pathname.startsWith('/widget/anteckning')}
         onClick={onAnteckning}
       >
-        <PenLine className="exec-dock-bar__glyph" strokeWidth={1.75} />
+        <DockZoneIcon id="anteckning" />
       </ExecDockSide>
 
       <ExecDockSide label="Familj" active={isFamiljen} onClick={onFamiljen}>
-        <Users className="exec-dock-bar__glyph" strokeWidth={1.75} />
+        <DockZoneIcon id="familj" />
       </ExecDockSide>
 
       <div className="exec-dock-bar__compass-slot">
@@ -164,14 +161,11 @@ export function ExecutiveDockBar({
             {showFyrenRing ? <FyrenProgressRing progress={progress} /> : null}
             <ExecutiveDecorCompass size="hero" className="exec-dock-bar__compass-mark" />
           </button>
-          <span className="exec-dock-bar__compass-label" aria-hidden>
-            Hamn
-          </span>
         </div>
       </div>
 
       <ExecDockSide label="Hjärtat" active={isHjartat} onClick={onVentil}>
-        <Landmark className="exec-dock-bar__glyph" strokeWidth={1.75} />
+        <DockZoneIcon id="hjartat" />
       </ExecDockSide>
 
       <ExecDockSide
@@ -179,11 +173,11 @@ export function ExecutiveDockBar({
         active={pathname.startsWith('/planering/input')}
         onClick={onInkast}
       >
-        <Inbox className="exec-dock-bar__glyph" strokeWidth={1.75} />
+        <DockZoneIcon id="inkast" />
       </ExecDockSide>
 
       <ExecDockSide label="Resurser" active={resurserOpen} onClick={onResurser}>
-        <LayoutGrid className="exec-dock-bar__glyph" strokeWidth={1.75} />
+        <DockZoneIcon id="resurser" />
       </ExecDockSide>
     </nav>
   );

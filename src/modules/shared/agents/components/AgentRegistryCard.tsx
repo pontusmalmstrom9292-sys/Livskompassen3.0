@@ -2,6 +2,7 @@ import { Cpu } from 'lucide-react';
 import type { AgentRegistryCard as AgentCardData } from '../types/agentRegistry';
 import { getProductAgentUiMeta } from '../utils/productAgentUiMeta';
 import { resolveExecutorId } from '../utils/resolveExecutorDisplay';
+import { Button } from '@/design-system';
 
 type Props = {
   agent: AgentCardData;
@@ -69,13 +70,9 @@ export function AgentRegistryCard({
       )}
 
       {onAction && actionLabel ? (
-        <button
-          type="button"
-          onClick={() => onAction(agent.metadata.id)}
-          className="ds-btn ds-btn--ghost mt-3 w-full text-[10px] uppercase tracking-widest"
-        >
+        <Button type="button" onClick={() => onAction(agent.metadata.id)} variant="ghost" className="--ghost mt-3 w-full text-[10px] uppercase tracking-widest">
           {actionLabel}
-        </button>
+        </Button>
       ) : null}
     </article>
   );
