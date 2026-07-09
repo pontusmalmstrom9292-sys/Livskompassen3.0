@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
@@ -128,14 +129,9 @@ export function ArbetslivInkomstDelegate() {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
-            <button
-              type="button"
-              disabled={busy}
-              className="ds-btn ds-btn--accent w-full"
-              onClick={() => void save()}
-            >
+            <Button disabled={busy} className="w-full" onClick={() => void save()}>
               Spara inkomst
-            </button>
+            </Button>
           </div>
         </BentoCard>
 

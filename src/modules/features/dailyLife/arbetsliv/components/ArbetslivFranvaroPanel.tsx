@@ -11,6 +11,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
@@ -145,20 +146,22 @@ export function ArbetslivFranvaroPanel({
             </select>
 
             <div className="flex gap-2">
-              <button
-                type="button"
-                className={`ds-btn ds-btn--ghost text-xs ${mMode === 'heldag' ? 'ring-1 ring-accent-primary' : ''}`}
+              <Button
+                variant="ghost"
+                size="sm"
+                className={mMode === 'heldag' ? 'ring-1 ring-accent-primary' : ''}
                 onClick={() => setMMode('heldag')}
               >
                 Heldag
-              </button>
-              <button
-                type="button"
-                className={`ds-btn ds-btn--ghost text-xs ${mMode === 'timmar' ? 'ring-1 ring-accent-primary' : ''}`}
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                className={mMode === 'timmar' ? 'ring-1 ring-accent-primary' : ''}
                 onClick={() => setMMode('timmar')}
               >
                 Timmar
-              </button>
+              </Button>
             </div>
 
             {mMode === 'timmar' && (
@@ -198,14 +201,9 @@ export function ArbetslivFranvaroPanel({
               </select>
             </div>
 
-            <button
-              type="button"
-              disabled={busy}
-              className="ds-btn ds-btn--accent w-full"
-              onClick={() => void saveManual()}
-            >
+            <Button disabled={busy} className="w-full" onClick={() => void saveManual()}>
               {busy ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : 'Spara i loggen'}
-            </button>
+            </Button>
           </div>
         </BentoCard>
       )}

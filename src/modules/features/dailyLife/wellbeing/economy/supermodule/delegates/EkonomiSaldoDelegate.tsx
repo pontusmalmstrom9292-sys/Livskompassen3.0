@@ -1,5 +1,6 @@
 import { Check, Loader2 } from 'lucide-react';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { Button } from '@/design-system';
 import { MetricTile } from '@/core/ui/MetricTile';
 import { SaldoHero } from '@/core/ui/SaldoHero';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
@@ -190,10 +191,10 @@ export function EkonomiSaldoDelegate({ userId }: EkonomiSaldoDelegateProps) {
             />
           </label>
         </div>
-        <button
+        <Button
           type="submit"
           disabled={inputsDisabled || !customAmount.trim()}
-          className="ds-btn ds-btn--accent w-full text-sm disabled:opacity-60"
+          className="w-full text-sm disabled:opacity-60"
         >
           {saving ? (
             <span className="inline-flex items-center justify-center gap-2">
@@ -203,7 +204,7 @@ export function EkonomiSaldoDelegate({ userId }: EkonomiSaldoDelegateProps) {
           ) : (
             'Spara belopp'
           )}
-        </button>
+        </Button>
       </form>
 
       {offlineQueued ? (
