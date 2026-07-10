@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Trash2 } from 'lucide-react';
 import { clearDeviceSession } from '../security/clearDeviceSession';
+import { Button } from '@/design-system';
 
 export function ClearDevicePanel() {
   const [busy, setBusy] = useState(false);
@@ -14,25 +15,10 @@ export function ClearDevicePanel() {
         Raderar utkast, PIN-session och valv-gate på denna enhet. Bevis i molnet påverkas inte.
         Du fortsätter vara inloggad om du inte loggar ut separat.
       </p>
-      <button
-        type="button"
-        className="ds-btn ds-btn--ghost inline-flex items-center gap-2 text-sm text-rose-200/90"
-        disabled={busy}
-        onClick={() => {
-          if (!window.confirm('Rensa känslig lokal data på denna enhet?')) return;
-          setBusy(true);
-          setError(null);
-          void clearDeviceSession()
-            .then(() => setDone(true))
-            .catch((err) => {
-              setError(err instanceof Error ? err.message : 'Kunde inte rensa.');
-            })
-            .finally(() => setBusy(false));
-        }}
-      >
+      <Button type="button" variant="ghost" className="--ghost inline-flex items-center gap-2 text-sm text-rose-200/90" disabled={busy} onClick={() => { if (!window.confirm('Rensa känslig lokal data på denna enhet?')) return; setBusy(true); setError(null); void clearDeviceSession() .then(() => setDone(true)) .catch((err) => { setError(err instanceof Error ? err.message : 'Kunde inte rensa.'); }) .finally(() => setBusy(false)); }}>
         <Trash2 className="h-4 w-4" />
         {busy ? 'Rensar…' : 'Rensa enheten'}
-      </button>
+      </Button>
       {done && (
         <p className="text-xs text-emerald-300/90" role="status">
           Lokal session rensad.

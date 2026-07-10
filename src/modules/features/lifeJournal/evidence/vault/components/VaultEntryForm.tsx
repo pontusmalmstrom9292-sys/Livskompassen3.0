@@ -1,6 +1,7 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ImagePlus, Loader2, Mic, MicOff, Plus } from 'lucide-react';
+import { Button } from '@/design-system';
 import { uploadVaultEvidence } from '@/core/firebase/storage';
 import { useSpeechToText } from '@/core/hooks/useSpeechToText';
 import { shouldSuggestVaultPatternScan } from '@/core/triggers/valvHandoff';
@@ -38,6 +39,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
   const [smsThreadPaste, setSmsThreadPaste] = useState('');
   const [smsThreadSplitNotice, setSmsThreadSplitNotice] = useState(false);
   const [wormConfirmOpen, setWormConfirmOpen] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handoff = (location.state as { vaultHandoffText?: string } | null)?.vaultHandoffText;
@@ -263,9 +265,11 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
               rows={3}
               className="input-glass w-full resize-none rounded-xl px-3 py-2 text-sm"
             />
-            <button
+            <Button
               type="button"
-              className="ds-btn ds-btn--ghost mt-2 text-xs"
+              variant="ghost"
+              size="sm"
+              className="mt-2"
               disabled={smsThreadPaste.trim().length < 20}
               onClick={() => {
                 const parsed = parseSmsThreadToTwoColumn(smsThreadPaste);
@@ -278,7 +282,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
               }}
             >
               Dela i två kolumner
-            </button>
+            </Button>
             {smsThreadSplitNotice ? (
               <p className="mt-2 text-xs text-accent/90" role="status">
                 Tråden är uppdelad i två kolumner. Granska innan du sparar.
@@ -332,23 +336,19 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
                 />
                 <div className="mt-2 flex gap-2">
                   {idx > 0 && (
-                    <button
-                      type="button"
-                      onClick={() => setShieldStep(idx - 1)}
-                      className="ds-btn ds-btn--ghost"
-                    >
+                    <Button type="button" variant="ghost" onClick={() => setShieldStep(idx - 1)}>
                       Tillbaka
-                    </button>
+                    </Button>
                   )}
                   {idx < 2 ? (
-                    <button
+                    <Button
                       type="button"
+                      variant="secondary"
                       disabled={!value.trim()}
                       onClick={() => setShieldStep(idx + 1)}
-                      className="ds-btn ds-btn--secondary disabled:opacity-50"
                     >
                       Fortsätt
-                    </button>
+                    </Button>
                   ) : null}
                 </div>
               </div>
@@ -402,25 +402,26 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
       <div className="glass-card space-y-2 p-3">
         <p className="text-[10px] uppercase tracking-widest text-text-dim">Bifoga bevis</p>
         <div className="flex flex-wrap items-center gap-2">
-          <label className="ds-btn ds-btn--ghost cursor-pointer">
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => fileInputRef.current?.click()}
+          >
             <ImagePlus className="h-4 w-4" />
             Skärmdump
-            <input
-              type="file"
-              accept="image/png,image/jpeg,image/webp,image/gif"
-              className="sr-only"
-              onChange={(e) => setPendingFile(e.target.files?.[0] ?? null)}
-            />
-          </label>
+          </Button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif"
+            className="sr-only"
+            onChange={(e) => setPendingFile(e.target.files?.[0] ?? null)}
+          />
           {supported && (
-            <button
-              type="button"
-              onClick={isListening ? stop : start}
-              className="ds-btn ds-btn--ghost"
-            >
+            <Button type="button" variant="ghost" onClick={isListening ? stop : start}>
               {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
               Röstmemo
-            </button>
+            </Button>
           )}
         </div>
         {pendingFile && (
@@ -446,11 +447,11 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
           onCancel={() => setWormConfirmOpen(false)}
         />
       ) : (
-        <button
+        <Button
           type="button"
+          variant="success"
           onClick={requestSave}
           disabled={busy || !canSave}
-          className="ds-btn ds-btn--success disabled:opacity-50"
         >
           <span className="inline-flex items-center gap-2">
             <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden>
@@ -458,7 +459,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
             </span>
             <span>Spara bevis</span>
           </span>
-        </button>
+        </Button>
       )}
     </div>
   );

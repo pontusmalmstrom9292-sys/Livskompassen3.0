@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Inbox } from 'lucide-react';
+import { clsx } from 'clsx';
+import { Button, Badge, type ButtonVariant } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '../../core/store';
 import {
@@ -20,7 +22,7 @@ import {
 } from '@/modules/inkast/planeringInboxItem';
 import {
   inboxQueueDisplayStatus,
-  inboxQueueStatusBadgeClass,
+  inboxQueueStatusBadgeVariant,
   inboxQueueStatusLabel,
   sortInboxForValvSamla,
 } from '@/modules/capture/reviewQueuePipeline';
@@ -274,9 +276,9 @@ export function InboxReviewQueue({
       icon={<Inbox className="h-4 w-4 text-accent" />}
     >
       {onBack && (
-        <button type="button" className="ds-btn ds-btn--ghost mb-3 text-xs" onClick={onBack}>
+        <Button variant="ghost" size="sm" className="mb-3" onClick={onBack}>
           ← Tillbaka till logga
-        </button>
+        </Button>
       )}
       {!compact && (
         <p className="mb-3 text-xs text-text-dim">
@@ -315,10 +317,14 @@ export function InboxReviewQueue({
       <ul className="space-y-3">
         {displayItems.map((item) => {
           const domainHint = inboxReviewQueueDomainHint(item);
-          const routingBtnClass = (routing: 'kunskap' | 'bevis' | 'barnen' | 'dagbok') =>
-            isProposedRoutingButton(routing, item)
-              ? 'ds-btn ds-btn--accent text-xs ring-1 ring-accent/40'
-              : 'ds-btn ds-btn--secondary text-xs';
+          const routingBtnProps = (routing: 'kunskap' | 'bevis' | 'barnen' | 'dagbok') => {
+            const proposed = isProposedRoutingButton(routing, item);
+            return {
+              variant: (proposed ? 'accent' : 'secondary') as ButtonVariant,
+              className: clsx('text-xs', proposed && 'ring-1 ring-accent/40'),
+              size: 'sm' as const,
+            };
+          };
 
           return (
           <li
@@ -333,14 +339,15 @@ export function InboxReviewQueue({
               ))}
             </p>
             <div className="mt-2 flex flex-wrap items-center gap-2">
-              <span
-                className={`inline-block ${inboxQueueStatusBadgeClass(inboxQueueDisplayStatus(item))}`}
+              <Badge
+                variant={inboxQueueStatusBadgeVariant(inboxQueueDisplayStatus(item))}
+                className="text-[10px] uppercase tracking-wider"
               >
                 {inboxQueueStatusLabel(item)}
-              </span>
-              <span className="review-queue-status review-queue-status--review">
+              </Badge>
+              <Badge variant="warning" className="text-[10px] uppercase tracking-wider">
                 {inboxReviewQueueHitlBadge(item)}
-              </span>
+              </Badge>
             </div>
             <p className="mt-1 text-xs text-accent/90">{inboxReviewQueueRoutingLine(item)}</p>
             {domainHint && (
@@ -360,64 +367,59 @@ export function InboxReviewQueue({
             )}
             {editingId === item.id ? (
               <div className="mt-3 flex flex-wrap gap-2">
-                <button
-                  type="button"
+                <Button
+                  {...routingBtnProps('bevis')}
                   disabled={busyId === item.id}
-                  className={routingBtnClass('bevis')}
                   onClick={() => {
                     void handleConfirm(item, 'bevis').then(() => setEditingId(null));
                   }}
                 >
                   → Arkiv
-                </button>
-                <button
-                  type="button"
+                </Button>
+                <Button
+                  {...routingBtnProps('dagbok')}
                   disabled={busyId === item.id}
-                  className={routingBtnClass('dagbok')}
                   onClick={() => {
                     void handleConfirm(item, 'dagbok').then(() => setEditingId(null));
                   }}
                 >
                   → Dagbok
-                </button>
-                <button
-                  type="button"
+                </Button>
+                <Button
+                  {...routingBtnProps('kunskap')}
                   disabled={busyId === item.id}
-                  className={routingBtnClass('kunskap')}
                   onClick={() => {
                     void handleConfirm(item, 'kunskap').then(() => setEditingId(null));
                   }}
                 >
                   → Kunskap
-                </button>
-                <button
-                  type="button"
+                </Button>
+                <Button
+                  {...routingBtnProps('barnen')}
                   disabled={busyId === item.id}
-                  className={routingBtnClass('barnen')}
                   onClick={() => {
                     void handleConfirm(item, 'barnen').then(() => setEditingId(null));
                   }}
                 >
                   → Barnen
-                </button>
-                <button
-                  type="button"
+                </Button>
+                <Button
+                  size="sm"
                   disabled={busyId === item.id}
-                  className="ds-btn ds-btn--accent text-xs"
                   onClick={() => {
                     void handlePlanering(item).then(() => setEditingId(null));
                   }}
                 >
                   → Handling
-                </button>
-                <button
-                  type="button"
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
                   disabled={busyId === item.id}
-                  className="ds-btn ds-btn--ghost text-xs"
                   onClick={() => setEditingId(null)}
                 >
                   Tillbaka
-                </button>
+                </Button>
               </div>
             ) : (
               <div className="mt-3">

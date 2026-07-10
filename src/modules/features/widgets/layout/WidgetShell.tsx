@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Button } from '@/design-system';
 import { Compass, EyeOff } from 'lucide-react';
 import { useState, type ReactNode } from 'react';
 import { WidgetShellProvider, useWidgetShellContext } from '../context/widgetShellContext';
@@ -36,15 +37,16 @@ function WidgetShellFrame({ title, lead, children }: Props) {
               <Compass className="h-4 w-4 text-accent" strokeWidth={1.65} />
               <span className="text-[10px] uppercase tracking-[0.2em] text-text-dim">Widget</span>
             </Link>
-            <button
+            <Button
               type="button"
+              variant="ghost"
               onClick={handlePanic}
-              className="ds-btn ds-btn--ghost inline-flex shrink-0 items-center gap-1.5 px-2.5 py-1.5 text-[10px] uppercase tracking-[0.14em]"
+              className="inline-flex shrink-0 items-center gap-1.5 px-2.5 py-1.5 text-[10px] uppercase tracking-[0.14em]"
               aria-label="Dölj nu — neutral hem"
             >
               <EyeOff className="h-3.5 w-3.5" strokeWidth={1.5} aria-hidden />
               Dölj nu
-            </button>
+            </Button>
           </div>
           <h1 className="widget-shell__title">{title}</h1>
           {lead ? <p className="widget-shell__lead">{lead}</p> : null}

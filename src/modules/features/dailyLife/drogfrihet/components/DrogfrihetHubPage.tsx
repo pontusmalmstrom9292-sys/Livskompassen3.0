@@ -1,7 +1,12 @@
 import { BookOpen, Brain, HeartHandshake, Shield, Sparkles, X } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { Button, Modal, textStyles } from '@/design-system';
 import { HubPageShell } from '@/core/layout/HubPageShell';
+import {
+  immersiveModalOverlayClass,
+  immersiveModalPanelClass,
+} from '@/core/ui/zenModeOverlayClasses';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar, type TabBarItem } from '@/core/ui/TabBar';
@@ -83,13 +88,13 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
       {tab === 'idag' && (
         <>
           <DrogfrihetCounterBadge uid={user?.uid} />
-          <button
-            type="button"
+          <Button
+            variant="secondary"
             onClick={() => setSosOpen(true)}
-            className="ds-btn ds-btn--secondary w-full text-sm uppercase tracking-[0.14em]"
+            className="w-full text-sm uppercase tracking-[0.14em]"
           >
             SOS — sug nu
-          </button>
+          </Button>
           <BentoCard title="Idag" icon={<HeartHandshake className="h-4 w-4" />} glow="green">
             <div className="home-module-panel__question-box">
               <p className="text-base text-accent">{idag.card.text_sv}</p>
@@ -137,15 +142,15 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
               <p className="mt-2 text-xs text-text-dim">Inget fel svar — ett ord räcker.</p>
             </div>
             <div className="mt-4 flex gap-2">
-              <button
-                type="button"
-                className="ds-btn ds-btn--secondary flex-1"
+              <Button
+                variant="secondary"
+                className="flex-1"
                 onClick={() =>
                   setReflectionIndex((i) => (i + 1) % DROGFRIHET_CARDS.length)
                 }
               >
                 Nästa kort
-              </button>
+              </Button>
             </div>
             <p className="mt-3 text-xs text-text-muted">
               {DROGFRIHET_CARDS.length} kort i poolen — inga poäng, ingen missad dag.
@@ -155,7 +160,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
           <section className="rounded-2xl border-[0.5px] border-border bg-gradient-to-br from-surface-2/80 via-surface to-surface-2 p-4 sm:p-5">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div className="min-w-0 space-y-1">
-                <p className="flex items-center gap-2 font-display-serif text-[10px] uppercase tracking-[0.22em] text-text-dim">
+                <p className={`flex items-center gap-2 ${textStyles.eyebrow}`}>
                   <Brain className="h-3 w-3 shrink-0 text-accent/70" strokeWidth={1.5} aria-hidden />
                   Verklighetskontroll
                 </p>
@@ -163,13 +168,13 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
                   KBT — granska en tanke steg för steg. Sparas i Vit-zonen, inte Valv.
                 </p>
               </div>
-              <button
-                type="button"
+              <Button
+                variant="ghost"
                 onClick={() => setRealityCheckOpen(true)}
-                className="ds-btn ds-btn--ghost shrink-0 text-xs uppercase tracking-[0.14em]"
+                className="shrink-0 text-xs uppercase tracking-[0.14em]"
               >
                 Öppna
-              </button>
+              </Button>
             </div>
           </section>
         </>
@@ -199,34 +204,36 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
     </>
   );
 
-  const realityCheckOverlay = realityCheckOpen ? (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="Verklighetskontroll"
-      className="fixed inset-0 z-[60] flex flex-col bg-gradient-to-b from-bg via-surface to-surface-2"
+  const realityCheckOverlay = (
+    <Modal
+      open={realityCheckOpen}
+      onClose={() => setRealityCheckOpen(false)}
+      hideHeader
+      ariaLabel="Verklighetskontroll"
+      className={`${immersiveModalOverlayClass} !z-[60]`}
+      panelClassName={`${immersiveModalPanelClass} !bg-gradient-to-b !from-bg !via-surface !to-surface-2`}
     >
-      <header className="flex shrink-0 items-center justify-between border-b-[0.5px] border-border px-4 py-3 sm:px-6">
-        <p className="font-display-serif text-[10px] uppercase tracking-[0.22em] text-text-dim">
-          Verklighetskontroll
-        </p>
-        <button
-          type="button"
-          onClick={() => setRealityCheckOpen(false)}
-          className="rounded-xl border-[0.5px] border-border/60 p-2 text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3 hover:text-text"
-          aria-label="Stäng verklighetskontroll"
-        >
-          <X className="h-5 w-5" strokeWidth={1.5} />
-        </button>
-      </header>
-      <div className="calm-scroll-island flex-1 overflow-y-auto px-4 py-4 sm:px-6 sm:py-6">
-        <RecoveryRealityCheckForm
-          userId={user?.uid}
-          onComplete={() => setRealityCheckOpen(false)}
-        />
+      <div className="flex h-full min-h-[100dvh] flex-col">
+        <header className="flex shrink-0 items-center justify-between border-b-[0.5px] border-border px-4 py-3 sm:px-6">
+          <p className={textStyles.eyebrow}>Verklighetskontroll</p>
+          <button
+            type="button"
+            onClick={() => setRealityCheckOpen(false)}
+            className="rounded-xl border-[0.5px] border-border/60 p-2 text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3 hover:text-text"
+            aria-label="Stäng verklighetskontroll"
+          >
+            <X className="h-5 w-5" strokeWidth={1.5} />
+          </button>
+        </header>
+        <div className="calm-scroll-island flex-1 overflow-y-auto px-4 py-4 sm:px-6 sm:py-6">
+          <RecoveryRealityCheckForm
+            userId={user?.uid}
+            onComplete={() => setRealityCheckOpen(false)}
+          />
+        </div>
       </div>
-    </div>
-  ) : null;
+    </Modal>
+  );
 
   const sosOverlay = sosOpen ? <RecoveryUrgeSosModule onClose={() => setSosOpen(false)} /> : null;
 

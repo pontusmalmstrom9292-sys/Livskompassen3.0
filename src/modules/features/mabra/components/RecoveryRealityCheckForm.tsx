@@ -2,6 +2,7 @@ import { Loader2 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ensureVitHub, saveVitEntry } from '@/core/firebase/vitHubFirestore';
 import { CognitiveLoadStrip } from '@/core/ui/CognitiveLoadStrip';
+import { Button, TextArea, textStyles } from '@/design-system';
 
 const DRAFT_STORAGE_KEY = 'livskompassen_recovery_reality_draft';
 const RECOVERY_BANK_ID = 'DF-REALITY-01';
@@ -306,7 +307,7 @@ export function RecoveryRealityCheckForm({ userId, onSaved, onComplete }: Props)
 
       <div className="mt-6 space-y-4">
         <div>
-          <p className="font-display-serif text-[10px] uppercase tracking-[0.22em] text-text-dim">
+          <p className={textStyles.eyebrow}>
             {step.eyebrow}
           </p>
           <h2 className="mt-2 font-display text-lg text-text">{step.title}</h2>
@@ -315,12 +316,12 @@ export function RecoveryRealityCheckForm({ userId, onSaved, onComplete }: Props)
 
         {step.kind === 'textarea' && step.field ? (
           <label className="block text-xs text-text-dim">
-            <textarea
+            <TextArea
               value={draft[step.field]}
               onChange={(e) => updateField(step.field as FieldKey, e.target.value)}
               rows={4}
               maxLength={FIELD_LIMITS[step.field]}
-              className="input-glass mt-2 w-full resize-none text-sm"
+              className="input-glass neu-inset mt-2 w-full resize-none text-sm"
               placeholder="Skriv fritt…"
             />
             <span className="mt-1 block text-right tabular-nums">
@@ -391,31 +392,26 @@ export function RecoveryRealityCheckForm({ userId, onSaved, onComplete }: Props)
 
       <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-between">
         {stepIndex > 0 ? (
-          <button type="button" onClick={handleBack} className="ds-btn ds-btn--ghost text-sm">
+          <Button type="button" onClick={handleBack} variant="ghost" className="--ghost text-sm">
             {COPY.back}
-          </button>
+          </Button>
         ) : (
           <span />
         )}
 
         {stepIndex < TOTAL_STEPS - 1 ? (
-          <button type="button" onClick={handleNext} className="ds-btn ds-btn--secondary sm:ml-auto">
+          <Button type="button" onClick={handleNext} variant="secondary" className="--secondary sm:ml-auto">
             {COPY.next}
-          </button>
+          </Button>
         ) : (
           <div className="flex w-full flex-col gap-2 sm:ml-auto sm:w-auto sm:flex-row">
-            <button type="button" onClick={handleReset} className="ds-btn ds-btn--ghost text-sm">
+            <Button type="button" onClick={handleReset} variant="ghost" className="--ghost text-sm">
               {COPY.doneWithoutSave}
-            </button>
-            <button
-              type="button"
-              onClick={() => void handleSave()}
-              disabled={!userId || saving || saved || summaryRows.length === 0}
-              className="ds-btn ds-btn--secondary inline-flex items-center justify-center gap-2"
-            >
+            </Button>
+            <Button type="button" onClick={() => void handleSave()} disabled={!userId || saving || saved || summaryRows.length === 0} variant="secondary" className="--secondary inline-flex items-center justify-center gap-2">
               {saving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
               {COPY.save}
-            </button>
+            </Button>
           </div>
         )}
       </div>

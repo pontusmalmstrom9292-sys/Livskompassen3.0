@@ -1,5 +1,6 @@
 import { memo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@/design-system';
 import { useShallow } from 'zustand/react/shallow';
 import { Sparkles } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -144,19 +145,18 @@ export const AddonView = memo(function AddonView() {
         <p className="mt-2 text-sm text-text-muted">{BREATHING_ADDON_COPY.detail}</p>
       </div>
       <div className="mabra-flow-shell__actions flex w-full max-w-sm flex-col gap-2">
-        <button
-          type="button"
+        <Button
+          variant="secondary"
           onClick={() => {
             setAddonBreathing(true);
             navigate('/mabra/ovning/breathing');
           }}
-          className="ds-btn ds-btn--secondary"
         >
           {BREATHING_ADDON_COPY.startLabel}
-        </button>
-        <button type="button" onClick={() => void finishReframingSession()} className="ds-btn ds-btn--ghost text-sm">
+        </Button>
+        <Button variant="ghost" className="text-sm" onClick={() => void finishReframingSession()}>
           {BREATHING_ADDON_COPY.skipLabel}
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -1,4 +1,5 @@
 import { Sparkles } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 
 export function AutoKategoriseringStub() {
@@ -26,12 +27,13 @@ export function AutoKategoriseringStub() {
           </div>
         </div>
 
-        <button 
+        <Button
           disabled
-          className="w-full ds-btn ds-btn--ghost text-xs opacity-50 cursor-not-allowed"
+          variant="ghost"
+          className="w-full text-xs opacity-50 cursor-not-allowed"
         >
           Aktivera integration (Kommer snart)
-        </button>
+        </Button>
       </div>
     </BentoCard>
   );

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
+import { Button, TextArea } from '@/design-system';
 import { mirrorFeeling } from '../constants/vivirSteps';
 import {
   fetchSpeglingsMirror,
@@ -84,7 +85,7 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
       <div className="grid gap-3 md:grid-cols-2">
         <div className="glass-card p-3">
           <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">Känsla nu</p>
-          <textarea
+          <TextArea
             value={safeFeeling}
             onChange={(e) => {
               onFeelingChange(e.target.value);
@@ -94,13 +95,14 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
             }}
             placeholder="Vad känner du just nu?"
             rows={4}
-            className="input-glass rounded-lg p-3"
+            className="input-glass neu-inset resize-none rounded-lg p-3"
           />
-          <button
+          <Button
             type="button"
+            variant="secondary"
+            className="mt-2 inline-flex items-center gap-2"
             onClick={() => void handleMirror()}
             disabled={!safeFeeling.trim() || loading}
-            className="ds-btn ds-btn--secondary mt-2 inline-flex items-center gap-2 disabled:opacity-50"
           >
             {loading ? (
               <span
@@ -109,7 +111,7 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
               />
             ) : null}
             {loading ? 'Spegling…' : 'Spegla'}
-          </button>
+          </Button>
         </div>
 
         <div className={`glass-card p-3 ${usedAi ? 'glass-card--ai border-accent-ai/30' : 'border-accent/20'}`}>
@@ -120,14 +122,15 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
           {mirrored ? (
             <>
               <p className="text-sm leading-relaxed text-text-muted">{toMirrorDisplay(mirrorText)}</p>
-              <button
+              <Button
                 type="button"
+                variant="accent"
+                className="mt-4 inline-flex w-full items-center justify-center gap-2"
                 onClick={onContinue}
-                className="ds-btn ds-btn--accent mt-4 inline-flex w-full items-center justify-center gap-2"
               >
                 Fortsätt till VIVIR
                 <ChevronRight className="h-4 w-4" aria-hidden />
-              </button>
+              </Button>
             </>
           ) : (
             <p className="text-sm text-text-dim">

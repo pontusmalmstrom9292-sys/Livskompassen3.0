@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Button } from '@/design-system';
 import { Clock, Loader2 } from 'lucide-react';
 import { AuthGate } from '@/core/auth/AuthGate';
 import { useStore } from '@/core/store';
@@ -76,9 +77,9 @@ function WidgetStampInner() {
           />
         )}
 
-        <button type="button" className="ds-btn ds-btn--ghost mt-4 w-full text-sm" onClick={() => navigate('/')}>
+        <Button type="button" variant="ghost" className="mt-4 w-full text-sm" onClick={() => navigate('/')}>
           Till hem
-        </button>
+        </Button>
       </div>
     </WidgetShell>
   );

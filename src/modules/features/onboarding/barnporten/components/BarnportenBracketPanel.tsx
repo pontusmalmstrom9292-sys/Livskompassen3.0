@@ -1,4 +1,5 @@
 import { Wind } from 'lucide-react';
+import { Button } from '@/design-system';
 import type { BarnfokusBracket } from '@/features/family/children/constants';
 
 type MoodOption = { id: string; label: string; emoji: string };
@@ -56,15 +57,16 @@ export function BarnportenBracketPanel({
         ))}
       </div>
 
-      <button
+      <Button
         type="button"
+        variant="secondary"
         disabled={disabled}
-        className="ds-btn ds-btn--secondary mt-4 flex w-full items-center justify-center gap-2 text-sm"
+        className="mt-4 flex w-full items-center justify-center gap-2 text-sm"
         onClick={onBreathing}
       >
         <Wind className="h-4 w-4" aria-hidden />
         Andas lugnt (3 andetag)
-      </button>
+      </Button>
     </div>
   );
 }

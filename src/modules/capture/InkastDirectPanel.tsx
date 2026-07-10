@@ -4,6 +4,7 @@
 import { useCallback, useRef, useState } from 'react';
 import { clsx } from 'clsx';
 import { FileUp, Inbox, Copy, Check, Mic, MicOff } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
 import { WormSaveConfirmSheet } from '@/core/security/WormSaveConfirmSheet';
@@ -333,9 +334,9 @@ export function InkastDirectPanel({
       )}
 
       <div className={clsx('flex flex-wrap gap-2', isValv ? 'mt-2' : 'mt-3')}>
-        <button
-          type="button"
-          className={isValv ? 'ds-btn ds-btn--secondary text-xs' : 'ds-btn ds-btn--accent text-xs'}
+        <Button
+          variant={isValv ? 'secondary' : 'accent'}
+          size="sm"
           disabled={loading || wormConfirmOpen || text.trim().length < 12}
           onClick={handlePasteSubmit}
         >
@@ -349,11 +350,10 @@ export function InkastDirectPanel({
           ) : (
             'Skicka till arkiv'
           )}
-        </button>
-        {/* Fas 3: Clipboard copy-knapp */}
-        <button
-          type="button"
-          className="ds-btn ds-btn--ghost text-xs"
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
           disabled={loading || wormConfirmOpen || text.trim().length === 0}
           onClick={handleCopy}
           title="Kopiera text till urklipp"
@@ -367,10 +367,10 @@ export function InkastDirectPanel({
             )}
             {copied ? 'Kopierat!' : 'Kopiera'}
           </span>
-        </button>
-        <button
-          type="button"
-          className="ds-btn ds-btn--ghost text-xs"
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
           disabled={loading || wormConfirmOpen}
           onClick={() => inputRef.current?.click()}
         >
@@ -378,19 +378,16 @@ export function InkastDirectPanel({
             <FileUp className="mr-1 inline h-3 w-3" />
             {isValv ? 'Filer' : 'En fil eller flera'}
           </span>
-        </button>
+        </Button>
 
-        {/* Fas 3: Röstinmatning (Töm Skallen) */}
         {speechSupported && !showBaraOrd && (
-          <button
-            type="button"
-            className={clsx(
-              "ds-btn ds-btn--ghost text-xs transition-colors",
-              isListening ? "text-danger animate-pulse bg-danger/10" : ""
-            )}
+          <Button
+            variant="ghost"
+            size="sm"
+            className={clsx('transition-colors', isListening ? 'text-danger animate-pulse bg-danger/10' : '')}
             disabled={loading || wormConfirmOpen}
             onClick={toggleListening}
-            title={isListening ? "Klicka för att sluta lyssna" : "Töm skallen (Röst till text)"}
+            title={isListening ? 'Klicka för att sluta lyssna' : 'Töm skallen (Röst till text)'}
           >
             <span className="inline-flex items-center gap-1">
               {isListening ? (
@@ -400,21 +397,18 @@ export function InkastDirectPanel({
               )}
               {isListening ? 'Lyssnar...' : 'Prata'}
             </span>
-          </button>
+          </Button>
         )}
 
-        {/* Fas 3: Bara ord-toggle */}
-        <button
-          type="button"
-          className={clsx(
-            "ds-btn ds-btn--ghost text-xs ml-auto",
-            showBaraOrd ? "text-accent" : "text-text-dim"
-          )}
+        <Button
+          variant="ghost"
+          size="sm"
+          className={clsx('ml-auto', showBaraOrd ? 'text-accent' : 'text-text-dim')}
           onClick={() => setShowBaraOrd(!showBaraOrd)}
           disabled={loading || wormConfirmOpen}
         >
           Bara ord
-        </button>
+        </Button>
 
         {/* Fas 3: Bara Lyssna-toggle */}
         {!showBaraOrd && (

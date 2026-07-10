@@ -25,6 +25,7 @@ import {
   targetToKey,
 } from '@/core/lifeOs/materialPackTargets';
 import { ShortcutEditorRow } from './ShortcutEditorRow';
+import { Button } from '@/design-system';
 
 const HUB_LABELS: Record<MaterialPackHub, string> = {
   familjen: 'Familjen',
@@ -156,14 +157,9 @@ export function ProjektMaterialPackPage() {
           <>
             <div className="flex flex-wrap gap-2">
               {availableHubs.map((h) => (
-                <button
-                  key={h}
-                  type="button"
-                  className={hub === h ? 'ds-btn ds-btn--accent text-xs' : 'ds-btn ds-btn--ghost text-xs'}
-                  onClick={() => setHub(h)}
-                >
+                <Button key={h} type="button" variant={hub === h ? 'accent' : 'ghost'} className="text-xs" onClick={() => setHub(h)}>
                   {HUB_LABELS[h]}
-                </button>
+                </Button>
               ))}
             </div>
 
@@ -239,23 +235,13 @@ export function ProjektMaterialPackPage() {
             )}
 
             <div className="flex flex-wrap items-center gap-3 mt-2">
-              <button
-                type="button"
-                disabled={!user || shortcuts.length >= 12}
-                className="ds-btn ds-btn--accent shadow-lg shadow-accent/20"
-                onClick={() => persist([...shortcuts, newShortcut()])}
-              >
+              <Button type="button" disabled={!user || shortcuts.length >= 12} variant="accent" className="--accent shadow-lg shadow-accent/20" onClick={() => persist([...shortcuts, newShortcut()])}>
                 + Lägg till genväg
-              </button>
+              </Button>
               {hasOverride && (
-                <button
-                  type="button"
-                  disabled={!user}
-                  className="ds-btn ds-btn--ghost"
-                  onClick={resetToDefault}
-                >
+                <Button type="button" disabled={!user} variant="ghost" className="--ghost" onClick={resetToDefault}>
                   Återställ standard
-                </button>
+                </Button>
               )}
             </div>
 

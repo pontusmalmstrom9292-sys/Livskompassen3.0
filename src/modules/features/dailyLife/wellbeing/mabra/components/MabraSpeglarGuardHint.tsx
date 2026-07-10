@@ -1,6 +1,5 @@
-import { useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import { Sparkles } from 'lucide-react';
+import { Button, ButtonLink } from '@/design-system';
 import { hjartatTabHref } from '@/core/navigation/appNavigation';
 import { MABRA_SPEGLAR_GUARD_COPY } from '../constants';
 
@@ -11,12 +10,6 @@ type Props = {
 
 /** Guld hint — Speglar erbjuds utan auto-redirect (Fas 2 §5). */
 export function MabraSpeglarGuardHint({ className = '', onStay }: Props) {
-  const stayRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    stayRef.current?.focus();
-  }, []);
-
   return (
     <aside
       className={`rounded-xl border border-accent/35 bg-accent/8 p-3 ${className}`.trim()}
@@ -28,17 +21,12 @@ export function MabraSpeglarGuardHint({ className = '', onStay }: Props) {
         <p className="text-sm leading-relaxed text-text-muted">{MABRA_SPEGLAR_GUARD_COPY.message}</p>
       </div>
       <div className="mt-3 flex flex-wrap gap-2">
-        <button
-          ref={stayRef}
-          type="button"
-          onClick={onStay}
-          className="ds-btn ds-btn--secondary text-sm"
-        >
+        <Button autoFocus variant="secondary" className="text-sm" onClick={onStay}>
           {MABRA_SPEGLAR_GUARD_COPY.stayLabel}
-        </button>
-        <Link to={hjartatTabHref('speglar')} className="ds-btn ds-btn--ghost text-sm">
+        </Button>
+        <ButtonLink to={hjartatTabHref('speglar')} variant="ghost" className="text-sm">
           {MABRA_SPEGLAR_GUARD_COPY.goLabel}
-        </Link>
+        </ButtonLink>
       </div>
     </aside>
   );

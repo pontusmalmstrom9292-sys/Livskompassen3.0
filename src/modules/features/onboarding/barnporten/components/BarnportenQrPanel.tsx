@@ -1,4 +1,5 @@
 import './barnporten.css';
+import { Button } from '@/design-system';
 import { useEffect, useRef, useState } from 'react';
 import QRCode from 'qrcode';
 import { collection, onSnapshot, query, where, limit } from 'firebase/firestore';
@@ -121,25 +122,27 @@ export function BarnportenQrPanel() {
 
       <div className="flex flex-wrap gap-2">
         {CHILD_ALIASES.map((alias) => (
-          <button
+          <Button
             key={alias}
             type="button"
-            className={childAlias === alias ? 'ds-btn ds-btn--accent text-xs' : 'ds-btn ds-btn--ghost text-xs'}
+            variant={childAlias === alias ? 'accent' : 'ghost'}
+            className="text-xs"
             onClick={() => setChildAlias(alias)}
           >
             {alias}
-          </button>
+          </Button>
         ))}
       </div>
 
-      <button
+      <Button
         type="button"
-        className="ds-btn ds-btn--secondary w-full text-sm"
+        variant="secondary"
+        className="w-full text-sm"
         disabled={loading}
         onClick={() => void handleCreate()}
       >
         {loading ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : 'Skapa QR-kod'}
-      </button>
+      </Button>
 
       {error ? <p className="text-xs text-danger">{error}</p> : null}
 

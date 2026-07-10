@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { CheckCircle2, Loader2, Pencil, Sparkles, Target, X } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useGoalDetection } from '../hooks/useGoalDetection';
 import { usePrimaryGoal } from '../hooks/usePrimaryGoal';
@@ -162,23 +163,23 @@ export function MabraGoalPanel() {
           <p className="text-xs uppercase tracking-wider text-text-dim">{COPY.activeGoal}</p>
           <p className="mt-1 text-base text-text">{primaryGoal.text}</p>
           <div className="mt-3 flex flex-wrap gap-2">
-            <button
-              type="button"
-              className="ds-btn ds-btn--ghost text-xs text-text-dim"
+            <Button
+              variant="ghost"
+              className="text-xs text-text-dim"
               onClick={beginCustomEdit}
               disabled={saving}
             >
               <Pencil className="mr-1 inline h-3.5 w-3.5" />
               {COPY.adjust}
-            </button>
-            <button
-              type="button"
-              className="ds-btn ds-btn--ghost text-xs text-text-dim"
+            </Button>
+            <Button
+              variant="ghost"
+              className="text-xs text-text-dim"
               onClick={() => void handleClear()}
               disabled={saving}
             >
               {COPY.clear}
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -221,9 +222,9 @@ export function MabraGoalPanel() {
             autoFocus
           />
           <div className="flex flex-wrap gap-2">
-            <button
-              type="button"
-              className="ds-btn ds-btn--ghost text-sm"
+            <Button
+              variant="ghost"
+              className="text-sm"
               onClick={() => void handleConfirm()}
               disabled={saving || !draftText.trim()}
             >
@@ -235,10 +236,10 @@ export function MabraGoalPanel() {
               ) : (
                 COPY.confirm
               )}
-            </button>
-            <button
-              type="button"
-              className="ds-btn ds-btn--ghost text-sm text-text-dim"
+            </Button>
+            <Button
+              variant="ghost"
+              className="text-sm text-text-dim"
               onClick={() => void handleAssist()}
               disabled={saving || assistLoading}
             >
@@ -253,16 +254,16 @@ export function MabraGoalPanel() {
                   {COPY.assist}
                 </>
               )}
-            </button>
-            <button
-              type="button"
-              className="ds-btn ds-btn--ghost text-sm text-text-dim"
+            </Button>
+            <Button
+              variant="ghost"
+              className="text-sm text-text-dim"
               onClick={cancelDraft}
               disabled={saving}
             >
               <X className="mr-1 inline h-4 w-4" />
               {COPY.cancel}
-            </button>
+            </Button>
           </div>
           {assistError && <p className="text-xs text-text-dim">{assistError}</p>}
         </div>
@@ -273,21 +274,17 @@ export function MabraGoalPanel() {
               <p className="rounded-xl border border-border/30 bg-surface-2/50 px-4 py-3 text-sm text-text-dim">
                 {COPY.empty}
               </p>
-              <button
-                type="button"
-                className="ds-btn ds-btn--ghost text-sm text-text-dim"
-                onClick={beginCustomEdit}
-              >
+              <Button variant="ghost" className="text-sm text-text-dim" onClick={beginCustomEdit}>
                 {COPY.adjust}
-              </button>
-              <button
-                type="button"
-                className="ds-btn ds-btn--ghost text-sm text-text-dim"
+              </Button>
+              <Button
+                variant="ghost"
+                className="text-sm text-text-dim"
                 onClick={() => void handleAssist()}
                 disabled={assistLoading}
               >
                 {assistLoading ? COPY.assisting : COPY.assist}
-              </button>
+              </Button>
             </div>
           ) : (
             <ul className="space-y-2">
@@ -302,14 +299,14 @@ export function MabraGoalPanel() {
                     {' · '}
                     Tillförlitlighet {Math.round(candidate.confidence * 100)}%
                   </p>
-                  <button
-                    type="button"
-                    className="ds-btn ds-btn--ghost mt-3 text-xs"
+                  <Button
+                    variant="ghost"
+                    className="mt-3 text-xs"
                     onClick={() => beginSelection(candidate)}
                     disabled={saving}
                   >
                     {COPY.pick}
-                  </button>
+                  </Button>
                 </li>
               ))}
             </ul>

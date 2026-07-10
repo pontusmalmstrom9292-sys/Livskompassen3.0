@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { Brain, Loader2, Send, Sparkles, User, X, FileText, ExternalLink } from 'lucide-react';
+import { Brain, ExternalLink, FileText, Loader2, Send, Sparkles, User, X } from 'lucide-react';
+import { Button, Modal, buttonClassName } from '@/design-system';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { VAVAREN_VALVCHAT_HINT } from '../../vault/constants/vavarenCopy';
 import type { ValvChatCitation } from '../api/valvChatService';
@@ -189,7 +190,7 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
   };
 
   return (
-    <RAGErrorBoundary fallbackTitle="Nätverksfel i Valv-Chat">
+    <RAGErrorBoundary fallbackTitle="Nätverksfel i Valv-Chat" glow="blue">
       <div className="valv-chat-panel space-y-4">
         <SanningsAnalytikernHeader />
 
@@ -225,14 +226,16 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
               className="input-glass min-h-0 flex-1 resize-none text-accent"
               disabled={loading}
             />
-            <button
+            <Button
               type="submit"
+              variant="secondary"
+              size="icon"
+              className="flex shrink-0 items-center gap-1 self-end"
               disabled={loading || !draft.trim()}
-              className="ds-btn ds-btn--secondary flex shrink-0 items-center gap-1 self-end"
               aria-label="Skicka fråga"
             >
               <Send className="h-4 w-4" />
-            </button>
+            </Button>
           </form>
         </section>
 
@@ -240,25 +243,32 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
           <ValvChatExtendedHints onPickExample={setDraft} />
         </CalmCollapsible>
 
-        {previewLog && (
-          <div className="fixed inset-0 z-[250] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm">
-            <div className="w-full max-w-lg rounded-2xl border border-accent/25 bg-surface-2 p-5 shadow-accent-glow relative max-h-[85vh] overflow-y-auto">
-              <button
+        <Modal
+          open={Boolean(previewLog)}
+          onClose={() => setPreviewLog(null)}
+          hideHeader
+          ariaLabel="Källgranskning — låst post"
+          className="!z-[250] !bg-black/75 !backdrop-blur-sm"
+          panelClassName="relative w-full max-w-lg max-h-[85vh] overflow-y-auto !rounded-2xl !border !border-accent/25 !bg-surface-2 !p-5 shadow-accent-glow"
+        >
+          {previewLog ? (
+            <>
+              <Button
                 type="button"
+                variant="ghost"
+                size="icon"
+                className="absolute right-4 top-4 rounded-full border border-border bg-bg"
                 onClick={() => setPreviewLog(null)}
-                className="absolute right-4 top-4 rounded-full border border-border bg-bg p-1 text-text-dim hover:text-text cursor-pointer"
                 aria-label="Stäng källgranskning"
               >
                 <X className="h-4 w-4" />
-              </button>
+              </Button>
 
-              <div className="flex items-center gap-2 border-b border-border pb-3 mb-4">
+              <div className="mb-4 flex items-center gap-2 border-b border-border pb-3">
                 <FileText className="h-4 w-4 text-accent" />
                 <div>
                   <h3 className="text-sm font-semibold text-accent">Källgranskning · Låst post</h3>
-                  <p className="text-[9px] uppercase tracking-wider text-text-dim">
-                    ID: {previewLog.id}
-                  </p>
+                  <p className="text-[9px] uppercase tracking-wider text-text-dim">ID: {previewLog.id}</p>
                 </div>
               </div>
 
@@ -266,11 +276,11 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
                 <div className="grid grid-cols-2 gap-2 text-[10px] uppercase tracking-widest text-text-dim">
                   <div>
                     <span>Kategori</span>
-                    <p className="font-semibold text-text mt-0.5">{previewLog.category ?? 'allmänt'}</p>
+                    <p className="mt-0.5 font-semibold text-text">{previewLog.category ?? 'allmänt'}</p>
                   </div>
                   <div>
                     <span>Server-tidsstämpel</span>
-                    <p className="font-semibold text-text mt-0.5">
+                    <p className="mt-0.5 font-semibold text-text">
                       {previewLog.createdAt ? previewLog.createdAt.slice(0, 19).replace('T', ' ') : '—'}
                     </p>
                   </div>
@@ -278,8 +288,8 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
 
                 <div>
                   <span className="text-[10px] uppercase tracking-widest text-text-dim">Låst sanning</span>
-                  <div className="mt-1 p-3.5 rounded-xl border border-border-strong bg-surface/40 max-h-64 overflow-y-auto">
-                    <p className="whitespace-pre-wrap text-text-muted leading-relaxed select-all">
+                  <div className="mt-1 max-h-64 overflow-y-auto rounded-xl border border-border-strong bg-surface/40 p-3.5">
+                    <p className="select-all whitespace-pre-wrap leading-relaxed text-text-muted">
                       {previewLog.truth}
                     </p>
                   </div>
@@ -287,54 +297,58 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
 
                 {previewLog.myReality && (
                   <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                    <div className="p-3 rounded-lg border border-border bg-surface-3/30">
+                    <div className="rounded-lg border border-border bg-surface-3/30 p-3">
                       <span className="text-[9px] uppercase tracking-widest text-text-dim">Hens version</span>
-                      <p className="text-xs text-text-muted mt-1">{previewLog.theirVersion || '—'}</p>
+                      <p className="mt-1 text-xs text-text-muted">{previewLog.theirVersion || '—'}</p>
                     </div>
-                    <div className="p-3 rounded-lg border border-accent/20 bg-accent/5">
+                    <div className="rounded-lg border border-accent/20 bg-accent/5 p-3">
                       <span className="text-[9px] uppercase tracking-widest text-accent-light">Min verklighet</span>
-                      <p className="text-xs text-text mt-1">{previewLog.myReality}</p>
+                      <p className="mt-1 text-xs text-text">{previewLog.myReality}</p>
                     </div>
                   </div>
                 )}
 
                 {previewLog.evidenceUrl && (
-                  <div className="rounded-xl border border-border-strong bg-surface/20 p-2.5 flex items-center justify-between">
+                  <div className="flex items-center justify-between rounded-xl border border-border-strong bg-surface/20 p-2.5">
                     <span className="text-xs text-text-muted">📎 Bifogat bevisdokument</span>
                     <a
                       href={previewLog.evidenceUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="ds-btn ds-btn--ghost text-[10px] px-2.5 py-1 inline-flex items-center gap-1"
+                      className={buttonClassName('ghost', 'sm', 'inline-flex items-center gap-1 px-2.5 py-1 text-[10px]')}
                     >
                       <ExternalLink className="h-3 w-3" /> Öppna bilaga
                     </a>
                   </div>
                 )}
 
-                <div className="flex gap-2 border-t border-border pt-4 mt-2">
-                  <button
+                <div className="mt-2 flex gap-2 border-t border-border pt-4">
+                  <Button
                     type="button"
+                    variant="accent"
+                    size="sm"
+                    className="flex-1"
                     onClick={() => {
                       if (onCitationClick) onCitationClick(previewLog.id);
                       setPreviewLog(null);
                     }}
-                    className="ds-btn ds-btn--accent text-xs flex-1"
                   >
                     Visa och highlighta i loggen
-                  </button>
-                  <button
+                  </Button>
+                  <Button
                     type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="flex-1"
                     onClick={() => setPreviewLog(null)}
-                    className="ds-btn ds-btn--ghost text-xs flex-1"
                   >
                     Stäng
-                  </button>
+                  </Button>
                 </div>
               </div>
-            </div>
-          </div>
-        )}
+            </>
+          ) : null}
+        </Modal>
       </div>
     </RAGErrorBoundary>
   );

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MessageCircle, Send, Sparkles } from 'lucide-react';
+import { Button } from '@/design-system';
 import { callChildrenLogsQuery, type ChildrenLogCitation } from '@/features/family/children/api/childrenLogsService';
 import type { ChildAlias } from '@/features/family/children/constants';
 import { RAGErrorBoundary } from '@/shared/ui/RAGErrorBoundary';
@@ -36,7 +37,7 @@ export function ExecutiveLivsloggCard({ activeChild = 'Kasper' }: Props) {
   };
 
   return (
-    <RAGErrorBoundary fallbackTitle="Nätverksfel i Barnloggar">
+    <RAGErrorBoundary fallbackTitle="Nätverksfel i Barnloggar" glow="gold">
       <article className="calm-card exec-home-card exec-home-card--livslogg relative">
         <header className="exec-home-card__head">
           <MessageCircle className="h-4 w-4 text-accent" strokeWidth={1.5} />
@@ -56,22 +57,18 @@ export function ExecutiveLivsloggCard({ activeChild = 'Kasper' }: Props) {
           disabled={loading}
         />
         <div className="mt-3 flex flex-wrap gap-2">
-          <button
-            type="button"
-            className="ds-btn ds-btn--accent inline-flex items-center gap-1.5 text-xs"
+          <Button
+            size="sm"
+            className="inline-flex items-center gap-1.5"
             disabled={loading || !inputText.trim()}
             onClick={() => void handleAsk()}
           >
             <Sparkles className="h-3.5 w-3.5" />
             {loading ? 'Söker…' : 'Fråga'}
-          </button>
-          <button
-            type="button"
-            className="ds-btn ds-btn--ghost text-xs"
-            onClick={() => navigate('/familjen?tab=livslogg')}
-          >
+          </Button>
+          <Button variant="ghost" size="sm" onClick={() => navigate('/familjen?tab=livslogg')}>
             Utforska
-          </button>
+          </Button>
         </div>
         {error ? <p className="mt-2 text-xs text-danger">{error}</p> : null}
         {answer ? (

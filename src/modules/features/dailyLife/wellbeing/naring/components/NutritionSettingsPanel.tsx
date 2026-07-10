@@ -1,9 +1,9 @@
 import { Droplets, Info } from 'lucide-react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { patchNutritionPrefs, readNutritionPrefs } from '../../mabra/lib/mabraNutritionPrefs';
 import type { NutritionPrefs } from '../../mabra/lib/mabraNutritionIntakeTypes';
+import { ButtonLink } from '@/design-system';
 
 type Props = {
   uid?: string;
@@ -68,12 +68,9 @@ export function NutritionSettingsPanel({ uid }: Props) {
         <p className="mt-2 text-xs text-text-dim">
           Öppna via Vardagen → MåBra → Näring & vätska.
         </p>
-        <Link
-          to="/mabra/verktyg/nutrition"
-          className="ds-btn ds-btn--secondary mt-3 inline-flex w-full justify-center text-sm"
-        >
+        <ButtonLink to="/mabra/verktyg/nutrition" variant="secondary" className="--secondary mt-3 inline-flex w-full justify-center text-sm">
           Öppna snabb logg
-        </Link>
+        </ButtonLink>
       </BentoCard>
 
       <BentoCard title="Grundläggande">

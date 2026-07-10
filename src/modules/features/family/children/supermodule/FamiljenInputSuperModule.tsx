@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { clsx } from 'clsx';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import {
   DEFAULT_FAMILJEN_INPUT_MODE,
   getFamiljenInputModeMeta,
@@ -122,11 +123,17 @@ export function FamiljenInputSuperModule({
           !flowWithIsland && 'calm-scroll-island max-h-[min(75vh,720px)] overflow-y-auto',
         )}
       >
-        <FamiljenInputModeDelegate
-          mode={activeMode}
-          shell={shell}
-          onSaved={handleDelegateSaved}
-        />
+        <HubErrorBoundary
+          title="Familjen-input kunde inte laddas"
+          glow="blue"
+          logTag="FamiljenInputSuperModule"
+        >
+          <FamiljenInputModeDelegate
+            mode={activeMode}
+            shell={shell}
+            onSaved={handleDelegateSaved}
+          />
+        </HubErrorBoundary>
       </div>
     </BentoCard>
   );

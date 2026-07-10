@@ -1,3 +1,417 @@
+## 2026-07-10 — YOLO VÅG 43 — Input batch 7 (Widgets · Compasses · Voice · Onboarding)
+
+**Plattform:** Cursor (Auto) · **Läge:** Agent · **Ändringar:** minimal diff
+
+**Completed work:**
+- VÅG 43: DS `Input`/`TextArea` i ActionDashboard, WidgetRecordMetadataForm, WidgetNote/Familjen/Barnporten, QuickCapturePanel (voiceToVault), ParalysPanel, KasamEvening, KompassDiscoveryCardFlow, BarnportenPage, SchoolAgeModule.
+
+**Metrics (smoke:design-debt 2026-07-10):**
+- `btnPillFiles`: **0**
+- `dsBtnFiles`: **1**
+- `designSystemImportFiles`: **249**
+- `adHocDialogFiles`: **3**
+- `indexCssLoc`: **3118**
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`, `smoke:design-debt`, `smoke:chrome-header`, `smoke:widgets`: PASS
+
+**Deploy:** Hosting live — https://gen-lang-client-0481875058.web.app (2026-07-10, våg 35–43).
+
+**Blockers:** None
+
+---
+
+## 2026-07-10 — Deploy hosting våg 35–43
+
+**Deploy:** Hosting live — https://gen-lang-client-0481875058.web.app (våg 35–43: inputs widgets/compasses/voice/onboarding + våg 35–42 polish).
+
+**Gate:** `npm run smoke:predeploy:build` PASS före deploy.
+
+---
+
+## 2026-07-09 — YOLO VÅG 35–42 — Input · Badge · Typografi · A11y · Sunset · Governance
+
+**Plattform:** Cursor (Auto) · **Läge:** Agent · **Ändringar:** minimal diff
+
+**Completed work:**
+- VÅG 35: DS `Input`/`TextArea` i PlaneringInkorgPanel, PlaneringEmailRulesPanel, PlaneringTaskQuickDelegate, PlaneringParalysEntry.
+- VÅG 36: DS inputs i FamiljenBarnfokusDelegate, LivsloggObservation/Stund, VardagsstrukturDelegate.
+- VÅG 37: DS inputs i ReflectionStep, VivirStepView, ActCalibrationView, RecoveryRealityCheckForm, RecoveryTwelveStepJournal, KompisChat, ZenModeOverlay.
+- VÅG 38: InkorgPreviewSheet → DS `Badge` + `inboxQueueStatusBadgeVariant`; deprecated `inboxQueueStatusBadgeClass`; rensade `.review-queue-status*` i planering.css.
+- VÅG 39: `hubHeaderClasses`/`textStyles.eyebrow` i ArchiveHub, VaultVitHubPanel (StatTile), Planering inkorg + input delegates.
+- VÅG 40: `focus-visible` planering-back-link + reflektion-actions__ghost; TabBar/chip ≥44px; ModuleHelpHint Esc+Tab oförändrad.
+- VÅG 41: index.css chip touch + ghost focus; planering.css badge-dead CSS bort; smoke:calm-card-audit PASS.
+- VÅG 42: metrics + governance + predeploy PASS.
+
+**Metrics (smoke:design-debt 2026-07-09):**
+- `btnPillFiles`: **0**
+- `dsBtnFiles`: **1** (`tokens.ts` legacy alias)
+- `designSystemImportFiles`: **247**
+- `adHocDialogFiles`: **3** (ResurserOverlay locked, sandbox×2)
+- `indexCssLoc`: **3118**
+- `npm run build`: PASS
+- Per-våg smoke (build, locked-ux, design-modules, design-debt, chrome-header): PASS
+- `smoke:calm-card-audit`, `smoke:inkast-fas2`, `smoke:governance`, `smoke:predeploy:build`: PASS
+
+**Keyboard checklist (våg 40):** Esc stänger DS Modal; ModuleHelpHint Esc + Tab-roving; TabBar/chip-rader ≥44px; ghost focus-visible i Planering + Dagbok.
+
+**Kvarvarande inputs (ej våg 35–37):** widgets, onboarding, compasses, voiceToVault — dokumenterat för nästa batch.
+
+**Deploy:** Väntar på Pontus `deploy`.
+
+**Blockers:** None
+
+---
+
+## 2026-07-09 — Deploy hosting våg 27–34
+
+**Deploy:** Hosting live — https://gen-lang-client-0481875058.web.app (våg 27–34: ImmersiveShell Modal, input batches, badges, a11y).
+
+**Gate:** `npm run smoke:predeploy:build` PASS före deploy.
+
+---
+
+## 2026-07-09 — YOLO VÅG 27–34 — Overlay · Input · Error · Badge · A11y · Governance
+
+**Plattform:** Cursor (Auto) · **Läge:** Agent · **Ändringar:** minimal diff
+
+**Completed work:**
+- VÅG 27: `ImmersiveExperienceShell` → DS `Modal` fullscreen; `WormSaveConfirmSheet` dokumenterad (`role="region"`); sandbox `role="dialog"`×2 ej prod.
+- VÅG 28: DS `Input`/`TextArea` i `PlaneringNotePinPanel`, `InboxRuleManager`, `JournalArchiveToolbar`.
+- VÅG 29: DS inputs i Ekonomi-delegates, `EconomyBudgetTab`, MåBra coach/reflection, `SvartPaVittForm`, `ArbetslivInkomstDelegate`.
+- VÅG 30: Error boundaries verifierade — alla DS `ErrorFallback` + silo-glow; `VaultPage` explicit `glow="blue"`.
+- VÅG 31: `BentoCard` prod-API; `UiCard` deprecated; `KompisHubPage` → glass-card; inbox status + `TheoryWithoutEvidenceBadge` → DS `Badge`.
+- VÅG 32: `textStyles.eyebrow` i TryggHamn, Kompis, MabraReflection; glow redan på hub-shells.
+- VÅG 33: `ModuleHelpHint` focus trap + Escape; chip touch ≥44px; ekonomi tab focus-visible.
+- VÅG 34: metrics + governance + predeploy PASS.
+
+**Metrics (smoke:design-debt 2026-07-09):**
+- `btnPillFiles`: **0**
+- `dsBtnFiles`: **1** (`tokens.ts` legacy alias)
+- `designSystemImportFiles`: **241**
+- `adHocDialogFiles`: **3** (ResurserOverlay locked, sandbox×2)
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`, `smoke:design-debt`, `smoke:chrome-header`, `smoke:governance`, `smoke:predeploy`: PASS
+
+**Keyboard checklist (våg 27+33):** Esc stänger DS Modal (Zen, SOS, Immersive, AccountAuth); `ModuleHelpHint` Esc + Tab-roving; chip-rader ≥44px.
+
+**Deploy:** Hosting live — https://gen-lang-client-0481875058.web.app (2026-07-09).
+
+**Blockers:** None
+
+---
+
+## 2026-07-09 — Deploy hosting våg 22–26
+
+**Deploy:** Hosting live — https://gen-lang-client-0481875058.web.app (våg 22–26: overlay DS Modal, input primitives, badge/eyebrow, dock checklist).
+
+**Gate:** `npm run smoke:predeploy:build` PASS före deploy.
+
+---
+
+## 2026-07-09 — YOLO VÅG 22–26 — Overlay · Input · Badge · Governance
+
+**Plattform:** Cursor (Auto) · **Läge:** Agent · **Ändringar:** minimal diff
+
+**Completed work:**
+- VÅG 22: `AccountAuthMenu` → DS `Modal`; `ModuleHelpHint` → `role="region"` (ankrat popover, ej modal).
+- VÅG 23: `ZenModeOverlay`, `RecoveryUrgeSosModule`, `DrogfrihetHubPage` reality-check → DS `Modal` fullscreen (`zenModeOverlayClasses.ts`). `ResurserOverlay`/`NavigationDrawer` orörda.
+- VÅG 24: DS `Input`/`TextArea` i `JournalQuickMode`, `ReflectionEditor`, `EconomyLogPanel`, `InkastManualEditForm`; `TextArea` forwardRef.
+- VÅG 25: `StatusBadge`/`AlertBanner`/`ModuleSectionBanner` → DS `Badge`/`Banner` wrappers; eyebrow → `textStyles.eyebrow` (recovery/drogfrihet hubs).
+- VÅG 26: `dock-pixel-diff-checklist.md`; metrics + governance/predeploy PASS.
+
+**Metrics (smoke:design-debt 2026-07-09):**
+- `btnPillFiles`: **0**
+- `dsBtnFiles`: **1** (`tokens.ts` legacy alias)
+- `designSystemImportFiles`: **234**
+- `adHocDialogFiles`: **4** (ResurserOverlay locked, ImmersiveExperienceShell, sandbox×2)
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`, `smoke:design-debt`, `smoke:chrome-header`, `smoke:governance`, `smoke:predeploy`: PASS
+
+**Deploy:** Väntar på Pontus `deploy`.
+
+**Blockers:** None
+
+---
+
+## 2026-07-09 — Deploy hosting våg 18–21
+
+**Deploy:** Hosting live — https://gen-lang-client-0481875058.web.app (våg 18–21, inkl. dock-kanon-match + design-debt metrics).
+
+**Gate:** `npm run build` + `npm run smoke:predeploy` PASS före deploy.
+
+---
+
+## 2026-07-09 — YOLO VÅG 18–21 — btn-pill · Modal-audit · Dock kanon · Governance
+
+**Plattform:** Cursor (Auto) · **Läge:** Agent · **Ändringar:** minimal diff (metrics + docs)
+
+**Completed work:**
+- VÅG 18: `src/modules` redan utan `btn-pill--` (0 filer). `count_design_debt.mjs` — räknar btn-pill i modules only; fixade `@/design-system` + `role="dialog"` quote-buggar.
+- VÅG 19: Modal-audit i scope (PlanningTaskDetail, ekonomi, inkast) — inga råa overlays kvar; TaskDetail använder redan DS `Modal`.
+- VÅG 20: `ExecutiveDockBar` + `DockZoneIcon` + `dock-kanon-match.css` verifierade mot kanon; `dock-pixel-diff-checklist.md` saknas (ej blocker). NavigationDrawer orörd.
+- VÅG 21: `smoke:governance` + `smoke:predeploy` PASS.
+
+**Metrics:**
+- `btnPillFiles`: **0** (modules)
+- `src/modules/**/*.tsx`: **0 ds-btn**
+- `dsBtnFiles` (modules): 1 (`tokens.ts` legacy alias-map)
+- `designSystemImportFiles`: 229
+- `adHocDialogFiles`: 9 (immersiva overlays utanför våg 19-scope; NavigationDrawer exkluderad)
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`, `smoke:design-debt`, `smoke:chrome-header`, `smoke:executive-home-visual`, `smoke:governance`, `smoke:predeploy`: PASS
+
+**Deploy:**
+- Väntar på Pontus `deploy` (skriv "deploy" för hosting).
+
+**Blockers:**
+- None
+
+---
+
+## 2026-07-09 — YOLO VÅG 14–17 — Planering · Projekt · Core/shell · Recovery
+
+**Completed work:**
+- VÅG 14: Planering `components/` (12 filer) — redan i HEAD före denna körning.
+- VÅG 15: Projekt `components/` (7 filer) → `Button` / `ButtonLink`.
+- VÅG 16: Core/ui, security, shell, shared, stampla, inbox, dashboard, nutrition, pansar (22 filer).
+- VÅG 17: Recovery legacy `mabra/components/` (3 filer).
+
+**Metrics:**
+- Scope totalt: 33 filer migrerade denna session (våg 15–17); planering 0 ds-btn (våg 14 i HEAD).
+- `src/modules/**/*.tsx`: **0 ds-btn**
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`: PASS
+
+**Deploy:**
+- Väntar på Pontus `deploy` (våg 10–13 redan live).
+
+**Blockers:**
+- None
+
+---
+
+## 2026-07-09 — YOLO VÅG 13 — Lab/dev-sidor + deploy våg 10–13
+
+**Completed work:**
+- Alla `ds-btn` i lab/dev-scope → DS `Button`/`ButtonLink` (8 filer).
+- Scope: ThemeLab, HubLab, ObsidianForge, ObsidianDepth v1/v2, DagensAnkare, Brusfiltret SuperModule lab, W1 kompakt projekt lab.
+- Externa länkar: `buttonClassName` på `<a>`.
+
+**Metrics:**
+- Lab/dev `.tsx`: 0 `ds-btn`
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`, `smoke:obsidian-depth`: PASS
+
+**Deploy:**
+- Hosting live: https://gen-lang-client-0481875058.web.app (våg 10–13).
+
+**Blockers:**
+- None
+
+---
+
+## 2026-07-09 — YOLO VÅG 12 — ErrorBoundary glow tokens + Familjen hubs
+
+**Completed work:**
+- `RAGErrorBoundary`, `DagbokWizardErrorBoundary`, `VaultErrorBoundary` — `glow?: ErrorFallbackGlow` prop med silo-defaults.
+- Zone-glow vid call sites: Familjen/Valv → `blue`, Hem/Hjärtat/Dagbok → `gold`, MåBra → `green` (befintligt).
+- `PlaneringErrorBoundary` → `glow="gold"`.
+- Familjen per-tab `HubErrorBoundary glow="blue"`: `FamiljenInputSuperModule`, `BarnportenParentHubPanel`, `SafeHarborPage`.
+- CSS: `glow-bottom-danger` token + capacity-low fallback.
+
+**Metrics:**
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`: PASS
+
+**Next steps:**
+- Deploy våg 10–12 (väntar på Pontus "deploy")
+- VÅG 13: Lab/dev-sidor (ThemeLab, HubLab, ObsidianForge)
+
+**Blockers:**
+- None
+
+---
+
+## 2026-07-09 — YOLO VÅG 11 — Core + Home + Auth + Capture + Inkast
+
+**Completed work:**
+- Alla `ds-btn` i VÅG 11-scope → DS `Button`/`ButtonLink` (24 filer).
+- Scope: `core/home/`, `core/auth/`, `capture/`, `inkast/`.
+
+**Metrics:**
+- Våg 11 scope `.tsx`: 0 `ds-btn`
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`: PASS
+
+**Next steps:**
+- Deploy våg 10–12 (väntar på Pontus "deploy")
+
+**Blockers:**
+- None
+
+---
+
+## 2026-07-09 — YOLO VÅG 10 — Ekonomi + Arbetsliv + Drogfrihet + Kompasser
+
+**Completed work:**
+- Alla `ds-btn` i VÅG 10-scope → DS `Button`/`ButtonLink` (20 filer).
+- Scope: `dailyLife/wellbeing/economy/`, `dailyLife/arbetsliv/`, `dailyLife/drogfrihet/`, `wellbeing/compasses/`, `features/economy/AutoKategoriseringStub`.
+
+**Metrics:**
+- Våg 10 scope `.tsx`: 0 `ds-btn`
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`: PASS
+
+**Next steps:**
+- Deploy våg 10 (väntar på Pontus "deploy")
+- VÅG 11: Core + Home + Auth + Capture + Inkast
+
+**Blockers:**
+- None
+
+---
+
+## 2026-07-09 — Deploy våg 9 live (bekräftad)
+
+Hosting deploy klar: https://gen-lang-client-0481875058.web.app — MåBra rest (34 filer) live.
+
+---
+
+## 2026-07-09 — Deploy våg 8 + YOLO VÅG 9 — MåBra rest
+
+**Deploy våg 8:** hosting live — https://gen-lang-client-0481875058.web.app
+
+**Completed work (VÅG 9):**
+- Alla `ds-btn` i `dailyLife/wellbeing/mabra` → DS `Button`/`ButtonLink` (34 filer).
+- Scope: MabraGoalPanel, Nutrition, Vit-flöden, AkutLanding, övningar, supermodule-paneler.
+
+**Metrics:**
+- `dailyLife/wellbeing/mabra` `.tsx`: 0 `ds-btn`
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`: PASS
+
+**Next steps:**
+- Deploy våg 9 (väntar på Pontus "deploy")
+- VÅG 10: Ekonomi + Arbetsliv + Drogfrihet + Kompasser
+
+**Blockers:**
+- None
+
+---
+
+## 2026-07-09 — YOLO VÅG 8 — Familjen + Widgets + Barnporten
+
+**Completed work:**
+- VÅG 8: alla kvarvarande `ds-btn` i Familjen-zon, widgets och Barnporten → DS `Button`/`ButtonLink` (29 filer).
+- Locked UX orörd (Barnfokus-flöden, Orkester, navigation) — endast knapp-polish.
+
+**Scope:** `family/children`, `family/safeHarbor`, `onboarding/barnporten`, `features/widgets`, `FamiljenPage`.
+
+**Metrics:**
+- Våg 8 scope `.tsx`: 0 `ds-btn`
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`: PASS
+
+**Next steps:**
+- Deploy våg 8 (väntar på Pontus "deploy")
+- VÅG 9: MåBra rest (`dailyLife/wellbeing/mabra`)
+
+**Blockers:**
+- None
+
+---
+
+## 2026-07-09 — Deploy våg 6 + YOLO VÅG 7 — Dagbok/Speglar/Kunskap
+
+**Completed work:**
+- Deploy hosting: våg 6 (Dossier, VaultEntryForm, ValvChat Modal, m.fl.) live.
+- VÅG 7: alla kvarvarande `ds-btn` i `lifeJournal` → DS `Button`/`ButtonLink` (24 filer).
+- Hela `lifeJournal`-modulen: 0 `ds-btn` i `.tsx`.
+
+**Files changed:** 24 komponenter under `src/modules/features/lifeJournal/` (dagbok wizard, speglar, kompis/kunskap).
+
+**Metrics:**
+- `lifeJournal` `.tsx`: 0 `ds-btn`
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`: PASS
+- Hosting (våg 6 deploy): https://gen-lang-client-0481875058.web.app
+
+**Next steps:**
+- Deploy våg 7 (Pontus OK)
+- Phase 5: ErrorBoundary glow på Familjen-hubbar
+
+**Blockers:**
+- None
+
+---
+
+## 2026-07-09 — Deploy våg 2–5 + YOLO VÅG 6 — Valv stora paneler
+
+**Completed work:**
+- Deploy hosting: våg 2 (Inkast), 3 (MåBra), 4 (Overlays), 5 (Valv core) live.
+- VÅG 6: `ds-btn` → DS `Button`/`ButtonLink` i DossierPage, VaultEntryForm, VaultLogList, ValvChatPanel (+ källgranskning → Modal), VaultVitHubPanel.
+
+**Files changed:**
+- src/modules/features/lifeJournal/evidence/vault/dossier/components/DossierPage.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/VaultEntryForm.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx
+- src/modules/features/lifeJournal/evidence/vaultChat/components/ValvChatPanel.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/VaultVitHubPanel.tsx
+- docs/PROGRESS.md
+
+**Metrics:**
+- Wave-6 scope: 0 `ds-btn` in 5 files
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:valv-security`: PASS
+- Hosting: https://gen-lang-client-0481875058.web.app
+
+**Next steps:**
+- Deploy våg 6 (Pontus OK)
+- VÅG 7: kompis/kunskap forms + dagbok delegates (~22 filer kvar i lifeJournal)
+
+**Blockers:**
+- None
+
+---
+
+## 2026-07-09 — YOLO VÅG 5 — Valv core panels + AppUnlockGate Modal
+
+**Completed work:**
+- Migrated Valv core panel `ds-btn` → DS `Button` / `ButtonLink` (11 files).
+- `AppUnlockGate`: `createPortal` → DS `Modal` (blockerande biometri-gate oförändrad).
+- Locked UX: Orkester-panel, Mönster-handoff, Kunskapsbank-länkar bevarade.
+
+**Files changed:**
+- src/modules/features/lifeJournal/evidence/vault/components/AdkAgentRegistryPanel.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaDriveHint.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/zones/ValvForensikZone.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/VaultDcapAlertsPanel.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/VaultPatternHandoff.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx
+- src/modules/features/lifeJournal/evidence/knowledge/components/VaultKunskapsbankPanel.tsx
+- src/modules/features/lifeJournal/evidence/knowledge/components/VaultKanonDocsPanel.tsx
+- src/modules/features/lifeJournal/evidence/knowledge/components/VaultAktorskartaPanel.tsx
+- src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx
+- src/modules/core/auth/AppUnlockGate.tsx
+- docs/PROGRESS.md
+
+**Metrics:**
+- Wave-5 scope files: 0 `ds-btn` in `.tsx`
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`, `smoke:auth-login`: PASS
+
+**Reasoning:**
+- Valv-zon batch utan NavigationDrawer (LOCKED) eller firestore.rules.
+
+**Next steps:**
+- Deploy våg 2–5 (Pontus OK)
+- VÅG 6: DossierPage, VaultEntryForm, VaultLogList, ValvChatPanel
+
+**Blockers:**
+- None
+
+---
+
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
 # Premium UI Polish — Progress Log

@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Button, ButtonLink } from '@/design-system';
 import { Link } from 'react-router-dom';
 import { AlertTriangle, BookOpen, Loader2, Sparkles } from 'lucide-react';
 import {
@@ -70,19 +71,21 @@ export function BrusfiltretSupermoduleLabPage() {
           Indigo silo · flikrad · samma 5-lagers anatomi som kanon. Prototyp — inte prod-wire än.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Link to="/dev/theme-lab" className="ds-btn ds-btn--ghost text-xs">
+          <ButtonLink to="/dev/theme-lab" variant="ghost" size="sm" className="text-xs">
             ← Theme Lab
-          </Link>
-          <Link to="/widget/hamn" className="ds-btn ds-btn--accent text-xs">
+          </ButtonLink>
+          <ButtonLink to="/widget/hamn" variant="accent" size="sm" className="text-xs">
             Prod Brusfiltret
-          </Link>
-          <button
+          </ButtonLink>
+          <Button
             type="button"
-            className="ds-btn ds-btn--ghost text-xs"
+            variant="ghost"
+            size="sm"
+            className="text-xs"
             onClick={() => setLivePanel((v) => !v)}
           >
             {livePanel ? 'Demo-läge' : 'Live BiffPublicPanel'}
-          </button>
+          </Button>
         </div>
       </header>
 
@@ -127,10 +130,10 @@ export function BrusfiltretSupermoduleLabPage() {
                             </li>
                           ))}
                         </ul>
-                        <button type="button" className="ds-btn ds-btn--ghost mt-2 text-[11px]">
+                        <Button type="button" variant="ghost" size="sm" className="mt-2 text-[11px]">
                           <Sparkles className="mr-1 inline h-3.5 w-3.5" />
                           Städa till Grey Rock-mall
-                        </button>
+                        </Button>
                       </div>
                     ) : null}
                     <button
@@ -162,9 +165,9 @@ export function BrusfiltretSupermoduleLabPage() {
                         ? 'Kör analys i fliken Klistra in — svaret visas här.'
                         : demoReply}
                     </p>
-                    <button type="button" className="ds-btn ds-btn--ghost w-full text-xs">
+                    <Button type="button" variant="ghost" size="sm" className="w-full text-xs">
                       Kopiera · Klar
-                    </button>
+                    </Button>
                   </div>
                 ) : (
                   <p className="bf-supermodule__panel-empty">
@@ -198,9 +201,9 @@ export function BrusfiltretSupermoduleLabPage() {
                   <button type="button" className="bf-supermodule__cta">
                     Sortera till arkiv
                   </button>
-                  <button type="button" className="ds-btn ds-btn--ghost w-full text-xs">
+                  <Button type="button" variant="ghost" size="sm" className="w-full text-xs">
                     Spara som bevis (Valv · HITL)
-                  </button>
+                  </Button>
                   <p className="bf-supermodule__help">
                     WORM — inget sparas automatiskt. Du väljer manuellt.
                   </p>

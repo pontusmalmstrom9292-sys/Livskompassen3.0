@@ -16,6 +16,7 @@ import {
   ensureVaultServerSessionFromGate,
 } from '../auth/vaultServerSession';
 import { useVaultZoneIdle } from './useVaultZoneIdle';
+import { Button } from '@/design-system';
 
 type Props = {
   zone: VaultZoneId;
@@ -111,15 +112,10 @@ export function VaultZoneGate({
   return (
     <BentoCard title={title} icon={<Lock className="h-4 w-4" />}>
       <p className="mb-3 text-sm text-text-muted">{description}</p>
-      <button
-        type="button"
-        disabled={webAuthnPending}
-        onClick={() => void tryUnlock()}
-        className="ds-btn ds-btn--accent flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 disabled:opacity-60"
-      >
+      <Button type="button" disabled={webAuthnPending} onClick={() => void tryUnlock()} variant="accent" className="--accent flex w-full items-center justify-center gap-2 rounded-xl px-4 py-3 disabled:opacity-60">
         <Fingerprint className="h-4 w-4" strokeWidth={2} />
         {webAuthnPending ? 'Verifierar…' : 'Lås upp med biometri'}
-      </button>
+      </Button>
       {error ? <p className="mt-2 text-xs text-amber-400/90">{error}</p> : null}
     </BentoCard>
   );

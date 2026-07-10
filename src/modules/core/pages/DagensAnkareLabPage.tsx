@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { ButtonLink, buttonClassName } from '@/design-system';
 import { DagensAnkareSupermodul } from '../ui/ankare';
 
 /**
@@ -19,15 +19,15 @@ export function DagensAnkareLabPage() {
           Forge (andning: box / 4-7-8 / 4-2-6) + Taktisk (mikrosteg). Testa på Hem → Morgon-flik.
         </p>
         <div className="mt-4 flex flex-wrap justify-center gap-2">
-          <Link to="/" className="ds-btn ds-btn--ghost text-xs">
+          <ButtonLink to="/" variant="ghost" size="sm" className="text-xs">
             Hem
-          </Link>
-          <Link to="/dev/obsidian-forge" className="ds-btn ds-btn--ghost text-xs">
+          </ButtonLink>
+          <ButtonLink to="/dev/obsidian-forge" variant="ghost" size="sm" className="text-xs">
             Obsidian Forge
-          </Link>
+          </ButtonLink>
           <a
             href="/docs/design-sandbox/waves/wave-2/ref-compass-life-os/hem-v3-compass-merge.html"
-            className="ds-btn ds-btn--ghost text-xs"
+            className={buttonClassName('ghost', 'sm', 'text-xs')}
           >
             HTML merge
           </a>

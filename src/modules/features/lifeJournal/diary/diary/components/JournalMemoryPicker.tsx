@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { ImagePlus, X } from 'lucide-react';
+import { Button } from '@/design-system';
 import { validateJournalMemoryFile } from '../utils/journalUploadHelper';
 
 const ACCEPT =
@@ -67,30 +68,34 @@ export function JournalMemoryPicker({
         }}
       />
       {!file ? (
-        <button
+        <Button
           type="button"
+          variant="secondary"
+          size="sm"
+          className="inline-flex w-full items-center justify-center gap-2"
           disabled={disabled}
-          className="ds-btn ds-btn--secondary inline-flex w-full items-center justify-center gap-2 text-sm"
           onClick={() => inputRef.current?.click()}
         >
           <ImagePlus className="h-4 w-4" aria-hidden />
           Ladda upp bild eller PDF (max 5 MB)
-        </button>
+        </Button>
       ) : (
         <div className="rounded-xl border border-accent/25 bg-surface/30 px-3 py-2">
           <div className="flex items-start justify-between gap-2">
             <p className="text-sm text-accent">
               <span className="text-text-dim">Minne:</span> {file.name}
             </p>
-            <button
+            <Button
               type="button"
-              className="ds-btn ds-btn--ghost shrink-0 p-1"
+              variant="ghost"
+              size="icon"
+              className="shrink-0"
               aria-label="Ta bort fil"
               disabled={disabled}
               onClick={clear}
             >
               <X className="h-4 w-4" />
-            </button>
+            </Button>
           </div>
           {preview && (
             <img

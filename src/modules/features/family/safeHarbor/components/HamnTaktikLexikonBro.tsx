@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { BookOpen } from 'lucide-react';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { HAMN_TAKTIK_LEXIKON_LEAD } from '../hamnCopy';
@@ -25,13 +25,14 @@ export function HamnTaktikLexikonBro({ signal, className = '' }: Props) {
       ) : (
         <p className="text-text-dim">{HAMN_TAKTIK_LEXIKON_LEAD}</p>
       )}
-      <Link
+      <ButtonLink
         to={vaultDrawerPath('kunskapsbank')}
-        className="ds-btn ds-btn--ghost mt-2 inline-flex items-center gap-1.5 text-[11px]"
+        variant="ghost"
+        className="mt-2 inline-flex items-center gap-1.5 text-[11px]"
       >
         <BookOpen className="h-3.5 w-3.5 text-accent/80" />
         Taktik-lexikon (Valv · PIN)
-      </Link>
+      </ButtonLink>
     </div>
   );
 }

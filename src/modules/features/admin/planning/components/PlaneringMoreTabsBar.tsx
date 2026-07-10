@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { PLANERING_MORE_TABS } from '../constants';
 import type { PlaneringTab } from '../types';
 
@@ -9,16 +9,16 @@ export function PlaneringMoreTabsBar({ activeTab }: { activeTab: PlaneringTab })
       {PLANERING_MORE_TABS.map(({ id, label }) => {
         const active = activeTab === id;
         return (
-          <Link
+          <ButtonLink
             key={id}
             to={`/planering?tab=${id}`}
-            className={`ds-btn ds-btn--ghost text-xs ${
-              active ? 'border-accent/40 bg-accent/10 text-accent' : 'text-text-muted'
-            }`}
+            variant="ghost"
+            size="sm"
+            className={active ? 'border-accent/40 bg-accent/10 text-accent' : 'text-text-muted'}
             aria-current={active ? 'page' : undefined}
           >
             {label}
-          </Link>
+          </ButtonLink>
         );
       })}
     </nav>

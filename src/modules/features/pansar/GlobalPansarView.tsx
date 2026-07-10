@@ -7,6 +7,7 @@ import { CalmBreathingCircle } from '@/modules/capture/components/CalmBreathingC
 import { useStore } from '@/modules/core/store';
 import { useNavigate } from 'react-router-dom';
 import { openValvViaFyren } from '@/modules/core/auth/valvFyrenGate';
+import { Button } from '@/design-system';
 
 export const GlobalPansarView: React.FC = () => {
   const { deactivate, pansarLevel } = usePansarStore();
@@ -67,26 +68,16 @@ export const GlobalPansarView: React.FC = () => {
           <h2 className="text-lg font-medium text-slate-200">Lås upp appen</h2>
           <p className="text-sm text-slate-400 mb-4">Biometrisk verifiering krävs för att avbryta pansarläget.</p>
           
-          <button 
-            type="button" 
-            onClick={handleUnlock}
-            disabled={isUnlocking}
-            className="ds-btn ds-btn--accent w-full flex items-center justify-center gap-2"
-          >
+          <Button type="button" onClick={handleUnlock} disabled={isUnlocking} variant="accent" className="--accent w-full flex items-center justify-center gap-2">
             {isUnlocking ? <Loader2 size={16} className="animate-spin" /> : <LockOpen size={16} />}
             <span>{isUnlocking ? 'Verifierar...' : 'Verifiera med biometri'}</span>
-          </button>
+          </Button>
 
           {unlockError && <p className="text-xs text-rose-400">{unlockError}</p>}
           
-          <button 
-            type="button" 
-            onClick={() => setShowUnlockGate(false)}
-            disabled={isUnlocking}
-            className="mt-2 ds-btn ds-btn--ghost text-xs w-full"
-          >
+          <Button type="button" onClick={() => setShowUnlockGate(false)} disabled={isUnlocking} variant="ghost" className="mt-2 --ghost text-xs w-full">
             Avbryt
-          </button>
+          </Button>
         </div>
       </div>
     );

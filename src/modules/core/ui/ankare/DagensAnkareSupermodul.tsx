@@ -15,6 +15,7 @@ import {
   getBreathingExercise,
 } from './breathingExercises';
 import { useBreathingCycle } from './useBreathingCycle';
+import { Button } from '@/design-system';
 
 const DEFAULT_FOCUS = 'Lugnt samtal med barnen efter skolan.';
 const DEFAULT_QUOTE = 'Inte hela dagen — bara det viktigaste nu.';
@@ -214,18 +215,13 @@ export function AnchorVariantForge({
           className="input-glass mb-3 w-full text-sm"
         />
         {error ? <p className="mb-2 text-center text-xs text-danger">{error}</p> : null}
-        <button
-          type="button"
-          onClick={onSave}
-          disabled={disabled || saving || intention.trim().length < 2}
-          className="ds-btn ds-btn--accent w-full text-xs disabled:opacity-40"
-        >
+        <Button type="button" onClick={onSave} disabled={disabled || saving || intention.trim().length < 2} variant="accent" className="--accent w-full text-xs disabled:opacity-40">
           {saving ? (
             <Loader2 className="mx-auto h-4 w-4 animate-spin" />
           ) : (
             'Spara morgonankare'
           )}
-        </button>
+        </Button>
       </div>
     </div>
   );

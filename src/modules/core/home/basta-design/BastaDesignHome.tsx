@@ -1,3 +1,4 @@
+/* PROTECTED BASTA-DESIGN CHROME LOCK — docs/design/BASTA-DESIGN-CHROME-LOCK.md · npm run smoke:basta-dock-lock */
 import { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';

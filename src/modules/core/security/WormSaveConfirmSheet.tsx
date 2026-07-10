@@ -1,4 +1,5 @@
 import { Loader2, Shield } from 'lucide-react';
+import { Button } from '@/design-system';
 
 type Props = {
   /** Kort kontext — t.ex. «Arkiv» eller filnamn. */
@@ -9,6 +10,8 @@ type Props = {
 };
 
 /**
+ * Inline WORM-save confirmation panel — NOT a modal/dialog (`role="region"`).
+ * Parent owns overlay/focus; this is the confirm UI only.
  * Bekräftelse innan WORM-skriv till reality_vault — oföränderlig post, beteende + datum.
  */
 export function WormSaveConfirmSheet({ contextLabel, busy = false, onConfirm, onCancel }: Props) {
@@ -33,17 +36,12 @@ export function WormSaveConfirmSheet({ contextLabel, busy = false, onConfirm, on
         efteråt.
       </p>
       <div className="flex flex-col gap-2 sm:flex-row">
-        <button
-          type="button"
-          disabled={busy}
-          onClick={onConfirm}
-          className="ds-btn ds-btn--secondary text-sm"
-        >
+        <Button type="button" disabled={busy} onClick={onConfirm} variant="secondary" className="--secondary text-sm">
           {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : 'Ja — lås som bevis'}
-        </button>
-        <button type="button" disabled={busy} onClick={onCancel} className="ds-btn ds-btn--ghost text-sm">
+        </Button>
+        <Button type="button" disabled={busy} onClick={onCancel} variant="ghost" className="--ghost text-sm">
           Avbryt
-        </button>
+        </Button>
       </div>
     </div>
   );

@@ -4,6 +4,7 @@ import {
   WIDGET_SILO_STORAGE_KEY,
   type WidgetSiloId,
 } from '../config/widgetSiloConfig';
+import { Button } from '@/design-system';
 
 type Props = {
   value: WidgetSiloId;
@@ -42,20 +43,17 @@ export function WidgetSiloChipPicker({ value, onChange }: Props) {
         className="flex flex-wrap gap-1.5"
       >
         {WIDGET_SILO_CHIPS.map((chip) => (
-          <button
+          <Button
             key={chip.id}
             type="button"
             role="radio"
+            variant={value === chip.id ? 'accent' : 'ghost'}
             aria-checked={value === chip.id}
             onClick={() => onChange(chip.id)}
-            className={
-              value === chip.id
-                ? 'ds-btn ds-btn--accent px-3 py-1.5 text-xs'
-                : 'ds-btn ds-btn--ghost px-3 py-1.5 text-xs'
-            }
+            className="px-3 py-1.5 text-xs"
           >
             {chip.label}
-          </button>
+          </Button>
         ))}
       </div>
       {active ? <p className="text-xs text-text-muted">{active.hint}</p> : null}

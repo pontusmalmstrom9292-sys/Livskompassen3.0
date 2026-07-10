@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowLeft, X } from 'lucide-react';
+import { Button, Modal, textStyles } from '@/design-system';
+import {
+  immersiveModalOverlayClass,
+  immersiveModalPanelClass,
+} from '@/core/ui/zenModeOverlayClasses';
 import {
   BREATH_PHASE_SECONDS,
   GROUNDING_STEPS,
@@ -86,17 +91,18 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
   };
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="SOS Ankare — akut stöd"
-      className="fixed inset-0 z-[60] flex flex-col bg-gradient-to-b from-bg via-surface to-surface-2"
+    <Modal
+      open
+      onClose={onClose}
+      hideHeader
+      ariaLabel="SOS Ankare — akut stöd"
+      className={`${immersiveModalOverlayClass} !z-[60]`}
+      panelClassName={`${immersiveModalPanelClass} !bg-gradient-to-b !from-bg !via-surface !to-surface-2`}
     >
+      <div className="flex h-full min-h-[100dvh] flex-col">
       <header className="flex shrink-0 items-center justify-between border-b-[0.5px] border-border px-4 py-3 sm:px-6">
         {screen === 'anchor' ? (
-          <p className="font-display-serif text-[10px] uppercase tracking-[0.22em] text-text-dim">
-            SOS Ankare
-          </p>
+          <p className={textStyles.eyebrow}>SOS Ankare</p>
         ) : (
           <button
             type="button"
@@ -124,29 +130,21 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
               {RECOVERY_SOS_ANCHOR_COPY.anchorLine}
             </p>
             <div className="flex flex-col gap-3">
-              <button
-                type="button"
-                onClick={() => setScreen('breathing')}
-                className="ds-btn ds-btn--accent flex flex-col items-center gap-1 py-4"
-              >
+              <Button type="button" onClick={() => setScreen('breathing')} variant="accent" className="--accent flex flex-col items-center gap-1 py-4">
                 <span>{RECOVERY_SOS_ANCHOR_COPY.breatheLabel}</span>
                 <span className="text-xs font-normal normal-case tracking-normal opacity-80">
                   {RECOVERY_SOS_ANCHOR_COPY.breatheLead}
                 </span>
-              </button>
-              <button
-                type="button"
-                onClick={() => setScreen('grounding')}
-                className="ds-btn ds-btn--secondary flex flex-col items-center gap-1 py-4"
-              >
+              </Button>
+              <Button type="button" onClick={() => setScreen('grounding')} variant="secondary" className="--secondary flex flex-col items-center gap-1 py-4">
                 <span>{RECOVERY_SOS_ANCHOR_COPY.groundLabel}</span>
                 <span className="text-xs font-normal normal-case tracking-normal opacity-80">
                   {RECOVERY_SOS_ANCHOR_COPY.groundLead}
                 </span>
-              </button>
-              <button type="button" onClick={onClose} className="ds-btn ds-btn--ghost py-3 text-sm">
+              </Button>
+              <Button type="button" onClick={onClose} variant="ghost" className="--ghost py-3 text-sm">
                 {RECOVERY_SOS_ANCHOR_COPY.closeLabel}
-              </button>
+              </Button>
             </div>
           </div>
         ) : screen === 'breathing' ? (
@@ -194,9 +192,9 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
               <p className="text-sm text-text-dim">
                 Steg {groundStep + 1} av {GROUNDING_STEPS.length}
               </p>
-              <button type="button" onClick={handleGroundNext} className="ds-btn ds-btn--secondary w-full max-w-sm">
+              <Button type="button" onClick={handleGroundNext} variant="secondary" className="--secondary w-full max-w-sm">
                 {isLastGroundStep ? 'Börja om' : 'Gå vidare'}
-              </button>
+              </Button>
             </div>
           </div>
         )}
@@ -206,6 +204,7 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
           <span className="text-danger">{RECOVERY_SOS_ANCHOR_COPY.emergencyNumber}</span>
         </p>
       </div>
-    </div>
+      </div>
+    </Modal>
   );
 }

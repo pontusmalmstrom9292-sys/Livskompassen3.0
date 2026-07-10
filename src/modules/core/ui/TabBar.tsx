@@ -20,7 +20,7 @@ export function TabBar<T extends string>({
   onChange,
   size = 'default',
 }: TabBarProps<T>) {
-  const pad = size === 'compact' ? 'px-3 py-1.5' : 'px-4 py-2';
+  const pad = size === 'compact' ? 'px-3 py-2' : 'px-4 py-2.5';
 
   const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
     if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
@@ -47,7 +47,7 @@ export function TabBar<T extends string>({
               tabIndex={isActive ? 0 : -1}
               onClick={() => onChange(id)}
               onKeyDown={(e) => handleKeyDown(e, index)}
-              className={`flex shrink-0 items-center gap-2 rounded-full ${pad} text-xs uppercase tracking-widest ${
+              className={`flex shrink-0 items-center gap-2 rounded-full min-h-[var(--ds-touch-target,2.75rem)] ${pad} text-xs uppercase tracking-widest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50 ${
                 isActive ? 'chip--active' : 'chip--idle'
               }`}
             >

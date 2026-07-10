@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { Button } from '@/design-system';
 import { MABRA_REFLECTION_CARDS } from '../../content/mabraReflectionCards';
 import { MabraToolShell } from './MabraToolShell';
 
@@ -37,15 +38,15 @@ export function MabraSelfQuizTool({ onBack }: Props) {
       </p>
       <div className="mt-4 flex flex-col gap-2">
         {RESPONSES.map((r) => (
-          <button
+          <Button
             key={r.id}
-            type="button"
+            variant="ghost"
+            className={`text-sm ${answered === r.id ? 'border-accent/40 text-accent' : ''}`}
             disabled={answered !== null}
-            className={`ds-btn ds-btn--ghost text-sm ${answered === r.id ? 'border-accent/40 text-accent' : ''}`}
             onClick={() => setAnswered(r.id)}
           >
             {r.label}
-          </button>
+          </Button>
         ))}
       </div>
       {answered && (
@@ -60,9 +61,9 @@ export function MabraSelfQuizTool({ onBack }: Props) {
               placeholder="Ett ord räcker…"
             />
           </label>
-          <button type="button" onClick={nextQuestion} className="ds-btn ds-btn--secondary mt-4 w-full">
+          <Button variant="secondary" className="mt-4 w-full" onClick={nextQuestion}>
             Nästa fråga
-          </button>
+          </Button>
         </>
       )}
     </MabraToolShell>

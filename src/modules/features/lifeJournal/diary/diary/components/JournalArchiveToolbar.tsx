@@ -1,4 +1,5 @@
 import { Search } from 'lucide-react';
+import { Input } from '@/design-system';
 import { MOOD_CATALOG } from '../constants/moods';
 import { JOURNAL_CATEGORIES } from '../constants/journalCategories';
 import type { JournalEntry } from '../types/journal';
@@ -36,7 +37,7 @@ export function JournalArchiveToolbar({
           className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-dim"
           aria-hidden
         />
-        <input
+        <Input
           type="search"
           value={state.query}
           onChange={(e) => onChange({ ...state, query: e.target.value })}

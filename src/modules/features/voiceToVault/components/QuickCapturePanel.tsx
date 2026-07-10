@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Mic, Loader2, Check, Send, Ear } from 'lucide-react';
+import { TextArea } from '@/design-system';
 import { useQuickCaptureStore } from '../store/useQuickCaptureStore';
 import { speechService } from '../services/speechService';
 import { parseVoiceCommand } from '../api/voiceCommandService';
@@ -93,12 +94,12 @@ export function QuickCapturePanel({ onDone, compact = false }: Props) {
   return (
     <div className={compact ? 'space-y-4' : 'space-y-6'}>
       <div className="space-y-3">
-        <textarea
+        <TextArea
           value={transcript}
           onChange={(e) => setTranscript(e.target.value)}
           placeholder="Börja prata, eller skriv din anteckning här..."
-          className={`w-full resize-none rounded-xl border border-border bg-surface/40 p-4 text-text placeholder:text-text-dim focus:border-accent/50 focus:outline-none focus:ring-1 focus:ring-accent/50 ${
-            compact ? 'h-28 text-sm' : 'h-32'
+          className={`input-glass neu-inset w-full resize-none rounded-xl p-4 text-sm ${
+            compact ? 'h-28' : 'h-32'
           }`}
         />
         

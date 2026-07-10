@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { ImagePlus, Film } from 'lucide-react';
+import { Button } from '@/design-system';
 
 type Props = {
   disabled?: boolean;
@@ -54,15 +55,10 @@ export function ProjectMediaPicker({ disabled, onPick, acceptVideo = false }: Pr
           onPick(file);
         }}
       />
-      <button
-        type="button"
-        disabled={disabled}
-        className="ds-btn ds-btn--secondary inline-flex items-center gap-2 text-sm"
-        onClick={() => inputRef.current?.click()}
-      >
+      <Button type="button" disabled={disabled} variant="secondary" className="--secondary inline-flex items-center gap-2 text-sm" onClick={() => inputRef.current?.click()}>
         {acceptVideo ? <Film className="h-4 w-4" /> : <ImagePlus className="h-4 w-4" />}
         {acceptVideo ? 'Välj fil (Bild/Video)' : 'Välj bild'}
-      </button>
+      </Button>
       
       {error && <p className="text-sm text-danger">{error}</p>}
       

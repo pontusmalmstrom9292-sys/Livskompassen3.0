@@ -1,5 +1,6 @@
 import { Check, Loader2 } from 'lucide-react';
 import { useEffect, type FormEvent } from 'react';
+import { Button, Input } from '@/design-system';
 import { useEconomyProfilWrite } from '../hooks/useEconomyProfilWrite';
 
 export type EkonomiProfilDelegateProps = {
@@ -68,7 +69,7 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
               <span className="text-[10px] uppercase tracking-wider text-text-dim">
                 Veckobudget (kr)
               </span>
-              <input
+              <Input
                 type="number"
                 min={0}
                 step={50}
@@ -86,7 +87,7 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
               <span className="text-[10px] uppercase tracking-wider text-text-dim">
                 Matlåda-preset (kr)
               </span>
-              <input
+              <Input
                 type="number"
                 min={0}
                 step={5}
@@ -107,10 +108,10 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
             på&quot;-mätaren.
           </p>
 
-          <button
+          <Button
             type="submit"
             disabled={inputsDisabled}
-            className="ds-btn ds-btn--accent w-full text-sm disabled:opacity-60"
+            className="w-full text-sm disabled:opacity-60"
           >
             {saving ? (
               <span className="inline-flex items-center justify-center gap-2">
@@ -120,7 +121,7 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
             ) : (
               'Spara profil'
             )}
-          </button>
+          </Button>
         </form>
       )}
 

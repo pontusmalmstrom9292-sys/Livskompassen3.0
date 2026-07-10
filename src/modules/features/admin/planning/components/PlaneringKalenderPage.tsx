@@ -1,5 +1,6 @@
 import { Calendar, CalendarDays } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
@@ -27,12 +28,14 @@ export function PlaneringKalenderPage() {
       headerAside={
         <div className="flex items-center gap-2">
           <LivBackLink />
-          <Link
+          <ButtonLink
             to="/planering?tab=inkorg&inbox=kalender"
-            className="ds-btn ds-btn--ghost shrink-0 p-2 text-xs text-text-muted hover:text-accent"
+            variant="ghost"
+            size="sm"
+            className="shrink-0 p-2 text-text-muted hover:text-accent"
           >
             Inkorg
-          </Link>
+          </ButtonLink>
         </div>
       }
     >

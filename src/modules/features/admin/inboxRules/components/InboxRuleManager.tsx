@@ -3,6 +3,7 @@ import { BentoCard } from '@/shared/ui/BentoCard';
 import { useInboxRules } from '../hooks/useInboxRules';
 import type { InboxRuleMatchType, InboxCategorizationRuleInput } from '../types/inboxRule';
 import type { InboxRouting } from '@/features/lifeJournal/evidence/kompis/api/inboxService';
+import { Button, Input } from '@/design-system';
 
 const MATCH_TYPE_LABELS: Record<InboxRuleMatchType, string> = {
   contains: 'Innehåller (text)',
@@ -66,7 +67,7 @@ export function InboxRuleManager() {
 
       <BentoCard title="Ny regel">
         <div className="space-y-2">
-          <input
+          <Input
             className="input-glass w-full text-sm"
             placeholder="Regelnamn (t.ex. Skoldokument)"
             value={draft.label}
@@ -85,19 +86,19 @@ export function InboxRuleManager() {
               </option>
             ))}
           </select>
-          <input
+          <Input
             className="input-glass w-full text-sm"
             placeholder="Sökmönster i filnamn (t.ex. skola)"
             value={draft.pattern}
             onChange={(e) => setDraft((d) => ({ ...d, pattern: e.target.value }))}
           />
-          <input
+          <Input
             className="input-glass w-full text-sm"
             placeholder="Taggar (kommaseparerade, valfritt)"
             value={draftTags}
             onChange={(e) => setDraftTags(e.target.value)}
           />
-          <input
+          <Input
             className="input-glass w-full text-sm"
             placeholder="Kategori (valfritt)"
             value={draft.targetCategory}
@@ -116,14 +117,9 @@ export function InboxRuleManager() {
               </option>
             ))}
           </select>
-          <button
-            type="button"
-            disabled={saving || !draft.label.trim() || !draft.pattern.trim()}
-            className="ds-btn ds-btn--accent w-full text-sm"
-            onClick={() => void handleAdd()}
-          >
+          <Button type="button" disabled={saving || !draft.label.trim() || !draft.pattern.trim()} variant="accent" className="--accent w-full text-sm" onClick={() => void handleAdd()}>
             Spara regel
-          </button>
+          </Button>
         </div>
       </BentoCard>
 

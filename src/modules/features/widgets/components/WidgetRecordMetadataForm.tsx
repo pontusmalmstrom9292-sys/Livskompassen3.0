@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Lock } from 'lucide-react';
+import { Button, Input, TextArea } from '@/design-system';
 import type { WidgetRecordingMetadata } from '../api/widgetVaultRecording';
 
 type Props = {
@@ -40,7 +41,7 @@ export function WidgetRecordMetadataForm({
 
       <label className="block space-y-1">
         <span className="text-xs uppercase tracking-widest text-text-dim">Vem (valfritt)</span>
-        <input
+        <Input
           type="text"
           className="input-glass w-full text-sm"
           placeholder="t.ex. barn, ex, arbetsgivare"
@@ -51,7 +52,7 @@ export function WidgetRecordMetadataForm({
 
       <label className="block space-y-1">
         <span className="text-xs uppercase tracking-widest text-text-dim">Vad</span>
-        <input
+        <Input
           type="text"
           className="input-glass w-full text-sm"
           placeholder="kort fakta om händelsen"
@@ -62,8 +63,8 @@ export function WidgetRecordMetadataForm({
 
       <label className="block space-y-1">
         <span className="text-xs uppercase tracking-widest text-text-dim">Varför (valfritt)</span>
-        <textarea
-          className="input-glass w-full text-sm"
+        <TextArea
+          className="input-glass neu-inset w-full resize-none text-sm"
           rows={2}
           placeholder="varför du loggar detta"
           value={varfor}
@@ -71,24 +72,26 @@ export function WidgetRecordMetadataForm({
         />
       </label>
 
-      <button
+      <Button
         type="button"
-        className="ds-btn ds-btn--accent flex w-full items-center justify-center gap-2"
+        variant="accent"
+        className="flex w-full items-center justify-center gap-2"
         disabled={busy || submitting}
         onClick={() => void run(() => onLock({ vem, vad, varfor }))}
       >
         <Lock className="h-4 w-4" />
         {busy || submitting ? 'Låser…' : 'Lås i Valvet'}
-      </button>
+      </Button>
 
-      <button
+      <Button
         type="button"
-        className="ds-btn ds-btn--ghost w-full text-xs"
+        variant="ghost"
+        className="w-full text-xs"
         disabled={busy || submitting}
         onClick={() => void run(onSkip)}
       >
         Hoppa över kontext — lås ändå
-      </button>
+      </Button>
     </div>
   );
 }

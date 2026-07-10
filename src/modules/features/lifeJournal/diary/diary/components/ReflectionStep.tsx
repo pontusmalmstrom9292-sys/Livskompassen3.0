@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight, Mic, MicOff, Sparkles } from 'lucide-react';
 import { useCallback, useRef, useEffect, useState } from 'react';
+import { Button, Input, TextArea } from '@/design-system';
 import { useSpeechToText } from '@/core/hooks/useSpeechToText';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { getMoodDef } from '../constants/moods';
@@ -179,12 +180,12 @@ export function ReflectionStep({
             <Sparkles className="h-4 w-4" aria-hidden />
             Ge mig ett förslag
           </button>
-          <textarea
+          <TextArea
             value={text}
             onChange={(e) => onTextChange(e.target.value)}
             placeholder="Din text växer här"
             rows={3}
-            className="input-glass reflektion-textarea mt-3"
+            className="input-glass neu-inset reflektion-textarea mt-3 resize-none"
           />
         </div>
       )}
@@ -192,7 +193,7 @@ export function ReflectionStep({
       {mode === 'tre-ord' && (
         <div className="reflektion-tre-ord">
           <p className="reflektion-panel__hint">Max tre ord – det räcker.</p>
-          <input
+          <Input
             type="text"
             value={text}
             onChange={(e) => {
@@ -212,15 +213,15 @@ export function ReflectionStep({
       {supported && (
         <CalmCollapsible title="Röstinmatning" meta="Valfritt" defaultOpen={false} glow="gold">
           <div className="reflektion-voice">
-            <button
+            <Button
               type="button"
+              variant="ghost"
               onClick={isListening ? stop : start}
-              className="ds-btn ds-btn--ghost"
               aria-pressed={isListening}
             >
               {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
               {isListening ? 'Stoppa' : 'Prata in'}
-            </button>
+            </Button>
             {interim && <span className="text-xs text-text-dim">Hör: {interim}</span>}
           </div>
           {error && <p className="mt-1 text-xs text-danger">{error}</p>}
@@ -258,26 +259,16 @@ export function ReflectionStep({
       </div>
 
       <div className="reflektion-actions">
-        <button type="button" onClick={onBack} className="ds-btn ds-btn--ghost">
+        <Button type="button" variant="ghost" onClick={onBack}>
           <ChevronLeft className="h-4 w-4" /> Tillbaka
-        </button>
-        <button
-          type="button"
-          disabled={!canContinue}
-          onClick={onContinue}
-          className="ds-btn ds-btn--secondary"
-        >
+        </Button>
+        <Button type="button" variant="secondary" disabled={!canContinue} onClick={onContinue}>
           Nästa <ChevronRight className="h-4 w-4" />
-        </button>
+        </Button>
         {lowEnergyBridge && onSaveWithoutText && (
-          <button
-            type="button"
-            disabled={saving}
-            onClick={onSaveWithoutText}
-            className="ds-btn ds-btn--ghost text-sm"
-          >
+          <Button type="button" variant="ghost" size="sm" disabled={saving} onClick={onSaveWithoutText}>
             {MABRA_BRIDGE_LABELS.skipText}
-          </button>
+          </Button>
         )}
       </div>
     </div>

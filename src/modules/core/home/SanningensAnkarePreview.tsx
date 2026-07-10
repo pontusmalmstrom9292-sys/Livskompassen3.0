@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { Anchor, Loader2 } from 'lucide-react';
+import { ButtonLink } from '@/design-system';
 import { hasVaultGate } from '@/core/auth/sessionService';
 import { getVaultLogs } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
@@ -74,12 +74,9 @@ export function SanningensAnkarePreview() {
         </span>
       </div>
       <p className="text-sm leading-relaxed text-text-muted">{truncateTruth(anchor.truth)}</p>
-      <Link
-        to="/valvet?vaultTab=logga"
-        className="ds-btn ds-btn--ghost mt-2 inline-flex text-[10px]"
-      >
+      <ButtonLink to="/valvet?vaultTab=logga" variant="ghost" className="mt-2 inline-flex text-[10px]">
         Öppna i Valv
-      </Link>
+      </ButtonLink>
     </div>
   );
 }

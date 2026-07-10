@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Check, Copy, Filter, Loader2, Shield } from 'lucide-react';
+import { Button } from '@/design-system';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
@@ -195,15 +196,16 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
           <p className="text-[10px] uppercase tracking-widest text-text-dim">
             {rawInput.length}/{RAW_INPUT_MAX}
           </p>
-          <button
+          <Button
             type="button"
+            variant="accent"
+            className="inline-flex items-center gap-2 disabled:opacity-50"
             onClick={() => void handleBrusfilter()}
             disabled={brusLoading || !rawInput.trim()}
-            className="ds-btn ds-btn--accent inline-flex items-center gap-2 disabled:opacity-50"
           >
             {brusLoading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
             Filtrera bort brus
-          </button>
+          </Button>
         </div>
 
         {brusLoading && (
@@ -264,10 +266,12 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
                 <p className="whitespace-pre-wrap text-sm text-text">
                   {brusResult.biff_draft_reply}
                 </p>
-                <button
+                <Button
                   type="button"
+                  variant="ghost"
+                  size="sm"
+                  className="mt-3 inline-flex items-center gap-1.5"
                   onClick={() => void handleCopyReply()}
-                  className="ds-btn ds-btn--ghost mt-3 inline-flex items-center gap-1.5 text-xs"
                 >
                   {copiedReply ? (
                     <Check className="h-3 w-3 text-success" aria-hidden />
@@ -275,7 +279,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
                     <Copy className="h-3 w-3" aria-hidden />
                   )}
                   {copiedReply ? 'Kopierad' : 'Kopiera text'}
-                </button>
+                </Button>
               </BentoCard>
             </div>
           </div>
@@ -344,15 +348,16 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
           className="input-glass rounded-xl px-3 py-2"
           disabled={loading}
         />
-        <button
+        <Button
           type="button"
+          variant="accent"
+          className="mt-3 disabled:opacity-50"
           onClick={handleScan}
           disabled={loading || !thread.trim()}
-          className="ds-btn ds-btn--accent mt-3 disabled:opacity-50"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
           Kör mönstersökning
-        </button>
+        </Button>
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}
 
         {(riskScore != null || grans) && (

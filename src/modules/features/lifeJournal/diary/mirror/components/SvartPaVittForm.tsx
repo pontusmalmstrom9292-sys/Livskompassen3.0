@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Loader2, Lock } from 'lucide-react';
+import { Button, TextArea } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
 import { saveVaultLog } from '@/core/firebase/firestore';
@@ -41,7 +42,7 @@ export function SvartPaVittForm() {
       <div className="grid gap-3 md:grid-cols-2">
         <div>
           <label className="text-[10px] uppercase tracking-widest text-text-dim">Hens version</label>
-          <textarea
+          <TextArea
             value={theirVersion}
             onChange={(e) => setTheirVersion(e.target.value)}
             rows={4}
@@ -52,7 +53,7 @@ export function SvartPaVittForm() {
         </div>
         <div>
           <label className="text-[10px] uppercase tracking-widest text-text-dim">Min verklighet</label>
-          <textarea
+          <TextArea
             value={myReality}
             onChange={(e) => setMyReality(e.target.value)}
             rows={4}
@@ -62,15 +63,16 @@ export function SvartPaVittForm() {
           />
         </div>
       </div>
-      <button
+      <Button
         type="button"
+        variant="accent"
+        className="mt-3 flex items-center gap-2"
         onClick={() => void handleLock()}
         disabled={loading || !user || !theirVersion.trim() || !myReality.trim()}
-        className="ds-btn ds-btn--accent mt-3 flex items-center gap-2 disabled:opacity-50"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
         Lås bevis mot gaslighting
-      </button>
+      </Button>
       {error && <p className="mt-2 text-sm text-text-muted">{error}</p>}
       {saved && (
         <p className="mt-2 text-xs text-success">

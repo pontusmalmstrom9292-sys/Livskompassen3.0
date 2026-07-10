@@ -1,7 +1,7 @@
 ---
 description: Låsta UX-flöden — Barnfokus, Valv Mönster/Orkester, Barnporten HITL, Planering hybrid
 alwaysApply: false
-globs: src/modules/**/Vault*.tsx,src/modules/**/Familjen*.tsx,src/modules/features/family/**,src/modules/features/vault/**,src/modules/barnporten/**,src/modules/planering/**,src/modules/core/navigation/**,.context/locked-ux-features.md
+globs: src/modules/**/Vault*.tsx,src/modules/**/Familjen*.tsx,src/modules/features/family/**,src/modules/features/vault/**,src/modules/barnporten/**,src/modules/planering/**,src/modules/core/navigation/**,src/modules/core/layout/basta-design/**,src/modules/core/home/basta-design/**,src/styles/dock-kanon-match.css,src/styles/basta-design.css,.context/locked-ux-features.md
 ---
 
 # Locked UX Features (MUST NOT REMOVE)
@@ -63,6 +63,15 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 - App/favicon/Android: [`phone-icon-variants/PREVIEW.md`](../../docs/design/themes/phone-icon-variants/PREVIEW.md) — **ej** B1 Kanon ros som tvingad mall
 - Smoke: `npm run smoke:locked-icons`
 - New chrome icons: [`docs/design/ICON-STYLE-GUIDE.md`](../../docs/design/ICON-STYLE-GUIDE.md)
+
+## Bästa design dock + header (ME-basta-design prod)
+
+- Kanon: [`docs/design/BASTA-DESIGN-CHROME-LOCK.md`](../../docs/design/BASTA-DESIGN-CHROME-LOCK.md) · paritet: [`BASTA-DESIGN-V2-PARITY.md`](../../docs/design/BASTA-DESIGN-V2-PARITY.md)
+- rule: [`basta-design-dock-lock.mdc`](basta-design-dock-lock.mdc)
+- Header: Resurser **vänster** (`header-start`) · brand centrerad · actions höger
+- Dock: 4 zoner + hero-kompass (Anteckning · Familj · Mentil · Inkast)
+- Hem: `BastaDesignHome` + `BastaDesignHero` (v2-sektioner)
+- Smoke: `npm run smoke:basta-dock-lock` (ingår i `smoke:locked-ux`)
 
 ## Forbidden without approval
 

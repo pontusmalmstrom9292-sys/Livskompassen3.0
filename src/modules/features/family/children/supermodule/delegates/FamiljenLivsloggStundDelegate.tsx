@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Button, TextArea } from '@/design-system';
 import { Plus, Loader2, Check, Heart } from 'lucide-react';
 import { LIVSLOGG_CATEGORIES, type LivsloggCategory } from '../../constants';
 import { STUND_MAX_CHARS, resolveStundCategory } from '../../utils/childMomentHelpers';
@@ -111,13 +112,13 @@ export function FamiljenLivsloggStundDelegate({ shell, onSaved }: FamiljenDelega
         </select>
       )}
 
-      <textarea
+      <TextArea
         value={observation}
         onChange={(e) => setObservation(e.target.value.slice(0, STUND_MAX_CHARS))}
         placeholder="En kort stund du vill bära med dig…"
         rows={4}
         maxLength={STUND_MAX_CHARS}
-        className="input-glass w-full rounded-xl px-3 py-2"
+        className="input-glass neu-inset w-full resize-none rounded-xl px-3 py-2"
       />
       <div className="flex items-center justify-between">
         <p className="text-right text-[10px] text-text-dim w-full">
@@ -159,15 +160,16 @@ export function FamiljenLivsloggStundDelegate({ shell, onSaved }: FamiljenDelega
         </span>
       </button>
 
-      <button
+      <Button
         type="button"
+        variant="accent"
         onClick={handleSave}
         disabled={loading || !observation.trim()}
-        className="ds-btn ds-btn--accent disabled:opacity-50"
+        className="disabled:opacity-50"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
         Spara stund
-      </button>
+      </Button>
       {error && <p className="mt-2 text-sm text-danger">{error}</p>}
     </div>
   );

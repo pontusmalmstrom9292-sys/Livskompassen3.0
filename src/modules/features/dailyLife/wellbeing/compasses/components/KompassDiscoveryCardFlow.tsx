@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useMemo, useState, type ReactNode } from 'react';
+import { Button, TextArea } from '@/design-system';
 import { ensureVitHub, saveVitEntry } from '@/core/firebase/vitHubFirestore';
 import { MabraVitEvidencePrompt } from '@/features/dailyLife/wellbeing/mabra/components/MabraVitEvidencePrompt';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -70,9 +71,9 @@ export function KompassDiscoveryCardFlow({
     return wrapFlow(
       <>
         <p className="text-sm text-text-muted">Kunde inte ladda kort — försök igen.</p>
-        <button type="button" onClick={onBack} className="ds-btn ds-btn--ghost mt-3 text-sm">
+        <Button variant="ghost" onClick={onBack} className="mt-3 text-sm">
           Tillbaka
-        </button>
+        </Button>
       </>,
       'Kort kunde inte laddas',
     );
@@ -126,8 +127,8 @@ export function KompassDiscoveryCardFlow({
 
       <label className={clsx(`${prefix}-flow-label`)}>
         Din reflektion (valfritt)
-        <textarea
-          className={clsx(`${prefix}-flow-input`, 'input-glass mt-1.5 w-full text-sm')}
+        <TextArea
+          className={clsx(`${prefix}-flow-input`, 'input-glass neu-inset mt-1.5 w-full resize-none text-sm')}
           rows={3}
           value={responseText}
           onChange={(e) => setResponseText(e.target.value)}
@@ -140,17 +141,17 @@ export function KompassDiscoveryCardFlow({
 
       {!savedEntryId ? (
         <div className={clsx(`${prefix}-flow-actions`)}>
-          <button
-            type="button"
+          <Button
+            variant="secondary"
             disabled={saving}
             onClick={() => void handleSave()}
-            className="ds-btn ds-btn--secondary text-sm"
+            className="text-sm"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Spara till Vit'}
-          </button>
-          <button type="button" onClick={onDone} className="ds-btn ds-btn--ghost text-sm">
+          </Button>
+          <Button variant="ghost" onClick={onDone} className="text-sm">
             Hoppa över
-          </button>
+          </Button>
         </div>
       ) : (
         <>
@@ -165,9 +166,9 @@ export function KompassDiscoveryCardFlow({
             />
           ) : null}
           {!userId ? (
-            <button type="button" onClick={onDone} className="ds-btn ds-btn--ghost mt-2 text-sm">
+            <Button variant="ghost" onClick={onDone} className="mt-2 text-sm">
               Klar
-            </button>
+            </Button>
           ) : null}
         </>
       )}

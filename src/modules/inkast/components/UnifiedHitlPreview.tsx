@@ -1,6 +1,7 @@
 import { CheckCircle2, Loader2 } from 'lucide-react';
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
+import { Button } from '@/design-system';
 
 type Props = {
   siloLabel: string;
@@ -77,27 +78,22 @@ export function UnifiedHitlPreview({
       </div>
 
       <div className="flex flex-wrap gap-2">
-        <button
-          type="button"
+        <Button
+          className="flex flex-1 items-center justify-center gap-2"
+          size="sm"
           onClick={onConfirm}
           disabled={busy}
-          className="ds-btn ds-btn--accent flex flex-1 items-center justify-center gap-2 text-xs"
         >
           {busy ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
           <CheckCircle2 className="h-4 w-4" aria-hidden />
           {confirmLabel}
-        </button>
-        <button type="button" onClick={onEdit} disabled={busy} className="ds-btn ds-btn--ghost text-xs">
+        </Button>
+        <Button variant="ghost" size="sm" onClick={onEdit} disabled={busy}>
           Ändra
-        </button>
-        <button
-          type="button"
-          onClick={onDismiss}
-          disabled={busy}
-          className="ds-btn ds-btn--ghost text-xs text-text-dim"
-        >
+        </Button>
+        <Button variant="ghost" size="sm" onClick={onDismiss} disabled={busy} className="text-text-dim">
           {dismissLabel}
-        </button>
+        </Button>
       </div>
     </div>
   );

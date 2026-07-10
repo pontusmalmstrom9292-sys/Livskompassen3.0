@@ -1,4 +1,5 @@
 import { Loader2 } from 'lucide-react';
+import { Button, TextArea } from '@/design-system';
 import { HubDropdownNav } from '@/core/ui/HubDropdownNav';
 import { useStore } from '@/core/store';
 import { BiffRewriteButton } from '@/shared/ui/BiffRewriteButton';
@@ -108,7 +109,7 @@ export function InkastManualEditForm({
         <span className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-text-dim">
           Kommentar / sammanfattning
         </span>
-        <textarea
+        <TextArea
           value={comment}
           onChange={(e) => onCommentChange(e.target.value)}
           placeholder="Kort beskrivning av innehållet…"
@@ -127,9 +128,8 @@ export function InkastManualEditForm({
       </label>
 
       <div className="flex flex-wrap gap-2">
-        <button
-          type="button"
-          className="ds-btn ds-btn--accent text-xs"
+        <Button
+          size="sm"
           disabled={busy || (silo === 'barnen' && !childAlias.trim())}
           onClick={handleSave}
         >
@@ -141,10 +141,10 @@ export function InkastManualEditForm({
           ) : (
             'Spara'
           )}
-        </button>
-        <button type="button" className="ds-btn ds-btn--ghost text-xs" disabled={busy} onClick={onCancel}>
+        </Button>
+        <Button variant="ghost" size="sm" disabled={busy} onClick={onCancel}>
           Avbryt
-        </button>
+        </Button>
       </div>
     </div>
   );

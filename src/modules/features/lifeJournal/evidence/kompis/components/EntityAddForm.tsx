@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Loader2, UserPlus } from 'lucide-react';
+import { Button } from '@/design-system';
 import {
   createEntityProfile,
   type AddEntityProfileInput,
@@ -126,14 +127,15 @@ export function EntityAddForm({ onSaved }: Props) {
       {error && <p className="text-sm text-amber-400/90">{error}</p>}
       {success && <p className="text-sm text-accent">{success}</p>}
 
-      <button
+      <Button
         type="submit"
+        variant="accent"
+        className="inline-flex items-center gap-2"
         disabled={loading || !displayName.trim()}
-        className="ds-btn ds-btn--accent inline-flex items-center gap-2"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <UserPlus className="h-4 w-4" />}
         Lägg till person
-      </button>
+      </Button>
     </form>
   );
 }

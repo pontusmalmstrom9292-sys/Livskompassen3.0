@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import { Shield, Wallet } from 'lucide-react';
+import { ButtonLink } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 
@@ -25,20 +25,22 @@ export function ArbetslivValvBroDelegate() {
           Sjukanmälan, VAB och full lönespec kräver PIN — öppnas i Valv, inte här.
         </p>
         <div className="flex flex-wrap gap-2">
-          <Link
+          <ButtonLink
             to={vaultDrawerPath('arbetsliv_lon')}
-            className="ds-btn ds-btn--ghost inline-flex items-center gap-2 text-xs"
+            variant="ghost"
+            className="inline-flex items-center gap-2 text-xs"
           >
             <Wallet className="h-3.5 w-3.5 text-accent-secondary" aria-hidden />
             Lönespec i Valv
-          </Link>
-          <Link
+          </ButtonLink>
+          <ButtonLink
             to={vaultDrawerPath('arbetsliv_franvaro')}
-            className="ds-btn ds-btn--ghost inline-flex items-center gap-2 text-xs"
+            variant="ghost"
+            className="inline-flex items-center gap-2 text-xs"
           >
             <Shield className="h-3.5 w-3.5 text-accent-secondary" aria-hidden />
             Frånvaro i Valv
-          </Link>
+          </ButtonLink>
         </div>
       </BentoCard>
     </div>

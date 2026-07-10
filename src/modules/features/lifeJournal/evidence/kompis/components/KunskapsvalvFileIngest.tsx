@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import { FileUp, Loader2 } from 'lucide-react';
+import { Button } from '@/design-system';
 import { ingestKampsparEntry } from '../api/kampsparService';
 import {
   fileToBase64,
@@ -149,15 +150,16 @@ export function KunskapsvalvFileIngest({
         className="sr-only"
         onChange={(e) => void handleFiles(e.target.files)}
       />
-      <button
+      <Button
         type="button"
+        variant="secondary"
+        className="mt-3 inline-flex items-center gap-2"
         disabled={loading}
         onClick={() => inputRef.current?.click()}
-        className="ds-btn ds-btn--secondary mt-3 inline-flex items-center gap-2 disabled:opacity-50"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <FileUp className="h-4 w-4" />}
         {loading ? 'Analyserar…' : 'Välj PDF, bild eller text'}
-      </button>
+      </Button>
       {lastDoc && (
         <p className="mt-2 text-xs text-accent">
           Indexerat: {lastDoc.title}

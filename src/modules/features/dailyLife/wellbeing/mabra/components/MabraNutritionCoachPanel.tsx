@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { Button, TextArea } from '@/design-system';
 import { fetchNutritionCoach } from '../api/mabraCoachService';
 
 type Props = {
@@ -43,21 +44,21 @@ export function MabraNutritionCoachPanel({ uid }: Props) {
   return (
     <div className="mt-4 w-full text-left">
       <p className="mb-2 text-xs text-text-dim">Har du specifika sug eller svårt att få till en måltid? Fråga om ett tillägg.</p>
-      <textarea
+      <TextArea
         value={note}
         onChange={(e) => setNote(e.target.value.slice(0, 300))}
         placeholder="T.ex: Jag har jättesug efter choklad, hur kan jag balansera det?"
         rows={2}
         className="input-glass mb-3 text-sm"
       />
-      <button
-        type="button"
+      <Button
+        variant="secondary"
+        className="w-full"
         onClick={() => void handleCoach()}
         disabled={loading || !uid}
-        className="ds-btn ds-btn--secondary w-full"
       >
         {loading ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : 'Fråga Kost-Coachen'}
-      </button>
+      </Button>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Cloud, Inbox } from 'lucide-react';
+import { Button, Badge } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
 import { useStore } from '@/core/store';
@@ -20,7 +21,7 @@ import {
   draftPendingStatusLabel,
   draftRoutingLabel,
   inboxQueueDisplayStatus,
-  inboxQueueStatusBadgeClass,
+  inboxQueueStatusBadgeVariant,
   inboxQueueStatusLabel,
 } from './reviewQueuePipeline';
 
@@ -211,7 +212,9 @@ export function ReviewQueuePipelinePanel({
           <ul className="space-y-2 text-sm">
             {pendingDrafts.map((d) => (
               <li key={d.id} className="rounded-xl border border-accent/20 bg-surface/40 px-3 py-2">
-                <span className={inboxQueueStatusBadgeClass('review')}>{draftPendingStatusLabel()}</span>
+                <Badge variant={inboxQueueStatusBadgeVariant('review')} className="text-[10px] uppercase tracking-wider">
+                  {draftPendingStatusLabel()}
+                </Badge>
                 <p className="mt-1 text-text-muted">{draftSummary(d)}</p>
                 {d.errorMessage && (
                   <p className="mt-1 text-xs text-amber-400/90">{d.errorMessage}</p>
@@ -222,13 +225,9 @@ export function ReviewQueuePipelinePanel({
                     Synkar…
                   </span>
                 ) : (
-                  <button
-                    type="button"
-                    className="ds-btn ds-btn--ghost mt-2 text-xs"
-                    onClick={() => void handleRetry(d.id)}
-                  >
+                  <Button variant="ghost" size="sm" className="mt-2" onClick={() => void handleRetry(d.id)}>
                     Försök igen
-                  </button>
+                  </Button>
                 )}
               </li>
             ))}
@@ -256,7 +255,9 @@ export function ReviewQueuePipelinePanel({
             })}
             {failedDrafts.map((d) => (
               <li key={d.id} className="rounded-xl border border-danger/20 bg-danger/5 px-3 py-2">
-                <span className={inboxQueueStatusBadgeClass('rejected')}>{draftFailedStatusLabel()}</span>
+                <Badge variant={inboxQueueStatusBadgeVariant('rejected')} className="text-[10px] uppercase tracking-wider">
+                  {draftFailedStatusLabel()}
+                </Badge>
                 <p className="mt-1 text-text-muted">{d.errorMessage ?? draftSummary(d)}</p>
                 {retryingId === d.id ? (
                   <span className="mt-2 inline-flex items-center gap-1.5 text-xs text-text-dim">
@@ -264,13 +265,9 @@ export function ReviewQueuePipelinePanel({
                     Synkar…
                   </span>
                 ) : (
-                  <button
-                    type="button"
-                    className="ds-btn ds-btn--ghost mt-2 text-xs"
-                    onClick={() => void handleRetry(d.id)}
-                  >
+                  <Button variant="ghost" size="sm" className="mt-2" onClick={() => void handleRetry(d.id)}>
                     Försök igen
-                  </button>
+                  </Button>
                 )}
               </li>
             ))}

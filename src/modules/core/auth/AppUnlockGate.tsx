@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { createPortal } from 'react-dom';
+import { Modal } from '@/design-system';
 import { useStore } from '../store';
 import { isAppUnlockSupported } from './appUnlock';
 import { FingerprintUnlockPanel } from './FingerprintUnlockPanel';
@@ -31,18 +31,25 @@ export function AppUnlockGate({ children }: Props) {
   return (
     <>
       {children}
-      {createPortal(
-        <div className="app-unlock-gate" role="dialog" aria-label="Lås upp Livskompassen">
-          <FingerprintUnlockPanel
-            autoTry
-            onSuccess={() => {
-              markAppUnlockedThisSession();
-              setDismissed(true);
-            }}
-          />
-        </div>,
-        document.body,
-      )}
+      <Modal
+        open
+        onClose={() => {
+          /* Blockerande gate — stängs endast via lyckad biometri */
+        }}
+        hideHeader
+        ariaLabel="Lås upp Livskompassen"
+        className="!z-[225] !items-center !justify-center !bg-black/40 !px-6 !backdrop-blur-none"
+        panelClassName="!border-0 !bg-transparent !p-0 !shadow-none glow-none"
+        lockScroll
+      >
+        <FingerprintUnlockPanel
+          autoTry
+          onSuccess={() => {
+            markAppUnlockedThisSession();
+            setDismissed(true);
+          }}
+        />
+      </Modal>
     </>
   );
 }

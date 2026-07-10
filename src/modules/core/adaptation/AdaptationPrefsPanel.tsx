@@ -4,6 +4,7 @@ import { BentoCard } from '@/shared/ui/BentoCard';
 import { useAdaptationStore } from '../store/useAdaptationStore';
 import { mergeAdaptationPrefs } from '../firebase/adaptationLedgerFirestore';
 import type { CoachTone, UiDensity } from '../types/adaptation';
+import { Button } from '@/design-system';
 
 const COACH_TONE_OPTIONS: { id: CoachTone; label: string; hint: string }[] = [
   { id: 'minimal', label: 'Minimal', hint: 'Kortast möjliga svar' },
@@ -135,14 +136,9 @@ export function AdaptationPrefsPanel({ userId }: Props) {
             <strong className="text-text">Paralys-läge</strong> förenklar Hem till ett mikrosteg i taget
             — bra när kapaciteten är låg.
           </p>
-          <button
-            type="button"
-            className="ds-btn ds-btn--ghost mt-2 text-xs"
-            disabled={saving}
-            onClick={dismissParalysTip}
-          >
+          <Button type="button" variant="ghost" className="--ghost mt-2 text-xs" disabled={saving} onClick={dismissParalysTip}>
             Dölj tipset
-          </button>
+          </Button>
         </div>
       ) : null}
 

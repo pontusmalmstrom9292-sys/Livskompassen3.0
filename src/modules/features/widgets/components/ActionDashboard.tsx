@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Button, ButtonLink, TextArea } from '@/design-system';
 import {
   Camera,
   Check,
@@ -197,20 +197,21 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
             {recQueued ? 'Inspelning köad — synkas till Valvet vid nät.' : `Låst i Valvet: ${recTitle}`}
           </p>
           {!recQueued && (
-            <Link to="/valvet" className="ds-btn ds-btn--accent inline-flex text-xs">
+            <ButtonLink to="/valvet" variant="accent" className="inline-flex text-xs">
               Öppna Valv
-            </Link>
+            </ButtonLink>
           )}
-          <button
+          <Button
             type="button"
-            className="ds-btn ds-btn--ghost w-full text-xs"
+            variant="ghost"
+            className="w-full text-xs"
             onClick={() => {
               setRecPhase('idle');
               setRecTitle(null);
             }}
           >
             Ny inspelning
-          </button>
+          </Button>
         </div>
       </BentoCard>
     );
@@ -225,13 +226,13 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
             {queued ? 'Reflektion köad — synkas till Valvet vid nät.' : 'Låst i Valvet.'}
           </p>
           {!queued && (
-            <Link to="/valvet" className="ds-btn ds-btn--accent inline-flex text-xs">
+            <ButtonLink to="/valvet" variant="accent" className="inline-flex text-xs">
               Öppna Valv
-            </Link>
+            </ButtonLink>
           )}
-          <button type="button" className="ds-btn ds-btn--ghost w-full text-xs" onClick={() => setDone(false)}>
+          <Button type="button" variant="ghost" className="w-full text-xs" onClick={() => setDone(false)}>
             Ny reflektion
-          </button>
+          </Button>
         </div>
       </BentoCard>
     );
@@ -249,14 +250,15 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
             {speech.interim ? (
               <p className="mt-2 text-xs text-text-dim">Hör: {speech.interim}</p>
             ) : null}
-            <button
+            <Button
               type="button"
+              variant="accent"
               onClick={stopRecording}
-              className="ds-btn ds-btn--accent mt-3 flex w-full min-h-11 items-center justify-center gap-2"
+              className="mt-3 flex w-full min-h-11 items-center justify-center gap-2"
             >
               <Square className="h-4 w-4" aria-hidden />
               Stoppa och spara i Valvet
-            </button>
+            </Button>
           </div>
         )}
 
@@ -277,34 +279,36 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
 
         {recPhase === 'idle' && (
           <>
-            <textarea
+            <TextArea
               value={text}
               onChange={(e) => setText(e.target.value.slice(0, REFLECTION_MAX_CHARS))}
               rows={3}
               maxLength={REFLECTION_MAX_CHARS}
               placeholder="En kort tanke eller observation…"
-              className="input-glass w-full rounded-xl px-3 py-2 text-sm"
+              className="input-glass neu-inset w-full resize-none rounded-xl px-3 py-2 text-sm"
               disabled={saving}
             />
             <p className="text-right text-[10px] text-text-dim">
               {text.length}/{REFLECTION_MAX_CHARS}
             </p>
             <div className="grid grid-cols-2 gap-2">
-              <button
+              <Button
                 type="button"
+                variant="ghost"
                 onClick={handleMicClick}
                 disabled={!speech.supported || !audio.supported || saving}
-                className="ds-btn ds-btn--ghost flex min-h-11 items-center justify-center gap-2 text-sm disabled:opacity-40"
+                className="flex min-h-11 items-center justify-center gap-2 text-sm disabled:opacity-40"
                 aria-label="Röstinspelning till Valvet"
               >
                 <Mic className="h-4 w-4" aria-hidden />
                 Tala in
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
+                variant="accent"
                 onClick={() => void handleSaveText()}
                 disabled={saving || !text.trim()}
-                className="ds-btn ds-btn--accent flex min-h-11 items-center justify-center gap-2 text-sm disabled:opacity-50"
+                className="flex min-h-11 items-center justify-center gap-2 text-sm disabled:opacity-50"
               >
                 {saving ? (
                   <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
@@ -312,7 +316,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
                   <PenLine className="h-4 w-4" aria-hidden />
                 )}
                 Spara i Valvet
-              </button>
+              </Button>
             </div>
           </>
         )}
@@ -512,14 +516,14 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
           ))}
         </select>
 
-        <textarea
+        <TextArea
           ref={textareaRef}
           value={observation}
           onChange={(e) => setObservation(e.target.value.slice(0, STUND_MAX_CHARS))}
           rows={4}
           maxLength={STUND_MAX_CHARS}
           placeholder="Vad hände? En kort observation…"
-          className="input-glass w-full rounded-xl px-3 py-2 text-sm"
+          className="input-glass neu-inset w-full resize-none rounded-xl px-3 py-2 text-sm"
         />
         {speech.interim ? (
           <p className="text-xs text-text-dim">Hör: {speech.interim}</p>
@@ -597,21 +601,23 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
               <p className="text-xs text-success">Foto bifogat</p>
               <p className="truncate text-[10px] text-text-dim">{attachedPhoto.file.name}</p>
             </div>
-            <button
+            <Button
               type="button"
+              variant="ghost"
               onClick={clearAttachedPhoto}
-              className="ds-btn ds-btn--ghost shrink-0 text-[10px]"
+              className="shrink-0 text-[10px]"
             >
               Ta bort
-            </button>
+            </Button>
           </div>
         ) : null}
 
-        <button
+        <Button
           type="button"
+          variant="accent"
           onClick={() => void handleSave()}
           disabled={loading || (!observation.trim() && !attachedPhoto)}
-          className="ds-btn ds-btn--accent flex w-full min-h-11 items-center justify-center gap-2 disabled:opacity-50"
+          className="flex w-full min-h-11 items-center justify-center gap-2 disabled:opacity-50"
         >
           {loading ? (
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
@@ -619,7 +625,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
             <Plus className="h-4 w-4" aria-hidden />
           )}
           Spara till {childAlias}s logg
-        </button>
+        </Button>
         {error && <p className="text-sm text-danger">{error}</p>}
         {speech.error ? <p className="text-sm text-danger">{speech.error}</p> : null}
       </div>

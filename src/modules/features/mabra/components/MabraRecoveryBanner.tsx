@@ -1,5 +1,6 @@
 import { LifeBuoy, Sparkles } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { textStyles } from '@/design-system';
 import { useStore } from '@/core/store';
 import { useDrogfrihetCounter } from '@/features/dailyLife/drogfrihet/hooks/useDrogfrihetCounter';
 import { RecoveryUrgeSosModule } from './RecoveryUrgeSosModule';
@@ -52,7 +53,7 @@ export function MabraRecoveryBanner() {
 
       <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0 flex-1 space-y-2">
-          <p className="flex items-center gap-2 font-display-serif text-[10px] uppercase tracking-[0.22em] text-text-dim">
+          <p className={`flex items-center gap-2 ${textStyles.eyebrow}`}>
             <Sparkles className="h-3 w-3 shrink-0 text-accent/80" strokeWidth={1.5} aria-hidden />
             Återhämtning
           </p>
@@ -73,7 +74,7 @@ export function MabraRecoveryBanner() {
             Hjälp
           </button>
           <div>
-            <p className="font-display-serif text-[10px] uppercase tracking-[0.2em] text-text-dim">
+            <p className={textStyles.eyebrow}>
               Drogfrihet
             </p>
             <p className="mt-1 font-display text-3xl tabular-nums leading-none text-accent sm:text-4xl">

@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Check, Copy, Filter, Loader2, Shield } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   callProcessBrusfilter,
@@ -124,15 +125,15 @@ export function InkastBrusfilterPreview({ rawText, onAccept, onKeepOriginal, onB
               {error}
             </p>
             <div className="flex flex-wrap gap-2">
-              <button type="button" className="ds-btn ds-btn--ghost text-sm" onClick={() => void runFilter()}>
+              <Button variant="ghost" onClick={() => void runFilter()}>
                 Försök igen
-              </button>
-              <button type="button" className="ds-btn ds-btn--secondary text-sm" onClick={onKeepOriginal}>
+              </Button>
+              <Button variant="secondary" onClick={onKeepOriginal}>
                 Hoppa över — original
-              </button>
-              <button type="button" className="ds-btn ds-btn--ghost text-sm" onClick={onBack}>
+              </Button>
+              <Button variant="ghost" onClick={onBack}>
                 Tillbaka
-              </button>
+              </Button>
             </div>
           </div>
         )}
@@ -160,10 +161,11 @@ export function InkastBrusfilterPreview({ rawText, onAccept, onKeepOriginal, onB
                   BIFF-utkast (ej skickat)
                 </p>
                 <p className="whitespace-pre-wrap text-sm text-text">{result.biff_draft_reply}</p>
-                <button
-                  type="button"
+                <Button
+                  variant="ghost"
                   onClick={() => void handleCopyReply()}
-                  className="ds-btn ds-btn--ghost mt-2 inline-flex items-center gap-1.5 text-xs"
+                  className="mt-2 inline-flex items-center gap-1.5"
+                  size="sm"
                 >
                   {copiedReply ? (
                     <Check className="h-3 w-3 text-success" aria-hidden />
@@ -171,20 +173,18 @@ export function InkastBrusfilterPreview({ rawText, onAccept, onKeepOriginal, onB
                     <Copy className="h-3 w-3" aria-hidden />
                   )}
                   {copiedReply ? 'Kopierad' : 'Kopiera svar'}
-                </button>
+                </Button>
               </div>
             </div>
 
             <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-              <button type="button" className="ds-btn ds-btn--accent text-sm" onClick={handleAccept}>
-                Fortsätt med rensad text
-              </button>
-              <button type="button" className="ds-btn ds-btn--secondary text-sm" onClick={onKeepOriginal}>
+              <Button onClick={handleAccept}>Fortsätt med rensad text</Button>
+              <Button variant="secondary" onClick={onKeepOriginal}>
                 Behåll original
-              </button>
-              <button type="button" className="ds-btn ds-btn--ghost text-sm" onClick={onBack}>
+              </Button>
+              <Button variant="ghost" onClick={onBack}>
                 Tillbaka
-              </button>
+              </Button>
             </div>
           </div>
         )}

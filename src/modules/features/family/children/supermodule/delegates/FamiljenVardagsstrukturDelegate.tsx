@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Button, Input, TextArea } from '@/design-system';
 import { Shield, Plus, Check, Loader2 } from 'lucide-react';
 import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
 
@@ -111,7 +112,7 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
 
       <form onSubmit={handleAddRule} className="space-y-2 border-t border-border-strong/40 pt-4">
         <p className="text-[10px] uppercase tracking-widest text-text-dim">Lägg till struktur</p>
-        <input
+        <Input
           value={newRule}
           onChange={(e) => setNewRule(e.target.value)}
           placeholder="T.ex. Efter skolan landar vi 15 minuter i soffan..."
@@ -127,9 +128,9 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
             <option value="granser">Gränssättning</option>
             <option value="rutin">Vardagsrutin</option>
           </select>
-          <button type="submit" className="ds-btn ds-btn--secondary shrink-0 text-xs py-2">
+          <Button type="submit" variant="secondary" className="shrink-0 text-xs py-2">
             <Plus className="h-3 w-3" /> Lägg till
-          </button>
+          </Button>
         </div>
       </form>
 
@@ -141,23 +142,24 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
           Notera hur {childAlias} reagerar på era rutiner. Spara t.ex. om barnet slappnar av, sover
           bättre eller uttrycker oro efter överlämning.
         </p>
-        <textarea
+        <TextArea
           value={observation}
           onChange={(e) => setObservation(e.target.value)}
           placeholder="T.ex. Kasper somnade inom 10 minuter efter vår kvällsrutin, inga mardrömmar inatt..."
           rows={3}
-          className="input-glass w-full rounded-xl px-3 py-2 text-sm"
+          className="input-glass neu-inset w-full resize-none rounded-xl px-3 py-2 text-sm"
           disabled={loading}
         />
-        <button
+        <Button
           type="button"
+          variant="accent"
           disabled={loading || !observation.trim()}
           onClick={() => void handleSaveObservation()}
-          className="ds-btn ds-btn--accent w-full text-xs py-2 mt-2"
+          className="w-full text-xs py-2 mt-2"
         >
           {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Check className="h-3 w-3" />}
           Spara observation i livslogg
-        </button>
+        </Button>
         {success && (
           <p className="text-xs text-success text-center mt-2">Sparat i {childAlias}s livslogg.</p>
         )}

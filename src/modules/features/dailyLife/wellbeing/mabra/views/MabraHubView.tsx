@@ -1,5 +1,6 @@
 import { lazy, memo, Suspense, useCallback, useEffect, useRef } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { Button } from '@/design-system';
 import { useShallow } from 'zustand/react/shallow';
 import { useStore } from '@/core/store';
 import { useMabraStore } from '../store/mabraStore';
@@ -299,13 +300,13 @@ export const MabraHubView = memo(function MabraHubView() {
 
       {!showHubPicker && (
         <div className="flex justify-end">
-          <button
-            type="button"
-            className="ds-btn ds-btn--ghost text-xs text-text-dim"
+          <Button
+            variant="ghost"
+            className="text-xs text-text-dim"
             onClick={() => setShowHubPicker(true)}
           >
             Byt ingång
-          </button>
+          </Button>
         </div>
       )}
 

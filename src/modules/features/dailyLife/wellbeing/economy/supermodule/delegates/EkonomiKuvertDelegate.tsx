@@ -1,5 +1,6 @@
 import { Check, Loader2, Wallet } from 'lucide-react';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { Input } from '@/design-system';
 import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
 import { EconomyEnvelopeSection } from '../../components/EconomyEnvelopeSection';
 import { useEconomyKuvertWrite } from '../hooks/useEconomyKuvertWrite';
@@ -174,7 +175,7 @@ export function EkonomiKuvertDelegate({ userId }: EkonomiKuvertDelegateProps) {
 
             <label className="flex flex-col gap-1">
               <span className="text-[10px] text-text-dim">Belopp (kr)</span>
-              <input
+              <Input
                 type="text"
                 inputMode="decimal"
                 value={expenseAmount}
@@ -191,7 +192,7 @@ export function EkonomiKuvertDelegate({ userId }: EkonomiKuvertDelegateProps) {
 
             <label className="flex flex-col gap-1">
               <span className="text-[10px] text-text-dim">Etikett (valfritt)</span>
-              <input
+              <Input
                 type="text"
                 value={expenseLabel}
                 disabled={inputsDisabled || envelopes.length === 0}

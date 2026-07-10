@@ -1,3 +1,4 @@
+import { textStyles } from '@/design-system';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -57,7 +58,7 @@ export function PlaneringInputSuperModule({
     <BentoCard glow="gold" className="overflow-hidden !p-4 sm:!p-5">
       <header className="mb-4 flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1 space-y-1">
-          <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
+          <p className={textStyles.eyebrow}>
             Planering — Input
           </p>
           <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">

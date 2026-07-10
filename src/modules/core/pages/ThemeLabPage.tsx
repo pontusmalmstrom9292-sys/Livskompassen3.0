@@ -1,5 +1,5 @@
 import { useMemo, useState, type CSSProperties, type ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { Button, ButtonLink, buttonClassName } from '@/design-system';
 import { Anchor, Calendar, Compass, Settings, Sparkles, Users } from 'lucide-react';
 import { ValvArchIcon } from '../ui/ValvArchIcon';
 import { LivskompassMark } from '../ui/LivskompassMark';
@@ -160,25 +160,21 @@ export function ThemeLabPage() {
         </p>
         ) : null}
         <div className="mt-3 flex flex-wrap gap-2">
-          <Link to="/dev/themes" className="ds-btn ds-btn--ghost">
+          <ButtonLink to="/dev/themes" variant="ghost">
             Enkel skin-väljare
-          </Link>
-          <Link to="/dev/obsidian-depth" className="ds-btn ds-btn--accent text-xs">
+          </ButtonLink>
+          <ButtonLink to="/dev/obsidian-depth" variant="accent" size="sm" className="text-xs">
             Obsidian Depth mockup
-          </Link>
-          <Link to="/dev/obsidian-forge" className="ds-btn ds-btn--accent text-xs">
+          </ButtonLink>
+          <ButtonLink to="/dev/obsidian-forge" variant="accent" size="sm" className="text-xs">
             Obsidian Forge (utvärdering)
-          </Link>
-          <Link to="/" className="ds-btn ds-btn--ghost">
+          </ButtonLink>
+          <ButtonLink to="/" variant="ghost">
             Testa på Hem
-          </Link>
-          <button
-            type="button"
-            className="ds-btn ds-btn--ghost"
-            onClick={() => setAutoMode(false)}
-          >
+          </ButtonLink>
+          <Button type="button" variant="ghost" onClick={() => setAutoMode(false)}>
             Manuellt tema
-          </button>
+          </Button>
         </div>
       </header>
 
@@ -206,14 +202,19 @@ export function ThemeLabPage() {
           Variant B (indigo + flikar) — interaktiv prototyp jämförd mot kanon-referens.
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Link to="/dev/theme-lab/brusfiltret-supermodule" className="ds-btn ds-btn--accent text-xs">
+          <ButtonLink
+            to="/dev/theme-lab/brusfiltret-supermodule"
+            variant="accent"
+            size="sm"
+            className="text-xs"
+          >
             Öppna Brusfiltret SuperModule lab
-          </Link>
+          </ButtonLink>
           <a
             href="/docs/design/references/BRUSFILTRET-MODUL-KANON.md"
             target="_blank"
             rel="noreferrer"
-            className="ds-btn ds-btn--ghost text-xs"
+            className={buttonClassName('ghost', 'sm', 'text-xs')}
           >
             Layoutkanon ↗
           </a>
@@ -226,14 +227,19 @@ export function ThemeLabPage() {
           Höger rail · Kognitiv sköld · Dagens riktning · Nytt projekt-picker (BYGG enligt mockup).
         </p>
         <div className="mt-3 flex flex-wrap gap-2">
-          <Link to="/dev/theme-lab/w1-kompakt-projekt" className="ds-btn ds-btn--accent text-xs">
+          <ButtonLink
+            to="/dev/theme-lab/w1-kompakt-projekt"
+            variant="accent"
+            size="sm"
+            className="text-xs"
+          >
             Öppna W1 kompakt projekt lab
-          </Link>
+          </ButtonLink>
           <a
             href="/docs/design/galleri/widget/v2/W1-kompakt-projekt.png"
             target="_blank"
             rel="noreferrer"
-            className="ds-btn ds-btn--ghost text-xs"
+            className={buttonClassName('ghost', 'sm', 'text-xs')}
           >
             Mockup ↗
           </a>
@@ -282,17 +288,19 @@ export function ThemeLabPage() {
           </p>
           <div className="flex flex-wrap gap-2">
             {(['extended', 'mix-e'] as const).map((mode) => (
-              <button
+              <Button
                 key={mode}
                 type="button"
-                className={homeLayout === mode ? 'ds-btn ds-btn--accent text-xs' : 'ds-btn ds-btn--ghost text-xs'}
+                variant={homeLayout === mode ? 'accent' : 'ghost'}
+                size="sm"
+                className="text-xs"
                 onClick={() => {
                   setExecutiveHomeLayoutMode(mode);
                   setHomeLayout(mode);
                 }}
               >
                 {mode === 'extended' ? 'Extended (facit)' : 'mix-E klassisk'}
-              </button>
+              </Button>
             ))}
           </div>
         </section>
@@ -446,13 +454,15 @@ export function ThemeLabPage() {
               <code>themeLabVariants.ts</code> — gula chips = skillnad mot prod
             </p>
           </div>
-          <button
+          <Button
             type="button"
-            className="ds-btn ds-btn--ghost text-xs"
+            variant="ghost"
+            size="sm"
+            className="text-xs"
             onClick={() => applyPreview(DEFAULT_THEME_ID)}
           >
             Jämför med prod
-          </button>
+          </Button>
         </div>
         <div className="mt-3 grid gap-3 sm:grid-cols-2">
           {THEME_LAB_DRAFTS.map((pack) => (
@@ -706,14 +716,14 @@ function ThemeLabCard({
         <p className="mt-1 text-xs text-text-muted">{pack.description}</p>
         {extra}
         <div className="mt-3 flex flex-wrap gap-2">
-          <button type="button" className="ds-btn ds-btn--ghost text-xs" onClick={onPreview}>
+          <Button type="button" variant="ghost" size="sm" className="text-xs" onClick={onPreview}>
             Förhandsgranska
-          </button>
-          <button type="button" className="ds-btn ds-btn--accent text-xs" onClick={onApply}>
+          </Button>
+          <Button type="button" variant="accent" size="sm" className="text-xs" onClick={onApply}>
             {applied
               ? 'Aktiv i appen'
               : applyLabel ?? 'Använd i appen'}
-          </button>
+          </Button>
         </div>
       </div>
     </article>

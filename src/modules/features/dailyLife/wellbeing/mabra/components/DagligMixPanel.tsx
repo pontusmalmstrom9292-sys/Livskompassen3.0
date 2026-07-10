@@ -1,5 +1,6 @@
 import { Sparkles } from 'lucide-react';
 import { useMemo, useState } from 'react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { pickDagligMix } from '../lib/pickDagligMix';
 
@@ -63,9 +64,9 @@ export function DagligMixPanel({ uid, onComplete }: Props) {
               placeholder="Ett ord räcker…"
             />
           </label>
-          <button type="button" onClick={() => setStep('play')} className="ds-btn ds-btn--secondary w-full">
+          <Button variant="secondary" className="w-full" onClick={() => setStep('play')}>
             {COPY.next}
-          </button>
+          </Button>
         </div>
       )}
 
@@ -77,12 +78,12 @@ export function DagligMixPanel({ uid, onComplete }: Props) {
             <p className="mt-2 text-xs text-text-dim">{COPY.playHint}</p>
           </div>
           <div className="flex flex-col gap-2">
-            <button type="button" onClick={finish} className="ds-btn ds-btn--secondary">
+            <Button variant="secondary" onClick={finish}>
               {COPY.finish}
-            </button>
-            <button type="button" onClick={finish} className="ds-btn ds-btn--ghost text-sm">
+            </Button>
+            <Button variant="ghost" className="text-sm" onClick={finish}>
               {COPY.skipPlay}
-            </button>
+            </Button>
           </div>
         </div>
       )}

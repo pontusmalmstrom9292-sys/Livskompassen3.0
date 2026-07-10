@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Flame, Loader2 } from 'lucide-react';
+import { Button } from '@/design-system';
 import { useStore } from '@/core/store';
 import { MOOD_CATALOG } from '@/features/lifeJournal/diary/diary/constants/moods';
 import { SavedStep } from '@/features/lifeJournal/diary/diary/components/SavedStep';
@@ -129,9 +130,10 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
         <div className="dagbok-tyst-lage__draft">
           <p>{DAGBOK_TYST_DRAFT_BANNER}</p>
           <div className="mt-2 flex flex-wrap gap-2">
-            <button
+            <Button
               type="button"
-              className="ds-btn ds-btn--ghost text-xs"
+              variant="ghost"
+              size="sm"
               onClick={() => {
                 const words = diaryDraft.trim().split(/\s+/).filter(Boolean).slice(0, 3).join(' ');
                 setTreOrd(words);
@@ -139,10 +141,11 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
               }}
             >
               Fortsätt utkast
-            </button>
-            <button
+            </Button>
+            <Button
               type="button"
-              className="ds-btn ds-btn--ghost text-xs"
+              variant="ghost"
+              size="sm"
               onClick={() => {
                 clearDiaryDraft();
                 setDraftDismissed(true);
@@ -150,7 +153,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
               }}
             >
               Rensa
-            </button>
+            </Button>
           </div>
         </div>
       ) : null}
@@ -190,24 +193,30 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
       </div>
 
       <div className="dagbok-tyst-lage__actions">
-        <button
+        <Button
           type="button"
+          variant="accent"
+          className="w-full"
           disabled={!activeMood || saving}
           onClick={() => void handleSave()}
-          className="ds-btn ds-btn--accent w-full"
         >
           {saving ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : DAGBOK_TYST_SAVE_LABEL}
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
+          variant="ghost"
+          size="sm"
+          className="w-full"
           disabled={!activeMood || saving}
           onClick={() => void handleMoodOnly()}
-          className="ds-btn ds-btn--ghost w-full text-sm"
         >
           {DAGBOK_TYST_MOOD_ONLY_LABEL}
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
+          variant="ghost"
+          size="sm"
+          className="flex w-full items-center justify-center gap-2 text-text-muted"
           onClick={() => {
             if (onSwitchToBurn) {
               onSwitchToBurn();
@@ -215,11 +224,10 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
             }
             setShowBurn(true);
           }}
-          className="ds-btn ds-btn--ghost w-full flex items-center justify-center gap-2 text-sm text-text-muted"
         >
           <Flame className="h-4 w-4" aria-hidden />
           {DAGBOK_TYST_BURN_LABEL}
-        </button>
+        </Button>
       </div>
 
       {error ? <p className="mt-3 text-sm text-danger">{error}</p> : null}

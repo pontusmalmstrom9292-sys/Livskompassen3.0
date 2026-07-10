@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Loader2, RefreshCw, Sparkles } from 'lucide-react';
+import { TextArea } from '@/design-system';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -140,12 +141,12 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
         ))}
       </div>
 
-      <textarea
+      <TextArea
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
         placeholder={`${childAlias}s svar — rakt av, med barnets egna ord…`}
         rows={3}
-        className="barnfokus-fragan-panel__field od-depth__field"
+        className="barnfokus-fragan-panel__field od-depth__field input-glass neu-inset resize-none"
       />
 
       <div className="barnfokus-fragan-panel__cta od-depth__cta-wrap relative z-10 !mt-0">

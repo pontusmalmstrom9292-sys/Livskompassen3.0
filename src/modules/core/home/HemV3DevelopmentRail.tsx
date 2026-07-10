@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { ChevronDown, Layers } from 'lucide-react';
 import { clsx } from 'clsx';
+import { ButtonLink } from '@/design-system';
 import { useStore } from '../store';
 import { useEvolutionStore } from '../store/useEvolutionStore';
 import { useCapacityScore, useListenToCapacityState } from '../store/useCapacityGate';
@@ -124,12 +124,13 @@ export function HemV3DevelopmentRail({ refreshKey = 0 }: Props) {
           <p className="mt-2 text-[10px] uppercase tracking-widest text-text-dim">
             {selected.title} · {selected.hint}
           </p>
-          <Link
+          <ButtonLink
             to={{ pathname: selected.to, search: selected.search ?? '' }}
-            className="ds-btn ds-btn--ghost mt-3 inline-flex text-xs"
+            variant="ghost"
+            className="mt-3 inline-flex text-xs"
           >
             {selected.actionLabel}
-          </Link>
+          </ButtonLink>
         </article>
       ) : null}
     </section>

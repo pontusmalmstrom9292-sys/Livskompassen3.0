@@ -1,6 +1,7 @@
 import { Navigate } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 import { clsx } from 'clsx';
+import { Button } from '@/design-system';
 import { Anchor, BookHeart, Heart, HeartHandshake, Sparkles, Users } from 'lucide-react';
 
 import { ModuleShell } from '../layout/ModuleShell';
@@ -100,15 +101,16 @@ function FamiljenHubToolbar({
       className="flex flex-wrap items-center gap-1.5 sm:gap-2"
     >
       {FAMILJ_OPTIONS.filter((item) => item.id !== activeTab).map((item) => (
-        <button
+        <Button
           key={item.id}
           type="button"
-          className="ds-btn ds-btn--ghost inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-text-muted hover:text-text"
+          variant="ghost"
+          className="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-text-muted hover:text-text"
           onClick={() => onTabChange(item.id)}
         >
           {item.icon}
           {item.label}
-        </button>
+        </Button>
       ))}
     </nav>
   );

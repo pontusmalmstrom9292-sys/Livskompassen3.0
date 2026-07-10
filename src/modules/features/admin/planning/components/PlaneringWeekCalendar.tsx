@@ -1,3 +1,4 @@
+import { Button } from '@/design-system';
 import type { PlanningTask } from '../types';
 import {
   countPlaneringIcsExportable,
@@ -70,14 +71,16 @@ export function PlaneringWeekCalendar({ tasks, prepared = true }: Props) {
         })}
       </ul>
       <div className="mt-3 flex flex-wrap items-center gap-2">
-        <button
+        <Button
           type="button"
-          className="ds-btn ds-btn--ghost text-xs disabled:opacity-40"
+          variant="ghost"
+          size="sm"
+          className="disabled:opacity-40"
           disabled={exportableCount === 0}
           onClick={() => downloadPlaneringIcs(tasks)}
         >
           Exportera ICS ({exportableCount})
-        </button>
+        </Button>
         <span className="text-xs text-text-dim">
           Manuell kalender — riktiga deadlines, inga mock-händelser.
         </span>

@@ -10,6 +10,7 @@ import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { KunskapsbankHeader } from '../../vault/components/KunskapsbankHeader';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { BookOpen, RefreshCw } from 'lucide-react';
+import { Button } from '@/design-system';
 
 type TabRequest = 'chat' | 'tidshjul';
 
@@ -46,15 +47,17 @@ export function VaultKunskapsbankPanel() {
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3">
           <div className="flex flex-wrap items-center gap-3">
             <p className="text-sm text-amber-200/90">{entriesMeta?.error}</p>
-            <button
+            <Button
               type="button"
+              variant="secondary"
+              size="sm"
+              className="inline-flex items-center gap-1.5"
               onClick={() => entriesMeta?.reload()}
               disabled={entriesMeta?.loading}
-              className="ds-btn ds-btn--secondary inline-flex items-center gap-1.5 text-xs"
             >
               <RefreshCw className="h-3 w-3" aria-hidden />
               Försök igen
-            </button>
+            </Button>
           </div>
         </div>
       )}
@@ -69,13 +72,9 @@ export function VaultKunskapsbankPanel() {
           <EmptyState
             message="Lägg till rutiner, milstolpar eller fakta under Tidshjulet. Därefter kan du ställa frågor i Kunskapsvalv-fliken."
             action={
-              <button
-                type="button"
-                onClick={() => setRequestTab('tidshjul')}
-                className="ds-btn ds-btn--secondary text-sm"
-              >
+              <Button type="button" variant="secondary" onClick={() => setRequestTab('tidshjul')}>
                 Öppna Tidshjulet
-              </button>
+              </Button>
             }
           />
         </BentoCard>

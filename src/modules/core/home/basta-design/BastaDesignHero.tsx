@@ -1,3 +1,4 @@
+/* PROTECTED BASTA-DESIGN CHROME LOCK — docs/design/BASTA-DESIGN-CHROME-LOCK.md · npm run smoke:basta-dock-lock */
 import { PenLine } from 'lucide-react';
 import type { JournalEntryPreview } from './bastaDesignTypes';
 import { BastaButton, BastaGoldDivider, BastaSectionLabel } from './bastaDesignParts';

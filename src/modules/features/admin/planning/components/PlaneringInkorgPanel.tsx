@@ -1,7 +1,8 @@
 import { useState, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Calendar, Inbox, Mail } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, TextArea } from '@/design-system';
+import { sectionEyebrowClass, typeScale } from '@/core/ui/typeScale';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TabBar } from '@/core/ui/TabBar';
 import { ReviewQueuePipelinePanel } from '@/modules/capture/ReviewQueuePipelinePanel';
@@ -117,8 +118,8 @@ export function PlaneringInkorgPanel() {
           <Inbox className="h-4 w-4" />
         </div>
         <div className="min-w-0">
-          <p className="planering-inkorg-panel__eyebrow">Inkorg</p>
-          <p className="planering-inkorg-panel__title">Samla, sortera, förbered</p>
+          <p className={`planering-inkorg-panel__eyebrow ${sectionEyebrowClass}`}>Inkorg</p>
+          <p className={`planering-inkorg-panel__title ${typeScale.titleSection}`}>Samla, sortera, förbered</p>
         </div>
       </div>
 
@@ -188,12 +189,12 @@ export function PlaneringInkorgPanel() {
             }
             icon={<Mail className="h-4 w-4" />}
           >
-            <textarea
+            <TextArea
               value={paste}
               onChange={(e) => setPaste(e.target.value)}
               placeholder="Klistra in ämne och text från mejl…"
               rows={5}
-              className="input-glass w-full text-sm"
+              className="input-glass neu-inset w-full resize-none text-sm"
               disabled={!user || saving}
             />
             {pasteRoutingHint?.routeToHamn && (

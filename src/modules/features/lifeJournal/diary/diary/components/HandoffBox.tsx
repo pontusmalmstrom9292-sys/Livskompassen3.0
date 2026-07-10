@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
 import { Shield } from 'lucide-react';
@@ -35,9 +35,9 @@ export function HandoffBox({ className = '', sourceText }: HandoffBoxProps) {
         motpart, familjerätt eller myndighet — spara den i {VAULT_UI_NAME.toLowerCase()}et. Där blir datum, text och
         bilagor strukturerade som bevis. Dagboken förblir privat och flyttas inte hit automatiskt.
       </p>
-      <Link to={valvTarget} state={valvState} className="journal-handoff__cta ds-btn ds-btn--ghost">
+      <ButtonLink to={valvTarget} state={valvState} variant="ghost" className="journal-handoff__cta">
         Öppna {VAULT_UI_NAME} →
-      </Link>
+      </ButtonLink>
     </aside>
   );
 }

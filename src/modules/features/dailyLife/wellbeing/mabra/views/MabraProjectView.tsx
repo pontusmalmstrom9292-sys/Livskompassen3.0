@@ -1,5 +1,6 @@
 import { memo, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Button } from '@/design-system';
 import { useShallow } from 'zustand/react/shallow';
 import { useStore } from '@/core/store';
 import { useMabraStore } from '../store/mabraStore';
@@ -33,9 +34,9 @@ export const MabraProjectView = memo(function MabraProjectView() {
     return (
       <div className="p-4 text-center">
         <p className="text-text-muted">Okänt projekt: {projectId}</p>
-        <button type="button" onClick={returnToHub} className="ds-btn ds-btn--ghost mt-4">
+        <Button variant="ghost" className="mt-4" onClick={returnToHub}>
           Tillbaka
-        </button>
+        </Button>
       </div>
     );
   }

@@ -18,6 +18,7 @@ import { TabBar, type TabBarItem } from '@/core/ui/TabBar';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { ProjektTomStatePanel } from './ProjektTomStatePanel';
+import { ButtonLink } from '@/design-system';
 
 const STATUS_TABS: TabBarItem<ProjectStatus>[] = [
   { id: 'active', label: 'Aktiva' },
@@ -134,13 +135,10 @@ export function ProjektHubPage() {
           )}
 
           {user && (
-            <Link
-              to="/projekt/ny"
-              className="ds-btn ds-btn--accent flex w-full items-center justify-center gap-2 py-3"
-            >
+            <ButtonLink to="/projekt/ny" variant="accent" className="--accent flex w-full items-center justify-center gap-2 py-3">
               <Plus className="h-4 w-4" />
               Nytt projekt
-            </Link>
+            </ButtonLink>
           )}
 
           {user && loading && <HubPanelSkeleton label="Laddar projekt…" lines={3} />}
@@ -198,17 +196,11 @@ export function ProjektHubPage() {
 
           <div className="space-y-2 border-t border-border/50 pt-4">
             <p className="text-xs uppercase tracking-widest text-text-dim">Verktyg</p>
-            <Link
-              to="/projekt/regler"
-              className="ds-btn ds-btn--ghost flex w-full items-center justify-center gap-2 text-sm"
-            >
+            <ButtonLink to="/projekt/regler" variant="ghost" className="--ghost flex w-full items-center justify-center gap-2 text-sm">
               <Settings2 className="h-4 w-4" />
               Regler & automation
-            </Link>
-            <Link
-              to="/projekt/genvagar"
-              className="ds-btn ds-btn--ghost flex w-full flex-col items-center justify-center gap-0.5 py-3 text-sm"
-            >
+            </ButtonLink>
+            <ButtonLink to="/projekt/genvagar" variant="ghost" className="--ghost flex w-full flex-col items-center justify-center gap-0.5 py-3 text-sm">
               <span className="inline-flex items-center gap-2">
                 <Sparkles className="h-4 w-4" />
                 Genvägar per profil
@@ -216,7 +208,7 @@ export function ProjektHubPage() {
               <span className="text-xs font-normal text-text-dim">
                 Anpassa knappar på Familjen, MåBra och Hamn
               </span>
-            </Link>
+            </ButtonLink>
           </div>
         </div>
       </HubPageShell>

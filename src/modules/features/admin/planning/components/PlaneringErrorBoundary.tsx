@@ -10,6 +10,7 @@ export function PlaneringErrorBoundary({ children }: Props) {
     <HubErrorBoundary
       title="Handling kunde inte laddas"
       errorBody="Ett tekniskt fel stoppade vyn. Prova igen — dina uppgifter i molnet påverkas inte."
+      glow="gold"
       backTo={NAV_PATHS.VARDAGEN}
       backLabel="Till Liv och göra"
       logTag="PlaneringErrorBoundary"

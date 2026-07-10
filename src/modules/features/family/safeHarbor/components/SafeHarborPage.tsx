@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { TryggHamnHub } from './TryggHamnHub';
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 
 type Props = {
   /** Inbäddad i Familjehubben — utan egen sidrubrik. */
@@ -19,7 +20,12 @@ export function SafeHarborPage({ embedded = false }: Props) {
   }, []);
 
   return (
-    <div className="familjen-tab-surface space-y-4">
+    <HubErrorBoundary
+      title="Trygg hamn kunde inte laddas"
+      glow="blue"
+      logTag="SafeHarborPage"
+    >
+      <div className="familjen-tab-surface space-y-4">
       {!embedded && (
         <header className="px-0.5">
           <p className="home-page__eyebrow">Trygg hamn</p>
@@ -31,6 +37,7 @@ export function SafeHarborPage({ embedded = false }: Props) {
       )}
       <TryggHamnHub initialMessage={prefilledMessage} embedded={embedded} />
       <PinnedPlaneringModuleSlot targetId="familjen.hamn" />
-    </div>
+      </div>
+    </HubErrorBoundary>
   );
 }

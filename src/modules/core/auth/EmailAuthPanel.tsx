@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Fingerprint, Loader2, Lock, Mail } from 'lucide-react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { FirebaseError } from 'firebase/app';
 import {
@@ -128,15 +129,15 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
         </p>
       )}
 
-      <button
-        type="button"
+      <Button
+        variant="ghost"
         disabled={loading || googleLoading}
         onClick={() => void handleGoogle()}
-        className="ds-btn ds-btn--ghost mb-4 flex w-full items-center justify-center gap-2 border border-border"
+        className="mb-4 flex w-full items-center justify-center gap-2 border border-border"
       >
         {googleLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
         Fortsätt med Google
-      </button>
+      </Button>
       {loginHint && (googlePrimary || mode === 'signin') && (
         <p className="mb-3 text-center text-xs text-text-dim">
           Välj <span className="text-text-muted">{loginHint}</span> i Google-fönstret.
@@ -198,28 +199,26 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
           )}
 
           <div className="mb-4 flex gap-2">
-            <button
-              type="button"
+            <Button
+              variant={mode === 'create' ? 'success' : 'ghost'}
               onClick={() => {
                 setMode('create');
                 setError(null);
                 setSuccess(null);
               }}
-              className={mode === 'create' ? 'ds-btn ds-btn--success' : 'ds-btn ds-btn--ghost'}
             >
               Skapa konto
-            </button>
-            <button
-              type="button"
+            </Button>
+            <Button
+              variant={mode === 'signin' ? 'success' : 'ghost'}
               onClick={() => {
                 setMode('signin');
                 setError(null);
                 setSuccess(null);
               }}
-              className={mode === 'signin' ? 'ds-btn ds-btn--success' : 'ds-btn ds-btn--ghost'}
             >
               Logga in
-            </button>
+            </Button>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-3">
@@ -255,10 +254,10 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
                 disabled={loading}
               />
             )}
-            <button type="submit" disabled={loading} className="ds-btn ds-btn--success flex w-full items-center justify-center gap-2">
+            <Button type="submit" variant="success" disabled={loading} className="flex w-full items-center justify-center gap-2">
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
               {mode === 'create' ? 'Skapa konto och spara' : 'Logga in'}
-            </button>
+            </Button>
           </form>
         </>
       )}

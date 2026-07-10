@@ -1,5 +1,6 @@
 import { Archive } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Button } from '@/design-system';
 import type { MabraProject } from '../constants/mabraProjects';
 import { VIT_HUB_KRAVLOST, VIT_HUB_TAGLINE, VIT_HUB_VAULT_LINK } from '../lib/vitHubCopy';
 import { vitHubFilteredLink } from '../lib/vitHubLinks';
@@ -22,9 +23,9 @@ type Props = {
 export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, userId }: Props) {
   return (
     <div className="space-y-4">
-      <button type="button" onClick={onBack} className="ds-btn ds-btn--ghost text-xs">
+      <Button variant="ghost" className="text-xs" onClick={onBack}>
         Tillbaka till projekt
-      </button>
+      </Button>
 
       <div className="rounded-xl border border-accent/25 bg-accent/5 px-4 py-3">
         <p className="flex items-center gap-2 text-sm font-medium text-accent">

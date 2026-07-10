@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react';
 import { ShieldCheck } from 'lucide-react';
+import { Button } from '@/design-system';
 import { useStore } from '@/core/store';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
@@ -81,15 +82,17 @@ export function VaultDcapAlertsPanel({ gateOk }: Props) {
                   Väntar på manuell granskning. Ingen rå text exponeras — endast risk och åtgärd.
                 </p>
               </div>
-              <button
+              <Button
                 type="button"
-                className="ds-btn ds-btn--ghost shrink-0 inline-flex items-center gap-1.5 text-xs"
+                variant="ghost"
+                size="sm"
+                className="shrink-0 inline-flex items-center gap-1.5"
                 disabled={busyId === alert.id}
                 onClick={() => void handleAcknowledge(alert.id)}
               >
                 <ShieldCheck className="h-3.5 w-3.5" aria-hidden />
                 {busyId === alert.id ? 'Sparar…' : 'Granskad'}
-              </button>
+              </Button>
             </div>
           </li>
         ))}

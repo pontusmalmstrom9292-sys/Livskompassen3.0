@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { ButtonLink } from '@/design-system';
 import { useStore } from '../store';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { Lock } from 'lucide-react';
@@ -44,9 +44,9 @@ export function AuthGate({ children, variant = 'default' }: Props) {
           )}
         </p>
         {variant === 'widget' && (
-          <Link to="/" className="ds-btn ds-btn--accent mt-4 inline-flex min-h-11 items-center text-sm">
+          <ButtonLink to="/" className="mt-4 inline-flex min-h-11 items-center text-sm">
             Gå till startsidan
-          </Link>
+          </ButtonLink>
         )}
       </BentoCard>
     );

@@ -24,9 +24,9 @@ export function PlanningTaskDetail({ task, onClose, onMove, onSaveMicroStep }: P
       ariaLabel={task.title}
       panelClassName="max-w-md border-accent/25"
       headerAction={
-        <button type="button" onClick={onClose} className="ds-btn ds-btn--ghost p-1" aria-label="Stäng">
+        <Button type="button" variant="ghost" size="icon" className="p-1" onClick={onClose} aria-label="Stäng">
           <X className="h-4 w-4" />
-        </button>
+        </Button>
       }
       hideHeader={false}
     >

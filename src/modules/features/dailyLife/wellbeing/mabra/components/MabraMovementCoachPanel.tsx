@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
+import { Button, TextArea } from '@/design-system';
 import { fetchMovementCoach } from '../api/mabraCoachService';
 
 type Props = {
@@ -43,21 +44,21 @@ export function MabraMovementCoachPanel({ uid }: Props) {
   return (
     <div className="mt-4 w-full text-left">
       <p className="mb-2 text-xs text-text-dim">Vill du ha ett specifikt mikropass utformat för hur du känner dig just nu?</p>
-      <textarea
+      <TextArea
         value={note}
         onChange={(e) => setNote(e.target.value.slice(0, 300))}
         placeholder="T.ex: Jag känner mig stel i nacken och behöver ny energi."
         rows={2}
         className="input-glass mb-3 text-sm"
       />
-      <button
-        type="button"
+      <Button
+        variant="secondary"
+        className="w-full"
         onClick={() => void handleCoach()}
         disabled={loading || !uid}
-        className="ds-btn ds-btn--secondary w-full"
       >
         {loading ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : 'Fråga Rörelse-Coachen'}
-      </button>
+      </Button>
     </div>
   );
 }

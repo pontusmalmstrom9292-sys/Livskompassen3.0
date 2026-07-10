@@ -1,5 +1,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { Button, TextArea, textStyles } from '@/design-system';
 import { DROGFRIHET_CARDS } from '@/features/dailyLife/drogfrihet/content/drogfrihetCatalog';
 import { MABRA_REFLECTION_CARDS } from '../content/mabraReflectionCards';
 import type { MabraProjectId } from '../constants/mabraProjects';
@@ -84,14 +85,14 @@ export function MabraReflectionSuperhubPanel({
       <p className="rounded-xl border border-border-strong bg-surface/40 px-4 py-5 text-base leading-relaxed text-text">
         {card?.text_sv}
       </p>
-      <p className="text-center text-[10px] uppercase tracking-wider text-text-dim">
+      <p className={`text-center ${textStyles.eyebrow}`}>
         {card?.lens}
       </p>
 
       <label className="mt-4 block text-xs text-text-muted">
         Ditt svar (valfritt)
         <span className="ml-1 text-text-dim">— inget fel svar, ett ord räcker</span>
-        <textarea
+        <TextArea
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
           rows={3}
@@ -107,14 +108,14 @@ export function MabraReflectionSuperhubPanel({
       ) : null}
 
       <div className="mt-4 flex gap-2">
-        <button type="button" onClick={prev} className="ds-btn ds-btn--ghost flex-1 text-sm">
+        <Button variant="ghost" className="flex-1 text-sm" onClick={prev}>
           <ChevronLeft className="mr-1 inline h-4 w-4" />
           Förra
-        </button>
-        <button type="button" onClick={next} className="ds-btn ds-btn--secondary flex-1 text-sm">
+        </Button>
+        <Button variant="secondary" className="flex-1 text-sm" onClick={next}>
           Nästa
           <ChevronRight className="ml-1 inline h-4 w-4" />
-        </button>
+        </Button>
       </div>
 
       {vitSavedBankId === bankId ? (

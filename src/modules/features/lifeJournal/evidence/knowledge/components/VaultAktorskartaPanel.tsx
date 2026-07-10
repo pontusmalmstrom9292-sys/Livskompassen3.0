@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { BookOpen, Users } from 'lucide-react';
+import { Button, ButtonLink } from '@/design-system';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
@@ -60,22 +60,24 @@ export function VaultAktorskartaPanel() {
           </div>
         </div>
 
-        <Link
+        <ButtonLink
           to={vaultDrawerPath('kunskapsbank')}
-          className="ds-btn ds-btn--ghost mb-4 inline-flex items-center gap-2 text-xs"
+          variant="ghost"
+          size="sm"
+          className="mb-4 inline-flex items-center gap-2"
         >
           <BookOpen className="h-3 w-3" />
           Till Kunskapsbank
-        </Link>
+        </ButtonLink>
 
         {loading && <HubPanelSkeleton label="Laddar aktörskarta…" lines={3} />}
         {error && (
           <EmptyState
             message={error}
             action={
-              <button type="button" onClick={() => void load()} className="ds-btn ds-btn--secondary text-xs">
+              <Button type="button" variant="secondary" size="sm" onClick={() => void load()}>
                 Försök igen
-              </button>
+              </Button>
             }
           />
         )}

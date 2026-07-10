@@ -1,0 +1,44 @@
+---
+description: Låst Bästa design chrome — header (grid, Resurser vänster) + dock v2 + hem-paritet
+alwaysApply: false
+globs: src/modules/core/layout/basta-design/**,src/modules/core/home/basta-design/**,src/styles/dock-kanon-match.css,src/styles/basta-design.css,docs/design/BASTA-DESIGN-*.md
+---
+
+# Bästa design — Header + Dock (LOCKED)
+
+Kanon: [`docs/design/BASTA-DESIGN-CHROME-LOCK.md`](../../docs/design/BASTA-DESIGN-CHROME-LOCK.md)  
+Paritet: [`docs/design/BASTA-DESIGN-V2-PARITY.md`](../../docs/design/BASTA-DESIGN-V2-PARITY.md)  
+Register: [`.context/locked-ux-features.md`](../.context/locked-ux-features.md) §21
+
+## Header MUST NOT (utan Pontus OK)
+
+1. Flytta **Resurser** från `basta-design__header-start` till `header-actions`
+2. Ta bort 3-kolumns grid (`header-start` \| `header-brand` \| `header-actions`)
+3. Ersätta `BastaDesignHeader` med `AppHeaderBar` under `ME-basta-design`
+4. Ta bort centrerad **Livskompassen**-brand + ornament
+5. Flytta `ResurserOverlay` ut ur headern
+
+## Header MUST behålla
+
+- Vänster: meny + `BastaDesignResurserWidget` `placement="header"`
+- Center: `Livskompassen` + ornament (prod-typografi i `.basta-design__header--prod`)
+- Höger: inställningar · konto · Kompis-öga
+
+## Dock MUST NOT
+
+1. Resurser i dock-raden eller dock-shell widget
+2. `ExecutiveDockBar` / krympa fullbredd dock
+3. Byta zonetiketter eller ta bort hero-kompass
+
+## Hem (v2-ref)
+
+`HomePage` → `BastaDesignHome` när `ME-basta-design`. Sektioner: hero · fokus/coach · ankar · planering · anteckningar.
+
+## Efter godkänd ändring
+
+```bash
+npm run smoke:basta-dock-lock
+npm run smoke:locked-ux
+```
+
+Uppdatera `BASTA-DESIGN-CHROME-LOCK.md` + `BASTA-DESIGN-V2-PARITY.md` vid avsiktlig layoutändring.
