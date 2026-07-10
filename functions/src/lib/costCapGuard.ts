@@ -1,12 +1,17 @@
 /**
- * AI daglig kostnadstak — stoppar oväntade Pro-anrop vid hög förbrukning.
+ * AI daglig + månatlig kostnadstak — stoppar oväntade anrop vid hög förbrukning.
  * Best-effort; fail-open om Firestore-query misslyckas (blockera inte användaren helt).
+ *
+ * Kanon: infra/gcp/cost-guard/manifest.json → aiCostCaps (100 SEK/mån budget).
  */
 import * as admin from 'firebase-admin';
 import { monitor } from './monitoring';
 
-const DEFAULT_PROJECT_DAILY_USD = 3;
-const DEFAULT_USER_DAILY_USD = 0.5;
+/** ~2.8 SEK/dag AI — lämnar marginal för Firestore/Scheduler/Storage inom 100 SEK/mån. */
+const DEFAULT_PROJECT_DAILY_USD = 0.27;
+const DEFAULT_USER_DAILY_USD = 0.1;
+/** ~84 SEK/mån AI-tak (8 USD). */
+const DEFAULT_PROJECT_MONTHLY_USD = 8;
 
 function capFromEnv(envKey: string, fallback: number): number {
   const raw = process.env[envKey]?.trim();
@@ -15,8 +20,8 @@ function capFromEnv(envKey: string, fallback: number): number {
   return Number.isFinite(n) && n > 0 ? n : fallback;
 }
 
-async function sumDailyCostUsd(userId?: string): Promise<number> {
-  const cutoff = admin.firestore.Timestamp.fromMillis(Date.now() - 24 * 60 * 60 * 1000);
+async function sumCostUsd(sinceMs: number, userId?: string): Promise<number> {
+  const cutoff = admin.firestore.Timestamp.fromMillis(sinceMs);
   let q = admin
     .firestore()
     .collection('ai_cost_log')
@@ -34,29 +39,66 @@ export interface CostCapCheckResult {
   allowed: boolean;
   reason?: string;
   projectDailyUsd?: number;
+  projectMonthlyUsd?: number;
   userDailyUsd?: number;
 }
 
-/** Kontrollera daglig AI-kostnad före dyra anrop (t.ex. Pro-tier). */
+/** Kontrollera daglig + månatlig AI-kostnad före Gemini-anrop. */
 export async function checkAiCostCaps(userId: string): Promise<CostCapCheckResult> {
-  const projectCap = capFromEnv('AI_DAILY_COST_CAP_USD', DEFAULT_PROJECT_DAILY_USD);
-  const userCap = capFromEnv('AI_DAILY_USER_COST_CAP_USD', DEFAULT_USER_DAILY_USD);
+  const projectDailyCap = capFromEnv('AI_DAILY_COST_CAP_USD', DEFAULT_PROJECT_DAILY_USD);
+  const userDailyCap = capFromEnv('AI_DAILY_USER_COST_CAP_USD', DEFAULT_USER_DAILY_USD);
+  const projectMonthlyCap = capFromEnv('AI_MONTHLY_COST_CAP_USD', DEFAULT_PROJECT_MONTHLY_USD);
+
+  const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
+  const monthAgo = Date.now() - 30 * 24 * 60 * 60 * 1000;
 
   try {
-    const [projectDailyUsd, userDailyUsd] = await Promise.all([
-      sumDailyCostUsd(),
-      sumDailyCostUsd(userId),
+    const [projectDailyUsd, projectMonthlyUsd, userDailyUsd] = await Promise.all([
+      sumCostUsd(dayAgo),
+      sumCostUsd(monthAgo),
+      sumCostUsd(dayAgo, userId),
     ]);
 
-    if (projectDailyUsd >= projectCap) {
-      monitor.log('WARNING', `[CostCap] Projekt dagstak nått: ${projectDailyUsd.toFixed(4)} >= ${projectCap} USD`);
-      return { allowed: false, reason: 'project_daily_cap', projectDailyUsd, userDailyUsd };
+    if (projectMonthlyUsd >= projectMonthlyCap) {
+      monitor.log(
+        'WARNING',
+        `[CostCap] Projekt månadstak nått: ${projectMonthlyUsd.toFixed(4)} >= ${projectMonthlyCap} USD`,
+      );
+      return {
+        allowed: false,
+        reason: 'project_monthly_cap',
+        projectDailyUsd,
+        projectMonthlyUsd,
+        userDailyUsd,
+      };
     }
-    if (userDailyUsd >= userCap) {
-      monitor.log('WARNING', `[CostCap] Användare dagstak nått: uid=${userId} ${userDailyUsd.toFixed(4)} >= ${userCap} USD`);
-      return { allowed: false, reason: 'user_daily_cap', projectDailyUsd, userDailyUsd };
+    if (projectDailyUsd >= projectDailyCap) {
+      monitor.log(
+        'WARNING',
+        `[CostCap] Projekt dagstak nått: ${projectDailyUsd.toFixed(4)} >= ${projectDailyCap} USD`,
+      );
+      return {
+        allowed: false,
+        reason: 'project_daily_cap',
+        projectDailyUsd,
+        projectMonthlyUsd,
+        userDailyUsd,
+      };
     }
-    return { allowed: true, projectDailyUsd, userDailyUsd };
+    if (userDailyUsd >= userDailyCap) {
+      monitor.log(
+        'WARNING',
+        `[CostCap] Användare dagstak nått: uid=${userId} ${userDailyUsd.toFixed(4)} >= ${userDailyCap} USD`,
+      );
+      return {
+        allowed: false,
+        reason: 'user_daily_cap',
+        projectDailyUsd,
+        projectMonthlyUsd,
+        userDailyUsd,
+      };
+    }
+    return { allowed: true, projectDailyUsd, projectMonthlyUsd, userDailyUsd };
   } catch (err) {
     monitor.trackError('costCapGuard', err, { userId });
     return { allowed: true };

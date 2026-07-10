@@ -146,6 +146,16 @@ function main() {
   assert(rootPkg.scripts['smoke:cost-guard'], 'package.json saknar smoke:cost-guard');
   assert(rootPkg.scripts['gcp:audit-apis'], 'package.json saknar gcp:audit-apis');
 
+  // 8) AI caps ska matcha 100 SEK/mån-budget
+  const monthlyCap = manifest.aiCostCaps?.monthlyProjectUsd;
+  const dailyCap = manifest.aiCostCaps?.dailyProjectUsd;
+  if (typeof monthlyCap !== 'number' || monthlyCap > 10) {
+    errors.push(`manifest aiCostCaps.monthlyProjectUsd måste vara ≤10 USD (100 SEK/mån)`);
+  }
+  if (typeof dailyCap !== 'number' || dailyCap > 0.5) {
+    errors.push(`manifest aiCostCaps.dailyProjectUsd måste vara ≤0.5 USD (100 SEK/mån)`);
+  }
+
   if (errors.length > 0) {
     console.error('[smoke:cost-guard] FAIL:');
     for (const e of errors) console.error(`  - ${e}`);

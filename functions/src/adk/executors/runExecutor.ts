@@ -27,12 +27,9 @@ export async function runExecutor(
   let tier: GeminiTier = autoSelectTier(message.intent, executorId);
   const userId = (message.payload?.userId as string | undefined) ?? message.contextId ?? 'system';
 
-  if (tier === 'pro') {
-    const cap = await checkAiCostCaps(userId);
-    if (!cap.allowed) {
-      console.warn(`[runExecutor] Pro nedgraderad till flash — ${cap.reason}`);
-      tier = 'flash';
-    }
+  const cap = await checkAiCostCaps(userId);
+  if (!cap.allowed) {
+    throw new Error(`[runExecutor] AI budget exceeded — ${cap.reason ?? 'cap'}`);
   }
 
   const modelId = selectModel(tier);

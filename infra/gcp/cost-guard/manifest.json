@@ -135,9 +135,12 @@
     "anomalyPercent": 30
   },
   "aiCostCaps": {
-    "dailyProjectUsd": 3,
-    "dailyUserUsd": 0.5,
+    "dailyProjectUsd": 0.27,
+    "dailyUserUsd": 0.1,
+    "monthlyProjectUsd": 8,
     "envVarProject": "AI_DAILY_COST_CAP_USD",
-    "envVarUser": "AI_DAILY_USER_COST_CAP_USD"
+    "envVarUser": "AI_DAILY_USER_COST_CAP_USD",
+    "envVarMonthlyProject": "AI_MONTHLY_COST_CAP_USD",
+    "_notes": "100 SEK/mån ≈ 9.5 USD. ~8 USD AI-tak + ~1.5 USD infra (Firestore, Scheduler, Storage)."
   }
 }

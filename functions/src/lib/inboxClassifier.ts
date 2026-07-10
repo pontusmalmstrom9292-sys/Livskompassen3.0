@@ -4,6 +4,7 @@ import {
   stripInjectedSourceModuleFromText,
 } from './inkastSourceModule';
 import { createGenAI } from './genaiClient';
+import { isAiBudgetAllowed } from './aiBudgetGate';
 import { INKAST_CONFIDENCE_THRESHOLD } from './inkastConstants';
 
 export type InboxRouting = 'kunskap' | 'bevis' | 'barnen' | 'dagbok' | 'review' | 'planning';
@@ -336,6 +337,18 @@ ${excerpt}
 Returnera JSON enligt systeminstruktion.`;
 
   try {
+    if (!(await isAiBudgetAllowed('system'))) {
+      console.warn('[inboxClassifier] AI budget exceeded — fail-closed till review.');
+      return {
+        routing: 'review',
+        tags: ['budget_cap'],
+        category: 'review',
+        confidence: 0,
+        summary: `AI-budget nådd — manuell granskning: ${fileName}`,
+        traumaSensitive: false,
+        rationale: 'Kostnadstak — LLM hoppades över.',
+      };
+    }
     const ai = createGenAI(geminiApiKey);
     const response = await ai.models.generateContent({
       model: CLASSIFY_MODEL,
