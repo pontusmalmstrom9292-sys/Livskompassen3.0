@@ -1,12 +1,13 @@
 {
   "project": "gen-lang-client-0481875058",
-  "at": "2026-06-27T23:48:25.533Z",
+  "at": "2026-07-10T17:39:52.477Z",
   "dryRun": false,
   "protectedApis": [
     "cloudscheduler.googleapis.com",
     "compute.googleapis.com"
   ],
   "disabled": [
+    "bigquery.googleapis.com",
     "bigqueryconnection.googleapis.com",
     "bigquerydatapolicy.googleapis.com",
     "bigquerymigration.googleapis.com",
@@ -17,6 +18,8 @@
     "dataproc-control.googleapis.com",
     "redis.googleapis.com",
     "notebooks.googleapis.com",
+    "gkehub.googleapis.com",
+    "container.googleapis.com",
     "dataform.googleapis.com",
     "dataplex.googleapis.com",
     "workflows.googleapis.com",
@@ -24,18 +27,5 @@
     "discoveryengine.googleapis.com"
   ],
   "skipped": [],
-  "failed": [
-    {
-      "api": "bigquery.googleapis.com",
-      "error": "Provide the --force flag if you wish to force disable services.\nERROR: (gcloud.services.disable) FAILED_PRECONDITION: Resources are found when disabling service(s) config.googleapis.com. Before you ca"
-    },
-    {
-      "api": "gkehub.googleapis.com",
-      "error": "Provide the --force flag if you wish to force disable services.\nERROR: (gcloud.services.disable) FAILED_PRECONDITION: Resources are found when disabling service(s) config.googleapis.com. Before you ca"
-    },
-    {
-      "api": "container.googleapis.com",
-      "error": "Provide the --force flag if you wish to force disable services.\nERROR: (gcloud.services.disable) FAILED_PRECONDITION: Resources are found when disabling service(s) config.googleapis.com. Before you ca"
-    }
-  ]
+  "failed": []
 }
