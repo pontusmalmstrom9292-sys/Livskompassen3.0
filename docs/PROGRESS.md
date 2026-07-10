@@ -1,3 +1,35 @@
+
+## 2026-07-10 — Premium UI Polish Phase 10 våg 92 (CSS sunset dock/hub)
+
+**Completed work:**
+- Flyttade 6 dock/hub CSS-block från `src/index.css` till `src/design-system/styles/`:
+  - `hub-chrome-tile.css`, `dock-hub-band.css`, `floating-dock.css`
+  - `dock-orbit-hub.css`, `dock-compass-hub.css`, `hub-adaptive-shell.css`
+- `@import` i `index.css` (efter `premium-polish.css`, före `basta-design.css`)
+- Stub-kommentarer kvar i `index.css` per block
+- `.btn-pill*` kvar i `index.css` (legacy bridge)
+- `smoke_locked_ux.mjs`: `.dock-hub-band` pekar på `dock-hub-band.css`
+
+**Metrics:**
+- indexCssLoc: 3117 → 2155 (−962)
+- npm run build PASS
+- smoke:locked-ux, smoke:chrome-header, smoke:basta-dock-lock PASS
+- smoke:design-debt, smoke:design-modules, smoke:predeploy:build PASS
+
+**Files changed:**
+- src/index.css
+- src/design-system/styles/hub-chrome-tile.css (ny)
+- src/design-system/styles/dock-hub-band.css (ny)
+- src/design-system/styles/floating-dock.css (ny)
+- src/design-system/styles/dock-orbit-hub.css (ny)
+- src/design-system/styles/dock-compass-hub.css (ny)
+- src/design-system/styles/hub-adaptive-shell.css (ny)
+- scripts/smoke_locked_ux.mjs
+
+**Next steps:**
+- Våg 93+: nav-drawer/hero sunset (kvar i index.css) för indexCssLoc ≤1400
+- Pontus visuell check: hem kompass, drawer, /vardagen?tab=planering
+
 ## 2026-07-10 — YOLO VÅG 43 — Input batch 7 (Widgets · Compasses · Voice · Onboarding)
 
 **Plattform:** Cursor (Auto) · **Läge:** Agent · **Ändringar:** minimal diff

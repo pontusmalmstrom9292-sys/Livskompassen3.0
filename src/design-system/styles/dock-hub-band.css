@@ -1,0 +1,214 @@
+/* Dock hub band — kapselknappar kring kompass — sunset från index.css våg 92 */
+@layer components {
+  .dock-hub-band {
+    @apply pointer-events-auto relative mx-auto w-full max-w-[min(100vw-0.5rem,26rem)];
+  }
+
+  .dock-hub-band__rail {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    align-items: end;
+    gap: 0.25rem 0.15rem;
+    max-width: min(100vw - 0.75rem, 26.5rem);
+    margin-inline: auto;
+    padding: 1.05rem 0.35rem 0.45rem;
+    border-radius: 1.75rem;
+    border: 2px solid rgba(212, 175, 55, 0.42);
+    background: linear-gradient(
+      168deg,
+      var(--chrome-rail-a) 0%,
+      var(--chrome-rail-b) 42%,
+      var(--chrome-rail-c) 100%
+    );
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow:
+      0 14px 42px rgba(0, 0, 0, 0.58),
+      0 0 0 1px var(--color-glass-dark-35),
+      inset 0 2px 0 rgba(255, 243, 196, 0.12),
+      inset 0 -10px 28px rgba(0, 0, 0, 0.42);
+    overflow: hidden;
+  }
+
+  .dock-hub-band__rail::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 8%;
+    right: 8%;
+    height: 2px;
+    border-radius: 9999px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(255, 230, 180, 0.5) 22%,
+      rgba(212, 175, 55, 0.82) 50%,
+      rgba(255, 230, 180, 0.4) 78%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  .dock-hub-band__rail::after {
+    content: '';
+    position: absolute;
+    inset: 1px;
+    border-radius: calc(1.75rem - 1px);
+    pointer-events: none;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      inset 0 -14px 32px var(--color-glass-dark-35);
+  }
+
+  .dock-nav-btn {
+    @apply relative z-[1] flex min-w-0 flex-col items-center gap-1 border-0 bg-transparent p-0;
+    justify-self: center;
+    width: 100%;
+    max-width: 3.35rem;
+    transition: transform 0.16s ease;
+  }
+
+  .dock-nav-btn--side {
+    max-width: 3.35rem;
+  }
+
+  .dock-nav-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  .dock-nav-btn__icon-shell {
+    @apply overflow-hidden;
+  }
+
+  .dock-nav-btn__chrome-v4 {
+    @apply h-[1.85rem] w-[1.85rem] shrink-0 object-contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.48))
+      drop-shadow(0 0 8px rgba(212, 175, 55, 0.22));
+  }
+
+  .dock-nav-btn__icon-shell--side .dock-nav-btn__chrome-v4,
+  .dock-nav-btn--side .dock-nav-btn__chrome-v4 {
+    @apply h-[1.9rem] w-[1.9rem];
+  }
+
+  .dock-hub-band__rail .hub-chrome-tile--dock,
+  .dock-hub-band__rail .hub-chrome-tile--dock-side {
+    transform: none;
+  }
+
+  .dock-nav-btn:hover .hub-chrome-tile--dock,
+  .dock-nav-btn:hover .hub-chrome-tile--dock-side {
+    transform: translateY(-1px);
+  }
+
+  .dock-nav-btn:hover .dock-nav-btn__chrome-v4 {
+    filter: drop-shadow(0 3px 6px var(--color-glass-dark-50))
+      drop-shadow(0 0 12px rgba(212, 175, 55, 0.32));
+  }
+
+  .dock-nav-btn:active .dock-nav-btn__icon-shell.hub-chrome-tile {
+    transform: translateY(0);
+  }
+
+  .dock-nav-btn__label {
+    @apply max-w-full truncate px-0.5 text-[9px] font-medium leading-tight text-text-muted;
+  }
+
+  .dock-nav-btn__label--active,
+  .dock-nav-btn--active .dock-nav-btn__label {
+    @apply font-semibold text-accent;
+  }
+
+  a.dock-nav-btn {
+    @apply flex flex-col items-center gap-1 no-underline;
+  }
+
+  .dock-hub-band__center {
+    @apply relative flex shrink-0 flex-col items-center border-0 bg-transparent p-0;
+    grid-column: 4;
+    justify-self: center;
+    z-index: 3;
+    margin-top: -1.35rem;
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  .dock-hub-band__center-glow {
+    @apply pointer-events-none absolute left-1/2 top-0 h-[4.75rem] w-[4.75rem] -translate-x-1/2 rounded-full;
+    background: radial-gradient(circle, rgba(212, 175, 55, 0.22) 0%, transparent 72%);
+  }
+
+  .dock-hub-band__plate {
+    @apply relative z-[1] flex h-[4.35rem] w-[4.35rem] items-center justify-center rounded-full;
+    background: linear-gradient(
+      168deg,
+      var(--chrome-plate-a) 0%,
+      var(--chrome-plate-b) 48%,
+      var(--chrome-plate-c) 100%
+    );
+    border: 2.5px solid color-mix(in srgb, var(--accent) 52%, transparent);
+    box-shadow:
+      0 1px 0 rgba(255, 243, 210, 0.16) inset,
+      0 -4px 12px rgba(0, 0, 0, 0.4) inset,
+      0 10px 28px rgba(0, 0, 0, 0.55),
+      0 0 24px rgba(212, 175, 55, 0.22);
+    transform: translateY(-2px);
+    transition:
+      transform 0.16s ease,
+      box-shadow 0.16s ease,
+      border-color 0.16s ease;
+  }
+
+  .dock-hub-band__plate::before {
+    content: '';
+    position: absolute;
+    inset: 3px 3px auto;
+    height: 44%;
+    border-radius: 9999px;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 248, 220, 0.14) 0%,
+      rgba(255, 248, 220, 0) 100%
+    );
+    pointer-events: none;
+  }
+
+  .dock-hub-band__center:hover .dock-hub-band__plate {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--accent-light) 62%, transparent);
+    box-shadow:
+      0 1px 0 rgba(255, 248, 220, 0.2) inset,
+      0 -4px 12px rgba(0, 0, 0, 0.36) inset,
+      0 12px 32px rgba(0, 0, 0, 0.58),
+      0 0 28px rgba(212, 175, 55, 0.3);
+  }
+
+  .dock-hub-band__center:active .dock-hub-band__plate {
+    transform: translateY(0);
+  }
+
+  .dock-hub-band__center--active .dock-hub-band__plate,
+  .dock-hub-band__center--holding .dock-hub-band__plate {
+    border-color: rgba(245, 230, 184, 0.62);
+    box-shadow:
+      inset 0 1px 0 rgba(245, 230, 184, 0.18),
+      0 0 28px rgba(212, 175, 55, 0.32),
+      0 10px 28px var(--color-glass-dark-50);
+  }
+
+  .dock-hub-band__center--holding .dock-hub-band__plate {
+    box-shadow:
+      inset 0 1px 0 rgba(245, 230, 184, 0.18),
+      0 0 0 1px rgba(212, 175, 55, 0.28),
+      0 0 calc(12px + var(--dock-hold, 0) * 0.16) rgba(212, 175, 55, 0.34),
+      0 10px 28px var(--color-glass-dark-50);
+  }
+
+  .dock-hub-band__mark {
+    @apply h-[2.35rem] w-[2.35rem] text-accent;
+    opacity: 0.98;
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.36));
+  }
+}

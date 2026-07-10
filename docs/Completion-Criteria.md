@@ -2,7 +2,16 @@
 
 **Version:** 1.1 | **Last updated:** 2026-06-28
 
-Project is **complete for v1 polish release** when all sections below pass. Phase 10 (legacy CSS sunset) is **optional stretch** — not blocking.
+Project is **complete for v1 polish release** when all sections below pass. 
+### Phase 10 våg 92 — dock/hub CSS sunset (2026-07-10)
+- [x] 6 filer i `src/design-system/styles/` (hub-chrome-tile, dock-hub-band, floating-dock, dock-orbit-hub, dock-compass-hub, hub-adaptive-shell)
+- [x] `@import` i `index.css` utan dubletter
+- [x] Stub-kommentarer per block i `index.css`
+- [x] `.btn-pill*` kvar i `index.css` (ej denna våg)
+- [x] indexCssLoc: **2155** (mål ≤1400 kräver våg 93+ nav-drawer sunset)
+- [x] smoke:locked-ux, smoke:chrome-header, smoke:basta-dock-lock, smoke:design-modules, smoke:predeploy:build
+
+Phase 10 (legacy CSS sunset) is **optional stretch** — not blocking.
 
 ## 1. Visual & UX (no redesign)
 
