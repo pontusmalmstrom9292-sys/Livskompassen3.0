@@ -1,0 +1,24 @@
+name: Auto-fix prompt mirrors
+
+on:
+  pull_request:
+    paths:
+      - 'docs/prompts/**'
+      - 'functions/src/sharedRules.ts'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.draft == false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm run prompts:sync
+      - run: git add docs/prompts/
+      - run: git commit --amend --no-edit || true
+      - run: git push --force-with-lease

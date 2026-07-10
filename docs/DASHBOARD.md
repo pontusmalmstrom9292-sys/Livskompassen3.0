@@ -1,3 +1,8 @@
+
+### Design debt (2026-07-10)
+- indexCssLoc: 2155 (våg 92 dock/hub sunset)
+- btn-pill i modules: 0
+
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
 # Premium UI Polish — Dashboard

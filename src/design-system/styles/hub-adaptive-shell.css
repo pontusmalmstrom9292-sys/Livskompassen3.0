@@ -1,0 +1,44 @@
+/* Hub adaptive shell (unlock gate, module list, adaptive cards) — sunset från index.css våg 92 */
+@layer components {
+  .app-unlock-gate {
+    @apply fixed inset-0 z-[225] flex items-center justify-center bg-black/40 px-6;
+    pointer-events: auto;
+  }
+
+  .module-list {
+    @apply flex flex-col gap-3;
+  }
+
+  .adaptive-card-grid {
+    @apply grid grid-cols-1 gap-3 sm:grid-cols-2;
+  }
+
+  .adaptive-card {
+    @apply transition-colors;
+    border-width: 0.5px;
+  }
+
+  .adaptive-card:hover {
+    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+  }
+
+  .adaptive-card--gold {
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+    background: color-mix(in srgb, var(--accent) 6%, transparent);
+  }
+
+  .adaptive-card--indigo {
+    border-color: color-mix(in srgb, var(--accent-secondary) 28%, transparent);
+    background: color-mix(in srgb, var(--accent-secondary) 6%, transparent);
+  }
+
+  .adaptive-card--lavender {
+    border-color: color-mix(in srgb, var(--accent-ai) 24%, transparent);
+    background: color-mix(in srgb, var(--accent-ai) 5%, transparent);
+  }
+
+  .adaptive-card--emerald {
+    border-color: color-mix(in srgb, var(--success) 28%, transparent);
+    background: color-mix(in srgb, var(--success) 6%, transparent);
+  }
+}

@@ -423,7 +423,7 @@ function main() {
   mustInclude('src/modules/features/admin/planning/components/PlaneringNextStepSelect.tsx', 'Nästa steg');
   mustInclude('src/modules/features/admin/planning/components/PlanningTaskDetail.tsx', '<select');
   mustInclude('src/modules/features/admin/projects/components/ProjektNyPage.tsx', '/admin/projects/ny');
-  mustInclude('src/index.css', '.dock-hub-band');
+  mustInclude('src/design-system/styles/dock-hub-band.css', '.dock-hub-band');
 
   mustInclude(
     'docs/design/PLANERING-PROJEKT-HYBRID.md',

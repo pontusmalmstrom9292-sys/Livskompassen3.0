@@ -1,0 +1,58 @@
+/* L2 hub-chrome tile (dock band, Mer-panel) — sunset från index.css våg 92 */
+@layer components {
+  .hub-chrome-tile {
+    @apply relative flex shrink-0 items-center justify-center;
+    background: linear-gradient(
+      168deg,
+      var(--chrome-plate-a) 0%,
+      var(--chrome-plate-b) 48%,
+      var(--chrome-plate-c) 100%
+    );
+    border: 1px solid color-mix(in srgb, var(--accent) 36%, transparent);
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.48),
+      0 1px 0 rgba(255, 243, 210, 0.14) inset,
+      0 -3px 9px rgba(0, 0, 0, 0.36) inset;
+    transform: translateY(-1px);
+    transition:
+      border-color 0.16s ease,
+      box-shadow 0.16s ease,
+      transform 0.16s ease;
+  }
+
+  .hub-chrome-tile::before {
+    content: '';
+    position: absolute;
+    inset: 1px 1px auto;
+    height: 46%;
+    border-radius: inherit;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 248, 220, 0.12) 0%,
+      rgba(255, 248, 220, 0) 100%
+    );
+    pointer-events: none;
+  }
+
+  .hub-chrome-tile--dock {
+    @apply h-[2.9rem] w-[2.9rem] rounded-[0.85rem];
+    border-width: 1.5px;
+  }
+
+  .hub-chrome-tile--dock-side {
+    @apply h-[2.9rem] w-[2.9rem] rounded-[0.85rem];
+    border-width: 1.5px;
+  }
+
+  .hub-chrome-tile--active {
+    border-color: color-mix(in srgb, var(--accent-light) 55%, transparent);
+    box-shadow:
+      0 6px 16px rgba(0, 0, 0, 0.52),
+      0 0 14px rgba(212, 175, 55, 0.22),
+      0 1px 0 rgba(255, 248, 220, 0.18) inset,
+      0 -3px 9px rgba(0, 0, 0, 0.32) inset;
+    transform: translateY(-2px);
+  }
+}

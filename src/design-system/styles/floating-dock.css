@@ -1,0 +1,302 @@
+/* FloatingDock — slimmad kapsel; fyren handle — sunset från index.css våg 92 */
+@layer components {
+  .floating-dock .dock-hub-band__rail {
+    padding: 0.42rem 0.48rem 0.34rem;
+    border-radius: 1.35rem;
+  }
+
+  .floating-dock .dock-hub-band__rail::after {
+    border-radius: calc(1.35rem - 1px);
+  }
+
+  .floating-dock .dock-hub-band__rail--zones {
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      minmax(0, 1fr)
+      minmax(4.35rem, 1.05fr)
+      minmax(0, 1fr)
+      minmax(0, 1fr);
+    align-items: end;
+    position: relative;
+    gap: 0.2rem;
+    min-height: 4.85rem;
+    max-width: min(100vw - 0.5rem, 26rem);
+    padding: 0;
+  }
+
+  .floating-dock__side-group {
+    display: contents;
+  }
+
+  .floating-dock__side-group--left,
+  .floating-dock__side-group--right {
+    display: contents;
+  }
+
+  .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center {
+    position: relative;
+    grid-column: 3;
+    grid-row: 1;
+    z-index: 4;
+    justify-self: center;
+    align-self: end;
+    margin: 0;
+    width: 5.5rem;
+    transform: translateY(-0.35rem);
+  }
+
+  .floating-dock__side-btn {
+    max-width: none;
+    width: 100%;
+    min-height: 3.85rem;
+    height: auto;
+    padding-bottom: 0.02rem;
+    gap: 0.16rem;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .floating-dock__side-btn.dock-nav-btn {
+    max-width: none;
+    width: 100%;
+  }
+
+  .floating-dock__side-btn .dock-nav-btn__icon-shell--calm {
+    @apply relative flex shrink-0 items-center justify-center rounded-full;
+    flex: 0 0 auto;
+    width: 3.15rem;
+    height: 3.15rem;
+    background: linear-gradient(
+      168deg,
+      var(--chrome-plate-a) 0%,
+      var(--chrome-plate-b) 48%,
+      var(--chrome-plate-c) 100%
+    );
+    transform: none;
+    transition:
+      border-color 0.16s ease,
+      box-shadow 0.16s ease,
+      transform 0.16s ease,
+      background 0.16s ease;
+  }
+
+  /* Familj (Tab 2) border colors */
+  .floating-dock__side-btn--familj .dock-nav-btn__icon-shell--calm {
+    border: 1.5px solid rgba(168, 85, 247, 0.45);
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.08) inset,
+      0 -2px 8px rgba(0, 0, 0, 0.32) inset,
+      0 4px 12px rgba(0, 0, 0, 0.38),
+      0 0 10px rgba(168, 85, 247, 0.15);
+  }
+  .floating-dock__side-btn--familj:hover .dock-nav-btn__icon-shell--calm {
+    transform: translateY(-2px);
+    border-color: rgba(168, 85, 247, 0.75);
+    box-shadow:
+      0 4px 14px rgba(0, 0, 0, 0.42),
+      0 0 12px rgba(168, 85, 247, 0.25);
+  }
+  .floating-dock__side-btn--familj.dock-nav-btn--active .dock-nav-btn__icon-shell--calm {
+    border-color: rgba(168, 85, 247, 0.95);
+    background: rgba(168, 85, 247, 0.12);
+    box-shadow:
+      0 0 16px rgba(168, 85, 247, 0.35),
+      inset 0 1px 0 rgba(255, 248, 220, 0.1);
+  }
+
+  .floating-dock__side-btn .dock-nav-btn__drawer-l2 {
+    height: 1.65rem;
+    width: 1.65rem;
+    opacity: 0.96;
+    filter: drop-shadow(0 1px 3px var(--color-glass-dark-35));
+  }
+
+  .floating-dock__side-btn.dock-nav-btn--active .dock-nav-btn__drawer-l2 {
+    filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.28));
+  }
+
+  .floating-dock__side-btn .dock-nav-btn__label {
+    @apply max-w-full truncate text-[9px] leading-tight tracking-wide;
+  }
+
+  .floating-dock__center-glow {
+    top: 50%;
+    left: 50%;
+    height: 6rem;
+    width: 6rem;
+    transform: translate(-50%, -50%);
+    background: radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.32) 0%,
+      rgba(212, 175, 55, 0.12) 42%,
+      transparent 72%
+    );
+  }
+
+  .floating-dock__plate {
+    height: 5.5rem;
+    width: 5.5rem;
+    border-width: 2.5px;
+    transform: none;
+    overflow: visible;
+    box-shadow:
+      0 1px 0 rgba(255, 243, 210, 0.16) inset,
+      0 -4px 12px rgba(0, 0, 0, 0.38) inset,
+      0 8px 22px var(--color-glass-dark-50),
+      0 0 20px rgba(212, 175, 55, 0.2);
+  }
+
+  .floating-dock__mark {
+    height: 2.35rem;
+    width: 2.35rem;
+    filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.32));
+  }
+
+  .floating-dock__arc {
+    position: absolute;
+    bottom: -1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6.5rem;
+    height: 5.5rem;
+    background: linear-gradient(
+      180deg,
+      rgba(20, 28, 43, 0.95) 0%,
+      rgba(5, 11, 20, 0.98) 100%
+    );
+    border: 1px solid rgba(212, 175, 55, 0.22);
+    border-bottom: none;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 248, 220, 0.1),
+      0 -4px 12px rgba(0, 0, 0, 0.5);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .fyren-dock-handle {
+    @apply pointer-events-auto relative z-[55] inline-flex items-center justify-center gap-1.5 border-0;
+    min-width: 5.5rem;
+    padding: 0.28rem 0.85rem 0.34rem;
+    margin-bottom: -0.1rem;
+    border: 1px solid var(--accent);
+    border-bottom: none;
+    border-radius: 0.8rem 0.8rem 0 0;
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface-2) 94%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 90%, transparent) 100%
+    );
+    color: var(--accent);
+    box-shadow:
+      0 -2px 14px rgba(212, 175, 55, 0.15),
+      0 4px 12px rgba(0, 0, 0, 0.32),
+      inset 0 1px 0 rgba(255, 248, 220, 0.1);
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
+    transition:
+      transform 0.16s ease,
+      box-shadow 0.16s ease,
+      border-color 0.16s ease,
+      background 0.16s ease;
+  }
+
+  .fyren-dock-handle__lip {
+    @apply absolute inset-x-3 top-1 h-px rounded-full;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--accent-light) 55%, transparent),
+      transparent
+    );
+  }
+
+  .fyren-dock-handle__label {
+    @apply relative z-[1] text-[9px] font-medium uppercase tracking-[0.24em] text-accent;
+  }
+
+  .fyren-dock-handle__chevron {
+    @apply relative z-[1] h-3 w-3 shrink-0;
+    color: #00f0d2;
+    filter: drop-shadow(0 0 6px rgba(0, 240, 210, 0.58));
+    transition: transform 0.18s ease;
+  }
+
+  .fyren-dock-handle:hover {
+    transform: translateY(-1px);
+    border-color: var(--accent-light);
+    box-shadow:
+      0 -2px 18px rgba(212, 175, 55, 0.22),
+      0 6px 16px rgba(0, 0, 0, 0.38),
+      inset 0 1px 0 rgba(255, 248, 220, 0.14);
+  }
+
+  .fyren-dock-handle--open {
+    margin-bottom: 0;
+    border-radius: 0.75rem 0.75rem 0 0;
+    border-bottom: 1px solid transparent;
+    background: color-mix(in srgb, var(--surface-2) 96%, transparent);
+  }
+
+  .fyren-dock-handle--open .fyren-dock-handle__chevron {
+    transform: rotate(180deg);
+  }
+
+  .fyren-dock-handle--holding {
+    background: linear-gradient(
+      180deg,
+      rgba(212, 175, 55, 0.85) var(--fyren-hold, 0%),
+      rgba(212, 175, 55, 0.5) var(--fyren-hold, 0%),
+      rgba(15, 23, 42, 0.55) var(--fyren-hold, 0%)
+    );
+    box-shadow: 0 0 14px rgba(212, 175, 55, 0.38);
+  }
+
+  .floating-dock .dock-hub-band__center:hover .floating-dock__plate {
+    transform: translateY(-2px);
+  }
+
+  .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center:hover {
+    transform: translateY(calc(-0.35rem - 2px));
+  }
+
+  .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center:active {
+    transform: translateY(calc(-0.35rem + 1px));
+  }
+
+  .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center--active,
+  .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center--holding {
+    transform: translateY(-0.35rem);
+  }
+
+  .floating-dock .dock-hub-band__center--active .floating-dock__plate,
+  .floating-dock .dock-hub-band__center--holding .floating-dock__plate {
+    border-color: rgba(245, 230, 184, 0.68);
+    box-shadow:
+      inset 0 1px 0 rgba(245, 230, 184, 0.22),
+      0 0 36px rgba(212, 175, 55, 0.36),
+      0 14px 36px rgba(0, 0, 0, 0.58);
+  }
+
+  .floating-dock .dock-hub-band__rail::before {
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(99, 102, 241, 0.22) 10%,
+      rgba(255, 230, 180, 0.5) 24%,
+      rgba(212, 175, 55, 0.92) 50%,
+      rgba(255, 230, 180, 0.5) 76%,
+      rgba(99, 102, 241, 0.22) 90%,
+      transparent 100%
+    );
+  }
+
+  .floating-dock .dock-hub-band__rail::after {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      inset 0 -18px 36px rgba(0, 0, 0, 0.38);
+  }
+}

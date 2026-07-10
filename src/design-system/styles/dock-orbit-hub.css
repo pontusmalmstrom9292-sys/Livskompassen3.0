@@ -1,0 +1,251 @@
+/* Dock orbit hub (preset sheet, fan, orbit stage, satellites) — sunset från index.css våg 92 */
+@layer components {
+  .hub-preset-sheet__backdrop {
+    @apply fixed inset-0 z-[232] cursor-pointer border-0 bg-black/55 backdrop-blur-[2px];
+  }
+
+  .hub-preset-sheet {
+    @apply fixed left-4 right-4 top-1/2 z-[233] mx-auto max-w-md -translate-y-1/2 rounded-[2rem] border border-border bg-bg/95 p-5 shadow-xl;
+  }
+
+  .hub-preset-sheet__close {
+    @apply absolute right-3 top-3 rounded-full border border-border bg-bg p-1.5 text-text-dim;
+  }
+
+  body.hub-preset-sheet-open {
+    overflow: hidden;
+  }
+
+  .dock-hub-backdrop {
+    @apply pointer-events-auto fixed inset-0 z-40 border-0 bg-slate-950/35 p-0;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  .dock-hub-fan {
+    @apply relative mx-auto grid items-center justify-items-center;
+    grid-template-columns: 3.1rem 4.65rem 3.1rem;
+    grid-template-rows: 3.1rem 4.65rem 3.1rem;
+    gap: 0.2rem;
+    width: min-content;
+    transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .dock-hub-fan--open {
+    transform: translateY(-4px);
+  }
+
+  .dock-hub-fan--orbit {
+    @apply relative;
+    grid-template-columns: 2.35rem 3.65rem 2.35rem;
+    grid-template-rows: 2.35rem 3.65rem 2.35rem;
+    gap: 0.12rem;
+    z-index: 1;
+  }
+
+  .dock-orbit-stage__ring {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 0;
+    width: 7.75rem;
+    height: 7.75rem;
+    transform: translate(-50%, -50%);
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    background: transparent;
+    box-shadow: inset 0 0 0 1px rgba(212, 175, 55, 0.04);
+    pointer-events: none;
+  }
+
+  .dock-orbit-stage__spokes {
+    display: none;
+  }
+
+  .dock-orbit-stage__spoke {
+    display: none;
+  }
+
+  .dock-orbit-stage__spoke--tl {
+    transform: translate(-50%, -100%) rotate(-135deg);
+  }
+
+  .dock-orbit-stage__spoke--tr {
+    transform: translate(-50%, -100%) rotate(-45deg);
+  }
+
+  .dock-orbit-stage__spoke--bl {
+    transform: translate(-50%, -100%) rotate(135deg);
+  }
+
+  .dock-orbit-stage__spoke--br {
+    transform: translate(-50%, -100%) rotate(45deg);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat {
+    @apply relative z-[2] gap-0.5 opacity-100;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat__glass {
+    @apply relative h-9 w-9 overflow-hidden rounded-full;
+    background: rgba(15, 23, 42, 0.88);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow:
+      0 4px 12px rgba(2, 6, 23, 0.4),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat__halo {
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat:hover .dock-hub-sat__halo,
+  .dock-hub-fan--orbit .dock-hub-sat--active .dock-hub-sat__halo {
+    opacity: 1;
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat__icon {
+    @apply h-[0.9rem] w-[0.9rem];
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat__label {
+    @apply max-w-[3.25rem] text-[6px] font-medium tracking-[0.14em] text-text-dim;
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--indigo .dock-hub-sat__halo {
+    box-shadow: 0 0 18px rgba(129, 140, 248, 0.35);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--lavender .dock-hub-sat__halo {
+    box-shadow: 0 0 18px rgba(165, 180, 252, 0.32);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--emerald .dock-hub-sat__halo {
+    box-shadow: 0 0 18px rgba(45, 212, 191, 0.32);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--gold .dock-hub-sat__halo {
+    box-shadow: 0 0 18px rgba(212, 175, 55, 0.28);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--indigo.dock-hub-sat--active .dock-hub-sat__glass {
+    border-color: rgba(129, 140, 248, 0.55);
+    box-shadow:
+      0 8px 22px rgba(2, 6, 23, 0.45),
+      0 0 20px rgba(129, 140, 248, 0.22);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--lavender.dock-hub-sat--active .dock-hub-sat__glass {
+    border-color: rgba(165, 180, 252, 0.55);
+    box-shadow:
+      0 8px 22px rgba(2, 6, 23, 0.45),
+      0 0 20px rgba(165, 180, 252, 0.2);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat--emerald.dock-hub-sat--active .dock-hub-sat__glass {
+    border-color: rgba(45, 212, 191, 0.55);
+    box-shadow:
+      0 8px 22px rgba(2, 6, 23, 0.45),
+      0 0 20px rgba(45, 212, 191, 0.2);
+  }
+
+  .dock-hub-fan--orbit .dock-hub-sat:hover .dock-hub-sat__glass {
+    transform: translateY(-1px) scale(1.03);
+  }
+
+  .dock-hub-sat {
+    @apply flex flex-col items-center gap-1 border-0 bg-transparent p-0 opacity-0;
+    transform: scale(0.35);
+    pointer-events: none;
+    transition:
+      opacity 0.28s ease,
+      transform 0.38s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .dock-hub-sat--visible {
+    @apply opacity-100;
+    transform: scale(1);
+    pointer-events: auto;
+  }
+
+  .dock-hub-sat--tl {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .dock-hub-sat--tr {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .dock-hub-sat--bl {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  .dock-hub-sat--br {
+    grid-column: 3;
+    grid-row: 3;
+  }
+
+  .dock-hub-sat__glass {
+    @apply relative flex h-12 w-12 items-center justify-center rounded-2xl transition-all duration-200;
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(20px) saturate(160%);
+    -webkit-backdrop-filter: blur(20px) saturate(160%);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    box-shadow:
+      0 10px 28px rgba(2, 6, 23, 0.5),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .dock-hub-sat:hover .dock-hub-sat__glass {
+    transform: translateY(-2px);
+    border-color: rgba(255, 255, 255, 0.22);
+  }
+
+  .dock-hub-sat__icon {
+    @apply relative z-10 h-[1.15rem] w-[1.15rem];
+  }
+
+  .dock-hub-sat__label {
+    @apply max-w-[4.5rem] truncate text-[8px] font-semibold uppercase tracking-[0.16em] text-text-dim;
+  }
+
+  .dock-hub-sat--active .dock-hub-sat__glass {
+    border-color: rgba(212, 175, 55, 0.38);
+    box-shadow:
+      0 10px 28px rgba(2, 6, 23, 0.5),
+      0 0 22px rgba(212, 175, 55, 0.14);
+  }
+
+  .dock-hub-sat--indigo .dock-hub-sat__icon {
+    color: var(--color-accent-gold);
+  }
+
+  .dock-hub-sat--lavender .dock-hub-sat__icon {
+    color: #9a7b2f;
+  }
+
+  .dock-hub-sat--emerald .dock-hub-sat__icon {
+    color: #2dd4bf;
+  }
+
+  .dock-hub-sat--gold .dock-hub-sat__icon {
+    color: var(--color-accent-gold);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dock-hub-sat,
+    .dock-hub-fan {
+      transition-duration: 0.01ms;
+    }
+  }
+}
