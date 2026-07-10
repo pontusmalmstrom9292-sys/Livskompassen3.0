@@ -13,7 +13,9 @@ function WidgetVoiceVaultInner() {
       title="Bevis-röst"
       lead="Röst eller text — välj silo och bekräfta innan det sparas."
     >
-      <QuickCapturePanel compact />
+      <div className="space-y-4">
+        <QuickCapturePanel compact />
+      </div>
     </WidgetShell>
   );
 }

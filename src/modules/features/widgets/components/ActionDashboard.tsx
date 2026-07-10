@@ -190,7 +190,13 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
 
   if (recPhase === 'done') {
     return (
-      <BentoCard title="Multiverktyg" description="Kort reflektion" icon={<Sparkles className="h-4 w-4" />} glow="blue">
+      <BentoCard
+        title="Multiverktyg"
+        description="Kort reflektion"
+        icon={<Sparkles className="h-4 w-4" />}
+        glow="blue"
+        className="overflow-hidden"
+      >
         <div className="space-y-3">
           <p className="flex items-center gap-2 text-sm text-success">
             <Lock className="h-4 w-4" aria-hidden />
@@ -219,7 +225,13 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
 
   if (done) {
     return (
-      <BentoCard title="Multiverktyg" description="Kort reflektion" icon={<Sparkles className="h-4 w-4" />} glow="blue">
+      <BentoCard
+        title="Multiverktyg"
+        description="Kort reflektion"
+        icon={<Sparkles className="h-4 w-4" />}
+        glow="blue"
+        className="overflow-hidden"
+      >
         <div className="space-y-3">
           <p className="flex items-center gap-2 text-sm text-success">
             <Lock className="h-4 w-4" aria-hidden />
@@ -239,7 +251,13 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
   }
 
   return (
-    <BentoCard title="Multiverktyg" description="Kort reflektion" icon={<Sparkles className="h-4 w-4" />} glow="gold">
+    <BentoCard
+      title="Multiverktyg"
+      description="Kort reflektion"
+      icon={<Sparkles className="h-4 w-4" />}
+      glow="gold"
+      className="overflow-hidden"
+    >
       <div className="space-y-3">
         {recPhase === 'recording' && (
           <div className="rounded-xl border border-accent/30 bg-accent/10 px-3 py-3">
@@ -334,7 +352,13 @@ function WorkStampCard({ userId }: Props) {
   const { stamp, loading, busy, isClockedIn, status, error, success } = clock;
 
   return (
-    <BentoCard title="Arbetstid" description="Stämpel in / ut" icon={<Clock className="h-4 w-4" />} glow="gold">
+    <BentoCard
+      title="Arbetstid"
+      description="Stämpel in / ut"
+      icon={<Clock className="h-4 w-4" />}
+      glow="gold"
+      className="overflow-hidden"
+    >
       <div className="space-y-4">
         {error && (
           <p className="rounded-lg border border-danger/30 bg-danger/10 px-3 py-2 text-sm text-danger">
@@ -476,7 +500,13 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
 
   if (saved) {
     return (
-      <BentoCard title="Livslogg" description="Barn — snabbinmatning" icon={<Users className="h-4 w-4" />} glow="blue">
+      <BentoCard
+        title="Livslogg"
+        description="Barn — snabbinmatning"
+        icon={<Users className="h-4 w-4" />}
+        glow="blue"
+        className="overflow-hidden"
+      >
         <p className="flex items-center gap-2 text-sm text-success">
           <Check className="h-4 w-4" aria-hidden />
           {queued

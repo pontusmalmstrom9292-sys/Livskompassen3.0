@@ -44,7 +44,7 @@ export function ProjektPickerSheet({ open, onClose }: Props) {
             <button
               key={tile.id}
               type="button"
-              className="elongated-module flex flex-col items-center gap-2 p-4"
+              className="elongated-module overflow-hidden flex flex-col items-center gap-2 p-4"
               onClick={() => pick(tile.id)}
             >
               <Icon className="h-6 w-6 text-accent" />

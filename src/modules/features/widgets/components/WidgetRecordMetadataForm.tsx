@@ -33,7 +33,7 @@ export function WidgetRecordMetadataForm({
   };
 
   return (
-    <div className="elongated-module elongated-module--gold overflow-hidden space-y-3 p-4">
+    <div className="elongated-module elongated-module--gold overflow-hidden space-y-3 p-4 shadow-[0_18px_40px_-26px_rgba(0,0,0,0.7)]">
       <p className="text-sm text-text-muted">
         Ljudet är sparat lokalt. Fyll i kontext om du vill — sedan låses posten i Valvet med datumstämpel.
       </p>
