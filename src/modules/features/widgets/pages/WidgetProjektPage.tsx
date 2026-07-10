@@ -11,10 +11,12 @@ function WidgetProjektInner() {
       title="Nytt projekt"
       lead="Välj typ — samma bottom sheet som Planering och projekt-hubben."
     >
-      <p className="mb-4 text-sm text-text-muted">
-        Lista, anteckning, bild, video eller uppgift. Uppgifter med status hamnar i Handling.
-      </p>
-      <ProjektPickerSheet open onClose={() => navigate('/projekt')} />
+      <div className="space-y-4">
+        <p className="text-sm text-text-muted">
+          Lista, anteckning, bild, video eller uppgift. Uppgifter med status hamnar i Handling.
+        </p>
+        <ProjektPickerSheet open onClose={() => navigate('/projekt')} />
+      </div>
     </WidgetShell>
   );
 }

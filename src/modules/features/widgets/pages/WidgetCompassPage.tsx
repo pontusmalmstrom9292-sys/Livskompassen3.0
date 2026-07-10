@@ -5,7 +5,9 @@ import { WidgetShell } from '../layout/WidgetShell';
 function WidgetCompassInner() {
   return (
     <WidgetShell title="Kompass" lead="Aktiv tidskompass — ett steg.">
-      <CompassModuleStrip />
+      <div className="space-y-4">
+        <CompassModuleStrip />
+      </div>
     </WidgetShell>
   );
 }

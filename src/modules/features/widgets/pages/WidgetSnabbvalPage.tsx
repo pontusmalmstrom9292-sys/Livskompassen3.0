@@ -8,7 +8,9 @@ function WidgetSnabbvalInner() {
       title="Dagbok"
       lead="Humör, mikrosteg och luckor — utan brus på Hem."
     >
-      <HomeQuickModules />
+      <div className="space-y-4">
+        <HomeQuickModules />
+      </div>
     </WidgetShell>
   );
 }
