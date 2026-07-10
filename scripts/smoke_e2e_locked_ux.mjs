@@ -36,6 +36,8 @@ if (ci) {
   run('playwright install chromium', 'npx', ['playwright', 'install', 'chromium']);
 }
 
+// Alltid CI=1 så Playwright startar egen dev-server med VITE_REQUIRE_EMAIL_AUTH=true
+// (reuseExistingServer=true mot befintlig :5173 utan flagga → falsk PASS/FAIL).
 run('playwright test', 'npx', [
   'playwright',
   'test',
@@ -43,7 +45,7 @@ run('playwright test', 'npx', [
   'e2e/obsidian-calm-tokens.spec.ts',
   '--reporter=line',
 ], {
-  env: { ...process.env, CI: ci ? '1' : process.env.CI ?? '' },
+  env: { ...process.env, CI: '1' },
 });
 
 console.log('[smoke:e2e-locked-ux] PASS');

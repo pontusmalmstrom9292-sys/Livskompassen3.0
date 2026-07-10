@@ -10,6 +10,7 @@ import { initializeAppCheck, CustomProvider } from 'firebase/app-check';
 import { getAuth, signInAnonymously, signInWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
+import { initFirebaseAdmin, resolveSeedOwnerUid, trySignInWithCustomToken } from './lib/seedAdmin.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -86,6 +87,15 @@ async function main() {
   if (env.SEED_FIREBASE_EMAIL && env.SEED_FIREBASE_PASSWORD) {
     console.log('[smoke] Email sign-in (krävs för children_logs WORM)…');
     cred = await signInWithEmailAndPassword(auth, env.SEED_FIREBASE_EMAIL, env.SEED_FIREBASE_PASSWORD);
+  } else if (env.SEED_FIREBASE_EMAIL || env.SEED_OWNER_UID) {
+    console.log('[smoke] Admin custom token (Google-konto utan lösenord i .env)…');
+    const admin = await initFirebaseAdmin(projectId);
+    const uid = await resolveSeedOwnerUid(admin, env);
+    assert(uid, 'Kunde inte lösa seed-uid — sätt SEED_FIREBASE_EMAIL eller SEED_OWNER_UID');
+    const ok = await trySignInWithCustomToken(auth, admin, uid);
+    assert(ok, 'Custom token misslyckades — kör: gcloud auth application-default login');
+    cred = { user: auth.currentUser };
+    assert(cred.user, 'Ingen användare efter custom token');
   } else {
     console.log('[smoke] Anonymous sign-in…');
     cred = await signInAnonymously(auth);
