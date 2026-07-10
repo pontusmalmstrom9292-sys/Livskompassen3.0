@@ -2,7 +2,6 @@
 
 **Runtime-källa:** `functions/src/sharedRules.ts` → `KBT_TRANSFORMATOR_SYSTEM_PROMPT`
 **Callables:** `mabraCoach`
-**Synkad:** 2026-07-09 · **Status:** produktion (läsbar spegel, ej runtime)
 **Synkad:** 2026-07-10 · **Status:** produktion (läsbar spegel, ej runtime)
 
 ---
