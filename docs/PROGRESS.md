@@ -1,3 +1,33 @@
+## 2026-07-10 — YOLO VÅG 43 — Input batch 7 (Widgets · Compasses · Voice · Onboarding)
+
+**Plattform:** Cursor (Auto) · **Läge:** Agent · **Ändringar:** minimal diff
+
+**Completed work:**
+- VÅG 43: DS `Input`/`TextArea` i ActionDashboard, WidgetRecordMetadataForm, WidgetNote/Familjen/Barnporten, QuickCapturePanel (voiceToVault), ParalysPanel, KasamEvening, KompassDiscoveryCardFlow, BarnportenPage, SchoolAgeModule.
+
+**Metrics (smoke:design-debt 2026-07-10):**
+- `btnPillFiles`: **0**
+- `dsBtnFiles`: **1**
+- `designSystemImportFiles`: **249**
+- `adHocDialogFiles`: **3**
+- `indexCssLoc`: **3118**
+- `npm run build`: PASS
+- `smoke:locked-ux`, `smoke:design-modules`, `smoke:design-debt`, `smoke:chrome-header`, `smoke:widgets`: PASS
+
+**Deploy:** Hosting live — https://gen-lang-client-0481875058.web.app (2026-07-10, våg 35–43).
+
+**Blockers:** None
+
+---
+
+## 2026-07-10 — Deploy hosting våg 35–43
+
+**Deploy:** Hosting live — https://gen-lang-client-0481875058.web.app (våg 35–43: inputs widgets/compasses/voice/onboarding + våg 35–42 polish).
+
+**Gate:** `npm run smoke:predeploy:build` PASS före deploy.
+
+---
+
 ## 2026-07-09 — YOLO VÅG 35–42 — Input · Badge · Typografi · A11y · Sunset · Governance
 
 **Plattform:** Cursor (Auto) · **Läge:** Agent · **Ändringar:** minimal diff

@@ -16,7 +16,7 @@
 |--------|----------|---------|--------|
 | btn-pill-- file count | ~195 (estimated) | **0** (2026-06-29, smoke:design-debt) | 0 new after start |
 | calm-card variant audit | not tracked | **PASS** (2026-06-29, smoke:calm-card-audit) | no unused variants |
-| DS import files (`@/design-system`) | ~14 | **247** (2026-07-09, våg 35–42) | All blocking overlays migrated |
+| DS import files (`@/design-system`) | ~14 | **249** (2026-07-10, våg 43) | All blocking overlays migrated |
 | ad-hoc role=dialog | ~14 | **3** (2026-07-09 — sandbox×2, ResurserOverlay locked) | ≤3 documented |
 | index.css LOC | 6816 | **3118** (2026-07-09, våg 35–42) | ≤5000 (stretch) |
 | smoke:design-modules | TBD | **PASS** (2026-07-09, våg 35–42) | green |

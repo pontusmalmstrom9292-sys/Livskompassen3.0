@@ -1,5 +1,5 @@
 import './barnporten.css';
-import { Button } from '@/design-system';
+import { Button, TextArea } from '@/design-system';
 import { useEffect, useState, lazy, Suspense } from 'react';
 import { Heart, MessageCircle, Smile, Lock, AlertCircle, Loader2 } from 'lucide-react';
 import { AnimatePresence } from 'framer-motion';
@@ -205,8 +205,8 @@ export function BarnportenPage() {
 
       {childBracket !== 'toddler_preschool' && (
         <>
-          <textarea
-            className="input-glass mt-4 w-full text-sm"
+          <TextArea
+            className="input-glass neu-inset mt-4 w-full resize-none text-sm"
             rows={3}
             placeholder="Skriv till pappa här…"
             value={message}

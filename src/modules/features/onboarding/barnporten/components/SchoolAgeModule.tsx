@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { BookOpen } from 'lucide-react';
+import { TextArea } from '@/design-system';
 
 export function SchoolAgeModule() {
   const [tasks, setTasks] = useState({
@@ -48,8 +49,8 @@ export function SchoolAgeModule() {
 
       <div>
         <label className="mb-1 block text-xs text-text-dim">Skolrelaterad social dynamik</label>
-        <textarea
-          className="input-glass w-full text-sm"
+        <TextArea
+          className="input-glass neu-inset w-full resize-none text-sm"
           rows={2}
           placeholder="T.ex. bråk på rasten, lek med ny kompis..."
           value={socialNote}

@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { ArrowLeft, Loader2 } from 'lucide-react';
 import { useMemo, useState, type ReactNode } from 'react';
-import { Button } from '@/design-system';
+import { Button, TextArea } from '@/design-system';
 import { ensureVitHub, saveVitEntry } from '@/core/firebase/vitHubFirestore';
 import { MabraVitEvidencePrompt } from '@/features/dailyLife/wellbeing/mabra/components/MabraVitEvidencePrompt';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -127,8 +127,8 @@ export function KompassDiscoveryCardFlow({
 
       <label className={clsx(`${prefix}-flow-label`)}>
         Din reflektion (valfritt)
-        <textarea
-          className={clsx(`${prefix}-flow-input`, 'input-glass mt-1.5 w-full text-sm')}
+        <TextArea
+          className={clsx(`${prefix}-flow-input`, 'input-glass neu-inset mt-1.5 w-full resize-none text-sm')}
           rows={3}
           value={responseText}
           onChange={(e) => setResponseText(e.target.value)}

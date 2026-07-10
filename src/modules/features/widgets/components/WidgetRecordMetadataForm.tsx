@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Lock } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, Input, TextArea } from '@/design-system';
 import type { WidgetRecordingMetadata } from '../api/widgetVaultRecording';
 
 type Props = {
@@ -41,7 +41,7 @@ export function WidgetRecordMetadataForm({
 
       <label className="block space-y-1">
         <span className="text-xs uppercase tracking-widest text-text-dim">Vem (valfritt)</span>
-        <input
+        <Input
           type="text"
           className="input-glass w-full text-sm"
           placeholder="t.ex. barn, ex, arbetsgivare"
@@ -52,7 +52,7 @@ export function WidgetRecordMetadataForm({
 
       <label className="block space-y-1">
         <span className="text-xs uppercase tracking-widest text-text-dim">Vad</span>
-        <input
+        <Input
           type="text"
           className="input-glass w-full text-sm"
           placeholder="kort fakta om händelsen"
@@ -63,8 +63,8 @@ export function WidgetRecordMetadataForm({
 
       <label className="block space-y-1">
         <span className="text-xs uppercase tracking-widest text-text-dim">Varför (valfritt)</span>
-        <textarea
-          className="input-glass w-full text-sm"
+        <TextArea
+          className="input-glass neu-inset w-full resize-none text-sm"
           rows={2}
           placeholder="varför du loggar detta"
           value={varfor}
