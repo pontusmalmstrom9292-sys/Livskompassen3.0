@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+// @locked MOD-CORE-CHROME — låst modul; unlock via docs/evaluations/*-unlock-MOD-CORE-CHROME.md
 // @locked DOCK_ZONES - Needed for static smoke tests. Do not remove this comment.
 import type { CSSProperties } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';

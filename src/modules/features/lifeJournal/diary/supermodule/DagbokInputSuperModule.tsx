@@ -1,7 +1,9 @@
+/** @locked MOD-HJ-INPUT — låst modul; unlock via docs/evaluations/*-unlock-MOD-HJ-INPUT.md */
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ButtonLink } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { ChameleonInputShell } from '@/core/ui/ChameleonInputShell';
 import { useCapacityScore } from '@/core/store/useCapacityGate';
 import { useEvolutionStore } from '@/core/store/useEvolutionStore';
@@ -115,6 +117,13 @@ export function DagbokInputSuperModule({
   const isTystMode = visibleMode === 'tyst';
 
   return (
+    <HubErrorBoundary
+      title="Dagbok kunde inte laddas"
+      glow="gold"
+      backTo="/hjartat"
+      backLabel="Till Hjärtat"
+      logTag="DagbokInputSuperModule"
+    >
     <BentoCard
       glow="gold"
       depth
@@ -173,5 +182,6 @@ export function DagbokInputSuperModule({
         )}
       </ChameleonInputShell>
     </BentoCard>
+    </HubErrorBoundary>
   );
 }

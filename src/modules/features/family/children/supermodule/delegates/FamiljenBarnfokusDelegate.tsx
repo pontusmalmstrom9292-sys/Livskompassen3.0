@@ -1,3 +1,4 @@
+/** @locked MOD-FAM-BARN — låst modul; unlock via docs/evaluations/*-unlock-MOD-FAM-BARN.md */
 import { useState } from 'react';
 import { Loader2, RefreshCw, Sparkles } from 'lucide-react';
 import { TextArea } from '@/design-system';

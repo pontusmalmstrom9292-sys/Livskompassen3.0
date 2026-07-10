@@ -3,12 +3,32 @@
 **Version:** 1.1 | **Last updated:** 2026-06-28
 
 Project is **complete for v1 polish release** when all sections below pass. 
+### Phase 10 våg 105–110 — obsidian/executive/index CSS sunset (2026-07-10)
+- [x] Våg 105: `obsidian-calm-glass.css` (calm-card, glass-card, bento, glow)
+- [x] Våg 106: `obsidian-calm-shells.css` (hub-view-lock, app chrome)
+- [x] Våg 107: `design-packs-chrome.css` (D1–D5)
+- [x] Våg 108: `exec-home-chrome.css` (hem executive, snabbstart)
+- [x] Våg 109: `exec-header-chrome.css` (header, resurser overlay)
+- [x] Våg 110: `theme-mockup-overrides.css`, `dim-mode.css`, `typography-utils.css` + alt theme packs
+- [x] `index.css` import-only + stub-kommentarer; legacy stubs behållna
+- [x] Dock/reference-dock oförändrat i `executive-chrome.css` + `dock-kanon-match.css`
+- [x] indexCssLoc: **66** (mål ≤120 ✓)
+- [x] smoke:locked-ux, smoke:chrome-header, smoke:basta-dock-lock, smoke:design-debt, smoke:design-modules, smoke:predeploy:build
+
+### Phase 10 våg 99–104 — tokens/primitives CSS sunset (2026-07-10)
+- [x] 7 nya filer i `src/design-system/styles/` (theme-tokens-core, theme-tokens-zones, theme-pack-base, btn-pill-bridge, legacy-primitives, planering-routines, mabra-collapsible)
+- [x] våg 93–98-filer återställda (ambient, nav-drawer, dagbok, mabra, kompis m.fl.)
+- [x] `@import` i `index.css` efter kompis-hub.css, före basta-design.css
+- [x] Stub-kommentarer; M-mockup overrides + html.dim-mode kvar i index.css
+- [x] indexCssLoc: **142** (mål ≤400 ✓)
+- [x] smoke:locked-ux, smoke:chrome-header, smoke:basta-dock-lock, smoke:design-debt, smoke:design-modules, smoke:predeploy:build
+
 ### Phase 10 våg 92 — dock/hub CSS sunset (2026-07-10)
 - [x] 6 filer i `src/design-system/styles/` (hub-chrome-tile, dock-hub-band, floating-dock, dock-orbit-hub, dock-compass-hub, hub-adaptive-shell)
 - [x] `@import` i `index.css` utan dubletter
 - [x] Stub-kommentarer per block i `index.css`
 - [x] `.btn-pill*` kvar i `index.css` (ej denna våg)
-- [x] indexCssLoc: **2155** (mål ≤1400 kräver våg 93+ nav-drawer sunset)
+- [x] indexCssLoc: **2155** (superseded by våg 99–104 → 142)
 - [x] smoke:locked-ux, smoke:chrome-header, smoke:basta-dock-lock, smoke:design-modules, smoke:predeploy:build
 
 Phase 10 (legacy CSS sunset) is **optional stretch** — not blocking.

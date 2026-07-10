@@ -1,0 +1,60 @@
+/* theme lab — sunset från index.css våg 93 */
+@layer components {
+  /* Theme Lab — /dev/theme-lab */
+  .theme-lab-strip {
+    @apply rounded-xl border p-4;
+    border-color: var(--border-strong);
+    background: var(--glass);
+  }
+
+  .theme-lab-strip__dock {
+    @apply mx-auto flex w-fit items-center gap-2 rounded-full border px-2 py-1;
+    border-color: var(--border);
+    background: var(--color-glass-dark-35);
+  }
+
+  .theme-lab-strip__dock-side,
+  .theme-lab-strip__dock-center {
+    @apply flex h-7 w-7 items-center justify-center rounded-full text-accent;
+    border: 1px solid var(--border);
+  }
+
+  .theme-lab-strip__row {
+    @apply mt-3 flex items-center gap-2;
+  }
+
+  .theme-lab-strip__row-icon {
+    @apply flex h-9 w-9 items-center justify-center rounded-full text-accent;
+    border: 1px solid var(--border-strong);
+  }
+
+  .theme-lab-strip__row-label {
+    @apply text-sm text-text;
+  }
+
+  .theme-lab-strip__compass {
+    @apply relative mx-auto mt-4 flex h-20 w-20 items-center justify-center;
+  }
+
+  .theme-lab-strip__compass-ring {
+    @apply absolute inset-0 rounded-full border-2;
+    border-color: var(--border-strong);
+    box-shadow: 0 0 20px var(--accent-glow);
+  }
+
+  .theme-lab-strip__compass-mark {
+    @apply relative z-10 h-8 w-8 text-accent;
+  }
+
+  .theme-lab-strip__scenic {
+    @apply mt-3 h-14 overflow-hidden rounded-lg border;
+    border-color: var(--border);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(2, 8, 18, 0.35) 0%,
+        rgba(10, 10, 10, 0.75) 100%
+      ),
+      url('/design/home-hero-scenic.png') center 30% / cover no-repeat;
+  }
+}

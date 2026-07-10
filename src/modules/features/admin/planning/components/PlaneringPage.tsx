@@ -1,3 +1,4 @@
+/** @locked MOD-VARD-PLAN — låst modul; unlock via docs/evaluations/*-unlock-MOD-VARD-PLAN.md */
 import './planering.css';
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';

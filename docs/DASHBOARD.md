@@ -1,6 +1,6 @@
 
 ### Design debt (2026-07-10)
-- indexCssLoc: 2155 (våg 92 dock/hub sunset)
+- indexCssLoc: **66** (våg 99–104 sunset, mål ≤400 ✓)
 - btn-pill i modules: 0
 
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
@@ -23,7 +23,7 @@
 | calm-card variant audit | not tracked | **PASS** (2026-06-29, smoke:calm-card-audit) | no unused variants |
 | DS import files (`@/design-system`) | ~14 | **249** (2026-07-10, våg 43) | All blocking overlays migrated |
 | ad-hoc role=dialog | ~14 | **3** (2026-07-09 — sandbox×2, ResurserOverlay locked) | ≤3 documented |
-| index.css LOC | 6816 | **3118** (2026-07-09, våg 35–42) | ≤5000 (stretch) |
+| index.css LOC | 6816 | **66** (2026-07-10, våg 105–110) | ≤120 ✓ |
 | smoke:design-modules | TBD | **PASS** (2026-07-09, våg 35–42) | green |
 | smoke:locked-ux | TBD | **PASS** (2026-07-09) | green |
 | smoke:freeport-premium-compare | TBD | **PASS** (2026-06-29) | visual compare green |

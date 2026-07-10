@@ -1,0 +1,222 @@
+/* Navigation drawer — shell (backdrop, scenic, header, rows, mode, sections) — sunset från index.css våg 82 */
+@layer components {
+  .nav-drawer__backdrop {
+    @apply fixed inset-0 z-[200] cursor-pointer border-0 backdrop-blur-[6px];
+    pointer-events: auto;
+    background: rgba(2, 6, 23, 0.62);
+  }
+
+  .nav-drawer__scenic {
+    @apply pointer-events-none absolute inset-0;
+    border-radius: inherit;
+    background:
+      radial-gradient(ellipse 90% 55% at 50% -8%, color-mix(in srgb, var(--accent) 7%, transparent), transparent 58%),
+      radial-gradient(ellipse 70% 45% at 85% 95%, color-mix(in srgb, var(--text-muted) 4%, transparent), transparent 52%),
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--surface-2) 42%, transparent) 0%,
+        color-mix(in srgb, var(--surface) 28%, transparent) 45%,
+        color-mix(in srgb, var(--bg) 58%, transparent) 100%
+      );
+    filter: blur(0);
+  }
+
+  .nav-drawer__scenic::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: color-mix(in srgb, var(--bg) 38%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    pointer-events: none;
+  }
+
+  .nav-drawer--obsidian-depth .nav-drawer__scenic {
+    background:
+      radial-gradient(ellipse 90% 55% at 50% -8%, rgba(212, 175, 55, 0.08), transparent 58%),
+      radial-gradient(ellipse 70% 45% at 85% 95%, rgba(148, 163, 184, 0.05), transparent 52%),
+      linear-gradient(
+        165deg,
+        rgba(10, 16, 25, 0.88) 0%,
+        rgba(5, 11, 20, 0.72) 42%,
+        rgba(2, 6, 23, 0.92) 100%
+      );
+  }
+
+  .nav-drawer--obsidian-depth .nav-drawer__scenic::after {
+    background: color-mix(in srgb, var(--bg) 42%, transparent);
+  }
+
+  .nav-drawer__header,
+  .nav-drawer__list {
+    position: relative;
+    z-index: 1;
+  }
+
+  .nav-drawer__header {
+    @apply relative px-5 pb-5 pt-6;
+  }
+
+  .nav-drawer__mode {
+    @apply relative z-10 mx-4 mb-3 flex rounded-xl border p-0.5;
+    border-color: color-mix(in srgb, var(--accent) 16%, transparent);
+    background: color-mix(in srgb, var(--ds-glass-bg) 84%, transparent);
+    backdrop-filter: blur(var(--ds-blur-md));
+    -webkit-backdrop-filter: blur(var(--ds-blur-md));
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 4%, transparent);
+  }
+
+  .nav-drawer__mode-btn {
+    @apply flex-1 cursor-pointer rounded-[0.65rem] border-0 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors;
+    color: var(--text-muted);
+    background: transparent;
+    touch-action: manipulation;
+  }
+
+  .nav-drawer__mode-btn--active {
+    color: var(--accent-light);
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--text) 6%, transparent),
+      inset 0 0 0 1px color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  .nav-drawer__mode-btn--solo {
+    @apply w-full flex-none;
+  }
+
+  .nav-drawer__section-title--valv {
+    color: rgba(212, 175, 55, 0.78);
+  }
+
+  .nav-drawer__sections {
+    @apply flex flex-1 flex-col gap-1 overflow-y-auto pb-2;
+  }
+
+  .nav-drawer__row-wrap--sub {
+    @apply pl-1;
+  }
+
+  .nav-drawer__row--group .nav-drawer__row-label {
+    @apply font-semibold uppercase tracking-[0.12em] text-accent/90;
+  }
+
+  .nav-drawer__row-expand {
+    @apply flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg text-accent/60 transition-colors;
+    touch-action: manipulation;
+  }
+
+  .nav-drawer__row-expand:hover {
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+  }
+
+  .nav-drawer__section {
+    @apply flex flex-col;
+  }
+
+  .nav-drawer__section-title {
+    @apply px-5 pb-1 pt-3 text-[10px] font-semibold uppercase tracking-[0.35em] text-accent/70;
+  }
+
+  .nav-drawer__row--sub {
+    @apply pl-4;
+  }
+
+  .nav-drawer__row--sub .nav-drawer__row-icon {
+    @apply h-9 w-9;
+  }
+
+  .nav-drawer__row--sub .nav-drawer__row-label {
+    @apply text-sm text-text-muted;
+  }
+
+  .nav-drawer__row {
+    @apply relative z-10 flex min-h-[44px] w-full cursor-pointer items-center gap-3 rounded-xl border border-transparent px-3 py-2.5 text-left transition-all duration-200;
+    background: transparent;
+    color: var(--text-muted);
+    pointer-events: auto;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: rgba(212, 175, 55, 0.12);
+  }
+
+  .nav-drawer__row:hover {
+    color: var(--text);
+    background: color-mix(in srgb, var(--surface-2) 48%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 8%, transparent);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 3%, transparent);
+  }
+
+  .nav-drawer__row--active {
+    color: var(--accent-light);
+    background: linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--accent) 18%, transparent) 0%,
+      color-mix(in srgb, var(--accent) 6%, transparent) 68%,
+      transparent 100%
+    );
+    border-color: color-mix(in srgb, var(--accent) 16%, transparent);
+    box-shadow:
+      inset 4px 0 0 var(--accent),
+      inset 0 1px 0 color-mix(in srgb, var(--text) 4%, transparent);
+  }
+
+  .nav-drawer__row--active .nav-drawer__row-label {
+    color: var(--accent-light);
+  }
+
+  .nav-drawer__row-icon {
+    @apply flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-accent;
+    border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+    background: linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--surface-2) 72%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 58%, transparent) 100%
+    );
+    backdrop-filter: blur(var(--ds-blur-md));
+    -webkit-backdrop-filter: blur(var(--ds-blur-md));
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--text) 6%, transparent),
+      0 2px 8px -2px color-mix(in srgb, var(--bg) 45%, transparent);
+  }
+
+  .nav-drawer__row-icon .chrome-v4-icon {
+    @apply h-9 w-9;
+  }
+
+  .nav-drawer__row-icon .drawer-l2-icon {
+    @apply h-9 w-9;
+  }
+
+  .nav-drawer__row--active .nav-drawer__row-icon {
+    border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+    background: linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--accent) 16%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 72%, transparent) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent),
+      0 0 16px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .nav-drawer__row-label {
+    @apply min-w-0 flex-1 text-[15px] font-medium tracking-wide;
+  }
+
+  .nav-drawer__row-badge {
+    @apply flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full px-1.5 text-[10px] font-semibold tabular-nums;
+    background: color-mix(in srgb, var(--accent) 28%, transparent);
+    color: var(--accent-light);
+    border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+  }
+
+  .nav-drawer__row-chevron {
+    @apply h-4 w-4 shrink-0 text-accent/50;
+  }
+
+  .nav-drawer__row--active .nav-drawer__row-chevron {
+    @apply text-accent opacity-90;
+  }
+}

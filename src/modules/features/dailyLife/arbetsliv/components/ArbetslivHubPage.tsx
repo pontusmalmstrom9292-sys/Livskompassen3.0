@@ -1,3 +1,4 @@
+/** @locked MOD-VARD-ARB — låst modul; unlock via docs/evaluations/*-unlock-MOD-VARD-ARB.md */
 import { memo } from 'react';
 import { Navigate, useLocation, useSearchParams } from 'react-router-dom';
 import { NAV_PATHS } from '@/core/navigation/navTruth';

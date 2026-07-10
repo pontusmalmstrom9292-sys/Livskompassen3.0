@@ -1,3 +1,4 @@
+/** @locked MOD-VARD-LAUNCH — låst modul; unlock via docs/evaluations/*-unlock-MOD-VARD-LAUNCH.md */
 import { useEffect } from 'react';
 import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useStore } from '@/core/store';

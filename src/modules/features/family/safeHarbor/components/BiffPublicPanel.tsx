@@ -1,3 +1,4 @@
+/** @locked MOD-FAM-HAMN — låst modul; unlock via docs/evaluations/*-unlock-MOD-FAM-HAMN.md */
 import { useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/design-system';

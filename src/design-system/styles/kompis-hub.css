@@ -1,0 +1,6 @@
+/* Kompis hub — Kunskapsvalv file ingest shell — sunset från index.css våg 83 */
+@layer components {
+  .kompis-hub-page .glass-card {
+    border-color: color-mix(in srgb, var(--accent) 20%, transparent);
+  }
+}

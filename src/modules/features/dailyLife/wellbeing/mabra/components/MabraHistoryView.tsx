@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useStore } from '@/core/store';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { useMabraHistoryStore } from '../store/mabraHistoryStore';
 import {
   LineChart,
@@ -66,7 +67,13 @@ export function MabraHistoryView() {
     );
   }
 
-  // Förbered data för diagrammet (vänd historiken så den läses kronologiskt från vänster till höger)
+  if (!isLoading && history.length === 0) {
+    return (
+      <EmptyState message="Ingen MåBra-historik ännu. Logga humör eller energi efter en session så visas trender här." />
+    );
+  }
+
+  // Förbered data för diagrammet
   const chartData = [...history]
     .reverse()
     .map((item) => {

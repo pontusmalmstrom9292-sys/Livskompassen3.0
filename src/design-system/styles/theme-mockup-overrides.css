@@ -1,0 +1,44 @@
+/**
+ * Theme-pack M-mockup overrides (Theme Lab mockups).
+ * Flyttad från index.css (våg 110).
+ */
+
+@layer components {
+  html[data-theme^='M-mockup-'] .ambient-blob--gold {
+    opacity: 0.35;
+  }
+
+  html[data-theme^='M-mockup-'] .glass-card {
+    border-width: 1.5px;
+    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+    background: color-mix(in srgb, var(--glass) 88%, rgba(4, 8, 10, 0.75));
+    box-shadow: 0 8px 32px var(--color-glass-dark-35);
+  }
+
+  html[data-theme^='M-mockup-'] .chip--active {
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    color: var(--accent-light);
+  }
+
+  html[data-theme^='M-mockup-'] .btn-pill--accent {
+    color: var(--cta-gold-text, #020617);
+    font-weight: 500;
+    border-color: var(--cta-gold-border, rgba(212, 175, 55, 0.42));
+    background: linear-gradient(
+      180deg,
+      var(--cta-gold-light, #e8c96a) 0%,
+      var(--cta-gold, #d4af37) 48%,
+      var(--cta-gold-deep, color-mix(in srgb, #d4af37 78%, #020617)) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.18),
+      0 3px 0 var(--cta-gold-lip, rgba(2, 6, 23, 0.72)),
+      0 6px 20px -4px var(--cta-gold-glow, rgba(212, 175, 55, 0.28));
+  }
+
+  html[data-theme^='M-mockup-'] .app-main {
+    padding-bottom: calc(var(--app-dock-clearance) + 0.5rem);
+  }
+}

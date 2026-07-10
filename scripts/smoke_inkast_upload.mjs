@@ -58,7 +58,8 @@ function main() {
     'CalmBreathingCircle',
   );
   mustInclude('src/modules/capture/InkastDirectPanel.tsx', 'CalmBreathingCircle');
-  mustInclude('src/index.css', 'calm-breath-box');
+  mustInclude('src/design-system/styles/capture-breath.css', 'calm-breath-box');
+  mustInclude('src/index.css', 'capture-breath.css');
 
   console.log('\n[smoke:inkast-upload] PASS');
 }

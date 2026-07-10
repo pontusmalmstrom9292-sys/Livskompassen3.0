@@ -1,0 +1,161 @@
+/* btn-pill bridge — legacy sunset från index.css våg 102 */
+@layer components {
+  .btn-pill {
+    @apply inline-flex items-center gap-2 rounded-full border px-5 py-2 text-xs uppercase tracking-widest transition-colors disabled:opacity-50;
+  }
+
+  .btn-pill--accent,
+  .ui-cta-gold.btn-pill--accent {
+    @apply btn-pill;
+    position: relative;
+    color: var(--cta-gold-text, #020617);
+    font-weight: 500;
+    border-color: var(--cta-gold-border, rgba(212, 175, 55, 0.42));
+    background: linear-gradient(
+      180deg,
+      var(--cta-gold-light, #e8c96a) 0%,
+      var(--cta-gold, #d4af37) 48%,
+      var(--cta-gold-deep, color-mix(in srgb, #d4af37 78%, #020617)) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.18),
+      0 3px 0 var(--cta-gold-lip, rgba(2, 6, 23, 0.72)),
+      0 6px 20px -4px var(--cta-gold-glow, rgba(212, 175, 55, 0.28)),
+      0 10px 28px -8px rgba(0, 0, 0, 0.42);
+    transition:
+      transform 0.18s cubic-bezier(0.34, 1.2, 0.64, 1),
+      box-shadow 0.18s ease,
+      background 0.18s ease;
+  }
+
+  .btn-pill--accent:hover:not(:disabled),
+  .ui-cta-gold.btn-pill--accent:hover:not(:disabled) {
+    color: var(--cta-gold-text, #020617);
+    background: linear-gradient(
+      180deg,
+      #f0d478 0%,
+      var(--cta-gold, #d4af37) 48%,
+      color-mix(in srgb, #d4af37 75%, #020617) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.42),
+      inset 0 -2px 4px rgba(0, 0, 0, 0.14),
+      0 3px 0 var(--cta-gold-lip, rgba(2, 6, 23, 0.72)),
+      0 8px 28px -4px rgba(212, 175, 55, 0.36),
+      0 14px 36px -10px rgba(0, 0, 0, 0.48);
+  }
+
+  .btn-pill--accent:active:not(:disabled),
+  .ui-cta-gold.btn-pill--accent:active:not(:disabled) {
+    transform: translateY(2px);
+    box-shadow:
+      inset 0 2px 6px rgba(0, 0, 0, 0.26),
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      0 1px 0 rgba(2, 6, 23, 0.68),
+      0 4px 14px -4px var(--cta-gold-glow, rgba(212, 175, 55, 0.22));
+  }
+
+  .btn-pill--ghost {
+    @apply btn-pill text-text-muted;
+    position: relative;
+    overflow: hidden;
+    border-width: 0.5px;
+    border-color: rgba(148, 163, 184, 0.2);
+    background: linear-gradient(
+      175deg,
+      rgba(17, 27, 45, 0.4) 0%,
+      rgba(9, 17, 30, 0.52) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.06),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.28);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition:
+      color 0.18s ease,
+      border-color 0.18s ease,
+      background 0.18s ease,
+      box-shadow 0.18s ease,
+      transform 0.16s ease;
+  }
+
+  .btn-pill--ghost:hover:not(:disabled) {
+    color: var(--text);
+    border-color: rgba(212, 175, 55, 0.22);
+    background: linear-gradient(
+      175deg,
+      rgba(17, 27, 45, 0.52) 0%,
+      rgba(9, 17, 30, 0.6) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.09),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.22),
+      0 2px 8px -3px rgba(0, 0, 0, 0.42);
+  }
+
+  .btn-pill--ghost:active:not(:disabled) {
+    box-shadow:
+      inset 0 2px 5px rgba(0, 0, 0, 0.36),
+      inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .btn-pill--ghost:focus-visible {
+    outline: 2px solid rgba(212, 175, 55, 0.35);
+    outline-offset: 2px;
+  }
+
+  .btn-pill--secondary {
+    @apply btn-pill;
+    position: relative;
+    overflow: hidden;
+    border-width: 0.5px;
+    border-color: rgba(212, 175, 55, 0.26);
+    color: color-mix(in srgb, var(--accent) 72%, var(--text-muted));
+    background: linear-gradient(
+      175deg,
+      rgba(20, 28, 43, 0.46) 0%,
+      rgba(5, 11, 20, 0.56) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.07),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.32);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition:
+      color 0.18s ease,
+      border-color 0.18s ease,
+      background 0.18s ease,
+      box-shadow 0.18s ease,
+      transform 0.16s ease;
+  }
+
+  .btn-pill--secondary:hover:not(:disabled) {
+    color: var(--accent-light);
+    border-color: rgba(212, 175, 55, 0.36);
+    background: linear-gradient(
+      175deg,
+      rgba(20, 28, 43, 0.56) 0%,
+      rgba(9, 17, 30, 0.64) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.24),
+      0 0 20px -6px rgba(212, 175, 55, 0.16);
+  }
+
+  .btn-pill--secondary:active:not(:disabled) {
+    box-shadow:
+      inset 0 2px 6px rgba(0, 0, 0, 0.38),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .btn-pill--secondary:focus-visible {
+    outline: 2px solid rgba(212, 175, 55, 0.4);
+    outline-offset: 2px;
+  }
+
+  .btn-pill--success {
+    @apply btn-pill border-success/40 text-success hover:bg-success/10;
+  }
+}

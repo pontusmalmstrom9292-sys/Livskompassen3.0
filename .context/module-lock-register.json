@@ -1,0 +1,426 @@
+{
+  "version": 1,
+  "updatedAt": "2026-07-10",
+  "modules": [
+    {
+      "id": "MOD-CORE-NAV",
+      "namn": "Routing, drawer, navTruth",
+      "zon": "Core",
+      "status": "locked",
+      "globs": [
+        "src/modules/core/routing/**",
+        "src/modules/core/navigation/**",
+        "src/App.tsx"
+      ],
+      "entryFiles": [
+        "src/modules/core/routing/AppRoutes.tsx"
+      ],
+      "smoke": [
+        "smoke:locked-ux",
+        "smoke:chrome-header"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-CORE-CHROME",
+      "namn": "Bästa design header/dock",
+      "zon": "Core",
+      "status": "locked",
+      "globs": [
+        "src/modules/core/layout/basta-design/**",
+        "src/modules/core/home/basta-design/**",
+        "src/styles/basta-design.css",
+        "src/styles/dock-kanon-match.css"
+      ],
+      "entryFiles": [
+        "src/modules/core/layout/FloatingDock.tsx"
+      ],
+      "smoke": [
+        "smoke:basta-dock-lock"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "baseline"
+    },
+    {
+      "id": "MOD-HJ-DAGBOK",
+      "namn": "Dagbok hub + weave",
+      "zon": "Hjärtat",
+      "status": "locked",
+      "globs": [
+        "src/modules/features/lifeJournal/diary/**",
+        "src/modules/core/pages/DagbokPage.tsx"
+      ],
+      "entryFiles": [
+        "src/modules/core/pages/DagbokPage.tsx"
+      ],
+      "smoke": [
+        "smoke:weaver-hitl"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-HJ-INPUT",
+      "namn": "Hjärtat input supermodul",
+      "zon": "Hjärtat",
+      "status": "locked",
+      "globs": [
+        "src/modules/features/lifeJournal/diary/supermodule/DagbokInputSuperModule.tsx",
+        "src/modules/features/lifeJournal/diary/routing/DagbokInputRoutes.tsx"
+      ],
+      "entryFiles": [
+        "src/modules/features/lifeJournal/diary/supermodule/DagbokInputSuperModule.tsx"
+      ],
+      "smoke": [
+        "smoke:locked-ux"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-HJ-SPEGLAR",
+      "namn": "Speglar / BIFF",
+      "zon": "Hjärtat",
+      "status": "locked",
+      "globs": [
+        "src/modules/features/lifeJournal/diary/mirror/**"
+      ],
+      "entryFiles": [
+        "src/modules/features/lifeJournal/diary/mirror/components/SpeglarSuperModule.tsx"
+      ],
+      "smoke": [
+        "smoke:biff-rewrite"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-VALV-HUB",
+      "namn": "Valv hub, PIN, zoner",
+      "zon": "Valv",
+      "status": "locked",
+      "globs": [
+        "src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx",
+        "src/modules/features/lifeJournal/evidence/vault/pages/**"
+      ],
+      "entryFiles": [
+        "src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx"
+      ],
+      "smoke": [
+        "smoke:valv-security",
+        "smoke:plausible-deniability"
+      ],
+      "snapshotKey": "valv",
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-VALV-INKAST",
+      "namn": "Inkast, capture, inbox-kö",
+      "zon": "Valv",
+      "status": "locked",
+      "globs": [
+        "src/modules/inkast/**",
+        "src/modules/capture/**"
+      ],
+      "entryFiles": [
+        "src/modules/capture/InkastDirectPanel.tsx"
+      ],
+      "smoke": [
+        "smoke:inkast-upload",
+        "smoke:inkast-lockdown"
+      ],
+      "snapshotKey": "inkast",
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-VALV-ORKESTER",
+      "namn": "Orkester-panel, agenter",
+      "zon": "Valv",
+      "status": "locked",
+      "globs": [
+        "src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx",
+        "functions/src/adk/**"
+      ],
+      "entryFiles": [
+        "src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx"
+      ],
+      "smoke": [
+        "smoke:orkester"
+      ],
+      "snapshotKey": "synapser",
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-VARD-LAUNCH",
+      "namn": "Vardagen launcher",
+      "zon": "Vardagen",
+      "status": "locked",
+      "globs": [
+        "src/modules/shell/**"
+      ],
+      "entryFiles": [
+        "src/modules/shell/LivLauncherPage.tsx"
+      ],
+      "smoke": [
+        "smoke:design-modules"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-VARD-MABRA",
+      "namn": "MåBra hub",
+      "zon": "Vardagen",
+      "status": "locked",
+      "globs": [
+        "src/modules/features/dailyLife/wellbeing/mabra/**"
+      ],
+      "entryFiles": [
+        "src/modules/features/dailyLife/wellbeing/mabra/views/MabraHubView.tsx"
+      ],
+      "smoke": [
+        "smoke:design-modules"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-VARD-PLAN",
+      "namn": "Planering P3 Kanban",
+      "zon": "Vardagen",
+      "status": "locked",
+      "globs": [
+        "src/modules/features/admin/planning/**",
+        "src/modules/planering/**"
+      ],
+      "entryFiles": [
+        "src/modules/features/admin/planning/components/PlaneringPage.tsx"
+      ],
+      "smoke": [
+        "smoke:locked-ux"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "baseline-ux"
+    },
+    {
+      "id": "MOD-VARD-EKO",
+      "namn": "Ekonomi delegates",
+      "zon": "Vardagen",
+      "status": "locked",
+      "globs": [
+        "src/modules/features/dailyLife/wellbeing/economy/**"
+      ],
+      "entryFiles": [
+        "src/modules/features/dailyLife/wellbeing/economy/supermodule/EkonomiInputSuperModule.tsx"
+      ],
+      "smoke": [
+        "smoke:design-modules"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-VARD-ARB",
+      "namn": "Arbetsliv hub",
+      "zon": "Vardagen",
+      "status": "locked",
+      "globs": [
+        "src/modules/features/dailyLife/arbetsliv/**"
+      ],
+      "entryFiles": [
+        "src/modules/features/dailyLife/arbetsliv/components/ArbetslivHubPage.tsx"
+      ],
+      "smoke": [
+        "smoke:orkester"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-FAM-HUB",
+      "namn": "Familjen superhub",
+      "zon": "Familjen",
+      "status": "locked",
+      "globs": [
+        "src/modules/core/pages/FamiljenPage.tsx",
+        "src/modules/features/family/**"
+      ],
+      "entryFiles": [
+        "src/modules/core/pages/FamiljenPage.tsx"
+      ],
+      "smoke": [
+        "smoke:locked-ux"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-FAM-BARN",
+      "namn": "Barnfokus + livslogg",
+      "zon": "Familjen",
+      "status": "locked",
+      "globs": [
+        "src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx"
+      ],
+      "entryFiles": [
+        "src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx"
+      ],
+      "smoke": [
+        "smoke:barn-epistemik"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "baseline-ux"
+    },
+    {
+      "id": "MOD-FAM-HAMN",
+      "namn": "Trygg Hamn / BIFF",
+      "zon": "Familjen",
+      "status": "locked",
+      "globs": [
+        "src/modules/features/family/safeHarbor/**"
+      ],
+      "entryFiles": [
+        "src/modules/features/family/safeHarbor/components/BiffPublicPanel.tsx"
+      ],
+      "smoke": [
+        "smoke:biff-rewrite"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-FAM-BPORT",
+      "namn": "Barnporten HITL",
+      "zon": "Familjen",
+      "status": "locked",
+      "globs": [
+        "src/modules/features/onboarding/barnporten/**",
+        "src/modules/barnporten/**"
+      ],
+      "entryFiles": [
+        "src/modules/features/onboarding/barnporten/constants/barnportenRollout.ts"
+      ],
+      "smoke": [
+        "smoke:locked-ux"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-FAM-DROG",
+      "namn": "Drogfrihet inbäddad",
+      "zon": "Familjen",
+      "status": "locked",
+      "globs": [
+        "src/modules/features/dailyLife/drogfrihet/**"
+      ],
+      "entryFiles": [
+        "src/modules/features/dailyLife/drogfrihet/components/DrogfrihetHubPage.tsx"
+      ],
+      "smoke": [
+        "smoke:design-modules"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-BACK-SYN",
+      "namn": "SynapseBus + triggers",
+      "zon": "Backend",
+      "status": "locked",
+      "globs": [
+        "functions/src/adk/**",
+        "functions/src/triggers/**"
+      ],
+      "entryFiles": [
+        "functions/src/adk/synapses/synapseBus.ts"
+      ],
+      "smoke": [
+        "smoke:orkester",
+        "smoke:synapse-triggers"
+      ],
+      "snapshotKey": "synapser",
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-BACK-DCAP",
+      "namn": "DCAP + eskalering",
+      "zon": "Backend",
+      "status": "locked",
+      "globs": [
+        "functions/src/lib/dcapEscalation.ts",
+        "functions/src/agents/DCAP.ts",
+        "functions/src/adk/synapses/dcapAlertSynapse.ts"
+      ],
+      "entryFiles": [
+        "functions/src/lib/dcapEscalation.ts"
+      ],
+      "smoke": [
+        "smoke:dcap-routing",
+        "smoke:dcap-alerts-worm"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-BACK-WORM",
+      "namn": "Hash-kedja + backup",
+      "zon": "Backend",
+      "status": "locked",
+      "globs": [
+        "functions/src/lib/wormHashChain.ts",
+        "functions/src/lib/inboxPersist.ts",
+        "functions/src/jobs/firestoreBackupJob.ts"
+      ],
+      "entryFiles": [
+        "functions/src/lib/wormHashChain.ts"
+      ],
+      "smoke": [
+        "smoke:valv-security"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    },
+    {
+      "id": "MOD-WIDGET",
+      "namn": "Fyren + widget-routes",
+      "zon": "Cross",
+      "status": "locked",
+      "globs": [
+        "src/modules/core/ui/widget-icons/**",
+        "src/modules/widgets/**"
+      ],
+      "entryFiles": [
+        "src/modules/core/ui/widget-icons/FyrenShortcutMicIcon.tsx"
+      ],
+      "smoke": [
+        "smoke:widgets"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-10",
+      "lockedCommit": "ac5d37623"
+    }
+  ]
+}

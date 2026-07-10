@@ -1,4 +1,5 @@
-/**
+/** @locked MOD-BACK-DCAP — låst modul; unlock via docs/evaluations/*-unlock-MOD-BACK-DCAP.md
+ *
  * DCAP Escalation Pipeline — feedback-loop, trend analysis, and automated escalation.
  *
  * Implements:
@@ -128,6 +129,8 @@ export async function analyzeDcapTrend(ownerId: string): Promise<EscalationResul
   // Persist escalation state (append-only pattern)
   await persistEscalationState(ownerId, result);
 
+  await applyDcapEscalationActions(ownerId, result);
+
   monitor.log(
     tier === 'external' ? 'CRITICAL' : tier === 'critical' ? 'WARNING' : 'INFO',
     `[DCAP-Escalation] uid=${ownerId} tier=${tier} alerts=${alertCount30d} avgRisk=${avgRiskScore30d}`,
@@ -209,4 +212,37 @@ export async function onDcapReviewFeedback(
 ): Promise<EscalationResult> {
   // Re-analyze after review to potentially de-escalate
   return analyzeDcapTrend(ownerId);
+}
+
+/**
+ * Persist recommended escalation actions for HITL follow-up (dossier / external notify).
+ * Written append-only — no auto dossier generation without user action.
+ */
+export async function applyDcapEscalationActions(
+  ownerId: string,
+  result: EscalationResult
+): Promise<void> {
+  const db = admin.firestore();
+  const base = {
+    ownerId,
+    tier: result.tier,
+    reason: result.trendSummary.escalationReason,
+    alertCount30d: result.trendSummary.alertCount30d,
+    avgRiskScore30d: result.trendSummary.avgRiskScore30d,
+    createdAt: admin.firestore.FieldValue.serverTimestamp(),
+  };
+
+  if (result.shouldGenerateDossier) {
+    await db.collection('dcap_escalation_actions').add({
+      ...base,
+      actionType: 'dossier_recommended',
+    });
+  }
+
+  if (result.shouldNotifyExternal) {
+    await db.collection('dcap_escalation_actions').add({
+      ...base,
+      actionType: 'external_notify_recommended',
+    });
+  }
 }

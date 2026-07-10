@@ -1,3 +1,4 @@
+/** @locked MOD-VARD-EKO — låst modul; unlock via docs/evaluations/*-unlock-MOD-VARD-EKO.md */
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { useCallback, useEffect, useMemo, useState } from 'react';

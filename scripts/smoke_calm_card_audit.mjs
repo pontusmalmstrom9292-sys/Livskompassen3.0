@@ -10,6 +10,7 @@ const root = join(import.meta.dirname, '..');
 const src = join(root, 'src');
 const definitionFiles = new Set([
   join(src, 'styles/obsidian-calm-2.css'),
+  join(src, 'design-system/styles/obsidian-calm-glass.css'),
   join(src, 'design-system/styles/components.css'),
   join(src, 'design-system/styles/premium-polish.css'),
 ]);

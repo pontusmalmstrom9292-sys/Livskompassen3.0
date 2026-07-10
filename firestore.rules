@@ -422,6 +422,18 @@ service cloud.firestore {
       allow create, update, delete: if false;
     }
 
+    // WORM hash chain — append-only via Admin SDK
+    match /worm_hash_chain/{docId} {
+      allow read: if isOwner();
+      allow create, update, delete: if false;
+    }
+
+    // DCAP eskalering — rekommenderade åtgärder (append-only)
+    match /dcap_escalation_actions/{docId} {
+      allow read: if isOwner();
+      allow create, update, delete: if false;
+    }
+
     match /mabra_sessions/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreate() && isValidMabraSessionCreate();

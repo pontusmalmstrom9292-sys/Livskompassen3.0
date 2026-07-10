@@ -75,7 +75,7 @@ function main() {
 
   assert(!parseVardagDrawerEntries(navTruth).some((e) => e.id === 'dagbok' && e.inDrawer), 'dagbok får inte vara inDrawer (Fyren-gate)');
 
-  mustInclude('src/modules/core/navigation/navTruth.ts', "path: '/liv'", "path: '/familj'");
+  mustInclude('src/modules/core/navigation/navTruth.ts', "path: '/vardagen'", "path: '/familj'");
   mustInclude('src/modules/core/layout/drawerFromNavTruth.ts', 'isVardagDrawerRowActive', 'DRAWER_VARDAG_ITEMS');
   mustInclude('src/modules/core/navigation/drawerNav.ts', 'DRAWER_VARDAG_ITEMS', 'getVisibleDrawerTruth');
   mustInclude(

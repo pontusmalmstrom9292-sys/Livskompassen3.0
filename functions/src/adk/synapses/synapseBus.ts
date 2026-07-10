@@ -1,3 +1,4 @@
+/** @locked MOD-BACK-SYN — låst modul; unlock via docs/evaluations/*-unlock-MOD-BACK-SYN.md */
 import type { SynapseEvent, SynapseTrigger } from '../types';
 import type { AdkOrchestrator } from '../orchestrator';
 import { handleDriveIngest } from './driveIngestSynapse';

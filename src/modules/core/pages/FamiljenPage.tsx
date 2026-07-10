@@ -1,3 +1,4 @@
+/** @locked MOD-FAM-HUB — låst modul; unlock via docs/evaluations/*-unlock-MOD-FAM-HUB.md */
 import { Navigate } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
 import { clsx } from 'clsx';

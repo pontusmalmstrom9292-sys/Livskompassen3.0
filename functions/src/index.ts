@@ -28,6 +28,7 @@ export { resolveDcapAlert } from './callables/dcapAlert';
 
 export { scheduledBarnportenAgeEval } from './jobs/barnportenAgeEvalJob';
 export { scheduledTransactionsAnalysis } from './jobs/transactionsAnalysisJob';
+export { scheduledFirestoreBackup } from './jobs/firestoreBackupJob';
 
 export {
   beginVaultWebAuthnChallengeCallable as beginVaultWebAuthnChallenge,

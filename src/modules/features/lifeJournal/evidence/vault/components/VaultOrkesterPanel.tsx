@@ -1,4 +1,5 @@
-/** @locked-ux Valv Orkester — do not remove; see `.context/locked-ux-features.md` */
+/** @locked MOD-VALV-ORKESTER — låst modul; unlock via docs/evaluations/*-unlock-MOD-VALV-ORKESTER.md
+ * @locked-ux Valv Orkester — do not remove; see `.context/locked-ux-features.md` */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Check, Copy, Filter, Loader2, Shield } from 'lucide-react';

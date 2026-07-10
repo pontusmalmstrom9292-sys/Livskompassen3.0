@@ -54,7 +54,10 @@ assert(catalog.includes('BARNFOKUS_BRACKET_BANK_IDS'), 'saknar bracket bank-id e
 
 const rollout = read('src/modules/features/onboarding/barnporten/constants/barnportenRollout.ts');
 assert(rollout.includes('BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED'), 'saknar rollout-flagga');
-assert(rollout.includes('BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED = false'), 'barn-PWA ska vara pausad');
+assert(
+  rollout.includes('BARNPORTEN_CHILD_PWA_ROLLOUT_ENABLED = true'),
+  'barn-PWA rollout ska vara ON (YOLO W2)',
+);
 
 const serverEpistemik = read('functions/src/lib/childObservationEpistemics.ts');
 assert(serverEpistemik.includes('formatChildObservation'), 'server saknar formatChildObservation');

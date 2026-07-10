@@ -16,6 +16,7 @@
 
 import { GCP_PROJECT_ID, GCP_REGION } from '../config';
 import { monitor } from '../lib/monitoring';
+import { onSchedule } from 'firebase-functions/v2/scheduler';
 
 const BACKUP_BUCKET = `${GCP_PROJECT_ID}-firestore-backups`;
 
@@ -55,6 +56,23 @@ export interface BackupResult {
   durationMs: number;
   error?: string;
 }
+
+/** Nightly Firestore export — same pattern as scheduledRetentionJob. */
+export const scheduledFirestoreBackup = onSchedule(
+  {
+    schedule: '0 3 * * *',
+    region: GCP_REGION,
+    timeZone: 'Europe/Stockholm',
+    memory: '256MiB',
+  },
+  async () => {
+    const result = await runFirestoreBackup();
+    if (!result.success) {
+      throw new Error(result.error ?? 'Firestore backup failed');
+    }
+    monitor.log('INFO', `[DR-Backup] Scheduled export OK: ${result.outputUri}`);
+  },
+);
 
 /**
  * Execute a Firestore export to GCS.

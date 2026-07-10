@@ -1,3 +1,4 @@
+/** @locked MOD-WIDGET — låst modul; unlock via docs/evaluations/*-unlock-MOD-WIDGET.md */
 import { useId } from 'react';
 import type { WidgetIconProps } from './types';
 

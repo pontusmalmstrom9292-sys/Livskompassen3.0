@@ -1,0 +1,223 @@
+/**
+ * Flyttad från src/styles/redesign-a-nordic-precision.css (våg 110).
+ */
+
+/**
+ * Style A — Nordic Precision (R-A-nordic-precision)
+ * Scoped via [data-theme='R-A-nordic-precision'] — Theme Lab until GODKÄND in VARIANTS.md.
+ */
+
+[data-theme='R-A-nordic-precision'] {
+  color-scheme: dark;
+}
+
+/* —— Flat obsidian bakgrund (ingen scenic) —— */
+[data-theme='R-A-nordic-precision'] .ambient-bg {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-dusk) 100%);
+}
+
+[data-theme='R-A-nordic-precision'] .ambient-bg .ambient-blob {
+  display: none;
+}
+
+[data-theme='R-A-nordic-precision'] .ambient-bg.ambient-bg--scenic {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg-dusk) 100%);
+}
+
+[data-theme='R-A-nordic-precision'] .nav-drawer__scenic {
+  display: none;
+}
+
+/* —— Kort: rounded-xl, minimal glass —— */
+[data-theme='R-A-nordic-precision'] .calm-card,
+[data-theme='R-A-nordic-precision'] .glass-card,
+[data-theme='R-A-nordic-precision'] .panel-card {
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface-2) 92%, transparent);
+  border: 0.5px solid var(--border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+[data-theme='R-A-nordic-precision'] .glass-hero {
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  box-shadow: none;
+}
+
+/* —— Silo glow → silver hairline bottom —— */
+[data-theme='R-A-nordic-precision'] .glow-bottom-silver {
+  box-shadow: inset 0 -1px 0 rgba(148, 163, 184, 0.35);
+}
+
+[data-theme='R-A-nordic-precision'] .glow-bottom-gold,
+[data-theme='R-A-nordic-precision'] .glow-bottom-blue,
+[data-theme='R-A-nordic-precision'] .glow-bottom-green {
+  border-bottom-width: 1px;
+  border-bottom-color: rgba(148, 163, 184, 0.35);
+  box-shadow: inset 0 -1px 0 rgba(148, 163, 184, 0.25);
+}
+
+[data-theme='R-A-nordic-precision'] .calm-card.glow-bottom-blue::after,
+[data-theme='R-A-nordic-precision'] .glass-card.glow-bottom-blue::after,
+[data-theme='R-A-nordic-precision'] .calm-card.glow-bottom-gold::after,
+[data-theme='R-A-nordic-precision'] .glass-card.glow-bottom-gold::after,
+[data-theme='R-A-nordic-precision'] .calm-card.glow-bottom-green::after,
+[data-theme='R-A-nordic-precision'] .glass-card.glow-bottom-green::after {
+  background: linear-gradient(to top, rgba(148, 163, 184, 0.08), transparent);
+}
+
+/* —— Primär CTA: isblå —— */
+[data-theme='R-A-nordic-precision'] .btn-pill--accent,
+[data-theme='R-A-nordic-precision'] .ui-cta-gold.btn-pill--accent {
+  background: var(--accent);
+  color: var(--bg);
+  border-color: var(--accent);
+}
+
+[data-theme='R-A-nordic-precision'] .btn-pill--accent:hover {
+  background: color-mix(in srgb, var(--accent) 88%, white);
+}
+
+/* —— Sekundär: silver border —— */
+[data-theme='R-A-nordic-precision'] .btn-pill--secondary {
+  border-color: var(--border);
+  color: var(--accent-secondary);
+}
+
+/* —— Typografi: Inter hub title, Cinzel endast eyebrow —— */
+[data-theme='R-A-nordic-precision'] .home-page__title,
+[data-theme='R-A-nordic-precision'] .hub-page-shell__header h1,
+[data-theme='R-A-nordic-precision'] .font-display-serif.text-xl {
+  font-family: Inter, Outfit, system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+[data-theme='R-A-nordic-precision'] .home-page__eyebrow {
+  font-family: Cinzel, serif;
+  font-size: 10px;
+  letter-spacing: 0.24em;
+}
+
+/* —— Indigo → silver/isblå remap —— */
+[data-theme='R-A-nordic-precision'] .text-indigo-300,
+[data-theme='R-A-nordic-precision'] .text-indigo-400,
+[data-theme='R-A-nordic-precision'] .text-indigo-200\/90,
+[data-theme='R-A-nordic-precision'] .text-indigo-100\/90,
+[data-theme='R-A-nordic-precision'] .text-indigo-200\/80 {
+  color: var(--accent-secondary) !important;
+}
+
+[data-theme='R-A-nordic-precision'] .border-indigo-400\/15,
+[data-theme='R-A-nordic-precision'] .border-indigo-400\/20,
+[data-theme='R-A-nordic-precision'] .border-indigo-400\/25,
+[data-theme='R-A-nordic-precision'] .border-indigo-400\/30,
+[data-theme='R-A-nordic-precision'] .border-indigo-500\/20,
+[data-theme='R-A-nordic-precision'] .border-indigo-500\/30,
+[data-theme='R-A-nordic-precision'] .border-indigo-500\/40,
+[data-theme='R-A-nordic-precision'] .border-l-indigo-500\/70 {
+  border-color: var(--border) !important;
+}
+
+[data-theme='R-A-nordic-precision'] .bg-indigo-500\/5,
+[data-theme='R-A-nordic-precision'] .bg-indigo-500\/10,
+[data-theme='R-A-nordic-precision'] .bg-indigo-500\/15,
+[data-theme='R-A-nordic-precision'] .bg-indigo-500\/20,
+[data-theme='R-A-nordic-precision'] .bg-indigo-500\/25,
+[data-theme='R-A-nordic-precision'] .bg-indigo-500\/30,
+[data-theme='R-A-nordic-precision'] .bg-indigo-500\/35 {
+  background-color: color-mix(in srgb, var(--surface-3) 60%, transparent) !important;
+}
+
+[data-theme='R-A-nordic-precision'] .hover\:bg-indigo-500\/10:hover,
+[data-theme='R-A-nordic-precision'] .hover\:bg-indigo-500\/30:hover,
+[data-theme='R-A-nordic-precision'] .hover\:bg-indigo-500\/35:hover {
+  background-color: color-mix(in srgb, var(--surface-3) 70%, transparent) !important;
+}
+
+/* —— Drawer: guld aktiv, silver sub-links —— */
+[data-theme='R-A-nordic-precision'] .drawer-hub__trigger--active {
+  border-left-color: var(--nav-active);
+  color: var(--nav-active);
+  background: var(--nav-active-glow);
+}
+
+[data-theme='R-A-nordic-precision'] .drawer-hub__trigger--active .drawer-hub__trigger-icon {
+  color: var(--nav-active);
+}
+
+[data-theme='R-A-nordic-precision'] .nav-drawer__mode-btn--active {
+  border-color: var(--nav-active);
+  color: var(--nav-active);
+}
+
+/* —— Dock: guld aktiv orb —— */
+[data-theme='R-A-nordic-precision'] .dock-nav-btn--active .dock-nav-btn__drawer-l2 {
+  color: var(--nav-active);
+}
+
+[data-theme='R-A-nordic-precision'] .floating-dock__center-btn--holding,
+[data-theme='R-A-nordic-precision'] .floating-dock__center-btn:hover {
+  box-shadow: 0 0 0 2px var(--nav-active-glow), 0 0 12px var(--nav-active-glow);
+}
+
+/* —— TabBar: guld aktiv underline —— */
+[data-theme='R-A-nordic-precision'] .hub-tab-bar__tab--active,
+[data-theme='R-A-nordic-precision'] .home-adaptive-compass__tab--active {
+  color: var(--nav-active);
+  border-bottom-color: var(--nav-active);
+}
+
+/* —— Input: isblå focus —— */
+[data-theme='R-A-nordic-precision'] .input-glass:focus,
+[data-theme='R-A-nordic-precision'] input:focus,
+[data-theme='R-A-nordic-precision'] textarea:focus,
+[data-theme='R-A-nordic-precision'] select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* —— Launcher row cards —— */
+[data-theme='R-A-nordic-precision'] .liv-launcher-card__chevron {
+  color: var(--accent-secondary);
+}
+
+[data-theme='R-A-nordic-precision'] .liv-launcher-card__icon {
+  border-color: var(--border);
+  color: var(--accent-secondary);
+}
+
+/* —— Barnporten: varm sub-silo undantag —— */
+
+/* —— Valv chat: silver chrome —— */
+[data-theme='R-A-nordic-precision'] .valv-chat-panel .glass-card {
+  border-color: var(--border);
+}
+
+/* —— Barnfokus: silver wrap —— */
+[data-theme='R-A-nordic-precision'] .barnfokus-fragan-panel {
+  border-color: var(--border);
+}
+
+/* —— Kanban: isblå kolumn headers —— */
+[data-theme='R-A-nordic-precision'] .planning-kanban__column-header {
+  color: var(--accent);
+  border-bottom-color: var(--border-strong);
+}
+
+/* —— Motion: minimal, respect reduced motion —— */
+[data-theme='R-A-nordic-precision'] .nav-drawer {
+  animation-duration: 200ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme='R-A-nordic-precision'] *,
+  [data-theme='R-A-nordic-precision'] *::before,
+  [data-theme='R-A-nordic-precision'] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }}
+
