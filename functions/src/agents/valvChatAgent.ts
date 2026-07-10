@@ -2,6 +2,7 @@ import { SANNING_ANALYTIKERN_SYSTEM_PROMPT } from '../sharedRules';
 import { loadEntityProfileBundle } from '../lib/entityProfileStore';
 import { fetchVaultEvidenceForQuery } from '../lib/vaultRag';
 import { createGenAI } from '../lib/genaiClient';
+import { isAiBudgetAllowed } from '../lib/aiBudgetGate';
 import { GEMINI_PRO } from '../lib/modelRouter';
 import {
   VALV_CHAT_READ_TOOLS,
@@ -152,6 +153,12 @@ export async function askValvChat(
   question: string,
   apiKey?: string,
 ): Promise<ValvChatResponse> {
+  if (!(await isAiBudgetAllowed(uid))) {
+    return {
+      answer: 'AI-budget för dagen är förbrukad. Försök igen imorgon eller kontakta support.',
+      citations: [],
+    };
+  }
   const [chunks, entityBundle] = await Promise.all([
     fetchVaultEvidenceForQuery(uid, question),
     loadEntityProfileBundle(uid),

@@ -3,6 +3,7 @@ import * as admin from 'firebase-admin';
 import { GCP_REGION } from '../config';
 import { ingestKampsparForUser } from '../lib/ingestKampsparInternal';
 import { createGenAI } from '../lib/genaiClient';
+import { isAiBudgetAllowed } from '../lib/aiBudgetGate';
 
 /** Max users per Gemini batch call to stay within token limits. */
 const BATCH_SIZE = 10;
@@ -16,6 +17,10 @@ export const scheduledTransactionsAnalysis = onSchedule(
   },
   async () => {
     console.log('[scheduledTransactionsAnalysis] Starting nightly batch job for transactions.');
+    if (!(await isAiBudgetAllowed('system'))) {
+      console.warn('[scheduledTransactionsAnalysis] AI budget exceeded — skipping batch.');
+      return;
+    }
     const db = admin.firestore();
     const ai = createGenAI();
 
