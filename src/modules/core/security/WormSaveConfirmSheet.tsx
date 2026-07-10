@@ -10,6 +10,8 @@ type Props = {
 };
 
 /**
+ * Inline WORM-save confirmation panel — NOT a modal/dialog (`role="region"`).
+ * Parent owns overlay/focus; this is the confirm UI only.
  * Bekräftelse innan WORM-skriv till reality_vault — oföränderlig post, beteende + datum.
  */
 export function WormSaveConfirmSheet({ contextLabel, busy = false, onConfirm, onCancel }: Props) {

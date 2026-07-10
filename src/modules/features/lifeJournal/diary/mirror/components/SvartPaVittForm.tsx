@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Loader2, Lock } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, TextArea } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
 import { saveVaultLog } from '@/core/firebase/firestore';
@@ -42,7 +42,7 @@ export function SvartPaVittForm() {
       <div className="grid gap-3 md:grid-cols-2">
         <div>
           <label className="text-[10px] uppercase tracking-widest text-text-dim">Hens version</label>
-          <textarea
+          <TextArea
             value={theirVersion}
             onChange={(e) => setTheirVersion(e.target.value)}
             rows={4}
@@ -53,7 +53,7 @@ export function SvartPaVittForm() {
         </div>
         <div>
           <label className="text-[10px] uppercase tracking-widest text-text-dim">Min verklighet</label>
-          <textarea
+          <TextArea
             value={myReality}
             onChange={(e) => setMyReality(e.target.value)}
             rows={4}

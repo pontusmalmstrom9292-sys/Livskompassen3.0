@@ -2236,6 +2236,7 @@
 
   .chip {
     @apply rounded-full border px-3 py-1 text-xs transition-colors;
+    min-height: var(--ds-touch-target, 2.75rem);
   }
 
   .chip--active {
@@ -2502,6 +2503,11 @@
 
   .reflektion-actions__ghost {
     @apply w-full rounded-xl border border-accent/15 bg-surface/20 px-3 py-2 text-text-muted transition-colors hover:border-accent/30 hover:text-accent;
+    min-height: var(--ds-touch-target, 2.75rem);
+  }
+
+  .reflektion-actions__ghost:focus-visible {
+    @apply outline outline-2 outline-offset-2 outline-accent/50;
   }
 
   .reflektion-panel {
@@ -2649,7 +2655,7 @@
   }
 
   .reflektion-prompt-chip {
-    @apply rounded-full border border-border-strong bg-surface/40 px-3 py-1.5 text-left text-xs text-text-muted transition-colors hover:border-accent/40 hover:text-accent;
+    @apply min-h-[var(--ds-touch-target)] rounded-full border border-border-strong bg-surface/40 px-3 py-1.5 text-left text-xs text-text-muted transition-colors hover:border-accent/40 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50;
   }
 
   .reflektion-prompt-chip--active {

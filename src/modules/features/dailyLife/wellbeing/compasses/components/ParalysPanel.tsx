@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Loader2, Zap } from 'lucide-react';
 import { clsx } from 'clsx';
-import { Button } from '@/design-system';
+import { Button, Input, TextArea } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { fetchMicroSteps, type MicroStep } from '../api/compassService';
 import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
@@ -56,7 +56,7 @@ export function ParalysPanel({ onDone, embedded = false, simplified = false }: P
         <p className="mb-3 text-xs leading-relaxed text-text-muted">
           Kapaciteten är låg — skriv ett enda mikrosteg. Ingen AI behövs just nu.
         </p>
-        <input
+        <Input
           type="text"
           value={taskText}
           onChange={(e) => setTaskText(e.target.value)}
@@ -77,12 +77,12 @@ export function ParalysPanel({ onDone, embedded = false, simplified = false }: P
         <p className="mb-3 text-xs leading-relaxed text-text-muted">
           Ett mikrosteg i taget. Ingen auto-start — du väljer när.
         </p>
-        <textarea
+        <TextArea
           value={taskText}
           onChange={(e) => setTaskText(e.target.value)}
           placeholder="Vad känns överväldigande just nu?"
           rows={embedded ? 2 : 3}
-          className="input-glass w-full text-sm"
+          className="input-glass neu-inset w-full resize-none text-sm"
         />
         {error && <p className="mt-2 text-xs text-danger">{error}</p>}
         <Button

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { clsx } from 'clsx';
-import { sectionEyebrowClass } from './typeScale';
+import { Banner } from '@/design-system';
 
 type Props = {
   eyebrow?: string;
@@ -12,7 +12,7 @@ type Props = {
   className?: string;
 };
 
-/** In-module section header — glass banner consistent with Obsidian Depth. */
+/** @deprecated Prefer `Banner variant="section"` from `@/design-system`. */
 export function ModuleSectionBanner({
   eyebrow,
   title,
@@ -22,20 +22,19 @@ export function ModuleSectionBanner({
   className,
 }: Props) {
   return (
-    <header
+    <Banner
+      variant="section"
+      eyebrow={eyebrow}
+      title={title}
+      lead={lead}
+      aside={aside}
       className={clsx(
         'module-section-banner',
         depth && 'module-section-banner--depth',
-        aside && 'module-section-banner--with-aside',
         className,
       )}
     >
-      <div className="module-section-banner__inner min-w-0">
-        {eyebrow ? <p className={sectionEyebrowClass}>{eyebrow}</p> : null}
-        <h2 className="module-section-banner__title">{title}</h2>
-        {lead ? <p className="module-section-banner__lead">{lead}</p> : null}
-      </div>
-      {aside ? <div className="module-section-banner__aside shrink-0">{aside}</div> : null}
-    </header>
+      {null}
+    </Banner>
   );
 }

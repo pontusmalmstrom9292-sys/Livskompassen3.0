@@ -3,6 +3,7 @@
  * Usage: npm run smoke:chrome-header
  */
 import { readFileSync, existsSync } from 'fs';
+import { spawnSync } from 'child_process';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -103,6 +104,14 @@ function main() {
     'label="Hjärtat"',
     'exec-dock-bar--mix-e',
   );
+
+  const bastaDock = spawnSync('node', ['scripts/smoke_basta_dock_lock.mjs'], {
+    cwd: root,
+    stdio: 'inherit',
+  });
+  if (bastaDock.status !== 0) {
+    throw new Error('smoke:basta-dock-lock misslyckades');
+  }
 
   mustInclude(
     'src/modules/core/home/executive/homeLayoutPreference.ts',

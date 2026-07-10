@@ -1,4 +1,5 @@
 import { clsx } from 'clsx';
+import { Badge, type BadgeVariant } from '@/design-system';
 
 type StatusBadgeVariant = 'worm' | 'locked' | 'risk' | 'ai';
 
@@ -8,13 +9,11 @@ type StatusBadgeProps = {
   className?: string;
 };
 
-const variantClass: Record<StatusBadgeVariant, string> = {
-  worm: 'badge-worm',
-  locked: 'badge-locked',
-  risk: 'badge-risk',
-  ai: 'badge-ai',
-};
-
+/** @deprecated Prefer `Badge` from `@/design-system` directly. */
 export function StatusBadge({ variant, label, className }: StatusBadgeProps) {
-  return <span className={clsx(variantClass[variant], className)}>{label}</span>;
+  return (
+    <Badge variant={variant as BadgeVariant} className={clsx(className)}>
+      {label}
+    </Badge>
+  );
 }

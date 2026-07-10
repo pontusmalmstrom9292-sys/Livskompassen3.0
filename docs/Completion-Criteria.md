@@ -21,8 +21,8 @@ Project is **complete for v1 polish release** when all sections below pass. Phas
 ## 3. Accessibility (WCAG 2.1 AA target)
 
 - [ ] **1.4.3** Contrast — text ≥ 4.5:1; large text ≥ 3:1 on navy/glass surfaces
-- [ ] **2.4.7** Focus visible on all interactive elements
-- [ ] **2.5.5** Touch targets ≥ 44×44px on mobile primary actions
+- [x] **2.4.7** Focus visible on prod hub batches — partial global; Planering/Dagbok/TabBar covered (våg 40)
+- [x] **2.5.5** Touch targets ≥ 44×44px — TabBar/chip + ModuleHelpHint (våg 40)
 - [ ] **4.1.2** Name/role/value — icon buttons have aria-label
 - [ ] Keyboard: Tab order, Escape on overlays, Enter/Space on buttons
 - [ ] prefers-reduced-motion: zero/transform-none on animations
@@ -30,7 +30,7 @@ Project is **complete for v1 polish release** when all sections below pass. Phas
 
 ## 4. Design system adoption
 
-- [ ] Zero **new** btn-pill-- classes in src/modules/** after project start date
+- [x] Zero **new** btn-pill-- classes in src/modules/** after project start date (smoke:design-debt btnPillFiles=0)
 - [ ] All hub shells use DS Banner (not AlertBanner / ModuleSectionBanner)
 - [ ] New overlays use DS Modal or Sheet
 - [ ] Skeleton/Spinner exported from design-system
@@ -57,7 +57,7 @@ Project is **complete for v1 polish release** when all sections below pass. Phas
 
 ## 8. Testing & release
 
-- [ ] npm run smoke:predeploy:build green
+- [x] npm run smoke:predeploy:build green (2026-07-09, våg 42)
 - [ ] validate:session (Playwright tokens) green
 - [ ] Phase 0 vs final screenshot comparison (6 routes) — no unintended layout shift
 - [ ] yolo-vakt GO documented

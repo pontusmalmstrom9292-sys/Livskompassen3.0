@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Loader2 } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, Input } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
@@ -115,7 +115,7 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
         <>
           <BentoCard title={scope === 'vardag' ? 'Logga utgift' : 'Logga utgift / inkomst'} className="overflow-hidden">
             <div className="space-y-3 text-sm">
-              <input
+              <Input
                 type="date"
                 className="input-glass w-full"
                 value={uDate}
@@ -128,13 +128,13 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
                 {scope === 'all' ? <option>Sälj</option> : null}
                 <option>Övrigt</option>
               </select>
-              <input
+              <Input
                 className="input-glass w-full"
                 placeholder="Beskrivning"
                 value={uBesk}
                 onChange={(e) => setUBesk(e.target.value)}
               />
-              <input
+              <Input
                 type="number"
                 className="input-glass w-full"
                 placeholder="Belopp (kr)"
@@ -182,13 +182,13 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
               </ul>
             )}
             <div className="flex flex-wrap gap-2">
-              <input
+              <Input
                 className="input-glass flex-1"
                 placeholder="Namn"
                 value={billName}
                 onChange={(e) => setBillName(e.target.value)}
               />
-              <input
+              <Input
                 type="number"
                 className="input-glass w-24"
                 placeholder="kr"

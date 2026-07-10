@@ -19,17 +19,38 @@ type Props = {
 export function ModuleHelpHint({ title, lines, action, className }: Props) {
   const [open, setOpen] = useState(false);
   const panelId = useId();
+  const titleId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!open) return;
+    closeRef.current?.focus();
     const onPointer = (event: MouseEvent) => {
       if (rootRef.current && !rootRef.current.contains(event.target as Node)) {
         setOpen(false);
       }
     };
     const onKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key === 'Escape') {
+        setOpen(false);
+        return;
+      }
+      if (event.key === 'Tab' && rootRef.current) {
+        const focusable = rootRef.current.querySelectorAll<HTMLElement>(
+          'button, a[href], [tabindex]:not([tabindex="-1"])',
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      }
     };
     document.addEventListener('mousedown', onPointer);
     document.addEventListener('keydown', onKey);
@@ -43,7 +64,7 @@ export function ModuleHelpHint({ title, lines, action, className }: Props) {
     <div ref={rootRef} className={clsx('module-help-hint relative inline-flex shrink-0', className)}>
       <button
         type="button"
-        className="module-help-hint__trigger flex h-8 w-8 items-center justify-center rounded-full border border-border/40 bg-surface-2/60 text-text-muted transition-colors hover:border-accent/40 hover:bg-surface-3/50 hover:text-accent"
+        className="module-help-hint__trigger flex min-h-[var(--ds-touch-target)] min-w-[var(--ds-touch-target)] items-center justify-center rounded-full border border-border/40 bg-surface-2/60 text-text-muted transition-colors hover:border-accent/40 hover:bg-surface-3/50 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
         aria-expanded={open}
         aria-controls={panelId}
         aria-label={`Hjälp: ${title}`}
@@ -55,15 +76,19 @@ export function ModuleHelpHint({ title, lines, action, className }: Props) {
       {open ? (
         <div
           id={panelId}
-          role="dialog"
-          aria-label={title}
-          className="module-help-hint__panel absolute right-0 top-full z-50 mt-2 w-[min(20rem,calc(100vw-2rem))] rounded-xl border border-border/40 bg-surface-2/95 p-3 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.65)] backdrop-blur-md"
+          role="region"
+          aria-labelledby={titleId}
+          tabIndex={-1}
+          className="module-help-hint__panel absolute right-0 top-full z-50 mt-2 w-[min(20rem,calc(100vw-2rem))] rounded-xl border border-border/40 bg-surface-2/95 p-3 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.65)] backdrop-blur-md outline-none"
         >
           <div className="mb-2 flex items-start justify-between gap-2">
-            <p className="pr-2 text-xs font-semibold leading-snug text-accent">{title}</p>
+            <p id={titleId} className="pr-2 text-xs font-semibold leading-snug text-accent">
+              {title}
+            </p>
             <button
+              ref={closeRef}
               type="button"
-              className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-text-muted hover:bg-surface-3/60 hover:text-text"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-text-muted hover:bg-surface-3/60 hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
               aria-label="Stäng hjälp"
               onClick={() => setOpen(false)}
             >

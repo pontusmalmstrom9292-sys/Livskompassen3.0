@@ -2,7 +2,7 @@ import { Loader2 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ensureVitHub, saveVitEntry } from '@/core/firebase/vitHubFirestore';
 import { CognitiveLoadStrip } from '@/core/ui/CognitiveLoadStrip';
-import { Button } from '@/design-system';
+import { Button, TextArea, textStyles } from '@/design-system';
 
 const DRAFT_STORAGE_KEY = 'livskompassen_recovery_reality_draft';
 const RECOVERY_BANK_ID = 'DF-REALITY-01';
@@ -307,7 +307,7 @@ export function RecoveryRealityCheckForm({ userId, onSaved, onComplete }: Props)
 
       <div className="mt-6 space-y-4">
         <div>
-          <p className="font-display-serif text-[10px] uppercase tracking-[0.22em] text-text-dim">
+          <p className={textStyles.eyebrow}>
             {step.eyebrow}
           </p>
           <h2 className="mt-2 font-display text-lg text-text">{step.title}</h2>
@@ -316,12 +316,12 @@ export function RecoveryRealityCheckForm({ userId, onSaved, onComplete }: Props)
 
         {step.kind === 'textarea' && step.field ? (
           <label className="block text-xs text-text-dim">
-            <textarea
+            <TextArea
               value={draft[step.field]}
               onChange={(e) => updateField(step.field as FieldKey, e.target.value)}
               rows={4}
               maxLength={FIELD_LIMITS[step.field]}
-              className="input-glass mt-2 w-full resize-none text-sm"
+              className="input-glass neu-inset mt-2 w-full resize-none text-sm"
               placeholder="Skriv fritt…"
             />
             <span className="mt-1 block text-right tabular-nums">

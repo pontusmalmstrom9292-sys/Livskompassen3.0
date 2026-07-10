@@ -1,133 +1,443 @@
-/* Dock kanon-match — referens 2026-06-28 (överstyr executive-chrome dock-tokens) */
+/* PROTECTED BASTA-DESIGN DOCK LOCK — docs/design/BASTA-DESIGN-DOCK-LOCK.md · npm run smoke:basta-dock-lock */
+/* Dock — bästa designv2 (lägre fyrkantig bar + stor kompass + resurser i header) */
 
-.dock-shell.dock-shell--reference-dock,
-.dock-shell.dock-shell--basta-design {
-  --dock-stack-height: 7.65rem;
-  --app-dock-clearance: calc(7.25rem + env(safe-area-inset-bottom, 0px) + 0.85rem);
+.dock-shell.dock-shell--basta-design,
+.dock-shell.dock-shell--basta-v2 {
+  --dock-stack-height: 7.35rem;
+  --app-dock-clearance: calc(8.15rem + env(safe-area-inset-bottom, 0px) + 0.85rem);
+  isolation: isolate;
+  z-index: 60;
+  padding: 0 0.35rem max(0.45rem, env(safe-area-inset-bottom)) !important;
+  background: transparent !important;
 }
 
-.exec-dock-bar {
-  grid-template-columns: 1fr 0.88fr 1.22fr 0.88fr 0.88fr 1fr;
-  min-height: 2.45rem;
-  padding: 2.35rem 0.28rem 0.42rem;
-  padding-bottom: calc(0.42rem + env(safe-area-inset-bottom, 0px));
-  border-color: color-mix(in srgb, var(--accent) 38%, transparent);
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--accent-light) 24%, transparent) 0%,
-      color-mix(in srgb, var(--accent-light) 6%, transparent) 1px,
-      transparent 2px
-    ),
-    var(--ds-glass-sheen),
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--accent-light) 6%, transparent) 0%,
-      transparent 12%
-    ),
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--ds-glass-bg) 68%, transparent) 0%,
-      color-mix(in srgb, var(--surface) 98%, #020617) 100%
-    );
-  box-shadow:
-    var(--ds-elevation-dock),
-    inset 0 1px 0 color-mix(in srgb, var(--accent-light) 48%, transparent),
-    0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent),
-    0 12px 36px rgba(0, 0, 0, 0.55),
-    0 0 28px color-mix(in srgb, var(--accent) 9%, transparent);
-}
-
-.exec-dock-bar--extended .exec-dock-bar__side:nth-child(1)::after,
-.exec-dock-bar--extended .exec-dock-bar__side:nth-child(2)::after,
-.exec-dock-bar--extended .exec-dock-bar__side:nth-child(4)::after,
-.exec-dock-bar--extended .exec-dock-bar__side:nth-child(5)::after,
-.exec-dock-bar--mix-e .exec-dock-bar__side:nth-child(1)::after,
-.exec-dock-bar--mix-e .exec-dock-bar__side:nth-child(3)::after,
-.exec-dock-bar--extended .exec-dock-bar__compass-slot::before,
-.exec-dock-bar--extended .exec-dock-bar__compass-slot::after,
-.exec-dock-bar--mix-e .exec-dock-bar__compass-slot::before,
-.exec-dock-bar--mix-e .exec-dock-bar__compass-slot::after {
-  top: 4%;
-  bottom: 8%;
-  box-shadow: 0 0 10px color-mix(in srgb, var(--accent) 42%, transparent);
-}
-
-.exec-dock-bar__label {
-  max-width: 5.6rem;
-  overflow: visible;
-  text-overflow: clip;
-  white-space: nowrap;
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-size: 0.48rem;
-  font-weight: 500;
-  letter-spacing: 0.035em;
-  line-height: 1.1;
-  color: color-mix(in srgb, var(--accent-light) 90%, var(--text-muted));
-  text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 14%, transparent);
-}
-
-.exec-dock-bar__glyph {
-  width: 1.3rem;
-  height: 1.3rem;
-  opacity: 0.94;
-  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--accent) 32%, transparent));
-}
-
-.exec-dock-bar__compass-label,
-.dock-shell--basta-design .exec-dock-bar__compass-label {
-  display: none !important;
-}
-
-.exec-dock-bar__compass {
-  width: 7.15rem;
-  height: 7.35rem;
-  margin-top: -6.1rem;
-}
-
-.exec-dock-bar__compass::before {
-  inset: 0.5rem;
-  filter: blur(8px);
-  background: radial-gradient(
-    circle at 50% 42%,
-    color-mix(in srgb, var(--accent) 28%, transparent) 0%,
-    color-mix(in srgb, var(--accent) 10%, transparent) 45%,
-    transparent 72%
+.dock-shell--basta-v2::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: calc(var(--dock-stack-height) + env(safe-area-inset-bottom, 0px) + 1.25rem);
+  pointer-events: none;
+  z-index: 0;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--bg, #07101d) 98%, transparent) 0%,
+    color-mix(in srgb, var(--bg, #07101d) 88%, transparent) 40%,
+    transparent 100%
   );
 }
 
-.exec-dock-bar__compass::after {
-  content: none;
+.dock-shell--basta-v2 .basta-dock-bar {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: min(100vw - 0.7rem, 44rem);
+  margin-right: 0;
 }
 
-.exec-dock-bar__compass--open::after {
+/* v2 — bredare bar, fyrkantig mittplatta för kompass */
+.basta-dock-bar--v2 {
+  grid-template-columns: 1.15fr 1.15fr minmax(7.35rem, 1.85fr) 1.15fr 1.15fr;
+  min-height: 2.65rem;
+  padding: 1.95rem 0.55rem 0.52rem;
+  padding-bottom: calc(0.48rem + env(safe-area-inset-bottom, 0px));
+  border-radius: 0.65rem;
+  border: 1px solid color-mix(in srgb, var(--bd-accent, #d4af37) 34%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, #1a2438 92%, #132035) 0%,
+    color-mix(in srgb, #090c16 98%, #020617) 100%
+  );
+  backdrop-filter: blur(10px) saturate(1.08);
+  -webkit-backdrop-filter: blur(10px) saturate(1.08);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--bd-accent, #d4af37) 38%, transparent),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.45),
+    0 8px 24px rgba(0, 0, 0, 0.62);
+}
+
+.basta-dock-bar--v2::before {
+  left: 4%;
+  right: 4%;
+  border-radius: 0.65rem 0.65rem 0 0;
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__side:nth-child(1) {
+  grid-column: 1;
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__side:nth-child(2) {
+  grid-column: 2;
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__compass-slot {
+  grid-column: 3;
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__side:nth-child(4) {
+  grid-column: 4;
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__side:nth-child(5) {
+  grid-column: 5;
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__side {
+  position: relative;
+  gap: 0.28rem;
+  min-width: 3.35rem;
+  padding: 0 0.18rem 0.14rem;
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__label {
+  font-family: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.5rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+  max-width: 4.75rem;
+  text-transform: uppercase;
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__side,
+.basta-dock-bar--v2 .basta-dock-bar__side .basta-dock-bar__icon {
+  color: color-mix(in srgb, var(--bd-accent, #d4af37) 88%, #c9a435);
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__side--active,
+.basta-dock-bar--v2 .basta-dock-bar__side--active .basta-dock-bar__icon {
+  color: var(--bd-accent, #d4af37);
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__side:not(.basta-dock-bar__side--active) {
+  color: color-mix(in srgb, var(--bd-accent, #d4af37) 72%, #8a8a9a);
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__side:not(.basta-dock-bar__side--active) .basta-dock-bar__icon {
+  color: color-mix(in srgb, var(--bd-accent, #d4af37) 78%, #7a7a8a);
+}
+
+/* 3D ikonbrunnar — guld, större */
+.basta-dock-bar--v2 .basta-dock-bar__icon-well {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 0.42rem;
+  color: inherit;
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, #2f3a4e 85%, var(--bd-accent, #d4af37)) 0%,
+    color-mix(in srgb, #0a0e16 92%, #000) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--bd-accent, #d4af37) 32%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.45),
+    0 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__side--active .basta-dock-bar__icon-well {
+  border-color: color-mix(in srgb, var(--bd-accent, #d4af37) 55%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.35),
+    0 0 12px color-mix(in srgb, var(--bd-accent, #d4af37) 28%, transparent);
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__icon {
+  display: flex;
+  width: 1.375rem;
+  height: 1.375rem;
+  opacity: 1;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__side--active .basta-dock-bar__icon {
+  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--bd-accent, #d4af37) 55%, transparent));
+}
+
+/* Kompass fyller mittfältet */
+.basta-dock-bar--v2 .basta-dock-bar__compass-slot {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-width: 7.35rem;
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__compass {
+  width: 7.25rem;
+  height: 7.25rem;
+  margin-top: -5.15rem;
+  margin-bottom: 0.02rem;
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__compass::before {
+  inset: 0;
+  border-width: 2px;
+  border-color: color-mix(in srgb, var(--bd-accent, #d4af37) 58%, transparent);
+  box-shadow:
+    inset 0 2px 8px rgba(255, 255, 255, 0.1),
+    inset 0 -4px 10px rgba(0, 0, 0, 0.52),
+    0 0 24px color-mix(in srgb, var(--bd-accent, #d4af37) 48%, transparent),
+    0 12px 26px rgba(0, 0, 0, 0.58);
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__compass-mark {
+  width: 100%;
+  height: 100%;
+  max-width: 7.15rem;
+  max-height: 7.15rem;
+  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.58));
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__side:nth-child(1)::after,
+.basta-dock-bar--v2 .basta-dock-bar__side:nth-child(2)::after,
+.basta-dock-bar--v2 .basta-dock-bar__side:nth-child(4)::after {
   content: '';
   position: absolute;
-  inset: -0.1rem;
-  border-radius: 50%;
-  border: 1px solid color-mix(in srgb, var(--accent-light) 42%, transparent);
+  top: 10%;
+  bottom: 14%;
+  right: 0;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--bd-accent, #d4af37) 38%, transparent) 50%,
+    transparent 100%
+  );
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__compass-slot::before,
+.basta-dock-bar--v2 .basta-dock-bar__compass-slot::after {
+  content: '';
+  position: absolute;
+  top: 10%;
+  bottom: 14%;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    color-mix(in srgb, var(--bd-accent, #d4af37) 38%, transparent) 50%,
+    transparent 100%
+  );
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__compass-slot::before {
+  left: 0;
+}
+
+.basta-dock-bar--v2 .basta-dock-bar__compass-slot::after {
+  right: 0;
+}
+
+/* —— Resurser utfällbar widget —— */
+.basta-resurser-widget {
+  position: absolute;
+  right: 0.35rem;
+  bottom: calc(0.2rem + env(safe-area-inset-bottom, 0px));
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: auto;
+}
+
+/* Header — fälls ut nedåt från toppraden */
+.basta-resurser-widget--header {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  flex-direction: column-reverse;
+  align-items: stretch;
+  z-index: 40;
+}
+
+.basta-resurser-widget--header .basta-resurser-widget__tab {
+  flex-direction: row;
+  gap: 0.32rem;
+  min-width: auto;
+  min-height: 1.85rem;
+  height: 1.85rem;
+  padding: 0 0.62rem;
+  border-radius: 9999px;
+  background: var(--bd-accent-soft, rgba(212, 175, 55, 0.12));
+  border: 1px solid color-mix(in srgb, var(--bd-accent, #d4af37) 28%, transparent);
   box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--accent) 10%, transparent),
-    0 0 32px color-mix(in srgb, var(--accent) 34%, transparent);
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 2px 8px rgba(0, 0, 0, 0.28);
+}
+
+.basta-resurser-widget--header .basta-resurser-widget__tab-label {
+  font-size: 0.59375rem;
+  letter-spacing: 0.08em;
+}
+
+.basta-resurser-widget--header .basta-resurser-widget__panel {
+  position: absolute;
+  top: calc(100% + 0.35rem);
+  left: 0;
+  right: auto;
+  margin-bottom: 0;
+  width: min(12.5rem, 72vw);
+  z-index: 50;
+  transform: translateY(-4px);
+}
+
+.basta-resurser-widget--header.basta-resurser-widget--open .basta-resurser-widget__panel {
+  transform: translateY(0);
+}
+
+.basta-resurser-widget__tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.06rem;
+  min-width: 2rem;
+  min-height: 2.35rem;
+  padding: 0.28rem 0.22rem;
+  border: 1px solid color-mix(in srgb, var(--bd-accent, #d4af37) 30%, transparent);
+  border-radius: 0.45rem;
+  background: linear-gradient(180deg, #1c2638 0%, #090c14 100%);
+  color: var(--bd-accent, #d4af37);
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.07),
+    inset 0 -2px 4px rgba(0, 0, 0, 0.4),
+    0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.basta-resurser-widget__tab-label {
+  font-family: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.40625rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.basta-resurser-widget__chevron {
+  opacity: 0.7;
+  transition: transform 0.2s ease;
+}
+
+.basta-resurser-widget__chevron--up {
+  transform: rotate(180deg);
+}
+
+.basta-resurser-widget--open .basta-resurser-widget__tab {
+  border-color: color-mix(in srgb, var(--bd-accent, #d4af37) 48%, transparent);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 12px color-mix(in srgb, var(--bd-accent, #d4af37) 18%, transparent),
+    0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+.basta-resurser-widget__panel {
+  width: min(11.5rem, 42vw);
+  margin-bottom: 0.35rem;
+  padding: 0.4rem;
+  border-radius: 0.55rem;
+  border: 1px solid color-mix(in srgb, var(--bd-accent, #d4af37) 28%, transparent);
+  background: linear-gradient(180deg, #141c2c 0%, #090c14 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 10px 28px rgba(0, 0, 0, 0.62);
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
   pointer-events: none;
-  z-index: 0;
+  transform: translateY(6px);
+  transition:
+    max-height 0.28s ease,
+    opacity 0.22s ease,
+    transform 0.22s ease;
 }
 
-.exec-dock-bar__compass-mark,
-.exec-dock-bar__compass .exec-decor-compass--hero,
-.exec-decor-compass--hero {
-  width: 7rem !important;
-  height: 7rem !important;
-  filter:
-    drop-shadow(0 0 14px color-mix(in srgb, var(--accent) 78%, transparent))
-    drop-shadow(0 0 28px color-mix(in srgb, var(--accent) 42%, transparent))
-    drop-shadow(0 6px 14px rgba(0, 0, 0, 0.45));
+.basta-resurser-widget--open .basta-resurser-widget__panel {
+  max-height: 17rem;
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
-.dock-shell--basta-design .exec-dock-bar__label {
-  font-family: 'Outfit', system-ui, sans-serif;
-  font-size: 0.48rem;
+.basta-resurser-widget__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.basta-resurser-widget__row {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  padding: 0.38rem 0.35rem;
+  border: 0;
+  border-radius: 0.35rem;
+  background: transparent;
+  color: #c8c0b0;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.basta-resurser-widget__row:hover {
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.basta-resurser-widget__row-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 0.28rem;
+  color: var(--bd-accent, #d4af37);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.06) 0%, rgba(0, 0, 0, 0.35) 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.basta-resurser-widget__row-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  min-width: 0;
+}
+
+.basta-resurser-widget__row-label {
+  font-size: 0.625rem;
   font-weight: 500;
-  letter-spacing: 0.035em;
-  color: color-mix(in srgb, var(--accent) 90%, var(--text-muted));
+  color: #e8e0d0;
+}
+
+.basta-resurser-widget__row-sub {
+  font-size: 0.5rem;
+  color: #6a7080;
+}
+
+.basta-resurser-widget__all {
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--bd-accent, #d4af37) 24%, transparent);
+  border-radius: 0.35rem;
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--bd-accent, #d4af37);
+  font-family: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
+  font-size: 0.5rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .basta-resurser-widget__panel,
+  .basta-resurser-widget__chevron {
+    transition: none;
+  }
 }

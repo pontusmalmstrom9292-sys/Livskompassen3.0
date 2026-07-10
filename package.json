@@ -88,6 +88,7 @@
     "rollout:night": "node scripts/rollout_autorun.mjs",
     "smoke:locked-ux": "node scripts/smoke_locked_ux.mjs",
     "smoke:chrome-header": "node scripts/smoke_chrome_header.mjs",
+    "smoke:basta-dock-lock": "node scripts/smoke_basta_dock_lock.mjs",
     "smoke:executive-home-visual": "node scripts/smoke_executive_home_visual.mjs",
     "smoke:yolo": "node scripts/smoke_yolo_gate.mjs",
     "smoke:obsidian-depth": "node scripts/smoke_obsidian_depth.mjs",

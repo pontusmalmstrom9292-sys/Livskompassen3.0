@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronRight } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, TextArea } from '@/design-system';
 import { mirrorFeeling } from '../constants/vivirSteps';
 import {
   fetchSpeglingsMirror,
@@ -85,7 +85,7 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
       <div className="grid gap-3 md:grid-cols-2">
         <div className="glass-card p-3">
           <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">Känsla nu</p>
-          <textarea
+          <TextArea
             value={safeFeeling}
             onChange={(e) => {
               onFeelingChange(e.target.value);
@@ -95,7 +95,7 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
             }}
             placeholder="Vad känner du just nu?"
             rows={4}
-            className="input-glass rounded-lg p-3"
+            className="input-glass neu-inset resize-none rounded-lg p-3"
           />
           <Button
             type="button"

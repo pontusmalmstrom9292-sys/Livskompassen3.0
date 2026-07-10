@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { formatDisplayDate } from '@/shared/utils/dateHelpers';
-import { Button, Sheet, SheetFooter } from '@/design-system';
+import { Button, Badge, Sheet, SheetFooter } from '@/design-system';
+import { inboxQueueStatusBadgeVariant } from '@/modules/capture/reviewQueuePipeline';
 import type { PasteClassification } from '../rules/pasteClassifier';
 import './planering.css';
 
@@ -66,15 +67,14 @@ export function InkorgPreviewSheet({ open, classification, saving, onConfirm, on
         <div>
           <dt className="text-[10px] uppercase tracking-widest text-text-dim">Routing</dt>
           <dd className="mt-1 flex flex-wrap items-center gap-2">
-            <span
-              className={
-                classification.routeToHamn
-                  ? 'review-queue-status review-queue-status--review'
-                  : 'review-queue-status review-queue-status--routed'
-              }
+            <Badge
+              variant={inboxQueueStatusBadgeVariant(
+                classification.routeToHamn ? 'review' : 'routed',
+              )}
+              className="text-[10px] uppercase tracking-wider"
             >
               → {classification.routeToHamn ? 'Hamn' : 'Handling'}
-            </span>
+            </Badge>
             {classification.matchedRuleLabel ? (
               <span className="text-xs text-text-dim">{classification.matchedRuleLabel}</span>
             ) : null}

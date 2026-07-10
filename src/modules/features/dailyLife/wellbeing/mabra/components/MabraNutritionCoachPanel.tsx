@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, TextArea } from '@/design-system';
 import { fetchNutritionCoach } from '../api/mabraCoachService';
 
 type Props = {
@@ -44,7 +44,7 @@ export function MabraNutritionCoachPanel({ uid }: Props) {
   return (
     <div className="mt-4 w-full text-left">
       <p className="mb-2 text-xs text-text-dim">Har du specifika sug eller svårt att få till en måltid? Fråga om ett tillägg.</p>
-      <textarea
+      <TextArea
         value={note}
         onChange={(e) => setNote(e.target.value.slice(0, 300))}
         placeholder="T.ex: Jag har jättesug efter choklad, hur kan jag balansera det?"

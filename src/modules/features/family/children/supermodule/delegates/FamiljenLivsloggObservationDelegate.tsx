@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button } from '@/design-system';
+import { Button, TextArea } from '@/design-system';
 import { Plus, Loader2, Check } from 'lucide-react';
 import { LIVSLOGG_CATEGORIES, type LivsloggCategory } from '../../constants';
 import { SaveAsEvidencePrompt } from '../../components/SaveAsEvidencePrompt';
@@ -159,7 +159,7 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
           : 'Tolkning sparas med [tolkning]-prefix — din observation utan etikett på motpart.'}
       </p>
 
-      <textarea
+      <TextArea
         value={observation}
         onChange={(e) => {
           setObservation(e.target.value);
@@ -168,16 +168,16 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
         }}
         placeholder={OBSERVATION_PLACEHOLDER[epistemicKind]}
         rows={3}
-        className="input-glass w-full rounded-xl px-3 py-2"
+        className="input-glass neu-inset w-full resize-none rounded-xl px-3 py-2"
         disabled={loading}
       />
 
-      <textarea
+      <TextArea
         value={childrenImpact}
         onChange={(e) => setChildrenImpact(e.target.value)}
         placeholder="Påverkan på barn (valfritt)..."
         rows={2}
-        className="input-glass w-full rounded-xl px-3 py-2"
+        className="input-glass neu-inset w-full resize-none rounded-xl px-3 py-2"
         disabled={loading}
       />
 

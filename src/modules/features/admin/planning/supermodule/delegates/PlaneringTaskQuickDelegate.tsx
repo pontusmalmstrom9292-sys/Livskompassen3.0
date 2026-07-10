@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Loader2 } from 'lucide-react';
+import { Input, textStyles } from '@/design-system';
 import { usePlanningTasks } from '../../hooks/usePlanningTasks';
 import type { PlanningTaskStatus } from '../../types';
 
@@ -65,7 +66,7 @@ export function PlaneringTaskQuickDelegate({ onSaved }: PlaneringTaskQuickDelega
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <header className="space-y-1">
-        <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
+        <p className={textStyles.eyebrow}>
           Snabb uppgift
         </p>
         <p className="text-xs text-text-dim">
@@ -76,12 +77,12 @@ export function PlaneringTaskQuickDelegate({ onSaved }: PlaneringTaskQuickDelega
 
       <label className="block space-y-1">
         <span className="text-xs uppercase tracking-wider text-text-dim">Titel</span>
-        <input
+        <Input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Vad behöver göras?"
-          className="w-full rounded-xl border border-border bg-surface-2 px-3 py-2 text-sm text-text placeholder:text-text-dim focus:border-accent/40 focus:outline-none"
+          className="input-glass w-full rounded-xl px-3 py-2 text-sm"
           autoComplete="off"
         />
       </label>
@@ -92,7 +93,7 @@ export function PlaneringTaskQuickDelegate({ onSaved }: PlaneringTaskQuickDelega
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value as PlanningTaskStatus)}
-            className="w-full rounded-xl border border-border bg-surface-2 px-3 py-2 text-sm text-text focus:border-accent/40 focus:outline-none"
+            className="input-glass w-full rounded-xl px-3 py-2 text-sm"
           >
             {STATUS_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -104,11 +105,11 @@ export function PlaneringTaskQuickDelegate({ onSaved }: PlaneringTaskQuickDelega
 
         <label className="block space-y-1">
           <span className="text-xs uppercase tracking-wider text-text-dim">Förfaller (valfritt)</span>
-          <input
+          <Input
             type="date"
             value={dueAt}
             onChange={(e) => setDueAt(e.target.value)}
-            className="w-full rounded-xl border border-border bg-surface-2 px-3 py-2 text-sm text-text focus:border-accent/40 focus:outline-none"
+            className="input-glass w-full rounded-xl px-3 py-2 text-sm"
           />
         </label>
       </div>

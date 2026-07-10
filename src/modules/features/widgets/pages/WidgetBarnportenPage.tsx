@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Button, ButtonLink } from '@/design-system';
+import { Button, ButtonLink, TextArea } from '@/design-system';
 import { Loader2 } from 'lucide-react';
 import { AuthGate } from '@/core/auth/AuthGate';
 import { useStore } from '@/core/store';
@@ -70,12 +70,12 @@ function WidgetBarnportenInner() {
           </div>
         ) : (
           <div className="space-y-3">
-            <textarea
+            <TextArea
               ref={textareaRef}
               value={text}
               onChange={(e) => setText(e.target.value)}
               rows={4}
-              className="input-glass w-full text-sm"
+              className="input-glass neu-inset w-full resize-none text-sm"
               placeholder="Skriv här…"
             />
             <Button

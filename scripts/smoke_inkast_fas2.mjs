@@ -67,7 +67,7 @@ function main() {
   mustInclude(
     'src/modules/inkast/components/InboxReviewQueue.tsx',
     'inboxQueueDisplayStatus',
-    'inboxQueueStatusBadgeClass',
+    'inboxQueueStatusBadgeVariant',
     'handleDismiss',
     'handleConfirm',
     'handlePlanering',
@@ -80,7 +80,11 @@ function main() {
     'classifyInboxItemForHandling',
   );
 
-  mustInclude('src/index.css', 'review-queue-status--routed', 'review-queue-status--review');
+  mustInclude(
+    'src/modules/features/admin/planning/components/InkorgPreviewSheet.tsx',
+    'inboxQueueStatusBadgeVariant',
+    'Badge',
+  );
 
   console.log('[smoke:inkast-fas2] PASS — Planering kö + G10 status.');
 }

@@ -1,5 +1,5 @@
 import { Loader2 } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, TextArea } from '@/design-system';
 import { HubDropdownNav } from '@/core/ui/HubDropdownNav';
 import { useStore } from '@/core/store';
 import { BiffRewriteButton } from '@/shared/ui/BiffRewriteButton';
@@ -109,7 +109,7 @@ export function InkastManualEditForm({
         <span className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-text-dim">
           Kommentar / sammanfattning
         </span>
-        <textarea
+        <TextArea
           value={comment}
           onChange={(e) => onCommentChange(e.target.value)}
           placeholder="Kort beskrivning av innehållet…"

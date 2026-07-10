@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, TextArea } from '@/design-system';
 import { VIVIR_STEPS } from '../constants/vivirSteps';
 
 interface Props {
@@ -34,12 +34,12 @@ export function VivirStepView({ answers, onChange, onComplete }: Props) {
 
       <p className="text-sm text-text-muted">{step.prompt}</p>
 
-      <textarea
+      <TextArea
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder={step.placeholder}
         rows={3}
-        className={`input-glass rounded-xl p-3 ${value ? 'border-accent/30' : ''}`}
+        className={`input-glass neu-inset resize-none rounded-xl p-3 ${value ? 'border-accent/30' : ''}`}
       />
 
       <div className="flex gap-2">

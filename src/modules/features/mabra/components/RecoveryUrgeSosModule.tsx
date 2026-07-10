@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ArrowLeft, X } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, Modal, textStyles } from '@/design-system';
+import {
+  immersiveModalOverlayClass,
+  immersiveModalPanelClass,
+} from '@/core/ui/zenModeOverlayClasses';
 import {
   BREATH_PHASE_SECONDS,
   GROUNDING_STEPS,
@@ -87,17 +91,18 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
   };
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="SOS Ankare — akut stöd"
-      className="fixed inset-0 z-[60] flex flex-col bg-gradient-to-b from-bg via-surface to-surface-2"
+    <Modal
+      open
+      onClose={onClose}
+      hideHeader
+      ariaLabel="SOS Ankare — akut stöd"
+      className={`${immersiveModalOverlayClass} !z-[60]`}
+      panelClassName={`${immersiveModalPanelClass} !bg-gradient-to-b !from-bg !via-surface !to-surface-2`}
     >
+      <div className="flex h-full min-h-[100dvh] flex-col">
       <header className="flex shrink-0 items-center justify-between border-b-[0.5px] border-border px-4 py-3 sm:px-6">
         {screen === 'anchor' ? (
-          <p className="font-display-serif text-[10px] uppercase tracking-[0.22em] text-text-dim">
-            SOS Ankare
-          </p>
+          <p className={textStyles.eyebrow}>SOS Ankare</p>
         ) : (
           <button
             type="button"
@@ -199,6 +204,7 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
           <span className="text-danger">{RECOVERY_SOS_ANCHOR_COPY.emergencyNumber}</span>
         </p>
       </div>
-    </div>
+      </div>
+    </Modal>
   );
 }

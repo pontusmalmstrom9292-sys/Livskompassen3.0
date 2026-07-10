@@ -35,7 +35,7 @@ type VaultPageProps = {
 
 export function VaultPage(props: VaultPageProps) {
   return (
-    <VaultErrorBoundary>
+    <VaultErrorBoundary glow="blue">
       <VaultPageInner {...props} />
     </VaultErrorBoundary>
   );

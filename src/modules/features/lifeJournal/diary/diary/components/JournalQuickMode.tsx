@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Check, Loader2 } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, TextArea } from '@/design-system';
 import { MOOD_CATALOG, getMoodDef } from '../constants/moods';
 import {
   JOURNAL_SUGGESTED_TAGS,
@@ -114,7 +114,7 @@ export function JournalQuickMode({
 
       <label className="mt-4 block">
         <span className="sr-only">Snabb rad</span>
-        <textarea
+        <TextArea
           value={quickText}
           onChange={(e) => setQuickText(e.target.value)}
           placeholder="Skriv en snabb rad (valfritt)…"

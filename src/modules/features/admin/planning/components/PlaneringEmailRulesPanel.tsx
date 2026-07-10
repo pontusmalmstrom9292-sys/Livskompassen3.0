@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button } from '@/design-system';
+import { Button, Input } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import {
   MATCH_TYPE_LABELS,
@@ -96,7 +96,7 @@ export function PlaneringEmailRulesPanel() {
 
       <BentoCard title="Ny regel">
         <div className="space-y-2">
-          <input
+          <Input
             className="input-glass w-full text-sm"
             placeholder="Namn (t.ex. Ex mejl)"
             value={draft.label}
@@ -118,7 +118,7 @@ export function PlaneringEmailRulesPanel() {
               </option>
             ))}
           </select>
-          <input
+          <Input
             className="input-glass w-full text-sm"
             placeholder="Mönster (t.ex. @skola.se eller förnamn@)"
             value={draft.pattern}
@@ -142,7 +142,7 @@ export function PlaneringEmailRulesPanel() {
           </select>
           <label className="block text-xs text-text-muted">
             Prioritet (1–100, lägre = starkare)
-            <input
+            <Input
               type="number"
               min={1}
               max={100}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Check, Loader2, Moon } from 'lucide-react';
-import { Button, ButtonLink } from '@/design-system';
+import { Button, ButtonLink, TextArea } from '@/design-system';
 import { hjartatTabHref } from '@/core/navigation/appNavigation';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -141,14 +141,14 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
         Steg {stepIndex + 1} av {KASAM_STEPS.length}: {current.label}
       </p>
       <p className="text-center text-xs text-text-muted">{current.question}</p>
-      <textarea
+      <TextArea
         value={currentValue}
         onChange={(e) => setKasam((k) => ({ ...k, [current.key]: e.target.value }))}
         rows={embedded ? 2 : 3}
         className={
           embedded
-            ? 'input-glass w-full text-sm'
-            : 'w-full rounded-xl border border-border-strong bg-surface/50 px-4 py-3 text-sm'
+            ? 'input-glass neu-inset w-full resize-none text-sm'
+            : 'input-glass neu-inset w-full resize-none rounded-xl px-4 py-3 text-sm'
         }
       />
       {error && <p className="text-center text-xs text-danger">{error}</p>}

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, ButtonLink } from '@/design-system';
+import { Button, ButtonLink, TextArea } from '@/design-system';
 import {
   Camera,
   Check,
@@ -279,13 +279,13 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
 
         {recPhase === 'idle' && (
           <>
-            <textarea
+            <TextArea
               value={text}
               onChange={(e) => setText(e.target.value.slice(0, REFLECTION_MAX_CHARS))}
               rows={3}
               maxLength={REFLECTION_MAX_CHARS}
               placeholder="En kort tanke eller observation…"
-              className="input-glass w-full rounded-xl px-3 py-2 text-sm"
+              className="input-glass neu-inset w-full resize-none rounded-xl px-3 py-2 text-sm"
               disabled={saving}
             />
             <p className="text-right text-[10px] text-text-dim">
@@ -516,14 +516,14 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
           ))}
         </select>
 
-        <textarea
+        <TextArea
           ref={textareaRef}
           value={observation}
           onChange={(e) => setObservation(e.target.value.slice(0, STUND_MAX_CHARS))}
           rows={4}
           maxLength={STUND_MAX_CHARS}
           placeholder="Vad hände? En kort observation…"
-          className="input-glass w-full rounded-xl px-3 py-2 text-sm"
+          className="input-glass neu-inset w-full resize-none rounded-xl px-3 py-2 text-sm"
         />
         {speech.interim ? (
           <p className="text-xs text-text-dim">Hör: {speech.interim}</p>
