@@ -1,0 +1,10 @@
+/**
+ * Typography utilities — display serif.
+ * Flyttad från index.css (våg 110).
+ */
+
+@layer utilities {
+  .font-display-serif {
+    font-family: 'Cinzel', 'Outfit', serif;
+  }
+}

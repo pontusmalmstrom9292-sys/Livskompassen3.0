@@ -718,7 +718,7 @@ function main() {
     'familjen-input-hub--flow',
   );
   mustInclude(
-    'src/styles/obsidian-calm-2.css',
+    'src/design-system/styles/obsidian-calm-shells.css',
     'hub-view-lock--fit .familjen-input-hub--flow',
   );
   mustInclude(
@@ -730,7 +730,7 @@ function main() {
     'ModuleShell',
   );
   mustInclude(
-    'src/styles/obsidian-calm-2.css',
+    'src/design-system/styles/obsidian-calm-shells.css',
     '.app-main:has(.valvet-route-page--desktop)',
     'valvet-route-page--desktop',
   );

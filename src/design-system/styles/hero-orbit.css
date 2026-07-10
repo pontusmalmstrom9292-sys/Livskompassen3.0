@@ -1,0 +1,54 @@
+/* Hero orbit panel skins (Home / BastaDesign) — sunset från index.css våg 89 */
+@layer components {
+  .livskompass-hero--embedded {
+    @apply mx-auto w-full max-w-[min(100vw-1rem,28rem)];
+  }
+
+  .livskompass-hero--embedded .livskompass-hero__shield-label {
+    @apply mb-0.5 text-center;
+  }
+
+  .livskompass-hero--embedded .livskompass-hero__hint {
+    @apply mt-2 text-center;
+  }
+
+  .livskompass-hero--embedded.livskompass-hero--h1-full {
+    background-image: url('/hero-orbit/h1-orbit-hub-full-1920.png');
+    background-size: cover;
+    background-position: center top;
+  }
+
+  .livskompass-hero--embedded.livskompass-hero--h1-alpha {
+    background-image: url('/hero-orbit/h1-obsidian-radial.webp');
+    background-size: cover;
+    background-position: center;
+  }
+
+  .livskompass-hero--embedded.livskompass-hero--h1-alpha .livskompass-hero__disk-surface {
+    background-image: url('/hero-orbit/h1-orbit-hub-alpha-1920.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.95;
+  }
+
+  .livskompass-hero__panel--h1-full {
+    background-image: url('/hero-orbit/h1-orbit-hub-full-1920.png');
+    background-size: cover;
+    background-position: center top;
+  }
+
+  .livskompass-hero__panel--h1-alpha {
+    background-image: url('/hero-orbit/h1-obsidian-radial.webp');
+    background-size: cover;
+    background-position: center;
+  }
+
+  .livskompass-hero__panel--h1-alpha .livskompass-hero__disk-surface {
+    background-image: url('/hero-orbit/h1-orbit-hub-alpha-1920.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.95;
+  }
+}

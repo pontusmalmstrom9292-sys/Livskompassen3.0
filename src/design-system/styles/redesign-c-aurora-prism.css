@@ -1,0 +1,197 @@
+/**
+ * Flyttad från src/styles/redesign-c-aurora-prism.css (våg 110).
+ */
+
+/**
+ * Style C — Aurora Prism (Theme Lab only).
+ * Scoped to [data-theme='R-C-aurora-prism'] — no prod default change.
+ * Spec: docs/design/redesign-proposals/STYLE-C-SPEC.md
+ */
+
+[data-theme='R-C-aurora-prism'] {
+  color-scheme: dark;
+
+  --aurora-stroke: linear-gradient(
+    135deg,
+    rgba(45, 212, 191, 0.55) 0%,
+    rgba(129, 140, 248, 0.45) 45%,
+    rgba(45, 212, 191, 0.35) 100%
+  );
+  --aurora-fill: radial-gradient(
+    ellipse 120% 80% at 50% -20%,
+    rgba(45, 212, 191, 0.12) 0%,
+    rgba(129, 140, 248, 0.08) 40%,
+    transparent 70%
+  );
+  --aurora-ambient: conic-gradient(
+    from 210deg at 70% 10%,
+    rgba(45, 212, 191, 0.06),
+    rgba(129, 140, 248, 0.08),
+    rgba(45, 212, 191, 0.04),
+    transparent
+  );
+}
+
+@layer components {
+  [data-theme='R-C-aurora-prism'] .prism-card {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    border: 0.5px solid var(--border);
+    background: color-mix(in srgb, var(--surface-2) 65%, transparent);
+    backdrop-filter: blur(var(--prism-blur, 20px)) saturate(var(--prism-saturate, 140%));
+    -webkit-backdrop-filter: blur(var(--prism-blur, 20px)) saturate(var(--prism-saturate, 140%));
+  }
+
+  [data-theme='R-C-aurora-prism'] .prism-card::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  [data-theme='R-C-aurora-prism'] .prism-card::after {
+    content: '';
+    position: absolute;
+    inset: -40% -20% auto -20%;
+    height: 60%;
+    background: var(--aurora-fill);
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  [data-theme='R-C-aurora-prism'] .prism-hero {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1rem;
+    border: 0.5px solid var(--border);
+    background: var(--glass-hero);
+    backdrop-filter: blur(28px) saturate(var(--prism-saturate, 140%));
+    -webkit-backdrop-filter: blur(28px) saturate(var(--prism-saturate, 140%));
+  }
+
+  [data-theme='R-C-aurora-prism'] .prism-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 1px;
+    background: var(--aurora-stroke);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  [data-theme='R-C-aurora-prism'] .input-prism {
+    background: color-mix(in srgb, var(--surface-3) 80%, transparent);
+    border: 0.5px solid var(--border);
+    border-radius: 0.75rem;
+    color: var(--text);
+  }
+
+  [data-theme='R-C-aurora-prism'] .input-prism:focus {
+    outline: none;
+    border-color: var(--border-strong);
+    box-shadow: 0 0 0 1px rgba(129, 140, 248, 0.25);
+  }
+
+  [data-theme='R-C-aurora-prism'] .input-prism::placeholder {
+    color: var(--text-dim);
+  }
+
+  /* Map legacy calm-card to prism treatment in lab theme */
+  [data-theme='R-C-aurora-prism'] .calm-card,
+  [data-theme='R-C-aurora-prism'] .glass-card {
+    border-radius: 1rem;
+    border: 0.5px solid var(--border);
+    background: color-mix(in srgb, var(--surface-2) 65%, transparent);
+    backdrop-filter: blur(var(--prism-blur, 20px)) saturate(var(--prism-saturate, 140%));
+    -webkit-backdrop-filter: blur(var(--prism-blur, 20px)) saturate(var(--prism-saturate, 140%));
+  }
+
+  [data-theme='R-C-aurora-prism'] .glass-hero {
+    background: var(--glass-hero);
+    backdrop-filter: blur(28px) saturate(var(--prism-saturate, 140%));
+    -webkit-backdrop-filter: blur(28px) saturate(var(--prism-saturate, 140%));
+  }
+
+  /* Silo bottom-glow — Style C mapping */
+  [data-theme='R-C-aurora-prism'] .glow-bottom-teal {
+    border-bottom-width: 2px;
+    border-bottom-color: rgb(45 212 191 / 0.6);
+    box-shadow: 0 4px 20px -2px rgba(45, 212, 191, 0.3);
+  }
+
+  [data-theme='R-C-aurora-prism'] .glow-bottom-violet {
+    border-bottom-width: 2px;
+    border-bottom-color: rgb(129 140 248 / 0.6);
+    box-shadow: 0 4px 20px -2px rgba(129, 140, 248, 0.3);
+  }
+
+  [data-theme='R-C-aurora-prism'] .glow-bottom-mint {
+    border-bottom-width: 2px;
+    border-bottom-color: rgb(52 211 153 / 0.5);
+    box-shadow: 0 4px 20px -2px rgba(16, 185, 129, 0.28);
+  }
+
+  /* Primary CTA — teal gradient (hub content only; nav stays gold) */
+  [data-theme='R-C-aurora-prism'] .btn-pill--accent {
+    background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 100%);
+    color: #020617;
+    border: 0.5px solid rgba(255, 255, 255, 0.15);
+  }
+
+  [data-theme='R-C-aurora-prism'] .btn-pill--accent:hover {
+    filter: brightness(1.08);
+  }
+
+  [data-theme='R-C-aurora-prism'] .btn-pill--secondary {
+    background: transparent;
+    border: 0.5px solid var(--border-strong);
+    color: var(--accent-secondary);
+  }
+
+  [data-theme='R-C-aurora-prism'] .btn-pill--secondary:hover {
+    background: rgb(99 102 241 / 0.1);
+  }
+
+  /* Aurora ambient layer on shell */
+  [data-theme='R-C-aurora-prism'] .aurora-ambient-layer {
+    position: absolute;
+    inset: 0;
+    background: var(--aurora-ambient);
+    pointer-events: none;
+    opacity: 0.85;
+  }
+
+  /* Aurora blob variants */
+  [data-theme='R-C-aurora-prism'] .ambient-blob--teal {
+    background: radial-gradient(circle, rgba(45, 212, 191, 0.22) 0%, transparent 70%);
+    filter: blur(80px);
+  }
+
+  [data-theme='R-C-aurora-prism'] .ambient-blob--violet {
+    background: radial-gradient(circle, rgba(129, 140, 248, 0.18) 0%, transparent 70%);
+    filter: blur(100px);
+  }
+
+  /* Theme Lab strip preview */
+  [data-theme='R-C-aurora-prism'] .theme-lab-strip__aurora {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 80% 10%, rgba(45, 212, 191, 0.2) 0%, transparent 55%),
+      radial-gradient(ellipse 70% 45% at 10% 30%, rgba(129, 140, 248, 0.15) 0%, transparent 50%),
+      linear-gradient(180deg, var(--bg) 0%, var(--bg-dusk) 100%);
+    opacity: 0.9;
+    pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-theme='R-C-aurora-prism'] .ambient-blob--teal,
+  [data-theme='R-C-aurora-prism'] .ambient-blob--violet {
+    animation: none;
+  }
+}

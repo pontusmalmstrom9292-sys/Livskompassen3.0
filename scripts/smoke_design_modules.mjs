@@ -206,7 +206,7 @@ function main() {
   assert(!appRoutes.includes('VardagenShellPage'), 'AppRoutes.tsx', 'får inte mounta VardagenShellPage');
   mustInclude('src/modules/shell/LivLauncherPage.tsx', 'LivLauncherPage', 'LIV_LAUNCHER_EXTERNAL', 'LivLauncherGrid', 'MabraHubView');
   mustInclude('src/modules/shell/LivLauncherGrid.tsx', 'liv-launcher-card', 'LIV_LAUNCHER_CARDS');
-  mustInclude('src/styles/obsidian-calm-2.css', '.liv-launcher-grid', '.liv-launcher-card');
+  mustInclude('src/design-system/styles/obsidian-calm-shells.css', '.liv-launcher-grid', '.liv-launcher-card');
   mustInclude('src/modules/shell/LivBackLink.tsx', 'Liv och göra', 'NAV_PATHS.VARDAGEN');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/planering"', 'PlaneringPage');
   mustInclude('src/modules/core/routing/AppRoutes.tsx', 'path="/planering/kalender"', 'PlaneringKalenderPage');
@@ -448,7 +448,7 @@ function main() {
     'od-form-field',
   );
   mustInclude(
-    'src/styles/obsidian-calm-2.css',
+    'src/design-system/styles/obsidian-calm-shells.css',
     'hub-view-lock--fit',
   );
   mustInclude(
@@ -462,7 +462,13 @@ function main() {
   mustNotInclude('src/modules/features/family/children/components/familjen/familjen.css', '#050b14');
   mustNotInclude('src/modules/features/lifeJournal/evidence/vault/components/valv.css', '#050b14');
   mustNotInclude('src/modules/features/lifeJournal/diary/components/hjartat.css', '#050b14');
-  mustInclude('src/index.css', '--zone-gradient-planering', '--color-accent-gold-30', '--color-obsidian-surface');
+  mustInclude(
+    'src/design-system/styles/theme-tokens-zones.css',
+    '--zone-gradient-planering',
+    '--color-accent-gold-30',
+  );
+  mustInclude('src/design-system/styles/theme-tokens-core.css', '--color-obsidian-surface');
+  mustInclude('src/index.css', 'theme-tokens-zones.css', 'theme-tokens-core.css');
   mustInclude('src/modules/features/admin/planning/components/planering.css', 'var(--color-obsidian-surface)', 'var(--zone-gradient-planering)');
   mustNotInclude('src/modules/features/dailyLife/wellbeing/mabra/components/mabra.css', '#050b14');
   mustInclude(

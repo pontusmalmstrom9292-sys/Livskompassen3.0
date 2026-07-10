@@ -1,0 +1,16 @@
+/* Account auth menu — portal overlay (AccountAuthMenu) — sunset från index.css våg 87 */
+@layer components {
+  body.account-auth-open {
+    overflow: hidden;
+  }
+
+  .account-auth-backdrop {
+    @apply fixed inset-0 z-[230] cursor-pointer border-0 bg-black/50 backdrop-blur-[2px];
+    pointer-events: auto;
+  }
+
+  .account-auth-dialog {
+    @apply fixed left-4 right-4 top-1/2 z-[231] mx-auto max-w-sm -translate-y-1/2;
+    pointer-events: auto;
+  }
+}

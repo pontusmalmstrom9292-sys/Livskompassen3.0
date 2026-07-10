@@ -1,0 +1,250 @@
+/**
+ * Obsidian Calm 2.0 — glass core (calm-card, glass-card, bento, glow).
+ * Kanon: .cursor/rules/design-calm.mdc
+ * Flyttad från obsidian-calm-2.css (våg 105).
+ */
+
+@layer components {
+  /* —— Bas: Obsidian Calm Bento glass —— */
+  .calm-card {
+    @apply relative overflow-hidden rounded-3xl border border-border/30 bg-surface-2/60 backdrop-blur-xl;
+    box-shadow: var(--ds-elevation-card, 0 10px 30px rgba(0, 0, 0, 0.5));
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  /* —— Midnight Gold: Platta, strama kort utan glows —— */
+  .calm-card-midnight {
+    @apply relative overflow-hidden rounded-[2rem] border;
+    border-color: rgba(255, 255, 255, 0.05);
+    background: #0c0c0e;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .bento-card {
+    border-color: color-mix(in srgb, var(--glass-border) 85%, transparent);
+  }
+
+  .bento-card:not(.module-bento-card--depth) {
+    transition:
+      transform var(--ds-duration-normal, 0.3s) var(--ds-ease-premium, ease),
+      border-color var(--ds-duration-normal, 0.3s) var(--ds-ease-premium, ease),
+      box-shadow var(--ds-duration-normal, 0.3s) var(--ds-ease-premium, ease);
+  }
+
+  .bento-card:not(.module-bento-card--depth):hover {
+    transform: translateY(var(--ds-hover-lift, -2px));
+    border-color: color-mix(in srgb, var(--accent) 30%, var(--glass-border));
+    box-shadow: var(--ds-elevation-card-hover, 0 15px 40px rgba(0, 0, 0, 0.6));
+  }
+
+  .calm-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      color-mix(in srgb, var(--text) 10%, transparent),
+      transparent
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Legacy-alias — samma yta som calm-card */
+  .glass-card {
+    @apply relative overflow-hidden rounded-3xl border border-border/30 bg-surface-2/60 backdrop-blur-xl;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    -webkit-backdrop-filter: blur(24px);
+  }
+
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.1),
+      transparent
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .bento-card.glow-bottom-gold .bento-icon-box:not([class*='--']) {
+    border-color: var(--bento-accent-gold-dim);
+    background: var(--bento-accent-gold-bg);
+    color: var(--bento-accent-gold);
+  }
+
+  .bento-card.glow-bottom-blue .bento-icon-box:not([class*='--']) {
+    border-color: var(--bento-accent-indigo-dim);
+    background: var(--bento-accent-indigo-bg);
+    color: var(--bento-accent-indigo);
+  }
+
+  .bento-card.glow-bottom-green .bento-icon-box:not([class*='--']) {
+    border-color: var(--bento-accent-emerald-dim);
+    background: var(--bento-accent-emerald-bg);
+    color: var(--bento-accent-emerald);
+  }
+
+  .glass-hero {
+    @apply relative overflow-hidden rounded-3xl border border-border/30 backdrop-blur-xl;
+    background: color-mix(in srgb, var(--glass-hero) 35%, rgba(2, 6, 23, 0.92));
+    box-shadow: 0 0 48px var(--accent-glow);
+  }
+
+  .glass-hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.14),
+      transparent
+    );
+    pointer-events: none;
+  }
+
+  /* —— Silo-botten-glow —— */
+  .glow-bottom-gold {
+    border-bottom-width: 2px;
+    border-bottom-color: color-mix(in srgb, var(--accent) 70%, transparent);
+    box-shadow:
+      0 4px 20px -2px rgba(212, 175, 55, 0.35),
+      0 14px 36px -8px rgba(212, 175, 55, 0.22);
+  }
+
+  .glow-bottom-blue {
+    border-bottom-width: 2px;
+    --tw-border-opacity: 1;
+    border-bottom-color: rgb(99 102 241 / 0.7);
+    box-shadow: 0 4px 20px -2px rgba(99, 102, 241, 0.3);
+  }
+
+  .glow-bottom-green {
+    border-bottom-width: 2px;
+    --tw-border-opacity: 1;
+    border-bottom-color: rgb(16 185 129 / 0.7);
+    box-shadow: 0 4px 20px -2px rgba(16, 185, 129, 0.3);
+  }
+
+  .glow-bottom-danger {
+    border-bottom-width: 2px;
+    --tw-border-opacity: 1;
+    border-bottom-color: color-mix(in srgb, var(--danger) 65%, transparent);
+    box-shadow: 0 4px 20px -2px color-mix(in srgb, var(--danger) 28%, transparent);
+  }
+
+  /* Subtil gradient i kortets nedre kant (under innehåll) */
+  .calm-card.glow-bottom-gold::after,
+  .glass-card.glow-bottom-gold::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3.5rem;
+    pointer-events: none;
+    background: linear-gradient(
+      to top,
+      rgba(212, 175, 55, 0.14),
+      transparent
+    );
+    z-index: 0;
+  }
+
+  .calm-card.glow-bottom-blue::after,
+  .glass-card.glow-bottom-blue::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3.5rem;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(99, 102, 241, 0.12), transparent);
+    z-index: 0;
+  }
+
+  .calm-card.glow-bottom-green::after,
+  .glass-card.glow-bottom-green::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3.5rem;
+    pointer-events: none;
+    background: linear-gradient(to top, rgba(16, 185, 129, 0.12), transparent);
+    z-index: 0;
+  }
+
+  .calm-card.glow-bottom-danger::after,
+  .glass-card.glow-bottom-danger::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3.5rem;
+    pointer-events: none;
+    background: linear-gradient(
+      to top,
+      color-mix(in srgb, var(--danger) 14%, transparent),
+      transparent
+    );
+    z-index: 0;
+  }
+
+  .calm-card > *,
+  .glass-card > * {
+    position: relative;
+    z-index: 2;
+  }
+
+  /* Style A — Nordic Precision: skarpare hörn, minimal glow */
+  [data-theme='R-A-nordic-precision'] .calm-card,
+  [data-theme='R-A-nordic-precision'] .glass-card {
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  /* —— Capacity Dampening: glass overrides —— */
+  .capacity-low .calm-card,
+  .capacity-low .glass-card,
+  .capacity-low .bento-card {
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border-color: var(--border);
+  }
+
+  .capacity-low .glow-bottom-gold,
+  .capacity-low .glow-bottom-blue,
+  .capacity-low .glow-bottom-green,
+  .capacity-low .glow-bottom-danger {
+    box-shadow: none;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--border);
+  }
+
+  .capacity-low .glow-bottom-gold::after,
+  .capacity-low .glow-bottom-blue::after,
+  .capacity-low .glow-bottom-green::after,
+  .capacity-low .glow-bottom-danger::after {
+    display: none;
+  }
+}

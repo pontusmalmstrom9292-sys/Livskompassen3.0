@@ -1,4 +1,78 @@
 
+## 2026-07-10 — Premium UI Polish Phase 10 våg 105–110 (CSS sunset obsidian/executive/index)
+
+**Plattform:** Cursor (Auto) · **Läge:** Agent · **SKIN ONLY**
+
+**Completed work:**
+- Våg 105: `obsidian-calm-glass.css` — calm-card, glass-card, bento, glow
+- Våg 106: `obsidian-calm-shells.css` — hub-view-lock, app chrome, liv-launcher
+- Våg 107: `design-packs-chrome.css` — D1–D5 helapp chrome
+- Våg 108: `exec-home-chrome.css` — hem executive, snabbstart, atmosfär
+- Våg 109: `exec-header-chrome.css` — header, settings, resurser overlay
+- Våg 110: `theme-mockup-overrides.css`, `dim-mode.css`, `typography-utils.css` + alt packs flyttade
+- Legacy stubs kvar: `obsidian-calm-2.css`, `design-packs.css`, `redesign-*`, `brushed-brass-neu.css`
+- Dock/hem-dashboard kvar i `executive-chrome.css` (locked smoke)
+- Smoke: `smoke_calm_card_audit.mjs`, `smoke_design_modules.mjs`, `smoke_locked_ux.mjs` uppdaterade
+
+**Metrics:**
+- indexCssLoc: 142 → **66** (mål ≤120 ✓)
+- npm run build PASS
+- smoke:locked-ux, smoke:chrome-header, smoke:basta-dock-lock PASS (alla vågor)
+- smoke:design-debt, smoke:design-modules, smoke:predeploy:build PASS (slutgate våg 110)
+
+**Files changed:**
+- src/index.css (import-only + stub-kommentarer)
+- src/design-system/styles/{obsidian-calm-glass,obsidian-calm-shells,design-packs-chrome,exec-home-chrome,exec-header-chrome,theme-mockup-overrides,dim-mode,typography-utils,redesign-a-nordic-precision,redesign-c-aurora-prism,brushed-brass-neu}.css (nya)
+- src/styles/{obsidian-calm-2,design-packs,redesign-*,brushed-brass-neu}.css (stub)
+- src/styles/executive-chrome.css (dock + hem dashboard kvar)
+- scripts/smoke_{calm_card_audit,design_modules,locked_ux}.mjs
+
+**Next steps:**
+- Pontus visuell check: hem kompass+dock, drawer, /hjartat dagbok, /vardagen?tab=mabra|planering, /dev/theme-lab
+
+---
+
+
+## 2026-07-10 — Premium UI Polish Phase 10 våg 99–104 (CSS sunset tokens/primitives)
+
+**Plattform:** Cursor (Auto) · **Läge:** Agent · **SKIN ONLY**
+
+**Completed work:**
+- Våg 99: `theme-tokens-core.css` — :root baspalett + panel/glass alpha
+- Våg 100: `theme-tokens-zones.css` — zone gradients, bento accents, planering
+- Våg 101: `theme-pack-base.css` — @layer base body/typography + E/I theme fallbacks
+- Våg 102: `btn-pill-bridge.css` — legacy .btn-pill* bridge (oförändrat beteende)
+- Våg 103: `legacy-primitives.css` — alert-banner, badge, chip, input-glass
+- Våg 104: `planering-routines.css`, `mabra-collapsible.css`
+- Återställde våg 93–98-filer från stash (saknades på disk efter våg 92 merge)
+- `theme-lab.css` extraherad från git-historik
+- Stub-kommentarer i `index.css`; M-mockup overrides + html.dim-mode kvar
+- Smoke: `smoke_design_modules.mjs` zone tokens → theme-tokens-zones.css
+- Smoke: `smoke_inkast_upload.mjs` calm-breath → capture-breath.css
+
+**Metrics:**
+- indexCssLoc: 682 → **142** (mål ≤400 ✓)
+- npm run build PASS
+- smoke:locked-ux, smoke:chrome-header, smoke:basta-dock-lock PASS
+- smoke:design-debt, smoke:design-modules, smoke:predeploy:build PASS
+
+**Files changed:**
+- src/index.css
+- src/design-system/styles/theme-tokens-core.css (ny)
+- src/design-system/styles/theme-tokens-zones.css (ny)
+- src/design-system/styles/theme-pack-base.css (ny)
+- src/design-system/styles/btn-pill-bridge.css (ny)
+- src/design-system/styles/legacy-primitives.css (ny)
+- src/design-system/styles/planering-routines.css (ny)
+- src/design-system/styles/mabra-collapsible.css (ny)
+- src/design-system/styles/{ambient-shell,theme-lab,hero-orbit,nav-drawer-*,account-auth,dagbok-journal,capture-breath,reflektion-panel,hub-lab,mabra-vit-hub,biff-triage,kompis-hub}.css (återställda)
+- scripts/smoke_design_modules.mjs, scripts/smoke_inkast_upload.mjs
+
+**Next steps:**
+- Pontus visuell check: hem, drawer, /hjartat dagbok, /vardagen?tab=mabra|planering, /dev/theme-lab
+
+---
+
 ## 2026-07-10 — Premium UI Polish Phase 10 våg 92 (CSS sunset dock/hub)
 
 **Completed work:**

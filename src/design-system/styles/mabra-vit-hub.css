@@ -1,0 +1,196 @@
+/* MåBra — Vit hub (zoner + snabbstart) — sunset från index.css våg 76 */
+@layer components {
+  .mabra-vit-hub {
+    @apply space-y-4;
+  }
+
+  .mabra-vit-hub__profile .life-hub-hint {
+    @apply mb-0;
+  }
+
+  .mabra-vit-hub__chip {
+    @apply relative flex shrink-0 flex-col items-center gap-1 px-3 py-2;
+    min-width: 4.85rem;
+    border-radius: 0.85rem;
+    border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+    background: linear-gradient(
+      168deg,
+      var(--chrome-plate-a) 0%,
+      var(--chrome-plate-b) 46%,
+      var(--chrome-plate-c) 100%
+    );
+    box-shadow:
+      0 4px 12px var(--color-glass-dark-50),
+      0 1px 0 rgba(255, 243, 210, 0.15) inset,
+      0 -3px 9px rgba(0, 0, 0, 0.38) inset;
+    transform: translateY(-2px);
+    cursor: pointer;
+    touch-action: manipulation;
+    transition:
+      transform 0.16s ease,
+      box-shadow 0.16s ease,
+      border-color 0.16s ease;
+  }
+
+  .mabra-vit-hub__chip::before {
+    content: '';
+    position: absolute;
+    inset: 1px 1px auto;
+    height: 48%;
+    border-radius: 0.72rem 0.72rem 55% 55%;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 248, 220, 0.14) 0%,
+      rgba(255, 248, 220, 0) 100%
+    );
+    pointer-events: none;
+  }
+
+  .mabra-vit-hub__chip:hover {
+    transform: translateY(-3px);
+    border-color: color-mix(in srgb, var(--accent-light) 52%, transparent);
+    box-shadow:
+      0 7px 18px rgba(0, 0, 0, 0.55),
+      0 0 16px rgba(212, 175, 55, 0.14),
+      0 1px 0 rgba(255, 248, 220, 0.2) inset,
+      0 -3px 9px rgba(0, 0, 0, 0.34) inset;
+  }
+
+  .mabra-vit-hub__chip:active {
+    transform: translateY(0);
+    box-shadow:
+      0 2px 7px var(--color-glass-dark-45),
+      0 2px 6px rgba(0, 0, 0, 0.34) inset;
+  }
+
+  .mabra-vit-hub__chip-emoji {
+    @apply relative z-[1] text-lg leading-none;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.55))
+      drop-shadow(0 0 6px rgba(212, 175, 55, 0.2));
+  }
+
+  .mabra-vit-hub__chip-label {
+    @apply relative z-[1] max-w-[5.5rem] truncate text-center text-[9px] font-semibold text-accent-light;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
+  }
+
+  .mabra-vit-hub__zones {
+    @apply space-y-2;
+  }
+
+  .mabra-vit-hub__zone {
+    @apply overflow-hidden rounded-2xl border border-border-strong bg-bg/25;
+  }
+
+  .mabra-vit-hub__zone--open {
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  .mabra-vit-hub__zone-trigger {
+    @apply flex w-full items-center gap-2 px-4 py-3 text-left transition-colors hover:bg-surface/15;
+  }
+
+  .mabra-vit-hub__zone-label {
+    @apply flex-1 text-sm font-semibold text-accent;
+  }
+
+  .mabra-vit-hub__zone-meta {
+    @apply text-[10px] font-medium uppercase tracking-wider text-text-dim;
+  }
+
+  .mabra-vit-hub__zone-chevron {
+    @apply h-4 w-4 shrink-0 text-accent/70 transition-transform duration-200;
+  }
+
+  .mabra-vit-hub__zone--open .mabra-vit-hub__zone-chevron {
+    transform: rotate(180deg);
+  }
+
+  .mabra-vit-hub__zone-grid {
+    @apply grid grid-cols-2 gap-2 border-t border-border-strong/80 px-3 py-3 sm:grid-cols-3;
+  }
+
+  .mabra-vit-hub__tile {
+    @apply relative flex min-h-[4.25rem] flex-col items-start gap-0.5 px-2.5 py-2 text-left;
+    border-radius: 0.85rem;
+    border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
+    background: linear-gradient(
+      168deg,
+      rgba(44, 38, 28, 0.94) 0%,
+      rgba(18, 16, 14, 0.92) 50%,
+      rgba(8, 10, 14, 0.9) 100%
+    );
+    box-shadow:
+      0 3px 10px rgba(0, 0, 0, 0.42),
+      0 1px 0 var(--chrome-highlight) inset,
+      0 -2px 7px rgba(0, 0, 0, 0.32) inset;
+    transform: translateY(-1px);
+    cursor: pointer;
+    touch-action: manipulation;
+    transition:
+      transform 0.16s ease,
+      box-shadow 0.16s ease,
+      border-color 0.16s ease;
+  }
+
+  .mabra-vit-hub__tile::before {
+    content: '';
+    position: absolute;
+    inset: 1px 1px auto;
+    height: 42%;
+    border-radius: 0.72rem 0.72rem 50% 50%;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 248, 220, 0.1) 0%,
+      rgba(255, 248, 220, 0) 100%
+    );
+    pointer-events: none;
+  }
+
+  .mabra-vit-hub__tile:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--accent-light) 45%, transparent);
+    box-shadow:
+      0 6px 16px rgba(0, 0, 0, 0.48),
+      0 0 12px rgba(212, 175, 55, 0.1),
+      0 1px 0 rgba(255, 248, 220, 0.16) inset,
+      0 -2px 7px rgba(0, 0, 0, 0.3) inset;
+  }
+
+  .mabra-vit-hub__tile:active {
+    transform: translateY(0);
+    box-shadow:
+      0 2px 6px rgba(0, 0, 0, 0.4),
+      0 2px 5px rgba(0, 0, 0, 0.3) inset;
+  }
+
+  .mabra-vit-hub__tile-emoji {
+    @apply relative z-[1] text-base leading-none;
+    filter: drop-shadow(0 1px 2px var(--color-glass-dark-50));
+  }
+
+  .mabra-vit-hub__tile-title {
+    @apply relative z-[1] text-[11px] font-semibold leading-tight text-accent-light;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+  }
+
+  .mabra-vit-hub__tile-lead {
+    @apply relative z-[1] line-clamp-2 text-[9px] leading-snug text-text-dim;
+  }
+
+  .mabra-vit-hub__low-energy {
+    @apply grid grid-cols-1 gap-3 sm:grid-cols-2;
+  }
+
+  .mabra-vit-hub__tile--large {
+    @apply min-h-[5.5rem] px-4 py-5;
+  }
+
+  .mabra-vit-hub__tile--large .mabra-vit-hub__tile-title {
+    @apply text-sm;
+  }
+
+  .mabra-vit-hub__tile--large .mabra-vit-hub__tile-lead {
+    @apply text-[11px];
+  }
+}

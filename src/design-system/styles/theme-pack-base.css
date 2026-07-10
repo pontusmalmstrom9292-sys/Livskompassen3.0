@@ -1,0 +1,99 @@
+/* theme pack base — sunset från index.css våg 101 */
+@layer base {
+  body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Outfit', sans-serif;
+  }
+
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Theme Pack E — prod default (Midnight Gold / Obsidian Calm) */
+  html[data-theme='E-skymning-prod'] {
+    --bg-teal-deep: #050505;
+    --bg: #050505;
+    --bg-dusk: #0a0a0a;
+    --surface: #0a0a0a;
+    --surface-2: #0f0f0f;
+    --surface-3: #141414;
+    --compass-disk: #0d0d12;
+    --accent: var(--color-accent-gold);
+    --accent-secondary: #6366f1;
+    --accent-light: #fde68a;
+    --accent-ai: #818cf8;
+    --success: #10b981;
+    --border-strong: rgba(99, 102, 241, 0.22);
+  }
+
+  html[data-theme='E-skymning-darkest'] {
+    --bg-teal-deep: #000000;
+    --bg: #000000;
+    --bg-dusk: #020202;
+    --surface: #020202;
+    --surface-2: #040404;
+    --surface-3: #080808;
+    --compass-disk: #021010;
+    --accent: #9f852b;
+    --accent-secondary: #4338ca;
+    --accent-light: #b4a055;
+    --accent-ai: #4f46e5;
+    --success: #059669;
+    --border-strong: rgba(255, 255, 255, 0.1);
+  }
+
+  /* Theme Pack I — CSS fallbacks (runtime: applyTheme + themeRegistry.ts) */
+  html[data-theme='I-stone'],
+  html[data-theme^='I-stone-draft'] {
+    --bg: #0a0a0a;
+    --accent: var(--color-accent-gold);
+    --border-strong: rgba(212, 175, 55, 0.45);
+  }
+
+  html[data-theme='I-stone-draft-twilight'] {
+    --bg: #060a10;
+    --accent: #c9a227;
+    --border-strong: rgba(201, 162, 39, 0.38);
+  }
+
+  html[data-theme='I-stone-draft-bronze'] {
+    --accent: #c9a66b;
+    --border-strong: rgba(201, 166, 107, 0.48);
+  }
+
+  html[data-theme='I-alchemical'] {
+    --bg: #050505;
+    --accent: #e8c547;
+    --border-strong: rgba(232, 197, 71, 0.5);
+  }
+
+  html[data-theme='I-skymning'] {
+    --bg: #0a1614;
+    --accent: #d4af37;
+    --border-strong: rgba(79, 209, 197, 0.28);
+  }
+
+  html[data-theme='I-hamn'] {
+    --bg: #2c2f33;
+    --accent: var(--color-accent-gold);
+    --border-strong: rgba(212, 175, 55, 0.35);
+  }
+
+  html[data-theme='I-glass'] {
+    --bg: #0a0a0a;
+    --accent: var(--color-accent-gold);
+    --glass: rgba(8, 6, 4, 0.9);
+    --border-strong: rgba(212, 175, 55, 0.55);
+  }
+}

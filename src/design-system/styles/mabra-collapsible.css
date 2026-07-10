@@ -1,0 +1,37 @@
+/* mabra + calm collapsible — sunset från index.css våg 104 */
+@layer components {
+  .mabra-hub-collapsible,
+  .calm-collapsible {
+    @apply mb-3 rounded-xl border border-border-strong/70 bg-bg/20;
+  }
+
+  .mabra-hub-collapsible__trigger,
+  .calm-collapsible__trigger {
+    @apply flex w-full items-center gap-2 px-3 py-2.5 text-left text-xs transition-colors hover:text-text;
+  }
+
+  .mabra-hub-collapsible__title,
+  .calm-collapsible__title {
+    @apply flex-1 font-medium text-accent/85;
+  }
+
+  .mabra-hub-collapsible__meta,
+  .calm-collapsible__meta {
+    @apply text-[10px] tabular-nums text-text-dim;
+  }
+
+  .mabra-hub-collapsible__chevron,
+  .calm-collapsible__chevron {
+    @apply h-3.5 w-3.5 shrink-0 text-text-dim transition-transform duration-200;
+  }
+
+  .mabra-hub-collapsible--open .mabra-hub-collapsible__chevron,
+  .calm-collapsible--open .calm-collapsible__chevron {
+    transform: rotate(180deg);
+  }
+
+  .mabra-hub-collapsible__body,
+  .calm-collapsible__body {
+    @apply border-t border-border-strong/60 px-3 pb-3 pt-2;
+  }
+}

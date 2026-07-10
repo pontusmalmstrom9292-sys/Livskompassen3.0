@@ -1,0 +1,38 @@
+/* Hub Lab — dev-only (/dev/hub-lab) — sunset från index.css våg 79 */
+@layer components {
+  .hub-lab-page .hub-lab-preview {
+    @apply rounded-2xl border border-border-strong bg-bg/40 p-3;
+  }
+
+  .hub-lab-grid {
+    @apply grid gap-4 lg:grid-cols-2;
+  }
+
+  .hub-lab-card {
+    @apply rounded-2xl border border-border-strong p-3;
+  }
+
+  .hub-lab-card__select {
+    @apply mb-2 flex w-full flex-col items-start gap-0.5 border-0 bg-transparent p-0 text-left;
+  }
+
+  .hub-lab-card__emoji {
+    @apply text-2xl;
+  }
+
+  .hub-lab-card__title {
+    @apply font-display text-base text-accent;
+  }
+
+  .hub-lab-card__meta {
+    @apply text-[10px] text-text-dim;
+  }
+
+  .hub-lab-card__preview {
+    @apply max-h-72 overflow-hidden rounded-xl border border-border/80 bg-bg/30 p-2;
+  }
+
+  .hub-lab-card__body {
+    @apply pointer-events-none scale-[0.92] origin-top;
+  }
+}

@@ -1,0 +1,59 @@
+/* legacy primitives — sunset från index.css våg 103 */
+@layer components {
+  .alert-banner {
+    @apply rounded-xl border px-4 py-3 text-sm;
+  }
+
+  .alert-banner--info {
+    @apply alert-banner border-border-strong bg-surface/60 text-text-muted;
+  }
+
+  .alert-banner--warning {
+    @apply alert-banner border-warning/30 bg-warning/5 text-text-muted;
+  }
+
+  .alert-banner--danger {
+    @apply alert-banner border-danger/30 bg-danger/5 text-text-muted;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] uppercase tracking-widest;
+  }
+
+  .badge-worm {
+    @apply badge border-success/40 text-success;
+  }
+
+  .badge-locked {
+    @apply badge border-accent/30 text-accent;
+  }
+
+  .badge-risk {
+    @apply badge border-warning/40 text-warning;
+  }
+
+  .badge-ai {
+    @apply badge border-accent-ai/40 text-accent-ai;
+  }
+
+  .glass-card--ai {
+    @apply glass-card border-accent-ai/30;
+  }
+
+  .input-glass {
+    @apply w-full rounded-2xl border border-border-strong bg-surface/80 p-4 text-sm text-text resize-none focus:border-accent/40 focus:outline-none;
+  }
+
+  .chip {
+    @apply rounded-full border px-3 py-1 text-xs transition-colors;
+    min-height: var(--ds-touch-target, 2.75rem);
+  }
+
+  .chip--active {
+    @apply chip border-accent/50 bg-accent/10 text-accent;
+  }
+
+  .chip--idle {
+    @apply chip border-border-strong text-text-muted hover:border-border-strong hover:text-text-muted;
+  }
+}
