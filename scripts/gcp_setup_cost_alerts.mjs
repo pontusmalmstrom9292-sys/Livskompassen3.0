@@ -6,7 +6,7 @@
  * Skapar budget via gcloud om GCP_BILLING_ACCOUNT_ID är satt.
  * Annars: skriver exakta Console-steg för Pontus.
  */
-import { readFileSync, writeFileSync, unlinkSync } from 'fs';
+import { readFileSync } from 'fs';
 import { execSync } from 'child_process';
 import { resolve, dirname, join } from 'path';
 import { fileURLToPath } from 'url';
@@ -49,30 +49,18 @@ function main() {
 
   if (billingAccount && apply) {
     console.log('--- Steg 3: Skapar budget via gcloud (--apply) ---');
-    const budgetJson = {
-      displayName: 'Livskompassen månadsbudget',
-      budgetFilter: {
-        projects: [`projects/${projectId}`],
-      },
-      amount: {
-        specifiedAmount: {
-          currencyCode: budgetDefaults.currency,
-          units: String(budgetDefaults.monthlyAmount),
-        },
-      },
-      thresholdRules: budgetDefaults.alertThresholdsPercent.map((pct) => ({
-        thresholdPercent: pct,
-        spendBasis: 'CURRENT_SPEND',
-      })),
-    };
-    const tmp = join(ROOT, '.tmp-budget.json');
-    writeFileSync(tmp, JSON.stringify(budgetJson));
-    try {
-      sh(`gcloud billing budgets create --billing-account=${billingAccount} --budget-file=${tmp}`);
-      console.log('[gcp:setup-cost-alerts] Budget skapad via gcloud.');
-    } finally {
-      unlinkSync(tmp);
-    }
+    const budgetName = `Livskompassen ${budgetDefaults.monthlyAmount} ${budgetDefaults.currency}`;
+    const thresholds = budgetDefaults.alertThresholdsPercent
+      .map((pct) => `--threshold-rule=percent=${(pct / 100).toFixed(2)}`)
+      .join(' ');
+    sh(
+      `gcloud billing budgets create --billing-account=${billingAccount} ` +
+        `--display-name="${budgetName}" ` +
+        `--budget-amount=${budgetDefaults.monthlyAmount}${budgetDefaults.currency} ` +
+        `--filter-projects=projects/${projectId} ` +
+        thresholds,
+    );
+    console.log('[gcp:setup-cost-alerts] Budget skapad via gcloud.');
   } else {
     console.log('--- Steg 3: Automatisk budget (valfritt) ---');
     console.log('Sätt GCP_BILLING_ACCOUNT_ID=XXXXXX-XXXXXX-XXXXXX och kör:');
