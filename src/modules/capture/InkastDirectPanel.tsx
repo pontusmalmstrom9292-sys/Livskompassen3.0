@@ -1,4 +1,5 @@
-/**
+/** @locked MOD-VALV-INKAST — låst modul; unlock via docs/evaluations/*-unlock-MOD-VALV-INKAST.md
+ *
  * Internal panel for Valv direct-submit (UPLOAD-UNIFIED steg 2 — wired via CaptureSuperModule valv-compact).
  */
 import { useCallback, useRef, useState } from 'react';

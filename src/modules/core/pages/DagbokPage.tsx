@@ -1,3 +1,4 @@
+/** @locked MOD-HJ-DAGBOK — låst modul; unlock via docs/evaluations/*-unlock-MOD-HJ-DAGBOK.md */
 import { lazy, Suspense } from 'react';
 import { Navigate, useSearchParams } from 'react-router-dom';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';

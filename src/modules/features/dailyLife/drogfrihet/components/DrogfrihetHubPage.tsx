@@ -1,8 +1,10 @@
+/** @locked MOD-FAM-DROG — låst modul; unlock via docs/evaluations/*-unlock-MOD-FAM-DROG.md */
 import { BookOpen, Brain, HeartHandshake, Shield, Sparkles, X } from 'lucide-react';
 import { useCallback, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Button, Modal, textStyles } from '@/design-system';
 import { HubPageShell } from '@/core/layout/HubPageShell';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import {
   immersiveModalOverlayClass,
   immersiveModalPanelClass,
@@ -239,15 +241,30 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
 
   if (embedded) {
     return (
-      <div className="space-y-4">
-        {body}
-        {realityCheckOverlay}
-        {sosOverlay}
-      </div>
+      <HubErrorBoundary
+        title="Drogfrihet kunde inte laddas"
+        glow="green"
+        backTo="/familjen"
+        backLabel="Till Familjen"
+        logTag="DrogfrihetHubPage"
+      >
+        <div className="space-y-4">
+          {body}
+          {realityCheckOverlay}
+          {sosOverlay}
+        </div>
+      </HubErrorBoundary>
     );
   }
 
   return (
+    <HubErrorBoundary
+      title="Drogfrihet kunde inte laddas"
+      glow="green"
+      backTo="/familjen"
+      backLabel="Till Familjen"
+      logTag="DrogfrihetHubPage"
+    >
     <HubPageShell
       eyebrow="Drogfrihet"
       title="Nykterhet · ett steg i taget"
@@ -257,5 +274,6 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
       {realityCheckOverlay}
       {sosOverlay}
     </HubPageShell>
+    </HubErrorBoundary>
   );
 }

@@ -2588,3 +2588,12 @@ Copy the template below for each entry. Newest first.
 
 **Blockers:**
 - None
+
+## 2026-07-10 — YOLO 5-agent helplan (W0–W5)
+
+- **Baseline:** smoke:predeploy:build PASS (pre-wave)
+- **W0:** MODULE-LOCK-REGISTER, module-lock-guard.mdc, smoke:module-lock, lock_module.mjs
+- **W1–W4:** HubErrorBoundary/EmptyState (Hjärtat input, Inkast, MåBra, Drogfrihet), Barnporten rollout ON, navTruth `/vardagen`, backend hash-kedja + scheduled backup + DCAP eskalering actions, firestore.rules worm_hash_chain
+- **W5:** 22/22 moduler **locked** i register; smoke:predeploy:build PASS
+- **Deploy:** workflow_dispatch firebase-hosting (efter commit/push)
+- **Mänskligt kvar:** G85 7-dagars daily driver + visuell sign-off

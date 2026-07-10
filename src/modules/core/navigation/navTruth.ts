@@ -89,7 +89,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   {
     id: 'vardagen',
     label: 'Liv och göra',
-    path: '/liv',
+    path: '/vardagen',
     section: 'vardag',
     inDrawer: true,
     themeId: 'J-vardagen-orbit',

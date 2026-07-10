@@ -4,6 +4,7 @@ import { formatChildObservation, inferEpistemicKind } from './childObservationEp
 import { persistKbDocFromDrive, type PersistKbDocInput } from './persistKbDoc';
 import { isKunskapFactApproved } from './kunskapContentBankGate';
 import { assertServerWormPayload, CHILDREN_LOG_ALLOWED_KEYS, driveInboxSourceRef, REALITY_VAULT_ALLOWED_KEYS } from './wormPayload';
+import { appendToHashChain } from './wormHashChain';
 
 const INBOX_QUEUE = 'inbox_queue';
 
@@ -131,6 +132,12 @@ export async function persistVaultFromInbox(input: {
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
   });
 
+  try {
+    await appendToHashChain(input.ownerId, 'reality_vault', docRef.id, vaultPayload);
+  } catch (err) {
+    console.warn('[inboxPersist] hash chain append failed (non-blocking):', err);
+  }
+
   return { docId: docRef.id, created: true };
 }
 
@@ -196,6 +203,12 @@ export async function persistChildrenLogFromInbox(input: {
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
   });
 
+  try {
+    await appendToHashChain(input.ownerId, 'children_logs', docRef.id, childPayload);
+  } catch (err) {
+    console.warn('[inboxPersist] hash chain append failed (non-blocking):', err);
+  }
+
   return { docId: docRef.id, created: true };
 }
 
@@ -246,6 +259,21 @@ export async function persistJournalFromInbox(input: {
     ...(tags.length ? { tags } : {}),
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
   });
+
+  const journalPayload = {
+    userId: input.ownerId,
+    ownerId: input.ownerId,
+    mood: 'neutral',
+    text,
+    category,
+    ...(tags.length ? { tags } : {}),
+  };
+
+  try {
+    await appendToHashChain(input.ownerId, 'journal', docRef.id, journalPayload);
+  } catch (err) {
+    console.warn('[inboxPersist] hash chain append failed (non-blocking):', err);
+  }
 
   return { docId: docRef.id, created: true };
 }

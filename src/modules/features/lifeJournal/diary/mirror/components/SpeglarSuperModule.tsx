@@ -1,3 +1,4 @@
+/** @locked MOD-HJ-SPEGLAR — låst modul; unlock via docs/evaluations/*-unlock-MOD-HJ-SPEGLAR.md */
 import { useStore } from '@/core/store';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { SpeglingsForensicPanel, SpeglingsSystem } from './SpeglingsSystem';

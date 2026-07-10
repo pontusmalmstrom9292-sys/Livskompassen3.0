@@ -1,0 +1,35 @@
+---
+description: Modul-lås — PMIR vid ändring av locked moduler enligt MODULE-LOCK-REGISTER
+alwaysApply: false
+globs: src/**,functions/**,.context/module-lock-register.json
+---
+
+# Modul-lås (MODULE-LOCK-REGISTER)
+
+Kanon: [`.context/module-lock-register.json`](../.context/module-lock-register.json) · [`.context/MODULE-LOCK-REGISTER.md`](../.context/MODULE-LOCK-REGISTER.md)
+
+## MUST före ändringar
+
+1. Läs `.context/module-lock-register.json` — kontrollera `status` för berörda moduler.
+2. `status: locked` → **STOPP**. Kräv `docs/evaluations/*-unlock-MOD-XXX.md` med `approved: yes` + Pontus OK.
+3. Sätt modul till `developing` i registret under unlock.
+4. Efter fix/feature: kör modulens smoke → `node scripts/lock_module.mjs MOD-XXX --smoke …`
+
+## MUST NOT (locked moduler)
+
+- Ta bort funktion eller route
+- Mass-refactor utan unlock
+- Ändra `@locked MOD-XXX` header utan unlock-doc
+
+## Tillåtet efter unlock
+
+- Buggfix, polish, ny feature inom modulens scope
+- Re-lock med `lock_module.mjs` efter smoke PASS
+
+## Verifiering
+
+```bash
+npm run smoke:module-lock
+```
+
+Ingår i `smoke:governance` och `smoke:predeploy`.

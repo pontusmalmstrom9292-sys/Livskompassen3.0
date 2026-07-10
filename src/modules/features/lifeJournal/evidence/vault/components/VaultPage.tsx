@@ -1,3 +1,4 @@
+/** @locked MOD-VALV-HUB — låst modul; unlock via docs/evaluations/*-unlock-MOD-VALV-HUB.md */
 import { Lock, ShieldAlert, X, Settings } from 'lucide-react';
 import { Button } from '@/design-system';
 import { useState, useEffect, useCallback, lazy, Suspense } from 'react';

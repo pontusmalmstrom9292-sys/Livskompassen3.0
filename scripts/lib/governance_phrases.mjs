@@ -32,6 +32,9 @@ export const GOVERNANCE_REQUIRED_FILES = [
   '.cursor/rules/ai-governance-definition-of-done.mdc',
   '.cursor/rules/ai-governance-self-review.mdc',
   '.cursor/rules/ai-governance-documentation.mdc',
+  '.context/module-lock-register.json',
+  '.context/MODULE-LOCK-REGISTER.md',
+  '.cursor/rules/module-lock-guard.mdc',
 ];
 
 export const AI_GOVERNANCE_SECTIONS = [

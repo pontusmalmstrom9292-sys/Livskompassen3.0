@@ -4,6 +4,7 @@ import { Inbox } from 'lucide-react';
 import { clsx } from 'clsx';
 import { Button, Badge, type ButtonVariant } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { useStore } from '../../core/store';
 import {
   confirmInbox,
@@ -311,7 +312,7 @@ export function InboxReviewQueue({
       )}
 
       {!loading && displayItems.length === 0 && (
-        <p className="text-sm text-text-dim">Ingen väntande post i granskningskön.</p>
+        <EmptyState message="Ingen väntande post i granskningskön. Nya filer från Drive eller inkast hamnar här för granskning." />
       )}
 
       <ul className="space-y-3">

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button } from '@/design-system';
 import { MessageCircle } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { callChildrenLogsQuery, type ChildrenLogCitation } from '../api/childrenLogsService';
 import type { ChildAlias } from '../constants';
 import { RAGErrorBoundary } from '@/shared/ui/RAGErrorBoundary';
@@ -64,6 +65,9 @@ export function ChildrenLogsChat({ activeChild }: ChildrenLogsChatProps) {
           </Button>
         </form>
         {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+        {!answer && !loading && !error && (
+          <EmptyState message={`Ställ en fråga om ${activeChild}s livslogg — t.ex. sömn eller humör senaste veckan.`} />
+        )}
         {answer && (
           <div className="mt-4 space-y-2">
             <p className="text-sm text-text-muted whitespace-pre-wrap">{answer}</p>

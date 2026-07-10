@@ -365,7 +365,7 @@ function main() {
   );
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx', 'WeaverPendingVaultBanner');
   mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'setVaultGate', 'openValvViaFyren');
-  mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", "path: '/liv'", "label: 'Liv och göra'", 'getNavChildren');
+  mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'vardagen'", "path: '/vardagen'", "label: 'Liv och göra'", 'getNavChildren');
   mustInclude('src/modules/core/navigation/navTruth.ts', "id: 'familjen'", "label: 'Familj och gränser'", "path: '/familj'");
   mustInclude(
     'src/modules/capture/CaptureSuperModule.tsx',

@@ -1,4 +1,5 @@
-/**
+/** @locked MOD-BACK-WORM — låst modul; unlock via docs/evaluations/*-unlock-MOD-BACK-WORM.md
+ *
  * WORM Hash-Chain — SHA-256 cryptographic proof chain for immutable evidence entries.
  *
  * Each WORM entry (reality_vault, children_logs, journal) gets a hash linking to the

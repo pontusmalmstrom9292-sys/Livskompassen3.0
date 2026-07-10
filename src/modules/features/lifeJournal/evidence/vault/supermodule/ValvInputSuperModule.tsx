@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import '../components/valv.css';
 import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
 import { InkastDirectPanel } from '@/modules/capture/InkastDirectPanel';
@@ -101,6 +102,13 @@ export function ValvInputSuperModule({
   };
 
   return (
+    <HubErrorBoundary
+      title="Valv-inmatning kunde inte laddas"
+      glow="blue"
+      backTo="/valvet"
+      backLabel="Till Valvet"
+      logTag="ValvInputSuperModule"
+    >
     <BentoCard
       glow="blue"
       depth
@@ -117,5 +125,6 @@ export function ValvInputSuperModule({
         {renderZoneContent()}
       </div>
     </BentoCard>
+    </HubErrorBoundary>
   );
 }
