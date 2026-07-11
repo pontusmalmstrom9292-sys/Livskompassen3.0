@@ -22,6 +22,6 @@ runRepomixPack({
     'tailwind.config.js',
     'src/modules/core/theme/themeRegistry.ts',
     'src/modules/core/theme/typeScale.ts',
-    'src/styles/obsidian-calm-2.css',
+    'src/design-system/styles/obsidian-calm-glass.css',
   ],
 });

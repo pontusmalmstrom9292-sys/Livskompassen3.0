@@ -40,12 +40,7 @@
 @import './design-system/styles/redesign-c-aurora-prism.css';
 @import './design-system/styles/brushed-brass-neu.css';
 @import './styles/basta-design.css';
-@import './styles/design-packs.css';
-@import './styles/obsidian-calm-2.css';
 @import './styles/obsidian-depth-mockup.css';
-@import './styles/redesign-a-nordic-precision.css';
-@import './styles/redesign-c-aurora-prism.css';
-@import './styles/brushed-brass-neu.css';
 @import './styles/executive-chrome.css';
 @import './styles/dock-kanon-match.css';
 @import './modules/core/ui/homeAliases.css';
@@ -61,5 +56,5 @@
 /* våg 108: exec-home-chrome — hem executive, snabbstart, atmosfär */
 /* våg 109: exec-header-chrome — header, settings, resurser overlay */
 /* våg 110: theme-mockup-overrides, dim-mode, typography-utils, alt theme packs */
-/* legacy stubs: design-packs.css, obsidian-calm-2.css, redesign-*, brushed-brass-neu.css */
-/* dock + hem dashboard kvar: executive-chrome.css · locked: dock-kanon-match.css */
+/* våg 111: legacy src/styles stubs borttagna (innehåll i design-system/styles/) */
+/* dock + hem dashboard: executive-chrome.css · locked: dock-kanon-match.css */

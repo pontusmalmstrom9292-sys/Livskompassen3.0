@@ -14,12 +14,12 @@
 | **Live smoke (molnet)** | **GO** — `npm run smoke:predeploy:live` exit 0 (2026-07-11) |
 | **Super-YOLO (utökad gate)** | **GO** — `npm run smoke:super-yolo` exit 0 (2026-07-11) |
 | **GCP kostnadsvakt (live)** | **GO** — `gcp:audit-apis` PASS (2026-07-11); compute avstängd, scheduler tillåten (onSchedule) |
-| **Governance-docs synk** | **NO-GO** — PROJECT_STATE / program-fas ur synk med PROGRESS |
+| **Governance-docs synk** | **GO** — PROJECT_STATE Phase 10 synkad (PR #197, 2026-07-11) |
 | **Functions deploy (senaste)** | **GO** — `claimBarnportenPairing` + `analyzeProjectImage` deploy OK i run `29112611903` |
 
 ### Sammanfattning
 
-Kod, bygg, statiska gates och **alla live smoke-gates är gröna** efter session 2026-07-11 (SEED-användare + App Check debug token + smoke:inbox-fix). **Prod-release NO-GO** tills governance-docs synkas (PROJECT_STATE Phase 0 vs PROGRESS Phase 10). Kostnadsvakt live är grön efter compute avstängd + manifest-fix (scheduler → allowed).
+Kod, bygg, statiska gates och **alla live smoke-gates är gröna** efter session 2026-07-11 (SEED-användare + App Check debug token + smoke:inbox-fix). **Prod-release GO** på kod/smoke/kostnad/governance (2026-07-11). Kvar: G85 7-dagars daily driver (Fas 24 P0, mänsklig) + Pontus visual sign-off.
 
 **Fixar i session 2026-07-10 (kod):**
 - `scripts/smoke_e2e_locked_ux.mjs` — tvingar `CI=1` så Playwright startar egen server med `VITE_REQUIRE_EMAIL_AUTH=true`
@@ -122,7 +122,7 @@ Kod, bygg, statiska gates och **alla live smoke-gates är gröna** efter session
 | ID | Beskrivning | Bevis |
 |----|-------------|-------|
 | B1 | ~~GCP blocked APIs aktiva~~ | **LÖST** 2026-07-11 — compute disabled, scheduler i allowlist |
-| B2 | Governance-docs ur synk | D1–D4 ovan |
+| B2 | ~~Governance-docs ur synk~~ | **LÖST** PR #197; D2/D4 TODO-datum kvar som P2 |
 
 ---
 
@@ -141,7 +141,7 @@ Kod, bygg, statiska gates och **alla live smoke-gates är gröna** efter session
 | ID | Beskrivning | Status |
 |----|-------------|--------|
 | P1-1 | GCP 2 blockerade API:er aktiva | **LÖST** (compute av, scheduler allowlist) |
-| P1-2 | Governance-docs ur synk | **ÖPPEN** |
+| P1-2 | Governance-docs ur synk | **LÖST** (PR #197) |
 
 ### P2
 
@@ -166,11 +166,7 @@ Kod, bygg, statiska gates och **alla live smoke-gates är gröna** efter session
 
 ## 6. Ett nästa steg för Pontus
 
-Uppdatera `docs/PROJECT_STATE.md` så program-fas matchar PROGRESS (Phase 10) och kör:
-
-```bash
-npm run smoke:governance
-```
+Kör **G85 7-dagars daily driver** (Fas 24 P0) — appen på telefonen i vardagen. Smoke är grön.
 
 ---
 
