@@ -6,11 +6,11 @@ import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { initializeApp } from 'firebase/app';
-import { initializeAppCheck, CustomProvider } from 'firebase/app-check';
 import { getAuth, signInAnonymously, signInWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { initFirebaseAdmin, resolveSeedOwnerUid, trySignInWithCustomToken } from './lib/seedAdmin.mjs';
+import { initSmokeAppCheck } from './lib/smoke_app_check.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -53,30 +53,10 @@ async function main() {
   const debugToken = env.VITE_APP_CHECK_DEBUG_TOKEN;
   const appId = env.VITE_FIREBASE_APP_ID;
   const projectNumber = env.VITE_FIREBASE_MESSAGING_SENDER_ID;
-  if (debugToken && appId && projectNumber) {
-    const exchangeUrl = `https://firebaseappcheck.googleapis.com/v1/projects/${projectNumber}/apps/${appId}:exchangeDebugToken?key=${encodeURIComponent(apiKey)}`;
-    initializeAppCheck(app, {
-      provider: new CustomProvider({
-        getToken: async () => {
-          const res = await fetch(exchangeUrl, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'X-Firebase-AppCheck': debugToken },
-            body: JSON.stringify({ debugToken, limitedUse: false }),
-          });
-          if (!res.ok) {
-            throw new Error(`App Check exchangeDebugToken ${res.status}: ${await res.text()}`);
-          }
-          const data = await res.json();
-          return {
-            token: data.token,
-            expireTimeMillis: data.ttl
-              ? Date.now() + Number.parseInt(String(data.ttl).replace('s', ''), 10) * 1000
-              : Date.now() + 3_600_000,
-          };
-        },
-      }),
-      isTokenAutoRefreshEnabled: true,
-    });
+  if (initSmokeAppCheck(app, env)) {
+    console.log('[smoke] App Check (debug token) initierad');
+  } else {
+    console.warn('[smoke] App Check ej initierad — client-write kan nekas; försöker Admin SDK seed');
   }
 
   const auth = getAuth(app);
@@ -105,9 +85,28 @@ async function main() {
 
   const stamp = new Date().toISOString().slice(0, 19);
   const observation = `Smoke barn ${stamp}: Kasper sov dåligt, vaknade 04:30.`;
+  const privateObservation = `Smoke private ${stamp}: Barnporten hemlig rad som inte får synas i RAG.`;
+
+  async function seedChildrenLog(payload) {
+    try {
+      return await addDoc(collection(db, 'children_logs'), payload);
+    } catch (err) {
+      const code = err?.code ?? '';
+      if (code !== 'permission-denied' && !String(err.message).includes('PERMISSION_DENIED')) {
+        throw err;
+      }
+      console.warn('[smoke] Client write nekad — seed via Admin SDK (App Check på Firestore)');
+      const admin = await initFirebaseAdmin(projectId);
+      const ref = await admin.firestore().collection('children_logs').add({
+        ...payload,
+        createdAt: admin.firestore.FieldValue.serverTimestamp(),
+      });
+      return { id: ref.id };
+    }
+  }
 
   console.log('[smoke] Seed children_logs…');
-  const docRef = await addDoc(collection(db, 'children_logs'), {
+  const docRef = await seedChildrenLog({
     ownerId: uid,
     userId: uid,
     childAlias: 'Kasper',
@@ -119,9 +118,8 @@ async function main() {
   });
   console.log('[smoke] children_logs docId:', docRef.id);
 
-  const privateObservation = `Smoke private ${stamp}: Barnporten hemlig rad som inte får synas i RAG.`;
   console.log('[smoke] Seed private_child (ska filtreras bort)…');
-  const privateRef = await addDoc(collection(db, 'children_logs'), {
+  const privateRef = await seedChildrenLog({
     ownerId: uid,
     userId: uid,
     childAlias: 'Kasper',
