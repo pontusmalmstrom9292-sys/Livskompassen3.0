@@ -180,7 +180,7 @@ export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSu
           })}
       </nav>
 
-      <div className="calm-scroll-island max-h-[min(70vh,640px)] overflow-y-auto pr-1">
+      <div className="calm-scroll-island superhub-scroll-island pr-1">
         <MabraInputModeDelegate
           mode={activeMode}
           userId={user?.uid}

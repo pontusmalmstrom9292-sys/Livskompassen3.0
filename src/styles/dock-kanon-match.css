@@ -441,3 +441,83 @@
     transition: none;
   }
 }
+
+/* Motorola G85 / smal mobil — dock närmare underkant, mindre kompass-protrusion */
+@media (max-width: 639px) {
+  .app-shell--basta-design {
+    --app-dock-clearance: calc(7.35rem + env(safe-area-inset-bottom, 0px) + 0.5rem);
+  }
+
+  .dock-shell.dock-shell--basta-design,
+  .dock-shell.dock-shell--basta-v2 {
+    --dock-stack-height: 6.75rem;
+    --app-dock-clearance: calc(7.35rem + env(safe-area-inset-bottom, 0px) + 0.5rem);
+    padding: 0 0.35rem max(0.08rem, env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .dock-shell--basta-v2::before {
+    height: calc(var(--dock-stack-height) + env(safe-area-inset-bottom, 0px) + 0.55rem);
+  }
+
+  .basta-dock-bar--v2 {
+    grid-template-columns: 1.15fr 1.15fr minmax(6.75rem, 1.85fr) 1.15fr 1.15fr;
+    padding-top: 1.45rem;
+    padding-bottom: calc(0.22rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .basta-dock-bar--v2 .basta-dock-bar__compass-slot {
+    min-width: 6.75rem;
+  }
+
+  .basta-dock-bar--v2 .basta-dock-bar__compass {
+    width: 6.65rem;
+    height: 6.65rem;
+    margin-top: -4.55rem;
+    margin-bottom: 0;
+  }
+
+  .basta-dock-bar--v2 .basta-dock-bar__compass-mark {
+    max-width: 6.55rem;
+    max-height: 6.55rem;
+  }
+}
+
+/*
+ * Capacitor Android — safe-area på shell (gestyrad), inte i nav-baren.
+ * Dubbel padding i bar = ~1 cm gap; noll shell = för långt ned.
+ */
+html.platform-capacitor-android .app-shell--basta-design {
+  --app-dock-clearance: calc(7.35rem + 0.35rem + var(--lk-android-shell-inset, 0.625rem));
+}
+
+html.platform-capacitor-android .dock-shell.dock-shell--basta-design,
+html.platform-capacitor-android .dock-shell.dock-shell--basta-v2 {
+  --app-dock-clearance: calc(7.35rem + 0.35rem + var(--lk-android-shell-inset, 0.625rem));
+  padding: 0 0.35rem var(--lk-android-shell-inset, 0.625rem) !important;
+}
+
+html.platform-capacitor-android .dock-shell--basta-v2::before {
+  height: calc(var(--dock-stack-height) + var(--lk-android-shell-inset, 0.625rem) + 0.35rem);
+}
+
+html.platform-capacitor-android .basta-dock-bar--v2,
+html.platform-capacitor-android .basta-dock-bar.basta-dock-bar--v2 {
+  padding-bottom: 0.25rem !important;
+  min-height: unset !important;
+}
+
+html.platform-capacitor-android .basta-dock-bar--v2 .basta-dock-bar__side {
+  min-height: unset;
+  padding-bottom: 0;
+}
+
+html.platform-capacitor-android .basta-resurser-widget {
+  bottom: calc(0.2rem + var(--lk-android-shell-inset, 0px));
+}
+
+@media (max-width: 639px) {
+  html.platform-capacitor-android .basta-dock-bar--v2 {
+    padding-top: 1.35rem;
+    padding-bottom: 0.25rem !important;
+  }
+}

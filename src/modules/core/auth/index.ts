@@ -1,4 +1,5 @@
 export { AuthProvider } from './AuthProvider';
+export { AuthErrorBoundary } from './AuthErrorBoundary';
 export { auth } from '../firebase/init';
 export { AuthGate } from './AuthGate';
 export { AppUnlockGate } from './AppUnlockGate';

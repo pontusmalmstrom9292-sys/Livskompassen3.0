@@ -309,6 +309,18 @@
       padding-bottom: max(0.7rem, env(safe-area-inset-bottom)) !important;
     }
 
+    @media (max-width: 639px) {
+      .dock-shell.dock-shell--basta-design,
+      .dock-shell.dock-shell--basta-v2 {
+        padding-bottom: max(0.08rem, env(safe-area-inset-bottom, 0px)) !important;
+      }
+
+      html.platform-capacitor-android .dock-shell.dock-shell--basta-design,
+      html.platform-capacitor-android .dock-shell.dock-shell--basta-v2 {
+        padding-bottom: var(--lk-android-shell-inset, 0.625rem) !important;
+      }
+    }
+
     .floating-dock.dock-hub-band {
       width: fit-content !important;
       max-width: 98vw !important;

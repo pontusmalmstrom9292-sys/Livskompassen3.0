@@ -52,7 +52,7 @@ function HjartatReflektionPanel() {
 
   return (
     <Suspense fallback={<DagbokInputFallback />}>
-      <DagbokInputSuperModule />
+      <DagbokInputSuperModule flowWithIsland />
     </Suspense>
   );
 }

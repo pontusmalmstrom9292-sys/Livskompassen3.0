@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, X } from 'lucide-react';
 import { clsx } from 'clsx';
+import { useScrollLock } from '@/core/hooks/useScrollLock';
 import { RESURSER_NAV_ROWS } from './resurserNavConfig';
 
 type Props = {
@@ -24,6 +25,8 @@ export function ResurserOverlay({ open, onClose }: Props) {
     );
   }, [query]);
 
+  useScrollLock(open);
+
   useEffect(() => {
     if (!open) return;
 
@@ -32,12 +35,10 @@ export function ResurserOverlay({ open, onClose }: Props) {
     };
 
     window.addEventListener('keydown', onKeyDown);
-    document.body.style.overflow = 'hidden';
     searchRef.current?.focus();
 
     return () => {
       window.removeEventListener('keydown', onKeyDown);
-      document.body.style.overflow = '';
     };
   }, [open, onClose]);
 

@@ -1,5 +1,5 @@
 /* PROTECTED CORE COMPONENT: DO NOT MODIFY, REFRACTOR, OR REMOVE UI ELEMENTS. THIS FILE IS LOCKED FOR ARCHITECTURAL STABILITY. */
-import { AppUnlockGate, AuthProvider, useZeroFootprint } from './modules/core/auth';
+import { AppUnlockGate, AuthProvider, AuthErrorBoundary, useZeroFootprint } from './modules/core/auth';
 import { useMaterialPackSync } from './modules/core/lifeOs/useMaterialPackSync';
 import { useEvolutionSync } from './modules/core/hooks/useEvolutionSync';
 import { useAdaptationSync } from './modules/core/hooks/useAdaptationSync';
@@ -40,7 +40,9 @@ export default function App() {
       <ThemeProvider>
         <ToastContainer />
         <SOSOverlay />
-        <AppShell />
+        <AuthErrorBoundary>
+          <AppShell />
+        </AuthErrorBoundary>
       </ThemeProvider>
     </AuthProvider>
   );

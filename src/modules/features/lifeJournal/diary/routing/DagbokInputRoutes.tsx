@@ -47,7 +47,7 @@ export function DagbokInputRoutes() {
               path="input"
               element={
                 <Suspense fallback={<DagbokInputFallback />}>
-                  <DagbokInputSuperModuleLazy />
+                  <DagbokInputSuperModuleLazy flowWithIsland />
                 </Suspense>
               }
             />

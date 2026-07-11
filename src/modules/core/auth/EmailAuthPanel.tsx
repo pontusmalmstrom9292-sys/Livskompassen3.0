@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Fingerprint, Loader2, Lock, Mail } from 'lucide-react';
 import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -22,6 +23,7 @@ type Props = {
 };
 
 export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSuccess }: Props) {
+  const navigate = useNavigate();
   const [mode, setMode] = useState<Mode>(defaultMode);
   const [showAltAuth, setShowAltAuth] = useState(false);
   const loginHint = getExpectedLoginEmail();
@@ -50,6 +52,7 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
         }
         setSuccess('Inloggad med Google.');
         onSuccess?.();
+        navigate(window.location.pathname + window.location.search, { replace: true });
       } else {
         if (fingerprintPref && isAppUnlockSupported()) {
           markFingerprintSetupPending();

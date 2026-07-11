@@ -96,7 +96,7 @@ export function PlaneringInputSuperModule({
         })}
       </nav>
 
-      <div className="calm-scroll-island max-h-[min(70vh,640px)] overflow-y-auto pr-1">
+      <div className="calm-scroll-island superhub-scroll-island pr-1">
         <PlaneringInputModeDelegate mode={activeMode} onSaved={handleDelegateSaved} />
       </div>
     </BentoCard>
