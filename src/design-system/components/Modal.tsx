@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../utils/cn';
+import { useScrollLock } from '@/core/hooks/useScrollLock';
 
 export type ModalProps = {
   open: boolean;
@@ -42,6 +43,8 @@ export function Modal({
   const panelRef = useRef<HTMLDivElement>(null);
   const dialogLabel = title ?? ariaLabel;
 
+  useScrollLock(open && lockScroll);
+
   useEffect(() => {
     if (!open) return;
 
@@ -53,17 +56,10 @@ export function Modal({
     const focusTarget = initialFocusRef?.current ?? panelRef.current;
     focusTarget?.focus();
 
-    if (lockScroll) {
-      document.body.style.overflow = 'hidden';
-    }
-
     return () => {
       window.removeEventListener('keydown', onKeyDown);
-      if (lockScroll) {
-        document.body.style.overflow = '';
-      }
     };
-  }, [open, onClose, initialFocusRef, lockScroll]);
+  }, [open, onClose, initialFocusRef]);
 
   if (!open) return null;
 

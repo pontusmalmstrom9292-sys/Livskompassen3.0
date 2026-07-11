@@ -1,6 +1,7 @@
 /** @locked MOD-HJ-INPUT — låst modul; unlock via docs/evaluations/*-unlock-MOD-HJ-INPUT.md */
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { clsx } from 'clsx';
 import { ButtonLink } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
@@ -32,6 +33,8 @@ export type DagbokInputSuperModuleProps = {
   initialMode?: DagbokInputMode;
   /** Callback efter lyckat spar i aktivt läge. */
   onSaved?: (mode: DagbokInputMode) => void;
+  /** Desktop hub-lock: yttre calm-scroll-island scrollar — ingen nested max-h. */
+  flowWithIsland?: boolean;
 };
 
 type DelegateProps = {
@@ -69,6 +72,7 @@ function DagbokInputModeDelegate({ mode, onSaved, onSwitchMode }: DelegateProps)
 export function DagbokInputSuperModule({
   initialMode,
   onSaved,
+  flowWithIsland = false,
 }: DagbokInputSuperModuleProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const evolutionDoc = useEvolutionStore((s) => s.doc);
@@ -129,7 +133,11 @@ export function DagbokInputSuperModule({
       depth
       noHover
       bare
-      className={`hjartat-tab-panel overflow-hidden !p-4 sm:!p-5${isTystMode ? ' dagbok-hub--tyst' : ''}`}
+      className={clsx(
+        'hjartat-tab-panel dagbok-input-hub overflow-hidden !p-4 sm:!p-5',
+        flowWithIsland && 'dagbok-input-hub--flow',
+        isTystMode && 'dagbok-hub--tyst',
+      )}
     >
       <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
         <div className="valv-forensic-header min-w-0 flex-1">
@@ -171,7 +179,11 @@ export function DagbokInputSuperModule({
 
       <ChameleonInputShell
         mode={visibleMode}
-        viewportClassName="max-h-[min(75vh,720px)] overflow-y-auto pr-1"
+        viewportClassName={
+          flowWithIsland
+            ? 'pr-1'
+            : 'max-h-[min(calc(100dvh-var(--app-dock-clearance,8.5rem)-12rem),720px)] overflow-y-auto pr-1'
+        }
       >
         {(mode) => (
           <DagbokInputModeDelegate

@@ -3,6 +3,7 @@ import {
   onAuthStateChanged,
   signInAnonymously,
   signOut,
+  type User,
 } from 'firebase/auth';
 import { auth } from '../firebase/init';
 import { googleRedirectBoot } from '../firebase/authRedirectBoot';
@@ -17,6 +18,17 @@ import { toast } from '../store/toastStore';
 import { mapAuthError } from './authService';
 import { FirebaseError } from 'firebase/app';
 
+function syncUserToStore(
+  firebaseUser: User,
+  setUser: ReturnType<typeof useStore.getState>['setUser'],
+): void {
+  setUser({
+    uid: firebaseUser.uid,
+    email: firebaseUser.email ?? undefined,
+    isAnonymous: firebaseUser.isAnonymous,
+  });
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const setUser = useStore((s) => s.setUser);
   const setLoading = useStore((s) => s.setLoading);
@@ -24,7 +36,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     setLoading(true);
-    let unsub: (() => void) | undefined;
     let isUnmounted = false;
     const loadingWatchdog = window.setTimeout(() => {
       if (!isUnmounted) {
@@ -33,15 +44,59 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     }, 12_000);
 
+    const handleAuthUser = async (firebaseUser: User | null) => {
+      window.clearTimeout(loadingWatchdog);
+      if (firebaseUser) {
+        if (isEmailAuthRequired() && firebaseUser.isAnonymous) {
+          try {
+            await signOut(auth);
+          } catch {
+            /* ignore */
+          }
+          if (!isUnmounted) resetState();
+          if (!isUnmounted) setLoading(false);
+          return;
+        }
+        try {
+          syncUserToStore(firebaseUser, setUser);
+          if (!firebaseUser.isAnonymous && consumeFingerprintSetupPending() && isAppUnlockSupported()) {
+            void enableAppUnlock();
+          }
+        } catch (err: unknown) {
+          console.error('[AuthProvider] Auth State Error:', err);
+          const msg = err instanceof Error ? err.message : 'Något gick fel vid inloggning.';
+          toast.error(msg, 6000);
+        }
+      } else if (!isEmailAuthRequired()) {
+        if (consumeSkipAnonymousOnce()) {
+          resetState();
+          setLoading(false);
+          return;
+        }
+        try {
+          const cred = await signInAnonymously(auth);
+          if (!isUnmounted) {
+            syncUserToStore(cred.user, setUser);
+          }
+        } catch {
+          if (!isUnmounted) resetState();
+        }
+      } else {
+        resetState();
+      }
+      if (!isUnmounted) setLoading(false);
+    };
+
+    // Listener direkt — UI uppdateras utan manuell reload efter Google popup.
+    const unsub = onAuthStateChanged(auth, (firebaseUser) => {
+      void handleAuthUser(firebaseUser);
+    });
+
     void (async () => {
       if (isCapacitorAndroid()) {
         const pendingUser = await tryCompletePendingNativeGoogleSignIn();
         if (pendingUser && !isUnmounted) {
-          setUser({
-            uid: pendingUser.uid,
-            email: pendingUser.email ?? undefined,
-            isAnonymous: pendingUser.isAnonymous,
-          });
+          syncUserToStore(pendingUser, setUser);
         }
       }
 
@@ -58,73 +113,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         );
         return null;
       });
+
       await auth.authStateReady();
       const redirectUser = auth.currentUser;
       if (redirectUser && !redirectUser.isAnonymous && !isUnmounted) {
-        setUser({
-          uid: redirectUser.uid,
-          email: redirectUser.email ?? undefined,
-          isAnonymous: redirectUser.isAnonymous,
-        });
+        syncUserToStore(redirectUser, setUser);
+        setLoading(false);
       }
-    })().finally(() => {
-      if (isUnmounted) return;
-      unsub = onAuthStateChanged(auth, async (firebaseUser) => {
-        window.clearTimeout(loadingWatchdog);
-        if (firebaseUser) {
-          if (isEmailAuthRequired() && firebaseUser.isAnonymous) {
-            try {
-              await signOut(auth);
-            } catch {
-              /* ignore */
-            }
-            if (!isUnmounted) resetState();
-            if (!isUnmounted) setLoading(false);
-            return;
-          }
-          console.log("Auth State:", firebaseUser);
-          try {
-            setUser({
-              uid: firebaseUser.uid,
-              email: firebaseUser.email ?? undefined,
-              isAnonymous: firebaseUser.isAnonymous,
-            });
-            if (!firebaseUser.isAnonymous && consumeFingerprintSetupPending() && isAppUnlockSupported()) {
-              void enableAppUnlock();
-            }
-          } catch (err: unknown) {
-            console.error("Auth State Error:", err);
-            const msg = err instanceof Error ? err.message : 'Något gick fel vid inloggning.';
-            toast.error(msg, 6000);
-          }
-        } else if (!isEmailAuthRequired()) {
-          if (consumeSkipAnonymousOnce()) {
-            resetState();
-            setLoading(false);
-            return;
-          }
-          try {
-            const cred = await signInAnonymously(auth);
-            if (!isUnmounted) {
-              setUser({
-                uid: cred.user.uid,
-                isAnonymous: true,
-              });
-            }
-          } catch {
-            if (!isUnmounted) resetState();
-          }
-        } else {
-          resetState();
-        }
-        if (!isUnmounted) setLoading(false);
-      });
-    });
+    })();
 
     return () => {
       isUnmounted = true;
       window.clearTimeout(loadingWatchdog);
-      unsub?.();
+      unsub();
     };
   }, [setUser, setLoading, resetState]);
 

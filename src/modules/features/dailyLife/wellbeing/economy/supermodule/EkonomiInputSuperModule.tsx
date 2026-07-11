@@ -213,7 +213,7 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
           })}
       </nav>
 
-      <div className="calm-scroll-island max-h-[min(70vh,640px)] overflow-y-auto pr-1">
+      <div className="calm-scroll-island superhub-scroll-island pr-1">
         {isLoading ? (
           <HubPanelSkeleton label="Laddar ekonomiläge…" lines={4} />
         ) : (

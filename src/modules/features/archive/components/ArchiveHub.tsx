@@ -58,7 +58,7 @@ export function ArchiveHub() {
         <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-purple-900/10 blur-[120px]" />
       </div>
 
-      <div className="relative max-w-lg mx-auto px-4 pt-12 pb-24 h-screen overflow-y-auto overflow-x-hidden no-scrollbar z-10">
+      <div className="relative max-w-lg mx-auto px-4 pt-12 pb-24 min-h-[100dvh] max-h-[100dvh] overflow-y-auto overflow-x-hidden no-scrollbar z-10">
         
         {/* Header */}
         <header className="mb-8">

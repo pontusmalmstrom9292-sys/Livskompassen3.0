@@ -23,6 +23,7 @@ import {
   createGoogleProvider,
   markSkipAnonymousOnce,
   shouldUseGoogleRedirect,
+  clearSkipAnonymousFlag,
 } from './googleAuthProvider';
 import { clearAllDrafts } from '../../capture/draftQueue';
 import { flushBarnportenOfflineQueue } from '@/features/onboarding/barnporten/api/saveBarnportenLog';
@@ -31,6 +32,18 @@ import { clearAllPendingBarnportenLogs } from '@/features/onboarding/barnporten/
 import { clearPendingActionDashboardItemsForUser } from '@/features/widgets/api/actionDashboardOfflineQueue';
 import { resetAdaptationSignalThrottle } from '../adaptation/adaptationSignalThrottle';
 import { useAdaptationStore } from '../store/useAdaptationStore';
+import { useStore } from '../store';
+
+/** Synka Firebase-user till Zustand direkt efter popup/native login. */
+export async function syncAuthUserToStore(user: User): Promise<void> {
+  await auth.authStateReady();
+  useStore.getState().setUser({
+    uid: user.uid,
+    email: user.email ?? undefined,
+    isAnonymous: user.isAnonymous,
+  });
+  clearSkipAnonymousFlag();
+}
 
 export function mapAuthError(code: string): string {
   switch (code) {
@@ -120,7 +133,9 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
 
   if (isCapacitorNative()) {
     if (current?.isAnonymous && linkAnonymous) {
-      return capacitorGoogleSignIn(true);
+      const linked = await capacitorGoogleSignIn(true);
+      await syncAuthUserToStore(linked);
+      return linked;
     }
     if (current) {
       markSkipAnonymousOnce();
@@ -128,7 +143,9 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
     } else {
       markSkipAnonymousOnce();
     }
-    return capacitorGoogleSignIn(false);
+    const signedIn = await capacitorGoogleSignIn(false);
+    await syncAuthUserToStore(signedIn);
+    return signedIn;
   }
 
   const useRedirect = shouldUseGoogleRedirect();
@@ -150,6 +167,7 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
     }
     try {
       const result = await signInWithPopup(auth, provider);
+      await syncAuthUserToStore(result.user);
       return result.user;
     } catch (err: unknown) {
       const code = err instanceof FirebaseError ? err.code : '';
@@ -173,6 +191,7 @@ export async function signInWithGoogle(options: SignInWithGoogleOptions = {}): P
       }
       try {
         const result = await linkWithPopup(current, provider);
+        await syncAuthUserToStore(result.user);
         return result.user;
       } catch (err: unknown) {
         const code = err instanceof FirebaseError ? err.code : '';

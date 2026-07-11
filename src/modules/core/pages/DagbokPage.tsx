@@ -11,6 +11,7 @@ import { HjartatBentoShell } from '@/features/lifeJournal/diary/components/Hjart
 import { HjartatZoneIntro } from '@/features/lifeJournal/diary/components/HjartatZoneIntro';
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
 import { Pencil } from 'lucide-react';
+import { useMinWidthSm } from '../hooks/useMinWidthSm';
 
 const DagbokInputSuperModule = lazy(() =>
   import('@/features/lifeJournal/diary/supermodule/DagbokInputSuperModule').then((m) => ({
@@ -29,7 +30,7 @@ function DagbokInputFallback() {
 }
 
 /** Reflektion-flik — legacy `?mode=` → `?inputMode=` + embedded superhub. */
-function HjartatReflektionPanel() {
+function HjartatReflektionPanel({ flowWithIsland }: { flowWithIsland?: boolean }) {
   const [searchParams] = useSearchParams();
   const legacyMode = searchParams.get('mode');
   const hasInputMode = searchParams.has('inputMode');
@@ -52,7 +53,7 @@ function HjartatReflektionPanel() {
 
   return (
     <Suspense fallback={<DagbokInputFallback />}>
-      <DagbokInputSuperModule />
+      <DagbokInputSuperModule flowWithIsland={flowWithIsland} />
     </Suspense>
   );
 }
@@ -60,6 +61,7 @@ function HjartatReflektionPanel() {
 /** Hjärtat — Dagbok och Speglar endast. Ingen Valv-logik. */
 export function DagbokPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const desktopHubLock = useMinWidthSm();
   const layerTab = resolveLayerTab(searchParams.get('tab'));
   const isWriting = searchParams.get('write') === 'true';
 
@@ -95,8 +97,8 @@ export function DagbokPage() {
         <ModuleShell
           eyebrow=""
           title="SPEGLAR"
-          lockViewport
-          fitViewport
+          lockViewport={desktopHubLock}
+          fitViewport={desktopHubLock}
           depth={false}
           cognitiveStrip={false}
         >
@@ -110,14 +112,14 @@ export function DagbokPage() {
           eyebrow=""
           title="DAGBOK"
           headerAside={headerAside}
-          lockViewport
-          fitViewport
+          lockViewport={desktopHubLock}
+          fitViewport={desktopHubLock}
           depth={false}
           cognitiveStrip={false}
         >
           <HjartatBentoShell>
             <HjartatZoneIntro layerTab="reflektion" />
-            <HjartatReflektionPanel />
+            <HjartatReflektionPanel flowWithIsland={desktopHubLock} />
             <PinnedPlaneringModuleSlot targetId="hjartat.dagbok" className="mt-4" />
           </HjartatBentoShell>
         </ModuleShell>

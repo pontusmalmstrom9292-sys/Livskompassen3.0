@@ -17,22 +17,49 @@ export function getExpectedLoginEmail(): string | null {
 }
 
 const SKIP_ANONYMOUS_KEY = 'livskompassen_skip_anonymous_once';
+const SKIP_ANONYMOUS_LS_KEY = 'livskompassen_skip_anonymous_once_ls';
+const SKIP_ANONYMOUS_TTL_MS = 5 * 60 * 1000;
 
 export function markSkipAnonymousOnce(): void {
+  const expiresAt = String(Date.now() + SKIP_ANONYMOUS_TTL_MS);
   try {
     sessionStorage.setItem(SKIP_ANONYMOUS_KEY, '1');
+    localStorage.setItem(SKIP_ANONYMOUS_LS_KEY, expiresAt);
   } catch {
     /* ignore */
   }
 }
 
-export function consumeSkipAnonymousOnce(): boolean {
+function consumeSkipAnonymousFromStorage(): boolean {
   try {
-    if (sessionStorage.getItem(SKIP_ANONYMOUS_KEY) !== '1') return false;
-    sessionStorage.removeItem(SKIP_ANONYMOUS_KEY);
-    return true;
+    if (sessionStorage.getItem(SKIP_ANONYMOUS_KEY) === '1') {
+      sessionStorage.removeItem(SKIP_ANONYMOUS_KEY);
+      localStorage.removeItem(SKIP_ANONYMOUS_LS_KEY);
+      return true;
+    }
+    const expiresRaw = localStorage.getItem(SKIP_ANONYMOUS_LS_KEY);
+    if (!expiresRaw) return false;
+    const expiresAt = Number(expiresRaw);
+    localStorage.removeItem(SKIP_ANONYMOUS_LS_KEY);
+    if (Number.isFinite(expiresAt) && Date.now() <= expiresAt) {
+      return true;
+    }
   } catch {
-    return false;
+    /* ignore */
+  }
+  return false;
+}
+
+export function consumeSkipAnonymousOnce(): boolean {
+  return consumeSkipAnonymousFromStorage();
+}
+
+export function clearSkipAnonymousFlag(): void {
+  try {
+    sessionStorage.removeItem(SKIP_ANONYMOUS_KEY);
+    localStorage.removeItem(SKIP_ANONYMOUS_LS_KEY);
+  } catch {
+    /* ignore */
   }
 }
 

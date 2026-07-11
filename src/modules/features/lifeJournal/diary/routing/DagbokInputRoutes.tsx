@@ -4,6 +4,7 @@ import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { ModuleShell } from '@/core/layout/ModuleShell';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
+import { useMinWidthSm } from '@/core/hooks/useMinWidthSm';
 import { HjartatBentoShell } from '@/features/lifeJournal/diary/components/HjartatBentoShell';
 import { HjartatZoneIntro } from '@/features/lifeJournal/diary/components/HjartatZoneIntro';
 
@@ -24,6 +25,8 @@ function DagbokInputFallback() {
  * Canonical entry: `/hjartat/input?inputMode=reflektion|quick_mirror|arkiv`
  */
 export function DagbokInputRoutes() {
+  const desktopHubLock = useMinWidthSm();
+
   return (
     <HubErrorBoundary
       title="Hjärtat kunde inte laddas"
@@ -35,8 +38,8 @@ export function DagbokInputRoutes() {
       <ModuleShell
         eyebrow=""
         title="DAGBOK"
-        lockViewport
-        fitViewport
+        lockViewport={desktopHubLock}
+        fitViewport={desktopHubLock}
         depth={false}
         cognitiveStrip={false}
       >
@@ -47,7 +50,7 @@ export function DagbokInputRoutes() {
               path="input"
               element={
                 <Suspense fallback={<DagbokInputFallback />}>
-                  <DagbokInputSuperModuleLazy />
+                  <DagbokInputSuperModuleLazy flowWithIsland={desktopHubLock} />
                 </Suspense>
               }
             />

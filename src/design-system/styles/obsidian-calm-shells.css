@@ -194,6 +194,19 @@
     overflow: visible;
   }
 
+  /* Hjärtat superhub — samma mönster som Familjen */
+  .hub-view-lock--fit .dagbok-input-hub--flow,
+  .hub-view-lock--fit .dagbok-input-hub--flow .chameleon-input-shell__viewport {
+    max-height: none;
+    overflow: visible;
+  }
+
+  /* Superhub scroll — dvh minus dock/header (mobil) */
+  .superhub-scroll-island {
+    max-height: min(calc(100dvh - var(--app-dock-clearance, 8.5rem) - 10rem), 640px);
+    overflow-y: auto;
+  }
+
   /* Valvet desktop (≥640px) — bred vy, lugn scroll, dölj dock/Fyren */
   @media (min-width: 640px) {
     .app-shell:has(.valvet-route-page--desktop) {
