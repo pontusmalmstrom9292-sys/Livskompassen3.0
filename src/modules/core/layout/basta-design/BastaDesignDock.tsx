@@ -1,5 +1,6 @@
 /* PROTECTED BASTA-DESIGN DOCK LOCK — docs/design/BASTA-DESIGN-DOCK-LOCK.md · npm run smoke:basta-dock-lock */
-import { useCallback } from 'react';
+import { useCallback, useLayoutEffect } from 'react';
+import { trimAndroidBastaDockInsets } from '../../platform/androidDockInsetFix';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { openValvViaFyren } from '../../auth/valvFyrenGate';
 import { NAV_PATHS } from '../../navigation/navTruth';
@@ -38,6 +39,10 @@ export function BastaDesignDock() {
 
   const { progress, isHolding, ...centerHoldHandlers } = centerPress;
   const showFyrenRing = progress > 0;
+
+  useLayoutEffect(() => {
+    trimAndroidBastaDockInsets();
+  }, [pathname]);
 
   return (
     <div className="dock-shell dock-shell--basta-design dock-shell--basta-v2">

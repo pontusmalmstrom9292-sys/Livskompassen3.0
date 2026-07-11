@@ -17,6 +17,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   </head>
   <body>
+    <script>
+      (function () {
+        var ua = navigator.userAgent || '';
+        var cap = window.Capacitor;
+        var native =
+          cap &&
+          (typeof cap.isNativePlatform === 'function'
+            ? cap.isNativePlatform()
+            : cap.getPlatform && cap.getPlatform() !== 'web');
+        var capAndroid = native && cap.getPlatform && cap.getPlatform() === 'android';
+        var localhostAndroid =
+          /Android/i.test(ua) && /^https:\/\/localhost$/i.test(window.location.origin);
+        if (capAndroid || localhostAndroid) {
+          document.documentElement.classList.add('platform-capacitor-android');
+        }
+      })();
+    </script>
     <div id="root">
       <div
         style="

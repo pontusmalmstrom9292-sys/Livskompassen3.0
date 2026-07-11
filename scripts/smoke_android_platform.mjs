@@ -45,6 +45,13 @@ assert('capacitor app id', cap.includes('com.livskompassen.app'));
 
 const main = read('src/main.tsx');
 assert('appCheck init before React', main.includes('initAppCheck'));
+assert('capacitor shell chrome init', main.includes('initCapacitorShellChrome'));
+
+const dockCss = read('src/styles/dock-kanon-match.css');
+assert('android dock safe-area override', dockCss.includes('platform-capacitor-android'));
+
+const dockFix = read('src/modules/core/platform/androidDockInsetFix.ts');
+assert('android dock inset trim', dockFix.includes('trimAndroidBastaDockInsets'));
 
 if (fail > 0) {
   console.error(`\n[smoke:android-platform] ${fail} failure(s)`);
