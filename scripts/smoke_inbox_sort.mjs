@@ -82,10 +82,11 @@ async function main() {
   console.log('[smoke] bevis routing OK, tags:', bevisData.tags?.join(', '));
 
   console.log('[smoke] previewInboxClassification (kunskap)…');
+  // Undvik covert HCF-nyckelord (gaslighting m.fl.) — domän-prior ~80% → bevis före kunskap-heuristik.
   const kunskap = await preview({
-    fileName: 'bbic_tips_gaslighting.pdf',
+    fileName: 'bbic_tips_somn.pdf',
     text:
-      'Artikel: Så känner du igen gaslighting. Metod: dokumentera datum och korta fakta. Ingen akut konflikt i texten.',
+      'Artikel: Sömnrutiner för barn 6–9 år. Metod: fast läggtid och lugn kväll. Referens utan kommunikationslogg.',
   });
   const kunskapData = kunskap.data?.classification;
   assert(
