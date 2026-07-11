@@ -256,7 +256,7 @@ SLUT PÅ BESLUT.
 Vid kodändringar — håll DAD ovan som auktoritet; använd befintliga stilar:
 
 - **Executive chrome:** [`src/styles/executive-chrome.css`](../../src/styles/executive-chrome.css)
-- **Bas-tokens:** [`src/styles/obsidian-calm-2.css`](../../src/styles/obsidian-calm-2.css) (legacy filnamn — tema är Executive Midnight)
+- **Bas-tokens:** [`src/design-system/styles/obsidian-calm-glass.css`](../../src/design-system/styles/obsidian-calm-glass.css) · [`obsidian-calm-shells.css`](../../src/design-system/styles/obsidian-calm-shells.css)
 - **Referensbilder:** [`docs/design/references/`](../../docs/design/references/) · [`docs/design/galleri/KOMPASS-LOCKED-kanon.png`](../../docs/design/galleri/KOMPASS-LOCKED-kanon.png)
 
 **Undantag — Design Freeport:** Gäller inte `src/modules/sandbox/**`, `src/styles/design-freeport.css`, routes `/dev/design-freeport*`.

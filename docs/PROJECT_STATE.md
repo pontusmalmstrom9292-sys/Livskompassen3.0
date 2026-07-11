@@ -47,9 +47,9 @@ Two levels — do not confuse them:
 |---------|---------------|--------|------|
 | **Premium UI Polish** | Phase 10 — Legacy CSS sunset | In Progress | [`ROADMAP.md`](./ROADMAP.md), [`TODO.md`](./TODO.md), [`DASHBOARD.md`](./DASHBOARD.md) |
 
-Phase 0–9 baseline och migration **done** (se `PROGRESS.md` 2026-06-28 → 2026-07-10). Phase 10: index.css **66 LOC** (mål ≤120 ✓); legacy stubs kvar i `executive-chrome.css` / pack-stubs.
+Phase 0–9 baseline och migration **done**. Phase 10: index.css import-only; våg 111 legacy stubs borttagna (2026-07-11); `executive-chrome.css` kvar (dock/hem locked).
 
-**Next within program:** Avsluta Phase 10 stub-rensning + Pontus visual sign-off; Playwright screenshot-baseline (stretch).
+**Next within program:** Pontus visual sign-off; completion-checklist (TODO §Completion); Playwright screenshot-baseline (stretch).
 
 ---
 

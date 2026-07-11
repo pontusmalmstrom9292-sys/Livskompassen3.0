@@ -2,7 +2,7 @@
 
 # Premium UI Polish — TODO
 
-**Version:** 1.2 | **Last updated:** 2026-06-29
+**Version:** 1.2 | **Last updated:** 2026-07-11
 
 Each item is independently completable. Link files in Dashboard when done.
 
@@ -61,16 +61,16 @@ Each item is independently completable. Link files in Dashboard when done.
 
 ## Phase 3 — Primitives: Button migration
 
-- [ ] Batch: Planering module (~15 files)
-- [ ] Batch: Inkast/Capture (~15 files)
-- [ ] Batch: Valv (~20 files)
-- [ ] Batch: MåBra (~25 files)
-- [ ] Batch: Familjen (~20 files)
-- [ ] Batch: Hjärtat/Dagbok (~15 files)
-- [ ] Batch: Widgets (~10 files)
-- [ ] Batch: Core auth/settings (~10 files)
-- [ ] Batch: Remainder + CSS definition cleanup
-- [ ] ESLint/smoke: no new btn-pill-- in modules
+- [x] Batch: Planering module (~15 files) (2026-06-29 migration)
+- [x] Batch: Inkast/Capture (~15 files) (2026-06-29 migration)
+- [x] Batch: Valv (~20 files) (2026-06-29 migration)
+- [x] Batch: MåBra (~25 files) (2026-06-29 migration)
+- [x] Batch: Familjen (~20 files) (2026-06-29 migration)
+- [x] Batch: Hjärtat/Dagbok (~15 files) (2026-06-29 migration)
+- [x] Batch: Widgets (~10 files) (2026-06-29 migration)
+- [x] Batch: Core auth/settings (~10 files) (2026-06-29 migration)
+- [x] Batch: Remainder + CSS definition cleanup (2026-07-10)
+- [x] ESLint/smoke: no new btn-pill-- in modules (btnPillFiles: 0, 2026-07-11)
 
 ## Phase 3 — Primitives: Other
 
@@ -234,6 +234,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Remove dead dock-nav-btn__glyph selector
 - [x] Remove dead floating-dock__side-btn--planering selectors
 - [x] Remove dead floating-dock__side-btn--dagbok selectors
+- [x] Våg 111: legacy src/styles CSS stubs borttagna (design-packs, obsidian-calm-2, redesign-*, brushed-brass-neu)
 - [x] Remove dead floating-dock__side-btn--vardag selectors
 - [x] Remove dead dock-nav-btn__chrome-v5 selector from index.css
 
@@ -243,7 +244,7 @@ Each item is independently completable. Link files in Dashboard when done.
 
 - [ ] All Completion-Criteria.md sections checked
 - [ ] Dashboard all prod zones Done
-- [ ] smoke:predeploy:build green
+- [x] smoke:predeploy:build green (2026-07-11)
 - [ ] yolo-vakt GO
 - [ ] Pontus sign-off
 - [ ] Final PROGRESS.md entry

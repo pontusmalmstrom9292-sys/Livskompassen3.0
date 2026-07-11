@@ -1,3 +1,18 @@
+## 2026-07-11 — Phase 10 våg 111 stub-rensning + doc-städ
+
+**Plattform:** Cursor Agent · **SKIN ONLY + docs**
+
+**Completed work:**
+- Våg 111: borttagna tomma legacy stubs (`design-packs`, `obsidian-calm-2`, `redesign-*`, `brushed-brass-neu` i `src/styles/`)
+- `index.css` — dubbla stub-imports bort; kanon kvar i `design-system/styles/` + `executive-chrome.css`
+- TODO Phase 3 btn-pill batchar markerade done (btnPillFiles: 0)
+- Verifieringsrapport + PROJECT_STATE uppdaterade (governance GO, prod-release GO på teknik)
+
+**Verification:**
+- smoke:design-debt, smoke:locked-ux, smoke:predeploy (körs i PR)
+
+---
+
 ## 2026-07-11 — Governance sync: PROJECT_STATE Phase 10 + verifiering merged
 
 **Plattform:** Cursor Agent · **Läge:** docs only

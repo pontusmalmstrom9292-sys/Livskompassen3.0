@@ -24,7 +24,7 @@ const PACK_01_INCLUDE = [
   'storage.rules',
   'src/main.tsx',
   'src/App.tsx',
-  'src/styles/obsidian-calm-2.css',
+  'src/design-system/styles/obsidian-calm-glass.css',
   'src/modules/core/routing/**',
   'src/modules/core/navigation/**',
   'src/modules/core/copy/valvNavCopy.ts',
