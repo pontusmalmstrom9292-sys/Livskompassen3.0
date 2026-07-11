@@ -2,7 +2,7 @@
 
 **Runtime-källa:** `functions/src/sharedRules.ts` → `INKORG_SORTERARE_SYSTEM_PROMPT`
 **Callables:** `previewInboxClassification` · `submitInkastLite`
-**Synkad:** 2026-07-10 · **Status:** produktion (läsbar spegel, ej runtime)
+**Synkad:** 2026-07-11 · **Status:** produktion (läsbar spegel, ej runtime)
 
 ---
 # INKORG SORTERARE
