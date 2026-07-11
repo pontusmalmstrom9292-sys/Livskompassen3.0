@@ -194,9 +194,10 @@
     overflow: visible;
   }
 
-  /* Hjärtat superhub — samma mönster som Familjen */
+  /* Hjärtat superhub — flow följer yttre calm-scroll-island (ingen nested scroll) */
   .hub-view-lock--fit .dagbok-input-hub--flow,
-  .hub-view-lock--fit .dagbok-input-hub--flow .chameleon-input-shell__viewport {
+  .hub-view-lock--fit .dagbok-input-hub--flow .chameleon-input-shell__viewport,
+  .dagbok-input-hub--flow .chameleon-input-shell__viewport {
     max-height: none;
     overflow: visible;
   }

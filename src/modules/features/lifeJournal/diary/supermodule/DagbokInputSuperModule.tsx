@@ -72,7 +72,7 @@ function DagbokInputModeDelegate({ mode, onSaved, onSwitchMode }: DelegateProps)
 export function DagbokInputSuperModule({
   initialMode,
   onSaved,
-  flowWithIsland = false,
+  flowWithIsland = true,
 }: DagbokInputSuperModuleProps) {
   const [searchParams, setSearchParams] = useSearchParams();
   const evolutionDoc = useEvolutionStore((s) => s.doc);
