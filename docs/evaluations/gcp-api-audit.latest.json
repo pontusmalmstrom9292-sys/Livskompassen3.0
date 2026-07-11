@@ -1,11 +1,8 @@
 {
   "project": "gen-lang-client-0481875058",
-  "auditedAt": "2026-07-10T17:47:55.942Z",
-  "enabledCount": 107,
-  "blockedEnabled": [
-    "cloudscheduler.googleapis.com",
-    "compute.googleapis.com"
-  ],
+  "auditedAt": "2026-07-11T07:50:07.809Z",
+  "enabledCount": 106,
+  "blockedEnabled": [],
   "unexpectedEnabled": [
     "agentregistry.googleapis.com",
     "anthosconfigmanagement.googleapis.com",
@@ -80,5 +77,5 @@
     "visionai.googleapis.com"
   ],
   "missingCore": [],
-  "pass": false
+  "pass": true
 }
