@@ -4,6 +4,8 @@ import { vaultDrawerPath } from '@/core/navigation/navTruth';
 export const LIV_LAUNCHER_EXTERNAL: Record<string, string> = {
   handling: '/planering?tab=handling',
   inkorg: '/planering?tab=inkorg',
+  inkast: '/planering/input?inputMode=inkast',
+  planering: '/planering?tab=handling',
   projekt: '/projekt',
   arbetsliv: '/arbetsliv',
   drogfrihet: '/familjen?tab=drogfrihet',

@@ -94,8 +94,8 @@ export function ValvetRoutePage() {
         eyebrow="Valv"
         title="Sanningsarkiv"
         lead="Bevis, mönster och kunskap — PIN-skyddat."
-        lockViewport={desktopHubLock}
-        fitViewport={desktopHubLock}
+        lockViewport
+        fitViewport
         cognitiveStrip={false}
         className={clsx(
           'valvet-route-page',

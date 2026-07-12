@@ -50,6 +50,17 @@ assert(capture.includes('createPlanningTask'), 'planering-route saknas');
 const panic = readCanonical('src/modules/features/widgets/hooks/useWidgetPanicHide.ts');
 assert(panic.includes("navigate('/', { replace: true })"), 'panik ska navigera neutral hem');
 assert(panic.includes('setVaultUnlocked(false)'), 'panik ska låsa Valv');
+assert(panic.includes('WIDGET_RECORDING_ETHICS_STORAGE_KEY'), 'panik ska rensa ethics-nyckel');
+
+console.log('[smoke:widgets] Android WH1 discreet + WH2 inkast copy…');
+const recordProvider = readCanonical('android/app/src/main/java/com/livskompassen/app/widgets/RecordWidgetProvider.java');
+assert(recordProvider.includes('discreetNote'), 'RecordWidgetProvider ska använda discreetNote');
+const recordInfo = readCanonical('android/app/src/main/res/xml/widget_record_info.xml');
+assert(recordInfo.includes('widget_dock_strip'), 'WH1 ska använda dock-strip layout');
+const noteProvider = readCanonical('android/app/src/main/java/com/livskompassen/app/widgets/NoteWidgetProvider.java');
+assert(noteProvider.includes('widget_ic_wh2_note'), 'NoteWidgetProvider ska ha unik WH2-ikon');
+const androidStrings = readCanonical('android/app/src/main/res/values/strings.xml');
+assert(androidStrings.includes('En rad → Inkast'), 'WH2 Android subtitle ska peka Inkast');
 
 console.log('[smoke:widgets] PV1a Fyren silo-labels…');
 const fyren = readCanonical('src/modules/core/components/FyrenWidgetBar.tsx');

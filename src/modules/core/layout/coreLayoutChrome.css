@@ -1,6 +1,22 @@
 @tailwind components;
 
 @layer components {
+  .app-shell {
+    --app-header-clearance: calc(5.5rem + max(0.75rem, env(safe-area-inset-top, 0px)));
+  }
+
+  .app-shell--basta-design {
+    --app-header-clearance: calc(5.2rem + max(0.65rem, env(safe-area-inset-top, 0px)));
+  }
+
+  .app-shell:has(.app-header--executive-premium) {
+    --app-header-clearance: calc(4.85rem + max(0.75rem, env(safe-area-inset-top, 0px)));
+  }
+
+  html[data-design-pack] .app-shell:not(.app-shell--basta-design):not(:has(.app-header--executive-premium)) {
+    --app-header-clearance: calc(5.45rem + max(0.5rem, env(safe-area-inset-top, 0px)));
+  }
+
   .app-header {
     @apply pointer-events-none fixed top-0 left-0 right-0 z-[220];
     background: linear-gradient(to bottom, rgba(2, 6, 23, 0.88), rgba(2, 6, 23, 0));
@@ -82,7 +98,9 @@
   }
 
   .app-main {
+    padding-top: var(--app-header-clearance);
     padding-bottom: var(--app-dock-clearance);
+    scroll-padding-top: var(--app-header-clearance);
     scroll-padding-bottom: var(--app-dock-clearance);
   }
 

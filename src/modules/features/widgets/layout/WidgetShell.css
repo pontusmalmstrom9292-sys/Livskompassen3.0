@@ -2,9 +2,13 @@
 
 @layer components {
   .widget-shell {
-    @apply min-h-screen px-4 pb-8 pt-6;
+    @apply min-h-screen px-4 pb-8 pt-6 text-text;
     padding-top: max(1.5rem, env(safe-area-inset-top));
     padding-bottom: max(2rem, env(safe-area-inset-bottom));
+    background:
+      radial-gradient(ellipse 120% 80% at 50% -10%, rgba(212, 175, 55, 0.08), transparent 55%),
+      radial-gradient(circle at 50% 120%, rgba(20, 28, 43, 0.55), transparent 50%),
+      var(--color-bg, #050810);
   }
 
   .widget-shell__header {
@@ -28,7 +32,16 @@
   }
 
   .widget-shell__surface {
-    @apply rounded-3xl border border-border-strong bg-surface/55 p-4 shadow-[0_18px_40px_-26px_rgba(0,0,0,0.7)] backdrop-blur-xl sm:p-5;
+    @apply rounded-3xl border border-border-strong bg-surface/55 p-4 shadow-[0_18px_40px_-26px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(212,175,55,0.12)] backdrop-blur-xl sm:p-5;
+  }
+
+  .widget-shell__panic {
+    @apply border border-border/50 bg-surface/40 text-text-muted transition-colors;
+  }
+
+  .widget-shell__panic:hover,
+  .widget-shell__panic:focus-visible {
+    @apply border-accent/35 bg-surface/70 text-accent;
   }
 
   .widget-shell__surface > * + * {
@@ -56,6 +69,18 @@
     50% {
       opacity: 1;
       transform: scale(1.15);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .widget-record__dot {
+      animation: none;
+      opacity: 0.85;
+    }
+
+    .widget-shell--panic,
+    .widget-panic-blur-overlay {
+      transition: none;
     }
   }
 
@@ -97,4 +122,11 @@
   .widget-silo-picker {
     @apply rounded-xl border-[0.5px] border-border/60 bg-surface-2/40 p-3;
   }
+}
+
+/* Fristående widget-läge — dölj app-chrome (dock, zen, m.m.) */
+html.widget-route-mode #zen-mode-trigger,
+html.widget-route-mode [data-quick-capture-trigger],
+html.widget-route-mode .system-status-panel {
+  display: none !important;
 }

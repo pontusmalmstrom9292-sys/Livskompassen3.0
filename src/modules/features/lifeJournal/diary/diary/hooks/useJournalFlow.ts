@@ -5,6 +5,12 @@ import {
   saveJournalEntry,
   getJournalEntries,
 } from '@/core/firebase/firestore';
+import {
+  canAccessSensitiveFirestoreSilo,
+  SENSITIVE_SILO_LOGIN_MESSAGE,
+} from '@/core/auth/requireEmailAuth';
+import { resolveFirestorePermissionMessage } from '@/core/firebase/firestorePermissionMessage';
+import { useStore } from '@/core/store';
 import { uploadJournalMemory } from '../utils/journalUploadHelper';
 import type { JournalCategoryId } from '../constants/journalCategories';
 import { weaveJournalEntry } from '../api/weaverService';
@@ -37,6 +43,8 @@ type UseJournalFlowOptions = {
 };
 
 export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: UseJournalFlowOptions) {
+  const user = useStore((s) => s.user);
+  const canAccessJournal = canAccessSensitiveFirestoreSilo(user);
   const [step, setStep] = useState<JournalStep>(INITIAL_STEP);
   const [mood, setMood] = useState('');
   const [text, setText] = useState(() => useDiaryStore.getState().diaryDraft || '');
@@ -79,9 +87,22 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
 
   const refreshEntries = useCallback(async () => {
     if (!userId) return;
-    const data = await getJournalEntries(userId);
-    setEntries(data as JournalEntry[]);
-  }, [userId]);
+    if (!canAccessJournal) {
+      setError(SENSITIVE_SILO_LOGIN_MESSAGE);
+      return;
+    }
+    try {
+      const data = await getJournalEntries(userId);
+      setEntries(data as JournalEntry[]);
+      setError(null);
+    } catch (err) {
+      const permissionMsg = resolveFirestorePermissionMessage(err);
+      if (mountedRef.current) {
+        setError(permissionMsg ?? 'Kunde inte hämta dagbok.');
+      }
+      throw err;
+    }
+  }, [userId, canAccessJournal]);
 
   useEffect(() => {
     if (!userId) return;
@@ -115,6 +136,11 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
   const persistEntry = async (entryText: string, opts: PersistOptions = {}): Promise<boolean> => {
     if (!userId) {
       setError('Du måste vara inloggad för att spara.');
+      return false;
+    }
+    if (!canAccessJournal) {
+      setError(SENSITIVE_SILO_LOGIN_MESSAGE);
+      toast.error('Logga in med Google för att spara i dagboken.');
       return false;
     }
     const activeMood = opts.moodOverride ?? mood;
@@ -189,13 +215,18 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       toast.success('Dina tankar är i säkert förvar. Du kan släppa dem nu.');
       return true;
     } catch (err) {
-      const msg = uploadedAttachment
-        ? 'Bilagan laddades upp men posten kunde inte sparas. Ta bort bilagan och försök igen, eller spara utan bilaga.'
-        : err instanceof Error
-          ? err.message
-          : 'Kunde inte spara. Kontrollera nätverk och Firestore-regler.';
+      const permissionMsg = resolveFirestorePermissionMessage(err);
+      const msg = permissionMsg
+        ? permissionMsg
+        : uploadedAttachment
+          ? 'Bilagan laddades upp men posten kunde inte sparas. Ta bort bilagan och försök igen, eller spara utan bilaga.'
+          : err instanceof Error
+            ? err.message
+            : 'Kunde inte spara. Kontrollera nätverk och Firestore-regler.';
       if (mountedRef.current) setError(msg);
-      toast.error('Kunde inte spara. Kontrollera din uppkoppling och försök igen.');
+      toast.error(
+        permissionMsg ? 'Logga in med Google för att spara i dagboken.' : 'Kunde inte spara. Kontrollera din uppkoppling och försök igen.',
+      );
       return false;
     } finally {
       if (mountedRef.current) setSaving(false);
@@ -316,5 +347,6 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     handleQuickSave,
     resetFlow,
     refreshEntries,
+    canAccessJournal,
   };
 }

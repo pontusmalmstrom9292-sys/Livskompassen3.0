@@ -487,12 +487,22 @@ function main() {
   mustInclude(
     'android/app/src/main/java/com/livskompassen/app/widgets/RecordWidgetProvider.java',
     'WidgetViews',
-    'widget_chip_anteckning',
+    'discreetNote',
   );
+  mustInclude(
+    'android/app/src/main/res/xml/widget_record_info.xml',
+    'widget_dock_strip',
+  );
+  mustInclude(
+    'android/app/src/main/java/com/livskompassen/app/widgets/NoteWidgetProvider.java',
+    'widget_ic_wh2_note',
+  );
+  mustInclude('android/app/src/main/res/values/strings.xml', 'En rad → Inkast');
   mustInclude('src/modules/features/widgets/WidgetDeepLinkBridge.tsx', 'livskompassen-widget-nav', '__LIVSKOMPASSEN_WIDGET_PENDING__');
   mustInclude(
     'android/app/src/main/java/com/livskompassen/app/MainActivity.java',
     'pendingWidgetPath',
+    'loadUrl',
     '__LIVSKOMPASSEN_WIDGET_PENDING__',
   );
 
@@ -585,7 +595,11 @@ function main() {
     'SaveAsEvidencePrompt',
   );
   mustInclude('src/modules/features/onboarding/barnporten/api/barnportenOfflineQueue.ts', 'enqueueBarnportenLog');
-  mustInclude('src/modules/core/components/FyrenWidgetBar.tsx', "id: 'inkast'", '/#inkast-lite');
+  mustInclude(
+    'src/modules/core/components/FyrenWidgetBar.tsx',
+    "id: 'inkast'",
+    '/planering/input?inputMode=inkast',
+  );
   mustInclude(
     'src/modules/features/family/children/components/SaveAsEvidencePrompt.tsx',
     'SaveAsEvidencePrompt',

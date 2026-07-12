@@ -74,6 +74,14 @@ function main() {
   assert(goraTabBar.includes("'handling'"), 'GoraHubTabBar saknar handling');
   assert(goraTabBar.includes("'inkorg'"), 'GoraHubTabBar saknar inkorg');
   assert(goraTabBar.includes("'projekt'"), 'GoraHubTabBar saknar projekt');
+  assert(
+    goraTabBar.includes("params.set('tab', id === 'inkorg' ? 'inkorg' : 'handling')"),
+    'GoraHubTabBar måste rensa query vid flikbyte (Android Inkorg)',
+  );
+  assert(
+    goraTabBar.includes('/planering?tab=inkorg'),
+    'GoraHubTabBar måste navigera till /planering?tab=inkorg',
+  );
   assert(!goraTabBar.includes("'fokus'"), 'GoraHubTabBar får inte ha fokus-flik (dubbel nav)');
 
   mustInclude(

@@ -14,10 +14,10 @@ const iconMap = {
 };
 
 const bgBorderMap = {
-  success: 'border-success/30 shadow-[0_0_12px_rgba(16,185,129,0.15)]',
+  success: 'border-success/30 shadow-[0_0_12px_rgba(212,175,55,0.12)]',
   error: 'border-danger/30 shadow-[0_0_12px_rgba(239,68,68,0.15)]',
   warning: 'border-warning/30 shadow-[0_0_12px_rgba(245,158,11,0.15)]',
-  info: 'border-accent-secondary/30 shadow-[0_0_12px_rgba(99,102,241,0.15)]',
+  info: 'border-accent/30 shadow-[0_0_12px_rgba(212,175,55,0.12)]',
 };
 
 export const Toast: React.FC<ToastProps> = ({ toast }) => {

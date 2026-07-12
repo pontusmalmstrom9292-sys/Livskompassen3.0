@@ -11,7 +11,7 @@
 
   .vardagen-bg-watermark {
     @apply pointer-events-none fixed left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2;
-    color: var(--color-emerald-success);
+    color: var(--accent);
     width: min(130vw, 1000px);
     height: min(130vw, 1000px);
     max-width: 1000px;
@@ -29,17 +29,17 @@
 
   .vardagen-zone-pill {
     @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em];
-    color: var(--color-emerald-success);
-    border-color: var(--color-emerald-35);
+    color: var(--accent);
+    border-color: var(--color-accent-gold-35);
     background: var(--color-shell-scrim);
   }
 
   .vardagen-zone-intro {
     @apply rounded-2xl border px-3 py-2;
-    border-color: var(--color-emerald-35);
+    border-color: var(--color-accent-gold-18);
     background: linear-gradient(
       180deg,
-      rgba(16, 185, 129, 0.06) 0%,
+      var(--color-gold-06) 0%,
       var(--color-panel-obsidian-65) 100%
     );
     backdrop-filter: blur(10px);
@@ -52,7 +52,7 @@
 
   .vardagen-zone-intro__eyebrow {
     @apply text-[10px] uppercase tracking-[0.18em];
-    color: var(--color-emerald-success);
+    color: var(--accent);
   }
 
   .vardagen-zone-intro__title {
@@ -69,18 +69,18 @@
 
   .vardagen-layer-switch__link {
     @apply rounded-full border px-3 py-1 text-[11px] font-medium text-text-muted transition-colors;
-    border-color: rgba(16, 185, 129, 0.22);
+    border-color: var(--color-accent-gold-18);
     background: var(--color-shell-scrim-35);
   }
 
   .vardagen-layer-switch__link:hover {
-    color: var(--color-emerald-success);
-    border-color: var(--color-emerald-35);
+    color: var(--accent);
+    border-color: var(--color-accent-gold-35);
   }
 
   .vardagen-layer-switch__link--active {
-    color: var(--color-emerald-success);
-    border-color: var(--color-emerald-35);
+    color: var(--accent);
+    border-color: var(--color-accent-gold-35);
     background: var(--color-shell-scrim);
   }
 }

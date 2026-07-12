@@ -48,10 +48,6 @@
     @apply -mt-1 space-y-3;
   }
 
-  .app-main:has(> .home-page--scenic) {
-    padding-top: 5.35rem;
-  }
-
   .home-page--scenic .home-hero-kanon__bridge {
     @apply relative mx-auto w-full max-w-lg;
   }

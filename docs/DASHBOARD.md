@@ -188,6 +188,13 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). ds-btn-- files: 
 - **Status:** Not Started
 - **Priority:** High
 - **Files:** src/modules/features/widgets/**
+### MOD-WIDGET WH1/WH2 (2026-07-12)
+- **Status:** Code complete — väntar G85 device re-verify
+- **Native:** WH1 discreet horizontal layout; WH2 unik ikon; Android strings → Inkast
+- **Web:** WidgetShell panik 44px, reduced-motion, ethics-nyckel fix
+- **Smoke:** widgets, widget-ingest, locked-icons, locked-ux, design-modules PASS
+- **Sync:** build:web + cap sync android PASS
+
 
 ### Legacy CSS sunset
 - **Status:** In Progress
@@ -218,3 +225,10 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). ds-btn-- files: 
 | What can break? | Risks.md |
 | Fast tasks? | Quick-Wins.md |
 | How to test? | Testing-Strategy.md |
+
+## 2026-07-12 — Android Studio YOLO våg
+- Inkorg-flik touch + routing fix (GoraHubTabBar, TabBar)
+- Liv och göra redirects (widgetSiloConfig, livLauncherRoutes, hemInkast)
+- Android viewport CSS + smoke:android-viewport
+- Docs: OFFLINE-ANDROID, FIREBASE-AUTH-LATHUND, .context/android-capacitor.md
+- Smoke: android-platform, planering-gora-e, inkast-fas2, locked-ux, cost-guard PASS

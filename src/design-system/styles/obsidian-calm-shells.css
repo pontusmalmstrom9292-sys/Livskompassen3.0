@@ -123,9 +123,9 @@
   }
 
   .bento-icon-box--indigo {
-    border-color: var(--bento-accent-indigo-dim);
-    background: var(--bento-accent-indigo-bg);
-    color: var(--bento-accent-indigo);
+    border-color: var(--bento-accent-gold-dim);
+    background: var(--bento-accent-gold-bg);
+    color: var(--bento-accent-gold);
   }
 
   .bento-icon-box--emerald {
@@ -493,8 +493,8 @@
   }
 
   .fyren-ambient-indicator--normal {
-    background-color: var(--success, #10b981);
-    box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+    background-color: var(--accent);
+    box-shadow: 0 0 6px rgba(212, 175, 55, 0.35);
   }
 
   .fyren-ambient-indicator--low {

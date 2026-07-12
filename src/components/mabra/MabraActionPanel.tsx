@@ -21,8 +21,8 @@ export function MabraActionPanel() {
       description: 'Hitta lugnet med en guidad andningssekvens.',
       icon: Wind,
       onClick: () => console.log('Andningsövning startad'),
-      color: 'text-accent-secondary',
-      bgGlow: 'hover:shadow-indigo-glow hover:border-accent-secondary/30',
+      color: 'text-accent',
+      bgGlow: 'hover:shadow-accent-glow hover:border-accent/30',
     },
     {
       id: 'sleep',
@@ -30,8 +30,8 @@ export function MabraActionPanel() {
       description: 'Registrera din sömnkvalitet och återhämtning.',
       icon: Moon,
       onClick: () => console.log('Sömnlogg startad'),
-      color: 'text-accent-ai',
-      bgGlow: 'hover:shadow-indigo-glow hover:border-accent-ai/30',
+      color: 'text-accent',
+      bgGlow: 'hover:shadow-accent-glow hover:border-accent/30',
     },
   ];
 

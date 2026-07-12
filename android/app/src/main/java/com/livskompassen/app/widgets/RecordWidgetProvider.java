@@ -17,11 +17,9 @@ public class RecordWidgetProvider extends AppWidgetProvider {
         for (int widgetId : appWidgetIds) {
             manager.updateAppWidget(
                 widgetId,
-                WidgetViews.chip(
+                WidgetViews.discreetNote(
                     context,
-                    R.drawable.widget_chip_anteckning,
                     R.string.widget_discreet_title,
-                    0,
                     "/widget/inspelning?autostart=1&discreet=1"
                 )
             );

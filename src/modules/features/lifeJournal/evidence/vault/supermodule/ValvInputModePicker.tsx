@@ -17,7 +17,7 @@ export function ValvInputModePicker({ activeMode, onChange }: ValvInputModePicke
   const isMoreMode = activeMeta.tier === 'more';
 
   return (
-    <div className="familjen-mode-picker" aria-label="Valv-lägen">
+    <div className="familjen-mode-picker min-w-0 flex-1" aria-label="Valv-lägen">
       <div className="familjen-mode-picker__pills" role="tablist">
         {VALV_INPUT_MODES_PRIMARY.map((mode) => {
           const isActive = activeMode === mode.id;

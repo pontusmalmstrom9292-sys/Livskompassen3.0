@@ -8,22 +8,20 @@ const ACCENT_GLOW: Record<DiscoveryAccent, CalmCardGlow> = {
   copper: 'gold',
   sand: 'gold',
   pearl: 'gold',
-  slate: 'blue',
-  mist: 'blue',
-  ash: 'blue',
-  'rose-dim': 'blue',
-  moss: 'green',
-  'sea-dim': 'green',
+  slate: 'gold',
+  mist: 'gold',
+  ash: 'gold',
+  'rose-dim': 'gold',
+  moss: 'gold',
+  'sea-dim': 'gold',
 };
 
 export function discoveryAccentGlow(accent: DiscoveryAccent): CalmCardGlow {
   return ACCENT_GLOW[accent];
 }
 
-/** CSS glow-klass för deck-knappar (samma mapping som BentoCard). */
+/** CSS glow-klass för deck-knappar (Executive Midnight — enhetlig guld). */
 export function discoveryAccentGlowClass(accent: DiscoveryAccent): string {
-  const glow = discoveryAccentGlow(accent);
-  if (glow === 'gold') return 'glow-bottom-gold';
-  if (glow === 'green') return 'glow-bottom-green';
-  return 'glow-bottom-blue';
+  void accent;
+  return 'glow-bottom-gold';
 }

@@ -15,7 +15,7 @@ public class NoteWidgetProvider extends AppWidgetProvider {
                 widgetId,
                 WidgetViews.chip(
                     context,
-                    R.drawable.widget_chip_anteckning,
+                    R.drawable.widget_ic_wh2_note,
                     R.string.widget_note_title,
                     R.string.widget_note_sub,
                     "/widget/anteckning"

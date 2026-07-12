@@ -116,9 +116,9 @@ export function ValvInputSuperModule({
       bare
       className="!p-4 sm:!p-5"
     >
-      <div className="mb-3 flex items-center justify-between gap-2">
+      <div className="mb-3 flex min-w-0 items-center justify-between gap-2">
         <ValvInputModePicker activeMode={activeMode} onChange={setMode} />
-        <ModuleHelpFromRegistry moduleId="valv" mode={activeMode} />
+        <ModuleHelpFromRegistry moduleId="valv" mode={activeMode} className="shrink-0" />
       </div>
 
       <div className="mt-2 pr-1">

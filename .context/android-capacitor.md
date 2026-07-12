@@ -1,47 +1,41 @@
-# Android / Capacitor — projektminne
+# Android / Capacitor — snabbkanon
 
-**Senast verifierat:** 2026-05 — Capacitor 8 + JDK 21. Nedgradera **inte** Java till 17 i Gradle (Capacitor 8 kräver 21).
+**App ID:** `com.livskompassen.app`  
+**Web dir:** `dist/`  
+**Scheme:** `https` (localhost i lokal APK)
 
-## JDK 21 (Capacitor 8)
-
-- Installera: `brew install --cask temurin@21`
-- Android Studio: **Settings → Build, Execution, Deployment → Build Tools → Gradle → Gradle JDK** → **temurin-21** (eller Eclipse Temurin 21)
-- **Måste inte** tvinga `JavaVersion.VERSION_17` i `android/build.gradle` — det ger konflikt med `:capacitor-android` (source 21).
-
-## Build före Run (påminn användaren)
-
-Innan **Run** i Android Studio efter frontend- eller auth-ändringar:
+## Dagligt flöde
 
 ```bash
-cd /Users/Livskompassen/StudioProjects/Livskompassen3.0
 npm run build:web && npx cap sync android
+npm run android:open   # Android Studio → Run
 ```
 
-Sedan i Android Studio: **Sync Project with Gradle Files** → **Build → Clean Project** → **Run**. Vid auth-strul: avinstallera appen på telefonen och installera om.
+Live reload (valfritt):
 
-| Script | Beteende |
-|--------|----------|
-| `npm run cap:sync` | Bundlar `dist` i APK (bra för lokal test) |
-| `npm run cap:sync:prod` | WebView laddar live från `gen-lang-client-0481875058.web.app` — kräver deployad Hosting |
+```bash
+npm run dev            # terminal 1
+npm run android:live   # terminal 2
+```
 
-## Google-inloggning (Mac vs telefon)
+## Prod-lik (Firebase Hosting UI)
 
-| Miljö | Flöde |
-|-------|--------|
-| Mac / `npm run dev` | Web: popup eller redirect (`authService.ts`) |
-| Capacitor Android/iOS | **Native** via `@capacitor-firebase/authentication` → `nativeGoogleAuth.ts` |
+```bash
+npm run cap:sync:prod
+npm run smoke:android-prod-sync
+```
 
-**SHA-1 krävs** för native Google på Android:
+## Smoke
 
-1. `cd android && ./gradlew signingReport` → kopiera **SHA-1** (debug)
-2. Firebase Console → Project settings → Android `com.livskompassen.app` → Add fingerprint
-3. Ladda ner ny `google-services.json` → `android/app/google-services.json`
-4. Kontroll: `oauth_client` med **`client_type: 1`** (Android), inte bara `3` (web)
+- `npm run smoke:android-platform` (inkl. viewport + redirects)
+- Ingår i `smoke:tier2`
 
-**Konto:** fliken **Logga in** (inte Skapa konto) för samma Google-konto som på Mac.
+## Docs
 
-## Relaterade docs
-
-- [`docs/FIREBASE-AUTH-LATHUND.md`](../docs/FIREBASE-AUTH-LATHUND.md)
 - [`docs/OFFLINE-ANDROID.md`](../docs/OFFLINE-ANDROID.md)
-- [`capacitor.config.ts`](../capacitor.config.ts) — `appId: com.livskompassen.app`
+- [`docs/FIREBASE-AUTH-LATHUND.md`](../docs/FIREBASE-AUTH-LATHUND.md)
+- Regel: [`.cursor/rules/android-capacitor.mdc`](../.cursor/rules/android-capacitor.mdc)
+
+## Widget deep-links
+
+Native widgets → `/widget/*` via `MainActivity.java` + `WidgetDeepLinkBridge.tsx`.

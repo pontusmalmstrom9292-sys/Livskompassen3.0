@@ -2625,3 +2625,27 @@ Copy the template below for each entry. Newest first.
 - **W5:** 22/22 moduler **locked** i register; smoke:predeploy:build PASS
 - **Deploy:** workflow_dispatch firebase-hosting (efter commit/push)
 - **Mänskligt kvar:** G85 7-dagars daily driver + visuell sign-off
+
+## 2026-07-12 — Android Studio YOLO våg
+- Inkorg-flik touch + routing fix (GoraHubTabBar, TabBar)
+- Liv och göra redirects (widgetSiloConfig, livLauncherRoutes, hemInkast)
+- Android viewport CSS + smoke:android-viewport
+- Docs: OFFLINE-ANDROID, FIREBASE-AUTH-LATHUND, .context/android-capacitor.md
+- Smoke: android-platform, planering-gora-e, inkast-fas2, locked-ux, cost-guard PASS
+
+## 2026-07-12 — MOD-WIDGET WH1/WH2 Executive Midnight polish
+
+**Scope:** Native Android discreet WH1 + unik WH2-ikon; WidgetShell 44px panik, reduced-motion; Inkast-copy på Android WH2.
+
+**Changes:**
+- `RecordWidgetProvider` → `WidgetViews.discreetNote` + `widget_discreet_note` layout
+- `NoteWidgetProvider` → `widget_ic_wh2_note` (dokument+penna), strings «En rad → Inkast»
+- `WidgetShell` glass/guld panik-knapp min 44px; ethics-nyckel fix i `useWidgetPanicHide`
+- Unlock: `docs/evaluations/2026-07-12-unlock-MOD-WIDGET.md` (Pontus OK)
+
+**Smoke:** smoke:widgets, smoke:widget-ingest, smoke:locked-icons, smoke:locked-ux, smoke:design-modules PASS
+
+**Build:** `npm run build:web && npx cap sync android` PASS
+
+**Next:** G85 device smoke — lägg till widget → tap → spara → «Dölj nu». W1 v2 kompakt strip deferred (C).
+

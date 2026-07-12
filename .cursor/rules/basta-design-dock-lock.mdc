@@ -12,17 +12,21 @@ Register: [`.context/locked-ux-features.md`](../.context/locked-ux-features.md) 
 
 ## Header MUST NOT (utan Pontus OK)
 
-1. Flytta **Resurser** från `basta-design__header-start` till `header-actions`
-2. Ta bort 3-kolumns grid (`header-start` \| `header-brand` \| `header-actions`)
-3. Ersätta `BastaDesignHeader` med `AppHeaderBar` under `ME-basta-design`
-4. Ta bort centrerad **Livskompassen**-brand + ornament
-5. Flytta `ResurserOverlay` ut ur headern
+1. Byta bort **crown**-layouten (`app-header--basta-crown` → `basta-design__header-crown` → `design-pack-header--basta-ref`)
+2. Flytta **Resurser** från centrum (vänster om Livskompassen) till höger actions eller dock
+3. Återgå till tvåradig mobil-header (`grid-template-areas` på crown)
+4. Ersätta `BastaDesignHeader` med `AppHeaderBar` under `ME-basta-design`
+5. Ta bort centrerad **Livskompassen**-brand + ornament
+6. Flytta `ResurserOverlay` ut ur headern
+7. Ändra header-**struktur** (grid, komponenter, ordning) — **färger** får justeras via theme-tokens i `.basta-design__header-crown`-blocket
 
-## Header MUST behålla
+## Header MUST behålla (struktur LÅST 2026-07-12)
 
-- Vänster: meny + `BastaDesignResurserWidget` `placement="header"`
-- Center: `Livskompassen` + ornament (prod-typografi i `.basta-design__header--prod`)
-- Höger: inställningar · konto · Kompis-öga
+- **En rad:** glaskrona `basta-design__header-crown`
+- **Vänster:** meny (`design-pack-header__menu`)
+- **Centrum:** `BastaDesignResurserWidget` `placement="header-icon"` **vänster om** titel + ornament
+- **Höger:** konto (sköld) · Kompis-öga · kompass (`ExecutiveDecorCompass`)
+- **Färger:** endast `--bg`, `--glass`, `--surface*`, `--accent*`, `--border-strong`, `--text-gold`, `--chrome-plate-*`
 
 ## Dock MUST NOT
 

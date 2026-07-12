@@ -21,14 +21,14 @@ type Props<T extends string> = {
 
 const GLOW_OPEN: Record<HubDropdownGlow, string> = {
   gold: 'border-accent/40 shadow-[0_4px_15px_-3px_rgba(212,175,55,0.15)] text-accent',
-  blue: 'border-indigo-500/40 shadow-[0_4px_15px_-3px_rgba(99,102,241,0.15)] text-indigo-400',
-  green: 'border-emerald-500/40 shadow-[0_4px_15px_-3px_rgba(16,185,129,0.15)] text-emerald-400',
+  blue: 'border-accent/40 shadow-[0_4px_15px_-3px_rgba(212,175,55,0.15)] text-accent',
+  green: 'border-accent/40 shadow-[0_4px_15px_-3px_rgba(212,175,55,0.15)] text-accent',
 };
 
 const GLOW_ICON: Record<HubDropdownGlow, string> = {
   gold: 'text-accent',
-  blue: 'text-indigo-400',
-  green: 'text-emerald-400',
+  blue: 'text-accent',
+  green: 'text-accent',
 };
 
 /** Obsidian Calm 2.0 — hub-vy: en rullgardin istället för horisontella flikrader. */
