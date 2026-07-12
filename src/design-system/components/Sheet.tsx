@@ -73,12 +73,19 @@ export function Sheet({
   const overlayClass =
     placement === 'center' ? 'ds-overlay ds-overlay--center' : 'ds-overlay ds-overlay--sheet';
 
+  const dismissBackdrop = (target: EventTarget, currentTarget: EventTarget) => {
+    if (target === currentTarget) onClose();
+  };
+
   const content = (
     <div
       className={cn(overlayClass, className)}
       role="presentation"
-      onMouseDown={(e) => {
-        if (e.target === e.currentTarget) onClose();
+      onMouseDown={(e) => dismissBackdrop(e.target, e.currentTarget)}
+      onPointerUp={(e) => {
+        if (e.pointerType === 'touch' || e.pointerType === 'pen') {
+          dismissBackdrop(e.target, e.currentTarget);
+        }
       }}
     >
       <div

@@ -585,7 +585,11 @@ function main() {
     'SaveAsEvidencePrompt',
   );
   mustInclude('src/modules/features/onboarding/barnporten/api/barnportenOfflineQueue.ts', 'enqueueBarnportenLog');
-  mustInclude('src/modules/core/components/FyrenWidgetBar.tsx', "id: 'inkast'", '/#inkast-lite');
+  mustInclude(
+    'src/modules/core/components/FyrenWidgetBar.tsx',
+    "id: 'inkast'",
+    '/planering/input?inputMode=inkast',
+  );
   mustInclude(
     'src/modules/features/family/children/components/SaveAsEvidencePrompt.tsx',
     'SaveAsEvidencePrompt',

@@ -23,7 +23,7 @@ type WidgetAction = {
 };
 
 const WIDGET_ACTIONS: WidgetAction[] = [
-  { id: 'inkast', label: 'Inkast', to: '/#inkast-lite', hubId: 'dagbok' },
+  { id: 'inkast', label: 'Inkast', to: '/planering/input?inputMode=inkast', hubId: 'dagbok' },
   { id: 'note', label: 'Bevis-rad', to: '/widget/anteckning', widgetIcon: 'note' },
   { id: 'snabbval', label: 'Dagbok', to: '/widget/snabbval', hubId: 'dagbok' },
   { id: 'barnobs', label: 'Barnobs', to: '/widget/familjen', hubId: 'familjen' },

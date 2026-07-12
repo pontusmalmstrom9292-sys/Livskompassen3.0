@@ -23,7 +23,7 @@ export const WIDGET_SILO_STORAGE_KEY = 'livskompassen_widget_silo';
 export function widgetSiloDoneCopy(silo: WidgetSiloId, childAlias?: string): { message: string; linkTo: string; linkLabel: string } {
   switch (silo) {
     case 'inkast':
-      return { message: 'Skickat till Inkast', linkTo: '/vardagen?tab=inkast', linkLabel: 'Öppna Inkast' };
+      return { message: 'Skickat till Inkast', linkTo: '/planering/input?inputMode=inkast', linkLabel: 'Öppna Inkast' };
     case 'dagbok':
       return { message: 'Sparat i Dagbok', linkTo: '/hjartat?tab=reflektion', linkLabel: 'Öppna Dagbok' };
     case 'bevis':
@@ -33,7 +33,7 @@ export function widgetSiloDoneCopy(silo: WidgetSiloId, childAlias?: string): { m
     case 'mabra':
       return { message: 'Sparat i MåBra Vit', linkTo: '/mabra', linkLabel: 'Öppna MåBra' };
     case 'planering':
-      return { message: 'Uppgift skapad', linkTo: '/vardagen?tab=planering', linkLabel: 'Öppna Planering' };
+      return { message: 'Uppgift skapad', linkTo: '/planering?tab=handling', linkLabel: 'Öppna Planering' };
   }
 }
 

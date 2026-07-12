@@ -16,6 +16,14 @@ const GORA_PATHS: Record<GoraTab, string> = {
   inkorg: '/planering?tab=inkorg',
 };
 
+/** Rensar konkurrerande query (inputMode, picked) som kan låsa Handling-vy på Android. */
+export function buildGoraTabNavigateTarget(id: GoraTab): string {
+  if (id === 'projekt') return GORA_PATHS.projekt;
+  const params = new URLSearchParams();
+  params.set('tab', id === 'inkorg' ? 'inkorg' : 'handling');
+  return `/planering?${params.toString()}`;
+}
+
 export function resolveGoraTab(pathname: string, search: string): GoraTab {
   if (pathname.startsWith('/projekt') || pathname.startsWith('/admin/projects')) {
     return 'projekt';
@@ -39,7 +47,7 @@ export function GoraHubTabBar() {
     <TabBar<GoraTab>
       tabs={GORA_TABS}
       active={active}
-      onChange={(id) => navigate(GORA_PATHS[id])}
+      onChange={(id) => navigate(buildGoraTabNavigateTarget(id))}
     />
   );
 }

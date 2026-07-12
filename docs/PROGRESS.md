@@ -2625,3 +2625,10 @@ Copy the template below for each entry. Newest first.
 - **W5:** 22/22 moduler **locked** i register; smoke:predeploy:build PASS
 - **Deploy:** workflow_dispatch firebase-hosting (efter commit/push)
 - **Mänskligt kvar:** G85 7-dagars daily driver + visuell sign-off
+
+## 2026-07-12 — Android Studio YOLO våg
+- Inkorg-flik touch + routing fix (GoraHubTabBar, TabBar)
+- Liv och göra redirects (widgetSiloConfig, livLauncherRoutes, hemInkast)
+- Android viewport CSS + smoke:android-viewport
+- Docs: OFFLINE-ANDROID, FIREBASE-AUTH-LATHUND, .context/android-capacitor.md
+- Smoke: android-platform, planering-gora-e, inkast-fas2, locked-ux, cost-guard PASS

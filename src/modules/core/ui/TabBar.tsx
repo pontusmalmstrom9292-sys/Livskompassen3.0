@@ -34,8 +34,12 @@ export function TabBar<T extends string>({
   };
 
   return (
-    <div className="overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-      <div className="flex min-w-min gap-2" role="tablist" aria-label="Flikar">
+    <div className="tab-bar-rail overflow-x-auto overscroll-x-contain sm:overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-sm:overflow-x-visible max-sm:overscroll-x-auto">
+      <div
+        className="tab-bar-rail__inner flex min-w-min gap-2 max-sm:w-full max-sm:min-w-0 max-sm:flex-wrap"
+        role="tablist"
+        aria-label="Flikar"
+      >
         {tabs.map(({ id, label, icon }, index) => {
           const isActive = active === id;
           return (
@@ -47,7 +51,7 @@ export function TabBar<T extends string>({
               tabIndex={isActive ? 0 : -1}
               onClick={() => onChange(id)}
               onKeyDown={(e) => handleKeyDown(e, index)}
-              className={`flex shrink-0 items-center gap-2 rounded-full min-h-[var(--ds-touch-target,2.75rem)] ${pad} text-xs uppercase tracking-widest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50 ${
+              className={`flex shrink-0 touch-manipulation items-center gap-2 rounded-full min-h-[var(--ds-touch-target,2.75rem)] max-sm:min-w-0 max-sm:flex-1 max-sm:justify-center ${pad} text-xs uppercase tracking-widest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50 ${
                 isActive ? 'chip--active' : 'chip--idle'
               }`}
             >

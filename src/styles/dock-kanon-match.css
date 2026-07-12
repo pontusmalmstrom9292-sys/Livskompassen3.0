@@ -521,3 +521,26 @@ html.platform-capacitor-android .basta-resurser-widget {
     padding-bottom: 0.25rem !important;
   }
 }
+
+html.platform-capacitor-android .basta-design__header-start,
+html.platform-capacitor-android .basta-design__header-brand,
+html.platform-capacitor-android .basta-design__header-actions {
+  min-width: 0;
+}
+
+/* Full bredd på telefon — max-w-2xl (672px) ska inte klämma G85 */
+html.platform-capacitor-android .app-main {
+  max-width: none;
+  width: 100%;
+}
+
+/* Vertikal scroll i hubbar — WebView blockeras av overflow-x:clip + overscroll contain */
+html.platform-capacitor-android .calm-scroll-island {
+  overscroll-behavior: auto;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
+}
+
+html.platform-capacitor-android .hub-view-lock .hub-page-shell__body {
+  touch-action: pan-y;
+}
