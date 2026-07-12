@@ -861,14 +861,17 @@ html[data-theme='ME-basta-design'] {
 }
 
 .app-shell--basta-design {
-  background: #07101d;
+  background: var(--bg);
 }
 
-/* LOCKED: basta crown header — referens en rad · docs/design/BASTA-DESIGN-CHROME-LOCK.md */
+/* LOCKED STRUCTURE — crown header en rad · ändra endast färger via theme-tokens nedan */
+/* Färger: --bg, --glass, --surface*, --accent*, --border-strong, --text-gold, --chrome-plate-* */
+
 .app-shell--basta-design .app-header--basta-crown {
   background: linear-gradient(
     to bottom,
-    color-mix(in srgb, var(--bg, #07101d) 92%, transparent) 0%,
+    color-mix(in srgb, var(--bg) 94%, transparent) 0%,
+    color-mix(in srgb, var(--bg-dusk) 42%, transparent) 55%,
     transparent 100%
   );
 }
@@ -884,18 +887,18 @@ html[data-theme='ME-basta-design'] {
   margin-inline: auto;
   width: min(100%, 26rem);
   border-radius: 1.15rem;
-  border: 1px solid color-mix(in srgb, var(--bd-accent, #d4af37) 42%, transparent);
-  background:
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--bd-accent, #d4af37) 6%, rgba(8, 12, 22, 0.94)) 0%,
-      rgba(6, 10, 18, 0.9) 100%
-    );
-  backdrop-filter: blur(14px) saturate(1.15);
-  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+  border: 1px solid var(--border-strong);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--accent) 4%, var(--glass)) 0%,
+    color-mix(in srgb, var(--surface-2) 90%, var(--bg)) 52%,
+    color-mix(in srgb, var(--surface) 88%, var(--bg)) 100%
+  );
+  backdrop-filter: blur(14px) saturate(1.12);
+  -webkit-backdrop-filter: blur(14px) saturate(1.12);
   box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--bd-accent-light, #e8c96a) 14%, transparent),
-    0 10px 28px rgba(0, 0, 0, 0.42);
+    inset 0 1px 0 color-mix(in srgb, var(--accent-light) 10%, transparent),
+    0 10px 26px color-mix(in srgb, var(--bg) 72%, transparent);
 }
 
 .basta-design__header-crown::before {
@@ -904,7 +907,7 @@ html[data-theme='ME-basta-design'] {
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--bd-accent, #d4af37) 12%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 8%, transparent);
 }
 
 [data-theme='ME-basta-design'] .design-pack-header--basta-ref {
@@ -948,10 +951,10 @@ html[data-theme='ME-basta-design'] {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: color-mix(in srgb, var(--accent-light, #f5dfa0) 92%, #fff);
+  color: var(--text-gold);
   text-shadow:
-    0 0 18px color-mix(in srgb, var(--accent, #d4af37) 38%, transparent),
-    0 1px 2px rgba(0, 0, 0, 0.55);
+    0 0 14px var(--accent-glow),
+    0 1px 2px color-mix(in srgb, var(--bg) 80%, transparent);
   background: none;
   -webkit-background-clip: unset;
   background-clip: unset;
@@ -979,16 +982,16 @@ html[data-theme='ME-basta-design'] {
   width: 2.75rem;
   height: 2.75rem;
   border-radius: 9999px;
-  border: 1.5px solid color-mix(in srgb, var(--accent) 38%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--accent) 32%, transparent);
   background: linear-gradient(
     168deg,
-    var(--chrome-plate-a, rgba(255, 255, 255, 0.08)) 0%,
-    var(--chrome-plate-b, rgba(255, 255, 255, 0.04)) 48%,
-    var(--chrome-plate-c, rgba(0, 0, 0, 0.35)) 100%
+    var(--chrome-plate-a) 0%,
+    var(--chrome-plate-b) 48%,
+    var(--chrome-plate-c) 100%
   );
   box-shadow:
-    0 1px 0 var(--chrome-highlight, rgba(255, 255, 255, 0.12)) inset,
-    0 4px 12px rgba(0, 0, 0, 0.38);
+    0 1px 0 var(--chrome-highlight) inset,
+    0 4px 12px color-mix(in srgb, var(--bg) 55%, transparent);
 }
 
 [data-theme='ME-basta-design'] .design-pack-header--basta-ref .exec-header-compass-mark .exec-decor-compass {
@@ -1007,7 +1010,7 @@ html[data-theme='ME-basta-design'] {
   background: linear-gradient(
     90deg,
     transparent 0%,
-    color-mix(in srgb, var(--bd-accent, #d4af37) 55%, transparent) 50%,
+    color-mix(in srgb, var(--accent) 42%, transparent) 50%,
     transparent 100%
   );
 }
@@ -1019,7 +1022,7 @@ html[data-theme='ME-basta-design'] {
 }
 
 [data-theme='ME-basta-design'] .design-pack-header--basta-ref .basta-design__header-ornament svg {
-  color: var(--accent, #d4af37);
+  color: var(--accent-light);
   flex-shrink: 0;
 }
 
@@ -1225,10 +1228,11 @@ html[data-theme='ME-basta-design'] {
 @keyframes bd-header-title-glow-prod {
   0%,
   100% {
-    filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.45));
+    filter: drop-shadow(0 1px 0 color-mix(in srgb, var(--bg) 70%, transparent));
   }
   50% {
-    filter: drop-shadow(0 0 16px rgba(201, 164, 53, 0.32)) drop-shadow(0 1px 0 rgba(0, 0, 0, 0.45));
+    filter: drop-shadow(0 0 12px var(--accent-glow))
+      drop-shadow(0 1px 0 color-mix(in srgb, var(--bg) 70%, transparent));
   }
 }
 

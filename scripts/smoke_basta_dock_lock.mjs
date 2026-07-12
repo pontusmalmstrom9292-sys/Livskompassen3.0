@@ -69,6 +69,18 @@ function main() {
     'basta-design.css: crown header saknas',
   );
   assert(headerCss.includes('.design-pack-header__center--basta'), 'basta-design.css: center--basta saknas');
+  assert(
+    headerCss.includes('LOCKED STRUCTURE') && headerCss.includes('basta-design__header-crown'),
+    'basta-design.css: crown struktur-lås saknas',
+  );
+  assert(
+    headerCss.includes('var(--border-strong)') && headerCss.includes('var(--glass)'),
+    'basta-design.css: crown ska använda theme-tokens för färg',
+  );
+  assert(
+    !/basta-design__header-crown[\s\S]{0,1200}grid-template-areas/.test(headerCss),
+    'basta-design.css: crown får inte ha tvåradig grid-template-areas',
+  );
 
   const dock = read('src/modules/core/layout/basta-design/BastaDesignDock.tsx');
   assert(!dock.includes('BastaDesignResurserWidget'), 'BastaDesignDock: Resurser-widget får inte ligga i dock');

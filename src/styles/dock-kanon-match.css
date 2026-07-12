@@ -288,16 +288,17 @@
   padding: 0;
   border-radius: 9999px;
   border-width: 1.5px;
-  border-color: color-mix(in srgb, var(--accent, #d4af37) 38%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+  color: var(--accent-light);
   background: linear-gradient(
     168deg,
-    var(--chrome-plate-a, rgba(255, 255, 255, 0.08)) 0%,
-    var(--chrome-plate-b, rgba(255, 255, 255, 0.04)) 48%,
-    var(--chrome-plate-c, rgba(0, 0, 0, 0.35)) 100%
+    var(--chrome-plate-a) 0%,
+    var(--chrome-plate-b) 48%,
+    var(--chrome-plate-c) 100%
   );
   box-shadow:
-    0 1px 0 var(--chrome-highlight, rgba(255, 255, 255, 0.12)) inset,
-    0 4px 12px rgba(0, 0, 0, 0.38);
+    0 1px 0 var(--chrome-highlight) inset,
+    0 4px 12px color-mix(in srgb, var(--bg) 55%, transparent);
 }
 
 .basta-resurser-widget--header-icon .basta-resurser-widget__panel {
