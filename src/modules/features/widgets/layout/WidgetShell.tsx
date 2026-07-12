@@ -41,7 +41,7 @@ function WidgetShellFrame({ title, lead, children }: Props) {
               type="button"
               variant="ghost"
               onClick={handlePanic}
-              className="inline-flex shrink-0 items-center gap-1.5 px-2.5 py-1.5 text-[10px] uppercase tracking-[0.14em]"
+              className="widget-shell__panic inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center gap-1.5 px-3 py-2 text-[10px] uppercase tracking-[0.14em]"
               aria-label="Dölj nu — neutral hem"
             >
               <EyeOff className="h-3.5 w-3.5" strokeWidth={1.5} aria-hidden />

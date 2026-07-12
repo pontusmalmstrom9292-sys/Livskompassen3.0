@@ -2,6 +2,8 @@ import { useCallback, useState } from 'react';
 import { Button, ButtonLink, TextArea } from '@/design-system';
 import { Loader2, Lock } from 'lucide-react';
 import { AuthGate } from '@/core/auth/AuthGate';
+import { canAccessSensitiveFirestoreSilo, SENSITIVE_SILO_LOGIN_MESSAGE } from '@/core/auth/requireEmailAuth';
+import { resolveFirestorePermissionMessage } from '@/core/firebase/firestorePermissionMessage';
 import { useStore } from '@/core/store';
 import { CHILD_ALIASES, type ChildAlias } from '@/features/family/children/constants';
 import { WidgetShell } from '../layout/WidgetShell';
@@ -38,14 +40,18 @@ function WidgetNoteInner() {
 
   const handleSave = async () => {
     if (!user || !text.trim()) return;
+    if (silo === 'dagbok' && !canAccessSensitiveFirestoreSilo(user)) {
+      setError(SENSITIVE_SILO_LOGIN_MESSAGE);
+      return;
+    }
     setSaving(true);
     setError(null);
     try {
       await saveWidgetTextCapture(user.uid, silo, text, { childAlias: child });
       setDoneSilo(silo);
       setText('');
-    } catch {
-      setError('Kunde inte spara.');
+    } catch (err) {
+      setError(resolveFirestorePermissionMessage(err) ?? 'Kunde inte spara.');
     } finally {
       setSaving(false);
     }
@@ -111,7 +117,7 @@ function WidgetNoteInner() {
 
 export function WidgetNotePage() {
   return (
-    <AuthGate>
+    <AuthGate variant="widget" widgetTitle="Snabbanteckning">
       <WidgetNoteInner />
     </AuthGate>
   );

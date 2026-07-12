@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ButtonLink } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { EmailAuthPanel } from '@/core/auth/EmailAuthPanel';
 import { hasVaultGate } from '@/core/auth/sessionService';
 import { useStore } from '@/core/store';
 import {
@@ -96,6 +97,7 @@ export function DagbokPage({
     handleQuickSave,
     resetFlow,
     refreshEntries,
+    canAccessJournal,
   } = useJournalFlow({
     userId: user?.uid,
     mabraHub,
@@ -114,6 +116,14 @@ export function DagbokPage({
   const categoryLabel = category
     ? JOURNAL_CATEGORIES.find((c) => c.id === category)?.label
     : null;
+
+  if (!canAccessJournal) {
+    return (
+      <div className="space-y-6">
+        <EmailAuthPanel compact defaultMode="signin" />
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

@@ -8,6 +8,20 @@ function cssVar(name) {
       : `color-mix(in srgb, var(${name}) calc(${opacityValue} * 100%), transparent)`;
 }
 
+/** Executive Midnight — emerald/indigo/purple → guld/skiffer (ingen neon). */
+const executiveGoldScale = {
+  300: cssVar('--accent-light'),
+  400: cssVar('--accent'),
+  500: cssVar('--accent'),
+  600: cssVar('--accent-secondary'),
+};
+
+const executiveMutedScale = {
+  300: cssVar('--text-muted'),
+  400: cssVar('--text-muted'),
+  500: cssVar('--text-dim'),
+};
+
 export default {
   content: ['./index.html', './src/index.css', './src/design-system/**/*.{js,ts,jsx,tsx}', './src/**/*.{js,ts,jsx,tsx}'],
   safelist: ['font-display-serif'],
@@ -16,7 +30,7 @@ export default {
       colors: {
         'obsidian-bg': '#020617',
         'obsidian-gold': '#FDE68A',
-        'obsidian-indigo': '#818CF8',
+        'obsidian-indigo': '#c9a66b',
         bg: cssVar('--bg'),
         surface: {
           DEFAULT: cssVar('--surface'), /* #050b14 */
@@ -32,15 +46,18 @@ export default {
         accent: {
           DEFAULT: cssVar('--accent'), /* #d4af37 (Guld) */
           light: cssVar('--accent-light'), /* #fde68a (Ljust guld) */
-          secondary: cssVar('--accent-secondary'), /* #6366f1 (Indigo) */
-          ai: cssVar('--accent-ai'), /* #818cf8 (AI/Neon) */
+          secondary: cssVar('--accent-secondary'), /* Brons/guld */
+          ai: cssVar('--accent-ai'), /* Guld — ej neon */
         },
-        success: cssVar('--success'), /* #10b981 */
+        success: cssVar('--success'), /* Guld — ej grön neon */
         warning: cssVar('--warning'), /* #f59e0b */
         danger: cssVar('--danger'), /* #ef4444 */
+        emerald: executiveMutedScale,
+        indigo: executiveGoldScale,
+        purple: executiveGoldScale,
         border: {
           DEFAULT: cssVar('--border'), /* rgba(212, 175, 55, 0.12) */
-          strong: cssVar('--border-strong'), /* rgba(99, 102, 241, 0.22) */
+          strong: cssVar('--border-strong'), /* Guld alpha */
           'glass-border': cssVar('--glass-border'),
         },
       },
@@ -71,7 +88,7 @@ export default {
         'ds-md': 'var(--ds-shadow-md)',
         'ds-lg': 'var(--ds-shadow-lg)',
         'ds-xl': 'var(--ds-shadow-xl)',
-        'indigo-glow': '0 0 20px rgba(99, 102, 241, 0.15)',
+        'indigo-glow': '0 0 20px rgba(212, 175, 55, 0.12)',
       },
       transitionDuration: {
         'ds-fast': 'var(--ds-duration-fast)',

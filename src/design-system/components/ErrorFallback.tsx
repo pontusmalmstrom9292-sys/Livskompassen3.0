@@ -18,8 +18,8 @@ export type ErrorFallbackProps = {
 
 const GLOW_CLASS: Record<ErrorFallbackGlow, string> = {
   gold: 'glow-bottom-gold',
-  blue: 'glow-bottom-blue',
-  green: 'glow-bottom-green',
+  blue: 'glow-bottom-gold',
+  green: 'glow-bottom-gold',
   danger: 'glow-bottom-danger border-danger/30',
 };
 

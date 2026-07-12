@@ -10,10 +10,18 @@ import { WidgetSnabbvalPage } from '../pages/WidgetSnabbvalPage';
 import { WidgetActionDashboardPage } from '../pages/WidgetActionDashboardPage';
 import { WidgetVoiceVaultPage } from '../pages/WidgetVoiceVaultPage';
 import { WidgetProjektPage } from '../pages/WidgetProjektPage';
+import { useWidgetRouteMode } from '../hooks/useWidgetRouteMode';
+
+function WidgetRouteMode() {
+  useWidgetRouteMode();
+  return null;
+}
 
 export function WidgetRoutes() {
   return (
-    <Routes>
+    <>
+      <WidgetRouteMode />
+      <Routes>
       <Route path="inspelning" element={<WidgetRecordPage />} />
       <Route path="anteckning" element={<WidgetNotePage />} />
       <Route path="kompass" element={<WidgetCompassPage />} />
@@ -27,5 +35,6 @@ export function WidgetRoutes() {
       <Route path="aktioner" element={<WidgetActionDashboardPage />} />
       <Route path="*" element={<Navigate to="/widget/inspelning" replace />} />
     </Routes>
+    </>
   );
 }

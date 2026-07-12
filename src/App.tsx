@@ -1,4 +1,5 @@
 /* PROTECTED CORE COMPONENT: DO NOT MODIFY, REFRACTOR, OR REMOVE UI ELEMENTS. THIS FILE IS LOCKED FOR ARCHITECTURAL STABILITY. */
+import { useLocation } from 'react-router-dom';
 import { AppUnlockGate, AuthProvider, AuthErrorBoundary, useZeroFootprint } from './modules/core/auth';
 import { useMaterialPackSync } from './modules/core/lifeOs/useMaterialPackSync';
 import { useEvolutionSync } from './modules/core/hooks/useEvolutionSync';
@@ -22,13 +23,16 @@ function AppShell() {
   useAdaptationSync();
   useAdaptationSignalRouter();
   useBarnportenWebManifest();
+  const { pathname } = useLocation();
+  const isWidgetRoute = pathname.startsWith('/widget');
+
   return (
     <AppUnlockGate>
       <WidgetDeepLinkBridge />
       <InactivityBlurOverlay />
-      <ZenModeTrigger />
-      <QuickCaptureOverlay />
-      <SystemStatusPanel />
+      {!isWidgetRoute ? <ZenModeTrigger /> : null}
+      {!isWidgetRoute ? <QuickCaptureOverlay /> : null}
+      {!isWidgetRoute ? <SystemStatusPanel /> : null}
       <AppRoutes />
     </AppUnlockGate>
   );

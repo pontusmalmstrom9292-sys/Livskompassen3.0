@@ -13,8 +13,8 @@
     <string name="widget_discreet_desc">Anteckningar</string>
 
     <string name="widget_note_title">Anteckning</string>
-    <string name="widget_note_sub">En rad → Valv</string>
-    <string name="widget_note_desc">Snabblogg till Verklighetsvalvet</string>
+    <string name="widget_note_sub">En rad → Inkast</string>
+    <string name="widget_note_desc">Snabblogg — default Inkast (välj silo i appen)</string>
 
     <string name="widget_compass_title">Kompass</string>
     <string name="widget_compass_sub">Check-in nu</string>

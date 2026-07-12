@@ -142,7 +142,7 @@ function WidgetRecordInner() {
 
 export function WidgetRecordPage() {
   return (
-    <AuthGate>
+    <AuthGate variant="widget" widgetTitle="Anteckningar">
       <WidgetRecordInner />
     </AuthGate>
   );

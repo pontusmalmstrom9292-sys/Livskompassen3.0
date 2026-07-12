@@ -487,12 +487,22 @@ function main() {
   mustInclude(
     'android/app/src/main/java/com/livskompassen/app/widgets/RecordWidgetProvider.java',
     'WidgetViews',
-    'widget_chip_anteckning',
+    'discreetNote',
   );
+  mustInclude(
+    'android/app/src/main/res/xml/widget_record_info.xml',
+    'widget_dock_strip',
+  );
+  mustInclude(
+    'android/app/src/main/java/com/livskompassen/app/widgets/NoteWidgetProvider.java',
+    'widget_ic_wh2_note',
+  );
+  mustInclude('android/app/src/main/res/values/strings.xml', 'En rad → Inkast');
   mustInclude('src/modules/features/widgets/WidgetDeepLinkBridge.tsx', 'livskompassen-widget-nav', '__LIVSKOMPASSEN_WIDGET_PENDING__');
   mustInclude(
     'android/app/src/main/java/com/livskompassen/app/MainActivity.java',
     'pendingWidgetPath',
+    'loadUrl',
     '__LIVSKOMPASSEN_WIDGET_PENDING__',
   );
 

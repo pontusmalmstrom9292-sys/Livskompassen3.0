@@ -171,6 +171,8 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] WidgetActionDashboardPage
 - [x] FyrenWidgetBar CSS localization into WidgetShell.css
 - [x] smoke:widgets
+- [x] WH1/WH2 Executive Midnight polish (discreet native + Inkast copy + WidgetShell panik 44px) — 2026-07-12
+- [ ] G85 device re-verify WH1 tap→spara→Dölj nu + WH2 Inkast (efter cap sync)
 - [x] Motorola G85 manual test pass
 
 ---

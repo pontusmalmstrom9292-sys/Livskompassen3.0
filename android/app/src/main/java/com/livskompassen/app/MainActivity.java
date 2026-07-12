@@ -1,7 +1,6 @@
 package com.livskompassen.app;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.WindowManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
@@ -11,7 +10,7 @@ import com.livskompassen.app.widgets.WidgetLaunch;
 
 /**
  * Capacitor shell + native Android widgets (WH1–WH6).
- * Queues widget deep-links until WebView + React bridge can consume them.
+ * Widget-tap laddar /widget/* direkt i WebView — inte hela appens hem först.
  */
 public class MainActivity extends BridgeActivity {
 
@@ -19,13 +18,11 @@ public class MainActivity extends BridgeActivity {
     private static final long WIDGET_DISPATCH_RETRY_MS = 150L;
 
     private String pendingWidgetPath;
+    private boolean widgetUrlLoaded;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Zero Footprint / Layered Defense: block screenshots, screen recording
-        // and hide app content in the recent-apps overview (sensitive custody,
-        // journal and evidence data). Applies app-wide to the single Activity.
         getWindow().setFlags(
             WindowManager.LayoutParams.FLAG_SECURE,
             WindowManager.LayoutParams.FLAG_SECURE
@@ -38,6 +35,7 @@ public class MainActivity extends BridgeActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
+        widgetUrlLoaded = false;
         captureWidgetPath(intent);
         dispatchPendingWidgetPath();
     }
@@ -67,7 +65,18 @@ public class MainActivity extends BridgeActivity {
         if (getBridge() == null || getBridge().getWebView() == null) {
             return;
         }
-        attemptWidgetDispatch(getBridge().getWebView(), pendingWidgetPath, 0);
+
+        WebView webView = getBridge().getWebView();
+        if (!widgetUrlLoaded) {
+            widgetUrlLoaded = true;
+            String serverUrl = getBridge().getServerUrl();
+            if (serverUrl.endsWith("/")) {
+                serverUrl = serverUrl.substring(0, serverUrl.length() - 1);
+            }
+            webView.loadUrl(serverUrl + pendingWidgetPath);
+        }
+
+        attemptWidgetDispatch(webView, pendingWidgetPath, 0);
     }
 
     private void attemptWidgetDispatch(WebView webView, String path, int attempt) {

@@ -127,7 +127,7 @@ export function MabraHistoryView() {
   };
 
   return (
-    <div className="calm-card border border-border/20 bg-surface-2/40 rounded-3xl p-6 shadow-indigo-glow relative overflow-hidden transition-all duration-300">
+    <div className="calm-card border border-border/20 bg-surface-2/40 rounded-3xl p-6 relative overflow-hidden transition-all duration-300">
       {/* Header */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
         <div>

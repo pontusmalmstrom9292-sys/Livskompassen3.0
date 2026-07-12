@@ -84,7 +84,11 @@ export function EmotionalMemoryComponent({
   }, [user?.uid, listenToCapacityState]);
 
   const showAdvancedControls = capacityScore >= ADVANCED_CONTROLS_THRESHOLD;
-  const canSaveToWorm = isVerifiedEmailUser(user?.isAnonymous ?? true, user?.email);
+  const canSaveToWorm = isVerifiedEmailUser(
+    user?.isAnonymous ?? true,
+    user?.email,
+    user?.emailVerified,
+  );
   const inputExposed = canSaveToWorm && !isCapacityLoading;
   const inputsDisabled = isLocked || saving;
   const isEmpty = draft.trim().length === 0;

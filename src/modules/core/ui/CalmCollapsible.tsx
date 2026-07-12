@@ -44,8 +44,7 @@ export function CalmCollapsible({
         open && 'calm-collapsible--open',
         variant === 'card' && 'calm-card',
         glow === 'gold' && 'glow-bottom-gold',
-        glow === 'blue' && 'glow-bottom-blue',
-        glow === 'green' && 'glow-bottom-green',
+        (glow === 'blue' || glow === 'green') && 'glow-bottom-gold',
       )}
     >
       <button

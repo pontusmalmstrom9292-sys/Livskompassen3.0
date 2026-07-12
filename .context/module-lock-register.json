@@ -407,20 +407,29 @@
       "id": "MOD-WIDGET",
       "namn": "Fyren + widget-routes",
       "zon": "Cross",
-      "status": "locked",
+      "status": "developing",
       "globs": [
         "src/modules/core/ui/widget-icons/**",
-        "src/modules/widgets/**"
+        "src/modules/features/widgets/**",
+        "src/modules/core/components/FyrenWidgetBar.tsx",
+        "src/modules/core/components/FyrenSideQuickDock.tsx",
+        "android/app/src/main/java/com/livskompassen/app/widgets/**",
+        "android/app/src/main/res/layout/widget_*.xml",
+        "android/app/src/main/res/xml/widget_*_info.xml"
       ],
       "entryFiles": [
-        "src/modules/core/ui/widget-icons/FyrenShortcutMicIcon.tsx"
+        "src/modules/core/ui/widget-icons/FyrenShortcutMicIcon.tsx",
+        "src/modules/features/widgets/pages/WidgetRecordPage.tsx"
       ],
       "smoke": [
-        "smoke:widgets"
+        "smoke:widgets",
+        "smoke:widget-ingest"
       ],
       "snapshotKey": null,
       "lockedAt": "2026-07-10",
-      "lockedCommit": "ac5d37623"
+      "lockedCommit": "ac5d37623",
+      "unlockDoc": "docs/evaluations/2026-07-12-unlock-MOD-WIDGET.md",
+      "unlockedAt": "2026-07-12"
     }
   ]
 }

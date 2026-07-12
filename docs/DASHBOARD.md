@@ -188,6 +188,13 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). ds-btn-- files: 
 - **Status:** Not Started
 - **Priority:** High
 - **Files:** src/modules/features/widgets/**
+### MOD-WIDGET WH1/WH2 (2026-07-12)
+- **Status:** Code complete — väntar G85 device re-verify
+- **Native:** WH1 discreet horizontal layout; WH2 unik ikon; Android strings → Inkast
+- **Web:** WidgetShell panik 44px, reduced-motion, ethics-nyckel fix
+- **Smoke:** widgets, widget-ingest, locked-icons, locked-ux, design-modules PASS
+- **Sync:** build:web + cap sync android PASS
+
 
 ### Legacy CSS sunset
 - **Status:** In Progress

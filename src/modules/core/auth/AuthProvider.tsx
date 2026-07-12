@@ -26,6 +26,7 @@ function syncUserToStore(
     uid: firebaseUser.uid,
     email: firebaseUser.email ?? undefined,
     isAnonymous: firebaseUser.isAnonymous,
+    emailVerified: firebaseUser.emailVerified,
   });
 }
 

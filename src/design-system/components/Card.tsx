@@ -19,9 +19,9 @@ export type CardProps = HTMLAttributes<HTMLElement> & {
 
 const GLOW_CLASS: Record<CardGlow, string> = {
   gold: 'glow-bottom-gold',
-  blue: 'glow-bottom-blue',
-  green: 'glow-bottom-green',
-  indigo: 'glow-bottom-blue',
+  blue: 'glow-bottom-gold',
+  green: 'glow-bottom-gold',
+  indigo: 'glow-bottom-gold',
 };
 
 /**
@@ -65,9 +65,9 @@ export type CardHeaderProps = HTMLAttributes<HTMLDivElement> & {
 
 const ICON_BOX: Record<CardGlow, string> = {
   gold: 'bento-icon-box bento-icon-box--gold',
-  blue: 'bento-icon-box bento-icon-box--indigo',
-  green: 'bento-icon-box bento-icon-box--emerald',
-  indigo: 'bento-icon-box bento-icon-box--indigo',
+  blue: 'bento-icon-box bento-icon-box--gold',
+  green: 'bento-icon-box bento-icon-box--gold',
+  indigo: 'bento-icon-box bento-icon-box--gold',
 };
 
 export function CardHeader({ title, description, icon, glow = 'gold', className, children, ...rest }: CardHeaderProps) {

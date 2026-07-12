@@ -10,7 +10,7 @@
   }
 
   .mabra-bg-watermark {
-    @apply pointer-events-none fixed left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 text-success;
+    @apply pointer-events-none fixed left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 text-accent;
     width: min(130vw, 1000px);
     height: min(130vw, 1000px);
     max-width: 1000px;
@@ -53,7 +53,7 @@
 
   .liv-launcher-page {
     @apply rounded-2xl border p-4;
-    border-color: var(--color-emerald-20);
+    border-color: var(--color-accent-gold-18);
     background: linear-gradient(
       180deg,
       var(--color-panel-obsidian-55) 0%,
@@ -74,8 +74,8 @@
   }
 
   .mabra-zone-pill {
-    @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-success;
-    border-color: var(--color-emerald-35);
+    @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-accent;
+    border-color: var(--color-accent-gold-35);
     background: var(--color-shell-scrim);
   }
 }

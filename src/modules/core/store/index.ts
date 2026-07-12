@@ -5,6 +5,8 @@ export type User = {
   uid: string;
   email?: string;
   isAnonymous?: boolean;
+  /** Firebase Auth `emailVerified` — krävs för journal/WORM-silor (firestore.rules isSensitiveAuth). */
+  emailVerified?: boolean;
 };
 
 export type UiState = {
