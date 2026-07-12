@@ -177,7 +177,7 @@
      ═══════════════════════════════════════════ */
 
   .design-pack-header,
-  .basta-design__header--prod {
+  .basta-design__header-crown {
     backdrop-filter: blur(var(--ds-blur-md)) saturate(var(--ds-glass-saturate));
     -webkit-backdrop-filter: blur(var(--ds-blur-md)) saturate(var(--ds-glass-saturate));
     box-shadow:
@@ -223,7 +223,8 @@
 
   /* Touch target fix — prod header icons */
   .basta-design__header-icon-btn,
-  .basta-design__header--prod .basta-design__header-vault .header-chrome-btn {
+  .basta-design__header-crown .header-chrome-btn,
+  .basta-design__header-crown .design-pack-header__actions .header-glass-btn--kanon {
     min-width: var(--ds-touch-target);
     min-height: var(--ds-touch-target);
     width: var(--ds-touch-target);

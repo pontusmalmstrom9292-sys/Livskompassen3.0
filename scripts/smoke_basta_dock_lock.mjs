@@ -45,19 +45,18 @@ function main() {
 
   const header = read('src/modules/core/layout/basta-design/BastaDesignHeader.tsx');
   assert(header.includes('BastaDesignResurserWidget'), 'BastaDesignHeader: Resurser-widget saknas');
-  assert(header.includes('placement="header"'), 'BastaDesignHeader: placement="header" saknas');
+  assert(header.includes('placement="header-icon"'), 'BastaDesignHeader: placement="header-icon" saknas');
   assert(header.includes('ResurserOverlay'), 'BastaDesignHeader: ResurserOverlay saknas');
-  assert(header.includes('basta-design__header-start'), 'BastaDesignHeader: header-start saknas');
-  assert(header.includes('basta-design__header-brand'), 'BastaDesignHeader: header-brand saknas');
-  assert(header.includes('basta-design__header-actions'), 'BastaDesignHeader: header-actions saknas');
+  assert(header.includes('basta-design__header-crown'), 'BastaDesignHeader: header-crown saknas');
+  assert(header.includes('design-pack-header--basta-ref'), 'BastaDesignHeader: basta-ref grid saknas');
   assert(header.includes('Livskompassen'), 'BastaDesignHeader: titel saknas');
   assert(
-    /basta-design__header-start[\s\S]*BastaDesignResurserWidget/.test(header),
-    'BastaDesignHeader: Resurser måste ligga i header-start (vänster)',
+    /design-pack-header__center[\s\S]*BastaDesignResurserWidget[\s\S]*Livskompassen/.test(header),
+    'BastaDesignHeader: Resurser måste ligga vänster om Livskompassen (center-rad)',
   );
   assert(
-    !/basta-design__header-actions[\s\S]*BastaDesignResurserWidget/.test(header),
-    'BastaDesignHeader: Resurser får inte ligga i header-actions (höger)',
+    !/basta-design__header-start[\s\S]*BastaDesignResurserWidget/.test(header),
+    'BastaDesignHeader: Resurser får inte ligga i separat start-kolumn längre från brand',
   );
   assert(
     header.includes('BASTA-DESIGN DOCK LOCK') || header.includes('BASTA-DESIGN-CHROME-LOCK'),
@@ -66,10 +65,10 @@ function main() {
 
   const headerCss = read('src/styles/basta-design.css');
   assert(
-    headerCss.includes('.basta-design__header--prod') && headerCss.includes('grid-template-columns'),
-    'basta-design.css: prod header grid saknas',
+    headerCss.includes('.basta-design__header-crown') && headerCss.includes('design-pack-header--basta-ref'),
+    'basta-design.css: crown header saknas',
   );
-  assert(headerCss.includes('.basta-design__header-start'), 'basta-design.css: header-start saknas');
+  assert(headerCss.includes('.design-pack-header__center--basta'), 'basta-design.css: center--basta saknas');
 
   const dock = read('src/modules/core/layout/basta-design/BastaDesignDock.tsx');
   assert(!dock.includes('BastaDesignResurserWidget'), 'BastaDesignDock: Resurser-widget får inte ligga i dock');
@@ -130,7 +129,7 @@ function main() {
   mustInclude('src/index.css', 'dock-kanon-match.css', 'basta-design.css');
 
   console.log(
-    '[smoke:basta-dock-lock] PASS — header (vänster Resurser + brand) + dock v2 + hem v2-paritet.',
+    '[smoke:basta-dock-lock] PASS — crown header (Resurser vänster om brand) + dock v2 + hem v2-paritet.',
   );
 }
 

@@ -253,7 +253,8 @@
   bottom: auto;
   flex-direction: column-reverse;
   align-items: stretch;
-  z-index: 40;
+  z-index: 2;
+  flex-shrink: 0;
 }
 
 .basta-resurser-widget--header .basta-resurser-widget__tab {
@@ -271,9 +272,51 @@
     0 2px 8px rgba(0, 0, 0, 0.28);
 }
 
-.basta-resurser-widget--header .basta-resurser-widget__tab-label {
-  font-size: 0.59375rem;
-  letter-spacing: 0.08em;
+.basta-resurser-widget--header.basta-resurser-widget--header-icon {
+  flex-shrink: 0;
+  z-index: 3;
+}
+
+.basta-resurser-widget--header-icon .basta-resurser-widget__tab {
+  flex-direction: row;
+  justify-content: center;
+  gap: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0;
+  border-radius: 9999px;
+  border-width: 1.5px;
+  border-color: color-mix(in srgb, var(--accent, #d4af37) 38%, transparent);
+  background: linear-gradient(
+    168deg,
+    var(--chrome-plate-a, rgba(255, 255, 255, 0.08)) 0%,
+    var(--chrome-plate-b, rgba(255, 255, 255, 0.04)) 48%,
+    var(--chrome-plate-c, rgba(0, 0, 0, 0.35)) 100%
+  );
+  box-shadow:
+    0 1px 0 var(--chrome-highlight, rgba(255, 255, 255, 0.12)) inset,
+    0 4px 12px rgba(0, 0, 0, 0.38);
+}
+
+.basta-resurser-widget--header-icon .basta-resurser-widget__panel {
+  top: calc(100% + 0.45rem);
+  left: 50%;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+.basta-resurser-widget--header-icon.basta-resurser-widget--open .basta-resurser-widget__panel {
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 380px) {
+  .basta-resurser-widget--header-icon .basta-resurser-widget__tab {
+    width: 2.5rem;
+    height: 2.5rem;
+    min-width: 2.5rem;
+    min-height: 2.5rem;
+  }
 }
 
 .basta-resurser-widget--header .basta-resurser-widget__panel {
@@ -283,7 +326,7 @@
   right: auto;
   margin-bottom: 0;
   width: min(12.5rem, 72vw);
-  z-index: 50;
+  z-index: 35;
   transform: translateY(-4px);
 }
 
@@ -511,8 +554,16 @@ html.platform-capacitor-android .basta-dock-bar--v2 .basta-dock-bar__side {
   padding-bottom: 0;
 }
 
-html.platform-capacitor-android .basta-resurser-widget {
+html.platform-capacitor-android .basta-resurser-widget:not(.basta-resurser-widget--header) {
   bottom: calc(0.2rem + var(--lk-android-shell-inset, 0px));
+}
+
+/* Header-Resurser ska stanna i toppraden — inte ärva dock-offset */
+html.platform-capacitor-android .basta-resurser-widget--header {
+  position: relative;
+  bottom: auto;
+  right: auto;
+  z-index: 2;
 }
 
 @media (max-width: 639px) {
@@ -522,10 +573,16 @@ html.platform-capacitor-android .basta-resurser-widget {
   }
 }
 
-html.platform-capacitor-android .basta-design__header-start,
-html.platform-capacitor-android .basta-design__header-brand,
-html.platform-capacitor-android .basta-design__header-actions {
-  min-width: 0;
+html.platform-capacitor-android .basta-design__header-crown {
+  width: min(100%, calc(100vw - 0.75rem));
+}
+
+html.platform-capacitor-android .app-header__inner--basta-crown {
+  padding-top: max(
+    0.65rem,
+    env(safe-area-inset-top, 0px),
+    var(--safe-area-inset-top, 0px)
+  );
 }
 
 /* Full bredd på telefon — max-w-2xl (672px) ska inte klämma G85 */

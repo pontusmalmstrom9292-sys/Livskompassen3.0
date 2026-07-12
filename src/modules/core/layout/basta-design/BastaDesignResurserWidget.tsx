@@ -5,7 +5,7 @@ import { ChevronDown, LayoutGrid } from 'lucide-react';
 import { RESURSER_NAV_ROWS } from '../../navigation/resurserNavConfig';
 
 type Props = {
-  placement?: 'header' | 'dock';
+  placement?: 'header' | 'header-icon' | 'dock';
   open: boolean;
   onToggle: () => void;
   onOpenFull: () => void;
@@ -23,11 +23,14 @@ export function BastaDesignResurserWidget({
   const navigate = useNavigate();
   const rows = RESURSER_NAV_ROWS.filter((r) => (QUICK_IDS as readonly string[]).includes(r.id));
 
+  const headerPlacement = placement === 'header' || placement === 'header-icon';
+
   return (
     <div
       className={clsx(
         'basta-resurser-widget',
-        placement === 'header' && 'basta-resurser-widget--header',
+        headerPlacement && 'basta-resurser-widget--header',
+        placement === 'header-icon' && 'basta-resurser-widget--header-icon',
         open && 'basta-resurser-widget--open',
       )}
     >
@@ -76,15 +79,23 @@ export function BastaDesignResurserWidget({
         aria-label={open ? 'Stäng resurser' : 'Fäll ut resurser'}
         onClick={onToggle}
       >
-        <LayoutGrid size={placement === 'header' ? 14 : 15} strokeWidth={1.75} aria-hidden />
-        <span className="basta-resurser-widget__tab-label">
-          {placement === 'header' ? 'Resurser' : 'Res'}
-        </span>
-        <ChevronDown
-          size={10}
-          className={clsx('basta-resurser-widget__chevron', open && 'basta-resurser-widget__chevron--up')}
+        <LayoutGrid
+          size={placement === 'header-icon' ? 16 : placement === 'header' ? 14 : 15}
+          strokeWidth={1.75}
           aria-hidden
         />
+        {placement !== 'header-icon' ? (
+          <>
+            <span className="basta-resurser-widget__tab-label">
+              {placement === 'header' ? 'Resurser' : 'Res'}
+            </span>
+            <ChevronDown
+              size={10}
+              className={clsx('basta-resurser-widget__chevron', open && 'basta-resurser-widget__chevron--up')}
+              aria-hidden
+            />
+          </>
+        ) : null}
       </button>
     </div>
   );
