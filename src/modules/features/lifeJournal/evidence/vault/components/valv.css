@@ -4,15 +4,15 @@
 
 @layer components {
   .valv-bento-shell {
-    @apply relative isolate min-h-0;
+    @apply relative isolate min-h-0 overflow-x-hidden;
     background-color: var(--color-obsidian-surface);
     background-image: var(--zone-gradient-valv);
   }
 
   .valv-bg-watermark {
     @apply pointer-events-none fixed left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 text-accent;
-    width: min(140vw, 1100px);
-    height: min(140vw, 1100px);
+    width: min(100vw, 1100px);
+    height: min(100vw, 1100px);
     max-width: 1100px;
     max-height: 1100px;
     opacity: 0.04;
@@ -251,5 +251,22 @@
     .valvet-route-page--desktop .valv-log-row {
       @apply p-4;
     }
+  }
+
+  /* Mobil / G85 — mer innehållsbredd utan att ta bort element */
+  @media (max-width: 639px) {
+    .valvet-route-page .valv-page-shell__chrome,
+    .valvet-route-page .valv-zone-intro {
+      @apply px-2;
+    }
+
+    .valvet-route-page .valv-page-shell__chrome {
+      @apply flex-wrap;
+    }
+  }
+
+  html.platform-capacitor-android .app-main:has(.valvet-route-page) {
+    padding-left: max(0.5rem, env(safe-area-inset-left, 0px));
+    padding-right: max(0.5rem, env(safe-area-inset-right, 0px));
   }
 }

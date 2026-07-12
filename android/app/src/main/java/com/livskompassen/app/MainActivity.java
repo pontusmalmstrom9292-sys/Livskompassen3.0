@@ -1,6 +1,7 @@
 package com.livskompassen.app;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.WindowManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;

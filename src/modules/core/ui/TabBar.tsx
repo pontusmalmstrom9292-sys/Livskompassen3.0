@@ -34,7 +34,7 @@ export function TabBar<T extends string>({
   };
 
   return (
-    <div className="tab-bar-rail overflow-x-auto overscroll-x-contain sm:overflow-x-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden max-sm:overflow-x-visible max-sm:overscroll-x-auto">
+    <div className="tab-bar-rail overflow-x-auto overscroll-x-contain [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
       <div
         className="tab-bar-rail__inner flex min-w-min gap-2 max-sm:w-full max-sm:min-w-0 max-sm:flex-wrap"
         role="tablist"

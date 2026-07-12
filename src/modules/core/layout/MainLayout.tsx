@@ -133,18 +133,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       <main
         className={clsx(
           'app-main relative z-10 mx-auto flex min-h-0 w-full max-w-2xl flex-col',
-          bastaDesignSkin
-            ? clsx(isScenicHome ? 'px-0 pt-0' : 'px-4 pt-4')
-            : clsx(
-                'px-4',
-                isScenicHome
-                  ? executiveSkin
-                    ? 'pt-[calc(5.75rem+env(safe-area-inset-top,0px))]'
-                    : 'pt-[calc(4.65rem+env(safe-area-inset-top,0px))]'
-                  : executiveSkin
-                    ? 'pt-[calc(6.25rem+env(safe-area-inset-top,0px))]'
-                    : 'pt-[calc(5.75rem+env(safe-area-inset-top,0px))]',
-              ),
+          bastaDesignSkin ? (isScenicHome ? 'px-0' : 'px-4') : 'px-4',
           barnportenChildShell && 'pb-16',
         )}
       >
