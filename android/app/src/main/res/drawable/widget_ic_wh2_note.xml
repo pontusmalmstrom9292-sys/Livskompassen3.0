@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- WH2 — dokument + penna (låst glyph, förenklad för 64dp chip) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FF2A2418"
+        android:pathData="M12,12m-11,0a11,11 0,1 1,22 0a11,11 0,1 1,-22 0"
+        android:strokeWidth="0.8"
+        android:strokeColor="#D4AF37" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M7.5,5.5h6.5l2,2v10.5H7.5V5.5z"
+        android:strokeWidth="1.1"
+        android:strokeColor="#F5E6B8"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M14,5.5v2h2"
+        android:strokeWidth="1.1"
+        android:strokeColor="#F5E6B8"
+        android:strokeLineJoin="round" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M9,10h5M9,12.5h5M9,15h3"
+        android:strokeWidth="0.85"
+        android:strokeColor="#D4AF37"
+        android:strokeLineCap="round"
+        android:strokeAlpha="0.85" />
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M16,13.5l-3.5,3.5l-0.75,2l2,-0.75l3.5,-3.5"
+        android:strokeWidth="1.15"
+        android:strokeColor="#FDE68A"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round" />
+</vector>
