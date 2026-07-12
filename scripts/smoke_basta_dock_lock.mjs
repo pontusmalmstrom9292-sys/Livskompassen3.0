@@ -74,7 +74,7 @@ function main() {
     'basta-design.css: crown struktur-lås saknas',
   );
   assert(
-    headerCss.includes('var(--border-strong)') && headerCss.includes('var(--glass)'),
+    headerCss.includes('var(--accent)') && headerCss.includes('var(--surface-3)'),
     'basta-design.css: crown ska använda theme-tokens för färg',
   );
   assert(
