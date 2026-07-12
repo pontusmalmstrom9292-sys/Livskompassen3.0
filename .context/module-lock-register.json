@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-10",
+  "updatedAt": "2026-07-12",
   "modules": [
     {
       "id": "MOD-CORE-NAV",
@@ -20,8 +20,8 @@
         "smoke:chrome-header"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-10",
-      "lockedCommit": "ac5d37623"
+      "lockedAt": "2026-07-12",
+      "lockedCommit": "5d4cb0402"
     },
     {
       "id": "MOD-CORE-CHROME",
@@ -41,8 +41,8 @@
         "smoke:basta-dock-lock"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-10",
-      "lockedCommit": "baseline"
+      "lockedAt": "2026-07-12",
+      "lockedCommit": "5d4cb0402"
     },
     {
       "id": "MOD-HJ-DAGBOK",
@@ -174,8 +174,8 @@
         "smoke:design-modules"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-10",
-      "lockedCommit": "ac5d37623"
+      "lockedAt": "2026-07-12",
+      "lockedCommit": "5d4cb0402"
     },
     {
       "id": "MOD-VARD-MABRA",
@@ -211,8 +211,8 @@
         "smoke:locked-ux"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-10",
-      "lockedCommit": "baseline-ux"
+      "lockedAt": "2026-07-12",
+      "lockedCommit": "5d4cb0402"
     },
     {
       "id": "MOD-VARD-EKO",
