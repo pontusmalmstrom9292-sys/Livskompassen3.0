@@ -30,13 +30,9 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: `VITE_REQUIRE_EMAIL_AUTH=true npm run dev -- --host 127.0.0.1 --port ${PORT}`,
+    command: `node scripts/setup_env_from_google_services.mjs && npm run dev -- --host 127.0.0.1 --port ${PORT}`,
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
-    env: {
-      ...process.env,
-      VITE_REQUIRE_EMAIL_AUTH: 'true',
-    },
   },
 });
