@@ -1,14 +1,18 @@
 #!/usr/bin/env node
 /**
- * Cursor YOLO v5/v6 — sekventiell kö.
+ * Cursor YOLO v5/v6/v7/v8/v9/v10 — sekventiell kö.
  *
  * Usage:
  *   npm run cursor:yolo -- status          # v5 default
  *   npm run cursor:yolo:v6 -- status       # v6
+ *   npm run cursor:yolo:v7 -- status       # v7
+ *   npm run cursor:yolo:v8 -- status       # v8
+ *   npm run cursor:yolo:v9 -- status       # v9
+ *   npm run cursor:yolo:v10 -- status      # v10
  *   npm run cursor:yolo -- gate | gate-pass | next | master | done | skip | watch
  *
  * Env:
- *   CURSOR_YOLO_VERSION=5|6
+ *   CURSOR_YOLO_VERSION=5|6|7|8|9|10
  *   CURSOR_YOLO_SKIP_SMOKE=1   hoppa smoke vid done
  */
 import { spawnSync } from 'node:child_process';
@@ -57,6 +61,66 @@ const CONFIG = {
     masterTitle: 'MASTER sekventiell P14→P23',
     requiresParallelGate: false,
     gateArtifacts: [],
+  },
+  7: {
+    queuePath: join(root, '.orkester/cursor-yolo-queue-v7.json'),
+    statePath: join(root, '.orkester/cursor-yolo-state-v7.json'),
+    nextPromptPath: join(root, '.cursor/pipeline/yolo-v7/NEXT-PROMPT.md'),
+    masterPath: join(root, 'docs/cursor-pipeline/yolo-v7/MASTER-SEQUENTIAL.md'),
+    promptDir: 'docs/cursor-pipeline/yolo-v7',
+    logSuffix: 'cursor-yolo-v7-log',
+    label: 'v7',
+    masterTaskId: 'p24-p33-master',
+    masterTitle: 'MASTER sekventiell P24→P33',
+    requiresParallelGate: false,
+    gateArtifacts: [
+      { id: 'p24-baseline', paths: ['docs/evaluations/2026-07-13-yolo-v7-baseline.md'] },
+    ],
+  },
+  8: {
+    queuePath: join(root, '.orkester/cursor-yolo-queue-v8.json'),
+    statePath: join(root, '.orkester/cursor-yolo-state-v8.json'),
+    nextPromptPath: join(root, '.cursor/pipeline/yolo-v8/NEXT-PROMPT.md'),
+    masterPath: join(root, 'docs/cursor-pipeline/yolo-v8/MASTER-SEQUENTIAL.md'),
+    promptDir: 'docs/cursor-pipeline/yolo-v8',
+    logSuffix: 'cursor-yolo-v8-log',
+    label: 'v8',
+    masterTaskId: 'p34-p43-master',
+    masterTitle: 'MASTER sekventiell P34→P43',
+    requiresParallelGate: false,
+    gateArtifacts: [
+      { id: 'p34-baseline', paths: ['docs/evaluations/2026-07-13-yolo-v8-baseline.md'] },
+    ],
+  },
+  9: {
+    queuePath: join(root, '.orkester/cursor-yolo-queue-v9.json'),
+    statePath: join(root, '.orkester/cursor-yolo-state-v9.json'),
+    nextPromptPath: join(root, '.cursor/pipeline/yolo-v9/NEXT-PROMPT.md'),
+    masterPath: join(root, 'docs/cursor-pipeline/yolo-v9/MASTER-SEQUENTIAL.md'),
+    promptDir: 'docs/cursor-pipeline/yolo-v9',
+    logSuffix: 'cursor-yolo-v9-log',
+    label: 'v9',
+    masterTaskId: 'p44-p53-master',
+    masterTitle: 'MASTER sekventiell P44→P53',
+    requiresParallelGate: false,
+    gateArtifacts: [
+      { id: 'p44-baseline', paths: ['docs/evaluations/2026-07-13-yolo-v9-baseline.md'] },
+    ],
+  },
+  10: {
+    queuePath: join(root, '.orkester/cursor-yolo-queue-v10.json'),
+    statePath: join(root, '.orkester/cursor-yolo-state-v10.json'),
+    nextPromptPath: join(root, '.cursor/pipeline/yolo-v10/NEXT-PROMPT.md'),
+    masterPath: join(root, 'docs/cursor-pipeline/yolo-v10/MASTER-SEQUENTIAL.md'),
+    promptDir: 'docs/cursor-pipeline/yolo-v10',
+    logSuffix: 'cursor-yolo-v10-log',
+    label: 'v10',
+    masterTaskId: 'p54-p63-master',
+    masterTitle: 'MASTER sekventiell P54→P63',
+    requiresParallelGate: false,
+    gateArtifacts: [
+      { id: 'p54-baseline', paths: ['docs/evaluations/2026-07-13-yolo-v10-baseline.md'] },
+    ],
   },
 }[yoloVersion] ?? null;
 
