@@ -1,0 +1,73 @@
+{
+  "startedAt": "2026-07-13T18:22:34.674Z",
+  "fasArg": "all",
+  "git": {
+    "branch": "cursor/natt-ci-fas-b-1ece",
+    "sha": "0ce0d21b0",
+    "dirty": [
+      "MM docs/design/galleri/executive-home-capture-latest.png"
+    ]
+  },
+  "phases": [
+    {
+      "id": "a",
+      "steps": [
+        {
+          "label": "Fas A — orkester:night",
+          "status": "PASS",
+          "durationMs": 145160
+        },
+        {
+          "label": "smoke:valv",
+          "status": "PASS",
+          "durationMs": 10462
+        },
+        {
+          "label": "smoke:kunskap",
+          "status": "PASS",
+          "durationMs": 17085
+        },
+        {
+          "label": "smoke:dossier",
+          "status": "PASS",
+          "durationMs": 27186
+        }
+      ]
+    },
+    {
+      "id": "b",
+      "steps": [
+        {
+          "label": "icons:proposals-v4",
+          "status": "SKIP",
+          "reason": "v2-premium-ankare saknas — skip batch"
+        },
+        {
+          "label": "smoke:locked-icons",
+          "status": "PASS",
+          "durationMs": 163
+        }
+      ]
+    },
+    {
+      "id": "c",
+      "steps": [
+        {
+          "label": "git status",
+          "status": "WARN",
+          "dirtyCount": 2,
+          "forbidden": []
+        }
+      ],
+      "git": {
+        "branch": "cursor/natt-ci-fas-b-1ece",
+        "sha": "0ce0d21b0",
+        "dirty": [
+          "MM docs/design/galleri/executive-home-capture-latest.png",
+          " M docs/evaluations/2026-07-13-orkester-natt.md"
+        ]
+      }
+    }
+  ],
+  "agentSummary": null
+}
