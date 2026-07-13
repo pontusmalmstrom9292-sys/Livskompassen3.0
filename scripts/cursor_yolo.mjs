@@ -10,10 +10,11 @@
  *   npm run cursor:yolo:v9 -- status       # v9
  *   npm run cursor:yolo:v10 -- status      # v10
  *   npm run cursor:yolo:v11 -- status      # v11
+ *   npm run cursor:yolo:v12 -- status      # v12
  *   npm run cursor:yolo -- gate | gate-pass | next | master | done | skip | handoff | watch
  *
  * Env:
- *   CURSOR_YOLO_VERSION=5|6|7|8|9|10|11|12
+ *   CURSOR_YOLO_VERSION=5|6|7|8|9|10|11|12|13
  *   CURSOR_YOLO_SKIP_SMOKE=1   hoppa smoke vid done
  */
 import { spawnSync } from 'node:child_process';
@@ -156,6 +157,22 @@ const CONFIG = {
     nextVersion: 13,
     prevPhaseEnd: 83,
     nextPhaseStart: 84,
+  },
+  13: {
+    queuePath: join(root, '.orkester/cursor-yolo-queue-v13.json'),
+    statePath: join(root, '.orkester/cursor-yolo-state-v13.json'),
+    nextPromptPath: join(root, '.cursor/pipeline/yolo-v13/NEXT-PROMPT.md'),
+    masterPath: join(root, 'docs/cursor-pipeline/yolo-v13/MASTER-SEQUENTIAL.md'),
+    promptDir: 'docs/cursor-pipeline/yolo-v13',
+    logSuffix: 'cursor-yolo-v13-log',
+    label: 'v13',
+    masterTaskId: 'p84-p93-master',
+    masterTitle: 'MASTER sekventiell P84→P93',
+    requiresParallelGate: false,
+    gateArtifacts: [],
+    nextVersion: 14,
+    prevPhaseEnd: 93,
+    nextPhaseStart: 94,
   },
 }[yoloVersion] ?? null;
 
