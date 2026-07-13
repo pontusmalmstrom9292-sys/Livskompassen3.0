@@ -1,0 +1,131 @@
+{
+  "version": 13,
+  "description": "Cursor YOLO v13 — Auto-Lock & Fortifikation P84–P93. Handoff från v12.",
+  "sequentialPhase": { "label": "Sekventiell förbättring post-v12" },
+  "tasks": [
+    {
+      "id": "p84-deploy",
+      "title": "P84 — (Valfritt) hosting deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy. firebase hosting only.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "hosting"
+    },
+    {
+      "id": "p85-baseline",
+      "title": "P85 — Read-only baseline",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "smoke:predeploy:build. Eval baseline.",
+      "smoke": ["npm run smoke:predeploy:build"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p86-auto-lock-hygiene",
+      "title": "P86 — Auto-lock hygiene",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "entryFiles + LOCK-MANIFEST.",
+      "smoke": ["npm run smoke:module-lock"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p87-security",
+      "title": "P87 — Security read-only",
+      "phase": "sequential",
+      "agent": "specialist-security-auditor",
+      "plan": "WORM, silos, Zero Footprint.",
+      "smoke": ["npm run smoke:manifest", "npm run smoke:valv-security"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p88-ux-guardian",
+      "title": "P88 — Locked UX re-snapshot",
+      "phase": "sequential",
+      "agent": "specialist-ux-guardian",
+      "plan": "locked-ux smokes.",
+      "smoke": [
+        "npm run smoke:locked-ux",
+        "npm run smoke:e2e-locked-ux",
+        "npm run smoke:plausible-deniability",
+        "npm run smoke:basta-dock-lock"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p89-drift",
+      "title": "P89 — Drift & smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "journal-2d, mabra, valv, widgets.",
+      "smoke": [
+        "npm run smoke:journal-2d",
+        "npm run smoke:mabra",
+        "npm run smoke:valv",
+        "npm run smoke:widgets"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p90-design-debt",
+      "title": "P90 — Design-debt guard",
+      "phase": "sequential",
+      "agent": "specialist-ux-guardian",
+      "plan": "dsBtn 0, btnPill 0, adHocDialog 0.",
+      "smoke": [
+        "npm run smoke:design-debt",
+        "npm run smoke:copy-audit",
+        "npm run smoke:calm-card-audit"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p91-fortification",
+      "title": "P91 — Agent-fortifikation v13",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "cursor:yolo:v13 + queue/state.",
+      "smoke": ["npm run smoke:governance", "npm run smoke:mdc"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p92-integration",
+      "title": "P92 — Integration dry-run",
+      "phase": "sequential",
+      "agent": "livskompassen-arkiv-master",
+      "plan": "preflight + seed --dry-run. Aldrig --apply.",
+      "smoke": ["npm run smoke:innehall", "npm run smoke:content-waves"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p93-yolo-vakt",
+      "title": "P93 — yolo-vakt slutgate + handoff",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO + npm run cursor:yolo:v13 -- handoff",
+      "smoke": ["npm run smoke:predeploy:build"],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none"
+    }
+  ]
+}

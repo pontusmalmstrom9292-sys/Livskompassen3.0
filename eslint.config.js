@@ -17,7 +17,7 @@ const noBtnPillInModulesRule = {
     },
   },
   create(context) {
-    const filename = (context.filename ?? context.getFilename?.() ?? '').replace(/\\/g, '/')
+    const filename = (context.filename ?? context.physicalFilename ?? context.getFilename?.() ?? '').replace(/\\/g, '/')
     if (!filename.includes('/src/modules/')) {
       return {}
     }
@@ -44,6 +44,9 @@ export default defineConfig([
     'docs/archive/**',
     'functions/lib/**',
     '.orkester/runs/**',
+    'bästa design/**',
+    'shared/**/*.js',
+    'shared/**/*.js.map',
   ]),
   {
     files: ['**/*.{ts,tsx}'],

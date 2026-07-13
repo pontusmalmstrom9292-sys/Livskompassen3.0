@@ -1,0 +1,26 @@
+{
+  "version": 13,
+  "queueFile": ".orkester/cursor-yolo-queue-v13.json",
+  "startedAt": null,
+  "updatedAt": null,
+  "sequentialPhase": {
+    "status": "ready",
+    "currentTaskId": "p84-deploy",
+    "completedTaskIds": [],
+    "skippedTaskIds": [],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "p84-deploy",
+    "p85-baseline",
+    "p86-auto-lock-hygiene",
+    "p87-security",
+    "p88-ux-guardian",
+    "p89-drift",
+    "p90-design-debt",
+    "p91-fortification",
+    "p92-integration",
+    "p93-yolo-vakt"
+  ],
+  "notes": "Väntar START från v12 handoff. P84 deploy SKIP tills Pontus OK deploy."
+}
