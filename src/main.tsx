@@ -12,23 +12,33 @@ import { registerSW } from 'virtual:pwa-register';
 applyDefaultTheme();
 initCapacitorShellChrome();
 
-console.log("Starting boot"); void googleRedirectBoot.finally(() => {
-  // SW efter redirect-hantering — undvik reload mitt i Google OAuth.
+const BOOT_MOUNT_DEADLINE_MS = 10_000;
+
+function mountApp() {
+  console.log('Boot deadline reached — mounting React…');
+  try {
+    createRoot(document.getElementById('root')!).render(
+      <StrictMode>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </StrictMode>,
+    );
+    console.log('createRoot.render() executed successfully');
+  } catch (err) {
+    console.error('createRoot.render() threw an error:', err);
+  }
+}
+
+console.log('Starting boot');
+void googleRedirectBoot.finally(() => {
   registerSW({ immediate: true });
 
-  void initAppCheck().finally(() => {
-    console.log("App Check finished, calling createRoot...");
-    try {
-      createRoot(document.getElementById('root')!).render(
-        <StrictMode>
-          <BrowserRouter>
-            <App />
-          </BrowserRouter>
-        </StrictMode>,
-      );
-      console.log("createRoot.render() executed successfully");
-    } catch (err) {
-      console.error("createRoot.render() threw an error:", err);
-    }
+  const appCheck = initAppCheck().catch((err) => {
+    console.warn('[boot] initAppCheck failed', err);
   });
+  const deadline = new Promise<void>((resolve) => {
+    setTimeout(resolve, BOOT_MOUNT_DEADLINE_MS);
+  });
+  void Promise.race([appCheck, deadline]).finally(mountApp);
 });
