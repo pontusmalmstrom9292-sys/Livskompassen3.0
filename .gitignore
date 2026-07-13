@@ -139,4 +139,6 @@ __pycache__/
 .orkester/fas13-state.json
 .orkester/fas14-state.json
 .orkester/fas19-state.json
+.orkester/natt-ci-state.json
+.orkester/natt-ci-runs/
 .orkester-backup-cursor-hooks/

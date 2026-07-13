@@ -1,0 +1,57 @@
+# Natt-CI — manuell dispatch (deterministiska faser A–C).
+# SDK-agent (--agent) kräver CURSOR_API_KEY som repo secret.
+
+name: Natt-CI
+
+on:
+  workflow_dispatch:
+    inputs:
+      fas:
+        description: 'Fas (all | a | b | c)'
+        required: true
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - a
+          - b
+          - c
+      agent:
+        description: 'Kör SDK-agent efter faserna (readonly)'
+        required: false
+        default: false
+        type: boolean
+
+concurrency:
+  group: natt-ci
+  cancel-in-progress: true
+
+jobs:
+  natt-ci:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --legacy-peer-deps
+
+      - name: Natt-CI setup
+        run: npm run natt-ci:setup
+
+      - name: Run Natt-CI
+        env:
+          CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
+        run: |
+          ARGS="--fas=${{ inputs.fas }}"
+          if [ "${{ inputs.agent }}" = "true" ]; then ARGS="$ARGS --agent"; fi
+          npm run natt-ci -- $ARGS

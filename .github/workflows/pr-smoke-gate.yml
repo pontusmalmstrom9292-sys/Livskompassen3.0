@@ -37,6 +37,9 @@ jobs:
       - name: Install Playwright Chromium (e2e gate)
         run: npx playwright install chromium
 
+      - name: Setup .env for e2e (offline from google-services.json)
+        run: node scripts/setup_env_from_google_services.mjs
+
       - name: Smoke pre-deploy gate (YOLO static)
         run: npm run smoke:predeploy
 
