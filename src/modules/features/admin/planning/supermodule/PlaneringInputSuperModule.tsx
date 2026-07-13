@@ -1,17 +1,25 @@
 import { textStyles } from '@/design-system';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, lazy, Suspense } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import {
   DEFAULT_PLANERING_INPUT_MODE,
   PLANERING_INPUT_MODES_PRIMARY,
   parsePlaneringInputMode,
   type PlaneringInputMode,
 } from './planeringInputModes';
-import { PlaneringTaskQuickDelegate } from './delegates/PlaneringTaskQuickDelegate';
-import { PlaneringInkastDelegate } from './delegates/PlaneringInkastDelegate';
-import { PlaneringQuickListDelegate } from './delegates/PlaneringQuickListDelegate';
+
+const PlaneringTaskQuickDelegate = lazy(() =>
+  import('./delegates/PlaneringTaskQuickDelegate').then((m) => ({ default: m.PlaneringTaskQuickDelegate })),
+);
+const PlaneringInkastDelegate = lazy(() =>
+  import('./delegates/PlaneringInkastDelegate').then((m) => ({ default: m.PlaneringInkastDelegate })),
+);
+const PlaneringQuickListDelegate = lazy(() =>
+  import('./delegates/PlaneringQuickListDelegate').then((m) => ({ default: m.PlaneringQuickListDelegate })),
+);
 
 export type PlaneringInputSuperModuleProps = {
   /** Override URL-parsing (t.ex. Storybook). */
@@ -83,7 +91,7 @@ export function PlaneringInputSuperModule({
               type="button"
               onClick={() => setActiveMode(mode.id)}
               aria-pressed={isActive}
-              className={`rounded-lg px-3 py-2 text-left text-xs transition-colors ${
+              className={`min-h-[44px] rounded-lg px-3 py-2 text-left text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50 ${
                 isActive
                   ? 'border border-accent/40 bg-surface-3 text-accent'
                   : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
@@ -109,14 +117,19 @@ type DelegateProps = {
 };
 
 function PlaneringInputModeDelegate({ mode, onSaved }: DelegateProps) {
+  let content;
   switch (mode) {
     case 'task_quick':
-      return <PlaneringTaskQuickDelegate onSaved={onSaved} />;
+      content = <PlaneringTaskQuickDelegate onSaved={onSaved} />;
+      break;
     case 'inkast':
-      return <PlaneringInkastDelegate onSaved={onSaved} />;
+      content = <PlaneringInkastDelegate onSaved={onSaved} />;
+      break;
     case 'quick_list':
-      return <PlaneringQuickListDelegate />;
+      content = <PlaneringQuickListDelegate />;
+      break;
     default:
-      return null;
+      content = null;
   }
+  return <Suspense fallback={<HubPanelSkeleton lines={4} />}>{content}</Suspense>;
 }

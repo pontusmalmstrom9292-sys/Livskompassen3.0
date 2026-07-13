@@ -1,5 +1,6 @@
 import { Camera, CheckSquare, FileText, List, Mail, Mic, X } from 'lucide-react';
 import { clsx } from 'clsx';
+import { Sheet } from '@/design-system/components/Sheet';
 
 const PICKER_TILES = [
   { id: 'list', label: 'Lista', icon: List },
@@ -18,52 +19,47 @@ type Props = {
 
 /** Theme Lab — NYTT PROJEKT picker (mockup v2, ingen routing). */
 export function W1ProjektNyPickerPreview({ open, onClose, onPick }: Props) {
-  if (!open) return null;
-
   return (
-    <div className="w1-lab-picker" role="dialog" aria-label="Nytt projekt">
-      <button
-        type="button"
-        className="w1-lab-picker__backdrop"
-        aria-label="Stäng"
-        onClick={onClose}
-      />
-      <div className="w1-lab-picker__panel">
-        <div className="w1-lab-picker__handle" aria-hidden />
-        <header className="w1-lab-picker__header">
-          <h2 className="w1-lab-picker__title">Nytt projekt</h2>
-          <button
-            type="button"
-            className="w1-lab-picker__close"
-            aria-label="Stäng"
-            onClick={onClose}
-          >
-            <X className="h-4 w-4" strokeWidth={1.5} aria-hidden />
-          </button>
-        </header>
-        <div className="w1-lab-picker__grid">
-          {PICKER_TILES.map((tile) => {
-            const Icon = tile.icon;
-            return (
-              <button
-                key={tile.id}
-                type="button"
-                className="w1-lab-picker__tile"
-                onClick={() => {
-                  onPick?.(tile.id);
-                  onClose();
-                }}
-              >
-                <span className="w1-lab-picker__tile-icon" aria-hidden>
-                  <Icon className="h-5 w-5" strokeWidth={1.5} />
-                </span>
-                <span className="w1-lab-picker__tile-label">{tile.label}</span>
-              </button>
-            );
-          })}
-        </div>
+    <Sheet
+      open={open}
+      onClose={onClose}
+      title="Nytt projekt"
+      panelClassName="w1-lab-picker__panel"
+      bodyClassName="w1-lab-picker__body"
+      headerAction={
+        <button
+          type="button"
+          className="w1-lab-picker__close"
+          aria-label="Stäng"
+          onClick={onClose}
+        >
+          <X className="h-4 w-4" strokeWidth={1.5} aria-hidden />
+        </button>
+      }
+    >
+      <div className="w1-lab-picker__handle" aria-hidden />
+      <div className="w1-lab-picker__grid">
+        {PICKER_TILES.map((tile) => {
+          const Icon = tile.icon;
+          return (
+            <button
+              key={tile.id}
+              type="button"
+              className="w1-lab-picker__tile"
+              onClick={() => {
+                onPick?.(tile.id);
+                onClose();
+              }}
+            >
+              <span className="w1-lab-picker__tile-icon" aria-hidden>
+                <Icon className="h-5 w-5" strokeWidth={1.5} />
+              </span>
+              <span className="w1-lab-picker__tile-label">{tile.label}</span>
+            </button>
+          );
+        })}
       </div>
-    </div>
+    </Sheet>
   );
 }
 

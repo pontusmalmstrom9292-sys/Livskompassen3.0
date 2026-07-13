@@ -644,24 +644,6 @@
       background: rgba(212, 175, 55, 0.08);
     }
 
-    .module-hub-tile--indigo.module-hub-tile--active {
-      border-color: rgba(129, 140, 248, 0.4);
-      color: #a5b4fc;
-      background: rgba(129, 140, 248, 0.08);
-    }
-
-    .module-hub-tile--lavender.module-hub-tile--active {
-      border-color: rgba(167, 139, 250, 0.4);
-      color: #c4b5fd;
-      background: rgba(167, 139, 250, 0.08);
-    }
-
-    .module-hub-tile--emerald.module-hub-tile--active {
-      border-color: rgba(45, 212, 191, 0.4);
-      color: #2dd4bf;
-      background: rgba(45, 212, 191, 0.08);
-    }
-
     .module-hub-tile__icon {
       @apply relative flex h-9 w-9 items-center justify-center;
     }

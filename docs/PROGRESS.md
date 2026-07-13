@@ -1,3 +1,17 @@
+
+## 2026-07-13 — Design debt metrics refresh
+
+**Scope:** smoke:design-debt → docs/DASHBOARD.md (btnPill, dsBtn, adHocDialog, indexCssLoc). Inga produktändringar.
+
+**Metrics (smoke:design-debt):**
+- btnPill: **0**
+- dsBtn: **1**
+- adHocDialog: **3**
+- indexCssLoc: **61**
+- DS import files: **250**
+
+**Smoke:** smoke:design-debt PASS · smoke:governance PASS
+
 ## 2026-07-11 — Phase 10 våg 111 stub-rensning + doc-städ
 
 **Plattform:** Cursor Agent · **SKIN ONLY + docs**
@@ -2649,3 +2663,19 @@ Copy the template below for each entry. Newest first.
 
 **Next:** G85 device smoke — lägg till widget → tap → spara → «Dölj nu». W1 v2 kompakt strip deferred (C).
 
+
+## 2026-07-13 — YOLO v5 superplan leverans (P4–P12)
+
+**Plattform:** Cursor Agent · **Scope:** polish only, PMIR intakt
+
+**Completed:**
+- P5: ResurserOverlay → DS Sheet (adHocDialog 0)
+- P6: a11y Vardagen (touch, focus-visible, reduced-motion)
+- P9: lazy delegates Dagbok, Ekonomi, Planering (+ Arbetsliv)
+- P10: cap:sync:prod + android smokes PASS
+- P11/P12: G17 + innehall PASS
+- P13: smoke:predeploy:build PASS — deploy väntar Pontus OK
+
+**Verification:** locked-ux, design-modules, orkester, predeploy:build PASS
+
+**Leverans:** docs/evaluations/2026-07-13-cursor-yolo-v5-leverans.md

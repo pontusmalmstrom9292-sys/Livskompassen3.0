@@ -29,6 +29,9 @@ export const MICRO_STEP_ACTION_LABEL = 'Ett litet steg' as const;
 /** Widget-etiketter */
 export const FEELING_CARDS_LABEL = 'Känsla & lek' as const;
 
+/** Kompass-widget — MåBra snabbstart (legacy etikett i katalog). */
+export const KANSLOKORT_WIDGET_LABEL = 'Känslokort' as const;
+
 export const NEXT_STEP_LABEL = 'Nästa steg' as const;
 
 export const QUIZ_WIDGET_LABEL = 'Testa dig' as const;

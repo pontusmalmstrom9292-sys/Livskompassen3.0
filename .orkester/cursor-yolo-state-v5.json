@@ -1,0 +1,47 @@
+{
+  "version": 5,
+  "queueFile": ".orkester/cursor-yolo-queue-v5.json",
+  "startedAt": "2026-07-13T11:10:00.000Z",
+  "updatedAt": "2026-07-13T12:45:00.000Z",
+  "parallelPhase": {
+    "status": "done",
+    "startedTaskIds": [
+      "p1-yolo-vakt",
+      "p2-ux-guardian",
+      "p3-design-debt"
+    ],
+    "completedTaskIds": [],
+    "gatePassed": true,
+    "gatePassedAt": "2026-07-13T12:32:22.773Z"
+  },
+  "sequentialPhase": {
+    "status": "waiting_pontus",
+    "currentTaskId": "p13-hosting-deploy",
+    "completedTaskIds": [
+      "p4-calm-card",
+      "p5-adhoc-dialogs",
+      "p6-a11y-vardagen",
+      "p7-copy-audit",
+      "p8-a11y-hjartat",
+      "p9-bundle-perf",
+      "p10-android-g85",
+      "p11-g17-blur",
+      "p12-kunskap-dryrun"
+    ],
+    "skippedTaskIds": [],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "p4-calm-card",
+    "p5-adhoc-dialogs",
+    "p6-a11y-vardagen",
+    "p7-copy-audit",
+    "p8-a11y-hjartat",
+    "p9-bundle-perf",
+    "p10-android-g85",
+    "p11-g17-blur",
+    "p12-kunskap-dryrun",
+    "p13-hosting-deploy"
+  ],
+  "notes": "P4–P12 PASS. P13 predeploy PASS — deploy väntar Pontus OK."
+}

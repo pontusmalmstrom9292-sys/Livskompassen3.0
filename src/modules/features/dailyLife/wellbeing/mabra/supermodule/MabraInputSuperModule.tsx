@@ -1,17 +1,9 @@
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, lazy, Suspense, type ReactNode } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { CaptureSuperModule } from '@/modules/capture/CaptureSuperModule';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { useStore } from '@/core/store';
-import { MabraCheckinModal } from '@/components/mabra/MabraCheckinModal';
-import { EmotionalMemoryView } from '../components/EmotionalMemoryView';
-import { VitCardFlowPanel } from '../components/VitCardFlowPanel';
-import { VitChatFlowPanel } from '../components/VitChatFlowPanel';
-import { VitMemoryFlowPanel } from '../components/VitMemoryFlowPanel';
 import { MABRA_PROJECTS, type MabraProjectId } from '../constants/mabraProjects';
-import { MabraDagbokBridgePanel } from './MabraDagbokBridgePanel';
-import { MabraExerciseNotePanel } from './MabraExerciseNotePanel';
-import { MabraReflectionSuperhubPanel } from './MabraReflectionSuperhubPanel';
 import {
   DEFAULT_MABRA_INPUT_MODE,
   MABRA_INPUT_MODES_FAS6D,
@@ -23,6 +15,45 @@ import {
   shouldUseEmotionalMemoryDelegate,
   type MabraInputMode,
 } from './mabraInputModes';
+
+const MabraCheckinModal = lazy(() =>
+  import('@/components/mabra/MabraCheckinModal').then((m) => ({ default: m.MabraCheckinModal })),
+);
+const EmotionalMemoryView = lazy(() =>
+  import('../components/EmotionalMemoryView').then((m) => ({ default: m.EmotionalMemoryView })),
+);
+const VitCardFlowPanel = lazy(() =>
+  import('../components/VitCardFlowPanel').then((m) => ({ default: m.VitCardFlowPanel })),
+);
+const VitChatFlowPanel = lazy(() =>
+  import('../components/VitChatFlowPanel').then((m) => ({ default: m.VitChatFlowPanel })),
+);
+const VitMemoryFlowPanel = lazy(() =>
+  import('../components/VitMemoryFlowPanel').then((m) => ({ default: m.VitMemoryFlowPanel })),
+);
+const MabraDagbokBridgePanel = lazy(() =>
+  import('./MabraDagbokBridgePanel').then((m) => ({ default: m.MabraDagbokBridgePanel })),
+);
+const MabraExerciseNotePanel = lazy(() =>
+  import('./MabraExerciseNotePanel').then((m) => ({ default: m.MabraExerciseNotePanel })),
+);
+const MabraReflectionSuperhubPanel = lazy(() =>
+  import('./MabraReflectionSuperhubPanel').then((m) => ({ default: m.MabraReflectionSuperhubPanel })),
+);
+const CaptureSuperModule = lazy(() =>
+  import('@/modules/capture/CaptureSuperModule').then((m) => ({ default: m.CaptureSuperModule })),
+);
+
+const MODE_BUTTON_BASE =
+  'min-h-[44px] rounded-lg px-3 py-2 text-left text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-2';
+
+function modeButtonClass(isActive: boolean) {
+  return `${MODE_BUTTON_BASE} ${
+    isActive
+      ? 'border border-accent/40 bg-surface-3 text-accent'
+      : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
+  }`;
+}
 
 export type MabraInputSuperModuleProps = {
   /** Optional project context (e.g. embed from `/mabra/projekt/:projectId`). */
@@ -111,11 +142,7 @@ export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSu
               type="button"
               onClick={() => setActiveMode(mode.id)}
               aria-pressed={isActive}
-              className={`rounded-lg px-3 py-2 text-left text-xs transition-colors ${
-                isActive
-                  ? 'border border-accent/40 bg-surface-3 text-accent'
-                  : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
-              }`}
+              className={modeButtonClass(isActive)}
             >
               <span className="block font-medium">{mode.label}</span>
               <span className="block text-[10px] text-text-dim">{mode.description}</span>
@@ -127,11 +154,7 @@ export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSu
           type="button"
           onClick={() => setShowMoreModes((open) => !open)}
           aria-expanded={showMoreModes || isMoreModeActive}
-          className={`rounded-lg px-3 py-2 text-left text-xs transition-colors ${
-            isMoreModeActive
-              ? 'border border-accent/40 bg-surface-3 text-accent'
-              : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
-          }`}
+          className={modeButtonClass(isMoreModeActive)}
         >
           <span className="block font-medium">Mer…</span>
           <span className="block text-[10px] text-text-dim">Reflektion, dagbok & inkast</span>
@@ -146,11 +169,7 @@ export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSu
                 type="button"
                 onClick={() => setActiveMode(mode.id)}
                 aria-pressed={isActive}
-                className={`rounded-lg px-3 py-2 text-left text-xs transition-colors ${
-                  isActive
-                    ? 'border border-accent/40 bg-surface-3 text-accent'
-                    : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
-                }`}
+                className={modeButtonClass(isActive)}
               >
                 <span className="block font-medium">{mode.label}</span>
                 <span className="block text-[10px] text-text-dim">{mode.description}</span>
@@ -167,11 +186,7 @@ export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSu
                 type="button"
                 onClick={() => setActiveMode(mode.id)}
                 aria-pressed={isActive}
-                className={`rounded-lg px-3 py-2 text-left text-xs transition-colors ${
-                  isActive
-                    ? 'border border-accent/40 bg-surface-3 text-accent'
-                    : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
-                }`}
+                className={modeButtonClass(isActive)}
               >
                 <span className="block font-medium">{mode.label}</span>
                 <span className="block text-[10px] text-text-dim">{mode.description}</span>
@@ -215,15 +230,22 @@ function MabraInputModeDelegate({
     if (!projectId) {
       return <p className="text-sm text-text-muted">Känslominne kräver projektkontext.</p>;
     }
-    return <EmotionalMemoryView userId={userId} projectId={projectId} compact />;
+    return (
+      <Suspense fallback={<HubPanelSkeleton lines={4} />}>
+        <EmotionalMemoryView userId={userId} projectId={projectId} compact />
+      </Suspense>
+    );
   }
+
+  let content: ReactNode = null;
 
   switch (mode) {
     case 'checkin':
-      return <MabraCheckinModal isOpen={true} variant="inline" onClose={() => undefined} />;
+      content = <MabraCheckinModal isOpen={true} variant="inline" onClose={() => undefined} />;
+      break;
 
     case 'reflection_tool':
-      return (
+      content = (
         <MabraReflectionSuperhubPanel
           userId={userId}
           vitProjectId={vitProjectId}
@@ -231,24 +253,27 @@ function MabraInputModeDelegate({
           onSwitchToDagbokBridge={onSwitchToDagbokBridge}
         />
       );
+      break;
 
     case 'exercise_note':
-      return (
+      content = (
         <MabraExerciseNotePanel
           userId={userId}
           vitProjectId={vitProjectId}
           onSwitchToDagbokBridge={onSwitchToDagbokBridge}
         />
       );
+      break;
 
     case 'dagbok_bridge':
-      return <MabraDagbokBridgePanel />;
+      content = <MabraDagbokBridgePanel />;
+      break;
 
     case 'inkast':
       if (!userId) {
         return <p className="text-sm text-text-muted">Logga in för att använda inkast med granskning.</p>;
       }
-      return (
+      content = (
         <div className="space-y-3">
           <p className="text-xs text-text-dim">
             Tematisk reflektion — AI föreslår arkiv. Du godkänner alltid innan spar (HITL).
@@ -256,6 +281,7 @@ function MabraInputModeDelegate({
           <CaptureSuperModule variant="mabra" compact />
         </div>
       );
+      break;
 
     case 'vit_card':
     case 'vit_chat':
@@ -264,14 +290,17 @@ function MabraInputModeDelegate({
         return <p className="text-sm text-text-muted">Det här läget kräver projektkontext.</p>;
       }
       if (mode === 'vit_card') {
-        return <VitCardFlowPanel userId={userId} projectId={projectId} />;
+        content = <VitCardFlowPanel userId={userId} projectId={projectId} />;
+      } else if (mode === 'vit_chat') {
+        content = <VitChatFlowPanel userId={userId} projectId={projectId} />;
+      } else {
+        content = <VitMemoryFlowPanel userId={userId} projectId={projectId} />;
       }
-      if (mode === 'vit_chat') {
-        return <VitChatFlowPanel userId={userId} projectId={projectId} />;
-      }
-      return <VitMemoryFlowPanel userId={userId} projectId={projectId} />;
+      break;
 
     default:
       return null;
   }
+
+  return <Suspense fallback={<HubPanelSkeleton lines={4} />}>{content}</Suspense>;
 }

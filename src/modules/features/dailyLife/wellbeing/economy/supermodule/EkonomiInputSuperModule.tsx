@@ -1,7 +1,7 @@
 /** @locked MOD-VARD-EKO — låst modul; unlock via docs/evaluations/*-unlock-MOD-VARD-EKO.md */
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, lazy, Suspense } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { EconomyCapacityLockedNotice } from '@/features/economy/components/EconomyCapacityLockedNotice';
@@ -10,15 +10,36 @@ import {
   getAllowedModesForLevel,
   pickFallbackMode,
 } from './capacityResolver';
-import { EkonomiImpulsDelegate } from './delegates/EkonomiImpulsDelegate';
-import { EkonomiInkastDelegate } from './delegates/EkonomiInkastDelegate';
-import { EkonomiKuvertDelegate } from './delegates/EkonomiKuvertDelegate';
-import { EkonomiLoggDelegate } from './delegates/EkonomiLoggDelegate';
-import { EkonomiMatprepDelegate } from './delegates/EkonomiMatprepDelegate';
-import { EkonomiMikrostegDelegate } from './delegates/EkonomiMikrostegDelegate';
-import { EkonomiProfilDelegate } from './delegates/EkonomiProfilDelegate';
-import { EkonomiSaldoDelegate } from './delegates/EkonomiSaldoDelegate';
-import { EkonomiSparDelegate } from './delegates/EkonomiSparDelegate';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+
+const EkonomiSaldoDelegate = lazy(() =>
+  import('./delegates/EkonomiSaldoDelegate').then((m) => ({ default: m.EkonomiSaldoDelegate })),
+);
+const EkonomiMikrostegDelegate = lazy(() =>
+  import('./delegates/EkonomiMikrostegDelegate').then((m) => ({ default: m.EkonomiMikrostegDelegate })),
+);
+const EkonomiProfilDelegate = lazy(() =>
+  import('./delegates/EkonomiProfilDelegate').then((m) => ({ default: m.EkonomiProfilDelegate })),
+);
+const EkonomiMatprepDelegate = lazy(() =>
+  import('./delegates/EkonomiMatprepDelegate').then((m) => ({ default: m.EkonomiMatprepDelegate })),
+);
+const EkonomiKuvertDelegate = lazy(() =>
+  import('./delegates/EkonomiKuvertDelegate').then((m) => ({ default: m.EkonomiKuvertDelegate })),
+);
+const EkonomiSparDelegate = lazy(() =>
+  import('./delegates/EkonomiSparDelegate').then((m) => ({ default: m.EkonomiSparDelegate })),
+);
+const EkonomiImpulsDelegate = lazy(() =>
+  import('./delegates/EkonomiImpulsDelegate').then((m) => ({ default: m.EkonomiImpulsDelegate })),
+);
+const EkonomiInkastDelegate = lazy(() =>
+  import('./delegates/EkonomiInkastDelegate').then((m) => ({ default: m.EkonomiInkastDelegate })),
+);
+const EkonomiLoggDelegate = lazy(() =>
+  import('./delegates/EkonomiLoggDelegate').then((m) => ({ default: m.EkonomiLoggDelegate })),
+);
+
 import {
   DEFAULT_EKONOMI_INPUT_MODE,
   filterModesByAllowed,
@@ -26,7 +47,6 @@ import {
   parseEkonomiInputMode,
   type EkonomiInputMode,
 } from './ekonomiInputModes';
-import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 
 export type EkonomiInputSuperModuleProps = {
   userId: string;
@@ -52,28 +72,39 @@ function EkonomiInputModeDelegate({
   mode: EkonomiInputMode;
   userId: string;
 }) {
+  let content;
   switch (mode) {
     case 'saldo':
-      return <EkonomiSaldoDelegate userId={userId} />;
+      content = <EkonomiSaldoDelegate userId={userId} />;
+      break;
     case 'mikrosteg':
-      return <EkonomiMikrostegDelegate userId={userId} />;
+      content = <EkonomiMikrostegDelegate userId={userId} />;
+      break;
     case 'profil':
-      return <EkonomiProfilDelegate userId={userId} />;
+      content = <EkonomiProfilDelegate userId={userId} />;
+      break;
     case 'matprep':
-      return <EkonomiMatprepDelegate userId={userId} />;
+      content = <EkonomiMatprepDelegate userId={userId} />;
+      break;
     case 'kuvert':
-      return <EkonomiKuvertDelegate userId={userId} />;
+      content = <EkonomiKuvertDelegate userId={userId} />;
+      break;
     case 'spar':
-      return <EkonomiSparDelegate userId={userId} />;
+      content = <EkonomiSparDelegate userId={userId} />;
+      break;
     case 'impuls':
-      return <EkonomiImpulsDelegate userId={userId} />;
+      content = <EkonomiImpulsDelegate userId={userId} />;
+      break;
     case 'inkast':
-      return <EkonomiInkastDelegate userId={userId} />;
+      content = <EkonomiInkastDelegate userId={userId} />;
+      break;
     case 'logg':
-      return <EkonomiLoggDelegate />;
+      content = <EkonomiLoggDelegate />;
+      break;
     default:
-      return <EkonomiModePlaceholder mode={mode} />;
+      content = <EkonomiModePlaceholder mode={mode} />;
   }
+  return <Suspense fallback={<HubPanelSkeleton lines={4} />}>{content}</Suspense>;
 }
 
 /**
@@ -163,7 +194,7 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
               type="button"
               onClick={() => setActiveMode(mode.id)}
               aria-pressed={isActive}
-              className={`rounded-lg px-3 py-2 text-left text-xs transition-colors ${
+              className={`min-h-[44px] rounded-lg px-3 py-2 text-left text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50 ${
                 isActive
                   ? 'border border-accent/20 bg-accent/10 text-accent'
                   : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
@@ -180,7 +211,7 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
             type="button"
             onClick={() => setShowMoreModes((open) => !open)}
             aria-expanded={showMoreModes || isMoreModeActive}
-            className={`rounded-lg px-3 py-2 text-left text-xs transition-colors ${
+            className={`min-h-[44px] rounded-lg px-3 py-2 text-left text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50 ${
               isMoreModeActive
                 ? 'border border-accent/20 bg-accent/10 text-accent'
                 : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
@@ -200,7 +231,7 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
                 type="button"
                 onClick={() => setActiveMode(mode.id)}
                 aria-pressed={isActive}
-                className={`rounded-lg px-3 py-2 text-left text-xs transition-colors ${
+                className={`min-h-[44px] rounded-lg px-3 py-2 text-left text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50 ${
                   isActive
                     ? 'border border-accent/20 bg-accent/10 text-accent'
                     : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'

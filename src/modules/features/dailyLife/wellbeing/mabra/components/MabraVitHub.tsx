@@ -11,6 +11,9 @@ import {
 } from '../mabraHubRegistry';
 import { LOW_ENERGY_COPY } from '../constants';
 
+const MABRA_HUB_TILE_FOCUS =
+  'min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-2';
+
 type Props = {
   openCategory: MabraHubCategory | null;
   onOpenCategoryChange: (category: MabraHubCategory | null) => void;
@@ -68,7 +71,7 @@ export function MabraVitHub({
       <label className="block text-xs text-text-muted">
         Snabbstart
         <select
-          className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+          className="input-glass mt-1 min-h-[44px] w-full rounded-xl px-3 py-2 text-sm"
           value=""
           onChange={(e) => {
             const id = e.target.value;
@@ -101,7 +104,7 @@ export function MabraVitHub({
             >
               <button
                 type="button"
-                className="mabra-vit-hub__zone-trigger"
+                className={clsx('mabra-vit-hub__zone-trigger', MABRA_HUB_TILE_FOCUS)}
                 aria-expanded={isOpen}
                 onClick={() => onOpenCategoryChange(isOpen ? null : group.category)}
               >
@@ -136,7 +139,7 @@ function MabraHubLargeTile({
   return (
     <button
       type="button"
-      className="mabra-vit-hub__tile mabra-vit-hub__tile--large"
+      className={clsx('mabra-vit-hub__tile mabra-vit-hub__tile--large', MABRA_HUB_TILE_FOCUS)}
       onClick={() => onSelectItem(item)}
     >
       <span className="mabra-vit-hub__tile-emoji" aria-hidden>
@@ -156,7 +159,7 @@ function MabraHubTile({
   onSelectItem: (item: MabraHubItem) => void;
 }) {
   return (
-    <button type="button" className="mabra-vit-hub__tile" onClick={() => onSelectItem(item)}>
+    <button type="button" className={clsx('mabra-vit-hub__tile', MABRA_HUB_TILE_FOCUS)} onClick={() => onSelectItem(item)}>
       <span className="mabra-vit-hub__tile-emoji" aria-hidden>
         {item.emoji}
       </span>

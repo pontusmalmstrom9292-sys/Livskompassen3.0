@@ -1,22 +1,31 @@
 /** @locked MOD-HJ-INPUT — låst modul; unlock via docs/evaluations/*-unlock-MOD-HJ-INPUT.md */
-import { useCallback, useMemo } from 'react';
+import { lazy, Suspense, useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { ButtonLink } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { ChameleonInputShell } from '@/core/ui/ChameleonInputShell';
 import { useCapacityScore } from '@/core/store/useCapacityGate';
 import { useEvolutionStore } from '@/core/store/useEvolutionStore';
 import { isLowHomeCapacity } from '@/core/home/homeCapacityGate';
 import { DagbokRememberCard } from '@/features/lifeJournal/diary/diary/components/DagbokRememberCard';
-import { DagbokQuickMirrorDelegate } from './delegates/DagbokQuickMirrorDelegate';
-import {
-  DagbokArkivDelegate,
-  DagbokReflektionDelegate,
-} from './delegates/DagbokReflektionDelegate';
-import { DagbokBurnDelegate } from './delegates/DagbokBurnDelegate';
-import { DagbokTystDelegate } from './delegates/DagbokTystDelegate';
+const DagbokQuickMirrorDelegate = lazy(() =>
+  import('./delegates/DagbokQuickMirrorDelegate').then((m) => ({ default: m.DagbokQuickMirrorDelegate })),
+);
+const DagbokReflektionDelegate = lazy(() =>
+  import('./delegates/DagbokReflektionDelegate').then((m) => ({ default: m.DagbokReflektionDelegate })),
+);
+const DagbokArkivDelegate = lazy(() =>
+  import('./delegates/DagbokReflektionDelegate').then((m) => ({ default: m.DagbokArkivDelegate })),
+);
+const DagbokBurnDelegate = lazy(() =>
+  import('./delegates/DagbokBurnDelegate').then((m) => ({ default: m.DagbokBurnDelegate })),
+);
+const DagbokTystDelegate = lazy(() =>
+  import('./delegates/DagbokTystDelegate').then((m) => ({ default: m.DagbokTystDelegate })),
+);
 import {
   DEFAULT_DAGBOK_INPUT_MODE,
   getDagbokInputModeMeta,
@@ -44,25 +53,32 @@ type DelegateProps = {
 };
 
 function DagbokInputModeDelegate({ mode, onSaved, onSwitchMode }: DelegateProps) {
+  let content;
   switch (mode) {
     case 'reflektion':
-      return <DagbokReflektionDelegate onSaved={onSaved} />;
+      content = <DagbokReflektionDelegate onSaved={onSaved} />;
+      break;
     case 'quick_mirror':
-      return <DagbokQuickMirrorDelegate onSaved={onSaved} />;
+      content = <DagbokQuickMirrorDelegate onSaved={onSaved} />;
+      break;
     case 'arkiv':
-      return <DagbokArkivDelegate />;
+      content = <DagbokArkivDelegate />;
+      break;
     case 'burn':
-      return <DagbokBurnDelegate />;
+      content = <DagbokBurnDelegate />;
+      break;
     case 'tyst':
-      return (
+      content = (
         <DagbokTystDelegate
           onSaved={onSaved}
           onSwitchToBurn={() => onSwitchMode?.('burn')}
         />
       );
+      break;
     default:
-      return null;
+      content = null;
   }
+  return <Suspense fallback={<HubPanelSkeleton lines={4} />}>{content}</Suspense>;
 }
 
 /**

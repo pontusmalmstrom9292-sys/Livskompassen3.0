@@ -1,12 +1,9 @@
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, lazy, Suspense } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
-import { ArbetslivFlexDelegate } from './delegates/ArbetslivFlexDelegate';
-import { ArbetslivInkomstDelegate } from './delegates/ArbetslivInkomstDelegate';
-import { ArbetslivStamplaDelegate } from './delegates/ArbetslivStamplaDelegate';
-import { ArbetslivValvBroDelegate } from './delegates/ArbetslivValvBroDelegate';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import {
   ARBETSLIV_INPUT_MODES_PRIMARY,
   DEFAULT_ARBETSLIV_INPUT_MODE,
@@ -14,22 +11,40 @@ import {
   type ArbetslivInputMode,
 } from './arbetslivInputModes';
 
+const ArbetslivFlexDelegate = lazy(() =>
+  import('./delegates/ArbetslivFlexDelegate').then((m) => ({ default: m.ArbetslivFlexDelegate })),
+);
+const ArbetslivInkomstDelegate = lazy(() =>
+  import('./delegates/ArbetslivInkomstDelegate').then((m) => ({ default: m.ArbetslivInkomstDelegate })),
+);
+const ArbetslivStamplaDelegate = lazy(() =>
+  import('./delegates/ArbetslivStamplaDelegate').then((m) => ({ default: m.ArbetslivStamplaDelegate })),
+);
+const ArbetslivValvBroDelegate = lazy(() =>
+  import('./delegates/ArbetslivValvBroDelegate').then((m) => ({ default: m.ArbetslivValvBroDelegate })),
+);
+
 export type ArbetslivInputSuperModuleProps = {
   /** Override URL-parsing (t.ex. Storybook eller W3 embed). */
   initialMode?: ArbetslivInputMode;
 };
 
 function ArbetslivInputModeDelegate({ mode }: { mode: ArbetslivInputMode }) {
+  let content;
   switch (mode) {
     case 'stampla':
-      return <ArbetslivStamplaDelegate />;
+      content = <ArbetslivStamplaDelegate />;
+      break;
     case 'inkomster':
-      return <ArbetslivInkomstDelegate />;
+      content = <ArbetslivInkomstDelegate />;
+      break;
     case 'tid':
-      return <ArbetslivFlexDelegate />;
+      content = <ArbetslivFlexDelegate />;
+      break;
     default:
-      return <ArbetslivStamplaDelegate />;
+      content = <ArbetslivStamplaDelegate />;
   }
+  return <Suspense fallback={<HubPanelSkeleton lines={4} />}>{content}</Suspense>;
 }
 
 /**
@@ -81,7 +96,9 @@ export function ArbetslivInputSuperModule({ initialMode }: ArbetslivInputSuperMo
               </div>
               <ModuleHelpFromRegistry moduleId="arbetsliv" mode={activeMode} />
             </div>
-            <ArbetslivValvBroDelegate />
+            <Suspense fallback={null}>
+              <ArbetslivValvBroDelegate />
+            </Suspense>
           </header>
 
           <nav
@@ -96,7 +113,7 @@ export function ArbetslivInputSuperModule({ initialMode }: ArbetslivInputSuperMo
                   type="button"
                   onClick={() => setActiveMode(mode.id)}
                   aria-pressed={isActive}
-                  className={`rounded-lg px-3 py-2 text-left text-xs transition-colors ${
+                  className={`min-h-[44px] rounded-lg px-3 py-2 text-left text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-secondary/50 ${
                     isActive
                       ? 'border border-accent-secondary/25 bg-accent-secondary/10 text-accent-secondary'
                       : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'

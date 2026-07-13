@@ -746,6 +746,105 @@ onTouchStart=
 export function getHeaderPageLabel(pathname: string, search = ''): string | null
 ````
 
+## File: src/modules/core/components/FyrenWidgetBar.tsx
+````typescript
+import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { clsx } from 'clsx';
+import { LayoutPanelLeft } from 'lucide-react';
+import { hasVaultGate } from '../auth/sessionService';
+import { NAV_PATHS } from '../navigation/navTruth';
+import { useStore } from '../store';
+import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
+import { FyrenShortcutMicIcon, FyrenShortcutNoteIcon } from '../ui/widget-icons';
+import { useFyrenWidget } from './fyrenWidgetContext';
+import { readFyrenSideQuickHidden, setFyrenSideQuickHidden } from './FyrenSideQuickDock';
+⋮----
+type WidgetIconKind = 'mic' | 'note';
+⋮----
+type WidgetAction = {
+  id: string;
+  label: string;
+  to: string;
+  hubId?: DrawerL2HubId;
+  widgetIcon?: WidgetIconKind;
+};
+⋮----
+function resolveWidgetActionLabel(action: WidgetAction, vaultSessionOpen: boolean): string
+⋮----
+function WidgetIcon(
+⋮----
+function ActionTile({
+  label,
+  to,
+  icon,
+  tabIndex,
+  onNavigate,
+}: {
+  label: string;
+  to: string;
+  icon: ReactNode;
+  tabIndex: number;
+onNavigate: ()
+⋮----
+className=
+⋮----
+setFyrenSideQuickHidden(false);
+setOpen(false);
+````
+
+## File: src/modules/core/layout/FloatingDock.tsx
+````typescript
+import { useCallback, useEffect, useState } from 'react';
+⋮----
+import type { CSSProperties } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { clsx } from 'clsx';
+import { Landmark, LayoutGrid, PenLine, Inbox } from 'lucide-react';
+import { openValvViaFyren } from '../auth/valvFyrenGate';
+import { useExecutiveHomeChrome } from '../home/ExecutiveHomeChromeContext';
+import { NAV_PATHS } from '../navigation/navTruth';
+import { ResurserOverlay } from '../navigation/ResurserOverlay';
+import { useLongPress } from '../hooks/useLongPress';
+import { useStore } from '../store';
+import { useTheme } from '../theme';
+import { getTheme } from '../theme';
+import { isMockupTheme } from '../theme/mockupTheme';
+import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
+import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
+import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
+import { LivskompassMark } from '../ui/LivskompassMark';
+import { FyrenDockHandle } from '../components/FyrenWidgetBar';
+import { DockNavButton } from './DockNavButton';
+import { ExecutiveDockBar } from './ExecutiveDockBar';
+import { useHeaderPanelStyle } from './headerPanelStyle';
+import {
+  getExecutiveHomeLayoutMode,
+  HOME_LAYOUT_CHANGED_EVENT,
+  type ExecutiveHomeLayoutMode,
+} from '../home/executive/homeLayoutPreference';
+import { valvetNavigateTarget } from '../navigation/navigationRegistry';
+⋮----
+export function FloatingDock()
+⋮----
+const sync = ()
+⋮----
+onFamiljen=
+⋮----
+onResurser=
+⋮----
+onValv=
+onPlanering=
+⋮----
+active=
+⋮----
+onClick=
+⋮----
+className=
+````
+
 ## File: src/modules/core/navigation/navTruth.ts
 ````typescript
 import { HIDE_BEVIS_TAB } from './navFlags';
@@ -812,6 +911,37 @@ export function getDrawerRoots(section: NavDrawerSection, vaultSessionOpen = fal
 export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, vaultSessionOpen = false): boolean
 ````
 
+## File: src/modules/core/routing/AppRoutes.tsx
+````typescript
+import { lazy, Suspense } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { MainLayout } from '../layout/MainLayout';
+import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
+import { ProtectedModule } from '../../../components/layout/ProtectedModule';
+⋮----
+import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
+⋮----
+import {
+  clusterTabNavigateTarget,
+  valvetNavigateTarget,
+  type LifeJournalTabKey,
+} from '../navigation/navigationRegistry';
+import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
+import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
+⋮----
+function RouteFallback()
+⋮----
+function RedirectToLifeJournalTab(
+⋮----
+/** Legacy `/valv` och `/kunskap` → Valvet (separat silo). */
+⋮----
+/** Legacy `/hamn` → Familjen; `?tab=analys` → Valv forensic (hamn_analys). */
+⋮----
+<Navigate to=
+⋮----
+function RedirectArkivToValvet()
+````
+
 ## File: src/modules/shell/LivLauncherGrid.tsx
 ````typescript
 import type { LucideIcon } from 'lucide-react';
@@ -855,125 +985,4 @@ type LivLauncherGridProps = {
 export function LivLauncherGrid(
 ⋮----
 className=
-````
-
-## File: src/modules/core/components/FyrenWidgetBar.tsx
-````typescript
-import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { clsx } from 'clsx';
-import { LayoutPanelLeft } from 'lucide-react';
-import { hasVaultGate } from '../auth/sessionService';
-import { NAV_PATHS } from '../navigation/navTruth';
-import { useStore } from '../store';
-import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
-import { FyrenProgressRing } from '../ui/FyrenProgressRing';
-import { FyrenShortcutMicIcon, FyrenShortcutNoteIcon } from '../ui/widget-icons';
-import { useFyrenWidget } from './fyrenWidgetContext';
-import { readFyrenSideQuickHidden, setFyrenSideQuickHidden } from './FyrenSideQuickDock';
-⋮----
-type WidgetIconKind = 'mic' | 'note';
-⋮----
-type WidgetAction = {
-  id: string;
-  label: string;
-  to: string;
-  hubId?: DrawerL2HubId;
-  widgetIcon?: WidgetIconKind;
-};
-⋮----
-function resolveWidgetActionLabel(action: WidgetAction, vaultSessionOpen: boolean): string
-⋮----
-function WidgetIcon(
-⋮----
-function ActionTile({
-  label,
-  to,
-  icon,
-  tabIndex,
-  onNavigate,
-}: {
-  label: string;
-  to: string;
-  icon: ReactNode;
-  tabIndex: number;
-onNavigate: ()
-⋮----
-className=
-⋮----
-setFyrenSideQuickHidden(false);
-setOpen(false);
-````
-
-## File: src/modules/core/layout/FloatingDock.tsx
-````typescript
-import { useCallback, useState } from 'react';
-⋮----
-import type { CSSProperties } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { clsx } from 'clsx';
-import { Landmark, LayoutGrid, PenLine, Inbox } from 'lucide-react';
-import { openValvViaFyren } from '../auth/valvFyrenGate';
-import { useExecutiveHomeChrome } from '../home/ExecutiveHomeChromeContext';
-import { NAV_PATHS } from '../navigation/navTruth';
-import { ResurserOverlay } from '../navigation/ResurserOverlay';
-import { useLongPress } from '../hooks/useLongPress';
-import { useStore } from '../store';
-import { useTheme } from '../theme';
-import { getTheme } from '../theme';
-import { isMockupTheme } from '../theme/mockupTheme';
-import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
-import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
-import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
-import { FyrenProgressRing } from '../ui/FyrenProgressRing';
-import { LivskompassMark } from '../ui/LivskompassMark';
-import { FyrenDockHandle } from '../components/FyrenWidgetBar';
-import { DockNavButton } from './DockNavButton';
-import { ExecutiveDockBar } from './ExecutiveDockBar';
-import { useHeaderPanelStyle } from './headerPanelStyle';
-⋮----
-export function FloatingDock()
-⋮----
-onFamiljen=
-⋮----
-onResurser=
-⋮----
-active=
-⋮----
-onClick=
-⋮----
-className=
-````
-
-## File: src/modules/core/routing/AppRoutes.tsx
-````typescript
-import { lazy, Suspense } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { MainLayout } from '../layout/MainLayout';
-import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
-import { ProtectedModule } from '../../../components/layout/ProtectedModule';
-⋮----
-import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
-⋮----
-import {
-  clusterTabNavigateTarget,
-  valvetNavigateTarget,
-  type LifeJournalTabKey,
-} from '../navigation/navigationRegistry';
-import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
-import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
-⋮----
-function RouteFallback()
-⋮----
-function RedirectToLifeJournalTab(
-⋮----
-/** Blockera `?tab=bevis` på Hjärtat — skicka till Valvet. */
-⋮----
-/** Legacy `/valv` och `/kunskap` → Valvet (separat silo). */
-⋮----
-/** Legacy `/hamn` → Familjen; `?tab=analys` → Valv forensic (hamn_analys). */
-⋮----
-<Navigate to=
-⋮----
-function RedirectArkivToValvet()
 ````

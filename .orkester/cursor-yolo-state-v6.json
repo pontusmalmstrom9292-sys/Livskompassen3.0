@@ -1,0 +1,45 @@
+{
+  "version": 6,
+  "queueFile": ".orkester/cursor-yolo-queue-v6.json",
+  "startedAt": "2026-07-13T13:15:00.000Z",
+  "updatedAt": "2026-07-13T13:45:00.000Z",
+  "parallelPhase": {
+    "status": "skipped",
+    "gatePassed": true,
+    "gatePassedAt": "2026-07-13T13:15:00.000Z",
+    "note": "v6 fortsätter från v5 PASS"
+  },
+  "sequentialPhase": {
+    "status": "done",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "f0-handoff",
+      "p14-a11y",
+      "p15-lazy-delegates",
+      "p16-design-debt",
+      "p17-copy-audit",
+      "p18-bundle-perf",
+      "p19-g85-user-doc",
+      "p20-g17-user-doc",
+      "p21-kunskap-dryrun",
+      "p22-integration-sync",
+      "p23-hosting-deploy"
+    ],
+    "skippedTaskIds": [],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "f0-handoff",
+    "p14-a11y",
+    "p15-lazy-delegates",
+    "p16-design-debt",
+    "p17-copy-audit",
+    "p18-bundle-perf",
+    "p19-g85-user-doc",
+    "p20-g17-user-doc",
+    "p21-kunskap-dryrun",
+    "p22-integration-sync",
+    "p23-hosting-deploy"
+  ],
+  "notes": "P14–P23 PASS. Hosting deploy klar 2026-07-13 (Pontus OK deploy)."
+}
