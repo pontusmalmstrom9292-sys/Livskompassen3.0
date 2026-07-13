@@ -1,39 +1,76 @@
-# Natt-CI — `@cursor/sdk` (WAIT)
+# Natt-CI — `@cursor/sdk`
 
-**Datum:** 2026-05-22  
-**Status:** **WAIT** — implementera **inte** före G6 PASS + doc-synk + GCP-konsolidering steg 3–7.
+**Datum:** 2026-07-13  
+**Status:** **AKTIV** — deterministiska faser A–C + valfri SDK-agent.
 
 ---
 
-## Syfte (planerat)
+## Syfte
 
-Automatiserad nattpass-loop via [`@cursor/sdk`](https://www.npmjs.com/package/@cursor/sdk):
+Automatiserad nattpass-loop via [`@cursor/sdk`](https://www.npmjs.com/package/@cursor/sdk) och deterministiska npm-skript:
 
-1. `cd functions && npm run build`
-2. `npm run build` (frontend)
-3. `npx eslint . --max-warnings 0`
-4. `npm run smoke:valv` / `smoke:kunskap` / `smoke:dossier`
+| Fas | Innehåll | Kommando |
+|-----|----------|----------|
+| **A** | Terminal — `orkester:night` + valv/kunskap/dossier smoke | `npm run natt-ci:fas-a` |
+| **B** | Ikoner — `smoke:locked-icons`; v4-batch endast vid generator-ändring | `npm run natt-ci:fas-b` |
+| **C** | Git/arbetsyta — varnar för secrets i diff | `npm run natt-ci:fas-c` |
+| **D** | Rapport — `docs/evaluations/YYYY-MM-DD-orkester-natt.md` | ingår i `npm run natt-ci` |
 
 Ersätter manuella overnight-sessioner (historik: [`docs/archive/OVERNIGHT_REPORT.md`](archive/OVERNIGHT_REPORT.md)).
 
 ---
 
-## Blockerare
+## Setup (engång)
 
-| Krav | Status |
-|------|--------|
-| G6 Drive E2E → `kb_docs` | **open** (fork — Drive 403) |
-| GCP FAS4 steg 3–7 | Väntar G6 + `OK steg N` |
-| `@cursor/sdk` i repo | **Saknas** — se [`docs/GCP-INVENTORY-LATEST.md`](GCP-INVENTORY-LATEST.md) |
+```bash
+npm install          # @cursor/sdk i devDependencies
+export CURSOR_API_KEY="cursor_..."   # valfritt för --agent
+npm run natt-ci:setup
+```
+
+State: `.orkester/natt-ci-state.json`  
+Körlogg: `.orkester/natt-ci-runs/<timestamp>.json`
 
 ---
 
-## Trigger (framtida)
+## Körning
 
-När G6 **done** och konsolidering låst:
+```bash
+# Hela passet (A+B+C+D)
+npm run natt-ci
 
+# En fas
+npm run natt-ci:fas-a
+npm run natt-ci:fas-b
+npm run natt-ci:fas-c
+
+# + readonly SDK-sammanfattning (kräver CURSOR_API_KEY)
+npm run natt-ci -- --agent
 ```
-kör Natt-CI setup
-```
 
-Skapar då dedikerat automation-paket + valfri GitHub Action — **inte** i denna fas.
+**GitHub Actions:** `.github/workflows/natt-ci.yml` — manuell `workflow_dispatch` (fas + valfri agent).
+
+---
+
+## Blockerare (historik)
+
+| Krav | Status |
+|------|--------|
+| G6 Drive E2E → `kb_docs` | **done** |
+| `@cursor/sdk` i repo | **installerad** (`devDependencies`) |
+
+---
+
+## MUST NOT
+
+- Auto-deploy eller merge till `main` i nattpasset
+- Committa `.env`, service account `*.json`, eller `google-services.json`
+- Ändra `firestore.rules` / `sharedRules.ts` utan PMIR
+
+---
+
+## Relaterat
+
+- [`ORKESTER-BACKLOG-PLANS.md`](./ORKESTER-BACKLOG-PLANS.md) — Fas A–D ordlista
+- [`ORKESTER-AUTORUN.md`](./ORKESTER-AUTORUN.md) — terminal + specialister
+- [`docs/cursor-automations/prefill-nattpass-orkester.json`](./cursor-automations/prefill-nattpass-orkester.json) — veckovis readonly automation
