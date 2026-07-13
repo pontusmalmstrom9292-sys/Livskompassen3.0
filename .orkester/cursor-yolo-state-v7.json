@@ -1,0 +1,36 @@
+{
+  "version": 7,
+  "queueFile": ".orkester/cursor-yolo-queue-v7.json",
+  "startedAt": "2026-07-13T13:45:00.000Z",
+  "updatedAt": "2026-07-13T16:00:24.121Z",
+  "parallelPhase": {
+    "status": "skipped",
+    "gatePassed": true,
+    "gatePassedAt": "2026-07-13T13:45:00.000Z",
+    "note": "v7 fortsätter från v6 MERGED (PR #202) + hosting live"
+  },
+  "sequentialPhase": {
+    "status": "in_progress",
+    "currentTaskId": "p27-drift",
+    "completedTaskIds": [
+      "p24-baseline",
+      "p25-module-lock",
+      "p26-ux-guardian"
+    ],
+    "skippedTaskIds": [],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "p24-baseline",
+    "p25-module-lock",
+    "p26-ux-guardian",
+    "p27-drift",
+    "p28-design-debt",
+    "p29-lock-manifest",
+    "p30-ci-gate",
+    "p31-integration",
+    "p32-kunskap-dryrun",
+    "p33-yolo-vakt"
+  ],
+  "notes": "P24–P26 PASS 2026-07-13. Nästa: P27 drift & regression."
+}
