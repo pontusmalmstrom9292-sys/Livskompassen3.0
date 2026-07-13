@@ -1,0 +1,175 @@
+{
+  "version": 5,
+  "description": "Cursor YOLO v5 — P1–P3 parallell audit, P4–P13 sekventiell polish/deploy. 2026-07-13.",
+  "parallelPhase": {
+    "ids": ["p1-yolo-vakt", "p2-ux-guardian", "p3-design-debt"],
+    "label": "Steg 1 — read-only audits (parallellt)"
+  },
+  "sequentialPhase": {
+    "label": "Steg 2–5 — en uppgift i taget efter gate PASS"
+  },
+  "tasks": [
+    {
+      "id": "p1-yolo-vakt",
+      "title": "YOLO-vakt audit (read-only)",
+      "phase": "parallel",
+      "plan": "Read-only GO/NO-GO. Spara docs/evaluations/2026-07-13-yolo-audit.md. Rör ingen kod.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v5/P01-yolo-vakt.md"
+    },
+    {
+      "id": "p2-ux-guardian",
+      "title": "UX Guardian audit (read-only)",
+      "phase": "parallel",
+      "plan": "Read-only Locked UX audit. smoke:locked-ux + smoke:design-modules. Spara docs/evaluations/2026-07-13-ux-guardian.md.",
+      "smoke": ["npm run smoke:locked-ux", "npm run smoke:design-modules"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v5/P02-ux-guardian.md"
+    },
+    {
+      "id": "p3-design-debt",
+      "title": "Design-debt baseline",
+      "phase": "parallel",
+      "plan": "npm run smoke:design-debt → uppdatera docs/DASHBOARD.md. smoke:governance. Inga produktändringar.",
+      "smoke": ["npm run smoke:design-debt", "npm run smoke:governance"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v5/P03-design-debt.md"
+    },
+    {
+      "id": "p4-calm-card",
+      "title": "Calm-card polish (Premium UI Phase 1)",
+      "phase": "sequential",
+      "plan": "smoke:calm-card-audit findings en i taget. DS tokens enligt design-calm. Inte AppRoutes (MOD-CORE-NAV låst).",
+      "smoke": [
+        "npm run smoke:calm-card-audit",
+        "npm run smoke:design-modules",
+        "npm run smoke:locked-ux"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v5/P04-calm-card.md"
+    },
+    {
+      "id": "p5-adhoc-dialogs",
+      "title": "Ad-hoc dialoger → DS Modal",
+      "phase": "sequential",
+      "plan": "Sandbox först: W1ProjektNyPickerPreview, FreeportResurserOverlay. ResurserOverlay endast om locked-ux PASS.",
+      "smoke": [
+        "npm run smoke:design-modules",
+        "npm run smoke:locked-ux",
+        "npm run smoke:orkester"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v5/P05-adhoc-dialogs.md"
+    },
+    {
+      "id": "p6-a11y-vardagen",
+      "title": "A11y polish Vardagen",
+      "phase": "sequential",
+      "plan": "aria-label, focus-visible, prefers-reduced-motion, 44px touch i dailyLife/**.",
+      "smoke": [
+        "npm run smoke:design-modules",
+        "npm run smoke:locked-ux",
+        "npm run smoke:mabra"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v5/P06-a11y-vardagen.md"
+    },
+    {
+      "id": "p7-copy-audit",
+      "title": "Copy audit fixes",
+      "phase": "sequential",
+      "plan": "smoke:copy-audit PASS. Flytta strängar till src/modules/core/copy/.",
+      "smoke": ["npm run smoke:copy-audit", "npm run smoke:locked-ux"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v5/P07-copy-audit.md"
+    },
+    {
+      "id": "p8-a11y-hjartat",
+      "title": "A11y polish Hjärtat",
+      "phase": "sequential",
+      "plan": "lifeJournal/** — samma a11y-regler. Rör inte Valv PIN/WORM.",
+      "smoke": [
+        "npm run smoke:design-modules",
+        "npm run smoke:locked-ux",
+        "npm run smoke:journal-2d"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v5/P08-a11y-hjartat.md"
+    },
+    {
+      "id": "p9-bundle-perf",
+      "title": "Bundle perf (delegate-level lazy)",
+      "phase": "sequential",
+      "plan": "Dynamic import i superhub delegates — INTE AppRoutes.tsx (MOD-CORE-NAV låst).",
+      "smoke": ["npm run build", "npm run smoke:locked-ux"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v5/P09-bundle-perf.md"
+    },
+    {
+      "id": "p10-android-g85",
+      "title": "Android G85 prod-sync",
+      "phase": "sequential",
+      "plan": "build:web, cap:sync:prod, smoke:android-platform, smoke:android-prod-sync. Logga g85-sync eval.",
+      "smoke": [
+        "npm run smoke:android-platform",
+        "npm run smoke:android-prod-sync"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v5/P10-android-g85.md"
+    },
+    {
+      "id": "p11-g17-blur",
+      "title": "G17 Zero Footprint blur",
+      "phase": "sequential",
+      "plan": "Blur/clear vid tab-byte. USER smoke kvar för Pontus. Inga rules.",
+      "smoke": ["npm run smoke:locked-ux", "npm run smoke:widgets"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v5/P11-g17-blur.md"
+    },
+    {
+      "id": "p12-kunskap-dryrun",
+      "title": "Kunskap våg 8 dry-run",
+      "phase": "sequential",
+      "plan": "Dry-run ingest only. smoke:innehall. Ingen live utan Pontus KEEP.",
+      "smoke": ["npm run smoke:innehall"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v5/P12-kunskap-dryrun.md"
+    },
+    {
+      "id": "p13-hosting-deploy",
+      "title": "Hosting deploy (sist)",
+      "phase": "sequential",
+      "plan": "yolo-vakt GO → smoke:predeploy:build → Pontus OK → firebase deploy --only hosting.",
+      "smoke": ["npm run smoke:predeploy:build"],
+      "fullGate": true,
+      "pmir": true,
+      "deploy": "hosting",
+      "promptFile": "docs/cursor-pipeline/yolo-v5/P13-hosting-deploy.md"
+    }
+  ]
+}

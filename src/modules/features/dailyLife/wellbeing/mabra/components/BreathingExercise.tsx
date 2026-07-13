@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from '@/design-system';
+import { useDsReducedMotion } from '@/design-system/motion/useDsReducedMotion';
 import {
   BREATH_PHASE_SECONDS,
   BREATHING_VARIANT_COPY,
@@ -39,6 +40,7 @@ function nextPhase(phase: BreathPhase): BreathPhase {
 
 export function BreathingExercise({ durationMinutes, variant, onComplete, onExit }: Props) {
   const copy = BREATHING_VARIANT_COPY[variant];
+  const reducedMotion = useDsReducedMotion();
   const isPanic = variant === 'panic_rsd';
   const phaseLabel = isPanic ? PANIC_BREATH_PHASE_LABEL : DEFAULT_PHASE_LABEL;
   const [phase, setPhase] = useState<BreathPhase>('inhale');
@@ -115,12 +117,16 @@ export function BreathingExercise({ durationMinutes, variant, onComplete, onExit
       <p className="text-xs uppercase tracking-widest text-text-dim">{copy.label}</p>
       <p className="max-w-xs text-center text-sm text-text-muted">{copy.subtitle}</p>
       <motion.div
-        initial={{ scale: 0.9, opacity: 0.85 }}
+        initial={reducedMotion ? false : { scale: 0.9, opacity: 0.85 }}
         animate={{ scale: PHASE_SCALE[phase], opacity: 1 }}
-        transition={{
-          duration: BREATH_PHASE_SECONDS[phase],
-          ease: 'easeInOut',
-        }}
+        transition={
+          reducedMotion
+            ? { duration: 0 }
+            : {
+                duration: BREATH_PHASE_SECONDS[phase],
+                ease: 'easeInOut',
+              }
+        }
         className="flex h-40 w-40 items-center justify-center rounded-full border border-accent/30 bg-accent/10"
       >
         <span className="text-center text-sm text-accent">{phaseLabel[phase]}</span>

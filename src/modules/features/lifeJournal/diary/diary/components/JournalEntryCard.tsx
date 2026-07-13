@@ -41,7 +41,7 @@ export function JournalEntryCard({ entry }: JournalEntryCardProps) {
         <button
           type="button"
           onClick={handleTogglePin}
-          className={`p-1.5 rounded-full transition-colors ${
+          className={`flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full transition-colors ${
             entry.isPinned
               ? 'bg-accent/10 text-accent hover:bg-accent/20'
               : 'text-text-dim hover:text-text hover:bg-surface-3'
@@ -49,7 +49,7 @@ export function JournalEntryCard({ entry }: JournalEntryCardProps) {
           aria-label={entry.isPinned ? "Ta bort markering" : "Fäst i toppen"}
           title={entry.isPinned ? "Ta bort markering" : "Fäst i toppen"}
         >
-          <Pin className={`h-3.5 w-3.5 ${entry.isPinned ? 'fill-current' : ''}`} />
+          <Pin className={`h-3.5 w-3.5 ${entry.isPinned ? 'fill-current' : ''}`} aria-hidden />
         </button>
       }
     />

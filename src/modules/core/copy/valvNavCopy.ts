@@ -47,6 +47,8 @@ export const VALV_DRAWER_HINTS = {
 
 export const VIT_VAULT_TAB_LABEL = 'Min utveckling' as const;
 
+export const VALV_VIT_ZONE_ERROR_TITLE = 'Min utveckling kunde inte laddas' as const;
+
 export const FORENSIC_VAULT_TAB_LABELS = {
   hamn_analys: 'Meddelanden · analys',
   speglar_fordjupat: 'Speglar · djup',

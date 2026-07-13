@@ -1,5 +1,6 @@
 import type { CompassFlow } from '../utils/compassTime';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
+import { KANSLOKORT_WIDGET_LABEL } from '@/modules/core/copy/compassWidgetLabels';
 
 export type CompassWidgetContentClass = 'FACT' | 'REFLECTION' | 'PLAY' | 'EVIDENCE' | 'none';
 
@@ -31,7 +32,7 @@ export const COMPASS_WIDGET_CATALOG: Record<CompassFlow, CompassWidgetDef[]> = {
     },
     {
       id: 'kanslomemory',
-      label: 'Känslokort',
+      label: KANSLOKORT_WIDGET_LABEL,
       href: '/mabra',
       contentClass: 'PLAY',
       siloNote: 'MåBra — reflektion och lek',

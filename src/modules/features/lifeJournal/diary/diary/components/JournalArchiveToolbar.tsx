@@ -52,7 +52,7 @@ export function JournalArchiveToolbar({
         <div className="journal-archive-scroll" role="group" aria-label="Humörfilter">
           <button
             type="button"
-            className={`reflektion-prompt-chip shrink-0 ${!state.mood ? 'reflektion-prompt-chip--active' : ''}`}
+            className={`reflektion-prompt-chip min-h-[44px] shrink-0 ${!state.mood ? 'reflektion-prompt-chip--active' : ''}`}
             aria-pressed={!state.mood}
             onClick={() => setMood(null)}
           >
@@ -62,7 +62,7 @@ export function JournalArchiveToolbar({
             <button
               key={m.id}
               type="button"
-              className={`reflektion-prompt-chip shrink-0 ${state.mood === m.label ? 'reflektion-prompt-chip--active' : ''}`}
+              className={`reflektion-prompt-chip min-h-[44px] shrink-0 ${state.mood === m.label ? 'reflektion-prompt-chip--active' : ''}`}
               aria-pressed={state.mood === m.label}
               onClick={() => setMood(state.mood === m.label ? null : m.label)}
             >
@@ -78,7 +78,7 @@ export function JournalArchiveToolbar({
           <div className="journal-archive-scroll" role="group" aria-label="Kategorifilter">
             <button
               type="button"
-              className={`reflektion-prompt-chip shrink-0 ${!state.category ? 'reflektion-prompt-chip--active' : ''}`}
+              className={`reflektion-prompt-chip min-h-[44px] shrink-0 ${!state.category ? 'reflektion-prompt-chip--active' : ''}`}
               aria-pressed={!state.category}
               onClick={() => setCategory(null)}
             >
@@ -88,7 +88,7 @@ export function JournalArchiveToolbar({
               <button
                 key={c.id}
                 type="button"
-                className={`reflektion-prompt-chip shrink-0 ${state.category === c.id ? 'reflektion-prompt-chip--active' : ''}`}
+                className={`reflektion-prompt-chip min-h-[44px] shrink-0 ${state.category === c.id ? 'reflektion-prompt-chip--active' : ''}`}
                 aria-pressed={state.category === c.id}
                 onClick={() => setCategory(state.category === c.id ? null : c.id)}
               >

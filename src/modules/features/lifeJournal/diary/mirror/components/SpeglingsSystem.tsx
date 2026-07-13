@@ -116,7 +116,8 @@ export function SpeglingsSystem({ embedded: _embedded = false }: SpeglingsSystem
             <div className="flex justify-end">
               <button
                 type="button"
-                className="text-xs text-text-dim underline-offset-2 hover:text-text-muted hover:underline"
+                className="min-h-[44px] rounded-lg px-3 text-xs text-text-dim underline-offset-2 hover:text-text-muted hover:underline"
+                aria-label="Rensa speglar-session"
                 onClick={handleClearSession}
               >
                 Rensa speglar-session

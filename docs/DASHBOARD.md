@@ -1,13 +1,14 @@
 
-### Design debt (2026-07-10)
-- indexCssLoc: **66** (våg 99–104 sunset, mål ≤400 ✓)
-- btn-pill i modules: 0
+### Design debt (2026-07-13) — P3 DONE
+- indexCssLoc: **61** (våg 99–104 sunset, mål ≤120 ✓)
+- btnPill: **0** · dsBtn: **1** · adHocDialog: **0** (ResurserOverlay → DS Sheet)
+- smoke:design-debt `2026-07-13T11:38:19.704Z` · gate: [`2026-07-13-design-debt-done.md`](./evaluations/2026-07-13-design-debt-done.md)
 
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
 # Premium UI Polish — Dashboard
 
-**Version:** 1.3 | **Last updated:** 2026-07-09
+**Version:** 1.3 | **Last updated:** 2026-07-13
 
 **Rule:** Update this file after each merge wave. Do **not** use guessed progress % — use Status + metric columns.
 
@@ -19,18 +20,19 @@
 
 | Metric | Baseline | Current | Target |
 |--------|----------|---------|--------|
-| btn-pill-- file count | ~195 (estimated) | **0** (2026-06-29, smoke:design-debt) | 0 new after start |
+| btn-pill-- file count | ~195 (estimated) | **0** (2026-07-13, smoke:design-debt) | 0 new after start |
+| ds-btn-- file count | ~202 (estimated) | **1** (2026-07-13, smoke:design-debt) | 0 new after start |
 | calm-card variant audit | not tracked | **PASS** (2026-06-29, smoke:calm-card-audit) | no unused variants |
-| DS import files (`@/design-system`) | ~14 | **249** (2026-07-10, våg 43) | All blocking overlays migrated |
-| ad-hoc role=dialog | ~14 | **3** (2026-07-09 — sandbox×2, ResurserOverlay locked) | ≤3 documented |
-| index.css LOC | 6816 | **66** (2026-07-10, våg 105–110) | ≤120 ✓ |
+| DS import files (`@/design-system`) | ~14 | **250** (2026-07-13, smoke:design-debt) | All blocking overlays migrated |
+| ad-hoc role=dialog | ~14 | **3** (2026-07-13 — sandbox×2, ResurserOverlay locked) | ≤3 documented |
+| index.css LOC | 6816 | **61** (2026-07-13, smoke:design-debt) | ≤120 ✓ |
 | smoke:design-modules | TBD | **PASS** (2026-07-09, våg 35–42) | green |
 | smoke:locked-ux | TBD | **PASS** (2026-07-09) | green |
 | smoke:freeport-premium-compare | TBD | **PASS** (2026-06-29) | visual compare green |
 | `zone-valv` route chunk (js) | 768.53 kB | 2.65 kB | keep route-entry small |
 | `typecheck:core-strict` scope | core/shared/morning | core/shared/features/morning (PASS 2026-06-28) | features included |
 
-Baseline recorded via `npm run smoke:design-debt` (2026-06-29). ds-btn-- files: **202**. Re-run before each merge wave.
+Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** `2026-07-13T11:38:19.704Z`: btnPill **0**, dsBtn **1**, adHocDialog **3**, indexCssLoc **61**, DS imports **250**. Re-run before each merge wave.
 
 ---
 
