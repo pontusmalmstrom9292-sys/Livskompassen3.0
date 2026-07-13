@@ -1,0 +1,19 @@
+{
+  "setupAt": "2026-07-13T18:27:33.248Z",
+  "sdk": {
+    "installed": true,
+    "version": "1.0.23"
+  },
+  "apiKey": {
+    "configured": false,
+    "verified": false
+  },
+  "phases": {
+    "a": "npm run natt-ci:fas-a  # orkester:night (deterministisk)",
+    "b": "npm run natt-ci:fas-b  # ikoner (vid generator-ändring)",
+    "c": "npm run natt-ci:fas-c  # git/arbetsyta",
+    "all": "npm run natt-ci       # A+B+C+D"
+  },
+  "agent": "npm run natt-ci -- --agent  # valfri SDK-sammanfattning (kräver API-nyckel)",
+  "prereqs": []
+}
