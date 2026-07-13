@@ -34,5 +34,9 @@ export default defineConfig({
     url: baseURL,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
+    // Publikt e2e-läge: ingen anonym auth — Familjen/Valv ska visa inloggningsvägg.
+    env: {
+      VITE_REQUIRE_EMAIL_AUTH: 'true',
+    },
   },
 });
