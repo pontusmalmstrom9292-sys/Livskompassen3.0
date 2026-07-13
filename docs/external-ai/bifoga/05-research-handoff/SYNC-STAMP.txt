@@ -1,3 +1,3 @@
-Senast synkad: 2026-06-25T02:26:19.285Z
+Senast synkad: 2026-07-13T13:20:58.018Z
 Kommando: npm run research:sync:handoff
 Upload: 00–09 (10 st)

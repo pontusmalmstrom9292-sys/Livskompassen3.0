@@ -28,7 +28,8 @@ export type ModuleHelpId =
   | 'inkast_tags'
   | 'hub_familjen'
   | 'hub_mabra'
-  | 'hub_hamn';
+  | 'hub_hamn'
+  | 'hub_vardagen';
 
 export type ModuleHelpEntry = {
   title: string;
@@ -292,6 +293,15 @@ const REGISTRY: Record<string, ModuleHelpEntry> = {
     ],
     action: { label: 'Öppna MåBra', to: '/mabra' },
     presetGate: { presetIds: ['rehab_lag'], materialKey: 'mabra_hub_hint' },
+  },
+
+  hub_vardagen: {
+    title: 'Vardagsstart',
+    lines: [
+      { label: 'Ett steg', text: 'Kompass, ekonomi och MåBra visas här — projekt och arbetsliv öppnas på egna sidor.' },
+      { label: 'Tips', text: 'Börja med Dygns-Kompassen om dagen känns otydlig.' },
+    ],
+    action: { label: 'Öppna planering', to: '/planering' },
   },
 
   hub_hamn: {

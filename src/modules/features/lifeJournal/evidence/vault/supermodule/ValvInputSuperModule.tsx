@@ -1,11 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, lazy, Suspense, type ReactNode } from 'react';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import '../components/valv.css';
-import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
-import { InkastDirectPanel } from '@/modules/capture/InkastDirectPanel';
-import { ValvSuperModule } from '../components/ValvSuperModule';
 import { ValvInputModePicker } from './ValvInputModePicker';
 import {
   DEFAULT_VALV_INPUT_MODE,
@@ -14,6 +12,20 @@ import {
 } from './valvInputModes';
 import { writeValvLastInputMode } from './valvLastModeStorage';
 import type { VaultTab } from '../utils/vaultTabs';
+
+const InboxReviewQueue = lazy(() =>
+  import('@/modules/inkast/components/InboxReviewQueue').then((m) => ({ default: m.InboxReviewQueue })),
+);
+const InkastDirectPanel = lazy(() =>
+  import('@/modules/capture/InkastDirectPanel').then((m) => ({ default: m.InkastDirectPanel })),
+);
+const ValvSuperModule = lazy(() =>
+  import('../components/ValvSuperModule').then((m) => ({ default: m.ValvSuperModule })),
+);
+
+function ValvZoneSuspense({ children }: { children: ReactNode }) {
+  return <Suspense fallback={<HubPanelSkeleton lines={5} />}>{children}</Suspense>;
+}
 
 export type ValvInputSuperModuleProps = {
   activeMode: ValvInputMode;
@@ -60,44 +72,50 @@ export function ValvInputSuperModule({
   const renderZoneContent = () => {
     if (activeMode === 'granska') {
       return (
-        <InboxReviewQueue
-          prioritizeBevis
-          onBevisConfirmed={(docId) => {
-            void onBevisConfirmed(docId);
-            setMode(DEFAULT_VALV_INPUT_MODE);
-          }}
-          onBack={() => setMode('spara')}
-        />
+        <ValvZoneSuspense>
+          <InboxReviewQueue
+            prioritizeBevis
+            onBevisConfirmed={(docId) => {
+              void onBevisConfirmed(docId);
+              setMode(DEFAULT_VALV_INPUT_MODE);
+            }}
+            onBack={() => setMode('spara')}
+          />
+        </ValvZoneSuspense>
       );
     }
 
     if (activeMode === 'spara') {
       return (
-        <InkastDirectPanel
-          tone="valv"
-          sourceModule="valv_samla"
-          onQueued={() => setMode('granska')}
-          onPersistedBevis={(docId) => void onBevisConfirmed(docId)}
-          queueHintAsButton
-        />
+        <ValvZoneSuspense>
+          <InkastDirectPanel
+            tone="valv"
+            sourceModule="valv_samla"
+            onQueued={() => setMode('granska')}
+            onPersistedBevis={(docId) => void onBevisConfirmed(docId)}
+            queueHintAsButton
+          />
+        </ValvZoneSuspense>
       );
     }
 
     return (
-      <ValvSuperModule
-        variant={valvInputModeDef(activeMode).zone}
-        vaultTab={vaultTab}
-        userId={userId}
-        gateOk={gateOk}
-        highlightLogId={highlightLogId}
-        onBevisConfirmed={onBevisConfirmed}
-        onCitationClick={onCitationClick}
-        onVaultTabChange={onVaultTabChange}
-        onOpenGranska={() => setMode('granska')}
-        techniqueFilter={techniqueFilter}
-        onTechniqueSelect={onTechniqueSelect}
-        onClearTechniqueFilter={onClearTechniqueFilter}
-      />
+      <ValvZoneSuspense>
+        <ValvSuperModule
+          variant={valvInputModeDef(activeMode).zone}
+          vaultTab={vaultTab}
+          userId={userId}
+          gateOk={gateOk}
+          highlightLogId={highlightLogId}
+          onBevisConfirmed={onBevisConfirmed}
+          onCitationClick={onCitationClick}
+          onVaultTabChange={onVaultTabChange}
+          onOpenGranska={() => setMode('granska')}
+          techniqueFilter={techniqueFilter}
+          onTechniqueSelect={onTechniqueSelect}
+          onClearTechniqueFilter={onClearTechniqueFilter}
+        />
+      </ValvZoneSuspense>
     );
   };
 

@@ -31,6 +31,9 @@ type LauncherCardDef = {
   external?: boolean;
 };
 
+const LAUNCHER_CARD_CLASS =
+  'liv-launcher-card calm-card text-left transition-colors min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-2';
+
 const GLOW_CLASS: Record<CalmCardGlow, string> = {
   gold: 'glow-bottom-gold',
   blue: 'glow-bottom-gold',
@@ -103,7 +106,7 @@ export function LivLauncherGrid({ activeId, onSelect }: LivLauncherGridProps) {
             role="option"
             aria-selected={isActive}
             className={clsx(
-              'liv-launcher-card calm-card text-left transition-colors',
+              LAUNCHER_CARD_CLASS,
               GLOW_CLASS[card.glow],
               isActive && 'liv-launcher-card--active',
               card.external && 'liv-launcher-card--external',

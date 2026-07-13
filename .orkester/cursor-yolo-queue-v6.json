@@ -1,0 +1,141 @@
+{
+  "version": 6,
+  "description": "Cursor YOLO v6 — säker polish P14–P23 efter v5. 2026-07-13.",
+  "sequentialPhase": {
+    "label": "Sekventiell förbättring — en fas i taget, smoke-gate obligatorisk"
+  },
+  "tasks": [
+    {
+      "id": "f0-handoff",
+      "title": "F0 — v5 handoff + v6 infra",
+      "phase": "sequential",
+      "agent": "orkester",
+      "plan": "Synka state/logg. v6 queue + cursor_yolo v6 paths. smoke:governance.",
+      "smoke": ["npm run smoke:governance"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v6/P00-handoff.md"
+    },
+    {
+      "id": "p14-a11y",
+      "title": "P14 — Återstående a11y",
+      "phase": "sequential",
+      "agent": "specialist-vardagen-builder + specialist-hjartat-inkast-builder",
+      "plan": "MåBra, LivLauncher, Dagbok/Speglar — focus-visible, 44px touch.",
+      "smoke": ["npm run smoke:locked-ux", "npm run smoke:design-modules", "npm run smoke:mabra", "npm run smoke:governance"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v6/P14-a11y.md"
+    },
+    {
+      "id": "p15-lazy-delegates",
+      "title": "P15 — Lazy delegates",
+      "phase": "sequential",
+      "agent": "specialist-widgets",
+      "plan": "React.lazy MabraInputSuperModule. Valv sub-panels lazy om locked-ux PASS.",
+      "smoke": ["npm run build", "npm run smoke:locked-ux", "npm run smoke:valv"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v6/P15-lazy-delegates.md"
+    },
+    {
+      "id": "p16-design-debt",
+      "title": "P16 — Design-debt dsBtn + död CSS",
+      "phase": "sequential",
+      "agent": "specialist-ux-guardian",
+      "plan": "tokens.ts, dagbok-tyst CSS, module-hub-tile dead CSS.",
+      "smoke": ["npm run smoke:design-debt", "npm run smoke:calm-card-audit", "npm run smoke:locked-ux", "npm run smoke:design-modules", "npm run smoke:governance"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v6/P16-design-debt.md"
+    },
+    {
+      "id": "p17-copy-audit",
+      "title": "P17 — Copy audit regression",
+      "phase": "sequential",
+      "agent": "specialist-vardagen-builder",
+      "plan": "smoke:copy-audit PASS.",
+      "smoke": ["npm run smoke:copy-audit", "npm run smoke:locked-ux", "npm run smoke:governance"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v6/P17-copy-audit.md"
+    },
+    {
+      "id": "p18-bundle-perf",
+      "title": "P18 — Bundle chunk-analys",
+      "phase": "sequential",
+      "agent": "specialist-widgets",
+      "plan": "npm run build → dokumentera chunks.",
+      "smoke": ["npm run build", "npm run smoke:locked-ux"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v6/P18-bundle-perf.md"
+    },
+    {
+      "id": "p19-g85-user-doc",
+      "title": "P19 — G85 USER-smoke doc",
+      "phase": "sequential",
+      "agent": "android-kompis",
+      "plan": "android smokes + checklista.",
+      "smoke": ["npm run smoke:android-platform", "npm run smoke:android-prod-sync"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v6/P19-g85-user-doc.md"
+    },
+    {
+      "id": "p20-g17-user-doc",
+      "title": "P20 — G17 USER-smoke",
+      "phase": "sequential",
+      "agent": "specialist-widgets",
+      "plan": "smoke:widgets + SMOKE_RESULTS.",
+      "smoke": ["npm run smoke:widgets", "npm run smoke:locked-ux", "npm run smoke:design-modules", "npm run smoke:governance"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v6/P20-g17-user-doc.md"
+    },
+    {
+      "id": "p21-kunskap-dryrun",
+      "title": "P21 — Kunskap våg 9 dry-run",
+      "phase": "sequential",
+      "agent": "specialist-kunskap-seed",
+      "plan": "dry-run ingest only.",
+      "smoke": ["npm run smoke:innehall", "npm run smoke:content-waves"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v6/P21-kunskap-dryrun.md"
+    },
+    {
+      "id": "p22-integration-sync",
+      "title": "P22 — integration sync",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "integration:preflight.",
+      "smoke": ["npm run integration:preflight", "npm run smoke:governance"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v6/P22-integration-sync.md"
+    },
+    {
+      "id": "p23-hosting-deploy",
+      "title": "P23 — Hosting deploy PMIR",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "predeploy → Pontus OK → hosting only.",
+      "smoke": ["npm run smoke:predeploy:build"],
+      "fullGate": true,
+      "pmir": true,
+      "deploy": "hosting",
+      "promptFile": "docs/cursor-pipeline/yolo-v6/P23-hosting-deploy.md"
+    }
+  ]
+}

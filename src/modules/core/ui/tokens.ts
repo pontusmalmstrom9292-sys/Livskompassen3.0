@@ -26,10 +26,12 @@ export const DESIGN = {
   borderStrong: colors.borderStrong,
 } as const;
 
-/** Knapp-hierarki — CSS class names for legacy direct className usage. */
+import type { ButtonVariant } from '@/design-system';
+
+/** Knapp-hierarki — DS ButtonVariant (inte legacy class strings). */
 export const BUTTON_VARIANTS = {
-  continue: 'ds-btn--secondary',
-  save: 'ds-btn--success',
-  primaryGold: 'ds-btn--accent',
-  ghost: 'ds-btn--ghost',
-} as const;
+  continue: 'secondary',
+  save: 'success',
+  primaryGold: 'accent',
+  ghost: 'ghost',
+} as const satisfies Record<string, ButtonVariant>;

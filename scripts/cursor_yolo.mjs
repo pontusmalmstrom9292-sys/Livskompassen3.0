@@ -1,46 +1,86 @@
 #!/usr/bin/env node
 /**
- * Cursor YOLO v5 — sekventiell kö efter parallell P1–P3.
+ * Cursor YOLO v5/v6 — sekventiell kö.
  *
  * Usage:
- *   npm run cursor:yolo -- status
- *   npm run cursor:yolo -- gate          # kolla om P1–P3 klara
- *   npm run cursor:yolo -- gate-pass     # manuell gate (efter P1–P3)
- *   npm run cursor:yolo -- next          # skriv nästa prompt + NEXT-PROMPT.md
- *   npm run cursor:yolo -- master        # hela P4–P13 i EN chatt (rekommenderat)
- *   npm run cursor:yolo -- done [id]     # markera klar + smoke
- *   npm run cursor:yolo -- skip [id]
- *   npm run cursor:yolo -- watch         # vänta på gate, skriv NEXT-PROMPT, starta watch för nästa
+ *   npm run cursor:yolo -- status          # v5 default
+ *   npm run cursor:yolo:v6 -- status       # v6
+ *   npm run cursor:yolo -- gate | gate-pass | next | master | done | skip | watch
  *
  * Env:
+ *   CURSOR_YOLO_VERSION=5|6
  *   CURSOR_YOLO_SKIP_SMOKE=1   hoppa smoke vid done
  */
-import { spawnSync, execSync } from 'node:child_process';
+import { spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync, appendFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
-const queuePath = join(root, '.orkester/cursor-yolo-queue-v5.json');
-const statePath = join(root, '.orkester/cursor-yolo-state-v5.json');
-const nextPromptPath = join(root, '.cursor/pipeline/yolo-v5/NEXT-PROMPT.md');
-const masterPath = join(root, 'docs/cursor-pipeline/yolo-v5/MASTER-SEQUENTIAL.md');
-const today = new Date().toISOString().slice(0, 10);
-const logPath = join(root, 'docs/evaluations', `${today}-cursor-yolo-v5-log.md`);
+const yoloVersion = Number(process.env.CURSOR_YOLO_VERSION ?? 5);
 
-const GATE_ARTIFACTS = [
-  { id: 'p1-yolo-vakt', paths: ['docs/evaluations/2026-07-13-yolo-audit.md'] },
-  { id: 'p2-ux-guardian', paths: ['docs/evaluations/2026-07-13-ux-guardian.md'] },
-  {
-    id: 'p3-design-debt',
-    paths: [
-      'docs/evaluations/2026-07-13-design-debt-done.md',
-      'docs/evaluations/2026-07-13-cursor-yolo-v5-log.md',
+const CONFIG = {
+  5: {
+    queuePath: join(root, '.orkester/cursor-yolo-queue-v5.json'),
+    statePath: join(root, '.orkester/cursor-yolo-state-v5.json'),
+    nextPromptPath: join(root, '.cursor/pipeline/yolo-v5/NEXT-PROMPT.md'),
+    masterPath: join(root, 'docs/cursor-pipeline/yolo-v5/MASTER-SEQUENTIAL.md'),
+    promptDir: 'docs/cursor-pipeline/yolo-v5',
+    logSuffix: 'cursor-yolo-v5-log',
+    label: 'v5',
+    masterTaskId: 'p4-p13-master',
+    masterTitle: 'MASTER sekventiell P4→P13',
+    requiresParallelGate: true,
+    gateArtifacts: [
+      { id: 'p1-yolo-vakt', paths: ['docs/evaluations/2026-07-13-yolo-audit.md'] },
+      { id: 'p2-ux-guardian', paths: ['docs/evaluations/2026-07-13-ux-guardian.md'] },
+      {
+        id: 'p3-design-debt',
+        paths: [
+          'docs/evaluations/2026-07-13-design-debt-done.md',
+          'docs/evaluations/2026-07-13-cursor-yolo-v5-log.md',
+        ],
+        requireAll: false,
+      },
     ],
-    requireAll: false,
   },
-];
+  6: {
+    queuePath: join(root, '.orkester/cursor-yolo-queue-v6.json'),
+    statePath: join(root, '.orkester/cursor-yolo-state-v6.json'),
+    nextPromptPath: join(root, '.cursor/pipeline/yolo-v6/NEXT-PROMPT.md'),
+    masterPath: join(root, 'docs/cursor-pipeline/yolo-v6/MASTER-SEQUENTIAL.md'),
+    promptDir: 'docs/cursor-pipeline/yolo-v6',
+    logSuffix: 'cursor-yolo-v6-log',
+    label: 'v6',
+    masterTaskId: 'p14-p23-master',
+    masterTitle: 'MASTER sekventiell P14→P23',
+    requiresParallelGate: false,
+    gateArtifacts: [],
+  },
+}[yoloVersion] ?? null;
+
+if (!CONFIG) {
+  console.error('[cursor:yolo] Okänd CURSOR_YOLO_VERSION:', yoloVersion);
+  process.exit(1);
+}
+
+const {
+  queuePath,
+  statePath,
+  nextPromptPath,
+  masterPath,
+  promptDir,
+  logSuffix,
+  label,
+  masterTaskId,
+  masterTitle,
+  requiresParallelGate,
+  gateArtifacts: GATE_ARTIFACTS,
+} = CONFIG;
+
+const today = new Date().toISOString().slice(0, 10);
+const logPath = join(root, 'docs/evaluations', `${today}-${logSuffix}.md`);
 
 const argv = process.argv.slice(2);
 const cmd = argv[0] ?? 'status';
@@ -71,9 +111,18 @@ function loadQueue() {
 function loadState() {
   return (
     readJson(statePath) ?? {
-      version: 5,
-      parallelPhase: { status: 'in_progress', gatePassed: false, completedTaskIds: [] },
-      sequentialPhase: { status: 'waiting_for_gate', completedTaskIds: [], skippedTaskIds: [], failedTaskIds: [] },
+      version: yoloVersion,
+      parallelPhase: {
+        status: requiresParallelGate ? 'in_progress' : 'skipped',
+        gatePassed: !requiresParallelGate,
+        completedTaskIds: [],
+      },
+      sequentialPhase: {
+        status: requiresParallelGate ? 'waiting_for_gate' : 'ready',
+        completedTaskIds: [],
+        skippedTaskIds: [],
+        failedTaskIds: [],
+      },
       taskOrder: [],
     }
   );
@@ -85,7 +134,7 @@ function saveState(state) {
 }
 
 function readPrompt(task) {
-  const rel = task.promptFile ?? `docs/cursor-pipeline/yolo-v5/${task.id}.md`;
+  const rel = task.promptFile ?? `${promptDir}/${task.id}.md`;
   const abs = join(root, rel);
   if (!existsSync(abs)) {
     return `# ${task.id}\n\n${task.plan}\n`;
@@ -111,7 +160,7 @@ function ensureLog() {
   if (existsSync(logPath)) return;
   writeFileSync(
     logPath,
-    `# Cursor YOLO v5 log — ${today}\n\n| Tid | Task | Status | Notering |\n|-----|------|--------|----------|\n`,
+    `# Cursor YOLO ${label} log — ${today}\n\n| Tid | Task | Status | Notering |\n|-----|------|--------|----------|\n`,
     'utf8',
   );
 }
@@ -123,7 +172,7 @@ function logLine(taskId, status, note) {
 }
 
 function resolveNextTask(queue, state) {
-  if (!state.parallelPhase?.gatePassed) return null;
+  if (requiresParallelGate && !state.parallelPhase?.gatePassed) return null;
   for (const id of state.taskOrder ?? []) {
     if (state.sequentialPhase.completedTaskIds?.includes(id)) continue;
     if (state.sequentialPhase.skippedTaskIds?.includes(id)) continue;
@@ -152,19 +201,21 @@ function readMasterPrompt() {
   return match ? match[0].replace(/^```\n?/, '').replace(/\n?```$/, '').trim() : raw.trim();
 }
 
-function emitPromptBlock(taskId, title, prompt, label) {
-  const body = `# Cursor YOLO v5 — ${label}\n\n**Task:** \`${taskId}\` — ${title}\n\n**När klar:** \`npm run cursor:yolo -- done ${taskId}\`\n\n---\n\n\`\`\`\n${prompt.trim()}\n\`\`\`\n`;
+function emitPromptBlock(taskId, title, prompt, promptLabel) {
+  const doneCmd =
+    yoloVersion === 6 ? `npm run cursor:yolo:v6 -- done ${taskId}` : `npm run cursor:yolo -- done ${taskId}`;
+  const body = `# Cursor YOLO ${label} — ${promptLabel}\n\n**Task:** \`${taskId}\` — ${title}\n\n**När klar:** \`${doneCmd}\`\n\n---\n\n\`\`\`\n${prompt.trim()}\n\`\`\`\n`;
   mkdirSync(dirname(nextPromptPath), { recursive: true });
   writeFileSync(nextPromptPath, body, 'utf8');
   console.log('');
   console.log('══════════════════════════════════════════════════');
-  console.log(`  ${label}: ${taskId} — ${title}`);
+  console.log(`  ${promptLabel}: ${taskId} — ${title}`);
   console.log('══════════════════════════════════════════════════');
   console.log('');
   console.log(prompt.trim());
   console.log('');
   console.log(`[cursor:yolo] Prompt sparad → ${nextPromptPath}`);
-  console.log(`[cursor:yolo] Efter klar: npm run cursor:yolo -- done ${taskId}`);
+  console.log(`[cursor:yolo] Efter klar: ${doneCmd}`);
   try {
     spawnSync('pbcopy', { input: prompt.trim(), encoding: 'utf8' });
     console.log('[cursor:yolo] Kopierad till urklipp (pbcopy).');
@@ -179,16 +230,20 @@ function emitNextPrompt(task, label) {
 
 function printStatus(queue, state) {
   const gate = gateStatus();
-  console.log('[cursor:yolo] v5 sekventiell kö');
-  console.log('[cursor:yolo] Gate P1–P3:', gate.pass ? 'PASS' : `väntar (${gate.missing.join(', ')})`);
-  console.log('[cursor:yolo] Sekventiell gate:', state.parallelPhase?.gatePassed ? 'öppen' : 'stängd');
+  console.log(`[cursor:yolo] ${label} sekventiell kö`);
+  if (requiresParallelGate) {
+    console.log('[cursor:yolo] Gate P1–P3:', gate.pass ? 'PASS' : `väntar (${gate.missing.join(', ')})`);
+    console.log('[cursor:yolo] Sekventiell gate:', state.parallelPhase?.gatePassed ? 'öppen' : 'stängd');
+  } else {
+    console.log('[cursor:yolo] Parallell gate: ej krävd (v6 fortsätter från v5 PASS)');
+  }
   const done = state.sequentialPhase?.completedTaskIds?.length ?? 0;
   const total = state.taskOrder?.length ?? 0;
   console.log('[cursor:yolo] Sekventiell progress:', done, '/', total);
   const next = resolveNextTask(queue, state);
   if (next) console.log('[cursor:yolo] Nästa:', next.id, '—', next.title);
   else if (state.parallelPhase?.gatePassed) console.log('[cursor:yolo] Alla sekventiella uppgifter klara.');
-  else console.log('[cursor:yolo] Väntar på gate — kör: npm run cursor:yolo -- gate-pass');
+  else if (requiresParallelGate) console.log('[cursor:yolo] Väntar på gate — kör: npm run cursor:yolo -- gate-pass');
 }
 
 function main() {
@@ -205,6 +260,10 @@ function main() {
   }
 
   if (cmd === 'gate') {
+    if (!requiresParallelGate) {
+      console.log('[cursor:yolo] v6 — ingen parallell gate (redan öppen)');
+      return;
+    }
     const g = gateStatus();
     console.log('[cursor:yolo] Gate artifacts:', g.pass ? 'alla finns' : 'saknas');
     if (!g.pass) g.missing.forEach((m) => console.log('  -', m));
@@ -212,6 +271,10 @@ function main() {
   }
 
   if (cmd === 'gate-pass') {
+    if (!requiresParallelGate) {
+      console.log('[cursor:yolo] v6 — gate redan öppen från start');
+      return;
+    }
     state.parallelPhase = state.parallelPhase ?? {};
     state.parallelPhase.gatePassed = true;
     state.parallelPhase.gatePassedAt = new Date().toISOString();
@@ -230,7 +293,7 @@ function main() {
   }
 
   if (cmd === 'master') {
-    if (!state.parallelPhase?.gatePassed) {
+    if (requiresParallelGate && !state.parallelPhase?.gatePassed) {
       const g = gateStatus();
       if (g.pass) {
         state.parallelPhase.gatePassed = true;
@@ -245,13 +308,13 @@ function main() {
       process.exit(1);
     }
     const master = readMasterPrompt();
-    emitPromptBlock('p4-p13-master', 'MASTER sekventiell P4→P13', master, 'MASTER SEKVENTIELL');
+    emitPromptBlock(masterTaskId, masterTitle, master, 'MASTER SEKVENTIELL');
     console.log('[cursor:yolo] Öppna EN ny Agent-chatt (YOLO på), klistra in MASTER-prompten ovan.');
     return;
   }
 
   if (cmd === 'next') {
-    if (!state.parallelPhase?.gatePassed) {
+    if (requiresParallelGate && !state.parallelPhase?.gatePassed) {
       console.error('[cursor:yolo] Gate stängd. Kör gate-pass först.');
       process.exit(1);
     }
@@ -328,19 +391,14 @@ function main() {
     const tick = () => {
       state = loadState();
       const g = gateStatus();
-      if (!state.parallelPhase?.gatePassed) {
+      if (requiresParallelGate && !state.parallelPhase?.gatePassed) {
         if (g.pass) {
           state.parallelPhase.gatePassed = true;
           state.parallelPhase.gatePassedAt = new Date().toISOString();
           state.sequentialPhase.status = 'ready';
           saveState(state);
           console.log('[cursor:yolo] ✓ Gate auto-PASS (P1–P3 artifacts)');
-          emitPromptBlock(
-            'p4-p13-master',
-            'MASTER sekventiell P4→P13',
-            readMasterPrompt(),
-            'GATE ÖPPEN — STARTA MASTER',
-          );
+          emitPromptBlock(masterTaskId, masterTitle, readMasterPrompt(), 'GATE ÖPPEN — STARTA MASTER');
           console.log('[cursor:yolo] Öppna NY Agent-chatt (YOLO på) och klistra in prompten.');
           return;
         }
