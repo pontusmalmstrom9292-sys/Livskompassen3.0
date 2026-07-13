@@ -1,13 +1,25 @@
 {
   "version": 13,
   "queueFile": ".orkester/cursor-yolo-queue-v13.json",
-  "startedAt": null,
-  "updatedAt": null,
+  "startedAt": "2026-07-13T19:12:00.000Z",
+  "updatedAt": "2026-07-13T19:15:00.000Z",
   "sequentialPhase": {
-    "status": "ready",
-    "currentTaskId": "p84-deploy",
-    "completedTaskIds": [],
-    "skippedTaskIds": [],
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "p85-baseline",
+      "p86-auto-lock-hygiene",
+      "p87-security",
+      "p88-ux-guardian",
+      "p90-design-debt",
+      "p91-fortification",
+      "p92-integration",
+      "p93-yolo-vakt"
+    ],
+    "skippedTaskIds": [
+      "p84-deploy",
+      "p89-drift"
+    ],
     "failedTaskIds": []
   },
   "taskOrder": [
@@ -22,5 +34,5 @@
     "p92-integration",
     "p93-yolo-vakt"
   ],
-  "notes": "Väntar START från v12 handoff. P84 deploy SKIP tills Pontus OK deploy."
+  "notes": "P85-P88,P90-P93 GO 2026-07-13 (Cloud Agent). P84 deploy SKIP (Pontus OK krävs). P89 drift SKIP+blocker: journal-2d/mabra/valv kräver live VITE_FIREBASE_* secrets — se docs/evaluations/2026-07-13-cursor-yolo-v13-log.md och .orkester/blocker-cursor-yolo-v13-p89.md."
 }
