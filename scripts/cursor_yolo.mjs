@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Cursor YOLO v5/v6/v7/v8/v9/v10 — sekventiell kö.
+ * Cursor YOLO v5/v6/v7/v8/v9/v10/v11 — sekventiell kö.
  *
  * Usage:
  *   npm run cursor:yolo -- status          # v5 default
@@ -9,10 +9,12 @@
  *   npm run cursor:yolo:v8 -- status       # v8
  *   npm run cursor:yolo:v9 -- status       # v9
  *   npm run cursor:yolo:v10 -- status      # v10
- *   npm run cursor:yolo -- gate | gate-pass | next | master | done | skip | watch
+ *   npm run cursor:yolo:v11 -- status      # v11
+ *   npm run cursor:yolo:v12 -- status      # v12
+ *   npm run cursor:yolo -- gate | gate-pass | next | master | done | skip | handoff | watch
  *
  * Env:
- *   CURSOR_YOLO_VERSION=5|6|7|8|9|10
+ *   CURSOR_YOLO_VERSION=5|6|7|8|9|10|11|12|13
  *   CURSOR_YOLO_SKIP_SMOKE=1   hoppa smoke vid done
  */
 import { spawnSync } from 'node:child_process';
@@ -122,6 +124,56 @@ const CONFIG = {
       { id: 'p54-baseline', paths: ['docs/evaluations/2026-07-13-yolo-v10-baseline.md'] },
     ],
   },
+  11: {
+    queuePath: join(root, '.orkester/cursor-yolo-queue-v11.json'),
+    statePath: join(root, '.orkester/cursor-yolo-state-v11.json'),
+    nextPromptPath: join(root, '.cursor/pipeline/yolo-v11/NEXT-PROMPT.md'),
+    masterPath: join(root, 'docs/cursor-pipeline/yolo-v11/MASTER-SEQUENTIAL.md'),
+    promptDir: 'docs/cursor-pipeline/yolo-v11',
+    logSuffix: 'cursor-yolo-v11-log',
+    label: 'v11',
+    masterTaskId: 'p64-p73-master',
+    masterTitle: 'MASTER sekventiell P64→P73',
+    requiresParallelGate: false,
+    gateArtifacts: [
+      { id: 'p64-baseline', paths: ['docs/evaluations/2026-07-13-cursor-yolo-v11-log.md'] },
+    ],
+    nextVersion: 12,
+    prevPhaseEnd: 73,
+    nextPhaseStart: 74,
+  },
+  12: {
+    queuePath: join(root, '.orkester/cursor-yolo-queue-v12.json'),
+    statePath: join(root, '.orkester/cursor-yolo-state-v12.json'),
+    nextPromptPath: join(root, '.cursor/pipeline/yolo-v12/NEXT-PROMPT.md'),
+    masterPath: join(root, 'docs/cursor-pipeline/yolo-v12/MASTER-SEQUENTIAL.md'),
+    promptDir: 'docs/cursor-pipeline/yolo-v12',
+    logSuffix: 'cursor-yolo-v12-log',
+    label: 'v12',
+    masterTaskId: 'p74-p83-master',
+    masterTitle: 'MASTER sekventiell P74→P83',
+    requiresParallelGate: false,
+    gateArtifacts: [],
+    nextVersion: 13,
+    prevPhaseEnd: 83,
+    nextPhaseStart: 84,
+  },
+  13: {
+    queuePath: join(root, '.orkester/cursor-yolo-queue-v13.json'),
+    statePath: join(root, '.orkester/cursor-yolo-state-v13.json'),
+    nextPromptPath: join(root, '.cursor/pipeline/yolo-v13/NEXT-PROMPT.md'),
+    masterPath: join(root, 'docs/cursor-pipeline/yolo-v13/MASTER-SEQUENTIAL.md'),
+    promptDir: 'docs/cursor-pipeline/yolo-v13',
+    logSuffix: 'cursor-yolo-v13-log',
+    label: 'v13',
+    masterTaskId: 'p84-p93-master',
+    masterTitle: 'MASTER sekventiell P84→P93',
+    requiresParallelGate: false,
+    gateArtifacts: [],
+    nextVersion: 14,
+    prevPhaseEnd: 93,
+    nextPhaseStart: 94,
+  },
 }[yoloVersion] ?? null;
 
 if (!CONFIG) {
@@ -141,6 +193,9 @@ const {
   masterTitle,
   requiresParallelGate,
   gateArtifacts: GATE_ARTIFACTS,
+  nextVersion,
+  prevPhaseEnd,
+  nextPhaseStart,
 } = CONFIG;
 
 const today = new Date().toISOString().slice(0, 10);
@@ -292,6 +347,115 @@ function emitNextPrompt(task, label) {
   emitPromptBlock(task.id, task.title, readPrompt(task), label);
 }
 
+function isQueueComplete(state) {
+  const total = state.taskOrder?.length ?? 0;
+  const done = (state.sequentialPhase?.completedTaskIds?.length ?? 0)
+    + (state.sequentialPhase?.skippedTaskIds?.length ?? 0);
+  return total > 0 && done >= total;
+}
+
+function buildNextVersionMasterPrompt(nextVer, pStart, pEnd, prevVer) {
+  const deployPhase = pStart;
+  const baselinePhase = pStart + 1;
+  const slutPhase = pEnd;
+  const integrationPhase = pEnd - 1;
+  return `# Uppdrag — YOLO v${nextVer} Auto-Lock & Fortifikation (endast förbättra)
+
+Du är Editorial Technical Architect för Livskompassen v2.
+**Mandat:** ENDAST förbättra, stärka och verifiera — inget tas bort, inga refaktoreringar "för snyggt".
+
+## Plattform
+- Cursor Agent, YOLO på, EN chatt sekventiellt
+- Läs först: docs/PROJECT_STATE.md, docs/AI-GOVERNANCE.md, docs/governance/LOCK-MANIFEST.md, .cursor/index.mdc
+- Föregående leverans: docs/evaluations/2026-07-13-cursor-yolo-v${prevVer}-leverans.md
+- Hosting live: https://gen-lang-client-0481875058.web.app
+- Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt tills smoke PASS eller tydlig blocker.
+
+## PMIR-STOPP
+- firestore.rules, storage.rules, sharedRules.ts, AppRoutes struktur, Barnporten kanon-UI
+- Live Kunskap-ingest (--apply), deploy rules/functions
+- Hosting deploy: ENDAST efter separat "OK deploy"
+
+## Vågplan v${nextVer} (P${pStart}→P${pEnd})
+
+| Fas | Uppdrag | Exit |
+|-----|---------|------|
+| P${deployPhase} | (Valfritt) Hosting deploy | Pontus "OK deploy" |
+| P${baselinePhase} | Baseline read-only | smoke:predeploy:build PASS |
+| P${baselinePhase + 1} | Auto-lock hygiene | smoke:module-lock PASS |
+| P${baselinePhase + 2} | Security read-only | eval security-v${nextVer}.md |
+| P${baselinePhase + 3} | Locked UX re-snapshot | locked-ux PASS |
+| P${baselinePhase + 4} | Drift smokes | eval drift-v${nextVer}.md |
+| P${baselinePhase + 5} | Design-debt guard | design-debt PASS |
+| P${baselinePhase + 6} | Agent-fortifikation v${nextVer} | smoke:governance PASS |
+| P${integrationPhase} | Integration dry-run | seed --dry-run, aldrig --apply |
+| P${slutPhase} | yolo-vakt slutgate | smoke:predeploy:build PASS |
+
+Efter P${slutPhase}: \`npm run cursor:yolo:v${nextVer} -- handoff\` → skriver prompt för v${nextVer + 1}.
+
+## Orchestrering
+- .orkester/cursor-yolo-queue-v${nextVer}.json
+- .orkester/cursor-yolo-state-v${nextVer}.json
+- docs/cursor-pipeline/yolo-v${nextVer}/MASTER-SEQUENTIAL.md
+- npm run cursor:yolo:v${nextVer}
+
+## Första steg
+1. Kör P${deployPhase} deploy ENDAST om Pontus skrev "OK deploy" — annars SKIP
+2. Kör P${baselinePhase}→P${slutPhase} autonomt
+3. Commit om PASS · \`npm run cursor:yolo:v${nextVer} -- handoff\` (skriver prompt för v${nextVer + 1})`;
+}
+
+function emitVersionHandoff() {
+  if (!nextVersion) {
+    console.log('[cursor:yolo] Ingen nextVersion konfigurerad — handoff manuell.');
+    return;
+  }
+  const pStart = nextPhaseStart ?? (yoloVersion * 10 - 6);
+  const pEnd = pStart + 9;
+  const nextVer = nextVersion;
+  const handoffPath = join(root, `.cursor/pipeline/yolo-v${nextVer}/START-PROMPT.md`);
+  const nextChattPath = join(root, `.cursor/pipeline/yolo-${label}/NEXT-CHATT-PROMPT.md`);
+  const prompt = buildNextVersionMasterPrompt(nextVer, pStart, pEnd, yoloVersion);
+  mkdirSync(dirname(handoffPath), { recursive: true });
+  const body = `# Cursor YOLO v${nextVer} — START (ny chatt)
+
+**Genererad:** ${new Date().toISOString()} · **Efter:** v${yoloVersion} klar
+
+**När klar denna våg:** \`npm run cursor:yolo:v${nextVer} -- handoff\`
+
+---
+
+\`\`\`
+${prompt.trim()}
+\`\`\`
+`;
+  writeFileSync(handoffPath, body, 'utf8');
+  const carryBody = `# Nästa chatt — YOLO v${nextVer}
+
+v${yoloVersion} är klar. Öppna **ny Agent-chatt** (YOLO på) och klistra in prompten från:
+
+\`.cursor/pipeline/yolo-v${nextVer}/START-PROMPT.md\`
+
+Eller kör: \`npm run cursor:yolo:v${nextVer} -- master\`
+`;
+  writeFileSync(nextChattPath, carryBody, 'utf8');
+  console.log('');
+  console.log('══════════════════════════════════════════════════');
+  console.log(`  HANDOFF v${yoloVersion} → v${nextVer}`);
+  console.log('══════════════════════════════════════════════════');
+  console.log('');
+  console.log(prompt.trim());
+  console.log('');
+  console.log(`[cursor:yolo] Nästa chatt-prompt → ${handoffPath}`);
+  console.log(`[cursor:yolo] Pekare → ${nextChattPath}`);
+  try {
+    spawnSync('pbcopy', { input: prompt.trim(), encoding: 'utf8' });
+    console.log('[cursor:yolo] Kopierad till urklipp (pbcopy).');
+  } catch {
+    /* optional */
+  }
+}
+
 function printStatus(queue, state) {
   const gate = gateStatus();
   console.log(`[cursor:yolo] ${label} sekventiell kö`);
@@ -428,7 +592,21 @@ function main() {
       emitNextPrompt(next, 'AUTO NÄSTA');
     } else {
       console.log('[cursor:yolo] 🎉 Hela sekventiella kön klar.');
+      if (nextVersion && isQueueComplete(state)) {
+        emitVersionHandoff();
+      }
     }
+    return;
+  }
+
+  if (cmd === 'handoff') {
+    if (!isQueueComplete(state)) {
+      const next = resolveNextTask(queue, state);
+      console.error('[cursor:yolo] Kön inte klar. Kvar:', next?.id ?? '?');
+      console.error('[cursor:yolo] Kör done/skip på alla tasks först.');
+      process.exit(1);
+    }
+    emitVersionHandoff();
     return;
   }
 
@@ -480,7 +658,7 @@ function main() {
   }
 
   console.error('[cursor:yolo] Okänt kommando:', cmd);
-  console.error('Kommandon: status | gate | gate-pass | master | next | done | skip | watch');
+  console.error('Kommandon: status | gate | gate-pass | master | next | done | skip | handoff | watch');
   process.exit(1);
 }
 

@@ -1,0 +1,38 @@
+{
+  "version": 11,
+  "queueFile": ".orkester/cursor-yolo-queue-v11.json",
+  "startedAt": "2026-07-13T17:01:00.000Z",
+  "updatedAt": "2026-07-13T17:10:00.000Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "p64-baseline",
+      "p65-auto-lock-hygiene",
+      "p66-security",
+      "p67-ux-guardian",
+      "p68-drift",
+      "p69-design-debt",
+      "p70-fortification",
+      "p71-integration",
+      "p72-yolo-vakt"
+    ],
+    "skippedTaskIds": [
+      "p73-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "p64-baseline",
+    "p65-auto-lock-hygiene",
+    "p66-security",
+    "p67-ux-guardian",
+    "p68-drift",
+    "p69-design-debt",
+    "p70-fortification",
+    "p71-integration",
+    "p72-yolo-vakt",
+    "p73-deploy"
+  ],
+  "notes": "P64\u2013P72 GO 2026-07-13. Hosting v9 live \u2014 P73 SKIP tills Pontus OK deploy."
+}

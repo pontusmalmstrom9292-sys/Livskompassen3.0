@@ -1,6 +1,6 @@
 # LOCK-MANIFEST — Copy-paste för alla agenter
 
-**Version:** 1.4 · **Senast:** 2026-07-13 (YOLO v10 P60)  
+**Version:** 1.6 · **Senast:** 2026-07-13 (YOLO v12 P81)  
 **Register:** `.context/module-lock-register.json` · **Locked UX:** `.context/locked-ux-features.md`
 
 ---
@@ -136,6 +136,32 @@ Efter varje avslutad feature-våg ska agenten låsa berörd modul enligt [AUTO-L
 **Aldrig** ta bort `@locked` eller sänka status utan unlock-doc `approved: yes`.
 
 
+
+
+## § Agent-fortifikation v4 (YOLO v11 P70)
+
+*Fortsätter v3 (v9 P50) — inget tas bort.*
+
+### YOLO v11 orchestrering
+
+```bash
+npm run cursor:yolo:v11 -- status
+```
+
+Kö: `.orkester/cursor-yolo-queue-v11.json` · State: `.orkester/cursor-yolo-state-v11.json` · Master: `docs/cursor-pipeline/yolo-v11/MASTER-SEQUENTIAL.md`
+
+Eval-logg: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v11-log.md`
+### Auto-handoff (YOLO v11+)
+
+När en våg är klar (alla tasks done/skip):
+
+```bash
+npm run cursor:yolo:v11 -- handoff   # skriver .cursor/pipeline/yolo-v12/START-PROMPT.md
+```
+
+Öppna **ny Agent-chatt**, klistra in prompten. Upprepa tills produktvåg klar (Fas 24 P0 G85 7d).
+
+
 ## § Agent-fortifikation v3 (YOLO v9 P50)
 
 *Fortsätter v2 (v8 P41) — inget tas bort.*
@@ -169,7 +195,7 @@ Kö: `.orkester/cursor-yolo-queue-v8.json` · State: `.orkester/cursor-yolo-stat
 
 ## Snabbreferens
 
-- YOLO kö v10: `npm run cursor:yolo:v10 -- status` · v9: `npm run cursor:yolo:v9 -- status` · v8: `npm run cursor:yolo:v8 -- status` · v7: `npm run cursor:yolo:v7 -- status`
+- YOLO kö v12: `npm run cursor:yolo:v12 -- status` · v11: `npm run cursor:yolo:v11 -- status` · v10: `npm run cursor:yolo:v10 -- status` · v9: `npm run cursor:yolo:v9 -- status` · v8: `npm run cursor:yolo:v8 -- status` · v7: `npm run cursor:yolo:v7 -- status`
 - Kanon: `.cursor/index.mdc` · `docs/AI-GOVERNANCE.md`
 - Auto-lock: [AUTO-LOCK-PLAYBOOK.md](./AUTO-LOCK-PLAYBOOK.md) · `.cursor/rules/auto-lock-on-complete.mdc`
 - Eval-logg v8: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v8-log.md`
