@@ -225,7 +225,8 @@
     "gcp:audit-apis": "node scripts/gcp_audit_enabled_apis.mjs",
     "gcp:setup-cost-alerts": "node scripts/gcp_setup_cost_alerts.mjs",
     "natt:ci": "node scripts/natt-ci.mjs",
-    "sdk:natt-ci": "node scripts/sdk-natt-ci.mjs"
+    "sdk:natt-ci": "node scripts/sdk-natt-ci.mjs",
+    "setup:env": "node scripts/setup_env_from_google_services.mjs"
   },
   "dependencies": {
     "@aparajita/capacitor-biometric-auth": "^10.0.0",

@@ -15,6 +15,17 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const functionsDir = path.join(root, "functions");
 const hasEnv = existsSync(path.join(root, ".env"));
 
+function ensureEnvFile() {
+  if (hasEnv) return true;
+  console.log("\n▶ setup:env (skapar .env från google-services.json)");
+  try {
+    execSync("node scripts/setup_env_from_google_services.mjs", { cwd: root, stdio: "inherit" });
+    return existsSync(path.join(root, ".env"));
+  } catch {
+    return false;
+  }
+}
+
 /** @param {string} label @param {string} cmd @param {string[]} args @param {string} cwd */
 function runStep(label, cmd, args, cwd = root) {
   return new Promise((resolve) => {
@@ -76,7 +87,12 @@ const liveSteps = [
 ];
 
 console.log("Natt-CI — start", new Date().toISOString());
-console.log(hasEnv ? "Fas B: .env hittad — kör live-smokes" : "Fas B: SKIP — saknar .env (kopiera från .env.example)");
+const envReady = ensureEnvFile();
+console.log(
+  envReady
+    ? "Fas B: .env finns — kör live-smokes"
+    : "Fas B: SKIP — kunde inte skapa .env",
+);
 
 const results = [];
 
@@ -90,7 +106,7 @@ if (!ensureFunctionsDeps()) {
   }
 }
 
-if (hasEnv) {
+if (envReady) {
   for (const [label, script] of liveSteps) {
     results.push({ label, ok: await runNpm(label, script), phase: "B" });
   }

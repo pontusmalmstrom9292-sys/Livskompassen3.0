@@ -20,11 +20,27 @@ npm run sdk:natt-ci      # Startar cloud agent via @cursor/sdk (CURSOR_API_KEY)
 
 ### Fas B (live Firebase, valfri)
 
-Kräver `.env` (kopiera från `.env.example`):
+Kräver `.env` med Firebase web-config + **App Check debug-token** för callables:
+
+```bash
+npm run setup:env   # fyller VITE_FIREBASE_* från google-services.json
+```
+
+Lägg till i `.env` (eller Cursor Cloud Environment secrets):
+
+- `VITE_APP_CHECK_DEBUG_TOKEN` — Firebase Console → App Check → Manage debug tokens
+
+Utan debug-token: anonym inloggning fungerar, men `ingestKampsparEntry` m.fl. nekas med *App Check-verifiering krävs*.
+
+Live-smokes:
 
 - `npm run smoke:valv`
 - `npm run smoke:kunskap`
 - `npm run smoke:dossier`
+
+### Firebase MCP (valfritt)
+
+För `firebase_get_sdk_config` / `firebase_list_apps`: kör `firebase_login` i Cursor MCP och klistra in auth-koden.
 
 ---
 
