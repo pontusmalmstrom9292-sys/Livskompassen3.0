@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Cursor YOLO v5/v6/v7/v8/v9/v10 — sekventiell kö.
+ * Cursor YOLO v5/v6/v7/v8/v9/v10/v11 — sekventiell kö.
  *
  * Usage:
  *   npm run cursor:yolo -- status          # v5 default
@@ -9,10 +9,11 @@
  *   npm run cursor:yolo:v8 -- status       # v8
  *   npm run cursor:yolo:v9 -- status       # v9
  *   npm run cursor:yolo:v10 -- status      # v10
+ *   npm run cursor:yolo:v11 -- status      # v11
  *   npm run cursor:yolo -- gate | gate-pass | next | master | done | skip | watch
  *
  * Env:
- *   CURSOR_YOLO_VERSION=5|6|7|8|9|10
+ *   CURSOR_YOLO_VERSION=5|6|7|8|9|10|11
  *   CURSOR_YOLO_SKIP_SMOKE=1   hoppa smoke vid done
  */
 import { spawnSync } from 'node:child_process';
@@ -120,6 +121,21 @@ const CONFIG = {
     requiresParallelGate: false,
     gateArtifacts: [
       { id: 'p54-baseline', paths: ['docs/evaluations/2026-07-13-yolo-v10-baseline.md'] },
+    ],
+  },
+  11: {
+    queuePath: join(root, '.orkester/cursor-yolo-queue-v11.json'),
+    statePath: join(root, '.orkester/cursor-yolo-state-v11.json'),
+    nextPromptPath: join(root, '.cursor/pipeline/yolo-v11/NEXT-PROMPT.md'),
+    masterPath: join(root, 'docs/cursor-pipeline/yolo-v11/MASTER-SEQUENTIAL.md'),
+    promptDir: 'docs/cursor-pipeline/yolo-v11',
+    logSuffix: 'cursor-yolo-v11-log',
+    label: 'v11',
+    masterTaskId: 'p64-p73-master',
+    masterTitle: 'MASTER sekventiell P64→P73',
+    requiresParallelGate: false,
+    gateArtifacts: [
+      { id: 'p64-baseline', paths: ['docs/evaluations/2026-07-13-cursor-yolo-v11-log.md'] },
     ],
   },
 }[yoloVersion] ?? null;
