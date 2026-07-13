@@ -1,3 +1,12 @@
+### Design debt (2026-07-13) — v12 P80 guard PASS
+- YOLO v12 P75–P83 GO · P74 deploy SKIP
+- indexCssLoc: **61** (mål ≤120 ✓)
+- btnPill: **0** · dsBtn: **0** · adHocDialog: **0**
+- DS imports: **253** · smoke:design-debt `2026-07-13T17:13:26.333Z`
+- copy-audit + calm-card-audit: **PASS** (v12 P80)
+- Module-lock: **22/22 locked** · Hosting live (v9 deploy)
+
+
 
 ### Design debt (2026-07-13) — v11 P69 guard PASS
 - YOLO v11 P64–P72 GO · P73 deploy SKIP
