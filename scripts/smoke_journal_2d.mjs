@@ -7,7 +7,7 @@ import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInAnonymously } from 'firebase/auth';
+import { getAuth, signInAnonymously, signInWithEmailAndPassword } from 'firebase/auth';
 import {
   getFirestore,
   collection,
@@ -17,6 +17,7 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { initSmokeAppCheck } from './lib/smoke_app_check.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -50,8 +51,18 @@ function journalMemoryStoragePath(userId, entryId, fileName) {
   return `users/${userId}/journal_memories/${entryId}/${safe}`;
 }
 
-async function signIn(auth) {
-  console.log('[smoke:journal-2d] Anonym inloggning…');
+async function signIn(auth, env) {
+  if (env.SEED_FIREBASE_EMAIL && env.SEED_FIREBASE_PASSWORD) {
+    console.log('[smoke:journal-2d] Email sign-in (krävs för journal WORM)…');
+    const cred = await signInWithEmailAndPassword(
+      auth,
+      env.SEED_FIREBASE_EMAIL,
+      env.SEED_FIREBASE_PASSWORD,
+    );
+    await cred.user.getIdToken(true);
+    return cred.user;
+  }
+  console.log('[smoke:journal-2d] Anonym inloggning (journal kan nekas utan seed-email)…');
   const { user } = await signInAnonymously(auth);
   return user;
 }
@@ -69,11 +80,15 @@ async function main() {
     appId: env.VITE_FIREBASE_APP_ID,
   });
 
+  if (initSmokeAppCheck(app, env)) {
+    console.log('[smoke:journal-2d] App Check (debug token) initierad');
+  }
+
   const auth = getAuth(app);
   const db = getFirestore(app);
   const storage = getStorage(app);
 
-  const user = await signIn(auth);
+  const user = await signIn(auth, env);
   await user.getIdToken(true);
   const uid = user.uid;
 
