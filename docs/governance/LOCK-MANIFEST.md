@@ -1,6 +1,6 @@
 # LOCK-MANIFEST — Copy-paste för alla agenter
 
-**Version:** 1.3 · **Senast:** 2026-07-13 (YOLO v9 P45)  
+**Version:** 1.4 · **Senast:** 2026-07-13 (YOLO v10 P60)  
 **Register:** `.context/module-lock-register.json` · **Locked UX:** `.context/locked-ux-features.md`
 
 ---
@@ -169,7 +169,7 @@ Kö: `.orkester/cursor-yolo-queue-v8.json` · State: `.orkester/cursor-yolo-stat
 
 ## Snabbreferens
 
-- YOLO kö v9: `npm run cursor:yolo:v9 -- status` · v8: `npm run cursor:yolo:v8 -- status` · v7: `npm run cursor:yolo:v7 -- status`
+- YOLO kö v10: `npm run cursor:yolo:v10 -- status` · v9: `npm run cursor:yolo:v9 -- status` · v8: `npm run cursor:yolo:v8 -- status` · v7: `npm run cursor:yolo:v7 -- status`
 - Kanon: `.cursor/index.mdc` · `docs/AI-GOVERNANCE.md`
 - Auto-lock: [AUTO-LOCK-PLAYBOOK.md](./AUTO-LOCK-PLAYBOOK.md) · `.cursor/rules/auto-lock-on-complete.mdc`
 - Eval-logg v8: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v8-log.md`

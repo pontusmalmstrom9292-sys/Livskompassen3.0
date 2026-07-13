@@ -15,11 +15,10 @@
       "p49-design-debt",
       "p50-fortification",
       "p51-integration",
-      "p52-yolo-vakt"
-    ],
-    "skippedTaskIds": [
+      "p52-yolo-vakt",
       "p53-deploy"
     ],
+    "skippedTaskIds": [],
     "failedTaskIds": []
   },
   "taskOrder": [
@@ -34,5 +33,5 @@
     "p52-yolo-vakt",
     "p53-deploy"
   ],
-  "notes": "P44\u2013P52 GO 2026-07-13. Hosting v\u00e4ntar Pontus OK deploy."
+  "notes": "P44\u2013P53 DONE 2026-07-13. P53 hosting deployad: gen-lang-client-0481875058.web.app"
 }
