@@ -2,7 +2,7 @@
 
 **Syfte:** Oförhandlingsbara regler när Cursor, Gemini, NotebookLM, ChatBox/Copilot Pro och MCP samarbetar.
 
-**Senast uppdaterad: 2026-07-13 (YOLO v6 P22)
+**Senast uppdaterad: 2026-07-13 (YOLO v7 P31)
 
 ## Grundprincip
 

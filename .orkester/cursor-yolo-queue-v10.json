@@ -1,0 +1,148 @@
+{
+  "version": 10,
+  "description": "Cursor YOLO v10 \u2014 Auto-Lock & Fortifikation P54\u2013P63. 2026-07-13.",
+  "sequentialPhase": {
+    "label": "Sekventiell f\u00f6rb\u00e4ttring post-deploy v9"
+  },
+  "tasks": [
+    {
+      "id": "p54-baseline",
+      "title": "P54 \u2014 Read-only baseline",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "smoke:predeploy:build post-deploy. Eval baseline.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p55-auto-lock-hygiene",
+      "title": "P55 \u2014 Auto-lock hygiene",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "entryFiles audit + LOCK-MANIFEST.",
+      "smoke": [
+        "npm run smoke:module-lock"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p56-security",
+      "title": "P56 \u2014 Security read-only",
+      "phase": "sequential",
+      "agent": "specialist-security-auditor",
+      "plan": "WORM, silos, Zero Footprint.",
+      "smoke": [
+        "npm run smoke:manifest",
+        "npm run smoke:valv-security"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p57-ux-guardian",
+      "title": "P57 \u2014 Locked UX re-snapshot",
+      "phase": "sequential",
+      "agent": "specialist-ux-guardian",
+      "plan": "locked-ux smokes.",
+      "smoke": [
+        "npm run smoke:locked-ux",
+        "npm run smoke:e2e-locked-ux",
+        "npm run smoke:plausible-deniability",
+        "npm run smoke:basta-dock-lock"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p58-drift",
+      "title": "P58 \u2014 Drift & smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "journal-2d, mabra, valv, widgets.",
+      "smoke": [
+        "npm run smoke:journal-2d",
+        "npm run smoke:mabra",
+        "npm run smoke:valv",
+        "npm run smoke:widgets"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p59-design-debt",
+      "title": "P59 \u2014 Design-debt guard",
+      "phase": "sequential",
+      "agent": "specialist-ux-guardian",
+      "plan": "dsBtn 0, btnPill 0, adHocDialog 0.",
+      "smoke": [
+        "npm run smoke:design-debt",
+        "npm run smoke:copy-audit",
+        "npm run smoke:calm-card-audit"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p60-fortification",
+      "title": "P60 \u2014 Agent-fortifikation v10",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "cursor:yolo:v10 + queue/state.",
+      "smoke": [
+        "npm run smoke:governance",
+        "npm run smoke:mdc"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p61-integration",
+      "title": "P61 \u2014 Integration dry-run",
+      "phase": "sequential",
+      "agent": "livskompassen-arkiv-master",
+      "plan": "dry-run kunskap-facts. Aldrig --apply.",
+      "smoke": [
+        "npm run smoke:innehall",
+        "npm run smoke:content-waves"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p62-yolo-vakt",
+      "title": "P62 \u2014 yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO predeploy:build.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p63-deploy",
+      "title": "P63 \u2014 (Valfritt) hosting",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP \u2014 redan deployad v9 P53.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "hosting"
+    }
+  ]
+}

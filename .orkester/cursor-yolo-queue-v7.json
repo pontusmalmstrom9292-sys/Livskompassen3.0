@@ -1,0 +1,157 @@
+{
+  "version": 7,
+  "description": "Cursor YOLO v7 — härdning & låsning P24–P33. 2026-07-13.",
+  "sequentialPhase": {
+    "label": "Sekventiell förbättring — en fas i taget, trippel-gate efter kod"
+  },
+  "tasks": [
+    {
+      "id": "p24-baseline",
+      "title": "P24 — Read-only baseline",
+      "phase": "sequential",
+      "agent": "orkester",
+      "plan": "smoke:predeploy:build + design-debt/copy/calm. Eval baseline. Ingen kod.",
+      "smoke": [
+        "npm run smoke:predeploy:build",
+        "npm run smoke:design-debt",
+        "npm run smoke:copy-audit",
+        "npm run smoke:calm-card-audit"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v7/P24-baseline.md"
+    },
+    {
+      "id": "p25-module-lock",
+      "title": "P25 — Module-lock inventering",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "smoke:module-lock. @locked headers additivt. Eval audit.",
+      "smoke": [
+        "npm run smoke:module-lock",
+        "npm run smoke:governance"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v7/P25-module-lock.md"
+    },
+    {
+      "id": "p26-ux-guardian",
+      "title": "P26 — Locked UX + Sacred snapshot",
+      "phase": "sequential",
+      "agent": "specialist-ux-guardian",
+      "plan": "locked-ux smokes. Dokumentera P0/P1/P2. Ingen UI om PASS.",
+      "smoke": [
+        "npm run smoke:locked-ux",
+        "npm run smoke:e2e-locked-ux",
+        "npm run smoke:plausible-deniability",
+        "npm run smoke:basta-dock-lock"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v7/P26-ux-guardian.md"
+    },
+    {
+      "id": "p27-drift",
+      "title": "P27 — Feljakt drift & regression",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Zon-smokes. Minimal fix max 20 rader om FAIL.",
+      "smoke": [
+        "npm run smoke:mabra",
+        "npm run smoke:valv",
+        "npm run smoke:journal-2d",
+        "npm run smoke:widgets"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v7/P27-drift.md"
+    },
+    {
+      "id": "p28-design-debt",
+      "title": "P28 — Design-debt & copy guard",
+      "phase": "sequential",
+      "agent": "specialist-ux-guardian",
+      "plan": "Behåll dsBtn 0, btnPill 0, adHocDialog 0. Uppdatera DASHBOARD.",
+      "smoke": [
+        "npm run smoke:design-debt",
+        "npm run smoke:copy-audit",
+        "npm run smoke:calm-card-audit"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v7/P28-design-debt.md"
+    },
+    {
+      "id": "p29-lock-manifest",
+      "title": "P29 — LOCK-MANIFEST",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "docs/governance/LOCK-MANIFEST.md + agent-fortification eval.",
+      "smoke": ["npm run smoke:governance"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v7/P29-lock-manifest.md"
+    },
+    {
+      "id": "p30-ci-gate",
+      "title": "P30 — CI/pre-push gate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "Husky + GitHub smoke. Dokumentera i LOCK-MANIFEST § CI.",
+      "smoke": ["npm run validate:session"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v7/P30-ci-gate.md"
+    },
+    {
+      "id": "p31-integration",
+      "title": "P31 — Integration & governance",
+      "phase": "sequential",
+      "agent": "integration-conductor",
+      "plan": "integration:sync:all + preflight. Timestamp manifest.",
+      "smoke": [
+        "npm run integration:preflight",
+        "npm run smoke:governance"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v7/P31-integration.md"
+    },
+    {
+      "id": "p32-kunskap-dryrun",
+      "title": "P32 — Kunskap dry-run",
+      "phase": "sequential",
+      "agent": "specialist-kunskap-seed",
+      "plan": "seed_kampspar --dry-run only. Aldrig --apply utan Pontus.",
+      "smoke": [
+        "npm run smoke:innehall",
+        "npm run smoke:content-waves"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v7/P32-kunskap-dryrun.md"
+    },
+    {
+      "id": "p33-yolo-vakt",
+      "title": "P33 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "Read-only GO/NO-GO. predeploy:build. Hosting STOPP.",
+      "smoke": ["npm run smoke:predeploy:build"],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v7/P33-yolo-vakt.md"
+    }
+  ]
+}
