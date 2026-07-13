@@ -2,7 +2,7 @@
 
 **Runtime-källa:** `functions/src/sharedRules.ts` → `JOURNAL_SILENT_REFLECTION_PROMPT`
 **Callables:** `journalSilentReflection`
-**Synkad:** 2026-07-12 · **Status:** produktion (läsbar spegel, ej runtime)
+**Synkad:** 2026-07-13 · **Status:** produktion (läsbar spegel, ej runtime)
 
 ---
 # JOURNAL SILENT REFLECTION PROMPT

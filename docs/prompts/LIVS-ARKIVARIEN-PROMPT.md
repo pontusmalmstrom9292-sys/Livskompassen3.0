@@ -3,7 +3,7 @@
 **Runtime-källa:** `functions/src/sharedRules.ts` → `LIVS_ARKIVARIEN_SYSTEM_PROMPT`
 **Agent-ID:** `agent_livs_arkivarien`
 **Callables:** `knowledgeVaultQuery`
-**Synkad:** 2026-07-12 · **Status:** produktion (läsbar spegel, ej runtime)
+**Synkad:** 2026-07-13 · **Status:** produktion (läsbar spegel, ej runtime)
 
 ---
 # LIVS ARKIVARIEN
