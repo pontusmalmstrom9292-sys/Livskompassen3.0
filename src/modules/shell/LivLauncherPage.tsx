@@ -95,9 +95,12 @@ export function LivLauncherPage() {
         eyebrow="Vardagen"
         title="Vardagsstart"
         lead="Daglig rytm, planering och mående — ett kort i taget."
+        lockViewport
+        fitViewport
+        className="vardagen-route-page"
       >
         <VardagenBentoShell>
-          <div className="liv-launcher-page mx-auto max-w-5xl space-y-4 pb-12">
+          <div className="liv-launcher-page mx-auto max-w-5xl space-y-4">
             <div className="space-y-4">
               <CognitiveLoadStrip
                 label="Ett steg i taget"
@@ -109,7 +112,7 @@ export function LivLauncherPage() {
               <LivLauncherGrid activeId={activeTab} onSelect={handleChange} />
             </div>
 
-            <main className="calm-scroll-island liv-launcher-page__surface mt-2 animate-fade-in">
+            <main className="liv-launcher-page__surface mt-2 min-h-0 animate-fade-in">
               {activeTab === 'kompasser' && (
                 <BentoCard glow="gold" depth noHover bare className="!p-4 sm:!p-5">
                   <div className="space-y-4">

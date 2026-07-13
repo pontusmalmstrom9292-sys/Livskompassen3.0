@@ -1,7 +1,6 @@
 /** @locked MOD-FAM-HUB — låst modul; unlock via docs/evaluations/*-unlock-MOD-FAM-HUB.md */
 import { Navigate } from 'react-router-dom';
 import { useSearchParams } from 'react-router-dom';
-import { clsx } from 'clsx';
 import { Button } from '@/design-system';
 import { Anchor, BookHeart, Heart, HeartHandshake, Sparkles, Users } from 'lucide-react';
 
@@ -34,7 +33,6 @@ import { BentoCard } from '@/shared/ui/BentoCard';
 import { FamiljenBentoShell } from '@/features/family/children/components/familjen/FamiljenBentoShell';
 import { FamiljenZoneIntro } from '@/features/family/children/components/familjen/FamiljenZoneIntro';
 import { ParentReminderFooter } from '@/features/family/children/components/ParentReminderFooter';
-import { useMinWidthSm } from '../hooks/useMinWidthSm';
 import type { FamiljenInputMode } from '@/features/family/children/supermodule/familjenInputModes';
 
 const FAMILJ_OPTIONS: DropdownItem<FamiljenTabId>[] = [
@@ -135,7 +133,6 @@ export type FamiljenValvDrawerWiring = typeof vaultDrawerPath;
 export function FamiljenPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const shell = useFamiljenShell();
-  const desktopHubLock = useMinWidthSm();
   const { preset } = useLifeHubPreset();
   const rawTab = searchParams.get('tab');
   const legacyRedirect = rawTab ? LEGACY_TAB_REDIRECTS[rawTab] : undefined;
@@ -189,14 +186,15 @@ export function FamiljenPage() {
         title=""
         lead="Barnfokus, logg och trygg hamn — ett steg i taget."
         headerAside={<ModuleHelpFromRegistry moduleId="hub_familjen" preset={preset} />}
-        lockViewport={desktopHubLock}
-        fitViewport={desktopHubLock}
+        lockViewport
+        fitViewport
+        className="familjen-route-page"
         toolbar={
           <FamiljenHubToolbar activeTab={activeTab} onTabChange={handleTabChange} />
         }
       >
         <div className="familjen-page">
-          <FamiljenBentoShell className={clsx(!desktopHubLock && 'pb-2')}>
+          <FamiljenBentoShell>
             <div className="familjen-page__header space-y-4">
               <FamiljenZoneIntro activeTab={activeTab} />
               {showChildPicker && (
@@ -225,7 +223,7 @@ export function FamiljenPage() {
                   <div className="pt-4 pb-2">
                     <FamiljenInputSuperModule
                       shell={shell}
-                      flowWithIsland={desktopHubLock}
+                      flowWithIsland
                       initialMode={initialInputMode}
                     />
                   </div>

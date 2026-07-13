@@ -21,7 +21,7 @@ export function FamiljenInputModePicker({ activeMode, onChange }: FamiljenInputM
   const isMoreMode = activeMeta.tier === 'more';
 
   return (
-    <div className="familjen-mode-picker" aria-label="Inmatningslägen">
+    <div className="familjen-mode-picker min-w-0 flex-1" aria-label="Inmatningslägen">
       <div className="familjen-mode-picker__pills" role="tablist">
         {FAMILJEN_INPUT_MODES_PRIMARY.map((mode) => {
           const isActive = activeMode === mode.id;

@@ -264,9 +264,4 @@
       @apply flex-wrap;
     }
   }
-
-  html.platform-capacitor-android .app-main:has(.valvet-route-page) {
-    padding-left: max(0.5rem, env(safe-area-inset-left, 0px));
-    padding-right: max(0.5rem, env(safe-area-inset-right, 0px));
-  }
 }

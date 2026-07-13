@@ -193,6 +193,9 @@ export function PlaneringPage() {
         title={title}
         lead={lead}
         executiveHeader={executiveHeader}
+        lockViewport
+        fitViewport
+        className="planering-route-page"
         headerAside={
           <div className="flex items-center gap-2">
             <LivBackLink />

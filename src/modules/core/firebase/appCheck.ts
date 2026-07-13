@@ -21,10 +21,11 @@ async function doInitAppCheck(): Promise<void> {
   if (initialized || typeof window === 'undefined') return;
 
   if (Capacitor.isNativePlatform()) {
-    const debugToken = import.meta.env.VITE_APP_CHECK_DEBUG_TOKEN;
+    const debugToken = debugTokenFromEnv();
     await FirebaseAppCheck.initialize({
       isTokenAutoRefreshEnabled: true,
-      ...(import.meta.env.DEV && debugToken ? { debug: true } : {}),
+      // Lokal Android Studio: debug-token i .env (VITE_*) — inte bundlad i CI-prod utan secret.
+      ...(debugToken ? { debug: true, debugToken } : {}),
     });
 
     const provider = new CustomProvider({
