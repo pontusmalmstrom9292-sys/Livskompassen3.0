@@ -7,16 +7,19 @@ import { Agent, CursorAgentError } from "@cursor/sdk";
 
 const REPO = "https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0";
 
-const PROMPT = `Kör Natt-CI validering i repo-roten. Ett steg i taget — rapportera PASS/FAIL:
+const PROMPT = `Kör Natt-CI i repo-roten. Ett steg i taget — rapportera PASS/FAIL:
 
-1. cd functions && npm run build
-2. npm run build (frontend i root)
-3. npx eslint . --max-warnings 0
+Fas A (alltid):
+1. cd functions && npm install (om node_modules saknas) && npm run build
+2. npm run build (frontend)
+3. npm run smoke:predeploy
+
+Fas B (endast om .env finns):
 4. npm run smoke:valv
 5. npm run smoke:kunskap
 6. npm run smoke:dossier
 
-Avsluta med en tabell: steg | status | ev. felrad.`;
+Avsluta med tabell: steg | fas | status | ev. felrad.`;
 
 const apiKey = process.env.CURSOR_API_KEY?.trim();
 if (!apiKey) {
