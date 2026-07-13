@@ -1,6 +1,6 @@
 # AUTO-LOCK-PLAYBOOK — Efter varje feature-våg
 
-**Version:** 1.0 · **Senast:** 2026-07-13 (YOLO v8 P35)  
+**Version:** 1.0 · **Senast:** 2026-07-13 (YOLO v9 P45)  
 **Regel:** [`.cursor/rules/auto-lock-on-complete.mdc`](../.cursor/rules/auto-lock-on-complete.mdc)  
 **Register:** [`.context/module-lock-register.json`](../.context/module-lock-register.json)
 
@@ -22,7 +22,7 @@ Säkerställa att färdiga moduler **låses automatiskt** efter smoke PASS — u
 | 4 | Lås modul | `node scripts/lock_module.mjs MOD-XXX --smoke smoke:widgets` |
 | 5 | Verifiera header | `@locked MOD-XXX` i alla `entryFiles` |
 | 6 | Trippel-gate | `smoke:locked-ux` + `smoke:design-modules` + `smoke:governance` |
-| 7 | Logga | Rad i `docs/evaluations/YYYY-MM-DD-cursor-yolo-v8-log.md` |
+| 7 | Logga | Rad i `docs/evaluations/YYYY-MM-DD-cursor-yolo-v9-log.md` |
 
 ---
 
@@ -62,4 +62,4 @@ Eval-rad:
 
 - [LOCK-MANIFEST.md](./LOCK-MANIFEST.md) § Auto-lock
 - [MODULE-LOCK-REGISTER.md](../.context/MODULE-LOCK-REGISTER.md)
-- YOLO v8 logg: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v8-log.md`
+- YOLO v8 logg: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v9-log.md`

@@ -1,6 +1,6 @@
 # LOCK-MANIFEST — Copy-paste för alla agenter
 
-**Version:** 1.2 · **Senast:** 2026-07-13 (YOLO v8 P41)  
+**Version:** 1.3 · **Senast:** 2026-07-13 (YOLO v9 P45)  
 **Register:** `.context/module-lock-register.json` · **Locked UX:** `.context/locked-ux-features.md`
 
 ---
@@ -48,7 +48,7 @@
 | MOD-BACK-SYN | Backend | locked |
 | MOD-BACK-DCAP | Backend | locked |
 | MOD-BACK-WORM | Backend | locked |
-| MOD-WIDGET | Cross | **developing** |
+| MOD-WIDGET | Cross | locked |
 
 ---
 
@@ -136,6 +136,10 @@ Efter varje avslutad feature-våg ska agenten låsa berörd modul enligt [AUTO-L
 **Aldrig** ta bort `@locked` eller sänka status utan unlock-doc `approved: yes`.
 
 
+## § Agent-fortifikation v3 (YOLO v9 P50)
+
+*Fortsätter v2 (v8 P41) — inget tas bort.*
+
 ## § Agent-fortifikation v2 (YOLO v8 P41)
 
 ### Auto-lock checklista (MUST efter feature-våg)
@@ -165,7 +169,7 @@ Kö: `.orkester/cursor-yolo-queue-v8.json` · State: `.orkester/cursor-yolo-stat
 
 ## Snabbreferens
 
-- YOLO kö v8: `npm run cursor:yolo:v8 -- status` · v7: `npm run cursor:yolo:v7 -- status`
+- YOLO kö v9: `npm run cursor:yolo:v9 -- status` · v8: `npm run cursor:yolo:v8 -- status` · v7: `npm run cursor:yolo:v7 -- status`
 - Kanon: `.cursor/index.mdc` · `docs/AI-GOVERNANCE.md`
 - Auto-lock: [AUTO-LOCK-PLAYBOOK.md](./AUTO-LOCK-PLAYBOOK.md) · `.cursor/rules/auto-lock-on-complete.mdc`
 - Eval-logg v8: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v8-log.md`

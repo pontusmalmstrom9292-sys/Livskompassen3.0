@@ -1,10 +1,10 @@
 
-### Design debt (2026-07-13) — v8 P40 guard PASS
+### Design debt (2026-07-13) — v9 P49 guard PASS
 - indexCssLoc: **61** (mål ≤120 ✓)
 - btnPill: **0** · dsBtn: **0** · adHocDialog: **0**
-- DS imports: **253** · smoke:design-debt `2026-07-13T16:20:10.619Z`
-- copy-audit + calm-card-audit: **PASS** (v8 P40)
-- Module-lock: **22/22 locked** (v8 P36 MOD-WIDGET)
+- DS imports: **253** · smoke:design-debt `2026-07-13T16:31:12.149Z`
+- copy-audit + calm-card-audit: **PASS** (v9 P49)
+- Module-lock: **22/22 locked** (v9 P45 LOCK-MANIFEST sync)
 
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 

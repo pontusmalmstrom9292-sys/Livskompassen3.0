@@ -156,6 +156,8 @@
     "cursor:yolo:v7:watch": "CURSOR_YOLO_VERSION=7 node scripts/cursor_yolo.mjs watch",
     "cursor:yolo:v8": "CURSOR_YOLO_VERSION=8 node scripts/cursor_yolo.mjs",
     "cursor:yolo:v8:watch": "CURSOR_YOLO_VERSION=8 node scripts/cursor_yolo.mjs watch",
+    "cursor:yolo:v9": "CURSOR_YOLO_VERSION=9 node scripts/cursor_yolo.mjs",
+    "cursor:yolo:v9:watch": "CURSOR_YOLO_VERSION=9 node scripts/cursor_yolo.mjs watch",
     "copilot:lk": "node scripts/copilot_lk.mjs",
     "copilot:yolo:setup": "bash scripts/setup_copilot_yolo_shell.sh",
     "fas19:autorun": "node scripts/fas19_autorun_init.mjs",
