@@ -36,8 +36,7 @@ if (ci) {
   run('playwright install chromium', 'npx', ['playwright', 'install', 'chromium']);
 }
 
-// Alltid CI=1 så Playwright startar egen dev-server med VITE_REQUIRE_EMAIL_AUTH=true
-// (reuseExistingServer=true mot befintlig :5173 utan flagga → falsk PASS/FAIL).
+// CI=1 så Playwright startar egen dev-server (setup:env i playwright.config.ts).
 run('playwright test', 'npx', [
   'playwright',
   'test',
