@@ -1,3 +1,4 @@
+/** @locked MOD-WIDGET — låst modul; unlock via docs/evaluations/*-unlock-MOD-WIDGET.md */
 import { useSearchParams } from 'react-router-dom';
 import { Button, ButtonLink } from '@/design-system';
 import { Loader2, Lock } from 'lucide-react';

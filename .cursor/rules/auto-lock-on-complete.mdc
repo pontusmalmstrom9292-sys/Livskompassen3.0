@@ -1,0 +1,46 @@
+---
+description: Auto-lock efter avslutad feature-våg — lock_module.mjs, @locked header, smoke, eval-rad (YOLO v8)
+alwaysApply: false
+globs: src/**,functions/**,.context/module-lock-register.json,docs/evaluations/*yolo*,scripts/lock_module.mjs,docs/governance/LOCK-MANIFEST.md,docs/governance/AUTO-LOCK-PLAYBOOK.md
+---
+
+# Auto-lock on complete (YOLO v8)
+
+Kanon: [`docs/governance/AUTO-LOCK-PLAYBOOK.md`](../../docs/governance/AUTO-LOCK-PLAYBOOK.md) · Register: [`.context/module-lock-register.json`](../.context/module-lock-register.json) · [`module-lock-guard.mdc`](module-lock-guard.mdc)
+
+## När ska auto-lock köras?
+
+Efter varje **avslutad feature-våg** där kod i en moduls `globs` ändrats och modulens smoke är grön — **innan** merge eller innan nästa våg startar.
+
+Trigger även vid:
+- Pontus säger "klart", "godkänt", "lås modulen"
+- YOLO-våg exit kräver `smoke:module-lock PASS`
+- Agent avslutar arbete i `developing`-modul (t.ex. `MOD-WIDGET`)
+
+## Checklista (agent MUST — i ordning)
+
+1. **Identifiera MOD-XXX** — läs `.context/module-lock-register.json`; skapa ny post endast med Pontus OK + register-uppdatering.
+2. **`@locked MOD-XXX`** — additiv header i modulens `entryFiles` (en rad; `lock_module.mjs` kan lägga till automatiskt).
+3. **Kör modulens smoke** — från register `smoke[]` eller `--smoke` flagga.
+4. **Lås:** `node scripts/lock_module.mjs MOD-XXX --smoke <smoke:name>`
+5. **Trippel-gate** (efter kod i locked zon):
+   ```bash
+   npm run smoke:locked-ux && npm run smoke:design-modules && npm run smoke:governance
+   ```
+6. **Eval-rad** i `docs/evaluations/YYYY-MM-DD-cursor-yolo-v8-log.md` (eller aktiv YOLO-logg).
+
+## MUST NOT
+
+- Ta bort `@locked MOD-XXX` eller sänka `status` från `locked` utan `docs/evaluations/*-unlock-MOD-XXX.md` med `approved: yes` + Pontus OK
+- `--skip-smoke` utan dokumenterad rotorsak i eval
+- Låsa modul när smoke FAIL
+- Ändra locked modul utan unlock-procedur (se LOCK-MANIFEST § Unlock)
+
+## Verifiering
+
+```bash
+npm run smoke:module-lock
+npm run smoke:governance
+```
+
+Ingår i `smoke:predeploy`.

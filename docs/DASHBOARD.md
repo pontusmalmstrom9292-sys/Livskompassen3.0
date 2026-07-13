@@ -1,8 +1,10 @@
 
-### Design debt (2026-07-13) — P3 DONE
-- indexCssLoc: **61** (våg 99–104 sunset, mål ≤120 ✓)
-- btnPill: **0** · dsBtn: **0** (v6 P16) · adHocDialog: **0** (ResurserOverlay → DS Sheet)
-- smoke:design-debt `2026-07-13T11:38:19.704Z` · gate: [`2026-07-13-design-debt-done.md`](./evaluations/2026-07-13-design-debt-done.md)
+### Design debt (2026-07-13) — v8 P40 guard PASS
+- indexCssLoc: **61** (mål ≤120 ✓)
+- btnPill: **0** · dsBtn: **0** · adHocDialog: **0**
+- DS imports: **253** · smoke:design-debt `2026-07-13T16:20:10.619Z`
+- copy-audit + calm-card-audit: **PASS** (v8 P40)
+- Module-lock: **22/22 locked** (v8 P36 MOD-WIDGET)
 
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 

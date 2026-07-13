@@ -29,12 +29,13 @@ function mustInclude(relPath, ...needles) {
 function main() {
   console.log('[smoke:projekt-regler] Route + Firestore wiring…');
 
-  mustInclude(
-    'src/modules/core/routing/AppRoutes.tsx',
-    'path="/projekt/regler"',
-    'AuthGate',
-    'ProjektReglerPage',
+  const appRoutes = read('src/modules/core/routing/AppRoutes.tsx');
+  assert(appRoutes.includes('path="/projekt/regler"'), 'AppRoutes saknar path="/projekt/regler"');
+  assert(
+    appRoutes.includes('AuthGate') || appRoutes.includes('ProtectedModule'),
+    'AppRoutes saknar AuthGate eller ProtectedModule för skyddade routes',
   );
+  assert(appRoutes.includes('ProjektReglerPage'), 'AppRoutes saknar ProjektReglerPage');
 
   mustInclude(
     'src/modules/features/admin/projects/components/ProjektReglerPage.tsx',

@@ -1249,29 +1249,6 @@ resetFlow();
 onContinue=
 ````
 
-## File: src/modules/features/lifeJournal/diary/supermodule/dagbok-tyst-lage.css
-````css
-.dagbok-tyst-lage {
-⋮----
-.dagbok-hub--tyst {
-⋮----
-.dagbok-tyst-lage__eyebrow {
-⋮----
-.dagbok-tyst-lage__lead {
-⋮----
-.dagbok-tyst-lage__draft {
-⋮----
-.dagbok-tyst-lage__tre-ord {
-⋮----
-.dagbok-tyst-lage__tre-ord input {
-⋮----
-.dagbok-tyst-lage__actions {
-⋮----
-.dagbok-tyst-lage__actions .ds-btn {
-⋮----
-.dagbok-tyst-lage__mood select {
-````
-
 ## File: src/modules/features/lifeJournal/diary/supermodule/DagbokInputModePicker.tsx
 ````typescript
 import {
@@ -1666,39 +1643,6 @@ const handleSaveToVit = async () =>
 const handleBridgeToDagbok = () =>
 ````
 
-## File: src/modules/features/dailyLife/wellbeing/mabra/supermodule/MabraInputSuperModule.tsx
-````typescript
-import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { useCallback, useMemo, useState, lazy, Suspense, type ReactNode } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import { useStore } from '@/core/store';
-import { MABRA_PROJECTS, type MabraProjectId } from '../constants/mabraProjects';
-import {
-  DEFAULT_MABRA_INPUT_MODE,
-  MABRA_INPUT_MODES_FAS6D,
-  MABRA_INPUT_MODES_MORE,
-  MABRA_INPUT_MODES_MORE_ALL,
-  MABRA_INPUT_MODES_PRIMARY,
-  parseMabraInputMode,
-  resolveProjectIdForMode,
-  shouldUseEmotionalMemoryDelegate,
-  type MabraInputMode,
-} from './mabraInputModes';
-⋮----
-function modeButtonClass(isActive: boolean)
-⋮----
-export type MabraInputSuperModuleProps = {
-  projectId?: MabraProjectId;
-};
-⋮----
-function parseProjectId(value: string | null): MabraProjectId | undefined
-⋮----
-onSwitchToDagbokBridge=
-⋮----
-content = <MabraCheckinModal isOpen=
-````
-
 ## File: src/modules/features/family/children/supermodule/delegates/FamiljenFysiologiDelegate.tsx
 ````typescript
 import { useState } from 'react';
@@ -1808,6 +1752,29 @@ const handleSave = async () =>
 const handleMoodOnly = async () =>
 ````
 
+## File: src/modules/features/lifeJournal/diary/supermodule/dagbok-tyst-lage.css
+````css
+.dagbok-tyst-lage {
+⋮----
+.dagbok-hub--tyst {
+⋮----
+.dagbok-tyst-lage__eyebrow {
+⋮----
+.dagbok-tyst-lage__lead {
+⋮----
+.dagbok-tyst-lage__draft {
+⋮----
+.dagbok-tyst-lage__tre-ord {
+⋮----
+.dagbok-tyst-lage__tre-ord input {
+⋮----
+.dagbok-tyst-lage__actions {
+⋮----
+.dagbok-tyst-lage__actions .ds-btn {
+⋮----
+.dagbok-tyst-lage__mood select {
+````
+
 ## File: src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputModePicker.tsx
 ````typescript
 import { ChevronDown } from 'lucide-react';
@@ -1880,6 +1847,39 @@ export type EkonomiProfilDelegateProps = {
 };
 ⋮----
 const handleSubmit = async (event: FormEvent<HTMLFormElement>) =>
+````
+
+## File: src/modules/features/dailyLife/wellbeing/mabra/supermodule/MabraInputSuperModule.tsx
+````typescript
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
+import { useCallback, useMemo, useState, lazy, Suspense, type ReactNode } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+import { useStore } from '@/core/store';
+import { MABRA_PROJECTS, type MabraProjectId } from '../constants/mabraProjects';
+import {
+  DEFAULT_MABRA_INPUT_MODE,
+  MABRA_INPUT_MODES_FAS6D,
+  MABRA_INPUT_MODES_MORE,
+  MABRA_INPUT_MODES_MORE_ALL,
+  MABRA_INPUT_MODES_PRIMARY,
+  parseMabraInputMode,
+  resolveProjectIdForMode,
+  shouldUseEmotionalMemoryDelegate,
+  type MabraInputMode,
+} from './mabraInputModes';
+⋮----
+function modeButtonClass(isActive: boolean)
+⋮----
+export type MabraInputSuperModuleProps = {
+  projectId?: MabraProjectId;
+};
+⋮----
+function parseProjectId(value: string | null): MabraProjectId | undefined
+⋮----
+onSwitchToDagbokBridge=
+⋮----
+content = <MabraCheckinModal isOpen=
 ````
 
 ## File: src/modules/features/dailyLife/wellbeing/mabra/supermodule/MabraReflectionSuperhubPanel.tsx
@@ -2012,46 +2012,6 @@ const handleSaveObservation = async () =>
 // Auto-dismiss success message
 ````
 
-## File: src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx
-````typescript
-import { useCallback, lazy, Suspense, type ReactNode } from 'react';
-import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-⋮----
-import { ValvInputModePicker } from './ValvInputModePicker';
-import {
-  DEFAULT_VALV_INPUT_MODE,
-  valvInputModeDef,
-  type ValvInputMode,
-} from './valvInputModes';
-import { writeValvLastInputMode } from './valvLastModeStorage';
-import type { VaultTab } from '../utils/vaultTabs';
-⋮----
-function ValvZoneSuspense(
-⋮----
-export type ValvInputSuperModuleProps = {
-  activeMode: ValvInputMode;
-  onModeChange: (mode: ValvInputMode) => void;
-  vaultTab: VaultTab;
-  userId: string;
-  gateOk: boolean;
-  highlightLogId: string | null;
-  onBevisConfirmed: (docId: string) => void | Promise<void>;
-  onCitationClick: (docId: string) => void;
-  onVaultTabChange: (tab: VaultTab) => void;
-  techniqueFilter?: string | null;
-  onTechniqueSelect?: (technique: string) => void;
-  onClearTechniqueFilter?: () => void;
-};
-⋮----
-void onBevisConfirmed(docId);
-setMode(DEFAULT_VALV_INPUT_MODE);
-⋮----
-onBack=
-````
-
 ## File: src/modules/features/admin/planning/supermodule/PlaneringInputSuperModule.tsx
 ````typescript
 import { textStyles } from '@/design-system';
@@ -2153,6 +2113,46 @@ type DelegateProps = {
 };
 ⋮----
 function FamiljenInputModeDelegate(
+````
+
+## File: src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx
+````typescript
+import { useCallback, lazy, Suspense, type ReactNode } from 'react';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+⋮----
+import { ValvInputModePicker } from './ValvInputModePicker';
+import {
+  DEFAULT_VALV_INPUT_MODE,
+  valvInputModeDef,
+  type ValvInputMode,
+} from './valvInputModes';
+import { writeValvLastInputMode } from './valvLastModeStorage';
+import type { VaultTab } from '../utils/vaultTabs';
+⋮----
+function ValvZoneSuspense(
+⋮----
+export type ValvInputSuperModuleProps = {
+  activeMode: ValvInputMode;
+  onModeChange: (mode: ValvInputMode) => void;
+  vaultTab: VaultTab;
+  userId: string;
+  gateOk: boolean;
+  highlightLogId: string | null;
+  onBevisConfirmed: (docId: string) => void | Promise<void>;
+  onCitationClick: (docId: string) => void;
+  onVaultTabChange: (tab: VaultTab) => void;
+  techniqueFilter?: string | null;
+  onTechniqueSelect?: (technique: string) => void;
+  onClearTechniqueFilter?: () => void;
+};
+⋮----
+void onBevisConfirmed(docId);
+setMode(DEFAULT_VALV_INPUT_MODE);
+⋮----
+onBack=
 ````
 
 ## File: src/modules/features/lifeJournal/diary/supermodule/DagbokInputSuperModule.tsx
