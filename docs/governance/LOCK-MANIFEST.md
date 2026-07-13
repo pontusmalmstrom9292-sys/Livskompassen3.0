@@ -151,6 +151,16 @@ npm run cursor:yolo:v11 -- status
 Kö: `.orkester/cursor-yolo-queue-v11.json` · State: `.orkester/cursor-yolo-state-v11.json` · Master: `docs/cursor-pipeline/yolo-v11/MASTER-SEQUENTIAL.md`
 
 Eval-logg: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v11-log.md`
+### Auto-handoff (YOLO v11+)
+
+När en våg är klar (alla tasks done/skip):
+
+```bash
+npm run cursor:yolo:v11 -- handoff   # skriver .cursor/pipeline/yolo-v12/START-PROMPT.md
+```
+
+Öppna **ny Agent-chatt**, klistra in prompten. Upprepa tills produktvåg klar (Fas 24 P0 G85 7d).
+
 
 ## § Agent-fortifikation v3 (YOLO v9 P50)
 
