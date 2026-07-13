@@ -147,6 +147,7 @@
     "orkester:night": "node scripts/orkester_autorun.mjs",
     "natt-ci:setup": "node scripts/natt_ci_setup.mjs",
     "natt-ci": "node scripts/natt_ci.mjs",
+    "natt:ci": "npm run natt-ci",
     "natt-ci:fas-a": "node scripts/natt_ci.mjs --fas=a",
     "natt-ci:fas-b": "node scripts/natt_ci.mjs --fas=b",
     "natt-ci:fas-c": "node scripts/natt_ci.mjs --fas=c",

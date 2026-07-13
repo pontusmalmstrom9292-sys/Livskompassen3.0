@@ -25,6 +25,27 @@ async function checkSdkPackage() {
   }
 }
 
+async function checkPrereqs() {
+  const issues = [];
+  try {
+    require.resolve('playwright');
+    const { chromium } = await import('playwright');
+    try {
+      await chromium.launch({ headless: true });
+    } catch {
+      issues.push('Playwright — kör: npx playwright install chromium');
+    }
+  } catch {
+    issues.push('playwright saknas i node_modules');
+  }
+  try {
+    require.resolve('firebase-admin', { paths: [resolve(root, 'functions')] });
+  } catch {
+    issues.push('functions — kör: cd functions && npm ci --legacy-peer-deps');
+  }
+  return issues;
+}
+
 async function checkApiKey() {
   const key = process.env.CURSOR_API_KEY?.trim();
   if (!key) return { ok: false, reason: 'CURSOR_API_KEY saknas' };
@@ -58,6 +79,15 @@ async function main() {
 
   writeFileSync(statePath, JSON.stringify(state, null, 2), 'utf8');
   console.log(`[natt-ci:setup] State: ${statePath}`);
+
+  const prereqs = await checkPrereqs();
+  if (prereqs.length > 0) {
+    console.warn('[natt-ci:setup] Förutsättningar saknas:');
+    for (const issue of prereqs) console.warn(`  - ${issue}`);
+  } else {
+    console.log('[natt-ci:setup] Förutsättningar: OK (playwright + functions)');
+  }
+  state.prereqs = prereqs;
 
   const api = await checkApiKey();
   state.apiKey.verified = api.ok;
