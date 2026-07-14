@@ -84,8 +84,18 @@ function main() {
   lines = applyOptionalFromProcess(lines);
 
   writeFileSync(envPath, lines.join("\n").replace(/\n*$/, "\n"), "utf8");
+  const hasAppCheck = Boolean(
+    readEnvValue(lines, "VITE_APP_CHECK_DEBUG_TOKEN") || process.env.VITE_APP_CHECK_DEBUG_TOKEN?.trim(),
+  );
   console.log("[setup:env] .env skapad/uppdaterad från google-services.json");
   console.log(`[setup:env] project=${cfg.projectId} appId=${cfg.appId}`);
+  console.log(`[setup:env] appCheckDebugToken=${hasAppCheck ? "ja" : "nej"}`);
+}
+
+function readEnvValue(lines, key) {
+  const row = lines.find((l) => l.startsWith(`${key}=`));
+  if (!row) return "";
+  return row.slice(key.length + 1).trim();
 }
 
 main();

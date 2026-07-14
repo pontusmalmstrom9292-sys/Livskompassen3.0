@@ -10,8 +10,10 @@
 | Kommando | Runner | När |
 |----------|--------|-----|
 | `npm run natt:ci` | `scripts/natt-ci.mjs` | **Kanon** — predeploy-gate + valfria live-smokes |
+| `npm run natt:ci -- --fail-fast` | samma | Stoppa vid första FAIL i Fas A/B |
 | `npm run natt-ci` | `scripts/natt_ci.mjs` | Orkester-faser A–D (`orkester:night` + ikoner + git) |
-| `npm run sdk:natt-ci` | `scripts/sdk-natt-ci.mjs` | Cloud agent via `@cursor/sdk` (fallback → `natt:ci`) |
+| `npm run sdk:natt-ci` | `scripts/sdk-natt-ci.mjs` | Cloud agent via `@cursor/sdk` (stream + fallback → `natt:ci`) |
+| `npm run sdk:natt-ci -- --local` | samma | Tvinga lokal körning |
 | `npm run natt-ci:setup` | `scripts/natt_ci_setup.mjs` | Verifiera SDK, Playwright, functions-deps |
 
 ---
