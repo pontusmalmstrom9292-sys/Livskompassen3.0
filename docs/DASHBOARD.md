@@ -204,12 +204,12 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** 
 - **Status:** Not Started
 - **Priority:** High
 - **Files:** src/modules/features/widgets/**
-### MOD-WIDGET WH1/WH2 (2026-07-12)
-- **Status:** Code complete — väntar G85 device re-verify
-- **Native:** WH1 discreet horizontal layout; WH2 unik ikon; Android strings → Inkast
-- **Web:** WidgetShell panik 44px, reduced-motion, ethics-nyckel fix
+### MOD-WIDGET WH1/WH2 (2026-07-14)
+- **Status:** Våg 1 PASS — väntar G85 device (Våg 2, Pontus)
+- **Native:** widget_bg_premium_panel + guldkrets; WH1 discreet; WH2 «Snabbanteckning» + Inkast subtitle
+- **In-app:** W1EdgeQuickDock höger kant (Executive) → Röst / Snabbanteckning / Valv; widget-route utan chrome
 - **Smoke:** widgets, widget-ingest, locked-icons, locked-ux, design-modules PASS
-- **Sync:** build:web + cap sync android PASS
+- **Sync:** build:web + cap sync android PASS · MOD-WIDGET re-locked 2026-07-14
 
 
 ### Legacy CSS sunset

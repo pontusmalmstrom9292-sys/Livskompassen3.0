@@ -2664,6 +2664,25 @@ Copy the template below for each entry. Newest first.
 **Next:** G85 device smoke — lägg till widget → tap → spara → «Dölj nu». W1 v2 kompakt strip deferred (C).
 
 
+## 2026-07-14 — MOD-WIDGET Våg 1 (W1EdgeQuickDock + premium native)
+
+**Plattform:** Cursor Agent · YOLO våg 1 · **Scope:** MOD-WIDGET unlock (Pontus OK 2026-07-12)
+
+**Changes:**
+- `W1EdgeQuickDock` — kompass-flik höger kant (Executive Midnight) → Röst / Snabbanteckning / Valv → `/widget/*`
+- `widget_bg_premium_panel.xml` — glaspanel + guldkant på WH1/WH2 native layouts
+- Android WH2 title → «Snabbanteckning»; widget-route-mode döljer app-chrome
+- `MainLayout` renderar W1EdgeQuickDock när executiveSkin
+
+**Smoke:** smoke:widgets, smoke:widget-ingest, smoke:locked-icons, smoke:locked-ux, smoke:design-modules PASS
+
+**Build:** `npm run build:web && npx cap sync android` PASS
+
+**Lock:** `node scripts/lock_module.mjs MOD-WIDGET` → locked 2026-07-14
+
+**Next:** Våg 2 G85 device smoke (Pontus manuell) · Våg 3 W1 v2 strip efter device PASS
+
+
 ## 2026-07-13 — YOLO v5 superplan leverans (P4–P12)
 
 **Plattform:** Cursor Agent · **Scope:** polish only, PMIR intakt

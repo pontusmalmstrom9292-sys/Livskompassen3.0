@@ -52,6 +52,22 @@ assert(panic.includes("navigate('/', { replace: true })"), 'panik ska navigera n
 assert(panic.includes('setVaultUnlocked(false)'), 'panik ska låsa Valv');
 assert(panic.includes('WIDGET_RECORDING_ETHICS_STORAGE_KEY'), 'panik ska rensa ethics-nyckel');
 
+console.log('[smoke:widgets] W1EdgeQuickDock executive + premium native…');
+const edgeDock = readCanonical('src/modules/core/components/W1EdgeQuickDock.tsx');
+assert(edgeDock.includes('W1EdgeQuickDock'), 'W1EdgeQuickDock saknas');
+assert(edgeDock.includes("label: 'Röst'"), 'W1EdgeQuickDock saknar Röst');
+assert(edgeDock.includes("label: 'Snabbanteckning'"), 'W1EdgeQuickDock saknar Snabbanteckning');
+assert(edgeDock.includes("label: 'Valv'"), 'W1EdgeQuickDock saknar Valv');
+assert(edgeDock.includes('/widget/inspelning'), 'W1EdgeQuickDock ska routea röst till widget');
+assert(edgeDock.includes('/widget/anteckning'), 'W1EdgeQuickDock ska routea anteckning till widget');
+const mainLayout = readCanonical('src/modules/core/layout/MainLayout.tsx');
+assert(mainLayout.includes('W1EdgeQuickDock'), 'MainLayout saknar W1EdgeQuickDock på executive');
+assert(existsSync(resolve(root, 'android/app/src/main/res/drawable/widget_bg_premium_panel.xml')), 'widget_bg_premium_panel saknas');
+const dockStrip = readCanonical('android/app/src/main/res/layout/widget_dock_strip.xml');
+assert(dockStrip.includes('widget_bg_premium_panel'), 'WH1 layout ska använda widget_bg_premium_panel');
+const dockTile = readCanonical('android/app/src/main/res/layout/widget_dock_tile.xml');
+assert(dockTile.includes('widget_bg_premium_panel'), 'WH2 layout ska använda widget_bg_premium_panel');
+
 console.log('[smoke:widgets] Android WH1 discreet + WH2 inkast copy…');
 const recordProvider = readCanonical('android/app/src/main/java/com/livskompassen/app/widgets/RecordWidgetProvider.java');
 assert(recordProvider.includes('discreetNote'), 'RecordWidgetProvider ska använda discreetNote');
@@ -61,6 +77,7 @@ const noteProvider = readCanonical('android/app/src/main/java/com/livskompassen/
 assert(noteProvider.includes('widget_ic_wh2_note'), 'NoteWidgetProvider ska ha unik WH2-ikon');
 const androidStrings = readCanonical('android/app/src/main/res/values/strings.xml');
 assert(androidStrings.includes('En rad → Inkast'), 'WH2 Android subtitle ska peka Inkast');
+assert(androidStrings.includes('Snabbanteckning'), 'WH2 Android title ska vara Snabbanteckning');
 
 console.log('[smoke:widgets] PV1a Fyren silo-labels…');
 const fyren = readCanonical('src/modules/core/components/FyrenWidgetBar.tsx');

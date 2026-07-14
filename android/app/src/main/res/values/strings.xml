@@ -12,7 +12,7 @@
     <string name="widget_discreet_title">Anteckningar</string>
     <string name="widget_discreet_desc">Anteckningar</string>
 
-    <string name="widget_note_title">Anteckning</string>
+    <string name="widget_note_title">Snabbanteckning</string>
     <string name="widget_note_sub">En rad → Inkast</string>
     <string name="widget_note_desc">Snabblogg — default Inkast (välj silo i appen)</string>
 

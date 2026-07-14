@@ -4,7 +4,7 @@
     android:id="@+id/widget_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/widget_bg_dock_capsule"
+    android:background="@drawable/widget_bg_premium_panel"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingHorizontal="12dp"
