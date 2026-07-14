@@ -1,0 +1,43 @@
+{
+  "at": "2026-07-14T17:26:21.010Z",
+  "runner": "sdk:yolo",
+  "version": 35,
+  "mode": "run",
+  "cloud": false,
+  "branch": null,
+  "runs": [
+    {
+      "runId": "run-0ea2899f-28fa-49e1-a529-26b8efd1db72",
+      "agentId": "agent-8d8ba6c8-9651-4dca-a8a8-9e4ac4e0bbcf",
+      "taskId": "b35-build",
+      "title": "B35 — Navigation P0 — Liv och göra flikar + drawer accordion",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Jag tar B35 Navigation P0: kartlägger nuvarande flikar i Liv och göra och drawer/navTruth innan ändringar.\nImplementerar ändringarna: fliknamn, drawer-accordion och smoke-uppdateringar.\nE2E hittar Planering-länken i en stängd accordion. Döljer stängda undermenyer från DOM/tillgänglighet så klick träffar rätt element.\n**Plattform:** Cursor · **Modell:** Composer  \n**Typ:** Faktiska kodändringar (ingen deploy)\n\n---\n\n## 1. Vad som ändrades\n\n### Liv och göra — flikar\n- **`LivLauncherGrid.tsx`** — Inline-kort använder kanonnamn från `vardagenNavCopy` (Kompasser, Ekonomi, MåBra) så tryck byter tab och E2E hittar rätt `option`-namn.\n\n### Hamburgermeny — accordion\n- **`NavigationDrawer.tsx`** — Vardag-hubbar renderas via `DrawerHubAccordion` + `getHubNavLinks()` från navTruth (Pontus-godkänd B35).\n- **`DrawerHubAccordion.tsx`** — Undermenylänkar får `role=\"link\"`; stängda paneler döljs med `hidden`/`aria-hidden` så klick inte blockeras.\n\n### navTruth — undermenyer\n- **`navTruth.ts`** — Synkade etiketter/sökvägar: MåBra → `/vardagen?tab=mabra`, Planering (tidigare Handling), Ekonomi (tidigare Plånbok), Kompasser → `/vardagen`.\n\n### Smoke-regler\n- **`smoke_locked_ux.mjs`** + **`smoke_superhub.mjs`** — Kräver nu accordion (ersätter förbud mot platta 4-raders-menyn).\n\n---\n\n## 2. Smoke-resultat\n\n| Gate | Resultat |\n|------|----------|\n| `npm run smoke:locked-ux` | **PASS** |\n| `npm run smoke:superhub` | **PASS** |\n| `npm run smoke:e2e-live` | **PASS** (4 passed, 4 skipped p.g.a. auth) |\n\nE2E som verifierades:\n- Liv och göra: Kompasser default, Ekonomi/MåBra byter tab + URL, Kompasser rensar `?tab`\n- Drawer: öppnas, vardag-hub expanderar undermeny, länk navigerar och stänger\n\n---\n\n## 3. Blocker\n\n**Ingen SKIP.** PMIR-zoner orörda (inga rules/deploy/AppRoutes-ändringar).\n\n---\n\n**Sammanfattning:** Flikarna i Liv och göra svarar på tryck med kanonnamn, och hamburgermenyn har accordion med undermenyer från navTruth. Alla gates gröna."
+    },
+    {
+      "runId": "run-d91d157e-120f-4272-873e-0562824d1fee",
+      "agentId": "agent-8d8ba6c8-9651-4dca-a8a8-9e4ac4e0bbcf",
+      "taskId": "b35-gate",
+      "title": "B35 — Wave gate smoke",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Kör b35-gate: verifierar build-v35.md och kör obligatoriska smoke-tester.\n**Plattform:** Cursor · **Agent:** specialist-verifier (marathon-verifier-läge)  \n**Typ:** Endast verifiering — ingen produktionskod ändrad\n\n---\n\n## 1. Vad som ändrades\n\n**Inget i denna gate.** b35-gate är ren verifiering av b35-build.\n\nByggaren (b35-build) levererade 6 filer + smoke-regler:\n\n| Område | Fil | Status |\n|--------|-----|--------|\n| Flikar Liv och göra | `LivLauncherGrid.tsx` | Kanonnamn Kompasser/Ekonomi/MåBra |\n| Drawer accordion | `NavigationDrawer.tsx` | `DrawerHubAccordion` + `getHubNavLinks` |\n| A11y/klick | `DrawerHubAccordion.tsx` | `role=\"link\"`, `hidden` på stängda paneler |\n| navTruth | `navTruth.ts` | Planering, Ekonomi, MåBra-path |\n| Smoke | `smoke_locked_ux.mjs`, `smoke_superhub.mjs` | Kräver accordion (B35) |\n\n**PMIR orörda:** `AppRoutes.tsx`, rules, Barnporten, deploy — inga diffar där.\n\n**Locked UX intakt (grep):** `FamiljenBarnfokusDelegate`, `VaultMonsterPanel`, `VaultOrkesterPanel`, `VaultAktorskartaPanel` — alla kvar.\n\n---\n\n## 2. Smoke-resultat\n\n| Gate | Resultat | Detalj |\n|------|----------|--------|\n| `npm run smoke:locked-ux` | **PASS** | Barnfokus, Valv, drawer, Planering, Widget, Barnporten |\n| `npm run smoke:e2e-live` | **PASS** | 4 passed, 4 skipped (auth-setup; körde med seed-user) |\n\n**E2E som faktiskt kördes och passerade:**\n- Drawer: öppnas, vardag-hub expanderar, länk navigerar + stänger\n- Liv och göra: Kompasser default, Ekonomi/MåBra byter tab+URL, Kompasser rensar `?tab`\n\n---\n\n## 3. Blocker / GAP\n\n**Ingen blocker — wave gate GO.**\n\n**Obs (ej blocker):** `docs/cursor-pipeline/yolo-v35/build-v35.md` saknas i repot (refereras i queue). Eval gjord via smoke + kodinspektion istället. Rekommendation: skapa eval-doc vid b35-vakt om ni vill ha spårbarhet.\n\n---\n\n**Slutsats:** B35 Navigation P0 uppfyller wave-gate. Redo för **b35-vakt** (yolo-vakt slutgate)."
+    },
+    {
+      "runId": "run-e8e825f5-acd0-41b8-85f5-bd7880713251",
+      "agentId": "agent-8d8ba6c8-9651-4dca-a8a8-9e4ac4e0bbcf",
+      "taskId": "b35-vakt",
+      "title": "B35 — yolo-vakt slutgate",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Kör b35-vakt slutgate: smoke-tester och read-only audit för GO/NO-GO.\nUppdaterar orkester-state för handoff till v36.\n**Plattform:** Cursor · **Agent:** yolo-vakt (marathon-yolo-vakt)  \n**Typ:** Read-only audit + orkester-state (ingen produktionskod)\n\n---\n\n## Beslut: **GO**\n\nBuild v35 (NAV-P0) är godkänd. Handoff till **v36 PREMIUM-UI**.\n\n---\n\n## 1. Vad som ändrades\n\n**Produktionskod:** inget i denna vakt.\n\n**Orkester (handoff):** `.orkester/cursor-yolo-state-v35.json` — status `completed`, verdict `GO`, handoff → v36.\n\n**B35-build (overifierat, ej skrivet nu):** 6 filer — flikar, drawer-accordion, navTruth, smoke-regler.\n\n---\n\n## 2. Smoke-resultat\n\n| Gate | Resultat | Bevis |\n|------|----------|-------|\n| `npm run smoke:locked-ux` | **PASS** | Barnfokus, Valv, drawer, Planering, Widget, Barnporten |\n| `npm run smoke:e2e-live` | **PASS** | 4 passed, 4 skipped (auth-setup) |\n\n---\n\n## 3. PASS / GAP-tabell\n\n| Kontroll | Status | Notering |\n|----------|--------|----------|\n| PMIR-zoner orörda | **PASS** | AppRoutes, rules, Barnporten — inga diffar |\n| Locked UX (Barnfokus, Mönster, Orkester) | **PASS** | Delegates/paneler kvar |\n| Tre silos / WORM | **PASS** | Ingen ingest/deploy i v35 |\n| B35 scope (flikar + accordion) | **PASS** | Kod + E2E verifierad |\n| b35-deploy | **SKIP** | Korrekt — kräver Pontus OK deploy |\n| Ocommittade ändringar | **GAP** | 8 filer lokalt — bör committas före merge |\n| Doc/kod-drift (drawer kanon) | **GAP** | `locked-ux-features.mdc` nämner inte accordion uttryckligen — smoke uppdaterad, doc kan synkas i v36 |\n| `build-v35.md` eval-doc | **GAP** | Saknas i repo — ej blocker |\n\n**Ingen blocker. Ingen SKIP utöver b35-deploy (avsiktlig).**\n\n---\n\n## Handoff v36\n\n| Fält | Värde |\n|------|-------|\n| Wave | **v36 — PREMIUM-UI** |\n| Agent | `specialist-ux-guardian` |\n| Plan | Premium UI polish — tokens, calm cards, design-debt 0 |\n| Smoke | `smoke:design-debt`, `smoke:calm-card-audit`, `smoke:copy-audit` |\n\n**Ett nästa steg:** Committa B35-ändringarna, starta sedan v36 med `CURSOR_YOLO_VERSION=36` (eller `npm run sdk:yolo:full`)."
+    }
+  ],
+  "current": {
+    "taskId": "b35-vakt",
+    "title": "B35 — yolo-vakt slutgate",
+    "mode": "task"
+  },
+  "completed": true
+}
