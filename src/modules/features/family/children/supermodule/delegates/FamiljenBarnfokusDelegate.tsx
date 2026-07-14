@@ -1,5 +1,5 @@
 /** @locked MOD-FAM-BARN — låst modul; unlock via docs/evaluations/*-unlock-MOD-FAM-BARN.md */
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Loader2, RefreshCw, Sparkles } from 'lucide-react';
 import { TextArea } from '@/design-system';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
@@ -60,6 +60,14 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
   const [question, setQuestion] = useState<BarnfokusQuestion>(() =>
     pickQuestion(pool, daySeed(childAlias)),
   );
+
+  useEffect(() => {
+    const nextPool = barnfokusQuestionsForAge(bracket, ageYears);
+    setQuestion(pickQuestion(nextPool, daySeed(childAlias)));
+    setAnswer('');
+    setError(null);
+    setEpistemicKind('citat');
+  }, [childAlias, bracket, ageYears]);
 
   const kindLabel = BARNFOKUS_KIND_LABELS[question.kind];
   const memoryMeta =
@@ -130,6 +138,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
           <button
             key={kind}
             type="button"
+            aria-pressed={epistemicKind === kind}
             onClick={() => setEpistemicKind(kind)}
             className={
               epistemicKind === kind
@@ -146,6 +155,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
         placeholder={`${childAlias}s svar — rakt av, med barnets egna ord…`}
+        aria-label={`${childAlias}s svar på barnfokusfrågan`}
         rows={3}
         className="barnfokus-fragan-panel__field od-depth__field input-glass neu-inset resize-none"
       />

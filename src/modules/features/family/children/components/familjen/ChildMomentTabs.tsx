@@ -24,9 +24,11 @@ export function ChildMomentTabs({ active, childAlias, onChange }: Props) {
         return (
           <button
             key={id}
+            id={`child-moment-tab-${id}`}
             type="button"
             role="tab"
             aria-selected={selected}
+            aria-controls="child-moment-panel"
             onClick={() => onChange(id)}
             className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
               selected ? 'chip--active' : 'chip--idle'
