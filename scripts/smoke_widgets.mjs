@@ -52,6 +52,29 @@ assert(panic.includes("navigate('/', { replace: true })"), 'panik ska navigera n
 assert(panic.includes('setVaultUnlocked(false)'), 'panik ska låsa Valv');
 assert(panic.includes('WIDGET_RECORDING_ETHICS_STORAGE_KEY'), 'panik ska rensa ethics-nyckel');
 
+console.log('[smoke:widgets] W1 v2 kompakt rail + executive edge…');
+const kompaktRail = readCanonical('src/modules/features/widgets/components/W1KompaktProjektRail.tsx');
+assert(kompaktRail.includes('W1KompaktProjektRail'), 'W1KompaktProjektRail saknas');
+assert(kompaktRail.includes('W1_KOMPAKT_RAIL_ACTIONS'), 'W1KompaktProjektRail ska använda delad config');
+assert(kompaktRail.includes('/widget/projekt'), 'W1 kompakt rail ska routea lista till /widget/projekt');
+assert(kompaktRail.includes('/widget/anteckning'), 'W1 kompakt rail ska routea anteckning');
+assert(kompaktRail.includes('/widget/inspelning'), 'W1 kompakt rail ska routea tyst inspelning');
+const railConfig = readCanonical('src/modules/features/widgets/config/w1KompaktRailActions.ts');
+assert(railConfig.includes("label: 'Nytt projekt'"), 'W1 rail config saknar Nytt projekt');
+assert(railConfig.includes("label: 'Planering'"), 'W1 rail config saknar Planering');
+const projektPage = readCanonical('src/modules/features/widgets/pages/WidgetProjektPage.tsx');
+assert(projektPage.includes('W1KompaktProjektRail'), 'WidgetProjektPage saknar kompakt rail');
+const edgeDock = readCanonical('src/modules/core/components/W1EdgeQuickDock.tsx');
+assert(edgeDock.includes('W1KompaktProjektRail'), 'W1EdgeQuickDock ska använda kompakt rail');
+const mainLayout = readCanonical('src/modules/core/layout/MainLayout.tsx');
+assert(mainLayout.includes('W1EdgeQuickDock'), 'MainLayout saknar W1EdgeQuickDock på executive');
+assert(existsSync(resolve(root, 'docs/evaluations/2026-07-14-unlock-MOD-WIDGET-W1-V2.md')), 'W1 v2 unlock-doc saknas');
+assert(existsSync(resolve(root, 'android/app/src/main/res/drawable/widget_bg_premium_panel.xml')), 'widget_bg_premium_panel saknas');
+const dockStrip = readCanonical('android/app/src/main/res/layout/widget_dock_strip.xml');
+assert(dockStrip.includes('widget_bg_premium_panel'), 'WH1 layout ska använda widget_bg_premium_panel');
+const dockTile = readCanonical('android/app/src/main/res/layout/widget_dock_tile.xml');
+assert(dockTile.includes('widget_bg_premium_panel'), 'WH2 layout ska använda widget_bg_premium_panel');
+
 console.log('[smoke:widgets] Android WH1 discreet + WH2 inkast copy…');
 const recordProvider = readCanonical('android/app/src/main/java/com/livskompassen/app/widgets/RecordWidgetProvider.java');
 assert(recordProvider.includes('discreetNote'), 'RecordWidgetProvider ska använda discreetNote');
@@ -61,6 +84,7 @@ const noteProvider = readCanonical('android/app/src/main/java/com/livskompassen/
 assert(noteProvider.includes('widget_ic_wh2_note'), 'NoteWidgetProvider ska ha unik WH2-ikon');
 const androidStrings = readCanonical('android/app/src/main/res/values/strings.xml');
 assert(androidStrings.includes('En rad → Inkast'), 'WH2 Android subtitle ska peka Inkast');
+assert(androidStrings.includes('Snabbanteckning'), 'WH2 Android title ska vara Snabbanteckning');
 
 console.log('[smoke:widgets] PV1a Fyren silo-labels…');
 const fyren = readCanonical('src/modules/core/components/FyrenWidgetBar.tsx');

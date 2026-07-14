@@ -172,7 +172,9 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] FyrenWidgetBar CSS localization into WidgetShell.css
 - [x] smoke:widgets
 - [x] WH1/WH2 Executive Midnight polish (discreet native + Inkast copy + WidgetShell panik 44px) — 2026-07-12
-- [ ] G85 device re-verify WH1 tap→spara→Dölj nu + WH2 Inkast (efter cap sync)
+- [x] Våg 1 MOD-WIDGET polish — W1EdgeQuickDock executive + widget_bg_premium_panel + WH2 «Snabbanteckning» — 2026-07-14
+- [x] G85 device re-verify WH1 tap→spara→Dölj nu + WH2 Inkast + W1 kant (Våg 2, Pontus) — 2026-07-14
+- [x] Våg 3 W1 v2 kompakt strip — Theme Lab → prod (`/widget/projekt` + W1EdgeQuickDock) — 2026-07-14
 - [x] Motorola G85 manual test pass
 
 ---
@@ -247,7 +249,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [ ] All Completion-Criteria.md sections checked
 - [ ] Dashboard all prod zones Done
 - [x] smoke:predeploy:build green (2026-07-11)
-- [ ] yolo-vakt GO
+- [x] yolo-vakt GO (MOD-WIDGET våg 4 — 2026-07-14)
 - [ ] Pontus sign-off
 - [ ] Final PROGRESS.md entry
 

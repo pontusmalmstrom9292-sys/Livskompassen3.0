@@ -10,6 +10,7 @@ import {
   FyrenHeaderQuickProvider,
   FyrenHeaderQuickToggle,
 } from '../components/FyrenSideQuickDock';
+import { W1EdgeQuickDock } from '../components/W1EdgeQuickDock';
 import { FyrenWidgetProvider } from '../components/fyrenWidgetContext';
 
 import { AppHeaderBar } from '../components/AppHeaderBar';
@@ -144,6 +145,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       {!barnportenChildShell ? (
         <>
           {!executiveSkin && !bastaDesignSkin ? <FyrenWidgetBar /> : null}
+          {executiveSkin ? <W1EdgeQuickDock /> : null}
           {bastaDesignSkin ? <BastaDesignDock /> : <FloatingDock />}
         </>
       ) : null}

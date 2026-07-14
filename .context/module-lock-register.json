@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-13",
+  "updatedAt": "2026-07-14",
   "modules": [
     {
       "id": "MOD-CORE-NAV",
@@ -426,8 +426,8 @@
         "smoke:widget-ingest"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-13",
-      "lockedCommit": "a36f01978",
+      "lockedAt": "2026-07-14",
+      "lockedCommit": "4677d4ab2",
       "unlockDoc": "docs/evaluations/2026-07-12-unlock-MOD-WIDGET.md",
       "unlockedAt": "2026-07-12"
     }

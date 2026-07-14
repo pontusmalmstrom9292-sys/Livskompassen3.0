@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Executive Midnight premium glaspanel — navy djup + guldkant (3D, ej platt brun) -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="168"
+        android:centerColor="#E6182230"
+        android:endColor="#F2050810"
+        android:startColor="#CC222D3F"
+        android:type="linear" />
+    <stroke
+        android:width="1.5dp"
+        android:color="#99D4AF37" />
+    <corners android:radius="22dp" />
+</shape>

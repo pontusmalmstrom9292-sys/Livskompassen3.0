@@ -201,15 +201,15 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** 
 - **Notes:** DagbokInputSuperModule shell, the Dagbok delegates, and SpeglarSuperModule now share a calmer premium frame; remaining Hjärtat surfaces stay open.
 
 ### Widgets (11 routes)
-- **Status:** Not Started
+- **Status:** Done (våg 1–3 code complete)
 - **Priority:** High
 - **Files:** src/modules/features/widgets/**
-### MOD-WIDGET WH1/WH2 (2026-07-12)
-- **Status:** Code complete — väntar G85 device re-verify
-- **Native:** WH1 discreet horizontal layout; WH2 unik ikon; Android strings → Inkast
-- **Web:** WidgetShell panik 44px, reduced-motion, ethics-nyckel fix
+### MOD-WIDGET WH1/WH2 (2026-07-14)
+- **Status:** Våg 1–3 PASS — W1 kompakt rail i prod 2026-07-14
+- **Native:** widget_bg_premium_panel + guldkrets; WH1 discreet; WH2 «Snabbanteckning» + Inkast subtitle
+- **In-app:** W1EdgeQuickDock → kompakt projekt-strip (7 val); `/widget/projekt` med rail; widget-route utan chrome
 - **Smoke:** widgets, widget-ingest, locked-icons, locked-ux, design-modules PASS
-- **Sync:** build:web + cap sync android PASS
+- **Sync:** build:web + cap sync android PASS · MOD-WIDGET re-locked 2026-07-14
 
 
 ### Legacy CSS sunset
@@ -248,3 +248,8 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** 
 - Android viewport CSS + smoke:android-viewport
 - Docs: OFFLINE-ANDROID, FIREBASE-AUTH-LATHUND, .context/android-capacitor.md
 - Smoke: android-platform, planering-gora-e, inkast-fas2, locked-ux, cost-guard PASS
+
+## 2026-07-14 — MOD-WIDGET våg 4 YOLO
+- W1EdgeQuickDock + W1KompaktProjektRail (7 val)
+- smoke:predeploy:build + governance PASS
+- YOLO GO — merge-ready, deploy SKIP

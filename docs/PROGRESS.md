@@ -2664,6 +2664,47 @@ Copy the template below for each entry. Newest first.
 **Next:** G85 device smoke — lägg till widget → tap → spara → «Dölj nu». W1 v2 kompakt strip deferred (C).
 
 
+## 2026-07-14 — MOD-WIDGET Våg 3 (W1 v2 kompakt strip → prod)
+
+**Plattform:** Cursor Agent · unlock W1-V2 (Pontus «kör våg 3»)
+
+**Changes:**
+- `W1KompaktProjektRail` + `w1KompaktRailActions` — extraherad från Theme Lab
+- `/widget/projekt` — inbäddad rail + picker
+- `W1EdgeQuickDock` — expanderar full kompakt strip (Executive Fyren)
+- Theme Lab preview importerar prod-rail
+
+**Smoke:** smoke:widgets, smoke:design-modules, smoke:locked-ux PASS
+
+
+## 2026-07-14 — MOD-WIDGET Våg 2 (G85 device OK)
+
+**Plattform:** Pontus manuell · Motorola G85
+
+**Verifierat:** WH1 tap→etik→inspelning→spara→«Dölj nu» · WH2 tap→skriv→Inkast→spara→«Dölj nu» · W1 kant (Röst/Snabbanteckning/Valv) · premium glaspanel + guldkrets
+
+**Status:** PASS — Våg 3 (W1 v2 kompakt strip) kräver separat unlock (ej i MOD-WIDGET scope)
+
+
+## 2026-07-14 — MOD-WIDGET Våg 1 (W1EdgeQuickDock + premium native)
+
+**Plattform:** Cursor Agent · YOLO våg 1 · **Scope:** MOD-WIDGET unlock (Pontus OK 2026-07-12)
+
+**Changes:**
+- `W1EdgeQuickDock` — kompass-flik höger kant (Executive Midnight) → Röst / Snabbanteckning / Valv → `/widget/*`
+- `widget_bg_premium_panel.xml` — glaspanel + guldkant på WH1/WH2 native layouts
+- Android WH2 title → «Snabbanteckning»; widget-route-mode döljer app-chrome
+- `MainLayout` renderar W1EdgeQuickDock när executiveSkin
+
+**Smoke:** smoke:widgets, smoke:widget-ingest, smoke:locked-icons, smoke:locked-ux, smoke:design-modules PASS
+
+**Build:** `npm run build:web && npx cap sync android` PASS
+
+**Lock:** `node scripts/lock_module.mjs MOD-WIDGET` → locked 2026-07-14
+
+**Next:** Våg 2 G85 device smoke (Pontus manuell) · Våg 3 W1 v2 strip efter device PASS
+
+
 ## 2026-07-13 — YOLO v5 superplan leverans (P4–P12)
 
 **Plattform:** Cursor Agent · **Scope:** polish only, PMIR intakt
@@ -2679,3 +2720,21 @@ Copy the template below for each entry. Newest first.
 **Verification:** locked-ux, design-modules, orkester, predeploy:build PASS
 
 **Leverans:** docs/evaluations/2026-07-13-cursor-yolo-v5-leverans.md
+
+## 2026-07-14 — MOD-WIDGET våg 4 YOLO gate + våg 5 PR-prep
+
+**Plattform:** Cursor Agent · **Gren:** fix/natt-ci-setup-playwright-close @ 6b07ae528
+
+**Våg 4 audit:**
+- smoke:predeploy:build PASS
+- smoke:governance PASS
+- WORM/tre silos/locked UX: PASS (0 rules diff, ingen locked-fil i scope)
+- MOD-WIDGET scope: 21 filer, clean tree
+- Beslut: **GO** — docs/evaluations/2026-07-14-yolo-audit-widgets.md
+
+**Not:** Widget-commits återställda på gren (dangling efter PR #214 merge av endast natt-ci-fix).
+
+**Deploy:** SKIP — väntar «Pontus OK deploy»
+
+**Nästa:** PR merge efter CI grön
+

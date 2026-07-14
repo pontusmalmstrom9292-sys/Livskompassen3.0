@@ -3,7 +3,7 @@
 **Datum:** 2026-07-12  
 **Modul:** MOD-WIDGET — Fyren + widget-routes + Android hemskärms-widgets  
 **Status:** unlocked  
-**approved:** yes  
+approved: yes  
 **Godkänd av:** Pontus  
 
 ---
@@ -26,11 +26,23 @@
 
 ## DoD
 
-- [ ] WH1 hemskärm: «Anteckningar», discreet layout, ingen REC-indikator
-- [ ] WH2 hemskärm: unik ikon, subtitle «En rad → Inkast»
-- [ ] Device smoke G85: tap → route → spara → panik dölj
-- [ ] `smoke:widgets`, `smoke:widget-ingest`, `smoke:locked-icons`, `smoke:design-modules`, `smoke:locked-ux` PASS
+- [x] WH1 hemskärm: «Anteckningar», discreet layout, ingen REC-indikator
+- [x] WH2 hemskärm: unik ikon + «Snabbanteckning», subtitle «En rad → Inkast»
+- [x] Device smoke G85: tap → route → spara → panik dölj (Våg 2, Pontus 2026-07-14)
+- [x] `smoke:widgets`, `smoke:widget-ingest`, `smoke:locked-icons`, `smoke:design-modules`, `smoke:locked-ux` PASS
 
 ## Re-lock
 
 Efter smoke PASS: `node scripts/lock_module.mjs MOD-WIDGET --smoke smoke:widgets smoke:widget-ingest`
+
+
+## Våg 1 leverans (2026-07-14)
+
+- W1EdgeQuickDock (Executive höger kant) → Röst / Snabbanteckning / Valv
+- `widget_bg_premium_panel.xml` på native WH1/WH2
+- MOD-WIDGET re-locked efter smoke PASS
+
+
+## Våg 2 leverans (2026-07-14)
+
+- Pontus G85 OK — WH1/WH2 hemskärm + W1 kant verifierad på device

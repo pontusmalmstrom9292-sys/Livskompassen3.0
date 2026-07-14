@@ -1,0 +1,88 @@
+@tailwind components;
+
+@layer components {
+  .w1-edge-quick-dock {
+    @apply pointer-events-none fixed right-0 top-1/2 z-[56] flex -translate-y-1/2 flex-col items-end pr-1;
+    padding-right: max(0.25rem, env(safe-area-inset-right, 0px));
+  }
+
+  .w1-edge-quick-dock__panel {
+    @apply pointer-events-auto flex flex-col items-center gap-1 overflow-hidden rounded-l-2xl border border-r-0 py-2 pl-2 pr-1.5 transition-all duration-200;
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+    background: linear-gradient(
+      168deg,
+      color-mix(in srgb, var(--surface) 78%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 92%, transparent) 100%
+    );
+    backdrop-filter: blur(14px) saturate(130%);
+    -webkit-backdrop-filter: blur(14px) saturate(130%);
+    box-shadow:
+      -8px 0 28px rgba(0, 0, 0, 0.32),
+      inset 0 1px 0 rgba(255, 248, 220, 0.05);
+    max-height: 0;
+    opacity: 0;
+    transform: translateX(6px);
+  }
+
+  .w1-edge-quick-dock--open .w1-edge-quick-dock__panel {
+    max-height: 24rem;
+    opacity: 1;
+    transform: translateX(0);
+    margin-bottom: 0.35rem;
+  }
+
+  .w1-edge-quick-dock__tab {
+    @apply pointer-events-auto flex min-h-11 min-w-11 flex-col items-center justify-center rounded-l-xl border border-r-0 p-1 transition-colors;
+    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+    background: linear-gradient(
+      165deg,
+      color-mix(in srgb, var(--surface) 70%, transparent),
+      color-mix(in srgb, var(--bg) 88%, transparent)
+    );
+    box-shadow:
+      -4px 0 16px rgba(0, 0, 0, 0.28),
+      inset 0 1px 0 rgba(255, 248, 220, 0.06);
+  }
+
+  .w1-edge-quick-dock__tab--open {
+    border-color: color-mix(in srgb, var(--accent) 52%, transparent);
+    box-shadow:
+      -6px 0 20px rgba(0, 0, 0, 0.34),
+      0 0 14px color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .w1-edge-quick-dock__compass {
+    @apply h-6 w-6;
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 35%, transparent));
+  }
+
+  .w1-edge-quick-dock__action {
+    @apply flex min-h-11 w-[2.85rem] flex-col items-center gap-0.5 rounded-lg px-0.5 py-1 text-text-muted transition-colors;
+  }
+
+  .w1-edge-quick-dock__action:hover,
+  .w1-edge-quick-dock__action:focus-visible {
+    @apply text-accent;
+  }
+
+  .w1-edge-quick-dock__icon-shell {
+    @apply flex h-[2.35rem] w-[2.35rem] items-center justify-center rounded-xl border;
+    border-color: color-mix(in srgb, var(--accent) 22%, transparent);
+    background: color-mix(in srgb, var(--bg) 62%, transparent);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .w1-edge-quick-dock__glyph {
+    @apply h-4 w-4;
+  }
+
+  .w1-edge-quick-dock__label {
+    @apply max-w-full truncate text-center text-[7px] font-medium uppercase leading-tight tracking-wide text-text-dim;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .w1-edge-quick-dock__panel {
+      transition: none;
+    }
+  }
+}

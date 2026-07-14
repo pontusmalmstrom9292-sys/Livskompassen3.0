@@ -125,6 +125,10 @@
 }
 
 /* Fristående widget-läge — dölj app-chrome (dock, zen, m.m.) */
+html.widget-route-mode .app-header,
+html.widget-route-mode .app-shell > .floating-dock-shell,
+html.widget-route-mode .dock-shell,
+html.widget-route-mode .w1-edge-quick-dock,
 html.widget-route-mode #zen-mode-trigger,
 html.widget-route-mode [data-quick-capture-trigger],
 html.widget-route-mode .system-status-panel {
