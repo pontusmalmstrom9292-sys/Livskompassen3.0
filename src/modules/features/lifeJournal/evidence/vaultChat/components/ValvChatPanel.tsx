@@ -3,6 +3,7 @@ import { Brain, ExternalLink, FileText, Loader2, Send, Sparkles, User, X } from 
 import { Button, Modal, buttonClassName } from '@/design-system';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { VAVAREN_VALVCHAT_HINT } from '../../vault/constants/vavarenCopy';
+import { VALV_SILO_NO_CROSS_RAG } from '../../vault/constants/valvEvidenceCopy';
 import type { ValvChatCitation } from '../api/valvChatService';
 import { useValvChatSession, type ValvChatMessage } from '../hooks/useValvChatSession';
 import type { VaultLog } from '@/core/types/firestore';
@@ -11,6 +12,7 @@ import { TheoryWithoutEvidenceBadge } from '@/shared/ui/TheoryWithoutEvidenceBad
 import { EmptyState } from '@/core/ui/EmptyState';
 import { SanningsAnalytikernHeader } from './SanningsAnalytikernHeader';
 import { AgentResponseFooter } from '@/shared/agents/components/AgentResponseFooter';
+import { VaultWormEvidenceStamp } from '../../vault/components/VaultWormEvidenceStamp';
 
 const EXAMPLE_QUESTIONS = [
   'När sa hen att jag inte hämtade barnen?',
@@ -140,6 +142,7 @@ function ValvChatExtendedHints({
   return (
     <div className="space-y-3 text-xs text-text-dim">
       <p>{VAVAREN_VALVCHAT_HINT}</p>
+      <p>{VALV_SILO_NO_CROSS_RAG}</p>
       <p>Källor länkas till låsta poster i Logga. Inget chattminne sparas efter stäng — Zero Footprint.</p>
       <div>
         <p className="mb-2 font-medium uppercase tracking-wider text-text-muted">Exempelfrågor</p>
@@ -271,6 +274,8 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
                   <p className="text-[9px] uppercase tracking-wider text-text-dim">ID: {previewLog.id}</p>
                 </div>
               </div>
+
+              <VaultWormEvidenceStamp createdAt={previewLog.createdAt} />
 
               <div className="space-y-3.5 text-sm">
                 <div className="grid grid-cols-2 gap-2 text-[10px] uppercase tracking-widest text-text-dim">

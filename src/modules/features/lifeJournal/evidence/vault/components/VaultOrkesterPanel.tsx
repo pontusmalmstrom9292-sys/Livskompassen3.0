@@ -21,6 +21,8 @@ import {
   callProcessBrusfilter,
   type ProcessBrusfilterResult,
 } from '../api/processBrusfilterService';
+import { HandoffBox } from '@/features/lifeJournal/diary/diary/components/HandoffBox';
+import { VALV_ORKESTER_NO_AUTO_WORM, VALV_SILO_NO_CROSS_RAG } from '../constants/valvEvidenceCopy';
 
 const RAW_INPUT_MAX = 8000;
 
@@ -144,6 +146,32 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
 
   const showBrusWarningBorder = brusResult?.dcap_analysis.recommended_action === 'VARNING';
 
+  const brusHandoffText = useMemo(() => {
+    if (!brusResult) return undefined;
+    const parts = [
+      'Källa: Orkester Brusfilter',
+      brusResult.isolated_logistics?.trim()
+        ? `Logistik: ${brusResult.isolated_logistics.trim()}`
+        : null,
+      brusResult.biff_draft_reply?.trim()
+        ? `BIFF-förslag: ${brusResult.biff_draft_reply.trim()}`
+        : null,
+    ].filter(Boolean);
+    return parts.length > 1 ? parts.join('\n') : undefined;
+  }, [brusResult]);
+
+  const threadHandoffText = useMemo(() => {
+    if (!grans && riskScore == null) return undefined;
+    const parts = [
+      'Källa: SMS-mönstersökning (Orkester)',
+      thread.trim() ? `Tråd: ${thread.trim().slice(0, 2000)}` : null,
+      grans?.techniques?.length ? `Taktiker: ${grans.techniques.join(', ')}` : null,
+      grans?.cleanFacts?.length ? `Rena fakta: ${grans.cleanFacts.join(', ')}` : null,
+      riskScore != null ? `DCAP: ${riskScore}/100` : null,
+    ].filter(Boolean);
+    return parts.length > 1 ? parts.join('\n') : undefined;
+  }, [grans, riskScore, thread]);
+
   const handleTrioAgentAction = useCallback(
     (agentId: string) => {
       if (agentId === 'agent_sannings_analytikern') {
@@ -165,6 +193,8 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
         <ModuleHelpFromRegistry moduleId="valv_orkester" />
       </div>
       <OrkesterAgentTrio onAgentAction={handleTrioAgentAction} />
+      <p className="valv-silo-notice">{VALV_ORKESTER_NO_AUTO_WORM}</p>
+      <p className="valv-silo-notice">{VALV_SILO_NO_CROSS_RAG}</p>
 
       <CalmCollapsible
         title="P1 Brusfilter"
@@ -285,6 +315,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
             </div>
           </div>
         )}
+        {brusHandoffText ? <HandoffBox sourceText={brusHandoffText} className="mt-4" /> : null}
           </BentoCard>
         </div>
       </CalmCollapsible>
@@ -401,6 +432,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
             ) : null}
           </div>
         )}
+        {threadHandoffText ? <HandoffBox sourceText={threadHandoffText} className="mt-4" /> : null}
       </div>
       </CalmCollapsible>
     </div>

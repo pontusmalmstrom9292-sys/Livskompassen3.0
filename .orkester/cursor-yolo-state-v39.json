@@ -1,0 +1,28 @@
+{
+  "version": 39,
+  "queueFile": ".orkester/cursor-yolo-queue-v39.json",
+  "buildWaveId": "FAMILJEN",
+  "startedAt": "2026-07-14T19:55:00.000Z",
+  "updatedAt": "2026-07-14T19:55:00.000Z",
+  "sequentialPhase": {
+    "status": "in_progress",
+    "currentTaskId": "b39-build",
+    "completedTaskIds": [],
+    "skippedTaskIds": [
+      "b39-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b39-deploy",
+    "b39-build",
+    "b39-gate",
+    "b39-vakt"
+  ],
+  "notes": "YOLO v39 BUILD — SDK marathon (handoff från v38)",
+  "handoffFrom": {
+    "version": 38,
+    "waveId": "VALV",
+    "verdict": "GO"
+  }
+}
