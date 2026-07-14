@@ -1,6 +1,6 @@
 # LOCK-MANIFEST — Copy-paste för alla agenter
 
-**Version:** 1.16 · **Senast:** 2026-07-14 (YOLO v23 P190)  
+**Version:** 1.17 · **Senast:** 2026-07-14 (YOLO v41 B41-build)  
 **Register:** `.context/module-lock-register.json` · **Locked UX:** `.context/locked-ux-features.md`
 
 ---
@@ -460,3 +460,25 @@ Eval-logg: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v23-log.md`
 - `scripts/cursor_yolo.mjs` → `getYoloConfig` för v23+ (mkFortificationConfig)
 - `smoke:governance` + `smoke:mdc` PASS
 - Eval: `docs/evaluations/2026-07-14-agent-fortification-v23.md`
+
+## § YOLO v41 GOVERNANCE sync (B41-build)
+
+*Fortsätter v13 (v23 P190) — inget tas bort.*
+
+### Build marathon v41
+
+```bash
+CURSOR_YOLO_VERSION=41 node scripts/cursor_yolo.mjs status
+```
+
+Kö: `.orkester/cursor-yolo-queue-v41.json` · State: `.orkester/cursor-yolo-state-v41.json`
+
+Eval: `docs/evaluations/2026-07-14-governance-v41.md`
+
+### Governance sync verify (B41-build)
+
+- PROJECT_STATE, TODO, LOCK-MANIFEST synkade mot register
+- Register ↔ LOCK-MANIFEST entryFiles-tabell i sync (22 moduler, 24 entryFiles)
+- Alla entryFiles på disk med `@locked` / `@locked-ux` / `PROTECTED CORE`
+- `smoke:governance` + `smoke:module-lock` + `smoke:mdc` PASS
+- Handoff från v40 INTEGRATION GO — ingen produktionskod ändrad

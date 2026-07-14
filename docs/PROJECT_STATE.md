@@ -81,6 +81,8 @@ Phase 0–9 baseline och migration **done**. Phase 10: index.css import-only; v�
 
 | **MOD-WIDGET deploy** | hosting + functions | **PASS** 2026-07-14 · f937d0672 |
 | **smoke:predeploy:build** | pre-deploy | **PASS** 2026-07-14 |
+| **YOLO v40 INTEGRATION** | innehåll + seed dry-run | **GO** 2026-07-14 — [`integration-v40.md`](./evaluations/2026-07-14-integration-v40.md) |
+| **YOLO v41 GOVERNANCE** | docs + module-lock sync | **PASS** 2026-07-14 — [`governance-v41.md`](./evaluations/2026-07-14-governance-v41.md) |
 
 
 | Check | Date |
@@ -90,8 +92,14 @@ Phase 0–9 baseline och migration **done**. Phase 10: index.css import-only; v�
 | `gcp:audit-apis` | 2026-07-11 PASS |
 | Fas 24 build sequence through 23E | 2026-06-25 |
 | AI Governance system v1.2 (PROJECT_STATE sync) | 2026-07-11 |
+| `smoke:governance` + `smoke:module-lock` | 2026-07-14 — 22/22 locked, 24 entryFiles |
+| Build marathon v34–v41 | v40 INTEGRATION GO → v41 GOVERNANCE aktiv |
 
 ### MOD-WIDGET Standalone v1 (2026-07-14)
 - Fristående widget-skin + WH7 Åtgärder + AppUnlock bypass på `/widget/*`
 - Preview: `/dev/design-freeport` → Widget Standalone
 - Smoke: `smoke:widgets`, `smoke:predeploy:build` PASS · MOD-WIDGET **locked**
+
+### SDK build marathon (v34–v47)
+- **v40 INTEGRATION:** `smoke:innehall`, `smoke:content-waves` PASS · seed `--dry-run` (47 poster) · preflight PARTIAL (icke-blockerande)
+- **v41 GOVERNANCE:** PROJECT_STATE, TODO, LOCK-MANIFEST synkade · register ↔ manifest (22 moduler, 24 entryFiles)

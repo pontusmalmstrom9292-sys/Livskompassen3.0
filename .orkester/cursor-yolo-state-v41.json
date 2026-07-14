@@ -3,11 +3,15 @@
   "queueFile": ".orkester/cursor-yolo-queue-v41.json",
   "buildWaveId": "GOVERNANCE",
   "startedAt": "2026-07-14T18:06:00.000Z",
-  "updatedAt": "2026-07-14T18:06:00.000Z",
+  "updatedAt": "2026-07-14T17:57:27.859Z",
   "sequentialPhase": {
     "status": "in_progress",
-    "currentTaskId": "b41-build",
-    "completedTaskIds": [],
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b41-build",
+      "b41-gate",
+      "b41-vakt"
+    ],
     "skippedTaskIds": [
       "b41-deploy"
     ],
