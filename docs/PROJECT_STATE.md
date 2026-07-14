@@ -79,6 +79,10 @@ Phase 0–9 baseline och migration **done**. Phase 10: index.css import-only; v�
 
 ## Last verified
 
+| **MOD-WIDGET deploy** | hosting + functions | **PASS** 2026-07-14 · f937d0672 |
+| **smoke:predeploy:build** | pre-deploy | **PASS** 2026-07-14 |
+
+
 | Check | Date |
 |-------|------|
 | Full verifiering Fas A–F | 2026-07-11 — [`docs/evaluations/2026-07-10-full-verifiering.md`](./evaluations/2026-07-10-full-verifiering.md) |

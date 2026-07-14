@@ -2738,3 +2738,18 @@ Copy the template below for each entry. Newest first.
 
 **Nästa:** PR merge efter CI grön
 
+
+## 2026-07-14 — MOD-WIDGET hosting deploy (Pontus OK)
+
+**Commit:** f937d0672 (PR #215 merged)  
+**Deploy:** `firebase deploy --only hosting` — SUCCESS  
+**Smoke före deploy:** smoke:predeploy:build PASS  
+**YOLO:** GO — docs/evaluations/2026-07-14-yolo-audit-widgets.md  
+**Scope:** W1EdgeQuickDock + W1KompaktProjektRail + premium native WH1/WH2  
+**Ej deployat:** firestore.rules, storage.rules, functions (PMIR)
+
+**URL:** https://gen-lang-client-0481875058.web.app
+
+**Full deploy (2026-07-14 ~09:20):** hosting + functions SUCCESS · cap:sync:prod PASS
+
+
