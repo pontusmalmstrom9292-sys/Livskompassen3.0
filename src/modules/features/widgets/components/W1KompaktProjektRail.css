@@ -1,0 +1,58 @@
+@tailwind components;
+
+@layer components {
+  .w1-kompakt-rail {
+    @apply flex flex-col items-center gap-1;
+  }
+
+  .w1-kompakt-rail--embedded {
+    @apply absolute right-0 top-2 z-[2] w-[3rem];
+  }
+
+  .w1-kompakt-rail--edge {
+    @apply max-h-[inherit] overflow-y-auto px-0.5 py-1;
+    scrollbar-width: none;
+  }
+
+  .w1-kompakt-rail--edge::-webkit-scrollbar {
+    display: none;
+  }
+
+  .w1-kompakt-rail__action {
+    @apply flex min-h-11 w-full flex-col items-center gap-0.5 rounded-lg px-0.5 py-1 text-text-muted transition-colors;
+  }
+
+  .w1-kompakt-rail__action:hover,
+  .w1-kompakt-rail__action:focus-visible,
+  .w1-kompakt-rail__action--active {
+    @apply text-accent;
+  }
+
+  .w1-kompakt-rail__icon-shell {
+    @apply flex h-[2.35rem] w-[2.35rem] items-center justify-center rounded-xl border;
+    border-color: color-mix(in srgb, var(--accent) 20%, transparent);
+    background: color-mix(in srgb, var(--bg) 62%, transparent);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .w1-kompakt-rail__action--active .w1-kompakt-rail__icon-shell {
+    border-color: color-mix(in srgb, var(--accent) 48%, transparent);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+
+  .w1-kompakt-rail__glyph {
+    @apply h-4 w-4;
+  }
+
+  .w1-kompakt-rail__label {
+    @apply max-w-full truncate text-center text-[7px] font-medium uppercase leading-tight tracking-wide text-text-dim;
+  }
+
+  .w1-kompakt-rail__action--active .w1-kompakt-rail__label {
+    @apply text-accent/90;
+  }
+
+  .widget-projekt-stage {
+    @apply relative pr-[3.25rem];
+  }
+}

@@ -1,42 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { clsx } from 'clsx';
-import { Shield } from 'lucide-react';
-import { hasVaultGate } from '../auth/sessionService';
-import { NAV_PATHS } from '../navigation/navTruth';
-import { useStore } from '../store';
+import { W1KompaktProjektRail } from '@/features/widgets/components/W1KompaktProjektRail';
 import { ExecutiveDecorCompass } from '../ui/executive/ExecutiveDecorCompass';
-import { FyrenShortcutMicIcon, FyrenShortcutNoteIcon } from '../ui/widget-icons';
 import { readFyrenSideQuickHidden } from './FyrenSideQuickDock';
 import './W1EdgeQuickDock.css';
 
-type EdgeAction = {
-  id: string;
-  label: string;
-  to: string;
-  icon: 'mic' | 'note' | 'shield';
-};
-
-const EDGE_ACTIONS: EdgeAction[] = [
-  { id: 'rost', label: 'Röst', to: '/widget/inspelning?autostart=1', icon: 'mic' },
-  { id: 'snabbanteckning', label: 'Snabbanteckning', to: '/widget/anteckning', icon: 'note' },
-  { id: 'valv', label: 'Valv', to: NAV_PATHS.VALVET, icon: 'shield' },
-];
-
-function EdgeActionIcon({ kind }: { kind: EdgeAction['icon'] }) {
-  const shell = 'w1-edge-quick-dock__glyph';
-  if (kind === 'mic') return <FyrenShortcutMicIcon className={shell} />;
-  if (kind === 'note') return <FyrenShortcutNoteIcon className={shell} />;
-  return <Shield className={shell} strokeWidth={1.75} aria-hidden />;
-}
-
-/** W1 — kompass-flik höger kant (Executive Midnight). Expanderar → Röst / Snabbanteckning / Valv. */
+/** W1 — kompass-flik höger kant (Executive). Expanderar → kompakt projekt-strip. */
 export function W1EdgeQuickDock() {
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const [hidden, setHidden] = useState(readFyrenSideQuickHidden);
-  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
-  const vaultSessionOpen = isVaultUnlocked || hasVaultGate();
 
   const syncHidden = useCallback(() => {
     setHidden(readFyrenSideQuickHidden());
@@ -59,26 +33,10 @@ export function W1EdgeQuickDock() {
       aria-label="W1 snabbåtkomst"
     >
       <div className="w1-edge-quick-dock__panel" aria-hidden={!open}>
-        <nav className="flex flex-col items-center gap-1">
-          {EDGE_ACTIONS.map((action) => {
-            const label =
-              action.id === 'valv' && !vaultSessionOpen ? 'Lås upp' : action.label;
-            return (
-              <Link
-                key={action.id}
-                to={action.to}
-                className="w1-edge-quick-dock__action"
-                aria-label={label}
-                onClick={() => setOpen(false)}
-              >
-                <span className="w1-edge-quick-dock__icon-shell">
-                  <EdgeActionIcon kind={action.icon} />
-                </span>
-                <span className="w1-edge-quick-dock__label">{label}</span>
-              </Link>
-            );
-          })}
-        </nav>
+        <W1KompaktProjektRail
+          variant="edge"
+          onNavigate={() => setOpen(false)}
+        />
       </div>
 
       <button

@@ -2664,6 +2664,19 @@ Copy the template below for each entry. Newest first.
 **Next:** G85 device smoke — lägg till widget → tap → spara → «Dölj nu». W1 v2 kompakt strip deferred (C).
 
 
+## 2026-07-14 — MOD-WIDGET Våg 3 (W1 v2 kompakt strip → prod)
+
+**Plattform:** Cursor Agent · unlock W1-V2 (Pontus «kör våg 3»)
+
+**Changes:**
+- `W1KompaktProjektRail` + `w1KompaktRailActions` — extraherad från Theme Lab
+- `/widget/projekt` — inbäddad rail + picker
+- `W1EdgeQuickDock` — expanderar full kompakt strip (Executive Fyren)
+- Theme Lab preview importerar prod-rail
+
+**Smoke:** smoke:widgets, smoke:design-modules, smoke:locked-ux PASS
+
+
 ## 2026-07-14 — MOD-WIDGET Våg 2 (G85 device OK)
 
 **Plattform:** Pontus manuell · Motorola G85

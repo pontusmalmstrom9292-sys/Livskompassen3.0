@@ -1,52 +1,18 @@
 import { useState } from 'react';
+import { clsx } from 'clsx';
 import {
-  CalendarDays,
-  Camera,
   ChevronRight,
   Flame,
-  List,
   Menu,
-  Mic,
-  PenLine,
-  Shield,
   Sparkles,
   Users,
 } from 'lucide-react';
-import { clsx } from 'clsx';
 import { LivskompassHero } from '@/core/home/LivskompassHero';
 import { ExecutiveDecorCompass } from '@/core/ui/executive/ExecutiveDecorCompass';
 import { ValvArchIcon } from '@/core/ui/ValvArchIcon';
+import { W1KompaktProjektRail } from '@/features/widgets/components/W1KompaktProjektRail';
+import type { W1KompaktRailId } from '@/features/widgets/config/w1KompaktRailActions';
 import { W1LabPaginationDots, W1ProjektNyPickerPreview } from './W1ProjektNyPickerPreview';
-
-type RailId =
-  | 'nytt-projekt'
-  | 'lista'
-  | 'anteckning'
-  | 'bild'
-  | 'tyst-inspelning'
-  | 'planering'
-  | 'valv';
-
-const RAIL_ACTIONS: { id: RailId; label: string; icon: 'sparkles' | 'list' | 'pen' | 'camera' | 'mic' | 'plan' | 'valv' }[] = [
-  { id: 'nytt-projekt', label: 'Nytt projekt', icon: 'sparkles' },
-  { id: 'lista', label: 'Lista', icon: 'list' },
-  { id: 'anteckning', label: 'Anteckning', icon: 'pen' },
-  { id: 'bild', label: 'Bild', icon: 'camera' },
-  { id: 'tyst-inspelning', label: 'Tyst inspelning', icon: 'mic' },
-  { id: 'planering', label: 'Planering', icon: 'plan' },
-  { id: 'valv', label: 'Valv', icon: 'valv' },
-];
-
-function RailIcon({ kind }: { kind: (typeof RAIL_ACTIONS)[number]['icon'] }) {
-  const shell = 'w1-lab-rail__glyph';
-  if (kind === 'sparkles') return <Sparkles className={shell} strokeWidth={1.5} aria-hidden />;
-  if (kind === 'list') return <List className={shell} strokeWidth={1.5} aria-hidden />;
-  if (kind === 'pen') return <PenLine className={shell} strokeWidth={1.5} aria-hidden />;
-  if (kind === 'camera') return <Camera className={shell} strokeWidth={1.5} aria-hidden />;
-  if (kind === 'mic') return <Mic className={shell} strokeWidth={1.5} aria-hidden />;
-  if (kind === 'plan') return <CalendarDays className={shell} strokeWidth={1.5} aria-hidden />;
-  return <Shield className={shell} strokeWidth={1.5} aria-hidden />;
-}
 
 function getGreeting(): string {
   const h = new Date().getHours();
@@ -62,19 +28,8 @@ type Props = {
 /** W1 v2 — kompakt projekt-widget i Executive Midnight (Theme Lab only). */
 export function W1KompaktProjektPreview({ onStatus }: Props) {
   const [pickerOpen, setPickerOpen] = useState(false);
-  const [activeRail, setActiveRail] = useState<RailId | null>(null);
+  const [activeRail, setActiveRail] = useState<W1KompaktRailId | null>(null);
   const [navActive, setNavActive] = useState<'familjen' | 'hamn' | 'valv'>('hamn');
-
-  const handleRail = (id: RailId) => {
-    setActiveRail(id);
-    if (id === 'nytt-projekt') {
-      setPickerOpen(true);
-      onStatus?.('Öppnar Nytt projekt-picker');
-      return;
-    }
-    const label = RAIL_ACTIONS.find((a) => a.id === id)?.label ?? id;
-    onStatus?.(`Widget: ${label}`);
-  };
 
   return (
     <div className="w1-lab-phone" data-theme="ME-midnight-executive">
@@ -116,25 +71,15 @@ export function W1KompaktProjektPreview({ onStatus }: Props) {
             <LivskompassHero variant="compass" embedded />
           </div>
 
-          <aside className="w1-lab-rail" aria-label="W1 snabbval">
-            {RAIL_ACTIONS.map((action) => (
-              <button
-                key={action.id}
-                type="button"
-                className={clsx(
-                  'w1-lab-rail__action',
-                  activeRail === action.id && 'w1-lab-rail__action--active',
-                )}
-                aria-label={action.label}
-                onClick={() => handleRail(action.id)}
-              >
-                <span className="w1-lab-rail__icon-shell">
-                  <RailIcon kind={action.icon} />
-                </span>
-                <span className="w1-lab-rail__label">{action.label}</span>
-              </button>
-            ))}
-          </aside>
+          <W1KompaktProjektRail
+            activeId={activeRail ?? undefined}
+            onNyttProjekt={() => {
+              setActiveRail('nytt-projekt');
+              setPickerOpen(true);
+              onStatus?.('Öppnar Nytt projekt-picker');
+            }}
+            onNavigate={() => onStatus?.('Widget: rail navigation')}
+          />
         </div>
 
         <section className="w1-lab-riktning" aria-label="Dagens riktning">

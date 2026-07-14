@@ -25,7 +25,7 @@
   }
 
   .w1-edge-quick-dock--open .w1-edge-quick-dock__panel {
-    max-height: 16rem;
+    max-height: 24rem;
     opacity: 1;
     transform: translateX(0);
     margin-bottom: 0.35rem;
