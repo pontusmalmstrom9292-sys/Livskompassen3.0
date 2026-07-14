@@ -47,8 +47,13 @@ function parsePorcelainPath(line) {
   if (!line.trim()) return "";
   const cleaned = line.replace(/^\?\?\s+/, "").replace(/^[ MADRCU?!]{1,2}\s+/, "");
   const parts = cleaned.split(" -> ");
-  const raw = parts[parts.length - 1].trim();
-  return raw.replace(/^"(.+)"$/, "$1");
+  let raw = parts[parts.length - 1].trim();
+  if (raw.startsWith('"') && raw.endsWith('"')) {
+    raw = raw.slice(1, -1).replace(/\\([0-3][0-7]{2})/g, (_, oct) =>
+      String.fromCharCode(parseInt(oct, 8)),
+    );
+  }
+  return raw;
 }
 
 function listChangedFiles() {
