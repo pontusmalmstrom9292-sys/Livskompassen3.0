@@ -1,31 +1,24 @@
 #!/usr/bin/env node
 /**
  * Startar Natt-CI via @cursor/sdk (cloud agent) eller lokal fallback.
- * Lokal körning: npm run natt:ci
+ *
+ * Usage:
+ *   npm run sdk:natt-ci
+ *   npm run sdk:natt-ci -- --local
+ *   npm run sdk:natt-ci -- --branch cursor/min-gren
  */
 import { spawn } from "node:child_process";
-import { fileURLToPath } from "node:url";
-import path from "node:path";
 import { Agent, CursorAgentError } from "@cursor/sdk";
+import {
+  root,
+  REPO,
+  buildSdkPrompt,
+  writeRunReport,
+} from "./lib/natt_ci_shared.mjs";
 
-const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
-const REPO = "https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0";
-
-const PROMPT = `Kör Natt-CI i repo-roten. Ett steg i taget — rapportera PASS/FAIL:
-
-Fas A (alltid):
-1. npm run setup:env
-2. cd functions && npm install (om node_modules saknas) && npm run build
-3. npm run build (frontend)
-4. npx playwright install chromium (om saknas)
-5. npm run smoke:predeploy
-
-Fas B (endast om .env har VITE_APP_CHECK_DEBUG_TOKEN):
-6. npm run smoke:valv
-7. npm run smoke:kunskap
-8. npm run smoke:dossier
-
-Avsluta med tabell: steg | fas | status | ev. felrad.`;
+const args = process.argv.slice(2);
+const forceLocal = args.includes("--local");
+const branchArg = args.find((a) => a.startsWith("--branch="))?.split("=")[1]?.trim();
 
 function runLocalNattCi() {
   return new Promise((resolve) => {
@@ -40,34 +33,82 @@ function runLocalNattCi() {
   });
 }
 
-const apiKey = process.env.CURSOR_API_KEY?.trim();
-if (!apiKey) {
-  console.warn("[sdk:natt-ci] CURSOR_API_KEY saknas — kör lokal natt:ci i denna cloud-agent.");
-  process.exit(await runLocalNattCi());
-}
+async function runCloudAgent(apiKey) {
+  const prompt =
+    buildSdkPrompt() +
+    (branchArg ? `\n\nKör mot branch: ${branchArg} (git checkout före steg 1).` : "");
 
-console.log("SDK Natt-CI — startar cloud agent via @cursor/sdk…");
+  console.log("SDK Natt-CI — startar cloud agent via @cursor/sdk…");
+  if (branchArg) console.log(`[sdk:natt-ci] branch: ${branchArg}`);
 
-try {
-  const result = await Agent.prompt(PROMPT, {
+  const agent = await Agent.create({
     apiKey,
     model: { id: "composer-2.5" },
     cloud: {
-      repos: [{ url: REPO }],
+      repos: [{ url: REPO, ...(branchArg ? { branch: branchArg } : {}) }],
       skipReviewerRequest: true,
     },
   });
 
-  console.log("\n── Agent status:", result.status);
-  if (result.result) console.log(result.result);
-  if (result.agentId) console.log("Agent ID:", result.agentId);
+  try {
+    const run = await agent.send(prompt);
+    console.log(`[sdk:natt-ci] agentId=${agent.agentId} runId=${run.id}`);
 
-  process.exit(result.status === "finished" ? 0 : 2);
-} catch (err) {
-  if (err instanceof CursorAgentError) {
-    console.error("SDK startup failed:", err.message, "retryable=", err.isRetryable);
-    console.warn("[sdk:natt-ci] Faller tillbaka till lokal natt:ci…");
+    let text = "";
+    if (run.supports("stream")) {
+      for await (const event of run.stream()) {
+        if (event.type === "assistant") {
+          for (const block of event.message.content) {
+            if (block.type === "text") {
+              process.stdout.write(block.text);
+              text += block.text;
+            }
+          }
+        }
+      }
+    }
+
+    const result = await run.wait();
+    console.log("\n── Agent status:", result.status);
+
+    writeRunReport(
+      [{ label: "sdk:cloud-agent", ok: result.status === "finished", phase: "SDK" }],
+      {
+        runner: "sdk:natt-ci",
+        agentId: agent.agentId,
+        runId: run.id,
+        branch: branchArg ?? "default",
+        status: result.status,
+        excerpt: text.slice(-4000),
+      },
+    );
+
+    return result.status === "finished" ? 0 : 2;
+  } finally {
+    await agent[Symbol.asyncDispose]?.();
+  }
+}
+
+async function main() {
+  const apiKey = process.env.CURSOR_API_KEY?.trim();
+
+  if (forceLocal || !apiKey) {
+    if (!apiKey) {
+      console.warn("[sdk:natt-ci] CURSOR_API_KEY saknas — kör lokal natt:ci.");
+    }
     process.exit(await runLocalNattCi());
   }
-  throw err;
+
+  try {
+    process.exit(await runCloudAgent(apiKey));
+  } catch (err) {
+    if (err instanceof CursorAgentError) {
+      console.error("SDK startup failed:", err.message, "retryable=", err.isRetryable);
+      console.warn("[sdk:natt-ci] Faller tillbaka till lokal natt:ci…");
+      process.exit(await runLocalNattCi());
+    }
+    throw err;
+  }
 }
+
+await main();

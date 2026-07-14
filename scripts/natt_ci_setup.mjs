@@ -73,8 +73,9 @@ async function main() {
       b: 'npm run natt-ci:fas-b  # ikoner (vid generator-ändring)',
       c: 'npm run natt-ci:fas-c  # git/arbetsyta',
       all: 'npm run natt-ci       # A+B+C+D',
+      mergeGate: 'npm run natt:ci   # smoke:predeploy + valfria live-smokes',
+      sdk: 'npm run sdk:natt-ci   # cloud agent (fallback → natt:ci)',
     },
-    agent: 'npm run natt-ci -- --agent  # valfri SDK-sammanfattning (kräver API-nyckel)',
   };
 
   writeFileSync(statePath, JSON.stringify(state, null, 2), 'utf8');
