@@ -20,12 +20,6 @@ type Props = {
   onClose: () => void;
 };
 
-const GLOW_LINK: Record<Props['glowColor'], string> = {
-  gold: 'border-l-2 border-l-accent/70 text-accent bg-accent/5',
-  blue: 'border-l-2 border-l-accent/70 text-accent bg-accent/5',
-  green: 'border-l-2 border-l-accent/70 text-accent bg-accent/5',
-};
-
 /** Matchar drawer-länk mot aktuell route (path + query + hash). */
 export function isDrawerLinkActive(
   path: string,
@@ -109,49 +103,33 @@ export function DrawerHubAccordion({
     onClose();
   };
 
+  const triggerActive = isActive || childActive;
+
   return (
-    <div className="drawer-hub mb-1" data-hub-id={id}>
+    <div className="drawer-hub mb-1" data-hub-id={id} data-glow={glowColor}>
       <button
         type="button"
         aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}
         className={clsx(
-          'group flex w-full items-center justify-between rounded-xl p-3 transition-all duration-300',
-          isOpen ? 'bg-surface-3/50' : 'hover:bg-surface-2/50',
-          (isActive || childActive) && 'bg-accent/5',
+          'drawer-hub__trigger w-full justify-between',
+          triggerActive && 'drawer-hub__trigger--active',
+          isOpen && 'drawer-hub__trigger--open',
         )}
       >
-        <div className="flex items-center gap-3">
-          <div
-            className={clsx(
-              'rounded-lg p-2 transition-colors',
-              isOpen ? 'text-accent' : 'text-text-dim group-hover:text-text',
-            )}
-          >
-            {icon}
-          </div>
-          <span
-            className={clsx(
-              'text-sm font-medium transition-colors',
-              isOpen ? 'text-text' : 'text-text-muted group-hover:text-text',
-            )}
-          >
-            {label}
-          </span>
+        <div className="flex min-w-0 flex-1 items-center gap-3">
+          <div className="drawer-hub__trigger-icon">{icon}</div>
+          <span className="drawer-hub__trigger-label">{label}</span>
         </div>
-        <ChevronDown
-          className={clsx(
-            'h-4 w-4 text-text-dim transition-transform duration-300',
-            isOpen && 'rotate-180 text-accent',
-          )}
-          aria-hidden
-        />
+        <ChevronDown className="drawer-hub__chevron" aria-hidden />
       </button>
 
       <div
+        hidden={!isOpen}
+        aria-hidden={!isOpen}
         className={clsx(
           'overflow-hidden transition-all duration-300 ease-in-out',
-          isOpen ? 'mt-1 max-h-60 opacity-100' : 'max-h-0 opacity-0',
+          isOpen ? 'mt-1 max-h-60 opacity-100' : 'max-h-0 opacity-0 pointer-events-none',
         )}
       >
         <div className="ml-10 space-y-1 py-1">
@@ -161,22 +139,15 @@ export function DrawerHubAccordion({
               <button
                 key={`${id}-${link.path}`}
                 type="button"
+                role="link"
                 onClick={() => handleLinkClick(link.path)}
                 className={clsx(
-                  'drawer-hub__link nav-drawer__row--sub group/link flex w-full items-center justify-between rounded-lg p-2.5 text-left text-xs transition-all',
-                  active
-                    ? GLOW_LINK[glowColor]
-                    : 'text-text-muted hover:bg-accent/5 hover:text-accent',
+                  'drawer-hub__link nav-drawer__row--sub',
+                  active && 'drawer-hub__link--active',
                 )}
               >
                 <span>{link.label}</span>
-                <div
-                  className={clsx(
-                    'h-1 w-1 rounded-full transition-all',
-                    active ? 'bg-accent' : 'bg-accent/0 group-hover/link:bg-accent',
-                  )}
-                  aria-hidden
-                />
+                <div className="drawer-hub__link-dot" aria-hidden />
               </button>
             );
           })}

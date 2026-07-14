@@ -93,4 +93,57 @@
   .drawer-hub__trigger-label {
     @apply min-w-0 flex-1 truncate;
   }
+
+  .drawer-hub__trigger--open:not(.drawer-hub__trigger--active) {
+    @apply bg-surface-3/45 text-text;
+  }
+
+  .drawer-hub__chevron {
+    @apply h-4 w-4 shrink-0 text-text-dim transition-transform duration-300;
+  }
+
+  .drawer-hub__trigger--open .drawer-hub__chevron,
+  .drawer-hub__trigger--active .drawer-hub__chevron {
+    @apply text-accent;
+  }
+
+  .drawer-hub__trigger--open .drawer-hub__chevron {
+    transform: rotate(180deg);
+  }
+
+  .nav-drawer__section--hubs {
+    @apply gap-0.5 px-1;
+  }
+
+  .drawer-hub__link {
+    @apply flex w-full items-center justify-between rounded-lg p-2.5 text-left text-xs transition-all duration-200;
+    color: var(--text-muted);
+    touch-action: manipulation;
+  }
+
+  .drawer-hub__link:hover {
+    color: var(--accent);
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
+  }
+
+  .drawer-hub__link--active {
+    @apply border-l-2 border-l-accent/70 text-accent;
+    background: color-mix(in srgb, var(--accent) 5%, transparent);
+  }
+
+  .drawer-hub__link-dot {
+    @apply h-1 w-1 rounded-full transition-all duration-200;
+  }
+
+  .drawer-hub__link--active .drawer-hub__link-dot {
+    @apply bg-accent;
+  }
+
+  .drawer-hub__link:not(.drawer-hub__link--active) .drawer-hub__link-dot {
+    @apply bg-accent/0;
+  }
+
+  .drawer-hub__link:not(.drawer-hub__link--active):hover .drawer-hub__link-dot {
+    @apply bg-accent;
+  }
 }

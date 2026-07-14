@@ -688,13 +688,19 @@ function main() {
     'isVardagDrawerRowActive',
     'nav-drawer__row',
   );
+  mustInclude(
+    'src/modules/core/layout/NavigationDrawer.tsx',
+    '<DrawerHubAccordion',
+    'getHubNavLinks',
+    'isHubRouteActive',
+  );
   assert(
-    !read('src/modules/core/layout/NavigationDrawer.tsx').includes('<DrawerHubAccordion'),
-    'NavigationDrawer.tsx får inte montera DrawerHubAccordion (MENU-DRAWER-KANON: 4 platta rader)',
+    read('src/modules/core/layout/NavigationDrawer.tsx').includes('<DrawerHubAccordion'),
+    'NavigationDrawer.tsx ska montera DrawerHubAccordion (B35 accordion från navTruth)',
   );
   assert(
     (read('src/modules/core/layout/NavigationDrawer.tsx').match(/DRAWER_VARDAG_ITEMS\.map/g) ?? []).length >= 1,
-    'NavigationDrawer.tsx ska mappa DRAWER_VARDAG_ITEMS som platta rader',
+    'NavigationDrawer.tsx ska mappa DRAWER_VARDAG_ITEMS',
   );
   assert(
     !read('src/modules/core/layout/NavigationDrawer.tsx').includes('DrawerQuickActions'),

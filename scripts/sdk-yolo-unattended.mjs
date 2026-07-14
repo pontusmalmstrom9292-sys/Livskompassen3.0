@@ -42,14 +42,20 @@ function isForbiddenStagePath(path) {
   return FORBIDDEN_STAGE.some((re) => re.test(path));
 }
 
+function parsePorcelainPath(line) {
+  if (!line.trim()) return "";
+  const cleaned = line.replace(/^\?\?\s+/, "").replace(/^[ MADRCU?!]{1,2}\s+/, "");
+  const parts = cleaned.split(" -> ");
+  const raw = parts[parts.length - 1].trim();
+  return raw.replace(/^"(.+)"$/, "$1");
+}
+
 function listChangedFiles() {
   const r = spawnSync("git", ["status", "--porcelain"], { cwd: root, encoding: "utf8" });
   if (r.status !== 0) return [];
   return (r.stdout ?? "")
     .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => line.slice(3).trim())
+    .map(parsePorcelainPath)
     .filter((p) => p && !isForbiddenStagePath(p));
 }
 
@@ -61,7 +67,10 @@ function autoCommit(version) {
   }
   git(["reset"]);
   for (const file of files) {
-    git(["add", "--", file]);
+    const r = git(["add", "--", file]);
+    if (r.status !== 0) {
+      console.warn(`[sdk:unattended] Hoppar fil (git add fail): ${file}`);
+    }
   }
   const msg = `chore(yolo): build v${version} — SDK unattended marathon`;
   const r = git(["commit", "-m", msg]);
