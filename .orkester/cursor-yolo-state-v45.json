@@ -1,0 +1,28 @@
+{
+  "version": 45,
+  "queueFile": ".orkester/cursor-yolo-queue-v45.json",
+  "buildWaveId": "EVOLUTION-LEDGER",
+  "startedAt": "2026-07-14T18:37:47.000Z",
+  "updatedAt": "2026-07-14T18:37:47.000Z",
+  "sequentialPhase": {
+    "status": "in_progress",
+    "currentTaskId": "b45-build",
+    "completedTaskIds": [],
+    "skippedTaskIds": [
+      "b45-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b45-deploy",
+    "b45-build",
+    "b45-gate",
+    "b45-vakt"
+  ],
+  "notes": "YOLO v45 BUILD — SDK marathon (handoff från v44)",
+  "handoffFrom": {
+    "version": 44,
+    "waveId": "PROJEKT-P1",
+    "verdict": "GO"
+  }
+}
