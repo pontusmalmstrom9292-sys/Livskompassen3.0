@@ -707,93 +707,6 @@ Våg 2 **klar** 2026-06-16 — F2 header «Hjärtat», F3 Familjen kompakt nav p
 B1 **klar** — snapshot `~/Livskompassen-snapshots/2026-06-16-valv`.
 ````
 
-## File: src/modules/core/layout/NavigationDrawer.tsx
-````typescript
-import { clsx } from 'clsx';
-import { memo, useEffect, useRef, useCallback } from 'react';
-import { createPortal } from 'react-dom';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { ChevronRight, Lock, X } from 'lucide-react';
-import { hasVaultGate } from '../auth/sessionService';
-import { endVaultSession } from '../security/vaultSessionLifecycle';
-import { useStore } from '../store';
-import { LivskompassMark } from '../ui/LivskompassMark';
-import { isDrawerLinkActive } from './DrawerHubAccordion';
-import { DrawerModeToggle } from './DrawerModeToggle';
-import { DRAWER_VARDAG_ITEMS, DRAWER_VALV_ITEMS } from '../navigation/drawerNav';
-import { useDrawerRecentNav } from '../navigation/hooks/useDrawerRecentNav';
-import { isVardagDrawerRowActive } from './drawerFromNavTruth';
-⋮----
-const onKey = (e: KeyboardEvent) =>
-⋮----
-const handleTouchStart = (clientX: number) =>
-⋮----
-const handleTouchEnd = (clientX: number) =>
-⋮----
-const handleBackToVardag = () =>
-⋮----
-const handleLockVaultImmediately = () =>
-⋮----
-const navigateDrawerPath = (path: string) =>
-⋮----
-const handleVardagRowClick = (item: (typeof DRAWER_VARDAG_ITEMS)[number]) =>
-⋮----
-onTouchStart=
-````
-
-## File: src/modules/core/navigation/headerPageLabel.ts
-````typescript
-export function getHeaderPageLabel(pathname: string, search = ''): string | null
-````
-
-## File: src/modules/core/components/FyrenWidgetBar.tsx
-````typescript
-import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { clsx } from 'clsx';
-import { LayoutPanelLeft } from 'lucide-react';
-import { hasVaultGate } from '../auth/sessionService';
-import { NAV_PATHS } from '../navigation/navTruth';
-import { useStore } from '../store';
-import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
-import { FyrenProgressRing } from '../ui/FyrenProgressRing';
-import { FyrenShortcutMicIcon, FyrenShortcutNoteIcon } from '../ui/widget-icons';
-import { useFyrenWidget } from './fyrenWidgetContext';
-import { readFyrenSideQuickHidden, setFyrenSideQuickHidden } from './FyrenSideQuickDock';
-⋮----
-type WidgetIconKind = 'mic' | 'note';
-⋮----
-type WidgetAction = {
-  id: string;
-  label: string;
-  to: string;
-  hubId?: DrawerL2HubId;
-  widgetIcon?: WidgetIconKind;
-};
-⋮----
-function resolveWidgetActionLabel(action: WidgetAction, vaultSessionOpen: boolean): string
-⋮----
-function WidgetIcon(
-⋮----
-function ActionTile({
-  label,
-  to,
-  icon,
-  tabIndex,
-  onNavigate,
-}: {
-  label: string;
-  to: string;
-  icon: ReactNode;
-  tabIndex: number;
-onNavigate: ()
-⋮----
-className=
-⋮----
-setFyrenSideQuickHidden(false);
-setOpen(false);
-````
-
 ## File: src/modules/core/layout/FloatingDock.tsx
 ````typescript
 import { useCallback, useEffect, useState } from 'react';
@@ -843,6 +756,52 @@ active=
 onClick=
 ⋮----
 className=
+````
+
+## File: src/modules/core/navigation/headerPageLabel.ts
+````typescript
+export function getHeaderPageLabel(pathname: string, search = ''): string | null
+````
+
+## File: src/modules/core/layout/NavigationDrawer.tsx
+````typescript
+import { clsx } from 'clsx';
+import { memo, useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ChevronRight, Lock, X } from 'lucide-react';
+import { hasVaultGate } from '../auth/sessionService';
+import { endVaultSession } from '../security/vaultSessionLifecycle';
+import { useStore } from '../store';
+import { LivskompassMark } from '../ui/LivskompassMark';
+import { DrawerHubAccordion, isDrawerLinkActive } from './DrawerHubAccordion';
+import { DrawerModeToggle } from './DrawerModeToggle';
+import { DRAWER_VARDAG_ITEMS, DRAWER_VALV_ITEMS } from '../navigation/drawerNav';
+import { useDrawerRecentNav } from '../navigation/hooks/useDrawerRecentNav';
+import {
+  getHubNavLinks,
+  hubGlowColor,
+  isHubRouteActive,
+  isVardagDrawerRowActive,
+} from './drawerFromNavTruth';
+⋮----
+const onKey = (e: KeyboardEvent) =>
+⋮----
+const handleTouchStart = (clientX: number) =>
+⋮----
+const handleTouchEnd = (clientX: number) =>
+⋮----
+const handleBackToVardag = () =>
+⋮----
+const handleLockVaultImmediately = () =>
+⋮----
+const navigateDrawerPath = (path: string) =>
+⋮----
+const handleVardagRowClick = (item: (typeof DRAWER_VARDAG_ITEMS)[number]) =>
+⋮----
+onTouchStart=
+⋮----
+isActive=
 ````
 
 ## File: src/modules/core/navigation/navTruth.ts
@@ -942,6 +901,54 @@ function RedirectToLifeJournalTab(
 function RedirectArkivToValvet()
 ````
 
+## File: src/modules/core/components/FyrenWidgetBar.tsx
+````typescript
+import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { clsx } from 'clsx';
+import { LayoutPanelLeft } from 'lucide-react';
+import { hasVaultGate } from '../auth/sessionService';
+import { NAV_PATHS } from '../navigation/navTruth';
+import { useStore } from '../store';
+import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
+import { FyrenShortcutMicIcon, FyrenShortcutNoteIcon } from '../ui/widget-icons';
+import { useFyrenWidget } from './fyrenWidgetContext';
+import { readFyrenSideQuickHidden, setFyrenSideQuickHidden } from './FyrenSideQuickDock';
+⋮----
+type WidgetIconKind = 'mic' | 'note';
+⋮----
+type WidgetAction = {
+  id: string;
+  label: string;
+  to: string;
+  hubId?: DrawerL2HubId;
+  widgetIcon?: WidgetIconKind;
+};
+⋮----
+function resolveWidgetActionLabel(action: WidgetAction, vaultSessionOpen: boolean): string
+⋮----
+function WidgetIcon(
+⋮----
+function ActionTile({
+  label,
+  to,
+  icon,
+  tabIndex,
+  onNavigate,
+}: {
+  label: string;
+  to: string;
+  icon: ReactNode;
+  tabIndex: number;
+onNavigate: ()
+⋮----
+className=
+⋮----
+setFyrenSideQuickHidden(false);
+setOpen(false);
+````
+
 ## File: src/modules/shell/LivLauncherGrid.tsx
 ````typescript
 import type { LucideIcon } from 'lucide-react';
@@ -955,6 +962,7 @@ import {
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import type { CalmCardGlow } from '@/shared/ui/BentoCard';
+import { VARDAGEN_LAYER_LABELS } from '@/core/copy/vardagenNavCopy';
 import {
   LIV_LAUNCHER_EXTERNAL,
   LIV_LAUNCHER_INLINE_TABS,

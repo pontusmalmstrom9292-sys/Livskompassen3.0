@@ -1,0 +1,85 @@
+{
+  "version": 41,
+  "description": "Cursor YOLO v41 — BUILD GOVERNANCE: Governance sync — docs + module lock",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 41,
+    "id": "GOVERNANCE",
+    "title": "Governance sync — docs + module lock",
+    "agent": "specialist-beslutsstod",
+    "plan": "Governance: PROJECT_STATE, TODO, LOCK-MANIFEST, smoke:governance PASS.",
+    "smoke": [
+      "npm run smoke:governance",
+      "npm run smoke:module-lock",
+      "npm run smoke:mdc"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "keywords": [
+      "governance",
+      "TODO",
+      "PROJECT_STATE",
+      "LOCK-MANIFEST"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b41-deploy",
+      "title": "B41 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v41/b41-deploy.md"
+    },
+    {
+      "id": "b41-build",
+      "title": "B41 — Governance sync — docs + module lock",
+      "phase": "sequential",
+      "agent": "specialist-beslutsstod",
+      "plan": "Governance: PROJECT_STATE, TODO, LOCK-MANIFEST, smoke:governance PASS.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v41/b41-build.md"
+    },
+    {
+      "id": "b41-gate",
+      "title": "B41 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v41.md.",
+      "smoke": [
+        "npm run smoke:governance",
+        "npm run smoke:module-lock",
+        "npm run smoke:mdc"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v41/b41-gate.md"
+    },
+    {
+      "id": "b41-vakt",
+      "title": "B41 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v41. Handoff v42.",
+      "smoke": [
+        "npm run smoke:governance",
+        "npm run smoke:module-lock",
+        "npm run smoke:mdc"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v41/b41-vakt.md"
+    }
+  ]
+}

@@ -436,6 +436,13 @@ export function resolveThemeId(id: string): string
 export function getTheme(id: string): ThemePack
 ```
 
+## File: src/index.css
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
 ## File: tailwind.config.js
 ```javascript
 function cssVar(name)
@@ -500,11 +507,4 @@ function cssVar(name)
 .capacity-low .glow-bottom-gold,
 ⋮----
 .capacity-low .glow-bottom-gold::after,
-```
-
-## File: src/index.css
-```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 ```
