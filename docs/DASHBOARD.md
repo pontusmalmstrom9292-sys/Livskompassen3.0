@@ -205,7 +205,7 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** 
 - **Priority:** High
 - **Files:** src/modules/features/widgets/**
 ### MOD-WIDGET WH1/WH2 (2026-07-14)
-- **Status:** Våg 1 PASS — väntar G85 device (Våg 2, Pontus)
+- **Status:** Våg 1–2 PASS — G85 device OK 2026-07-14 · Våg 3 väntar unlock
 - **Native:** widget_bg_premium_panel + guldkrets; WH1 discreet; WH2 «Snabbanteckning» + Inkast subtitle
 - **In-app:** W1EdgeQuickDock höger kant (Executive) → Röst / Snabbanteckning / Valv; widget-route utan chrome
 - **Smoke:** widgets, widget-ingest, locked-icons, locked-ux, design-modules PASS

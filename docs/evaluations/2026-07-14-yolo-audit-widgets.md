@@ -28,7 +28,7 @@ Statisk gate + build grön. Device smoke (G85) kvarstår för Pontus (Våg 2).
 | smoke:predeploy:build | PASS | |
 | smoke:governance + module-lock | PASS | Unlock-doc i diff |
 | MOD-WIDGET re-lock | PASS | 2026-07-14 |
-| G85 device smoke (Våg 2) | GAP | Kräver manuell test på telefon |
+| G85 device smoke (Våg 2) | PASS | Pontus G85 OK 2026-07-14 |
 | W1 v2 kompakt strip (Våg 3) | DEFER | Efter device PASS |
 | Prod deploy | SKIP | PMIR — Pontus OK |
 
@@ -42,7 +42,7 @@ Ingen rules/locked UX-ändring. Ingen deploy körd.
 
 ## Exakt ett nästa steg
 
-**Pontus:** Kör Våg 2 på Motorola G85 — `npm run build:web && npx cap sync android` → Android Studio Run → checklista WH1/WH2/W1 kant (tap → spara → «Dölj nu»). Rapportera visuellt: guldkrets + glaspanel (inte bruna rutor).
+**Pontus:** ~~Kör Våg 2~~ DONE. Nästa: godkänn unlock för W1 v2 kompakt strip (Våg 3) eller merge/commit push — `npm run build:web && npx cap sync android` → Android Studio Run → checklista WH1/WH2/W1 kant (tap → spara → «Dölj nu»). Rapportera visuellt: guldkrets + glaspanel (inte bruna rutor).
 
 ---
 

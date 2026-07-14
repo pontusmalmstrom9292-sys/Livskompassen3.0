@@ -2664,6 +2664,15 @@ Copy the template below for each entry. Newest first.
 **Next:** G85 device smoke — lägg till widget → tap → spara → «Dölj nu». W1 v2 kompakt strip deferred (C).
 
 
+## 2026-07-14 — MOD-WIDGET Våg 2 (G85 device OK)
+
+**Plattform:** Pontus manuell · Motorola G85
+
+**Verifierat:** WH1 tap→etik→inspelning→spara→«Dölj nu» · WH2 tap→skriv→Inkast→spara→«Dölj nu» · W1 kant (Röst/Snabbanteckning/Valv) · premium glaspanel + guldkrets
+
+**Status:** PASS — Våg 3 (W1 v2 kompakt strip) kräver separat unlock (ej i MOD-WIDGET scope)
+
+
 ## 2026-07-14 — MOD-WIDGET Våg 1 (W1EdgeQuickDock + premium native)
 
 **Plattform:** Cursor Agent · YOLO våg 1 · **Scope:** MOD-WIDGET unlock (Pontus OK 2026-07-12)
