@@ -7,6 +7,7 @@ import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { createRequire } from "node:module";
 import { getYoloConfig, loadState, resolveNextTask, loadQueue, root } from "./lib/cursor_yolo_shared.mjs";
+import { loadCursorApiKey, cursorApiKeyHint } from "./lib/load_cursor_api_key.mjs";
 
 const require = createRequire(import.meta.url);
 const version = Number(process.env.CURSOR_YOLO_VERSION ?? 14);
@@ -25,8 +26,9 @@ async function checkSdk() {
 }
 
 async function checkApiKey() {
-  const key = process.env.CURSOR_API_KEY?.trim();
-  if (!key) return { ok: false, reason: "CURSOR_API_KEY saknas" };
+  const keyInfo = loadCursorApiKey();
+  const key = keyInfo.key;
+  if (!key) return { ok: false, reason: "CURSOR_API_KEY saknas", source: null };
   if (!key.startsWith("crsr_") && !key.startsWith("cursor_")) {
     return {
       ok: false,
@@ -36,7 +38,7 @@ async function checkApiKey() {
   try {
     const { Cursor } = await import("@cursor/sdk");
     const models = await Cursor.models.list({ apiKey: key });
-    return { ok: true, modelCount: models?.length ?? 0 };
+    return { ok: true, modelCount: models?.length ?? 0, source: keyInfo.source };
   } catch (err) {
     const msg = err?.message ?? "API-fel";
     if (msg.includes("Invalid UserAPI Key") || err?.status === 401) {
@@ -58,11 +60,13 @@ async function main() {
 
   const api = await checkApiKey();
   if (api.ok) {
-    console.log(`[sdk:yolo:setup] CURSOR_API_KEY: OK (${api.modelCount} modeller)`);
-  } else if (process.env.CURSOR_API_KEY?.trim()) {
+    const src = api.source ? ` (${api.source})` : "";
+    console.log(`[sdk:yolo:setup] CURSOR_API_KEY: OK${src} — ${api.modelCount} modeller`);
+  } else if (loadCursorApiKey().key) {
     console.warn(`[sdk:yolo:setup] CURSOR_API_KEY: ej verifierad — ${api.reason}`);
   } else {
     console.warn("[sdk:yolo:setup] CURSOR_API_KEY: saknas");
+    console.warn(cursorApiKeyHint());
   }
 
   if (!config) {

@@ -13,9 +13,13 @@
  *
  * Env:
  *   CURSOR_API_KEY          krävs för SDK (utom ren --dry-run)
+ *                         läses från process.env, .env.local eller .env
  *   CURSOR_YOLO_VERSION=14  default version
  */
 import { Agent, CursorAgentError } from "@cursor/sdk";
+import { loadCursorApiKey, cursorApiKeyHint } from "./lib/load_cursor_api_key.mjs";
+import { MARATHON_SUBAGENTS, subagentHintForTask, subagentsForVersion } from "./lib/yolo_marathon_subagents.mjs";
+import { subagentPromptHint } from "./lib/yolo_subagent_router.mjs";
 import {
   REPO,
   getYoloConfig,
@@ -29,6 +33,8 @@ import {
   logLine,
   writeSdkRunReport,
   isQueueComplete,
+  ensureBuildWaveScaffold,
+  BUILD_WAVE_MIN,
 } from "./lib/cursor_yolo_shared.mjs";
 
 const args = process.argv.slice(2);
@@ -126,6 +132,7 @@ async function createAgent(apiKey) {
     apiKey,
     model: { id: "composer-2.5" },
     local: { cwd: process.cwd(), settingSources: [] },
+    customSubagents: subagentsForVersion(yoloVersion),
   });
 }
 
@@ -163,7 +170,7 @@ async function runSingleTask(agent, queue, state, task, meta) {
   state.sequentialPhase.currentTaskId = task.id;
   saveState(config, state);
 
-  const prompt = buildTaskSdkPrompt(task, config);
+  const prompt = `${buildTaskSdkPrompt(task, config)}\n\n${subagentHintForTask(task)}\n\n${subagentPromptHint(task)}`;
   meta.current = { taskId: task.id, title: task.title, mode: "task" };
 
   if (dryRun) {
@@ -207,15 +214,25 @@ async function runSingleTask(agent, queue, state, task, meta) {
 }
 
 async function main() {
-  const apiKey = process.env.CURSOR_API_KEY?.trim();
+  const keyInfo = loadCursorApiKey();
+  const apiKey = keyInfo.key;
   if (!apiKey && !dryRun) {
-    console.error("[sdk:yolo] CURSOR_API_KEY saknas. Hämta nyckel: Cursor Dashboard → Integrations");
+    console.error("[sdk:yolo] CURSOR_API_KEY saknas.");
+    console.error(cursorApiKeyHint());
     console.error("[sdk:yolo] Eller kör: npm run sdk:yolo:setup");
     process.exit(1);
+  }
+  if (keyInfo.loaded && keyInfo.source !== "process.env") {
+    console.log(`[sdk:yolo] CURSOR_API_KEY laddad från ${keyInfo.source}`);
   }
 
   const queue = loadQueue(config);
   let state = ensureTaskOrder(queue, loadState(config));
+
+  if (yoloVersion >= BUILD_WAVE_MIN) {
+    await ensureBuildWaveScaffold(yoloVersion);
+    state = ensureTaskOrder(queue, loadState(config));
+  }
 
   const meta = {
     runner: "sdk:yolo",

@@ -32,4 +32,8 @@
     <string name="widget_action_title">Åtgärder</string>
     <string name="widget_action_sub">Multiverktyg · Stämpel</string>
     <string name="widget_action_desc">Åtgärds-dashboard — reflektion, arbetstid och livslogg</string>
+
+    <string name="widget_moduler_title">Mina moduler</string>
+    <string name="widget_moduler_sub">Nedräkning · Lista</string>
+    <string name="widget_moduler_desc">Personliga moduler — nedräkning, checklista, sparmål och notiser</string>
 </resources>

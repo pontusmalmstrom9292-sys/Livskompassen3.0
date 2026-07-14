@@ -821,6 +821,123 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 **Flöde:** [`docs/specs/hjartat-flode.md`](../hjartat-flode.md)
 </file>
 
+<file path="src/modules/features/lifeJournal/evidence/knowledge/components/VaultKunskapsbankPanel.tsx">
+import { useCallback, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { KunskapPage, type KunskapEntriesMeta } from '../../kompis/components/KunskapPage';
+import { AutonomousArchivePanel } from '../../kompis/components/AutonomousArchivePanel';
+import { FamiljenKunskapHubTab } from '@/features/family/children/components/familjen/FamiljenKunskapHubTab';
+import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
+import { KunskapsbankHeader } from '../../vault/components/KunskapsbankHeader';
+import { vaultDrawerPath } from '@/core/navigation/navTruth';
+import { BookOpen, RefreshCw } from 'lucide-react';
+import { Button } from '@/design-system';
+
+type TabRequest = 'chat' | 'tidshjul';
+
+/** Samlad Kunskapsbank bakom Valv-PIN — Kunskapsvalv + Familjen-upload (U1 silos oförändrade). */
+export function VaultKunskapsbankPanel() {
+  const shell = useFamiljenShell();
+  const [focusKampsparId, setFocusKampsparId] = useState<string | null>(null);
+  const [requestTab, setRequestTab] = useState<TabRequest | null>(null);
+  const [entriesMeta, setEntriesMeta] = useState<KunskapEntriesMeta | null>(null);
+
+  const handleEntriesMeta = useCallback((meta: KunskapEntriesMeta) => {
+    setEntriesMeta(meta);
+  }, []);
+
+  const showEmptyState =
+    entriesMeta &&
+    !entriesMeta.loading &&
+    !entriesMeta.error &&
+    entriesMeta.count === 0;
+
+  const showNetworkError = Boolean(entriesMeta?.error);
+  const archiveMeta =
+    entriesMeta && !entriesMeta.loading
+      ? `${entriesMeta.count} poster`
+      : entriesMeta?.loading
+        ? 'Laddar…'
+        : undefined;
+
+  return (
+    <div className="valv-zone-stack space-y-4">
+      <KunskapsbankHeader compact />
+
+      {showNetworkError && (
+        <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3">
+          <div className="flex flex-wrap items-center gap-3">
+            <p className="text-sm text-amber-200/90">{entriesMeta?.error}</p>
+            <Button
+              type="button"
+              variant="secondary"
+              size="sm"
+              className="inline-flex items-center gap-1.5"
+              onClick={() => entriesMeta?.reload()}
+              disabled={entriesMeta?.loading}
+            >
+              <RefreshCw className="h-3 w-3" aria-hidden />
+              Försök igen
+            </Button>
+          </div>
+        </div>
+      )}
+
+      {showEmptyState && (
+        <BentoCard
+          glow="blue"
+          title="Ditt minne är tomt"
+          description="Sök i dina sparade anteckningar — börja med en post"
+          icon={<BookOpen className="h-4 w-4" />}
+        >
+          <EmptyState
+            message="Lägg till rutiner, milstolpar eller fakta under Tidshjulet. Därefter kan du ställa frågor i Kunskapsvalv-fliken."
+            action={
+              <Button type="button" variant="secondary" onClick={() => setRequestTab('tidshjul')}>
+                Öppna Tidshjulet
+              </Button>
+            }
+          />
+        </BentoCard>
+      )}
+
+      <BentoCard glow="blue" bare noHover className="!p-0">
+        <div className="p-4 sm:p-5">
+          <KunskapPage
+            embedded
+            focusKampsparId={focusKampsparId}
+            onFocusKampsparConsumed={() => setFocusKampsparId(null)}
+            requestTab={requestTab}
+            onRequestTabConsumed={() => setRequestTab(null)}
+            onEntriesMeta={handleEntriesMeta}
+          />
+        </div>
+      </BentoCard>
+
+      <CalmCollapsible title="Filarkiv" meta={archiveMeta} defaultOpen={false} glow="blue">
+        <AutonomousArchivePanel sharedKampspar={entriesMeta?.entries} />
+      </CalmCollapsible>
+
+      {shell.user ? (
+        <CalmCollapsible title="Familjen — kunskap och uppladdning" meta="Per barn" defaultOpen={false} glow="blue">
+          <FamiljenKunskapHubTab activeChild={shell.activeChild} />
+        </CalmCollapsible>
+      ) : null}
+
+      <p className="px-1 text-[10px] text-text-dim">
+        Personregister:{' '}
+        <Link to={vaultDrawerPath('aktorskarta')} className="text-accent/80 hover:text-accent">
+          Aktörskarta
+        </Link>
+      </p>
+    </div>
+  );
+}
+</file>
+
 <file path="src/modules/features/lifeJournal/evidence/vault/api/dcapAlertService.ts">
 import { httpsCallable, type FunctionsError } from 'firebase/functions';
 import { functions } from '@/core/firebase/init';
@@ -1060,6 +1177,66 @@ export function ValvExporteraZone() {
 }
 </file>
 
+<file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvForensikZone.tsx">
+import { useState } from 'react';
+import { Button } from '@/design-system';
+import { TabBar } from '@/core/ui/TabBar';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { getForensicVaultTabBarItems } from '@/core/navigation/tabRegistry';
+import { VaultForensicPanel } from '../VaultForensicPanel';
+import { VaultDcapAlertsPanel } from '../VaultDcapAlertsPanel';
+import type { ForensicVaultTab } from '../../utils/vaultTabs';
+
+export type ValvForensikZoneProps = {
+  tab: ForensicVaultTab;
+  onTabChange: (tab: ForensicVaultTab) => void;
+  gateOk: boolean;
+};
+
+/** Progressive disclosure — visa aktiv flik + expandera till alla 6 vid behov. */
+export function ValvForensikZone({ tab, onTabChange, gateOk }: ValvForensikZoneProps) {
+  const [showAllTabs, setShowAllTabs] = useState(false);
+  const allTabs = getForensicVaultTabBarItems();
+  const visibleTabs = showAllTabs ? allTabs : allTabs.filter((t) => t.id === tab);
+
+  return (
+    <HubErrorBoundary
+      title="Forensik kunde inte laddas"
+      glow="blue"
+      logTag="ValvForensikZone"
+    >
+      <div className="mb-3 flex flex-wrap items-center gap-2">
+        <TabBar
+          size="compact"
+          tabs={visibleTabs}
+          active={tab}
+          onChange={onTabChange}
+        />
+        {!showAllTabs ? (
+          <Button type="button" variant="ghost" size="sm" onClick={() => setShowAllTabs(true)}>
+            Visa fler
+          </Button>
+        ) : (
+          <Button type="button" variant="ghost" size="sm" onClick={() => setShowAllTabs(false)}>
+            Färre flikar
+          </Button>
+        )}
+      </div>
+      <section className="valv-zone-stack mb-4" aria-label="DCAP säkerhetsgranskning">
+        <p className="mb-2 font-display-serif text-xs uppercase tracking-[0.2em] text-accent-dim">
+          Säkerhetsgranskning
+        </p>
+        <p className="mb-3 text-xs text-text-muted">
+          Väntande DCAP-eskaleringar — granska manuellt innan åtgärd. Hash-only logg.
+        </p>
+        <VaultDcapAlertsPanel gateOk={gateOk} />
+      </section>
+      <VaultForensicPanel tab={tab} />
+    </HubErrorBoundary>
+  );
+}
+</file>
+
 <file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvInboxZone.tsx">
 import { InboxReviewQueue } from '@/modules/inkast/components/InboxReviewQueue';
 
@@ -1240,6 +1417,79 @@ export function ValvSamlaZone({
         )}
       </div>
     </HubErrorBoundary>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/AdkAgentRegistryPanel.tsx">
+import { Loader2, Network, RefreshCw } from 'lucide-react';
+import { Button } from '@/design-system';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { AgentRegistryCard } from '@/shared/agents/components/AgentRegistryCard';
+import { useAgentRegistry } from '@/shared/agents/hooks/useAgentRegistry';
+
+/** Live ADK AgentCard-registret — delad fetch via AgentRegistryProvider. */
+export function AdkAgentRegistryPanel() {
+  const { agents, loading, error, usedFallback, reload, agentNameById } = useAgentRegistry();
+
+  const sortedAgents = [...agents].sort((a, b) =>
+    a.metadata.name.localeCompare(b.metadata.name, 'sv'),
+  );
+
+  return (
+    <BentoCard
+      title="Assistentroller"
+      description="Live ADK-registret — vilka agenter som finns och vad de gör"
+      icon={<Network className="h-4 w-4" />}
+      glow="blue"
+    >
+      <div className="mb-3 flex items-center justify-between gap-2">
+        <p className="text-xs text-text-dim">
+          {usedFallback
+            ? 'Offline-läge — visar lokal lista tills molnet svarar.'
+            : 'Hämtat från backend AgentCards (A2A).'}
+        </p>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest disabled:opacity-50"
+          onClick={() => void reload()}
+          disabled={loading}
+          aria-label="Uppdatera agentregistret"
+        >
+          {loading ? (
+            <Loader2 className="h-3 w-3 animate-spin" aria-hidden />
+          ) : (
+            <RefreshCw className="h-3 w-3" aria-hidden />
+          )}
+          Uppdatera
+        </Button>
+      </div>
+
+      {loading && agents.length === 0 && (
+        <p className="flex items-center gap-2 text-sm text-text-muted" role="status">
+          <Loader2 className="h-4 w-4 animate-spin shrink-0" aria-hidden />
+          Laddar assistenter…
+        </p>
+      )}
+
+      {error && (
+        <p className="mb-3 text-xs text-danger" role="status">
+          {error}
+        </p>
+      )}
+
+      {!loading || agents.length > 0 ? (
+        <ul className="space-y-2">
+          {sortedAgents.map((agent) => (
+            <li key={agent.metadata.id}>
+              <AgentRegistryCard agent={agent} agentNameById={agentNameById} />
+            </li>
+          ))}
+        </ul>
+      ) : null}
+    </BentoCard>
   );
 }
 </file>
@@ -1570,6 +1820,623 @@ export function ValvZoneModulValjare({ onSelect, onSkip }: Props) {
 }
 </file>
 
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultDcapAlertsPanel.tsx">
+import { useCallback, useState } from 'react';
+import { ShieldCheck } from 'lucide-react';
+import { Button } from '@/design-system';
+import { useStore } from '@/core/store';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+import { resolveDcapAlert } from '../api/dcapAlertService';
+import { useDcapAlerts } from '../hooks/useDcapAlerts';
+
+type Props = {
+  /** Valv upplåst — ingen Firestore-lyssning utan gate. */
+  gateOk: boolean;
+};
+
+function formatRecommendedAction(action: string): string {
+  switch (action) {
+    case 'ALERT':
+      return 'Eskalering';
+    case 'COACHING':
+      return 'Coachning';
+    case 'NONE':
+      return 'Ingen åtgärd';
+    default:
+      return action;
+  }
+}
+
+/** P1.4 — Granskningskö för DCAP HITL-eskalering (Valv PIN + session-gated resolve). */
+export function VaultDcapAlertsPanel({ gateOk }: Props) {
+  const userId = useStore((s) => s.user?.uid);
+  const { alerts, loading } = useDcapAlerts(userId, { enabled: gateOk });
+  const [busyId, setBusyId] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleAcknowledge = useCallback(async (alertId: string) => {
+    setBusyId(alertId);
+    setError(null);
+    try {
+      await resolveDcapAlert(alertId, 'acknowledged');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Granskning misslyckades.');
+    } finally {
+      setBusyId(null);
+    }
+  }, []);
+
+  if (!gateOk) {
+    return (
+      <EmptyState message="Lås upp Valvet via Fyren för att se säkerhetsgranskningar." />
+    );
+  }
+
+  if (loading) {
+    return <HubPanelSkeleton label="Läser säkerhetsgranskning…" lines={2} />;
+  }
+
+  if (alerts.length === 0) {
+    return (
+      <EmptyState message="Inga väntande DCAP-granskningar. Hash-only logg — ingen rå text lagras." />
+    );
+  }
+
+  return (
+    <div className="space-y-3">
+      {error ? (
+        <p className="text-xs text-rose-300/90" role="alert">
+          {error}
+        </p>
+      ) : null}
+      <ul className="space-y-3">
+        {alerts.map((alert) => (
+          <li
+            key={alert.id}
+            className="rounded-xl border border-border/30 bg-surface-2/70 p-3 text-sm"
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="font-sans text-text">
+                  Risk {alert.riskScore} · {formatRecommendedAction(alert.recommendedAction)}
+                </p>
+                <p className="mt-1 text-xs text-text-dim">
+                  Väntar på manuell granskning. Ingen rå text exponeras — endast risk och åtgärd.
+                </p>
+              </div>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="shrink-0 inline-flex items-center gap-1.5"
+                disabled={busyId === alert.id}
+                onClick={() => void handleAcknowledge(alert.id)}
+              >
+                <ShieldCheck className="h-3.5 w-3.5" aria-hidden />
+                {busyId === alert.id ? 'Sparar…' : 'Granskad'}
+              </Button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultEntryForm.tsx">
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { ImagePlus, Loader2, Mic, MicOff, Plus } from 'lucide-react';
+import { Button } from '@/design-system';
+import { uploadVaultEvidence } from '@/core/firebase/storage';
+import { useSpeechToText } from '@/core/hooks/useSpeechToText';
+import { shouldSuggestVaultPatternScan } from '@/core/triggers/valvHandoff';
+import { BODY_SIGNALS, SHIELD_STEPS, VAULT_ENTRY_MODES } from '../constants/vaultEntry';
+import type { VaultEntryType, VaultLogInput } from '../types/vaultEntry';
+import { HandoffBox } from '@/features/lifeJournal/diary/diary/components/HandoffBox';
+import { shouldShowValvHandoff } from '@/core/triggers/valvHandoff';
+import { OfflineWriteBlockedError } from '@/core/firebase/offlineWritePolicy';
+import { WormSaveConfirmSheet } from '@/core/security/WormSaveConfirmSheet';
+import { VaultPatternHandoff } from './VaultPatternHandoff';
+import { parseSmsThreadToTwoColumn } from '../utils/smsThreadParse';
+
+type VaultEntryFormProps = {
+  userId: string;
+  saving: boolean;
+  onSave: (input: VaultLogInput) => Promise<void>;
+};
+
+export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) {
+  const location = useLocation();
+  const [mode, setMode] = useState<VaultEntryType>('simple');
+  const [category, setCategory] = useState('');
+  const [truth, setTruth] = useState('');
+  const [theirVersion, setTheirVersion] = useState('');
+  const [myReality, setMyReality] = useState('');
+  const [selectedSignals, setSelectedSignals] = useState<string[]>([]);
+  const [shieldStep, setShieldStep] = useState(0);
+  const [shieldWhat, setShieldWhat] = useState('');
+  const [shieldFeeling, setShieldFeeling] = useState('');
+  const [shieldBoundary, setShieldBoundary] = useState('');
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [attachError, setAttachError] = useState<string | null>(null);
+  const [pinned, setPinned] = useState(false);
+  const [smsThreadPaste, setSmsThreadPaste] = useState('');
+  const [smsThreadSplitNotice, setSmsThreadSplitNotice] = useState(false);
+  const [wormConfirmOpen, setWormConfirmOpen] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handoff = (location.state as { vaultHandoffText?: string } | null)?.vaultHandoffText;
+    if (!handoff?.trim()) return;
+    setTruth((prev) => (prev.trim() ? prev : handoff.trim()));
+  }, [location.state]);
+
+  const appendVoice = useCallback(
+    (chunk: string) => {
+      if (!chunk) return;
+      const line = `Röstmemo: ${chunk}`;
+      setTruth((prev) => (prev.trim() ? `${prev.trim()}\n${line}` : line));
+    },
+    [],
+  );
+
+  const { supported, isListening, start, stop } = useSpeechToText({
+    lang: 'sv-SE',
+    onFinal: appendVoice,
+  });
+
+  const resetForm = () => {
+    setTruth('');
+    setTheirVersion('');
+    setMyReality('');
+    setSelectedSignals([]);
+    setShieldStep(0);
+    setShieldWhat('');
+    setShieldFeeling('');
+    setShieldBoundary('');
+    setPendingFile(null);
+    setAttachError(null);
+    setPinned(false);
+  };
+
+  const toggleSignal = (signal: string) => {
+    setSelectedSignals((prev) =>
+      prev.includes(signal) ? prev.filter((s) => s !== signal) : [...prev, signal],
+    );
+  };
+
+  const withEvidence = (payload: VaultLogInput, evidenceUrl?: string): VaultLogInput => {
+    let next = evidenceUrl ? { ...payload, evidenceUrl } : payload;
+    if (pinned) next = { ...next, pinned: true };
+    return next;
+  };
+
+  const buildPayload = (evidenceUrl?: string): VaultLogInput | null => {
+    const cat = category.trim() || 'allmänt';
+
+    if (mode === 'simple') {
+      if (!truth.trim() && !evidenceUrl) return null;
+      return withEvidence(
+        { action: 'bevis', category: cat, truth: truth.trim() || 'Bifogat bevis', entryType: 'simple' },
+        evidenceUrl,
+      );
+    }
+
+    if (mode === 'two_column') {
+      if (!theirVersion.trim() && !myReality.trim() && !evidenceUrl) return null;
+      const combined = `Hens version: ${theirVersion.trim() || '—'}\nMin verklighet: ${myReality.trim() || '—'}`;
+      return withEvidence(
+        {
+          action: 'bevis',
+          category: cat,
+          truth: combined,
+          entryType: 'two_column',
+          theirVersion: theirVersion.trim(),
+          myReality: myReality.trim(),
+        },
+        evidenceUrl,
+      );
+    }
+
+    if (mode === 'three_shield') {
+      if (!shieldWhat.trim() || !shieldFeeling.trim() || !shieldBoundary.trim()) return null;
+      const combined = `${shieldWhat.trim()} | ${shieldFeeling.trim()} | ${shieldBoundary.trim()}`;
+      return withEvidence(
+        {
+          action: 'bevis',
+          category: cat,
+          truth: combined,
+          entryType: 'three_shield',
+          shieldWhat: shieldWhat.trim(),
+          shieldFeeling: shieldFeeling.trim(),
+          shieldBoundary: shieldBoundary.trim(),
+        },
+        evidenceUrl,
+      );
+    }
+
+    if (mode === 'body_signal') {
+      if (selectedSignals.length === 0 && !truth.trim() && !evidenceUrl) return null;
+      const note = truth.trim();
+      const combined = [...selectedSignals, note].filter(Boolean).join(' — ');
+      return withEvidence(
+        {
+          action: 'bevis',
+          category: cat,
+          truth: combined || selectedSignals.join(', ') || 'Magkänsel + bevis',
+          entryType: 'body_signal',
+          bodySignals: selectedSignals,
+        },
+        evidenceUrl,
+      );
+    }
+
+    return null;
+  };
+
+  const handleSubmit = async () => {
+    setAttachError(null);
+    setUploading(true);
+    try {
+      let evidenceUrl: string | undefined;
+      if (pendingFile) {
+        evidenceUrl = await uploadVaultEvidence(userId, pendingFile);
+      }
+      const payload = buildPayload(evidenceUrl);
+      if (!payload) return;
+      await onSave(payload);
+      resetForm();
+      setWormConfirmOpen(false);
+    } catch (err) {
+      if (err instanceof Error && err.message === 'vault-save-failed') {
+        setAttachError('Kunde inte spara till valvet. Försök igen.');
+      } else if (err instanceof OfflineWriteBlockedError) {
+        setAttachError(err.message);
+      } else {
+        setAttachError('Kunde inte ladda upp bilaga. Försök igen.');
+      }
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const requestSave = () => {
+    if (!canSave) return;
+    setWormConfirmOpen(true);
+  };
+
+  const canSaveSimple = truth.trim().length > 0 || Boolean(pendingFile);
+  const canSaveTwo = theirVersion.trim() || myReality.trim() || Boolean(pendingFile);
+  const canSaveShield =
+    shieldStep === 2 && shieldWhat.trim() && shieldFeeling.trim() && shieldBoundary.trim();
+  const canSaveBody = selectedSignals.length > 0 || truth.trim() || Boolean(pendingFile);
+
+  const canSave =
+    mode === 'simple'
+      ? canSaveSimple
+      : mode === 'two_column'
+        ? Boolean(canSaveTwo)
+        : mode === 'three_shield'
+          ? canSaveShield
+          : canSaveBody;
+
+  const busy = saving || uploading;
+  const handoffText = [truth, theirVersion, myReality, shieldWhat].join(' ');
+  const showPatternHandoff = shouldSuggestVaultPatternScan(handoffText);
+  const showValvHandoff = shouldShowValvHandoff(handoffText);
+
+  return (
+    <div className="space-y-4">
+      <label className="block text-xs text-text-muted">
+        Typ av post
+        <select
+          value={mode}
+          onChange={(e) => {
+            setMode(e.target.value as VaultEntryType);
+            setShieldStep(0);
+          }}
+          className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+        >
+          {VAULT_ENTRY_MODES.map(({ id, label }) => (
+            <option key={id} value={id}>
+              {label}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <input
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        placeholder="Kategori (valfritt)"
+        className="input-glass rounded-xl px-3 py-2 w-full"
+        list="vault-category-suggestions"
+      />
+      <datalist id="vault-category-suggestions">
+        <option value="kommunikation" />
+        <option value="vårdnad" />
+        <option value="skola" />
+        <option value="ekonomi" />
+        <option value="allmänt" />
+      </datalist>
+
+      {showValvHandoff && <HandoffBox />}
+      {showPatternHandoff && <VaultPatternHandoff />}
+
+      {mode === 'simple' && (
+        <textarea
+          value={truth}
+          onChange={(e) => setTruth(e.target.value)}
+          placeholder="Sanning / bevis (fakta, datum, händelse)..."
+          rows={4}
+          className="input-glass rounded-xl px-3 py-2 resize-none w-full"
+        />
+      )}
+
+      {mode === 'two_column' && (
+        <div className="space-y-3">
+          <div className="rounded-xl border border-border-subtle bg-surface/30 p-3">
+            <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">
+              Klistra hel sms-tråd
+            </p>
+            <textarea
+              value={smsThreadPaste}
+              onChange={(e) => {
+                setSmsThreadPaste(e.target.value);
+                if (smsThreadSplitNotice) setSmsThreadSplitNotice(false);
+              }}
+              placeholder="Klistra hela konversationen — rader med «Namn:» delas automatiskt"
+              rows={3}
+              className="input-glass w-full resize-none rounded-xl px-3 py-2 text-sm"
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="mt-2"
+              disabled={smsThreadPaste.trim().length < 20}
+              onClick={() => {
+                const parsed = parseSmsThreadToTwoColumn(smsThreadPaste);
+                if (parsed) {
+                  setTheirVersion(parsed.theirVersion);
+                  setMyReality(parsed.myReality);
+                  setSmsThreadPaste('');
+                  setSmsThreadSplitNotice(true);
+                }
+              }}
+            >
+              Dela i två kolumner
+            </Button>
+            {smsThreadSplitNotice ? (
+              <p className="mt-2 text-xs text-accent/90" role="status">
+                Tråden är uppdelad i två kolumner. Granska innan du sparar.
+              </p>
+            ) : null}
+          </div>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <div>
+            <p className="mb-1 text-[10px] uppercase tracking-widest text-text-dim">Hens version</p>
+            <textarea
+              value={theirVersion}
+              onChange={(e) => setTheirVersion(e.target.value)}
+              placeholder="Agerande / påstående..."
+              rows={4}
+              className="input-glass rounded-xl px-3 py-2 resize-none w-full"
+            />
+          </div>
+          <div>
+            <p className="mb-1 text-[10px] uppercase tracking-widest text-text-dim">Min verklighet</p>
+            <textarea
+              value={myReality}
+              onChange={(e) => setMyReality(e.target.value)}
+              placeholder="Fakta jag dokumenterar..."
+              rows={4}
+              className="input-glass rounded-xl px-3 py-2 resize-none w-full"
+            />
+          </div>
+        </div>
+        </div>
+      )}
+
+      {mode === 'three_shield' && (
+        <div className="space-y-3">
+          {SHIELD_STEPS.map((step, idx) => {
+            if (idx !== shieldStep) return null;
+            const value =
+              idx === 0 ? shieldWhat : idx === 1 ? shieldFeeling : shieldBoundary;
+            const setValue =
+              idx === 0 ? setShieldWhat : idx === 1 ? setShieldFeeling : setShieldBoundary;
+            return (
+              <div key={step.key}>
+                <p className="mb-2 text-xs uppercase tracking-widest text-accent">
+                  Steg {idx + 1} — {step.label}
+                </p>
+                <textarea
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  placeholder={step.placeholder}
+                  rows={3}
+                  className="input-glass rounded-xl px-3 py-2 resize-none w-full"
+                />
+                <div className="mt-2 flex gap-2">
+                  {idx > 0 && (
+                    <Button type="button" variant="ghost" onClick={() => setShieldStep(idx - 1)}>
+                      Tillbaka
+                    </Button>
+                  )}
+                  {idx < 2 ? (
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      disabled={!value.trim()}
+                      onClick={() => setShieldStep(idx + 1)}
+                    >
+                      Fortsätt
+                    </Button>
+                  ) : null}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      {mode === 'body_signal' && (
+        <div className="space-y-3">
+          <label className="block text-xs text-text-muted">
+            Magkänsel — lägg till signal
+            <select
+              className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+              value=""
+              onChange={(e) => {
+                const v = e.target.value;
+                if (v) toggleSignal(v);
+              }}
+            >
+              <option value="">Välj signal…</option>
+              {BODY_SIGNALS.filter((s) => !selectedSignals.includes(s)).map((signal) => (
+                <option key={signal} value={signal}>
+                  {signal}
+                </option>
+              ))}
+            </select>
+          </label>
+          {selectedSignals.length > 0 && (
+            <div className="flex flex-wrap items-center gap-2 text-xs text-text-dim">
+              <span>Valda: {selectedSignals.join(', ')}</span>
+              <button
+                type="button"
+                className="text-accent/80 underline"
+                onClick={() => setSelectedSignals([])}
+              >
+                Rensa
+              </button>
+            </div>
+          )}
+          <textarea
+            value={truth}
+            onChange={(e) => setTruth(e.target.value)}
+            placeholder="Valfri kort notering..."
+            rows={2}
+            className="input-glass rounded-xl px-3 py-2 resize-none w-full"
+          />
+        </div>
+      )}
+
+      <div className="glass-card space-y-2 p-3">
+        <p className="text-[10px] uppercase tracking-widest text-text-dim">Bifoga bevis</p>
+        <div className="flex flex-wrap items-center gap-2">
+          <Button
+            type="button"
+            variant="ghost"
+            onClick={() => fileInputRef.current?.click()}
+          >
+            <ImagePlus className="h-4 w-4" />
+            Skärmdump
+          </Button>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif"
+            className="sr-only"
+            onChange={(e) => setPendingFile(e.target.files?.[0] ?? null)}
+          />
+          {supported && (
+            <Button type="button" variant="ghost" onClick={isListening ? stop : start}>
+              {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+              Röstmemo
+            </Button>
+          )}
+        </div>
+        {pendingFile && (
+          <p className="text-xs text-text-muted">Vald fil: {pendingFile.name}</p>
+        )}
+        {attachError && <p className="text-xs text-danger">{attachError}</p>}
+      </div>
+
+      <label className="flex items-center gap-2 text-xs text-text-dim">
+        <input
+          type="checkbox"
+          checked={pinned}
+          onChange={(e) => setPinned(e.target.checked)}
+          className="rounded border-border-strong"
+        />
+        Sanningens Ankare — fäst post (read-only i Morgonkompassen)
+      </label>
+
+      {wormConfirmOpen ? (
+        <WormSaveConfirmSheet
+          busy={busy || uploading}
+          onConfirm={() => void handleSubmit()}
+          onCancel={() => setWormConfirmOpen(false)}
+        />
+      ) : (
+        <Button
+          type="button"
+          variant="success"
+          onClick={requestSave}
+          disabled={busy || !canSave}
+        >
+          <span className="inline-flex items-center gap-2">
+            <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden>
+              {busy || uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
+            </span>
+            <span>Spara bevis</span>
+          </span>
+        </Button>
+      )}
+    </div>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultErrorBoundary.tsx">
+import { Component, type ErrorInfo, type ReactNode } from 'react';
+import { ErrorFallback, type ErrorFallbackGlow } from '@/design-system';
+
+type Props = {
+  children: ReactNode;
+  onReset?: () => void;
+  glow?: ErrorFallbackGlow;
+};
+
+type State = { hasError: boolean };
+
+/** Fångar render-krasch i Valv — vit skärm → återställning utan att tappa PIN-session. */
+export class VaultErrorBoundary extends Component<Props, State> {
+  state: State = { hasError: false };
+
+  static getDerivedStateFromError(): State {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: Error, info: ErrorInfo) {
+    console.error('[Valv] render error', error, info.componentStack);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return (
+        <ErrorFallback
+          title="Något gick fel i Valv-vyn"
+          body="Dina sparade bevis påverkas inte. Ladda om vyn eller gå tillbaka till Valv om felet kvarstår."
+          glow={this.props.glow ?? 'blue'}
+          onRetry={() => {
+            this.setState({ hasError: false });
+            this.props.onReset?.();
+          }}
+        />
+      );
+    }
+    return this.props.children;
+  }
+}
+</file>
+
 <file path="src/modules/features/lifeJournal/evidence/vault/components/VaultForensicPanel.tsx">
 import { useCallback, useEffect, useState } from 'react';
 import { useStore } from '@/core/store';
@@ -1693,6 +2560,327 @@ export function VaultInkastCompact({ onQueued, onPersistedBevis }: Props) {
     />
   );
 }
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx">
+import { memo, useEffect, useRef, type Ref } from 'react';
+import { FileDown, Loader2, Lock } from 'lucide-react';
+import { Button } from '@/design-system';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import './valv.css';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+import { useVaultStore } from '@/core/store/useVaultStore';
+import type { VaultLog, WeaverTags } from '@/core/types/firestore';
+import {
+  VAVAREN_LOG_CATEGORY_LABEL,
+  VAVAREN_LOG_DISCLAIMER,
+} from '../constants/vavarenCopy';
+import { exportVaultRecordAsPdf } from '../utils/exportVaultRecord';
+import { normalizeStringArray } from '../utils/normalizeVaultLog';
+import { scanTechniquesForLog, logHasTechnique } from '../utils/vaultPatternScan';
+import { highlightPatterns } from '../utils/vaultPatternHighlight';
+
+type VaultLogRow = VaultLog & { id: string; weaverTags?: WeaverTags };
+
+function resolveLogTechniques(
+  log: VaultLogRow,
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>,
+): string[] {
+  const persisted = persistedTechniquesByLogId?.get(log.id);
+  if (persisted && persisted.length > 0) return [...persisted];
+  return scanTechniquesForLog(log);
+}
+
+function isVavarenMetadata(log: VaultLog): boolean {
+  return log.category === 'vävaren_metadata';
+}
+
+type VaultLogListProps = {
+  highlightLogId?: string | null;
+  /** Tom lista — scroll till Samla-formuläret ovan. */
+  onLogFirstBevis?: () => void;
+  /** V2 — visa endast Sanningens Ankare (`pinned`). */
+  anchorsOnly?: boolean;
+  /** Sidecar-taktik från pattern_scan_metadata (prioriteras framför live-regex). */
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
+  /** Filtrera arkiv efter taktik (från Mönster drill-down). */
+  techniqueFilter?: string | null;
+};
+
+function asText(value: unknown): string {
+  if (value == null) return '';
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+  return String(value);
+}
+
+function formatLogBody(log: VaultLog): string {
+  if (log.entryType === 'two_column' && (log.theirVersion || log.myReality)) {
+    return `Hens: ${asText(log.theirVersion) || '—'}\nMin: ${asText(log.myReality) || '—'}`;
+  }
+  if (log.entryType === 'three_shield') {
+    return [log.shieldWhat, log.shieldFeeling, log.shieldBoundary]
+      .map(asText)
+      .filter(Boolean)
+      .join(' · ');
+  }
+  if (log.entryType === 'body_signal') {
+    const signals = normalizeStringArray(log.bodySignals);
+    if (signals.length > 0) {
+      const truth = asText(log.truth);
+      return `${signals.join(', ')}${truth ? ` — ${truth}` : ''}`;
+    }
+  }
+  return asText(log.truth);
+}
+
+function formatLogDate(createdAt: VaultLog['createdAt'] | undefined): string {
+  if (typeof createdAt === 'string') return createdAt.slice(0, 10);
+  if (createdAt == null) return '—';
+  return String(createdAt).slice(0, 10);
+}
+
+function formatServerTimestamp(createdAt: VaultLog['createdAt'] | undefined): string {
+  if (typeof createdAt === 'string') return createdAt;
+  if (createdAt == null) return '—';
+  return String(createdAt);
+}
+
+const LogRow = memo(function LogRow({
+  log,
+  highlightLogId,
+  highlightRef,
+  persistedTechniquesByLogId,
+}: {
+  log: VaultLogRow;
+  highlightLogId?: string | null;
+  highlightRef: Ref<HTMLLIElement>;
+  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
+}) {
+  const vavaren = isVavarenMetadata(log);
+  const weaverTags = (log as VaultLogRow).weaverTags;
+  const tags = vavaren ? [] : resolveLogTechniques(log, persistedTechniquesByLogId);
+  
+  return (
+    <li
+      key={log.id}
+      ref={log.id === highlightLogId ? highlightRef : undefined}
+      className={`valv-log-row ${
+        log.pinned ? 'valv-log-row--anchor' : ''
+      } ${log.id === highlightLogId ? 'valv-log-row--highlight' : ''} ${
+        vavaren ? 'valv-log-row--vavaren' : ''
+      }`}
+    >
+      <div className="flex items-start justify-between gap-2">
+        <div>
+          <div className="valv-log-stamp mb-1">
+            <Lock className="text-indigo-400/60" size={12} />
+            <p>SERVER-TIDSSTÄMPEL · {formatServerTimestamp(log.createdAt)}</p>
+          </div>
+          <p className="valv-log-meta font-mono">ID · {log.id.slice(0, 12)}…</p>
+          <p className="valv-log-meta mt-1">
+            {log.pinned ? 'Ankare · ' : ''}
+            {vavaren ? VAVAREN_LOG_CATEGORY_LABEL : (log.category ?? 'allmänt')}
+            {!vavaren && log.entryType ? ` · ${log.entryType}` : ''} · {formatLogDate(log.createdAt)}
+          </p>
+          {vavaren && (
+            <p className="mt-1 text-[10px] text-indigo-200/80">{VAVAREN_LOG_DISCLAIMER}</p>
+          )}
+        </div>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="shrink-0 py-1 px-2"
+          onClick={() => exportVaultRecordAsPdf(log)}
+          title="Exportera som PDF (utskrift)"
+        >
+          <FileDown className="h-3 w-3" /> PDF
+        </Button>
+      </div>
+      <p className={`mt-2 whitespace-pre-wrap ${vavaren ? 'text-indigo-100/90' : 'text-text-muted'}`}>
+        {vavaren
+          ? formatLogBody(log)
+          : highlightPatterns(formatLogBody(log)).map((span, i) =>
+              span.className ? (
+                <span
+                  key={i}
+                  className={span.className}
+                  title={span.category}
+                >
+                  {span.text}
+                </span>
+              ) : (
+                span.text
+              ),
+            )}
+      </p>
+      {vavaren && weaverTags && (
+        <div className="mt-3 flex flex-wrap gap-1">
+          {normalizeStringArray(weaverTags.emotions).map((e) => (
+            <span
+              key={`e-${e}`}
+              className="rounded-full border border-indigo-400/25 px-2 py-0.5 text-[10px] text-indigo-200/90"
+            >
+              {e}
+            </span>
+          ))}
+          {normalizeStringArray(weaverTags.actors).map((a) => (
+            <span
+              key={`a-${a}`}
+              className="rounded-full border border-border px-2 py-0.5 text-[10px] text-text-muted"
+            >
+              {a}
+            </span>
+          ))}
+          {weaverTags.threatLevel && weaverTags.threatLevel !== 'none' && (
+            <span className="rounded-full border border-amber-500/30 px-2 py-0.5 text-[10px] text-amber-200/90">
+              hot: {weaverTags.threatLevel}
+            </span>
+          )}
+        </div>
+      )}
+      {tags.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-1">
+          {tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full border border-accent/20 px-2 py-0.5 text-[10px] text-accent/80"
+            >
+              #{tag}
+            </span>
+          ))}
+        </div>
+      )}
+      {log.evidenceUrl && (
+        <a
+          href={log.evidenceUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 inline-block text-xs text-accent-secondary hover:underline"
+        >
+          Visa bifogat bevis
+        </a>
+      )}
+    </li>
+  );
+});
+
+export const VaultLogList = memo(function VaultLogList({
+  highlightLogId,
+  onLogFirstBevis,
+  anchorsOnly = false,
+  persistedTechniquesByLogId,
+  techniqueFilter = null,
+}: VaultLogListProps) {
+  const { logs, loading, hasMore, loadingMore, loadMoreLogs } = useVaultStore();
+  const highlightRef = useRef<HTMLLIElement>(null);
+  let visible = anchorsOnly ? logs.filter((l) => l.pinned) : logs;
+  if (techniqueFilter) {
+    visible = visible.filter((log) =>
+      logHasTechnique(log, techniqueFilter, persistedTechniquesByLogId),
+    );
+  }
+  const pinned = visible.filter((l) => l.pinned);
+  const rest = anchorsOnly ? [] : visible.filter((l) => !l.pinned);
+
+  useEffect(() => {
+    if (!highlightLogId) return;
+    const timer = window.setTimeout(() => {
+      highlightRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 120);
+    return () => window.clearTimeout(timer);
+  }, [highlightLogId, logs.length]);
+
+  return (
+    <BentoCard
+      title="Bevisarkiv"
+      glow="blue"
+      depth
+      noHover
+      className="mt-4"
+    >
+      {onLogFirstBevis && (
+        <div className="mb-3 flex justify-end">
+          <Button type="button" variant="secondary" size="sm" onClick={onLogFirstBevis}>
+            Logga bevis
+          </Button>
+        </div>
+      )}
+      {loading && visible.length === 0 ? (
+        <HubPanelSkeleton label="Laddar bevisarkiv…" lines={4} />
+      ) : visible.length === 0 ? (
+        <EmptyState
+          message={
+            techniqueFilter
+              ? `Inga poster med #${techniqueFilter} i arkivet.`
+              : anchorsOnly
+                ? 'Inga ankare markerade ännu. Kryssa i «Sanningens Ankare» när du loggar bevis.'
+                : 'Inga poster i arkivet ännu. Öppna «Manuell post» ovan eller tryck «Logga bevis».'
+          }
+        />
+      ) : (
+        <div className="space-y-4">
+          {pinned.length > 0 && (
+            <div>
+              <p className="mb-2 flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-accent/80">
+                <Lock size={10} className="text-accent/60" /> Sanningens Ankare
+              </p>
+              <ul className="valv-log-list">
+                {pinned.map((log) => (
+                  <LogRow
+                    key={log.id}
+                    log={log}
+                    highlightLogId={highlightLogId}
+                    highlightRef={highlightRef}
+                    persistedTechniquesByLogId={persistedTechniquesByLogId}
+                  />
+                ))}
+              </ul>
+            </div>
+          )}
+          <ul className="valv-log-list">
+          {rest.map((log) => (
+            <LogRow
+              key={log.id}
+              log={log}
+              highlightLogId={highlightLogId}
+              highlightRef={highlightRef}
+              persistedTechniquesByLogId={persistedTechniquesByLogId}
+            />
+          ))}
+        </ul>
+          {hasMore && (
+            <div className="mt-4 flex justify-center">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  const uid = logs[0]?.ownerId;
+                  if (uid) {
+                    void loadMoreLogs(uid);
+                  }
+                }}
+                disabled={loadingMore}
+              >
+                {loadingMore ? (
+                  <>
+                    <Loader2 className="mr-1 inline h-3 w-3 animate-spin" />
+                    Laddar fler…
+                  </>
+                ) : (
+                  'Visa fler'
+                )}
+              </Button>
+            </div>
+          )}
+        </div>
+      )}
+    </BentoCard>
+  );
+});
 </file>
 
 <file path="src/modules/features/lifeJournal/evidence/vault/components/VaultMonsterPanel.tsx">
@@ -1956,6 +3144,78 @@ export function VaultOverviewPanel({ pendingInbox, onOpenReview }: Props) {
     </BentoCard>
   );
 };
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultPatternHandoff.tsx">
+import { BarChart3 } from 'lucide-react';
+import { ButtonLink } from '@/design-system';
+import { vaultDrawerPath } from '@/core/navigation/navTruth';
+
+/** Efter logg eller vid mönster-nyckelord — länk till Mönster (ingen auto-analys). */
+export function VaultPatternHandoff({ className = '' }: { className?: string }) {
+  return (
+    <aside
+      className={`journal-handoff ${className}`.trim()}
+      role="note"
+      aria-label="Förslag om mönsteranalys"
+    >
+      <div className="journal-handoff__header">
+        <BarChart3 className="h-4 w-4 shrink-0 text-accent" aria-hidden />
+        <p className="journal-handoff__title">Leta mönster i bevisen?</p>
+      </div>
+      <p className="journal-handoff__body">
+        När du har flera poster kan Mönster-fliken visa upprepningar över tid. Inget körs automatiskt.
+      </p>
+      <ButtonLink to={vaultDrawerPath('monster')} variant="ghost" className="journal-handoff__cta">
+        Öppna Mönster →
+      </ButtonLink>
+    </aside>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaDriveHint.tsx">
+import { HardDrive } from 'lucide-react';
+import { Button } from '@/design-system';
+import { BentoCard } from '@/shared/ui/BentoCard';
+
+type Props = {
+  pendingCount?: number;
+  onOpenQueue: () => void;
+  /** Inuti CalmCollapsible — ingen extra BentoCard. */
+  embedded?: boolean;
+};
+
+/** G10 — Drive hamnar i granskningskö; ingen auto-WORM till reality_vault (SPEC §14). */
+export function VaultSamlaDriveHint({ pendingCount, onOpenQueue, embedded = false }: Props) {
+  const body = (
+    <>
+      <p className="text-xs text-text-dim">
+        Filer från Google Drive sparas <strong className="font-normal text-text-muted">inte</strong>{' '}
+        automatiskt som bevis. De hamnar i granskningskö — välj «→ Arkiv» när du är redo.
+      </p>
+      <Button type="button" variant="secondary" size="sm" className="mt-3" onClick={onOpenQueue}>
+        {pendingCount != null && pendingCount > 0
+          ? `Öppna granskningskö (${pendingCount})`
+          : 'Öppna granskningskö'}
+      </Button>
+    </>
+  );
+
+  if (embedded) {
+    return <div className="space-y-2">{body}</div>;
+  }
+
+  return (
+    <BentoCard
+      title="Drive & oklara filer"
+      description="Manuellt godkännande"
+      icon={<HardDrive className="h-4 w-4 text-accent" />}
+    >
+      {body}
+    </BentoCard>
+  );
+}
 </file>
 
 <file path="src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx">
@@ -2712,6 +3972,783 @@ export async function generateDossier(
     }
     throw new Error(fnError.message || 'Kunde inte generera dossier.');
   }
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/dossier/components/DossierPage.tsx">
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { FileText, Loader2, Lock, ShieldAlert } from 'lucide-react';
+import { Button, ButtonLink } from '@/design-system';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+import { StepIndicator } from '@/core/ui/StepIndicator';
+import { useStore } from '@/core/store';
+import { hasVaultGate } from '@/core/auth/sessionService';
+import {
+  getChildrenLogs,
+  getJournalEntries,
+  getAllVaultLogs,
+} from '@/core/firebase/firestore';
+import type {
+  DossierCandidateDoc,
+  DossierReportType,
+  DossierSources,
+  DossierWizardStep,
+  GenerateDossierResult,
+} from '../types';
+import {
+  childrenToCandidate,
+  collectCategoryTags,
+  collectTechniqueTags,
+  defaultDateRange,
+  filterCandidates,
+  groupIncludedIds,
+  journalToCandidate,
+  shiftMonths,
+  vaultToCandidate,
+} from '../utils/dossierCandidates';
+import { generateDossier } from '../api/dossierService';
+import {
+  buildTechniquesByLogId,
+  fetchPatternScanMetadata,
+} from '../../api/patternScanMetadataApi';
+import {
+  VAVAREN_DOSSIER_CHECKBOX,
+  VAVAREN_DOSSIER_HINT,
+} from '../../constants/vavarenCopy';
+import { printDossierFallback } from '../utils/exportDossierPrint';
+
+const INITIAL_SOURCES: DossierSources = {
+  reality_vault: true,
+  children_logs: true,
+  journal: false,
+};
+
+const JOURNAL_WARNING =
+  'Dagboken kan innehålla emotionella reflektioner. Inkludera endast om ditt ombud uttryckligen begärt det — annars riskerar det juridiska fokuset att tunnas ut.';
+
+const DOSSIER_WIZARD_STEPS = [
+  { key: 'period', label: 'Period' },
+  { key: 'sources', label: 'Källor' },
+  { key: 'review', label: 'Granska' },
+] as const;
+
+function resetWizardState() {
+  return {
+    step: 'period' as DossierWizardStep,
+    dateFrom: defaultDateRange().dateFrom,
+    dateTo: defaultDateRange().dateTo,
+    sources: { ...INITIAL_SOURCES },
+    journalAck: false,
+    categoryFilter: [] as string[],
+    techniqueFilter: [] as string[],
+    reportType: 'LEGAL' as DossierReportType,
+    includeAiForeword: false,
+    includedIds: new Set<string>(),
+    candidates: [] as DossierCandidateDoc[],
+    loadingDocs: false,
+    generating: false,
+    error: null as string | null,
+    result: null as GenerateDossierResult | null,
+  };
+}
+
+export function DossierPage({ embedded = false }: { embedded?: boolean }) {
+  const [searchParams] = useSearchParams();
+  const user = useStore((s) => s.user);
+  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
+  const vaultOpen = embedded || isVaultUnlocked || hasVaultGate();
+
+  const [step, setStep] = useState<DossierWizardStep>('period');
+  const [dateFrom, setDateFrom] = useState(defaultDateRange().dateFrom);
+  const [dateTo, setDateTo] = useState(defaultDateRange().dateTo);
+  const [sources, setSources] = useState<DossierSources>({ ...INITIAL_SOURCES });
+  const [journalAck, setJournalAck] = useState(false);
+  const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
+  const [techniqueFilter, setTechniqueFilter] = useState<string[]>([]);
+  const [techniquesByVaultId, setTechniquesByVaultId] = useState<Map<string, string[]>>(
+    () => new Map(),
+  );
+  const [reportType, setReportType] = useState<DossierReportType>('LEGAL');
+  const [includeAiForeword, setIncludeAiForeword] = useState(false);
+  const [showTimelinePreview, setShowTimelinePreview] = useState(true);
+  const [includedIds, setIncludedIds] = useState<Set<string>>(() => new Set());
+  const [allCandidates, setAllCandidates] = useState<DossierCandidateDoc[]>([]);
+  const [loadingDocs, setLoadingDocs] = useState(false);
+  const [generating, setGenerating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<GenerateDossierResult | null>(null);
+
+  const clearSession = useCallback(() => {
+    const fresh = resetWizardState();
+    setStep(fresh.step);
+    setDateFrom(fresh.dateFrom);
+    setDateTo(fresh.dateTo);
+    setSources(fresh.sources);
+    setJournalAck(fresh.journalAck);
+    setCategoryFilter(fresh.categoryFilter);
+    setTechniqueFilter(fresh.techniqueFilter);
+    setTechniquesByVaultId(new Map());
+    setReportType(fresh.reportType);
+    setIncludeAiForeword(fresh.includeAiForeword);
+    setShowTimelinePreview(true);
+    setIncludedIds(fresh.includedIds);
+    setAllCandidates(fresh.candidates);
+    setLoadingDocs(fresh.loadingDocs);
+    setGenerating(fresh.generating);
+    setError(fresh.error);
+    setResult(fresh.result);
+  }, []);
+
+  useEffect(() => () => clearSession(), [clearSession]);
+
+  const deepLinkChild = searchParams.get('child');
+  const deepLinkSources = searchParams.get('sources');
+
+  useEffect(() => {
+    if (!user || !vaultOpen) return;
+    void fetchPatternScanMetadata(user.uid).then((rows) => {
+      setTechniquesByVaultId(buildTechniquesByLogId(rows));
+    });
+  }, [user, vaultOpen]);
+
+  useEffect(() => {
+    if (deepLinkSources === 'children_logs') {
+      setSources({
+        reality_vault: false,
+        children_logs: true,
+        journal: false,
+      });
+    }
+  }, [deepLinkSources]);
+
+  const filteredDocs = useMemo(
+    () =>
+      filterCandidates(
+        allCandidates,
+        dateFrom,
+        dateTo,
+        sources,
+        categoryFilter,
+        techniqueFilter,
+        techniquesByVaultId,
+      ),
+    [allCandidates, dateFrom, dateTo, sources, categoryFilter, techniqueFilter, techniquesByVaultId],
+  );
+
+  const categoryTags = useMemo(() => collectCategoryTags(allCandidates), [allCandidates]);
+  const techniqueTags = useMemo(
+    () => collectTechniqueTags(techniquesByVaultId),
+    [techniquesByVaultId],
+  );
+
+  const loadCandidates = useCallback(async () => {
+    if (!user) return;
+    setLoadingDocs(true);
+    setError(null);
+    try {
+      const [vault, children, journal, patternRows] = await Promise.all([
+        getAllVaultLogs(user.uid),
+        getChildrenLogs(user.uid),
+        getJournalEntries(user.uid),
+        fetchPatternScanMetadata(user.uid),
+      ]);
+      setTechniquesByVaultId(buildTechniquesByLogId(patternRows));
+      const docs: DossierCandidateDoc[] = [
+        ...vault.map(vaultToCandidate),
+        ...children.map((row) =>
+          childrenToCandidate(row as Parameters<typeof childrenToCandidate>[0]),
+        ),
+        ...journal.map((row) =>
+          journalToCandidate(row as { id: string; mood?: string; text?: string; createdAt?: string }),
+        ),
+      ];
+      setAllCandidates(docs);
+      const visible = filterCandidates(
+        docs,
+        dateFrom,
+        dateTo,
+        sources,
+        categoryFilter,
+        techniqueFilter,
+        buildTechniquesByLogId(patternRows),
+      );
+      let ids = visible.map((d) => d.id);
+      if (deepLinkChild) {
+        const childDocs = visible.filter(
+          (d) => d.kind === 'children_logs' && d.title.startsWith(deepLinkChild),
+        );
+        if (childDocs.length > 0) ids = childDocs.map((d) => d.id);
+      }
+      setIncludedIds(new Set(ids));
+    } catch {
+      setError('Kunde inte läsa bevis från databasen.');
+    } finally {
+      setLoadingDocs(false);
+    }
+  }, [user, dateFrom, dateTo, sources, categoryFilter, techniqueFilter, deepLinkChild]);
+
+  useEffect(() => {
+    if (step !== 'review' || !user || !vaultOpen) return;
+    void loadCandidates();
+  }, [step, user, vaultOpen, loadCandidates]);
+
+  useEffect(() => {
+    if (step !== 'review') return;
+    const visible = filterCandidates(
+      allCandidates,
+      dateFrom,
+      dateTo,
+      sources,
+      categoryFilter,
+      techniqueFilter,
+      techniquesByVaultId,
+    );
+    setIncludedIds((prev) => {
+      const next = new Set<string>();
+      for (const doc of visible) {
+        if (prev.has(doc.id)) next.add(doc.id);
+      }
+      if (next.size === 0 && visible.length > 0) {
+        return new Set(visible.map((d) => d.id));
+      }
+      return next;
+    });
+  }, [step, allCandidates, dateFrom, dateTo, sources, categoryFilter, techniqueFilter, techniquesByVaultId]);
+
+  const toggleDoc = (id: string) => {
+    setIncludedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleTechnique = (tag: string) => {
+    setTechniqueFilter((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
+    );
+  };
+
+  const toggleCategory = (tag: string) => {
+    setCategoryFilter((prev) =>
+      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
+    );
+  };
+
+  const downloadFromResult = (gen: GenerateDossierResult) => {
+    if (gen.downloadUrl) {
+      window.open(gen.downloadUrl, '_blank', 'noopener,noreferrer');
+      return;
+    }
+    if (gen.pdfBase64) {
+      const win = window.open('', '_blank');
+      if (!win) throw new Error('Webbläsaren blockerade popup-fönstret.');
+      win.location.href = `data:application/pdf;base64,${gen.pdfBase64}`;
+      win.focus();
+    }
+  };
+
+  const handleGenerateDossier = async () => {
+    if (!user) return;
+    const selected = filteredDocs.filter((d) => includedIds.has(d.id));
+    if (selected.length === 0) {
+      setError('Välj minst en post att exportera.');
+      return;
+    }
+
+    setGenerating(true);
+    setError(null);
+
+    try {
+      const gen = await generateDossier({
+        dateFrom,
+        dateTo,
+        sources,
+        reportType,
+        includeAiForeword,
+        categoryFilter: categoryFilter.length > 0 ? categoryFilter : undefined,
+        techniqueFilter: techniqueFilter.length > 0 ? techniqueFilter : undefined,
+        includedDocIds: groupIncludedIds(selected, includedIds),
+      });
+      downloadFromResult(gen);
+      setResult(gen);
+      setStep('result');
+    } catch (backendErr) {
+      const message = backendErr instanceof Error ? backendErr.message : 'Generering misslyckades.';
+      if (!message.includes('inte deployad')) {
+        setError(message);
+        setGenerating(false);
+        return;
+      }
+      await handleLocalPrintFallback(selected);
+      return;
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  // —— Lokal utskrift (fallback när callable saknas) ——
+  const handleLocalPrintFallback = async (selected: DossierCandidateDoc[]) => {
+    setGenerating(true);
+    setError(null);
+
+    try {
+      const hash = await printDossierFallback({
+        selected,
+        reportType,
+        includeAiForeword,
+        childLabel: deepLinkChild || 'Hela familjen',
+      });
+
+      setResult({
+        dossierId: hash.slice(0, 12).toUpperCase(),
+        documentHash: hash,
+        status: 'ready',
+      });
+      setStep('result');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Kunde inte generera utskrift.');
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  if (!vaultOpen) {
+    return (
+      <div className={`valv-zone-stack ${embedded ? 'space-y-4' : 'space-y-6'}`}>
+        <BentoCard title="Dossier-Generator" icon={<Lock className="h-4 w-4" />}>
+          <p className="mb-4 text-sm text-text-muted">
+            Dossier kräver upplåst Valv (Fyren). I bottenmenyn: tryck på <strong>Hjärtat</strong>{' '}
+            (bok-ikonen) och <strong>håll 3 sekunder</strong>, eller öppna Valvet och tryck <strong>Lås upp Valvet (biometri)</strong>.
+          </p>
+          <ButtonLink to="/valvet" variant="secondary" size="sm" className="inline-flex">
+            Öppna Arkiv
+          </ButtonLink>
+        </BentoCard>
+      </div>
+    );
+  }
+
+  return (
+    <div className={`valv-zone-stack ${embedded ? 'space-y-4' : 'space-y-6'}`}>
+      <BentoCard
+        title={embedded ? 'Dossier' : 'Dossier-Generator'}
+        description={embedded ? 'Samlad arkiv-export' : undefined}
+        icon={<FileText className="h-4 w-4" />}
+        glow="blue"
+      >
+        {!embedded && (
+          <p className="mb-4 text-sm text-text-muted">
+            Samlad arkiv-export. Inget skickas automatiskt; du laddar ner din PDF när du är redo.
+          </p>
+        )}
+        {embedded && (
+          <p className="mb-4 text-sm text-text-muted">
+            Inget skickas automatiskt. Du sparar eller skriver ut PDF lokalt på din enhet.
+          </p>
+        )}
+
+        {step !== 'result' ? (
+          <StepIndicator steps={[...DOSSIER_WIZARD_STEPS]} currentKey={step} />
+        ) : null}
+
+        {step === 'period' && (
+          <div className="space-y-4">
+            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
+              Steg 1 av 3 — Tidsperiod
+            </p>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <label className="block text-sm">
+                <span className="text-text-muted">Från</span>
+                <input
+                  type="date"
+                  value={dateFrom}
+                  onChange={(e) => setDateFrom(e.target.value)}
+                  className="input-glass mt-1 w-full rounded-lg px-3 py-2 text-sm"
+                />
+              </label>
+              <label className="block text-sm">
+                <span className="text-text-muted">Till</span>
+                <input
+                  type="date"
+                  value={dateTo}
+                  onChange={(e) => setDateTo(e.target.value)}
+                  className="input-glass mt-1 w-full rounded-lg px-3 py-2 text-sm"
+                />
+              </label>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setDateTo(defaultDateRange().dateTo);
+                  setDateFrom(shiftMonths(defaultDateRange().dateTo, -3));
+                }}
+              >
+                Senaste 3 månaderna
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => {
+                  setDateTo(defaultDateRange().dateTo);
+                  setDateFrom(shiftMonths(defaultDateRange().dateTo, -6));
+                }}
+              >
+                Senaste 6 månaderna
+              </Button>
+            </div>
+            <Button type="button" variant="accent" className="w-full" onClick={() => setStep('sources')}>
+              Fortsätt
+            </Button>
+          </div>
+        )}
+
+        {step === 'sources' && (
+          <div className="space-y-4">
+            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
+              Steg 2 av 3 — Källor & Filter
+            </p>
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={sources.reality_vault}
+                onChange={(e) =>
+                  setSources((s) => ({ ...s, reality_vault: e.target.checked }))
+                }
+                className="rounded border-border accent-accent"
+              />
+              Arkiv (bevisloggar)
+            </label>
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={sources.children_logs}
+                onChange={(e) =>
+                  setSources((s) => ({ ...s, children_logs: e.target.checked }))
+                }
+                className="rounded border-border accent-accent"
+              />
+              Barnens livsloggar
+            </label>
+            <label className="flex items-start gap-2 text-sm cursor-pointer">
+              <input
+                type="checkbox"
+                checked={sources.journal}
+                onChange={(e) => {
+                  const on = e.target.checked;
+                  setSources((s) => ({ ...s, journal: on }));
+                  if (!on) setJournalAck(false);
+                }}
+                className="mt-1 rounded border-border accent-accent"
+              />
+              <span>
+                Dagboken (privat journal)
+                <span className="mt-1 block text-xs text-danger/80">{JOURNAL_WARNING}</span>
+              </span>
+            </label>
+
+            {sources.journal && (
+              <label className="flex items-start gap-2 rounded-lg border border-danger/30 bg-danger/5 p-3 text-sm cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={journalAck}
+                  onChange={(e) => setJournalAck(e.target.checked)}
+                  className="mt-1 accent-danger"
+                />
+                <span className="text-text-muted leading-relaxed">
+                  Jag förstår risken och vill inkludera min privata dagbok i detta underlag.
+                </span>
+              </label>
+            )}
+
+            <CalmCollapsible title="Valfria filter" meta="Taktik & kategori" defaultOpen={false} glow="blue">
+              {techniqueTags.length > 0 ? (
+                <div className="mb-3">
+                  <p className="mb-2 text-xs text-text-dim">
+                    Filtrera valv på taktik (sidecar-metadata)
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {techniqueTags.map((tag) => (
+                      <button
+                        key={tag}
+                        type="button"
+                        onClick={() => toggleTechnique(tag)}
+                        className={
+                          techniqueFilter.includes(tag)
+                            ? 'rounded-full border border-accent/40 bg-accent/15 px-3 py-1 text-xs text-accent cursor-pointer'
+                            : 'rounded-full border border-border px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-accent/25'
+                        }
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <p className="text-xs text-text-dim">Inga taktik-taggar i sidecar ännu.</p>
+              )}
+
+              {categoryTags.length > 0 ? (
+                <div>
+                  <p className="mb-2 text-xs text-text-dim">Filtrera på kategori/tag</p>
+                  <div className="flex flex-wrap gap-2">
+                    {categoryTags.map((tag) => (
+                      <button
+                        key={tag}
+                        type="button"
+                        onClick={() => toggleCategory(tag)}
+                        className={
+                          categoryFilter.includes(tag)
+                            ? 'rounded-full bg-amber-500/25 px-3 py-1 text-xs text-amber-100 cursor-pointer border border-accent/40'
+                            : 'rounded-full border border-border px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-accent/25'
+                        }
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </CalmCollapsible>
+
+            <CalmCollapsible title="AI-förord & tidslinje" meta="Valfritt" defaultOpen={false} glow="blue">
+              <label className="flex cursor-pointer items-start gap-2 text-sm text-text-dim">
+                <input
+                  type="checkbox"
+                  checked={includeAiForeword}
+                  onChange={(e) => {
+                    setIncludeAiForeword(e.target.checked);
+                    if (!e.target.checked) setShowTimelinePreview(false);
+                  }}
+                  className="mt-0.5 rounded border-border accent-accent"
+                />
+                <span>
+                  {VAVAREN_DOSSIER_CHECKBOX}
+                  <span className="mt-1 block text-xs text-text-muted">{VAVAREN_DOSSIER_HINT}</span>
+                </span>
+              </label>
+
+              {includeAiForeword ? (
+                <label className="mt-3 flex cursor-pointer items-start gap-2 text-sm text-text-dim pl-1">
+                  <input
+                    type="checkbox"
+                    checked={showTimelinePreview}
+                    onChange={(e) => setShowTimelinePreview(e.target.checked)}
+                    className="mt-0.5 rounded border-border accent-accent"
+                  />
+                  <span>
+                    Visa AI-tidslinje i förhandsgranskning
+                    <span className="mt-1 block text-xs text-text-muted">
+                      Efter export — sammanfattning utanför WORM-hash.
+                    </span>
+                  </span>
+                </label>
+              ) : null}
+            </CalmCollapsible>
+
+            <select
+              value={reportType}
+              onChange={(e) => setReportType(e.target.value as DossierReportType)}
+              className="input-glass w-full rounded-lg px-3 py-2 text-sm"
+              aria-label="Rapporttyp"
+            >
+              <option value="LEGAL">Juridisk kronologi (Fakta & tidsstämplar)</option>
+              <option value="BBIC">BBIC-struktur (föräldraförmåga & hälsa)</option>
+            </select>
+
+            <div className="flex gap-2">
+              <Button type="button" variant="ghost" size="sm" className="flex-1" onClick={() => setStep('period')}>
+                Tillbaka
+              </Button>
+              <Button
+                type="button"
+                variant="accent"
+                size="sm"
+                className="flex-1"
+                disabled={sources.journal && !journalAck}
+                onClick={() => setStep('review')}
+              >
+                Granska urval
+              </Button>
+            </div>
+          </div>
+        )}
+
+        {step === 'review' && (
+          <div className="space-y-4">
+            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
+              Steg 3 av 3 — Bekräfta kronologiskt urval
+            </p>
+            {loadingDocs ? (
+              <HubPanelSkeleton label="Läser in dina loggade händelser…" lines={5} />
+            ) : filteredDocs.length === 0 ? (
+              <EmptyState message="Inga poster hittades för den valda tidsperioden och källorna. Gå tillbaka och utöka ditt sökfönster." />
+            ) : (
+              <div className="space-y-2">
+                <p className="text-xs text-text-dim">
+                  Bocka av de rader du vill utesluta från exporten. Totalt {includedIds.size} av{' '}
+                  {filteredDocs.length} valda.
+                </p>
+                <ul className="max-h-80 space-y-2 overflow-y-auto pr-1 border border-border/60 rounded-xl p-2 bg-black/20">
+                  {filteredDocs.map((doc) => (
+                    <li
+                      key={`${doc.kind}-${doc.id}`}
+                      className="rounded-lg border border-border bg-surface-2 p-3 transition-colors hover:border-accent/20"
+                    >
+                      <label className="flex cursor-pointer gap-3">
+                        <input
+                          type="checkbox"
+                          checked={includedIds.has(doc.id)}
+                          onChange={() => toggleDoc(doc.id)}
+                          className="mt-1 shrink-0 accent-accent"
+                        />
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-xs font-semibold text-accent">
+                            {doc.title}
+                          </span>
+                          <span className="text-[10px] text-text-dim">
+                            {doc.createdAt.slice(0, 10)} ·{' '}
+                            {doc.kind.toUpperCase().replace('_', ' ')}
+                          </span>
+                          <span className="mt-1 block text-xs text-text-muted leading-relaxed line-clamp-2">
+                            {doc.preview}
+                          </span>
+                        </span>
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            <p className="flex items-start gap-2 text-xs text-success-light">
+              <ShieldAlert className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" />
+              Säkerhetsprincip: PDF-genereringen sker krypterat i din webbläsare. Ingenting skickas
+              till motparten eller sociala myndigheter.
+            </p>
+            {error && <p className="text-sm text-danger text-center">{error}</p>}
+            <div className="flex gap-2">
+              <Button type="button" variant="ghost" size="sm" className="flex-1" onClick={() => setStep('sources')}>
+                Tillbaka
+              </Button>
+              <button
+                type="button"
+                disabled={generating || includedIds.size === 0}
+                onClick={() => {
+                  const isSure = window.confirm(
+                    "Är du helt säker på att du vill skapa och ladda ner denna känsliga Dossier?\n\nDetta skapar ett permanent och låst spår i valvet."
+                  );
+                  if (isSure) {
+                    void handleGenerateDossier();
+                  }
+                }}
+                className="flex-1 rounded-lg bg-emerald-500/25 py-2 text-sm font-semibold text-emerald-100 disabled:opacity-40 cursor-pointer"
+              >
+                {generating ? (
+                  <span className="inline-flex items-center justify-center gap-2">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Genererar PDF…
+                  </span>
+                ) : (
+                  'Lås & Skriv ut (PDF)'
+                )}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {step === 'result' && result && (
+          <div className="space-y-4 animate-fade-in">
+            <div className="rounded-xl border border-success/30 bg-success/5 p-4 text-center">
+              <p className="text-sm font-semibold text-success">Dossier skapad & verifierad!</p>
+              <p className="mt-1 text-xs text-text-muted">
+                Dokumentet öppnades i en ny flik och utskriftsdialogen har startat. Spara den som en
+                PDF lokalt på din enhet.
+              </p>
+            </div>
+
+            <div className="rounded-xl border border-border-strong bg-surface-2 p-4 space-y-2 text-xs tabular-nums">
+              <p className="text-text-dim uppercase tracking-wider text-[10px]">
+                Äkthetsverifiering (låst post)
+              </p>
+              <div className="flex justify-between">
+                <span className="text-text-muted">Dossier ID:</span>
+                <span className="font-mono text-text font-semibold">{result.dossierId}</span>
+              </div>
+              <div className="space-y-1">
+                <span className="text-text-muted">SHA-256 Hash:</span>
+                <p className="font-mono text-[9px] text-accent bg-black/30 p-2 rounded border border-border break-all">
+                  {result.documentHash}
+                </p>
+              </div>
+            </div>
+
+            {includeAiForeword &&
+              showTimelinePreview &&
+              result.aiForeword &&
+              result.aiForeword.timeline.length > 0 && (
+                <div className="rounded-xl border border-accent-secondary/25 bg-accent-secondary/5 p-4 space-y-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-wider text-accent-secondary/90">
+                    AI-tidslinje (förhandsgranskning)
+                  </p>
+                  <p className="text-xs text-text-muted leading-relaxed line-clamp-6">
+                    {result.aiForeword.foreword}
+                  </p>
+                  <ul className="max-h-48 space-y-2 overflow-y-auto pr-1">
+                    {result.aiForeword.timeline.map((row, idx) => (
+                      <li
+                        key={`${row.date}-${idx}`}
+                        className="rounded-lg border border-border bg-surface-2/80 px-3 py-2 text-xs"
+                      >
+                        <span className="font-mono text-accent">{row.date}</span>
+                        <span className="mt-0.5 block text-text-muted">{row.fact}</span>
+                        {row.sourceRef && (
+                          <span className="mt-1 block font-mono text-[10px] text-text-dim">
+                            ref: {row.sourceRef}
+                          </span>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="text-[10px] text-text-dim">
+                    Sammanfattning — bevisdelen i PDF är ordagrant WORM.
+                  </p>
+                </div>
+              )}
+
+            <div className="flex gap-2 pt-2">
+              <Button
+                type="button"
+                variant="accent"
+                size="sm"
+                className="flex-1 justify-center"
+                onClick={() => void handleGenerateDossier()}
+              >
+                Skriv ut / Spara igen
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="flex-1 justify-center"
+                onClick={clearSession}
+              >
+                Klar — rensa från enheten
+              </Button>
+            </div>
+          </div>
+        )}
+      </BentoCard>
+    </div>
+  );
 }
 </file>
 
@@ -5322,183 +7359,6 @@ export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, v
 }
 </file>
 
-<file path="src/modules/features/lifeJournal/evidence/knowledge/components/VaultKunskapsbankPanel.tsx">
-import { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { KunskapPage, type KunskapEntriesMeta } from '../../kompis/components/KunskapPage';
-import { AutonomousArchivePanel } from '../../kompis/components/AutonomousArchivePanel';
-import { FamiljenKunskapHubTab } from '@/features/family/children/components/familjen/FamiljenKunskapHubTab';
-import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenShell';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { EmptyState } from '@/core/ui/EmptyState';
-import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
-import { KunskapsbankHeader } from '../../vault/components/KunskapsbankHeader';
-import { vaultDrawerPath } from '@/core/navigation/navTruth';
-import { BookOpen, RefreshCw } from 'lucide-react';
-import { Button } from '@/design-system';
-
-type TabRequest = 'chat' | 'tidshjul';
-
-/** Samlad Kunskapsbank bakom Valv-PIN — Kunskapsvalv + Familjen-upload (U1 silos oförändrade). */
-export function VaultKunskapsbankPanel() {
-  const shell = useFamiljenShell();
-  const [focusKampsparId, setFocusKampsparId] = useState<string | null>(null);
-  const [requestTab, setRequestTab] = useState<TabRequest | null>(null);
-  const [entriesMeta, setEntriesMeta] = useState<KunskapEntriesMeta | null>(null);
-
-  const handleEntriesMeta = useCallback((meta: KunskapEntriesMeta) => {
-    setEntriesMeta(meta);
-  }, []);
-
-  const showEmptyState =
-    entriesMeta &&
-    !entriesMeta.loading &&
-    !entriesMeta.error &&
-    entriesMeta.count === 0;
-
-  const showNetworkError = Boolean(entriesMeta?.error);
-  const archiveMeta =
-    entriesMeta && !entriesMeta.loading
-      ? `${entriesMeta.count} poster`
-      : entriesMeta?.loading
-        ? 'Laddar…'
-        : undefined;
-
-  return (
-    <div className="valv-zone-stack space-y-4">
-      <KunskapsbankHeader compact />
-
-      {showNetworkError && (
-        <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3">
-          <div className="flex flex-wrap items-center gap-3">
-            <p className="text-sm text-amber-200/90">{entriesMeta?.error}</p>
-            <Button
-              type="button"
-              variant="secondary"
-              size="sm"
-              className="inline-flex items-center gap-1.5"
-              onClick={() => entriesMeta?.reload()}
-              disabled={entriesMeta?.loading}
-            >
-              <RefreshCw className="h-3 w-3" aria-hidden />
-              Försök igen
-            </Button>
-          </div>
-        </div>
-      )}
-
-      {showEmptyState && (
-        <BentoCard
-          glow="blue"
-          title="Ditt minne är tomt"
-          description="Sök i dina sparade anteckningar — börja med en post"
-          icon={<BookOpen className="h-4 w-4" />}
-        >
-          <EmptyState
-            message="Lägg till rutiner, milstolpar eller fakta under Tidshjulet. Därefter kan du ställa frågor i Kunskapsvalv-fliken."
-            action={
-              <Button type="button" variant="secondary" onClick={() => setRequestTab('tidshjul')}>
-                Öppna Tidshjulet
-              </Button>
-            }
-          />
-        </BentoCard>
-      )}
-
-      <BentoCard glow="blue" bare noHover className="!p-0">
-        <div className="p-4 sm:p-5">
-          <KunskapPage
-            embedded
-            focusKampsparId={focusKampsparId}
-            onFocusKampsparConsumed={() => setFocusKampsparId(null)}
-            requestTab={requestTab}
-            onRequestTabConsumed={() => setRequestTab(null)}
-            onEntriesMeta={handleEntriesMeta}
-          />
-        </div>
-      </BentoCard>
-
-      <CalmCollapsible title="Filarkiv" meta={archiveMeta} defaultOpen={false} glow="blue">
-        <AutonomousArchivePanel sharedKampspar={entriesMeta?.entries} />
-      </CalmCollapsible>
-
-      {shell.user ? (
-        <CalmCollapsible title="Familjen — kunskap och uppladdning" meta="Per barn" defaultOpen={false} glow="blue">
-          <FamiljenKunskapHubTab activeChild={shell.activeChild} />
-        </CalmCollapsible>
-      ) : null}
-
-      <p className="px-1 text-[10px] text-text-dim">
-        Personregister:{' '}
-        <Link to={vaultDrawerPath('aktorskarta')} className="text-accent/80 hover:text-accent">
-          Aktörskarta
-        </Link>
-      </p>
-    </div>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvForensikZone.tsx">
-import { useState } from 'react';
-import { Button } from '@/design-system';
-import { TabBar } from '@/core/ui/TabBar';
-import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
-import { getForensicVaultTabBarItems } from '@/core/navigation/tabRegistry';
-import { VaultForensicPanel } from '../VaultForensicPanel';
-import { VaultDcapAlertsPanel } from '../VaultDcapAlertsPanel';
-import type { ForensicVaultTab } from '../../utils/vaultTabs';
-
-export type ValvForensikZoneProps = {
-  tab: ForensicVaultTab;
-  onTabChange: (tab: ForensicVaultTab) => void;
-  gateOk: boolean;
-};
-
-/** Progressive disclosure — visa aktiv flik + expandera till alla 6 vid behov. */
-export function ValvForensikZone({ tab, onTabChange, gateOk }: ValvForensikZoneProps) {
-  const [showAllTabs, setShowAllTabs] = useState(false);
-  const allTabs = getForensicVaultTabBarItems();
-  const visibleTabs = showAllTabs ? allTabs : allTabs.filter((t) => t.id === tab);
-
-  return (
-    <HubErrorBoundary
-      title="Forensik kunde inte laddas"
-      glow="blue"
-      logTag="ValvForensikZone"
-    >
-      <div className="mb-3 flex flex-wrap items-center gap-2">
-        <TabBar
-          size="compact"
-          tabs={visibleTabs}
-          active={tab}
-          onChange={onTabChange}
-        />
-        {!showAllTabs ? (
-          <Button type="button" variant="ghost" size="sm" onClick={() => setShowAllTabs(true)}>
-            Visa fler
-          </Button>
-        ) : (
-          <Button type="button" variant="ghost" size="sm" onClick={() => setShowAllTabs(false)}>
-            Färre flikar
-          </Button>
-        )}
-      </div>
-      <section className="valv-zone-stack mb-4" aria-label="DCAP säkerhetsgranskning">
-        <p className="mb-2 font-display-serif text-xs uppercase tracking-[0.2em] text-accent-dim">
-          Säkerhetsgranskning
-        </p>
-        <p className="mb-3 text-xs text-text-muted">
-          Väntande DCAP-eskaleringar — granska manuellt innan åtgärd. Hash-only logg.
-        </p>
-        <VaultDcapAlertsPanel gateOk={gateOk} />
-      </section>
-      <VaultForensicPanel tab={tab} />
-    </HubErrorBoundary>
-  );
-}
-</file>
-
 <file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvVitZone.tsx">
 import { VaultVitHubPanel } from '../VaultVitHubPanel';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
@@ -5516,1983 +7376,6 @@ export function ValvVitZone({ userId }: ValvVitZoneProps) {
         <VaultVitHubPanel userId={userId} />
       </div>
     </HubErrorBoundary>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/AdkAgentRegistryPanel.tsx">
-import { Loader2, Network, RefreshCw } from 'lucide-react';
-import { Button } from '@/design-system';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { AgentRegistryCard } from '@/shared/agents/components/AgentRegistryCard';
-import { useAgentRegistry } from '@/shared/agents/hooks/useAgentRegistry';
-
-/** Live ADK AgentCard-registret — delad fetch via AgentRegistryProvider. */
-export function AdkAgentRegistryPanel() {
-  const { agents, loading, error, usedFallback, reload, agentNameById } = useAgentRegistry();
-
-  const sortedAgents = [...agents].sort((a, b) =>
-    a.metadata.name.localeCompare(b.metadata.name, 'sv'),
-  );
-
-  return (
-    <BentoCard
-      title="Assistentroller"
-      description="Live ADK-registret — vilka agenter som finns och vad de gör"
-      icon={<Network className="h-4 w-4" />}
-      glow="blue"
-    >
-      <div className="mb-3 flex items-center justify-between gap-2">
-        <p className="text-xs text-text-dim">
-          {usedFallback
-            ? 'Offline-läge — visar lokal lista tills molnet svarar.'
-            : 'Hämtat från backend AgentCards (A2A).'}
-        </p>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest disabled:opacity-50"
-          onClick={() => void reload()}
-          disabled={loading}
-          aria-label="Uppdatera agentregistret"
-        >
-          {loading ? (
-            <Loader2 className="h-3 w-3 animate-spin" aria-hidden />
-          ) : (
-            <RefreshCw className="h-3 w-3" aria-hidden />
-          )}
-          Uppdatera
-        </Button>
-      </div>
-
-      {loading && agents.length === 0 && (
-        <p className="flex items-center gap-2 text-sm text-text-muted" role="status">
-          <Loader2 className="h-4 w-4 animate-spin shrink-0" aria-hidden />
-          Laddar assistenter…
-        </p>
-      )}
-
-      {error && (
-        <p className="mb-3 text-xs text-danger" role="status">
-          {error}
-        </p>
-      )}
-
-      {!loading || agents.length > 0 ? (
-        <ul className="space-y-2">
-          {sortedAgents.map((agent) => (
-            <li key={agent.metadata.id}>
-              <AgentRegistryCard agent={agent} agentNameById={agentNameById} />
-            </li>
-          ))}
-        </ul>
-      ) : null}
-    </BentoCard>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultDcapAlertsPanel.tsx">
-import { useCallback, useState } from 'react';
-import { ShieldCheck } from 'lucide-react';
-import { Button } from '@/design-system';
-import { useStore } from '@/core/store';
-import { EmptyState } from '@/core/ui/EmptyState';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import { resolveDcapAlert } from '../api/dcapAlertService';
-import { useDcapAlerts } from '../hooks/useDcapAlerts';
-
-type Props = {
-  /** Valv upplåst — ingen Firestore-lyssning utan gate. */
-  gateOk: boolean;
-};
-
-function formatRecommendedAction(action: string): string {
-  switch (action) {
-    case 'ALERT':
-      return 'Eskalering';
-    case 'COACHING':
-      return 'Coachning';
-    case 'NONE':
-      return 'Ingen åtgärd';
-    default:
-      return action;
-  }
-}
-
-/** P1.4 — Granskningskö för DCAP HITL-eskalering (Valv PIN + session-gated resolve). */
-export function VaultDcapAlertsPanel({ gateOk }: Props) {
-  const userId = useStore((s) => s.user?.uid);
-  const { alerts, loading } = useDcapAlerts(userId, { enabled: gateOk });
-  const [busyId, setBusyId] = useState<string | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleAcknowledge = useCallback(async (alertId: string) => {
-    setBusyId(alertId);
-    setError(null);
-    try {
-      await resolveDcapAlert(alertId, 'acknowledged');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Granskning misslyckades.');
-    } finally {
-      setBusyId(null);
-    }
-  }, []);
-
-  if (!gateOk) {
-    return (
-      <EmptyState message="Lås upp Valvet via Fyren för att se säkerhetsgranskningar." />
-    );
-  }
-
-  if (loading) {
-    return <HubPanelSkeleton label="Läser säkerhetsgranskning…" lines={2} />;
-  }
-
-  if (alerts.length === 0) {
-    return (
-      <EmptyState message="Inga väntande DCAP-granskningar. Hash-only logg — ingen rå text lagras." />
-    );
-  }
-
-  return (
-    <div className="space-y-3">
-      {error ? (
-        <p className="text-xs text-rose-300/90" role="alert">
-          {error}
-        </p>
-      ) : null}
-      <ul className="space-y-3">
-        {alerts.map((alert) => (
-          <li
-            key={alert.id}
-            className="rounded-xl border border-border/30 bg-surface-2/70 p-3 text-sm"
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div className="min-w-0">
-                <p className="font-sans text-text">
-                  Risk {alert.riskScore} · {formatRecommendedAction(alert.recommendedAction)}
-                </p>
-                <p className="mt-1 text-xs text-text-dim">
-                  Väntar på manuell granskning. Ingen rå text exponeras — endast risk och åtgärd.
-                </p>
-              </div>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="shrink-0 inline-flex items-center gap-1.5"
-                disabled={busyId === alert.id}
-                onClick={() => void handleAcknowledge(alert.id)}
-              >
-                <ShieldCheck className="h-3.5 w-3.5" aria-hidden />
-                {busyId === alert.id ? 'Sparar…' : 'Granskad'}
-              </Button>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultEntryForm.tsx">
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import { ImagePlus, Loader2, Mic, MicOff, Plus } from 'lucide-react';
-import { Button } from '@/design-system';
-import { uploadVaultEvidence } from '@/core/firebase/storage';
-import { useSpeechToText } from '@/core/hooks/useSpeechToText';
-import { shouldSuggestVaultPatternScan } from '@/core/triggers/valvHandoff';
-import { BODY_SIGNALS, SHIELD_STEPS, VAULT_ENTRY_MODES } from '../constants/vaultEntry';
-import type { VaultEntryType, VaultLogInput } from '../types/vaultEntry';
-import { HandoffBox } from '@/features/lifeJournal/diary/diary/components/HandoffBox';
-import { shouldShowValvHandoff } from '@/core/triggers/valvHandoff';
-import { OfflineWriteBlockedError } from '@/core/firebase/offlineWritePolicy';
-import { WormSaveConfirmSheet } from '@/core/security/WormSaveConfirmSheet';
-import { VaultPatternHandoff } from './VaultPatternHandoff';
-import { parseSmsThreadToTwoColumn } from '../utils/smsThreadParse';
-
-type VaultEntryFormProps = {
-  userId: string;
-  saving: boolean;
-  onSave: (input: VaultLogInput) => Promise<void>;
-};
-
-export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) {
-  const location = useLocation();
-  const [mode, setMode] = useState<VaultEntryType>('simple');
-  const [category, setCategory] = useState('');
-  const [truth, setTruth] = useState('');
-  const [theirVersion, setTheirVersion] = useState('');
-  const [myReality, setMyReality] = useState('');
-  const [selectedSignals, setSelectedSignals] = useState<string[]>([]);
-  const [shieldStep, setShieldStep] = useState(0);
-  const [shieldWhat, setShieldWhat] = useState('');
-  const [shieldFeeling, setShieldFeeling] = useState('');
-  const [shieldBoundary, setShieldBoundary] = useState('');
-  const [pendingFile, setPendingFile] = useState<File | null>(null);
-  const [uploading, setUploading] = useState(false);
-  const [attachError, setAttachError] = useState<string | null>(null);
-  const [pinned, setPinned] = useState(false);
-  const [smsThreadPaste, setSmsThreadPaste] = useState('');
-  const [smsThreadSplitNotice, setSmsThreadSplitNotice] = useState(false);
-  const [wormConfirmOpen, setWormConfirmOpen] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    const handoff = (location.state as { vaultHandoffText?: string } | null)?.vaultHandoffText;
-    if (!handoff?.trim()) return;
-    setTruth((prev) => (prev.trim() ? prev : handoff.trim()));
-  }, [location.state]);
-
-  const appendVoice = useCallback(
-    (chunk: string) => {
-      if (!chunk) return;
-      const line = `Röstmemo: ${chunk}`;
-      setTruth((prev) => (prev.trim() ? `${prev.trim()}\n${line}` : line));
-    },
-    [],
-  );
-
-  const { supported, isListening, start, stop } = useSpeechToText({
-    lang: 'sv-SE',
-    onFinal: appendVoice,
-  });
-
-  const resetForm = () => {
-    setTruth('');
-    setTheirVersion('');
-    setMyReality('');
-    setSelectedSignals([]);
-    setShieldStep(0);
-    setShieldWhat('');
-    setShieldFeeling('');
-    setShieldBoundary('');
-    setPendingFile(null);
-    setAttachError(null);
-    setPinned(false);
-  };
-
-  const toggleSignal = (signal: string) => {
-    setSelectedSignals((prev) =>
-      prev.includes(signal) ? prev.filter((s) => s !== signal) : [...prev, signal],
-    );
-  };
-
-  const withEvidence = (payload: VaultLogInput, evidenceUrl?: string): VaultLogInput => {
-    let next = evidenceUrl ? { ...payload, evidenceUrl } : payload;
-    if (pinned) next = { ...next, pinned: true };
-    return next;
-  };
-
-  const buildPayload = (evidenceUrl?: string): VaultLogInput | null => {
-    const cat = category.trim() || 'allmänt';
-
-    if (mode === 'simple') {
-      if (!truth.trim() && !evidenceUrl) return null;
-      return withEvidence(
-        { action: 'bevis', category: cat, truth: truth.trim() || 'Bifogat bevis', entryType: 'simple' },
-        evidenceUrl,
-      );
-    }
-
-    if (mode === 'two_column') {
-      if (!theirVersion.trim() && !myReality.trim() && !evidenceUrl) return null;
-      const combined = `Hens version: ${theirVersion.trim() || '—'}\nMin verklighet: ${myReality.trim() || '—'}`;
-      return withEvidence(
-        {
-          action: 'bevis',
-          category: cat,
-          truth: combined,
-          entryType: 'two_column',
-          theirVersion: theirVersion.trim(),
-          myReality: myReality.trim(),
-        },
-        evidenceUrl,
-      );
-    }
-
-    if (mode === 'three_shield') {
-      if (!shieldWhat.trim() || !shieldFeeling.trim() || !shieldBoundary.trim()) return null;
-      const combined = `${shieldWhat.trim()} | ${shieldFeeling.trim()} | ${shieldBoundary.trim()}`;
-      return withEvidence(
-        {
-          action: 'bevis',
-          category: cat,
-          truth: combined,
-          entryType: 'three_shield',
-          shieldWhat: shieldWhat.trim(),
-          shieldFeeling: shieldFeeling.trim(),
-          shieldBoundary: shieldBoundary.trim(),
-        },
-        evidenceUrl,
-      );
-    }
-
-    if (mode === 'body_signal') {
-      if (selectedSignals.length === 0 && !truth.trim() && !evidenceUrl) return null;
-      const note = truth.trim();
-      const combined = [...selectedSignals, note].filter(Boolean).join(' — ');
-      return withEvidence(
-        {
-          action: 'bevis',
-          category: cat,
-          truth: combined || selectedSignals.join(', ') || 'Magkänsel + bevis',
-          entryType: 'body_signal',
-          bodySignals: selectedSignals,
-        },
-        evidenceUrl,
-      );
-    }
-
-    return null;
-  };
-
-  const handleSubmit = async () => {
-    setAttachError(null);
-    setUploading(true);
-    try {
-      let evidenceUrl: string | undefined;
-      if (pendingFile) {
-        evidenceUrl = await uploadVaultEvidence(userId, pendingFile);
-      }
-      const payload = buildPayload(evidenceUrl);
-      if (!payload) return;
-      await onSave(payload);
-      resetForm();
-      setWormConfirmOpen(false);
-    } catch (err) {
-      if (err instanceof Error && err.message === 'vault-save-failed') {
-        setAttachError('Kunde inte spara till valvet. Försök igen.');
-      } else if (err instanceof OfflineWriteBlockedError) {
-        setAttachError(err.message);
-      } else {
-        setAttachError('Kunde inte ladda upp bilaga. Försök igen.');
-      }
-    } finally {
-      setUploading(false);
-    }
-  };
-
-  const requestSave = () => {
-    if (!canSave) return;
-    setWormConfirmOpen(true);
-  };
-
-  const canSaveSimple = truth.trim().length > 0 || Boolean(pendingFile);
-  const canSaveTwo = theirVersion.trim() || myReality.trim() || Boolean(pendingFile);
-  const canSaveShield =
-    shieldStep === 2 && shieldWhat.trim() && shieldFeeling.trim() && shieldBoundary.trim();
-  const canSaveBody = selectedSignals.length > 0 || truth.trim() || Boolean(pendingFile);
-
-  const canSave =
-    mode === 'simple'
-      ? canSaveSimple
-      : mode === 'two_column'
-        ? Boolean(canSaveTwo)
-        : mode === 'three_shield'
-          ? canSaveShield
-          : canSaveBody;
-
-  const busy = saving || uploading;
-  const handoffText = [truth, theirVersion, myReality, shieldWhat].join(' ');
-  const showPatternHandoff = shouldSuggestVaultPatternScan(handoffText);
-  const showValvHandoff = shouldShowValvHandoff(handoffText);
-
-  return (
-    <div className="space-y-4">
-      <label className="block text-xs text-text-muted">
-        Typ av post
-        <select
-          value={mode}
-          onChange={(e) => {
-            setMode(e.target.value as VaultEntryType);
-            setShieldStep(0);
-          }}
-          className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
-        >
-          {VAULT_ENTRY_MODES.map(({ id, label }) => (
-            <option key={id} value={id}>
-              {label}
-            </option>
-          ))}
-        </select>
-      </label>
-
-      <input
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-        placeholder="Kategori (valfritt)"
-        className="input-glass rounded-xl px-3 py-2 w-full"
-        list="vault-category-suggestions"
-      />
-      <datalist id="vault-category-suggestions">
-        <option value="kommunikation" />
-        <option value="vårdnad" />
-        <option value="skola" />
-        <option value="ekonomi" />
-        <option value="allmänt" />
-      </datalist>
-
-      {showValvHandoff && <HandoffBox />}
-      {showPatternHandoff && <VaultPatternHandoff />}
-
-      {mode === 'simple' && (
-        <textarea
-          value={truth}
-          onChange={(e) => setTruth(e.target.value)}
-          placeholder="Sanning / bevis (fakta, datum, händelse)..."
-          rows={4}
-          className="input-glass rounded-xl px-3 py-2 resize-none w-full"
-        />
-      )}
-
-      {mode === 'two_column' && (
-        <div className="space-y-3">
-          <div className="rounded-xl border border-border-subtle bg-surface/30 p-3">
-            <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">
-              Klistra hel sms-tråd
-            </p>
-            <textarea
-              value={smsThreadPaste}
-              onChange={(e) => {
-                setSmsThreadPaste(e.target.value);
-                if (smsThreadSplitNotice) setSmsThreadSplitNotice(false);
-              }}
-              placeholder="Klistra hela konversationen — rader med «Namn:» delas automatiskt"
-              rows={3}
-              className="input-glass w-full resize-none rounded-xl px-3 py-2 text-sm"
-            />
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="mt-2"
-              disabled={smsThreadPaste.trim().length < 20}
-              onClick={() => {
-                const parsed = parseSmsThreadToTwoColumn(smsThreadPaste);
-                if (parsed) {
-                  setTheirVersion(parsed.theirVersion);
-                  setMyReality(parsed.myReality);
-                  setSmsThreadPaste('');
-                  setSmsThreadSplitNotice(true);
-                }
-              }}
-            >
-              Dela i två kolumner
-            </Button>
-            {smsThreadSplitNotice ? (
-              <p className="mt-2 text-xs text-accent/90" role="status">
-                Tråden är uppdelad i två kolumner. Granska innan du sparar.
-              </p>
-            ) : null}
-          </div>
-        <div className="grid gap-3 sm:grid-cols-2">
-          <div>
-            <p className="mb-1 text-[10px] uppercase tracking-widest text-text-dim">Hens version</p>
-            <textarea
-              value={theirVersion}
-              onChange={(e) => setTheirVersion(e.target.value)}
-              placeholder="Agerande / påstående..."
-              rows={4}
-              className="input-glass rounded-xl px-3 py-2 resize-none w-full"
-            />
-          </div>
-          <div>
-            <p className="mb-1 text-[10px] uppercase tracking-widest text-text-dim">Min verklighet</p>
-            <textarea
-              value={myReality}
-              onChange={(e) => setMyReality(e.target.value)}
-              placeholder="Fakta jag dokumenterar..."
-              rows={4}
-              className="input-glass rounded-xl px-3 py-2 resize-none w-full"
-            />
-          </div>
-        </div>
-        </div>
-      )}
-
-      {mode === 'three_shield' && (
-        <div className="space-y-3">
-          {SHIELD_STEPS.map((step, idx) => {
-            if (idx !== shieldStep) return null;
-            const value =
-              idx === 0 ? shieldWhat : idx === 1 ? shieldFeeling : shieldBoundary;
-            const setValue =
-              idx === 0 ? setShieldWhat : idx === 1 ? setShieldFeeling : setShieldBoundary;
-            return (
-              <div key={step.key}>
-                <p className="mb-2 text-xs uppercase tracking-widest text-accent">
-                  Steg {idx + 1} — {step.label}
-                </p>
-                <textarea
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
-                  placeholder={step.placeholder}
-                  rows={3}
-                  className="input-glass rounded-xl px-3 py-2 resize-none w-full"
-                />
-                <div className="mt-2 flex gap-2">
-                  {idx > 0 && (
-                    <Button type="button" variant="ghost" onClick={() => setShieldStep(idx - 1)}>
-                      Tillbaka
-                    </Button>
-                  )}
-                  {idx < 2 ? (
-                    <Button
-                      type="button"
-                      variant="secondary"
-                      disabled={!value.trim()}
-                      onClick={() => setShieldStep(idx + 1)}
-                    >
-                      Fortsätt
-                    </Button>
-                  ) : null}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {mode === 'body_signal' && (
-        <div className="space-y-3">
-          <label className="block text-xs text-text-muted">
-            Magkänsel — lägg till signal
-            <select
-              className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
-              value=""
-              onChange={(e) => {
-                const v = e.target.value;
-                if (v) toggleSignal(v);
-              }}
-            >
-              <option value="">Välj signal…</option>
-              {BODY_SIGNALS.filter((s) => !selectedSignals.includes(s)).map((signal) => (
-                <option key={signal} value={signal}>
-                  {signal}
-                </option>
-              ))}
-            </select>
-          </label>
-          {selectedSignals.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2 text-xs text-text-dim">
-              <span>Valda: {selectedSignals.join(', ')}</span>
-              <button
-                type="button"
-                className="text-accent/80 underline"
-                onClick={() => setSelectedSignals([])}
-              >
-                Rensa
-              </button>
-            </div>
-          )}
-          <textarea
-            value={truth}
-            onChange={(e) => setTruth(e.target.value)}
-            placeholder="Valfri kort notering..."
-            rows={2}
-            className="input-glass rounded-xl px-3 py-2 resize-none w-full"
-          />
-        </div>
-      )}
-
-      <div className="glass-card space-y-2 p-3">
-        <p className="text-[10px] uppercase tracking-widest text-text-dim">Bifoga bevis</p>
-        <div className="flex flex-wrap items-center gap-2">
-          <Button
-            type="button"
-            variant="ghost"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <ImagePlus className="h-4 w-4" />
-            Skärmdump
-          </Button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/png,image/jpeg,image/webp,image/gif"
-            className="sr-only"
-            onChange={(e) => setPendingFile(e.target.files?.[0] ?? null)}
-          />
-          {supported && (
-            <Button type="button" variant="ghost" onClick={isListening ? stop : start}>
-              {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-              Röstmemo
-            </Button>
-          )}
-        </div>
-        {pendingFile && (
-          <p className="text-xs text-text-muted">Vald fil: {pendingFile.name}</p>
-        )}
-        {attachError && <p className="text-xs text-danger">{attachError}</p>}
-      </div>
-
-      <label className="flex items-center gap-2 text-xs text-text-dim">
-        <input
-          type="checkbox"
-          checked={pinned}
-          onChange={(e) => setPinned(e.target.checked)}
-          className="rounded border-border-strong"
-        />
-        Sanningens Ankare — fäst post (read-only i Morgonkompassen)
-      </label>
-
-      {wormConfirmOpen ? (
-        <WormSaveConfirmSheet
-          busy={busy || uploading}
-          onConfirm={() => void handleSubmit()}
-          onCancel={() => setWormConfirmOpen(false)}
-        />
-      ) : (
-        <Button
-          type="button"
-          variant="success"
-          onClick={requestSave}
-          disabled={busy || !canSave}
-        >
-          <span className="inline-flex items-center gap-2">
-            <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden>
-              {busy || uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
-            </span>
-            <span>Spara bevis</span>
-          </span>
-        </Button>
-      )}
-    </div>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultErrorBoundary.tsx">
-import { Component, type ErrorInfo, type ReactNode } from 'react';
-import { ErrorFallback, type ErrorFallbackGlow } from '@/design-system';
-
-type Props = {
-  children: ReactNode;
-  onReset?: () => void;
-  glow?: ErrorFallbackGlow;
-};
-
-type State = { hasError: boolean };
-
-/** Fångar render-krasch i Valv — vit skärm → återställning utan att tappa PIN-session. */
-export class VaultErrorBoundary extends Component<Props, State> {
-  state: State = { hasError: false };
-
-  static getDerivedStateFromError(): State {
-    return { hasError: true };
-  }
-
-  componentDidCatch(error: Error, info: ErrorInfo) {
-    console.error('[Valv] render error', error, info.componentStack);
-  }
-
-  render() {
-    if (this.state.hasError) {
-      return (
-        <ErrorFallback
-          title="Något gick fel i Valv-vyn"
-          body="Dina sparade bevis påverkas inte. Ladda om vyn eller gå tillbaka till Valv om felet kvarstår."
-          glow={this.props.glow ?? 'blue'}
-          onRetry={() => {
-            this.setState({ hasError: false });
-            this.props.onReset?.();
-          }}
-        />
-      );
-    }
-    return this.props.children;
-  }
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx">
-import { memo, useEffect, useRef, type Ref } from 'react';
-import { FileDown, Loader2, Lock } from 'lucide-react';
-import { Button } from '@/design-system';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import './valv.css';
-import { EmptyState } from '@/core/ui/EmptyState';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import { useVaultStore } from '@/core/store/useVaultStore';
-import type { VaultLog, WeaverTags } from '@/core/types/firestore';
-import {
-  VAVAREN_LOG_CATEGORY_LABEL,
-  VAVAREN_LOG_DISCLAIMER,
-} from '../constants/vavarenCopy';
-import { exportVaultRecordAsPdf } from '../utils/exportVaultRecord';
-import { normalizeStringArray } from '../utils/normalizeVaultLog';
-import { scanTechniquesForLog, logHasTechnique } from '../utils/vaultPatternScan';
-import { highlightPatterns } from '../utils/vaultPatternHighlight';
-
-type VaultLogRow = VaultLog & { id: string; weaverTags?: WeaverTags };
-
-function resolveLogTechniques(
-  log: VaultLogRow,
-  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>,
-): string[] {
-  const persisted = persistedTechniquesByLogId?.get(log.id);
-  if (persisted && persisted.length > 0) return [...persisted];
-  return scanTechniquesForLog(log);
-}
-
-function isVavarenMetadata(log: VaultLog): boolean {
-  return log.category === 'vävaren_metadata';
-}
-
-type VaultLogListProps = {
-  highlightLogId?: string | null;
-  /** Tom lista — scroll till Samla-formuläret ovan. */
-  onLogFirstBevis?: () => void;
-  /** V2 — visa endast Sanningens Ankare (`pinned`). */
-  anchorsOnly?: boolean;
-  /** Sidecar-taktik från pattern_scan_metadata (prioriteras framför live-regex). */
-  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
-  /** Filtrera arkiv efter taktik (från Mönster drill-down). */
-  techniqueFilter?: string | null;
-};
-
-function asText(value: unknown): string {
-  if (value == null) return '';
-  if (typeof value === 'string') return value;
-  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
-  return String(value);
-}
-
-function formatLogBody(log: VaultLog): string {
-  if (log.entryType === 'two_column' && (log.theirVersion || log.myReality)) {
-    return `Hens: ${asText(log.theirVersion) || '—'}\nMin: ${asText(log.myReality) || '—'}`;
-  }
-  if (log.entryType === 'three_shield') {
-    return [log.shieldWhat, log.shieldFeeling, log.shieldBoundary]
-      .map(asText)
-      .filter(Boolean)
-      .join(' · ');
-  }
-  if (log.entryType === 'body_signal') {
-    const signals = normalizeStringArray(log.bodySignals);
-    if (signals.length > 0) {
-      const truth = asText(log.truth);
-      return `${signals.join(', ')}${truth ? ` — ${truth}` : ''}`;
-    }
-  }
-  return asText(log.truth);
-}
-
-function formatLogDate(createdAt: VaultLog['createdAt'] | undefined): string {
-  if (typeof createdAt === 'string') return createdAt.slice(0, 10);
-  if (createdAt == null) return '—';
-  return String(createdAt).slice(0, 10);
-}
-
-function formatServerTimestamp(createdAt: VaultLog['createdAt'] | undefined): string {
-  if (typeof createdAt === 'string') return createdAt;
-  if (createdAt == null) return '—';
-  return String(createdAt);
-}
-
-const LogRow = memo(function LogRow({
-  log,
-  highlightLogId,
-  highlightRef,
-  persistedTechniquesByLogId,
-}: {
-  log: VaultLogRow;
-  highlightLogId?: string | null;
-  highlightRef: Ref<HTMLLIElement>;
-  persistedTechniquesByLogId?: ReadonlyMap<string, readonly string[]>;
-}) {
-  const vavaren = isVavarenMetadata(log);
-  const weaverTags = (log as VaultLogRow).weaverTags;
-  const tags = vavaren ? [] : resolveLogTechniques(log, persistedTechniquesByLogId);
-  
-  return (
-    <li
-      key={log.id}
-      ref={log.id === highlightLogId ? highlightRef : undefined}
-      className={`valv-log-row ${
-        log.pinned ? 'valv-log-row--anchor' : ''
-      } ${log.id === highlightLogId ? 'valv-log-row--highlight' : ''} ${
-        vavaren ? 'valv-log-row--vavaren' : ''
-      }`}
-    >
-      <div className="flex items-start justify-between gap-2">
-        <div>
-          <div className="valv-log-stamp mb-1">
-            <Lock className="text-indigo-400/60" size={12} />
-            <p>SERVER-TIDSSTÄMPEL · {formatServerTimestamp(log.createdAt)}</p>
-          </div>
-          <p className="valv-log-meta font-mono">ID · {log.id.slice(0, 12)}…</p>
-          <p className="valv-log-meta mt-1">
-            {log.pinned ? 'Ankare · ' : ''}
-            {vavaren ? VAVAREN_LOG_CATEGORY_LABEL : (log.category ?? 'allmänt')}
-            {!vavaren && log.entryType ? ` · ${log.entryType}` : ''} · {formatLogDate(log.createdAt)}
-          </p>
-          {vavaren && (
-            <p className="mt-1 text-[10px] text-indigo-200/80">{VAVAREN_LOG_DISCLAIMER}</p>
-          )}
-        </div>
-        <Button
-          type="button"
-          variant="ghost"
-          size="sm"
-          className="shrink-0 py-1 px-2"
-          onClick={() => exportVaultRecordAsPdf(log)}
-          title="Exportera som PDF (utskrift)"
-        >
-          <FileDown className="h-3 w-3" /> PDF
-        </Button>
-      </div>
-      <p className={`mt-2 whitespace-pre-wrap ${vavaren ? 'text-indigo-100/90' : 'text-text-muted'}`}>
-        {vavaren
-          ? formatLogBody(log)
-          : highlightPatterns(formatLogBody(log)).map((span, i) =>
-              span.className ? (
-                <span
-                  key={i}
-                  className={span.className}
-                  title={span.category}
-                >
-                  {span.text}
-                </span>
-              ) : (
-                span.text
-              ),
-            )}
-      </p>
-      {vavaren && weaverTags && (
-        <div className="mt-3 flex flex-wrap gap-1">
-          {normalizeStringArray(weaverTags.emotions).map((e) => (
-            <span
-              key={`e-${e}`}
-              className="rounded-full border border-indigo-400/25 px-2 py-0.5 text-[10px] text-indigo-200/90"
-            >
-              {e}
-            </span>
-          ))}
-          {normalizeStringArray(weaverTags.actors).map((a) => (
-            <span
-              key={`a-${a}`}
-              className="rounded-full border border-border px-2 py-0.5 text-[10px] text-text-muted"
-            >
-              {a}
-            </span>
-          ))}
-          {weaverTags.threatLevel && weaverTags.threatLevel !== 'none' && (
-            <span className="rounded-full border border-amber-500/30 px-2 py-0.5 text-[10px] text-amber-200/90">
-              hot: {weaverTags.threatLevel}
-            </span>
-          )}
-        </div>
-      )}
-      {tags.length > 0 && (
-        <div className="mt-3 flex flex-wrap gap-1">
-          {tags.map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full border border-accent/20 px-2 py-0.5 text-[10px] text-accent/80"
-            >
-              #{tag}
-            </span>
-          ))}
-        </div>
-      )}
-      {log.evidenceUrl && (
-        <a
-          href={log.evidenceUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-3 inline-block text-xs text-accent-secondary hover:underline"
-        >
-          Visa bifogat bevis
-        </a>
-      )}
-    </li>
-  );
-});
-
-export const VaultLogList = memo(function VaultLogList({
-  highlightLogId,
-  onLogFirstBevis,
-  anchorsOnly = false,
-  persistedTechniquesByLogId,
-  techniqueFilter = null,
-}: VaultLogListProps) {
-  const { logs, loading, hasMore, loadingMore, loadMoreLogs } = useVaultStore();
-  const highlightRef = useRef<HTMLLIElement>(null);
-  let visible = anchorsOnly ? logs.filter((l) => l.pinned) : logs;
-  if (techniqueFilter) {
-    visible = visible.filter((log) =>
-      logHasTechnique(log, techniqueFilter, persistedTechniquesByLogId),
-    );
-  }
-  const pinned = visible.filter((l) => l.pinned);
-  const rest = anchorsOnly ? [] : visible.filter((l) => !l.pinned);
-
-  useEffect(() => {
-    if (!highlightLogId) return;
-    const timer = window.setTimeout(() => {
-      highlightRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }, 120);
-    return () => window.clearTimeout(timer);
-  }, [highlightLogId, logs.length]);
-
-  return (
-    <BentoCard
-      title="Bevisarkiv"
-      glow="blue"
-      depth
-      noHover
-      className="mt-4"
-    >
-      {onLogFirstBevis && (
-        <div className="mb-3 flex justify-end">
-          <Button type="button" variant="secondary" size="sm" onClick={onLogFirstBevis}>
-            Logga bevis
-          </Button>
-        </div>
-      )}
-      {loading && visible.length === 0 ? (
-        <HubPanelSkeleton label="Laddar bevisarkiv…" lines={4} />
-      ) : visible.length === 0 ? (
-        <EmptyState
-          message={
-            techniqueFilter
-              ? `Inga poster med #${techniqueFilter} i arkivet.`
-              : anchorsOnly
-                ? 'Inga ankare markerade ännu. Kryssa i «Sanningens Ankare» när du loggar bevis.'
-                : 'Inga poster i arkivet ännu. Öppna «Manuell post» ovan eller tryck «Logga bevis».'
-          }
-        />
-      ) : (
-        <div className="space-y-4">
-          {pinned.length > 0 && (
-            <div>
-              <p className="mb-2 flex items-center gap-1.5 text-[10px] uppercase tracking-widest text-accent/80">
-                <Lock size={10} className="text-accent/60" /> Sanningens Ankare
-              </p>
-              <ul className="valv-log-list">
-                {pinned.map((log) => (
-                  <LogRow
-                    key={log.id}
-                    log={log}
-                    highlightLogId={highlightLogId}
-                    highlightRef={highlightRef}
-                    persistedTechniquesByLogId={persistedTechniquesByLogId}
-                  />
-                ))}
-              </ul>
-            </div>
-          )}
-          <ul className="valv-log-list">
-          {rest.map((log) => (
-            <LogRow
-              key={log.id}
-              log={log}
-              highlightLogId={highlightLogId}
-              highlightRef={highlightRef}
-              persistedTechniquesByLogId={persistedTechniquesByLogId}
-            />
-          ))}
-        </ul>
-          {hasMore && (
-            <div className="mt-4 flex justify-center">
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  const uid = logs[0]?.ownerId;
-                  if (uid) {
-                    void loadMoreLogs(uid);
-                  }
-                }}
-                disabled={loadingMore}
-              >
-                {loadingMore ? (
-                  <>
-                    <Loader2 className="mr-1 inline h-3 w-3 animate-spin" />
-                    Laddar fler…
-                  </>
-                ) : (
-                  'Visa fler'
-                )}
-              </Button>
-            </div>
-          )}
-        </div>
-      )}
-    </BentoCard>
-  );
-});
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultPatternHandoff.tsx">
-import { BarChart3 } from 'lucide-react';
-import { ButtonLink } from '@/design-system';
-import { vaultDrawerPath } from '@/core/navigation/navTruth';
-
-/** Efter logg eller vid mönster-nyckelord — länk till Mönster (ingen auto-analys). */
-export function VaultPatternHandoff({ className = '' }: { className?: string }) {
-  return (
-    <aside
-      className={`journal-handoff ${className}`.trim()}
-      role="note"
-      aria-label="Förslag om mönsteranalys"
-    >
-      <div className="journal-handoff__header">
-        <BarChart3 className="h-4 w-4 shrink-0 text-accent" aria-hidden />
-        <p className="journal-handoff__title">Leta mönster i bevisen?</p>
-      </div>
-      <p className="journal-handoff__body">
-        När du har flera poster kan Mönster-fliken visa upprepningar över tid. Inget körs automatiskt.
-      </p>
-      <ButtonLink to={vaultDrawerPath('monster')} variant="ghost" className="journal-handoff__cta">
-        Öppna Mönster →
-      </ButtonLink>
-    </aside>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaDriveHint.tsx">
-import { HardDrive } from 'lucide-react';
-import { Button } from '@/design-system';
-import { BentoCard } from '@/shared/ui/BentoCard';
-
-type Props = {
-  pendingCount?: number;
-  onOpenQueue: () => void;
-  /** Inuti CalmCollapsible — ingen extra BentoCard. */
-  embedded?: boolean;
-};
-
-/** G10 — Drive hamnar i granskningskö; ingen auto-WORM till reality_vault (SPEC §14). */
-export function VaultSamlaDriveHint({ pendingCount, onOpenQueue, embedded = false }: Props) {
-  const body = (
-    <>
-      <p className="text-xs text-text-dim">
-        Filer från Google Drive sparas <strong className="font-normal text-text-muted">inte</strong>{' '}
-        automatiskt som bevis. De hamnar i granskningskö — välj «→ Arkiv» när du är redo.
-      </p>
-      <Button type="button" variant="secondary" size="sm" className="mt-3" onClick={onOpenQueue}>
-        {pendingCount != null && pendingCount > 0
-          ? `Öppna granskningskö (${pendingCount})`
-          : 'Öppna granskningskö'}
-      </Button>
-    </>
-  );
-
-  if (embedded) {
-    return <div className="space-y-2">{body}</div>;
-  }
-
-  return (
-    <BentoCard
-      title="Drive & oklara filer"
-      description="Manuellt godkännande"
-      icon={<HardDrive className="h-4 w-4 text-accent" />}
-    >
-      {body}
-    </BentoCard>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultValvBreadcrumb.tsx">
-import {
-  forensicVaultTabLabel,
-  isAnalyseraVaultTab,
-  isExporteraVaultTab,
-  isForensicVaultTab,
-  isKunskapVaultTab,
-  isVitVaultTab,
-  isSamlaVaultTab,
-  type ValvZone,
-  type VaultTab,
-} from '../utils/vaultTabs';
-import { VIT_VAULT_TAB_LABEL } from '@/core/copy/valvNavCopy';
-import { getVaultZoneTabBarItems, vaultMainTabLabel } from '@/core/navigation/tabRegistry';
-
-type VaultValvBreadcrumbProps = {
-  zone: ValvZone;
-  vaultTab: VaultTab;
-};
-
-const ZONE_LABEL = Object.fromEntries(
-  getVaultZoneTabBarItems().map((z) => [z.id, z.label]),
-) as Record<ValvZone, string>;
-
-/** Valv › zon › underflik — synkad med drawer-grupper. */
-export function VaultValvBreadcrumb({ zone, vaultTab }: VaultValvBreadcrumbProps) {
-  const parts: string[] = ['Valv', ZONE_LABEL[zone] ?? zone];
-
-  if (isSamlaVaultTab(vaultTab) || isAnalyseraVaultTab(vaultTab) || isExporteraVaultTab(vaultTab)) {
-    parts.push(vaultMainTabLabel(vaultTab));
-  } else if (isKunskapVaultTab(vaultTab)) {
-    parts.push(vaultMainTabLabel(vaultTab));
-  } else if (isVitVaultTab(vaultTab)) {
-    parts.push(VIT_VAULT_TAB_LABEL);
-  } else if (isForensicVaultTab(vaultTab)) {
-    parts.push(forensicVaultTabLabel(vaultTab));
-  }
-
-  return (
-    <p
-      className="min-w-0 truncate text-xs uppercase tracking-widest text-text-dim"
-      aria-label={parts.join(', ')}
-      title={parts.join(' · ')}
-    >
-      {parts.join(' · ')}
-    </p>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/dossier/components/DossierPage.tsx">
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { FileText, Loader2, Lock, ShieldAlert } from 'lucide-react';
-import { Button, ButtonLink } from '@/design-system';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
-import { EmptyState } from '@/core/ui/EmptyState';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import { StepIndicator } from '@/core/ui/StepIndicator';
-import { useStore } from '@/core/store';
-import { hasVaultGate } from '@/core/auth/sessionService';
-import {
-  getChildrenLogs,
-  getJournalEntries,
-  getAllVaultLogs,
-} from '@/core/firebase/firestore';
-import type {
-  DossierCandidateDoc,
-  DossierReportType,
-  DossierSources,
-  DossierWizardStep,
-  GenerateDossierResult,
-} from '../types';
-import {
-  childrenToCandidate,
-  collectCategoryTags,
-  collectTechniqueTags,
-  defaultDateRange,
-  filterCandidates,
-  groupIncludedIds,
-  journalToCandidate,
-  shiftMonths,
-  vaultToCandidate,
-} from '../utils/dossierCandidates';
-import { generateDossier } from '../api/dossierService';
-import {
-  buildTechniquesByLogId,
-  fetchPatternScanMetadata,
-} from '../../api/patternScanMetadataApi';
-import {
-  VAVAREN_DOSSIER_CHECKBOX,
-  VAVAREN_DOSSIER_HINT,
-} from '../../constants/vavarenCopy';
-import { printDossierFallback } from '../utils/exportDossierPrint';
-
-const INITIAL_SOURCES: DossierSources = {
-  reality_vault: true,
-  children_logs: true,
-  journal: false,
-};
-
-const JOURNAL_WARNING =
-  'Dagboken kan innehålla emotionella reflektioner. Inkludera endast om ditt ombud uttryckligen begärt det — annars riskerar det juridiska fokuset att tunnas ut.';
-
-const DOSSIER_WIZARD_STEPS = [
-  { key: 'period', label: 'Period' },
-  { key: 'sources', label: 'Källor' },
-  { key: 'review', label: 'Granska' },
-] as const;
-
-function resetWizardState() {
-  return {
-    step: 'period' as DossierWizardStep,
-    dateFrom: defaultDateRange().dateFrom,
-    dateTo: defaultDateRange().dateTo,
-    sources: { ...INITIAL_SOURCES },
-    journalAck: false,
-    categoryFilter: [] as string[],
-    techniqueFilter: [] as string[],
-    reportType: 'LEGAL' as DossierReportType,
-    includeAiForeword: false,
-    includedIds: new Set<string>(),
-    candidates: [] as DossierCandidateDoc[],
-    loadingDocs: false,
-    generating: false,
-    error: null as string | null,
-    result: null as GenerateDossierResult | null,
-  };
-}
-
-export function DossierPage({ embedded = false }: { embedded?: boolean }) {
-  const [searchParams] = useSearchParams();
-  const user = useStore((s) => s.user);
-  const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
-  const vaultOpen = embedded || isVaultUnlocked || hasVaultGate();
-
-  const [step, setStep] = useState<DossierWizardStep>('period');
-  const [dateFrom, setDateFrom] = useState(defaultDateRange().dateFrom);
-  const [dateTo, setDateTo] = useState(defaultDateRange().dateTo);
-  const [sources, setSources] = useState<DossierSources>({ ...INITIAL_SOURCES });
-  const [journalAck, setJournalAck] = useState(false);
-  const [categoryFilter, setCategoryFilter] = useState<string[]>([]);
-  const [techniqueFilter, setTechniqueFilter] = useState<string[]>([]);
-  const [techniquesByVaultId, setTechniquesByVaultId] = useState<Map<string, string[]>>(
-    () => new Map(),
-  );
-  const [reportType, setReportType] = useState<DossierReportType>('LEGAL');
-  const [includeAiForeword, setIncludeAiForeword] = useState(false);
-  const [showTimelinePreview, setShowTimelinePreview] = useState(true);
-  const [includedIds, setIncludedIds] = useState<Set<string>>(() => new Set());
-  const [allCandidates, setAllCandidates] = useState<DossierCandidateDoc[]>([]);
-  const [loadingDocs, setLoadingDocs] = useState(false);
-  const [generating, setGenerating] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<GenerateDossierResult | null>(null);
-
-  const clearSession = useCallback(() => {
-    const fresh = resetWizardState();
-    setStep(fresh.step);
-    setDateFrom(fresh.dateFrom);
-    setDateTo(fresh.dateTo);
-    setSources(fresh.sources);
-    setJournalAck(fresh.journalAck);
-    setCategoryFilter(fresh.categoryFilter);
-    setTechniqueFilter(fresh.techniqueFilter);
-    setTechniquesByVaultId(new Map());
-    setReportType(fresh.reportType);
-    setIncludeAiForeword(fresh.includeAiForeword);
-    setShowTimelinePreview(true);
-    setIncludedIds(fresh.includedIds);
-    setAllCandidates(fresh.candidates);
-    setLoadingDocs(fresh.loadingDocs);
-    setGenerating(fresh.generating);
-    setError(fresh.error);
-    setResult(fresh.result);
-  }, []);
-
-  useEffect(() => () => clearSession(), [clearSession]);
-
-  const deepLinkChild = searchParams.get('child');
-  const deepLinkSources = searchParams.get('sources');
-
-  useEffect(() => {
-    if (!user || !vaultOpen) return;
-    void fetchPatternScanMetadata(user.uid).then((rows) => {
-      setTechniquesByVaultId(buildTechniquesByLogId(rows));
-    });
-  }, [user, vaultOpen]);
-
-  useEffect(() => {
-    if (deepLinkSources === 'children_logs') {
-      setSources({
-        reality_vault: false,
-        children_logs: true,
-        journal: false,
-      });
-    }
-  }, [deepLinkSources]);
-
-  const filteredDocs = useMemo(
-    () =>
-      filterCandidates(
-        allCandidates,
-        dateFrom,
-        dateTo,
-        sources,
-        categoryFilter,
-        techniqueFilter,
-        techniquesByVaultId,
-      ),
-    [allCandidates, dateFrom, dateTo, sources, categoryFilter, techniqueFilter, techniquesByVaultId],
-  );
-
-  const categoryTags = useMemo(() => collectCategoryTags(allCandidates), [allCandidates]);
-  const techniqueTags = useMemo(
-    () => collectTechniqueTags(techniquesByVaultId),
-    [techniquesByVaultId],
-  );
-
-  const loadCandidates = useCallback(async () => {
-    if (!user) return;
-    setLoadingDocs(true);
-    setError(null);
-    try {
-      const [vault, children, journal, patternRows] = await Promise.all([
-        getAllVaultLogs(user.uid),
-        getChildrenLogs(user.uid),
-        getJournalEntries(user.uid),
-        fetchPatternScanMetadata(user.uid),
-      ]);
-      setTechniquesByVaultId(buildTechniquesByLogId(patternRows));
-      const docs: DossierCandidateDoc[] = [
-        ...vault.map(vaultToCandidate),
-        ...children.map((row) =>
-          childrenToCandidate(row as Parameters<typeof childrenToCandidate>[0]),
-        ),
-        ...journal.map((row) =>
-          journalToCandidate(row as { id: string; mood?: string; text?: string; createdAt?: string }),
-        ),
-      ];
-      setAllCandidates(docs);
-      const visible = filterCandidates(
-        docs,
-        dateFrom,
-        dateTo,
-        sources,
-        categoryFilter,
-        techniqueFilter,
-        buildTechniquesByLogId(patternRows),
-      );
-      let ids = visible.map((d) => d.id);
-      if (deepLinkChild) {
-        const childDocs = visible.filter(
-          (d) => d.kind === 'children_logs' && d.title.startsWith(deepLinkChild),
-        );
-        if (childDocs.length > 0) ids = childDocs.map((d) => d.id);
-      }
-      setIncludedIds(new Set(ids));
-    } catch {
-      setError('Kunde inte läsa bevis från databasen.');
-    } finally {
-      setLoadingDocs(false);
-    }
-  }, [user, dateFrom, dateTo, sources, categoryFilter, techniqueFilter, deepLinkChild]);
-
-  useEffect(() => {
-    if (step !== 'review' || !user || !vaultOpen) return;
-    void loadCandidates();
-  }, [step, user, vaultOpen, loadCandidates]);
-
-  useEffect(() => {
-    if (step !== 'review') return;
-    const visible = filterCandidates(
-      allCandidates,
-      dateFrom,
-      dateTo,
-      sources,
-      categoryFilter,
-      techniqueFilter,
-      techniquesByVaultId,
-    );
-    setIncludedIds((prev) => {
-      const next = new Set<string>();
-      for (const doc of visible) {
-        if (prev.has(doc.id)) next.add(doc.id);
-      }
-      if (next.size === 0 && visible.length > 0) {
-        return new Set(visible.map((d) => d.id));
-      }
-      return next;
-    });
-  }, [step, allCandidates, dateFrom, dateTo, sources, categoryFilter, techniqueFilter, techniquesByVaultId]);
-
-  const toggleDoc = (id: string) => {
-    setIncludedIds((prev) => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  };
-
-  const toggleTechnique = (tag: string) => {
-    setTechniqueFilter((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
-    );
-  };
-
-  const toggleCategory = (tag: string) => {
-    setCategoryFilter((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
-    );
-  };
-
-  const downloadFromResult = (gen: GenerateDossierResult) => {
-    if (gen.downloadUrl) {
-      window.open(gen.downloadUrl, '_blank', 'noopener,noreferrer');
-      return;
-    }
-    if (gen.pdfBase64) {
-      const win = window.open('', '_blank');
-      if (!win) throw new Error('Webbläsaren blockerade popup-fönstret.');
-      win.location.href = `data:application/pdf;base64,${gen.pdfBase64}`;
-      win.focus();
-    }
-  };
-
-  const handleGenerateDossier = async () => {
-    if (!user) return;
-    const selected = filteredDocs.filter((d) => includedIds.has(d.id));
-    if (selected.length === 0) {
-      setError('Välj minst en post att exportera.');
-      return;
-    }
-
-    setGenerating(true);
-    setError(null);
-
-    try {
-      const gen = await generateDossier({
-        dateFrom,
-        dateTo,
-        sources,
-        reportType,
-        includeAiForeword,
-        categoryFilter: categoryFilter.length > 0 ? categoryFilter : undefined,
-        techniqueFilter: techniqueFilter.length > 0 ? techniqueFilter : undefined,
-        includedDocIds: groupIncludedIds(selected, includedIds),
-      });
-      downloadFromResult(gen);
-      setResult(gen);
-      setStep('result');
-    } catch (backendErr) {
-      const message = backendErr instanceof Error ? backendErr.message : 'Generering misslyckades.';
-      if (!message.includes('inte deployad')) {
-        setError(message);
-        setGenerating(false);
-        return;
-      }
-      await handleLocalPrintFallback(selected);
-      return;
-    } finally {
-      setGenerating(false);
-    }
-  };
-
-  // —— Lokal utskrift (fallback när callable saknas) ——
-  const handleLocalPrintFallback = async (selected: DossierCandidateDoc[]) => {
-    setGenerating(true);
-    setError(null);
-
-    try {
-      const hash = await printDossierFallback({
-        selected,
-        reportType,
-        includeAiForeword,
-        childLabel: deepLinkChild || 'Hela familjen',
-      });
-
-      setResult({
-        dossierId: hash.slice(0, 12).toUpperCase(),
-        documentHash: hash,
-        status: 'ready',
-      });
-      setStep('result');
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kunde inte generera utskrift.');
-    } finally {
-      setGenerating(false);
-    }
-  };
-
-  if (!vaultOpen) {
-    return (
-      <div className={`valv-zone-stack ${embedded ? 'space-y-4' : 'space-y-6'}`}>
-        <BentoCard title="Dossier-Generator" icon={<Lock className="h-4 w-4" />}>
-          <p className="mb-4 text-sm text-text-muted">
-            Dossier kräver upplåst Valv (Fyren). I bottenmenyn: tryck på <strong>Hjärtat</strong>{' '}
-            (bok-ikonen) och <strong>håll 3 sekunder</strong>, eller öppna Valvet och tryck <strong>Lås upp Valvet (biometri)</strong>.
-          </p>
-          <ButtonLink to="/valvet" variant="secondary" size="sm" className="inline-flex">
-            Öppna Arkiv
-          </ButtonLink>
-        </BentoCard>
-      </div>
-    );
-  }
-
-  return (
-    <div className={`valv-zone-stack ${embedded ? 'space-y-4' : 'space-y-6'}`}>
-      <BentoCard
-        title={embedded ? 'Dossier' : 'Dossier-Generator'}
-        description={embedded ? 'Samlad arkiv-export' : undefined}
-        icon={<FileText className="h-4 w-4" />}
-        glow="blue"
-      >
-        {!embedded && (
-          <p className="mb-4 text-sm text-text-muted">
-            Samlad arkiv-export. Inget skickas automatiskt; du laddar ner din PDF när du är redo.
-          </p>
-        )}
-        {embedded && (
-          <p className="mb-4 text-sm text-text-muted">
-            Inget skickas automatiskt. Du sparar eller skriver ut PDF lokalt på din enhet.
-          </p>
-        )}
-
-        {step !== 'result' ? (
-          <StepIndicator steps={[...DOSSIER_WIZARD_STEPS]} currentKey={step} />
-        ) : null}
-
-        {step === 'period' && (
-          <div className="space-y-4">
-            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
-              Steg 1 av 3 — Tidsperiod
-            </p>
-            <div className="grid gap-3 sm:grid-cols-2">
-              <label className="block text-sm">
-                <span className="text-text-muted">Från</span>
-                <input
-                  type="date"
-                  value={dateFrom}
-                  onChange={(e) => setDateFrom(e.target.value)}
-                  className="input-glass mt-1 w-full rounded-lg px-3 py-2 text-sm"
-                />
-              </label>
-              <label className="block text-sm">
-                <span className="text-text-muted">Till</span>
-                <input
-                  type="date"
-                  value={dateTo}
-                  onChange={(e) => setDateTo(e.target.value)}
-                  className="input-glass mt-1 w-full rounded-lg px-3 py-2 text-sm"
-                />
-              </label>
-            </div>
-            <div className="flex flex-wrap gap-2">
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setDateTo(defaultDateRange().dateTo);
-                  setDateFrom(shiftMonths(defaultDateRange().dateTo, -3));
-                }}
-              >
-                Senaste 3 månaderna
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  setDateTo(defaultDateRange().dateTo);
-                  setDateFrom(shiftMonths(defaultDateRange().dateTo, -6));
-                }}
-              >
-                Senaste 6 månaderna
-              </Button>
-            </div>
-            <Button type="button" variant="accent" className="w-full" onClick={() => setStep('sources')}>
-              Fortsätt
-            </Button>
-          </div>
-        )}
-
-        {step === 'sources' && (
-          <div className="space-y-4">
-            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
-              Steg 2 av 3 — Källor & Filter
-            </p>
-            <label className="flex items-center gap-2 text-sm cursor-pointer">
-              <input
-                type="checkbox"
-                checked={sources.reality_vault}
-                onChange={(e) =>
-                  setSources((s) => ({ ...s, reality_vault: e.target.checked }))
-                }
-                className="rounded border-border accent-accent"
-              />
-              Arkiv (bevisloggar)
-            </label>
-            <label className="flex items-center gap-2 text-sm cursor-pointer">
-              <input
-                type="checkbox"
-                checked={sources.children_logs}
-                onChange={(e) =>
-                  setSources((s) => ({ ...s, children_logs: e.target.checked }))
-                }
-                className="rounded border-border accent-accent"
-              />
-              Barnens livsloggar
-            </label>
-            <label className="flex items-start gap-2 text-sm cursor-pointer">
-              <input
-                type="checkbox"
-                checked={sources.journal}
-                onChange={(e) => {
-                  const on = e.target.checked;
-                  setSources((s) => ({ ...s, journal: on }));
-                  if (!on) setJournalAck(false);
-                }}
-                className="mt-1 rounded border-border accent-accent"
-              />
-              <span>
-                Dagboken (privat journal)
-                <span className="mt-1 block text-xs text-danger/80">{JOURNAL_WARNING}</span>
-              </span>
-            </label>
-
-            {sources.journal && (
-              <label className="flex items-start gap-2 rounded-lg border border-danger/30 bg-danger/5 p-3 text-sm cursor-pointer">
-                <input
-                  type="checkbox"
-                  checked={journalAck}
-                  onChange={(e) => setJournalAck(e.target.checked)}
-                  className="mt-1 accent-danger"
-                />
-                <span className="text-text-muted leading-relaxed">
-                  Jag förstår risken och vill inkludera min privata dagbok i detta underlag.
-                </span>
-              </label>
-            )}
-
-            <CalmCollapsible title="Valfria filter" meta="Taktik & kategori" defaultOpen={false} glow="blue">
-              {techniqueTags.length > 0 ? (
-                <div className="mb-3">
-                  <p className="mb-2 text-xs text-text-dim">
-                    Filtrera valv på taktik (sidecar-metadata)
-                  </p>
-                  <div className="flex flex-wrap gap-2">
-                    {techniqueTags.map((tag) => (
-                      <button
-                        key={tag}
-                        type="button"
-                        onClick={() => toggleTechnique(tag)}
-                        className={
-                          techniqueFilter.includes(tag)
-                            ? 'rounded-full border border-accent/40 bg-accent/15 px-3 py-1 text-xs text-accent cursor-pointer'
-                            : 'rounded-full border border-border px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-accent/25'
-                        }
-                      >
-                        {tag}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ) : (
-                <p className="text-xs text-text-dim">Inga taktik-taggar i sidecar ännu.</p>
-              )}
-
-              {categoryTags.length > 0 ? (
-                <div>
-                  <p className="mb-2 text-xs text-text-dim">Filtrera på kategori/tag</p>
-                  <div className="flex flex-wrap gap-2">
-                    {categoryTags.map((tag) => (
-                      <button
-                        key={tag}
-                        type="button"
-                        onClick={() => toggleCategory(tag)}
-                        className={
-                          categoryFilter.includes(tag)
-                            ? 'rounded-full bg-amber-500/25 px-3 py-1 text-xs text-amber-100 cursor-pointer border border-accent/40'
-                            : 'rounded-full border border-border px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-accent/25'
-                        }
-                      >
-                        {tag}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
-            </CalmCollapsible>
-
-            <CalmCollapsible title="AI-förord & tidslinje" meta="Valfritt" defaultOpen={false} glow="blue">
-              <label className="flex cursor-pointer items-start gap-2 text-sm text-text-dim">
-                <input
-                  type="checkbox"
-                  checked={includeAiForeword}
-                  onChange={(e) => {
-                    setIncludeAiForeword(e.target.checked);
-                    if (!e.target.checked) setShowTimelinePreview(false);
-                  }}
-                  className="mt-0.5 rounded border-border accent-accent"
-                />
-                <span>
-                  {VAVAREN_DOSSIER_CHECKBOX}
-                  <span className="mt-1 block text-xs text-text-muted">{VAVAREN_DOSSIER_HINT}</span>
-                </span>
-              </label>
-
-              {includeAiForeword ? (
-                <label className="mt-3 flex cursor-pointer items-start gap-2 text-sm text-text-dim pl-1">
-                  <input
-                    type="checkbox"
-                    checked={showTimelinePreview}
-                    onChange={(e) => setShowTimelinePreview(e.target.checked)}
-                    className="mt-0.5 rounded border-border accent-accent"
-                  />
-                  <span>
-                    Visa AI-tidslinje i förhandsgranskning
-                    <span className="mt-1 block text-xs text-text-muted">
-                      Efter export — sammanfattning utanför WORM-hash.
-                    </span>
-                  </span>
-                </label>
-              ) : null}
-            </CalmCollapsible>
-
-            <select
-              value={reportType}
-              onChange={(e) => setReportType(e.target.value as DossierReportType)}
-              className="input-glass w-full rounded-lg px-3 py-2 text-sm"
-              aria-label="Rapporttyp"
-            >
-              <option value="LEGAL">Juridisk kronologi (Fakta & tidsstämplar)</option>
-              <option value="BBIC">BBIC-struktur (föräldraförmåga & hälsa)</option>
-            </select>
-
-            <div className="flex gap-2">
-              <Button type="button" variant="ghost" size="sm" className="flex-1" onClick={() => setStep('period')}>
-                Tillbaka
-              </Button>
-              <Button
-                type="button"
-                variant="accent"
-                size="sm"
-                className="flex-1"
-                disabled={sources.journal && !journalAck}
-                onClick={() => setStep('review')}
-              >
-                Granska urval
-              </Button>
-            </div>
-          </div>
-        )}
-
-        {step === 'review' && (
-          <div className="space-y-4">
-            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
-              Steg 3 av 3 — Bekräfta kronologiskt urval
-            </p>
-            {loadingDocs ? (
-              <HubPanelSkeleton label="Läser in dina loggade händelser…" lines={5} />
-            ) : filteredDocs.length === 0 ? (
-              <EmptyState message="Inga poster hittades för den valda tidsperioden och källorna. Gå tillbaka och utöka ditt sökfönster." />
-            ) : (
-              <div className="space-y-2">
-                <p className="text-xs text-text-dim">
-                  Bocka av de rader du vill utesluta från exporten. Totalt {includedIds.size} av{' '}
-                  {filteredDocs.length} valda.
-                </p>
-                <ul className="max-h-80 space-y-2 overflow-y-auto pr-1 border border-border/60 rounded-xl p-2 bg-black/20">
-                  {filteredDocs.map((doc) => (
-                    <li
-                      key={`${doc.kind}-${doc.id}`}
-                      className="rounded-lg border border-border bg-surface-2 p-3 transition-colors hover:border-accent/20"
-                    >
-                      <label className="flex cursor-pointer gap-3">
-                        <input
-                          type="checkbox"
-                          checked={includedIds.has(doc.id)}
-                          onChange={() => toggleDoc(doc.id)}
-                          className="mt-1 shrink-0 accent-accent"
-                        />
-                        <span className="min-w-0 flex-1">
-                          <span className="block text-xs font-semibold text-accent">
-                            {doc.title}
-                          </span>
-                          <span className="text-[10px] text-text-dim">
-                            {doc.createdAt.slice(0, 10)} ·{' '}
-                            {doc.kind.toUpperCase().replace('_', ' ')}
-                          </span>
-                          <span className="mt-1 block text-xs text-text-muted leading-relaxed line-clamp-2">
-                            {doc.preview}
-                          </span>
-                        </span>
-                      </label>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            <p className="flex items-start gap-2 text-xs text-success-light">
-              <ShieldAlert className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" />
-              Säkerhetsprincip: PDF-genereringen sker krypterat i din webbläsare. Ingenting skickas
-              till motparten eller sociala myndigheter.
-            </p>
-            {error && <p className="text-sm text-danger text-center">{error}</p>}
-            <div className="flex gap-2">
-              <Button type="button" variant="ghost" size="sm" className="flex-1" onClick={() => setStep('sources')}>
-                Tillbaka
-              </Button>
-              <button
-                type="button"
-                disabled={generating || includedIds.size === 0}
-                onClick={() => {
-                  const isSure = window.confirm(
-                    "Är du helt säker på att du vill skapa och ladda ner denna känsliga Dossier?\n\nDetta skapar ett permanent och låst spår i valvet."
-                  );
-                  if (isSure) {
-                    void handleGenerateDossier();
-                  }
-                }}
-                className="flex-1 rounded-lg bg-emerald-500/25 py-2 text-sm font-semibold text-emerald-100 disabled:opacity-40 cursor-pointer"
-              >
-                {generating ? (
-                  <span className="inline-flex items-center justify-center gap-2">
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                    Genererar PDF…
-                  </span>
-                ) : (
-                  'Lås & Skriv ut (PDF)'
-                )}
-              </button>
-            </div>
-          </div>
-        )}
-
-        {step === 'result' && result && (
-          <div className="space-y-4 animate-fade-in">
-            <div className="rounded-xl border border-success/30 bg-success/5 p-4 text-center">
-              <p className="text-sm font-semibold text-success">Dossier skapad & verifierad!</p>
-              <p className="mt-1 text-xs text-text-muted">
-                Dokumentet öppnades i en ny flik och utskriftsdialogen har startat. Spara den som en
-                PDF lokalt på din enhet.
-              </p>
-            </div>
-
-            <div className="rounded-xl border border-border-strong bg-surface-2 p-4 space-y-2 text-xs tabular-nums">
-              <p className="text-text-dim uppercase tracking-wider text-[10px]">
-                Äkthetsverifiering (låst post)
-              </p>
-              <div className="flex justify-between">
-                <span className="text-text-muted">Dossier ID:</span>
-                <span className="font-mono text-text font-semibold">{result.dossierId}</span>
-              </div>
-              <div className="space-y-1">
-                <span className="text-text-muted">SHA-256 Hash:</span>
-                <p className="font-mono text-[9px] text-accent bg-black/30 p-2 rounded border border-border break-all">
-                  {result.documentHash}
-                </p>
-              </div>
-            </div>
-
-            {includeAiForeword &&
-              showTimelinePreview &&
-              result.aiForeword &&
-              result.aiForeword.timeline.length > 0 && (
-                <div className="rounded-xl border border-accent-secondary/25 bg-accent-secondary/5 p-4 space-y-3">
-                  <p className="text-[10px] font-semibold uppercase tracking-wider text-accent-secondary/90">
-                    AI-tidslinje (förhandsgranskning)
-                  </p>
-                  <p className="text-xs text-text-muted leading-relaxed line-clamp-6">
-                    {result.aiForeword.foreword}
-                  </p>
-                  <ul className="max-h-48 space-y-2 overflow-y-auto pr-1">
-                    {result.aiForeword.timeline.map((row, idx) => (
-                      <li
-                        key={`${row.date}-${idx}`}
-                        className="rounded-lg border border-border bg-surface-2/80 px-3 py-2 text-xs"
-                      >
-                        <span className="font-mono text-accent">{row.date}</span>
-                        <span className="mt-0.5 block text-text-muted">{row.fact}</span>
-                        {row.sourceRef && (
-                          <span className="mt-1 block font-mono text-[10px] text-text-dim">
-                            ref: {row.sourceRef}
-                          </span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                  <p className="text-[10px] text-text-dim">
-                    Sammanfattning — bevisdelen i PDF är ordagrant WORM.
-                  </p>
-                </div>
-              )}
-
-            <div className="flex gap-2 pt-2">
-              <Button
-                type="button"
-                variant="accent"
-                size="sm"
-                className="flex-1 justify-center"
-                onClick={() => void handleGenerateDossier()}
-              >
-                Skriv ut / Spara igen
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="flex-1 justify-center"
-                onClick={clearSession}
-              >
-                Klar — rensa från enheten
-              </Button>
-            </div>
-          </div>
-        )}
-      </BentoCard>
-    </div>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputModePicker.tsx">
-import { ChevronDown } from 'lucide-react';
-import {
-  VALV_INPUT_MODES_MORE,
-  VALV_INPUT_MODES_PRIMARY,
-  valvInputModeDef,
-  type ValvInputMode,
-} from './valvInputModes';
-
-export type ValvInputModePickerProps = {
-  activeMode: ValvInputMode;
-  onChange: (mode: ValvInputMode) => void;
-};
-
-/** Primära lägen som pills + «Mer…» select (Fas 1B — samma mönster som Familjen). */
-export function ValvInputModePicker({ activeMode, onChange }: ValvInputModePickerProps) {
-  const activeMeta = valvInputModeDef(activeMode);
-  const isMoreMode = activeMeta.tier === 'more';
-
-  return (
-    <div className="familjen-mode-picker min-w-0 flex-1" aria-label="Valv-lägen">
-      <div className="familjen-mode-picker__pills" role="tablist">
-        {VALV_INPUT_MODES_PRIMARY.map((mode) => {
-          const isActive = activeMode === mode.id;
-          return (
-            <button
-              key={mode.id}
-              type="button"
-              role="tab"
-              aria-selected={isActive}
-              onClick={() => onChange(mode.id)}
-              className={`od-depth__pill ${isActive ? 'od-depth__pill--active' : ''}`}
-              title={mode.description}
-            >
-              {mode.label}
-            </button>
-          );
-        })}
-      </div>
-
-      <label className="familjen-mode-picker__more">
-        <span className="sr-only">Fler Valv-lägen</span>
-        <select
-          value={isMoreMode ? activeMode : ''}
-          onChange={(e) => {
-            const next = e.target.value as ValvInputMode;
-            if (next) onChange(next);
-          }}
-          className={`od-depth__mode-select ${isMoreMode ? 'od-depth__mode-select--active' : ''}`}
-          aria-label="Fler Valv-lägen"
-        >
-          <option value="" disabled={isMoreMode}>
-            {isMoreMode ? activeMeta.label : 'Mer…'}
-          </option>
-          {VALV_INPUT_MODES_MORE.map((mode) => (
-            <option key={mode.id} value={mode.id}>
-              {mode.label} — {mode.description}
-            </option>
-          ))}
-        </select>
-        <ChevronDown className="familjen-mode-picker__chevron" aria-hidden />
-      </label>
-    </div>
   );
 }
 </file>
@@ -7909,6 +7792,56 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
 }
 </file>
 
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultValvBreadcrumb.tsx">
+import {
+  forensicVaultTabLabel,
+  isAnalyseraVaultTab,
+  isExporteraVaultTab,
+  isForensicVaultTab,
+  isKunskapVaultTab,
+  isVitVaultTab,
+  isSamlaVaultTab,
+  type ValvZone,
+  type VaultTab,
+} from '../utils/vaultTabs';
+import { VIT_VAULT_TAB_LABEL } from '@/core/copy/valvNavCopy';
+import { getVaultZoneTabBarItems, vaultMainTabLabel } from '@/core/navigation/tabRegistry';
+
+type VaultValvBreadcrumbProps = {
+  zone: ValvZone;
+  vaultTab: VaultTab;
+};
+
+const ZONE_LABEL = Object.fromEntries(
+  getVaultZoneTabBarItems().map((z) => [z.id, z.label]),
+) as Record<ValvZone, string>;
+
+/** Valv › zon › underflik — synkad med drawer-grupper. */
+export function VaultValvBreadcrumb({ zone, vaultTab }: VaultValvBreadcrumbProps) {
+  const parts: string[] = ['Valv', ZONE_LABEL[zone] ?? zone];
+
+  if (isSamlaVaultTab(vaultTab) || isAnalyseraVaultTab(vaultTab) || isExporteraVaultTab(vaultTab)) {
+    parts.push(vaultMainTabLabel(vaultTab));
+  } else if (isKunskapVaultTab(vaultTab)) {
+    parts.push(vaultMainTabLabel(vaultTab));
+  } else if (isVitVaultTab(vaultTab)) {
+    parts.push(VIT_VAULT_TAB_LABEL);
+  } else if (isForensicVaultTab(vaultTab)) {
+    parts.push(forensicVaultTabLabel(vaultTab));
+  }
+
+  return (
+    <p
+      className="min-w-0 truncate text-xs uppercase tracking-widest text-text-dim"
+      aria-label={parts.join(', ')}
+      title={parts.join(' · ')}
+    >
+      {parts.join(' · ')}
+    </p>
+  );
+}
+</file>
+
 <file path="src/modules/features/lifeJournal/evidence/vault/components/VaultVitHubPanel.tsx">
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
@@ -8234,6 +8167,73 @@ function StatTile({
 }
 </file>
 
+<file path="src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputModePicker.tsx">
+import { ChevronDown } from 'lucide-react';
+import {
+  VALV_INPUT_MODES_MORE,
+  VALV_INPUT_MODES_PRIMARY,
+  valvInputModeDef,
+  type ValvInputMode,
+} from './valvInputModes';
+
+export type ValvInputModePickerProps = {
+  activeMode: ValvInputMode;
+  onChange: (mode: ValvInputMode) => void;
+};
+
+/** Primära lägen som pills + «Mer…» select (Fas 1B — samma mönster som Familjen). */
+export function ValvInputModePicker({ activeMode, onChange }: ValvInputModePickerProps) {
+  const activeMeta = valvInputModeDef(activeMode);
+  const isMoreMode = activeMeta.tier === 'more';
+
+  return (
+    <div className="familjen-mode-picker min-w-0 flex-1" aria-label="Valv-lägen">
+      <div className="familjen-mode-picker__pills" role="tablist">
+        {VALV_INPUT_MODES_PRIMARY.map((mode) => {
+          const isActive = activeMode === mode.id;
+          return (
+            <button
+              key={mode.id}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => onChange(mode.id)}
+              className={`od-depth__pill ${isActive ? 'od-depth__pill--active' : ''}`}
+              title={mode.description}
+            >
+              {mode.label}
+            </button>
+          );
+        })}
+      </div>
+
+      <label className="familjen-mode-picker__more">
+        <span className="sr-only">Fler Valv-lägen</span>
+        <select
+          value={isMoreMode ? activeMode : ''}
+          onChange={(e) => {
+            const next = e.target.value as ValvInputMode;
+            if (next) onChange(next);
+          }}
+          className={`od-depth__mode-select ${isMoreMode ? 'od-depth__mode-select--active' : ''}`}
+          aria-label="Fler Valv-lägen"
+        >
+          <option value="" disabled={isMoreMode}>
+            {isMoreMode ? activeMeta.label : 'Mer…'}
+          </option>
+          {VALV_INPUT_MODES_MORE.map((mode) => (
+            <option key={mode.id} value={mode.id}>
+              {mode.label} — {mode.description}
+            </option>
+          ))}
+        </select>
+        <ChevronDown className="familjen-mode-picker__chevron" aria-hidden />
+      </label>
+    </div>
+  );
+}
+</file>
+
 <file path="src/modules/features/lifeJournal/evidence/vault/components/valv.css">
 @tailwind components;
 
@@ -8501,157 +8501,6 @@ function StatTile({
       @apply flex-wrap;
     }
   }
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx">
-import { useCallback, lazy, Suspense, type ReactNode } from 'react';
-import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import '../components/valv.css';
-import { ValvInputModePicker } from './ValvInputModePicker';
-import {
-  DEFAULT_VALV_INPUT_MODE,
-  valvInputModeDef,
-  type ValvInputMode,
-} from './valvInputModes';
-import { writeValvLastInputMode } from './valvLastModeStorage';
-import type { VaultTab } from '../utils/vaultTabs';
-
-const InboxReviewQueue = lazy(() =>
-  import('@/modules/inkast/components/InboxReviewQueue').then((m) => ({ default: m.InboxReviewQueue })),
-);
-const InkastDirectPanel = lazy(() =>
-  import('@/modules/capture/InkastDirectPanel').then((m) => ({ default: m.InkastDirectPanel })),
-);
-const ValvSuperModule = lazy(() =>
-  import('../components/ValvSuperModule').then((m) => ({ default: m.ValvSuperModule })),
-);
-
-function ValvZoneSuspense({ children }: { children: ReactNode }) {
-  return <Suspense fallback={<HubPanelSkeleton lines={5} />}>{children}</Suspense>;
-}
-
-export type ValvInputSuperModuleProps = {
-  activeMode: ValvInputMode;
-  onModeChange: (mode: ValvInputMode) => void;
-  vaultTab: VaultTab;
-  userId: string;
-  gateOk: boolean;
-  highlightLogId: string | null;
-  onBevisConfirmed: (docId: string) => void | Promise<void>;
-  onCitationClick: (docId: string) => void;
-  onVaultTabChange: (tab: VaultTab) => void;
-  techniqueFilter?: string | null;
-  onTechniqueSelect?: (technique: string) => void;
-  onClearTechniqueFilter?: () => void;
-};
-
-/**
- * Canonical Valv navigation — primära lägen + «Mer…» (Fas 1B).
- * Granska ersätter separat inbox-zon och `?samlaView=granska`.
- * Spara (B1): InkastDirectPanel direkt — unified "en väg in", WORM-only append.
- */
-export function ValvInputSuperModule({
-  activeMode,
-  onModeChange,
-  vaultTab,
-  userId,
-  gateOk,
-  highlightLogId,
-  onBevisConfirmed,
-  onCitationClick,
-  onVaultTabChange,
-  techniqueFilter,
-  onTechniqueSelect,
-  onClearTechniqueFilter,
-}: ValvInputSuperModuleProps) {
-  const setMode = useCallback(
-    (mode: ValvInputMode) => {
-      writeValvLastInputMode(mode);
-      onModeChange(mode);
-    },
-    [onModeChange],
-  );
-
-  const renderZoneContent = () => {
-    if (activeMode === 'granska') {
-      return (
-        <ValvZoneSuspense>
-          <InboxReviewQueue
-            prioritizeBevis
-            onBevisConfirmed={(docId) => {
-              void onBevisConfirmed(docId);
-              setMode(DEFAULT_VALV_INPUT_MODE);
-            }}
-            onBack={() => setMode('spara')}
-          />
-        </ValvZoneSuspense>
-      );
-    }
-
-    if (activeMode === 'spara') {
-      return (
-        <ValvZoneSuspense>
-          <InkastDirectPanel
-            tone="valv"
-            sourceModule="valv_samla"
-            onQueued={() => setMode('granska')}
-            onPersistedBevis={(docId) => void onBevisConfirmed(docId)}
-            queueHintAsButton
-          />
-        </ValvZoneSuspense>
-      );
-    }
-
-    return (
-      <ValvZoneSuspense>
-        <ValvSuperModule
-          variant={valvInputModeDef(activeMode).zone}
-          vaultTab={vaultTab}
-          userId={userId}
-          gateOk={gateOk}
-          highlightLogId={highlightLogId}
-          onBevisConfirmed={onBevisConfirmed}
-          onCitationClick={onCitationClick}
-          onVaultTabChange={onVaultTabChange}
-          onOpenGranska={() => setMode('granska')}
-          techniqueFilter={techniqueFilter}
-          onTechniqueSelect={onTechniqueSelect}
-          onClearTechniqueFilter={onClearTechniqueFilter}
-        />
-      </ValvZoneSuspense>
-    );
-  };
-
-  return (
-    <HubErrorBoundary
-      title="Valv-inmatning kunde inte laddas"
-      glow="blue"
-      backTo="/valvet"
-      backLabel="Till Valvet"
-      logTag="ValvInputSuperModule"
-    >
-    <BentoCard
-      glow="blue"
-      depth
-      noHover
-      bare
-      className="!p-4 sm:!p-5"
-    >
-      <div className="mb-3 flex min-w-0 items-center justify-between gap-2">
-        <ValvInputModePicker activeMode={activeMode} onChange={setMode} />
-        <ModuleHelpFromRegistry moduleId="valv" mode={activeMode} className="shrink-0" />
-      </div>
-
-      <div className="mt-2 pr-1">
-        {renderZoneContent()}
-      </div>
-    </BentoCard>
-    </HubErrorBoundary>
-  );
 }
 </file>
 
@@ -8925,6 +8774,157 @@ function VaultPageInner({
         </Suspense>
       </div>
     </ValvBentoShell>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx">
+import { useCallback, lazy, Suspense, type ReactNode } from 'react';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+import '../components/valv.css';
+import { ValvInputModePicker } from './ValvInputModePicker';
+import {
+  DEFAULT_VALV_INPUT_MODE,
+  valvInputModeDef,
+  type ValvInputMode,
+} from './valvInputModes';
+import { writeValvLastInputMode } from './valvLastModeStorage';
+import type { VaultTab } from '../utils/vaultTabs';
+
+const InboxReviewQueue = lazy(() =>
+  import('@/modules/inkast/components/InboxReviewQueue').then((m) => ({ default: m.InboxReviewQueue })),
+);
+const InkastDirectPanel = lazy(() =>
+  import('@/modules/capture/InkastDirectPanel').then((m) => ({ default: m.InkastDirectPanel })),
+);
+const ValvSuperModule = lazy(() =>
+  import('../components/ValvSuperModule').then((m) => ({ default: m.ValvSuperModule })),
+);
+
+function ValvZoneSuspense({ children }: { children: ReactNode }) {
+  return <Suspense fallback={<HubPanelSkeleton lines={5} />}>{children}</Suspense>;
+}
+
+export type ValvInputSuperModuleProps = {
+  activeMode: ValvInputMode;
+  onModeChange: (mode: ValvInputMode) => void;
+  vaultTab: VaultTab;
+  userId: string;
+  gateOk: boolean;
+  highlightLogId: string | null;
+  onBevisConfirmed: (docId: string) => void | Promise<void>;
+  onCitationClick: (docId: string) => void;
+  onVaultTabChange: (tab: VaultTab) => void;
+  techniqueFilter?: string | null;
+  onTechniqueSelect?: (technique: string) => void;
+  onClearTechniqueFilter?: () => void;
+};
+
+/**
+ * Canonical Valv navigation — primära lägen + «Mer…» (Fas 1B).
+ * Granska ersätter separat inbox-zon och `?samlaView=granska`.
+ * Spara (B1): InkastDirectPanel direkt — unified "en väg in", WORM-only append.
+ */
+export function ValvInputSuperModule({
+  activeMode,
+  onModeChange,
+  vaultTab,
+  userId,
+  gateOk,
+  highlightLogId,
+  onBevisConfirmed,
+  onCitationClick,
+  onVaultTabChange,
+  techniqueFilter,
+  onTechniqueSelect,
+  onClearTechniqueFilter,
+}: ValvInputSuperModuleProps) {
+  const setMode = useCallback(
+    (mode: ValvInputMode) => {
+      writeValvLastInputMode(mode);
+      onModeChange(mode);
+    },
+    [onModeChange],
+  );
+
+  const renderZoneContent = () => {
+    if (activeMode === 'granska') {
+      return (
+        <ValvZoneSuspense>
+          <InboxReviewQueue
+            prioritizeBevis
+            onBevisConfirmed={(docId) => {
+              void onBevisConfirmed(docId);
+              setMode(DEFAULT_VALV_INPUT_MODE);
+            }}
+            onBack={() => setMode('spara')}
+          />
+        </ValvZoneSuspense>
+      );
+    }
+
+    if (activeMode === 'spara') {
+      return (
+        <ValvZoneSuspense>
+          <InkastDirectPanel
+            tone="valv"
+            sourceModule="valv_samla"
+            onQueued={() => setMode('granska')}
+            onPersistedBevis={(docId) => void onBevisConfirmed(docId)}
+            queueHintAsButton
+          />
+        </ValvZoneSuspense>
+      );
+    }
+
+    return (
+      <ValvZoneSuspense>
+        <ValvSuperModule
+          variant={valvInputModeDef(activeMode).zone}
+          vaultTab={vaultTab}
+          userId={userId}
+          gateOk={gateOk}
+          highlightLogId={highlightLogId}
+          onBevisConfirmed={onBevisConfirmed}
+          onCitationClick={onCitationClick}
+          onVaultTabChange={onVaultTabChange}
+          onOpenGranska={() => setMode('granska')}
+          techniqueFilter={techniqueFilter}
+          onTechniqueSelect={onTechniqueSelect}
+          onClearTechniqueFilter={onClearTechniqueFilter}
+        />
+      </ValvZoneSuspense>
+    );
+  };
+
+  return (
+    <HubErrorBoundary
+      title="Valv-inmatning kunde inte laddas"
+      glow="blue"
+      backTo="/valvet"
+      backLabel="Till Valvet"
+      logTag="ValvInputSuperModule"
+    >
+    <BentoCard
+      glow="blue"
+      depth
+      noHover
+      bare
+      className="!p-4 sm:!p-5"
+    >
+      <div className="mb-3 flex min-w-0 items-center justify-between gap-2">
+        <ValvInputModePicker activeMode={activeMode} onChange={setMode} />
+        <ModuleHelpFromRegistry moduleId="valv" mode={activeMode} className="shrink-0" />
+      </div>
+
+      <div className="mt-2 pr-1">
+        {renderZoneContent()}
+      </div>
+    </BentoCard>
+    </HubErrorBoundary>
   );
 }
 </file>

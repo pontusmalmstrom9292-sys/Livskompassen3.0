@@ -1,6 +1,6 @@
 # LOCK-MANIFEST — Copy-paste för alla agenter
 
-**Version:** 1.6 · **Senast:** 2026-07-13 (YOLO v12 P81)  
+**Version:** 1.16 · **Senast:** 2026-07-14 (YOLO v23 P190)  
 **Register:** `.context/module-lock-register.json` · **Locked UX:** `.context/locked-ux-features.md`
 
 ---
@@ -49,6 +49,38 @@
 | MOD-BACK-DCAP | Backend | locked |
 | MOD-BACK-WORM | Backend | locked |
 | MOD-WIDGET | Cross | locked |
+
+---
+
+
+## § entryFiles-register (P115 sync)
+
+Speglar `.context/module-lock-register.json` — verifiera med `npm run smoke:module-lock`.
+
+| ID | entryFiles |
+|----|------------|
+| MOD-CORE-NAV | `AppRoutes.tsx` |
+| MOD-CORE-CHROME | `FloatingDock.tsx` |
+| MOD-HJ-DAGBOK | `DagbokPage.tsx` |
+| MOD-HJ-INPUT | `DagbokInputSuperModule.tsx` |
+| MOD-HJ-SPEGLAR | `SpeglarSuperModule.tsx` |
+| MOD-VALV-HUB | `VaultPage.tsx` |
+| MOD-VALV-INKAST | `InkastDirectPanel.tsx` |
+| MOD-VALV-ORKESTER | `VaultOrkesterPanel.tsx` |
+| MOD-VARD-LAUNCH | `LivLauncherPage.tsx` |
+| MOD-VARD-MABRA | `MabraHubView.tsx` |
+| MOD-VARD-PLAN | `PlaneringPage.tsx` |
+| MOD-VARD-EKO | `EkonomiInputSuperModule.tsx` |
+| MOD-VARD-ARB | `ArbetslivHubPage.tsx` |
+| MOD-FAM-HUB | `FamiljenPage.tsx` |
+| MOD-FAM-BARN | `FamiljenBarnfokusDelegate.tsx` |
+| MOD-FAM-HAMN | `BiffPublicPanel.tsx` |
+| MOD-FAM-BPORT | `barnportenRollout.ts` |
+| MOD-FAM-DROG | `DrogfrihetHubPage.tsx` |
+| MOD-BACK-SYN | `synapseBus.ts` |
+| MOD-BACK-DCAP | `dcapEscalation.ts` |
+| MOD-BACK-WORM | `wormHashChain.ts` |
+| MOD-WIDGET | `FyrenShortcutMicIcon.tsx`, `WidgetRecordPage.tsx`, `WidgetModulerPage.tsx` |
 
 ---
 
@@ -199,3 +231,232 @@ Kö: `.orkester/cursor-yolo-queue-v8.json` · State: `.orkester/cursor-yolo-stat
 - Kanon: `.cursor/index.mdc` · `docs/AI-GOVERNANCE.md`
 - Auto-lock: [AUTO-LOCK-PLAYBOOK.md](./AUTO-LOCK-PLAYBOOK.md) · `.cursor/rules/auto-lock-on-complete.mdc`
 - Eval-logg v8: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v8-log.md`
+
+## § Agent-fortifikation v5 (YOLO v15 P110)
+
+*Fortsätter v4 (v11 P70) — inget tas bort.*
+
+### YOLO v15 orchestrering
+
+```bash
+npm run cursor:yolo:v15 -- status
+```
+
+Kö: `.orkester/cursor-yolo-queue-v15.json` · State: `.orkester/cursor-yolo-state-v15.json`
+
+Eval-logg: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v15-log.md`
+
+### MOD-WIDGET v3 entryFile (P105)
+
+`WidgetModulerPage.tsx` tillagd som entryFile efter standalone v3 (`/widget/moduler`).
+
+## § Agent-fortifikation v6 (YOLO v16 P120)
+
+*Fortsätter v5 (v15 P110) — inget tas bort.*
+
+### YOLO v16 orchestrering
+
+```bash
+npm run cursor:yolo:v16 -- status
+```
+
+Kö: `.orkester/cursor-yolo-queue-v16.json` · State: `.orkester/cursor-yolo-state-v16.json`
+
+Eval-logg: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v16-log.md`
+
+### MOD-WIDGET v3 hygiene (P115)
+
+- `WidgetModulerPage.tsx` entryFile (route `/widget/moduler`)
+- `@locked MOD-WIDGET` på `WidgetModulerBoard.tsx` + `WidgetModulerAddForm.tsx`
+- Register `unlockDoc`: `2026-07-14-unlock-MOD-WIDGET-standalone-v3.md`
+
+## § Agent-fortifikation v7 (YOLO v17 P125)
+
+*Fortsätter v6 (v16 P120) — inget tas bort.*
+
+### YOLO v17 orchestrering
+
+```bash
+npm run cursor:yolo:v17 -- status
+```
+
+Kö: `.orkester/cursor-yolo-queue-v17.json` · State: `.orkester/cursor-yolo-state-v17.json`
+
+Eval-logg: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v17-log.md`
+
+### Auto-lock hygiene verify (P125)
+
+- Register ↔ LOCK-MANIFEST entryFiles-tabell i sync (22 moduler, 24 entryFiles)
+- `smoke:module-lock` PASS
+- MOD-WIDGET: 3 entryFiles + `@locked` på Board/AddForm (additiv)
+
+### Agent-fortifikation verify (P130)
+
+- `npm run cursor:yolo:v17` + `npm run sdk:yolo:v17` i package.json
+- `scripts/cursor_yolo.mjs` → `getYoloConfig` för v17+ (mkFortificationConfig)
+- `smoke:governance` + `smoke:mdc` PASS
+- Eval: `docs/evaluations/2026-07-14-agent-fortification-v17.md`
+
+## § Agent-fortifikation v8 (YOLO v18 P135)
+
+*Fortsätter v7 (v17 P125) — inget tas bort.*
+
+### YOLO v18 orchestrering
+
+```bash
+npm run cursor:yolo:v18 -- status
+```
+
+Kö: `.orkester/cursor-yolo-queue-v18.json` · State: `.orkester/cursor-yolo-state-v18.json`
+
+Eval-logg: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v18-log.md`
+
+### Auto-lock hygiene verify (P135)
+
+- Register ↔ LOCK-MANIFEST entryFiles-tabell i sync (22 moduler, 24 entryFiles)
+- `smoke:module-lock` PASS
+- MOD-WIDGET: 3 entryFiles + `@locked` på Board/AddForm (v16/v17 carry-forward)
+
+
+### Agent-fortifikation verify (P140)
+
+- `npm run cursor:yolo:v18` + `npm run sdk:yolo:v18` i package.json
+- `scripts/cursor_yolo.mjs` → `getYoloConfig` för v18+ (mkFortificationConfig)
+- `smoke:governance` + `smoke:mdc` PASS
+- Eval: `docs/evaluations/2026-07-14-agent-fortification-v18.md`
+
+## § Agent-fortifikation v9 (YOLO v19 P145)
+
+*Fortsätter v8 (v18 P135) — inget tas bort.*
+
+### YOLO v19 orchestrering
+
+```bash
+npm run cursor:yolo:v19 -- status
+```
+
+Kö: `.orkester/cursor-yolo-queue-v19.json` · State: `.orkester/cursor-yolo-state-v19.json`
+
+Eval-logg: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v19-log.md`
+
+### Auto-lock hygiene verify (P145)
+
+- Register ↔ LOCK-MANIFEST entryFiles-tabell i sync (22 moduler, 24 entryFiles)
+- `smoke:module-lock` PASS
+- MOD-WIDGET: 3 entryFiles + `@locked` på Board/AddForm (v16/v17/v18 carry-forward)
+
+### Agent-fortifikation verify (P150)
+
+- `npm run cursor:yolo:v19` + `npm run sdk:yolo:v19` i package.json
+- `scripts/cursor_yolo.mjs` → `getYoloConfig` för v19+ (mkFortificationConfig)
+- `smoke:governance` + `smoke:mdc` PASS
+- Eval: `docs/evaluations/2026-07-14-agent-fortification-v19.md`
+
+## § Agent-fortifikation v10 (YOLO v20 P155)
+
+*Fortsätter v9 (v19 P145) — inget tas bort.*
+
+### YOLO v20 orchestrering
+
+```bash
+npm run cursor:yolo:v20 -- status
+```
+
+Kö: `.orkester/cursor-yolo-queue-v20.json` · State: `.orkester/cursor-yolo-state-v20.json`
+
+Eval-logg: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v20-log.md`
+
+### Auto-lock hygiene verify (P155)
+
+- Register ↔ LOCK-MANIFEST entryFiles-tabell i sync (22 moduler, 24 entryFiles)
+- `smoke:module-lock` PASS
+- MOD-WIDGET: 3 entryFiles + `@locked` på Board/AddForm (v16/v17/v18/v19 carry-forward)
+
+
+### Agent-fortifikation verify (P160)
+
+- `npm run cursor:yolo:v20` + `npm run sdk:yolo:v20` i package.json
+- `scripts/cursor_yolo.mjs` → `getYoloConfig` för v20+ (mkFortificationConfig)
+- `smoke:governance` + `smoke:mdc` PASS
+- Eval: `docs/evaluations/2026-07-14-agent-fortification-v20.md`
+
+## § Agent-fortifikation v11 (YOLO v21 P165)
+
+*Fortsätter v10 (v20 P155) — inget tas bort.*
+
+### YOLO v21 orchestrering
+
+```bash
+npm run cursor:yolo:v21 -- status
+```
+
+Kö: `.orkester/cursor-yolo-queue-v21.json` · State: `.orkester/cursor-yolo-state-v21.json`
+
+Eval-logg: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v21-log.md`
+
+### Auto-lock hygiene verify (P165)
+
+- Register ↔ LOCK-MANIFEST entryFiles-tabell i sync (22 moduler, 24 entryFiles)
+- `smoke:module-lock` PASS
+- MOD-WIDGET: 3 entryFiles + `@locked` på Board/AddForm (v16–v20 carry-forward)
+### Agent-fortifikation verify (P170)
+
+- `npm run cursor:yolo:v21` + `npm run sdk:yolo:v21` i package.json
+- `scripts/cursor_yolo.mjs` → `getYoloConfig` för v21+ (mkFortificationConfig)
+- `smoke:governance` + `smoke:mdc` PASS
+- Eval: `docs/evaluations/2026-07-14-agent-fortification-v21.md`
+
+## § Agent-fortifikation v12 (YOLO v22 P175)
+
+*Fortsätter v11 (v21 P165) — inget tas bort.*
+
+### YOLO v22 orchestrering
+
+```bash
+npm run cursor:yolo:v22 -- status
+```
+
+Kö: `.orkester/cursor-yolo-queue-v22.json` · State: `.orkester/cursor-yolo-state-v22.json`
+
+Eval-logg: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v22-log.md`
+
+### Auto-lock hygiene verify (P175)
+
+- Register ↔ LOCK-MANIFEST entryFiles-tabell i sync (22 moduler, 24 entryFiles)
+- `smoke:module-lock` PASS
+- MOD-WIDGET: 3 entryFiles + `@locked` på Board/AddForm (v16–v21 carry-forward)
+
+
+### Agent-fortifikation verify (P180)
+
+- `npm run cursor:yolo:v22` + `npm run sdk:yolo:v22` i package.json
+- `scripts/cursor_yolo.mjs` → `getYoloConfig` för v22+ (mkFortificationConfig)
+- `smoke:governance` + `smoke:mdc` PASS
+- Eval: `docs/evaluations/2026-07-14-agent-fortification-v22.md`
+
+## § Agent-fortifikation v13 (YOLO v23 P185)
+
+*Fortsätter v12 (v22 P175) — inget tas bort.*
+
+### YOLO v23 orchestrering
+
+```bash
+npm run cursor:yolo:v23 -- status
+```
+
+Kö: `.orkester/cursor-yolo-queue-v23.json` · State: `.orkester/cursor-yolo-state-v23.json`
+
+Eval-logg: `docs/evaluations/YYYY-MM-DD-cursor-yolo-v23-log.md`
+
+### Auto-lock hygiene verify (P185)
+
+- Register ↔ LOCK-MANIFEST entryFiles-tabell i sync (22 moduler, 24 entryFiles)
+- `smoke:module-lock` PASS
+- MOD-WIDGET: 3 entryFiles + `@locked` på Board/AddForm (v16–v22 carry-forward)
+
+### Agent-fortifikation verify (P190)
+
+- `npm run cursor:yolo:v23` + `npm run sdk:yolo:v23` i package.json
+- `scripts/cursor_yolo.mjs` → `getYoloConfig` för v23+ (mkFortificationConfig)
+- `smoke:governance` + `smoke:mdc` PASS
+- Eval: `docs/evaluations/2026-07-14-agent-fortification-v23.md`

@@ -1,0 +1,28 @@
+{
+  "at": "2026-07-14T16:41:01.739Z",
+  "runner": "sdk:marathon",
+  "startVersion": 15,
+  "maxWaves": 3,
+  "startedAt": "2026-07-14T16:41:01.737Z",
+  "waves": [
+    {
+      "version": 15,
+      "exitCode": 0,
+      "skipped": true,
+      "reason": "already-complete"
+    },
+    {
+      "version": 16,
+      "exitCode": 0,
+      "skipped": true,
+      "reason": "already-complete"
+    },
+    {
+      "version": 17,
+      "exitCode": 0,
+      "skipped": true,
+      "reason": "already-complete"
+    }
+  ],
+  "completed": true
+}

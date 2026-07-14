@@ -39,6 +39,7 @@ const widgetPages = [
   'WidgetSnabbvalPage.tsx',
   'WidgetVoiceVaultPage.tsx',
   'WidgetActionDashboardPage.tsx',
+  'WidgetModulerPage.tsx',
 ];
 for (const page of widgetPages) {
   const src = readCanonical(`src/modules/features/widgets/pages/${page}`);
@@ -152,6 +153,15 @@ assert(androidStrings.includes('widget_action_title'), 'WH7 strings saknas');
 const manifest = readCanonical('android/app/src/main/AndroidManifest.xml');
 assert(manifest.includes('ActionDashboardWidgetProvider'), 'AndroidManifest saknar WH7 receiver');
 
+console.log('[smoke:widgets] Android WH8 Mina moduler…');
+const modulerProvider = readCanonical('android/app/src/main/java/com/livskompassen/app/widgets/ModulerWidgetProvider.java');
+assert(modulerProvider.includes('ModulerWidgetProvider'), 'WH8 ModulerWidgetProvider saknas');
+assert(modulerProvider.includes('/widget/moduler'), 'WH8 ska deep-linka till /widget/moduler');
+assert(existsSync(resolve(root, 'android/app/src/main/res/xml/widget_moduler_info.xml')), 'widget_moduler_info saknas');
+assert(existsSync(resolve(root, 'android/app/src/main/res/drawable/widget_ic_wh8_moduler.xml')), 'widget_ic_wh8_moduler saknas');
+assert(androidStrings.includes('widget_moduler_title'), 'WH8 strings saknas');
+assert(manifest.includes('ModulerWidgetProvider'), 'AndroidManifest saknar WH8 receiver');
+
 console.log('[smoke:widgets] Design Freeport standalone lab…');
 const freeportPage = readCanonical('src/modules/sandbox/DesignFreeportPage.tsx');
 assert(freeportPage.includes('WidgetStandaloneLab'), 'Design Freeport saknar WidgetStandaloneLab');
@@ -167,5 +177,18 @@ assert(fyren.includes("to: '/widget/familjen'"), 'Fyren saknar barnobs-route');
 const sideDock = readCanonical('src/modules/core/components/FyrenSideQuickDock.tsx');
 assert(sideDock.includes("label: 'Dagbok'"), 'Side dock saknar Dagbok-label');
 assert(sideDock.includes("label: 'Barnobs'"), 'Side dock saknar Barnobs-label');
+
+console.log('[smoke:widgets] v3 HomeWidgetRenderer + moduler-route…');
+const homeRenderer = readCanonical('src/modules/features/widgets/components/HomeWidgetRenderer.tsx');
+assert(homeRenderer.includes('WidgetDashboardSection'), 'HomeWidgetRenderer ska använda WidgetDashboardSection');
+assert(!homeRenderer.includes('BentoCard'), 'HomeWidgetRenderer ska inte använda BentoCard');
+assert(existsSync(resolve(root, 'src/modules/features/widgets/components/WidgetModulerBoard.tsx')), 'WidgetModulerBoard saknas');
+assert(existsSync(resolve(root, 'src/modules/features/widgets/pages/WidgetModulerPage.tsx')), 'WidgetModulerPage saknas');
+const modulerBoard = readCanonical('src/modules/features/widgets/components/WidgetModulerBoard.tsx');
+assert(modulerBoard.includes('subscribeUserWidgets'), 'WidgetModulerBoard ska prenumerera user_widgets');
+assert(modulerBoard.includes('HomeWidgetRenderer'), 'WidgetModulerBoard ska rendera HomeWidgetRenderer');
+const widgetRoutes = readCanonical('src/modules/features/widgets/routing/WidgetRoutes.tsx');
+assert(widgetRoutes.includes('path="moduler"'), 'WidgetRoutes saknar /widget/moduler');
+assert(existsSync(resolve(root, 'docs/evaluations/2026-07-14-unlock-MOD-WIDGET-standalone-v3.md')), 'v3 unlock-doc saknas');
 
 console.log('[smoke:widgets] PASS');

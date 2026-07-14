@@ -1,0 +1,121 @@
+{
+  "version": 3,
+  "updatedAt": "2026-07-14T19:10:00.000Z",
+  "mandate": "Endast förbättra och förstärka — aldrig ta bort fungerande kod eller features.",
+  "formula": {
+    "fortificationDeployPhase": "103 + (version - 15) * 10",
+    "buildWaves": "v34–v47 product build (SDK unattended marathon)"
+  },
+  "subagents": [
+    {
+      "id": "marathon-yolo-vakt",
+      "tasks": ["p*-baseline", "p*-fortification", "p*-yolo-vakt", "b*-gate", "b*-vakt"],
+      "queueAgent": "yolo-vakt"
+    },
+    {
+      "id": "marathon-verifier",
+      "tasks": ["p*-auto-lock-hygiene", "p*-drift", "b*-gate"],
+      "queueAgent": "specialist-verifier"
+    },
+    {
+      "id": "marathon-security",
+      "tasks": ["p*-security"],
+      "queueAgent": "specialist-security-auditor",
+      "mode": "read-only"
+    },
+    {
+      "id": "marathon-ux-guardian",
+      "tasks": ["p*-ux-guardian", "p*-design-debt"],
+      "queueAgent": "specialist-ux-guardian"
+    },
+    {
+      "id": "marathon-arkiv",
+      "tasks": ["p*-integration", "b*-build"],
+      "queueAgent": "livskompassen-arkiv-master"
+    },
+    {
+      "id": "build-zone-specialists",
+      "tasks": ["b*-build"],
+      "agents": [
+        "specialist-widgets",
+        "specialist-ux-guardian",
+        "specialist-planering",
+        "specialist-valv-builder",
+        "specialist-familjen-hamn-builder",
+        "specialist-vardagen-builder",
+        "livskompassen-arkiv-master",
+        "specialist-beslutsstod",
+        "minnes-arkitekten"
+      ]
+    }
+  ],
+  "marathonSchedule": [
+    {
+      "block": 1,
+      "status": "done",
+      "waves": ["v16", "v17"],
+      "command": "caffeinate -dimsu npm run sdk:yolo:marathon -- --from=16 --waves=2"
+    },
+    {
+      "block": 2,
+      "status": "done",
+      "waves": ["v18", "v19", "v20"],
+      "command": "caffeinate -dimsu npm run sdk:yolo:marathon -- --from=18 --waves=3"
+    },
+    {
+      "block": 3,
+      "status": "done",
+      "waves": ["v21", "v22", "v23"],
+      "command": "caffeinate -dimsu npm run sdk:yolo:marathon -- --from=21 --waves=3",
+      "note": "Fortifikation v21–v23 avslutad 2026-07-14"
+    },
+    {
+      "block": "away",
+      "status": "cancelled",
+      "waves": ["v24", "v25", "v26", "v27", "v28", "v29", "v30", "v31", "v32", "v33"],
+      "note": "Ersatt av SDK build marathon v34–v47 (product waves)"
+    },
+    {
+      "block": "build",
+      "status": "pending",
+      "waves": [
+        "v34",
+        "v35",
+        "v36",
+        "v37",
+        "v38",
+        "v39",
+        "v40",
+        "v41",
+        "v42",
+        "v43",
+        "v44",
+        "v45",
+        "v46",
+        "v47"
+      ],
+      "command": "caffeinate -dimsu npm run sdk:yolo:full",
+      "env": {
+        "SDK_YOLO_UNATTENDED": "1",
+        "CURSOR_YOLO_VERSION": "34"
+      },
+      "note": "Build v34 MOD-WIDGET → v47 minne prep + deploy hosting"
+    }
+  ],
+  "checkpoints": [
+    { "after": "v35", "command": "npm run smoke:e2e-live" },
+    { "after": "v42", "command": "npm run smoke:predeploy:build" },
+    { "after": "v47", "command": "npm run smoke:predeploy:build && firebase deploy --only hosting" }
+  ],
+  "pmirAlwaysSkip": [
+    "firestore.rules",
+    "storage.rules",
+    "sharedRules.ts",
+    "Barnporten kanon-UI",
+    "minne --apply",
+    "Genkit prod",
+    "Gmail OAuth",
+    "p*-deploy",
+    "b*-deploy unless Pontus writes OK deploy"
+  ]
+}

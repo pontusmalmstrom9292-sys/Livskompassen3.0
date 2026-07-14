@@ -287,6 +287,41 @@
   .widget-note-mode-row {
     @apply mb-3 flex gap-1.5;
   }
+
+  .widget-home-module__delete {
+    @apply absolute right-2 top-2 z-10 opacity-0 transition-opacity duration-150;
+    @apply pointer-events-none;
+  }
+
+  .widget-home-module:hover .widget-home-module__delete,
+  .widget-home-module:focus-within .widget-home-module__delete {
+    @apply opacity-100 pointer-events-auto;
+  }
+
+  .widget-home-module__delete.widget-btn--icon {
+    @apply min-h-0 px-2 py-1 text-text-dim hover:text-danger;
+  }
+
+  .widget-home-module__delete .widget-btn__label {
+    @apply sr-only;
+  }
+
+  .widget-moduler-board__toolbar {
+    @apply flex flex-wrap items-center justify-between gap-2;
+  }
+
+  .widget-moduler-add__types {
+    @apply grid grid-cols-2 gap-2;
+  }
+
+  .widget-moduler-add__type {
+    @apply justify-center gap-1.5 text-xs;
+  }
+
+  .widget-moduler-add__select {
+    @apply w-full rounded-xl border border-border bg-surface-2 px-3 py-2.5 text-sm text-text;
+    min-height: var(--widget-btn-min-h);
+  }
 }
 
 /* Fristående widget-läge — dölj app-chrome (dock, zen, m.m.) */

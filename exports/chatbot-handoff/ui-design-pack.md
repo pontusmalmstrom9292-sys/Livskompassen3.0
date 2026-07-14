@@ -2857,6 +2857,41 @@ function RedirectToLifeJournalTab(
 function RedirectArkivToValvet()
 ````
 
+## File: src/modules/features/admin/planning/components/PlaneringPage.tsx
+````typescript
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { Button, ButtonLink } from '@/design-system';
+import { Calendar, LayoutGrid, PenLine } from 'lucide-react';
+import { clsx } from 'clsx';
+import { HubPageShell } from '@/core/layout/HubPageShell';
+import { useTheme } from '@/core/theme';
+import { isMidnightExecutiveTheme } from '@/core/theme/themePackMidnightExecutive';
+import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { PLANERING_TAGLINE, PLANERING_MORE_TABS } from '../constants';
+import type { PlaneringTab } from '../types';
+import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
+import { PlanningKanbanBoard } from './PlanningKanbanBoard';
+import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
+import { LivBackLink } from '@/modules/shell/LivBackLink';
+import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
+import { PlaneringMoreTabsBar } from './PlaneringMoreTabsBar';
+import { PlaneringErrorBoundary } from './PlaneringErrorBoundary';
+import { PlaneringBentoShell } from './PlaneringBentoShell';
+import { PlaneringHubCollapsible } from './PlaneringHubCollapsible';
+import {
+  hasSeenGoraModulValjare,
+  markGoraModulValjareSeen,
+} from '../utils/goraModulValjareStorage';
+import {
+  isPlaneringInputMode,
+  type PlaneringInputMode,
+} from '../supermodule/planeringInputModes';
+⋮----
+function PlaneringPanelFallback()
+````
+
 ## File: src/modules/shell/LivLauncherGrid.tsx
 ````typescript
 import type { LucideIcon } from 'lucide-react';
@@ -2900,39 +2935,4 @@ type LivLauncherGridProps = {
 export function LivLauncherGrid(
 ⋮----
 className=
-````
-
-## File: src/modules/features/admin/planning/components/PlaneringPage.tsx
-````typescript
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, ButtonLink } from '@/design-system';
-import { Calendar, LayoutGrid, PenLine } from 'lucide-react';
-import { clsx } from 'clsx';
-import { HubPageShell } from '@/core/layout/HubPageShell';
-import { useTheme } from '@/core/theme';
-import { isMidnightExecutiveTheme } from '@/core/theme/themePackMidnightExecutive';
-import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { PLANERING_TAGLINE, PLANERING_MORE_TABS } from '../constants';
-import type { PlaneringTab } from '../types';
-import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
-import { PlanningKanbanBoard } from './PlanningKanbanBoard';
-import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
-import { LivBackLink } from '@/modules/shell/LivBackLink';
-import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
-import { PlaneringMoreTabsBar } from './PlaneringMoreTabsBar';
-import { PlaneringErrorBoundary } from './PlaneringErrorBoundary';
-import { PlaneringBentoShell } from './PlaneringBentoShell';
-import { PlaneringHubCollapsible } from './PlaneringHubCollapsible';
-import {
-  hasSeenGoraModulValjare,
-  markGoraModulValjareSeen,
-} from '../utils/goraModulValjareStorage';
-import {
-  isPlaneringInputMode,
-  type PlaneringInputMode,
-} from '../supermodule/planeringInputModes';
-⋮----
-function PlaneringPanelFallback()
 ````

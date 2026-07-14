@@ -1,0 +1,148 @@
+{
+  "version": 16,
+  "description": "Cursor YOLO v16 — Auto-Lock & Fortifikation P113–P122",
+  "sequentialPhase": {
+    "label": "Fortifikation"
+  },
+  "tasks": [
+    {
+      "id": "p113-deploy",
+      "title": "P113 — (Valfritt) hosting deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "hosting"
+    },
+    {
+      "id": "p114-baseline",
+      "title": "P114 — Read-only baseline",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "smoke:predeploy:build. Eval baseline v16.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p115-auto-lock-hygiene",
+      "title": "P115 — Auto-lock hygiene",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "entryFiles + LOCK-MANIFEST.",
+      "smoke": [
+        "npm run smoke:module-lock"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p116-security",
+      "title": "P116 — Security read-only",
+      "phase": "sequential",
+      "agent": "specialist-security-auditor",
+      "plan": "WORM, silos. Eval security-v16.md.",
+      "smoke": [
+        "npm run smoke:manifest",
+        "npm run smoke:valv-security"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p117-ux-guardian",
+      "title": "P117 — Locked UX re-snapshot",
+      "phase": "sequential",
+      "agent": "specialist-ux-guardian",
+      "plan": "locked-ux smokes.",
+      "smoke": [
+        "npm run smoke:locked-ux",
+        "npm run smoke:e2e-locked-ux",
+        "npm run smoke:plausible-deniability",
+        "npm run smoke:basta-dock-lock"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p118-drift",
+      "title": "P118 — Drift & smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "journal-2d, mabra, valv, widgets. Eval drift-v16.md.",
+      "smoke": [
+        "npm run smoke:journal-2d",
+        "npm run smoke:mabra",
+        "npm run smoke:valv",
+        "npm run smoke:widgets"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p119-design-debt",
+      "title": "P119 — Design-debt guard",
+      "phase": "sequential",
+      "agent": "specialist-ux-guardian",
+      "plan": "dsBtn 0, btnPill 0, adHocDialog 0.",
+      "smoke": [
+        "npm run smoke:design-debt",
+        "npm run smoke:copy-audit",
+        "npm run smoke:calm-card-audit"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p120-fortification",
+      "title": "P120 — Agent-fortifikation v16",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "cursor:yolo:v16 + queue/state.",
+      "smoke": [
+        "npm run smoke:governance",
+        "npm run smoke:mdc"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p121-integration",
+      "title": "P121 — Integration dry-run",
+      "phase": "sequential",
+      "agent": "livskompassen-arkiv-master",
+      "plan": "preflight + seed --dry-run. Aldrig --apply.",
+      "smoke": [
+        "npm run smoke:innehall",
+        "npm run smoke:content-waves"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p122-yolo-vakt",
+      "title": "P122 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO + handoff v17",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none"
+    }
+  ]
+}

@@ -77,7 +77,165 @@ export function getYoloConfig(yoloVersion) {
       nextPhaseStart: 113,
     }),
   };
-  return CONFIG[yoloVersion] ?? null;
+  if (CONFIG[yoloVersion]) return CONFIG[yoloVersion];
+  if (yoloVersion >= BUILD_WAVE_MIN && yoloVersion <= BUILD_WAVE_MAX) return mkBuildConfig(yoloVersion);
+  if (yoloVersion >= 16) return mkFortificationConfig(yoloVersion);
+  return null;
+}
+
+export const BUILD_WAVE_MIN = 34;
+export const BUILD_WAVE_MAX = 47;
+
+/** @param {number} version v34–v47 */
+export function mkBuildConfig(version) {
+  const label = `v${version}`;
+  return {
+    version,
+    kind: "build",
+    queuePath: join(root, `.orkester/cursor-yolo-queue-${label}.json`),
+    statePath: join(root, `.orkester/cursor-yolo-state-${label}.json`),
+    nextPromptPath: join(root, `.cursor/pipeline/yolo-${label}/NEXT-PROMPT.md`),
+    masterPath: join(root, `docs/cursor-pipeline/yolo-${label}/MASTER-SEQUENTIAL.md`),
+    promptDir: `docs/cursor-pipeline/yolo-${label}`,
+    logSuffix: `cursor-yolo-${label}-log`,
+    label,
+    masterTaskId: `b${version}-build`,
+    masterTitle: `BUILD v${version}`,
+    requiresParallelGate: false,
+    gateArtifacts: [],
+    nextVersion: version < BUILD_WAVE_MAX ? version + 1 : null,
+    prevPhaseEnd: null,
+    nextPhaseStart: null,
+  };
+}
+
+/** Skapar build-kö + state om de saknas (v34–v47). */
+export async function ensureBuildWaveScaffold(version) {
+  if (version < BUILD_WAVE_MIN || version > BUILD_WAVE_MAX) {
+    return { created: false, reason: "not-build-wave" };
+  }
+  const config = getYoloConfig(version);
+  if (!config) return { created: false, reason: "no-config" };
+  const { ensureBuildWave } = await import("./cursor_yolo_build.mjs");
+  return ensureBuildWave(version, config);
+}
+
+/** @param {number} version v15+ */
+export function fortificationDeployPhase(version) {
+  return 103 + (version - 15) * 10;
+}
+
+/** @param {number} version v15+ */
+function mkFortificationConfig(version) {
+  const pDeploy = fortificationDeployPhase(version);
+  const pEnd = pDeploy + 9;
+  return mkConfig(
+    version,
+    `p${pDeploy}-p${pEnd}-master`,
+    `MASTER sekventiell P${pDeploy}→P${pEnd}`,
+    false,
+    [],
+    { nextVersion: version + 1, prevPhaseEnd: pEnd, nextPhaseStart: pDeploy + 10 },
+  );
+}
+
+/** @param {number} version v15+ */
+export function buildFortificationQueue(version) {
+  const p = fortificationDeployPhase(version);
+  const task = (id, title, agent, plan, smoke, extra = {}) => ({
+    id,
+    title,
+    phase: "sequential",
+    agent,
+    plan,
+    smoke,
+    fullGate: extra.fullGate ?? false,
+    pmir: extra.pmir ?? false,
+    deploy: extra.deploy ?? "none",
+  });
+  return {
+    version,
+    description: `Cursor YOLO v${version} — Auto-Lock & Fortifikation P${p}–P${p + 9}`,
+    sequentialPhase: { label: "Fortifikation" },
+    tasks: [
+      task(`p${p}-deploy`, `P${p} — (Valfritt) hosting deploy`, "yolo-vakt", "SKIP om ej Pontus OK deploy", [], {
+        pmir: true,
+        deploy: "hosting",
+      }),
+      task(`p${p + 1}-baseline`, `P${p + 1} — Read-only baseline`, "yolo-vakt", `smoke:predeploy:build. Eval baseline v${version}.`, [
+        "npm run smoke:predeploy:build",
+      ]),
+      task(`p${p + 2}-auto-lock-hygiene`, `P${p + 2} — Auto-lock hygiene`, "specialist-verifier", "entryFiles + LOCK-MANIFEST.", [
+        "npm run smoke:module-lock",
+      ]),
+      task(`p${p + 3}-security`, `P${p + 3} — Security read-only`, "specialist-security-auditor", `WORM, silos. Eval security-v${version}.md.`, [
+        "npm run smoke:manifest",
+        "npm run smoke:valv-security",
+      ]),
+      task(`p${p + 4}-ux-guardian`, `P${p + 4} — Locked UX re-snapshot`, "specialist-ux-guardian", "locked-ux smokes.", [
+        "npm run smoke:locked-ux",
+        "npm run smoke:e2e-locked-ux",
+        "npm run smoke:plausible-deniability",
+        "npm run smoke:basta-dock-lock",
+      ]),
+      task(`p${p + 5}-drift`, `P${p + 5} — Drift & smoke`, "specialist-verifier", `journal-2d, mabra, valv, widgets. Eval drift-v${version}.md.`, [
+        "npm run smoke:journal-2d",
+        "npm run smoke:mabra",
+        "npm run smoke:valv",
+        "npm run smoke:widgets",
+      ]),
+      task(`p${p + 6}-design-debt`, `P${p + 6} — Design-debt guard`, "specialist-ux-guardian", "dsBtn 0, btnPill 0, adHocDialog 0.", [
+        "npm run smoke:design-debt",
+        "npm run smoke:copy-audit",
+        "npm run smoke:calm-card-audit",
+      ]),
+      task(`p${p + 7}-fortification`, `P${p + 7} — Agent-fortifikation v${version}`, "yolo-vakt", `cursor:yolo:v${version} + queue/state.`, [
+        "npm run smoke:governance",
+        "npm run smoke:mdc",
+      ]),
+      task(`p${p + 8}-integration`, `P${p + 8} — Integration dry-run`, "livskompassen-arkiv-master", "preflight + seed --dry-run. Aldrig --apply.", [
+        "npm run smoke:innehall",
+        "npm run smoke:content-waves",
+      ]),
+      task(`p${p + 9}-yolo-vakt`, `P${p + 9} — yolo-vakt slutgate`, "yolo-vakt", `GO/NO-GO + handoff v${version + 1}`, ["npm run smoke:predeploy:build"], {
+        fullGate: true,
+      }),
+    ],
+  };
+}
+
+/** Skapar kö + state för fortifikationsvåg om de saknas (v15+). */
+export function ensureFortificationWave(version) {
+  if (version < 15) return { created: false, reason: "not-fortification" };
+  const config = getYoloConfig(version);
+  if (!config) return { created: false, reason: "no-config" };
+
+  let created = false;
+  if (!existsSync(config.queuePath)) {
+    writeJson(config.queuePath, buildFortificationQueue(version));
+    created = true;
+  }
+  if (!existsSync(config.statePath)) {
+    const queue = readJson(config.queuePath) ?? buildFortificationQueue(version);
+    const deployId = queue.tasks[0]?.id;
+    writeJson(config.statePath, {
+      version,
+      queueFile: `.orkester/cursor-yolo-queue-v${version}.json`,
+      startedAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      sequentialPhase: {
+        status: "in_progress",
+        currentTaskId: null,
+        completedTaskIds: [],
+        skippedTaskIds: deployId ? [deployId] : [],
+        failedTaskIds: [],
+      },
+      taskOrder: queue.tasks.map((t) => t.id),
+      notes: `YOLO v${version} Auto-Lock — SDK marathon scaffold`,
+    });
+    created = true;
+  }
+  return { created, config };
 }
 
 function mkConfig(

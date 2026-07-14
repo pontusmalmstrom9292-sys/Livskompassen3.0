@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-14",
+  "updatedAt": "2026-07-14T16:52:00.000Z",
   "modules": [
     {
       "id": "MOD-CORE-NAV",
@@ -419,7 +419,8 @@
       ],
       "entryFiles": [
         "src/modules/core/ui/widget-icons/FyrenShortcutMicIcon.tsx",
-        "src/modules/features/widgets/pages/WidgetRecordPage.tsx"
+        "src/modules/features/widgets/pages/WidgetRecordPage.tsx",
+        "src/modules/features/widgets/pages/WidgetModulerPage.tsx"
       ],
       "smoke": [
         "smoke:widgets",
@@ -427,9 +428,9 @@
       ],
       "snapshotKey": null,
       "lockedAt": "2026-07-14",
-      "lockedCommit": "28e309ecd",
-      "unlockDoc": "docs/evaluations/2026-07-12-unlock-MOD-WIDGET.md",
-      "unlockedAt": "2026-07-12"
+      "lockedCommit": "977188413",
+      "unlockDoc": "docs/evaluations/2026-07-14-unlock-MOD-WIDGET-standalone-v3.md",
+      "unlockedAt": "2026-07-14"
     }
   ]
 }
