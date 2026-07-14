@@ -1,36 +1,51 @@
-# YOLO audit — Widget våg 1 (MOD-WIDGET)
+# YOLO audit — MOD-WIDGET våg 1–4
 
 **Datum:** 2026-07-14  
 **Plattform:** Cursor Agent · YOLO sekventiell körning  
-**Scope:** MOD-WIDGET unlock · WH1/WH2 native + W1EdgeQuickDock + WidgetShell fristående  
+**Gren:** `fix/natt-ci-setup-playwright-close` @ `6b07ae528`  
+**Scope:** MOD-WIDGET unlock · WH1/WH2 native · W1EdgeQuickDock · W1KompaktProjektRail (våg 3)  
 **Deploy:** SKIP — kräver Pontus OK  
 
 ---
 
-## Beslut: **GO** (merge-ready kod, ej deploy)
+## Beslut: **GO** (merge-ready, ej deploy)
 
-Statisk gate + build grön. Device smoke (G85) kvarstår för Pontus (Våg 2).
+Statisk gate + build grön på widget-gren. Tre widget-commits återställda på gren (fanns som dangling efter merge #214 av endast natt-ci-fix).
 
 ---
 
 ## PASS / GAP
 
-| Område | Status | Not |
-|--------|--------|-----|
-| W1EdgeQuickDock (Executive höger kant) | PASS | Röst / Snabbanteckning / Valv → `/widget/*` |
-| Native WH1 discreet + WH2 Snabbanteckning | PASS | `widget_bg_premium_panel`, guldkrets |
-| Widget-routes utan MainLayout-chrome | PASS | `/widget/*` utanför MainLayout |
-| WidgetShell panik «Dölj nu» 44px | PASS | Oförändrat, verifierat smoke |
-| smoke:widgets + widget-ingest | PASS | |
-| smoke:locked-icons + locked-ux | PASS | |
-| smoke:design-modules | PASS | |
-| build:web + cap sync android | PASS | |
-| smoke:predeploy:build | PASS | |
-| smoke:governance + module-lock | PASS | Unlock-doc i diff |
-| MOD-WIDGET re-lock | PASS | 2026-07-14 |
-| G85 device smoke (Våg 2) | PASS | Pontus G85 OK 2026-07-14 |
-| W1 v2 kompakt strip (Våg 3) | DEFER | Efter device PASS |
-| Prod deploy | SKIP | PMIR — Pontus OK |
+| Område | Våg | Status | Not |
+|--------|-----|--------|-----|
+| W1EdgeQuickDock (Executive höger kant) | 1 | PASS | Röst / Snabbanteckning / Valv → `/widget/*` |
+| Native WH1 discreet + WH2 Snabbanteckning | 1 | PASS | `widget_bg_premium_panel`, guldkrets |
+| Widget-routes utan MainLayout-chrome | 1 | PASS | `/widget/*` utanför MainLayout |
+| WidgetShell panik «Dölj nu» 44px | 1 | PASS | Oförändrat, verifierat smoke |
+| G85 device smoke | 2 | PASS | Pontus G85 OK 2026-07-14 |
+| W1KompaktProjektRail → `/widget/projekt` | 3 | PASS | 7 val i `w1KompaktRailActions` |
+| W1EdgeQuickDock + kompakt strip wiring | 3 | PASS | MainLayout executive, Theme Lab paritet |
+| smoke:widgets + widget-ingest | 1–3 | PASS | Inkl. rail + premium panel asserts |
+| smoke:locked-icons + locked-ux | 1–4 | PASS | e2e 10/10 |
+| smoke:design-modules | 1–4 | PASS | |
+| build + functions build | 4 | PASS | `smoke:predeploy:build` exit 0 |
+| smoke:governance + module-lock | 4 | PASS | 22/22 locked, clean tree |
+| WORM · tre silos · manifest | 4 | PASS | smoke:manifest, valv-security, plausible-deniability |
+| firestore.rules / storage.rules / sharedRules | 4 | PASS | **0 rader diff** vs main |
+| Locked UX (Barnfokus, Mönster, Planering) | 4 | PASS | **Ingen locked-fil i diff** |
+| MOD-WIDGET scope (21 filer) | 4 | PASS | Endast widget/android/docs/smoke |
+| Dirty tree | 4 | PASS | Clean efter gren-återställning |
+| Prod deploy | — | SKIP | PMIR — Pontus OK |
+
+---
+
+## Commits (våg 1–3)
+
+| Hash | Beskrivning |
+|------|-------------|
+| `22cd0f9a6` | Våg 1: W1EdgeQuickDock + premium native WH1/WH2 |
+| `4677d4ab2` | Våg 2: G85 device OK (doc) |
+| `6b07ae528` | Våg 3: W1KompaktProjektRail → /widget/projekt + W1EdgeQuickDock (7 val) |
 
 ---
 
@@ -42,10 +57,13 @@ Ingen rules/locked UX-ändring. Ingen deploy körd.
 
 ## Exakt ett nästa steg
 
-**Pontus:** ~~Kör Våg 2~~ DONE. Nästa: godkänn unlock för W1 v2 kompakt strip (Våg 3) eller merge/commit push — `npm run build:web && npx cap sync android` → Android Studio Run → checklista WH1/WH2/W1 kant (tap → spara → «Dölj nu»). Rapportera visuellt: guldkrets + glaspanel (inte bruna rutor).
+**Merge PR** `fix/natt-ci-setup-playwright-close` → `main` efter natt-ci grön. Deploy: väntar «Pontus OK deploy».
 
 ---
 
-## Dirty tree
+## Våg 4 smoke-logg
 
-Ocommittade ändringar kvar (ingen commit enligt YOLO-regel). Committa när du säger till.
+```
+npm run smoke:predeploy:build  → PASS (2026-07-14 ~08:50)
+npm run smoke:governance       → PASS (2026-07-14 ~08:51)
+```

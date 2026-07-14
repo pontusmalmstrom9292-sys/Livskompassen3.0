@@ -201,7 +201,7 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** 
 - **Notes:** DagbokInputSuperModule shell, the Dagbok delegates, and SpeglarSuperModule now share a calmer premium frame; remaining Hjärtat surfaces stay open.
 
 ### Widgets (11 routes)
-- **Status:** Not Started
+- **Status:** Done (våg 1–3 code complete)
 - **Priority:** High
 - **Files:** src/modules/features/widgets/**
 ### MOD-WIDGET WH1/WH2 (2026-07-14)
@@ -248,3 +248,8 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** 
 - Android viewport CSS + smoke:android-viewport
 - Docs: OFFLINE-ANDROID, FIREBASE-AUTH-LATHUND, .context/android-capacitor.md
 - Smoke: android-platform, planering-gora-e, inkast-fas2, locked-ux, cost-guard PASS
+
+## 2026-07-14 — MOD-WIDGET våg 4 YOLO
+- W1EdgeQuickDock + W1KompaktProjektRail (7 val)
+- smoke:predeploy:build + governance PASS
+- YOLO GO — merge-ready, deploy SKIP
