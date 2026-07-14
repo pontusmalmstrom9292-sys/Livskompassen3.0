@@ -69,7 +69,7 @@ const CORE_ITEMS: MabraHubItem[] = [
   {
     id: 'akut-self',
     title: 'Självkritik',
-    lead: 'Omtolvning + valfri andning',
+    lead: 'Omformulering + valfri andning',
     emoji: '💔',
     category: 'akut',
     quick: true,
@@ -104,7 +104,7 @@ const CORE_ITEMS: MabraHubItem[] = [
   {
     id: 'breath-soft',
     title: 'Andning mild',
-    lead: 'Efter omtolvning — 1 min',
+    lead: 'Efter omformulering — 1 min',
     emoji: '☁',
     category: 'akut',
     action: { type: 'breathing', variant: 'self_critical', minutes: 1 },
@@ -128,7 +128,7 @@ const CORE_ITEMS: MabraHubItem[] = [
   },
   {
     id: 'reframe-direct',
-    title: 'Omtolvning',
+    title: 'Omformulering',
     lead: 'Fyra steg — inre kritiker',
     emoji: '🪞',
     category: 'tankar',

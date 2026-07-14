@@ -32,7 +32,7 @@ type HomeTabId = 'handling' | 'projekt' | 'habit' | 'makro';
 const HOME_TABS: { id: HomeTabId; label: string }[] = [
   { id: 'handling', label: 'Handling' },
   { id: 'projekt', label: 'Projekt' },
-  { id: 'habit', label: 'Habit' },
+  { id: 'habit', label: 'Vanor' },
   { id: 'makro', label: 'Makro' },
 ];
 

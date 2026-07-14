@@ -34,7 +34,7 @@ export function MabraGrounding54321Wizard({ onBack }: Props) {
   return (
     <MabraToolShell
       title="5-4-3-2-1"
-      description="Grounding-wizard · MB-PLAY-54321"
+      description="Jordningsövning · MB-PLAY-54321"
       onBack={onBack}
     >
       <GroundingExercise onComplete={handleComplete} onExit={onBack} />
