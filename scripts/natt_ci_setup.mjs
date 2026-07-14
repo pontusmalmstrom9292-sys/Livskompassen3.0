@@ -30,10 +30,13 @@ async function checkPrereqs() {
   try {
     require.resolve('playwright');
     const { chromium } = await import('playwright');
+    let browser;
     try {
-      await chromium.launch({ headless: true });
+      browser = await chromium.launch({ headless: true });
     } catch {
       issues.push('Playwright — kör: npx playwright install chromium');
+    } finally {
+      await browser?.close().catch(() => {});
     }
   } catch {
     issues.push('playwright saknas i node_modules');
