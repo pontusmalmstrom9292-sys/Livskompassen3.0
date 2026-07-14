@@ -43,17 +43,27 @@ function isForbiddenStagePath(path) {
   return FORBIDDEN_STAGE.some((re) => re.test(path));
 }
 
+function decodeGitQuotedPath(raw) {
+  if (!raw.startsWith('"') || !raw.endsWith('"')) return raw;
+  const bytes = [];
+  const inner = raw.slice(1, -1);
+  for (let i = 0; i < inner.length; ) {
+    if (inner[i] === "\\" && i + 3 < inner.length && /^[0-7]{3}$/.test(inner.slice(i + 1, i + 4))) {
+      bytes.push(parseInt(inner.slice(i + 1, i + 4), 8));
+      i += 4;
+    } else {
+      bytes.push(inner.charCodeAt(i));
+      i += 1;
+    }
+  }
+  return Buffer.from(bytes).toString("utf8");
+}
+
 function parsePorcelainPath(line) {
   if (!line.trim()) return "";
   const cleaned = line.replace(/^\?\?\s+/, "").replace(/^[ MADRCU?!]{1,2}\s+/, "");
   const parts = cleaned.split(" -> ");
-  let raw = parts[parts.length - 1].trim();
-  if (raw.startsWith('"') && raw.endsWith('"')) {
-    raw = raw.slice(1, -1).replace(/\\([0-7]{3})/g, (_, oct) =>
-      String.fromCharCode(parseInt(oct, 8)),
-    );
-  }
-  return raw;
+  return decodeGitQuotedPath(parts[parts.length - 1].trim());
 }
 
 function listChangedFiles() {
