@@ -14,6 +14,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { readJson, root } from "./lib/cursor_yolo_shared.mjs";
 import { BUILD_WAVE_MAX } from "./lib/cursor_yolo_build.mjs";
+import { hydrateEnvVar } from "./lib/load_cursor_api_key.mjs";
 
 const args = process.argv.slice(2);
 
@@ -102,6 +103,7 @@ function mergeMain() {
 }
 
 function deployHosting() {
+  hydrateEnvVar("SDK_YOLO_ALLOW_DEPLOY");
   const pmir = readJson(join(root, ".orkester/sdk-pmir-register.json"));
   console.log("[sdk:unattended] Kör wave-gate full före deploy…");
   const gate = run("npm run smoke:predeploy:build");

@@ -30,6 +30,20 @@ function readEnvValue(filePath, key) {
   return "";
 }
 
+/** Laddar env-nyckel från .env.local / .env om den saknas i process.env */
+export function hydrateEnvVar(key) {
+  if (process.env[key]?.trim()) return process.env[key].trim();
+  for (const rel of ENV_FILES) {
+    const path = join(root, rel);
+    if (!existsSync(path)) continue;
+    const value = readEnvValue(path, key);
+    if (!value) continue;
+    process.env[key] = value;
+    return value;
+  }
+  return "";
+}
+
 /** @returns {{ loaded: boolean, source: string | null, key: string }} */
 export function loadCursorApiKey() {
   const fromEnv = process.env.CURSOR_API_KEY?.trim();
