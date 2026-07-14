@@ -1,0 +1,26 @@
+{
+  "at": "2026-07-14T17:31:38.031Z",
+  "runner": "sdk:yolo:full",
+  "fromVersion": 35,
+  "throughVersion": 47,
+  "waveGate": "full",
+  "unattended": true,
+  "startedAt": "2026-07-14T17:27:22.338Z",
+  "waves": [
+    {
+      "version": 35,
+      "skipped": true,
+      "reason": "already-complete",
+      "gateExit": 0,
+      "unattendedExit": 0
+    },
+    {
+      "version": 36,
+      "sdkExit": 0,
+      "gateExit": 1
+    }
+  ],
+  "stopped": true,
+  "stoppedAt": 36,
+  "reason": "wave-gate"
+}

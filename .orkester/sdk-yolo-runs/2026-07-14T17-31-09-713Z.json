@@ -1,0 +1,43 @@
+{
+  "at": "2026-07-14T17:31:09.713Z",
+  "runner": "sdk:yolo",
+  "version": 36,
+  "mode": "run",
+  "cloud": false,
+  "branch": null,
+  "runs": [
+    {
+      "runId": "run-d726b1d5-27f3-43f9-aca2-4147a28ecc27",
+      "agentId": "agent-98b6478e-49ab-4cbb-8734-ce905c118070",
+      "taskId": "b36-build",
+      "title": "B36 — Premium UI polish — Executive Midnight",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Plattform: **Cursor** (Agent-läge). Jag startar B36 Premium UI-polish enligt fortifikationsreglerna — läser kanon och design-regler först, sedan delegerar till marathon-ux-guardian där det passar.\nKör baselinesmokes och läser build-prompten för att se nuläget.\nBaselinesmokes är gröna. Jag granskar ändrade UI-filer och letar efter polish-möjligheter.\nImplementerar Premium UI-polish: tokenisering av calm cards och koppling av drawer-hub till kanoniska CSS-klasser.\nFilen blev trasig — jag återställer den korrekt.\n**Plattform:** Cursor · **Agent:** specialist-ux-guardian (Lead UI Engineer) · **Typ:** faktiska kodändringar (polish only, ingen redesign)\n\n---\n\n## 1. Vad som ändrades\n\nPremium UI-pass — Executive Midnight, minsta säkra diff:\n\n| Fil | Ändring |\n|-----|---------|\n| `obsidian-calm-glass.css` | `calm-card-midnight` tokeniserad (`var(--surface)`, `var(--text)`, `var(--ds-elevation-1)`) — inga hårdkodade hex |\n| `obsidian-calm-shells.css` | Liv-launcher: DS-transitions, hover-lift, elevation-tokens, preview-border via `var(--accent)` |\n| `nav-drawer-sections.css` | Kanoniska `drawer-hub__*`-klasser för accordion-trigger, länkar, chevron och `nav-drawer__section--hubs` |\n| `DrawerHubAccordion.tsx` | Kopplad till kanon-CSS (ersätter inline Tailwind); a11y från B35 bevarad (`hidden`, `role=\"link\"`) |\n| `premium-polish.css` | Midnight-kort: subtil top-rim; liv-launcher: lättare glass-sheen |\n\n**Bevarat:** Locked UX, routes, Barnfokus/Valv/Planering, PMIR-zoner orörda. Ingen funktion borttagen.\n\n---\n\n## 2. Smoke-resultat\n\n| Smoke | Resultat |\n|-------|----------|\n| `smoke:design-debt` | **PASS** — `dsBtn=0`, `btnPill=0`, `adHocDialog=0`, `indexCssLoc=61` |\n| `smoke:calm-card-audit` | **PASS** — 1322 filer, inga oanvända varianter |\n| `smoke:copy-audit` | **PASS** |\n| `smoke:locked-ux` | **PASS** — Barnfokus, Valv, drawer, Planering, Widget, Barnporten |\n\n*(Ingen task-smoke enligt instruktion — ovan är vad som verifierats.)*\n\n---\n\n## 3. Blocker\n\n**Ingen.** Design-debt redan 0 före passet; polish höjde token-konsistens och drawer-hub-premium utan att bryta locked UX.\n\n---\n\n**Verdict: GO** — B36-build klar för gate (`b36-gate`)."
+    },
+    {
+      "runId": "run-6ba97b1f-b6ef-4c61-ab34-18237753fda7",
+      "agentId": "agent-98b6478e-49ab-4cbb-8734-ce905c118070",
+      "taskId": "b36-gate",
+      "title": "B36 — Wave gate smoke",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Plattform: **Cursor** (Verifier-läge). Jag kör wave-gate oberoende — ingen produktionskod, bara smoke och eval.\n**Plattform:** Cursor · **Agent:** specialist-verifier (marathon-verifier) · **Typ:** endast verifiering — ingen produktionskod\n\n---\n\n## Beslut: **GO**\n\nWave-gate för B36 PREMIUM-UI är godkänd. Oberoende smoke + artefakt-audit bekräftar byggarens leverans.\n\n---\n\n## 1. Vad som ändrades\n\n**Inget i denna gate** — ren verifiering.\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-build-v36.md` | Ny eval — smoke-matrix, artefakt-audit, verdict **GO** |\n| `.orkester/cursor-yolo-state-v36.json` | `b36-gate` → completed, nästa → `b36-vakt` |\n\n**b36-build (verifierat, ej skrivet nu):** 5 CSS-filer + `DrawerHubAccordion.tsx` — token-polish, calm cards, drawer-hub kanon-CSS.\n\n---\n\n## 2. Smoke-resultat\n\n| Smoke | Resultat | Bevis |\n|-------|----------|-------|\n| `npm run smoke:design-debt` | **PASS** | `btnPill=0`, `dsBtn=0`, `adHocDialog=0`, `indexCssLoc=61` |\n| `npm run smoke:calm-card-audit` | **PASS** | 1322 filer, `unused=[]` |\n| `npm run smoke:copy-audit` | **PASS** | exit 0 |\n\n---\n\n## 3. PASS / GAP (utdrag)\n\n| Kontroll | Status |\n|----------|--------|\n| `calm-card-midnight` tokeniserad (inga `#0c0c0e`) | **PASS** |\n| `drawer-hub__*` kanon + a11y (`hidden`, `role=\"link\"`) | **PASS** |\n| Locked UX (`VaultMonsterPanel`, `VaultOrkesterPanel`) | **PASS** |\n| PMIR-zoner orörda | **PASS** |\n\n**Blocker:** Ingen.\n\n---\n\n**Nästa steg:** `b36-vakt` (yolo-vakt slutgate, GO/NO-GO handoff v37)."
+    },
+    {
+      "runId": "run-bad25103-7a27-43e0-9aba-e52afb179567",
+      "agentId": "agent-98b6478e-49ab-4cbb-8734-ce905c118070",
+      "taskId": "b36-vakt",
+      "title": "B36 — yolo-vakt slutgate",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Plattform: **Cursor** (yolo-vakt, read-only). Jag kör slutgate oberoende och förbereder GO/NO-GO med handoff till v37.\n**Plattform:** Cursor · **Agent:** yolo-vakt (marathon-yolo-vakt) · **Typ:** read-only audit + orkester-handoff\n\n---\n\n## Beslut: **GO**\n\nBuild v36 (PREMIUM-UI — Executive Midnight) är godkänd. Handoff till **v37 PLANERING**.\n\n---\n\n## 1. Vad som ändrades\n\n**Produktionskod:** inget i denna vakt.\n\n| Fil | Ändring |\n|-----|---------|\n| `.orkester/cursor-yolo-state-v36.json` | `completed`, verdict **GO**, handoff → v37 |\n| `.orkester/cursor-yolo-queue-v37.json` | **Ny** — PLANERING-kö |\n| `.orkester/cursor-yolo-state-v37.json` | **Ny** — `currentTaskId: b37-build` |\n| `docs/evaluations/2026-07-14-vakt-v36.md` | Slutgate-eval |\n\n**b36-deploy:** **SKIP** (PMIR, ingen explicit deploy-OK).\n\n---\n\n## 2. Smoke-resultat\n\n| Smoke | Resultat |\n|-------|----------|\n| `npm run smoke:design-debt` | **PASS** — `btnPill=0`, `dsBtn=0`, `adHocDialog=0`, `indexCssLoc=61` |\n| `npm run smoke:calm-card-audit` | **PASS** — 1322 filer, `unused=[]` |\n| `npm run smoke:copy-audit` | **PASS** |\n\n---\n\n## 3. PASS / GAP (utdrag)\n\n| Kontroll | Status |\n|----------|--------|\n| Wave smoke (3/3) | **PASS** |\n| PMIR orörda (rules, AppRoutes, Barnporten) | **PASS** |\n| Locked UX (`VaultMonsterPanel`, `VaultOrkesterPanel`, `VaultAktorskartaPanel`) | **PASS** |\n| Ändrade filer = polish/nav only (13 filer, inga PMIR) | **PASS** |\n\n**Blocker:** Ingen.\n\n---\n\n**Nästa steg:** `b37-build` — Planering: hybrid widget + Fyren (`specialist-planering`)."
+    }
+  ],
+  "current": {
+    "taskId": "b36-vakt",
+    "title": "B36 — yolo-vakt slutgate",
+    "mode": "task"
+  },
+  "completed": true
+}

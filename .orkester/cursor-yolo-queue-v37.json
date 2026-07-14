@@ -1,0 +1,82 @@
+{
+  "version": 37,
+  "description": "Cursor YOLO v37 — BUILD PLANERING: Planering — hybrid widget + Fyren",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 37,
+    "id": "PLANERING",
+    "title": "Planering — hybrid widget + Fyren",
+    "agent": "specialist-planering",
+    "plan": "Planering P3: hybrid-widget, FyrenWidgetBar, Morgonkompassen. Bevara Locked UX § Planering.",
+    "smoke": [
+      "npm run smoke:compass",
+      "npm run smoke:widgets"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "keywords": [
+      "planering",
+      "Fyren",
+      "Morgonkompassen",
+      "hybrid-widget"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b37-deploy",
+      "title": "B37 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v37/b37-deploy.md"
+    },
+    {
+      "id": "b37-build",
+      "title": "B37 — Planering — hybrid widget + Fyren",
+      "phase": "sequential",
+      "agent": "specialist-planering",
+      "plan": "Planering P3: hybrid-widget, FyrenWidgetBar, Morgonkompassen. Bevara Locked UX § Planering.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v37/b37-build.md"
+    },
+    {
+      "id": "b37-gate",
+      "title": "B37 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v37.md.",
+      "smoke": [
+        "npm run smoke:compass",
+        "npm run smoke:widgets"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v37/b37-gate.md"
+    },
+    {
+      "id": "b37-vakt",
+      "title": "B37 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v37. Handoff v38.",
+      "smoke": [
+        "npm run smoke:compass",
+        "npm run smoke:widgets"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v37/b37-vakt.md"
+    }
+  ]
+}
