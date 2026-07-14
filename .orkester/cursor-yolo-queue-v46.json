@@ -1,0 +1,85 @@
+{
+  "version": 46,
+  "description": "Cursor YOLO v46 — BUILD ARKIV-BATCH: Arkiv batch — tre silos dry-run",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 46,
+    "id": "ARKIV-BATCH",
+    "title": "Arkiv batch — tre silos dry-run",
+    "agent": "livskompassen-arkiv-master",
+    "plan": "Arkiv batch: kunskap/valv/barnen silo guard. Ingen cross-RAG, ingen --apply.",
+    "smoke": [
+      "npm run smoke:kunskap",
+      "npm run smoke:dossier",
+      "npm run smoke:manifest"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "keywords": [
+      "arkiv",
+      "RAG",
+      "silo",
+      "dossier"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b46-deploy",
+      "title": "B46 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v46/b46-deploy.md"
+    },
+    {
+      "id": "b46-build",
+      "title": "B46 — Arkiv batch — tre silos dry-run",
+      "phase": "sequential",
+      "agent": "livskompassen-arkiv-master",
+      "plan": "Arkiv batch: kunskap/valv/barnen silo guard. Ingen cross-RAG, ingen --apply.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v46/b46-build.md"
+    },
+    {
+      "id": "b46-gate",
+      "title": "B46 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v46.md.",
+      "smoke": [
+        "npm run smoke:kunskap",
+        "npm run smoke:dossier",
+        "npm run smoke:manifest"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v46/b46-gate.md"
+    },
+    {
+      "id": "b46-vakt",
+      "title": "B46 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v46. Handoff v47.",
+      "smoke": [
+        "npm run smoke:kunskap",
+        "npm run smoke:dossier",
+        "npm run smoke:manifest"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v46/b46-vakt.md"
+    }
+  ]
+}
