@@ -89,8 +89,13 @@ function main() {
 
   mustInclude(
     'src/modules/shell/LivLauncherPage.tsx',
+    'LivLauncherTabContent',
+    'activeTab',
+  );
+  mustInclude(
+    'src/modules/shell/panels/LivMabraTabPanel.tsx',
     'MabraHubView',
-    "activeTab === 'mabra'",
+    'inlineHub',
   );
   mustInclude(
     'src/modules/shell/livLauncherRoutes.ts',

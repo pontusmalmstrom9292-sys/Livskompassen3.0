@@ -2753,3 +2753,12 @@ Copy the template below for each entry. Newest first.
 **Full deploy (2026-07-14 ~09:20):** hosting + functions SUCCESS · cap:sync:prod PASS
 
 
+
+## 2026-07-14 — MOD-WIDGET Standalone v1 (5 vågor)
+
+- Design Freeport: `WidgetStandaloneLab` + `STANDALONE-WIDGET-SKIN.md`
+- Prod: `widget-tokens.css`, `WidgetButton`, `WidgetActionTile`, `WidgetShell v2` (ingen default app-länk)
+- Capture polish: Record, Note, ActionDashboard utan app-nav
+- Android WH7 `ActionDashboardWidgetProvider` → `/widget/aktioner`
+- `AppUnlockGate` bypass på `/widget/*`; alla widget-sidor `AuthGate variant="widget"`
+- Smoke: `smoke:widgets`, `smoke:widget-ingest`, `smoke:locked-ux`, `smoke:design-freeport`, `smoke:governance` PASS

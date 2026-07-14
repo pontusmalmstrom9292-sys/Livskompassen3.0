@@ -23,7 +23,7 @@ function WidgetAuthShell({
   children: ReactNode;
 }) {
   return (
-    <WidgetShell title={title} lead="Fristående genväg — kopplad till Livskompassen i bakgrunden.">
+    <WidgetShell title={title} lead="Fristående genväg — sessionen är redan kopplad i bakgrunden.">
       {children}
     </WidgetShell>
   );
@@ -67,7 +67,7 @@ export function AuthGate({ children, variant = 'default', widgetTitle = 'Widget'
       <>
         <p className="text-sm text-text-muted">
           {variant === 'widget' ? (
-            <>Logga in via startsidan en gång — sedan fungerar widgeten i bakgrunden.</>
+            <>Logga in via startsidan en gång — sedan är widgeten redo utan biometri.</>
           ) : (
             <>
               Tryck på <strong>Konto</strong> uppe till höger i headern för att logga in.

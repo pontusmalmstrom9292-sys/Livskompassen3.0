@@ -115,7 +115,7 @@ function main() {
     'path="/ekonomi"',
     'path="/stampla"',
     'NAV_PATHS.VARDAGEN',
-    'LivLauncherPage',
+    'VardagenRoutePage',
     'FamiljenPage',
   );
 
@@ -146,8 +146,13 @@ function main() {
   mustInclude('src/modules/shell/LivLauncherPage.tsx', 'LivLauncherGrid', 'LIV_LAUNCHER_EXTERNAL');
   mustInclude(
     'src/modules/shell/LivLauncherPage.tsx',
+    'LivLauncherTabContent',
+    'resolveInlineTab',
+  );
+  mustInclude(
+    'src/modules/shell/panels/LivMabraTabPanel.tsx',
     'MabraHubView',
-    "activeTab === 'mabra'",
+    'inlineHub',
   );
   mustInclude(
     'src/modules/core/pages/FamiljenPage.tsx',

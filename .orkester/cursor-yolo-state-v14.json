@@ -1,0 +1,25 @@
+{
+  "version": 14,
+  "queueFile": ".orkester/cursor-yolo-queue-v14.json",
+  "startedAt": "2026-07-14T12:00:00.000Z",
+  "updatedAt": "2026-07-14T12:00:00.000Z",
+  "sequentialPhase": {
+    "status": "in_progress",
+    "currentTaskId": "p95-entry-g85",
+    "completedTaskIds": ["p94-baseline"],
+    "skippedTaskIds": ["p102-deploy"],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "p94-baseline",
+    "p95-entry-g85",
+    "p96-inline-tabs",
+    "p97-external-routes",
+    "p98-nav-consistency",
+    "p99-eb-fortify",
+    "p100-e2e-vardagen",
+    "p101-yolo-vakt",
+    "p102-deploy"
+  ],
+  "notes": "YOLO v14 Liv och göra G85 debug — start 2026-07-14"
+}

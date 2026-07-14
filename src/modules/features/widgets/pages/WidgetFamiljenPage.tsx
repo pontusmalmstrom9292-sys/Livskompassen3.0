@@ -1,11 +1,12 @@
 import { useCallback, useState } from 'react';
-import { Button, ButtonLink, TextArea } from '@/design-system';
+import { TextArea } from '@/design-system';
 import { Loader2 } from 'lucide-react';
 import { AuthGate } from '@/core/auth/AuthGate';
 import { saveChildrenLog } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
 import { CHILD_ALIASES, type ChildAlias } from '@/features/family/children/constants';
 import { WidgetShell } from '../layout/WidgetShell';
+import { WidgetButton } from '../components/WidgetButton';
 import { useWidgetShellClear } from '../context/widgetShellContext';
 
 function WidgetFamiljenInner() {
@@ -34,6 +35,7 @@ function WidgetFamiljenInner() {
         observation: text.trim(),
         category: 'widget_snabb',
         action: 'livslogg',
+        channel: 'widget',
       });
       setDone(true);
       setText('');
@@ -49,18 +51,15 @@ function WidgetFamiljenInner() {
       {done ? (
         <div className="elongated-module elongated-module--gold overflow-hidden p-4">
           <p className="text-sm text-success">Sparat till {child}s logg</p>
-          <ButtonLink to="/familjen" variant="accent" className="mt-3 inline-flex text-xs">
-            Öppna Familjen
-          </ButtonLink>
-          <Button type="button" variant="ghost" className="mt-2 w-full text-xs" onClick={resetForm}>
+          <WidgetButton type="button" variant="ghost" fullWidth className="mt-3 text-xs" onClick={resetForm}>
             Ny rad
-          </Button>
+          </WidgetButton>
         </div>
       ) : (
         <div className="space-y-3">
           <div className="flex gap-2">
             {CHILD_ALIASES.map((alias) => (
-              <Button
+              <WidgetButton
                 key={alias}
                 type="button"
                 variant={child === alias ? 'accent' : 'ghost'}
@@ -68,7 +67,7 @@ function WidgetFamiljenInner() {
                 onClick={() => setChild(alias)}
               >
                 {alias}
-              </Button>
+              </WidgetButton>
             ))}
           </div>
           <TextArea
@@ -78,15 +77,15 @@ function WidgetFamiljenInner() {
             className="input-glass neu-inset w-full resize-none text-sm"
             placeholder="Kort observation…"
           />
-          <Button
+          <WidgetButton
             type="button"
             variant="accent"
+            fullWidth
             disabled={saving || !text.trim()}
-            className="w-full"
             onClick={() => void handleSave()}
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : `Spara till ${child}s logg`}
-          </Button>
+          </WidgetButton>
           {error && <p className="text-sm text-danger">{error}</p>}
         </div>
       )}
@@ -96,7 +95,7 @@ function WidgetFamiljenInner() {
 
 export function WidgetFamiljenPage() {
   return (
-    <AuthGate>
+    <AuthGate variant="widget" widgetTitle="Barnobs">
       <WidgetFamiljenInner />
     </AuthGate>
   );

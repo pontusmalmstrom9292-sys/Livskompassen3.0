@@ -22,7 +22,7 @@ function WidgetVoiceVaultInner() {
 
 export function WidgetVoiceVaultPage() {
   return (
-    <AuthGate>
+    <AuthGate variant="widget" widgetTitle="Bevis-röst">
       <WidgetVoiceVaultInner />
     </AuthGate>
   );

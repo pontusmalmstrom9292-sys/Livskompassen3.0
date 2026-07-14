@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Button, ButtonLink, TextArea } from '@/design-system';
+import { TextArea } from '@/design-system';
 import { Loader2, Lock } from 'lucide-react';
 import { AuthGate } from '@/core/auth/AuthGate';
 import { canAccessSensitiveFirestoreSilo, SENSITIVE_SILO_LOGIN_MESSAGE } from '@/core/auth/requireEmailAuth';
@@ -7,6 +7,7 @@ import { resolveFirestorePermissionMessage } from '@/core/firebase/firestorePerm
 import { useStore } from '@/core/store';
 import { CHILD_ALIASES, type ChildAlias } from '@/features/family/children/constants';
 import { WidgetShell } from '../layout/WidgetShell';
+import { WidgetButton } from '../components/WidgetButton';
 import { WidgetSiloChipPicker, persistWidgetSilo, readStoredWidgetSilo } from '../components/WidgetSiloChipPicker';
 import { saveWidgetTextCapture } from '../api/widgetSiloCapture';
 import {
@@ -67,12 +68,9 @@ function WidgetNoteInner() {
             {doneSilo === 'bevis' ? <Lock className="h-4 w-4" /> : null}
             {doneCopy.message}
           </p>
-          <ButtonLink to={doneCopy.linkTo} variant="accent" className="mt-3 inline-flex text-xs">
-            {doneCopy.linkLabel}
-          </ButtonLink>
-          <Button type="button" variant="ghost" className="mt-2 w-full text-xs" onClick={resetForm}>
+          <WidgetButton type="button" variant="ghost" fullWidth className="mt-3 text-xs" onClick={resetForm}>
             Ny anteckning
-          </Button>
+          </WidgetButton>
         </div>
       ) : (
         <div className="space-y-4">
@@ -80,7 +78,7 @@ function WidgetNoteInner() {
           {silo === 'barn' ? (
             <div className="flex gap-2">
               {CHILD_ALIASES.map((alias) => (
-                <Button
+                <WidgetButton
                   key={alias}
                   type="button"
                   variant={child === alias ? 'accent' : 'ghost'}
@@ -88,7 +86,7 @@ function WidgetNoteInner() {
                   onClick={() => setChild(alias)}
                 >
                   {alias}
-                </Button>
+                </WidgetButton>
               ))}
             </div>
           ) : null}
@@ -99,15 +97,15 @@ function WidgetNoteInner() {
             className="input-glass neu-inset w-full resize-none text-sm"
             placeholder="Fakta, observation eller tanke…"
           />
-          <Button
+          <WidgetButton
             type="button"
             variant="accent"
+            fullWidth
             disabled={saving || !text.trim()}
-            className="w-full"
             onClick={() => void handleSave()}
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : widgetSiloSaveLabel(silo)}
-          </Button>
+          </WidgetButton>
           {error && <p className="text-sm text-danger">{error}</p>}
         </div>
       )}

@@ -145,8 +145,8 @@ const MemoryTestView = import.meta.env.DEV
     )
   : null;
 const NewDashboardHubPage = lazy(() => import('../../dashboard/DashboardHub'));
-const MorningCompassPage = lazy(() =>
-  import('../../morning/MorningCompass').then((m) => ({ default: m.MorningCompass })),
+const MorningCompassRoutePage = lazy(() =>
+  import('../pages/MorningCompassRoutePage').then((m) => ({ default: m.MorningCompassRoutePage })),
 );
 const ReflectionPage = lazy(() => import('../../reflection/ReflectionPage'));
 const OracleDashboardPage = lazy(() => import('../../oracle/OracleDashboard'));
@@ -276,6 +276,9 @@ function RedirectLivToVardagen() {
   if (tab === 'ekonomi') {
     return <Navigate to={`${NAV_PATHS.VARDAGEN}?tab=ekonomi`} replace />;
   }
+  if (tab === 'mabra') {
+    return <Navigate to={`${NAV_PATHS.VARDAGEN}?tab=mabra`} replace />;
+  }
   if (tab === 'drogfrihet') {
     return <Navigate to={LIV_LAUNCHER_EXTERNAL.drogfrihet} replace />;
   }
@@ -335,7 +338,7 @@ export function AppRoutes() {
                 path="/morgon"
                 element={
                   <ProtectedModule>
-                    <MorningCompassPage />
+                    <MorningCompassRoutePage />
                   </ProtectedModule>
                 }
               />

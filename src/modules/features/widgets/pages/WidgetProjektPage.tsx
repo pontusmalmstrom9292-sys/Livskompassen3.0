@@ -1,18 +1,17 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { AuthGate } from '@/core/auth/AuthGate';
 import { ProjektPickerSheet } from '@/features/admin/projects/components/ProjektPickerSheet';
 import { W1KompaktProjektRail } from '../components/W1KompaktProjektRail';
 import { WidgetShell } from '../layout/WidgetShell';
 
 function WidgetProjektInner() {
-  const navigate = useNavigate();
   const [pickerOpen, setPickerOpen] = useState(true);
 
   return (
     <WidgetShell
       title="Nytt projekt"
       lead="Välj typ — samma bottom sheet som Planering och projekt-hubben."
+      onClose={() => setPickerOpen(false)}
     >
       <div className="widget-projekt-stage relative">
         <div className="space-y-4">
@@ -21,10 +20,7 @@ function WidgetProjektInner() {
           </p>
           <ProjektPickerSheet
             open={pickerOpen}
-            onClose={() => {
-              setPickerOpen(false);
-              navigate('/projekt');
-            }}
+            onClose={() => setPickerOpen(false)}
           />
         </div>
         <W1KompaktProjektRail

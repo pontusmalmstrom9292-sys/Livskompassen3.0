@@ -1,11 +1,11 @@
 /** @locked MOD-WIDGET — låst modul; unlock via docs/evaluations/*-unlock-MOD-WIDGET.md */
 import { useSearchParams } from 'react-router-dom';
-import { Button, ButtonLink } from '@/design-system';
 import { Loader2, Lock } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { AuthGate } from '@/core/auth/AuthGate';
 import { useStore } from '@/core/store';
 import { WidgetShell } from '../layout/WidgetShell';
+import { WidgetButton } from '../components/WidgetButton';
 import { useWidgetShellClear } from '../context/widgetShellContext';
 import { useWidgetVaultRecording } from '../hooks/useWidgetVaultRecording';
 import { WidgetRecordMetadataForm } from '../components/WidgetRecordMetadataForm';
@@ -66,15 +66,16 @@ function WidgetRecordInner() {
       <WidgetShell title={shellTitle} lead={shellLead}>
         <div className="space-y-4">
           {rec.phase === 'idle' && (
-            <Button
+            <WidgetButton
               type="button"
               variant="accent"
-              className="widget-record__pulse w-full py-4"
+              fullWidth
+              className="widget-record__pulse py-4"
               onClick={() => void rec.start()}
               disabled={!rec.recordSupported}
             >
               {discreet ? 'Ny anteckning (ljud)' : 'Starta inspelning'}
-            </Button>
+            </WidgetButton>
           )}
 
           {rec.phase === 'recording' && (
@@ -86,9 +87,9 @@ function WidgetRecordInner() {
               {rec.interim && (
                 <p className="mt-2 text-xs text-text-muted line-clamp-3">{rec.interim}</p>
               )}
-              <Button type="button" variant="accent" className="mt-4 w-full" onClick={rec.stop}>
+              <WidgetButton type="button" variant="accent" fullWidth className="mt-4" onClick={rec.stop}>
                 Stoppa
-              </Button>
+              </WidgetButton>
             </div>
           )}
 
@@ -116,12 +117,9 @@ function WidgetRecordInner() {
               <p className="mt-2 font-display text-base text-accent">{rec.result.title}</p>
               <p className="mt-2 text-sm text-text-muted">{rec.result.summary}</p>
               <div className="mt-4 flex flex-col gap-2">
-                <ButtonLink to="/valvet" variant="accent" className="text-center text-xs">
-                  Öppna Valv
-                </ButtonLink>
-                <Button type="button" variant="ghost" className="text-xs" onClick={rec.reset}>
+                <WidgetButton type="button" variant="ghost" fullWidth className="text-xs" onClick={rec.reset}>
                   Ny anteckning
-                </Button>
+                </WidgetButton>
               </div>
             </div>
           )}

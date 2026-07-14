@@ -17,7 +17,7 @@ function WidgetSnabbvalInner() {
 
 export function WidgetSnabbvalPage() {
   return (
-    <AuthGate>
+    <AuthGate variant="widget" widgetTitle="Dagbok">
       <WidgetSnabbvalInner />
     </AuthGate>
   );

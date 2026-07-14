@@ -253,3 +253,5 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** 
 - W1EdgeQuickDock + W1KompaktProjektRail (7 val)
 - smoke:predeploy:build + governance PASS
 - YOLO GO — merge-ready, deploy SKIP
+
+| MOD-WIDGET Standalone v1 | 2026-07-14 | WH1–WH7 + prod skin + auth bypass | locked |

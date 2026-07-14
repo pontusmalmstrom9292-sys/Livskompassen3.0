@@ -28,4 +28,8 @@
     <string name="widget_stamp_in">In</string>
     <string name="widget_stamp_out">Ut</string>
     <string name="widget_stamp_desc">Stämpla in eller ut — öppnar appen ett steg</string>
+
+    <string name="widget_action_title">Åtgärder</string>
+    <string name="widget_action_sub">Multiverktyg · Stämpel</string>
+    <string name="widget_action_desc">Åtgärds-dashboard — reflektion, arbetstid och livslogg</string>
 </resources>

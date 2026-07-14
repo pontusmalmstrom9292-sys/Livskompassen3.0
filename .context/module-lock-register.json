@@ -407,7 +407,7 @@
       "id": "MOD-WIDGET",
       "namn": "Fyren + widget-routes",
       "zon": "Cross",
-      "status": "locked",
+      "status": "developing",
       "globs": [
         "src/modules/core/ui/widget-icons/**",
         "src/modules/features/widgets/**",
@@ -427,7 +427,7 @@
       ],
       "snapshotKey": null,
       "lockedAt": "2026-07-14",
-      "lockedCommit": "4677d4ab2",
+      "lockedCommit": "c42e0a16b",
       "unlockDoc": "docs/evaluations/2026-07-12-unlock-MOD-WIDGET.md",
       "unlockedAt": "2026-07-12"
     }

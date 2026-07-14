@@ -84,7 +84,7 @@ export const HUB_TAB_CATEGORY: Record<string, TabCategory> = {
 };
 
 export type HjartatTab = 'reflektion' | 'bevis' | 'speglar';
-export type VardagenTab = 'kompasser' | 'ekonomi' | 'tidrapportering';
+export type VardagenTab = 'kompasser' | 'ekonomi' | 'mabra' | 'tidrapportering';
 
 export type HubTabDef<T extends string = string> = {
   id: T;
@@ -148,6 +148,7 @@ export function resolveHjartatTab(raw: string | null, vaultGateOpen: boolean): H
 
 export function parseVardagenTab(raw: string | null): VardagenTab {
   if (raw === 'ekonomi') return 'ekonomi';
+  if (raw === 'mabra') return 'mabra';
   if (raw === 'tidrapportering' || raw === 'arbetsliv' || raw === 'stampla') return 'tidrapportering';
   return 'kompasser';
 }
@@ -242,6 +243,9 @@ export function hjartatTabHref(tab: HjartatTab): { pathname: string; search: str
 export function vardagenTabHref(tab: VardagenTab): { pathname: string; search: string } {
   if (tab === 'ekonomi') {
     return { pathname: NAV_PATHS.VARDAGEN, search: '?tab=ekonomi' };
+  }
+  if (tab === 'mabra') {
+    return { pathname: NAV_PATHS.VARDAGEN, search: '?tab=mabra' };
   }
   if (tab === 'tidrapportering') {
     return { pathname: '/arbetsliv', search: '?tab=stampla' };

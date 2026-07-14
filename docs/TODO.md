@@ -259,3 +259,5 @@ Each item is independently completable. Link files in Dashboard when done.
 - Android viewport CSS + smoke:android-viewport
 - Docs: OFFLINE-ANDROID, FIREBASE-AUTH-LATHUND, .context/android-capacitor.md
 - Smoke: android-platform, planering-gora-e, inkast-fas2, locked-ux, cost-guard PASS
+
+- [x] MOD-WIDGET Standalone v1 — 5 vågor (skin, WH7, auth bypass) 2026-07-14

@@ -11,6 +11,7 @@ import { FreeportHjartatHub } from './components/FreeportHjartatHub';
 import { FreeportMabraHub } from './components/FreeportMabraHub';
 import { FreeportFamiljenHub } from './components/FreeportFamiljenHub';
 import { FreeportPremiumScreensLab } from './components/FreeportPremiumScreensLab';
+import { WidgetStandaloneLab } from './components/WidgetStandaloneLab';
 import { BastaDesignApp } from './basta-design/BastaDesignApp';
 import '@/styles/design-freeport.css';
 
@@ -23,7 +24,8 @@ type PanelId =
   | 'planering'
   | 'live'
   | 'fpti-ref'
-  | 'premium';
+  | 'premium'
+  | 'widget-standalone';
 
 const PANELS: { id: PanelId; label: string }[] = [
   { id: 'hem', label: 'Hem (Modell A)' },
@@ -35,6 +37,7 @@ const PANELS: { id: PanelId; label: string }[] = [
   { id: 'live', label: 'Supermoduler (full)' },
   { id: 'fpti-ref', label: 'FP-TI ref (mock)' },
   { id: 'premium', label: 'Executive Premium' },
+  { id: 'widget-standalone', label: 'Widget Standalone' },
 ];
 
 /**
@@ -140,6 +143,7 @@ export function DesignFreeportPage() {
         {panel === 'live' ? <FreeportSuperhubPlayground /> : null}
         {panel === 'fpti-ref' ? <FreeportFptiRefLab onStatus={setStatus} /> : null}
         {panel === 'premium' ? <FreeportPremiumScreensLab onStatus={setStatus} /> : null}
+        {panel === 'widget-standalone' ? <WidgetStandaloneLab onStatus={setStatus} /> : null}
       </div>
     </FreeportChromeShell>
   );

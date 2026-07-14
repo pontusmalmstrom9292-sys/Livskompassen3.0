@@ -1,6 +1,6 @@
 # Project State — Livskompassen v2
 
-**Version:** 1.2 · **Last updated:** 2026-07-11  
+**Version:** 1.2 · **Last updated:** 2026-07-14  
 **Rule:** Single source of truth for **system phase** and **active program**. AI assistants must read this before coding.
 
 ---
@@ -90,3 +90,8 @@ Phase 0–9 baseline och migration **done**. Phase 10: index.css import-only; v�
 | `gcp:audit-apis` | 2026-07-11 PASS |
 | Fas 24 build sequence through 23E | 2026-06-25 |
 | AI Governance system v1.2 (PROJECT_STATE sync) | 2026-07-11 |
+
+### MOD-WIDGET Standalone v1 (2026-07-14)
+- Fristående widget-skin + WH7 Åtgärder + AppUnlock bypass på `/widget/*`
+- Preview: `/dev/design-freeport` → Widget Standalone
+- Smoke: `smoke:widgets`, `smoke:predeploy:build` PASS · MOD-WIDGET **locked**

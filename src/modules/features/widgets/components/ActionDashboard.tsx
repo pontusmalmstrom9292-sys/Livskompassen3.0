@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, ButtonLink, TextArea } from '@/design-system';
+import { Button, TextArea } from '@/design-system';
 import {
   Camera,
   Check,
@@ -36,6 +36,8 @@ import {
   useWidgetRecordingEthicsAccepted,
   WidgetRecordingEthicsGate,
 } from './WidgetRecordingEthicsGate';
+import { WidgetButton } from './WidgetButton';
+import { WidgetActionGrid } from './WidgetActionTile';
 
 const REFLECTION_MAX_CHARS = 500;
 
@@ -203,21 +205,20 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
             {recQueued ? 'Inspelning köad — synkas till Valvet vid nät.' : `Låst i Valvet: ${recTitle}`}
           </p>
           {!recQueued && (
-            <ButtonLink to="/valvet" variant="accent" className="inline-flex text-xs">
-              Öppna Valv
-            </ButtonLink>
+            <p className="text-xs text-text-muted">Sparat i Valvet — öppna appen vid behov.</p>
           )}
-          <Button
+          <WidgetButton
             type="button"
             variant="ghost"
-            className="w-full text-xs"
+            fullWidth
+            className="text-xs"
             onClick={() => {
               setRecPhase('idle');
               setRecTitle(null);
             }}
           >
             Ny inspelning
-          </Button>
+          </WidgetButton>
         </div>
       </BentoCard>
     );
@@ -238,13 +239,11 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
             {queued ? 'Reflektion köad — synkas till Valvet vid nät.' : 'Låst i Valvet.'}
           </p>
           {!queued && (
-            <ButtonLink to="/valvet" variant="accent" className="inline-flex text-xs">
-              Öppna Valv
-            </ButtonLink>
+            <p className="text-xs text-text-muted">Sparat i Valvet — öppna appen vid behov.</p>
           )}
-          <Button type="button" variant="ghost" className="w-full text-xs" onClick={() => setDone(false)}>
+          <WidgetButton type="button" variant="ghost" fullWidth className="text-xs" onClick={() => setDone(false)}>
             Ny reflektion
-          </Button>
+          </WidgetButton>
         </div>
       </BentoCard>
     );
@@ -268,15 +267,16 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
             {speech.interim ? (
               <p className="mt-2 text-xs text-text-dim">Hör: {speech.interim}</p>
             ) : null}
-            <Button
+            <WidgetButton
               type="button"
               variant="accent"
+              fullWidth
               onClick={stopRecording}
-              className="mt-3 flex w-full min-h-11 items-center justify-center gap-2"
+              className="mt-3 flex min-h-11 items-center justify-center gap-2"
             >
               <Square className="h-4 w-4" aria-hidden />
               Stoppa och spara i Valvet
-            </Button>
+            </WidgetButton>
           </div>
         )}
 
@@ -309,8 +309,8 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
             <p className="text-right text-[10px] text-text-dim">
               {text.length}/{REFLECTION_MAX_CHARS}
             </p>
-            <div className="grid grid-cols-2 gap-2">
-              <Button
+            <WidgetActionGrid columns={2}>
+              <WidgetButton
                 type="button"
                 variant="ghost"
                 onClick={handleMicClick}
@@ -320,8 +320,8 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
               >
                 <Mic className="h-4 w-4" aria-hidden />
                 Tala in
-              </Button>
-              <Button
+              </WidgetButton>
+              <WidgetButton
                 type="button"
                 variant="accent"
                 onClick={() => void handleSaveText()}
@@ -334,8 +334,8 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
                   <PenLine className="h-4 w-4" aria-hidden />
                 )}
                 Spara i Valvet
-              </Button>
-            </div>
+              </WidgetButton>
+            </WidgetActionGrid>
           </>
         )}
 
@@ -642,12 +642,13 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
           </div>
         ) : null}
 
-        <Button
+        <WidgetButton
           type="button"
           variant="accent"
+          fullWidth
           onClick={() => void handleSave()}
           disabled={loading || (!observation.trim() && !attachedPhoto)}
-          className="flex w-full min-h-11 items-center justify-center gap-2 disabled:opacity-50"
+          className="flex min-h-11 items-center justify-center gap-2 disabled:opacity-50"
         >
           {loading ? (
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
@@ -655,7 +656,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
             <Plus className="h-4 w-4" aria-hidden />
           )}
           Spara till {childAlias}s logg
-        </Button>
+        </WidgetButton>
         {error && <p className="text-sm text-danger">{error}</p>}
         {speech.error ? <p className="text-sm text-danger">{speech.error}</p> : null}
       </div>
