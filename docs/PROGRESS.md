@@ -2762,3 +2762,12 @@ Copy the template below for each entry. Newest first.
 - Android WH7 `ActionDashboardWidgetProvider` → `/widget/aktioner`
 - `AppUnlockGate` bypass på `/widget/*`; alla widget-sidor `AuthGate variant="widget"`
 - Smoke: `smoke:widgets`, `smoke:widget-ingest`, `smoke:locked-ux`, `smoke:design-freeport`, `smoke:governance` PASS
+
+## 2026-07-14 — MOD-WIDGET Standalone v2 (förstärkning)
+
+- Tokens v2: press-scale, section-elevation, morph-ease
+- WidgetSuccessCard + WidgetDashboardSection (Åtgärder §13)
+- Chameleon morph Anteckning: silo → compose
+- WidgetButton i silo-picker, etik, metadata
+- Android icon-ring v2 + WH7
+- smoke:predeploy:build PASS · MOD-WIDGET re-locked

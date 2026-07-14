@@ -293,8 +293,16 @@ async function main() {
     process.exit(2);
   } catch (err) {
     if (err instanceof CursorAgentError) {
-      console.error("[sdk:yolo] Startup failed:", err.message, "retryable=", err.isRetryable);
-      writeSdkRunReport({ ...meta, startupError: err.message, retryable: err.isRetryable });
+      const msg = err.message ?? "";
+      if (msg.includes("Invalid UserAPI Key") || err.status === 401) {
+        console.error("[sdk:yolo] Ogiltig CURSOR_API_KEY (401).");
+        console.error("[sdk:yolo] Skapa ny User API Key: https://cursor.com/dashboard/integrations");
+        console.error("[sdk:yolo] Nyckeln ska börja med crsr_ (User API Key). Kopiera hela nyckeln direkt vid skapande.");
+        console.error("[sdk:yolo] Kör sedan: npm run sdk:yolo:setup");
+      } else {
+        console.error("[sdk:yolo] Startup failed:", msg, "retryable=", err.isRetryable);
+      }
+      writeSdkRunReport({ ...meta, startupError: msg, retryable: err.isRetryable });
       process.exit(1);
     }
     throw err;

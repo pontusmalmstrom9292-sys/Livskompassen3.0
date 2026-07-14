@@ -71,6 +71,11 @@ export function getYoloConfig(yoloVersion) {
       prevPhaseEnd: 102,
       nextPhaseStart: 103,
     }),
+    15: mkConfig(15, "p103-p112-master", "MASTER sekventiell P103→P112", false, [], {
+      nextVersion: 16,
+      prevPhaseEnd: 112,
+      nextPhaseStart: 113,
+    }),
   };
   return CONFIG[yoloVersion] ?? null;
 }

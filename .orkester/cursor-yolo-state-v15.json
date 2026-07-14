@@ -1,0 +1,26 @@
+{
+  "version": 15,
+  "queueFile": ".orkester/cursor-yolo-queue-v15.json",
+  "startedAt": "2026-07-14T12:40:00.000Z",
+  "updatedAt": "2026-07-14T12:40:00.000Z",
+  "sequentialPhase": {
+    "status": "in_progress",
+    "currentTaskId": null,
+    "completedTaskIds": [],
+    "skippedTaskIds": ["p103-deploy"],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "p103-deploy",
+    "p104-baseline",
+    "p105-auto-lock-hygiene",
+    "p106-security",
+    "p107-ux-guardian",
+    "p108-drift",
+    "p109-design-debt",
+    "p110-fortification",
+    "p111-integration",
+    "p112-yolo-vakt"
+  ],
+  "notes": "YOLO v15 Auto-Lock & Fortifikation — start efter v14 handoff 2026-07-14. P103 deploy SKIP tills OK deploy."
+}

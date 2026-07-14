@@ -27,12 +27,26 @@ async function checkSdk() {
 async function checkApiKey() {
   const key = process.env.CURSOR_API_KEY?.trim();
   if (!key) return { ok: false, reason: "CURSOR_API_KEY saknas" };
+  if (!key.startsWith("crsr_") && !key.startsWith("cursor_")) {
+    return {
+      ok: false,
+      reason: `Okänt prefix (${key.slice(0, 6)}…). Använd User API Key från cursor.com/dashboard → API-nycklar.`,
+    };
+  }
   try {
     const { Cursor } = await import("@cursor/sdk");
     const models = await Cursor.models.list({ apiKey: key });
     return { ok: true, modelCount: models?.length ?? 0 };
   } catch (err) {
-    return { ok: false, reason: err?.message ?? "API-fel" };
+    const msg = err?.message ?? "API-fel";
+    if (msg.includes("Invalid UserAPI Key") || err?.status === 401) {
+      return {
+        ok: false,
+        reason:
+          "Ogiltig eller återkallad nyckel (401). Skapa ny User API Key: cursor.com/dashboard/integrations — kopiera exakt, inga mellanslag.",
+      };
+    }
+    return { ok: false, reason: msg };
   }
 }
 
