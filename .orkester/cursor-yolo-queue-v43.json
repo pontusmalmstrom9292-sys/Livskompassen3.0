@@ -1,0 +1,82 @@
+{
+  "version": 43,
+  "description": "Cursor YOLO v43 — BUILD KOPPLINGAR-C: Kopplingar C — ADK/synapse wiring",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 43,
+    "id": "KOPPLINGAR-C",
+    "title": "Kopplingar C — ADK/synapse wiring",
+    "agent": "specialist-adk-weaver",
+    "plan": "Kopplingar batch C: synapser, journal_woven optIn, drive ingest dry-run.",
+    "smoke": [
+      "npm run smoke:orkester",
+      "npm run smoke:dcap-routing"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "keywords": [
+      "ADK",
+      "synapser",
+      "DCAP",
+      "journal_woven"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b43-deploy",
+      "title": "B43 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v43/b43-deploy.md"
+    },
+    {
+      "id": "b43-build",
+      "title": "B43 — Kopplingar C — ADK/synapse wiring",
+      "phase": "sequential",
+      "agent": "specialist-adk-weaver",
+      "plan": "Kopplingar batch C: synapser, journal_woven optIn, drive ingest dry-run.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v43/b43-build.md"
+    },
+    {
+      "id": "b43-gate",
+      "title": "B43 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v43.md.",
+      "smoke": [
+        "npm run smoke:orkester",
+        "npm run smoke:dcap-routing"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v43/b43-gate.md"
+    },
+    {
+      "id": "b43-vakt",
+      "title": "B43 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v43. Handoff v44.",
+      "smoke": [
+        "npm run smoke:orkester",
+        "npm run smoke:dcap-routing"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v43/b43-vakt.md"
+    }
+  ]
+}
