@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button, TextArea } from '@/design-system';
+import { TextArea } from '@/design-system';
 import {
   Camera,
   Check,
@@ -25,7 +25,7 @@ import {
   type LivsloggCategory,
 } from '@/features/family/children/constants';
 import { STUND_MAX_CHARS } from '@/features/family/children/utils/childMomentHelpers';
-import { BentoCard } from '@/shared/ui/BentoCard';
+import { WidgetDashboardSection } from './WidgetDashboardSection';
 import {
   saveActionChildLog,
   saveActionReflection,
@@ -192,7 +192,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
 
   if (recPhase === 'done') {
     return (
-      <BentoCard
+      <WidgetDashboardSection
         title="Multiverktyg"
         description="Kort reflektion"
         icon={<Sparkles className="h-4 w-4" />}
@@ -220,13 +220,13 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
             Ny inspelning
           </WidgetButton>
         </div>
-      </BentoCard>
+      </WidgetDashboardSection>
     );
   }
 
   if (done) {
     return (
-      <BentoCard
+      <WidgetDashboardSection
         title="Multiverktyg"
         description="Kort reflektion"
         icon={<Sparkles className="h-4 w-4" />}
@@ -245,12 +245,12 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
             Ny reflektion
           </WidgetButton>
         </div>
-      </BentoCard>
+      </WidgetDashboardSection>
     );
   }
 
   return (
-    <BentoCard
+    <WidgetDashboardSection
       title="Multiverktyg"
       description="Kort reflektion"
       icon={<Sparkles className="h-4 w-4" />}
@@ -343,7 +343,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
         {speech.error && <p className="text-sm text-danger">{speech.error}</p>}
         {error && <p className="text-sm text-danger">{error}</p>}
       </div>
-    </BentoCard>
+    </WidgetDashboardSection>
   );
 }
 
@@ -352,7 +352,7 @@ function WorkStampCard({ userId }: Props) {
   const { stamp, loading, busy, isClockedIn, status, error, success } = clock;
 
   return (
-    <BentoCard
+    <WidgetDashboardSection
       title="Arbetstid"
       description="Stämpel in / ut"
       icon={<Clock className="h-4 w-4" />}
@@ -405,7 +405,7 @@ function WorkStampCard({ userId }: Props) {
           />
         )}
       </div>
-    </BentoCard>
+    </WidgetDashboardSection>
   );
 }
 
@@ -500,7 +500,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
 
   if (saved) {
     return (
-      <BentoCard
+      <WidgetDashboardSection
         title="Livslogg"
         description="Barn — snabbinmatning"
         icon={<Users className="h-4 w-4" />}
@@ -513,12 +513,12 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
             ? `Köad — synkas till ${childAlias}s logg vid nät.`
             : `Sparat till ${childAlias}s logg.`}
         </p>
-      </BentoCard>
+      </WidgetDashboardSection>
     );
   }
 
   return (
-    <BentoCard title="Livslogg" description="Barn — snabbinmatning" icon={<Users className="h-4 w-4" />} glow="blue">
+    <WidgetDashboardSection title="Livslogg" description="Barn — snabbinmatning" icon={<Users className="h-4 w-4" />} glow="blue">
       <div className="space-y-3">
         <select
           value={childAlias}
@@ -631,14 +631,14 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
               <p className="text-xs text-success">Foto bifogat</p>
               <p className="truncate text-[10px] text-text-dim">{attachedPhoto.file.name}</p>
             </div>
-            <Button
+            <WidgetButton
               type="button"
               variant="ghost"
               onClick={clearAttachedPhoto}
               className="shrink-0 text-[10px]"
             >
               Ta bort
-            </Button>
+            </WidgetButton>
           </div>
         ) : null}
 
@@ -660,7 +660,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
         {error && <p className="text-sm text-danger">{error}</p>}
         {speech.error ? <p className="text-sm text-danger">{speech.error}</p> : null}
       </div>
-    </BentoCard>
+    </WidgetDashboardSection>
   );
 }
 

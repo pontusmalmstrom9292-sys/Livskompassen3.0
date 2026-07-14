@@ -65,6 +65,22 @@ const actionDash = readCanonical('src/modules/features/widgets/components/Action
 assert(actionDash.includes('WidgetButton'), 'ActionDashboard ska använda WidgetButton');
 assert(!actionDash.includes('ButtonLink'), 'ActionDashboard ska inte länka till huvudapp');
 
+assert(notePageCapture.includes('ChameleonInputShell'), 'WidgetNotePage ska morpha silo/compose via Chameleon');
+assert(notePageCapture.includes('Fortsätt till text'), 'WidgetNotePage ska ha silo→compose steg');
+
+const siloPicker = readCanonical('src/modules/features/widgets/components/WidgetSiloChipPicker.tsx');
+assert(siloPicker.includes('WidgetButton'), 'WidgetSiloChipPicker ska använda WidgetButton');
+
+assert(existsSync(resolve(root, 'src/modules/features/widgets/components/WidgetSuccessCard.tsx')), 'WidgetSuccessCard saknas');
+assert(existsSync(resolve(root, 'src/modules/features/widgets/components/WidgetDashboardSection.tsx')), 'WidgetDashboardSection saknas');
+
+const actionDashV2 = readCanonical('src/modules/features/widgets/components/ActionDashboard.tsx');
+assert(actionDashV2.includes('WidgetDashboardSection'), 'ActionDashboard ska använda WidgetDashboardSection');
+assert(!actionDashV2.includes('BentoCard'), 'ActionDashboard ska inte använda BentoCard');
+
+const ethics = readCanonical('src/modules/features/widgets/components/WidgetRecordingEthicsGate.tsx');
+assert(ethics.includes('WidgetButton'), 'WidgetRecordingEthicsGate ska använda WidgetButton');
+
 const note = readCanonical('src/modules/features/widgets/pages/WidgetNotePage.tsx');
 assert(note.includes('WidgetSiloChipPicker'), 'WidgetNotePage saknar silo-chip');
 assert(note.includes('saveWidgetTextCapture'), 'WidgetNotePage ska routea via widgetSiloCapture');

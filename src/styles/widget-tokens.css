@@ -1,21 +1,30 @@
 /**
- * Standalone widget tokens — Executive Midnight (prod).
+ * Standalone widget tokens v2 — Executive Midnight (prod).
  * Kanon: docs/design/widget/STANDALONE-WIDGET-SKIN.md
  */
 :root {
-  --widget-surface: color-mix(in srgb, var(--color-surface, var(--surface)) 55%, transparent);
+  --widget-surface: color-mix(in srgb, var(--color-surface, var(--surface)) 58%, transparent);
+  --widget-surface-inner: color-mix(in srgb, var(--color-surface-2, var(--surface-2)) 42%, transparent);
   --widget-surface-border: var(--color-border-strong, var(--border-strong));
-  --widget-accent-glow: color-mix(in srgb, var(--color-accent, var(--accent)) 8%, transparent);
+  --widget-accent-glow: color-mix(in srgb, var(--color-accent, var(--accent)) 10%, transparent);
   --widget-btn-min-h: var(--ds-touch-target, 2.75rem);
   --widget-btn-radius-pill: 9999px;
   --widget-btn-radius-tile: 1rem;
   --widget-morph-ms: var(--ds-duration-morph, 350ms);
-  --widget-tile-min-h: 4.5rem;
-  --widget-elevation: 0 18px 40px -26px rgba(0, 0, 0, 0.7), inset 0 1px 0 color-mix(in srgb, var(--color-accent, var(--accent)) 12%, transparent);
+  --widget-morph-ease: var(--ds-ease-premium, cubic-bezier(0.22, 1, 0.36, 1));
+  --widget-tile-min-h: 4.75rem;
+  --widget-press-scale: var(--ds-press-scale, 0.97);
+  --widget-elevation:
+    0 18px 40px -26px rgba(0, 0, 0, 0.72),
+    inset 0 1px 0 color-mix(in srgb, var(--color-accent, var(--accent)) 14%, transparent);
+  --widget-section-elevation:
+    0 12px 28px -18px rgba(0, 0, 0, 0.65),
+    inset 0 1px 0 color-mix(in srgb, var(--color-accent, var(--accent)) 10%, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {
   :root {
     --widget-morph-ms: 0ms;
+    --widget-press-scale: 1;
   }
 }

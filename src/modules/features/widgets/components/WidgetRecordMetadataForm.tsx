@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Lock } from 'lucide-react';
-import { Button, Input, TextArea } from '@/design-system';
+import { Input, TextArea } from '@/design-system';
 import type { WidgetRecordingMetadata } from '../api/widgetVaultRecording';
+import { WidgetButton } from './WidgetButton';
 
 type Props = {
   suggestedTitle: string;
@@ -72,26 +73,28 @@ export function WidgetRecordMetadataForm({
         />
       </label>
 
-      <Button
+      <WidgetButton
         type="button"
         variant="accent"
-        className="flex w-full items-center justify-center gap-2"
+        fullWidth
+        className="flex items-center justify-center gap-2"
         disabled={busy || submitting}
         onClick={() => void run(() => onLock({ vem, vad, varfor }))}
       >
         <Lock className="h-4 w-4" />
         {busy || submitting ? 'Låser…' : 'Lås i Valvet'}
-      </Button>
+      </WidgetButton>
 
-      <Button
+      <WidgetButton
         type="button"
         variant="ghost"
-        className="w-full text-xs"
+        fullWidth
+        className="text-xs"
         disabled={busy || submitting}
         onClick={() => void run(onSkip)}
       >
         Hoppa över kontext — lås ändå
-      </Button>
+      </WidgetButton>
     </div>
   );
 }

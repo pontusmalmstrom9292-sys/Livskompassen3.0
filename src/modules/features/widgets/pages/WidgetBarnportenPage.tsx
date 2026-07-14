@@ -11,6 +11,7 @@ import { useBarnportenWidgetVariant } from '@/features/onboarding/barnporten/hoo
 import { resolveBarnportenChildAlias } from '@/features/onboarding/barnporten/constants/barnportenDeviceId';
 import { useBarnportenOfflineFlush } from '@/features/onboarding/barnporten/hooks/useBarnportenOfflineFlush';
 import { WidgetShell } from '../layout/WidgetShell';
+import { WidgetSuccessCard } from '../components/WidgetSuccessCard';
 import { WidgetButton } from '../components/WidgetButton';
 
 function WidgetBarnportenInner() {
@@ -58,14 +59,11 @@ function WidgetBarnportenInner() {
         lead="Snabb sändning — hamnar i pappas inkorg (inte i Valv automatiskt)."
       >
         {done ? (
-          <div className="elongated-module elongated-module--gold overflow-hidden p-4">
-            <p className="text-sm text-success">
-              {queued ? 'Köad — synkas när nätet finns.' : 'Skickat till pappas inkorg.'}
-            </p>
-            <WidgetButton type="button" variant="ghost" fullWidth className="mt-3 text-xs" onClick={() => setDone(false)}>
-              Ny rad
-            </WidgetButton>
-          </div>
+          <WidgetSuccessCard
+            message={queued ? 'Köad — synkas när nätet finns.' : 'Skickat till pappas inkorg.'}
+            actionLabel="Ny rad"
+            onAction={() => setDone(false)}
+          />
         ) : (
           <div className="space-y-3">
             <TextArea
@@ -116,7 +114,7 @@ function WidgetBarnportenInner() {
 
 export function WidgetBarnportenPage() {
   return (
-    <AuthGate variant="widget">
+    <AuthGate variant="widget" widgetTitle="Barnporten">
       <WidgetBarnportenInner />
     </AuthGate>
   );

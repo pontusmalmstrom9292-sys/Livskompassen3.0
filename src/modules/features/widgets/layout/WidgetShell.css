@@ -57,7 +57,25 @@
     min-height: var(--widget-btn-min-h);
     border-radius: var(--widget-btn-radius-pill);
     letter-spacing: 0.06em;
-    transition: border-color 0.2s ease, background 0.2s ease, transform 0.15s ease;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease,
+      transform 0.15s var(--widget-morph-ease),
+      box-shadow 0.2s ease;
+  }
+
+  .widget-btn:active:not(:disabled) {
+    transform: scale(var(--widget-press-scale));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .widget-btn:active:not(:disabled) {
+      transform: none;
+    }
+  }
+
+  .widget-action-tile:active:not(:disabled) {
+    transform: scale(var(--widget-press-scale));
   }
 
   .widget-btn--full {
@@ -205,6 +223,69 @@
 
   .widget-silo-picker {
     @apply rounded-xl border-[0.5px] border-border/60 bg-surface-2/40 p-3;
+  }
+
+  .widget-shell .chameleon-input-shell__viewport {
+    transition-duration: var(--widget-morph-ms);
+    transition-timing-function: var(--widget-morph-ease);
+  }
+
+  .widget-success-card {
+    @apply overflow-hidden rounded-2xl border p-4;
+    border-color: color-mix(in srgb, var(--color-accent, var(--accent)) 22%, transparent);
+    background: color-mix(in srgb, var(--color-surface-2, var(--surface-2)) 50%, transparent);
+    box-shadow: var(--widget-section-elevation);
+  }
+
+  .widget-success-card__message {
+    @apply flex items-center gap-2 text-sm text-success;
+  }
+
+  .widget-success-card__detail {
+    @apply mt-2 font-display text-base text-accent;
+  }
+
+  .widget-success-card__detail + .widget-btn {
+    @apply mt-3;
+  }
+
+  .widget-dashboard-section {
+    @apply overflow-hidden rounded-2xl border p-4;
+    border-color: color-mix(in srgb, var(--color-border, var(--border)) 35%, transparent);
+    background: var(--widget-surface-inner);
+    box-shadow: var(--widget-section-elevation);
+  }
+
+  .widget-dashboard-section--gold {
+    border-color: color-mix(in srgb, var(--color-accent, var(--accent)) 18%, transparent);
+  }
+
+  .widget-dashboard-section--blue {
+    border-color: color-mix(in srgb, var(--color-border-strong, var(--border-strong)) 55%, transparent);
+  }
+
+  .widget-dashboard-section__header {
+    @apply mb-3 flex items-start gap-2.5;
+  }
+
+  .widget-dashboard-section__icon {
+    @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-accent/20 bg-accent/10 text-accent;
+  }
+
+  .widget-dashboard-section__title {
+    @apply font-display text-sm font-medium text-text;
+  }
+
+  .widget-dashboard-section__desc {
+    @apply text-[11px] text-text-muted;
+  }
+
+  .widget-dashboard-section__body > * + * {
+    margin-top: 0.75rem;
+  }
+
+  .widget-note-mode-row {
+    @apply mb-3 flex gap-1.5;
   }
 }
 

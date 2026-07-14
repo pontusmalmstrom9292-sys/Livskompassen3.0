@@ -8,12 +8,13 @@ import {
   LayoutGrid,
 } from 'lucide-react';
 
-type VariantId = 'shell' | 'capture' | 'actions';
+type VariantId = 'shell' | 'capture' | 'actions' | 'success';
 
 const VARIANTS: { id: VariantId; label: string }[] = [
   { id: 'shell', label: 'Shell' },
   { id: 'capture', label: 'Capture' },
   { id: 'actions', label: 'Åtgärder' },
+  { id: 'success', label: 'Klar' },
 ];
 
 const ACTION_TILES = [
@@ -83,7 +84,7 @@ export function WidgetStandaloneLab({ onStatus }: Props) {
             </button>
           </div>
           <h2 className="design-freeport__widget-shell-title">
-            {variant === 'shell' ? 'Fristående skal' : variant === 'capture' ? 'Snabbanteckning' : 'Åtgärder'}
+            {variant === 'shell' ? 'Fristående skal' : variant === 'capture' ? 'Snabbanteckning' : variant === 'success' ? 'Sparat' : 'Åtgärder'}
           </h2>
           <p className="design-freeport__widget-shell-lead">
             Ingen länk till huvudappen — bara widget-uppgiften.
@@ -124,6 +125,15 @@ export function WidgetStandaloneLab({ onStatus }: Props) {
               />
               <button type="button" className="design-freeport__widget-btn design-freeport__widget-btn--accent w-full">
                 Spara till Inkast
+              </button>
+            </div>
+          ) : null}
+
+          {variant === 'success' ? (
+            <div className="design-freeport__widget-success-mock">
+              <p className="text-sm text-[var(--fp-success,#10b981)]">Skickat till Inkast</p>
+              <button type="button" className="design-freeport__widget-btn design-freeport__widget-btn--ghost w-full mt-3">
+                Ny anteckning
               </button>
             </div>
           ) : null}

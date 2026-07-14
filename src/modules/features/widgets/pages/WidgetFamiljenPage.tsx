@@ -6,6 +6,7 @@ import { saveChildrenLog } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
 import { CHILD_ALIASES, type ChildAlias } from '@/features/family/children/constants';
 import { WidgetShell } from '../layout/WidgetShell';
+import { WidgetSuccessCard } from '../components/WidgetSuccessCard';
 import { WidgetButton } from '../components/WidgetButton';
 import { useWidgetShellClear } from '../context/widgetShellContext';
 
@@ -49,12 +50,11 @@ function WidgetFamiljenInner() {
   return (
     <WidgetShell title="Barnobs" lead="Neutral rad → barnlogg (inte Valv automatiskt).">
       {done ? (
-        <div className="elongated-module elongated-module--gold overflow-hidden p-4">
-          <p className="text-sm text-success">Sparat till {child}s logg</p>
-          <WidgetButton type="button" variant="ghost" fullWidth className="mt-3 text-xs" onClick={resetForm}>
-            Ny rad
-          </WidgetButton>
-        </div>
+        <WidgetSuccessCard
+          message={`Sparat till ${child}s logg`}
+          actionLabel="Ny rad"
+          onAction={resetForm}
+        />
       ) : (
         <div className="space-y-3">
           <div className="flex gap-2">
