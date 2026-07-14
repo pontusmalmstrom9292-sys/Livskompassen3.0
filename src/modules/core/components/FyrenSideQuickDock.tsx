@@ -65,6 +65,8 @@ const QUICK_ACTIONS: QuickAction[] = [
   { id: 'barnobs', label: 'Barnobs', to: '/widget/familjen', icon: 'zap' },
   { id: 'voice-vault', label: 'Bevis-röst', to: '/widget/voice-vault', icon: 'mic' },
   { id: 'brusfiltret', label: 'Hamn', to: '/widget/hamn', icon: 'filter' },
+  { id: 'planering', label: 'Planering', to: '/planering?tab=handling&picked=1', icon: 'zap' },
+  { id: 'morgon', label: 'Morgon', to: '/morgon', icon: 'zap' },
   { id: 'valv', label: 'Valv', to: NAV_PATHS.VALVET, icon: 'shield' },
 ];
 

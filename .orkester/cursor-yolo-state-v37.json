@@ -3,11 +3,15 @@
   "queueFile": ".orkester/cursor-yolo-queue-v37.json",
   "buildWaveId": "PLANERING",
   "startedAt": "2026-07-14T17:31:00.061Z",
-  "updatedAt": "2026-07-14T17:31:00.061Z",
+  "updatedAt": "2026-07-14T17:38:31.951Z",
   "sequentialPhase": {
     "status": "in_progress",
-    "currentTaskId": "b37-build",
-    "completedTaskIds": [],
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b37-build",
+      "b37-gate",
+      "b37-vakt"
+    ],
     "skippedTaskIds": [
       "b37-deploy"
     ],

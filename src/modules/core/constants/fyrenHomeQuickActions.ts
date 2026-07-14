@@ -5,6 +5,7 @@ import {
   Mic,
   PenLine,
   Plus,
+  Sunrise,
 } from 'lucide-react';
 import { Wallet } from 'lucide-react';
 
@@ -16,5 +17,6 @@ export const FYREN_HOME_QUICK_ACTIONS = [
   { id: 'bild', label: 'Bild', to: '/admin/projects/ny', Icon: Image },
   { id: 'inspelning', label: 'Inspelning', to: '/widget/inspelning?autostart=1', Icon: Mic },
   { id: 'planering', label: 'Planering', to: '/planering?tab=handling', Icon: Calendar },
+  { id: 'morgon', label: 'Morgon', to: '/morgon', Icon: Sunrise },
   { id: 'ekonomi', label: 'Ekonomi', to: '/vardagen?tab=ekonomi', Icon: Wallet },
 ] as const;
