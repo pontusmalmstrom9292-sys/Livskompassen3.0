@@ -49,7 +49,7 @@ function parsePorcelainPath(line) {
   const parts = cleaned.split(" -> ");
   let raw = parts[parts.length - 1].trim();
   if (raw.startsWith('"') && raw.endsWith('"')) {
-    raw = raw.slice(1, -1).replace(/\\([0-3][0-7]{2})/g, (_, oct) =>
+    raw = raw.slice(1, -1).replace(/\\([0-7]{3})/g, (_, oct) =>
       String.fromCharCode(parseInt(oct, 8)),
     );
   }
