@@ -3,11 +3,15 @@
   "queueFile": ".orkester/cursor-yolo-queue-v43.json",
   "buildWaveId": "KOPPLINGAR-C",
   "startedAt": "2026-07-14T18:18:38.751Z",
-  "updatedAt": "2026-07-14T20:18:00.000Z",
+  "updatedAt": "2026-07-14T18:31:48.399Z",
   "sequentialPhase": {
     "status": "in_progress",
-    "currentTaskId": "b43-build",
-    "completedTaskIds": [],
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b43-build",
+      "b43-gate",
+      "b43-vakt"
+    ],
     "skippedTaskIds": [
       "b43-deploy"
     ],

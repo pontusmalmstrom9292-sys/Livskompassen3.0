@@ -177,6 +177,7 @@ export const notifyNewFile = onRequest(
           ? req.body.ownerUid.trim()
           : undefined;
     const optInTrauma = req.body.optInTrauma === true;
+    const dryRun = req.body.dryRun === true;
 
     if (!fileId || !fileName || !mimeType) {
       res.status(400).send('Missing fileId, fileName or mimeType');
@@ -184,12 +185,16 @@ export const notifyNewFile = onRequest(
     }
 
     try {
-      await emitSynapse(adkOrchestrator, {
+      const result = await emitSynapse(adkOrchestrator, {
         trigger: 'drive_file_ingested',
-        payload: { fileId, fileName, mimeType, ownerId, optInTrauma },
+        payload: { fileId, fileName, mimeType, ownerId, optInTrauma, dryRun },
       });
 
-      res.status(200).send({ status: 'Processing complete', fileId });
+      res.status(200).send(
+        dryRun
+          ? { status: 'Dry-run complete', fileId, ...(typeof result === 'object' && result ? result : {}) }
+          : { status: 'Processing complete', fileId }
+      );
     } catch (error) {
       console.error(`[notifyNewFile] Pipeline fel fileId=${fileId} fileName=${fileName}:`, error);
       res.status(500).send('Pipeline failed');

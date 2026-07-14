@@ -61,6 +61,7 @@
     "smoke:entities": "node scripts/smoke_entity_profiles.mjs",
     "smoke:inbox": "node scripts/smoke_inbox_sort.mjs",
     "smoke:widget-ingest": "node scripts/smoke_widget_ingest.mjs",
+    "smoke:drive-ingest": "node scripts/smoke_drive_ingest.mjs",
     "smoke:widgets": "node scripts/smoke_widgets.mjs",
     "smoke:hitl1": "node scripts/smoke_hitl1.mjs",
     "smoke:s24": "node scripts/smoke_s24.mjs",

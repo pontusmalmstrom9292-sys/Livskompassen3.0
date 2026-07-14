@@ -27,9 +27,9 @@ import { routeInboxToWorm } from '../../lib/inboxPersist';
 export async function handleDriveIngest(
   orchestrator: AdkOrchestrator,
   payload: DriveIngestPayload
-): Promise<{ analysisStarted: boolean; fileId: string; routing?: string }> {
-  const { fileId, fileName, mimeType, ownerId, optInTrauma } = payload;
-  console.log(`[Synapse:drive_ingest] fileId=${fileId} name=${fileName}`);
+): Promise<{ analysisStarted: boolean; fileId: string; routing?: string; dryRun?: boolean }> {
+  const { fileId, fileName, mimeType, ownerId, optInTrauma, dryRun } = payload;
+  console.log(`[Synapse:drive_ingest] fileId=${fileId} name=${fileName}${dryRun ? ' (DRY-RUN)' : ''}`);
 
   const analysisText = await analyzeDriveFile(fileId, fileName, mimeType);
   let routing: string | undefined;
@@ -38,6 +38,15 @@ export async function handleDriveIngest(
     // classifyInboxDocument runs heuristicInboxClassify first (DCAP-before-LLM, U2).
     const rawClassification = await classifyInboxDocument(analysisText, fileName);
     const classification = applyInkastConfidenceGate(rawClassification);
+    routing = classification.routing;
+
+    if (dryRun) {
+      console.log(
+        `[Synapse:drive_ingest] DRY-RUN routing=${classification.routing} — ingen persist/dispatch`
+      );
+      return { analysisStarted: true, fileId, routing, dryRun: true };
+    }
+
     const routeResult = await routeInboxToWorm({
       ownerId,
       fileId,
@@ -51,7 +60,6 @@ export async function handleDriveIngest(
       allowBarnenAutoPersist: false, // Drive ingest always queues barnen for HITL
     });
 
-    routing = classification.routing;
     console.log(
       `[Synapse:drive_ingest] G10 routing=${classification.routing} action=${routeResult.action}` +
         (routeResult.collection ? ` collection=${routeResult.collection}` : '') +
@@ -59,6 +67,9 @@ export async function handleDriveIngest(
     );
   } else {
     console.warn('[Synapse:drive_ingest] ownerId saknas — hoppar över persist (G10)');
+    if (dryRun) {
+      return { analysisStarted: true, fileId, dryRun: true };
+    }
   }
 
   const message: A2AMessage = {

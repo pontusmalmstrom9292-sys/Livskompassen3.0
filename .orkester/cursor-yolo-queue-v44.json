@@ -1,0 +1,84 @@
+{
+  "version": 44,
+  "description": "Cursor YOLO v44 — BUILD PROJEKT-P1: Projekt P1 — repo hygiene + drift",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 44,
+    "id": "PROJEKT-P1",
+    "title": "Projekt P1 — repo hygiene + drift",
+    "agent": "specialist-verifier",
+    "plan": "Projekt P1: drift-smokes, journal-2d, mabra. Minimal fix om FAIL.",
+    "smoke": [
+      "npm run smoke:journal-2d",
+      "npm run smoke:mabra",
+      "npm run smoke:valv"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "keywords": [
+      "projekt",
+      "drift",
+      "hygiene"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b44-deploy",
+      "title": "B44 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v44/b44-deploy.md"
+    },
+    {
+      "id": "b44-build",
+      "title": "B44 — Projekt P1 — repo hygiene + drift",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Projekt P1: drift-smokes, journal-2d, mabra. Minimal fix om FAIL.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v44/b44-build.md"
+    },
+    {
+      "id": "b44-gate",
+      "title": "B44 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v44.md.",
+      "smoke": [
+        "npm run smoke:journal-2d",
+        "npm run smoke:mabra",
+        "npm run smoke:valv"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v44/b44-gate.md"
+    },
+    {
+      "id": "b44-vakt",
+      "title": "B44 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v44. Handoff v45.",
+      "smoke": [
+        "npm run smoke:journal-2d",
+        "npm run smoke:mabra",
+        "npm run smoke:valv"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v44/b44-vakt.md"
+    }
+  ]
+}
