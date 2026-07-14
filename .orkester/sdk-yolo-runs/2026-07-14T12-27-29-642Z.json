@@ -1,0 +1,14 @@
+{
+  "at": "2026-07-14T12:27:29.642Z",
+  "runner": "sdk:yolo",
+  "version": 14,
+  "mode": "task",
+  "cloud": false,
+  "branch": null,
+  "runs": [],
+  "current": {
+    "taskId": "p95-entry-g85",
+    "title": "P95 — Entry G85 viewport + tab-lazy",
+    "mode": "task"
+  }
+}
