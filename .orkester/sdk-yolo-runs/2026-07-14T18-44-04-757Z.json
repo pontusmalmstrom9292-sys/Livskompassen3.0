@@ -1,0 +1,26 @@
+{
+  "at": "2026-07-14T18:44:04.757Z",
+  "runner": "sdk:yolo",
+  "version": 46,
+  "mode": "run",
+  "cloud": false,
+  "branch": null,
+  "runs": [
+    {
+      "runId": "run-1b8e1a8c-d6be-4e0a-9368-5faac2c5fa17",
+      "agentId": "agent-de60e743-94c0-41cb-bbdb-b094c3da38c6",
+      "taskId": "b46-build",
+      "title": "B46 — Arkiv batch — tre silos dry-run",
+      "mode": "task",
+      "status": "error",
+      "excerpt": ""
+    }
+  ],
+  "current": {
+    "taskId": "b46-build",
+    "title": "B46 — Arkiv batch — tre silos dry-run",
+    "mode": "task"
+  },
+  "stoppedAt": "b46-build",
+  "reason": "agent"
+}

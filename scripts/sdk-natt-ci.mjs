@@ -9,6 +9,7 @@
  */
 import { spawn } from "node:child_process";
 import { Agent, CursorAgentError } from "@cursor/sdk";
+import { loadCursorApiKey } from "./lib/load_cursor_api_key.mjs";
 import {
   root,
   REPO,
@@ -90,6 +91,7 @@ async function runCloudAgent(apiKey) {
 }
 
 async function main() {
+  loadCursorApiKey();
   const apiKey = process.env.CURSOR_API_KEY?.trim();
 
   if (forceLocal || !apiKey) {

@@ -126,6 +126,7 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
       <select
         value={category}
         onChange={(e) => setCategory(e.target.value as LivsloggCategory)}
+        aria-label={`Kategori för ${childAlias}s livslogg`}
         className="input-glass w-full rounded-xl px-3 py-2"
         disabled={loading}
       >
@@ -141,6 +142,7 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
           <button
             key={kind}
             type="button"
+            aria-pressed={epistemicKind === kind}
             onClick={() => setEpistemicKind(kind)}
             className={
               epistemicKind === kind

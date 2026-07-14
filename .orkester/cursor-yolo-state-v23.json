@@ -1,0 +1,38 @@
+{
+  "version": 23,
+  "queueFile": ".orkester/cursor-yolo-queue-v23.json",
+  "startedAt": "2026-07-14T16:40:26.032Z",
+  "updatedAt": "2026-07-14T17:00:40.527Z",
+  "sequentialPhase": {
+    "status": "in_progress",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "p184-baseline",
+      "p185-auto-lock-hygiene",
+      "p186-security",
+      "p187-ux-guardian",
+      "p188-drift",
+      "p189-design-debt",
+      "p190-fortification",
+      "p191-integration",
+      "p192-yolo-vakt"
+    ],
+    "skippedTaskIds": [
+      "p183-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "p183-deploy",
+    "p184-baseline",
+    "p185-auto-lock-hygiene",
+    "p186-security",
+    "p187-ux-guardian",
+    "p188-drift",
+    "p189-design-debt",
+    "p190-fortification",
+    "p191-integration",
+    "p192-yolo-vakt"
+  ],
+  "notes": "YOLO v23 Auto-Lock — SDK marathon scaffold"
+}

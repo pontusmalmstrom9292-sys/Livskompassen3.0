@@ -1,0 +1,29 @@
+{
+  "version": 47,
+  "queueFile": ".orkester/cursor-yolo-queue-v47.json",
+  "buildWaveId": "MINNE-DEPLOY",
+  "startedAt": "2026-07-14T18:51:08.902Z",
+  "updatedAt": "2026-07-14T18:51:08.903Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b47-build",
+      "b47-gate",
+      "b47-vakt"
+    ],
+    "skippedTaskIds": [
+      "b47-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b47-deploy",
+    "b47-build",
+    "b47-gate",
+    "b47-vakt"
+  ],
+  "gateVerdict": "GO",
+  "goNoGo": "GO",
+  "marathonComplete": true
+}

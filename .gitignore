@@ -27,6 +27,7 @@ docs/archive/drive-backup/*
 # Build output
 dist/
 build/
+e2e/.auth/
 functions/lib/
 *.tsbuildinfo
 

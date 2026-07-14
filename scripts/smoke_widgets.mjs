@@ -24,6 +24,63 @@ assert(shell.includes('Dölj nu'), 'WidgetShell saknar panik «Dölj nu»');
 assert(shell.includes('WidgetShellProvider'), 'WidgetShell saknar rensa-vid-stäng provider');
 assert(shell.includes('widget-shell--panic'), 'WidgetShell saknar panik-blur på innehåll');
 assert(shell.includes('widget-panic-blur-overlay'), 'WidgetShell saknar panik-overlay');
+assert(shell.includes('showAppLink = false'), 'WidgetShell ska defaulta showAppLink till false');
+assert(shell.includes('widget-shell__brand--static'), 'WidgetShell ska ha statisk brand utan app-länk');
+
+console.log('[smoke:widgets] Standalone auth bypass…');
+const appUnlock = readCanonical('src/modules/core/auth/AppUnlockGate.tsx');
+assert(appUnlock.includes("pathname.startsWith('/widget')"), 'AppUnlockGate ska bypassa biometri på /widget/*');
+
+const widgetPages = [
+  'WidgetCompassPage.tsx',
+  'WidgetHamnPage.tsx',
+  'WidgetFamiljenPage.tsx',
+  'WidgetStampPage.tsx',
+  'WidgetSnabbvalPage.tsx',
+  'WidgetVoiceVaultPage.tsx',
+  'WidgetActionDashboardPage.tsx',
+  'WidgetModulerPage.tsx',
+];
+for (const page of widgetPages) {
+  const src = readCanonical(`src/modules/features/widgets/pages/${page}`);
+  assert(src.includes('variant="widget"'), `${page} ska använda AuthGate variant=widget`);
+}
+
+const projektPage = readCanonical('src/modules/features/widgets/pages/WidgetProjektPage.tsx');
+assert(!projektPage.includes("navigate('/projekt')"), 'WidgetProjektPage ska inte redirecta till /projekt');
+
+console.log('[smoke:widgets] Standalone skin primitiver…');
+assert(existsSync(resolve(root, 'src/styles/widget-tokens.css')), 'widget-tokens.css saknas');
+assert(existsSync(resolve(root, 'src/modules/features/widgets/components/WidgetButton.tsx')), 'WidgetButton saknas');
+assert(existsSync(resolve(root, 'src/modules/features/widgets/components/WidgetActionTile.tsx')), 'WidgetActionTile saknas');
+
+const recordPage = readCanonical('src/modules/features/widgets/pages/WidgetRecordPage.tsx');
+assert(recordPage.includes('WidgetButton'), 'WidgetRecordPage ska använda WidgetButton');
+assert(!recordPage.includes('ButtonLink to="/valvet"'), 'WidgetRecordPage ska inte länka till Valv');
+
+const notePageCapture = readCanonical('src/modules/features/widgets/pages/WidgetNotePage.tsx');
+assert(notePageCapture.includes('WidgetButton'), 'WidgetNotePage ska använda WidgetButton');
+assert(!notePageCapture.includes('ButtonLink'), 'WidgetNotePage ska inte ha ButtonLink till app');
+
+const actionDash = readCanonical('src/modules/features/widgets/components/ActionDashboard.tsx');
+assert(actionDash.includes('WidgetButton'), 'ActionDashboard ska använda WidgetButton');
+assert(!actionDash.includes('ButtonLink'), 'ActionDashboard ska inte länka till huvudapp');
+
+assert(notePageCapture.includes('ChameleonInputShell'), 'WidgetNotePage ska morpha silo/compose via Chameleon');
+assert(notePageCapture.includes('Fortsätt till text'), 'WidgetNotePage ska ha silo→compose steg');
+
+const siloPicker = readCanonical('src/modules/features/widgets/components/WidgetSiloChipPicker.tsx');
+assert(siloPicker.includes('WidgetButton'), 'WidgetSiloChipPicker ska använda WidgetButton');
+
+assert(existsSync(resolve(root, 'src/modules/features/widgets/components/WidgetSuccessCard.tsx')), 'WidgetSuccessCard saknas');
+assert(existsSync(resolve(root, 'src/modules/features/widgets/components/WidgetDashboardSection.tsx')), 'WidgetDashboardSection saknas');
+
+const actionDashV2 = readCanonical('src/modules/features/widgets/components/ActionDashboard.tsx');
+assert(actionDashV2.includes('WidgetDashboardSection'), 'ActionDashboard ska använda WidgetDashboardSection');
+assert(!actionDashV2.includes('BentoCard'), 'ActionDashboard ska inte använda BentoCard');
+
+const ethics = readCanonical('src/modules/features/widgets/components/WidgetRecordingEthicsGate.tsx');
+assert(ethics.includes('WidgetButton'), 'WidgetRecordingEthicsGate ska använda WidgetButton');
 
 const note = readCanonical('src/modules/features/widgets/pages/WidgetNotePage.tsx');
 assert(note.includes('WidgetSiloChipPicker'), 'WidgetNotePage saknar silo-chip');
@@ -62,8 +119,8 @@ assert(kompaktRail.includes('/widget/inspelning'), 'W1 kompakt rail ska routea t
 const railConfig = readCanonical('src/modules/features/widgets/config/w1KompaktRailActions.ts');
 assert(railConfig.includes("label: 'Nytt projekt'"), 'W1 rail config saknar Nytt projekt');
 assert(railConfig.includes("label: 'Planering'"), 'W1 rail config saknar Planering');
-const projektPage = readCanonical('src/modules/features/widgets/pages/WidgetProjektPage.tsx');
-assert(projektPage.includes('W1KompaktProjektRail'), 'WidgetProjektPage saknar kompakt rail');
+const projektPageRail = readCanonical('src/modules/features/widgets/pages/WidgetProjektPage.tsx');
+assert(projektPageRail.includes('W1KompaktProjektRail'), 'WidgetProjektPage saknar kompakt rail');
 const edgeDock = readCanonical('src/modules/core/components/W1EdgeQuickDock.tsx');
 assert(edgeDock.includes('W1KompaktProjektRail'), 'W1EdgeQuickDock ska använda kompakt rail');
 const mainLayout = readCanonical('src/modules/core/layout/MainLayout.tsx');
@@ -86,6 +143,31 @@ const androidStrings = readCanonical('android/app/src/main/res/values/strings.xm
 assert(androidStrings.includes('En rad → Inkast'), 'WH2 Android subtitle ska peka Inkast');
 assert(androidStrings.includes('Snabbanteckning'), 'WH2 Android title ska vara Snabbanteckning');
 
+console.log('[smoke:widgets] Android WH7 Åtgärder…');
+const actionProvider = readCanonical('android/app/src/main/java/com/livskompassen/app/widgets/ActionDashboardWidgetProvider.java');
+assert(actionProvider.includes('ActionDashboardWidgetProvider'), 'WH7 ActionDashboardWidgetProvider saknas');
+assert(actionProvider.includes('/widget/aktioner'), 'WH7 ska deep-linka till /widget/aktioner');
+assert(existsSync(resolve(root, 'android/app/src/main/res/xml/widget_action_dashboard_info.xml')), 'widget_action_dashboard_info saknas');
+assert(existsSync(resolve(root, 'android/app/src/main/res/drawable/widget_ic_wh7_actions.xml')), 'widget_ic_wh7_actions saknas');
+assert(androidStrings.includes('widget_action_title'), 'WH7 strings saknas');
+const manifest = readCanonical('android/app/src/main/AndroidManifest.xml');
+assert(manifest.includes('ActionDashboardWidgetProvider'), 'AndroidManifest saknar WH7 receiver');
+
+console.log('[smoke:widgets] Android WH8 Mina moduler…');
+const modulerProvider = readCanonical('android/app/src/main/java/com/livskompassen/app/widgets/ModulerWidgetProvider.java');
+assert(modulerProvider.includes('ModulerWidgetProvider'), 'WH8 ModulerWidgetProvider saknas');
+assert(modulerProvider.includes('/widget/moduler'), 'WH8 ska deep-linka till /widget/moduler');
+assert(existsSync(resolve(root, 'android/app/src/main/res/xml/widget_moduler_info.xml')), 'widget_moduler_info saknas');
+assert(existsSync(resolve(root, 'android/app/src/main/res/drawable/widget_ic_wh8_moduler.xml')), 'widget_ic_wh8_moduler saknas');
+assert(androidStrings.includes('widget_moduler_title'), 'WH8 strings saknas');
+assert(manifest.includes('ModulerWidgetProvider'), 'AndroidManifest saknar WH8 receiver');
+
+console.log('[smoke:widgets] Design Freeport standalone lab…');
+const freeportPage = readCanonical('src/modules/sandbox/DesignFreeportPage.tsx');
+assert(freeportPage.includes('WidgetStandaloneLab'), 'Design Freeport saknar WidgetStandaloneLab');
+assert(freeportPage.includes('widget-standalone'), 'Design Freeport saknar widget-standalone panel');
+assert(existsSync(resolve(root, 'docs/design/widget/STANDALONE-WIDGET-SKIN.md')), 'STANDALONE-WIDGET-SKIN.md saknas');
+
 console.log('[smoke:widgets] PV1a Fyren silo-labels…');
 const fyren = readCanonical('src/modules/core/components/FyrenWidgetBar.tsx');
 assert(fyren.includes("label: 'Dagbok'"), 'Fyren saknar Dagbok-label');
@@ -95,5 +177,18 @@ assert(fyren.includes("to: '/widget/familjen'"), 'Fyren saknar barnobs-route');
 const sideDock = readCanonical('src/modules/core/components/FyrenSideQuickDock.tsx');
 assert(sideDock.includes("label: 'Dagbok'"), 'Side dock saknar Dagbok-label');
 assert(sideDock.includes("label: 'Barnobs'"), 'Side dock saknar Barnobs-label');
+
+console.log('[smoke:widgets] v3 HomeWidgetRenderer + moduler-route…');
+const homeRenderer = readCanonical('src/modules/features/widgets/components/HomeWidgetRenderer.tsx');
+assert(homeRenderer.includes('WidgetDashboardSection'), 'HomeWidgetRenderer ska använda WidgetDashboardSection');
+assert(!homeRenderer.includes('BentoCard'), 'HomeWidgetRenderer ska inte använda BentoCard');
+assert(existsSync(resolve(root, 'src/modules/features/widgets/components/WidgetModulerBoard.tsx')), 'WidgetModulerBoard saknas');
+assert(existsSync(resolve(root, 'src/modules/features/widgets/pages/WidgetModulerPage.tsx')), 'WidgetModulerPage saknas');
+const modulerBoard = readCanonical('src/modules/features/widgets/components/WidgetModulerBoard.tsx');
+assert(modulerBoard.includes('subscribeUserWidgets'), 'WidgetModulerBoard ska prenumerera user_widgets');
+assert(modulerBoard.includes('HomeWidgetRenderer'), 'WidgetModulerBoard ska rendera HomeWidgetRenderer');
+const widgetRoutes = readCanonical('src/modules/features/widgets/routing/WidgetRoutes.tsx');
+assert(widgetRoutes.includes('path="moduler"'), 'WidgetRoutes saknar /widget/moduler');
+assert(existsSync(resolve(root, 'docs/evaluations/2026-07-14-unlock-MOD-WIDGET-standalone-v3.md')), 'v3 unlock-doc saknas');
 
 console.log('[smoke:widgets] PASS');

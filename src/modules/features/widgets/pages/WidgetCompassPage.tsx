@@ -14,7 +14,7 @@ function WidgetCompassInner() {
 
 export function WidgetCompassPage() {
   return (
-    <AuthGate>
+    <AuthGate variant="widget" widgetTitle="Kompass">
       <WidgetCompassInner />
     </AuthGate>
   );

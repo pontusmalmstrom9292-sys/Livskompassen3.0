@@ -97,7 +97,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   {
     id: 'vardagen_kompasser',
     label: 'Kompasser',
-    path: '/vardagen?tab=kompasser',
+    path: '/vardagen',
     section: 'vardag',
     inDrawer: false,
     parentId: 'vardagen',
@@ -105,14 +105,14 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   {
     id: 'vardagen_mabra',
     label: 'MåBra',
-    path: '/mabra',
+    path: '/vardagen?tab=mabra',
     section: 'vardag',
     inDrawer: false,
     parentId: 'vardagen',
   },
   {
     id: 'vardagen_handling',
-    label: 'Handling',
+    label: 'Planering',
     path: '/planering?tab=handling',
     section: 'vardag',
     inDrawer: false,
@@ -128,7 +128,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   },
   {
     id: 'vardagen_ekonomi',
-    label: 'Plånbok',
+    label: 'Ekonomi',
     path: '/vardagen?tab=ekonomi',
     section: 'vardag',
     inDrawer: false,

@@ -1,0 +1,83 @@
+{
+  "version": 40,
+  "description": "Cursor YOLO v40 — BUILD INTEGRATION: Integration dry-run — innehåll + seed",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 40,
+    "id": "INTEGRATION",
+    "title": "Integration dry-run — innehåll + seed",
+    "agent": "livskompassen-arkiv-master",
+    "plan": "Integration: smoke:innehall, content-waves, preflight. Aldrig --apply.",
+    "smoke": [
+      "npm run smoke:innehall",
+      "npm run smoke:content-waves"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "keywords": [
+      "integration",
+      "innehall",
+      "seed",
+      "FACT",
+      "REFLECTION"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b40-deploy",
+      "title": "B40 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v40/b40-deploy.md"
+    },
+    {
+      "id": "b40-build",
+      "title": "B40 — Integration dry-run — innehåll + seed",
+      "phase": "sequential",
+      "agent": "livskompassen-arkiv-master",
+      "plan": "Integration: smoke:innehall, content-waves, preflight. Aldrig --apply.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v40/b40-build.md"
+    },
+    {
+      "id": "b40-gate",
+      "title": "B40 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v40.md.",
+      "smoke": [
+        "npm run smoke:innehall",
+        "npm run smoke:content-waves"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v40/b40-gate.md"
+    },
+    {
+      "id": "b40-vakt",
+      "title": "B40 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v40. Handoff v41.",
+      "smoke": [
+        "npm run smoke:innehall",
+        "npm run smoke:content-waves"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v40/b40-vakt.md"
+    }
+  ]
+}

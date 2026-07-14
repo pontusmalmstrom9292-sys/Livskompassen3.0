@@ -58,7 +58,11 @@ export function FamiljenLivsloggTab({ shell }: Props) {
 
       <PinnedPlaneringModuleSlot targetId="familjen.livslogg" />
 
-      <div role="tabpanel">
+      <div
+        id="child-moment-panel"
+        role="tabpanel"
+        aria-labelledby={`child-moment-tab-${view}`}
+      >
         {view === 'stunder' && <ChildMomentStunderPanel shell={shell} />}
         {view === 'om' && <ChildMomentOmPanel shell={shell} />}
         {view === 'favoriter' && <ChildMomentFavoriterPanel shell={shell} />}

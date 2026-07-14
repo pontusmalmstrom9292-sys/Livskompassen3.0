@@ -22,10 +22,24 @@ export default defineConfig({
   },
   projects: [
     {
+      name: 'setup',
+      testMatch: /auth\.setup\.ts/,
+    },
+    {
       name: 'g85-mobile',
       use: {
         ...devices['Pixel 7'],
         viewport: { width: 390, height: 844 },
+      },
+    },
+    {
+      name: 'g85-mobile-authed',
+      dependencies: ['setup'],
+      testMatch: /liv-gora-tabs|drawer-navigation/,
+      use: {
+        ...devices['Pixel 7'],
+        viewport: { width: 390, height: 844 },
+        storageState: 'e2e/.auth/user.json',
       },
     },
   ],

@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "updatedAt": "2026-07-14T19:10:00.000Z",
+  "description": "PMIR auto-SKIP register för SDK YOLO build marathon v34–v47",
+  "alwaysSkip": [
+    {
+      "id": "firestore-rules",
+      "patterns": ["firestore.rules", "storage.rules", "functions/src/sharedRules.ts"],
+      "reason": "PMIR — rules kräver Pontus OK"
+    },
+    {
+      "id": "barnporten-kanon",
+      "patterns": ["Barnporten", "barnporten", "AppRoutes"],
+      "reason": "PMIR — Barnporten kanon-UI låst"
+    },
+    {
+      "id": "minne-apply",
+      "patterns": ["--apply", "kampspar --apply", "live ingest"],
+      "reason": "PMIR — live minne/ingest kräver godkännande"
+    },
+    {
+      "id": "genkit-prod",
+      "patterns": ["genkit prod", "GENKIT_PROD"],
+      "reason": "PMIR — Genkit prod deploy"
+    },
+    {
+      "id": "gmail-oauth",
+      "patterns": ["Gmail OAuth", "gmail oauth", "GMAIL_OAUTH"],
+      "reason": "PMIR — Gmail OAuth integration"
+    }
+  ],
+  "deployRequiresOk": {
+    "hosting": "Pontus skriver OK deploy",
+    "functions": "Pontus skriver OK deploy",
+    "rules": "PMIR — aldrig auto"
+  },
+  "v47HostingDeploy": {
+    "enabled": true,
+    "requires": ["smoke:predeploy:build PASS", "SDK_YOLO_UNATTENDED=1", "b47-vakt completed"],
+    "command": "firebase deploy --only hosting"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "at": "2026-07-14T17:10:12.001Z",
+  "runner": "sdk:yolo",
+  "version": 34,
+  "mode": "run",
+  "cloud": false,
+  "branch": null,
+  "runs": [
+    {
+      "runId": "run-8d522f84-b8ee-4f9a-b1ca-55a126bab27b",
+      "agentId": "agent-66cb17e0-4d92-41fd-a5ff-b02f88ad00fc",
+      "taskId": "b34-build",
+      "title": "B34 — MOD-WIDGET v3 — standalone widget board + Android",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Jag tar MOD-WIDGET v3 i ordning: läser specialist-kanon och nuvarande widget-/Android-kod, sedan kör smoke:widgets.\nSmoke:widgets är grön — jag verifierar nu att implementationen är komplett och att TypeScript bygger.\nJämför med andra widget-sidor för att se om något saknas i v3-implementationen.\n**Plattform:** Cursor · **Läge:** Agent (Composer) · **Agent:** specialist-widgets  \n**Typ:** Verifiering — implementationen var redan klar; inga kodändringar i denna session.\n\n---\n\n## B34 — MOD-WIDGET v3 — rapport\n\n### 1. Vad som ändrades\n\n**Ingen ny diff i denna session.** MOD-WIDGET v3 är redan implementerad och verifierad:\n\n| Komponent | Status |\n|-----------|--------|\n| `WidgetModulerPage.tsx` | `@locked`, `/widget/moduler`, `AuthGate variant=\"widget\"` |\n| `WidgetModulerBoard.tsx` | `@locked`, `subscribeUserWidgets`, `HomeWidgetRenderer` |\n| `WidgetModulerAddForm.tsx` | `@locked`, 4 modultyper (nedräkning, checklista, sparmål, notis) |\n| `WidgetRoutes.tsx` | `path=\"moduler\"` |\n| `HomeWidgetRenderer.tsx` | `WidgetDashboardSection` (ingen `BentoCard`) |\n| `WidgetShell.css` | Board/add-form-stilar |\n| Android WH8 | `ModulerWidgetProvider.java` → `/widget/moduler` |\n| Android resurser | `widget_moduler_info.xml`, `widget_ic_wh8_moduler.xml`, strings, manifest |\n| Lock-hygien | `unlock-MOD-WIDGET-standalone-v3.md`, entryFile i register |\n\nLocked UX, tre silos, WORM och befintliga routes är orörda.\n\n---\n\n### 2. Smoke-resultat\n\n```\nnpm run smoke:widgets     → PASS (exit 0)\nnpm run smoke:module-lock → PASS (exit 0)\nnpx tsc --noEmit          → PASS (exit 0)\nnpm run build             → PASS (exit 0, ~18s)\n```\n\nAlla v3-krav i `smoke_widgets.mjs` uppfyllda: WH8 Android, moduler-route, board-prenumeration, unlock-doc.\n\n---\n\n### 3. Blocker\n\n**Ingen.** Inget PMIR-SKIP behövdes.\n\n---\n\n**Slutsats:** B34-build är klar. Användaren kan öppna `/widget/moduler` i webben eller lägga till Android-widgeten «Mina moduler» (WH8) på hemskärmen."
+    },
+    {
+      "runId": "run-6c29d5e2-24b8-439d-8764-c6203829f53f",
+      "agentId": "agent-66cb17e0-4d92-41fd-a5ff-b02f88ad00fc",
+      "taskId": "b34-gate",
+      "title": "B34 — Wave gate smoke",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Jag kör b34-gate som specialist-verifier: smoke-tester, wave-gate och eval build-v34.md.\nSkapar eval-dokumentet och uppdaterar YOLO-state efter att wave-gate passerat.\n**Plattform:** Cursor · **Läge:** Agent (Composer) · **Agent:** specialist-verifier  \n**Typ:** Verifiering — inga produktionskodändringar.\n\n---\n\n## B34-gate — rapport\n\n### 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/cursor-pipeline/yolo-v34/build-v34.md` | Ny eval — GO/NO-GO, smoke-matrix, artefakt-audit |\n| `.orkester/cursor-yolo-state-v34.json` | `b34-build` + `b34-gate` → completed, nästa `b34-vakt` |\n\nIngen produktionskod, inga routes, inga PMIR-filer rörda.\n\n---\n\n### 2. Smoke-resultat\n\n```\nnpm run smoke:widgets       → PASS (exit 0)\nnpm run smoke:module-lock   → PASS (exit 0)\nnpm run smoke:governance    → PASS (via wave-gate)\nnpm run build               → PASS (~31s)\nwave-gate static v34        → PASS\n```\n\nVerifierat mot kod:\n- `@locked` på `WidgetModulerPage`, `Board`, `AddForm`\n- `/widget/moduler` i routes + Android WH8 deep-link\n- `subscribeUserWidgets` + `HomeWidgetRenderer` i board\n- 22/22 module-lock, unlock v3 approved\n\n---\n\n### 3. Blocker\n\n**Ingen.** GO för b34-gate.\n\n---\n\n**Handoff:** Nästa steg är **b34-vakt** (yolo-vakt slutgate → v35)."
+    },
+    {
+      "runId": "run-4d8e72e0-9956-40a2-b11e-c675e678590e",
+      "agentId": "agent-66cb17e0-4d92-41fd-a5ff-b02f88ad00fc",
+      "taskId": "b34-vakt",
+      "title": "B34 — yolo-vakt slutgate",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Jag kör b34-vakt som yolo-vakt: smoke-tester, GO/NO-GO och handoff till v35.\nSmokes är gröna — jag skapar leveransdokument, handoff till v35 och markerar v34 som klar.\n**Plattform:** Cursor · **Läge:** Agent (Composer) · **Agent:** yolo-vakt (read-only audit)  \n**Typ:** GO/NO-GO + handoff — inga produktionskodändringar.\n\n---\n\n## B34-vakt — slutgate\n\n### GO/NO-GO: **GO**\n\n| Task | Resultat |\n|------|----------|\n| b34-deploy | **SKIP** (PMIR — ingen \"OK deploy\") |\n| b34-build | PASS — MOD-WIDGET v3 komplett |\n| b34-gate | PASS — static wave-gate |\n| b34-vakt | **GO** |\n\n---\n\n### 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-cursor-yolo-v34-leverans.md` | Ny leveransrapport (GO) |\n| `.cursor/pipeline/yolo-v35/START-PROMPT.md` | Handoff → v35 NAV-P0 |\n| `.orkester/cursor-yolo-state-v34.json` | `status: completed`, `goNoGo: GO`, handoff v35 |\n\nIngen produktionskod, inga routes, inga PMIR-filer rörda.\n\n---\n\n### 2. Smoke-resultat\n\n```\nnpm run smoke:widgets     → PASS (exit 0)\nnpm run smoke:module-lock → PASS (exit 0)\n```\n\nAudit: `@locked` bevarat, AppRoutes orörd, Barnporten orörd, rules ej rörda, 22/22 module-lock.\n\n---\n\n### 3. Blocker\n\n**Ingen.** b34-deploy förblir SKIP tills Pontus säger \"OK deploy\".\n\n---\n\n**Ett nästa steg:** Öppna ny chatt och klistra in `.cursor/pipeline/yolo-v35/START-PROMPT.md` — v35 NAV-P0 (Liv och göra-flikar + drawer accordion)."
+    }
+  ],
+  "current": {
+    "taskId": "b34-vakt",
+    "title": "B34 — yolo-vakt slutgate",
+    "mode": "task"
+  },
+  "completed": true
+}

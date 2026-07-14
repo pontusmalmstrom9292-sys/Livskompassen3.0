@@ -1,0 +1,85 @@
+{
+  "version": 36,
+  "description": "Cursor YOLO v36 — BUILD PREMIUM-UI: Premium UI polish — Executive Midnight",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 36,
+    "id": "PREMIUM-UI",
+    "title": "Premium UI polish — Executive Midnight",
+    "agent": "specialist-ux-guardian",
+    "plan": "Premium UI pass: tokens, calm cards, design-debt 0. Ingen redesign — polish only.",
+    "smoke": [
+      "npm run smoke:design-debt",
+      "npm run smoke:calm-card-audit",
+      "npm run smoke:copy-audit"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "keywords": [
+      "premium",
+      "design",
+      "Executive Midnight",
+      "tokens"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b36-deploy",
+      "title": "B36 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v36/b36-deploy.md"
+    },
+    {
+      "id": "b36-build",
+      "title": "B36 — Premium UI polish — Executive Midnight",
+      "phase": "sequential",
+      "agent": "specialist-ux-guardian",
+      "plan": "Premium UI pass: tokens, calm cards, design-debt 0. Ingen redesign — polish only.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v36/b36-build.md"
+    },
+    {
+      "id": "b36-gate",
+      "title": "B36 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v36.md.",
+      "smoke": [
+        "npm run smoke:design-debt",
+        "npm run smoke:calm-card-audit",
+        "npm run smoke:copy-audit"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v36/b36-gate.md"
+    },
+    {
+      "id": "b36-vakt",
+      "title": "B36 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v36. Handoff v37.",
+      "smoke": [
+        "npm run smoke:design-debt",
+        "npm run smoke:calm-card-audit",
+        "npm run smoke:copy-audit"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v36/b36-vakt.md"
+    }
+  ]
+}

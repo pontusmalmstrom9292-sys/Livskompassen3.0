@@ -85,6 +85,30 @@
                 android:resource="@xml/widget_stamp_info" />
         </receiver>
 
+        <receiver
+            android:name=".widgets.ActionDashboardWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_action_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_action_dashboard_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widgets.ModulerWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_moduler_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_moduler_info" />
+        </receiver>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"

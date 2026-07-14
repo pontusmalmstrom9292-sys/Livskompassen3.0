@@ -1,0 +1,26 @@
+{
+  "at": "2026-07-14T18:41:06.853Z",
+  "runner": "sdk:yolo",
+  "version": 45,
+  "mode": "run",
+  "cloud": false,
+  "branch": null,
+  "runs": [
+    {
+      "runId": "run-d8dfdc9a-db7d-4ec6-801b-5bb2a41219f3",
+      "agentId": "agent-01edfc39-5a22-42ca-898d-a9bbc230b3c4",
+      "taskId": "b45-build",
+      "title": "B45 — Evolution ledger — infinite evolution sync",
+      "mode": "task",
+      "status": "error",
+      "excerpt": "Jag startar med att kartlägga evolution ledger och smoke:evolution i projektet, sedan delegerar till marathon-yolo-vakt enligt uppdraget.\n"
+    }
+  ],
+  "current": {
+    "taskId": "b45-build",
+    "title": "B45 — Evolution ledger — infinite evolution sync",
+    "mode": "task"
+  },
+  "stoppedAt": "b45-build",
+  "reason": "agent"
+}

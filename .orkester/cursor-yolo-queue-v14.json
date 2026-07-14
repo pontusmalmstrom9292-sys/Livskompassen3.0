@@ -1,0 +1,111 @@
+{
+  "version": 14,
+  "description": "Cursor YOLO v14 — Liv och göra debug G85 P94–P105",
+  "sequentialPhase": { "label": "Vardagen debug + fortifikation" },
+  "tasks": [
+    {
+      "id": "p94-baseline",
+      "title": "P94 — Vardagen baseline + unlock docs",
+      "phase": "sequential",
+      "agent": "specialist-vardagen-builder",
+      "plan": "Fas 0 eval + unlock MOD-VARD-*",
+      "smoke": ["npm run smoke:superhub", "npm run smoke:design-modules"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p95-entry-g85",
+      "title": "P95 — Entry G85 viewport + tab-lazy",
+      "phase": "sequential",
+      "agent": "specialist-vardagen-builder",
+      "plan": "LivLauncherPage scroll split + lazy tab panels",
+      "smoke": ["npm run smoke:design-modules", "npm run smoke:superhub"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p96-inline-tabs",
+      "title": "P96 — Inline flikar kompasser/ekonomi/mabra",
+      "phase": "sequential",
+      "agent": "specialist-vardagen-builder",
+      "plan": "MabraHubView inline + compass guards",
+      "smoke": ["npm run smoke:mabra", "npm run smoke:ekonomi", "npm run smoke:compass"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p97-external-routes",
+      "title": "P97 — Planering/arbetsliv catch-all + EB",
+      "phase": "sequential",
+      "agent": "specialist-planering",
+      "plan": "Input EB, Suspense skeletons, catch-all",
+      "smoke": [
+        "npm run smoke:planering-gora-e",
+        "npm run smoke:planering-superhub",
+        "npm run smoke:arbetsliv",
+        "npm run smoke:arbetsliv-superhub"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p98-nav-consistency",
+      "title": "P98 — Nav konsistens mabra + legacy",
+      "phase": "sequential",
+      "agent": "specialist-ux-guardian",
+      "plan": "tabRegistry, RedirectLiv, hubContextBar, launcher CSS",
+      "smoke": ["npm run smoke:superhub", "npm run smoke:locked-ux", "npm run smoke:modulvaljare"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p99-eb-fortify",
+      "title": "P99 — Error boundary fortifikation",
+      "phase": "sequential",
+      "agent": "specialist-ux-guardian",
+      "plan": "EB på grid/intro/morgon",
+      "smoke": ["npm run smoke:design-debt", "npm run smoke:copy-audit"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p100-e2e-vardagen",
+      "title": "P100 — E2E vardagen entry + CI",
+      "phase": "sequential",
+      "agent": "specialist-smoke-runner",
+      "plan": "e2e/vardagen-entry + smoke:e2e-vardagen tier2",
+      "smoke": ["npm run smoke:e2e-vardagen"],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p101-yolo-vakt",
+      "title": "P101 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO + re-lock MOD-VARD-*",
+      "smoke": ["npm run smoke:predeploy:build"],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "p102-deploy",
+      "title": "P102 — (Valfritt) hosting deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "hosting"
+    }
+  ]
+}

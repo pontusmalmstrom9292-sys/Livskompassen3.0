@@ -15,6 +15,7 @@ import { exportVaultRecordAsPdf } from '../utils/exportVaultRecord';
 import { normalizeStringArray } from '../utils/normalizeVaultLog';
 import { scanTechniquesForLog, logHasTechnique } from '../utils/vaultPatternScan';
 import { highlightPatterns } from '../utils/vaultPatternHighlight';
+import { VaultWormEvidenceStamp } from './VaultWormEvidenceStamp';
 
 type VaultLogRow = VaultLog & { id: string; weaverTags?: WeaverTags };
 
@@ -109,10 +110,16 @@ const LogRow = memo(function LogRow({
     >
       <div className="flex items-start justify-between gap-2">
         <div>
-          <div className="valv-log-stamp mb-1">
-            <Lock className="text-indigo-400/60" size={12} />
-            <p>SERVER-TIDSSTÄMPEL · {formatServerTimestamp(log.createdAt)}</p>
-          </div>
+          {vavaren ? (
+            <div className="valv-log-stamp mb-1">
+              <Lock className="text-indigo-400/60" size={12} />
+              <p>SERVER-TIDSSTÄMPEL · {formatServerTimestamp(log.createdAt)}</p>
+            </div>
+          ) : (
+            <div className="mb-1">
+              <VaultWormEvidenceStamp createdAt={formatServerTimestamp(log.createdAt)} compact />
+            </div>
+          )}
           <p className="valv-log-meta font-mono">ID · {log.id.slice(0, 12)}…</p>
           <p className="valv-log-meta mt-1">
             {log.pinned ? 'Ankare · ' : ''}

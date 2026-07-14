@@ -2,7 +2,7 @@
 
 # Premium UI Polish — TODO
 
-**Version:** 1.2 | **Last updated:** 2026-07-11
+**Version:** 1.2 | **Last updated:** 2026-07-14
 
 Each item is independently completable. Link files in Dashboard when done.
 
@@ -259,3 +259,11 @@ Each item is independently completable. Link files in Dashboard when done.
 - Android viewport CSS + smoke:android-viewport
 - Docs: OFFLINE-ANDROID, FIREBASE-AUTH-LATHUND, .context/android-capacitor.md
 - Smoke: android-platform, planering-gora-e, inkast-fas2, locked-ux, cost-guard PASS
+
+- [x] MOD-WIDGET Standalone v1 — 5 vågor (skin, WH7, auth bypass) 2026-07-14
+## 2026-07-14 — YOLO v41 GOVERNANCE sync
+- [x] PROJECT_STATE synkad (v40 INTEGRATION GO + v41 governance)
+- [x] LOCK-MANIFEST v1.17 — register ↔ entryFiles (22 moduler, 24 entryFiles)
+- [x] `smoke:governance` + `smoke:module-lock` PASS
+- [x] Eval: `docs/evaluations/2026-07-14-governance-v41.md`
+

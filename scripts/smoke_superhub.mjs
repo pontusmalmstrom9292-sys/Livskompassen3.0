@@ -52,7 +52,7 @@ function parseVardagDrawerEntries(navTruthSrc) {
 }
 
 function main() {
-  console.log('[smoke:superhub] Drawer IA (4 rader — MENU-DRAWER-KANON)…');
+  console.log('[smoke:superhub] Drawer IA (hub-accordions från navTruth — B35)…');
 
   const navTruth = read('src/modules/core/navigation/navTruth.ts');
   const drawerNav = read('src/modules/core/navigation/drawerNav.ts');
@@ -84,9 +84,14 @@ function main() {
     'isVardagDrawerRowActive',
     'nav-drawer__row',
   );
+  mustInclude(
+    'src/modules/core/layout/NavigationDrawer.tsx',
+    '<DrawerHubAccordion',
+    'getHubNavLinks',
+  );
   assert(
-    !navigationDrawer.includes('<DrawerHubAccordion'),
-    'NavigationDrawer får inte montera DrawerHubAccordion (4 platta rader)',
+    navigationDrawer.includes('<DrawerHubAccordion'),
+    'NavigationDrawer ska montera DrawerHubAccordion (B35 accordion från navTruth)',
   );
 
   console.log('[smoke:superhub] Inga publika Valv-länkar i vardags-drawer…');
@@ -115,7 +120,7 @@ function main() {
     'path="/ekonomi"',
     'path="/stampla"',
     'NAV_PATHS.VARDAGEN',
-    'LivLauncherPage',
+    'VardagenRoutePage',
     'FamiljenPage',
   );
 
@@ -146,8 +151,13 @@ function main() {
   mustInclude('src/modules/shell/LivLauncherPage.tsx', 'LivLauncherGrid', 'LIV_LAUNCHER_EXTERNAL');
   mustInclude(
     'src/modules/shell/LivLauncherPage.tsx',
+    'LivLauncherTabContent',
+    'resolveInlineTab',
+  );
+  mustInclude(
+    'src/modules/shell/panels/LivMabraTabPanel.tsx',
     'MabraHubView',
-    "activeTab === 'mabra'",
+    'inlineHub',
   );
   mustInclude(
     'src/modules/core/pages/FamiljenPage.tsx',

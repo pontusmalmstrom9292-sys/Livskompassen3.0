@@ -217,7 +217,12 @@ function main() {
     '/dev/obsidian-depth-v2',
     'ObsidianDepthV2LabPage',
   );
-  mustInclude('src/index.css', 'design-freeport.css');
+  const indexCss = read('src/index.css');
+  const freeportPageCss = read('src/modules/sandbox/DesignFreeportPage.tsx');
+  assert(
+    indexCss.includes('design-freeport.css') || freeportPageCss.includes('design-freeport.css'),
+    'design-freeport.css ska importeras (index.css eller DesignFreeportPage)',
+  );
   mustInclude(
     'docs/prompts/DESIGN-FREEPORT-RESEARCH-PACK.md',
     'DESIGN FREEPORT',

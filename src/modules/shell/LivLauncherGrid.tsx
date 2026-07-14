@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import type { CalmCardGlow } from '@/shared/ui/BentoCard';
+import { VARDAGEN_LAYER_LABELS } from '@/core/copy/vardagenNavCopy';
 import {
   LIV_LAUNCHER_EXTERNAL,
   LIV_LAUNCHER_INLINE_TABS,
@@ -44,21 +45,21 @@ const GLOW_CLASS: Record<CalmCardGlow, string> = {
 export const LIV_LAUNCHER_CARDS: readonly LauncherCardDef[] = [
   {
     id: 'kompasser',
-    label: 'Dygns-Kompassen',
-    hint: 'Morgon och kväll — rytm här',
+    label: VARDAGEN_LAYER_LABELS.kompasser,
+    hint: 'Dygns-Kompassen — morgon och kväll',
     icon: Sprout,
     glow: 'gold',
   },
   {
     id: 'ekonomi',
-    label: 'Ekonomi & Mål',
+    label: VARDAGEN_LAYER_LABELS.ekonomi,
     hint: 'Budget, sparmål, saldo',
     icon: Wallet,
     glow: 'gold',
   },
   {
     id: 'mabra',
-    label: 'MåBra',
+    label: VARDAGEN_LAYER_LABELS.mabra,
     hint: 'KBT, självmedkänsla, vanor',
     icon: Sparkles,
     glow: 'green',

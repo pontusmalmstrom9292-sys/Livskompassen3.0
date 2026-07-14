@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Modal } from '@/design-system';
 import { useStore } from '../store';
 import { isAppUnlockSupported } from './appUnlock';
@@ -11,9 +12,16 @@ type Props = {
 
 /** Kräver fingeravtryck/Face ID när aktiverat och Firebase-session finns. */
 export function AppUnlockGate({ children }: Props) {
+  const location = useLocation();
   const user = useStore((s) => s.user);
   const isLoading = useStore((s) => s.system.isLoading);
   const [dismissed, setDismissed] = useState(false);
+
+  const isWidgetRoute = location.pathname.startsWith('/widget');
+
+  if (isWidgetRoute) {
+    return <>{children}</>;
+  }
 
   const needsUnlock =
     !isLoading &&

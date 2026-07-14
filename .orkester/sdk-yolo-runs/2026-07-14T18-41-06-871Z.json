@@ -1,0 +1,65 @@
+{
+  "at": "2026-07-14T18:41:06.871Z",
+  "runner": "sdk:yolo:full",
+  "fromVersion": 37,
+  "throughVersion": 47,
+  "waveGate": "full",
+  "unattended": true,
+  "startedAt": "2026-07-14T17:33:20.132Z",
+  "waves": [
+    {
+      "version": 37,
+      "sdkExit": 0,
+      "gateExit": 0,
+      "unattendedExit": 0
+    },
+    {
+      "version": 38,
+      "sdkExit": 0,
+      "gateExit": 0,
+      "unattendedExit": 0
+    },
+    {
+      "version": 39,
+      "sdkExit": 0,
+      "gateExit": 0,
+      "unattendedExit": 0
+    },
+    {
+      "version": 40,
+      "sdkExit": 0,
+      "gateExit": 0,
+      "unattendedExit": 0
+    },
+    {
+      "version": 41,
+      "sdkExit": 0,
+      "gateExit": 0,
+      "unattendedExit": 0
+    },
+    {
+      "version": 42,
+      "sdkExit": 0,
+      "gateExit": 0,
+      "unattendedExit": 0
+    },
+    {
+      "version": 43,
+      "sdkExit": 0,
+      "gateExit": 0,
+      "unattendedExit": 0
+    },
+    {
+      "version": 44,
+      "sdkExit": 0,
+      "gateExit": 0,
+      "unattendedExit": 0
+    },
+    {
+      "version": 45,
+      "sdkExit": 2
+    }
+  ],
+  "stopped": true,
+  "stoppedAt": 45
+}

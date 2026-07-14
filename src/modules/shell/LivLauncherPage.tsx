@@ -4,20 +4,14 @@ import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { useStore } from '@/core/store';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { CognitiveLoadStrip } from '@/core/ui/CognitiveLoadStrip';
-import { CompassQuickWidgetRail } from '@/features/dailyLife/wellbeing/compasses/components/CompassQuickWidgetRail';
-import { DashboardPage as CompassDashboard } from '@/features/dailyLife/wellbeing/compasses/components/DashboardPage';
-import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
-import { EconomyOverviewPanel } from '@/features/dailyLife/wellbeing/economy/components/EconomyOverviewPanel';
-import { EkonomiInputSuperModule } from '@/features/dailyLife/wellbeing/economy/supermodule';
-import { MabraHubView } from '@/features/dailyLife/wellbeing/mabra/views/MabraHubView';
 import { LivLauncherGrid, type LivLauncherId } from './LivLauncherGrid';
+import { LivLauncherTabContent } from './LivLauncherTabContent';
 import {
   LIV_LAUNCHER_EXTERNAL,
   LIV_LAUNCHER_INLINE_TABS,
   resolveLivLegacyTabRedirect,
 } from './livLauncherRoutes';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
-import { BentoCard } from '@/shared/ui/BentoCard';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { VardagenBentoShell } from './components/VardagenBentoShell';
@@ -38,7 +32,7 @@ function resolveInlineTab(raw: string | null): LivInlineTab {
 
 /**
  * Liv och göra — launcher-hub.
- * Stora kort; kompass/ekonomi inline, övrigt navigerar till egen fullsid-route.
+ * Stora kort; kompass/ekonomi/mabra inline, övrigt navigerar till egen fullsid-route.
  */
 export function LivLauncherPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -58,7 +52,6 @@ export function LivLauncherPage() {
 
   const activeTab = resolveInlineTab(rawTab);
   const useLegacyEkonomi = searchParams.get('legacy') === 'true';
-  const compassFlow = getDefaultCompassByTime();
 
   const handleChange = (id: LivLauncherId) => {
     const superhubTarget = LIV_LAUNCHER_SUPERHUB_TARGETS[id];
@@ -87,6 +80,7 @@ export function LivLauncherPage() {
   return (
     <HubErrorBoundary
       title="Liv och göra kunde inte laddas"
+      errorBody="Prova att ladda om sidan. Dina sparade uppgifter påverkas inte."
       glow="gold"
       backTo={NAV_PATHS.HOME}
       backLabel="Till Hem"
@@ -98,49 +92,41 @@ export function LivLauncherPage() {
         lead="Daglig rytm, planering och mående — ett kort i taget."
         lockViewport
         fitViewport
+        contentIsland={false}
         className="vardagen-route-page"
         headerAside={<ModuleHelpFromRegistry moduleId="hub_vardagen" />}
       >
         <VardagenBentoShell>
-          <div className="liv-launcher-page mx-auto max-w-5xl space-y-4">
-            <div className="space-y-4">
+          <div className="liv-launcher-page mx-auto flex max-w-5xl min-h-0 flex-1 flex-col">
+            <div className="shrink-0 space-y-4">
               <CognitiveLoadStrip
                 label="Ett steg i taget"
                 hint="Tryck ett kort. Kompass, ekonomi och MåBra visas här; projekt och arbetsliv öppnas på egna sidor."
               />
 
-              <VardagenZoneIntro activeTab={activeTab} />
+              <HubErrorBoundary
+                title="Zonöversikten kunde inte laddas"
+                glow="gold"
+                logTag="VardagenZoneIntro"
+              >
+                <VardagenZoneIntro activeTab={activeTab} />
+              </HubErrorBoundary>
 
-              <LivLauncherGrid activeId={activeTab} onSelect={handleChange} />
+              <HubErrorBoundary
+                title="Modulväljaren kunde inte laddas"
+                glow="gold"
+                logTag="LivLauncherGrid"
+              >
+                <LivLauncherGrid activeId={activeTab} onSelect={handleChange} />
+              </HubErrorBoundary>
             </div>
 
-            <main className="liv-launcher-page__surface mt-2 min-h-0 animate-fade-in">
-              {activeTab === 'kompasser' && (
-                <BentoCard glow="gold" depth noHover bare className="!p-4 sm:!p-5">
-                  <div className="space-y-4">
-                    <CompassQuickWidgetRail flow={compassFlow} className="compass-quick-widget-rail--in-module" />
-                    <CompassDashboard forcedFlow={compassFlow} />
-                  </div>
-                </BentoCard>
-              )}
-
-              {activeTab === 'ekonomi' && (
-                <BentoCard glow="gold" depth noHover bare className="!p-4 sm:!p-5">
-                  <div className="space-y-4">
-                    {useLegacyEkonomi ? (
-                      <EconomyOverviewPanel userId={user?.uid ?? ''} />
-                    ) : (
-                      <EkonomiInputSuperModule userId={user?.uid ?? ''} />
-                    )}
-                  </div>
-                </BentoCard>
-              )}
-
-              {activeTab === 'mabra' && (
-                <BentoCard glow="green" depth noHover bare className="!p-4 sm:!p-5">
-                  <MabraHubView />
-                </BentoCard>
-              )}
+            <main className="liv-launcher-page__surface calm-scroll-island mt-2 min-h-0 flex-1 pb-4 animate-fade-in">
+              <LivLauncherTabContent
+                activeTab={activeTab}
+                userId={user?.uid ?? ''}
+                useLegacyEkonomi={useLegacyEkonomi}
+              />
             </main>
           </div>
         </VardagenBentoShell>

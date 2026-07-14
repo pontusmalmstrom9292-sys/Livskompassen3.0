@@ -1,0 +1,97 @@
+{
+  "at": "2026-07-14T17:00:40.534Z",
+  "runner": "sdk:yolo",
+  "version": 23,
+  "mode": "run",
+  "cloud": false,
+  "branch": null,
+  "runs": [
+    {
+      "runId": "run-73a73433-1d69-4c4e-8a52-0080df6813d7",
+      "agentId": "agent-93f11cb3-9628-4f5c-8fd4-19db1feac410",
+      "taskId": "p184-baseline",
+      "title": "P184 — Read-only baseline",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Uppgiften är en read-only baseline för v23 — jag kartlägger först vad p184-baseline innebär och kör sedan smoke-verifieringen.\nKör obligatorisk smoke och samlar metrics för baseline v23.\nSmoke PASS. Skapar baseline-eval och uppdaterar state.\n**Plattform:** Cursor Agent (Composer) · **Agent:** marathon-yolo-vakt · **Läge:** read-only baseline (ingen kodändring)\n\n---\n\n## 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-yolo-v23-baseline.md` | **Ny** — baseline-eval v23 med smoke-matrix, design-debt metrics, build stats |\n| `.orkester/cursor-yolo-state-v23.json` | `p184-baseline` → `completedTaskIds`, nästa task `p185-auto-lock-hygiene` |\n\n**Ingen produktionskod** ändrades — read-only baseline, alla smokes gröna utan fix.\n\n---\n\n## 2. Smoke-resultat\n\n| Smoke | Resultat |\n|-------|----------|\n| `npm run smoke:predeploy:build` | **PASS** (exit 0, ~85s) |\n\n**Build:** Vite 8.0.16 · 4200 moduler · `index.css` gzip 60.86 kB  \n**Tier1 smokes (ingår i predeploy):** chrome-header, design-modules, manifest, functions-pin, orkester, agents-ui (8/8), innehall, mdc, governance, module-lock (22/22 locked), widgets (WH1/WH2/WH7/WH8 + v3 moduler), valv-security, plausible-deniability, e2e-locked-ux (10/10, 27.9s), cost-guard — alla **PASS**\n\n**Design-debt:** btnPill 0 · dsBtn 0 · adHocDialog 0 · indexCssLoc 61\n\n---\n\n## 3. Blocker\n\n**Ingen.** P183 deploy var redan SKIP (PMIR). Kända info-GAP dokumenterade i eval (dev-server screenshot skip, G85-7d, CAP-BASELINES).\n\n---\n\n**Slutsats: P184 baseline PASS** → startgate GO, nästa steg i kön är **P185 auto-lock hygiene**."
+    },
+    {
+      "runId": "run-abec1c8e-6a93-447e-af30-57ade21c7717",
+      "agentId": "agent-93f11cb3-9628-4f5c-8fd4-19db1feac410",
+      "taskId": "p185-auto-lock-hygiene",
+      "title": "P185 — Auto-lock hygiene",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "P185 auto-lock hygiene — jag kartlägger LOCK-MANIFEST och entryFiles, kör smoke och fixar bara det som behövs.\nAllt är synkat — uppdaterar hygiene-dokumentation och state enligt v22-mönstret.\n**Plattform:** Cursor Agent (Composer) · **Agent:** marathon-verifier · **Läge:** hygiene verify (additiv docs only)\n\n---\n\n## 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `.context/module-lock-register.json` | `updatedAt` → P185 verify-timestamp |\n| `docs/governance/LOCK-MANIFEST.md` | v1.15 · ny § Agent-fortifikation v13 (YOLO v23 P185) |\n| `docs/evaluations/2026-07-14-auto-lock-hygiene-v23.md` | **Ny** — hygiene-rapport |\n| `.orkester/cursor-yolo-state-v23.json` | `p185-auto-lock-hygiene` → completed, nästa `p186-security` |\n\n**Ingen produktionskod** ändrades. Register och LOCK-MANIFEST var redan i sync (22 moduler, 24 entryFiles).\n\n---\n\n## 2. Smoke-resultat\n\n| Smoke | Resultat |\n|-------|----------|\n| `npm run smoke:module-lock` | **PASS** |\n\n- 22 moduler, alla locked  \n- Alla 24 entryFiles finns med `@locked` / `@locked-ux` / `PROTECTED CORE`  \n- MOD-WIDGET: 3 entryFiles + `@locked` på Board/AddForm  \n- Locked diff guard: OK (approved unlock doc för MOD-WIDGET)\n\n---\n\n## 3. Blocker\n\n**Ingen.** Hygiene PASS → nästa steg **P186 security read-only**."
+    },
+    {
+      "runId": "run-38675df1-2dbb-44e8-b39a-2c8d3013c588",
+      "agentId": "agent-93f11cb3-9628-4f5c-8fd4-19db1feac410",
+      "taskId": "p186-security",
+      "title": "P186 — Security read-only",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "P186 är read-only säkerhetsaudit — jag kör smoke-gates och skapar security-v23-eval enligt v22-mönstret.\nSmokes gröna — skapar security-v23-eval och uppdaterar state.\n**Plattform:** Cursor Agent (Composer) · **Agent:** marathon-security · **Läge:** read-only audit (ingen kodändring)\n\n---\n\n## 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-security-v23.md` | **Ny** — WORM, tre silos, Zero Footprint, PMIR-scan |\n| `.orkester/cursor-yolo-state-v23.json` | `p186-security` → completed, nästa `p187-ux-guardian` |\n\n**Ingen produktionskod** ändrades — read-only audit.\n\n---\n\n## 2. Smoke-resultat\n\n| Smoke | Resultat |\n|-------|----------|\n| `npm run smoke:manifest` | **PASS** |\n| `npm run smoke:valv-security` | **PASS** |\n\n**WORM:** `reality_vault` update blockerad · manifest ↔ rules alignment OK  \n**Silos:** K/V/F isolerade · kunskap → valv cross-RAG **STOPPAD**  \n**Zero Footprint:** session lifecycle + Valv hardening verifierad\n\n---\n\n## 3. Blocker\n\n**Ingen.** Verdict **GO** → nästa steg **P187 locked UX re-snapshot**."
+    },
+    {
+      "runId": "run-ad5f148f-c2f1-47fc-b7f8-418853493ff1",
+      "agentId": "agent-93f11cb3-9628-4f5c-8fd4-19db1feac410",
+      "taskId": "p187-ux-guardian",
+      "title": "P187 — Locked UX re-snapshot",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "P187 är Locked UX re-snapshot — jag kör de fyra smoke-gates och skapar eval enligt v22-mönstret.\nAlla smokes PASS — skapar eval och uppdaterar state.\n**Plattform:** Cursor Agent (Composer) · **Agent:** marathon-ux-guardian · **Läge:** read-only re-snapshot (ingen kodändring)\n\n---\n\n## 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-locked-ux-v23.md` | **Ny** — Locked UX re-snapshot med smoke-logg |\n| `.orkester/cursor-yolo-state-v23.json` | `p187-ux-guardian` → completed, nästa `p188-drift` |\n\n**Ingen produktionskod** ändrades.\n\n---\n\n## 2. Smoke-resultat\n\n| Smoke | Resultat |\n|-------|----------|\n| `npm run smoke:locked-ux` | **PASS** |\n| `npm run smoke:e2e-locked-ux` | **PASS** (10/10, ~33.5s) |\n| `npm run smoke:plausible-deniability` | **PASS** |\n| `npm run smoke:basta-dock-lock` | **PASS** |\n\nLocked UX-kontroller intakta: Barnfokus dold, Valv-gate, Fyren/silos, crown header + dock v2, Obsidian Calm tokens.\n\n---\n\n## 3. Blocker\n\n**Ingen.** Verdict **GO** → nästa steg **P188 drift & smoke**."
+    },
+    {
+      "runId": "run-05b22c5a-2c89-45f0-b30f-7853e7d3694f",
+      "agentId": "agent-93f11cb3-9628-4f5c-8fd4-19db1feac410",
+      "taskId": "p188-drift",
+      "title": "P188 — Drift & smoke",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "P188 drift — kör de fyra smoke-gates och skapar drift-v23-eval.\nAlla smokes PASS — skapar drift-eval och uppdaterar state.\n**Plattform:** Cursor Agent (Composer) · **Agent:** marathon-verifier · **Läge:** drift verify (ingen kodändring)\n\n---\n\n## 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-drift-v23.md` | **Ny** — drift-audit med smoke-resultat |\n| `.orkester/cursor-yolo-state-v23.json` | `p188-drift` → completed, nästa `p189-design-debt` |\n\n**Ingen produktionskod** ändrades — ingen drift att åtgärda.\n\n---\n\n## 2. Smoke-resultat\n\n| Smoke | Resultat | Not |\n|-------|----------|-----|\n| `npm run smoke:journal-2d` | **PASS** | journal WORM OK — `QQHMXpp3f1GbdqqOjnuJ` |\n| `npm run smoke:mabra` | **PASS** | sessions, vit_hub, coach, guardrails |\n| `npm run smoke:valv` | **PASS** | reality_vault seed + WebAuthn-gate |\n| `npm run smoke:widgets` | **PASS** | WH1/WH2/WH7/WH8 + v3 moduler-route |\n\n---\n\n## 3. Blocker\n\n**Ingen.** Info-GAP: `VALV-CHAT-E2E` kräver manuell app + Fyren (ej blocker).\n\nVerdict **GO** → nästa steg **P189 design-debt guard**."
+    },
+    {
+      "runId": "run-8ac82648-0967-4d87-8975-591e31b65f50",
+      "agentId": "agent-93f11cb3-9628-4f5c-8fd4-19db1feac410",
+      "taskId": "p189-design-debt",
+      "title": "P189 — Design-debt guard",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "P189 design-debt guard — kör de tre smoke-gates och skapar eval enligt v22-mönstret.\nAlla smokes PASS — skapar eval och uppdaterar state.\n**Plattform:** Cursor Agent (Composer) · **Agent:** marathon-ux-guardian · **Läge:** read-only guard (ingen kodändring)\n\n---\n\n## 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-design-debt-v23.md` | **Ny** — design-debt metrics + smoke-resultat |\n| `.orkester/cursor-yolo-state-v23.json` | `p189-design-debt` → completed, nästa `p190-fortification` |\n\n**Ingen produktionskod** ändrades.\n\n---\n\n## 2. Smoke-resultat\n\n| Smoke | Resultat |\n|-------|----------|\n| `npm run smoke:design-debt` | **PASS** |\n| `npm run smoke:copy-audit` | **PASS** |\n| `npm run smoke:calm-card-audit` | **PASS** (1322 filer, inga oanvända varianter) |\n\n**Metrics:** `dsBtn` **0** · `btnPill` **0** · `adHocDialog` **0** · `indexCssLoc` **61** (mål ≤120)\n\n---\n\n## 3. Blocker\n\n**Ingen.** Verdict **GO** → nästa steg **P190 agent-fortifikation v23**."
+    },
+    {
+      "runId": "run-4284f9cb-94fa-433f-a540-e59172f8c58e",
+      "agentId": "agent-93f11cb3-9628-4f5c-8fd4-19db1feac410",
+      "taskId": "p190-fortification",
+      "title": "P190 — Agent-fortifikation v23",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "P190 agent-fortifikation — verifierar cursor:yolo:v23, queue/state och kör governance-smokes.\nSaknade v23-skript i package.json — lägger till dem och slutför fortifikationsdokumentationen.\n**Plattform:** Cursor Agent (Composer) · **Agent:** marathon-yolo-vakt · **Läge:** agent-fortifikation (additiv wiring)\n\n---\n\n## 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `package.json` | Tillagt `cursor:yolo:v23`, `cursor:yolo:v23:watch`, `sdk:yolo:v23` |\n| `docs/governance/LOCK-MANIFEST.md` | v1.16 · § Agent-fortifikation verify (P190) |\n| `docs/evaluations/2026-07-14-agent-fortification-v23.md` | **Ny** — fortifikationsrapport |\n| `.orkester/cursor-yolo-state-v23.json` | `p190-fortification` → completed, nästa `p191-integration` |\n\nQueue/state och pipeline fanns redan — endast npm-skript och docs saknades.\n\n---\n\n## 2. Smoke-resultat\n\n| Smoke | Resultat |\n|-------|----------|\n| `npm run smoke:governance` | **PASS** |\n| `npm run smoke:mdc` | **PASS** |\n| `npm run cursor:yolo:v23 -- status` | **OK** — 7/10, nästa `p191-integration` |\n\n---\n\n## 3. Blocker\n\n**Ingen.** **P190 PASS** → nästa steg **P191 integration dry-run**."
+    },
+    {
+      "runId": "run-3114faf1-8b50-4ffa-bfa7-9900e0cbda57",
+      "agentId": "agent-93f11cb3-9628-4f5c-8fd4-19db1feac410",
+      "taskId": "p191-integration",
+      "title": "P191 — Integration dry-run",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "P191 integration dry-run — kör smoke-gates och kartlägger preflight/seed --dry-run utan --apply.\nSmokes och seed dry-run klara — skapar eval och uppdaterar state.\n**Plattform:** Cursor Agent (Composer) · **Agent:** marathon-arkiv · **Läge:** integration dry-run (ingen `--apply`)\n\n---\n\n## 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-integration-v23.md` | **Ny** — dry-run-rapport |\n| `.orkester/cursor-yolo-state-v23.json` | `p191-integration` → completed, nästa `p192-yolo-vakt` |\n\n**Ingen produktionskod** ändrades. Live ingest (`--apply`) ej körd.\n\n---\n\n## 2. Smoke-resultat\n\n| Smoke / steg | Resultat |\n|--------------|----------|\n| `npm run smoke:innehall` | **PASS** |\n| `npm run smoke:content-waves` | **PASS** |\n| `seed_kampspar_profile.mjs --dry-run` | **PASS** (47 poster, inget skrivet) |\n| `integration:preflight` | **PARTIAL** — sync exit 1 (saknad källa, se nedan) |\n| `smoke:mdc` + `smoke:projekt-regler` (separat) | **PASS** |\n\n---\n\n## 3. Blocker\n\n**Ingen.** Känd info-GAP (ej blockerande):\n\n- `gemini:sync:kunskap` hoppar över saknad fil: `docs/external-ai/bifoga/03-prompter/GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER.md`\n\nVerdict **GO** → nästa steg **P192 yolo-vakt slutgate**."
+    },
+    {
+      "runId": "run-75af825e-15da-495c-947c-4f918b8219e5",
+      "agentId": "agent-93f11cb3-9628-4f5c-8fd4-19db1feac410",
+      "taskId": "p192-yolo-vakt",
+      "title": "P192 — yolo-vakt slutgate",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "P192 slutgate — kör full smoke-gate och förbereder GO/NO-GO med handoff till v24.\n**Plattform:** Cursor Agent (Composer) · **Agent:** marathon-yolo-vakt · **Läge:** slutgate + handoff\n\n---\n\n## GO/NO-GO: **GO**\n\nAlla icke-SKIP tasks PASS. `smoke:predeploy:build` grön (~92s, exit 0).\n\n---\n\n## 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `.orkester/cursor-yolo-state-v23.json` | `p192-yolo-vakt` → completed, status **complete** |\n| `docs/evaluations/2026-07-14-cursor-yolo-v23-log.md` | **Ny** — task-logg P184–P192 |\n| `docs/evaluations/2026-07-14-cursor-yolo-v23-leverans.md` | **Ny** — leveransrapport GO |\n| `.cursor/pipeline/yolo-v24/START-PROMPT.md` | **Ny** — handoff v24 |\n| `.cursor/pipeline/yolo-v23/NEXT-CHATT-PROMPT.md` | **Ny** — pekare till v24 |\n| `.orkester/cursor-yolo-queue-v24.json` | **Ny** — v24 kö (P193→P202) |\n| `.orkester/cursor-yolo-state-v24.json` | **Ny** — v24 state scaffold |\n| `docs/cursor-pipeline/yolo-v24/MASTER-SEQUENTIAL.md` | **Ny** — v24 masterplan |\n\n**Ingen produktionskod** ändrades i slutgate.\n\n---\n\n## 2. Smoke-resultat\n\n| Smoke | Resultat |\n|-------|----------|\n| `npm run smoke:predeploy:build` | **PASS** (~92s) |\n\nBuild: Vite 8.0.16 · 4200 moduler · tier1 smokes inkl. e2e-locked-ux 10/10 — alla gröna.\n\n---\n\n## 3. Blocker\n\n**Ingen.** P183 deploy **SKIP** (PMIR). INFO-GAP dokumenterade i leverans (hosting, VALV-CHAT-E2E, preflight källa, dev-server screenshot).\n\n---\n\n## v23 sammanfattning\n\n| Fas | Status |\n|-----|--------|\n| P183 Deploy | SKIP |\n| P184–P191 | PASS |\n| P192 Slutgate | **GO** |\n\n**Handoff v24:** öppna ny chatt med `.cursor/pipeline/yolo-v24/START-PROMPT.md` (P193→P202)."
+    }
+  ],
+  "current": {
+    "taskId": "p192-yolo-vakt",
+    "title": "P192 — yolo-vakt slutgate",
+    "mode": "task"
+  },
+  "completed": true
+}

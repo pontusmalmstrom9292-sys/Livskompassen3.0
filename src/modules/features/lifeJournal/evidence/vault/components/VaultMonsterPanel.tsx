@@ -9,6 +9,7 @@ import type { VaultLog } from '@/core/types/firestore';
 import { buildVaultFrequencyReport } from '../utils/vaultPatternScan';
 import { usePatternScanMetadata } from '../hooks/usePatternScanMetadata';
 import { rescanPatternMetadata, assistPatternMetadata } from '../api/patternScanService';
+import { VALV_SILO_NO_CROSS_RAG } from '../constants/valvEvidenceCopy';
 
 type Props = {
   logs: (VaultLog & { id: string })[];
@@ -126,6 +127,7 @@ export function VaultMonsterPanel({ logs, userId, onTechniqueSelect }: Props) {
         icon={<BarChart3 className="h-4 w-4" />}
         glow="gold"
       >
+        <p className="valv-silo-notice mb-3">{VALV_SILO_NO_CROSS_RAG}</p>
         <p className="text-sm text-text-muted">
           {report.totalPosts} poster · {report.smsLikePosts} kommunikationsrelaterade ·
           deterministisk skanning av dina låsta texter i arkivet.

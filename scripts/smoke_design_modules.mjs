@@ -204,7 +204,9 @@ function main() {
   );
   const appRoutes = read('src/modules/core/routing/AppRoutes.tsx');
   assert(!appRoutes.includes('VardagenShellPage'), 'AppRoutes.tsx', 'får inte mounta VardagenShellPage');
-  mustInclude('src/modules/shell/LivLauncherPage.tsx', 'LivLauncherPage', 'LIV_LAUNCHER_EXTERNAL', 'LivLauncherGrid', 'MabraHubView');
+  mustInclude('src/modules/shell/LivLauncherPage.tsx', 'LivLauncherPage', 'LIV_LAUNCHER_EXTERNAL', 'LivLauncherGrid', 'LivLauncherTabContent');
+  mustInclude('src/modules/shell/panels/LivMabraTabPanel.tsx', 'MabraHubView', 'inlineHub');
+  mustInclude('src/modules/shell/panels/LivKompasserTabPanel.tsx', 'CompassQuickWidgetRail', 'CompassDashboard');
   mustInclude('src/modules/shell/LivLauncherGrid.tsx', 'liv-launcher-card', 'LIV_LAUNCHER_CARDS');
   mustInclude('src/design-system/styles/obsidian-calm-shells.css', '.liv-launcher-grid', '.liv-launcher-card');
   mustInclude('src/modules/shell/LivBackLink.tsx', 'Liv och göra', 'NAV_PATHS.VARDAGEN');
@@ -269,7 +271,8 @@ function main() {
     'evening',
   );
   mustInclude('src/modules/core/home/DagensRiktningCard.tsx', 'CompassQuickWidgetRail');
-  mustInclude('src/modules/shell/LivLauncherPage.tsx', 'CompassQuickWidgetRail', 'getDefaultCompassByTime');
+  mustInclude('src/modules/shell/LivLauncherPage.tsx', 'LivLauncherTabContent', 'contentIsland={false}', 'calm-scroll-island');
+  mustInclude('src/modules/shell/panels/LivKompasserTabPanel.tsx', 'CompassQuickWidgetRail', 'getDefaultCompassByTime');
   mustInclude('src/modules/features/family/safeHarbor/components/HamnModuleStack.tsx', 'CompassQuickWidgetRail');
   mustInclude('src/modules/core/navigation/navTruth.ts', 'drawerHint');
   mustInclude('src/modules/core/navigation/drawerNav.ts', 'createDrawerL2Icon');

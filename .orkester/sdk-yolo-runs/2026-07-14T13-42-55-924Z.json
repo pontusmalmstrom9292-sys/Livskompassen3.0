@@ -1,0 +1,97 @@
+{
+  "at": "2026-07-14T13:42:55.935Z",
+  "runner": "sdk:yolo",
+  "version": 16,
+  "mode": "run",
+  "cloud": false,
+  "branch": null,
+  "runs": [
+    {
+      "runId": "run-42cd8b15-d70c-4902-a246-e84f442adafa",
+      "agentId": "agent-c33ad78b-6609-4612-b655-06041c644480",
+      "taskId": "p114-baseline",
+      "title": "P114 — Read-only baseline",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Uppgiften är en read-only baseline för v16 — jag kör smoke-testet och jämför mot befintlig baseline-dokumentation.\nSmoke PASS. Jag samlar baseline-metrics och skapar v16-eval-dokumentet.\nSkapar baseline-evalueringen och uppdaterar YOLO v16-state.\n**Plattform:** Cursor Agent (Composer) · **Läge:** Faktiska ändringar (dokumentation + state)\n\n---\n\n## P114 baseline — klar\n\n### 1. Vad som ändrades\n\nRead-only baseline — **ingen produktionskod** rördes.\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-yolo-v16-baseline.md` | Ny baseline-eval v16 (design-debt, smoke-matrix, GAP, PMIR-scan) |\n| `docs/cursor-pipeline/yolo-v16/MASTER-SEQUENTIAL.md` | Ny v16 pipeline-referens P113→P122 |\n| `.orkester/cursor-yolo-state-v16.json` | `p114-baseline` → completed, nästa task `p115-auto-lock-hygiene` |\n\n### 2. Smoke-resultat\n\n```\nnpm run smoke:predeploy:build → PASS (exit 0, ~84s)\n```\n\n- functions `tsc` + vite build OK\n- Full tier1 predeploy: manifest, orkester, widgets, locked-ux (10/10), governance, m.fl. — alla **PASS**\n- Info: `executive-home-visual` screenshot **SKIP** (dev server ej på :5174) — räknas som PASS\n\n### 3. Blocker\n\n**Ingen blocker.** P114 baseline: **GO** → nästa steg är **P115 auto-lock hygiene**.\n\nDokumenterade info-GAP (ej blockerande):\n- P113 deploy SKIP (väntar Pontus OK deploy)\n- `capture_baselines.mjs` har merge-konfliktmarkörer — utanför P114-scope, ej fixad"
+    },
+    {
+      "runId": "run-a227c6bc-03aa-489a-b7aa-64e6be909f0b",
+      "agentId": "agent-c33ad78b-6609-4612-b655-06041c644480",
+      "taskId": "p115-auto-lock-hygiene",
+      "title": "P115 — Auto-lock hygiene",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "P115 handlar om auto-lock hygiene — jag granskar LOCK-MANIFEST, entryFiles och module-lock-registret.\nSynkar entryFiles med LOCK-MANIFEST och lägger till `@locked`-headers på nya widget-filer.\n**Plattform:** Cursor Agent (Composer) · **Läge:** Faktiska ändringar\n\n---\n\n## P115 auto-lock hygiene — klar\n\n### 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `.context/module-lock-register.json` | MOD-WIDGET: `WidgetModulerPage.tsx` som entryFile, unlockDoc v3, timestamp |\n| `docs/governance/LOCK-MANIFEST.md` | v1.8 · ny **entryFiles-register**-tabell (22 moduler) · v16 fortifikation § |\n| `WidgetModulerBoard.tsx` | `@locked MOD-WIDGET` header |\n| `WidgetModulerAddForm.tsx` | `@locked MOD-WIDGET` header |\n| `docs/evaluations/2026-07-14-auto-lock-hygiene-v16.md` | Ny P115-eval |\n| `.orkester/cursor-yolo-state-v16.json` | `p115` → completed, nästa `p116-security` |\n\nIngen produktionslogik ändrad — endast lock-hygien och dokumentation.\n\n### 2. Smoke-resultat\n\n```\nnpm run smoke:module-lock → PASS (exit 0)\n```\n\n- 22 moduler, 22 locked\n- 24 entryFiles — alla finns på disk med korrekt `@locked`-header\n- Locked diff tillåten via godkänd unlock-doc (`standalone-v3`)\n\n### 3. Blocker\n\n**Ingen.** P115 hygiene: **GO** → nästa steg **P116 security read-only**."
+    },
+    {
+      "runId": "run-d8843219-8591-469e-96ab-238601b1cff0",
+      "agentId": "agent-c33ad78b-6609-4612-b655-06041c644480",
+      "taskId": "p116-security",
+      "title": "P116 — Security read-only",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "P116 är en read-only säkerhetsaudit — jag kör smoke-testerna och granskar WORM/silo-guards mot v15-mallen.\n**Plattform:** Cursor Agent (Composer) · **Läge:** Read-only audit (ingen produktionskod ändrad)\n\n---\n\n## P116 security read-only — klar\n\n### 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-security-v16.md` | Ny read-only security-eval (WORM, silos, Zero Footprint, PMIR-scan) |\n| `.orkester/cursor-yolo-state-v16.json` | `p116-security` → completed, nästa `p117-ux-guardian` |\n\n**Ingen kod** i `firestore.rules`, `storage.rules`, `sharedRules.ts` eller annan PMIR-zon.\n\n### 2. Smoke-resultat\n\n| Smoke | Resultat |\n|-------|----------|\n| `smoke:manifest` | **PASS** — silo K/V/F OK, WORM alignment OK, kunskap→valv cross-RAG **STOPPAD** |\n| `smoke:valv-security` | **PASS** — Valv WORM-session hardening |\n\n### 3. Blocker\n\n**Ingen.** Security audit v16: **GO** → nästa steg **P117 locked UX re-snapshot**.\n\nWORM, tre silos (U1) och Zero Footprint-session-gates verifierade via smoke — inga nya GAP utöver befintlig P113 deploy SKIP (info)."
+    },
+    {
+      "runId": "run-f086c737-fb13-4bd0-bc88-7f8330a89cc9",
+      "agentId": "agent-c33ad78b-6609-4612-b655-06041c644480",
+      "taskId": "p117-ux-guardian",
+      "title": "P117 — Locked UX re-snapshot",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "P117 är en read-only Locked UX re-snapshot — jag kör de fyra smoke-testerna och jämför mot v15-mallen.\n**Plattform:** Cursor Agent (Composer) · **Läge:** Read-only re-snapshot (ingen produktionskod ändrad)\n\n---\n\n## P117 Locked UX re-snapshot — klar\n\n### 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-locked-ux-v16.md` | Ny locked-UX eval (smoke-matrix + kontrollista) |\n| `.orkester/cursor-yolo-state-v16.json` | `p117-ux-guardian` → completed, nästa `p118-drift` |\n\n**Ingen kod** — endast verifiering och dokumentation.\n\n### 2. Smoke-resultat\n\n| Smoke | Resultat |\n|-------|----------|\n| `smoke:locked-ux` | **PASS** |\n| `smoke:e2e-locked-ux` | **PASS** — 10/10 Playwright (~27s) |\n| `smoke:plausible-deniability` | **PASS** |\n| `smoke:basta-dock-lock` | **PASS** |\n\nLocked UX intakt: Barnfokus/Valv gated, dock v2-paritet, Fyren/silo-plausibel förnekelse, Obsidian Calm tokens.\n\n### 3. Blocker\n\n**Ingen.** P117: **GO** → nästa steg **P118 drift & smoke**."
+    },
+    {
+      "runId": "run-14ed2f53-304a-4076-beb9-be46d6f9a9f3",
+      "agentId": "agent-c33ad78b-6609-4612-b655-06041c644480",
+      "taskId": "p118-drift",
+      "title": "P118 — Drift & smoke",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "P118 är drift & smoke — jag kör de fyra smoke-testerna och jämför mot drift-v15-mallen.\nAlla fyra smokes passerade — jag skapar drift-v16-evalen och uppdaterar state.\n**Plattform:** Cursor Agent (Composer) · **Läge:** Read-only drift-audit (ingen produktionskod ändrad)\n\n---\n\n## P118 drift & smoke — klar\n\n### 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-drift-v16.md` | Ny drift-eval (smoke-matrix + verdict) |\n| `.orkester/cursor-yolo-state-v16.json` | `p118-drift` → completed, nästa `p119-design-debt` |\n\n**Ingen kod** — ingen drift att fixa.\n\n### 2. Smoke-resultat\n\n| Smoke | Resultat | Not |\n|-------|----------|-----|\n| `smoke:journal-2d` | **PASS** | Upload + journal_memories + journal WORM OK |\n| `smoke:mabra` | **PASS** | Sessions, vit_hub, coach guardrails, bank_parafras |\n| `smoke:valv` | **PASS** | reality_vault seed + WebAuthn-gate NEKAD utan biometri |\n| `smoke:widgets` | **PASS** | WH1/WH2/WH7/WH8 + v3 moduler-route + Fyren silo-labels |\n\n### 3. Blocker\n\n**Ingen.** P118: **GO** → nästa steg **P119 design-debt guard**.\n\nInfo-GAP (ej blockerande): `VALV-CHAT-E2E` — `valvChatQuery` kräver manuell app + Fyren + biometri."
+    },
+    {
+      "runId": "run-88cdf776-f7cc-4167-97b5-db265fe605c5",
+      "agentId": "agent-c33ad78b-6609-4612-b655-06041c644480",
+      "taskId": "p119-design-debt",
+      "title": "P119 — Design-debt guard",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "P119 är design-debt guard — jag kör de tre smoke-testerna och kontrollerar att dsBtn, btnPill och adHocDialog är 0.\nAlla smokes passerade — jag skapar eval-dokumentet och uppdaterar state.\n**Plattform:** Cursor Agent (Composer) · **Läge:** Read-only guard (ingen produktionskod ändrad)\n\n---\n\n## P119 design-debt guard — klar\n\n### 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-design-debt-v16.md` | Ny design-debt eval |\n| `.orkester/cursor-yolo-state-v16.json` | `p119-design-debt` → completed, nästa `p120-fortification` |\n\n**Ingen kod** — alla metrics redan inom mål.\n\n### 2. Smoke-resultat\n\n| Smoke | Resultat |\n|-------|----------|\n| `smoke:design-debt` | **PASS** — `dsBtn: 0`, `btnPill: 0`, `adHocDialog: 0` |\n| `smoke:copy-audit` | **PASS** |\n| `smoke:calm-card-audit` | **PASS** — inga oanvända calm-card-varianter |\n\n### 3. Blocker\n\n**Ingen.** P119: **GO** → nästa steg **P120 agent-fortifikation v16**."
+    },
+    {
+      "runId": "run-91f465ff-3391-404a-9be5-bd3c8a18ef30",
+      "agentId": "agent-c33ad78b-6609-4612-b655-06041c644480",
+      "taskId": "p120-fortification",
+      "title": "P120 — Agent-fortifikation v16",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "P120 handlar om agent-fortifikation v16 — jag granskar cursor:yolo:v16, queue/state och kör governance- samt mdc-smokes.\nv16 saknar i `cursor_yolo.mjs` och `package.json` — jag lägger till det och kör smokes.\n**Plattform:** Cursor Agent (Composer) · **Läge:** Faktiska ändringar (fortifikation)\n\n---\n\n## P120 agent-fortifikation v16 — klar\n\n### 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `package.json` | `cursor:yolo:v16`, `cursor:yolo:v16:watch`, `sdk:yolo:v16` |\n| `scripts/cursor_yolo.mjs` | v16 CONFIG (P113→P122), env-dok v16 |\n| `docs/evaluations/2026-07-14-agent-fortification-v16.md` | Ny P120-eval |\n| `docs/governance/LOCK-MANIFEST.md` | P120-stämpel under § Agent-fortifikation v6 |\n| `.orkester/cursor-yolo-state-v16.json` | `p120-fortification` → completed, nästa `p121-integration` |\n\nBefintliga artefakter verifierade: queue/state v16, `MASTER-SEQUENTIAL.md`, `START-PROMPT.md`, `cursor_yolo_shared.mjs` v16+.\n\n### 2. Smoke-resultat\n\n| Smoke / kommando | Resultat |\n|------------------|----------|\n| `smoke:governance` | **PASS** (20 files, module-lock OK) |\n| `smoke:mdc` | **PASS** (71 MDC, 1 alwaysApply) |\n| `cursor:yolo:v16 -- status` | **OK** — sekventiell kö aktiv (7/10 klar) |\n\n### 3. Blocker\n\n**Ingen.** P120: **GO** → nästa steg **P121 integration dry-run**."
+    },
+    {
+      "runId": "run-58b14c61-148c-46d5-b4a4-fd41e1a56312",
+      "agentId": "agent-c33ad78b-6609-4612-b655-06041c644480",
+      "taskId": "p121-integration",
+      "title": "P121 — Integration dry-run",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "P121 är integration dry-run — jag kör smoke-testerna och verifierar preflight/seed utan `--apply`.\nPreflight och seed dry-run är gröna — jag skapar eval-dokumentet och uppdaterar state.\n**Plattform:** Cursor Agent (Composer) · **Läge:** Read-only dry-run (ingen live ingest)\n\n---\n\n## P121 integration dry-run — klar\n\n### 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-integration-v16.md` | Ny integration-eval |\n| `.orkester/cursor-yolo-state-v16.json` | `p121-integration` → completed, nästa `p122-yolo-vakt` |\n\n**Ingen kod** — inget `--apply`, ingen live ingest.\n\n### 2. Smoke-resultat\n\n| Smoke / steg | Resultat |\n|--------------|----------|\n| `smoke:innehall` | **PASS** |\n| `smoke:content-waves` | **PASS** |\n| `integration:preflight` | **PASS** (sync + mdc + projekt-regler) |\n| `seed_kampspar_profile.mjs --dry-run` | **PASS** — 47 poster, inget skrivet |\n\n### 3. Blocker\n\n**Ingen.** P121: **GO** → nästa steg **P122 yolo-vakt slutgate**."
+    },
+    {
+      "runId": "run-47fd4911-56c7-4f3f-b1e2-5438c85ff844",
+      "agentId": "agent-c33ad78b-6609-4612-b655-06041c644480",
+      "taskId": "p122-yolo-vakt",
+      "title": "P122 — yolo-vakt slutgate",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "P122 är slutgate — jag kör smoke:predeploy:build och förbereder GO/NO-GO med handoff till v17.\n**Plattform:** Cursor Agent (Composer) · **Läge:** Slutgate + handoff (dokumentation + state)\n\n---\n\n## P122 yolo-vakt slutgate — **GO**\n\n### 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-cursor-yolo-v16-leverans.md` | GO/NO-GO leveransrapport v16 |\n| `docs/evaluations/2026-07-14-cursor-yolo-v16-log.md` | P122 GO-rad tillagd |\n| `.orkester/cursor-yolo-state-v16.json` | Sekventiell fas **done** (9/9 + P113 SKIP) |\n| `.cursor/pipeline/yolo-v17/START-PROMPT.md` | Handoff-prompt v17 |\n| `.cursor/pipeline/yolo-v16/NEXT-CHATT-PROMPT.md` | Pekare till ny chatt |\n| `.orkester/cursor-yolo-queue-v17.json` | v17 kö scaffold |\n| `.orkester/cursor-yolo-state-v17.json` | v17 state scaffold |\n| `docs/cursor-pipeline/yolo-v17/MASTER-SEQUENTIAL.md` | P123→P132 master |\n\n### 2. Smoke-resultat\n\n```\nnpm run smoke:predeploy:build → PASS (exit 0, ~80s)\n```\n\nFull tier1 predeploy inkl. e2e locked-ux 10/10, widgets, governance, cost-guard — alla **PASS**.\n\n### 3. Blocker\n\n**Ingen.** YOLO v16: **GO** → handoff v17 klar.\n\n| Fas v16 | Status |\n|---------|--------|\n| P113 Deploy | SKIP (väntar Pontus OK) |\n| P114–P122 | **PASS** |\n\n**Nästa steg:** Öppna ny Agent-chatt och klistra in `.cursor/pipeline/yolo-v17/START-PROMPT.md` (P123→P132).\n\n**INFO-GAP (ej blocker):** hosting deploy, VALV-CHAT-E2E, GEMINI audit-fil saknas, executive-home-visual screenshot skip."
+    }
+  ],
+  "current": {
+    "taskId": "p122-yolo-vakt",
+    "title": "P122 — yolo-vakt slutgate",
+    "mode": "task"
+  },
+  "completed": true
+}

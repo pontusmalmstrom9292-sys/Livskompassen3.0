@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { Button } from '@/design-system';
+import { WidgetButton } from './WidgetButton';
 
 /** Delad WH1-etikgrind — samma nyckel i WidgetRecordPage och ActionDashboard. */
 export const WIDGET_RECORDING_ETHICS_STORAGE_KEY = 'livskompassen_widget_recording_ethics_v1';
@@ -51,9 +51,9 @@ export function WidgetRecordingEthicsGate({
   return (
     <div className={className ?? 'elongated-module elongated-module--gold p-4'}>
       <p className="text-sm text-text-muted">{ethicsBodyText(mode)}</p>
-      <Button type="button" variant="accent" className="mt-4 w-full" onClick={onAccept}>
+      <WidgetButton type="button" variant="accent" fullWidth className="mt-4" onClick={onAccept}>
         Jag förstår — fortsätt
-      </Button>
+      </WidgetButton>
     </div>
   );
 }

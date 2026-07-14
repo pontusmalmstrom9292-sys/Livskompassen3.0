@@ -1,0 +1,14 @@
+{
+  "at": "2026-07-14T17:06:52.119Z",
+  "runner": "sdk:yolo",
+  "version": 34,
+  "mode": "task",
+  "cloud": false,
+  "branch": null,
+  "runs": [],
+  "current": {
+    "taskId": "b34-build",
+    "title": "B34 — MOD-WIDGET v3 — standalone widget board + Android",
+    "mode": "task"
+  }
+}

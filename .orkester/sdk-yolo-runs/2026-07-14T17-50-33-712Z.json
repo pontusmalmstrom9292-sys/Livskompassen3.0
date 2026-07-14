@@ -1,0 +1,43 @@
+{
+  "at": "2026-07-14T17:50:33.712Z",
+  "runner": "sdk:yolo",
+  "version": 39,
+  "mode": "run",
+  "cloud": false,
+  "branch": null,
+  "runs": [
+    {
+      "runId": "run-fa67872b-3541-4133-8ad5-452d722ab853",
+      "agentId": "agent-3d17f5b4-7d2c-4dd6-b4e9-dff02eb76dfc",
+      "taskId": "b39-build",
+      "title": "B39 — Familjen — Barnfokus, Hamn, Livslogg",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Plattform: **Cursor** · Agent-läge. Jag läser kanon och nuvarande Familjen/Hamn-kod innan jag delegerar till build-specialist-familjen.\nJag kör relevanta smoke-tester och delegerar till build-specialist-familjen för att hitta luckor.\nSubagenten har gjort ändringar — jag verifierar diffen och kör återstående smoke-tester.\n**Plattform:** Cursor · **Modell:** Composer · **Typ:** faktiska ändringar (fortifikation, minsta säkra diff)\n\n---\n\n## 1. Vad som ändrades\n\nDelegerat till **build-specialist-familjen**. Scope: Barnfokus, Trygg Hamn, Livslogg — **6 filer**, inga routes/PMIR/Barnporten rörda.\n\n| Fil | Ändring |\n|-----|---------|\n| `FamiljenBarnfokusDelegate.tsx` | `useEffect` nollställer fråga/svar/epistemik vid barnbyte eller åldersbracket — fixar att Kaspers fråga kunde hänga kvar på Arvid |\n| `FamiljenLivsloggTab.tsx` | Tabpanel `id` + `aria-labelledby` |\n| `ChildMomentTabs.tsx` | Tab `id` + `aria-controls` |\n| `ChildMomentStunderPanel.tsx` | Filterchips `aria-label` + `aria-pressed` |\n| `FamiljenLivsloggStundDelegate.tsx` | Kategori-select `aria-label` |\n| `FamiljenLivsloggObservationDelegate.tsx` | Kategori-select + epistemik `aria-pressed` |\n\n**Oförändrat (redan komplett):** `FamiljenInputSuperModule`, `TryggHamnHub`, `SafeHarborPage`, `barnfokusCatalog.ts`, WORM-spar via shell, embedded Hamn i `/familjen?tab=hamn`.\n\n---\n\n## 2. Smoke-resultat\n\n| Script | Resultat |\n|--------|----------|\n| `smoke:hamn` | **PASS** |\n| `smoke:child-moment` | **PASS** |\n| `smoke:barn-epistemik` | **PASS** |\n| `smoke:children` | **PASS** (live Firebase, ingen private_child-läcka) |\n| `smoke:locked-ux` | **PASS** |\n| Linter (ändrade filer) | **Inga fel** |\n\n---\n\n## 3. Blocker / SKIP\n\n**Inga blockers.** Alla scope-smokes gröna.\n\n| SKIP (PMIR/spec) | Orsak |\n|------------------|-------|\n| Barnporten kanon-UI | PMIR |\n| `firestore.rules`, `AppRoutes`, `sharedRules.ts` | PMIR |\n| Full Brusfilter-wizard, \"Dölj tills energi\" | Spec Fas 2 — delvis via BIFF + CalmCollapsible |\n\n---\n\n**Deploy:** none (enligt instruktion). Inget committat — säg till om du vill ha commit."
+    },
+    {
+      "runId": "run-7da3bb73-499b-43f7-9b70-0064ec4d503d",
+      "agentId": "agent-3d17f5b4-7d2c-4dd6-b4e9-dff02eb76dfc",
+      "taskId": "b39-gate",
+      "title": "B39 — Wave gate smoke",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Plattform: **Cursor** · Agent: **specialist-verifier** (read-only gate). Jag kör wave-smoke och verifierar mot kanon innan eval.\nWave-smokes är gröna; jag skapar eval + unlock-doc för module-lock-GAP (samma mönster som v37/v38).\n**Plattform:** Cursor · **Agent:** specialist-verifier (marathon-verifier) · **Typ:** endast verifiering — ingen produktionskod\n\n---\n\n## Beslut: **GO**\n\nWave-gate B39 FAMILJEN godkänd efter oberoende smoke + artefakt-audit.\n\n---\n\n### 1. Vad som ändrades\n\n**Inget i produktionskod** — ren gate-verifiering + governance-artefakter.\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/build-v39.md` | Ny eval — smoke-matrix, artefakt-audit, verdict **GO** |\n| `docs/evaluations/2026-07-14-unlock-MOD-FAM-HUB-b39-familjen-fortification.md` | Governance-fix — unlock för MOD-FAM-HUB + MOD-FAM-BARN |\n| `.orkester/cursor-yolo-state-v39.json` | `b39-gate` completed, `gateVerdict: GO`, nästa → `b39-vakt` |\n\n**b39-build (verifierat):** 6 filer — Barnfokus child-reset, Livslogg a11y. Hamn oförändrad. Barnporten PMIR orörd.\n\n---\n\n### 2. Smoke-resultat\n\n| Script | Resultat |\n|--------|----------|\n| `npm run smoke:children` | **PASS** — citations: 3, private leak: NO |\n| `npm run smoke:hamn` | **PASS** — Trygg Hamn static guards |\n| `npm run smoke:locked-ux` | **PASS** — Barnfokus, Valv, drawer, Planering, Widget, Barnporten |\n| `npm run smoke:module-lock` | **PASS** (efter unlock-doc) |\n\n---\n\n### 3. Blocker\n\n**Ingen blocker kvar.**\n\nInitial **GAP** (`module-lock` utan unlock-doc) löstes retroaktivt — samma mönster som v37/v38. Ingen PMIR-rörd.\n\n---\n\n**Nästa i kön:** `b39-vakt` (yolo-vakt slutgate → handoff v40)."
+    },
+    {
+      "runId": "run-a71c7596-d4e1-4f7b-8fc3-246193ce325f",
+      "agentId": "agent-3d17f5b4-7d2c-4dd6-b4e9-dff02eb76dfc",
+      "taskId": "b39-vakt",
+      "title": "B39 — yolo-vakt slutgate",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Plattform: **Cursor** · Agent: **yolo-vakt** (read-only slutgate). Jag kör smokes och delegerar till marathon-yolo-vakt för GO/NO-GO.\n**Plattform:** Cursor · **Agent:** yolo-vakt (marathon-yolo-vakt) · **Typ:** read-only audit + orkester-handoff\n\n---\n\n## Beslut: **GO**\n\nBuild v39 (FAMILJEN — Barnfokus, Trygg Hamn, Livslogg) är godkänd. Handoff till **v40 INTEGRATION**.\n\n---\n\n### 1. Vad som ändrades\n\n**Produktionskod:** inget i denna vakt.\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-vakt-v39.md` | Slutgate-eval, verdict **GO** |\n| `.orkester/cursor-yolo-state-v39.json` | `completed: true`, `goNoGo: GO`, handoff → v40 |\n| `.orkester/cursor-yolo-queue-v40.json` | **Ny** — INTEGRATION wave-kö |\n| `.orkester/cursor-yolo-state-v40.json` | **Ny** — `currentTaskId: b40-build` |\n| `.cursor/pipeline/yolo-v40/START-PROMPT.md` | Handoff-prompt för v40 |\n\n**b39-build (verifierat):** 6 filer — Barnfokus child-switch reset, Livslogg a11y. Hamn oförändrad. Barnporten PMIR orörd.\n\n---\n\n### 2. Smoke-resultat\n\n| Smoke | Resultat |\n|-------|----------|\n| `npm run smoke:children` | **PASS** — citations: 3, private leak: NO |\n| `npm run smoke:hamn` | **PASS** — Trygg Hamn static guards |\n| `npm run smoke:locked-ux` | **PASS** — Barnfokus, Valv, drawer, Planering, Widget, Barnporten |\n| `npm run smoke:module-lock` | **PASS** — unlock-doc godkänd |\n\n---\n\n### 3. Blocker\n\n**Ingen.**\n\n| SKIP | Orsak |\n|------|-------|\n| `b39-deploy` | PMIR — ingen explicit deploy-OK |\n\n---\n\n**Nästa steg:** `b40-build` — Integration dry-run (innehåll + seed). Startprompt: `.cursor/pipeline/yolo-v40/START-PROMPT.md`. **Aldrig `--apply`** på Kunskap-ingest."
+    }
+  ],
+  "current": {
+    "taskId": "b39-vakt",
+    "title": "B39 — yolo-vakt slutgate",
+    "mode": "task"
+  },
+  "completed": true
+}

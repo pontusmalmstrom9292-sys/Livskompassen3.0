@@ -1,0 +1,27 @@
+{
+  "version": 34,
+  "queueFile": ".orkester/cursor-yolo-queue-v34.json",
+  "buildWaveId": "MOD-WIDGET-v3",
+  "startedAt": "2026-07-14T17:06:51.671Z",
+  "updatedAt": "2026-07-14T17:10:12.001Z",
+  "sequentialPhase": {
+    "status": "in_progress",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b34-build",
+      "b34-gate",
+      "b34-vakt"
+    ],
+    "skippedTaskIds": [
+      "b34-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b34-deploy",
+    "b34-build",
+    "b34-gate",
+    "b34-vakt"
+  ],
+  "notes": "YOLO v34 BUILD — SDK marathon"
+}

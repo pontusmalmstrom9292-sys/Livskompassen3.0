@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Button, ButtonLink, TextArea } from '@/design-system';
+import { TextArea } from '@/design-system';
 import { Loader2 } from 'lucide-react';
 import { AuthGate } from '@/core/auth/AuthGate';
 import { useStore } from '@/core/store';
@@ -11,6 +11,8 @@ import { useBarnportenWidgetVariant } from '@/features/onboarding/barnporten/hoo
 import { resolveBarnportenChildAlias } from '@/features/onboarding/barnporten/constants/barnportenDeviceId';
 import { useBarnportenOfflineFlush } from '@/features/onboarding/barnporten/hooks/useBarnportenOfflineFlush';
 import { WidgetShell } from '../layout/WidgetShell';
+import { WidgetSuccessCard } from '../components/WidgetSuccessCard';
+import { WidgetButton } from '../components/WidgetButton';
 
 function WidgetBarnportenInner() {
   const user = useStore((s) => s.user);
@@ -57,17 +59,11 @@ function WidgetBarnportenInner() {
         lead="Snabb sändning — hamnar i pappas inkorg (inte i Valv automatiskt)."
       >
         {done ? (
-          <div className="elongated-module elongated-module--gold overflow-hidden p-4">
-            <p className="text-sm text-success">
-              {queued ? 'Köad — synkas när nätet finns.' : 'Skickat till pappas inkorg.'}
-            </p>
-            <ButtonLink to="/barnporten" variant="accent" className="mt-3 inline-flex text-xs">
-              Öppna Barnporten
-            </ButtonLink>
-            <Button type="button" variant="ghost" className="mt-2 w-full text-xs" onClick={() => setDone(false)}>
-              Ny rad
-            </Button>
-          </div>
+          <WidgetSuccessCard
+            message={queued ? 'Köad — synkas när nätet finns.' : 'Skickat till pappas inkorg.'}
+            actionLabel="Ny rad"
+            onAction={() => setDone(false)}
+          />
         ) : (
           <div className="space-y-3">
             <TextArea
@@ -78,15 +74,15 @@ function WidgetBarnportenInner() {
               className="input-glass neu-inset w-full resize-none text-sm"
               placeholder="Skriv här…"
             />
-            <Button
+            <WidgetButton
               type="button"
               variant="accent"
+              fullWidth
               disabled={saving || !text.trim()}
-              className="w-full"
               onClick={() => void handleSave()}
             >
               {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Skicka till pappa'}
-            </Button>
+            </WidgetButton>
             {error && <p className="text-sm text-danger">{error}</p>}
             <fieldset className="space-y-2 rounded-xl border border-amber-400/15 p-3">
               <legend className="px-1 text-[10px] uppercase tracking-widest text-text-dim">
@@ -94,7 +90,7 @@ function WidgetBarnportenInner() {
               </legend>
               <div className="grid grid-cols-2 gap-2">
                 {BARNPORTEN_WIDGET_VARIANTS.map((row) => (
-                  <Button
+                  <WidgetButton
                     key={row.id}
                     type="button"
                     variant={variant === row.id ? 'accent' : 'ghost'}
@@ -104,13 +100,10 @@ function WidgetBarnportenInner() {
                   >
                     <span className="block font-medium">{row.label}</span>
                     <span className="block text-[10px] opacity-80">{row.hint}</span>
-                  </Button>
+                  </WidgetButton>
                 ))}
               </div>
             </fieldset>
-            <ButtonLink to="/barnporten" variant="ghost" className="block w-full text-center text-xs">
-              Hela Barnporten
-            </ButtonLink>
           </div>
         )}
       </WidgetShell>
@@ -121,7 +114,7 @@ function WidgetBarnportenInner() {
 
 export function WidgetBarnportenPage() {
   return (
-    <AuthGate variant="widget">
+    <AuthGate variant="widget" widgetTitle="Barnporten">
       <WidgetBarnportenInner />
     </AuthGate>
   );

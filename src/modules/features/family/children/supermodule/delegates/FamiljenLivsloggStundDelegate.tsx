@@ -102,6 +102,7 @@ export function FamiljenLivsloggStundDelegate({ shell, onSaved }: FamiljenDelega
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value as LivsloggCategory)}
+          aria-label={`Kategori för ${childAlias}s stund`}
           className="input-glass w-full rounded-xl px-3 py-2"
         >
           {LIVSLOGG_CATEGORIES.map((c) => (

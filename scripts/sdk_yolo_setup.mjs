@@ -1,0 +1,101 @@
+#!/usr/bin/env node
+/**
+ * Verifierar SDK + CURSOR_API_KEY + YOLO v14 state före lång körning.
+ * Usage: npm run sdk:yolo:setup
+ */
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
+import { createRequire } from "node:module";
+import { getYoloConfig, loadState, resolveNextTask, loadQueue, root } from "./lib/cursor_yolo_shared.mjs";
+import { loadCursorApiKey, cursorApiKeyHint } from "./lib/load_cursor_api_key.mjs";
+
+const require = createRequire(import.meta.url);
+const version = Number(process.env.CURSOR_YOLO_VERSION ?? 14);
+const config = getYoloConfig(version);
+
+async function checkSdk() {
+  try {
+    await import("@cursor/sdk");
+    const entry = require.resolve("@cursor/sdk");
+    const pkgPath = resolve(entry, "../../../package.json");
+    const pkg = JSON.parse(readFileSync(pkgPath, "utf8"));
+    return { ok: true, version: pkg.version };
+  } catch {
+    return { ok: false, version: null };
+  }
+}
+
+async function checkApiKey() {
+  const keyInfo = loadCursorApiKey();
+  const key = keyInfo.key;
+  if (!key) return { ok: false, reason: "CURSOR_API_KEY saknas", source: null };
+  if (!key.startsWith("crsr_") && !key.startsWith("cursor_")) {
+    return {
+      ok: false,
+      reason: `Okänt prefix (${key.slice(0, 6)}…). Använd User API Key från cursor.com/dashboard → API-nycklar.`,
+    };
+  }
+  try {
+    const { Cursor } = await import("@cursor/sdk");
+    const models = await Cursor.models.list({ apiKey: key });
+    return { ok: true, modelCount: models?.length ?? 0, source: keyInfo.source };
+  } catch (err) {
+    const msg = err?.message ?? "API-fel";
+    if (msg.includes("Invalid UserAPI Key") || err?.status === 401) {
+      return {
+        ok: false,
+        reason:
+          "Ogiltig eller återkallad nyckel (401). Skapa ny User API Key: cursor.com/dashboard/integrations — kopiera exakt, inga mellanslag.",
+      };
+    }
+    return { ok: false, reason: msg };
+  }
+}
+
+async function main() {
+  console.log(`[sdk:yolo:setup] version=${config?.label ?? "?"} cwd=${root}`);
+
+  const sdk = await checkSdk();
+  console.log(`[sdk:yolo:setup] @cursor/sdk: ${sdk.ok ? `v${sdk.version}` : "SAKNAS"}`);
+
+  const api = await checkApiKey();
+  if (api.ok) {
+    const src = api.source ? ` (${api.source})` : "";
+    console.log(`[sdk:yolo:setup] CURSOR_API_KEY: OK${src} — ${api.modelCount} modeller`);
+  } else if (loadCursorApiKey().key) {
+    console.warn(`[sdk:yolo:setup] CURSOR_API_KEY: ej verifierad — ${api.reason}`);
+  } else {
+    console.warn("[sdk:yolo:setup] CURSOR_API_KEY: saknas");
+    console.warn(cursorApiKeyHint());
+  }
+
+  if (!config) {
+    console.error("[sdk:yolo:setup] FAIL — okänd YOLO-version");
+    process.exit(1);
+  }
+
+  try {
+    const queue = loadQueue(config);
+    const state = loadState(config);
+    const next = resolveNextTask(queue, state, config);
+    const done = state.sequentialPhase?.completedTaskIds?.length ?? 0;
+    const total = state.taskOrder?.length ?? queue.tasks.length;
+    console.log(`[sdk:yolo:setup] Kö ${config.label}: ${done}/${total} klara`);
+    if (next) console.log(`[sdk:yolo:setup] Nästa: ${next.id} — ${next.title}`);
+    else console.log("[sdk:yolo:setup] Kön klar eller blockerad");
+  } catch (err) {
+    console.warn(`[sdk:yolo:setup] Kö: ${err.message}`);
+  }
+
+  if (!sdk.ok) {
+    console.error("[sdk:yolo:setup] FAIL — kör: npm install");
+    process.exit(1);
+  }
+
+  console.log("\n[sdk:yolo:setup] Starta lång körning:");
+  console.log("  npm run sdk:yolo -- --run        # lokal, alla kvarvarande tasks");
+  console.log("  npm run sdk:yolo -- --master     # en lång MASTER-körning");
+  console.log("  npm run sdk:yolo -- --dry-run    # visa prompt utan agent");
+}
+
+await main();

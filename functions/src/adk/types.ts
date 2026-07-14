@@ -66,6 +66,8 @@ export interface DriveIngestPayload {
   ownerId?: string;
   /** G10 — explicit opt-in för trauma/LVU auto-ingest (default false). */
   optInTrauma?: boolean;
+  /** Klassificera och returnera routing — ingen persist eller orchestrator-dispatch. */
+  dryRun?: boolean;
 }
 
 export interface JournalWovenPayload {

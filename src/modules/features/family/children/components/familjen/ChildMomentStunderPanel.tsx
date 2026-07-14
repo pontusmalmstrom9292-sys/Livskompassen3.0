@@ -53,11 +53,12 @@ export function ChildMomentStunderPanel({ shell }: Props) {
 
   return (
     <BentoCard glow="blue" title="Senaste stunder" description={activeChild} className="familjen-tab-surface !p-4">
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2" role="group" aria-label="Filtrera stunder">
         {FILTER_CHIPS.map((f) => (
           <button
             key={f.id}
             type="button"
+            aria-pressed={filter === f.id}
             onClick={() => setFilter(f.id)}
             className={`rounded-full border px-3 py-1 text-xs ${
               filter === f.id ? 'chip--active' : 'chip--idle'

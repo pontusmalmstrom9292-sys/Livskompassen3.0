@@ -1,0 +1,84 @@
+{
+  "version": 35,
+  "description": "Cursor YOLO v35 — BUILD NAV-P0: Navigation P0 — Liv och göra flikar + drawer accordion",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 35,
+    "id": "NAV-P0",
+    "title": "Navigation P0 — Liv och göra flikar + drawer accordion",
+    "agent": "specialist-ux-guardian",
+    "plan": "P0: Fixa flikar Ekonomi, MåBra, Kompasser i Liv och göra (tryck ska byta tab). Hamburgermeny: accordion med undermenyer från navTruth (Pontus godkänd). smoke:e2e-live PASS.",
+    "smoke": [
+      "npm run smoke:locked-ux",
+      "npm run smoke:e2e-live"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "keywords": [
+      "navigation",
+      "drawer",
+      "accordion",
+      "navTruth",
+      "Liv och göra",
+      "flikar"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b35-deploy",
+      "title": "B35 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v35/b35-deploy.md"
+    },
+    {
+      "id": "b35-build",
+      "title": "B35 — Navigation P0 — Liv och göra flikar + drawer accordion",
+      "phase": "sequential",
+      "agent": "specialist-ux-guardian",
+      "plan": "P0: Fixa flikar Ekonomi, MåBra, Kompasser i Liv och göra (tryck ska byta tab). Hamburgermeny: accordion med undermenyer från navTruth (Pontus godkänd). smoke:e2e-live PASS.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v35/b35-build.md"
+    },
+    {
+      "id": "b35-gate",
+      "title": "B35 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v35.md.",
+      "smoke": [
+        "npm run smoke:locked-ux",
+        "npm run smoke:e2e-live"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v35/b35-gate.md"
+    },
+    {
+      "id": "b35-vakt",
+      "title": "B35 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v35. Handoff v36.",
+      "smoke": [
+        "npm run smoke:locked-ux",
+        "npm run smoke:e2e-live"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v35/b35-vakt.md"
+    }
+  ]
+}

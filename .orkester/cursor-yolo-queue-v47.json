@@ -1,0 +1,80 @@
+{
+  "version": 47,
+  "description": "Cursor YOLO v47 — BUILD MINNE-DEPLOY: Minne prep + prod deploy hosting",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 47,
+    "id": "MINNE-DEPLOY",
+    "title": "Minne prep + prod deploy hosting",
+    "agent": "minnes-arkitekten",
+    "plan": "Minne prep (dry-run only — ingen --apply). Slutgate + hosting deploy om SDK_YOLO_UNATTENDED=1 och smoke PASS.",
+    "smoke": [
+      "npm run smoke:predeploy:build"
+    ],
+    "pmir": true,
+    "deploy": "hosting",
+    "fullGate": true,
+    "keywords": [
+      "minne",
+      "deploy",
+      "hosting",
+      "memory"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b47-deploy",
+      "title": "B47 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "hosting",
+      "promptFile": "docs/cursor-pipeline/yolo-v47/b47-deploy.md"
+    },
+    {
+      "id": "b47-build",
+      "title": "B47 — Minne prep + prod deploy hosting",
+      "phase": "sequential",
+      "agent": "minnes-arkitekten",
+      "plan": "Minne prep (dry-run only — ingen --apply). Slutgate + hosting deploy om SDK_YOLO_UNATTENDED=1 och smoke PASS.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v47/b47-build.md"
+    },
+    {
+      "id": "b47-gate",
+      "title": "B47 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v47.md.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v47/b47-gate.md"
+    },
+    {
+      "id": "b47-vakt",
+      "title": "B47 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v47. Handoff v48.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v47/b47-vakt.md"
+    }
+  ]
+}

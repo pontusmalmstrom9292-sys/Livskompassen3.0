@@ -86,9 +86,12 @@ function vardagenSlots(pathname: string, search: string): HubContextSlot[] {
     {
       id: 'mabra',
       label: 'MåBra',
-      to: '/mabra',
+      to: '/vardagen?tab=mabra',
       icon: 'sparkles',
-      active: pathname === '/mabra' || pathname.startsWith('/mabra/'),
+      active:
+        (pathname === '/vardagen' && t === 'mabra') ||
+        pathname === '/mabra' ||
+        pathname.startsWith('/mabra/'),
     },
     {
       id: 'handling',

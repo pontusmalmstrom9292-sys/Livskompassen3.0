@@ -1,0 +1,43 @@
+{
+  "at": "2026-07-14T18:38:46.353Z",
+  "runner": "sdk:yolo",
+  "version": 44,
+  "mode": "run",
+  "cloud": false,
+  "branch": null,
+  "runs": [
+    {
+      "runId": "run-e45cde1e-b1c4-49d6-9116-19ceb4bfb2a8",
+      "agentId": "agent-89a777e4-cef6-476d-b999-cecf789e7515",
+      "taskId": "b44-build",
+      "title": "B44 — Projekt P1 — repo hygiene + drift",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Jag kör verifieringsuppgiften som specialist-verifier: läser kanon och hittar drift-smokes för journal-2d och mabra.\nKör de tre drift-smokes parallellt och läser referensmönster för eval-dokument.\nDubbelverifierar mabra och valv samt granskar artefakterna från underagenten.\n**Plattform:** Cursor · **Agent:** specialist-verifier (delegerad till marathon-verifier) · **Typ:** verifiering + eval — ingen produktionskod, ingen deploy\n\n---\n\n## B44-build — klar\n\n### 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-drift-v44.md` | **Ny** — drift-audit (smoke-matrix + verdict GO) |\n| `.orkester/cursor-yolo-state-v44.json` | `b44-build` → completed, `currentTaskId` → `b44-gate` |\n\n**Ingen produktionskod** ändrades. Ingen drift-fix behövdes.\n\n---\n\n### 2. Smoke-resultat\n\nOberoende dubbelverifiering (specialist-verifier + marathon-verifier):\n\n| Smoke | Resultat | Not |\n|-------|----------|-----|\n| `npm run smoke:journal-2d` | **PASS** | Bilaga + journal WORM OK — `GEObexNLWt9RC9fT56jr` |\n| `npm run smoke:mabra` | **PASS** | Sessions, vit_hub, coach guardrails, bank_parafras, who_am_i |\n| `npm run smoke:valv` | **PASS** | reality_vault seed + WebAuthn-gate (issueVaultSession NEKAD utan biometri) |\n\n**Task-smoke:** Ingen — `b44-build` har `smoke: []` i kön. Verifiering skedde via buildWave-smokes ovan.\n\n---\n\n### 3. Blocker\n\n**Ingen** (inget SKIP).\n\nInfo-GAP (ej blockerande): `VALV-CHAT-E2E` — `valvChatQuery` E2E kräver manuell körning i app efter Fyren + biometri.\n\n---\n\n### Verdict\n\n**GO** — ingen drift att åtgärda. Nästa steg i kön: **b44-gate** (wave gate smoke)."
+    },
+    {
+      "runId": "run-b1dd3ae3-aaef-4e45-b4f5-1049b5940ab8",
+      "agentId": "agent-89a777e4-cef6-476d-b999-cecf789e7515",
+      "taskId": "b44-gate",
+      "title": "B44 — Wave gate smoke",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Jag kör b44-gate: läser wave-gate-mönster och kör obligatoriska smokes parallellt.\nOberoende dubbelverifiering av wave-gate och gate-artefakter.\n**Plattform:** Cursor · **Agent:** specialist-verifier (delegerad till marathon-verifier) · **Typ:** verifiering + eval — ingen produktionskod, ingen deploy\n\n---\n\n## Verdict: **GO**\n\nWave-gate B44 PROJEKT-P1 godkänd efter oberoende smoke + static wave-gate.\n\n---\n\n### 1. Vad som ändrades\n\n**Inget i produktionskod** — ren gate-verifiering + governance-artefakter.\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/build-v44.md` | **Ny** — smoke-matrix, kanon-kontroller, artefakt-audit, verdict **GO** |\n| `docs/evaluations/2026-07-14-cursor-yolo-v44-log.md` | Rad tillagd: `b44-gate PASS` |\n| `.orkester/cursor-yolo-state-v44.json` | `b44-gate` completed · `gateVerdict: GO` · nästa: `b44-vakt` |\n\n**Ingen unlock-doc** — `smoke:module-lock` PASS (22 moduler, ingen diff på locked globs).\n\n---\n\n### 2. Smoke-resultat\n\nOberoende dubbelverifiering (specialist-verifier):\n\n| Smoke | Exit | Resultat |\n|-------|------|----------|\n| `npm run smoke:journal-2d` | **0** | **PASS** — bilaga + journal WORM — `1k0aan8mS2QKPwNj2g1y` |\n| `npm run smoke:mabra` | **0** | **PASS** — sessions, vit_hub, coach guardrails, bank_parafras, who_am_i |\n| `npm run smoke:valv` | **0** | **PASS** — reality_vault seed + WebAuthn-gate (issueVaultSession NEKAD) |\n| `npm run smoke:governance` | **0** | **PASS** — 20 files, 10 copilot phrases *(via wave-gate)* |\n| `npm run smoke:module-lock` | **0** | **PASS** — 22 locked modules *(via wave-gate)* |\n| `sdk-yolo-wave-gate.mjs --version=44 --gate=static` | **0** | **PASS** |\n\n---\n\n### 3. Blocker\n\n**Ingen.**\n\nInfo-GAP (ej blockerande): `valvChatQuery` E2E kräver manuell körning i app efter Fyren + biometri.\n\n---\n\nNästa steg i kön: **b44-vakt** (yolo-vakt slutgate + handoff v45)."
+    },
+    {
+      "runId": "run-82779820-bc47-4d76-802f-76fa3273a1b2",
+      "agentId": "agent-89a777e4-cef6-476d-b999-cecf789e7515",
+      "taskId": "b44-vakt",
+      "title": "B44 — yolo-vakt slutgate",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Jag kör b44-vakt som yolo-vakt: läser slutgate-mönster och kör obligatoriska smokes.\nDubbelverifierar handoff-artefakter från underagenten.\n**Plattform:** Cursor · **Agent:** yolo-vakt (delegerad till marathon-yolo-vakt) · **Typ:** read-only slutgate — ingen deploy, ingen produktionskod\n\n---\n\n## Beslut: **GO** (merge) · **NO-GO** (deploy)\n\nBuild v44 PROJEKT-P1 är godkänd. Handoff → **v45 EVOLUTION-LEDGER**.\n\n---\n\n### 1. Vad som ändrades\n\n**Ingen produktionskod** — endast slutgate-artefakter och handoff:\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-vakt-v44.md` | **Ny** — slutgate-eval, verdict **GO** |\n| `docs/evaluations/2026-07-14-cursor-yolo-v44-log.md` | `b44-vakt PASS` |\n| `.orkester/cursor-yolo-state-v44.json` | `b44-vakt` completed · `goNoGo: GO` · `currentTaskId: null` |\n| `.orkester/cursor-yolo-queue-v45.json` | **Ny** — EVOLUTION-LEDGER |\n| `.orkester/cursor-yolo-state-v45.json` | **Ny** — `currentTaskId: b45-build` · `b45-deploy` SKIP |\n| `.cursor/pipeline/yolo-v45/START-PROMPT.md` | Handoff → v45 |\n| `.cursor/pipeline/yolo-v44/NEXT-CHATT-PROMPT.md` | Pekare till v45 |\n\n---\n\n### 2. Smoke-resultat\n\nOberoende dubbelverifiering (yolo-vakt):\n\n| Smoke | Exit | Resultat |\n|-------|------|----------|\n| `npm run smoke:journal-2d` | **0** | **PASS** — bilaga + journal WORM — `xNhTiE2fG8kygvdEiAX8` |\n| `npm run smoke:mabra` | **0** | **PASS** — sessions, vit_hub, coach guardrails, bank_parafras, who_am_i |\n| `npm run smoke:valv` | **0** | **PASS** — reality_vault seed + WebAuthn-gate (issueVaultSession NEKAD) |\n\n---\n\n### 3. Blocker\n\n**Ingen.**\n\nInfo-GAP (ej blockerande): `valvChatQuery` E2E kräver manuell app + Fyren + biometri.\n\nDeploy: **SKIP** — `b44-deploy` utan Pontus OK.\n\n---\n\n**Nästa steg:** `b45-build` — Evolution ledger (`specialist-beslutsstod`)\n\n→ `.cursor/pipeline/yolo-v45/START-PROMPT.md`"
+    }
+  ],
+  "current": {
+    "taskId": "b44-vakt",
+    "title": "B44 — yolo-vakt slutgate",
+    "mode": "task"
+  },
+  "completed": true
+}

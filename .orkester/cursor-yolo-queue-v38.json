@@ -1,0 +1,86 @@
+{
+  "version": 38,
+  "description": "Cursor YOLO v38 — BUILD VALV: Valv — Mönster, Orkester, evidence UI",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 38,
+    "id": "VALV",
+    "title": "Valv — Mönster, Orkester, evidence UI",
+    "agent": "specialist-valv-builder",
+    "plan": "Valv Z1: WORM evidence, Mönster/Orkester, plausible deniability. Ingen cross-RAG.",
+    "smoke": [
+      "npm run smoke:valv",
+      "npm run smoke:valv-security",
+      "npm run smoke:plausible-deniability"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "keywords": [
+      "valv",
+      "vault",
+      "WORM",
+      "Mönster",
+      "Orkester"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b38-deploy",
+      "title": "B38 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v38/b38-deploy.md"
+    },
+    {
+      "id": "b38-build",
+      "title": "B38 — Valv — Mönster, Orkester, evidence UI",
+      "phase": "sequential",
+      "agent": "specialist-valv-builder",
+      "plan": "Valv Z1: WORM evidence, Mönster/Orkester, plausible deniability. Ingen cross-RAG.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v38/b38-build.md"
+    },
+    {
+      "id": "b38-gate",
+      "title": "B38 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v38.md.",
+      "smoke": [
+        "npm run smoke:valv",
+        "npm run smoke:valv-security",
+        "npm run smoke:plausible-deniability"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v38/b38-gate.md"
+    },
+    {
+      "id": "b38-vakt",
+      "title": "B38 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v38. Handoff v39.",
+      "smoke": [
+        "npm run smoke:valv",
+        "npm run smoke:valv-security",
+        "npm run smoke:plausible-deniability"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v38/b38-vakt.md"
+    }
+  ]
+}

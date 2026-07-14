@@ -14,13 +14,14 @@
  *   npm run cursor:yolo -- gate | gate-pass | next | master | done | skip | handoff | watch
  *
  * Env:
- *   CURSOR_YOLO_VERSION=5|6|7|8|9|10|11|12|13
+ *   CURSOR_YOLO_VERSION=5|6|7|8|9|10|11|12|13|14|15|16|17+
  *   CURSOR_YOLO_SKIP_SMOKE=1   hoppa smoke vid done
  */
 import { spawnSync } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync, writeFileSync, appendFileSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { getYoloConfig } from './lib/cursor_yolo_shared.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -174,7 +175,55 @@ const CONFIG = {
     prevPhaseEnd: 93,
     nextPhaseStart: 94,
   },
-}[yoloVersion] ?? null;
+  14: {
+    queuePath: join(root, '.orkester/cursor-yolo-queue-v14.json'),
+    statePath: join(root, '.orkester/cursor-yolo-state-v14.json'),
+    nextPromptPath: join(root, '.cursor/pipeline/yolo-v14/NEXT-PROMPT.md'),
+    masterPath: join(root, 'docs/cursor-pipeline/yolo-v14/MASTER-SEQUENTIAL.md'),
+    promptDir: 'docs/cursor-pipeline/yolo-v14',
+    logSuffix: 'cursor-yolo-v14-log',
+    label: 'v14',
+    masterTaskId: 'p94-p102-master',
+    masterTitle: 'MASTER sekventiell P94→P102',
+    requiresParallelGate: false,
+    gateArtifacts: [],
+    nextVersion: 15,
+    prevPhaseEnd: 102,
+    nextPhaseStart: 103,
+  },
+  15: {
+    queuePath: join(root, '.orkester/cursor-yolo-queue-v15.json'),
+    statePath: join(root, '.orkester/cursor-yolo-state-v15.json'),
+    nextPromptPath: join(root, '.cursor/pipeline/yolo-v15/NEXT-PROMPT.md'),
+    masterPath: join(root, 'docs/cursor-pipeline/yolo-v15/MASTER-SEQUENTIAL.md'),
+    promptDir: 'docs/cursor-pipeline/yolo-v15',
+    logSuffix: 'cursor-yolo-v15-log',
+    label: 'v15',
+    masterTaskId: 'p103-p112-master',
+    masterTitle: 'MASTER sekventiell P103→P112',
+    requiresParallelGate: false,
+    gateArtifacts: [],
+    nextVersion: 16,
+    prevPhaseEnd: 112,
+    nextPhaseStart: 113,
+  },
+  16: {
+    queuePath: join(root, '.orkester/cursor-yolo-queue-v16.json'),
+    statePath: join(root, '.orkester/cursor-yolo-state-v16.json'),
+    nextPromptPath: join(root, '.cursor/pipeline/yolo-v16/NEXT-PROMPT.md'),
+    masterPath: join(root, 'docs/cursor-pipeline/yolo-v16/MASTER-SEQUENTIAL.md'),
+    promptDir: 'docs/cursor-pipeline/yolo-v16',
+    logSuffix: 'cursor-yolo-v16-log',
+    label: 'v16',
+    masterTaskId: 'p113-p122-master',
+    masterTitle: 'MASTER sekventiell P113→P122',
+    requiresParallelGate: false,
+    gateArtifacts: [],
+    nextVersion: 17,
+    prevPhaseEnd: 122,
+    nextPhaseStart: 123,
+  },
+}[yoloVersion] ?? getYoloConfig(yoloVersion);
 
 if (!CONFIG) {
   console.error('[cursor:yolo] Okänd CURSOR_YOLO_VERSION:', yoloVersion);

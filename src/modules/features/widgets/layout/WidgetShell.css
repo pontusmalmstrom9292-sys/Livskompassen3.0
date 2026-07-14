@@ -1,3 +1,5 @@
+@import '../../../../styles/widget-tokens.css';
+
 @tailwind components;
 
 @layer components {
@@ -19,6 +21,10 @@
     @apply mb-3 inline-flex items-center gap-2;
   }
 
+  .widget-shell__brand--static {
+    @apply cursor-default;
+  }
+
   .widget-shell__title {
     @apply font-display text-xl font-light text-accent;
   }
@@ -32,16 +38,112 @@
   }
 
   .widget-shell__surface {
-    @apply rounded-3xl border border-border-strong bg-surface/55 p-4 shadow-[0_18px_40px_-26px_rgba(0,0,0,0.7),inset_0_1px_0_rgba(212,175,55,0.12)] backdrop-blur-xl sm:p-5;
+    @apply rounded-3xl border p-4 backdrop-blur-xl sm:p-5;
+    border-color: var(--widget-surface-border);
+    background: var(--widget-surface);
+    box-shadow: var(--widget-elevation);
   }
 
-  .widget-shell__panic {
-    @apply border border-border/50 bg-surface/40 text-text-muted transition-colors;
+  .widget-shell__panic.widget-btn--icon {
+    @apply min-h-11 min-w-11 flex-row gap-1.5 px-3 py-2;
   }
 
-  .widget-shell__panic:hover,
-  .widget-shell__panic:focus-visible {
+  .widget-shell__panic .widget-btn__label {
+    @apply text-[10px] uppercase tracking-[0.14em];
+  }
+
+  /* WidgetButton */
+  .widget-btn {
+    min-height: var(--widget-btn-min-h);
+    border-radius: var(--widget-btn-radius-pill);
+    letter-spacing: 0.06em;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease,
+      transform 0.15s var(--widget-morph-ease),
+      box-shadow 0.2s ease;
+  }
+
+  .widget-btn:active:not(:disabled) {
+    transform: scale(var(--widget-press-scale));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .widget-btn:active:not(:disabled) {
+      transform: none;
+    }
+  }
+
+  .widget-action-tile:active:not(:disabled) {
+    transform: scale(var(--widget-press-scale));
+  }
+
+  .widget-btn--full {
+    @apply w-full;
+  }
+
+  .widget-btn--icon {
+    @apply inline-flex items-center justify-center gap-1.5 border border-border/50 bg-surface/40 text-text-muted;
+  }
+
+  .widget-btn--icon:hover,
+  .widget-btn--icon:focus-visible {
     @apply border-accent/35 bg-surface/70 text-accent;
+  }
+
+  .widget-btn__label {
+    @apply text-xs;
+  }
+
+  /* WidgetActionTile */
+  .widget-action-grid {
+    @apply grid gap-2;
+  }
+
+  .widget-action-grid--cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .widget-action-grid--cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .widget-action-grid--cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 360px) {
+    .widget-action-grid--cols-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+
+  .widget-action-tile {
+    @apply flex flex-col items-center justify-center gap-1.5 border text-text-muted;
+    min-height: var(--widget-tile-min-h);
+    border-radius: var(--widget-btn-radius-tile);
+    border-color: color-mix(in srgb, var(--color-accent, var(--accent)) 16%, transparent);
+    background: color-mix(in srgb, var(--color-surface-2, var(--surface-2)) 45%, transparent);
+    font-size: 0.68rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
+  }
+
+  .widget-action-tile--on {
+    border-color: color-mix(in srgb, var(--color-accent, var(--accent)) 45%, transparent);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent, var(--accent)) 22%, transparent);
+    @apply text-accent;
+  }
+
+  .widget-action-tile--disabled {
+    @apply pointer-events-none opacity-45;
+  }
+
+  .widget-action-tile__icon {
+    @apply flex h-9 w-9 items-center justify-center rounded-full border border-accent/20 bg-accent/10 text-accent;
+  }
+
+  .widget-action-tile__label {
+    @apply text-center leading-tight;
   }
 
   .widget-shell__surface > * + * {
@@ -121,6 +223,104 @@
 
   .widget-silo-picker {
     @apply rounded-xl border-[0.5px] border-border/60 bg-surface-2/40 p-3;
+  }
+
+  .widget-shell .chameleon-input-shell__viewport {
+    transition-duration: var(--widget-morph-ms);
+    transition-timing-function: var(--widget-morph-ease);
+  }
+
+  .widget-success-card {
+    @apply overflow-hidden rounded-2xl border p-4;
+    border-color: color-mix(in srgb, var(--color-accent, var(--accent)) 22%, transparent);
+    background: color-mix(in srgb, var(--color-surface-2, var(--surface-2)) 50%, transparent);
+    box-shadow: var(--widget-section-elevation);
+  }
+
+  .widget-success-card__message {
+    @apply flex items-center gap-2 text-sm text-success;
+  }
+
+  .widget-success-card__detail {
+    @apply mt-2 font-display text-base text-accent;
+  }
+
+  .widget-success-card__detail + .widget-btn {
+    @apply mt-3;
+  }
+
+  .widget-dashboard-section {
+    @apply overflow-hidden rounded-2xl border p-4;
+    border-color: color-mix(in srgb, var(--color-border, var(--border)) 35%, transparent);
+    background: var(--widget-surface-inner);
+    box-shadow: var(--widget-section-elevation);
+  }
+
+  .widget-dashboard-section--gold {
+    border-color: color-mix(in srgb, var(--color-accent, var(--accent)) 18%, transparent);
+  }
+
+  .widget-dashboard-section--blue {
+    border-color: color-mix(in srgb, var(--color-border-strong, var(--border-strong)) 55%, transparent);
+  }
+
+  .widget-dashboard-section__header {
+    @apply mb-3 flex items-start gap-2.5;
+  }
+
+  .widget-dashboard-section__icon {
+    @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-accent/20 bg-accent/10 text-accent;
+  }
+
+  .widget-dashboard-section__title {
+    @apply font-display text-sm font-medium text-text;
+  }
+
+  .widget-dashboard-section__desc {
+    @apply text-[11px] text-text-muted;
+  }
+
+  .widget-dashboard-section__body > * + * {
+    margin-top: 0.75rem;
+  }
+
+  .widget-note-mode-row {
+    @apply mb-3 flex gap-1.5;
+  }
+
+  .widget-home-module__delete {
+    @apply absolute right-2 top-2 z-10 opacity-0 transition-opacity duration-150;
+    @apply pointer-events-none;
+  }
+
+  .widget-home-module:hover .widget-home-module__delete,
+  .widget-home-module:focus-within .widget-home-module__delete {
+    @apply opacity-100 pointer-events-auto;
+  }
+
+  .widget-home-module__delete.widget-btn--icon {
+    @apply min-h-0 px-2 py-1 text-text-dim hover:text-danger;
+  }
+
+  .widget-home-module__delete .widget-btn__label {
+    @apply sr-only;
+  }
+
+  .widget-moduler-board__toolbar {
+    @apply flex flex-wrap items-center justify-between gap-2;
+  }
+
+  .widget-moduler-add__types {
+    @apply grid grid-cols-2 gap-2;
+  }
+
+  .widget-moduler-add__type {
+    @apply justify-center gap-1.5 text-xs;
+  }
+
+  .widget-moduler-add__select {
+    @apply w-full rounded-xl border border-border bg-surface-2 px-3 py-2.5 text-sm text-text;
+    min-height: var(--widget-btn-min-h);
   }
 }
 

@@ -295,16 +295,24 @@
     padding: 1rem 1.125rem;
     cursor: pointer;
     border-color: color-mix(in srgb, var(--border) 55%, transparent);
+    transition:
+      transform var(--ds-duration-normal, 0.3s) var(--ds-ease-premium, ease),
+      border-color var(--ds-duration-normal, 0.3s) var(--ds-ease-premium, ease),
+      background var(--ds-duration-normal, 0.3s) var(--ds-ease-premium, ease),
+      box-shadow var(--ds-duration-normal, 0.3s) var(--ds-ease-premium, ease);
   }
 
   .liv-launcher-card:hover {
+    transform: translateY(var(--ds-hover-lift, -2px));
     border-color: color-mix(in srgb, var(--accent) 35%, transparent);
     background: color-mix(in srgb, var(--surface-3) 45%, transparent);
+    box-shadow: var(--ds-elevation-card-hover);
   }
 
   .liv-launcher-card--active {
     border-color: color-mix(in srgb, var(--accent) 55%, transparent);
     background: color-mix(in srgb, var(--surface-3) 55%, transparent);
+    box-shadow: var(--ds-elevation-card);
   }
 
   .liv-launcher-card__icon {
@@ -352,7 +360,7 @@
     display: block;
     margin-top: 0.35rem;
     padding-top: 0.35rem;
-    border-top: 1px solid rgba(212, 175, 55, 0.08);
+    border-top: 1px solid color-mix(in srgb, var(--accent) 8%, transparent);
     line-height: 1.4;
   }
 

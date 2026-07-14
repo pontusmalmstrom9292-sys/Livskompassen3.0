@@ -1,0 +1,27 @@
+{
+  "version": 35,
+  "queueFile": ".orkester/cursor-yolo-queue-v35.json",
+  "buildWaveId": "NAV-P0",
+  "startedAt": "2026-07-14T17:16:21.073Z",
+  "updatedAt": "2026-07-14T17:26:21.007Z",
+  "sequentialPhase": {
+    "status": "in_progress",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b35-build",
+      "b35-gate",
+      "b35-vakt"
+    ],
+    "skippedTaskIds": [
+      "b35-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b35-deploy",
+    "b35-build",
+    "b35-gate",
+    "b35-vakt"
+  ],
+  "notes": "YOLO v35 BUILD — SDK marathon"
+}

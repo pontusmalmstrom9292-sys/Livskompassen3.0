@@ -8,11 +8,16 @@ import { hasVaultGate } from '../auth/sessionService';
 import { endVaultSession } from '../security/vaultSessionLifecycle';
 import { useStore } from '../store';
 import { LivskompassMark } from '../ui/LivskompassMark';
-import { isDrawerLinkActive } from './DrawerHubAccordion';
+import { DrawerHubAccordion, isDrawerLinkActive } from './DrawerHubAccordion';
 import { DrawerModeToggle } from './DrawerModeToggle';
 import { DRAWER_VARDAG_ITEMS, DRAWER_VALV_ITEMS } from '../navigation/drawerNav';
 import { useDrawerRecentNav } from '../navigation/hooks/useDrawerRecentNav';
-import { isVardagDrawerRowActive } from './drawerFromNavTruth';
+import {
+  getHubNavLinks,
+  hubGlowColor,
+  isHubRouteActive,
+  isVardagDrawerRowActive,
+} from './drawerFromNavTruth';
 
 const SWIPE_CLOSE_THRESHOLD_PX = 56;
 
@@ -161,10 +166,26 @@ export const NavigationDrawer = memo(function NavigationDrawer() {
 
             <p className="nav-drawer__section-title">Vardag</p>
 
-            {/* section="vardag" MENU-DRAWER-KANON flat rows */}
-            <div className="nav-drawer__section">
+            {/* section="vardag" — hub-accordions från navTruth (B35) */}
+            <div className="nav-drawer__section nav-drawer__section--hubs">
               {DRAWER_VARDAG_ITEMS.map((item) => {
                 const Icon = item.icon;
+                const hubLinks = getHubNavLinks(item.id);
+                if (hubLinks.length > 0) {
+                  return (
+                    <DrawerHubAccordion
+                      key={item.id}
+                      id={item.id}
+                      label={item.label}
+                      icon={<Icon className="h-4 w-4" aria-hidden />}
+                      links={hubLinks}
+                      glowColor={hubGlowColor(item.id)}
+                      isActive={isHubRouteActive(item.id, pathname)}
+                      onClose={onClose}
+                    />
+                  );
+                }
+
                 const active = isVardagDrawerRowActive(item, pathname, search, hash);
                 return (
                   <button

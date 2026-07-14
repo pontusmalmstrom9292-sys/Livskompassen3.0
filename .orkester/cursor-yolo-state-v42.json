@@ -1,0 +1,32 @@
+{
+  "version": 42,
+  "queueFile": ".orkester/cursor-yolo-queue-v42.json",
+  "buildWaveId": "SLUTGATE",
+  "startedAt": "2026-07-14T17:57:20.559Z",
+  "updatedAt": "2026-07-14T18:24:48.588Z",
+  "sequentialPhase": {
+    "status": "in_progress",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b42-build",
+      "b42-gate",
+      "b42-vakt"
+    ],
+    "skippedTaskIds": [
+      "b42-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b42-deploy",
+    "b42-build",
+    "b42-gate",
+    "b42-vakt"
+  ],
+  "notes": "YOLO v42 BUILD — SDK marathon (handoff från v41)",
+  "handoffFrom": {
+    "version": 41,
+    "waveId": "GOVERNANCE",
+    "verdict": "GO"
+  }
+}

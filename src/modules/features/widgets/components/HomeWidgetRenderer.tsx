@@ -1,27 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Clock, PiggyBank, ListTodo, FileText, Check, Trash2, Loader2 } from 'lucide-react';
-import { BentoCard } from '@/shared/ui/BentoCard';
 import { getBudgetSavings } from '@/core/firebase/economyFirestore';
 import type { BudgetSavingsRow } from '@/core/types/firestore';
+import type { UserWidgetRow } from '@/core/types/firestore';
+import { WidgetDashboardSection } from './WidgetDashboardSection';
+import { WidgetIconButton } from './WidgetButton';
 
-export type WidgetType = 'countdown' | 'checklist' | 'linked_savings' | 'quick_note';
-
-export interface UserWidget {
-  id: string;
-  type: WidgetType;
-  title: string;
-  config: {
-    targetDate?: string;
-    savingsGoalId?: string;
-    checklistItems?: { id: string; text: string; done: boolean }[];
-    noteText?: string;
-  };
-}
+export type { UserWidgetRow };
 
 type Props = {
-  widget: UserWidget;
+  widget: Pick<UserWidgetRow, 'id' | 'type' | 'title' | 'config'>;
   userId: string;
-  onUpdate: (widgetId: string, updatedConfig: UserWidget['config']) => Promise<void>;
+  onUpdate: (widgetId: string, updatedConfig: UserWidgetRow['config']) => Promise<void>;
   onDelete: (widgetId: string) => Promise<void>;
 };
 
@@ -138,17 +128,21 @@ export function HomeWidgetRenderer({ widget, userId, onUpdate, onDelete }: Props
               disabled={busy}
               onClick={() => void toggleChecklistItem(item.id)}
               className={[
-                'flex h-6 w-6 shrink-0 items-center justify-center rounded-md border text-accent transition-colors',
-                item.done ? 'border-accent bg-accent/10' : 'border-border-strong/60 bg-surface-3/40 hover:border-accent/40'
+                'widget-home-check flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border text-accent transition-colors',
+                item.done
+                  ? 'border-accent bg-accent/10'
+                  : 'border-border-strong/60 bg-surface-3/40 hover:border-accent/40',
               ].join(' ')}
               aria-label={item.done ? `Avmarkera: ${item.text}` : `Markera klar: ${item.text}`}
             >
               {item.done && <Check className="h-3.5 w-3.5" />}
             </button>
-            <span className={[
-              'text-xs leading-none transition-all',
-              item.done ? 'text-text-dim line-through decoration-text-dim' : 'text-text-muted'
-            ].join(' ')}>
+            <span
+              className={[
+                'text-xs leading-snug transition-all',
+                item.done ? 'text-text-dim line-through decoration-text-dim' : 'text-text-muted',
+              ].join(' ')}
+            >
               {item.text}
             </span>
           </li>
@@ -166,35 +160,34 @@ export function HomeWidgetRenderer({ widget, userId, onUpdate, onDelete }: Props
   };
 
   const iconMap = {
-    countdown: <Clock className="h-4 w-4" />,
-    linked_savings: <PiggyBank className="h-4 w-4" />,
-    checklist: <ListTodo className="h-4 w-4" />,
-    quick_note: <FileText className="h-4 w-4" />,
+    countdown: <Clock className="h-4 w-4" strokeWidth={1.5} aria-hidden />,
+    linked_savings: <PiggyBank className="h-4 w-4" strokeWidth={1.5} aria-hidden />,
+    checklist: <ListTodo className="h-4 w-4" strokeWidth={1.5} aria-hidden />,
+    quick_note: <FileText className="h-4 w-4" strokeWidth={1.5} aria-hidden />,
   };
 
+  const glow = widget.type === 'linked_savings' ? 'blue' : 'gold';
+
   return (
-    <BentoCard
+    <WidgetDashboardSection
       title={widget.title}
       icon={iconMap[widget.type]}
-      glow="gold"
-      className="group relative rounded-2xl border border-border/30 transition-all hover:border-accent/30"
+      glow={glow}
+      className="widget-home-module group relative"
     >
-      <button
-        type="button"
+      <WidgetIconButton
+        label={`Ta bort ${widget.title}`}
+        className="widget-home-module__delete"
         disabled={busy}
         onClick={() => void onDelete(widget.id)}
-        className="absolute right-3.5 top-3.5 opacity-0 group-hover:opacity-100 text-text-dim hover:text-danger bg-transparent border-0 cursor-pointer transition-opacity duration-150 p-1"
-        aria-label={`Ta bort modulen ${widget.title}`}
       >
-        <Trash2 className="h-3.5 w-3.5" />
-      </button>
+        <Trash2 className="h-3.5 w-3.5" aria-hidden />
+      </WidgetIconButton>
 
-      <div className="mt-1">
-        {widget.type === 'countdown' && renderCountdown()}
-        {widget.type === 'linked_savings' && renderLinkedSavings()}
-        {widget.type === 'checklist' && renderChecklist()}
-        {widget.type === 'quick_note' && renderQuickNote()}
-      </div>
-    </BentoCard>
+      {widget.type === 'countdown' && renderCountdown()}
+      {widget.type === 'linked_savings' && renderLinkedSavings()}
+      {widget.type === 'checklist' && renderChecklist()}
+      {widget.type === 'quick_note' && renderQuickNote()}
+    </WidgetDashboardSection>
   );
 }

@@ -1,0 +1,32 @@
+{
+  "version": 46,
+  "queueFile": ".orkester/cursor-yolo-queue-v46.json",
+  "buildWaveId": "ARKIV-BATCH",
+  "startedAt": "2026-07-14T18:43:49.102Z",
+  "updatedAt": "2026-07-14T18:46:51.137Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b46-build",
+      "b46-gate",
+      "b46-vakt"
+    ],
+    "skippedTaskIds": [
+      "b46-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b46-deploy",
+    "b46-build",
+    "b46-gate",
+    "b46-vakt"
+  ],
+  "gateVerdict": "GO",
+  "goNoGo": "GO",
+  "handoffTo": {
+    "version": 47,
+    "waveId": "MINNE-DEPLOY"
+  }
+}

@@ -1,18 +1,22 @@
-import { Link } from 'react-router-dom';
-import { Button } from '@/design-system';
-import { Compass, EyeOff } from 'lucide-react';
-import { useState, type ReactNode } from 'react';
+import { type ReactNode } from 'react';
+import { Compass, EyeOff, X } from 'lucide-react';
+import { useState } from 'react';
 import { WidgetShellProvider, useWidgetShellContext } from '../context/widgetShellContext';
 import { useWidgetPanicHide } from '../hooks/useWidgetPanicHide';
+import { WidgetIconButton } from '../components/WidgetButton';
 import './WidgetShell.css';
 
 type Props = {
   title: string;
   lead?: string;
   children: ReactNode;
+  /** Visa brand-länk till huvudapp — default false (fristående). */
+  showAppLink?: boolean;
+  /** Valfri stäng-callback (t.ex. modal) — annars panik-dölj. */
+  onClose?: () => void;
 };
 
-function WidgetShellFrame({ title, lead, children }: Props) {
+function WidgetShellFrame({ title, lead, children, showAppLink = false, onClose }: Props) {
   const [panicBlur, setPanicBlur] = useState(false);
   const shellCtx = useWidgetShellContext();
   const panicHide = useWidgetPanicHide(() => {
@@ -20,6 +24,10 @@ function WidgetShellFrame({ title, lead, children }: Props) {
   });
 
   const handlePanic = () => {
+    if (onClose) {
+      onClose();
+      return;
+    }
     setPanicBlur(true);
     window.setTimeout(() => {
       panicHide();
@@ -33,20 +41,28 @@ function WidgetShellFrame({ title, lead, children }: Props) {
       >
         <header className="widget-shell__header">
           <div className="flex items-start justify-between gap-3">
-            <Link to="/" className="widget-shell__brand" aria-label="Öppna Livskompassen">
-              <Compass className="h-4 w-4 text-accent" strokeWidth={1.65} />
-              <span className="text-[10px] uppercase tracking-[0.2em] text-text-dim">Widget</span>
-            </Link>
-            <Button
-              type="button"
-              variant="ghost"
+            {showAppLink ? (
+              <a href="/" className="widget-shell__brand" aria-label="Öppna Livskompassen">
+                <Compass className="h-4 w-4 text-accent" strokeWidth={1.65} />
+                <span className="text-[10px] uppercase tracking-[0.2em] text-text-dim">Widget</span>
+              </a>
+            ) : (
+              <span className="widget-shell__brand widget-shell__brand--static">
+                <Compass className="h-4 w-4 text-accent" strokeWidth={1.65} aria-hidden />
+                <span className="text-[10px] uppercase tracking-[0.2em] text-text-dim">Widget</span>
+              </span>
+            )}
+            <WidgetIconButton
+              label={onClose ? 'Stäng' : 'Dölj nu — neutral hem'}
               onClick={handlePanic}
-              className="widget-shell__panic inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center gap-1.5 px-3 py-2 text-[10px] uppercase tracking-[0.14em]"
-              aria-label="Dölj nu — neutral hem"
+              className="widget-shell__panic shrink-0"
             >
-              <EyeOff className="h-3.5 w-3.5" strokeWidth={1.5} aria-hidden />
-              Dölj nu
-            </Button>
+              {onClose ? (
+                <X className="h-3.5 w-3.5" strokeWidth={1.5} aria-hidden />
+              ) : (
+                <EyeOff className="h-3.5 w-3.5" strokeWidth={1.5} aria-hidden />
+              )}
+            </WidgetIconButton>
           </div>
           <h1 className="widget-shell__title">{title}</h1>
           {lead ? <p className="widget-shell__lead">{lead}</p> : null}

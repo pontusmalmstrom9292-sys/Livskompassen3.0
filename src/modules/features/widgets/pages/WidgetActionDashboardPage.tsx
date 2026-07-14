@@ -26,7 +26,7 @@ function WidgetActionDashboardInner() {
 
 export function WidgetActionDashboardPage() {
   return (
-    <AuthGate variant="widget">
+    <AuthGate variant="widget" widgetTitle="Åtgärder">
       <WidgetActionDashboardInner />
     </AuthGate>
   );

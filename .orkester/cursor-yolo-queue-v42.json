@@ -1,0 +1,80 @@
+{
+  "version": 42,
+  "description": "Cursor YOLO v42 — BUILD SLUTGATE: Slutgate — yolo-vakt GO/NO-GO",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 42,
+    "id": "SLUTGATE",
+    "title": "Slutgate — yolo-vakt GO/NO-GO",
+    "agent": "yolo-vakt",
+    "plan": "Read-only slutgate: smoke:predeploy:build. GO/NO-GO eval. Ingen deploy.",
+    "smoke": [
+      "npm run smoke:predeploy:build"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "fullGate": true,
+    "keywords": [
+      "yolo-vakt",
+      "slutgate",
+      "predeploy"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b42-deploy",
+      "title": "B42 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v42/b42-deploy.md"
+    },
+    {
+      "id": "b42-build",
+      "title": "B42 — Slutgate — yolo-vakt GO/NO-GO",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "Read-only slutgate: smoke:predeploy:build. GO/NO-GO eval. Ingen deploy.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v42/b42-build.md"
+    },
+    {
+      "id": "b42-gate",
+      "title": "B42 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v42.md.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v42/b42-gate.md"
+    },
+    {
+      "id": "b42-vakt",
+      "title": "B42 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v42. Handoff v43.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v42/b42-vakt.md"
+    }
+  ]
+}
+

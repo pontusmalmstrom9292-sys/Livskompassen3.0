@@ -1,0 +1,27 @@
+{
+  "version": 36,
+  "queueFile": ".orkester/cursor-yolo-queue-v36.json",
+  "buildWaveId": "PREMIUM-UI",
+  "startedAt": "2026-07-14T17:28:31.625Z",
+  "updatedAt": "2026-07-14T17:31:09.712Z",
+  "sequentialPhase": {
+    "status": "in_progress",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b36-build",
+      "b36-gate",
+      "b36-vakt"
+    ],
+    "skippedTaskIds": [
+      "b36-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b36-deploy",
+    "b36-build",
+    "b36-gate",
+    "b36-vakt"
+  ],
+  "notes": "YOLO v36 BUILD — SDK marathon"
+}

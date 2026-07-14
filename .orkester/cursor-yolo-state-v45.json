@@ -1,0 +1,38 @@
+{
+  "version": 45,
+  "queueFile": ".orkester/cursor-yolo-queue-v45.json",
+  "buildWaveId": "EVOLUTION-LEDGER",
+  "startedAt": "2026-07-14T18:37:47.000Z",
+  "updatedAt": "2026-07-14T18:44:00.000Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b45-build",
+      "b45-gate",
+      "b45-vakt"
+    ],
+    "skippedTaskIds": [
+      "b45-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b45-deploy",
+    "b45-build",
+    "b45-gate",
+    "b45-vakt"
+  ],
+  "gateVerdict": "GO",
+  "goNoGo": "GO",
+  "notes": "YOLO v45 BUILD — manuell slutgate efter SDK agent API-fel (smokes PASS)",
+  "handoffFrom": {
+    "version": 44,
+    "waveId": "PROJEKT-P1",
+    "verdict": "GO"
+  },
+  "handoffTo": {
+    "version": 46,
+    "waveId": "ARKIV-BATCH"
+  }
+}

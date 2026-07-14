@@ -50,7 +50,12 @@ function parseVitProjectParam(value: string | null): MabraProjectId | null {
   return VIT_PROJECT_IDS.includes(value as MabraProjectId) ? (value as MabraProjectId) : null;
 }
 
-export const MabraHubView = memo(function MabraHubView() {
+type MabraHubViewProps = {
+  /** Inline på /vardagen?tab=mabra — undvik auto-redirect till /mabra/* */
+  inlineHub?: boolean;
+};
+
+export const MabraHubView = memo(function MabraHubView({ inlineHub = false }: MabraHubViewProps) {
   const user = useStore((s) => s.user);
   const userId = user?.uid;
   const navigate = useNavigate();
@@ -114,9 +119,10 @@ export const MabraHubView = memo(function MabraHubView() {
       const next = new URLSearchParams(searchParams);
       next.set('project', projectId);
       setSearchParams(next, { replace: true });
+      if (inlineHub) return;
       navigate(`/mabra/projekt/${projectId}`);
     },
-    [searchParams, setSearchParams, navigate, setHubOpenCategory, setSelectedPlan, setVitLastSeen],
+    [inlineHub, searchParams, setSearchParams, navigate, setHubOpenCategory, setSelectedPlan, setVitLastSeen],
   );
 
   useEffect(() => {
@@ -126,8 +132,9 @@ export const MabraHubView = memo(function MabraHubView() {
     setVitLastSeen(readAllVitProjectLastSeen() as any);
     setSelectedPlan(null);
     setHubOpenCategory('projekt');
+    if (inlineHub) return;
     navigate(`/mabra/projekt/${fromUrl}`);
-  }, [searchParams, navigate, setHubOpenCategory, setSelectedPlan, setVitLastSeen]);
+  }, [inlineHub, searchParams, navigate, setHubOpenCategory, setSelectedPlan, setVitLastSeen]);
 
   const handleHubSelect = (selected: MabraSymptomHub) => {
     setHub(selected);

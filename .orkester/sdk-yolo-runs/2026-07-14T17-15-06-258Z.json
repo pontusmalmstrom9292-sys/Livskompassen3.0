@@ -1,0 +1,21 @@
+{
+  "at": "2026-07-14T17:15:06.258Z",
+  "runner": "sdk:yolo:full",
+  "fromVersion": 34,
+  "throughVersion": 47,
+  "waveGate": "full",
+  "unattended": true,
+  "startedAt": "2026-07-14T17:14:28.457Z",
+  "waves": [
+    {
+      "version": 34,
+      "skipped": true,
+      "reason": "already-complete",
+      "gateExit": 0,
+      "unattendedExit": 1
+    }
+  ],
+  "stopped": true,
+  "stoppedAt": 34,
+  "reason": "unattended"
+}

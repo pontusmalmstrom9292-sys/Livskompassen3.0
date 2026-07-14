@@ -1,0 +1,43 @@
+{
+  "at": "2026-07-14T17:54:04.623Z",
+  "runner": "sdk:yolo",
+  "version": 40,
+  "mode": "run",
+  "cloud": false,
+  "branch": null,
+  "runs": [
+    {
+      "runId": "run-327dda29-1d2d-4ec3-87e4-18cabff23639",
+      "agentId": "agent-708db87e-2542-4010-938e-39bd568758d8",
+      "taskId": "b40-build",
+      "title": "B40 — Integration dry-run — innehåll + seed",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Kör B40 integration dry-run enligt kanon — läser arkiv-master och letar efter smoke-skript för innehåll, content-waves och preflight.\nSubagenten rapporterade klart — dubbelverifierar state, eval och kör obligatoriska smokes.\n**Plattform:** Cursor Agent (Composer) · **Agent:** marathon-arkiv (delegerad) · **Läge:** integration dry-run — ingen `--apply`, ingen deploy\n\n---\n\n## B40-build — klar (GO)\n\n### 1. Vad som ändrades\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-integration-v40.md` | Ny eval — smoke-matrix, dry-run, preflight, verdict **GO** |\n| `.orkester/cursor-yolo-state-v40.json` | `b40-build` → completed, `currentTaskId` → `b40-gate` |\n\n**Ingen produktionskod** ändrades. PMIR-zoner orörda. Live ingest (`--apply`) ej körd.\n\n**Sidoeffekt (preflight sync):** repomix-packs, chatbot-handoff exports och `docs/system_sync/package_CURRENT.json` uppdaterades av `integration:sync:all` — ej committade, förväntat vid sync.\n\n---\n\n### 2. Smoke-resultat (verifierat)\n\n| Steg | Resultat |\n|------|----------|\n| `npm run smoke:innehall` | **PASS** — register, kanon, content banks, daglig mix, kurator, mabraCoach lock, 5 domän-specialister |\n| `npm run smoke:content-waves` | **PASS** — våg 9–16 + curriculum catalog, VitCurriculumPanel, Kunskap manifest, Barn PLAY bank |\n| `node scripts/seed_kampspar_profile.mjs --dry-run` | **PASS** — 47 poster, inget skrivet |\n| `npm run integration:preflight` | **PARTIAL** (exit 1) — sync OK, sedan saknad källa |\n| `npm run smoke:mdc` (separat) | **PASS** — 71 MDC-filer |\n| `npm run smoke:projekt-regler` (separat) | **PASS** — route, API, rules, nav |\n\n**Ingen task-smoke** (`b40-gate`) kördes — det är nästa task.\n\n---\n\n### 3. Blocker / SKIP\n\n| Item | Status |\n|------|--------|\n| Saknad `GEMINI-DEEP-RESEARCH-SYSTEM-AUDIT-MASTER.md` | **INFO** — preflight PARTIAL, icke-blockerande |\n| Live Kunskap-ingest / kampspar `--apply` | **SKIP** — dry-run only |\n| `b40-deploy` | **SKIP** — PMIR, ingen deploy-OK |\n| firestore.rules, storage.rules, sharedRules.ts, AppRoutes, Barnporten | **SKIP** — PMIR |\n\n**Beslut:** **GO** → nästa steg är `b40-gate` (wave-gate smoke + eval)."
+    },
+    {
+      "runId": "run-0f7e454c-115c-4a6b-86b5-b858a1278b5c",
+      "agentId": "agent-708db87e-2542-4010-938e-39bd568758d8",
+      "taskId": "b40-gate",
+      "title": "B40 — Wave gate smoke",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Kör b40-gate: läser kanon och tidigare wave-gate-mönster, kör smokes och delegerar till marathon-verifier.\nAlla smokes och static wave-gate är gröna — skapar eval och uppdaterar state.\n**Plattform:** Cursor · **Agent:** specialist-verifier (marathon-verifier-läge) · **Typ:** endast verifiering — ingen produktionskod\n\n---\n\n## Beslut: **GO**\n\nWave-gate B40 INTEGRATION godkänd efter oberoende smoke + static wave-gate.\n\n---\n\n### 1. Vad som ändrades\n\n**Inget i produktionskod** — ren gate-verifiering.\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/build-v40.md` | Ny eval — smoke-matrix, artefakt-audit, verdict **GO** |\n| `.orkester/cursor-yolo-state-v40.json` | `b40-gate` completed, `gateVerdict: GO`, nästa → `b40-vakt` |\n\n**b40-build (verifierat):** read-only dry-run — eval + seed `--dry-run`, ingen `--apply`, PMIR orörd.\n\n---\n\n### 2. Smoke-resultat\n\n| Smoke | Exit | Resultat |\n|-------|------|----------|\n| `npm run smoke:innehall` | 0 | **PASS** |\n| `npm run smoke:content-waves` | 0 | **PASS** |\n| `npm run smoke:governance` | 0 | **PASS** (via wave-gate) |\n| `npm run smoke:module-lock` | 0 | **PASS** (via wave-gate) |\n| `sdk-yolo-wave-gate.mjs --version=40 --gate=static` | 0 | **PASS** |\n\n---\n\n### 3. Blocker / SKIP\n\n| Item | Status |\n|------|--------|\n| Preflight PARTIAL (saknad GEMINI audit-källa) | **INFO** — icke-blockerande, dokumenterat i integration-eval |\n| Live ingest / `--apply` | **SKIP** |\n| `b40-deploy`, PMIR-filer | **SKIP** |\n\n**Nästa:** `b40-vakt` — yolo-vakt slutgate + handoff v41."
+    },
+    {
+      "runId": "run-501e9884-25ce-4b42-8949-a988eda5d629",
+      "agentId": "agent-708db87e-2542-4010-938e-39bd568758d8",
+      "taskId": "b40-vakt",
+      "title": "B40 — yolo-vakt slutgate",
+      "mode": "task",
+      "status": "finished",
+      "excerpt": "Kör b40-vakt slutgate: granskar tidigare handoff-mönster och kör obligatoriska smokes.\nSmokes gröna — skapar slutgate-artefakter och v41-handoff.\n**Plattform:** Cursor · **Agent:** yolo-vakt (marathon-yolo-vakt) · **Typ:** read-only audit + orkester-handoff\n\n---\n\n## Beslut: **GO**\n\nBuild v40 (INTEGRATION — innehåll + seed dry-run) är godkänd. Handoff till **v41 GOVERNANCE**.\n\n---\n\n### 1. Vad som ändrades\n\n**Produktionskod:** inget i denna vakt.\n\n| Fil | Ändring |\n|-----|---------|\n| `docs/evaluations/2026-07-14-vakt-v40.md` | Slutgate-eval, verdict **GO** |\n| `docs/evaluations/2026-07-14-cursor-yolo-v40-log.md` | b40-vakt-rad tillagd |\n| `.orkester/cursor-yolo-state-v40.json` | `status: completed`, `goNoGo: GO`, handoff → v41 |\n| `.orkester/cursor-yolo-queue-v41.json` | **Ny** — GOVERNANCE wave-kö |\n| `.orkester/cursor-yolo-state-v41.json` | **Ny** — `currentTaskId: b41-build` |\n| `.cursor/pipeline/yolo-v41/START-PROMPT.md` | Handoff-prompt för v41 |\n| `.cursor/pipeline/yolo-v40/NEXT-CHATT-PROMPT.md` | Pekare till v41 |\n\n---\n\n### 2. Smoke-resultat\n\n| Smoke | Resultat |\n|-------|----------|\n| `npm run smoke:innehall` | **PASS** |\n| `npm run smoke:content-waves` | **PASS** |\n| b40-gate (`build-v40.md`) | **GO** |\n\n---\n\n### 3. Blocker / SKIP\n\n| Item | Status |\n|------|--------|\n| Preflight PARTIAL (saknad GEMINI audit-källa) | **INFO** — icke-blockerande |\n| Live ingest / `--apply` | **SKIP** |\n| `b40-deploy`, PMIR-filer | **SKIP** |\n\n**Blocker:** Ingen.\n\n---\n\n**Nästa steg:** `b41-build` — Governance sync (`specialist-beslutsstod`). Startprompt: `.cursor/pipeline/yolo-v41/START-PROMPT.md`"
+    }
+  ],
+  "current": {
+    "taskId": "b40-vakt",
+    "title": "B40 — yolo-vakt slutgate",
+    "mode": "task"
+  },
+  "completed": true
+}
