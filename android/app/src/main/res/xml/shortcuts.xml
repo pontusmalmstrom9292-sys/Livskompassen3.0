@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="shortcut_record"
+        android:enabled="true"
+        android:icon="@drawable/widget_ic_note_discreet"
+        android:shortcutShortLabel="@string/widget_record_title"
+        android:shortcutLongLabel="@string/widget_record_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.livskompassen.app"
+            android:targetClass="com.livskompassen.app.MainActivity">
+            <extra android:name="widget_path" android:value="/widget/inspelning?autostart=1&amp;discreet=1" />
+        </intent>
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="shortcut_note"
+        android:enabled="true"
+        android:icon="@drawable/widget_ic_wh2_note"
+        android:shortcutShortLabel="@string/widget_note_title"
+        android:shortcutLongLabel="@string/widget_note_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.livskompassen.app"
+            android:targetClass="com.livskompassen.app.MainActivity">
+            <extra android:name="widget_path" android:value="/widget/anteckning" />
+        </intent>
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="shortcut_stamp"
+        android:enabled="true"
+        android:icon="@drawable/widget_ic_wh7_actions"
+        android:shortcutShortLabel="@string/widget_stamp_title"
+        android:shortcutLongLabel="@string/widget_stamp_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.livskompassen.app"
+            android:targetClass="com.livskompassen.app.MainActivity">
+            <extra android:name="widget_path" android:value="/widget/stampla" />
+        </intent>
+    </shortcut>
+</shortcuts>

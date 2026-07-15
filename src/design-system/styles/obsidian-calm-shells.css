@@ -68,9 +68,62 @@
     pointer-events: none;
   }
 
+  /* HubDropdownNav — portal-meny ovanför kort/hub-scroll (G85 Capacitor) */
+  .hub-dropdown-nav {
+    position: relative;
+    z-index: var(--ds-z-raised);
+    isolation: isolate;
+  }
+
+  .hub-dropdown-nav--open {
+    z-index: var(--ds-z-overlay);
+  }
+
+  .hub-dropdown-nav__trigger {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hub-dropdown-nav__menu {
+    max-height: min(18rem, calc(100dvh - var(--app-dock-clearance, 8.5rem) - 6rem));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .hub-dropdown-nav__option {
+    min-height: var(--ds-touch-target, 2.75rem);
+  }
+
+  /* ModuleHelpHint — portal-panel ovanför kort/hub-scroll (G85 Capacitor) */
+  .module-help-hint {
+    position: relative;
+    z-index: var(--ds-z-raised);
+    isolation: isolate;
+  }
+
+  .module-help-hint--open {
+    z-index: var(--ds-z-overlay);
+  }
+
+  .module-help-hint__panel {
+    max-height: min(16rem, calc(100dvh - var(--app-dock-clearance, 8.5rem) - 6rem));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Capture / inkast help row — keep ?-trigger above card chrome on G85 */
+  .capture-super-module__help {
+    position: relative;
+    z-index: var(--ds-z-raised);
+    isolation: isolate;
+  }
+
   /* Module toolbar — glass strip for HubDropdownNav / hub pills */
   .module-shell__toolbar--bento {
     position: relative;
+    overflow: visible;
     padding: 0.375rem;
     border-radius: 1.25rem;
     border: 1px solid var(--glass-border);

@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { Button, TextArea } from '@/design-system';
 import { HubDropdownNav } from '@/core/ui/HubDropdownNav';
@@ -41,6 +42,7 @@ export function InkastManualEditForm({
   onSave,
   onCancel,
 }: Props) {
+  const [siloMenuOpen, setSiloMenuOpen] = useState(false);
   const user = useStore((s) => s.user);
   const selectedTags = normalizeInkastTagSelection(tags);
 
@@ -56,7 +58,7 @@ export function InkastManualEditForm({
 
   return (
     <div className="flex flex-col gap-4 rounded-2xl border border-border/40 bg-surface-2/80 p-4 backdrop-blur-md">
-      <div>
+      <div className="relative z-[var(--ds-z-raised)]">
         <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-text-dim">
           Välj arkiv
         </p>
@@ -66,10 +68,13 @@ export function InkastManualEditForm({
           onChange={onSiloChange}
           glowColor="gold"
           ariaLabel="Välj målarkiv"
+          onOpenChange={setSiloMenuOpen}
         />
-        <p className="mt-2 text-xs leading-relaxed text-text-muted">
-          {INKAST_SILO_DESCRIPTIONS[silo]}
-        </p>
+        {!siloMenuOpen ? (
+          <p className="mt-2 text-xs leading-relaxed text-text-muted">
+            {INKAST_SILO_DESCRIPTIONS[silo]}
+          </p>
+        ) : null}
       </div>
 
       <div>

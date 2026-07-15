@@ -28,6 +28,8 @@ export type CaptureSuperModuleProps = {
   onPersistedBevis?: (docId: string) => void;
   compact?: boolean;
   onSaved?: () => void;
+  /** Inbäddad i t.ex. Hemkompass — förälder visar ?-hjälp, undvik dubbel rad */
+  embedded?: boolean;
 };
 
 const SOURCE_MODULE: Record<CaptureSuperVariant, string | undefined> = {
@@ -58,6 +60,7 @@ export function CaptureSuperModule({
   onPersistedBevis,
   compact = false,
   onSaved,
+  embedded = false,
 }: CaptureSuperModuleProps) {
   const isAuthenticated = useStore((s) => s.isAuthenticated);
   const userId = useStore((s) => s.user?.uid);
@@ -113,9 +116,11 @@ export function CaptureSuperModule({
 
     return (
       <>
-        <div className="mb-2 flex items-center justify-end">
-          <ModuleHelpFromRegistry moduleId="capture" mode={variant} />
-        </div>
+        {!embedded ? (
+          <div className="capture-super-module__help mb-2 flex min-h-[var(--ds-touch-target,2.75rem)] items-center justify-end">
+            <ModuleHelpFromRegistry moduleId="capture" mode={variant} />
+          </div>
+        ) : null}
         {variant === 'hem-capture' && (
           <div className="mb-2 flex justify-end">
             <Button variant="ghost" size="sm" className="text-text-dim" onClick={() => setShowCapturePicker(true)}>
@@ -187,7 +192,7 @@ export function CaptureSuperModule({
 
   return (
     <section id="inkast-lite" ref={sectionRef} className="scroll-mt-28">
-      <div className="mb-2 flex justify-end">
+      <div className="capture-super-module__help mb-2 flex min-h-[var(--ds-touch-target,2.75rem)] items-center justify-end">
         <ModuleHelpFromRegistry moduleId="capture" mode="hem-inkast" />
       </div>
       <InkastDirectPanel
