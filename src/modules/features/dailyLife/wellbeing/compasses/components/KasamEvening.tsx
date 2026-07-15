@@ -5,6 +5,8 @@ import { hjartatTabHref } from '@/core/navigation/appNavigation';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { saveCheckIn } from '@/core/firebase/firestore';
+import { fireAdaptationEvent } from '@/core/adaptation/fireAdaptationEvent';
+import { triggerKasamAggregationClient } from '@/core/firebase/kasamAggregationFirestore';
 import {
   EVENING_CHECK_TITLE,
   EVENING_CLOSE_LABEL,
@@ -69,6 +71,10 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
         optionSelected: 'kasam',
         taskCategory: 'evening',
         taskNote: JSON.stringify({ kasam: full }),
+      });
+      fireAdaptationEvent('event_kasam_checkin', 'vardag');
+      void triggerKasamAggregationClient('kasam_evening_checkin').catch(() => {
+        /* Tyst — aggregation är icke-kritisk */
       });
       setSaved(true);
       onSaved?.();

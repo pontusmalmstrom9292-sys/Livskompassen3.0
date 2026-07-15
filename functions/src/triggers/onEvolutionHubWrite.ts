@@ -2,6 +2,7 @@ import { onDocumentWritten } from 'firebase-functions/v2/firestore';
 import * as admin from 'firebase-admin';
 import { GCP_REGION } from '../config';
 import { syncEvolutionHubToLedgerServer } from '../lib/evolutionHubLedgerServer';
+import { ensureDefaultMemoryFlags } from '../lib/ensureDefaultMemoryFlags';
 import type { EvolutionHubDoc } from '../../../shared/evolution/evolutionHubLedgerSync';
 
 export const onEvolutionHubWrite = onDocumentWritten(
@@ -24,5 +25,7 @@ export const onEvolutionHubWrite = onDocumentWritten(
       userId: afterData.userId || uid,
       ownerId: afterData.ownerId || uid,
     });
+
+    await ensureDefaultMemoryFlags(db, uid, afterData as Record<string, unknown>);
   },
 );

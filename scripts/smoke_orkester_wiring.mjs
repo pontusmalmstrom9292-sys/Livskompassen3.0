@@ -46,14 +46,22 @@ function main() {
     'handleJournalWoven',
     'handleDcapAlert',
     'handleWidgetRecordingIngest',
+    'handleKasamAggregation',
     'applyParalysBreak',
     'drive_file_ingested',
     'journal_woven',
     'dcap_alert',
     'user_overwhelm',
     'widget_recording_ingested',
+    'kasam_aggregation',
   );
   mustNotInclude('functions/src/adk/synapses/synapseBus.ts', 'stub log', 'TODO: implement');
+  mustNotInclude('functions/src/adk/synapses/kasamAggregationSynapse.ts', 'framtiden');
+  mustInclude(
+    'functions/src/adk/synapses/kasamAggregationSynapse.ts',
+    'scoreKasamFromSnippets',
+    'kasam_aggregations',
+  );
 
   console.log('[smoke:orkester] journal_woven opt-in...');
   mustInclude(

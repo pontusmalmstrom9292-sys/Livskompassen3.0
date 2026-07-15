@@ -4,6 +4,7 @@ import { Loader2 } from 'lucide-react';
 import { Button, ButtonLink } from '@/design-system';
 import { useStore } from '../store';
 import { getRecentCheckIns, getJournalEntries } from '../firebase/firestore';
+import { getLatestKasamAggregation } from '../firebase/kasamAggregationFirestore';
 import { filterAdaptiveCardsForPreset, type LifeHubPresetId } from '../lifeOs/lifeHubPresets';
 import {
   buildAdaptiveMemoryCards,
@@ -49,10 +50,13 @@ export function AdaptiveMemoryCards({
       const journal = await getJournalEntries(user.uid);
       const today = new Date().toISOString().slice(0, 10);
       const hasJournalToday = journal.some((e) => e.createdAt?.slice(0, 10) === today);
+      const latestKasam = await getLatestKasamAggregation(user.uid).catch(() => null);
       const proactive = buildProactiveTriggerCards({
         evolutionDoc,
         hasJournalToday,
         presetId,
+        latestKasam,
+        dayOfWeek: new Date().getDay(),
       });
       const merged = [...proactive, ...built];
       setCards(filterAdaptiveCardsForPreset(merged, presetId));

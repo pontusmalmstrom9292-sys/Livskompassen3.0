@@ -2771,3 +2771,32 @@ Copy the template below for each entry. Newest first.
 - WidgetButton i silo-picker, etik, metadata
 - Android icon-ring v2 + WH7
 - smoke:predeploy:build PASS · MOD-WIDGET re-locked
+
+## 2026-07-15 — Minnes-Arkitekt våg (KASAM + adaptation + barn-ålder)
+
+**Plattform:** Cursor Agent · **Backend + frontend wiring**
+
+**Completed:**
+- `kasam_aggregation` synapse — deterministisk scoring från journal + kampspar (ingen LLM)
+- Callable `triggerKasamAggregation` + klient-trigg vid kvällskompass
+- `ensureDefaultMemoryFlags` — auto `adaptation_layer_v1` via `onEvolutionHubWrite`
+- Adaptationssignaler: dagbok, KASAM, barnfokus (`fireAdaptationEvent`)
+- `ChildBirthDatePrompt` i Barnfokus → `evolution_hub.childrenAgeState`
+- Proaktiva hemkort: KASAM-svag dimension + veckoinsikter (fre/lör/sön)
+- Firestore WORM-regler för `kasam_aggregations`
+
+**Smoke:** smoke:orkester PASS · smoke:adaptation PASS · smoke:cost-guard PASS · build PASS
+
+**Deploy (kräver Pontus OK):** `firebase deploy --only functions:triggerKasamAggregation,functions:onEvolutionHubWrite,firestore:rules,hosting`
+
+**Kostnad:** Flash-free för KASAM/adaptation — endast Firestore reads/writes.
+
+
+## 2026-07-15 — Minnes-Arkitekt deploy + MOD-CORE-MINNE låst
+
+**Deploy:** functions:triggerKasamAggregation, onEvolutionHubWrite, firestore:rules, hosting → gen-lang-client-0481875058  
+**Lock:** MOD-CORE-MINNE (ny), MOD-BACK-SYN, MOD-FAM-BARN uppdaterade  
+**Smoke:** smoke:predeploy:build PASS · smoke:governance PASS · smoke:minnes-arkitekt PASS  
+**Förbättringar:** KASAM 24h dedup · ISO-veckonyckel veckoinsikter · ChildBirthDatePrompt a11y  
+**Hosting:** https://gen-lang-client-0481875058.web.app
+
