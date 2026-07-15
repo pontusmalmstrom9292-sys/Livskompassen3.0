@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- WH3 — Kompass (Gold circle + Needle) -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="64dp"
+    android:height="64dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="#FF2A2418"
+        android:pathData="M12,12m-11,0a11,11 0,1 1,22 0a11,11 0,1 1,-22 0"
+        android:strokeWidth="0.8"
+        android:strokeColor="#D4AF37" />
+    <path
+        android:fillColor="#FDE68A"
+        android:pathData="M12,6l2,6l-2,6l-2,-6z" />
+    <path
+        android:fillColor="#D4AF37"
+        android:pathData="M12,18l2,-6l-2,-6l-2,6z"
+        android:alpha="0.7" />
+    <path
+        android:fillColor="#F5E6B8"
+        android:pathData="M12,12m-1,0a1,1 0,1 1,2 0a1,1 0,1 1,-2 0" />
+</vector>

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <external-path name="my_images" path="." />
-    <cache-path name="my_cache_images" path="." />
+    <!-- Valvet: Intern lagring för dokument och inspelningar (åtkomligt endast för appen) -->
+    <files-path name="valvet_files" path="valvet/" />
+    <!-- Cache för temporära filer vid delning -->
+    <cache-path name="valvet_cache" path="export/" />
+
+    <!-- Behåller dessa för kompatibilitet med Capacitor plugins, men märkta som legacy -->
+    <external-path name="external_legacy" path="Android/data/com.livskompassen.app/files" />
 </paths>

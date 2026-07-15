@@ -1,6 +1,6 @@
 # Livskompassen Android Development Notes
 
-## Build & Deploy (Wave 7)
+## Build & Deploy
 1. **Sync**: `npm run build:web && npx cap sync android`
 2. **Gradle**: Öppna `android/` i Android Studio. Kör `Gradle Sync`.
 3. **Run**: Använd Motorola G85 för test (Android 14/15).
@@ -9,23 +9,19 @@
 6. **Lint**: `./gradlew :app:lintDebug` för kvalitetskontroll.
 
 ## Felsökning (Logcat)
-Använd följande filter i Android Studio Logcat:
-`tag:Livskompassen`
+Använd filter: `tag:Livskompassen`
+- `Cold start override`: Widget-start bypassar hem-flimmer.
+- `Captured widget path`: Widget-tap händelse (inkl. Haptic Feedback).
+- `JS Console`: Hybrid-loggar från WebView syns nu i Logcat.
+- `WebView requesting AUDIO_CAPTURE`: Mikrofon-hantering.
 
-Viktiga händelser:
-- `Cold start override`: När en widget startar appen från dött läge (bypassar hem-flimmer).
-- `Captured widget path`: När en widget har tryckts på. Nu med **Haptic Feedback**.
-- `WebView already at ... (or equivalent)`: Indikerar att rutt-jämförelsen fungerar.
-- `WebView requesting AUDIO_CAPTURE`: Begäran om mikrofonåtkomst i WebView.
-- `Widget dispatch successful`: JS-eventet mottaget av web-lagret.
-
-## Widget & Shortcut Test-checklista (Våg 7)
-Verifiera att följande widgets och **App Shortcuts** (långtryck på ikonen) landar på rätt rutt:
-- [ ] **Inspelning (WH1 / Shortcut)**: `/widget/inspelning?autostart=1&discreet=1`
+## Widget & Shortcut Checklista
+Verifiera rutter (inga omvägar via hem/):
+- [ ] **Inspelning (WH1 / Shortcut)**: `/widget/inspelning?autostart=1&discreet=1` (Audio Focus + Permission)
 - [ ] **Snabbanteckning (WH2 / Shortcut)**: `/widget/anteckning`
-- [ ] **Kompass (WH3)**: `/widget/kompass`
-- [ ] **Hamn (WH4)**: `/widget/hamn`
-- [ ] **Stämpel (WH6 / Shortcut)**: `/widget/stampla`
+- [ ] **Kompass (WH3)**: `/widget/kompass` (Ny Vektor-ikon)
+- [ ] **Hamn (WH4)**: `/widget/hamn` (Ny Vektor-ikon)
+- [ ] **Stämpel (WH6 / Shortcut)**: `/widget/stampla` (48dp targets + Ny Vektor-ikon)
 - [ ] **Åtgärder (WH7)**: `/widget/aktioner`
 - [ ] **Moduler (WH8)**: `/widget/moduler`
 
@@ -34,14 +30,16 @@ Verifiera att följande widgets och **App Shortcuts** (långtryck på ikonen) la
 adb shell am start -n com.livskompassen.app/.MainActivity -e widget_path "/widget/inspelning?autostart=1&discreet=1"
 ```
 
-## Säkerhet & Privacy (Härdad Våg 7)
-- **FLAG_SECURE**: Aktivt (blockerar screenshots).
-- **Haptic Feedback**: Ger omedelbar bekräftelse vid native-interaktion.
-- **Themed Icons**: Stöd för Android 13+ monokroma ikoner.
-- **Accessibility**: Förbättrad `contentDescription` för TalkBack i widgets.
-- **Splash Animation**: Mjuk fade-out vid övergång till WebView.
-- **Network Check**: Native Toast om nätverk saknas vid widget-start.
-- **allowBackup**: FALSE. Konfigurerat via XML-regler.
+## Säkerhet & Premium UX (Våg 1-13)
+- **FLAG_SECURE**: Screenshots spärrade.
+- **allowBackup**: FALSE. Säkrad via `data_extraction_rules.xml`.
+- **Valvet Storage**: Dedikerade `/valvet/` och `/export/` mappar i `file_paths.xml`.
+- **Haptic Feedback**: Vibration vid varje native tryck.
+- **Themed Icons**: Stöd för monokroma ikoner (Android 13+).
+- **Splash Animation**: 400ms fade-out vid övergång till web.
+- **Hybrid Logging**: JS `console.log` skickas till Logcat.
+- **Audio Focus**: Inspelning pausar annan media (t.ex. Spotify).
+- **Offline Resilience**: Native Toast om nätverk saknas vid widget-start.
 
 ## targetSdk 36
-- Dokumenterat som medvetet val. Inga kritiska varningar.
+Dokumenterat val för att stödja senaste funktionerna (Android 15+).
