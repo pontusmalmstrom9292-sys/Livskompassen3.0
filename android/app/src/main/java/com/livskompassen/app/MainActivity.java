@@ -1,21 +1,26 @@
 package com.livskompassen.app;
 
+import android.Manifest;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
+import android.webkit.PermissionRequest;
 import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.splashscreen.SplashScreen;
 import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.getcapacitor.BridgeActivity;
 import com.livskompassen.app.widgets.WidgetLaunch;
-
-import java.util.Set;
+import com.livskompassen.app.widgets.WidgetRouteMatcher;
 
 /**
  * Capacitor shell + native Android widgets (WH1–WH6).
@@ -26,6 +31,7 @@ public class MainActivity extends BridgeActivity {
     private static final String TAG = "Livskompassen";
     private static final int WIDGET_DISPATCH_MAX_ATTEMPTS = 40;
     private static final long WIDGET_DISPATCH_RETRY_MS = 150L;
+    private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1001;
 
     private String pendingWidgetPath;
     private boolean widgetUrlLoaded;
@@ -56,7 +62,30 @@ public class MainActivity extends BridgeActivity {
         
         // Secondary capture in case it was missed or updated
         captureWidgetPath(getIntent());
+        
+        setupWebViewPermissions();
         dispatchPendingWidgetPath();
+    }
+
+    private void setupWebViewPermissions() {
+        if (getBridge() != null && getBridge().getWebView() != null) {
+            WebView webView = getBridge().getWebView();
+            // We wrap the existing client if possible, but Capacitor's client is internal.
+            // For Fas 1, we ensure the WebView can request microphone.
+            webView.setWebChromeClient(new WebChromeClient() {
+                @Override
+                public void onPermissionRequest(final PermissionRequest request) {
+                    for (String resource : request.getResources()) {
+                        if (PermissionRequest.RESOURCE_AUDIO_CAPTURE.equals(resource)) {
+                            Log.d(TAG, "WebView requesting AUDIO_CAPTURE");
+                            request.grant(request.getResources());
+                            return;
+                        }
+                    }
+                    super.onPermissionRequest(request);
+                }
+            });
+        }
     }
 
     @Override
@@ -112,8 +141,17 @@ public class MainActivity extends BridgeActivity {
         if (pendingWidgetPath == null || pendingWidgetPath.isEmpty()) {
             return;
         }
+        
+        // Fas 1: Begär permission om det är inspelnings-widget
+        if (pendingWidgetPath.contains("/widget/inspelning") && 
+            ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "Recording widget detected, requesting RECORD_AUDIO");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_RECORD_AUDIO);
+            // We wait for onRequestPermissionsResult to continue dispatch if needed, 
+            // but for now we proceed to load URL to not block UI.
+        }
+
         if (getBridge() == null || getBridge().getWebView() == null) {
-            // If bridge is not ready, it's a cold start. override load() will handle it.
             Log.d(TAG, "Bridge not ready yet, pendingWidgetPath is stored: " + pendingWidgetPath);
             return;
         }
@@ -132,7 +170,7 @@ public class MainActivity extends BridgeActivity {
             String targetUrl = serverUrl + pendingWidgetPath;
             String currentUrl = webView.getUrl();
             
-            if (!isSameRoute(currentUrl, targetUrl)) {
+            if (!WidgetRouteMatcher.isSameRoute(currentUrl, targetUrl)) {
                 Log.d(TAG, "Loading URL for widget: " + targetUrl);
                 widgetUrlLoaded = true;
                 webView.loadUrl(targetUrl);
@@ -145,30 +183,16 @@ public class MainActivity extends BridgeActivity {
         attemptWidgetDispatch(webView, pendingWidgetPath, 0);
     }
 
-    private boolean isSameRoute(String url1, String url2) {
-        if (url1 == null || url2 == null) return url1 == url2;
-        if (url1.equals(url2)) return true;
-        try {
-            Uri uri1 = Uri.parse(url1);
-            Uri uri2 = Uri.parse(url2);
-            
-            if (!safeEquals(uri1.getPath(), uri2.getPath())) return false;
-            
-            // Compare query parameters regardless of order
-            Set<String> params1 = uri1.getQueryParameterNames();
-            Set<String> params2 = uri2.getQueryParameterNames();
-            if (params1.size() != params2.size()) return false;
-            for (String name : params1) {
-                if (!safeEquals(uri1.getQueryParameter(name), uri2.getQueryParameter(name))) return false;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSIONS_REQUEST_RECORD_AUDIO) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "RECORD_AUDIO permission granted via widget-tap");
+            } else {
+                Log.w(TAG, "RECORD_AUDIO permission denied via widget-tap");
             }
-            return true;
-        } catch (Exception e) {
-            return false;
         }
-    }
-
-    private boolean safeEquals(Object o1, Object o2) {
-        return (o1 == null) ? (o2 == null) : o1.equals(o2);
     }
 
     private void attemptWidgetDispatch(WebView webView, String path, int attempt) {
