@@ -1,22 +1,23 @@
 # Livskompassen Android Development Notes
 
-## Build & Deploy (Wave 3)
+## Build & Deploy (Wave 4)
 1. **Sync**: `npm run build:web && npx cap sync android`
 2. **Gradle**: Öppna `android/` i Android Studio. Kör `Gradle Sync`.
 3. **Run**: Använd Motorola G85 för test (Android 14/15).
+4. **Release**: `assembleRelease` bygger en osignerad APK för verifiering.
 
 ## Felsökning (Logcat)
 Använd följande filter i Android Studio Logcat:
 `tag:Livskompassen`
 
 Viktiga händelser:
-- `Cold start override`: När en widget startar appen från dött läge.
+- `Cold start override`: När en widget startar appen från dött läge (bypassar hem-flimmer).
 - `Captured widget path`: När en widget har tryckts på.
-- `WebView already at ... skipping loadUrl`: Indikerar att URL-jämförelsen fungerar (sparar batteri/prestanda).
+- `WebView already at ... (or equivalent)`: Indikerar att rutt-jämförelsen fungerar.
 - `Widget dispatch successful`: JS-eventet mottaget av web-lagret.
 
-## Widget Test-checklista
-Verifiera att följande widgets landar på rätt rutt utan att gå via hem först:
+## Widget Test-checklista (Våg 4)
+Verifiera att följande widgets landar på rätt rutt utan att gå via hem först (Cold start = PASS):
 - [ ] **Inspelning (WH1)**: `/widget/inspelning?autostart=1&discreet=1`
 - [ ] **Snabbanteckning (WH2)**: `/widget/anteckning`
 - [ ] **Kompass (WH3)**: `/widget/kompass`
@@ -26,18 +27,17 @@ Verifiera att följande widgets landar på rätt rutt utan att gå via hem förs
 - [ ] **Moduler (WH8)**: `/widget/moduler`
 
 ## Google Sign-In & Firebase
-- **SHA-1**: Säkerställ att debug-nyckelns SHA-1 är registrerad i Firebase Console.
-- **Pending Auth**: `MainActivity` använder `singleTask` och `setIntent(intent)` för att hantera auth-resultat efter att appen bakgrundats.
-- **App Check**: Verifiera att anrop inte blockeras i Firebase Console.
+- **SHA-1**: Debug-nyckelns SHA-1 (finns i `google-services.json` client_type 1) måste matcha lokala `debug.keystore`.
+- **Pending Auth**: `MainActivity` använder `singleTask` och `setIntent(intent)` för att hantera auth-callback vid bakgrundning.
+
+## Säkerhet (Härdad)
+- **FLAG_SECURE**: Aktivt (blockerar screenshots/skärminspelning).
+- **allowBackup**: SATT TILL FALSE. Exkludering sker via `data_extraction_rules.xml` (Android 12+) och `full_backup_content.xml`.
+- **RECORD_AUDIO**: Behålls (krävs för WebView-inspelning).
 
 ## System-UI & Edge-to-edge
-- Appen använder mörkt system-UI (#0D0B09) för att matcha Executive Midnight.
-- Safe areas hanteras i CSS (web), men native statusbar är transparent/mörk.
+- Transparent statusbar med mörkt tema (#0D0B09).
+- Safe-areas (env-variabler) hanteras i CSS i `src/`.
 
-## Versionering
-- **versionCode**: Öka vid varje Play Store release.
-- **versionName**: Följ `major.minor.patch` (synka med `package.json`).
-
-## Säkerhet
-- `FLAG_SECURE`: Aktivt i `MainActivity` (blockerar skärmdumpar).
-- `allowBackup`: Sannolikt bör detta sättas till `false` i produktion för att förhindra extrahering av lokal data.
+## targetSdk 36
+- Dokumenterat som medvetet val. Inga kritiska Lint-varningar vid bygge.
