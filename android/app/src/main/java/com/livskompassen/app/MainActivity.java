@@ -39,6 +39,7 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.getcapacitor.BridgeActivity;
+import com.livskompassen.app.util.AppCheckDebugBootstrap;
 import com.livskompassen.app.util.LCLog;
 import com.livskompassen.app.util.SecurityUtils;
 import com.livskompassen.app.widgets.WidgetLaunch;
@@ -84,6 +85,9 @@ public class MainActivity extends BridgeActivity {
 
         // Capture widget path BEFORE super.onCreate to potentially use it during bridge init
         captureWidgetPath(getIntent());
+
+        // Debug-APK: App Check via Play Integrity fungerar inte — injicera token från .env (BuildConfig).
+        AppCheckDebugBootstrap.applyIfDebug(getApplicationContext());
 
         super.onCreate(savedInstanceState);
         

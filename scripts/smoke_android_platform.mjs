@@ -47,6 +47,11 @@ const main = read('src/main.tsx');
 assert('appCheck init before React', main.includes('initAppCheck'));
 assert('capacitor shell chrome init', main.includes('initCapacitorShellChrome'));
 
+const buildGradle = read('android/app/build.gradle');
+assert('android appcheck token from .env', buildGradle.includes('FIREBASE_APP_CHECK_DEBUG_TOKEN'));
+assert('AppCheckDebugBootstrap', read('android/app/src/main/java/com/livskompassen/app/util/AppCheckDebugBootstrap.java').includes('debug-secret'));
+assert('MainActivity appcheck bootstrap', read('android/app/src/main/java/com/livskompassen/app/MainActivity.java').includes('AppCheckDebugBootstrap'));
+
 const dockCss = read('src/styles/dock-kanon-match.css');
 assert('android dock safe-area override', dockCss.includes('platform-capacitor-android'));
 

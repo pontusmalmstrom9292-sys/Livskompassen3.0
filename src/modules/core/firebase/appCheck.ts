@@ -24,8 +24,8 @@ async function doInitAppCheck(): Promise<void> {
     const debugToken = debugTokenFromEnv();
     await FirebaseAppCheck.initialize({
       isTokenAutoRefreshEnabled: true,
-      // Lokal Android Studio: debug-token i .env (VITE_*) — inte bundlad i CI-prod utan secret.
-      ...(debugToken ? { debug: true, debugToken } : {}),
+      // Debug-APK (Android Studio): token i .env + Firebase Console → App Check → Manage debug tokens.
+      ...(debugToken ? { debugToken } : {}),
     });
 
     const provider = new CustomProvider({
