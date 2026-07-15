@@ -7,6 +7,7 @@
  */
 import { execSync } from 'node:child_process';
 import { existsSync, readFileSync } from 'node:fs';
+import { homedir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -38,9 +39,39 @@ function readEnvValue(key) {
   return '';
 }
 
-function hasAdbDevice() {
+/** Hittar adb även när Android SDK inte ligger i PATH (vanligt i Cursor-terminal). */
+function resolveAdbPath() {
+  const fromPath = process.env.ADB_PATH?.trim();
+  if (fromPath && existsSync(fromPath)) return fromPath;
+
+  const sdkRoots = [
+    process.env.ANDROID_HOME,
+    process.env.ANDROID_SDK_ROOT,
+    join(homedir(), 'Library/Android/sdk'),
+  ].filter(Boolean);
+
+  for (const sdk of sdkRoots) {
+    const candidate = join(sdk, 'platform-tools/adb');
+    if (existsSync(candidate)) return candidate;
+  }
+
   try {
-    const out = execSync('adb devices', { encoding: 'utf8' });
+    const which = execSync('command -v adb', { encoding: 'utf8' }).trim();
+    if (which && existsSync(which)) return which;
+  } catch {
+    // ignore
+  }
+
+  return null;
+}
+
+function runAdb(adbPath, args) {
+  return execSync(`"${adbPath}" ${args}`, { encoding: 'utf8' });
+}
+
+function hasAdbDevice(adbPath) {
+  try {
+    const out = runAdb(adbPath, 'devices');
     return out.split('\n').some((line) => /\tdevice$/.test(line));
   } catch {
     return false;
@@ -57,16 +88,26 @@ if (!token) {
   process.exit(1);
 }
 
-if (!hasAdbDevice()) {
-  console.warn('\n⚠️  Ingen Android-enhet via USB (adb).');
+const adbPath = resolveAdbPath();
+if (!adbPath) {
+  console.error('\n❌ adb hittades inte.');
+  console.error('   Installera Android Studio SDK eller lägg till i PATH:');
+  console.error('   export PATH="$HOME/Library/Android/sdk/platform-tools:$PATH"\n');
+  console.error('   Alternativ: bygg om appen i Android Studio (Run) — token injiceras via BuildConfig.\n');
+  process.exit(1);
+}
+
+if (!hasAdbDevice(adbPath)) {
+  console.warn('\n⚠️  adb hittad men ingen telefon ansluten via USB.');
+  console.warn(`   adb: ${adbPath}`);
   console.warn('   Koppla telefonen, aktivera USB-felsökning, kör sedan:');
   console.warn('   npm run android:appcheck-adb\n');
-  console.warn('   Appen använder BuildConfig-token vid ombyggnad — bygg om i Android Studio om Valvet fortfarande nekas.\n');
+  console.warn('   Alternativ: bygg om i Android Studio (Run) — token från .env bakas in automatiskt.\n');
   process.exit(0);
 }
 
 try {
-  execSync(`adb shell setprop debug.firebase.appcheck.debug_token "${token}"`, { stdio: 'inherit' });
+  execSync(`"${adbPath}" shell setprop debug.firebase.appcheck.debug_token "${token}"`, { stdio: 'inherit' });
   console.log('\n✅ App Check debug-token satt på enheten.');
   console.log('   Starta om appen (Force stop → Run i Android Studio).\n');
   console.log('   Token måste vara registrerad i Firebase Console → App Check → com.livskompassen.app → Manage debug tokens.\n');
