@@ -1,5 +1,9 @@
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useCallback, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import {
+  parseWidgetDeepLinkPath,
+  widgetDeepLinkPathsMatch,
+} from './utils/widgetDeepLinkPath';
 
 declare global {
   interface Window {
@@ -7,38 +11,52 @@ declare global {
   }
   interface WindowEventMap {
     'livskompassen-widget-nav': CustomEvent<{ path: string }>;
+    'livskompassen-widget-reactivate': CustomEvent<{ path: string }>;
   }
-}
-
-function navigateWidgetPath(
-  navigate: ReturnType<typeof useNavigate>,
-  path: string | undefined | null,
-): boolean {
-  if (!path || !path.startsWith('/')) return false;
-  const [pathname, search = ''] = path.split('?');
-  navigate({ pathname, search: search ? `?${search}` : '' });
-  return true;
 }
 
 /** Android native widgets → React Router (Capacitor MainActivity). */
 export function WidgetDeepLinkBridge() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleWidgetPath = useCallback(
+    (path: string | undefined | null): boolean => {
+      const parsed = parseWidgetDeepLinkPath(path);
+      if (!parsed) return false;
+
+      const current = { pathname: location.pathname, search: location.search };
+
+      if (widgetDeepLinkPathsMatch(current, parsed)) {
+        window.dispatchEvent(
+          new CustomEvent('livskompassen-widget-reactivate', { detail: { path: path! } }),
+        );
+        return true;
+      }
+
+      navigate({ pathname: parsed.pathname, search: parsed.search });
+      return true;
+    },
+    [location.pathname, location.search, navigate],
+  );
 
   useEffect(() => {
     const pending = window.__LIVSKOMPASSEN_WIDGET_PENDING__;
-    if (navigateWidgetPath(navigate, pending)) {
+    if (handleWidgetPath(pending)) {
       delete window.__LIVSKOMPASSEN_WIDGET_PENDING__;
     }
 
     const handler = (event: CustomEvent<{ path: string }>) => {
-      if (navigateWidgetPath(navigate, event.detail?.path)) {
+      if (handleWidgetPath(event.detail?.path)) {
         delete window.__LIVSKOMPASSEN_WIDGET_PENDING__;
       }
     };
 
     window.addEventListener('livskompassen-widget-nav', handler as EventListener);
     return () => window.removeEventListener('livskompassen-widget-nav', handler as EventListener);
-  }, [navigate]);
+  }, [handleWidgetPath]);
 
   return null;
 }
+
+export { parseWidgetDeepLinkPath } from './utils/widgetDeepLinkPath';

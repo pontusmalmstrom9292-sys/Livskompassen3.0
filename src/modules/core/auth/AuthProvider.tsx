@@ -98,6 +98,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const pendingUser = await tryCompletePendingNativeGoogleSignIn();
         if (pendingUser && !isUnmounted) {
           syncUserToStore(pendingUser, setUser);
+          setLoading(false);
         }
       }
 
