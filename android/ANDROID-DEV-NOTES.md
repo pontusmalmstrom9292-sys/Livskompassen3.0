@@ -1,6 +1,6 @@
 # Livskompassen Android Development Notes
 
-## Build & Deploy (Wave 5)
+## Build & Deploy (Wave 7)
 1. **Sync**: `npm run build:web && npx cap sync android`
 2. **Gradle**: Öppna `android/` i Android Studio. Kör `Gradle Sync`.
 3. **Run**: Använd Motorola G85 för test (Android 14/15).
@@ -14,46 +14,34 @@ Använd följande filter i Android Studio Logcat:
 
 Viktiga händelser:
 - `Cold start override`: När en widget startar appen från dött läge (bypassar hem-flimmer).
-- `Captured widget path`: När en widget har tryckts på.
-- `WebView already at ... (or equivalent)`: Indikerar att rutt-jämförelsen fungerar (Fas 2).
-- `WebView requesting AUDIO_CAPTURE`: Begäran om mikrofonåtkomst i WebView (Fas 1).
+- `Captured widget path`: När en widget har tryckts på. Nu med **Haptic Feedback**.
+- `WebView already at ... (or equivalent)`: Indikerar att rutt-jämförelsen fungerar.
+- `WebView requesting AUDIO_CAPTURE`: Begäran om mikrofonåtkomst i WebView.
 - `Widget dispatch successful`: JS-eventet mottaget av web-lagret.
 
-## Widget Test-checklista (Våg 5)
-Verifiera att följande widgets landar på rätt rutt utan att gå via hem först:
-- [ ] **Inspelning (WH1)**: `/widget/inspelning?autostart=1&discreet=1` (Begär RECORD_AUDIO vid klick)
-- [ ] **Snabbanteckning (WH2)**: `/widget/anteckning`
+## Widget & Shortcut Test-checklista (Våg 7)
+Verifiera att följande widgets och **App Shortcuts** (långtryck på ikonen) landar på rätt rutt:
+- [ ] **Inspelning (WH1 / Shortcut)**: `/widget/inspelning?autostart=1&discreet=1`
+- [ ] **Snabbanteckning (WH2 / Shortcut)**: `/widget/anteckning`
 - [ ] **Kompass (WH3)**: `/widget/kompass`
 - [ ] **Hamn (WH4)**: `/widget/hamn`
-- [ ] **Stämpel (WH6)**: "In" → `/widget/stampla?action=in`, "Ut" → `/widget/stampla?action=out`
+- [ ] **Stämpel (WH6 / Shortcut)**: `/widget/stampla`
 - [ ] **Åtgärder (WH7)**: `/widget/aktioner`
 - [ ] **Moduler (WH8)**: `/widget/moduler`
 
 ## ADB Widget Smoke Test
-Testa widgets via terminalen (ersätt `/widget/*` med önskad path):
 ```bash
 adb shell am start -n com.livskompassen.app/.MainActivity -e widget_path "/widget/inspelning?autostart=1&discreet=1"
-adb shell am start -n com.livskompassen.app/.MainActivity -e widget_path "/widget/stampla?action=in"
 ```
-Filter: `adb logcat -s Livskompassen`
 
-## Google Sign-In & Firebase
-- **SHA-1**: Debug-nyckelns SHA-1 måste matcha Firebase Console.
-- **Pending Auth**: Hanteras via `singleTask` + `setIntent`.
-
-## Säkerhet (Härdad)
+## Säkerhet & Privacy (Härdad Våg 7)
 - **FLAG_SECURE**: Aktivt (blockerar screenshots).
-- **allowBackup**: FALSE. Konfigurerat i `AndroidManifest.xml`, `data_extraction_rules.xml` och `full_backup_content.xml`.
-- **RECORD_AUDIO**: Krävs för WebView-inspelning. Beviljas automatiskt i WebView om Android-permission finns (Fas 1).
-- **Exported Receivers**: Måste vara `true` för att systemet ska kunna skicka widget-uppdateringar.
-
-## § Våg 5 NATTPASS — Rapport
-- **FAS 1 (Fixat)**: `MainActivity` hanterar nu `WebChromeClient.onPermissionRequest` för `AUDIO_CAPTURE`. Beviljar åtkomst om appen har `RECORD_AUDIO`. Vid widget-tap på inspelning begärs även Android-permission proaktivt om den saknas.
-- **FAS 2 (Fixat)**: Rutt-logik extraherad till `WidgetRouteMatcher`. 9 JUnit-tester implementerade och körda (`PASS`). Hanterar ordningsoberoende query-params och trailing slashes.
-- **FAS 3 (Fixat)**: Widget-layouts granskade för touch-targets (48dp). `widget_stamp` in/ut knappar har säkrad minHeight.
-- **FAS 4 (Fixat)**: `lintDebug` PASS. `assembleDebug` och `assembleRelease` PASS.
-- **FAS 5 (Fixat)**: ADB-kommandon tillagda ovan.
-- **FAS 6 (Granskat)**: Säkerhet verifierad. `exported=true` för receivers är korrekt. `FileProvider` och backup-regler är intakta.
+- **Haptic Feedback**: Ger omedelbar bekräftelse vid native-interaktion.
+- **Themed Icons**: Stöd för Android 13+ monokroma ikoner.
+- **Accessibility**: Förbättrad `contentDescription` för TalkBack i widgets.
+- **Splash Animation**: Mjuk fade-out vid övergång till WebView.
+- **Network Check**: Native Toast om nätverk saknas vid widget-start.
+- **allowBackup**: FALSE. Konfigurerat via XML-regler.
 
 ## targetSdk 36
 - Dokumenterat som medvetet val. Inga kritiska varningar.

@@ -1,15 +1,27 @@
 package com.livskompassen.app;
 
 import android.Manifest;
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.HapticFeedbackConstants;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AnticipateInterpolator;
 import android.webkit.PermissionRequest;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -38,8 +50,27 @@ public class MainActivity extends BridgeActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SplashScreen.installSplashScreen(this);
+        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         
+        // Premium Splash Screen Fade-out
+        splashScreen.setOnExitAnimationListener(splashScreenView -> {
+            final ObjectAnimator fadeOut = ObjectAnimator.ofFloat(
+                    splashScreenView.getView(),
+                    View.ALPHA,
+                    1f,
+                    0f
+            );
+            fadeOut.setInterpolator(new AnticipateInterpolator());
+            fadeOut.setDuration(400L);
+            fadeOut.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    splashScreenView.remove();
+                }
+            });
+            fadeOut.start();
+        });
+
         // Capture widget path BEFORE super.onCreate to potentially use it during bridge init
         captureWidgetPath(getIntent());
 
@@ -63,15 +94,22 @@ public class MainActivity extends BridgeActivity {
         // Secondary capture in case it was missed or updated
         captureWidgetPath(getIntent());
         
-        setupWebViewPermissions();
+        setupWebView();
         dispatchPendingWidgetPath();
     }
 
-    private void setupWebViewPermissions() {
+    private void setupWebView() {
         if (getBridge() != null && getBridge().getWebView() != null) {
             WebView webView = getBridge().getWebView();
-            // We wrap the existing client if possible, but Capacitor's client is internal.
-            // For Fas 1, we ensure the WebView can request microphone.
+            
+            // Performance Tuning
+            WebSettings settings = webView.getSettings();
+            settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+            settings.setDomStorageEnabled(true);
+            settings.setDatabaseEnabled(true);
+            webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+
+            // Audio Permission wrapper
             webView.setWebChromeClient(new WebChromeClient() {
                 @Override
                 public void onPermissionRequest(final PermissionRequest request) {
@@ -98,12 +136,25 @@ public class MainActivity extends BridgeActivity {
                 }
                 String targetUrl = serverUrl + pendingWidgetPath;
                 Log.d(TAG, "Cold start override: loading widget URL " + targetUrl);
+                
+                checkNetworkAndNotify();
+                
                 getBridge().getWebView().loadUrl(targetUrl);
                 widgetUrlLoaded = true;
                 return;
             }
         }
         super.load();
+    }
+
+    private void checkNetworkAndNotify() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+        
+        if (!isConnected) {
+            Toast.makeText(this, "Nätverk saknas — försöker öppna diskret...", Toast.LENGTH_LONG).show();
+        }
     }
 
     @Override
@@ -132,9 +183,22 @@ public class MainActivity extends BridgeActivity {
         if (path == null || path.isEmpty()) {
             return;
         }
+        
         Log.d(TAG, "Captured widget path: " + path);
         pendingWidgetPath = path;
         intent.removeExtra(WidgetLaunch.EXTRA_WIDGET_PATH);
+
+        // Wave 6: Premium Haptic Feedback
+        triggerHapticFeedback();
+    }
+
+    private void triggerHapticFeedback() {
+        View decorView = getWindow().getDecorView();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            decorView.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+        } else {
+            decorView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+        }
     }
 
     private void dispatchPendingWidgetPath() {
@@ -147,8 +211,6 @@ public class MainActivity extends BridgeActivity {
             ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Recording widget detected, requesting RECORD_AUDIO");
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO}, PERMISSIONS_REQUEST_RECORD_AUDIO);
-            // We wait for onRequestPermissionsResult to continue dispatch if needed, 
-            // but for now we proceed to load URL to not block UI.
         }
 
         if (getBridge() == null || getBridge().getWebView() == null) {
@@ -172,6 +234,9 @@ public class MainActivity extends BridgeActivity {
             
             if (!WidgetRouteMatcher.isSameRoute(currentUrl, targetUrl)) {
                 Log.d(TAG, "Loading URL for widget: " + targetUrl);
+                
+                checkNetworkAndNotify();
+
                 widgetUrlLoaded = true;
                 webView.loadUrl(targetUrl);
             } else {
