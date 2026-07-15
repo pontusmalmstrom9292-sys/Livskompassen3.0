@@ -30,6 +30,10 @@ public class MainActivity extends BridgeActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen.installSplashScreen(this);
+        
+        // Capture widget path BEFORE super.onCreate to potentially use it during bridge init
+        captureWidgetPath(getIntent());
+
         super.onCreate(savedInstanceState);
         
         Log.d(TAG, "MainActivity onCreate");
@@ -55,6 +59,7 @@ public class MainActivity extends BridgeActivity {
         Log.d(TAG, "MainActivity onNewIntent");
         widgetUrlLoaded = false;
         captureWidgetPath(intent);
+        // Force immediate dispatch for onNewIntent (warm start)
         dispatchPendingWidgetPath();
     }
 
@@ -83,7 +88,9 @@ public class MainActivity extends BridgeActivity {
             return;
         }
         if (getBridge() == null || getBridge().getWebView() == null) {
-            Log.w(TAG, "Bridge or WebView not ready for dispatch");
+            // If bridge is not ready, it's a cold start. Capacitor will soon call load().
+            // We want to ensure our URL is the one that gets loaded.
+            Log.d(TAG, "Bridge not ready yet, pendingWidgetPath is stored: " + pendingWidgetPath);
             return;
         }
 
