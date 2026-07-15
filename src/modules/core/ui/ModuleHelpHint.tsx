@@ -48,8 +48,9 @@ export function ModuleHelpHint({ title, lines, action, className }: Props) {
     if (!trigger || !open) return;
 
     const rect = trigger.getBoundingClientRect();
+    const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
     const panelHeight = panelRef.current?.offsetHeight ?? 180;
-    const spaceBelow = window.innerHeight - rect.bottom - PANEL_GAP_PX;
+    const spaceBelow = viewportHeight - rect.bottom - PANEL_GAP_PX;
     const placement: PanelPlacement =
       spaceBelow >= Math.min(panelHeight, 160) ? 'below' : 'above';
     const top =
@@ -57,7 +58,8 @@ export function ModuleHelpHint({ title, lines, action, className }: Props) {
         ? rect.bottom + PANEL_GAP_PX
         : Math.max(PANEL_GAP_PX, rect.top - panelHeight - PANEL_GAP_PX);
 
-    const maxWidth = window.innerWidth - PANEL_GAP_PX * 2;
+    const viewportWidth = window.visualViewport?.width ?? window.innerWidth;
+    const maxWidth = viewportWidth - PANEL_GAP_PX * 2;
     const width = Math.min(PANEL_WIDTH_PX, maxWidth);
     const preferredLeft = rect.right - width;
     const left = Math.min(
@@ -80,9 +82,16 @@ export function ModuleHelpHint({ title, lines, action, className }: Props) {
     const onScrollOrResize = () => updatePanelPosition();
     window.addEventListener('resize', onScrollOrResize);
     window.addEventListener('scroll', onScrollOrResize, true);
+    const vv = window.visualViewport;
+    if (vv) {
+      vv.addEventListener('resize', onScrollOrResize);
+      vv.addEventListener('scroll', onScrollOrResize);
+    }
     return () => {
       window.removeEventListener('resize', onScrollOrResize);
       window.removeEventListener('scroll', onScrollOrResize, true);
+      vv?.removeEventListener('resize', onScrollOrResize);
+      vv?.removeEventListener('scroll', onScrollOrResize);
     };
   }, [open, updatePanelPosition]);
 

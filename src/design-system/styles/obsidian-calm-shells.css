@@ -113,6 +113,13 @@
     -webkit-overflow-scrolling: touch;
   }
 
+  /* Capture / inkast help row — keep ?-trigger above card chrome on G85 */
+  .capture-super-module__help {
+    position: relative;
+    z-index: var(--ds-z-raised);
+    isolation: isolate;
+  }
+
   /* Module toolbar — glass strip for HubDropdownNav / hub pills */
   .module-shell__toolbar--bento {
     position: relative;

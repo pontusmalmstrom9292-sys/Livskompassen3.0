@@ -374,7 +374,17 @@
   }
 
   .home-adaptive-compass__inkast-head {
-    @apply mb-1 flex items-center gap-1.5;
+    @apply mb-2 flex flex-col gap-2;
+  }
+
+  .home-adaptive-compass__inkast-title-row {
+    @apply flex min-h-[var(--ds-touch-target,2.75rem)] items-center justify-between gap-2;
+    position: relative;
+    z-index: var(--ds-z-raised);
+  }
+
+  .home-adaptive-compass__inkast-reflection-link {
+    @apply inline-flex min-h-[var(--ds-touch-target,2.75rem)] items-center text-[10px] uppercase tracking-wider text-accent/80 transition-colors hover:text-accent;
   }
 
   .home-adaptive-compass__inkast--open {

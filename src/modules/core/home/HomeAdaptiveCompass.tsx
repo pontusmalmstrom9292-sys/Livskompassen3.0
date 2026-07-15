@@ -6,6 +6,7 @@ import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
 import { Button } from '@/design-system';
 import { CaptureSuperModule } from '@/modules/capture/CaptureSuperModule';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { ParalysPanel } from '@/features/dailyLife/wellbeing/compasses/components/ParalysPanel';
 import { KasamEvening } from '@/features/dailyLife/wellbeing/compasses/components/KasamEvening';
 import { KompassradPanel } from '@/features/dailyLife/wellbeing/compasses/components/KompassradPanel';
@@ -351,19 +352,25 @@ export function HomeAdaptiveCompass({
                   inkastOpen && 'home-adaptive-compass__inkast--open',
                 )}
               >
-                <div className="home-adaptive-compass__inkast-head flex flex-wrap items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="h-3.5 w-3.5 text-accent" aria-hidden />
-                    <span className="font-display-serif text-[10px] font-semibold uppercase tracking-[0.2em] text-text-dim">
-                      Smart Inkast
-                    </span>
+                <div className="home-adaptive-compass__inkast-head">
+                  <div className="home-adaptive-compass__inkast-title-row">
+                    <div className="flex min-w-0 items-center gap-2">
+                      <Sparkles className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden />
+                      <span className="truncate font-display-serif text-[10px] font-semibold uppercase tracking-[0.2em] text-text-dim">
+                        Smart Inkast
+                      </span>
+                    </div>
+                    <ModuleHelpFromRegistry moduleId="capture" mode="kompass" />
                   </div>
-                  <Link
-                    to={HOME_SUPERHUB_ROUTES.hjartatReflektion}
-                    className="text-[10px] uppercase tracking-wider text-accent/80 hover:text-accent"
-                  >
-                    Öppna full reflektion i Hjärtat
-                  </Link>
+                  {!inkastOpen ? (
+                    <Link
+                      to={HOME_SUPERHUB_ROUTES.hjartatReflektion}
+                      className="home-adaptive-compass__inkast-reflection-link"
+                    >
+                      <span className="sm:hidden">Hjärtat →</span>
+                      <span className="hidden sm:inline">Öppna full reflektion i Hjärtat</span>
+                    </Link>
+                  ) : null}
                 </div>
                 <button
                   type="button"
@@ -381,7 +388,9 @@ export function HomeAdaptiveCompass({
                     aria-hidden
                   />
                 </button>
-                {inkastOpen ? <CaptureSuperModule variant="kompass" onSaved={onSaved} /> : null}
+                {inkastOpen ? (
+                  <CaptureSuperModule variant="kompass" embedded onSaved={onSaved} />
+                ) : null}
               </section>
             ) : null}
           </BentoCard>

@@ -395,6 +395,24 @@ function main() {
   );
   mustInclude('src/modules/core/help/ModuleHelpFromRegistry.tsx', 'ModuleHelpFromRegistry');
   mustInclude('src/modules/core/ui/ModuleHelpHint.tsx', 'ModuleHelpHint');
+  mustInclude('src/modules/core/ui/ModuleHelpHint.tsx', 'createPortal');
+  mustInclude('src/modules/core/ui/HubDropdownNav.tsx', 'createPortal');
+  mustInclude(
+    'src/design-system/styles/obsidian-calm-shells.css',
+    'hub-dropdown-nav',
+    'module-help-hint',
+    'capture-super-module__help',
+  );
+  mustInclude(
+    'src/modules/capture/CaptureSuperModule.tsx',
+    'capture-super-module__help',
+    'embedded',
+  );
+  mustInclude(
+    'src/modules/core/home/HomeAdaptiveCompass.tsx',
+    'home-adaptive-compass__inkast-title-row',
+    'embedded',
+  );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx',
     'ModuleHelpFromRegistry',

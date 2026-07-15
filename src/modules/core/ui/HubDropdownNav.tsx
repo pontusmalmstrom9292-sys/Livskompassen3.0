@@ -80,8 +80,9 @@ export function HubDropdownNav<T extends string>({
     if (!trigger || !isOpen) return;
 
     const rect = trigger.getBoundingClientRect();
+    const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
     const menuHeight = menuRef.current?.offsetHeight ?? items.length * 48 + 16;
-    const spaceBelow = window.innerHeight - rect.bottom - MENU_GAP_PX;
+    const spaceBelow = viewportHeight - rect.bottom - MENU_GAP_PX;
     const placement: MenuPlacement =
       spaceBelow >= Math.min(menuHeight, 200) ? 'below' : 'above';
     const top =
@@ -89,11 +90,12 @@ export function HubDropdownNav<T extends string>({
         ? rect.bottom + MENU_GAP_PX
         : Math.max(MENU_GAP_PX, rect.top - menuHeight - MENU_GAP_PX);
 
-    const maxWidth = window.innerWidth - MENU_GAP_PX * 2;
+    const viewportWidth = window.visualViewport?.width ?? window.innerWidth;
+    const maxWidth = viewportWidth - MENU_GAP_PX * 2;
     const width = Math.min(rect.width, maxWidth);
     const left = Math.min(
       Math.max(MENU_GAP_PX, rect.left),
-      window.innerWidth - width - MENU_GAP_PX,
+      viewportWidth - width - MENU_GAP_PX,
     );
 
     setMenuPos({ top, left, width, placement });
@@ -111,9 +113,16 @@ export function HubDropdownNav<T extends string>({
     const onScrollOrResize = () => updateMenuPosition();
     window.addEventListener('resize', onScrollOrResize);
     window.addEventListener('scroll', onScrollOrResize, true);
+    const vv = window.visualViewport;
+    if (vv) {
+      vv.addEventListener('resize', onScrollOrResize);
+      vv.addEventListener('scroll', onScrollOrResize);
+    }
     return () => {
       window.removeEventListener('resize', onScrollOrResize);
       window.removeEventListener('scroll', onScrollOrResize, true);
+      vv?.removeEventListener('resize', onScrollOrResize);
+      vv?.removeEventListener('scroll', onScrollOrResize);
     };
   }, [isOpen, updateMenuPosition]);
 
