@@ -62,6 +62,9 @@ public class MainActivity extends BridgeActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Cap-plugin måste registreras före Bridge skapas (super.onCreate → load).
+        registerPlugin(LkNativeBuildPlugin.class);
+
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         
         // Premium Splash Screen Fade-out
@@ -86,7 +89,7 @@ public class MainActivity extends BridgeActivity {
         // Capture widget path BEFORE super.onCreate to potentially use it during bridge init
         captureWidgetPath(getIntent());
 
-        // Debug-APK: App Check via Play Integrity fungerar inte — injicera token från .env (BuildConfig).
+        // Debug-token i prefs före WebView/JS — Debug provider läser secret vid getToken.
         AppCheckDebugBootstrap.applyIfDebug(getApplicationContext());
 
         super.onCreate(savedInstanceState);

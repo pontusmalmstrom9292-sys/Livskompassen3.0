@@ -46,11 +46,6 @@ android {
         }
     }
     buildTypes {
-        debug {
-            if (appCheckDebugToken) {
-                testInstrumentationRunnerArguments["firebaseAppCheckDebugSecret"] = appCheckDebugToken
-            }
-        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'

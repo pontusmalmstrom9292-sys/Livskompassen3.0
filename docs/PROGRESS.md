@@ -1,4 +1,22 @@
 
+## 2026-07-15 — Grok 4.5 YOLO: Android App Check harden
+
+**Plattform:** Cursor · **Modell:** Grok 4.5 · **Läge:** YOLO
+
+**Completed work:**
+- Harden App Check: release kan inte aktivera debug-provider via Vite .env
+- LkNativeBuildPlugin + AppCheckDebugBootstrap prefs-key-fix + bootstrap före WebView
+- smoke:android-platform utökad
+
+**Verification:**
+- smoke:android-platform PASS
+- smoke:valv-security PASS
+- typecheck:core-strict PASS
+
+**Eval:** [`docs/evaluations/2026-07-15-grok45-android-appcheck-yolo.md`](./evaluations/2026-07-15-grok45-android-appcheck-yolo.md)
+
+---
+
 ## 2026-07-13 — Design debt metrics refresh
 
 **Scope:** smoke:design-debt → docs/DASHBOARD.md (btnPill, dsBtn, adHocDialog, indexCssLoc). Inga produktändringar.

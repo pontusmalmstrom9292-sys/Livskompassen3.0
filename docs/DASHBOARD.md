@@ -22,7 +22,7 @@
 
 # Premium UI Polish — Dashboard
 
-**Version:** 1.3 | **Last updated:** 2026-07-13
+**Version:** 1.3 | **Last updated:** 2026-07-15
 
 **Rule:** Update this file after each merge wave. Do **not** use guessed progress % — use Status + metric columns.
 
@@ -255,3 +255,9 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** 
 - YOLO GO — merge-ready, deploy SKIP
 
 | MOD-WIDGET Standalone v1 | 2026-07-14 | WH1–WH7 + prod skin + auth bypass | locked |
+
+## 2026-07-15 — Android App Check harden (Grok 4.5 YOLO)
+- Native debug-provider gated by BuildConfig.DEBUG via LkNativeBuildPlugin
+- smoke:android-platform PASS (expanded regressions)
+- Eval: docs/evaluations/2026-07-15-grok45-android-appcheck-yolo.md
+

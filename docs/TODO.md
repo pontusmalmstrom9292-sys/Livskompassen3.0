@@ -2,7 +2,7 @@
 
 # Premium UI Polish — TODO
 
-**Version:** 1.2 | **Last updated:** 2026-07-14
+**Version:** 1.2 | **Last updated:** 2026-07-15
 
 Each item is independently completable. Link files in Dashboard when done.
 
@@ -266,4 +266,12 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] LOCK-MANIFEST v1.17 — register ↔ entryFiles (22 moduler, 24 entryFiles)
 - [x] `smoke:governance` + `smoke:module-lock` PASS
 - [x] Eval: `docs/evaluations/2026-07-14-governance-v41.md`
+
+## 2026-07-15 — Grok 4.5 Android App Check harden
+- [x] Release nollställer debug-token (build.gradle) + BuildConfig.DEBUG bootstrap-gate
+- [x] LkNativeBuildPlugin: JS aktiverar debug-provider endast när native DEBUG ∧ token
+- [x] AppCheckDebugBootstrap: korrekt Firebase prefs-key + apply före WebView
+- [x] smoke:android-platform utökad (release-clear, app-id-match, plugin, fail-closed)
+- [x] Eval: `docs/evaluations/2026-07-15-grok45-android-appcheck-yolo.md`
+- Smoke: `smoke:android-platform` PASS · `smoke:valv-security` PASS · `typecheck:core-strict` PASS
 
