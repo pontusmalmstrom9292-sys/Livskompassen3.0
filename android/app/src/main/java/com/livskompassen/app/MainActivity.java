@@ -1,6 +1,7 @@
 package com.livskompassen.app;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.WindowManager;
@@ -13,6 +14,8 @@ import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.getcapacitor.BridgeActivity;
 import com.livskompassen.app.widgets.WidgetLaunch;
+
+import java.util.Set;
 
 /**
  * Capacitor shell + native Android widgets (WH1–WH6).
@@ -41,15 +44,37 @@ public class MainActivity extends BridgeActivity {
         // Edge-to-edge support
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
         WindowInsetsControllerCompat controller = WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
-        controller.setAppearanceLightStatusBars(false); // Ljusa ikoner på mörk bakgrund
-        controller.setAppearanceLightNavigationBars(false);
+        if (controller != null) {
+            controller.setAppearanceLightStatusBars(false); // Ljusa ikoner på mörk bakgrund
+            controller.setAppearanceLightNavigationBars(false);
+        }
         
         getWindow().setFlags(
             WindowManager.LayoutParams.FLAG_SECURE,
             WindowManager.LayoutParams.FLAG_SECURE
         );
+        
+        // Secondary capture in case it was missed or updated
         captureWidgetPath(getIntent());
         dispatchPendingWidgetPath();
+    }
+
+    @Override
+    public void load() {
+        if (pendingWidgetPath != null && !pendingWidgetPath.isEmpty() && getBridge() != null) {
+            String serverUrl = getBridge().getServerUrl();
+            if (serverUrl != null) {
+                if (serverUrl.endsWith("/")) {
+                    serverUrl = serverUrl.substring(0, serverUrl.length() - 1);
+                }
+                String targetUrl = serverUrl + pendingWidgetPath;
+                Log.d(TAG, "Cold start override: loading widget URL " + targetUrl);
+                getBridge().getWebView().loadUrl(targetUrl);
+                widgetUrlLoaded = true;
+                return;
+            }
+        }
+        super.load();
     }
 
     @Override
@@ -88,15 +113,13 @@ public class MainActivity extends BridgeActivity {
             return;
         }
         if (getBridge() == null || getBridge().getWebView() == null) {
-            // If bridge is not ready, it's a cold start. Capacitor will soon call load().
-            // We want to ensure our URL is the one that gets loaded.
+            // If bridge is not ready, it's a cold start. override load() will handle it.
             Log.d(TAG, "Bridge not ready yet, pendingWidgetPath is stored: " + pendingWidgetPath);
             return;
         }
 
         WebView webView = getBridge().getWebView();
         if (!widgetUrlLoaded) {
-            widgetUrlLoaded = true;
             String serverUrl = getBridge().getServerUrl();
             if (serverUrl == null) {
                 Log.e(TAG, "serverUrl is null, cannot dispatch widget");
@@ -109,15 +132,43 @@ public class MainActivity extends BridgeActivity {
             String targetUrl = serverUrl + pendingWidgetPath;
             String currentUrl = webView.getUrl();
             
-            if (currentUrl == null || !currentUrl.equals(targetUrl)) {
+            if (!isSameRoute(currentUrl, targetUrl)) {
                 Log.d(TAG, "Loading URL for widget: " + targetUrl);
+                widgetUrlLoaded = true;
                 webView.loadUrl(targetUrl);
             } else {
-                Log.d(TAG, "WebView already at " + targetUrl + ", skipping loadUrl");
+                Log.d(TAG, "WebView already at " + targetUrl + " (or equivalent), skipping loadUrl");
+                widgetUrlLoaded = true;
             }
         }
 
         attemptWidgetDispatch(webView, pendingWidgetPath, 0);
+    }
+
+    private boolean isSameRoute(String url1, String url2) {
+        if (url1 == null || url2 == null) return url1 == url2;
+        if (url1.equals(url2)) return true;
+        try {
+            Uri uri1 = Uri.parse(url1);
+            Uri uri2 = Uri.parse(url2);
+            
+            if (!safeEquals(uri1.getPath(), uri2.getPath())) return false;
+            
+            // Compare query parameters regardless of order
+            Set<String> params1 = uri1.getQueryParameterNames();
+            Set<String> params2 = uri2.getQueryParameterNames();
+            if (params1.size() != params2.size()) return false;
+            for (String name : params1) {
+                if (!safeEquals(uri1.getQueryParameter(name), uri2.getQueryParameter(name))) return false;
+            }
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private boolean safeEquals(Object o1, Object o2) {
+        return (o1 == null) ? (o2 == null) : o1.equals(o2);
     }
 
     private void attemptWidgetDispatch(WebView webView, String path, int attempt) {
