@@ -1,14 +1,19 @@
 import type { EvolutionHubDoc } from '@/core/types/firestore';
 import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 import type { AdaptiveMemoryCard } from './compassAdaptiveCards';
+import type { KasamAggregationRow } from '@/core/firebase/kasamAggregationFirestore';
+import { kasamDimensionLabel } from '@/core/firebase/kasamAggregationFirestore';
 
 export type ProactiveTriggerContext = {
   evolutionDoc: EvolutionHubDoc | null;
   hasJournalToday: boolean;
   presetId: string;
+  latestKasam?: KasamAggregationRow | null;
+  dayOfWeek?: number;
 };
 
 const HAMN_SESSION_KEY = 'livskompassen_hamn_session_open_v1';
+const WEEKLY_INSIGHT_KEY = 'livskompassen_weekly_insight_prompt_v1';
 
 /** Hamn öppnad denna session utan påminnelse om Valv-sparning. */
 export function markHamnSessionOpen(): void {
@@ -36,6 +41,21 @@ function cognitiveLevel(doc: EvolutionHubDoc | null): number {
   return doc?.pillars?.kognitiv?.level ?? 2;
 }
 
+function shouldShowWeeklyInsight(dayOfWeek: number): boolean {
+  if (dayOfWeek === 0 || dayOfWeek >= 5) {
+    try {
+      const weekKey = new Date().toISOString().slice(0, 10).slice(0, 8);
+      const stored = sessionStorage.getItem(WEEKLY_INSIGHT_KEY);
+      if (stored === weekKey) return false;
+      sessionStorage.setItem(WEEKLY_INSIGHT_KEY, weekKey);
+      return true;
+    } catch {
+      return dayOfWeek === 0;
+    }
+  }
+  return false;
+}
+
 /**
  * evolution_hub-triggers — ett kort i taget, kapacitetsmedvetet (Fas 4).
  */
@@ -43,6 +63,7 @@ export function buildProactiveTriggerCards(ctx: ProactiveTriggerContext): Adapti
   const cards: AdaptiveMemoryCard[] = [];
   const flow = getDefaultCompassByTime();
   const level = cognitiveLevel(ctx.evolutionDoc);
+  const dayOfWeek = ctx.dayOfWeek ?? new Date().getDay();
 
   if (!ctx.hasJournalToday && level >= 2) {
     cards.push({
@@ -53,6 +74,32 @@ export function buildProactiveTriggerCards(ctx: ProactiveTriggerContext): Adapti
       to: '/hjartat',
       search: '?tab=reflektion',
       tone: 'gold',
+    });
+  }
+
+  if (ctx.latestKasam && ctx.latestKasam.scores.overall < 55 && level >= 1) {
+    const weak = ctx.latestKasam.weakestDimension;
+    cards.push({
+      id: 'proactive-kasam-weak',
+      title: kasamDimensionLabel(weak),
+      prompt: `Din senaste KASAM-bild visar lägre ${kasamDimensionLabel(weak).toLowerCase()}. Ett litet steg i kvällskompassen räcker.`,
+      actionLabel: 'Kvällskompass',
+      to: '/',
+      hash: 'compass-evening',
+      tone: 'lavender',
+    });
+  }
+
+  if (shouldShowWeeklyInsight(dayOfWeek) && level >= 2) {
+    cards.push({
+      id: 'proactive-weekly-insights',
+      title: 'Veckoinsikter',
+      prompt: 'Mönster-Arkivarien kan sammanfatta din vecka — ett steg i taget, utan att gräva.',
+      actionLabel: 'Se veckan',
+      to: '/hjartat',
+      search: '?tab=reflektion',
+      hash: 'veckoinsikter',
+      tone: 'emerald',
     });
   }
 

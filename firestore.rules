@@ -1294,5 +1294,10 @@ service cloud.firestore {
       allow read: if isOwner();
       allow create, update, delete: if false;
     }
+
+    match /kasam_aggregations/{docId} {
+      allow read: if isOwner();
+      allow create, update, delete: if false;
+    }
   }
 }

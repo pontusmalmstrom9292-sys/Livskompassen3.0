@@ -25,6 +25,7 @@ import { journalQuickMirrorFallback } from '../utils/journalQuickMirrorFallback'
 import { submitCaptureDraft } from '@/modules/capture/submitCaptureDraft';
 import type { JournalEntry, JournalStep } from '../types/journal';
 import { useDiaryStore } from '../store/diaryStore';
+import { fireAdaptationEvent } from '@/core/adaptation/fireAdaptationEvent';
 
 const INITIAL_STEP: JournalStep = 'mood';
 
@@ -213,6 +214,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
         console.warn('[Dagbok] refreshEntries after save failed', refreshErr);
       }
       toast.success('Dina tankar är i säkert förvar. Du kan släppa dem nu.');
+      fireAdaptationEvent('event_journal_saved', 'vardag');
       return true;
     } catch (err) {
       const permissionMsg = resolveFirestorePermissionMessage(err);

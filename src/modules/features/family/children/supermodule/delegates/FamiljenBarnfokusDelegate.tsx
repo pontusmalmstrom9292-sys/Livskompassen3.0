@@ -18,6 +18,9 @@ import {
 import { barnfokusDisplayText, formatChildLogDate } from '../../utils/logFieldUtils';
 import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
+import { ChildBirthDatePrompt } from '../../components/ChildBirthDatePrompt';
+import { fireAdaptationEvent } from '@/core/adaptation/fireAdaptationEvent';
+import { useStore } from '@/core/store';
 
 function pickQuestion(
   pool: BarnfokusQuestion[],
@@ -43,14 +46,20 @@ function daySeed(childAlias: string): number {
  */
 export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBaseProps) {
   const childAlias = shell.activeChild;
+  const storeUserId = useStore((s) => s.user?.uid);
+  const userId = shell.user?.uid ?? storeUserId;
   const memoryRows = shell.barnfokusMemory ?? [];
   const onSave = shell.handleSaveBarnfokus;
 
   // Bracket från evolution_hub — filtrerar barnfokus-pool per ålder (våg 29)
   const getChildBracket = useEvolutionStore((s) => s.getChildBracket);
   const getChildAgeYears = useEvolutionStore((s) => s.getChildAgeYears);
+  const evolutionDoc = useEvolutionStore((s) => s.doc);
   const bracket = getChildBracket(childAlias) as BarnfokusBracket | undefined;
   const ageYears = getChildAgeYears(childAlias);
+  const aliasKey = childAlias.toLowerCase() as 'kasper' | 'arvid';
+  const birthDate = evolutionDoc?.childrenAgeState?.[aliasKey]?.birthDate;
+  const needsBirthDate = !birthDate && Boolean(userId);
   const pool = barnfokusQuestionsForAge(bracket, ageYears);
 
   const [answer, setAnswer] = useState('');
@@ -81,6 +90,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
     try {
       const logId = await onSave(text, question, epistemicKind);
       setAnswer('');
+      fireAdaptationEvent('event_barnfokus_saved', 'barnen');
       onSaved?.(logId);
     } catch (e: unknown) {
       const msg = e instanceof Error ? e.message : '';
@@ -115,6 +125,10 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
         </div>
         <span className="od-depth__kind-chip">{kindLabel}</span>
       </div>
+
+      {needsBirthDate && userId ? (
+        <ChildBirthDatePrompt userId={userId} childAlias={childAlias} />
+      ) : null}
 
       <div className="barnfokus-fragan-panel__question od-depth__question-card">
         <div className="flex flex-wrap items-center gap-2">

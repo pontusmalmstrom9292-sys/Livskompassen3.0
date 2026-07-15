@@ -121,6 +121,8 @@ export {
   recordAdaptationSignal,
 } from './callables/adaptation';
 
+export { triggerKasamAggregation } from './callables/kasam';
+
 export {
   getAdaptationSemanticProfile,
   rebuildAdaptationSemanticProfile,

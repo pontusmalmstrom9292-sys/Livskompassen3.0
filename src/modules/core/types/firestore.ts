@@ -425,6 +425,7 @@ export interface ProjectRow extends Project {
 }
 
 export const FIRESTORE_COLLECTIONS = {
+  kasam_aggregations: 'kasam_aggregations',
   evolution_ledger: 'evolution_ledger',
   evolution_hub: 'evolution_hub',
   adaptation_prefs: 'adaptation_prefs',
