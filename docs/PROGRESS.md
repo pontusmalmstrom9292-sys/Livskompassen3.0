@@ -2791,3 +2791,12 @@ Copy the template below for each entry. Newest first.
 
 **Kostnad:** Flash-free för KASAM/adaptation — endast Firestore reads/writes.
 
+
+## 2026-07-15 — Minnes-Arkitekt deploy + MOD-CORE-MINNE låst
+
+**Deploy:** functions:triggerKasamAggregation, onEvolutionHubWrite, firestore:rules, hosting → gen-lang-client-0481875058  
+**Lock:** MOD-CORE-MINNE (ny), MOD-BACK-SYN, MOD-FAM-BARN uppdaterade  
+**Smoke:** smoke:predeploy:build PASS · smoke:governance PASS · smoke:minnes-arkitekt PASS  
+**Förbättringar:** KASAM 24h dedup · ISO-veckonyckel veckoinsikter · ChildBirthDatePrompt a11y  
+**Hosting:** https://gen-lang-client-0481875058.web.app
+
