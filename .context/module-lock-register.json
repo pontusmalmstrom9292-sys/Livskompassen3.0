@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-14T17:55:55.000Z",
+  "updatedAt": "2026-07-15",
   "modules": [
     {
       "id": "MOD-CORE-NAV",
@@ -275,7 +275,8 @@
       "zon": "Familjen",
       "status": "locked",
       "globs": [
-        "src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx"
+        "src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx",
+        "src/modules/features/family/children/components/ChildBirthDatePrompt.tsx"
       ],
       "entryFiles": [
         "src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx"
@@ -284,8 +285,8 @@
         "smoke:barn-epistemik"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-10",
-      "lockedCommit": "baseline-ux"
+      "lockedAt": "2026-07-15",
+      "lockedCommit": "ef7f154e9"
     },
     {
       "id": "MOD-FAM-HAMN",
@@ -349,7 +350,10 @@
       "status": "locked",
       "globs": [
         "functions/src/adk/**",
-        "functions/src/triggers/**"
+        "functions/src/triggers/**",
+        "functions/src/lib/kasamScoring.ts",
+        "functions/src/lib/ensureDefaultMemoryFlags.ts",
+        "functions/src/callables/kasam.ts"
       ],
       "entryFiles": [
         "functions/src/adk/synapses/synapseBus.ts"
@@ -359,8 +363,8 @@
         "smoke:synapse-triggers"
       ],
       "snapshotKey": "synapser",
-      "lockedAt": "2026-07-10",
-      "lockedCommit": "ac5d37623"
+      "lockedAt": "2026-07-15",
+      "lockedCommit": "ef7f154e9"
     },
     {
       "id": "MOD-BACK-DCAP",
@@ -431,6 +435,35 @@
       "lockedCommit": "977188413",
       "unlockDoc": "docs/evaluations/2026-07-14-unlock-MOD-WIDGET-standalone-v3.md",
       "unlockedAt": "2026-07-14"
+    },
+    {
+      "id": "MOD-CORE-MINNE",
+      "namn": "Minnes-Arkitekt (KASAM + adaptation + evolution memory)",
+      "zon": "Core",
+      "status": "locked",
+      "globs": [
+        "functions/src/adk/synapses/kasamAggregationSynapse.ts",
+        "functions/src/lib/kasamScoring.ts",
+        "functions/src/lib/ensureDefaultMemoryFlags.ts",
+        "functions/src/callables/kasam.ts",
+        "shared/evolution/childAgeBracket.ts",
+        "src/modules/core/adaptation/fireAdaptationEvent.ts",
+        "src/modules/core/firebase/kasamAggregationFirestore.ts",
+        "src/modules/core/home/homeProactiveTriggers.ts",
+        "src/modules/core/home/AdaptiveMemoryCards.tsx"
+      ],
+      "entryFiles": [
+        "functions/src/adk/synapses/kasamAggregationSynapse.ts",
+        "src/modules/core/home/homeProactiveTriggers.ts"
+      ],
+      "smoke": [
+        "smoke:minnes-arkitekt",
+        "smoke:orkester",
+        "smoke:adaptation"
+      ],
+      "snapshotKey": "minnes-arkitekt",
+      "lockedAt": "2026-07-15",
+      "lockedCommit": "ef7f154e9"
     }
   ]
 }

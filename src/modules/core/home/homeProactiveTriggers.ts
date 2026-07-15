@@ -1,3 +1,4 @@
+/** @locked MOD-CORE-MINNE — låst modul; unlock via docs/evaluations/*-unlock-MOD-CORE-MINNE.md */
 import type { EvolutionHubDoc } from '@/core/types/firestore';
 import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasses/utils/compassTime';
 import type { AdaptiveMemoryCard } from './compassAdaptiveCards';
@@ -41,10 +42,18 @@ function cognitiveLevel(doc: EvolutionHubDoc | null): number {
   return doc?.pillars?.kognitiv?.level ?? 2;
 }
 
+function isoWeekKey(date = new Date()): string {
+  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+  d.setUTCDate(d.getUTCDate() + 4 - (d.getUTCDay() || 7));
+  const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+  const week = Math.ceil(((d.getTime() - yearStart.getTime()) / 86_400_000 + 1) / 7);
+  return `${d.getUTCFullYear()}-W${String(week).padStart(2, '0')}`;
+}
+
 function shouldShowWeeklyInsight(dayOfWeek: number): boolean {
   if (dayOfWeek === 0 || dayOfWeek >= 5) {
     try {
-      const weekKey = new Date().toISOString().slice(0, 10).slice(0, 8);
+      const weekKey = isoWeekKey();
       const stored = sessionStorage.getItem(WEEKLY_INSIGHT_KEY);
       if (stored === weekKey) return false;
       sessionStorage.setItem(WEEKLY_INSIGHT_KEY, weekKey);

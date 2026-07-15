@@ -125,6 +125,7 @@
     "smoke:guard": "node scripts/validate-prompts.mjs",
     "smoke:manifest": "node scripts/smoke_manifest_violation.mjs",
     "smoke:orkester": "node scripts/smoke_orkester_wiring.mjs",
+    "smoke:minnes-arkitekt": "node scripts/smoke_minnes_arkitekt.mjs",
     "smoke:agents-ui": "node scripts/smoke_agents_ui.mjs",
     "test:agents-ui": "npx vitest run src/modules/shared/agents/utils/resolveExecutorDisplay.test.ts src/modules/shared/agents/utils/routingBadgeText.test.ts",
     "test:e2e": "playwright test",

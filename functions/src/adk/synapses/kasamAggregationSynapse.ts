@@ -1,3 +1,4 @@
+/** @locked MOD-CORE-MINNE — låst modul; unlock via docs/evaluations/*-unlock-MOD-CORE-MINNE.md */
 import * as admin from 'firebase-admin';
 import { scoreKasamFromSnippets, type KasamScores } from '../../lib/kasamScoring';
 
@@ -15,6 +16,36 @@ export interface KasamAggregationResult {
 
 const LOOKBACK_DAYS = 14;
 const SNIPPET_LIMIT = 20;
+const DEDUP_HOURS = 24;
+
+async function findRecentAggregation(
+  db: admin.firestore.Firestore,
+  ownerId: string,
+): Promise<{ docId: string; scores: KasamScores; weakestDimension: KasamAggregationResult['weakestDimension'] } | null> {
+  const since = new Date();
+  since.setHours(since.getHours() - DEDUP_HOURS);
+
+  const snap = await db
+    .collection('kasam_aggregations')
+    .where('ownerId', '==', ownerId)
+    .limit(5)
+    .get();
+
+  for (const docSnap of snap.docs) {
+    const data = docSnap.data();
+    const createdAt = data.createdAt?.toDate?.() as Date | undefined;
+    if (!createdAt || createdAt < since) continue;
+    const scores = data.scores as KasamScores | undefined;
+    if (!scores || typeof scores.overall !== 'number') continue;
+    return {
+      docId: docSnap.id,
+      scores,
+      weakestDimension:
+        (data.weakestDimension as KasamAggregationResult['weakestDimension']) ?? 'manageable',
+    };
+  }
+  return null;
+}
 
 function truncate(text: string, max = 400): string {
   const t = text.trim();
@@ -101,6 +132,17 @@ export async function handleKasamAggregation(
   }
 
   const db = admin.firestore();
+
+  const recent = await findRecentAggregation(db, ownerId);
+  if (recent) {
+    console.log(`[Synapse:kasam_aggregation] dedup uid=${ownerId} docId=${recent.docId}`);
+    return {
+      docId: recent.docId,
+      aggregatedAt: new Date().toISOString(),
+      scores: recent.scores,
+      weakestDimension: recent.weakestDimension,
+    };
+  }
 
   const [journalSnippets, kampsparSnippets] = await Promise.all([
     fetchJournalSnippets(db, ownerId),
