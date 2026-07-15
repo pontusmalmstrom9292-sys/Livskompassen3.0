@@ -6,6 +6,7 @@ android {
     defaultConfig {
         applicationId = "com.livskompassen.app"
         minSdk = rootProject.ext.minSdkVersion
+        // targetSdk 36 är ett medvetet val för att stödja senaste Android-funktioner
         targetSdk = rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"

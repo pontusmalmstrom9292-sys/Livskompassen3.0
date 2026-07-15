@@ -2,9 +2,14 @@ package com.livskompassen.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebView;
+
+import androidx.core.splashscreen.SplashScreen;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.getcapacitor.BridgeActivity;
 import com.livskompassen.app.widgets.WidgetLaunch;
@@ -15,6 +20,7 @@ import com.livskompassen.app.widgets.WidgetLaunch;
  */
 public class MainActivity extends BridgeActivity {
 
+    private static final String TAG = "Livskompassen";
     private static final int WIDGET_DISPATCH_MAX_ATTEMPTS = 40;
     private static final long WIDGET_DISPATCH_RETRY_MS = 150L;
 
@@ -23,7 +29,14 @@ public class MainActivity extends BridgeActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.installSplashScreen(this);
         super.onCreate(savedInstanceState);
+        
+        Log.d(TAG, "MainActivity onCreate");
+
+        // Edge-to-edge support
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        
         getWindow().setFlags(
             WindowManager.LayoutParams.FLAG_SECURE,
             WindowManager.LayoutParams.FLAG_SECURE
@@ -36,6 +49,7 @@ public class MainActivity extends BridgeActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
+        Log.d(TAG, "MainActivity onNewIntent");
         widgetUrlLoaded = false;
         captureWidgetPath(intent);
         dispatchPendingWidgetPath();
@@ -44,6 +58,7 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG, "MainActivity onResume");
         dispatchPendingWidgetPath();
     }
 
@@ -55,6 +70,7 @@ public class MainActivity extends BridgeActivity {
         if (path == null || path.isEmpty()) {
             return;
         }
+        Log.d(TAG, "Captured widget path: " + path);
         pendingWidgetPath = path;
         intent.removeExtra(WidgetLaunch.EXTRA_WIDGET_PATH);
     }
@@ -64,6 +80,7 @@ public class MainActivity extends BridgeActivity {
             return;
         }
         if (getBridge() == null || getBridge().getWebView() == null) {
+            Log.w(TAG, "Bridge or WebView not ready for dispatch");
             return;
         }
 
@@ -71,10 +88,23 @@ public class MainActivity extends BridgeActivity {
         if (!widgetUrlLoaded) {
             widgetUrlLoaded = true;
             String serverUrl = getBridge().getServerUrl();
+            if (serverUrl == null) {
+                Log.e(TAG, "serverUrl is null, cannot dispatch widget");
+                return;
+            }
             if (serverUrl.endsWith("/")) {
                 serverUrl = serverUrl.substring(0, serverUrl.length() - 1);
             }
-            webView.loadUrl(serverUrl + pendingWidgetPath);
+            
+            String targetUrl = serverUrl + pendingWidgetPath;
+            String currentUrl = webView.getUrl();
+            
+            if (currentUrl == null || !currentUrl.equals(targetUrl)) {
+                Log.d(TAG, "Loading URL for widget: " + targetUrl);
+                webView.loadUrl(targetUrl);
+            } else {
+                Log.d(TAG, "WebView already at " + targetUrl + ", skipping loadUrl");
+            }
         }
 
         attemptWidgetDispatch(webView, pendingWidgetPath, 0);
@@ -108,10 +138,12 @@ public class MainActivity extends BridgeActivity {
                             return;
                         }
                         if ("\"ok\"".equals(value)) {
+                            Log.d(TAG, "Widget dispatch successful: " + path);
                             pendingWidgetPath = null;
                             return;
                         }
                         if (attempt + 1 >= WIDGET_DISPATCH_MAX_ATTEMPTS) {
+                            Log.w(TAG, "Widget dispatch timed out after " + WIDGET_DISPATCH_MAX_ATTEMPTS + " attempts");
                             return;
                         }
                         webView.postDelayed(

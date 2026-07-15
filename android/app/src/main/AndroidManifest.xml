@@ -123,5 +123,6 @@
     <!-- Permissions -->
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- RECORD_AUDIO: Krävs för röstanteckningar/inspelning i WebView (Capacitor) -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 </manifest>
