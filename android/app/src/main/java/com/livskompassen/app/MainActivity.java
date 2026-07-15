@@ -36,6 +36,9 @@ public class MainActivity extends BridgeActivity {
 
         // Edge-to-edge support
         WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        WindowInsetsControllerCompat controller = WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
+        controller.setAppearanceLightStatusBars(false); // Ljusa ikoner på mörk bakgrund
+        controller.setAppearanceLightNavigationBars(false);
         
         getWindow().setFlags(
             WindowManager.LayoutParams.FLAG_SECURE,
