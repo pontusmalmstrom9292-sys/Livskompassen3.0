@@ -1,7 +1,7 @@
 /** @locked MOD-WIDGET — låst modul; unlock via docs/evaluations/*-unlock-MOD-WIDGET.md */
 import { useSearchParams } from 'react-router-dom';
 import { Loader2, Lock } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { AuthGate } from '@/core/auth/AuthGate';
 import { useStore } from '@/core/store';
 import { WidgetShell } from '../layout/WidgetShell';
@@ -14,6 +14,8 @@ import {
   useWidgetRecordingEthicsAccepted,
   WidgetRecordingEthicsGate,
 } from '../components/WidgetRecordingEthicsGate';
+import { parseWidgetDeepLinkPath } from '../WidgetDeepLinkBridge';
+import { useWidgetReactivate } from '../hooks/useWidgetReactivate';
 
 function WidgetRecordInner() {
   const user = useStore((s) => s.user);
@@ -25,7 +27,7 @@ function WidgetRecordInner() {
 
   useWidgetShellClear(rec.reset);
 
-  useEffect(() => {
+  const tryAutostart = useCallback(() => {
     if (
       searchParams.get('autostart') !== '1' ||
       !ethicsOk ||
@@ -37,7 +39,26 @@ function WidgetRecordInner() {
     }
     autostarted.current = true;
     void rec.start();
-  }, [ethicsOk, rec, user, searchParams]);
+  }, [ethicsOk, rec, searchParams, user]);
+
+  useEffect(() => {
+    tryAutostart();
+  }, [tryAutostart]);
+
+  useWidgetReactivate(
+    useCallback(
+      (path) => {
+        const parsed = parseWidgetDeepLinkPath(path);
+        if (parsed?.pathname !== '/widget/inspelning') return;
+        const params = new URLSearchParams(parsed.search.replace(/^\?/, ''));
+        if (params.get('autostart') !== '1') return;
+        if (!ethicsOk || !user || rec.phase !== 'idle') return;
+        autostarted.current = false;
+        tryAutostart();
+      },
+      [ethicsOk, rec.phase, tryAutostart, user],
+    ),
+  );
 
   const shellTitle = discreet ? 'Anteckningar' : 'Tyst inspelning';
   const shellLead =

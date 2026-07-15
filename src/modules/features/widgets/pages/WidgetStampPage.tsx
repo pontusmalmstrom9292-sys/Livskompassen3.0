@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Clock, Loader2 } from 'lucide-react';
 import { AuthGate } from '@/core/auth/AuthGate';
@@ -6,6 +6,8 @@ import { useStore } from '@/core/store';
 import { useStampClock } from '@/features/admin/stampla/hooks/useStampClock';
 import { StampClockControls } from '@/features/admin/stampla/components/StampClockControls';
 import { WidgetShell } from '../layout/WidgetShell';
+import { parseWidgetDeepLinkPath } from '../WidgetDeepLinkBridge';
+import { useWidgetReactivate } from '../hooks/useWidgetReactivate';
 
 function WidgetStampInner() {
   const user = useStore((s) => s.user);
@@ -17,17 +19,38 @@ function WidgetStampInner() {
 
   const { stamp, loading, busy, isClockedIn, status, flexLeft, error, success } = clock;
 
+  const runStampAction = useCallback(
+    (nextAction: 'in' | 'out') => {
+      if (!user || loading) return;
+      const type = nextAction === 'in' ? 'IN' : 'UT';
+      void stamp(type).then((ok) => {
+        if (ok) {
+          window.setTimeout(() => navigate('/widget/stampla', { replace: true }), 1200);
+        }
+      });
+    },
+    [loading, navigate, stamp, user],
+  );
+
   useEffect(() => {
     if (!user || ranAuto.current || loading) return;
     if (action !== 'in' && action !== 'out') return;
     ranAuto.current = true;
-    const type = action === 'in' ? 'IN' : 'UT';
-    void stamp(type).then((ok) => {
-      if (ok) {
-        window.setTimeout(() => navigate('/widget/stampla', { replace: true }), 1200);
-      }
-    });
-  }, [user, action, loading, stamp, navigate]);
+    runStampAction(action);
+  }, [user, action, loading, runStampAction]);
+
+  useWidgetReactivate(
+    useCallback(
+      (path) => {
+        const parsed = parseWidgetDeepLinkPath(path);
+        if (parsed?.pathname !== '/widget/stampla') return;
+        const nextAction = new URLSearchParams(parsed.search.replace(/^\?/, '')).get('action');
+        if (nextAction !== 'in' && nextAction !== 'out') return;
+        runStampAction(nextAction);
+      },
+      [runStampAction],
+    ),
+  );
 
   return (
     <WidgetShell

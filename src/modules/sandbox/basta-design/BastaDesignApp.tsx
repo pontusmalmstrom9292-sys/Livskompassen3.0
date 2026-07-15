@@ -90,15 +90,15 @@ function HomeScreen() {
 
   const focusTabs = [
     { id: 'barnfokus', label: 'Barnfokus' },
-    { id: 'ky-stund', label: 'Ky stund' },
+    { id: 'ny-stund', label: 'Ny stund' },
     { id: 'fysiologi', label: 'Fysiologi' },
-    { id: 'meg', label: 'Meg' },
+    { id: 'mer', label: 'Mer…' },
   ];
 
   const planTabs = [
     { id: 'handling', label: 'Handling' },
     { id: 'projekt', label: 'Projekt' },
-    { id: 'habig', label: 'Habig' },
+    { id: 'vanor', label: 'Vanor' },
     { id: 'makro', label: 'Makro' },
   ];
 
@@ -182,7 +182,7 @@ function HomeScreen() {
             <SectionLabel>Fråga livscoachen</SectionLabel>
           </div>
           <p className="basta-design__card-meta">Har du någon fråga du vill ställa?</p>
-          <div className="basta-design__coach-bubble">Hur har det gått sedan senast veckan?</div>
+          <div className="basta-design__coach-bubble">Hur har det gått den senaste veckan?</div>
           <p className="basta-design__card-meta">Gäller välmående och hur?</p>
           <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button type="button" className="basta-design__btn-gold">
@@ -200,7 +200,7 @@ function HomeScreen() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
             <Anchor size={14} color="var(--bd-accent)" />
-            <SectionLabel>Dagens ankar</SectionLabel>
+            <SectionLabel>Dagens ankare</SectionLabel>
           </div>
           <Star size={14} color="var(--bd-accent)" />
         </div>
@@ -225,7 +225,7 @@ function HomeScreen() {
           </p>
         )}
         <button type="button" className="basta-design__link" style={{ marginTop: '0.75rem' }} onClick={() => setEditAnchor(true)}>
-          <Plus size={10} /> Spara ankar
+          <Plus size={10} /> Spara ankare
         </button>
       </Card>
       </motion.div>

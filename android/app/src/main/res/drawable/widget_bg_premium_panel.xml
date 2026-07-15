@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Executive Midnight premium glaspanel v2 — navy djup + guldkant -->
+<!-- Executive Midnight premium glaspanel — Obsidian Calm (#0D0B09) + Guld (#FDE68A) -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <gradient
         android:angle="165"
-        android:centerColor="#E61A2434"
-        android:endColor="#F2050810"
-        android:startColor="#D9283548"
+        android:centerColor="#E60D0B09"
+        android:endColor="#F2050403"
+        android:startColor="#D91A1816"
         android:type="linear" />
     <stroke
         android:width="1.5dp"
-        android:color="#AAD4AF37" />
+        android:color="#AAFDE68A" />
     <corners android:radius="24dp" />
 </shape>

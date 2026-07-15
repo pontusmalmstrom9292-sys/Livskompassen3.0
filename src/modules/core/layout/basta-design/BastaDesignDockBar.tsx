@@ -94,7 +94,7 @@ export function BastaDesignDockBar({
         </button>
       </div>
 
-      <DockSide label="Mentil" active={isHjartat} onClick={onVentil}>
+      <DockSide label="Ventil" active={isHjartat} onClick={onVentil}>
         <Landmark size={22} strokeWidth={1.9} />
       </DockSide>
 

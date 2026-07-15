@@ -16,8 +16,8 @@ test.describe('Dock navigation — publikt läge', () => {
     await page.waitForURL(/\/familjen/, { timeout: 15_000 });
   });
 
-  test('Mentil → hjartat route', async ({ page }) => {
-    await page.getByRole('button', { name: 'Mentil' }).click();
+  test('Ventil → hjartat route', async ({ page }) => {
+    await page.getByRole('button', { name: 'Ventil' }).click();
     await page.waitForURL(/\/hjartat/, { timeout: 15_000 });
   });
 
@@ -27,7 +27,7 @@ test.describe('Dock navigation — publikt läge', () => {
   });
 
   test('Kompass kort-klick → hem från annan zon', async ({ page }) => {
-    await page.getByRole('button', { name: 'Mentil' }).click();
+    await page.getByRole('button', { name: 'Ventil' }).click();
     await page.waitForURL(/\/hjartat/, { timeout: 15_000 });
     await page.getByRole('button', { name: /Hamn\. Håll tre sekunder för Valv\./ }).click({ delay: 50 });
     await expect(page).toHaveURL(/\/$|\/\?/, { timeout: 20_000 });

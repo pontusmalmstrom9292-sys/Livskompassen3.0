@@ -69,7 +69,7 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 - Kanon: [`docs/design/BASTA-DESIGN-CHROME-LOCK.md`](../../docs/design/BASTA-DESIGN-CHROME-LOCK.md) · paritet: [`BASTA-DESIGN-V2-PARITY.md`](../../docs/design/BASTA-DESIGN-V2-PARITY.md)
 - rule: [`basta-design-dock-lock.mdc`](basta-design-dock-lock.mdc)
 - Header: Resurser **vänster** (`header-start`) · brand centrerad · actions höger
-- Dock: 4 zoner + hero-kompass (Anteckning · Familj · Mentil · Inkast)
+- Dock: 4 zoner + hero-kompass (Anteckning · Familj · Ventil · Inkast)
 - Hem: `BastaDesignHome` + `BastaDesignHero` (v2-sektioner)
 - Smoke: `npm run smoke:basta-dock-lock` (ingår i `smoke:locked-ux`)
 

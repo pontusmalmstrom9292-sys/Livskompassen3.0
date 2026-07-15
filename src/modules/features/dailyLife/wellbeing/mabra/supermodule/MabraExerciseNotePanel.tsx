@@ -17,8 +17,8 @@ type Props = {
 const COPY = {
   emptyTitle: 'Inget utkast i arbetsminnet',
   emptyDetail:
-    'Fri text från övningar (t.ex. reframing) sparas tillfälligt i sessionen. Gör en övning först, eller öppna det här läget direkt efter "Klart".',
-  reframingLink: 'Gå till reframing-övning',
+    'Fri text från övningar (t.ex. omformulering) sparas tillfälligt i sessionen. Gör en övning först, eller öppna det här läget direkt efter "Klart".',
+  reframingLink: 'Gå till omformuleringsövning',
   previewLabel: 'Utkast från övning',
   cleared: 'Utkast rensat från sessionen.',
 } as const;

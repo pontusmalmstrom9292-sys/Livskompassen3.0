@@ -39,15 +39,15 @@ export function BastaDesignHome({ onCheckInSaved }: Props) {
 
   const focusTabs = [
     { id: 'barnfokus', label: 'Barnfokus', to: '/familjen?tab=barnfokus' },
-    { id: 'ky-stund', label: 'Ky stund', to: '/vardagen?tab=mabra' },
+    { id: 'ny-stund', label: 'Ny stund', to: '/vardagen?tab=mabra' },
     { id: 'fysiologi', label: 'Fysiologi', to: '/vardagen?tab=mabra' },
-    { id: 'meg', label: 'Meg', to: '/hjartat?tab=reflektion' },
+    { id: 'mer', label: 'Mer…', to: '/hjartat?tab=reflektion' },
   ];
 
   const planTabs = [
     { id: 'handling', label: 'Handling', to: '/planering' },
     { id: 'projekt', label: 'Projekt', to: '/projekt' },
-    { id: 'habig', label: 'Habig', to: '/planering' },
+    { id: 'vanor', label: 'Vanor', to: '/planering' },
     { id: 'makro', label: 'Makro', to: '/planering' },
   ];
 
@@ -155,7 +155,7 @@ export function BastaDesignHome({ onCheckInSaved }: Props) {
         <BastaCard>
           <BastaCardHeader icon={<MessageSquare size={14} />} label="Fråga livscoachen" />
           <p className="basta-design__card-meta">Har du någon fråga du vill ställa?</p>
-          <div className="basta-design__coach-bubble">Hur har det gått sedan senast veckan?</div>
+          <div className="basta-design__coach-bubble">Hur har det gått den senaste veckan?</div>
           <div className="basta-design__btn-row">
             <BastaButton type="button" onClick={() => navigate('/vardagen?tab=mabra')}>
               Fråga
@@ -171,7 +171,7 @@ export function BastaDesignHome({ onCheckInSaved }: Props) {
         <BastaCard>
           <BastaCardHeader
             icon={<Anchor size={14} />}
-            label="Dagens ankar"
+            label="Dagens ankare"
             trailing={<Star size={14} className="basta-design__card-header-icon" aria-hidden />}
           />
           {editAnchor ? (
@@ -189,7 +189,7 @@ export function BastaDesignHome({ onCheckInSaved }: Props) {
                 disabled={saving}
                 onClick={() => void handleAnchorSave()}
               >
-                {saving ? 'Sparar …' : 'Spara ankar'}
+                {saving ? 'Sparar …' : 'Spara ankare'}
               </BastaButton>
             </>
           ) : (

@@ -22,7 +22,7 @@ export function DagbokBurnDelegate() {
     <div className="dagbok-delegate dagbok-delegate--burn" data-write-target="none">
       <header className="mb-4 space-y-1">
         <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
-          Vent & Delete
+          Bränn
         </p>
         <p className="text-xs text-text-dim">
           Dina ord förintas när du är klar. Zero Footprint – ingenting skickas till databasen.

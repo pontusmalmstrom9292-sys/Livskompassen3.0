@@ -93,7 +93,7 @@ function main() {
     'basta-dock-bar--v2',
     'label="Anteckning"',
     'label="Familj"',
-    'label="Mentil"',
+    'label="Ventil"',
     'label="Inkast"',
     'BastaDesignDockCompass',
   );
@@ -113,7 +113,7 @@ function main() {
     'BastaDesignHero',
     'Dagens fokus',
     'Fråga livscoachen',
-    'Dagens ankar',
+    'Dagens ankare',
     'Planering',
     'Tidigare anteckningar',
   );
