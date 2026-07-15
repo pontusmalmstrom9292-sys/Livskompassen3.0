@@ -7,11 +7,13 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -115,11 +117,20 @@ public class MainActivity extends BridgeActivity {
         if (getBridge() != null && getBridge().getWebView() != null) {
             WebView webView = getBridge().getWebView();
             
+            // Obsidian Calm background to avoid white flashes
+            webView.setBackgroundColor(Color.parseColor("#0D0B09"));
+            
             // Performance Tuning
             WebSettings settings = webView.getSettings();
             settings.setCacheMode(WebSettings.LOAD_DEFAULT);
             settings.setDomStorageEnabled(true);
             settings.setDatabaseEnabled(true);
+            settings.setMediaPlaybackRequiresUserGesture(false);
+            
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                settings.setSafeBrowsingEnabled(true);
+            }
+
             webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
             // Audio Permission & Console Logging wrapper
@@ -230,24 +241,60 @@ public class MainActivity extends BridgeActivity {
     public void onResume() {
         super.onResume();
         LCLog.d("MainActivity onResume");
+        if (getBridge() != null && getBridge().getWebView() != null) {
+            getBridge().getWebView().onResume();
+            getBridge().getWebView().resumeTimers();
+        }
         dispatchPendingWidgetPath();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LCLog.d("MainActivity onPause");
+        if (getBridge() != null && getBridge().getWebView() != null) {
+            getBridge().getWebView().onPause();
+            getBridge().getWebView().pauseTimers();
+        }
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        if (level >= TRIM_MEMORY_MODERATE && getBridge() != null && getBridge().getWebView() != null) {
+            getBridge().getWebView().clearCache(false);
+        }
     }
 
     private void captureWidgetPath(Intent intent) {
         if (intent == null) {
             return;
         }
-        String path = intent.getStringExtra(WidgetLaunch.EXTRA_WIDGET_PATH);
-        if (path == null || path.isEmpty()) {
-            return;
-        }
-        
-        LCLog.d("Captured widget path: " + path);
-        pendingWidgetPath = path;
-        intent.removeExtra(WidgetLaunch.EXTRA_WIDGET_PATH);
 
-        // Wave 6: Premium Haptic Feedback
-        triggerHapticFeedback();
+        // Support for standard deep links (e.g. livskompassen://path)
+        Uri data = intent.getData();
+        if (data != null) {
+            String path = data.getPath();
+            String query = data.getQuery();
+            if (path != null) {
+                String fullPath = path + (query != null ? "?" + query : "");
+                if (!fullPath.isEmpty() && !"/".equals(fullPath)) {
+                    LCLog.d("Captured deep link path: " + fullPath);
+                    pendingWidgetPath = fullPath;
+                    triggerHapticFeedback();
+                    return;
+                }
+            }
+        }
+
+        // Support for widget-specific extras
+        String path = intent.getStringExtra(WidgetLaunch.EXTRA_WIDGET_PATH);
+        if (path != null && !path.isEmpty()) {
+            LCLog.d("Captured widget path: " + path);
+            pendingWidgetPath = path;
+            intent.removeExtra(WidgetLaunch.EXTRA_WIDGET_PATH);
+            triggerHapticFeedback();
+        }
     }
 
     private void triggerHapticFeedback() {
