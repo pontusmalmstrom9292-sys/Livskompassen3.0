@@ -1,6 +1,6 @@
 # Project State — Livskompassen v2
 
-**Version:** 1.2 · **Last updated:** 2026-07-17  
+**Version:** 1.3 · **Last updated:** 2026-07-17  
 **Rule:** Single source of truth for **system phase** and **active program**. AI assistants must read this before coding.
 
 ---
@@ -12,9 +12,11 @@ Two levels — do not confuse them:
 | Level | Source | Current value | Meaning |
 |-------|--------|---------------|---------|
 | **System phase** | This file + `.context/system-plan.md` | **Fas 24** AKTIV | Product-wide delivery gate (PO syntes, smoke, G85) |
-| **Active program** | `docs/ROADMAP.md` | **Premium UI Polish** Phase 10 | Legacy CSS sunset (våg 99–110 done; stubs kvar) |
+| **Active program** | `docs/ROADMAP.md` | **Premium UI Polish** Phase 10 | Legacy CSS sunset (våg 99–111 done; stubs borttagna; `executive-chrome.css` kvar) |
 
 **Conflict rule:** System phase (Fas N) wins over program phase. Program work must not violate Fas scope or PMIR gates.
+
+**Single next step (Fas 24 wins):** Start **P0 G85 7-day daily driver** — record start date in this file when day 1 begins. Phase 10 visual sign-off waits (program-only; does not block Fas 24).
 
 ---
 
@@ -34,10 +36,10 @@ Two levels — do not confuse them:
 
 | ID | Deliverable | Status |
 |----|-------------|--------|
-| P0 | Smoke grön + Android G85 daily driver (7 dagar) | `smoke:predeploy:live` + `smoke:super-yolo` PASS 2026-07-11 · G85 7d kvar |
+| P0 | Smoke grön + Android G85 daily driver (7 dagar) | Smoke: `smoke:predeploy:live` + `smoke:super-yolo` **PASS** 2026-07-11. G85 7d: **ej startad** (inget startdatum loggat). Spot-checks: WH1/WH2/W1 2026-07-14; App Check harden + v48 live-verify GO 2026-07-17 (manuell Valv bakgrund <3s kvar). |
 | PV1a–23E | Se system-plan Fas 24 tabell | **done** 2026-06-25 |
 
-**Next within Fas 24:** P0 G85 7-day daily driver; defer 19.3/19.5/19.6 per syntes.
+**Next within Fas 24:** Start P0 G85 7-day clock (day 1 = first full day phone is daily driver); defer 19.3/19.5/19.6 per syntes.
 
 ---
 
@@ -47,9 +49,9 @@ Two levels — do not confuse them:
 |---------|---------------|--------|------|
 | **Premium UI Polish** | Phase 10 — Legacy CSS sunset | In Progress | [`ROADMAP.md`](./ROADMAP.md), [`TODO.md`](./TODO.md), [`DASHBOARD.md`](./DASHBOARD.md) |
 
-Phase 0–9 baseline och migration **done**. Phase 10: index.css import-only; våg 111 legacy stubs borttagna (2026-07-11); `executive-chrome.css` kvar (dock/hem locked).
+Phase 0–9 baseline och migration **done**. Phase 10: `index.css` import-only; våg 111 legacy stubs **borttagna** (2026-07-11); `executive-chrome.css` kvar (dock/hem locked).
 
-**Next within program:** Pontus visual sign-off; completion-checklist (TODO §Completion); Playwright screenshot-baseline (stretch).
+**Next within program (after Fas P0 or non-blocking):** Pontus visual sign-off; completion-checklist (TODO §Completion); Playwright screenshot-baseline (stretch).
 
 ---
 
@@ -79,29 +81,37 @@ Phase 0–9 baseline och migration **done**. Phase 10: index.css import-only; v�
 
 ## Last verified
 
-| **MOD-WIDGET deploy** | hosting + functions | **PASS** 2026-07-14 · f937d0672 |
-| **smoke:predeploy:build** | pre-deploy | **PASS** 2026-07-14 |
-| **YOLO v40 INTEGRATION** | innehåll + seed dry-run | **GO** 2026-07-14 — [`integration-v40.md`](./evaluations/2026-07-14-integration-v40.md) |
-| **Android App Check harden** | Grok 4.5 YOLO | **PASS** 2026-07-15 — [`grok45-android-appcheck-yolo.md`](./evaluations/2026-07-15-grok45-android-appcheck-yolo.md) |
-| **G85 App Check live-harden** | Grok 4.5 YOLO | **PASS** 2026-07-17 — [`g85-appcheck-yolo.md`](./evaluations/2026-07-17-g85-appcheck-yolo.md) |
-| **YOLO v41 GOVERNANCE** | docs + module-lock sync | **PASS** 2026-07-14 — [`governance-v41.md`](./evaluations/2026-07-14-governance-v41.md) |
-
-
-| Check | Date |
-|-------|------|
-| Full verifiering Fas A–F | 2026-07-11 — [`docs/evaluations/2026-07-10-full-verifiering.md`](./evaluations/2026-07-10-full-verifiering.md) |
-| `smoke:predeploy:live` + `smoke:super-yolo` | 2026-07-11 |
-| `gcp:audit-apis` | 2026-07-11 PASS |
-| Fas 24 build sequence through 23E | 2026-06-25 |
-| AI Governance system v1.2 (PROJECT_STATE sync) | 2026-07-11 |
-| `smoke:governance` + `smoke:module-lock` | 2026-07-14 — 22/22 locked, 24 entryFiles |
-| Build marathon v34–v41 | v40 INTEGRATION GO → v41 GOVERNANCE aktiv |
+| Check | Result | Date / ref |
+|-------|--------|------------|
+| MOD-WIDGET deploy | hosting + functions **PASS** | 2026-07-14 · f937d0672 |
+| `smoke:predeploy:build` | **PASS** | 2026-07-14 |
+| Android App Check harden | **PASS** | 2026-07-15 — [`grok45-android-appcheck-yolo.md`](./evaluations/2026-07-15-grok45-android-appcheck-yolo.md) |
+| G85 App Check live-harden | **PASS** | 2026-07-17 — [`g85-appcheck-yolo.md`](./evaluations/2026-07-17-g85-appcheck-yolo.md) |
+| YOLO v48 G85-LIVE-VERIFY | **GO** (deploy SKIP) | 2026-07-17 — [`yolo-v48-g85-live-verify.md`](./evaluations/2026-07-17-yolo-v48-g85-live-verify.md) |
+| Full verifiering Fas A–F | **GO** | 2026-07-11 — [`full-verifiering.md`](./evaluations/2026-07-10-full-verifiering.md) |
+| `smoke:predeploy:live` + `smoke:super-yolo` | **PASS** | 2026-07-11 |
+| `gcp:audit-apis` | **PASS** | 2026-07-11 |
+| Fas 24 build sequence through 23E | **done** | 2026-06-25 |
+| AI Governance system | v1.3 (PROJECT_STATE sync) | 2026-07-17 |
+| `smoke:governance` + `smoke:module-lock` | **PASS** | 2026-07-17 — 23/23 locked (re-check after PROJECT_STATE v1.3) |
 
 ### MOD-WIDGET Standalone v1 (2026-07-14)
 - Fristående widget-skin + WH7 Åtgärder + AppUnlock bypass på `/widget/*`
 - Preview: `/dev/design-freeport` → Widget Standalone
 - Smoke: `smoke:widgets`, `smoke:predeploy:build` PASS · MOD-WIDGET **locked**
 
-### SDK build marathon (v34–v47)
-- **v40 INTEGRATION:** `smoke:innehall`, `smoke:content-waves` PASS · seed `--dry-run` (47 poster) · preflight PARTIAL (icke-blockerande)
-- **v41 GOVERNANCE:** PROJECT_STATE, TODO, LOCK-MANIFEST synkade · register ↔ manifest (22 moduler, 24 entryFiles)
+### SDK build marathon (v34–v48)
+
+Deploy SKIP throughout unless Pontus OK. Latest wave: **v48 G85-LIVE-VERIFY GO** (2026-07-17).
+
+| Wave | Id | Verdict | Date |
+|------|-----|---------|------|
+| v40 | INTEGRATION | **GO** | 2026-07-14 — [`integration-v40.md`](./evaluations/2026-07-14-integration-v40.md) |
+| v41 | GOVERNANCE | **GO** | 2026-07-14 — [`governance-v41.md`](./evaluations/2026-07-14-governance-v41.md) |
+| v42 | SLUTGATE | **GO** | 2026-07-14 — [`vakt-v42.md`](./evaluations/2026-07-14-vakt-v42.md) |
+| v43 | KOPPLINGAR-C | **GO** | 2026-07-14 — [`vakt-v43.md`](./evaluations/2026-07-14-vakt-v43.md) |
+| v44 | PROJEKT-P1 | **GO** | 2026-07-14 — [`vakt-v44.md`](./evaluations/2026-07-14-vakt-v44.md) |
+| v45 | EVOLUTION-LEDGER | **GO** | 2026-07-14 — [`vakt-v45.md`](./evaluations/2026-07-14-vakt-v45.md) |
+| v46 | ARKIV-BATCH | **GO** | 2026-07-14 — [`vakt-v46.md`](./evaluations/2026-07-14-vakt-v46.md) |
+| v47 | MINNE-DEPLOY | **GO** | 2026-07-14 — [`vakt-v47.md`](./evaluations/2026-07-14-vakt-v47.md) |
+| v48 | G85-LIVE-VERIFY | **GO** | 2026-07-17 — [`yolo-v48-g85-live-verify.md`](./evaluations/2026-07-17-yolo-v48-g85-live-verify.md) |

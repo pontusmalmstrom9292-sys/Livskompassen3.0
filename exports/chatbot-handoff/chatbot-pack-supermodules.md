@@ -626,47 +626,6 @@ Implementera Fas 1A i docs/specs/modules/VALVET_SUPERMODULE_PLAN.md: URL-synk va
 *Inventering genomförd 2026-06-14. Rotorsak inbox→hamn_analys dokumenterad i §3.*
 ````
 
-## File: src/modules/capture/CaptureSuperModule.tsx
-````typescript
-import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { Button } from '@/design-system';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { useStore } from '@/core/store';
-import { CapturePanel } from './CapturePanel';
-import { HemCaptureModulValjare, type HemCaptureChoice } from './components/HemCaptureModulValjare';
-import { hasSeenHemCaptureModulValjare } from './utils/hemCaptureModulValjareStorage';
-import { useCaptureOfflineFlush } from './hooks/useCaptureOfflineFlush';
-import { InkastDirectPanel } from './InkastDirectPanel';
-import { ReviewQueuePipelinePanel } from './ReviewQueuePipelinePanel';
-⋮----
-export type CaptureSuperVariant =
-  | 'hem-capture'
-  | 'hem-inkast'
-  | 'valv-compact'
-  | 'planering'
-  | 'kompass'
-  | 'mabra'
-  | 'familjen'
-  | 'ekonomi';
-⋮----
-export type CaptureSuperModuleProps = {
-  variant: CaptureSuperVariant;
-  onQueued?: () => void;
-  onPersistedBevis?: (docId: string) => void;
-  compact?: boolean;
-  onSaved?: () => void;
-};
-⋮----
-const handleCaptureSaved = () =>
-⋮----
-const handleCaptureChoice = (choice: HemCaptureChoice) =>
-⋮----
-<Button variant="ghost" size="sm" className="text-text-dim" onClick=
-⋮----
-queueHintAsButton=
-````
-
 ## File: src/modules/core/ui/SupermoduleModeSelect.tsx
 ````typescript
 import type { ReactNode } from 'react';
@@ -802,6 +761,27 @@ export function parsePlaneringInputMode(value: string | null | undefined): Plane
 export function getPlaneringInputModeMeta(mode: PlaneringInputMode): PlaneringInputModeMeta
 ````
 
+## File: src/modules/features/admin/planning/supermodule/PlaneringInputSuperModule.tsx
+````typescript
+import { textStyles } from '@/design-system';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
+import { useCallback, useMemo, lazy, Suspense } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+import {
+  DEFAULT_PLANERING_INPUT_MODE,
+  PLANERING_INPUT_MODES_PRIMARY,
+  parsePlaneringInputMode,
+  type PlaneringInputMode,
+} from './planeringInputModes';
+⋮----
+export type PlaneringInputSuperModuleProps = {
+  initialMode?: PlaneringInputMode;
+  onSaved?: (mode: PlaneringInputMode) => void;
+};
+````
+
 ## File: src/modules/features/dailyLife/arbetsliv/supermodule/delegates/ArbetslivFlexDelegate.tsx
 ````typescript
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -880,6 +860,28 @@ export function parseArbetslivInputMode(value: string | null | undefined): Arbet
 export function getArbetslivInputModeMeta(mode: ArbetslivInputMode): ArbetslivInputModeMeta
 ⋮----
 export function arbetslivTabToInputMode(tab: string | null | undefined): ArbetslivInputMode
+````
+
+## File: src/modules/features/dailyLife/arbetsliv/supermodule/ArbetslivInputSuperModule.tsx
+````typescript
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
+import { useCallback, useMemo, lazy, Suspense } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+import {
+  ARBETSLIV_INPUT_MODES_PRIMARY,
+  DEFAULT_ARBETSLIV_INPUT_MODE,
+  parseArbetslivInputMode,
+  type ArbetslivInputMode,
+} from './arbetslivInputModes';
+⋮----
+export type ArbetslivInputSuperModuleProps = {
+  initialMode?: ArbetslivInputMode;
+};
+⋮----
+function ArbetslivInputModeDelegate(
 ````
 
 ## File: src/modules/features/dailyLife/arbetsliv/supermodule/index.ts
@@ -1195,6 +1197,44 @@ export function filterModesByAllowed(
 ):
 ````
 
+## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/EkonomiInputSuperModule.tsx
+````typescript
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+import { useCallback, useEffect, useMemo, useState, lazy, Suspense } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
+import { ArrowRight } from 'lucide-react';
+import { EconomyCapacityLockedNotice } from '@/features/economy/components/EconomyCapacityLockedNotice';
+import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
+import {
+  getAllowedModesForLevel,
+  pickFallbackMode,
+} from './capacityResolver';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+⋮----
+import {
+  DEFAULT_EKONOMI_INPUT_MODE,
+  filterModesByAllowed,
+  getEkonomiInputModeMeta,
+  parseEkonomiInputMode,
+  type EkonomiInputMode,
+} from './ekonomiInputModes';
+⋮----
+export type EkonomiInputSuperModuleProps = {
+  userId: string;
+};
+⋮----
+function EkonomiModePlaceholder(
+⋮----
+function EkonomiInputModeDelegate({
+  mode,
+  userId,
+}: {
+  mode: EkonomiInputMode;
+  userId: string;
+})
+````
+
 ## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/index.ts
 ````typescript
 
@@ -1210,33 +1250,6 @@ export function filterModesByAllowed(
 import { useMabraStore } from '../store/mabraStore';
 import { useDiaryStore } from '@/features/lifeJournal/diary/diary/store/diaryStore';
 import { DagbokSuperModule } from '@/features/lifeJournal/diary/diary/components/DagbokSuperModule';
-````
-
-## File: src/modules/features/dailyLife/wellbeing/mabra/supermodule/MabraExerciseNotePanel.tsx
-````typescript
-import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
-import type { MabraProjectId } from '../constants/mabraProjects';
-import { MabraExplicitSavePanel } from './MabraExplicitSavePanel';
-import { composeExerciseNoteText, type MabraExplicitSaveSource } from './mabraExplicitSave';
-import {
-  clearPendingExerciseNote,
-  readPendingExerciseNote,
-} from './mabraExerciseNoteStorage';
-⋮----
-type Props = {
-  userId: string | undefined;
-  vitProjectId: MabraProjectId;
-  onSwitchToDagbokBridge?: () => void;
-};
-⋮----
-export function MabraExerciseNotePanel({
-  userId,
-  vitProjectId,
-  onSwitchToDagbokBridge,
-}: Props)
-⋮----
-const handlePersisted = () =>
 ````
 
 ## File: src/modules/features/dailyLife/wellbeing/mabra/supermodule/mabraExerciseNoteStorage.ts
@@ -1356,6 +1369,39 @@ export function resolveProjectIdForMode(
 export function getMabraInputModeMeta(mode: MabraInputMode): MabraInputModeMeta
 ````
 
+## File: src/modules/features/dailyLife/wellbeing/mabra/supermodule/MabraInputSuperModule.tsx
+````typescript
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
+import { useCallback, useMemo, useState, lazy, Suspense, type ReactNode } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+import { useStore } from '@/core/store';
+import { MABRA_PROJECTS, type MabraProjectId } from '../constants/mabraProjects';
+import {
+  DEFAULT_MABRA_INPUT_MODE,
+  MABRA_INPUT_MODES_FAS6D,
+  MABRA_INPUT_MODES_MORE,
+  MABRA_INPUT_MODES_MORE_ALL,
+  MABRA_INPUT_MODES_PRIMARY,
+  parseMabraInputMode,
+  resolveProjectIdForMode,
+  shouldUseEmotionalMemoryDelegate,
+  type MabraInputMode,
+} from './mabraInputModes';
+⋮----
+function modeButtonClass(isActive: boolean)
+⋮----
+export type MabraInputSuperModuleProps = {
+  projectId?: MabraProjectId;
+};
+⋮----
+function parseProjectId(value: string | null): MabraProjectId | undefined
+⋮----
+onSwitchToDagbokBridge=
+⋮----
+content = <MabraCheckinModal isOpen=
+````
+
 ## File: src/modules/features/dailyLife/wellbeing/mabra/supermodule/MabraReflectionSuperhubPanel.tsx
 ````typescript
 import { useCallback, useMemo, useState } from 'react';
@@ -1465,6 +1511,23 @@ const handleSaveObservation = async () =>
 // Auto-dismiss success message
 ````
 
+## File: src/modules/features/family/children/supermodule/FamiljenInputModePicker.tsx
+````typescript
+import { ChevronDown } from 'lucide-react';
+import {
+  FAMILJEN_INPUT_MODES,
+  FAMILJEN_INPUT_MODES_MORE,
+  FAMILJEN_INPUT_MODES_PRIMARY,
+  getFamiljenInputModeMeta,
+  type FamiljenInputMode,
+} from './familjenInputModes';
+⋮----
+export type FamiljenInputModePickerProps = {
+  activeMode: FamiljenInputMode;
+  onChange: (mode: FamiljenInputMode) => void;
+};
+````
+
 ## File: src/modules/features/family/children/supermodule/familjenInputModes.ts
 ````typescript
 export type FamiljenInputMode =
@@ -1490,6 +1553,50 @@ export function isFamiljenInputMode(value: string | null | undefined): value is 
 export function parseFamiljenInputMode(value: string | null | undefined): FamiljenInputMode
 ⋮----
 export function getFamiljenInputModeMeta(mode: FamiljenInputMode): FamiljenInputModeMeta
+````
+
+## File: src/modules/features/family/children/supermodule/FamiljenInputSuperModule.tsx
+````typescript
+import { useCallback, useMemo, lazy, Suspense, type ReactNode } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
+import { clsx } from 'clsx';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import {
+  DEFAULT_FAMILJEN_INPUT_MODE,
+  getFamiljenInputModeMeta,
+  parseFamiljenInputMode,
+  type FamiljenInputMode,
+} from './familjenInputModes';
+import { FamiljenInputModePicker } from './FamiljenInputModePicker';
+import type { FamiljenShell } from '../hooks/useFamiljenShell';
+⋮----
+function FamiljenDelegateFallback()
+⋮----
+export type FamiljenInputSuperModuleProps = {
+  shell: FamiljenShell;
+  initialMode?: FamiljenInputMode;
+  onSaved?: (mode: FamiljenInputMode, logId?: string) => void;
+  flowWithIsland?: boolean;
+};
+⋮----
+export function FamiljenInputSuperModule({
+  shell,
+  initialMode,
+  onSaved,
+  flowWithIsland = false,
+}: FamiljenInputSuperModuleProps)
+⋮----
+className=
+⋮----
+type DelegateProps = {
+  mode: FamiljenInputMode;
+  shell: FamiljenShell;
+  onSaved?: (logId?: string) => void;
+};
+⋮----
+function FamiljenInputModeDelegate(
 ````
 
 ## File: src/modules/features/family/children/supermodule/index.ts
@@ -1534,25 +1641,6 @@ export function SpeglarSuperModule({
   variant,
   initialFeeling = '',
 }: SpeglarSuperModuleProps)
-````
-
-## File: src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokBurnDelegate.tsx
-````typescript
-import { useState } from 'react';
-import { Flame } from 'lucide-react';
-import { clsx } from 'clsx';
-import { Button } from '@/design-system';
-import { ReflectionEditor } from '@/features/lifeJournal/diary/diary/components/ReflectionEditor';
-⋮----
-export function DagbokBurnDelegate()
-⋮----
-const handleBurn = () =>
-⋮----
-// Låt den brinna i 1.5 sekunder
-⋮----
-<div className=
-⋮----
-className=
 ````
 
 ## File: src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokQuickMirrorDelegate.tsx
@@ -1648,6 +1736,29 @@ const handleSave = async () =>
 const handleMoodOnly = async () =>
 ````
 
+## File: src/modules/features/lifeJournal/diary/supermodule/dagbok-tyst-lage.css
+````css
+.dagbok-tyst-lage {
+⋮----
+.dagbok-hub--tyst {
+⋮----
+.dagbok-tyst-lage__eyebrow {
+⋮----
+.dagbok-tyst-lage__lead {
+⋮----
+.dagbok-tyst-lage__draft {
+⋮----
+.dagbok-tyst-lage__tre-ord {
+⋮----
+.dagbok-tyst-lage__tre-ord input {
+⋮----
+.dagbok-tyst-lage__actions {
+⋮----
+.dagbok-tyst-lage__actions .ds-btn {
+⋮----
+.dagbok-tyst-lage__mood select {
+````
+
 ## File: src/modules/features/lifeJournal/diary/supermodule/DagbokInputModePicker.tsx
 ````typescript
 import {
@@ -1699,6 +1810,49 @@ export function parseDagbokCapacityParam(
   capacity: string | null | undefined,
   tyst: string | null | undefined,
 ): DagbokInputMode | null
+````
+
+## File: src/modules/features/lifeJournal/diary/supermodule/DagbokInputSuperModule.tsx
+````typescript
+import { lazy, Suspense, useCallback, useMemo } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { clsx } from 'clsx';
+import { ButtonLink } from '@/design-system';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+import { ChameleonInputShell } from '@/core/ui/ChameleonInputShell';
+import { useCapacityScore } from '@/core/store/useCapacityGate';
+import { useEvolutionStore } from '@/core/store/useEvolutionStore';
+import { isLowHomeCapacity } from '@/core/home/homeCapacityGate';
+import { DagbokRememberCard } from '@/features/lifeJournal/diary/diary/components/DagbokRememberCard';
+⋮----
+import {
+  DEFAULT_DAGBOK_INPUT_MODE,
+  getDagbokInputModeMeta,
+  parseDagbokCapacityParam,
+  parseDagbokInputMode,
+  type DagbokInputMode,
+} from './dagbokInputModes';
+import { DagbokInputModePicker } from './DagbokInputModePicker';
+⋮----
+export type DagbokInputSuperModuleProps = {
+  initialMode?: DagbokInputMode;
+  onSaved?: (mode: DagbokInputMode) => void;
+  flowWithIsland?: boolean;
+};
+⋮----
+type DelegateProps = {
+  mode: DagbokInputMode;
+  onSaved?: () => void;
+  onSwitchMode?: (mode: DagbokInputMode) => void;
+};
+⋮----
+function DagbokInputModeDelegate(
+⋮----
+onSwitchToBurn=
+⋮----
+className=
 ````
 
 ## File: src/modules/features/lifeJournal/diary/supermodule/dagbokTystCopy.ts
@@ -1768,6 +1922,22 @@ export function ValvSuperModule({
 const tab: ForensicVaultTab = isForensicVaultTab(vaultTab) ? vaultTab : 'hamn_analys';
 ````
 
+## File: src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputModePicker.tsx
+````typescript
+import { ChevronDown } from 'lucide-react';
+import {
+  VALV_INPUT_MODES_MORE,
+  VALV_INPUT_MODES_PRIMARY,
+  valvInputModeDef,
+  type ValvInputMode,
+} from './valvInputModes';
+⋮----
+export type ValvInputModePickerProps = {
+  activeMode: ValvInputMode;
+  onChange: (mode: ValvInputMode) => void;
+};
+````
+
 ## File: src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts
 ````typescript
 import { VIT_VAULT_TAB_LABEL } from '@/core/copy/valvNavCopy';
@@ -1820,301 +1990,6 @@ export function buildValvSearchParams(
 ): URLSearchParams
 ````
 
-## File: src/modules/features/lifeJournal/evidence/vault/supermodule/valvLastModeStorage.ts
-````typescript
-import type { ValvInputMode } from './valvInputModes';
-⋮----
-export function readValvLastInputMode(): ValvInputMode | null
-⋮----
-export function writeValvLastInputMode(mode: ValvInputMode): void
-````
-
-## File: src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx
-````typescript
-import { useEffect, useState } from 'react';
-import { Loader2, RefreshCw, Sparkles } from 'lucide-react';
-import { TextArea } from '@/design-system';
-import { TimelineEntry } from '@/core/ui/TimelineEntry';
-import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { useEvolutionStore } from '@/core/store/useEvolutionStore';
-import {
-  barnfokusQuestionsForAge,
-  BARNFOKUS_KIND_LABELS,
-  type BarnfokusQuestion,
-  type BarnfokusBracket,
-} from '../../constants';
-import {
-  type EpistemicKind,
-} from '../../utils/childObservationEpistemics';
-import { barnfokusDisplayText, formatChildLogDate } from '../../utils/logFieldUtils';
-import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
-import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
-⋮----
-function pickQuestion(
-  pool: BarnfokusQuestion[],
-  seed: number,
-  excludeId?: string,
-): BarnfokusQuestion
-⋮----
-function daySeed(childAlias: string): number
-⋮----
-const handleSave = async () =>
-⋮----
-const anotherQuestion = () =>
-````
-
-## File: src/modules/features/family/children/supermodule/delegates/FamiljenLivsloggObservationDelegate.tsx
-````typescript
-import { useState, useEffect } from 'react';
-import { Button, TextArea } from '@/design-system';
-import { Plus, Loader2, Check } from 'lucide-react';
-import { LIVSLOGG_CATEGORIES, type LivsloggCategory } from '../../constants';
-import { SaveAsEvidencePrompt } from '../../components/SaveAsEvidencePrompt';
-import type { EpistemicKind } from '../../utils/childObservationEpistemics';
-import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
-import { analyzeJadePatterns, type JadeViolation } from '../../../safeHarbor/lib/jadeDetector';
-import { AlertTriangle } from 'lucide-react';
-⋮----
-export function FamiljenLivsloggObservationDelegate(
-⋮----
-const resetForm = () =>
-⋮----
-const handleSave = async () =>
-⋮----
-setBypassJadeGuard(true);
-handleSave();
-````
-
-## File: src/modules/features/family/children/supermodule/delegates/FamiljenLivsloggStundDelegate.tsx
-````typescript
-import { useState, useEffect } from 'react';
-import { Button, TextArea } from '@/design-system';
-import { Plus, Loader2, Check, Heart } from 'lucide-react';
-import { LIVSLOGG_CATEGORIES, type LivsloggCategory } from '../../constants';
-import { STUND_MAX_CHARS, resolveStundCategory } from '../../utils/childMomentHelpers';
-⋮----
-import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
-⋮----
-const resetForm = () =>
-⋮----
-const handleSave = async () =>
-````
-
-## File: src/modules/features/family/children/supermodule/FamiljenInputModePicker.tsx
-````typescript
-import { ChevronDown } from 'lucide-react';
-import {
-  FAMILJEN_INPUT_MODES,
-  FAMILJEN_INPUT_MODES_MORE,
-  FAMILJEN_INPUT_MODES_PRIMARY,
-  getFamiljenInputModeMeta,
-  type FamiljenInputMode,
-} from './familjenInputModes';
-⋮----
-export type FamiljenInputModePickerProps = {
-  activeMode: FamiljenInputMode;
-  onChange: (mode: FamiljenInputMode) => void;
-};
-````
-
-## File: src/modules/features/lifeJournal/diary/supermodule/dagbok-tyst-lage.css
-````css
-.dagbok-tyst-lage {
-⋮----
-.dagbok-hub--tyst {
-⋮----
-.dagbok-tyst-lage__eyebrow {
-⋮----
-.dagbok-tyst-lage__lead {
-⋮----
-.dagbok-tyst-lage__draft {
-⋮----
-.dagbok-tyst-lage__tre-ord {
-⋮----
-.dagbok-tyst-lage__tre-ord input {
-⋮----
-.dagbok-tyst-lage__actions {
-⋮----
-.dagbok-tyst-lage__actions .ds-btn {
-⋮----
-.dagbok-tyst-lage__mood select {
-````
-
-## File: src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputModePicker.tsx
-````typescript
-import { ChevronDown } from 'lucide-react';
-import {
-  VALV_INPUT_MODES_MORE,
-  VALV_INPUT_MODES_PRIMARY,
-  valvInputModeDef,
-  type ValvInputMode,
-} from './valvInputModes';
-⋮----
-export type ValvInputModePickerProps = {
-  activeMode: ValvInputMode;
-  onChange: (mode: ValvInputMode) => void;
-};
-````
-
-## File: src/modules/features/admin/planning/supermodule/PlaneringInputSuperModule.tsx
-````typescript
-import { textStyles } from '@/design-system';
-import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { useCallback, useMemo, lazy, Suspense } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import {
-  DEFAULT_PLANERING_INPUT_MODE,
-  PLANERING_INPUT_MODES_PRIMARY,
-  parsePlaneringInputMode,
-  type PlaneringInputMode,
-} from './planeringInputModes';
-⋮----
-export type PlaneringInputSuperModuleProps = {
-  initialMode?: PlaneringInputMode;
-  onSaved?: (mode: PlaneringInputMode) => void;
-};
-````
-
-## File: src/modules/features/dailyLife/arbetsliv/supermodule/ArbetslivInputSuperModule.tsx
-````typescript
-import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { useCallback, useMemo, lazy, Suspense } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import {
-  ARBETSLIV_INPUT_MODES_PRIMARY,
-  DEFAULT_ARBETSLIV_INPUT_MODE,
-  parseArbetslivInputMode,
-  type ArbetslivInputMode,
-} from './arbetslivInputModes';
-⋮----
-export type ArbetslivInputSuperModuleProps = {
-  initialMode?: ArbetslivInputMode;
-};
-⋮----
-function ArbetslivInputModeDelegate(
-````
-
-## File: src/modules/features/dailyLife/wellbeing/economy/supermodule/EkonomiInputSuperModule.tsx
-````typescript
-import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import { useCallback, useEffect, useMemo, useState, lazy, Suspense } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
-import { EconomyCapacityLockedNotice } from '@/features/economy/components/EconomyCapacityLockedNotice';
-import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
-import {
-  getAllowedModesForLevel,
-  pickFallbackMode,
-} from './capacityResolver';
-import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
-⋮----
-import {
-  DEFAULT_EKONOMI_INPUT_MODE,
-  filterModesByAllowed,
-  getEkonomiInputModeMeta,
-  parseEkonomiInputMode,
-  type EkonomiInputMode,
-} from './ekonomiInputModes';
-⋮----
-export type EkonomiInputSuperModuleProps = {
-  userId: string;
-};
-⋮----
-function EkonomiModePlaceholder(
-⋮----
-function EkonomiInputModeDelegate({
-  mode,
-  userId,
-}: {
-  mode: EkonomiInputMode;
-  userId: string;
-})
-````
-
-## File: src/modules/features/dailyLife/wellbeing/mabra/supermodule/MabraInputSuperModule.tsx
-````typescript
-import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { useCallback, useMemo, useState, lazy, Suspense, type ReactNode } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import { useStore } from '@/core/store';
-import { MABRA_PROJECTS, type MabraProjectId } from '../constants/mabraProjects';
-import {
-  DEFAULT_MABRA_INPUT_MODE,
-  MABRA_INPUT_MODES_FAS6D,
-  MABRA_INPUT_MODES_MORE,
-  MABRA_INPUT_MODES_MORE_ALL,
-  MABRA_INPUT_MODES_PRIMARY,
-  parseMabraInputMode,
-  resolveProjectIdForMode,
-  shouldUseEmotionalMemoryDelegate,
-  type MabraInputMode,
-} from './mabraInputModes';
-⋮----
-function modeButtonClass(isActive: boolean)
-⋮----
-export type MabraInputSuperModuleProps = {
-  projectId?: MabraProjectId;
-};
-⋮----
-function parseProjectId(value: string | null): MabraProjectId | undefined
-⋮----
-onSwitchToDagbokBridge=
-⋮----
-content = <MabraCheckinModal isOpen=
-````
-
-## File: src/modules/features/family/children/supermodule/FamiljenInputSuperModule.tsx
-````typescript
-import { useCallback, useMemo, lazy, Suspense, type ReactNode } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { clsx } from 'clsx';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
-import {
-  DEFAULT_FAMILJEN_INPUT_MODE,
-  getFamiljenInputModeMeta,
-  parseFamiljenInputMode,
-  type FamiljenInputMode,
-} from './familjenInputModes';
-import { FamiljenInputModePicker } from './FamiljenInputModePicker';
-import type { FamiljenShell } from '../hooks/useFamiljenShell';
-⋮----
-function FamiljenDelegateFallback()
-⋮----
-export type FamiljenInputSuperModuleProps = {
-  shell: FamiljenShell;
-  initialMode?: FamiljenInputMode;
-  onSaved?: (mode: FamiljenInputMode, logId?: string) => void;
-  flowWithIsland?: boolean;
-};
-⋮----
-export function FamiljenInputSuperModule({
-  shell,
-  initialMode,
-  onSaved,
-  flowWithIsland = false,
-}: FamiljenInputSuperModuleProps)
-⋮----
-className=
-⋮----
-type DelegateProps = {
-  mode: FamiljenInputMode;
-  shell: FamiljenShell;
-  onSaved?: (logId?: string) => void;
-};
-⋮----
-function FamiljenInputModeDelegate(
-````
-
 ## File: src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx
 ````typescript
 import { useCallback, lazy, Suspense, type ReactNode } from 'react';
@@ -2155,45 +2030,172 @@ setMode(DEFAULT_VALV_INPUT_MODE);
 onBack=
 ````
 
-## File: src/modules/features/lifeJournal/diary/supermodule/DagbokInputSuperModule.tsx
+## File: src/modules/features/lifeJournal/evidence/vault/supermodule/valvLastModeStorage.ts
 ````typescript
-import { lazy, Suspense, useCallback, useMemo } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { clsx } from 'clsx';
-import { ButtonLink } from '@/design-system';
+import type { ValvInputMode } from './valvInputModes';
+⋮----
+export function readValvLastInputMode(): ValvInputMode | null
+⋮----
+export function writeValvLastInputMode(mode: ValvInputMode): void
+````
+
+## File: src/modules/capture/CaptureSuperModule.tsx
+````typescript
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
-import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import { ChameleonInputShell } from '@/core/ui/ChameleonInputShell';
-import { useCapacityScore } from '@/core/store/useCapacityGate';
-import { useEvolutionStore } from '@/core/store/useEvolutionStore';
-import { isLowHomeCapacity } from '@/core/home/homeCapacityGate';
-import { DagbokRememberCard } from '@/features/lifeJournal/diary/diary/components/DagbokRememberCard';
+import { useStore } from '@/core/store';
+import { CapturePanel } from './CapturePanel';
+import { HemCaptureModulValjare, type HemCaptureChoice } from './components/HemCaptureModulValjare';
+import { hasSeenHemCaptureModulValjare } from './utils/hemCaptureModulValjareStorage';
+import { useCaptureOfflineFlush } from './hooks/useCaptureOfflineFlush';
+import { InkastDirectPanel } from './InkastDirectPanel';
+import { ReviewQueuePipelinePanel } from './ReviewQueuePipelinePanel';
 ⋮----
-import {
-  DEFAULT_DAGBOK_INPUT_MODE,
-  getDagbokInputModeMeta,
-  parseDagbokCapacityParam,
-  parseDagbokInputMode,
-  type DagbokInputMode,
-} from './dagbokInputModes';
-import { DagbokInputModePicker } from './DagbokInputModePicker';
+export type CaptureSuperVariant =
+  | 'hem-capture'
+  | 'hem-inkast'
+  | 'valv-compact'
+  | 'planering'
+  | 'kompass'
+  | 'mabra'
+  | 'familjen'
+  | 'ekonomi';
 ⋮----
-export type DagbokInputSuperModuleProps = {
-  initialMode?: DagbokInputMode;
-  onSaved?: (mode: DagbokInputMode) => void;
-  flowWithIsland?: boolean;
-};
-⋮----
-type DelegateProps = {
-  mode: DagbokInputMode;
+export type CaptureSuperModuleProps = {
+  variant: CaptureSuperVariant;
+  onQueued?: () => void;
+  onPersistedBevis?: (docId: string) => void;
+  compact?: boolean;
   onSaved?: () => void;
-  onSwitchMode?: (mode: DagbokInputMode) => void;
+  embedded?: boolean;
 };
 ⋮----
-function DagbokInputModeDelegate(
+const handleCaptureSaved = () =>
 ⋮----
-onSwitchToBurn=
+const handleCaptureChoice = (choice: HemCaptureChoice) =>
+⋮----
+queueHintAsButton=
+````
+
+## File: src/modules/features/dailyLife/wellbeing/mabra/supermodule/MabraExerciseNotePanel.tsx
+````typescript
+import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
+import type { MabraProjectId } from '../constants/mabraProjects';
+import { MabraExplicitSavePanel } from './MabraExplicitSavePanel';
+import { composeExerciseNoteText, type MabraExplicitSaveSource } from './mabraExplicitSave';
+import {
+  clearPendingExerciseNote,
+  readPendingExerciseNote,
+} from './mabraExerciseNoteStorage';
+⋮----
+type Props = {
+  userId: string | undefined;
+  vitProjectId: MabraProjectId;
+  onSwitchToDagbokBridge?: () => void;
+};
+⋮----
+export function MabraExerciseNotePanel({
+  userId,
+  vitProjectId,
+  onSwitchToDagbokBridge,
+}: Props)
+⋮----
+const handlePersisted = () =>
+````
+
+## File: src/modules/features/family/children/supermodule/delegates/FamiljenLivsloggObservationDelegate.tsx
+````typescript
+import { useState, useEffect } from 'react';
+import { Button, TextArea } from '@/design-system';
+import { Plus, Loader2, Check } from 'lucide-react';
+import { LIVSLOGG_CATEGORIES, type LivsloggCategory } from '../../constants';
+import { SaveAsEvidencePrompt } from '../../components/SaveAsEvidencePrompt';
+import type { EpistemicKind } from '../../utils/childObservationEpistemics';
+import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
+import { analyzeJadePatterns, type JadeViolation } from '../../../safeHarbor/lib/jadeDetector';
+import { AlertTriangle } from 'lucide-react';
+⋮----
+export function FamiljenLivsloggObservationDelegate(
+⋮----
+const resetForm = () =>
+⋮----
+const handleSave = async () =>
+⋮----
+setBypassJadeGuard(true);
+handleSave();
+````
+
+## File: src/modules/features/family/children/supermodule/delegates/FamiljenLivsloggStundDelegate.tsx
+````typescript
+import { useState, useEffect } from 'react';
+import { Button, TextArea } from '@/design-system';
+import { Plus, Loader2, Check, Heart } from 'lucide-react';
+import { LIVSLOGG_CATEGORIES, type LivsloggCategory } from '../../constants';
+import { STUND_MAX_CHARS, resolveStundCategory } from '../../utils/childMomentHelpers';
+⋮----
+import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
+⋮----
+const resetForm = () =>
+⋮----
+const handleSave = async () =>
+````
+
+## File: src/modules/features/lifeJournal/diary/supermodule/delegates/DagbokBurnDelegate.tsx
+````typescript
+import { useState } from 'react';
+import { Flame } from 'lucide-react';
+import { clsx } from 'clsx';
+import { Button } from '@/design-system';
+import { ReflectionEditor } from '@/features/lifeJournal/diary/diary/components/ReflectionEditor';
+⋮----
+export function DagbokBurnDelegate()
+⋮----
+const handleBurn = () =>
+⋮----
+// Låt den brinna i 1.5 sekunder
+⋮----
+<div className=
 ⋮----
 className=
+````
+
+## File: src/modules/features/family/children/supermodule/delegates/FamiljenBarnfokusDelegate.tsx
+````typescript
+import { useEffect, useState } from 'react';
+import { Loader2, RefreshCw, Sparkles } from 'lucide-react';
+import { TextArea } from '@/design-system';
+import { TimelineEntry } from '@/core/ui/TimelineEntry';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { useEvolutionStore } from '@/core/store/useEvolutionStore';
+import {
+  barnfokusQuestionsForAge,
+  BARNFOKUS_KIND_LABELS,
+  type BarnfokusQuestion,
+  type BarnfokusBracket,
+} from '../../constants';
+import {
+  type EpistemicKind,
+} from '../../utils/childObservationEpistemics';
+import { barnfokusDisplayText, formatChildLogDate } from '../../utils/logFieldUtils';
+import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
+import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
+import { ChildBirthDatePrompt } from '../../components/ChildBirthDatePrompt';
+import { fireAdaptationEvent } from '@/core/adaptation/fireAdaptationEvent';
+import { useStore } from '@/core/store';
+⋮----
+function pickQuestion(
+  pool: BarnfokusQuestion[],
+  seed: number,
+  excludeId?: string,
+): BarnfokusQuestion
+⋮----
+function daySeed(childAlias: string): number
+⋮----
+const handleSave = async () =>
+⋮----
+const anotherQuestion = () =>
 ````

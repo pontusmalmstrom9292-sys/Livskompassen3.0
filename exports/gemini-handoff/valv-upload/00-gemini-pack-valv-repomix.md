@@ -1910,6 +1910,27 @@ export function ValvSamlaZone({
 }
 </file>
 
+<file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvVitZone.tsx">
+import { VaultVitHubPanel } from '../VaultVitHubPanel';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { VALV_VIT_ZONE_ERROR_TITLE } from '@/modules/core/copy/valvNavCopy';
+
+export type ValvVitZoneProps = {
+  userId: string;
+};
+
+/** P2 — Min utveckling (personlig silo, ej bevis-WORM). */
+export function ValvVitZone({ userId }: ValvVitZoneProps) {
+  return (
+    <HubErrorBoundary title={VALV_VIT_ZONE_ERROR_TITLE} glow="green" logTag="ValvVitZone">
+      <div className="valv-zone-stack">
+        <VaultVitHubPanel userId={userId} />
+      </div>
+    </HubErrorBoundary>
+  );
+}
+</file>
+
 <file path="src/modules/features/lifeJournal/evidence/vault/components/AdkAgentRegistryPanel.tsx">
 import { Loader2, Network, RefreshCw } from 'lucide-react';
 import { Button } from '@/design-system';
@@ -3073,6 +3094,280 @@ export function VaultOverviewPanel({ pendingInbox, onOpenReview }: Props) {
 };
 </file>
 
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx">
+/** @locked MOD-VALV-HUB — låst modul; unlock via docs/evaluations/*-unlock-MOD-VALV-HUB.md */
+import { Lock, ShieldAlert, X, Settings } from 'lucide-react';
+import { Button } from '@/design-system';
+import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { NAV_PATHS } from '@/core/navigation/navTruth';
+import { VALV_ZONE_INGRESS, VALV_ZONE_LABELS } from '@/core/copy/valvNavCopy';
+import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { useStore } from '@/core/store';
+import { useVaultStore } from '@/core/store/useVaultStore';
+import { hasVaultGate } from '@/core/auth/sessionService';
+import { ensureVaultSessionReady, endVaultSession } from '@/core/security/vaultSessionLifecycle';
+
+import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
+import { VaultErrorBoundary } from './VaultErrorBoundary';
+import { VaultLockedGate } from '@/core/components/VaultLockedGate';
+import { VaultCountdown } from '@/core/security/VaultCountdown';
+import { ValvBentoShell } from './ValvBentoShell';
+const ValvInputSuperModule = lazy(() => import('../supermodule/ValvInputSuperModule').then(m => ({ default: m.ValvInputSuperModule })));
+import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
+import { type ValvInputMode, canonicalValvRoute } from '../supermodule/valvInputModes';
+import { resolveValvZone, type VaultTab } from '../utils/vaultTabs';
+
+export type { VaultTab, MainVaultTab, ValvZone } from '../utils/vaultTabs';
+export { parseVaultTab } from '../utils/vaultTabs';
+
+type VaultPageProps = {
+  embedded?: boolean;
+  onClose?: () => void;
+  vaultTab?: VaultTab;
+  valvMode?: ValvInputMode;
+  onVaultTabChange?: (tab: VaultTab) => void;
+  onValvModeChange?: (mode: ValvInputMode) => void;
+};
+
+export function VaultPage(props: VaultPageProps) {
+  return (
+    <VaultErrorBoundary glow="blue">
+      <VaultPageInner {...props} />
+    </VaultErrorBoundary>
+  );
+}
+
+function VaultPageInner({
+  embedded = false,
+  onClose,
+  vaultTab: propVaultTab,
+  valvMode: propValvMode,
+  onVaultTabChange,
+  onValvModeChange,
+}: VaultPageProps) {
+  const navigate = useNavigate();
+  const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
+  const user = useStore((s) => s.user);
+  const { loadFirstLogsPage, logs, hasMore: logsHasMore, loadingMore, loadMoreLogs } = useVaultStore();
+
+  const [internalVaultTab, setInternalVaultTab] = useState<VaultTab>('logga');
+  const [internalValvMode, setInternalValvMode] = useState<ValvInputMode>('spara');
+
+  const vaultTab = propVaultTab ?? internalVaultTab;
+  const valvMode = propValvMode ?? internalValvMode;
+
+  const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
+  const [techniqueFilter, setTechniqueFilter] = useState<string | null>(null);
+  const [sessionSyncError, setSessionSyncError] = useState<string | null>(null);
+  const gateOk = hasVaultGate();
+  const valvZone = resolveValvZone(vaultTab);
+
+  const setVaultTab = useCallback(
+    (next: VaultTab) => {
+      setInternalVaultTab(next);
+      onVaultTabChange?.(next);
+    },
+    [onVaultTabChange],
+  );
+
+  const setValvMode = useCallback(
+    (mode: ValvInputMode) => {
+      setInternalValvMode(mode);
+      onValvModeChange?.(mode);
+    },
+    [onValvModeChange],
+  );
+
+  const applyCanonicalRoute = useCallback(
+    (mode: ValvInputMode, tab?: VaultTab) => {
+      const { vaultTab: nextTab, valvMode: nextMode } = canonicalValvRoute(mode, tab ?? vaultTab);
+      setValvMode(nextMode);
+      setVaultTab(nextTab);
+    },
+    [setValvMode, setVaultTab, vaultTab],
+  );
+
+  const handleCitationClick = (docId: string) => {
+    setHighlightLogId(docId);
+    applyCanonicalRoute('spara', 'logga');
+  };
+
+  const handleBevisConfirmed = async (docId: string) => {
+    setHighlightLogId(docId);
+    applyCanonicalRoute('spara', 'logga');
+    if (user) {
+      try {
+        await loadFirstLogsPage(user.uid);
+      } catch {
+        /* best-effort refresh */
+      }
+    }
+  };
+
+  const handleTechniqueSelect = useCallback(
+    (technique: string) => {
+      setTechniqueFilter(technique);
+      applyCanonicalRoute('spara', 'logga');
+    },
+    [applyCanonicalRoute],
+  );
+
+  const handleClearTechniqueFilter = useCallback(() => {
+    setTechniqueFilter(null);
+  }, []);
+
+  useEffect(() => {
+    if (!gateOk) {
+      setVaultUnlocked(false);
+    }
+  }, [gateOk, setVaultUnlocked]);
+
+  useEffect(() => {
+    if (!gateOk || !user) return;
+    setVaultUnlocked(true);
+    setSessionSyncError(null);
+    void ensureVaultSessionReady().then((ok) => {
+      if (!ok) {
+        setSessionSyncError('Valv-session kunde inte synkas. Försök låsa upp igen via Fyren.');
+      }
+    });
+  }, [gateOk, user, setVaultUnlocked]);
+
+  useEffect(() => {
+    if (gateOk && user) {
+      void loadFirstLogsPage(user.uid);
+    }
+  }, [gateOk, user, loadFirstLogsPage]);
+
+  useEffect(() => {
+    if (!highlightLogId || logs.some((l) => l.id === highlightLogId)) return;
+    if (!logsHasMore || loadingMore) return;
+    if (user) {
+      void loadMoreLogs(user.uid);
+    }
+  }, [highlightLogId, logs, logsHasMore, loadingMore, loadMoreLogs, user]);
+
+  const handleCloseToLayer1 = () => {
+    setVaultTab('logga');
+    void endVaultSession().finally(() => {
+      if (embedded && onClose) {
+        onClose();
+      } else {
+        navigate(NAV_PATHS.HJARTAT);
+      }
+    });
+  };
+
+  if (!gateOk) {
+    return (
+      <ValvBentoShell showZonePill={false}>
+        <BentoCard
+          title={embedded ? 'Valv · Baksida' : VAULT_UI_NAME}
+          description="Skyddad zon — biometri krävs"
+          icon={<ShieldAlert className="h-4 w-4" />}
+          glow="blue"
+          depth
+          noHover
+        >
+          <VaultLockedGate variant="card" />
+        </BentoCard>
+      </ValvBentoShell>
+    );
+  }
+
+  if (!user) {
+    return (
+      <ValvBentoShell showZonePill={false}>
+        <BentoCard
+          title={VAULT_UI_NAME}
+          icon={<Lock className="h-4 w-4" />}
+          glow="blue"
+          depth
+          noHover
+        >
+          <p className="text-sm text-text-dim">Ansluter till valvet…</p>
+        </BentoCard>
+      </ValvBentoShell>
+    );
+  }
+
+  return (
+    <ValvBentoShell showZonePill={false}>
+      <div className="valv-page-shell space-y-4">
+        <div className="valv-page-shell__chrome flex min-w-0 items-start justify-between gap-2 px-1">
+          <div className="min-w-0 flex-1">
+            <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
+          </div>
+          <div className="flex shrink-0 items-center gap-1">
+            <VaultCountdown />
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="flex items-center gap-1"
+              onClick={() => navigate('/valvet/installningar')}
+              title="Valv-inställningar"
+            >
+              <Settings className="h-3 w-3" /> Inställningar
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="flex items-center gap-1"
+              onClick={handleCloseToLayer1}
+              title="Stäng valv — tillbaka till vardag"
+            >
+              <X className="h-3 w-3" /> Stäng
+            </Button>
+          </div>
+        </div>
+
+        {sessionSyncError ? (
+          <p className="rounded-xl border border-accent/30 bg-surface-2/80 px-3 py-2 text-xs text-text-muted">
+            {sessionSyncError}
+          </p>
+        ) : null}
+
+        <section className="valv-zone-intro valv-page-shell__intro" aria-label="Valv zonöversikt">
+          <div className="valv-zone-intro__header">
+            <span className="valv-zone-intro__eyebrow">Zon</span>
+            <span className="valv-zone-intro__title">{VALV_ZONE_LABELS[valvZone]}</span>
+          </div>
+          <p className="valv-zone-intro__lead">{VALV_ZONE_INGRESS[valvZone]}</p>
+        </section>
+
+        {vaultTab === 'logga' ? (
+          <PinnedPlaneringModuleSlot targetId="valv.logga" />
+        ) : null}
+        {vaultTab === 'kunskapsbank' ? (
+          <PinnedPlaneringModuleSlot targetId="valv.kunskapsbank" />
+        ) : null}
+
+        <Suspense fallback={<div className="valv-page-shell__loading p-4 text-center text-sm text-text-muted">Laddar valv-verktyg...</div>}>
+          <ValvInputSuperModule
+            activeMode={valvMode}
+            onModeChange={setValvMode}
+            vaultTab={vaultTab}
+            userId={user.uid}
+            gateOk={gateOk}
+            highlightLogId={highlightLogId}
+            onBevisConfirmed={handleBevisConfirmed}
+            onCitationClick={handleCitationClick}
+            onVaultTabChange={setVaultTab}
+            techniqueFilter={techniqueFilter}
+            onTechniqueSelect={handleTechniqueSelect}
+            onClearTechniqueFilter={handleClearTechniqueFilter}
+          />
+        </Suspense>
+      </div>
+    </ValvBentoShell>
+  );
+}
+</file>
+
 <file path="src/modules/features/lifeJournal/evidence/vault/components/VaultPatternHandoff.tsx">
 import { BarChart3 } from 'lucide-react';
 import { ButtonLink } from '@/design-system';
@@ -3294,6 +3589,56 @@ export function VaultSettingsPage() {
         </main>
       </div>
     </HubPageShell>
+  );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultValvBreadcrumb.tsx">
+import {
+  forensicVaultTabLabel,
+  isAnalyseraVaultTab,
+  isExporteraVaultTab,
+  isForensicVaultTab,
+  isKunskapVaultTab,
+  isVitVaultTab,
+  isSamlaVaultTab,
+  type ValvZone,
+  type VaultTab,
+} from '../utils/vaultTabs';
+import { VIT_VAULT_TAB_LABEL } from '@/core/copy/valvNavCopy';
+import { getVaultZoneTabBarItems, vaultMainTabLabel } from '@/core/navigation/tabRegistry';
+
+type VaultValvBreadcrumbProps = {
+  zone: ValvZone;
+  vaultTab: VaultTab;
+};
+
+const ZONE_LABEL = Object.fromEntries(
+  getVaultZoneTabBarItems().map((z) => [z.id, z.label]),
+) as Record<ValvZone, string>;
+
+/** Valv › zon › underflik — synkad med drawer-grupper. */
+export function VaultValvBreadcrumb({ zone, vaultTab }: VaultValvBreadcrumbProps) {
+  const parts: string[] = ['Valv', ZONE_LABEL[zone] ?? zone];
+
+  if (isSamlaVaultTab(vaultTab) || isAnalyseraVaultTab(vaultTab) || isExporteraVaultTab(vaultTab)) {
+    parts.push(vaultMainTabLabel(vaultTab));
+  } else if (isKunskapVaultTab(vaultTab)) {
+    parts.push(vaultMainTabLabel(vaultTab));
+  } else if (isVitVaultTab(vaultTab)) {
+    parts.push(VIT_VAULT_TAB_LABEL);
+  } else if (isForensicVaultTab(vaultTab)) {
+    parts.push(forensicVaultTabLabel(vaultTab));
+  }
+
+  return (
+    <p
+      className="min-w-0 truncate text-xs uppercase tracking-widest text-text-dim"
+      aria-label={parts.join(', ')}
+      title={parts.join(' · ')}
+    >
+      {parts.join(' · ')}
+    </p>
   );
 }
 </file>
@@ -5648,6 +5993,73 @@ export function usePatternScanMetadata(userId: string | undefined) {
 }
 </file>
 
+<file path="src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputModePicker.tsx">
+import { ChevronDown } from 'lucide-react';
+import {
+  VALV_INPUT_MODES_MORE,
+  VALV_INPUT_MODES_PRIMARY,
+  valvInputModeDef,
+  type ValvInputMode,
+} from './valvInputModes';
+
+export type ValvInputModePickerProps = {
+  activeMode: ValvInputMode;
+  onChange: (mode: ValvInputMode) => void;
+};
+
+/** Primära lägen som pills + «Mer…» select (Fas 1B — samma mönster som Familjen). */
+export function ValvInputModePicker({ activeMode, onChange }: ValvInputModePickerProps) {
+  const activeMeta = valvInputModeDef(activeMode);
+  const isMoreMode = activeMeta.tier === 'more';
+
+  return (
+    <div className="familjen-mode-picker min-w-0 flex-1" aria-label="Valv-lägen">
+      <div className="familjen-mode-picker__pills" role="tablist">
+        {VALV_INPUT_MODES_PRIMARY.map((mode) => {
+          const isActive = activeMode === mode.id;
+          return (
+            <button
+              key={mode.id}
+              type="button"
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => onChange(mode.id)}
+              className={`od-depth__pill ${isActive ? 'od-depth__pill--active' : ''}`}
+              title={mode.description}
+            >
+              {mode.label}
+            </button>
+          );
+        })}
+      </div>
+
+      <label className="familjen-mode-picker__more">
+        <span className="sr-only">Fler Valv-lägen</span>
+        <select
+          value={isMoreMode ? activeMode : ''}
+          onChange={(e) => {
+            const next = e.target.value as ValvInputMode;
+            if (next) onChange(next);
+          }}
+          className={`od-depth__mode-select ${isMoreMode ? 'od-depth__mode-select--active' : ''}`}
+          aria-label="Fler Valv-lägen"
+        >
+          <option value="" disabled={isMoreMode}>
+            {isMoreMode ? activeMeta.label : 'Mer…'}
+          </option>
+          {VALV_INPUT_MODES_MORE.map((mode) => (
+            <option key={mode.id} value={mode.id}>
+              {mode.label} — {mode.description}
+            </option>
+          ))}
+        </select>
+        <ChevronDown className="familjen-mode-picker__chevron" aria-hidden />
+      </label>
+    </div>
+  );
+}
+</file>
+
 <file path="src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts">
 import { VIT_VAULT_TAB_LABEL } from '@/core/copy/valvNavCopy';
 import {
@@ -5827,6 +6239,157 @@ export function buildValvSearchParams(
   params.set('valvMode', mode);
   params.set('vaultTab', tab);
   return params;
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx">
+import { useCallback, lazy, Suspense, type ReactNode } from 'react';
+import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+import '../components/valv.css';
+import { ValvInputModePicker } from './ValvInputModePicker';
+import {
+  DEFAULT_VALV_INPUT_MODE,
+  valvInputModeDef,
+  type ValvInputMode,
+} from './valvInputModes';
+import { writeValvLastInputMode } from './valvLastModeStorage';
+import type { VaultTab } from '../utils/vaultTabs';
+
+const InboxReviewQueue = lazy(() =>
+  import('@/modules/inkast/components/InboxReviewQueue').then((m) => ({ default: m.InboxReviewQueue })),
+);
+const InkastDirectPanel = lazy(() =>
+  import('@/modules/capture/InkastDirectPanel').then((m) => ({ default: m.InkastDirectPanel })),
+);
+const ValvSuperModule = lazy(() =>
+  import('../components/ValvSuperModule').then((m) => ({ default: m.ValvSuperModule })),
+);
+
+function ValvZoneSuspense({ children }: { children: ReactNode }) {
+  return <Suspense fallback={<HubPanelSkeleton lines={5} />}>{children}</Suspense>;
+}
+
+export type ValvInputSuperModuleProps = {
+  activeMode: ValvInputMode;
+  onModeChange: (mode: ValvInputMode) => void;
+  vaultTab: VaultTab;
+  userId: string;
+  gateOk: boolean;
+  highlightLogId: string | null;
+  onBevisConfirmed: (docId: string) => void | Promise<void>;
+  onCitationClick: (docId: string) => void;
+  onVaultTabChange: (tab: VaultTab) => void;
+  techniqueFilter?: string | null;
+  onTechniqueSelect?: (technique: string) => void;
+  onClearTechniqueFilter?: () => void;
+};
+
+/**
+ * Canonical Valv navigation — primära lägen + «Mer…» (Fas 1B).
+ * Granska ersätter separat inbox-zon och `?samlaView=granska`.
+ * Spara (B1): InkastDirectPanel direkt — unified "en väg in", WORM-only append.
+ */
+export function ValvInputSuperModule({
+  activeMode,
+  onModeChange,
+  vaultTab,
+  userId,
+  gateOk,
+  highlightLogId,
+  onBevisConfirmed,
+  onCitationClick,
+  onVaultTabChange,
+  techniqueFilter,
+  onTechniqueSelect,
+  onClearTechniqueFilter,
+}: ValvInputSuperModuleProps) {
+  const setMode = useCallback(
+    (mode: ValvInputMode) => {
+      writeValvLastInputMode(mode);
+      onModeChange(mode);
+    },
+    [onModeChange],
+  );
+
+  const renderZoneContent = () => {
+    if (activeMode === 'granska') {
+      return (
+        <ValvZoneSuspense>
+          <InboxReviewQueue
+            prioritizeBevis
+            onBevisConfirmed={(docId) => {
+              void onBevisConfirmed(docId);
+              setMode(DEFAULT_VALV_INPUT_MODE);
+            }}
+            onBack={() => setMode('spara')}
+          />
+        </ValvZoneSuspense>
+      );
+    }
+
+    if (activeMode === 'spara') {
+      return (
+        <ValvZoneSuspense>
+          <InkastDirectPanel
+            tone="valv"
+            sourceModule="valv_samla"
+            onQueued={() => setMode('granska')}
+            onPersistedBevis={(docId) => void onBevisConfirmed(docId)}
+            queueHintAsButton
+          />
+        </ValvZoneSuspense>
+      );
+    }
+
+    return (
+      <ValvZoneSuspense>
+        <ValvSuperModule
+          variant={valvInputModeDef(activeMode).zone}
+          vaultTab={vaultTab}
+          userId={userId}
+          gateOk={gateOk}
+          highlightLogId={highlightLogId}
+          onBevisConfirmed={onBevisConfirmed}
+          onCitationClick={onCitationClick}
+          onVaultTabChange={onVaultTabChange}
+          onOpenGranska={() => setMode('granska')}
+          techniqueFilter={techniqueFilter}
+          onTechniqueSelect={onTechniqueSelect}
+          onClearTechniqueFilter={onClearTechniqueFilter}
+        />
+      </ValvZoneSuspense>
+    );
+  };
+
+  return (
+    <HubErrorBoundary
+      title="Valv-inmatning kunde inte laddas"
+      glow="blue"
+      backTo="/valvet"
+      backLabel="Till Valvet"
+      logTag="ValvInputSuperModule"
+    >
+    <BentoCard
+      glow="blue"
+      depth
+      noHover
+      bare
+      className="!p-4 sm:!p-5"
+    >
+      <div className="mb-3 flex min-w-0 items-center justify-between gap-2">
+        <ValvInputModePicker activeMode={activeMode} onChange={setMode} />
+        <ModuleHelpFromRegistry moduleId="valv" mode={activeMode} className="shrink-0" />
+      </div>
+
+      <div className="mt-2 pr-1">
+        {renderZoneContent()}
+      </div>
+    </BentoCard>
+    </HubErrorBoundary>
+  );
 }
 </file>
 
@@ -7124,27 +7687,6 @@ export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, v
 }
 </file>
 
-<file path="src/modules/features/lifeJournal/evidence/vault/components/zones/ValvVitZone.tsx">
-import { VaultVitHubPanel } from '../VaultVitHubPanel';
-import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
-import { VALV_VIT_ZONE_ERROR_TITLE } from '@/modules/core/copy/valvNavCopy';
-
-export type ValvVitZoneProps = {
-  userId: string;
-};
-
-/** P2 — Min utveckling (personlig silo, ej bevis-WORM). */
-export function ValvVitZone({ userId }: ValvVitZoneProps) {
-  return (
-    <HubErrorBoundary title={VALV_VIT_ZONE_ERROR_TITLE} glow="green" logTag="ValvVitZone">
-      <div className="valv-zone-stack">
-        <VaultVitHubPanel userId={userId} />
-      </div>
-    </HubErrorBoundary>
-  );
-}
-</file>
-
 <file path="src/modules/features/lifeJournal/evidence/vault/components/KunskapsbankHeader.tsx">
 import { BookOpen } from 'lucide-react';
 import { VALV_KUNSKAP_SILO_HINT } from '../constants/valvEvidenceCopy';
@@ -7180,6 +7722,294 @@ export function KunskapsbankHeader({ compact = false }: KunskapsbankHeaderProps)
       </div>
     </div>
   );
+}
+</file>
+
+<file path="src/modules/features/lifeJournal/evidence/vault/components/valv.css">
+@tailwind components;
+
+/* Valv hub — Obsidian Calm Bento (indigo/gold forensic) */
+
+@layer components {
+  .valv-bento-shell {
+    @apply relative isolate min-h-0 overflow-x-hidden;
+    background-color: var(--color-obsidian-surface);
+    background-image: var(--zone-gradient-valv);
+  }
+
+  .valv-bg-watermark {
+    @apply pointer-events-none fixed left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 text-accent;
+    width: min(100vw, 1100px);
+    height: min(100vw, 1100px);
+    max-width: 1100px;
+    max-height: 1100px;
+    opacity: 0.04;
+  }
+
+  .valv-bento-shell__content {
+    @apply relative z-10 space-y-4;
+  }
+
+  .valv-page-shell {
+    @apply space-y-4;
+  }
+
+  .valv-page-shell__chrome {
+    @apply rounded-2xl border px-3 py-2;
+    border-color: var(--color-indigo-20);
+    background: linear-gradient(
+      180deg,
+      var(--color-panel-obsidian-55) 0%,
+      var(--color-panel-obsidian-70) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .valv-page-shell__intro {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.03),
+      0 10px 30px -22px rgba(0, 0, 0, 0.6);
+  }
+
+  .valv-page-shell__loading {
+    @apply rounded-2xl border;
+    border-color: var(--color-indigo-20);
+    background: linear-gradient(
+      180deg,
+      var(--color-panel-obsidian-55) 0%,
+      var(--color-panel-obsidian-75) 100%
+    );
+  }
+
+  .valv-zone-intro {
+    @apply rounded-2xl border px-3 py-2;
+    border-color: var(--color-indigo-20);
+    background: linear-gradient(
+      180deg,
+      var(--color-panel-obsidian-55) 0%,
+      var(--color-panel-obsidian-75) 100%
+    );
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .valv-zone-intro__header {
+    @apply mb-1 flex items-center gap-2;
+  }
+
+  .valv-zone-intro__eyebrow {
+    @apply text-[10px] uppercase tracking-[0.18em] text-accent;
+  }
+
+  .valv-zone-intro__title {
+    @apply text-sm font-medium text-text;
+  }
+
+  .valv-zone-intro__lead {
+    @apply text-xs leading-relaxed text-text-dim;
+  }
+
+  .valv-zone-strip {
+    @apply mb-1 flex items-center justify-center;
+  }
+
+  .valv-zone-pill {
+    @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-accent;
+    border-color: var(--color-accent-gold-35);
+    background: var(--color-shell-scrim-35);
+  }
+
+  .valv-forensic-header {
+    @apply mb-3 space-y-1 border-b border-border-strong/60 pb-3;
+  }
+
+  .valv-forensic-eyebrow {
+    @apply font-display-serif text-[10px] uppercase tracking-[0.22em] text-accent;
+  }
+
+  .valv-forensic-title {
+    @apply font-display-serif text-base uppercase tracking-[0.2em] text-text;
+  }
+
+  .valv-forensic-lead {
+    @apply text-xs leading-relaxed text-text-dim;
+  }
+
+  .valv-log-list {
+    @apply space-y-2;
+  }
+
+  .valv-log-row {
+    @apply rounded-xl border p-3 text-sm transition-all duration-200;
+    border-color: var(--color-indigo-22);
+    background: linear-gradient(
+      165deg,
+      var(--color-panel-obsidian-85) 0%,
+      var(--color-panel-obsidian-75) 100%
+    );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 4px 14px -4px rgba(0, 0, 0, 0.45);
+  }
+
+  .valv-log-row:hover {
+    border-color: var(--color-indigo-38);
+  }
+
+  .valv-log-row--anchor {
+    border-color: var(--color-gold-35);
+    background: linear-gradient(
+      165deg,
+      var(--color-panel-ember-70) 0%,
+      var(--color-panel-obsidian-80) 100%
+    );
+  }
+
+  .valv-log-row--highlight {
+    @apply ring-2 ring-accent/45;
+  }
+
+  .valv-log-row--vavaren {
+    border-color: var(--color-accent-gold-30);
+    background: linear-gradient(
+      165deg,
+      var(--color-panel-obsidian-75) 0%,
+      var(--color-panel-obsidian-85) 100%
+    );
+  }
+
+  .valv-log-stamp {
+    @apply flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-text-dim;
+  }
+
+  .valv-worm-stamp {
+    @apply flex items-start gap-2;
+  }
+
+  .valv-worm-stamp__icon {
+    @apply mt-0.5 shrink-0;
+  }
+
+  .valv-worm-stamp__disclaimer {
+    @apply mt-1 text-[10px] leading-relaxed text-text-dim;
+  }
+
+  .valv-silo-notice {
+    @apply rounded-lg border px-3 py-2 text-xs leading-relaxed text-text-dim;
+    border-color: var(--color-indigo-20);
+    background: var(--color-panel-obsidian-55);
+  }
+
+  .valv-log-meta {
+    @apply text-[10px] uppercase tracking-widest text-text-dim;
+  }
+
+  .valv-samla-panel {
+    @apply rounded-2xl border p-3;
+    border-color: var(--color-indigo-20);
+    background: linear-gradient(
+      180deg,
+      var(--color-panel-obsidian-55) 0%,
+      var(--color-panel-obsidian-75) 100%
+    );
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .valv-technique-filter-chip {
+    border-color: var(--color-gold-35);
+  }
+
+  .valv-samla-stack {
+    @apply rounded-2xl border p-3;
+    border-color: var(--color-indigo-20);
+    background: linear-gradient(
+      180deg,
+      var(--color-panel-obsidian-50) 0%,
+      var(--color-panel-obsidian-75) 100%
+    );
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .valv-zone-stack {
+    @apply rounded-2xl border p-3;
+    border-color: var(--color-indigo-20);
+    background: linear-gradient(
+      180deg,
+      var(--color-panel-obsidian-50) 0%,
+      var(--color-panel-obsidian-75) 100%
+    );
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  .valv-pending-banner {
+    @apply rounded-2xl border p-3;
+    border-color: var(--color-gold-25);
+    background: linear-gradient(
+      180deg,
+      var(--color-panel-ember-70) 0%,
+      var(--color-panel-obsidian-80) 100%
+    );
+  }
+
+  .valv-pending-card {
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.04),
+      0 6px 16px -8px rgba(0, 0, 0, 0.5);
+  }
+
+  .valv-monster-bar {
+    cursor: pointer;
+  }
+
+  /* Desktop — bredare arkivlista och bevisrader i grid (Z1 Valv primärvy på dator) */
+  @media (min-width: 1024px) {
+    .valvet-route-page--desktop .valv-log-list {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.75rem;
+    }
+
+    .valvet-route-page--desktop .valv-log-list > * {
+      margin-top: 0;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .valvet-route-page--desktop .valv-log-list {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  /* Desktop — typografi-skala för bättre läsbarhet på dator (HEAVY tier polish) */
+  @media (min-width: 1024px) {
+    .valvet-route-page--desktop .valv-forensic-title {
+      @apply text-lg;
+    }
+
+    .valvet-route-page--desktop .valv-forensic-lead {
+      @apply text-sm;
+    }
+
+    .valvet-route-page--desktop .valv-log-row {
+      @apply p-4;
+    }
+  }
+
+  /* Mobil / G85 — mer innehållsbredd utan att ta bort element */
+  @media (max-width: 639px) {
+    .valvet-route-page .valv-page-shell__chrome,
+    .valvet-route-page .valv-zone-intro {
+      @apply px-2;
+    }
+
+    .valvet-route-page .valv-page-shell__chrome {
+      @apply flex-wrap;
+    }
+  }
 }
 </file>
 
@@ -8164,330 +8994,6 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
 }
 </file>
 
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx">
-/** @locked MOD-VALV-HUB — låst modul; unlock via docs/evaluations/*-unlock-MOD-VALV-HUB.md */
-import { Lock, ShieldAlert, X, Settings } from 'lucide-react';
-import { Button } from '@/design-system';
-import { useState, useEffect, useCallback, lazy, Suspense } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { NAV_PATHS } from '@/core/navigation/navTruth';
-import { VALV_ZONE_INGRESS, VALV_ZONE_LABELS } from '@/core/copy/valvNavCopy';
-import { VAULT_UI_NAME } from '@/core/copy/evidenceCopy';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { useStore } from '@/core/store';
-import { useVaultStore } from '@/core/store/useVaultStore';
-import { hasVaultGate } from '@/core/auth/sessionService';
-import { ensureVaultSessionReady, endVaultSession } from '@/core/security/vaultSessionLifecycle';
-
-import { VaultValvBreadcrumb } from './VaultValvBreadcrumb';
-import { VaultErrorBoundary } from './VaultErrorBoundary';
-import { VaultLockedGate } from '@/core/components/VaultLockedGate';
-import { VaultCountdown } from '@/core/security/VaultCountdown';
-import { ValvBentoShell } from './ValvBentoShell';
-const ValvInputSuperModule = lazy(() => import('../supermodule/ValvInputSuperModule').then(m => ({ default: m.ValvInputSuperModule })));
-import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
-import { type ValvInputMode, canonicalValvRoute } from '../supermodule/valvInputModes';
-import { resolveValvZone, type VaultTab } from '../utils/vaultTabs';
-
-export type { VaultTab, MainVaultTab, ValvZone } from '../utils/vaultTabs';
-export { parseVaultTab } from '../utils/vaultTabs';
-
-type VaultPageProps = {
-  embedded?: boolean;
-  onClose?: () => void;
-  vaultTab?: VaultTab;
-  valvMode?: ValvInputMode;
-  onVaultTabChange?: (tab: VaultTab) => void;
-  onValvModeChange?: (mode: ValvInputMode) => void;
-};
-
-export function VaultPage(props: VaultPageProps) {
-  return (
-    <VaultErrorBoundary glow="blue">
-      <VaultPageInner {...props} />
-    </VaultErrorBoundary>
-  );
-}
-
-function VaultPageInner({
-  embedded = false,
-  onClose,
-  vaultTab: propVaultTab,
-  valvMode: propValvMode,
-  onVaultTabChange,
-  onValvModeChange,
-}: VaultPageProps) {
-  const navigate = useNavigate();
-  const setVaultUnlocked = useStore((s) => s.setVaultUnlocked);
-  const user = useStore((s) => s.user);
-  const { loadFirstLogsPage, logs, hasMore: logsHasMore, loadingMore, loadMoreLogs } = useVaultStore();
-
-  const [internalVaultTab, setInternalVaultTab] = useState<VaultTab>('logga');
-  const [internalValvMode, setInternalValvMode] = useState<ValvInputMode>('spara');
-
-  const vaultTab = propVaultTab ?? internalVaultTab;
-  const valvMode = propValvMode ?? internalValvMode;
-
-  const [highlightLogId, setHighlightLogId] = useState<string | null>(null);
-  const [techniqueFilter, setTechniqueFilter] = useState<string | null>(null);
-  const [sessionSyncError, setSessionSyncError] = useState<string | null>(null);
-  const gateOk = hasVaultGate();
-  const valvZone = resolveValvZone(vaultTab);
-
-  const setVaultTab = useCallback(
-    (next: VaultTab) => {
-      setInternalVaultTab(next);
-      onVaultTabChange?.(next);
-    },
-    [onVaultTabChange],
-  );
-
-  const setValvMode = useCallback(
-    (mode: ValvInputMode) => {
-      setInternalValvMode(mode);
-      onValvModeChange?.(mode);
-    },
-    [onValvModeChange],
-  );
-
-  const applyCanonicalRoute = useCallback(
-    (mode: ValvInputMode, tab?: VaultTab) => {
-      const { vaultTab: nextTab, valvMode: nextMode } = canonicalValvRoute(mode, tab ?? vaultTab);
-      setValvMode(nextMode);
-      setVaultTab(nextTab);
-    },
-    [setValvMode, setVaultTab, vaultTab],
-  );
-
-  const handleCitationClick = (docId: string) => {
-    setHighlightLogId(docId);
-    applyCanonicalRoute('spara', 'logga');
-  };
-
-  const handleBevisConfirmed = async (docId: string) => {
-    setHighlightLogId(docId);
-    applyCanonicalRoute('spara', 'logga');
-    if (user) {
-      try {
-        await loadFirstLogsPage(user.uid);
-      } catch {
-        /* best-effort refresh */
-      }
-    }
-  };
-
-  const handleTechniqueSelect = useCallback(
-    (technique: string) => {
-      setTechniqueFilter(technique);
-      applyCanonicalRoute('spara', 'logga');
-    },
-    [applyCanonicalRoute],
-  );
-
-  const handleClearTechniqueFilter = useCallback(() => {
-    setTechniqueFilter(null);
-  }, []);
-
-  useEffect(() => {
-    if (!gateOk) {
-      setVaultUnlocked(false);
-    }
-  }, [gateOk, setVaultUnlocked]);
-
-  useEffect(() => {
-    if (!gateOk || !user) return;
-    setVaultUnlocked(true);
-    setSessionSyncError(null);
-    void ensureVaultSessionReady().then((ok) => {
-      if (!ok) {
-        setSessionSyncError('Valv-session kunde inte synkas. Försök låsa upp igen via Fyren.');
-      }
-    });
-  }, [gateOk, user, setVaultUnlocked]);
-
-  useEffect(() => {
-    if (gateOk && user) {
-      void loadFirstLogsPage(user.uid);
-    }
-  }, [gateOk, user, loadFirstLogsPage]);
-
-  useEffect(() => {
-    if (!highlightLogId || logs.some((l) => l.id === highlightLogId)) return;
-    if (!logsHasMore || loadingMore) return;
-    if (user) {
-      void loadMoreLogs(user.uid);
-    }
-  }, [highlightLogId, logs, logsHasMore, loadingMore, loadMoreLogs, user]);
-
-  const handleCloseToLayer1 = () => {
-    setVaultTab('logga');
-    void endVaultSession().finally(() => {
-      if (embedded && onClose) {
-        onClose();
-      } else {
-        navigate(NAV_PATHS.HJARTAT);
-      }
-    });
-  };
-
-  if (!gateOk) {
-    return (
-      <ValvBentoShell showZonePill={false}>
-        <BentoCard
-          title={embedded ? 'Valv · Baksida' : VAULT_UI_NAME}
-          description="Skyddad zon — biometri krävs"
-          icon={<ShieldAlert className="h-4 w-4" />}
-          glow="blue"
-          depth
-          noHover
-        >
-          <VaultLockedGate variant="card" />
-        </BentoCard>
-      </ValvBentoShell>
-    );
-  }
-
-  if (!user) {
-    return (
-      <ValvBentoShell showZonePill={false}>
-        <BentoCard
-          title={VAULT_UI_NAME}
-          icon={<Lock className="h-4 w-4" />}
-          glow="blue"
-          depth
-          noHover
-        >
-          <p className="text-sm text-text-dim">Ansluter till valvet…</p>
-        </BentoCard>
-      </ValvBentoShell>
-    );
-  }
-
-  return (
-    <ValvBentoShell showZonePill={false}>
-      <div className="valv-page-shell space-y-4">
-        <div className="valv-page-shell__chrome flex min-w-0 items-start justify-between gap-2 px-1">
-          <div className="min-w-0 flex-1">
-            <VaultValvBreadcrumb zone={valvZone} vaultTab={vaultTab} />
-          </div>
-          <div className="flex shrink-0 items-center gap-1">
-            <VaultCountdown />
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="flex items-center gap-1"
-              onClick={() => navigate('/valvet/installningar')}
-              title="Valv-inställningar"
-            >
-              <Settings className="h-3 w-3" /> Inställningar
-            </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              size="sm"
-              className="flex items-center gap-1"
-              onClick={handleCloseToLayer1}
-              title="Stäng valv — tillbaka till vardag"
-            >
-              <X className="h-3 w-3" /> Stäng
-            </Button>
-          </div>
-        </div>
-
-        {sessionSyncError ? (
-          <p className="rounded-xl border border-accent/30 bg-surface-2/80 px-3 py-2 text-xs text-text-muted">
-            {sessionSyncError}
-          </p>
-        ) : null}
-
-        <section className="valv-zone-intro valv-page-shell__intro" aria-label="Valv zonöversikt">
-          <div className="valv-zone-intro__header">
-            <span className="valv-zone-intro__eyebrow">Zon</span>
-            <span className="valv-zone-intro__title">{VALV_ZONE_LABELS[valvZone]}</span>
-          </div>
-          <p className="valv-zone-intro__lead">{VALV_ZONE_INGRESS[valvZone]}</p>
-        </section>
-
-        {vaultTab === 'logga' ? (
-          <PinnedPlaneringModuleSlot targetId="valv.logga" />
-        ) : null}
-        {vaultTab === 'kunskapsbank' ? (
-          <PinnedPlaneringModuleSlot targetId="valv.kunskapsbank" />
-        ) : null}
-
-        <Suspense fallback={<div className="valv-page-shell__loading p-4 text-center text-sm text-text-muted">Laddar valv-verktyg...</div>}>
-          <ValvInputSuperModule
-            activeMode={valvMode}
-            onModeChange={setValvMode}
-            vaultTab={vaultTab}
-            userId={user.uid}
-            gateOk={gateOk}
-            highlightLogId={highlightLogId}
-            onBevisConfirmed={handleBevisConfirmed}
-            onCitationClick={handleCitationClick}
-            onVaultTabChange={setVaultTab}
-            techniqueFilter={techniqueFilter}
-            onTechniqueSelect={handleTechniqueSelect}
-            onClearTechniqueFilter={handleClearTechniqueFilter}
-          />
-        </Suspense>
-      </div>
-    </ValvBentoShell>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/VaultValvBreadcrumb.tsx">
-import {
-  forensicVaultTabLabel,
-  isAnalyseraVaultTab,
-  isExporteraVaultTab,
-  isForensicVaultTab,
-  isKunskapVaultTab,
-  isVitVaultTab,
-  isSamlaVaultTab,
-  type ValvZone,
-  type VaultTab,
-} from '../utils/vaultTabs';
-import { VIT_VAULT_TAB_LABEL } from '@/core/copy/valvNavCopy';
-import { getVaultZoneTabBarItems, vaultMainTabLabel } from '@/core/navigation/tabRegistry';
-
-type VaultValvBreadcrumbProps = {
-  zone: ValvZone;
-  vaultTab: VaultTab;
-};
-
-const ZONE_LABEL = Object.fromEntries(
-  getVaultZoneTabBarItems().map((z) => [z.id, z.label]),
-) as Record<ValvZone, string>;
-
-/** Valv › zon › underflik — synkad med drawer-grupper. */
-export function VaultValvBreadcrumb({ zone, vaultTab }: VaultValvBreadcrumbProps) {
-  const parts: string[] = ['Valv', ZONE_LABEL[zone] ?? zone];
-
-  if (isSamlaVaultTab(vaultTab) || isAnalyseraVaultTab(vaultTab) || isExporteraVaultTab(vaultTab)) {
-    parts.push(vaultMainTabLabel(vaultTab));
-  } else if (isKunskapVaultTab(vaultTab)) {
-    parts.push(vaultMainTabLabel(vaultTab));
-  } else if (isVitVaultTab(vaultTab)) {
-    parts.push(VIT_VAULT_TAB_LABEL);
-  } else if (isForensicVaultTab(vaultTab)) {
-    parts.push(forensicVaultTabLabel(vaultTab));
-  }
-
-  return (
-    <p
-      className="min-w-0 truncate text-xs uppercase tracking-widest text-text-dim"
-      aria-label={parts.join(', ')}
-      title={parts.join(' · ')}
-    >
-      {parts.join(' · ')}
-    </p>
-  );
-}
-</file>
-
 <file path="src/modules/features/lifeJournal/evidence/vault/components/VaultWormEvidenceStamp.tsx">
 import { Lock } from 'lucide-react';
 import { VALV_WORM_EVIDENCE_DISCLAIMER } from '../constants/valvEvidenceCopy';
@@ -8536,512 +9042,6 @@ export const VALV_ORKESTER_NO_AUTO_WORM =
 
 export const VALV_KUNSKAP_SILO_HINT =
   'Kunskapsbanken är egen silo (`kampspar` / `kb_docs`) — separat från bevisvalvet.';
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputModePicker.tsx">
-import { ChevronDown } from 'lucide-react';
-import {
-  VALV_INPUT_MODES_MORE,
-  VALV_INPUT_MODES_PRIMARY,
-  valvInputModeDef,
-  type ValvInputMode,
-} from './valvInputModes';
-
-export type ValvInputModePickerProps = {
-  activeMode: ValvInputMode;
-  onChange: (mode: ValvInputMode) => void;
-};
-
-/** Primära lägen som pills + «Mer…» select (Fas 1B — samma mönster som Familjen). */
-export function ValvInputModePicker({ activeMode, onChange }: ValvInputModePickerProps) {
-  const activeMeta = valvInputModeDef(activeMode);
-  const isMoreMode = activeMeta.tier === 'more';
-
-  return (
-    <div className="familjen-mode-picker min-w-0 flex-1" aria-label="Valv-lägen">
-      <div className="familjen-mode-picker__pills" role="tablist">
-        {VALV_INPUT_MODES_PRIMARY.map((mode) => {
-          const isActive = activeMode === mode.id;
-          return (
-            <button
-              key={mode.id}
-              type="button"
-              role="tab"
-              aria-selected={isActive}
-              onClick={() => onChange(mode.id)}
-              className={`od-depth__pill ${isActive ? 'od-depth__pill--active' : ''}`}
-              title={mode.description}
-            >
-              {mode.label}
-            </button>
-          );
-        })}
-      </div>
-
-      <label className="familjen-mode-picker__more">
-        <span className="sr-only">Fler Valv-lägen</span>
-        <select
-          value={isMoreMode ? activeMode : ''}
-          onChange={(e) => {
-            const next = e.target.value as ValvInputMode;
-            if (next) onChange(next);
-          }}
-          className={`od-depth__mode-select ${isMoreMode ? 'od-depth__mode-select--active' : ''}`}
-          aria-label="Fler Valv-lägen"
-        >
-          <option value="" disabled={isMoreMode}>
-            {isMoreMode ? activeMeta.label : 'Mer…'}
-          </option>
-          {VALV_INPUT_MODES_MORE.map((mode) => (
-            <option key={mode.id} value={mode.id}>
-              {mode.label} — {mode.description}
-            </option>
-          ))}
-        </select>
-        <ChevronDown className="familjen-mode-picker__chevron" aria-hidden />
-      </label>
-    </div>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx">
-import { useCallback, lazy, Suspense, type ReactNode } from 'react';
-import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
-import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
-import '../components/valv.css';
-import { ValvInputModePicker } from './ValvInputModePicker';
-import {
-  DEFAULT_VALV_INPUT_MODE,
-  valvInputModeDef,
-  type ValvInputMode,
-} from './valvInputModes';
-import { writeValvLastInputMode } from './valvLastModeStorage';
-import type { VaultTab } from '../utils/vaultTabs';
-
-const InboxReviewQueue = lazy(() =>
-  import('@/modules/inkast/components/InboxReviewQueue').then((m) => ({ default: m.InboxReviewQueue })),
-);
-const InkastDirectPanel = lazy(() =>
-  import('@/modules/capture/InkastDirectPanel').then((m) => ({ default: m.InkastDirectPanel })),
-);
-const ValvSuperModule = lazy(() =>
-  import('../components/ValvSuperModule').then((m) => ({ default: m.ValvSuperModule })),
-);
-
-function ValvZoneSuspense({ children }: { children: ReactNode }) {
-  return <Suspense fallback={<HubPanelSkeleton lines={5} />}>{children}</Suspense>;
-}
-
-export type ValvInputSuperModuleProps = {
-  activeMode: ValvInputMode;
-  onModeChange: (mode: ValvInputMode) => void;
-  vaultTab: VaultTab;
-  userId: string;
-  gateOk: boolean;
-  highlightLogId: string | null;
-  onBevisConfirmed: (docId: string) => void | Promise<void>;
-  onCitationClick: (docId: string) => void;
-  onVaultTabChange: (tab: VaultTab) => void;
-  techniqueFilter?: string | null;
-  onTechniqueSelect?: (technique: string) => void;
-  onClearTechniqueFilter?: () => void;
-};
-
-/**
- * Canonical Valv navigation — primära lägen + «Mer…» (Fas 1B).
- * Granska ersätter separat inbox-zon och `?samlaView=granska`.
- * Spara (B1): InkastDirectPanel direkt — unified "en väg in", WORM-only append.
- */
-export function ValvInputSuperModule({
-  activeMode,
-  onModeChange,
-  vaultTab,
-  userId,
-  gateOk,
-  highlightLogId,
-  onBevisConfirmed,
-  onCitationClick,
-  onVaultTabChange,
-  techniqueFilter,
-  onTechniqueSelect,
-  onClearTechniqueFilter,
-}: ValvInputSuperModuleProps) {
-  const setMode = useCallback(
-    (mode: ValvInputMode) => {
-      writeValvLastInputMode(mode);
-      onModeChange(mode);
-    },
-    [onModeChange],
-  );
-
-  const renderZoneContent = () => {
-    if (activeMode === 'granska') {
-      return (
-        <ValvZoneSuspense>
-          <InboxReviewQueue
-            prioritizeBevis
-            onBevisConfirmed={(docId) => {
-              void onBevisConfirmed(docId);
-              setMode(DEFAULT_VALV_INPUT_MODE);
-            }}
-            onBack={() => setMode('spara')}
-          />
-        </ValvZoneSuspense>
-      );
-    }
-
-    if (activeMode === 'spara') {
-      return (
-        <ValvZoneSuspense>
-          <InkastDirectPanel
-            tone="valv"
-            sourceModule="valv_samla"
-            onQueued={() => setMode('granska')}
-            onPersistedBevis={(docId) => void onBevisConfirmed(docId)}
-            queueHintAsButton
-          />
-        </ValvZoneSuspense>
-      );
-    }
-
-    return (
-      <ValvZoneSuspense>
-        <ValvSuperModule
-          variant={valvInputModeDef(activeMode).zone}
-          vaultTab={vaultTab}
-          userId={userId}
-          gateOk={gateOk}
-          highlightLogId={highlightLogId}
-          onBevisConfirmed={onBevisConfirmed}
-          onCitationClick={onCitationClick}
-          onVaultTabChange={onVaultTabChange}
-          onOpenGranska={() => setMode('granska')}
-          techniqueFilter={techniqueFilter}
-          onTechniqueSelect={onTechniqueSelect}
-          onClearTechniqueFilter={onClearTechniqueFilter}
-        />
-      </ValvZoneSuspense>
-    );
-  };
-
-  return (
-    <HubErrorBoundary
-      title="Valv-inmatning kunde inte laddas"
-      glow="blue"
-      backTo="/valvet"
-      backLabel="Till Valvet"
-      logTag="ValvInputSuperModule"
-    >
-    <BentoCard
-      glow="blue"
-      depth
-      noHover
-      bare
-      className="!p-4 sm:!p-5"
-    >
-      <div className="mb-3 flex min-w-0 items-center justify-between gap-2">
-        <ValvInputModePicker activeMode={activeMode} onChange={setMode} />
-        <ModuleHelpFromRegistry moduleId="valv" mode={activeMode} className="shrink-0" />
-      </div>
-
-      <div className="mt-2 pr-1">
-        {renderZoneContent()}
-      </div>
-    </BentoCard>
-    </HubErrorBoundary>
-  );
-}
-</file>
-
-<file path="src/modules/features/lifeJournal/evidence/vault/components/valv.css">
-@tailwind components;
-
-/* Valv hub — Obsidian Calm Bento (indigo/gold forensic) */
-
-@layer components {
-  .valv-bento-shell {
-    @apply relative isolate min-h-0 overflow-x-hidden;
-    background-color: var(--color-obsidian-surface);
-    background-image: var(--zone-gradient-valv);
-  }
-
-  .valv-bg-watermark {
-    @apply pointer-events-none fixed left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 text-accent;
-    width: min(100vw, 1100px);
-    height: min(100vw, 1100px);
-    max-width: 1100px;
-    max-height: 1100px;
-    opacity: 0.04;
-  }
-
-  .valv-bento-shell__content {
-    @apply relative z-10 space-y-4;
-  }
-
-  .valv-page-shell {
-    @apply space-y-4;
-  }
-
-  .valv-page-shell__chrome {
-    @apply rounded-2xl border px-3 py-2;
-    border-color: var(--color-indigo-20);
-    background: linear-gradient(
-      180deg,
-      var(--color-panel-obsidian-55) 0%,
-      var(--color-panel-obsidian-70) 100%
-    );
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-
-  .valv-page-shell__intro {
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.03),
-      0 10px 30px -22px rgba(0, 0, 0, 0.6);
-  }
-
-  .valv-page-shell__loading {
-    @apply rounded-2xl border;
-    border-color: var(--color-indigo-20);
-    background: linear-gradient(
-      180deg,
-      var(--color-panel-obsidian-55) 0%,
-      var(--color-panel-obsidian-75) 100%
-    );
-  }
-
-  .valv-zone-intro {
-    @apply rounded-2xl border px-3 py-2;
-    border-color: var(--color-indigo-20);
-    background: linear-gradient(
-      180deg,
-      var(--color-panel-obsidian-55) 0%,
-      var(--color-panel-obsidian-75) 100%
-    );
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-  }
-
-  .valv-zone-intro__header {
-    @apply mb-1 flex items-center gap-2;
-  }
-
-  .valv-zone-intro__eyebrow {
-    @apply text-[10px] uppercase tracking-[0.18em] text-accent;
-  }
-
-  .valv-zone-intro__title {
-    @apply text-sm font-medium text-text;
-  }
-
-  .valv-zone-intro__lead {
-    @apply text-xs leading-relaxed text-text-dim;
-  }
-
-  .valv-zone-strip {
-    @apply mb-1 flex items-center justify-center;
-  }
-
-  .valv-zone-pill {
-    @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-accent;
-    border-color: var(--color-accent-gold-35);
-    background: var(--color-shell-scrim-35);
-  }
-
-  .valv-forensic-header {
-    @apply mb-3 space-y-1 border-b border-border-strong/60 pb-3;
-  }
-
-  .valv-forensic-eyebrow {
-    @apply font-display-serif text-[10px] uppercase tracking-[0.22em] text-accent;
-  }
-
-  .valv-forensic-title {
-    @apply font-display-serif text-base uppercase tracking-[0.2em] text-text;
-  }
-
-  .valv-forensic-lead {
-    @apply text-xs leading-relaxed text-text-dim;
-  }
-
-  .valv-log-list {
-    @apply space-y-2;
-  }
-
-  .valv-log-row {
-    @apply rounded-xl border p-3 text-sm transition-all duration-200;
-    border-color: var(--color-indigo-22);
-    background: linear-gradient(
-      165deg,
-      var(--color-panel-obsidian-85) 0%,
-      var(--color-panel-obsidian-75) 100%
-    );
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.04),
-      0 4px 14px -4px rgba(0, 0, 0, 0.45);
-  }
-
-  .valv-log-row:hover {
-    border-color: var(--color-indigo-38);
-  }
-
-  .valv-log-row--anchor {
-    border-color: var(--color-gold-35);
-    background: linear-gradient(
-      165deg,
-      var(--color-panel-ember-70) 0%,
-      var(--color-panel-obsidian-80) 100%
-    );
-  }
-
-  .valv-log-row--highlight {
-    @apply ring-2 ring-accent/45;
-  }
-
-  .valv-log-row--vavaren {
-    border-color: var(--color-accent-gold-30);
-    background: linear-gradient(
-      165deg,
-      var(--color-panel-obsidian-75) 0%,
-      var(--color-panel-obsidian-85) 100%
-    );
-  }
-
-  .valv-log-stamp {
-    @apply flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-text-dim;
-  }
-
-  .valv-worm-stamp {
-    @apply flex items-start gap-2;
-  }
-
-  .valv-worm-stamp__icon {
-    @apply mt-0.5 shrink-0;
-  }
-
-  .valv-worm-stamp__disclaimer {
-    @apply mt-1 text-[10px] leading-relaxed text-text-dim;
-  }
-
-  .valv-silo-notice {
-    @apply rounded-lg border px-3 py-2 text-xs leading-relaxed text-text-dim;
-    border-color: var(--color-indigo-20);
-    background: var(--color-panel-obsidian-55);
-  }
-
-  .valv-log-meta {
-    @apply text-[10px] uppercase tracking-widest text-text-dim;
-  }
-
-  .valv-samla-panel {
-    @apply rounded-2xl border p-3;
-    border-color: var(--color-indigo-20);
-    background: linear-gradient(
-      180deg,
-      var(--color-panel-obsidian-55) 0%,
-      var(--color-panel-obsidian-75) 100%
-    );
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-  }
-
-  .valv-technique-filter-chip {
-    border-color: var(--color-gold-35);
-  }
-
-  .valv-samla-stack {
-    @apply rounded-2xl border p-3;
-    border-color: var(--color-indigo-20);
-    background: linear-gradient(
-      180deg,
-      var(--color-panel-obsidian-50) 0%,
-      var(--color-panel-obsidian-75) 100%
-    );
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-  }
-
-  .valv-zone-stack {
-    @apply rounded-2xl border p-3;
-    border-color: var(--color-indigo-20);
-    background: linear-gradient(
-      180deg,
-      var(--color-panel-obsidian-50) 0%,
-      var(--color-panel-obsidian-75) 100%
-    );
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-  }
-
-  .valv-pending-banner {
-    @apply rounded-2xl border p-3;
-    border-color: var(--color-gold-25);
-    background: linear-gradient(
-      180deg,
-      var(--color-panel-ember-70) 0%,
-      var(--color-panel-obsidian-80) 100%
-    );
-  }
-
-  .valv-pending-card {
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.04),
-      0 6px 16px -8px rgba(0, 0, 0, 0.5);
-  }
-
-  .valv-monster-bar {
-    cursor: pointer;
-  }
-
-  /* Desktop — bredare arkivlista och bevisrader i grid (Z1 Valv primärvy på dator) */
-  @media (min-width: 1024px) {
-    .valvet-route-page--desktop .valv-log-list {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.75rem;
-    }
-
-    .valvet-route-page--desktop .valv-log-list > * {
-      margin-top: 0;
-    }
-  }
-
-  @media (min-width: 1280px) {
-    .valvet-route-page--desktop .valv-log-list {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-  }
-
-  /* Desktop — typografi-skala för bättre läsbarhet på dator (HEAVY tier polish) */
-  @media (min-width: 1024px) {
-    .valvet-route-page--desktop .valv-forensic-title {
-      @apply text-lg;
-    }
-
-    .valvet-route-page--desktop .valv-forensic-lead {
-      @apply text-sm;
-    }
-
-    .valvet-route-page--desktop .valv-log-row {
-      @apply p-4;
-    }
-  }
-
-  /* Mobil / G85 — mer innehållsbredd utan att ta bort element */
-  @media (max-width: 639px) {
-    .valvet-route-page .valv-page-shell__chrome,
-    .valvet-route-page .valv-zone-intro {
-      @apply px-2;
-    }
-
-    .valvet-route-page .valv-page-shell__chrome {
-      @apply flex-wrap;
-    }
-  }
-}
 </file>
 
 </files>

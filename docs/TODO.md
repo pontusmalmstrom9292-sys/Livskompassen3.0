@@ -4,6 +4,14 @@
 
 **Version:** 1.2 | **Last updated:** 2026-07-15
 
+
+## 2026-07-17 — PROJECT_STATE v1.3 sync
+
+- [x] Synka PROJECT_STATE v1.3 (marathon v40–v48, stubs, P0 G85 ej startad, single next)
+- [ ] Starta P0 G85 7-day daily driver (logga startdatum i PROJECT_STATE)
+
+---
+
 Each item is independently completable. Link files in Dashboard when done.
 
 ---

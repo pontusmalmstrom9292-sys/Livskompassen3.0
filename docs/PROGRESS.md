@@ -1,3 +1,10 @@
+## 2026-07-17 — PROJECT_STATE v1.3 sync
+
+**Completed:** PROJECT_STATE v1.3 — marathon v40–v48, Phase 10 stubs, P0 G85 status, single next (Fas 24).
+**Next:** Start G85 7-day daily driver; logga day 1 i PROJECT_STATE.
+
+---
+
 
 ### 2026-07-17 — Doc-städ säkerhetskanon
 - Device Clear / Phase 10 / Fas 24 synk i agent-entry; FAS13–23 arkiverade med stubbar; YOLO v17–v23 arkiverade.

@@ -763,6 +763,54 @@ className=
 export function getHeaderPageLabel(pathname: string, search = ''): string | null
 ````
 
+## File: src/modules/core/components/FyrenWidgetBar.tsx
+````typescript
+import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { clsx } from 'clsx';
+import { LayoutPanelLeft } from 'lucide-react';
+import { hasVaultGate } from '../auth/sessionService';
+import { NAV_PATHS } from '../navigation/navTruth';
+import { useStore } from '../store';
+import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
+import { FyrenShortcutMicIcon, FyrenShortcutNoteIcon } from '../ui/widget-icons';
+import { useFyrenWidget } from './fyrenWidgetContext';
+import { readFyrenSideQuickHidden, setFyrenSideQuickHidden } from './FyrenSideQuickDock';
+⋮----
+type WidgetIconKind = 'mic' | 'note';
+⋮----
+type WidgetAction = {
+  id: string;
+  label: string;
+  to: string;
+  hubId?: DrawerL2HubId;
+  widgetIcon?: WidgetIconKind;
+};
+⋮----
+function resolveWidgetActionLabel(action: WidgetAction, vaultSessionOpen: boolean): string
+⋮----
+function WidgetIcon(
+⋮----
+function ActionTile({
+  label,
+  to,
+  icon,
+  tabIndex,
+  onNavigate,
+}: {
+  label: string;
+  to: string;
+  icon: ReactNode;
+  tabIndex: number;
+onNavigate: ()
+⋮----
+className=
+⋮----
+setFyrenSideQuickHidden(false);
+setOpen(false);
+````
+
 ## File: src/modules/core/layout/NavigationDrawer.tsx
 ````typescript
 import { clsx } from 'clsx';
@@ -899,54 +947,6 @@ function RedirectToLifeJournalTab(
 <Navigate to=
 ⋮----
 function RedirectArkivToValvet()
-````
-
-## File: src/modules/core/components/FyrenWidgetBar.tsx
-````typescript
-import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { clsx } from 'clsx';
-import { LayoutPanelLeft } from 'lucide-react';
-import { hasVaultGate } from '../auth/sessionService';
-import { NAV_PATHS } from '../navigation/navTruth';
-import { useStore } from '../store';
-import { DrawerL2Icon, type DrawerL2HubId } from '../ui/drawerL2Icons/DrawerL2Icon';
-import { FyrenProgressRing } from '../ui/FyrenProgressRing';
-import { FyrenShortcutMicIcon, FyrenShortcutNoteIcon } from '../ui/widget-icons';
-import { useFyrenWidget } from './fyrenWidgetContext';
-import { readFyrenSideQuickHidden, setFyrenSideQuickHidden } from './FyrenSideQuickDock';
-⋮----
-type WidgetIconKind = 'mic' | 'note';
-⋮----
-type WidgetAction = {
-  id: string;
-  label: string;
-  to: string;
-  hubId?: DrawerL2HubId;
-  widgetIcon?: WidgetIconKind;
-};
-⋮----
-function resolveWidgetActionLabel(action: WidgetAction, vaultSessionOpen: boolean): string
-⋮----
-function WidgetIcon(
-⋮----
-function ActionTile({
-  label,
-  to,
-  icon,
-  tabIndex,
-  onNavigate,
-}: {
-  label: string;
-  to: string;
-  icon: ReactNode;
-  tabIndex: number;
-onNavigate: ()
-⋮----
-className=
-⋮----
-setFyrenSideQuickHidden(false);
-setOpen(false);
 ````
 
 ## File: src/modules/shell/LivLauncherGrid.tsx

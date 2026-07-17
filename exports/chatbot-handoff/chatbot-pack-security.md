@@ -1229,24 +1229,6 @@ export interface DcapAlertResult {
 export async function handleDcapAlert(payload: DcapAlertPayload): Promise<DcapAlertResult>
 ````
 
-## File: functions/src/adk/synapses/driveIngestSynapse.ts
-````typescript
-import { analyzeDriveFile } from '../../agents/documentAgent';
-import { MonsterArkivarienCard } from '../../agents/cards';
-import type { A2AMessage } from '../../agents/types';
-import type { AdkOrchestrator } from '../orchestrator';
-import type { DriveIngestPayload } from '../types';
-import { classifyInboxDocument, applyInkastConfidenceGate } from '../../lib/inboxClassifier';
-import { routeInboxToWorm } from '../../lib/inboxPersist';
-⋮----
-export async function handleDriveIngest(
-  orchestrator: AdkOrchestrator,
-  payload: DriveIngestPayload
-): Promise<
-⋮----
-function isHeavyResponse(text: string): boolean
-````
-
 ## File: functions/src/adk/synapses/journalWovenSynapse.ts
 ````typescript
 import { generateEmbeddingInternal } from '../../lib/generateEmbeddingInternal';
@@ -1495,6 +1477,24 @@ async function isJwtVaultWriteAllowed(): Promise<boolean>
 export async function applyVaultJwtClaim(): Promise<
 ⋮----
 export async function ensureVaultWriteReady(): Promise<VaultWriteUnlockResult>
+````
+
+## File: functions/src/adk/synapses/driveIngestSynapse.ts
+````typescript
+import { analyzeDriveFile } from '../../agents/documentAgent';
+import { MonsterArkivarienCard } from '../../agents/cards';
+import type { A2AMessage } from '../../agents/types';
+import type { AdkOrchestrator } from '../orchestrator';
+import type { DriveIngestPayload } from '../types';
+import { classifyInboxDocument, applyInkastConfidenceGate } from '../../lib/inboxClassifier';
+import { routeInboxToWorm } from '../../lib/inboxPersist';
+⋮----
+export async function handleDriveIngest(
+  orchestrator: AdkOrchestrator,
+  payload: DriveIngestPayload
+): Promise<
+⋮----
+function isHeavyResponse(text: string): boolean
 ````
 
 ## File: firestore.rules
@@ -2795,6 +2795,11 @@ service cloud.firestore {
       allow read: if isOwner();
       allow create, update, delete: if false;
     }
+
+    match /kasam_aggregations/{docId} {
+      allow read: if isOwner();
+      allow create, update, delete: if false;
+    }
   }
 }
 ````
@@ -2802,13 +2807,23 @@ service cloud.firestore {
 ## File: src/modules/core/firebase/appCheck.ts
 ````typescript
 import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
-import { Capacitor } from '@capacitor/core';
+import { Capacitor, registerPlugin } from '@capacitor/core';
 import { initializeAppCheck, ReCaptchaV3Provider, CustomProvider } from 'firebase/app-check';
 import { app } from './init';
+⋮----
+interface LkNativeBuildPlugin {
+  getAppCheckDebugGate(): Promise<{ useDebugProvider: boolean; isDebugBuild: boolean }>;
+}
+⋮----
+getAppCheckDebugGate(): Promise<
+⋮----
+async getAppCheckDebugGate()
 ⋮----
 export function initAppCheck(): Promise<void>
 ⋮----
 async function doInitAppCheck(): Promise<void>
+⋮----
+async function resolveNativeDebugProvider(): Promise<boolean>
 ⋮----
 function debugTokenFromEnv(): string | undefined
 ````
