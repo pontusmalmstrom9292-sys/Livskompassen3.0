@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.AnticipateInterpolator;
 
+import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -54,15 +55,8 @@ public class MainActivity extends BridgeActivity {
         AppCheckDebugBootstrap.applyIfDebug(getApplicationContext());
         AppNotificationManager.createNotificationChannels(this);
 
+        EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
-        
-        // Edge-to-edge
-        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
-        WindowInsetsControllerCompat controller = WindowCompat.getInsetsController(getWindow(), getWindow().getDecorView());
-        if (controller != null) {
-            controller.setAppearanceLightStatusBars(false);
-            controller.setAppearanceLightNavigationBars(false);
-        }
         
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 

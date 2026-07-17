@@ -38,7 +38,6 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField "String", "FIREBASE_APP_CHECK_DEBUG_TOKEN", "\"${appCheckDebugToken}\""
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
              // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
@@ -46,12 +45,38 @@ android {
         }
     }
     buildTypes {
+        debug {
+            buildConfigField "String", "FIREBASE_APP_CHECK_DEBUG_TOKEN", "\"${appCheckDebugToken}\""
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "FIREBASE_APP_CHECK_DEBUG_TOKEN", '""'
         }
     }
+}
+
+// Security Verification Task - Fails build if critical security components are missing
+tasks.register("verifySecurityComponents") {
+    doLast {
+        def criticalFiles = [
+            "src/main/java/com/livskompassen/app/core/SacredLockManager.java",
+            "src/main/java/com/livskompassen/app/core/WebViewManager.java",
+            "src/main/res/xml/network_security_config.xml"
+        ]
+        criticalFiles.each { filePath ->
+            def file = project.file(filePath)
+            if (!file.exists()) {
+                throw new GradleException("CRITICAL SECURITY COMPONENT MISSING: ${filePath}. Build aborted for safety.")
+            }
+        }
+        println("Security components verified successfully.")
+    }
+}
+
+// Run verification before assembling
+tasks.named("preBuild") {
+    dependsOn("verifySecurityComponents")
 }
 
 repositories {

@@ -16,6 +16,10 @@ import com.livskompassen.app.widgets.WidgetRouteMatcher;
 
 import java.util.Objects;
 
+/**
+ * CRITICAL COMPONENT - DO NOT REMOVE.
+ * Handles navigation intents from home screen widgets and deep links.
+ */
 public class WidgetNavigator {
     private static final int WIDGET_DISPATCH_MAX_ATTEMPTS = 40;
     private static final long WIDGET_DISPATCH_RETRY_MS = 150L;
