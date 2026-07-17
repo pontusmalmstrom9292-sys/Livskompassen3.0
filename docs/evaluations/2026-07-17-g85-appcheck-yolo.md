@@ -49,9 +49,12 @@
 ## Status
 
 **GO** för commit + PR. **NO-GO** för prod Enforce. **Deploy SKIP** tills Pontus OK i chatt.
+<<<<<<< HEAD
 
 ## Hosting deploy (Pontus OK 2026-07-17)
 
 - `firebase deploy --only hosting` → https://gen-lang-client-0481875058.web.app
 - Live verify: ingen non-empty `VITE_APP_CHECK_DEBUG_TOKEN` i index/zone bundles
 - Kvar manuellt: rotera gammal debug-token i Firebase Console
+=======
+>>>>>>> fix/g85-appcheck-live-harden
