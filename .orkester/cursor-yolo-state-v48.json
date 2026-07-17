@@ -1,0 +1,31 @@
+{
+  "version": 48,
+  "queueFile": ".orkester/cursor-yolo-queue-v48.json",
+  "buildWaveId": "G85-LIVE-VERIFY",
+  "startedAt": "2026-07-17T19:07:52.615Z",
+  "updatedAt": "2026-07-17T19:10:40.192Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b48-build",
+      "b48-gate",
+      "b48-vakt"
+    ],
+    "skippedTaskIds": [
+      "b48-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b48-deploy",
+    "b48-build",
+    "b48-gate",
+    "b48-vakt"
+  ],
+  "notes": "YOLO v48 G85-LIVE-VERIFY — chat runner 2026-07-17. Deploy SKIP (ej Pontus OK).",
+  "gateVerdict": "GO",
+  "goNoGo": "GO",
+  "marathonComplete": true,
+  "finishedAt": "2026-07-17T19:10:40.192Z"
+}

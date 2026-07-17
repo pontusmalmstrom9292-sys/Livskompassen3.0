@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Full SDK build marathon v34→v47 med wave-gate + unattended git/deploy.
+ * Full SDK build marathon v34→v48 med wave-gate + unattended git/deploy.
  *
  * Usage:
  *   caffeinate -dimsu npm run sdk:yolo:full
@@ -139,7 +139,7 @@ async function main() {
   }
 
   writeSdkRunReport({ ...marathon, completed: true });
-  console.log("[sdk:full] 🎉 Build marathon klart v34→v47");
+  console.log(`[sdk:full] 🎉 Build marathon klart v${BUILD_WAVE_MIN}→v${BUILD_WAVE_MAX}`);
 }
 
 await main();

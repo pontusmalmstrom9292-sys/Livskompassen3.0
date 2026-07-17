@@ -1,5 +1,5 @@
 /**
- * Build-wave köer för SDK marathon v34–v47.
+ * Build-wave köer för SDK marathon v34–v48.
  * Laddar .orkester/cursor-yolo-build-manifest.json
  */
 import { existsSync } from "node:fs";
