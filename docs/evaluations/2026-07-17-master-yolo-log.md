@@ -1,6 +1,8 @@
 # Master YOLO log — 2026-07-17
 
 **Init:** 2026-07-17T15:03:39.925Z  
+**Init:** 2026-07-17T15:03:39.925Z
+**Git:** main @ c9590b909
 **Kanon:** [MASTER-YOLO-AUTORUN.md](../MASTER-YOLO-AUTORUN.md)
 
 ## Vågar
@@ -24,3 +26,4 @@
 | 15:26Z | barnporten-fas2 | SKIP | PMIR kanon-UI |
 | 15:26Z | planering-fas3 | SKIP | PMIR Gmail/Calendar |
 | 15:26Z | slutrapport | DONE | Se 2026-07-17-master-yolo-leverans.md |
+| 15:09Z | hub-gora | SKIP | Already done (Fas 2). Fas 2+ `/gora` alias deferred — MOD-CORE-NAV locked. → hub-dagbok |
