@@ -1,8 +1,35 @@
 apply plugin: 'com.android.application'
 
+def readAppCheckDebugToken() {
+    def fromEnv = System.getenv("VITE_APP_CHECK_DEBUG_TOKEN")
+    if (fromEnv != null && !fromEnv.trim().isEmpty()) {
+        return fromEnv.trim().replaceAll('^"|"$', '')
+    }
+    def envFile = rootProject.file("../.env")
+    if (!envFile.exists()) {
+        return ""
+    }
+    for (line in envFile.readLines()) {
+        def trimmed = line.trim()
+        if (trimmed.startsWith("VITE_APP_CHECK_DEBUG_TOKEN=")) {
+            def value = trimmed.substring("VITE_APP_CHECK_DEBUG_TOKEN=".length()).trim()
+            if (value.startsWith('"') && value.endsWith('"')) {
+                value = value.substring(1, value.length() - 1)
+            }
+            return value
+        }
+    }
+    return ""
+}
+
+def appCheckDebugToken = readAppCheckDebugToken()
+
 android {
     namespace = "com.livskompassen.app"
     compileSdk = rootProject.ext.compileSdkVersion
+    buildFeatures {
+        buildConfig = true
+    }
     defaultConfig {
         applicationId = "com.livskompassen.app"
         minSdk = rootProject.ext.minSdkVersion
@@ -11,6 +38,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "FIREBASE_APP_CHECK_DEBUG_TOKEN", "\"${appCheckDebugToken}\""
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
              // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
@@ -21,6 +49,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "FIREBASE_APP_CHECK_DEBUG_TOKEN", '""'
         }
     }
 }

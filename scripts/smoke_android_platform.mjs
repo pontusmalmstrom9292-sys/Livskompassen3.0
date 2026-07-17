@@ -32,6 +32,13 @@ assert('authService native branch', read('src/modules/core/auth/authService.ts')
 
 const appCheck = read('src/modules/core/firebase/appCheck.ts');
 assert('appCheck native CustomProvider', appCheck.includes('Capacitor.isNativePlatform'));
+assert('appCheck native debugToken boolean only', appCheck.includes('debugToken: true'));
+assert(
+  'appCheck does not pass env string as native debugToken',
+  !/debugToken\s*:\s*debugToken\b/.test(appCheck) && !/\.\.\.\s*\(\s*debugToken\s*\?/.test(appCheck),
+);
+assert('appCheck LkNativeBuild gate', appCheck.includes('LkNativeBuild') && appCheck.includes('getAppCheckDebugGate'));
+assert('appCheck fail-closed without gate', appCheck.includes('resolveNativeDebugProvider'));
 
 const offline = read('src/modules/core/firebase/offlineWritePolicy.ts');
 assert('offline blocks reality_vault', offline.includes('reality_vault'));
@@ -39,6 +46,8 @@ assert('offline blocks children_logs', offline.includes('children_logs'));
 
 const gs = read('android/app/google-services.json');
 assert('google-services client_type 1', /"client_type"\s*:\s*1/.test(gs));
+const mobilesdkMatch = gs.match(/"mobilesdk_app_id"\s*:\s*"([^"]+)"/);
+assert('google-services mobilesdk_app_id', Boolean(mobilesdkMatch?.[1]));
 
 const cap = read('capacitor.config.ts');
 assert('capacitor app id', cap.includes('com.livskompassen.app'));
@@ -46,6 +55,38 @@ assert('capacitor app id', cap.includes('com.livskompassen.app'));
 const main = read('src/main.tsx');
 assert('appCheck init before React', main.includes('initAppCheck'));
 assert('capacitor shell chrome init', main.includes('initCapacitorShellChrome'));
+
+const buildGradle = read('android/app/build.gradle');
+assert('android appcheck token from .env', buildGradle.includes('FIREBASE_APP_CHECK_DEBUG_TOKEN'));
+assert(
+  'android release clears appcheck debug token',
+  /release\s*\{[\s\S]*?FIREBASE_APP_CHECK_DEBUG_TOKEN["']?\s*,\s*['"]""['"]/.test(buildGradle) ||
+    buildGradle.includes('buildConfigField "String", "FIREBASE_APP_CHECK_DEBUG_TOKEN", \'""\''),
+);
+
+const bootstrap = read('android/app/src/main/java/com/livskompassen/app/util/AppCheckDebugBootstrap.java');
+assert('AppCheckDebugBootstrap DEBUG_SECRET key', bootstrap.includes('com.google.firebase.appcheck.debug.DEBUG_SECRET'));
+assert('AppCheckDebugBootstrap BuildConfig.DEBUG gate', bootstrap.includes('BuildConfig.DEBUG'));
+assert(
+  'AppCheckDebugBootstrap app id matches google-services',
+  Boolean(mobilesdkMatch?.[1]) && bootstrap.includes(mobilesdkMatch[1]),
+);
+assert(
+  'AppCheckDebugBootstrap persistence key encoding',
+  bootstrap.includes('URLEncoder') && bootstrap.includes('persistenceKey'),
+);
+
+const mainActivity = read('android/app/src/main/java/com/livskompassen/app/MainActivity.java');
+assert('MainActivity appcheck bootstrap', mainActivity.includes('AppCheckDebugBootstrap'));
+assert('MainActivity registers LkNativeBuildPlugin', mainActivity.includes('LkNativeBuildPlugin'));
+assert(
+  'MainActivity bootstrap before super.onCreate',
+  /AppCheckDebugBootstrap\.applyIfDebug[\s\S]*?super\.onCreate/.test(mainActivity),
+);
+
+const nativePlugin = read('android/app/src/main/java/com/livskompassen/app/LkNativeBuildPlugin.java');
+assert('LkNativeBuildPlugin Cap name', nativePlugin.includes('@CapacitorPlugin(name = "LkNativeBuild")'));
+assert('LkNativeBuildPlugin BuildConfig.DEBUG gate', nativePlugin.includes('BuildConfig.DEBUG'));
 
 const dockCss = read('src/styles/dock-kanon-match.css');
 assert('android dock safe-area override', dockCss.includes('platform-capacitor-android'));

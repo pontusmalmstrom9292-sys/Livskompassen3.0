@@ -1,6 +1,6 @@
 # Project State — Livskompassen v2
 
-**Version:** 1.2 · **Last updated:** 2026-07-14  
+**Version:** 1.2 · **Last updated:** 2026-07-15  
 **Rule:** Single source of truth for **system phase** and **active program**. AI assistants must read this before coding.
 
 ---
@@ -82,6 +82,7 @@ Phase 0–9 baseline och migration **done**. Phase 10: index.css import-only; v�
 | **MOD-WIDGET deploy** | hosting + functions | **PASS** 2026-07-14 · f937d0672 |
 | **smoke:predeploy:build** | pre-deploy | **PASS** 2026-07-14 |
 | **YOLO v40 INTEGRATION** | innehåll + seed dry-run | **GO** 2026-07-14 — [`integration-v40.md`](./evaluations/2026-07-14-integration-v40.md) |
+| **Android App Check harden** | Grok 4.5 YOLO | **PASS** 2026-07-15 — [`grok45-android-appcheck-yolo.md`](./evaluations/2026-07-15-grok45-android-appcheck-yolo.md) |
 | **YOLO v41 GOVERNANCE** | docs + module-lock sync | **PASS** 2026-07-14 — [`governance-v41.md`](./evaluations/2026-07-14-governance-v41.md) |
 
 

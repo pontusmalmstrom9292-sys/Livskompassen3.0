@@ -1,3 +1,5 @@
+import { isCapacitorNative } from '../platform/capacitorPlatform';
+
 /** Mänskligt felmeddelande från Firebase callable / App Check / auth. */
 export function formatCallableError(err: unknown): string {
   const e = err as { code?: string; message?: string };
@@ -12,6 +14,9 @@ export function formatCallableError(err: unknown): string {
     msg.includes('App Check') ||
     msg.includes('App Check-verifiering')
   ) {
+    if (isCapacitorNative()) {
+      return 'App Check misslyckades på telefonen. Bygg om appen i Android Studio (Run), kör npm run android:appcheck-adb med USB, och kontrollera att debug-token finns i Firebase Console under App Check.';
+    }
     return 'Säkerhetsverifiering (App Check) misslyckades. Ladda om sidan (Cmd+Shift+R) och försök igen.';
   }
   if (code.includes('resource-exhausted')) {
