@@ -6,6 +6,9 @@ on:
       - 'docs/prompts/**'
       - 'functions/src/sharedRules.ts'
 
+permissions:
+  contents: write
+
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -14,11 +17,21 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
+          # Same-repo PR branches need write token to push sync commits.
           token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
       - run: npm run prompts:sync
-      - run: git add docs/prompts/
-      - run: git commit --amend --no-edit || true
-      - run: git push --force-with-lease
+      - name: Commit synced mirrors if dirty
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/prompts/
+          if git diff --cached --quiet; then
+            echo "Already in sync — nothing to commit"
+            exit 0
+          fi
+          git commit -m "chore(prompts): auto-sync mirrors from sharedRules"
+          git push origin "HEAD:${{ github.head_ref }}"
