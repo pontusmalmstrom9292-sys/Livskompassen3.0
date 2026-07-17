@@ -132,7 +132,6 @@ assert(
   'Zero Footprint native uses appStateChange (no Android visibility kickout)',
   zeroFootprint.includes('isCapacitorNative') && zeroFootprint.includes('appStateChange'),
 );
-<<<<<<< HEAD
 assert(
   'Zero Footprint native sustained-background lock (no brief pause kickout)',
   zeroFootprint.includes('NATIVE_BACKGROUND_LOCK_MS'),
@@ -141,8 +140,6 @@ assert(
   'MainActivity does not pause WebView JS timers',
   !read('android/app/src/main/java/com/livskompassen/app/MainActivity.java').includes('pauseTimers()'),
 );
-=======
->>>>>>> fix/g85-appcheck-live-harden
 
 if (fail > 0) {
   console.error(`\n[smoke:android-platform] ${fail} failure(s)`);
