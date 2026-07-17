@@ -1,41 +1,24 @@
-# Livskompassen — Cursor Rules
+# Livskompassen Android - AI Governance & Architecture Rules
 
-Kanon ligger i **`.cursor/rules/`** (MDC). Kärn-invariants: **`.cursor/index.mdc`** (always-on, ~300 tokens).
+## CRITICAL SECURITY - NEVER REMOVE OR BYPASS
+1. **Sacred Lock:** Never remove or simplify `SacredLockManager.java`. Biometric security is mandatory for Vault access.
+2. **Encrypted Storage:** All sensitive data (like widget configs) MUST use `SecurePrefs.java` (EncryptedSharedPreferences). Never revert to standard `getSharedPreferences`.
+3. **Network Security:** Never disable Certificate Pinning in `network_security_config.xml`.
+4. **Gradle Verification:** Do not remove the `verifySecurityComponents` task in `app/build.gradle`. It is a build-gate to prevent accidental deletion of security files.
 
-## Snabbindex
+## ARCHITECTURE LAWS
+1. **Clean MainActivity:** `MainActivity.java` must remain slim. Logic should be delegated to specialized managers in `com.livskompassen.app.core`.
+2. **Managers:**
+   - WebView logic -> `WebViewManager.java`
+   - Navigation/Widgets -> `WidgetNavigator.java`
+   - Security/Biometrics -> `SacredLockManager.java`
+3. **Gradle Catalog:** Use `libs.versions.toml` for all dependencies. Do not hardcode versions in `build.gradle` files.
 
-| Zon | Auto-attached regel | Globs |
-|-----|---------------------|-------|
-| UI / Executive Midnight (DAD) | `lead-ui-engineer.mdc` (mandat), `design-calm.mdc` (kanon), `premium-ui.mdc`, `component-standards.mdc`, `automatic-ui-review.mdc`, `ui-design.mdc` (pekare) | `src/**/*` |
-| ADK & synapser | `synapser-adk.mdc` | `functions/src/adk/**`, `functions/src/triggers/**` |
-| RAG & silos | `memory-silo.mdc` | `functions/src/lib/*Rag*.ts` |
-| Säkerhet & WORM | `security-firestore.mdc` | `firestore.rules`, `functions/**`, `sharedRules.ts`, `DCAP.ts` |
-| Locked UX | `locked-ux-features.mdc` | Valv, Familjen, Barnporten, Planering |
-| Android | `android-capacitor.mdc` | `android/**`, Capacitor-auth |
+## UI/UX STANDARDS
+1. **Obsidian Theme:** Maintain the "#0D0B09" (Midnight) and "#FDE68A" (Gold) color scheme.
+2. **Edge-to-Edge:** Always use `EdgeToEdge.enable()` for new activities.
+3. **Error Handling:** Never allow a raw WebView error. Always use the native error overlay.
 
-## 3-zonsystem (routing)
-
-- **Hjärtat** `/hjartat` — Dagbok, Speglar; Valv via `/valvet` (PIN, plausible deniability)
-- **Vardagen** `/vardagen` — MåBra, Planering, Ekonomi, Arbetsliv
-- **Familjen** `/familjen` — Barnfokus, Livslogg, Barnporten, Trygg Hamn
-
-Legacy-rutter (`/dagbok`, `/valv`, `/mabra`, `/planering` …) omdirigeras — skapa inga nya utanför 3-zonsystemet.
-
-## AI Governance (alla agenter)
-
-1. Läs [`docs/PROJECT_STATE.md`](docs/PROJECT_STATE.md) → [`docs/AI-GOVERNANCE.md`](docs/AI-GOVERNANCE.md) före arbete
-2. Efter varje uppgift: uppdatera `TODO`, `DASHBOARD`, `PROGRESS`, `PROJECT_STATE`
-3. Validera: `npm run smoke:governance`
-
-## Vid stor ändring
-
-1. Läs aktiv fas i [`.context/system-plan.md`](.context/system-plan.md) — **Fas 24 AKTIV**
-2. GAP-register: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](docs/specs/modules/Arkiv-GAP-REGISTER.md)
-3. Fas 24 syntes: [`docs/evaluations/2026-06-25-app-plan-syntes.md`](docs/evaluations/2026-06-25-app-plan-syntes.md)
-4. Deploy: `npm run smoke:predeploy` → YOLO GO → Pontus OK
-
-Kostnadsvakt: [`docs/governance/GCP-KOSTNADSVAKT.md`](docs/governance/GCP-KOSTNADSVAKT.md) · `npm run smoke:cost-guard`
-
-Kostnadsvakt: [`docs/governance/GCP-KOSTNADSVAKT.md`](docs/governance/GCP-KOSTNADSVAKT.md) · `npm run smoke:cost-guard`
-
-Design Authority Decision (Executive Midnight): se `design-calm.mdc` — **inte** duplicerade här.
+## INSTRUCTIONS FOR AI
+- Before suggesting a deletion of any file in `app/src/main/java/com/livskompassen/app/core/`, explain WHY it is safe and verify with the user.
+- If a suggested change breaks the `verifySecurityComponents` Gradle task, abort the suggestion.
