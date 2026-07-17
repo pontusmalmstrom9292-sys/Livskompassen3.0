@@ -7,7 +7,7 @@ let unlockInFlight = false;
 let graceUntilMs = 0;
 
 /** Kort andrum efter lyckad upplåsning medan biometri-UI stängs. */
-const POST_UNLOCK_GRACE_MS = 2_500;
+const POST_UNLOCK_GRACE_MS = 5_000;
 
 export function beginVaultUnlockInFlight(): void {
   unlockInFlight = true;

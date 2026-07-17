@@ -81,6 +81,7 @@ function main() {
     'visibilitychange',
     'pagehide',
     'appStateChange',
+    'NATIVE_BACKGROUND_LOCK_MS',
     'closeDrawer: true',
   );
   mustInclude(
