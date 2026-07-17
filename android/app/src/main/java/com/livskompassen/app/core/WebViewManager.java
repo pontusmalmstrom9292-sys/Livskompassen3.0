@@ -29,6 +29,10 @@ import com.getcapacitor.BridgeWebViewClient;
 import com.livskompassen.app.R;
 import com.livskompassen.app.util.LCLog;
 
+/**
+ * CRITICAL COMPONENT - DO NOT REMOVE.
+ * Manages the WebView lifecycle, performance, error handling, and security.
+ */
 public class WebViewManager {
     private final Context context;
     private final Bridge bridge;

@@ -16,6 +16,11 @@ import com.getcapacitor.Bridge;
 import com.livskompassen.app.R;
 import com.livskompassen.app.util.LCLog;
 
+/**
+ * CRITICAL COMPONENT - DO NOT REMOVE OR MODIFY WITHOUT ARCHITECT APPROVAL.
+ * This class manages the biometric security layer (Sacred Lock) for the app.
+ * It ensures the Vault remains inaccessible without proper authentication.
+ */
 public class SacredLockManager {
     private static final long SACRED_LOCK_TIMEOUT_MS = 5 * 60 * 1000L; // 5 minuter
 
