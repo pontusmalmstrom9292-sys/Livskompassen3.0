@@ -7,6 +7,7 @@ import { applyVaultJwtClaim } from '../security/vaultWriteUnlock';
 import { isEmailAuthRequired } from './requireEmailAuth';
 import { isCapacitorNative } from '../platform/capacitorPlatform';
 import { useStore } from '../store';
+import { beginVaultUnlockInFlight, endVaultUnlockInFlight } from './vaultUnlockInFlight';
 
 type OpenValvViaFyrenOptions = {
   pathname?: string;
@@ -39,72 +40,77 @@ export async function openValvViaFyren(
     return false;
   }
 
-  // ── GREN 1: WebAuthn (webb/desktop, primärt flöde — oförändrat) ────────────
-  const webAuthnOk = await isWebAuthnReliable();
-  if (webAuthnOk) {
-    const webAuthn = await performVaultWebAuthnForSession();
-    if (webAuthn.ok === false) {
-      options?.onDenied?.(webAuthn.message);
-      return false;
+  beginVaultUnlockInFlight();
+  try {
+    // ── GREN 1: WebAuthn (webb/desktop, primärt flöde — oförändrat) ────────────
+    const webAuthnOk = await isWebAuthnReliable();
+    if (webAuthnOk) {
+      const webAuthn = await performVaultWebAuthnForSession();
+      if (webAuthn.ok === false) {
+        options?.onDenied?.(webAuthn.message);
+        return false;
+      }
+
+      setVaultGate();
+      useStore.getState().setVaultUnlocked(true);
+
+      const issued = await issueVaultServerSession(webAuthn.response);
+      if (issued.ok === false) {
+        clearVaultGate();
+        useStore.getState().setVaultUnlocked(false);
+        options?.onDenied?.(issued.message);
+        return false;
+      }
+
+      const jwt = await applyVaultJwtClaim();
+      if (jwt.ok === false) {
+        clearVaultGate();
+        useStore.getState().setVaultUnlocked(false);
+        options?.onDenied?.(jwt.message);
+        return false;
+      }
+
+      navigate({
+        pathname: options?.pathname ?? NAV_PATHS.VALVET,
+        search: options?.search ?? '',
+      });
+      return true;
     }
 
-    setVaultGate();
-    useStore.getState().setVaultUnlocked(true);
+    // ── GREN 2: Native Biometric (Capacitor Android / iOS — fallback) ──────────
+    if (isCapacitorNative()) {
+      setVaultGate();
+      useStore.getState().setVaultUnlocked(true);
 
-    const issued = await issueVaultServerSession(webAuthn.response);
-    if (issued.ok === false) {
-      clearVaultGate();
-      useStore.getState().setVaultUnlocked(false);
-      options?.onDenied?.(issued.message);
-      return false;
+      const issued = await issueVaultSessionAfterNativeBiometric();
+      if (issued.ok === false) {
+        clearVaultGate();
+        useStore.getState().setVaultUnlocked(false);
+        options?.onDenied?.(issued.message);
+        return false;
+      }
+
+      const jwt = await applyVaultJwtClaim();
+      if (jwt.ok === false) {
+        clearVaultGate();
+        useStore.getState().setVaultUnlocked(false);
+        options?.onDenied?.(jwt.message);
+        return false;
+      }
+
+      navigate({
+        pathname: options?.pathname ?? NAV_PATHS.VALVET,
+        search: options?.search ?? '',
+      });
+      return true;
     }
 
-    const jwt = await applyVaultJwtClaim();
-    if (jwt.ok === false) {
-      clearVaultGate();
-      useStore.getState().setVaultUnlocked(false);
-      options?.onDenied?.(jwt.message);
-      return false;
-    }
-
-    navigate({
-      pathname: options?.pathname ?? NAV_PATHS.VALVET,
-      search: options?.search ?? '',
-    });
-    return true;
+    // ── GREN 3: Ingen autentisering tillgänglig ─────────────────────────────────
+    options?.onDenied?.(
+      'Biometri stöds inte i denna miljö. Öppna appen på din mobil eller använd Chrome på datorn.',
+    );
+    return false;
+  } finally {
+    endVaultUnlockInFlight();
   }
-
-  // ── GREN 2: Native Biometric (Capacitor Android / iOS — fallback) ──────────
-  if (isCapacitorNative()) {
-    setVaultGate();
-    useStore.getState().setVaultUnlocked(true);
-
-    const issued = await issueVaultSessionAfterNativeBiometric();
-    if (issued.ok === false) {
-      clearVaultGate();
-      useStore.getState().setVaultUnlocked(false);
-      options?.onDenied?.(issued.message);
-      return false;
-    }
-
-    const jwt = await applyVaultJwtClaim();
-    if (jwt.ok === false) {
-      clearVaultGate();
-      useStore.getState().setVaultUnlocked(false);
-      options?.onDenied?.(jwt.message);
-      return false;
-    }
-
-    navigate({
-      pathname: options?.pathname ?? NAV_PATHS.VALVET,
-      search: options?.search ?? '',
-    });
-    return true;
-  }
-
-  // ── GREN 3: Ingen autentisering tillgänglig ─────────────────────────────────
-  options?.onDenied?.(
-    'Biometri stöds inte i denna miljö. Öppna appen på din mobil eller använd Chrome på datorn.',
-  );
-  return false;
 }

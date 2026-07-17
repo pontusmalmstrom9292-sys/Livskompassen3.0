@@ -80,8 +80,15 @@ function main() {
     'VAULT_SESSION_IDLE_MS',
     'visibilitychange',
     'pagehide',
+    'appStateChange',
     'closeDrawer: true',
   );
+  mustInclude(
+    'src/modules/core/auth/vaultUnlockInFlight.ts',
+    'shouldSuppressVaultBackgroundLock',
+    'beginVaultUnlockInFlight',
+  );
+  mustInclude('src/modules/core/auth/valvFyrenGate.ts', 'beginVaultUnlockInFlight', 'endVaultUnlockInFlight');
   mustInclude(
     'src/modules/core/components/VaultLockedGate.tsx',
     'openValvViaFyren',

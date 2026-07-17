@@ -1,4 +1,12 @@
 
+## 2026-07-17 — Valv kickout Android (Zero Footprint)
+
+**Fix:** Native Valv låses inte längre av WebView visibility/biometri-paus.
+**Smoke:** valv-security + typecheck:core-strict + android-platform PASS
+**Eval:** docs/evaluations/2026-07-17-valv-kickout-zero-footprint-android.md
+
+---
+
 ## 2026-07-15 — Grok 4.5 YOLO: Android App Check harden
 
 **Plattform:** Cursor · **Modell:** Grok 4.5 · **Läge:** YOLO

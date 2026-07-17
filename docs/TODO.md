@@ -274,4 +274,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] smoke:android-platform utökad (release-clear, app-id-match, plugin, fail-closed)
 - [x] Eval: `docs/evaluations/2026-07-15-grok45-android-appcheck-yolo.md`
 - Smoke: `smoke:android-platform` PASS · `smoke:valv-security` PASS · `typecheck:core-strict` PASS
+## 2026-07-17 — Valv kickout Android
+- [x] Zero Footprint: native appStateChange + unlock-in-flight suppress
+- [x] Eval: docs/evaluations/2026-07-17-valv-kickout-zero-footprint-android.md
 
