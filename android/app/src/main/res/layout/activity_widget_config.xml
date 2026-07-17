@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0D0B09"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Konfigurera Widget"
+        android:textColor="#FDE68A"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Välj vad widgeten ska visa:"
+        android:textColor="#94A3B8" />
+
+    <RadioGroup
+        android:id="@+id/config_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp">
+
+        <RadioButton
+            android:id="@+id/radio_standard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Standard (Inspelning)"
+            android:textColor="#FFFFFF"
+            android:buttonTint="#FDE68A"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/radio_vault"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Snabbt till Valvet"
+            android:textColor="#FFFFFF"
+            android:buttonTint="#FDE68A" />
+
+        <RadioButton
+            android:id="@+id/radio_journal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Dagens Dagbok"
+            android:textColor="#FFFFFF"
+            android:buttonTint="#FDE68A" />
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btn_save_config"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#FDE68A"
+        android:text="Spara widget"
+        android:textAllCaps="false"
+        android:textColor="#0D0B09" />
+
+</LinearLayout>

@@ -42,4 +42,18 @@
             <extra android:name="widget_path" android:value="/widget/stampla" />
         </intent>
     </shortcut>
+
+    <shortcut
+        android:shortcutId="shortcut_vault"
+        android:enabled="true"
+        android:icon="@drawable/ic_lock_sacred"
+        android:shortcutShortLabel="Öppna Valvet"
+        android:shortcutLongLabel="Öppna det säkra valvet">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="com.livskompassen.app"
+            android:targetClass="com.livskompassen.app.MainActivity">
+            <extra android:name="widget_path" android:value="/valv" />
+        </intent>
+    </shortcut>
 </shortcuts>

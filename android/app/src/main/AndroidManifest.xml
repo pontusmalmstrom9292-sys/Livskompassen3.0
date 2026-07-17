@@ -53,6 +53,14 @@
 
         </activity>
 
+        <activity android:name=".widgets.WidgetConfigActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity>
+
         <!-- Native hemskärms-widgets WH1–WH4 -->
         <receiver
             android:name=".widgets.RecordWidgetProvider"

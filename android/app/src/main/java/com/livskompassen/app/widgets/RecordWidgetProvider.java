@@ -3,26 +3,29 @@ package com.livskompassen.app.widgets;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.widget.RemoteViews;
 
 import com.livskompassen.app.R;
 
-/**
- * WH1 — Diskret «Anteckningar» på hemskärmen → /widget/inspelning?autostart=1&discreet=1
- * Guldkrets-ikon (anteckning) — ingen synlig «Inspelning»-text.
- */
 public class RecordWidgetProvider extends AppWidgetProvider {
 
+    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int appWidgetId) {
+        String path = WidgetConfigActivity.loadConfig(context, appWidgetId);
+        
+        RemoteViews views;
+        if (path.contains("/valv")) {
+            views = WidgetViews.discreetNote(context, R.string.widget_note_title, path);
+        } else {
+            views = WidgetViews.discreetNote(context, R.string.widget_discreet_title, path);
+        }
+        
+        appWidgetManager.updateAppWidget(appWidgetId, views);
+    }
+
     @Override
-    public void onUpdate(Context context, AppWidgetManager manager, int[] appWidgetIds) {
-        for (int widgetId : appWidgetIds) {
-            manager.updateAppWidget(
-                widgetId,
-                WidgetViews.discreetNote(
-                    context,
-                    R.string.widget_discreet_title,
-                    "/widget/inspelning?autostart=1&discreet=1"
-                )
-            );
+    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+        for (int appWidgetId : appWidgetIds) {
+            updateAppWidget(context, appWidgetManager, appWidgetId);
         }
     }
 }

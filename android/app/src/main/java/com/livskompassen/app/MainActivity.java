@@ -20,6 +20,7 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 
 import com.getcapacitor.BridgeActivity;
+import com.livskompassen.app.core.AppNotificationManager;
 import com.livskompassen.app.core.SacredLockManager;
 import com.livskompassen.app.core.WebViewManager;
 import com.livskompassen.app.core.WidgetNavigator;
@@ -51,6 +52,7 @@ public class MainActivity extends BridgeActivity {
         });
 
         AppCheckDebugBootstrap.applyIfDebug(getApplicationContext());
+        AppNotificationManager.createNotificationChannels(this);
 
         super.onCreate(savedInstanceState);
         

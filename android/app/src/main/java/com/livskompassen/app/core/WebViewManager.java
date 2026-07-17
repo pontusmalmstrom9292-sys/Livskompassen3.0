@@ -5,6 +5,8 @@ import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -66,7 +68,9 @@ public class WebViewManager {
 
         webView.setBackgroundColor(Color.parseColor("#0D0B09"));
         WebSettings settings = webView.getSettings();
-        settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        
+        // Performance & Caching
+        updateCacheMode(settings);
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
         settings.setMediaPlaybackRequiresUserGesture(false);
@@ -80,6 +84,12 @@ public class WebViewManager {
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
         webView.setWebViewClient(new BridgeWebViewClient(bridge) {
+            @Override
+            public void onPageStarted(WebView view, String url, android.graphics.Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                updateCacheMode(view.getSettings());
+            }
+
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
@@ -102,6 +112,17 @@ public class WebViewManager {
                 if (request.isForMainFrame() && errorResponse.getStatusCode() >= 400) {
                     showErrorPage("Serverfel", "Status: " + errorResponse.getStatusCode());
                 }
+            }
+
+            @Override
+            public boolean onRenderProcessGone(WebView view, android.webkit.RenderProcessGoneDetail detail) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    LCLog.e("WebView Render Process Gone. Did crash: " + detail.didCrash());
+                } else {
+                    LCLog.e("WebView Render Process Gone.");
+                }
+                showErrorPage("App-omstart krävs", "Webbvyn har slutat svara. Försök att starta om appen.");
+                return true;
             }
         });
 
@@ -127,6 +148,16 @@ public class WebViewManager {
         webView.setDownloadListener((url, userAgent, contentDisposition, mimetype, contentLength) -> 
             Toast.makeText(context, "Sparar säkert i Valvet...", Toast.LENGTH_SHORT).show()
         );
+    }
+
+    private void updateCacheMode(WebSettings settings) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if (activeNetwork != null && activeNetwork.isConnected()) {
+            settings.setCacheMode(WebSettings.LOAD_DEFAULT);
+        } else {
+            settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        }
     }
 
     public void showErrorPage(String title, String message) {

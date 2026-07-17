@@ -5,6 +5,23 @@
             <certificates src="system" />
         </trust-anchors>
     </base-config>
+
+    <!--
+      Certificate Pinning endast för egen Firebase Hosting-domän.
+      Pinna inte googleapis.com / firebaseapp.com här — Google roterar leaf-cert ofta
+      och fel pin bryter Auth/Firestore/Functions i produktions-APK.
+      Hämtat 2026-07-17 via openssl SPKI SHA-256.
+    -->
+    <domain-config>
+        <domain includeSubdomains="true">gen-lang-client-0481875058.web.app</domain>
+        <pin-set expiration="2026-12-31">
+            <!-- Leaf SPKI (cert gäller t.o.m. ~2026-08-18) -->
+            <pin digest="SHA-256">BY/gBhrKANOVnBWXyV3JjU6GIqZ8D103BREF2JlcCqs=</pin>
+            <!-- Backup: Google Trust Services WR4 intermediate -->
+            <pin digest="SHA-256">hZe1OerqJ1Pnq6F4N0gVjjpHqm037Ndf4aLLVpZZdAE=</pin>
+        </pin-set>
+    </domain-config>
+
     <!-- Tillåt localhost för Capacitor bridge och utveckling -->
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
