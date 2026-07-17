@@ -2,7 +2,7 @@
  * Statisk smoke — Android/Capacitor platform wiring (zon 7).
  * Usage: npm run smoke:android-platform
  */
-import { readFileSync, existsSync } from 'fs';
+import { readFileSync, existsSync, readdirSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -93,6 +93,45 @@ assert('android dock safe-area override', dockCss.includes('platform-capacitor-a
 
 const dockFix = read('src/modules/core/platform/androidDockInsetFix.ts');
 assert('android dock inset trim', dockFix.includes('trimAndroidBastaDockInsets'));
+
+assert(
+  'appCheck debugTokenFromEnv DEV-guard',
+  /function debugTokenFromEnv[\s\S]*?if\s*\(\s*!import\.meta\.env\.DEV\s*\)\s*return\s+undefined/.test(appCheck),
+);
+assert(
+  'AppCheckDebugBootstrap clears stale secret on release',
+  bootstrap.includes('clearStaleDebugSecret') && bootstrap.includes('remove(DEBUG_SECRET_KEY)'),
+);
+assert(
+  'vite strips App Check debug token in production',
+  read('vite.config.ts').includes('stripAppCheckDebugTokenInProduction'),
+);
+
+// Optional: if dist exists, production assets must not embed a non-empty debug token.
+const distAssets = resolve(root, 'dist/assets');
+if (existsSync(distAssets)) {
+  let leaked = false;
+  for (const name of readdirSync(distAssets)) {
+    if (!name.endsWith('.js')) continue;
+    const code = readFileSync(resolve(distAssets, name), 'utf8');
+    const m = code.match(/VITE_APP_CHECK_DEBUG_TOKEN\s*:\s*[`'"]([^`'"]+)[`'"]/);
+    if (m?.[1]?.trim()) {
+      leaked = true;
+      console.error(`FAIL prod dist embeds App Check debug token: dist/assets/${name}`);
+      fail += 1;
+      break;
+    }
+  }
+  if (!leaked) console.log('PASS prod dist has no App Check debug token');
+} else {
+  console.log('SKIP prod dist App Check token check (no dist/ — run build:web first)');
+}
+
+const zeroFootprint = read('src/modules/core/auth/useZeroFootprint.ts');
+assert(
+  'Zero Footprint native uses appStateChange (no Android visibility kickout)',
+  zeroFootprint.includes('isCapacitorNative') && zeroFootprint.includes('appStateChange'),
+);
 
 if (fail > 0) {
   console.error(`\n[smoke:android-platform] ${fail} failure(s)`);

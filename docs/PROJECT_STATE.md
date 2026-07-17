@@ -83,6 +83,7 @@ Phase 0–9 baseline och migration **done**. Phase 10: index.css import-only; v�
 | **smoke:predeploy:build** | pre-deploy | **PASS** 2026-07-14 |
 | **YOLO v40 INTEGRATION** | innehåll + seed dry-run | **GO** 2026-07-14 — [`integration-v40.md`](./evaluations/2026-07-14-integration-v40.md) |
 | **Android App Check harden** | Grok 4.5 YOLO | **PASS** 2026-07-15 — [`grok45-android-appcheck-yolo.md`](./evaluations/2026-07-15-grok45-android-appcheck-yolo.md) |
+| **G85 App Check live-harden** | Grok 4.5 YOLO | **PASS** 2026-07-17 — [`g85-appcheck-yolo.md`](./evaluations/2026-07-17-g85-appcheck-yolo.md) |
 | **YOLO v41 GOVERNANCE** | docs + module-lock sync | **PASS** 2026-07-14 — [`governance-v41.md`](./evaluations/2026-07-14-governance-v41.md) |
 
 

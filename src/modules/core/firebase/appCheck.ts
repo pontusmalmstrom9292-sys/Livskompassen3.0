@@ -120,6 +120,8 @@ async function resolveNativeDebugProvider(): Promise<boolean> {
 }
 
 function debugTokenFromEnv(): string | undefined {
+  // DEV-only — production must never read/embed a debug token string.
+  if (!import.meta.env.DEV) return undefined;
   const token = import.meta.env.VITE_APP_CHECK_DEBUG_TOKEN;
   return typeof token === 'string' && token.length > 0 ? token : undefined;
 }

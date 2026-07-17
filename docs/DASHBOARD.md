@@ -261,3 +261,9 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** 
 - smoke:android-platform PASS (expanded regressions)
 - Eval: docs/evaluations/2026-07-15-grok45-android-appcheck-yolo.md
 
+## 2026-07-17 — G85 App Check live-harden
+- Prod Hosting/APK-web: debug-token strip + build refuse on leak
+- Release clears stale App Check debug SharedPreferences
+- smoke:android-platform expanded (dist-leak, ZF appStateChange)
+- Eval: docs/evaluations/2026-07-17-g85-appcheck-yolo.md
+
