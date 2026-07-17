@@ -6,7 +6,9 @@ import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
+import android.net.NetworkRequest;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -24,6 +26,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.getcapacitor.Bridge;
 import com.getcapacitor.BridgeWebViewClient;
 import com.livskompassen.app.R;
@@ -36,18 +40,43 @@ import com.livskompassen.app.util.LCLog;
 public class WebViewManager {
     private final Context context;
     private final Bridge bridge;
+    private final HapticManager hapticManager;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     
     private LinearLayout errorContainer;
     private TextView errorTitle;
     private TextView errorMessage;
+    private boolean isNetworkOverlayShowing = false;
 
-    public WebViewManager(Context context, Bridge bridge, View rootView) {
+    public WebViewManager(Context context, Bridge bridge, View rootView, HapticManager hapticManager) {
         this.context = context;
         this.bridge = bridge;
+        this.hapticManager = hapticManager;
         
         setupErrorViews(rootView);
         setupWebView();
+        setupNetworkCallback();
+    }
+
+    private void setupNetworkCallback() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            connectivityManager.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
+                @Override
+                public void onAvailable(@NonNull Network network) {
+                    super.onAvailable(network);
+                    if (isNetworkOverlayShowing) {
+                        LCLog.d("Network back online, auto-reloading WebView");
+                        mainHandler.post(() -> {
+                            hideErrorPage();
+                            if (bridge.getWebView() != null) {
+                                bridge.getWebView().reload();
+                            }
+                        });
+                    }
+                }
+            });
+        }
     }
 
     private void setupErrorViews(View rootView) {
@@ -58,6 +87,7 @@ public class WebViewManager {
 
         if (btnRetry != null) {
             btnRetry.setOnClickListener(v -> {
+                hapticManager.lightClick(v);
                 hideErrorPage();
                 if (bridge.getWebView() != null) {
                     bridge.getWebView().reload();
@@ -166,20 +196,38 @@ public class WebViewManager {
 
     public void showErrorPage(String title, String message) {
         mainHandler.post(() -> {
-            if (errorContainer != null) {
+            if (errorContainer != null && errorContainer.getVisibility() != View.VISIBLE) {
+                hapticManager.error();
                 errorTitle.setText(title);
                 errorMessage.setText(message);
+                
+                isNetworkOverlayShowing = true;
+                errorContainer.setAlpha(0f);
                 errorContainer.setVisibility(View.VISIBLE);
-                if (bridge.getWebView() != null) bridge.getWebView().setVisibility(View.GONE);
+                errorContainer.animate().alpha(1f).setDuration(400).start();
+                
+                if (bridge.getWebView() != null) {
+                    bridge.getWebView().animate().alpha(0f).setDuration(400).withEndAction(() -> 
+                        bridge.getWebView().setVisibility(View.GONE)
+                    ).start();
+                }
             }
         });
     }
 
     public void hideErrorPage() {
         mainHandler.post(() -> {
-            if (errorContainer != null) {
-                errorContainer.setVisibility(View.GONE);
-                if (bridge.getWebView() != null) bridge.getWebView().setVisibility(View.VISIBLE);
+            if (errorContainer != null && errorContainer.getVisibility() == View.VISIBLE) {
+                isNetworkOverlayShowing = false;
+                errorContainer.animate().alpha(0f).setDuration(400).withEndAction(() -> 
+                    errorContainer.setVisibility(View.GONE)
+                ).start();
+                
+                if (bridge.getWebView() != null) {
+                    bridge.getWebView().setVisibility(View.VISIBLE);
+                    bridge.getWebView().setAlpha(0f);
+                    bridge.getWebView().animate().alpha(1f).setDuration(400).start();
+                }
             }
         });
     }

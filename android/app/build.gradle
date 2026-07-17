@@ -93,6 +93,7 @@ dependencies {
     implementation libs.androidx.splashscreen
     implementation libs.androidx.biometric
     implementation libs.androidx.security
+    implementation libs.androidx.browser
     implementation project(':capacitor-android')
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
