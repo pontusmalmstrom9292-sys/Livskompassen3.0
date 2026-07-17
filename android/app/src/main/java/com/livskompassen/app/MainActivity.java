@@ -20,6 +20,7 @@ import androidx.core.splashscreen.SplashScreen;
 
 import com.getcapacitor.BridgeActivity;
 import com.livskompassen.app.core.AppNotificationManager;
+import com.livskompassen.app.core.HapticManager;
 import com.livskompassen.app.core.SacredLockManager;
 import com.livskompassen.app.core.WebViewManager;
 import com.livskompassen.app.core.WidgetNavigator;
@@ -33,6 +34,7 @@ public class MainActivity extends BridgeActivity {
     private SacredLockManager sacredLockManager;
     private WidgetNavigator widgetNavigator;
     private WebViewManager webViewManager;
+    private HapticManager hapticManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +61,9 @@ public class MainActivity extends BridgeActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         // Initialize Managers
-        webViewManager = new WebViewManager(this, getBridge(), getWindow().getDecorView());
-        sacredLockManager = new SacredLockManager(this, getBridge(), getWindow().getDecorView());
+        hapticManager = new HapticManager(this);
+        webViewManager = new WebViewManager(this, getBridge(), getWindow().getDecorView(), hapticManager);
+        sacredLockManager = new SacredLockManager(this, getBridge(), getWindow().getDecorView(), hapticManager);
         widgetNavigator = new WidgetNavigator(getBridge(), getWindow().getDecorView());
 
         if (SecurityUtils.isRooted()) LCLog.w("Varning: Enheten är rootad.");

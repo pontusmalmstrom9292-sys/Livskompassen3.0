@@ -10,6 +10,7 @@ ext {
     androidxCoreVersion = '1.19.0'
     androidxBiometricVersion = '1.1.0'
     androidxSecurityVersion = '1.1.0'
+    androidxBrowserVersion = '1.10.0'
     androidxFragmentVersion = '1.8.9'
     coreSplashScreenVersion = '1.2.0'
     androidxWebkitVersion = '1.16.0'

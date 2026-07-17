@@ -27,14 +27,16 @@ public class SacredLockManager {
     private final FragmentActivity activity;
     private final Bridge bridge;
     private final LinearLayout lockContainer;
+    private final HapticManager hapticManager;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     
     private long lastBackgroundTime = 0L;
     private boolean isLocked = false;
 
-    public SacredLockManager(FragmentActivity activity, Bridge bridge, View rootView) {
+    public SacredLockManager(FragmentActivity activity, Bridge bridge, View rootView, HapticManager hapticManager) {
         this.activity = activity;
         this.bridge = bridge;
+        this.hapticManager = hapticManager;
         this.lockContainer = rootView.findViewById(R.id.sacred_lock_container);
         
         setupUnlockButton();
@@ -44,7 +46,10 @@ public class SacredLockManager {
         if (lockContainer != null) {
             Button btnUnlock = lockContainer.findViewById(R.id.btn_unlock);
             if (btnUnlock != null) {
-                btnUnlock.setOnClickListener(v -> authenticate());
+                btnUnlock.setOnClickListener(v -> {
+                    hapticManager.lightClick(v);
+                    authenticate();
+                });
             }
         }
     }
@@ -66,10 +71,15 @@ public class SacredLockManager {
     public void showLock() {
         isLocked = true;
         mainHandler.post(() -> {
-            if (lockContainer != null) {
+            if (lockContainer != null && lockContainer.getVisibility() != View.VISIBLE) {
+                lockContainer.setAlpha(0f);
                 lockContainer.setVisibility(View.VISIBLE);
+                lockContainer.animate().alpha(1f).setDuration(300).start();
+                
                 if (bridge != null && bridge.getWebView() != null) {
-                    bridge.getWebView().setVisibility(View.GONE);
+                    bridge.getWebView().animate().alpha(0f).setDuration(300).withEndAction(() -> 
+                        bridge.getWebView().setVisibility(View.GONE)
+                    ).start();
                 }
                 authenticate();
             }
@@ -79,10 +89,15 @@ public class SacredLockManager {
     public void hideLock() {
         isLocked = false;
         mainHandler.post(() -> {
-            if (lockContainer != null) {
-                lockContainer.setVisibility(View.GONE);
+            if (lockContainer != null && lockContainer.getVisibility() == View.VISIBLE) {
+                lockContainer.animate().alpha(0f).setDuration(300).withEndAction(() -> 
+                    lockContainer.setVisibility(View.GONE)
+                ).start();
+                
                 if (bridge != null && bridge.getWebView() != null) {
                     bridge.getWebView().setVisibility(View.VISIBLE);
+                    bridge.getWebView().setAlpha(0f);
+                    bridge.getWebView().animate().alpha(1f).setDuration(300).start();
                 }
             }
         });
@@ -112,12 +127,14 @@ public class SacredLockManager {
                     @Override
                     public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                         super.onAuthenticationSucceeded(result);
+                        hapticManager.success();
                         hideLock();
                     }
 
                     @Override
                     public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                         super.onAuthenticationError(errorCode, errString);
+                        hapticManager.error();
                         LCLog.w("Biometric error: " + errString);
                     }
                 });

@@ -19,6 +19,7 @@ webkit = "1.16.0"
 credentials = "1.6.0"
 biometric = "1.1.0"
 security = "1.1.0"
+browser = "1.10.0"
 
 # Testing
 junit = "4.13.2"
@@ -39,6 +40,7 @@ androidx-webkit = { group = "androidx.webkit", name = "webkit", version.ref = "w
 androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
 androidx-biometric = { group = "androidx.biometric", name = "biometric", version.ref = "biometric" }
 androidx-security = { group = "androidx.security", name = "security-crypto", version.ref = "security" }
+androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxJunit" }
