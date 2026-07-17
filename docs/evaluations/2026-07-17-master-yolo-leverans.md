@@ -62,4 +62,4 @@ Locked UX · tre silos · WORM · ingen `firestore.rules`-ändring · ingen Gmai
 
 - https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0/pull/221 (hub-gora + Android/Valv)  
 - https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0/pull/222 (hub-dagbok)  
-- (denna batch) se senaste `master-yolo/hub-batch` PR
+- https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0/pull/223 (batch SKIP + slutrapport)
