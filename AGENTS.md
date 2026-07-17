@@ -5,7 +5,7 @@ For Claude Code, OpenAI Codex/CLI, Gemini CLI, terminal agents.
 ## Phase hierarchy
 
 - **System phase:** `docs/PROJECT_STATE.md` (Fas 24) — wins on conflict
-- **Active program:** `docs/ROADMAP.md` (Premium UI Polish Phase 0)
+- **Active program:** `docs/ROADMAP.md` (Premium UI Polish Phase 10)
 
 ## Every session — read in order
 

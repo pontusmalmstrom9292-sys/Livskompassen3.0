@@ -2,7 +2,7 @@
 
 **Syfte:** Deterministisk batch-körning medan du sover + Cursor-specialister för fortsatt vävning imorgon.
 
-**Senast uppdaterad:** 2026-06-16
+**Senast uppdaterad:** 2026-07-17
 
 ---
 
@@ -33,17 +33,16 @@ Historisk: [`FAS19-SPRINT-AUTORUN.md`](./FAS19-SPRINT-AUTORUN.md) · state `.ork
 
 ---
 
-## Fas 20 Sprint (aktiv — Master YOLO)
+## Fas 24 Sprint (aktiv — systemfas)
 
-För Fas 20.1–slutrapport enligt godkänd masterplan: [`FAS20-SPRINT-AUTORUN.md`](./FAS20-SPRINT-AUTORUN.md)
+Kanon: [`docs/PROJECT_STATE.md`](./PROJECT_STATE.md) · [`FAS24-SPRINT-AUTORUN.md`](./FAS24-SPRINT-AUTORUN.md) · syntes [`evaluations/2026-06-25-app-plan-syntes.md`](./evaluations/2026-06-25-app-plan-syntes.md)
 
 ```bash
-export FAS20_AUTORUN=1 ORKESTER_AUTORUN=1 MASTER_AUTORUN=1
-npm run fas20:autorun
+export ORKESTER_AUTORUN=1
 npm run orkester:night
 ```
 
-State: `.orkester/fas20-state.json` · Logg: `docs/evaluations/YYYY-MM-DD-fas20-vag-<id>.md`
+Fas 20–23 sprint-autorun är **historik** (se archive efter doc-städ). Fas 20: [`FAS20-SPRINT-AUTORUN.md`](./FAS20-SPRINT-AUTORUN.md) (done).
 
 ---
 

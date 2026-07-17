@@ -93,3 +93,26 @@ Vid framtida utvärderingar: skapa ny fil `docs/evaluations/YYYY-MM-DD-*.md` —
 | Modulregister | [`MODUL-GAP-OVERSIKT.md`](./MODUL-GAP-OVERSIKT.md), [`MODUL-FUNKTIONS-REGISTER.md`](./MODUL-FUNKTIONS-REGISTER.md) |
 | Säkerhet | [`.context/security.md`](../.context/security.md) Zero Footprint faktiskt beteende |
 | Eval A | [`evaluations/2026-05-31-A-helhetsstatus.md`](./evaluations/2026-05-31-A-helhetsstatus.md) |
+
+---
+
+## Del G — Doc-städ säkerhetskanon (2026-07-17)
+
+**Metod:** Align agent-must-read mot `.context/security.md` + `PROJECT_STATE.md`; arkivera (ej hårdradera) avslutade sprintar.
+
+| Drift | Åtgärd |
+|-------|--------|
+| Kill Switch i core/grunder vs Device Clear i security.md | Uppdaterat `.cursor/index.mdc`, `grunder-kanon.mdc`, `livskompassen-core.mdc` |
+| AGENTS / Copilot / AI-GOVERNANCE Phase 0 | Synkat till Premium UI **Phase 10** |
+| ORKESTER “Fas 20 aktiv” | Synkat till **Fas 24 aktiv**; Fas 20–23 historik |
+| DOC-INDEX FREEZE / Fas 19 som “nu” | Omskrivet “läs först” + kanon-tier till Fas 24 |
+| FAS13–23 + MASTER-YOLO i docs-root | `git mv` → `docs/archive/2026-07-17-doc-städ/fas-sprints/` + stubbar i root |
+| YOLO v17–v23 | Arkiverade; **behållt** v5–v16 (scripts/cursor_yolo.mjs) + v24/v34/v48 |
+| Fas20/21/22 `.mdc`-pekare | Behållna (bakåtkompatibla) — ingen mass-radering |
+
+| Sacred #6 Zero Footprint vs Draft Layer; WORM i security.md ofullständig | Synkat: core→Draft Layer; security.md WORM +`evolution_ledger`/`dcap_alerts`; auto-routing Kill Switch→Device Clear |
+
+**Sacred orörd:** `firestore.rules`, GAP-register, locked UX, `GUARD-REGLERBOK.md`, `.context/security.md` (källa).
+
+**Verifiering:** `npm run smoke:governance`
+

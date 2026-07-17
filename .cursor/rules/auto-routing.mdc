@@ -15,7 +15,7 @@ Läs prompten och identifiera ämnet. Hänvisa till rätt specialist **innan** d
 | Synapser, ADK, triggers, auto-ingest, Cloud Tasks, batch | `/specialist-adk-weaver` · skill `livskompassen-synapser-adk` | `livskompassen-synapser-adk` |
 | Firestore-regler, storage.rules, säkerhetsregler, WORM-enforcement | `/specialist-firestore-rules` | `livskompassen-memory-silo-guard` |
 | DCAP, routing, classifyInboxDocument, resolveExecutorId, riskklassning | `/specialist-dcap-routing` | — |
-| Säkerhetsaudit, Sacred Features, Zero Footprint, Kill Switch, GAP-analys | `/specialist-security-auditor` | — |
+| Säkerhetsaudit, Sacred Features, Zero Footprint, Device Clear, GAP-analys | `/specialist-security-auditor` | — |
 | UI, design, Executive Midnight, DAD, Chameleon, komponenter, Tailwind | `/specialist-ux-guardian` · `/design-labbet` | `livskompassen-theme-lab` · regel [`lead-ui-engineer.mdc`](lead-ui-engineer.mdc) |
 | Familjen, Barn, Barnporten, Hamn, barnporten HITL, barn-PWA | `/specialist-familjen-hamn-builder` · `/specialist-barn-lek` | — |
 | Vardagen, MåBra, Planering, hybrid-widget, Fyren, Morgonkompassen | `/specialist-vardagen-builder` · `/specialist-planering` | — |

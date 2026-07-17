@@ -1,4 +1,7 @@
 
+### 2026-07-17 — Doc-städ säkerhetskanon
+- Device Clear / Phase 10 / Fas 24 synk i agent-entry; FAS13–23 arkiverade med stubbar; YOLO v17–v23 arkiverade.
+
 ## 2026-07-17 — Valv kickout Android (Zero Footprint)
 
 **Fix:** Native Valv låses inte längre av WebView visibility/biometri-paus.
