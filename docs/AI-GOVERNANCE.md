@@ -1,6 +1,6 @@
 # AI Governance — Livskompassen v2
 
-**Version:** 1.1 · **Last updated:** 2026-06-28  
+**Version:** 1.2 · **Last updated:** 2026-07-17  
 **Authority:** Permanent repository workflow for all AI coding assistants.  
 **Owner:** Pontus (product) · Lead architect agents maintain structure.
 
@@ -43,7 +43,7 @@ Read **in this order**. Do not guess phase or scope.
 | Level | File | Example now |
 |-------|------|-------------|
 | **System phase** | `docs/PROJECT_STATE.md` + `.context/system-plan.md` | **Fas 24** AKTIV |
-| **Active program** | `docs/ROADMAP.md` | Premium UI Polish Phase 0 |
+| **Active program** | `docs/ROADMAP.md` | Premium UI Polish Phase 10 |
 
 System phase wins on conflict. `ROADMAP.md` is the **program** roadmap, not the system Fas number.
 

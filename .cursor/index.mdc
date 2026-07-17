@@ -11,10 +11,10 @@ Läs dynamisk status före stor kod: [`docs/specs/modules/Arkiv-GAP-REGISTER.md`
 
 ## Gör alltid
 
-- **WORM:** Append-only för `reality_vault`, `children_logs`, `journal`, `evolution_ledger` — server-tidsstämpel, beteende + datum (aldrig diagnos på motpart).
+- **WORM:** Append-only för `reality_vault`, `children_logs`, `journal`, `dossier_snapshots`, `evolution_ledger`, `dcap_alerts` — server-tidsstämpel, beteende + datum (aldrig diagnos på motpart).
 - **Tre silos:** Håll sökningar strikt separerade — `knowledgeVaultQuery` → `kampspar`/`kb_docs` · `valvChatQuery` → `reality_vault` · `childrenLogsQuery` → `children_logs`. Använd `kampsparQueryRag.ts` för fakta, `vaultRag.ts` för bevis; integrera aldrig resultat mellan silor.
 - **DCAP före LLM:** Routing i kod (`routeFromDcap`, `classifyInboxDocument`, `resolveExecutorId`) — LLM beslutar inte auth, silo eller WORM.
-- **Zero Footprint:** Rensa session och synapse-state vid logout, blur och panic (`clearSynapseState`).
+- **Zero Footprint:** Rensa session och synapse-state vid logout, blur och panic (`clearSynapseState`). Nödutgång: Device Clear (Inställningar → Rensa enheten), inte Kill Switch.
 - **Verifiera:** Läs kod/docs före påstående. Osäkerhet → *"Ej tillräckligt data för bedömning."*
 
 ## PMIR-stopp (vänta explicit Pontus-OK)

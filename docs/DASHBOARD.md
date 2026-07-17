@@ -1,4 +1,6 @@
 ### Design debt (2026-07-13) — v12 P80 guard PASS
+
+> **2026-07-17:** Doc-städ säkerhetskanon — Device Clear + Fas 24/Phase 10 synk; FAS13–23 arkiverade. `smoke:governance` PASS.
 - YOLO v12 P75–P83 GO · P74 deploy SKIP
 - indexCssLoc: **61** (mål ≤120 ✓)
 - btnPill: **0** · dsBtn: **0** · adHocDialog: **0**

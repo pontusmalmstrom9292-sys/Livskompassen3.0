@@ -84,9 +84,9 @@ export function getYoloConfig(yoloVersion) {
 }
 
 export const BUILD_WAVE_MIN = 34;
-export const BUILD_WAVE_MAX = 47;
+export const BUILD_WAVE_MAX = 48;
 
-/** @param {number} version v34–v47 */
+/** @param {number} version v34–v48 */
 export function mkBuildConfig(version) {
   const label = `v${version}`;
   return {
@@ -109,7 +109,7 @@ export function mkBuildConfig(version) {
   };
 }
 
-/** Skapar build-kö + state om de saknas (v34–v47). */
+/** Skapar build-kö + state om de saknas (v34–v48). */
 export async function ensureBuildWaveScaffold(version) {
   if (version < BUILD_WAVE_MIN || version > BUILD_WAVE_MAX) {
     return { created: false, reason: "not-build-wave" };

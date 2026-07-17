@@ -35,11 +35,11 @@ Append-only: `children_logs`, `reality_vault`, `journal`, `dossier_snapshots`, `
 
 **MUST NOT:** `update`/`delete` på WORM-poster · mock-WORM · auto-promote barnlogg → Valv.
 
-## U4 — Zero Footprint + Kill Switch
+## U4 — Zero Footprint + Device Clear
 
-Session/synapse state rensas vid logout, blur, panic (`clearSynapseState`). Speglar/Hamn utan persistent RAG.
+Session/synapse state rensas vid logout, blur, panic (`clearSynapseState`). Speglar/Hamn utan persistent RAG. Nödutgång: **Device Clear** (Inställningar → Rensa enheten) via `clearDeviceSession` — Kill Switch (skaka) är borttagen.
 
-**MUST NOT:** Lagra känslig kontext i klient-RAM efter kill switch · bypass av vault lock.
+**MUST NOT:** Lagra känslig kontext i klient-RAM efter Device Clear · bypass av vault lock.
 
 ## U5 — Orkestrering
 

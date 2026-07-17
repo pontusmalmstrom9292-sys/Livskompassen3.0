@@ -36,7 +36,7 @@ Dessa funktioner får **inte** försvagas eller mockas. Verifiera via [`docs/SMO
 | **Draft Layer** | Utkast i IndexedDB tills sync eller «Rensa enheten» | `src/modules/capture/` |
 | **Device Clear** | Frivillig lokal rensning (ersätter Kill Switch) | Inställningar → Rensa enheten |
 
-**Permanent minne:** WORM-collections (`children_logs`, `reality_vault`, `journal`, `dossier_snapshots`) raderas **aldrig** av retention. Se [`.context/arkiv-minne.md`](./arkiv-minne.md).
+**Permanent minne:** WORM-collections (`children_logs`, `reality_vault`, `journal`, `dossier_snapshots`, `evolution_ledger`, `dcap_alerts`) raderas **aldrig** av retention. Se [`.context/arkiv-minne.md`](./arkiv-minne.md).
 
 ---
 

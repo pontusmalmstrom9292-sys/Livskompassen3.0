@@ -1,22 +1,6 @@
-# Fas 22 — Android & manuella gates
+# FAS22-ANDROID-GATES — arkiverad
 
-**Kanon:** [fas20-manual-pontus-gates](evaluations/2026-06-18-fas20-manual-pontus-gates.md) · våg 22.9
+**Status:** Historik (arkiverad 2026-07-17).  
+**Aktiv systemfas:** Fas 24 — se [`docs/PROJECT_STATE.md`](./PROJECT_STATE.md) och [`docs/FAS24-SPRINT-AUTORUN.md`](./FAS24-SPRINT-AUTORUN.md).
 
-## Automatisk verify (agent)
-
-```bash
-npm run smoke:android-platform
-npm run smoke:auth-login
-```
-
-## Pontus manuellt (ej i kod)
-
-1. Play Integrity — `docs/PLAY-INTEGRITY-ANDROID.md`
-2. App Check Enforce — `docs/APP-CHECK-ENFORCE-RUNBOOK.md`
-3. Offline Motorola — `docs/OFFLINE-ANDROID.md` § Test
-
-## Efter web-deploy
-
-```bash
-npm run build:web && npx cap sync android
-```
+Fulltext: [`docs/archive/2026-07-17-doc-städ/fas-sprints/FAS22-ANDROID-GATES.md`](./archive/2026-07-17-doc-städ/fas-sprints/FAS22-ANDROID-GATES.md)

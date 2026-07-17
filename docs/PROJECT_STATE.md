@@ -1,6 +1,6 @@
 # Project State — Livskompassen v2
 
-**Version:** 1.2 · **Last updated:** 2026-07-15  
+**Version:** 1.2 · **Last updated:** 2026-07-17  
 **Rule:** Single source of truth for **system phase** and **active program**. AI assistants must read this before coding.
 
 ---

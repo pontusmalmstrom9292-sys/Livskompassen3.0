@@ -1,0 +1,87 @@
+{
+  "version": 48,
+  "description": "Cursor YOLO v48 — BUILD G85-LIVE-VERIFY: Post-main-sync — App Check + Valv kickout verify",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 48,
+    "id": "G85-LIVE-VERIFY",
+    "title": "Post-main-sync — App Check + Valv kickout verify",
+    "agent": "specialist-verifier",
+    "plan": "Efter main-sync (PR #226): verifiera App Check live-harden + Valv bakgrundslås. Kör smoke:android-platform + smoke:valv-security + smoke:predeploy:build. Minimal fix vid FAIL. Hosting deploy endast med Pontus OK. Ingen App Check Enforce. Ingen --apply.",
+    "smoke": [
+      "npm run smoke:android-platform",
+      "npm run smoke:valv-security",
+      "npm run smoke:predeploy:build"
+    ],
+    "pmir": false,
+    "deploy": "hosting",
+    "fullGate": true,
+    "keywords": [
+      "android",
+      "G85",
+      "AppCheck",
+      "Valv",
+      "kickout",
+      "post-merge",
+      "main-sync"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b48-deploy",
+      "title": "B48 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "hosting",
+      "promptFile": "docs/cursor-pipeline/yolo-v48/b48-deploy.md"
+    },
+    {
+      "id": "b48-build",
+      "title": "B48 — Post-main-sync — App Check + Valv kickout verify",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Efter main-sync (PR #226): verifiera App Check live-harden + Valv bakgrundslås. Kör smoke:android-platform + smoke:valv-security + smoke:predeploy:build. Minimal fix vid FAIL. Hosting deploy endast med Pontus OK. Ingen App Check Enforce. Ingen --apply.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v48/b48-build.md"
+    },
+    {
+      "id": "b48-gate",
+      "title": "B48 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v48.md.",
+      "smoke": [
+        "npm run smoke:android-platform",
+        "npm run smoke:valv-security",
+        "npm run smoke:predeploy:build"
+      ],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v48/b48-gate.md"
+    },
+    {
+      "id": "b48-vakt",
+      "title": "B48 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v48. Handoff v49.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v48/b48-vakt.md"
+    }
+  ]
+}

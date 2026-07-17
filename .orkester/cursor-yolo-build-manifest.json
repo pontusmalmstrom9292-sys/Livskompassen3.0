@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-14T19:10:00.000Z",
-  "description": "SDK build marathon v34–v47 — product waves (ersätter fortifikation away-block v24–v33)",
+  "updatedAt": "2026-07-17T19:10:00.000Z",
+  "description": "SDK build marathon v34–v48 — product waves (ersätter fortifikation away-block v24–v33)",
   "waves": [
     {
       "version": 34,
@@ -158,6 +158,22 @@
       "deploy": "hosting",
       "fullGate": true,
       "keywords": ["minne", "deploy", "hosting", "memory"]
+    },
+    {
+      "version": 48,
+      "id": "G85-LIVE-VERIFY",
+      "title": "Post-main-sync — App Check + Valv kickout verify",
+      "agent": "specialist-verifier",
+      "plan": "Efter main-sync (PR #226): verifiera App Check live-harden + Valv bakgrundslås. Kör smoke:android-platform + smoke:valv-security + smoke:predeploy:build. Minimal fix vid FAIL. Hosting deploy endast med Pontus OK. Ingen App Check Enforce. Ingen --apply.",
+      "smoke": [
+        "npm run smoke:android-platform",
+        "npm run smoke:valv-security",
+        "npm run smoke:predeploy:build"
+      ],
+      "pmir": false,
+      "deploy": "hosting",
+      "fullGate": true,
+      "keywords": ["android", "G85", "AppCheck", "Valv", "kickout", "post-merge", "main-sync"]
     }
   ]
 }

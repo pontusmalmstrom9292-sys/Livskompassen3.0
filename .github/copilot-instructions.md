@@ -2,14 +2,14 @@
 
 **Repository:** Livskompassen v2  
 **Format:** [GitHub repository custom instructions](https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot)  
-**Last updated:** 2026-06-28
+**Last updated:** 2026-07-17
 
 ## Phase hierarchy (do not confuse)
 
 | Level | File | Current |
 |-------|------|---------|
 | **System phase** | `docs/PROJECT_STATE.md` | **Fas 24** AKTIV |
-| **Active program** | `docs/ROADMAP.md` | Premium UI Polish Phase 0 |
+| **Active program** | `docs/ROADMAP.md` | Premium UI Polish Phase 10 |
 
 System phase wins on conflict. Never guess — read `PROJECT_STATE.md` first.
 
