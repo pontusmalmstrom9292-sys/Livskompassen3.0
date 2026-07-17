@@ -250,7 +250,8 @@ public class MainActivity extends BridgeActivity {
         LCLog.d("MainActivity onResume");
         if (getBridge() != null && getBridge().getWebView() != null) {
             getBridge().getWebView().onResume();
-            getBridge().getWebView().resumeTimers();
+            // Do NOT resumeTimers/pauseTimers pair: pausing JS timers on Android
+            // freezes Zero Footprint debounce and can lock Valv on brief system UI.
         }
         dispatchPendingWidgetPath();
     }
@@ -261,7 +262,7 @@ public class MainActivity extends BridgeActivity {
         LCLog.d("MainActivity onPause");
         if (getBridge() != null && getBridge().getWebView() != null) {
             getBridge().getWebView().onPause();
-            getBridge().getWebView().pauseTimers();
+            // Keep JS timers running — Valv session + App Check refresh need them.
         }
     }
 

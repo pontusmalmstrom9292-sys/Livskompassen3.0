@@ -8,6 +8,9 @@ import { isCapacitorNative } from '../platform/capacitorPlatform';
 
 const ACTIVITY_EVENTS = ['pointerdown', 'keydown', 'touchstart', 'scroll'] as const;
 
+/** Ignore brief Android pauses (biometrics, shade, system dialogs). */
+const NATIVE_BACKGROUND_LOCK_MS = 3_000;
+
 function lockVaultIfOpen(): void {
   if (shouldSuppressVaultBackgroundLock()) return;
   if (!hasVaultGate() && !useStore.getState().ui.isVaultUnlocked) return;
@@ -20,7 +23,7 @@ function lockVaultIfOpen(): void {
  *
  * G17 blur-lock:
  * - Webb: visibilitychange + pagehide (tab-byte)
- * - Capacitor Android/iOS: appStateChange (inte WebView visibility — den falsklåser vid biometri/system-UI)
+ * - Capacitor Android/iOS: sustained appStateChange only (not brief WebView/system pauses)
  */
 export function useZeroFootprint() {
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
@@ -57,11 +60,38 @@ export function useZeroFootprint() {
 
   useEffect(() => {
     if (isCapacitorNative()) {
+      let backgroundedAt: number | null = null;
+      let pendingLock: number | undefined;
+
+      const clearPending = () => {
+        if (pendingLock === undefined) return;
+        window.clearTimeout(pendingLock);
+        pendingLock = undefined;
+      };
+
       const sub = App.addListener('appStateChange', ({ isActive }) => {
-        if (isActive) return;
+        if (!isActive) {
+          backgroundedAt = Date.now();
+          clearPending();
+          // Best-effort lock while away (requires JS timers not paused in MainActivity).
+          pendingLock = window.setTimeout(() => {
+            pendingLock = undefined;
+            if (backgroundedAt !== null) lockVaultIfOpen();
+          }, NATIVE_BACKGROUND_LOCK_MS);
+          return;
+        }
+
+        // Became active — cancel short-blip lock; lock only if away was sustained.
+        clearPending();
+        const started = backgroundedAt;
+        backgroundedAt = null;
+        if (started === null) return;
+        if (Date.now() - started < NATIVE_BACKGROUND_LOCK_MS) return;
         lockVaultIfOpen();
       });
+
       return () => {
+        clearPending();
         void sub.then((handle) => handle.remove());
       };
     }
