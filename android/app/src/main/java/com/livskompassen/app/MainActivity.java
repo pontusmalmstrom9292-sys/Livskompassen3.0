@@ -27,11 +27,20 @@ import android.webkit.PermissionRequest;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
+import android.webkit.WebResourceError;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.splashscreen.SplashScreen;
@@ -55,10 +64,20 @@ public class MainActivity extends BridgeActivity {
     private static final long WIDGET_DISPATCH_RETRY_MS = 150L;
     private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1001;
     private static final long BACK_BUTTON_EXIT_DELAY = 2000L;
+    private static final long SACRED_LOCK_TIMEOUT_MS = 5 * 60 * 1000L; // 5 minuter
 
     private String pendingWidgetPath;
+    private String lastDispatchedPath;
     private boolean widgetUrlLoaded;
     private boolean backButtonPressedOnce = false;
+    private long lastBackgroundTime = 0L;
+    private boolean isLocked = false;
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
+
+    private LinearLayout errorContainer;
+    private LinearLayout sacredLockContainer;
+    private TextView errorTitle;
+    private TextView errorMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,8 +135,58 @@ public class MainActivity extends BridgeActivity {
         captureWidgetPath(getIntent());
         
         setupWebView();
+        setupErrorViews();
+        setupSacredLock();
         setupBackNavigation();
         dispatchPendingWidgetPath();
+    }
+
+    private void setupSacredLock() {
+        sacredLockContainer = findViewById(R.id.sacred_lock_container);
+        Button btnUnlock = findViewById(R.id.btn_unlock);
+        if (btnUnlock != null) {
+            btnUnlock.setOnClickListener(v -> authenticateSacredLock());
+        }
+    }
+
+    private void setupErrorViews() {
+        errorContainer = findViewById(R.id.error_container);
+        errorTitle = findViewById(R.id.error_title);
+        errorMessage = findViewById(R.id.error_message);
+        Button btnRetry = findViewById(R.id.btn_retry);
+
+        if (btnRetry != null) {
+            btnRetry.setOnClickListener(v -> {
+                if (getBridge() != null && getBridge().getWebView() != null) {
+                    hideErrorPage();
+                    getBridge().getWebView().reload();
+                }
+            });
+        }
+    }
+
+    private void showErrorPage(String title, String message) {
+        mainHandler.post(() -> {
+            if (errorContainer != null) {
+                errorTitle.setText(title);
+                errorMessage.setText(message);
+                errorContainer.setVisibility(View.VISIBLE);
+                if (getBridge() != null && getBridge().getWebView() != null) {
+                    getBridge().getWebView().setVisibility(View.GONE);
+                }
+            }
+        });
+    }
+
+    private void hideErrorPage() {
+        mainHandler.post(() -> {
+            if (errorContainer != null) {
+                errorContainer.setVisibility(View.GONE);
+                if (getBridge() != null && getBridge().getWebView() != null) {
+                    getBridge().getWebView().setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void setupWebView() {
@@ -134,11 +203,48 @@ public class MainActivity extends BridgeActivity {
             settings.setDatabaseEnabled(true);
             settings.setMediaPlaybackRequiresUserGesture(false);
             
+            // Security hardening
+            settings.setAllowFileAccess(false);
+            settings.setAllowContentAccess(false);
+            
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 settings.setSafeBrowsingEnabled(true);
             }
 
             webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+
+            // Robust error handling and bridge integration
+            webView.setWebViewClient(new com.getcapacitor.BridgeWebViewClient(getBridge()) {
+                @Override
+                public void onPageFinished(WebView view, String url) {
+                    super.onPageFinished(view, url);
+                    // Hide error page if we successfully loaded a page
+                    if (url != null && !url.equals("about:blank")) {
+                        hideErrorPage();
+                    }
+                }
+
+                @Override
+                public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                    super.onReceivedError(view, request, error);
+                    if (request.isForMainFrame()) {
+                        LCLog.e("WebView Error: " + error.getDescription());
+                        showErrorPage("Anslutningsfel", error.getDescription().toString());
+                    }
+                }
+
+                @Override
+                public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
+                    super.onReceivedHttpError(view, request, errorResponse);
+                    if (request.isForMainFrame()) {
+                        int statusCode = errorResponse.getStatusCode();
+                        LCLog.e("WebView HTTP Error: " + statusCode);
+                        if (statusCode >= 400) {
+                            showErrorPage("Serverfel", "Kunde inte nå tjänsten (Status: " + statusCode + ")");
+                        }
+                    }
+                }
+            });
 
             // Audio Permission & Console Logging wrapper
             webView.setWebChromeClient(new WebChromeClient() {
@@ -186,6 +292,15 @@ public class MainActivity extends BridgeActivity {
                         webView.goBack();
                         return;
                     }
+                    
+                    // Bugfix Navigation: Om vi är på en widget-sida men inte kan gå bakåt (t.ex. direkt-laddad),
+                    // gå till hem istället för att stänga appen direkt.
+                    String currentUrl = webView.getUrl();
+                    if (currentUrl != null && (currentUrl.contains("/widget/") || currentUrl.contains("/dev/"))) {
+                        LCLog.d("Back pressed on widget sub-route, redirecting to home");
+                        webView.loadUrl(getBridge().getServerUrl());
+                        return;
+                    }
                 }
 
                 if (backButtonPressedOnce) {
@@ -197,7 +312,7 @@ public class MainActivity extends BridgeActivity {
                 backButtonPressedOnce = true;
                 Toast.makeText(MainActivity.this, "Tryck bakåt igen för att avsluta", Toast.LENGTH_SHORT).show();
 
-                new Handler(Looper.getMainLooper()).postDelayed(() -> backButtonPressedOnce = false, BACK_BUTTON_EXIT_DELAY);
+                mainHandler.postDelayed(() -> backButtonPressedOnce = false, BACK_BUTTON_EXIT_DELAY);
             }
         });
     }
@@ -239,6 +354,7 @@ public class MainActivity extends BridgeActivity {
         setIntent(intent);
         LCLog.d("MainActivity onNewIntent");
         widgetUrlLoaded = false;
+        lastDispatchedPath = null; // Bugfix: Tillåt åter-navigering till samma widget vid nytt klick
         captureWidgetPath(intent);
         // Force immediate dispatch for onNewIntent (warm start)
         dispatchPendingWidgetPath();
@@ -248,10 +364,18 @@ public class MainActivity extends BridgeActivity {
     public void onResume() {
         super.onResume();
         LCLog.d("MainActivity onResume");
+
+        // Sacred Lock check
+        if (lastBackgroundTime != 0L) {
+            long backgroundDuration = System.currentTimeMillis() - lastBackgroundTime;
+            if (backgroundDuration > SACRED_LOCK_TIMEOUT_MS) {
+                showSacredLock();
+            }
+            lastBackgroundTime = 0L;
+        }
+
         if (getBridge() != null && getBridge().getWebView() != null) {
             getBridge().getWebView().onResume();
-            // Do NOT resumeTimers/pauseTimers pair: pausing JS timers on Android
-            // freezes Zero Footprint debounce and can lock Valv on brief system UI.
         }
         dispatchPendingWidgetPath();
     }
@@ -260,10 +384,67 @@ public class MainActivity extends BridgeActivity {
     public void onPause() {
         super.onPause();
         LCLog.d("MainActivity onPause");
+        lastBackgroundTime = System.currentTimeMillis();
         if (getBridge() != null && getBridge().getWebView() != null) {
             getBridge().getWebView().onPause();
-            // Keep JS timers running — Valv session + App Check refresh need them.
         }
+    }
+
+    private void showSacredLock() {
+        isLocked = true;
+        mainHandler.post(() -> {
+            if (sacredLockContainer != null) {
+                sacredLockContainer.setVisibility(View.VISIBLE);
+                if (getBridge() != null && getBridge().getWebView() != null) {
+                    getBridge().getWebView().setVisibility(View.GONE);
+                }
+                authenticateSacredLock();
+            }
+        });
+    }
+
+    private void hideSacredLock() {
+        isLocked = false;
+        mainHandler.post(() -> {
+            if (sacredLockContainer != null) {
+                sacredLockContainer.setVisibility(View.GONE);
+                if (getBridge() != null && getBridge().getWebView() != null) {
+                    getBridge().getWebView().setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
+    private void authenticateSacredLock() {
+        BiometricManager biometricManager = BiometricManager.from(this);
+        if (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL) != BiometricManager.BIOMETRIC_SUCCESS) {
+            // Om biometri inte finns/är inställt, lås upp direkt (eller kräv PIN om vi vill vara striktare)
+            hideSacredLock();
+            return;
+        }
+
+        BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Lås upp Livskompassen")
+                .setSubtitle("Valvet kräver autentisering")
+                .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL)
+                .build();
+
+        BiometricPrompt biometricPrompt = new BiometricPrompt(this, ContextCompat.getMainExecutor(this),
+                new BiometricPrompt.AuthenticationCallback() {
+                    @Override
+                    public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                        super.onAuthenticationSucceeded(result);
+                        hideSacredLock();
+                    }
+
+                    @Override
+                    public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                        super.onAuthenticationError(errorCode, errString);
+                        LCLog.w("Biometric error: " + errString);
+                    }
+                });
+
+        biometricPrompt.authenticate(promptInfo);
     }
 
     @Override
@@ -307,6 +488,7 @@ public class MainActivity extends BridgeActivity {
 
     private void triggerHapticFeedback() {
         View decorView = getWindow().getDecorView();
+        if (decorView == null) return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             decorView.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
         } else {
@@ -316,6 +498,11 @@ public class MainActivity extends BridgeActivity {
 
     private void dispatchPendingWidgetPath() {
         if (pendingWidgetPath == null || pendingWidgetPath.isEmpty()) {
+            return;
+        }
+
+        // Prevent redundant dispatching for the same path
+        if (pendingWidgetPath.equals(lastDispatchedPath)) {
             return;
         }
         
@@ -368,6 +555,20 @@ public class MainActivity extends BridgeActivity {
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         if (audioManager != null) {
             LCLog.d("Requesting Audio Focus for recording widget");
+            AudioManager.OnAudioFocusChangeListener focusChangeListener = focusChange -> {
+                LCLog.d("Audio focus changed: " + focusChange);
+                if (focusChange == AudioManager.AUDIOFOCUS_LOSS || 
+                    focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
+                    // Tell JS to pause recording if possible
+                    if (getBridge() != null && getBridge().getWebView() != null) {
+                        getBridge().getWebView().evaluateJavascript(
+                            "window.dispatchEvent(new CustomEvent('livskompassen-audio-pause'));", 
+                            null
+                        );
+                    }
+                }
+            };
+
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 AudioAttributes playbackAttributes = new AudioAttributes.Builder()
                         .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
@@ -376,11 +577,11 @@ public class MainActivity extends BridgeActivity {
                 AudioFocusRequest focusRequest = new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT)
                         .setAudioAttributes(playbackAttributes)
                         .setAcceptsDelayedFocusGain(true)
-                        .setOnAudioFocusChangeListener(focusChange -> LCLog.d("Audio focus changed: " + focusChange))
+                        .setOnAudioFocusChangeListener(focusChangeListener)
                         .build();
                 audioManager.requestAudioFocus(focusRequest);
             } else {
-                audioManager.requestAudioFocus(focusChange -> LCLog.d("Audio focus changed: " + focusChange),
+                audioManager.requestAudioFocus(focusChangeListener,
                         AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
             }
         }
@@ -399,8 +600,13 @@ public class MainActivity extends BridgeActivity {
     }
 
     private void attemptWidgetDispatch(WebView webView, String path, int attempt) {
-        webView.post(() -> {
+        mainHandler.post(() -> {
             if (pendingWidgetPath == null || !path.equals(pendingWidgetPath)) {
+                return;
+            }
+
+            if (!webView.isAttachedToWindow()) {
+                LCLog.d("WebView detached, skipping dispatch for now");
                 return;
             }
 
@@ -408,37 +614,32 @@ public class MainActivity extends BridgeActivity {
             String js =
                 "(function(){"
                     + "if(document.readyState!=='complete'){return 'loading';}"
-                    + "window.__LIVSKOMPASSEN_WIDGET_PENDING__='"
-                    + safe
-                    + "';"
-                    + "window.dispatchEvent(new CustomEvent('livskompassen-widget-nav',{detail:{path:'"
-                    + safe
-                    + "'}}));"
+                    + "window.__LIVSKOMPASSEN_WIDGET_PENDING__='" + safe + "';"
+                    + "window.dispatchEvent(new CustomEvent('livskompassen-widget-nav',{detail:{path:'" + safe + "'}}));"
                     + "return 'ok';"
                     + "})();";
 
             webView.evaluateJavascript(
                 js,
-                new ValueCallback<String>() {
-                    @Override
-                    public void onReceiveValue(String value) {
-                        if (pendingWidgetPath == null || !path.equals(pendingWidgetPath)) {
-                            return;
-                        }
-                        if ("\"ok\"".equals(value)) {
-                            LCLog.d("Widget dispatch successful: " + path);
-                            pendingWidgetPath = null;
-                            return;
-                        }
-                        if (attempt + 1 >= WIDGET_DISPATCH_MAX_ATTEMPTS) {
-                            LCLog.w("Widget dispatch timed out after " + WIDGET_DISPATCH_MAX_ATTEMPTS + " attempts");
-                            return;
-                        }
-                        webView.postDelayed(
-                            () -> attemptWidgetDispatch(webView, path, attempt + 1),
-                            WIDGET_DISPATCH_RETRY_MS
-                        );
+                value -> {
+                    if (pendingWidgetPath == null || !path.equals(pendingWidgetPath)) {
+                        return;
                     }
+                    if ("\"ok\"".equals(value)) {
+                        LCLog.d("Widget dispatch successful: " + path);
+                        lastDispatchedPath = path;
+                        pendingWidgetPath = null;
+                        return;
+                    }
+                    
+                    if (attempt + 1 >= WIDGET_DISPATCH_MAX_ATTEMPTS) {
+                        LCLog.w("Widget dispatch timed out after " + WIDGET_DISPATCH_MAX_ATTEMPTS + " attempts for " + path);
+                        return;
+                    }
+                    
+                    // Progressive backoff: wait longer as we fail more
+                    long delay = WIDGET_DISPATCH_RETRY_MS + (attempt / 5) * 100L;
+                    mainHandler.postDelayed(() -> attemptWidgetDispatch(webView, path, attempt + 1), delay);
                 }
             );
         });

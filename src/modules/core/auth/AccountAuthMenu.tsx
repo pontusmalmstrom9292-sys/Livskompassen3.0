@@ -56,8 +56,8 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
       onClose={() => setOpen(false)}
       hideHeader
       ariaLabel="Konto"
-      className="!z-[230] !items-center !justify-center !bg-black/50 !px-4 !backdrop-blur-[2px]"
-      panelClassName="account-auth-dialog relative !max-w-sm !border-0 !bg-transparent !p-0 !shadow-none glow-none"
+      className="account-auth-overlay !z-[230] !items-center !justify-center !bg-black/50 !backdrop-blur-[2px]"
+      panelClassName="account-auth-panel !max-w-sm !border-0 !bg-transparent !p-0 !shadow-none glow-none"
     >
       <div className="relative">
         <button
