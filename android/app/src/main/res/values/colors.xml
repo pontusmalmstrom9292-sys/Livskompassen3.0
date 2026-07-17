@@ -5,4 +5,8 @@
     <color name="colorAccent">#FDE68A</color>
     <color name="widget_gold">#FDE68A</color>
     <color name="widget_muted">#94A3B8</color>
+    <color name="widget_background">#020617</color>
+    <color name="widget_stroke">#D4AF37</color>
+    <color name="widget_chip_start">#1A1816</color>
+    <color name="widget_chip_end">#0D0B09</color>
 </resources>
