@@ -278,3 +278,10 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] Zero Footprint: native appStateChange + unlock-in-flight suppress
 - [x] Eval: docs/evaluations/2026-07-17-valv-kickout-zero-footprint-android.md
 
+## 2026-07-17 — G85 App Check live-harden
+- [x] Vite prod strip + build assert mot debug-token i Hosting/APK-web
+- [x] Release clearStaleDebugSecret (SharedPreferences)
+- [x] appCheck debugTokenFromEnv DEV-only
+- [x] smoke:android-platform: dist-leak + ZF appStateChange + vite-strip
+- [x] Eval: docs/evaluations/2026-07-17-g85-appcheck-yolo.md
+

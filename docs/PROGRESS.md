@@ -2826,3 +2826,14 @@ Copy the template below for each entry. Newest first.
 **Förbättringar:** KASAM 24h dedup · ISO-veckonyckel veckoinsikter · ChildBirthDatePrompt a11y  
 **Hosting:** https://gen-lang-client-0481875058.web.app
 
+## 2026-07-17 — G85 App Check live-harden
+
+**Completed:**
+- Vite production strips `VITE_APP_CHECK_DEBUG_TOKEN` (define + env clear + generateBundle assert)
+- Release bootstrap clears stale DEBUG_SECRET
+- smoke:android-platform catches prod-dist leak + ZF Android kickout regression
+
+**Eval:** [`docs/evaluations/2026-07-17-g85-appcheck-yolo.md`](./evaluations/2026-07-17-g85-appcheck-yolo.md)
+
+**Deploy:** SKIP (kräver Pontus OK) — efter merge: Hosting workflow_dispatch + rotera läckt debug-token i Console.
+

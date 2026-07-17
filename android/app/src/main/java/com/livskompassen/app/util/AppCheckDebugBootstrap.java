@@ -33,6 +33,8 @@ public final class AppCheckDebugBootstrap {
      */
     public static void applyIfDebug(Context context) {
         if (!BuildConfig.DEBUG) {
+            // Release/live: wipe stale debug secret from prior debug installs (Play Integrity only).
+            clearStaleDebugSecret(context);
             return;
         }
         String token = BuildConfig.FIREBASE_APP_CHECK_DEBUG_TOKEN;
@@ -41,17 +43,34 @@ public final class AppCheckDebugBootstrap {
             return;
         }
 
-        String persistenceKey = encode(DEFAULT_APP_NAME) + "+" + encode(ANDROID_APP_ID);
-        String prefsName = String.format(PREFS_TEMPLATE, persistenceKey);
-        SharedPreferences prefs = context.getSharedPreferences(prefsName, Context.MODE_PRIVATE);
+        SharedPreferences prefs = debugPrefs(context);
         // commit (sync): undvik race mot tidig getToken från WebView.
         prefs.edit().putString(DEBUG_SECRET_KEY, token).commit();
 
         LCLog.d(
             "App Check debug-token injicerad (prefs="
-                + prefsName
+                + prefsName()
                 + "). Token måste finnas i Firebase Console → App Check → Manage debug tokens."
         );
+    }
+
+    /** Removes leftover DEBUG_SECRET so release never inherits a debug install secret. */
+    private static void clearStaleDebugSecret(Context context) {
+        SharedPreferences prefs = debugPrefs(context);
+        if (!prefs.contains(DEBUG_SECRET_KEY)) {
+            return;
+        }
+        prefs.edit().remove(DEBUG_SECRET_KEY).commit();
+        LCLog.d("App Check: stale debug secret cleared (release build).");
+    }
+
+    private static SharedPreferences debugPrefs(Context context) {
+        return context.getSharedPreferences(prefsName(), Context.MODE_PRIVATE);
+    }
+
+    private static String prefsName() {
+        String persistenceKey = encode(DEFAULT_APP_NAME) + "+" + encode(ANDROID_APP_ID);
+        return String.format(PREFS_TEMPLATE, persistenceKey);
     }
 
     private static String encode(String value) {
