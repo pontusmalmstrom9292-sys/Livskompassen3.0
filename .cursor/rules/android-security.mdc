@@ -1,0 +1,17 @@
+---
+description: Critical security rules for the Android application
+globs: android/app/**
+---
+
+# Android Security & Architecture Guard
+
+This rule ensures that the Android application's security and architectural integrity are maintained by any AI assistant (Cursor).
+
+## Rules to follow:
+- **NEVER** modify `SacredLockManager.java` in a way that bypasses biometric authentication.
+- **NEVER** use standard `SharedPreferences`. Always use the `SecurePrefs` utility class.
+- **NEVER** revert `MainActivity.java` into a monolith. Keep it delegated to managers.
+- **ALWAYS** check that `verifySecurityComponents` passes in `build.gradle` after any structural changes.
+- **PROTECT** the `network_security_config.xml` file. Certificate Pinning is a hard requirement for the Vault.
+
+If any prompt asks to "clean up" or "simplify" the Android codebase, ensure these critical components are explicitly preserved.

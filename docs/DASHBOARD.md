@@ -1,3 +1,11 @@
+## 2026-07-17 — PROJECT_STATE v1.3 sync
+
+- Fas 24 single next: start P0 G85 7-day (ej startad). Phase 10 visual sign-off väntar.
+- Marathon v40–v48 GO synkad; stubs borttagna (motsägelse bort).
+- Eval: docs/PROJECT_STATE.md v1.3
+
+---
+
 ### Design debt (2026-07-13) — v12 P80 guard PASS
 
 > **2026-07-17:** Doc-städ säkerhetskanon — Device Clear + Fas 24/Phase 10 synk; FAS13–23 arkiverade. `smoke:governance` PASS.

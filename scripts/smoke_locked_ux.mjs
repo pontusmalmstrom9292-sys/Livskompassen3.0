@@ -501,6 +501,11 @@ function main() {
   mustInclude('src/modules/features/widgets/WidgetDeepLinkBridge.tsx', 'livskompassen-widget-nav', '__LIVSKOMPASSEN_WIDGET_PENDING__');
   mustInclude(
     'android/app/src/main/java/com/livskompassen/app/MainActivity.java',
+    'WidgetNavigator',
+    'loadUrl',
+  );
+  mustInclude(
+    'android/app/src/main/java/com/livskompassen/app/core/WidgetNavigator.java',
     'pendingWidgetPath',
     'loadUrl',
     '__LIVSKOMPASSEN_WIDGET_PENDING__',
