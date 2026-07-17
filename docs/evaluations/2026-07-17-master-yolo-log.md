@@ -27,3 +27,4 @@
 | 15:26Z | planering-fas3 | SKIP | PMIR Gmail/Calendar |
 | 15:26Z | slutrapport | DONE | Se 2026-07-17-master-yolo-leverans.md |
 | 15:09Z | hub-gora | SKIP | Already done (Fas 2). Fas 2+ `/gora` alias deferred — MOD-CORE-NAV locked. → hub-dagbok |
+| 15:15Z | hub-gora | PR | [#221](https://github.com/pontusmalmstrom9292-sys/Livskompassen3.0/pull/221) — main protected; push via PR. Deploy hosting SKIP (ingen hub-gora-appkod). |
