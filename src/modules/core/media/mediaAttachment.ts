@@ -5,6 +5,8 @@ export type MediaAttachment = {
   file: File;
   previewUrl: string;
   kind: MediaAttachmentKind;
+  /** Valfri bildtext / anteckning (t.ex. skärmdump-kontext). */
+  caption?: string;
 };
 
 export function inferMediaKind(file: File): MediaAttachmentKind {
@@ -14,12 +16,13 @@ export function inferMediaKind(file: File): MediaAttachmentKind {
   return 'file';
 }
 
-export function createMediaAttachment(file: File): MediaAttachment {
+export function createMediaAttachment(file: File, caption = ''): MediaAttachment {
   return {
     id: `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`,
     file,
     previewUrl: URL.createObjectURL(file),
     kind: inferMediaKind(file),
+    caption,
   };
 }
 

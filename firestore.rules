@@ -59,15 +59,39 @@ service cloud.firestore {
       return request.resource.data.keys().hasOnly(allowedKeys);
     }
 
+    function isValidCaptionedAttachmentMap(att) {
+      return att is map
+        && att.keys().hasOnly(['url', 'storagePath', 'name', 'mimeType', 'size', 'caption'])
+        && att.url is string
+        && att.url.size() > 0
+        && att.url.size() <= 2048
+        && att.storagePath is string
+        && att.storagePath.size() > 0
+        && att.storagePath.size() <= 512
+        && att.name is string
+        && att.name.size() > 0
+        && att.name.size() <= 200
+        && att.mimeType is string
+        && att.mimeType.size() > 0
+        && att.mimeType.size() <= 128
+        && att.size is int
+        && att.size >= 0
+        && att.size <= 5242880
+        && (!('caption' in att)
+          || (att.caption is string && att.caption.size() <= 500));
+    }
+
     function isValidJournalAttachment() {
-      return !('attachment' in request.resource.data)
-        || (request.resource.data.attachment is map
-          && request.resource.data.attachment.keys().hasOnly(['url', 'storagePath', 'name', 'mimeType', 'size'])
-          && request.resource.data.attachment.url is string
-          && request.resource.data.attachment.storagePath is string
-          && request.resource.data.attachment.name is string
-          && request.resource.data.attachment.mimeType is string
-          && request.resource.data.attachment.size is int);
+      let legacyOk = !('attachment' in request.resource.data)
+        || isValidCaptionedAttachmentMap(request.resource.data.attachment);
+      let listOk = !('attachments' in request.resource.data)
+        || (request.resource.data.attachments is list
+          && request.resource.data.attachments.size() >= 1
+          && request.resource.data.attachments.size() <= 2
+          && isValidCaptionedAttachmentMap(request.resource.data.attachments[0])
+          && (request.resource.data.attachments.size() == 1
+            || isValidCaptionedAttachmentMap(request.resource.data.attachments[1])));
+      return legacyOk && listOk;
     }
 
     function isValidChildSignals() {
@@ -115,7 +139,8 @@ service cloud.firestore {
 
     function isValidJournalCreate() {
       return wormKeysOnly([
-          'userId', 'ownerId', 'mood', 'text', 'category', 'tags', 'attachment', 'createdAt',
+          'userId', 'ownerId', 'mood', 'text', 'category', 'tags',
+          'attachment', 'attachments', 'createdAt',
         ])
         && request.resource.data.mood is string
         && request.resource.data.mood.size() > 0
@@ -130,7 +155,7 @@ service cloud.firestore {
       return wormKeysOnly([
           'userId', 'ownerId', 'childAlias', 'observation', 'truth', 'action', 'category',
           'childrenImpact', 'authorRole', 'channel', 'visibility', 'contentType', 'signals',
-          'bankId', 'mediaUrl', 'sourceRef', 'createdAt',
+          'bankId', 'mediaUrl', 'mediaCaption', 'sourceRef', 'createdAt',
         ])
         && request.resource.data.childAlias is string
         && request.resource.data.childAlias.size() > 0
@@ -139,6 +164,9 @@ service cloud.firestore {
         && request.resource.data.action.size() > 0
         && request.resource.data.action.size() <= 64
         && isValidChildSignals()
+        && (!('mediaCaption' in request.resource.data)
+          || (request.resource.data.mediaCaption is string
+            && request.resource.data.mediaCaption.size() <= 500))
         && (!('observation' in request.resource.data)
           || (request.resource.data.observation is string
             && request.resource.data.observation.size() <= 50000))
@@ -400,13 +428,15 @@ service cloud.firestore {
 
     match /kb_docs/{docId} {
       allow read: if isOwner();
-      allow create: if isOwnerCreate();
+      // Evigt Minne v61 — Admin SDK only (client create blocked). Callables write via Admin.
+      allow create: if false;
       allow update, delete: if false;
     }
 
     match /kampspar/{docId} {
       allow read: if isOwner();
-      allow create: if isOwnerCreate();
+      // Evigt Minne v61 — Admin SDK only (client create blocked). Callables write via Admin.
+      allow create: if false;
       allow update, delete: if false;
     }
 

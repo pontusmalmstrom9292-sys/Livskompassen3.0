@@ -77,6 +77,7 @@ async function writeChildLog(
     observation: string;
     contentType?: 'text' | 'voice' | 'image';
     mediaUrl?: string;
+    mediaCaption?: string;
   },
 ): Promise<string> {
   return saveChildrenLog(userId, {
@@ -87,6 +88,7 @@ async function writeChildLog(
     channel: 'widget',
     contentType: params.contentType ?? 'text',
     mediaUrl: params.mediaUrl,
+    mediaCaption: params.mediaCaption,
   });
 }
 
@@ -112,6 +114,7 @@ async function flushItem(userId: string, item: PendingActionDashboardItem): Prom
       observation: item.observation,
       contentType: item.contentType,
       mediaUrl,
+      mediaCaption: item.mediaCaption,
     });
     return;
   }
@@ -156,11 +159,13 @@ export async function saveActionChildLog(
     observation: string;
     contentType?: 'text' | 'voice' | 'image';
     photo?: File | null;
+    mediaCaption?: string;
   },
 ): Promise<ActionSaveResult> {
   const trimmed = params.observation.trim();
   const photo = params.photo ?? null;
   const hasPhoto = photo != null && photo.size > 0;
+  const mediaCaption = params.mediaCaption?.trim().slice(0, 500) || undefined;
 
   if (!trimmed && !hasPhoto) throw new Error('Tom observation');
   if (hasPhoto) assertValidChildPhoto(photo);
@@ -178,6 +183,7 @@ export async function saveActionChildLog(
       category: params.category,
       observation,
       contentType,
+      mediaCaption,
     };
     if (hasPhoto && photo) {
       const photoData = await photo.arrayBuffer();
@@ -208,6 +214,7 @@ export async function saveActionChildLog(
       observation,
       contentType,
       mediaUrl,
+      mediaCaption,
     });
     return { queued: false, id };
   } catch (err) {

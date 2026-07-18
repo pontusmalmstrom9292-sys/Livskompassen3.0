@@ -11,6 +11,7 @@ import {
   pickRandomPrompt,
 } from '../constants/moodPrompts';
 import type { JournalCategoryId } from '../constants/journalCategories';
+import type { PendingCaptionedMedia } from '@/modules/shared/media';
 import { HandoffBox } from './HandoffBox';
 import { JournalDetailsPanel } from './JournalDetailsPanel';
 import { shouldShowValvHandoff } from '@/core/triggers/valvHandoff';
@@ -22,11 +23,11 @@ type ReflectionStepProps = {
   text: string;
   mood?: string;
   category?: JournalCategoryId;
-  memoryFile: File | null;
+  memoryItems: PendingCaptionedMedia[];
   memoryError: string | null;
   onTextChange: (text: string) => void;
   onCategoryChange: (category: JournalCategoryId | undefined) => void;
-  onMemoryFileChange: (file: File | null) => void;
+  onMemoryItemsChange: (items: PendingCaptionedMedia[]) => void;
   onMemoryValidationError: (message: string | null) => void;
   onBack: () => void;
   onContinue: () => void;
@@ -42,11 +43,11 @@ export function ReflectionStep({
   text,
   mood = '',
   category,
-  memoryFile,
+  memoryItems,
   memoryError,
   onTextChange,
   onCategoryChange,
-  onMemoryFileChange,
+  onMemoryItemsChange,
   onMemoryValidationError,
   onBack,
   onContinue,
@@ -236,12 +237,12 @@ export function ReflectionStep({
 
       <JournalDetailsPanel
         category={category}
-        memoryFile={memoryFile}
+        memoryItems={memoryItems}
         memoryError={memoryError}
         disabled={saving}
         textTouched={text.trim().length > 0}
         onCategoryChange={onCategoryChange}
-        onMemoryFileChange={onMemoryFileChange}
+        onMemoryItemsChange={onMemoryItemsChange}
         onMemoryValidationError={onMemoryValidationError}
       />
 

@@ -416,6 +416,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
   const [attachedPhoto, setAttachedPhoto] = useState<{ file: File; previewUrl: string } | null>(
     null,
   );
+  const [photoCaption, setPhotoCaption] = useState('');
   const [saved, setSaved] = useState(false);
   const [queued, setQueued] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -449,6 +450,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
       if (prev?.previewUrl) URL.revokeObjectURL(prev.previewUrl);
       return null;
     });
+    setPhotoCaption('');
     if (cameraInputRef.current) cameraInputRef.current.value = '';
   }, []);
 
@@ -481,6 +483,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
         observation: observation.trim(),
         contentType: speech.isListening ? 'voice' : 'text',
         photo: attachedPhoto?.file ?? null,
+        mediaCaption: attachedPhoto ? photoCaption : undefined,
       });
       setQueued(result.queued);
       if (result.queued) onQueueChange?.();
@@ -621,24 +624,35 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
         </div>
 
         {attachedPhoto ? (
-          <div className="flex items-center gap-3 rounded-xl border border-border/30 bg-surface-2/60 p-2">
-            <img
-              src={attachedPhoto.previewUrl}
-              alt="Bifogat foto till barnlogg"
-              className="h-14 w-14 rounded-lg object-cover"
-            />
-            <div className="min-w-0 flex-1">
-              <p className="text-xs text-success">Foto bifogat</p>
-              <p className="truncate text-[10px] text-text-dim">{attachedPhoto.file.name}</p>
+          <div className="space-y-2 rounded-xl border border-border/30 bg-surface-2/60 p-2">
+            <div className="flex items-center gap-3">
+              <img
+                src={attachedPhoto.previewUrl}
+                alt="Bifogat foto till barnlogg"
+                className="h-14 w-14 rounded-lg object-cover"
+              />
+              <div className="min-w-0 flex-1">
+                <p className="text-xs text-success">Foto bifogat</p>
+                <p className="truncate text-[10px] text-text-dim">{attachedPhoto.file.name}</p>
+              </div>
+              <WidgetButton
+                type="button"
+                variant="ghost"
+                onClick={clearAttachedPhoto}
+                className="shrink-0 text-[10px]"
+              >
+                Ta bort
+              </WidgetButton>
             </div>
-            <WidgetButton
-              type="button"
-              variant="ghost"
-              onClick={clearAttachedPhoto}
-              className="shrink-0 text-[10px]"
-            >
-              Ta bort
-            </WidgetButton>
+            <textarea
+              className="input-glass w-full text-sm"
+              rows={2}
+              maxLength={500}
+              placeholder="Bildtext (valfritt)…"
+              value={photoCaption}
+              onChange={(e) => setPhotoCaption(e.target.value)}
+              aria-label="Bildtext till foto"
+            />
           </div>
         ) : null}
 

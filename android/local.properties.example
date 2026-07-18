@@ -1,0 +1,12 @@
+## Copy to android/local.properties (gitignored). Do not commit real values.
+## Signature pins are Base64 SHA-256 of the APK signing certificate (public), not secrets.
+
+# Optional — only if your debug.keystore differs from the stock Android default.
+# Print with: ./gradlew :app:printDebugSignaturePin
+# LK_DEBUG_SIGNATURE_SHA256=2xG2ZmBEGrZiBaf/P5+4DrSX9gPtuDZdHe742pLhyug=
+
+# Required before assembleRelease / packageRelease / bundleRelease.
+# LK_RELEASE_SIGNATURE_SHA256=
+
+# SDK path is usually written automatically by Android Studio:
+# sdk.dir=/Users/YOU/Library/Android/sdk

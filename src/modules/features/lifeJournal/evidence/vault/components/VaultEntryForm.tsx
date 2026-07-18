@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { ImagePlus, Loader2, Mic, MicOff, Plus } from 'lucide-react';
+import { Loader2, Mic, MicOff, Plus } from 'lucide-react';
 import { Button } from '@/design-system';
 import { uploadVaultEvidence } from '@/core/firebase/storage';
 import { useSpeechToText } from '@/core/hooks/useSpeechToText';
@@ -13,6 +13,10 @@ import { OfflineWriteBlockedError } from '@/core/firebase/offlineWritePolicy';
 import { WormSaveConfirmSheet } from '@/core/security/WormSaveConfirmSheet';
 import { VaultPatternHandoff } from './VaultPatternHandoff';
 import { parseSmsThreadToTwoColumn } from '../utils/smsThreadParse';
+import {
+  MediaAttachWithCaption,
+  type PendingCaptionedMedia,
+} from '@/modules/shared/media';
 
 type VaultEntryFormProps = {
   userId: string;
@@ -32,14 +36,13 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
   const [shieldWhat, setShieldWhat] = useState('');
   const [shieldFeeling, setShieldFeeling] = useState('');
   const [shieldBoundary, setShieldBoundary] = useState('');
-  const [pendingFile, setPendingFile] = useState<File | null>(null);
+  const [pendingMediaItems, setPendingMediaItems] = useState<PendingCaptionedMedia[]>([]);
   const [uploading, setUploading] = useState(false);
   const [attachError, setAttachError] = useState<string | null>(null);
   const [pinned, setPinned] = useState(false);
   const [smsThreadPaste, setSmsThreadPaste] = useState('');
   const [smsThreadSplitNotice, setSmsThreadSplitNotice] = useState(false);
   const [wormConfirmOpen, setWormConfirmOpen] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handoff = (location.state as { vaultHandoffText?: string } | null)?.vaultHandoffText;
@@ -70,7 +73,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
     setShieldWhat('');
     setShieldFeeling('');
     setShieldBoundary('');
-    setPendingFile(null);
+    setPendingMediaItems([]);
     setAttachError(null);
     setPinned(false);
   };
@@ -155,12 +158,30 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
     setUploading(true);
     try {
       let evidenceUrl: string | undefined;
-      if (pendingFile) {
-        evidenceUrl = await uploadVaultEvidence(userId, pendingFile);
+      const captionNotes: string[] = [];
+      for (let i = 0; i < pendingMediaItems.length; i++) {
+        const item = pendingMediaItems[i];
+        const url = await uploadVaultEvidence(userId, item.file);
+        if (i === 0) evidenceUrl = url;
+        const cap = item.caption.trim();
+        captionNotes.push(
+          cap
+            ? `Bild ${i + 1} (${item.file.name}): ${cap}${i > 0 ? ` — ${url}` : ''}`
+            : i > 0
+              ? `Bild ${i + 1}: ${item.file.name} — ${url}`
+              : '',
+        );
       }
+      const notes = captionNotes.filter(Boolean).join('\n');
       const payload = buildPayload(evidenceUrl);
       if (!payload) return;
-      await onSave(payload);
+      const withNotes =
+        notes && payload.truth
+          ? { ...payload, truth: `${payload.truth}\n\n${notes}`.slice(0, 50000) }
+          : notes
+            ? { ...payload, truth: notes.slice(0, 50000) }
+            : payload;
+      await onSave(withNotes);
       resetForm();
       setWormConfirmOpen(false);
     } catch (err) {
@@ -181,11 +202,11 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
     setWormConfirmOpen(true);
   };
 
-  const canSaveSimple = truth.trim().length > 0 || Boolean(pendingFile);
-  const canSaveTwo = theirVersion.trim() || myReality.trim() || Boolean(pendingFile);
+  const canSaveSimple = truth.trim().length > 0 || pendingMediaItems.length > 0;
+  const canSaveTwo = theirVersion.trim() || myReality.trim() || pendingMediaItems.length > 0;
   const canSaveShield =
     shieldStep === 2 && shieldWhat.trim() && shieldFeeling.trim() && shieldBoundary.trim();
-  const canSaveBody = selectedSignals.length > 0 || truth.trim() || Boolean(pendingFile);
+  const canSaveBody = selectedSignals.length > 0 || truth.trim() || pendingMediaItems.length > 0;
 
   const canSave =
     mode === 'simple'
@@ -401,31 +422,20 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
 
       <div className="glass-card space-y-2 p-3">
         <p className="text-[10px] uppercase tracking-widest text-text-dim">Bifoga bevis</p>
-        <div className="flex flex-wrap items-center gap-2">
-          <Button
-            type="button"
-            variant="ghost"
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <ImagePlus className="h-4 w-4" />
-            Skärmdump
+        <MediaAttachWithCaption
+          disabled={busy}
+          items={pendingMediaItems}
+          onChange={setPendingMediaItems}
+          onValidationError={setAttachError}
+          accept="image/png,image/jpeg,image/webp,image/gif,image/heic,image/heif"
+          helperText="Skärmdump med valfri bildtext. Max två (t.ex. motsägelse)."
+          captionPlaceholder="t.ex. Isabelle skickade detta; igår sa hon…"
+        />
+        {supported && (
+          <Button type="button" variant="ghost" onClick={isListening ? stop : start} disabled={busy}>
+            {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
+            Röstmemo
           </Button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/png,image/jpeg,image/webp,image/gif"
-            className="sr-only"
-            onChange={(e) => setPendingFile(e.target.files?.[0] ?? null)}
-          />
-          {supported && (
-            <Button type="button" variant="ghost" onClick={isListening ? stop : start}>
-              {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
-              Röstmemo
-            </Button>
-          )}
-        </div>
-        {pendingFile && (
-          <p className="text-xs text-text-muted">Vald fil: {pendingFile.name}</p>
         )}
         {attachError && <p className="text-xs text-danger">{attachError}</p>}
       </div>

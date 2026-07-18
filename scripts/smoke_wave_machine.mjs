@@ -48,10 +48,25 @@ const requiredIds = [
   "BACKEND-HARDEN",
   "UX-POLISH-ANDROID-SYNC",
   "SLUTGATE-FARDIG",
+  "MINNE-G0-MACHINE",
+  "MINNE-M1-RRF",
+  "MINNE-M2-EMBED",
+  "MINNE-M3-GATES",
+  "MINNE-M4-ARCHIVE",
+  "MINNE-GATE",
+  "MINNE-RULES",
+  "MINNE-DEPLOY",
 ];
 for (const id of requiredIds) {
   if (!improvement.some((w) => w.id === id)) fail(`saknar wave id ${id}`);
   else ok(`wave ${id}`);
+}
+
+const minneWaves = improvement.filter((w) => w.version >= 55);
+for (const w of minneWaves) {
+  if (!w.class || !["docs", "code", "rules", "ingest", "deploy"].includes(w.class)) {
+    fail(`v${w.version} saknar giltig class`);
+  } else ok(`v${w.version} class=${w.class}`);
 }
 
 if (!existsSync(PMIR_REGISTER_PATH)) fail("sdk-pmir-register.json saknas");

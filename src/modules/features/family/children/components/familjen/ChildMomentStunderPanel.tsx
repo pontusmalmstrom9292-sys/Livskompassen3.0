@@ -111,6 +111,20 @@ export function ChildMomentStunderPanel({ shell }: Props) {
                     <p className="mt-1 text-sm text-text-muted whitespace-pre-wrap">
                       {momentBody(log)}
                     </p>
+                    {log.mediaUrl ? (
+                      <figure className="mt-3 overflow-hidden rounded-xl border border-border/40">
+                        <img
+                          src={log.mediaUrl}
+                          alt={log.mediaCaption || 'Foto från livslogg'}
+                          className="max-h-48 w-full object-cover"
+                        />
+                        {log.mediaCaption ? (
+                          <figcaption className="px-3 py-2 text-xs text-text-dim">
+                            {log.mediaCaption}
+                          </figcaption>
+                        ) : null}
+                      </figure>
+                    ) : null}
                     {log.action === 'livslogg' && log.id && evidenceForLogId !== log.id && (
                       <button
                         type="button"

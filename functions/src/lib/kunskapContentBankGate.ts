@@ -1,13 +1,15 @@
 import type { InboxClassification } from './inboxClassifier';
 
-/** U6 — godkända FACT-kategorier/taggar för auto-kunskap ingest (P1.2). */
+/**
+ * U6 — strikta FACT-grindar för auto-kunskap (kb_docs).
+ * category "kunskap" ensam räcker INTE — kräver godkänd tag/prefix eller seed/manuell.
+ */
 const APPROVED_FACT_CATEGORIES = new Set([
   'covert_taktik',
   'barn_hcf',
   'myndighet',
   'neuro_psyk',
   'fact',
-  'kunskap',
 ]);
 
 const APPROVED_TAG_PREFIXES = [
@@ -19,15 +21,20 @@ const APPROVED_TAG_PREFIXES = [
   'manuell',
 ];
 
-/** Returnerar true om auto-persist till kampspar är tillåten utan HITL-kö. */
+const APPROVED_EXACT_TAGS = new Set(['manuell', 'seed-approved', 'hitl-confirmed']);
+
+/** Returnerar true om auto-persist till kb_docs är tillåten utan HITL-kö. */
 export function isKunskapFactApproved(classification: InboxClassification): boolean {
-  if (classification.tags.some((t) => t === 'manuell' || t === 'seed-approved')) {
+  if (classification.tags.some((t) => APPROVED_EXACT_TAGS.has(t.toLowerCase()))) {
     return true;
   }
-  if (APPROVED_FACT_CATEGORIES.has(classification.category.toLowerCase())) {
-    return true;
-  }
-  return classification.tags.some((tag) =>
+  const hasApprovedTag = classification.tags.some((tag) =>
     APPROVED_TAG_PREFIXES.some((prefix) => tag.startsWith(prefix) || tag.includes(prefix)),
   );
+  if (hasApprovedTag) return true;
+
+  const cat = classification.category.toLowerCase();
+  // category "kunskap" alone is NOT enough (Evigt Minne M2)
+  if (cat === 'kunskap') return false;
+  return APPROVED_FACT_CATEGORIES.has(cat);
 }

@@ -1,0 +1,30 @@
+{
+  "version": 62,
+  "queueFile": ".orkester/cursor-yolo-queue-v62.json",
+  "buildWaveId": "MINNE-DEPLOY",
+  "startedAt": "2026-07-18T12:35:49.557Z",
+  "updatedAt": "2026-07-18T12:35:49.558Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b62-build",
+      "b62-gate",
+      "b62-vakt"
+    ],
+    "skippedTaskIds": [
+      "b62-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b62-deploy",
+    "b62-build",
+    "b62-gate",
+    "b62-vakt"
+  ],
+  "notes": "Marked done via waves:autorun --mark-done",
+  "finishedAt": "2026-07-18T12:35:49.558Z",
+  "goNoGo": "GO",
+  "gateVerdict": "GO"
+}

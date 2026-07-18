@@ -73,6 +73,7 @@ export async function uploadJournalMemory(
   userId: string,
   entryId: string,
   file: File,
+  caption?: string,
 ): Promise<JournalAttachment> {
   if (!userId.trim()) {
     throw new Error('Du måste vara inloggad för att ladda upp bilaga.');
@@ -90,11 +91,13 @@ export async function uploadJournalMemory(
   const storageRef = ref(storage, storagePath);
   await uploadBytes(storageRef, file, { contentType: validation.mimeType });
   const url = await getDownloadURL(storageRef);
+  const trimmed = caption?.trim().slice(0, 500);
   return {
     url,
     storagePath,
     name: file.name,
     mimeType: validation.mimeType,
     size: file.size,
+    ...(trimmed ? { caption: trimmed } : {}),
   };
 }

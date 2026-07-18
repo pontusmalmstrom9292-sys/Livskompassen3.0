@@ -25,6 +25,7 @@ import {
   loadState,
   writeSdkRunReport,
   BUILD_WAVE_MAX,
+  MINNE_AUTO_THROUGH,
 } from "./lib/cursor_yolo_shared.mjs";
 import {
   IMPROVEMENT_WAVE_MIN,
@@ -38,6 +39,9 @@ import {
   saveWaveMachineState,
   ensureOrkesterDir,
   markWaveCompleted,
+  assertWaveClassAllowed,
+  recordWavePhrase,
+  scanAlwaysSkipDiff,
 } from "./lib/wave_machine.mjs";
 import { getBuildWaveDef } from "./lib/cursor_yolo_build.mjs";
 
@@ -67,6 +71,7 @@ const unattended =
   process.env.SDK_YOLO_UNATTENDED === "true";
 const maxWaves = nightCap ? 1 : Number(parseArg("max-waves", "99"));
 const maxRetries = Number(parseArg("max-retries", "2"));
+const phraseArg = parseArg("phrase", "");
 
 function runNode(script, scriptArgs) {
   return (
@@ -107,7 +112,20 @@ async function main() {
       pmirSkips: [],
       lastGate: null,
       rollbackTag: null,
+      phrases: {},
+      readyForRules: false,
     });
+  }
+
+  if (phraseArg) {
+    try {
+      recordWavePhrase(phraseArg);
+      console.log(`[waves] Fras registrerad: ${phraseArg}`);
+      process.exit(0);
+    } catch (err) {
+      console.error(`[waves] ${err.message}`);
+      process.exit(1);
+    }
   }
 
   const hygieneFixed = hygieneWaveStatuses(34, 48);
@@ -187,6 +205,23 @@ async function main() {
 
   while (version != null && wavesRun < maxWaves) {
     const wave = getBuildWaveDef(version);
+    const classGate = assertWaveClassAllowed(wave);
+    if (!classGate.ok) {
+      console.error(`[waves] SUPERSAFE PAUS — ${classGate.reason}`);
+      console.error(
+        `[waves] Exempel: npm run waves:autorun -- --phrase="${wave.class === "rules" ? "OK rules" : wave.class === "ingest" ? "OK minne apply" : "OK deploy"}"`,
+      );
+      saveWaveMachineState({
+        ...loadWaveMachineState(),
+        status: "paused",
+        activeVersion: null,
+        failedAt: null,
+        notes: classGate.reason,
+      });
+      writeSdkRunReport({ ...marathon, stopped: true, stoppedAt: version, reason: "phrase-gate" });
+      process.exit(3);
+    }
+
     await ensureBuildWaveScaffold(version);
 
     try {
@@ -208,7 +243,7 @@ async function main() {
 
     console.log("");
     console.log("══════════════════════════════════════════════════");
-    console.log(`  IMPROVEMENT våg v${version} — ${wave.id}`);
+    console.log(`  IMPROVEMENT våg v${version} — ${wave.id} (class=${wave.class ?? "code"})`);
     console.log("══════════════════════════════════════════════════");
 
     const config = getYoloConfig(version);
@@ -245,6 +280,32 @@ async function main() {
       }
     }
 
+    const skipScan = scanAlwaysSkipDiff();
+    const machineNow = loadWaveMachineState();
+    const allowRulesDiff =
+      wave.class === "rules" && machineNow.phrases?.okRules === true && machineNow.readyForRules === true;
+    const filteredHits = skipScan.hits.filter((hit) => {
+      if (allowRulesDiff && hit.id === "firestore-rules") return false;
+      return true;
+    });
+    if (filteredHits.length > 0) {
+      console.error("[waves] alwaysSkip-diff FAIL — PMIR-skyddade filer i diff:");
+      for (const hit of filteredHits) {
+        console.error(`  - ${hit.file} (${hit.id}: ${hit.reason})`);
+      }
+      if (tag) restoreToTag(tag);
+      saveWaveMachineState({
+        ...machineNow,
+        status: "failed",
+        failedAt: version,
+        activeVersion: null,
+        pmirSkips: [...(machineNow.pmirSkips ?? []), ...filteredHits],
+      });
+      releaseWaveLock();
+      writeSdkRunReport({ ...marathon, stopped: true, stoppedAt: version, reason: "alwaysSkip" });
+      process.exit(4);
+    }
+
     const gateCode = runWaveGate(version);
     marathon.waves[marathon.waves.length - 1].gateExit = gateCode;
     if (gateCode !== 0) {
@@ -266,6 +327,16 @@ async function main() {
       gateVerdict: "GO",
     });
 
+    if (version === MINNE_AUTO_THROUGH || version === 60) {
+      saveWaveMachineState({
+        ...loadWaveMachineState(),
+        readyForRules: true,
+        status: "paused",
+        notes: "readyForRules — skriv OK rules för v61, sedan OK deploy för v62",
+      });
+      console.log("[waves] readyForRules=true — hard stop före rules/deploy");
+    }
+
     const postCode = runUnattendedPost(version);
     marathon.waves[marathon.waves.length - 1].unattendedExit = postCode;
 
@@ -278,6 +349,7 @@ async function main() {
       process.exit(postCode);
     }
 
+    if (version >= throughVersion) break;
     version = resolveNextIncompleteWave(fromVersion, throughVersion);
     if (nightCap) break;
   }

@@ -22,7 +22,36 @@ def readAppCheckDebugToken() {
     return ""
 }
 
+def readLocalOrEnv(String key) {
+    def fromEnv = System.getenv(key)
+    if (fromEnv != null && !fromEnv.trim().isEmpty()) {
+        return fromEnv.trim()
+    }
+    def candidates = [
+        rootProject.file("local.properties"),
+        rootProject.file("../local.properties"),
+        project.file("local.properties")
+    ]
+    for (File f : candidates) {
+        if (!f.exists()) continue
+        for (line in f.readLines()) {
+            def trimmed = line.trim()
+            if (trimmed.startsWith(key + "=")) {
+                return trimmed.substring((key + "=").length()).trim()
+            }
+        }
+    }
+    return ""
+}
+
 def appCheckDebugToken = readAppCheckDebugToken()
+// SHA-256 Base64 of default Android debug cert (Signature.toByteArray / exportcert).
+// Machine-local debug keystores may differ — override via LK_DEBUG_SIGNATURE_SHA256 if needed.
+def debugSignatureSha256 = readLocalOrEnv("LK_DEBUG_SIGNATURE_SHA256")
+if (debugSignatureSha256.isEmpty()) {
+    debugSignatureSha256 = "2xG2ZmBEGrZiBaf/P5+4DrSX9gPtuDZdHe742pLhyug="
+}
+def releaseSignatureSha256 = readLocalOrEnv("LK_RELEASE_SIGNATURE_SHA256")
 
 android {
     namespace = "com.livskompassen.app"
@@ -48,12 +77,20 @@ android {
     buildTypes {
         debug {
             buildConfigField "String", "FIREBASE_APP_CHECK_DEBUG_TOKEN", "\"${appCheckDebugToken}\""
+            def debugAllow = debugSignatureSha256
+            if (!releaseSignatureSha256.isEmpty()) {
+                debugAllow = debugSignatureSha256 + "," + releaseSignatureSha256
+            }
+            buildConfigField "String", "ALLOWED_SIGNATURE_SHA256", "\"${debugAllow}\""
+            buildConfigField "boolean", "SIGNATURE_PINNED", "true"
         }
         release {
             minifyEnabled true // Enable for release
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "FIREBASE_APP_CHECK_DEBUG_TOKEN", '""'
+            buildConfigField "String", "ALLOWED_SIGNATURE_SHA256", "\"${releaseSignatureSha256}\""
+            buildConfigField "boolean", "SIGNATURE_PINNED", "${!releaseSignatureSha256.isEmpty()}"
         }
     }
 }
@@ -108,6 +145,71 @@ tasks.register("verifySecurityComponents") {
 
 tasks.named("preBuild") {
     dependsOn("verifySecurityComponents")
+}
+
+// Fail release packaging if production signing pin is missing (Titanium — no mock security).
+tasks.configureEach { task ->
+    if (task.name == "assembleRelease" || task.name == "packageRelease" || task.name == "bundleRelease") {
+        task.doFirst {
+            def pin = readLocalOrEnv("LK_RELEASE_SIGNATURE_SHA256")
+            if (pin == null || pin.trim().isEmpty()) {
+                throw new GradleException(
+                    "FATAL: LK_RELEASE_SIGNATURE_SHA256 saknas. " +
+                    "Sätt Base64 SHA-256 av release-certifikatet i android/local.properties " +
+                    "eller miljövariabel innan release-bygge."
+                )
+            }
+        }
+    }
+}
+
+/**
+ * Prints Base64 SHA-256 of the machine debug keystore and the pin currently
+ * embedded for debug builds. Use when Android Studio wipe/lock is triggered by
+ * signature mismatch — paste the printed value into android/local.properties.
+ * Does NOT weaken Titanium: runtime allowlist check remains fail-closed.
+ */
+tasks.register("printDebugSignaturePin") {
+    group = "livskompassen"
+    description = "Print LK_DEBUG_SIGNATURE_SHA256 for this machine's debug.keystore"
+    doLast {
+        def keystorePath = System.getProperty("user.home") + "/.android/debug.keystore"
+        def keystoreFile = new File(keystorePath)
+        if (!keystoreFile.exists()) {
+            throw new GradleException("Debug keystore missing: ${keystorePath}")
+        }
+        def export = new ByteArrayOutputStream()
+        def err = new ByteArrayOutputStream()
+        def result = exec {
+            commandLine "keytool", "-exportcert",
+                    "-alias", "androiddebugkey",
+                    "-keystore", keystorePath,
+                    "-storepass", "android"
+            standardOutput = export
+            errorOutput = err
+            ignoreExitValue = true
+        }
+        if (result.exitValue != 0) {
+            throw new GradleException("keytool failed: ${err.toString()}")
+        }
+        def digest = java.security.MessageDigest.getInstance("SHA-256").digest(export.toByteArray())
+        def b64 = java.util.Base64.getEncoder().encodeToString(digest)
+        def configured = debugSignatureSha256
+        println ""
+        println "=== Livskompassen debug signature pin ==="
+        println "LK_DEBUG_SIGNATURE_SHA256=${b64}"
+        println "Configured BuildConfig pin: ${configured}"
+        if (b64 == configured) {
+            println "OK: debug.keystore matches configured pin — Android Studio Run should pass IdentityManager."
+        } else {
+            println "MISMATCH: add this line to android/local.properties (do not commit):"
+            println "LK_DEBUG_SIGNATURE_SHA256=${b64}"
+            println "Then Gradle Sync → Clean → Run."
+        }
+        println "Release pin (required for assembleRelease): LK_RELEASE_SIGNATURE_SHA256=<release-cert-base64>"
+        println "========================================="
+        println ""
+    }
 }
 
 repositories {

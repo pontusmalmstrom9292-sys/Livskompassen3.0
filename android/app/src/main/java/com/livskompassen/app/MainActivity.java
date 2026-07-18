@@ -16,6 +16,8 @@ import android.view.animation.AnticipateInterpolator;
 
 import androidx.activity.EdgeToEdge;
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -63,6 +65,8 @@ public class MainActivity extends BridgeActivity {
     private SacredLockManager sacredLockManager;
     private WidgetNavigator widgetNavigator;
     private WebViewManager webViewManager;
+    /** System file picker for WebView input type=file (Inkast / dagbok). */
+    private ActivityResultLauncher<Intent> fileChooserLauncher;
     private HapticManager hapticManager;
     private BatteryManager batteryManager;
     private ConnectivityIntelligence connectivityIntelligence;
@@ -93,7 +97,16 @@ public class MainActivity extends BridgeActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         registerPlugin(LkNativeBuildPlugin.class);
-        
+
+        // Register before STARTED — wires WebView file input without monolith logic.
+        fileChooserLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (webViewManager != null) {
+                        webViewManager.onFileChooserResult(result.getResultCode(), result.getData());
+                    }
+                });
+
         SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         splashScreen.setOnExitAnimationListener(view -> {
             final ObjectAnimator fadeOut = ObjectAnimator.ofFloat(view.getView(), View.ALPHA, 1f, 0f);
@@ -141,7 +154,8 @@ public class MainActivity extends BridgeActivity {
         setupShakePanic();
 
         memoryManager = new MemoryManager(this, getBridge());
-        webViewManager = new WebViewManager(this, getBridge(), getWindow().getDecorView(), hapticManager);
+        webViewManager = new WebViewManager(
+                this, getBridge(), getWindow().getDecorView(), hapticManager, fileChooserLauncher);
         sacredLockManager = new SacredLockManager(this, getBridge(), getWindow().getDecorView(), hapticManager, integrityManager);
         sessionSentry = new SessionSentry(getBridge(), sacredLockManager);
         shortcutManager = new ShortcutManager(this);

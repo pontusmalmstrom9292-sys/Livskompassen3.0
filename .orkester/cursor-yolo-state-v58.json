@@ -1,0 +1,30 @@
+{
+  "version": 58,
+  "queueFile": ".orkester/cursor-yolo-queue-v58.json",
+  "buildWaveId": "MINNE-M3-GATES",
+  "startedAt": "2026-07-18T12:20:20.334Z",
+  "updatedAt": "2026-07-18T12:20:20.336Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b58-build",
+      "b58-gate",
+      "b58-vakt"
+    ],
+    "skippedTaskIds": [
+      "b58-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b58-deploy",
+    "b58-build",
+    "b58-gate",
+    "b58-vakt"
+  ],
+  "notes": "Marked done via waves:autorun --mark-done",
+  "finishedAt": "2026-07-18T12:20:20.336Z",
+  "goNoGo": "GO",
+  "gateVerdict": "GO"
+}

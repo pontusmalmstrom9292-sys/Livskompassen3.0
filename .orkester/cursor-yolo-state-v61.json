@@ -1,0 +1,30 @@
+{
+  "version": 61,
+  "queueFile": ".orkester/cursor-yolo-queue-v61.json",
+  "buildWaveId": "MINNE-RULES",
+  "startedAt": "2026-07-18T12:20:20.952Z",
+  "updatedAt": "2026-07-18T12:20:20.953Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b61-build",
+      "b61-gate",
+      "b61-vakt"
+    ],
+    "skippedTaskIds": [
+      "b61-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b61-deploy",
+    "b61-build",
+    "b61-gate",
+    "b61-vakt"
+  ],
+  "notes": "Marked done via waves:autorun --mark-done",
+  "finishedAt": "2026-07-18T12:20:20.953Z",
+  "goNoGo": "GO",
+  "gateVerdict": "GO"
+}

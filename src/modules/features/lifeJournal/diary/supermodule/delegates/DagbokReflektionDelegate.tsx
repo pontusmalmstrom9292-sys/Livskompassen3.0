@@ -51,7 +51,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
     text,
     tags,
     category,
-    pendingMemoryFile,
+    pendingMemoryItems,
     memoryError,
     saving,
     error,
@@ -61,7 +61,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
     setWeaveToKampspar,
     setValidateOnly,
     setCategory,
-    setPendingMemoryFile,
+    setPendingMemoryItems,
     setMemoryError,
     lowEnergyBridge,
     setMood,
@@ -336,11 +336,11 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
               text={text}
               mood={mood}
               category={category}
-              memoryFile={pendingMemoryFile}
+              memoryItems={pendingMemoryItems}
               memoryError={memoryError}
               onTextChange={setText}
               onCategoryChange={setCategory}
-              onMemoryFileChange={setPendingMemoryFile}
+              onMemoryItemsChange={setPendingMemoryItems}
               onMemoryValidationError={setMemoryError}
               onBack={() => goToStep('mood')}
               onContinue={() => goToStep('save')}
@@ -357,7 +357,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
             <ConfirmStep
               mood={mood}
               text={text}
-              memoryFileName={pendingMemoryFile?.name}
+              memorySummaries={pendingMemoryItems.map((i) => i.caption.trim() ? `${i.file.name} — ${i.caption.trim()}` : i.file.name)}
               memoryError={memoryError}
               categoryLabel={categoryLabel}
               saving={saving}

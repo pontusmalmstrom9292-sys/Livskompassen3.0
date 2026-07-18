@@ -50,7 +50,14 @@ public class SacredLockManager {
     }
 
     private void restoreState() {
-        boolean wasLocked = SecurePrefs.get(activity).getBoolean(PREF_LOCKED_STATE, false);
+        // Touch SecurePrefs first so degraded flag is accurate, then fail-closed.
+        android.content.SharedPreferences prefs = SecurePrefs.get(activity);
+        if (SecurePrefs.isDegraded()) {
+            LCLog.e("SacredLockManager: SecurePrefs degraded — forcing lock.");
+            showLock();
+            return;
+        }
+        boolean wasLocked = prefs.getBoolean(PREF_LOCKED_STATE, false);
         if (wasLocked) {
             LCLog.d("SacredLockManager: Restoring persistent locked state.");
             showLock();
@@ -173,6 +180,25 @@ public class SacredLockManager {
         });
     }
 
+    /**
+     * Fail-closed UI: keep Vault obscured without re-entering authenticate().
+     * Used when biometrics/device credential are unavailable.
+     */
+    private void ensureLockedUi() {
+        isLocked = true;
+        saveState(true);
+        mainHandler.post(() -> {
+            if (bridge != null && bridge.getWebView() != null) {
+                bridge.getWebView().setVisibility(View.GONE);
+                bridge.getWebView().setAlpha(0f);
+            }
+            if (lockContainer != null) {
+                lockContainer.setAlpha(1f);
+                lockContainer.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
     public boolean isLocked() {
         return isLocked;
     }
@@ -180,9 +206,18 @@ public class SacredLockManager {
     public void authenticate() {
         BiometricManager biometricManager = BiometricManager.from(activity);
         int authenticators = BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL;
-        
-        if (biometricManager.canAuthenticate(authenticators) != BiometricManager.BIOMETRIC_SUCCESS) {
-            hideLock();
+        int canAuth = biometricManager.canAuthenticate(authenticators);
+
+        // Fail-closed: never unlock when biometrics/device credential are unavailable.
+        if (canAuth != BiometricManager.BIOMETRIC_SUCCESS) {
+            LCLog.e("SacredLockManager: Auth unavailable (code=" + canAuth + "). Keeping Vault locked.");
+            hapticManager.error();
+            ensureLockedUi();
+            Toast.makeText(
+                    activity,
+                    "Valvet förblir låst. Aktivera fingeravtryck, ansikte eller PIN på telefonen.",
+                    Toast.LENGTH_LONG
+            ).show();
             return;
         }
 

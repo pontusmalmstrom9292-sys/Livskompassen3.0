@@ -33,6 +33,7 @@ import {
   vaultToCandidate,
 } from '../utils/dossierCandidates';
 import { generateDossier } from '../api/dossierService';
+import { downloadViaNativeAndroid } from '@/shared/utils/nativeSecureDownload';
 import {
   buildTechniquesByLogId,
   fetchPatternScanMetadata,
@@ -263,6 +264,17 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
   };
 
   const downloadFromResult = (gen: GenerateDossierResult) => {
+    const fileName = `dossier-${new Date().toISOString().slice(0, 10)}.pdf`;
+    if (
+      downloadViaNativeAndroid({
+        downloadUrl: gen.downloadUrl,
+        pdfBase64: gen.pdfBase64,
+        fileName,
+        mimeType: 'application/pdf',
+      })
+    ) {
+      return;
+    }
     if (gen.downloadUrl) {
       window.open(gen.downloadUrl, '_blank', 'noopener,noreferrer');
       return;

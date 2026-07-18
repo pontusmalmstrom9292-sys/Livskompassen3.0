@@ -13,7 +13,10 @@ export interface JournalEntry {
   createdAt?: string;
   category?: string;
   tags?: string[];
+  /** Legacy single attachment (still written as first of attachments when saving). */
   attachment?: JournalAttachment;
+  /** Preferred: 1–2 captioned attachments. */
+  attachments?: JournalAttachment[];
   isPinned?: boolean;
 }
 

@@ -1,0 +1,83 @@
+{
+  "version": 57,
+  "description": "Cursor YOLO v57 — BUILD MINNE-M2-EMBED: Evigt Minne M2 — embedStatus + contentHash + FACT-gate",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 57,
+    "id": "MINNE-M2-EMBED",
+    "title": "Evigt Minne M2 — embedStatus + contentHash + FACT-gate",
+    "agent": "minnes-arkitekten",
+    "plan": "persistKbDoc + ingestKampspar: embedStatus pending/ok/fail, embeddingModel, contentHash, content_class. Strikt isKunskapFactApproved. Metrics log. Ingen rules. Ingen --apply.",
+    "smoke": [
+      "npm run smoke:cost-guard",
+      "npm run smoke:minnes-arkitekt"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "class": "code",
+    "keywords": [
+      "minne",
+      "embedding",
+      "FACT",
+      "contentHash"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b57-deploy",
+      "title": "B57 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v57/b57-deploy.md"
+    },
+    {
+      "id": "b57-build",
+      "title": "B57 — Evigt Minne M2 — embedStatus + contentHash + FACT-gate",
+      "phase": "sequential",
+      "agent": "minnes-arkitekten",
+      "plan": "persistKbDoc + ingestKampspar: embedStatus pending/ok/fail, embeddingModel, contentHash, content_class. Strikt isKunskapFactApproved. Metrics log. Ingen rules. Ingen --apply.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v57/b57-build.md"
+    },
+    {
+      "id": "b57-gate",
+      "title": "B57 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v57.md.",
+      "smoke": [
+        "npm run smoke:cost-guard",
+        "npm run smoke:minnes-arkitekt"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v57/b57-gate.md"
+    },
+    {
+      "id": "b57-vakt",
+      "title": "B57 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v57. Handoff v58.",
+      "smoke": [
+        "npm run smoke:cost-guard",
+        "npm run smoke:minnes-arkitekt"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v57/b57-vakt.md"
+    }
+  ]
+}

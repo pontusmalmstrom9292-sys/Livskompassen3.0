@@ -8,6 +8,7 @@ type EvidenceMediaAttachProps = {
   attachments: MediaAttachment[];
   onAdd: (attachment: MediaAttachment) => void;
   onRemove: (id: string) => void;
+  onCaptionChange?: (id: string, caption: string) => void;
   disabled?: boolean;
   maxItems?: number;
 };
@@ -19,8 +20,9 @@ export function EvidenceMediaAttach({
   attachments,
   onAdd,
   onRemove,
+  onCaptionChange,
   disabled = false,
-  maxItems = 5,
+  maxItems = 2,
 }: EvidenceMediaAttachProps) {
   const galleryRef = useRef<HTMLInputElement>(null);
   const cameraRef = useRef<HTMLInputElement>(null);
@@ -46,7 +48,7 @@ export function EvidenceMediaAttach({
     <div className="glass-card space-y-3 p-3">
       <p className="text-[10px] uppercase tracking-widest text-text-dim">Bifoga bevis (valfritt)</p>
       <p className="text-xs text-text-muted">
-        Skärmdump, foto, ljud eller video — max {maxItems} filer i sessionen.
+        Skärmdump, foto, ljud eller video — max {maxItems} filer. Valfri bildtext per fil.
       </p>
 
       <div className="flex flex-wrap gap-2">
@@ -118,9 +120,21 @@ export function EvidenceMediaAttach({
               className="flex items-start gap-3 rounded-lg border border-border-strong p-2"
             >
               <AttachmentPreview attachment={item} />
-              <div className="min-w-0 flex-1">
+              <div className="min-w-0 flex-1 space-y-2">
                 <p className="truncate text-xs text-text-muted">{item.file.name}</p>
                 <p className="text-[10px] uppercase tracking-widest text-text-dim">{item.kind}</p>
+                {onCaptionChange && (
+                  <textarea
+                    className="input-glass w-full text-xs"
+                    rows={2}
+                    maxLength={500}
+                    disabled={disabled}
+                    placeholder="Bildtext (valfritt), t.ex. Isabelle skickade detta…"
+                    value={item.caption ?? ''}
+                    onChange={(e) => onCaptionChange(item.id, e.target.value.slice(0, 500))}
+                    aria-label={`Bildtext för ${item.file.name}`}
+                  />
+                )}
               </div>
               <button
                 type="button"

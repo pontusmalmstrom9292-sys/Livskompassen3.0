@@ -12,6 +12,7 @@ import {
 import { resolveFirestorePermissionMessage } from '@/core/firebase/firestorePermissionMessage';
 import { useStore } from '@/core/store';
 import { uploadJournalMemory } from '../utils/journalUploadHelper';
+import type { PendingCaptionedMedia } from '@/modules/shared/media';
 import type { JournalCategoryId } from '../constants/journalCategories';
 import { weaveJournalEntry } from '../api/weaverService';
 import { journalWovenToKampspar } from '../api/journalWovenService';
@@ -51,7 +52,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
   const [text, setText] = useState(() => useDiaryStore.getState().diaryDraft || '');
   const [tags, setTags] = useState<string[]>([]);
   const [category, setCategory] = useState<JournalCategoryId | undefined>();
-  const [pendingMemoryFile, setPendingMemoryFile] = useState<File | null>(null);
+  const [pendingMemoryItems, setPendingMemoryItems] = useState<PendingCaptionedMedia[]>([]);
   const [memoryError, setMemoryError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -73,7 +74,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       setText('');
       setTags([]);
       setCategory(undefined);
-      setPendingMemoryFile(null);
+      setPendingMemoryItems([]);
       setMemoryError(null);
       setSaving(false);
       setError(null);
@@ -156,16 +157,25 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     const optInKampspar = opts.optInKampspar ?? weaveToKampspar;
     setSaving(true);
     setError(null);
-    let uploadedAttachment: Awaited<ReturnType<typeof uploadJournalMemory>> | undefined;
+    let uploadedCount = 0;
     try {
       let entryId: string | undefined;
-      let attachment: Awaited<ReturnType<typeof uploadJournalMemory>> | undefined;
+      let attachments: Awaited<ReturnType<typeof uploadJournalMemory>>[] | undefined;
 
-      if (pendingMemoryFile) {
+      if (pendingMemoryItems.length > 0) {
         entryId = createJournalEntryId();
+        attachments = [];
         try {
-          attachment = await uploadJournalMemory(userId, entryId, pendingMemoryFile);
-          uploadedAttachment = attachment;
+          for (const item of pendingMemoryItems.slice(0, 2)) {
+            const uploaded = await uploadJournalMemory(
+              userId,
+              entryId,
+              item.file,
+              item.caption,
+            );
+            attachments.push(uploaded);
+            uploadedCount += 1;
+          }
         } catch (uploadErr) {
           const msg =
             uploadErr instanceof Error
@@ -188,7 +198,8 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
           text: finalEntryText,
           tags: opts.tags?.length ? opts.tags : undefined,
           category: opts.category ?? category,
-          attachment,
+          attachments,
+          attachment: attachments?.[0],
         },
         entryId ? { entryId } : undefined,
       );
@@ -198,7 +209,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
         journalWovenToKampspar({ journalEntryId: id, mood: activeMood, text: finalEntryText });
       }
       setWeaveToKampspar(false);
-      setPendingMemoryFile(null);
+      setPendingMemoryItems([]);
       setMemoryError(null);
       useDiaryStore.getState().clearDiaryDraft();
       if (!mountedRef.current) return true;
@@ -220,7 +231,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
       const permissionMsg = resolveFirestorePermissionMessage(err);
       const msg = permissionMsg
         ? permissionMsg
-        : uploadedAttachment
+        : uploadedCount > 0
           ? 'Bilagan laddades upp men posten kunde inte sparas. Ta bort bilagan och försök igen, eller spara utan bilaga.'
           : err instanceof Error
             ? err.message
@@ -306,7 +317,7 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     setText('');
     setTags([]);
     setCategory(undefined);
-    setPendingMemoryFile(null);
+    setPendingMemoryItems([]);
     setMemoryError(null);
     setWeaveToKampspar(false);
     setLastSavedEntryId(null);
@@ -321,7 +332,8 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     text,
     tags,
     category,
-    pendingMemoryFile,
+    pendingMemoryItems,
+    pendingMemoryFile: pendingMemoryItems[0]?.file ?? null,
     memoryError,
     saving,
     error,
@@ -335,7 +347,22 @@ export function useJournalFlow({ userId, mabraHub, lowEnergyBridge = false }: Us
     setWeaveToKampspar,
     setValidateOnly,
     setCategory,
-    setPendingMemoryFile,
+    setPendingMemoryItems,
+    setPendingMemoryFile: (file: File | null) => {
+      if (!file) {
+        setPendingMemoryItems([]);
+        return;
+      }
+      setPendingMemoryItems([
+        {
+          id: `${Date.now()}-legacy`,
+          file,
+          previewUrl: URL.createObjectURL(file),
+          caption: '',
+          mimeType: file.type || 'application/octet-stream',
+        },
+      ]);
+    },
     setMemoryError,
     lowEnergyBridge,
     setMood,

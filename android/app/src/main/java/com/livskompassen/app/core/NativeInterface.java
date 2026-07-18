@@ -69,6 +69,24 @@ public class NativeInterface {
         shareManager.shareTextAsFile(content, fileName, mimeType);
     }
 
+    /**
+     * Share a Base64 payload (PDF etc.) via the system share sheet.
+     * Used by dossier export on Android WebView where window.open fails.
+     */
+    @JavascriptInterface
+    public void shareBase64File(String base64Payload, String fileName, String mimeType) {
+        shareManager.shareBase64AsFile(base64Payload, fileName, mimeType);
+    }
+
+    /**
+     * Enqueue an https download to the device Downloads folder (DownloadManager).
+     * Non-https URLs are refused.
+     */
+    @JavascriptInterface
+    public void downloadSecureUrl(String url, String fileName, String mimeType) {
+        shareManager.enqueueHttpsDownload(url, fileName, mimeType);
+    }
+
     @JavascriptInterface
     public boolean isDNDActive() {
         return focusManager.isDoNotDisturbActive();

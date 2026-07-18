@@ -1,12 +1,12 @@
 {
-  "version": 1,
-  "updatedAt": "2026-07-14T19:10:00.000Z",
-  "description": "PMIR auto-SKIP register för SDK YOLO build marathon v34–v54 (improvement waves inkl.)",
+  "version": 2,
+  "updatedAt": "2026-07-18T12:15:00.000Z",
+  "description": "PMIR auto-SKIP register — SDK YOLO + Evigt Minne v55–v62 supersafe",
   "alwaysSkip": [
     {
       "id": "firestore-rules",
       "patterns": ["firestore.rules", "storage.rules", "functions/src/sharedRules.ts"],
-      "reason": "PMIR — rules kräver Pontus OK"
+      "reason": "PMIR — rules kräver Pontus OK (OK rules)"
     },
     {
       "id": "barnporten-kanon",
@@ -16,7 +16,23 @@
     {
       "id": "minne-apply",
       "patterns": ["--apply", "kampspar --apply", "live ingest"],
-      "reason": "PMIR — live minne/ingest kräver godkännande"
+      "reason": "PMIR — live minne/ingest kräver OK minne apply"
+    },
+    {
+      "id": "vertex-revive",
+      "patterns": [
+        "aiplatform.googleapis.com",
+        "setup_vector_search",
+        "vectorSearchClient",
+        "Matching Engine",
+        "IndexEndpoint"
+      ],
+      "reason": "PMIR — Vertex Vector Search decommissioned; cost-guard forever"
+    },
+    {
+      "id": "cross-rag",
+      "patterns": ["cross-rag", "crossRAG", "sök allt", "search-all-silos"],
+      "reason": "PMIR — tre silos; ingen cross-RAG"
     },
     {
       "id": "genkit-prod",
@@ -32,7 +48,16 @@
   "deployRequiresOk": {
     "hosting": "Pontus skriver OK deploy",
     "functions": "Pontus skriver OK deploy",
-    "rules": "PMIR — aldrig auto"
+    "rules": "PMIR — aldrig auto (fras OK rules + readyForRules)"
+  },
+  "minneForever": {
+    "autoThrough": 60,
+    "phrases": {
+      "okRules": "OK rules",
+      "okDeploy": "OK deploy",
+      "okMinneApply": "OK minne apply"
+    },
+    "killList": ["Vertex", "Pinecone", "hash-chain Kunskap v1", "auto-merge main"]
   },
   "v47HostingDeploy": {
     "enabled": true,

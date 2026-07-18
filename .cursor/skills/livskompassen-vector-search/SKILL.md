@@ -1,47 +1,40 @@
 ---
 name: livskompassen-vector-search
-description: Vertex AI Vector Search for Livskompassen Minne — indexes, endpoints, embeddings, VECTOR_SEARCH_* env. Use when wiring ANN or GCP provisioning.
+description: Firestore Native Vector Search (findNearest) for Livskompassen Kunskap Minne — embeddings 768, kampspar/kb_docs ANN + lexical hybrid. Vertex is DECOMMISSIONED.
 ---
 
 > **Register:** `docs/prompts/PROMPTER-SKILLS-FUNKTIONER-REGISTER.md` · Runtime-prompter: `npm run prompts:sync`
 
+# Vector Search — Firestore Native (Evigt Minne)
 
-# Vector Search
-
-## GCP inventory (gen-lang-client-0481875058) — live 2026-05-22
-
-| Index | Region | ID suffix | Status |
-|-------|--------|-----------|--------|
-| `livskompassen-kv-index` | europe-west1 | `2686894156982255616` | **KANONISK** — STREAM, 102 vectors |
-| `kampspar_index` | europe-north1 | `9094201410823651328` | **DEPRECATE** — BATCH, 0 endpoints |
-
-**Endpoint (west1):** `4956462078572363776` (`livskompassen-kv-endpoint`)  
-**Deployed index:** `livskompassen_kv_deployed_v1`
-
-Live sanning: [`docs/GCP-INVENTORY-LATEST.md`](../../docs/GCP-INVENTORY-LATEST.md)
-
-## Repo files
-
-- [`scripts/setup_vector_search_west1.sh`](../../scripts/setup_vector_search_west1.sh)
-- [`functions/src/lib/vectorSearchClient.ts`](../../functions/src/lib/vectorSearchClient.ts)
-- [`functions/src/lib/generateEmbeddingInternal.ts`](../../functions/src/lib/generateEmbeddingInternal.ts)
-- [`functions/src/lib/kampsparQueryRag.ts`](../../functions/src/lib/kampsparQueryRag.ts) — ANN + token-match fallback
+**Status 2026-07-18:** Vertex AI Vector Search / Matching Engine / `aiplatform` = **DECOMMISSIONED forever**.  
+Canonical path: **Firestore `findNearest` COSINE** on `kampspar` + `kb_docs` (dim **768**) + Gemini embeddings + lexical hybrid (RRF).
 
 ## MUST
 
-- Use **europe-west1** index (same region as Functions).
-- Fallback to token-match if ANN fails.
-- Store `embeddingDim` on ingest when embeddings succeed.
+- Use [`functions/src/lib/kampsparQueryRag.ts`](../../functions/src/lib/kampsparQueryRag.ts) for Kunskap RAG.
+- Use [`functions/src/lib/generateEmbeddingInternal.ts`](../../functions/src/lib/generateEmbeddingInternal.ts) (768-dim).
+- Keep token/lexical path as hybrid partner — not ANN-only.
+- Respect three silos — never fuse Valv/Barnen into Kunskap RAG.
+- Cost-guard: `aiplatform.googleapis.com` stays in **blockedApis**.
 
 ## MUST NOT
 
-- Deploy two live ANN paths without documenting canonical index.
-- Wire north1 `kampspar_index` as prod (west1 is kanon).
+- Re-enable Vertex / IndexEndpoint / Matching Engine.
+- Run `scripts/setup_vector_search*.sh` (stubs exit 1).
+- Import or recreate `vectorSearchClient.ts`.
+- Cross-RAG or “sök allt”.
+- Soft-delete Minne docs.
 
-## Env vars
+## Indexes
 
-Optional in Secret Manager; kod-defaults i `vectorSearchClient.ts` räcker (verifierat 2026-05-22).
+See `firestore.indexes.json` — composite `ownerId` + `embedding` vectorConfig 768 for `kampspar` and `kb_docs`.
+
+## Runbooks
+
+- [`docs/runbooks/VECTOR-SEARCH-DECOMMISSION.md`](../../docs/runbooks/VECTOR-SEARCH-DECOMMISSION.md)
+- Evigt Minne YOLO: `npm run minne:yolo:build` (auto v55–v60)
 
 ## GAP
 
-G2/G3 **done**. north1-index avveckling — se [`GCP-KONSOLIDERING-BESLUT.md`](../../docs/GCP-KONSOLIDERING-BESLUT.md) steg 6.
+Vertex revival = PMIR hard NO-GO. Embedding model migration stays at 768 dims.

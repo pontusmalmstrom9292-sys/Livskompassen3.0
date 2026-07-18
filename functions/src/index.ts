@@ -11,6 +11,7 @@ export {
   getContextCacheStatus,
   ingestKampsparEntry,
   ingestKnowledgeDocument,
+  promoteKbDocToKampspar,
 } from './callables/knowledge';
 
 export {

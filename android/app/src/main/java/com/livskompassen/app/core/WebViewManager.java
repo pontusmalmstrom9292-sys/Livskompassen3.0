@@ -1,6 +1,8 @@
 package com.livskompassen.app.core;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
@@ -8,7 +10,7 @@ import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
-import android.net.NetworkRequest;
+import android.net.Uri;
 import android.net.http.SslError;
 import android.os.Build;
 import android.os.Handler;
@@ -16,6 +18,7 @@ import android.os.Looper;
 import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.PermissionRequest;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -28,7 +31,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.getcapacitor.Bridge;
 import com.getcapacitor.BridgeWebViewClient;
@@ -44,23 +49,65 @@ public class WebViewManager {
     private final Bridge bridge;
     private final HapticManager hapticManager;
     private final DialogManager dialogManager;
+    private final SecureShareManager secureShareManager;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private PerformanceWatchdog watchdog;
-    
+
     private LinearLayout errorContainer;
     private TextView errorTitle;
     private TextView errorMessage;
     private boolean isNetworkOverlayShowing = false;
 
-    public WebViewManager(Context context, Bridge bridge, View rootView, HapticManager hapticManager) {
+    @Nullable
+    private final ActivityResultLauncher<Intent> fileChooserLauncher;
+    @Nullable
+    private ValueCallback<Uri[]> filePathCallback;
+
+    public WebViewManager(
+            Context context,
+            Bridge bridge,
+            View rootView,
+            HapticManager hapticManager,
+            @Nullable ActivityResultLauncher<Intent> fileChooserLauncher) {
         this.context = context;
         this.bridge = bridge;
         this.hapticManager = hapticManager;
         this.dialogManager = new DialogManager(context, hapticManager);
-        
+        this.secureShareManager = new SecureShareManager(context);
+        this.fileChooserLauncher = fileChooserLauncher;
+
         setupErrorViews(rootView);
         setupWebView();
         setupNetworkCallback();
+    }
+
+    /** Backward-compatible constructor (no file chooser launcher). */
+    public WebViewManager(Context context, Bridge bridge, View rootView, HapticManager hapticManager) {
+        this(context, bridge, rootView, hapticManager, null);
+    }
+
+    /**
+     * Deliver system file-picker result to the pending WebView ValueCallback.
+     * Called from MainActivity's ActivityResultLauncher.
+     */
+    public void onFileChooserResult(int resultCode, @Nullable Intent data) {
+        Uri[] results = null;
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            Uri uri = data.getData();
+            if (uri != null) {
+                results = new Uri[]{uri};
+            } else if (data.getClipData() != null) {
+                int count = data.getClipData().getItemCount();
+                results = new Uri[count];
+                for (int i = 0; i < count; i++) {
+                    results[i] = data.getClipData().getItemAt(i).getUri();
+                }
+            }
+        }
+        if (filePathCallback != null) {
+            filePathCallback.onReceiveValue(results);
+            filePathCallback = null;
+        }
     }
 
     private void setupNetworkCallback() {
@@ -105,7 +152,6 @@ public class WebViewManager {
         WebView webView = bridge.getWebView();
         if (webView == null) return;
 
-        // Pre-warm the WebView cache with critical assets
         webView.loadUrl("javascript:(function(){" +
                 "const link=document.createElement('link');" +
                 "link.rel='prefetch'; link.href='assets/index-Csuaqq85.css';" +
@@ -114,16 +160,15 @@ public class WebViewManager {
 
         webView.setBackgroundColor(Color.parseColor("#0D0B09"));
         WebSettings settings = webView.getSettings();
-        
-        // Performance & Caching
+
         updateCacheMode(settings);
         settings.setDomStorageEnabled(true);
         settings.setDatabaseEnabled(true);
         settings.setMediaPlaybackRequiresUserGesture(false);
+        // file:// blocked; content:// allowed so <input type="file"> can read picker URIs
         settings.setAllowFileAccess(false);
-        settings.setAllowContentAccess(false);
+        settings.setAllowContentAccess(true);
 
-        // Security Hardening (Våg 18)
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             settings.setSafeBrowsingEnabled(true);
@@ -132,7 +177,6 @@ public class WebViewManager {
 
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
-        // Start Performance Watchdog
         watchdog = new PerformanceWatchdog(webView);
         watchdog.start();
 
@@ -140,7 +184,7 @@ public class WebViewManager {
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, android.net.http.SslError error) {
                 LCLog.e("FATAL: SSL Error Detected: " + error.toString());
-                handler.cancel(); // Block all SSL errors
+                handler.cancel();
                 showErrorPage("Säkerhetsfel", "Anslutningen är inte säker (SSL_ERROR).");
             }
 
@@ -218,11 +262,61 @@ public class WebViewManager {
                 LCLog.d("JS [" + consoleMessage.messageLevel() + "]: " + consoleMessage.message());
                 return true;
             }
+
+            @Override
+            public boolean onShowFileChooser(
+                    WebView webView,
+                    ValueCallback<Uri[]> filePathCallback,
+                    FileChooserParams fileChooserParams) {
+                if (WebViewManager.this.filePathCallback != null) {
+                    WebViewManager.this.filePathCallback.onReceiveValue(null);
+                }
+                WebViewManager.this.filePathCallback = filePathCallback;
+
+                if (fileChooserLauncher == null) {
+                    LCLog.e("WebViewManager: fileChooserLauncher missing — cancelling file pick");
+                    WebViewManager.this.filePathCallback.onReceiveValue(null);
+                    WebViewManager.this.filePathCallback = null;
+                    return true;
+                }
+
+                try {
+                    Intent intent = fileChooserParams.createIntent();
+                    fileChooserLauncher.launch(intent);
+                    return true;
+                } catch (Exception e) {
+                    LCLog.e("WebViewManager: onShowFileChooser failed: " + e.getMessage());
+                    WebViewManager.this.filePathCallback.onReceiveValue(null);
+                    WebViewManager.this.filePathCallback = null;
+                    return true;
+                }
+            }
         });
 
-        webView.setDownloadListener((url, userAgent, contentDisposition, mimetype, contentLength) -> 
-            Toast.makeText(context, "Sparar säkert i Valvet...", Toast.LENGTH_SHORT).show()
-        );
+        webView.setDownloadListener((url, userAgent, contentDisposition, mimetype, contentLength) -> {
+            if (url == null) {
+                return;
+            }
+            if (url.startsWith("https://")) {
+                String name = android.webkit.URLUtil.guessFileName(url, contentDisposition, mimetype);
+                secureShareManager.enqueueHttpsDownload(url, name, mimetype);
+                return;
+            }
+            if (url.startsWith("data:")) {
+                String name = android.webkit.URLUtil.guessFileName("download.bin", contentDisposition, mimetype);
+                if (mimetype != null && mimetype.contains("pdf")) {
+                    name = name.endsWith(".pdf") ? name : "livskompassen-export.pdf";
+                }
+                secureShareManager.shareBase64AsFile(
+                        url,
+                        name,
+                        mimetype != null ? mimetype : "application/octet-stream");
+                return;
+            }
+            LCLog.w("WebViewManager: unsupported download scheme: "
+                    + url.substring(0, Math.min(32, url.length())));
+            Toast.makeText(context, "Den här filtypen kan inte laddas ner här.", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void updateCacheMode(WebSettings settings) {
@@ -241,14 +335,14 @@ public class WebViewManager {
                 hapticManager.error();
                 errorTitle.setText(title);
                 errorMessage.setText(message);
-                
+
                 isNetworkOverlayShowing = true;
                 errorContainer.setAlpha(0f);
                 errorContainer.setVisibility(View.VISIBLE);
                 errorContainer.animate().alpha(1f).setDuration(400).start();
-                
+
                 if (bridge.getWebView() != null) {
-                    bridge.getWebView().animate().alpha(0f).setDuration(400).withEndAction(() -> 
+                    bridge.getWebView().animate().alpha(0f).setDuration(400).withEndAction(() ->
                         bridge.getWebView().setVisibility(View.GONE)
                     ).start();
                 }
@@ -260,10 +354,10 @@ public class WebViewManager {
         mainHandler.post(() -> {
             if (errorContainer != null && errorContainer.getVisibility() == View.VISIBLE) {
                 isNetworkOverlayShowing = false;
-                errorContainer.animate().alpha(0f).setDuration(400).withEndAction(() -> 
+                errorContainer.animate().alpha(0f).setDuration(400).withEndAction(() ->
                     errorContainer.setVisibility(View.GONE)
                 ).start();
-                
+
                 if (bridge.getWebView() != null) {
                     bridge.getWebView().setVisibility(View.VISIBLE);
                     bridge.getWebView().setAlpha(0f);
@@ -277,25 +371,22 @@ public class WebViewManager {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         if (audioManager == null) return;
 
-        // Våg 47: Check if microphone is already in use
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-            if (audioManager.getMode() == AudioManager.MODE_IN_COMMUNICATION || 
+            if (audioManager.getMode() == AudioManager.MODE_IN_COMMUNICATION ||
                 audioManager.getMode() == AudioManager.MODE_IN_CALL) {
                 LCLog.w("WebViewManager: Microphone may be in use by another app!");
                 Toast.makeText(context, "Varning: Mikrofonen verkar användas av en annan app.", Toast.LENGTH_LONG).show();
             }
         }
 
-        // Härda ljudsessionen för Våg 29
         LCLog.d("WebViewManager: Hardening audio session for recording.");
 
         AudioManager.OnAudioFocusChangeListener listener = focusChange -> {
             if (focusChange == AudioManager.AUDIOFOCUS_LOSS || focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
                 if (bridge.getWebView() != null) {
-                    bridge.getWebView().evaluateJavascript("window.dispatchEvent(new CustomEvent('livskompassen-audio-pause'));", null);
+                    bridge.getWebView().evaluateJavascript(
+                            "window.dispatchEvent(new CustomEvent('livskompassen-audio-pause'));", null);
                 }
-            } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
-                // Återuppta haptik eller signalera till JS om önskvärt
             }
         };
 

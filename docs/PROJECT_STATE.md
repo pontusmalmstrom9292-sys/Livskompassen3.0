@@ -79,6 +79,17 @@ Phase 0–9 baseline och migration **done**. Phase 10: `index.css` import-only; 
 
 ---
 
+
+
+## Minne Sacred (Evigt Minne)
+
+**Status:** aktiv programvåg **v55–v62** (supersäker YOLO).  
+**Stack:** Firestore Native `findNearest` + Gemini embeddings 768 + lexical hybrid — **ingen Vertex**.  
+**Tryck Build:** `npm run minne:yolo:build` (auto till v60).  
+**Fraser:** `OK rules` → v61 Admin-only create · `OK deploy` → v62 functions.  
+**Konstitution:** [`.context/minne-sacred-features.md`](../.context/minne-sacred-features.md)  
+**Cost:** `aiplatform` blocked forever · runbook `docs/runbooks/VECTOR-SEARCH-DECOMMISSION.md`.
+
 ## Last verified
 
 | Check | Result | Date / ref |

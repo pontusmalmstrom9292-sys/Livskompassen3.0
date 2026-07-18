@@ -1,5 +1,12 @@
 ## 2026-07-18 — Fas 24 förbättringsplan
 
+
+## 2026-07-18 — Dagbok/uppladdning bild + bildtext (Fas 0–5)
+
+- Delad `MediaAttachWithCaption` (max 2, caption, paste)
+- Dagbok: skriv + arkiv Tidslinje/Bild+text + lightbox
+- Barnlivslogg mediaCaption; Inkast/Valv/Speglar caption
+- Locked UX + `MOD-SHARED-MEDIA` · smoke:media-attach PASS
 - G85 7d started (day 1 logged in PROJECT_STATE v1.4)
 - App Check Valv coverage + token-path hygiene + MainActivity deep-link
 - Planering/Hjärtat Dashboard → Done; a11y transparency foundation

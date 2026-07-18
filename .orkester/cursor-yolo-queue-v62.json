@@ -1,0 +1,81 @@
+{
+  "version": 62,
+  "description": "Cursor YOLO v62 — BUILD MINNE-DEPLOY: Evigt Minne M7 — functions deploy (PAUS: OK deploy)",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 62,
+    "id": "MINNE-DEPLOY",
+    "title": "Evigt Minne M7 — functions deploy (PAUS: OK deploy)",
+    "agent": "yolo-vakt",
+    "plan": "Efter OK deploy: firebase deploy --only functions (rules om godkända). Ingen auto-merge main. SKIP utan fras.",
+    "smoke": [
+      "npm run smoke:predeploy:build"
+    ],
+    "pmir": true,
+    "deploy": "functions",
+    "fullGate": true,
+    "class": "deploy",
+    "keywords": [
+      "minne",
+      "deploy",
+      "functions",
+      "OK deploy"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b62-deploy",
+      "title": "B62 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "functions",
+      "promptFile": "docs/cursor-pipeline/yolo-v62/b62-deploy.md"
+    },
+    {
+      "id": "b62-build",
+      "title": "B62 — Evigt Minne M7 — functions deploy (PAUS: OK deploy)",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "Efter OK deploy: firebase deploy --only functions (rules om godkända). Ingen auto-merge main. SKIP utan fras.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v62/b62-build.md"
+    },
+    {
+      "id": "b62-gate",
+      "title": "B62 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v62.md.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v62/b62-gate.md"
+    },
+    {
+      "id": "b62-vakt",
+      "title": "B62 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v62. Handoff v63.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v62/b62-vakt.md"
+    }
+  ]
+}

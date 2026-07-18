@@ -182,6 +182,12 @@ export function SpeglingsForensicPanel({ userId, initialFeeling = '' }: Forensic
     });
   }, []);
 
+  const updateAttachmentCaption = useCallback((id: string, caption: string) => {
+    setAttachments((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, caption } : item)),
+    );
+  }, []);
+
   const handleEvidenceSaved = useCallback((saved: SavedSpeglarEvidence) => {
     setSavedAttachmentIds((prev) => new Set(prev).add(saved.attachmentId));
     setSessionSavedEvidence((prev) => [...prev, saved]);
@@ -277,6 +283,7 @@ export function SpeglingsForensicPanel({ userId, initialFeeling = '' }: Forensic
             savedIds={savedAttachmentIds}
             onAdd={addAttachment}
             onRemove={removeAttachment}
+            onCaptionChange={updateAttachmentCaption}
             onSaved={handleEvidenceSaved}
           />
         </CalmCollapsible>

@@ -1,4 +1,5 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
+import * as admin from 'firebase-admin';
 import { askKnowledgeVaultWithRag } from '../agents/knowledgeVaultAgent';
 import { askChildrenLogsQuery } from '../agents/childrenLogsAgent';
 import { geminiApiKey } from '../lib/geminiSecret';
@@ -150,6 +151,49 @@ export const ingestKampsparEntry = onCall(
       source,
       eventDate,
     });
+  }
+);
+
+/** HITL: promote kb_docs → kort kampspar-livsminne (en bekräftelse). */
+export const promoteKbDocToKampspar = onCall(
+  { region: 'europe-west1', memory: '512MiB', timeoutSeconds: 60, secrets: [geminiApiKey] },
+  async (request) => {
+    const uid = await guardSensitiveCallableV2(request, 'promoteKbDocToKampspar', 10);
+    const kbDocId = typeof request.data?.kbDocId === 'string' ? request.data.kbDocId.trim() : '';
+    if (!kbDocId) {
+      throw new HttpsError('invalid-argument', 'kbDocId krävs.');
+    }
+
+    const snap = await admin.firestore().collection('kb_docs').doc(kbDocId).get();
+    if (!snap.exists) {
+      throw new HttpsError('not-found', 'kb_docs-post saknas.');
+    }
+    const data = snap.data()!;
+    if (data.ownerId !== uid && data.userId !== uid) {
+      throw new HttpsError('permission-denied', 'Åtkomst nekad.');
+    }
+
+    const title = String(data.title ?? 'Livsminne').slice(0, 200);
+    const content = String(data.content ?? '').slice(0, 8000);
+    if (content.length < 12) {
+      throw new HttpsError('failed-precondition', 'Dokumentet saknar innehåll att promota.');
+    }
+
+    const result = await ingestKampsparForUser(uid, {
+      title,
+      content,
+      category: 'livsminne',
+      entryType: 'promoted',
+      source: 'kb_docs_promote',
+      tags: ['hitl-promote', 'manuell'],
+      promotedFromKbDocId: kbDocId,
+    });
+
+    return {
+      ...result,
+      kbDocId,
+      toast: 'Sparat i Minne',
+    };
   }
 );
 

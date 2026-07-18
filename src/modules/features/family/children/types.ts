@@ -18,6 +18,9 @@ export interface ChildrenLogEntry {
   childrenImpact?: string;
   signals?: PhysiologicalSignals;
   createdAt?: string;
+  mediaUrl?: string;
+  mediaCaption?: string;
+  contentType?: string;
 }
 
 export interface BalansResult {

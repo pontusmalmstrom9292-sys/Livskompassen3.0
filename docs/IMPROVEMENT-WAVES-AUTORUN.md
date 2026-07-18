@@ -1,7 +1,7 @@
 # Improvement Waves Autorun — Fas 24 → färdig
 
 **Syfte:** Ett kommando som kör nästa förbättringsvåg säkert (smoke → yolo-vakt → branch-commit).  
-**Aktiv:** v49–v54 · Manifest: [`.orkester/cursor-yolo-build-manifest.json`](../.orkester/cursor-yolo-build-manifest.json)  
+**Aktiv:** v49–v62 (Evigt Minne v55–v62) · Manifest: [`.orkester/cursor-yolo-build-manifest.json`](../.orkester/cursor-yolo-build-manifest.json)  
 **State:** [`.orkester/wave-machine-state.json`](../.orkester/wave-machine-state.json)
 
 ---
@@ -9,6 +9,8 @@
 ## Tryck Build
 
 ```bash
+npm run minne:yolo:build          # Evigt Minne auto v55→v60
+npm run waves:autorun -- --phrase="OK rules"
 npm run waves:autorun -- --dry-run    # visa nästa våg (ska vara 49 första gången)
 npm run waves:autorun                 # kör nästa ofullständiga våg (kräver CURSOR_API_KEY)
 npm run waves:autorun:night           # max 1 våg
@@ -53,6 +55,20 @@ PMIR (`firestore.rules`, Barnporten kanon, `--apply`, …) → SKIP + blocker-ev
 | 52 | BACKEND-HARDEN | adk-weaver | Weaver U1, manifest, functions-diff |
 | 53 | UX-POLISH-ANDROID-SYNC | ux-guardian | Polish + cap sync |
 | 54 | SLUTGATE-FARDIG | yolo-vakt | predeploy:build GO/NO-GO |
+
+
+## Vågor v55–v62 (Evigt Minne)
+
+| V | ID | Auto? | Fokus |
+|---|-----|-------|--------|
+| 55 | MINNE-G0-MACHINE | JA | Wave machine + phrase-gate + Vertex skill lock |
+| 56 | MINNE-M1-RRF | JA | Hybrid RRF + citations |
+| 57 | MINNE-M2-EMBED | JA | embedStatus + contentHash + FACT |
+| 58 | MINNE-M3-GATES | JA | confirm→kunskap + HITL promote |
+| 59 | MINNE-M4-ARCHIVE | JA | GCS archive dry-run |
+| 60 | MINNE-GATE | JA | readyForRules hard stop |
+| 61 | MINNE-RULES | PAUS | Admin-only create (OK rules) |
+| 62 | MINNE-DEPLOY | PAUS | functions deploy (OK deploy) |
 
 Historik v34–v48: `npm run sdk:yolo:full` (klar).
 

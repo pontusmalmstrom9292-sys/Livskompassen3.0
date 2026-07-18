@@ -214,4 +214,109 @@ export function ensureOrkesterDir() {
   if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
 }
 
+/** Wave class → required phrase key in wave-machine-state.phrases */
+export const WAVE_CLASS_PHRASE = {
+  rules: "okRules",
+  ingest: "okMinneApply",
+  deploy: "okDeploy",
+};
+
+/**
+ * File-enforced pause: rules/ingest/deploy need phrase in state.
+ * @param {object} wave
+ * @param {object} machineState
+ * @returns {{ ok: boolean, reason?: string, phraseKey?: string }}
+ */
+export function assertWaveClassAllowed(wave, machineState = loadWaveMachineState()) {
+  const cls = wave?.class ?? "code";
+  const phraseKey = WAVE_CLASS_PHRASE[cls];
+  if (!phraseKey) return { ok: true };
+  const phrases = machineState.phrases ?? {};
+  if (phrases[phraseKey] === true) return { ok: true, phraseKey };
+  if (cls === "rules" && machineState.readyForRules !== true) {
+    return {
+      ok: false,
+      phraseKey,
+      reason: `v${wave.version} class=rules kräver readyForRules=true + fras "OK rules"`,
+    };
+  }
+  const hint =
+    cls === "rules"
+      ? 'OK rules'
+      : cls === "ingest"
+        ? "OK minne apply"
+        : "OK deploy";
+  return {
+    ok: false,
+    phraseKey,
+    reason: `v${wave.version} class=${cls} PAUS — skriv frasen "${hint}" (sätt phrases.${phraseKey}=true i wave-machine-state)`,
+  };
+}
+
+/**
+ * Record Pontus phrase unlocks.
+ * @param {'OK rules'|'OK deploy'|'OK minne apply'|string} phrase
+ */
+export function recordWavePhrase(phrase) {
+  const machine = loadWaveMachineState();
+  const phrases = { ...(machine.phrases ?? {}) };
+  const normalized = String(phrase ?? "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, " ");
+  if (normalized === "ok rules" || normalized.includes("ok rules")) {
+    phrases.okRules = true;
+  } else if (normalized === "ok deploy" || normalized.includes("ok deploy")) {
+    phrases.okDeploy = true;
+  } else if (
+    normalized === "ok minne apply" ||
+    normalized.includes("ok minne apply") ||
+    normalized.includes("ok minne-apply")
+  ) {
+    phrases.okMinneApply = true;
+  } else {
+    throw new Error(`Okänd fras: ${phrase} (förväntade OK rules | OK deploy | OK minne apply)`);
+  }
+  return saveWaveMachineState({ ...machine, phrases, status: "idle" });
+}
+
+/**
+ * Diff working tree against sdk-pmir alwaysSkip patterns.
+ * @returns {{ ok: boolean, hits: Array<{ id: string, file: string, reason: string }> }}
+ */
+export function scanAlwaysSkipDiff() {
+  const register = readJson(PMIR_REGISTER_PATH);
+  const alwaysSkip = register?.alwaysSkip ?? [];
+  const r = spawnSync("git", ["diff", "--name-only", "HEAD"], {
+    cwd: root,
+    encoding: "utf8",
+  });
+  const unstaged = (r.stdout ?? "")
+    .split("\n")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const r2 = spawnSync("git", ["diff", "--cached", "--name-only"], {
+    cwd: root,
+    encoding: "utf8",
+  });
+  const staged = (r2.stdout ?? "")
+    .split("\n")
+    .map((s) => s.trim())
+    .filter(Boolean);
+  const files = [...new Set([...unstaged, ...staged])];
+  const hits = [];
+  for (const file of files) {
+    for (const rule of alwaysSkip) {
+      const patterns = rule.patterns ?? [];
+      for (const pat of patterns) {
+        if (!pat) continue;
+        if (file.includes(pat) || file.endsWith(pat)) {
+          hits.push({ id: rule.id, file, reason: rule.reason ?? "PMIR alwaysSkip" });
+        }
+      }
+    }
+  }
+  return { ok: hits.length === 0, hits };
+}
+
 export { IMPROVEMENT_WAVE_MIN, BUILD_WAVE_MIN, BUILD_WAVE_MAX };

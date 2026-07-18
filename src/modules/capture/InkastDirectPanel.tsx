@@ -37,6 +37,10 @@ import {
 } from '@/modules/inkast/constants/inkastMimeTypes';
 import { CalmBreathingCircle } from './components/CalmBreathingCircle';
 import { useSpeechRecognition } from './hooks/useSpeechRecognition';
+import {
+  MediaAttachWithCaption,
+  type PendingCaptionedMedia,
+} from '@/modules/shared/media';
 
 const BARA_ORD_OPTIONS = ['Utmattad', 'Ångest', 'Ledsen', 'Lugn', 'Överväldigad'];
 
@@ -76,6 +80,7 @@ export function InkastDirectPanel({
   const [copied, setCopied] = useState(false);
   // Fas 3: Bara ord-läge
   const [showBaraOrd, setShowBaraOrd] = useState(false);
+  const [pendingMediaItems, setPendingMediaItems] = useState<PendingCaptionedMedia[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const userId = useStore((s) => s.user?.uid);
 
@@ -118,6 +123,7 @@ export function InkastDirectPanel({
         }
 
         if (payload.text) setText('');
+        setPendingMediaItems([]);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Inkast misslyckades.');
       } finally {
@@ -192,15 +198,48 @@ export function InkastDirectPanel({
     setWormContextLabel(undefined);
   }, []);
 
-  const handlePasteSubmit = () => {
+  const handlePasteSubmit = async () => {
     const trimmed = text.trim();
-    if (trimmed.length < 12) {
-      setError('Skriv minst några rader (sms, mejl, anteckning).');
+    const hasMedia = pendingMediaItems.length > 0;
+    if (trimmed.length < 12 && !hasMedia) {
+      setError('Skriv minst några rader (sms, mejl, anteckning) eller bifoga en bild.');
       return;
     }
-    // Fas 3: skicka med baraLyssna-flagga som metadata
+    const captionBlock = pendingMediaItems
+      .map((item, i) => {
+        const cap = item.caption.trim();
+        return cap ? `Bild ${i + 1} (${item.file.name}): ${cap}` : `Bild ${i + 1}: ${item.file.name}`;
+      })
+      .join('\n');
+    const combinedText = [trimmed, captionBlock].filter(Boolean).join('\n\n');
+
+    if (hasMedia) {
+      try {
+        const base64Files: string[] = [];
+        const mimeTypes: string[] = [];
+        const fileNames: string[] = [];
+        for (const item of pendingMediaItems.slice(0, 2)) {
+          base64Files.push(await fileToBase64(item.file));
+          mimeTypes.push(resolveInkastMime(item.file));
+          fileNames.push(item.file.name);
+        }
+        void requestSubmit({
+          text: combinedText || undefined,
+          fileName: 'inkast-klistra.txt',
+          base64Files,
+          mimeTypes,
+          fileNames,
+          ...(baraLyssna ? { sourceModule: `${sourceModule ?? 'inkast'}|bara_lyssna` } : {}),
+        });
+        setPendingMediaItems([]);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Kunde inte läsa bilden.');
+      }
+      return;
+    }
+
     void requestSubmit({
-      text: trimmed,
+      text: combinedText,
       fileName: 'inkast-klistra.txt',
       ...(baraLyssna ? { sourceModule: `${sourceModule ?? 'inkast'}|bara_lyssna` } : {}),
     });
@@ -320,6 +359,16 @@ export function InkastDirectPanel({
           <p className="mt-0.5 text-right text-[11px] text-text-dim/40 pr-1">
             {text.length} tecken
           </p>
+          <div className="mt-3">
+            <MediaAttachWithCaption
+              disabled={loading || wormConfirmOpen}
+              items={pendingMediaItems}
+              onChange={setPendingMediaItems}
+              onValidationError={(msg) => setError(msg)}
+              helperText="Skärmdump med valfri bildtext. Max två bilder (t.ex. motsägelse)."
+              captionPlaceholder="t.ex. Isabelle skickade detta; igår sa hon…"
+            />
+          </div>
         </>
       )}
 

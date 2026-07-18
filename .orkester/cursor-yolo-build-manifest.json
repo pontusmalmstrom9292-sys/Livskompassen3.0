@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "updatedAt": "2026-07-18T08:30:00.000Z",
-  "description": "SDK build marathon v34–v48 + improvement waves v49–v54 (Fas 24 färdigställande)",
+  "updatedAt": "2026-07-18T12:15:00.000Z",
+  "description": "SDK build marathon v34–v48 + improvement v49–v54 + Evigt Minne v55–v62",
   "waves": [
     {
       "version": 34,
@@ -423,6 +423,167 @@
         "slutgate",
         "predeploy",
         "Fas24"
+      ]
+    },
+    {
+      "version": 55,
+      "id": "MINNE-G0-MACHINE",
+      "title": "Evigt Minne G0 — wave machine + phrase-gate + Vertex skill lock",
+      "agent": "minnes-arkitekten",
+      "plan": "Bump BUILD_WAVE_MAX=62. class+phrase-gate+alwaysSkip diff. Rewrite livskompassen-vector-search → Firestore Native ANN only. Minne Sacred i PROJECT_STATE. npm run minne:yolo:build. Ingen firestore.rules. Ingen deploy. Ingen --apply.",
+      "smoke": [
+        "npm run smoke:wave-machine",
+        "npm run smoke:cost-guard",
+        "npm run smoke:governance"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "class": "docs",
+      "keywords": [
+        "minne",
+        "M0",
+        "wave-machine",
+        "cost-guard"
+      ]
+    },
+    {
+      "version": 56,
+      "id": "MINNE-M1-RRF",
+      "title": "Evigt Minne M1 — hybrid RRF + citation hard-ground",
+      "agent": "minnes-arkitekten",
+      "plan": "kampsparQueryRag: ANN∪lexical RRF inom Kunskap-silo only. Citation hard-ground (title/date/excerpt från allowlist). smoke:kunskap FAIL om expected citation saknas. Ingen Vertex. Ingen cross-RAG.",
+      "smoke": [
+        "npm run smoke:cost-guard",
+        "npm run smoke:governance"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "class": "code",
+      "keywords": [
+        "minne",
+        "RRF",
+        "RAG",
+        "citations"
+      ]
+    },
+    {
+      "version": 57,
+      "id": "MINNE-M2-EMBED",
+      "title": "Evigt Minne M2 — embedStatus + contentHash + FACT-gate",
+      "agent": "minnes-arkitekten",
+      "plan": "persistKbDoc + ingestKampspar: embedStatus pending/ok/fail, embeddingModel, contentHash, content_class. Strikt isKunskapFactApproved. Metrics log. Ingen rules. Ingen --apply.",
+      "smoke": [
+        "npm run smoke:cost-guard",
+        "npm run smoke:minnes-arkitekt"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "class": "code",
+      "keywords": [
+        "minne",
+        "embedding",
+        "FACT",
+        "contentHash"
+      ]
+    },
+    {
+      "version": 58,
+      "id": "MINNE-M3-GATES",
+      "title": "Evigt Minne M3 — confirm→kunskap + HITL promote + client-create audit",
+      "agent": "minnes-arkitekten",
+      "plan": "confirmInbox kunskap bypass/manuell-tag. promoteKbDocToKampspar callable (en bekräftelse). Audit: noll client create till kampspar/kb_docs. ADHD one-toast. Ingen rules deploy.",
+      "smoke": [
+        "npm run smoke:governance",
+        "npm run smoke:cost-guard"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "class": "code",
+      "keywords": [
+        "minne",
+        "HITL",
+        "promote",
+        "inbox"
+      ]
+    },
+    {
+      "version": 59,
+      "id": "MINNE-M4-ARCHIVE",
+      "title": "Evigt Minne M4 — GCS archive dry-run + chunking notes",
+      "agent": "minnes-arkitekten",
+      "plan": "GCS Archive dry-run script + runbook (ingen live sweep). Chunking design för långa kb_docs. Ingen --apply. Ingen deploy.",
+      "smoke": [
+        "npm run smoke:cost-guard",
+        "npm run smoke:governance",
+        "npm run minne:archive:dryrun"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "class": "docs",
+      "keywords": [
+        "minne",
+        "archive",
+        "GCS",
+        "chunking"
+      ]
+    },
+    {
+      "version": 60,
+      "id": "MINNE-GATE",
+      "title": "Evigt Minne gate — predeploy + readyForRules hard stop",
+      "agent": "yolo-vakt",
+      "plan": "smoke:predeploy:build + cost-guard. Skriv readyForRules=true i wave-machine-state. HARD STOP — starta inte v61 utan fras OK rules. Ingen deploy.",
+      "smoke": [
+        "npm run smoke:predeploy:build",
+        "npm run smoke:cost-guard"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "fullGate": true,
+      "class": "code",
+      "keywords": [
+        "minne",
+        "yolo-vakt",
+        "readyForRules"
+      ]
+    },
+    {
+      "version": 61,
+      "id": "MINNE-RULES",
+      "title": "Evigt Minne M5 — Admin-only create (PAUS: OK rules)",
+      "agent": "specialist-firestore-rules",
+      "plan": "Efter OK rules + readyForRules: kampspar/kb_docs allow create if false (Admin SDK only). Ingen hash-kedja. Ingen deploy utan separat OK.",
+      "smoke": [
+        "npm run smoke:governance"
+      ],
+      "pmir": true,
+      "deploy": "none",
+      "class": "rules",
+      "keywords": [
+        "minne",
+        "firestore.rules",
+        "Admin-only",
+        "PMIR"
+      ]
+    },
+    {
+      "version": 62,
+      "id": "MINNE-DEPLOY",
+      "title": "Evigt Minne M7 — functions deploy (PAUS: OK deploy)",
+      "agent": "yolo-vakt",
+      "plan": "Efter OK deploy: firebase deploy --only functions (rules om godkända). Ingen auto-merge main. SKIP utan fras.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "pmir": true,
+      "deploy": "functions",
+      "fullGate": true,
+      "class": "deploy",
+      "keywords": [
+        "minne",
+        "deploy",
+        "functions",
+        "OK deploy"
       ]
     }
   ]

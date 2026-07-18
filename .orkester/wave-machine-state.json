@@ -8,15 +8,28 @@
     51,
     52,
     53,
-    54
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62
   ],
   "failedAt": null,
   "pmirSkips": [],
   "lastGate": {
-    "version": 54,
+    "version": 62,
     "verdict": "GO"
   },
   "rollbackTag": null,
-  "updatedAt": "2026-07-18T06:33:10.329Z",
-  "notes": "Fas 24 improvement waves v49–v54 — tryck Build / npm run waves:autorun"
+  "readyForRules": true,
+  "phrases": {
+    "okRules": true,
+    "okDeploy": true
+  },
+  "updatedAt": "2026-07-18T12:35:49.596Z",
+  "notes": "Evigt Minne v55–v62 DONE — functions + firestore rules deployed 2026-07-18 (OK deploy)"
 }
