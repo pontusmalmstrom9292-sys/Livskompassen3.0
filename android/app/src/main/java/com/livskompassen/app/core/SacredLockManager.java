@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.biometric.BiometricManager;
@@ -15,6 +16,7 @@ import androidx.fragment.app.FragmentActivity;
 import com.getcapacitor.Bridge;
 import com.livskompassen.app.R;
 import com.livskompassen.app.util.LCLog;
+import com.livskompassen.app.util.SecurePrefs;
 
 /**
  * CRITICAL COMPONENT - DO NOT REMOVE OR MODIFY WITHOUT ARCHITECT APPROVAL.
@@ -22,24 +24,46 @@ import com.livskompassen.app.util.LCLog;
  * It ensures the Vault remains inaccessible without proper authentication.
  */
 public class SacredLockManager {
-    private static final long SACRED_LOCK_TIMEOUT_MS = 5 * 60 * 1000L; // 5 minuter
+    private static final String PREF_LOCKED_STATE = "sacred_lock_state";
+    private static final String PREF_FAILED_ATTEMPTS = "failed_biometric_attempts";
 
     private final FragmentActivity activity;
     private final Bridge bridge;
     private final LinearLayout lockContainer;
     private final HapticManager hapticManager;
+    private final IntegrityManager integrityManager;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    private BiometricPrompt currentPrompt;
     
     private long lastBackgroundTime = 0L;
     private boolean isLocked = false;
 
-    public SacredLockManager(FragmentActivity activity, Bridge bridge, View rootView, HapticManager hapticManager) {
+    public SacredLockManager(FragmentActivity activity, Bridge bridge, View rootView, HapticManager hapticManager, IntegrityManager integrityManager) {
         this.activity = activity;
         this.bridge = bridge;
         this.hapticManager = hapticManager;
+        this.integrityManager = integrityManager;
         this.lockContainer = rootView.findViewById(R.id.sacred_lock_container);
         
         setupUnlockButton();
+        restoreState();
+    }
+
+    private void restoreState() {
+        boolean wasLocked = SecurePrefs.get(activity).getBoolean(PREF_LOCKED_STATE, false);
+        if (wasLocked) {
+            LCLog.d("SacredLockManager: Restoring persistent locked state.");
+            showLock();
+        }
+    }
+
+    private void saveState(boolean locked) {
+        SecurePrefs.get(activity).edit().putBoolean(PREF_LOCKED_STATE, locked).apply();
+    }
+
+    public void setStealthMode(boolean active) {
+        SecurePrefs.get(activity).edit().putBoolean("stealth_mode_active", active).apply();
+        LCLog.w("SacredLockManager: Stealth Mode state changed to " + active);
     }
 
     private void setupUnlockButton() {
@@ -47,6 +71,11 @@ public class SacredLockManager {
             Button btnUnlock = lockContainer.findViewById(R.id.btn_unlock);
             if (btnUnlock != null) {
                 btnUnlock.setOnClickListener(v -> {
+                    if (isDeepLocked()) {
+                        hapticManager.error();
+                        Toast.makeText(activity, "För många misslyckade försök. Vänta en stund.", Toast.LENGTH_LONG).show();
+                        return;
+                    }
                     hapticManager.lightClick(v);
                     authenticate();
                 });
@@ -54,14 +83,45 @@ public class SacredLockManager {
         }
     }
 
+    private boolean isDeepLocked() {
+        int attempts = SecurePrefs.get(activity).getInt(PREF_FAILED_ATTEMPTS, 0);
+        return attempts >= 5;
+    }
+
+    private void incrementFailedAttempts() {
+        int attempts = SecurePrefs.get(activity).getInt(PREF_FAILED_ATTEMPTS, 0);
+        SecurePrefs.get(activity).edit().putInt(PREF_FAILED_ATTEMPTS, attempts + 1).apply();
+    }
+
+    private void resetFailedAttempts() {
+        SecurePrefs.get(activity).edit().putInt(PREF_FAILED_ATTEMPTS, 0).apply();
+    }
+
     public void onPause() {
+        if (currentPrompt != null) {
+            currentPrompt.cancelAuthentication();
+            currentPrompt = null;
+        }
         lastBackgroundTime = System.currentTimeMillis();
     }
 
     public void onResume() {
+        if (isLocked) {
+            showLock();
+            return;
+        }
+        
+        // Våg 48: If we were in the middle of auth, re-trigger it
+        if (lockContainer != null && lockContainer.getVisibility() == View.VISIBLE) {
+            authenticate();
+            return;
+        }
+
         if (lastBackgroundTime != 0L) {
             long backgroundDuration = System.currentTimeMillis() - lastBackgroundTime;
-            if (backgroundDuration > SACRED_LOCK_TIMEOUT_MS) {
+            long dynamicTimeout = integrityManager.getRecommendedLockTimeout();
+            if (backgroundDuration > dynamicTimeout) {
+                LCLog.d("SacredLockManager: Idle timeout reached. Triggering lock.");
                 showLock();
             }
             lastBackgroundTime = 0L;
@@ -70,17 +130,26 @@ public class SacredLockManager {
 
     public void showLock() {
         isLocked = true;
+        saveState(true);
+
+        // Våg 49: Request memory sanitization immediately on lock
+        if (activity instanceof com.livskompassen.app.MainActivity) {
+            MemoryManager mm = ((com.livskompassen.app.MainActivity) activity).getMemoryManager();
+            if (mm != null) mm.sanitizeMemory();
+        }
+
         mainHandler.post(() -> {
             if (lockContainer != null && lockContainer.getVisibility() != View.VISIBLE) {
+                // Instantly hide content to prevent flicker
+                if (bridge != null && bridge.getWebView() != null) {
+                    bridge.getWebView().setVisibility(View.GONE);
+                    bridge.getWebView().setAlpha(0f);
+                }
+
                 lockContainer.setAlpha(0f);
                 lockContainer.setVisibility(View.VISIBLE);
-                lockContainer.animate().alpha(1f).setDuration(300).start();
+                lockContainer.animate().alpha(1f).setDuration(200).start();
                 
-                if (bridge != null && bridge.getWebView() != null) {
-                    bridge.getWebView().animate().alpha(0f).setDuration(300).withEndAction(() -> 
-                        bridge.getWebView().setVisibility(View.GONE)
-                    ).start();
-                }
                 authenticate();
             }
         });
@@ -88,6 +157,7 @@ public class SacredLockManager {
 
     public void hideLock() {
         isLocked = false;
+        saveState(false);
         mainHandler.post(() -> {
             if (lockContainer != null && lockContainer.getVisibility() == View.VISIBLE) {
                 lockContainer.animate().alpha(0f).setDuration(300).withEndAction(() -> 
@@ -122,23 +192,52 @@ public class SacredLockManager {
                 .setAllowedAuthenticators(authenticators)
                 .build();
 
-        BiometricPrompt biometricPrompt = new BiometricPrompt(activity, ContextCompat.getMainExecutor(activity),
+        currentPrompt = new BiometricPrompt(activity, ContextCompat.getMainExecutor(activity),
                 new BiometricPrompt.AuthenticationCallback() {
                     @Override
                     public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                         super.onAuthenticationSucceeded(result);
+                        currentPrompt = null;
+                        LCLog.d("SacredLockManager: Biometric Auth SUCCESS");
                         hapticManager.success();
+                        resetFailedAttempts();
                         hideLock();
                     }
 
                     @Override
                     public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                         super.onAuthenticationError(errorCode, errString);
+                        currentPrompt = null;
+                        LCLog.w("SacredLockManager: Biometric Auth ERROR: " + errString);
                         hapticManager.error();
-                        LCLog.w("Biometric error: " + errString);
+                        incrementFailedAttempts();
+                        
+                        if (isDeepLocked()) {
+                            showVisualDistress();
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+                        super.onAuthenticationFailed();
+                        LCLog.w("SacredLockManager: Biometric Auth FAILED (Invalid finger/face)");
+                        hapticManager.error();
+                        incrementFailedAttempts();
                     }
                 });
 
-        biometricPrompt.authenticate(promptInfo);
+        currentPrompt.authenticate(promptInfo);
+    }
+
+    private void showVisualDistress() {
+        mainHandler.post(() -> {
+            if (lockContainer != null) {
+                View icon = lockContainer.findViewById(R.id.sacred_lock_container); // Eller specifik ikon
+                if (icon != null) {
+                    icon.setBackgroundColor(android.graphics.Color.argb(40, 255, 0, 0));
+                    mainHandler.postDelayed(() -> icon.setBackgroundColor(android.graphics.Color.TRANSPARENT), 500);
+                }
+            }
+        });
     }
 }

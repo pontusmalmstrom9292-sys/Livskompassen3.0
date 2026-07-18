@@ -14,6 +14,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { readJson, root } from "./lib/cursor_yolo_shared.mjs";
 import { BUILD_WAVE_MAX } from "./lib/cursor_yolo_build.mjs";
+import { IMPROVEMENT_WAVE_MIN } from "./lib/cursor_yolo_shared.mjs";
 import { hydrateEnvVar } from "./lib/load_cursor_api_key.mjs";
 
 const args = process.argv.slice(2);
@@ -152,15 +153,39 @@ async function main() {
     process.exit(1);
   }
 
+  // Improvement waves (v49+): commit on current branch only — never auto-merge main / never auto-deploy.
+  const improvement = afterWave >= IMPROVEMENT_WAVE_MIN;
+
+  if (improvement) {
+    const branch = spawnSync("git", ["rev-parse", "--abbrev-ref", "HEAD"], {
+      cwd: root,
+      encoding: "utf8",
+    }).stdout?.trim();
+    const target = `yolo/wave-v${afterWave}`;
+    if (branch && branch !== target && branch !== "main") {
+      console.log(`[sdk:unattended] Improvement-våg — commit på ${branch} (merge main = Pontus)`);
+    } else if (branch === "main") {
+      console.log("[sdk:unattended] På main — skapar arbetsbranch", target);
+      spawnSync("git", ["checkout", "-B", target], { cwd: root, stdio: "inherit" });
+    }
+  }
+
   let code = autoCommit(afterWave);
   if (code !== 0) process.exit(code);
 
-  code = mergeMain();
-  if (code !== 0) process.exit(code);
+  if (!improvement) {
+    code = mergeMain();
+    if (code !== 0) process.exit(code);
+  } else {
+    console.log("[sdk:unattended] Hoppar merge origin/main (v49+ säkerhet)");
+  }
 
-  if (afterWave === BUILD_WAVE_MAX) {
+  // Legacy marathon: hosting only at historical max 48, never auto on v54 without Pontus.
+  if (!improvement && afterWave === 48) {
     code = deployHosting();
     if (code !== 0) process.exit(code);
+  } else if (improvement && afterWave === BUILD_WAVE_MAX) {
+    console.log("[sdk:unattended] v54 deploy SKIP — skriv OK deploy");
   }
 
   console.log(`[sdk:unattended] ✓ Post-wave v${afterWave} klar`);

@@ -1,0 +1,85 @@
+{
+  "version": 49,
+  "description": "Cursor YOLO v49 — BUILD SOFT-DEBT: Soft debt — orphan UI, PDF-CTA, SPEC-synk, state hygiene",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 49,
+    "id": "SOFT-DEBT",
+    "title": "Soft debt — orphan UI, PDF-CTA, SPEC-synk, state hygiene",
+    "agent": "specialist-beslutsstod",
+    "plan": "Rensa orphan HjartatHero (mock-data). Ta bort disabled PDF-CTA i JournalArchiveToolbar utan ny export. Synka stale SPEC/register-rader. Status-hygien v34–v48 → completed. Ingen rules, ingen locked UX-ombyggnad.",
+    "smoke": [
+      "npm run smoke:locked-ux",
+      "npm run smoke:governance",
+      "npm run smoke:module-lock"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "keywords": [
+      "soft-debt",
+      "HjartatHero",
+      "PDF",
+      "hygiene"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b49-deploy",
+      "title": "B49 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v49/b49-deploy.md"
+    },
+    {
+      "id": "b49-build",
+      "title": "B49 — Soft debt — orphan UI, PDF-CTA, SPEC-synk, state hygiene",
+      "phase": "sequential",
+      "agent": "specialist-beslutsstod",
+      "plan": "Rensa orphan HjartatHero (mock-data). Ta bort disabled PDF-CTA i JournalArchiveToolbar utan ny export. Synka stale SPEC/register-rader. Status-hygien v34–v48 → completed. Ingen rules, ingen locked UX-ombyggnad.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v49/b49-build.md"
+    },
+    {
+      "id": "b49-gate",
+      "title": "B49 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v49.md.",
+      "smoke": [
+        "npm run smoke:locked-ux",
+        "npm run smoke:governance",
+        "npm run smoke:module-lock"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v49/b49-gate.md"
+    },
+    {
+      "id": "b49-vakt",
+      "title": "B49 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v49. Handoff v50.",
+      "smoke": [
+        "npm run smoke:locked-ux",
+        "npm run smoke:governance",
+        "npm run smoke:module-lock"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v49/b49-vakt.md"
+    }
+  ]
+}

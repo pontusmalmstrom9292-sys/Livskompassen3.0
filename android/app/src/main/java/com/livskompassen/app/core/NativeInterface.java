@@ -1,0 +1,203 @@
+package com.livskompassen.app.core;
+
+import android.webkit.JavascriptInterface;
+import com.livskompassen.app.util.LCLog;
+
+/**
+ * HIGH-PERFORMANCE BRIDGE.
+ * Allows the Web App to call native functions with zero latency.
+ */
+public class NativeInterface {
+    private final HapticManager hapticManager;
+    private final SystemUiManager systemUiManager;
+    private final IntegrityManager integrityManager;
+    private final ThemeManager themeManager;
+    private final SessionSentry sessionSentry;
+    private final EmergencyManager emergencyManager;
+    private final ShortcutManager shortcutManager;
+    private final BackupManager backupManager;
+    private final FocusManager focusManager;
+    private final SecureShareManager shareManager;
+    private final ConnectivityIntelligence connectivityIntelligence;
+    private final SacredLockManager sacredLockManager;
+    private final HealthSentinel healthSentinel;
+    private final SearchManager searchManager;
+    private final IconManager iconManager;
+    private final ProjectionManager projectionManager;
+
+    public NativeInterface(HapticManager hapticManager, SystemUiManager systemUiManager, IntegrityManager integrityManager, ThemeManager themeManager, SessionSentry sessionSentry, EmergencyManager emergencyManager, ShortcutManager shortcutManager, BackupManager backupManager, FocusManager focusManager, SecureShareManager shareManager, ConnectivityIntelligence connectivityIntelligence, SacredLockManager sacredLockManager, HealthSentinel healthSentinel, SearchManager searchManager, IconManager iconManager, ProjectionManager projectionManager) {
+        this.hapticManager = hapticManager;
+        this.systemUiManager = systemUiManager;
+        this.integrityManager = integrityManager;
+        this.themeManager = themeManager;
+        this.sessionSentry = sessionSentry;
+        this.emergencyManager = emergencyManager;
+        this.shortcutManager = shortcutManager;
+        this.backupManager = backupManager;
+        this.focusManager = focusManager;
+        this.shareManager = shareManager;
+        this.connectivityIntelligence = connectivityIntelligence;
+        this.sacredLockManager = sacredLockManager;
+        this.healthSentinel = healthSentinel;
+        this.searchManager = searchManager;
+        this.iconManager = iconManager;
+        this.projectionManager = projectionManager;
+    }
+
+    @JavascriptInterface
+    public boolean isProjecting() {
+        return projectionManager.isCurrentlyProjecting();
+    }
+
+    @JavascriptInterface
+    public void setAppIconStealth(boolean active) {
+        iconManager.setStealthIcon(active);
+    }
+
+    @JavascriptInterface
+    public String getSystemHealth() {
+        return healthSentinel.getHealthSummary();
+    }
+
+    @JavascriptInterface
+    public boolean shouldRestrictData() {
+        return connectivityIntelligence.shouldRestrictData();
+    }
+
+    @JavascriptInterface
+    public void shareVaultFile(String content, String fileName, String mimeType) {
+        shareManager.shareTextAsFile(content, fileName, mimeType);
+    }
+
+    @JavascriptInterface
+    public boolean isDNDActive() {
+        return focusManager.isDoNotDisturbActive();
+    }
+
+    @JavascriptInterface
+    public void performEmergencyWipe() {
+        emergencyManager.performEmergencyWipe();
+    }
+
+    @JavascriptInterface
+    public void updateShortcuts(String lastPath) {
+        shortcutManager.updateDynamicShortcuts(lastPath);
+    }
+
+    @JavascriptInterface
+    public void encryptForBackup(String data) {
+        backupManager.encryptData(data, new BackupManager.BiometricEncryptionCallback() {
+            @Override
+            public void onSuccess(String encryptedData) {
+                // Skicka tillbaka resultatet till JS
+                LCLog.d("BackupManager: Encryption successful.");
+            }
+
+            @Override
+            public void onError(String error) {
+                LCLog.e("BackupManager: Encryption failed: " + error);
+            }
+        });
+    }
+
+    @JavascriptInterface
+    public void userInteracted() {
+        sessionSentry.userInteracted();
+    }
+
+    @JavascriptInterface
+    public void triggerHaptic(String type) {
+        systemUiManager.triggerFlashPulse(); // Visual confirm
+        if ("success".equals(type)) hapticManager.success();
+        else if ("error".equals(type)) hapticManager.error();
+    }
+
+    @JavascriptInterface
+    public void setSystemTheme(String colorHex, boolean isDark) {
+        systemUiManager.setSystemTheme(colorHex, isDark);
+    }
+
+    @JavascriptInterface
+    public void log(String message) {
+        LCLog.d(message);
+    }
+
+    @JavascriptInterface
+    public int getSecurityScore() {
+        return integrityManager.getSecurityScore();
+    }
+
+    @JavascriptInterface
+    public boolean isHighRisk() {
+        return integrityManager.isEnvironmentHighRisk();
+    }
+
+    @JavascriptInterface
+    public String getCircadianPhase() {
+        return themeManager.getCurrentPhase().name();
+    }
+
+    @JavascriptInterface
+    public void syncTheme() {
+        themeManager.applyCircadianTheme();
+    }
+
+    @JavascriptInterface
+    public void triggerNavigationHaptic() {
+        hapticManager.navigate();
+    }
+
+    @JavascriptInterface
+    public void triggerRecordingHaptic() {
+        hapticManager.recordingPulse();
+    }
+
+    @JavascriptInterface
+    public void setWidgetData(String key, String value) {
+        WidgetUpdateManager.updateWidgetContent(hapticManager.getContext(), key, value);
+    }
+
+    @JavascriptInterface
+    public void setSacredZone(boolean isSacred) {
+        systemUiManager.setSacredZone(isSacred);
+    }
+
+    @JavascriptInterface
+    public void indexShortcut(String id, String label, String path) {
+        searchManager.indexGenvag(id, label, path);
+    }
+
+    @JavascriptInterface
+    public void triggerPremiumNotification(String title, String message, String type) {
+        // I framtiden: skicka med en boolean för 'sensitive' här
+        String channelId = "sacred_vault_notifications".equals(type) ? 
+                AppNotificationManager.CHANNEL_ID_VAULT : AppNotificationManager.CHANNEL_ID_DAILY;
+        AppNotificationManager.showPremiumNotification(hapticManager.getContext(), title, message, channelId, hapticManager);
+    }
+
+    @JavascriptInterface
+    public void setStealthMode(boolean active) {
+        sacredLockManager.setStealthMode(active);
+    }
+
+    @JavascriptInterface
+    public boolean isStealthModeActive() {
+        return com.livskompassen.app.util.SecurePrefs.get(hapticManager.getContext()).getBoolean("stealth_mode_active", false);
+    }
+
+    @JavascriptInterface
+    public boolean needsSecurityRecovery() {
+        return KeyRecoveryManager.needsRecovery(hapticManager.getContext());
+    }
+
+    @JavascriptInterface
+    public void resetSecurityRecovery() {
+        KeyRecoveryManager.clearRecoveryStatus(hapticManager.getContext());
+    }
+
+    @JavascriptInterface
+    public void rotateVaultKeys() {
+        // Denna funktion kräver att användaren nyss gjort biometri
+        com.livskompassen.app.util.SecurePrefs.rotateKeys(hapticManager.getContext());
+    }
+}

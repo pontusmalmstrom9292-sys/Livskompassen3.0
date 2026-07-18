@@ -27,14 +27,25 @@
 - [x] `docs/design/figma-fas24-foundations.md` (Phase 1–2 spec)
 - [x] `npm run smoke:design-modules` PASS
 
-## Sprint 24.4 — Zon-färdig (nästa)
+## Sprint 24.4 — Zon-färdig (improvement waves)
 
-Max **1 zon aktiv** per våg — kör när Pontus säger "gör det":
+Kanon: [`IMPROVEMENT-WAVES-AUTORUN.md`](./IMPROVEMENT-WAVES-AUTORUN.md) · manifest v49–v54.
 
-1. Valv — `specialist-valv-builder`
-2. Hjärtat — `specialist-hjartat-inkast-builder`
-3. Vardagen — `specialist-vardagen-builder`
-4. Familjen — `specialist-familjen-hamn-builder`
+```bash
+npm run waves:autorun -- --dry-run
+npm run waves:autorun
+```
+
+| Våg | Zon / fokus |
+|-----|-----------|
+| v49 | Soft debt / hygien |
+| v50 | Valv + Hjärtat |
+| v51 | Vardagen + Familjen |
+| v52 | Backend harden (Weaver U1) |
+| v53 | UX polish + Android sync |
+| v54 | Slutgate yolo-vakt |
+
+Max **1 våg** i taget. G85 soak: [`G85-DAILY-DRIVER-CHECKLIST.md`](./G85-DAILY-DRIVER-CHECKLIST.md).
 
 ## YOLO audit
 

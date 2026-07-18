@@ -84,7 +84,10 @@ export function getYoloConfig(yoloVersion) {
 }
 
 export const BUILD_WAVE_MIN = 34;
-export const BUILD_WAVE_MAX = 48;
+/** Improvement waves v49–v54; bump when manifest grows. */
+export const BUILD_WAVE_MAX = 54;
+/** First improvement-wave version (Fas 24 finish). */
+export const IMPROVEMENT_WAVE_MIN = 49;
 
 /** @param {number} version v34–v48 */
 export function mkBuildConfig(version) {

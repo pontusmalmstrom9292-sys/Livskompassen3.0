@@ -26,55 +26,86 @@ def appCheckDebugToken = readAppCheckDebugToken()
 
 android {
     namespace = "com.livskompassen.app"
-    compileSdk = rootProject.ext.compileSdkVersion
+    compileSdk = 36 // Final release baseline
+    
     buildFeatures {
         buildConfig = true
     }
+    
     defaultConfig {
         applicationId = "com.livskompassen.app"
-        minSdk = rootProject.ext.minSdkVersion
-        // targetSdk 35 är ett balanserat val för stabilitet och moderna funktioner
-        targetSdk = rootProject.ext.targetSdkVersion
+        minSdk = 24
+        targetSdk = 36
         versionCode 1
-        versionName "1.0"
+        versionName "1.0-titanium"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        
         aaptOptions {
-             // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
-             // Default: https://android.googlesource.com/platform/frameworks/base/+/282e181b58cf72b6ca770dc7ca5f91f135444502/tools/aapt/AaptAssets.cpp#61
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+
     buildTypes {
         debug {
             buildConfigField "String", "FIREBASE_APP_CHECK_DEBUG_TOKEN", "\"${appCheckDebugToken}\""
         }
         release {
-            minifyEnabled false
+            minifyEnabled true // Enable for release
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             buildConfigField "String", "FIREBASE_APP_CHECK_DEBUG_TOKEN", '""'
         }
     }
 }
 
-// Security Verification Task - Fails build if critical security components are missing
+// THE TITANIUM GUARD - DO NOT MODIFY.
+// Aborts build if any critical architecture component is missing.
 tasks.register("verifySecurityComponents") {
     doLast {
         def criticalFiles = [
             "src/main/java/com/livskompassen/app/core/SacredLockManager.java",
             "src/main/java/com/livskompassen/app/core/WebViewManager.java",
+            "src/main/java/com/livskompassen/app/core/IntegrityManager.java",
+            "src/main/java/com/livskompassen/app/core/HapticManager.java",
+            "src/main/java/com/livskompassen/app/core/ThemeManager.java",
+            "src/main/java/com/livskompassen/app/core/SystemUiManager.java",
+            "src/main/java/com/livskompassen/app/core/DiagnosticManager.java",
+            "src/main/java/com/livskompassen/app/core/EmergencyManager.java",
+            "src/main/java/com/livskompassen/app/core/ShortcutManager.java",
+            "src/main/java/com/livskompassen/app/core/SessionSentry.java",
+            "src/main/java/com/livskompassen/app/core/PerformanceWatchdog.java",
+            "src/main/java/com/livskompassen/app/core/VaultTileService.java",
+            "src/main/java/com/livskompassen/app/core/WidgetRefreshWorker.java",
+            "src/main/java/com/livskompassen/app/core/WidgetUpdateManager.java",
+            "src/main/java/com/livskompassen/app/core/ForensicGuard.java",
+            "src/main/java/com/livskompassen/app/core/IdentityManager.java",
+            "src/main/java/com/livskompassen/app/core/AttestationManager.java",
+            "src/main/java/com/livskompassen/app/core/FocusManager.java",
+            "src/main/java/com/livskompassen/app/core/ZoneManager.java",
+            "src/main/java/com/livskompassen/app/core/BackupManager.java",
+            "src/main/java/com/livskompassen/app/core/KeyRecoveryManager.java",
+            "src/main/java/com/livskompassen/app/core/SecureShareManager.java",
+            "src/main/java/com/livskompassen/app/core/ParallaxManager.java",
+            "src/main/java/com/livskompassen/app/core/ConnectivityIntelligence.java",
+            "src/main/java/com/livskompassen/app/core/DialogManager.java",
+            "src/main/java/com/livskompassen/app/core/ProjectionManager.java",
+            "src/main/java/com/livskompassen/app/core/IconManager.java",
+            "src/main/java/com/livskompassen/app/core/ShakeDetector.java",
+            "src/main/java/com/livskompassen/app/util/SecurePrefs.java",
+            "src/main/java/com/livskompassen/app/util/SecurityUtils.java",
+            "src/main/java/com/livskompassen/app/util/NavigationUtils.java",
             "src/main/res/xml/network_security_config.xml"
         ]
         criticalFiles.each { filePath ->
             def file = project.file(filePath)
             if (!file.exists()) {
-                throw new GradleException("CRITICAL SECURITY COMPONENT MISSING: ${filePath}. Build aborted for safety.")
+                throw new GradleException("FATAL: ARCHITECTURE VIOLATION. Missing: ${filePath}")
             }
         }
-        println("Security components verified successfully.")
+        println("Titanium Aura Omni Baseline: ALL COMPONENTS VERIFIED.")
     }
 }
 
-// Run verification before assembling
 tasks.named("preBuild") {
     dependsOn("verifySecurityComponents")
 }
@@ -94,6 +125,10 @@ dependencies {
     implementation libs.androidx.biometric
     implementation libs.androidx.security
     implementation libs.androidx.browser
+    implementation libs.androidx.work
+    implementation libs.androidx.appsearch
+    implementation libs.androidx.appsearch.platform
+    annotationProcessor libs.androidx.appsearch.compiler
     implementation project(':capacitor-android')
     testImplementation libs.junit
     androidTestImplementation libs.androidx.junit
@@ -109,5 +144,5 @@ try {
         apply plugin: 'com.google.gms.google-services'
     }
 } catch(Exception ignored) {
-    logger.info("google-services.json not found, google-services plugin not applied. Push Notifications won't work")
+    logger.info("google-services.json not found, google-services plugin not applied.")
 }

@@ -3,9 +3,9 @@
   "queueFile": ".orkester/cursor-yolo-queue-v41.json",
   "buildWaveId": "GOVERNANCE",
   "startedAt": "2026-07-14T18:06:00.000Z",
-  "updatedAt": "2026-07-14T17:57:27.859Z",
+  "updatedAt": "2026-07-18T06:26:08.000Z",
   "sequentialPhase": {
-    "status": "in_progress",
+    "status": "completed",
     "currentTaskId": null,
     "completedTaskIds": [
       "b41-build",
@@ -23,10 +23,12 @@
     "b41-gate",
     "b41-vakt"
   ],
-  "notes": "YOLO v41 BUILD — SDK marathon (handoff från v40)",
+  "notes": "YOLO v41 BUILD \u2014 SDK marathon (handoff fr\u00e5n v40) | status-hygien 2026-07-18",
   "handoffFrom": {
     "version": 40,
     "waveId": "INTEGRATION",
     "verdict": "GO"
-  }
+  },
+  "goNoGo": "GO",
+  "gateVerdict": "GO"
 }

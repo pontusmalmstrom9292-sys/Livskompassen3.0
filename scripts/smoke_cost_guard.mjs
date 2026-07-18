@@ -22,7 +22,19 @@ const SCAN_DIRS = [
   'infra',
 ];
 
-const SCAN_EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.mjs', '.json', '.yaml', '.yml']);
+const SCAN_EXTENSIONS = new Set([
+  '.ts',
+  '.tsx',
+  '.js',
+  '.mjs',
+  '.json',
+  '.yaml',
+  '.yml',
+  '.sh',
+  '.py',
+  '.toml',
+  '.mdc',
+]);
 
 const SKIP_PATH_FRAGMENTS = [
   'node_modules',
@@ -32,6 +44,11 @@ const SKIP_PATH_FRAGMENTS = [
   'list_vertex_agents.mjs',
   'manifest.json',
   'overrides.json',
+  'VECTOR-SEARCH-DECOMMISSION.md',
+  'VECTOR-SEARCH-PAUSA',
+  '2026-07-18-vertex-vector-search-decommissioned.md',
+  'GCP-INVENTORY-LATEST.md',
+  'docs/archive/',
 ];
 
 function assert(condition, message) {
@@ -156,13 +173,79 @@ function main() {
     errors.push(`manifest aiCostCaps.dailyProjectUsd måste vara ≤0.5 USD (100 SEK/mån)`);
   }
 
+  // 9) Vector Search lock — aiplatform blocked + scripts refuse + no client
+  if (!manifest.blockedApis?.includes('aiplatform.googleapis.com')) {
+    errors.push('manifest.blockedApis måste innehålla aiplatform.googleapis.com (Vector Search DECOMMISSIONED)');
+  }
+  if (manifest.allowedApis?.includes('aiplatform.googleapis.com')) {
+    errors.push('aiplatform.googleapis.com får INTE ligga i allowedApis');
+  }
+  if (existsSync(join(ROOT, 'functions/src/lib/vectorSearchClient.ts'))) {
+    errors.push('functions/src/lib/vectorSearchClient.ts får inte finnas — Vertex client borttagen');
+  }
+
+  const refuseScripts = manifest.vectorSearchLock?.mustRefuseScripts ?? [
+    'scripts/setup_vector_search.sh',
+    'scripts/setup_vector_search_west1.sh',
+    'scripts/ai/setup_knowledge_vault.py',
+    'scripts/ai/knowledge_vault.py',
+  ];
+  for (const rel of refuseScripts) {
+    const abs = join(ROOT, rel);
+    if (!existsSync(abs)) {
+      errors.push(`saknar låst stub: ${rel}`);
+      continue;
+    }
+    const body = readFileSync(abs, 'utf8');
+    const locked =
+      body.includes('[LOCKED]') ||
+      body.includes('DECOMMISSIONED') ||
+      body.includes('sys.exit(1)') ||
+      /exit 1\b/.test(body);
+    if (!locked) {
+      errors.push(`${rel} måste vara DECOMMISSIONED/LOCKED stub (exit 1) — får inte provisionera Vertex`);
+    }
+    // Live provision patterns still present outside comments = FAIL
+    if (
+      /gcloud ai indexes create/.test(body) ||
+      /MatchingEngineIndexEndpoint\.create/.test(body) ||
+      /services enable aiplatform/.test(body)
+    ) {
+      errors.push(`${rel} innehåller fortfarande live provision-kommandon — ersätt med stub`);
+    }
+  }
+
+  // RAG libs must use Firestore Native, not Vertex env IDs
+  for (const rag of [
+    'functions/src/lib/kampsparQueryRag.ts',
+    'functions/src/lib/kampsparRag.ts',
+  ]) {
+    const abs = join(ROOT, rag);
+    if (!existsSync(abs)) continue;
+    const text = readFileSync(abs, 'utf8');
+    if (text.includes('VECTOR_SEARCH_') || text.includes('IndexEndpoint')) {
+      errors.push(`${rag} får inte referera Vertex VECTOR_SEARCH_/IndexEndpoint`);
+    }
+    if (rag.includes('kampsparQueryRag') && !text.includes('findNearest')) {
+      errors.push(`${rag} måste använda Firestore findNearest`);
+    }
+  }
+
+  const pyproject = join(ROOT, 'scripts/ai/pyproject.toml');
+  if (existsSync(pyproject)) {
+    const toml = readFileSync(pyproject, 'utf8');
+    if (/google-cloud-aiplatform|^\s*vertexai/m.test(toml) && !toml.includes('REMOVED')) {
+      errors.push('scripts/ai/pyproject.toml får inte bero på google-cloud-aiplatform/vertexai');
+    }
+  }
+
   if (errors.length > 0) {
     console.error('[smoke:cost-guard] FAIL:');
     for (const e of errors) console.error(`  - ${e}`);
     process.exit(1);
   }
 
-  console.log('[smoke:cost-guard] PASS — inga dyra tjänster i kod, manifest + regler OK.');
+  console.log('[smoke:cost-guard] PASS — inga dyra tjänster i kod, Vector Search låst, manifest + regler OK.');
 }
 
 try {

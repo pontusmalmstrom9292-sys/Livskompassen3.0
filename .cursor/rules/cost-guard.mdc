@@ -24,7 +24,7 @@ Kanon: [`docs/governance/GCP-KOSTNADSVAKT.md`](../../docs/governance/GCP-KOSTNAD
 
 ## PMIR-stopp (hard NO-GO utan Pontus OK)
 
-- Aktivera API: BigQuery, Cloud SQL, Spanner, Dataproc, Composer, Redis, AlloyDB, Compute Engine, GKE
+- Aktivera API: **aiplatform.googleapis.com** (Vertex Vector Search — DECOMMISSIONED), BigQuery, Cloud SQL, Spanner, Dataproc, Composer, Redis, AlloyDB, Compute Engine, GKE
 - Nya npm-deps: `@google-cloud/vertexai`, `@google-cloud/aiplatform`, `@genkit-ai/*`, `genkit`, `@google-cloud/bigquery`
 - `minInstances` > 0 på Cloud Functions / Cloud Run
 - Vertex Reasoning Engine / Agent Engine deploy
@@ -34,6 +34,7 @@ Kanon: [`docs/governance/GCP-KOSTNADSVAKT.md`](../../docs/governance/GCP-KOSTNAD
 ## Agent MUST NOT
 
 - Föreslå "vi aktiverar BigQuery/Cloud SQL för enkelhet"
+- Föreslå eller köra `setup_vector_search*.sh` / `gcloud ai indexes create`
 - Lägga till always-on instanser "för prestanda"
 - Byta default-modell till Pro globalt
 - Deploya infra utan `smoke:cost-guard` PASS

@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.NetworkRequest;
+import android.net.http.SslError;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
@@ -21,6 +22,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.SslErrorHandler;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,7 +43,9 @@ public class WebViewManager {
     private final Context context;
     private final Bridge bridge;
     private final HapticManager hapticManager;
+    private final DialogManager dialogManager;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    private PerformanceWatchdog watchdog;
     
     private LinearLayout errorContainer;
     private TextView errorTitle;
@@ -52,6 +56,7 @@ public class WebViewManager {
         this.context = context;
         this.bridge = bridge;
         this.hapticManager = hapticManager;
+        this.dialogManager = new DialogManager(context, hapticManager);
         
         setupErrorViews(rootView);
         setupWebView();
@@ -100,6 +105,13 @@ public class WebViewManager {
         WebView webView = bridge.getWebView();
         if (webView == null) return;
 
+        // Pre-warm the WebView cache with critical assets
+        webView.loadUrl("javascript:(function(){" +
+                "const link=document.createElement('link');" +
+                "link.rel='prefetch'; link.href='assets/index-Csuaqq85.css';" +
+                "document.head.appendChild(link);" +
+                "})()");
+
         webView.setBackgroundColor(Color.parseColor("#0D0B09"));
         WebSettings settings = webView.getSettings();
         
@@ -111,13 +123,27 @@ public class WebViewManager {
         settings.setAllowFileAccess(false);
         settings.setAllowContentAccess(false);
 
+        // Security Hardening (Våg 18)
+        settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             settings.setSafeBrowsingEnabled(true);
         }
+        settings.setGeolocationEnabled(false);
 
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
 
+        // Start Performance Watchdog
+        watchdog = new PerformanceWatchdog(webView);
+        watchdog.start();
+
         webView.setWebViewClient(new BridgeWebViewClient(bridge) {
+            @Override
+            public void onReceivedSslError(WebView view, SslErrorHandler handler, android.net.http.SslError error) {
+                LCLog.e("FATAL: SSL Error Detected: " + error.toString());
+                handler.cancel(); // Block all SSL errors
+                showErrorPage("Säkerhetsfel", "Anslutningen är inte säker (SSL_ERROR).");
+            }
+
             @Override
             public void onPageStarted(WebView view, String url, android.graphics.Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
@@ -161,6 +187,21 @@ public class WebViewManager {
         });
 
         webView.setWebChromeClient(new WebChromeClient() {
+            @Override
+            public boolean onJsAlert(WebView view, String url, String message, final android.webkit.JsResult result) {
+                dialogManager.showMessage("Livskompassen", message, () -> result.confirm());
+                return true;
+            }
+
+            @Override
+            public boolean onJsConfirm(WebView view, String url, String message, final android.webkit.JsResult result) {
+                dialogManager.showConfirm("Bekräfta", message, confirmed -> {
+                    if (confirmed) result.confirm();
+                    else result.cancel();
+                });
+                return true;
+            }
+
             @Override
             public void onPermissionRequest(final PermissionRequest request) {
                 for (String resource : request.getResources()) {
@@ -236,11 +277,25 @@ public class WebViewManager {
         AudioManager audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
         if (audioManager == null) return;
 
+        // Våg 47: Check if microphone is already in use
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            if (audioManager.getMode() == AudioManager.MODE_IN_COMMUNICATION || 
+                audioManager.getMode() == AudioManager.MODE_IN_CALL) {
+                LCLog.w("WebViewManager: Microphone may be in use by another app!");
+                Toast.makeText(context, "Varning: Mikrofonen verkar användas av en annan app.", Toast.LENGTH_LONG).show();
+            }
+        }
+
+        // Härda ljudsessionen för Våg 29
+        LCLog.d("WebViewManager: Hardening audio session for recording.");
+
         AudioManager.OnAudioFocusChangeListener listener = focusChange -> {
             if (focusChange == AudioManager.AUDIOFOCUS_LOSS || focusChange == AudioManager.AUDIOFOCUS_LOSS_TRANSIENT) {
                 if (bridge.getWebView() != null) {
                     bridge.getWebView().evaluateJavascript("window.dispatchEvent(new CustomEvent('livskompassen-audio-pause'));", null);
                 }
+            } else if (focusChange == AudioManager.AUDIOFOCUS_GAIN) {
+                // Återuppta haptik eller signalera till JS om önskvärt
             }
         };
 

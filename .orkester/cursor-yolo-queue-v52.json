@@ -1,0 +1,89 @@
+{
+  "version": 52,
+  "description": "Cursor YOLO v52 — BUILD BACKEND-HARDEN: Backend harden — Weaver U1 + manifest + functions-diff",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 52,
+    "id": "BACKEND-HARDEN",
+    "title": "Backend harden — Weaver U1 + manifest + functions-diff",
+    "agent": "specialist-adk-weaver",
+    "plan": "1) Diff functions:list vs index.ts → docs/evaluations deploy-gap. 2) Weaver RAG: journal/reality_vault utan kampspar/kb_docs i samma kontext. 3) SynapseTrigger + kasam_aggregation i manifest.ts. 4) Ingen firestore.rules/storage.rules/sharedRules.",
+    "smoke": [
+      "npm run smoke:manifest",
+      "npm run smoke:dcap-routing",
+      "npm run smoke:synapse-triggers",
+      "npm run smoke:valv-security"
+    ],
+    "pmir": true,
+    "deploy": "none",
+    "keywords": [
+      "ADK",
+      "Weaver",
+      "U1",
+      "silo",
+      "manifest"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b52-deploy",
+      "title": "B52 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v52/b52-deploy.md"
+    },
+    {
+      "id": "b52-build",
+      "title": "B52 — Backend harden — Weaver U1 + manifest + functions-diff",
+      "phase": "sequential",
+      "agent": "specialist-adk-weaver",
+      "plan": "1) Diff functions:list vs index.ts → docs/evaluations deploy-gap. 2) Weaver RAG: journal/reality_vault utan kampspar/kb_docs i samma kontext. 3) SynapseTrigger + kasam_aggregation i manifest.ts. 4) Ingen firestore.rules/storage.rules/sharedRules.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v52/b52-build.md"
+    },
+    {
+      "id": "b52-gate",
+      "title": "B52 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v52.md.",
+      "smoke": [
+        "npm run smoke:manifest",
+        "npm run smoke:dcap-routing",
+        "npm run smoke:synapse-triggers",
+        "npm run smoke:valv-security"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v52/b52-gate.md"
+    },
+    {
+      "id": "b52-vakt",
+      "title": "B52 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v52. Handoff v53.",
+      "smoke": [
+        "npm run smoke:manifest",
+        "npm run smoke:dcap-routing",
+        "npm run smoke:synapse-triggers",
+        "npm run smoke:valv-security"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v52/b52-vakt.md"
+    }
+  ]
+}

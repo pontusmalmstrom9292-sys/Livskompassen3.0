@@ -39,7 +39,7 @@ Two levels — do not confuse them:
 | P0 | Smoke grön + Android G85 daily driver (7 dagar) | Smoke: `smoke:predeploy:live` + `smoke:super-yolo` **PASS** 2026-07-11. G85 7d: **STARTED 2026-07-18** (day 1). Spot-checks: WH1/WH2/W1 2026-07-14; App Check Valv-kickout fix committed 2026-07-18; debug APK assembled + `cap sync` PASS. **USER:** Android Studio Run + Valv bakgrund <3s on device. |
 | PV1a–23E | Se system-plan Fas 24 tabell | **done** 2026-06-25 |
 
-**Next within Fas 24:** Complete days 1–7 of G85 daily driver (log issues only). Defer 19.3/19.5/19.6 per syntes. **PMIR parked:** Genkit V1, Familje-PIN, G18, `/gora`, Gmail/Calendar, Life OS Fas D — no build without Pontus OK.
+**Next within Fas 24:** Complete days 1–7 of G85 daily driver (log issues only) — checklist [`G85-DAILY-DRIVER-CHECKLIST.md`](./G85-DAILY-DRIVER-CHECKLIST.md). Improvement waves v49–v54 **kod-GO** 2026-07-18 (`waves:autorun` / [`IMPROVEMENT-WAVES-AUTORUN.md`](./IMPROVEMENT-WAVES-AUTORUN.md)); deploy SKIP tills OK deploy. Defer 19.3/19.5/19.6 per syntes. **PMIR parked:** Genkit V1, Familje-PIN, G18, `/gora`, Gmail/Calendar, Life OS Fas D — no build without Pontus OK.
 
 ---
 

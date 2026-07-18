@@ -1,17 +1,21 @@
 package com.livskompassen.app.core;
 
+import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
-import android.media.AudioAttributes;
-import android.net.Uri;
+import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 
+import androidx.core.app.NotificationCompat;
 import com.livskompassen.app.R;
 
 public class AppNotificationManager {
     public static final String CHANNEL_ID_VAULT = "sacred_vault_notifications";
     public static final String CHANNEL_ID_DAILY = "daily_reminders";
+    private static final int NOTIFICATION_ID_PREMIUM = 1002;
 
     public static void createNotificationChannels(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -39,5 +43,51 @@ public class AppNotificationManager {
                 manager.createNotificationChannel(dailyChannel);
             }
         }
+    }
+
+    /**
+     * Triggars en rik notis med interaktiva knappar och sekretess-skydd.
+     */
+    public static void showPremiumNotification(Context context, String title, String message, String channelId, HapticManager hapticManager) {
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (manager == null) return;
+
+        // Trigger native haptics based on channel
+        if (hapticManager != null) {
+            if (CHANNEL_ID_VAULT.equals(channelId)) hapticManager.vaultAlert();
+            else hapticManager.reminderGentle();
+        }
+
+        // Stealth Logic: Om skärmen är låst eller användaren valt hög sekretess, maskera innehåll
+        boolean shouldMask = true; // Detta kan styras via en global inställning senare
+        String displayTitle = shouldMask ? "Livskompassen" : title;
+        String displayMessage = shouldMask ? "Skyddad avisering. Lås upp för att läsa." : message;
+
+        // Intent för att låsa valvet direkt
+        Intent lockIntent = new Intent(context, NotificationActionReceiver.class);
+        lockIntent.setAction(NotificationActionReceiver.ACTION_VAULT_LOCK);
+        PendingIntent lockPendingIntent = PendingIntent.getBroadcast(context, 0, lockIntent, 
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Intent för snabb incheckning
+        Intent checkinIntent = new Intent(context, NotificationActionReceiver.class);
+        checkinIntent.setAction(NotificationActionReceiver.ACTION_QUICK_CHECKIN);
+        PendingIntent checkinPendingIntent = PendingIntent.getBroadcast(context, 1, checkinIntent, 
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(R.drawable.ic_lock_sacred)
+                .setContentTitle(displayTitle)
+                .setContentText(displayMessage)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+                .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                .setVisibility(NotificationCompat.VISIBILITY_PRIVATE) // Döljer på låsskärmen som standard
+                .setColor(0xFDE68A) // Guld
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(displayMessage))
+                .addAction(R.drawable.ic_lock_sacred, "Säkra Valvet", lockPendingIntent)
+                .addAction(R.drawable.ic_error_outline, "Logga nu", checkinPendingIntent);
+
+        manager.notify(NOTIFICATION_ID_PREMIUM, builder.build());
     }
 }

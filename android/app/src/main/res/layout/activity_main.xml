@@ -108,4 +108,19 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/privacy_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#0D0B09"
+        android:gravity="center"
+        android:visibility="gone"
+        android:clickable="true"
+        android:focusable="true">
+        <ImageView
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/splash" />
+    </LinearLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

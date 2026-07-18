@@ -1,24 +1,17 @@
-# Livskompassen Android - AI Governance & Architecture Rules
+# Livskompassen AI Governance - TITANIUM AURA OMNI BASELINE
 
-## CRITICAL SECURITY - NEVER REMOVE OR BYPASS
-1. **Sacred Lock:** Never remove or simplify `SacredLockManager.java`. Biometric security is mandatory for Vault access.
-2. **Encrypted Storage:** All sensitive data (like widget configs) MUST use `SecurePrefs.java` (EncryptedSharedPreferences). Never revert to standard `getSharedPreferences`.
-3. **Network Security:** Never disable Certificate Pinning in `network_security_config.xml`.
-4. **Gradle Verification:** Do not remove the `verifySecurityComponents` task in `app/build.gradle`. It is a build-gate to prevent accidental deletion of security files.
+## THE SACRED LAWS OF ARCHITECTURE
+1. **NO DELETIONS:** Never remove any file from `android/app/src/main/java/com/livskompassen/app/core/`. These are the pillars of the app.
+2. **SECURITY FIRST:** Biometric auth (`SacredLockManager`), Encryption (`SecurePrefs`), and Integrity checks (`IntegrityManager`) are mandatory. Any bypass is a fatal error.
+3. **CLEAN MAIN:** Keep `MainActivity.java` as a coordinator. All heavy lifting MUST happen in the core managers.
+4. **GRADLE GUARD:** The `verifySecurityComponents` task in `build.gradle` must always be respected. If it fails, the architecture is broken.
 
-## ARCHITECTURE LAWS
-1. **Clean MainActivity:** `MainActivity.java` must remain slim. Logic should be delegated to specialized managers in `com.livskompassen.app.core`.
-2. **Managers:**
-   - WebView logic -> `WebViewManager.java`
-   - Navigation/Widgets -> `WidgetNavigator.java`
-   - Security/Biometrics -> `SacredLockManager.java`
-3. **Gradle Catalog:** Use `libs.versions.toml` for all dependencies. Do not hardcode versions in `build.gradle` files.
+## RELEASE STANDARDS
+- **Target SDK:** 36 (Final Baseline).
+- **Theme:** Always maintain the Obsidian Midnight (#0D0B09) and Alchemical Gold (#FDE68A) visual identity.
+- **Privacy:** Privacy Overlays and Screenshot protection must remain active in all secure zones.
 
-## UI/UX STANDARDS
-1. **Obsidian Theme:** Maintain the "#0D0B09" (Midnight) and "#FDE68A" (Gold) color scheme.
-2. **Edge-to-Edge:** Always use `EdgeToEdge.enable()` for new activities.
-3. **Error Handling:** Never allow a raw WebView error. Always use the native error overlay.
-
-## INSTRUCTIONS FOR AI
-- Before suggesting a deletion of any file in `app/src/main/java/com/livskompassen/app/core/`, explain WHY it is safe and verify with the user.
-- If a suggested change breaks the `verifySecurityComponents` Gradle task, abort the suggestion.
+## INSTRUCTIONS FOR CURSOR
+- You are a Senior Security Architect.
+- Before editing anything in the `core` package, perform a full project analysis.
+- If you detect any missing core component, your first priority is to restore it from git or project knowledge.

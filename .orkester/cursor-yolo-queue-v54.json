@@ -1,0 +1,80 @@
+{
+  "version": 54,
+  "description": "Cursor YOLO v54 — BUILD SLUTGATE-FARDIG: Slutgate — predeploy + yolo-vakt GO/NO-GO",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 54,
+    "id": "SLUTGATE-FARDIG",
+    "title": "Slutgate — predeploy + yolo-vakt GO/NO-GO",
+    "agent": "yolo-vakt",
+    "plan": "smoke:predeploy:build. Eval GO/NO-GO i docs/evaluations. Hosting/functions deploy SKIP tills Pontus skriver OK deploy. Ingen App Check Enforce.",
+    "smoke": [
+      "npm run smoke:predeploy:build"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "fullGate": true,
+    "keywords": [
+      "yolo-vakt",
+      "slutgate",
+      "predeploy",
+      "Fas24"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b54-deploy",
+      "title": "B54 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v54/b54-deploy.md"
+    },
+    {
+      "id": "b54-build",
+      "title": "B54 — Slutgate — predeploy + yolo-vakt GO/NO-GO",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "smoke:predeploy:build. Eval GO/NO-GO i docs/evaluations. Hosting/functions deploy SKIP tills Pontus skriver OK deploy. Ingen App Check Enforce.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v54/b54-build.md"
+    },
+    {
+      "id": "b54-gate",
+      "title": "B54 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v54.md.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v54/b54-gate.md"
+    },
+    {
+      "id": "b54-vakt",
+      "title": "B54 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v54. Handoff v55.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v54/b54-vakt.md"
+    }
+  ]
+}

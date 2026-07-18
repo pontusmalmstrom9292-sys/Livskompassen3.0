@@ -1,0 +1,31 @@
+{
+  "version": 54,
+  "queueFile": ".orkester/cursor-yolo-queue-v54.json",
+  "buildWaveId": "SLUTGATE-FARDIG",
+  "startedAt": "2026-07-18T06:33:10.327Z",
+  "updatedAt": "2026-07-18T06:33:10.328Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b54-build",
+      "b54-gate",
+      "b54-vakt"
+    ],
+    "skippedTaskIds": [
+      "b54-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b54-deploy",
+    "b54-build",
+    "b54-gate",
+    "b54-vakt"
+  ],
+  "notes": "SLUTGATE-FARDIG 2026-07-18: smoke:predeploy:build PASS. Deploy SKIP. See 2026-07-18-yolo-vakt-v54-slutgate.md GO.",
+  "goNoGo": "GO",
+  "gateVerdict": "GO",
+  "marathonComplete": true,
+  "finishedAt": "2026-07-18T06:33:10.328Z"
+}

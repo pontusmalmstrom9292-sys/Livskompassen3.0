@@ -1,7 +1,7 @@
 {
   "version": 1,
   "updatedAt": "2026-07-14T19:10:00.000Z",
-  "description": "PMIR auto-SKIP register för SDK YOLO build marathon v34–v47",
+  "description": "PMIR auto-SKIP register för SDK YOLO build marathon v34–v54 (improvement waves inkl.)",
   "alwaysSkip": [
     {
       "id": "firestore-rules",

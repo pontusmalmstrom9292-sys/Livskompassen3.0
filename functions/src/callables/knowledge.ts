@@ -111,7 +111,7 @@ export const getContextCacheStatus = onCall({ region: 'europe-west1' }, async (r
 });
 
 export const ingestKampsparEntry = onCall(
-  { region: 'europe-west1', memory: '512MiB', timeoutSeconds: 60 },
+  { region: 'europe-west1', memory: '512MiB', timeoutSeconds: 60, secrets: [geminiApiKey] },
   async (request) => {
     const uid = await guardSensitiveCallableV2(request, 'ingestKampsparEntry', 10);
     const data = request.data;

@@ -11,6 +11,7 @@ import android.webkit.WebView;
 
 import com.getcapacitor.Bridge;
 import com.livskompassen.app.util.LCLog;
+import com.livskompassen.app.util.SecurePrefs;
 import com.livskompassen.app.widgets.WidgetLaunch;
 import com.livskompassen.app.widgets.WidgetRouteMatcher;
 
@@ -21,6 +22,7 @@ import java.util.Objects;
  * Handles navigation intents from home screen widgets and deep links.
  */
 public class WidgetNavigator {
+    private static final String PREF_PERSISTENT_NAV_PATH = "persistent_nav_path";
     private static final int WIDGET_DISPATCH_MAX_ATTEMPTS = 40;
     private static final long WIDGET_DISPATCH_RETRY_MS = 150L;
 
@@ -35,6 +37,21 @@ public class WidgetNavigator {
     public WidgetNavigator(Bridge bridge, View decorView) {
         this.bridge = bridge;
         this.decorView = decorView;
+        restorePersistentPath();
+    }
+
+    private void restorePersistentPath() {
+        if (bridge == null || bridge.getContext() == null) return;
+        String savedPath = SecurePrefs.get(bridge.getContext()).getString(PREF_PERSISTENT_NAV_PATH, null);
+        if (savedPath != null) {
+            LCLog.d("WidgetNavigator: Restored persistent nav path: " + savedPath);
+            this.pendingWidgetPath = savedPath;
+        }
+    }
+
+    private void persistPath(String path) {
+        if (bridge == null || bridge.getContext() == null) return;
+        SecurePrefs.get(bridge.getContext()).edit().putString(PREF_PERSISTENT_NAV_PATH, path).apply();
     }
 
     public void handleIntent(Intent intent) {
@@ -53,7 +70,8 @@ public class WidgetNavigator {
                 String fullPath = path + (query != null ? "?" + query : "");
                 if (!fullPath.isEmpty() && !"/".equals(fullPath)) {
                     LCLog.d("WidgetNavigator: Captured deep link path: " + fullPath);
-                    pendingWidgetPath = fullPath;
+                    this.pendingWidgetPath = fullPath;
+                    persistPath(fullPath);
                     triggerHapticFeedback();
                     dispatchPendingPath();
                     return;
@@ -65,7 +83,8 @@ public class WidgetNavigator {
         String path = intent.getStringExtra(WidgetLaunch.EXTRA_WIDGET_PATH);
         if (path != null && !path.isEmpty()) {
             LCLog.d("WidgetNavigator: Captured widget path: " + path);
-            pendingWidgetPath = path;
+            this.pendingWidgetPath = path;
+            persistPath(path);
             intent.removeExtra(WidgetLaunch.EXTRA_WIDGET_PATH);
             triggerHapticFeedback();
             dispatchPendingPath();
@@ -127,6 +146,7 @@ public class WidgetNavigator {
                     LCLog.d("WidgetNavigator: Dispatch successful: " + path);
                     lastDispatchedPath = path;
                     pendingWidgetPath = null;
+                    persistPath(null); // Clear persistent state on success
                     return;
                 }
                 

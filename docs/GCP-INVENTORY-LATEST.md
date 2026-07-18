@@ -15,8 +15,8 @@
 | Fynd | Status | Gap |
 |------|--------|-----|
 | `valvChatQuery` deployad (west1) | **done** | G1 |
-| Vector endpoint + `livskompassen_kv_deployed_v1` | **ORPHAN 2026-06-25** | migrerad till Firestore Native — decommission frigör ~$330/mån |
-| Index west1, **173 vectors** | **ORPHAN 2026-06-25** | embeddings finns på Firestore-docs |
+| Vector endpoint + `livskompassen_kv_deployed_v1` | **DECOMMISSIONED 2026-07-18** | undeploy+delete west1/us-central1; aiplatform API disabled; ~$330/mån sparad |
+| Index west1 (+ us-central1) | **DECOMMISSIONED 2026-07-18** | embeddings finns på Firestore-docs; Native findNearest |
 | `NOTIFY_WEBHOOK_SECRET` | **finns** | G6 **done** — E2E kb_docs 2026-05-22 |
 | Vävaren HITL callables | **deployade** | `approveWeaverMetadata`, `rejectWeaverMetadata` |
 | Legacy Python (0 fn kvar) | **avvecklad** | G4 **done** — steg 1–5 2026-05-22 |
@@ -114,14 +114,14 @@ Full lista live: `firebase functions:list --project gen-lang-client-0481875058`
 
 ---
 
-## Vertex AI Vector Search — DECOMMISSIONABLE 2026-06-25
+## Vertex AI Vector Search — DECOMMISSIONED 2026-07-18
 
 **Plattformen migrerade till Firestore Native Vector Search** (`FieldValue.vector()` + `findNearest()` med COSINE). Vertex AI Vector Search-resurserna nedan är **ORPHAN** — ingen kod anropar dem längre. Decommission ger **~$330/mån** besparing utan funktionsförlust.
 
 **Runbook:** [`runbooks/VECTOR-SEARCH-DECOMMISSION.md`](runbooks/VECTOR-SEARCH-DECOMMISSION.md)
 **Runtime-användning:** [`functions/src/lib/kampsparQueryRag.ts`](../functions/src/lib/kampsparQueryRag.ts), [`functions/src/lib/kampsparRag.ts`](../functions/src/lib/kampsparRag.ts), [`functions/src/lib/childrenLogsQueryRag.ts`](../functions/src/lib/childrenLogsQueryRag.ts)
 
-### west1 — **ORPHAN (decommissionable)**
+### west1 + us-central1 — **DECOMMISSIONED**
 
 | Resurs | ID / namn | Status |
 |--------|-----------|--------|

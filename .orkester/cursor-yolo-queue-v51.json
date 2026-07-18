@@ -1,0 +1,92 @@
+{
+  "version": 51,
+  "description": "Cursor YOLO v51 — BUILD ZONE-VARDAGEN-FAMILJEN-FINISH: Vardagen + Familjen finish — widgets HITL Hamn",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 51,
+    "id": "ZONE-VARDAGEN-FAMILJEN-FINISH",
+    "title": "Vardagen + Familjen finish — widgets HITL Hamn",
+    "agent": "specialist-vardagen-builder",
+    "plan": "Widget phone-size/routes verify. Barnporten HITL re-verify (ingen auto-promote). Hamn copy om smoke gap. Ekonomi checklist-doc. Inte Gmail/Calendar, Familje-PIN, /gora. Live smoke:children deferred till App Check debug token OK.",
+    "smoke": [
+      "npm run smoke:widgets",
+      "npm run smoke:hamn",
+      "npm run smoke:economy-vendor",
+      "npm run smoke:locked-ux",
+      "npm run smoke:barn-epistemik"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "keywords": [
+      "vardagen",
+      "familjen",
+      "widgets",
+      "hamn",
+      "HITL"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b51-deploy",
+      "title": "B51 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v51/b51-deploy.md"
+    },
+    {
+      "id": "b51-build",
+      "title": "B51 — Vardagen + Familjen finish — widgets HITL Hamn",
+      "phase": "sequential",
+      "agent": "specialist-vardagen-builder",
+      "plan": "Widget phone-size/routes verify. Barnporten HITL re-verify (ingen auto-promote). Hamn copy om smoke gap. Ekonomi checklist-doc. Inte Gmail/Calendar, Familje-PIN, /gora. Live smoke:children deferred till App Check debug token OK.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v51/b51-build.md"
+    },
+    {
+      "id": "b51-gate",
+      "title": "B51 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v51.md.",
+      "smoke": [
+        "npm run smoke:widgets",
+        "npm run smoke:hamn",
+        "npm run smoke:economy-vendor",
+        "npm run smoke:locked-ux",
+        "npm run smoke:barn-epistemik"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v51/b51-gate.md"
+    },
+    {
+      "id": "b51-vakt",
+      "title": "B51 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v51. Handoff v52.",
+      "smoke": [
+        "npm run smoke:widgets",
+        "npm run smoke:hamn",
+        "npm run smoke:economy-vendor",
+        "npm run smoke:locked-ux",
+        "npm run smoke:barn-epistemik"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v51/b51-vakt.md"
+    }
+  ]
+}

@@ -6,7 +6,7 @@ function truncate(text: string, max = 120): string {
   return text.length <= max ? text : `${text.slice(0, max)}…`;
 }
 
-async function fetchFirestoreRag(uid: string): Promise<string[]> {
+async function fetchWeaverPersonalContext(uid: string): Promise<string[]> {
   const db = admin.firestore();
   const [journalSnap, vaultSnap] = await Promise.all([
     db.collection('journal').where('ownerId', '==', uid).orderBy('createdAt', 'desc').limit(5).get(),
@@ -22,23 +22,30 @@ async function fetchFirestoreRag(uid: string): Promise<string[]> {
     lines.push(`[reality_vault:${d.id}] ${truncate(String(d.data().truth ?? ''))}`);
   }
 
+  return lines;
+}
+
+/** Kunskap-silo only — never call from Vävaren together with personal/Valv context. */
+export async function fetchKnowledgeRagContext(uid: string, journalText: string): Promise<string> {
+  const firestoreLines: string[] = [];
+  const db = admin.firestore();
   for (const coll of ['kampspar', 'kampspar_logs'] as const) {
     try {
       const field = coll === 'kampspar_logs' ? 'timestamp' : 'createdAt';
       const snap = await db.collection(coll).where('ownerId', '==', uid).orderBy(field, 'desc').limit(5).get();
       for (const d of snap.docs) {
         const data = d.data();
-        lines.push(`[${coll}:${d.id}] ${truncate(String(data.content ?? data.text ?? ''))}`);
+        firestoreLines.push(`[${coll}:${d.id}] ${truncate(String(data.content ?? data.text ?? ''))}`);
       }
     } catch {
       // Collection eller index saknas — hoppa över.
     }
   }
-
-  return lines;
+  const vectorLines = await fetchVectorRagExcerpts(uid, journalText);
+  return [...firestoreLines, ...vectorLines].join('\n') || '(ingen kunskapskontext)';
 }
 
-/** Vector Search ANN för Vävaren — via Firestore Native Vector Search. */
+/** Vector Search ANN för Kunskap-silo — Firestore Native Vector Search. */
 async function fetchVectorRagExcerpts(uid: string, text: string): Promise<string[]> {
   try {
     const embedding = await generateEmbeddingInternal(text);
@@ -91,10 +98,12 @@ async function fetchVectorRagExcerpts(uid: string, text: string): Promise<string
     return [];
   }
 }
-/** RAG-kontext för Vävaren: journal + valv + Minne (Firestore Native Vector Search via findNearest). */
-export async function fetchWeaverRagContext(uid: string, journalText: string): Promise<string> {
-  const firestoreLines = await fetchFirestoreRag(uid);
-  const vectorLines = await fetchVectorRagExcerpts(uid, journalText);
-  const combined = [...firestoreLines, ...vectorLines];
-  return combined.join('\n') || '(ingen tidigare kontext)';
+
+/**
+ * RAG-kontext för Vävaren (U1): endast journal + reality_vault.
+ * Kunskap (kampspar/kb_docs) hämtas via fetchKnowledgeRagContext — aldrig i samma prompt.
+ */
+export async function fetchWeaverRagContext(uid: string, _journalText: string): Promise<string> {
+  const lines = await fetchWeaverPersonalContext(uid);
+  return lines.join('\n') || '(ingen tidigare kontext)';
 }

@@ -8,6 +8,14 @@
 
 ---
 
+## Vertex Vector Search — DECOMMISSIONED 2026-07-18
+
+- `aiplatform.googleapis.com` är **blocked** i `infra/gcp/cost-guard/manifest.json`
+- Setup-scripts (`setup_vector_search*.sh`, `scripts/ai/*vault*`) är **LOCKED stubs** (exit 1)
+- RAG: Firestore Native `findNearest` + `@google/genai` (`GEMINI_API_KEY`)
+- Smoke: `npm run smoke:cost-guard` FAIL om någon återaktiverar mönster
+- Live: `npm run gcp:audit-apis` FAIL om aiplatform är enabled
+
 ## Tre skyddslager
 
 | Lager | Vad | Kommando |

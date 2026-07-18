@@ -95,7 +95,53 @@ async function fetchKampsparEvidenceAnn(
   return chunks;
 }
 
-/** Minne-scoped RAG: ANN via Firestore Native Vector Search. */
+async function fetchKampsparEvidenceTokenFallback(
+  uid: string,
+  question: string,
+  limit: number
+): Promise<KampsparEvidenceChunk[]> {
+  const db = admin.firestore();
+  const tokens = question
+    .toLowerCase()
+    .split(/[^\p{L}\p{N}]+/u)
+    .filter((t) => t.length >= 3)
+    .slice(0, 12);
+  if (tokens.length === 0) return [];
+
+  const [kampsparSnap, kbSnap] = await Promise.all([
+    db.collection('kampspar').where('ownerId', '==', uid).orderBy('createdAt', 'desc').limit(40).get(),
+    db.collection('kb_docs').where('ownerId', '==', uid).orderBy('createdAt', 'desc').limit(40).get(),
+  ]);
+
+  const scored: Array<{ score: number; chunk: KampsparEvidenceChunk }> = [];
+  for (const [coll, snap] of [
+    ['kampspar', kampsparSnap],
+    ['kb_docs', kbSnap],
+  ] as const) {
+    for (const doc of snap.docs) {
+      const data = doc.data();
+      const hay = `${data.title ?? ''} ${data.content ?? data.text ?? ''}`.toLowerCase();
+      let score = 0;
+      for (const t of tokens) {
+        if (hay.includes(t)) score += 1;
+      }
+      if (score > 0) {
+        scored.push({
+          score,
+          chunk: chunkFromDoc(coll, doc.id, data),
+        });
+      }
+    }
+  }
+  scored.sort((a, b) => b.score - a.score);
+  const chunks = scored.slice(0, limit).map((s) => s.chunk);
+  if (chunks.length > 0) {
+    console.log(`[kampsparQueryRag] token-fallback ${chunks.length} träffar för uid=${uid}`);
+  }
+  return chunks;
+}
+
+/** Minne-scoped RAG: ANN via Firestore Native Vector Search, token-fallback om ANN tom/fail. */
 export async function fetchKampsparEvidenceForQuery(
   uid: string,
   question: string,
@@ -103,9 +149,14 @@ export async function fetchKampsparEvidenceForQuery(
 ): Promise<KampsparEvidenceChunk[]> {
   try {
     const annChunks = await fetchKampsparEvidenceAnn(uid, question, limit);
-    return annChunks;
+    if (annChunks.length > 0) return annChunks;
   } catch (err) {
-    console.warn('[kampsparQueryRag] ANN misslyckades:', err);
+    console.warn('[kampsparQueryRag] ANN misslyckades — token-fallback:', err);
+  }
+  try {
+    return await fetchKampsparEvidenceTokenFallback(uid, question, limit);
+  } catch (err) {
+    console.warn('[kampsparQueryRag] token-fallback misslyckades:', err);
     return [];
   }
 }
