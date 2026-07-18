@@ -1,6 +1,6 @@
 import { httpsCallable, type FunctionsError } from 'firebase/functions';
 import { functions } from '@/core/firebase/init';
-import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
+import { withVaultSessionPayloadReady } from '@/core/auth/vaultServerSession';
 
 export type DcapReviewDecision = 'acknowledged' | 'dismissed';
 
@@ -15,7 +15,7 @@ export async function resolveDcapAlert(
 ): Promise<{ reviewId: string; alreadyReviewed: boolean }> {
   try {
     const result = await resolveDcapAlertCallable(
-      withVaultSessionPayload({ alertId, decision }),
+      await withVaultSessionPayloadReady({ alertId, decision }),
     );
     return result.data;
   } catch (error) {

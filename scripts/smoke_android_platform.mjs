@@ -33,6 +33,7 @@ assert('authService native branch', read('src/modules/core/auth/authService.ts')
 const appCheck = read('src/modules/core/firebase/appCheck.ts');
 assert('appCheck native CustomProvider', appCheck.includes('Capacitor.isNativePlatform'));
 assert('appCheck awaitAppCheckReady export', appCheck.includes('export async function awaitAppCheckReady'));
+assert('appCheck requireAppCheckReady export', appCheck.includes('export async function requireAppCheckReady'));
 assert('appCheck native warm retries', appCheck.includes('warmNativeToken'));
 assert(
   'appCheck does not pass VITE env string as native debugToken',
@@ -42,6 +43,10 @@ assert(
 assert(
   'appCheck native debugToken from BuildConfig gate (not Vite prod)',
   appCheck.includes('gate.debugToken') && appCheck.includes('resolveNativeDebugGate'),
+);
+assert(
+  'appCheck BuildConfig-first token path with prefs fallback warn',
+  appCheck.includes('BuildConfig debugToken saknas') && appCheck.includes('nativeDebugToken'),
 );
 assert('appCheck LkNativeBuild gate', appCheck.includes('LkNativeBuild') && appCheck.includes('getAppCheckDebugGate'));
 assert('appCheck fail-closed without gate', appCheck.includes('resolveNativeDebugGate'));
@@ -89,6 +94,13 @@ assert(
   'MainActivity bootstrap before super.onCreate',
   /AppCheckDebugBootstrap\.applyIfDebug[\s\S]*?super\.onCreate/.test(mainActivity),
 );
+
+
+const vaultSession = read('src/modules/core/auth/vaultServerSession.ts');
+assert('vaultSession withVaultSessionPayloadReady', vaultSession.includes('withVaultSessionPayloadReady'));
+assert('vaultSession awaitAppCheckReady before issue', vaultSession.includes('awaitAppCheckReady'));
+assert('MainActivity cold-start null guards', mainActivity.includes('widgetNavigator == null'));
+assert('MainActivity resume re-handles widget intent', mainActivity.includes('handleIntent(getIntent())'));
 
 const nativePlugin = read('android/app/src/main/java/com/livskompassen/app/LkNativeBuildPlugin.java');
 assert('LkNativeBuildPlugin Cap name', nativePlugin.includes('@CapacitorPlugin(name = "LkNativeBuild")'));

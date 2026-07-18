@@ -144,6 +144,9 @@ public class MainActivity extends BridgeActivity {
             return;
         }
 
+        // Cold start: onNewIntent/load may have run before managers existed — catch widget deep-link now.
+        widgetNavigator.handleIntent(getIntent());
+
         String path = widgetNavigator.getPendingWidgetPath();
         if (path != null && path.contains("/widget/inspelning")) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {

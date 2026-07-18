@@ -636,4 +636,20 @@
   .exec-dock-bar__compass::before {
     opacity: 0.55;
   }
+
+  /* Cards / glass — solid fallback when blur is reduced (WCAG AA a11y) */
+  .calm-card,
+  .glass-card,
+  .ds-card,
+  .exec-glass,
+  .exec-chrome-bar {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .calm-card::after,
+  .glass-card::after,
+  .ds-card::after {
+    opacity: 0.2;
+  }
 }

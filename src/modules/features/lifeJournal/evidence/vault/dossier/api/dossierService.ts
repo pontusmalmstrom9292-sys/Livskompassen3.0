@@ -1,6 +1,6 @@
 import { httpsCallable, type FunctionsError } from 'firebase/functions';
 import { functions } from '@/core/firebase/init';
-import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
+import { withVaultSessionPayloadReady } from '@/core/auth/vaultServerSession';
 import type { GenerateDossierInput, GenerateDossierResult } from '../types';
 
 const generateDossierCallable = httpsCallable<GenerateDossierInput, GenerateDossierResult>(
@@ -13,7 +13,7 @@ export async function generateDossier(
 ): Promise<GenerateDossierResult> {
   try {
     const result = await generateDossierCallable(
-      withVaultSessionPayload<GenerateDossierInput>(input),
+      await withVaultSessionPayloadReady<GenerateDossierInput>(input),
     );
     return result.data;
   } catch (error) {

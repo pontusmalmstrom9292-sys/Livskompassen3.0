@@ -1,5 +1,5 @@
 import { httpsCallable } from 'firebase/functions';
-import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
+import { withVaultSessionPayloadReady } from '@/core/auth/vaultServerSession';
 import { functions } from '@/core/firebase/init';
 
 const weaveCallable = httpsCallable<
@@ -13,7 +13,9 @@ export function weaveJournalEntry(payload: {
   mood: string;
   text: string;
 }): void {
-  void weaveCallable(withVaultSessionPayload(payload)).catch((err) => {
-    console.warn('[Vävaren] Async tagging misslyckades:', err);
-  });
+  void withVaultSessionPayloadReady(payload)
+    .then((ready) => weaveCallable(ready))
+    .catch((err) => {
+      console.warn('[Vävaren] Async tagging misslyckades:', err);
+    });
 }

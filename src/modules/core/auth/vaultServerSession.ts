@@ -67,6 +67,23 @@ export function withVaultSessionPayload<T extends VaultCallablePayloadBase>(
   };
 }
 
+/**
+ * Väntar in App Check innan Valv-callables (APP_CHECK_ENFORCE).
+ * Använd för alla Valv-payload-anrop utöver session-issue (som redan awaitar).
+ */
+export async function withVaultSessionPayloadReady<T extends VaultCallablePayloadBase>(
+  payload: T,
+  options?: { forceRefresh?: boolean },
+): Promise<T & VaultSessionTokenField> {
+  const appCheckOk = await awaitAppCheckReady(options);
+  if (!appCheckOk) {
+    const err = new Error('App Check-verifiering krävs.') as Error & { code?: string };
+    err.code = 'functions/failed-precondition';
+    throw err;
+  }
+  return withVaultSessionPayload(payload);
+}
+
 export type VaultSessionIssueOutcome =
   | { ok: true }
   | { ok: false; message: string };

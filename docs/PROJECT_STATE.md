@@ -1,6 +1,6 @@
 # Project State — Livskompassen v2
 
-**Version:** 1.3 · **Last updated:** 2026-07-17  
+**Version:** 1.4 · **Last updated:** 2026-07-18  
 **Rule:** Single source of truth for **system phase** and **active program**. AI assistants must read this before coding.
 
 ---
@@ -16,7 +16,7 @@ Two levels — do not confuse them:
 
 **Conflict rule:** System phase (Fas N) wins over program phase. Program work must not violate Fas scope or PMIR gates.
 
-**Single next step (Fas 24 wins):** Start **P0 G85 7-day daily driver** — record start date in this file when day 1 begins. Phase 10 visual sign-off waits (program-only; does not block Fas 24).
+**Single next step (Fas 24 wins):** **P0 G85 7-day daily driver — STARTED 2026-07-18** (day 1). Install/verify Valv on phone if not already (Android Studio Run). Phase 10 visual sign-off waits (program-only).
 
 ---
 
@@ -36,10 +36,10 @@ Two levels — do not confuse them:
 
 | ID | Deliverable | Status |
 |----|-------------|--------|
-| P0 | Smoke grön + Android G85 daily driver (7 dagar) | Smoke: `smoke:predeploy:live` + `smoke:super-yolo` **PASS** 2026-07-11. G85 7d: **ej startad** (inget startdatum loggat). Spot-checks: WH1/WH2/W1 2026-07-14; App Check harden + v48 live-verify GO 2026-07-17 (manuell Valv bakgrund <3s kvar). |
+| P0 | Smoke grön + Android G85 daily driver (7 dagar) | Smoke: `smoke:predeploy:live` + `smoke:super-yolo` **PASS** 2026-07-11. G85 7d: **STARTED 2026-07-18** (day 1). Spot-checks: WH1/WH2/W1 2026-07-14; App Check Valv-kickout fix committed 2026-07-18; debug APK assembled + `cap sync` PASS. **USER:** Android Studio Run + Valv bakgrund <3s on device. |
 | PV1a–23E | Se system-plan Fas 24 tabell | **done** 2026-06-25 |
 
-**Next within Fas 24:** Start P0 G85 7-day clock (day 1 = first full day phone is daily driver); defer 19.3/19.5/19.6 per syntes.
+**Next within Fas 24:** Complete days 1–7 of G85 daily driver (log issues only). Defer 19.3/19.5/19.6 per syntes. **PMIR parked:** Genkit V1, Familje-PIN, G18, `/gora`, Gmail/Calendar, Life OS Fas D — no build without Pontus OK.
 
 ---
 
@@ -92,7 +92,8 @@ Phase 0–9 baseline och migration **done**. Phase 10: `index.css` import-only; 
 | `smoke:predeploy:live` + `smoke:super-yolo` | **PASS** | 2026-07-11 |
 | `gcp:audit-apis` | **PASS** | 2026-07-11 |
 | Fas 24 build sequence through 23E | **done** | 2026-06-25 |
-| AI Governance system | v1.3 (PROJECT_STATE sync) | 2026-07-17 |
+| AI Governance system | v1.4 (Fas 24 P0 G85 started) | 2026-07-18 |
+| G85 7d started | **day 1** · App Check Valv fix + debug APK ready | 2026-07-18 |
 | `smoke:governance` + `smoke:module-lock` | **PASS** | 2026-07-17 — 23/23 locked (re-check after PROJECT_STATE v1.3) |
 
 ### MOD-WIDGET Standalone v1 (2026-07-14)

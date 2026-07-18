@@ -11,6 +11,7 @@ import type {
 } from '@simplewebauthn/browser';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '../firebase/init';
+import { requireAppCheckReady } from '../firebase/appCheck';
 import { formatCallableError } from './callableErrorMessage';
 
 type BeginVaultWebAuthnResult = {
@@ -73,6 +74,7 @@ function formatWebAuthnClientError(err: unknown): string {
 async function beginVaultChallenge(
   forceRegistration: boolean,
 ): Promise<BeginVaultWebAuthnResult> {
+  await requireAppCheckReady({ forceRefresh: false });
   const begin = httpsCallable<BeginVaultWebAuthnPayload, BeginVaultWebAuthnResult>(
     functions,
     'beginVaultWebAuthnChallenge',

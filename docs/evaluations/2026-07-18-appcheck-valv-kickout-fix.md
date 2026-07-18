@@ -18,3 +18,14 @@ G85: `beginVaultBiometricChallenge` → HTTP 400 (APP_CHECK_ENFORCE). App Check-
 
 ## Krävs av Pontus
 Android Studio → **Run** (debug-APK) så ny native plugin + BuildConfig bakas in.
+
+## Agent leverans (2026-07-18)
+
+- Commit: App Check BuildConfig-token + await före Valv-session
+- `npm run cap:sync` PASS · `assembleDebug` → `android/app/build/outputs/apk/debug/app-debug.apk` (55M)
+- Våg 2b: `withVaultSessionPayloadReady` / `requireAppCheckReady` på Valv-callables; MainActivity deep-link efter kallstart
+- **USB-enhet saknades** — ingen `adb install` denna session
+
+### Pontus (ett steg)
+
+Android Studio → **Run** (debug) på G85 → öppna Valvet → kort bakgrund (&lt;3 s) → ska inte sparka ut.

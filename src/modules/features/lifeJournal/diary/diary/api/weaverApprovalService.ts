@@ -9,7 +9,7 @@ import {
 } from 'firebase/firestore';
 import { db } from '@/core/firebase/firestore';
 import { functions } from '@/core/firebase/init';
-import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
+import { withVaultSessionPayloadReady } from '@/core/auth/vaultServerSession';
 import type { WeaverTags } from '@/core/types/firestore';
 
 export type WeaverPendingRow = {
@@ -82,10 +82,10 @@ export function subscribeWeaverPendingForUser(
 }
 
 export async function approveWeaverMetadata(pendingId: string): Promise<string> {
-  const result = await approveCallable(withVaultSessionPayload({ pendingId }));
+  const result = await approveCallable(await withVaultSessionPayloadReady({ pendingId }));
   return result.data.vaultMetadataId;
 }
 
 export async function rejectWeaverMetadata(pendingId: string): Promise<void> {
-  await rejectCallable(withVaultSessionPayload({ pendingId }));
+  await rejectCallable(await withVaultSessionPayloadReady({ pendingId }));
 }

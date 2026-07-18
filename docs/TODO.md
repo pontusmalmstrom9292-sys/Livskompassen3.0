@@ -8,7 +8,7 @@
 ## 2026-07-17 — PROJECT_STATE v1.3 sync
 
 - [x] Synka PROJECT_STATE v1.3 (marathon v40–v48, stubs, P0 G85 ej startad, single next)
-- [ ] Starta P0 G85 7-day daily driver (logga startdatum i PROJECT_STATE)
+- [x] Starta P0 G85 7-day daily driver (logga startdatum i PROJECT_STATE) — **2026-07-18 day 1**
 
 ---
 
@@ -293,3 +293,13 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] smoke:android-platform: dist-leak + ZF appStateChange + vite-strip
 - [x] Eval: docs/evaluations/2026-07-17-g85-appcheck-yolo.md
 
+## 2026-07-18 — Fas 24 förbättringsplan (agent)
+
+- [x] Pull origin + commit App Check/Valv-kickout
+- [x] `cap sync` + `assembleDebug` (APK ready; USB device saknades)
+- [x] App Check await på fler Valv-vägar + BuildConfig-first token path
+- [x] MainActivity widget deep-link efter kallstart
+- [x] A11y: reduced-transparency card fallback i premium-polish
+- [x] PMIR/defer dokumenterat i PROJECT_STATE (bygg ej utan Pontus OK)
+- [ ] Pontus: Android Studio → Run + Valv <3s bakgrund (enhetsgate)
+- [ ] Pontus visual sign-off compass (program Phase 10)

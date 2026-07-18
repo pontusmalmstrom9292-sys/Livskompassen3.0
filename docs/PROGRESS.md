@@ -1,3 +1,10 @@
+## 2026-07-18 — Fas 24 förbättringsplan
+
+- G85 7d started (day 1 logged in PROJECT_STATE v1.4)
+- App Check Valv coverage + token-path hygiene + MainActivity deep-link
+- Planering/Hjärtat Dashboard → Done; a11y transparency foundation
+- PMIR/defer parked in PROJECT_STATE
+
 ## 2026-07-17 — PROJECT_STATE v1.3 sync
 
 **Completed:** PROJECT_STATE v1.3 — marathon v40–v48, Phase 10 stubs, P0 G85 status, single next (Fas 24).

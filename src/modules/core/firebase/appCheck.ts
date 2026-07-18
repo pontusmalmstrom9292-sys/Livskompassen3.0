@@ -60,17 +60,37 @@ export async function awaitAppCheckReady(options?: { forceRefresh?: boolean }): 
   }
 }
 
+/** Kastar om App Check-token saknas — för Valv-callables utan bool-return. */
+export async function requireAppCheckReady(options?: { forceRefresh?: boolean }): Promise<void> {
+  const ok = await awaitAppCheckReady(options);
+  if (!ok) {
+    const err = new Error('App Check-verifiering krävs.') as Error & { code?: string };
+    err.code = 'functions/failed-precondition';
+    throw err;
+  }
+}
+
 async function doInitAppCheck(): Promise<void> {
   if (initialized || typeof window === 'undefined') return;
 
   if (Capacitor.isNativePlatform()) {
     const gate = await resolveNativeDebugGate();
+    // Token path priority: BuildConfig string (plugin) → prefs/setprop boolean fallback.
+    // Never read VITE_APP_CHECK_DEBUG_TOKEN on native (prod leak risk).
+    let nativeDebugToken: string | true | undefined;
+    if (gate.useDebugProvider) {
+      if (gate.debugToken && gate.debugToken.length > 0) {
+        nativeDebugToken = gate.debugToken;
+      } else {
+        console.warn(
+          '[AppCheck] BuildConfig debugToken saknas — fallback boolean (AppCheckDebugBootstrap prefs / adb setprop).',
+        );
+        nativeDebugToken = true;
+      }
+    }
     await FirebaseAppCheck.initialize({
       isTokenAutoRefreshEnabled: true,
-      // Prefer BuildConfig string (survives reboot). Boolean falls back to prefs/setprop.
-      ...(gate.useDebugProvider
-        ? { debugToken: gate.debugToken && gate.debugToken.length > 0 ? gate.debugToken : true }
-        : {}),
+      ...(nativeDebugToken !== undefined ? { debugToken: nativeDebugToken } : {}),
     });
 
     const provider = new CustomProvider({
