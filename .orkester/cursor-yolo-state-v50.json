@@ -1,0 +1,30 @@
+{
+  "version": 50,
+  "queueFile": ".orkester/cursor-yolo-queue-v50.json",
+  "buildWaveId": "ZONE-VALV-HJARTAT-FINISH",
+  "startedAt": "2026-07-18T06:28:41.840Z",
+  "updatedAt": "2026-07-18T06:28:41.841Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b50-build",
+      "b50-gate",
+      "b50-vakt"
+    ],
+    "skippedTaskIds": [
+      "b50-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b50-deploy",
+    "b50-build",
+    "b50-gate",
+    "b50-vakt"
+  ],
+  "notes": "ZONE-VALV-HJARTAT-FINISH 2026-07-18: valv-security+weaver-hitl+locked-ux PASS. Live vault-worm/inkast/speglar blocked by App Check debug 403 — G85 parallel.",
+  "goNoGo": "GO",
+  "finishedAt": "2026-07-18T06:28:41.841Z",
+  "gateVerdict": "GO"
+}

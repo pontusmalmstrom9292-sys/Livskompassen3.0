@@ -32,13 +32,24 @@ assert('authService native branch', read('src/modules/core/auth/authService.ts')
 
 const appCheck = read('src/modules/core/firebase/appCheck.ts');
 assert('appCheck native CustomProvider', appCheck.includes('Capacitor.isNativePlatform'));
-assert('appCheck native debugToken boolean only', appCheck.includes('debugToken: true'));
+assert('appCheck awaitAppCheckReady export', appCheck.includes('export async function awaitAppCheckReady'));
+assert('appCheck requireAppCheckReady export', appCheck.includes('export async function requireAppCheckReady'));
+assert('appCheck native warm retries', appCheck.includes('warmNativeToken'));
 assert(
-  'appCheck does not pass env string as native debugToken',
-  !/debugToken\s*:\s*debugToken\b/.test(appCheck) && !/\.\.\.\s*\(\s*debugToken\s*\?/.test(appCheck),
+  'appCheck does not pass VITE env string as native debugToken',
+  !appCheck.includes('VITE_APP_CHECK_DEBUG_TOKEN') ||
+    /function debugTokenFromEnv[\s\S]*?VITE_APP_CHECK_DEBUG_TOKEN/.test(appCheck),
+);
+assert(
+  'appCheck native debugToken from BuildConfig gate (not Vite prod)',
+  appCheck.includes('gate.debugToken') && appCheck.includes('resolveNativeDebugGate'),
+);
+assert(
+  'appCheck BuildConfig-first token path with prefs fallback warn',
+  appCheck.includes('BuildConfig debugToken saknas') && appCheck.includes('nativeDebugToken'),
 );
 assert('appCheck LkNativeBuild gate', appCheck.includes('LkNativeBuild') && appCheck.includes('getAppCheckDebugGate'));
-assert('appCheck fail-closed without gate', appCheck.includes('resolveNativeDebugProvider'));
+assert('appCheck fail-closed without gate', appCheck.includes('resolveNativeDebugGate'));
 
 const offline = read('src/modules/core/firebase/offlineWritePolicy.ts');
 assert('offline blocks reality_vault', offline.includes('reality_vault'));
@@ -84,9 +95,17 @@ assert(
   /AppCheckDebugBootstrap\.applyIfDebug[\s\S]*?super\.onCreate/.test(mainActivity),
 );
 
+
+const vaultSession = read('src/modules/core/auth/vaultServerSession.ts');
+assert('vaultSession withVaultSessionPayloadReady', vaultSession.includes('withVaultSessionPayloadReady'));
+assert('vaultSession awaitAppCheckReady before issue', vaultSession.includes('awaitAppCheckReady'));
+assert('MainActivity cold-start null guards', mainActivity.includes('widgetNavigator == null'));
+assert('MainActivity resume re-handles widget intent', mainActivity.includes('handleIntent(getIntent())'));
+
 const nativePlugin = read('android/app/src/main/java/com/livskompassen/app/LkNativeBuildPlugin.java');
 assert('LkNativeBuildPlugin Cap name', nativePlugin.includes('@CapacitorPlugin(name = "LkNativeBuild")'));
 assert('LkNativeBuildPlugin BuildConfig.DEBUG gate', nativePlugin.includes('BuildConfig.DEBUG'));
+assert('LkNativeBuildPlugin exposes debugToken', nativePlugin.includes('result.put("debugToken"'));
 
 const dockCss = read('src/styles/dock-kanon-match.css');
 assert('android dock safe-area override', dockCss.includes('platform-capacitor-android'));

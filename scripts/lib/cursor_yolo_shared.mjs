@@ -84,7 +84,12 @@ export function getYoloConfig(yoloVersion) {
 }
 
 export const BUILD_WAVE_MIN = 34;
-export const BUILD_WAVE_MAX = 48;
+/** Improvement waves v49–v62 (Evigt Minne v55–v62); bump when manifest grows. */
+export const BUILD_WAVE_MAX = 62;
+/** First improvement-wave version (Fas 24 finish). */
+export const IMPROVEMENT_WAVE_MIN = 49;
+/** Evigt Minne auto-chain hard stop (rules/deploy require phrases after this). */
+export const MINNE_AUTO_THROUGH = 60;
 
 /** @param {number} version v34–v48 */
 export function mkBuildConfig(version) {

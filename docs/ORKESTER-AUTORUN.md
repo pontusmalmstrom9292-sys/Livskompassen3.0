@@ -37,6 +37,13 @@ Historisk: [`FAS19-SPRINT-AUTORUN.md`](./FAS19-SPRINT-AUTORUN.md) · state `.ork
 
 Kanon: [`docs/PROJECT_STATE.md`](./PROJECT_STATE.md) · [`FAS24-SPRINT-AUTORUN.md`](./FAS24-SPRINT-AUTORUN.md) · syntes [`evaluations/2026-06-25-app-plan-syntes.md`](./evaluations/2026-06-25-app-plan-syntes.md)
 
+**Förbättringsvågor (tryck Build):** [`IMPROVEMENT-WAVES-AUTORUN.md`](./IMPROVEMENT-WAVES-AUTORUN.md)
+
+```bash
+npm run waves:autorun -- --dry-run
+npm run waves:autorun
+```
+
 ```bash
 export ORKESTER_AUTORUN=1
 npm run orkester:night

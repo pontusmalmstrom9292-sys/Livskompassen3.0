@@ -1,6 +1,6 @@
 import { httpsCallable, type FunctionsError } from 'firebase/functions';
 import { functions } from '@/core/firebase/init';
-import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
+import { withVaultSessionPayloadReady } from '@/core/auth/vaultServerSession';
 
 export type InboxRouting = 'kunskap' | 'bevis' | 'barnen' | 'dagbok' | 'review' | 'planning';
 
@@ -54,7 +54,7 @@ export async function confirmInbox(
   try {
     const payload = { queueId, routing, childAlias, overrideTags, overrideCategory };
     const result = await confirmInboxItemCallable(
-      routing === 'bevis' ? withVaultSessionPayload(payload) : payload,
+      routing === 'bevis' ? await withVaultSessionPayloadReady(payload) : payload,
     );
     return result.data as { collection: string; docId: string };
   } catch (error) {

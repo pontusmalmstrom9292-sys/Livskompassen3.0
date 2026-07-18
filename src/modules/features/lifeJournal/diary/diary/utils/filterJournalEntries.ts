@@ -26,6 +26,8 @@ export function filterJournalEntries(
       entry.category,
       ...(entry.tags ?? []),
       entry.attachment?.name,
+      entry.attachment?.caption,
+      ...(entry.attachments ?? []).flatMap((a) => [a.name, a.caption]),
     ]
       .filter(Boolean)
       .join(' ')

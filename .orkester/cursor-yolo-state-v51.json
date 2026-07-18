@@ -1,0 +1,30 @@
+{
+  "version": 51,
+  "queueFile": ".orkester/cursor-yolo-queue-v51.json",
+  "buildWaveId": "ZONE-VARDAGEN-FAMILJEN-FINISH",
+  "startedAt": "2026-07-18T06:28:41.843Z",
+  "updatedAt": "2026-07-18T06:28:41.843Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b51-build",
+      "b51-gate",
+      "b51-vakt"
+    ],
+    "skippedTaskIds": [
+      "b51-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b51-deploy",
+    "b51-build",
+    "b51-gate",
+    "b51-vakt"
+  ],
+  "notes": "ZONE-VARDAGEN-FAMILJEN-FINISH 2026-07-18: widgets+hamn+economy+locked-ux+barn-epistemik PASS. HITL SaveAsEvidencePrompt verified in code. Live children deferred App Check.",
+  "goNoGo": "GO",
+  "finishedAt": "2026-07-18T06:28:41.843Z",
+  "gateVerdict": "GO"
+}

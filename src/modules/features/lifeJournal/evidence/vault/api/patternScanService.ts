@@ -1,6 +1,6 @@
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '@/core/firebase/init';
-import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
+import { withVaultSessionPayloadReady } from '@/core/auth/vaultServerSession';
 
 type RescanResult = { written: number; libraryVersion: string };
 
@@ -17,14 +17,18 @@ const assistCallable = httpsCallable<{ sourceRef?: string }, AssistResult>(
 );
 
 export async function rescanPatternMetadata(): Promise<RescanResult> {
-  const result = await rescanCallable(withVaultSessionPayload<Record<string, never>>({}));
+  const result = await rescanCallable(
+    await withVaultSessionPayloadReady<Record<string, never>>({}),
+  );
   return result.data;
 }
 
 /** P3 Flow-assist — kompletterande FLOW-lager (metadata sidecar). */
 export async function assistPatternMetadata(sourceRef?: string): Promise<AssistResult> {
   const result = await assistCallable(
-    withVaultSessionPayload<{ sourceRef?: string }>(sourceRef ? { sourceRef } : {}),
+    await withVaultSessionPayloadReady<{ sourceRef?: string }>(
+      sourceRef ? { sourceRef } : {},
+    ),
   );
   return result.data;
 }

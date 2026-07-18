@@ -2,41 +2,45 @@ import { useState } from 'react';
 import { Info } from 'lucide-react';
 import { Button } from '@/design-system';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
+import {
+  MediaAttachWithCaption,
+  type PendingCaptionedMedia,
+} from '@/modules/shared/media';
+import { validateJournalMemoryFile } from '../utils/journalUploadHelper';
 import { JOURNAL_CATEGORIES, type JournalCategoryId } from '../constants/journalCategories';
 import { HandoffBox } from './HandoffBox';
-import { JournalMemoryPicker } from './JournalMemoryPicker';
 
 type JournalDetailsPanelProps = {
   category?: string;
-  memoryFile: File | null;
+  memoryItems: PendingCaptionedMedia[];
   memoryError: string | null;
   disabled?: boolean;
   textTouched?: boolean;
   onCategoryChange: (category: JournalCategoryId | undefined) => void;
-  onMemoryFileChange: (file: File | null) => void;
+  onMemoryItemsChange: (items: PendingCaptionedMedia[]) => void;
   onMemoryValidationError: (message: string | null) => void;
 };
 
 /** B3 — sekundär: kategori & minne i CalmCollapsible (öppnas vid val/bilaga). */
 export function JournalDetailsPanel({
   category,
-  memoryFile,
+  memoryItems,
   memoryError,
   disabled,
   textTouched: _textTouched = false,
   onCategoryChange,
-  onMemoryFileChange,
+  onMemoryItemsChange,
   onMemoryValidationError,
 }: JournalDetailsPanelProps) {
   const [manualOpen, setManualOpen] = useState(false);
   const [showVaultInfo, setShowVaultInfo] = useState(false);
-  const hasSelection = Boolean(memoryFile) || Boolean(category);
+  const hasSelection = memoryItems.length > 0 || Boolean(category);
   const open = manualOpen || hasSelection;
 
   const meta = category
     ? JOURNAL_CATEGORIES.find((c) => c.id === category)?.label ?? 'Valfritt'
-    : memoryFile
-      ? '1 bilaga'
+    : memoryItems.length > 0
+      ? `${memoryItems.length} bilaga${memoryItems.length > 1 ? 'r' : ''}`
       : 'Valfritt';
 
   return (
@@ -71,12 +75,12 @@ export function JournalDetailsPanel({
 
         <div>
           <div className="mb-2 flex items-center justify-between gap-2">
-            <p className="reflektion-panel__hint">Lägg till ett minne (max 1)</p>
+            <p className="reflektion-panel__hint">Lägg till minne (max 2)</p>
             <Button
               type="button"
               variant="ghost"
               size="icon"
-              className="shrink-0"
+              className="shrink-0 min-h-11 min-w-11"
               aria-label="Om formellt bevis i arkiv"
               aria-expanded={showVaultInfo}
               onClick={() => setShowVaultInfo((v) => !v)}
@@ -85,11 +89,14 @@ export function JournalDetailsPanel({
             </Button>
           </div>
           {showVaultInfo && <HandoffBox className="mb-3" />}
-          <JournalMemoryPicker
+          <MediaAttachWithCaption
             disabled={disabled}
-            file={memoryFile}
-            onFileChange={onMemoryFileChange}
+            items={memoryItems}
+            onChange={onMemoryItemsChange}
             onValidationError={onMemoryValidationError}
+            validateFile={validateJournalMemoryFile}
+            helperText="Personligt minne — inte juridiskt bevis. Valfri bildtext."
+            captionPlaceholder="Bildtext (valfritt), t.ex. vad bilden betyder för dig…"
           />
           {memoryError && (
             <p className="mt-2 text-sm text-accent" role="alert">

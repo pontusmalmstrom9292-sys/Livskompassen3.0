@@ -26,7 +26,7 @@ Sacred Feature — känslomässig brandvägg för kommunikation med högkonflikt
 4. Generering — BIFF/Grey Rock
 5. Kopiera + Klar — Zero Footprint
 
-**Idag (kod):** klistra in → `analyzeMessage` → svar + kopiera + valfritt *Spara original som bevis*. Brusfilter/mål/Klar som separata UI-steg saknas.
+**Idag (kod):** klistra in → `analyzeMessage` → svar + kopiera + valfritt *Spara original som bevis*. **Brusfilter**-kollaps, mål/kärnfråga och **Klar — rensa** (Zero Footprint) finns i `BiffPublicPanel` / `TryggHamnHub` (shipped 2026-07).
 
 ## 4. Visuell design (Obsidian Calm)
 
@@ -62,8 +62,8 @@ Standard: inga toxiska meddelanden lagrade utan explicit val.
 | `riskScore` (DCAP) | Brus backend | **done** |
 | Spara som bevis → valv | WORM original | **done** |
 | Bro Speglar | `prefilledMessage` | **done** |
-| Brusfilter UI-steg | Metod Kladd #3 | **planned** |
-| Klar + unmount cleanup | Zero Footprint | **planned** |
+| Brusfilter UI-steg | Metod Kladd #3 | **done** (`CalmCollapsible` + kärnfråga) |
+| Klar + unmount cleanup | Zero Footprint | **done** (`Klar — rensa` i BIFF-panel) |
 | Dölj tills energi | Fas 2 | **planned** |
 
 ## 9. Acceptanskriterier

@@ -1,0 +1,30 @@
+{
+  "version": 59,
+  "queueFile": ".orkester/cursor-yolo-queue-v59.json",
+  "buildWaveId": "MINNE-M4-ARCHIVE",
+  "startedAt": "2026-07-18T12:20:20.484Z",
+  "updatedAt": "2026-07-18T12:20:20.485Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b59-build",
+      "b59-gate",
+      "b59-vakt"
+    ],
+    "skippedTaskIds": [
+      "b59-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b59-deploy",
+    "b59-build",
+    "b59-gate",
+    "b59-vakt"
+  ],
+  "notes": "Marked done via waves:autorun --mark-done",
+  "finishedAt": "2026-07-18T12:20:20.485Z",
+  "goNoGo": "GO",
+  "gateVerdict": "GO"
+}

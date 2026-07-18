@@ -7,7 +7,7 @@ import { getMoodDef } from '../constants/moods';
 type ConfirmStepProps = {
   mood: string;
   text: string;
-  memoryFileName?: string | null;
+  memorySummaries?: string[];
   memoryError?: string | null;
   categoryLabel?: string | null;
   saving: boolean;
@@ -23,7 +23,7 @@ type ConfirmStepProps = {
 export function ConfirmStep({
   mood,
   text,
-  memoryFileName,
+  memorySummaries = [],
   memoryError,
   categoryLabel,
   saving,
@@ -53,11 +53,15 @@ export function ConfirmStep({
             <span className="text-text-dim">Kategori:</span> {categoryLabel}
           </p>
         )}
-        {memoryFileName && (
-          <p className="mt-2 flex items-center gap-1.5 text-xs text-accent">
-            <Paperclip className="h-3.5 w-3.5" aria-hidden />
-            {memoryFileName}
-          </p>
+        {memorySummaries.length > 0 && (
+          <ul className="mt-2 space-y-1">
+            {memorySummaries.map((line) => (
+              <li key={line} className="flex items-center gap-1.5 text-xs text-accent">
+                <Paperclip className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                {line}
+              </li>
+            ))}
+          </ul>
         )}
       </div>
 

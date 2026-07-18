@@ -32,6 +32,7 @@ Läs prompten och identifiera ämnet. Hänvisa till rätt specialist **innan** d
 | Verifiering, rök-tester, smoke, pre-merge | `/specialist-verifier` · `/specialist-smoke-runner` | — |
 | **Ekonomi**, transactions WORM, veckopeng, sparmål, lönespec | `/specialist-ekonomi` | — |
 | **Dagbok**, journal WORM, Vävaren, wizard, röst-inmatning | `/specialist-dagbok` | — |
+| **Bild + bildtext**, MediaAttachWithCaption, paste-screenshot, max 2 bilagor | `/specialist-media-attach` | — |
 | **Emotionellt Minne**, vit_entries, emotional_memory WORM | `/specialist-emotionellt-minne` | — |
 | **SOS**, AkutLanding, panikflöde, krisresurser, 113/1177 | `/specialist-sos` | — |
 | **Onboarding**, AuthGate, Google Auth, ny-användarupplevelse | `/specialist-onboarding` | — |

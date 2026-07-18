@@ -54,8 +54,8 @@ Phase 10 (legacy CSS sunset) is **optional stretch** — not blocking.
 - [x] **2.5.5** Touch targets ≥ 44×44px — TabBar/chip + ModuleHelpHint (våg 40)
 - [ ] **4.1.2** Name/role/value — icon buttons have aria-label
 - [ ] Keyboard: Tab order, Escape on overlays, Enter/Space on buttons
-- [ ] prefers-reduced-motion: zero/transform-none on animations
-- [ ] prefers-reduced-transparency: fallback surfaces where blur used
+- [x] prefers-reduced-motion: zero/transform-none on animations (premium-polish + tokens)
+- [x] prefers-reduced-transparency: fallback surfaces where blur used (premium-polish cards/dock 2026-07-18)
 
 ## 4. Design system adoption
 

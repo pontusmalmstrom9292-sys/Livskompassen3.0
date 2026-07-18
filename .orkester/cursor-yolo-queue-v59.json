@@ -1,0 +1,86 @@
+{
+  "version": 59,
+  "description": "Cursor YOLO v59 — BUILD MINNE-M4-ARCHIVE: Evigt Minne M4 — GCS archive dry-run + chunking notes",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 59,
+    "id": "MINNE-M4-ARCHIVE",
+    "title": "Evigt Minne M4 — GCS archive dry-run + chunking notes",
+    "agent": "minnes-arkitekten",
+    "plan": "GCS Archive dry-run script + runbook (ingen live sweep). Chunking design för långa kb_docs. Ingen --apply. Ingen deploy.",
+    "smoke": [
+      "npm run smoke:cost-guard",
+      "npm run smoke:governance",
+      "npm run minne:archive:dryrun"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "class": "docs",
+    "keywords": [
+      "minne",
+      "archive",
+      "GCS",
+      "chunking"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b59-deploy",
+      "title": "B59 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v59/b59-deploy.md"
+    },
+    {
+      "id": "b59-build",
+      "title": "B59 — Evigt Minne M4 — GCS archive dry-run + chunking notes",
+      "phase": "sequential",
+      "agent": "minnes-arkitekten",
+      "plan": "GCS Archive dry-run script + runbook (ingen live sweep). Chunking design för långa kb_docs. Ingen --apply. Ingen deploy.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v59/b59-build.md"
+    },
+    {
+      "id": "b59-gate",
+      "title": "B59 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v59.md.",
+      "smoke": [
+        "npm run smoke:cost-guard",
+        "npm run smoke:governance",
+        "npm run minne:archive:dryrun"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v59/b59-gate.md"
+    },
+    {
+      "id": "b59-vakt",
+      "title": "B59 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v59. Handoff v60.",
+      "smoke": [
+        "npm run smoke:cost-guard",
+        "npm run smoke:governance",
+        "npm run minne:archive:dryrun"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v59/b59-vakt.md"
+    }
+  ]
+}

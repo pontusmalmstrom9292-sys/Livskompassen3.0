@@ -1,0 +1,35 @@
+{
+  "machine": "improvement-waves",
+  "activeVersion": null,
+  "status": "done",
+  "completedVersions": [
+    49,
+    50,
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60,
+    61,
+    62
+  ],
+  "failedAt": null,
+  "pmirSkips": [],
+  "lastGate": {
+    "version": 62,
+    "verdict": "GO"
+  },
+  "rollbackTag": null,
+  "readyForRules": true,
+  "phrases": {
+    "okRules": true,
+    "okDeploy": true
+  },
+  "updatedAt": "2026-07-18T12:35:49.596Z",
+  "notes": "Evigt Minne v55–v62 DONE — functions + firestore rules deployed 2026-07-18 (OK deploy)"
+}

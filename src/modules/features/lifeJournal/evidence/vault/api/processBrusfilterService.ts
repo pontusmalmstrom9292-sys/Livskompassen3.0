@@ -1,6 +1,6 @@
 import { httpsCallable, type FunctionsError } from 'firebase/functions';
 import { functions } from '@/core/firebase/init';
-import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
+import { withVaultSessionPayloadReady } from '@/core/auth/vaultServerSession';
 
 export type BrusfilterRecommendedAction = 'INGEN' | 'VARNING';
 
@@ -26,7 +26,7 @@ const processBrusfilterCallable = httpsCallable<
 export async function callProcessBrusfilter(rawInputText: string): Promise<ProcessBrusfilterResult> {
   try {
     const result = await processBrusfilterCallable(
-      withVaultSessionPayload({ raw_input_text: rawInputText.trim() }),
+      await withVaultSessionPayloadReady({ raw_input_text: rawInputText.trim() }),
     );
     return result.data;
   } catch (error) {

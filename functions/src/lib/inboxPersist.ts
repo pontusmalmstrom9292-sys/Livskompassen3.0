@@ -554,6 +554,14 @@ export async function confirmInboxQueueItem(input: {
     rationale: 'Bekräftad av användare (HITL).',
   };
 
+  // Evigt Minne M3: HITL confirm → kunskap must bypass FACT gate (manuell + hitl-confirmed)
+  if (input.routing === 'kunskap') {
+    const tags = new Set(classification.tags.map((t) => t.toLowerCase()));
+    tags.add('manuell');
+    tags.add('hitl-confirmed');
+    classification.tags = [...tags];
+  }
+
   const analysisText = String(data.analysisExcerpt ?? data.summary ?? '');
   const routeResult = await routeInboxToWorm({
     ownerId: input.uid,

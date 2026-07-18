@@ -27,6 +27,7 @@ Systemet ska alltid ha en dedikerad expert för varje del av appen. Den här reg
 - `specialist-innehall-dirigent` — Innehållsklassning
 - `specialist-ekonomi` — Ekonomimodul, transactions WORM, lönespec
 - `specialist-dagbok` — Dagbokshubben, journal WORM, Vävaren
+- `specialist-media-attach` — Bild + bildtext, MediaAttachWithCaption, max 2
 - `specialist-emotionellt-minne` — Emotionellt Minne, vit_entries WORM
 - `specialist-sos` — SOS & AkutLanding, krisresurser
 - `specialist-drogfrihet` — Drogfrihet-hub, dagräknare, DF-innehåll

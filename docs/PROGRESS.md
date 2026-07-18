@@ -1,3 +1,17 @@
+## 2026-07-18 — Fas 24 förbättringsplan
+
+
+## 2026-07-18 — Dagbok/uppladdning bild + bildtext (Fas 0–5)
+
+- Delad `MediaAttachWithCaption` (max 2, caption, paste)
+- Dagbok: skriv + arkiv Tidslinje/Bild+text + lightbox
+- Barnlivslogg mediaCaption; Inkast/Valv/Speglar caption
+- Locked UX + `MOD-SHARED-MEDIA` · smoke:media-attach PASS
+- G85 7d started (day 1 logged in PROJECT_STATE v1.4)
+- App Check Valv coverage + token-path hygiene + MainActivity deep-link
+- Planering/Hjärtat Dashboard → Done; a11y transparency foundation
+- PMIR/defer parked in PROJECT_STATE
+
 ## 2026-07-17 — PROJECT_STATE v1.3 sync
 
 **Completed:** PROJECT_STATE v1.3 — marathon v40–v48, Phase 10 stubs, P0 G85 status, single next (Fas 24).

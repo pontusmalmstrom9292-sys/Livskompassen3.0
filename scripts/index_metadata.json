@@ -1,14 +1,5 @@
 {
-  "contentsDeltaUri": "",
-  "config": {
-    "dimensions": 768,
-    "approximateNeighborsCount": 150,
-    "distanceMeasureType": "DOT_PRODUCT_DISTANCE",
-    "algorithm_config": {
-      "treeAhConfig": {
-        "leafNodeEmbeddingCount": 1000,
-        "leafNodesToSearchPercent": 10
-      }
-    }
-  }
+  "_status": "DECOMMISSIONED_2026-07-18",
+  "_note": "Former Vertex AI Vector Search index metadata. Do NOT use with gcloud ai indexes create. RAG = Firestore Native findNearest.",
+  "disabled": true
 }

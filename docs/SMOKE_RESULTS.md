@@ -1350,6 +1350,6 @@ Se [`Arkiv-GAP-REGISTER.md`](./specs/modules/Arkiv-GAP-REGISTER.md).
 | Native Google **Logga in** (telefon) | **PASS** | Användare verifierat |
 | `npm run build:web && npx cap sync android` | **PASS** | Agent 2026-05-27 |
 | `npm run orkester:night` | **PASS** | [`evaluations/2026-05-26-orkester-natt.md`](./evaluations/2026-05-26-orkester-natt.md) |
-| Offline flygplansläge (dagbok / Valv) | **PENDING** | Du — [`OFFLINE-ANDROID.md`](./OFFLINE-ANDROID.md) |
+| Offline flygplansläge (dagbok / Valv) | **AGENT-PREP** (USER pass kvar) | 2026-07-18 — checklist i [`OFFLINE-ANDROID.md`](./OFFLINE-ANDROID.md) |
 
 Landning: [`evaluations/2026-05-27-android-landning.md`](./evaluations/2026-05-27-android-landning.md)

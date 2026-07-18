@@ -1,5 +1,9 @@
 # Runbook — Decommission Vertex AI Vector Search (gratis-overgång)
 
+> **STATUS: DECOMMISSIONED 2026-07-18** — Endpoint/index raderade (west1 + us-central1). `aiplatform.googleapis.com` **disabled** + **blocked** i cost-guard.  
+> **MUST NOT:** Kör aldrig `setup_vector_search*.sh` eller aktivera aiplatform utan PMIR + Pontus OK.  
+> **RAG idag:** Firestore Native `findNearest` + `generateEmbeddingInternal` (`GEMINI_API_KEY`).
+
 **Datum:** 2026-06-25
 **Plattform:** Cursor Cloud Agent · **Modell:** Claude Opus 4.7 (Agent-läge)
 **Syfte:** Stäng ner den dyra Vertex AI Vector Search-endpointen (~$330/månad) som ligger passivt — koden är redan migrerad till **Firestore Native Vector Search** (gratis).
@@ -16,8 +20,8 @@ Plattformen migrerade till Firestore Native Vector Search redan tidigare. Verifi
 | Fil | Vad den gör |
 |---|---|
 | `functions/src/lib/kampsparQueryRag.ts:50-67` | Använder `db.collection('kampspar').findNearest('embedding', ...)` med COSINE — Firestore Native, ingen Vertex-call |
-| `functions/src/lib/kampsparRag.ts:51-68` | Samma — Vävaren-RAG via `findNearest()` |
-| `functions/src/lib/childrenLogsQueryRag.ts` | Samma — Barnen-RAG via `findNearest()` |
+| `functions/src/lib/kampsparRag.ts` | Vävaren = journal+vault; Kunskap-ANN = separat `fetchKnowledgeRagContext` |
+| `functions/src/lib/childrenLogsQueryRag.ts` | Token-match (ej Vertex, ej ANN) |
 | `functions/src/lib/vectorSearchClient.ts` | **Borttagen 2026-06-25** — tidigare deprecated stub |
 | `functions/src/jobs/retentionJob.ts:85-93` | `removeVectors()` är nu no-op — embeddings följer Firestore-docs |
 

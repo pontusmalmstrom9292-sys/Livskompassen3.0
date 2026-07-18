@@ -4,6 +4,7 @@ import type {
   RegistrationResponseJSON,
 } from '@simplewebauthn/browser';
 import { functions } from '../firebase/init';
+import { awaitAppCheckReady } from '../firebase/appCheck';
 import { getVaultWebAuthnContext, isWebAuthnReliable, performVaultWebAuthnForSession } from './vaultWebAuthnClient';
 import { formatCallableError } from './callableErrorMessage';
 import { isCapacitorNative } from '../platform/capacitorPlatform';
@@ -66,6 +67,23 @@ export function withVaultSessionPayload<T extends VaultCallablePayloadBase>(
   };
 }
 
+/**
+ * Väntar in App Check innan Valv-callables (APP_CHECK_ENFORCE).
+ * Använd för alla Valv-payload-anrop utöver session-issue (som redan awaitar).
+ */
+export async function withVaultSessionPayloadReady<T extends VaultCallablePayloadBase>(
+  payload: T,
+  options?: { forceRefresh?: boolean },
+): Promise<T & VaultSessionTokenField> {
+  const appCheckOk = await awaitAppCheckReady(options);
+  if (!appCheckOk) {
+    const err = new Error('App Check-verifiering krävs.') as Error & { code?: string };
+    err.code = 'functions/failed-precondition';
+    throw err;
+  }
+  return withVaultSessionPayload(payload);
+}
+
 export type VaultSessionIssueOutcome =
   | { ok: true }
   | { ok: false; message: string };
@@ -75,6 +93,17 @@ export async function issueVaultServerSession(
   webAuthnResponse: RegistrationResponseJSON | AuthenticationResponseJSON,
 ): Promise<VaultSessionIssueOutcome> {
   try {
+    const appCheckOk = await awaitAppCheckReady({ forceRefresh: false });
+    if (!appCheckOk) {
+      return {
+        ok: false,
+        message: formatCallableError({
+          code: 'functions/failed-precondition',
+          message: 'App Check-verifiering krävs.',
+        }),
+      };
+    }
+
     const issue = httpsCallable<VaultSessionIssuePayload, VaultSessionIssueResult>(
       functions,
       'issueVaultSession',
@@ -121,6 +150,17 @@ export async function issueVaultSessionAfterNativeBiometric(): Promise<VaultSess
   }
 
   try {
+    const appCheckOk = await awaitAppCheckReady({ forceRefresh: true });
+    if (!appCheckOk) {
+      return {
+        ok: false,
+        message: formatCallableError({
+          code: 'functions/failed-precondition',
+          message: 'App Check-verifiering krävs.',
+        }),
+      };
+    }
+
     const begin = httpsCallable<Record<string, never>, BiometricChallengeResult>(
       functions,
       'beginVaultBiometricChallenge',

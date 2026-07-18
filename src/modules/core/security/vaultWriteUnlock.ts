@@ -7,6 +7,7 @@ import {
 } from '../auth/vaultServerSession';
 import { formatCallableError } from '../auth/callableErrorMessage';
 import { functions } from '../firebase/init';
+import { requireAppCheckReady } from '../firebase/appCheck';
 import { useStore } from '../store';
 import { syncVaultUnlockedFromGate } from './vaultSessionLifecycle';
 
@@ -31,6 +32,7 @@ async function isJwtVaultWriteAllowed(): Promise<boolean> {
 /** Sätter vaultUnlocked JWT-claim via unlockVault + tvingar token-förnyelse. */
 export async function applyVaultJwtClaim(): Promise<{ ok: true } | { ok: false; message: string }> {
   try {
+    await requireAppCheckReady({ forceRefresh: false });
     const unlockVault = httpsCallable(functions, 'unlockVault');
     await unlockVault(withVaultSessionPayload({}));
     const auth = getAuth();

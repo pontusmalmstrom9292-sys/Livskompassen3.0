@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-15",
+  "updatedAt": "2026-07-18",
   "modules": [
     {
       "id": "MOD-CORE-NAV",
@@ -60,8 +60,10 @@
         "smoke:weaver-hitl"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-10",
-      "lockedCommit": "ac5d37623"
+      "lockedAt": "2026-07-18",
+      "lockedCommit": "a752cbc12",
+      "unlockDoc": "docs/evaluations/2026-07-18-unlock-MOD-HJ-DAGBOK-media-fas1.md",
+      "unlockedAt": "2026-07-18"
     },
     {
       "id": "MOD-HJ-INPUT",
@@ -79,8 +81,10 @@
         "smoke:locked-ux"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-10",
-      "lockedCommit": "ac5d37623"
+      "lockedAt": "2026-07-18",
+      "lockedCommit": "a752cbc12",
+      "unlockDoc": "docs/evaluations/2026-07-18-unlock-MOD-HJ-INPUT-media-fas2.md",
+      "unlockedAt": "2026-07-18"
     },
     {
       "id": "MOD-HJ-SPEGLAR",
@@ -97,8 +101,10 @@
         "smoke:biff-rewrite"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-10",
-      "lockedCommit": "ac5d37623"
+      "lockedAt": "2026-07-18",
+      "lockedCommit": "a752cbc12",
+      "unlockDoc": "docs/evaluations/2026-07-18-unlock-MOD-VALV-media-fas4.md",
+      "unlockedAt": "2026-07-18"
     },
     {
       "id": "MOD-VALV-HUB",
@@ -117,8 +123,10 @@
         "smoke:plausible-deniability"
       ],
       "snapshotKey": "valv",
-      "lockedAt": "2026-07-10",
-      "lockedCommit": "ac5d37623"
+      "lockedAt": "2026-07-18",
+      "lockedCommit": "a752cbc12",
+      "unlockDoc": "docs/evaluations/2026-07-18-unlock-MOD-VALV-media-fas4.md",
+      "unlockedAt": "2026-07-18"
     },
     {
       "id": "MOD-VALV-INKAST",
@@ -137,8 +145,10 @@
         "smoke:inkast-lockdown"
       ],
       "snapshotKey": "inkast",
-      "lockedAt": "2026-07-10",
-      "lockedCommit": "ac5d37623"
+      "lockedAt": "2026-07-18",
+      "lockedCommit": "a752cbc12",
+      "unlockDoc": "docs/evaluations/2026-07-18-unlock-MOD-VALV-media-fas4.md",
+      "unlockedAt": "2026-07-18"
     },
     {
       "id": "MOD-VALV-ORKESTER",
@@ -266,8 +276,10 @@
         "smoke:locked-ux"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-10",
-      "lockedCommit": "ac5d37623"
+      "lockedAt": "2026-07-18",
+      "lockedCommit": "a752cbc12",
+      "unlockDoc": "docs/evaluations/2026-07-18-unlock-MOD-WIDGET-media-fas3.md",
+      "unlockedAt": "2026-07-18"
     },
     {
       "id": "MOD-FAM-BARN",
@@ -285,8 +297,10 @@
         "smoke:barn-epistemik"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-15",
-      "lockedCommit": "ef7f154e9"
+      "lockedAt": "2026-07-18",
+      "lockedCommit": "a752cbc12",
+      "unlockDoc": "docs/evaluations/2026-07-18-unlock-MOD-WIDGET-media-fas3.md",
+      "unlockedAt": "2026-07-18"
     },
     {
       "id": "MOD-FAM-HAMN",
@@ -431,10 +445,10 @@
         "smoke:widget-ingest"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-14",
-      "lockedCommit": "977188413",
-      "unlockDoc": "docs/evaluations/2026-07-14-unlock-MOD-WIDGET-standalone-v3.md",
-      "unlockedAt": "2026-07-14"
+      "lockedAt": "2026-07-18",
+      "lockedCommit": "a752cbc12",
+      "unlockDoc": "docs/evaluations/2026-07-18-unlock-MOD-WIDGET-media-fas3.md",
+      "unlockedAt": "2026-07-18"
     },
     {
       "id": "MOD-CORE-MINNE",
@@ -464,6 +478,29 @@
       "snapshotKey": "minnes-arkitekt",
       "lockedAt": "2026-07-15",
       "lockedCommit": "cc1b47f64"
+    },
+    {
+      "id": "MOD-SHARED-MEDIA",
+      "namn": "Bild + bildtext (delad media)",
+      "zon": "Shared",
+      "status": "locked",
+      "globs": [
+        "src/modules/shared/media/**",
+        "src/modules/features/lifeJournal/diary/diary/components/JournalMediaLightbox.tsx",
+        "src/modules/features/lifeJournal/diary/diary/components/JournalArchiveToolbar.tsx",
+        "src/modules/features/lifeJournal/diary/diary/components/JournalEntryCard.tsx"
+      ],
+      "entryFiles": [
+        "src/modules/shared/media/MediaAttachWithCaption.tsx",
+        "src/modules/shared/media/captionedAttachment.ts",
+        "src/modules/features/lifeJournal/diary/diary/components/JournalMediaLightbox.tsx"
+      ],
+      "smoke": [
+        "smoke:media-attach"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-18",
+      "lockedCommit": "a752cbc12"
     }
   ]
 }

@@ -15,7 +15,8 @@ export type SynapseTrigger =
   | 'journal_woven'
   | 'dcap_alert'
   | 'user_overwhelm'
-  | 'widget_recording_ingested';
+  | 'widget_recording_ingested'
+  | 'kasam_aggregation';
 
 export interface BackendDomainContract {
   readonly id: DomainId;

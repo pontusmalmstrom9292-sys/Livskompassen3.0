@@ -1,9 +1,10 @@
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '@/core/firebase/init';
-import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
+import { withVaultSessionPayloadReady } from '@/core/auth/vaultServerSession';
 import { ensureVaultWriteReady } from '@/core/security/vaultWriteUnlock';
 import { storageInboxSourceRef } from '@/core/firebase/inboxSourceRef';
 import { uploadDiscreetRecording } from '@/core/firebase/storage';
+import { requireAppCheckReady } from '@/core/firebase/appCheck';
 
 export type WidgetRecordingAnalysis = {
   title: string;
@@ -74,6 +75,7 @@ async function runAnalysis(
 ): Promise<WidgetRecordingAnalysis> {
   const recordedAtIso = recordedAt.toISOString();
   try {
+    await requireAppCheckReady({ forceRefresh: false });
     const res = await analyzeCallable({
       transcript,
       recordedAt: recordedAtIso,
@@ -142,7 +144,7 @@ export async function lockWidgetRecordingToVault(
   }
 
   const res = await commitCallable(
-    withVaultSessionPayload({
+    await withVaultSessionPayloadReady({
       commit: true as const,
       transcript: prepared.transcript,
       recordedAt: prepared.recordedAtIso,

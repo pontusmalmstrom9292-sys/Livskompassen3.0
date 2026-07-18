@@ -1,0 +1,82 @@
+{
+  "version": 60,
+  "description": "Cursor YOLO v60 — BUILD MINNE-GATE: Evigt Minne gate — predeploy + readyForRules hard stop",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 60,
+    "id": "MINNE-GATE",
+    "title": "Evigt Minne gate — predeploy + readyForRules hard stop",
+    "agent": "yolo-vakt",
+    "plan": "smoke:predeploy:build + cost-guard. Skriv readyForRules=true i wave-machine-state. HARD STOP — starta inte v61 utan fras OK rules. Ingen deploy.",
+    "smoke": [
+      "npm run smoke:predeploy:build",
+      "npm run smoke:cost-guard"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "fullGate": true,
+    "class": "code",
+    "keywords": [
+      "minne",
+      "yolo-vakt",
+      "readyForRules"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b60-deploy",
+      "title": "B60 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v60/b60-deploy.md"
+    },
+    {
+      "id": "b60-build",
+      "title": "B60 — Evigt Minne gate — predeploy + readyForRules hard stop",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "smoke:predeploy:build + cost-guard. Skriv readyForRules=true i wave-machine-state. HARD STOP — starta inte v61 utan fras OK rules. Ingen deploy.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v60/b60-build.md"
+    },
+    {
+      "id": "b60-gate",
+      "title": "B60 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v60.md.",
+      "smoke": [
+        "npm run smoke:predeploy:build",
+        "npm run smoke:cost-guard"
+      ],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v60/b60-gate.md"
+    },
+    {
+      "id": "b60-vakt",
+      "title": "B60 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v60. Handoff v61.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "fullGate": true,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v60/b60-vakt.md"
+    }
+  ]
+}

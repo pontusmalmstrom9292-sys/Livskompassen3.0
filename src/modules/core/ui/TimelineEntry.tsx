@@ -1,14 +1,24 @@
 import { truncateText } from '../utils/truncateText';
+import type { ReactNode } from 'react';
 
 type TimelineEntryProps = {
   meta: string;
   body: string;
   truncateAt?: number;
   as?: 'li' | 'div';
-  action?: React.ReactNode;
+  action?: ReactNode;
+  /** Optional media / footer below body (e.g. journal thumbnails). */
+  footer?: ReactNode;
 };
 
-export function TimelineEntry({ meta, body, truncateAt = 200, as: Tag = 'li', action }: TimelineEntryProps) {
+export function TimelineEntry({
+  meta,
+  body,
+  truncateAt = 200,
+  as: Tag = 'li',
+  action,
+  footer,
+}: TimelineEntryProps) {
   const displayBody = truncateAt > 0 ? truncateText(body, truncateAt) : body;
 
   return (
@@ -18,6 +28,7 @@ export function TimelineEntry({ meta, body, truncateAt = 200, as: Tag = 'li', ac
         {action}
       </div>
       <p className="mt-1 text-text-muted">{displayBody}</p>
+      {footer ? <div className="mt-3">{footer}</div> : null}
     </Tag>
   );
 }

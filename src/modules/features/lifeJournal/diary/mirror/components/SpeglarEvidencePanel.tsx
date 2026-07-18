@@ -19,6 +19,7 @@ type SpeglarEvidencePanelProps = {
   savedIds: Set<string>;
   onAdd: (attachment: MediaAttachment) => void;
   onRemove: (id: string) => void;
+  onCaptionChange: (id: string, caption: string) => void;
   onSaved: (saved: SavedSpeglarEvidence) => void;
 };
 
@@ -29,6 +30,7 @@ export function SpeglarEvidencePanel({
   savedIds,
   onAdd,
   onRemove,
+  onCaptionChange,
   onSaved,
 }: SpeglarEvidencePanelProps) {
   const [savingId, setSavingId] = useState<string | null>(null);
@@ -40,9 +42,11 @@ export function SpeglarEvidencePanel({
     setError(null);
     try {
       const evidenceUrl = await uploadVaultEvidence(userId, attachment.file);
-      const truth =
+      const caption = attachment.caption?.trim();
+      const base =
         feeling.trim().slice(0, 800) ||
         `Bevis bifogat från Speglar (${attachment.file.name})`;
+      const truth = caption ? `${base}\n\nBildtext: ${caption}` : base;
       const vaultDocId = await saveVaultLog(userId, {
         action: 'speglar_bevis',
         category: 'speglar',
@@ -64,7 +68,9 @@ export function SpeglarEvidencePanel({
         attachments={attachments}
         onAdd={onAdd}
         onRemove={onRemove}
+        onCaptionChange={onCaptionChange}
         disabled={!userId}
+        maxItems={2}
       />
 
       {!userId && (

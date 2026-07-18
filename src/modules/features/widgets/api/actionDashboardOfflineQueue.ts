@@ -15,6 +15,7 @@ export type PendingChildLog = {
   category: LivsloggCategory;
   observation: string;
   contentType?: 'text' | 'voice' | 'image';
+  mediaCaption?: string;
   photoMimeType?: string;
   photoFileName?: string;
   photoData?: ArrayBuffer;

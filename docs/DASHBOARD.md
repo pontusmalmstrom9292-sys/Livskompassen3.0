@@ -1,6 +1,11 @@
+## 2026-07-18 — Fas 24 förbättringsplan
+
+- G85 7d started; App Check Valv paths expanded; a11y transparency fallback; Planering/Hjärtat → Done (sign-off waits).
+- Eval: docs/evaluations/2026-07-18-appcheck-valv-kickout-fix.md
+
 ## 2026-07-17 — PROJECT_STATE v1.3 sync
 
-- Fas 24 single next: start P0 G85 7-day (ej startad). Phase 10 visual sign-off väntar.
+- Fas 24: P0 G85 7-day **STARTED 2026-07-18**. Phase 10 visual sign-off väntar (Pontus).
 - Marathon v40–v48 GO synkad; stubs borttagna (motsägelse bort).
 - Eval: docs/PROJECT_STATE.md v1.3
 
@@ -173,11 +178,11 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** 
 - **Notes:** ExecutiveReflektionHero and the executive card stack now share the premium home chrome treatment.
 
 ### Planering
-- **Status:** In Progress
+- **Status:** Done
 - **Priority:** High
 - **Dependencies:** Button, Sheet
 - **Files:** PlaneringPage, PlanningKanbanBoard, InkorgPreviewSheet, CognitiveGuard*, PlaneringFokusPanel, PlaneringInkorgPanel, PlaneringParalysEntry
-- **Notes:** PlaneringPage, the Kanban board shell, the Inkorg panel shell, the preview sheet shell, the focus/paralys helpers, and CognitiveGuard are polished; remaining planning panels stay open as separate passes.
+- **Notes:** Shells and panels polished for Fas 24; Pontus visual sign-off still open (program Phase 10).
 
 ### Valv
 - **Status:** Done
@@ -205,10 +210,10 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** 
 - **Notes:** FamiljenPage, the universal input hub, the Barnfokus/reflektion/tillsammans surfaces, the child-moment tabs, the mönster/kunskap/känslotemplet surfaces, and the parent-facing Hamn/Barnporten panels now share a calmer frame.
 
 ### Hjärtat / Dagbok
-- **Status:** In Progress
+- **Status:** Done
 - **Priority:** High
 - **Files:** DagbokInputSuperModule, SpeglarSuperModule
-- **Notes:** DagbokInputSuperModule shell, the Dagbok delegates, and SpeglarSuperModule now share a calmer premium frame; remaining Hjärtat surfaces stay open.
+- **Notes:** SuperModule shells and delegates share premium frame; Pontus visual sign-off still open (program Phase 10).
 
 ### Widgets (11 routes)
 - **Status:** Done (våg 1–3 code complete)
@@ -235,9 +240,10 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** 
 - **Notes:** The barrel now stays local to shared primitives; design-system re-exports were removed.
 
 ### Accessibility WCAG AA
-- **Status:** Not Started
+- **Status:** In Progress
 - **Priority:** Critical (cross-cutting)
-- **Files:** All touched; see Completion-Criteria.md
+- **Files:** premium-polish.css (focus-visible, reduced-motion, reduced-transparency cards)
+- **Notes:** Foundation pass 2026-07-18 — focus ring + reduced-transparency card/glass fallback. Remaining: contrast audit, icon aria-label sweep, keyboard Escape on overlays.
 
 ---
 

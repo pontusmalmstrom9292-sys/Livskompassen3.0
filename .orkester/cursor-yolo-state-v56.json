@@ -1,0 +1,30 @@
+{
+  "version": 56,
+  "queueFile": ".orkester/cursor-yolo-queue-v56.json",
+  "buildWaveId": "MINNE-M1-RRF",
+  "startedAt": "2026-07-18T12:20:20.038Z",
+  "updatedAt": "2026-07-18T12:20:20.040Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b56-build",
+      "b56-gate",
+      "b56-vakt"
+    ],
+    "skippedTaskIds": [
+      "b56-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b56-deploy",
+    "b56-build",
+    "b56-gate",
+    "b56-vakt"
+  ],
+  "notes": "Marked done via waves:autorun --mark-done",
+  "finishedAt": "2026-07-18T12:20:20.040Z",
+  "goNoGo": "GO",
+  "gateVerdict": "GO"
+}

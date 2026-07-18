@@ -1,0 +1,30 @@
+{
+  "version": 49,
+  "queueFile": ".orkester/cursor-yolo-queue-v49.json",
+  "buildWaveId": "SOFT-DEBT",
+  "startedAt": "2026-07-18T06:26:48.617Z",
+  "updatedAt": "2026-07-18T06:26:48.619Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b49-build",
+      "b49-gate",
+      "b49-vakt"
+    ],
+    "skippedTaskIds": [
+      "b49-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b49-deploy",
+    "b49-build",
+    "b49-gate",
+    "b49-vakt"
+  ],
+  "notes": "SOFT-DEBT chat agent 2026-07-18: HjartatHero removed, PDF CTA removed, SafeHarbor SPEC sync, hygiene v34-44",
+  "finishedAt": "2026-07-18T06:26:48.619Z",
+  "goNoGo": "GO",
+  "gateVerdict": "GO"
+}

@@ -1,0 +1,83 @@
+{
+  "version": 56,
+  "description": "Cursor YOLO v56 — BUILD MINNE-M1-RRF: Evigt Minne M1 — hybrid RRF + citation hard-ground",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 56,
+    "id": "MINNE-M1-RRF",
+    "title": "Evigt Minne M1 — hybrid RRF + citation hard-ground",
+    "agent": "minnes-arkitekten",
+    "plan": "kampsparQueryRag: ANN∪lexical RRF inom Kunskap-silo only. Citation hard-ground (title/date/excerpt från allowlist). smoke:kunskap FAIL om expected citation saknas. Ingen Vertex. Ingen cross-RAG.",
+    "smoke": [
+      "npm run smoke:cost-guard",
+      "npm run smoke:governance"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "class": "code",
+    "keywords": [
+      "minne",
+      "RRF",
+      "RAG",
+      "citations"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b56-deploy",
+      "title": "B56 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v56/b56-deploy.md"
+    },
+    {
+      "id": "b56-build",
+      "title": "B56 — Evigt Minne M1 — hybrid RRF + citation hard-ground",
+      "phase": "sequential",
+      "agent": "minnes-arkitekten",
+      "plan": "kampsparQueryRag: ANN∪lexical RRF inom Kunskap-silo only. Citation hard-ground (title/date/excerpt från allowlist). smoke:kunskap FAIL om expected citation saknas. Ingen Vertex. Ingen cross-RAG.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v56/b56-build.md"
+    },
+    {
+      "id": "b56-gate",
+      "title": "B56 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v56.md.",
+      "smoke": [
+        "npm run smoke:cost-guard",
+        "npm run smoke:governance"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v56/b56-gate.md"
+    },
+    {
+      "id": "b56-vakt",
+      "title": "B56 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v56. Handoff v57.",
+      "smoke": [
+        "npm run smoke:cost-guard",
+        "npm run smoke:governance"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v56/b56-vakt.md"
+    }
+  ]
+}

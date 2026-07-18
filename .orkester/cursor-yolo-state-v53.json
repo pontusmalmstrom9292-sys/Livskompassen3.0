@@ -1,0 +1,30 @@
+{
+  "version": 53,
+  "queueFile": ".orkester/cursor-yolo-queue-v53.json",
+  "buildWaveId": "UX-POLISH-ANDROID-SYNC",
+  "startedAt": "2026-07-18T06:30:06.723Z",
+  "updatedAt": "2026-07-18T06:30:06.725Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b53-build",
+      "b53-gate",
+      "b53-vakt"
+    ],
+    "skippedTaskIds": [
+      "b53-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b53-deploy",
+    "b53-build",
+    "b53-gate",
+    "b53-vakt"
+  ],
+  "notes": "UX-POLISH-ANDROID-SYNC 2026-07-18: Klar aria-labels, locked-ux+design-modules+android-platform PASS, npm run build + cap sync android PASS. SacredLock untouched.",
+  "goNoGo": "GO",
+  "finishedAt": "2026-07-18T06:30:06.725Z",
+  "gateVerdict": "GO"
+}

@@ -1,0 +1,30 @@
+{
+  "version": 57,
+  "queueFile": ".orkester/cursor-yolo-queue-v57.json",
+  "buildWaveId": "MINNE-M2-EMBED",
+  "startedAt": "2026-07-18T12:20:20.185Z",
+  "updatedAt": "2026-07-18T12:20:20.187Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b57-build",
+      "b57-gate",
+      "b57-vakt"
+    ],
+    "skippedTaskIds": [
+      "b57-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b57-deploy",
+    "b57-build",
+    "b57-gate",
+    "b57-vakt"
+  ],
+  "notes": "Marked done via waves:autorun --mark-done",
+  "finishedAt": "2026-07-18T12:20:20.187Z",
+  "goNoGo": "GO",
+  "gateVerdict": "GO"
+}

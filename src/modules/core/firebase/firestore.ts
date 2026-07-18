@@ -261,6 +261,7 @@ export type JournalAttachmentWrite = {
   name: string;
   mimeType: string;
   size: number;
+  caption?: string;
 };
 
 export function createJournalEntryId(): string {
@@ -275,16 +276,42 @@ export async function saveJournalEntry(
     category?: string;
     tags?: string[];
     attachment?: JournalAttachmentWrite;
+    attachments?: JournalAttachmentWrite[];
   },
   options?: { entryId?: string },
 ): Promise<string> {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.journal);
+  const attachments =
+    entry.attachments?.length
+      ? entry.attachments.slice(0, 2).map((a) =>
+          omitUndefinedFields({
+            url: a.url,
+            storagePath: a.storagePath,
+            name: a.name,
+            mimeType: a.mimeType,
+            size: a.size,
+            caption: a.caption?.trim() ? a.caption.trim().slice(0, 500) : undefined,
+          }) as JournalAttachmentWrite,
+        )
+      : undefined;
+  const attachment =
+    attachments?.[0] ??
+    (entry.attachment
+      ? (omitUndefinedFields({
+          ...entry.attachment,
+          caption: entry.attachment.caption?.trim()
+            ? entry.attachment.caption.trim().slice(0, 500)
+            : undefined,
+        }) as JournalAttachmentWrite)
+      : undefined);
+
   const payload = omitUndefinedFields({
     mood: entry.mood,
     text: entry.text,
     category: entry.category,
     tags: entry.tags?.length ? entry.tags : undefined,
-    attachment: entry.attachment,
+    attachment,
+    attachments: attachments?.length ? attachments : undefined,
   });
 
   if (options?.entryId) {
@@ -344,6 +371,8 @@ export async function saveChildrenLog(
     contentType?: 'text' | 'voice' | 'mood' | 'step' | 'image';
     /** Firebase Storage download URL — ActionDashboard kamerafoto. */
     mediaUrl?: string;
+    /** Valfri bildtext till mediaUrl (Fas 1+). */
+    mediaCaption?: string;
     /** Barnen-PLAY-BANK (BP-PLAY-*) — metadata, ej Valv. */
     bankId?: string;
     /** Våg 29 — tvinga citat/tolkning-prefix (default infereras). */
@@ -362,6 +391,9 @@ export async function saveChildrenLog(
     visibility: log.visibility,
     contentType: log.contentType,
     mediaUrl: log.mediaUrl,
+    ...(log.mediaCaption?.trim()
+      ? { mediaCaption: log.mediaCaption.trim().slice(0, 500) }
+      : {}),
     bankId: log.bankId,
   };
 
@@ -570,7 +602,7 @@ export async function getChildrenLogs(userId: string) {
 }
 
 function normalizeJournalAttachment(raw: unknown):
-  | { url: string; storagePath: string; name: string; mimeType: string; size: number }
+  | { url: string; storagePath: string; name: string; mimeType: string; size: number; caption?: string }
   | undefined {
   if (!raw || typeof raw !== 'object') return undefined;
   const a = raw as Record<string, unknown>;
@@ -579,11 +611,32 @@ function normalizeJournalAttachment(raw: unknown):
   const name = typeof a.name === 'string' ? a.name : '';
   const mimeType = typeof a.mimeType === 'string' ? a.mimeType : '';
   const size = typeof a.size === 'number' ? a.size : Number(a.size) || 0;
+  const captionRaw = typeof a.caption === 'string' ? a.caption.trim().slice(0, 500) : '';
   if (!url && !name) return undefined;
-  return { url, storagePath, name, mimeType, size };
+  return {
+    url,
+    storagePath,
+    name,
+    mimeType,
+    size,
+    ...(captionRaw ? { caption: captionRaw } : {}),
+  };
+}
+
+function normalizeJournalAttachments(data: Record<string, unknown>) {
+  const fromList = Array.isArray(data.attachments)
+    ? data.attachments
+        .map(normalizeJournalAttachment)
+        .filter((x): x is NonNullable<typeof x> => Boolean(x))
+        .slice(0, 2)
+    : [];
+  if (fromList.length > 0) return fromList;
+  const legacy = normalizeJournalAttachment(data.attachment);
+  return legacy ? [legacy] : [];
 }
 
 function normalizeJournalEntry(id: string, data: Record<string, unknown>) {
+  const attachments = normalizeJournalAttachments(data);
   return {
     id,
     mood: String(data.mood ?? ''),
@@ -593,7 +646,8 @@ function normalizeJournalEntry(id: string, data: Record<string, unknown>) {
     createdAt: normalizeCreatedAt(data.createdAt),
     category: typeof data.category === 'string' ? data.category : undefined,
     tags: Array.isArray(data.tags) ? data.tags.map(String) : undefined,
-    attachment: normalizeJournalAttachment(data.attachment),
+    attachment: attachments[0],
+    attachments: attachments.length ? attachments : undefined,
     isPinned: data.isPinned === true,
   };
 }

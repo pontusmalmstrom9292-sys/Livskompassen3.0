@@ -1,0 +1,86 @@
+{
+  "version": 50,
+  "description": "Cursor YOLO v50 — BUILD ZONE-VALV-HJARTAT-FINISH: Valv + Hjärtat finish — verify + minimal fix",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 50,
+    "id": "ZONE-VALV-HJARTAT-FINISH",
+    "title": "Valv + Hjärtat finish — verify + minimal fix",
+    "agent": "specialist-valv-builder",
+    "plan": "Verify+minimal fix: Valv kickout/App Check paths, Inkast HITL, Speglar ZF, offline write-policy. Ingen firestore.rules, ingen Genkit, ingen Privacy 2.1. Live vault-worm/inkast/speglar deferred till App Check debug token OK (G85 parallel).",
+    "smoke": [
+      "npm run smoke:valv-security",
+      "npm run smoke:weaver-hitl",
+      "npm run smoke:locked-ux"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "keywords": [
+      "valv",
+      "hjartat",
+      "inkast",
+      "speglar",
+      "WORM"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b50-deploy",
+      "title": "B50 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v50/b50-deploy.md"
+    },
+    {
+      "id": "b50-build",
+      "title": "B50 — Valv + Hjärtat finish — verify + minimal fix",
+      "phase": "sequential",
+      "agent": "specialist-valv-builder",
+      "plan": "Verify+minimal fix: Valv kickout/App Check paths, Inkast HITL, Speglar ZF, offline write-policy. Ingen firestore.rules, ingen Genkit, ingen Privacy 2.1. Live vault-worm/inkast/speglar deferred till App Check debug token OK (G85 parallel).",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v50/b50-build.md"
+    },
+    {
+      "id": "b50-gate",
+      "title": "B50 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v50.md.",
+      "smoke": [
+        "npm run smoke:valv-security",
+        "npm run smoke:weaver-hitl",
+        "npm run smoke:locked-ux"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v50/b50-gate.md"
+    },
+    {
+      "id": "b50-vakt",
+      "title": "B50 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v50. Handoff v51.",
+      "smoke": [
+        "npm run smoke:valv-security",
+        "npm run smoke:weaver-hitl",
+        "npm run smoke:locked-ux"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v50/b50-vakt.md"
+    }
+  ]
+}

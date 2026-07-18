@@ -1,0 +1,88 @@
+{
+  "version": 53,
+  "description": "Cursor YOLO v53 — BUILD UX-POLISH-ANDROID-SYNC: UX polish + Android cap sync",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 53,
+    "id": "UX-POLISH-ANDROID-SYNC",
+    "title": "UX polish + Android cap sync",
+    "agent": "specialist-ux-guardian",
+    "plan": "Elevate-only: dock-clearance, aria-labels, token-hex i touchade filer. cap sync. Bevara SacredLock/SecurePrefs/pinning/verifySecurityComponents.",
+    "smoke": [
+      "npm run smoke:locked-ux",
+      "npm run smoke:design-modules",
+      "npm run smoke:android-platform",
+      "npm run smoke:chrome-header"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "keywords": [
+      "ux",
+      "android",
+      "cap-sync",
+      "polish"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b53-deploy",
+      "title": "B53 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v53/b53-deploy.md"
+    },
+    {
+      "id": "b53-build",
+      "title": "B53 — UX polish + Android cap sync",
+      "phase": "sequential",
+      "agent": "specialist-ux-guardian",
+      "plan": "Elevate-only: dock-clearance, aria-labels, token-hex i touchade filer. cap sync. Bevara SacredLock/SecurePrefs/pinning/verifySecurityComponents.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v53/b53-build.md"
+    },
+    {
+      "id": "b53-gate",
+      "title": "B53 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v53.md.",
+      "smoke": [
+        "npm run smoke:locked-ux",
+        "npm run smoke:design-modules",
+        "npm run smoke:android-platform",
+        "npm run smoke:chrome-header"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v53/b53-gate.md"
+    },
+    {
+      "id": "b53-vakt",
+      "title": "B53 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v53. Handoff v54.",
+      "smoke": [
+        "npm run smoke:locked-ux",
+        "npm run smoke:design-modules",
+        "npm run smoke:android-platform",
+        "npm run smoke:chrome-header"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v53/b53-vakt.md"
+    }
+  ]
+}

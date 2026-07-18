@@ -1,7 +1,7 @@
 {
-  "version": 1,
-  "updatedAt": "2026-07-17T19:10:00.000Z",
-  "description": "SDK build marathon v34–v48 — product waves (ersätter fortifikation away-block v24–v33)",
+  "version": 2,
+  "updatedAt": "2026-07-18T12:15:00.000Z",
+  "description": "SDK build marathon v34–v48 + improvement v49–v54 + Evigt Minne v55–v62",
   "waves": [
     {
       "version": 34,
@@ -9,10 +9,18 @@
       "title": "MOD-WIDGET v3 — standalone widget board + Android",
       "agent": "specialist-widgets",
       "plan": "Slutför MOD-WIDGET v3: WidgetModulerPage, board, Android ModulerWidgetProvider. Bevara @locked. smoke:widgets PASS.",
-      "smoke": ["npm run smoke:widgets", "npm run smoke:module-lock"],
+      "smoke": [
+        "npm run smoke:widgets",
+        "npm run smoke:module-lock"
+      ],
       "pmir": false,
       "deploy": "none",
-      "keywords": ["widget", "MOD-WIDGET", "android", "FyrenWidget"]
+      "keywords": [
+        "widget",
+        "MOD-WIDGET",
+        "android",
+        "FyrenWidget"
+      ]
     },
     {
       "version": 35,
@@ -20,10 +28,20 @@
       "title": "Navigation P0 — Liv och göra flikar + drawer accordion",
       "agent": "specialist-ux-guardian",
       "plan": "P0: Fixa flikar Ekonomi, MåBra, Kompasser i Liv och göra (tryck ska byta tab). Hamburgermeny: accordion med undermenyer från navTruth (Pontus godkänd). smoke:e2e-live PASS.",
-      "smoke": ["npm run smoke:locked-ux", "npm run smoke:e2e-live"],
+      "smoke": [
+        "npm run smoke:locked-ux",
+        "npm run smoke:e2e-live"
+      ],
       "pmir": false,
       "deploy": "none",
-      "keywords": ["navigation", "drawer", "accordion", "navTruth", "Liv och göra", "flikar"]
+      "keywords": [
+        "navigation",
+        "drawer",
+        "accordion",
+        "navTruth",
+        "Liv och göra",
+        "flikar"
+      ]
     },
     {
       "version": 36,
@@ -31,10 +49,19 @@
       "title": "Premium UI polish — Executive Midnight",
       "agent": "specialist-ux-guardian",
       "plan": "Premium UI pass: tokens, calm cards, design-debt 0. Ingen redesign — polish only.",
-      "smoke": ["npm run smoke:design-debt", "npm run smoke:calm-card-audit", "npm run smoke:copy-audit"],
+      "smoke": [
+        "npm run smoke:design-debt",
+        "npm run smoke:calm-card-audit",
+        "npm run smoke:copy-audit"
+      ],
       "pmir": false,
       "deploy": "none",
-      "keywords": ["premium", "design", "Executive Midnight", "tokens"]
+      "keywords": [
+        "premium",
+        "design",
+        "Executive Midnight",
+        "tokens"
+      ]
     },
     {
       "version": 37,
@@ -42,10 +69,18 @@
       "title": "Planering — hybrid widget + Fyren",
       "agent": "specialist-planering",
       "plan": "Planering P3: hybrid-widget, FyrenWidgetBar, Morgonkompassen. Bevara Locked UX § Planering.",
-      "smoke": ["npm run smoke:compass", "npm run smoke:widgets"],
+      "smoke": [
+        "npm run smoke:compass",
+        "npm run smoke:widgets"
+      ],
       "pmir": false,
       "deploy": "none",
-      "keywords": ["planering", "Fyren", "Morgonkompassen", "hybrid-widget"]
+      "keywords": [
+        "planering",
+        "Fyren",
+        "Morgonkompassen",
+        "hybrid-widget"
+      ]
     },
     {
       "version": 38,
@@ -53,10 +88,20 @@
       "title": "Valv — Mönster, Orkester, evidence UI",
       "agent": "specialist-valv-builder",
       "plan": "Valv Z1: WORM evidence, Mönster/Orkester, plausible deniability. Ingen cross-RAG.",
-      "smoke": ["npm run smoke:valv", "npm run smoke:valv-security", "npm run smoke:plausible-deniability"],
+      "smoke": [
+        "npm run smoke:valv",
+        "npm run smoke:valv-security",
+        "npm run smoke:plausible-deniability"
+      ],
       "pmir": false,
       "deploy": "none",
-      "keywords": ["valv", "vault", "WORM", "Mönster", "Orkester"]
+      "keywords": [
+        "valv",
+        "vault",
+        "WORM",
+        "Mönster",
+        "Orkester"
+      ]
     },
     {
       "version": 39,
@@ -64,10 +109,19 @@
       "title": "Familjen — Barnfokus, Hamn, Livslogg",
       "agent": "specialist-familjen-hamn-builder",
       "plan": "Familjen Z3: Barnfokus, Trygg Hamn, Livslogg. Barnporten kanon-UI = PMIR SKIP.",
-      "smoke": ["npm run smoke:children", "npm run smoke:hamn", "npm run smoke:locked-ux"],
+      "smoke": [
+        "npm run smoke:children",
+        "npm run smoke:hamn",
+        "npm run smoke:locked-ux"
+      ],
       "pmir": false,
       "deploy": "none",
-      "keywords": ["familjen", "barnfokus", "hamn", "livslogg"]
+      "keywords": [
+        "familjen",
+        "barnfokus",
+        "hamn",
+        "livslogg"
+      ]
     },
     {
       "version": 40,
@@ -75,10 +129,19 @@
       "title": "Integration dry-run — innehåll + seed",
       "agent": "livskompassen-arkiv-master",
       "plan": "Integration: smoke:innehall, content-waves, preflight. Aldrig --apply.",
-      "smoke": ["npm run smoke:innehall", "npm run smoke:content-waves"],
+      "smoke": [
+        "npm run smoke:innehall",
+        "npm run smoke:content-waves"
+      ],
       "pmir": false,
       "deploy": "none",
-      "keywords": ["integration", "innehall", "seed", "FACT", "REFLECTION"]
+      "keywords": [
+        "integration",
+        "innehall",
+        "seed",
+        "FACT",
+        "REFLECTION"
+      ]
     },
     {
       "version": 41,
@@ -86,10 +149,19 @@
       "title": "Governance sync — docs + module lock",
       "agent": "specialist-beslutsstod",
       "plan": "Governance: PROJECT_STATE, TODO, LOCK-MANIFEST, smoke:governance PASS.",
-      "smoke": ["npm run smoke:governance", "npm run smoke:module-lock", "npm run smoke:mdc"],
+      "smoke": [
+        "npm run smoke:governance",
+        "npm run smoke:module-lock",
+        "npm run smoke:mdc"
+      ],
       "pmir": false,
       "deploy": "none",
-      "keywords": ["governance", "TODO", "PROJECT_STATE", "LOCK-MANIFEST"]
+      "keywords": [
+        "governance",
+        "TODO",
+        "PROJECT_STATE",
+        "LOCK-MANIFEST"
+      ]
     },
     {
       "version": 42,
@@ -97,11 +169,17 @@
       "title": "Slutgate — yolo-vakt GO/NO-GO",
       "agent": "yolo-vakt",
       "plan": "Read-only slutgate: smoke:predeploy:build. GO/NO-GO eval. Ingen deploy.",
-      "smoke": ["npm run smoke:predeploy:build"],
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
       "pmir": false,
       "deploy": "none",
       "fullGate": true,
-      "keywords": ["yolo-vakt", "slutgate", "predeploy"]
+      "keywords": [
+        "yolo-vakt",
+        "slutgate",
+        "predeploy"
+      ]
     },
     {
       "version": 43,
@@ -109,10 +187,18 @@
       "title": "Kopplingar C — ADK/synapse wiring",
       "agent": "specialist-adk-weaver",
       "plan": "Kopplingar batch C: synapser, journal_woven optIn, drive ingest dry-run.",
-      "smoke": ["npm run smoke:orkester", "npm run smoke:dcap-routing"],
+      "smoke": [
+        "npm run smoke:orkester",
+        "npm run smoke:dcap-routing"
+      ],
       "pmir": false,
       "deploy": "none",
-      "keywords": ["ADK", "synapser", "DCAP", "journal_woven"]
+      "keywords": [
+        "ADK",
+        "synapser",
+        "DCAP",
+        "journal_woven"
+      ]
     },
     {
       "version": 44,
@@ -120,10 +206,18 @@
       "title": "Projekt P1 — repo hygiene + drift",
       "agent": "specialist-verifier",
       "plan": "Projekt P1: drift-smokes, journal-2d, mabra. Minimal fix om FAIL.",
-      "smoke": ["npm run smoke:journal-2d", "npm run smoke:mabra", "npm run smoke:valv"],
+      "smoke": [
+        "npm run smoke:journal-2d",
+        "npm run smoke:mabra",
+        "npm run smoke:valv"
+      ],
       "pmir": false,
       "deploy": "none",
-      "keywords": ["projekt", "drift", "hygiene"]
+      "keywords": [
+        "projekt",
+        "drift",
+        "hygiene"
+      ]
     },
     {
       "version": 45,
@@ -131,10 +225,16 @@
       "title": "Evolution ledger — infinite evolution sync",
       "agent": "specialist-beslutsstod",
       "plan": "Evolution ledger eval + smoke:evolution dry-run.",
-      "smoke": ["npm run smoke:evolution"],
+      "smoke": [
+        "npm run smoke:evolution"
+      ],
       "pmir": false,
       "deploy": "none",
-      "keywords": ["evolution", "ledger", "infinite-evolution"]
+      "keywords": [
+        "evolution",
+        "ledger",
+        "infinite-evolution"
+      ]
     },
     {
       "version": 46,
@@ -142,10 +242,19 @@
       "title": "Arkiv batch — tre silos dry-run",
       "agent": "livskompassen-arkiv-master",
       "plan": "Arkiv batch: kunskap/valv/barnen silo guard. Ingen cross-RAG, ingen --apply.",
-      "smoke": ["npm run smoke:kunskap", "npm run smoke:dossier", "npm run smoke:manifest"],
+      "smoke": [
+        "npm run smoke:kunskap",
+        "npm run smoke:dossier",
+        "npm run smoke:manifest"
+      ],
       "pmir": false,
       "deploy": "none",
-      "keywords": ["arkiv", "RAG", "silo", "dossier"]
+      "keywords": [
+        "arkiv",
+        "RAG",
+        "silo",
+        "dossier"
+      ]
     },
     {
       "version": 47,
@@ -153,11 +262,18 @@
       "title": "Minne prep + prod deploy hosting",
       "agent": "minnes-arkitekten",
       "plan": "Minne prep (dry-run only — ingen --apply). Slutgate + hosting deploy om SDK_YOLO_UNATTENDED=1 och smoke PASS.",
-      "smoke": ["npm run smoke:predeploy:build"],
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
       "pmir": true,
       "deploy": "hosting",
       "fullGate": true,
-      "keywords": ["minne", "deploy", "hosting", "memory"]
+      "keywords": [
+        "minne",
+        "deploy",
+        "hosting",
+        "memory"
+      ]
     },
     {
       "version": 48,
@@ -173,7 +289,302 @@
       "pmir": false,
       "deploy": "hosting",
       "fullGate": true,
-      "keywords": ["android", "G85", "AppCheck", "Valv", "kickout", "post-merge", "main-sync"]
+      "keywords": [
+        "android",
+        "G85",
+        "AppCheck",
+        "Valv",
+        "kickout",
+        "post-merge",
+        "main-sync"
+      ]
+    },
+    {
+      "version": 49,
+      "id": "SOFT-DEBT",
+      "title": "Soft debt — orphan UI, PDF-CTA, SPEC-synk, state hygiene",
+      "agent": "specialist-beslutsstod",
+      "plan": "Rensa orphan HjartatHero (mock-data). Ta bort disabled PDF-CTA i JournalArchiveToolbar utan ny export. Synka stale SPEC/register-rader. Status-hygien v34–v48 → completed. Ingen rules, ingen locked UX-ombyggnad.",
+      "smoke": [
+        "npm run smoke:locked-ux",
+        "npm run smoke:governance",
+        "npm run smoke:module-lock"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "keywords": [
+        "soft-debt",
+        "HjartatHero",
+        "PDF",
+        "hygiene"
+      ]
+    },
+    {
+      "version": 50,
+      "id": "ZONE-VALV-HJARTAT-FINISH",
+      "title": "Valv + Hjärtat finish — verify + minimal fix",
+      "agent": "specialist-valv-builder",
+      "plan": "Verify+minimal fix: Valv kickout/App Check paths, Inkast HITL, Speglar ZF, offline write-policy. Ingen firestore.rules, ingen Genkit, ingen Privacy 2.1. Live vault-worm/inkast/speglar deferred till App Check debug token OK (G85 parallel).",
+      "smoke": [
+        "npm run smoke:valv-security",
+        "npm run smoke:weaver-hitl",
+        "npm run smoke:locked-ux"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "keywords": [
+        "valv",
+        "hjartat",
+        "inkast",
+        "speglar",
+        "WORM"
+      ]
+    },
+    {
+      "version": 51,
+      "id": "ZONE-VARDAGEN-FAMILJEN-FINISH",
+      "title": "Vardagen + Familjen finish — widgets HITL Hamn",
+      "agent": "specialist-vardagen-builder",
+      "plan": "Widget phone-size/routes verify. Barnporten HITL re-verify (ingen auto-promote). Hamn copy om smoke gap. Ekonomi checklist-doc. Inte Gmail/Calendar, Familje-PIN, /gora. Live smoke:children deferred till App Check debug token OK.",
+      "smoke": [
+        "npm run smoke:widgets",
+        "npm run smoke:hamn",
+        "npm run smoke:economy-vendor",
+        "npm run smoke:locked-ux",
+        "npm run smoke:barn-epistemik"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "keywords": [
+        "vardagen",
+        "familjen",
+        "widgets",
+        "hamn",
+        "HITL"
+      ]
+    },
+    {
+      "version": 52,
+      "id": "BACKEND-HARDEN",
+      "title": "Backend harden — Weaver U1 + manifest + functions-diff",
+      "agent": "specialist-adk-weaver",
+      "plan": "1) Diff functions:list vs index.ts → docs/evaluations deploy-gap. 2) Weaver RAG: journal/reality_vault utan kampspar/kb_docs i samma kontext. 3) SynapseTrigger + kasam_aggregation i manifest.ts. 4) Ingen firestore.rules/storage.rules/sharedRules.",
+      "smoke": [
+        "npm run smoke:manifest",
+        "npm run smoke:dcap-routing",
+        "npm run smoke:synapse-triggers",
+        "npm run smoke:valv-security"
+      ],
+      "pmir": true,
+      "deploy": "none",
+      "keywords": [
+        "ADK",
+        "Weaver",
+        "U1",
+        "silo",
+        "manifest"
+      ]
+    },
+    {
+      "version": 53,
+      "id": "UX-POLISH-ANDROID-SYNC",
+      "title": "UX polish + Android cap sync",
+      "agent": "specialist-ux-guardian",
+      "plan": "Elevate-only: dock-clearance, aria-labels, token-hex i touchade filer. cap sync. Bevara SacredLock/SecurePrefs/pinning/verifySecurityComponents.",
+      "smoke": [
+        "npm run smoke:locked-ux",
+        "npm run smoke:design-modules",
+        "npm run smoke:android-platform",
+        "npm run smoke:chrome-header"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "keywords": [
+        "ux",
+        "android",
+        "cap-sync",
+        "polish"
+      ]
+    },
+    {
+      "version": 54,
+      "id": "SLUTGATE-FARDIG",
+      "title": "Slutgate — predeploy + yolo-vakt GO/NO-GO",
+      "agent": "yolo-vakt",
+      "plan": "smoke:predeploy:build. Eval GO/NO-GO i docs/evaluations. Hosting/functions deploy SKIP tills Pontus skriver OK deploy. Ingen App Check Enforce.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "fullGate": true,
+      "keywords": [
+        "yolo-vakt",
+        "slutgate",
+        "predeploy",
+        "Fas24"
+      ]
+    },
+    {
+      "version": 55,
+      "id": "MINNE-G0-MACHINE",
+      "title": "Evigt Minne G0 — wave machine + phrase-gate + Vertex skill lock",
+      "agent": "minnes-arkitekten",
+      "plan": "Bump BUILD_WAVE_MAX=62. class+phrase-gate+alwaysSkip diff. Rewrite livskompassen-vector-search → Firestore Native ANN only. Minne Sacred i PROJECT_STATE. npm run minne:yolo:build. Ingen firestore.rules. Ingen deploy. Ingen --apply.",
+      "smoke": [
+        "npm run smoke:wave-machine",
+        "npm run smoke:cost-guard",
+        "npm run smoke:governance"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "class": "docs",
+      "keywords": [
+        "minne",
+        "M0",
+        "wave-machine",
+        "cost-guard"
+      ]
+    },
+    {
+      "version": 56,
+      "id": "MINNE-M1-RRF",
+      "title": "Evigt Minne M1 — hybrid RRF + citation hard-ground",
+      "agent": "minnes-arkitekten",
+      "plan": "kampsparQueryRag: ANN∪lexical RRF inom Kunskap-silo only. Citation hard-ground (title/date/excerpt från allowlist). smoke:kunskap FAIL om expected citation saknas. Ingen Vertex. Ingen cross-RAG.",
+      "smoke": [
+        "npm run smoke:cost-guard",
+        "npm run smoke:governance"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "class": "code",
+      "keywords": [
+        "minne",
+        "RRF",
+        "RAG",
+        "citations"
+      ]
+    },
+    {
+      "version": 57,
+      "id": "MINNE-M2-EMBED",
+      "title": "Evigt Minne M2 — embedStatus + contentHash + FACT-gate",
+      "agent": "minnes-arkitekten",
+      "plan": "persistKbDoc + ingestKampspar: embedStatus pending/ok/fail, embeddingModel, contentHash, content_class. Strikt isKunskapFactApproved. Metrics log. Ingen rules. Ingen --apply.",
+      "smoke": [
+        "npm run smoke:cost-guard",
+        "npm run smoke:minnes-arkitekt"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "class": "code",
+      "keywords": [
+        "minne",
+        "embedding",
+        "FACT",
+        "contentHash"
+      ]
+    },
+    {
+      "version": 58,
+      "id": "MINNE-M3-GATES",
+      "title": "Evigt Minne M3 — confirm→kunskap + HITL promote + client-create audit",
+      "agent": "minnes-arkitekten",
+      "plan": "confirmInbox kunskap bypass/manuell-tag. promoteKbDocToKampspar callable (en bekräftelse). Audit: noll client create till kampspar/kb_docs. ADHD one-toast. Ingen rules deploy.",
+      "smoke": [
+        "npm run smoke:governance",
+        "npm run smoke:cost-guard"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "class": "code",
+      "keywords": [
+        "minne",
+        "HITL",
+        "promote",
+        "inbox"
+      ]
+    },
+    {
+      "version": 59,
+      "id": "MINNE-M4-ARCHIVE",
+      "title": "Evigt Minne M4 — GCS archive dry-run + chunking notes",
+      "agent": "minnes-arkitekten",
+      "plan": "GCS Archive dry-run script + runbook (ingen live sweep). Chunking design för långa kb_docs. Ingen --apply. Ingen deploy.",
+      "smoke": [
+        "npm run smoke:cost-guard",
+        "npm run smoke:governance",
+        "npm run minne:archive:dryrun"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "class": "docs",
+      "keywords": [
+        "minne",
+        "archive",
+        "GCS",
+        "chunking"
+      ]
+    },
+    {
+      "version": 60,
+      "id": "MINNE-GATE",
+      "title": "Evigt Minne gate — predeploy + readyForRules hard stop",
+      "agent": "yolo-vakt",
+      "plan": "smoke:predeploy:build + cost-guard. Skriv readyForRules=true i wave-machine-state. HARD STOP — starta inte v61 utan fras OK rules. Ingen deploy.",
+      "smoke": [
+        "npm run smoke:predeploy:build",
+        "npm run smoke:cost-guard"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "fullGate": true,
+      "class": "code",
+      "keywords": [
+        "minne",
+        "yolo-vakt",
+        "readyForRules"
+      ]
+    },
+    {
+      "version": 61,
+      "id": "MINNE-RULES",
+      "title": "Evigt Minne M5 — Admin-only create (PAUS: OK rules)",
+      "agent": "specialist-firestore-rules",
+      "plan": "Efter OK rules + readyForRules: kampspar/kb_docs allow create if false (Admin SDK only). Ingen hash-kedja. Ingen deploy utan separat OK.",
+      "smoke": [
+        "npm run smoke:governance"
+      ],
+      "pmir": true,
+      "deploy": "none",
+      "class": "rules",
+      "keywords": [
+        "minne",
+        "firestore.rules",
+        "Admin-only",
+        "PMIR"
+      ]
+    },
+    {
+      "version": 62,
+      "id": "MINNE-DEPLOY",
+      "title": "Evigt Minne M7 — functions deploy (PAUS: OK deploy)",
+      "agent": "yolo-vakt",
+      "plan": "Efter OK deploy: firebase deploy --only functions (rules om godkända). Ingen auto-merge main. SKIP utan fras.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "pmir": true,
+      "deploy": "functions",
+      "fullGate": true,
+      "class": "deploy",
+      "keywords": [
+        "minne",
+        "deploy",
+        "functions",
+        "OK deploy"
+      ]
     }
   ]
 }

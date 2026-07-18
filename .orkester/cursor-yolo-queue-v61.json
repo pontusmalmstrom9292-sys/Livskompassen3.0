@@ -1,0 +1,80 @@
+{
+  "version": 61,
+  "description": "Cursor YOLO v61 — BUILD MINNE-RULES: Evigt Minne M5 — Admin-only create (PAUS: OK rules)",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 61,
+    "id": "MINNE-RULES",
+    "title": "Evigt Minne M5 — Admin-only create (PAUS: OK rules)",
+    "agent": "specialist-firestore-rules",
+    "plan": "Efter OK rules + readyForRules: kampspar/kb_docs allow create if false (Admin SDK only). Ingen hash-kedja. Ingen deploy utan separat OK.",
+    "smoke": [
+      "npm run smoke:governance"
+    ],
+    "pmir": true,
+    "deploy": "none",
+    "class": "rules",
+    "keywords": [
+      "minne",
+      "firestore.rules",
+      "Admin-only",
+      "PMIR"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b61-deploy",
+      "title": "B61 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v61/b61-deploy.md"
+    },
+    {
+      "id": "b61-build",
+      "title": "B61 — Evigt Minne M5 — Admin-only create (PAUS: OK rules)",
+      "phase": "sequential",
+      "agent": "specialist-firestore-rules",
+      "plan": "Efter OK rules + readyForRules: kampspar/kb_docs allow create if false (Admin SDK only). Ingen hash-kedja. Ingen deploy utan separat OK.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v61/b61-build.md"
+    },
+    {
+      "id": "b61-gate",
+      "title": "B61 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v61.md.",
+      "smoke": [
+        "npm run smoke:governance"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v61/b61-gate.md"
+    },
+    {
+      "id": "b61-vakt",
+      "title": "B61 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v61. Handoff v62.",
+      "smoke": [
+        "npm run smoke:governance"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v61/b61-vakt.md"
+    }
+  ]
+}

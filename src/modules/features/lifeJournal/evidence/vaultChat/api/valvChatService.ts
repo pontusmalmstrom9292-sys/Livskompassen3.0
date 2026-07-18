@@ -1,6 +1,6 @@
 import { httpsCallable, type FunctionsError } from 'firebase/functions';
 import { functions } from '@/core/firebase/init';
-import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
+import { withVaultSessionPayloadReady } from '@/core/auth/vaultServerSession';
 
 export interface ValvChatCitation {
   docId: string;
@@ -19,7 +19,9 @@ const valvChatQueryCallable = httpsCallable(functions, 'valvChatQuery');
 
 export async function callValvChat(question: string): Promise<ValvChatResponse> {
   try {
-    const result = await valvChatQueryCallable(withVaultSessionPayload({ question }));
+    const result = await valvChatQueryCallable(
+      await withVaultSessionPayloadReady({ question }),
+    );
     return result.data as ValvChatResponse;
   } catch (error) {
     console.error('Fel vid anrop till valvChatQuery:', error);

@@ -1,9 +1,11 @@
-import { Search } from 'lucide-react';
+/** @locked MOD-SHARED-MEDIA */
+import { Search, LayoutList, Images } from 'lucide-react';
 import { Input } from '@/design-system';
 import { MOOD_CATALOG } from '../constants/moods';
 import { JOURNAL_CATEGORIES } from '../constants/journalCategories';
 import type { JournalEntry } from '../types/journal';
 import { journalCategoriesInEntries } from '../utils/filterJournalEntries';
+import type { JournalArchiveViewMode } from './JournalEntryCard';
 
 export type ArchiveToolbarState = {
   query: string;
@@ -16,6 +18,8 @@ type JournalArchiveToolbarProps = {
   allEntries: JournalEntry[];
   filteredCount: number;
   onChange: (next: ArchiveToolbarState) => void;
+  viewMode: JournalArchiveViewMode;
+  onViewModeChange: (mode: JournalArchiveViewMode) => void;
 };
 
 export function JournalArchiveToolbar({
@@ -23,6 +27,8 @@ export function JournalArchiveToolbar({
   allEntries,
   filteredCount,
   onChange,
+  viewMode,
+  onViewModeChange,
 }: JournalArchiveToolbarProps) {
   const categoryIds = journalCategoriesInEntries(allEntries);
   const categoryOptions = JOURNAL_CATEGORIES.filter((c) => categoryIds.includes(c.id));
@@ -32,6 +38,39 @@ export function JournalArchiveToolbar({
 
   return (
     <div className="journal-archive-toolbar space-y-4">
+      <div
+        className="flex rounded-xl border border-border/50 bg-surface/40 p-1"
+        role="group"
+        aria-label="Arkivvy"
+      >
+        <button
+          type="button"
+          className={`inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg text-sm transition-colors ${
+            viewMode === 'tidslinje'
+              ? 'bg-accent/15 text-accent'
+              : 'text-text-dim hover:text-text'
+          }`}
+          aria-pressed={viewMode === 'tidslinje'}
+          onClick={() => onViewModeChange('tidslinje')}
+        >
+          <LayoutList className="h-4 w-4" aria-hidden />
+          Tidslinje
+        </button>
+        <button
+          type="button"
+          className={`inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg text-sm transition-colors ${
+            viewMode === 'galleri'
+              ? 'bg-accent/15 text-accent'
+              : 'text-text-dim hover:text-text'
+          }`}
+          aria-pressed={viewMode === 'galleri'}
+          onClick={() => onViewModeChange('galleri')}
+        >
+          <Images className="h-4 w-4" aria-hidden />
+          Bild + text
+        </button>
+      </div>
+
       <label className="journal-archive-search relative block">
         <Search
           className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-dim"
@@ -100,20 +139,9 @@ export function JournalArchiveToolbar({
       )}
 
       {allEntries.length > 0 && (
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-border/30 pt-4 mt-2">
-          <p className="text-center text-xs text-text-dim" aria-live="polite">
-            Visar {filteredCount} av {allEntries.length}
-          </p>
-          <button
-            type="button"
-            className="flex items-center gap-1.5 rounded-lg border border-border/40 bg-surface-3/30 px-3 py-1.5 text-xs text-text-muted transition-colors hover:border-accent/30 hover:text-text opacity-50 cursor-not-allowed"
-            title="Exportera dagbok som PDF (Kommer snart)"
-            disabled
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-            Exportera PDF
-          </button>
-        </div>
+        <p className="border-t border-border/30 pt-4 mt-2 text-center text-xs text-text-dim" aria-live="polite">
+          Visar {filteredCount} av {allEntries.length}
+        </p>
       )}
     </div>
   );

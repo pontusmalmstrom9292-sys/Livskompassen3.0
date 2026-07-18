@@ -10,6 +10,7 @@ import {
   Lock,
   Loader2,
   RefreshCw,
+  BookmarkPlus,
 } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useStore } from '@/core/store';
@@ -25,6 +26,7 @@ import {
   filterArchiveTree,
   type ArchiveNode,
 } from '../utils/buildArchiveTree';
+import { promoteKbDocToKampspar } from '../api/kampsparService';
 
 const MAX_EXPANDED_FOLDERS = 3;
 
@@ -42,6 +44,8 @@ export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePane
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [initializedExpand, setInitializedExpand] = useState(false);
+  const [toast, setToast] = useState<string | null>(null);
+  const [promotingId, setPromotingId] = useState<string | null>(null);
 
   useEffect(() => {
     if (sharedKampspar) setKampspar(sharedKampspar);
@@ -142,6 +146,22 @@ export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePane
     });
   };
 
+  const handlePromote = async (docId: string) => {
+    if (!docId || promotingId) return;
+    setPromotingId(docId);
+    setToast(null);
+    try {
+      const result = await promoteKbDocToKampspar(docId);
+      setToast(result.toast ?? 'Sparat i Minne');
+      window.setTimeout(() => setToast(null), 3200);
+    } catch (err) {
+      setToast(err instanceof Error ? err.message : 'Kunde inte spara i Minne.');
+      window.setTimeout(() => setToast(null), 4200);
+    } finally {
+      setPromotingId(null);
+    }
+  };
+
   const renderTree = (nodes: ArchiveNode[], depth = 0) => {
     if (depth >= 3) return null;
 
@@ -190,14 +210,13 @@ export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePane
             );
           }
 
+          const canPromote = node.collection === 'kb_docs' && Boolean(node.docId);
+
           return (
             <li key={node.id}>
-              <button
-                type="button"
-                className="group flex w-full items-start gap-2 rounded-lg p-2 text-left transition-colors hover:bg-surface-3/50"
-              >
+              <div className="group flex w-full items-start gap-2 rounded-lg p-2 transition-colors hover:bg-surface-3/50">
                 <FileText className="mt-0.5 h-3.5 w-3.5 shrink-0 text-text-muted transition-colors group-hover:text-text" />
-                <div>
+                <div className="min-w-0 flex-1">
                   <span className="line-clamp-1 text-xs text-text-muted transition-colors group-hover:text-text">
                     {node.title}
                   </span>
@@ -212,7 +231,23 @@ export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePane
                     </div>
                   )}
                 </div>
-              </button>
+                {canPromote && (
+                  <button
+                    type="button"
+                    onClick={() => handlePromote(node.docId!)}
+                    disabled={promotingId === node.docId}
+                    aria-label="Spara i Minne"
+                    title="Spara i Minne"
+                    className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg border border-accent/25 bg-accent/10 text-accent transition-colors hover:bg-accent/20 disabled:opacity-50"
+                  >
+                    {promotingId === node.docId ? (
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
+                    ) : (
+                      <BookmarkPlus className="h-3.5 w-3.5" aria-hidden />
+                    )}
+                  </button>
+                )}
+              </div>
             </li>
           );
         })}
@@ -222,6 +257,14 @@ export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePane
 
   return (
     <div className="rounded-2xl border border-border/40 bg-surface/40 p-1 shadow-sm backdrop-blur-md">
+      {toast && (
+        <div
+          role="status"
+          className="mx-1 mt-1 rounded-xl border border-accent/30 bg-accent/10 px-3 py-2 text-center text-xs font-medium text-accent"
+        >
+          {toast}
+        </div>
+      )}
       <div className="flex items-start justify-between rounded-t-xl border-b border-border/30 bg-surface-2 p-4 sm:p-5">
         <div>
           <h2 className="flex items-center gap-2 text-sm font-bold text-accent">

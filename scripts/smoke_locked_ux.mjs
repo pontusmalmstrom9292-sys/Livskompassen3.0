@@ -961,8 +961,20 @@ function main() {
     throw new Error('smoke:obsidian-depth misslyckades (låst 3D-skalet)');
   }
 
+  // Dagbok / uppladdning — bild + bildtext (Locked UX)
+  mustInclude(
+    'src/modules/shared/media/MediaAttachWithCaption.tsx',
+    'Ladda upp en bild till',
+    '@locked MOD-SHARED-MEDIA',
+  );
+  mustInclude(
+    '.context/locked-ux-features.md',
+    'bild + bildtext (max 2)',
+    'JournalMediaLightbox',
+  );
+
   console.log(
-    '[smoke:locked-ux] PASS — Barnfokus, Valv-baksida (Mönster/Orkester/Kunskapsbank), drawer Vardag+Valv, Planering, Widget, Barnporten.',
+    '[smoke:locked-ux] PASS — Barnfokus, Valv-baksida (Mönster/Orkester/Kunskapsbank), drawer Vardag+Valv, Planering, Widget, Barnporten, media-attach.',
   );
 }
 

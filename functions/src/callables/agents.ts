@@ -184,6 +184,14 @@ export const notifyNewFile = onRequest(
       return;
     }
 
+    // U1/G10: ownerId krävs i prod — body-only spoof utan uid = fail-closed.
+    // Drive ACL ownership-bind (fileId → Drive owner) är Pontus/ops follow-up (PMIR).
+    if (isProduction && !ownerId) {
+      console.error(`[notifyNewFile] ownerId saknas för fileId=${fileId} — avvisad`);
+      res.status(400).send('Missing ownerId');
+      return;
+    }
+
     try {
       const result = await emitSynapse(adkOrchestrator, {
         trigger: 'drive_file_ingested',

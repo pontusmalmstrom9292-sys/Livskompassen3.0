@@ -1,0 +1,30 @@
+{
+  "version": 55,
+  "queueFile": ".orkester/cursor-yolo-queue-v55.json",
+  "buildWaveId": "MINNE-G0-MACHINE",
+  "startedAt": "2026-07-18T12:20:19.880Z",
+  "updatedAt": "2026-07-18T12:20:19.881Z",
+  "sequentialPhase": {
+    "status": "completed",
+    "currentTaskId": null,
+    "completedTaskIds": [
+      "b55-build",
+      "b55-gate",
+      "b55-vakt"
+    ],
+    "skippedTaskIds": [
+      "b55-deploy"
+    ],
+    "failedTaskIds": []
+  },
+  "taskOrder": [
+    "b55-deploy",
+    "b55-build",
+    "b55-gate",
+    "b55-vakt"
+  ],
+  "notes": "Marked done via waves:autorun --mark-done",
+  "finishedAt": "2026-07-18T12:20:19.881Z",
+  "goNoGo": "GO",
+  "gateVerdict": "GO"
+}

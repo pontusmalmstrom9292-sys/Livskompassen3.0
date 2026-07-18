@@ -9,7 +9,7 @@ import {
   groupJournalEntriesByDay,
 } from '../utils/filterJournalEntries';
 import { JournalArchiveToolbar, type ArchiveToolbarState } from './JournalArchiveToolbar';
-import { JournalEntryCard } from './JournalEntryCard';
+import { JournalEntryCard, type JournalArchiveViewMode } from './JournalEntryCard';
 
 const DEFAULT_FILTERS: ArchiveToolbarState = {
   query: '',
@@ -27,6 +27,7 @@ type JournalArchiveProps = {
 export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalArchiveProps) {
   const [filters, setFilters] = useState<ArchiveToolbarState>(DEFAULT_FILTERS);
   const [visibleCount, setVisibleCount] = useState(pageSize);
+  const [viewMode, setViewMode] = useState<JournalArchiveViewMode>('tidslinje');
 
   const filtered = useMemo(
     () => filterJournalEntries(entries, filters),
@@ -36,10 +37,10 @@ export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalA
   const groups = useMemo(() => groupJournalEntriesByDay(filtered), [filtered]);
 
   const flatFiltered = useMemo(() => groups.flatMap((g) => g.entries), [groups]);
-  
-  const pinnedEntries = useMemo(() => flatFiltered.filter(e => e.isPinned), [flatFiltered]);
-  const unpinnedFlat = useMemo(() => flatFiltered.filter(e => !e.isPinned), [flatFiltered]);
-  
+
+  const pinnedEntries = useMemo(() => flatFiltered.filter((e) => e.isPinned), [flatFiltered]);
+  const unpinnedFlat = useMemo(() => flatFiltered.filter((e) => !e.isPinned), [flatFiltered]);
+
   const visible = unpinnedFlat.slice(0, visibleCount);
   const hasMore = unpinnedFlat.length > visibleCount;
 
@@ -53,7 +54,7 @@ export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalA
 
   useEffect(() => {
     setVisibleCount(pageSize);
-  }, [filters.query, filters.mood, filters.category, pageSize]);
+  }, [filters.query, filters.mood, filters.category, pageSize, viewMode]);
 
   const toolbar = (
     <JournalArchiveToolbar
@@ -61,6 +62,8 @@ export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalA
       allEntries={entries}
       filteredCount={filtered.length}
       onChange={setFilters}
+      viewMode={viewMode}
+      onViewModeChange={setViewMode}
     />
   );
 
@@ -77,9 +80,9 @@ export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalA
               <Pin className="h-3.5 w-3.5 fill-current" />
               Fästa Händelser
             </h3>
-            <ul className="space-y-3">
+            <ul className={viewMode === 'galleri' ? 'grid gap-4 sm:grid-cols-2' : 'space-y-3'}>
               {pinnedEntries.map((entry) => (
-                <JournalEntryCard key={entry.id} entry={entry} />
+                <JournalEntryCard key={entry.id} entry={entry} viewMode={viewMode} />
               ))}
             </ul>
           </div>
@@ -93,9 +96,9 @@ export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalA
               >
                 {group.label}
               </h3>
-              <ul className="space-y-3">
+              <ul className={viewMode === 'galleri' ? 'grid gap-4 sm:grid-cols-2' : 'space-y-3'}>
                 {group.entries.map((entry) => (
-                  <JournalEntryCard key={entry.id} entry={entry} />
+                  <JournalEntryCard key={entry.id} entry={entry} viewMode={viewMode} />
                 ))}
               </ul>
             </section>

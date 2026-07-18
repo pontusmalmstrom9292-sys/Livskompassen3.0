@@ -2,7 +2,7 @@
 
 **Runtime-källa:** `functions/src/sharedRules.ts` → `DAGBOK_SNABB_COACHEN_SYSTEM_PROMPT`
 **Callables:** `journalQuickMirror`
-**Synkad:** 2026-07-17 · **Status:** produktion (läsbar spegel, ej runtime)
+**Synkad:** 2026-07-18 · **Status:** produktion (läsbar spegel, ej runtime)
 
 ---
 # DAGBOK SNABB COACHEN

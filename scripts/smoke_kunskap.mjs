@@ -91,7 +91,13 @@ async function main() {
 
   const hit = rag.citations.some((c) => c.docId === ingestData.docId);
   console.log('[smoke] query OK — answer length:', rag.answer.length, 'citations:', rag.citations.length);
-  console.log('[smoke] citation match smoke doc:', hit ? 'YES' : 'NO (token-match kan missa — kontrollera manuellt)');
+  console.log('[smoke] citation match smoke doc:', hit ? 'YES' : 'NO');
+
+  if (!hit) {
+    throw new Error(
+      `citation hard-ground FAIL — expected docId ${ingestData.docId} saknas i citations (hybrid RRF måste hitta smoke-ingest)`,
+    );
+  }
 
   if (rag.citations.length > 0) {
     console.log('[smoke] first citation:', JSON.stringify(rag.citations[0], null, 2));
@@ -100,11 +106,10 @@ async function main() {
 
   const degraded = rag.answer.startsWith('Jag hittade ') && rag.answer.includes('relevanta poster');
   if (degraded) {
-    console.warn('[smoke] NOTE: LLM degraded mode (Vertex/Gemini ej tillgänglig) — RAG-fallback aktiv.');
-    console.warn('[smoke] För full AI: sätt GEMINI_API_KEY som Functions-secret eller aktivera Vertex-modell i GCP.');
+    console.warn('[smoke] NOTE: LLM degraded mode — RAG-fallback aktiv (citations still required).');
   }
 
-  console.log('\n[smoke] PASS — Kunskap callables svarar.');
+  console.log('\n[smoke] PASS — Kunskap callables svarar + citation hard-ground.');
   process.exit(0);
 }
 

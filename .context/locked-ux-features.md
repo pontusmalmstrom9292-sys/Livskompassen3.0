@@ -482,3 +482,16 @@ npm run smoke:obsidian-depth
 ```
 
 Vid refaktor av `VaultPage`, `FamiljenPage`, eller borttagning av specs ovan: kör smoke innan merge.
+
+---
+
+## Dagbok & uppladdning — bild + bildtext (max 2)
+
+| | |
+|---|---|
+| **Syfte** | Personliga minnen i dagbok + skärmdumpar med bildtext i Inkast/Valv/Speglar/barnlivslogg |
+| **Kod** | `MediaAttachWithCaption`, `CaptionedAttachment`, journal `attachments`, arkiv-vyväxlare Tidslinje / Bild + text, `JournalMediaLightbox` |
+| **Krav** | Valfri bildtext; «Ladda upp en bild till» (max 2); tidslinje-vy; bild+text-vy; lightbox — **får inte tas bort** utan unlock-doc + Pontus OK |
+| **Modul** | `MOD-SHARED-MEDIA` · även `MOD-HJ-DAGBOK` |
+| **Smoke** | `npm run smoke:media-attach` · `npm run smoke:locked-ux` |
+

@@ -336,7 +336,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
             >
               {copyCopied ? 'Kopierat ✓' : 'Kopiera svar'}
             </Button>
-            <Button type="button" variant="ghost" onClick={handleKlar} className="text-xs">
+            <Button type="button" variant="ghost" onClick={handleKlar} className="text-xs" aria-label="Klar — rensa session (Zero Footprint)">
               Klar — rensa
             </Button>
             <Button
@@ -634,7 +634,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
                 Du är i träningsläge. Svaret sparas inte.
               </p>
             )}
-            <Button type="button" variant="ghost" onClick={handleKlar} className="text-xs">
+            <Button type="button" variant="ghost" onClick={handleKlar} className="text-xs" aria-label="Klar — rensa session (Zero Footprint)">
               Klar — rensa
             </Button>
           </div>

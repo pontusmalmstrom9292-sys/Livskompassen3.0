@@ -1,7 +1,7 @@
 ext {
     minSdkVersion = 24
-    compileSdkVersion = 35
-    targetSdkVersion = 35
+    compileSdkVersion = 36
+    targetSdkVersion = 36
     rgcfaIncludeGoogle = true
     // Pinned for AGP 8.13 + compileSdk 35 (avoid AndroidX that require API 36/37 / AGP 9)
     androidxCredentialsVersion = '1.5.0'
@@ -12,6 +12,8 @@ ext {
     androidxBiometricVersion = '1.1.0'
     androidxSecurityVersion = '1.1.0'
     androidxBrowserVersion = '1.8.0'
+    androidxWorkVersion = '2.10.0'
+    androidxAppSearchVersion = '1.1.0'
     androidxFragmentVersion = '1.8.5'
     coreSplashScreenVersion = '1.0.1'
     androidxWebkitVersion = '1.12.1'

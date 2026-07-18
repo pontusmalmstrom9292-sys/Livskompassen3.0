@@ -4,7 +4,6 @@
   "projectId": "gen-lang-client-0481875058",
   "description": "Livskompassen — tillåtna GCP-tjänster och kostnadstak. Ändra endast med PMIR + Pontus OK.",
   "allowedApis": [
-    "aiplatform.googleapis.com",
     "analyticshub.googleapis.com",
     "appengine.googleapis.com",
     "artifactregistry.googleapis.com",
@@ -44,6 +43,7 @@
     "cloudscheduler.googleapis.com"
   ],
   "blockedApis": [
+    "aiplatform.googleapis.com",
     "bigquery.googleapis.com",
     "bigqueryconnection.googleapis.com",
     "bigquerydatapolicy.googleapis.com",
@@ -91,10 +91,33 @@
     "compute.googleapis.com": "Krävs ofta av Firebase/Cloud Run. Stäng INTE utan PMIR."
   },
   "blockedApiNotes": {
-    "aiplatform.googleapis.com": "Tillåten i allowlist men Vertex Agent Engine / Reasoning Engine kräver PMIR. Kör audit:vertex-agents.",
+    "aiplatform.googleapis.com": "BLOCKERAD 2026-07-18 — Vertex Vector Search decommissioned. RAG = Firestore Native findNearest + @google/genai. Återaktivera = PMIR + Pontus OK (kostnad).",
     "compute.googleapis.com": "Compute Engine — PMIR. Firebase/Functions räcker.",
     "cloudscheduler.googleapis.com": "Schemalagda jobb — PMIR (kostnad + drift).",
     "cloudtasks.googleapis.com": "Task queues — PMIR."
+  },
+  "forbiddenProvisionPatterns": [
+    "gcloud ai indexes",
+    "gcloud ai index-endpoints",
+    "services enable aiplatform",
+    "MatchingEngineIndex",
+    "MatchingEngineIndexEndpoint",
+    "VectorSearchIndexServiceClient",
+    "setup_vector_search"
+  ],
+  "vectorSearchLock": {
+    "status": "DECOMMISSIONED",
+    "date": "2026-07-18",
+    "replacement": "Firestore Native findNearest + generateEmbeddingInternal (GEMINI_API_KEY)",
+    "mustNotExist": [
+      "functions/src/lib/vectorSearchClient.ts"
+    ],
+    "mustRefuseScripts": [
+      "scripts/setup_vector_search.sh",
+      "scripts/setup_vector_search_west1.sh",
+      "scripts/ai/setup_knowledge_vault.py",
+      "scripts/ai/knowledge_vault.py"
+    ]
   },
   "blockedNpmDependencies": [
     "@genkit-ai/vertexai",

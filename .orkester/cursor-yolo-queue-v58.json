@@ -1,0 +1,83 @@
+{
+  "version": 58,
+  "description": "Cursor YOLO v58 — BUILD MINNE-M3-GATES: Evigt Minne M3 — confirm→kunskap + HITL promote + client-create audit",
+  "sequentialPhase": {
+    "label": "Build"
+  },
+  "buildWave": {
+    "version": 58,
+    "id": "MINNE-M3-GATES",
+    "title": "Evigt Minne M3 — confirm→kunskap + HITL promote + client-create audit",
+    "agent": "minnes-arkitekten",
+    "plan": "confirmInbox kunskap bypass/manuell-tag. promoteKbDocToKampspar callable (en bekräftelse). Audit: noll client create till kampspar/kb_docs. ADHD one-toast. Ingen rules deploy.",
+    "smoke": [
+      "npm run smoke:governance",
+      "npm run smoke:cost-guard"
+    ],
+    "pmir": false,
+    "deploy": "none",
+    "class": "code",
+    "keywords": [
+      "minne",
+      "HITL",
+      "promote",
+      "inbox"
+    ]
+  },
+  "tasks": [
+    {
+      "id": "b58-deploy",
+      "title": "B58 — (Valfritt) deploy",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "SKIP om ej Pontus OK deploy",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": true,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v58/b58-deploy.md"
+    },
+    {
+      "id": "b58-build",
+      "title": "B58 — Evigt Minne M3 — confirm→kunskap + HITL promote + client-create audit",
+      "phase": "sequential",
+      "agent": "minnes-arkitekten",
+      "plan": "confirmInbox kunskap bypass/manuell-tag. promoteKbDocToKampspar callable (en bekräftelse). Audit: noll client create till kampspar/kb_docs. ADHD one-toast. Ingen rules deploy.",
+      "smoke": [],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v58/b58-build.md"
+    },
+    {
+      "id": "b58-gate",
+      "title": "B58 — Wave gate smoke",
+      "phase": "sequential",
+      "agent": "specialist-verifier",
+      "plan": "Kör task-smoke + wave-gate. Eval build-v58.md.",
+      "smoke": [
+        "npm run smoke:governance",
+        "npm run smoke:cost-guard"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v58/b58-gate.md"
+    },
+    {
+      "id": "b58-vakt",
+      "title": "B58 — yolo-vakt slutgate",
+      "phase": "sequential",
+      "agent": "yolo-vakt",
+      "plan": "GO/NO-GO build v58. Handoff v59.",
+      "smoke": [
+        "npm run smoke:governance",
+        "npm run smoke:cost-guard"
+      ],
+      "fullGate": false,
+      "pmir": false,
+      "deploy": "none",
+      "promptFile": "docs/cursor-pipeline/yolo-v58/b58-vakt.md"
+    }
+  ]
+}
