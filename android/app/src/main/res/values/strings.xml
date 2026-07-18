@@ -36,4 +36,8 @@
     <string name="widget_moduler_title">Mina moduler</string>
     <string name="widget_moduler_sub">Nedräkning · Lista</string>
     <string name="widget_moduler_desc">Personliga moduler — nedräkning, checklista, sparmål och notiser</string>
+
+    <string name="shortcut_vault_short">Öppna Valvet</string>
+    <string name="shortcut_vault_long">Öppna det säkra valvet</string>
 </resources>
+
