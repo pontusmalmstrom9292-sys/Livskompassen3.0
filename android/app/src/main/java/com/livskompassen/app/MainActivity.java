@@ -100,6 +100,12 @@ public class MainActivity extends BridgeActivity {
 
     @Override
     public void load() {
+        // BridgeActivity.onCreate() calls load() before our managers are constructed.
+        // Must not touch widgetNavigator/webViewManager here or the app crashes on cold start.
+        if (widgetNavigator == null || webViewManager == null) {
+            super.load();
+            return;
+        }
         String path = widgetNavigator.getPendingWidgetPath();
         if (path != null && !path.isEmpty() && getBridge() != null) {
             String serverUrl = getBridge().getServerUrl();
@@ -118,17 +124,26 @@ public class MainActivity extends BridgeActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        widgetNavigator.handleIntent(intent);
+        // Also invoked from BridgeActivity.load() during super.onCreate — managers may still be null.
+        if (widgetNavigator != null) {
+            widgetNavigator.handleIntent(intent);
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        sacredLockManager.onResume();
+        if (sacredLockManager != null) {
+            sacredLockManager.onResume();
+        }
         if (getBridge() != null && getBridge().getWebView() != null) {
             getBridge().getWebView().onResume();
         }
-        
+
+        if (widgetNavigator == null || webViewManager == null) {
+            return;
+        }
+
         String path = widgetNavigator.getPendingWidgetPath();
         if (path != null && path.contains("/widget/inspelning")) {
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
@@ -136,14 +151,16 @@ public class MainActivity extends BridgeActivity {
             }
             webViewManager.requestAudioFocus();
         }
-        
+
         widgetNavigator.dispatchPendingPath();
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        sacredLockManager.onPause();
+        if (sacredLockManager != null) {
+            sacredLockManager.onPause();
+        }
         if (getBridge() != null && getBridge().getWebView() != null) {
             getBridge().getWebView().onPause();
         }

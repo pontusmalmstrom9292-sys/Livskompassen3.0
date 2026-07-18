@@ -1,10 +1,17 @@
 import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
 import { Capacitor, registerPlugin } from '@capacitor/core';
-import { initializeAppCheck, ReCaptchaV3Provider, CustomProvider } from 'firebase/app-check';
+import { initializeAppCheck, ReCaptchaV3Provider, CustomProvider, type AppCheck } from 'firebase/app-check';
 import { app } from './init';
 
+interface NativeAppCheckGate {
+  useDebugProvider: boolean;
+  isDebugBuild: boolean;
+  /** Present only when BuildConfig.DEBUG ∧ non-empty FIREBASE_APP_CHECK_DEBUG_TOKEN. */
+  debugToken?: string;
+}
+
 interface LkNativeBuildPlugin {
-  getAppCheckDebugGate(): Promise<{ useDebugProvider: boolean; isDebugBuild: boolean }>;
+  getAppCheckDebugGate(): Promise<NativeAppCheckGate>;
 }
 
 /** Native gate: BuildConfig.DEBUG ∧ non-empty FIREBASE_APP_CHECK_DEBUG_TOKEN (release → false). */
@@ -18,12 +25,14 @@ const LkNativeBuild = registerPlugin<LkNativeBuildPlugin>('LkNativeBuild', {
 
 let initialized = false;
 let initPromise: Promise<void> | null = null;
+let appCheckInstance: AppCheck | null = null;
+let lastTokenOk = false;
 
 /**
  * Initierar App Check:
  * - Web: reCAPTCHA v3 (VITE_APP_CHECK_RECAPTCHA_SITE_KEY); debug-token endast i Vite DEV
  * - Android/iOS: Play Integrity / App Attest via native plugin + CustomProvider-brygga till JS SDK
- * - Debug-APK: debug provider endast när native BuildConfig.DEBUG (aldrig enbart p.g.a. Vite .env i release)
+ * - Debug-APK: debug provider via BuildConfig-token (plugin) + AppCheckDebugBootstrap (prefs)
  */
 export function initAppCheck(): Promise<void> {
   if (initPromise) return initPromise;
@@ -31,15 +40,37 @@ export function initAppCheck(): Promise<void> {
   return initPromise;
 }
 
+/**
+ * Väntar in giltig App Check-token innan Valv-callables.
+ * Returnerar false om token saknas (APP_CHECK_ENFORCE → 400 / failed-precondition).
+ */
+export async function awaitAppCheckReady(options?: { forceRefresh?: boolean }): Promise<boolean> {
+  await initAppCheck();
+  if (!initialized || !appCheckInstance) return false;
+  try {
+    const { getToken } = await import('firebase/app-check');
+    const force = options?.forceRefresh ?? !lastTokenOk;
+    await getToken(appCheckInstance, force);
+    lastTokenOk = true;
+    return true;
+  } catch (err) {
+    lastTokenOk = false;
+    console.warn('[AppCheck] awaitAppCheckReady misslyckades', err);
+    return false;
+  }
+}
+
 async function doInitAppCheck(): Promise<void> {
   if (initialized || typeof window === 'undefined') return;
 
   if (Capacitor.isNativePlatform()) {
-    const useDebugProvider = await resolveNativeDebugProvider();
+    const gate = await resolveNativeDebugGate();
     await FirebaseAppCheck.initialize({
       isTokenAutoRefreshEnabled: true,
-      // Boolean endast — token skrivs native via AppCheckDebugBootstrap (SharedPreferences).
-      ...(useDebugProvider ? { debugToken: true } : {}),
+      // Prefer BuildConfig string (survives reboot). Boolean falls back to prefs/setprop.
+      ...(gate.useDebugProvider
+        ? { debugToken: gate.debugToken && gate.debugToken.length > 0 ? gate.debugToken : true }
+        : {}),
     });
 
     const provider = new CustomProvider({
@@ -52,24 +83,14 @@ async function doInitAppCheck(): Promise<void> {
       },
     });
 
-    const appCheck = initializeAppCheck(app, {
+    appCheckInstance = initializeAppCheck(app, {
       provider,
       isTokenAutoRefreshEnabled: true,
     });
     initialized = true;
 
     // Tvinga tidig token så Valv-callables inte hinner köra utan X-Firebase-AppCheck.
-    try {
-      const { getToken } = await import('firebase/app-check');
-      await getToken(appCheck, true);
-    } catch (err) {
-      console.warn(
-        useDebugProvider
-          ? '[AppCheck] Native debug-token misslyckades — kontrollera token i Firebase Console och att AppCheckDebugBootstrap körts.'
-          : '[AppCheck] Native Play Integrity-token misslyckades — release-APK kräver Play Integrity i App Check Console.',
-        err,
-      );
-    }
+    lastTokenOk = await warmNativeToken(gate.useDebugProvider);
     return;
   }
 
@@ -88,7 +109,7 @@ async function doInitAppCheck(): Promise<void> {
       debugTokenFromEnv();
   }
 
-  const appCheck = initializeAppCheck(app, {
+  appCheckInstance = initializeAppCheck(app, {
     provider: new ReCaptchaV3Provider(siteKey),
     isTokenAutoRefreshEnabled: true,
   });
@@ -96,26 +117,60 @@ async function doInitAppCheck(): Promise<void> {
 
   try {
     const { getToken } = await import('firebase/app-check');
-    getToken(appCheck, false).catch(err => {
-      console.warn(
-        '[AppCheck] Token-utbyte misslyckades (400 = site key ej registrerad i Console för denna web-app, eller fel domän).',
-        'Se docs/evaluations/2026-06-15-appcheck-400-fix.md',
-        err,
-      );
-    });
+    getToken(appCheckInstance, false)
+      .then(() => {
+        lastTokenOk = true;
+      })
+      .catch(err => {
+        lastTokenOk = false;
+        console.warn(
+          '[AppCheck] Token-utbyte misslyckades (400 = site key ej registrerad i Console för denna web-app, eller fel domän).',
+          'Se docs/evaluations/2026-06-15-appcheck-400-fix.md',
+          err,
+        );
+      });
   } catch (err) {
     console.warn('[AppCheck] Import failed', err);
   }
 }
 
-async function resolveNativeDebugProvider(): Promise<boolean> {
+/** Retry warm-up — SharedPreferences/bootstrap can race the first getToken. */
+async function warmNativeToken(useDebugProvider: boolean): Promise<boolean> {
+  if (!appCheckInstance) return false;
+  const { getToken } = await import('firebase/app-check');
+  const delays = [0, 250, 750];
+  for (const delay of delays) {
+    if (delay > 0) await new Promise(r => setTimeout(r, delay));
+    try {
+      await getToken(appCheckInstance, true);
+      return true;
+    } catch (err) {
+      if (delay === delays[delays.length - 1]) {
+        console.warn(
+          useDebugProvider
+            ? '[AppCheck] Native debug-token misslyckades — bygg om debug-APK (Android Studio Run) så BuildConfig-token bakas in, eller kör npm run android:appcheck-adb med USB.'
+            : '[AppCheck] Native Play Integrity-token misslyckades — release-APK kräver Play Integrity i App Check Console.',
+          err,
+        );
+      }
+    }
+  }
+  return false;
+}
+
+async function resolveNativeDebugGate(): Promise<{ useDebugProvider: boolean; debugToken?: string }> {
   try {
     const gate = await LkNativeBuild.getAppCheckDebugGate();
-    return gate.useDebugProvider === true;
+    if (gate.useDebugProvider !== true) {
+      return { useDebugProvider: false };
+    }
+    const token =
+      typeof gate.debugToken === 'string' && gate.debugToken.length > 0 ? gate.debugToken : undefined;
+    return { useDebugProvider: true, debugToken: token };
   } catch (err) {
     // Fail closed: utan gate → Play Integrity (aldrig debug p.g.a. saknad plugin).
     console.warn('[AppCheck] LkNativeBuild gate saknas — använder Play Integrity/App Attest.', err);
-    return false;
+    return { useDebugProvider: false };
   }
 }
 

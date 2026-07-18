@@ -4,6 +4,7 @@ import type {
   RegistrationResponseJSON,
 } from '@simplewebauthn/browser';
 import { functions } from '../firebase/init';
+import { awaitAppCheckReady } from '../firebase/appCheck';
 import { getVaultWebAuthnContext, isWebAuthnReliable, performVaultWebAuthnForSession } from './vaultWebAuthnClient';
 import { formatCallableError } from './callableErrorMessage';
 import { isCapacitorNative } from '../platform/capacitorPlatform';
@@ -75,6 +76,17 @@ export async function issueVaultServerSession(
   webAuthnResponse: RegistrationResponseJSON | AuthenticationResponseJSON,
 ): Promise<VaultSessionIssueOutcome> {
   try {
+    const appCheckOk = await awaitAppCheckReady({ forceRefresh: false });
+    if (!appCheckOk) {
+      return {
+        ok: false,
+        message: formatCallableError({
+          code: 'functions/failed-precondition',
+          message: 'App Check-verifiering krävs.',
+        }),
+      };
+    }
+
     const issue = httpsCallable<VaultSessionIssuePayload, VaultSessionIssueResult>(
       functions,
       'issueVaultSession',
@@ -121,6 +133,17 @@ export async function issueVaultSessionAfterNativeBiometric(): Promise<VaultSess
   }
 
   try {
+    const appCheckOk = await awaitAppCheckReady({ forceRefresh: true });
+    if (!appCheckOk) {
+      return {
+        ok: false,
+        message: formatCallableError({
+          code: 'functions/failed-precondition',
+          message: 'App Check-verifiering krävs.',
+        }),
+      };
+    }
+
     const begin = httpsCallable<Record<string, never>, BiometricChallengeResult>(
       functions,
       'beginVaultBiometricChallenge',
