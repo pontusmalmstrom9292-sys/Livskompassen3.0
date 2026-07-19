@@ -86,7 +86,9 @@ public class IntegrityManager {
      */
     public long getRecommendedLockTimeout() {
         int score = getSecurityScore();
-        if (isTampered()) return 1000L; // Omedelbart lås vid manipulering
+        // Floor 3s even when "tampered"/debug — BiometricPrompt + shade need grace
+        // (matches JS NATIVE_BACKGROUND_LOCK_MS). True lock still via SacredLock UI.
+        if (isTampered()) return 3_000L;
         if (score < 50) return 60 * 1000L; // 1 minut vid hög risk
         if (score < 80) return 3 * 60 * 1000L; // 3 minuter vid medium risk
         return 5 * 60 * 1000L; // 5 minuter (standard)

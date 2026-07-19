@@ -68,8 +68,8 @@ export function withVaultSessionPayload<T extends VaultCallablePayloadBase>(
 }
 
 /**
- * Väntar in App Check innan Valv-callables (APP_CHECK_ENFORCE).
- * Använd för alla Valv-payload-anrop utöver session-issue (som redan awaitar).
+ * Best-effort App Check + Valv-session-token på payload.
+ * Blockerar inte när VALV_REQUIRES_APP_CHECK=false (se appCheck.ts).
  */
 export async function withVaultSessionPayloadReady<T extends VaultCallablePayloadBase>(
   payload: T,
@@ -93,16 +93,8 @@ export async function issueVaultServerSession(
   webAuthnResponse: RegistrationResponseJSON | AuthenticationResponseJSON,
 ): Promise<VaultSessionIssueOutcome> {
   try {
-    const appCheckOk = await awaitAppCheckReady({ forceRefresh: false });
-    if (!appCheckOk) {
-      return {
-        ok: false,
-        message: formatCallableError({
-          code: 'functions/failed-precondition',
-          message: 'App Check-verifiering krävs.',
-        }),
-      };
-    }
+    // Soft gate: awaitAppCheckReady returns true when VALV_REQUIRES_APP_CHECK=false.
+    await awaitAppCheckReady({ forceRefresh: false });
 
     const issue = httpsCallable<VaultSessionIssuePayload, VaultSessionIssueResult>(
       functions,
@@ -150,16 +142,8 @@ export async function issueVaultSessionAfterNativeBiometric(): Promise<VaultSess
   }
 
   try {
-    const appCheckOk = await awaitAppCheckReady({ forceRefresh: true });
-    if (!appCheckOk) {
-      return {
-        ok: false,
-        message: formatCallableError({
-          code: 'functions/failed-precondition',
-          message: 'App Check-verifiering krävs.',
-        }),
-      };
-    }
+    // Soft gate: awaitAppCheckReady returns true when VALV_REQUIRES_APP_CHECK=false.
+    await awaitAppCheckReady({ forceRefresh: true });
 
     const begin = httpsCallable<Record<string, never>, BiometricChallengeResult>(
       functions,

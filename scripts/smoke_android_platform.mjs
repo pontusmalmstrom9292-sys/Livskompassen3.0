@@ -34,6 +34,10 @@ const appCheck = read('src/modules/core/firebase/appCheck.ts');
 assert('appCheck native CustomProvider', appCheck.includes('Capacitor.isNativePlatform'));
 assert('appCheck awaitAppCheckReady export', appCheck.includes('export async function awaitAppCheckReady'));
 assert('appCheck requireAppCheckReady export', appCheck.includes('export async function requireAppCheckReady'));
+assert(
+  'appCheck Valvet soft-gate (single-user)',
+  /export const VALV_REQUIRES_APP_CHECK\s*=\s*false/.test(appCheck),
+);
 assert('appCheck native warm retries', appCheck.includes('warmNativeToken'));
 assert(
   'appCheck does not pass VITE env string as native debugToken',

@@ -23,8 +23,8 @@ const branchArg = args.find((a) => a.startsWith("--branch="))?.split("=")[1]?.tr
 
 function runLocalNattCi() {
   return new Promise((resolve) => {
-    console.log("SDK Natt-CI — lokal fallback (npm run natt:ci)…");
-    const child = spawn("npm", ["run", "natt:ci"], {
+    console.log("SDK Natt-CI — lokal fallback (npm run natt:secure)…");
+    const child = spawn("npm", ["run", "natt:secure"], {
       cwd: root,
       stdio: "inherit",
       shell: false,

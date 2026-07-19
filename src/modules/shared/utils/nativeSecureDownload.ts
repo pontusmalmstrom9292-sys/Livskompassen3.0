@@ -7,6 +7,8 @@ export type LivskompassenNativeBridge = {
   downloadSecureUrl?: (url: string, fileName: string, mimeType: string) => void;
   shareBase64File?: (base64Payload: string, fileName: string, mimeType: string) => void;
   shareVaultFile?: (content: string, fileName: string, mimeType: string) => void;
+  /** Resets Android SessionSentry idle timer while user is active in Valvet. */
+  userInteracted?: () => void;
 };
 
 declare global {
