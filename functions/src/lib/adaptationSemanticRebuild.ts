@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 import { prefsLedgerFingerprint } from '../../../shared/adaptation/adaptationLedgerSync';
 import {
   buildSemanticProfileFromPrefs,

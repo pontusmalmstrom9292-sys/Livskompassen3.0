@@ -1,5 +1,5 @@
 import { onObjectFinalized } from 'firebase-functions/v2/storage';
-import * as admin from 'firebase-admin';
+import { admin } from '../lib/firebaseAdmin';
 import { randomUUID } from 'crypto';
 import { GCP_STORAGE_BUCKET, GCP_STORAGE_TRIGGER_REGION } from '../config';
 import {

@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 
 const STOPWORDS = new Set(['och', 'att', 'som', 'det', 'en', 'i', 'på', 'är', 'för', 'med', 'av', 'till']);
 

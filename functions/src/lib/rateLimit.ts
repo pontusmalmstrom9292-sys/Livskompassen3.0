@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 import { HttpsError } from 'firebase-functions/v2/https';
 
 const COLLECTION = '_rate_limits';

@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 import { ADAPTATION_SEMANTIC_FLAG } from '../../../shared/adaptation/adaptationSemanticTypes';
 import { isAdaptationLayerEnabled } from './adaptationLayerGate';
 

@@ -1,6 +1,6 @@
 import { onCall, onRequest, HttpsError } from 'firebase-functions/v2/https';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
-import * as admin from 'firebase-admin';
+import { admin } from '../lib/firebaseAdmin';
 import {
   askMabraCoach,
   askVitChatCoach,

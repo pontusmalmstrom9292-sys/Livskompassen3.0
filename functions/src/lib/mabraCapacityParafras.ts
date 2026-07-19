@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 import type { CoachTone } from '../../../shared/adaptation/adaptationTypes';
 import { capacityScoreToScale10 } from '../../../shared/evolution/capacityScore';
 import {

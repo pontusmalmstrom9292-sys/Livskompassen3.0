@@ -1,5 +1,5 @@
 import { onCall, HttpsError } from "firebase-functions/v2/https";
-import * as admin from "firebase-admin";
+import { admin } from '../lib/firebaseAdmin';
 import { guardSensitiveCallableV2 } from "../lib/callableGuards";
 import { assertVaultSession, VAULT_SESSION_IDLE_MS } from "../lib/vaultSessionGate";
 

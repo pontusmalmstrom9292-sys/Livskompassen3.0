@@ -6,7 +6,7 @@
  * Integrates with Cloud Monitoring structured logs.
  */
 
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 import { monitor } from './monitoring';
 
 export interface TokenUsage {

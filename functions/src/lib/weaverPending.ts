@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 import type { WeaverResult } from '../agents/weaverAgent';
 import { assertServerWormPayload, REALITY_VAULT_ALLOWED_KEYS } from './wormPayload';
 

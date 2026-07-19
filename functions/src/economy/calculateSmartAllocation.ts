@@ -1,5 +1,5 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
-import * as admin from 'firebase-admin';
+import { admin } from '../lib/firebaseAdmin';
 import { GCP_REGION } from '../config';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
 import { capacityScoreToScale10 } from '../../../shared/evolution/capacityScore';

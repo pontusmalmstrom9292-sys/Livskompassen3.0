@@ -11,7 +11,7 @@
  * WORM: dcap_alerts are immutable; escalation state in dcap_escalation_state (append-only).
  */
 
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 import { monitor } from './monitoring';
 
 export interface DcapTrendEntry {

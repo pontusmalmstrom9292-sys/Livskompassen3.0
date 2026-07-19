@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+import { admin } from '../lib/firebaseAdmin';
 import { KompisSupervisor } from '../agents/kompis-supervisor';
 
 admin.initializeApp();

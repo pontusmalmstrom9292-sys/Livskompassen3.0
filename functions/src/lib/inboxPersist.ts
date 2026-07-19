@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 import { requiresHumanReview, type InboxClassification } from './inboxClassifier';
 import { formatChildObservation, inferEpistemicKind } from './childObservationEpistemics';
 import { persistKbDocFromDrive, type PersistKbDocInput } from './persistKbDoc';

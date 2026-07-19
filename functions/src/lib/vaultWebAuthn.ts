@@ -12,7 +12,7 @@ import type {
   WebAuthnCredential,
 } from '@simplewebauthn/server';
 import { HttpsError } from 'firebase-functions/v2/https';
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 
 const CHALLENGE_TTL_MS = 5 * 60 * 1000;
 const RP_NAME = 'Livskompassen';

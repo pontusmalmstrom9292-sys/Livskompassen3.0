@@ -1,5 +1,5 @@
 import { randomBytes } from 'crypto';
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 
 const PAIRINGS = 'barnporten_pairings';
 const DEVICES = 'barnporten_devices';

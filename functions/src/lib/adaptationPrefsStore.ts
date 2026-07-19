@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 import {
   DEFAULT_ADAPTATION_PREFS,
   type AdaptationPrefsDoc,

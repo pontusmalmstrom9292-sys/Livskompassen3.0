@@ -4,7 +4,7 @@
  *
  * Kanon: infra/gcp/cost-guard/manifest.json → aiCostCaps (100 SEK/mån budget).
  */
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 import { monitor } from './monitoring';
 
 /** ~2.8 SEK/dag AI — lämnar marginal för Firestore/Scheduler/Storage inom 100 SEK/mån. */
