@@ -68,11 +68,25 @@ const shouldRunE2e = !failFast || predeployOk || !results.some((r) => r.phase ==
 
 if (shouldRunE2e) {
   console.log("\n── Fas E2E ──");
+  // Frigör Vite-port efter smoke:e2e-locked-ux (CI) så Playwright kan starta om servern.
+  try {
+    execSync("lsof -tiTCP:5174 -sTCP:LISTEN | xargs kill -9", {
+      cwd: root,
+      stdio: "ignore",
+      shell: true,
+    });
+  } catch {
+    /* ingen listener — OK */
+  }
+  const prevCi = process.env.CI;
+  process.env.CI = "1";
   for (const [label, script] of E2E_STEPS) {
     const r = await runNpm(label, script);
     results.push({ ...r, phase: "E2E", skipped: false });
     if (failFast && !r.ok) break;
   }
+  if (prevCi === undefined) delete process.env.CI;
+  else process.env.CI = prevCi;
 } else {
   for (const [label] of E2E_STEPS) {
     results.push({ label, ok: null, phase: "E2E", skipped: true });

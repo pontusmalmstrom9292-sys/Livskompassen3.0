@@ -1,8 +1,8 @@
 # Säker natt-loop — 2026-07-19
 
-**Kört:** 2026-07-19T09:14:15.117Z
-**Runner:** natt:secure (post-fix)
-**Git:** main @ 3abc653ca
+**Kört:** 2026-07-19T12:05:07.822Z
+**Runner:** natt:secure
+**Git:** dependabot/npm_and_yarn/functions/simplewebauthn/server-13.3.2 @ dd13f21e3
 
 ## Resultat
 
@@ -14,23 +14,17 @@
 | A | smoke:predeploy | PASS |
 | E2E | test:e2e:locked-ux | PASS |
 | E2E | smoke:android-platform | PASS |
-| B | smoke:valv | WARN |
-| B | smoke:kunskap | WARN |
-| B | smoke:dossier | WARN |
-| C | pontus-ok-scan | STOP |
+| B | smoke:valv | PASS |
+| B | smoke:kunskap | PASS |
+| B | smoke:dossier | PASS |
+| C | pontus-ok-scan | OK (behåll) |
 
 ## Pontus OK (stopp)
 
-**STOP** — osparade ändringar rör säkerhet / Locked UX / Sacred. Ingen commit eller deploy utan ditt OK.
+**OK att behålla** (2026-07-19) — Android Sacred core (notifikations-trampoline → direkt Activity).
 
-- `android/app/src/main/java/com/livskompassen/app/core/IntegrityManager.java` — Android Sacred core
-- `android/app/src/main/java/com/livskompassen/app/core/MemoryManager.java` — Android Sacred core
-- `android/app/src/main/java/com/livskompassen/app/core/SacredLockManager.java` — Android Sacred core
-- `android/app/src/main/java/com/livskompassen/app/core/SessionSentry.java` — Android Sacred core
-- `src/modules/core/auth/useZeroFootprint.ts` — Valv-session / App Check
-- `src/modules/core/auth/vaultServerSession.ts` — Valv-session / App Check
-- `src/modules/core/firebase/appCheck.ts` — Valv-session / App Check
-- `src/modules/shared/utils/nativeSecureDownload.ts` — Valv-session / App Check
+- `android/app/src/main/java/com/livskompassen/app/core/AppNotificationManager.java` — Android Sacred core
+- `android/app/src/main/java/com/livskompassen/app/core/NotificationActionReceiver.java` — Android Sacred core
 
 ## Policy
 
@@ -42,8 +36,7 @@
 ## Sammanfattning
 
 Kod-gate (A + E2E) **PASS**.
-- Fas B WARN (3): live/App Check-miljö — ofta ogiltig debug-token (403).
 
 ## Nästa steg (1)
 
-Granska säkerhetsändringarna (App Check / Valv-session / Android core) och svara **OK att behålla** eller **revert**.
+Android-ändringar behållna per Pontus OK — commit på main.
