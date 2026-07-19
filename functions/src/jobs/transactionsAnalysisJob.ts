@@ -1,5 +1,5 @@
 import { onSchedule } from 'firebase-functions/v2/scheduler';
-import * as admin from 'firebase-admin';
+import { admin } from '../lib/firebaseAdmin';
 import { GCP_REGION } from '../config';
 import { ingestKampsparForUser } from '../lib/ingestKampsparInternal';
 import { createGenAI } from '../lib/genaiClient';

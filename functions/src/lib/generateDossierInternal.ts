@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 import { randomUUID } from 'crypto';
 import { isParentVisibleChildLog } from './childObservationEpistemics';
 import {

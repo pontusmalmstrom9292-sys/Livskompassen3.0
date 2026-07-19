@@ -1,5 +1,5 @@
 import { onDocumentWritten } from 'firebase-functions/v2/firestore';
-import * as admin from 'firebase-admin';
+import { admin } from '../lib/firebaseAdmin';
 import { GCP_REGION } from '../config';
 import { syncEvolutionHubToLedgerServer } from '../lib/evolutionHubLedgerServer';
 import { ensureDefaultMemoryFlags } from '../lib/ensureDefaultMemoryFlags';

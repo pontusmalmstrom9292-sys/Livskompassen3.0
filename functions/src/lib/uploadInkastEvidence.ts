@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto';
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 
 /** Admin SDK → vault_evidence (WORM path, uid-scoped). */
 export async function uploadInkastEvidence(input: {

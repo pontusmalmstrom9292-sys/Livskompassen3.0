@@ -12,7 +12,7 @@
  */
 
 import crypto from 'crypto';
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 import { monitor } from './monitoring';
 
 export interface HashChainEntry {

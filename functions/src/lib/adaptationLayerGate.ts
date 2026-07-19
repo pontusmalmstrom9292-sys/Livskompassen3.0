@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 import { ADAPTATION_LAYER_FLAG } from '../../../shared/adaptation/adaptationTypes';
 
 const EVOLUTION_HUB = 'evolution_hub';

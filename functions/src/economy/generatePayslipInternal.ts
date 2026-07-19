@@ -1,7 +1,7 @@
 /**
  * Lönespec — Firestore WORM payslip_snapshots (Admin SDK).
  */
-import * as admin from 'firebase-admin';
+import { admin } from '../lib/firebaseAdmin';
 import {
   buildMonthlyPayslip,
   getPayslipPeriodForPayday,

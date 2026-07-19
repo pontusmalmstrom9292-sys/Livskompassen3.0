@@ -1,5 +1,5 @@
 import { onCall, HttpsError } from 'firebase-functions/v2/https';
-import * as admin from 'firebase-admin';
+import { admin } from '../lib/firebaseAdmin';
 import { askKnowledgeVaultWithRag } from '../agents/knowledgeVaultAgent';
 import { askChildrenLogsQuery } from '../agents/childrenLogsAgent';
 import { geminiApiKey } from '../lib/geminiSecret';

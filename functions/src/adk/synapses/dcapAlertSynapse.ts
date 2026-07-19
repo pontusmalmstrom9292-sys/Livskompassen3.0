@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+import { admin } from '../../lib/firebaseAdmin';
 import { hashPayload } from '../stateStore';
 import { analyzeDcapTrend, type EscalationResult } from '../../lib/dcapEscalation';
 import { monitor } from '../../lib/monitoring';

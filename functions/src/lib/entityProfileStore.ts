@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 import {
   KEY_ENTITY_SEEDS,
   SYSTEM_SYNAPSE_SEEDS,

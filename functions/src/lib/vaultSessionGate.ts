@@ -1,6 +1,6 @@
 import { randomBytes } from 'crypto';
 import { HttpsError } from 'firebase-functions/v2/https';
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 
 /**
  * Server Valv-session TTL (1 h idle, sliding refresh on each assert).

@@ -1,5 +1,5 @@
 /** @locked MOD-CORE-MINNE — låst modul; unlock via docs/evaluations/*-unlock-MOD-CORE-MINNE.md */
-import * as admin from 'firebase-admin';
+import { admin } from '../../lib/firebaseAdmin';
 import { scoreKasamFromSnippets, type KasamScores } from '../../lib/kasamScoring';
 
 export interface KasamAggregationPayload {

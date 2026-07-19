@@ -1,4 +1,4 @@
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 import type { AdaptationSemanticProfileDoc } from '../../../shared/adaptation/adaptationSemanticTypes';
 import { ADAPTATION_SEMANTIC_REBUILD_VERSION } from '../../../shared/adaptation/adaptationSemanticTypes';
 

@@ -1,6 +1,6 @@
 import { createHash, randomBytes, timingSafeEqual } from 'crypto';
 import { HttpsError } from 'firebase-functions/v2/https';
-import * as admin from 'firebase-admin';
+import { admin } from './firebaseAdmin';
 
 /** Kortlivad server-utmaning — klient måste konsumera inom fönstret efter OS-biometri. */
 export const VAULT_BIOMETRIC_CHALLENGE_TTL_MS = 90 * 1000;
