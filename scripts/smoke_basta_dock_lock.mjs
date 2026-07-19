@@ -118,6 +118,18 @@ function main() {
     'Tidigare anteckningar',
     'Mer för dig',
     'HemV3DevelopmentRail',
+    'home_development_rail',
+    'CalmCollapsible',
+  );
+  mustInclude(
+    'src/modules/core/home/HemV3DevelopmentRail.tsx',
+    'DevelopmentBentoWidget',
+    '@locked MOD-CORE-UTV',
+  );
+  mustInclude(
+    'src/modules/core/home/DevelopmentBentoWidget.tsx',
+    '@locked MOD-CORE-UTV',
+    'buildDevMix',
   );
 
   mustInclude(

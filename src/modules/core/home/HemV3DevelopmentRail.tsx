@@ -1,4 +1,5 @@
 /**
+ * @locked MOD-CORE-UTV — låst modul; unlock via docs/evaluations/*-unlock-MOD-CORE-UTV.md
  * Prod Hem-rail — re-export of DevelopmentBentoWidget.
  * Logic: DevelopmentBentoWidget + hemV3DevelopmentCards + homeCapacityGate.
  * Smoke anchors retained for design-modules wiring check.

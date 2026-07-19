@@ -1,4 +1,5 @@
 /**
+ * @locked MOD-CORE-UTV — låst modul; unlock via docs/evaluations/*-unlock-MOD-CORE-UTV.md
  * Delat flöde: Hämta / uppdatera faktapack (widget + Inställningar).
  * 1 steg i taget — lista → bekräfta → unlock. 0 AI-kostnad.
  */

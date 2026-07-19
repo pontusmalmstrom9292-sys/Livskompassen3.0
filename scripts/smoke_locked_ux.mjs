@@ -973,9 +973,84 @@ function main() {
     'JournalMediaLightbox',
   );
 
-  console.log(
-    '[smoke:locked-ux] PASS — Barnfokus, Valv-baksida (Mönster/Orkester/Kunskapsbank), drawer Vardag+Valv, Planering, Widget, Barnporten, media-attach.',
+  // §22 Utvecklingskort + faktapack — får aldrig tas bort av misstag
+  mustInclude(
+    '.context/locked-ux-features.md',
+    '## 22. Utvecklingskort + faktapack',
+    'MOD-CORE-UTV',
+    'Uppdatera / hämta faktapack',
+    'Ingen cross-RAG',
   );
+  mustInclude(
+    '.context/module-lock-register.json',
+    '"id": "MOD-CORE-UTV"',
+    'DevelopmentBentoWidget.tsx',
+    'src/modules/core/home/dev/**',
+  );
+  mustInclude(
+    'src/modules/core/home/DevelopmentBentoWidget.tsx',
+    '@locked MOD-CORE-UTV',
+    'buildDevMix',
+    'saveVitEntry',
+    'FetchContentPacksFlow',
+  );
+  mustInclude(
+    'src/modules/core/home/HemV3DevelopmentRail.tsx',
+    '@locked MOD-CORE-UTV',
+    'DevelopmentBentoWidget',
+  );
+  mustInclude(
+    'src/modules/core/home/basta-design/BastaDesignHome.tsx',
+    'Mer för dig',
+    'HemV3DevelopmentRail',
+    'home_development_rail',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/views/MabraHubView.tsx',
+    'Utvecklingskort',
+    'DevelopmentBentoWidget',
+  );
+  mustInclude(
+    'src/modules/core/pages/InstallningarPage.tsx',
+    'Uppdatera / hämta faktapack',
+    'FetchContentPacksFlow',
+  );
+  mustInclude(
+    'src/modules/core/home/dev/pickDevCard.ts',
+    'excludeIds',
+    'filterAvailableBankIds',
+  );
+  mustInclude(
+    'src/modules/core/home/dev/contentPackCatalog.ts',
+    'CONTENT_PACK_CATALOG',
+  );
+  mustInclude(
+    'src/modules/core/home/dev/FetchContentPacksFlow.tsx',
+    'FetchContentPacksFlow',
+    'Hämta faktapack',
+  );
+  mustNotIncludeCrossRagInDevMotor();
+
+  console.log(
+    '[smoke:locked-ux] PASS — Barnfokus, Valv-baksida (Mönster/Orkester/Kunskapsbank), drawer Vardag+Valv, Planering, Widget, Barnporten, media-attach, utvecklingskort §22.',
+  );
+}
+
+function mustNotIncludeCrossRagInDevMotor() {
+  const forbidden = ['knowledgeVaultQuery', 'valvChatQuery', 'childrenLogsQuery'];
+  const files = [
+    'src/modules/core/home/DevelopmentBentoWidget.tsx',
+    'src/modules/core/home/dev/buildDevMix.ts',
+    'src/modules/core/home/dev/pickDevCard.ts',
+    'src/modules/core/home/dev/rankDevCategories.ts',
+    'src/modules/core/home/dev/homeSignalSnapshot.ts',
+  ];
+  for (const rel of files) {
+    const text = read(rel);
+    for (const needle of forbidden) {
+      assert(!text.includes(needle), `${rel} får inte anropa ${needle} (Locked UX §22)`);
+    }
+  }
 }
 
 function runAuthLoginSmoke() {

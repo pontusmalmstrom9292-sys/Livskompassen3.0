@@ -1,5 +1,7 @@
 ## 2026-07-19 — Spontan Utvecklingskort-mix (Fas 0–5)
 
+- **2026-07-19** — Locked UX §22 + `MOD-CORE-UTV`: Utvecklingskort/faktapack permanent låst (Hem, MåBra, Inställningar, `home/dev/**`).
+
 - **Ombygg** `DevelopmentBentoWidget`: spontan Bento-mix 6→12–16, Hämta pack, egna kategorier
 - Nya: `buildDevMix`, `contentPackCatalog`, `FetchContentPacksFlow`, `CustomCategoryFlow`
 - Inställningar Allmänt: «Uppdatera / hämta faktapack»
