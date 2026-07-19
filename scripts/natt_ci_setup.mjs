@@ -76,8 +76,8 @@ async function main() {
       b: 'npm run natt-ci:fas-b  # ikoner (vid generator-ändring)',
       c: 'npm run natt-ci:fas-c  # git/arbetsyta',
       all: 'npm run natt-ci       # A+B+C+D',
-      mergeGate: 'npm run natt:ci   # smoke:predeploy + valfria live-smokes',
-      sdk: 'npm run sdk:natt-ci   # cloud agent (fallback → natt:ci)',
+      mergeGate: 'npm run natt:secure  # predeploy + e2e + Pontus OK-scan',
+      sdk: 'npm run sdk:natt-ci   # cloud agent (fallback → natt:secure)',
     },
   };
 
