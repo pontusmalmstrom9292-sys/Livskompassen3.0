@@ -36,7 +36,9 @@ Register: [`.context/locked-ux-features.md`](../.context/locked-ux-features.md) 
 
 ## Hem (v2-ref)
 
-`HomePage` → `BastaDesignHome` när `ME-basta-design`. Sektioner: hero · fokus/coach · ankar · planering · anteckningar.
+`HomePage` → `BastaDesignHome` när `ME-basta-design`. Sektioner: hero · fokus/coach · ankar · planering · anteckningar · **Mer för dig** (Utvecklingskort §22 — `MOD-CORE-UTV`).
+
+**MUST NOT** ta bort «Mer för dig» / `HemV3DevelopmentRail` / `DevelopmentBentoWidget` utan unlock-doc + Pontus OK.
 
 ## Efter godkänd ändring
 

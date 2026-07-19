@@ -1,4 +1,5 @@
 /**
+ * @locked MOD-CORE-UTV — låst modul; unlock via docs/evaluations/*-unlock-MOD-CORE-UTV.md
  * Static unit helpers for Utvecklingskort — smoke / tests.
  */
 export { filterAvailableBankIds, pickDevCard } from './pickDevCard';

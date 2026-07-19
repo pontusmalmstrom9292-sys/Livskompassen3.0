@@ -45,6 +45,33 @@
       "lockedCommit": "956416803"
     },
     {
+      "id": "MOD-CORE-UTV",
+      "namn": "Utvecklingskort + faktapack",
+      "zon": "Core",
+      "status": "locked",
+      "globs": [
+        "src/modules/core/home/DevelopmentBentoWidget.tsx",
+        "src/modules/core/home/HemV3DevelopmentRail.tsx",
+        "src/modules/core/home/hemV3DevelopmentCards.ts",
+        "src/modules/core/home/dev/**",
+        "src/modules/features/dailyLife/wellbeing/compasses/lib/pickDiscoveryCard.ts"
+      ],
+      "entryFiles": [
+        "src/modules/core/home/DevelopmentBentoWidget.tsx",
+        "src/modules/core/home/HemV3DevelopmentRail.tsx",
+        "src/modules/core/home/dev/index.ts"
+      ],
+      "smoke": [
+        "smoke:locked-ux",
+        "smoke:design-modules",
+        "smoke:basta-dock-lock"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-19",
+      "lockedCommit": "6adcb33e4",
+      "notes": "Locked UX §22 — får inte tas bort utan unlock-doc + Pontus OK"
+    },
+    {
       "id": "MOD-HJ-DAGBOK",
       "namn": "Dagbok hub + weave",
       "zon": "Hjärtat",

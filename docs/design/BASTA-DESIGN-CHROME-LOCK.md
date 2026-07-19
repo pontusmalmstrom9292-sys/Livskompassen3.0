@@ -72,3 +72,11 @@ Cursor: `.cursor/rules/basta-design-dock-lock.mdc` · register: `.context/locked
 ### Additiv Hem-sektion (2026-07-19)
 
 Tillåten: «Mer för dig» / Utvecklingskort efter anteckningar. Får inte flytta/ta bort låsta v2-block.
+
+## Låst Hem-tillägg — Utvecklingskort (§22)
+
+- **Sektion:** «Mer för dig» sist på `BastaDesignHome` (efter Tidigare anteckningar), default stängd.
+- **Widget:** `HemV3DevelopmentRail` → `DevelopmentBentoWidget` + `src/modules/core/home/dev/**`.
+- **Får inte tas bort** utan unlock `MOD-CORE-UTV` / `MOD-CORE-CHROME` + Pontus OK.
+- Smoke: `npm run smoke:basta-dock-lock` · `smoke:locked-ux`.
+
