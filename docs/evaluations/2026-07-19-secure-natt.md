@@ -1,8 +1,8 @@
 # Säker natt-loop — 2026-07-19
 
-**Kört:** 2026-07-19T12:05:07.822Z
+**Kört:** 2026-07-19T16:08:14.123Z
 **Runner:** natt:secure
-**Git:** dependabot/npm_and_yarn/functions/simplewebauthn/server-13.3.2 @ dd13f21e3
+**Git:** main @ 165bb66f5
 
 ## Resultat
 
@@ -17,14 +17,11 @@
 | B | smoke:valv | PASS |
 | B | smoke:kunskap | PASS |
 | B | smoke:dossier | PASS |
-| C | pontus-ok-scan | OK (behåll) |
+| C | pontus-ok-scan | PASS |
 
 ## Pontus OK (stopp)
 
-**OK att behålla** (2026-07-19) — Android Sacred core (notifikations-trampoline → direkt Activity).
-
-- `android/app/src/main/java/com/livskompassen/app/core/AppNotificationManager.java` — Android Sacred core
-- `android/app/src/main/java/com/livskompassen/app/core/NotificationActionReceiver.java` — Android Sacred core
+Inga dirty filer i säkerhets-/Locked UX-zon (eller ren tree).
 
 ## Policy
 
@@ -39,4 +36,4 @@ Kod-gate (A + E2E) **PASS**.
 
 ## Nästa steg (1)
 
-Android-ändringar behållna per Pontus OK — commit på main.
+Inget akut — fortsätt G85 daily driver enligt `docs/G85-DAILY-DRIVER-CHECKLIST.md`.
