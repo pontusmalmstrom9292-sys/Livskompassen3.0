@@ -1,8 +1,8 @@
 # Säker natt-loop — 2026-07-19
 
-**Kört:** 2026-07-19T16:08:14.123Z
+**Kört:** 2026-07-19T18:39:38.743Z
 **Runner:** natt:secure
-**Git:** main @ 165bb66f5
+**Git:** main @ 956416803
 
 ## Resultat
 
@@ -17,11 +17,16 @@
 | B | smoke:valv | PASS |
 | B | smoke:kunskap | PASS |
 | B | smoke:dossier | PASS |
-| C | pontus-ok-scan | PASS |
+| C | pontus-ok-scan | STOP |
 
 ## Pontus OK (stopp)
 
-Inga dirty filer i säkerhets-/Locked UX-zon (eller ren tree).
+**STOP** — osparade ändringar rör säkerhet / Locked UX / Sacred. Ingen commit eller deploy utan ditt OK.
+
+- `context/locked-ux-features.md` — Locked UX
+- `android/app/src/main/java/com/livskompassen/app/core/ConnectivityIntelligence.java` — Android Sacred core
+- `android/app/src/main/java/com/livskompassen/app/core/EmergencyManager.java` — Android Sacred core
+- `android/app/src/main/java/com/livskompassen/app/core/IdentityManager.java` — Android Sacred core
 
 ## Policy
 
@@ -36,4 +41,4 @@ Kod-gate (A + E2E) **PASS**.
 
 ## Nästa steg (1)
 
-Inget akut — fortsätt G85 daily driver enligt `docs/G85-DAILY-DRIVER-CHECKLIST.md`.
+Granska säkerhetsändringarna (App Check / Valv-session / Android core) och svara **OK att behålla** eller **revert**.

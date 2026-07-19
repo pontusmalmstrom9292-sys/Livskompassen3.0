@@ -75,7 +75,10 @@ export function HomePage() {
   if (bastaDesignSkin && activeZone === 'hem') {
     return (
       <div className="home-page home-page--basta-design">
-        <BastaDesignHome onCheckInSaved={() => setAdaptiveRefreshKey((k) => k + 1)} />
+        <BastaDesignHome
+          onCheckInSaved={() => setAdaptiveRefreshKey((k) => k + 1)}
+          developmentRefreshKey={adaptiveRefreshKey}
+        />
       </div>
     );
   }

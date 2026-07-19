@@ -1,4 +1,5 @@
-import { Bell, Settings, Shield, User } from 'lucide-react';
+import { useState } from 'react';
+import { Bell, Package, Settings, Shield, User } from 'lucide-react';
 import { useTheme } from '../theme';
 import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
 import { ExecutiveSettingsList, type ExecutiveSettingsGroup } from '../ui/executive';
@@ -12,7 +13,6 @@ import {
   isStampOnHomeScreenEnabled,
   setStampOnHomeScreenEnabled,
 } from '@/features/admin/stampla';
-import { useState } from 'react';
 import { LifeHubPresetPicker, useLifeHubPreset } from '../lifeOs';
 import { useHubTab } from '../navigation/hooks/useHubTab';
 import { ClearDevicePanel } from '../security/ClearDevicePanel';
@@ -21,6 +21,9 @@ import { ADAPTATION_LAYER_FLAG, useAdaptationStore } from '../store/useAdaptatio
 import { useEvolutionStore } from '../store/useEvolutionStore';
 import { DimModeToggle } from '../ui/DimModeToggle';
 import { GhostModeToggle } from '../ui/GhostModeToggle';
+import { FetchContentPacksFlow } from '../home/dev/FetchContentPacksFlow';
+import { CustomCategoryFlow } from '../home/dev/CustomCategoryFlow';
+import { Button } from '@/design-system';
 
 export type InstallningarTab = 'allmant' | 'naring' | 'drogfrihet';
 
@@ -53,6 +56,8 @@ export function InstallningarPage() {
   const { presetId, setPresetId } = useLifeHubPreset();
   const [autoTheme, setAutoTheme] = useState(() => getAutoModuleThemesEnabled());
   const [stampOnHome, setStampOnHome] = useState(() => isStampOnHomeScreenEnabled());
+  const [packOpen, setPackOpen] = useState(false);
+  const [customOpen, setCustomOpen] = useState(false);
   const adaptationEnabled =
     useEvolutionStore((s) => s.hasFeature(ADAPTATION_LAYER_FLAG)) ||
     useAdaptationStore((s) => s.layerEnabled);
@@ -116,6 +121,27 @@ export function InstallningarPage() {
 
           <LifeHubPresetPicker activeId={presetId} onSelect={setPresetId} />
 
+          <div className="space-y-2 border-t border-border pt-4">
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-text-dim">
+              Utvecklingskort
+            </p>
+            <Button
+              type="button"
+              variant="ghost"
+              className="flex min-h-[44px] w-full items-center justify-start gap-2 text-left text-sm"
+              disabled={!user?.uid}
+              onClick={() => setPackOpen(true)}
+            >
+              <Package className="h-4 w-4 shrink-0 text-accent" aria-hidden />
+              <span>
+                <span className="block font-medium text-text">Uppdatera / hämta faktapack</span>
+                <span className="block text-xs text-text-muted">
+                  Gratis · i appen — samma flöde som Mer för dig
+                </span>
+              </span>
+            </Button>
+          </div>
+
           <DimModeToggle />
           <GhostModeToggle />
 
@@ -125,6 +151,25 @@ export function InstallningarPage() {
 
           <ClearDevicePanel />
           </div>
+
+          {user?.uid ? (
+            <>
+              <FetchContentPacksFlow
+                open={packOpen}
+                onClose={() => setPackOpen(false)}
+                userId={user.uid}
+                onRequestCustomCategory={() => {
+                  setPackOpen(false);
+                  setCustomOpen(true);
+                }}
+              />
+              <CustomCategoryFlow
+                open={customOpen}
+                onClose={() => setCustomOpen(false)}
+                userId={user.uid}
+              />
+            </>
+          ) : null}
         </div>
       )}
 

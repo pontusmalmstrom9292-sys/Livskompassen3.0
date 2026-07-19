@@ -17,6 +17,7 @@ import { CURRICULUMS } from '../content/curriculumCatalog';
 import { MabraVitProjectsPanel } from '../components/MabraVitProjectsPanel';
 import { MabraHubCollapsible } from '../components/MabraHubCollapsible';
 import { MabraNutritionHubPrimary } from '../components/MabraNutritionHubPrimary';
+import { DevelopmentBentoWidget } from '@/core/home/DevelopmentBentoWidget';
 import { readAllVitProjectLastSeen, writeVitProjectLastSeen } from '../lib/vitProjectLastSeen';
 import { MabraModulValjare, type MabraModulChoice } from '../components/MabraModulValjare';
 import { hasSeenMabraModulValjare } from '../lib/mabraModulValjareStorage';
@@ -339,10 +340,13 @@ export const MabraHubView = memo(function MabraHubView({ inlineHub = false }: Ma
           {!lowEnergyMode && <MabraNutritionHubPrimary uid={userId} />}
 
           {!lowEnergyMode && (
-            <MabraHubCollapsible title="Mer på hubben" meta="Mix · Mål · Kurser · Historik" defaultOpen={false}>
+            <MabraHubCollapsible title="Mer på hubben" meta="Mix · Utveckling · Mål · Kurser · Historik" defaultOpen={false}>
               <div className="space-y-4">
                 <MabraHubCollapsible title="Daglig mix" meta="Ett kort + lek" defaultOpen={false}>
                   <DagligMixPanel uid={userId} onComplete={(p) => void handleDagligMixComplete(p)} />
+                </MabraHubCollapsible>
+                <MabraHubCollapsible title="Utvecklingskort" meta="Mikrosteg" defaultOpen={false}>
+                  <DevelopmentBentoWidget embedded />
                 </MabraHubCollapsible>
                 <MabraHubCollapsible title="Mål och fokus" defaultOpen={false}>
                   <HubErrorBoundary

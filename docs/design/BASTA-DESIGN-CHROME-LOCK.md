@@ -68,3 +68,7 @@ npm run smoke:locked-ux
 ```
 
 Cursor: `.cursor/rules/basta-design-dock-lock.mdc` · register: `.context/locked-ux-features.md` §21
+
+### Additiv Hem-sektion (2026-07-19)
+
+Tillåten: «Mer för dig» / Utvecklingskort efter anteckningar. Får inte flytta/ta bort låsta v2-block.

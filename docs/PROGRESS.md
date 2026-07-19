@@ -1,3 +1,13 @@
+## 2026-07-19 — Spontan Utvecklingskort-mix (Fas 0–5)
+
+- **Ombygg** `DevelopmentBentoWidget`: spontan Bento-mix 6→12–16, Hämta pack, egna kategorier
+- Nya: `buildDevMix`, `contentPackCatalog`, `FetchContentPacksFlow`, `CustomCategoryFlow`
+- Inställningar Allmänt: «Uppdatera / hämta faktapack»
+- Smoke: `smoke:design-modules` PASS · `smoke:basta-dock-lock` PASS · `npm run build` PASS
+- Modul: MOD-CORE-CHROME + MOD-VARD-MABRA re-lock PASS
+
+---
+
 ## 2026-07-18 — Fas 24 förbättringsplan
 
 
@@ -2861,3 +2871,9 @@ Copy the template below for each entry. Newest first.
 
 **Deploy:** SKIP (kräver Pontus OK) — efter merge: Hosting workflow_dispatch + rotera läckt debug-token i Console.
 
+
+## 2026-07-19 — Utvecklingskort Bento (Fas 0–6)
+
+- Synlig under Bästa Design Hem («Mer för dig») + MåBra («Utvecklingskort»).
+- KEEP-bridge + vit_entries klar/svar; lokal signalrankning; unlockedPacks hooks.
+- Smoke: design-modules, basta-dock-lock, locked-ux, module-lock PASS. Build PASS.

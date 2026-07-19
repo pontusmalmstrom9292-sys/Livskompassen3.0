@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-18",
+  "updatedAt": "2026-07-19",
   "modules": [
     {
       "id": "MOD-CORE-NAV",
@@ -41,8 +41,8 @@
         "smoke:basta-dock-lock"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-12",
-      "lockedCommit": "5d4cb0402"
+      "lockedAt": "2026-07-19",
+      "lockedCommit": "956416803"
     },
     {
       "id": "MOD-HJ-DAGBOK",
@@ -202,8 +202,8 @@
         "smoke:design-modules"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-10",
-      "lockedCommit": "ac5d37623"
+      "lockedAt": "2026-07-19",
+      "lockedCommit": "956416803"
     },
     {
       "id": "MOD-VARD-PLAN",

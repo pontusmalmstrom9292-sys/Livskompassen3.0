@@ -33,19 +33,28 @@ export type DiscoveryCardPick = {
 /**
  * Deterministiskt kort per dag + kategori — samma kort hela dagen, ny vid midnatt.
  * Ingen streak, ingen Kunskap-RAG.
+ * excludeIds: «aldrig igen» (completed bankIds).
  */
 export function pickDiscoveryCard(options: {
   categoryId: DiscoveryCategoryId;
   uid?: string;
   date?: Date;
+  excludeIds?: ReadonlySet<string> | readonly string[];
 }): DiscoveryCardPick | null {
   const category = getDiscoveryCategory(options.categoryId);
   if (!category) return null;
 
   const dateKey = localDateKey(options.date);
   const uid = options.uid ?? 'anon';
+  const exclude = options.excludeIds
+    ? options.excludeIds instanceof Set
+      ? options.excludeIds
+      : new Set(options.excludeIds)
+    : new Set<string>();
+
+  const pool = category.bankIds.filter((id) => !exclude.has(id));
   const seed = `${dateKey}|${uid}|disc|${options.categoryId}`;
-  const bankId = pickFromPool(category.bankIds, seed);
+  const bankId = pickFromPool(pool.length > 0 ? pool : category.bankIds, seed);
   if (!bankId) return null;
 
   const card = resolveDiscoveryBankCard(bankId);

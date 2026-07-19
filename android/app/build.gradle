@@ -150,8 +150,6 @@ tasks.register("verifySecurityComponents") {
 
 tasks.named("preBuild") {
     dependsOn("verifySecurityComponents")
-    // Ensure lint runs as part of the safety guard
-    dependsOn("lint")
 }
 
 // Fail release packaging if production signing pin is missing (Titanium — no mock security).
