@@ -29,6 +29,14 @@ let appCheckInstance: AppCheck | null = null;
 let lastTokenOk = false;
 
 /**
+ * Single-user (Pontus): Valvet får INTE hard-fail när App Check-token saknas
+ * (debug-APK / Play Integrity). Inloggning + biometri + firestore.rules skyddar data.
+ * Server-enforce styrs separat via Functions `APP_CHECK_ENFORCE` (håll false).
+ * Sätt true igen när Play Integrity + debug-token är stabila.
+ */
+export const VALV_REQUIRES_APP_CHECK = false;
+
+/**
  * Initierar App Check:
  * - Web: reCAPTCHA v3 (VITE_APP_CHECK_RECAPTCHA_SITE_KEY); debug-token endast i Vite DEV
  * - Android/iOS: Play Integrity / App Attest via native plugin + CustomProvider-brygga till JS SDK
@@ -42,9 +50,13 @@ export function initAppCheck(): Promise<void> {
 
 /**
  * Väntar in giltig App Check-token innan Valv-callables.
- * Returnerar false om token saknas (APP_CHECK_ENFORCE → 400 / failed-precondition).
+ * När VALV_REQUIRES_APP_CHECK=false: returnerar alltid true (best-effort token i bakgrunden).
  */
 export async function awaitAppCheckReady(options?: { forceRefresh?: boolean }): Promise<boolean> {
+  if (!VALV_REQUIRES_APP_CHECK) {
+    void tryGetTokenSoft(options);
+    return true;
+  }
   await initAppCheck();
   if (!initialized || !appCheckInstance) return false;
   try {
@@ -60,8 +72,29 @@ export async function awaitAppCheckReady(options?: { forceRefresh?: boolean }): 
   }
 }
 
-/** Kastar om App Check-token saknas — för Valv-callables utan bool-return. */
+/** Soft token fetch — never blocks Valvet when VALV_REQUIRES_APP_CHECK is false. */
+async function tryGetTokenSoft(options?: { forceRefresh?: boolean }): Promise<void> {
+  try {
+    await initAppCheck();
+    if (!initialized || !appCheckInstance) return;
+    const { getToken } = await import('firebase/app-check');
+    const force = options?.forceRefresh ?? !lastTokenOk;
+    await getToken(appCheckInstance, force);
+    lastTokenOk = true;
+  } catch {
+    lastTokenOk = false;
+  }
+}
+
+/**
+ * När VALV_REQUIRES_APP_CHECK=false: no-op (Valvet öppnas utan token).
+ * När true: kastar om App Check-token saknas.
+ */
 export async function requireAppCheckReady(options?: { forceRefresh?: boolean }): Promise<void> {
+  if (!VALV_REQUIRES_APP_CHECK) {
+    void tryGetTokenSoft(options);
+    return;
+  }
   const ok = await awaitAppCheckReady(options);
   if (!ok) {
     const err = new Error('App Check-verifiering krävs.') as Error & { code?: string };

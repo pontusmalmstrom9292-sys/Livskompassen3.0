@@ -2,20 +2,30 @@ package com.livskompassen.app.core;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.view.MotionEvent;
+import android.view.View;
+import android.webkit.WebView;
+
 import com.getcapacitor.Bridge;
 import com.livskompassen.app.util.LCLog;
 
 /**
  * SESSION SENTRY - Våg 17.
  * Monitors the active Vault session and enforces "Safe Harbor" policies.
+ *
+ * Idle timeout MUST match JS VAULT_SESSION_IDLE_MS (1 h). A 3‑minute timer that
+ * never resets while the user scrolls Arkiv/Valvet caused false Sacred Lock kickouts
+ * after Titanium Aura Omni (a752cbc12).
  */
 public class SessionSentry {
-    private static final long INACTIVITY_LOCK_MS = 3 * 60 * 1000L; // 3 minuter inaktivitet i förgrunden
+    /** Align with src/.../sessionService.ts VAULT_SESSION_IDLE_MS */
+    private static final long INACTIVITY_LOCK_MS = 60 * 60 * 1000L;
 
     private final Bridge bridge;
     private final SacredLockManager sacredLockManager;
     private final Handler handler = new Handler(Looper.getMainLooper());
     private final Runnable inactivityTask;
+    private boolean touchListenerAttached = false;
 
     public SessionSentry(Bridge bridge, SacredLockManager sacredLockManager) {
         this.bridge = bridge;
@@ -28,6 +38,7 @@ public class SessionSentry {
 
     /**
      * Anropas vid varje användarinteraktion för att nollställa timern.
+     * Called from JS (LivskompassenNative.userInteracted) and native WebView touch.
      */
     public void userInteracted() {
         handler.removeCallbacks(inactivityTask);
@@ -37,10 +48,33 @@ public class SessionSentry {
     }
 
     public void startMonitoring() {
+        attachWebViewActivityListener();
         userInteracted();
     }
 
     public void stopMonitoring() {
         handler.removeCallbacks(inactivityTask);
+    }
+
+    /**
+     * Defense in depth: reset idle even if JS never calls userInteracted().
+     * Returns false so Capacitor/WebView still receive the event.
+     */
+    private void attachWebViewActivityListener() {
+        if (touchListenerAttached || bridge == null) return;
+        WebView webView = bridge.getWebView();
+        if (webView == null) return;
+
+        webView.setOnTouchListener((View v, MotionEvent event) -> {
+            int action = event.getActionMasked();
+            if (action == MotionEvent.ACTION_DOWN
+                    || action == MotionEvent.ACTION_MOVE
+                    || action == MotionEvent.ACTION_UP) {
+                userInteracted();
+            }
+            return false;
+        });
+        touchListenerAttached = true;
+        LCLog.d("SessionSentry: WebView activity listener attached.");
     }
 }

@@ -27,10 +27,9 @@ public class MemoryManager implements ComponentCallbacks2 {
         WebView webView = (bridge != null) ? bridge.getWebView() : null;
         if (webView == null) return;
 
-        if (level >= TRIM_MEMORY_UI_HIDDEN) {
-            // Användaren har lämnat appen. Sanera känslig data i minnet.
-            sanitizeMemory();
-        }
+        // Do NOT sanitize on TRIM_MEMORY_UI_HIDDEN — notification shade / brief leave
+        // was clearing WebView history and disrupting the Valv SPA session.
+        // SacredLockManager.showLock() already calls sanitizeMemory() on real lock.
 
         if (level >= TRIM_MEMORY_MODERATE) {
             webView.clearCache(false);

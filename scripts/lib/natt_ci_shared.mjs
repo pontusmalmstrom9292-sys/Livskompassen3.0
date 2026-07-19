@@ -19,10 +19,27 @@ export const STATIC_STEPS = [
   ["smoke:predeploy", "npm", ["run", "smoke:predeploy"], root],
 ];
 
+/** Extra e2e after predeploy (predeploy already includes smoke:e2e-locked-ux static gate). */
+export const E2E_STEPS = [
+  ["test:e2e:locked-ux", "test:e2e:locked-ux"],
+  ["smoke:android-platform", "smoke:android-platform"],
+];
+
 export const LIVE_STEPS = [
   ["smoke:valv", "smoke:valv"],
   ["smoke:kunskap", "smoke:kunskap"],
   ["smoke:dossier", "smoke:dossier"],
+];
+
+/** Paths that require Pontus OK before commit/deploy (security / Locked UX / rules). */
+export const PONTUS_OK_PATTERNS = [
+  { re: /firestore\.rules$/, reason: "säkerhetsregler (Firestore)" },
+  { re: /storage\.rules$/, reason: "säkerhetsregler (Storage)" },
+  { re: /sharedRules\.ts$/, reason: "låsta AI-regler" },
+  { re: /android\/app\/src\/main\/java\/com\/livskompassen\/app\/core\//, reason: "Android Sacred core" },
+  { re: /SacredLock|SessionSentry|IntegrityManager|MemoryManager|SecurePrefs/, reason: "Sacred / Zero Footprint" },
+  { re: /useZeroFootprint|vaultServerSession|appCheck\.ts|nativeSecureDownload/, reason: "Valv-session / App Check" },
+  { re: /locked-ux|LockedUx|Barnporten|barnporten/, reason: "Locked UX" },
 ];
 
 /** @param {string} label @param {string} cmd @param {string[]} args @param {string} cwd */
@@ -156,8 +173,120 @@ export function printSummary(results) {
   return failed;
 }
 
+/** Dirty-tree scan — STOP for Pontus OK on security / Locked UX / Sacred. */
+export function scanPontusOkGates() {
+  try {
+    const dirty = execSync("git status --porcelain", { cwd: root, encoding: "utf8" })
+      .trim()
+      .split("\n")
+      .filter(Boolean);
+    const hits = [];
+    for (const line of dirty) {
+      const file = line.slice(3).trim().replace(/^.* -> /, "");
+      for (const { re, reason } of PONTUS_OK_PATTERNS) {
+        if (re.test(file) || re.test(line)) {
+          hits.push({ file, reason, line });
+          break;
+        }
+      }
+    }
+    return { dirtyCount: dirty.length, hits };
+  } catch {
+    return { dirtyCount: 0, hits: [] };
+  }
+}
+
+/**
+ * Kort morgonrapport för säker natt-loop.
+ * @param {Array<{label:string,ok:boolean|null,phase:string,skipped?:boolean}>} results
+ * @param {{ git?: object, liveReady?: boolean, pontusOk?: ReturnType<typeof scanPontusOkGates>, runner?: string }} meta
+ */
+export function writeSecureNightMarkdown(results, meta = {}) {
+  const today = new Date().toISOString().slice(0, 10);
+  const evalDir = path.join(root, "docs/evaluations");
+  mkdirSync(evalDir, { recursive: true });
+  const reportPath = path.join(evalDir, `${today}-secure-natt.md`);
+
+  const hardFails = results.filter(
+    (r) => r.ok === false && !r.skipped && (r.phase === "A" || r.phase === "E2E"),
+  );
+  const liveFails = results.filter((r) => r.ok === false && !r.skipped && r.phase === "B");
+  const pontus = meta.pontusOk ?? { dirtyCount: 0, hits: [] };
+  const needsPontusOk = pontus.hits.length > 0;
+
+  const lines = [
+    `# Säker natt-loop — ${today}`,
+    "",
+    `**Kört:** ${new Date().toISOString()}`,
+    `**Runner:** ${meta.runner ?? "natt:secure"}`,
+    `**Git:** ${meta.git?.branch ?? "?"} @ ${meta.git?.sha ?? "?"}`,
+    "",
+    "## Resultat",
+    "",
+    "| Fas | Steg | Status |",
+    "|-----|------|--------|",
+  ];
+
+  for (const r of results) {
+    let status = "—";
+    if (r.skipped) status = "SKIP";
+    else if (r.label === "pontus-ok-scan" && r.ok === false) status = "STOP";
+    else if (r.phase === "B" && r.ok === false) status = "WARN";
+    else if (r.ok === true) status = "PASS";
+    else if (r.ok === false) status = "FAIL";
+    lines.push(`| ${r.phase} | ${r.label} | ${status} |`);
+  }
+
+  lines.push("", "## Pontus OK (stopp)", "");
+  if (needsPontusOk) {
+    lines.push(
+      "**STOP** — osparade ändringar rör säkerhet / Locked UX / Sacred. Ingen commit eller deploy utan ditt OK.",
+      "",
+    );
+    for (const h of pontus.hits.slice(0, 12)) {
+      lines.push(`- \`${h.file}\` — ${h.reason}`);
+    }
+  } else {
+    lines.push("Inga dirty filer i säkerhets-/Locked UX-zon (eller ren tree).");
+  }
+
+  lines.push("", "## Policy", "");
+  lines.push("- Fixa **bara** tydliga låg-risk-buggar (typo, smoke-assert, import).");
+  lines.push("- **Stoppa** vid säkerhet, Locked UX, firestore.rules, sharedRules, deploy.");
+  lines.push("- Fas B (live) = miljö/App Check — WARN, inte merge-block.");
+  lines.push("- Deploy endast efter `smoke:predeploy` PASS + yolo-vakt GO + Pontus OK.");
+
+  lines.push("", "## Sammanfattning", "");
+  if (hardFails.length > 0) {
+    lines.push(`**FAIL** på ${hardFails.length} kod-gate-steg — se första felet nedan.`);
+    lines.push(`- Första FAIL: **${hardFails[0].label}**`);
+  } else {
+    lines.push("Kod-gate (A + E2E) **PASS**.");
+  }
+  if (liveFails.length > 0) {
+    lines.push(
+      `- Fas B WARN (${liveFails.length}): live/App Check-miljö — ofta ogiltig debug-token (403).`,
+    );
+  }
+
+  lines.push("", "## Nästa steg (1)", "");
+  if (needsPontusOk) {
+    lines.push(
+      "Granska säkerhetsändringarna (App Check / Valv-session / Android core) och svara **OK att behålla** eller **revert**.",
+    );
+  } else if (hardFails.length > 0) {
+    lines.push(`Fixa **${hardFails[0].label}** (låg-risk om möjligt) och kör ` + "`npm run natt:secure`" + " igen.");
+  } else {
+    lines.push("Inget akut — fortsätt G85 daily driver enligt `docs/G85-DAILY-DRIVER-CHECKLIST.md`.");
+  }
+
+  writeFileSync(reportPath, lines.join("\n") + "\n", "utf8");
+  console.log(`[natt:secure] Rapport: ${reportPath}`);
+  return { reportPath, needsPontusOk, fails: hardFails };
+}
+
 export function buildSdkPrompt() {
-  return `Kör Natt-CI i repo-roten. Ett steg i taget — rapportera PASS/FAIL:
+  return `Kör säker Natt-CI (natt:secure) i repo-roten. Ett steg i taget — rapportera PASS/FAIL:
 
 Fas A (alltid):
 1. npm run setup:env
@@ -167,14 +296,22 @@ Fas A (alltid):
 5. npx playwright install chromium (om saknas)
 6. npm run smoke:predeploy
 
+Fas E2E (efter predeploy PASS eller alltid — rapportera även FAIL):
+7. npm run test:e2e:locked-ux
+8. npm run smoke:android-platform
+
 Fas B (endast om VITE_APP_CHECK_DEBUG_TOKEN finns i .env eller miljö):
-7. npm run smoke:valv
-8. npm run smoke:kunskap
-9. npm run smoke:dossier
+9. npm run smoke:valv
+10. npm run smoke:kunskap
+11. npm run smoke:dossier
+
+Fas C (Pontus OK-scan):
+12. git status — flagga dirty filer i Sacred core, App Check, Zero Footprint, Locked UX, firestore.rules
 
 Regler:
 - Avbryt inte Fas A vid första fel — kör alla steg och rapportera.
+- Fixa BARA tydliga låg-risk-buggar. STOPPA för Pontus OK vid säkerhet/Locked UX/deploy.
 - Fas B: SKIP med tydlig orsak om App Check-token saknas.
-- Avsluta med tabell: steg | fas | status | ev. felrad.
-- Gör INGA kodändringar eller commits om inte ett steg FAIL:ar p.g.a. uppenbar fix.`;
+- MUST NOT: firebase deploy, merge till main, ändra firestore.rules eller sharedRules.ts.
+- Avsluta med tabell: steg | fas | status | ev. felrad.`;
 }
