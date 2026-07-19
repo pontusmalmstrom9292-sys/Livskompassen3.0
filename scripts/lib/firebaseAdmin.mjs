@@ -1,28 +1,51 @@
 /**
  * Resolves firebase-admin from functions/node_modules (not root package).
+ * firebase-admin v14+ is modular — package root no longer has `.apps` / `.auth()`.
+ * This module exposes a small namespaced facade so smoke/seed scripts keep working.
  */
-import { createRequire } from 'module';
 import { existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { createRequire } from 'module';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '../..');
-const require = createRequire(import.meta.url);
-
+const functionsPkg = resolve(root, 'functions/package.json');
 const ADMIN_PATH = resolve(root, 'functions/node_modules/firebase-admin');
 
+/** Require as if we were inside functions/ so subpath exports resolve. */
+const requireFromFunctions = createRequire(functionsPkg);
+
+function assertAdminInstalled() {
+  if (!existsSync(ADMIN_PATH) || !existsSync(functionsPkg)) {
+    throw new Error('firebase-admin saknas — kör: cd functions && npm install');
+  }
+}
+
+/**
+ * @param {string} [projectId]
+ * @returns {{
+ *   auth: () => import('firebase-admin/auth').Auth,
+ *   firestore: () => import('firebase-admin/firestore').Firestore,
+ *   storage: () => import('firebase-admin/storage').Storage,
+ *   app: import('firebase-admin/app').App,
+ * }}
+ */
 export function loadFirebaseAdmin(projectId = 'gen-lang-client-0481875058') {
-  if (!existsSync(ADMIN_PATH)) {
-    throw new Error(
-      'firebase-admin saknas — kör: cd functions && npm install',
-    );
-  }
-  const admin = require(ADMIN_PATH);
-  if (admin.apps.length === 0) {
-    admin.initializeApp({ projectId });
-  }
-  return admin;
+  assertAdminInstalled();
+  const { initializeApp, getApps, getApp } = requireFromFunctions('firebase-admin/app');
+  const { getAuth } = requireFromFunctions('firebase-admin/auth');
+  const { getFirestore } = requireFromFunctions('firebase-admin/firestore');
+  const { getStorage } = requireFromFunctions('firebase-admin/storage');
+
+  const app = getApps().length > 0 ? getApp() : initializeApp({ projectId });
+
+  return {
+    app,
+    auth: () => getAuth(app),
+    firestore: () => getFirestore(app),
+    storage: () => getStorage(app),
+  };
 }
 
 /** Seed vaultUnlocked custom claims for client WORM smokes (rules require isVaultUnlocked). */

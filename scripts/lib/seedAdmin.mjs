@@ -33,12 +33,8 @@ export function ensureFunctionsBuilt() {
 }
 
 export async function initFirebaseAdmin(projectId) {
-  const adminPath = resolve(root, 'functions/node_modules/firebase-admin');
-  const admin = require(adminPath);
-  if (admin.apps.length === 0) {
-    admin.initializeApp({ projectId });
-  }
-  return admin;
+  const { loadFirebaseAdmin } = await import('./firebaseAdmin.mjs');
+  return loadFirebaseAdmin(projectId);
 }
 
 export async function resolveSeedOwnerUid(admin, env) {
