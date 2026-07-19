@@ -37,3 +37,8 @@ Ekonomi, Resurser full page, Dagbok, Inställningar — finns som egna moduler v
 
 `npm run smoke:basta-dock-lock` — header + dock + hem-struktur  
 `npm run smoke:executive-home-visual` — hem screenshot (dev server)
+
+## Additiv (2026-07-19)
+
+- Efter «Tidigare anteckningar»: CalmCollapsible **Mer för dig** → Utvecklingskort (`HemV3DevelopmentRail`).
+- Header/dock/låsta v2-sektioner oförändrade.

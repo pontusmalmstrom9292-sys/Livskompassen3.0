@@ -257,7 +257,7 @@ function main() {
     'capacitorGoogleSignIn',
   );
   mustInclude('src/modules/core/auth/googleAuthProvider.ts', 'isCapacitorNative()');
-  mustInclude('capacitor.config.ts', 'FirebaseAuthentication', 'google.com');
+  mustInclude('capacitor.config.json', 'FirebaseAuthentication', 'google.com');
   mustInclude('android/variables.gradle', 'rgcfaIncludeGoogle');
   mustInclude('package.json', '@capacitor-firebase/authentication');
 

@@ -375,6 +375,42 @@ function main() {
     'isLowHomeCapacity',
   );
   mustInclude(
+    'src/modules/core/home/DevelopmentBentoWidget.tsx',
+    'DevelopmentBentoWidget',
+    'buildDevMix',
+    'saveVitEntry',
+    'Hämta nya kort',
+    'Lägg till kategori',
+  );
+  mustInclude(
+    'src/modules/core/home/dev/buildDevMix.ts',
+    'buildDevMix',
+    'saturationWeight',
+    'refillDevMixSlot',
+  );
+  mustInclude(
+    'src/modules/core/home/dev/contentPackCatalog.ts',
+    'CONTENT_PACK_CATALOG',
+    'pack_p0_core',
+    'pack_curiosity_seed',
+  );
+  mustInclude(
+    'src/modules/core/home/dev/FetchContentPacksFlow.tsx',
+    'FetchContentPacksFlow',
+    'Hämta faktapack',
+  );
+  mustInclude(
+    'src/modules/core/pages/InstallningarPage.tsx',
+    'Uppdatera / hämta faktapack',
+    'FetchContentPacksFlow',
+  );
+  mustInclude(
+    'src/modules/core/home/basta-design/BastaDesignHome.tsx',
+    'Mer för dig',
+    'HemV3DevelopmentRail',
+    'home_development_rail',
+  );
+  mustInclude(
     'src/modules/core/pages/HomePage.tsx',
     'HemV3DevelopmentRail',
     'home_development_rail',
@@ -383,6 +419,23 @@ function main() {
     'src/modules/core/home/hemV3DevelopmentCards.ts',
     'HEM_V3_DEVELOPMENT_CARDS',
     'HEM_V3_LOW_CAPACITY_CARD_IDS',
+  );
+
+  mustInclude(
+    'src/modules/core/home/dev/pickDevCard.ts',
+    'excludeIds',
+    'exhausted',
+    'filterAvailableBankIds',
+  );
+  mustInclude(
+    'src/modules/core/home/dev/devCategoryBankMap.ts',
+    'HEM_V3_TO_DISCOVERY',
+    'PACK_EXTRA_BANK_IDS',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/wellbeing/mabra/views/MabraHubView.tsx',
+    'Utvecklingskort',
+    'DevelopmentBentoWidget',
   );
 
   console.log('[smoke:design-modules] Module help (?-widget)…');

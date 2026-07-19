@@ -116,6 +116,8 @@ function main() {
     'Dagens ankare',
     'Planering',
     'Tidigare anteckningar',
+    'Mer för dig',
+    'HemV3DevelopmentRail',
   );
 
   mustInclude(

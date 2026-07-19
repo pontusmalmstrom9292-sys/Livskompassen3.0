@@ -408,6 +408,20 @@ export interface EvolutionHubDoc {
   };
   unlockedFeatureFlags: string[];
   unlockedPacks?: string[];
+  /** Aktiverad pack-version per pack-id (badge mot catalog). */
+  contentPackVersions?: Record<string, number>;
+  /**
+   * Egna utvecklingskategorier — liten user-payload (max 8 i UI).
+   * Inte WORM-encyklopedi; steps är USER-TEXT.
+   */
+  customDevCategories?: Array<{
+    id: string;
+    name_sv: string;
+    description_sv?: string;
+    createdAt: string;
+    linkedPackId?: string;
+    steps: Array<{ bankId: string; body_sv: string }>;
+  }>;
 }
 
 export interface Project {

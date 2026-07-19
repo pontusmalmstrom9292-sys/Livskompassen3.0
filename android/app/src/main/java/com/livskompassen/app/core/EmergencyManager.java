@@ -26,7 +26,7 @@ public class EmergencyManager {
 
         try {
             // 1. Rensa krypterade inställningar
-            SecurePrefs.get(context).edit().clear().commit();
+            SecurePrefs.get(context).edit().clear().apply();
 
             // 2. Rensa WebView-data
             android.webkit.WebStorage.getInstance().deleteAllData();

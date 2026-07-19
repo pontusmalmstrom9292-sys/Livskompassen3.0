@@ -93,6 +93,11 @@ android {
             buildConfigField "boolean", "SIGNATURE_PINNED", "${!releaseSignatureSha256.isEmpty()}"
         }
     }
+
+    lint {
+        baseline = file("lint-baseline.xml")
+        abortOnError = true
+    }
 }
 
 // THE TITANIUM GUARD - DO NOT MODIFY.

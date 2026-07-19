@@ -30,12 +30,10 @@ public class ConnectivityIntelligence {
      */
     public boolean isRoaming() {
         if (cm == null) return false;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            android.net.Network network = cm.getActiveNetwork();
-            NetworkCapabilities caps = cm.getNetworkCapabilities(network);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                return caps != null && !caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING);
-            }
+        android.net.Network network = cm.getActiveNetwork();
+        NetworkCapabilities caps = cm.getNetworkCapabilities(network);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            return caps != null && !caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_NOT_ROAMING);
         }
         return false;
     }

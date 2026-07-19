@@ -18,15 +18,24 @@ import {
 } from './bastaDesignParts';
 import { BastaDesignHero } from './BastaDesignHero';
 import { HOME_SUPERHUB_ROUTES } from '../homeSuperhubRoutes';
+import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
+import { materialEnabled, useLifeHubPreset } from '@/core/lifeOs';
+import { HemV3DevelopmentRail } from '../HemV3DevelopmentRail';
 
 type Props = {
   onCheckInSaved?: () => void;
+  /** Bump efter check-in — uppdaterar utvecklingskort-signaler. */
+  developmentRefreshKey?: number;
 };
 
 /** Prod hem — Figma Make «bästa-design» layout med riktiga routes och data. */
-export function BastaDesignHome({ onCheckInSaved }: Props) {
+export function BastaDesignHome({ onCheckInSaved, developmentRefreshKey = 0 }: Props) {
   const navigate = useNavigate();
   const user = useStore((s) => s.user);
+  const isAuthenticated = useStore((s) => s.isAuthenticated);
+  const { preset } = useLifeHubPreset();
+  const showDevelopmentRail =
+    Boolean(user) && isAuthenticated && materialEnabled(preset, 'home_development_rail');
   const { reduced, staggerContainer, staggerItem } = useBastaDesignMotion();
   const { tasks, loading: tasksLoading } = usePlanningTasks();
   const { entries, refreshEntries } = useJournalFlow({ userId: user?.uid });
@@ -285,6 +294,16 @@ export function BastaDesignHome({ onCheckInSaved }: Props) {
           </div>
         )}
       </motion.div>
+
+      {showDevelopmentRail ? (
+        <motion.div {...staggerChild} className="basta-design__mer-for-dig">
+          <CalmCollapsible title="Mer för dig" meta="Valfritt" defaultOpen={false} glow="gold">
+            <div className="pt-1">
+              <HemV3DevelopmentRail refreshKey={developmentRefreshKey} />
+            </div>
+          </CalmCollapsible>
+        </motion.div>
+      ) : null}
     </motion.div>
   );
 }

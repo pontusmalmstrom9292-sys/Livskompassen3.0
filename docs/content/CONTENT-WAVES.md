@@ -41,3 +41,17 @@
 **Aktiv våg:** — (våg 32 bank **done** 2026-06-19 · nästa kurering via `content:night`)
 
 **Seed (Google-konto):** `SEED_FIREBASE_EMAIL` i `.env` + `gcloud auth application-default login` → `npm run seed:kunskap-facts`
+
+## 2026-07-19 — Utvecklingskort KEEP bridge
+
+- HemV3 kategorier mappar till `DISCOVERY_BENTO_CATALOG.bankIds` (REFLECTION/PLAY only).
+- `unlockedPacks` kan utöka pool via `PACK_EXTRA_BANK_IDS` (ingen gamification).
+- Klara frågor: `vit_entries.bankId` exkluderas — ingen ny collection.
+
+## 2026-07-19 — Spontan Bento-mix + faktapack (Fas 0–5)
+
+- Utvecklingskort: kategori-meny → spontan 6→12–16-mix (`buildDevMix`)
+- `contentPackCatalog`: P0 core + foralder_trygg/rehab_lag + P1 coming (curiosity/history/geo)
+- Hämta pack: widget-header + Inställningar «Uppdatera / hämta faktapack» (`FetchContentPacksFlow`)
+- Egna kategorier max 8 på `evolution_hub.customDevCategories`
+- Klar → vit_entries bankId aldrig igen; 0 runtime-AI-fakta

@@ -60,7 +60,7 @@ public final class AppCheckDebugBootstrap {
         if (!prefs.contains(DEBUG_SECRET_KEY)) {
             return;
         }
-        prefs.edit().remove(DEBUG_SECRET_KEY).commit();
+        prefs.edit().remove(DEBUG_SECRET_KEY).apply();
         LCLog.d("App Check: stale debug secret cleared (release build).");
     }
 

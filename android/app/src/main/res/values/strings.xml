@@ -5,6 +5,14 @@
     <string name="package_name">com.livskompassen.app</string>
     <string name="custom_url_scheme">com.livskompassen.app</string>
 
+    <!-- UI Strings -->
+    <string name="error_connectivity_title">Anslutningsproblem</string>
+    <string name="error_connectivity_message">Kunde inte nå Livskompassen. Kontrollera din internetanslutning och försök igen.</string>
+    <string name="btn_retry">Försök igen</string>
+    <string name="vault_locked_title">Valvet är låst</string>
+    <string name="vault_locked_subtitle">Använd biometri för att låsa upp</string>
+    <string name="btn_unlock">Lås upp nu</string>
+
     <!-- WH1 diskret — ser ut som anteckningar på hemskärmen -->
     <string name="widget_record_title">Anteckningar</string>
     <string name="widget_record_sub"></string>
@@ -40,4 +48,3 @@
     <string name="shortcut_vault_short">Öppna Valvet</string>
     <string name="shortcut_vault_long">Öppna det säkra valvet</string>
 </resources>
-

@@ -63,7 +63,7 @@ public class IdentityManager {
         } catch (Exception e) {
             LCLog.e("IdentityManager: emergency wipe failed: " + e.getMessage());
             try {
-                SecurePrefs.get(context).edit().clear().commit();
+                SecurePrefs.get(context).edit().clear().apply();
             } catch (Exception ignored) {
                 // Last-resort path already logged above.
             }
