@@ -34,8 +34,10 @@ try {
     fs.writeFileSync('dist/index.html', '<html><body>Startar Vite dev server...</body></html>');
   }
 
-  // Run capacitor sync with the injected environment variable
-  execSync(`CAPACITOR_DEV_SERVER_URL=${devUrl} npx cap sync android`, { stdio: 'inherit' });
+  // Write capacitor.config.json then sync (TS7 breaks capacitor.config.ts loader)
+  execSync(`CAPACITOR_DEV_SERVER_URL=${devUrl} node scripts/write_capacitor_config.mjs && npx cap sync android`, {
+    stdio: 'inherit',
+  });
 
   console.log(`\n✅ Capacitor är nu inställd på Live Reload mot din Vite-server!\n`);
   console.log(`===========================================================`);

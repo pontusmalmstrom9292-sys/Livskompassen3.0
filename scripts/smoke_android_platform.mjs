@@ -64,7 +64,7 @@ assert('google-services client_type 1', /"client_type"\s*:\s*1/.test(gs));
 const mobilesdkMatch = gs.match(/"mobilesdk_app_id"\s*:\s*"([^"]+)"/);
 assert('google-services mobilesdk_app_id', Boolean(mobilesdkMatch?.[1]));
 
-const cap = read('capacitor.config.ts');
+const cap = read('capacitor.config.json');
 assert('capacitor app id', cap.includes('com.livskompassen.app'));
 
 const main = read('src/main.tsx');
