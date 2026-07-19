@@ -26,6 +26,11 @@ import com.livskompassen.app.util.SecurePrefs;
 public class SacredLockManager {
     private static final String PREF_LOCKED_STATE = "sacred_lock_state";
     private static final String PREF_FAILED_ATTEMPTS = "failed_biometric_attempts";
+    /**
+     * Ignore brief pauses (BiometricPrompt, notification shade, system dialogs).
+     * Matches JS NATIVE_BACKGROUND_LOCK_MS — without this, unlock/shade kick Valvet.
+     */
+    private static final long BACKGROUND_GRACE_MS = 3_000L;
 
     private final FragmentActivity activity;
     private final Bridge bridge;
@@ -105,10 +110,8 @@ public class SacredLockManager {
     }
 
     public void onPause() {
-        if (currentPrompt != null) {
-            currentPrompt.cancelAuthentication();
-            currentPrompt = null;
-        }
+        // Do NOT cancelAuthentication() here — BiometricPrompt pauses the Activity.
+        // Cancelling mid-prompt aborts unlock and feels like a Valvet kickout.
         lastBackgroundTime = System.currentTimeMillis();
     }
 
@@ -126,7 +129,11 @@ public class SacredLockManager {
 
         if (lastBackgroundTime != 0L) {
             long backgroundDuration = System.currentTimeMillis() - lastBackgroundTime;
-            long dynamicTimeout = integrityManager.getRecommendedLockTimeout();
+            // Floor at BACKGROUND_GRACE_MS so biometric/shade blips never re-lock.
+            long dynamicTimeout = Math.max(
+                    integrityManager.getRecommendedLockTimeout(),
+                    BACKGROUND_GRACE_MS
+            );
             if (backgroundDuration > dynamicTimeout) {
                 LCLog.d("SacredLockManager: Idle timeout reached. Triggering lock.");
                 showLock();

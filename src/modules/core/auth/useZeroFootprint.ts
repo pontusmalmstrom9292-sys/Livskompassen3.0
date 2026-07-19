@@ -5,11 +5,20 @@ import { hasVaultGate, VAULT_SESSION_IDLE_MS } from './sessionService';
 import { endVaultSession, syncVaultUnlockedFromGate } from '../security/vaultSessionLifecycle';
 import { shouldSuppressVaultBackgroundLock } from './vaultUnlockInFlight';
 import { isCapacitorNative } from '../platform/capacitorPlatform';
+import { getLivskompassenNative } from '@/shared/utils/nativeSecureDownload';
 
 const ACTIVITY_EVENTS = ['pointerdown', 'keydown', 'touchstart', 'scroll'] as const;
 
 /** Ignore brief Android pauses (biometrics, shade, system dialogs). */
 const NATIVE_BACKGROUND_LOCK_MS = 3_000;
+
+function notifyNativeUserInteracted(): void {
+  try {
+    getLivskompassenNative()?.userInteracted?.();
+  } catch {
+    /* bridge optional — SessionSentry also listens on WebView touch */
+  }
+}
 
 function lockVaultIfOpen(): void {
   if (shouldSuppressVaultBackgroundLock()) return;
@@ -44,6 +53,7 @@ export function useZeroFootprint() {
     const bump = () => {
       window.clearTimeout(timer);
       timer = window.setTimeout(endVaultSessionIdle, VAULT_SESSION_IDLE_MS);
+      notifyNativeUserInteracted();
     };
 
     for (const event of ACTIVITY_EVENTS) {

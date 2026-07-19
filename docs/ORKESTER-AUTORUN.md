@@ -6,6 +6,28 @@
 
 ---
 
+## Säker natt-loop (predeploy + e2e)
+
+Merge-gate medan du sover — **ingen deploy** utan Pontus OK:
+
+```bash
+npm run natt:secure
+```
+
+| Fas | Vad | Stopp |
+|-----|-----|-------|
+| A | build + `smoke:predeploy` | Hard FAIL |
+| E2E | `test:e2e:locked-ux` + `smoke:android-platform` | Hard FAIL |
+| B | live valv/kunskap/dossier (om App Check-token) | SKIP om saknas |
+| C | Dirty-scan Sacred / App Check / Locked UX | **Pontus OK** (exit 3) |
+
+Rapport: `docs/evaluations/YYYY-MM-DD-secure-natt.md` · JSON: `.orkester/natt-ci-runs/`  
+Policy: bara låg-risk-fixar. STOP vid säkerhet / Locked UX / deploy.
+
+Alias: `npm run natt:ci` · Cloud: `npm run sdk:natt-ci`
+
+---
+
 ## Rollout nattpass (Cursor-native Block A+B)
 
 Fokuserad autorun för superhub-rollout — ersätter manuell smoke så långt det går:
