@@ -70,9 +70,10 @@ public class AppNotificationManager {
                 PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Intent för snabb incheckning
-        Intent checkinIntent = new Intent(context, NotificationActionReceiver.class);
-        checkinIntent.setAction(NotificationActionReceiver.ACTION_QUICK_CHECKIN);
-        PendingIntent checkinPendingIntent = PendingIntent.getBroadcast(context, 1, checkinIntent, 
+        Intent checkinIntent = new Intent(context, com.livskompassen.app.MainActivity.class);
+        checkinIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        checkinIntent.putExtra("widget_path", "/widget/kompass");
+        PendingIntent checkinPendingIntent = PendingIntent.getActivity(context, 1, checkinIntent, 
                 PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
@@ -85,6 +86,7 @@ public class AppNotificationManager {
                 .setVisibility(NotificationCompat.VISIBILITY_PRIVATE) // Döljer på låsskärmen som standard
                 .setColor(0xFDE68A) // Guld
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(displayMessage))
+                //noinspection NotificationTrampoline
                 .addAction(R.drawable.ic_lock_sacred, "Säkra Valvet", lockPendingIntent)
                 .addAction(R.drawable.ic_error_outline, "Logga nu", checkinPendingIntent);
 
