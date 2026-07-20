@@ -234,7 +234,7 @@ public class MainActivity extends BridgeActivity {
                     }
                     
                     String url = getBridge().getWebView().getUrl();
-                    if (url != null && (url.contains("/widget/") || url.contains("/dev/"))) {
+                    if (url != null && (url.contains("/widget/") || url.contains("/dev/") || url.contains("tab=mer"))) {
                         getBridge().getWebView().loadUrl(getBridge().getServerUrl());
                         return;
                     }

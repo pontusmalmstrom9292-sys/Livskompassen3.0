@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { getLivskompassenNative, type LivskompassenNativeBridge } from './nativeSecureDownload';
+import type { LivskompassenNativeBridge } from './nativeSecureDownload';
 
 /**
  * Android Capacitor bridge for tactile feedback.

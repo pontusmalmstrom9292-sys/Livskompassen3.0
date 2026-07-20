@@ -4,7 +4,7 @@
  * 6→12–16 självblandade kort; Klar → bankId aldrig igen; packs + egna kategorier.
  * Ingen cross-RAG, ingen runtime-AI-fakta.
  */
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Check, Layers, Loader2, Package, Plus, Share2 } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Button, TextArea } from '@/design-system';

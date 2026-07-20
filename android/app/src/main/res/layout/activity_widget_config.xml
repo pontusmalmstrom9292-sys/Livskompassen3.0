@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Konfigurera Widget"
+        android:text="@string/config_widget_title"
         android:textColor="#FDE68A"
         android:textSize="24sp"
         android:textStyle="bold" />
@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Välj vad widgeten ska visa:"
+        android:text="@string/config_widget_subtitle"
         android:textColor="#94A3B8" />
 
     <RadioGroup
@@ -31,7 +31,7 @@
             android:id="@+id/radio_standard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Standard (Inspelning)"
+            android:text="@string/config_option_standard"
             android:textColor="#FFFFFF"
             android:buttonTint="#FDE68A"
             android:checked="true" />
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Snabbt till Valvet"
+            android:text="@string/config_option_vault"
             android:textColor="#FFFFFF"
             android:buttonTint="#FDE68A" />
 
@@ -50,7 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Dagens Dagbok"
+            android:text="@string/config_option_journal"
             android:textColor="#FFFFFF"
             android:buttonTint="#FDE68A" />
     </RadioGroup>
@@ -61,12 +61,12 @@
         android:layout_weight="1" />
 
     <Button
-        android:id="@+id/btn_save_config"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#FDE68A"
-        android:text="Spara widget"
-        android:textAllCaps="false"
-        android:textColor="#0D0B09" />
+            android:id="@+id/btn_save_config"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#FDE68A"
+            android:text="@string/btn_save_config"
+            android:textAllCaps="false"
+            android:textColor="#0D0B09" />
 
 </LinearLayout>
