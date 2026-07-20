@@ -9,9 +9,26 @@
     <string name="error_connectivity_title">Anslutningsproblem</string>
     <string name="error_connectivity_message">Kunde inte nå Livskompassen. Kontrollera din internetanslutning och försök igen.</string>
     <string name="btn_retry">Försök igen</string>
+    <string name="btn_ok">OK</string>
+    <string name="btn_cancel">Avbryt</string>
+    <string name="btn_confirm">Bekräfta</string>
     <string name="vault_locked_title">Valvet är låst</string>
     <string name="vault_locked_subtitle">Använd biometri för att låsa upp</string>
     <string name="btn_unlock">Lås upp nu</string>
+
+    <!-- Dialogs -->
+    <string name="dialog_default_title">Meddelande</string>
+    <string name="dialog_default_message">Innehåll</string>
+    <string name="dialog_confirm_title">Bekräfta</string>
+    <string name="dialog_confirm_default_message">Är du säker?</string>
+
+    <!-- Widget Configuration -->
+    <string name="config_widget_title">Konfigurera Widget</string>
+    <string name="config_widget_subtitle">Välj vad widgeten ska visa:</string>
+    <string name="config_option_standard">Standard (Inspelning)</string>
+    <string name="config_option_vault">Snabbt till Valvet</string>
+    <string name="config_option_journal">Dagens Dagbok</string>
+    <string name="btn_save_config">Spara widget</string>
 
     <!-- WH1 diskret — ser ut som anteckningar på hemskärmen -->
     <string name="widget_record_title">Anteckningar</string>

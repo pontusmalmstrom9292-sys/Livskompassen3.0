@@ -4,11 +4,13 @@
  * 6→12–16 självblandade kort; Klar → bankId aldrig igen; packs + egna kategorier.
  * Ingen cross-RAG, ingen runtime-AI-fakta.
  */
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Check, Layers, Loader2, Package, Plus } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { Check, Layers, Loader2, Package, Plus, Share2 } from 'lucide-react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { Button, TextArea } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { useNativeHaptics } from '@/shared/utils/nativeHaptics';
+import { getLivskompassenNative } from '@/shared/utils/nativeSecureDownload';
 import { ensureVitHub, listVitEntries, saveVitEntry } from '@/core/firebase/vitHubFirestore';
 import { getRecentCheckIns, getJournalEntries } from '@/core/firebase/firestore';
 import { shouldRedirectMabraCoachToSpeglar } from '@/features/dailyLife/wellbeing/mabra/lib/mabraCoachGuard';
@@ -47,6 +49,8 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
   const capacityScore = useCapacityScore();
   const listenToCapacityState = useListenToCapacityState();
   const { presetId } = useLifeHubPreset();
+  const { success: triggerSuccess } = useNativeHaptics();
+  const [searchParams] = useSearchParams();
 
   const unlockedPacks = evolutionDoc?.unlockedPacks ?? [];
   const customCategories = useMemo(
@@ -71,6 +75,8 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
   const [packOpen, setPackOpen] = useState(false);
   const [customOpen, setCustomOpen] = useState(false);
   const [mixNonce, setMixNonce] = useState(0);
+
+  const unlockedPacksMemo = useMemo(() => unlockedPacks.join(','), [unlockedPacks]);
 
   useEffect(() => {
     if (!user?.uid) return;
@@ -150,6 +156,17 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
     }
   }, [lowCapacity, refreshKey]);
 
+  const widgetRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (searchParams.get('tab') === 'mer' || searchParams.get('expand_dev') === 'true') {
+      setShowAll(true);
+      if (widgetRef.current) {
+        widgetRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  }, [searchParams]);
+
   const excludeSet = useMemo(() => {
     const merged = new Set(completedBankIds);
     for (const id of sessionCompleted) merged.add(id);
@@ -194,7 +211,7 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
     // eslint-disable-next-line react-hooks/exhaustive-deps -- signals/excludeSet intentionally via mixNonce + primitives
   }, [
     user?.uid,
-    unlockedPacks.join(','),
+    unlockedPacksMemo,
     customCategories,
     completedBankIds.size,
     sessionCompleted.size,
@@ -287,6 +304,7 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
         }
 
         await saveVitEntry(user.uid, payload);
+        triggerSuccess();
         markCompletedLocally(selected.bankId);
 
         const slotIndex = mix.findIndex((c) => c.slotKey === selected.slotKey);
@@ -334,13 +352,31 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
       unlockedPacks,
       customCategories,
       signals,
+      triggerSuccess,
     ],
   );
+
+  const handleShare = useCallback(() => {
+    if (!selected || selected.source !== 'custom' || !selected.body_sv) return;
+    const native = getLivskompassenNative();
+    if (native?.shareVaultFile) {
+      native.shareVaultFile(
+        selected.body_sv,
+        `mikrosteg-${selected.bankId.slice(0, 8)}.txt`,
+        'text/plain',
+      );
+    } else if (navigator.share) {
+      void navigator.share({
+        title: selected.title_sv ?? 'Livskompassen Mikrosteg',
+        text: selected.body_sv,
+      });
+    }
+  }, [selected]);
 
   if (!user) return null;
 
   const body = (
-    <div className="space-y-3" aria-label="Utvecklingskort">
+    <div ref={widgetRef} className="space-y-3" aria-label="Utvecklingskort">
       <div className="flex flex-wrap gap-2">
         <Button
           type="button"
@@ -467,6 +503,17 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
               <Check className="mr-1.5 h-3.5 w-3.5" aria-hidden />
               Markera klar
             </Button>
+            {selected.source === 'custom' ? (
+              <Button
+                type="button"
+                variant="ghost"
+                className="min-h-[44px] flex-none"
+                onClick={handleShare}
+                aria-label="Dela mikrosteg"
+              >
+                <Share2 className="h-4 w-4" />
+              </Button>
+            ) : null}
           </div>
           {saveError ? <p className="text-xs text-red-400">{saveError}</p> : null}
         </article>
