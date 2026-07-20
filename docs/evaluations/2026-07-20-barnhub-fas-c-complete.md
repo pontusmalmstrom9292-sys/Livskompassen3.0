@@ -13,7 +13,7 @@
 
 ## Medvetet uppskjutet
 
-- `childAlias`-fältkryptering (egen PMIR)
+- ~~`childAlias`-fältkryptering~~ — **SKROTAD** 2026-07-20 (Pontus OK)
 - Barnen-vektor / Flash i molnet
 - Separat Barnhub-produkt
 
