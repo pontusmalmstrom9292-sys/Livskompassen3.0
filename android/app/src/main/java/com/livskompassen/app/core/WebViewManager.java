@@ -44,6 +44,7 @@ import com.getcapacitor.Bridge;
 import com.getcapacitor.BridgeWebViewClient;
 import com.livskompassen.app.R;
 import com.livskompassen.app.util.LCLog;
+import com.livskompassen.app.util.SecurityUtils;
 
 import java.util.concurrent.Executor;
 
@@ -58,18 +59,22 @@ public class WebViewManager {
     private final DialogManager dialogManager;
     private final SecureShareManager secureShareManager;
     private final IntegrityManager integrityManager;
+    private final SystemUiManager systemUiManager;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private PerformanceWatchdog watchdog;
 
     private LinearLayout errorContainer;
     private TextView errorTitle;
     private TextView errorMessage;
+    private View privacyOverlay;
     private boolean isNetworkOverlayShowing = false;
 
     @Nullable
     private final ActivityResultLauncher<Intent> fileChooserLauncher;
     @Nullable
     private ValueCallback<Uri[]> filePathCallback;
+    /** True while a Lönekontor YAML/JSON pick is in flight (biometric → picker → result). */
+    private boolean pendingSensitiveFilePick = false;
 
     public WebViewManager(
             Context context,
@@ -77,14 +82,18 @@ public class WebViewManager {
             View rootView,
             HapticManager hapticManager,
             IntegrityManager integrityManager,
+            SystemUiManager systemUiManager,
             @Nullable ActivityResultLauncher<Intent> fileChooserLauncher) {
         this.context = context;
         this.bridge = bridge;
         this.hapticManager = hapticManager;
         this.integrityManager = integrityManager;
+        this.systemUiManager = systemUiManager;
         this.dialogManager = new DialogManager(context, hapticManager);
         this.secureShareManager = new SecureShareManager(context);
         this.fileChooserLauncher = fileChooserLauncher;
+
+        this.privacyOverlay = rootView.findViewById(R.id.privacy_overlay);
 
         setupErrorViews(rootView);
         setupWebView();
@@ -92,8 +101,8 @@ public class WebViewManager {
     }
 
     /** Backward-compatible constructor (no file chooser launcher). */
-    public WebViewManager(Context context, Bridge bridge, View rootView, HapticManager hapticManager, IntegrityManager integrityManager) {
-        this(context, bridge, rootView, hapticManager, integrityManager, null);
+    public WebViewManager(Context context, Bridge bridge, View rootView, HapticManager hapticManager, IntegrityManager integrityManager, SystemUiManager systemUiManager) {
+        this(context, bridge, rootView, hapticManager, integrityManager, systemUiManager, null);
     }
 
     /**
@@ -102,10 +111,13 @@ public class WebViewManager {
      */
     public void onFileChooserResult(int resultCode, @Nullable Intent data) {
         Uri[] results = null;
+        final boolean wantsSensitiveData = pendingSensitiveFilePick;
+
         if (resultCode == Activity.RESULT_OK && data != null) {
             Uri uri = data.getData();
             if (uri != null) {
-                if (validateFile(uri)) {
+                logUriSource(uri);
+                if (validateFile(uri, wantsSensitiveData)) {
                     results = new Uri[]{uri};
                 }
             } else if (data.getClipData() != null) {
@@ -113,8 +125,11 @@ public class WebViewManager {
                 java.util.List<Uri> validUris = new java.util.ArrayList<>();
                 for (int i = 0; i < count; i++) {
                     Uri clipUri = data.getClipData().getItemAt(i).getUri();
-                    if (clipUri != null && validateFile(clipUri)) {
-                        validUris.add(clipUri);
+                    if (clipUri != null) {
+                        logUriSource(clipUri);
+                        if (validateFile(clipUri, wantsSensitiveData)) {
+                            validUris.add(clipUri);
+                        }
                     }
                 }
                 if (!validUris.isEmpty()) {
@@ -123,27 +138,36 @@ public class WebViewManager {
             }
         }
 
+        pendingSensitiveFilePick = false;
+
         if (filePathCallback != null) {
             if (results == null && resultCode == Activity.RESULT_OK) {
                 LCLog.w("WebViewManager: File pick rejected by native validation");
+                hapticManager.error();
             } else if (results == null) {
                 LCLog.d("WebViewManager: File pick cancelled");
             } else {
                 LCLog.d("WebViewManager: Delivering " + results.length + " validated content URIs");
+                hapticManager.success();
             }
             filePathCallback.onReceiveValue(results);
             filePathCallback = null;
         }
     }
 
-    private boolean validateFile(@NonNull Uri uri) {
+    private void logUriSource(Uri uri) {
+        String source = SecurityUtils.getUriSource(uri);
+        LCLog.d("WebViewManager: Forensic Audit - File Source Authority: " + source);
+    }
+
+    private boolean validateFile(@NonNull Uri uri, boolean sensitiveCheck) {
         if (!"content".equals(uri.getScheme())) {
             LCLog.w("WebViewManager: Blocked non-content URI: " + uri.getScheme());
             Toast.makeText(context, "Säkerhetsfel: Endast system-filer tillåts.", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        // 10MB Limit
+        // 1. Size Validation (10MB Limit)
         try (Cursor cursor = context.getContentResolver().query(uri, null, null, null, null)) {
             if (cursor != null && cursor.moveToFirst()) {
                 int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
@@ -159,6 +183,19 @@ public class WebViewManager {
         } catch (Exception e) {
             LCLog.e("WebViewManager: Failed to validate file size: " + e.getMessage());
         }
+
+        // 2. MIME Sniffing for sensitive data (JSON/YAML)
+        if (sensitiveCheck) {
+            if (!SecurityUtils.isLikelyTextFile(context, uri)) {
+                LCLog.e("WebViewManager: Blocked likely binary file for sensitive text request: " + uri.toString());
+                Toast.makeText(context, "Fel: Filen verkar vara binär eller skadad.", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        }
+
+        // 3. Forensic Fingerprinting
+        String fingerprint = SecurityUtils.calculateFileHash(context, uri);
+        LCLog.d("WebViewManager: File Fingerprint [SHA-256]: " + fingerprint);
 
         return true;
     }
@@ -332,6 +369,7 @@ public class WebViewManager {
                     WebViewManager.this.filePathCallback.onReceiveValue(null);
                 }
                 WebViewManager.this.filePathCallback = filePathCallback;
+                pendingSensitiveFilePick = false;
 
                 if (fileChooserLauncher == null) {
                     LCLog.e("WebViewManager: fileChooserLauncher missing — cancelling file pick");
@@ -392,8 +430,17 @@ public class WebViewManager {
                     String title = sensitivePick ? "Välj Lönekontor-fil (.yaml, .json)" : "Välj fil";
                     final Intent chooserIntent = Intent.createChooser(intent, title);
 
+                    pendingSensitiveFilePick = sensitivePick;
+
                     if (sensitivePick) {
-                        LCLog.d("WebViewManager: Sensitive upload detected. Triggering Biometric Step-up.");
+                        LCLog.d("WebViewManager: Sensitive upload detected. Triggering Titanium file guard.");
+
+                        // Reinforce Sacred Zone (screenshot & record protection) for Lönekontor picks
+                        if (systemUiManager != null) {
+                            systemUiManager.setSacredZone(true);
+                        }
+
+                        showPrivacyOverlay();
                         triggerBiometricAuth(chooserIntent);
                     } else {
                         fileChooserLauncher.launch(chooserIntent);
@@ -401,6 +448,7 @@ public class WebViewManager {
                     return true;
                 } catch (Exception e) {
                     LCLog.e("WebViewManager: onShowFileChooser failed: " + e.getMessage());
+                    pendingSensitiveFilePick = false;
                     if (WebViewManager.this.filePathCallback != null) {
                         WebViewManager.this.filePathCallback.onReceiveValue(null);
                         WebViewManager.this.filePathCallback = null;
@@ -439,6 +487,7 @@ public class WebViewManager {
     private void triggerBiometricAuth(final Intent intentToLaunch) {
         if (!(context instanceof FragmentActivity)) {
             LCLog.e("WebViewManager: Context is not FragmentActivity, skipping biometric.");
+            hidePrivacyOverlay();
             fileChooserLauncher.launch(intentToLaunch);
             return;
         }
@@ -451,6 +500,8 @@ public class WebViewManager {
                     public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                         super.onAuthenticationError(errorCode, errString);
                         LCLog.w("WebViewManager: Biometric error: " + errString);
+                        hidePrivacyOverlay();
+                        pendingSensitiveFilePick = false;
                         if (filePathCallback != null) {
                             filePathCallback.onReceiveValue(null);
                             filePathCallback = null;
@@ -461,6 +512,7 @@ public class WebViewManager {
                     public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                         super.onAuthenticationSucceeded(result);
                         LCLog.d("WebViewManager: Biometric success. Launching file picker.");
+                        hidePrivacyOverlay();
                         fileChooserLauncher.launch(intentToLaunch);
                     }
 
@@ -480,6 +532,26 @@ public class WebViewManager {
                 .build();
 
         biometricPrompt.authenticate(promptInfo);
+    }
+
+    private void showPrivacyOverlay() {
+        if (privacyOverlay != null) {
+            mainHandler.post(() -> {
+                privacyOverlay.setVisibility(View.VISIBLE);
+                privacyOverlay.setAlpha(0f);
+                privacyOverlay.animate().alpha(1f).setDuration(200).start();
+            });
+        }
+    }
+
+    private void hidePrivacyOverlay() {
+        if (privacyOverlay != null) {
+            mainHandler.post(() -> {
+                privacyOverlay.animate().alpha(0f).setDuration(200).withEndAction(() ->
+                        privacyOverlay.setVisibility(View.GONE)
+                ).start();
+            });
+        }
     }
 
     private void updateCacheMode(WebSettings settings) {
