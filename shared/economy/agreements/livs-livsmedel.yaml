@@ -1,0 +1,13 @@
+id: SE.livs.livsmedel
+name: Livsmedelsavtalet 2025–2027
+versionLabel: "2025–2027 produktion"
+vacationPayFraction: 0.132
+vacationDayDivisor: 21.75
+atfAccrualFraction: 0.0292
+karensWeeklySickPayFraction: 0.20
+sickDay2_14EmployerLossFraction: 0.20
+agsSickTopUpFraction: 0.10
+agsEnabled: true
+karensWaiverAfterDays: 10
+vabNetReplacementFraction: 0.56
+reSickGapDays: 5
