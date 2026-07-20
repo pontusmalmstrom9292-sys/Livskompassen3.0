@@ -1,7 +1,33 @@
-type SpeechRecognitionType = any; // Fallback for TypeScript without DOM types for SpeechRecognition
+type SpeechRecognitionLike = {
+  continuous: boolean;
+  interimResults: boolean;
+  lang: string;
+  onresult: ((event: SpeechRecognitionEventLike) => void) | null;
+  onerror: ((event: { error: string }) => void) | null;
+  onend: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+  abort: () => void;
+};
+
+type SpeechRecognitionEventLike = {
+  resultIndex: number;
+  results: ArrayLike<{ isFinal: boolean; 0: { transcript: string } }>;
+};
+
+type SpeechRecognitionCtor = new () => SpeechRecognitionLike;
+
+function getSpeechRecognitionCtor(): SpeechRecognitionCtor | null {
+  if (typeof window === 'undefined') return null;
+  const w = window as unknown as {
+    SpeechRecognition?: SpeechRecognitionCtor;
+    webkitSpeechRecognition?: SpeechRecognitionCtor;
+  };
+  return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
+}
 
 export class SpeechService {
-  private recognition: SpeechRecognitionType | null = null;
+  private recognition: SpeechRecognitionLike | null = null;
   private onResultCallback: ((text: string, isFinal: boolean) => void) | null = null;
   private onErrorCallback: ((error: string) => void) | null = null;
   private onEndCallback: (() => void) | null = null;
@@ -11,9 +37,8 @@ export class SpeechService {
   }
 
   private init() {
-    // @ts-ignore
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    
+    const SpeechRecognition = getSpeechRecognitionCtor();
+
     if (!SpeechRecognition) {
       console.warn('Speech Recognition API is not supported in this browser.');
       return;
@@ -22,9 +47,9 @@ export class SpeechService {
     this.recognition = new SpeechRecognition();
     this.recognition.continuous = true;
     this.recognition.interimResults = true;
-    this.recognition.lang = 'sv-SE'; // Standard language
+    this.recognition.lang = 'sv-SE';
 
-    this.recognition.onresult = (event: any) => {
+    this.recognition.onresult = (event: SpeechRecognitionEventLike) => {
       let interimTranscript = '';
       let finalTranscript = '';
 
@@ -46,7 +71,7 @@ export class SpeechService {
       }
     };
 
-    this.recognition.onerror = (event: any) => {
+    this.recognition.onerror = (event: { error: string }) => {
       console.error('Speech recognition error', event.error);
       if (this.onErrorCallback) {
         this.onErrorCallback(event.error);
@@ -67,7 +92,7 @@ export class SpeechService {
   public start(
     onResult: (text: string, isFinal: boolean) => void,
     onError?: (error: string) => void,
-    onEnd?: () => void
+    onEnd?: () => void,
   ) {
     if (!this.recognition) return;
 

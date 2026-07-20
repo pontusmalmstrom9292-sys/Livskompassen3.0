@@ -263,7 +263,7 @@
       "id": "MOD-VARD-EKO",
       "namn": "Ekonomi delegates",
       "zon": "Vardagen",
-      "status": "developing",
+      "status": "locked",
       "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-VARD-EKO.md",
       "unlockedAt": "2026-07-20",
       "globs": [
@@ -277,7 +277,7 @@
       ],
       "snapshotKey": null,
       "lockedAt": "2026-07-20",
-      "lockedCommit": "f9d3986e8"
+      "lockedCommit": "a920dd593"
     },
     {
       "id": "MOD-VARD-ARB",

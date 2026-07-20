@@ -1,10 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { FirebaseError } from 'firebase/app';
 import { saveEconomyTransaction } from '@/core/firebase/firestore';
-import {
-  isBrowserOffline,
-  OfflineWriteBlockedError,
-} from '@/core/firebase/offlineWritePolicy';
+import { isBrowserOffline } from '@/core/firebase/offlineWritePolicy';
+import { resolveEconomySaveError } from './resolveEconomySaveError';
 
 /** WORM-safe transaction categories — `transactions` collection only. */
 export type EconomyTransactionCategory = 'veckopeng' | 'matlada' | 'vinst' | 'ovrigt';
@@ -16,13 +13,7 @@ export type SaveEconomyTransactionInput = {
 };
 
 function resolveSaveError(err: unknown): string {
-  if (err instanceof OfflineWriteBlockedError) {
-    return err.message;
-  }
-  if (err instanceof FirebaseError && err.code === 'permission-denied') {
-    return 'Behörighet saknas — logga in igen.';
-  }
-  return 'Kunde inte spara transaktion.';
+  return resolveEconomySaveError(err, 'Kunde inte spara transaktion.');
 }
 
 /**

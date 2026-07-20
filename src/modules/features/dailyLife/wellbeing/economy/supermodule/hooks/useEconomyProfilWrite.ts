@@ -1,22 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { FirebaseError } from 'firebase/app';
 import { getEconomyProfile, setEconomyProfile } from '@/core/firebase/firestore';
-import {
-  isBrowserOffline,
-  OfflineWriteBlockedError,
-} from '@/core/firebase/offlineWritePolicy';
+import { isBrowserOffline } from '@/core/firebase/offlineWritePolicy';
+import { resolveEconomySaveError } from './resolveEconomySaveError';
 
 export const DEFAULT_WEEKLY_BUDGET = 500;
 export const DEFAULT_MEAL_PRESET = 85;
 
 function resolveSaveError(err: unknown): string {
-  if (err instanceof OfflineWriteBlockedError) {
-    return err.message;
-  }
-  if (err instanceof FirebaseError && err.code === 'permission-denied') {
-    return 'Behörighet saknas — logga in igen.';
-  }
-  return 'Kunde inte spara profil.';
+  return resolveEconomySaveError(err, 'Kunde inte spara profil.');
 }
 
 function parseProfileAmount(raw: string, fallback: number): number {
