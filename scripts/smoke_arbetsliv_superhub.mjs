@@ -33,6 +33,7 @@ const W2_FILES = [
   'src/modules/features/dailyLife/arbetsliv/supermodule/delegates/ArbetslivStamplaDelegate.tsx',
   'src/modules/features/dailyLife/arbetsliv/supermodule/delegates/ArbetslivFlexDelegate.tsx',
   'src/modules/features/dailyLife/arbetsliv/supermodule/delegates/ArbetslivInkomstDelegate.tsx',
+  'src/modules/features/dailyLife/arbetsliv/supermodule/delegates/ArbetslivProfilDelegate.tsx',
   'src/modules/features/dailyLife/arbetsliv/supermodule/delegates/ArbetslivValvBroDelegate.tsx',
   'src/modules/features/dailyLife/arbetsliv/routing/ArbetslivInputRoutes.tsx',
 ];
@@ -43,12 +44,13 @@ function main() {
     read(rel);
   }
 
-  console.log('[smoke:arbetsliv-superhub] Modes (stampla, inkomster, tid)…');
+  console.log('[smoke:arbetsliv-superhub] Modes (stampla, inkomster, tid, lonest)…');
   mustInclude(
     'src/modules/features/dailyLife/arbetsliv/supermodule/arbetslivInputModes.ts',
     "'stampla'",
     "'inkomster'",
     "'tid'",
+    "'lonest'",
     'DEFAULT_ARBETSLIV_INPUT_MODE',
     'parseArbetslivInputMode',
     'arbetslivTabToInputMode',
@@ -97,6 +99,14 @@ function main() {
     'src/modules/features/dailyLife/arbetsliv/supermodule/delegates/ArbetslivInkomstDelegate.tsx',
     'addEconomyLedgerEntry',
     'economy_ledger',
+  );
+  mustInclude(
+    'src/modules/features/dailyLife/arbetsliv/supermodule/delegates/ArbetslivProfilDelegate.tsx',
+    'Lönekontor',
+    'usePayProfileSettings',
+    'totalToBankSek',
+    'Uppdatera kollektivavtal',
+    'Uppdatera skattetabell',
   );
   mustInclude(
     'src/modules/features/dailyLife/arbetsliv/supermodule/delegates/ArbetslivValvBroDelegate.tsx',

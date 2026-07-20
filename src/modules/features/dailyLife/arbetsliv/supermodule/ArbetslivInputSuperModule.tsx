@@ -11,6 +11,9 @@ import {
   type ArbetslivInputMode,
 } from './arbetslivInputModes';
 
+const ArbetslivProfilDelegate = lazy(() =>
+  import('./delegates/ArbetslivProfilDelegate').then((m) => ({ default: m.ArbetslivProfilDelegate })),
+);
 const ArbetslivFlexDelegate = lazy(() =>
   import('./delegates/ArbetslivFlexDelegate').then((m) => ({ default: m.ArbetslivFlexDelegate })),
 );
@@ -37,6 +40,9 @@ function ArbetslivInputModeDelegate({ mode }: { mode: ArbetslivInputMode }) {
       break;
     case 'inkomster':
       content = <ArbetslivInkomstDelegate />;
+      break;
+    case 'lonest':
+      content = <ArbetslivProfilDelegate />;
       break;
     case 'tid':
       content = <ArbetslivFlexDelegate />;

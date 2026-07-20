@@ -1,8 +1,8 @@
 /**
- * Periodsammanfattning (Kalkylark I1–I5-lik) — ren logik.
+ * Periodsammanfattning — canonical inkomst från payslip (ej dubbelräkning).
  */
 import { parseDateOnly } from '@/core/utils/timeMath';
-import { getPayslipPeriodForPayday, type PayslipPeriod } from './generatePayslipCore';
+import { getPayslipPeriodForPayday, type PayslipPeriod } from './payPeriod';
 
 export type LedgerRowLike = {
   date: string;
@@ -20,6 +20,7 @@ export type PeriodEconomySummary = {
   variableExpensesSek: number;
   estimatedBalanceSek: number;
   ledgerRowCount: number;
+  incomeSource: 'payslip' | 'profile';
 };
 
 function isRorligCategory(category: string): boolean {
@@ -46,6 +47,8 @@ export function computePeriodEconomySummary(params: {
   fixedBillsSumSek: number;
   ledgerRows: LedgerRowLike[];
   referenceDate?: Date;
+  /** När true: räkna inte ledger-inkomst typ lön (undvik dubbelräkning). */
+  usePayslipAsCanonical?: boolean;
 }): PeriodEconomySummary {
   const period = params.period ?? getPayslipPeriodForPayday(params.referenceDate);
   const inPeriod = filterLedgerInPeriod(params.ledgerRows, period.from, period.to);
@@ -54,8 +57,13 @@ export function computePeriodEconomySummary(params: {
   let ledgerIncomeSek = 0;
   let variableExpensesSek = 0;
 
+  const salaryLikeCategories = new Set(['lon', 'lön', 'salary', 'fk', 'ovb']);
+
   for (const row of inPeriod) {
     if (row.type === 'inkomst') {
+      if (params.usePayslipAsCanonical && salaryLikeCategories.has(row.category.toLowerCase())) {
+        continue;
+      }
       ledgerIncomeSek += row.amountSek;
     } else {
       ledgerExpensesSek += row.amountSek;
@@ -82,5 +90,6 @@ export function computePeriodEconomySummary(params: {
     variableExpensesSek,
     estimatedBalanceSek,
     ledgerRowCount: inPeriod.length,
+    incomeSource: params.usePayslipAsCanonical ? 'payslip' : 'profile',
   };
 }

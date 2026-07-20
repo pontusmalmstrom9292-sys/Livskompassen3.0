@@ -20,7 +20,10 @@ const REEXPORT_MODULES = [
   'payAbsenceRules.ts',
   'generatePayslipCore.ts',
   'taxTable32.ts',
+  'taxTableResolver.ts',
   'livsmedel2026.ts',
+  'payProfileContext.ts',
+  'payPeriod.ts',
 ];
 
 function assert(condition, message) {

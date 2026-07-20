@@ -40,6 +40,8 @@ import type {
   EconomyMealPrepItem,
   PayslipSnapshotRow,
 } from '../types/firestore';
+import type { AgreementPack, TaxTablePack } from '@economy/agreements/packTypes';
+import type { AgreementYamlShape, CollectiveAgreementId } from '@economy/agreements/types';
 import {
   computeWeekFlexDetail,
 } from '@/features/dailyLife/wellbeing/economy/rules/payTimeRules';
@@ -48,7 +50,7 @@ import {
   computePeriodEconomySummary,
   type PeriodEconomySummary,
 } from '@/features/dailyLife/wellbeing/economy/rules/periodSummary';
-import { getPayslipPeriodForPayday } from '@/features/dailyLife/wellbeing/economy/rules/generatePayslipCore';
+import { getPayslipPeriodForPayday } from '@/features/dailyLife/wellbeing/economy/rules/payPeriod';
 import { getWeekNumber, parseDateOnly } from '../utils/timeMath';
 import { getAllTimeEntriesForEconomyReadOnly } from './arbetslivFirestore';
 
@@ -108,20 +110,221 @@ export async function getEconomyProfileExtended(userId: string) {
       weeklyBudgetSek: 500,
       mealBoxPresetSek: 85,
       monthlySalarySek: 0,
+      salaryTerms: [] as Array<{ effectiveFrom: string; monthlySalarySek: number }>,
+      collectiveAgreementEnabled: true,
+      collectiveAgreementId: 'SE.livs.livsmedel' as const,
+      taxTable: 32,
+      taxColumn: 1 as const,
+      taxYear: 2026,
+      activeAgreementPackId: null as string | null,
+      activeTaxTablePackId: null as string | null,
       hourlyRateSek: 0,
       flexHoursTarget: 40,
       defaultBreakMinutes: 30,
     };
   }
   const data = snap.data();
+  const salaryTerms = Array.isArray(data.salaryTerms)
+    ? (data.salaryTerms as Array<{ effectiveFrom: string; monthlySalarySek: number }>)
+    : data.monthlySalarySek
+      ? [{ effectiveFrom: '2000-01-01', monthlySalarySek: Number(data.monthlySalarySek) }]
+      : [];
   return {
     weeklyBudgetSek: Number(data.weeklyBudgetSek ?? 500),
     mealBoxPresetSek: Number(data.mealBoxPresetSek ?? 85),
     monthlySalarySek: Number(data.monthlySalarySek ?? 0),
+    salaryTerms,
+    collectiveAgreementEnabled: Boolean(data.collectiveAgreementEnabled ?? true),
+    collectiveAgreementId:
+      (data.collectiveAgreementId as 'SE.livs.livsmedel' | 'SE.handels' | 'none') ??
+      'SE.livs.livsmedel',
+    taxTable: Number(data.taxTable ?? 32),
+    taxColumn: (Number(data.taxColumn ?? 1) as 1 | 2 | 3 | 4) || 1,
+    taxYear: Number(data.taxYear ?? 2026),
+    activeAgreementPackId: (data.activeAgreementPackId as string | null | undefined) ?? null,
+    activeTaxTablePackId: (data.activeTaxTablePackId as string | null | undefined) ?? null,
     hourlyRateSek: Number(data.hourlyRateSek ?? 0),
     flexHoursTarget: Number(data.flexHoursTarget ?? 40),
     defaultBreakMinutes: Number(data.defaultBreakMinutes ?? 30),
   };
+}
+
+/** Sparar lönekontor-inställningar (tre primära fält + härledda). */
+export async function setPayProfileSettings(
+  userId: string,
+  settings: {
+    salaryTerms: Array<{ effectiveFrom: string; monthlySalarySek: number }>;
+    collectiveAgreementEnabled: boolean;
+    collectiveAgreementId: 'SE.livs.livsmedel' | 'SE.handels' | 'none';
+    taxTable: number;
+    taxColumn: 1 | 2 | 3 | 4;
+    taxYear?: number;
+  },
+) {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_profiles);
+  const active = [...settings.salaryTerms].sort((a, b) => b.effectiveFrom.localeCompare(a.effectiveFrom))[0];
+  const monthlySalarySek = active?.monthlySalarySek ?? 0;
+  const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
+  await setDoc(
+    ref,
+    {
+      userId,
+      ownerId: userId,
+      salaryTerms: settings.salaryTerms,
+      monthlySalarySek,
+      collectiveAgreementEnabled: settings.collectiveAgreementEnabled,
+      collectiveAgreementId: settings.collectiveAgreementId,
+      taxTable: settings.taxTable,
+      taxColumn: settings.taxColumn,
+      taxYear: settings.taxYear ?? 2026,
+      updatedAt: serverTimestamp(),
+    },
+    { merge: true },
+  );
+}
+
+function mapAgreementPackDoc(id: string, data: FirestorePayload): AgreementPack {
+  const config = data.config as AgreementYamlShape;
+  return {
+    id,
+    agreementId: String(data.agreementId ?? config?.id ?? 'none') as CollectiveAgreementId,
+    config,
+    validFrom: String(data.validFrom ?? '2000-01-01'),
+    validTo: data.validTo != null ? String(data.validTo) : undefined,
+    versionLabel: String(data.versionLabel ?? config?.versionLabel ?? ''),
+    checksum: String(data.checksum ?? ''),
+    sourceFileName: String(data.sourceFileName ?? ''),
+    uploadedAt: normalizeCreatedAt(data.createdAt),
+  };
+}
+
+function mapTaxTablePackDoc(id: string, data: FirestorePayload): TaxTablePack {
+  return {
+    id,
+    table: Number(data.table ?? 32),
+    year: Number(data.year ?? 2026),
+    brackets: Array.isArray(data.brackets)
+      ? (data.brackets as Array<{ min: number; max: number; col1: number }>)
+      : [],
+    source: data.source != null ? String(data.source) : undefined,
+    checksum: String(data.checksum ?? ''),
+    sourceFileName: String(data.sourceFileName ?? ''),
+    uploadedAt: normalizeCreatedAt(data.createdAt),
+  };
+}
+
+export async function getPayrollAgreementPack(
+  packId: string,
+): Promise<AgreementPack | null> {
+  const ref = doc(db, FIRESTORE_COLLECTIONS.payroll_agreement_packs, packId);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return null;
+  return mapAgreementPackDoc(snap.id, snap.data() as FirestorePayload);
+}
+
+export async function getPayrollTaxTablePack(packId: string): Promise<TaxTablePack | null> {
+  const ref = doc(db, FIRESTORE_COLLECTIONS.payroll_tax_table_packs, packId);
+  const snap = await getDoc(ref);
+  if (!snap.exists()) return null;
+  return mapTaxTablePackDoc(snap.id, snap.data() as FirestorePayload);
+}
+
+export async function getActivePayrollPacks(profile: {
+  activeAgreementPackId?: string | null;
+  activeTaxTablePackId?: string | null;
+}): Promise<{ agreementPack: AgreementPack | null; taxTablePack: TaxTablePack | null }> {
+  const [agreementPack, taxTablePack] = await Promise.all([
+    profile.activeAgreementPackId
+      ? getPayrollAgreementPack(profile.activeAgreementPackId)
+      : Promise.resolve(null),
+    profile.activeTaxTablePackId
+      ? getPayrollTaxTablePack(profile.activeTaxTablePackId)
+      : Promise.resolve(null),
+  ]);
+  return { agreementPack, taxTablePack };
+}
+
+export async function appendPayrollAgreementPack(
+  userId: string,
+  pack: {
+    agreementId: CollectiveAgreementId;
+    config: AgreementYamlShape;
+    validFrom: string;
+    validTo?: string;
+    versionLabel: string;
+    checksum: string;
+    sourceFileName: string;
+  },
+): Promise<string> {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.payroll_agreement_packs);
+  const docId = `${userId}_${pack.agreementId}_${Date.now()}`;
+  const ref = doc(db, FIRESTORE_COLLECTIONS.payroll_agreement_packs, docId);
+  await setDoc(ref, {
+    userId,
+    ownerId: userId,
+    agreementId: pack.agreementId,
+    config: pack.config,
+    validFrom: pack.validFrom,
+    ...(pack.validTo != null ? { validTo: pack.validTo } : {}),
+    versionLabel: pack.versionLabel,
+    checksum: pack.checksum,
+    sourceFileName: pack.sourceFileName,
+    createdAt: serverTimestamp(),
+  });
+  return docId;
+}
+
+export async function appendPayrollTaxTablePack(
+  userId: string,
+  pack: {
+    table: number;
+    year: number;
+    brackets: TaxTablePack['brackets'];
+    source?: string;
+    checksum: string;
+    sourceFileName: string;
+  },
+): Promise<string> {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.payroll_tax_table_packs);
+  const docId = `${userId}_t${pack.table}_${pack.year}_${Date.now()}`;
+  const ref = doc(db, FIRESTORE_COLLECTIONS.payroll_tax_table_packs, docId);
+  await setDoc(ref, {
+    userId,
+    ownerId: userId,
+    table: pack.table,
+    year: pack.year,
+    brackets: pack.brackets,
+    ...(pack.source != null ? { source: pack.source } : {}),
+    checksum: pack.checksum,
+    sourceFileName: pack.sourceFileName,
+    createdAt: serverTimestamp(),
+  });
+  return docId;
+}
+
+export async function setActivePayrollPackPointers(
+  userId: string,
+  pointers: {
+    activeAgreementPackId?: string | null;
+    activeTaxTablePackId?: string | null;
+    taxYear?: number;
+    taxTable?: number;
+    collectiveAgreementId?: CollectiveAgreementId;
+    collectiveAgreementEnabled?: boolean;
+  },
+): Promise<void> {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_profiles);
+  const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
+  await setDoc(
+    ref,
+    {
+      userId,
+      ownerId: userId,
+      ...pointers,
+      updatedAt: serverTimestamp(),
+    },
+    { merge: true },
+  );
 }
 
 /** Sparar (merge) den utökade ekonomiprofilen. */
@@ -254,9 +457,15 @@ export async function getPeriodEconomySummary(
       }
     : getPayslipPeriodForPayday();
 
+  const payslip = await getLatestPayslipSnapshot(userId);
+  const canonicalIncomeSek =
+    payslip && payslip.periodFrom === payslipPeriod.from && payslip.periodTo === payslipPeriod.to
+      ? (payslip.totalToBankSek ?? payslip.netSalarySek)
+      : profile.monthlySalarySek || 0;
+
   return computePeriodEconomySummary({
     period: payslipPeriod,
-    monthlySalarySek: profile.monthlySalarySek || 0,
+    monthlySalarySek: canonicalIncomeSek,
     fixedBillsSumSek: bills.reduce((s, b) => s + b.amountSek, 0),
     ledgerRows: ledger.map((r) => ({
       date: r.date,
@@ -264,6 +473,9 @@ export async function getPeriodEconomySummary(
       amountSek: r.amountSek,
       type: r.type,
     })),
+    usePayslipAsCanonical: Boolean(
+      payslip && payslip.periodFrom === payslipPeriod.from && payslip.periodTo === payslipPeriod.to,
+    ),
   });
 }
 
@@ -458,6 +670,17 @@ function mapPayslipSnapshot(id: string, data: FirestorePayload, userId: string):
     karensDaysLast365: Number(data.karensDaysLast365 ?? 0),
     karensWaived: Boolean(data.karensWaived),
     absenceLines: Array.isArray(data.absenceLines) ? (data.absenceLines as PayslipSnapshotRow['absenceLines']) : [],
+    lineItems: Array.isArray(data.lineItems) ? (data.lineItems as PayslipSnapshotRow['lineItems']) : [],
+    employerNetSek: Number(data.employerNetSek ?? data.netSalarySek ?? 0),
+    fkTotalSek: Number(data.fkTotalSek ?? 0),
+    agsTotalSek: Number(data.agsTotalSek ?? 0),
+    totalToBankSek: Number(data.totalToBankSek ?? data.netSalarySek ?? 0),
+    agreementMeta: data.agreementMeta as PayslipSnapshotRow['agreementMeta'],
+    taxMeta: data.taxMeta as PayslipSnapshotRow['taxMeta'],
+    obSupplementSek: Number(data.obSupplementSek ?? 0),
+    otSupplementSek: Number(data.otSupplementSek ?? 0),
+    vacationAccrualSek: Number(data.vacationAccrualSek ?? 0),
+    atfAccrualSek: Number(data.atfAccrualSek ?? 0),
     taxTable: Number(data.taxTable ?? 32),
     taxColumn: Number(data.taxColumn ?? 1),
     isLocked: Boolean(data.isLocked),

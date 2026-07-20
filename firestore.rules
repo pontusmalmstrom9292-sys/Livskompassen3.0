@@ -1039,6 +1039,30 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    match /payroll_agreement_packs/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.checksum is string
+        && request.resource.data.checksum.size() >= 8
+        && request.resource.data.agreementId in ['SE.livs.livsmedel', 'SE.handels', 'none']
+        && request.resource.data.validFrom is string
+        && request.resource.data.versionLabel is string
+        && request.resource.data.config is map;
+      allow update, delete: if false;
+    }
+
+    match /payroll_tax_table_packs/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.checksum is string
+        && request.resource.data.checksum.size() >= 8
+        && request.resource.data.table is int
+        && request.resource.data.year is int
+        && request.resource.data.brackets is list
+        && request.resource.data.brackets.size() >= 1;
+      allow update, delete: if false;
+    }
+
     match /time_entries/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreate();
