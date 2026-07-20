@@ -8,6 +8,7 @@ import { spawnSync } from 'node:child_process';
 import { mkdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'url';
+import { readAgentsCallableSource, assertAgentsIncludes } from './lib/readAgentsCallableSource.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const outDir = join(root, 'exports/gpt-handoff/repomix');
@@ -157,7 +158,7 @@ const PACK_04_INCLUDE = [
   'src/modules/core/navigation/navTruth.ts',
   'src/modules/features/lifeJournal/diary/**',
   'functions/src/sharedRules.ts',
-  'functions/src/callables/agents.ts',
+  'functions/src/callables/agents/index.ts',
 ].join(',');
 
 const PACK_05_INCLUDE = [

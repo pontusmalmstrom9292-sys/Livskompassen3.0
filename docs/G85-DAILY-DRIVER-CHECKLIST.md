@@ -14,7 +14,9 @@ Logga endast. Kodfixar går via improvement waves / Agent — inte här.
 - [ ] App till bakgrund **< 3 sekunder** → tillbaka **utan kickout**
 - [ ] App Check: ingen HTTP 400 i logcat vid Valv-anrop
 
-## Daglig användning (dag 1–7)
+## Day N log (dag 1–7)
+
+Kryssa **Enhetsgate** ovan dag 1. Logga sedan en rad per dag — friktion eller OK. Kodfixar går via improvement waves, inte här.
 
 | Dag | Datum | Anteckning (friktion / OK) |
 |-----|-------|----------------------------|

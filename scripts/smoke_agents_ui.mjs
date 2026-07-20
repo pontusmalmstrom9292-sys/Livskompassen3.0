@@ -5,6 +5,7 @@
 import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { readAgentsCallableSource, assertAgentsIncludes } from './lib/readAgentsCallableSource.mjs';
 import { execSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -58,7 +59,7 @@ mustInclude(
 );
 
 console.log('[smoke:agents-ui] Backend callable...');
-mustInclude('functions/src/callables/agents.ts', 'getAgentRegistry', 'listAgentCards', 'valv_orkester', 'assertVaultSession');
+assertAgentsIncludes(root, 'getAgentRegistry', 'listAgentCards', 'valv_orkester', 'assertVaultSession');
 mustInclude('functions/src/index.ts', 'getAgentRegistry');
 
 console.log('[smoke:agents-ui] Unit tests...');

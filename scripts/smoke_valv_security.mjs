@@ -6,6 +6,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { readAgentsCallableSource, assertAgentsIncludes } from './lib/readAgentsCallableSource.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -101,8 +102,7 @@ function main() {
   mustInclude('functions/src/callables/compass.ts', 'vaultSessionGrantsVaultRead', 'reality_vault');
   mustInclude('functions/src/callables/generateWeeklyInsights.ts', 'vaultSessionGrantsVaultRead', 'reality_vault');
   mustInclude('src/modules/reflection/components/WeeklySummary.tsx', 'withVaultSessionPayload', 'generateWeeklyInsights');
-  mustInclude(
-    'functions/src/callables/agents.ts',
+  assertAgentsIncludes(root,
     "guardSensitiveCallableV2(request, 'getAgentRegistry'",
     "guardSensitiveCallableV2(request, 'createBarnportenPairing'",
     "guardSensitiveCallableV2(request, 'claimBarnportenPairing'",
@@ -156,7 +156,7 @@ function main() {
   assert(signOutBody?.[1]?.includes('await endVaultSession()'), 'signOutUser måste anropa endVaultSession');
   mustInclude('src/modules/core/auth/authService.ts', 'clearSpeglarSession');
   mustInclude('src/modules/core/auth/sessionService.ts', 'getIdToken(true)');
-  mustInclude('functions/src/callables/agents.ts', 'clearVaultJwtClaims', 'vaultUnlocked', 'adkOrchestrator.clearContext');
+  assertAgentsIncludes(root, 'clearVaultJwtClaims', 'vaultUnlocked', 'adkOrchestrator.clearContext');
   mustInclude('functions/src/callables/processBrusfilter.ts', "trigger: 'dcap_alert'", 'emitSynapse');
   mustInclude('functions/src/economy/mabraEconomySync.ts', 'handleDcapAlert');
   mustInclude('firestore.rules', 'unlockedFeatureFlags');

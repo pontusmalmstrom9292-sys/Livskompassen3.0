@@ -5,6 +5,7 @@
 import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { readAgentsCallableSource, assertAgentsIncludes } from './lib/readAgentsCallableSource.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -126,7 +127,7 @@ function main() {
 
   console.log('[smoke:content-waves] Våg 11 — Vit chat P3...');
   mustInclude('docs/content/CONTENT-WAVES.md', 'Vit chat P3', 'vit_chat', '**done**');
-  mustInclude('functions/src/callables/agents.ts', "mode === 'vit_chat'", 'askVitChatCoach');
+  assertAgentsIncludes(root, "mode === 'vit_chat'", 'askVitChatCoach');
   mustInclude('functions/src/sharedRules.ts', 'VIT_CHAT_COACH_SYSTEM_PROMPT');
   mustInclude(
     'src/modules/features/dailyLife/wellbeing/mabra/components/VitChatFlowPanel.tsx',

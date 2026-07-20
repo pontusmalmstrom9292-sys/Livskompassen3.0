@@ -96,7 +96,7 @@ export function RecoveryUrgeSosModule({ onClose }: Props) {
       onClose={onClose}
       hideHeader
       ariaLabel="SOS Ankare — akut stöd"
-      className={`${immersiveModalOverlayClass} !z-[60]`}
+      className={`${immersiveModalOverlayClass} !z-[100]`}
       panelClassName={`${immersiveModalPanelClass} !bg-gradient-to-b !from-bg !via-surface !to-surface-2`}
     >
       <div className="flex h-full min-h-[100dvh] flex-col">

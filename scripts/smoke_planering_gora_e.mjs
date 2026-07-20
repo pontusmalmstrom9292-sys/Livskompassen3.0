@@ -5,6 +5,7 @@
 import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { readAgentsCallableSource, assertAgentsIncludes } from './lib/readAgentsCallableSource.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -120,7 +121,7 @@ function main() {
     'src/modules/features/dailyLife/wellbeing/compasses/api/compassService.ts',
     'breakDownResponse',
   );
-  mustInclude('functions/src/callables/agents.ts', "trigger: 'user_overwhelm'");
+  assertAgentsIncludes(root, "trigger: 'user_overwhelm'");
 
   mustInclude(
     'src/modules/features/admin/planning/components/PlaneringFokusPanel.tsx',

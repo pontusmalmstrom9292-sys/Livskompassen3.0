@@ -9,6 +9,7 @@
 import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { readAgentsCallableSource } from './lib/readAgentsCallableSource.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -61,13 +62,17 @@ function main() {
     '.github/dependabot.yml ignorerar inte semver-major för firebase-functions',
   );
 
-  for (const rel of ['functions/src/callables/agents.ts', 'functions/src/callables/knowledge.ts']) {
-    const text = read(rel);
-    assert(
-      text.includes(REQUIRED_V2_IMPORT),
-      `${rel} saknar ${REQUIRED_V2_IMPORT}`,
-    );
-  }
+  const knowledge = read('functions/src/callables/knowledge.ts');
+  assert(
+    knowledge.includes(REQUIRED_V2_IMPORT),
+    `functions/src/callables/knowledge.ts saknar ${REQUIRED_V2_IMPORT}`,
+  );
+
+  const agentsSrc = readAgentsCallableSource(root);
+  assert(
+    agentsSrc.includes(REQUIRED_V2_IMPORT),
+    `functions/src/callables/agents/* saknar ${REQUIRED_V2_IMPORT}`,
+  );
 
   console.log(`[smoke:functions-pin] PASS — firebase-functions ${raw} (v${major}.x pin).`);
 }

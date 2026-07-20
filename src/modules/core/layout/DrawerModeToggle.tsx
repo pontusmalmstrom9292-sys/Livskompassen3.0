@@ -12,6 +12,7 @@ export function DrawerModeToggle({ showValvShell, onBackToVardag }: Props) {
       <button
         type="button"
         className="nav-drawer__mode-btn nav-drawer__mode-btn--active nav-drawer__mode-btn--solo"
+        aria-label="Tillbaka till Vardag"
         onClick={onBackToVardag}
       >
         Vardag

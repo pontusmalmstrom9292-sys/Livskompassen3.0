@@ -5,6 +5,7 @@ import { clsx } from 'clsx';
 import { useStore } from '@/core/store';
 import { hasVaultGate } from '@/core/auth/sessionService';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { JournalArchiveReadonly } from '@/features/lifeJournal/diary/diary/components/JournalArchiveReadonly';
 import { ConfirmStep } from '@/features/lifeJournal/diary/diary/components/ConfirmStep';
 import { DagbokWizardErrorBoundary } from '@/features/lifeJournal/diary/diary/components/DagbokWizardErrorBoundary';
@@ -105,11 +106,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
   }, [step, onSaved]);
 
   if (!user) {
-    return (
-      <p className="text-sm text-text-muted p-4 text-center">
-        Logga in för att spara i dagboken.
-      </p>
-    );
+    return <EmptyState message="Logga in för att spara i dagboken." />;
   }
 
   const categoryLabel = category
@@ -242,7 +239,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
             TIDIGARE ANTECKNINGAR
           </h3>
           {entries.length === 0 ? (
-            <p className="text-xs text-text-dim italic px-1">Inga tidigare anteckningar.</p>
+            <EmptyState message="Inga tidigare anteckningar." />
           ) : (
             <div className="space-y-2.5">
               {entries.map((entry) => {
@@ -417,11 +414,7 @@ export function DagbokArkivDelegate() {
   }, [user, refreshEntries]);
 
   if (!user) {
-    return (
-      <p className="text-sm text-text-muted p-4 text-center">
-        Logga in för att se din minneslista.
-      </p>
-    );
+    return <EmptyState message="Logga in för att se din minneslista." />;
   }
 
   return (

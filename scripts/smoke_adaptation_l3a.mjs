@@ -5,6 +5,7 @@
 import { createRequire } from 'module';
 import { dirname, resolve } from 'path';
 import { fileURLToPath } from 'url';
+import { readAgentsCallableSource, assertAgentsIncludes } from './lib/readAgentsCallableSource.mjs';
 import { readFileSync, existsSync } from 'fs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -29,7 +30,7 @@ function main() {
   mustInclude('functions/src/lib/adaptationCoachTone.ts', 'resolveCoachToneForUser');
   mustInclude('functions/src/lib/mabraContentBank.ts', 'coachTone: CoachTone');
   mustInclude('functions/src/lib/mabraCapacityParafras.ts', 'coachTone: CoachTone');
-  mustInclude('functions/src/callables/agents.ts', 'resolveCoachToneForUser');
+  assertAgentsIncludes(root, 'resolveCoachToneForUser');
   mustInclude('src/modules/core/auth/authService.ts', 'resetAdaptationSignalThrottle');
   mustInclude('src/modules/core/auth/authService.ts', 'useAdaptationStore.getState().reset()');
 

@@ -5,6 +5,7 @@
 import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { readAgentsCallableSource, assertAgentsIncludes } from './lib/readAgentsCallableSource.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -193,7 +194,7 @@ function main() {
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultOrkesterPanel.tsx', 'OrkesterAgentTrio', 'Registrerade dokument');
   mustInclude('src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx', 'SERVER-TIDSSTÄMPEL', 'scanTechniquesForLog');
   mustInclude('src/modules/features/dailyLife/wellbeing/mabra/components/VitHubPreview.tsx', 'VitCardFlowPanel');
-  mustInclude('functions/src/callables/agents.ts', "mode === 'transformator'");
+  assertAgentsIncludes(root, "mode === 'transformator'");
   mustInclude('functions/src/sharedRules.ts', 'KBT_TRANSFORMATOR_SYSTEM_PROMPT');
   mustInclude('.context/design-modules-mockup.md', 'D29', 'D3');
   mustInclude('src/modules/shell/livLauncherRoutes.ts', 'handling', '/planering?tab=handling');

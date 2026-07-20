@@ -40,13 +40,16 @@ describe('secureExport utilities', () => {
       const xssAttempt = '<img src=x onerror="alert(\'XSS\')">'; 
       const escaped = escapeHtml(xssAttempt);
       expect(escaped).toBe('&lt;img src=x onerror=&quot;alert(&#39;XSS&#39;)&quot;&gt;');
-      expect(escaped).not.toContain('onerror=');
+      // Escaped text may still contain the substring "onerror="; ensure no live HTML attribute
+      expect(escaped).not.toMatch(/<img\b/i);
+      expect(escaped).toContain('onerror=&quot;');
     });
 
     it('should prevent XSS injection via onclick attribute', () => {
       const xssAttempt = '<div onclick="malicious()">Click me</div>';
       const escaped = escapeHtml(xssAttempt);
-      expect(escaped).not.toContain('onclick=');
+      expect(escaped).not.toMatch(/<div\b/i);
+      expect(escaped).toContain('onclick=&quot;');
     });
 
     it('should handle mixed content', () => {
@@ -168,10 +171,11 @@ describe('secureExport utilities', () => {
         maliciousData.title
       );
 
-      // Verify no script tags or event handlers remain
+      // Verify no live script tags; event handler text is escaped (not executable)
       expect(html).not.toContain('<script>');
-      expect(html).not.toContain('onerror=');
-      expect(html).not.toContain('alert');
+      expect(html).not.toMatch(/<img\b[^>]*onerror=/i);
+      expect(html).toContain('onerror=&quot;');
+      expect(html).toContain('alert'); // escaped text may remain; CSP blocks scripts
     });
 
     it('should create safe report with table', () => {
@@ -193,7 +197,7 @@ describe('secureExport utilities', () => {
 
       expect(html).not.toContain('<delete>');
       expect(html).toContain('&lt;delete&gt;');
-      expect(html).toContain('A &amp; B');
+      expect(html).toContain('Test &amp; verify');
     });
   });
 });

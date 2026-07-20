@@ -1,3 +1,15 @@
+# 2026-07-20 — Improvement wave B (B01, B04–B08)
+
+- **B01 G85:** Day N log section in checklist + eval session note (device verify = user).
+- **B04 Capture/Inkast + MåBra:** Canonical map eval; barrels `features/mabra/index.ts`, `components/mabra/index.ts`.
+- **B05 A11y:** Drawer/chrome `aria-label` sweep (6 files) + eval note.
+- **B06 App Check:** Enable runbook (Console + `APP_CHECK_ENFORCE`; `VALV_REQUIRES_APP_CHECK` stays false).
+- **B07 Charts:** Lazy `recharts` boundaries — `OracleCapacityChart`, `MabraHistoryChart`.
+- **B08 Phase 10:** Visual sign-off checklist (executive-chrome / dock / hem locked).
+- Verification: `npm run build` (agent).
+
+---
+
 # 2026-07-20 — YOLO app-wide UI polish (Wave 6, executive/home shell pass)
 
 - Ny global DS-våg klar: `exec-home-chrome.css`, `exec-header-chrome.css`, `obsidian-calm-shells.css`, `obsidian-calm-glass.css`.
@@ -2959,3 +2971,14 @@ Copy the template below for each entry. Newest first.
 - Synlig under Bästa Design Hem («Mer för dig») + MåBra («Utvecklingskort»).
 - KEEP-bridge + vit_entries klar/svar; lokal signalrankning; unlockedPacks hooks.
 - Smoke: design-modules, basta-dock-lock, locked-ux, module-lock PASS. Build PASS.
+
+## 2026-07-20 — Improvement wave A+B (förbättringsanalys implementerad)
+
+**Spår A:** Home ProtectedModule; vitest pin + test:unit; CI lint/economy/unit; economy/arbetsliv assertArchitectureWrite; ledger orderBy+limit; siloEnforcer wired; functions unit tests; agents.ts split + smoke adapters; inventory:functions; Capture/ValvInbox HEB; SacredLock 60s cooldown; EmptyState Dagbok; secureExport test sync.
+
+**Spår B:** G85 session/checklist; SOS unified → RecoveryUrgeSosModule; Valv skeleton/EmptyState; Capture/Inkast/MåBra canonical map; drawer a11y; App Check runbook (no enforce); lazy recharts; Phase 10 sign-off checklist.
+
+**Validering:** verifySecurityComponents PASS · functions build+test PASS · test:unit 118 · smoke:locked-ux/orkester/functions-pin/agents-ui/weaver-hitl/mabra/design-modules PASS.
+
+**Kvar till Pontus:** G85 device Valv <3s · App Check Console · functions redeploy per gap-doc · Phase 10 visual sign-off.
+

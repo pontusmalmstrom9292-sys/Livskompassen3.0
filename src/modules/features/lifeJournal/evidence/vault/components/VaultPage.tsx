@@ -17,6 +17,8 @@ import { VaultErrorBoundary } from './VaultErrorBoundary';
 import { VaultLockedGate } from '@/core/components/VaultLockedGate';
 import { VaultCountdown } from '@/core/security/VaultCountdown';
 import { ValvBentoShell } from './ValvBentoShell';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+import { EmptyState } from '@/core/ui/EmptyState';
 const ValvInputSuperModule = lazy(() => import('../supermodule/ValvInputSuperModule').then(m => ({ default: m.ValvInputSuperModule })));
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
 import { type ValvInputMode, canonicalValvRoute } from '../supermodule/valvInputModes';
@@ -190,7 +192,7 @@ function VaultPageInner({
           depth
           noHover
         >
-          <p className="text-sm text-text-dim">Ansluter till valvet…</p>
+          <HubPanelSkeleton label="Ansluter till valvet…" lines={3} />
         </BentoCard>
       </ValvBentoShell>
     );
@@ -229,9 +231,7 @@ function VaultPageInner({
         </div>
 
         {sessionSyncError ? (
-          <p className="rounded-xl border border-accent/30 bg-surface-2/80 px-3 py-2 text-xs text-text-muted">
-            {sessionSyncError}
-          </p>
+          <EmptyState message={sessionSyncError} />
         ) : null}
 
         <section className="valv-zone-intro valv-page-shell__intro" aria-label="Valv zonöversikt">
@@ -249,7 +249,7 @@ function VaultPageInner({
           <PinnedPlaneringModuleSlot targetId="valv.kunskapsbank" />
         ) : null}
 
-        <Suspense fallback={<div className="valv-page-shell__loading p-4 text-center text-sm text-text-muted">Laddar valv-verktyg...</div>}>
+        <Suspense fallback={<HubPanelSkeleton label="Laddar valv-verktyg…" lines={5} />}>
           <ValvInputSuperModule
             activeMode={valvMode}
             onModeChange={setValvMode}

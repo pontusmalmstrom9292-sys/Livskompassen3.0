@@ -154,6 +154,7 @@ export const NavigationDrawer = memo(function NavigationDrawer() {
                       <button
                         key={entry.path}
                         type="button"
+                        aria-label={`Gå till ${entry.label}`}
                         onClick={() => navigateDrawerPath(entry.path)}
                         className="nav-drawer__recent-chip"
                       >
@@ -191,6 +192,7 @@ export const NavigationDrawer = memo(function NavigationDrawer() {
                   <button
                     key={item.id}
                     type="button"
+                    aria-label={item.label}
                     onClick={() => handleVardagRowClick(item)}
                     className={clsx('nav-drawer__row', active && 'nav-drawer__row--active')}
                   >
@@ -220,6 +222,7 @@ export const NavigationDrawer = memo(function NavigationDrawer() {
                         <button
                           key={item.id}
                           type="button"
+                          aria-label={item.label}
                           onClick={() => navigateDrawerPath(item.path)}
                           className={clsx('nav-drawer__row', active && 'nav-drawer__row--active')}
                         >

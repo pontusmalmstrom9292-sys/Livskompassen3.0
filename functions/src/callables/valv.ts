@@ -20,6 +20,7 @@ import {
 import { assertAppCheckV2, guardSensitiveCallableV2 } from '../lib/callableGuards';
 import { assertRateLimit } from '../lib/rateLimit';
 import { geminiApiKey } from '../lib/geminiSecret';
+import { createSiloGuard, Silo } from '../lib/siloEnforcer';
 import type { EntityRole } from '../lib/entityProfileTypes';
 import type {
   AuthenticationResponseJSON,
@@ -27,6 +28,7 @@ import type {
 } from '@simplewebauthn/server';
 
 const ASSIST_PATTERN_METADATA_WINDOW_MS = 60 * 60 * 1000;
+const valvChatGuard = createSiloGuard('valvChatQuery', Silo.VALV);
 
 /** P3 Flow-assist — auth + 2 anrop/timme per UID (PMIR-A). */
 async function guardAssistPatternMetadata(request: CallableRequest): Promise<string> {
@@ -206,6 +208,7 @@ export const valvChatQuery = onCall(
   }
 
   try {
+    valvChatGuard.assertCollections(['reality_vault', 'entity_profiles']);
     const result = await askValvChat(uid, question.trim(), geminiApiKey.value());
     return result;
   } catch (error) {
