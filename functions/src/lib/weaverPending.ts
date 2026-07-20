@@ -1,6 +1,6 @@
 import { admin } from './firebaseAdmin';
 import type { WeaverResult } from '../agents/weaverAgent';
-import { assertServerWormPayload, REALITY_VAULT_ALLOWED_KEYS } from './wormPayload';
+import { assertWormCollectionWrite } from './wormPayload';
 
 export const WEAVER_PENDING_COLLECTION = 'weaver_pending';
 
@@ -76,12 +76,13 @@ export async function approveWeaverPending(
     isLocked: true,
   };
 
-  assertServerWormPayload(vaultPayload, 'weaverPending.approve', REALITY_VAULT_ALLOWED_KEYS);
-
-  const vaultRef = await admin.firestore().collection('reality_vault').add({
+  const vaultWrite: Record<string, unknown> = {
     ...vaultPayload,
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
-  });
+  };
+  assertWormCollectionWrite('reality_vault', vaultWrite, 'weaverPending.approve');
+
+  const vaultRef = await admin.firestore().collection('reality_vault').add(vaultWrite);
 
   await ref.delete();
   return { vaultMetadataId: vaultRef.id };

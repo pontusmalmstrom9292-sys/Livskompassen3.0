@@ -3,7 +3,7 @@ import { requiresHumanReview, type InboxClassification } from './inboxClassifier
 import { formatChildObservation, inferEpistemicKind } from './childObservationEpistemics';
 import { persistKbDocFromDrive, type PersistKbDocInput } from './persistKbDoc';
 import { isKunskapFactApproved } from './kunskapContentBankGate';
-import { assertServerWormPayload, CHILDREN_LOG_ALLOWED_KEYS, driveInboxSourceRef, REALITY_VAULT_ALLOWED_KEYS } from './wormPayload';
+import { assertWormCollectionWrite, driveInboxSourceRef } from './wormPayload';
 import { appendToHashChain } from './wormHashChain';
 
 const INBOX_QUEUE = 'inbox_queue';
@@ -125,12 +125,13 @@ export async function persistVaultFromInbox(input: {
     ...(input.evidenceUrl ? { evidenceUrl: input.evidenceUrl } : {}),
   };
 
-  assertServerWormPayload(vaultPayload, 'inboxPersist.reality_vault', REALITY_VAULT_ALLOWED_KEYS);
-
-  const docRef = await db.collection('reality_vault').add({
+  const vaultWrite: Record<string, unknown> = {
     ...vaultPayload,
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
-  });
+  };
+  assertWormCollectionWrite('reality_vault', vaultWrite, 'inboxPersist.reality_vault');
+
+  const docRef = await db.collection('reality_vault').add(vaultWrite);
 
   try {
     await appendToHashChain(input.ownerId, 'reality_vault', docRef.id, vaultPayload);
@@ -196,12 +197,13 @@ export async function persistChildrenLogFromInbox(input: {
     sourceRef,
   };
 
-  assertServerWormPayload(childPayload, 'inboxPersist.children_logs', CHILDREN_LOG_ALLOWED_KEYS);
-
-  const docRef = await db.collection('children_logs').add({
+  const childWrite: Record<string, unknown> = {
     ...childPayload,
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
-  });
+  };
+  assertWormCollectionWrite('children_logs', childWrite, 'inboxPersist.children_logs');
+
+  const docRef = await db.collection('children_logs').add(childWrite);
 
   try {
     await appendToHashChain(input.ownerId, 'children_logs', docRef.id, childPayload);
@@ -250,7 +252,7 @@ export async function persistJournalFromInbox(input: {
     .filter(Boolean)
     .slice(0, 12);
 
-  const docRef = await db.collection('journal').add({
+  const journalWrite: Record<string, unknown> = {
     userId: input.ownerId,
     ownerId: input.ownerId,
     mood: 'neutral',
@@ -258,7 +260,10 @@ export async function persistJournalFromInbox(input: {
     category,
     ...(tags.length ? { tags } : {}),
     createdAt: admin.firestore.FieldValue.serverTimestamp(),
-  });
+  };
+  assertWormCollectionWrite('journal', journalWrite, 'inboxPersist.journal');
+
+  const docRef = await db.collection('journal').add(journalWrite);
 
   const journalPayload = {
     userId: input.ownerId,
