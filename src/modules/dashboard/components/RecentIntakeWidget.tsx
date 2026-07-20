@@ -83,7 +83,8 @@ export function RecentIntakeWidget() {
               {unresolvedTasks.map((task) => {
                 const isVoice = task.source === 'voice_to_vault';
                 return (
-                  <div
+                  <button
+                    type="button"
                     key={task.id}
                     onClick={() =>
                       setSelectedItem({
@@ -97,7 +98,7 @@ export function RecentIntakeWidget() {
                         projectId: task.projectId || '',
                       })
                     }
-                    className="cursor-pointer flex items-start justify-between gap-3 p-3 rounded-xl bg-surface-2 border border-border/40 hover:border-border transition-all hover:bg-surface-3 group"
+                    className="cursor-pointer flex w-full items-start justify-between gap-3 p-3 rounded-xl bg-surface-2 border border-border/40 hover:border-border transition-all hover:bg-surface-3 group text-left"
                   >
                     <div className="flex items-start gap-2.5 min-w-0">
                       {isVoice ? (
@@ -128,7 +129,7 @@ export function RecentIntakeWidget() {
                         </span>
                       )}
                     </div>
-                  </div>
+                  </button>
                 );
               })}
             </div>
@@ -159,7 +160,8 @@ export function RecentIntakeWidget() {
                   const confidence = record.confidence != null ? Math.round(record.confidence * 100) : null;
 
                   return (
-                    <div
+                    <button
+                      type="button"
                       key={record.id}
                       onClick={() =>
                         setSelectedItem({
@@ -169,7 +171,7 @@ export function RecentIntakeWidget() {
                           type: 'vault',
                         })
                       }
-                      className="cursor-pointer p-3.5 rounded-xl bg-surface-2 border border-border/40 hover:border-border transition-all hover:bg-surface-3 flex flex-col space-y-2 relative overflow-hidden group"
+                      className="cursor-pointer p-3.5 rounded-xl bg-surface-2 border border-border/40 hover:border-border transition-all hover:bg-surface-3 flex flex-col space-y-2 relative overflow-hidden group w-full text-left"
                     >
                       <div className="flex justify-between items-start gap-2">
                         <div className="flex items-center gap-1.5 font-mono text-[10px] text-text-dim">
@@ -197,7 +199,7 @@ export function RecentIntakeWidget() {
                           <p className="text-xs text-text-dim italic mt-0.5 break-words">&quot;{record.truth}&quot;</p>
                         </div>
                       )}
-                    </div>
+                    </button>
                   );
                 })}
               </div>

@@ -185,6 +185,7 @@ export function HubDropdownNav<T extends string>({
             type="button"
             role="option"
             aria-selected={selected}
+            aria-label={item.label}
             onClick={() => handleSelect(item.id)}
             className={clsx(
               'hub-dropdown-nav__option group flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-all',

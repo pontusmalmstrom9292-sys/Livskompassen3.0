@@ -37,6 +37,9 @@ const FamiljenVardagsstrukturDelegate = lazy(() =>
 const FamiljenInkastDelegate = lazy(() =>
   import('./delegates/FamiljenInkastDelegate').then((m) => ({ default: m.FamiljenInkastDelegate })),
 );
+const FamiljenIncidentDelegate = lazy(() =>
+  import('./delegates/FamiljenIncidentDelegate').then((m) => ({ default: m.FamiljenIncidentDelegate })),
+);
 
 function FamiljenDelegateFallback() {
   return <p className="py-4 text-center text-xs text-text-dim">Laddar…</p>;
@@ -148,6 +151,9 @@ type DelegateProps = {
 function FamiljenInputModeDelegate({ mode, shell, onSaved }: DelegateProps) {
   let content: ReactNode = null;
   switch (mode) {
+    case 'incident':
+      content = <FamiljenIncidentDelegate shell={shell} onSaved={onSaved} />;
+      break;
     case 'barnfokus':
       content = <FamiljenBarnfokusDelegate shell={shell} onSaved={onSaved} />;
       break;

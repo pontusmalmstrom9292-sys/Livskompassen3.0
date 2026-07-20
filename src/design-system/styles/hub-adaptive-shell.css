@@ -16,10 +16,16 @@
   .adaptive-card {
     @apply transition-colors;
     border-width: 0.5px;
+    min-height: var(--ds-touch-target);
   }
 
   .adaptive-card:hover {
     border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+  }
+
+  .adaptive-card:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .adaptive-card--gold {

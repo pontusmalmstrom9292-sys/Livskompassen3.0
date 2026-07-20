@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { ModuleShell } from '@/core/layout/ModuleShell';
@@ -51,6 +51,7 @@ export function DagbokInputRoutes() {
                 </Suspense>
               }
             />
+            <Route path="*" element={<Navigate to="/hjartat/input" replace />} />
           </Routes>
         </HjartatBentoShell>
       </ModuleShell>

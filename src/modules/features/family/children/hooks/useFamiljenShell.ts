@@ -139,6 +139,30 @@ export function useFamiljenShell() {
     return id;
   };
 
+  const handleSaveIncident = async (data: {
+    observation: string;
+    truth: string;
+    bankId?: string;
+    epistemicKind?: EpistemicKind;
+  }) => {
+    if (!user) throw new Error('Ej inloggad');
+    setError(null);
+    const id = await saveChildrenLog(user.uid, {
+      childAlias: activeChild,
+      observation: data.observation,
+      truth: data.truth,
+      category: 'incident',
+      action: 'incident_analys',
+      channel: 'familjen',
+      authorRole: 'parent',
+      visibility: 'parent',
+      epistemicKind: data.epistemicKind ?? 'tolkning',
+      ...(data.bankId ? { bankId: data.bankId } : {}),
+    });
+    await refreshLogs();
+    return id;
+  };
+
   const handleSaveBarnfokus = async (
     observation: string,
     question: BarnfokusQuestion,
@@ -199,6 +223,7 @@ export function useFamiljenShell() {
     familyWeekStats,
     handleSavePhysio,
     handleSaveObservation,
+    handleSaveIncident,
     handleSaveBarnfokus,
     refreshLogs,
   };

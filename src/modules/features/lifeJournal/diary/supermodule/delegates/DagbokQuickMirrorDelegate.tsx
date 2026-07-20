@@ -1,4 +1,5 @@
 import { useStore } from '@/core/store';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { JournalQuickMode } from '@/features/lifeJournal/diary/diary/components/JournalQuickMode';
 import { useJournalFlow } from '@/features/lifeJournal/diary/diary/hooks/useJournalFlow';
 
@@ -27,11 +28,7 @@ export function DagbokQuickMirrorDelegate({ onSaved }: DagbokQuickMirrorDelegate
   } = useJournalFlow({ userId: user?.uid });
 
   if (!user) {
-    return (
-      <p className="text-sm text-text-muted p-4 text-center">
-        Logga in för att spara i dagboken.
-      </p>
-    );
+    return <EmptyState message="Logga in för att spara i dagboken." />;
   }
 
   const handleSave = async (

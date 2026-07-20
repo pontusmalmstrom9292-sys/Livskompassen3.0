@@ -14,6 +14,14 @@ import {
 } from '../lib/barnenModuleRouteGuard';
 import { KNOWLEDGE_UPLOAD_MIMES, MAX_KNOWLEDGE_UPLOAD_BASE64_CHARS } from './shared';
 import { guardSensitiveCallableV2 } from '../lib/callableGuards';
+import { createSiloGuard, Silo } from '../lib/siloEnforcer';
+
+const kunskapGuard = createSiloGuard('knowledgeVaultQuery', Silo.KUNSKAP);
+const barnenGuard = createSiloGuard('childrenLogsQuery', Silo.BARNEN);
+const contextCacheGuard = createSiloGuard('getContextCacheStatus', Silo.KUNSKAP);
+const ingestKampsparGuard = createSiloGuard('ingestKampsparEntry', Silo.KUNSKAP);
+const promoteKbGuard = createSiloGuard('promoteKbDocToKampspar', Silo.KUNSKAP);
+const ingestDocGuard = createSiloGuard('ingestKnowledgeDocument', Silo.KUNSKAP);
 
 export const generateEmbedding = onCall(
   { region: 'europe-west1', secrets: [geminiApiKey] },
@@ -60,6 +68,7 @@ export const knowledgeVaultQuery = onCall(
       };
     }
 
+    kunskapGuard.assertCollections(['kampspar', 'kb_docs', 'entity_profiles']);
     const result = await askKnowledgeVaultWithRag(
       uid,
       trimmedPrompt,
@@ -88,6 +97,7 @@ export const childrenLogsQuery = onCall(
         ? request.data.childAlias.trim()
         : undefined;
 
+    barnenGuard.assertCollections(['children_logs', 'entity_profiles']);
     const result = await askChildrenLogsQuery(
       uid,
       question.trim(),
@@ -101,6 +111,7 @@ export const childrenLogsQuery = onCall(
 export const getContextCacheStatus = onCall({ region: 'europe-west1' }, async (request) => {
   const uid = await guardSensitiveCallableV2(request, 'getContextCacheStatus', 30);
 
+  contextCacheGuard.assertCollections(['context_cache_registry']);
   const entries = await listRegistryEntriesForUser(uid);
   return {
     registry: 'firestore',
@@ -142,6 +153,7 @@ export const ingestKampsparEntry = onCall(
       throw new HttpsError('invalid-argument', 'content krävs (max 8000 tecken).');
     }
 
+    ingestKampsparGuard.assertCollections(['kampspar']);
     return ingestKampsparForUser(uid, {
       title,
       content,
@@ -164,6 +176,7 @@ export const promoteKbDocToKampspar = onCall(
       throw new HttpsError('invalid-argument', 'kbDocId krävs.');
     }
 
+    promoteKbGuard.assertCollections(['kb_docs', 'kampspar']);
     const snap = await admin.firestore().collection('kb_docs').doc(kbDocId).get();
     if (!snap.exists) {
       throw new HttpsError('not-found', 'kb_docs-post saknas.');
@@ -261,6 +274,7 @@ export const ingestKnowledgeDocument = onCall(
       tags = parsed.length > 0 ? parsed : undefined;
     }
 
+    ingestDocGuard.assertCollections(['kampspar']);
     const result = await ingestKampsparForUser(uid, {
       title,
       content: content.slice(0, 48_000),

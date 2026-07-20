@@ -1,100 +1,15 @@
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { ProtectedModule } from '../../components/layout/ProtectedModule';
 import { useStore } from '../core/store';
 import { DayForensicsPanel } from './components/DayForensicsPanel';
 import { useOracleStore } from './OracleStore';
 import { useOracleMetrics } from './hooks/useOracleMetrics';
 import type { OracleMetricPoint } from './hooks/useOracleMetrics';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts';
-
 import { PageSkeleton } from '../../components/layout/PageSkeleton';
 
-const CustomTooltip = ({ active, payload, label }: any) => {
-  if (active && payload && payload.length) {
-    const data = payload[0].payload as OracleMetricPoint;
-    return (
-      <div className="bg-gray-900/95 border border-white/10 p-4 rounded-xl shadow-2xl backdrop-blur-md max-w-[280px] sm:max-w-xs relative z-[100]">
-        <p className="font-semibold text-gray-100 mb-2">{label}</p>
-        <div className="space-y-1">
-          <p className="text-sm font-medium text-success">
-            Kapacitet: {data.capacity}
-          </p>
-          <p className="text-sm font-medium text-danger">
-            Stress: {data.stressLevel}
-          </p>
-          {(data.mabraSessionsCount ?? 0) > 0 ? (
-            <div className="pt-2">
-              <p className="text-sm font-medium text-emerald-300 flex items-start gap-1">
-                <span>🌿</span> 
-                <span>
-                  {data.mabraSessionsCount} MåBra-övning{data.mabraSessionsCount! > 1 ? 'ar' : ''}
-                  {data.mabraSessionTypes && data.mabraSessionTypes.length > 0 && (
-                    <span className="block text-xs text-emerald-400/80 mt-0.5">({data.mabraSessionTypes.join(', ')})</span>
-                  )}
-                </span>
-              </p>
-            </div>
-          ) : null}
-          {data.totalHoursWorked !== undefined && data.totalHoursWorked > 0 && (
-            <p className="text-sm font-medium text-amber-300 pt-1">
-              Arbetad tid: {data.totalHoursWorked}h
-            </p>
-          )}
-          {data.conflictCount !== undefined && data.conflictCount > 0 && (
-            <p className="text-sm font-medium text-red-400">
-              Konflikter loggade: {data.conflictCount}
-            </p>
-          )}
-          {data.isHighRiskCorrelation && (
-            <div className="mt-2 bg-red-500/10 p-2 rounded border border-red-500/20">
-              <p className="text-xs font-bold text-red-500">
-                ⚠️ Varning: Övertid/Konflikt vid hög stress
-              </p>
-            </div>
-          )}
-        </div>
-        {data.label && (
-          <div className="mt-3 pt-3 border-t border-white/10">
-            <p className="text-sm text-gray-300 leading-relaxed italic">
-              "{data.label}"
-            </p>
-          </div>
-        )}
-      </div>
-    );
-  }
-  return null;
-};
-
-const MabraDot = (props: any) => {
-  const { cx, cy, payload } = props;
-  
-  if (payload?.mabraSessionsCount > 0) {
-    return (
-      <g>
-        <circle cx={cx} cy={cy} r={8} stroke="currentColor" className="text-success" strokeWidth={2} fill="var(--surface)" />
-        <circle cx={cx} cy={cy} r={4} className="fill-success" />
-      </g>
-    );
-  }
-  
-  return <circle cx={cx} cy={cy} r={3} stroke="var(--success)" strokeWidth={1} fill="var(--surface)" />;
-};
-
-const RiskDot = (props: any) => {
-  const { cx, cy, payload } = props;
-  
-  if (payload?.isHighRiskCorrelation) {
-    return (
-      <g>
-        <circle cx={cx} cy={cy} r={10} fill="var(--danger)" opacity={0.3} className="animate-pulse" />
-        <circle cx={cx} cy={cy} r={5} fill="var(--danger)" stroke="var(--surface)" strokeWidth={2} />
-      </g>
-    );
-  }
-  
-  return <circle cx={cx} cy={cy} r={3} fill="var(--danger)" stroke="var(--surface)" strokeWidth={1} />;
-};
+const OracleCapacityChartLazy = lazy(() =>
+  import('./components/OracleCapacityChart').then((m) => ({ default: m.OracleCapacityChart })),
+);
 
 const QuickIntervention = ({ latestDataPoint }: { latestDataPoint: OracleMetricPoint | null }) => {
   const [dismissedDate, setDismissedDate] = useState<string | null>(null);
@@ -261,42 +176,18 @@ export default function OracleDashboard() {
           <section className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md relative z-10">
             <h2 className="text-xl font-semibold mb-6">Kapacitet vs Stress (Senaste 7 dagarna)</h2>
             <div className="h-[400px] w-full relative z-20">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart
-                  data={dataPoints}
-                  margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-                  onClick={(e: any) => {
-                    if (e && e.activePayload && e.activePayload.length > 0) {
-                      setSelectedDay(e.activePayload[0].payload as OracleMetricPoint);
-                    }
-                  }}
-                  className="cursor-pointer"
-                >
-                  <defs>
-                    <linearGradient id="colorCapacity" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="var(--success)" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="var(--success)" stopOpacity={0}/>
-                    </linearGradient>
-                    <linearGradient id="colorStress" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="var(--danger)" stopOpacity={0.3}/>
-                      <stop offset="95%" stopColor="var(--danger)" stopOpacity={0}/>
-                    </linearGradient>
-                  </defs>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
-                  <XAxis dataKey="date" stroke="var(--text-muted)" tick={{fill: 'var(--text-muted)'}} axisLine={false} tickLine={false} />
-                  <YAxis stroke="var(--text-muted)" tick={{fill: 'var(--text-muted)'}} axisLine={false} tickLine={false} />
-                  
-                  <ReferenceLine y={70} stroke="var(--warning)" strokeDasharray="3 3" opacity={0.6} label={{ position: 'insideTopLeft', value: 'Varning', fill: 'var(--warning)', fontSize: 12 }} />
-                  <ReferenceLine y={85} stroke="var(--danger)" strokeDasharray="3 3" opacity={0.6} label={{ position: 'insideTopLeft', value: 'Kritisk', fill: 'var(--danger)', fontSize: 12 }} />
-                  
-                  <Tooltip 
-                    content={<CustomTooltip />}
-                    wrapperStyle={{ zIndex: 100 }}
-                  />
-                  <Area type="monotone" dataKey="capacity" name="Kapacitet" stroke="var(--success)" fillOpacity={1} fill="url(#colorCapacity)" dot={<MabraDot />} activeDot={{ r: 8 }} />
-                  <Area type="monotone" dataKey="stressLevel" name="Stress" stroke="var(--danger)" fillOpacity={1} fill="url(#colorStress)" dot={<RiskDot />} activeDot={{ r: 8 }} />
-                </AreaChart>
-              </ResponsiveContainer>
+              <Suspense
+                fallback={
+                  <div className="flex h-full items-center justify-center text-sm text-gray-400">
+                    Laddar diagram…
+                  </div>
+                }
+              >
+                <OracleCapacityChartLazy
+                  dataPoints={dataPoints as OracleMetricPoint[]}
+                  onSelectDay={setSelectedDay}
+                />
+              </Suspense>
             </div>
             <QuickIntervention latestDataPoint={latestDataPoint as OracleMetricPoint} />
             

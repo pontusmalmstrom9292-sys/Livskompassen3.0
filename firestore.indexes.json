@@ -108,6 +108,14 @@
       ]
     },
     {
+      "collectionGroup": "economy_ledger",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "ownerId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "DESCENDING" }
+      ]
+    },
+    {
       "collectionGroup": "pattern_scan_metadata",
       "queryScope": "COLLECTION",
       "fields": [

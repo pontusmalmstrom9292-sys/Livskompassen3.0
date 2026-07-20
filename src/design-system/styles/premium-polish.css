@@ -549,8 +549,31 @@
     box-shadow: var(--ds-elevation-card-hover);
   }
 
+  .planering-inbox-connect__status {
+    color: color-mix(in srgb, var(--ds-color-text) 82%, #f8fafc);
+    border-color: color-mix(in srgb, var(--ds-color-border) 75%, #cbd5e1);
+  }
+
+  .planering-inbox-connect__status--on,
+  .planering-inbox-connect__badge {
+    color: color-mix(in srgb, #86efac 82%, #f8fafc);
+    border-color: color-mix(in srgb, #86efac 45%, transparent);
+  }
+
   .planering-paralys-entry {
     box-shadow: inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 4%, transparent);
+  }
+
+  .planering-bento-card,
+  .planering-inkorg-panel,
+  .planering-inbox-connect,
+  .planering-inkorg-preview-sheet__summary,
+  .planering-quick-add,
+  .planering-guard-bar {
+    transition:
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium),
+      transform var(--ds-duration-normal) var(--ds-ease-premium);
   }
 
   .valv-samla-panel,
@@ -575,6 +598,46 @@
     box-shadow:
       inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 8%, transparent),
       var(--ds-elevation-2);
+  }
+
+  .planering-inkorg-panel:focus-within,
+  .planering-inbox-connect:focus-within,
+  .valv-pending-banner:focus-within,
+  .valv-samla-panel:focus-within,
+  .valv-zone-stack:focus-within {
+    box-shadow: var(--ds-elevation-card-hover);
+  }
+
+  .mabra-layout-shell__body,
+  .mabra-flow-shell__surface,
+  .mabra-flow-shell__actions,
+  .mabra-vit-hub__zone,
+  .liv-launcher-page {
+    box-shadow: var(--ds-elevation-1);
+    transition:
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium),
+      transform var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  .mabra-vit-hub__zone--open,
+  .mabra-layout-shell__body:focus-within,
+  .mabra-flow-shell__surface:focus-within {
+    box-shadow: var(--ds-elevation-2);
+  }
+
+  .mabra-vit-hub__chip,
+  .mabra-vit-hub__tile {
+    transition:
+      transform var(--ds-duration-fast) var(--ds-ease-premium),
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium),
+      filter var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  .mabra-vit-hub__chip:hover,
+  .mabra-vit-hub__tile:hover {
+    filter: brightness(1.03);
   }
 
   .valv-monster-bar:focus-visible {
@@ -622,6 +685,54 @@
 }
 
 @media (prefers-reduced-transparency: reduce) {
+  .planering-bento-shell,
+  .planering-quick-add,
+  .planering-inbox-connect,
+  .planering-inkorg-panel,
+  .input-glass,
+  .alert-banner,
+  .mabra-bento-shell,
+  .mabra-flow-shell__surface,
+  .mabra-flow-shell__actions,
+  .mabra-vit-hub__zone,
+  .mabra-vit-hub__tile,
+  .mabra-vit-hub__chip,
+  .liv-launcher-page,
+  .valv-bento-shell,
+  .valv-page-shell__chrome,
+  .valv-zone-intro,
+  .valv-samla-panel,
+  .valv-samla-stack,
+  .valv-zone-stack,
+  .valv-pending-banner,
+  .valv-log-row {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .planering-bento-shell,
+  .mabra-bento-shell,
+  .valv-bento-shell {
+    background-image: none;
+  }
+
+  .planering-inbox-connect,
+  .planering-inkorg-panel,
+  .input-glass,
+  .alert-banner,
+  .mabra-flow-shell__surface,
+  .mabra-flow-shell__actions,
+  .mabra-vit-hub__zone,
+  .mabra-vit-hub__tile,
+  .mabra-vit-hub__chip,
+  .liv-launcher-page,
+  .valv-pending-banner,
+  .valv-samla-panel,
+  .valv-samla-stack,
+  .valv-zone-stack {
+    background-color: color-mix(in srgb, var(--ds-color-surface, var(--surface)) 94%, #020617);
+  }
+
   .exec-dock-bar {
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
@@ -651,5 +762,13 @@
   .glass-card::after,
   .ds-card::after {
     opacity: 0.2;
+  }
+
+  .planering-bento-card,
+  .planering-guard-bar,
+  .valv-samla-panel,
+  .valv-zone-intro,
+  .valv-log-row {
+    box-shadow: var(--ds-elevation-1);
   }
 }

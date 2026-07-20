@@ -121,9 +121,10 @@ export function printSecurely(htmlContent: string, title: string = 'Document'): 
  * @returns HTML string for a table row
  */
 export function createSafeTableRow(cells: (string | number)[]): string {
-  const escapedCells = cells.map((cell) =>
-    `<td>${escapeHtml(String(cell ?? '—'))}</td>`
-  ).join('');
+  const escapedCells = cells.map((cell) => {
+    const raw = cell == null || cell === '' ? '—' : String(cell);
+    return `<td>${escapeHtml(raw)}</td>`;
+  }).join('');
   return `<tr>${escapedCells}</tr>`;
 }
 

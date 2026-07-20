@@ -159,9 +159,11 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
           return (
             <div key={monthKey} className="flex flex-col gap-2">
               {/* Shelf header card (Hylla) */}
-              <div
+              <button
+                type="button"
                 onClick={() => toggleShelf(monthKey)}
-                className="flex items-center justify-between p-4 bg-surface-2/70 hover:bg-surface-3/80 border border-border/30 rounded-2xl cursor-pointer transition-all duration-300 shadow-md backdrop-blur-xl"
+                aria-expanded={isShelfExpanded}
+                className="flex w-full items-center justify-between p-4 bg-surface-2/70 hover:bg-surface-3/80 border border-border/30 rounded-2xl cursor-pointer transition-all duration-300 shadow-md backdrop-blur-xl text-left"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
@@ -183,7 +185,7 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                     <ChevronDown className="w-5 h-5 text-accent" />
                   )}
                 </div>
-              </div>
+              </button>
 
               {/* Drawers under this shelf */}
               <AnimatePresence initial={false}>
@@ -202,9 +204,11 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                       return (
                         <div key={drawer.id} className="flex flex-col gap-2 mt-1">
                           {/* Drawer pulling row */}
-                          <div
+                          <button
+                            type="button"
                             onClick={() => toggleDrawer(drawer.id)}
-                            className="flex items-center justify-between p-3 rounded-xl border border-border/20 bg-surface-3/50 hover:bg-surface-3 cursor-pointer transition-all duration-200"
+                            aria-expanded={isDrawerExpanded}
+                            className="flex w-full items-center justify-between p-3 rounded-xl border border-border/20 bg-surface-3/50 hover:bg-surface-3 cursor-pointer transition-all duration-200 text-left"
                           >
                             <div className="flex items-center gap-3">
                               <DrawerIcon className={`w-4 h-4 ${drawer.colorClass}`} />
@@ -220,7 +224,7 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                                 <ChevronDown className="w-4 h-4 text-text-muted" />
                               )}
                             </div>
-                          </div>
+                          </button>
 
                           {/* Drawer Content */}
                           <AnimatePresence initial={false}>

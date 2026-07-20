@@ -377,6 +377,8 @@ export async function saveChildrenLog(
     bankId?: string;
     /** Våg 29 — tvinga citat/tolkning-prefix (default infereras). */
     epistemicKind?: EpistemicKind;
+    /** Valfri truth (t.ex. incident_meta) — annars speglas observation. */
+    truth?: string;
   }
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.children_logs);
@@ -410,7 +412,10 @@ export async function saveChildrenLog(
       });
     const normalized = formatChildObservation(log.observation, epistemicKind);
     payload.observation = normalized;
-    payload.truth = normalized;
+    const truthOverride = log.truth?.trim();
+    payload.truth = truthOverride
+      ? truthOverride.slice(0, 50000)
+      : normalized;
   }
 
   assertWormPayload(payload, 'children_logs');

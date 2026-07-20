@@ -1,4 +1,4 @@
-import { memo, useEffect, useState, lazy, Suspense, useCallback } from 'react';
+import { memo, useEffect, useState, lazy, Suspense, useCallback, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useMorningCompassStore } from './morningStore';
 import { useStore } from '../core/store';
@@ -112,12 +112,13 @@ export function MorningCompass() {
 
   const { primaryGoal, loading: primaryGoalLoading } = usePrimaryGoal();
 
-  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved'>('idle');
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle');
   const [storeReady, setStoreReady] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
   const [isAdjusting, setIsAdjusting] = useState(false);
   const [adjustedText, setAdjustedText] = useState('');
   const [dismissedLowEnergy, setDismissedLowEnergy] = useState(false);
+  const idleResetTimerRef = useRef<number | null>(null);
 
   const confirmedGoalText = primaryGoal?.text?.trim() ?? '';
   const isGoalLocked = confirmedGoalText.length > 0;
@@ -167,12 +168,28 @@ export function MorningCompass() {
       if (isGoalLocked && threeFocusPoints[0] !== confirmedGoalText) {
         setFocusPoint(0, confirmedGoalText);
       }
-      await saveFocus(user.uid);
-      setSaveStatus('saved');
-      window.setTimeout(() => setSaveStatus('idle'), 2000);
+      const ok = await saveFocus(user.uid);
+      if (ok) {
+        setSaveStatus('saved');
+        if (idleResetTimerRef.current != null) {
+          window.clearTimeout(idleResetTimerRef.current);
+        }
+        idleResetTimerRef.current = window.setTimeout(() => {
+          setSaveStatus('idle');
+          idleResetTimerRef.current = null;
+        }, 2000);
+      } else {
+        setSaveStatus('error');
+      }
     }, 1000);
 
-    return () => window.clearTimeout(timeoutId);
+    return () => {
+      window.clearTimeout(timeoutId);
+      if (idleResetTimerRef.current != null) {
+        window.clearTimeout(idleResetTimerRef.current);
+        idleResetTimerRef.current = null;
+      }
+    };
   }, [
     threeFocusPoints,
     user?.uid,
@@ -263,7 +280,14 @@ export function MorningCompass() {
         <div className="absolute -top-8 right-0 text-white/30 flex items-center gap-2 text-xs">
           {saveStatus === 'saving' && <Loader2 className="w-3 h-3 animate-spin" />}
           {saveStatus === 'saved' && <CheckCircle2 className="w-3 h-3 text-white/60" />}
-          {saveStatus === 'saving' ? 'Sparar...' : saveStatus === 'saved' ? 'Sparat' : ''}
+          {saveStatus === 'error' && <span className="w-3 h-3 rounded-full bg-red-400/80" aria-hidden />}
+          {saveStatus === 'saving'
+            ? 'Sparar...'
+            : saveStatus === 'saved'
+              ? 'Sparat'
+              : saveStatus === 'error'
+                ? 'Kunde inte spara'
+                : ''}
         </div>
 
         <div className="text-center space-y-2">

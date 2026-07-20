@@ -37,6 +37,11 @@
     box-shadow: var(--ds-elevation-card-hover, 0 15px 40px rgba(0, 0, 0, 0.6));
   }
 
+  .bento-card:not(.module-bento-card--depth):focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
   .calm-card::before {
     content: '';
     position: absolute;

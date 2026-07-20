@@ -1,3 +1,4 @@
+import { readAgentsCallableSource, assertAgentsIncludes } from '../lib/readAgentsCallableSource.mjs';
 #!/usr/bin/env node
 /**
  * Repomix för AI-agents / ADK / SynapseBus (Cursor Pipeline paket).
@@ -16,7 +17,7 @@ const include = [
   'docs/pipeline-studio/tools/*.json',
   'functions/src/adk/**',
   'functions/src/agents/**',
-  'functions/src/callables/agents.ts',
+  'functions/src/callables/agents/index.ts',
   'functions/src/callables/pipelineStudio.ts',
   'functions/src/lib/pipelineRunStore.ts',
   'scripts/pipeline-studio/**',

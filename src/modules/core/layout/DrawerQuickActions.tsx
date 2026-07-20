@@ -19,6 +19,7 @@ export function DrawerQuickActions({ onNavigate }: Props) {
             key={item.id}
             type="button"
             className="nav-drawer__quick-btn"
+            aria-label={item.label}
             onClick={() => {
               navigate(item.to);
               onNavigate?.();

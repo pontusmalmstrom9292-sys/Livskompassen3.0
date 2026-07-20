@@ -241,7 +241,7 @@ export function PlaneringPage() {
           {showWorkChromeAbove && <PlaneringMoreTabsBar activeTab={tab} />}
 
           {showWorkChromeAbove && (
-            <Suspense fallback={null}>
+            <Suspense fallback={<PlaneringPanelFallback />}>
               <VerktygDrawer activeTab={tab} />
             </Suspense>
           )}
@@ -276,7 +276,7 @@ export function PlaneringPage() {
             >
               <div className="space-y-3">
                 <PlaneringMoreTabsBar activeTab={tab} />
-                <Suspense fallback={null}>
+                <Suspense fallback={<PlaneringPanelFallback />}>
                   <VerktygDrawer activeTab={tab} embedded />
                 </Suspense>
                 <PlaneringNextStepSelect />

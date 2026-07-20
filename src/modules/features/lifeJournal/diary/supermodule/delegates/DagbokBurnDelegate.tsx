@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Flame } from 'lucide-react';
 import { clsx } from 'clsx';
 import { Button } from '@/design-system';
@@ -7,14 +7,26 @@ import { ReflectionEditor } from '@/features/lifeJournal/diary/diary/components/
 export function DagbokBurnDelegate() {
   const [text, setText] = useState('');
   const [burning, setBurning] = useState(false);
+  const burnTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (burnTimerRef.current != null) {
+        window.clearTimeout(burnTimerRef.current);
+      }
+    };
+  }, []);
 
   const handleBurn = () => {
     if (!text.trim()) return;
     setBurning(true);
-    // Låt den brinna i 1.5 sekunder
-    setTimeout(() => {
+    if (burnTimerRef.current != null) {
+      window.clearTimeout(burnTimerRef.current);
+    }
+    burnTimerRef.current = window.setTimeout(() => {
       setText('');
       setBurning(false);
+      burnTimerRef.current = null;
     }, 1500);
   };
 

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { CheckCircle2, Loader2, Pencil, Sparkles, Target, X } from 'lucide-react';
 import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { useFlashTimeout } from '@/core/hooks/useFlashTimeout';
 import { useGoalDetection } from '../hooks/useGoalDetection';
 import { usePrimaryGoal } from '../hooks/usePrimaryGoal';
 import { fetchGoalAssistCoach } from '../api/mabraCoachService';
@@ -51,6 +52,7 @@ export function MabraGoalPanel() {
   const [saveNotice, setSaveNotice] = useState(false);
   const [assistLoading, setAssistLoading] = useState(false);
   const [assistError, setAssistError] = useState<string | null>(null);
+  const flash = useFlashTimeout();
 
   const candidates = result?.candidates ?? [];
   const isLoading = loading || goalLoading;
@@ -104,20 +106,26 @@ export function MabraGoalPanel() {
     const text = draftText.trim();
     if (!text) return;
 
-    await confirmGoal({
-      text,
-      focusKey: selected?.focusKey,
-      capacityLevel: result?.capacityLevel,
-      suggestMicroStep: selected?.suggestMicroStep ?? result?.suggestMicroStep,
-    });
+    try {
+      const saved = await confirmGoal({
+        text,
+        focusKey: selected?.focusKey,
+        capacityLevel: result?.capacityLevel,
+        suggestMicroStep: selected?.suggestMicroStep ?? result?.suggestMicroStep,
+      });
 
-    setSelected(null);
-    setDraftText('');
-    setIsEditing(false);
-    setSaveNotice(true);
-    refreshDetection();
-    refreshPrimaryGoal();
-    window.setTimeout(() => setSaveNotice(false), 3000);
+      if (saved == null) return;
+
+      setSelected(null);
+      setDraftText('');
+      setIsEditing(false);
+      setSaveNotice(true);
+      refreshDetection();
+      refreshPrimaryGoal();
+      flash.schedule(() => setSaveNotice(false), 3000);
+    } catch {
+      /* error already set in usePrimaryGoal */
+    }
   };
 
   const handleClear = async () => {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button, Input, TextArea } from '@/design-system';
 import { Shield, Plus, Check, Loader2 } from 'lucide-react';
 import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
@@ -20,7 +20,6 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
   const childAlias = shell.activeChild;
   const onSaveLog = shell.handleSaveObservation;
 
-  // Local state for the rules as specified in the document
   const [rules, setRules] = useState<Rule[]>(DEFAULT_RULES);
   const [newRule, setNewRule] = useState('');
   const [newCategory, setNewCategory] = useState<'trygghet' | 'granser' | 'rutin'>('trygghet');
@@ -28,6 +27,15 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const successTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (successTimerRef.current != null) {
+        window.clearTimeout(successTimerRef.current);
+      }
+    };
+  }, []);
 
   const handleAddRule = (e: React.FormEvent) => {
     e.preventDefault();
@@ -55,11 +63,17 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
       setSuccess(true);
       setObservation('');
       onSaved?.(id);
-      
-      // Auto-dismiss success message
-      window.setTimeout(() => setSuccess(false), 3000);
-    } catch (e: any) {
-      if (e.message?.includes('Offline')) {
+
+      if (successTimerRef.current != null) {
+        window.clearTimeout(successTimerRef.current);
+      }
+      successTimerRef.current = window.setTimeout(() => {
+        setSuccess(false);
+        successTimerRef.current = null;
+      }, 3000);
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : '';
+      if (message.includes('Offline')) {
         setError('Du är offline. Observationen kunde inte sparas just nu.');
       } else {
         setError('Kunde inte spara till barnets livslogg. Försök igen.');

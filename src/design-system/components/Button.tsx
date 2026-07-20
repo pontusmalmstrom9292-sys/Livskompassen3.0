@@ -43,6 +43,21 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   children: ReactNode;
 };
 
+function resolveIconAriaLabel({
+  size,
+  ariaLabel,
+  title,
+}: {
+  size: ButtonSize;
+  ariaLabel?: string;
+  title?: string;
+}) {
+  if (ariaLabel && ariaLabel.trim().length > 0) return ariaLabel;
+  if (size !== 'icon') return ariaLabel;
+  if (title && title.trim().length > 0) return title;
+  return ariaLabel;
+}
+
 /**
  * Button — pill CTA with token sizing and focus ring.
  * Maps to btn-pill--* for prod visual parity.
@@ -53,10 +68,19 @@ export function Button({
   className,
   children,
   type = 'button',
+  title,
+  'aria-label': ariaLabel,
   ...rest
 }: ButtonProps) {
+  const computedAriaLabel = resolveIconAriaLabel({ size, ariaLabel, title });
   return (
-    <button type={type} className={buttonClassName(variant, size, className)} {...rest}>
+    <button
+      type={type}
+      title={title}
+      aria-label={computedAriaLabel}
+      className={buttonClassName(variant, size, className)}
+      {...rest}
+    >
       {children}
     </button>
   );
@@ -68,6 +92,21 @@ export type ButtonLinkProps = LinkProps & {
 };
 
 /** Router Link styled as design-system button */
-export function ButtonLink({ variant = 'accent', size = 'md', className, ...rest }: ButtonLinkProps) {
-  return <Link className={buttonClassName(variant, size, className)} {...rest} />;
+export function ButtonLink({
+  variant = 'accent',
+  size = 'md',
+  className,
+  title,
+  'aria-label': ariaLabel,
+  ...rest
+}: ButtonLinkProps) {
+  const computedAriaLabel = resolveIconAriaLabel({ size, ariaLabel, title });
+  return (
+    <Link
+      title={title}
+      aria-label={computedAriaLabel}
+      className={buttonClassName(variant, size, className)}
+      {...rest}
+    />
+  );
 }

@@ -21,13 +21,15 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
+  orderBy,
   query,
   serverTimestamp,
   setDoc,
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { db } from './firestore';
+import { assertArchitectureWrite, db } from './firestore';
 import { assertOfflineWriteAllowed } from './offlineWritePolicy';
 import { FIRESTORE_COLLECTIONS } from '../types/firestore';
 import type {
@@ -162,6 +164,7 @@ export async function setPayProfileSettings(
   },
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_profiles);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.economy_profiles, 'update');
   const active = [...settings.salaryTerms].sort((a, b) => b.effectiveFrom.localeCompare(a.effectiveFrom))[0];
   const monthlySalarySek = active?.monthlySalarySek ?? 0;
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
@@ -257,6 +260,7 @@ export async function appendPayrollAgreementPack(
   },
 ): Promise<string> {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.payroll_agreement_packs);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.payroll_agreement_packs, 'create');
   const docId = `${userId}_${pack.agreementId}_${Date.now()}`;
   const ref = doc(db, FIRESTORE_COLLECTIONS.payroll_agreement_packs, docId);
   await setDoc(ref, {
@@ -286,6 +290,7 @@ export async function appendPayrollTaxTablePack(
   },
 ): Promise<string> {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.payroll_tax_table_packs);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.payroll_tax_table_packs, 'create');
   const docId = `${userId}_t${pack.table}_${pack.year}_${Date.now()}`;
   const ref = doc(db, FIRESTORE_COLLECTIONS.payroll_tax_table_packs, docId);
   await setDoc(ref, {
@@ -314,6 +319,7 @@ export async function setActivePayrollPackPointers(
   },
 ): Promise<void> {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_profiles);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.economy_profiles, 'update');
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
   await setDoc(
     ref,
@@ -340,6 +346,7 @@ export async function setEconomyProfileExtended(
   },
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_profiles);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.economy_profiles, 'update');
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
   await setDoc(
     ref,
@@ -382,6 +389,7 @@ export async function addEconomyLedgerEntry(
   },
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_ledger);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.economy_ledger, 'create');
   const ref = collection(db, FIRESTORE_COLLECTIONS.economy_ledger);
   const docRef = await addDoc(ref, withUserId(userId, entry));
   return docRef.id;
@@ -390,20 +398,28 @@ export async function addEconomyLedgerEntry(
 /** Raderar en ledger-transaktion (ägarverifiering). */
 export async function deleteEconomyLedgerEntry(userId: string, entryId: string) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_ledger);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.economy_ledger, 'delete');
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_ledger, entryId);
   const snap = await getDoc(ref);
   if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Rad hittades inte.');
   await deleteDoc(ref);
 }
 
-/** Hämtar ledger-transaktioner, nyast först. */
-export async function getEconomyLedgerEntries(userId: string, limit = 100): Promise<EconomyLedgerRow[]> {
+/** Hämtar ledger-transaktioner, nyast först (Firestore orderBy + limit). */
+export async function getEconomyLedgerEntries(
+  userId: string,
+  limitCount = 100,
+): Promise<EconomyLedgerRow[]> {
   const ref = collection(db, FIRESTORE_COLLECTIONS.economy_ledger);
-  const snap = await getDocs(ownerScopedQuery(ref, userId));
-  return snap.docs
-    .map((d) => mapLedger(d.id, d.data() as FirestorePayload, userId))
-    .sort((a, b) => `${b.date}${b.createdAt}`.localeCompare(`${a.date}${a.createdAt}`))
-    .slice(0, limit);
+  const snap = await getDocs(
+    query(
+      ref,
+      where('ownerId', '==', userId),
+      orderBy('createdAt', 'desc'),
+      limit(limitCount),
+    ),
+  );
+  return snap.docs.map((d) => mapLedger(d.id, d.data() as FirestorePayload, userId));
 }
 
 /** Inkomst/utgift-summering för innevarande månad. */
@@ -553,6 +569,7 @@ export async function setEconomyFixedBill(
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_fixed_bills);
   if (bill.id) {
+    assertArchitectureWrite(FIRESTORE_COLLECTIONS.economy_fixed_bills, 'update');
     const ref = doc(db, FIRESTORE_COLLECTIONS.economy_fixed_bills, bill.id);
     await updateDoc(ref, {
       name: bill.name,
@@ -561,6 +578,7 @@ export async function setEconomyFixedBill(
     });
     return bill.id;
   }
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.economy_fixed_bills, 'create');
   const ref = collection(db, FIRESTORE_COLLECTIONS.economy_fixed_bills);
   const docRef = await addDoc(ref, withUserId(userId, { name: bill.name, amountSek: bill.amountSek }));
   return docRef.id;
@@ -569,6 +587,7 @@ export async function setEconomyFixedBill(
 /** Raderar en fast utgift (ägarverifiering). */
 export async function deleteEconomyFixedBill(userId: string, billId: string) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_fixed_bills);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.economy_fixed_bills, 'delete');
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_fixed_bills, billId);
   const snap = await getDoc(ref);
   if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Rad hittades inte.');
@@ -621,10 +640,12 @@ export async function setBudgetSaving(
   };
   if (goal.tag) payload.tag = goal.tag;
   if (goal.id) {
+    assertArchitectureWrite(FIRESTORE_COLLECTIONS.budget_savings, 'update');
     const ref = doc(db, FIRESTORE_COLLECTIONS.budget_savings, goal.id);
     await updateDoc(ref, payload);
     return goal.id;
   }
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.budget_savings, 'create');
   const ref = collection(db, FIRESTORE_COLLECTIONS.budget_savings);
   const docRef = await addDoc(
     ref,
@@ -641,6 +662,7 @@ export async function setBudgetSaving(
 /** Raderar ett sparmål (ägarverifiering). */
 export async function deleteBudgetSaving(userId: string, goalId: string) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.budget_savings);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.budget_savings, 'delete');
   const ref = doc(db, FIRESTORE_COLLECTIONS.budget_savings, goalId);
   const snap = await getDoc(ref);
   if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Sparmål hittades inte.');
@@ -732,6 +754,7 @@ export async function getEconomyImpulseQueue(userId: string): Promise<EconomyImp
 /** Parkerar ett potentiellt impulsinköp med 24h påminnelse. */
 export async function parkEconomyImpulse(userId: string, label: string) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_impulse_queue);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.economy_impulse_queue, 'create');
   const now = new Date();
   const remind = new Date(now);
   remind.setDate(remind.getDate() + 1);
@@ -755,6 +778,7 @@ export async function resolveEconomyImpulse(
   status: 'bought' | 'skipped',
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_impulse_queue);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.economy_impulse_queue, 'update');
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_impulse_queue, impulseId);
   const snap = await getDoc(ref);
   if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Parkering hittades inte.');
@@ -764,6 +788,7 @@ export async function resolveEconomyImpulse(
 /** Raderar ett impulsinköp permanent. */
 export async function deleteEconomyImpulse(userId: string, impulseId: string) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_impulse_queue);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.economy_impulse_queue, 'delete');
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_impulse_queue, impulseId);
   const snap = await getDoc(ref);
   if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Parkering hittades inte.');
@@ -800,6 +825,7 @@ export async function getEconomyMealPrep(userId: string): Promise<EconomyMealPre
 /** Sparar matlådelistan. */
 export async function setEconomyMealPrep(userId: string, items: EconomyMealPrepItem[]) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.economy_profiles);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.economy_profiles, 'update');
   const ref = doc(db, FIRESTORE_COLLECTIONS.economy_profiles, userId);
   await setDoc(
     ref,
@@ -847,6 +873,7 @@ export async function setBudgetEnvelope(
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.budgets);
   if (envelope.id) {
+    assertArchitectureWrite(FIRESTORE_COLLECTIONS.budgets, 'update');
     const ref = doc(db, FIRESTORE_COLLECTIONS.budgets, envelope.id);
     await updateDoc(ref, {
       title: envelope.title,
@@ -856,6 +883,7 @@ export async function setBudgetEnvelope(
     });
     return envelope.id;
   }
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.budgets, 'create');
   const ref = collection(db, FIRESTORE_COLLECTIONS.budgets);
   const docRef = await addDoc(
     ref,
@@ -871,6 +899,7 @@ export async function setBudgetEnvelope(
 /** Raderar ett budgetkuvert (ägarverifiering). */
 export async function deleteBudgetEnvelope(userId: string, envelopeId: string) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.budgets);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.budgets, 'delete');
   const ref = doc(db, FIRESTORE_COLLECTIONS.budgets, envelopeId);
   const snap = await getDoc(ref);
   if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Kuvert hittades inte.');

@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../utils/cn';
+import { trapTabKey } from '../utils/trapTabKey';
 import { useScrollLock } from '@/core/hooks/useScrollLock';
 
 export type ModalProps = {
@@ -21,7 +22,7 @@ export type ModalProps = {
 };
 
 /**
- * Modal — centered dialog with Escape dismiss and focus management.
+ * Modal — centered dialog with Escape dismiss, focus trap, and focus restore.
  */
 export function Modal({
   open,
@@ -41,6 +42,7 @@ export function Modal({
   const titleId = useId();
   const descId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
+  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
   const dialogLabel = title ?? ariaLabel;
 
   useScrollLock(open && lockScroll);
@@ -48,8 +50,15 @@ export function Modal({
   useEffect(() => {
     if (!open) return;
 
+    previouslyFocusedRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+      trapTabKey(e, panelRef.current);
     };
 
     window.addEventListener('keydown', onKeyDown);
@@ -58,6 +67,8 @@ export function Modal({
 
     return () => {
       window.removeEventListener('keydown', onKeyDown);
+      previouslyFocusedRef.current?.focus?.();
+      previouslyFocusedRef.current = null;
     };
   }, [open, onClose, initialFocusRef]);
 

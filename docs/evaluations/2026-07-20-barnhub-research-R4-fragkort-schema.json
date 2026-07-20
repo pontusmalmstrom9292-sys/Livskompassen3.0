@@ -1,0 +1,191 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://livskompassen.local/schemas/barnhub-fragkort-r4.json",
+  "title": "Barnhub frågekort R4",
+  "description": "Research-schema för Barnhub frågekorts-taxonomi (overlay ovanpå locked BARNFOKUS_QUESTIONS). Ingen prod-wire.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "meta", "cards"],
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "R4-2026-07-20"
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "overlayOnly", "lockedPool"],
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["research_draft", "approved_seed", "wired"]
+        },
+        "overlayOnly": {
+          "type": "boolean",
+          "const": true,
+          "description": "Nya kort är tillägg/overlay — ersätter inte BARNFOKUS_QUESTIONS."
+        },
+        "lockedPool": {
+          "type": "string",
+          "const": "BARNFOKUS_QUESTIONS"
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "cards": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/fragkort" }
+    }
+  },
+  "$defs": {
+    "category": {
+      "type": "string",
+      "enum": [
+        "Akut stöd",
+        "Vad hände idag?",
+        "Barnets signaler",
+        "Pappas inre arbete",
+        "Kommunikation med ex",
+        "Juridik/dokumentering",
+        "Självreglering",
+        "Framsteg och hopp"
+      ]
+    },
+    "audience": {
+      "type": "string",
+      "enum": ["parent", "child"]
+    },
+    "bracket": {
+      "type": "string",
+      "enum": [
+        "toddler_preschool",
+        "early_school",
+        "pre_teen",
+        "teen"
+      ],
+      "description": "Samma bracket-modell som evolution_hub / barnfokusCatalog. Tom array = alla åldrar."
+    },
+    "crisisTier": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 3,
+      "description": "0=vardag, 1=förhöjd stress, 2=behöver reglering nu, 3=akut — peka till SOS/professionellt stöd."
+    },
+    "silo": {
+      "type": "string",
+      "enum": ["barnen", "hamn_link", "kunskap_factId"],
+      "description": "barnen = Barnen-logg/PLAY. hamn_link = Hamn/BIFF-flöde. kunskap_factId = deterministisk FACT-pekare (ingen RAG-blandning)."
+    },
+    "fragkort": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "category",
+        "question",
+        "explain",
+        "nextStep",
+        "audience",
+        "bracket",
+        "crisisTier",
+        "silo"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^bh-r4-[a-z0-9-]+$",
+          "description": "Unikt overlay-id. Får inte krocka med locked legacy_id (g1, k1, p1, …)."
+        },
+        "category": { "$ref": "#/$defs/category" },
+        "question": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 200
+        },
+        "explain": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 400,
+          "description": "Kort varför-kortet finns — låg kognitiv belastning."
+        },
+        "nextStep": {
+          "type": "string",
+          "minLength": 4,
+          "maxLength": 240,
+          "description": "Ett konkret nästa steg efter svaret."
+        },
+        "audience": { "$ref": "#/$defs/audience" },
+        "bracket": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/bracket" },
+          "uniqueItems": true,
+          "description": "Tom = alla brackets. Annars endast listade."
+        },
+        "crisisTier": { "$ref": "#/$defs/crisisTier" },
+        "silo": { "$ref": "#/$defs/silo" },
+        "knowledgeFactId": {
+          "type": "string",
+          "pattern": "^kunskap-fact-(bh|cn)-[0-9]{3}$",
+          "description": "Obligatorisk när silo=kunskap_factId. Valfri annars för deterministisk FACT-bro."
+        },
+        "fasA": {
+          "type": "boolean",
+          "description": "true = kandidat för Fas A (prioritet Akut + Vad hände)."
+        },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "keep", "defer"],
+          "default": "draft"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "silo": { "const": "kunskap_factId" } },
+            "required": ["silo"]
+          },
+          "then": {
+            "required": ["knowledgeFactId"]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "category": {
+                "enum": ["Kommunikation med ex", "Juridik/dokumentering"]
+              }
+            },
+            "required": ["category"]
+          },
+          "then": {
+            "properties": {
+              "silo": {
+                "enum": ["hamn_link", "kunskap_factId"]
+              }
+            },
+            "not": {
+              "properties": { "silo": { "const": "barnen" } }
+            },
+            "description": "Ex-kommunikation och juridik får inte landa i barnen-RAG/PLAY-blandning."
+          }
+        },
+        {
+          "if": {
+            "properties": { "audience": { "const": "child" } },
+            "required": ["audience"]
+          },
+          "then": {
+            "properties": {
+              "silo": { "const": "barnen" },
+              "crisisTier": { "maximum": 1 }
+            },
+            "description": "Barn-audience: endast barnen-silo; ingen vuxenkonflikt; max mild stress-tier."
+          }
+        }
+      ]
+    }
+  }
+}

@@ -5,6 +5,7 @@ import { useAdaptationStore } from '../store/useAdaptationStore';
 import { mergeAdaptationPrefs } from '../firebase/adaptationLedgerFirestore';
 import type { CoachTone, UiDensity } from '../types/adaptation';
 import { Button } from '@/design-system';
+import { useFlashTimeout } from '@/core/hooks/useFlashTimeout';
 
 const COACH_TONE_OPTIONS: { id: CoachTone; label: string; hint: string }[] = [
   { id: 'minimal', label: 'Minimal', hint: 'Kortast möjliga svar' },
@@ -32,6 +33,7 @@ export function AdaptationPrefsPanel({ userId }: Props) {
   const error = useAdaptationStore((s) => s.error);
   const [saving, setSaving] = useState(false);
   const [savedFlash, setSavedFlash] = useState(false);
+  const flash = useFlashTimeout();
 
   if (!layerEnabled) return null;
 
@@ -48,7 +50,7 @@ export function AdaptationPrefsPanel({ userId }: Props) {
     try {
       await mergeAdaptationPrefs(userId, patch);
       setSavedFlash(true);
-      window.setTimeout(() => setSavedFlash(false), 2000);
+      flash.schedule(() => setSavedFlash(false), 2000);
     } finally {
       setSaving(false);
     }

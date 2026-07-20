@@ -110,6 +110,7 @@ export function DrawerHubAccordion({
       <button
         type="button"
         aria-expanded={isOpen}
+        aria-label={`${label}, ${isOpen ? 'fäll ihop' : 'fäll ut'}`}
         onClick={() => setIsOpen(!isOpen)}
         className={clsx(
           'drawer-hub__trigger w-full justify-between',

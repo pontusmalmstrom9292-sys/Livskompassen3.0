@@ -79,8 +79,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           if (!isUnmounted) {
             syncUserToStore(cred.user, setUser);
           }
-        } catch {
+        } catch (err: unknown) {
+          console.error('[AuthProvider] Anonymous sign-in failed', err);
           if (!isUnmounted) resetState();
+          const code = err instanceof FirebaseError ? err.code : '';
+          toast.error(
+            mapAuthError(code) || 'Kunde inte starta gästsession. Kontrollera nätverket och försök igen.',
+            6000,
+          );
         }
       } else {
         resetState();

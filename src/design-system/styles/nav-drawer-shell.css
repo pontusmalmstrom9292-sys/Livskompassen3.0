@@ -69,9 +69,15 @@
 
   .nav-drawer__mode-btn {
     @apply flex-1 cursor-pointer rounded-[0.65rem] border-0 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors;
+    min-height: var(--ds-touch-target);
     color: var(--text-muted);
     background: transparent;
     touch-action: manipulation;
+  }
+
+  .nav-drawer__mode-btn:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: -2px;
   }
 
   .nav-drawer__mode-btn--active {
@@ -104,7 +110,14 @@
 
   .nav-drawer__row-expand {
     @apply flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg text-accent/60 transition-colors;
+    min-width: var(--ds-touch-target);
+    min-height: var(--ds-touch-target);
     touch-action: manipulation;
+  }
+
+  .nav-drawer__row-expand:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .nav-drawer__row-expand:hover {
@@ -118,6 +131,7 @@
 
   .nav-drawer__section-title {
     @apply px-5 pb-1 pt-3 text-[10px] font-semibold uppercase tracking-[0.35em] text-accent/70;
+    color: color-mix(in srgb, var(--accent-light) 68%, #e2e8f0);
   }
 
   .nav-drawer__row--sub {
@@ -208,7 +222,7 @@
   .nav-drawer__row-badge {
     @apply flex h-5 min-w-5 shrink-0 items-center justify-center rounded-full px-1.5 text-[10px] font-semibold tabular-nums;
     background: color-mix(in srgb, var(--accent) 28%, transparent);
-    color: var(--accent-light);
+    color: color-mix(in srgb, var(--accent-light) 78%, #f8fafc);
     border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
   }
 

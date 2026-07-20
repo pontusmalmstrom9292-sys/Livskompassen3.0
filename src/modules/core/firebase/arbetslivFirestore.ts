@@ -23,7 +23,7 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { db } from './firestore';
+import { assertArchitectureWrite, db } from './firestore';
 import { assertOfflineWriteAllowed } from './offlineWritePolicy';
 import { FIRESTORE_COLLECTIONS } from '../types/firestore';
 import type { TimeEntryRow } from '../types/firestore';
@@ -128,6 +128,7 @@ async function getAllTimeEntries(userId: string): Promise<TimeEntryRow[]> {
  */
 export async function recordTimeIn(userId: string, category = 'Arbete') {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.time_entries, 'create');
   const open = await getOpenTimeEntry(userId);
   if (open) throw new Error('Du är redan instämplad.');
 
@@ -166,6 +167,7 @@ export async function recordTimeIn(userId: string, category = 'Arbete') {
 /** Avslutar pågående tidspass (utstämpling). */
 export async function recordTimeOut(userId: string, entryId?: string) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.time_entries, 'update');
   let open: TimeEntryRow | null = null;
 
   if (entryId) {
@@ -213,6 +215,7 @@ export async function getOpenTimeEntry(userId: string): Promise<TimeEntryRow | n
 /** Stänger öppna pass utan clockOut (äldre data med isOpen:false). */
 export async function repairOpenTimeEntryFlags(userId: string): Promise<number> {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.time_entries, 'update');
   const rows = await getAllTimeEntries(userId);
   const stuck = rows.filter((r) => r.clockOut == null && r.isOpen === false);
   await Promise.all(
@@ -242,6 +245,7 @@ export async function addManualTimeEntries(
   },
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.time_entries, 'create');
   const dates = eachDateInclusive(input.fromDate, input.toDate);
   const clockIn = input.clockIn ?? DEFAULT_HELDAG.in;
   const clockOut = input.clockOut ?? DEFAULT_HELDAG.out;
@@ -290,6 +294,7 @@ export async function updateTimeEntry(
   },
 ) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.time_entries, 'update');
   const ref = doc(db, FIRESTORE_COLLECTIONS.time_entries, entryId);
   const snap = await getDoc(ref);
   if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Pass hittades inte.');
@@ -319,6 +324,7 @@ export async function updateTimeEntry(
 /** Raderar ett tidspass (ägarverifiering). */
 export async function deleteTimeEntry(userId: string, entryId: string) {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.time_entries);
+  assertArchitectureWrite(FIRESTORE_COLLECTIONS.time_entries, 'delete');
   const ref = doc(db, FIRESTORE_COLLECTIONS.time_entries, entryId);
   const snap = await getDoc(ref);
   if (!snap.exists() || snap.data().ownerId !== userId) throw new Error('Pass hittades inte.');

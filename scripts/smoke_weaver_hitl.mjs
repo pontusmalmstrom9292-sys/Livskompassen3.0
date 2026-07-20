@@ -5,6 +5,7 @@
 import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { readAgentsCallableSource, assertAgentsIncludes } from './lib/readAgentsCallableSource.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -25,7 +26,7 @@ function mustInclude(relPath, ...needles) {
 function main() {
   console.log('[smoke:weaver-hitl] Vävaren HITL wiring…');
 
-  mustInclude('functions/src/callables/agents.ts', 'weaveJournalEntry', 'approveWeaverMetadata', 'rejectWeaverMetadata');
+  assertAgentsIncludes(root, 'weaveJournalEntry', 'approveWeaverMetadata', 'rejectWeaverMetadata');
   mustInclude('functions/src/lib/weaverPending.ts', 'weaver_pending', 'approveWeaverPending');
   mustInclude('firestore.rules', 'match /weaver_pending/{docId}');
   mustInclude(

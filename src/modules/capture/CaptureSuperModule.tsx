@@ -2,6 +2,8 @@ import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { useStore } from '@/core/store';
 import { CapturePanel } from './CapturePanel';
 import { HemCaptureModulValjare, type HemCaptureChoice } from './components/HemCaptureModulValjare';
@@ -54,7 +56,20 @@ const HEM_CAPTURE_HINTS: Record<Exclude<HemCaptureChoice, 'text'>, string> = {
  * Canonical router för G10 capture/inkast-ytor.
  * v2: hem-capture inkluderar ReviewQueuePipelinePanel (lokalt + molnet-summary).
  */
-export function CaptureSuperModule({
+export function CaptureSuperModule(props: CaptureSuperModuleProps) {
+  return (
+    <HubErrorBoundary
+      title="Inkast kunde inte laddas"
+      glow="gold"
+      logTag="CaptureSuperModule"
+      errorBody="Försök igen. Dina köade poster påverkas inte."
+    >
+      <CaptureSuperModuleInner {...props} />
+    </HubErrorBoundary>
+  );
+}
+
+function CaptureSuperModuleInner({
   variant,
   onQueued,
   onPersistedBevis,
@@ -182,9 +197,7 @@ export function CaptureSuperModule({
     return (
       <section id="inkast-lite" ref={sectionRef} className="scroll-mt-28">
         <BentoCard title="Inkast" description="Kräver inloggning">
-          <p className="text-sm text-text-muted">
-            Logga in för att klistra in eller ladda upp till rätt arkiv.
-          </p>
+          <EmptyState message="Logga in för att klistra in eller ladda upp till rätt arkiv." />
         </BentoCard>
       </section>
     );

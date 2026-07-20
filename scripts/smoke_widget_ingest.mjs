@@ -5,6 +5,7 @@
 import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { readAgentsCallableSource, assertAgentsIncludes } from './lib/readAgentsCallableSource.mjs';
 import { execSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -21,7 +22,7 @@ function readCanonical(relativePath) {
 }
 
 function smokeStatic() {
-  const agents = readCanonical('functions/src/callables/agents.ts');
+  const agents = readAgentsCallableSource(root);
   assert(agents.includes('ingestWidgetRecording'), 'agents.ts saknar ingestWidgetRecording');
   assert(agents.includes("trigger: 'widget_recording_ingested'"), 'commit ska emitSynapse widget_recording_ingested');
 

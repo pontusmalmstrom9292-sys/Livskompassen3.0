@@ -5,6 +5,7 @@
 import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { readAgentsCallableSource, assertAgentsIncludes } from './lib/readAgentsCallableSource.mjs';
 import { execSync } from 'child_process';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -110,9 +111,9 @@ function main() {
     'optInKampspar && hasVaultGate()',
     'if (hasVaultGate()) {\n        weaveJournalEntry',
   );
-  mustInclude('functions/src/callables/agents.ts', 'journalWovenToKampspar', "trigger: 'journal_woven'");
-  mustInclude('functions/src/callables/agents.ts', 'breakDownResponse', "trigger: 'user_overwhelm'");
-  mustInclude('functions/src/callables/agents.ts', 'ingestWidgetRecording', "trigger: 'widget_recording_ingested'");
+  assertAgentsIncludes(root, 'journalWovenToKampspar', "trigger: 'journal_woven'");
+  assertAgentsIncludes(root, 'breakDownResponse', "trigger: 'user_overwhelm'");
+  assertAgentsIncludes(root, 'ingestWidgetRecording', "trigger: 'widget_recording_ingested'");
   mustInclude(
     'functions/src/index.ts',
     'journalWovenToKampspar',
@@ -150,8 +151,7 @@ function main() {
   );
   mustInclude('src/modules/core/auth/sessionService.ts', 'VAULT_SESSION_IDLE_MS', '60 * 60 * 1000');
   mustInclude('src/modules/core/auth/useZeroFootprint.ts', 'VAULT_SESSION_IDLE_MS', 'hasVaultGate');
-  mustInclude(
-    'functions/src/callables/agents.ts',
+  assertAgentsIncludes(root,
     'journalQuickMirror',
     'askDagbokSnabbCoach',
   );

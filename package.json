@@ -130,8 +130,9 @@
     "smoke:orkester": "node scripts/smoke_orkester_wiring.mjs",
     "smoke:minnes-arkitekt": "node scripts/smoke_minnes_arkitekt.mjs",
     "smoke:agents-ui": "node scripts/smoke_agents_ui.mjs",
-    "test:agents-ui": "npx vitest run src/modules/shared/agents/utils/resolveExecutorDisplay.test.ts src/modules/shared/agents/utils/routingBadgeText.test.ts",
-    "test:economy": "npx vitest run shared/economy src/modules/features/dailyLife/wellbeing/economy/rules",
+    "test:agents-ui": "vitest run src/modules/shared/agents/utils/resolveExecutorDisplay.test.ts src/modules/shared/agents/utils/routingBadgeText.test.ts",
+    "test:economy": "vitest run shared/economy src/modules/features/dailyLife/wellbeing/economy/rules",
+    "test:unit": "vitest run src/modules/shared/agents/utils/resolveExecutorDisplay.test.ts src/modules/shared/agents/utils/routingBadgeText.test.ts shared/economy src/modules/features/dailyLife/wellbeing/economy/rules shared/evolution/capacityScore.test.ts src/modules/features/family/children/utils/childObservationEpistemics.test.ts src/modules/features/admin/projects/projectHubFilters.test.ts src/modules/features/admin/planning/rules/pasteClassifier.test.ts src/modules/shared/utils/secureExport.test.ts",
     "test:e2e": "playwright test",
     "test:e2e:locked-ux": "playwright test e2e/locked-ux-public.spec.ts e2e/obsidian-calm-tokens.spec.ts",
     "test:e2e:install": "playwright install chromium",
@@ -301,11 +302,13 @@
     "prepare": "husky",
     "smoke:cost-guard": "node scripts/smoke_cost_guard.mjs",
     "gcp:audit-apis": "node scripts/gcp_audit_enabled_apis.mjs",
+    "inventory:functions": "node scripts/inventory_functions_exports.mjs",
     "gcp:setup-cost-alerts": "node scripts/gcp_setup_cost_alerts.mjs",
     "natt:ci": "node scripts/natt-ci.mjs",
     "natt:secure": "node scripts/natt-ci.mjs",
     "sdk:natt-ci": "node scripts/sdk-natt-ci.mjs",
-    "setup:env": "node scripts/setup_env_from_google_services.mjs"
+    "setup:env": "node scripts/setup_env_from_google_services.mjs",
+    "smoke:child-incident": "node scripts/smoke_child_incident.mjs"
   },
   "dependencies": {
     "@aparajita/capacitor-biometric-auth": "^10.0.0",
@@ -356,6 +359,7 @@
     "typescript-eslint": "^8.64.0",
     "vite": "^8.1.5",
     "vite-plugin-pwa": "^1.3.0",
+    "vitest": "^4.1.10",
     "workbox-core": "^7.4.1",
     "workbox-window": "^7.4.1",
     "yaml": "^2.9.0"

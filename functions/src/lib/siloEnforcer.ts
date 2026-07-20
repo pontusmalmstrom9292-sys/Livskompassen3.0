@@ -9,6 +9,13 @@ export enum Silo {
   BARNEN = 'barnen',
 }
 
+/** Tillåtna Firestore-samlingar per silo (fail-closed vid cross-access). */
+export const SILO_COLLECTIONS: Record<Silo, readonly string[]> = {
+  [Silo.KUNSKAP]: ['kampspar', 'kb_docs', 'context_cache_registry', 'entity_profiles'],
+  [Silo.VALV]: ['reality_vault', 'pattern_scan_metadata', 'entity_profiles', 'weaver_pending'],
+  [Silo.BARNEN]: ['children_logs', 'entity_profiles'],
+};
+
 export interface SiloAccessLog {
   timestamp: number;
   silo: Silo;
@@ -29,8 +36,8 @@ export function enforceSiloIsolation(
   allowedCollections: string[],
 ): (accessedCollections: string[]) => void {
   return (accessedCollections: string[]) => {
-    const disallowedAccess = accessedCollections.filter(c => !allowedCollections.includes(c));
-    
+    const disallowedAccess = accessedCollections.filter((c) => !allowedCollections.includes(c));
+
     const log: SiloAccessLog = {
       timestamp: Date.now(),
       silo,
@@ -50,9 +57,15 @@ export function enforceSiloIsolation(
   };
 }
 
+/** Skapa fail-closed guard för en callable + silo. */
+export function createSiloGuard(callable: string, silo: Silo) {
+  const assertCollections = enforceSiloIsolation(callable, silo, [...SILO_COLLECTIONS[silo]]);
+  return { silo, allowed: SILO_COLLECTIONS[silo], assertCollections };
+}
+
 export function getSiloAccessLogs(silo?: Silo): SiloAccessLog[] {
   if (!silo) return [...accessLogs];
-  return accessLogs.filter(log => log.silo === silo);
+  return accessLogs.filter((log) => log.silo === silo);
 }
 
 export function clearSiloAccessLogs(): void {

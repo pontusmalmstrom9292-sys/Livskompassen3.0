@@ -1,3 +1,95 @@
+# 2026-07-20 — Improvement wave B (B01, B04–B08)
+
+- **B01 G85:** Day N log section in checklist + eval session note (device verify = user).
+- **B04 Capture/Inkast + MåBra:** Canonical map eval; barrels `features/mabra/index.ts`, `components/mabra/index.ts`.
+- **B05 A11y:** Drawer/chrome `aria-label` sweep (6 files) + eval note.
+- **B06 App Check:** Enable runbook (Console + `APP_CHECK_ENFORCE`; `VALV_REQUIRES_APP_CHECK` stays false).
+- **B07 Charts:** Lazy `recharts` boundaries — `OracleCapacityChart`, `MabraHistoryChart`.
+- **B08 Phase 10:** Visual sign-off checklist (executive-chrome / dock / hem locked).
+- Verification: `npm run build` (agent).
+
+---
+
+# 2026-07-20 — YOLO app-wide UI polish (Wave 6, executive/home shell pass)
+
+- Ny global DS-våg klar: `exec-home-chrome.css`, `exec-header-chrome.css`, `obsidian-calm-shells.css`, `obsidian-calm-glass.css`.
+- Lade till fler `focus-visible` states i executive/snabbstart/header och liv-launcher/hub-trigger, samt småtextkontrast-lyft i shell-labels/hints.
+- Förstärkte touch-targets i snabbstart/hub-trigger-lager och lade keyboard-ring även på bento-card depth-safe hover-surface.
+- Verification: `npm run build` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:governance` PASS
+
+---
+
+# 2026-07-20 — YOLO app-wide UI polish (Wave 5, dock/hub/dagbok shell pass)
+
+- Ny DS-våg klar: `dock-hub-band.css`, `dock-compass-hub.css`, `dagbok-journal.css`, `hub-adaptive-shell.css`.
+- Lade till fler `focus-visible` states, touch-target-justeringar på små nav/CTA-kontroller och höjde småtextkontrast i dock-labels.
+- Förbättrade keyboard-tydlighet i dagbok-lägesflikar/handoff-CTA och adaptiva kort i hub-shell.
+- Verification: `npm run build` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:governance` PASS
+
+---
+
+# 2026-07-20 — YOLO app-wide UI polish (Wave 4, DS contrast/focus pass)
+
+- Wave 4 klar i DS-lagret: kontrast/fokus/touch-target-polish i `nav-drawer-sections.css`, `planering-routines.css`, `mabra-collapsible.css`, `reflektion-panel.css`.
+- Lade till `focus-visible` på fler små interaktiva controls, höjde småtextkontrast i etiketter/meta och säkrade större touch-targets på kritiska chips/knappar.
+- Höll ändringarna modul-lås-säkra (endast design-system styles, inga låsta feature-globs).
+- Verification: `npm run build` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:governance` PASS
+
+---
+
+# 2026-07-20 — YOLO app-wide UI polish (Wave 3, drawer/dock chrome)
+
+- Förbättrade drawer/dock chrome globalt: focus-visible på close/account/expand/side/handle och större touch-targets på små controls.
+- Höjde små etikett-kontraster i nav-drawer, floating-dock och design-pack profilrad.
+- Höll ändringarna i DS/CSS-lagret för säker tvärgående effekt utan att bryta modul-lås.
+- Verification: `npm run build` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:governance` PASS
+
+---
+
+# 2026-07-20 — YOLO app-wide UI polish (Wave 2, aria fallback)
+
+- Design-system Button/ButtonLink uppgraderad: icon-CTA ärver nu `aria-label` från `title` när explicit label saknas.
+- Ger bred a11y-förbättring utan modulvis manuellt sweep i varje låst yta.
+- Verification: `npm run build` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:governance` PASS
+
+---
+
+# 2026-07-20 — YOLO app-wide UI polish (Wave 1, global DS layer)
+
+- App-brett polish-pass i design-system-lagret: bättre touch-targets för små DS-knappar (`--sm`, `--icon`), tydligare badge-kontrast och starkare focus-visible för legacy inputs/chips.
+- Premium reduced-transparency fallback utökad till `input-glass` + `alert-banner` för jämnare läsbarhet vid a11y-inställning.
+- Ingen låst modul berörd — endast globala DS/CSS-lager för säker tvärgående förbättring.
+- Verification: `npm run build` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:governance` PASS
+
+---
+
+# 2026-07-20 — MåBra UI polish (chip/tile/accessibility)
+
+- MåBra-vyn fick polish i premium-lagret + vit-hub styles: bättre fokusmarkering, touch-targets och mer jämn depth.
+- Kontrast upp i små labels/titles på chips och tiles; tydligare zon-trigger med keyboard focus-visible.
+- Reduced-transparency fallback utökad till MåBra-ytor för mer stabil läsbarhet vid a11y-inställning.
+- Verification: `npm run build` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:governance` PASS
+
+---
+
+# 2026-07-20 — Valv a11y sweep (contrast + keyboard + labels)
+
+- Valv: lade till Escape-stöd i zonväljaren (snabbt tillbaka till Samla när skip finns).
+- A11y labels: tydligare `aria-label` på mönsterfilter/metadata-knappar samt Drive-kö-CTA.
+- Kontrast: höjde läsbarhet för små gold-on-navy texter och förbättrade filter-chip hover/focus.
+- Verification: `npm run build` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:governance` PASS
+
+---
+
+# 2026-07-20 — Planering/Valv premium polish + a11y follow-up
+
+- Planering: in-flight inkorg/connect polish med tydligare shell transitions och focus-within.
+- Valv: pending/banner/chrome polish, log-row focus state, reduced-transparency fallback.
+- A11y: Valv PDF export fick explicit `aria-label` för tydligare hjälpmedelsstöd.
+- Verification: `npm run build` PASS · `npm run smoke:design-modules` PASS
+
+---
+
 ## 2026-07-19 — Spontan Utvecklingskort-mix (Fas 0–5)
 
 - **2026-07-19** — Locked UX §22 + `MOD-CORE-UTV`: Utvecklingskort/faktapack permanent låst (Hem, MåBra, Inställningar, `home/dev/**`).
@@ -2879,3 +2971,14 @@ Copy the template below for each entry. Newest first.
 - Synlig under Bästa Design Hem («Mer för dig») + MåBra («Utvecklingskort»).
 - KEEP-bridge + vit_entries klar/svar; lokal signalrankning; unlockedPacks hooks.
 - Smoke: design-modules, basta-dock-lock, locked-ux, module-lock PASS. Build PASS.
+
+## 2026-07-20 — Improvement wave A+B (förbättringsanalys implementerad)
+
+**Spår A:** Home ProtectedModule; vitest pin + test:unit; CI lint/economy/unit; economy/arbetsliv assertArchitectureWrite; ledger orderBy+limit; siloEnforcer wired; functions unit tests; agents.ts split + smoke adapters; inventory:functions; Capture/ValvInbox HEB; SacredLock 60s cooldown; EmptyState Dagbok; secureExport test sync.
+
+**Spår B:** G85 session/checklist; SOS unified → RecoveryUrgeSosModule; Valv skeleton/EmptyState; Capture/Inkast/MåBra canonical map; drawer a11y; App Check runbook (no enforce); lazy recharts; Phase 10 sign-off checklist.
+
+**Validering:** verifySecurityComponents PASS · functions build+test PASS · test:unit 118 · smoke:locked-ux/orkester/functions-pin/agents-ui/weaver-hitl/mabra/design-modules PASS.
+
+**Kvar till Pontus:** G85 device Valv <3s · App Check Console · functions redeploy per gap-doc · Phase 10 visual sign-off.
+

@@ -5,6 +5,7 @@ import { Heart, MessageCircle, Smile, Lock, AlertCircle, Loader2 } from 'lucide-
 import { AnimatePresence } from 'framer-motion';
 import { useStore } from '@/core/store';
 import { useEvolutionStore } from '@/core/store/useEvolutionStore';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { saveBarnportenLog } from '../api/saveBarnportenLog';
 import { useBarnportenOfflineFlush } from '../hooks/useBarnportenOfflineFlush';
 import { useBarnportenPairClaim } from '../hooks/useBarnportenPairClaim';
@@ -233,7 +234,7 @@ export function BarnportenPage() {
 
       <AnimatePresence>
         {barnportenLevel === 2 && !hasSeenLevel2Animation && (
-          <Suspense fallback={null}>
+          <Suspense fallback={<HubPanelSkeleton label="Laddar…" lines={2} />}>
             <BarnportenLevelTwoStage />
           </Suspense>
         )}

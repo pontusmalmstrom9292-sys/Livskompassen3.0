@@ -55,6 +55,7 @@
     gap: 0.16rem;
     justify-content: flex-end;
     align-items: center;
+    min-width: var(--ds-touch-target);
   }
 
   .floating-dock__side-btn.dock-nav-btn {
@@ -118,6 +119,12 @@
 
   .floating-dock__side-btn .dock-nav-btn__label {
     @apply max-w-full truncate text-[9px] leading-tight tracking-wide;
+    color: color-mix(in srgb, var(--text-muted) 84%, #e2e8f0);
+  }
+
+  .floating-dock__side-btn:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .floating-dock__center-glow {
@@ -203,6 +210,11 @@
       background 0.16s ease;
   }
 
+  .fyren-dock-handle:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
   .fyren-dock-handle__lip {
     @apply absolute inset-x-3 top-1 h-px rounded-full;
     background: linear-gradient(
@@ -215,6 +227,7 @@
 
   .fyren-dock-handle__label {
     @apply relative z-[1] text-[9px] font-medium uppercase tracking-[0.24em] text-accent;
+    color: color-mix(in srgb, var(--accent-light) 72%, #f8fafc);
   }
 
   .fyren-dock-handle__chevron {

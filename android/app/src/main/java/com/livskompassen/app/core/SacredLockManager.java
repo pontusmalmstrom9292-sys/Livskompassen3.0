@@ -26,11 +26,15 @@ import com.livskompassen.app.util.SecurePrefs;
 public class SacredLockManager {
     private static final String PREF_LOCKED_STATE = "sacred_lock_state";
     private static final String PREF_FAILED_ATTEMPTS = "failed_biometric_attempts";
+    /** Epoch ms when deep-lock cooldown ends (after ≥5 failed attempts). */
+    private static final String PREF_DEEP_LOCK_UNTIL_MS = "deep_lock_until_ms";
     /**
      * Ignore brief pauses (BiometricPrompt, notification shade, system dialogs).
      * Matches JS NATIVE_BACKGROUND_LOCK_MS — without this, unlock/shade kick Valvet.
      */
     private static final long BACKGROUND_GRACE_MS = 3_000L;
+    /** Timed cooldown after deep lock so the user is not stuck forever. */
+    private static final long DEEP_LOCK_COOLDOWN_MS = 60_000L;
 
     private final FragmentActivity activity;
     private final Bridge bridge;
@@ -85,7 +89,12 @@ public class SacredLockManager {
                 btnUnlock.setOnClickListener(v -> {
                     if (isDeepLocked()) {
                         hapticManager.error();
-                        Toast.makeText(activity, "För många misslyckade försök. Vänta en stund.", Toast.LENGTH_LONG).show();
+                        long remainingSec = Math.max(1L, (deepLockRemainingMs() + 999L) / 1000L);
+                        Toast.makeText(
+                                activity,
+                                "För många misslyckade försök. Vänta " + remainingSec + " s.",
+                                Toast.LENGTH_LONG
+                        ).show();
                         return;
                     }
                     hapticManager.lightClick(v);
@@ -96,17 +105,40 @@ public class SacredLockManager {
     }
 
     private boolean isDeepLocked() {
+        long untilMs = SecurePrefs.get(activity).getLong(PREF_DEEP_LOCK_UNTIL_MS, 0L);
+        long now = System.currentTimeMillis();
+        if (untilMs > now) {
+            return true;
+        }
+        if (untilMs > 0L) {
+            // Cooldown expired — clear fail count so the user can try again.
+            resetFailedAttempts();
+            return false;
+        }
         int attempts = SecurePrefs.get(activity).getInt(PREF_FAILED_ATTEMPTS, 0);
         return attempts >= 5;
     }
 
+    private long deepLockRemainingMs() {
+        long untilMs = SecurePrefs.get(activity).getLong(PREF_DEEP_LOCK_UNTIL_MS, 0L);
+        return Math.max(0L, untilMs - System.currentTimeMillis());
+    }
+
     private void incrementFailedAttempts() {
-        int attempts = SecurePrefs.get(activity).getInt(PREF_FAILED_ATTEMPTS, 0);
-        SecurePrefs.get(activity).edit().putInt(PREF_FAILED_ATTEMPTS, attempts + 1).apply();
+        android.content.SharedPreferences prefs = SecurePrefs.get(activity);
+        int attempts = prefs.getInt(PREF_FAILED_ATTEMPTS, 0) + 1;
+        android.content.SharedPreferences.Editor edit = prefs.edit().putInt(PREF_FAILED_ATTEMPTS, attempts);
+        if (attempts >= 5) {
+            edit.putLong(PREF_DEEP_LOCK_UNTIL_MS, System.currentTimeMillis() + DEEP_LOCK_COOLDOWN_MS);
+        }
+        edit.apply();
     }
 
     private void resetFailedAttempts() {
-        SecurePrefs.get(activity).edit().putInt(PREF_FAILED_ATTEMPTS, 0).apply();
+        SecurePrefs.get(activity).edit()
+                .putInt(PREF_FAILED_ATTEMPTS, 0)
+                .putLong(PREF_DEEP_LOCK_UNTIL_MS, 0L)
+                .apply();
     }
 
     public void onPause() {

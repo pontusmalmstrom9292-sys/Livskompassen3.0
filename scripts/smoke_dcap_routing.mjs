@@ -6,6 +6,7 @@
 import { existsSync, readFileSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { readAgentsCallableSource, assertAgentsIncludes } from './lib/readAgentsCallableSource.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -62,7 +63,7 @@ function main() {
   );
   mustInclude('functions/src/lib/inkastConstants.ts', 'INKAST_CONFIDENCE_THRESHOLD');
 
-  const agentsCallable = read('functions/src/callables/agents.ts');
+  const agentsCallable = readAgentsCallableSource(root);
   assert(
     agentsCallable.includes('const ragContext: string[] = []'),
     'analyzeMessage måste ignorera klient ragContext (tom array)',

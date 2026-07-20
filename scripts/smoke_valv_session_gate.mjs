@@ -6,6 +6,7 @@
 import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { readAgentsCallableSource, assertAgentsIncludes } from './lib/readAgentsCallableSource.mjs';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously } from 'firebase/auth';
 import { getFunctions, httpsCallable } from 'firebase/functions';
@@ -67,8 +68,8 @@ async function main() {
   mustInclude('functions/src/callables/valv.ts', 'verifyVaultWebAuthnResponse', 'readWebAuthnResponse');
   mustInclude('functions/src/lib/vaultWebAuthn.ts', 'beginVaultWebAuthnChallenge', 'verifyVaultWebAuthnResponse');
   mustInclude('functions/src/index.ts', 'beginVaultWebAuthnChallenge', 'issueVaultSession');
-  mustInclude('functions/src/callables/agents.ts', 'weaveJournalEntry', 'approveWeaverMetadata');
-  mustInclude('functions/src/callables/agents.ts', 'approveWeaverMetadata', 'assertVaultSession');
+  assertAgentsIncludes(root, 'weaveJournalEntry', 'approveWeaverMetadata');
+  assertAgentsIncludes(root, 'approveWeaverMetadata', 'assertVaultSession');
   mustInclude('functions/src/callables/weeklySummary.ts', 'vaultSessionGrantsVaultRead', 'reality_vault');
   mustInclude('functions/src/callables/compass.ts', 'vaultSessionGrantsVaultRead', 'reality_vault');
 

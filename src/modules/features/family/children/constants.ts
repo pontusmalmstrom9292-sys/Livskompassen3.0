@@ -27,6 +27,7 @@ export const LIVSLOGG_CATEGORIES = [
   { value: 'tredjepart', label: 'Tredjepart (skola/resurs)' },
   { value: 'halsa', label: 'Hälsa' },
   { value: 'overlamning', label: 'Överlämning' },
+  { value: 'incident', label: 'Incident (Vad hände)' },
   { value: 'ankare', label: 'Positivt ankare' },
   { value: 'positivt', label: 'Positiv stund' },
 ] as const;

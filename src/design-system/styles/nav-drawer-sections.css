@@ -6,6 +6,7 @@
 
   .nav-drawer__recent-title {
     @apply px-2 py-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-text-dim;
+    color: color-mix(in srgb, var(--text-muted) 84%, #e2e8f0);
   }
 
   .nav-drawer__recent-grid {
@@ -14,11 +15,17 @@
 
   .nav-drawer__recent-chip {
     @apply cursor-pointer rounded-xl border px-3 py-1.5 text-xs text-text-muted transition-colors;
+    min-height: var(--ds-touch-target);
     border-color: color-mix(in srgb, var(--accent) 12%, transparent);
     background: color-mix(in srgb, var(--ds-glass-bg) 82%, transparent);
     backdrop-filter: blur(var(--ds-blur-sm));
     -webkit-backdrop-filter: blur(var(--ds-blur-sm));
     touch-action: manipulation;
+  }
+
+  .nav-drawer__recent-chip:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .nav-drawer__recent-chip:hover {
@@ -29,11 +36,17 @@
 
   .nav-drawer__lock-btn {
     @apply relative z-10 mx-2 mt-3 flex w-[calc(100%-1rem)] cursor-pointer items-center gap-3 rounded-xl border px-3 py-3 text-left transition-colors;
+    min-height: var(--ds-touch-target);
     border-color: var(--ds-glass-border);
     background: color-mix(in srgb, var(--ds-glass-bg) 72%, transparent);
     backdrop-filter: blur(var(--ds-blur-sm));
     -webkit-backdrop-filter: blur(var(--ds-blur-sm));
     touch-action: manipulation;
+  }
+
+  .nav-drawer__lock-btn:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .nav-drawer__lock-btn:hover {
@@ -66,10 +79,17 @@
 
   .nav-drawer__lock-hint {
     @apply mt-0.5 block text-[10px] leading-snug text-text-muted;
+    color: color-mix(in srgb, var(--text-muted) 86%, #cbd5e1);
   }
 
   .drawer-hub__trigger {
     @apply flex items-center gap-3 rounded-2xl border border-transparent px-3 py-3 text-left text-sm font-medium text-text-muted transition-all duration-200;
+    min-height: var(--ds-touch-target);
+  }
+
+  .drawer-hub__trigger:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .drawer-hub__trigger:hover {
@@ -119,6 +139,12 @@
     @apply flex w-full items-center justify-between rounded-lg p-2.5 text-left text-xs transition-all duration-200;
     color: var(--text-muted);
     touch-action: manipulation;
+    min-height: var(--ds-touch-target);
+  }
+
+  .drawer-hub__link:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .drawer-hub__link:hover {

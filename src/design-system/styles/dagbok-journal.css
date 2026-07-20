@@ -6,6 +6,7 @@
 
   .dagbok-mode-nav__tab {
     @apply flex-1 rounded-lg px-2 py-2 text-center text-xs font-medium tracking-wide text-text-muted transition-colors;
+    min-height: var(--ds-touch-target);
   }
 
   .dagbok-mode-nav__tab:hover {
@@ -15,6 +16,11 @@
   .dagbok-mode-nav__tab--active {
     @apply bg-accent/10 text-accent;
     box-shadow: inset 0 -2px 0 color-mix(in srgb, var(--accent) 85%, transparent);
+  }
+
+  .dagbok-mode-nav__tab:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .journal-archive-scroll {
@@ -58,9 +64,15 @@
 
   .journal-handoff__cta {
     @apply w-full justify-center border-accent/35 text-text;
+    min-height: var(--ds-touch-target);
   }
 
   .journal-handoff__cta:hover {
     @apply border-accent/55 text-accent;
+  }
+
+  .journal-handoff__cta:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 }

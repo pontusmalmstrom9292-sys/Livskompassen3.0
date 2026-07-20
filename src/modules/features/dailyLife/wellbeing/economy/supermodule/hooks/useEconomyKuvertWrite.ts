@@ -1,24 +1,15 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { FirebaseError } from 'firebase/app';
 import {
   deleteBudgetEnvelope,
   getBudgetEnvelopes,
   setBudgetEnvelope,
 } from '@/core/firebase/economyFirestore';
-import {
-  isBrowserOffline,
-  OfflineWriteBlockedError,
-} from '@/core/firebase/offlineWritePolicy';
+import { isBrowserOffline } from '@/core/firebase/offlineWritePolicy';
 import type { BudgetEnvelopeRow } from '@/core/types/firestore';
+import { resolveEconomySaveError } from './resolveEconomySaveError';
 
 function resolveSaveError(err: unknown): string {
-  if (err instanceof OfflineWriteBlockedError) {
-    return err.message;
-  }
-  if (err instanceof FirebaseError && err.code === 'permission-denied') {
-    return 'Behörighet saknas — logga in igen.';
-  }
-  return 'Kunde inte spara kuvert.';
+  return resolveEconomySaveError(err, 'Kunde inte spara kuvert.');
 }
 
 /**

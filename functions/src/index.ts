@@ -14,6 +14,8 @@ export {
   promoteKbDocToKampspar,
 } from './callables/knowledge';
 
+export { analyzeChildIncident } from './callables/analyzeChildIncident';
+
 export {
   getInboxQueue,
   confirmInboxItem,

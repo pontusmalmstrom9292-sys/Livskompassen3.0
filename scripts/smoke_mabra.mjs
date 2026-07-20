@@ -5,6 +5,7 @@
 import { readFileSync, existsSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
+import { readAgentsCallableSource, assertAgentsIncludes } from './lib/readAgentsCallableSource.mjs';
 import { initializeApp } from 'firebase/app';
 import { initializeAppCheck, CustomProvider } from 'firebase/app-check';
 import { getAuth, signInAnonymously, signInWithEmailAndPassword } from 'firebase/auth';
@@ -49,7 +50,7 @@ async function main() {
   assert(playBank.includes('sense: \'Känna\'') && playBank.includes('count: 3'), '54321 bank stegordning fel (3=känna)');
   console.log('[smoke] MB-PLAY-54321 wiring OK');
 
-  const agentsSrc = readFileSync(resolve(root, 'functions/src/callables/agents.ts'), 'utf8');
+  const agentsSrc = readAgentsCallableSource(root);
   const bankSrc = readFileSync(resolve(root, 'functions/src/lib/mabraContentBank.ts'), 'utf8');
   assert(agentsSrc.includes("mode === 'bank_parafras'"), 'agents saknar bank_parafras');
   assert(agentsSrc.includes('parafraseCoachFromBank'), 'agents saknar parafraseCoachFromBank');
