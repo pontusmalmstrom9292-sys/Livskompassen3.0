@@ -320,14 +320,7 @@ export function AppRoutes() {
           <MainLayout>
             <Suspense fallback={<RouteFallback />}>
             <Routes>
-              <Route
-                path={NAV_PATHS.HOME}
-                element={
-                  <ProtectedModule>
-                    <HomePage />
-                  </ProtectedModule>
-                }
-              />
+              <Route path={NAV_PATHS.HOME} element={<HomePage />} />
 
               <Route path="/dashboard" element={<NewDashboardHubPage />} />
               <Route

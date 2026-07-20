@@ -87,6 +87,17 @@ mustInclude(
   'path="/barnhub"',
   'path="/barnhubben"',
 );
+mustInclude(
+  'src/modules/core/pages/FamiljenPage.tsx',
+  'barnfokus:',
+  'inputMode=barnfokus',
+);
+// Hem måste vara publikt (e2e locked-ux) — ProtectedModule på andra rutter är OK
+const routes = readFileSync(join(ROOT, 'src/modules/core/routing/AppRoutes.tsx'), 'utf8');
+assert.ok(
+  /path=\{NAV_PATHS\.HOME\}\s+element=\{<HomePage\s*\/>\}/.test(routes),
+  'Hem (/) måste vara publikt utan ProtectedModule (e2e locked-ux)',
+);
 
 console.log('[smoke:child-incident] Kasper-exempel (inline heuristik)…');
 const sample = 'Kasper sa att mamma sagt att pappa inte vill träffa honom.';
