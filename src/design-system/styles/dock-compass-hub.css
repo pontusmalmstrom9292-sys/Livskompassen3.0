@@ -7,6 +7,7 @@
 
   .dock-compass-hub {
     @apply pointer-events-auto flex flex-col items-center gap-1 border-0 bg-transparent p-0 text-accent transition-transform;
+    min-height: var(--ds-touch-target);
   }
 
   .dock-compass-hub:hover {
@@ -15,6 +16,12 @@
 
   .dock-compass-hub:active {
     transform: translateY(0);
+  }
+
+  .dock-compass-hub:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+    border-radius: 999px;
   }
 
   .dock-compass-hub__plate {
@@ -111,5 +118,6 @@
 
   .dock-hub-fan--orbit .dock-compass-hub__label {
     @apply text-[7px] font-medium tracking-[0.16em] text-text-muted;
+    color: color-mix(in srgb, var(--text-muted) 88%, #e2e8f0);
   }
 }

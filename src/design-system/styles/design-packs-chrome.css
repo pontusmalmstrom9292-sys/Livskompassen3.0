@@ -204,6 +204,7 @@ html[data-design-pack] .home-page--scenic .home-greeting-module--design-pack .ho
 
 html[data-design-pack] .home-page--scenic .home-greeting-module--design-pack .home-greeting-module__profile {
   @apply text-left text-[9px] tracking-[0.16em] text-accent/65;
+  color: color-mix(in srgb, var(--accent-light) 66%, #e2e8f0);
 }
 
 html[data-design-pack] .home-page--scenic .home-greeting-module--design-pack .home-streak-chip {

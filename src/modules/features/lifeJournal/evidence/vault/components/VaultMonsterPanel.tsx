@@ -55,6 +55,7 @@ function BarRow({
       onClick={onSelect}
       className="valv-monster-bar w-full space-y-1 rounded-lg border border-transparent px-1 py-1 text-left transition-colors hover:border-accent/25 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       title={`Visa arkivposter med #${label}`}
+      aria-label={`Filtrera arkivet på taktiken ${label}, ${count} träffar`}
     >
       {inner}
     </button>
@@ -158,6 +159,7 @@ export function VaultMonsterPanel({ logs, userId, onTechniqueSelect }: Props) {
             disabled={!userId || rescanning || assisting}
             onClick={() => void handleRescan()}
             className="inline-flex items-center gap-1.5 rounded-lg border border-accent/30 bg-accent/5 px-3 py-1.5 text-xs text-accent hover:bg-accent/10 disabled:opacity-40"
+            aria-label="Skanna om valvposter och uppdatera mönster-metadata"
           >
             {rescanning ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
@@ -171,6 +173,7 @@ export function VaultMonsterPanel({ logs, userId, onTechniqueSelect }: Props) {
             disabled={!userId || rescanning || assisting}
             onClick={() => void handleFlowAssist()}
             className="inline-flex items-center gap-1.5 rounded-lg border border-border/50 bg-surface-3/40 px-3 py-1.5 text-xs text-text-muted hover:border-accent/30 hover:text-accent disabled:opacity-40"
+            aria-label="Kör kompletterande flow-assist för mönster-metadata"
           >
             {assisting ? (
               <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />

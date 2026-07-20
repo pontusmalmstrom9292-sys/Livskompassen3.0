@@ -65,6 +65,7 @@
     @apply relative z-[1] flex min-w-0 flex-col items-center gap-1 border-0 bg-transparent p-0;
     justify-self: center;
     width: 100%;
+    min-height: var(--ds-touch-target);
     max-width: 3.35rem;
     transition: transform 0.16s ease;
   }
@@ -113,6 +114,7 @@
 
   .dock-nav-btn__label {
     @apply max-w-full truncate px-0.5 text-[9px] font-medium leading-tight text-text-muted;
+    color: color-mix(in srgb, var(--text-muted) 88%, #e2e8f0);
   }
 
   .dock-nav-btn__label--active,
@@ -124,12 +126,18 @@
     @apply flex flex-col items-center gap-1 no-underline;
   }
 
+  .dock-nav-btn:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
   .dock-hub-band__center {
     @apply relative flex shrink-0 flex-col items-center border-0 bg-transparent p-0;
     grid-column: 4;
     justify-self: center;
     z-index: 3;
     margin-top: -1.35rem;
+    min-height: var(--ds-touch-target);
     touch-action: none;
     -webkit-user-select: none;
     user-select: none;
@@ -187,6 +195,12 @@
 
   .dock-hub-band__center:active .dock-hub-band__plate {
     transform: translateY(0);
+  }
+
+  .dock-hub-band__center:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+    border-radius: 999px;
   }
 
   .dock-hub-band__center--active .dock-hub-band__plate,

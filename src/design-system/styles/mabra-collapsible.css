@@ -8,6 +8,13 @@
   .mabra-hub-collapsible__trigger,
   .calm-collapsible__trigger {
     @apply flex w-full items-center gap-2 px-3 py-2.5 text-left text-xs transition-colors hover:text-text;
+    min-height: var(--ds-touch-target);
+  }
+
+  .mabra-hub-collapsible__trigger:focus-visible,
+  .calm-collapsible__trigger:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .mabra-hub-collapsible__title,
@@ -18,6 +25,7 @@
   .mabra-hub-collapsible__meta,
   .calm-collapsible__meta {
     @apply text-[10px] tabular-nums text-text-dim;
+    color: color-mix(in srgb, var(--text-dim) 86%, #e2e8f0);
   }
 
   .mabra-hub-collapsible__chevron,

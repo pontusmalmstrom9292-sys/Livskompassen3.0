@@ -47,7 +47,15 @@ export function ValvZoneModulValjare({ onSelect, onSkip }: Props) {
   };
 
   return (
-    <div className="space-y-4">
+    <div
+      className="space-y-4"
+      onKeyDown={(event) => {
+        if (event.key === 'Escape' && onSkip) {
+          event.preventDefault();
+          skip();
+        }
+      }}
+    >
       <p className="text-sm text-text-muted">
         Valvet har zoner — välj var du vill börja. Flikar och Mönster/Orkester finns kvar efter valet.
       </p>
@@ -65,7 +73,12 @@ export function ValvZoneModulValjare({ onSelect, onSkip }: Props) {
         ))}
       </div>
       {onSkip ? (
-        <button type="button" onClick={skip} className="text-xs text-text-dim hover:text-text-muted">
+        <button
+          type="button"
+          onClick={skip}
+          aria-label="Hoppa över zonval och öppna Samla"
+          className="text-xs text-text-dim hover:text-text-muted"
+        >
           Visa alla zoner direkt (Samla)
         </button>
       ) : null}

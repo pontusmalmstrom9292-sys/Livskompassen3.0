@@ -137,6 +137,7 @@ const LogRow = memo(function LogRow({
           className="shrink-0 py-1 px-2"
           onClick={() => exportVaultRecordAsPdf(log)}
           title="Exportera som PDF (utskrift)"
+          aria-label={`Exportera valvpost ${log.id.slice(0, 12)} som PDF`}
         >
           <FileDown className="h-3 w-3" /> PDF
         </Button>

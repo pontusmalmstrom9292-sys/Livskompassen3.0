@@ -1,6 +1,6 @@
 # Project State — Livskompassen v2
 
-**Version:** 1.4 · **Last updated:** 2026-07-18  
+**Version:** 1.4 · **Last updated:** 2026-07-20  
 **Rule:** Single source of truth for **system phase** and **active program**. AI assistants must read this before coding.
 
 ---
@@ -105,7 +105,16 @@ Phase 0–9 baseline och migration **done**. Phase 10: `index.css` import-only; 
 | Fas 24 build sequence through 23E | **done** | 2026-06-25 |
 | AI Governance system | v1.4 (Fas 24 P0 G85 started) | 2026-07-18 |
 | G85 7d started | **day 1** · App Check Valv fix + debug APK ready | 2026-07-18 |
-| `smoke:governance` + `smoke:module-lock` | **PASS** | 2026-07-17 — 23/23 locked (re-check after PROJECT_STATE v1.3) |
+| Planering/Valv premium polish batch | **PASS** | 2026-07-20 — inkorg/connect polish, Valv pending/log focus states, reduced-transparency fallback, Valv PDF aria-label |
+| Valv a11y sweep (contrast/keyboard) | **PASS** | 2026-07-20 — Escape i zonväljare, mönster + Drive aria-label, gold-on-navy contrast pass |
+| MåBra UI polish (vit-hub) | **PASS** | 2026-07-20 — chip/tile focus-visible, touch-target, contrast + reduced-transparency fallback |
+| YOLO app-wide UI polish (Wave 1) | **PASS** | 2026-07-20 — DS small-button touch-target, badge contrast, input/chip focus-visible, reduced-transparency for input-glass/alert-banner |
+| YOLO app-wide UI polish (Wave 2) | **PASS** | 2026-07-20 — DS Button/ButtonLink icon aria-label fallback via title |
+| YOLO app-wide UI polish (Wave 3) | **PASS** | 2026-07-20 — drawer/dock focus-visible + touch-targets + label contrast (nav-drawer/floating-dock/design-pack profile) |
+| YOLO app-wide UI polish (Wave 4) | **PASS** | 2026-07-20 — nav-drawer sections + Planering routines + MåBra collapsible + Reflektion panel contrast/focus/touch-target pass |
+| YOLO app-wide UI polish (Wave 5) | **PASS** | 2026-07-20 — dock hub/compass + Dagbok mode/handoff + adaptive-card focus/touch-target/contrast pass |
+| YOLO app-wide UI polish (Wave 6) | **PASS** | 2026-07-20 — executive home/header + Obsidian shell/glass focus-visible, touch-target, contrast pass |
+| `smoke:governance` + `smoke:module-lock` | **PASS** | 2026-07-20 — module-lock green (25/25 locked), governance smoke PASS |
 
 ### MOD-WIDGET Standalone v1 (2026-07-14)
 - Fristående widget-skin + WH7 Åtgärder + AppUnlock bypass på `/widget/*`

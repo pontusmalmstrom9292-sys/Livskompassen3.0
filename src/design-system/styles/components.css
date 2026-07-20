@@ -165,13 +165,14 @@
   }
 
   .ds-btn--sm {
-    min-height: var(--ds-space-8);
+    min-height: max(var(--ds-space-8), calc(var(--ds-touch-target) - 0.5rem));
     padding: var(--ds-space-1-5) var(--ds-space-4);
     font-size: var(--ds-font-size-2xs);
   }
 
   .ds-btn--icon {
     min-width: var(--ds-touch-target);
+    min-height: var(--ds-touch-target);
     padding: var(--ds-space-2);
   }
 
@@ -217,25 +218,25 @@
   }
 
   .ds-badge--accent {
-    color: var(--ds-color-accent);
+    color: color-mix(in srgb, var(--ds-color-accent) 78%, #f8fafc);
     border-color: color-mix(in srgb, var(--ds-color-accent) 35%, transparent);
     background: color-mix(in srgb, var(--ds-color-accent) 10%, transparent);
   }
 
   .ds-badge--success {
-    color: var(--ds-color-success);
+    color: color-mix(in srgb, var(--ds-color-success) 80%, #f8fafc);
     border-color: color-mix(in srgb, var(--ds-color-success) 35%, transparent);
     background: color-mix(in srgb, var(--ds-color-success) 10%, transparent);
   }
 
   .ds-badge--warning {
-    color: var(--ds-color-warning);
+    color: color-mix(in srgb, var(--ds-color-warning) 76%, #f8fafc);
     border-color: color-mix(in srgb, var(--ds-color-warning) 35%, transparent);
     background: color-mix(in srgb, var(--ds-color-warning) 10%, transparent);
   }
 
   .ds-badge--danger {
-    color: var(--ds-color-danger);
+    color: color-mix(in srgb, var(--ds-color-danger) 80%, #f8fafc);
     border-color: color-mix(in srgb, var(--ds-color-danger) 35%, transparent);
     background: color-mix(in srgb, var(--ds-color-danger) 10%, transparent);
   }

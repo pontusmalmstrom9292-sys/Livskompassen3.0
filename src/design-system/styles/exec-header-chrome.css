@@ -29,6 +29,11 @@
   background: color-mix(in srgb, var(--accent) 8%, var(--surface-3));
 }
 
+.executive-settings__row:focus-visible {
+  outline: var(--ds-focus-ring);
+  outline-offset: var(--ds-focus-offset);
+}
+
 .executive-checklist {
   border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
   background: color-mix(in srgb, var(--surface-2) 75%, transparent);
@@ -150,6 +155,12 @@
 [data-theme='ME-midnight-executive'] .exec-header-eye:active {
   animation: none;
   filter: drop-shadow(0 0 22px color-mix(in srgb, var(--accent) 52%, transparent));
+}
+
+[data-theme='ME-midnight-executive'] .exec-header-eye:focus-visible {
+  outline: var(--ds-focus-ring);
+  outline-offset: var(--ds-focus-offset);
+  border-radius: 999px;
 }
 
 @keyframes exec-eye-breathe {

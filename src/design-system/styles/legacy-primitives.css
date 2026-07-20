@@ -42,11 +42,30 @@
 
   .input-glass {
     @apply w-full rounded-2xl border border-border-strong bg-surface/80 p-4 text-sm text-text resize-none focus:border-accent/40 focus:outline-none;
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium),
+      background var(--ds-duration-fast) var(--ds-ease-premium);
+  }
+
+  .input-glass:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .chip {
     @apply rounded-full border px-3 py-1 text-xs transition-colors;
     min-height: var(--ds-touch-target, 2.75rem);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      background var(--ds-duration-fast) var(--ds-ease-premium),
+      transform var(--ds-duration-fast) var(--ds-ease-premium);
+  }
+
+  .chip:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .chip--active {
@@ -55,5 +74,9 @@
 
   .chip--idle {
     @apply chip border-border-strong text-text-muted hover:border-border-strong hover:text-text-muted;
+  }
+
+  .chip--idle:hover {
+    transform: translateY(-1px);
   }
 }

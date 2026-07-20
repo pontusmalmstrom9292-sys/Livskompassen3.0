@@ -243,7 +243,7 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** 
 - **Status:** In Progress
 - **Priority:** Critical (cross-cutting)
 - **Files:** premium-polish.css (focus-visible, reduced-motion, reduced-transparency cards)
-- **Notes:** Foundation pass 2026-07-18 — focus ring + reduced-transparency card/glass fallback. Remaining: contrast audit, icon aria-label sweep, keyboard Escape on overlays.
+- **Notes:** Foundation pass 2026-07-18 — focus ring + reduced-transparency card/glass fallback. 2026-07-20: Planering/Valv reduced-transparency fallback + Valv PDF export aria-label + Valv contrast/keyboard sweep (Escape i zonväljare) + MåBra vit-hub polish (focus-visible, touch-target, contrast) + app-wide Wave 1 i DS-lagret (small-button touch-target, badge contrast, input/chip focus-visible) + app-wide Wave 2 (Button/ButtonLink icon `aria-label` fallback via `title`) + app-wide Wave 3 (drawer/dock focus-visible + touch-target + small-label contrast) + app-wide Wave 4 (nav-drawer sections, Planering routines, MåBra collapsible, Reflektion panel contrast/focus/touch-target) + app-wide Wave 5 (dock hub/compass, Dagbok mode/handoff, adaptive-card focus/touch-target/contrast) + app-wide Wave 6 (executive home/header + Obsidian shell/glass focus-visible, touch-target, contrast). Remaining: bred icon aria-label sweep och kontrast-audit i övriga zoner.
 
 ---
 
@@ -282,4 +282,3 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** 
 - Release clears stale App Check debug SharedPreferences
 - smoke:android-platform expanded (dist-leak, ZF appStateChange)
 - Eval: docs/evaluations/2026-07-17-g85-appcheck-yolo.md
-

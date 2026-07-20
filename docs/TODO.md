@@ -300,6 +300,16 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] App Check await på fler Valv-vägar + BuildConfig-first token path
 - [x] MainActivity widget deep-link efter kallstart
 - [x] A11y: reduced-transparency card fallback i premium-polish
+- [x] Planering/Valv polish batch — inkorg/connect, pending-banner, focus-within, reduced-transparency (2026-07-20)
+- [x] Valv PDF export a11y — explicit aria-label i arkivlistan (2026-07-20)
+- [x] Valv a11y sweep — Escape i zonväljare + aria-label på mönster/Drive-CTA + contrast pass (2026-07-20)
+- [x] MåBra UI polish — vit-hub chip/tile focus, touch-target, contrast + reduced-transparency fallback (2026-07-20)
+- [x] YOLO app-wide UI polish Wave 1 — DS button touch-target, badge contrast, input/chip focus-visible, reduced-transparency fallback (2026-07-20)
+- [x] YOLO app-wide UI polish Wave 2 — DS icon-button aria-label fallback via title (Button/ButtonLink) (2026-07-20)
+- [x] YOLO app-wide UI polish Wave 3 — drawer/dock focus-visible, touch-target, small-label contrast (2026-07-20)
+- [x] YOLO app-wide UI polish Wave 4 — nav-drawer sections + Planering routines + MåBra collapsible + Reflektion panel contrast/focus/touch-target pass (2026-07-20)
+- [x] YOLO app-wide UI polish Wave 5 — dock hub/compass + Dagbok mode/handoff + adaptive-card focus/touch-target/contrast pass (2026-07-20)
+- [x] YOLO app-wide UI polish Wave 6 — executive home/header + Obsidian shell/glass focus-visible, touch-target and small-text contrast pass (2026-07-20)
 - [x] PMIR/defer dokumenterat i PROJECT_STATE (bygg ej utan Pontus OK)
 - [ ] Pontus: Android Studio → Run + Valv <3s bakgrund (enhetsgate)
 - [ ] Pontus visual sign-off compass (program Phase 10)
