@@ -80,7 +80,8 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 - MåBra: samma widget under «Mer på hubben»
 - Inställningar: «Uppdatera / hämta faktapack» → `FetchContentPacksFlow`
 - Motor: `src/modules/core/home/dev/**` — KEEP + lokal rank + `vit_entries` — **ingen cross-RAG**
-- Smoke: `smoke:locked-ux` · `smoke:design-modules` · `smoke:basta-dock-lock`
+- **Android premium (LÅST):** WH9 hemskärms-widget · pull-to-refresh + guld-haptik · `useSystemChromeFusion` · shortcut «Dagens kort»
+- Smoke: `smoke:locked-ux` · `smoke:design-modules` · `smoke:basta-dock-lock` · `smoke:widgets`
 
 ## Forbidden without approval
 
@@ -90,4 +91,4 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 - Replacing optimistic middag save with “refresh only after server” (degrades ADHD-safe feedback)
 - Removing Barnporten spec, agents registry, or Valv HITL bridge design
 - Removing `BarnportenInboxPanel`, HITL prompt, or auto-promoting child logs to Valv
-- Removing «Mer för dig», `DevelopmentBentoWidget`, `home/dev/**`, MåBra-utvecklingskort, or Inställningar faktapack-genväg without unlock `MOD-CORE-UTV` + Pontus OK
+- Removing «Mer för dig», `DevelopmentBentoWidget`, `home/dev/**`, MåBra-utvecklingskort, Inställningar faktapack-genväg, WH9 widget, chrome fusion, or «Dagens kort» shortcut without unlock `MOD-CORE-UTV` + Pontus OK

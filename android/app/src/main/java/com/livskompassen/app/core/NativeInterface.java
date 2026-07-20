@@ -103,6 +103,11 @@ public class NativeInterface {
     }
 
     @JavascriptInterface
+    public void updateUtvecklingskortShortcut(String text) {
+        shortcutManager.updateUtvecklingskortShortcut(text);
+    }
+
+    @JavascriptInterface
     public void encryptForBackup(String data) {
         backupManager.encryptData(data, new BackupManager.BiometricEncryptionCallback() {
             @Override

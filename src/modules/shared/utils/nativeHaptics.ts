@@ -42,5 +42,13 @@ export function useNativeHaptics() {
     }
   }, [native]);
 
-  return { success, error, navigate };
+  const tick = useCallback(() => {
+    if (native?.triggerRecordingHaptic) {
+      native.triggerRecordingHaptic();
+    } else if ('vibrate' in navigator) {
+      navigator.vibrate(10);
+    }
+  }, [native]);
+
+  return { success, error, navigate, tick };
 }

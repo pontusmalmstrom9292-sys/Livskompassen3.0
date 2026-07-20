@@ -162,6 +162,34 @@ assert(existsSync(resolve(root, 'android/app/src/main/res/drawable/widget_ic_wh8
 assert(androidStrings.includes('widget_moduler_title'), 'WH8 strings saknas');
 assert(manifest.includes('ModulerWidgetProvider'), 'AndroidManifest saknar WH8 receiver');
 
+console.log('[smoke:widgets] Android WH9 Utvecklingskort…');
+const utvProvider = readCanonical(
+  'android/app/src/main/java/com/livskompassen/app/widgets/UtvecklingskortWidgetProvider.java',
+);
+assert(utvProvider.includes('UtvecklingskortWidgetProvider'), 'WH9 UtvecklingskortWidgetProvider saknas');
+assert(utvProvider.includes('utv_kort_body'), 'WH9 ska läsa utv_kort_body');
+assert(utvProvider.includes('/?expand_dev=true'), 'WH9 ska deep-linka till expand_dev');
+assert(existsSync(resolve(root, 'android/app/src/main/res/xml/widget_utv_kort_info.xml')), 'widget_utv_kort_info saknas');
+assert(existsSync(resolve(root, 'android/app/src/main/res/layout/widget_utv_kort.xml')), 'widget_utv_kort layout saknas');
+assert(androidStrings.includes('widget_utv_kort_title'), 'WH9 strings saknas');
+assert(manifest.includes('UtvecklingskortWidgetProvider'), 'AndroidManifest saknar WH9 receiver');
+const widgetUpdate = readCanonical(
+  'android/app/src/main/java/com/livskompassen/app/core/WidgetUpdateManager.java',
+);
+assert(widgetUpdate.includes('UtvecklingskortWidgetProvider'), 'WidgetUpdateManager ska uppdatera WH9');
+const shortcutMgr = readCanonical(
+  'android/app/src/main/java/com/livskompassen/app/core/ShortcutManager.java',
+);
+assert(shortcutMgr.includes('dynamic_utv_kort'), 'ShortcutManager saknar Dagens kort');
+assert(shortcutMgr.includes('expand_dev=true'), 'ShortcutManager ska öppna expand_dev');
+assert(shortcutMgr.includes('lastPath'), 'ShortcutManager måste behålla lastPath (ej wipe)');
+const chromeFusion = readCanonical('src/modules/core/hooks/useSystemChromeFusion.ts');
+assert(chromeFusion.includes('setSystemTheme'), 'useSystemChromeFusion saknar setSystemTheme');
+const bento = readCanonical('src/modules/core/home/DevelopmentBentoWidget.tsx');
+assert(bento.includes('setMixNonce'), 'DevelopmentBentoWidget saknar pull-to-refresh mixNonce');
+assert(bento.includes('updateUtvecklingskortShortcut'), 'Bento ska synka native shortcut');
+assert(bento.includes("setWidgetData?.('utv_kort_body'"), 'Bento ska synka WH9 body');
+
 console.log('[smoke:widgets] Design Freeport standalone lab…');
 const freeportPage = readCanonical('src/modules/sandbox/DesignFreeportPage.tsx');
 assert(freeportPage.includes('WidgetStandaloneLab'), 'Design Freeport saknar WidgetStandaloneLab');

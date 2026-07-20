@@ -980,6 +980,9 @@ function main() {
     'MOD-CORE-UTV',
     'Uppdatera / hämta faktapack',
     'Ingen cross-RAG',
+    'WH9',
+    'useSystemChromeFusion',
+    'Dagens kort',
   );
   mustInclude(
     '.context/module-lock-register.json',
@@ -993,6 +996,22 @@ function main() {
     'buildDevMix',
     'saveVitEntry',
     'FetchContentPacksFlow',
+    'setMixNonce',
+    'utv_kort_body',
+  );
+  mustInclude(
+    'src/modules/core/hooks/useSystemChromeFusion.ts',
+    'setSystemTheme',
+    'useSystemChromeFusion',
+  );
+  mustInclude(
+    'src/App.tsx',
+    'useSystemChromeFusion',
+  );
+  mustInclude(
+    'android/app/src/main/java/com/livskompassen/app/widgets/UtvecklingskortWidgetProvider.java',
+    'expand_dev=true',
+    'utv_kort_body',
   );
   mustInclude(
     'src/modules/core/home/HemV3DevelopmentRail.tsx',

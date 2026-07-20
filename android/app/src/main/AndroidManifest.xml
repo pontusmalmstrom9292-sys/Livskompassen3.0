@@ -182,6 +182,18 @@
                 android:resource="@xml/widget_moduler_info" />
         </receiver>
 
+        <receiver
+            android:name=".widgets.UtvecklingskortWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_utv_kort_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_utv_kort_info" />
+        </receiver>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
