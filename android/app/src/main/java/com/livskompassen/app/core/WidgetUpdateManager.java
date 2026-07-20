@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import com.livskompassen.app.util.SecurePrefs;
 import com.livskompassen.app.widgets.RecordWidgetProvider;
+import com.livskompassen.app.widgets.UtvecklingskortWidgetProvider;
 
 /**
  * CRITICAL COMPONENT - DO NOT REMOVE.
@@ -30,6 +31,15 @@ public class WidgetUpdateManager {
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         context.sendBroadcast(intent);
+
+        // Also update Utvecklingskort if key matches
+        if ("utv_kort_body".equals(key)) {
+            int[] utvIds = manager.getAppWidgetIds(new ComponentName(context, UtvecklingskortWidgetProvider.class));
+            Intent utvIntent = new Intent(context, UtvecklingskortWidgetProvider.class);
+            utvIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            utvIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, utvIds);
+            context.sendBroadcast(utvIntent);
+        }
     }
 
     public static String getWidgetContent(Context context, String key) {

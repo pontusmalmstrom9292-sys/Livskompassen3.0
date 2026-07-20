@@ -62,6 +62,9 @@
     <string name="widget_moduler_sub">Nedräkning · Lista</string>
     <string name="widget_moduler_desc">Personliga moduler — nedräkning, checklista, sparmål och notiser</string>
 
+    <string name="widget_utv_kort_title">Utvecklingskort</string>
+    <string name="widget_utv_kort_desc">Dagens kort direkt på hemskärmen</string>
+
     <string name="shortcut_vault_short">Öppna Valvet</string>
     <string name="shortcut_vault_long">Öppna det säkra valvet</string>
 </resources>

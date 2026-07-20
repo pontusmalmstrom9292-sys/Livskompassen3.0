@@ -10,6 +10,9 @@ export type LivskompassenHapticBridge = LivskompassenNativeBridge & {
   triggerNavigationHaptic?: () => void;
   triggerRecordingHaptic?: () => void;
   triggerPremiumNotification?: (title: string, message: string, type: string) => void;
+  updateUtvecklingskortShortcut?: (text: string) => void;
+  setWidgetData?: (key: string, value: string) => void;
+  setSystemTheme?: (colorHex: string, isDark: boolean) => void;
 };
 
 /**
@@ -42,5 +45,13 @@ export function useNativeHaptics() {
     }
   }, [native]);
 
-  return { success, error, navigate };
+  const tick = useCallback(() => {
+    if (native?.triggerRecordingHaptic) {
+      native.triggerRecordingHaptic();
+    } else if ('vibrate' in navigator) {
+      navigator.vibrate(10);
+    }
+  }, [native]);
+
+  return { success, error, navigate, tick };
 }

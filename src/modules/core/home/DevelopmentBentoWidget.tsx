@@ -49,7 +49,7 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
   const capacityScore = useCapacityScore();
   const listenToCapacityState = useListenToCapacityState();
   const { presetId } = useLifeHubPreset();
-  const { success: triggerSuccess } = useNativeHaptics();
+  const { success: triggerSuccess, tick: triggerTick } = useNativeHaptics();
   const [searchParams] = useSearchParams();
 
   const unlockedPacks = evolutionDoc?.unlockedPacks ?? [];
@@ -75,6 +75,12 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
   const [packOpen, setPackOpen] = useState(false);
   const [customOpen, setCustomOpen] = useState(false);
   const [mixNonce, setMixNonce] = useState(0);
+
+  // Pull-to-Refresh State
+  const [pullY, setPullY] = useState(0);
+  const [isPulling, setIsPulling] = useState(false);
+  const touchStartY = useRef(0);
+  const PULL_THRESHOLD = 80;
 
   const unlockedPacksMemo = useMemo(() => unlockedPacks.join(','), [unlockedPacks]);
 
@@ -208,6 +214,14 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
     });
     setMix(next);
     setSelectedSlot(null);
+
+    // Sync to Native Widget & Shortcuts
+    if (next[0] && user?.uid) {
+      const native = getLivskompassenNative();
+      native?.setWidgetData?.('utv_kort_body', next[0].body_sv);
+      native?.updateUtvecklingskortShortcut?.(next[0].body_sv);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps -- signals/excludeSet intentionally via mixNonce + primitives
   }, [
     user?.uid,
@@ -373,10 +387,59 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
     }
   }, [selected]);
 
+  const onTouchStart = (e: React.TouchEvent) => {
+    if (window.scrollY > 10) return; // Only at top
+    touchStartY.current = e.touches[0].clientY;
+    setIsPulling(true);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    if (!isPulling) return;
+    const currentY = e.touches[0].clientY;
+    const delta = currentY - touchStartY.current;
+    if (delta > 0) {
+      setPullY(Math.min(delta * 0.5, PULL_THRESHOLD + 20));
+      if (delta % 15 < 5) triggerTick(); // Premium drag feedback
+    }
+  };
+
+  const onTouchEnd = () => {
+    if (pullY >= PULL_THRESHOLD) {
+      setMixNonce((n) => n + 1);
+      triggerSuccess();
+    }
+    setPullY(0);
+    setIsPulling(false);
+  };
+
   if (!user) return null;
 
   const body = (
-    <div ref={widgetRef} className="space-y-3" aria-label="Utvecklingskort">
+    <div
+      ref={widgetRef}
+      className="relative space-y-3 transition-transform duration-200"
+      aria-label="Utvecklingskort"
+      style={{ transform: `translateY(${pullY}px)` }}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
+      {/* Pull Indicator */}
+      {pullY > 10 && (
+        <div
+          className="absolute -top-8 left-1/2 flex -translate-x-1/2 items-center justify-center transition-opacity"
+          style={{ opacity: pullY / PULL_THRESHOLD }}
+        >
+          <div
+            className="h-6 w-6 rounded-full border-2 border-accent/40 bg-accent/10 transition-transform"
+            style={{
+              transform: `scale(${Math.min(pullY / PULL_THRESHOLD, 1.2)}) rotate(${pullY * 2}deg)`,
+              borderColor: pullY >= PULL_THRESHOLD ? 'var(--accent)' : 'var(--accent-glow)',
+            }}
+          />
+        </div>
+      )}
+
       <div className="flex flex-wrap gap-2">
         <Button
           type="button"

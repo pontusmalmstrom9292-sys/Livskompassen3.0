@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- WH9 — Dagens Utvecklingskort (Bento-stil) -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_bg_premium_panel"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="14dp">
+
+    <FrameLayout
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/widget_bg_icon_ring"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/widget_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/widget_utv_kort_title"
+            android:scaleType="fitCenter"
+            android:src="@drawable/widget_ic_wh8_moduler" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/widget_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:letterSpacing="0.06"
+        android:text="@string/widget_utv_kort_title"
+        android:textColor="@color/widget_gold"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/widget_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lineSpacingExtra="2sp"
+        android:maxLines="3"
+        android:textColor="@color/widget_muted"
+        android:textSize="12sp"
+        android:textStyle="italic" />
+</LinearLayout>

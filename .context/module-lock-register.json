@@ -54,7 +54,12 @@
         "src/modules/core/home/HemV3DevelopmentRail.tsx",
         "src/modules/core/home/hemV3DevelopmentCards.ts",
         "src/modules/core/home/dev/**",
-        "src/modules/features/dailyLife/wellbeing/compasses/lib/pickDiscoveryCard.ts"
+        "src/modules/features/dailyLife/wellbeing/compasses/lib/pickDiscoveryCard.ts",
+        "src/modules/core/hooks/useSystemChromeFusion.ts",
+        "android/app/src/main/java/com/livskompassen/app/widgets/UtvecklingskortWidgetProvider.java",
+        "android/app/src/main/java/com/livskompassen/app/core/ShortcutManager.java",
+        "android/app/src/main/res/layout/widget_utv_kort.xml",
+        "android/app/src/main/res/xml/widget_utv_kort_info.xml"
       ],
       "entryFiles": [
         "src/modules/core/home/DevelopmentBentoWidget.tsx",
@@ -64,12 +69,13 @@
       "smoke": [
         "smoke:locked-ux",
         "smoke:design-modules",
-        "smoke:basta-dock-lock"
+        "smoke:basta-dock-lock",
+        "smoke:widgets"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-19",
+      "lockedAt": "2026-07-20",
       "lockedCommit": "6adcb33e4",
-      "notes": "Locked UX §22 — får inte tas bort utan unlock-doc + Pontus OK"
+      "notes": "Locked UX §22 + Android WH9/chrome/shortcuts — får inte tas bort utan unlock-doc + Pontus OK"
     },
     {
       "id": "MOD-HJ-DAGBOK",

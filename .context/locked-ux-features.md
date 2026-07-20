@@ -478,7 +478,8 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 | **Motor** | `src/modules/core/home/dev/**` — KEEP/Discovery-banker, lokal signalrank (`homeSignalSnapshot`), `vit_entries` WORM för svar/«klar», packs via `contentPackCatalog` |
 | **Preset** | Synlig när `materialEnabled(..., 'home_development_rail')` (döljs i minimal/vardag_arbete — förväntat) |
 | **Modul** | `MOD-CORE-UTV` · mount även skyddad av `MOD-CORE-CHROME` / `MOD-VARD-MABRA` |
-| **Smoke** | `npm run smoke:locked-ux` · `smoke:basta-dock-lock` · `smoke:design-modules` · `smoke:module-lock` |
+| **Smoke** | `npm run smoke:locked-ux` · `smoke:basta-dock-lock` · `smoke:design-modules` · `smoke:module-lock` · `smoke:widgets` |
+| **Android premium (LÅST 2026-07-20)** | WH9 hemskärms-widget · pull-to-refresh med guld-haptik · system navbar-fusion · dynamisk genväg «Dagens kort» |
 
 **Kärnkrav (får inte tas bort):**
 
@@ -487,8 +488,12 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 3. MåBra-mount av samma widget under Mer.
 4. Inställningar-genväg till faktapack-flödet.
 5. Ingen cross-RAG / ingen runtime-AI för frågor — endast KEEP + lokal rank.
+6. **WH9** — Android-widget `UtvecklingskortWidgetProvider` visar dagens översta kort; tryck → `/?expand_dev=true`.
+7. **Pull-to-refresh** i `DevelopmentBentoWidget` blandar om mixen (`mixNonce`) med native haptik.
+8. **Chrome fusion** — `useSystemChromeFusion` synkar Android navigation/status bar till temat.
+9. **Smart genväg** — `ShortcutManager` «Dagens kort» (coexist med «Fortsätt»); sync via `updateUtvecklingskortShortcut` + `utv_kort_body`.
 
-**Får inte:** ta bort sektion/widget/motor/genväg; ersätta med RAG; dölja bakom feature-flag utan unlock-doc + Pontus OK.
+**Får inte:** ta bort sektion/widget/motor/genväg/WH9/chrome-fusion/genväg; ersätta med RAG; dölja bakom feature-flag utan unlock-doc + Pontus OK.
 
 ---
 
