@@ -8,7 +8,8 @@ import android.view.HapticFeedbackConstants;
 import android.view.View;
 
 /**
- * CRITICAL COMPONENT - DO NOT REMOVE.
+ * THE TACTILE SENTRY - Våg 15.
+ * @locked TITANIUM-BASE-CORE
  * Manages premium tactile feedback (haptics) across the app.
  */
 public class HapticManager {

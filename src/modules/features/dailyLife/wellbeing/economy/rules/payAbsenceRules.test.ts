@@ -6,9 +6,11 @@ import {
   groupSickEpisodes,
   shouldWaiveKarens,
 } from './payAbsenceRules';
+import { buildPayProfileContext } from './payProfileContext';
 import type { TimeEntryLike } from './payTimeRules';
 
 const period = golden.absence.periodMay2026;
+const profile = buildPayProfileContext({});
 
 function sickFromTemplate(date: string, hoursWorked = 8): TimeEntryLike {
   return {
@@ -25,6 +27,7 @@ describe('payAbsenceRules', () => {
       [c.entry as TimeEntryLike],
       period.from,
       period.to,
+      profile,
     );
     expect(r.totalDeductionSek).toBe(c.expectTotalDeductionSek);
     expect(r.totalExpectedIncomeSek).toBe(c.expectTotalExpectedIncomeSek);
@@ -37,6 +40,7 @@ describe('payAbsenceRules', () => {
       [c.entry as TimeEntryLike],
       period.from,
       period.to,
+      profile,
     );
     expect(r.totalDeductionSek).toBe(c.expectTotalDeductionSek);
     expect(r.totalExpectedIncomeSek).toBe(c.expectTotalExpectedIncomeSek);
@@ -49,6 +53,7 @@ describe('payAbsenceRules', () => {
       c.entries as TimeEntryLike[],
       period.from,
       period.to,
+      profile,
     );
     expect(r.totalDeductionSek).toBe(c.expectTotalDeductionSek);
     const day2 = r.lines.find((l) => l.date === '2026-05-11');
@@ -62,6 +67,7 @@ describe('payAbsenceRules', () => {
       [c.entry as TimeEntryLike],
       period.from,
       period.to,
+      profile,
     );
     expect(r.totalDeductionSek).toBe(c.expectTotalDeductionSek);
     expect(r.lines[0]?.description).toContain(c.expectLineDescriptionContains);
@@ -84,6 +90,7 @@ describe('payAbsenceRules', () => {
       [...prior, sickFromTemplate(c.newSickDate)],
       period.from,
       period.to,
+      profile,
       ref,
     );
     const newDay = r.lines.find((l) => l.date === c.newSickDate);

@@ -1,7 +1,7 @@
-/** Canonical input modes — ArbetslivInputSuperModule (Fas 10 / 14A). */
-export type ArbetslivInputMode = 'stampla' | 'inkomster' | 'tid';
+/** Canonical input modes — ArbetslivInputSuperModule (Fas 10 / 14A / lönekontor). */
+export type ArbetslivInputMode = 'stampla' | 'inkomster' | 'tid' | 'lonest';
 
-export type ArbetslivWriteTarget = 'time_entries' | 'economy_ledger' | 'read_only';
+export type ArbetslivWriteTarget = 'time_entries' | 'economy_ledger' | 'economy_profiles' | 'read_only';
 
 export type ArbetslivInputModeMeta = {
   id: ArbetslivInputMode;
@@ -23,6 +23,14 @@ export const ARBETSLIV_INPUT_MODES: ArbetslivInputModeMeta[] = [
     tier: 'primary',
     writeTarget: 'time_entries',
     legacyTab: 'stampla',
+  },
+  {
+    id: 'lonest',
+    label: 'Lönekontor',
+    description: 'Lön, avtal, skatt — auto-omräkning',
+    tier: 'primary',
+    writeTarget: 'economy_profiles',
+    legacyTab: 'lonest',
   },
   {
     id: 'inkomster',
@@ -63,6 +71,6 @@ export function getArbetslivInputModeMeta(mode: ArbetslivInputMode): ArbetslivIn
 
 /** Map legacy `?tab=` on /arbetsliv to superhub inputMode. */
 export function arbetslivTabToInputMode(tab: string | null | undefined): ArbetslivInputMode {
-  if (tab === 'tid' || tab === 'inkomster') return tab;
+  if (tab === 'tid' || tab === 'inkomster' || tab === 'lonest') return tab;
   return DEFAULT_ARBETSLIV_INPUT_MODE;
 }

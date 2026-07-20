@@ -1,17 +1,10 @@
 /**
- * Frånvaro — sjuk, VAB, karens (365 dagar). Port PontusArbetsapp Fas 2.
+ * Frånvaro — sjuk, VAB, karens (365 dagar). Tar PayProfileContext.
  */
 import { categoryBase, eachDateInclusive, parseDateOnly } from './timeMath';
 import type { TimeEntryLike } from './payTimeRules';
-import {
-  DAILY_RATE_SEK,
-  HOURLY_RATE_SEK,
-  SICK_DAY2_14_EMPLOYER_LOSS_FRACTION,
-  SICK_KARENS_HOURS,
-  SICK_KARENS_WAIVER_AFTER_DAYS,
-  SICK_LOOKBACK_DAYS,
-  VAB_NET_REPLACEMENT_FRACTION,
-} from './livsmedel2026';
+import type { PayProfileContext } from './payProfileContext';
+import { SICK_KARENS_HOURS, SICK_LOOKBACK_DAYS } from './livsmedel2026';
 
 export type AbsenceLine = {
   date: string;
@@ -19,6 +12,8 @@ export type AbsenceLine = {
   description: string;
   deductionSek: number;
   expectedIncomeSek: number;
+  sickDayIndex?: number;
+  isFkPhase?: boolean;
 };
 
 export type AbsenceSummary = {
@@ -66,10 +61,36 @@ export function groupSickEpisodes(dates: string[]): string[][] {
   return episodes;
 }
 
+/** Episoder — ny episod om > gapDays kalenderdagar mellan sjukdagar. */
+export function groupSickEpisodesWithGap(dates: string[], gapDays: number): string[][] {
+  const sorted = [...new Set(dates)].sort();
+  const episodes: string[][] = [];
+  let current: string[] = [];
+
+  for (const d of sorted) {
+    if (current.length === 0) {
+      current.push(d);
+      continue;
+    }
+    const prev = parseDateOnly(current[current.length - 1]);
+    const curr = parseDateOnly(d);
+    const dayGap = Math.round((curr.getTime() - prev.getTime()) / 86400000);
+    if (dayGap <= gapDays + 1) {
+      current.push(d);
+    } else {
+      episodes.push(current);
+      current = [d];
+    }
+  }
+  if (current.length) episodes.push(current);
+  return episodes;
+}
+
 /** Antal karensdagar (första dagen per sjukepisod) inom lookback. */
 export function countKarensDaysInLookback(
   entries: TimeEntryLike[],
   referenceDate = new Date(),
+  gapDays = 5,
 ): number {
   const cutoff = new Date(referenceDate);
   cutoff.setDate(cutoff.getDate() - SICK_LOOKBACK_DAYS);
@@ -79,33 +100,54 @@ export function countKarensDaysInLookback(
     .map((e) => e.date)
     .filter((d) => parseDateOnly(d) >= cutoff);
 
-  const episodes = groupSickEpisodes(sickDates);
+  const episodes = groupSickEpisodesWithGap(sickDates, gapDays);
   return episodes.length;
 }
 
-export function shouldWaiveKarens(entries: TimeEntryLike[], referenceDate = new Date()): boolean {
-  return countKarensDaysInLookback(entries, referenceDate) >= SICK_KARENS_WAIVER_AFTER_DAYS;
+export function shouldWaiveKarens(
+  entries: TimeEntryLike[],
+  referenceDate = new Date(),
+  waiverAfterDays = 10,
+  gapDays = 5,
+): boolean {
+  return countKarensDaysInLookback(entries, referenceDate, gapDays) >= waiverAfterDays;
 }
 
 function sickDayIndexInEpisode(date: string, episode: string[]): number {
   return episode.indexOf(date) + 1;
 }
 
+function findEpisodeForDate(
+  date: string,
+  episodes: string[][],
+): string[] | undefined {
+  return episodes.find((ep) => ep.includes(date));
+}
+
 export function computeAbsenceAdjustments(
   entries: TimeEntryLike[],
   periodFrom: string,
   periodTo: string,
+  profile: PayProfileContext,
   referenceDate = new Date(),
-  hourlyRate = HOURLY_RATE_SEK,
 ): AbsenceSummary {
+  const cfg = profile.agreementConfig;
+  const hourlyRate = profile.hourlyRateSek;
+  const dailyRate = profile.dailyRateSek;
+  const karensDeduction = Math.round(profile.weeklySickPaySek * cfg.karensWeeklySickPayFraction * 100) / 100;
+  const vabFraction = cfg.vabNetReplacementFraction;
+  const employerLossFraction = cfg.sickDay2_14EmployerLossFraction;
+  const gapDays = cfg.reSickGapDays;
+  const waiverAfter = cfg.karensWaiverAfterDays;
+
   const periodDates = new Set(eachDateInclusive(periodFrom, periodTo));
   const inPeriod = entries.filter((e) => periodDates.has(e.date));
 
   const allSickDates = entries
     .filter((e) => isSjukCategory(e.category) && !isSjukDay15Plus(e.category))
     .map((e) => e.date);
-  const episodes = groupSickEpisodes(allSickDates);
-  const waiveKarens = shouldWaiveKarens(entries, referenceDate);
+  const episodes = groupSickEpisodesWithGap(allSickDates, gapDays);
+  const waiveKarens = shouldWaiveKarens(entries, referenceDate, waiverAfter, gapDays);
 
   const lines: AbsenceLine[] = [];
   let totalDeductionSek = 0;
@@ -117,7 +159,7 @@ export function computeAbsenceAdjustments(
 
     if (isVabCategory(entry.category)) {
       const deduction = Math.round(hours * hourlyRate * 100) / 100;
-      const expected = Math.round(hours * hourlyRate * VAB_NET_REPLACEMENT_FRACTION * 100) / 100;
+      const expected = Math.round(hours * hourlyRate * vabFraction * 100) / 100;
       lines.push({
         date: entry.date,
         category: cat,
@@ -131,41 +173,44 @@ export function computeAbsenceAdjustments(
     }
 
     if (isSjukDay15Plus(entry.category)) {
-      const deduction = DAILY_RATE_SEK;
+      const deduction = dailyRate;
       lines.push({
         date: entry.date,
         category: cat,
         description: 'Sjuk dag 15+ — dagsavdrag (FK)',
         deductionSek: deduction,
         expectedIncomeSek: 0,
+        sickDayIndex: 15,
+        isFkPhase: true,
       });
       totalDeductionSek += deduction;
       continue;
     }
 
     if (isSjukCategory(entry.category)) {
-      const episode = episodes.find((ep) => ep.includes(entry.date));
+      const episode = findEpisodeForDate(entry.date, episodes);
       const dayIndex = episode ? sickDayIndexInEpisode(entry.date, episode) : 1;
 
       if (dayIndex === 1) {
         if (!waiveKarens) {
-          const karensHours = Math.min(SICK_KARENS_HOURS, hours || SICK_KARENS_HOURS);
-          const deduction = Math.round(karensHours * hourlyRate * 100) / 100;
+          const deduction = karensDeduction;
           lines.push({
             date: entry.date,
             category: cat,
-            description: 'Sjuk dag 1 — karens (0 kr utbetalning)',
+            description: 'Sjuk dag 1 — karens (20 % veckosjuklön)',
             deductionSek: deduction,
             expectedIncomeSek: 0,
+            sickDayIndex: 1,
           });
           totalDeductionSek += deduction;
         } else {
           lines.push({
             date: entry.date,
             category: cat,
-            description: 'Sjuk dag 1 — karens upphävd (≥10 karensdagar/365 d)',
+            description: `Sjuk dag 1 — karens upphävd (≥${waiverAfter} karensdagar/365 d)`,
             deductionSek: 0,
             expectedIncomeSek: 0,
+            sickDayIndex: 1,
           });
         }
         continue;
@@ -173,27 +218,29 @@ export function computeAbsenceAdjustments(
 
       if (dayIndex >= 2 && dayIndex <= 14) {
         const h = hours > 0 ? hours : SICK_KARENS_HOURS;
-        const deduction =
-          Math.round(h * hourlyRate * SICK_DAY2_14_EMPLOYER_LOSS_FRACTION * 100) / 100;
+        const deduction = Math.round(h * hourlyRate * employerLossFraction * 100) / 100;
         lines.push({
           date: entry.date,
           category: cat,
-          description: `Sjuk dag ${dayIndex} — 20 % nettotapp (80 % sjuklön)`,
+          description: `Sjuk dag ${dayIndex} — ${Math.round(employerLossFraction * 100)} % nettotapp (${Math.round((1 - employerLossFraction) * 100)} % sjuklön)`,
           deductionSek: deduction,
           expectedIncomeSek: 0,
+          sickDayIndex: dayIndex,
         });
         totalDeductionSek += deduction;
         continue;
       }
 
       if (dayIndex >= 15) {
-        const deduction = DAILY_RATE_SEK;
+        const deduction = dailyRate;
         lines.push({
           date: entry.date,
           category: cat,
-          description: `Sjuk dag ${dayIndex} — dagsavdrag`,
+          description: `Sjuk dag ${dayIndex} — dagsavdrag (FK)`,
           deductionSek: deduction,
           expectedIncomeSek: 0,
+          sickDayIndex: dayIndex,
+          isFkPhase: true,
         });
         totalDeductionSek += deduction;
       }

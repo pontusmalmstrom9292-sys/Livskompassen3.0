@@ -98,6 +98,8 @@ const VARDAG_DOMAIN = {
     'emotional_memory',
     'transactions',
     'checkins',
+    'payroll_agreement_packs',
+    'payroll_tax_table_packs',
   ],
   mutableCollections: [
     'mabra_progress',

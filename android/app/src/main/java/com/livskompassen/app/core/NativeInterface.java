@@ -1,10 +1,16 @@
 package com.livskompassen.app.core;
 
+import android.content.Intent;
+import android.os.Build;
 import android.webkit.JavascriptInterface;
 import com.livskompassen.app.util.LCLog;
+import com.livskompassen.app.MainActivity;
+import com.livskompassen.app.core.FloatingInkastService;
+import com.livskompassen.app.core.KeyRecoveryManager;
 
 /**
  * HIGH-PERFORMANCE BRIDGE.
+ * @locked TITANIUM-BASE-CORE
  * Allows the Web App to call native functions with zero latency.
  */
 public class NativeInterface {
@@ -222,5 +228,27 @@ public class NativeInterface {
     public void rotateVaultKeys() {
         // Denna funktion kräver att användaren nyss gjort biometri
         com.livskompassen.app.util.SecurePrefs.rotateKeys(hapticManager.getContext());
+    }
+
+    @JavascriptInterface
+    public void setFloatingBubble(boolean active) {
+        android.content.Context context = hapticManager.getContext();
+        Intent intent = new Intent(context, FloatingInkastService.class);
+        if (active) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (android.provider.Settings.canDrawOverlays(context)) {
+                    context.startService(intent);
+                } else {
+                    Intent overlayIntent = new Intent(android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                            android.net.Uri.parse("package:" + context.getPackageName()));
+                    overlayIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(overlayIntent);
+                }
+            } else {
+                context.startService(intent);
+            }
+        } else {
+            context.stopService(intent);
+        }
     }
 }

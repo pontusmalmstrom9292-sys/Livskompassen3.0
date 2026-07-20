@@ -6,6 +6,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import com.livskompassen.app.core.ShakeDetector;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -198,7 +199,24 @@ public class MainActivity extends BridgeActivity {
         setupBackgroundWork();
         
         // Handle initial intent
-        widgetNavigator.handleIntent(getIntent());
+        Intent intent = getIntent();
+        if (intent != null && Intent.ACTION_SEND.equals(intent.getAction()) && "text/plain".equals(intent.getType())) {
+            handleShareIntent(intent);
+        } else {
+            widgetNavigator.handleIntent(intent);
+        }
+    }
+
+    private void handleShareIntent(Intent intent) {
+        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if (sharedText != null && !sharedText.isEmpty()) {
+            LCLog.d("MainActivity: Received shared text: " + sharedText);
+            // Pass to Web UI via Inkast route
+            String path = "/planering/input?inputMode=inkast&shared_text=" + Uri.encode(sharedText);
+            if (widgetNavigator != null) {
+                widgetNavigator.handleIntent(new Intent().putExtra("widget_path", path));
+            }
+        }
     }
 
     private void setupBackgroundWork() {
@@ -271,6 +289,11 @@ public class MainActivity extends BridgeActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
+        // Handle share intent if present
+        if (Intent.ACTION_SEND.equals(intent.getAction()) && "text/plain".equals(intent.getType())) {
+            handleShareIntent(intent);
+            return;
+        }
         // Also invoked from BridgeActivity.load() during super.onCreate — managers may still be null.
         if (widgetNavigator != null) {
             widgetNavigator.handleIntent(intent);

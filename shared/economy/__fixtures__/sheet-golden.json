@@ -212,7 +212,7 @@
         "scopePercent": 100,
         "hoursWorked": 8
       },
-      "expectTotalDeductionSek": 1683.2,
+      "expectTotalDeductionSek": 1683.23,
       "expectTotalExpectedIncomeSek": 0,
       "expectLineDescriptionContains": "karens"
     },
@@ -237,7 +237,7 @@
           "hoursWorked": 8
         }
       ],
-      "expectTotalDeductionSek": 2019.84,
+      "expectTotalDeductionSek": 2019.87,
       "expectDay2DeductionSek": 336.64,
       "expectDay2DescriptionContains": "Sjuk dag 2"
     },
@@ -277,6 +277,25 @@
       "expectShouldWaiveKarens": true,
       "expectNewDayDeductionSek": 0,
       "expectNewDayDescriptionContains": "karens upphävd"
+    }
+  },
+  "payslip": {
+    "healthyMonth": {
+      "monthlySalarySek": 36470,
+      "collectiveAgreementEnabled": true,
+      "expectTaxSek": 7312,
+      "expectEmployerNetSek": 29158
+    },
+    "agreementOff": {
+      "collectiveAgreementEnabled": false,
+      "expectVacationFraction": 0.12
+    },
+    "salaryRaiseMidPeriod": {
+      "salaryTerms": [
+        { "effectiveFrom": "2000-01-01", "monthlySalarySek": 36470 },
+        { "effectiveFrom": "2026-05-01", "monthlySalarySek": 38000 }
+      ],
+      "period": { "from": "2026-04-16", "to": "2026-05-15" }
     }
   }
 }

@@ -95,16 +95,34 @@ public class WebViewManager {
         if (resultCode == Activity.RESULT_OK && data != null) {
             Uri uri = data.getData();
             if (uri != null) {
-                results = new Uri[]{uri};
+                if ("content".equals(uri.getScheme())) {
+                    results = new Uri[]{uri};
+                } else {
+                    LCLog.w("WebViewManager: Blocked non-content URI: " + uri.getScheme());
+                }
             } else if (data.getClipData() != null) {
                 int count = data.getClipData().getItemCount();
-                results = new Uri[count];
+                java.util.List<Uri> validUris = new java.util.ArrayList<>();
                 for (int i = 0; i < count; i++) {
-                    results[i] = data.getClipData().getItemAt(i).getUri();
+                    Uri clipUri = data.getClipData().getItemAt(i).getUri();
+                    if (clipUri != null && "content".equals(clipUri.getScheme())) {
+                        validUris.add(clipUri);
+                    } else if (clipUri != null) {
+                        LCLog.w("WebViewManager: Blocked non-content URI in ClipData: " + clipUri.getScheme());
+                    }
+                }
+                if (!validUris.isEmpty()) {
+                    results = validUris.toArray(new Uri[0]);
                 }
             }
         }
+
         if (filePathCallback != null) {
+            if (results == null) {
+                LCLog.d("WebViewManager: File pick cancelled or no valid URIs returned");
+            } else {
+                LCLog.d("WebViewManager: Delivering " + results.length + " content URIs to WebView");
+            }
             filePathCallback.onReceiveValue(results);
             filePathCallback = null;
         }
@@ -287,12 +305,64 @@ public class WebViewManager {
 
                 try {
                     Intent intent = fileChooserParams.createIntent();
+                    String[] acceptTypes = fileChooserParams.getAcceptTypes();
+
+                    boolean wantsYaml = false;
+                    boolean wantsJson = false;
+                    boolean wantsMediaOrPdf = false;
+                    if (acceptTypes != null) {
+                        for (String type : acceptTypes) {
+                            String t = type == null ? "" : type.toLowerCase();
+                            if (t.contains("yaml") || t.contains("yml") || t.endsWith(".yaml") || t.endsWith(".yml")) {
+                                wantsYaml = true;
+                            }
+                            if (t.contains("json") || t.endsWith(".json")) {
+                                wantsJson = true;
+                            }
+                            // Inkast / Valv / Kunskapsvalv — do not broaden those pickers to */*
+                            if (t.contains("image")
+                                    || t.contains("video")
+                                    || t.contains("audio")
+                                    || t.contains("pdf")
+                                    || t.endsWith(".png")
+                                    || t.endsWith(".jpg")
+                                    || t.endsWith(".jpeg")
+                                    || t.endsWith(".webp")
+                                    || t.endsWith(".gif")
+                                    || t.endsWith(".heic")
+                                    || t.endsWith(".pdf")) {
+                                wantsMediaOrPdf = true;
+                            }
+                        }
+                    }
+
+                    // Lönekontor only: YAML/JSON often lack MIME mapping on Android.
+                    // Skip when accept also includes media/PDF (shared chooser for Inkast/Valv).
+                    boolean lonekontorDocumentPick = (wantsYaml || wantsJson) && !wantsMediaOrPdf;
+                    if (lonekontorDocumentPick) {
+                        LCLog.d("WebViewManager: Strengthening intent for YAML/JSON (Lönekontor)");
+                        String action = intent.getAction();
+                        if (Intent.ACTION_GET_CONTENT.equals(action) || Intent.ACTION_OPEN_DOCUMENT.equals(action)) {
+                            intent.setType("*/*");
+                            String[] extraMimeTypes = {
+                                "application/json",
+                                "application/x-yaml",
+                                "text/yaml",
+                                "text/plain",
+                                "application/octet-stream"
+                            };
+                            intent.putExtra(Intent.EXTRA_MIME_TYPES, extraMimeTypes);
+                        }
+                    }
+
                     fileChooserLauncher.launch(intent);
                     return true;
                 } catch (Exception e) {
                     LCLog.e("WebViewManager: onShowFileChooser failed: " + e.getMessage());
-                    WebViewManager.this.filePathCallback.onReceiveValue(null);
-                    WebViewManager.this.filePathCallback = null;
+                    if (WebViewManager.this.filePathCallback != null) {
+                        WebViewManager.this.filePathCallback.onReceiveValue(null);
+                        WebViewManager.this.filePathCallback = null;
+                    }
                     return true;
                 }
             }

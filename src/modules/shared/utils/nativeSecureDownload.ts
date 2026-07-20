@@ -13,6 +13,8 @@ export type LivskompassenNativeBridge = {
   setWidgetData?: (key: string, value: string) => void;
   /** Dynamic app-icon shortcut for dagens utvecklingskort. */
   updateUtvecklingskortShortcut?: (text: string) => void;
+  /** AppSearch — index drawer module for Android global search. */
+  indexShortcut?: (id: string, label: string, path: string) => void;
   /** Edge-to-edge: sync Android status/nav bar with app theme. */
   setSystemTheme?: (colorHex: string, isDark: boolean) => void;
 };

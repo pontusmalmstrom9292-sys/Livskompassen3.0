@@ -1,0 +1,13 @@
+id: none
+name: Endast lag
+versionLabel: "SemL + SFB"
+vacationPayFraction: 0.12
+vacationDayDivisor: 22
+atfAccrualFraction: 0
+karensWeeklySickPayFraction: 0.20
+sickDay2_14EmployerLossFraction: 0.20
+agsSickTopUpFraction: 0
+agsEnabled: false
+karensWaiverAfterDays: 10
+vabNetReplacementFraction: 0.56
+reSickGapDays: 5

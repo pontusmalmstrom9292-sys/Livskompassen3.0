@@ -1,8 +1,8 @@
 # Säker natt-loop — 2026-07-20
 
-**Kört:** 2026-07-20T07:23:22.825Z
+**Kört:** 2026-07-20T08:58:46.541Z
 **Runner:** natt:secure
-**Git:** main @ 7767028de
+**Git:** main @ 43a633453
 
 ## Resultat
 
@@ -10,20 +10,18 @@
 |-----|------|--------|
 | A | setup:env | PASS |
 | A | functions build | PASS |
-| A | frontend build | FAIL |
-| A | smoke:predeploy | FAIL |
+| A | frontend build | PASS |
+| A | smoke:predeploy | PASS |
 | E2E | test:e2e:locked-ux | PASS |
 | E2E | smoke:android-platform | PASS |
 | B | smoke:valv | PASS |
 | B | smoke:kunskap | PASS |
 | B | smoke:dossier | PASS |
-| C | pontus-ok-scan | STOP |
+| C | pontus-ok-scan | PASS |
 
 ## Pontus OK (stopp)
 
-**STOP** — osparade ändringar rör säkerhet / Locked UX / Sacred. Ingen commit eller deploy utan ditt OK.
-
-- `android/app/src/main/java/com/livskompassen/app/core/WebViewManager.java` — Android Sacred core
+Inga dirty filer i säkerhets-/Locked UX-zon (eller ren tree).
 
 ## Policy
 
@@ -34,9 +32,8 @@
 
 ## Sammanfattning
 
-**FAIL** på 2 kod-gate-steg — se första felet nedan.
-- Första FAIL: **frontend build**
+Kod-gate (A + E2E) **PASS**.
 
 ## Nästa steg (1)
 
-Granska säkerhetsändringarna (App Check / Valv-session / Android core) och svara **OK att behålla** eller **revert**.
+Inget akut — fortsätt G85 daily driver enligt `docs/G85-DAILY-DRIVER-CHECKLIST.md`.

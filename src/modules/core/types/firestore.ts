@@ -272,6 +272,15 @@ export interface EconomyProfile {
   weeklyBudgetSek: number;
   mealBoxPresetSek: number;
   monthlySalarySek?: number;
+  /** Append-only lönetermer — aktiv = senaste effectiveFrom ≤ idag */
+  salaryTerms?: Array<{ effectiveFrom: string; monthlySalarySek: number }>;
+  collectiveAgreementEnabled?: boolean;
+  collectiveAgreementId?: 'SE.livs.livsmedel' | 'SE.handels' | 'none';
+  taxTable?: number;
+  taxColumn?: 1 | 2 | 3 | 4;
+  taxYear?: number;
+  activeAgreementPackId?: string | null;
+  activeTaxTablePackId?: string | null;
   hourlyRateSek?: number;
   flexHoursTarget?: number;
   /** Standard rast (min) vid nya pass — default 30. */
@@ -326,8 +335,30 @@ export interface PayslipSnapshot {
     deductionSek: number;
     expectedIncomeSek: number;
   }>;
+  lineItems?: Array<{
+    type: string;
+    incomeSource: string;
+    label: string;
+    amountSek: number;
+    date?: string;
+    meta?: string;
+  }>;
+  employerNetSek?: number;
+  fkTotalSek?: number;
+  agsTotalSek?: number;
+  totalToBankSek?: number;
+  agreementMeta?: { id: string; name: string; enabled: boolean; versionLabel?: string; checksum?: string };
+  taxMeta?: { table: number; column: number; year?: number; checksum?: string };
+  obSupplementSek?: number;
+  otSupplementSek?: number;
+  vacationAccrualSek?: number;
+  atfAccrualSek?: number;
   taxTable: number;
   taxColumn: number;
+  agreementPackChecksum?: string;
+  taxTablePackChecksum?: string;
+  calculationChecksum?: string;
+  engineVersion?: string;
   isLocked: boolean;
   status: string;
   createdAt: IsoDateTime;
@@ -335,6 +366,33 @@ export interface PayslipSnapshot {
 
 export interface PayslipSnapshotRow extends PayslipSnapshot {
   id: string;
+}
+
+/** WORM — uppladdat kollektivavtal (append-only). */
+export interface PayrollAgreementPackDoc {
+  userId: string;
+  ownerId: string;
+  agreementId: 'SE.livs.livsmedel' | 'SE.handels' | 'none';
+  config: Record<string, unknown>;
+  validFrom: string;
+  validTo?: string;
+  versionLabel: string;
+  checksum: string;
+  sourceFileName: string;
+  createdAt: IsoDateTime;
+}
+
+/** WORM — uppladdad skattetabell (append-only). */
+export interface PayrollTaxTablePackDoc {
+  userId: string;
+  ownerId: string;
+  table: number;
+  year: number;
+  brackets: Array<{ min: number; max: number; col1: number }>;
+  source?: string;
+  checksum: string;
+  sourceFileName: string;
+  createdAt: IsoDateTime;
 }
 
 export interface UserWidget {
@@ -474,6 +532,8 @@ export const FIRESTORE_COLLECTIONS = {
   economy_impulse_queue: 'economy_impulse_queue',
   time_entries: 'time_entries',
   payslip_snapshots: 'payslip_snapshots',
+  payroll_agreement_packs: 'payroll_agreement_packs',
+  payroll_tax_table_packs: 'payroll_tax_table_packs',
   planning_tasks: 'planning_tasks',
   allocation_proposals: 'allocation_proposals',
   planning_email_rules: 'planning_email_rules',
