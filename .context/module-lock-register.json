@@ -93,9 +93,9 @@
         "smoke:weaver-hitl"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-18",
-      "lockedCommit": "a752cbc12",
-      "unlockDoc": "docs/evaluations/2026-07-18-unlock-MOD-HJ-DAGBOK-media-fas1.md",
+      "lockedAt": "2026-07-20",
+      "lockedCommit": "c3a08cfdd",
+      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-HJ-DAGBOK.md",
       "unlockedAt": "2026-07-18"
     },
     {
@@ -114,9 +114,9 @@
         "smoke:locked-ux"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-18",
-      "lockedCommit": "a752cbc12",
-      "unlockDoc": "docs/evaluations/2026-07-18-unlock-MOD-HJ-INPUT-media-fas2.md",
+      "lockedAt": "2026-07-20",
+      "lockedCommit": "c3a08cfdd",
+      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-HJ-INPUT.md",
       "unlockedAt": "2026-07-18"
     },
     {
@@ -178,9 +178,9 @@
         "smoke:inkast-lockdown"
       ],
       "snapshotKey": "inkast",
-      "lockedAt": "2026-07-18",
-      "lockedCommit": "a752cbc12",
-      "unlockDoc": "docs/evaluations/2026-07-18-unlock-MOD-VALV-media-fas4.md",
+      "lockedAt": "2026-07-20",
+      "lockedCommit": "c3a08cfdd",
+      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-VALV-INKAST.md",
       "unlockedAt": "2026-07-18"
     },
     {
@@ -235,8 +235,9 @@
         "smoke:design-modules"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-19",
-      "lockedCommit": "956416803"
+      "lockedAt": "2026-07-20",
+      "lockedCommit": "c3a08cfdd",
+      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-VARD-MABRA.md"
     },
     {
       "id": "MOD-VARD-PLAN",
@@ -254,15 +255,16 @@
         "smoke:locked-ux"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-12",
-      "lockedCommit": "5d4cb0402"
+      "lockedAt": "2026-07-20",
+      "lockedCommit": "c3a08cfdd",
+      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-VARD-PLAN.md"
     },
     {
       "id": "MOD-VARD-EKO",
       "namn": "Ekonomi delegates",
       "zon": "Vardagen",
-      "status": "locked",
-      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-VARD-ARB-EKO-lonekontor.md",
+      "status": "developing",
+      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-VARD-EKO.md",
       "unlockedAt": "2026-07-20",
       "globs": [
         "src/modules/features/dailyLife/wellbeing/economy/**"
@@ -282,7 +284,7 @@
       "namn": "Arbetsliv hub",
       "zon": "Vardagen",
       "status": "locked",
-      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-VARD-ARB-EKO-lonekontor.md",
+      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-VARD-ARB.md",
       "unlockedAt": "2026-07-20",
       "globs": [
         "src/modules/features/dailyLife/arbetsliv/**"
@@ -295,7 +297,7 @@
       ],
       "snapshotKey": null,
       "lockedAt": "2026-07-20",
-      "lockedCommit": "f9d3986e8"
+      "lockedCommit": "c3a08cfdd"
     },
     {
       "id": "MOD-FAM-HUB",
@@ -313,9 +315,9 @@
         "smoke:locked-ux"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-18",
-      "lockedCommit": "a752cbc12",
-      "unlockDoc": "docs/evaluations/2026-07-18-unlock-MOD-WIDGET-media-fas3.md",
+      "lockedAt": "2026-07-20",
+      "lockedCommit": "c3a08cfdd",
+      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-FAM-HUB.md",
       "unlockedAt": "2026-07-18"
     },
     {
@@ -334,9 +336,9 @@
         "smoke:barn-epistemik"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-18",
-      "lockedCommit": "a752cbc12",
-      "unlockDoc": "docs/evaluations/2026-07-18-unlock-MOD-WIDGET-media-fas3.md",
+      "lockedAt": "2026-07-20",
+      "lockedCommit": "c3a08cfdd",
+      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-FAM-BARN.md",
       "unlockedAt": "2026-07-18"
     },
     {
@@ -373,8 +375,9 @@
         "smoke:locked-ux"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-10",
-      "lockedCommit": "ac5d37623"
+      "lockedAt": "2026-07-20",
+      "lockedCommit": "c3a08cfdd",
+      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-FAM-BPORT.md"
     },
     {
       "id": "MOD-FAM-DROG",

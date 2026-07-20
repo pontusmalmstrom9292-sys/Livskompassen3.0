@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../utils/cn';
+import { trapTabKey } from '../utils/trapTabKey';
 import { useScrollLock } from '@/core/hooks/useScrollLock';
 
 export type SheetProps = {
@@ -27,7 +28,7 @@ export type SheetProps = {
 
 /**
  * Sheet — bottom sheet on mobile, centered panel on sm+.
- * Escape dismiss, backdrop click, token glass panel.
+ * Escape dismiss, focus trap, focus restore, backdrop click, token glass panel.
  */
 export function Sheet({
   open,
@@ -49,6 +50,7 @@ export function Sheet({
   const titleId = useId();
   const descId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
+  const previouslyFocusedRef = useRef<HTMLElement | null>(null);
   const dialogLabel = title ?? ariaLabel;
 
   useScrollLock(open && lockScroll);
@@ -56,8 +58,15 @@ export function Sheet({
   useEffect(() => {
     if (!open) return;
 
+    previouslyFocusedRef.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+      trapTabKey(e, panelRef.current);
     };
 
     window.addEventListener('keydown', onKeyDown);
@@ -65,6 +74,8 @@ export function Sheet({
 
     return () => {
       window.removeEventListener('keydown', onKeyDown);
+      previouslyFocusedRef.current?.focus?.();
+      previouslyFocusedRef.current = null;
     };
   }, [open, onClose]);
 

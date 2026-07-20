@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/design-system';
 import { Loader2 } from 'lucide-react';
 import { SIGNAL_LABELS } from '../../constants';
@@ -46,13 +46,21 @@ export function FamiljenFysiologiDelegate({ shell, onSaved }: FamiljenDelegateBa
   const childAlias = shell.activeChild;
   const onSave = shell.handleSavePhysio;
   
-  // Use shell state for these so they don't get lost, but manage loading/error locally
   const signals = shell.signals;
   const setSignals = shell.setSignals;
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
+  const successTimerRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (successTimerRef.current != null) {
+        window.clearTimeout(successTimerRef.current);
+      }
+    };
+  }, []);
 
   const handleSave = async () => {
     setLoading(true);
@@ -63,11 +71,17 @@ export function FamiljenFysiologiDelegate({ shell, onSaved }: FamiljenDelegateBa
       await onSave();
       setSuccess(true);
       onSaved?.();
-      
-      // Reset success message after 3 seconds
-      setTimeout(() => setSuccess(false), 3000);
-    } catch (e: any) {
-      if (e.message?.includes('Offline')) {
+
+      if (successTimerRef.current != null) {
+        window.clearTimeout(successTimerRef.current);
+      }
+      successTimerRef.current = window.setTimeout(() => {
+        setSuccess(false);
+        successTimerRef.current = null;
+      }, 3000);
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : '';
+      if (message.includes('Offline')) {
         setError('Du är offline. Mätvärdena kunde inte sparas just nu.');
       } else {
         setError('Kunde inte spara mätvärdena. Försök igen.');

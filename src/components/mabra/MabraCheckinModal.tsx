@@ -82,8 +82,10 @@ export function MabraCheckinModal({
         <h2 className="font-display-serif text-lg text-accent tracking-wide">Ny MåBra-incheckning</h2>
         {!isInline ? (
           <button
+            type="button"
             onClick={onClose}
             disabled={isLoading}
+            aria-label="Stäng"
             className="p-1.5 rounded-lg bg-surface/50 border border-border/10 text-text-muted hover:text-white hover:border-border/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <X className="w-4 h-4" />

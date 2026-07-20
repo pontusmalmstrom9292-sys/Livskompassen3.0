@@ -29,10 +29,10 @@ interface MorningCompassState {
   setFocusPoint: (index: number, value: string) => void;
   clearFocusPoints: (ownerId?: string) => Promise<void>;
   fetchFocusPoints: (ownerId: string) => Promise<void>;
-  /** Kanonisk skrivväg — `user_daily_focus` (+ daglig `history/`). */
-  saveFocus: (ownerId: string) => Promise<void>;
+  /** Kanonisk skrivväg — `user_daily_focus` (+ daglig `history/`). Returns true on success. */
+  saveFocus: (ownerId: string) => Promise<boolean>;
   /** @deprecated Använd `saveFocus`. Behålls tills migrering bekräftad. */
-  saveFocusPoints: (ownerId: string) => Promise<void>;
+  saveFocusPoints: (ownerId: string) => Promise<boolean>;
   fetchLatestInsight: (ownerId: string) => Promise<void>;
   fetchMorningAnchor: () => Promise<void>;
   submitProtocolFeedback: (ownerId: string, protocol: string, action: 'accepted' | 'rejected' | 'adjusted', notes?: string) => Promise<void>;
@@ -185,13 +185,15 @@ export const useMorningCompassStore = create<MorningCompassState>((set, get) => 
       ]);
 
       set({ isSaving: false });
+      return true;
     } catch (err) {
       set({ error: (err as Error).message, isSaving: false });
+      return false;
     }
   },
 
   saveFocusPoints: async (ownerId: string) => {
-    await get().saveFocus(ownerId);
+    return get().saveFocus(ownerId);
   },
 
   submitProtocolFeedback: async (ownerId: string, protocol: string, action: 'accepted' | 'rejected' | 'adjusted', notes?: string) => {

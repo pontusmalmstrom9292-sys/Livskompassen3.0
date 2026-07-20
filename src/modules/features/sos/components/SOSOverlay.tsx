@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
 import { useSOSStore } from '@/modules/core/store/sosStore';
 import { AnimatePresence, motion } from 'framer-motion';
+import { trapTabKey } from '@/design-system/utils/trapTabKey';
 
 type Phase = 'inhale' | 'hold-in' | 'exhale' | 'hold-out';
 
@@ -11,6 +12,7 @@ export function SOSOverlay() {
   const isSOSActive = useSOSStore((s) => s.isSOSActive);
   const deactivateSOS = useSOSStore((s) => s.deactivateSOS);
   const [phase, setPhase] = useState<Phase>('inhale');
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!isSOSActive) {
@@ -31,6 +33,29 @@ export function SOSOverlay() {
 
     return () => clearInterval(interval);
   }, [isSOSActive]);
+
+  useEffect(() => {
+    if (!isSOSActive) return;
+
+    const previouslyFocused =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        deactivateSOS();
+        return;
+      }
+      trapTabKey(e, panelRef.current);
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    panelRef.current?.focus();
+
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+      previouslyFocused?.focus?.();
+    };
+  }, [isSOSActive, deactivateSOS]);
 
   if (!isSOSActive) return null;
 
@@ -56,8 +81,14 @@ export function SOSOverlay() {
   }
 
   return (
-    <div className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-zinc-950/95 backdrop-blur-2xl">
-      {/* Close button */}
+    <div
+      ref={panelRef}
+      role="dialog"
+      aria-modal="true"
+      aria-label="SOS andningsläge"
+      tabIndex={-1}
+      className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-zinc-950/95 backdrop-blur-2xl outline-none"
+    >
       <button
         onClick={deactivateSOS}
         className="absolute top-12 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 text-white/70 hover:text-white transition-colors"
@@ -66,27 +97,23 @@ export function SOSOverlay() {
         <X className="w-7 h-7" />
       </button>
 
-      {/* Breathing Engine */}
       <div className="relative flex items-center justify-center w-80 h-80">
-        {/* Glow behind the circle */}
-        <div 
-          className="absolute inset-0 rounded-full bg-cyan-600/20 blur-3xl transition-transform ease-in-out"
-          style={{ 
-            transform: `scale(${scale * 1.5})`,
-            transitionDuration: `${PHASE_DURATION}ms`
-          }}
-        />
-        
-        {/* The expanding/shrinking circle */}
         <div
-          className="absolute w-32 h-32 rounded-full border-4 border-cyan-500/50 bg-cyan-500/10 shadow-[0_0_50px_rgba(6,182,212,0.3)] transition-transform ease-in-out"
-          style={{ 
-            transform: `scale(${scale})`,
-            transitionDuration: `${PHASE_DURATION}ms`
+          className="absolute inset-0 rounded-full bg-cyan-600/20 blur-3xl transition-transform ease-in-out"
+          style={{
+            transform: `scale(${scale * 1.5})`,
+            transitionDuration: `${PHASE_DURATION}ms`,
           }}
         />
 
-        {/* Phase Text */}
+        <div
+          className="absolute w-32 h-32 rounded-full border-4 border-cyan-500/50 bg-cyan-500/10 shadow-[0_0_50px_rgba(6,182,212,0.3)] transition-transform ease-in-out"
+          style={{
+            transform: `scale(${scale})`,
+            transitionDuration: `${PHASE_DURATION}ms`,
+          }}
+        />
+
         <AnimatePresence mode="wait">
           <motion.p
             key={text}

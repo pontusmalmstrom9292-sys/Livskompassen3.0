@@ -58,13 +58,23 @@ export function ArchiveCalendarView({
     <div className="flex flex-col gap-4 pb-20">
       {/* Kalender Header */}
       <div className="flex items-center justify-between bg-surface-2/70 backdrop-blur-xl border border-border/30 rounded-2xl p-4 shadow-md">
-        <button onClick={handlePrevMonth} className="p-2 hover:bg-surface-3 rounded-full transition-colors">
+        <button
+          type="button"
+          onClick={handlePrevMonth}
+          className="p-2 hover:bg-surface-3 rounded-full transition-colors"
+          aria-label="Föregående månad"
+        >
           <ChevronLeft className="w-5 h-5 text-accent" />
         </button>
         <div className="text-sm font-semibold tracking-wider font-display-serif uppercase text-text">
           {format(currentMonthDate, 'MMMM yyyy', { locale: sv })}
         </div>
-        <button onClick={handleNextMonth} className="p-2 hover:bg-surface-3 rounded-full transition-colors">
+        <button
+          type="button"
+          onClick={handleNextMonth}
+          className="p-2 hover:bg-surface-3 rounded-full transition-colors"
+          aria-label="Nästa månad"
+        >
           <ChevronRight className="w-5 h-5 text-accent" />
         </button>
       </div>
@@ -137,9 +147,11 @@ export function ArchiveCalendarView({
               <h3 className="text-sm font-semibold tracking-wider font-display-serif uppercase text-text">
                 {format(selectedDate, 'EEEE d MMMM', { locale: sv })}
               </h3>
-              <button 
-                onClick={() => setSelectedDate(null)} 
+              <button
+                type="button"
+                onClick={() => setSelectedDate(null)}
                 className="p-1 hover:bg-surface-3 rounded-full transition text-text-muted hover:text-text"
+                aria-label="Stäng dagsdetalj"
               >
                 <X className="w-4 h-4" />
               </button>

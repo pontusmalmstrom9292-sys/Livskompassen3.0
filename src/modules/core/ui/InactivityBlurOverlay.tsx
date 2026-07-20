@@ -30,6 +30,8 @@ export function InactivityBlurOverlay() {
     };
   }, []);
 
+  const dismiss = () => setIsBlurred(false);
+
   return (
     <AnimatePresence>
       {isBlurred && (
@@ -38,9 +40,17 @@ export function InactivityBlurOverlay() {
           animate={{ opacity: 1, backdropFilter: 'blur(24px)' }}
           exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
           transition={{ duration: 1, ease: 'easeInOut' }}
-          className="pointer-events-auto fixed inset-0 z-[9999] bg-surface-base/30"
-          aria-hidden
-          onClick={() => setIsBlurred(false)}
+          className="pointer-events-auto fixed inset-0 z-[9999] bg-surface-base/30 outline-none"
+          role="button"
+          tabIndex={0}
+          aria-label="Tryck Escape eller klicka för att fortsätta"
+          onClick={dismiss}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ' || e.key === 'Tab') {
+              e.preventDefault();
+              dismiss();
+            }
+          }}
         />
       )}
     </AnimatePresence>

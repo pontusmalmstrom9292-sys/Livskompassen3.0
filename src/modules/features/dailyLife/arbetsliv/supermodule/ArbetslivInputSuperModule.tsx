@@ -102,7 +102,7 @@ export function ArbetslivInputSuperModule({ initialMode }: ArbetslivInputSuperMo
               </div>
               <ModuleHelpFromRegistry moduleId="arbetsliv" mode={activeMode} />
             </div>
-            <Suspense fallback={null}>
+            <Suspense fallback={<HubPanelSkeleton label="Laddar arbetsliv…" lines={3} />}>
               <ArbetslivValvBroDelegate />
             </Suspense>
           </header>

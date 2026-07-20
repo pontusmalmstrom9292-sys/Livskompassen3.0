@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button, TextArea } from '@/design-system';
 import { Plus, Loader2, Check, Heart } from 'lucide-react';
 import { LIVSLOGG_CATEGORIES, type LivsloggCategory } from '../../constants';
 import { STUND_MAX_CHARS, resolveStundCategory } from '../../utils/childMomentHelpers';
-// import { SaveAsEvidencePrompt } from '../../components/SaveAsEvidencePrompt'; // Not used in 'stund'
 import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
 
 export function FamiljenLivsloggStundDelegate({ shell, onSaved }: FamiljenDelegateBaseProps) {
@@ -16,9 +15,13 @@ export function FamiljenLivsloggStundDelegate({ shell, onSaved }: FamiljenDelega
   const [saveAsAnchor, setSaveAsAnchor] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const resetTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     return () => {
+      if (resetTimerRef.current != null) {
+        window.clearTimeout(resetTimerRef.current);
+      }
       setObservation('');
       setCategory('positivt');
       setSaveAsAnchor(false);
@@ -48,14 +51,18 @@ export function FamiljenLivsloggStundDelegate({ shell, onSaved }: FamiljenDelega
       });
       setStep('saved');
       onSaved?.(id);
-      
-      // Auto-reset back to form after 3 seconds for seamless input
-      setTimeout(() => {
+
+      if (resetTimerRef.current != null) {
+        window.clearTimeout(resetTimerRef.current);
+      }
+      resetTimerRef.current = window.setTimeout(() => {
         setStep((s) => (s === 'saved' ? 'form' : s));
         setObservation('');
+        resetTimerRef.current = null;
       }, 3000);
-    } catch (e: any) {
-      if (e.message?.includes('Offline')) {
+    } catch (e: unknown) {
+      const message = e instanceof Error ? e.message : '';
+      if (message.includes('Offline')) {
         setError('Du är offline. Denna stund kunde inte sparas just nu.');
       } else {
         setError('Kunde inte spara just nu. Försök igen.');

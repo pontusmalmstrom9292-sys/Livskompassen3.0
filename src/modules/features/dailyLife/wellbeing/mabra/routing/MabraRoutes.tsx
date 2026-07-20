@@ -1,6 +1,7 @@
-import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { lazy, Suspense, type ReactNode } from 'react';
+import { Navigate, Routes, Route } from 'react-router-dom';
 import { MabraLayout } from '../components/MabraLayout';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 
 const MabraHubView = lazy(() => import('../views/MabraHubView').then((m) => ({ default: m.MabraHubView })));
 const MabraToolView = lazy(() => import('../views/MabraToolView').then((m) => ({ default: m.MabraToolView })));
@@ -19,21 +20,26 @@ const RecoverySosView = lazy(() =>
   import('../views/RecoverySosView').then((m) => ({ default: m.RecoverySosView })),
 );
 
+function MabraSuspense({ children }: { children: ReactNode }) {
+  return <Suspense fallback={<HubPanelSkeleton label="Laddar MåBra…" lines={4} />}>{children}</Suspense>;
+}
+
 export function MabraRoutes() {
   return (
     <Routes>
       <Route element={<MabraLayout />}>
-        <Route index element={<Suspense fallback={null}><MabraHubView /></Suspense>} />
-        <Route path="verktyg/:toolId" element={<Suspense fallback={null}><MabraToolView /></Suspense>} />
-        <Route path="recovery/sos" element={<Suspense fallback={null}><RecoverySosView /></Suspense>} />
-        <Route path="projekt/:projectId" element={<Suspense fallback={null}><MabraProjectView /></Suspense>} />
-        <Route path="varderingar" element={<Suspense fallback={null}><ValuesView /></Suspense>} />
-        <Route path="akut" element={<Suspense fallback={null}><AkutView /></Suspense>} />
-        <Route path="tid" element={<Suspense fallback={null}><DurationView /></Suspense>} />
-        <Route path="ovning/:exerciseId" element={<Suspense fallback={null}><MabraExerciseView /></Suspense>} />
-        <Route path="ovning/tillagg" element={<Suspense fallback={null}><AddonView /></Suspense>} />
-        <Route path="input" element={<Suspense fallback={null}><MabraInputSuperModuleLazy /></Suspense>} />
-        <Route path="klart" element={<Suspense fallback={null}><CompleteView /></Suspense>} />
+        <Route index element={<MabraSuspense><MabraHubView /></MabraSuspense>} />
+        <Route path="verktyg/:toolId" element={<MabraSuspense><MabraToolView /></MabraSuspense>} />
+        <Route path="recovery/sos" element={<MabraSuspense><RecoverySosView /></MabraSuspense>} />
+        <Route path="projekt/:projectId" element={<MabraSuspense><MabraProjectView /></MabraSuspense>} />
+        <Route path="varderingar" element={<MabraSuspense><ValuesView /></MabraSuspense>} />
+        <Route path="akut" element={<MabraSuspense><AkutView /></MabraSuspense>} />
+        <Route path="tid" element={<MabraSuspense><DurationView /></MabraSuspense>} />
+        <Route path="ovning/:exerciseId" element={<MabraSuspense><MabraExerciseView /></MabraSuspense>} />
+        <Route path="ovning/tillagg" element={<MabraSuspense><AddonView /></MabraSuspense>} />
+        <Route path="input" element={<MabraSuspense><MabraInputSuperModuleLazy /></MabraSuspense>} />
+        <Route path="klart" element={<MabraSuspense><CompleteView /></MabraSuspense>} />
+        <Route path="*" element={<Navigate to="/mabra" replace />} />
       </Route>
     </Routes>
   );
