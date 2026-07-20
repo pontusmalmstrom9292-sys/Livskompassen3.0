@@ -307,7 +307,8 @@
     "natt:ci": "node scripts/natt-ci.mjs",
     "natt:secure": "node scripts/natt-ci.mjs",
     "sdk:natt-ci": "node scripts/sdk-natt-ci.mjs",
-    "setup:env": "node scripts/setup_env_from_google_services.mjs"
+    "setup:env": "node scripts/setup_env_from_google_services.mjs",
+    "smoke:child-incident": "node scripts/smoke_child_incident.mjs"
   },
   "dependencies": {
     "@aparajita/capacitor-biometric-auth": "^10.0.0",

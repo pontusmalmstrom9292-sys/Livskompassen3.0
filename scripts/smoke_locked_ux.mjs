@@ -64,6 +64,7 @@ function main() {
     'glow="blue"',
     'BentoCard',
     'FamiljenBarnfokusDelegate',
+    'FamiljenIncidentDelegate',
     'FamiljenLivsloggStundDelegate',
     'FamiljenFysiologiDelegate',
     'FamiljenLivsloggObservationDelegate',
@@ -74,6 +75,7 @@ function main() {
     'src/modules/features/family/children/supermodule/familjenInputModes.ts',
     'DEFAULT_FAMILJEN_INPUT_MODE',
     'barnfokus',
+    'incident',
     'inkast',
   );
   mustInclude(

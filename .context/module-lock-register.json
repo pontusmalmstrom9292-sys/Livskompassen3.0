@@ -20,8 +20,9 @@
         "smoke:chrome-header"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-12",
-      "lockedCommit": "5d4cb0402"
+      "lockedAt": "2026-07-20",
+      "lockedCommit": "576e16c5b",
+      "unlockedAt": "2026-07-20"
     },
     {
       "id": "MOD-CORE-CHROME",
@@ -316,9 +317,9 @@
       ],
       "snapshotKey": null,
       "lockedAt": "2026-07-20",
-      "lockedCommit": "c3a08cfdd",
+      "lockedCommit": "576e16c5b",
       "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-FAM-HUB.md",
-      "unlockedAt": "2026-07-18"
+      "unlockedAt": "2026-07-20"
     },
     {
       "id": "MOD-FAM-BARN",
@@ -337,9 +338,38 @@
       ],
       "snapshotKey": null,
       "lockedAt": "2026-07-20",
-      "lockedCommit": "c3a08cfdd",
+      "lockedCommit": "576e16c5b",
       "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-FAM-BARN.md",
-      "unlockedAt": "2026-07-18"
+      "unlockedAt": "2026-07-20"
+    },
+    {
+      "id": "MOD-FAM-INCIDENT",
+      "namn": "Barnhub incident (Vad hände)",
+      "zon": "Familjen",
+      "status": "locked",
+      "globs": [
+        "src/modules/features/family/children/supermodule/delegates/FamiljenIncidentDelegate.tsx",
+        "src/modules/features/family/children/lib/analyzeChildIncidentLocal.ts",
+        "src/modules/features/family/children/content/incidentSupportBank.ts",
+        "shared/patterns/barnIncidentPatternLibrary.ts",
+        "functions/src/callables/analyzeChildIncident.ts",
+        "src/modules/features/family/children/lib/parentMilestones.ts",
+        "src/modules/features/family/children/utils/exportCuratorChildReport.ts",
+        "src/modules/features/family/children/components/ParentMerPanel.tsx",
+        "src/modules/features/family/children/components/ChildIncidentPulse.tsx"
+      ],
+      "entryFiles": [
+        "src/modules/features/family/children/supermodule/delegates/FamiljenIncidentDelegate.tsx"
+      ],
+      "smoke": [
+        "smoke:child-incident",
+        "smoke:barn-epistemik"
+      ],
+      "snapshotKey": null,
+      "lockedAt": "2026-07-20",
+      "lockedCommit": "576e16c5b",
+      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-FAM-HUB-barnhub-fas-a.md",
+      "unlockedAt": "2026-07-20"
     },
     {
       "id": "MOD-FAM-HAMN",

@@ -414,6 +414,8 @@ export function AppRoutes() {
 
               <Route path="/familj" element={<Navigate to={`${NAV_PATHS.FAMILJEN}?tab=reflektion`} replace />} />
               <Route path="/barnen" element={<Navigate to={`${NAV_PATHS.FAMILJEN}?tab=reflektion`} replace />} />
+              <Route path="/barnhub" element={<Navigate to={`${NAV_PATHS.FAMILJEN}?tab=reflektion`} replace />} />
+              <Route path="/barnhubben" element={<Navigate to={`${NAV_PATHS.FAMILJEN}?tab=reflektion`} replace />} />
               <Route path="/hamn" element={<RedirectHamnToFamiljen />} />
 
               {/* —— HJÄRTAT (Dagbok) — frikopplat från Valv —— */}

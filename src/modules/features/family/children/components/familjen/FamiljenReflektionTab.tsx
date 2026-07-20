@@ -4,6 +4,8 @@ import { BentoCard } from '@/shared/ui/BentoCard';
 import { KanslotempletParentCard } from './KanslotempletParentCard';
 import { PositivaMinnesankare } from '../PositivaMinnesankare';
 import { ChildProfileCards } from '../ChildProfileCards';
+import { ChildIncidentPulse } from '../ChildIncidentPulse';
+import { ParentMerPanel } from '../ParentMerPanel';
 import type { ChildAlias } from '../../constants';
 import { BalansMatare } from '../BalansMatare';
 import { ChildrenLogsChat } from '../ChildrenLogsChat';
@@ -33,6 +35,15 @@ export function FamiljenReflektionTab({ shell }: Props) {
         selected={activeChild}
         onSelect={setActiveChild}
       />
+
+      <ChildIncidentPulse
+        childAlias={activeChild}
+        logs={logs}
+        balansIndex={balans.index}
+        balansDays={balans.daysWithData}
+      />
+
+      <ParentMerPanel childAlias={activeChild} logs={logs} />
 
       <KanslotempletParentCard
         key={`kanslo-${activeChild}`}

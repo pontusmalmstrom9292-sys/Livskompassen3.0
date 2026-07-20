@@ -1,5 +1,6 @@
-/** Canonical input modes — FamiljenInputSuperModule (Fas 7). */
+/** Canonical input modes — FamiljenInputSuperModule (Fas 7 + Barnhub Fas A). */
 export type FamiljenInputMode =
+  | 'incident'
   | 'barnfokus'
   | 'livslogg_stund'
   | 'fysiologi'
@@ -22,6 +23,15 @@ export type FamiljenInputModeMeta = {
 };
 
 export const FAMILJEN_INPUT_MODES: FamiljenInputModeMeta[] = [
+  {
+    id: 'incident',
+    label: 'Vad hände',
+    description: 'Skriv fritt — stöd och spara till barnets logg',
+    tier: 'primary',
+    writesChildrenLogs: true,
+    offersVaultHitl: false,
+    contentClass: 'EVIDENCE',
+  },
   {
     id: 'barnfokus',
     label: 'Barnfokus',
@@ -62,7 +72,7 @@ export const FAMILJEN_INPUT_MODES: FamiljenInputModeMeta[] = [
     id: 'vardagsstruktur',
     label: 'Vardagsstruktur',
     description: 'Rutin / husregler i praktiken',
-    tier: 'primary',
+    tier: 'more',
     writesChildrenLogs: true,
     offersVaultHitl: false,
     contentClass: 'EVIDENCE',
@@ -86,6 +96,7 @@ export const FAMILJEN_INPUT_MODES_FAS7A: FamiljenInputModeMeta[] = FAMILJEN_INPU
   (m) => m.id === 'barnfokus',
 );
 
+/** Default: Barnfokus (locked UX). Incident öppnas via inputMode=incident. */
 export const DEFAULT_FAMILJEN_INPUT_MODE: FamiljenInputMode = 'barnfokus';
 
 export function isFamiljenInputMode(value: string | null | undefined): value is FamiljenInputMode {
@@ -101,8 +112,7 @@ export function parseFamiljenInputMode(value: string | null | undefined): Familj
 export function getFamiljenInputModeMeta(mode: FamiljenInputMode): FamiljenInputModeMeta {
   const meta = FAMILJEN_INPUT_MODES.find((m) => m.id === mode);
   if (!meta) {
-    // Fallback if somehow invalid
-    return FAMILJEN_INPUT_MODES[0];
+    return FAMILJEN_INPUT_MODES[0]!;
   }
   return meta;
 }
