@@ -14,7 +14,7 @@ export function useNativeBackHandler() {
   useEffect(() => {
     if (!isCapacitorNative()) return;
 
-    const unsub = App.addListener('backButton', (data) => {
+    const unsub = App.addListener('backButton', () => {
       // 1. Close Menu first
       if (isMenuOpen) {
         setMenuOpen(false);

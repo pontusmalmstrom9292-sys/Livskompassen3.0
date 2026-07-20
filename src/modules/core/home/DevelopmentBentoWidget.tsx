@@ -5,7 +5,7 @@
  * Ingen cross-RAG, ingen runtime-AI-fakta.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Check, Layers, Loader2, Package, Plus, Share2 } from 'lucide-react';
+import { Check, Layers, Package, Plus, Share2 } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { Button, Skeleton, TextArea } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -408,7 +408,7 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
       {loadingCompleted ? (
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {Array.from({ length: lowCapacity ? 1 : 6 }).map((_, i) => (
-            <Skeleton key={i} className="min-h-[72px] rounded-xl bg-accent/5" glow="gold" />
+            <Skeleton key={i} variant="block" className="min-h-[72px] rounded-xl bg-accent/5" />
           ))}
         </div>
       ) : null}

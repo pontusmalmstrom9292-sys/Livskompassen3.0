@@ -91,9 +91,9 @@ export function FloatingDock() {
   const { progress, isHolding, ...centerHoldHandlers } = centerPress;
   const showFyrenRing = progress > 0;
 
-  const handleNavigate = useCallback((path: string) => {
+  const handleNavigate = useCallback((to: string | { pathname: string; search?: string }) => {
     triggerNavHaptic();
-    navigate(path);
+    navigate(to);
   }, [navigate, triggerNavHaptic]);
 
   if (referenceDock) {
