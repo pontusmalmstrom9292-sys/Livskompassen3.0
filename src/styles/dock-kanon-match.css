@@ -592,9 +592,15 @@ html.platform-capacitor-android .app-main {
   width: 100%;
 }
 
-/* Vertikal scroll i hubbar — WebView blockeras av overflow-x:clip + overscroll contain */
+/* Vertikal scroll i hubbar — tillåt pan-y, men ingen bounce/vit glow */
+html.platform-capacitor-android,
+html.platform-capacitor-android body {
+  overscroll-behavior: none;
+  background-color: #0d0b09;
+}
+
 html.platform-capacitor-android .calm-scroll-island {
-  overscroll-behavior: auto;
+  overscroll-behavior-y: none;
   touch-action: pan-y;
   -webkit-overflow-scrolling: touch;
 }

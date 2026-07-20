@@ -10,6 +10,7 @@ import { useExecutiveHomeChrome } from '../home/ExecutiveHomeChromeContext';
 import { NAV_PATHS } from '../navigation/navTruth';
 import { ResurserOverlay } from '../navigation/ResurserOverlay';
 import { useLongPress } from '../hooks/useLongPress';
+import { useNativeHaptics } from '@/shared/utils/nativeHaptics';
 import { useStore } from '../store';
 import { useTheme } from '../theme';
 import { getTheme } from '../theme';
@@ -34,6 +35,7 @@ export function FloatingDock() {
   const location = useLocation();
   const navigate = useNavigate();
   const { themeId } = useTheme();
+  const { navigate: triggerNavHaptic } = useNativeHaptics();
   const executive = isMidnightExecutiveTheme(themeId);
   const referenceDock =
     executive || isMockupTheme(themeId) || themeUsesDesignPackChrome(getTheme(themeId));
@@ -89,6 +91,11 @@ export function FloatingDock() {
   const { progress, isHolding, ...centerHoldHandlers } = centerPress;
   const showFyrenRing = progress > 0;
 
+  const handleNavigate = useCallback((to: string | { pathname: string; search?: string }) => {
+    triggerNavHaptic();
+    navigate(to);
+  }, [navigate, triggerNavHaptic]);
+
   if (referenceDock) {
     return (
       <>
@@ -108,13 +115,16 @@ export function FloatingDock() {
             progress={progress}
             isHolding={isHolding}
             centerHoldHandlers={centerHoldHandlers}
-            onAnteckning={() => navigate('/widget/anteckning')}
-            onFamiljen={() => navigate(NAV_PATHS.FAMILJEN)}
-            onVentil={() => navigate(NAV_PATHS.HJARTAT)}
-            onInkast={() => navigate('/planering/input?inputMode=inkast')}
-            onResurser={() => setResurserOpen(true)}
-            onValv={() => navigate(valvetNavigateTarget())}
-            onPlanering={() => navigate('/planering')}
+            onAnteckning={() => handleNavigate('/widget/anteckning')}
+            onFamiljen={() => handleNavigate(NAV_PATHS.FAMILJEN)}
+            onVentil={() => handleNavigate(NAV_PATHS.HJARTAT)}
+            onInkast={() => handleNavigate('/planering/input?inputMode=inkast')}
+            onResurser={() => {
+              triggerNavHaptic();
+              setResurserOpen(true);
+            }}
+            onValv={() => handleNavigate(valvetNavigateTarget())}
+            onPlanering={() => handleNavigate('/planering')}
           />
         </div>
       </>
@@ -134,7 +144,7 @@ export function FloatingDock() {
             active={pathname.startsWith('/widget/anteckning')}
             variant="slot"
             className="floating-dock__side-btn floating-dock__side-btn--anteckning"
-            onClick={() => navigate('/widget/anteckning')}
+            onClick={() => handleNavigate('/widget/anteckning')}
           />
 
           <div className="dock-hub-band__rail dock-hub-band__rail--zones">
@@ -146,7 +156,7 @@ export function FloatingDock() {
                 active={isFamiljen}
                 variant="slot"
                 className="floating-dock__side-btn floating-dock__side-btn--familj"
-                onClick={() => navigate(NAV_PATHS.FAMILJEN)}
+                onClick={() => handleNavigate(NAV_PATHS.FAMILJEN)}
               />
             </div>
 
@@ -186,7 +196,7 @@ export function FloatingDock() {
                 active={isHjartat}
                 variant="slot"
                 className="floating-dock__side-btn floating-dock__side-btn--valv"
-                onClick={() => navigate(NAV_PATHS.HJARTAT)}
+                onClick={() => handleNavigate(NAV_PATHS.HJARTAT)}
               />
             </div>
           </div>
@@ -199,7 +209,7 @@ export function FloatingDock() {
               active={pathname.startsWith('/planering/input')}
               variant="slot"
               className="floating-dock__side-btn floating-dock__side-btn--inkast"
-              onClick={() => navigate('/planering/input?inputMode=inkast')}
+              onClick={() => handleNavigate('/planering/input?inputMode=inkast')}
             />
             <DockNavButton
               label="Resurser"
@@ -211,7 +221,10 @@ export function FloatingDock() {
                 'floating-dock__side-btn floating-dock__side-btn--resurser',
                 resurserOpen && 'floating-dock__side-btn--active',
               )}
-              onClick={() => setResurserOpen(true)}
+              onClick={() => {
+                triggerNavHaptic();
+                setResurserOpen(true);
+              }}
             />
           </div>
         </div>

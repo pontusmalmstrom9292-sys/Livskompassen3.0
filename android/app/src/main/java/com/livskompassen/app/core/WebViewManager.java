@@ -158,7 +158,12 @@ public class WebViewManager {
                 "document.head.appendChild(link);" +
                 "})()");
 
+        // Obsidian Midnight — no white flash on touch / edge overscroll.
         webView.setBackgroundColor(Color.parseColor("#0D0B09"));
+        webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            webView.setForceDarkAllowed(false);
+        }
         WebSettings settings = webView.getSettings();
 
         updateCacheMode(settings);
