@@ -3,6 +3,7 @@ package com.livskompassen.app.core;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
@@ -15,6 +16,7 @@ import android.net.http.SslError;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.provider.OpenableColumns;
 import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.PermissionRequest;
@@ -34,11 +36,16 @@ import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import com.getcapacitor.Bridge;
 import com.getcapacitor.BridgeWebViewClient;
 import com.livskompassen.app.R;
 import com.livskompassen.app.util.LCLog;
+
+import java.util.concurrent.Executor;
 
 /**
  * CRITICAL COMPONENT - DO NOT REMOVE.
@@ -50,6 +57,7 @@ public class WebViewManager {
     private final HapticManager hapticManager;
     private final DialogManager dialogManager;
     private final SecureShareManager secureShareManager;
+    private final IntegrityManager integrityManager;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private PerformanceWatchdog watchdog;
 
@@ -68,10 +76,12 @@ public class WebViewManager {
             Bridge bridge,
             View rootView,
             HapticManager hapticManager,
+            IntegrityManager integrityManager,
             @Nullable ActivityResultLauncher<Intent> fileChooserLauncher) {
         this.context = context;
         this.bridge = bridge;
         this.hapticManager = hapticManager;
+        this.integrityManager = integrityManager;
         this.dialogManager = new DialogManager(context, hapticManager);
         this.secureShareManager = new SecureShareManager(context);
         this.fileChooserLauncher = fileChooserLauncher;
@@ -82,8 +92,8 @@ public class WebViewManager {
     }
 
     /** Backward-compatible constructor (no file chooser launcher). */
-    public WebViewManager(Context context, Bridge bridge, View rootView, HapticManager hapticManager) {
-        this(context, bridge, rootView, hapticManager, null);
+    public WebViewManager(Context context, Bridge bridge, View rootView, HapticManager hapticManager, IntegrityManager integrityManager) {
+        this(context, bridge, rootView, hapticManager, integrityManager, null);
     }
 
     /**
@@ -95,20 +105,16 @@ public class WebViewManager {
         if (resultCode == Activity.RESULT_OK && data != null) {
             Uri uri = data.getData();
             if (uri != null) {
-                if ("content".equals(uri.getScheme())) {
+                if (validateFile(uri)) {
                     results = new Uri[]{uri};
-                } else {
-                    LCLog.w("WebViewManager: Blocked non-content URI: " + uri.getScheme());
                 }
             } else if (data.getClipData() != null) {
                 int count = data.getClipData().getItemCount();
                 java.util.List<Uri> validUris = new java.util.ArrayList<>();
                 for (int i = 0; i < count; i++) {
                     Uri clipUri = data.getClipData().getItemAt(i).getUri();
-                    if (clipUri != null && "content".equals(clipUri.getScheme())) {
+                    if (clipUri != null && validateFile(clipUri)) {
                         validUris.add(clipUri);
-                    } else if (clipUri != null) {
-                        LCLog.w("WebViewManager: Blocked non-content URI in ClipData: " + clipUri.getScheme());
                     }
                 }
                 if (!validUris.isEmpty()) {
@@ -118,14 +124,43 @@ public class WebViewManager {
         }
 
         if (filePathCallback != null) {
-            if (results == null) {
-                LCLog.d("WebViewManager: File pick cancelled or no valid URIs returned");
+            if (results == null && resultCode == Activity.RESULT_OK) {
+                LCLog.w("WebViewManager: File pick rejected by native validation");
+            } else if (results == null) {
+                LCLog.d("WebViewManager: File pick cancelled");
             } else {
-                LCLog.d("WebViewManager: Delivering " + results.length + " content URIs to WebView");
+                LCLog.d("WebViewManager: Delivering " + results.length + " validated content URIs");
             }
             filePathCallback.onReceiveValue(results);
             filePathCallback = null;
         }
+    }
+
+    private boolean validateFile(@NonNull Uri uri) {
+        if (!"content".equals(uri.getScheme())) {
+            LCLog.w("WebViewManager: Blocked non-content URI: " + uri.getScheme());
+            Toast.makeText(context, "Säkerhetsfel: Endast system-filer tillåts.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        // 10MB Limit
+        try (Cursor cursor = context.getContentResolver().query(uri, null, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                int sizeIndex = cursor.getColumnIndex(OpenableColumns.SIZE);
+                if (sizeIndex != -1) {
+                    long size = cursor.getLong(sizeIndex);
+                    if (size > 10 * 1024 * 1024) {
+                        LCLog.w("WebViewManager: Blocked file too large: " + size + " bytes");
+                        Toast.makeText(context, "Filen är för stor (max 10MB).", Toast.LENGTH_LONG).show();
+                        return false;
+                    }
+                }
+            }
+        } catch (Exception e) {
+            LCLog.e("WebViewManager: Failed to validate file size: " + e.getMessage());
+        }
+
+        return true;
     }
 
     private void setupNetworkCallback() {
@@ -199,6 +234,8 @@ public class WebViewManager {
         settings.setGeolocationEnabled(false);
 
         webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        // Titanium Tapjacking Protection: Filter touches when obscured by another window/overlay.
+        webView.setFilterTouchesWhenObscured(true);
 
         watchdog = new PerformanceWatchdog(webView);
         watchdog.start();
@@ -303,6 +340,15 @@ public class WebViewManager {
                     return true;
                 }
 
+                // Environment Integrity Check
+                if (integrityManager != null && integrityManager.isEnvironmentHighRisk()) {
+                    LCLog.e("WebViewManager: High risk environment detected. Blocking file picker.");
+                    Toast.makeText(context, "Säkerhetsvarning: Uppladdning begränsad i osäker miljö.", Toast.LENGTH_LONG).show();
+                    WebViewManager.this.filePathCallback.onReceiveValue(null);
+                    WebViewManager.this.filePathCallback = null;
+                    return true;
+                }
+
                 try {
                     Intent intent = fileChooserParams.createIntent();
                     String[] acceptTypes = fileChooserParams.getAcceptTypes();
@@ -319,27 +365,15 @@ public class WebViewManager {
                             if (t.contains("json") || t.endsWith(".json")) {
                                 wantsJson = true;
                             }
-                            // Inkast / Valv / Kunskapsvalv — do not broaden those pickers to */*
-                            if (t.contains("image")
-                                    || t.contains("video")
-                                    || t.contains("audio")
-                                    || t.contains("pdf")
-                                    || t.endsWith(".png")
-                                    || t.endsWith(".jpg")
-                                    || t.endsWith(".jpeg")
-                                    || t.endsWith(".webp")
-                                    || t.endsWith(".gif")
-                                    || t.endsWith(".heic")
-                                    || t.endsWith(".pdf")) {
+                            if (t.contains("image") || t.contains("video") || t.contains("audio") || t.contains("pdf")) {
                                 wantsMediaOrPdf = true;
                             }
                         }
                     }
 
-                    // Lönekontor only: YAML/JSON often lack MIME mapping on Android.
-                    // Skip when accept also includes media/PDF (shared chooser for Inkast/Valv).
-                    boolean lonekontorDocumentPick = (wantsYaml || wantsJson) && !wantsMediaOrPdf;
-                    if (lonekontorDocumentPick) {
+                    boolean sensitivePick = (wantsYaml || wantsJson) && !wantsMediaOrPdf;
+                    
+                    if (sensitivePick) {
                         LCLog.d("WebViewManager: Strengthening intent for YAML/JSON (Lönekontor)");
                         String action = intent.getAction();
                         if (Intent.ACTION_GET_CONTENT.equals(action) || Intent.ACTION_OPEN_DOCUMENT.equals(action)) {
@@ -355,7 +389,15 @@ public class WebViewManager {
                         }
                     }
 
-                    fileChooserLauncher.launch(intent);
+                    String title = sensitivePick ? "Välj Lönekontor-fil (.yaml, .json)" : "Välj fil";
+                    final Intent chooserIntent = Intent.createChooser(intent, title);
+
+                    if (sensitivePick) {
+                        LCLog.d("WebViewManager: Sensitive upload detected. Triggering Biometric Step-up.");
+                        triggerBiometricAuth(chooserIntent);
+                    } else {
+                        fileChooserLauncher.launch(chooserIntent);
+                    }
                     return true;
                 } catch (Exception e) {
                     LCLog.e("WebViewManager: onShowFileChooser failed: " + e.getMessage());
@@ -392,6 +434,52 @@ public class WebViewManager {
                     + url.substring(0, Math.min(32, url.length())));
             Toast.makeText(context, "Den här filtypen kan inte laddas ner här.", Toast.LENGTH_SHORT).show();
         });
+    }
+
+    private void triggerBiometricAuth(final Intent intentToLaunch) {
+        if (!(context instanceof FragmentActivity)) {
+            LCLog.e("WebViewManager: Context is not FragmentActivity, skipping biometric.");
+            fileChooserLauncher.launch(intentToLaunch);
+            return;
+        }
+
+        FragmentActivity activity = (FragmentActivity) context;
+        Executor executor = ContextCompat.getMainExecutor(context);
+        BiometricPrompt biometricPrompt = new BiometricPrompt(activity, executor,
+                new BiometricPrompt.AuthenticationCallback() {
+                    @Override
+                    public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                        super.onAuthenticationError(errorCode, errString);
+                        LCLog.w("WebViewManager: Biometric error: " + errString);
+                        if (filePathCallback != null) {
+                            filePathCallback.onReceiveValue(null);
+                            filePathCallback = null;
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                        super.onAuthenticationSucceeded(result);
+                        LCLog.d("WebViewManager: Biometric success. Launching file picker.");
+                        fileChooserLauncher.launch(intentToLaunch);
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed() {
+                        super.onAuthenticationFailed();
+                        LCLog.w("WebViewManager: Biometric failed.");
+                    }
+                });
+
+        BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Verifiera identitet")
+                .setSubtitle("Krävs för att ladda upp Lönekontor-data")
+                .setNegativeButtonText("Avbryt")
+                .setAllowedAuthenticators(androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG | 
+                                          androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL)
+                .build();
+
+        biometricPrompt.authenticate(promptInfo);
     }
 
     private void updateCacheMode(WebSettings settings) {
