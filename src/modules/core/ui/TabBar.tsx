@@ -1,4 +1,5 @@
 import type { KeyboardEvent, ReactNode } from 'react';
+import { useNativeHaptics } from '@/shared/utils/nativeHaptics';
 
 export type TabBarItem<T extends string = string> = {
   id: T;
@@ -20,6 +21,7 @@ export function TabBar<T extends string>({
   onChange,
   size = 'default',
 }: TabBarProps<T>) {
+  const { navigate: triggerNavHaptic } = useNativeHaptics();
   const pad = size === 'compact' ? 'px-3 py-2' : 'px-4 py-2.5';
 
   const handleKeyDown = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
@@ -49,7 +51,10 @@ export function TabBar<T extends string>({
               role="tab"
               aria-selected={isActive}
               tabIndex={isActive ? 0 : -1}
-              onClick={() => onChange(id)}
+              onClick={() => {
+                if (!isActive) triggerNavHaptic();
+                onChange(id);
+              }}
               onKeyDown={(e) => handleKeyDown(e, index)}
               className={`flex shrink-0 touch-manipulation items-center gap-2 rounded-full min-h-[var(--ds-touch-target,2.75rem)] max-sm:min-w-0 max-sm:flex-1 max-sm:justify-center ${pad} text-xs uppercase tracking-widest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50 ${
                 isActive ? 'chip--active' : 'chip--idle'

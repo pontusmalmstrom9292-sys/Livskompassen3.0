@@ -7,7 +7,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Check, Layers, Loader2, Package, Plus, Share2 } from 'lucide-react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Button, TextArea } from '@/design-system';
+import { Button, Skeleton, TextArea } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useNativeHaptics } from '@/shared/utils/nativeHaptics';
 import { getLivskompassenNative } from '@/shared/utils/nativeSecureDownload';
@@ -406,12 +406,14 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
       </p>
 
       {loadingCompleted ? (
-        <p className="flex items-center gap-2 text-xs text-text-dim">
-          <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden /> Laddar …
-        </p>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          {Array.from({ length: lowCapacity ? 1 : 6 }).map((_, i) => (
+            <Skeleton key={i} className="min-h-[72px] rounded-xl bg-accent/5" glow="gold" />
+          ))}
+        </div>
       ) : null}
 
-      {mix.length === 0 ? (
+      {!loadingCompleted && mix.length === 0 ? (
         <p className="text-xs text-text-dim">
           Inga kort just nu. Hämta ett faktapack eller skapa en egen kategori.
         </p>

@@ -22,14 +22,18 @@ export function useNativeBackHandler() {
       }
 
       // 2. Check for open Sheets/Modals (simple DOM check for DS components)
-      const hasOverlay = document.querySelector('.ds-sheet--open, .ds-modal--open');
+      const hasOverlay = document.querySelector('.ds-overlay');
       if (hasOverlay) {
         // Find the close button and click it to trigger component onClose logic
-        const closeBtn = hasOverlay.querySelector('[aria-label="Stäng"], button.rounded-full');
+        // This targets typical DS Sheet/Modal close actions or backdrops
+        const closeBtn = document.querySelector('.ds-sheet-panel [aria-label="Stäng"], .ds-modal-panel [aria-label="Stäng"], .resurser-overlay__close');
         if (closeBtn instanceof HTMLElement) {
           closeBtn.click();
           return;
         }
+
+        // Fallback: if no close button found but overlay exists, we might need a more aggressive onClose
+        // But for now, DS components usually have close buttons or backdrop clicks.
       }
 
       // 3. Default behavior (Capacitor will handle navigation if we don't intercept)
