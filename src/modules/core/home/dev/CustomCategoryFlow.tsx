@@ -5,6 +5,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Loader2, Plus } from 'lucide-react';
 import { Button, TextArea } from '@/design-system';
+import { useNativeHaptics } from '@/shared/utils/nativeHaptics';
 import { mergeEvolutionHub } from '@/core/firebase/evolutionLedgerFirestore';
 import { useEvolutionStore } from '@/core/store/useEvolutionStore';
 import { resolveUnlockedPackIds, getContentPack } from './contentPackCatalog';
@@ -27,6 +28,7 @@ function shortId(prefix: string): string {
 export function CustomCategoryFlow({ open, onClose, userId, onSaved }: Props) {
   const evolutionDoc = useEvolutionStore((s) => s.doc);
   const listenToEvolutionHub = useEvolutionStore((s) => s.listenToEvolutionHub);
+  const { success: triggerSuccess } = useNativeHaptics();
   const existing = (evolutionDoc?.customDevCategories ?? []) as CustomCategory[];
   const hubUnlocked = evolutionDoc?.unlockedPacks ?? [];
   const linkablePacks = useMemo(() => {
@@ -88,6 +90,7 @@ export function CustomCategoryFlow({ open, onClose, userId, onSaved }: Props) {
       };
       const next = [...existing, cat].slice(0, MAX_CUSTOM_CATEGORIES);
       await mergeEvolutionHub(userId, { customDevCategories: next });
+      triggerSuccess();
       setStep('done');
       onSaved?.();
     } catch {

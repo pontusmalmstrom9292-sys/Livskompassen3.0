@@ -6,6 +6,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Loader2, Package } from 'lucide-react';
 import { Button } from '@/design-system';
+import { useNativeHaptics } from '@/shared/utils/nativeHaptics';
 import { mergeEvolutionHub } from '@/core/firebase/evolutionLedgerFirestore';
 import { useEvolutionStore } from '@/core/store/useEvolutionStore';
 import {
@@ -38,6 +39,7 @@ export function FetchContentPacksFlow({
   const listenToEvolutionHub = useEvolutionStore((s) => s.listenToEvolutionHub);
   const hubUnlocked = evolutionDoc?.unlockedPacks ?? [];
   const versions = evolutionDoc?.contentPackVersions;
+  const { success: triggerSuccess } = useNativeHaptics();
 
   const fetchable = useMemo(() => listFetchablePacks(hubUnlocked), [hubUnlocked]);
   const coming = useMemo(() => listComingPacks(), []);
@@ -82,6 +84,7 @@ export function FetchContentPacksFlow({
           [selected.id]: selected.version,
         },
       });
+      triggerSuccess();
       setDoneTitle(selected.title_sv);
       setStep('done');
       onActivated?.(selected.id);

@@ -5,6 +5,7 @@ import { useMaterialPackSync } from './modules/core/lifeOs/useMaterialPackSync';
 import { useEvolutionSync } from './modules/core/hooks/useEvolutionSync';
 import { useAdaptationSync } from './modules/core/hooks/useAdaptationSync';
 import { useAdaptationSignalRouter } from './modules/core/hooks/useAdaptationSignalRouter';
+import { useMaterialPackNotification } from './modules/core/hooks/useMaterialPackNotification';
 import { AppRoutes } from './modules/core/routing/AppRoutes';
 import { ThemeProvider } from './modules/core/theme';
 import { WidgetDeepLinkBridge } from '@/features/widgets/WidgetDeepLinkBridge';
@@ -22,6 +23,7 @@ function AppShell() {
   useEvolutionSync();
   useAdaptationSync();
   useAdaptationSignalRouter();
+  useMaterialPackNotification();
   useBarnportenWebManifest();
   const { pathname } = useLocation();
   const isWidgetRoute = pathname.startsWith('/widget');
