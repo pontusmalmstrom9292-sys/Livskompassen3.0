@@ -156,7 +156,7 @@ public class MainActivity extends BridgeActivity {
 
         memoryManager = new MemoryManager(this, getBridge());
         webViewManager = new WebViewManager(
-                this, getBridge(), getWindow().getDecorView(), hapticManager, fileChooserLauncher);
+                this, getBridge(), getWindow().getDecorView(), hapticManager, integrityManager, systemUiManager, fileChooserLauncher);
         sacredLockManager = new SacredLockManager(this, getBridge(), getWindow().getDecorView(), hapticManager, integrityManager);
         sessionSentry = new SessionSentry(getBridge(), sacredLockManager);
         shortcutManager = new ShortcutManager(this);

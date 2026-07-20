@@ -144,6 +144,23 @@ tasks.register("verifySecurityComponents") {
                 throw new GradleException("FATAL: ARCHITECTURE VIOLATION. Missing: ${filePath}")
             }
         }
+        // Locked Titanium file-upload guard markers (must remain in baseline).
+        def webViewMgr = project.file("src/main/java/com/livskompassen/app/core/WebViewManager.java").text
+        def securityUtils = project.file("src/main/java/com/livskompassen/app/util/SecurityUtils.java").text
+        def requiredMarkers = [
+            [webViewMgr, "setFilterTouchesWhenObscured(true)", "WebViewManager tapjacking filter"],
+            [webViewMgr, "pendingSensitiveFilePick", "WebViewManager sensitive pick tracking"],
+            [webViewMgr, "triggerBiometricAuth", "WebViewManager biometric step-up"],
+            [webViewMgr, "showPrivacyOverlay", "WebViewManager privacy overlay"],
+            [securityUtils, "calculateFileHash", "SecurityUtils forensic hash"],
+            [securityUtils, "isLikelyTextFile", "SecurityUtils MIME sniff"],
+            [securityUtils, "getUriSource", "SecurityUtils URI source audit"]
+        ]
+        requiredMarkers.each { entry ->
+            if (!entry[0].contains(entry[1])) {
+                throw new GradleException("FATAL: ARCHITECTURE VIOLATION. Missing locked marker (${entry[2]}): ${entry[1]}")
+            }
+        }
         println("Titanium Aura Omni Baseline: ALL COMPONENTS VERIFIED.")
     }
 }
@@ -241,6 +258,8 @@ dependencies {
     androidTestImplementation libs.androidx.junit
     androidTestImplementation libs.espresso.core
     implementation project(':capacitor-cordova-android-plugins')
+    implementation libs.google.play.integrity
+    implementation libs.google.play.services.tasks
 }
 
 apply from: 'capacitor.build.gradle'

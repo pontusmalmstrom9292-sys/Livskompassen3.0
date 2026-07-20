@@ -4,6 +4,8 @@
  * PMIR: must match `firestore.rules` wormKeysOnly — do not add fields here without rules OK.
  */
 
+import { validateWormPayload, type WormCollection } from './wormValidator';
+
 const WORM_FORBIDDEN_KEYS = ['updatedAt', 'deletedAt', 'modifiedAt', 'revision'] as const;
 
 /** Matches `isValidRealityVaultCreate()` in firestore.rules */
@@ -49,6 +51,7 @@ export const CHILDREN_LOG_ALLOWED_KEYS = new Set([
   'signals',
   'bankId',
   'mediaUrl',
+  'mediaCaption',
   'sourceRef',
   'createdAt',
 ]);
@@ -70,6 +73,18 @@ export function driveInboxSourceRef(driveFileId: string): string {
 
 export function storageInboxSourceRef(storagePath: string): string {
   return buildInboxSourceRef('storage', storagePath);
+}
+
+/**
+ * Collection-aware WORM gate (preferred). Validates required + allowed + forbidden keys
+ * against `wormValidator` schemas that mirror firestore.rules.
+ */
+export function assertWormCollectionWrite(
+  collection: WormCollection,
+  data: Record<string, unknown>,
+  context: string,
+): void {
+  validateWormPayload(collection, data, context);
 }
 
 export function assertServerWormPayload(

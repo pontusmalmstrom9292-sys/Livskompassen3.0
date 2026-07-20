@@ -5,15 +5,25 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.content.pm.SigningInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.Base64;
 
+import androidx.annotation.NonNull;
+import androidx.security.crypto.EncryptedFile;
+import androidx.security.crypto.MasterKeys;
+
+import com.google.android.gms.tasks.Task;
+import com.google.android.play.core.integrity.IntegrityManagerFactory;
+import com.google.android.play.core.integrity.IntegrityTokenRequest;
+import com.google.android.play.core.integrity.IntegrityTokenResponse;
 import com.livskompassen.app.BuildConfig;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -198,5 +208,130 @@ public final class SecurityUtils {
         PackageInfo packageInfo = pm.getPackageInfo(packageName, PackageManager.GET_SIGNATURES);
         Signature[] signatures = packageInfo.signatures;
         return signatures != null ? signatures : new Signature[0];
+    }
+
+    /**
+     * Calculates SHA-256 hash (fingerprint) of a file via URI.
+     * Useful for forensic audit logging without storing content.
+     */
+    public static String calculateFileHash(Context context, Uri uri) {
+        try (InputStream is = context.getContentResolver().openInputStream(uri)) {
+            if (is == null) return "ERROR_NULL_STREAM";
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte[] buffer = new byte[8192];
+            int read;
+            while ((read = is.read(buffer)) != -1) {
+                md.update(buffer, 0, read);
+            }
+            byte[] digest = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for (byte b : digest) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (Exception e) {
+            LCLog.e("SecurityUtils: failed to hash file: " + e.getMessage());
+            return "ERROR_" + e.getClass().getSimpleName();
+        }
+    }
+
+    /**
+     * MIME Sniffing: Checks if a file is likely a text-based file (JSON/YAML).
+     * Reads first 2KB and looks for magic bytes or excessive null bytes.
+     */
+    public static boolean isLikelyTextFile(Context context, Uri uri) {
+        try (InputStream is = context.getContentResolver().openInputStream(uri)) {
+            if (is == null) return false;
+            byte[] buffer = new byte[2048];
+            int read = is.read(buffer);
+            if (read <= 0) return true; // Empty file is technically valid for this check
+
+            int nullCount = 0;
+            for (int i = 0; i < read; i++) {
+                if (buffer[i] == 0) {
+                    nullCount++;
+                }
+            }
+            // If > 2% of the first 2KB are null bytes, it's likely a binary file (EXE, JPG, etc).
+            return (nullCount * 100 / read) < 2;
+        } catch (Exception e) {
+            LCLog.e("SecurityUtils: failed to sniff MIME: " + e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Identifies the authority/source of a URI for forensic auditing.
+     */
+    public static String getUriSource(Uri uri) {
+        if (uri == null) return "null";
+        String authority = uri.getAuthority();
+        return authority != null ? authority : "unknown_authority";
+    }
+
+    /**
+     * Stealth Sanitization: Removes YAML comments (#) from a byte array.
+     * Helper only — not wired into the WebView upload path yet.
+     */
+    public static byte[] sanitizeYamlContent(byte[] content) {
+        try {
+            String text = new String(content, "UTF-8");
+            String[] lines = text.split("\\r?\\n");
+            StringBuilder sanitized = new StringBuilder();
+            for (String line : lines) {
+                if (!line.trim().startsWith("#")) {
+                    sanitized.append(line).append("\n");
+                }
+            }
+            return sanitized.toString().getBytes("UTF-8");
+        } catch (Exception e) {
+            return content; // Fallback to original on error
+        }
+    }
+
+    /**
+     * Hardware-Backed Cryptography: Returns an EncryptedFile for secure temporary storage.
+     * Helper only — call when temp files are needed; not used by the current picker flow.
+     */
+    public static EncryptedFile getEncryptedFile(Context context, File file) throws Exception {
+        String masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC);
+        return new EncryptedFile.Builder(
+                file,
+                context,
+                masterKeyAlias,
+                EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
+        ).build();
+    }
+
+    /**
+     * Play Integrity Bridge: Requests a token for server-side environment verification.
+     * Client helper only — not called from WebViewManager until Cloud Functions validate tokens.
+     */
+    public static void requestIntegrityToken(Context context, String cloudProjectNumber, IntegrityTokenCallback callback) {
+        long projectNum;
+        try {
+            projectNum = Long.parseLong(cloudProjectNumber);
+        } catch (Exception e) {
+            callback.onError("Invalid Project Number");
+            return;
+        }
+
+        com.google.android.play.core.integrity.IntegrityManager integrityManager = IntegrityManagerFactory.create(context);
+        Task<IntegrityTokenResponse> integrityTokenResponseTask = integrityManager.requestIntegrityToken(
+                IntegrityTokenRequest.builder()
+                        .setCloudProjectNumber(projectNum)
+                        .build());
+
+        integrityTokenResponseTask.addOnSuccessListener(result -> {
+            callback.onTokenReady(result.token());
+        });
+        integrityTokenResponseTask.addOnFailureListener(e -> {
+            callback.onError(e.getMessage());
+        });
+    }
+
+    public interface IntegrityTokenCallback {
+        void onTokenReady(String token);
+        void onError(String error);
     }
 }

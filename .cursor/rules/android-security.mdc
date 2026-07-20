@@ -14,4 +14,31 @@ This rule ensures that the Android application's security and architectural inte
 - **ALWAYS** check that `verifySecurityComponents` passes in `build.gradle` after any structural changes.
 - **PROTECT** the `network_security_config.xml` file. Certificate Pinning is a hard requirement for the Vault.
 
+## Locked: Titanium file-upload guard (Lönekontor / sensitive picks)
+
+These protections in `WebViewManager` + `SecurityUtils` are **part of the app baseline**. Do not remove or weaken them without explicit Pontus OK:
+
+1. **Biometric step-up** before opening the system file picker for YAML/JSON (Lönekontor) picks.
+2. **Privacy overlay** (`R.id.privacy_overlay`) while biometric prompt is shown.
+3. **Sacred zone reinforce** (`systemUiManager.setSacredZone(true)`) for sensitive picks (blocks screenshots/recording).
+4. **content:// only** — reject non-content URI schemes.
+5. **10MB max** file size check.
+6. **MIME / text sniff** (`SecurityUtils.isLikelyTextFile`) — only for sensitive YAML/JSON picks, never for image/PDF/media.
+7. **Forensic fingerprint** (`SecurityUtils.calculateFileHash` SHA-256) + URI source authority logging.
+8. **Tapjacking filter** — `webView.setFilterTouchesWhenObscured(true)`.
+9. **Haptic** success/error on validated vs rejected picks.
+
+### MUST track sensitive vs normal picks
+
+- Use `pendingSensitiveFilePick` (or equivalent) set when the chooser opens for YAML/JSON and cleared on result/cancel/error.
+- **NEVER** force text-sniff on all uploads (`return true` for “always sensitive” is a fatal regression — it blocks photos).
+
+### Scaffolding (helpers OK — not live end-to-end yet)
+
+These may exist in `SecurityUtils` but are **not** wired as a complete product flow yet. Do not claim they are “done” without call sites + server verification:
+
+- `sanitizeYamlContent` — helper only unless explicitly wired into the upload path
+- `getEncryptedFile` — helper for future temp storage
+- `requestIntegrityToken` (Play Integrity) — client bridge only until Cloud Functions validate tokens
+
 If any prompt asks to "clean up" or "simplify" the Android codebase, ensure these critical components are explicitly preserved.
