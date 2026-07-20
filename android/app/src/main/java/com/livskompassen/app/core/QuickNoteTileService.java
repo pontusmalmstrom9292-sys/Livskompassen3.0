@@ -29,17 +29,22 @@ public class QuickNoteTileService extends TileService {
     public void onClick() {
         super.onClick();
         LCLog.d("QuickNoteTileService: Tile clicked, launching Note widget.");
-        
+
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("widget_path", "/widget/anteckning");
 
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                this,
+                0,
+                intent,
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            PendingIntent pendingIntent = PendingIntent.getActivity(
-                this, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
             startActivityAndCollapse(pendingIntent);
         } else {
-            startActivityAndCollapse(intent);
+            // API < 34: PendingIntent overload saknas — unlock + startActivity.
+            unlockAndRun(() -> startActivity(intent));
         }
     }
 }
