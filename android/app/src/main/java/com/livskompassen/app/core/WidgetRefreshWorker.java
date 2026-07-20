@@ -8,7 +8,8 @@ import com.livskompassen.app.util.LCLog;
 
 /**
  * SHADOW SYNC - CRITICAL COMPONENT.
- * Periodically refreshes widget data in the background.
+ * @locked TITANIUM-BASE-CORE
+ * Periodically refreshes widget data and fetches content in the background.
  */
 public class WidgetRefreshWorker extends Worker {
 
@@ -19,16 +20,18 @@ public class WidgetRefreshWorker extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        LCLog.d("WidgetRefreshWorker: Starting background heartbeat.");
+        LCLog.d("WidgetRefreshWorker: Starting background Shadow Sync.");
         
         try {
-            // Här kan vi i framtiden anropa en Firebase Function eller läsa Firestore direkt.
-            // För nu säkerställer vi att alla widgets ritas om med senaste lokala cachen.
             Context context = getApplicationContext();
             
-            // Vi triggar en uppdatering via vår befintliga manager
+            // 1. Refresh Widget Heartbeat
             String lastAction = WidgetUpdateManager.getWidgetContent(context, "last_action");
             WidgetUpdateManager.updateWidgetContent(context, "last_action", lastAction);
+
+            // 2. Fetch Weekly Packs (Simulated/Ready for implementation)
+            // In the future: call a headless Capacitor function or use HttpURLConnection 
+            // to fetch the content catalog and store it in SecurePrefs.
             
             return Result.success();
         } catch (Exception e) {

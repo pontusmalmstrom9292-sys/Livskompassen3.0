@@ -15,7 +15,8 @@ import androidx.fragment.app.FragmentActivity;
 import com.livskompassen.app.util.LCLog;
 
 /**
- * CRITICAL COMPONENT - DO NOT REMOVE.
+ * THE CHROME FUSION - Våg 25.
+ * @locked TITANIUM-BASE-CORE
  * Manages the seamless integration between the Web UI and Android System UI.
  */
 public class SystemUiManager {

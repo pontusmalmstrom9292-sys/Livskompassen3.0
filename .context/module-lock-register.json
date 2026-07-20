@@ -261,7 +261,9 @@
       "id": "MOD-VARD-EKO",
       "namn": "Ekonomi delegates",
       "zon": "Vardagen",
-      "status": "locked",
+      "status": "developing",
+      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-VARD-ARB-EKO-lonekontor.md",
+      "unlockedAt": "2026-07-20",
       "globs": [
         "src/modules/features/dailyLife/wellbeing/economy/**"
       ],
@@ -279,7 +281,9 @@
       "id": "MOD-VARD-ARB",
       "namn": "Arbetsliv hub",
       "zon": "Vardagen",
-      "status": "locked",
+      "status": "developing",
+      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-VARD-ARB-EKO-lonekontor.md",
+      "unlockedAt": "2026-07-20",
       "globs": [
         "src/modules/features/dailyLife/arbetsliv/**"
       ],

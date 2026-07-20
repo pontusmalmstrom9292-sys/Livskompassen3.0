@@ -10,6 +10,10 @@ export type LivskompassenHapticBridge = LivskompassenNativeBridge & {
   triggerNavigationHaptic?: () => void;
   triggerRecordingHaptic?: () => void;
   triggerPremiumNotification?: (title: string, message: string, type: string) => void;
+  updateUtvecklingskortShortcut?: (text: string) => void;
+  setWidgetData?: (key: string, value: string) => void;
+  setSystemTheme?: (colorHex: string, isDark: boolean) => void;
+  setFloatingBubble?: (active: boolean) => void;
 };
 
 /**

@@ -12,6 +12,11 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import com.livskompassen.app.R;
 
+/**
+ * THE NOTIFIER - Våg 60.
+ * @locked TITANIUM-BASE-CORE
+ * Manages rich, actionable notifications.
+ */
 public class AppNotificationManager {
     public static final String CHANNEL_ID_VAULT = "sacred_vault_notifications";
     public static final String CHANNEL_ID_DAILY = "daily_reminders";
@@ -76,6 +81,18 @@ public class AppNotificationManager {
         PendingIntent checkinPendingIntent = PendingIntent.getActivity(context, 1, checkinIntent, 
                 PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
+        // Action: Mark as Done
+        Intent doneIntent = new Intent(context, NotificationActionReceiver.class);
+        doneIntent.setAction(NotificationActionReceiver.ACTION_REMINDER_DONE);
+        PendingIntent donePendingIntent = PendingIntent.getBroadcast(context, 2, doneIntent,
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        // Action: Remind in 1h
+        Intent snoozeIntent = new Intent(context, NotificationActionReceiver.class);
+        snoozeIntent.setAction(NotificationActionReceiver.ACTION_REMINDER_SNOOZE);
+        PendingIntent snoozePendingIntent = PendingIntent.getBroadcast(context, 3, snoozeIntent,
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
                 .setSmallIcon(R.drawable.ic_lock_sacred)
                 .setContentTitle(displayTitle)
@@ -83,12 +100,16 @@ public class AppNotificationManager {
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setAutoCancel(true)
                 .setCategory(NotificationCompat.CATEGORY_MESSAGE)
-                .setVisibility(NotificationCompat.VISIBILITY_PRIVATE) // Döljer på låsskärmen som standard
-                .setColor(0xFDE68A) // Guld
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(displayMessage))
-                //noinspection NotificationTrampoline
-                .addAction(R.drawable.ic_lock_sacred, "Säkra Valvet", lockPendingIntent)
-                .addAction(R.drawable.ic_error_outline, "Logga nu", checkinPendingIntent);
+                .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+                .setColor(0xFDE68A)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(displayMessage));
+
+        if (CHANNEL_ID_VAULT.equals(channelId)) {
+            builder.addAction(R.drawable.ic_lock_sacred, "Säkra Valvet", lockPendingIntent);
+        } else {
+            builder.addAction(R.drawable.ic_lock_sacred, "Klar", donePendingIntent);
+            builder.addAction(R.drawable.ic_error_outline, "Senare", snoozePendingIntent);
+        }
 
         manager.notify(NOTIFICATION_ID_PREMIUM, builder.build());
     }

@@ -7,6 +7,7 @@ import com.livskompassen.app.util.LCLog;
 
 /**
  * THE FORENSIC GUARD - Våg 20.
+ * @locked TITANIUM-BASE-CORE
  * Detects and prevents unauthorized screen capture or recording.
  */
 public class ForensicGuard {
@@ -28,6 +29,8 @@ public class ForensicGuard {
                 if (lockManager != null) {
                     lockManager.showLock();
                 }
+                // Trigger a panic haptic if available
+                new HapticManager(activity).error();
             });
         }
     }

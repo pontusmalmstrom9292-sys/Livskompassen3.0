@@ -1,28 +1,32 @@
 /**
  * Livsmedelsavtalet / PontusArbetsapp — inkomstår 2026.
- * Fas 1: stämpel. Fas 2: lön, skatt, frånvaro.
+ * Konstanter + härledning via PayProfileContext (ingen hårdkodad lön i regler).
  */
+import {
+  DEFAULT_MONTHLY_SALARY_SEK,
+  DAILY_WORK_HOURS,
+  deriveDailyRate,
+  deriveHourlyRate,
+  PBB_2026_SEK,
+} from './payProfileContext';
 
-/** Månadslön (brutto) — grund i Pontus. */
-export const BASE_SALARY_SEK = 36_470;
+/** @deprecated Använd buildPayProfileContext — kvar för golden bakåtkomp. */
+export const BASE_SALARY_SEK = DEFAULT_MONTHLY_SALARY_SEK;
 
-/** Prisbasbelopp 2026. */
-export const PBB_2026_SEK = 59_200;
+export { PBB_2026_SEK };
 
 export const MONTHS_PER_YEAR = 12;
 export const WEEKS_PER_YEAR = 52;
 export const HOURS_PER_WEEK = 40;
 export const DAYS_PER_YEAR = 365;
 
-/** Timlön för frånvaroavdrag: (36470 * 12) / (52 * 40). */
-export const HOURLY_RATE_SEK =
-  Math.round(((BASE_SALARY_SEK * MONTHS_PER_YEAR) / (WEEKS_PER_YEAR * HOURS_PER_WEEK)) * 100) / 100;
+/** @deprecated Härleds från profil — golden fixtures använder defaultlön. */
+export const HOURLY_RATE_SEK = deriveHourlyRate(DEFAULT_MONTHLY_SALARY_SEK);
 
-/** Dagsavdrag dag 15+ sjuk: (36470 * 12) / 365. */
-export const DAILY_RATE_SEK =
-  Math.round(((BASE_SALARY_SEK * MONTHS_PER_YEAR) / DAYS_PER_YEAR) * 100) / 100;
+/** @deprecated Härleds från profil */
+export const DAILY_RATE_SEK = deriveDailyRate(DEFAULT_MONTHLY_SALARY_SEK);
 
-/** Karens första sjukdagen (timmar). */
+/** Karens första sjukdagen (timmar) — fallback om pass saknar timmar. */
 export const SICK_KARENS_HOURS = 8;
 
 /** Karens upphävs efter detta antal karensdagar på 365 dagar. */
@@ -30,13 +34,13 @@ export const SICK_KARENS_WAIVER_AFTER_DAYS = 10;
 
 export const SICK_LOOKBACK_DAYS = 365;
 
-/** Sjuk dag 2–14: arbetsgivarens nettotapp (20 % av timlön). */
+/** @deprecated Använd agreementConfig.sickDay2_14EmployerLossFraction */
 export const SICK_DAY2_14_EMPLOYER_LOSS_FRACTION = 0.2;
 
-/** VAB — simulerad nettoersättning i budget (80 % SGI, 30 % skatt). */
+/** @deprecated Använd agreementConfig.vabNetReplacementFraction */
 export const VAB_NET_REPLACEMENT_FRACTION = 0.8 * 0.7;
 
-export const DAILY_WORK_HOURS = 8;
+export { DAILY_WORK_HOURS };
 
 /** Jämn ISO-vecka (partall). */
 export const EVEN_WEEK_TARGET_HOURS = 30;
