@@ -9,6 +9,12 @@ export type LivskompassenNativeBridge = {
   shareVaultFile?: (content: string, fileName: string, mimeType: string) => void;
   /** Resets Android SessionSentry idle timer while user is active in Valvet. */
   userInteracted?: () => void;
+  /** Persist home-screen widget payload (SecurePrefs → AppWidget update). */
+  setWidgetData?: (key: string, value: string) => void;
+  /** Dynamic app-icon shortcut for dagens utvecklingskort. */
+  updateUtvecklingskortShortcut?: (text: string) => void;
+  /** Edge-to-edge: sync Android status/nav bar with app theme. */
+  setSystemTheme?: (colorHex: string, isDark: boolean) => void;
 };
 
 declare global {
