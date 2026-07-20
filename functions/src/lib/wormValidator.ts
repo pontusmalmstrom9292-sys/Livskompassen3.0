@@ -49,11 +49,7 @@ export function validateWormPayload(
   context: string,
 ): void {
   const schema = WORM_SCHEMA[collection];
-<<<<<<< HEAD
   if (!schema) throw new WormValidationError(collection, `Unknown collection (${context})`);
-=======
-  if (!schema) throw new WormValidationError(collection, `Unknown collection`);
->>>>>>> a70c35f3fd5a3efe96b58e335299f59bbff788be
 
   for (const forbidden of ['updatedAt', 'deletedAt', 'modifiedAt']) {
     if (forbidden in data) {
