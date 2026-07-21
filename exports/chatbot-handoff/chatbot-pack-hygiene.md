@@ -312,8 +312,8 @@ Se [`DESIGN-KEEP-REGISTER.md`](./DESIGN-KEEP-REGISTER.md).
 ````markdown
 # DOC-INDEX — var hittar jag vad?
 
-**Senast uppdaterad:** 2026-06-17 (Gemini Custom Gem master instruction)  
-**Regel:** Om två filer säger olika saker — **register vinner** (se tabell nedan).
+**Senast uppdaterad:** 2026-07-17 (doc-städ säkerhetskanon)  
+**Regel:** Om två filer säger olika saker — **`docs/PROJECT_STATE.md` vinner** för fas; GAP-register vinner för GAP; `.context/security.md` vinner för säkerhet.
 
 ---
 
@@ -321,15 +321,16 @@ Se [`DESIGN-KEEP-REGISTER.md`](./DESIGN-KEEP-REGISTER.md).
 
 | Fråga | Fil |
 |-------|-----|
-| Vad är LOCK / WIP / nästa steg? | [`docs/external-ai/LIFE-OS-BUILD-STATE.md`](external-ai/LIFE-OS-BUILD-STATE.md) |
-| Backend låsning + första analys | [`docs/evaluations/2026-06-16-backend-masterplan-exekvering.md`](evaluations/2026-06-16-backend-masterplan-exekvering.md) |
-| UI-körplan (Körfält B) | [`docs/evaluations/2026-06-16-supermodule-ui-masterplan.md`](evaluations/2026-06-16-supermodule-ui-masterplan.md) |
-| Backend Fas 19–24 | [`docs/evaluations/2026-06-15-fas19-masterplan-v2.md`](evaluations/2026-06-15-fas19-masterplan-v2.md) |
-| 1-sides status | [`docs/evaluations/SENASTE-SAMMANFATTNING.md`](evaluations/SENASTE-SAMMANFATTNING.md) |
-| Routes + moduler | [`docs/MODUL-FUNKTIONS-REGISTER.md`](MODUL-FUNKTIONS-REGISTER.md) |
+| Systemfas + aktivt program | [`docs/PROJECT_STATE.md`](PROJECT_STATE.md) (**Fas 24** · Premium UI Phase 10) |
+| AI-workflow / DoD | [`docs/AI-GOVERNANCE.md`](AI-GOVERNANCE.md) |
+| Fas 24-syntes | [`docs/evaluations/2026-06-25-app-plan-syntes.md`](evaluations/2026-06-25-app-plan-syntes.md) |
+| Säkerhet (WORM, ZF, Device Clear) | [`.context/security.md`](../.context/security.md) |
+| GAP / arkiv | [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](specs/modules/Arkiv-GAP-REGISTER.md) |
 | Låst UX (får inte tas bort) | [`.context/locked-ux-features.md`](../.context/locked-ux-features.md) |
+| Routes + moduler | [`docs/MODUL-FUNKTIONS-REGISTER.md`](MODUL-FUNKTIONS-REGISTER.md) |
+| Guard / PMIR | [`docs/governance/GUARD-REGLERBOK.md`](governance/GUARD-REGLERBOK.md) |
 
-**Nästa arbetsgren:** Backend FREEZE — första bevisanalys via Valv Inkast (ingen ny feature utan PMIR).
+**Nästa arbetsgren:** Fas 24 P0 — G85 7-dagars daily driver; Premium UI Phase 10 (legacy CSS sunset). Ingen ny feature utan PMIR.
 
 ---
 
@@ -354,6 +355,7 @@ Se [`DESIGN-KEEP-REGISTER.md`](./DESIGN-KEEP-REGISTER.md).
 | Mapp | Roll |
 |------|------|
 | `docs/archive/` | Historik — läs för kontext, bygg inte härifrån |
+| `docs/archive/2026-07-17-doc-städ/` | Doc-städ: FAS13–23 sprintar + YOLO v17–v23 (stubbar kvar i `docs/`) |
 | `docs/archive/design-2026-06/` | Reserverad för design-flytt (icons-proposals m.m.) |
 | `exports/` | **Regenereras** — bifoga till ChatBox, redigera inte manuellt |
 | `docs/external-ai/bifoga/` | Speglad kopia för ChatBox upload — `npm run chatbot:sync:bifoga` |
@@ -403,12 +405,12 @@ NotebookLM: [`NOTEBOOKLM-LATHUND.md`](external-ai/NOTEBOOKLM-LATHUND.md).
 
 ## 7. Kanon-tier (planering-kanon-guard)
 
-1. `.context/system-plan.md`
-2. `docs/specs/modules/Arkiv-GAP-REGISTER.md`
-3. `docs/BRANCH-KARTA.md`
-4. `docs/evaluations/` (senaste indexerade)
-5. `.context/locked-ux-features.md`
+1. `docs/PROJECT_STATE.md` (systemfas + program)
+2. `.context/system-plan.md`
+3. `docs/specs/modules/Arkiv-GAP-REGISTER.md`
+4. `.context/security.md` · `.context/locked-ux-features.md`
+5. `docs/AI-GOVERNANCE.md` · `docs/governance/GUARD-REGLERBOK.md`
 6. `docs/INNEHALL-REGISTER.md`
-7. `docs/SYSTEM_PLAN_v2.md`
-8. `docs/evaluations/2026-06-15-fas19-masterplan-v2.md`
+7. `docs/evaluations/2026-06-25-app-plan-syntes.md` (Fas 24)
+8. Historik: `docs/evaluations/2026-06-15-fas19-masterplan-v2.md` (ej aktiv styrning)
 ````

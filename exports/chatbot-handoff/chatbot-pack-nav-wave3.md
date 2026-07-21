@@ -707,62 +707,6 @@ Våg 2 **klar** 2026-06-16 — F2 header «Hjärtat», F3 Familjen kompakt nav p
 B1 **klar** — snapshot `~/Livskompassen-snapshots/2026-06-16-valv`.
 ````
 
-## File: src/modules/core/layout/FloatingDock.tsx
-````typescript
-import { useCallback, useEffect, useState } from 'react';
-⋮----
-import type { CSSProperties } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { clsx } from 'clsx';
-import { Landmark, LayoutGrid, PenLine, Inbox } from 'lucide-react';
-import { openValvViaFyren } from '../auth/valvFyrenGate';
-import { useExecutiveHomeChrome } from '../home/ExecutiveHomeChromeContext';
-import { NAV_PATHS } from '../navigation/navTruth';
-import { ResurserOverlay } from '../navigation/ResurserOverlay';
-import { useLongPress } from '../hooks/useLongPress';
-import { useStore } from '../store';
-import { useTheme } from '../theme';
-import { getTheme } from '../theme';
-import { isMockupTheme } from '../theme/mockupTheme';
-import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
-import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
-import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
-import { FyrenProgressRing } from '../ui/FyrenProgressRing';
-import { LivskompassMark } from '../ui/LivskompassMark';
-import { FyrenDockHandle } from '../components/FyrenWidgetBar';
-import { DockNavButton } from './DockNavButton';
-import { ExecutiveDockBar } from './ExecutiveDockBar';
-import { useHeaderPanelStyle } from './headerPanelStyle';
-import {
-  getExecutiveHomeLayoutMode,
-  HOME_LAYOUT_CHANGED_EVENT,
-  type ExecutiveHomeLayoutMode,
-} from '../home/executive/homeLayoutPreference';
-import { valvetNavigateTarget } from '../navigation/navigationRegistry';
-⋮----
-export function FloatingDock()
-⋮----
-const sync = ()
-⋮----
-onFamiljen=
-⋮----
-onResurser=
-⋮----
-onValv=
-onPlanering=
-⋮----
-active=
-⋮----
-onClick=
-⋮----
-className=
-````
-
-## File: src/modules/core/navigation/headerPageLabel.ts
-````typescript
-export function getHeaderPageLabel(pathname: string, search = ''): string | null
-````
-
 ## File: src/modules/core/components/FyrenWidgetBar.tsx
 ````typescript
 import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
@@ -811,45 +755,9 @@ setFyrenSideQuickHidden(false);
 setOpen(false);
 ````
 
-## File: src/modules/core/layout/NavigationDrawer.tsx
+## File: src/modules/core/navigation/headerPageLabel.ts
 ````typescript
-import { clsx } from 'clsx';
-import { memo, useEffect, useRef, useCallback } from 'react';
-import { createPortal } from 'react-dom';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { ChevronRight, Lock, X } from 'lucide-react';
-import { hasVaultGate } from '../auth/sessionService';
-import { endVaultSession } from '../security/vaultSessionLifecycle';
-import { useStore } from '../store';
-import { LivskompassMark } from '../ui/LivskompassMark';
-import { DrawerHubAccordion, isDrawerLinkActive } from './DrawerHubAccordion';
-import { DrawerModeToggle } from './DrawerModeToggle';
-import { DRAWER_VARDAG_ITEMS, DRAWER_VALV_ITEMS } from '../navigation/drawerNav';
-import { useDrawerRecentNav } from '../navigation/hooks/useDrawerRecentNav';
-import {
-  getHubNavLinks,
-  hubGlowColor,
-  isHubRouteActive,
-  isVardagDrawerRowActive,
-} from './drawerFromNavTruth';
-⋮----
-const onKey = (e: KeyboardEvent) =>
-⋮----
-const handleTouchStart = (clientX: number) =>
-⋮----
-const handleTouchEnd = (clientX: number) =>
-⋮----
-const handleBackToVardag = () =>
-⋮----
-const handleLockVaultImmediately = () =>
-⋮----
-const navigateDrawerPath = (path: string) =>
-⋮----
-const handleVardagRowClick = (item: (typeof DRAWER_VARDAG_ITEMS)[number]) =>
-⋮----
-onTouchStart=
-⋮----
-isActive=
+export function getHeaderPageLabel(pathname: string, search = ''): string | null
 ````
 
 ## File: src/modules/core/navigation/navTruth.ts
@@ -918,35 +826,102 @@ export function getDrawerRoots(section: NavDrawerSection, vaultSessionOpen = fal
 export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, vaultSessionOpen = false): boolean
 ````
 
-## File: src/modules/core/routing/AppRoutes.tsx
+## File: src/modules/core/layout/FloatingDock.tsx
 ````typescript
-import { lazy, Suspense } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { MainLayout } from '../layout/MainLayout';
-import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
-import { ProtectedModule } from '../../../components/layout/ProtectedModule';
+import { useCallback, useEffect, useState } from 'react';
 ⋮----
-import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
-⋮----
+import type { CSSProperties } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { clsx } from 'clsx';
+import { Landmark, LayoutGrid, PenLine, Inbox } from 'lucide-react';
+import { openValvViaFyren } from '../auth/valvFyrenGate';
+import { useExecutiveHomeChrome } from '../home/ExecutiveHomeChromeContext';
+import { NAV_PATHS } from '../navigation/navTruth';
+import { ResurserOverlay } from '../navigation/ResurserOverlay';
+import { useLongPress } from '../hooks/useLongPress';
+import { useNativeHaptics } from '@/shared/utils/nativeHaptics';
+import { useStore } from '../store';
+import { useTheme } from '../theme';
+import { getTheme } from '../theme';
+import { isMockupTheme } from '../theme/mockupTheme';
+import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
+import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
+import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
+import { LivskompassMark } from '../ui/LivskompassMark';
+import { FyrenDockHandle } from '../components/FyrenWidgetBar';
+import { DockNavButton } from './DockNavButton';
+import { ExecutiveDockBar } from './ExecutiveDockBar';
+import { useHeaderPanelStyle } from './headerPanelStyle';
 import {
-  clusterTabNavigateTarget,
-  valvetNavigateTarget,
-  type LifeJournalTabKey,
-} from '../navigation/navigationRegistry';
-import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
-import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
+  getExecutiveHomeLayoutMode,
+  HOME_LAYOUT_CHANGED_EVENT,
+  type ExecutiveHomeLayoutMode,
+} from '../home/executive/homeLayoutPreference';
+import { valvetNavigateTarget } from '../navigation/navigationRegistry';
 ⋮----
-function RouteFallback()
+export function FloatingDock()
 ⋮----
-function RedirectToLifeJournalTab(
+const sync = ()
 ⋮----
-/** Legacy `/valv` och `/kunskap` → Valvet (separat silo). */
+onFamiljen=
 ⋮----
-/** Legacy `/hamn` → Familjen; `?tab=analys` → Valv forensic (hamn_analys). */
+onValv=
 ⋮----
-<Navigate to=
+onPlanering=
 ⋮----
-function RedirectArkivToValvet()
+active=
+⋮----
+onClick=
+⋮----
+className={clsx(
+                'floating-dock__side-btn floating-dock__side-btn--resurser',
+                resurserOpen && 'floating-dock__side-btn--active',
+              )}
+onClick=
+````
+
+## File: src/modules/core/layout/NavigationDrawer.tsx
+````typescript
+import { clsx } from 'clsx';
+import { memo, useEffect, useRef, useCallback } from 'react';
+import { createPortal } from 'react-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ChevronRight, Lock, X } from 'lucide-react';
+import { hasVaultGate } from '../auth/sessionService';
+import { endVaultSession } from '../security/vaultSessionLifecycle';
+import { useStore } from '../store';
+import { LivskompassMark } from '../ui/LivskompassMark';
+import { DrawerHubAccordion, isDrawerLinkActive } from './DrawerHubAccordion';
+import { DrawerModeToggle } from './DrawerModeToggle';
+import { DRAWER_VARDAG_ITEMS, DRAWER_VALV_ITEMS } from '../navigation/drawerNav';
+import { useDrawerRecentNav } from '../navigation/hooks/useDrawerRecentNav';
+import {
+  getHubNavLinks,
+  hubGlowColor,
+  isHubRouteActive,
+  isVardagDrawerRowActive,
+} from './drawerFromNavTruth';
+⋮----
+const onKey = (e: KeyboardEvent) =>
+⋮----
+const handleTouchStart = (clientX: number) =>
+⋮----
+const handleTouchEnd = (clientX: number) =>
+⋮----
+const handleBackToVardag = () =>
+⋮----
+const handleLockVaultImmediately = () =>
+⋮----
+const navigateDrawerPath = (path: string) =>
+⋮----
+const handleVardagRowClick = (item: (typeof DRAWER_VARDAG_ITEMS)[number]) =>
+⋮----
+onTouchStart=
+⋮----
+onClick=
+⋮----
+isActive=
 ````
 
 ## File: src/modules/shell/LivLauncherGrid.tsx
@@ -993,4 +968,35 @@ type LivLauncherGridProps = {
 export function LivLauncherGrid(
 ⋮----
 className=
+````
+
+## File: src/modules/core/routing/AppRoutes.tsx
+````typescript
+import { lazy, Suspense } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { MainLayout } from '../layout/MainLayout';
+import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
+import { ProtectedModule } from '../../../components/layout/ProtectedModule';
+⋮----
+import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
+⋮----
+import {
+  clusterTabNavigateTarget,
+  valvetNavigateTarget,
+  type LifeJournalTabKey,
+} from '../navigation/navigationRegistry';
+import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
+import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
+⋮----
+function RouteFallback()
+⋮----
+function RedirectToLifeJournalTab(
+⋮----
+/** Legacy `/valv` och `/kunskap` → Valvet (separat silo). */
+⋮----
+/** Legacy `/hamn` → Familjen; `?tab=analys` → Valv forensic (hamn_analys). */
+⋮----
+<Navigate to=
+⋮----
+function RedirectArkivToValvet()
 ````

@@ -462,7 +462,12 @@ function cssVar(name)
 ⋮----
 .bento-card:not(.module-bento-card--depth):hover {
 ⋮----
+.bento-card:not(.module-bento-card--depth):focus-visible {
+⋮----
 .calm-card::before {
+⋮----
+/* Sheen + inner rim (overrides premium-polish ::after — same cascade, fuller depth) */
+.calm-card::after,
 ⋮----
 /* Legacy-alias — samma yta som calm-card */
 .glass-card {

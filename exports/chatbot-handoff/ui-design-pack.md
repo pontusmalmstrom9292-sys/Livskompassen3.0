@@ -598,11 +598,40 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 | **Spec** | [`docs/design/BASTA-DESIGN-CHROME-LOCK.md`](../docs/design/BASTA-DESIGN-CHROME-LOCK.md) · paritet [`BASTA-DESIGN-V2-PARITY.md`](../docs/design/BASTA-DESIGN-V2-PARITY.md) |
 | **Header** | `BastaDesignHeader` — grid: meny+Resurser vänster · Livskompassen center · inställningar/konto/öga höger |
 | **Dock** | `BastaDesignDock` → `BastaDesignDockBar` (`basta-dock-bar--v2`) — Anteckning · Familj · kompass · Mentil · Inkast |
-| **Hem** | `BastaDesignHome` + `BastaDesignHero` (v2-sektioner på `/`) |
+| **Hem** | `BastaDesignHome` + `BastaDesignHero` (v2-sektioner på `/`) + låst «Mer för dig» / Utvecklingskort (§22) |
 | **Förbjudet** | Resurser i dock eller höger header-actions · krympa dock · byta header/dock-komponenter |
 | **Smoke** | `npm run smoke:basta-dock-lock` (ingår i `smoke:locked-ux`) |
 
 **Får inte:** bryta header-grid, flytta Resurser till höger, ta bort hem-sektioner eller hero-kompass utan Pontus OK.
+
+## 22. Utvecklingskort + faktapack (Hem · MåBra · Inställningar) — LÅST 2026-07-19
+
+| | |
+|---|---|
+| **Hem** | `BastaDesignHome` → fällbar «Mer för dig» (`CalmCollapsible`, `defaultOpen={false}`) → `HemV3DevelopmentRail` / `DevelopmentBentoWidget` efter «Tidigare anteckningar» |
+| **MåBra** | Samma widget under «Mer på hubben» (`MabraHubView`) — dold vid `lowEnergyMode` |
+| **Inställningar** | Genväg «Uppdatera / hämta faktapack» → `FetchContentPacksFlow` (samma pack-flöde) |
+| **Motor** | `src/modules/core/home/dev/**` — KEEP/Discovery-banker, lokal signalrank (`homeSignalSnapshot`), `vit_entries` WORM för svar/«klar», packs via `contentPackCatalog` |
+| **Preset** | Synlig när `materialEnabled(..., 'home_development_rail')` (döljs i minimal/vardag_arbete — förväntat) |
+| **Modul** | `MOD-CORE-UTV` · mount även skyddad av `MOD-CORE-CHROME` / `MOD-VARD-MABRA` |
+| **Smoke** | `npm run smoke:locked-ux` · `smoke:basta-dock-lock` · `smoke:design-modules` · `smoke:module-lock` · `smoke:widgets` |
+| **Android premium (LÅST 2026-07-20)** | WH9 hemskärms-widget · pull-to-refresh med guld-haptik · system navbar-fusion · dynamisk genväg «Dagens kort» |
+
+**Kärnkrav (får inte tas bort):**
+
+1. Prod-Hem (Bästa Design) visar «Mer för dig» när auth + `home_development_rail`.
+2. `DevelopmentBentoWidget` + `home/dev/*`-motorn (pick, exclude completed, packs, custom kategori).
+3. MåBra-mount av samma widget under Mer.
+4. Inställningar-genväg till faktapack-flödet.
+5. Ingen cross-RAG / ingen runtime-AI för frågor — endast KEEP + lokal rank.
+6. **WH9** — Android-widget `UtvecklingskortWidgetProvider` visar dagens översta kort; tryck → `/?expand_dev=true`.
+7. **Pull-to-refresh** i `DevelopmentBentoWidget` blandar om mixen (`mixNonce`) med native haptik.
+8. **Chrome fusion** — `useSystemChromeFusion` synkar Android navigation/status bar till temat.
+9. **Smart genväg** — `ShortcutManager` «Dagens kort» (coexist med «Fortsätt»); sync via `updateUtvecklingskortShortcut` + `utv_kort_body`.
+
+**Får inte:** ta bort sektion/widget/motor/genväg/WH9/chrome-fusion/genväg; ersätta med RAG; dölja bakom feature-flag utan unlock-doc + Pontus OK.
+
+---
 
 ## Verifiering
 
@@ -615,9 +644,24 @@ npm run smoke:planering-superhub
 npm run smoke:arbetsliv-superhub
 npm run smoke:superdagbok-superhub
 npm run smoke:obsidian-depth
+# §22 Utvecklingskort
+npm run smoke:basta-dock-lock
+npm run smoke:design-modules
 ```
 
 Vid refaktor av `VaultPage`, `FamiljenPage`, eller borttagning av specs ovan: kör smoke innan merge.
+
+---
+
+## Dagbok & uppladdning — bild + bildtext (max 2)
+
+| | |
+|---|---|
+| **Syfte** | Personliga minnen i dagbok + skärmdumpar med bildtext i Inkast/Valv/Speglar/barnlivslogg |
+| **Kod** | `MediaAttachWithCaption`, `CaptionedAttachment`, journal `attachments`, arkiv-vyväxlare Tidslinje / Bild + text, `JournalMediaLightbox` |
+| **Krav** | Valfri bildtext; «Ladda upp en bild till» (max 2); tidslinje-vy; bild+text-vy; lightbox — **får inte tas bort** utan unlock-doc + Pontus OK |
+| **Modul** | `MOD-SHARED-MEDIA` · även `MOD-HJ-DAGBOK` |
+| **Smoke** | `npm run smoke:media-attach` · `npm run smoke:locked-ux` |
 ````
 
 ## File: docs/design/references/DOCK-KANON.md
@@ -2649,104 +2693,6 @@ Launcher (`LivLauncherGrid`): **5 kort** — Handling borttagen (F1); Kanban nå
 Gemini påverkas inte av GPT-handoff. Delad kanon: `.context/locked-ux-features.md`, `docs/design/references/MENU-DRAWER-KANON.md`.
 ````
 
-## File: src/modules/core/layout/FloatingDock.tsx
-````typescript
-import { useCallback, useEffect, useState } from 'react';
-⋮----
-import type { CSSProperties } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { clsx } from 'clsx';
-import { Landmark, LayoutGrid, PenLine, Inbox } from 'lucide-react';
-import { openValvViaFyren } from '../auth/valvFyrenGate';
-import { useExecutiveHomeChrome } from '../home/ExecutiveHomeChromeContext';
-import { NAV_PATHS } from '../navigation/navTruth';
-import { ResurserOverlay } from '../navigation/ResurserOverlay';
-import { useLongPress } from '../hooks/useLongPress';
-import { useStore } from '../store';
-import { useTheme } from '../theme';
-import { getTheme } from '../theme';
-import { isMockupTheme } from '../theme/mockupTheme';
-import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
-import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
-import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
-import { FyrenProgressRing } from '../ui/FyrenProgressRing';
-import { LivskompassMark } from '../ui/LivskompassMark';
-import { FyrenDockHandle } from '../components/FyrenWidgetBar';
-import { DockNavButton } from './DockNavButton';
-import { ExecutiveDockBar } from './ExecutiveDockBar';
-import { useHeaderPanelStyle } from './headerPanelStyle';
-import {
-  getExecutiveHomeLayoutMode,
-  HOME_LAYOUT_CHANGED_EVENT,
-  type ExecutiveHomeLayoutMode,
-} from '../home/executive/homeLayoutPreference';
-import { valvetNavigateTarget } from '../navigation/navigationRegistry';
-⋮----
-export function FloatingDock()
-⋮----
-const sync = ()
-⋮----
-onFamiljen=
-⋮----
-onResurser=
-⋮----
-onValv=
-onPlanering=
-⋮----
-active=
-⋮----
-onClick=
-⋮----
-className=
-````
-
-## File: src/modules/features/admin/planning/components/PlaneringPage.tsx
-````typescript
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { Button, ButtonLink } from '@/design-system';
-import { Calendar, LayoutGrid, PenLine } from 'lucide-react';
-import { clsx } from 'clsx';
-import { HubPageShell } from '@/core/layout/HubPageShell';
-import { useTheme } from '@/core/theme';
-import { isMidnightExecutiveTheme } from '@/core/theme/themePackMidnightExecutive';
-import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
-import { BentoCard } from '@/shared/ui/BentoCard';
-import { PLANERING_TAGLINE, PLANERING_MORE_TABS } from '../constants';
-import type { PlaneringTab } from '../types';
-import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
-import { PlanningKanbanBoard } from './PlanningKanbanBoard';
-import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
-import { LivBackLink } from '@/modules/shell/LivBackLink';
-import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
-import { PlaneringMoreTabsBar } from './PlaneringMoreTabsBar';
-import { PlaneringErrorBoundary } from './PlaneringErrorBoundary';
-import { PlaneringBentoShell } from './PlaneringBentoShell';
-import { PlaneringHubCollapsible } from './PlaneringHubCollapsible';
-import {
-  hasSeenGoraModulValjare,
-  markGoraModulValjareSeen,
-} from '../utils/goraModulValjareStorage';
-import {
-  isPlaneringInputMode,
-  type PlaneringInputMode,
-} from '../supermodule/planeringInputModes';
-⋮----
-function PlaneringPanelFallback()
-````
-
-## File: src/modules/shell/livLauncherPreviews.tsx
-````typescript
-import type { ReactNode } from 'react';
-⋮----
-type LivLauncherId =
-  | 'kompasser'
-  | 'ekonomi'
-  | 'mabra'
-  | 'projekt'
-  | 'arbetsliv';
-````
-
 ## File: src/modules/core/components/FyrenWidgetBar.tsx
 ````typescript
 import { useCallback, useEffect, useState, type CSSProperties, type ReactNode } from 'react';
@@ -2861,35 +2807,71 @@ export function getDrawerRoots(section: NavDrawerSection, vaultSessionOpen = fal
 export function drawerHubHasChildren(hubId: string, section: NavDrawerSection, vaultSessionOpen = false): boolean
 ````
 
-## File: src/modules/core/routing/AppRoutes.tsx
+## File: src/modules/shell/livLauncherPreviews.tsx
 ````typescript
-import { lazy, Suspense } from 'react';
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { MainLayout } from '../layout/MainLayout';
-import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
-import { ProtectedModule } from '../../../components/layout/ProtectedModule';
+import type { ReactNode } from 'react';
 ⋮----
-import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
+type LivLauncherId =
+  | 'kompasser'
+  | 'ekonomi'
+  | 'mabra'
+  | 'projekt'
+  | 'arbetsliv';
+````
+
+## File: src/modules/core/layout/FloatingDock.tsx
+````typescript
+import { useCallback, useEffect, useState } from 'react';
 ⋮----
+import type { CSSProperties } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { clsx } from 'clsx';
+import { Landmark, LayoutGrid, PenLine, Inbox } from 'lucide-react';
+import { openValvViaFyren } from '../auth/valvFyrenGate';
+import { useExecutiveHomeChrome } from '../home/ExecutiveHomeChromeContext';
+import { NAV_PATHS } from '../navigation/navTruth';
+import { ResurserOverlay } from '../navigation/ResurserOverlay';
+import { useLongPress } from '../hooks/useLongPress';
+import { useNativeHaptics } from '@/shared/utils/nativeHaptics';
+import { useStore } from '../store';
+import { useTheme } from '../theme';
+import { getTheme } from '../theme';
+import { isMockupTheme } from '../theme/mockupTheme';
+import { themeUsesDesignPackChrome } from '../theme/themePackDesign';
+import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
+import { DrawerL2Icon } from '../ui/drawerL2Icons/DrawerL2Icon';
+import { FyrenProgressRing } from '../ui/FyrenProgressRing';
+import { LivskompassMark } from '../ui/LivskompassMark';
+import { FyrenDockHandle } from '../components/FyrenWidgetBar';
+import { DockNavButton } from './DockNavButton';
+import { ExecutiveDockBar } from './ExecutiveDockBar';
+import { useHeaderPanelStyle } from './headerPanelStyle';
 import {
-  clusterTabNavigateTarget,
-  valvetNavigateTarget,
-  type LifeJournalTabKey,
-} from '../navigation/navigationRegistry';
-import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
-import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
+  getExecutiveHomeLayoutMode,
+  HOME_LAYOUT_CHANGED_EVENT,
+  type ExecutiveHomeLayoutMode,
+} from '../home/executive/homeLayoutPreference';
+import { valvetNavigateTarget } from '../navigation/navigationRegistry';
 ⋮----
-function RouteFallback()
+export function FloatingDock()
 ⋮----
-function RedirectToLifeJournalTab(
+const sync = ()
 ⋮----
-/** Legacy `/valv` och `/kunskap` → Valvet (separat silo). */
+onFamiljen=
 ⋮----
-/** Legacy `/hamn` → Familjen; `?tab=analys` → Valv forensic (hamn_analys). */
+onValv=
 ⋮----
-<Navigate to=
+onPlanering=
 ⋮----
-function RedirectArkivToValvet()
+active=
+⋮----
+onClick=
+⋮----
+className={clsx(
+                'floating-dock__side-btn floating-dock__side-btn--resurser',
+                resurserOpen && 'floating-dock__side-btn--active',
+              )}
+onClick=
 ````
 
 ## File: src/modules/shell/LivLauncherGrid.tsx
@@ -2936,4 +2918,70 @@ type LivLauncherGridProps = {
 export function LivLauncherGrid(
 ⋮----
 className=
+````
+
+## File: src/modules/core/routing/AppRoutes.tsx
+````typescript
+import { lazy, Suspense } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { MainLayout } from '../layout/MainLayout';
+import { WidgetRoutes } from '@/features/widgets/routing/WidgetRoutes';
+import { ProtectedModule } from '../../../components/layout/ProtectedModule';
+⋮----
+import { LIV_LAUNCHER_EXTERNAL, resolveLivLegacyTabRedirect } from '@/modules/shell/livLauncherRoutes';
+⋮----
+import {
+  clusterTabNavigateTarget,
+  valvetNavigateTarget,
+  type LifeJournalTabKey,
+} from '../navigation/navigationRegistry';
+import { NAV_PATHS, vaultDrawerPath } from '../navigation/navTruth';
+import { ForalderTryggGuard } from '@/features/onboarding/barnporten/components/ForalderTryggGuard';
+⋮----
+function RouteFallback()
+⋮----
+function RedirectToLifeJournalTab(
+⋮----
+/** Legacy `/valv` och `/kunskap` → Valvet (separat silo). */
+⋮----
+/** Legacy `/hamn` → Familjen; `?tab=analys` → Valv forensic (hamn_analys). */
+⋮----
+<Navigate to=
+⋮----
+function RedirectArkivToValvet()
+````
+
+## File: src/modules/features/admin/planning/components/PlaneringPage.tsx
+````typescript
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { Button, ButtonLink } from '@/design-system';
+import { Calendar, LayoutGrid, PenLine } from 'lucide-react';
+import { clsx } from 'clsx';
+import { HubPageShell } from '@/core/layout/HubPageShell';
+import { useTheme } from '@/core/theme';
+import { isMidnightExecutiveTheme } from '@/core/theme/themePackMidnightExecutive';
+import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
+import { BentoCard } from '@/shared/ui/BentoCard';
+import { PLANERING_TAGLINE, PLANERING_MORE_TABS } from '../constants';
+import type { PlaneringTab } from '../types';
+import { parsePlaneringTab, PLANERING_HUB_LEAD, PLANERING_VIEW_TITLES } from '../planeringHubConfig';
+import { PlanningKanbanBoard } from './PlanningKanbanBoard';
+import { usePlaneringHubLayout } from '../usePlaneringHubLayout';
+import { LivBackLink } from '@/modules/shell/LivBackLink';
+import { PlaneringNextStepSelect } from './PlaneringNextStepSelect';
+import { PlaneringMoreTabsBar } from './PlaneringMoreTabsBar';
+import { PlaneringErrorBoundary } from './PlaneringErrorBoundary';
+import { PlaneringBentoShell } from './PlaneringBentoShell';
+import { PlaneringHubCollapsible } from './PlaneringHubCollapsible';
+import {
+  hasSeenGoraModulValjare,
+  markGoraModulValjareSeen,
+} from '../utils/goraModulValjareStorage';
+import {
+  isPlaneringInputMode,
+  type PlaneringInputMode,
+} from '../supermodule/planeringInputModes';
+⋮----
+function PlaneringPanelFallback()
 ````

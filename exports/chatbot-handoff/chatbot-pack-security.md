@@ -694,11 +694,40 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 | **Spec** | [`docs/design/BASTA-DESIGN-CHROME-LOCK.md`](../docs/design/BASTA-DESIGN-CHROME-LOCK.md) · paritet [`BASTA-DESIGN-V2-PARITY.md`](../docs/design/BASTA-DESIGN-V2-PARITY.md) |
 | **Header** | `BastaDesignHeader` — grid: meny+Resurser vänster · Livskompassen center · inställningar/konto/öga höger |
 | **Dock** | `BastaDesignDock` → `BastaDesignDockBar` (`basta-dock-bar--v2`) — Anteckning · Familj · kompass · Mentil · Inkast |
-| **Hem** | `BastaDesignHome` + `BastaDesignHero` (v2-sektioner på `/`) |
+| **Hem** | `BastaDesignHome` + `BastaDesignHero` (v2-sektioner på `/`) + låst «Mer för dig» / Utvecklingskort (§22) |
 | **Förbjudet** | Resurser i dock eller höger header-actions · krympa dock · byta header/dock-komponenter |
 | **Smoke** | `npm run smoke:basta-dock-lock` (ingår i `smoke:locked-ux`) |
 
 **Får inte:** bryta header-grid, flytta Resurser till höger, ta bort hem-sektioner eller hero-kompass utan Pontus OK.
+
+## 22. Utvecklingskort + faktapack (Hem · MåBra · Inställningar) — LÅST 2026-07-19
+
+| | |
+|---|---|
+| **Hem** | `BastaDesignHome` → fällbar «Mer för dig» (`CalmCollapsible`, `defaultOpen={false}`) → `HemV3DevelopmentRail` / `DevelopmentBentoWidget` efter «Tidigare anteckningar» |
+| **MåBra** | Samma widget under «Mer på hubben» (`MabraHubView`) — dold vid `lowEnergyMode` |
+| **Inställningar** | Genväg «Uppdatera / hämta faktapack» → `FetchContentPacksFlow` (samma pack-flöde) |
+| **Motor** | `src/modules/core/home/dev/**` — KEEP/Discovery-banker, lokal signalrank (`homeSignalSnapshot`), `vit_entries` WORM för svar/«klar», packs via `contentPackCatalog` |
+| **Preset** | Synlig när `materialEnabled(..., 'home_development_rail')` (döljs i minimal/vardag_arbete — förväntat) |
+| **Modul** | `MOD-CORE-UTV` · mount även skyddad av `MOD-CORE-CHROME` / `MOD-VARD-MABRA` |
+| **Smoke** | `npm run smoke:locked-ux` · `smoke:basta-dock-lock` · `smoke:design-modules` · `smoke:module-lock` · `smoke:widgets` |
+| **Android premium (LÅST 2026-07-20)** | WH9 hemskärms-widget · pull-to-refresh med guld-haptik · system navbar-fusion · dynamisk genväg «Dagens kort» |
+
+**Kärnkrav (får inte tas bort):**
+
+1. Prod-Hem (Bästa Design) visar «Mer för dig» när auth + `home_development_rail`.
+2. `DevelopmentBentoWidget` + `home/dev/*`-motorn (pick, exclude completed, packs, custom kategori).
+3. MåBra-mount av samma widget under Mer.
+4. Inställningar-genväg till faktapack-flödet.
+5. Ingen cross-RAG / ingen runtime-AI för frågor — endast KEEP + lokal rank.
+6. **WH9** — Android-widget `UtvecklingskortWidgetProvider` visar dagens översta kort; tryck → `/?expand_dev=true`.
+7. **Pull-to-refresh** i `DevelopmentBentoWidget` blandar om mixen (`mixNonce`) med native haptik.
+8. **Chrome fusion** — `useSystemChromeFusion` synkar Android navigation/status bar till temat.
+9. **Smart genväg** — `ShortcutManager` «Dagens kort» (coexist med «Fortsätt»); sync via `updateUtvecklingskortShortcut` + `utv_kort_body`.
+
+**Får inte:** ta bort sektion/widget/motor/genväg/WH9/chrome-fusion/genväg; ersätta med RAG; dölja bakom feature-flag utan unlock-doc + Pontus OK.
+
+---
 
 ## Verifiering
 
@@ -711,9 +740,24 @@ npm run smoke:planering-superhub
 npm run smoke:arbetsliv-superhub
 npm run smoke:superdagbok-superhub
 npm run smoke:obsidian-depth
+# §22 Utvecklingskort
+npm run smoke:basta-dock-lock
+npm run smoke:design-modules
 ```
 
 Vid refaktor av `VaultPage`, `FamiljenPage`, eller borttagning av specs ovan: kör smoke innan merge.
+
+---
+
+## Dagbok & uppladdning — bild + bildtext (max 2)
+
+| | |
+|---|---|
+| **Syfte** | Personliga minnen i dagbok + skärmdumpar med bildtext i Inkast/Valv/Speglar/barnlivslogg |
+| **Kod** | `MediaAttachWithCaption`, `CaptionedAttachment`, journal `attachments`, arkiv-vyväxlare Tidslinje / Bild + text, `JournalMediaLightbox` |
+| **Krav** | Valfri bildtext; «Ladda upp en bild till» (max 2); tidslinje-vy; bild+text-vy; lightbox — **får inte tas bort** utan unlock-doc + Pontus OK |
+| **Modul** | `MOD-SHARED-MEDIA` · även `MOD-HJ-DAGBOK` |
+| **Smoke** | `npm run smoke:media-attach` · `npm run smoke:locked-ux` |
 ````
 
 ## File: .context/security.md
@@ -756,7 +800,7 @@ Dessa funktioner får **inte** försvagas eller mockas. Verifiera via [`docs/SMO
 | **Draft Layer** | Utkast i IndexedDB tills sync eller «Rensa enheten» | `src/modules/capture/` |
 | **Device Clear** | Frivillig lokal rensning (ersätter Kill Switch) | Inställningar → Rensa enheten |
 
-**Permanent minne:** WORM-collections (`children_logs`, `reality_vault`, `journal`, `dossier_snapshots`) raderas **aldrig** av retention. Se [`.context/arkiv-minne.md`](./arkiv-minne.md).
+**Permanent minne:** WORM-collections (`children_logs`, `reality_vault`, `journal`, `dossier_snapshots`, `evolution_ledger`, `dcap_alerts`) raderas **aldrig** av retention. Se [`.context/arkiv-minne.md`](./arkiv-minne.md).
 
 ---
 
@@ -1208,6 +1252,7 @@ npm run smoke:kunskap
 
 ## File: functions/src/adk/synapses/dcapAlertSynapse.ts
 ````typescript
+import { admin } from '../../lib/firebaseAdmin';
 import { hashPayload } from '../stateStore';
 import { analyzeDcapTrend, type EscalationResult } from '../../lib/dcapEscalation';
 import { monitor } from '../../lib/monitoring';
@@ -1229,8 +1274,27 @@ export interface DcapAlertResult {
 export async function handleDcapAlert(payload: DcapAlertPayload): Promise<DcapAlertResult>
 ````
 
+## File: functions/src/adk/synapses/driveIngestSynapse.ts
+````typescript
+import { analyzeDriveFile } from '../../agents/documentAgent';
+import { MonsterArkivarienCard } from '../../agents/cards';
+import type { A2AMessage } from '../../agents/types';
+import type { AdkOrchestrator } from '../orchestrator';
+import type { DriveIngestPayload } from '../types';
+import { classifyInboxDocument, applyInkastConfidenceGate } from '../../lib/inboxClassifier';
+import { routeInboxToWorm } from '../../lib/inboxPersist';
+⋮----
+export async function handleDriveIngest(
+  orchestrator: AdkOrchestrator,
+  payload: DriveIngestPayload
+): Promise<
+⋮----
+function isHeavyResponse(text: string): boolean
+````
+
 ## File: functions/src/adk/synapses/journalWovenSynapse.ts
 ````typescript
+import { admin } from '../../lib/firebaseAdmin';
 import { generateEmbeddingInternal } from '../../lib/generateEmbeddingInternal';
 ⋮----
 export interface JournalWovenPayload {
@@ -1409,7 +1473,7 @@ public async invalidateUserSession(userId: string): Promise<void>
 ## File: functions/src/callables/unlockVault.ts
 ````typescript
 import { onCall, HttpsError } from "firebase-functions/v2/https";
-⋮----
+import { admin } from '../lib/firebaseAdmin';
 import { guardSensitiveCallableV2 } from "../lib/callableGuards";
 import { assertVaultSession, VAULT_SESSION_IDLE_MS } from "../lib/vaultSessionGate";
 ````
@@ -1434,6 +1498,7 @@ export async function guardSensitiveCallableV2(
 ````typescript
 import { randomBytes } from 'crypto';
 import { HttpsError } from 'firebase-functions/v2/https';
+import { admin } from './firebaseAdmin';
 ⋮----
 function sessionRef(uid: string)
 ⋮----
@@ -1454,6 +1519,44 @@ export async function vaultSessionGrantsVaultRead(uid: string, data: unknown): P
 export async function assertVaultSession(uid: string, data: unknown): Promise<void>
 ````
 
+## File: src/modules/core/firebase/appCheck.ts
+````typescript
+import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
+import { Capacitor, registerPlugin } from '@capacitor/core';
+import { initializeAppCheck, ReCaptchaV3Provider, CustomProvider, type AppCheck } from 'firebase/app-check';
+import { app } from './init';
+⋮----
+interface NativeAppCheckGate {
+  useDebugProvider: boolean;
+  isDebugBuild: boolean;
+  debugToken?: string;
+}
+⋮----
+interface LkNativeBuildPlugin {
+  getAppCheckDebugGate(): Promise<NativeAppCheckGate>;
+}
+⋮----
+getAppCheckDebugGate(): Promise<NativeAppCheckGate>;
+⋮----
+async getAppCheckDebugGate()
+⋮----
+export function initAppCheck(): Promise<void>
+⋮----
+export async function awaitAppCheckReady(options?:
+⋮----
+async function tryGetTokenSoft(options?:
+⋮----
+export async function requireAppCheckReady(options?:
+⋮----
+async function doInitAppCheck(): Promise<void>
+⋮----
+async function warmNativeToken(useDebugProvider: boolean): Promise<boolean>
+⋮----
+async function resolveNativeDebugGate(): Promise<
+⋮----
+function debugTokenFromEnv(): string | undefined
+````
+
 ## File: src/modules/core/security/vaultWriteUnlock.ts
 ````typescript
 import { getAuth } from 'firebase/auth';
@@ -1465,6 +1568,7 @@ import {
 } from '../auth/vaultServerSession';
 import { formatCallableError } from '../auth/callableErrorMessage';
 import { functions } from '../firebase/init';
+import { requireAppCheckReady } from '../firebase/appCheck';
 import { useStore } from '../store';
 import { syncVaultUnlockedFromGate } from './vaultSessionLifecycle';
 ⋮----
@@ -1477,24 +1581,6 @@ async function isJwtVaultWriteAllowed(): Promise<boolean>
 export async function applyVaultJwtClaim(): Promise<
 ⋮----
 export async function ensureVaultWriteReady(): Promise<VaultWriteUnlockResult>
-````
-
-## File: functions/src/adk/synapses/driveIngestSynapse.ts
-````typescript
-import { analyzeDriveFile } from '../../agents/documentAgent';
-import { MonsterArkivarienCard } from '../../agents/cards';
-import type { A2AMessage } from '../../agents/types';
-import type { AdkOrchestrator } from '../orchestrator';
-import type { DriveIngestPayload } from '../types';
-import { classifyInboxDocument, applyInkastConfidenceGate } from '../../lib/inboxClassifier';
-import { routeInboxToWorm } from '../../lib/inboxPersist';
-⋮----
-export async function handleDriveIngest(
-  orchestrator: AdkOrchestrator,
-  payload: DriveIngestPayload
-): Promise<
-⋮----
-function isHeavyResponse(text: string): boolean
 ````
 
 ## File: firestore.rules
@@ -1560,15 +1646,39 @@ service cloud.firestore {
       return request.resource.data.keys().hasOnly(allowedKeys);
     }
 
+    function isValidCaptionedAttachmentMap(att) {
+      return att is map
+        && att.keys().hasOnly(['url', 'storagePath', 'name', 'mimeType', 'size', 'caption'])
+        && att.url is string
+        && att.url.size() > 0
+        && att.url.size() <= 2048
+        && att.storagePath is string
+        && att.storagePath.size() > 0
+        && att.storagePath.size() <= 512
+        && att.name is string
+        && att.name.size() > 0
+        && att.name.size() <= 200
+        && att.mimeType is string
+        && att.mimeType.size() > 0
+        && att.mimeType.size() <= 128
+        && att.size is int
+        && att.size >= 0
+        && att.size <= 5242880
+        && (!('caption' in att)
+          || (att.caption is string && att.caption.size() <= 500));
+    }
+
     function isValidJournalAttachment() {
-      return !('attachment' in request.resource.data)
-        || (request.resource.data.attachment is map
-          && request.resource.data.attachment.keys().hasOnly(['url', 'storagePath', 'name', 'mimeType', 'size'])
-          && request.resource.data.attachment.url is string
-          && request.resource.data.attachment.storagePath is string
-          && request.resource.data.attachment.name is string
-          && request.resource.data.attachment.mimeType is string
-          && request.resource.data.attachment.size is int);
+      let legacyOk = !('attachment' in request.resource.data)
+        || isValidCaptionedAttachmentMap(request.resource.data.attachment);
+      let listOk = !('attachments' in request.resource.data)
+        || (request.resource.data.attachments is list
+          && request.resource.data.attachments.size() >= 1
+          && request.resource.data.attachments.size() <= 2
+          && isValidCaptionedAttachmentMap(request.resource.data.attachments[0])
+          && (request.resource.data.attachments.size() == 1
+            || isValidCaptionedAttachmentMap(request.resource.data.attachments[1])));
+      return legacyOk && listOk;
     }
 
     function isValidChildSignals() {
@@ -1616,7 +1726,8 @@ service cloud.firestore {
 
     function isValidJournalCreate() {
       return wormKeysOnly([
-          'userId', 'ownerId', 'mood', 'text', 'category', 'tags', 'attachment', 'createdAt',
+          'userId', 'ownerId', 'mood', 'text', 'category', 'tags',
+          'attachment', 'attachments', 'createdAt',
         ])
         && request.resource.data.mood is string
         && request.resource.data.mood.size() > 0
@@ -1631,7 +1742,7 @@ service cloud.firestore {
       return wormKeysOnly([
           'userId', 'ownerId', 'childAlias', 'observation', 'truth', 'action', 'category',
           'childrenImpact', 'authorRole', 'channel', 'visibility', 'contentType', 'signals',
-          'bankId', 'mediaUrl', 'sourceRef', 'createdAt',
+          'bankId', 'mediaUrl', 'mediaCaption', 'sourceRef', 'createdAt',
         ])
         && request.resource.data.childAlias is string
         && request.resource.data.childAlias.size() > 0
@@ -1640,6 +1751,9 @@ service cloud.firestore {
         && request.resource.data.action.size() > 0
         && request.resource.data.action.size() <= 64
         && isValidChildSignals()
+        && (!('mediaCaption' in request.resource.data)
+          || (request.resource.data.mediaCaption is string
+            && request.resource.data.mediaCaption.size() <= 500))
         && (!('observation' in request.resource.data)
           || (request.resource.data.observation is string
             && request.resource.data.observation.size() <= 50000))
@@ -1783,6 +1897,95 @@ service cloud.firestore {
           || request.resource.data.mood is number);
     }
 
+    // user_widgets — PMIR 2026-07-21 slotId/status/stylePreset (contract v1)
+    function isValidUserWidgetSlotId(v) {
+      return v == null
+        || v in [
+          'hem.brass.below-grid',
+          'familjen.barnfokus',
+          'familjen.livslogg',
+          'familjen.hamn',
+          'valv.logga',
+          'valv.kunskapsbank',
+          'vardagen.ekonomi',
+          'hjartat.dagbok',
+          'mabra.hub',
+        ];
+    }
+
+    function isValidUserWidgetStylePreset(v) {
+      return v == null
+        || v in [
+          'midnight',
+          'gold_glass',
+          'photo_dim',
+          'minimal',
+          'celebration',
+          'focus',
+        ];
+    }
+
+    function isValidUserWidgetConfig() {
+      let t = request.resource.data.type;
+      let c = request.resource.data.config;
+      return c is map
+        && c.keys().size() <= 24
+        && t in ['countdown', 'checklist', 'linked_savings', 'quick_note']
+        && (!('targetDate' in c) || c.targetDate is string)
+        && (!('targetDateTime' in c) || c.targetDateTime is string)
+        && (!('savingsGoalId' in c) || c.savingsGoalId is string)
+        && (!('noteText' in c) || c.noteText is string)
+        && (!('caption' in c) || (c.caption is string && c.caption.size() <= 200))
+        && (!('backgroundPath' in c) || (c.backgroundPath is string && c.backgroundPath.size() <= 512))
+        && (!('backgroundAlt' in c) || (c.backgroundAlt is string && c.backgroundAlt.size() <= 120))
+        && (!('shell' in c) || c.shell in ['tile', 'elongated', 'card', 'compact'])
+        && (!('checklistItems' in c) || c.checklistItems is list);
+    }
+
+    function isValidUserWidgetCreate() {
+      return request.resource.data.type in ['countdown', 'checklist', 'linked_savings', 'quick_note']
+        && request.resource.data.title is string
+        && request.resource.data.title.size() >= 1
+        && request.resource.data.title.size() <= 100
+        && request.resource.data.pinnedToHome is bool
+        && request.resource.data.order is int
+        && isValidUserWidgetConfig()
+        && (!('schemaVersion' in request.resource.data)
+          || request.resource.data.schemaVersion in [1, 2])
+        && (!('stylePreset' in request.resource.data)
+          || isValidUserWidgetStylePreset(request.resource.data.stylePreset))
+        && (!('slotId' in request.resource.data)
+          || isValidUserWidgetSlotId(request.resource.data.slotId))
+        && (!('status' in request.resource.data)
+          || request.resource.data.status in ['active', 'archived']);
+    }
+
+    function isValidUserWidgetUpdate() {
+      return request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.type == resource.data.type
+        && (!('createdAt' in request.resource.data.diff(resource.data).affectedKeys()))
+        && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly([
+              'title', 'order', 'pinnedToHome', 'slotId', 'status',
+              'schemaVersion', 'stylePreset', 'config', 'updatedAt',
+            ])
+        && request.resource.data.title is string
+        && request.resource.data.title.size() >= 1
+        && request.resource.data.title.size() <= 100
+        && request.resource.data.order is int
+        && request.resource.data.pinnedToHome is bool
+        && isValidUserWidgetConfig()
+        && (!('schemaVersion' in request.resource.data)
+          || request.resource.data.schemaVersion in [1, 2])
+        && (!('stylePreset' in request.resource.data)
+          || isValidUserWidgetStylePreset(request.resource.data.stylePreset))
+        && (!('slotId' in request.resource.data)
+          || isValidUserWidgetSlotId(request.resource.data.slotId))
+        && (!('status' in request.resource.data)
+          || request.resource.data.status in ['active', 'archived']);
+    }
+
     function isValidTransactionCreate() {
       return wormKeysOnly([
           'userId', 'ownerId', 'label', 'amountSek', 'category', 'createdAt',
@@ -1901,13 +2104,15 @@ service cloud.firestore {
 
     match /kb_docs/{docId} {
       allow read: if isOwner();
-      allow create: if isOwnerCreate();
+      // Evigt Minne v61 — Admin SDK only (client create blocked). Callables write via Admin.
+      allow create: if false;
       allow update, delete: if false;
     }
 
     match /kampspar/{docId} {
       allow read: if isOwner();
-      allow create: if isOwnerCreate();
+      // Evigt Minne v61 — Admin SDK only (client create blocked). Callables write via Admin.
+      allow create: if false;
       allow update, delete: if false;
     }
 
@@ -2510,6 +2715,30 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    match /payroll_agreement_packs/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.checksum is string
+        && request.resource.data.checksum.size() >= 8
+        && request.resource.data.agreementId in ['SE.livs.livsmedel', 'SE.handels', 'none']
+        && request.resource.data.validFrom is string
+        && request.resource.data.versionLabel is string
+        && request.resource.data.config is map;
+      allow update, delete: if false;
+    }
+
+    match /payroll_tax_table_packs/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.checksum is string
+        && request.resource.data.checksum.size() >= 8
+        && request.resource.data.table is int
+        && request.resource.data.year is int
+        && request.resource.data.brackets is list
+        && request.resource.data.brackets.size() >= 1;
+      allow update, delete: if false;
+    }
+
     match /time_entries/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreate();
@@ -2704,24 +2933,11 @@ service cloud.firestore {
 
     match /user_widgets/{docId} {
       allow read: if isOwner();
-      allow create: if isOwnerCreate()
-        && request.resource.data.type in ['countdown', 'checklist', 'linked_savings', 'quick_note']
-        && request.resource.data.title is string
-        && request.resource.data.title.size() >= 1
-        && request.resource.data.title.size() <= 100
-        && request.resource.data.pinnedToHome is bool
-        && request.resource.data.order is int
-        && request.resource.data.config is map;
-      allow update: if isOwner()
-        && request.resource.data.userId == resource.data.userId
-        && request.resource.data.ownerId == resource.data.ownerId
-        && request.resource.data.type == resource.data.type
-        && request.resource.data.title == resource.data.title
-        && request.resource.data.pinnedToHome == resource.data.pinnedToHome
-        && request.resource.data.order == resource.data.order
-        && request.resource.data.diff(resource.data).affectedKeys()
-            .hasOnly(['config', 'updatedAt']);
-      allow delete: if isOwner();
+      allow create: if isOwnerCreate() && isValidUserWidgetCreate();
+      allow update: if isOwner() && isValidUserWidgetUpdate();
+      // Archive-first: hard delete endast om archived ELLER legacy docs utan status.
+      allow delete: if isOwner()
+        && (!('status' in resource.data) || resource.data.status == 'archived');
     }
 
     match /evolution_ledger/{docId} {
@@ -2802,28 +3018,4 @@ service cloud.firestore {
     }
   }
 }
-````
-
-## File: src/modules/core/firebase/appCheck.ts
-````typescript
-import { FirebaseAppCheck } from '@capacitor-firebase/app-check';
-import { Capacitor, registerPlugin } from '@capacitor/core';
-import { initializeAppCheck, ReCaptchaV3Provider, CustomProvider } from 'firebase/app-check';
-import { app } from './init';
-⋮----
-interface LkNativeBuildPlugin {
-  getAppCheckDebugGate(): Promise<{ useDebugProvider: boolean; isDebugBuild: boolean }>;
-}
-⋮----
-getAppCheckDebugGate(): Promise<
-⋮----
-async getAppCheckDebugGate()
-⋮----
-export function initAppCheck(): Promise<void>
-⋮----
-async function doInitAppCheck(): Promise<void>
-⋮----
-async function resolveNativeDebugProvider(): Promise<boolean>
-⋮----
-function debugTokenFromEnv(): string | undefined
 ````
