@@ -1,4 +1,5 @@
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { EmptyState } from '@/core/ui/EmptyState';
 import type { KampsparEntryRow } from '@/core/types/firestore';
 import { formatTidshjulLabel } from '../utils/tidshjulTimeline';
 
@@ -11,7 +12,10 @@ export function TidshjulDetailCard({ entry, compact = false }: Props) {
   if (!entry) {
     return (
       <BentoCard title="Post" description={compact ? 'Klicka en nod' : 'Klicka en nod i Tidshjulet'}>
-        <p className="text-sm text-text-dim">Välj en punkt på ringen för att läsa hela Minne-posten.</p>
+        <EmptyState
+          title="Ingen post vald"
+          message="Välj en punkt på ringen eller i listan för att läsa hela Minne-posten."
+        />
       </BentoCard>
     );
   }

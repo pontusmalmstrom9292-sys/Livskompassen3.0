@@ -57,14 +57,18 @@ function RingNodes({
         const isHighlight = entry.id === highlightEntryId;
         const isSelected = entry.id === selectedEntryId;
 
+        const nodeLabel = `${formatTidshjulLabel(entry)} — ${entry.title}`;
+
         return (
           <button
             key={entry.id}
             type="button"
             onClick={() => onSelectEntry?.(entry)}
-            className="absolute z-20 max-w-[92px] cursor-pointer rounded-lg p-0.5 text-left transition hover:bg-surface/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+            aria-label={nodeLabel}
+            aria-pressed={isSelected}
+            className="absolute z-20 flex min-h-11 min-w-11 max-w-[96px] cursor-pointer flex-col items-center justify-center rounded-lg p-1 text-left transition hover:bg-surface/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
             style={{ left: `${x}%`, top: `${y}%`, transform: 'translate(-50%, -50%)' }}
-            title={`${formatTidshjulLabel(entry)} — ${entry.title}`}
+            title={nodeLabel}
           >
             <div
               className={`mx-auto h-3 w-3 rounded-full shadow-accent-glow ${
@@ -102,7 +106,11 @@ export function Tidshjulet({
   ];
 
   return (
-    <div className="relative mx-auto my-6 flex aspect-square w-full max-w-md items-center justify-center">
+    <div
+      className="relative mx-auto my-6 flex aspect-square w-full max-w-md items-center justify-center"
+      role="img"
+      aria-label={`Tidshjulet med ${entries.length} poster i ringarna Dåtid, Nutid och Framtid`}
+    >
       <motion.div
         animate={{ rotate: 360 }}
         transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}

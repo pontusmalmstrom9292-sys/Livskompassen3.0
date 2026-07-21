@@ -106,3 +106,5 @@
 | launcher-shell-polish | green glow + focus + life-os-links smoke-ankare | LivLauncherGrid, obsidian-calm-shells, ProjektMaterialPackPage | build, locked-ux, life-os-links, predeploy:build | PASS |
 
 | ankare-dagens-supermodul-polish | 44px/focus ExecutiveAnkare + token Ankare-modul | ExecutiveAnkareCard, DagensAnkareSupermodul | build, executive-home-visual, locked-ux, predeploy:build | PASS |
+
+| tidshjul-stampla-polish | 44px/focus EmptyState Tidshjulet + stämpla controls | Tidshjulet, TidshjulDetailCard, KunskapPage, StampClock* | build+tidshjul PASS; smoke:stampla PERMISSION_DENIED (env) | FAIL |

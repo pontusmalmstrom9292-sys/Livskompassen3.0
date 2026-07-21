@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T11:48:54.000Z",
-  "currentTaskId": "tidshjul-stampla-polish",
+  "updatedAt": "2026-07-21T11:51:00.000Z",
+  "currentTaskId": "hamn-biff-epistemic-polish",
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
     "ui-polish-v2-vardagen",
@@ -51,7 +51,8 @@
   "skippedTaskIds": [],
   "failedTaskIds": [
     "emotional-memory-polish",
-    "ekonomi-panels-deep-polish"
+    "ekonomi-panels-deep-polish",
+    "tidshjul-stampla-polish"
   ],
   "taskOrder": [
     "build-fix-home-hub-boundary",
