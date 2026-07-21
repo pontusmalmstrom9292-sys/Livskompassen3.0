@@ -44,4 +44,6 @@
 
 | dossier-evidence-polish | WORM-stamp synlighet, 44px, felhints | Stamp, SpeglarEvidence, Compare, Dossier, VaultLogList | build, dossier, vault-worm, predeploy:build | PASS |
 
+| sos-recovery-polish | Krisnummer-grupp, calm spacing | RecoveryUrgeSosModule | build, drogfrihet, locked-ux, predeploy:build | PASS |
+
 > Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.

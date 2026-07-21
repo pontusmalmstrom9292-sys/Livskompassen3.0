@@ -495,31 +495,36 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
           ) : null}
 
           {screen === 'after' ? (
-            <div className="flex w-full max-w-sm flex-1 flex-col justify-center gap-4">
+            <div className="flex w-full max-w-sm flex-1 flex-col justify-center gap-5">
               <p className="text-center font-display-serif text-lg text-accent">{AFTER_COPY.title}</p>
-              <p className="text-center text-sm text-text-muted">{AFTER_COPY.lead}</p>
+              <p className="text-center text-sm leading-relaxed text-text-muted">{AFTER_COPY.lead}</p>
               <Button
                 type="button"
                 variant="secondary"
                 onClick={() => setScreen('hold')}
-                className="--secondary min-h-[52px]"
+                className="min-h-[52px]"
               >
                 {AFTER_COPY.stay}
               </Button>
-              <a
-                href="tel:112"
-                onClick={() => pushKpiEvent({ type: 'help_tap', target: '112', at: Date.now() }, uid)}
-                className="inline-flex min-h-[52px] items-center justify-center rounded-2xl border-[0.5px] border-danger/40 bg-danger/10 px-4 text-sm text-danger"
-              >
-                {AFTER_COPY.call112}
-              </a>
-              <a
-                href="tel:90101"
-                onClick={() => pushKpiEvent({ type: 'help_tap', target: '90101', at: Date.now() }, uid)}
-                className="inline-flex min-h-[52px] items-center justify-center rounded-2xl border-[0.5px] border-border bg-surface-2/70 px-4 text-sm text-accent"
-              >
-                {AFTER_COPY.call90101}
-              </a>
+              <div className="space-y-2 rounded-2xl border border-danger/30 bg-danger/5 p-3" role="group" aria-label="Krisnummer">
+                <p className="text-center text-[10px] font-medium uppercase tracking-widest text-danger/80">
+                  Akut hjälp
+                </p>
+                <a
+                  href="tel:112"
+                  onClick={() => pushKpiEvent({ type: 'help_tap', target: '112', at: Date.now() }, uid)}
+                  className="inline-flex min-h-[52px] w-full items-center justify-center rounded-2xl border border-danger/40 bg-danger/10 px-4 text-sm font-medium text-danger focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-danger/50"
+                >
+                  {AFTER_COPY.call112}
+                </a>
+                <a
+                  href="tel:90101"
+                  onClick={() => pushKpiEvent({ type: 'help_tap', target: '90101', at: Date.now() }, uid)}
+                  className="inline-flex min-h-[52px] w-full items-center justify-center rounded-2xl border border-border bg-surface-2/70 px-4 text-sm text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
+                >
+                  {AFTER_COPY.call90101}
+                </a>
+              </div>
               <Button
                 type="button"
                 variant="ghost"
@@ -527,7 +532,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                   pushKpiEvent({ type: 'akut_complete', at: Date.now() }, uid);
                   onClose();
                 }}
-                className="--ghost min-h-[48px]"
+                className="min-h-[48px]"
               >
                 {AFTER_COPY.done}
               </Button>
