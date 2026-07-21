@@ -9,6 +9,16 @@
     background-image: var(--zone-gradient-hjartat);
   }
 
+  .hjartat-bento-shell::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--accent-light, var(--accent)) 8%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, var(--accent) 5%, transparent);
+  }
+
   .hjartat-bg-watermark {
     @apply pointer-events-none fixed left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 text-accent;
     width: min(130vw, 1000px);
@@ -28,8 +38,10 @@
 
   .hjartat-zone-pill {
     @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-accent-light;
+    line-height: 1.25;
     border-color: var(--color-accent-gold-35);
     background: var(--color-shell-scrim);
+    text-wrap: balance;
   }
 
   .hjartat-zone-intro {
@@ -58,6 +70,7 @@
 
   .hjartat-zone-intro__lead {
     @apply text-xs leading-relaxed text-text-dim;
+    text-wrap: pretty;
   }
 
   .hjartat-layer-switch {
@@ -65,9 +78,20 @@
   }
 
   .hjartat-layer-switch__link {
-    @apply rounded-full border px-3 py-1 text-[11px] font-medium text-text-muted transition-colors;
+    @apply inline-flex items-center justify-center rounded-full border px-3 py-1 text-[11px] font-medium text-text-muted transition-colors;
+    min-height: var(--ds-touch-target);
+    line-height: 1.2;
     border-color: var(--color-accent-gold-18);
     background: var(--color-shell-scrim-35);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium),
+      color var(--ds-duration-fast) var(--ds-ease-premium);
+  }
+
+  .hjartat-layer-switch__link:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .hjartat-layer-switch__link:hover {
@@ -79,6 +103,20 @@
     @apply text-accent-light;
     border-color: var(--color-accent-gold-35);
     background: var(--color-shell-scrim);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 4%, transparent);
+  }
+
+  .hjartat-zone-intro:focus-within {
+    border-color: var(--color-accent-gold-35);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--accent-light, var(--accent)) 10%, transparent),
+      0 14px 32px -22px color-mix(in srgb, var(--bg) 76%, transparent);
+  }
+
+  .hjartat-bento-shell__content button:focus-visible,
+  .hjartat-bento-shell__content a:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .hjartat-tab-panel {
@@ -97,8 +135,27 @@
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.05),
-      inset 0 -1px 0 rgba(212, 175, 55, 0.06),
-      0 4px 16px -4px rgba(0, 0, 0, 0.45);
+      inset 0 1px 0 color-mix(in srgb, var(--text) 5%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, var(--accent) 6%, transparent),
+      0 4px 16px -4px color-mix(in srgb, var(--bg) 45%, transparent);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .hjartat-zone-intro,
+    .hjartat-reflektion-wizard {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background: color-mix(in srgb, var(--surface) 94%, #020617);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .hjartat-layer-switch__link {
+      transition: none;
+    }
   }
 }

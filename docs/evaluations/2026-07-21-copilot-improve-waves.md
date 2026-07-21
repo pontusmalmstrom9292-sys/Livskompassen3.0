@@ -4,3 +4,4 @@
 |--------|--------|-------|-------|-----------|
 | build-fix-home-hub-boundary | HomePage HubErrorBoundary logTag | HomePage.tsx | build, locked-ux | PASS |
 | ui-polish-v2-vardagen | Vardagen MåBra + Planering tokens/a11y | mabra.css, planering.css, compasses.css, vardagen.css, planering-routines.css | build, locked-ux, design-modules, mabra | PASS |
+| ui-polish-v3-hjartat | Hjärtat Dagbok + Speglar + Inkast | hjartat.css, reflektion-panel.css, dagbok-tyst-lage.css, InkastDirectPanel.tsx | build, locked-ux, design-modules, speglar | PASS |

@@ -313,8 +313,8 @@ export function InkastDirectPanel({
     (lastResult.queued > 0 || lastResult.items.some((i) => i.action === 'queued'));
 
   const textareaClass = isValv
-    ? 'input-glass w-full resize-none rounded-xl px-3 py-2 text-sm'
-    : 'w-full rounded-xl border border-border-subtle bg-surface/50 px-3 py-2 text-sm text-text placeholder:text-text-dim focus:border-accent/40 focus:outline-none';
+    ? 'input-glass w-full resize-none rounded-xl px-3 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50'
+    : 'w-full rounded-xl border border-border-subtle bg-surface/50 px-3 py-2 text-sm text-text placeholder:text-text-dim focus:border-accent/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50';
 
   return (
     <BentoCard
@@ -339,7 +339,7 @@ export function InkastDirectPanel({
               type="button"
               disabled={loading || wormConfirmOpen}
               onClick={() => handleBaraOrdSubmit(ord)}
-              className="rounded-xl border border-border/30 bg-surface-2/40 p-3 text-sm text-text hover:border-accent/40 hover:bg-accent/5 transition-all disabled:opacity-50"
+              className="rounded-xl border border-border/30 bg-surface-2/40 p-3 text-sm text-text hover:border-accent/40 hover:bg-accent/5 transition-all disabled:opacity-50 min-h-[var(--ds-touch-target,2.75rem)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
             >
               {ord}
             </button>
@@ -411,7 +411,7 @@ export function InkastDirectPanel({
         >
           <span className="inline-flex items-center gap-1">
             {copied ? (
-              <Check className="mr-1 inline h-3 w-3 text-emerald-400" />
+              <Check className="mr-1 inline h-3 w-3 text-success" />
             ) : (
               <Copy className="mr-1 inline h-3 w-3" />
             )}
