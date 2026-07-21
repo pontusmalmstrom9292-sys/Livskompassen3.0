@@ -51,25 +51,29 @@ function HamnBiffWorkflow({
   embeddedLead?: boolean;
 }) {
   return (
-    <div className="space-y-3">
-      <BentoCard glow="indigo" className="!px-4 !py-3">
+    <div className="space-y-4">
+      <BentoCard glow="indigo" className="!px-4 !py-3.5">
         <p className={textStyles.eyebrow}>Trygg hamn · BIFF</p>
         {embeddedLead ? (
-          <p className="mt-1 text-xs text-text-dim">{HAMN_EMBEDDED_LEAD}</p>
+          <p className="mt-1.5 text-xs leading-relaxed text-text-dim">{HAMN_EMBEDDED_LEAD}</p>
         ) : (
-          <p className="mt-1 text-xs text-text-dim">{HAMN_GREY_ROCK_LEAD}</p>
+          <p className="mt-1.5 text-xs leading-relaxed text-text-dim">{HAMN_GREY_ROCK_LEAD}</p>
         )}
-        <div className="mt-3">
+        <div className="mt-3.5">
           <BiffPublicPanel initialMessage={initialMessage} />
         </div>
       </BentoCard>
 
       <CalmCollapsible title="Brusfilter" meta="Före Grey Rock" defaultOpen={false} glow="blue">
-        <p className="text-xs text-text-muted">{HAMN_BRUSFILTER_LEAD}</p>
-        <p className="mt-2 text-xs text-text-muted" role="note">
+        <p className="text-xs leading-relaxed text-text-muted">{HAMN_BRUSFILTER_LEAD}</p>
+        <p className="mt-2 text-xs leading-relaxed text-text-muted" role="note">
           {HAMN_BRUSFILTER_HINT}
         </p>
-        <ButtonLink to={hjartatTabHref('speglar')} variant="accent" className="mt-3 inline-flex text-xs">
+        <ButtonLink
+          to={hjartatTabHref('speglar')}
+          variant="accent"
+          className="mt-3 inline-flex min-h-11 items-center text-xs"
+        >
           Öppna Speglar
         </ButtonLink>
       </CalmCollapsible>

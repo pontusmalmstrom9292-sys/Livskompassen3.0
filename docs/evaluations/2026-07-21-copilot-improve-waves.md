@@ -108,3 +108,5 @@
 | ankare-dagens-supermodul-polish | 44px/focus ExecutiveAnkare + token Ankare-modul | ExecutiveAnkareCard, DagensAnkareSupermodul | build, executive-home-visual, locked-ux, predeploy:build | PASS |
 
 | tidshjul-stampla-polish | 44px/focus EmptyState Tidshjulet + stämpla controls | Tidshjulet, TidshjulDetailCard, KunskapPage, StampClock* | build+tidshjul PASS; smoke:stampla PERMISSION_DENIED (env) | FAIL |
+
+| hamn-biff-epistemic-polish | epistemic hints, upload copy, 44px calm cards | BiffPublicPanel, BiffTriagePanel, TheoryWithoutEvidenceBadge, TryggHamnHub, HamnTaktikLexikonBro, hamnCopy, biff-triage.css | build, hamn, epistemic-guard, grans, predeploy:build | PASS |

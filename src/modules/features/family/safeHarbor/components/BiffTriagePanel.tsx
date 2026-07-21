@@ -4,6 +4,7 @@ import { AlertTriangle, Eye, EyeOff, Shield } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import type { GransAnalysis } from '../api/biffService';
 import { TheoryWithoutEvidenceBadge } from '@/shared/ui/TheoryWithoutEvidenceBadge';
+import { HAMN_EPISTEMIC_HINT } from '../hamnCopy';
 
 type Props = {
   grans: GransAnalysis | null;
@@ -41,13 +42,25 @@ export function BiffTriagePanel({
   const hasBait = baitCount > 0;
 
   return (
-    <BentoCard glow="indigo" title="BIFF-triage" icon={<Shield className="h-4 w-4" />} className="familjen-tab-surface !p-4">
+    <BentoCard
+      glow="indigo"
+      title="BIFF-triage"
+      icon={<Shield className="h-4 w-4" aria-hidden />}
+      className="familjen-tab-surface !p-4"
+    >
       {agentName && (
         <p className="-mt-2 mb-3 text-right text-[10px] uppercase tracking-widest text-text-dim">
           {agentName}
         </p>
       )}
-      {theoryWithoutEvidence && <TheoryWithoutEvidenceBadge className="mb-3" variant="hamn" />}
+      {theoryWithoutEvidence && (
+        <div className="mb-3 space-y-2">
+          <TheoryWithoutEvidenceBadge variant="hamn" />
+          <p className="text-[11px] leading-relaxed text-text-dim" role="note">
+            {HAMN_EPISTEMIC_HINT}
+          </p>
+        </div>
+      )}
       <div className="grid grid-cols-2 gap-2 text-center text-xs">
         <div className="rounded-xl border border-border/30 bg-surface-2/40 p-2">
           <p className="text-text-dim">Ren logistik (~)</p>
@@ -83,10 +96,10 @@ export function BiffTriagePanel({
                   type="button"
                   variant="ghost"
                   onClick={() => setShowBait((v) => !v)}
-                  className="flex items-center gap-1 text-[10px] uppercase tracking-widest"
+                  className="flex min-h-11 items-center gap-1 px-2 text-[10px] uppercase tracking-widest"
                   aria-pressed={showBait}
                 >
-                  {showBait ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+                  {showBait ? <EyeOff className="h-3 w-3" aria-hidden /> : <Eye className="h-3 w-3" aria-hidden />}
                   {showBait ? 'Dölj brus' : 'Visa brus'}
                 </Button>
               )}
@@ -117,10 +130,15 @@ export function BiffTriagePanel({
         </p>
       )}
       {hitlRequired && (
-        <p className="mt-2 flex items-start gap-2 text-xs text-text-muted">
-          <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0 text-accent" aria-hidden />
-          Hög belastning — svara kort eller vänta. Ingen JADE.
-        </p>
+        <div
+          className="mt-3 flex items-start gap-2 rounded-xl border border-accent/20 bg-accent/5 px-3 py-2.5"
+          role="note"
+        >
+          <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-accent" aria-hidden />
+          <p className="text-xs leading-relaxed text-text-muted">
+            Hög belastning — svara kort eller vänta. Ingen JADE. Överväg mänsklig uppföljning (HITL).
+          </p>
+        </div>
       )}
       {grans?.coachingNote && (
         <p className="mt-2 text-sm text-text-muted whitespace-pre-wrap">{grans.coachingNote}</p>
