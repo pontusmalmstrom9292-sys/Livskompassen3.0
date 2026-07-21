@@ -40,4 +40,6 @@
 
 | widget-board-polish | Capacity hints, style preview, CRUD archive | WidgetModuler*, capacity, presets, firestore helpers | build, widgets, custom-modules, predeploy:build | PASS |
 
+| superdagbok-polish | Wizard 44px, tyst CSS, glow=blue smoke, archive path | ConfirmStep, TystDelegate, Archive, SuperModule, smoke | build, superdagbok-superhub, speglar, predeploy:build | PASS |
+
 > Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.

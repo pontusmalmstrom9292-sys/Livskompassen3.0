@@ -78,9 +78,9 @@ export function ConfirmStep({
                 <button
                   type="button"
                   onClick={() => onToggleTag('red_flag')}
-                  className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
+                  className={`inline-flex min-h-11 items-center gap-1.5 rounded-full border px-3 text-xs font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
                     tags.includes('red_flag')
-                      ? 'border-rose-500/50 bg-rose-500/20 text-rose-300 shadow-[0_0_10px_rgba(244,63,94,0.2)]'
+                      ? 'border-danger/50 bg-danger/20 text-danger shadow-[0_0_10px_color-mix(in_srgb,var(--danger)_20%,transparent)]'
                       : 'border-border bg-surface-2/60 text-text-dim hover:bg-surface-3'
                   }`}
                 >
@@ -89,9 +89,9 @@ export function ConfirmStep({
                 <button
                   type="button"
                   onClick={() => onToggleTag('insight')}
-                  className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
+                  className={`inline-flex min-h-11 items-center gap-1.5 rounded-full border px-3 text-xs font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
                     tags.includes('insight')
-                      ? 'border-amber-500/50 bg-amber-500/20 text-amber-300 shadow-[0_0_10px_rgba(245,158,11,0.2)]'
+                      ? 'border-accent/50 bg-accent/20 text-accent-light shadow-[0_0_10px_color-mix(in_srgb,var(--accent)_20%,transparent)]'
                       : 'border-border bg-surface-2/60 text-text-dim hover:bg-surface-3'
                   }`}
                 >
@@ -100,9 +100,9 @@ export function ConfirmStep({
                 <button
                   type="button"
                   onClick={() => onToggleTag('boundary')}
-                  className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
+                  className={`inline-flex min-h-11 items-center gap-1.5 rounded-full border px-3 text-xs font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
                     tags.includes('boundary')
-                      ? 'border-emerald-500/50 bg-emerald-500/20 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.2)]'
+                      ? 'border-success/50 bg-success/20 text-success shadow-[0_0_10px_color-mix(in_srgb,var(--success)_20%,transparent)]'
                       : 'border-border bg-surface-2/60 text-text-dim hover:bg-surface-3'
                   }`}
                 >
@@ -113,13 +113,13 @@ export function ConfirmStep({
           )}
 
           {showWeaveOptIn && (
-            <label className="reflektion-weave-opt flex cursor-pointer items-start gap-2 text-sm text-text-muted">
+            <label className="reflektion-weave-opt flex min-h-11 cursor-pointer items-start gap-3 text-sm text-text-muted">
               <input
                 type="checkbox"
                 checked={weaveToKampspar}
                 onChange={(e) => onWeaveToKampsparChange(e.target.checked)}
                 disabled={saving}
-                className="mt-0.5"
+                className="mt-1 h-4 w-4 accent-[var(--accent)]"
               />
               <span>
                 Spara också en kort rad i Minne (valfritt — dagboken sparas oavsett).
@@ -129,22 +129,31 @@ export function ConfirmStep({
         </CalmCollapsible>
       )}
 
-      <div className="reflektion-actions">
-        <Button type="button" variant="ghost" onClick={onBack}>
-          <ChevronLeft className="h-4 w-4" /> Ändra
+      <div className="reflektion-actions flex flex-wrap gap-2 pt-2">
+        <Button
+          type="button"
+          variant="ghost"
+          onClick={onBack}
+          className="min-h-[var(--ds-touch-target,2.75rem)]"
+        >
+          <ChevronLeft className="h-4 w-4" aria-hidden /> Ändra
         </Button>
         <Button
           type="button"
           variant="success"
           onClick={() => void onSave()}
           disabled={saving || Boolean(memoryError)}
+          className="min-h-[var(--ds-touch-target,2.75rem)]"
         >
-          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+          {saving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
           Spara i dagboken
         </Button>
       </div>
       {memoryError && (
-        <p className="mt-2 text-sm text-danger" role="alert">
+        <p
+          className="mt-2 rounded-lg border border-danger/25 bg-danger/10 px-3 py-2 text-sm text-danger"
+          role="alert"
+        >
           {memoryError}
         </p>
       )}

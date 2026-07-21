@@ -79,8 +79,8 @@ export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalA
       <>
         {pinnedEntries.length > 0 && (
           <div className="mb-8 space-y-3">
-            <h3 className="flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-accent">
-              <Pin className="h-3.5 w-3.5 fill-current" />
+            <h3 className="mb-3 flex items-center gap-2 text-xs font-medium uppercase tracking-widest text-accent">
+              <Pin className="h-3.5 w-3.5 fill-current" aria-hidden />
               Fästa Händelser
             </h3>
             <ul className={viewMode === 'galleri' ? 'grid gap-4 sm:grid-cols-2' : 'space-y-3'}>
@@ -111,7 +111,7 @@ export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalA
           <Button
             type="button"
             variant="ghost"
-            className="mt-6 w-full"
+            className="mt-6 min-h-11 w-full"
             onClick={() => setVisibleCount((n) => n + pageSize)}
           >
             Visa fler ({unpinnedFlat.length - visibleCount} kvar)

@@ -73,7 +73,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
       <div className="dagbok-tyst-lage" data-write-target="none">
         <button
           type="button"
-          className="mb-3 text-xs text-text-dim underline-offset-2 hover:underline"
+          className="mb-3 inline-flex min-h-11 items-center text-xs text-text-dim underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
           onClick={() => setShowBurn(false)}
         >
           ← Tillbaka till tyst läge
@@ -134,6 +134,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
               type="button"
               variant="ghost"
               size="sm"
+              className="min-h-11"
               onClick={() => {
                 const words = diaryDraft.trim().split(/\s+/).filter(Boolean).slice(0, 3).join(' ');
                 setTreOrd(words);
@@ -146,6 +147,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
               type="button"
               variant="ghost"
               size="sm"
+              className="min-h-11"
               onClick={() => {
                 clearDiaryDraft();
                 setDraftDismissed(true);
@@ -196,17 +198,17 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
         <Button
           type="button"
           variant="accent"
-          className="w-full"
+          className="min-h-12 w-full"
           disabled={!activeMood || saving}
           onClick={() => void handleSave()}
         >
-          {saving ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : DAGBOK_TYST_SAVE_LABEL}
+          {saving ? <Loader2 className="mx-auto h-4 w-4 animate-spin" aria-hidden /> : DAGBOK_TYST_SAVE_LABEL}
         </Button>
         <Button
           type="button"
           variant="ghost"
           size="sm"
-          className="w-full"
+          className="min-h-11 w-full"
           disabled={!activeMood || saving}
           onClick={() => void handleMoodOnly()}
         >
@@ -216,7 +218,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
           type="button"
           variant="ghost"
           size="sm"
-          className="flex w-full items-center justify-center gap-2 text-text-muted"
+          className="flex min-h-11 w-full items-center justify-center gap-2 text-text-muted"
           onClick={() => {
             if (onSwitchToBurn) {
               onSwitchToBurn();
@@ -230,7 +232,14 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
         </Button>
       </div>
 
-      {error ? <p className="mt-3 text-sm text-danger">{error}</p> : null}
+      {error ? (
+        <p
+          className="mt-3 rounded-lg border border-danger/25 bg-danger/10 px-3 py-2 text-sm text-danger"
+          role="alert"
+        >
+          {error}
+        </p>
+      ) : null}
     </div>
   );
 }
