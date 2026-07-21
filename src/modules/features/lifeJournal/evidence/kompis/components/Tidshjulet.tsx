@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { Compass } from 'lucide-react';
 import type { KampsparEntryRow } from '@/core/types/firestore';
 import { EmptyState } from '@/core/ui/EmptyState';
@@ -97,6 +97,7 @@ export function Tidshjulet({
   onSelectEntry,
   highlightPulse = false,
 }: Props) {
+  const reduceMotion = useReducedMotion();
   const { dåtid, nutid, framtid } = partitionKampsparForTidshjulet(entries);
 
   const rings: RingConfig[] = [
@@ -112,14 +113,14 @@ export function Tidshjulet({
       aria-label={`Tidshjulet med ${entries.length} poster i ringarna Dåtid, Nutid och Framtid`}
     >
       <motion.div
-        animate={{ rotate: 360 }}
-        transition={{ duration: 90, repeat: Infinity, ease: 'linear' }}
+        animate={reduceMotion ? undefined : { rotate: 360 }}
+        transition={reduceMotion ? undefined : { duration: 90, repeat: Infinity, ease: 'linear' }}
         className="absolute inset-0 rounded-full border border-dashed border-surface-3"
       />
 
       <motion.div
-        animate={{ rotate: -360 }}
-        transition={{ duration: 60, repeat: Infinity, ease: 'linear' }}
+        animate={reduceMotion ? undefined : { rotate: -360 }}
+        transition={reduceMotion ? undefined : { duration: 60, repeat: Infinity, ease: 'linear' }}
         className="absolute inset-[12%] rounded-full border border-accent/15"
       />
 
@@ -143,7 +144,7 @@ export function Tidshjulet({
 
       {entries.length === 0 && (
         <div className="absolute inset-x-6 bottom-4 z-30">
-          <EmptyState message="Lägg till din första post nedan — Dåtid-ringen fylls från live kampspar." />
+          <EmptyState title="Tomt hjul" message="Lägg till din första post nedan — Dåtid-ringen fylls från live kampspar." />
         </div>
       )}
     </div>

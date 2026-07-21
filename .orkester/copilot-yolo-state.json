@@ -1,11 +1,12 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T12:25:04.000Z",
-  "updatedAt": "2026-07-21T12:26:04.000Z",
-  "currentTaskId": "tidshjul-stampla-polish",
+  "updatedAt": "2026-07-21T12:27:08.000Z",
+  "currentTaskId": "design-bible-merge",
   "completedTaskIds": [
     "emotional-memory-polish",
-    "ekonomi-panels-deep-polish"
+    "ekonomi-panels-deep-polish",
+    "tidshjul-stampla-polish"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],

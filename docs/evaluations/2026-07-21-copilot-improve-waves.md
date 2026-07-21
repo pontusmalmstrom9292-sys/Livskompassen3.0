@@ -93,3 +93,7 @@
 ### ekonomi-panels-deep-polish (retry) — PASS
 - Impulse EmptyState/focus; mealprep touch; quickbalance aria; DailySummary eyebrow
 - Smoke: build, ekonomi, economy-vendor, payslip PASS
+
+### tidshjul-stampla-polish (retry) — PASS
+- StampClockPanel a11y; Tidshjulet reduced-motion; EmptyState titles
+- Smoke: build, tidshjul, stampla PASS
