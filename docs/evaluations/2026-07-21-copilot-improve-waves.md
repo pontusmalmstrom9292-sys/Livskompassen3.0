@@ -84,3 +84,8 @@
 **Verdict:** GO — kö tom (exkl. 3 env-failed).
 
 | calm-card-audit-fixes | glass sheen+rim tokens, hub calm-card (pin/drogfrihet/vit/emotion/aktör/autonomous/mabra) | glass.css + 7 hub | build, calm-card-audit, design-modules, predeploy:build | PASS |
+
+### emotional-memory-polish (retry) — PASS (2026-07-21)
+- EmptyState + DS Button + focus-visible; Vit/Historik eyebrow
+- smoke App Check i emotional-memory/payslip/stampla
+- Smoke: build, emotional-memory, mabra PASS

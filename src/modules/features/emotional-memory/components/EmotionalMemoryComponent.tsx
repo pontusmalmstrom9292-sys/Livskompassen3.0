@@ -11,6 +11,8 @@ import {
   useListenToCapacityState,
 } from '@/core/store/useCapacityGate';
 import type { EmotionalMemoryType } from '@/core/types/firestore';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { Button } from '@/design-system/components/Button';
 import { useEmotionalMemoryStore } from '@/features/emotional-memory/store/useEmotionalMemoryStore';
 
 const COPY = {
@@ -162,15 +164,7 @@ export function EmotionalMemoryComponent({
   }
 
   if (!inputExposed) {
-    return (
-      <div
-        className={`calm-card rounded-2xl border border-border bg-surface-primary ${
-          compact ? 'p-4' : 'p-6'
-        }`}
-      >
-        <p className="font-sans text-sm text-text-dim">{COPY.login}</p>
-      </div>
-    );
+    return <EmptyState message={COPY.login} className={compact ? 'p-4' : 'p-6'} />;
   }
 
   return (
@@ -183,15 +177,18 @@ export function EmotionalMemoryComponent({
     >
       {!compact ? (
         <header className="flex flex-col gap-1">
-          <h2 className="font-display-serif text-sm tracking-[0.2em] text-accent uppercase">
+          <h2 className="font-display-serif text-[11px] font-medium tracking-[0.2em] text-accent uppercase">
             {COPY.title}
           </h2>
-          <p className="font-sans text-xs text-text-muted">{COPY.lead}</p>
+          <p className="font-sans text-xs leading-relaxed text-text-muted">{COPY.lead}</p>
         </header>
       ) : null}
 
       {isLocked ? (
-        <div className="flex items-center gap-2 rounded-xl border border-border bg-surface-2 px-3 py-2">
+        <div
+          role="status"
+          className="flex min-h-11 items-center gap-2 rounded-xl border border-border bg-surface-2 px-3 py-2"
+        >
           <Lock className="h-4 w-4 shrink-0 text-accent" aria-hidden />
           <p className="font-sans text-xs text-accent">{COPY.saved}</p>
         </div>
@@ -216,7 +213,7 @@ export function EmotionalMemoryComponent({
         rows={compact ? 4 : 6}
         placeholder={COPY.placeholder}
         disabled={inputsDisabled}
-        className="w-full resize-none rounded-xl border border-border bg-surface-primary px-4 py-3 font-sans text-text placeholder:text-text-dim focus:border-accent/40 focus:outline-none read-only:cursor-default read-only:opacity-90 disabled:opacity-50"
+        className="w-full resize-none rounded-xl border border-border bg-surface-primary px-4 py-3 font-sans text-text placeholder:text-text-dim focus-visible:border-accent/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 read-only:cursor-default read-only:opacity-90 disabled:opacity-50"
       />
 
       {showAdvancedControls ? (
@@ -231,7 +228,7 @@ export function EmotionalMemoryComponent({
               value={intensity}
               onChange={handleIntensityChange}
               disabled={inputsDisabled}
-              className="accent-accent disabled:opacity-50"
+              className="accent-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-50"
             />
             <span className="text-text-dim">{intensity}</span>
           </label>
@@ -242,7 +239,7 @@ export function EmotionalMemoryComponent({
               value={memoryType}
               onChange={handleTypeChange}
               disabled={inputsDisabled}
-              className="rounded-xl border border-border bg-surface-primary px-3 py-2 font-sans text-sm text-text focus:border-accent/40 focus:outline-none disabled:opacity-50"
+              className="min-h-11 rounded-xl border border-border bg-surface-primary px-3 py-2 font-sans text-sm text-text focus-visible:border-accent/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-50"
             >
               {MEMORY_TYPE_OPTIONS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -256,19 +253,11 @@ export function EmotionalMemoryComponent({
 
       <div className="flex justify-end gap-2">
         {isLocked ? (
-          <button
-            type="button"
-            onClick={handleStartNewEntry}
-            className="rounded-xl border border-border bg-surface-3 px-5 py-2 font-sans text-sm text-accent transition-colors hover:border-accent/40"
-          >
+          <Button type="button" variant="secondary" onClick={handleStartNewEntry}>
             {COPY.newEntry}
-          </button>
+          </Button>
         ) : (
-          <button
-            type="submit"
-            disabled={isEmpty || saving}
-            className="rounded-xl border border-border bg-surface-3 px-5 py-2 font-sans text-sm text-accent transition-colors hover:border-accent/40 disabled:cursor-not-allowed disabled:opacity-40"
-          >
+          <Button type="submit" variant="secondary" disabled={isEmpty || saving}>
             {saving ? (
               <>
                 <Loader2 className="mr-2 inline h-4 w-4 animate-spin" aria-hidden />
@@ -277,11 +266,15 @@ export function EmotionalMemoryComponent({
             ) : (
               COPY.save
             )}
-          </button>
+          </Button>
         )}
       </div>
 
-      {error ? <p className="font-sans text-xs text-danger">{error}</p> : null}
+      {error ? (
+        <p role="alert" className="font-sans text-xs text-danger">
+          {error}
+        </p>
+      ) : null}
     </form>
   );
 }

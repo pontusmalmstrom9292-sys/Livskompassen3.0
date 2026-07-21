@@ -9,10 +9,19 @@ type Props = {
 /** Fas 2 §3 — en rad per Vit-projekt, valfritt Senast. */
 export function MabraVitProjectsPanel({ lastSeen, onOpenProject }: Props) {
   return (
-    <section className="calm-card glow-bottom-green space-y-3 rounded-2xl p-4 sm:p-5" aria-label="Fortsätt i Vit">
-      <h2 className="text-sm font-medium text-text">Fortsätt i Vit</h2>
-      <p className="mt-1 text-xs text-text-dim">Identitetsarbete — ett projekt i taget. Akutverktyg finns ovan.</p>
-      <ul className="mt-3 space-y-2">
+    <section
+      className="calm-card glow-bottom-green space-y-3 rounded-2xl p-4 sm:p-5"
+      aria-label="Fortsätt i Vit"
+    >
+      <header className="space-y-1">
+        <h2 className="font-display-serif text-[11px] font-medium uppercase tracking-[0.2em] text-accent">
+          Fortsätt i Vit
+        </h2>
+        <p className="text-xs leading-relaxed text-text-dim">
+          Identitetsarbete — ett projekt i taget. Akutverktyg finns ovan.
+        </p>
+      </header>
+      <ul className="space-y-2">
         {MABRA_PROJECTS.map((project) => {
           const Icon = project.icon;
           const seenIso = lastSeen[project.id];
@@ -29,7 +38,7 @@ export function MabraVitProjectsPanel({ lastSeen, onOpenProject }: Props) {
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block text-sm font-medium text-text">{project.title}</span>
-                  <span className="block text-xs text-text-dim">{project.lead}</span>
+                  <span className="block text-xs leading-relaxed text-text-dim">{project.lead}</span>
                 </span>
                 {seenLabel ? (
                   <span className="shrink-0 text-[10px] uppercase tracking-wide text-text-dim">
