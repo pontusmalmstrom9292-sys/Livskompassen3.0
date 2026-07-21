@@ -1,5 +1,5 @@
 import { BookOpen } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ButtonLink } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -25,6 +25,7 @@ import { MoodStep } from './MoodStep';
 import { ReflectionStep } from './ReflectionStep';
 import { SavedStep } from './SavedStep';
 import { DagbokWizardErrorBoundary } from './DagbokWizardErrorBoundary';
+import { DagbokWizardProgress } from './DagbokWizardProgress';
 
 function parseInitialDagbokMode(
   searchParams: URLSearchParams,
@@ -110,6 +111,54 @@ export function DagbokPage({
     }
   }, [mode, refreshEntries]);
 
+  const canAdvanceFromText =
+    text.trim().split(/\s+/).filter(Boolean).length > 0 || text.trim().length > 0;
+
+  const handleWizardKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (mode !== 'reflektera' || saving) return;
+
+      const target = event.target;
+      if (target instanceof HTMLElement) {
+        const tag = target.tagName;
+        const editable = target.isContentEditable;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || editable) return;
+      }
+
+      if (event.key === 'Escape') {
+        if (step === 'save') {
+          event.preventDefault();
+          goToStep('text');
+        } else if (step === 'text') {
+          event.preventDefault();
+          goToStep('mood');
+        }
+        return;
+      }
+
+      if (event.key !== 'Enter' || event.shiftKey || event.metaKey || event.ctrlKey || event.altKey) {
+        return;
+      }
+
+      if (step === 'mood' && mood) {
+        event.preventDefault();
+        goToStep('text');
+      } else if (step === 'text' && canAdvanceFromText) {
+        event.preventDefault();
+        goToStep('save');
+      } else if (step === 'save' && !memoryError) {
+        event.preventDefault();
+        void handleSave();
+      }
+    },
+    [mode, saving, step, mood, canAdvanceFromText, memoryError, goToStep, handleSave],
+  );
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleWizardKeyDown);
+    return () => window.removeEventListener('keydown', handleWizardKeyDown);
+  }, [handleWizardKeyDown]);
+
   const showBridgeBanner =
     lowEnergyBridge && bridgeIntro && mode !== 'arkiv' && (mode !== 'reflektera' || step !== 'done');
 
@@ -193,6 +242,7 @@ export function DagbokPage({
               }}
             >
               <div className="reflektion-wizard" aria-live="polite">
+                <DagbokWizardProgress step={step} />
                 <p className="sr-only">
                   Steg {JOURNAL_STEPS.findIndex((s) => s.key === step) + 1} av {JOURNAL_STEPS.length}:{' '}
                   {JOURNAL_STEPS.find((s) => s.key === step)?.label}
@@ -261,6 +311,11 @@ export function DagbokPage({
                 )}
 
                 {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+                {step !== 'done' && (
+                  <p className="reflektion-keyboard-hint" aria-hidden>
+                    Enter = nästa · Esc = tillbaka
+                  </p>
+                )}
               </div>
             </DagbokWizardErrorBoundary>
           </>

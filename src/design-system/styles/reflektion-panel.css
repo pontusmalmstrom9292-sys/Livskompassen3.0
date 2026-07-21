@@ -294,6 +294,50 @@
     @apply text-sm leading-relaxed text-text-muted;
     text-wrap: pretty;
   }
+
+  .reflektion-wizard-progress {
+    @apply mb-4 px-1;
+  }
+
+  .reflektion-wizard-progress__list {
+    @apply flex flex-wrap items-center justify-center gap-1 sm:gap-2;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .reflektion-wizard-progress__step {
+    @apply flex min-h-11 min-w-[4.5rem] flex-col items-center justify-center gap-0.5 rounded-xl border border-transparent px-2 py-1.5 text-center transition-[border-color,background,opacity];
+  }
+
+  .reflektion-wizard-progress__step--current {
+    @apply border-accent/35 bg-accent/10;
+    box-shadow: 0 0 20px -8px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  .reflektion-wizard-progress__step--done {
+    @apply border-border/50 bg-surface/25 opacity-90;
+  }
+
+  .reflektion-wizard-progress__step--upcoming {
+    @apply border-border/30 bg-surface/10 opacity-60;
+  }
+
+  .reflektion-wizard-progress__marker {
+    @apply text-sm leading-none;
+  }
+
+  .reflektion-wizard-progress__label {
+    @apply text-[10px] font-medium uppercase tracking-[0.14em] text-text-dim;
+  }
+
+  .reflektion-wizard-progress__step--current .reflektion-wizard-progress__label {
+    @apply text-accent;
+  }
+
+  .reflektion-keyboard-hint {
+    @apply mt-3 text-center text-[11px] leading-relaxed text-text-dim;
+  }
 }
 
 @media (prefers-reduced-transparency: reduce) {
@@ -312,7 +356,8 @@
     .reflektion-mood-card,
     .reflektion-shuffle,
     .reflektion-prompt-chip,
-    .reflektion-write-tabs__tab {
+    .reflektion-write-tabs__tab,
+    .reflektion-wizard-progress__step {
       transition: none;
     }
 

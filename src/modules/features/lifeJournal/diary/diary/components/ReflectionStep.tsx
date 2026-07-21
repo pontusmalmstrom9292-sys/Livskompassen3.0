@@ -101,9 +101,27 @@ export function ReflectionStep({
     mode === 'tre-ord' ? text.trim().split(/\s+/).filter(Boolean).length > 0 : text.trim().length > 0;
   const showHandoff = shouldShowValvHandoff(text);
 
+  const writeModes = [
+    { id: 'fritt' as const, label: 'Fritt' },
+    { id: 'snabb' as const, label: 'Snabbstart' },
+    { id: 'tre-ord' as const, label: 'Tre ord' },
+  ] as const;
+
+  const handleWriteTabKeyDown = (event: React.KeyboardEvent, tabId: WriteMode) => {
+    const index = writeModes.findIndex((m) => m.id === tabId);
+    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+      event.preventDefault();
+      const delta = event.key === 'ArrowRight' ? 1 : -1;
+      const next = writeModes[(index + delta + writeModes.length) % writeModes.length]!;
+      setMode(next.id);
+      const tabEl = document.getElementById(`reflektion-write-tab-${next.id}`);
+      tabEl?.focus();
+    }
+  };
+
   return (
-    <div className="reflektion-panel">
-      <p className="reflektion-panel__lead">
+    <div className="reflektion-panel" role="region" aria-labelledby="reflection-step-title">
+      <p id="reflection-step-title" className="reflektion-panel__lead">
         {moodDef ? (
           <>
             <span aria-hidden>{moodDef.emoji}</span> Skriv om <strong>{moodDef.label}</strong>
@@ -115,20 +133,18 @@ export function ReflectionStep({
       {moodPrompt && <p className="reflektion-panel__hint">{moodPrompt}</p>}
 
       <div className="reflektion-write-tabs" role="tablist" aria-label="Sätt att skriva">
-        {(
-          [
-            { id: 'fritt' as const, label: 'Fritt' },
-            { id: 'snabb' as const, label: 'Snabbstart' },
-            { id: 'tre-ord' as const, label: 'Tre ord' },
-          ] as const
-        ).map(({ id, label }) => (
+        {writeModes.map(({ id, label }) => (
           <button
             key={id}
+            id={`reflektion-write-tab-${id}`}
             type="button"
             role="tab"
             aria-selected={mode === id}
-            className={`reflektion-write-tabs__tab ${mode === id ? 'reflektion-write-tabs__tab--active' : ''}`}
+            aria-controls={`reflektion-write-panel-${id}`}
+            tabIndex={mode === id ? 0 : -1}
+            className={`reflektion-write-tabs__tab min-h-11 ${mode === id ? 'reflektion-write-tabs__tab--active' : ''}`}
             onClick={() => setMode(id)}
+            onKeyDown={(e) => handleWriteTabKeyDown(e, id)}
           >
             {label}
           </button>
@@ -136,6 +152,7 @@ export function ReflectionStep({
       </div>
 
       {mode === 'fritt' && (
+        <div id="reflektion-write-panel-fritt" role="tabpanel" aria-labelledby="reflektion-write-tab-fritt">
         <ReflectionEditor
           text={text}
           onChange={onTextChange}
@@ -147,9 +164,11 @@ export function ReflectionStep({
                 : moodPrompt ?? 'Skriv vad du vill – ingen perfekt text.'
           }
         />
+        </div>
       )}
 
       {mode === 'snabb' && (
+        <div id="reflektion-write-panel-snabb" role="tabpanel" aria-labelledby="reflektion-write-tab-snabb">
         <div className="reflektion-snabb">
           <p className="reflektion-panel__hint">Tryck en start - redigera sedan om du vill.</p>
           <div className="reflektion-prompt-grid">
@@ -189,9 +208,11 @@ export function ReflectionStep({
             className="input-glass neu-inset reflektion-textarea mt-3 resize-none"
           />
         </div>
+        </div>
       )}
 
       {mode === 'tre-ord' && (
+        <div id="reflektion-write-panel-tre-ord" role="tabpanel" aria-labelledby="reflektion-write-tab-tre-ord">
         <div className="reflektion-tre-ord">
           <p className="reflektion-panel__hint">Max tre ord – det räcker.</p>
           <Input
@@ -208,6 +229,7 @@ export function ReflectionStep({
           <p className="reflektion-tre-ord__count">
             {text.trim() ? text.trim().split(/\s+/).filter(Boolean).length : 0}/3 ord
           </p>
+        </div>
         </div>
       )}
 
@@ -263,7 +285,7 @@ export function ReflectionStep({
         <Button type="button" variant="ghost" onClick={onBack}>
           <ChevronLeft className="h-4 w-4" /> Tillbaka
         </Button>
-        <Button type="button" variant="secondary" disabled={!canContinue} onClick={onContinue}>
+        <Button type="button" variant="secondary" disabled={!canContinue} onClick={onContinue} aria-keyshortcuts="Enter">
           Nästa <ChevronRight className="h-4 w-4" />
         </Button>
         {lowEnergyBridge && onSaveWithoutText && (
