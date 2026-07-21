@@ -164,3 +164,8 @@
 ### drogfrihet-hub-a11y-polish — PASS (YOLO v9)
 - Hub SOS + Öppna: token tracking + focus; banners: min-h-11 focus links/CTAs
 - Smoke: build, design-modules, locked-ux, drogfrihet PASS
+
+
+### custom-modules-ui-polish — PASS (YOLO v9)
+- UserWidgetHomeSlot calm-card + eyebrow; ModulerAddForm preview + alerts
+- Smoke: build, custom-modules, widgets PASS

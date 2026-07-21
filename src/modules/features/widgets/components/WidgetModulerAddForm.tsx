@@ -15,7 +15,7 @@ import {
   FlaskConical,
   Pin,
 } from 'lucide-react';
-import { Input, TextArea } from '@/design-system';
+import { Input, TextArea, textStyles } from '@/design-system';
 import { getBudgetSavings } from '@/core/firebase/economyFirestore';
 import type { BudgetSavingsRow, UserWidget, UserWidgetStylePreset } from '@/core/types/firestore';
 import { WIDGET_STYLE_PRESETS, WIDGET_STYLE_PRESET_IDS } from '../config/widgetStylePresets';
@@ -266,7 +266,7 @@ export function WidgetModulerAddForm({
     <div className="widget-moduler-add space-y-4" aria-label="Lägg till modul">
       {capacity.canUseTemplates ? (
         <div className="widget-moduler-add__templates" role="group" aria-label="Mallar">
-          <p className="text-[11px] uppercase tracking-widest text-text-dim">Mall</p>
+          <p className={textStyles.eyebrow}>Mall</p>
           <div className="widget-moduler-add__template-grid">
             {CONTENT_TEMPLATES.map((tpl) => {
               const Icon = tpl.icon;
@@ -328,7 +328,7 @@ export function WidgetModulerAddForm({
 
       {showExperiment ? (
         <div className="widget-moduler-add__presets" role="group" aria-label="Stilpreset">
-          <p className="text-[11px] uppercase tracking-widest text-text-dim mb-1.5">Stil</p>
+          <p className={`mb-1.5 ${textStyles.eyebrow}`}>Stil</p>
           <div className="widget-moduler-add__preset-grid">
             {WIDGET_STYLE_PRESET_IDS.map((id) => {
               const preset = WIDGET_STYLE_PRESETS[id];
@@ -352,12 +352,14 @@ export function WidgetModulerAddForm({
         </div>
       ) : null}
 
-      <label className="block space-y-1.5">
-        <span className="text-[11px] uppercase tracking-widest text-text-dim">Namn</span>
+      <label htmlFor="widget-moduler-title" className="block space-y-1.5">
+        <span className={textStyles.eyebrow}>Namn</span>
         <Input
+          id="widget-moduler-title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           placeholder="t.ex. Semester, Veckolista…"
+          className="min-h-11"
           maxLength={100}
         />
       </label>
@@ -431,7 +433,7 @@ export function WidgetModulerAddForm({
       ) : null}
 
       {capacity.canPinHome ? (
-        <label className="widget-moduler-add__toggle flex items-center gap-2">
+        <label className="widget-moduler-add__toggle flex min-h-11 items-center gap-2">
           <input
             type="checkbox"
             checked={pinToHome}
@@ -444,13 +446,13 @@ export function WidgetModulerAddForm({
       ) : null}
 
       {showExperiment ? (
-        <div className="widget-moduler-add__preview" aria-label="Live-förhandsvisning">
-          <p className="text-[11px] uppercase tracking-widest text-text-dim mb-2">Förhandsvisning</p>
+        <div className="widget-moduler-add__preview calm-card p-3" aria-label="Live-förhandsvisning">
+          <p className={`mb-2 ${textStyles.eyebrow}`}>Förhandsvisning</p>
           <HomeWidgetRenderer widget={previewWidget} userId={userId} readOnly />
         </div>
       ) : null}
 
-      {error ? <p className="text-xs text-danger">{error}</p> : null}
+      {error ? <p className="text-xs text-danger" role="alert">{error}</p> : null}
 
       <div className="flex flex-col gap-2 sm:flex-row">
         <WidgetButton type="button" variant="accent" fullWidth disabled={busy} onClick={() => void handleSubmit()}>

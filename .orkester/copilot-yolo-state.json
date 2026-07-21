@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T12:39:16.000Z",
-  "updatedAt": "2026-07-21T12:56:50.000Z",
-  "currentTaskId": "custom-modules-ui-polish",
+  "updatedAt": "2026-07-21T12:57:58.000Z",
+  "currentTaskId": "sos-akut-landing-polish",
   "completedTaskIds": [
     "g85-friction-d5-prep",
     "adhoc-dialog-audit",
@@ -13,7 +13,8 @@
     "inkast-review-queue-polish",
     "widget-action-dashboard-polish",
     "fyren-edge-widget-polish",
-    "drogfrihet-hub-a11y-polish"
+    "drogfrihet-hub-a11y-polish",
+    "custom-modules-ui-polish"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],

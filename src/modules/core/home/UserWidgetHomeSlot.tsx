@@ -13,6 +13,7 @@ import {
   USER_WIDGET_HOME_SLOT_ID,
 } from '@/features/widgets/utils/normalizeUserWidget';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
+import { textStyles } from '@/design-system';
 
 export function UserWidgetHomeSlot() {
   const user = useStore((s) => s.user);
@@ -54,12 +55,10 @@ export function UserWidgetHomeSlot() {
 
   return (
     <section
-      className="user-widget-home-slot space-y-3 rounded-2xl border border-border/15 bg-surface-2/25 p-3 backdrop-blur-sm"
+      className="user-widget-home-slot calm-card space-y-3 p-3 sm:p-4"
       aria-label="Mina fästa moduler"
     >
-      <p className="px-0.5 text-[9px] font-bold uppercase tracking-[0.18em] text-accent/80">
-        Mina moduler
-      </p>
+      <p className={`px-0.5 ${textStyles.eyebrow} text-accent/80`}>Mina moduler</p>
       {pinned.map((widget) => (
         <HomeWidgetRenderer
           key={widget.id}
