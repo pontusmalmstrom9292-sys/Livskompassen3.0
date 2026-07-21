@@ -21,7 +21,7 @@ export function GoraModulValjare() {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" role="region" aria-label="Välj planeringsmodul">
       <p className="text-sm text-text-muted">
         Välj ett spår. Resten kan vänta — inget döljs bakom flikar.
       </p>

@@ -23,7 +23,7 @@ export function EkonomiModulValjare({ onSelect }: Props) {
   };
 
   return (
-    <div className="space-y-4 p-4 sm:p-5">
+    <div className="space-y-4 p-4 sm:p-5" role="region" aria-label="Välj ekonomiverktyg">
       <p className="text-sm text-text-muted">{EKONOMI_HUB_LEAD}</p>
       <div className="grid gap-3 sm:grid-cols-2">
         <ExamplePreviewCard
