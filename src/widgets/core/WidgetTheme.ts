@@ -39,14 +39,14 @@ export const WidgetMaterial = {
   /** 1px golden border */
   goldBorder: 'rgba(212, 175, 55, 0.48)',
   goldBorderSoft: 'rgba(212, 175, 55, 0.26)',
-  /** Soft bloom — dark-blue outer glow (not hard black shadow) */
+  /** Soft bloom — dark-blue outer glow + gold hairline (mockup 15b) */
   softBloom:
-    '0 0 32px rgba(2, 6, 23, 0.78), 0 14px 36px rgba(2, 6, 23, 0.58), 0 0 1px rgba(212, 175, 55, 0.2)',
+    '0 0 36px rgba(2, 6, 23, 0.78), 0 14px 36px rgba(2, 6, 23, 0.58), 0 0 28px rgba(212, 175, 55, 0.12), 0 0 1px rgba(212, 175, 55, 0.28)',
   /** Inset well for protected input / capacity wells */
   insetShadow:
-    'inset 0 2px 10px rgba(0, 0, 0, 0.62), inset 0 1px 0 rgba(212, 175, 55, 0.08)',
+    'inset 0 2px 10px rgba(0, 0, 0, 0.62), inset 0 1px 0 rgba(212, 175, 55, 0.1)',
   /** Subtle top lip reflection */
-  glassLip: 'inset 0 1px 0 rgba(212, 175, 55, 0.18)',
+  glassLip: 'inset 0 1px 0 rgba(212, 175, 55, 0.2)',
   /** Matt metall alternate */
   matteMetalFill: 'rgba(18, 22, 32, 0.94)',
 } as const;

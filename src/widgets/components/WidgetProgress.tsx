@@ -11,6 +11,7 @@ export type WidgetProgressProps = HTMLAttributes<HTMLDivElement> & {
 
 /**
  * WidgetProgress — ethereal fill in inset well (bible 3.3 / 6.4).
+ * Mockup: gold/cyan bloom + soft center well.
  */
 export function WidgetProgress({
   value,
@@ -25,7 +26,7 @@ export function WidgetProgress({
   const pct = Math.max(0, Math.min(100, (value / max) * 100));
 
   if (variant === 'circular') {
-    const stroke = 6;
+    const stroke = 7;
     const r = (size - stroke) / 2;
     const c = 2 * Math.PI * r;
     const offset = c - (pct / 100) * c;
@@ -41,7 +42,7 @@ export function WidgetProgress({
           width: size,
           height: size,
           borderRadius: '50%',
-          boxShadow: WidgetMaterial.insetShadow,
+          boxShadow: `${WidgetMaterial.insetShadow}, 0 0 18px color-mix(in srgb, ${WidgetPalette.etherealBlue} 22%, transparent)`,
           background: WidgetPalette.deepSpaceBlue,
           display: 'grid',
           placeItems: 'center',
@@ -55,7 +56,7 @@ export function WidgetProgress({
             cy={size / 2}
             r={r}
             fill="none"
-            stroke="rgba(148, 163, 184, 0.18)"
+            stroke="rgba(148, 163, 184, 0.16)"
             strokeWidth={stroke}
           />
           <circle
@@ -68,7 +69,10 @@ export function WidgetProgress({
             strokeLinecap="round"
             strokeDasharray={c}
             strokeDashoffset={offset}
-            style={{ transition: 'stroke-dashoffset 420ms cubic-bezier(0.22, 1, 0.36, 1)' }}
+            style={{
+              transition: 'stroke-dashoffset 420ms cubic-bezier(0.22, 1, 0.36, 1)',
+              filter: `drop-shadow(0 0 6px color-mix(in srgb, ${WidgetPalette.etherealBlue} 45%, transparent))`,
+            }}
           />
         </svg>
       </div>
@@ -84,7 +88,7 @@ export function WidgetProgress({
       aria-valuemax={100}
       aria-label={label}
       style={{
-        height: 10,
+        height: 8,
         borderRadius: WidgetType.radiusPillPx,
         background: WidgetPalette.deepSpaceBlue,
         boxShadow: WidgetMaterial.insetShadow,
@@ -94,11 +98,13 @@ export function WidgetProgress({
       {...rest}
     >
       <div
+        className="cw-progress__fill"
         style={{
           width: `${pct}%`,
           height: '100%',
           borderRadius: WidgetType.radiusPillPx,
-          background: `linear-gradient(90deg, ${WidgetPalette.etherealBlue}, color-mix(in srgb, ${WidgetPalette.etherealBlue} 70%, ${WidgetPalette.premiumGoldLight}))`,
+          background: `linear-gradient(90deg, ${WidgetPalette.premiumGold}, color-mix(in srgb, ${WidgetPalette.premiumGoldLight} 70%, ${WidgetPalette.etherealBlue}))`,
+          boxShadow: `0 0 10px color-mix(in srgb, ${WidgetPalette.premiumGold} 28%, transparent)`,
           transition: 'width 420ms cubic-bezier(0.22, 1, 0.36, 1)',
         }}
       />

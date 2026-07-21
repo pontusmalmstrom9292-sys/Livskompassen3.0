@@ -161,7 +161,13 @@ export function InboxWidget({ pulseHint = false }: { pulseHint?: boolean }) {
     <WidgetCard
       size={size}
       material={cfg?.material ?? 'sapphire'}
-      className={[widgetCardClass(cfg?.animation), pulseHint ? 'cw-soft-focus' : ''].filter(Boolean).join(' ')}
+      className={[
+        'cw-card--hero',
+        widgetCardClass(cfg?.animation),
+        pulseHint ? 'cw-soft-focus' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
@@ -172,7 +178,16 @@ export function InboxWidget({ pulseHint = false }: { pulseHint?: boolean }) {
             : status ?? 'Ett tryck. Klart.'
         }
         offline={!online}
-        icon={<span aria-hidden>📥</span>}
+        icon={
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <path
+              d="M4 8h16v11H4V8zM4 8l8 6 8-6"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+            />
+          </svg>
+        }
       />
       <input
         ref={photoRef}
@@ -208,7 +223,7 @@ export function InboxWidget({ pulseHint = false }: { pulseHint?: boolean }) {
         </div>
       ) : null}
       {panel ? (
-        <WidgetGlass inset style={{ padding: '0.7rem', marginBottom: '0.5rem' }}>
+        <WidgetGlass inset className="cw-glass-well" style={{ padding: '0.7rem', marginBottom: '0.5rem' }}>
           <p className="cw-eyebrow" id="cw-inbox-draft-label">
             {panel === 'link' ? 'Länk' : 'Text'}
           </p>
@@ -232,7 +247,13 @@ export function InboxWidget({ pulseHint = false }: { pulseHint?: boolean }) {
             <WidgetButton variant="quiet" size="min" onClick={() => setPanel(null)}>
               Avbryt
             </WidgetButton>
-            <WidgetButton variant="gold" size="premium" fullWidth onClick={() => void saveTextOrLink()}>
+            <WidgetButton
+              variant="gold"
+              size="premium"
+              fullWidth
+              className={pulseHint ? 'cw-pulse-cta' : undefined}
+              onClick={() => void saveTextOrLink()}
+            >
               Spara
             </WidgetButton>
           </div>

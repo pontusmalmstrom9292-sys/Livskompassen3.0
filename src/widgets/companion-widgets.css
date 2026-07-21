@@ -1417,6 +1417,18 @@
   --cw-rail-bloom: 0 0 28px color-mix(in srgb, var(--cw-gold, #d4af37) 10%, transparent);
 }
 
+.cw-home-rail--elevated {
+  box-shadow: var(--cw-rail-bloom);
+  border-radius: 20px;
+}
+
+.cw-home-rail--elevated .cw-chrome-btn,
+.cw-home-rail--elevated .cw-chrome-link,
+.cw-home-rail--elevated .cw-home-rail-collapsed {
+  min-height: var(--cw-touch-floor, 44px);
+  min-width: var(--cw-touch-floor, 44px);
+}
+
 .cw-home-rail__head {
   border-radius: 16px;
   padding: 0.35rem 0.15rem;

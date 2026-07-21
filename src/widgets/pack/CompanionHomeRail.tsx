@@ -122,7 +122,7 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
   return (
     <section
       id={ROOT_ID}
-      className="cw-home-rail"
+      className="cw-home-rail cw-home-rail--elevated"
       aria-label="Companion just nu"
       style={{
         display: 'grid',
