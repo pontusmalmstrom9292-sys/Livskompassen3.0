@@ -16,6 +16,7 @@ import {
   deleteDoc,
   serverTimestamp,
 } from 'firebase/firestore';
+import { initSmokeAppCheck } from './lib/smoke_app_check.mjs';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
@@ -117,6 +118,12 @@ async function runLiveWormTest(env) {
     messagingSenderId: env.VITE_FIREBASE_MESSAGING_SENDER_ID,
     appId: env.VITE_FIREBASE_APP_ID,
   });
+
+  if (initSmokeAppCheck(app, env)) {
+    console.log('[smoke] App Check (debug token) initierad');
+  } else {
+    console.log('[smoke] App Check hoppad (saknar VITE_APP_CHECK_DEBUG_TOKEN)');
+  }
 
   const auth = getAuth(app);
   const db = getFirestore(app);

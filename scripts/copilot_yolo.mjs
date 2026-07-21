@@ -14,6 +14,9 @@
  *   COPILOT_YOLO_SKIP_PREFLIGHT=1     hoppa pre-flight före våg
  *   COPILOT_YOLO_FULL_PREFLIGHT=1     kör hela orkester:night (långsam, kräver ev. billing)
  *   COPILOT_YOLO_ALLOW_PMIR=1         tillåt PMIR-filer (endast med Pontus OK)
+ *   COPILOT_YOLO_MODEL=auto           Copilot-modell (default auto)
+ *   COPILOT_YOLO_EFFORT=high          effort — hoppas över när MODEL=auto
+ *   COPILOT_YOLO_MAX_CONTINUES=30     autopilot fortsättningar per våg
  *
  * Kräver: brew install copilot-cli && copilot login
  */
@@ -39,6 +42,7 @@ const PMIR_PATHS = [
   'functions/src/sharedRules.ts',
   '.context/locked-ux-features.md',
   'src/modules/core/layout/NavigationDrawer.tsx',
+  'docs/system_sync/firestore_rules_CURRENT.rules',
 ];
 
 const PMIR_GREP = new RegExp(
@@ -239,6 +243,11 @@ function buildPrompt(task) {
     '',
     'Du är GitHub Copilot CLI i autopilot. Bygg ENDAST scope för denna våg.',
     '',
+    '=== PMIR — ABSOLUT FÖRBUD (auto-revert + loop-stopp) ===',
+    'RÖR INTE dessa filer — öppna dem inte, redigera inte, committa inte:',
+    ...PMIR_PATHS.map((p) => `- ${p}`),
+    'UI-polish = endast src/**/*.tsx, src/**/*.css, src/design-system/** — ALDRIG *.rules',
+    '',
     '=== KANON (MUST) ===',
     readText(resolve(root, '.github/copilot-instructions.md'), 1800),
     '',
@@ -256,7 +265,8 @@ function buildPrompt(task) {
     '- Committa: copilot-yolo: <task-id> — <kort varför>',
     '',
     '=== MUST NOT (PMIR — hard stop) ===',
-    '- Ändra INTE: firestore.rules, storage.rules, sharedRules.ts, NavigationDrawer.tsx, locked-ux-features',
+    '- Ändra INTE: firestore.rules, storage.rules, sharedRules.ts, NavigationDrawer.tsx, locked-ux-features, firestore_rules_CURRENT.rules',
+    '- Om du behöver Firestore-ändring: STOPPA och skriv "kräver PMIR" — fortsätt INTE',
     '- Kör ALDRIG firebase deploy (skriv kommando i slutrapport om deploy behövs)',
     '- Ingen force-push · ingen cross-RAG · ingen mock-WORM',
     deploy
@@ -318,6 +328,25 @@ function checkPmirViolations(files) {
   return files.filter((f) => PMIR_GREP.test(f));
 }
 
+function revertPmirFiles(files, startSha) {
+  const hits = files.filter((f) => PMIR_GREP.test(f));
+  if (hits.length === 0) return;
+  console.log('[copilot:yolo] Auto-revert av PMIR-filer...');
+  for (const file of hits) {
+    try {
+      execSync(`git checkout ${startSha} -- "${file}"`, { cwd: root, stdio: 'pipe' });
+      console.log(`[copilot:yolo]   ✓ reverterad: ${file}`);
+    } catch {
+      try {
+        execSync(`git checkout HEAD -- "${file}"`, { cwd: root, stdio: 'pipe' });
+        console.log(`[copilot:yolo]   ✓ reverterad (HEAD): ${file}`);
+      } catch {
+        console.error(`[copilot:yolo]   ✗ kunde inte revertera: ${file}`);
+      }
+    }
+  }
+}
+
 function printDeployInstructions(task) {
   if (!task.deploy || task.deploy === 'none') return;
   const cmd = `firebase use gen-lang-client-0481875058 && firebase deploy --only ${task.deploy}`;
@@ -343,6 +372,10 @@ function findCopilotBin() {
 
 function launchCopilot(task) {
   const copilot = findCopilotBin();
+  const model = process.env.COPILOT_YOLO_MODEL ?? 'auto';
+  const effort = process.env.COPILOT_YOLO_EFFORT ?? 'high';
+  const maxContinues = process.env.COPILOT_YOLO_MAX_CONTINUES ?? '30';
+
   const args = [
     '-i',
     buildPrompt(task),
@@ -351,16 +384,19 @@ function launchCopilot(task) {
     '--no-ask-user',
     '--experimental',
     '--max-autopilot-continues',
-    '30',
-    '--effort',
-    'high',
+    maxContinues,
     '--model',
-    'auto',
+    model,
     '--name',
     `lk-safe-yolo-${task.id}`,
     '-C',
     root,
   ];
+
+  // `auto` stödjer inte --effort (Copilot CLI 2026-07)
+  if (model !== 'auto' && effort) {
+    args.push('--effort', effort);
+  }
 
   console.log('');
   console.log('══════════════════════════════════════════════════');
@@ -425,7 +461,9 @@ function runOneWave(queue, state, task) {
     appendLog(task.id, 'PMIR BLOCK', '—', pmirHits.join(', '));
     console.error('[copilot:yolo] ✗ PMIR-stopp — Sacred-filer ändrade:');
     pmirHits.forEach((f) => console.error(`  - ${f}`));
-    console.error('[copilot:yolo] Reverta eller kör med Pontus OK: COPILOT_YOLO_ALLOW_PMIR=1 yolo');
+    revertPmirFiles(pmirHits, startSha);
+    console.error('[copilot:yolo] PMIR-filer reverterade. Övriga ändringar behålls — kör: npm run copilot:yolo:loop');
+    console.error('[copilot:yolo] Med Pontus OK: COPILOT_YOLO_ALLOW_PMIR=1 npm run copilot:yolo:loop');
     return false;
   }
 
@@ -528,7 +566,7 @@ function main() {
   if (cmd === 'loop') {
     console.log('[copilot:yolo] LOOP — kör tills smoke fail, PMIR eller tom kö.');
     let n = 0;
-    while (n < 20) {
+    while (n < 50) {
       const task = resolveTask(queue, state);
       if (!task) {
         console.log('[copilot:yolo] Kö tom — loop klar.');

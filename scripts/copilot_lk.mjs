@@ -21,21 +21,24 @@ function findCopilotBin() {
 }
 
 const copilot = findCopilotBin();
+const model = process.env.COPILOT_YOLO_MODEL ?? 'auto';
+const effort = process.env.COPILOT_YOLO_EFFORT ?? 'high';
 const args = [
   '--yolo',
   '--autopilot',
   '--experimental',
   '--max-autopilot-continues',
-  '30',
-  '--effort',
-  'high',
+  process.env.COPILOT_YOLO_MAX_CONTINUES ?? '30',
   '--model',
-  'auto',
+  model,
   '--name',
   'livskompassen-free',
   '-C',
   root,
 ];
+if (model !== 'auto' && effort) {
+  args.push('--effort', effort);
+}
 
 console.log('[copilot:lk] Livskompassen + Copilot YOLO (fri session)');
 spawnSync(copilot, args, {

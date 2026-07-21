@@ -1,10 +1,10 @@
 {
-  "syncedAt": "2026-06-28T00:01:59.306Z",
+  "syncedAt": "2026-07-21T09:12:34.800Z",
   "modulGap": [],
   "masterYolo": {
     "status": "done",
     "nextWaveId": null,
-    "completed": 19
+    "completed": 3
   },
   "openSystemPlan": [
     "Manuell ingest av minne-poster (opt-in trauma-policy)",

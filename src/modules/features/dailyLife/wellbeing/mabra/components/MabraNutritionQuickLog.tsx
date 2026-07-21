@@ -112,7 +112,7 @@ export function MabraNutritionQuickLog({ storageUid, macroTracking = false, onLo
             type="button"
             onClick={() => setQuality(opt.value)}
             className={clsx(
-              'rounded-xl border px-3 py-1.5 text-xs transition-colors',
+              'inline-flex min-h-11 items-center rounded-xl border px-3 text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
               quality === opt.value
                 ? 'border-accent/40 bg-accent/10 text-accent'
                 : 'border-border bg-surface/40 text-text-muted hover:border-border-strong',

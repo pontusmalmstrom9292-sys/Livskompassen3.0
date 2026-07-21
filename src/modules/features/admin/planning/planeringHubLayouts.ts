@@ -54,6 +54,7 @@ export const PLANERING_HUB_LAYOUTS: PlaneringHubLayout[] = [
       'projekt',
       'tidtagning',
       'anteckning',
+      'bygg',
     ],
   },
   {

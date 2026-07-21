@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Loader2 } from 'lucide-react';
 import { Button, ButtonLink } from '@/design-system';
 import { useStore } from '../store';
 import { getRecentCheckIns, getJournalEntries } from '../firebase/firestore';
@@ -12,6 +11,8 @@ import {
 } from './compassAdaptiveCards';
 import { buildProactiveTriggerCards } from './homeProactiveTriggers';
 import { useEvolutionStore } from '../store/useEvolutionStore';
+import { HubPanelSkeleton } from '../ui/HubPanelSkeleton';
+import { EmptyState } from '../ui/EmptyState';
 
 const toneClass: Record<AdaptiveMemoryCard['tone'], string> = {
   gold: 'adaptive-card--gold',
@@ -75,11 +76,10 @@ export function AdaptiveMemoryCards({
 
   return (
     <section className="space-y-3" aria-label="Anpassade minneskort">
-
       {loading ? (
-        <p className="flex items-center gap-2 text-sm text-text-muted">
-          <Loader2 className="h-4 w-4 animate-spin" /> Laddar…
-        </p>
+        <HubPanelSkeleton label="Laddar minneskort…" lines={3} />
+      ) : cards.length === 0 ? (
+        <EmptyState message="Inga anpassade kort just nu — kom tillbaka efter en check-in eller reflektion." />
       ) : (
         <>
           <div className="adaptive-card-grid">

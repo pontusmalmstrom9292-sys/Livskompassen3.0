@@ -14,6 +14,7 @@ import {
   Sparkles,
   Timer,
   Wallet,
+  Blocks,
 } from 'lucide-react';
 
 export type PlaneringHubModuleCategory =
@@ -38,7 +39,8 @@ export type PlaneringHubModuleId =
   | 'ekonomi'
   | 'priolista'
   | 'mikrofokus'
-  | 'deadline';
+  | 'deadline'
+  | 'bygg';
 
 export type PlaneringHubModule = {
   id: PlaneringHubModuleId;
@@ -209,6 +211,16 @@ export const PLANERING_HUB_MODULES: Record<
     to: '/projekt/ny',
     category: 'filer',
     tone: 'emerald',
+  },
+  bygg: {
+    id: 'bygg',
+    title: 'Mina moduler',
+    lead: 'Egna nedräkningar och listor.',
+    emoji: '◇',
+    icon: Blocks,
+    to: '/planering?tab=bygg',
+    category: 'anteckning',
+    tone: 'gold',
   },
   anteckning: {
     id: 'anteckning',

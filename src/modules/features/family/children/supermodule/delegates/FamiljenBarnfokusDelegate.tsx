@@ -135,7 +135,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
           <button
             type="button"
             onClick={anotherQuestion}
-            className="inline-flex items-center gap-1 text-xs text-text-dim transition-colors hover:text-accent"
+            className="inline-flex min-h-11 items-center gap-1 text-xs text-text-dim transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           >
             <RefreshCw className="h-3 w-3" />
             Annan fråga

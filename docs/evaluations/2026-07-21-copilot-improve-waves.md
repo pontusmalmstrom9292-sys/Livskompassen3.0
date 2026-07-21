@@ -111,3 +111,8 @@
 - Live: https://gen-lang-client-0481875058.web.app
 
 **Verdict:** GO — YOLO v8-kö helt klar.
+
+
+### g85-friction-d5-prep — PASS (YOLO v9)
+- cap:sync:prod + android-platform + android-prod-sync PASS
+- Manuell G85 dag 5 kvar

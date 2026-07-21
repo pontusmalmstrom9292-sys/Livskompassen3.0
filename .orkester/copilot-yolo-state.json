@@ -1,9 +1,11 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T12:39:16.000Z",
-  "updatedAt": "2026-07-21T12:39:16.000Z",
-  "currentTaskId": "g85-friction-d5-prep",
-  "completedTaskIds": [],
+  "updatedAt": "2026-07-21T12:41:01.000Z",
+  "currentTaskId": "adhoc-dialog-audit",
+  "completedTaskIds": [
+    "g85-friction-d5-prep"
+  ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
   "taskOrder": [

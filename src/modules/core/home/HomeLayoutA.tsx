@@ -15,6 +15,7 @@ import { HomeGreeting } from './HomeGreeting';
 import { HomeBrassDaySteps } from './HomeBrassDaySteps';
 import { HomeStreakChip } from './HomeStreakChip';
 import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/PinnedPlaneringModuleSlot';
+import { UserWidgetHomeSlot } from './UserWidgetHomeSlot';
 import { HOME_SUPERHUB_ROUTES } from './homeSuperhubRoutes';
 import { getHomeCompassPhase, phaseLead } from './homeCompassPhase';
 import { useLifeHubPreset } from '../lifeOs';
@@ -206,19 +207,19 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
           </p>
         </div>
         {!isEditing && anchor.trim() ? (
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <button
               type="button"
               onClick={() => setIsEditing(true)}
-              className="p-1 text-text-dim transition-colors hover:text-accent"
-              title="Redigera ankare"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-text-dim transition-colors hover:text-accent"
+              aria-label="Redigera dagens ankare"
             >
-              <Edit2 className="h-3.5 w-3.5" />
+              <Edit2 className="h-3.5 w-3.5" aria-hidden />
             </button>
-            <Star className="h-3.5 w-3.5 fill-accent text-accent" />
+            <Star className="h-3.5 w-3.5 fill-accent text-accent" aria-hidden />
           </div>
         ) : (
-          <Star className="h-3.5 w-3.5 fill-accent text-accent" />
+          <Star className="h-3.5 w-3.5 fill-accent text-accent" aria-hidden />
         )}
       </div>
 
@@ -344,6 +345,8 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
 
       <PinnedPlaneringModuleSlot targetId="hem.brass.below-grid" />
 
+      <UserWidgetHomeSlot />
+
       {variant !== 'executive' ? (
         <>
       <HomeBrassDaySteps variant={variant} />
@@ -354,7 +357,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
         )}>
           SNABBSTART
         </p>
-        <div className="grid grid-cols-3 gap-2.5">
+        <div className="home-layout-a__snabbstart grid grid-cols-3 gap-2.5">
           {QUICK_CAPTURE.map((item) => {
             const Icon = item.icon;
             return (
@@ -362,9 +365,10 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
                 key={item.id}
                 type="button"
                 onClick={() => navigate(item.to)}
+                aria-label={item.label}
                 className={clsx(
                   cardClass,
-                  'p-4 flex flex-col items-center justify-center gap-2 hover:border-accent/30 transition-all active:scale-[0.98]',
+                  'home-layout-a__tile flex min-h-[5.5rem] flex-col items-center justify-center gap-2 p-4 transition-all hover:border-accent/30 active:scale-[0.98]',
                 )}
               >
                 <Icon className="h-5 w-5 text-accent" aria-hidden />
@@ -380,49 +384,61 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
         <button
           type="button"
           onClick={() => navigate('/vardagen?tab=mabra')}
-          className={clsx(cardClass, 'p-3.5 text-left flex flex-col justify-between min-h-[96px] hover:border-accent/30 transition-all active:scale-[0.98]')}
+          aria-label={`Närvaro ${presenceVal}, ${presenceLabel}`}
+          className={clsx(
+            cardClass,
+            'home-layout-a__tile flex min-h-24 flex-col justify-between p-3.5 text-left transition-all hover:border-accent/30 active:scale-[0.98]',
+          )}
         >
-          <span className={clsx(
-            'text-[9px] tracking-[0.12em] uppercase font-bold text-accent',
-          )}>NÄRVARO</span>
-          <div className="flex flex-col mt-2">
-            <span className="text-xl font-bold font-sans text-text leading-none">{presenceVal}</span>
-            <span className="text-[10px] text-success font-semibold mt-1">{presenceLabel}</span>
+          <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-accent">
+            NÄRVARO
+          </span>
+          <div className="mt-2 flex flex-col">
+            <span className="font-sans text-xl font-bold leading-none text-text">{presenceVal}</span>
+            <span className="mt-1 text-[10px] font-semibold text-success">{presenceLabel}</span>
           </div>
         </button>
 
         <button
           type="button"
           onClick={() => navigate('/vardagen')}
-          className={clsx(cardClass, 'p-3.5 text-left flex flex-col justify-between min-h-[96px] hover:border-accent/30 transition-all active:scale-[0.98]')}
+          aria-label={`Ritual ${ritual.name}, ${ritual.time}`}
+          className={clsx(
+            cardClass,
+            'home-layout-a__tile flex min-h-24 flex-col justify-between p-3.5 text-left transition-all hover:border-accent/30 active:scale-[0.98]',
+          )}
         >
-          <span className={clsx(
-            'text-[9px] tracking-[0.12em] uppercase font-bold text-accent',
-          )}>RITUAL</span>
-          <div className="flex flex-col mt-2">
-            <span className="text-base font-bold font-sans text-text leading-none">{ritual.name}</span>
-            <span className="text-[9px] text-text-dim font-medium mt-1.5 flex items-center gap-1">
-              {RitualIcon && <RitualIcon className="w-3 h-3 text-accent" />} {ritual.time}
+          <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-accent">
+            RITUAL
+          </span>
+          <div className="mt-2 flex flex-col">
+            <span className="font-sans text-base font-bold leading-none text-text">{ritual.name}</span>
+            <span className="mt-1.5 flex items-center gap-1 text-[9px] font-medium text-text-dim">
+              {RitualIcon ? <RitualIcon className="h-3 w-3 text-accent" aria-hidden /> : null}
+              {ritual.time}
             </span>
           </div>
         </button>
       </div>
 
-      {/* Kompassråd below them */}
       <button
         type="button"
         onClick={() => navigate('/hjartat')}
-        className={clsx(cardClass, 'w-full p-4 flex items-center justify-between text-left hover:border-accent/30 transition-all active:scale-[0.99]')}
+        aria-label={`Kompassråd: ${compassAdvice}`}
+        className={clsx(
+          cardClass,
+          'home-layout-a__tile flex w-full items-center justify-between p-4 text-left transition-all hover:border-accent/30 active:scale-[0.99]',
+        )}
       >
         <div className="space-y-1">
-          <p className="text-[9px] tracking-[0.2em] uppercase font-bold text-accent">
+          <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-accent">
             KOMPASSRÅD
           </p>
-          <p className="text-xs font-semibold text-text leading-relaxed font-sans">
+          <p className="font-sans text-xs font-semibold leading-relaxed text-text">
             {compassAdvice}
           </p>
         </div>
-        <ChevronRight className="w-4 h-4 text-accent flex-shrink-0 ml-4" />
+        <ChevronRight className="ml-4 h-4 w-4 flex-shrink-0 text-accent" aria-hidden />
       </button>
         </>
       ) : null}
