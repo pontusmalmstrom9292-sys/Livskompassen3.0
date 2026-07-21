@@ -36,4 +36,6 @@
 
 | zen-resurser-overlay-polish | Focus, Esc, glass tokens, EmptyState | ZenModeOverlay, ResurserOverlay | build, locked-ux, design-modules, predeploy:build | PASS |
 
+| grans-biff-polish | Grey Rock hints, 44px, tokens/Pansar | BiffPublicPanel, GlobalPansarView | build, grans, predeploy:build | PASS |
+
 > Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.

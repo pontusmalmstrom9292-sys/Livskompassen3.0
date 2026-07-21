@@ -173,9 +173,12 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
 
             {/* —— REALTIME JADE DETECTOR BAR —— */}
             {jadeViolations.length > 0 && (
-              <div className="rounded-xl border border-danger/20 bg-danger/5 p-3.5 space-y-2">
+              <div
+                className="space-y-2.5 rounded-xl border border-danger/20 bg-danger/5 p-3.5"
+                role="alert"
+              >
                 <div className="flex items-center gap-1.5 text-xs font-semibold text-danger">
-                  <AlertTriangle className="h-4 w-4 shrink-0" />
+                  <AlertTriangle className="h-4 w-4 shrink-0" aria-hidden />
                   <span>Varning: Detekterade JADE-mönster</span>
                 </div>
                 <ul className="space-y-1.5 text-xs text-text-muted">
@@ -185,25 +188,30 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
                     </li>
                   ))}
                 </ul>
-                <Button
-                  type="button"
-                  variant="accent"
-                  onClick={handleCleanToGreyRock}
-                  className="text-[11px] px-3 py-1.5 flex items-center gap-1.5"
-                >
-                  <Sparkles className="h-3.5 w-3.5" />
-                  Städa till Grey Rock-mall
-                </Button>
-                {jadeUndoText !== null ? (
+                <p className="text-[11px] leading-relaxed text-text-dim">
+                  Grey Rock: kort, sakligt, endast logistik. Ingen förklaring, inget försvar.
+                </p>
+                <div className="flex flex-wrap gap-2">
                   <Button
                     type="button"
-                    variant="ghost"
-                    onClick={handleUndoGreyRock}
-                    className="text-[11px] px-3 py-1.5"
+                    variant="accent"
+                    onClick={handleCleanToGreyRock}
+                    className="flex min-h-11 items-center gap-1.5 px-3 text-[11px]"
                   >
-                    Ångra städning
+                    <Sparkles className="h-3.5 w-3.5" aria-hidden />
+                    Städa till Grey Rock-mall
                   </Button>
-                ) : null}
+                  {jadeUndoText !== null ? (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={handleUndoGreyRock}
+                      className="min-h-11 px-3 text-[11px]"
+                    >
+                      Ångra städning
+                    </Button>
+                  ) : null}
+                </div>
               </div>
             )}
 
@@ -221,7 +229,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               variant="accent"
               onClick={() => setStep(2)} 
               disabled={!message.trim()} 
-              className="w-full"
+              className="min-h-11 w-full"
             >
               Nästa: Brusfiltret
             </Button>
@@ -240,14 +248,14 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
                 onChange={(e) => setCoreQuestion(e.target.value)}
                 placeholder="Den objektiva kärnfrågan är..."
                 rows={2}
-                className="input-glass text-sm mt-3 resize-none"
+                className="input-glass mt-3 resize-none text-sm"
               />
             </BentoCard>
             <div className="flex gap-2">
-              <Button type="button" variant="secondary" onClick={() => setStep(1)} className="flex-1">
+              <Button type="button" variant="secondary" onClick={() => setStep(1)} className="min-h-11 flex-1">
                 Tillbaka
               </Button>
-              <Button type="button" variant="accent" onClick={() => setStep(3)} className="flex-1">
+              <Button type="button" variant="accent" onClick={() => setStep(3)} className="min-h-11 flex-1">
                 Nästa: Mål
               </Button>
             </div>
@@ -266,15 +274,15 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
                 onChange={(e) => setUserGoal(e.target.value)}
                 placeholder="Mitt mål med svaret är..."
                 rows={2}
-                className="input-glass text-sm mt-3 resize-none"
+                className="input-glass mt-3 resize-none text-sm"
               />
             </BentoCard>
             <div className="flex gap-2">
-              <Button type="button" variant="secondary" onClick={() => setStep(2)} className="flex-1">
+              <Button type="button" variant="secondary" onClick={() => setStep(2)} className="min-h-11 flex-1">
                 Tillbaka
               </Button>
-              <Button type="submit" variant="accent" disabled={loading} className="flex-1">
-                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              <Button type="submit" variant="accent" disabled={loading} className="min-h-11 flex-1">
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
                 Få Grey Rock-svar
               </Button>
             </div>
@@ -283,7 +291,12 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
       </form>
 
       {error || panelError ? (
-        <p className="text-sm text-text-muted">{error || panelError}</p>
+        <p
+          role="alert"
+          className="rounded-lg border border-accent/25 bg-accent/10 px-3 py-2 text-sm text-accent-light"
+        >
+          {error || panelError}
+        </p>
       ) : null}
 
       {triageReady && !reply && step === 3 && (
@@ -295,11 +308,14 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
             agentName={agentName}
             theoryWithoutEvidence={theoryWithoutEvidence}
           />
+          <p className="mt-2 text-[11px] text-text-dim">
+            Grey Rock-tips: svara bara på kärnfrågan. Datum och logistik — inget JADE.
+          </p>
           <Button
             type="button"
             variant="accent"
             onClick={confirmReply}
-            className="w-full text-sm mt-3"
+            className="mt-3 min-h-11 w-full text-sm"
           >
             Visa Grey Rock-svar
           </Button>
@@ -332,11 +348,17 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               type="button"
               variant="accent"
               onClick={() => void handleCopyReply()}
-              className="text-xs"
+              className="min-h-11 text-xs"
             >
               {copyCopied ? 'Kopierat ✓' : 'Kopiera svar'}
             </Button>
-            <Button type="button" variant="ghost" onClick={handleKlar} className="text-xs" aria-label="Klar — rensa session (Zero Footprint)">
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={handleKlar}
+              className="min-h-11 text-xs"
+              aria-label="Klar — rensa session (Zero Footprint)"
+            >
               Klar — rensa
             </Button>
             <Button
@@ -344,9 +366,9 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               variant="ghost"
               onClick={() => void handleAutosortToArkiv()}
               disabled={autosorting || !message.trim()}
-              className="text-xs"
+              className="min-h-11 text-xs"
             >
-              {autosorting ? <Loader2 className="h-3 w-3 animate-spin" /> : null}
+              {autosorting ? <Loader2 className="h-3 w-3 animate-spin" aria-hidden /> : null}
               Sortera till arkiv
             </Button>
           </div>
