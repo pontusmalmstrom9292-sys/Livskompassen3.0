@@ -1,3 +1,4 @@
+import { sanitizeDfBankText, type DfQuestion } from './dfBankTypes';
 export const DF_QUESTION_BANK: readonly DfQuestion[] = [
 
   { id: 'DF-Q-TRI-01', bucket: 'trigger', text_sv: 'Vad hände precis innan suget — plats, tid, känsla?', evidence_tier: 'product_copy' },
@@ -103,3 +104,7 @@ export const DF_QUESTION_BANK: readonly DfQuestion[] = [
 ];
 
 export const DF_QUESTION_COUNT = 100 as const;
+
+export function dfQuestionDisplayText(q: DfQuestion): string {
+  return sanitizeDfBankText(q.text_sv);
+}

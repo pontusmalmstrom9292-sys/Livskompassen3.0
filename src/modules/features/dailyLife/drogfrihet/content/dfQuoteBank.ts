@@ -1,3 +1,4 @@
+import { sanitizeDfBankText, type DfQuote } from './dfBankTypes';
 export const DF_QUOTE_BANK: readonly DfQuote[] = [
 
   { id: 'DF-QUOTE-VAG-01', category: 'vag', text_sv: 'Sug är en våg. Den toppar och sjunker.', evidence_tier: 'product_copy' },
@@ -243,3 +244,7 @@ export const DF_QUOTE_BANK: readonly DfQuote[] = [
 ];
 
 export const DF_QUOTE_COUNT = 240 as const;
+
+export function dfQuoteDisplayText(q: DfQuote): string {
+  return sanitizeDfBankText(q.text_sv);
+}

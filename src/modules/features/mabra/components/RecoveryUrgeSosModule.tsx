@@ -75,7 +75,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
   const [protocolMins, setProtocolMins] = useState<ProtocolMins>(1);
   const [protocolStep, setProtocolStep] = useState(0);
   const [haltChecked, setHaltChecked] = useState<Record<string, boolean>>({});
-  const [urgeSecondsLeft, setUrgeSecondsLeft] = useState(URGE_SURF_COPY.defaultSeconds);
+  const [urgeSecondsLeft, setUrgeSecondsLeft] = useState<number>(URGE_SURF_COPY.defaultSeconds);
   const [intensity, setIntensity] = useState<number | null>(null);
   const timeoutRef = useRef<number | null>(null);
   const urgeIntervalRef = useRef<number | null>(null);
@@ -218,7 +218,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
             <button
               type="button"
               onClick={handleBackToAnchor}
-              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl border-[0.5px] border-border/60 px-2 py-1.5 text-xs text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3 hover:text-text"
+              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl border-[0.5px] border-border/60 px-2 py-1.5 text-xs text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3 hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             >
               <ArrowLeft className="h-4 w-4" strokeWidth={1.5} aria-hidden />
               Tillbaka
@@ -227,7 +227,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
           <button
             type="button"
             onClick={onClose}
-            className="min-h-[44px] min-w-[44px] rounded-xl border-[0.5px] border-border/60 p-2 text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3 hover:text-text"
+            className="min-h-[44px] min-w-[44px] rounded-xl border-[0.5px] border-border/60 p-2 text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3 hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             aria-label="Stäng SOS Ankare"
           >
             <X className="h-5 w-5" strokeWidth={1.5} />
