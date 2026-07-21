@@ -239,7 +239,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
             </p>
           </BentoCard>
 
-          <section className="rounded-2xl border-[0.5px] border-border bg-gradient-to-br from-surface-2/80 via-surface to-surface-2 p-4 sm:p-5">
+          <section className="calm-card glow-bottom-green p-4 sm:p-5">
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <div className="min-w-0 space-y-1">
                 <p className={`flex items-center gap-2 ${textStyles.eyebrow}`}>

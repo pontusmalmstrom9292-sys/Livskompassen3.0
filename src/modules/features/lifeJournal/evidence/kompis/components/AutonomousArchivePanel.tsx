@@ -256,7 +256,7 @@ export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePane
   };
 
   return (
-    <div className="rounded-2xl border border-border/40 bg-surface/40 p-1 shadow-sm backdrop-blur-md">
+    <div className="calm-card overflow-hidden p-1">
       {toast && (
         <div
           role="status"

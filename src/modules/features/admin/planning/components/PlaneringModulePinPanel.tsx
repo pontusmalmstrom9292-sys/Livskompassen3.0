@@ -88,7 +88,7 @@ export function PlaneringModulePinPanel({ title, content, onPinned }: Props) {
   };
 
   return (
-    <section className="planering-pin-panel calm-card rounded-2xl border border-border/30 bg-surface-2/40 p-4">
+    <section className="planering-pin-panel calm-card p-4 sm:p-5">
       <div className="flex items-start justify-between gap-2">
         <div>
           <p className="flex items-center gap-1.5 text-xs uppercase tracking-wider text-accent">

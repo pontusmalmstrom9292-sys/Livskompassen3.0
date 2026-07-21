@@ -252,7 +252,7 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
         </div>
       ) : currentTask ? (
         <div className="space-y-3">
-          <div className="rounded-xl border border-border-strong bg-surface/40 px-4 py-3">
+          <div className="rounded-xl border border-border/40 bg-surface-2/50 px-4 py-3">
             <p className="text-sm font-medium text-accent">{currentTask.titel}</p>
             <p className="mt-2 text-sm text-text-muted">{currentTask.rule_sv}</p>
           </div>

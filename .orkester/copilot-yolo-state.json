@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T14:30:00.000Z",
-  "currentTaskId": null,
+  "updatedAt": "2026-07-21T12:05:19.000Z",
+  "currentTaskId": "obsidian-depth-polish",
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
     "ui-polish-v2-vardagen",

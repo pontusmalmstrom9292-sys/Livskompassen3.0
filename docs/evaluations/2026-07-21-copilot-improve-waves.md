@@ -82,3 +82,5 @@
 **Smoke:** governance, predeploy:build
 
 **Verdict:** GO — kö tom (exkl. 3 env-failed).
+
+| calm-card-audit-fixes | glass sheen+rim tokens, hub calm-card (pin/drogfrihet/vit/emotion/aktör/autonomous/mabra) | glass.css + 7 hub | build, calm-card-audit, design-modules, predeploy:build | PASS |
