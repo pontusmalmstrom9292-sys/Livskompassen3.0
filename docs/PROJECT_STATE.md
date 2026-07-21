@@ -114,6 +114,14 @@ Phase 0–9 baseline och migration **done**. Phase 10: `index.css` import-only; 
 | YOLO app-wide UI polish (Wave 4) | **PASS** | 2026-07-20 — nav-drawer sections + Planering routines + MåBra collapsible + Reflektion panel contrast/focus/touch-target pass |
 | YOLO app-wide UI polish (Wave 5) | **PASS** | 2026-07-20 — dock hub/compass + Dagbok mode/handoff + adaptive-card focus/touch-target/contrast pass |
 | YOLO app-wide UI polish (Wave 6) | **PASS** | 2026-07-20 — executive home/header + Obsidian shell/glass focus-visible, touch-target, contrast pass |
+| YOLO app-wide UI polish (Wave 7) | **PASS** | 2026-07-21 — dock center-label hardening + selector-säker core-chrome polish pass |
+| YOLO app-wide UI polish (Wave 8) | **PASS** | 2026-07-21 — Home Layout A keyboard focus-visible polish (snabbval/tile/step/link/strip) i DS shell-lager |
+| YOLO app-wide UI polish (Wave 9) | **PASS** | 2026-07-21 — Home Layout A hero-inset `:focus-visible` ring/contrast polish i DS shell-lager |
+| YOLO app-wide UI polish (Wave 10) | **PASS** | 2026-07-21 — Home Layout A `:focus-within` polish för hero-card/tile i DS shell-lager |
+| YOLO app-wide UI polish (Wave 11) | **PASS** | 2026-07-21 — Home Layout A reduced-motion polish (`prefers-reduced-motion` transition-off för snabbval/tile/step/link) i DS shell-lager |
+| YOLO app-wide UI polish (Wave 12) | **PASS** | 2026-07-21 — Home Layout A transition-token polish (snabbval/tile/link) i DS shell-lager |
+| YOLO app-wide UI polish (Wave 13) | **PASS** | 2026-07-21 — Home Layout A strip transition-token + reduced-motion polish i DS shell-lager |
+| YOLO app-wide UI polish (Wave 14) | **PASS** | 2026-07-21 — Home Layout A step-button transition-token polish i DS shell-lager |
 | `smoke:governance` + `smoke:module-lock` | **PASS** | 2026-07-20 — module-lock green (25/25 locked), governance smoke PASS |
 
 ### MOD-WIDGET Standalone v1 (2026-07-14)

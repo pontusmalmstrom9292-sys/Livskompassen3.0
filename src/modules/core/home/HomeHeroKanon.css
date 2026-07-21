@@ -63,8 +63,8 @@
     transform: translateX(-50%);
     background: linear-gradient(
       180deg,
-      rgba(212, 175, 55, 0.55) 0%,
-      rgba(212, 175, 55, 0.12) 70%,
+      color-mix(in srgb, var(--accent) 55%, transparent) 0%,
+      color-mix(in srgb, var(--accent) 12%, transparent) 70%,
       transparent 100%
     );
     pointer-events: none;
@@ -91,8 +91,8 @@
     background: linear-gradient(
       180deg,
       transparent 0%,
-      rgba(6, 8, 16, 0.42) 55%,
-      rgba(6, 8, 16, 0.72) 100%
+      color-mix(in srgb, var(--bg) 42%, transparent) 55%,
+      color-mix(in srgb, var(--bg) 72%, transparent) 100%
     );
     pointer-events: none;
   }
@@ -147,7 +147,7 @@
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(212, 175, 55, 0.55) 50%,
+      color-mix(in srgb, var(--accent) 55%, transparent) 50%,
       transparent 100%
     );
     pointer-events: none;
@@ -167,7 +167,7 @@
   }
 
   .home-page--scenic .home-greeting-module .home-streak-chip {
-    border-color: rgba(212, 175, 55, 0.35);
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
     background: rgba(10, 10, 10, 0.55);
     backdrop-filter: blur(12px);
   }
@@ -275,43 +275,43 @@
 
   .home-adaptive-compass__card--phase-morgon {
     border-bottom-width: 2px;
-    border-bottom-color: rgba(232, 201, 106, 0.55);
+    border-bottom-color: color-mix(in srgb, var(--accent-light, var(--accent)) 55%, transparent);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
       0 16px 48px -10px rgba(0, 0, 0, 0.72),
-      0 0 48px -10px rgba(212, 175, 55, 0.22);
+      0 0 48px -10px color-mix(in srgb, var(--accent) 22%, transparent);
   }
 
   .home-adaptive-compass__card--phase-dag {
     border-bottom-width: 2px;
-    border-bottom-color: rgba(212, 175, 55, 0.62);
+    border-bottom-color: color-mix(in srgb, var(--accent) 62%, transparent);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
       0 16px 48px -10px rgba(0, 0, 0, 0.72),
-      0 0 52px -10px rgba(212, 175, 55, 0.26);
+      0 0 52px -10px color-mix(in srgb, var(--accent) 26%, transparent);
   }
 
   .home-adaptive-compass__card--phase-kvall {
     border-bottom-width: 2px;
-    border-bottom-color: rgba(212, 175, 55, 0.58);
+    border-bottom-color: color-mix(in srgb, var(--accent) 58%, transparent);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.09),
       0 16px 48px -10px rgba(0, 0, 0, 0.75),
-      0 0 56px -12px rgba(212, 175, 55, 0.24);
+      0 0 56px -12px color-mix(in srgb, var(--accent) 24%, transparent);
   }
 
   .home-adaptive-compass__head--morgon {
-    border-bottom: 1px solid rgba(212, 175, 55, 0.16);
-    background: linear-gradient(180deg, rgba(212, 175, 55, 0.1), rgba(9, 17, 30, 0.4));
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 16%, transparent);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 10%, transparent), color-mix(in srgb, var(--bg) 40%, transparent));
   }
 
   .home-adaptive-compass__head--dag {
-    border-bottom: 1px solid rgba(212, 175, 55, 0.18);
-    background: linear-gradient(180deg, rgba(212, 175, 55, 0.12), rgba(9, 17, 30, 0.42));
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 12%, transparent), color-mix(in srgb, var(--bg) 42%, transparent));
   }
 
   .home-adaptive-compass__head--kvall {
-    border-bottom: 1px solid rgba(212, 175, 55, 0.16);
+    border-bottom: 1px solid color-mix(in srgb, var(--accent) 16%, transparent);
     background: linear-gradient(180deg, rgba(20, 28, 43, 0.85), rgba(5, 11, 20, 0.55));
   }
 
@@ -465,18 +465,42 @@
     @apply line-clamp-2 text-[9px] leading-snug text-text-dim;
   }
 
-  .kompass-disc-card--gold { border-bottom: 2px solid rgba(212, 175, 55, 0.35); }
-  .kompass-disc-card--amber { border-bottom: 2px solid rgba(180, 140, 60, 0.32); }
-  .kompass-disc-card--slate { border-bottom: 2px solid rgba(148, 163, 184, 0.28); }
-  .kompass-disc-card--rose-dim { border-bottom: 2px solid rgba(190, 120, 120, 0.28); }
-  .kompass-disc-card--sea-dim { border-bottom: 2px solid rgba(80, 140, 130, 0.28); }
-  .kompass-disc-card--bronze { border-bottom: 2px solid rgba(154, 123, 47, 0.35); }
-  .kompass-disc-card--mist { border-bottom: 2px solid rgba(130, 150, 170, 0.25); }
-  .kompass-disc-card--sand { border-bottom: 2px solid rgba(170, 150, 110, 0.28); }
-  .kompass-disc-card--pearl { border-bottom: 2px solid rgba(200, 190, 170, 0.22); }
-  .kompass-disc-card--copper { border-bottom: 2px solid rgba(160, 110, 80, 0.28); }
-  .kompass-disc-card--ash { border-bottom: 2px solid rgba(120, 130, 140, 0.28); }
-  .kompass-disc-card--moss { border-bottom: 2px solid rgba(90, 130, 100, 0.28); }
+  .kompass-disc-card--gold {
+    border-bottom: 2px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+  .kompass-disc-card--amber {
+    border-bottom: 2px solid color-mix(in srgb, var(--accent-secondary, var(--accent)) 32%, transparent);
+  }
+  .kompass-disc-card--slate {
+    border-bottom: 2px solid color-mix(in srgb, var(--text-muted) 40%, transparent);
+  }
+  .kompass-disc-card--rose-dim {
+    border-bottom: 2px solid color-mix(in srgb, var(--danger, #be7878) 35%, transparent);
+  }
+  .kompass-disc-card--sea-dim {
+    border-bottom: 2px solid color-mix(in srgb, var(--success, #508c82) 40%, transparent);
+  }
+  .kompass-disc-card--bronze {
+    border-bottom: 2px solid color-mix(in srgb, var(--accent) 42%, transparent);
+  }
+  .kompass-disc-card--mist {
+    border-bottom: 2px solid color-mix(in srgb, var(--text-dim) 45%, transparent);
+  }
+  .kompass-disc-card--sand {
+    border-bottom: 2px solid color-mix(in srgb, var(--accent-light, var(--accent)) 28%, transparent);
+  }
+  .kompass-disc-card--pearl {
+    border-bottom: 2px solid color-mix(in srgb, var(--text-muted) 28%, transparent);
+  }
+  .kompass-disc-card--copper {
+    border-bottom: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  }
+  .kompass-disc-card--ash {
+    border-bottom: 2px solid color-mix(in srgb, var(--text-dim) 50%, transparent);
+  }
+  .kompass-disc-card--moss {
+    border-bottom: 2px solid color-mix(in srgb, var(--success, #5a8264) 42%, transparent);
+  }
 
   .kompass-disc-flow {
     @apply py-1;
@@ -641,5 +665,19 @@
       0 0 0 1px var(--color-glass-dark-35) inset,
       0 20px 48px rgba(2, 6, 23, 0.45);
     backdrop-filter: blur(14px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .home-hero-kanon__tile--icon,
+    .home-hero-kanon__snabbval-chip,
+    .home-hero-kanon__step-btn,
+    .home-hero-kanon__link,
+    .home-hero-kanon__strip,
+    .home-hero-kanon__tab,
+    .home-hero-kanon__chevron {
+      transition: none !important;
+    }
   }
 }

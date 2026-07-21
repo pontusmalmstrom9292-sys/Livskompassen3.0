@@ -251,4 +251,32 @@ public class NativeInterface {
             context.stopService(intent);
         }
     }
+
+    /** Cached FCM token for Drogfrihet sync (empty if unavailable). Refreshes async. */
+    @JavascriptInterface
+    public String getDrogfrihetFcmToken() {
+        android.content.Context ctx = hapticManager.getContext();
+        String cached = com.livskompassen.app.util.SecurePrefs.get(ctx)
+                .getString(DrogfrihetFirebaseMessagingService.PREF_FCM_TOKEN, "");
+        try {
+            com.google.firebase.messaging.FirebaseMessaging.getInstance().getToken()
+                    .addOnSuccessListener(token -> {
+                        if (token != null && !token.isEmpty()) {
+                            com.livskompassen.app.util.SecurePrefs.get(ctx).edit()
+                                    .putString(DrogfrihetFirebaseMessagingService.PREF_FCM_TOKEN, token)
+                                    .apply();
+                        }
+                    });
+        } catch (Exception e) {
+            LCLog.d("getDrogfrihetFcmToken: " + e.getMessage());
+        }
+        return cached != null ? cached : "";
+    }
+
+    /** Mirror opt-in prefs + schedule/cancel local WorkManager nudges. */
+    @JavascriptInterface
+    public void scheduleDrogfrihetNudges(boolean optIn, int quietStart, int quietEnd, int craveStart, int craveEnd) {
+        DrogfrihetNudgeScheduler.applyPrefs(
+                hapticManager.getContext(), optIn, quietStart, quietEnd, craveStart, craveEnd);
+    }
 }

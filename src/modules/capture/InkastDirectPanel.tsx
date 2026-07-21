@@ -313,8 +313,8 @@ export function InkastDirectPanel({
     (lastResult.queued > 0 || lastResult.items.some((i) => i.action === 'queued'));
 
   const textareaClass = isValv
-    ? 'input-glass w-full resize-none rounded-xl px-3 py-2 text-sm'
-    : 'w-full rounded-xl border border-border-subtle bg-surface/50 px-3 py-2 text-sm text-text placeholder:text-text-dim focus:border-accent/40 focus:outline-none';
+    ? 'input-glass w-full resize-none rounded-xl px-3 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50'
+    : 'w-full rounded-xl border border-border-subtle bg-surface/50 px-3 py-2 text-sm text-text placeholder:text-text-dim focus:border-accent/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50';
 
   return (
     <BentoCard
@@ -339,7 +339,7 @@ export function InkastDirectPanel({
               type="button"
               disabled={loading || wormConfirmOpen}
               onClick={() => handleBaraOrdSubmit(ord)}
-              className="rounded-xl border border-border/30 bg-surface-2/40 p-3 text-sm text-text hover:border-accent/40 hover:bg-accent/5 transition-all disabled:opacity-50"
+              className="rounded-xl border border-border/30 bg-surface-2/40 p-3 text-sm text-text hover:border-accent/40 hover:bg-accent/5 transition-all disabled:opacity-50 min-h-[var(--ds-touch-target,2.75rem)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
             >
               {ord}
             </button>
@@ -359,7 +359,7 @@ export function InkastDirectPanel({
           <p className="mt-0.5 text-right text-[11px] text-text-dim/40 pr-1">
             {text.length} tecken
           </p>
-          <div className="mt-3">
+          <div className="mt-3 space-y-1">
             <MediaAttachWithCaption
               disabled={loading || wormConfirmOpen}
               items={pendingMediaItems}
@@ -383,10 +383,11 @@ export function InkastDirectPanel({
         </div>
       )}
 
-      <div className={clsx('flex flex-wrap gap-2', isValv ? 'mt-2' : 'mt-3')}>
+      <div className={clsx('flex flex-wrap items-center gap-2', isValv ? 'mt-2' : 'mt-3')}>
         <Button
           variant={isValv ? 'secondary' : 'accent'}
           size="sm"
+          className="min-h-[var(--ds-touch-target,2.75rem)]"
           disabled={loading || wormConfirmOpen || text.trim().length < 12}
           onClick={handlePasteSubmit}
         >
@@ -404,6 +405,7 @@ export function InkastDirectPanel({
         <Button
           variant="ghost"
           size="sm"
+          className="min-h-[var(--ds-touch-target,2.75rem)]"
           disabled={loading || wormConfirmOpen || text.trim().length === 0}
           onClick={handleCopy}
           title="Kopiera text till urklipp"
@@ -411,7 +413,7 @@ export function InkastDirectPanel({
         >
           <span className="inline-flex items-center gap-1">
             {copied ? (
-              <Check className="mr-1 inline h-3 w-3 text-emerald-400" />
+              <Check className="mr-1 inline h-3 w-3 text-success" />
             ) : (
               <Copy className="mr-1 inline h-3 w-3" />
             )}
@@ -421,11 +423,12 @@ export function InkastDirectPanel({
         <Button
           variant="ghost"
           size="sm"
+          className="min-h-[var(--ds-touch-target,2.75rem)]"
           disabled={loading || wormConfirmOpen}
           onClick={() => inputRef.current?.click()}
         >
           <span className="inline-flex items-center gap-1">
-            <FileUp className="mr-1 inline h-3 w-3" />
+            <FileUp className="mr-1 inline h-3 w-3" aria-hidden />
             {isValv ? 'Filer' : 'En fil eller flera'}
           </span>
         </Button>
@@ -434,7 +437,10 @@ export function InkastDirectPanel({
           <Button
             variant="ghost"
             size="sm"
-            className={clsx('transition-colors', isListening ? 'text-danger animate-pulse bg-danger/10' : '')}
+            className={clsx(
+              'min-h-[var(--ds-touch-target,2.75rem)] transition-colors',
+              isListening ? 'animate-pulse bg-danger/10 text-danger' : '',
+            )}
             disabled={loading || wormConfirmOpen}
             onClick={toggleListening}
             title={isListening ? 'Klicka för att sluta lyssna' : 'Töm skallen (Röst till text)'}
@@ -453,7 +459,10 @@ export function InkastDirectPanel({
         <Button
           variant="ghost"
           size="sm"
-          className={clsx('ml-auto', showBaraOrd ? 'text-accent' : 'text-text-dim')}
+          className={clsx(
+            'ml-auto min-h-[var(--ds-touch-target,2.75rem)]',
+            showBaraOrd ? 'text-accent' : 'text-text-dim',
+          )}
           onClick={() => setShowBaraOrd(!showBaraOrd)}
           disabled={loading || wormConfirmOpen}
         >
@@ -462,13 +471,13 @@ export function InkastDirectPanel({
 
         {/* Fas 3: Bara Lyssna-toggle */}
         {!showBaraOrd && (
-          <label className="inline-flex items-center gap-1.5 cursor-pointer select-none text-xs text-text-dim">
+          <label className="inline-flex min-h-[var(--ds-touch-target,2.75rem)] cursor-pointer select-none items-center gap-2 text-xs text-text-dim">
             <input
               type="checkbox"
               checked={baraLyssna}
               onChange={(e) => setBaraLyssna(e.target.checked)}
               disabled={loading}
-              className="h-3 w-3 rounded accent-accent"
+              className="h-4 w-4 rounded accent-[var(--accent)]"
             />
             Bara lyssna
           </label>
@@ -486,7 +495,15 @@ export function InkastDirectPanel({
       <CaptureBreathingWidget />
 
       {error && (
-        <p className={clsx('text-amber-400/90', isValv ? 'mt-2 text-xs' : 'mt-3 text-sm')}>{error}</p>
+        <p
+          role="alert"
+          className={clsx(
+            'rounded-lg border border-accent/25 bg-accent/10 px-3 py-2 text-accent-light',
+            isValv ? 'mt-2 text-xs' : 'mt-3 text-sm',
+          )}
+        >
+          {error}
+        </p>
       )}
 
       {lastResult && (

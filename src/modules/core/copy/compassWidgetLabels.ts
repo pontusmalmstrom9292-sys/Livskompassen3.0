@@ -6,6 +6,11 @@
 /** Kvälls-widget — ersätter «KASAM» i user-facing UI. */
 export const EVENING_CLOSE_LABEL = 'Stäng dagen' as const;
 
+/** Proaktivt minneskort — ingen «KASAM» i user-facing prompt. */
+export function eveningWeakDimensionPrompt(dimensionLabel: string): string {
+  return `Din senaste kvällscheck visar lägre ${dimensionLabel.toLowerCase()}. Ett litet steg i kvällskompassen räcker.`;
+}
+
 export const EVENING_CLOSE_SILO_NOTE = 'Kvällskompass — tre korta steg utan skuld' as const;
 
 export const EVENING_CHECK_TITLE = 'Stäng dagen' as const;

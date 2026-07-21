@@ -228,7 +228,12 @@ export function MediaAttachWithCaption({
               </div>
             )}
             <label className="mt-2 block" htmlFor={`${baseId}-cap-${item.id}`}>
-              <span className="sr-only">Bildtext för bild {index + 1}</span>
+              <span className="mb-1 flex items-center justify-between gap-2 text-xs text-text-dim">
+                <span>Bildtext (valfritt)</span>
+                <span aria-hidden className="tabular-nums text-text-dim/60">
+                  {item.caption.length}/{CAPTION_MAX_CHARS}
+                </span>
+              </span>
               <TextArea
                 id={`${baseId}-cap-${item.id}`}
                 rows={2}
@@ -238,6 +243,7 @@ export function MediaAttachWithCaption({
                 value={item.caption}
                 maxLength={CAPTION_MAX_CHARS}
                 onChange={(e) => setCaption(item.id, e.target.value)}
+                aria-label={`Bildtext för bild ${index + 1}`}
               />
             </label>
           </div>

@@ -89,11 +89,20 @@ export default defineConfig(({ mode }) => {
             if (id.includes('node_modules/date-fns')) return 'vendor-dates'
             if (id.includes('node_modules/zustand')) return 'vendor-state'
             if (id.includes('node_modules/@radix-ui')) return 'vendor-radix'
-            // Route-split wave: keep lightweight, deterministic route-entry chunks for zone loading.
-            if (id.includes('/modules/core/pages/ValvetRoutePage.tsx')) return 'zone-valv'
+            // Route-split wave: deterministic zone entry chunks (Familjen + Valv + Vardagen + Hjärtat).
+            if (
+              id.includes('/modules/core/pages/ValvetRoutePage.tsx') ||
+              id.includes('/modules/features/lifeJournal/evidence/vault/components/VaultPage.tsx')
+            ) {
+              return 'zone-valv'
+            }
             if (id.includes('/modules/core/pages/FamiljenPage.tsx')) return 'zone-familjen'
             if (id.includes('/modules/core/pages/VardagenRoutePage.tsx')) return 'zone-vardagen'
             if (id.includes('/modules/core/pages/HjartatRoutePage.tsx')) return 'zone-hjartat'
+            // Admin + Oracle — separate from zone hubs (lazy-routes-admin-oracle)
+            if (id.includes('/modules/features/admin/planning/')) return 'zone-planering'
+            if (id.includes('/modules/features/admin/projects/')) return 'zone-projects'
+            if (id.includes('/modules/oracle/')) return 'zone-oracle'
           },
         },
       },

@@ -1,24 +1,41 @@
+/** @locked MOD-WIDGET — låst modul; unlock via docs/evaluations/*-unlock-MOD-WIDGET.md */
 import { useEffect, useState } from 'react';
-import { Clock, PiggyBank, ListTodo, FileText, Check, Trash2, Loader2 } from 'lucide-react';
+import { Clock, PiggyBank, ListTodo, FileText, Check, Loader2 } from 'lucide-react';
+import { clsx } from 'clsx';
 import { getBudgetSavings } from '@/core/firebase/economyFirestore';
-import type { BudgetSavingsRow } from '@/core/types/firestore';
-import type { UserWidgetRow } from '@/core/types/firestore';
+import type { BudgetSavingsRow, UserWidgetRow } from '@/core/types/firestore';
+import { resolveWidgetStylePreset } from '../config/widgetStylePresets';
 import { WidgetDashboardSection } from './WidgetDashboardSection';
-import { WidgetIconButton } from './WidgetButton';
 
 export type { UserWidgetRow };
 
 type Props = {
-  widget: Pick<UserWidgetRow, 'id' | 'type' | 'title' | 'config'>;
+  widget: Pick<
+    UserWidgetRow,
+    'id' | 'type' | 'title' | 'config' | 'stylePreset' | 'slotId' | 'pinnedToHome' | 'status'
+  >;
   userId: string;
-  onUpdate: (widgetId: string, updatedConfig: UserWidgetRow['config']) => Promise<void>;
-  onDelete: (widgetId: string) => Promise<void>;
+  onUpdate?: (widgetId: string, updatedConfig: UserWidgetRow['config']) => Promise<void>;
+  /** @deprecated Prefer softActions + archive from board. Kept for compat. */
+  onDelete?: (widgetId: string) => Promise<void>;
+  /** Hem-slot: ingen redigering/arkivering. */
+  readOnly?: boolean;
+  /** Board: hide hard-delete; archive handled by parent. */
+  softActions?: boolean;
 };
 
-export function HomeWidgetRenderer({ widget, userId, onUpdate, onDelete }: Props) {
+export function HomeWidgetRenderer({
+  widget,
+  userId,
+  onUpdate,
+  readOnly = false,
+  softActions = false,
+}: Props) {
   const [savingsGoals, setSavingsGoals] = useState<BudgetSavingsRow[]>([]);
   const [loadingSavings, setLoadingSavings] = useState(false);
   const [busy, setBusy] = useState(false);
+  const preset = resolveWidgetStylePreset(widget.stylePreset);
+  const interactive = !readOnly && Boolean(onUpdate) && (widget.status ?? 'active') === 'active';
 
   useEffect(() => {
     if (widget.type !== 'linked_savings' || !userId) return;
@@ -30,9 +47,12 @@ export function HomeWidgetRenderer({ widget, userId, onUpdate, onDelete }: Props
   }, [widget.type, userId]);
 
   const renderCountdown = () => {
-    if (!widget.config.targetDate) return <p className="text-xs text-text-dim">Inget datum satt.</p>;
+    const dateSource = widget.config.targetDateTime || widget.config.targetDate;
+    if (!dateSource) return <p className="text-xs text-text-dim">Inget datum satt.</p>;
 
-    const target = new Date(`${widget.config.targetDate}T00:00:00`);
+    const target = widget.config.targetDateTime
+      ? new Date(widget.config.targetDateTime)
+      : new Date(`${widget.config.targetDate}T00:00:00`);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
@@ -54,7 +74,9 @@ export function HomeWidgetRenderer({ widget, userId, onUpdate, onDelete }: Props
             </p>
           </div>
         )}
-        <p className="text-xs text-text-muted mt-2">Måldatum: {widget.config.targetDate}</p>
+        <p className="text-xs text-text-muted mt-2">
+          Måldatum: {widget.config.targetDate || widget.config.targetDateTime}
+        </p>
       </div>
     );
   };
@@ -62,8 +84,12 @@ export function HomeWidgetRenderer({ widget, userId, onUpdate, onDelete }: Props
   const renderLinkedSavings = () => {
     if (loadingSavings) {
       return (
-        <p className="flex items-center justify-center gap-1.5 text-xs text-text-dim py-4">
-          <Loader2 className="h-3.5 w-3.5 animate-spin text-accent" /> Läser sparmål…
+        <p
+          className="flex items-center justify-center gap-1.5 text-xs text-text-dim py-4"
+          aria-busy="true"
+          aria-live="polite"
+        >
+          <Loader2 className="h-3.5 w-3.5 animate-spin text-accent" aria-hidden /> Läser sparmål…
         </p>
       );
     }
@@ -102,7 +128,7 @@ export function HomeWidgetRenderer({ widget, userId, onUpdate, onDelete }: Props
   };
 
   const toggleChecklistItem = async (itemId: string) => {
-    if (busy) return;
+    if (!interactive || busy || !onUpdate) return;
     setBusy(true);
     const items = widget.config.checklistItems ?? [];
     const updated = items.map((item) =>
@@ -125,10 +151,11 @@ export function HomeWidgetRenderer({ widget, userId, onUpdate, onDelete }: Props
           <li key={item.id} className="flex items-center gap-2">
             <button
               type="button"
-              disabled={busy}
+              disabled={!interactive || busy}
               onClick={() => void toggleChecklistItem(item.id)}
               className={[
-                'widget-home-check flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border text-accent transition-colors',
+                'widget-home-check flex shrink-0 items-center justify-center rounded-lg border text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
+                'min-h-[var(--ds-touch-target,2.75rem)] min-w-[var(--ds-touch-target,2.75rem)]',
                 item.done
                   ? 'border-accent bg-accent/10'
                   : 'border-border-strong/60 bg-surface-3/40 hover:border-accent/40',
@@ -164,25 +191,37 @@ export function HomeWidgetRenderer({ widget, userId, onUpdate, onDelete }: Props
     linked_savings: <PiggyBank className="h-4 w-4" strokeWidth={1.5} aria-hidden />,
     checklist: <ListTodo className="h-4 w-4" strokeWidth={1.5} aria-hidden />,
     quick_note: <FileText className="h-4 w-4" strokeWidth={1.5} aria-hidden />,
-  };
+  } as const;
 
-  const glow = widget.type === 'linked_savings' ? 'blue' : 'gold';
+  const glow = widget.type === 'linked_savings' ? 'blue' : preset.glow;
+  const bgPath = widget.config.backgroundPath;
+  const displayTitle = (widget.title ?? 'Modul').trim() || 'Modul';
+  void softActions;
+
+  if (!widget.id) return null;
 
   return (
     <WidgetDashboardSection
-      title={widget.title}
-      icon={iconMap[widget.type]}
+      title={displayTitle}
+      description={widget.config.caption}
+      icon={iconMap[widget.type] ?? iconMap.quick_note}
       glow={glow}
-      className="widget-home-module group relative"
+      className={clsx(
+        'widget-home-module group relative',
+        preset.className,
+        widget.config.shell && `widget-home-module--shell-${widget.config.shell}`,
+        readOnly && 'widget-home-module--readonly',
+      )}
     >
-      <WidgetIconButton
-        label={`Ta bort ${widget.title}`}
-        className="widget-home-module__delete"
-        disabled={busy}
-        onClick={() => void onDelete(widget.id)}
-      >
-        <Trash2 className="h-3.5 w-3.5" aria-hidden />
-      </WidgetIconButton>
+      {bgPath ? (
+        <div
+          className="widget-home-module__bg"
+          aria-hidden={!widget.config.backgroundAlt}
+          role={widget.config.backgroundAlt ? 'img' : undefined}
+          aria-label={widget.config.backgroundAlt}
+          style={{ backgroundImage: `url(${bgPath})` }}
+        />
+      ) : null}
 
       {widget.type === 'countdown' && renderCountdown()}
       {widget.type === 'linked_savings' && renderLinkedSavings()}

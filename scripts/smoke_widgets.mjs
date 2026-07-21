@@ -162,6 +162,13 @@ assert(existsSync(resolve(root, 'android/app/src/main/res/drawable/widget_ic_wh8
 assert(androidStrings.includes('widget_moduler_title'), 'WH8 strings saknas');
 assert(manifest.includes('ModulerWidgetProvider'), 'AndroidManifest saknar WH8 receiver');
 
+console.log('[smoke:widgets] Android Drogfrihet Akut widget…');
+const dfProvider = readCanonical('android/app/src/main/java/com/livskompassen/app/widgets/DrogfrihetAkutWidgetProvider.java');
+assert(dfProvider.includes('/widget/drogfrihet-akut'), 'Drogfrihet widget ska deep-linka till /widget/drogfrihet-akut');
+assert(existsSync(resolve(root, 'android/app/src/main/res/xml/widget_drogfrihet_akut_info.xml')), 'widget_drogfrihet_akut_info saknas');
+assert(androidStrings.includes('widget_drogfrihet_akut_title'), 'Drogfrihet widget strings saknas');
+assert(manifest.includes('DrogfrihetAkutWidgetProvider'), 'AndroidManifest saknar DrogfrihetAkutWidgetProvider');
+
 console.log('[smoke:widgets] Android WH9 Utvecklingskort…');
 const utvProvider = readCanonical(
   'android/app/src/main/java/com/livskompassen/app/widgets/UtvecklingskortWidgetProvider.java',

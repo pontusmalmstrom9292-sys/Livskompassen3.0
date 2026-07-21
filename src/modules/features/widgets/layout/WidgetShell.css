@@ -10,9 +10,9 @@
     padding-left: max(1rem, env(safe-area-inset-left, 0px), var(--safe-area-inset-left, 0px));
     padding-right: max(1rem, env(safe-area-inset-right, 0px), var(--safe-area-inset-right, 0px));
     background:
-      radial-gradient(ellipse 120% 80% at 50% -10%, rgba(212, 175, 55, 0.08), transparent 55%),
+      radial-gradient(ellipse 120% 80% at 50% -10%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 55%),
       radial-gradient(circle at 50% 120%, rgba(20, 28, 43, 0.55), transparent 50%),
-      var(--color-bg, #050810);
+      var(--color-bg, var(--bg));
   }
 
   .widget-shell__header {
@@ -33,6 +33,7 @@
 
   .widget-shell__lead {
     @apply mt-1 text-xs text-text-muted;
+    text-wrap: pretty;
   }
 
   .widget-shell__main {
@@ -93,6 +94,11 @@
     @apply border-accent/35 bg-surface/70 text-accent;
   }
 
+  .widget-btn--icon:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
   .widget-btn__label {
     @apply text-xs;
   }
@@ -130,6 +136,12 @@
     transition: border-color 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
   }
 
+  .widget-action-tile:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+    border-color: color-mix(in srgb, var(--color-accent, var(--accent)) 42%, transparent);
+  }
+
   .widget-action-tile--on {
     border-color: color-mix(in srgb, var(--color-accent, var(--accent)) 45%, transparent);
     box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent, var(--accent)) 22%, transparent);
@@ -141,7 +153,9 @@
   }
 
   .widget-action-tile__icon {
-    @apply flex h-9 w-9 items-center justify-center rounded-full border border-accent/20 bg-accent/10 text-accent;
+    @apply inline-flex items-center justify-center rounded-full border border-accent/20 bg-accent/10 text-accent;
+    min-height: var(--ds-touch-target);
+    min-width: var(--ds-touch-target);
   }
 
   .widget-action-tile__label {
@@ -160,7 +174,7 @@
 
   .widget-record__dot {
     @apply mx-auto block h-3 w-3 rounded-full bg-accent/80;
-    box-shadow: 0 0 12px rgba(212, 175, 55, 0.45);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 45%, transparent);
     animation: widget-pulse 1.6s ease-in-out infinite;
   }
 
@@ -203,14 +217,14 @@
 
   .widget-record-discreet-overlay {
     @apply pointer-events-none fixed inset-0 z-[100];
-    background: rgba(0, 0, 0, 0.55);
+    background: color-mix(in srgb, var(--bg) 55%, transparent);
     backdrop-filter: blur(28px);
     -webkit-backdrop-filter: blur(28px);
   }
 
   .widget-panic-blur-overlay {
     @apply pointer-events-none fixed inset-0 z-[120];
-    background: rgba(0, 0, 0, 0.45);
+    background: color-mix(in srgb, var(--bg) 45%, transparent);
     backdrop-filter: blur(32px);
     -webkit-backdrop-filter: blur(32px);
     transition: backdrop-filter 0.25s ease, background 0.25s ease;
@@ -336,3 +350,64 @@ html.widget-route-mode [data-quick-capture-trigger],
 html.widget-route-mode .system-status-panel {
   display: none !important;
 }
+
+
+  /* Egna moduler — style presets (W1) */
+  .widget-moduler-add__template-grid,
+  .widget-moduler-add__preset-grid {
+    @apply grid grid-cols-2 gap-2 sm:grid-cols-3;
+  }
+
+  .widget-moduler-add__template,
+  .widget-moduler-add__preset {
+    @apply justify-center gap-1.5 text-xs;
+  }
+
+  .widget-moduler-board__meta {
+    @apply min-h-[28px];
+  }
+
+  .widget-home-module__bg {
+    @apply pointer-events-none absolute inset-0 rounded-[inherit] bg-cover bg-center opacity-30;
+    z-index: 0;
+  }
+
+  .widget-home-module--preset-photo-dim .widget-home-module__bg {
+    @apply opacity-40;
+  }
+
+  .widget-home-module--preset-midnight {
+    @apply border-border/50;
+  }
+
+  .widget-home-module--preset-gold-glass {
+    @apply border-accent/25 shadow-accent-glow;
+  }
+
+  .widget-home-module--preset-minimal {
+    @apply border-border/20 bg-transparent shadow-none;
+  }
+
+  .widget-home-module--preset-celebration {
+    @apply border-accent/40;
+  }
+
+  .widget-home-module--preset-focus {
+    @apply border-border-strong/50;
+  }
+
+  .widget-home-module--readonly {
+    /* Hem: no hover chrome for delete */
+  }
+
+  .widget-home-module--shell-compact {
+    @apply text-[11px];
+  }
+
+  .widget-moduler-add__preview {
+    @apply rounded-xl border border-border/40 bg-surface-2/40 p-3;
+  }
+
+  .user-widget-home-slot {
+    @apply mt-1;
+  }

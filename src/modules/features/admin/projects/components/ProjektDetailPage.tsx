@@ -9,10 +9,13 @@ import { uploadProjectMedia } from '@/core/firebase/storage';
 import { LayoutTemplate } from 'lucide-react';
 import { listenProjectBlocks, createProjectBlock, runProjectBlockOcr } from '../api/projectBlocksApi';
 import { updateProjectTitle } from '../api/projectsApi';
+import { resolveProjectSaveError } from '../utils/resolveProjectSaveError';
 import { ProjectMediaPicker } from './ProjectMediaPicker';
 import { ProjektWidgetSheet } from './ProjektWidgetSheet';
 import type { Project, ProjectBlock, ProjectBlockType } from '../types';
 import { Button, ButtonLink } from '@/design-system';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 
 const BLOCK_LABELS: Record<ProjectBlockType, string> = {
   list: 'Lista',
@@ -102,7 +105,7 @@ export function ProjektDetailPage() {
         ...(media ? { storagePath: media.storagePath, imageUrl: media.imageUrl } : {}),
       });
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kunde inte spara block.');
+      setError(resolveProjectSaveError(err, 'block'));
     } finally {
       setSaving(false);
     }
@@ -133,12 +136,7 @@ export function ProjektDetailPage() {
       setPendingMedia(null);
       setMediaCaption('');
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Kunde inte ladda upp filen.';
-      setError(
-        msg.includes('storage/unauthorized')
-          ? 'Uppladdning nekad — logga in igen och försök.'
-          : msg,
-      );
+      setError(resolveProjectSaveError(err, 'upload'));
     } finally {
       setSaving(false);
     }
@@ -179,7 +177,7 @@ export function ProjektDetailPage() {
       });
       navigate(`/planering?projectId=${encodeURIComponent(projectId)}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Kunde inte skapa uppgift.');
+      setError(resolveProjectSaveError(err, 'project'));
     } finally {
       setSaving(false);
     }
@@ -190,40 +188,51 @@ export function ProjektDetailPage() {
   }
 
   if (loading) {
-    return <p className="text-sm text-text-dim">Laddar projekt…</p>;
+    return <HubPanelSkeleton label="Laddar projekt…" lines={4} />;
   }
 
   if (!project || !projectId) {
     return (
       <div className="space-y-3">
-        <p className="text-sm text-text-muted">Projektet hittades inte.</p>
-        <ButtonLink to="/projekt" variant="ghost" className="--ghost text-sm">
-          Tillbaka
-        </ButtonLink>
+        <EmptyState
+          title="Saknas"
+          message="Projektet hittades inte."
+          action={
+            <ButtonLink to="/projekt" variant="ghost" className="--ghost min-h-11 text-sm">
+              Tillbaka
+            </ButtonLink>
+          }
+        />
       </div>
     );
   }
 
   return (
-    <div className="space-y-4 relative">
+    <div className="relative space-y-4">
       <header className="px-0.5">
         <div className="flex items-center justify-between">
-          <Link to="/projekt" className="text-xs text-text-dim hover:text-accent">
+          <Link
+            to="/projekt"
+            className="min-h-11 inline-flex items-center text-xs text-text-dim hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          >
             ← Projekt
           </Link>
-          <button 
+          <button
+            type="button"
             onClick={() => setIsWidgetSheetOpen(true)}
-            className="flex items-center gap-1.5 px-2 py-1 bg-white/5 hover:bg-white/10 rounded-lg text-xs text-text-muted transition-colors border border-white/5"
+            aria-label="Öppna widget-panel"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-lg border border-border/40 bg-surface-3/40 px-2.5 py-1.5 text-xs text-text-muted transition-colors hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
-            <LayoutTemplate className="w-3.5 h-3.5" />
+            <LayoutTemplate className="h-3.5 w-3.5" aria-hidden />
             Widgets
           </button>
         </div>
         <input
-          className="input-glass mt-2 w-full text-lg font-semibold"
+          className="input-glass mt-2 min-h-11 w-full text-lg font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           value={project.title}
           onChange={(e) => setProject({ ...project, title: e.target.value })}
           onBlur={() => void updateProjectTitle(user.uid, projectId, project.title)}
+          aria-label="Projekttitel"
         />
         <p className="mt-1 text-xs text-text-muted">
           Uppgifter med status hamnar i{' '}
@@ -233,7 +242,11 @@ export function ProjektDetailPage() {
         </p>
       </header>
 
-      {error && <p className="text-sm text-danger">{error}</p>}
+      {error && (
+        <p className="text-sm text-danger" role="alert" aria-live="polite">
+          {error}
+        </p>
+      )}
       
       <ProjektWidgetSheet 
         isOpen={isWidgetSheetOpen}
@@ -243,7 +256,7 @@ export function ProjektDetailPage() {
 
       <div className="home-module-stack">
         {blocks.length === 0 && (
-          <p className="text-sm text-text-dim">Inga block än — lägg till nedan.</p>
+          <EmptyState title="Inga block" message="Inga block än — lägg till nedan." />
         )}
         {blocks.map((block) => (
           <div key={block.id} className="elongated-module p-3 text-sm">
@@ -305,8 +318,15 @@ export function ProjektDetailPage() {
             value={mediaCaption}
             onChange={(e) => setMediaCaption(e.target.value)}
           />
-          <Button type="button" disabled={saving || !pendingMedia} variant="accent" className="--accent mt-2 text-xs" onClick={() => void addMediaBlock()}>
-            Ladda upp mediablock
+          <Button
+            type="button"
+            disabled={saving || !pendingMedia}
+            variant="accent"
+            className="--accent mt-2 min-h-11 text-xs"
+            aria-busy={saving}
+            onClick={() => void addMediaBlock()}
+          >
+            {saving ? 'Laddar upp…' : 'Ladda upp mediablock'}
           </Button>
         </div>
         <textarea

@@ -28,9 +28,9 @@ export function HamnTaktikLexikonBro({ signal, className = '' }: Props) {
       <ButtonLink
         to={vaultDrawerPath('kunskapsbank')}
         variant="ghost"
-        className="mt-2 inline-flex items-center gap-1.5 text-[11px]"
+        className="mt-3 inline-flex min-h-11 items-center gap-1.5 px-2 text-[11px]"
       >
-        <BookOpen className="h-3.5 w-3.5 text-accent/80" />
+        <BookOpen className="h-3.5 w-3.5 text-accent/80" aria-hidden />
         Taktik-lexikon (Valv · PIN)
       </ButtonLink>
     </div>

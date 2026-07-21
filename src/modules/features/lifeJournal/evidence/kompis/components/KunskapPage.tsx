@@ -7,6 +7,7 @@ import { KunskapsvalvFileIngest } from './KunskapsvalvFileIngest';
 import { ProfileSeedImport } from './ProfileSeedImport';
 import { InboxReviewQueueLink } from '@/modules/inkast/components/InboxReviewQueueLink';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { TabBar } from '@/core/ui/TabBar';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
 import { Compass, RefreshCw, Sparkles } from 'lucide-react';
@@ -216,7 +217,7 @@ export function KunskapPage({
           >
             {entriesError && (
               <div className="mb-3 flex flex-wrap items-center gap-3">
-                <p className="text-sm text-amber-400/90">{entriesError}</p>
+                <p className="text-sm text-danger">{entriesError}</p>
                 <Button
                   type="button"
                   variant="secondary"
@@ -277,9 +278,10 @@ export function KunskapPage({
             )}
             
             {entries.length === 0 ? (
-              <p className="text-sm text-text-dim">
-                Inga poster ännu — lägg till din första post ovan.
-              </p>
+              <EmptyState
+                title="Inga poster ännu"
+                message="Lägg till din första post ovan — den syns i Tidshjulet och i Kunskapsvalvet."
+              />
             ) : (
               <div className="space-y-3">
                 {entries
@@ -308,7 +310,9 @@ export function KunskapPage({
                       onKeyDown={(e) => {
                         if (e.key === 'Enter' || e.key === ' ') setSelectedEntry(entry);
                       }}
-                      className={`cursor-pointer rounded-xl transition-shadow ${
+                      aria-label={`Välj post: ${entry.title}`}
+                      aria-pressed={isSelected}
+                      className={`min-h-11 cursor-pointer rounded-xl px-1 py-1 transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50 ${
                         isHighlighted
                           ? 'ring-2 ring-accent/70 shadow-[0_0_12px_-2px_rgba(212,175,55,0.35)]'
                           : isSelected

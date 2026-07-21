@@ -15,6 +15,7 @@ import {
   type ChameleonTarget,
 } from './chameleonBridge';
 import { useChameleonMorph } from './useChameleonMorph';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 
 const DagbokReflektionDelegate = lazy(() =>
   import('@/features/lifeJournal/diary/supermodule/delegates/DagbokReflektionDelegate').then((m) => ({
@@ -77,7 +78,11 @@ type Props = {
 };
 
 function DelegateFallback() {
-  return <p className="chameleon-shell__hint p-3">Laddar läge…</p>;
+  return (
+    <div className="chameleon-shell__hint p-3" aria-busy="true" aria-label="Laddar läge">
+      <HubPanelSkeleton label="Laddar läge…" lines={3} />
+    </div>
+  );
 }
 
 function DagbokDelegate({ mode }: { mode: DagbokInputMode }) {
@@ -121,7 +126,7 @@ function MabraDelegate({ mode }: { mode: MabraInputMode }) {
       );
     case 'inkast':
       if (!user?.uid) {
-        return <p className="chameleon-shell__hint text-sm">Logga in för inkast med granskning.</p>;
+        return <p className="chameleon-shell__hint text-sm text-text-dim">Logga in för inkast med granskning.</p>;
       }
       return <CaptureSuperModule variant="mabra" compact />;
     default:
@@ -234,11 +239,12 @@ export function ChameleonLive({
                 key={zoneId}
                 type="button"
                 className={clsx(
-                  'chameleon-shell__zone-btn chameleon-shell__zone-btn--compact',
+                  'chameleon-shell__zone-btn chameleon-shell__zone-btn--compact min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
                   executiveSkin && 'chameleon-shell__zone-btn--exec',
                   target.zone === zoneId && 'chameleon-shell__zone-btn--on',
                 )}
                 onClick={() => setZone(zoneId)}
+                aria-pressed={target.zone === zoneId}
               >
                 <span className="chameleon-shell__zone-label">{z.label}</span>
               </button>
@@ -279,6 +285,7 @@ export function ChameleonLive({
               aria-selected={displayed.mode === mode.id}
               className={clsx(
                 executiveSkin ? 'chameleon-shell__exec-mode-pill' : 'chameleon-shell__mode-btn',
+                'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
                 displayed.mode === mode.id &&
                   (executiveSkin
                     ? 'chameleon-shell__exec-mode-pill--on'

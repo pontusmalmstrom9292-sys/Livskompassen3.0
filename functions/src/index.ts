@@ -132,3 +132,10 @@ export {
 } from './callables/adaptationSemantic';
 
 export { recordPipelineRun } from './callables/pipelineStudio';
+
+export {
+  syncDrogfrihetPushPrefs,
+  sendDrogfrihetNudge,
+  linkDrogfrihetBuddy,
+  pingDrogfrihetBuddy,
+} from './callables/drogfrihetPush';

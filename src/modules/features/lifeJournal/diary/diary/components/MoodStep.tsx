@@ -25,8 +25,8 @@ export function MoodStep({
   const selected = getMoodDef(mood);
 
   return (
-    <div className="reflektion-panel">
-      <p className="reflektion-panel__lead">Hur känns det just nu?</p>
+    <div className="reflektion-panel" role="region" aria-labelledby="mood-step-title">
+      <p id="mood-step-title" className="reflektion-panel__lead">Hur känns det just nu?</p>
       <p className="reflektion-panel__hint">Välj en känsla — sedan kan du skriva eller spara direkt.</p>
 
       <label className="reflektion-field">
@@ -57,7 +57,8 @@ export function MoodStep({
           type="button"
           disabled={!mood}
           onClick={onContinue}
-          className="od-depth__cta reflektion-actions__primary"
+          aria-keyshortcuts="Enter"
+          className="od-depth__cta reflektion-actions__primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         >
           {lowEnergyBridge ? (
             <>

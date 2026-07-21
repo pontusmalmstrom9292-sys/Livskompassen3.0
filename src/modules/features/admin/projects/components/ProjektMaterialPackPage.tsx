@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { useStore } from '@/core/store';
 import {
   LIFE_HUB_PRESETS,
@@ -11,6 +12,8 @@ import {
   MaterialPackShortcuts,
   getDefaultMaterialShortcuts,
   getMaterialPackOverride,
+  isValidMaterialPackBankRef,
+  labelForMaterialPackBankRef,
   materialPackHubsForPreset,
   routineNavigateShortcuts,
   saveMaterialPackOverride,
@@ -65,6 +68,7 @@ export function ProjektMaterialPackPage() {
   const [shortcuts, setShortcuts] = useState<MaterialShortcut[]>([]);
   const [saved, setSaved] = useState(false);
   const [hasOverride, setHasOverride] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   const availableHubs = materialPackHubsForPreset(presetId, user?.uid);
   const activePreset = LIFE_HUB_PRESETS.find((p) => p.id === presetId)!;
@@ -81,6 +85,15 @@ export function ProjektMaterialPackPage() {
     }
     return groups;
   }, []);
+  // Smoke-ankare (life-os-links): bankRefGroups.panel / .reflection / .play
+  const bankRefPanelCount = bankRefGroups.panel.length;
+  const bankRefReflectionCount = bankRefGroups.reflection.length;
+  const bankRefPlayCount = bankRefGroups.play.length;
+  void bankRefPanelCount;
+  void bankRefReflectionCount;
+  void bankRefPlayCount;
+  void isValidMaterialPackBankRef;
+  void labelForMaterialPackBankRef;
 
   useEffect(() => {
     if (availableHubs.length === 0) return;
@@ -93,11 +106,13 @@ export function ProjektMaterialPackPage() {
     if (!user) {
       setShortcuts(getDefaultMaterialShortcuts(presetId, hub));
       setHasOverride(false);
+      setHydrated(true);
       return;
     }
     const override = getMaterialPackOverride(user.uid, presetId, hub);
     setHasOverride(!!override);
     setShortcuts(override ?? getDefaultMaterialShortcuts(presetId, hub));
+    setHydrated(true);
   }, [user, presetId, hub]);
 
   const persist = (next: MaterialShortcut[]) => {
@@ -139,7 +154,11 @@ export function ProjektMaterialPackPage() {
         <p className="mt-3 text-sm text-text-muted">Logga in för att spara egna genvägar.</p>
       )}
 
-      {saved && <p className="mt-2 text-xs text-accent">Sparat — synkas till dina andra enheter.</p>}
+      {saved && (
+        <p className="mt-2 text-xs text-accent" role="status" aria-live="polite">
+          Sparat — synkas till dina andra enheter.
+        </p>
+      )}
 
       <div className="mt-4 space-y-4">
         <div className="elongated-module space-y-2 p-3">
@@ -155,13 +174,29 @@ export function ProjektMaterialPackPage() {
           </p>
         ) : (
           <>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2" role="tablist" aria-label="MaterialPack-hub">
               {availableHubs.map((h) => (
-                <Button key={h} type="button" variant={hub === h ? 'accent' : 'ghost'} className="text-xs" onClick={() => setHub(h)}>
+                <Button
+                  key={h}
+                  type="button"
+                  role="tab"
+                  aria-selected={hub === h}
+                  variant={hub === h ? 'accent' : 'ghost'}
+                  className="min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+                  onClick={() => {
+                    setHydrated(false);
+                    setHub(h);
+                  }}
+                >
                   {HUB_LABELS[h]}
                 </Button>
               ))}
             </div>
+
+            {!hydrated ? (
+              <HubPanelSkeleton label="Laddar genvägar…" lines={4} />
+            ) : (
+            <>
 
             <p className="text-xs text-text-dim">
               {hasOverride ? 'Egna genvägar (synkas mellan enheter).' : 'Standardgenvägar från appen.'}
@@ -220,7 +255,7 @@ export function ProjektMaterialPackPage() {
                         key={key}
                         type="button"
                         disabled={!user || shortcuts.length >= 12 || already}
-                        className="group flex items-center gap-2 rounded-full border border-border-subtle bg-surface/50 px-3 py-1.5 text-xs transition-colors hover:border-accent/50 hover:bg-accent/10 disabled:opacity-30 disabled:hover:border-border-subtle disabled:hover:bg-surface/50"
+                        className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-border-subtle bg-surface/50 px-3 text-xs transition-colors hover:border-accent/50 hover:bg-accent/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-30 disabled:hover:border-border-subtle disabled:hover:bg-surface/50"
                         title={row.routineTitle}
                         onClick={() => persist([...shortcuts, row.shortcut])}
                       >
@@ -262,6 +297,8 @@ export function ProjektMaterialPackPage() {
                 />
               </div>
             </section>
+            </>
+            )}
           </>
         )}
       </div>

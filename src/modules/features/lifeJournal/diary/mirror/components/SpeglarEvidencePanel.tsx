@@ -91,8 +91,8 @@ export function SpeglarEvidencePanel({
               >
                 <span className="truncate text-xs text-text-muted">{item.file.name}</span>
                 {saved ? (
-                  <span className="flex items-center gap-1 text-xs text-emerald-400">
-                    <ShieldCheck className="h-3 w-3" />
+                  <span className="inline-flex min-h-11 items-center gap-1 text-xs text-success">
+                    <ShieldCheck className="h-3 w-3" aria-hidden />
                     Sparat i valvet
                   </span>
                 ) : (
@@ -100,11 +100,12 @@ export function SpeglarEvidencePanel({
                     type="button"
                     variant="secondary"
                     size="sm"
+                    className="min-h-11"
                     onClick={() => saveToVault(item)}
                     disabled={!userId || savingId === item.id}
                   >
                     {savingId === item.id ? (
-                      <Loader2 className="h-3 w-3 animate-spin" />
+                      <Loader2 className="h-3 w-3 animate-spin" aria-hidden />
                     ) : (
                       'Lås som bevis'
                     )}
@@ -116,7 +117,14 @@ export function SpeglarEvidencePanel({
         </div>
       )}
 
-      {error && <p className="text-xs text-text-muted">{error}</p>}
+      {error && (
+        <p
+          role="alert"
+          className="rounded-lg border border-accent/25 bg-accent/10 px-3 py-2 text-xs text-accent-light"
+        >
+          {error}
+        </p>
+      )}
     </div>
   );
 }

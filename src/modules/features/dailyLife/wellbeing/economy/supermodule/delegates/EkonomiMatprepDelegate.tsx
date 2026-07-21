@@ -1,6 +1,7 @@
-import { Check, CheckCircle2, Loader2, Utensils } from 'lucide-react';
+import { AlertTriangle, Check, CheckCircle2, Loader2, Utensils } from 'lucide-react';
 import { clsx } from 'clsx';
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { Input } from '@/design-system';
 import { useEconomyMatprepRead } from '../hooks/useEconomyMatprepRead';
 import { useEconomyTransactionWORM } from '../hooks/useEconomyTransactionWORM';
@@ -99,7 +100,7 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
 
   return (
     <div className="space-y-5">
-      <header className="space-y-1">
+      <header className="space-y-1.5">
         <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
           Neuro-kost
         </p>
@@ -109,38 +110,46 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
       </header>
 
       {!hasUser ? (
-        <p className="text-sm text-text-dim">Logga in för att registrera matprep.</p>
+        <EmptyState
+          title="Neuro-kost"
+          message="Logga in för att bocka av matprep och registrera besparing."
+        />
       ) : loading ? (
         <p className="flex items-center gap-2 text-sm text-text-dim" aria-busy="true">
           <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
           Laddar checklista…
         </p>
+      ) : items.length === 0 ? (
+        <EmptyState
+          title="Ingen checklista"
+          message="Checklistan saknas just nu. Försök igen om en stund."
+        />
       ) : (
         <>
           <ul className="space-y-2.5" aria-label="Matprep-checklista">
             {items.map((item) => (
               <li
                 key={item.id}
-                className="flex items-start gap-3 rounded-xl border border-border/30 bg-surface-3/30 p-2.5"
+                className="flex items-start gap-3 rounded-xl border border-border/30 bg-surface-3/30 p-3"
               >
                 <button
                   type="button"
                   disabled={inputsDisabled}
                   onClick={() => void toggleItem(item.id)}
                   className={clsx(
-                    'mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-sm transition-colors disabled:opacity-60',
+                    'mt-0.5 flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60',
                     item.done
-                      ? 'bg-emerald-500/20 text-emerald-400'
-                      : 'border border-border-strong text-transparent hover:border-emerald-500/50',
+                      ? 'bg-success/20 text-success'
+                      : 'border border-border-strong text-transparent hover:border-success/50',
                   )}
                   aria-label={item.done ? 'Markerad' : 'Ej markerad'}
                   aria-pressed={item.done}
                 >
-                  <CheckCircle2 className="h-3.5 w-3.5" />
+                  <CheckCircle2 className="h-4 w-4" aria-hidden />
                 </button>
                 <span
                   className={clsx(
-                    'text-xs leading-relaxed transition-colors',
+                    'pt-2.5 text-xs leading-relaxed transition-colors',
                     item.done
                       ? 'text-text-dim line-through decoration-text-dim/50'
                       : 'text-text-muted',
@@ -157,7 +166,7 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
             onSubmit={(event) => void handleSubmit(event)}
             aria-label="Registrera matprep"
           >
-            <label className="flex flex-col gap-1">
+            <label className="flex flex-col gap-1.5">
               <span className="text-[10px] uppercase tracking-wider text-text-dim">
                 Uppskattad besparing (kr)
               </span>
@@ -171,12 +180,12 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
                   clearError();
                 }}
                 placeholder="T.ex. 120"
-                className="input-glass w-full tabular-nums disabled:opacity-60"
+                className="input-glass min-h-11 w-full tabular-nums focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60"
                 aria-label="Uppskattad besparing i kronor"
               />
             </label>
 
-            <label className="flex flex-col gap-1">
+            <label className="flex flex-col gap-1.5">
               <span className="text-[10px] uppercase tracking-wider text-text-dim">
                 Anteckning (valfritt)
               </span>
@@ -189,7 +198,7 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
                   clearError();
                 }}
                 placeholder="T.ex. tre lunchlådor till veckan"
-                className="input-glass w-full disabled:opacity-60"
+                className="input-glass min-h-11 w-full focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60"
                 aria-label="Anteckning om matpreppen"
               />
             </label>
@@ -198,9 +207,9 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
               type="submit"
               disabled={inputsDisabled || !allDone || !estimatedSavings.trim()}
               className={clsx(
-                'flex w-full items-center justify-center gap-2 rounded-xl border py-2.5 text-xs transition-colors disabled:opacity-60',
+                'flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border py-2.5 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60',
                 allDone
-                  ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-300 hover:bg-emerald-500/20'
+                  ? 'border-success/30 bg-success/10 text-success hover:bg-success/20'
                   : 'border-border/50 bg-surface-3/50 text-text-dim',
               )}
             >
@@ -220,18 +229,30 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
         </>
       )}
 
-      {!allDone && hasUser && !loading ? (
-        <p className="text-[10px] text-text-dim">Bocka av alla steg innan du registrerar.</p>
+      {!allDone && hasUser && !loading && items.length > 0 ? (
+        <p className="text-[10px] text-text-dim" role="status">
+          Bocka av alla steg innan du registrerar.
+        </p>
       ) : null}
 
       {offlineQueued ? (
-        <p className="text-xs text-text-muted">Sparas när nätet är tillbaka.</p>
+        <p className="text-xs text-text-muted" role="status">
+          Sparas när nätet är tillbaka.
+        </p>
       ) : null}
 
-      {displayError ? <p className="text-sm text-danger">{displayError}</p> : null}
+      {displayError ? (
+        <p
+          className="flex items-start gap-2 rounded-xl border border-danger/25 bg-danger/5 px-3 py-2.5 text-sm leading-relaxed text-danger"
+          role="alert"
+        >
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+          <span>{displayError}</span>
+        </p>
+      ) : null}
 
       {savedFlash && !saving ? (
-        <p className="flex items-center gap-2 text-sm text-emerald-400" role="status">
+        <p className="flex items-center gap-2 text-sm text-success" role="status">
           <Check className="h-4 w-4 shrink-0" aria-hidden />
           Matprep registrerad.
         </p>

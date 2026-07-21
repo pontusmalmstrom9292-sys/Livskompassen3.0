@@ -3,11 +3,13 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CheckSquare, FileText, Image, List, Film } from 'lucide-react';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { useStore } from '@/core/store';
 import { uploadProjectMedia } from '@/core/firebase/storage';
 import { createProject } from '../api/projectsApi';
 import { createProjectBlock } from '../api/projectBlocksApi';
 import { createPlanningTask } from '../../planning/api/planningTasksApi';
+import { resolveProjectSaveError } from '../utils/resolveProjectSaveError';
 import { ProjectMediaPicker } from './ProjectMediaPicker';
 import type { ProjectBlockType } from '../types';
 import { Button, ButtonLink } from '@/design-system';
@@ -34,6 +36,8 @@ export function ProjektNyPage() {
   const [error, setError] = useState<string | null>(null);
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [mediaCaption, setMediaCaption] = useState('');
+  const [mediaTouched, setMediaTouched] = useState(false);
+  const [autoStarting, setAutoStarting] = useState(false);
   const preselected = parseBlockType(searchParams.get('type'));
   const fromWidget = searchParams.get('from') === 'widget';
 
@@ -111,12 +115,9 @@ export function ProjektNyPage() {
       });
       navigate(`/admin/projects/${projectId}`);
     } catch (err) {
-      const msg = err instanceof Error ? err.message : 'Kunde inte skapa projekt.';
-      setError(
-        msg.includes('storage/unauthorized')
-          ? 'Uppladdning nekad — logga in igen och försök. (Storage-regler ska vara deployade.)'
-          : msg,
-      );
+      const context =
+        (blockType === 'image' || blockType === 'video') && mediaFile ? 'upload' : 'project';
+      setError(resolveProjectSaveError(err, context));
     } finally {
       setSaving(false);
     }
@@ -125,8 +126,12 @@ export function ProjektNyPage() {
   useEffect(() => {
     if (!preselected || preselected === 'image' || preselected === 'video') return;
     if (!user || saving) return;
-    void startProject(preselected);
+    setAutoStarting(true);
+    void startProject(preselected).finally(() => setAutoStarting(false));
   }, [preselected, user, saving, startProject]);
+
+  const mediaMissing = mediaTouched && !mediaFile;
+  const canCreateMediaProject = Boolean(mediaFile) && !saving && Boolean(user);
 
   if (preselected === 'image' || preselected === 'video') {
     return (
@@ -136,17 +141,48 @@ export function ProjektNyPage() {
         lead={fromWidget ? 'Från widget — välj fil och namnge projektet.' : 'Ladda upp fil till Storage + projektblock.'}
       >
         <GoraHubTabBar />
-        {error && <p className="mb-3 text-sm text-danger">{error}</p>}
-        <ProjectMediaPicker disabled={saving || !user} acceptVideo={preselected === 'video'} onPick={setMediaFile} />
+        {error && (
+          <p className="mb-3 text-sm text-danger" role="alert" aria-live="polite">
+            {error}
+          </p>
+        )}
+        <ProjectMediaPicker
+          disabled={saving || !user}
+          acceptVideo={preselected === 'video'}
+          onPick={(file) => {
+            setMediaTouched(true);
+            setMediaFile(file);
+            if (file) setError(null);
+          }}
+        />
+        {mediaMissing && (
+          <p className="mt-2 text-sm text-danger" role="alert" id="projekt-media-error">
+            Välj en fil innan du skapar projektet.
+          </p>
+        )}
         <textarea
-          className="input-glass mt-3 w-full text-sm"
+          className="input-glass mt-3 min-h-[4.5rem] w-full text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           rows={2}
           placeholder="Beskrivning (valfritt)"
           value={mediaCaption}
           onChange={(e) => setMediaCaption(e.target.value)}
+          aria-label="Beskrivning (valfritt)"
+          aria-describedby={mediaMissing ? 'projekt-media-error' : undefined}
+          disabled={saving || !user}
         />
-        <Button type="button" disabled={saving || !user || !mediaFile} variant="accent" className="--accent mt-4 text-sm" onClick={() => void startProject(preselected)}>
-          Skapa projekt med fil
+        <Button
+          type="button"
+          disabled={!canCreateMediaProject}
+          variant="accent"
+          className="--accent mt-4 min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          aria-busy={saving}
+          onClick={() => {
+            setMediaTouched(true);
+            if (!mediaFile) return;
+            void startProject(preselected);
+          }}
+        >
+          {saving ? 'Skapar…' : 'Skapa projekt med fil'}
         </Button>
         <ButtonLink to="/projekt" variant="ghost" className="--ghost mt-4 inline-flex text-sm">
           Avbryt
@@ -162,18 +198,33 @@ export function ProjektNyPage() {
       lead="Välj typ. Uppgifter med status hamnar alltid i Handling."
     >
       <GoraHubTabBar />
-      {error && <p className="mb-3 text-sm text-danger">{error}</p>}
-      {!user && <p className="mb-3 text-sm text-text-muted">Logga in för att skapa projekt.</p>}
+      {autoStarting && (
+        <div className="mb-3" aria-busy="true" aria-live="polite">
+          <HubPanelSkeleton label="Skapar projekt…" lines={2} />
+        </div>
+      )}
+      {error && (
+        <p className="mb-3 text-sm text-danger" role="alert" aria-live="polite">
+          {error}
+        </p>
+      )}
+      {!user && (
+        <p className="mb-3 text-sm text-text-muted" role="status">
+          Logga in för att skapa projekt.
+        </p>
+      )}
 
-      <div className="home-module-stack">
+      <div className="home-module-stack" role="list" aria-label="Projekttyper" aria-busy={autoStarting || saving}>
         {PICKER.map((item) => {
           const Icon = item.icon;
           return (
             <button
               key={item.id}
               type="button"
-              disabled={saving || !user}
-              className="elongated-module elongated-module--gold flex w-full items-center gap-3 p-4 text-left disabled:opacity-60"
+              disabled={saving || !user || autoStarting}
+              aria-label={item.label}
+              aria-busy={saving}
+              className="elongated-module elongated-module--gold flex min-h-11 w-full items-center gap-3 p-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60"
               onClick={() => {
                 if (item.id === 'image' || item.id === 'video') {
                   navigate(`/projekt/ny?type=${item.id}`);

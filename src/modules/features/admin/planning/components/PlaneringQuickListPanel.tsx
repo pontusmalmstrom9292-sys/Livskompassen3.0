@@ -1,10 +1,11 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/design-system';
 import { Check, Loader2, Plus, Trash2, X } from 'lucide-react';
 import { useStore } from '@/core/store';
 import { createProject } from '../../projects/api/projectsApi';
 import { createProjectBlock } from '../../projects/api/projectBlocksApi';
+import { resolveProjectSaveError } from '../../projects/utils/resolveProjectSaveError';
 import { PlaneringModulePinPanel } from './PlaneringModulePinPanel';
 import {
   addQuickListItem,
@@ -73,15 +74,15 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
         ),
       );
       navigate(`/admin/projects/${projectId}`);
-    } catch {
-      setMessage('Kunde inte skapa projekt.');
+    } catch (err) {
+      setMessage(resolveProjectSaveError(err, 'project'));
     } finally {
       setSaving(false);
     }
   };
 
-  const open = openItems(list);
-  const done = list.items.filter((i) => i.done);
+  const open = useMemo(() => openItems(list), [list]);
+  const done = useMemo(() => list.items.filter((i) => i.done), [list.items]);
 
   return (
     <div className="planering-quicklist">
@@ -149,9 +150,10 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
                 <button
                   type="button"
                   className="planering-quicklist__remove"
+                  aria-label={`Ta bort ${item.text}`}
                   onClick={() => setList(removeQuickListItem(listId, item.id))}
                 >
-                  <Trash2 className="h-3.5 w-3.5" />
+                  <Trash2 className="h-3.5 w-3.5" aria-hidden />
                 </button>
               </li>
             ))}

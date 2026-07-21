@@ -68,7 +68,7 @@ export function AdaptationPrefsPanel({ userId }: Props) {
       </p>
 
       {error ? (
-        <p className="mt-2 text-xs text-rose-300/90" role="status">
+        <p className="mt-2 rounded-lg border border-accent/25 bg-accent/10 px-3 py-2 text-xs text-accent-light" role="alert">
           {error}
         </p>
       ) : null}
@@ -80,12 +80,12 @@ export function AdaptationPrefsPanel({ userId }: Props) {
         {COACH_TONE_OPTIONS.map((opt) => (
           <label
             key={opt.id}
-            className="flex cursor-pointer items-start gap-3 rounded-xl border border-border/40 bg-surface/30 px-3 py-2 hover:border-accent/30"
+            className="flex min-h-11 cursor-pointer items-start gap-3 rounded-xl border border-border/40 bg-surface/30 px-3 py-2.5 hover:border-accent/30 focus-within:border-accent/40"
           >
             <input
               type="radio"
               name="adaptation-coach-tone"
-              className="mt-1 accent-accent"
+              className="mt-1 h-4 w-4 accent-[var(--accent)]"
               checked={coachTone === opt.id}
               disabled={saving}
               onChange={() => void persist({ coachTone: opt.id })}
@@ -105,12 +105,12 @@ export function AdaptationPrefsPanel({ userId }: Props) {
         {UI_DENSITY_OPTIONS.map((opt) => (
           <label
             key={opt.id}
-            className="flex cursor-pointer items-start gap-3 rounded-xl border border-border/40 bg-surface/30 px-3 py-2 hover:border-accent/30"
+            className="flex min-h-11 cursor-pointer items-start gap-3 rounded-xl border border-border/40 bg-surface/30 px-3 py-2.5 hover:border-accent/30 focus-within:border-accent/40"
           >
             <input
               type="radio"
               name="adaptation-ui-density"
-              className="mt-1 accent-accent"
+              className="mt-1 h-4 w-4 accent-[var(--accent)]"
               checked={uiDensity === opt.id}
               disabled={saving}
               onChange={() => void persist({ uiDensity: opt.id })}
@@ -138,14 +138,14 @@ export function AdaptationPrefsPanel({ userId }: Props) {
             <strong className="text-text">Paralys-läge</strong> förenklar Hem till ett mikrosteg i taget
             — bra när kapaciteten är låg.
           </p>
-          <Button type="button" variant="ghost" className="--ghost mt-2 text-xs" disabled={saving} onClick={dismissParalysTip}>
+          <Button type="button" variant="ghost" className="mt-2 min-h-11 text-xs" disabled={saving} onClick={dismissParalysTip}>
             Dölj tipset
           </Button>
         </div>
       ) : null}
 
       {savedFlash ? (
-        <p className="mt-3 text-xs text-emerald-400/90" role="status">
+        <p className="mt-3 text-xs text-success/90" role="status">
           Sparat
         </p>
       ) : null}

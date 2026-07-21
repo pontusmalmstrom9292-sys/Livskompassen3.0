@@ -310,6 +310,95 @@ service cloud.firestore {
           || request.resource.data.mood is number);
     }
 
+    // user_widgets — PMIR 2026-07-21 slotId/status/stylePreset (contract v1)
+    function isValidUserWidgetSlotId(v) {
+      return v == null
+        || v in [
+          'hem.brass.below-grid',
+          'familjen.barnfokus',
+          'familjen.livslogg',
+          'familjen.hamn',
+          'valv.logga',
+          'valv.kunskapsbank',
+          'vardagen.ekonomi',
+          'hjartat.dagbok',
+          'mabra.hub',
+        ];
+    }
+
+    function isValidUserWidgetStylePreset(v) {
+      return v == null
+        || v in [
+          'midnight',
+          'gold_glass',
+          'photo_dim',
+          'minimal',
+          'celebration',
+          'focus',
+        ];
+    }
+
+    function isValidUserWidgetConfig() {
+      let t = request.resource.data.type;
+      let c = request.resource.data.config;
+      return c is map
+        && c.keys().size() <= 24
+        && t in ['countdown', 'checklist', 'linked_savings', 'quick_note']
+        && (!('targetDate' in c) || c.targetDate is string)
+        && (!('targetDateTime' in c) || c.targetDateTime is string)
+        && (!('savingsGoalId' in c) || c.savingsGoalId is string)
+        && (!('noteText' in c) || c.noteText is string)
+        && (!('caption' in c) || (c.caption is string && c.caption.size() <= 200))
+        && (!('backgroundPath' in c) || (c.backgroundPath is string && c.backgroundPath.size() <= 512))
+        && (!('backgroundAlt' in c) || (c.backgroundAlt is string && c.backgroundAlt.size() <= 120))
+        && (!('shell' in c) || c.shell in ['tile', 'elongated', 'card', 'compact'])
+        && (!('checklistItems' in c) || c.checklistItems is list);
+    }
+
+    function isValidUserWidgetCreate() {
+      return request.resource.data.type in ['countdown', 'checklist', 'linked_savings', 'quick_note']
+        && request.resource.data.title is string
+        && request.resource.data.title.size() >= 1
+        && request.resource.data.title.size() <= 100
+        && request.resource.data.pinnedToHome is bool
+        && request.resource.data.order is int
+        && isValidUserWidgetConfig()
+        && (!('schemaVersion' in request.resource.data)
+          || request.resource.data.schemaVersion in [1, 2])
+        && (!('stylePreset' in request.resource.data)
+          || isValidUserWidgetStylePreset(request.resource.data.stylePreset))
+        && (!('slotId' in request.resource.data)
+          || isValidUserWidgetSlotId(request.resource.data.slotId))
+        && (!('status' in request.resource.data)
+          || request.resource.data.status in ['active', 'archived']);
+    }
+
+    function isValidUserWidgetUpdate() {
+      return request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.type == resource.data.type
+        && (!('createdAt' in request.resource.data.diff(resource.data).affectedKeys()))
+        && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly([
+              'title', 'order', 'pinnedToHome', 'slotId', 'status',
+              'schemaVersion', 'stylePreset', 'config', 'updatedAt',
+            ])
+        && request.resource.data.title is string
+        && request.resource.data.title.size() >= 1
+        && request.resource.data.title.size() <= 100
+        && request.resource.data.order is int
+        && request.resource.data.pinnedToHome is bool
+        && isValidUserWidgetConfig()
+        && (!('schemaVersion' in request.resource.data)
+          || request.resource.data.schemaVersion in [1, 2])
+        && (!('stylePreset' in request.resource.data)
+          || isValidUserWidgetStylePreset(request.resource.data.stylePreset))
+        && (!('slotId' in request.resource.data)
+          || isValidUserWidgetSlotId(request.resource.data.slotId))
+        && (!('status' in request.resource.data)
+          || request.resource.data.status in ['active', 'archived']);
+    }
+
     function isValidTransactionCreate() {
       return wormKeysOnly([
           'userId', 'ownerId', 'label', 'amountSek', 'category', 'createdAt',
@@ -1257,24 +1346,11 @@ service cloud.firestore {
 
     match /user_widgets/{docId} {
       allow read: if isOwner();
-      allow create: if isOwnerCreate()
-        && request.resource.data.type in ['countdown', 'checklist', 'linked_savings', 'quick_note']
-        && request.resource.data.title is string
-        && request.resource.data.title.size() >= 1
-        && request.resource.data.title.size() <= 100
-        && request.resource.data.pinnedToHome is bool
-        && request.resource.data.order is int
-        && request.resource.data.config is map;
-      allow update: if isOwner()
-        && request.resource.data.userId == resource.data.userId
-        && request.resource.data.ownerId == resource.data.ownerId
-        && request.resource.data.type == resource.data.type
-        && request.resource.data.title == resource.data.title
-        && request.resource.data.pinnedToHome == resource.data.pinnedToHome
-        && request.resource.data.order == resource.data.order
-        && request.resource.data.diff(resource.data).affectedKeys()
-            .hasOnly(['config', 'updatedAt']);
-      allow delete: if isOwner();
+      allow create: if isOwnerCreate() && isValidUserWidgetCreate();
+      allow update: if isOwner() && isValidUserWidgetUpdate();
+      // Archive-first: hard delete endast om archived ELLER legacy docs utan status.
+      allow delete: if isOwner()
+        && (!('status' in resource.data) || resource.data.status == 'archived');
     }
 
     match /evolution_ledger/{docId} {

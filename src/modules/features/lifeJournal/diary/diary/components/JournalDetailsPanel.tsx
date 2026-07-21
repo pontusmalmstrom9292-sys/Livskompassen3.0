@@ -75,7 +75,7 @@ export function JournalDetailsPanel({
 
         <div>
           <div className="mb-2 flex items-center justify-between gap-2">
-            <p className="reflektion-panel__hint">Lägg till minne (max 2)</p>
+            <p id="journal-memory-hint" className="reflektion-panel__hint">Lägg till minne (max 2)</p>
             <Button
               type="button"
               variant="ghost"
@@ -89,6 +89,7 @@ export function JournalDetailsPanel({
             </Button>
           </div>
           {showVaultInfo && <HandoffBox className="mb-3" />}
+          <div aria-describedby="journal-memory-hint">
           <MediaAttachWithCaption
             disabled={disabled}
             items={memoryItems}
@@ -98,6 +99,7 @@ export function JournalDetailsPanel({
             helperText="Personligt minne — inte juridiskt bevis. Valfri bildtext."
             captionPlaceholder="Bildtext (valfritt), t.ex. vad bilden betyder för dig…"
           />
+          </div>
           {memoryError && (
             <p className="mt-2 text-sm text-accent" role="alert">
               {memoryError}

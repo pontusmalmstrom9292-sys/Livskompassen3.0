@@ -27,23 +27,23 @@ function CustomTooltip({ active, payload }: TooltipProps) {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div className="bg-slate-900/95 border border-white/10 p-4 rounded-xl shadow-2xl backdrop-blur-md text-left max-w-xs relative z-[100] text-text">
-        <p className="text-xs text-text-muted mb-2 font-mono flex items-center gap-1">
-          <Calendar className="w-3.5 h-3.5" />
+      <div className="rounded-xl border border-border/40 bg-surface/95 p-4 text-left text-text shadow-2xl backdrop-blur-md max-w-xs relative z-[100]">
+        <p className="mb-2 flex items-center gap-1 font-mono text-xs text-text-muted">
+          <Calendar className="h-3.5 w-3.5" aria-hidden />
           {data.chartDate} kl {data.chartTime}
         </p>
         <div className="space-y-1.5">
-          <p className="text-sm font-medium flex items-center gap-1.5 text-accent-light">
-            <Zap className="w-4 h-4 fill-amber-400/20" />
+          <p className="flex items-center gap-1.5 text-sm font-medium text-accent-light">
+            <Zap className="h-4 w-4 fill-accent/20" aria-hidden />
             Energi: {data.energy} / 10
           </p>
-          <p className="text-sm font-medium flex items-center gap-1.5 text-success">
-            <Smile className="w-4 h-4 fill-emerald-400/20" />
+          <p className="flex items-center gap-1.5 text-sm font-medium text-success">
+            <Smile className="h-4 w-4 fill-success/20" aria-hidden />
             Humör: {data.mood} / 10
           </p>
           {data.taskNote && (
-            <div className="pt-2 border-t border-white/5 mt-2">
-              <p className="text-xs text-text-muted italic leading-relaxed">&quot;{data.taskNote}&quot;</p>
+            <div className="mt-2 border-t border-border/30 pt-2">
+              <p className="text-xs italic leading-relaxed text-text-muted">&quot;{data.taskNote}&quot;</p>
             </div>
           )}
         </div>
@@ -71,7 +71,7 @@ export function MabraHistoryChart({ chartData }: Props) {
             <stop offset="95%" stopColor="var(--success)" stopOpacity={0} />
           </linearGradient>
         </defs>
-        <CartesianGrid strokeDasharray="3 3" stroke="rgba(255, 255, 255, 0.05)" vertical={false} />
+        <CartesianGrid strokeDasharray="3 3" stroke="color-mix(in srgb, var(--text) 5%, transparent)" vertical={false} />
         <XAxis
           dataKey="chartDate"
           stroke="var(--text-dim)"
@@ -91,7 +91,7 @@ export function MabraHistoryChart({ chartData }: Props) {
         />
         <Tooltip
           content={<CustomTooltip />}
-          cursor={{ stroke: 'rgba(255, 255, 255, 0.1)', strokeWidth: 1 }}
+          cursor={{ stroke: 'color-mix(in srgb, var(--text) 10%, transparent)', strokeWidth: 1 }}
         />
         <Legend
           verticalAlign="top"

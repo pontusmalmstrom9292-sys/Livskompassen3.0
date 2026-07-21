@@ -7,6 +7,7 @@ import { useFamiljenShell } from '@/features/family/children/hooks/useFamiljenSh
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { KunskapsbankHeader } from '../../vault/components/KunskapsbankHeader';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { BookOpen, RefreshCw } from 'lucide-react';
@@ -42,6 +43,10 @@ export function VaultKunskapsbankPanel() {
   return (
     <div className="valv-zone-stack space-y-4">
       <KunskapsbankHeader compact />
+
+      {!entriesMeta && (
+        <HubPanelSkeleton label="Laddar kunskapsbank…" lines={4} />
+      )}
 
       {showNetworkError && (
         <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3">

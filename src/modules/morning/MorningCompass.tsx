@@ -19,6 +19,9 @@ type FocusPointRowProps = {
   showValidatedBadge: boolean;
   lowEnergyDimmed: boolean;
   lowEnergyHighlighted: boolean;
+  filled: boolean;
+  inputRef: (el: HTMLInputElement | null) => void;
+  onAdvance: (index: number) => void;
 };
 
 const FocusPointRow = memo(function FocusPointRow({
@@ -27,6 +30,9 @@ const FocusPointRow = memo(function FocusPointRow({
   showValidatedBadge,
   lowEnergyDimmed,
   lowEnergyHighlighted,
+  filled,
+  inputRef,
+  onAdvance,
 }: FocusPointRowProps) {
   const point = useMorningCompassStore((s) => s.threeFocusPoints[index]);
   const setFocusPoint = useMorningCompassStore((s) => s.setFocusPoint);
@@ -35,14 +41,21 @@ const FocusPointRow = memo(function FocusPointRow({
 
   return (
     <div
-      className={`group relative rounded-2xl border border-white/10 bg-white/5 p-4 shadow-sm backdrop-blur-md transition-all hover:bg-white/10 focus-within:bg-white/10 focus-within:border-white/20 ${
+      className={`group relative rounded-2xl border border-white/10 bg-white/5 p-4 shadow-sm backdrop-blur-md transition-[background-color,border-color,box-shadow] duration-200 hover:bg-white/10 focus-within:bg-white/10 focus-within:border-white/20 ${
         lowEnergyDimmed ? 'opacity-20 pointer-events-none' : ''
-      } ${lowEnergyHighlighted ? 'ring-1 ring-amber-500/30 shadow-[0_0_15px_rgba(245,158,11,0.1)]' : ''} ${
+      } ${lowEnergyHighlighted ? 'ring-1 ring-accent/30 shadow-[0_0_15px_color-mix(in_srgb,var(--accent)_10%,transparent)]' : ''} ${
         locked ? 'border-accent/25 bg-accent/5' : ''
       }`}
     >
       <div className="flex items-center gap-4">
-        <div className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 font-medium text-white/40">
+        <div
+          className={`flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border font-medium text-sm transition-colors ${
+            filled
+              ? 'border-accent/40 bg-accent/15 text-accent'
+              : 'border-white/10 bg-white/5 text-white/40'
+          }`}
+          aria-hidden
+        >
           {index + 1}
         </div>
         <div className="min-w-0 flex-1">
@@ -53,15 +66,24 @@ const FocusPointRow = memo(function FocusPointRow({
             </span>
           )}
           <input
+            ref={inputRef}
             type="text"
             value={point}
             readOnly={locked}
             onChange={(e) => {
               if (!locked) setFocusPoint(index, e.target.value);
             }}
+            onKeyDown={(e) => {
+              if (locked || disabled) return;
+              if (e.key === 'Enter' || e.key === 'ArrowDown') {
+                e.preventDefault();
+                onAdvance(index);
+              }
+            }}
             placeholder={lowEnergyDimmed ? 'Viloläge' : 'Vad är viktigt idag?'}
             disabled={disabled}
-            className="w-full bg-transparent border-none outline-none text-white/80 placeholder-white/30 text-lg font-light focus:ring-0 disabled:opacity-50 read-only:cursor-default"
+            aria-label={`Fokuspunkt ${index + 1} av 3`}
+            className="w-full min-h-11 bg-transparent border-none outline-none text-white/80 placeholder-white/30 text-lg font-light focus:ring-0 disabled:opacity-50 read-only:cursor-default"
           />
         </div>
       </div>
@@ -119,6 +141,17 @@ export function MorningCompass() {
   const [adjustedText, setAdjustedText] = useState('');
   const [dismissedLowEnergy, setDismissedLowEnergy] = useState(false);
   const idleResetTimerRef = useRef<number | null>(null);
+  const focusInputRefs = useRef<Array<HTMLInputElement | null>>([null, null, null]);
+
+  const advanceFocusPoint = useCallback((fromIndex: number) => {
+    for (let next = fromIndex + 1; next < 3; next += 1) {
+      const el = focusInputRefs.current[next];
+      if (el && !el.disabled && !el.readOnly) {
+        el.focus();
+        return;
+      }
+    }
+  }, []);
 
   const confirmedGoalText = primaryGoal?.text?.trim() ?? '';
   const isGoalLocked = confirmedGoalText.length > 0;
@@ -274,13 +307,20 @@ export function MorningCompass() {
     setAdjustedText('');
   };
 
+  const filledCount = threeFocusPoints.filter((p) => p.trim() !== '').length;
+
   return (
-    <div className="morning-compass-shell flex min-h-[80vh] w-full flex-col items-center p-4 sm:p-6 md:p-8 animate-fade-in">
-      <div className="morning-compass-shell__surface relative mt-12 w-full max-w-md space-y-8 rounded-3xl border border-white/10 bg-black/20 p-5 shadow-[0_24px_60px_-36px_rgba(0,0,0,0.75)] backdrop-blur-xl sm:p-6">
-        <div className="absolute -top-8 right-0 text-white/30 flex items-center gap-2 text-xs">
-          {saveStatus === 'saving' && <Loader2 className="w-3 h-3 animate-spin" />}
-          {saveStatus === 'saved' && <CheckCircle2 className="w-3 h-3 text-white/60" />}
-          {saveStatus === 'error' && <span className="w-3 h-3 rounded-full bg-red-400/80" aria-hidden />}
+    <div className="morning-compass-shell calm-scroll-island flex min-h-[80vh] w-full flex-col items-center overflow-y-auto p-4 sm:p-6 md:p-8 animate-fade-in">
+      <div className="morning-compass-shell__surface relative mt-10 w-full max-w-md space-y-7 rounded-3xl border border-white/10 bg-black/20 p-5 shadow-[0_24px_60px_-36px_rgba(0,0,0,0.75)] backdrop-blur-xl sm:mt-12 sm:space-y-8 sm:p-6">
+        <div
+          className="absolute -top-8 right-0 flex items-center gap-2 text-xs text-white/30"
+          aria-live="polite"
+        >
+          {saveStatus === 'saving' && <Loader2 className="w-3 h-3 animate-spin" aria-hidden />}
+          {saveStatus === 'saved' && <CheckCircle2 className="w-3 h-3 text-white/60" aria-hidden />}
+          {saveStatus === 'error' && (
+            <span className="w-3 h-3 rounded-full bg-danger/80" aria-hidden />
+          )}
           {saveStatus === 'saving'
             ? 'Sparar...'
             : saveStatus === 'saved'
@@ -290,18 +330,36 @@ export function MorningCompass() {
                 : ''}
         </div>
 
-        <div className="text-center space-y-2">
-          <div className="flex justify-center mb-6">
-            <div className="p-4 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-md shadow-lg">
-              <Compass className="w-8 h-8 text-white/80" />
+        <div className="space-y-3 text-center">
+          <div className="mb-4 flex justify-center sm:mb-6">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-4 shadow-lg backdrop-blur-md">
+              <Compass className="h-8 w-8 text-white/80" aria-hidden />
             </div>
           </div>
           <h1 className="text-3xl font-light tracking-wide text-white/90">Morgonkompassen</h1>
-          <p className="text-sm text-white/50 font-light">
+          <p className="text-sm font-light text-white/50">
             {isGoalLocked
               ? 'Ditt MåBra-mål leder kompassen. Två fria platser till.'
               : 'Dina 3 viktigaste saker idag. Inget mer.'}
           </p>
+          <div
+            className="mx-auto flex items-center justify-center gap-2 pt-1"
+            role="status"
+            aria-label={`${filledCount} av 3 fokuspunkter ifyllda`}
+          >
+            {[0, 1, 2].map((step) => {
+              const filled = threeFocusPoints[step]?.trim() !== '';
+              return (
+                <span
+                  key={step}
+                  className={`h-1.5 w-6 rounded-full transition-colors duration-200 ${
+                    filled ? 'bg-accent/70' : 'bg-white/15'
+                  }`}
+                  aria-hidden
+                />
+              );
+            })}
+          </div>
 
           {isLoadingAnchor ? (
             <div className="mt-4 flex justify-center">
@@ -315,12 +373,12 @@ export function MorningCompass() {
         </div>
 
         {shouldSuggestLowEnergy && (
-          <div className="mt-6 p-4 rounded-xl bg-amber-900/20 border border-amber-500/20 backdrop-blur-sm animate-fade-in flex flex-col gap-4">
+          <div className="mt-6 p-4 rounded-xl bg-accent/10 border border-accent/20 backdrop-blur-sm animate-fade-in flex flex-col gap-4">
             <div className="flex items-start gap-3">
-              <Moon className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+              <Moon className="w-5 h-5 text-accent shrink-0 mt-0.5" />
               <div className="w-full">
-                <p className="text-sm text-amber-200 font-medium">Oraklet noterar</p>
-                <p className="text-sm text-amber-100 mt-1">
+                <p className="text-sm text-accent-light font-medium">Oraklet noterar</p>
+                <p className="text-sm text-accent-light mt-1">
                   En hög belastning igår. Vill du aktivera Low-Energy Protocol idag för maximal återhämtning?
                 </p>
                 <div className="mt-4 flex flex-wrap gap-2">
@@ -334,14 +392,14 @@ export function MorningCompass() {
                       setFocusPoint(1, '');
                       setFocusPoint(2, '');
                     }}
-                    className="text-xs px-3 py-1.5 rounded-lg bg-amber-500/30 text-amber-100 hover:bg-amber-500/50 transition-colors"
+                    className="inline-flex min-h-11 items-center text-xs px-3 rounded-lg bg-accent/30 text-accent-light hover:bg-accent/50 transition-colors"
                   >
                     Aktivera Low-Energy
                   </button>
                   <button
                     type="button"
                     onClick={() => setDismissedLowEnergy(true)}
-                    className="text-xs px-3 py-1.5 rounded-lg text-amber-300/70 hover:text-amber-200 hover:bg-white/5 transition-colors"
+                    className="inline-flex min-h-11 items-center text-xs px-3 rounded-lg text-accent-light/70 hover:text-accent-light hover:bg-white/5 transition-colors"
                   >
                     Nej tack
                   </button>
@@ -352,11 +410,11 @@ export function MorningCompass() {
         )}
 
         {!shouldSuggestLowEnergy && shouldSuggestProtocol && (
-          <div className="mt-6 p-4 rounded-xl bg-indigo-900/20 border border-indigo-500/20 backdrop-blur-sm animate-fade-in flex flex-col gap-4">
+          <div className="mt-6 p-4 rounded-xl bg-accent/10 border border-accent/20 backdrop-blur-sm animate-fade-in flex flex-col gap-4">
             <div className="flex items-start gap-3">
-              <Sparkles className="w-5 h-5 text-indigo-400 shrink-0 mt-0.5" />
+              <Sparkles className="w-5 h-5 text-accent shrink-0 mt-0.5" />
               <div className="w-full">
-                <p className="text-sm text-indigo-200 font-medium">Mönster-Arkivarien noterar</p>
+                <p className="text-sm text-accent-light font-medium">Mönster-Arkivarien noterar</p>
 
                 {isAdjusting ? (
                   <div className="mt-3 space-y-3">
@@ -365,20 +423,20 @@ export function MorningCompass() {
                       value={adjustedText}
                       onChange={(e) => setAdjustedText(e.target.value)}
                       placeholder="Din justering av protokollet..."
-                      className="w-full bg-black/20 border border-indigo-500/30 rounded-lg px-3 py-2 text-sm text-white/90 placeholder-white/30 focus:outline-none focus:border-indigo-400"
+                      className="w-full bg-black/20 border border-accent/30 rounded-lg px-3 py-2 text-sm text-white/90 placeholder-white/30 focus:outline-none focus:border-accent"
                       autoFocus
                     />
                     <div className="flex gap-2 justify-end">
                       <button
                         onClick={() => setIsAdjusting(false)}
-                        className="text-xs px-3 py-1.5 rounded-lg text-indigo-300 hover:bg-white/5 transition-colors"
+                        className="inline-flex min-h-11 items-center text-xs px-3 rounded-lg text-accent-light hover:bg-white/5 transition-colors"
                       >
                         Avbryt
                       </button>
                       <button
                         onClick={handleAdjustProtocol}
                         disabled={!adjustedText.trim()}
-                        className="text-xs px-3 py-1.5 rounded-lg bg-indigo-500 text-white hover:bg-indigo-400 transition-colors disabled:opacity-50"
+                        className="inline-flex min-h-11 items-center text-xs px-3 rounded-lg bg-accent text-white hover:bg-accent-light transition-colors disabled:opacity-50"
                       >
                         Spara & Applicera
                       </button>
@@ -386,12 +444,12 @@ export function MorningCompass() {
                   </div>
                 ) : (
                   <>
-                    <p className="text-sm text-indigo-100 mt-1">{todayProtocol}</p>
+                    <p className="text-sm text-accent-light mt-1">{todayProtocol}</p>
                     <div className="mt-4 flex flex-wrap gap-2">
                       <button
                         type="button"
                         onClick={handleAcceptProtocol}
-                        className="text-xs px-3 py-1.5 rounded-lg bg-indigo-500/30 text-indigo-100 hover:bg-indigo-500/50 transition-colors"
+                        className="inline-flex min-h-11 items-center text-xs px-3 rounded-lg bg-accent/30 text-accent-light hover:bg-accent/50 transition-colors"
                       >
                         Acceptera
                       </button>
@@ -401,14 +459,14 @@ export function MorningCompass() {
                           setAdjustedText(todayProtocol);
                           setIsAdjusting(true);
                         }}
-                        className="text-xs px-3 py-1.5 rounded-lg bg-white/5 text-indigo-200 hover:bg-white/10 transition-colors"
+                        className="inline-flex min-h-11 items-center text-xs px-3 rounded-lg bg-white/5 text-accent-light hover:bg-white/10 transition-colors"
                       >
                         Justera
                       </button>
                       <button
                         type="button"
                         onClick={handleRejectProtocol}
-                        className="text-xs px-3 py-1.5 rounded-lg text-indigo-300/70 hover:text-indigo-200 hover:bg-white/5 transition-colors"
+                        className="inline-flex min-h-11 items-center text-xs px-3 rounded-lg text-accent-light/70 hover:text-accent-light hover:bg-white/5 transition-colors"
                       >
                         Inte idag
                       </button>
@@ -420,7 +478,7 @@ export function MorningCompass() {
           </div>
         )}
 
-        <div className="space-y-4 mt-8">
+        <div className="mt-6 space-y-3 sm:mt-8 sm:space-y-4">
           {[0, 1, 2].map((index) => (
             <FocusPointRow
               key={index}
@@ -429,15 +487,20 @@ export function MorningCompass() {
               showValidatedBadge={index === 0 && isGoalLocked}
               lowEnergyDimmed={isLowEnergyProtocolActive && index > 0 && !(index === 0 && isGoalLocked)}
               lowEnergyHighlighted={isLowEnergyProtocolActive && index === 0 && !isGoalLocked}
+              filled={threeFocusPoints[index]?.trim() !== ''}
+              inputRef={(el) => {
+                focusInputRefs.current[index] = el;
+              }}
+              onAdvance={advanceFocusPoint}
             />
           ))}
         </div>
 
-        <div className="pt-8 pb-4">
+        <div className="pb-4 pt-6 sm:pt-8">
           <Suspense
             fallback={
               <div className="flex h-32 items-center justify-center">
-                <Loader2 className="h-6 w-6 animate-spin text-white/20" />
+                <Loader2 className="h-6 w-6 animate-spin text-white/20" aria-hidden />
               </div>
             }
           >
@@ -445,13 +508,13 @@ export function MorningCompass() {
           </Suspense>
         </div>
 
-        <div className="pt-8 flex justify-center">
+        <div className="flex justify-center pt-6 sm:pt-8">
           <button
             type="button"
             onClick={() => void handleClearCompass()}
-            className="flex items-center gap-2 px-4 py-2 text-sm text-white/40 hover:text-white/80 transition-colors rounded-lg hover:bg-white/5"
+            className="inline-flex min-h-11 items-center gap-2 rounded-lg px-4 py-2 text-sm text-white/40 transition-colors hover:bg-white/5 hover:text-white/80"
           >
-            <Trash2 className="w-4 h-4" />
+            <Trash2 className="h-4 w-4" aria-hidden />
             <span>{isGoalLocked ? 'Rensa fria platser' : 'Rensa kompassen'}</span>
           </button>
         </div>

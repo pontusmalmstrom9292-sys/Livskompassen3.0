@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Cloud, Inbox } from 'lucide-react';
 import { Button, Badge } from '@/design-system';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { TimelineEntry } from '@/core/ui/TimelineEntry';
 import { useStore } from '@/core/store';
@@ -137,17 +138,18 @@ export function ReviewQueuePipelinePanel({
             </p>
           )}
           {!loadingCloud && !cloudError && cloudTotal === 0 && (
-            <p className="text-sm text-text-dim">
-              Inget väntar just nu. Nya inkast från Planering hamnar här tills du bekräftar i{' '}
-              <Link
-                to={VALV_SAMLA_GRANSKA_LINK}
-                className="font-medium text-accent underline-offset-2 hover:underline"
-              >
-                Valv → Samla
-              </Link>
-              {' '}eller skapar uppgift via{' '}
-              <strong className="font-medium text-text-muted">→ Handling</strong> i granskningskö.
-            </p>
+            <EmptyState
+              title="Tom kö"
+              message="Inget väntar just nu. Nya inkast från Planering hamnar här tills du bekräftar i Valv → Samla eller skapar uppgift via → Handling."
+              action={
+                <Link
+                  to={VALV_SAMLA_GRANSKA_LINK}
+                  className="inline-flex min-h-11 items-center text-sm font-medium text-accent underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+                >
+                  Öppna Valv → Samla
+                </Link>
+              }
+            />
           )}
           {!loadingCloud && cloudTotal > 0 && (
             <>

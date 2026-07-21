@@ -107,10 +107,10 @@ export function MabraHistoryView() {
               aria-label={`Visa ${val} dagar`}
               aria-pressed={limitCount === val}
               onClick={() => setLimitCount(val)}
-              className={`px-3 py-1.5 rounded-lg transition-colors font-medium ${
+              className={`inline-flex min-h-11 items-center justify-center rounded-lg px-3 font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
                 limitCount === val
-                  ? 'bg-accent/20 text-accent border border-accent/25'
-                  : 'text-text-muted hover:text-text hover:bg-surface/30 border border-transparent'
+                  ? 'border border-accent/25 bg-accent/20 text-accent'
+                  : 'border border-transparent text-text-muted hover:bg-surface/30 hover:text-text'
               }`}
             >
               {val} d
@@ -120,11 +120,9 @@ export function MabraHistoryView() {
       </div>
 
       {chartData.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-16 text-center text-text-muted">
-          <Smile className="w-12 h-12 stroke-[1.2] opacity-40 mb-3 text-accent" />
-          <p className="text-sm font-sans max-w-xs">
-            Inga incheckningar hittades för den här perioden. Gör en incheckning för att börja se din historik.
-          </p>
+        <div className="flex flex-col items-center justify-center py-16 text-center">
+          <Smile className="mb-3 h-12 w-12 stroke-[1.2] text-accent opacity-40" aria-hidden />
+          <EmptyState message="Inga incheckningar för den här perioden. Gör en incheckning för att börja se historiken." />
         </div>
       ) : (
         <div ref={chartContainerRef} className="h-72 w-full mt-2 relative">

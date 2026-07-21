@@ -11,6 +11,7 @@ import { WidgetActionDashboardPage } from '../pages/WidgetActionDashboardPage';
 import { WidgetVoiceVaultPage } from '../pages/WidgetVoiceVaultPage';
 import { WidgetProjektPage } from '../pages/WidgetProjektPage';
 import { WidgetModulerPage } from '../pages/WidgetModulerPage';
+import { WidgetDrogfrihetAkutPage } from '../pages/WidgetDrogfrihetAkutPage';
 import { useWidgetRouteMode } from '../hooks/useWidgetRouteMode';
 
 function WidgetRouteMode() {
@@ -35,6 +36,7 @@ export function WidgetRoutes() {
       <Route path="projekt" element={<WidgetProjektPage />} />
       <Route path="aktioner" element={<WidgetActionDashboardPage />} />
       <Route path="moduler" element={<WidgetModulerPage />} />
+      <Route path="drogfrihet-akut" element={<WidgetDrogfrihetAkutPage />} />
       <Route path="*" element={<Navigate to="/widget/inspelning" replace />} />
     </Routes>
     </>

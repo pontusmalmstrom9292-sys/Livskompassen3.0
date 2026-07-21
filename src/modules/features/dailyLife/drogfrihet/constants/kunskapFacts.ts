@@ -38,8 +38,8 @@ export const DROGFRIHET_FACTS: readonly DrogfrihetFact[] = [
     id: 'kunskap-fact-df-004',
     title_sv: 'Akut hjälp',
     content_sv:
-      'Vid akut fara för liv: ring 113. För råd om var du kan få vård: 1177. Psykiatrisk akutmottagning finns på sjukhus vid akut psykisk kris.',
-    citation_hint: '1177; SOS Alarm 113',
+      'Vid akut fara för liv: ring 112. Suicidtankar (icke-akut samtal): 90101 (Självmordslinjen / Mind). För råd om vård: 1177. Anonym drogrådgivning: Droghjälpen 020-91 91 91.',
+    citation_hint: 'SOS Alarm 112; Mind 90101; 1177; Droghjälpen',
     source_tier: 'P1',
   },
   {
@@ -56,6 +56,22 @@ export const DROGFRIHET_FACTS: readonly DrogfrihetFact[] = [
     content_sv:
       'ADHD och substansbruk kan förekomma samtidigt. Struktur, medicin vid ADHD enligt läkare, och beroendebehandling kan behövas parallellt — bedömning ska göras professionellt.',
     citation_hint: 'NICE; forskning ADHD comorbidity substance (översikt)',
+    source_tier: 'P2',
+  },
+  {
+    id: 'kunskap-fact-df-007',
+    title_sv: 'Lapse och relapse',
+    content_sv:
+      'En lapse är ett enstaka återfallstillfälle. En relapse är återgång till tidigare bruksmönster. Skillnaden hjälper dig att undvika “allt-eller-inget”-tänk — ett slip betyder inte att hela kedjan är trasig.',
+    citation_hint: 'Marlatt Relapse Prevention (översikt); klinisk praxis',
+    source_tier: 'P2',
+  },
+  {
+    id: 'kunskap-fact-df-008',
+    title_sv: 'Skam efter slip (AVE)',
+    content_sv:
+      'Abstinence Violation Effect: efter ett slip kan skam få dig att tänka “allt är förstört” och bruka mer. Bryt skammen — stanna upp, aktivera coping, sök stöd. Du är inte din lapse.',
+    citation_hint: 'Marlatt AVE; återfallsprevention (översikt)',
     source_tier: 'P2',
   },
 ];

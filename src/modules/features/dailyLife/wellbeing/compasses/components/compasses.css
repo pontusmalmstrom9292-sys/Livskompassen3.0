@@ -24,12 +24,26 @@
     z-index: 1;
   }
 
+  .compass-module-block:focus-within.compass-module-block--active::before {
+    box-shadow: 0 0 32px -2px color-mix(in srgb, var(--accent) 38%, transparent);
+  }
+
   .compass-quick-widget-rail {
     @apply rounded-[14px] px-3 py-2.5;
     border: 2px solid rgba(212, 175, 55, 0.28);
     background: color-mix(in srgb, var(--surface) 72%, transparent);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--text) 4%, transparent),
+      0 10px 28px -22px color-mix(in srgb, var(--bg) 80%, transparent);
+  }
+
+  .compass-quick-widget-rail:focus-within {
+    border-color: color-mix(in srgb, var(--accent-light, var(--accent)) 52%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--accent) 14%, transparent),
+      0 14px 30px -22px color-mix(in srgb, var(--bg) 84%, transparent);
   }
 
   .compass-quick-widget-rail--compact {
@@ -46,26 +60,75 @@
 
   .compass-quick-widget-rail__label {
     @apply mb-2 text-[0.65rem] font-medium uppercase tracking-widest text-text-dim;
+    line-height: 1.35;
   }
 
   .compass-quick-widget-rail__scroll {
     @apply flex gap-2 overflow-x-auto pb-0.5;
     scrollbar-width: thin;
+    scrollbar-gutter: stable both-edges;
   }
 
   .compass-quick-widget-rail__chip {
-    @apply shrink-0 rounded-full border px-3 py-1.5 text-xs text-text transition-colors;
-    border-color: rgba(212, 175, 55, 0.35);
-    background: rgba(15, 23, 42, 0.6);
+    @apply inline-flex shrink-0 items-center rounded-full border px-3 text-xs text-text transition-colors;
+    min-height: var(--ds-touch-target);
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    background: color-mix(in srgb, var(--surface-2) 60%, transparent);
+    line-height: 1.2;
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium),
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      transform var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .compass-quick-widget-rail__chip:hover {
-    border-color: rgba(253, 230, 138, 0.55);
-    background: rgba(212, 175, 55, 0.12);
+    border-color: color-mix(in srgb, var(--accent-light, var(--accent)) 55%, transparent);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
     color: var(--accent-light);
+    transform: translateY(-1px);
+  }
+
+  .compass-quick-widget-rail__chip:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+    border-color: color-mix(in srgb, var(--accent-light, var(--accent)) 62%, transparent);
+    background: color-mix(in srgb, var(--accent) 16%, transparent);
+    color: var(--accent-light, var(--accent));
+  }
+
+  .compass-quick-widget-rail__chip:active {
+    transform: translateY(0);
   }
 
   .compass-quick-widget-rail--compact .compass-quick-widget-rail__label {
     @apply mb-1.5;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .compass-quick-widget-rail {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background: color-mix(in srgb, var(--surface) 94%, #020617);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .compass-quick-widget-rail__chip {
+      transition: none;
+    }
+
+    .compass-quick-widget-rail__chip:hover,
+    .compass-quick-widget-rail__chip:active {
+      transform: none;
+    }
+
+    .compass-module-block--active::before {
+      box-shadow: none;
+    }
   }
 }

@@ -60,6 +60,8 @@ public class DiagnosticManager {
 
     /**
      * Tvingar fram en skrivning av bufferten till den krypterade filen.
+     * EncryptedFile tillåter inte append/overwrite — filen måste raderas före ny write.
+     * Bufferten rensas först efter lyckad skrivning (fail-closed för diagnostik).
      */
     public synchronized void flushToDisk() {
         if (logBuffer.isEmpty()) return;
@@ -70,7 +72,7 @@ public class DiagnosticManager {
                     .build();
 
             File file = new File(context.getFilesDir(), LOG_FILE_NAME);
-            
+
             // 1. Läs in befintlig data (om filen finns)
             List<String> allLines = new ArrayList<>();
             if (file.exists()) {
@@ -90,38 +92,52 @@ public class DiagnosticManager {
                     }
                 } catch (Exception e) {
                     android.util.Log.e("DiagnosticManager", "Failed to read existing Black Box: " + e.getMessage());
-                    // Om filen är korrupt eller inte kan läsas, börjar vi om för att undvika total blockering
+                    // Korrupt fil: starta om med endast bufferten; gammal fil raderas nedan.
+                    allLines.clear();
                 }
             }
 
-            // 2. Lägg till nya rader från bufferten
+            // 2. Merge buffert (rensa INTE förrän write lyckats)
             allLines.addAll(logBuffer);
-            logBuffer.clear();
 
-            // 3. Tillämpa rotation/storleksbegränsning
-            // För enkelhetens skull behåller vi de senaste 500 raderna om vi överskrider en gräns,
-            // vilket bör hålla oss under 64KB på en G85.
+            // 3. Rotation — senaste 500 raderna (~under 64KB på G85)
             if (allLines.size() > 500) {
                 allLines = new ArrayList<>(allLines.subList(allLines.size() - 500, allLines.size()));
             }
 
-            // 4. Skriv tillbaka allt (EncryptedFile stöder bara overwrite)
-            EncryptedFile encryptedFile = new EncryptedFile.Builder(
-                    context,
-                    file,
-                    masterKey,
-                    EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
-            ).build();
+            // 4. EncryptedFile.openFileOutput() kräver att filen inte finns
+            if (file.exists() && !file.delete()) {
+                android.util.Log.e("DiagnosticManager", "Failed to delete Black Box for rewrite — buffer retained.");
+                return;
+            }
 
-            try (OutputStream os = encryptedFile.openFileOutput();
-                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os))) {
-                for (String line : allLines) {
-                    writer.write(line);
-                    writer.newLine();
+            try {
+                EncryptedFile encryptedFile = new EncryptedFile.Builder(
+                        context,
+                        file,
+                        masterKey,
+                        EncryptedFile.FileEncryptionScheme.AES256_GCM_HKDF_4KB
+                ).build();
+
+                try (OutputStream os = encryptedFile.openFileOutput();
+                     BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(os))) {
+                    for (String line : allLines) {
+                        writer.write(line);
+                        writer.newLine();
+                    }
                 }
+
+                // 5. Endast efter lyckad write
+                logBuffer.clear();
+            } catch (Exception writeError) {
+                // Delete redan klar — återställ mergeade rader så nästa flush kan försöka igen
+                logBuffer.clear();
+                logBuffer.addAll(allLines);
+                throw writeError;
             }
         } catch (Exception e) {
             android.util.Log.e("DiagnosticManager", "Failed to flush Black Box: " + e.getMessage());
+            // Buffert behålls för nästa försök
         }
     }
 

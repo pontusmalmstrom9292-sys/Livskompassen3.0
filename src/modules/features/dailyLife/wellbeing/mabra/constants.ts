@@ -240,7 +240,7 @@ export const RECOVERY_SOS_ANCHOR_COPY = {
   groundLead: '5-4-3-2-1 — ett steg i taget',
   closeLabel: 'Stäng',
   emergencyHint: 'Akut fara:',
-  emergencyNumber: '113',
+  emergencyNumber: '112',
 } as const;
 
 export const LOW_ENERGY_COPY = {

@@ -17,7 +17,7 @@
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.06),
       inset 0 -1px 0 rgba(0, 0, 0, 0.28),
-      0 4px 16px -4px rgba(0, 0, 0, 0.45);
+      0 4px 16px -4px color-mix(in srgb, var(--bg) 45%, transparent);
   }
 
   .reflektion-panel--od-depth {
@@ -30,8 +30,8 @@
     );
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.07),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.32),
-      0 6px 20px -6px rgba(0, 0, 0, 0.5);
+      inset 0 -1px 0 color-mix(in srgb, var(--bg) 32%, transparent),
+      0 6px 20px -6px color-mix(in srgb, var(--bg) 50%, transparent);
   }
 
   .reflektion-field {
@@ -53,19 +53,22 @@
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.06),
       inset 0 -1px 0 rgba(0, 0, 0, 0.25),
-      0 2px 8px -2px rgba(0, 0, 0, 0.35);
+      0 2px 8px -2px color-mix(in srgb, var(--bg) 35%, transparent);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23d4af37' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 0.75rem center;
     padding-right: 2.25rem;
   }
 
-  .reflektion-feeling-select:focus {
+  .reflektion-feeling-select:focus,
+  .reflektion-feeling-select:focus-visible {
     border-color: rgba(212, 175, 55, 0.42);
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.08),
-      0 0 0 1px rgba(212, 175, 55, 0.12),
-      0 0 24px -6px rgba(212, 175, 55, 0.22);
+      inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent),
+      0 0 24px -6px color-mix(in srgb, var(--accent) 22%, transparent);
   }
 
   .reflektion-hub-body {
@@ -83,7 +86,8 @@
   }
 
   .reflektion-actions__ghost:focus-visible {
-    @apply outline outline-2 outline-offset-2 outline-accent/50;
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .reflektion-panel {
@@ -104,11 +108,17 @@
 
   .reflektion-mood-card {
     @apply flex min-h-[3.1rem] flex-col items-center justify-center gap-0.5 rounded-xl border border-border-strong/90 px-1 py-1.5 transition-[transform,box-shadow,border-color,background];
+    min-height: var(--ds-touch-target);
     background: linear-gradient(
       165deg,
       rgba(22, 28, 26, 0.72) 0%,
       rgba(10, 14, 18, 0.55) 100%
     );
+  }
+
+  .reflektion-mood-card:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .reflektion-mood-card:hover {
@@ -184,7 +194,7 @@
   }
 
   .reflektion-mood-card--gold.reflektion-mood-card--active {
-    box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 20%, transparent);
   }
 
   .reflektion-mood-card--rose.reflektion-mood-card--active {
@@ -223,6 +233,12 @@
 
   .reflektion-write-tabs__tab {
     @apply flex-1 rounded-lg border-0 py-2 text-xs font-medium text-text-dim transition-colors;
+    min-height: var(--ds-touch-target);
+  }
+
+  .reflektion-write-tabs__tab:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .reflektion-write-tabs__tab--active {
@@ -238,7 +254,12 @@
   }
 
   .reflektion-prompt-chip {
-    @apply min-h-[var(--ds-touch-target)] rounded-full border border-border-strong bg-surface/40 px-3 py-1.5 text-left text-xs text-text-muted transition-colors hover:border-accent/40 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50;
+    @apply min-h-[var(--ds-touch-target)] rounded-full border border-border-strong bg-surface/40 px-3 py-1.5 text-left text-xs text-text-muted transition-colors hover:border-accent/40 hover:text-accent;
+  }
+
+  .reflektion-prompt-chip:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .reflektion-prompt-chip--active {
@@ -271,5 +292,78 @@
 
   .reflektion-preview__text {
     @apply text-sm leading-relaxed text-text-muted;
+    text-wrap: pretty;
+  }
+
+  .reflektion-wizard-progress {
+    @apply mb-4 px-1;
+  }
+
+  .reflektion-wizard-progress__list {
+    @apply flex flex-wrap items-center justify-center gap-1 sm:gap-2;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .reflektion-wizard-progress__step {
+    @apply flex min-h-11 min-w-[4.5rem] flex-col items-center justify-center gap-0.5 rounded-xl border border-transparent px-2 py-1.5 text-center transition-[border-color,background,opacity];
+  }
+
+  .reflektion-wizard-progress__step--current {
+    @apply border-accent/35 bg-accent/10;
+    box-shadow: 0 0 20px -8px color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  .reflektion-wizard-progress__step--done {
+    @apply border-border/50 bg-surface/25 opacity-90;
+  }
+
+  .reflektion-wizard-progress__step--upcoming {
+    @apply border-border/30 bg-surface/10 opacity-60;
+  }
+
+  .reflektion-wizard-progress__marker {
+    @apply text-sm leading-none;
+  }
+
+  .reflektion-wizard-progress__label {
+    @apply text-[10px] font-medium uppercase tracking-[0.14em] text-text-dim;
+  }
+
+  .reflektion-wizard-progress__step--current .reflektion-wizard-progress__label {
+    @apply text-accent;
+  }
+
+  .reflektion-keyboard-hint {
+    @apply mt-3 text-center text-[11px] leading-relaxed text-text-dim;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .reflektion-wizard,
+    .reflektion-panel--od-depth,
+    .reflektion-feeling-select {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .reflektion-mood-card,
+    .reflektion-shuffle,
+    .reflektion-prompt-chip,
+    .reflektion-write-tabs__tab,
+    .reflektion-wizard-progress__step {
+      transition: none;
+    }
+
+    .reflektion-mood-card:hover,
+    .reflektion-mood-card--active {
+      transform: none;
+    }
   }
 }

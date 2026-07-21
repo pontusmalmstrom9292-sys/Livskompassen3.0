@@ -108,9 +108,9 @@ function SessionEvidenceList({
                       href={vault.evidenceUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="mt-1 inline-flex items-center gap-1 text-xs text-accent hover:text-accent-light"
+                      className="mt-1 inline-flex min-h-11 items-center gap-1 text-xs text-accent hover:text-accent-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                     >
-                      <ExternalLink className="h-3 w-3" />
+                      <ExternalLink className="h-3 w-3" aria-hidden />
                       Låsta poster i arkivet
                     </a>
                   ) : (
@@ -161,9 +161,9 @@ function VaultItem({ log, score }: { log: VaultLog & { id: string }; score: numb
           href={log.evidenceUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-2 inline-flex items-center gap-1 text-xs text-accent hover:text-accent-light"
+          className="mt-2 inline-flex min-h-11 items-center gap-1 text-xs text-accent hover:text-accent-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         >
-          <ExternalLink className="h-3 w-3" />
+          <ExternalLink className="h-3 w-3" aria-hidden />
           Visa bifogat bevis
         </a>
       )}

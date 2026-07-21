@@ -1,20 +1,20 @@
 /* BIFF triage — bait/fact reveal chrome — sunset från index.css våg 81 */
 @layer components {
   .biff-triage-bait {
-    @apply rounded-lg border border-border-strong bg-surface/80 px-3 py-2 text-sm text-text-dim select-none;
+    @apply rounded-lg border border-border-strong bg-surface/80 px-3 py-2 text-sm leading-relaxed text-text-dim select-none;
     filter: blur(4px);
     user-select: none;
     pointer-events: none;
   }
 
   .biff-triage-bait--revealed {
-    @apply rounded-lg border border-danger/20 bg-danger/5 px-3 py-2 text-sm text-text-muted;
+    @apply rounded-lg border border-danger/20 bg-danger/5 px-3 py-2 text-sm leading-relaxed text-text-muted;
     filter: none;
     user-select: text;
     pointer-events: auto;
   }
 
   .biff-triage-fact {
-    @apply rounded-lg border border-success/25 bg-success/5 px-3 py-2 text-sm text-text-muted;
+    @apply rounded-lg border border-success/25 bg-success/5 px-3 py-2 text-sm leading-relaxed text-text-muted;
   }
 }

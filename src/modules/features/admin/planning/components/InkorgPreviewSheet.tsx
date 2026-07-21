@@ -38,11 +38,17 @@ export function InkorgPreviewSheet({ open, classification, saving, onConfirm, on
       placement="center"
     >
       {classification.routeToHamn && (
-        <div className="planering-inkorg-preview-sheet__alert rounded-xl border border-indigo-500/30 bg-indigo-500/10 px-3 py-2 text-sm text-text-muted">
+        <div
+          className="planering-inkorg-preview-sheet__alert rounded-xl border border-accent-secondary/30 bg-accent-secondary/10 px-3 py-2 text-sm text-text-muted"
+          role="status"
+        >
           <p className="text-[10px] uppercase tracking-widest text-accent-secondary/80">Brusfilter</p>
           <p className="mt-1">
             {classification.matchedRuleLabel ?? 'Ex/konflikt'} — routing till Hamn, inte Handling.{' '}
-            <Link to="/familjen?tab=hamn" className="text-accent underline">
+            <Link
+              to="/familjen?tab=hamn"
+              className="text-accent underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+            >
               Öppna Trygg Hamn
             </Link>
           </p>
@@ -87,11 +93,11 @@ export function InkorgPreviewSheet({ open, classification, saving, onConfirm, on
           variant="accent"
           disabled={saving || classification.routeToHamn}
           onClick={onConfirm}
-          className="flex-1"
+          className="min-h-11 flex-1"
         >
           {saving ? 'Sparar…' : 'Skapa uppgift'}
         </Button>
-        <Button variant="ghost" onClick={onCancel} className="flex-1">
+        <Button variant="ghost" onClick={onCancel} className="min-h-11 flex-1">
           Tillbaka
         </Button>
       </SheetFooter>

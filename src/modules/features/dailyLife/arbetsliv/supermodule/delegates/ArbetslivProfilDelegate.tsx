@@ -1,5 +1,6 @@
-import { Check, FileUp, Loader2, Plus } from 'lucide-react';
+import { AlertTriangle, Check, FileUp, Loader2, Plus } from 'lucide-react';
 import { useEffect, useRef, type ChangeEvent, type FormEvent } from 'react';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { Button, Input } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { useStore } from '@/core/store';
@@ -96,7 +97,10 @@ export function ArbetslivProfilDelegate() {
         </header>
 
         {!hasUser ? (
-          <p className="text-sm text-text-dim">Logga in för att ställa in lön.</p>
+          <EmptyState
+            title="Lönekontor"
+            message="Logga in för att ställa in lön, kollektivavtal och skatt."
+          />
         ) : loading ? (
           <p className="flex items-center gap-2 text-sm text-text-dim" aria-busy="true">
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
@@ -113,7 +117,7 @@ export function ArbetslivProfilDelegate() {
                   type="number"
                   min={0}
                   step={100}
-                  className="input-glass tabular-nums"
+                  className="input-glass min-h-11 tabular-nums focus-visible:ring-2 focus-visible:ring-accent/40"
                   value={activeMonthlySalary}
                   onChange={(e) => {
                     setPrimarySalary(Number(e.target.value) || 0);
@@ -329,7 +333,7 @@ export function ArbetslivProfilDelegate() {
               </p>
             </BentoCard>
 
-            <Button type="submit" disabled={saving || isUploadBusy} className="w-full">
+            <Button type="submit" disabled={saving || isUploadBusy} className="min-h-11 w-full focus-visible:ring-2 focus-visible:ring-accent/40">
               {saving ? (
                 <span className="inline-flex items-center gap-2">
                   <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
@@ -342,15 +346,23 @@ export function ArbetslivProfilDelegate() {
           </form>
         )}
 
-        {error ? <p className="text-sm text-danger">{error}</p> : null}
+        {error ? (
+          <p
+            className="flex items-start gap-2 rounded-xl border border-danger/25 bg-danger/5 px-3 py-2.5 text-sm leading-relaxed text-danger"
+            role="alert"
+          >
+            <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+            <span>{error}</span>
+          </p>
+        ) : null}
         {uploadConfirmMessage ? (
-          <p className="flex items-center gap-2 text-sm text-emerald-400" role="status">
+          <p className="flex items-center gap-2 text-sm text-success" role="status">
             <Check className="h-4 w-4 shrink-0" aria-hidden />
             {uploadConfirmMessage}
           </p>
         ) : null}
         {savedFlash ? (
-          <p className="flex items-center gap-2 text-sm text-emerald-400" role="status">
+          <p className="flex items-center gap-2 text-sm text-success" role="status">
             <Check className="h-4 w-4 shrink-0" aria-hidden />
             Sparat — preview uppdaterad.
           </p>

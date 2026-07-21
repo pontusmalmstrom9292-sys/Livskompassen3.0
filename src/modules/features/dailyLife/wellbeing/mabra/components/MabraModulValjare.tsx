@@ -32,7 +32,7 @@ export function MabraModulValjare({ onSelect, onSkip }: Props) {
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" role="region" aria-label="Välj MåBra-pelare">
       <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent/90">
         MåBra 3.0
       </p>

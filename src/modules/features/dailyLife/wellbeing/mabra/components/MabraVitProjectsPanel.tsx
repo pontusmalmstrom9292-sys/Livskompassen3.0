@@ -9,7 +9,7 @@ type Props = {
 /** Fas 2 §3 — en rad per Vit-projekt, valfritt Senast. */
 export function MabraVitProjectsPanel({ lastSeen, onOpenProject }: Props) {
   return (
-    <section className="rounded-xl border border-border-strong bg-surface/25 p-4" aria-label="Fortsätt i Vit">
+    <section className="calm-card glow-bottom-green space-y-3 rounded-2xl p-4 sm:p-5" aria-label="Fortsätt i Vit">
       <h2 className="text-sm font-medium text-text">Fortsätt i Vit</h2>
       <p className="mt-1 text-xs text-text-dim">Identitetsarbete — ett projekt i taget. Akutverktyg finns ovan.</p>
       <ul className="mt-3 space-y-2">
@@ -22,9 +22,9 @@ export function MabraVitProjectsPanel({ lastSeen, onOpenProject }: Props) {
               <button
                 type="button"
                 onClick={() => onOpenProject(project.id)}
-                className="flex w-full items-center gap-3 rounded-xl border border-border-strong px-3 py-3 text-left transition hover:border-accent/30 hover:bg-accent/5"
+                className="flex min-h-11 w-full items-center gap-3 rounded-xl border border-border-strong px-3 py-3 text-left transition hover:border-accent/30 hover:bg-accent/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
               >
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
+                <span className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-accent">
                   <Icon className="h-4 w-4" aria-hidden />
                 </span>
                 <span className="min-w-0 flex-1">

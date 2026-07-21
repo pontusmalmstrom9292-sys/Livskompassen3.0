@@ -3,7 +3,7 @@
 .dagbok-tyst-lage {
   --tyst-bg: #030508;
   --tyst-surface: rgba(8, 10, 14, 0.92);
-  --tyst-border: rgba(212, 175, 55, 0.12);
+  --tyst-border: color-mix(in srgb, var(--accent) 12%, transparent);
   min-height: min(70vh, 560px);
   margin: -0.5rem;
   padding: 1.25rem 1rem 1.5rem;
@@ -53,17 +53,29 @@
   padding: 0.85rem 1rem;
   font-size: 1rem;
   color: var(--text);
+  min-height: var(--ds-touch-target, 2.75rem);
+  transition: border-color var(--ds-duration-fast, 150ms) ease;
+}
+
+.dagbok-tyst-lage__tre-ord input:focus-visible {
+  outline: var(--ds-focus-ring);
+  outline-offset: var(--ds-focus-offset);
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
 }
 
 .dagbok-tyst-lage__actions {
   margin-top: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.65rem;
+  gap: 0.75rem;
 }
 
 .dagbok-tyst-lage__actions .ds-btn {
-  min-height: 48px;
+  min-height: var(--ds-touch-target, 2.75rem);
+}
+
+.dagbok-tyst-lage__mood {
+  margin-top: 1.25rem;
 }
 
 .dagbok-tyst-lage__mood select {
@@ -74,4 +86,17 @@
   background: var(--tyst-surface);
   padding: 0.75rem 1rem;
   color: var(--text);
+  min-height: var(--ds-touch-target, 2.75rem);
+}
+
+.dagbok-tyst-lage__mood select:focus-visible {
+  outline: var(--ds-focus-ring);
+  outline-offset: var(--ds-focus-offset);
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dagbok-tyst-lage__tre-ord input {
+    transition: none;
+  }
 }

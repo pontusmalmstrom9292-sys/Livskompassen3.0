@@ -22,8 +22,8 @@
     );
     box-shadow:
       0 4px 12px var(--color-glass-dark-50),
-      0 1px 0 rgba(255, 243, 210, 0.15) inset,
-      0 -3px 9px rgba(0, 0, 0, 0.38) inset;
+      0 1px 0 color-mix(in srgb, var(--accent-light, var(--accent)) 15%, transparent) inset,
+      0 -3px 9px color-mix(in srgb, var(--bg) 38%, transparent) inset;
     transform: translateY(-2px);
     cursor: pointer;
     touch-action: manipulation;
@@ -41,8 +41,8 @@
     border-radius: 0.72rem 0.72rem 55% 55%;
     background: linear-gradient(
       180deg,
-      rgba(255, 248, 220, 0.14) 0%,
-      rgba(255, 248, 220, 0) 100%
+      color-mix(in srgb, var(--accent-light, var(--accent)) 14%, transparent) 0%,
+      transparent 100%
     );
     pointer-events: none;
   }
@@ -51,17 +51,27 @@
     transform: translateY(-3px);
     border-color: color-mix(in srgb, var(--accent-light) 52%, transparent);
     box-shadow:
-      0 7px 18px rgba(0, 0, 0, 0.55),
-      0 0 16px rgba(212, 175, 55, 0.14),
-      0 1px 0 rgba(255, 248, 220, 0.2) inset,
-      0 -3px 9px rgba(0, 0, 0, 0.34) inset;
+      0 7px 18px color-mix(in srgb, var(--bg) 55%, transparent),
+      0 0 16px color-mix(in srgb, var(--accent) 14%, transparent),
+      0 1px 0 color-mix(in srgb, var(--accent-light, var(--accent)) 20%, transparent) inset,
+      0 -3px 9px color-mix(in srgb, var(--bg) 34%, transparent) inset;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mabra-vit-hub__chip,
+    .mabra-vit-hub__chip:hover,
+    .mabra-vit-hub__chip:active {
+      transform: none;
+      transition: border-color var(--ds-duration-fast) var(--ds-ease-premium),
+        box-shadow var(--ds-duration-fast) var(--ds-ease-premium);
+    }
   }
 
   .mabra-vit-hub__chip:active {
     transform: translateY(0);
     box-shadow:
       0 2px 7px var(--color-glass-dark-45),
-      0 2px 6px rgba(0, 0, 0, 0.34) inset;
+      0 2px 6px color-mix(in srgb, var(--bg) 34%, transparent) inset;
   }
 
   .mabra-vit-hub__chip:focus-visible {
@@ -71,14 +81,14 @@
 
   .mabra-vit-hub__chip-emoji {
     @apply relative z-[1] text-lg leading-none;
-    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.55))
-      drop-shadow(0 0 6px rgba(212, 175, 55, 0.2));
+    filter: drop-shadow(0 2px 3px color-mix(in srgb, var(--bg) 55%, transparent))
+      drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 20%, transparent));
   }
 
   .mabra-vit-hub__chip-label {
     @apply relative z-[1] max-w-[5.5rem] truncate text-center text-[9px] font-semibold text-accent-light;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
-    color: color-mix(in srgb, var(--accent-light) 74%, #f8fafc);
+    text-shadow: 0 1px 2px color-mix(in srgb, var(--bg) 65%, transparent);
+    color: color-mix(in srgb, var(--accent-light) 74%, var(--text));
   }
 
   .mabra-vit-hub__zones {
@@ -132,14 +142,14 @@
     border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
     background: linear-gradient(
       168deg,
-      rgba(44, 38, 28, 0.94) 0%,
-      rgba(18, 16, 14, 0.92) 50%,
-      rgba(8, 10, 14, 0.9) 100%
+      color-mix(in srgb, var(--surface-2) 94%, transparent) 0%,
+      color-mix(in srgb, var(--surface) 92%, transparent) 50%,
+      color-mix(in srgb, var(--bg) 90%, transparent) 100%
     );
     box-shadow:
-      0 3px 10px rgba(0, 0, 0, 0.42),
+      0 3px 10px color-mix(in srgb, var(--bg) 42%, transparent),
       0 1px 0 var(--chrome-highlight) inset,
-      0 -2px 7px rgba(0, 0, 0, 0.32) inset;
+      0 -2px 7px color-mix(in srgb, var(--bg) 32%, transparent) inset;
     transform: translateY(-1px);
     cursor: pointer;
     touch-action: manipulation;
@@ -157,8 +167,8 @@
     border-radius: 0.72rem 0.72rem 50% 50%;
     background: linear-gradient(
       180deg,
-      rgba(255, 248, 220, 0.1) 0%,
-      rgba(255, 248, 220, 0) 100%
+      color-mix(in srgb, var(--accent-light, var(--accent)) 10%, transparent) 0%,
+      transparent 100%
     );
     pointer-events: none;
   }
@@ -167,17 +177,17 @@
     transform: translateY(-2px);
     border-color: color-mix(in srgb, var(--accent-light) 45%, transparent);
     box-shadow:
-      0 6px 16px rgba(0, 0, 0, 0.48),
-      0 0 12px rgba(212, 175, 55, 0.1),
-      0 1px 0 rgba(255, 248, 220, 0.16) inset,
-      0 -2px 7px rgba(0, 0, 0, 0.3) inset;
+      0 6px 16px color-mix(in srgb, var(--bg) 48%, transparent),
+      0 0 12px color-mix(in srgb, var(--accent) 10%, transparent),
+      0 1px 0 color-mix(in srgb, var(--accent-light, var(--accent)) 16%, transparent) inset,
+      0 -2px 7px color-mix(in srgb, var(--bg) 30%, transparent) inset;
   }
 
   .mabra-vit-hub__tile:active {
     transform: translateY(0);
     box-shadow:
-      0 2px 6px rgba(0, 0, 0, 0.4),
-      0 2px 5px rgba(0, 0, 0, 0.3) inset;
+      0 2px 6px color-mix(in srgb, var(--bg) 40%, transparent),
+      0 2px 5px color-mix(in srgb, var(--bg) 30%, transparent) inset;
   }
 
   .mabra-vit-hub__tile:focus-visible {
@@ -192,13 +202,13 @@
 
   .mabra-vit-hub__tile-title {
     @apply relative z-[1] text-[11px] font-semibold leading-tight text-accent-light;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
-    color: color-mix(in srgb, var(--accent-light) 72%, #f8fafc);
+    text-shadow: 0 1px 2px color-mix(in srgb, var(--bg) 55%, transparent);
+    color: color-mix(in srgb, var(--accent-light) 72%, var(--text));
   }
 
   .mabra-vit-hub__tile-lead {
     @apply relative z-[1] line-clamp-2 text-[9px] leading-snug text-text-dim;
-    color: color-mix(in srgb, var(--text-dim) 86%, #e2e8f0);
+    color: color-mix(in srgb, var(--text-dim) 86%, var(--text-muted));
   }
 
   .mabra-vit-hub__low-energy {
@@ -215,5 +225,19 @@
 
   .mabra-vit-hub__tile--large .mabra-vit-hub__tile-lead {
     @apply text-[11px];
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .mabra-vit-hub__tile,
+    .mabra-vit-hub__zone-trigger {
+      transition: none;
+    }
+
+    .mabra-vit-hub__tile:hover,
+    .mabra-vit-hub__tile:active {
+      transform: none;
+    }
   }
 }

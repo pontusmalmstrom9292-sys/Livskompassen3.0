@@ -11,6 +11,8 @@ import {
 import { db } from '@/core/firebase/firestore';
 import { assertOfflineWriteAllowed } from '@/core/firebase/offlineWritePolicy';
 import { FIRESTORE_COLLECTIONS } from '@/core/types/firestore';
+import { isProjectBlockType } from '../utils/projectBlockTypes';
+import { assertProjectWriteAuth } from '../utils/projectWriteAuth';
 import type { ProjectBlock, ProjectBlockType } from '../types';
 
 type FirestoreProjectBlock = {
@@ -80,18 +82,26 @@ export async function createProjectBlock(
   },
 ): Promise<string> {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.project_blocks);
+  const { uid } = assertProjectWriteAuth(userId);
+  if (!isProjectBlockType(input.type)) {
+    throw new Error('Ogiltig blocktyp.');
+  }
+  const title = input.title.trim();
+  if (!title) {
+    throw new Error('Ge blocket en titel.');
+  }
   const ref = collection(db, FIRESTORE_COLLECTIONS.project_blocks);
   const docRef = await addDoc(ref, {
-    userId,
-    ownerId: userId,
+    userId: uid,
+    ownerId: uid,
     projectId: input.projectId,
     type: input.type,
-    title: input.title.trim(),
-    order: input.order,
-    ...(input.content ? { content: input.content.trim() } : {}),
-    ...(input.storagePath ? { storagePath: input.storagePath } : {}),
-    ...(input.imageUrl ? { imageUrl: input.imageUrl } : {}),
-    ...(input.planningTaskId ? { planningTaskId: input.planningTaskId } : {}),
+    title,
+    order: Math.trunc(input.order),
+    ...(input.content ? { content: input.content.trim().slice(0, 4000) } : {}),
+    ...(input.storagePath ? { storagePath: input.storagePath.slice(0, 512) } : {}),
+    ...(input.imageUrl ? { imageUrl: input.imageUrl.slice(0, 2048) } : {}),
+    ...(input.planningTaskId ? { planningTaskId: input.planningTaskId.slice(0, 128) } : {}),
     createdAt: serverTimestamp(),
   });
   return docRef.id;

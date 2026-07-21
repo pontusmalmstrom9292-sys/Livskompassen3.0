@@ -24,7 +24,7 @@ export function PlanningTaskDetail({ task, onClose, onMove, onSaveMicroStep }: P
       ariaLabel={task.title}
       panelClassName="max-w-md border-accent/25"
       headerAction={
-        <Button type="button" variant="ghost" size="icon" className="p-1" onClick={onClose} aria-label="Stäng">
+        <Button type="button" variant="ghost" size="icon" className="min-h-11 min-w-11" onClick={onClose} aria-label="Stäng">
           <X className="h-4 w-4" />
         </Button>
       }
@@ -38,7 +38,7 @@ export function PlanningTaskDetail({ task, onClose, onMove, onSaveMicroStep }: P
         <select
           value={task.status}
           onChange={(e) => onMove(e.target.value as PlanningTaskStatus)}
-          className="input-glass mt-1 w-full rounded-xl px-3 py-2 text-sm"
+          className="input-glass mt-1 min-h-11 w-full rounded-xl px-3 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           aria-label="Flytta uppgift till kolumn"
         >
           {KANBAN_COLUMNS.map((col) => (
@@ -56,7 +56,8 @@ export function PlanningTaskDetail({ task, onClose, onMove, onSaveMicroStep }: P
             value={microStep}
             onChange={(e) => setMicroStep(e.target.value)}
             placeholder="T.ex. Läs 2 sidor"
-            className="input-glass w-full text-sm"
+            className="input-glass min-h-11 w-full text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+            aria-label="Mikrosteg för uppgiften"
           />
         </div>
       </label>
@@ -66,7 +67,12 @@ export function PlanningTaskDetail({ task, onClose, onMove, onSaveMicroStep }: P
           setMicroStep(atom);
         }}
       />
-      <Button type="button" variant="secondary" className="mt-3 w-full" onClick={() => onSaveMicroStep(microStep)}>
+      <Button
+        type="button"
+        variant="secondary"
+        className="mt-3 min-h-11 w-full"
+        onClick={() => onSaveMicroStep(microStep)}
+      >
         Spara mikrosteg
       </Button>
     </Modal>

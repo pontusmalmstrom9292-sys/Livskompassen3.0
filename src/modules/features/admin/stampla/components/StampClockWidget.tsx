@@ -56,7 +56,10 @@ export function StampClockWidget() {
           />
         </>
       )}
-      <Link to="/arbetsliv" className="mt-3 inline-block text-xs text-accent hover:underline">
+      <Link
+        to="/arbetsliv"
+        className="mt-3 inline-flex min-h-11 items-center text-xs text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+      >
         Öppna full vy →
       </Link>
     </BentoCard>

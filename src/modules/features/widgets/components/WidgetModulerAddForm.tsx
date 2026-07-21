@@ -1,9 +1,27 @@
 /** @locked MOD-WIDGET — låst modul; unlock via docs/evaluations/*-unlock-MOD-WIDGET.md */
-import { useEffect, useState } from 'react';
-import { Clock, ListTodo, PiggyBank, FileText, Loader2 } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
+import {
+  Clock,
+  ListTodo,
+  PiggyBank,
+  FileText,
+  Loader2,
+  Sparkles,
+  Palmtree,
+  Target,
+  PartyPopper,
+  Minimize2,
+  Image as ImageIcon,
+  FlaskConical,
+  Pin,
+} from 'lucide-react';
 import { Input, TextArea } from '@/design-system';
 import { getBudgetSavings } from '@/core/firebase/economyFirestore';
-import type { BudgetSavingsRow, UserWidget } from '@/core/types/firestore';
+import type { BudgetSavingsRow, UserWidget, UserWidgetStylePreset } from '@/core/types/firestore';
+import { WIDGET_STYLE_PRESETS, WIDGET_STYLE_PRESET_IDS } from '../config/widgetStylePresets';
+import { USER_WIDGET_HOME_SLOT_ID } from '../utils/normalizeUserWidget';
+import type { WidgetBuildCapacity } from '../utils/widgetBuildCapacity';
+import { HomeWidgetRenderer } from './HomeWidgetRenderer';
 import { WidgetButton } from './WidgetButton';
 
 type WidgetType = UserWidget['type'];
@@ -19,9 +37,74 @@ const TYPE_OPTIONS: {
   { id: 'quick_note', label: 'Snabbnotis', icon: FileText },
 ];
 
+/** Content-mallar — mappar till typ + stil, inom frozen MVP-types. */
+const CONTENT_TEMPLATES: {
+  id: string;
+  label: string;
+  icon: typeof Palmtree;
+  type: WidgetType;
+  stylePreset: UserWidgetStylePreset;
+  titleHint: string;
+  captionHint?: string;
+}[] = [
+  {
+    id: 'semester',
+    label: 'Semester',
+    icon: Palmtree,
+    type: 'countdown',
+    stylePreset: 'gold_glass',
+    titleHint: 'Semester',
+    captionHint: 'Dagar till frihet',
+  },
+  {
+    id: 'deadline',
+    label: 'Deadline',
+    icon: Target,
+    type: 'countdown',
+    stylePreset: 'focus',
+    titleHint: 'Deadline',
+    captionHint: 'Ett datum i taget',
+  },
+  {
+    id: 'fokus',
+    label: 'Fokus',
+    icon: Sparkles,
+    type: 'checklist',
+    stylePreset: 'focus',
+    titleHint: 'Fokuslista',
+  },
+  {
+    id: 'firande',
+    label: 'Firande',
+    icon: PartyPopper,
+    type: 'countdown',
+    stylePreset: 'celebration',
+    titleHint: 'Firande',
+    captionHint: 'Något värt att fira',
+  },
+  {
+    id: 'minimal',
+    label: 'Minimal',
+    icon: Minimize2,
+    type: 'quick_note',
+    stylePreset: 'minimal',
+    titleHint: 'Notis',
+  },
+  {
+    id: 'foto',
+    label: 'Foto',
+    icon: ImageIcon,
+    type: 'quick_note',
+    stylePreset: 'photo_dim',
+    titleHint: 'Minnesbild',
+    captionHint: 'Kort bildtext',
+  },
+];
+
 type Props = {
   userId: string;
   nextOrder: number;
+  capacity: WidgetBuildCapacity;
   onSave: (widget: Omit<UserWidget, 'userId' | 'ownerId' | 'createdAt'>) => Promise<void>;
   onCancel: () => void;
 };
@@ -34,16 +117,35 @@ function defaultChecklistItems() {
   ];
 }
 
-export function WidgetModulerAddForm({ userId, nextOrder, onSave, onCancel }: Props) {
+export function WidgetModulerAddForm({
+  userId,
+  nextOrder,
+  capacity,
+  onSave,
+  onCancel,
+}: Props) {
   const [type, setType] = useState<WidgetType>('countdown');
   const [title, setTitle] = useState('');
   const [targetDate, setTargetDate] = useState('');
+  const [targetDateTime, setTargetDateTime] = useState('');
   const [noteText, setNoteText] = useState('');
+  const [caption, setCaption] = useState('');
+  const [stylePreset, setStylePreset] = useState<UserWidgetStylePreset>('midnight');
+  const [pinToHome, setPinToHome] = useState(false);
+  const [experimentMode, setExperimentMode] = useState(false);
   const [savingsGoalId, setSavingsGoalId] = useState('');
   const [savingsGoals, setSavingsGoals] = useState<BudgetSavingsRow[]>([]);
   const [loadingGoals, setLoadingGoals] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const showExperiment = capacity.canExperiment && experimentMode;
+
+  useEffect(() => {
+    if (!capacity.canExperiment && experimentMode) {
+      setExperimentMode(false);
+    }
+  }, [capacity.canExperiment, experimentMode]);
 
   useEffect(() => {
     if (type !== 'linked_savings') return;
@@ -57,6 +159,55 @@ export function WidgetModulerAddForm({ userId, nextOrder, onSave, onCancel }: Pr
       .finally(() => setLoadingGoals(false));
   }, [type, userId]);
 
+  const previewWidget = useMemo(() => {
+    const shell = WIDGET_STYLE_PRESETS[stylePreset].defaultShell;
+    const config: UserWidget['config'] = { shell };
+    if (caption.trim()) config.caption = caption.trim().slice(0, 200);
+    if (type === 'countdown') {
+      if (targetDate) config.targetDate = targetDate;
+      if (targetDateTime) config.targetDateTime = targetDateTime;
+      if (!config.targetDate && !config.targetDateTime) {
+        config.targetDate = new Date().toISOString().slice(0, 10);
+      }
+    } else if (type === 'checklist') {
+      config.checklistItems = defaultChecklistItems();
+    } else if (type === 'linked_savings') {
+      config.savingsGoalId = savingsGoalId || 'preview';
+    } else {
+      config.noteText = noteText.trim() || 'Förhandsvisning';
+    }
+    return {
+      id: 'preview',
+      type,
+      title: title.trim() || 'Förhandsvisning',
+      config,
+      stylePreset,
+      slotId: pinToHome ? USER_WIDGET_HOME_SLOT_ID : null,
+      pinnedToHome: pinToHome,
+      status: 'active' as const,
+    };
+  }, [
+    type,
+    title,
+    caption,
+    targetDate,
+    targetDateTime,
+    noteText,
+    savingsGoalId,
+    stylePreset,
+    pinToHome,
+  ]);
+
+  const applyTemplate = (templateId: string) => {
+    const tpl = CONTENT_TEMPLATES.find((t) => t.id === templateId);
+    if (!tpl) return;
+    setType(tpl.type);
+    setStylePreset(tpl.stylePreset);
+    setTitle((prev) => prev || tpl.titleHint);
+    if (tpl.captionHint) setCaption((prev) => prev || tpl.captionHint || '');
+    setError(null);
+  };
+
   const handleSubmit = async () => {
     const trimmedTitle = title.trim();
     if (!trimmedTitle) {
@@ -64,24 +215,30 @@ export function WidgetModulerAddForm({ userId, nextOrder, onSave, onCancel }: Pr
       return;
     }
 
-    let config: UserWidget['config'] = {};
+    const shell = WIDGET_STYLE_PRESETS[stylePreset].defaultShell;
+    let config: UserWidget['config'] = { shell };
+    if (caption.trim()) config.caption = caption.trim().slice(0, 200);
+
     if (type === 'countdown') {
-      if (!targetDate) {
+      if (!targetDate && !targetDateTime) {
         setError('Välj ett måldatum.');
         return;
       }
-      config = { targetDate };
+      if (targetDate) config.targetDate = targetDate;
+      if (targetDateTime && showExperiment) config.targetDateTime = targetDateTime;
     } else if (type === 'checklist') {
-      config = { checklistItems: defaultChecklistItems() };
+      config = { ...config, checklistItems: defaultChecklistItems() };
     } else if (type === 'linked_savings') {
       if (!savingsGoalId) {
         setError('Välj ett sparmål i Ekonomi först.');
         return;
       }
-      config = { savingsGoalId };
+      config = { ...config, savingsGoalId };
     } else {
-      config = { noteText: noteText.trim() || '—' };
+      config = { ...config, noteText: noteText.trim() || '—' };
     }
+
+    const slotId = capacity.canPinHome && pinToHome ? USER_WIDGET_HOME_SLOT_ID : null;
 
     setBusy(true);
     setError(null);
@@ -89,8 +246,12 @@ export function WidgetModulerAddForm({ userId, nextOrder, onSave, onCancel }: Pr
       await onSave({
         type,
         title: trimmedTitle,
-        pinnedToHome: false,
+        pinnedToHome: Boolean(slotId),
         order: nextOrder,
+        schemaVersion: 1,
+        stylePreset,
+        slotId,
+        status: 'active',
         config,
       });
       onCancel();
@@ -103,6 +264,46 @@ export function WidgetModulerAddForm({ userId, nextOrder, onSave, onCancel }: Pr
 
   return (
     <div className="widget-moduler-add space-y-4" aria-label="Lägg till modul">
+      {capacity.canUseTemplates ? (
+        <div className="widget-moduler-add__templates" role="group" aria-label="Mallar">
+          <p className="text-[11px] uppercase tracking-widest text-text-dim">Mall</p>
+          <div className="widget-moduler-add__template-grid">
+            {CONTENT_TEMPLATES.map((tpl) => {
+              const Icon = tpl.icon;
+              return (
+                <WidgetButton
+                  key={tpl.id}
+                  type="button"
+                  variant="secondary"
+                  className="widget-moduler-add__template min-h-11"
+                  onClick={() => applyTemplate(tpl.id)}
+                >
+                  <Icon className="h-3.5 w-3.5 shrink-0" strokeWidth={1.5} aria-hidden />
+                  {tpl.label}
+                </WidgetButton>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+
+      {capacity.canExperiment ? (
+        <label className="widget-moduler-add__toggle flex min-h-11 items-center gap-2">
+          <input
+            type="checkbox"
+            checked={experimentMode}
+            onChange={(e) => setExperimentMode(e.target.checked)}
+            className="h-4 w-4 accent-[var(--accent)]"
+          />
+          <FlaskConical className="h-3.5 w-3.5 text-accent" aria-hidden />
+          <span className="text-xs text-text-muted">Experimentera — visa alla typ- och stilval</span>
+        </label>
+      ) : (
+        <p className="rounded-lg border border-border/30 bg-surface-2/40 px-3 py-2 text-xs text-text-dim" role="status">
+          Experimentera öppnas vid högre kapacitet (nivå {capacity.cognitiveLevel} nu).
+        </p>
+      )}
+
       <div className="widget-moduler-add__types" role="group" aria-label="Modultyp">
         {TYPE_OPTIONS.map((opt) => {
           const Icon = opt.icon;
@@ -125,6 +326,32 @@ export function WidgetModulerAddForm({ userId, nextOrder, onSave, onCancel }: Pr
         })}
       </div>
 
+      {showExperiment ? (
+        <div className="widget-moduler-add__presets" role="group" aria-label="Stilpreset">
+          <p className="text-[11px] uppercase tracking-widest text-text-dim mb-1.5">Stil</p>
+          <div className="widget-moduler-add__preset-grid">
+            {WIDGET_STYLE_PRESET_IDS.map((id) => {
+              const preset = WIDGET_STYLE_PRESETS[id];
+              const active = stylePreset === id;
+              return (
+                <WidgetButton
+                  key={id}
+                  type="button"
+                  variant={active ? 'accent' : 'ghost'}
+                  className="widget-moduler-add__preset min-h-11"
+                  onClick={() => setStylePreset(id)}
+                >
+                  <span className="flex flex-col items-start gap-0.5 text-left">
+                    <span>{preset.label_sv}</span>
+                    <span className="text-[10px] font-normal text-text-dim">{preset.lead_sv}</span>
+                  </span>
+                </WidgetButton>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+
       <label className="block space-y-1.5">
         <span className="text-[11px] uppercase tracking-widest text-text-dim">Namn</span>
         <Input
@@ -135,11 +362,35 @@ export function WidgetModulerAddForm({ userId, nextOrder, onSave, onCancel }: Pr
         />
       </label>
 
+      <label className="block space-y-1.5">
+        <span className="text-[11px] uppercase tracking-widest text-text-dim">Bildtext (valfritt)</span>
+        <Input
+          value={caption}
+          onChange={(e) => setCaption(e.target.value)}
+          placeholder="Kort rad under titeln…"
+          maxLength={200}
+        />
+      </label>
+
       {type === 'countdown' ? (
-        <label className="block space-y-1.5">
-          <span className="text-[11px] uppercase tracking-widest text-text-dim">Måldatum</span>
-          <Input type="date" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} />
-        </label>
+        <>
+          <label className="block space-y-1.5">
+            <span className="text-[11px] uppercase tracking-widest text-text-dim">Måldatum</span>
+            <Input type="date" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} />
+          </label>
+          {showExperiment ? (
+            <label className="block space-y-1.5">
+              <span className="text-[11px] uppercase tracking-widest text-text-dim">
+                Datum + tid (valfritt)
+              </span>
+              <Input
+                type="datetime-local"
+                value={targetDateTime}
+                onChange={(e) => setTargetDateTime(e.target.value)}
+              />
+            </label>
+          ) : null}
+        </>
       ) : null}
 
       {type === 'linked_savings' ? (
@@ -177,6 +428,26 @@ export function WidgetModulerAddForm({ userId, nextOrder, onSave, onCancel }: Pr
             rows={3}
           />
         </label>
+      ) : null}
+
+      {capacity.canPinHome ? (
+        <label className="widget-moduler-add__toggle flex items-center gap-2">
+          <input
+            type="checkbox"
+            checked={pinToHome}
+            onChange={(e) => setPinToHome(e.target.checked)}
+            className="accent-[var(--accent)]"
+          />
+          <Pin className="h-3.5 w-3.5 text-accent" aria-hidden />
+          <span className="text-xs text-text-muted">Fäst på Hem (under rutnätet)</span>
+        </label>
+      ) : null}
+
+      {showExperiment ? (
+        <div className="widget-moduler-add__preview" aria-label="Live-förhandsvisning">
+          <p className="text-[11px] uppercase tracking-widest text-text-dim mb-2">Förhandsvisning</p>
+          <HomeWidgetRenderer widget={previewWidget} userId={userId} readOnly />
+        </div>
       ) : null}
 
       {error ? <p className="text-xs text-danger">{error}</p> : null}

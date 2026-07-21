@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { Button, Input } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import {
@@ -170,7 +171,10 @@ export function PlaneringEmailRulesPanel() {
       {error && <p className="text-sm text-danger">{error}</p>}
 
       {rules.length === 0 && !loading && (
-        <p className="text-sm text-text-dim">Inga regler ännu. Mejl klistras in manuellt under Inkorg.</p>
+        <EmptyState
+          title="Inga regler"
+          message="Inga mejlregler ännu. Mejl klistras in manuellt under Inkorg tills du skapar en regel ovan."
+        />
       )}
 
       <ul className="space-y-3">

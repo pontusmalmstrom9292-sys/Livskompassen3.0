@@ -183,7 +183,7 @@ export function FloatingDock() {
                   <LivskompassMark className="dock-hub-band__mark floating-dock__mark" />
                 </span>
               </button>
-              <span className="absolute -bottom-1 text-[0.6rem] uppercase tracking-widest text-accent font-medium mt-1">
+              <span className="floating-dock__center-label">
                 Hamn
               </span>
             </div>

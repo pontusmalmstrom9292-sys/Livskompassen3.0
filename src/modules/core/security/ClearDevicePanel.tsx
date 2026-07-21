@@ -15,17 +15,33 @@ export function ClearDevicePanel() {
         Raderar utkast, PIN-session och valv-gate på denna enhet. Bevis i molnet påverkas inte.
         Du fortsätter vara inloggad om du inte loggar ut separat.
       </p>
-      <Button type="button" variant="ghost" className="--ghost inline-flex items-center gap-2 text-sm text-rose-200/90" disabled={busy} onClick={() => { if (!window.confirm('Rensa känslig lokal data på denna enhet?')) return; setBusy(true); setError(null); void clearDeviceSession() .then(() => setDone(true)) .catch((err) => { setError(err instanceof Error ? err.message : 'Kunde inte rensa.'); }) .finally(() => setBusy(false)); }}>
-        <Trash2 className="h-4 w-4" />
+      <Button
+        type="button"
+        variant="ghost"
+        className="inline-flex min-h-11 items-center gap-2 text-sm text-danger"
+        disabled={busy}
+        onClick={() => {
+          if (!window.confirm('Rensa känslig lokal data på denna enhet?')) return;
+          setBusy(true);
+          setError(null);
+          void clearDeviceSession()
+            .then(() => setDone(true))
+            .catch((err) => {
+              setError(err instanceof Error ? err.message : 'Kunde inte rensa.');
+            })
+            .finally(() => setBusy(false));
+        }}
+      >
+        <Trash2 className="h-4 w-4" aria-hidden />
         {busy ? 'Rensar…' : 'Rensa enheten'}
       </Button>
       {done && (
-        <p className="text-xs text-emerald-300/90" role="status">
+        <p className="text-xs text-success/90" role="status">
           Lokal session rensad.
         </p>
       )}
       {error && (
-        <p className="text-xs text-rose-300/90" role="alert">
+        <p className="rounded-lg border border-danger/25 bg-danger/10 px-3 py-2 text-xs text-danger" role="alert">
           {error}
         </p>
       )}

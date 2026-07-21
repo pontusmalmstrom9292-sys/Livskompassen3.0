@@ -110,9 +110,9 @@ export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSu
       className="calm-card glow-bottom-green overflow-hidden rounded-2xl border border-border bg-surface-2/70 p-4 sm:p-5"
       aria-label="MåBra inmatningshub"
     >
-      <header className="supermodule-hub-chrome mb-4 flex items-start justify-between gap-3 rounded-xl px-3 py-3 sm:px-4">
+      <header className="supermodule-hub-chrome mb-4 flex items-start justify-between gap-3 rounded-2xl px-3 py-3 sm:px-4">
         <div className="min-w-0 flex-1 space-y-1">
-          <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
+          <p className="od-depth__eyebrow font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
             Universal Input
           </p>
           <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">

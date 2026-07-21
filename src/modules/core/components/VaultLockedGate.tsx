@@ -49,7 +49,10 @@ export function VaultLockedGate({ variant = 'screen', extra }: Props) {
   };
 
   const errorBlock = unlockError ? (
-    <p className="mt-3 text-xs text-danger" role="alert">
+    <p
+      className="mt-3 rounded-lg border border-danger/25 bg-danger/10 px-3 py-2 text-xs text-danger"
+      role="alert"
+    >
       {unlockError}
     </p>
   ) : null;
@@ -59,16 +62,22 @@ export function VaultLockedGate({ variant = 'screen', extra }: Props) {
 
   if (variant === 'card') {
     return (
-      <div className="space-y-4">
-        <p className="text-sm text-text-dim">{hint}</p>
-        
+      <div className="vault-locked-gate vault-locked-gate--card space-y-4">
+        <p className="text-sm leading-relaxed text-text-dim">{hint}</p>
+
         {busy ? (
           <div className="flex flex-col items-center justify-center py-4">
             <CalmBreathingCircle size="sm" />
             <p className="mt-2 text-xs text-text-dim">Verifierar kryptografi...</p>
           </div>
         ) : (
-          <Button type="button" variant="accent" className="--accent w-full" disabled={busy} onClick={tryUnlock}>
+          <Button
+            type="button"
+            variant="accent"
+            className="min-h-11 w-full"
+            disabled={busy}
+            onClick={tryUnlock}
+          >
             {buttonLabel}
           </Button>
         )}
@@ -78,27 +87,34 @@ export function VaultLockedGate({ variant = 'screen', extra }: Props) {
   }
 
   return (
-    <div className="flex h-[min(70vh,32rem)] flex-col items-center justify-center p-6 text-center">
+    <div className="vault-locked-gate vault-locked-gate--screen flex h-[min(70vh,32rem)] flex-col items-center justify-center gap-1 p-6 text-center">
       {busy ? (
         <div className="mb-4 flex flex-col items-center">
           <CalmBreathingCircle size="md" />
-          <p className="mt-4 text-sm text-text-dim tracking-widest uppercase font-display">Låser upp</p>
+          <p className="mt-4 font-display text-sm uppercase tracking-widest text-text-dim">Låser upp</p>
         </div>
       ) : (
-        <Shield className="mb-4 h-16 w-16 text-indigo-500/20" aria-hidden />
+        <Shield className="mb-4 h-16 w-16 text-accent/20" aria-hidden />
       )}
-      <h2 className="font-display-serif text-xl uppercase tracking-[0.2em] text-text">
+      <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-accent/70">Säker zon</p>
+      <h2 className="mt-1 font-display-serif text-xl uppercase tracking-[0.2em] text-text">
         Valvet är låst
       </h2>
-      <p className="mt-2 max-w-sm text-sm text-text-muted">{hint}</p>
-      
+      <p className="mt-3 max-w-sm text-sm leading-relaxed text-text-muted">{hint}</p>
+
       {!busy && (
-        <Button type="button" variant="accent" className="--accent mt-6" disabled={busy} onClick={tryUnlock}>
+        <Button
+          type="button"
+          variant="accent"
+          className="mt-6 min-h-11"
+          disabled={busy}
+          onClick={tryUnlock}
+        >
           {buttonLabel}
         </Button>
       )}
       {errorBlock}
-      {extra}
+      {extra ? <div className="mt-4 w-full max-w-sm">{extra}</div> : null}
     </div>
   );
 }

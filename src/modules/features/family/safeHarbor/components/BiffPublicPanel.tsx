@@ -17,7 +17,7 @@ import { MabraSpeglarGuardHint } from '@/features/dailyLife/wellbeing/mabra/comp
 import { detectHamnTaktikSignal } from '../lib/hamnTaktikWire';
 import { HamnTaktikLexikonBro } from './HamnTaktikLexikonBro';
 import { useHamnBiffWizard } from '../hooks/useHamnBiffWizard';
-import { HAMN_POST_COPY_CALM } from '../hamnCopy';
+import { HAMN_POST_COPY_CALM, HAMN_UPLOAD_HINT } from '../hamnCopy';
 
 type Props = {
   initialMessage?: string;
@@ -164,8 +164,9 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               }}
               placeholder="Klistra in sms eller skriv ditt tänkta svar till motparten (inget JADE)…"
               rows={4}
+              aria-label="Meddelande till BIFF-analys"
               className={[
-                'input-glass text-sm resize-none',
+                'input-glass resize-none text-sm',
                 jadeViolations.length > 0 ? 'border-danger/30 focus:border-danger/50' : '',
               ].join(' ')}
               disabled={loading}
@@ -173,9 +174,12 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
 
             {/* —— REALTIME JADE DETECTOR BAR —— */}
             {jadeViolations.length > 0 && (
-              <div className="rounded-xl border border-danger/20 bg-danger/5 p-3.5 space-y-2">
+              <div
+                className="space-y-2.5 rounded-xl border border-danger/20 bg-danger/5 p-3.5"
+                role="alert"
+              >
                 <div className="flex items-center gap-1.5 text-xs font-semibold text-danger">
-                  <AlertTriangle className="h-4 w-4 shrink-0" />
+                  <AlertTriangle className="h-4 w-4 shrink-0" aria-hidden />
                   <span>Varning: Detekterade JADE-mönster</span>
                 </div>
                 <ul className="space-y-1.5 text-xs text-text-muted">
@@ -185,25 +189,30 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
                     </li>
                   ))}
                 </ul>
-                <Button
-                  type="button"
-                  variant="accent"
-                  onClick={handleCleanToGreyRock}
-                  className="text-[11px] px-3 py-1.5 flex items-center gap-1.5"
-                >
-                  <Sparkles className="h-3.5 w-3.5" />
-                  Städa till Grey Rock-mall
-                </Button>
-                {jadeUndoText !== null ? (
+                <p className="text-[11px] leading-relaxed text-text-dim">
+                  Grey Rock: kort, sakligt, endast logistik. Ingen förklaring, inget försvar.
+                </p>
+                <div className="flex flex-wrap gap-2">
                   <Button
                     type="button"
-                    variant="ghost"
-                    onClick={handleUndoGreyRock}
-                    className="text-[11px] px-3 py-1.5"
+                    variant="accent"
+                    onClick={handleCleanToGreyRock}
+                    className="flex min-h-11 items-center gap-1.5 px-3 text-[11px]"
                   >
-                    Ångra städning
+                    <Sparkles className="h-3.5 w-3.5" aria-hidden />
+                    Städa till Grey Rock-mall
                   </Button>
-                ) : null}
+                  {jadeUndoText !== null ? (
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={handleUndoGreyRock}
+                      className="min-h-11 px-3 text-[11px]"
+                    >
+                      Ångra städning
+                    </Button>
+                  ) : null}
+                </div>
               </div>
             )}
 
@@ -221,7 +230,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               variant="accent"
               onClick={() => setStep(2)} 
               disabled={!message.trim()} 
-              className="w-full"
+              className="min-h-11 w-full"
             >
               Nästa: Brusfiltret
             </Button>
@@ -240,14 +249,14 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
                 onChange={(e) => setCoreQuestion(e.target.value)}
                 placeholder="Den objektiva kärnfrågan är..."
                 rows={2}
-                className="input-glass text-sm mt-3 resize-none"
+                className="input-glass mt-3 resize-none text-sm"
               />
             </BentoCard>
             <div className="flex gap-2">
-              <Button type="button" variant="secondary" onClick={() => setStep(1)} className="flex-1">
+              <Button type="button" variant="secondary" onClick={() => setStep(1)} className="min-h-11 flex-1">
                 Tillbaka
               </Button>
-              <Button type="button" variant="accent" onClick={() => setStep(3)} className="flex-1">
+              <Button type="button" variant="accent" onClick={() => setStep(3)} className="min-h-11 flex-1">
                 Nästa: Mål
               </Button>
             </div>
@@ -266,15 +275,15 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
                 onChange={(e) => setUserGoal(e.target.value)}
                 placeholder="Mitt mål med svaret är..."
                 rows={2}
-                className="input-glass text-sm mt-3 resize-none"
+                className="input-glass mt-3 resize-none text-sm"
               />
             </BentoCard>
             <div className="flex gap-2">
-              <Button type="button" variant="secondary" onClick={() => setStep(2)} className="flex-1">
+              <Button type="button" variant="secondary" onClick={() => setStep(2)} className="min-h-11 flex-1">
                 Tillbaka
               </Button>
-              <Button type="submit" variant="accent" disabled={loading} className="flex-1">
-                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              <Button type="submit" variant="accent" disabled={loading} className="min-h-11 flex-1">
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
                 Få Grey Rock-svar
               </Button>
             </div>
@@ -283,7 +292,12 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
       </form>
 
       {error || panelError ? (
-        <p className="text-sm text-text-muted">{error || panelError}</p>
+        <p
+          role="alert"
+          className="rounded-lg border border-accent/25 bg-accent/10 px-3 py-2 text-sm text-accent-light"
+        >
+          {error || panelError}
+        </p>
       ) : null}
 
       {triageReady && !reply && step === 3 && (
@@ -295,11 +309,14 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
             agentName={agentName}
             theoryWithoutEvidence={theoryWithoutEvidence}
           />
+          <p className="mt-2 text-[11px] text-text-dim">
+            Grey Rock-tips: svara bara på kärnfrågan. Datum och logistik — inget JADE.
+          </p>
           <Button
             type="button"
             variant="accent"
             onClick={confirmReply}
-            className="w-full text-sm mt-3"
+            className="mt-3 min-h-11 w-full text-sm"
           >
             Visa Grey Rock-svar
           </Button>
@@ -332,11 +349,17 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               type="button"
               variant="accent"
               onClick={() => void handleCopyReply()}
-              className="text-xs"
+              className="min-h-11 text-xs"
             >
               {copyCopied ? 'Kopierat ✓' : 'Kopiera svar'}
             </Button>
-            <Button type="button" variant="ghost" onClick={handleKlar} className="text-xs" aria-label="Klar — rensa session (Zero Footprint)">
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={handleKlar}
+              className="min-h-11 text-xs"
+              aria-label="Klar — rensa session (Zero Footprint)"
+            >
               Klar — rensa
             </Button>
             <Button
@@ -344,12 +367,16 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               variant="ghost"
               onClick={() => void handleAutosortToArkiv()}
               disabled={autosorting || !message.trim()}
-              className="text-xs"
+              className="min-h-11 text-xs"
+              aria-describedby="hamn-upload-hint"
             >
-              {autosorting ? <Loader2 className="h-3 w-3 animate-spin" /> : null}
+              {autosorting ? <Loader2 className="h-3 w-3 animate-spin" aria-hidden /> : null}
               Sortera till arkiv
             </Button>
           </div>
+          <p id="hamn-upload-hint" className="mt-2 text-[11px] leading-relaxed text-text-dim" role="note">
+            {HAMN_UPLOAD_HINT}
+          </p>
           {autosortNote && (
             <p className="mt-2 text-xs text-gold/90" role="status">
               {autosortNote}
@@ -478,12 +505,12 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 relative">
-        <label className="flex items-center gap-1.5 cursor-pointer text-[11px] text-text-dim hover:text-text mb-1">
+        <label className="mb-1 flex min-h-11 cursor-pointer items-center gap-2 text-[11px] text-text-dim hover:text-text">
           <input
             type="checkbox"
             checked={trainingMode}
             onChange={(e) => setTrainingMode(e.target.checked)}
-            className="h-3.5 w-3.5 rounded border-border/40 bg-surface-2/60 accent-accent"
+            className="h-4 w-4 rounded border-border/40 bg-surface-2/60 accent-accent"
           />
           Grey Rock Träningsläge (Sandbox — ingen sparning)
         </label>
@@ -494,16 +521,17 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Klistra in meddelandet för full analys…"
               rows={4}
-              className="input-glass text-sm resize-none"
+              aria-label="Meddelande för Hamn-analys"
+              className="input-glass resize-none text-sm"
               disabled={loading}
             />
             {shouldShowValvHandoff(message) && <HandoffBox className="mt-1" sourceText={message} />}
-            <Button 
-              type="button" 
+            <Button
+              type="button"
               variant="accent"
-              onClick={() => setStep(2)} 
-              disabled={!message.trim()} 
-              className="w-full"
+              onClick={() => setStep(2)}
+              disabled={!message.trim()}
+              className="min-h-11 w-full"
             >
               Nästa: Brusfiltret
             </Button>
@@ -526,10 +554,10 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
               />
             </BentoCard>
             <div className="flex gap-2">
-              <Button type="button" variant="secondary" onClick={() => setStep(1)} className="flex-1">
+              <Button type="button" variant="secondary" onClick={() => setStep(1)} className="min-h-11 flex-1">
                 Tillbaka
               </Button>
-              <Button type="button" variant="accent" onClick={() => setStep(3)} className="flex-1">
+              <Button type="button" variant="accent" onClick={() => setStep(3)} className="min-h-11 flex-1">
                 Nästa: Mål
               </Button>
             </div>
@@ -548,15 +576,16 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
                 onChange={(e) => setUserGoal(e.target.value)}
                 placeholder="Mitt mål med analysen är..."
                 rows={2}
-                className="input-glass text-sm mt-3 resize-none"
+                aria-label="Mål med Hamn-analys"
+                className="input-glass mt-3 resize-none text-sm"
               />
             </BentoCard>
             <div className="flex gap-2">
-              <Button type="button" variant="secondary" onClick={() => setStep(2)} className="flex-1">
+              <Button type="button" variant="secondary" onClick={() => setStep(2)} className="min-h-11 flex-1">
                 Tillbaka
               </Button>
-              <Button type="submit" variant="accent" disabled={loading} className="flex-1">
-                {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+              <Button type="submit" variant="accent" disabled={loading} className="min-h-11 flex-1">
+                {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
                 Kör BIFF Triage
               </Button>
             </div>
@@ -565,7 +594,12 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
       </form>
 
       {error || panelError ? (
-        <p className="text-sm text-text-muted">{error || panelError}</p>
+        <p
+          role="alert"
+          className="rounded-lg border border-accent/25 bg-accent/10 px-3 py-2 text-sm text-accent-light"
+        >
+          {error || panelError}
+        </p>
       ) : null}
 
       {triageReady && !reply && step === 3 && (
@@ -581,7 +615,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
             type="button"
             variant="accent"
             onClick={confirmReply}
-            className="w-full text-sm mt-3"
+            className="mt-3 min-h-11 w-full text-sm"
           >
             Visa Grey Rock-svar
           </Button>
@@ -595,12 +629,14 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
           className="!px-3 !py-3"
         >
           {hitlRequired && (
-            <p className="text-xs text-text-muted">Hög risk — överväg mänsklig uppföljning (HITL).</p>
+            <p className="mb-2 text-xs leading-relaxed text-text-muted" role="note">
+              Hög risk — överväg mänsklig uppföljning (HITL).
+            </p>
           )}
           {riskScore !== null && (
             <p className="text-[10px] text-text-dim">Riskpoäng: {riskScore}</p>
           )}
-          <p className="mt-2 whitespace-pre-wrap text-sm text-text-muted">{reply}</p>
+          <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-text-muted">{reply}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {!trainingMode ? (
               <>
@@ -609,9 +645,10 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
                   variant="ghost"
                   onClick={() => void handleAutosortToArkiv()}
                   disabled={autosorting || !message.trim()}
-                  className="flex items-center gap-2 text-xs"
+                  className="flex min-h-11 items-center gap-2 text-xs"
+                  aria-describedby="hamn-forensic-upload-hint"
                 >
-                  {autosorting ? <Loader2 className="h-3 w-3 animate-spin" /> : null}
+                  {autosorting ? <Loader2 className="h-3 w-3 animate-spin" aria-hidden /> : null}
                   Sortera till arkiv
                 </Button>
                 <Button
@@ -619,25 +656,36 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
                   variant="secondary"
                   onClick={handleSaveAsEvidence}
                   disabled={savingEvidence || !user}
-                  className="flex items-center gap-2 text-xs"
+                  className="flex min-h-11 items-center gap-2 text-xs"
                 >
                   {savingEvidence ? (
-                    <Loader2 className="h-3 w-3 animate-spin" />
+                    <Loader2 className="h-3 w-3 animate-spin" aria-hidden />
                   ) : (
-                    <Shield className="h-3 w-3" />
+                    <Shield className="h-3 w-3" aria-hidden />
                   )}
                   Spara som bevis
                 </Button>
               </>
             ) : (
-              <p className="text-[11px] text-gold w-full mb-1">
+              <p className="mb-1 w-full text-[11px] leading-relaxed text-gold">
                 Du är i träningsläge. Svaret sparas inte.
               </p>
             )}
-            <Button type="button" variant="ghost" onClick={handleKlar} className="text-xs" aria-label="Klar — rensa session (Zero Footprint)">
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={handleKlar}
+              className="min-h-11 text-xs"
+              aria-label="Klar — rensa session (Zero Footprint)"
+            >
               Klar — rensa
             </Button>
           </div>
+          {!trainingMode ? (
+            <p id="hamn-forensic-upload-hint" className="mt-2 text-[11px] leading-relaxed text-text-dim" role="note">
+              {HAMN_UPLOAD_HINT}
+            </p>
+          ) : null}
           {evidenceSaved && (
             <p className="mt-2 text-xs text-success">{SAVED_TO_VAULT_LABEL}.</p>
           )}

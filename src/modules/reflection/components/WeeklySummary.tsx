@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import { Sparkles, Loader2, Target, AlertTriangle, Lightbulb } from 'lucide-react';
 import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
 import { VaultLockedGate } from '@/core/components/VaultLockedGate';
 import { useStore } from '@/core/store';
 import { hasVaultGate } from '@/core/auth/sessionService';
+
 interface InsightPattern {
   pattern: string;
   confidence: number;
@@ -22,6 +23,7 @@ export const WeeklySummary: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [insights, setInsights] = useState<WeeklyInsightsResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const reduceMotion = useReducedMotion();
 
   const generateInsights = async () => {
     setLoading(true);
@@ -34,9 +36,10 @@ export const WeeklySummary: React.FC = () => {
       );
       const res = await callable(withVaultSessionPayload({}));
       setInsights(res.data);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Error generating insights:', err);
-      setError(err.message || 'Kunde inte generera veckoinsikter just nu.');
+      const message = err instanceof Error ? err.message : 'Kunde inte generera veckoinsikter just nu.';
+      setError(message);
     } finally {
       setLoading(false);
     }
@@ -46,10 +49,10 @@ export const WeeklySummary: React.FC = () => {
 
   if (!isVaultUnlocked) {
     return (
-      <div className="bg-surface/40 border border-white/10 rounded-2xl p-6 shadow-xl backdrop-blur-md mb-8">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-white flex items-center">
-            <Sparkles className="w-6 h-6 mr-3 text-emerald-400" />
+      <div className="mb-8 rounded-2xl border border-border/40 bg-surface/40 p-6 shadow-xl backdrop-blur-md">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="flex items-center text-2xl font-bold text-text">
+            <Sparkles className="mr-3 h-6 w-6 text-success" aria-hidden />
             Veckoinsikter
           </h2>
         </div>
@@ -60,25 +63,26 @@ export const WeeklySummary: React.FC = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="bg-surface/40 border border-white/10 rounded-2xl p-6 shadow-xl backdrop-blur-md mb-8"
+      transition={{ duration: reduceMotion ? 0 : 0.4 }}
+      className="mb-8 rounded-2xl border border-border/40 bg-surface/40 p-6 shadow-xl backdrop-blur-md"
     >
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-white flex items-center">
-          <Sparkles className="w-6 h-6 mr-3 text-emerald-400" />
+      <div className="mb-6 flex items-center justify-between gap-3">
+        <h2 className="flex items-center text-2xl font-bold text-text">
+          <Sparkles className="mr-3 h-6 w-6 text-success" aria-hidden />
           Veckoinsikter
         </h2>
         <button
-          onClick={generateInsights}
+          type="button"
+          onClick={() => void generateInsights()}
           disabled={loading}
-          className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl transition-colors flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+          className="inline-flex min-h-11 items-center rounded-xl border border-border/40 bg-surface-3/50 px-4 py-2 text-text transition-colors hover:bg-surface-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {loading ? (
             <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Analyserar...
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden />
+              Analyserar…
             </>
           ) : (
             'Generera Insikter'
@@ -87,37 +91,39 @@ export const WeeklySummary: React.FC = () => {
       </div>
 
       {error && (
-        <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-200 text-sm mb-6">
+        <div
+          className="mb-6 rounded-xl border border-danger/25 bg-danger/10 p-4 text-sm text-danger"
+          role="alert"
+        >
           {error}
         </div>
       )}
 
       {insights && !loading && (
-        <motion.div 
-          initial={{ opacity: 0 }}
+        <motion.div
+          initial={reduceMotion ? false : { opacity: 0 }}
           animate={{ opacity: 1 }}
           className="space-y-6"
         >
-          {/* Summary */}
           {insights.weeklySummary && (
-            <div className="p-4 bg-white/5 rounded-xl border border-white/5">
-              <p className="text-white/90 leading-relaxed text-sm">
-                {insights.weeklySummary}
-              </p>
+            <div className="rounded-xl border border-border/30 bg-surface-3/30 p-4">
+              <p className="text-sm leading-relaxed text-text-muted">{insights.weeklySummary}</p>
             </div>
           )}
 
-          {/* Patterns */}
           {insights.detectedPatterns && insights.detectedPatterns.length > 0 && (
             <div>
-              <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-3 flex items-center">
-                <Target className="w-4 h-4 mr-2" /> Observerade Mönster
+              <h3 className="mb-3 flex items-center text-sm font-semibold uppercase tracking-wider text-text-dim">
+                <Target className="mr-2 h-4 w-4" aria-hidden /> Observerade Mönster
               </h3>
               <div className="space-y-2">
                 {insights.detectedPatterns.map((p, idx) => (
-                  <div key={idx} className="flex items-center justify-between p-3 bg-white/5 rounded-lg border border-white/5">
-                    <span className="text-white/80 text-sm">{p.pattern}</span>
-                    <span className="text-xs text-white/40 ml-4 whitespace-nowrap">
+                  <div
+                    key={idx}
+                    className="flex items-center justify-between rounded-lg border border-border/30 bg-surface-3/30 p-3"
+                  >
+                    <span className="text-sm text-text-muted">{p.pattern}</span>
+                    <span className="ml-4 whitespace-nowrap text-xs text-text-dim">
                       {(p.confidence * 100).toFixed(0)}% säkerhet
                     </span>
                   </div>
@@ -126,25 +132,23 @@ export const WeeklySummary: React.FC = () => {
             </div>
           )}
 
-          {/* Focus vs Sentiment */}
           {insights.focusVsSentiment && (
             <div>
-              <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-3 flex items-center">
-                <AlertTriangle className="w-4 h-4 mr-2 text-yellow-400" /> Fokus vs Mående
+              <h3 className="mb-3 flex items-center text-sm font-semibold uppercase tracking-wider text-text-dim">
+                <AlertTriangle className="mr-2 h-4 w-4 text-warning" aria-hidden /> Fokus vs Mående
               </h3>
-              <p className="text-white/80 text-sm p-4 bg-yellow-400/5 rounded-xl border border-yellow-400/10">
+              <p className="rounded-xl border border-warning/20 bg-warning/5 p-4 text-sm text-text-muted">
                 {insights.focusVsSentiment}
               </p>
             </div>
           )}
 
-          {/* Actionable Advice */}
           {insights.actionableAdvice && (
             <div>
-              <h3 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-3 flex items-center">
-                <Lightbulb className="w-4 h-4 mr-2 text-blue-400" /> Råd Framåt
+              <h3 className="mb-3 flex items-center text-sm font-semibold uppercase tracking-wider text-text-dim">
+                <Lightbulb className="mr-2 h-4 w-4 text-accent-secondary" aria-hidden /> Råd Framåt
               </h3>
-              <p className="text-white/80 text-sm p-4 bg-blue-400/5 rounded-xl border border-blue-400/10">
+              <p className="rounded-xl border border-accent-secondary/20 bg-accent-secondary/5 p-4 text-sm text-text-muted">
                 {insights.actionableAdvice}
               </p>
             </div>
@@ -153,7 +157,7 @@ export const WeeklySummary: React.FC = () => {
       )}
 
       {!insights && !loading && !error && (
-        <div className="text-center p-8 text-white/40 text-sm italic">
+        <div className="p-8 text-center text-sm italic text-text-dim">
           Tryck på knappen för att låta Mönster-Arkivarien analysera din senaste vecka.
         </div>
       )}

@@ -14,7 +14,7 @@ export function ChildMomentTabs({ active, childAlias, onChange }: Props) {
 
   return (
     <div
-      className="flex flex-wrap gap-2 border-b border-border-subtle pb-3"
+      className="child-moment-tablist"
       role="tablist"
       aria-label={`${childAlias} — stunder och minnen`}
     >
@@ -30,9 +30,7 @@ export function ChildMomentTabs({ active, childAlias, onChange }: Props) {
             aria-selected={selected}
             aria-controls="child-moment-panel"
             onClick={() => onChange(id)}
-            className={`rounded-full border px-3 py-1.5 text-xs font-medium transition ${
-              selected ? 'chip--active' : 'chip--idle'
-            }`}
+            className={`child-moment-tab min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${selected ? 'chip--active' : 'chip--idle'}`}
           >
             {label}
           </button>

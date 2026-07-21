@@ -103,7 +103,11 @@ function HomeHandlingTasks() {
 
   if (loading) {
     return (
-      <p className="flex items-center gap-2 py-2 text-xs text-text-muted">
+      <p
+        className="flex items-center gap-2 py-2 text-xs text-text-muted"
+        aria-busy="true"
+        aria-live="polite"
+      >
         <Loader2 className="h-3.5 w-3.5 animate-spin text-accent" aria-hidden />
         Laddar dagens uppgifter …
       </p>
@@ -177,7 +181,7 @@ function HomePlaneringPanel() {
             size="sm"
             aria-selected={tab === t.id}
             className={clsx(
-              'flex-1 px-2 py-1 text-[10px] font-semibold uppercase tracking-wider',
+              'min-h-11 flex-1 px-2 text-[10px] font-semibold uppercase tracking-wider',
               tab === t.id && 'border-accent/40 bg-accent/10 text-accent',
             )}
             onClick={() => setTab(t.id)}

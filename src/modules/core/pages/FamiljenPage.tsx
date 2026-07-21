@@ -28,6 +28,7 @@ import {
 } from '@/features/family/children/constants/familjenTabs';
 import { isBarnportenChildPwaRolloutEnabled } from '@/features/onboarding/barnporten/constants/barnportenRollout';
 import { EmptyState } from '@/core/ui/EmptyState';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { FamiljenBentoShell } from '@/features/family/children/components/familjen/FamiljenBentoShell';
@@ -222,7 +223,7 @@ export function FamiljenPage() {
               )}
             </div>
 
-            <Suspense fallback={<div className="p-4 text-center text-sm text-text-muted">Laddar Familjen-verktyg...</div>}>
+            <Suspense fallback={<HubPanelSkeleton label="Laddar Familjen…" lines={4} />}>
               {(activeTab === 'reflektion' || activeTab === 'livslogg') && (
                 <>
                   <div className="pt-4 pb-2">

@@ -84,13 +84,13 @@ export function ArbetslivInputSuperModule({ initialMode }: ArbetslivInputSuperMo
     <HubErrorBoundary title="Arbetsliv kunde inte laddas" glow="blue" logTag="ArbetslivInputSuperModule">
       <div className="arbetsliv-shell mx-auto max-w-5xl pb-12">
         <section
-          className="arbetsliv-shell__surface calm-card glow-bottom-blue overflow-hidden rounded-2xl border border-border/30 bg-surface-2/70 p-4 sm:p-5"
+          className="arbetsliv-shell__surface calm-card glow-bottom-blue overflow-hidden rounded-2xl p-4 sm:p-5"
           aria-label="Arbetsliv inmatningshub"
         >
-          <header className="mb-4 space-y-2">
+          <header className="supermodule-hub-chrome mb-4 space-y-2 rounded-2xl px-3 py-3 sm:px-4">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0 flex-1 space-y-1">
-                <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent-secondary">
+                <p className="od-depth__eyebrow font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
                   Arbetsliv
                 </p>
                 <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">
@@ -119,7 +119,7 @@ export function ArbetslivInputSuperModule({ initialMode }: ArbetslivInputSuperMo
                   type="button"
                   onClick={() => setActiveMode(mode.id)}
                   aria-pressed={isActive}
-                  className={`min-h-[44px] rounded-lg px-3 py-2 text-left text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-secondary/50 ${
+                  className={`min-h-11 rounded-lg px-3 py-2 text-left text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-secondary/50 ${
                     isActive
                       ? 'border border-accent-secondary/25 bg-accent-secondary/10 text-accent-secondary'
                       : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
@@ -139,7 +139,7 @@ export function ArbetslivInputSuperModule({ initialMode }: ArbetslivInputSuperMo
           <footer className="mt-4 border-t border-border/30 pt-3">
             <Link
               to="/vardagen?tab=ekonomi"
-              className="inline-flex items-center gap-1.5 text-xs text-text-dim transition-colors hover:text-accent"
+              className="inline-flex min-h-11 items-center gap-1.5 text-xs text-text-dim transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               Privatekonomi
               <ArrowRight className="h-3 w-3" aria-hidden />

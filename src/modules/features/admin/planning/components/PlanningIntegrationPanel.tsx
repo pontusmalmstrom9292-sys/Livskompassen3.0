@@ -28,14 +28,22 @@ export function PlanningIntegrationPanel() {
 
   return (
     <div className="calm-card glow-bottom-gold mx-auto max-w-2xl p-1 shadow-lg">
-      <div className="mb-2 flex gap-1 rounded-t-2xl border-b border-border/20 bg-surface-3/40 p-1">
+      <div
+        className="mb-2 flex gap-1 rounded-t-2xl border-b border-border/20 bg-surface-3/40 p-1"
+        role="tablist"
+        aria-label="Planering integration"
+      >
         <button
           type="button"
+          role="tab"
+          id="planering-integration-tab-email"
+          aria-selected={activeSubTab === 'email_rules'}
+          aria-controls="planering-integration-panel-email"
           onClick={() => setActiveSubTab('email_rules')}
           className={clsx(
-            'flex flex-1 items-center justify-center gap-1.5 rounded-xl px-2 py-3 text-xs font-medium transition-all duration-300',
+            'flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-xl px-2 py-3 text-xs font-medium transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
             activeSubTab === 'email_rules'
-              ? 'border border-accent/20 bg-accent/10 text-accent shadow-[0_0_15px_rgba(212,175,55,0.05)]'
+              ? 'border border-accent/20 bg-accent/10 text-accent shadow-[0_0_15px_color-mix(in_srgb,var(--accent)_5%,transparent)]'
               : 'border border-transparent text-text-dim hover:bg-surface-3 hover:text-text',
           )}
         >
@@ -44,11 +52,15 @@ export function PlanningIntegrationPanel() {
         </button>
         <button
           type="button"
+          role="tab"
+          id="planering-integration-tab-calendar"
+          aria-selected={activeSubTab === 'calendar_sync'}
+          aria-controls="planering-integration-panel-calendar"
           onClick={() => setActiveSubTab('calendar_sync')}
           className={clsx(
-            'flex flex-1 items-center justify-center gap-1.5 rounded-xl px-2 py-3 text-xs font-medium transition-all duration-300',
+            'flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-xl px-2 py-3 text-xs font-medium transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
             activeSubTab === 'calendar_sync'
-              ? 'border border-indigo-500/20 bg-indigo-500/10 text-indigo-400 shadow-[0_0_15px_rgba(99,102,241,0.05)]'
+              ? 'border border-accent/20 bg-accent/10 text-accent shadow-[0_0_15px_color-mix(in_srgb,var(--accent)_5%,transparent)]'
               : 'border border-transparent text-text-dim hover:bg-surface-3 hover:text-text',
           )}
         >
@@ -59,7 +71,12 @@ export function PlanningIntegrationPanel() {
 
       <div className="animate-fade-in min-h-[260px] p-5 sm:p-6">
         {activeSubTab === 'email_rules' && (
-          <div className="space-y-5">
+          <div
+            className="space-y-5"
+            role="tabpanel"
+            id="planering-integration-panel-email"
+            aria-labelledby="planering-integration-tab-email"
+          >
             <div>
               <h3 className="flex items-center gap-2 text-sm font-semibold text-text">
                 <Sliders className="h-4 w-4 text-accent" aria-hidden />
@@ -71,9 +88,9 @@ export function PlanningIntegrationPanel() {
               </p>
             </div>
 
-            <div className="space-y-2.5">
+            <ul className="space-y-2.5" aria-label="Exempelregler (låsta till Fas 2)">
               {rules.map((rule) => (
-                <div
+                <li
                   key={rule.id}
                   className="flex items-center justify-between rounded-2xl border border-border/40 bg-surface-3/30 p-3.5 transition-colors hover:bg-surface-3/50"
                 >
@@ -90,12 +107,15 @@ export function PlanningIntegrationPanel() {
                       <span className="text-accent/90">{getRouteLabel(rule.route)}</span>
                     </div>
                   </div>
-                  <Lock className="h-4 w-4 text-text-dim/50" aria-hidden />
-                </div>
+                  <Lock className="h-4 w-4 text-text-dim/50" aria-hidden aria-label="Låst" />
+                </li>
               ))}
-            </div>
+            </ul>
 
-            <div className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-border-strong bg-surface-2 p-3 text-xs text-text-dim">
+            <div
+              className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-border-strong bg-surface-2 p-3 text-xs text-text-dim"
+              role="status"
+            >
               <Clock className="h-3.5 w-3.5" aria-hidden />
               Automatiseringen aktiveras i Fas 2.
             </div>
@@ -103,9 +123,14 @@ export function PlanningIntegrationPanel() {
         )}
 
         {activeSubTab === 'calendar_sync' && (
-          <div className="flex h-full min-h-[220px] flex-col items-center justify-center space-y-5 pt-4 text-center">
-            <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full border border-indigo-500/20 bg-indigo-500/10">
-              <Calendar className="h-5 w-5 text-indigo-400" aria-hidden />
+          <div
+            className="flex h-full min-h-[220px] flex-col items-center justify-center space-y-5 pt-4 text-center"
+            role="tabpanel"
+            id="planering-integration-panel-calendar"
+            aria-labelledby="planering-integration-tab-calendar"
+          >
+            <div className="mb-2 flex h-12 w-12 items-center justify-center rounded-full border border-accent/20 bg-accent/10">
+              <Calendar className="h-5 w-5 text-accent" aria-hidden />
             </div>
 
             <div>
@@ -116,9 +141,12 @@ export function PlanningIntegrationPanel() {
               </p>
             </div>
 
-            <div className="mt-2 flex w-full max-w-sm items-center justify-center gap-2 rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3.5">
-              <ShieldCheck className="h-4 w-4 text-emerald-400" aria-hidden />
-              <span className="text-xs font-medium text-emerald-400">
+            <div
+              className="mt-2 flex w-full max-w-sm items-center justify-center gap-2 rounded-xl border border-success/20 bg-success/5 p-3.5"
+              role="status"
+            >
+              <ShieldCheck className="h-4 w-4 text-success" aria-hidden />
+              <span className="text-xs font-medium text-success">
                 Ditt system är säkrat och lokalt.
               </span>
             </div>

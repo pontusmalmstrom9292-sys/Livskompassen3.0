@@ -139,13 +139,13 @@ export function DagbokInputSuperModule({
   return (
     <HubErrorBoundary
       title="Dagbok kunde inte laddas"
-      glow="gold"
+      glow="blue"
       backTo="/hjartat"
       backLabel="Till Hjärtat"
       logTag="DagbokInputSuperModule"
     >
     <BentoCard
-      glow="gold"
+      glow="blue"
       depth
       noHover
       bare

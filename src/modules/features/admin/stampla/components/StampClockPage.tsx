@@ -147,8 +147,9 @@ export function StampClockPage() {
               <select
                 value={stampCategory}
                 onChange={(e) => setStampCategory(e.target.value)}
-                className="input-glass"
+                className="input-glass min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
                 disabled={isClockedIn}
+                aria-label="Kategori vid instämpling"
               >
                 {CATEGORIES.map((c) => (
                   <option key={c} value={c}>
@@ -158,22 +159,26 @@ export function StampClockPage() {
               </select>
             </label>
             <div className="grid grid-cols-2 gap-2">
-              <Button type="button" disabled={busy || isClockedIn} onClick={() => void stamp('IN')} variant={isClockedIn || busy ? 'ghost' : 'accent'} className={isClockedIn || busy ? 'opacity-40' : ''}>
+              <Button
+                type="button"
+                disabled={busy || isClockedIn}
+                onClick={() => void stamp('IN')}
+                variant={isClockedIn || busy ? 'ghost' : 'accent'}
+                className={`min-h-11${isClockedIn || busy ? ' opacity-40' : ''}`}
+              >
                 Stämpla in
               </Button>
-              <button
+              <Button
                 type="button"
                 disabled={busy || !isClockedIn}
                 onClick={() => void stamp('UT')}
-                className={
-                  isClockedIn && !busy 
-                    ? 'flex w-full items-center justify-center gap-2 rounded-xl border border-border/40 bg-surface-2/30 px-4 py-3 text-sm text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-2/60 hover:text-text' 
-                    : 'flex w-full items-center justify-center gap-2 rounded-xl border border-border/10 bg-transparent px-4 py-3 text-sm text-text-muted/40'
-                }
+                variant={isClockedIn && !busy ? 'secondary' : 'ghost'}
+                className={`min-h-11 inline-flex items-center justify-center gap-2${isClockedIn && !busy ? '' : ' opacity-40'}`}
+                aria-label="Gick hem — avsluta arbetsdagen"
               >
-                <Home className="h-4 w-4" />
-                Gick hem — avsluta arbetsdagen
-              </button>
+                <Home className="h-4 w-4" aria-hidden />
+                Gick hem
+              </Button>
             </div>
           </>
         )}

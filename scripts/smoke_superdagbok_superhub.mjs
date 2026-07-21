@@ -34,7 +34,8 @@ function mustNotInclude(relPath, ...needles) {
 }
 
 const W4_FILES = [
-  'docs/evaluations/2026-06-14-superdagbok-superhub-djupanalys.md',
+  // Flyttad till archive (fas19) — behåll smoke-kontrakt
+  'docs/archive/evaluations-fas19-2026-06/2026-06-14-superdagbok-superhub-djupanalys.md',
   'docs/specs/Superdagbok-INPUT-SUPERHUB-SPEC.md',
   'src/modules/features/lifeJournal/diary/supermodule/DagbokInputSuperModule.tsx',
   'src/modules/features/lifeJournal/diary/supermodule/dagbokInputModes.ts',
@@ -157,7 +158,7 @@ function main() {
     '/hjartat/input',
   );
   mustInclude(
-    'docs/evaluations/2026-06-14-superdagbok-superhub-djupanalys.md',
+    'docs/archive/evaluations-fas19-2026-06/2026-06-14-superdagbok-superhub-djupanalys.md',
     'DagbokInputSuperModule',
     'W4',
     'W5',

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Anchor, Edit2, Star } from 'lucide-react';
-import { clsx } from 'clsx';
 import { saveCheckIn, getRecentCheckIns } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
 import { HOME_SUPERHUB_ROUTES } from '../../homeSuperhubRoutes';
@@ -66,21 +65,21 @@ export function ExecutiveAnkareCard({ onSaved }: Props) {
   };
 
   return (
-    <article className="exec-home-card exec-home-card--ankare">
+    <article className="calm-card exec-home-card exec-home-card--ankare">
       <header className="exec-home-card__head">
         <Anchor className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <p className="exec-home-label mb-0">DAGENS ANKARE</p>
         {!isEditing && anchor.trim() ? (
           <button
             type="button"
-            className="ml-auto text-text-dim hover:text-accent"
+            className="ml-auto inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-text-dim transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             aria-label="Redigera ankare"
             onClick={() => setIsEditing(true)}
           >
             <Edit2 className="h-3.5 w-3.5" />
           </button>
         ) : (
-          <Star className="ml-auto h-3.5 w-3.5 fill-accent text-accent" />
+          <Star className="ml-auto h-3.5 w-3.5 fill-accent text-accent" aria-hidden />
         )}
       </header>
       <p className="mt-1 text-[10px] text-text-dim">Inte hela dagen — bara det viktigaste nu.</p>
@@ -88,26 +87,31 @@ export function ExecutiveAnkareCard({ onSaved }: Props) {
       {isEditing ? (
         <div className="mt-3 space-y-2">
           <textarea
-            className="exec-home-input w-full resize-none"
+            className="exec-home-input min-h-11 w-full resize-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             rows={2}
             placeholder="Ett mikrosteg räcker."
             value={anchor}
             onChange={(e) => setAnchor(e.target.value)}
+            aria-label="Dagens ankare"
           />
           <button
             type="button"
-            className="exec-home-btn exec-home-btn--primary"
+            className="exec-home-btn exec-home-btn--primary min-h-11"
             disabled={saving}
             onClick={() => void handleSave()}
           >
             {saving ? 'Sparar…' : 'Spara ankare'}
           </button>
-          {error ? <p className="text-xs text-danger">{error}</p> : null}
+          {error ? (
+            <p className="text-xs text-danger" role="alert">
+              {error}
+            </p>
+          ) : null}
         </div>
       ) : (
         <button
           type="button"
-          className={clsx('mt-3 w-full text-left')}
+          className="mt-3 min-h-11 w-full rounded-lg text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           onClick={() => setIsEditing(true)}
         >
           <p className="font-display-serif text-base tracking-wide text-accent-light">

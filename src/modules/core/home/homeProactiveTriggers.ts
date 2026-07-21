@@ -4,6 +4,7 @@ import { getDefaultCompassByTime } from '@/features/dailyLife/wellbeing/compasse
 import type { AdaptiveMemoryCard } from './compassAdaptiveCards';
 import type { KasamAggregationRow } from '@/core/firebase/kasamAggregationFirestore';
 import { kasamDimensionLabel } from '@/core/firebase/kasamAggregationFirestore';
+import { eveningWeakDimensionPrompt } from '@/core/copy/compassWidgetLabels';
 
 export type ProactiveTriggerContext = {
   evolutionDoc: EvolutionHubDoc | null;
@@ -91,7 +92,7 @@ export function buildProactiveTriggerCards(ctx: ProactiveTriggerContext): Adapti
     cards.push({
       id: 'proactive-kasam-weak',
       title: kasamDimensionLabel(weak),
-      prompt: `Din senaste KASAM-bild visar lägre ${kasamDimensionLabel(weak).toLowerCase()}. Ett litet steg i kvällskompassen räcker.`,
+      prompt: eveningWeakDimensionPrompt(kasamDimensionLabel(weak)),
       actionLabel: 'Kvällskompass',
       to: '/',
       hash: 'compass-evening',

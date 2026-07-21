@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Target } from 'lucide-react';
 import { Button, ButtonLink } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { ParalysPanel } from '@/features/dailyLife/wellbeing/compasses/components/ParalysPanel';
 import { MICRO_STEP_PANEL_TITLE } from '@/core/copy/compassWidgetLabels';
 import { ParalysBreakerWidget } from './ParalysBreakerWidget';
@@ -32,7 +33,7 @@ export function PlaneringFokusPanel() {
     }
   };
 
-  if (loading) return <p className="text-sm text-text-dim">Laddar…</p>;
+  if (loading) return <HubPanelSkeleton label="Laddar fokus…" lines={3} />;
 
   if (!focusTask) {
     return (

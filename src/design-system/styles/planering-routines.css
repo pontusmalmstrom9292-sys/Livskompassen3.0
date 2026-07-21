@@ -20,7 +20,7 @@
 
   .routines-panel__count {
     @apply rounded-full border border-border-strong/80 px-1.5 py-0.5 text-[10px] tabular-nums text-text-dim;
-    color: color-mix(in srgb, var(--text-dim) 86%, #e2e8f0);
+    color: color-mix(in srgb, var(--text-dim) 86%, var(--text-muted));
   }
 
   .routines-panel__chevron {
@@ -42,12 +42,12 @@
   .routines-panel__chip {
     @apply inline-flex max-w-full items-center gap-1.5 rounded-full border border-border-strong/80 px-3 py-1.5 text-[11px] font-medium text-text transition-[border-color,background-color];
     min-height: var(--ds-touch-target);
-    background: rgba(12, 16, 22, 0.55);
+    background: color-mix(in srgb, var(--bg) 55%, transparent);
   }
 
   .routines-panel__chip:hover:not(:disabled) {
     border-color: color-mix(in srgb, var(--accent) 35%, transparent);
-    background: rgba(212, 175, 55, 0.08);
+    background: color-mix(in srgb, var(--accent) 8%, transparent);
   }
 
   .routines-panel__chip:disabled {
@@ -69,5 +69,19 @@
 
   .routines-panel__msg--err {
     @apply text-rose-300/90;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .routines-panel__toggle,
+    .routines-panel__chevron,
+    .routines-panel__chip {
+      transition: none;
+    }
+
+    .routines-panel__chevron--open {
+      transform: rotate(180deg);
+    }
   }
 }

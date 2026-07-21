@@ -374,7 +374,10 @@ public class MainActivity extends BridgeActivity {
             getBridge().getWebView().onPause();
         }
         
-        DiagnosticManager.getInstance().flushToDisk();
+        DiagnosticManager diagnosticManager = DiagnosticManager.getInstance();
+        if (diagnosticManager != null) {
+            diagnosticManager.flushToDisk();
+        }
     }
 
     @Override

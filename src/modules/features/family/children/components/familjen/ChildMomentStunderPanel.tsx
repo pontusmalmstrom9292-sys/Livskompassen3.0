@@ -60,7 +60,7 @@ export function ChildMomentStunderPanel({ shell }: Props) {
             type="button"
             aria-pressed={filter === f.id}
             onClick={() => setFilter(f.id)}
-            className={`rounded-full border px-3 py-1 text-xs ${
+            className={`inline-flex min-h-11 items-center rounded-full border px-3 text-xs focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
               filter === f.id ? 'chip--active' : 'chip--idle'
             }`}
           >
@@ -86,7 +86,7 @@ export function ChildMomentStunderPanel({ shell }: Props) {
               >
                 <div className="flex items-start gap-3">
                   <span
-                    className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-border bg-surface-3/40 text-accent"
+                    className="mt-0.5 inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-xl border border-border bg-surface-3/40 text-accent"
                     aria-hidden
                   >
                     <Icon className="h-4 w-4" />

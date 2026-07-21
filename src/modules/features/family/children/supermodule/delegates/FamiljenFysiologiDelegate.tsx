@@ -24,14 +24,15 @@ function SignalRow({
         {label}
         {invertHint && <span className="ml-1 text-text-dim/70">({invertHint})</span>}
       </p>
-      <div className="flex gap-1">
+      <div className="flex gap-1" role="group" aria-label={label}>
         {scales.map((s) => (
           <button
             key={s}
             type="button"
+            aria-pressed={value === s}
             onClick={() => onSelect(s)}
-            className={`flex-1 rounded-lg border py-2 text-xs tabular-nums ${
-              value === s ? 'chip--active text-accent border-accent/40 bg-surface-3' : 'chip--idle text-text-muted border-transparent hover:border-border hover:bg-surface-3 hover:text-text'
+            className={`min-h-11 flex-1 rounded-lg border text-xs tabular-nums focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
+              value === s ? 'chip--active border-accent/40 bg-surface-3 text-accent' : 'chip--idle border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
             }`}
           >
             {s}
@@ -128,14 +129,22 @@ export function FamiljenFysiologiDelegate({ shell, onSaved }: FamiljenDelegateBa
         variant="accent"
         onClick={handleSave}
         disabled={loading}
-        className="w-full disabled:opacity-50 mt-2"
+        className="mt-2 min-h-11 w-full disabled:opacity-50"
       >
-        {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+        {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
         Spara mätvärden till loggen
       </Button>
 
-      {success && <p className="mt-2 text-sm text-success text-center">Fysiologi sparad för {childAlias}.</p>}
-      {error && <p className="mt-2 text-sm text-danger text-center">{error}</p>}
+      {success && (
+        <p className="mt-2 text-center text-sm text-success" role="status">
+          Fysiologi sparad för {childAlias}.
+        </p>
+      )}
+      {error && (
+        <p className="mt-2 text-center text-sm text-danger" role="alert">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

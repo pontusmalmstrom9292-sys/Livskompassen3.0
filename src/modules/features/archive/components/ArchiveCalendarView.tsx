@@ -13,8 +13,10 @@ import {
 } from 'date-fns';
 import { sv } from 'date-fns/locale';
 import type { ArchiveEntry } from '../hooks/useArchiveData';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { ChevronLeft, ChevronRight, X, Book, Shield, Clock, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { EmptyState } from '@/core/ui/EmptyState';
 
 interface ArchiveCalendarViewProps {
   entries: ArchiveEntry[];
@@ -107,7 +109,7 @@ export function ArchiveCalendarView({
                   relative aspect-square flex flex-col items-center justify-center rounded-xl text-xs transition-all duration-200
                   ${!isCurrentMonth ? 'text-text-muted/20 hover:bg-transparent cursor-default pointer-events-none' : 'text-text'}
                   ${isSelected 
-                    ? 'bg-indigo-500/15 border border-indigo-500/40 text-text shadow-inner ring-1 ring-indigo-500/20' 
+                    ? 'bg-accent/15 border border-accent/40 text-text shadow-inner ring-1 ring-accent/20' 
                     : isCurrentMonth ? 'hover:bg-surface-3/50 border border-transparent' : ''
                   }
                 `}
@@ -118,7 +120,7 @@ export function ArchiveCalendarView({
                 {/* Indikatorer */}
                 {hasEntries && isCurrentMonth && (
                   <div className="absolute bottom-1.5 flex gap-1">
-                    {hasJournal && <div className="w-1.5 h-1.5 rounded-full bg-indigo-400" />}
+                    {hasJournal && <div className="w-1.5 h-1.5 rounded-full bg-accent" />}
                     {hasVault && <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />}
                   </div>
                 )}
@@ -129,9 +131,7 @@ export function ArchiveCalendarView({
       </div>
 
       {loading && (
-        <div className="text-center text-[10px] uppercase tracking-widest text-text-muted animate-pulse py-2">
-          Hämtar data...
-        </div>
+        <HubPanelSkeleton label="Hämtar kalender…" lines={2} className="py-2" />
       )}
 
       {/* Modal/Detaljvy för vald dag */}
@@ -141,7 +141,7 @@ export function ArchiveCalendarView({
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 15 }}
-            className="calm-card bg-surface-2/70 backdrop-blur-xl border border-border/30 rounded-3xl p-5 shadow-lg mt-4 relative glow-bottom-blue"
+            className="calm-card glow-bottom-blue relative mt-4 rounded-2xl p-4 sm:p-5"
           >
             <div className="flex items-center justify-between mb-4 border-b border-border/15 pb-3">
               <h3 className="text-sm font-semibold tracking-wider font-display-serif uppercase text-text">
@@ -158,19 +158,21 @@ export function ArchiveCalendarView({
             </div>
 
             {selectedEntries.length === 0 ? (
-              <p className="text-center text-xs text-text-muted py-6 italic select-none">
-                Ingen aktivitet sparad för denna dag.
-              </p>
+              <EmptyState
+                className="border-border/20 bg-transparent py-5 text-center shadow-none"
+                title="Tom dag"
+                message="Ingen aktivitet sparad för denna dag."
+              />
             ) : (
               <div className="flex flex-col gap-3">
                 {selectedEntries.map(entry => {
                   let ringClass = 'border border-border/20';
                   if (entry.tags?.includes('red_flag')) {
-                    ringClass = 'border border-rose-500/30';
+                    ringClass = 'border border-danger/30';
                   } else if (entry.tags?.includes('insight')) {
                     ringClass = 'border border-amber-500/30';
                   } else if (entry.tags?.includes('boundary')) {
-                    ringClass = 'border border-emerald-500/30';
+                    ringClass = 'border border-success/30';
                   }
 
                   return (
@@ -181,12 +183,12 @@ export function ArchiveCalendarView({
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-1.5">
                           {entry.type === 'journal' ? (
-                            <div className="flex items-center gap-1 text-indigo-400">
+                            <div className="flex items-center gap-1 text-accent">
                               <Book className="w-3.5 h-3.5" />
                               <span className="text-[9px] font-bold uppercase tracking-wider">Dagbok</span>
                             </div>
                           ) : (
-                            <div className="flex items-center gap-1 text-purple-400">
+                            <div className="flex items-center gap-1 text-accent-secondary">
                               <Shield className="w-3.5 h-3.5" />
                               <span className="text-[9px] font-bold uppercase tracking-wider">Valvsbevis</span>
                             </div>
@@ -203,17 +205,17 @@ export function ArchiveCalendarView({
                       {entry.tags && entry.tags.length > 0 && (
                         <div className="flex flex-wrap gap-1.5">
                           {entry.tags.includes('red_flag') && (
-                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-medium bg-rose-500/15 text-rose-300 border border-rose-500/20">
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-medium bg-danger/15 text-danger border border-danger/20">
                               🚩 Röd flagg
                             </span>
                           )}
                           {entry.tags.includes('insight') && (
-                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-medium bg-amber-500/15 text-amber-300 border border-amber-500/20">
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-medium bg-accent/15 text-accent-light border border-accent/20">
                               💡 Insikt
                             </span>
                           )}
                           {entry.tags.includes('boundary') && (
-                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-medium bg-emerald-500/15 text-emerald-300 border border-emerald-500/20">
+                            <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[8px] font-medium bg-success/15 text-success border border-success/20">
                               🛡️ Gräns
                             </span>
                           )}
@@ -228,7 +230,7 @@ export function ArchiveCalendarView({
                       {(entry.emotion || entry.mood) && (
                         <div className="mt-1 pt-2 border-t border-border/10 flex items-center gap-2">
                           <div className="flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-surface-3 border border-border/20 text-[9px] text-text-muted">
-                            <Heart className="w-2.5 h-2.5 text-rose-400/80" />
+                            <Heart className="w-2.5 h-2.5 text-danger/80" />
                             <span>Känsla/Mående: {entry.emotion || entry.mood}</span>
                           </div>
                         </div>

@@ -10,11 +10,15 @@ type Props = {
 };
 
 export function StampClockControls({ isClockedIn, busy, compact, onStampIn, onStampOut }: Props) {
-  const btnClass = compact ? 'text-xs px-2 py-1.5' : 'text-sm';
+  const btnClass = compact ? 'min-h-11 px-3 text-xs' : 'min-h-11 text-sm';
 
   return (
-    <div className={compact ? 'flex gap-1.5' : 'grid grid-cols-2 gap-2'}>
-      <Button type="button" disabled={busy || isClockedIn} onClick={onStampIn} variant={isClockedIn || busy ? 'ghost' : 'accent'} className={`${btnClass}${isClockedIn || busy ? ' opacity-40' : ''}`}>
+    <div
+      className={compact ? 'flex gap-1.5' : 'grid grid-cols-2 gap-2'}
+      role="group"
+      aria-label="Stämpla in eller ut"
+    >
+      <Button type="button" disabled={busy || isClockedIn} onClick={onStampIn} variant={isClockedIn || busy ? 'ghost' : 'accent'} className={`${btnClass}${isClockedIn || busy ? ' opacity-40' : ''}`} aria-label={compact ? 'Stämpla in' : undefined}>
         {busy && !isClockedIn ? (
           <Loader2 className="mx-auto h-4 w-4 animate-spin" />
         ) : compact ? (
@@ -23,7 +27,7 @@ export function StampClockControls({ isClockedIn, busy, compact, onStampIn, onSt
           'Stämpla in'
         )}
       </Button>
-      <Button type="button" disabled={busy || !isClockedIn} onClick={onStampOut} variant={isClockedIn && !busy ? 'success' : 'ghost'} className={`${btnClass}${isClockedIn && !busy ? '' : ' opacity-40'}`}>
+      <Button type="button" disabled={busy || !isClockedIn} onClick={onStampOut} variant={isClockedIn && !busy ? 'success' : 'ghost'} className={`${btnClass}${isClockedIn && !busy ? '' : ' opacity-40'}`} aria-label={compact ? 'Stämpla ut' : undefined}>
         {busy && isClockedIn ? (
           <Loader2 className="mx-auto h-4 w-4 animate-spin" />
         ) : compact ? (

@@ -668,7 +668,14 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               Säkerhetsprincip: PDF-genereringen sker krypterat i din webbläsare. Ingenting skickas
               till motparten eller sociala myndigheter.
             </p>
-            {error && <p className="text-sm text-danger text-center">{error}</p>}
+            {error && (
+              <p
+                role="alert"
+                className="rounded-lg border border-danger/25 bg-danger/10 px-3 py-2 text-center text-sm text-danger"
+              >
+                {error}
+              </p>
+            )}
             <div className="flex gap-2">
               <Button type="button" variant="ghost" size="sm" className="flex-1" onClick={() => setStep('sources')}>
                 Tillbaka
@@ -684,7 +691,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                     void handleGenerateDossier();
                   }
                 }}
-                className="flex-1 rounded-lg bg-emerald-500/25 py-2 text-sm font-semibold text-emerald-100 disabled:opacity-40 cursor-pointer"
+                className="flex min-h-11 flex-1 cursor-pointer items-center justify-center rounded-lg bg-success/25 py-2 text-sm font-semibold text-success disabled:opacity-40"
               >
                 {generating ? (
                   <span className="inline-flex items-center justify-center gap-2">

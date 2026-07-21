@@ -56,11 +56,7 @@ export function EmotionalMemoryListPanel({
 
   if (!userId) {
     return (
-      <section
-        className={`calm-card rounded-2xl border border-border bg-surface-2 ${
-          compact ? 'p-4' : 'p-6'
-        }`}
-      >
+      <section className={`calm-card ${compact ? 'p-4' : 'p-5 sm:p-6'}`}>
         <p className="font-sans text-sm text-text-dim">{COPY.login}</p>
       </section>
     );
@@ -68,9 +64,7 @@ export function EmotionalMemoryListPanel({
 
   return (
     <section
-      className={`calm-card flex flex-col gap-3 border border-border bg-surface-2 ${
-        compact ? 'rounded-2xl p-4' : 'rounded-3xl p-6'
-      }`}
+      className={`calm-card flex flex-col gap-3 ${compact ? 'p-4' : 'p-5 sm:p-6'}`}
       aria-busy={loading}
     >
       <header className="flex flex-col gap-1">
@@ -94,7 +88,7 @@ export function EmotionalMemoryListPanel({
           {entries.map((entry) => (
             <li
               key={entry.id}
-              className="rounded-xl border border-border/60 bg-surface px-4 py-3"
+              className="rounded-xl border border-border/40 bg-surface-2/50 px-4 py-3"
             >
               <div className="flex flex-wrap items-center gap-2 font-sans text-xs text-text-dim">
                 <span>{MEMORY_TYPE_LABELS[entry.memoryType]}</span>

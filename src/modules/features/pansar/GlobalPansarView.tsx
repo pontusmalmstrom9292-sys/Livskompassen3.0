@@ -35,8 +35,9 @@ export const GlobalPansarView: React.FC = () => {
       setInkastText('');
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
-    } catch (err: any) {
-      setSystemError(err.message || 'Kunde inte spara.');
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Kunde inte spara.';
+      setSystemError(message);
     } finally {
       setIsSaving(false);
     }
@@ -62,20 +63,38 @@ export const GlobalPansarView: React.FC = () => {
 
   if (showUnlockGate) {
     return (
-      <div className="fixed inset-0 z-[9999] bg-slate-950 text-slate-200 flex flex-col items-center justify-center p-6 overflow-hidden">
-        <div className="w-full max-w-sm bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-2xl flex flex-col gap-4 text-center">
-          <LockOpen size={32} className="mx-auto text-indigo-400 mb-2" />
-          <h2 className="text-lg font-medium text-slate-200">Lås upp appen</h2>
-          <p className="text-sm text-slate-400 mb-4">Biometrisk verifiering krävs för att avbryta pansarläget.</p>
+      <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden bg-bg p-6 text-text">
+        <div className="calm-card flex w-full max-w-sm flex-col gap-4 rounded-2xl border border-border/40 bg-surface/95 p-6 text-center shadow-2xl">
+          <LockOpen size={32} className="mx-auto mb-2 text-accent" aria-hidden />
+          <h2 className="text-lg font-medium text-text">Lås upp appen</h2>
+          <p className="mb-4 text-sm text-text-muted">
+            Biometrisk verifiering krävs för att avbryta pansarläget.
+          </p>
           
-          <Button type="button" onClick={handleUnlock} disabled={isUnlocking} variant="accent" className="--accent w-full flex items-center justify-center gap-2">
-            {isUnlocking ? <Loader2 size={16} className="animate-spin" /> : <LockOpen size={16} />}
+          <Button
+            type="button"
+            onClick={handleUnlock}
+            disabled={isUnlocking}
+            variant="accent"
+            className="flex w-full min-h-11 items-center justify-center gap-2"
+          >
+            {isUnlocking ? <Loader2 size={16} className="animate-spin" aria-hidden /> : <LockOpen size={16} aria-hidden />}
             <span>{isUnlocking ? 'Verifierar...' : 'Verifiera med biometri'}</span>
           </Button>
 
-          {unlockError && <p className="text-xs text-rose-400">{unlockError}</p>}
+          {unlockError ? (
+            <p className="text-xs text-danger" role="alert">
+              {unlockError}
+            </p>
+          ) : null}
           
-          <Button type="button" onClick={() => setShowUnlockGate(false)} disabled={isUnlocking} variant="ghost" className="mt-2 --ghost text-xs w-full">
+          <Button
+            type="button"
+            onClick={() => setShowUnlockGate(false)}
+            disabled={isUnlocking}
+            variant="ghost"
+            className="mt-2 w-full min-h-11 text-xs"
+          >
             Avbryt
           </Button>
         </div>
@@ -84,16 +103,15 @@ export const GlobalPansarView: React.FC = () => {
   }
 
   return (
-    <div className="fixed inset-0 z-[9999] bg-slate-950 text-slate-200 flex flex-col items-center p-6 overflow-y-auto pt-safe pb-safe-offset-4">
+    <div className="fixed inset-0 z-[9999] flex flex-col items-center overflow-y-auto bg-bg p-6 pb-safe-offset-4 pt-safe text-text">
       
-      {/* Kognitiv dumpning (Inkast) */}
-      <div className="w-full max-w-md bg-slate-900/50 border border-slate-800 rounded-2xl p-6 shadow-2xl mb-8 flex flex-col gap-4 mt-8">
-        <div className="flex items-center justify-between text-slate-400 mb-2">
+      <div className="calm-card mb-8 mt-8 flex w-full max-w-md flex-col gap-4 rounded-2xl border border-border/40 bg-surface/80 p-6 shadow-2xl">
+        <div className="mb-2 flex items-center justify-between text-text-muted">
           <div className="flex items-center gap-2">
-            <ShieldCheck size={20} className="text-indigo-400" />
-            <h2 className="text-sm font-medium">Säker kognitiv dumpning</h2>
+            <ShieldCheck size={20} className="text-accent" aria-hidden />
+            <h2 className="text-sm font-medium text-text">Säker kognitiv dumpning</h2>
           </div>
-          <span className="text-[10px] uppercase tracking-widest text-slate-500 bg-slate-800/50 px-2 py-1 rounded">
+          <span className="rounded bg-surface-3/60 px-2 py-1 text-[10px] uppercase tracking-widest text-text-dim">
             Nivå {pansarLevel}
           </span>
         </div>
@@ -102,21 +120,27 @@ export const GlobalPansarView: React.FC = () => {
           value={inkastText}
           onChange={(e) => setInkastText(e.target.value)}
           placeholder="Töm hjärnan här. Inget behöver vara perfekt..."
-          className="w-full h-32 bg-slate-950 border border-slate-800 rounded-xl p-4 text-sm text-slate-300 placeholder:text-slate-600 focus:outline-none focus:border-indigo-500/50 resize-none transition-colors"
+          aria-label="Kognitiv dumpning till Inkast"
+          className="input-glass h-32 w-full resize-none rounded-xl p-4 text-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         />
         
         <button
+          type="button"
           onClick={handleSaveInkast}
           disabled={!inkastText.trim() || isSaving}
-          className="flex items-center justify-center gap-2 w-full py-3 bg-indigo-500/10 text-indigo-400 rounded-xl hover:bg-indigo-500/20 border border-indigo-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-accent/25 bg-accent/10 py-3 text-accent transition-colors hover:bg-accent/20 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {isSaving ? <Loader2 size={18} className="animate-spin" /> : <Send size={18} />}
+          {isSaving ? <Loader2 size={18} className="animate-spin" aria-hidden /> : <Send size={18} aria-hidden />}
           <span>{saveSuccess ? 'Sparat till valvet' : 'Spara till Inkast'}</span>
         </button>
+        {saveSuccess ? (
+          <p className="text-center text-xs text-success" role="status">
+            Sparat. Fortsätt andas — Valvet tar emot det.
+          </p>
+        ) : null}
       </div>
 
-      {/* Mikrosteg (Andning) */}
-      <div className="w-full max-w-md bg-slate-900/50 border border-slate-800 rounded-2xl p-6 shadow-2xl mb-8 flex flex-col items-center">
+      <div className="calm-card mb-8 flex w-full max-w-md flex-col items-center rounded-2xl border border-border/40 bg-surface/80 p-6 shadow-2xl">
         <div className="mb-6">
           <CalmBreathingCircle size="md" />
         </div>
@@ -125,13 +149,13 @@ export const GlobalPansarView: React.FC = () => {
         </div>
       </div>
 
-      {/* Lås upp-gate */}
-      <div className="mt-auto pt-8 pb-4">
+      <div className="mt-auto pb-4 pt-8">
         <button 
+          type="button"
           onClick={() => setShowUnlockGate(true)} 
-          className="flex items-center gap-2 bg-slate-900/80 px-4 py-2 rounded-full border border-slate-800 hover:bg-slate-800 transition-colors text-slate-400"
+          className="flex min-h-11 items-center gap-2 rounded-full border border-border/40 bg-surface/80 px-4 py-2 text-text-muted transition-colors hover:bg-surface-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         >
-          <LockOpen size={16} />
+          <LockOpen size={16} aria-hidden />
           <span className="text-xs uppercase tracking-widest">Lås upp appen</span>
         </button>
       </div>

@@ -20,20 +20,20 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
   if (active && payload && payload.length) {
     const data = payload[0].payload;
     return (
-      <div className="bg-gray-900/95 border border-white/10 p-4 rounded-xl shadow-2xl backdrop-blur-md max-w-[280px] sm:max-w-xs relative z-[100]">
-        <p className="font-semibold text-gray-100 mb-2">{label}</p>
+      <div className="bg-surface/95 border border-white/10 p-4 rounded-xl shadow-2xl backdrop-blur-md max-w-[280px] sm:max-w-xs relative z-[100]">
+        <p className="font-semibold text-text mb-2">{label}</p>
         <div className="space-y-1">
           <p className="text-sm font-medium text-success">Kapacitet: {data.capacity}</p>
           <p className="text-sm font-medium text-danger">Stress: {data.stressLevel}</p>
           {(data.mabraSessionsCount ?? 0) > 0 ? (
             <div className="pt-2">
-              <p className="text-sm font-medium text-emerald-300 flex items-start gap-1">
+              <p className="text-sm font-medium text-success flex items-start gap-1">
                 <span>🌿</span>
                 <span>
                   {data.mabraSessionsCount} MåBra-övning
                   {data.mabraSessionsCount! > 1 ? 'ar' : ''}
                   {data.mabraSessionTypes && data.mabraSessionTypes.length > 0 && (
-                    <span className="block text-xs text-emerald-400/80 mt-0.5">
+                    <span className="block text-xs text-success/80 mt-0.5">
                       ({data.mabraSessionTypes.join(', ')})
                     </span>
                   )}
@@ -42,12 +42,12 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
             </div>
           ) : null}
           {data.totalHoursWorked !== undefined && data.totalHoursWorked > 0 && (
-            <p className="text-sm font-medium text-amber-300 pt-1">
+            <p className="text-sm font-medium text-accent-light pt-1">
               Arbetad tid: {data.totalHoursWorked}h
             </p>
           )}
           {data.conflictCount !== undefined && data.conflictCount > 0 && (
-            <p className="text-sm font-medium text-red-400">
+            <p className="text-sm font-medium text-danger">
               Konflikter loggade: {data.conflictCount}
             </p>
           )}
@@ -61,7 +61,7 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
         </div>
         {data.label && (
           <div className="mt-3 pt-3 border-t border-white/10">
-            <p className="text-sm text-gray-300 leading-relaxed italic">&quot;{data.label}&quot;</p>
+            <p className="text-sm text-text-muted leading-relaxed italic">&quot;{data.label}&quot;</p>
           </div>
         )}
       </div>
@@ -104,7 +104,7 @@ function RiskDot(props: { cx?: number; cy?: number; payload?: OracleMetricPoint 
           r={10}
           fill="var(--danger)"
           opacity={0.3}
-          className="animate-pulse"
+          className="motion-safe:animate-pulse"
         />
         <circle cx={cx} cy={cy} r={5} fill="var(--danger)" stroke="var(--surface)" strokeWidth={2} />
       </g>

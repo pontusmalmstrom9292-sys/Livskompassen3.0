@@ -112,7 +112,7 @@ const LogRow = memo(function LogRow({
         <div>
           {vavaren ? (
             <div className="valv-log-stamp mb-1">
-              <Lock className="text-indigo-400/60" size={12} />
+              <Lock className="text-accent/60" size={12} aria-hidden />
               <p>SERVER-TIDSSTÄMPEL · {formatServerTimestamp(log.createdAt)}</p>
             </div>
           ) : (

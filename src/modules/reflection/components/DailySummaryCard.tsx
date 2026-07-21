@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import type { InsightData } from '../store/reflectionStore';
 
 interface DailySummaryCardProps {
@@ -9,36 +9,44 @@ interface DailySummaryCardProps {
   focusPoints?: string[];
 }
 
-export const DailySummaryCard: React.FC<DailySummaryCardProps> = ({ 
-  dateStr, 
-  insights, 
-  isToday, 
-  focusPoints 
+export const DailySummaryCard: React.FC<DailySummaryCardProps> = ({
+  dateStr,
+  insights,
+  isToday,
+  focusPoints,
 }) => {
+  const reduceMotion = useReducedMotion();
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={reduceMotion ? false : { opacity: 0, y: 12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-      className="bg-surface/40 border border-white/10 rounded-2xl p-6 shadow-xl backdrop-blur-md mb-6"
+      transition={{ duration: reduceMotion ? 0 : 0.35 }}
+      className="mb-6 rounded-2xl border border-border/40 bg-surface/40 p-6 shadow-xl backdrop-blur-md"
     >
-      <div className="flex justify-between items-center mb-4">
-        <h3 className="text-xl font-bold text-white tracking-wide">
+      <div className="mb-4 flex items-center justify-between">
+        <h3 className="text-xl font-bold tracking-wide text-text">
           {dateStr}
-          {isToday && <span className="ml-3 text-sm font-normal text-emerald-400 bg-emerald-400/10 px-2 py-1 rounded-full">Idag</span>}
+          {isToday && (
+            <span className="ml-3 rounded-full bg-success/10 px-2 py-1 text-sm font-normal text-success">
+              Idag
+            </span>
+          )}
         </h3>
       </div>
 
-      {isToday && focusPoints && focusPoints.some(p => p.trim() !== '') && (
-        <div className="mb-6 p-4 bg-white/5 rounded-xl border border-white/5">
-          <h4 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-3">Dagens Fokus</h4>
+      {isToday && focusPoints && focusPoints.some((p) => p.trim() !== '') && (
+        <div className="mb-6 rounded-xl border border-border/30 bg-surface-3/40 p-4">
+          <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-dim">
+            Dagens Fokus
+          </h4>
           <ul className="space-y-2">
             {focusPoints.map((point, idx) => {
               if (!point.trim()) return null;
               return (
                 <li key={idx} className="flex items-start">
-                  <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-2 mr-3 flex-shrink-0" />
-                  <span className="text-white/90 text-sm leading-relaxed">{point}</span>
+                  <div className="mr-3 mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-success" aria-hidden />
+                  <span className="text-sm leading-relaxed text-text-muted">{point}</span>
                 </li>
               );
             })}
@@ -47,29 +55,35 @@ export const DailySummaryCard: React.FC<DailySummaryCardProps> = ({
       )}
 
       <div>
-        <h4 className="text-sm font-semibold text-white/60 uppercase tracking-wider mb-3">Insikter & Händelser</h4>
+        <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-dim">
+          Insikter & Händelser
+        </h4>
         {insights.length > 0 ? (
           <div className="space-y-4">
             {insights.map((insight) => (
-              <div key={insight.id} className="p-4 bg-white/5 rounded-xl border border-white/5 hover:bg-white/10 transition-colors">
+              <div
+                key={insight.id}
+                className="rounded-xl border border-border/30 bg-surface-3/30 p-4 transition-colors hover:bg-surface-3/50"
+              >
                 {insight.category && (
-                  <div className="text-xs font-medium text-accent mb-1">
-                    {insight.category}
-                  </div>
+                  <div className="mb-1 text-xs font-medium text-accent">{insight.category}</div>
                 )}
-                <p className="text-white/80 text-sm leading-relaxed">
+                <p className="text-sm leading-relaxed text-text-muted">
                   {insight.text || insight.content || 'Ingen text angiven'}
                 </p>
                 {insight.createdAt && (
-                  <div className="mt-2 text-xs text-white/40">
-                    {insight.createdAt.toDate().toLocaleTimeString('sv-SE', { hour: '2-digit', minute: '2-digit' })}
+                  <div className="mt-2 text-xs text-text-dim">
+                    {insight.createdAt.toDate().toLocaleTimeString('sv-SE', {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
                   </div>
                 )}
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-white/40 text-sm italic">Inga insikter loggade denna dag.</p>
+          <p className="text-sm italic text-text-dim">Inga insikter loggade denna dag.</p>
         )}
       </div>
     </motion.div>

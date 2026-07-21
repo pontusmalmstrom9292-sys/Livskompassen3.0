@@ -57,7 +57,7 @@ export const SystemStatusPanel: React.FC = () => {
         </div>
         <div className="flex justify-between">
           <span>Ekonomi Adv.</span>
-          <span className={isEconomyAdvancedUnlocked ? 'text-emerald-400' : 'text-red-400'}>
+          <span className={isEconomyAdvancedUnlocked ? 'text-success' : 'text-danger'}>
             {isLoading ? '...' : isEconomyAdvancedUnlocked ? 'UNLOCKED' : 'LOCKED'}
           </span>
         </div>
@@ -72,10 +72,10 @@ export const SystemStatusPanel: React.FC = () => {
       </div>
 
       <button
+        type="button"
         onClick={handleForceToggle}
         disabled={toggling || isLoading}
-        className="w-full px-2 py-1.5 rounded-lg text-[10px] uppercase tracking-wider font-medium transition-colors border disabled:opacity-40
-          bg-accent/10 hover:bg-accent/25 text-accent-light border-accent/30 hover:border-accent/60"
+        className="min-h-11 w-full rounded-lg border border-accent/30 bg-accent/10 px-2 py-2 text-[10px] font-medium uppercase tracking-wider text-accent-light transition-colors hover:border-accent/60 hover:bg-accent/25 disabled:opacity-40"
       >
         {toggling ? 'Skriver...' : isEconomyAdvancedUnlocked ? 'Tvingad låsning' : 'Tvingad upplåsning'}
       </button>

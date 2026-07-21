@@ -42,16 +42,30 @@
   }
 
   .barnporten-widget__star {
-    @apply pointer-events-auto mr-2 flex h-9 w-9 items-center justify-center rounded-full border border-amber-300/30;
-    background: radial-gradient(circle at 30% 30%, rgba(251, 191, 36, 0.35), rgba(120, 53, 15, 0.55));
-    box-shadow: 0 0 14px rgba(251, 191, 36, 0.25);
+    @apply pointer-events-auto mr-2 inline-flex items-center justify-center rounded-full border border-accent/30;
+    min-height: var(--ds-touch-target);
+    min-width: var(--ds-touch-target);
+    background: radial-gradient(
+      circle at 30% 30%,
+      color-mix(in srgb, var(--accent) 35%, transparent),
+      color-mix(in srgb, var(--bg) 55%, transparent)
+    );
+    box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 25%, transparent);
+    transition: box-shadow var(--ds-duration-fast) var(--ds-ease-premium);
+  }
+
+  .barnporten-widget__star:focus-visible,
+  .barnporten-widget__compass:focus-visible,
+  .barnporten-widget__arc:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .barnporten-widget__star.barnporten-widget__control--holding {
     background: radial-gradient(
       circle at 30% 30%,
-      rgba(251, 191, 36, 0.75) var(--barnporten-hold, 0%),
-      rgba(251, 191, 36, 0.35) var(--barnporten-hold, 0%),
+      color-mix(in srgb, var(--accent) 75%, transparent) var(--barnporten-hold, 0%),
+      color-mix(in srgb, var(--accent) 35%, transparent) var(--barnporten-hold, 0%),
       rgba(120, 53, 15, 0.65) var(--barnporten-hold, 0%)
     );
   }
@@ -84,7 +98,7 @@
   }
 
   .barnporten-widget__arc-icon {
-    filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.35));
+    filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 35%, transparent));
   }
   .barnporten-widget--cb3 {
     @apply pointer-events-none fixed bottom-[4.5rem] right-0 z-[56] flex flex-col items-end;
@@ -107,6 +121,21 @@
       rgba(251, 191, 36, 0.28) var(--barnporten-hold, 0%),
       rgba(26, 20, 16, 0.88) var(--barnporten-hold, 0%)
     );
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .barnporten-widget__star,
+    .barnporten-widget__compass,
+    .barnporten-widget__arc {
+      transition: none;
+    }
+
+    .barnporten-widget__control--holding,
+    .barnporten-widget__star--holding {
+      box-shadow: 0 0 10px rgba(251, 191, 36, 0.28);
+    }
   }
 }
 [data-theme='J-barnporten-ljus'] .barnporten-page,

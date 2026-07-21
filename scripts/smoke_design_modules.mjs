@@ -46,7 +46,7 @@ function main() {
     'DROGFRIHET_CARDS',
     'DROGFRIHET_SUBTABS',
     'drogfrihetTab',
-    'Akut: 113',
+    'Akut: 112',
   );
   mustInclude(
     'src/modules/core/pages/FamiljenPage.tsx',

@@ -47,7 +47,7 @@ export function VaultAktorskartaPanel() {
 
   return (
     <div className="valv-zone-stack space-y-4">
-      <section className="calm-card glow-bottom-blue rounded-2xl border border-border p-4">
+      <section className="calm-card glow-bottom-blue p-4 sm:p-5">
         <div className="mb-3 flex items-start gap-3">
           <div className="rounded-xl border border-accent/25 bg-accent/10 p-2">
             <Users className="h-4 w-4 text-accent" aria-hidden />
@@ -94,7 +94,7 @@ export function VaultAktorskartaPanel() {
         )}
       </section>
 
-      <section className="calm-card glow-bottom-blue rounded-2xl border border-border p-4" aria-label="Lägg till person">
+      <section className="calm-card glow-bottom-blue p-4 sm:p-5" aria-label="Lägg till person">
         <h3 className="mb-1 text-xs uppercase tracking-widest text-accent">Lägg till person</h3>
         <p className="mb-3 text-xs text-text-dim">Append-only — sparas permanent för agenter.</p>
         <EntityAddForm onSaved={load} />

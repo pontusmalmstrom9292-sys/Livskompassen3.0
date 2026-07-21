@@ -1,5 +1,6 @@
 import { AlertTriangle, Check, Clock, Loader2 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { Button } from '@/design-system';
 import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
 import { EKONOMI_IMPULS_LEAD } from '@/modules/features/dailyLife/wellbeing/economy/ekonomiCopy';
@@ -150,8 +151,8 @@ export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
   );
 
   return (
-    <div className="space-y-4">
-      <header className="space-y-1">
+    <div className="space-y-5">
+      <header className="space-y-1.5">
         <p className="flex items-center gap-1.5 font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
           <Clock className="h-3.5 w-3.5" aria-hidden />
           Impulspaus
@@ -160,7 +161,10 @@ export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
       </header>
 
       {!hasUser ? (
-        <p className="text-sm text-text-dim">Logga in för impulsparkering.</p>
+        <EmptyState
+          title="Impulspaus"
+          message="Logga in för att parkera impulsköp och vänta 24 timmar innan beslut."
+        />
       ) : (
         <>
           <div className="flex gap-2">
@@ -173,14 +177,14 @@ export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
                 clearErrors();
               }}
               placeholder="T.ex. nya hörlurar…"
-              className="input-glass flex-1 rounded-lg px-3 py-2 text-xs disabled:opacity-60"
+              className="input-glass min-h-11 flex-1 rounded-lg px-3 py-2.5 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60"
               aria-label="Beskriv impulsköpet"
             />
             <Button
               variant="ghost"
               disabled={inputsDisabled || !draft.trim()}
               onClick={() => void handlePark()}
-              className="rounded-lg border border-border/50 bg-surface-3 px-3 py-2 text-xs disabled:opacity-60"
+              className="min-h-11 rounded-lg border border-border/50 bg-surface-3 px-3 py-2.5 text-xs focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60"
             >
               {queueSaving && !txSaving ? 'Sparar…' : 'Parkera'}
             </Button>
@@ -192,29 +196,32 @@ export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
               Laddar kö…
             </p>
           ) : items.length === 0 ? (
-            <p className="text-xs text-text-dim">Inget parkerat — skriv ovan när impulsen kommer.</p>
+            <EmptyState
+              title="Tom kö"
+              message="Inget parkerat ännu. Skriv ovan när impulsen kommer — beslutet väntar till imorgon."
+            />
           ) : (
-            <ul className="space-y-2.5" aria-label="Impulskö">
+            <ul className="space-y-3" aria-label="Impulskö">
               {items.map((item) => {
                 const isReady = readyItems.some((row) => row.id === item.id);
                 return (
                   <li
                     key={item.id}
-                    className={`rounded-xl border px-3 py-3 text-xs ${
+                    className={`rounded-xl border px-3.5 py-3.5 text-xs ${
                       isReady
                         ? 'border-accent/30 bg-accent/5'
                         : 'border-border/30 bg-surface-3/40'
                     }`}
                   >
                     <p className="font-medium text-text">{item.label}</p>
-                    <p className={`text-[10px] ${isReady ? 'text-accent/80' : 'text-text-dim'}`}>
+                    <p className={`mt-0.5 text-[10px] ${isReady ? 'text-accent/80' : 'text-text-dim'}`}>
                       Parkerad {item.parkedAt.slice(0, 10)}
                       {isReady ? ' · Dags att besluta' : ' · Vänta till imorgon'}
                     </p>
 
                     {isReady ? (
-                      <div className="mt-3 space-y-2">
-                        <label className="flex flex-col gap-1">
+                      <div className="mt-3 space-y-2.5">
+                        <label className="flex flex-col gap-1.5">
                           <span className="text-[10px] text-text-dim">Belopp om du köper (kr)</span>
                           <input
                             type="text"
@@ -229,7 +236,7 @@ export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
                               clearErrors();
                             }}
                             placeholder="T.ex. 499"
-                            className="input-glass w-full tabular-nums disabled:opacity-60"
+                            className="input-glass min-h-11 w-full tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60"
                             aria-label={`Belopp för ${item.label}`}
                           />
                         </label>
@@ -242,7 +249,7 @@ export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
                               !(purchaseAmounts[item.id] ?? '').trim()
                             }
                             onClick={() => void handleBuy(item.id, item.label)}
-                            className="px-2 py-1 text-[10px] disabled:opacity-50"
+                            className="min-h-11 px-3 py-2 text-xs focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-50"
                           >
                             Fortfarande ja
                           </Button>
@@ -250,13 +257,16 @@ export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
                             variant="ghost"
                             disabled={inputsDisabled}
                             onClick={() => void handleSkip(item.id)}
-                            className="px-2 py-1 text-[10px] disabled:opacity-60"
+                            className="min-h-11 px-3 py-2 text-xs focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60"
                           >
                             Strunt i det
                           </Button>
                         </div>
                         {isLowCapacity ? (
-                          <p className="flex items-start gap-1.5 text-[10px] leading-relaxed text-danger/90">
+                          <p
+                            className="flex items-start gap-1.5 text-[10px] leading-relaxed text-danger/90"
+                            role="status"
+                          >
                             <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0" aria-hidden />
                             Kapaciteten är för låg för att godkänna köp just nu. Låt beslutet vila
                             lite till.
@@ -268,7 +278,7 @@ export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
                         type="button"
                         disabled={inputsDisabled}
                         onClick={() => void removeImpulse(item.id)}
-                        className="mt-2 text-[10px] text-text-dim hover:text-text disabled:opacity-60"
+                        className="mt-2 min-h-11 rounded-lg px-1 text-[10px] text-text-dim underline-offset-2 hover:text-text hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60"
                       >
                         Ta bort
                       </button>
@@ -282,13 +292,23 @@ export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
       )}
 
       {offlineQueued ? (
-        <p className="text-xs text-text-muted">Sparas när nätet är tillbaka.</p>
+        <p className="text-xs text-text-muted" role="status">
+          Sparas när nätet är tillbaka.
+        </p>
       ) : null}
 
-      {displayError ? <p className="text-sm text-danger">{displayError}</p> : null}
+      {displayError ? (
+        <p
+          className="flex items-start gap-2 rounded-xl border border-danger/25 bg-danger/5 px-3 py-2.5 text-sm leading-relaxed text-danger"
+          role="alert"
+        >
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+          <span>{displayError}</span>
+        </p>
+      ) : null}
 
       {savedFlash && !saving ? (
-        <p className="flex items-center gap-2 text-sm text-emerald-400" role="status">
+        <p className="flex items-center gap-2 text-sm text-success" role="status">
           <Check className="h-4 w-4 shrink-0" aria-hidden />
           Sparat.
         </p>

@@ -9,6 +9,16 @@
     background-image: var(--zone-gradient-mabra);
   }
 
+  .mabra-bento-shell::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--accent) 6%, transparent),
+      inset 0 -1px 0 color-mix(in srgb, var(--accent) 4%, transparent);
+  }
+
   .mabra-bg-watermark {
     @apply pointer-events-none fixed left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 text-accent;
     width: min(130vw, 1000px);
@@ -34,17 +44,55 @@
     @apply space-y-4;
   }
 
+  .mabra-hub-shell button:focus-visible,
+  .mabra-hub-shell a:focus-visible,
+  .mabra-bento-shell__content button:focus-visible,
+  .mabra-bento-shell__content a:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
   .mabra-flow-shell {
     @apply space-y-4;
   }
 
   .mabra-flow-shell__surface {
     @apply border border-border-strong bg-surface/40;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--text) 3%, transparent),
+      0 10px 24px -20px color-mix(in srgb, var(--bg) 72%, transparent);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium);
+  }
+
+  .mabra-flow-shell__surface:focus-within {
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--accent) 10%, transparent),
+      0 14px 30px -22px color-mix(in srgb, var(--bg) 78%, transparent);
   }
 
   .mabra-flow-shell__actions {
     @apply rounded-xl border border-border-strong bg-surface/25 p-3;
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 3%, transparent);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium);
+  }
+
+  .mabra-flow-shell__actions:focus-within {
+    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+    background-color: color-mix(in srgb, var(--surface) 82%, transparent);
+  }
+
+  .mabra-flow-shell__actions button:focus-visible,
+  .mabra-flow-shell__actions a:focus-visible,
+  .mabra-flow-shell__surface button:focus-visible,
+  .mabra-flow-shell__surface a:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .mabra-flow-card {
@@ -61,12 +109,24 @@
     );
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 16px 36px -28px color-mix(in srgb, var(--bg) 82%, transparent);
+    transition: border-color var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .liv-launcher-page__surface {
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.03),
-      0 12px 34px -24px rgba(0, 0, 0, 0.65);
+      inset 0 1px 0 color-mix(in srgb, var(--text) 3%, transparent),
+      0 12px 34px -24px color-mix(in srgb, var(--bg) 65%, transparent);
+  }
+
+  .liv-launcher-page:focus-within {
+    border-color: var(--color-accent-gold-35);
+  }
+
+  .liv-launcher-page button:focus-visible,
+  .liv-launcher-page a:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .mabra-zone-strip {
@@ -75,7 +135,34 @@
 
   .mabra-zone-pill {
     @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-accent;
+    line-height: 1.25;
     border-color: var(--color-accent-gold-35);
     background: var(--color-shell-scrim);
+    text-wrap: balance;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .liv-launcher-page {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background: color-mix(in srgb, var(--surface) 94%, #020617);
+    }
+
+    .mabra-flow-shell__surface,
+    .mabra-flow-shell__actions {
+      background: color-mix(in srgb, var(--surface) 92%, #020617);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .mabra-flow-shell__surface,
+    .mabra-flow-shell__actions,
+    .liv-launcher-page {
+      transition: none;
+    }
   }
 }

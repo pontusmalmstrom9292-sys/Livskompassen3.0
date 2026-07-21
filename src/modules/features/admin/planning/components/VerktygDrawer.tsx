@@ -11,12 +11,19 @@ type VerktygDrawerProps = {
   embedded?: boolean;
 };
 
-const EXTRA_TOOLS: { id: PlaneringTab; label: string; lead: string; to: string }[] = [
+/** 'bygg' länkar till modulbygg — ej ännu i PlaneringTab-union (migrate-or-freeze). */
+const EXTRA_TOOLS: { id: PlaneringTab | 'bygg'; label: string; lead: string; to: string }[] = [
   {
     id: 'inkop',
     label: 'Inköpslista',
     lead: 'Snabb punktlista — inte samma som Inkorg (mejl).',
     to: '/planering?tab=inkop',
+  },
+  {
+    id: 'bygg',
+    label: 'Mina moduler',
+    lead: 'Egna nedräkningar, listor och notiser.',
+    to: '/planering?tab=bygg',
   },
   {
     id: 'hub',
@@ -38,16 +45,17 @@ function PlaneringExtraTools({ activeTab }: { activeTab?: PlaneringTab }) {
   }, [location.hash]);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2" aria-label="Fler planeringsverktyg">
       {EXTRA_TOOLS.map((tool) => (
         <Link
           key={tool.id}
           to={tool.to}
-          className={`block rounded-xl border px-3 py-2 text-left transition ${
+          className={`block min-h-11 rounded-xl border px-3 py-2.5 text-left transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
             activeTab === tool.id
               ? 'border-accent/40 bg-accent/10'
               : 'border-border/30 hover:border-accent/25'
           }`}
+          aria-current={activeTab === tool.id ? 'page' : undefined}
         >
           <span className="text-sm text-text">{tool.label}</span>
           <span className="mt-0.5 block text-xs text-text-dim">{tool.lead}</span>

@@ -1,3 +1,13 @@
+## 2026-07-21 — Copilot YOLO improve waves (design-debt refresh)
+
+### Design debt (2026-07-21) — polish-vågor + copy-audit PASS
+
+- indexCssLoc: **61** (mål ≤120 ✓)
+- btnPill: **0** · dsBtn: **0** · adHocDialog: **3** (sandbox×2 + ResurserOverlay locked)
+- DS imports: **267** · smoke:design-debt `2026-07-21T11:25:32.666Z`
+- copy-audit: **PASS** (KASAM → kvällscheck i proaktivt minneskort)
+- YOLO: copy-audit-quickfixes PASS · fortsätter design-debt → session-log-v2 → …
+
 ## 2026-07-18 — Fas 24 förbättringsplan
 
 - G85 7d started; App Check Valv paths expanded; a11y transparency fallback; Planering/Hjärtat → Done (sign-off waits).
@@ -37,7 +47,7 @@
 
 # Premium UI Polish — Dashboard
 
-**Version:** 1.3 | **Last updated:** 2026-07-15
+**Version:** 1.4 | **Last updated:** 2026-07-21
 
 **Rule:** Update this file after each merge wave. Do **not** use guessed progress % — use Status + metric columns.
 
@@ -49,19 +59,19 @@
 
 | Metric | Baseline | Current | Target |
 |--------|----------|---------|--------|
-| btn-pill-- file count | ~195 (estimated) | **0** (2026-07-13, smoke:design-debt) | 0 new after start |
-| ds-btn-- file count | ~202 (estimated) | **0** (2026-07-13, v6 P16) | 0 new after start |
+| btn-pill-- file count | ~195 (estimated) | **0** (2026-07-21, smoke:design-debt) | 0 new after start |
+| ds-btn-- file count | ~202 (estimated) | **0** (2026-07-21, smoke:design-debt) | 0 new after start |
 | calm-card variant audit | not tracked | **PASS** (2026-06-29, smoke:calm-card-audit) | no unused variants |
-| DS import files (`@/design-system`) | ~14 | **250** (2026-07-13, smoke:design-debt) | All blocking overlays migrated |
-| ad-hoc role=dialog | ~14 | **3** (2026-07-13 — sandbox×2, ResurserOverlay locked) | ≤3 documented |
-| index.css LOC | 6816 | **61** (2026-07-13, smoke:design-debt) | ≤120 ✓ |
+| DS import files (`@/design-system`) | ~14 | **267** (2026-07-21, smoke:design-debt) | All blocking overlays migrated |
+| ad-hoc role=dialog | ~14 | **3** (2026-07-21 — sandbox×2, ResurserOverlay locked) | ≤3 documented |
+| index.css LOC | 6816 | **61** (2026-07-21, smoke:design-debt) | ≤120 ✓ |
 | smoke:design-modules | TBD | **PASS** (2026-07-09, våg 35–42) | green |
 | smoke:locked-ux | TBD | **PASS** (2026-07-09) | green |
 | smoke:freeport-premium-compare | TBD | **PASS** (2026-06-29) | visual compare green |
 | `zone-valv` route chunk (js) | 768.53 kB | 2.65 kB | keep route-entry small |
 | `typecheck:core-strict` scope | core/shared/morning | core/shared/features/morning (PASS 2026-06-28) | features included |
 
-Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** `2026-07-13T11:38:19.704Z`: btnPill **0**, dsBtn **1**, adHocDialog **3**, indexCssLoc **61**, DS imports **250**. Re-run before each merge wave.
+Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **Refresh 2026-07-21T11:25:32.666Z**: btnPill **0**, dsBtn **0**, adHocDialog **3**, indexCssLoc **61**, DS imports **267**. Re-run before each merge wave.
 
 ---
 
@@ -243,7 +253,7 @@ Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **P3 closeout** 
 - **Status:** In Progress
 - **Priority:** Critical (cross-cutting)
 - **Files:** premium-polish.css (focus-visible, reduced-motion, reduced-transparency cards)
-- **Notes:** Foundation pass 2026-07-18 — focus ring + reduced-transparency card/glass fallback. 2026-07-20: Planering/Valv reduced-transparency fallback + Valv PDF export aria-label + Valv contrast/keyboard sweep (Escape i zonväljare) + MåBra vit-hub polish (focus-visible, touch-target, contrast) + app-wide Wave 1 i DS-lagret (small-button touch-target, badge contrast, input/chip focus-visible) + app-wide Wave 2 (Button/ButtonLink icon `aria-label` fallback via `title`) + app-wide Wave 3 (drawer/dock focus-visible + touch-target + small-label contrast) + app-wide Wave 4 (nav-drawer sections, Planering routines, MåBra collapsible, Reflektion panel contrast/focus/touch-target) + app-wide Wave 5 (dock hub/compass, Dagbok mode/handoff, adaptive-card focus/touch-target/contrast) + app-wide Wave 6 (executive home/header + Obsidian shell/glass focus-visible, touch-target, contrast). Remaining: bred icon aria-label sweep och kontrast-audit i övriga zoner.
+- **Notes:** Foundation pass 2026-07-18 — focus ring + reduced-transparency card/glass fallback. 2026-07-20: Planering/Valv reduced-transparency fallback + Valv PDF export aria-label + Valv contrast/keyboard sweep (Escape i zonväljare) + MåBra vit-hub polish (focus-visible, touch-target, contrast) + app-wide Wave 1 i DS-lagret (small-button touch-target, badge contrast, input/chip focus-visible) + app-wide Wave 2 (Button/ButtonLink icon `aria-label` fallback via `title`) + app-wide Wave 3 (drawer/dock focus-visible + touch-target + small-label contrast) + app-wide Wave 4 (nav-drawer sections, Planering routines, MåBra collapsible, Reflektion panel contrast/focus/touch-target) + app-wide Wave 5 (dock hub/compass, Dagbok mode/handoff, adaptive-card focus/touch-target/contrast) + app-wide Wave 6 (executive home/header + Obsidian shell/glass focus-visible, touch-target, contrast). 2026-07-21: app-wide Wave 7 med dock center-label hardening (`floating-dock__center-label`) och selector-säker core-chrome polish. 2026-07-21: app-wide Wave 8 med Home Layout A keyboard focus-visible polish för snabbval/tile/step/link/strip i `obsidian-calm-shells.css`. 2026-07-21: app-wide Wave 9 med Home Layout A hero-inset `:focus-visible` ring/contrast polish i `obsidian-calm-shells.css`. 2026-07-21: app-wide Wave 10 med Home Layout A `:focus-within` polish för hero-card/tile i `obsidian-calm-shells.css`. 2026-07-21: app-wide Wave 11 med Home Layout A reduced-motion polish (`prefers-reduced-motion`: inga transitions på snabbval/tile/step/link). 2026-07-21: app-wide Wave 12 med Home Layout A transition-token polish (går från hårdkodad 0.15/ease till DS duration/ease tokens för snabbval/tile/link). 2026-07-21: app-wide Wave 13 med transition-token + reduced-motion-täckning även för Home Layout A strip (`home-layout-a__strip`). 2026-07-21: app-wide Wave 14 med transition-token polish för Home Layout A step-button (`home-layout-a__step-btn`). 2026-07-21: SAFE YOLO `ui-polish-v2-vardagen` — Vardagen/MåBra/Planering polish i `mabra.css`, `planering.css`, `compasses.css`, `vardagen.css` (focus-visible, 44px touch-target där relevant, reduced-motion/transparency fallback, depth + typografi), utan flödesändring. 2026-07-21 (autopilot): verifierad med full våg 2-kedja (`build`, `smoke:locked-ux`, `smoke:design-modules`, `smoke:mabra`, `smoke:predeploy:build`) PASS. Remaining: bred icon aria-label sweep och kontrast-audit i övriga zoner.
 
 ---
 

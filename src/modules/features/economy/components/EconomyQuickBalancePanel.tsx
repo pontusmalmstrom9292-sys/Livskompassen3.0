@@ -57,7 +57,7 @@ export function EconomyQuickBalancePanel() {
             type="button"
             disabled={saving || !user}
             onClick={() => void quickAdd('Veckopeng', weeklyBudget, 'veckopeng')}
-            className="text-left"
+            className="min-h-11 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           >
             <MetricTile label="Veckopeng" value={`+${weeklyBudget} kr`} hint="Lägg till" />
           </button>
@@ -65,18 +65,26 @@ export function EconomyQuickBalancePanel() {
             type="button"
             disabled={saving || !user}
             onClick={() => void quickAdd('Matlåda', -mealPreset, 'matlada')}
-            className="text-left"
+            className="min-h-11 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           >
             <MetricTile label="Matlåda" value={`−${mealPreset} kr`} hint="Lägg till" />
           </button>
         </div>
       </div>
 
-      {error && <p className="text-sm text-danger">{error}</p>}
-      {savedFlash && !saving && <p className="text-sm text-emerald-400">Sparat.</p>}
+      {error && (
+        <p className="text-sm text-danger" role="alert">
+          {error}
+        </p>
+      )}
+      {savedFlash && !saving && (
+        <p className="text-sm text-success" role="status">
+          Sparat.
+        </p>
+      )}
       {saving && (
-        <p className="flex items-center gap-2 text-sm text-text-dim">
-          <Loader2 className="h-4 w-4 animate-spin" /> Sparar…
+        <p className="flex items-center gap-2 text-sm text-text-dim" role="status">
+          <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> Sparar…
         </p>
       )}
     </div>

@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.DETECT_SCREEN_CAPTURE" />
     <!-- DownloadManager → public Downloads on API ≤28 only -->
     <uses-permission
@@ -203,6 +204,18 @@
         </receiver>
 
         <receiver
+            android:name=".widgets.DrogfrihetAkutWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_drogfrihet_akut_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_drogfrihet_akut_info" />
+        </receiver>
+
+        <receiver
             android:name=".widgets.UtvecklingskortWidgetProvider"
             android:exported="true"
             android:label="@string/widget_utv_kort_title">
@@ -228,6 +241,15 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <service
+            android:name=".core.DrogfrihetFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

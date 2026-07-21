@@ -59,8 +59,10 @@
 
   .planering-zone-pill {
     @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-accent;
+    line-height: 1.25;
     border-color: var(--color-accent-gold-30);
     background: var(--color-shell-scrim);
+    text-wrap: balance;
   }
 
   /* --- Bento icon boxes and typography --- */
@@ -77,7 +79,7 @@
   }
 
   .planering-bento-icon-box--emerald {
-    @apply border-emerald-500/20 bg-emerald-900/30 text-emerald-400;
+    @apply border-success/20 bg-success/10 text-success;
   }
 
   .planering-bento-title {
@@ -86,6 +88,7 @@
 
   .planering-bento-text {
     @apply text-sm leading-relaxed text-text-muted;
+    text-wrap: pretty;
   }
 
   .planering-bento-footer {
@@ -99,11 +102,31 @@
     background: var(--color-panel-obsidian-60-dark);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 3%, transparent);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium);
+  }
+
+  .planering-guard-bar:focus-within {
+    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--accent) 10%, transparent),
+      0 12px 28px -22px color-mix(in srgb, var(--bg) 76%, transparent);
+  }
+
+  .planering-guard-bar button:focus-visible,
+  .planering-guard-bar a:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   /* --- Bento cards (glass) --- */
   .planering-kanban-bento__columns {
     @apply -mx-1 mt-5 flex gap-3 overflow-x-auto pb-2;
+    scrollbar-width: thin;
+    scrollbar-gutter: stable both-edges;
   }
 
   .planering-kanban-board__columns {
@@ -140,7 +163,17 @@
     @apply flex min-w-[10.5rem] flex-1 flex-col gap-2 rounded-2xl border border-border-strong/40 bg-bg/20 p-2.5;
     box-shadow:
       inset 0 1px 0 color-mix(in srgb, var(--accent) 8%, transparent),
-      0 10px 24px -18px rgba(0, 0, 0, 0.7);
+      0 10px 24px -18px color-mix(in srgb, var(--bg) 70%, transparent);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium);
+  }
+
+  .planering-kanban-column:focus-within {
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--accent) 12%, transparent),
+      0 14px 28px -20px color-mix(in srgb, var(--bg) 74%, transparent);
   }
 
   .planering-kanban-column__header {
@@ -161,13 +194,15 @@
 
   .planering-task-card {
     @apply relative w-full overflow-hidden rounded-2xl border p-3 text-left transition-all duration-200;
-    border-color: rgba(212, 175, 55, 0.2);
+    border-color: color-mix(in srgb, var(--accent) 20%, transparent);
     background: linear-gradient(
       165deg,
-      rgba(18, 16, 14, 0.85) 0%,
-      rgba(8, 10, 14, 0.75) 100%
+      color-mix(in srgb, var(--surface) 85%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 75%, transparent) 100%
     );
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    box-shadow: 0 6px 20px color-mix(in srgb, var(--bg) 35%, transparent), inset 0 1px 0 color-mix(in srgb, var(--text) 5%, transparent);
+    transition-duration: var(--ds-duration-fast);
+    transition-timing-function: var(--ds-ease-premium);
   }
 
   .planering-task-card::before {
@@ -185,10 +220,10 @@
 
   .planering-task-card:hover {
     @apply -translate-y-0.5;
-    border-color: rgba(212, 175, 55, 0.4);
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
     box-shadow:
-      0 10px 30px rgba(0, 0, 0, 0.5),
-      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      0 10px 30px color-mix(in srgb, var(--bg) 50%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--text) 8%, transparent);
     filter: brightness(1.05);
   }
 
@@ -208,20 +243,26 @@
 
   .planering-task-card__add {
     @apply flex items-center justify-center gap-1 rounded-xl border border-dashed py-2 text-xs text-text-dim transition-colors;
-    border-color: rgba(212, 175, 55, 0.3);
+    min-height: var(--ds-touch-target);
+    border-color: color-mix(in srgb, var(--accent) 30%, transparent);
   }
 
   .planering-task-card__add:hover {
     @apply text-accent;
-    border-color: rgba(212, 175, 55, 0.5);
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
   }
 
   .planering-quick-add {
     @apply relative rounded-2xl border-2 p-4;
-    border-color: rgba(212, 175, 55, 0.3);
-    background: rgba(5, 11, 20, 0.7);
+    border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+    background: color-mix(in srgb, var(--bg) 70%, transparent);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
+  }
+
+  .planering-quick-add:focus-within {
+    border-color: color-mix(in srgb, var(--accent) 46%, transparent);
+    background: color-mix(in srgb, var(--surface) 78%, transparent);
   }
 
   .planering-quick-add::before {
@@ -247,7 +288,9 @@
   }
 
   .planering-back-link:focus-visible {
-    @apply rounded-sm outline outline-2 outline-offset-2 outline-accent/50;
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+    border-radius: var(--ds-radius-sm, 0.25rem);
   }
 
   .planering-hub__hint {
@@ -312,6 +355,8 @@
 
   .planering-hub__strip {
     @apply flex gap-3 overflow-x-auto pb-2;
+    scrollbar-width: thin;
+    scrollbar-gutter: stable both-edges;
   }
 
   .planering-hub__strip-card {
@@ -344,6 +389,14 @@
 
   .planering-hub__category-trigger {
     @apply flex w-full items-center gap-2 px-4 py-3 text-left transition-colors hover:bg-surface/20;
+    min-height: var(--ds-touch-target);
+    transition-duration: var(--ds-duration-fast);
+    transition-timing-function: var(--ds-ease-premium);
+  }
+
+  .planering-hub__category-trigger:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: calc(var(--ds-focus-offset) * -1);
   }
 
   .planering-hub__category-label {
@@ -356,6 +409,8 @@
 
   .planering-hub__category-chevron {
     @apply h-4 w-4 shrink-0 text-accent/70 transition-transform duration-200;
+    transition-duration: var(--ds-duration-fast);
+    transition-timing-function: var(--ds-ease-premium);
   }
 
   .planering-hub__category--open .planering-hub__category-chevron {
@@ -399,7 +454,9 @@
   }
 
   .planering-inkorg-panel__icon {
-    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-surface/30 text-accent;
+    @apply inline-flex shrink-0 items-center justify-center rounded-xl border border-accent/20 bg-surface/30 text-accent;
+    min-height: var(--ds-touch-target);
+    min-width: var(--ds-touch-target);
   }
 
   .planering-inkorg-panel__lead {
@@ -416,6 +473,10 @@
 
   .planering-inbox-connect {
     @apply relative overflow-hidden rounded-2xl border border-border-strong bg-bg/40 p-4;
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .planering-inbox-connect::before {
@@ -436,8 +497,15 @@
     background: linear-gradient(
       165deg,
       color-mix(in srgb, var(--accent) 6%, transparent) 0%,
-      rgba(8, 10, 14, 0.88) 100%
+      color-mix(in srgb, var(--bg) 88%, transparent) 100%
     );
+  }
+
+  .planering-inbox-connect:focus-within {
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--accent) 10%, transparent),
+      0 12px 30px -20px color-mix(in srgb, var(--bg) 70%, transparent);
   }
 
   .planering-inbox-connect__head {
@@ -461,7 +529,7 @@
   }
 
   .planering-inbox-connect__status--on {
-    @apply border-emerald-500/35 text-emerald-300/90;
+    @apply border-success/35 text-success/90;
   }
 
   .planering-inbox-connect__account {
@@ -554,7 +622,7 @@
   .planering-cognitive-banner {
     box-shadow:
       inset 0 1px 0 color-mix(in srgb, var(--accent) 10%, transparent),
-      0 12px 30px -20px rgba(0, 0, 0, 0.7);
+      0 12px 30px -20px color-mix(in srgb, var(--bg) 70%, transparent);
   }
 
   .planering-cognitive-banner__lead {
@@ -591,15 +659,17 @@
 
   .planering-tool-card {
     @apply relative flex w-full flex-col gap-1 overflow-hidden rounded-3xl border p-4 text-left transition-all duration-300;
-    border-color: rgba(212, 175, 55, 0.15);
+    border-color: color-mix(in srgb, var(--accent) 15%, transparent);
     background: linear-gradient(
       180deg,
-      rgba(15, 23, 42, 0.6) 0%,
-      rgba(10, 18, 30, 0.8) 100%
+      color-mix(in srgb, var(--surface-2) 60%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 80%, transparent) 100%
     );
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--bg) 50%, transparent);
+    transition-duration: var(--ds-duration-normal);
+    transition-timing-function: var(--ds-ease-premium);
   }
 
   button.planering-tool-card {
@@ -609,10 +679,10 @@
 
   .planering-tool-card:hover {
     @apply -translate-y-0.5;
-    border-color: rgba(212, 175, 55, 0.4);
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
     box-shadow:
-      0 15px 40px rgba(0, 0, 0, 0.6),
-      0 0 20px rgba(212, 175, 55, 0.05);
+      0 15px 40px color-mix(in srgb, var(--bg) 60%, transparent),
+      0 0 20px color-mix(in srgb, var(--accent) 5%, transparent);
   }
 
   .planering-tool-card::before {
@@ -645,11 +715,11 @@
   }
 
   .planering-tool-card__badge {
-    @apply mt-1 inline-flex w-fit rounded-full border border-emerald-500/35 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-300/90;
+    @apply mt-1 inline-flex w-fit rounded-full border border-success/35 bg-success/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-success/90;
   }
 
   .planering-tool-card--gold:hover {
-    box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+    box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 15%, transparent);
   }
 
   .planering-tool-card > * {
@@ -686,7 +756,9 @@
   }
 
   .planering-quicklist__check {
-    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-accent/35 bg-surface/30 transition-colors hover:border-accent/55;
+    @apply flex shrink-0 items-center justify-center rounded-full border border-accent/35 bg-surface/30 transition-colors hover:border-accent/55;
+    min-height: var(--ds-touch-target);
+    min-width: var(--ds-touch-target);
   }
 
   .planering-quicklist__check--on {
@@ -702,7 +774,14 @@
   }
 
   .planering-quicklist__remove {
-    @apply shrink-0 rounded-full p-1 text-text-dim transition-colors hover:text-danger;
+    @apply inline-flex shrink-0 items-center justify-center rounded-full text-text-dim transition-colors hover:text-danger;
+    min-height: var(--ds-touch-target);
+    min-width: var(--ds-touch-target);
+  }
+
+  .planering-quicklist__remove:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .planering-quicklist__done-block {
@@ -879,6 +958,12 @@
     @apply text-xs text-accent hover:underline;
   }
 
+  .planering-layout-picker__lab-link:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+    border-radius: 0.25rem;
+  }
+
   .planering-layout-picker__track {
     @apply flex gap-2 overflow-x-auto pb-1 snap-x snap-mandatory;
   }
@@ -888,11 +973,19 @@
     border-color: color-mix(in srgb, var(--accent) 18%, transparent);
     background: rgba(8, 10, 14, 0.5);
     min-width: 4.75rem;
+    min-height: var(--ds-touch-target);
+    transition-duration: var(--ds-duration-fast);
+    transition-timing-function: var(--ds-ease-premium);
   }
 
   .planering-layout-picker__chip:hover {
     transform: translateY(-1px);
     border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  .planering-layout-picker__chip:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .planering-layout-picker__chip--active {
@@ -915,6 +1008,14 @@
 
   .planering-layout-picker__active-lead {
     @apply mt-2 text-center text-xs text-text-muted;
+    text-wrap: pretty;
+  }
+
+  .planering-pin-panel:focus-within {
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--text) 3%, transparent),
+      0 10px 24px -20px color-mix(in srgb, var(--bg) 72%, transparent);
   }
 
   .planering-next-step {
@@ -923,5 +1024,41 @@
 
   .hub-lab-card__body .planering-tool-card {
     pointer-events: none;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .planering-guard-bar,
+    .planering-quick-add,
+    .planering-tool-card,
+    .planering-kanban-column {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background: color-mix(in srgb, var(--surface) 94%, #020617);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .planering-task-card,
+    .planering-tool-card,
+    .planering-layout-picker__chip,
+    .planering-hub__category-trigger,
+    .planering-hub__category-chevron,
+    .planering-guard-bar,
+    .planering-quick-add,
+    .planering-inbox-connect,
+    .planering-kanban-column {
+      transition: none;
+    }
+
+    .planering-task-card:hover,
+    .planering-tool-card:hover,
+    .planering-layout-picker__chip:hover {
+      transform: none;
+      filter: none;
+    }
   }
 }

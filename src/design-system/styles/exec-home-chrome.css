@@ -67,9 +67,12 @@
   border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
   border-radius: var(--exec-card-radius);
   background: color-mix(in srgb, var(--surface-2) 78%, transparent);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
-  transition: border-color 0.2s ease, transform 0.15s ease;
+  backdrop-filter: blur(var(--ds-glass-blur));
+  -webkit-backdrop-filter: blur(var(--ds-glass-blur));
+  box-shadow: var(--ds-elevation-card);
+  transition:
+    border-color var(--ds-duration-normal) var(--ds-ease-premium),
+    transform var(--ds-duration-fast) var(--ds-ease-premium);
 }
 
 .home-layout-a--executive .exec-surface-card:hover {
@@ -147,7 +150,7 @@
     color-mix(in srgb, var(--surface-2) 82%, transparent);
   box-shadow:
     0 1px 0 color-mix(in srgb, var(--accent) 14%, transparent) inset,
-    0 12px 36px rgba(0, 0, 0, 0.42);
+    var(--ds-elevation-card);
   overflow: hidden;
 }
 
@@ -159,12 +162,23 @@
     radial-gradient(circle at 50% 50%, color-mix(in srgb, var(--accent) 22%, transparent) 0%, transparent 55%),
     radial-gradient(circle at 20% 80%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 40%),
     radial-gradient(circle at 80% 20%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 40%);
-  animation: exec-hub-pulse 6s ease-in-out infinite;
+  animation: exec-hub-pulse 6s var(--ds-ease-premium) infinite;
 }
 
 @keyframes exec-hub-pulse {
   0%, 100% { opacity: 0.65; }
   50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exec-snabbstart-hub__glow {
+    animation: none;
+    opacity: 0.8;
+  }
+
+  .exec-snabbstart-hub__satellite:active {
+    transform: none;
+  }
 }
 
 .exec-snabbstart-hub__core {
@@ -209,8 +223,12 @@
   border-radius: 1.1rem;
   border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
   background: color-mix(in srgb, var(--surface) 75%, transparent);
-  backdrop-filter: blur(8px);
-  transition: border-color 0.2s ease, transform 0.15s ease, background 0.2s ease;
+  backdrop-filter: blur(var(--ds-blur-md, 8px));
+  -webkit-backdrop-filter: blur(var(--ds-blur-md, 8px));
+  transition:
+    border-color var(--ds-duration-normal) var(--ds-ease-premium),
+    transform var(--ds-duration-fast) var(--ds-ease-premium),
+    background var(--ds-duration-normal) var(--ds-ease-premium);
 }
 
 .exec-snabbstart-hub__satellite:focus-visible {
@@ -308,9 +326,9 @@
   background:
     radial-gradient(ellipse 120% 70% at 50% -10%, color-mix(in srgb, var(--accent) 16%, transparent) 0%, transparent 55%),
     radial-gradient(ellipse 60% 45% at 0% 30%, color-mix(in srgb, var(--accent) 8%, transparent) 0%, transparent 50%),
-    radial-gradient(ellipse 55% 40% at 100% 25%, color-mix(in srgb, #6366f1 6%, transparent) 0%, transparent 48%),
-    radial-gradient(ellipse 80% 50% at 50% 100%, rgba(2, 6, 23, 0.95) 0%, transparent 60%),
-    linear-gradient(180deg, var(--surface) 0%, color-mix(in srgb, var(--surface) 90%, #020617) 100%);
+    radial-gradient(ellipse 55% 40% at 100% 25%, color-mix(in srgb, var(--accent) 5%, transparent) 0%, transparent 48%),
+    radial-gradient(ellipse 80% 50% at 50% 100%, color-mix(in srgb, var(--bg) 95%, transparent) 0%, transparent 60%),
+    linear-gradient(180deg, var(--surface) 0%, color-mix(in srgb, var(--surface) 90%, var(--bg)) 100%);
 }
 
 .home-page--executive::after {
@@ -325,4 +343,40 @@
     radial-gradient(circle at 80% 40%, color-mix(in srgb, var(--accent) 20%, transparent) 0.5px, transparent 1px),
     radial-gradient(circle at 45% 70%, color-mix(in srgb, var(--accent) 15%, transparent) 0.5px, transparent 1px);
   background-size: 120px 120px, 180px 180px, 240px 240px;
+}
+
+.home-layout-a--executive .exec-surface-card:focus-visible {
+  outline: var(--ds-focus-ring);
+  outline-offset: var(--ds-focus-offset);
+}
+
+.home-hero-kanon--executive .home-greeting-module__profile {
+  text-wrap: balance;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .home-layout-a--executive .home-layout-a__hero-card,
+  .home-layout-a--executive .exec-surface-card,
+  .exec-snabbstart-hub__stage {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-layout-a--executive .exec-surface-card,
+  .exec-snabbstart-hub__inkast,
+  .exec-snabbstart-hub__satellite {
+    transition: none;
+  }
+
+  .home-layout-a--executive .exec-surface-card:active,
+  .exec-snabbstart-hub__inkast:active,
+  .exec-snabbstart-hub__satellite:active {
+    transform: none;
+  }
+
+  .exec-snabbstart-hub__toggle-chevron {
+    transition: none;
+  }
 }
