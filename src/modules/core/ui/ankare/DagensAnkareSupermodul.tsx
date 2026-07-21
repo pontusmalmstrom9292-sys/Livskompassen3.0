@@ -128,7 +128,7 @@ export function AnchorVariantForge({
                     'rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
                     selectedExerciseId === ex.id
                       ? 'border-accent/30 bg-accent/20 text-accent shadow-[0_0_10px_rgba(212,175,55,0.1)]'
-                      : 'border-transparent bg-white/5 text-text-dim hover:bg-white/10 hover:text-text-muted',
+                      : 'border-transparent bg-surface-3/40 text-text-dim hover:bg-surface-3 hover:text-text-muted',
                   )}
                 >
                   {ex.label}
@@ -266,7 +266,7 @@ export function AnchorVariantTactical({
 
         <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/5 bg-surface shadow-inner">
           <svg className="h-10 w-10 -rotate-90" viewBox="0 0 40 40" aria-hidden>
-            <circle cx="20" cy="20" r="16" stroke="currentColor" strokeWidth="2.5" fill="transparent" className="text-slate-800" />
+            <circle cx="20" cy="20" r="16" stroke="currentColor" strokeWidth="2.5" fill="transparent" className="text-surface-3" />
             <circle
               cx="20"
               cy="20"
@@ -302,7 +302,7 @@ export function AnchorVariantTactical({
                 key={step.id}
                 type="button"
                 onClick={() => toggleStep(step.id)}
-                className="group flex w-full items-center gap-4 rounded-xl p-3 text-left transition-colors hover:bg-white/5"
+                className="group flex min-h-11 w-full items-center gap-4 rounded-xl p-3 text-left transition-colors hover:bg-surface-3/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
               >
                 <div className="shrink-0 transition-colors">
                   {step.done ? (

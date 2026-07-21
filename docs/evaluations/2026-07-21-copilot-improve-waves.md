@@ -104,3 +104,5 @@
 | reflection-summary-polish | tokens + reduced-motion Daily/Weekly summary | DailySummaryCard, WeeklySummary | build, locked-ux, design-modules, predeploy:build | PASS |
 
 | launcher-shell-polish | green glow + focus + life-os-links smoke-ankare | LivLauncherGrid, obsidian-calm-shells, ProjektMaterialPackPage | build, locked-ux, life-os-links, predeploy:build | PASS |
+
+| ankare-dagens-supermodul-polish | 44px/focus ExecutiveAnkare + token Ankare-modul | ExecutiveAnkareCard, DagensAnkareSupermodul | build, executive-home-visual, locked-ux, predeploy:build | PASS |
