@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useId, useState, type ReactNode } from 'react';
 import { ChevronDown } from 'lucide-react';
 import { clsx } from 'clsx';
 
@@ -28,6 +28,7 @@ export function CalmCollapsible({
   children,
 }: CalmCollapsibleProps) {
   const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const bodyId = useId();
   const isControlled = controlledOpen !== undefined;
   const open = isControlled ? controlledOpen : internalOpen;
 
@@ -51,6 +52,7 @@ export function CalmCollapsible({
         type="button"
         className="calm-collapsible__trigger"
         aria-expanded={open}
+        aria-controls={bodyId}
         onClick={toggle}
       >
         <span className="calm-collapsible__title">{title}</span>
@@ -59,10 +61,10 @@ export function CalmCollapsible({
       </button>
       {unmountOnHide ? (
         open ? (
-          <div className="calm-collapsible__body">{children}</div>
+          <div id={bodyId} className="calm-collapsible__body">{children}</div>
         ) : null
       ) : (
-        <div className={clsx("calm-collapsible__body", !open && "hidden")}>
+        <div id={bodyId} className={clsx('calm-collapsible__body', !open && 'hidden')}>
           {children}
         </div>
       )}

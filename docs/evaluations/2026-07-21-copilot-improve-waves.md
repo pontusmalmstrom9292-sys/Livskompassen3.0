@@ -11,3 +11,4 @@
 | widget-home-slot-polish | UserWidget hem-slot | UserWidgetHomeSlot, HomeWidgetRenderer, normalizeUserWidget | build, custom-modules, widgets | PASS |
 | executive-home-polish | Executive hem-kort | exec-home-chrome.css, executive-chrome.css, ExecutivePlanering/Focus/DaySteps | build, locked-ux, executive-home-visual | PASS |
 | planering-pin-panel-polish | Planering pin-panel a11y | PlaneringModulePinPanel, PinnedPlaneringModuleSlot, planering.css | build, planering-superhub, locked-ux | PASS |
+| mabra-collapsible-a11y | MåBra collapsible + VIT hub | CalmCollapsible, mabra-collapsible.css, mabra-vit-hub, MabraExplorePanel | build, mabra, locked-ux | PASS |

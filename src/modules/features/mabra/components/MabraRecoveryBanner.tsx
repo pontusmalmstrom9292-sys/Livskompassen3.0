@@ -57,7 +57,7 @@ export function MabraRecoveryBanner() {
             <Sparkles className="h-3 w-3 shrink-0 text-accent/80" strokeWidth={1.5} aria-hidden />
             Återhämtning
           </p>
-          <p className="font-display text-base leading-snug text-text sm:text-lg">{quote}</p>
+          <p className="font-display text-base leading-snug text-text sm:text-lg text-wrap-pretty">{quote}</p>
           {counter.startDateKey ? (
             <p className="text-[11px] text-text-dim">Sedan {counter.startDateKey}</p>
           ) : null}
@@ -67,7 +67,7 @@ export function MabraRecoveryBanner() {
           <button
             type="button"
             onClick={() => setSosOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-xl border-[0.5px] border-border/70 bg-surface-3/40 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-text-muted transition-colors hover:border-accent/35 hover:text-accent"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border-[0.5px] border-border/70 bg-surface-3/40 px-3 text-[10px] uppercase tracking-[0.18em] text-text-muted transition-colors hover:border-accent/35 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             aria-label="Öppna akut stöd — andning och jordning"
           >
             <LifeBuoy className="h-3.5 w-3.5 text-accent/70" strokeWidth={1.5} aria-hidden />

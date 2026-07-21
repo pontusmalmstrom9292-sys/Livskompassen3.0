@@ -25,7 +25,7 @@
   .mabra-hub-collapsible__meta,
   .calm-collapsible__meta {
     @apply text-[10px] tabular-nums text-text-dim;
-    color: color-mix(in srgb, var(--text-dim) 86%, #e2e8f0);
+    color: color-mix(in srgb, var(--text-dim) 86%, var(--text-muted));
   }
 
   .mabra-hub-collapsible__chevron,
@@ -41,5 +41,14 @@
   .mabra-hub-collapsible__body,
   .calm-collapsible__body {
     @apply border-t border-border-strong/60 px-3 pb-3 pt-2;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .mabra-hub-collapsible__chevron,
+    .calm-collapsible__chevron {
+      transition: none;
+    }
   }
 }

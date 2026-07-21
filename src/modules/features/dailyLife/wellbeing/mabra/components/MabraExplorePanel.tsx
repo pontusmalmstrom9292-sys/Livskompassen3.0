@@ -222,18 +222,19 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
       ) : null}
       <p className="mb-2 text-xs text-text-dim">{COPY.filterHint}</p>
 
-      <div className="mb-4 flex flex-wrap gap-2">
+      <div className="mb-4 flex flex-wrap gap-2" role="group" aria-label="Filter för veckoutmaning">
         {FILTER_OPTIONS.map((opt) => {
           const active = filters.includes(opt.id);
           return (
             <button
               key={opt.id}
               type="button"
+              aria-pressed={active}
               onClick={() => toggleFilter(opt.id)}
               className={
                 active
-                  ? 'rounded-xl border border-accent/40 bg-surface-3 px-3 py-1.5 text-xs text-accent'
-                  : 'rounded-xl border border-border bg-surface-2 px-3 py-1.5 text-xs text-text-muted hover:bg-surface-3'
+                  ? 'inline-flex min-h-11 items-center rounded-xl border border-accent/40 bg-surface-3 px-3 text-xs text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55'
+                  : 'inline-flex min-h-11 items-center rounded-xl border border-border bg-surface-2 px-3 text-xs text-text-muted hover:bg-surface-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55'
               }
             >
               {opt.label}
@@ -242,7 +243,7 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
         })}
       </div>
 
-      {saveError && <p className="mb-3 text-xs text-amber-400/90">{saveError}</p>}
+      {saveError && <p className="mb-3 text-xs text-amber-300/90">{saveError}</p>}
 
       {done ? (
         <div className="space-y-2 text-center">
