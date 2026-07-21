@@ -14,7 +14,6 @@ import { WidgetButton } from '../components/WidgetButton';
 import { bootCompanionSurface } from '../core/bootCompanionSurface';
 import { subscribeWidgetCache } from '../core/WidgetCache';
 import { setWidgetModuleNavigator } from '../core/WidgetRouter';
-import { WidgetPalette } from '../core/WidgetTheme';
 import { useCompanionSurface } from '../smart/useCompanionSurface';
 import { readCompanionAiSignals } from '../smart/readCompanionSignals';
 import {

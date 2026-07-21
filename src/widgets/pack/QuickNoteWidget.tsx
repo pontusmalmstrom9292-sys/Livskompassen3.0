@@ -10,7 +10,7 @@ import { finishCompanionCapture } from '../core/finishCompanionCapture';
 import { useCompanionOnline } from '../core/useCompanionOnline';
 import { useCompanionVoiceCapture } from '../core/useCompanionVoiceCapture';
 import { queueWidgetSync } from '../core/WidgetSync';
-import { WidgetPalette, WidgetMaterial, WidgetTouch } from '../core/WidgetTheme';
+import { WidgetMaterial, WidgetTouch } from '../core/WidgetTheme';
 import { useStudioWidgetConfig } from '../studio/useStudioWidgetConfig';
 import { widgetCardClass } from '../studio/studioIdleClass';
 

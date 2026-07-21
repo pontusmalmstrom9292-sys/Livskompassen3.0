@@ -15,7 +15,6 @@ import { JournalWidget } from '../pack/JournalWidget';
 import { QuickCaptureWidget } from '../pack/QuickCaptureWidget';
 import { QuickNoteWidget } from '../pack/QuickNoteWidget';
 import { SafeHarborWidget } from '../pack/SafeHarborWidget';
-import { WidgetPalette } from '../core/WidgetTheme';
 import { useStudioWidgetConfig } from './useStudioWidgetConfig';
 import { patchWidgetStudioConfig } from './widgetStudioStore';
 
