@@ -60,3 +60,7 @@
 - Fil: homeProactiveTriggers + compassWidgetLabels (`eveningWeakDimensionPrompt`)
 - Unlock/relock: MOD-CORE-MINNE
 - Smoke: copy-audit, build, predeploy:build, minnes-arkitekt, adaptation, orkester
+
+### design-debt-metrics-update — PASS (2026-07-21)
+- docs/DASHBOARD.md: DS imports 267, btnPill/dsBtn 0, adHoc 3, indexCssLoc 61
+- Smoke: design-debt, build
