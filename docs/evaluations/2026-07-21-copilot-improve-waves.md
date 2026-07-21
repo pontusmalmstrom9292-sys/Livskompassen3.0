@@ -179,3 +179,9 @@
 ### grans-biff-sheet-polish — PASS (YOLO v9)
 - BiffPublicPanel: EmptyState tom hint, aria-invalid, focus-visible on textarea/link
 - Smoke: build, grans, biff-rewrite PASS
+
+
+### contrast-navy-glass-audit — PASS (YOLO v9)
+- Body/lead text-text-dim → text-text-muted on glass hubs (Hamn, Hem, Speglar ACT)
+- Documented in DASHBOARD
+- Smoke: design-modules, locked-ux, build PASS

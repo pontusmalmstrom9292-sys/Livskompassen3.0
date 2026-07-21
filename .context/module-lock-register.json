@@ -137,7 +137,7 @@
       ],
       "snapshotKey": null,
       "lockedAt": "2026-07-21",
-      "lockedCommit": "31fcfcd4d",
+      "lockedCommit": "2edf0ce68",
       "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
       "unlockedAt": "2026-07-21"
     },
@@ -392,7 +392,7 @@
       ],
       "snapshotKey": null,
       "lockedAt": "2026-07-21",
-      "lockedCommit": "5d890aec5",
+      "lockedCommit": "2edf0ce68",
       "unlockedAt": "2026-07-21",
       "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md"
     },

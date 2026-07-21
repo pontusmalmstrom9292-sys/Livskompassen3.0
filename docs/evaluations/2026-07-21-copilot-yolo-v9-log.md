@@ -18,3 +18,4 @@
 | 2026-07-21T12:57:58.000Z | custom-modules-ui-polish | PASS | build, custom-modules, widgets | calm-card + eyebrow + preview |
 | 2026-07-21T12:59:00.000Z | sos-akut-landing-polish | PASS | build, locked-ux, design-modules | AkutLanding calm-card + large CTAs |
 | 2026-07-21T13:01:06.000Z | grans-biff-sheet-polish | PASS | build, grans, biff-rewrite | EmptyState + textarea aria-invalid/focus |
+| 2026-07-21T13:02:33.000Z | contrast-navy-glass-audit | PASS | design-modules, locked-ux, build | dim→muted body on glass (8 files) |
