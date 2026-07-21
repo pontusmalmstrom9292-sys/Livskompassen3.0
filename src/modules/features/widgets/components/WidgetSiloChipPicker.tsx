@@ -50,7 +50,7 @@ export function WidgetSiloChipPicker({ value, onChange }: Props) {
             variant={value === chip.id ? 'accent' : 'ghost'}
             aria-checked={value === chip.id}
             onClick={() => onChange(chip.id)}
-            className="px-3 py-1.5 text-xs"
+            className="min-h-11 px-3 text-xs"
           >
             {chip.label}
           </WidgetButton>

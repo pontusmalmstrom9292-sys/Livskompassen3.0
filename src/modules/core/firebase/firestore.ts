@@ -829,15 +829,21 @@ export async function saveUserWidget(
 ): Promise<string> {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.user_widgets);
   const ref = collection(db, FIRESTORE_COLLECTIONS.user_widgets);
+  const slotId = widget.slotId ?? null;
+  const pinnedToHome = Boolean(widget.pinnedToHome || slotId);
   const docRef = await guardedAddDoc(
     ref,
-    withUserId(userId, {
+    withUserId(userId, omitUndefinedFields({
       type: widget.type,
       title: widget.title.slice(0, 100),
-      pinnedToHome: widget.pinnedToHome,
+      pinnedToHome,
       order: widget.order,
-      config: widget.config,
-    })
+      config: widget.config ?? {},
+      schemaVersion: widget.schemaVersion ?? 1,
+      stylePreset: widget.stylePreset ?? null,
+      slotId,
+      status: widget.status ?? 'active',
+    }))
   );
   return docRef.id;
 }
@@ -855,6 +861,46 @@ export async function updateUserWidgetConfig(
   });
 }
 
+export type UserWidgetMetaPatch = Partial<
+  Pick<
+    UserWidget,
+    'title' | 'order' | 'pinnedToHome' | 'slotId' | 'status' | 'schemaVersion' | 'stylePreset' | 'config'
+  >
+>;
+
+/** Explicit meta-update (pin/rename/reorder/style) — type/userId/ownerId immutable. */
+export async function updateUserWidgetMeta(
+  userId: string,
+  widgetId: string,
+  patch: UserWidgetMetaPatch
+): Promise<void> {
+  assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.user_widgets);
+  const ref = doc(db, FIRESTORE_COLLECTIONS.user_widgets, widgetId);
+  const snap = await getDoc(ref);
+  if (!snap.exists() || snap.data().ownerId !== userId) {
+    throw new Error('Modulen hittades inte eller tillhör inte ditt konto.');
+  }
+  const next: Record<string, unknown> = { updatedAt: serverTimestamp() };
+  if (patch.title !== undefined) next.title = patch.title.slice(0, 100);
+  if (patch.order !== undefined) next.order = patch.order;
+  if (patch.slotId !== undefined) {
+    next.slotId = patch.slotId;
+    next.pinnedToHome = patch.pinnedToHome ?? Boolean(patch.slotId);
+  } else if (patch.pinnedToHome !== undefined) {
+    next.pinnedToHome = patch.pinnedToHome;
+  }
+  if (patch.status !== undefined) next.status = patch.status;
+  if (patch.schemaVersion !== undefined) next.schemaVersion = patch.schemaVersion;
+  if (patch.stylePreset !== undefined) next.stylePreset = patch.stylePreset;
+  if (patch.config !== undefined) next.config = patch.config;
+  await guardedUpdateDoc(ref, next);
+}
+
+/** Soft-lock — archive-first (W5). Hard delete kräver archived status i rules. */
+export async function archiveUserWidget(userId: string, widgetId: string): Promise<void> {
+  await updateUserWidgetMeta(userId, widgetId, { status: 'archived' });
+}
+
 export async function deleteUserWidget(userId: string, widgetId: string): Promise<void> {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.user_widgets);
   const ref = doc(db, FIRESTORE_COLLECTIONS.user_widgets, widgetId);
@@ -862,7 +908,37 @@ export async function deleteUserWidget(userId: string, widgetId: string): Promis
   if (!snap.exists() || snap.data().ownerId !== userId) {
     throw new Error('Modulen hittades inte eller tillhör inte ditt konto.');
   }
+  const status = snap.data().status;
+  if (status && status !== 'archived') {
+    throw new Error('Arkivera modulen först innan permanent borttagning.');
+  }
   await guardedDeleteDoc(ref);
+}
+
+function mapUserWidgetRow(id: string, userId: string, data: Record<string, unknown>): UserWidgetRow {
+  const slotId = (data.slotId as UserWidget['slotId']) ?? null;
+  const pinnedToHome = Boolean(data.pinnedToHome) || Boolean(slotId);
+  const schemaRaw = data.schemaVersion;
+  const schemaVersion: UserWidget['schemaVersion'] =
+    schemaRaw === 2 || schemaRaw === '2' ? 2 : 1;
+  const status: UserWidget['status'] =
+    data.status === 'archived' ? 'archived' : 'active';
+  return {
+    id,
+    userId: String(data.userId ?? userId),
+    ownerId: String(data.ownerId ?? userId),
+    type: data.type as UserWidget['type'],
+    title: String(data.title ?? ''),
+    pinnedToHome,
+    order: Number(data.order ?? 0),
+    schemaVersion,
+    stylePreset: (data.stylePreset as UserWidget['stylePreset']) ?? null,
+    slotId,
+    status,
+    config: (data.config ?? {}) as UserWidget['config'],
+    createdAt: normalizeCreatedAt(data.createdAt),
+    updatedAt: data.updatedAt != null ? normalizeCreatedAt(data.updatedAt) : undefined,
+  };
 }
 
 export function subscribeUserWidgets(
@@ -874,20 +950,7 @@ export function subscribeUserWidgets(
   return onSnapshot(
     q,
     (snap) => {
-      const rows = snap.docs.map((d) => {
-        const data = d.data();
-        return {
-          id: d.id,
-          userId: String(data.userId ?? userId),
-          ownerId: String(data.ownerId ?? userId),
-          type: data.type as UserWidget['type'],
-          title: String(data.title ?? ''),
-          pinnedToHome: Boolean(data.pinnedToHome),
-          order: Number(data.order ?? 0),
-          config: (data.config ?? {}) as UserWidget['config'],
-          createdAt: normalizeCreatedAt(data.createdAt),
-        } as UserWidgetRow;
-      });
+      const rows = snap.docs.map((d) => mapUserWidgetRow(d.id, userId, d.data() as Record<string, unknown>));
       onData(rows.sort((a, b) => a.order - b.order));
     },
     () => onData([])

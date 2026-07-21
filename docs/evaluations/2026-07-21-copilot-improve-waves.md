@@ -38,4 +38,6 @@
 
 | grans-biff-polish | Grey Rock hints, 44px, tokens/Pansar | BiffPublicPanel, GlobalPansarView | build, grans, predeploy:build | PASS |
 
+| widget-board-polish | Capacity hints, style preview, CRUD archive | WidgetModuler*, capacity, presets, firestore helpers | build, widgets, custom-modules, predeploy:build | PASS |
+
 > Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.

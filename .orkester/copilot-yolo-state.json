@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T10:52:35.000Z",
-  "currentTaskId": "widget-board-polish",
+  "updatedAt": "2026-07-21T10:54:52.000Z",
+  "currentTaskId": "superdagbok-polish",
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
     "ui-polish-v2-vardagen",
@@ -29,7 +29,8 @@
     "inkast-capture-polish",
     "onboarding-barnporten-polish",
     "zen-resurser-overlay-polish",
-    "grans-biff-polish"
+    "grans-biff-polish",
+    "widget-board-polish"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
