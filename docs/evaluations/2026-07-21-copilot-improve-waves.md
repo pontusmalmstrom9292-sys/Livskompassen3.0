@@ -28,4 +28,6 @@
 
 | oracle-dashboard-polish | Oracle tokens + EmptyState + reduced-motion | OracleDashboard, DayForensics, CapacityChart | build, orkester, predeploy:build | PASS |
 
+| morning-compass-polish | Step-indikatorer, Enter/ArrowDown, calm-scroll, 44px | MorningCompass.tsx | build, compass, locked-ux, predeploy:build | PASS |
+
 > Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.
