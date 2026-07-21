@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { useStore } from '@/core/store';
 import {
   LIFE_HUB_PRESETS,
@@ -67,6 +68,7 @@ export function ProjektMaterialPackPage() {
   const [shortcuts, setShortcuts] = useState<MaterialShortcut[]>([]);
   const [saved, setSaved] = useState(false);
   const [hasOverride, setHasOverride] = useState(false);
+  const [hydrated, setHydrated] = useState(false);
 
   const availableHubs = materialPackHubsForPreset(presetId, user?.uid);
   const activePreset = LIFE_HUB_PRESETS.find((p) => p.id === presetId)!;
@@ -104,11 +106,13 @@ export function ProjektMaterialPackPage() {
     if (!user) {
       setShortcuts(getDefaultMaterialShortcuts(presetId, hub));
       setHasOverride(false);
+      setHydrated(true);
       return;
     }
     const override = getMaterialPackOverride(user.uid, presetId, hub);
     setHasOverride(!!override);
     setShortcuts(override ?? getDefaultMaterialShortcuts(presetId, hub));
+    setHydrated(true);
   }, [user, presetId, hub]);
 
   const persist = (next: MaterialShortcut[]) => {
@@ -170,13 +174,29 @@ export function ProjektMaterialPackPage() {
           </p>
         ) : (
           <>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2" role="tablist" aria-label="MaterialPack-hub">
               {availableHubs.map((h) => (
-                <Button key={h} type="button" variant={hub === h ? 'accent' : 'ghost'} className="text-xs" onClick={() => setHub(h)}>
+                <Button
+                  key={h}
+                  type="button"
+                  role="tab"
+                  aria-selected={hub === h}
+                  variant={hub === h ? 'accent' : 'ghost'}
+                  className="min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+                  onClick={() => {
+                    setHydrated(false);
+                    setHub(h);
+                  }}
+                >
                   {HUB_LABELS[h]}
                 </Button>
               ))}
             </div>
+
+            {!hydrated ? (
+              <HubPanelSkeleton label="Laddar genvägar…" lines={4} />
+            ) : (
+            <>
 
             <p className="text-xs text-text-dim">
               {hasOverride ? 'Egna genvägar (synkas mellan enheter).' : 'Standardgenvägar från appen.'}
@@ -277,6 +297,8 @@ export function ProjektMaterialPackPage() {
                 />
               </div>
             </section>
+            </>
+            )}
           </>
         )}
       </div>

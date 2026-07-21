@@ -50,7 +50,7 @@ function ProjectRow({
     <div className="elongated-module elongated-module--gold flex items-center gap-2 p-4">
       <Link
         to={`/admin/projects/${project.id}`}
-        className="flex min-w-0 flex-1 items-center gap-3"
+        className="flex min-w-0 flex-1 items-center gap-3 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
       >
         <Icon className="h-5 w-5 shrink-0 text-accent" />
         <span className="min-w-0 flex-1">
@@ -67,7 +67,7 @@ function ProjectRow({
         type="button"
         disabled={busy}
         onClick={() => (isArchived ? onRestore(project) : onArchive(project))}
-        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-text-muted transition hover:text-accent disabled:opacity-50"
+        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-text-muted transition hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-50"
         aria-label={isArchived ? `Återställ ${project.title}` : `Arkivera ${project.title}`}
         title={isArchived ? 'Återställ' : 'Arkivera'}
       >
@@ -141,7 +141,11 @@ export function ProjektHubPage() {
             </ButtonLink>
           )}
 
-          {user && loading && <HubPanelSkeleton label="Laddar projekt…" lines={3} />}
+          {user && loading && (
+            <div aria-busy="true" aria-live="polite">
+              <HubPanelSkeleton label="Laddar projekt…" lines={3} />
+            </div>
+          )}
 
           {showStatusTabs && (
             <TabBar<ProjectStatus>
@@ -161,7 +165,7 @@ export function ProjektHubPage() {
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Sök bland projekt…"
                 aria-label="Sök bland projekt"
-                className="input-glass w-full pl-9 text-sm"
+                className="input-glass min-h-11 w-full pl-9 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               />
             </label>
           )}

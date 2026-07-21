@@ -112,3 +112,5 @@
 | hamn-biff-epistemic-polish | epistemic hints, upload copy, 44px calm cards | BiffPublicPanel, BiffTriagePanel, TheoryWithoutEvidenceBadge, TryggHamnHub, HamnTaktikLexikonBro, hamnCopy, biff-triage.css | build, hamn, epistemic-guard, grans, predeploy:build | PASS |
 
 | journal-wizard-polish | wizard progress, Enter/Esc keyboard nav, tab a11y, media caption hint | DagbokWizardProgress, DagbokPage, ConfirmStep, MoodStep, ReflectionStep, JournalDetailsPanel, reflektion-panel.css | build, journal-2d, journal-23e, media-attach, predeploy:build | PASS |
+
+| projects-hub-polish | inline media validation, HubPanelSkeleton, focus/aria on hub pages | ProjektHubPage, ProjektNyPage, ProjektMaterialPackPage | build, projects, projekt-regler, predeploy:build | PASS |

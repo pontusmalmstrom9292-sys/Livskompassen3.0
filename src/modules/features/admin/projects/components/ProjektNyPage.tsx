@@ -3,6 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { CheckSquare, FileText, Image, List, Film } from 'lucide-react';
 import { HubPageShell } from '@/core/layout/HubPageShell';
 import { GoraHubTabBar } from '@/core/navigation/GoraHubTabBar';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { useStore } from '@/core/store';
 import { uploadProjectMedia } from '@/core/firebase/storage';
 import { createProject } from '../api/projectsApi';
@@ -35,6 +36,8 @@ export function ProjektNyPage() {
   const [error, setError] = useState<string | null>(null);
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [mediaCaption, setMediaCaption] = useState('');
+  const [mediaTouched, setMediaTouched] = useState(false);
+  const [autoStarting, setAutoStarting] = useState(false);
   const preselected = parseBlockType(searchParams.get('type'));
   const fromWidget = searchParams.get('from') === 'widget';
 
@@ -123,8 +126,12 @@ export function ProjektNyPage() {
   useEffect(() => {
     if (!preselected || preselected === 'image' || preselected === 'video') return;
     if (!user || saving) return;
-    void startProject(preselected);
+    setAutoStarting(true);
+    void startProject(preselected).finally(() => setAutoStarting(false));
   }, [preselected, user, saving, startProject]);
+
+  const mediaMissing = mediaTouched && !mediaFile;
+  const canCreateMediaProject = Boolean(mediaFile) && !saving && Boolean(user);
 
   if (preselected === 'image' || preselected === 'video') {
     return (
@@ -139,7 +146,20 @@ export function ProjektNyPage() {
             {error}
           </p>
         )}
-        <ProjectMediaPicker disabled={saving || !user} acceptVideo={preselected === 'video'} onPick={setMediaFile} />
+        <ProjectMediaPicker
+          disabled={saving || !user}
+          acceptVideo={preselected === 'video'}
+          onPick={(file) => {
+            setMediaTouched(true);
+            setMediaFile(file);
+            if (file) setError(null);
+          }}
+        />
+        {mediaMissing && (
+          <p className="mt-2 text-sm text-danger" role="alert" id="projekt-media-error">
+            Välj en fil innan du skapar projektet.
+          </p>
+        )}
         <textarea
           className="input-glass mt-3 min-h-[4.5rem] w-full text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           rows={2}
@@ -147,15 +167,20 @@ export function ProjektNyPage() {
           value={mediaCaption}
           onChange={(e) => setMediaCaption(e.target.value)}
           aria-label="Beskrivning (valfritt)"
+          aria-describedby={mediaMissing ? 'projekt-media-error' : undefined}
           disabled={saving || !user}
         />
         <Button
           type="button"
-          disabled={saving || !user || !mediaFile}
+          disabled={!canCreateMediaProject}
           variant="accent"
-          className="--accent mt-4 min-h-11 text-sm"
+          className="--accent mt-4 min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           aria-busy={saving}
-          onClick={() => void startProject(preselected)}
+          onClick={() => {
+            setMediaTouched(true);
+            if (!mediaFile) return;
+            void startProject(preselected);
+          }}
         >
           {saving ? 'Skapar…' : 'Skapa projekt med fil'}
         </Button>
@@ -173,6 +198,11 @@ export function ProjektNyPage() {
       lead="Välj typ. Uppgifter med status hamnar alltid i Handling."
     >
       <GoraHubTabBar />
+      {autoStarting && (
+        <div className="mb-3" aria-busy="true" aria-live="polite">
+          <HubPanelSkeleton label="Skapar projekt…" lines={2} />
+        </div>
+      )}
       {error && (
         <p className="mb-3 text-sm text-danger" role="alert" aria-live="polite">
           {error}
@@ -184,14 +214,14 @@ export function ProjektNyPage() {
         </p>
       )}
 
-      <div className="home-module-stack" role="list" aria-label="Projekttyper">
+      <div className="home-module-stack" role="list" aria-label="Projekttyper" aria-busy={autoStarting || saving}>
         {PICKER.map((item) => {
           const Icon = item.icon;
           return (
             <button
               key={item.id}
               type="button"
-              disabled={saving || !user}
+              disabled={saving || !user || autoStarting}
               aria-label={item.label}
               aria-busy={saving}
               className="elongated-module elongated-module--gold flex min-h-11 w-full items-center gap-3 p-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60"
