@@ -104,3 +104,10 @@
 - Manuell G85 kvar
 
 **Verdict:** GO — kö klar (hosting-deploy SKIP tills Pontus OK).
+
+### hosting-deploy-wave — PASS (2026-07-21)
+- smoke:predeploy:build PASS
+- `firebase deploy --only hosting` Job 1784637432301 SUCCESS
+- Live: https://gen-lang-client-0481875058.web.app
+
+**Verdict:** GO — YOLO v8-kö helt klar.

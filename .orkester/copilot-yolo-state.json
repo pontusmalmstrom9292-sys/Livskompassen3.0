@@ -1,7 +1,7 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T12:25:04.000Z",
-  "updatedAt": "2026-07-21T12:31:02.000Z",
+  "updatedAt": "2026-07-21T12:38:14.000Z",
   "currentTaskId": null,
   "completedTaskIds": [
     "emotional-memory-polish",
@@ -12,11 +12,10 @@
     "focus-visible-quickwin",
     "lazy-routes-vardagen-hjartat",
     "hub-eyebrow-polish",
-    "g85-friction-d4"
-  ],
-  "skippedTaskIds": [
+    "g85-friction-d4",
     "hosting-deploy-wave"
   ],
+  "skippedTaskIds": [],
   "failedTaskIds": [],
   "taskOrder": [
     "ekonomi-panels-deep-polish",
