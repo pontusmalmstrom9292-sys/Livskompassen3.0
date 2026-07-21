@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { BarChart3 } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
 import { countPlanningStats } from '../utils/planningDueDate';
 
@@ -9,7 +10,7 @@ export function PlaneringFramstegPanel() {
   const stats = useMemo(() => countPlanningStats(tasks), [tasks]);
 
   if (loading) {
-    return <p className="text-sm text-text-dim">Laddar…</p>;
+    return <HubPanelSkeleton label="Laddar framsteg…" lines={3} />;
   }
 
   const rows = [

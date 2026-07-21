@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { Brain, ListTodo, ToggleLeft, ToggleRight } from 'lucide-react';
 import { Button } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { KANBAN_COLUMNS } from '../constants';
 import { usePlanningTasks } from '../hooks/usePlanningTasks';
 import { useCognitiveGuard } from '../hooks/useCognitiveGuard';
@@ -108,7 +109,7 @@ export function PlanningKanbanBoard() {
   }
 
   if (loading) {
-    return <p className="text-sm text-text-dim">Laddar uppgifter…</p>;
+    return <HubPanelSkeleton label="Laddar uppgifter…" lines={4} />;
   }
 
   return (
