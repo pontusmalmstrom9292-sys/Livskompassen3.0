@@ -126,3 +126,9 @@
 ### hub-eyebrow-sweep-remaining — PASS (YOLO v9)
 - 8 hub/panel files → textStyles.eyebrow
 - Smoke: design-modules, build PASS
+
+
+### empty-state-sweep-valv-familjen — PASS (YOLO v9)
+- EmptyState in Barnfokus, FamiljenMonster, VitRecent, BiffTriage×2, Dossier, VaultMonster
+- Unlock via ui-polish-waves; re-lock MOD-FAM-* + MOD-VALV-HUB
+- Smoke: build, locked-ux, children, hamn PASS

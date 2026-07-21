@@ -1,12 +1,13 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T12:39:16.000Z",
-  "updatedAt": "2026-07-21T12:44:06.000Z",
-  "currentTaskId": "empty-state-sweep-valv-familjen",
+  "updatedAt": "2026-07-21T12:47:38.000Z",
+  "currentTaskId": "form-label-a11y-sweep",
   "completedTaskIds": [
     "g85-friction-d5-prep",
     "adhoc-dialog-audit",
-    "hub-eyebrow-sweep-remaining"
+    "hub-eyebrow-sweep-remaining",
+    "empty-state-sweep-valv-familjen"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
