@@ -33,12 +33,12 @@ type LauncherCardDef = {
 };
 
 const LAUNCHER_CARD_CLASS =
-  'liv-launcher-card calm-card text-left transition-colors min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-2';
+  'liv-launcher-card calm-card text-left transition-colors min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55';
 
 const GLOW_CLASS: Record<CalmCardGlow, string> = {
   gold: 'glow-bottom-gold',
   blue: 'glow-bottom-gold',
-  green: 'glow-bottom-gold',
+  green: 'glow-bottom-green',
   indigo: 'glow-bottom-gold',
 };
 

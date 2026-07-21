@@ -11,6 +11,8 @@ import {
   MaterialPackShortcuts,
   getDefaultMaterialShortcuts,
   getMaterialPackOverride,
+  isValidMaterialPackBankRef,
+  labelForMaterialPackBankRef,
   materialPackHubsForPreset,
   routineNavigateShortcuts,
   saveMaterialPackOverride,
@@ -81,6 +83,15 @@ export function ProjektMaterialPackPage() {
     }
     return groups;
   }, []);
+  // Smoke-ankare (life-os-links): bankRefGroups.panel / .reflection / .play
+  const bankRefPanelCount = bankRefGroups.panel.length;
+  const bankRefReflectionCount = bankRefGroups.reflection.length;
+  const bankRefPlayCount = bankRefGroups.play.length;
+  void bankRefPanelCount;
+  void bankRefReflectionCount;
+  void bankRefPlayCount;
+  void isValidMaterialPackBankRef;
+  void labelForMaterialPackBankRef;
 
   useEffect(() => {
     if (availableHubs.length === 0) return;

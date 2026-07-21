@@ -102,3 +102,5 @@
 | valv-monster-autonomous-polish | Mönster bar a11y + AutonomousArchive tokens | VaultMonsterPanel, AutonomousArchivePanel | build, valv, pattern-library, vault-worm, predeploy:build | PASS |
 
 | reflection-summary-polish | tokens + reduced-motion Daily/Weekly summary | DailySummaryCard, WeeklySummary | build, locked-ux, design-modules, predeploy:build | PASS |
+
+| launcher-shell-polish | green glow + focus + life-os-links smoke-ankare | LivLauncherGrid, obsidian-calm-shells, ProjektMaterialPackPage | build, locked-ux, life-os-links, predeploy:build | PASS |
