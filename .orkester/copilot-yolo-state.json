@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T11:32:49.000Z",
-  "currentTaskId": "emotional-memory-polish",
+  "updatedAt": "2026-07-21T11:35:38.000Z",
+  "currentTaskId": "ekonomi-panels-deep-polish",
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
     "ui-polish-v2-vardagen",
@@ -45,7 +45,9 @@
     "familjen-fysio-moment-polish"
   ],
   "skippedTaskIds": [],
-  "failedTaskIds": [],
+  "failedTaskIds": [
+    "emotional-memory-polish"
+  ],
   "taskOrder": [
     "build-fix-home-hub-boundary",
     "ui-polish-v2-vardagen",
