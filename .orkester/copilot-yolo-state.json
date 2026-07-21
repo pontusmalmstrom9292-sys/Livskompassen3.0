@@ -1,11 +1,12 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T09:48:00.000Z",
-  "currentTaskId": "ui-polish-v3-hjartat",
+  "updatedAt": "2026-07-21T09:55:00.000Z",
+  "currentTaskId": "ui-polish-v4-familjen",
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
-    "ui-polish-v2-vardagen"
+    "ui-polish-v2-vardagen",
+    "ui-polish-v3-hjartat"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
