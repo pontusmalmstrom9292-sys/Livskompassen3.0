@@ -88,7 +88,7 @@ export function PlaneringModulePinPanel({ title, content, onPinned }: Props) {
   };
 
   return (
-    <section className="planering-pin-panel rounded-2xl border border-border/30 bg-surface-2/40 p-4">
+    <section className="planering-pin-panel calm-card rounded-2xl border border-border/30 bg-surface-2/40 p-4">
       <div className="flex items-start justify-between gap-2">
         <div>
           <p className="flex items-center gap-1.5 text-xs uppercase tracking-wider text-accent">
@@ -104,6 +104,9 @@ export function PlaneringModulePinPanel({ title, content, onPinned }: Props) {
           variant="ghost"
           size="sm"
           className={clsx('shrink-0', open && 'text-accent')}
+          aria-expanded={open}
+          aria-controls="planering-pin-panel-form"
+          aria-label={open ? 'Stäng fäst-panel' : 'Öppna fäst-panel'}
           onClick={() => setOpen((v) => !v)}
         >
           <Plus className="h-3.5 w-3.5" />
@@ -112,7 +115,7 @@ export function PlaneringModulePinPanel({ title, content, onPinned }: Props) {
       </div>
 
       {open ? (
-        <div className="mt-3 space-y-3 border-t border-border/20 pt-3">
+        <div id="planering-pin-panel-form" className="mt-3 space-y-3 border-t border-border/20 pt-3">
           <PlaneringPinDestinationPicker
             targetId={targetId}
             layout={layout}
@@ -143,6 +146,7 @@ export function PlaneringModulePinPanel({ title, content, onPinned }: Props) {
                 variant="ghost"
                 size="sm"
                 className="shrink-0 px-2 py-1 text-[10px]"
+                aria-label={`Ta bort fäste från ${planeringPinTargetLabel(pin.targetId, pin.contextKey)}`}
                 onClick={() => handleRemove(pin.id)}
               >
                 <PinOff className="h-3 w-3" />
@@ -153,7 +157,11 @@ export function PlaneringModulePinPanel({ title, content, onPinned }: Props) {
         </ul>
       ) : null}
 
-      {message ? <p className="mt-2 text-center text-xs text-accent">{message}</p> : null}
+      {message ? (
+        <p className="mt-2 text-center text-xs text-accent" role="status" aria-live="polite">
+          {message}
+        </p>
+      ) : null}
     </section>
   );
 }

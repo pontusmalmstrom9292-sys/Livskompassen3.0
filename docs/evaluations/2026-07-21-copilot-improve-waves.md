@@ -10,3 +10,4 @@
 | ui-polish-v6-widgets-chrome | Widgets + dock + header chrome | WidgetShell.css, floating-dock.css, coreLayoutChrome.css, executive-chrome.css | build, locked-ux, design-modules, widgets, basta-dock-lock | PASS |
 | widget-home-slot-polish | UserWidget hem-slot | UserWidgetHomeSlot, HomeWidgetRenderer, normalizeUserWidget | build, custom-modules, widgets | PASS |
 | executive-home-polish | Executive hem-kort | exec-home-chrome.css, executive-chrome.css, ExecutivePlanering/Focus/DaySteps | build, locked-ux, executive-home-visual | PASS |
+| planering-pin-panel-polish | Planering pin-panel a11y | PlaneringModulePinPanel, PinnedPlaneringModuleSlot, planering.css | build, planering-superhub, locked-ux | PASS |
