@@ -7,6 +7,7 @@
 - A11y fallback: lokal `prefers-reduced-motion` + `prefers-reduced-transparency` för berörda Vardagen/MåBra/Kompass-ytor.
 - Ingen flödes-, route- eller locked UX-ändring.
 - Verification: `npm run build` PASS · `npm run smoke:locked-ux` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:mabra` PASS · `npm run smoke:predeploy:build` PASS
+- 2026-07-21 autopilot-run: samma scope re-verifierad och commit-klar för våg 2.
 
 ---
 

@@ -19,6 +19,8 @@ import { BastaDesignHome } from '../home/basta-design/BastaDesignHome';
 import { ChameleonLive } from '../home/ChameleonLive';
 import { getDefaultTarget, type ChameleonTarget } from '../home/chameleonBridge';
 import type { ChameleonZoneId } from '../home/chameleonZones';
+import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { NAV_PATHS } from '../navigation/navTruth';
 
 
 export function HomePage() {
@@ -74,66 +76,70 @@ export function HomePage() {
 
   if (bastaDesignSkin && activeZone === 'hem') {
     return (
-      <div className="home-page home-page--basta-design">
-        <BastaDesignHome
-          onCheckInSaved={() => setAdaptiveRefreshKey((k) => k + 1)}
-          developmentRefreshKey={adaptiveRefreshKey}
-        />
-      </div>
+      <HubErrorBoundary title="Hem kunde inte laddas" glow="gold" backTo={NAV_PATHS.HOME} logTag="HomePage">
+        <div className="home-page home-page--basta-design">
+          <BastaDesignHome
+            onCheckInSaved={() => setAdaptiveRefreshKey((k) => k + 1)}
+            developmentRefreshKey={adaptiveRefreshKey}
+          />
+        </div>
+      </HubErrorBoundary>
     );
   }
 
   return (
-    <div
-      className={clsx(
-        'home-page home-page--kanon home-page--scenic space-y-4 pb-32',
-        mockupSkin && 'home-page--mockup-skin',
-        executiveSkin && 'home-page--executive',
-        usesLayoutA && 'home-page--layout-a',
-      )}
-    >
-      {activeZone === 'hem' && (
-        <>
-          <HomeHeroKanon onCheckInSaved={() => setAdaptiveRefreshKey((k) => k + 1)} />
+    <HubErrorBoundary title="Hem kunde inte laddas" glow="gold" backTo={NAV_PATHS.HOME} logTag="HomePage">
+      <div
+        className={clsx(
+          'home-page home-page--kanon home-page--scenic space-y-4 pb-32',
+          mockupSkin && 'home-page--mockup-skin',
+          executiveSkin && 'home-page--executive',
+          usesLayoutA && 'home-page--layout-a',
+        )}
+      >
+        {activeZone === 'hem' && (
+          <>
+            <HomeHeroKanon onCheckInSaved={() => setAdaptiveRefreshKey((k) => k + 1)} />
 
-          {showSecondaryFeed ? (
-            <div className="mx-auto w-full max-w-2xl px-1">
-              <CalmCollapsible title="Mer för dig" meta="Valfritt" defaultOpen={false} glow="gold">
-                <div className="space-y-4 pt-1">
-                  {showAdaptiveCards ? (
-                    <AdaptiveMemoryCards refreshKey={adaptiveRefreshKey} presetId={presetId} />
-                  ) : null}
-                  {showDevelopmentRail ? (
-                    <HemV3DevelopmentRail refreshKey={adaptiveRefreshKey} />
-                  ) : null}
-                </div>
-              </CalmCollapsible>
-            </div>
-          ) : null}
+            {showSecondaryFeed ? (
+              <div className="mx-auto w-full max-w-2xl px-1">
+                <CalmCollapsible title="Mer för dig" meta="Valfritt" defaultOpen={false} glow="gold">
+                  <div className="space-y-4 pt-1">
+                    {showAdaptiveCards ? (
+                      <AdaptiveMemoryCards refreshKey={adaptiveRefreshKey} presetId={presetId} />
+                    ) : null}
+                    {showDevelopmentRail ? (
+                      <HemV3DevelopmentRail refreshKey={adaptiveRefreshKey} />
+                    ) : null}
+                  </div>
+                </CalmCollapsible>
+              </div>
+            ) : null}
 
-          {!usesLayoutA && !mockupSkin && materialEnabled(preset, 'home_inkast') && !materialEnabled(preset, 'home_hero_checkin') && isAuthenticated && (
-            <CaptureSuperModule variant="hem-capture" />
-          )}
+            {!usesLayoutA && !mockupSkin && materialEnabled(preset, 'home_inkast') && !materialEnabled(preset, 'home_hero_checkin') && isAuthenticated && (
+              <CaptureSuperModule variant="hem-capture" />
+            )}
 
-          {!mockupSkin && materialEnabled(preset, 'home_inkast') && !isAuthenticated && (
-            <CaptureSuperModule
-              variant="hem-inkast"
-              onQueued={() => navigate(VALV_SAMLA_GRANSKA_LINK)}
+            {!mockupSkin && materialEnabled(preset, 'home_inkast') && !isAuthenticated && (
+              <CaptureSuperModule
+                variant="hem-inkast"
+                onQueued={() => navigate(VALV_SAMLA_GRANSKA_LINK)}
+              />
+            )}
+          </>
+        )}
+
+        {/* Chameleon — döljs på executive hem (dashboard-kort ersätter) */}
+        {!(executiveSkin && activeZone === 'hem') ? (
+          <div className="mx-auto mt-6 w-full max-w-2xl px-1">
+            <ChameleonLive
+              target={target}
+              onTargetChange={handleTargetChange}
+              compact={activeZone === 'hem'}
             />
-          )}
-        </>
-      )}
-
-      {/* Chameleon — döljs på executive hem (dashboard-kort ersätter) */}
-      {!(executiveSkin && activeZone === 'hem') ? (
-        <div className="mx-auto w-full max-w-2xl px-1 mt-6">
-          <ChameleonLive
-            target={target}
-            onTargetChange={handleTargetChange}
-            compact={activeZone === 'hem'}
-          />
-        </div>
-      ) : null}
-    </div>
+          </div>
+        ) : null}
+      </div>
+    </HubErrorBoundary>
   );
 }

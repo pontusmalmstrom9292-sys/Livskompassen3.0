@@ -24,7 +24,8 @@ export type PlaneringTab =
   | 'framsteg'
   | 'inkorg'
   | 'regler'
-  | 'inkop';
+  | 'inkop'
+  | 'bygg';
 
 export type QuickListItem = {
   id: string;

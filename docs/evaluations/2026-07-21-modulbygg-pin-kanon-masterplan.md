@@ -2,7 +2,7 @@
 
 **Datum:** 2026-07-21  
 **Roll:** Intern arkitektur (Cursor · Composer)  
-**Status:** GODKÄND v2.2 — Pontus OK 2026-07-21 («godkänn v2.2 kör hela planen»). W0 docs pågår; ingen feature-UI än.  
+**Status:** LEVERERAD v2.2 — W0–W5 kod + rules deploy 2026-07-21. Freeport promote deferred P1. Manuell E2E + hosting kvar.  
 **Kod:** Ingen. Endast masterplan.
 
 **Källa:** Readonly-analys 2026-07-21 (dual pins, `pinnedToHome`, lock-after-build).  
@@ -255,8 +255,7 @@ Builder ska respektera `evolution_hub`:
 
 **W0 docs levererade (2026-07-21):** A + B ovan — unlock W1/W3 + schema-PMIR + frozen contract.
 
-**Nästa (feature, inte W0):** W1 kod under unlock MOD-WIDGET — types/CRUD/registry/presets.  
-Rules-deploy först efter separat «OK deploy». Ingen Hem-canvas i W1.
+**Klart:** W1–W5 + rules deploy. **Kvar (icke-blocker):** manuell E2E, hosting-deploy, Freeport promote (P1).
 
 ---
 

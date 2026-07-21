@@ -11,6 +11,11 @@
 - [ ] Hosting-deploy av UI (valfritt — när Pontus säger «OK hosting»)
 - [ ] Freeport canvas promote — deferred W5+/P1 (ej MVP-blocker)
 
+## 2026-07-21 — SAFE YOLO v2 `ui-polish-v2-vardagen` (autopilot run)
+
+- [x] Våg 2 scope klar: MåBra + Planering polish i `mabra.css`, `planering.css`, `compasses.css`, `vardagen.css` utan flödesändring.
+- [x] Verifiering körd: `build` + `smoke:locked-ux` + `smoke:design-modules` + `smoke:mabra` + `smoke:predeploy:build`.
+
 
 # Premium UI Polish — TODO
 

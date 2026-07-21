@@ -28,4 +28,4 @@ export function journalEntryDate(entry: { createdAt?: unknown }): Date {
 }
 
 export const EXEC_REFLEKTION_BG =
-  "linear-gradient(to bottom, rgba(12, 12, 14, 0.35), rgba(12, 12, 14, 0.88)), url('/design/home-hero-scenic.png')";
+  "linear-gradient(to bottom, color-mix(in srgb, var(--bg) 35%, transparent), color-mix(in srgb, var(--bg) 88%, transparent)), url('/design/home-hero-scenic.png')";

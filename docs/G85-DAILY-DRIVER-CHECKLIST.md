@@ -24,7 +24,7 @@ Kryssa **Enhetsgate** ovan dag 1. Logga sedan en rad per dag — friktion eller 
 | 2 | | |
 | 3 | | |
 | 4 | | |
-| 5 | | |
+| 5 | 2026-07-21 | Prep PASS (cap:sync:prod + android smokes YOLO v9) — manuell G85 mikro-check kvar |
 | 6 | | |
 | 7 | | |
 

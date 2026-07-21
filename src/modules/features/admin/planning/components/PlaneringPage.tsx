@@ -63,6 +63,11 @@ const PlaneringEmailRulesPanel = lazy(() =>
 const VerktygDrawer = lazy(() =>
   import('./VerktygDrawer').then((m) => ({ default: m.VerktygDrawer })),
 );
+const WidgetModulerBoard = lazy(() =>
+  import('@/features/widgets/components/WidgetModulerBoard').then((m) => ({
+    default: m.WidgetModulerBoard,
+  })),
+);
 const WORK_TABS = new Set<PlaneringTab>(['handling', 'fokus', 'framsteg', 'inkorg', 'regler']);
 
 function PlaneringPanelFallback() {
@@ -176,6 +181,17 @@ export function PlaneringPage() {
         return (
           <Suspense fallback={<PlaneringPanelFallback />}>
             <PlaneringEmailRulesPanel />
+          </Suspense>
+        );
+      case 'bygg':
+        return (
+          <Suspense fallback={<PlaneringPanelFallback />}>
+            <div className="space-y-3">
+              <p className="text-xs text-text-muted">
+                Bygg egna moduler — samma motor som under Widgets.
+              </p>
+              <WidgetModulerBoard />
+            </div>
           </Suspense>
         );
       default:

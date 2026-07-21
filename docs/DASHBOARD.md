@@ -1,9 +1,15 @@
+## 2026-07-21 — Premium UI Phase 0 debt baseline (YOLO v8)
+
+### Design debt (2026-07-21) — Fas 24.C baseline refresh
+- btn-pill--: **0** · ds-btn--: **0** · ad-hoc dialog: **3** · index.css LOC: **61**
+- DS imports: **268** · smoke:design-debt `2026-07-21T12:27:32.000Z`
+
 ## 2026-07-21 — Copilot YOLO improve waves (design-debt refresh)
 
 ### Design debt (2026-07-21) — polish-vågor + copy-audit PASS
 
 - indexCssLoc: **61** (mål ≤120 ✓)
-- btnPill: **0** · dsBtn: **0** · adHocDialog: **3** (sandbox×2 + ResurserOverlay locked)
+- btnPill: **0** · dsBtn: **0** · adHocDialog: **3** (home/dev×2 CustomCategoryFlow+FetchContentPacksFlow; QuickCaptureOverlay deferred — ResurserOverlay already Sheet)
 - DS imports: **267** · smoke:design-debt `2026-07-21T11:25:32.666Z`
 - copy-audit: **PASS** (KASAM → kvällscheck i proaktivt minneskort)
 - YOLO: copy-audit-quickfixes PASS · fortsätter design-debt → session-log-v2 → …
@@ -62,8 +68,8 @@
 | btn-pill-- file count | ~195 (estimated) | **0** (2026-07-21, smoke:design-debt) | 0 new after start |
 | ds-btn-- file count | ~202 (estimated) | **0** (2026-07-21, smoke:design-debt) | 0 new after start |
 | calm-card variant audit | not tracked | **PASS** (2026-06-29, smoke:calm-card-audit) | no unused variants |
-| DS import files (`@/design-system`) | ~14 | **267** (2026-07-21, smoke:design-debt) | All blocking overlays migrated |
-| ad-hoc role=dialog | ~14 | **3** (2026-07-21 — sandbox×2, ResurserOverlay locked) | ≤3 documented |
+| DS import files (`@/design-system`) | ~14 | **268** (2026-07-21, smoke:design-debt) | All blocking overlays migrated |
+| ad-hoc role=dialog | ~14 | **3** (2026-07-21 — home/dev×2 + QuickCaptureOverlay defer; ResurserOverlay=Sheet) | ≤3 documented |
 | index.css LOC | 6816 | **61** (2026-07-21, smoke:design-debt) | ≤120 ✓ |
 | smoke:design-modules | TBD | **PASS** (2026-07-09, våg 35–42) | green |
 | smoke:locked-ux | TBD | **PASS** (2026-07-09) | green |
@@ -71,7 +77,19 @@
 | `zone-valv` route chunk (js) | 768.53 kB | 2.65 kB | keep route-entry small |
 | `typecheck:core-strict` scope | core/shared/morning | core/shared/features/morning (PASS 2026-06-28) | features included |
 
-Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **Refresh 2026-07-21T11:25:32.666Z**: btnPill **0**, dsBtn **0**, adHocDialog **3**, indexCssLoc **61**, DS imports **267**. Re-run before each merge wave.
+Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **Refresh 2026-07-21T12:41:36.311Z** (YOLO v9 adhoc-dialog-audit): btnPill **0**, dsBtn **0**, adHocDialog **3** (CustomCategoryFlow, FetchContentPacksFlow, QuickCaptureOverlay — ResurserOverlay already DS Sheet; NavigationDrawer excluded/locked), indexCssLoc **61**, DS imports **268**. Re-run before each merge wave.
+
+
+### Ad-hoc dialog audit (YOLO v9 · 2026-07-21)
+
+| Fil | Status |
+|-----|--------|
+| `src/modules/core/navigation/ResurserOverlay.tsx` | **Done** — DS `Sheet` (ej ad-hoc) |
+| `src/modules/core/home/dev/CustomCategoryFlow.tsx` | **Defer** — sandbox/dev |
+| `src/modules/core/home/dev/FetchContentPacksFlow.tsx` | **Defer** — sandbox/dev |
+| `src/modules/features/voiceToVault/components/QuickCaptureOverlay.tsx` | **Defer** — Voice-to-Vault AnimatePresence overlay; migrera till Sheet i separat våg |
+| `NavigationDrawer.tsx` | **Excluded** — locked; ingen ombyggnad |
+
 
 ---
 

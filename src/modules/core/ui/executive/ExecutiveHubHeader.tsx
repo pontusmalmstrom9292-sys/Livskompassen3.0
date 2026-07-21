@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { clsx } from 'clsx';
+import { textStyles } from '@/design-system';
 
 type Props = {
   eyebrow?: string;
@@ -30,7 +31,7 @@ export function ExecutiveHubHeader({
     >
       <div className="executive-hub-header__inner">
         {eyebrow ? (
-          <p className="executive-hub-header__eyebrow font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
+          <p className={clsx('executive-hub-header__eyebrow', textStyles.eyebrow, 'text-accent')}>
             {eyebrow}
           </p>
         ) : null}

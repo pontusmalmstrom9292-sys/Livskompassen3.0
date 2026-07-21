@@ -1,59 +1,11 @@
 {
-  "version": 4,
-  "description": "Copilot YOLO-kö v4 — Fas 24.C Premium UI Phase 0, Design Bible merge, G85 friktionslogg.",
+  "version": 9,
+  "description": "Copilot YOLO-kö v9 — 23 vågor: G85 d5–d6, a11y/EmptyState/eyebrow sweeps, Speglar/Inkast/Widgets/Drogfrihet/SOS/Gräns polish, typecheck + debt + hosting. PMIR förbjudet utom hosting-deploy-v9. Locked UX struktur orörd.",
   "tasks": [
     {
-      "id": "design-bible-merge",
-      "title": "Design Bible kap 19–22 → main",
-      "plan": "PR #120 (docs/design-bible-complete): CI smoke grön → merge. Verifiera smoke:governance PASS.",
-      "smoke": ["npm run smoke:governance"],
-      "pmir": false,
-      "deploy": "none"
-    },
-    {
-      "id": "premium-ui-debt-baseline",
-      "title": "Design-debt baseline i DASHBOARD",
-      "plan": "Kör smoke:design-debt. Skriv btn-pill/ds-metrics till docs/DASHBOARD.md (Phase 0). Inga kodändringar utöver dashboard.",
-      "smoke": ["npm run smoke:design-debt", "npm run build"],
-      "pmir": false,
-      "deploy": "none"
-    },
-    {
-      "id": "focus-visible-quickwin",
-      "title": "Focus-visible polish (Quick win #2)",
-      "plan": "premium-polish.css — enhetlig focus-visible enligt design-calm. Minimal diff.",
-      "smoke": ["npm run smoke:design-modules", "npm run smoke:locked-ux"],
-      "pmir": false,
-      "deploy": "hosting"
-    },
-    {
-      "id": "lazy-routes-vardagen-hjartat",
-      "title": "Lazy route-entry /vardagen + /hjartat",
-      "plan": "Fortsätt vite-bundle-split: dynamic import för VardagenPage och Hjartat-routes. Verifiera zone-chunks i build.",
-      "smoke": ["npm run build", "npm run smoke:locked-ux"],
-      "pmir": false,
-      "deploy": "hosting"
-    },
-    {
-      "id": "hub-eyebrow-polish",
-      "title": "Hub shells → textStyles.eyebrow",
-      "plan": "Quick win #5: ModuleShell/HubPageShell eyebrow via textStyles.eyebrow — tokens, ingen ny CSS-fil.",
-      "smoke": ["npm run smoke:design-modules", "npm run smoke:orkester"],
-      "pmir": false,
-      "deploy": "hosting"
-    },
-    {
-      "id": "hosting-deploy-wave",
-      "title": "Deploy hosting efter polish-våg",
-      "plan": "smoke:predeploy:build PASS. Deploy hosting (Pontus OK). Logga deploy-rad. Ej functions utan PMIR.",
-      "smoke": ["npm run smoke:predeploy:build"],
-      "pmir": true,
-      "deploy": "hosting"
-    },
-    {
-      "id": "g85-friction-d4",
-      "title": "G85 friktionslogg dag 4 + prod-sync verify",
-      "plan": "docs/evaluations/2026-06-25-g85-daily-driver.md — förbered dag 4-rad. cap:sync:prod + smoke:android-prod-sync. Manuell test på G85 kvar.",
+      "id": "g85-friction-d5-prep",
+      "title": "G85 friktionslogg dag 5 — prep + prod-sync",
+      "plan": "Append dag 5-rad i docs/evaluations/2026-06-25-g85-daily-driver.md + G85-DAILY-DRIVER-CHECKLIST. Kör cap:sync:prod + smoke:android-platform + smoke:android-prod-sync. Manuell G85 kvar till Pontus.",
       "smoke": [
         "npm run cap:sync:prod",
         "npm run smoke:android-platform",
@@ -61,6 +13,263 @@
       ],
       "pmir": false,
       "deploy": "none"
+    },
+    {
+      "id": "adhoc-dialog-audit",
+      "title": "Ad-hoc dialog audit (3 kvar)",
+      "plan": "Dokumentera de 3 ad-hoc role=dialog (sandbox×2 + ResurserOverlay) i DASHBOARD. Om ResurserOverlay kan migreras till DS Modal/Sheet utan locked UX-brott — gör minimal migration; annars dokumentera defer. Ingen NavigationDrawer-ombyggnad.",
+      "smoke": [
+        "npm run smoke:design-debt",
+        "npm run smoke:design-modules",
+        "npm run smoke:locked-ux"
+      ],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "hub-eyebrow-sweep-remaining",
+      "title": "Hub eyebrow sweep — kvarvarande hårdkod",
+      "plan": "Hitta hub/panel-titlar med hårdkodad uppercase tracking som inte använder textStyles.eyebrow / hubHeaderClasses. Byt till tokens i max 8 filer. Ingen flödesändring.",
+      "smoke": [
+        "npm run smoke:design-modules",
+        "npm run build"
+      ],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "empty-state-sweep-valv-familjen",
+      "title": "EmptyState sweep — Valv + Familjen",
+      "plan": "Byt råa tomma <p> mot EmptyState i Valv/Familjen listpaneler (Mönster-listor, barnlistor, hamn-tom). Unlock via 2026-07-21-unlock-ui-polish-waves.md. Locked UX struktur orörd.",
+      "smoke": [
+        "npm run build",
+        "npm run smoke:locked-ux",
+        "npm run smoke:children",
+        "npm run smoke:hamn"
+      ],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "form-label-a11y-sweep",
+      "title": "Form label + aria-invalid sweep",
+      "plan": "I Ekonomi/Inkast/Dagbok-input: säkerställ label htmlFor, aria-invalid på fel, role=alert på felmeddelanden. Max 10 filer. Touch min-h-11.",
+      "smoke": [
+        "npm run build",
+        "npm run smoke:ekonomi",
+        "npm run smoke:inkast",
+        "npm run smoke:design-modules"
+      ],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "speglar-evidence-polish",
+      "title": "Speglar evidence-länkar polish",
+      "plan": "Speglar/evidence UI: 44px targets, textStyles, EmptyState, focus-visible. Ingen WORM/backend-ändring.",
+      "smoke": [
+        "npm run build",
+        "npm run smoke:speglar",
+        "npm run smoke:locked-ux"
+      ],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "inkast-review-queue-polish",
+      "title": "Inkast review-kö polish",
+      "plan": "InboxReviewQueue + capturer: EmptyState, skeleton, focus, tokens. DCAP/routing orörd.",
+      "smoke": [
+        "npm run build",
+        "npm run smoke:inkast",
+        "npm run smoke:inkast-fas2"
+      ],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "widget-action-dashboard-polish",
+      "title": "Åtgärder-widget / Action Dashboard polish",
+      "plan": "ActionDashboard + widget stamp/inkast tiles: touch 44px, tokens, reduced-motion. MOD-WIDGET unlock via ui-polish-waves om locked.",
+      "smoke": [
+        "npm run build",
+        "npm run smoke:widgets",
+        "npm run smoke:locked-ux"
+      ],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "fyren-edge-widget-polish",
+      "title": "Fyren Edge / röst-widget chrome polish",
+      "plan": "FyrenWidgetBar + voiceToVault overlay chrome: tokens, focus, 44px. Inga nya callables. WORM-ingest orörd.",
+      "smoke": [
+        "npm run build",
+        "npm run smoke:widgets",
+        "npm run smoke:locked-ux"
+      ],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "drogfrihet-hub-a11y-polish",
+      "title": "Drogfrihet hub a11y polish",
+      "plan": "DrogfrihetHubPage + banners: EmptyState, focus-visible, min-h-11, eyebrow tokens. Inget nytt innehåll/medicin. Unlock MOD-FAM-DROG via befintlig unlock-doc om locked.",
+      "smoke": [
+        "npm run build",
+        "npm run smoke:design-modules",
+        "npm run smoke:locked-ux"
+      ],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "custom-modules-ui-polish",
+      "title": "Egna moduler UI polish (Hem-slot + Experimentera)",
+      "plan": "UserWidgetHomeSlot + Experimentera live-preview: calm-card, EmptyState, focus. Ingen rules/Firestore-schema. smoke:custom-modules.",
+      "smoke": [
+        "npm run build",
+        "npm run smoke:custom-modules",
+        "npm run smoke:widgets"
+      ],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "sos-akut-landing-polish",
+      "title": "SOS / AkutLanding polish",
+      "plan": "AkutLanding + SOS-kontakter: stora touch, klar hierarki, tokens, reduced-motion. Inga nya krisnummer utan kanon.",
+      "smoke": [
+        "npm run build",
+        "npm run smoke:locked-ux",
+        "npm run smoke:design-modules"
+      ],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "grans-biff-sheet-polish",
+      "title": "Gräns BIFF sheet polish",
+      "plan": "BIFF/Brusfilter sheet: DS Sheet parity, focus trap, EmptyState. Ingen prompt/sharedRules-ändring.",
+      "smoke": [
+        "npm run build",
+        "npm run smoke:grans",
+        "npm run smoke:biff-rewrite"
+      ],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "contrast-navy-glass-audit",
+      "title": "Kontrast-audit navy/glass (Completion 1.4.3)",
+      "plan": "Stickprov hub-text på glass: text-text-dim → tillräcklig kontrast eller text-text-muted. Dokumentera i DASHBOARD. Max 12 CSS/TSX-filer.",
+      "smoke": [
+        "npm run smoke:design-modules",
+        "npm run smoke:locked-ux",
+        "npm run build"
+      ],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "icon-button-aria-sweep",
+      "title": "Ikonknapp aria-label sweep",
+      "plan": "Hitta <button> med bara ikon utan aria-label i src/modules (exkl sandbox). Fixa max 20 förekomster. Completion 4.1.2.",
+      "smoke": [
+        "npm run build",
+        "npm run smoke:locked-ux",
+        "npm run smoke:design-modules"
+      ],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "reduced-transparency-sweep",
+      "title": "prefers-reduced-transparency sweep",
+      "plan": "Utöka fallback för reduced-transparency i premium-polish / berörda hub-CSS (glass opacity → solid surface). Ingen layoutändring.",
+      "smoke": [
+        "npm run smoke:design-modules",
+        "npm run smoke:locked-ux",
+        "npm run smoke:obsidian-depth"
+      ],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "lazy-routes-familjen-valv-verify",
+      "title": "Lazy routes Familjen/Valv — verify + skeleton parity",
+      "plan": "Verifiera zone-familjen/zone-valv chunks. HubPanelSkeleton på Suspense-fallbacks om saknas. AppRoutes locked — rör endast pages-wrappers.",
+      "smoke": [
+        "npm run build",
+        "npm run smoke:locked-ux"
+      ],
+      "pmir": false,
+      "deploy": "hosting"
+    },
+    {
+      "id": "typecheck-core-strict-gate",
+      "title": "typecheck:core-strict gate",
+      "plan": "Kör npm run typecheck:core-strict. Fixa endast typfel i berörd scope — ingen refaktor. Dokumentera PASS i improve-waves-log.",
+      "smoke": [
+        "npm run typecheck:core-strict",
+        "npm run build"
+      ],
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "design-debt-midwave-refresh",
+      "title": "Design-debt midwave refresh",
+      "plan": "smoke:design-debt → uppdatera DASHBOARD Phase 0 current-kolumn. Inga kodändringar utöver dashboard/log.",
+      "smoke": [
+        "npm run smoke:design-debt",
+        "npm run smoke:governance"
+      ],
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "completion-criteria-checklist-sync",
+      "title": "Completion-Criteria checklist sync",
+      "plan": "Markera verifierade rutor i docs/Completion-Criteria.md mot faktisk kod/smoke (ej gissa). Uppdatera PROGRESS med rad. Ingen UI-ombyggnad.",
+      "smoke": [
+        "npm run smoke:governance",
+        "npm run smoke:predeploy:build"
+      ],
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "g85-friction-d6-prep",
+      "title": "G85 friktionslogg dag 6 — prep + sync",
+      "plan": "Samma mönster som d5: logg-rad + cap:sync:prod + android smokes. Manuell test kvar.",
+      "smoke": [
+        "npm run cap:sync:prod",
+        "npm run smoke:android-platform",
+        "npm run smoke:android-prod-sync"
+      ],
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "yolo-v9-session-log",
+      "title": "YOLO v9 sessionlogg",
+      "plan": "Skriv docs/evaluations/YYYY-MM-DD-copilot-yolo-v9-log.md med PASS/SKIP/FAIL-tabell. Synka state. Inga kodändringar.",
+      "smoke": [
+        "npm run smoke:governance"
+      ],
+      "pmir": false,
+      "deploy": "none"
+    },
+    {
+      "id": "hosting-deploy-v9",
+      "title": "Deploy hosting efter v9-vågor",
+      "plan": "smoke:predeploy:build PASS → firebase deploy --only hosting (Pontus OK i denna prompt). Ej functions/rules.",
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
+      "pmir": true,
+      "deploy": "hosting"
     }
   ]
 }

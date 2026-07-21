@@ -1,5 +1,11 @@
 import type { PlaneringPinLayoutId, PlaneringPinTargetId } from './planningPinRegistry';
 
+
+/**
+ * FREEZE (W4 · masterplan v2.2) — migrate-or-freeze.
+ * Inga nya API:er på denna localStorage-yta. Ny placement går via user_widgets.slotId.
+ * Se docs/evaluations/2026-07-21-planering-pins-migrate-freeze.md
+ */
 export type PlaneringPinContent =
   | { kind: 'list'; listId: string }
   | { kind: 'note'; body: string };
