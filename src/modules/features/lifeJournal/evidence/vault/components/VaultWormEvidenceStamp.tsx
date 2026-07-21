@@ -16,8 +16,12 @@ function formatStampDate(createdAt: string | null | undefined): string {
 /** WORM evidence stamp — server-tidsstämpel + oföränderlighetsmarkör. */
 export function VaultWormEvidenceStamp({ createdAt, compact = false }: Props) {
   return (
-    <div className="valv-worm-stamp" role="note" aria-label="Oföränderligt WORM-bevis">
-      <Lock className="valv-worm-stamp__icon text-indigo-400/70" size={12} aria-hidden />
+    <div
+      className={`valv-worm-stamp${compact ? ' valv-worm-stamp--compact' : ''}`}
+      role="note"
+      aria-label="Oföränderligt WORM-bevis"
+    >
+      <Lock className="valv-worm-stamp__icon" size={compact ? 11 : 12} aria-hidden />
       <div className="min-w-0">
         <p className="valv-log-stamp">
           WORM · SERVER-TIDSSTÄMPEL · {formatStampDate(createdAt)}
