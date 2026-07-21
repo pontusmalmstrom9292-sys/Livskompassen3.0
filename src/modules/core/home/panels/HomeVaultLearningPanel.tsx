@@ -125,7 +125,7 @@ export function HomeVaultLearningPanel({ mode, onSaved }: Props) {
           ) : (
             <p className="mt-2 font-display text-lg text-accent">{question}</p>
           )}
-          {reason && !loadingQ && <p className="mt-2 text-xs text-text-dim">{reason}</p>}
+          {reason && !loadingQ && <p className="mt-2 text-xs text-text-muted">{reason}</p>}
         </div>
 
         {mode === 'gap' && subject && (

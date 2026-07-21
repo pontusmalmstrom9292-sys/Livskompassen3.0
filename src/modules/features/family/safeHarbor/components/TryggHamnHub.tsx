@@ -55,9 +55,9 @@ function HamnBiffWorkflow({
       <BentoCard glow="indigo" className="!px-4 !py-3.5">
         <p className={textStyles.eyebrow}>Trygg hamn · BIFF</p>
         {embeddedLead ? (
-          <p className="mt-1.5 text-xs leading-relaxed text-text-dim">{HAMN_EMBEDDED_LEAD}</p>
+          <p className="mt-1.5 text-xs leading-relaxed text-text-muted">{HAMN_EMBEDDED_LEAD}</p>
         ) : (
-          <p className="mt-1.5 text-xs leading-relaxed text-text-dim">{HAMN_GREY_ROCK_LEAD}</p>
+          <p className="mt-1.5 text-xs leading-relaxed text-text-muted">{HAMN_GREY_ROCK_LEAD}</p>
         )}
         <div className="mt-3.5">
           <BiffPublicPanel initialMessage={initialMessage} />

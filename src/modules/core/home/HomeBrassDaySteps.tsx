@@ -62,7 +62,7 @@ export function HomeBrassDaySteps({ variant = 'calm' }: Props) {
             Laddar från Planering …
           </p>
         ) : steps.length === 0 ? (
-          <p className="text-xs leading-relaxed text-text-dim py-2">
+          <p className="text-xs leading-relaxed text-text-muted py-2">
             Inga öppna steg i Att göra.
           </p>
         ) : (

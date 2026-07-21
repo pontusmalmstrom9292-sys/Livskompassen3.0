@@ -57,18 +57,18 @@ export function BiffTriagePanel({
       {theoryWithoutEvidence && (
         <div className="mb-3 space-y-2">
           <TheoryWithoutEvidenceBadge variant="hamn" />
-          <p className="text-[11px] leading-relaxed text-text-dim" role="note">
+          <p className="text-[11px] leading-relaxed text-text-muted" role="note">
             {HAMN_EPISTEMIC_HINT}
           </p>
         </div>
       )}
       <div className="grid grid-cols-2 gap-2 text-center text-xs">
         <div className="rounded-xl border border-border/30 bg-surface-2/40 p-2">
-          <p className="text-text-dim">Ren logistik (~)</p>
+          <p className="text-text-muted">Ren logistik (~)</p>
           <p className="text-lg font-display text-accent">{logisticsPct}%</p>
         </div>
         <div className="rounded-xl border border-border/30 bg-surface-2/40 p-2">
-          <p className="text-text-dim">Känslomässigt bete (~)</p>
+          <p className="text-text-muted">Känslomässigt bete (~)</p>
           <p className="text-lg font-display text-text-muted">{baitPct}%</p>
         </div>
       </div>
