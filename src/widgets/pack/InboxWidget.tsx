@@ -161,7 +161,7 @@ export function InboxWidget({ pulseHint = false }: { pulseHint?: boolean }) {
     <WidgetCard
       size={size}
       material={cfg?.material ?? 'sapphire'}
-      className={widgetCardClass(cfg?.animation)}
+      className={[widgetCardClass(cfg?.animation), pulseHint ? 'cw-soft-focus' : ''].filter(Boolean).join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
@@ -209,6 +209,9 @@ export function InboxWidget({ pulseHint = false }: { pulseHint?: boolean }) {
       ) : null}
       {panel ? (
         <WidgetGlass inset style={{ padding: '0.7rem', marginBottom: '0.5rem' }}>
+          <p className="cw-eyebrow" id="cw-inbox-draft-label">
+            {panel === 'link' ? 'Länk' : 'Text'}
+          </p>
           <label className="sr-only" htmlFor="cw-inbox-draft">
             {panel === 'link' ? 'Länk' : 'Text'}
           </label>
@@ -219,12 +222,8 @@ export function InboxWidget({ pulseHint = false }: { pulseHint?: boolean }) {
             placeholder={panel === 'link' ? 'Klistra in länk…' : 'Skriv kort…'}
             inputMode={panel === 'link' ? 'url' : 'text'}
             autoFocus
+            className="cw-input"
             style={{
-              width: '100%',
-              border: 'none',
-              outline: 'none',
-              background: 'transparent',
-              color: WidgetPalette.textPrimary,
               fontSize: '0.95rem',
               minHeight: 44,
             }}

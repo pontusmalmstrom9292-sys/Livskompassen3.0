@@ -275,7 +275,7 @@ export function QuickCaptureWidget({ pulseHint = false }: { pulseHint?: boolean 
     <WidgetCard
       size={cfg?.size ?? 'small'}
       material={cfg?.material ?? 'sapphire'}
-      className={widgetCardClass(cfg?.animation)}
+      className={[widgetCardClass(cfg?.animation), pulseHint ? 'cw-soft-focus' : ''].filter(Boolean).join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
@@ -297,7 +297,12 @@ export function QuickCaptureWidget({ pulseHint = false }: { pulseHint?: boolean 
           ref={micBtnRef}
           type="button"
           aria-label={recording ? 'Stoppa och spara inspelning' : 'Starta röstinspelning'}
-          className={pulseHint && !recording ? 'cw-pulse-cta' : undefined}
+          className={[
+            'cw-metric-hit cw-metric-hit--ring',
+            pulseHint && !recording ? 'cw-pulse-cta' : '',
+          ]
+            .filter(Boolean)
+            .join(' ')}
           onClick={() => {
             if (recording) {
               void stopAndSave();

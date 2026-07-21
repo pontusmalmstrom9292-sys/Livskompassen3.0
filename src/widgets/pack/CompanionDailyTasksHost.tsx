@@ -49,12 +49,14 @@ export function CompanionDailyTasksHost({
   );
 
   return (
-    <DailyTasksWidget
-      initial={initial}
-      maxVisible={maxVisible}
-      onComplete={onComplete}
-      hosted
-      pulseHint={pulseHint}
-    />
+    <div aria-busy={loading || undefined} data-companion-tasks-host="">
+      <DailyTasksWidget
+        initial={initial}
+        maxVisible={maxVisible}
+        onComplete={onComplete}
+        hosted
+        pulseHint={pulseHint}
+      />
+    </div>
   );
 }

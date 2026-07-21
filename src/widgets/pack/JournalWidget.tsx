@@ -99,12 +99,12 @@ export function JournalWidget({ pulseHint = false }: { pulseHint?: boolean }) {
     <WidgetCard
       size={cfg?.size ?? 'small'}
       material={cfg?.material ?? 'sapphire'}
-      className={widgetCardClass(cfg?.animation)}
+      className={[widgetCardClass(cfg?.animation), pulseHint ? 'cw-soft-focus' : ''].filter(Boolean).join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
         title="Dagbok"
-        subtitle={status ?? 'Dagens check-in'}
+        subtitle={status ?? 'Dagens lugna check-in'}
         offline={!online}
         icon={<span aria-hidden>📓</span>}
       />
@@ -122,20 +122,15 @@ export function JournalWidget({ pulseHint = false }: { pulseHint?: boolean }) {
               rows={2}
               aria-label="Snabb dagboksrad"
               autoFocus
+              className="cw-input"
               style={{
-                width: '100%',
-                resize: 'none',
-                border: 'none',
-                outline: 'none',
-                background: 'transparent',
-                color: WidgetPalette.textPrimary,
                 fontSize: '0.95rem',
                 lineHeight: 1.4,
                 minHeight: WidgetTouch.minDp * 0.85,
               }}
             />
           </WidgetGlass>
-          <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap' }}>
+          <div className="cw-actions-row">
             <WidgetButton
               variant="gold"
               size="premium"

@@ -122,7 +122,7 @@ export function QuickNoteWidget({ pulseHint = false }: { pulseHint?: boolean }) 
     <WidgetCard
       size={cfg?.size ?? 'small'}
       material={cfg?.material ?? 'sapphire'}
-      className={widgetCardClass(cfg?.animation)}
+      className={[widgetCardClass(cfg?.animation), pulseHint ? 'cw-soft-focus' : ''].filter(Boolean).join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
@@ -152,17 +152,12 @@ export function QuickNoteWidget({ pulseHint = false }: { pulseHint?: boolean }) 
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Skriv något snabbt..."
+          placeholder="Skriv något snabbt…"
           rows={3}
           aria-label="Snabbanteckning"
           autoFocus={pulseHint}
+          className="cw-input"
           style={{
-            width: '100%',
-            resize: 'none',
-            border: 'none',
-            outline: 'none',
-            background: 'transparent',
-            color: WidgetPalette.textPrimary,
             fontSize: '0.95rem',
             lineHeight: 1.45,
             minHeight: WidgetTouch.minDp,
@@ -181,7 +176,7 @@ export function QuickNoteWidget({ pulseHint = false }: { pulseHint?: boolean }) 
           </button>
         ))}
       </div>
-      <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+      <div className="cw-actions-row" style={{ alignItems: 'center' }}>
         {showPhoto ? (
           <WidgetButton
             variant="ghost"

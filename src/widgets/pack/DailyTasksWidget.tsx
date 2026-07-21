@@ -120,30 +120,25 @@ export function DailyTasksWidget({
     <WidgetCard
       size={cfg?.size ?? 'small'}
       material={cfg?.material ?? 'sapphire'}
-      className={widgetCardClass(cfg?.animation)}
+      className={[widgetCardClass(cfg?.animation), pulseHint ? 'cw-soft-focus' : ''].filter(Boolean).join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
         title="Dagens uppgifter"
-        subtitle={status ?? 'Nästa steg'}
+        subtitle={status ?? 'Nästa lugna steg'}
         offline={!online}
         icon={<span aria-hidden>📋</span>}
       />
       <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: '0.45rem' }}>
         {shown.length === 0 ? (
-          <li
-            style={{
-              color: WidgetPalette.mutedText,
-              fontSize: '0.9rem',
-              lineHeight: 1.4,
-              display: 'grid',
-              gap: '0.55rem',
-            }}
-          >
-            <span>Allt klart för nu. Bra jobbat.</span>
-            <WidgetButton variant="quiet" size="min" onClick={() => void openPlanering()}>
-              Öppna Planering
-            </WidgetButton>
+          <li className="cw-empty" style={{ listStyle: 'none' }}>
+            <p className="cw-empty__title">Uppgifter</p>
+            <p className="cw-empty__message">Allt klart för nu. Bra jobbat.</p>
+            <div className="cw-empty__actions">
+              <WidgetButton variant="quiet" size="min" onClick={() => void openPlanering()}>
+                Öppna Planering
+              </WidgetButton>
+            </div>
           </li>
         ) : (
           shown.map((task) => (
@@ -156,9 +151,12 @@ export function DailyTasksWidget({
                 onClick={() => void complete(task.id)}
                 aria-label={`Markera klar: ${task.title}`}
                 disabled={fadingId != null}
-                className={
-                  pulseHint && shown[0]?.id === task.id && !fadingId ? 'cw-pulse-cta' : undefined
-                }
+                className={[
+                  'cw-row-hit',
+                  pulseHint && shown[0]?.id === task.id && !fadingId ? 'cw-pulse-cta' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
                 style={{
                   width: '100%',
                   minHeight: WidgetTouch.minDp,
