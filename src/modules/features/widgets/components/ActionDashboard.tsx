@@ -708,7 +708,7 @@ export function ActionDashboard({ userId, flushTick = 0 }: Props) {
   }, [refreshPending, flushTick]);
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-4">
+    <div className="mx-auto flex max-w-2xl flex-col gap-4 widget-action-dashboard" data-cards="3">
       <QueuedBanner count={pendingCount} />
       <MultiToolCard userId={userId} onQueueChange={() => void refreshPending()} />
       <WorkStampCard userId={userId} />

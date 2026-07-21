@@ -61,7 +61,7 @@ export function WidgetStudioPreview({ widgetId }: { widgetId: string }) {
   }
 
   return (
-    <div id={ROOT_ID} aria-label="Förhandsvisning" style={{ marginTop: '0.35rem' }}>
+    <div id={ROOT_ID} className="cw-studio-preview-frame" aria-label="Förhandsvisning" style={{ marginTop: '0.35rem' }}>
       <div
         style={{
           display: 'flex',

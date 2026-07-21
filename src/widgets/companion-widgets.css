@@ -16,6 +16,7 @@
   color: var(--cw-text, #f8fafc);
   overflow: hidden;
   isolation: isolate;
+  border-radius: var(--cw-radius-card, 28px);
 }
 
 .cw-card::before {
@@ -785,11 +786,23 @@
 .cw-card--hero {
   gap: 0.9rem;
   padding: 1.15rem 1.2rem 1rem;
+  border-radius: var(--cw-radius-card, 28px);
   box-shadow:
     0 0 0 1px color-mix(in srgb, var(--cw-gold, #d4af37) 42%, transparent),
     0 0 28px color-mix(in srgb, var(--cw-gold, #d4af37) 14%, transparent),
+    0 0 48px color-mix(in srgb, var(--cw-ethereal, #7ba3c9) 8%, transparent),
     0 18px 40px rgba(2, 6, 23, 0.55),
     inset 0 1px 0 color-mix(in srgb, var(--cw-gold-light, #fde68a) 14%, transparent);
+}
+
+.cw-studio-preview-frame {
+  border-radius: var(--cw-radius-card, 28px);
+  padding: 0.65rem;
+  background:
+    radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--cw-gold, #d4af37) 10%, transparent), transparent 55%),
+    color-mix(in srgb, var(--cw-deep-space, #020617) 70%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cw-gold, #d4af37) 18%, transparent);
+  box-shadow: 0 0 32px color-mix(in srgb, var(--cw-gold, #d4af37) 8%, transparent);
 }
 
 .cw-capture-stage {

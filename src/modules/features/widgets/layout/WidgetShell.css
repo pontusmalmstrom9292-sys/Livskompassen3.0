@@ -42,9 +42,13 @@
 
   .widget-shell__surface {
     @apply rounded-3xl border p-4 backdrop-blur-xl sm:p-5;
+    border-radius: 1.75rem;
     border-color: var(--widget-surface-border);
     background: var(--widget-surface);
-    box-shadow: var(--widget-elevation);
+    box-shadow:
+      var(--widget-elevation),
+      0 0 32px color-mix(in srgb, var(--accent, #d4af37) 10%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--accent, #d4af37) 12%, transparent);
   }
 
   .widget-shell--companion {
@@ -234,6 +238,11 @@
 
   .fyren-widget-bar__strip {
     @apply pointer-events-auto flex max-h-[min(42vh,20rem)] w-full flex-wrap items-stretch justify-center gap-2 overflow-y-auto rounded-2xl border border-border/40 bg-surface/90 p-3 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.7)] backdrop-blur-md;
+    border-radius: 1.5rem;
+    box-shadow:
+      0 18px 40px -24px rgba(0, 0, 0, 0.7),
+      0 0 28px color-mix(in srgb, var(--accent, #d4af37) 12%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--accent, #d4af37) 14%, transparent);
   }
 
   .fyren-widget-bar__strip--closed {
@@ -343,13 +352,17 @@
 
   .widget-dashboard-section {
     @apply overflow-hidden rounded-2xl border p-4;
+    border-radius: 1.5rem;
     border-color: color-mix(in srgb, var(--color-border, var(--border)) 35%, transparent);
     background: var(--widget-surface-inner);
-    box-shadow: var(--widget-section-elevation);
+    box-shadow:
+      var(--widget-section-elevation),
+      0 0 24px color-mix(in srgb, var(--accent, #d4af37) 8%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--accent, #d4af37) 10%, transparent);
   }
 
   .widget-dashboard-section--gold {
-    border-color: color-mix(in srgb, var(--color-accent, var(--accent)) 18%, transparent);
+    border-color: color-mix(in srgb, var(--color-accent, var(--accent)) 28%, transparent);
   }
 
   .widget-dashboard-section--blue {
@@ -361,7 +374,9 @@
   }
 
   .widget-dashboard-section__icon {
-    @apply flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-accent/20 bg-accent/10 text-accent;
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-accent/20 bg-accent/10 text-accent;
+    min-height: 44px;
+    min-width: 44px;
   }
 
   .widget-dashboard-section__eyebrow {
