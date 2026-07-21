@@ -5,6 +5,7 @@ import { useArchiveExport } from '../hooks/useArchiveExport';
 import { ArchiveListView } from './ArchiveListView';
 import { ArchiveCalendarView } from './ArchiveCalendarView';
 import { Calendar, List, Archive, Download, Loader2 } from 'lucide-react';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { motion, AnimatePresence } from 'framer-motion';
 import { subMonths } from 'date-fns';
 import { useStore } from '@/core/store';
@@ -51,11 +52,11 @@ export function ArchiveHub() {
   };
 
   return (
-    <div className="min-h-screen bg-bg bg-gradient-to-b from-bg to-surface text-text font-sans selection:bg-indigo-500/30">
+    <div className="min-h-screen bg-bg bg-gradient-to-b from-bg to-surface text-text font-sans selection:bg-accent/30">
       {/* Glow Effects */}
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] rounded-full bg-indigo-900/10 blur-[120px]" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-purple-900/10 blur-[120px]" />
+        <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] rounded-full bg-accent/10 blur-[120px]" />
+        <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-accent/5 blur-[120px]" />
       </div>
 
       <div className="relative max-w-lg mx-auto px-4 pt-12 pb-24 min-h-[100dvh] max-h-[100dvh] overflow-y-auto overflow-x-hidden no-scrollbar z-10">
@@ -74,10 +75,13 @@ export function ArchiveHub() {
             </div>
 
             <button
+              type="button"
               onClick={exportArchive}
               disabled={isExporting}
-              className="flex items-center justify-center w-10 h-10 rounded-2xl bg-surface-2/85 hover:bg-surface-3 border border-border/30 shadow-sm transition-all disabled:opacity-50"
+              className="flex min-h-11 min-w-11 items-center justify-center rounded-2xl border border-border/30 bg-surface-2/85 shadow-sm transition-all hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-50"
               title="Exportera hela arkivet till textfil"
+              aria-label="Exportera hela arkivet till textfil"
+              aria-busy={isExporting}
             >
               {isExporting ? (
                 <Loader2 className="w-5 h-5 text-accent animate-spin" />
@@ -91,25 +95,29 @@ export function ArchiveHub() {
           {isEconomyAdvancedUnlocked && (
             <div className="flex p-1 bg-surface-2/60 backdrop-blur-md rounded-2xl border border-border/25 w-full relative z-10">
               <button
+                type="button"
                 onClick={() => setViewMode('list')}
-                className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                aria-pressed={viewMode === 'list'}
+                className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
                   viewMode === 'list' 
-                    ? 'bg-indigo-500/15 text-text border border-indigo-500/30 shadow-[0_2px_10px_rgba(99,102,241,0.15)]' 
-                    : 'text-text-muted hover:text-text hover:bg-surface-3/35'
+                    ? 'border border-accent/30 bg-accent/15 text-text shadow-[0_2px_10px_color-mix(in_srgb,var(--accent)_15%,transparent)]' 
+                    : 'text-text-muted hover:bg-surface-3/35 hover:text-text'
                 }`}
               >
-                <List className="w-4 h-4" />
+                <List className="h-4 w-4" aria-hidden />
                 <span>Hyllor & Lådor</span>
               </button>
               <button
+                type="button"
                 onClick={() => setViewMode('calendar')}
-                className={`flex-1 flex items-center justify-center gap-2 py-2 rounded-xl text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
+                aria-pressed={viewMode === 'calendar'}
+                className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
                   viewMode === 'calendar' 
-                    ? 'bg-indigo-500/15 text-text border border-indigo-500/30 shadow-[0_2px_10px_rgba(99,102,241,0.15)]' 
-                    : 'text-text-muted hover:text-text hover:bg-surface-3/35'
+                    ? 'border border-accent/30 bg-accent/15 text-text shadow-[0_2px_10px_color-mix(in_srgb,var(--accent)_15%,transparent)]' 
+                    : 'text-text-muted hover:bg-surface-3/35 hover:text-text'
                 }`}
               >
-                <Calendar className="w-4 h-4" />
+                <Calendar className="h-4 w-4" aria-hidden />
                 <span>Kalender</span>
               </button>
             </div>
@@ -118,14 +126,14 @@ export function ArchiveHub() {
 
         {/* Loading and Error States */}
         {isCapacityLoading && entries.length === 0 && loading ? (
-          <div className="flex flex-col items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 text-accent animate-spin mb-4" />
-            <span className="text-xs uppercase tracking-widest text-text-muted">Ansluter till valvet...</span>
-          </div>
+          <HubPanelSkeleton label="Ansluter till arkivet…" lines={4} className="py-8" />
         ) : (
           <>
             {(error || exportError) && (
-              <div className="p-4 mb-6 rounded-2xl bg-rose-500/10 border border-rose-500/25 text-rose-300 text-xs shadow-md">
+              <div
+                className="mb-6 rounded-2xl border border-danger/25 bg-danger/10 p-4 text-xs text-danger shadow-md"
+                role="alert"
+              >
                 {error || exportError}
               </div>
             )}

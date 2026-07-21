@@ -24,4 +24,6 @@
 
 | arbetsliv-hub-polish | Lönekontor EmptyState + SuperModule focus | ArbetslivProfilDelegate, ArbetslivInputSuperModule, premium-polish.css | build, arbetsliv, arbetsliv-superhub, locked-ux, predeploy:build | PASS |
 
+| archive-hub-polish | Arkiv hub skeleton + token a11y | ArchiveHub (+ List/Calendar EmptyState tidigare) | build, locked-ux, design-modules, predeploy:build | PASS |
+
 > Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.
