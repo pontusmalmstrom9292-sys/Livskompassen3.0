@@ -25,7 +25,7 @@ export function ExecutivePlaneringCard() {
   const todayLabel = weekdayLabel(new Date());
 
   return (
-    <article className="exec-home-card exec-home-card--planering">
+    <article className="calm-card exec-home-card exec-home-card--planering">
       <header className="exec-home-card__head exec-home-card__head--split">
         <div className="flex items-center gap-2">
           <CalendarDays className="h-4 w-4 text-accent" strokeWidth={1.5} />
@@ -52,7 +52,7 @@ export function ExecutivePlaneringCard() {
         ))}
       </div>
 
-      <div className="mt-4 min-h-[4.5rem]">
+      <div className="mt-4 min-h-[4.5rem]" aria-busy={loading || undefined}>
         {tab === 'handling' ? (
           <>
             <Link

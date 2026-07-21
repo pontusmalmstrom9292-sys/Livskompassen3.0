@@ -14,7 +14,7 @@ export function ExecutiveFocusCard() {
   const { preset } = useLifeHubPreset();
 
   return (
-    <article className="exec-home-card exec-home-card--focus">
+    <article className="calm-card exec-home-card exec-home-card--focus">
       <header className="exec-home-card__head">
         <Target className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <p className="exec-home-label mb-0">DAGENS FOKUS</p>
@@ -27,6 +27,7 @@ export function ExecutiveFocusCard() {
           <button
             key={pill.id}
             type="button"
+            aria-selected={pill.active}
             className={
               pill.active
                 ? 'exec-home-pill exec-home-pill--active'
@@ -42,6 +43,7 @@ export function ExecutiveFocusCard() {
         type="button"
         className="exec-home-card__footer-link mt-auto pt-3"
         onClick={() => navigate('/familjen?tab=barnfokus')}
+        aria-label="Lär känna — öppna Barnfokus"
       >
         Lär känna
         <ChevronRight className="h-3 w-3" strokeWidth={2} aria-hidden />
