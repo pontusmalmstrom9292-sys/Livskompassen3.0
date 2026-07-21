@@ -1,3 +1,5 @@
+import type { DfNotis } from './dfBankTypes';
+
 export const DF_NOTIS_BANK: readonly DfNotis[] = [
 
   { id: 'DF-NOTIS-01', text_sv: 'Ett ankare finns här.', evidence_tier: 'product_copy' },

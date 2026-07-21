@@ -11,7 +11,8 @@ type VerktygDrawerProps = {
   embedded?: boolean;
 };
 
-const EXTRA_TOOLS: { id: PlaneringTab; label: string; lead: string; to: string }[] = [
+/** 'bygg' länkar till modulbygg — ej ännu i PlaneringTab-union (migrate-or-freeze). */
+const EXTRA_TOOLS: { id: PlaneringTab | 'bygg'; label: string; lead: string; to: string }[] = [
   {
     id: 'inkop',
     label: 'Inköpslista',
