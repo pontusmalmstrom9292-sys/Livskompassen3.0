@@ -1,6 +1,7 @@
 package com.livskompassen.app.core;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
@@ -16,7 +17,7 @@ public final class DrogfrihetNudgeScheduler {
     private DrogfrihetNudgeScheduler() {}
 
     public static void applyPrefs(Context context, boolean optIn, int quietStart, int quietEnd, int craveStart, int craveEnd) {
-        SecurePrefs prefs = SecurePrefs.get(context);
+        SharedPreferences prefs = SecurePrefs.get(context);
         prefs.edit()
                 .putBoolean(DrogfrihetNudgeWorker.PREF_OPT_IN, optIn)
                 .putInt(DrogfrihetNudgeWorker.PREF_QUIET_START, quietStart)
