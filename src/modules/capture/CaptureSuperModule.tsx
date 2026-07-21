@@ -137,8 +137,13 @@ function CaptureSuperModuleInner({
           </div>
         ) : null}
         {variant === 'hem-capture' && (
-          <div className="mb-2 flex justify-end">
-            <Button variant="ghost" size="sm" className="text-text-dim" onClick={() => setShowCapturePicker(true)}>
+          <div className="mb-2 flex min-h-[var(--ds-touch-target,2.75rem)] items-center justify-end">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="min-h-[var(--ds-touch-target,2.75rem)] text-text-dim"
+              onClick={() => setShowCapturePicker(true)}
+            >
               Byt ingång
             </Button>
           </div>
@@ -177,17 +182,17 @@ function CaptureSuperModuleInner({
 
   if (variant === 'valv-compact') {
     return (
-      <div className="space-y-2">
-        <div className="flex justify-end">
+      <div className="space-y-3">
+        <div className="flex min-h-[var(--ds-touch-target,2.75rem)] items-center justify-end">
           <ModuleHelpFromRegistry moduleId="capture" mode="valv-compact" />
         </div>
         <InkastDirectPanel
-        tone="valv"
-        sourceModule={SOURCE_MODULE['valv-compact']}
-        onQueued={onQueued}
-        onPersistedBevis={onPersistedBevis}
-        queueHintAsButton
-      />
+          tone="valv"
+          sourceModule={SOURCE_MODULE['valv-compact']}
+          onQueued={onQueued}
+          onPersistedBevis={onPersistedBevis}
+          queueHintAsButton
+        />
       </div>
     );
   }

@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T10:40:21.000Z",
-  "currentTaskId": null,
+  "updatedAt": "2026-07-21T10:43:55.000Z",
+  "currentTaskId": "onboarding-barnporten-polish",
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
     "ui-polish-v2-vardagen",
@@ -25,7 +25,8 @@
     "arbetsliv-hub-polish",
     "archive-hub-polish",
     "oracle-dashboard-polish",
-    "morning-compass-polish"
+    "morning-compass-polish",
+    "inkast-capture-polish"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],

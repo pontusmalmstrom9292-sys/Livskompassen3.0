@@ -277,7 +277,12 @@ export function InboxReviewQueue({
       icon={<Inbox className="h-4 w-4 text-accent" />}
     >
       {onBack && (
-        <Button variant="ghost" size="sm" className="mb-3" onClick={onBack}>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="mb-3 min-h-[var(--ds-touch-target,2.75rem)]"
+          onClick={onBack}
+        >
           ← Tillbaka till logga
         </Button>
       )}
@@ -289,13 +294,24 @@ export function InboxReviewQueue({
         </p>
       )}
 
-      {loading && <p className="text-sm text-text-muted">Laddar…</p>}
-      {error && <p className="text-sm text-amber-400/90">{error}</p>}
-      {lastAction && <p className="mb-2 text-xs text-success">{lastAction}</p>}
+      {loading && <p className="text-sm text-text-muted" role="status">Laddar…</p>}
+      {error && (
+        <p
+          role="alert"
+          className="mb-2 rounded-lg border border-accent/25 bg-accent/10 px-3 py-2 text-sm text-accent-light"
+        >
+          {error}
+        </p>
+      )}
+      {lastAction && (
+        <p className="mb-2 text-xs text-success" role="status">
+          {lastAction}
+        </p>
+      )}
       {handlingLink && (
         <Link
           to={PLANERING_HANDLING_LINK}
-          className="mb-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
+          className="mb-2 inline-flex min-h-[var(--ds-touch-target,2.75rem)] items-center text-xs text-accent underline-offset-2 hover:underline"
         >
           Öppna Handling (Kanban)
         </Link>
@@ -325,7 +341,10 @@ export function InboxReviewQueue({
             const proposed = isProposedRoutingButton(routing, item);
             return {
               variant: (proposed ? 'accent' : 'secondary') as ButtonVariant,
-              className: clsx('text-xs', proposed && 'ring-1 ring-accent/40'),
+              className: clsx(
+                'min-h-[var(--ds-touch-target,2.75rem)] text-xs',
+                proposed && 'ring-1 ring-accent/40',
+              ),
               size: 'sm' as const,
             };
           };
@@ -409,6 +428,7 @@ export function InboxReviewQueue({
                 </Button>
                 <Button
                   size="sm"
+                  className="min-h-[var(--ds-touch-target,2.75rem)]"
                   disabled={busyId === item.id}
                   onClick={() => {
                     void handlePlanering(item).then(() => setEditingId(null));
@@ -419,6 +439,7 @@ export function InboxReviewQueue({
                 <Button
                   variant="ghost"
                   size="sm"
+                  className="min-h-[var(--ds-touch-target,2.75rem)]"
                   disabled={busyId === item.id}
                   onClick={() => setEditingId(null)}
                 >

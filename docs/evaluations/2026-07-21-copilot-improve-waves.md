@@ -30,4 +30,6 @@
 
 | morning-compass-polish | Step-indikatorer, Enter/ArrowDown, calm-scroll, 44px | MorningCompass.tsx | build, compass, locked-ux, predeploy:build | PASS |
 
+| inkast-capture-polish | Touch 44px, error alerts, caption UX | InkastDirect, CaptureSuper, InboxReview, MediaAttach | build, inkast-fas2, media-attach, predeploy:build | PASS |
+
 > Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.
