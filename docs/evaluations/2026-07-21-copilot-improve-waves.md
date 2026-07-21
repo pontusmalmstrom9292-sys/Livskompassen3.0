@@ -22,4 +22,6 @@
 
 | improve-waves-session-log | Sessionlogg + full predeploy gate | improve-waves.md, yolo-state | smoke:predeploy:build | PASS |
 
+| arbetsliv-hub-polish | Lönekontor EmptyState + SuperModule focus | ArbetslivProfilDelegate, ArbetslivInputSuperModule, premium-polish.css | build, arbetsliv, arbetsliv-superhub, locked-ux, predeploy:build | PASS |
+
 > Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.

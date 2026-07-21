@@ -750,6 +750,19 @@
   .chameleon-shell__exec-mode-pill:active {
     transform: scale(var(--ds-press-scale));
   }
+
+  .arbetsliv-delegate,
+  .arbetsliv-shell__surface {
+    box-shadow: var(--ds-elevation-1);
+    transition:
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  .arbetsliv-delegate:focus-within,
+  .arbetsliv-shell__surface:focus-within {
+    box-shadow: var(--ds-elevation-2);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
