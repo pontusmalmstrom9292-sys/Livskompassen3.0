@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T11:05:34.000Z",
-  "currentTaskId": "chrome-header-polish",
+  "updatedAt": "2026-07-21T11:08:02.000Z",
+  "currentTaskId": "copy-audit-quickfixes",
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
     "ui-polish-v2-vardagen",
@@ -36,7 +36,8 @@
     "sos-recovery-polish",
     "shared-tagg-selector-polish",
     "adaptation-prefs-polish",
-    "lazy-routes-admin-oracle"
+    "lazy-routes-admin-oracle",
+    "chrome-header-polish"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],

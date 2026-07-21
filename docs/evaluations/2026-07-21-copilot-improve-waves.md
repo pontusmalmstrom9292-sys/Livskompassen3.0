@@ -52,4 +52,6 @@
 
 | lazy-routes-admin-oracle | vite chunks zone-planering/projects/oracle | vite.config.ts | build, locked-ux, predeploy:build | PASS |
 
+| chrome-header-polish | Header 44px, VaultLockedGate spacing | coreLayoutChrome.css, VaultLockedGate | build, chrome-header, basta-dock-lock, predeploy:build | PASS |
+
 > Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.
