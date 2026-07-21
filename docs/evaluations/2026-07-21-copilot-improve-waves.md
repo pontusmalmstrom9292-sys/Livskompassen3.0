@@ -93,3 +93,8 @@
 
 ### lazy-routes-vardagen-hjartat — PASS
 - Already lazy + zone chunks; Hjartat HubPanelSkeleton parity
+
+### hub-eyebrow-polish — PASS
+- ExecutiveHubHeader → textStyles.eyebrow
+### hosting-deploy-wave — SKIP
+- PMIR/deploy kräver Pontus OK — ej körd

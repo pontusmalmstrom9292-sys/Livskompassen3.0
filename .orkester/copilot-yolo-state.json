@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T12:25:04.000Z",
-  "updatedAt": "2026-07-21T12:30:09.000Z",
-  "currentTaskId": "hub-eyebrow-polish",
+  "updatedAt": "2026-07-21T12:30:30.000Z",
+  "currentTaskId": "g85-friction-d4",
   "completedTaskIds": [
     "emotional-memory-polish",
     "ekonomi-panels-deep-polish",
@@ -10,9 +10,12 @@
     "design-bible-merge",
     "premium-ui-debt-baseline",
     "focus-visible-quickwin",
-    "lazy-routes-vardagen-hjartat"
+    "lazy-routes-vardagen-hjartat",
+    "hub-eyebrow-polish"
   ],
-  "skippedTaskIds": [],
+  "skippedTaskIds": [
+    "hosting-deploy-wave"
+  ],
   "failedTaskIds": [],
   "taskOrder": [
     "ekonomi-panels-deep-polish",
