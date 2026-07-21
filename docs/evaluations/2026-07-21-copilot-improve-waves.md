@@ -174,3 +174,8 @@
 ### sos-akut-landing-polish — PASS (YOLO v9)
 - AkutLanding: calm-card, hierarchy, min-h-14/11 CTAs, focus-visible
 - Smoke: build, locked-ux, design-modules PASS
+
+
+### grans-biff-sheet-polish — PASS (YOLO v9)
+- BiffPublicPanel: EmptyState tom hint, aria-invalid, focus-visible on textarea/link
+- Smoke: build, grans, biff-rewrite PASS

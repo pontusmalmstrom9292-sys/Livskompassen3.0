@@ -17,3 +17,4 @@
 | 2026-07-21T12:56:50.000Z | drogfrihet-hub-a11y-polish | PASS | build, design-modules, locked-ux, drogfrihet | SOS/banner focus + tokens |
 | 2026-07-21T12:57:58.000Z | custom-modules-ui-polish | PASS | build, custom-modules, widgets | calm-card + eyebrow + preview |
 | 2026-07-21T12:59:00.000Z | sos-akut-landing-polish | PASS | build, locked-ux, design-modules | AkutLanding calm-card + large CTAs |
+| 2026-07-21T13:01:06.000Z | grans-biff-sheet-polish | PASS | build, grans, biff-rewrite | EmptyState + textarea aria-invalid/focus |

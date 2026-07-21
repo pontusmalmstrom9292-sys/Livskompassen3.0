@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/design-system';
 import { Loader2, Shield, AlertTriangle, Sparkles } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { vaultDrawerPath } from '@/core/navigation/navTruth';
 import { useStore } from '@/core/store';
 import { saveVaultLog, saveEvolutionLedger } from '@/core/firebase/firestore';
@@ -166,9 +167,10 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               rows={4}
               aria-label="Meddelande till BIFF-analys"
               className={[
-                'input-glass resize-none text-sm',
+                'input-glass min-h-28 resize-none text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
                 jadeViolations.length > 0 ? 'border-danger/30 focus:border-danger/50' : '',
               ].join(' ')}
+              aria-invalid={jadeViolations.length > 0 || Boolean(error || panelError)}
               disabled={loading}
             />
 
@@ -325,13 +327,18 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
 
       {!triageReady && !reply && !loading && !error && !message.trim() && step === 1 && (
         <div className="space-y-2">
-          <p className="text-xs text-text-dim">
-            Tomt fält — klistra in meddelandet. Inget sparas förrän du trycker Klar. Behöver du riskanalys
-            eller bevisarkiv?{' '}
-            <Link to={vaultDrawerPath('hamn_analys')} className="text-accent/80 underline-offset-2 hover:underline">
-              Valv → Hamn · Analys
-            </Link>
-          </p>
+          <EmptyState
+            className="!p-3"
+            message="Tomt fält — klistra in meddelandet. Inget sparas förrän du trycker Klar."
+            action={
+              <Link
+                to={vaultDrawerPath('hamn_analys')}
+                className="inline-flex min-h-11 items-center text-sm text-accent underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+              >
+                Valv → Hamn · Analys
+              </Link>
+            }
+          />
           <HamnTaktikLexikonBro />
         </div>
       )}
