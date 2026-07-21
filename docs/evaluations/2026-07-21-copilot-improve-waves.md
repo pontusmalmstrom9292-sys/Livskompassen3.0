@@ -132,3 +132,9 @@
 - EmptyState in Barnfokus, FamiljenMonster, VitRecent, BiffTriage×2, Dossier, VaultMonster
 - Unlock via ui-polish-waves; re-lock MOD-FAM-* + MOD-VALV-HUB
 - Smoke: build, locked-ux, children, hamn PASS
+
+
+### form-label-a11y-sweep — PASS (YOLO v9)
+- Ekonomi/Inkast/Dagbok: htmlFor, aria-invalid, role=alert, min-h-11
+- smoke:inkast assert → assertWormCollectionWrite (API-drift)
+- Smoke: build, ekonomi, inkast, design-modules PASS

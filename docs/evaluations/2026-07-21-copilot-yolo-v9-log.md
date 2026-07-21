@@ -9,3 +9,4 @@
 | 2026-07-21T12:42:01.000Z | adhoc-dialog-audit | PASS | design-debt, design-modules, locked-ux | Resurser=Sheet; 3 defer documented |
 | 2026-07-21T12:44:06.000Z | hub-eyebrow-sweep-remaining | PASS | design-modules, build | 8 files → textStyles.eyebrow |
 | 2026-07-21T12:47:38.000Z | empty-state-sweep-valv-familjen | PASS | build, locked-ux, children, hamn | EmptyState×6; re-lock FAM+VALV |
+| 2026-07-21T12:51:16.000Z | form-label-a11y-sweep | PASS | build, ekonomi, inkast, design-modules | htmlFor/aria-invalid/alert; inkast smoke WORM assert sync |

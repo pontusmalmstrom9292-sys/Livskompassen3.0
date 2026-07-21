@@ -112,22 +112,24 @@ export function JournalQuickMode({
         </div>
       )}
 
-      <label className="mt-4 block">
+      <label htmlFor="journal-quick-text" className="mt-4 block">
         <span className="sr-only">Snabb rad</span>
         <TextArea
+          id="journal-quick-text"
           value={quickText}
           onChange={(e) => setQuickText(e.target.value)}
           placeholder="Skriv en snabb rad (valfritt)…"
           rows={2}
-          className="input-glass reflektion-textarea"
+          className="input-glass reflektion-textarea min-h-11"
         />
       </label>
 
       {showHandoff && <HandoffBox className="mt-4" sourceText={quickText} />}
 
       {quickText.trim().length >= 3 && (
-        <label className="mt-3 flex items-start gap-2 text-xs text-text-muted">
+        <label htmlFor="journal-quick-arkiv" className="mt-3 flex min-h-11 items-start gap-2 text-xs text-text-muted">
           <input
+            id="journal-quick-arkiv"
             type="checkbox"
             className="mt-0.5"
             checked={alsoToArkiv}

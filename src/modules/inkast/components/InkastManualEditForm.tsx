@@ -93,15 +93,16 @@ export function InkastManualEditForm({
       </div>
 
       {silo === 'barnen' && (
-        <label className="block">
+        <label htmlFor="inkast-manual-child" className="block">
           <span className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-text-dim">
             Barn
           </span>
           <select
+            id="inkast-manual-child"
             value={childAlias}
             onChange={(e) => onChildAliasChange(e.target.value)}
             disabled={busy}
-            className="input-glass w-full rounded-xl px-3 py-2 text-sm"
+            className="input-glass min-h-11 w-full rounded-xl px-3 py-2 text-sm"
           >
             <option value="">Välj barn…</option>
             <option value="Kasper">Kasper</option>
@@ -110,17 +111,18 @@ export function InkastManualEditForm({
         </label>
       )}
 
-      <label className="block">
+      <label htmlFor="inkast-manual-comment" className="block">
         <span className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-text-dim">
           Kommentar / sammanfattning
         </span>
         <TextArea
+          id="inkast-manual-comment"
           value={comment}
           onChange={(e) => onCommentChange(e.target.value)}
           placeholder="Kort beskrivning av innehållet…"
           rows={3}
           disabled={busy}
-          className="input-glass w-full resize-none rounded-xl px-3 py-2 text-sm"
+          className="input-glass min-h-11 w-full resize-none rounded-xl px-3 py-2 text-sm"
         />
         <div className="mt-2">
           <BiffRewriteButton

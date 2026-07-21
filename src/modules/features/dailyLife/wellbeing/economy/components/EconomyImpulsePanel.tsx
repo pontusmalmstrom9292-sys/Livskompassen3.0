@@ -149,17 +149,23 @@ export function EconomyImpulsePanel() {
         <p className="mt-1 text-xs leading-relaxed text-text-muted">{EKONOMI_IMPULS_LEAD}</p>
       </div>
 
-      {error && <p className="mb-2 text-xs text-danger">{error}</p>}
+      {error ? <p id="ekonomi-impuls-error" className="mb-2 text-xs text-danger" role="alert">{error}</p> : null}
 
       <div className="flex gap-2">
-        <input
-          type="text"
-          value={draft}
-          onChange={(e) => setDraft(e.target.value)}
-          placeholder="T.ex. Nya hörlurar..."
-          className="input-glass min-h-11 flex-1 rounded-lg px-3 text-xs"
-          disabled={busy || !gateway}
-        />
+        <label className="min-w-0 flex-1">
+          <span className="sr-only">Impulsköp att parkera</span>
+          <input
+            id="ekonomi-impuls-draft"
+            type="text"
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            placeholder="T.ex. Nya hörlurar..."
+            className="input-glass min-h-11 w-full rounded-lg px-3 text-xs"
+            disabled={busy || !gateway}
+            aria-invalid={Boolean(error)}
+            aria-describedby={error ? 'ekonomi-impuls-error' : undefined}
+          />
+        </label>
         <Button
           variant="ghost"
           disabled={busy || !gateway || !draft.trim()}

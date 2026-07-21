@@ -247,7 +247,7 @@ export function ReflectionStep({
             </Button>
             {interim && <span className="text-xs text-text-dim">Hör: {interim}</span>}
           </div>
-          {error && <p className="mt-1 text-xs text-danger">{error}</p>}
+          {error ? <p className="mt-1 text-xs text-danger" role="alert">{error}</p> : null}
         </CalmCollapsible>
       )}
 

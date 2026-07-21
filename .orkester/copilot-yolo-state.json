@@ -1,13 +1,14 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T12:39:16.000Z",
-  "updatedAt": "2026-07-21T12:47:38.000Z",
-  "currentTaskId": "form-label-a11y-sweep",
+  "updatedAt": "2026-07-21T12:51:16.000Z",
+  "currentTaskId": "speglar-evidence-polish",
   "completedTaskIds": [
     "g85-friction-d5-prep",
     "adhoc-dialog-audit",
     "hub-eyebrow-sweep-remaining",
-    "empty-state-sweep-valv-familjen"
+    "empty-state-sweep-valv-familjen",
+    "form-label-a11y-sweep"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
