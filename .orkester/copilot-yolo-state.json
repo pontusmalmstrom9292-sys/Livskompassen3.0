@@ -1,14 +1,15 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T12:25:04.000Z",
-  "updatedAt": "2026-07-21T12:28:37.000Z",
-  "currentTaskId": "focus-visible-quickwin",
+  "updatedAt": "2026-07-21T12:29:10.000Z",
+  "currentTaskId": "lazy-routes-vardagen-hjartat",
   "completedTaskIds": [
     "emotional-memory-polish",
     "ekonomi-panels-deep-polish",
     "tidshjul-stampla-polish",
     "design-bible-merge",
-    "premium-ui-debt-baseline"
+    "premium-ui-debt-baseline",
+    "focus-visible-quickwin"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
