@@ -293,7 +293,12 @@ assert(finishCap.includes('androidScope'), 'finishCompanionCapture måste skicka
 
 const androidStrings = mustExist('android/app/src/main/res/values/strings.xml');
 assert(androidStrings.includes('Andas här'), 'Android Hamn-sub måste vara lugn copy');
-assert(androidStrings.includes('Tryck · håll tyst'), 'Android Capture-sub måste vara tydlig');
+assert(
+  androidStrings.includes('Tryck · håll tyst') ||
+    androidStrings.includes('startar inspelning') ||
+    androidStrings.includes('Tryck mic'),
+  'Android Capture-sub måste vara tydlig',
+);
 assert(androidStrings.includes('En rad räcker'), 'Android Dagbok-sub måste vara kort copy');
 assert(androidStrings.includes('Håll för meny'), 'Android Kompass-sub måste nämna meny');
 assert(androidStrings.includes('Svara kort'), 'Android Barnfokus-sub måste vara kort');
@@ -459,6 +464,16 @@ assert(modePanel.includes('Rensa demo'), 'Lägespanel saknar rensa-demo');
 const androidViews = mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetViews.java');
 assert(androidViews.includes('substring') || androidViews.includes('40'), 'Android chip måste trunkera last_action');
 assert(androidViews.includes('last_action_') || androidViews.includes('statusKey'), 'Android chip måste stödja scoped status');
+assert(androidViews.includes('bindClick') || androidViews.includes('widget_icon'), 'Android chip måste binda klick på barn-vyer');
+
+const androidLaunch = mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetLaunch.java');
+assert(androidLaunch.includes('setData') || androidLaunch.includes('livskompassen://'), 'WidgetLaunch måste ha unik data-URI per path');
+
+const surfaceAutostart = mustExist('src/modules/features/widgets/pages/WidgetCompanionSurfacePage.tsx');
+assert(surfaceAutostart.includes('autostart={autostart'), 'Capture-surface måste skicka autostart till QuickCapture');
+
+const qcAutostart = mustExist('src/widgets/pack/QuickCaptureWidget.tsx');
+assert(qcAutostart.includes('autostart') && qcAutostart.includes('startRecording'), 'QuickCapture måste autostarta inspelning');
 
 const updateMgr = mustExist('android/app/src/main/java/com/livskompassen/app/core/WidgetUpdateManager.java');
 assert(updateMgr.includes('last_action_capture'), 'WidgetUpdateManager saknar capture-scope');
@@ -525,5 +540,30 @@ assert(install.includes('widget-studio'), 'Inställningar saknar länk till Widg
 assert(install.includes('companion-widgets'), 'Inställningar måste nämna Companion-labb (DEV)');
 assert(install.includes('import.meta.env.DEV'), 'Inställningar måste dölja labb i prod');
 assert(install.includes('Widgets'), 'Inställningar saknar Android-widget-hjälp');
+
+
+assert(qc.includes('autostart') && qc.includes('startRecording'), 'QuickCapture måste autostarta inspelning via prop');
+assert(qc.includes('cw-capture-mic') || qc.includes('cw-capture-stage'), 'QuickCapture saknar mockup mic/stage');
+assert(qc.includes('cw-capture-wave'), 'QuickCapture saknar waveform');
+
+assert(note.includes('autoVoice') && note.includes('autoPhoto'), 'QuickNote måste stödja voice/photo deep-links');
+assert(note.includes('cw-note-dock') || note.includes('cw-note-add'), 'QuickNote saknar mockup dock');
+assert(note.includes('Annat'), 'QuickNote saknar Annat-pill (mockup)');
+
+const surfaceAuto = mustExist('src/modules/features/widgets/pages/WidgetCompanionSurfacePage.tsx');
+assert(surfaceAuto.includes('autostart={') || surfaceAuto.includes('autostart='), 'Surface måste skicka autostart till Capture');
+assert(surfaceAuto.includes('autoVoice') && surfaceAuto.includes('autoPhoto'), 'Surface måste skicka note voice/photo');
+
+assert(androidViews.includes('companionCapture') && androidViews.includes('companionNote'), 'WidgetViews saknar rich companion helpers');
+assert(captureProvider.includes('companionCapture'), 'Capture provider måste använda rich layout');
+
+const noteProvider = mustExist(
+  'android/app/src/main/java/com/livskompassen/app/widgets/CompanionNoteWidgetProvider.java',
+);
+assert(noteProvider.includes('companionNote'), 'Note provider måste använda rich layout');
+
+mustExist('android/app/src/main/res/layout/widget_companion_capture.xml');
+mustExist('android/app/src/main/res/layout/widget_companion_note.xml');
+mustExist('docs/design/COMPANION-ANDROID-RICH-WIDGETS.md');
 
 console.log('[smoke:companion-widgets] PASS — live rail + studio preview + barnfokus/planering');

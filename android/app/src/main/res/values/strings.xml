@@ -41,16 +41,23 @@
     <string name="widget_note_sub">En rad → Inkast</string>
     <string name="widget_note_desc">Snabblogg — default Inkast (välj silo i appen)</string>
 
-    <string name="widget_companion_capture_title">Quick Capture</string>
-    <string name="widget_companion_capture_sub">Tryck · håll tyst</string>
+    <string name="widget_companion_capture_title">Hemlig inspelning</string>
+    <string name="widget_companion_capture_sub">Tryck mic · startar inspelning</string>
     <string name="widget_companion_capture_desc">Companion OS — spela in direkt från hemskärmen</string>
+
+    <string name="widget_companion_capture_mic_cd">Starta hemlig inspelning</string>
+    <string name="widget_companion_capture_recent">Senaste</string>
+    <string name="widget_companion_note_compose">Skriv något snabbt…</string>
+    <string name="widget_companion_note_photo">Foto</string>
+    <string name="widget_companion_note_voice">Röst</string>
+    <string name="widget_companion_note_add">Spara anteckning</string>
 
     <string name="widget_companion_inbox_title">Inkast</string>
     <string name="widget_companion_inbox_sub">Ett tryck</string>
     <string name="widget_companion_inbox_desc">Companion OS — text, röst eller foto till Inkast</string>
 
-    <string name="widget_companion_note_title">Anteckning</string>
-    <string name="widget_companion_note_sub">Skriv snabbt</string>
+    <string name="widget_companion_note_title">Snabba anteckningar</string>
+    <string name="widget_companion_note_sub">Skriv · foto · röst</string>
     <string name="widget_companion_note_desc">Companion OS — snabbanteckning från hemskärmen</string>
 
     <string name="widget_companion_harbor_title">Trygg Hamn</string>
