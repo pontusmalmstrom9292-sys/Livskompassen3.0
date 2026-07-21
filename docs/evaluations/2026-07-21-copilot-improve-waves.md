@@ -138,3 +138,8 @@
 - Ekonomi/Inkast/Dagbok: htmlFor, aria-invalid, role=alert, min-h-11
 - smoke:inkast assert → assertWormCollectionWrite (API-drift)
 - Smoke: build, ekonomi, inkast, design-modules PASS
+
+
+### speglar-evidence-polish — PASS (YOLO v9)
+- SpeglarEvidencePanel + EvidenceCompareView: EmptyState, textStyles.eyebrow, focus-visible
+- Smoke: build, speglar, locked-ux PASS

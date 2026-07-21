@@ -1,14 +1,15 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T12:39:16.000Z",
-  "updatedAt": "2026-07-21T12:51:16.000Z",
-  "currentTaskId": "speglar-evidence-polish",
+  "updatedAt": "2026-07-21T12:52:23.000Z",
+  "currentTaskId": "inkast-review-queue-polish",
   "completedTaskIds": [
     "g85-friction-d5-prep",
     "adhoc-dialog-audit",
     "hub-eyebrow-sweep-remaining",
     "empty-state-sweep-valv-familjen",
-    "form-label-a11y-sweep"
+    "form-label-a11y-sweep",
+    "speglar-evidence-polish"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
