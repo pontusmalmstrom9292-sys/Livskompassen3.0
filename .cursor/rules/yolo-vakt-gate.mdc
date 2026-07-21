@@ -25,7 +25,7 @@ Kanon: [`docs/YOLO-VAKT-GATE.md`](../../docs/YOLO-VAKT-GATE.md) · Modell/YOLO: 
 
 - `firestore.rules` / `storage.rules` utan PMIR
 - Barnporten kanon-UI · Sacred / Locked UX borttagning
-- Mass-radering · App Check Enforce (Console, Pontus)
+- Mass-radering · App Check Enforce i Console (Firestore måste förbli UNENFORCED — `smoke:app-check-policy`)
 - Fas 22.3 nutrition rules utan 22.2 PMIR
 
 ## Smoke-gate minimum
