@@ -12,11 +12,20 @@ type Props = {
   children: ReactNode;
   /** Visa brand-länk till huvudapp — default false (fristående). */
   showAppLink?: boolean;
+  /** Companion OS surface — softer shell chrome. */
+  companion?: boolean;
   /** Valfri stäng-callback (t.ex. modal) — annars panik-dölj. */
   onClose?: () => void;
 };
 
-function WidgetShellFrame({ title, lead, children, showAppLink = false, onClose }: Props) {
+function WidgetShellFrame({
+  title,
+  lead,
+  children,
+  showAppLink = false,
+  companion = false,
+  onClose,
+}: Props) {
   const [panicBlur, setPanicBlur] = useState(false);
   const shellCtx = useWidgetShellContext();
   const panicHide = useWidgetPanicHide(() => {
@@ -37,14 +46,22 @@ function WidgetShellFrame({ title, lead, children, showAppLink = false, onClose 
   return (
     <>
       <div
-        className={`widget-shell relative min-h-screen bg-bg text-text ${panicBlur ? 'widget-shell--panic' : ''}`}
+        className={[
+          'widget-shell relative min-h-screen bg-bg text-text',
+          companion && 'widget-shell--companion',
+          panicBlur && 'widget-shell--panic',
+        ]
+          .filter(Boolean)
+          .join(' ')}
       >
         <header className="widget-shell__header">
           <div className="flex items-start justify-between gap-3">
-            {showAppLink ? (
+            {showAppLink || companion ? (
               <a href="/" className="widget-shell__brand" aria-label="Öppna Livskompassen">
                 <Compass className="h-4 w-4 text-accent" strokeWidth={1.65} />
-                <span className="text-[10px] uppercase tracking-[0.2em] text-text-dim">Widget</span>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-text-dim">
+                  {companion ? 'Companion' : 'Widget'}
+                </span>
               </a>
             ) : (
               <span className="widget-shell__brand widget-shell__brand--static">

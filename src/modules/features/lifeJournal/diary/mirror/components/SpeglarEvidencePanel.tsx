@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Loader2, ShieldCheck } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, textStyles } from '@/design-system';
 import { saveVaultLog } from '@/core/firebase/firestore';
 import { uploadVaultEvidence } from '@/core/firebase/storage';
 import { EvidenceMediaAttach } from '@/core/ui/EvidenceMediaAttach';
 import type { MediaAttachment } from '@/core/media/mediaAttachment';
+import { EmptyState } from '@/core/ui/EmptyState';
 
 export type SavedSpeglarEvidence = {
   attachmentId: string;
@@ -73,15 +74,13 @@ export function SpeglarEvidencePanel({
         maxItems={2}
       />
 
-      {!userId && (
-        <p className="text-xs text-text-dim">Logga in för att låsa bilagor som bevis i arkivet.</p>
-      )}
+      {!userId ? (
+        <EmptyState className="!p-3" message="Logga in för att låsa bilagor som bevis i arkivet." />
+      ) : null}
 
       {attachments.length > 0 && (
         <div className="space-y-2">
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">
-            Spara i arkiv (låst post)
-          </p>
+          <p className={textStyles.eyebrow}>Spara i arkiv (låst post)</p>
           {attachments.map((item) => {
             const saved = savedIds.has(item.id);
             return (
@@ -100,7 +99,7 @@ export function SpeglarEvidencePanel({
                     type="button"
                     variant="secondary"
                     size="sm"
-                    className="min-h-11"
+                    className="min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                     onClick={() => saveToVault(item)}
                     disabled={!userId || savingId === item.id}
                   >

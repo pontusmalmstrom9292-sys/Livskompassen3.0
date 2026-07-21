@@ -80,6 +80,11 @@
 Baseline recorded via `npm run smoke:design-debt` (2026-06-29). **Refresh 2026-07-21T12:41:36.311Z** (YOLO v9 adhoc-dialog-audit): btnPill **0**, dsBtn **0**, adHocDialog **3** (CustomCategoryFlow, FetchContentPacksFlow, QuickCaptureOverlay — ResurserOverlay already DS Sheet; NavigationDrawer excluded/locked), indexCssLoc **61**, DS imports **268**. Re-run before each merge wave.
 
 
+
+### Kontrast-audit navy/glass (YOLO v9 · 2026-07-21)
+
+Stickprov Completion **1.4.3**: body/lead på glass `text-text-dim` → `text-text-muted` i TryggHamnHub, BiffTriage, Hem-kort (AdaptiveMemory/Superhub/Brass/VaultLearning/Ankare/DevelopmentBento), EvidenceMediaAttach, ActCalibration. Micro-eyebrows lämnade dim.
+
 ### Ad-hoc dialog audit (YOLO v9 · 2026-07-21)
 
 | Fil | Status |

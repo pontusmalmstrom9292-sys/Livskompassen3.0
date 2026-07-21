@@ -65,6 +65,7 @@
     "smoke:widget-ingest": "node scripts/smoke_widget_ingest.mjs",
     "smoke:drive-ingest": "node scripts/smoke_drive_ingest.mjs",
     "smoke:widgets": "node scripts/smoke_widgets.mjs",
+    "smoke:companion-widgets": "node scripts/smoke_companion_widgets.mjs",
     "smoke:custom-modules": "node scripts/smoke_custom_modules.mjs",
     "smoke:projects": "node scripts/smoke_projects.mjs",
     "smoke:hitl1": "node scripts/smoke_hitl1.mjs",

@@ -129,6 +129,9 @@ exportedData/
 .agents/
 skills-lock.json
 studio/
+# Companion Widget Studio (Locked UX §23) — måste versioneras
+!src/widgets/studio/
+!src/widgets/studio/**
 
 # Python
 __pycache__/

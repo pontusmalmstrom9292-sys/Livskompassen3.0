@@ -1,7 +1,7 @@
 ---
-description: Låsta UX-flöden — Barnfokus, Valv Mönster/Orkester, Barnporten HITL, Planering hybrid
+description: Låsta UX-flöden — Barnfokus, Valv Mönster/Orkester, Companion Widget OS, Barnporten HITL, Planering hybrid
 alwaysApply: false
-globs: src/modules/**/Vault*.tsx,src/modules/**/Familjen*.tsx,src/modules/features/family/**,src/modules/features/vault/**,src/modules/barnporten/**,src/modules/planering/**,src/modules/core/navigation/**,src/modules/core/layout/basta-design/**,src/modules/core/home/basta-design/**,src/modules/core/home/DevelopmentBentoWidget.tsx,src/modules/core/home/HemV3DevelopmentRail.tsx,src/modules/core/home/dev/**,src/styles/dock-kanon-match.css,src/styles/basta-design.css,.context/locked-ux-features.md
+globs: src/widgets/**,src/modules/features/widgets/**,src/modules/**/Vault*.tsx,src/modules/**/Familjen*.tsx,src/modules/features/family/**,src/modules/features/vault/**,src/modules/barnporten/**,src/modules/planering/**,src/modules/core/navigation/**,src/modules/core/layout/basta-design/**,src/modules/core/home/basta-design/**,src/modules/core/home/DevelopmentBentoWidget.tsx,src/modules/core/home/HemV3DevelopmentRail.tsx,src/modules/core/home/dev/**,src/styles/dock-kanon-match.css,src/styles/basta-design.css,.context/locked-ux-features.md,android/app/src/main/java/com/livskompassen/app/widgets/Companion*.java
 ---
 
 # Locked UX Features (MUST NOT REMOVE)
@@ -83,6 +83,14 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 - **Android premium (LÅST):** WH9 hemskärms-widget · pull-to-refresh + guld-haptik · `useSystemChromeFusion` · shortcut «Dagens kort»
 - Smoke: `smoke:locked-ux` · `smoke:design-modules` · `smoke:basta-dock-lock` · `smoke:widgets`
 
+## Companion Widget OS (§23 — LÅST)
+
+- Register: [`.context/locked-ux-features.md`](../.context/locked-ux-features.md) §23 · modul `MOD-WIDGET`
+- Web: `src/widgets/**` · `CompanionHomeRail` på Hem · Widget Studio · 10-pack
+- Android: `Companion*WidgetProvider` · scoped `last_action_*` · deep-link `?focus=1` / `?autostart=1`
+- Smoke: `npm run smoke:companion-widgets` (ingår i `smoke:locked-ux`)
+- Rule: [`companion-os-lock.mdc`](companion-os-lock.mdc)
+
 ## Forbidden without approval
 
 - Deleting `BARNFOKUS_QUESTIONS`, `FamiljenBarnfokusDelegate`, `FamiljenInputSuperModule`, `VaultMonsterPanel`, `VaultOrkesterPanel`, or `vaultPatternScan.ts`
@@ -92,3 +100,4 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 - Removing Barnporten spec, agents registry, or Valv HITL bridge design
 - Removing `BarnportenInboxPanel`, HITL prompt, or auto-promoting child logs to Valv
 - Removing «Mer för dig», `DevelopmentBentoWidget`, `home/dev/**`, MåBra-utvecklingskort, Inställningar faktapack-genväg, WH9 widget, chrome fusion, or «Dagens kort» shortcut without unlock `MOD-CORE-UTV` + Pontus OK
+- Removing `src/widgets/**`, `CompanionHomeRail`, Widget Studio, Companion Android chips, or `smoke:companion-widgets` without unlock `MOD-WIDGET` + Pontus OK

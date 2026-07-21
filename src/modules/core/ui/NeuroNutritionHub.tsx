@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Brain, Droplets, ShoppingCart, Utensils, Zap, CheckCircle2, Circle } from 'lucide-react';
 import { clsx } from 'clsx';
+import { textStyles } from '@/design-system';
 
 type Tab = 'intag' | 'prepp' | 'inkop';
 
@@ -40,7 +41,7 @@ export function NeuroNutritionHub() {
           </div>
           <div>
             <h2 className="font-display-serif text-lg tracking-wide text-text">Neuro-Nutrition</h2>
-            <p className="text-xs font-medium uppercase tracking-wider text-text-dim">
+            <p className={textStyles.eyebrow}>
               Biokemisk stabilisering
             </p>
           </div>
@@ -222,7 +223,7 @@ export function NeuroNutritionHub() {
 
         {activeTab === 'inkop' && (
           <div>
-            <p className="mb-3 text-xs uppercase tracking-widest text-accent/80">
+            <p className={`mb-3 ${textStyles.eyebrow} text-accent/80`}>
               Hjärnskyddande Basvaror
             </p>
             <div className="grid grid-cols-2 gap-2">

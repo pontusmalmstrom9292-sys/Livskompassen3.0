@@ -47,6 +47,23 @@
     box-shadow: var(--widget-elevation);
   }
 
+  .widget-shell--companion {
+    background:
+      radial-gradient(ellipse 100% 70% at 50% -8%, color-mix(in srgb, #d4af37 10%, transparent), transparent 52%),
+      radial-gradient(circle at 80% 0%, color-mix(in srgb, #38bdf8 6%, transparent), transparent 40%),
+      radial-gradient(circle at 50% 120%, rgba(10, 14, 24, 0.7), transparent 55%),
+      #0d0b09;
+  }
+
+  .widget-shell--companion .widget-shell__title {
+    letter-spacing: 0.02em;
+  }
+
+  .widget-shell--companion .widget-shell__surface {
+    border-color: color-mix(in srgb, #d4af37 22%, transparent);
+    background: color-mix(in srgb, #020617 78%, transparent);
+  }
+
   .widget-shell__panic.widget-btn--icon {
     @apply min-h-11 min-w-11 flex-row gap-1.5 px-3 py-2;
   }
@@ -213,6 +230,50 @@
 
   .fyren-widget-bar__backdrop {
     @apply pointer-events-auto fixed inset-0 z-[54] border-0 bg-black/25 backdrop-blur-[1px];
+  }
+
+  .fyren-widget-bar__strip {
+    @apply pointer-events-auto flex max-h-[min(42vh,20rem)] w-full flex-wrap items-stretch justify-center gap-2 overflow-y-auto rounded-2xl border border-border/40 bg-surface/90 p-3 shadow-[0_18px_40px_-24px_rgba(0,0,0,0.7)] backdrop-blur-md;
+  }
+
+  .fyren-widget-bar__strip--closed {
+    @apply pointer-events-none invisible opacity-0;
+  }
+
+  .fyren-widget-bar__action {
+    @apply inline-flex min-h-11 min-w-[4.5rem] flex-col items-center justify-center gap-1 rounded-xl border border-border/25 bg-surface-2/70 px-2 py-2 text-center text-text transition;
+    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55;
+  }
+
+  .fyren-widget-bar__action:hover {
+    @apply border-accent/30 bg-surface-3/80;
+  }
+
+  .fyren-widget-bar__label {
+    @apply text-[10px] font-medium uppercase tracking-[var(--ds-letter-spacing-widest,0.14em)] text-text-dim;
+  }
+
+  .fyren-widget-bar__icon-shell {
+    @apply inline-flex h-9 w-9 items-center justify-center;
+  }
+
+  .fyren-widget-bar__drawer-l2 {
+    @apply h-5 w-5 text-accent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fyren-widget-bar__action {
+      transition: none;
+    }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .fyren-widget-bar__strip {
+      @apply bg-surface backdrop-blur-none;
+    }
+    .fyren-widget-bar__backdrop {
+      @apply bg-surface/90 backdrop-blur-none;
+    }
   }
 
   .widget-record-discreet-overlay {

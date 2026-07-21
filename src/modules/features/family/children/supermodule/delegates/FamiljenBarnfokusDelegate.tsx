@@ -21,6 +21,7 @@ import { PinnedPlaneringModuleSlot } from '@/features/admin/planning/components/
 import { ChildBirthDatePrompt } from '../../components/ChildBirthDatePrompt';
 import { fireAdaptationEvent } from '@/core/adaptation/fireAdaptationEvent';
 import { useStore } from '@/core/store';
+import { EmptyState } from '@/core/ui/EmptyState';
 
 function pickQuestion(
   pool: BarnfokusQuestion[],
@@ -191,9 +192,10 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
 
       <CalmCollapsible title="Minneslista" meta={memoryMeta} defaultOpen={false} glow="green">
         {memoryRows.length === 0 ? (
-          <p className="text-xs text-text-dim">
-            Inga sparade svar ännu. Ett svar dyker upp här direkt efter du sparar.
-          </p>
+          <EmptyState
+            className="!p-3"
+            message="Inga sparade svar ännu. Ett svar dyker upp här direkt efter du sparar."
+          />
         ) : (
           <ul className="space-y-2">
             {memoryRows.map((row, index) => (

@@ -3,6 +3,7 @@ import type { MabraProjectId } from '@/features/dailyLife/wellbeing/mabra/consta
 import type { VitEntryFilter } from '@/features/dailyLife/wellbeing/mabra/lib/filterVitEntries';
 import { VIT_HUB_KRAVLOST } from '@/features/dailyLife/wellbeing/mabra/lib/vitHubCopy';
 import { VitEntryList } from './VitEntryList';
+import { EmptyState } from '@/core/ui/EmptyState';
 
 type Props = {
   entries: VitEntryRow[];
@@ -17,7 +18,10 @@ export function VitRecentOverview({ entries, onOpenEntry }: Props) {
     return (
       <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="Senaste">
         <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">Senaste</h2>
-        <p className="mt-2 text-sm text-text-dim">Inget sparat ännu — börja i MåBra när du vill.</p>
+        <EmptyState
+          className="mt-2 !border-0 !bg-transparent !p-0 !shadow-none"
+          message="Inget sparat ännu — börja i MåBra när du vill."
+        />
       </section>
     );
   }

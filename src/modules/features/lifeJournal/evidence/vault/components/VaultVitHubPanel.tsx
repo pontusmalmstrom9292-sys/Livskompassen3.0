@@ -230,7 +230,7 @@ export function VaultVitHubPanel({ userId }: Props) {
       </BentoCard>
 
       <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="Projekt">
-        <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">Projekt</h2>
+        <h2 className={textStyles.eyebrow}>Projekt</h2>
         <ul className="mt-3 space-y-2">
           {MABRA_PROJECTS.map((project) => {
             const count = stats.projectCounts[project.id] ?? 0;
@@ -269,7 +269,7 @@ export function VaultVitHubPanel({ userId }: Props) {
       <VitMabraPassPanel stats={stats} />
 
       <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="Export">
-        <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">Export</h2>
+        <h2 className={textStyles.eyebrow}>Export</h2>
         <p className="mt-2 text-xs text-text-dim">
           Till dig själv — inte dossier eller bevis mot ex.
           {activeFilterLabel ? ` Exporterar filter: ${activeFilterLabel}.` : null}

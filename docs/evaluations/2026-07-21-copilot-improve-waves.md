@@ -126,3 +126,62 @@
 ### hub-eyebrow-sweep-remaining — PASS (YOLO v9)
 - 8 hub/panel files → textStyles.eyebrow
 - Smoke: design-modules, build PASS
+
+
+### empty-state-sweep-valv-familjen — PASS (YOLO v9)
+- EmptyState in Barnfokus, FamiljenMonster, VitRecent, BiffTriage×2, Dossier, VaultMonster
+- Unlock via ui-polish-waves; re-lock MOD-FAM-* + MOD-VALV-HUB
+- Smoke: build, locked-ux, children, hamn PASS
+
+
+### form-label-a11y-sweep — PASS (YOLO v9)
+- Ekonomi/Inkast/Dagbok: htmlFor, aria-invalid, role=alert, min-h-11
+- smoke:inkast assert → assertWormCollectionWrite (API-drift)
+- Smoke: build, ekonomi, inkast, design-modules PASS
+
+
+### speglar-evidence-polish — PASS (YOLO v9)
+- SpeglarEvidencePanel + EvidenceCompareView: EmptyState, textStyles.eyebrow, focus-visible
+- Smoke: build, speglar, locked-ux PASS
+
+
+### inkast-review-queue-polish — PASS (YOLO v9)
+- InboxReviewQueue: HubPanelSkeleton, eyebrow, focus-visible; UnifiedHitlPreview eyebrows
+- Smoke: build, inkast, inkast-fas2 PASS
+
+
+### widget-action-dashboard-polish — PASS (YOLO v9)
+- ActionDashboard + WidgetActionTile: role=alert, eyebrow, motion-safe, min-h-11/focus
+- Smoke: build, widgets, locked-ux PASS
+
+
+### fyren-edge-widget-polish — PASS (YOLO v9)
+- Fyren strip/action CSS: min-h-11, focus, reduced-motion/transparency
+- QuickCaptureOverlay close: 44px + focus-visible
+- Smoke: build, widgets, locked-ux PASS
+
+
+### drogfrihet-hub-a11y-polish — PASS (YOLO v9)
+- Hub SOS + Öppna: token tracking + focus; banners: min-h-11 focus links/CTAs
+- Smoke: build, design-modules, locked-ux, drogfrihet PASS
+
+
+### custom-modules-ui-polish — PASS (YOLO v9)
+- UserWidgetHomeSlot calm-card + eyebrow; ModulerAddForm preview + alerts
+- Smoke: build, custom-modules, widgets PASS
+
+
+### sos-akut-landing-polish — PASS (YOLO v9)
+- AkutLanding: calm-card, hierarchy, min-h-14/11 CTAs, focus-visible
+- Smoke: build, locked-ux, design-modules PASS
+
+
+### grans-biff-sheet-polish — PASS (YOLO v9)
+- BiffPublicPanel: EmptyState tom hint, aria-invalid, focus-visible on textarea/link
+- Smoke: build, grans, biff-rewrite PASS
+
+
+### contrast-navy-glass-audit — PASS (YOLO v9)
+- Body/lead text-text-dim → text-text-muted on glass hubs (Hamn, Hem, Speglar ACT)
+- Documented in DASHBOARD
+- Smoke: design-modules, locked-ux, build PASS

@@ -135,10 +135,7 @@ export function VaultMonsterPanel({ logs, userId, onTechniqueSelect }: Props) {
         </p>
         <div className="mt-4 space-y-3">
           {report.topTechniques.length === 0 ? (
-            <p className="text-sm text-text-dim">
-              Inga kända manipulationstaktiker hittades i befintliga poster (bra tecken, eller
-              kortare texter).
-            </p>
+            <EmptyState message="Inga kända manipulationstaktiker hittades i befintliga poster (bra tecken, eller kortare texter)." />
           ) : (
             report.topTechniques.map(({ technique, count }) => (
               <BarRow

@@ -89,7 +89,7 @@ function smokeStaticStructure() {
     assert(inkastService.includes(tag.label), `TAG_GROUPS saknar label ${tag.label}`);
   }
 
-  assert(inboxPersist.includes('assertServerWormPayload'), 'inboxPersist saknar assertServerWormPayload');
+  assert(inboxPersist.includes('assertWormCollectionWrite') || inboxPersist.includes('assertServerWormPayload'), 'inboxPersist saknar WORM-assert (assertWormCollectionWrite)');
   assert(inboxPersist.includes('driveInboxSourceRef'), 'inboxPersist saknar driveInboxSourceRef dedup');
   assert(inboxPersist.includes('reality_vault'), 'inboxPersist → reality_vault');
   assert(inboxPersist.includes('children_logs'), 'inboxPersist → children_logs');

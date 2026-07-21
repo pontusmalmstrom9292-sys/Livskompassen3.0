@@ -1,5 +1,6 @@
 import { CaptureSuperModule } from '@/modules/capture/CaptureSuperModule';
 import type { FamiljenDelegateBaseProps } from './familjenDelegateTypes';
+import { textStyles } from '@/design-system';
 
 /**
  * Fas 15 I3 — minimal inkast via G10 (ingen dublett av BarnfokusFraganPanel).
@@ -19,7 +20,7 @@ export function FamiljenInkastDelegate({ shell, onSaved }: FamiljenDelegateBaseP
   return (
     <div className="space-y-3 pt-2">
       <header className="mb-4 space-y-1">
-        <p className="text-xs uppercase tracking-widest text-text-dim">Inkast & granskningskö</p>
+        <p className={textStyles.eyebrow}>Inkast & granskningskö</p>
         <p className="text-xs text-text-dim">
           Mata in barnobservation snabbt. AI föreslår silo — du granskar alltid innan spar i
           barnloggar. Ingen auto-promote till Valv.

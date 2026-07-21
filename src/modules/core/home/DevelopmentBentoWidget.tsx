@@ -477,7 +477,7 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
       ) : null}
 
       {!loadingCompleted && mix.length === 0 ? (
-        <p className="text-xs text-text-dim">
+        <p className="text-xs text-text-muted">
           Inga kort just nu. Hämta ett faktapack eller skapa en egen kategori.
         </p>
       ) : (

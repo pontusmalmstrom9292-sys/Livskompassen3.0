@@ -21,7 +21,7 @@ export function ComebackBanner({ uid, onOpenSos, onOpenPlan, onDismiss }: Props)
         <Button
           type="button"
           variant="accent"
-          className="--accent min-h-[48px]"
+          className="--accent min-h-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           onClick={() => {
             setComebackPending(uid, false);
             onOpenSos();
@@ -32,7 +32,7 @@ export function ComebackBanner({ uid, onOpenSos, onOpenPlan, onDismiss }: Props)
         <Button
           type="button"
           variant="secondary"
-          className="--secondary min-h-[48px]"
+          className="--secondary min-h-12 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           onClick={() => {
             setComebackPending(uid, false);
             onOpenPlan();
@@ -43,7 +43,7 @@ export function ComebackBanner({ uid, onOpenSos, onOpenPlan, onDismiss }: Props)
         <Button
           type="button"
           variant="ghost"
-          className="--ghost min-h-[44px]"
+          className="--ghost min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           onClick={() => {
             setComebackPending(uid, false);
             onDismiss();

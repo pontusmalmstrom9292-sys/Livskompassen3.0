@@ -26,7 +26,7 @@ function ShortcutCard({ item, onOpen }: { item: HomeSuperhubShortcut; onOpen: (t
       <span className="font-display-serif text-[10px] uppercase tracking-[0.18em] text-text">
         {item.label}
       </span>
-      <span className="text-[10px] leading-snug text-text-dim">{item.lead}</span>
+      <span className="text-[10px] leading-snug text-text-muted">{item.lead}</span>
     </button>
   );
 }

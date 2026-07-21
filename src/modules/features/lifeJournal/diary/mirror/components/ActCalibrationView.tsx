@@ -133,7 +133,7 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
               </Button>
             </>
           ) : (
-            <p className="text-sm text-text-dim">
+            <p className="text-sm text-text-muted">
               Skriv hur det känns och tryck Spegla — jag fixar inget här.
             </p>
           )}

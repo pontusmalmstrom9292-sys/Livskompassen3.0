@@ -1,12 +1,23 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T12:39:16.000Z",
-  "updatedAt": "2026-07-21T12:44:06.000Z",
-  "currentTaskId": "empty-state-sweep-valv-familjen",
+  "updatedAt": "2026-07-21T13:02:33.000Z",
+  "currentTaskId": "icon-button-aria-sweep",
   "completedTaskIds": [
     "g85-friction-d5-prep",
     "adhoc-dialog-audit",
-    "hub-eyebrow-sweep-remaining"
+    "hub-eyebrow-sweep-remaining",
+    "empty-state-sweep-valv-familjen",
+    "form-label-a11y-sweep",
+    "speglar-evidence-polish",
+    "inkast-review-queue-polish",
+    "widget-action-dashboard-polish",
+    "fyren-edge-widget-polish",
+    "drogfrihet-hub-a11y-polish",
+    "custom-modules-ui-polish",
+    "sos-akut-landing-polish",
+    "grans-biff-sheet-polish",
+    "contrast-navy-glass-audit"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],

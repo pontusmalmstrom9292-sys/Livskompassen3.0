@@ -97,7 +97,7 @@ export function EconomyEnvelopeSection({ disabled = false }: { disabled?: boolea
       icon={<Wallet className="h-4 w-4" />}
       description="Manuella kategoribudgetar — inga bankkopplingar"
     >
-      {error && <p className="mb-2 text-sm text-danger">{error}</p>}
+      {error ? <p id="ekonomi-envelope-error" className="mb-2 text-sm text-danger" role="alert">{error}</p> : null}
 
       {loading ? (
         <p className="flex items-center gap-2 text-sm text-text-dim">
@@ -132,17 +132,19 @@ export function EconomyEnvelopeSection({ disabled = false }: { disabled?: boolea
                     <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
-                <label className="mt-2 block text-xs text-text-muted">
+                <label htmlFor={`ekonomi-envelope-spent-${env.id}`} className="mt-2 block text-xs text-text-muted">
                   Förbrukat (kr)
                   <input
+                    id={`ekonomi-envelope-spent-${env.id}`}
                     type="number"
                     defaultValue={env.spentSek}
                     disabled={busy || disabled}
                     onBlur={(e) =>
                       void handleUpdateSpent(env, Number(e.target.value) || 0)
                     }
-                    className="input-glass mt-1 w-full text-sm"
+                    className="input-glass mt-1 min-h-11 w-full text-sm"
                     min={0}
+                    aria-invalid={Boolean(error)}
                   />
                 </label>
               </li>
@@ -153,27 +155,32 @@ export function EconomyEnvelopeSection({ disabled = false }: { disabled?: boolea
 
       <form onSubmit={(e) => void handleCreate(e)} className="mt-4 space-y-3 border-t border-border pt-4">
         <p className="text-xs uppercase tracking-wider text-text-dim">Nytt kuvert</p>
-        <label className="block text-xs text-text-muted">
+        <label htmlFor="ekonomi-envelope-title" className="block text-xs text-text-muted">
           Namn
           <input
+            id="ekonomi-envelope-title"
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             disabled={busy || disabled}
-            className="input-glass mt-1 w-full text-sm"
+            className="input-glass mt-1 min-h-11 w-full text-sm"
             placeholder="t.ex. Mat"
             required
+            aria-invalid={Boolean(error)}
+            aria-describedby={error ? 'ekonomi-envelope-error' : undefined}
           />
         </label>
-        <label className="block text-xs text-text-muted">
+        <label htmlFor="ekonomi-envelope-budget" className="block text-xs text-text-muted">
           Budget (kr)
           <input
+            id="ekonomi-envelope-budget"
             type="number"
             value={allocatedSek}
             onChange={(e) => setAllocatedSek(Number(e.target.value) || 0)}
             disabled={busy || disabled}
-            className="input-glass mt-1 w-full text-sm"
+            className="input-glass mt-1 min-h-11 w-full text-sm"
             min={0}
+            aria-invalid={Boolean(error)}
           />
         </label>
         <Button type="submit" variant="secondary" disabled={busy || disabled || !user} className="w-full text-sm">

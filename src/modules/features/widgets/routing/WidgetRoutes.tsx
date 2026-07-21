@@ -12,6 +12,18 @@ import { WidgetVoiceVaultPage } from '../pages/WidgetVoiceVaultPage';
 import { WidgetProjektPage } from '../pages/WidgetProjektPage';
 import { WidgetModulerPage } from '../pages/WidgetModulerPage';
 import { WidgetDrogfrihetAkutPage } from '../pages/WidgetDrogfrihetAkutPage';
+import { WidgetCompanionCapturePage } from '../pages/WidgetCompanionCapturePage';
+import {
+  WidgetCompanionAnchorPage,
+  WidgetCompanionBeaconPage,
+  WidgetCompanionChildPage,
+  WidgetCompanionCompassPage,
+  WidgetCompanionHarborPage,
+  WidgetCompanionInboxPage,
+  WidgetCompanionJournalPage,
+  WidgetCompanionNotePage,
+  WidgetCompanionTasksPage,
+} from '../pages/WidgetCompanionSurfacePage';
 import { useWidgetRouteMode } from '../hooks/useWidgetRouteMode';
 
 function WidgetRouteMode() {
@@ -37,6 +49,16 @@ export function WidgetRoutes() {
       <Route path="aktioner" element={<WidgetActionDashboardPage />} />
       <Route path="moduler" element={<WidgetModulerPage />} />
       <Route path="drogfrihet-akut" element={<WidgetDrogfrihetAkutPage />} />
+      <Route path="companion-capture" element={<WidgetCompanionCapturePage />} />
+      <Route path="companion-inbox" element={<WidgetCompanionInboxPage />} />
+      <Route path="companion-note" element={<WidgetCompanionNotePage />} />
+      <Route path="companion-harbor" element={<WidgetCompanionHarborPage />} />
+      <Route path="companion-compass" element={<WidgetCompanionCompassPage />} />
+      <Route path="companion-child" element={<WidgetCompanionChildPage />} />
+      <Route path="companion-beacon" element={<WidgetCompanionBeaconPage />} />
+      <Route path="companion-journal" element={<WidgetCompanionJournalPage />} />
+      <Route path="companion-anchor" element={<WidgetCompanionAnchorPage />} />
+      <Route path="companion-tasks" element={<WidgetCompanionTasksPage />} />
       <Route path="*" element={<Navigate to="/widget/inspelning" replace />} />
     </Routes>
     </>

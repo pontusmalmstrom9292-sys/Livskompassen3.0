@@ -178,6 +178,8 @@ export function EkonomiSaldoDelegate({ userId }: EkonomiSaldoDelegateProps) {
               }}
               className="input-glass min-h-11 w-full tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60"
               aria-label="Belopp i kronor"
+              aria-invalid={Boolean(displayError)}
+              aria-describedby={displayError ? 'ekonomi-saldo-error' : undefined}
             />
           </label>
           <label className="flex min-w-[10rem] flex-[2] flex-col gap-1.5">
@@ -193,6 +195,7 @@ export function EkonomiSaldoDelegate({ userId }: EkonomiSaldoDelegateProps) {
               }}
               className="input-glass min-h-11 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60"
               aria-label="Etikett för transaktionen"
+              aria-invalid={Boolean(displayError)}
             />
           </label>
         </div>
@@ -220,6 +223,7 @@ export function EkonomiSaldoDelegate({ userId }: EkonomiSaldoDelegateProps) {
 
       {displayError ? (
         <p
+          id="ekonomi-saldo-error"
           className="flex items-start gap-2 rounded-xl border border-danger/25 bg-danger/5 px-3 py-2.5 text-sm leading-relaxed text-danger"
           role="alert"
         >

@@ -21,6 +21,7 @@ import { getDefaultTarget, type ChameleonTarget } from '../home/chameleonBridge'
 import type { ChameleonZoneId } from '../home/chameleonZones';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { NAV_PATHS } from '../navigation/navTruth';
+import { CompanionHomeRail } from '@/widgets/pack/CompanionHomeRail';
 
 
 export function HomePage() {
@@ -105,12 +106,21 @@ export function HomePage() {
               <div className="mx-auto w-full max-w-2xl px-1">
                 <CalmCollapsible title="Mer för dig" meta="Valfritt" defaultOpen={false} glow="gold">
                   <div className="space-y-4 pt-1">
+                    {isAuthenticated ? <CompanionHomeRail max={2} /> : null}
                     {showAdaptiveCards ? (
                       <AdaptiveMemoryCards refreshKey={adaptiveRefreshKey} presetId={presetId} />
                     ) : null}
                     {showDevelopmentRail ? (
                       <HemV3DevelopmentRail refreshKey={adaptiveRefreshKey} />
                     ) : null}
+                  </div>
+                </CalmCollapsible>
+              </div>
+            ) : isAuthenticated && !mockupSkin ? (
+              <div className="mx-auto w-full max-w-2xl px-1">
+                <CalmCollapsible title="Companion" meta="Valfritt" defaultOpen={false} glow="gold">
+                  <div className="pt-1">
+                    <CompanionHomeRail max={2} />
                   </div>
                 </CalmCollapsible>
               </div>

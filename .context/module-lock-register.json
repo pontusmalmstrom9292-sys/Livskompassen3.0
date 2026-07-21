@@ -96,7 +96,7 @@
       ],
       "snapshotKey": null,
       "lockedAt": "2026-07-21",
-      "lockedCommit": "908e95f31",
+      "lockedCommit": "7d8c1ec20",
       "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
       "unlockedAt": "2026-07-21"
     },
@@ -137,7 +137,7 @@
       ],
       "snapshotKey": null,
       "lockedAt": "2026-07-21",
-      "lockedCommit": "e83b073f1",
+      "lockedCommit": "2edf0ce68",
       "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
       "unlockedAt": "2026-07-21"
     },
@@ -159,7 +159,7 @@
       ],
       "snapshotKey": "valv",
       "lockedAt": "2026-07-21",
-      "lockedCommit": "60808f9dc",
+      "lockedCommit": "9311aa4b0",
       "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
       "unlockedAt": "2026-07-21"
     },
@@ -181,7 +181,7 @@
       ],
       "snapshotKey": "inkast",
       "lockedAt": "2026-07-21",
-      "lockedCommit": "e83b073f1",
+      "lockedCommit": "1062a4182",
       "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
       "unlockedAt": "2026-07-21"
     },
@@ -242,7 +242,7 @@
       "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
       "unlockedAt": "2026-07-21",
       "lockedAt": "2026-07-21",
-      "lockedCommit": "2e1f801d3"
+      "lockedCommit": "a98ecfbfe"
     },
     {
       "id": "MOD-VARD-PLAN",
@@ -283,7 +283,7 @@
       ],
       "snapshotKey": null,
       "lockedAt": "2026-07-21",
-      "lockedCommit": "8a338ec79"
+      "lockedCommit": "7d8c1ec20"
     },
     {
       "id": "MOD-VARD-ARB",
@@ -322,7 +322,7 @@
       ],
       "snapshotKey": null,
       "lockedAt": "2026-07-21",
-      "lockedCommit": "d21dfeeb0",
+      "lockedCommit": "ba5d5b2cc",
       "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
       "unlockedAt": "2026-07-21"
     },
@@ -343,7 +343,7 @@
       ],
       "snapshotKey": null,
       "lockedAt": "2026-07-21",
-      "lockedCommit": "d21dfeeb0",
+      "lockedCommit": "ba5d5b2cc",
       "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
       "unlockedAt": "2026-07-21"
     },
@@ -392,7 +392,7 @@
       ],
       "snapshotKey": null,
       "lockedAt": "2026-07-21",
-      "lockedCommit": "6570106d0",
+      "lockedCommit": "2edf0ce68",
       "unlockedAt": "2026-07-21",
       "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md"
     },
@@ -445,7 +445,7 @@
       "unlockedAt": "2026-07-21",
       "notes": "Improve-only when locked. Dual-lock Recovery*. Familjen placement. SOS offline ZF. No streaks. Akut: 112 / 90101.",
       "lockedAt": "2026-07-21",
-      "lockedCommit": "e83b073f1"
+      "lockedCommit": "a98ecfbfe"
     },
     {
       "id": "MOD-BACK-SYN",
@@ -513,33 +513,41 @@
     },
     {
       "id": "MOD-WIDGET",
-      "namn": "Fyren + widget-routes",
+      "namn": "Fyren + Companion Widget OS",
       "zon": "Cross",
       "status": "locked",
       "globs": [
+        "src/widgets/**",
         "src/modules/core/ui/widget-icons/**",
         "src/modules/features/widgets/**",
         "src/modules/core/components/FyrenWidgetBar.tsx",
         "src/modules/core/components/FyrenSideQuickDock.tsx",
         "android/app/src/main/java/com/livskompassen/app/widgets/**",
         "android/app/src/main/res/layout/widget_*.xml",
-        "android/app/src/main/res/xml/widget_*_info.xml"
+        "android/app/src/main/res/xml/widget_*_info.xml",
+        "scripts/smoke_companion_widgets.mjs",
+        "scripts/smoke_widgets.mjs"
       ],
       "entryFiles": [
+        "src/widgets/index.ts",
+        "src/widgets/pack/CompanionHomeRail.tsx",
+        "src/widgets/pack/registerCorePack.ts",
+        "src/widgets/studio/WidgetStudioPage.tsx",
+        "src/modules/features/widgets/pages/WidgetCompanionSurfacePage.tsx",
         "src/modules/core/ui/widget-icons/FyrenShortcutMicIcon.tsx",
         "src/modules/features/widgets/pages/WidgetRecordPage.tsx",
         "src/modules/features/widgets/pages/WidgetModulerPage.tsx"
       ],
       "smoke": [
+        "smoke:companion-widgets",
         "smoke:widgets",
         "smoke:widget-ingest",
         "smoke:custom-modules"
       ],
       "snapshotKey": null,
-      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
-      "unlockedAt": "2026-07-21",
       "lockedAt": "2026-07-21",
-      "lockedCommit": "e83b073f1"
+      "lockedCommit": "a4e3a0ef3",
+      "notes": "Companion OS Locked UX §23 — borttagning kräver unlock-doc + Pontus OK. Byggvåg: docs/evaluations/2026-07-21-unlock-MOD-WIDGET-companion-os.md"
     },
     {
       "id": "MOD-CORE-MINNE",

@@ -124,7 +124,7 @@ export function EconomySavingsPanel({
       icon={<PiggyBank className="h-4 w-4" />}
       description={description}
     >
-      {error && <p className="mb-2 text-sm text-danger">{error}</p>}
+      {error ? <p id="ekonomi-savings-error" className="mb-2 text-sm text-danger" role="alert">{error}</p> : null}
 
       {loading ? (
         <p className="flex items-center gap-2 text-sm text-text-dim">
@@ -159,16 +159,18 @@ export function EconomySavingsPanel({
                     />
                   </div>
                   <div className="mt-3 flex items-start justify-between gap-2">
-                    <label className="block flex-1 text-xs text-text-muted">
+                    <label htmlFor={`ekonomi-goal-current-${goal.id}`} className="block flex-1 text-xs text-text-muted">
                       Uppdatera sparat belopp (kr)
                       <input
+                        id={`ekonomi-goal-current-${goal.id}`}
                         type="number"
                         defaultValue={goal.currentSek}
                         disabled={busy || disabled}
                         onBlur={(e) =>
                           void handleUpdateCurrent(goal, Number(e.target.value) || 0)
                         }
-                        className="input-glass mt-1 w-full text-sm"
+                        className="input-glass mt-1 min-h-11 w-full text-sm"
+                        aria-invalid={Boolean(error)}
                       />
                     </label>
                     <Button
@@ -198,39 +200,46 @@ export function EconomySavingsPanel({
       {(!compact || goals.length === 0) && (
       <form onSubmit={(e) => void handleCreate(e)} className="mt-4 space-y-3 border-t border-border pt-4">
         <p className="text-xs uppercase tracking-wider text-text-dim">Nytt sparmål</p>
-        <label className="block text-xs text-text-muted">
+        <label htmlFor="ekonomi-goal-title" className="block text-xs text-text-muted">
           Namn
           <input
+            id="ekonomi-goal-title"
             type="text"
             value={goalTitle}
             onChange={(e) => setGoalTitle(e.target.value)}
             disabled={busy || disabled}
-            className="input-glass mt-1 w-full text-sm"
+            className="input-glass mt-1 min-h-11 w-full text-sm"
             placeholder="t.ex. Buffert"
             required
+            aria-invalid={Boolean(error)}
+            aria-describedby={error ? 'ekonomi-savings-error' : undefined}
           />
         </label>
         <div className="grid grid-cols-2 gap-3">
-          <label className="block text-xs text-text-muted">
+          <label htmlFor="ekonomi-goal-target" className="block text-xs text-text-muted">
             Mål (kr)
             <input
+              id="ekonomi-goal-target"
               type="number"
               value={targetSek}
               onChange={(e) => setTargetSek(Number(e.target.value) || 0)}
               disabled={busy || disabled}
-              className="input-glass mt-1 w-full text-sm"
+              className="input-glass mt-1 min-h-11 w-full text-sm"
               min={0}
+              aria-invalid={Boolean(error)}
             />
           </label>
-          <label className="block text-xs text-text-muted">
+          <label htmlFor="ekonomi-goal-saved" className="block text-xs text-text-muted">
             Redan sparat (kr)
             <input
+              id="ekonomi-goal-saved"
               type="number"
               value={currentSek}
               onChange={(e) => setCurrentSek(Number(e.target.value) || 0)}
               disabled={busy || disabled}
-              className="input-glass mt-1 w-full text-sm"
+              className="input-glass mt-1 min-h-11 w-full text-sm"
               min={0}
+              aria-invalid={Boolean(error)}
             />
           </label>
         </div>

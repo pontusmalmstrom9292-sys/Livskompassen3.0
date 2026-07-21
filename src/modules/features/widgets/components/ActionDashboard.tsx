@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { TextArea } from '@/design-system';
+import { TextArea, textStyles } from '@/design-system';
 import {
   Camera,
   Check,
@@ -260,7 +260,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
       <div className="space-y-3">
         {recPhase === 'recording' && (
           <div className="rounded-xl border border-accent/30 bg-accent/10 px-3 py-3">
-            <p className="flex items-center gap-2 text-xs uppercase tracking-widest text-accent">
+            <p className={`flex items-center gap-2 ${textStyles.eyebrow} text-accent`}>
               <span className="widget-record__dot" aria-hidden />
               Spelar in…
             </p>
@@ -303,7 +303,8 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
               rows={3}
               maxLength={REFLECTION_MAX_CHARS}
               placeholder="En kort tanke eller observation…"
-              className="input-glass neu-inset w-full resize-none rounded-xl px-3 py-2 text-sm"
+              aria-label="Kort reflektion"
+              className="input-glass neu-inset min-h-11 w-full resize-none rounded-xl px-3 py-2 text-sm"
               disabled={saving}
             />
             <p className="text-right text-[10px] text-text-dim">
@@ -339,9 +340,9 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
           </>
         )}
 
-        {recError && <p className="text-sm text-danger">{recError}</p>}
-        {speech.error && <p className="text-sm text-danger">{speech.error}</p>}
-        {error && <p className="text-sm text-danger">{error}</p>}
+        {recError && <p className="text-sm text-danger" role="alert">{recError}</p>}
+        {speech.error && <p className="text-sm text-danger" role="alert">{speech.error}</p>}
+        {error && <p className="text-sm text-danger" role="alert">{error}</p>}
       </div>
     </WidgetDashboardSection>
   );
@@ -580,7 +581,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
             <button
               type="button"
               onClick={speech.isListening ? speech.stop : speech.start}
-              className={`flex h-11 w-11 items-center justify-center rounded-xl border transition active:scale-[0.97] ${
+              className={`flex h-11 w-11 items-center justify-center rounded-xl border transition motion-safe:active:scale-[0.97] ${
                 speech.isListening
                   ? 'border-accent/50 bg-accent/20 text-accent'
                   : 'border-border/30 bg-surface-3/50 text-accent hover:border-accent/40 hover:bg-surface-3'
@@ -598,7 +599,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
           <button
             type="button"
             onClick={handleTextFocus}
-            className="flex h-11 w-11 items-center justify-center rounded-xl border border-border/30 bg-surface-3/50 text-accent transition active:scale-[0.97] hover:border-accent/40 hover:bg-surface-3"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-border/30 bg-surface-3/50 text-accent transition motion-safe:active:scale-[0.97] hover:border-accent/40 hover:bg-surface-3"
             aria-label="Textinmatning för barnlogg"
           >
             <PenLine className="h-5 w-5" aria-hidden />
@@ -606,7 +607,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
           <button
             type="button"
             onClick={handleCameraClick}
-            className={`relative flex h-11 w-11 items-center justify-center rounded-xl border transition active:scale-[0.97] ${
+            className={`relative flex h-11 w-11 items-center justify-center rounded-xl border transition motion-safe:active:scale-[0.97] ${
               attachedPhoto
                 ? 'border-success/50 bg-success/15 text-success'
                 : 'border-border/30 bg-surface-3/50 text-accent hover:border-accent/40 hover:bg-surface-3'
@@ -671,8 +672,8 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
           )}
           Spara till {childAlias}s logg
         </WidgetButton>
-        {error && <p className="text-sm text-danger">{error}</p>}
-        {speech.error ? <p className="text-sm text-danger">{speech.error}</p> : null}
+        {error && <p className="text-sm text-danger" role="alert">{error}</p>}
+        {speech.error ? <p className="text-sm text-danger" role="alert">{speech.error}</p> : null}
       </div>
     </WidgetDashboardSection>
   );

@@ -1,4 +1,4 @@
-import { ButtonLink } from '@/design-system';
+import { ButtonLink, textStyles } from '@/design-system';
 import { ExternalLink, Smartphone } from 'lucide-react';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -30,7 +30,7 @@ export function BarnportenParentHubPanel({ activeChild }: Props) {
         <div className="flex items-start gap-3">
           <Smartphone className="mt-0.5 h-5 w-5 shrink-0 text-accent" aria-hidden />
           <div>
-            <p className="text-xs uppercase tracking-widest text-text-dim">Barn-PWA</p>
+            <p className={textStyles.eyebrow}>Barn-PWA</p>
             <p className="mt-1 text-sm text-text-muted">
               Barnet öppnar <strong className="font-normal text-text">/barnporten</strong> på sin
               enhet — separat manifest, ingen Valv-exponering.

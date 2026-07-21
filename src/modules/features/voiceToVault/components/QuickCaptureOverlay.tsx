@@ -61,7 +61,7 @@ export function QuickCaptureOverlay() {
               <button
                 type="button"
                 onClick={close}
-                className="rounded-full p-2 text-text-muted transition-colors hover:bg-surface-3 hover:text-text"
+                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full p-2 text-text-muted transition-colors hover:bg-surface-3 hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                 aria-label="Stäng"
               >
                 <X className="h-5 w-5" />

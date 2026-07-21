@@ -1,6 +1,8 @@
+import { textStyles } from '@/design-system';
 import { ExternalLink } from 'lucide-react';
 import type { VaultLog } from '@/core/types/firestore';
 import type { MediaAttachment } from '@/core/media/mediaAttachment';
+import { EmptyState } from '@/core/ui/EmptyState';
 import type { SavedSpeglarEvidence } from './SpeglarEvidencePanel';
 
 export interface VaultMatch {
@@ -31,17 +33,15 @@ export function EvidenceCompareView({
         {sessionAttachments.length > 0 && (
           <SessionEvidenceList attachments={sessionAttachments} saved={sessionSavedEvidence} />
         )}
-        <div className="glass-card border-accent/20 p-4 text-sm text-text-muted">
-          <p className="text-text-dim">
-            Valvet är låst. Håll Shield (Fyren) 3 sek → biometri → PIN för att jämföra mot sparade
-            bevis.
-          </p>
-          {feeling.trim() && (
-            <p className="mt-2 text-xs text-text-muted">
-              Känslan du beskrev gäller ändå — bevisjämförelse väntar på upplåsning.
-            </p>
-          )}
-        </div>
+        <EmptyState
+          className="border-accent/20"
+          title="Valvet är låst"
+          message={
+            feeling.trim()
+              ? 'Håll Shield (Fyren) 3 sek → biometri → PIN för att jämföra mot sparade bevis. Känslan du beskrev gäller ändå — bevisjämförelse väntar på upplåsning.'
+              : 'Håll Shield (Fyren) 3 sek → biometri → PIN för att jämföra mot sparade bevis.'
+          }
+        />
       </div>
     );
   }
@@ -54,21 +54,18 @@ export function EvidenceCompareView({
 
       <div className="grid gap-4 md:grid-cols-2">
         <div className="glass-card border-accent/30 p-3">
-          <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">Känsla + VIVIR</p>
+          <p className={`mb-2 ${textStyles.eyebrow}`}>Känsla + VIVIR</p>
           {feeling && <p className="mb-2 text-sm text-text-muted">{feeling}</p>}
           <p className="whitespace-pre-wrap text-sm text-text">{vivirSummary}</p>
         </div>
 
         <div className="glass-card p-3">
-          <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">Bevisankare (arkiv)</p>
+          <p className={`mb-2 ${textStyles.eyebrow}`}>Bevisankare (arkiv)</p>
           {matches.length === 0 ? (
-            <div className="space-y-2 text-sm text-text-dim">
-              <p>Inga matchande poster i arkivet ännu.</p>
-              <p className="text-xs text-text-muted">
-                Det du känner är fortfarande giltigt — spara sms eller logg i arkivet när du vill ha ett
-                ankare.
-              </p>
-            </div>
+            <EmptyState
+              className="!p-3"
+              message="Inga matchande poster i arkivet ännu. Det du känner är fortfarande giltigt — spara sms eller logg i arkivet när du vill ha ett ankare."
+            />
           ) : (
             <ul className="space-y-2">
               {matches.slice(0, 5).map(({ log, score }) => (
@@ -93,7 +90,7 @@ function SessionEvidenceList({
 
   return (
     <div className="glass-card p-3">
-      <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">Bilagor denna session</p>
+      <p className={`mb-2 ${textStyles.eyebrow}`}>Bilagor denna session</p>
       <ul className="space-y-2">
         {attachments.map((item) => {
           const vault = savedByAttachment.get(item.id);
@@ -152,7 +149,7 @@ function SessionPreview({ attachment }: { attachment: MediaAttachment }) {
 function VaultItem({ log, score }: { log: VaultLog & { id: string }; score: number }) {
   return (
     <li className="rounded-lg border border-border-strong p-2 text-sm">
-      <p className="text-[10px] uppercase tracking-widest text-text-dim">
+      <p className={textStyles.eyebrow}>
         {log.category ?? 'bevis'} · {(log.createdAt ?? '').slice(0, 10)} · träff {score}
       </p>
       <p className="mt-1 text-text-muted">{log.truth}</p>
