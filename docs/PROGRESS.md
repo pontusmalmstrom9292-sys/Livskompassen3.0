@@ -1,3 +1,76 @@
+# 2026-07-21 — Full deploy (egna moduler + build-fix)
+
+## 2026-07-21 — SAFE YOLO v2 `ui-polish-v2-vardagen` (MåBra + Planering)
+
+- Scope låst till våg 2: `mabra.css`, `planering.css`, `compasses.css`, `vardagen.css`.
+- A11y/polish: tydligare `focus-visible`, touch-target-härdning, transition-tokens (`--ds-duration-*`, `--ds-ease-*`), små typografi- och depth-lyft.
+- A11y fallback: lokal `prefers-reduced-motion` + `prefers-reduced-transparency` för berörda Vardagen/MåBra/Kompass-ytor.
+- Ingen flödes-, route- eller locked UX-ändring.
+- Verification: `npm run build` PASS · `npm run smoke:locked-ux` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:mabra` PASS · `npm run smoke:predeploy:build` PASS
+
+---
+
+## 2026-07-21 — UI polish vågor I–K
+
+- Oracle/Reflection/Zen/VaultGate/Adaptation: indigo/emerald → tokens
+- Planering CSS emerald→success · inkorg-ikon 44px · compass chips touch+tokens
+- Resurser/Tagg/Projekt/MåBra-ikoner 44px · Barnporten star CSS fix
+- Smoke: locked-ux, design-modules, compass PASS · re-lock
+
+
+## 2026-07-21 — UI polish vågor E–H
+
+- Ekonomi/Arbetsliv: emerald→success, impuls touch
+- Arkiv: indigo→accent, kalender/list tokens, hub-toggle 44px
+- Morgonkompassen: indigo/amber→accent + touch
+- Speglar evidence-länkar 44px · Inkast Check success-token
+- Smoke: locked-ux, design-modules, hamn, mabra, economy-vendor PASS · re-lock
+
+
+## 2026-07-21 — UI polish vågor A–D (Familjen→Hjärtat→Valv→Widgets)
+
+- Familjen/Barnporten/Hamn: 44px chips, indigo→accent, BIFF-knappar
+- Hjärtat ConfirmStep: token-märkning + touch
+- Valv: Monster-knappar, WORM-stamp, dossier success-token
+- Widgets: silo-chips + action-tile touch
+- Smoke: locked-ux, design-modules, widgets, children, hamn PASS · re-lock
+
+
+## 2026-07-21 — UI polish vågor 1–6 (Lead UI)
+
+- Våg 1 Hem: tokens, a11y (aria-label/44px), reduced-motion, UserWidgetHomeSlot shell
+- Våg 2 Vardagen: MåBra/Planering CSS→tokens, indigo→accent i integration/inkorg
+- Våg 3–6: Hjärtat/Familjen/Valv/Widget CSS token-pass + premium-polish hub depth
+- Unlock: `docs/evaluations/2026-07-21-unlock-ui-polish-waves.md` · re-lock efter smoke PASS
+- Smoke: locked-ux PASS · design-modules PASS · widgets PASS
+- MUST NOT: Locked UX struktur, WORM, flöden orörda
+
+
+- `smoke:predeploy:build` PASS → deploy firestore + storage + functions + hosting.
+- Hosting: https://gen-lang-client-0481875058.web.app
+- Build-fix före deploy: `dfBankTypes` + `urgeSecondsLeft: number` + CSS token `bg-surface-2/40`.
+
+# 2026-07-21 — Egna moduler DoD-stängning
+
+- P0-luckor stängda: kapacitetsgate (`widgetBuildCapacity` + evolution_hub) + live-preview i Experimentera.
+- Rules redan deployade (firestore+storage). Hosting UI ej deployad förrän Pontus OK.
+- Freeport promote = deferred W5+/P1 — inte MVP-blocker för v2.2 vågor W0–W5.
+- Smoke: `npm run smoke:custom-modules` (+ locked-ux/widgets).
+
+# 2026-07-21 — Egna moduler W1–W5 (kod)
+
+- Masterplan v2.2 «Egna moduler» — Pontus OK «kör hela planen».
+- **W1:** `UserWidget` schema (slotId/status/stylePreset/schemaVersion), rules+storage PMIR i kod, presets, AddForm-mallar, archive-first board, HomeWidgetRenderer stil.
+- **W2:** `UserWidgetHomeSlot` på Hem efter `PinnedPlaneringModuleSlot`.
+- **W3:** Planering `?tab=bygg` + VerktygDrawer + hub-modul «Mina moduler».
+- **W4:** FREEZE-kommentar på `planningModulePinStorage` + eval one-pager.
+- **W5:** Soft-lock `status` + archive-first UI.
+- Smoke: `npm run smoke:custom-modules` PASS · `smoke:widgets` PASS.
+- Lock: MOD-WIDGET + MOD-VARD-PLAN → locked.
+- **Deploy rules:** SKIP tills Pontus «OK deploy» (PMIR).
+
+---
+
 # 2026-07-21 — Egna moduler W0 (masterplan v2.2 godkänd)
 
 - Pontus OK: masterplan v2.2 «Egna moduler» — «godkänn v2.2 kör hela planen».

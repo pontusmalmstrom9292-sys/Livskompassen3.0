@@ -4,9 +4,12 @@
 
 - [x] Pontus OK masterplan v2.2 «godkänn v2.2 kör hela planen»
 - [x] W0 docs: contract + PMIR + unlock W1/W3 (ingen feature-UI)
-- [ ] W1 feature: MOD-WIDGET motor (efter W0; separat kodvåg)
-- [ ] Rules deploy user_widgets PMIR — kräver separat Pontus «OK deploy»
-- [ ] W3 feature: Planering `?tab=bygg` (efter W1 DoD)
+- [x] W1–W5 feature: motor, Hem-slot, tab=bygg, pin-freeze, archive-first
+- [x] Rules deploy user_widgets + module_media — Pontus «OK deploy» 2026-07-21
+- [x] Kapacitetsgate evolution_hub + live-preview i Experimentera
+- [ ] Manuell E2E: skapa modul → fäst Hem → syns under Hem (Pontus)
+- [ ] Hosting-deploy av UI (valfritt — när Pontus säger «OK hosting»)
+- [ ] Freeport canvas promote — deferred W5+/P1 (ej MVP-blocker)
 
 
 # Premium UI Polish — TODO
@@ -327,6 +330,7 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] YOLO app-wide UI polish Wave 12 — Home Layout A transition-token polish (snabbval/tile/link) i DS shell-lager (2026-07-21)
 - [x] YOLO app-wide UI polish Wave 13 — Home Layout A strip transition-token + reduced-motion polish i DS shell-lager (2026-07-21)
 - [x] YOLO app-wide UI polish Wave 14 — Home Layout A step-button transition-token polish i DS shell-lager (2026-07-21)
+- [x] Livskompassen SAFE YOLO v2 — `ui-polish-v2-vardagen`: Vardagen/MåBra/Planering token+a11y+depth polish i `mabra.css`, `planering.css`, `compasses.css`, `vardagen.css` (focus-visible, touch target, reduced-motion/transparency, typografi; ingen flödesändring) (2026-07-21)
 - [x] PMIR/defer dokumenterat i PROJECT_STATE (bygg ej utan Pontus OK)
 - [ ] Pontus: Android Studio → Run + Valv <3s bakgrund (enhetsgate)
 - [ ] Pontus visual sign-off compass (program Phase 10)

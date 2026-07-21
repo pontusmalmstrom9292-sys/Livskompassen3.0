@@ -30,6 +30,7 @@
   .vardagen-zone-pill {
     @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em];
     color: var(--accent);
+    line-height: 1.25;
     border-color: var(--color-accent-gold-35);
     background: var(--color-shell-scrim);
   }
@@ -44,6 +45,10 @@
     );
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--text) 3%, transparent),
+      0 12px 30px -24px color-mix(in srgb, var(--bg) 72%, transparent);
+    transition: border-color var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .vardagen-zone-intro__header {
@@ -68,20 +73,39 @@
   }
 
   .vardagen-layer-switch__link {
-    @apply rounded-full border px-3 py-1 text-[11px] font-medium text-text-muted transition-colors;
+    @apply inline-flex items-center justify-center rounded-full border px-3 text-[11px] font-medium text-text-muted transition-colors;
+    min-height: var(--ds-touch-target);
     border-color: var(--color-accent-gold-18);
     background: var(--color-shell-scrim-35);
+    line-height: 1.2;
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium),
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      transform var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .vardagen-layer-switch__link:hover {
     color: var(--accent);
     border-color: var(--color-accent-gold-35);
+    background: var(--color-shell-scrim);
+    transform: translateY(-1px);
+  }
+
+  .vardagen-layer-switch__link:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .vardagen-layer-switch__link--active {
     color: var(--accent);
     border-color: var(--color-accent-gold-35);
     background: var(--color-shell-scrim);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 4%, transparent);
+  }
+
+  .vardagen-zone-intro:focus-within {
+    border-color: var(--color-accent-gold-35);
   }
 
   .liv-launcher-page {
@@ -94,11 +118,42 @@
     );
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 16px 36px -28px color-mix(in srgb, var(--bg) 82%, transparent);
+    transition: border-color var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .liv-launcher-page__surface {
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.03),
-      0 12px 34px -24px rgba(0, 0, 0, 0.65);
+      inset 0 1px 0 color-mix(in srgb, var(--text) 3%, transparent),
+      0 12px 34px -24px color-mix(in srgb, var(--bg) 65%, transparent);
+  }
+
+  .liv-launcher-page:focus-within {
+    border-color: var(--color-accent-gold-35);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .vardagen-zone-intro,
+    .liv-launcher-page {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background: color-mix(in srgb, var(--surface) 94%, #020617);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .vardagen-zone-intro,
+    .vardagen-layer-switch__link,
+    .liv-launcher-page {
+      transition: none;
+    }
+
+    .vardagen-layer-switch__link:hover {
+      transform: none;
+    }
   }
 }
