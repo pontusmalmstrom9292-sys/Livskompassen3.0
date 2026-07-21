@@ -528,7 +528,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                   </div>
                 </div>
               ) : (
-                <p className="text-xs text-text-dim">Inga taktik-taggar i sidecar ännu.</p>
+                <EmptyState className="!p-3" message="Inga taktik-taggar i sidecar ännu." />
               )}
 
               {categoryTags.length > 0 ? (

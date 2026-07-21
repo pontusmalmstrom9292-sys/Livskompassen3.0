@@ -18,7 +18,7 @@ import { TabBar, type TabBarItem } from '@/core/ui/TabBar';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { ProjektTomStatePanel } from './ProjektTomStatePanel';
-import { ButtonLink } from '@/design-system';
+import { ButtonLink, textStyles } from '@/design-system';
 
 const STATUS_TABS: TabBarItem<ProjectStatus>[] = [
   { id: 'active', label: 'Aktiva' },
@@ -199,7 +199,7 @@ export function ProjektHubPage() {
           )}
 
           <div className="space-y-2 border-t border-border/50 pt-4">
-            <p className="text-xs uppercase tracking-widest text-text-dim">Verktyg</p>
+            <p className={textStyles.eyebrow}>Verktyg</p>
             <ButtonLink to="/projekt/regler" variant="ghost" className="--ghost flex w-full items-center justify-center gap-2 text-sm">
               <Settings2 className="h-4 w-4" />
               Regler & automation

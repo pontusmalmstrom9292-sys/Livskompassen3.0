@@ -1,4 +1,5 @@
 import type { VitEntryKind } from '@/core/types/firestore';
+import { textStyles } from '@/design-system';
 import {
   VIT_HUB_DEVELOPMENT_HINT,
   VIT_HUB_STAT_DAYS_HINT,
@@ -26,7 +27,7 @@ export function VitDevelopmentPanel({ stats }: Props) {
 
   return (
     <section className="calm-card p-4 sm:p-5" aria-label="Utveckling">
-      <h2 className="text-xs font-medium uppercase tracking-wider text-accent">Utveckling</h2>
+      <h2 className={`${textStyles.eyebrow} text-accent`}>Utveckling</h2>
       <p className="mt-1 text-[10px] text-text-dim">{VIT_HUB_DEVELOPMENT_HINT}</p>
 
       {stats.weeklyActivity.length > 0 ? (

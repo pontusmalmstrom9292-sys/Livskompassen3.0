@@ -3,6 +3,7 @@ import { BarChart3 } from 'lucide-react';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { CHILD_ALIASES } from '../../constants';
 import type { FamiljenShell } from '../../hooks/useFamiljenShell';
+import { EmptyState } from '@/core/ui/EmptyState';
 
 type Props = {
   shell: FamiljenShell;
@@ -49,7 +50,7 @@ export function FamiljenMonsterTab({ shell }: Props) {
 
       <BentoCard title={`${activeChild} — kategorier`} className="!p-4">
         {childCats.length === 0 ? (
-          <p className="text-sm text-text-dim">Inga livsloggar ännu.</p>
+          <EmptyState message="Inga livsloggar ännu." />
         ) : (
           <ul className="space-y-2">
             {childCats.map(([cat, n]) => (

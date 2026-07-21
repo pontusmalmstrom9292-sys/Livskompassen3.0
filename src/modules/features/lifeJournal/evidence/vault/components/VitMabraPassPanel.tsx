@@ -1,5 +1,6 @@
 import { VIT_HUB_MOOD_HINT } from '@/features/dailyLife/wellbeing/mabra/lib/vitHubCopy';
 import type { VitHubStats } from '@/features/dailyLife/wellbeing/mabra/lib/vitHubStats';
+import { textStyles } from '@/design-system';
 
 const SYMPTOM_LABELS: Record<string, string> = {
   panic_rsd: 'Panik / RSD',
@@ -21,7 +22,7 @@ export function VitMabraPassPanel({ stats }: Props) {
 
   return (
     <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="MåBra-pass">
-      <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">
+      <h2 className={textStyles.eyebrow}>
         MåBra-pass (symptom)
       </h2>
       <p className="mt-1 text-[10px] text-text-dim">{VIT_HUB_MOOD_HINT}</p>

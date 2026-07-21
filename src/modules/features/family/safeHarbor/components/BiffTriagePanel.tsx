@@ -5,6 +5,7 @@ import { BentoCard } from '@/shared/ui/BentoCard';
 import type { GransAnalysis } from '../api/biffService';
 import { TheoryWithoutEvidenceBadge } from '@/shared/ui/TheoryWithoutEvidenceBadge';
 import { HAMN_EPISTEMIC_HINT } from '../hamnCopy';
+import { EmptyState } from '@/core/ui/EmptyState';
 
 type Props = {
   grans: GransAnalysis | null;
@@ -85,7 +86,7 @@ export function BiffTriagePanel({
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-text-dim">Ingen ren logistik extraherad.</p>
+              <EmptyState className="!p-3" message="Ingen ren logistik extraherad." />
             )}
           </section>
           <section aria-label="Känslomässiga beten">
@@ -117,7 +118,7 @@ export function BiffTriagePanel({
                 ))}
               </ul>
             ) : (
-              <p className="text-sm text-text-dim">Inga tydliga beten flaggade.</p>
+              <EmptyState className="!p-3" message="Inga tydliga beten flaggade." />
             )}
           </section>
         </div>
