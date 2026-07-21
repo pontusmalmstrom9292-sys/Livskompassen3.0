@@ -116,3 +116,8 @@
 ### g85-friction-d5-prep — PASS (YOLO v9)
 - cap:sync:prod + android-platform + android-prod-sync PASS
 - Manuell G85 dag 5 kvar
+
+
+### adhoc-dialog-audit — PASS (YOLO v9)
+- ResurserOverlay already DS Sheet; 3 ad-hoc documented (dev×2 + QuickCapture defer)
+- Smoke: design-debt, design-modules, locked-ux PASS
