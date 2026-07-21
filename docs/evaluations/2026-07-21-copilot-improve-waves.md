@@ -46,4 +46,6 @@
 
 | sos-recovery-polish | Krisnummer-grupp, calm spacing | RecoveryUrgeSosModule | build, drogfrihet, locked-ux, predeploy:build | PASS |
 
+| shared-tagg-selector-polish | 44px chips, keyboard, aria | TaggSelector | build, design-modules, predeploy:build | PASS |
+
 > Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.

@@ -107,7 +107,13 @@ export function TaggSelector({ value, onChange, userId, disabled = false }: Prop
                   type="button"
                   disabled={disabled}
                   onClick={() => handleRemoveTag(tagId)}
-                  className="chip--active inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold"
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleRemoveTag(tagId);
+                    }
+                  }}
+                  className="chip--active inline-flex min-h-11 items-center gap-1 rounded-full px-3 text-xs font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                   aria-label={`Ta bort ${meta.label}`}
                 >
                   {meta.label}
@@ -149,7 +155,7 @@ export function TaggSelector({ value, onChange, userId, disabled = false }: Prop
                 aria-pressed={selected}
                 onClick={() => handleToggleTag(tag.id)}
                 className={clsx(
-                  'rounded-full border px-3 py-1.5 text-xs font-medium transition',
+                  'inline-flex min-h-11 items-center rounded-full border px-3 text-xs font-medium transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
                   selected ? 'chip--active' : 'chip--idle',
                 )}
               >
@@ -172,7 +178,8 @@ export function TaggSelector({ value, onChange, userId, disabled = false }: Prop
               onChange={(e) => setCustomInput(e.target.value)}
               placeholder="t.ex. advokat, schema tvist"
               disabled={disabled || customBusy || !userId}
-              className="input-glass min-w-[180px] flex-1 rounded-xl px-3 py-2 text-sm"
+              aria-label="Namn på egen tagg"
+              className="input-glass min-h-11 min-w-[180px] flex-1 rounded-xl px-3 py-2 text-sm"
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   e.preventDefault();
@@ -180,7 +187,13 @@ export function TaggSelector({ value, onChange, userId, disabled = false }: Prop
                 }
               }}
             />
-            <Button type="button" disabled={disabled || customBusy || !userId} onClick={() => void handleCreateCustomTag()} variant="ghost" className="--ghost inline-flex items-center gap-1 text-xs">
+            <Button
+              type="button"
+              disabled={disabled || customBusy || !userId}
+              onClick={() => void handleCreateCustomTag()}
+              variant="ghost"
+              className="inline-flex min-h-11 items-center gap-1 text-xs"
+            >
               {customBusy ? (
                 <Loader2 className="h-3 w-3 animate-spin" aria-hidden />
               ) : (
@@ -192,7 +205,11 @@ export function TaggSelector({ value, onChange, userId, disabled = false }: Prop
           {!userId ? (
             <p className="mt-2 text-xs text-text-dim">Logga in för att spara egna taggar.</p>
           ) : null}
-          {customError ? <p className="mt-2 text-xs text-red-400/90">{customError}</p> : null}
+          {customError ? (
+            <p className="mt-2 text-xs text-danger/90" role="alert">
+              {customError}
+            </p>
+          ) : null}
         </div>
       ) : null}
     </div>
