@@ -1,3 +1,9 @@
+## 2026-07-21 — Premium UI Phase 0 debt baseline (YOLO v8)
+
+### Design debt (2026-07-21) — Fas 24.C baseline refresh
+- btn-pill--: **0** · ds-btn--: **0** · ad-hoc dialog: **3** · index.css LOC: **61**
+- DS imports: **268** · smoke:design-debt `2026-07-21T12:27:32.000Z`
+
 ## 2026-07-21 — Copilot YOLO improve waves (design-debt refresh)
 
 ### Design debt (2026-07-21) — polish-vågor + copy-audit PASS
@@ -62,7 +68,7 @@
 | btn-pill-- file count | ~195 (estimated) | **0** (2026-07-21, smoke:design-debt) | 0 new after start |
 | ds-btn-- file count | ~202 (estimated) | **0** (2026-07-21, smoke:design-debt) | 0 new after start |
 | calm-card variant audit | not tracked | **PASS** (2026-06-29, smoke:calm-card-audit) | no unused variants |
-| DS import files (`@/design-system`) | ~14 | **267** (2026-07-21, smoke:design-debt) | All blocking overlays migrated |
+| DS import files (`@/design-system`) | ~14 | **268** (2026-07-21, smoke:design-debt) | All blocking overlays migrated |
 | ad-hoc role=dialog | ~14 | **3** (2026-07-21 — sandbox×2, ResurserOverlay locked) | ≤3 documented |
 | index.css LOC | 6816 | **61** (2026-07-21, smoke:design-debt) | ≤120 ✓ |
 | smoke:design-modules | TBD | **PASS** (2026-07-09, våg 35–42) | green |
