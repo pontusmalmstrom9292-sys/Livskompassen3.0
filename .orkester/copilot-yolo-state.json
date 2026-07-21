@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T11:30:23.000Z",
-  "currentTaskId": "familjen-fysio-moment-polish",
+  "updatedAt": "2026-07-21T11:32:49.000Z",
+  "currentTaskId": "emotional-memory-polish",
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
     "ui-polish-v2-vardagen",
@@ -41,7 +41,8 @@
     "copy-audit-quickfixes",
     "design-debt-metrics-update",
     "improve-waves-session-log-v2",
-    "planering-integration-polish"
+    "planering-integration-polish",
+    "familjen-fysio-moment-polish"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
@@ -104,5 +105,5 @@
     "g85-cap-sync-verify",
     "improve-waves-session-log-v3"
   ],
-  "taskStartSha": "f7607ee4c"
+  "taskStartSha": "d21dfeeb0"
 }

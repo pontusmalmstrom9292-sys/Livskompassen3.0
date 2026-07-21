@@ -30,7 +30,7 @@ export function ChildMomentTabs({ active, childAlias, onChange }: Props) {
             aria-selected={selected}
             aria-controls="child-moment-panel"
             onClick={() => onChange(id)}
-            className={`child-moment-tab ${selected ? 'chip--active' : 'chip--idle'}`}
+            className={`child-moment-tab min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${selected ? 'chip--active' : 'chip--idle'}`}
           >
             {label}
           </button>

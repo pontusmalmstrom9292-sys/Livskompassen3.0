@@ -92,3 +92,5 @@
 `planering-integration-polish` → `familjen-fysio-moment-polish` → …
 
 | planering-integration-polish | a11y tabs/44px/tokens Integration+Task+Verktyg+Inkorg | PlanningIntegrationPanel, PlanningTaskDetail, VerktygDrawer, InkorgPreviewSheet | build, planering-superhub, planering-gora-e, predeploy:build | PASS |
+
+| familjen-fysio-moment-polish | 44px signaler/filter/tabs, aria, save feedback | FamiljenFysiologiDelegate, ChildMomentStunderPanel, ChildMomentTabs | build, child-moment, children, predeploy:build | PASS |
