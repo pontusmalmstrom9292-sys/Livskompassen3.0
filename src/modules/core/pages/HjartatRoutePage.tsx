@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { ProtectedModule } from '../../../components/layout/ProtectedModule';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { NAV_PATHS } from '../navigation/navTruth';
 
 const DagbokPage = lazy(() =>
@@ -26,7 +27,13 @@ export function HjartatRoutePage() {
 
   return (
     <ProtectedModule>
-      <Suspense fallback={<div className="p-6 text-center text-sm text-text-muted">Laddar hjärtat…</div>}>
+      <Suspense
+        fallback={
+          <div className="px-4 py-6">
+            <HubPanelSkeleton lines={4} />
+          </div>
+        }
+      >
         <DagbokPage />
       </Suspense>
     </ProtectedModule>

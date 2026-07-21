@@ -90,3 +90,6 @@
 
 ### focus-visible-quickwin — PASS
 - premium-polish: tabindex i unified focus ring
+
+### lazy-routes-vardagen-hjartat — PASS
+- Already lazy + zone chunks; Hjartat HubPanelSkeleton parity
