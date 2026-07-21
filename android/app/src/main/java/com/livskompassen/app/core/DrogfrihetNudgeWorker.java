@@ -1,6 +1,7 @@
 package com.livskompassen.app.core;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
@@ -25,7 +26,7 @@ public class DrogfrihetNudgeWorker extends Worker {
 
     @Override
     public Result doWork() {
-        SecurePrefs prefs = SecurePrefs.get(getApplicationContext());
+        SharedPreferences prefs = SecurePrefs.get(getApplicationContext());
         if (!prefs.getBoolean(PREF_OPT_IN, false)) return Result.success();
 
         int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
