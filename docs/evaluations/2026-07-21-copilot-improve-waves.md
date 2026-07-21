@@ -1,3 +1,6 @@
-| Våg | Område | Filer | Smoke | Resultat |
-|---|---|---|---|---|
-| 1 | UI-polish (EmptyState/ErrorFallback-konsistens) | `src/design-system/components/ErrorFallback.tsx`, `src/modules/core/ui/EmptyState.tsx`, `src/modules/shared/ui/HubErrorBoundary.tsx`, `src/modules/features/lifeJournal/diary/diary/components/JournalArchive.tsx`, `src/modules/inkast/components/InboxReviewQueue.tsx`, `src/modules/capture/CaptureSuperModule.tsx` | `smoke:locked-ux` PASS · `smoke:orkester` PASS · `npm run build` FAIL | Blockerad av TypeScript-fel i `src/modules/core/pages/HomePage.tsx` (TS2769: `HubErrorBoundary` saknar `logTag` i två anrop). |
+# Cursor YOLO — förbättringsvågor 2026-07-21
+
+| Våg-id | Område | Filer | Smoke | PASS/FAIL |
+|--------|--------|-------|-------|-----------|
+| build-fix-home-hub-boundary | HomePage HubErrorBoundary logTag | HomePage.tsx | build, locked-ux | PASS |
+| ui-polish-v2-vardagen | Vardagen MåBra + Planering tokens/a11y | mabra.css, planering.css, compasses.css, vardagen.css, planering-routines.css | build, locked-ux, design-modules, mabra | PASS |
