@@ -1,5 +1,6 @@
-import { Check, Loader2 } from 'lucide-react';
+import { AlertTriangle, Check, Loader2 } from 'lucide-react';
 import { useEffect, type FormEvent } from 'react';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { Button, Input } from '@/design-system';
 import { useEconomyProfilWrite } from '../hooks/useEconomyProfilWrite';
 
@@ -46,7 +47,7 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
 
   return (
     <div className="space-y-5">
-      <header className="space-y-1">
+      <header className="space-y-1.5">
         <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
           Veckobudget
         </p>
@@ -56,7 +57,10 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
       </header>
 
       {!hasUser ? (
-        <p className="text-sm text-text-dim">Logga in för att ställa in profil.</p>
+        <EmptyState
+          title="Veckobudget"
+          message="Logga in för att ställa in veckobudget och matlåda-preset."
+        />
       ) : loading ? (
         <p className="flex items-center gap-2 text-sm text-text-dim" aria-busy="true">
           <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
@@ -65,7 +69,7 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
       ) : (
         <form className="space-y-4" onSubmit={(event) => void handleSubmit(event)} aria-label="Ekonomiprofil">
           <div className="flex flex-wrap gap-4">
-            <label className="flex min-w-[8rem] flex-1 flex-col gap-1">
+            <label className="flex min-w-[8rem] flex-1 flex-col gap-1.5">
               <span className="text-[10px] uppercase tracking-wider text-text-dim">
                 Veckobudget (kr)
               </span>
@@ -79,11 +83,11 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
                   setWeeklyBudget(event.target.value);
                   clearError();
                 }}
-                className="input-glass w-full tabular-nums disabled:opacity-60"
+                className="input-glass min-h-11 w-full tabular-nums focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60"
                 aria-label="Veckobudget i kronor"
               />
             </label>
-            <label className="flex min-w-[8rem] flex-1 flex-col gap-1">
+            <label className="flex min-w-[8rem] flex-1 flex-col gap-1.5">
               <span className="text-[10px] uppercase tracking-wider text-text-dim">
                 Matlåda-preset (kr)
               </span>
@@ -97,7 +101,7 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
                   setMealPreset(event.target.value);
                   clearError();
                 }}
-                className="input-glass w-full tabular-nums disabled:opacity-60"
+                className="input-glass min-h-11 w-full tabular-nums focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60"
                 aria-label="Standardbelopp matlåda i kronor"
               />
             </label>
@@ -111,7 +115,7 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
           <Button
             type="submit"
             disabled={inputsDisabled}
-            className="w-full text-sm disabled:opacity-60"
+            className="min-h-11 w-full text-sm focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60"
           >
             {saving ? (
               <span className="inline-flex items-center justify-center gap-2">
@@ -126,13 +130,23 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
       )}
 
       {offlineQueued ? (
-        <p className="text-xs text-text-muted">Sparas när nätet är tillbaka.</p>
+        <p className="text-xs text-text-muted" role="status">
+          Sparas när nätet är tillbaka.
+        </p>
       ) : null}
 
-      {error ? <p className="text-sm text-danger">{error}</p> : null}
+      {error ? (
+        <p
+          className="flex items-start gap-2 rounded-xl border border-danger/25 bg-danger/5 px-3 py-2.5 text-sm leading-relaxed text-danger"
+          role="alert"
+        >
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+          <span>{error}</span>
+        </p>
+      ) : null}
 
       {savedFlash && !saving ? (
-        <p className="flex items-center gap-2 text-sm text-emerald-400" role="status">
+        <p className="flex items-center gap-2 text-sm text-success" role="status">
           <Check className="h-4 w-4 shrink-0" aria-hidden />
           Profil sparad.
         </p>
