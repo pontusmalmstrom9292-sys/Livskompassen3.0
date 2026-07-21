@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T12:39:16.000Z",
-  "updatedAt": "2026-07-21T12:53:35.000Z",
-  "currentTaskId": "widget-action-dashboard-polish",
+  "updatedAt": "2026-07-21T12:54:37.000Z",
+  "currentTaskId": "fyren-edge-widget-polish",
   "completedTaskIds": [
     "g85-friction-d5-prep",
     "adhoc-dialog-audit",
@@ -10,7 +10,8 @@
     "empty-state-sweep-valv-familjen",
     "form-label-a11y-sweep",
     "speglar-evidence-polish",
-    "inkast-review-queue-polish"
+    "inkast-review-queue-polish",
+    "widget-action-dashboard-polish"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],

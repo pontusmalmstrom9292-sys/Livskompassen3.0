@@ -27,7 +27,7 @@ export function WidgetActionTile({
       disabled={disabled}
       onClick={onClick}
       className={clsx(
-        'widget-action-tile',
+        'widget-action-tile min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
         active && 'widget-action-tile--on',
         disabled && 'widget-action-tile--disabled',
         className,

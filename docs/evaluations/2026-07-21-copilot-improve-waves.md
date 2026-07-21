@@ -148,3 +148,8 @@
 ### inkast-review-queue-polish — PASS (YOLO v9)
 - InboxReviewQueue: HubPanelSkeleton, eyebrow, focus-visible; UnifiedHitlPreview eyebrows
 - Smoke: build, inkast, inkast-fas2 PASS
+
+
+### widget-action-dashboard-polish — PASS (YOLO v9)
+- ActionDashboard + WidgetActionTile: role=alert, eyebrow, motion-safe, min-h-11/focus
+- Smoke: build, widgets, locked-ux PASS
