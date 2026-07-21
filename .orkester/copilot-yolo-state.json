@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T12:25:04.000Z",
-  "updatedAt": "2026-07-21T12:30:30.000Z",
-  "currentTaskId": "g85-friction-d4",
+  "updatedAt": "2026-07-21T12:31:02.000Z",
+  "currentTaskId": null,
   "completedTaskIds": [
     "emotional-memory-polish",
     "ekonomi-panels-deep-polish",
@@ -11,7 +11,8 @@
     "premium-ui-debt-baseline",
     "focus-visible-quickwin",
     "lazy-routes-vardagen-hjartat",
-    "hub-eyebrow-polish"
+    "hub-eyebrow-polish",
+    "g85-friction-d4"
   ],
   "skippedTaskIds": [
     "hosting-deploy-wave"

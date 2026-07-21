@@ -1,12 +1,54 @@
 {
-  "version": 4,
-  "description": "Copilot YOLO-kö v4 — Fas 24.C Premium UI Phase 0, Design Bible merge, G85 friktionslogg.",
+  "version": 8,
+  "description": "Copilot YOLO-kö v8 — improve-waves retry (3 env-failed från 2026-07-21-copilot-improve-waves.md) + Fas 24.C Premium UI Phase 0.",
   "tasks": [
+    {
+      "id": "emotional-memory-polish",
+      "title": "Emotionellt minne hub polish (retry)",
+      "plan": "MabraVitProjectsPanel, MabraHistoryView/Chart, emotional memory panels — tokens, empty states. vit_entries WORM orört.",
+      "smoke": [
+        "npm run build",
+        "npm run smoke:emotional-memory",
+        "npm run smoke:mabra"
+      ],
+      "pmir": false,
+      "deploy": "hosting",
+      "gapRef": "docs/evaluations/2026-07-21-copilot-improve-waves.md — retry efter PERMISSION_DENIED (seed/anon); ej firestore.rules utan PMIR"
+    },
+    {
+      "id": "ekonomi-panels-deep-polish",
+      "title": "Ekonomi panels deep polish (retry)",
+      "plan": "EconomyImpulsePanel, EconomyMealPrepPanel, EconomyQuickBalancePanel, DailySummaryWidget — form labels, error hints, ds-tokens.",
+      "smoke": [
+        "npm run build",
+        "npm run smoke:ekonomi",
+        "npm run smoke:economy-vendor",
+        "npm run smoke:payslip"
+      ],
+      "pmir": false,
+      "deploy": "hosting",
+      "gapRef": "docs/evaluations/2026-07-21-copilot-improve-waves.md — retry efter PERMISSION_DENIED (seed/anon); ej firestore.rules utan PMIR"
+    },
+    {
+      "id": "tidshjul-stampla-polish",
+      "title": "Tidshjul + Stämpla polish (retry)",
+      "plan": "Tidshjul-relaterade komponenter och stämpla-flöde — labels, touch, empty states. Inga nya backend-callables.",
+      "smoke": [
+        "npm run build",
+        "npm run smoke:tidshjul",
+        "npm run smoke:stampla"
+      ],
+      "pmir": false,
+      "deploy": "hosting",
+      "gapRef": "docs/evaluations/2026-07-21-copilot-improve-waves.md — retry efter PERMISSION_DENIED (seed/anon); ej firestore.rules utan PMIR"
+    },
     {
       "id": "design-bible-merge",
       "title": "Design Bible kap 19–22 → main",
       "plan": "PR #120 (docs/design-bible-complete): CI smoke grön → merge. Verifiera smoke:governance PASS.",
-      "smoke": ["npm run smoke:governance"],
+      "smoke": [
+        "npm run smoke:governance"
+      ],
       "pmir": false,
       "deploy": "none"
     },
@@ -14,7 +56,10 @@
       "id": "premium-ui-debt-baseline",
       "title": "Design-debt baseline i DASHBOARD",
       "plan": "Kör smoke:design-debt. Skriv btn-pill/ds-metrics till docs/DASHBOARD.md (Phase 0). Inga kodändringar utöver dashboard.",
-      "smoke": ["npm run smoke:design-debt", "npm run build"],
+      "smoke": [
+        "npm run smoke:design-debt",
+        "npm run build"
+      ],
       "pmir": false,
       "deploy": "none"
     },
@@ -22,7 +67,10 @@
       "id": "focus-visible-quickwin",
       "title": "Focus-visible polish (Quick win #2)",
       "plan": "premium-polish.css — enhetlig focus-visible enligt design-calm. Minimal diff.",
-      "smoke": ["npm run smoke:design-modules", "npm run smoke:locked-ux"],
+      "smoke": [
+        "npm run smoke:design-modules",
+        "npm run smoke:locked-ux"
+      ],
       "pmir": false,
       "deploy": "hosting"
     },
@@ -30,7 +78,10 @@
       "id": "lazy-routes-vardagen-hjartat",
       "title": "Lazy route-entry /vardagen + /hjartat",
       "plan": "Fortsätt vite-bundle-split: dynamic import för VardagenPage och Hjartat-routes. Verifiera zone-chunks i build.",
-      "smoke": ["npm run build", "npm run smoke:locked-ux"],
+      "smoke": [
+        "npm run build",
+        "npm run smoke:locked-ux"
+      ],
       "pmir": false,
       "deploy": "hosting"
     },
@@ -38,7 +89,10 @@
       "id": "hub-eyebrow-polish",
       "title": "Hub shells → textStyles.eyebrow",
       "plan": "Quick win #5: ModuleShell/HubPageShell eyebrow via textStyles.eyebrow — tokens, ingen ny CSS-fil.",
-      "smoke": ["npm run smoke:design-modules", "npm run smoke:orkester"],
+      "smoke": [
+        "npm run smoke:design-modules",
+        "npm run smoke:orkester"
+      ],
       "pmir": false,
       "deploy": "hosting"
     },
@@ -46,7 +100,9 @@
       "id": "hosting-deploy-wave",
       "title": "Deploy hosting efter polish-våg",
       "plan": "smoke:predeploy:build PASS. Deploy hosting (Pontus OK). Logga deploy-rad. Ej functions utan PMIR.",
-      "smoke": ["npm run smoke:predeploy:build"],
+      "smoke": [
+        "npm run smoke:predeploy:build"
+      ],
       "pmir": true,
       "deploy": "hosting"
     },

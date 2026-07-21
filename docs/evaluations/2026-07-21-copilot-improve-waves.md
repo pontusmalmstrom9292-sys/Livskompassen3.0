@@ -98,3 +98,9 @@
 - ExecutiveHubHeader → textStyles.eyebrow
 ### hosting-deploy-wave — SKIP
 - PMIR/deploy kräver Pontus OK — ej körd
+
+### g85-friction-d4 — PASS (verify)
+- cap:sync:prod + android-platform + android-prod-sync PASS
+- Manuell G85 kvar
+
+**Verdict:** GO — kö klar (hosting-deploy SKIP tills Pontus OK).

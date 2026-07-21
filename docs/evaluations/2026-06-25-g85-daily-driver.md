@@ -104,6 +104,14 @@ Dag 7:
 
 Kanon: [`.context/android-capacitor.md`](../../.context/android-capacitor.md) · [`docs/FIREBASE-AUTH-LATHUND.md`](../FIREBASE-AUTH-LATHUND.md)
 
+
+### Körning 2026-07-21 (YOLO v8 #g85-friction-d4)
+
+- `npm run cap:sync:prod` — PASS
+- `npm run smoke:android-platform` — PASS
+- `npm run smoke:android-prod-sync` — PASS
+- **Manuellt kvar:** Dag 4 mikro-checklista (~5 min) på G85 — USB + `npm run android:open` → Run
+
 ### Körning 2026-06-29 (YOLO v4 #7 g85-friction-d4)
 
 - `npm run cap:sync:prod` — PASS (WebView → live Hosting efter polish deploy)
