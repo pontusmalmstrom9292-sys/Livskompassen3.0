@@ -87,10 +87,10 @@ export function ArbetslivInputSuperModule({ initialMode }: ArbetslivInputSuperMo
           className="arbetsliv-shell__surface calm-card glow-bottom-blue overflow-hidden rounded-2xl border border-border/30 bg-surface-2/70 p-4 sm:p-5"
           aria-label="Arbetsliv inmatningshub"
         >
-          <header className="mb-4 space-y-2">
+          <header className="supermodule-hub-chrome mb-4 space-y-2 rounded-2xl px-3 py-3 sm:px-4">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0 flex-1 space-y-1">
-                <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent-secondary">
+                <p className="od-depth__eyebrow font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
                   Arbetsliv
                 </p>
                 <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">

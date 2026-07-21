@@ -14,3 +14,4 @@
 | mabra-collapsible-a11y | MåBra collapsible + VIT hub | CalmCollapsible, mabra-collapsible.css, mabra-vit-hub, MabraExplorePanel | build, mabra, locked-ux | PASS |
 | drogfrihet-content-polish | DF content types + SOS focus | dfBankTypes, dfQuestionBank, dfQuoteBank, RecoveryUrgeSosModule | build, drogfrihet, drogfrihet-content | PASS |
 | economy-delegates-polish | Ekonomi delegates EmptyState/error/a11y | 5 delegates + EconomyModulePreviews | build, economy-vendor, locked-ux, predeploy:build | PASS |
+| hub-chrome-tile-unify | Hub chrome tile + EmptyState/Skeleton + 3 hubs | hub-chrome-tile.css, shells, EmptyState, HubPanelSkeleton, Ekonomi/Mabra/Arbetsliv SM | build, design-modules, orkester, predeploy:build | PASS |

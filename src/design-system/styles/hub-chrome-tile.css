@@ -2,6 +2,7 @@
 @layer components {
   .hub-chrome-tile {
     @apply relative flex shrink-0 items-center justify-center;
+    border-radius: 0.85rem;
     background: linear-gradient(
       168deg,
       var(--chrome-plate-a) 0%,
@@ -10,9 +11,9 @@
     );
     border: 1px solid color-mix(in srgb, var(--accent) 36%, transparent);
     box-shadow:
-      0 4px 12px rgba(0, 0, 0, 0.48),
-      0 1px 0 rgba(255, 243, 210, 0.14) inset,
-      0 -3px 9px rgba(0, 0, 0, 0.36) inset;
+      0 4px 12px color-mix(in srgb, var(--bg) 48%, transparent),
+      0 1px 0 color-mix(in srgb, var(--accent-light) 14%, transparent) inset,
+      0 -3px 9px color-mix(in srgb, var(--bg) 36%, transparent) inset;
     transform: translateY(-1px);
     transition:
       border-color 0.16s ease,
@@ -30,10 +31,20 @@
     border-bottom-right-radius: 0;
     background: linear-gradient(
       180deg,
-      rgba(255, 248, 220, 0.12) 0%,
-      rgba(255, 248, 220, 0) 100%
+      color-mix(in srgb, var(--accent-light) 12%, transparent) 0%,
+      transparent 100%
     );
     pointer-events: none;
+  }
+
+  .hub-chrome-tile--slot {
+    @apply h-10 w-10;
+    border-width: 1px;
+  }
+
+  .hub-chrome-tile--side {
+    @apply h-10 w-10 rounded-full;
+    border-width: 1px;
   }
 
   .hub-chrome-tile--dock {
@@ -49,10 +60,21 @@
   .hub-chrome-tile--active {
     border-color: color-mix(in srgb, var(--accent-light) 55%, transparent);
     box-shadow:
-      0 6px 16px rgba(0, 0, 0, 0.52),
-      0 0 14px rgba(212, 175, 55, 0.22),
-      0 1px 0 rgba(255, 248, 220, 0.18) inset,
-      0 -3px 9px rgba(0, 0, 0, 0.32) inset;
+      0 6px 16px color-mix(in srgb, var(--bg) 52%, transparent),
+      0 0 14px color-mix(in srgb, var(--accent) 22%, transparent),
+      0 1px 0 color-mix(in srgb, var(--accent-light) 18%, transparent) inset,
+      0 -3px 9px color-mix(in srgb, var(--bg) 32%, transparent) inset;
     transform: translateY(-2px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hub-chrome-tile {
+      transition: none;
+      transform: none;
+    }
+
+    .hub-chrome-tile--active {
+      transform: none;
+    }
   }
 }

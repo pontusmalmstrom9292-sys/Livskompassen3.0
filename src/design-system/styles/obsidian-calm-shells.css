@@ -518,17 +518,24 @@
 
   /* Wave-2 — delad supermodule hub-chrome (Fas 12 / 19.3 tokens) */
   .supermodule-hub-chrome {
+    border-radius: 1rem;
+    border: 0.5px solid color-mix(in srgb, var(--border) 80%, transparent);
     border-bottom: 0.5px solid var(--border);
     background: linear-gradient(
       180deg,
       color-mix(in srgb, var(--surface-2) 92%, var(--color-accent-gold) 8%),
       var(--surface)
     );
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--accent-light) 8%, transparent) inset;
   }
 
   .supermodule-hub-chrome .od-depth__eyebrow,
   .supermodule-hub-chrome .font-display-serif {
     color: var(--accent);
+  }
+
+  .supermodule-hub-chrome .od-depth__eyebrow {
+    letter-spacing: 0.2em;
   }
 
   /* —— Capacity Dampening: Den Trygga Hamnen —— */
