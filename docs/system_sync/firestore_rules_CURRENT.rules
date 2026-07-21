@@ -59,15 +59,39 @@ service cloud.firestore {
       return request.resource.data.keys().hasOnly(allowedKeys);
     }
 
+    function isValidCaptionedAttachmentMap(att) {
+      return att is map
+        && att.keys().hasOnly(['url', 'storagePath', 'name', 'mimeType', 'size', 'caption'])
+        && att.url is string
+        && att.url.size() > 0
+        && att.url.size() <= 2048
+        && att.storagePath is string
+        && att.storagePath.size() > 0
+        && att.storagePath.size() <= 512
+        && att.name is string
+        && att.name.size() > 0
+        && att.name.size() <= 200
+        && att.mimeType is string
+        && att.mimeType.size() > 0
+        && att.mimeType.size() <= 128
+        && att.size is int
+        && att.size >= 0
+        && att.size <= 5242880
+        && (!('caption' in att)
+          || (att.caption is string && att.caption.size() <= 500));
+    }
+
     function isValidJournalAttachment() {
-      return !('attachment' in request.resource.data)
-        || (request.resource.data.attachment is map
-          && request.resource.data.attachment.keys().hasOnly(['url', 'storagePath', 'name', 'mimeType', 'size'])
-          && request.resource.data.attachment.url is string
-          && request.resource.data.attachment.storagePath is string
-          && request.resource.data.attachment.name is string
-          && request.resource.data.attachment.mimeType is string
-          && request.resource.data.attachment.size is int);
+      let legacyOk = !('attachment' in request.resource.data)
+        || isValidCaptionedAttachmentMap(request.resource.data.attachment);
+      let listOk = !('attachments' in request.resource.data)
+        || (request.resource.data.attachments is list
+          && request.resource.data.attachments.size() >= 1
+          && request.resource.data.attachments.size() <= 2
+          && isValidCaptionedAttachmentMap(request.resource.data.attachments[0])
+          && (request.resource.data.attachments.size() == 1
+            || isValidCaptionedAttachmentMap(request.resource.data.attachments[1])));
+      return legacyOk && listOk;
     }
 
     function isValidChildSignals() {
@@ -115,7 +139,8 @@ service cloud.firestore {
 
     function isValidJournalCreate() {
       return wormKeysOnly([
-          'userId', 'ownerId', 'mood', 'text', 'category', 'tags', 'attachment', 'createdAt',
+          'userId', 'ownerId', 'mood', 'text', 'category', 'tags',
+          'attachment', 'attachments', 'createdAt',
         ])
         && request.resource.data.mood is string
         && request.resource.data.mood.size() > 0
@@ -130,7 +155,7 @@ service cloud.firestore {
       return wormKeysOnly([
           'userId', 'ownerId', 'childAlias', 'observation', 'truth', 'action', 'category',
           'childrenImpact', 'authorRole', 'channel', 'visibility', 'contentType', 'signals',
-          'bankId', 'mediaUrl', 'sourceRef', 'createdAt',
+          'bankId', 'mediaUrl', 'mediaCaption', 'sourceRef', 'createdAt',
         ])
         && request.resource.data.childAlias is string
         && request.resource.data.childAlias.size() > 0
@@ -139,6 +164,9 @@ service cloud.firestore {
         && request.resource.data.action.size() > 0
         && request.resource.data.action.size() <= 64
         && isValidChildSignals()
+        && (!('mediaCaption' in request.resource.data)
+          || (request.resource.data.mediaCaption is string
+            && request.resource.data.mediaCaption.size() <= 500))
         && (!('observation' in request.resource.data)
           || (request.resource.data.observation is string
             && request.resource.data.observation.size() <= 50000))
@@ -282,6 +310,95 @@ service cloud.firestore {
           || request.resource.data.mood is number);
     }
 
+    // user_widgets — PMIR 2026-07-21 slotId/status/stylePreset (contract v1)
+    function isValidUserWidgetSlotId(v) {
+      return v == null
+        || v in [
+          'hem.brass.below-grid',
+          'familjen.barnfokus',
+          'familjen.livslogg',
+          'familjen.hamn',
+          'valv.logga',
+          'valv.kunskapsbank',
+          'vardagen.ekonomi',
+          'hjartat.dagbok',
+          'mabra.hub',
+        ];
+    }
+
+    function isValidUserWidgetStylePreset(v) {
+      return v == null
+        || v in [
+          'midnight',
+          'gold_glass',
+          'photo_dim',
+          'minimal',
+          'celebration',
+          'focus',
+        ];
+    }
+
+    function isValidUserWidgetConfig() {
+      let t = request.resource.data.type;
+      let c = request.resource.data.config;
+      return c is map
+        && c.keys().size() <= 24
+        && t in ['countdown', 'checklist', 'linked_savings', 'quick_note']
+        && (!('targetDate' in c) || c.targetDate is string)
+        && (!('targetDateTime' in c) || c.targetDateTime is string)
+        && (!('savingsGoalId' in c) || c.savingsGoalId is string)
+        && (!('noteText' in c) || c.noteText is string)
+        && (!('caption' in c) || (c.caption is string && c.caption.size() <= 200))
+        && (!('backgroundPath' in c) || (c.backgroundPath is string && c.backgroundPath.size() <= 512))
+        && (!('backgroundAlt' in c) || (c.backgroundAlt is string && c.backgroundAlt.size() <= 120))
+        && (!('shell' in c) || c.shell in ['tile', 'elongated', 'card', 'compact'])
+        && (!('checklistItems' in c) || c.checklistItems is list);
+    }
+
+    function isValidUserWidgetCreate() {
+      return request.resource.data.type in ['countdown', 'checklist', 'linked_savings', 'quick_note']
+        && request.resource.data.title is string
+        && request.resource.data.title.size() >= 1
+        && request.resource.data.title.size() <= 100
+        && request.resource.data.pinnedToHome is bool
+        && request.resource.data.order is int
+        && isValidUserWidgetConfig()
+        && (!('schemaVersion' in request.resource.data)
+          || request.resource.data.schemaVersion in [1, 2])
+        && (!('stylePreset' in request.resource.data)
+          || isValidUserWidgetStylePreset(request.resource.data.stylePreset))
+        && (!('slotId' in request.resource.data)
+          || isValidUserWidgetSlotId(request.resource.data.slotId))
+        && (!('status' in request.resource.data)
+          || request.resource.data.status in ['active', 'archived']);
+    }
+
+    function isValidUserWidgetUpdate() {
+      return request.resource.data.userId == resource.data.userId
+        && request.resource.data.ownerId == resource.data.ownerId
+        && request.resource.data.type == resource.data.type
+        && (!('createdAt' in request.resource.data.diff(resource.data).affectedKeys()))
+        && request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly([
+              'title', 'order', 'pinnedToHome', 'slotId', 'status',
+              'schemaVersion', 'stylePreset', 'config', 'updatedAt',
+            ])
+        && request.resource.data.title is string
+        && request.resource.data.title.size() >= 1
+        && request.resource.data.title.size() <= 100
+        && request.resource.data.order is int
+        && request.resource.data.pinnedToHome is bool
+        && isValidUserWidgetConfig()
+        && (!('schemaVersion' in request.resource.data)
+          || request.resource.data.schemaVersion in [1, 2])
+        && (!('stylePreset' in request.resource.data)
+          || isValidUserWidgetStylePreset(request.resource.data.stylePreset))
+        && (!('slotId' in request.resource.data)
+          || isValidUserWidgetSlotId(request.resource.data.slotId))
+        && (!('status' in request.resource.data)
+          || request.resource.data.status in ['active', 'archived']);
+    }
+
     function isValidTransactionCreate() {
       return wormKeysOnly([
           'userId', 'ownerId', 'label', 'amountSek', 'category', 'createdAt',
@@ -400,13 +517,15 @@ service cloud.firestore {
 
     match /kb_docs/{docId} {
       allow read: if isOwner();
-      allow create: if isOwnerCreate();
+      // Evigt Minne v61 — Admin SDK only (client create blocked). Callables write via Admin.
+      allow create: if false;
       allow update, delete: if false;
     }
 
     match /kampspar/{docId} {
       allow read: if isOwner();
-      allow create: if isOwnerCreate();
+      // Evigt Minne v61 — Admin SDK only (client create blocked). Callables write via Admin.
+      allow create: if false;
       allow update, delete: if false;
     }
 
@@ -1009,6 +1128,30 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    match /payroll_agreement_packs/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.checksum is string
+        && request.resource.data.checksum.size() >= 8
+        && request.resource.data.agreementId in ['SE.livs.livsmedel', 'SE.handels', 'none']
+        && request.resource.data.validFrom is string
+        && request.resource.data.versionLabel is string
+        && request.resource.data.config is map;
+      allow update, delete: if false;
+    }
+
+    match /payroll_tax_table_packs/{docId} {
+      allow read: if isOwner();
+      allow create: if isOwnerCreate()
+        && request.resource.data.checksum is string
+        && request.resource.data.checksum.size() >= 8
+        && request.resource.data.table is int
+        && request.resource.data.year is int
+        && request.resource.data.brackets is list
+        && request.resource.data.brackets.size() >= 1;
+      allow update, delete: if false;
+    }
+
     match /time_entries/{docId} {
       allow read: if isOwner();
       allow create: if isOwnerCreate();
@@ -1203,24 +1346,11 @@ service cloud.firestore {
 
     match /user_widgets/{docId} {
       allow read: if isOwner();
-      allow create: if isOwnerCreate()
-        && request.resource.data.type in ['countdown', 'checklist', 'linked_savings', 'quick_note']
-        && request.resource.data.title is string
-        && request.resource.data.title.size() >= 1
-        && request.resource.data.title.size() <= 100
-        && request.resource.data.pinnedToHome is bool
-        && request.resource.data.order is int
-        && request.resource.data.config is map;
-      allow update: if isOwner()
-        && request.resource.data.userId == resource.data.userId
-        && request.resource.data.ownerId == resource.data.ownerId
-        && request.resource.data.type == resource.data.type
-        && request.resource.data.title == resource.data.title
-        && request.resource.data.pinnedToHome == resource.data.pinnedToHome
-        && request.resource.data.order == resource.data.order
-        && request.resource.data.diff(resource.data).affectedKeys()
-            .hasOnly(['config', 'updatedAt']);
-      allow delete: if isOwner();
+      allow create: if isOwnerCreate() && isValidUserWidgetCreate();
+      allow update: if isOwner() && isValidUserWidgetUpdate();
+      // Archive-first: hard delete endast om archived ELLER legacy docs utan status.
+      allow delete: if isOwner()
+        && (!('status' in resource.data) || resource.data.status == 'archived');
     }
 
     match /evolution_ledger/{docId} {
