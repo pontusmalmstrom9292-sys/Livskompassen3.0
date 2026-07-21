@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
+import './widgets/companion-widgets.css';
 import { googleRedirectBoot } from './modules/core/firebase/authRedirectBoot';
 import { applyDefaultTheme } from './modules/core/theme';
 import { initAppCheck } from './modules/core/firebase/appCheck';

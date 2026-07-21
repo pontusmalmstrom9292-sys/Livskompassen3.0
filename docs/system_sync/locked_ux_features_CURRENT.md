@@ -462,11 +462,66 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 | **Spec** | [`docs/design/BASTA-DESIGN-CHROME-LOCK.md`](../docs/design/BASTA-DESIGN-CHROME-LOCK.md) · paritet [`BASTA-DESIGN-V2-PARITY.md`](../docs/design/BASTA-DESIGN-V2-PARITY.md) |
 | **Header** | `BastaDesignHeader` — grid: meny+Resurser vänster · Livskompassen center · inställningar/konto/öga höger |
 | **Dock** | `BastaDesignDock` → `BastaDesignDockBar` (`basta-dock-bar--v2`) — Anteckning · Familj · kompass · Mentil · Inkast |
-| **Hem** | `BastaDesignHome` + `BastaDesignHero` (v2-sektioner på `/`) |
+| **Hem** | `BastaDesignHome` + `BastaDesignHero` (v2-sektioner på `/`) + låst «Mer för dig» / Utvecklingskort (§22) |
 | **Förbjudet** | Resurser i dock eller höger header-actions · krympa dock · byta header/dock-komponenter |
 | **Smoke** | `npm run smoke:basta-dock-lock` (ingår i `smoke:locked-ux`) |
 
 **Får inte:** bryta header-grid, flytta Resurser till höger, ta bort hem-sektioner eller hero-kompass utan Pontus OK.
+
+## 22. Utvecklingskort + faktapack (Hem · MåBra · Inställningar) — LÅST 2026-07-19
+
+| | |
+|---|---|
+| **Hem** | `BastaDesignHome` → fällbar «Mer för dig» (`CalmCollapsible`, `defaultOpen={false}`) → `HemV3DevelopmentRail` / `DevelopmentBentoWidget` efter «Tidigare anteckningar» |
+| **MåBra** | Samma widget under «Mer på hubben» (`MabraHubView`) — dold vid `lowEnergyMode` |
+| **Inställningar** | Genväg «Uppdatera / hämta faktapack» → `FetchContentPacksFlow` (samma pack-flöde) |
+| **Motor** | `src/modules/core/home/dev/**` — KEEP/Discovery-banker, lokal signalrank (`homeSignalSnapshot`), `vit_entries` WORM för svar/«klar», packs via `contentPackCatalog` |
+| **Preset** | Synlig när `materialEnabled(..., 'home_development_rail')` (döljs i minimal/vardag_arbete — förväntat) |
+| **Modul** | `MOD-CORE-UTV` · mount även skyddad av `MOD-CORE-CHROME` / `MOD-VARD-MABRA` |
+| **Smoke** | `npm run smoke:locked-ux` · `smoke:basta-dock-lock` · `smoke:design-modules` · `smoke:module-lock` · `smoke:widgets` |
+| **Android premium (LÅST 2026-07-20)** | WH9 hemskärms-widget · pull-to-refresh med guld-haptik · system navbar-fusion · dynamisk genväg «Dagens kort» |
+
+**Kärnkrav (får inte tas bort):**
+
+1. Prod-Hem (Bästa Design) visar «Mer för dig» när auth + `home_development_rail`.
+2. `DevelopmentBentoWidget` + `home/dev/*`-motorn (pick, exclude completed, packs, custom kategori).
+3. MåBra-mount av samma widget under Mer.
+4. Inställningar-genväg till faktapack-flödet.
+5. Ingen cross-RAG / ingen runtime-AI för frågor — endast KEEP + lokal rank.
+6. **WH9** — Android-widget `UtvecklingskortWidgetProvider` visar dagens översta kort; tryck → `/?expand_dev=true`.
+7. **Pull-to-refresh** i `DevelopmentBentoWidget` blandar om mixen (`mixNonce`) med native haptik.
+8. **Chrome fusion** — `useSystemChromeFusion` synkar Android navigation/status bar till temat.
+9. **Smart genväg** — `ShortcutManager` «Dagens kort» (coexist med «Fortsätt»); sync via `updateUtvecklingskortShortcut` + `utv_kort_body`.
+
+**Får inte:** ta bort sektion/widget/motor/genväg/WH9/chrome-fusion/genväg; ersätta med RAG; dölja bakom feature-flag utan unlock-doc + Pontus OK.
+
+---
+
+
+## 23. Companion Widget OS (Hem · Studio · Android-chips) — LÅST 2026-07-21
+
+| | |
+|---|---|
+| **Syfte** | Companion OS — lugna hemskärms-/Hem-widgets (10-pack), Studio, synk, Android Companion-chips |
+| **Web** | `src/widgets/**` · Hem: `CompanionHomeRail` · Studio: `/installningar/widget-studio` · Lab (DEV): `/dev/companion-widgets` |
+| **Ytor** | `/widget/companion-*` via `WidgetCompanionSurfacePage` (capture/inbox/note/harbor/compass/child/beacon/journal/anchor/tasks) |
+| **Pack** | Quick Capture · Inkast · Anteckning · Trygg Hamn · Kompass · Barnfokus · Fyren · Dagbok · Ankare · Uppgifter |
+| **Android** | `Companion*WidgetProvider` · `WidgetViews` scoped `last_action_*` · deep-link `?focus=1` / `?autostart=1` |
+| **Modul** | `MOD-WIDGET` |
+| **Smoke** | `npm run smoke:companion-widgets` · ingår i `smoke:locked-ux` · `smoke:module-lock` |
+
+**Kärnkrav (får inte tas bort):**
+
+1. `src/widgets/` Companion-kärna (Theme, Cache, Sync utan `setInterval`, Framework, Router, Permissions, transport).
+2. `CompanionHomeRail` på Hem (BastaDesign/Home) — valfri Dölj/Visa, max 2 featured, Studio-länk.
+3. Widget Studio + lugna defaults + homePin (max 2).
+4. Alla 10 pack-widgets + `registerCorePack`.
+5. Android Companion-chips (10 providers) + scoped live-status.
+6. `smoke:companion-widgets` PASS före merge som rör Companion.
+
+**Får inte:** radera `src/widgets/**`, `CompanionHomeRail`, Studio, Companion Android-providers, eller dölja Companion bakom feature-flag utan `docs/evaluations/*-unlock-MOD-WIDGET.md` med `approved: yes` + Pontus OK.
+
+---
 
 ## Verifiering
 
@@ -479,6 +534,21 @@ npm run smoke:planering-superhub
 npm run smoke:arbetsliv-superhub
 npm run smoke:superdagbok-superhub
 npm run smoke:obsidian-depth
+# §22 Utvecklingskort
+npm run smoke:basta-dock-lock
+npm run smoke:design-modules
 ```
 
 Vid refaktor av `VaultPage`, `FamiljenPage`, eller borttagning av specs ovan: kör smoke innan merge.
+
+---
+
+## Dagbok & uppladdning — bild + bildtext (max 2)
+
+| | |
+|---|---|
+| **Syfte** | Personliga minnen i dagbok + skärmdumpar med bildtext i Inkast/Valv/Speglar/barnlivslogg |
+| **Kod** | `MediaAttachWithCaption`, `CaptionedAttachment`, journal `attachments`, arkiv-vyväxlare Tidslinje / Bild + text, `JournalMediaLightbox` |
+| **Krav** | Valfri bildtext; «Ladda upp en bild till» (max 2); tidslinje-vy; bild+text-vy; lightbox — **får inte tas bort** utan unlock-doc + Pontus OK |
+| **Modul** | `MOD-SHARED-MEDIA` · även `MOD-HJ-DAGBOK` |
+| **Smoke** | `npm run smoke:media-attach` · `npm run smoke:locked-ux` |

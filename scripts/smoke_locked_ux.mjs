@@ -1052,8 +1052,55 @@ function main() {
   );
   mustNotIncludeCrossRagInDevMotor();
 
+  // §23 Companion Widget OS — får aldrig tas bort av misstag
+  mustInclude(
+    '.context/locked-ux-features.md',
+    '## 23. Companion Widget OS',
+    'MOD-WIDGET',
+    'CompanionHomeRail',
+    'smoke:companion-widgets',
+  );
+  mustInclude(
+    '.context/module-lock-register.json',
+    '"id": "MOD-WIDGET"',
+    'src/widgets/**',
+    'smoke:companion-widgets',
+    'CompanionHomeRail.tsx',
+  );
+  mustInclude(
+    'src/widgets/pack/CompanionHomeRail.tsx',
+    'CompanionHomeRail',
+  );
+  mustInclude(
+    'src/widgets/pack/registerCorePack.ts',
+    'CORE_PACK_DEFINITIONS',
+    'quick_capture',
+    'safe_harbor',
+  );
+  mustInclude(
+    'src/widgets/studio/WidgetStudioPage.tsx',
+    'hydrateWidgetStudio',
+    'WidgetStudioModePanel',
+  );
+  mustInclude(
+    'src/modules/features/widgets/pages/WidgetCompanionSurfacePage.tsx',
+    'companion',
+  );
+  mustInclude(
+    'src/modules/core/home/basta-design/BastaDesignHome.tsx',
+    'CompanionHomeRail',
+  );
+  mustInclude(
+    'scripts/smoke_companion_widgets.mjs',
+    'companion',
+  );
+  mustInclude(
+    'android/app/src/main/java/com/livskompassen/app/widgets/CompanionCaptureWidgetProvider.java',
+    'CompanionCapture',
+  );
+
   console.log(
-    '[smoke:locked-ux] PASS — Barnfokus, Valv-baksida (Mönster/Orkester/Kunskapsbank), drawer Vardag+Valv, Planering, Widget, Barnporten, media-attach, utvecklingskort §22.',
+    '[smoke:locked-ux] PASS — Barnfokus, Valv-baksida (Mönster/Orkester/Kunskapsbank), drawer Vardag+Valv, Planering, Widget, Barnporten, media-attach, utvecklingskort §22, Companion OS §23.',
   );
 }
 
@@ -1086,6 +1133,13 @@ function runAuthLoginSmoke() {
 
 try {
   main();
+  const companion = spawnSync('node', ['scripts/smoke_companion_widgets.mjs'], {
+    cwd: root,
+    stdio: 'inherit',
+  });
+  if (companion.status !== 0) {
+    throw new Error('smoke:companion-widgets misslyckades (Locked UX §23 Companion OS)');
+  }
   const chrome = spawnSync('node', ['scripts/smoke_chrome_header.mjs'], {
     cwd: root,
     stdio: 'inherit',

@@ -1,0 +1,50 @@
+---
+description: Companion Widget OS — Locked UX §23 / MOD-WIDGET — får inte tas bort
+alwaysApply: false
+globs: src/widgets/**,src/modules/features/widgets/pages/WidgetCompanion*.tsx,src/modules/core/pages/InstallningarPage.tsx,android/app/src/main/java/com/livskompassen/app/widgets/Companion*.java,android/app/src/main/java/com/livskompassen/app/widgets/WidgetViews.java,scripts/smoke_companion_widgets.mjs,.context/locked-ux-features.md
+---
+
+# Companion Widget OS — LOCKED (§23)
+
+Canonical: [`.context/locked-ux-features.md`](../../.context/locked-ux-features.md) §23 · modul `MOD-WIDGET` · [`locked-ux-features.mdc`](locked-ux-features.mdc)
+
+## Hard rules
+
+1. **Do not remove, hide behind feature flags, or rename** Companion OS surfaces without Pontus OK + unlock-doc `docs/evaluations/*-unlock-MOD-WIDGET.md` (`approved: yes`).
+2. Before merge touching `src/widgets/**` or Companion Android chips:  
+   `npm run smoke:companion-widgets` (also runs inside `npm run smoke:locked-ux`).
+3. Keep **Barnfokus** pool intact — Companion Barnfokus-widget is additive, never a replacement for Familjen Barnfokus (§12).
+
+## Must keep
+
+| Yta | Path |
+|-----|------|
+| Hem-rail | `src/widgets/pack/CompanionHomeRail.tsx` |
+| Studio | `src/widgets/studio/WidgetStudioPage.tsx` |
+| Pack (10) | `src/widgets/pack/*Widget.tsx` + `registerCorePack.ts` |
+| Deep-links | `WidgetCompanionSurfacePage.tsx` → `/widget/companion-*` |
+| Android chips | `Companion*WidgetProvider.java` + `WidgetViews` scoped `last_action_*` |
+| Smoke | `scripts/smoke_companion_widgets.mjs` |
+
+## Allowed polish (no unlock)
+
+- Copy, CSS, pulse/soft-focus, trust-row, Studio preview toggles
+- New optional Studio flags that default **off** and do not hide the rail
+- Extending smoke assertions
+
+## Forbidden without unlock
+
+- Deleting `src/widgets/` or emptying the 10-pack
+- Removing `CompanionHomeRail` from Home / BastaDesign
+- Removing Widget Studio route or Inställningar entry
+- Removing Companion Android providers / deep-links
+- Introducing `setInterval` idle loops in `WidgetSync`
+- Cross-RAG or Sacred bypass via widget transport
+
+## Smoke
+
+```bash
+npm run smoke:companion-widgets
+npm run smoke:locked-ux
+npm run smoke:module-lock
+```

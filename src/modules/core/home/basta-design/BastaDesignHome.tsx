@@ -21,6 +21,7 @@ import { HOME_SUPERHUB_ROUTES } from '../homeSuperhubRoutes';
 import { CalmCollapsible } from '@/core/ui/CalmCollapsible';
 import { materialEnabled, useLifeHubPreset } from '@/core/lifeOs';
 import { HemV3DevelopmentRail } from '../HemV3DevelopmentRail';
+import { CompanionHomeRail } from '@/widgets/pack/CompanionHomeRail';
 
 type Props = {
   onCheckInSaved?: () => void;
@@ -298,8 +299,17 @@ export function BastaDesignHome({ onCheckInSaved, developmentRefreshKey = 0 }: P
       {showDevelopmentRail ? (
         <motion.div {...staggerChild} className="basta-design__mer-for-dig">
           <CalmCollapsible title="Mer för dig" meta="Valfritt" defaultOpen={false} glow="gold">
-            <div className="pt-1">
+            <div className="space-y-4 pt-1">
+              <CompanionHomeRail max={2} />
               <HemV3DevelopmentRail refreshKey={developmentRefreshKey} />
+            </div>
+          </CalmCollapsible>
+        </motion.div>
+      ) : isAuthenticated ? (
+        <motion.div {...staggerChild} className="basta-design__mer-for-dig">
+          <CalmCollapsible title="Companion" meta="Valfritt" defaultOpen={false} glow="gold">
+            <div className="pt-1">
+              <CompanionHomeRail max={2} />
             </div>
           </CalmCollapsible>
         </motion.div>

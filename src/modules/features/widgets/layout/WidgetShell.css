@@ -47,6 +47,23 @@
     box-shadow: var(--widget-elevation);
   }
 
+  .widget-shell--companion {
+    background:
+      radial-gradient(ellipse 100% 70% at 50% -8%, color-mix(in srgb, #d4af37 10%, transparent), transparent 52%),
+      radial-gradient(circle at 80% 0%, color-mix(in srgb, #38bdf8 6%, transparent), transparent 40%),
+      radial-gradient(circle at 50% 120%, rgba(10, 14, 24, 0.7), transparent 55%),
+      #0d0b09;
+  }
+
+  .widget-shell--companion .widget-shell__title {
+    letter-spacing: 0.02em;
+  }
+
+  .widget-shell--companion .widget-shell__surface {
+    border-color: color-mix(in srgb, #d4af37 22%, transparent);
+    background: color-mix(in srgb, #020617 78%, transparent);
+  }
+
   .widget-shell__panic.widget-btn--icon {
     @apply min-h-11 min-w-11 flex-row gap-1.5 px-3 py-2;
   }

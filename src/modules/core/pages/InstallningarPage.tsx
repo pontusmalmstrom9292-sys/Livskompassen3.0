@@ -1,5 +1,6 @@
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { Bell, Package, Settings, Shield, User } from 'lucide-react';
+import { Bell, Package, Settings, Shield, User, LayoutGrid } from 'lucide-react';
 import { useTheme } from '../theme';
 import { isMidnightExecutiveTheme } from '../theme/themePackMidnightExecutive';
 import { ExecutiveSettingsList, type ExecutiveSettingsGroup } from '../ui/executive';
@@ -35,6 +36,28 @@ const EXEC_SETTINGS_GROUPS: ExecutiveSettingsGroup[] = [
       { id: 'profil', label: 'Profil', icon: User },
       { id: 'sakerhet', label: 'Säkerhet & Valv', icon: Shield },
       { id: 'notis', label: 'Notiser', icon: Bell },
+    ],
+  },
+  {
+    id: 'companion',
+    title: 'Companion OS',
+    rows: [
+      {
+        id: 'widget-studio',
+        label: 'Widget Studio',
+        icon: LayoutGrid,
+        href: '/installningar/widget-studio',
+      },
+      ...(import.meta.env.DEV
+        ? [
+            {
+              id: 'companion-lab',
+              label: 'Companion-labb',
+              icon: LayoutGrid,
+              href: '/dev/companion-widgets',
+            },
+          ]
+        : []),
     ],
   },
   {
@@ -86,6 +109,35 @@ export function InstallningarPage() {
             Konto och inloggning: tryck på <strong className="text-text">låsikonen</strong> uppe till
             höger i headern.
           </p>
+          <div className="space-y-2 rounded-xl border border-border/80 bg-surface-2/40 p-3">
+            <p className="text-sm font-medium text-text">Companion OS</p>
+            <p className="text-xs leading-relaxed text-text-dim">
+              Välj vilka widgets som syns på Hem. På Android: långtryck hemskärm → Widgets →
+              Livskompassen (Companion).
+            </p>
+            <Link
+              to="/installningar/widget-studio"
+              className="flex min-h-11 items-center justify-between rounded-xl border border-border bg-surface-2/60 px-4 py-3 text-sm text-text transition-colors hover:border-accent/40"
+            >
+              <span className="flex items-center gap-2">
+                <LayoutGrid className="h-4 w-4 text-accent" strokeWidth={1.5} />
+                Widget Studio
+              </span>
+              <span className="text-xs text-text-dim">Hem &amp; storlek</span>
+            </Link>
+            {import.meta.env.DEV ? (
+              <Link
+                to="/dev/companion-widgets"
+                className="flex min-h-11 items-center justify-between rounded-xl border border-border bg-surface-2/60 px-4 py-3 text-sm text-text transition-colors hover:border-accent/40"
+              >
+                <span className="flex items-center gap-2">
+                  <LayoutGrid className="h-4 w-4 text-accent" strokeWidth={1.5} />
+                  Companion-labb
+                </span>
+                <span className="text-xs text-text-dim">Testa alla 10</span>
+              </Link>
+            ) : null}
+          </div>
           <label className="flex cursor-pointer items-center gap-3">
             <input
               type="checkbox"

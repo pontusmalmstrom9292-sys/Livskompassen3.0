@@ -63,7 +63,7 @@ Utvecklingszon **Vit** (`mabra_*`, `vit_*`) — **ingen** cross-RAG till Kunskap
 
 Se [`locked-ux-features.mdc`](locked-ux-features.mdc) och `.context/locked-ux-features.md`.
 
-**MUST NOT:** Ta bort/dölj/byta namn på Barnfokus, Valv Mönster/Orkester, drawer plausible deniability, Barnporten HITL, Planering hybrid utan PMIR + uppdaterad locked-UX-register.
+**MUST NOT:** Ta bort/dölj/byta namn på Barnfokus, Valv Mönster/Orkester, drawer plausible deniability, Barnporten HITL, Planering hybrid, **Companion Widget OS** (`src/widgets/**`, CompanionHomeRail, Studio, Android Companion-chips) utan PMIR + uppdaterad locked-UX-register (§23 / `MOD-WIDGET`).
 
 ## PMIR-gates (hard NO-GO)
 

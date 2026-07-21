@@ -497,6 +497,32 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 
 ---
 
+
+## 23. Companion Widget OS (Hem · Studio · Android-chips) — LÅST 2026-07-21
+
+| | |
+|---|---|
+| **Syfte** | Companion OS — lugna hemskärms-/Hem-widgets (10-pack), Studio, synk, Android Companion-chips |
+| **Web** | `src/widgets/**` · Hem: `CompanionHomeRail` · Studio: `/installningar/widget-studio` · Lab (DEV): `/dev/companion-widgets` |
+| **Ytor** | `/widget/companion-*` via `WidgetCompanionSurfacePage` (capture/inbox/note/harbor/compass/child/beacon/journal/anchor/tasks) |
+| **Pack** | Quick Capture · Inkast · Anteckning · Trygg Hamn · Kompass · Barnfokus · Fyren · Dagbok · Ankare · Uppgifter |
+| **Android** | `Companion*WidgetProvider` · `WidgetViews` scoped `last_action_*` · deep-link `?focus=1` / `?autostart=1` |
+| **Modul** | `MOD-WIDGET` |
+| **Smoke** | `npm run smoke:companion-widgets` · ingår i `smoke:locked-ux` · `smoke:module-lock` |
+
+**Kärnkrav (får inte tas bort):**
+
+1. `src/widgets/` Companion-kärna (Theme, Cache, Sync utan `setInterval`, Framework, Router, Permissions, transport).
+2. `CompanionHomeRail` på Hem (BastaDesign/Home) — valfri Dölj/Visa, max 2 featured, Studio-länk.
+3. Widget Studio + lugna defaults + homePin (max 2).
+4. Alla 10 pack-widgets + `registerCorePack`.
+5. Android Companion-chips (10 providers) + scoped live-status.
+6. `smoke:companion-widgets` PASS före merge som rör Companion.
+
+**Får inte:** radera `src/widgets/**`, `CompanionHomeRail`, Studio, Companion Android-providers, eller dölja Companion bakom feature-flag utan `docs/evaluations/*-unlock-MOD-WIDGET.md` med `approved: yes` + Pontus OK.
+
+---
+
 ## Verifiering
 
 ```bash

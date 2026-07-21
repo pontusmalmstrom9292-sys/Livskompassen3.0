@@ -137,6 +137,16 @@ const DagensAnkareLabPage = lazy(() =>
     default: m.DagensAnkareLabPage,
   })),
 );
+const CompanionWidgetLabPage = lazy(() =>
+  import('@/widgets/pack/CompanionWidgetLabPage').then((m) => ({
+    default: m.CompanionWidgetLabPage,
+  })),
+);
+const WidgetStudioPage = lazy(() =>
+  import('@/widgets/studio/WidgetStudioPage').then((m) => ({
+    default: m.WidgetStudioPage,
+  })),
+);
 const MemoryTestView = import.meta.env.DEV
   ? lazy(() =>
       import('@/features/emotional-memory/MemoryTestView').then((m) => ({
@@ -572,6 +582,8 @@ export function AppRoutes() {
               <Route path="/dev/obsidian-forge" element={<ObsidianForgeLabPage />} />
               <Route path="/dev/obsidian-depth-v2" element={<ObsidianDepthV2LabPage />} />
               <Route path="/dev/dagens-ankare" element={<DagensAnkareLabPage />} />
+              <Route path="/dev/companion-widgets" element={<CompanionWidgetLabPage />} />
+              <Route path="/installningar/widget-studio" element={<WidgetStudioPage />} />
               {MemoryTestView ? (
                 <Route path="/dev/memory-test" element={<MemoryTestView />} />
               ) : null}

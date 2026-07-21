@@ -144,6 +144,126 @@
         </receiver>
 
         <receiver
+            android:name=".widgets.CompanionCaptureWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_companion_capture_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_companion_capture_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widgets.CompanionInboxWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_companion_inbox_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_companion_inbox_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widgets.CompanionNoteWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_companion_note_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_companion_note_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widgets.CompanionHarborWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_companion_harbor_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_companion_harbor_info" />
+        </receiver>
+        <receiver
+            android:name=".widgets.CompanionCompassWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_companion_compass_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_companion_compass_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widgets.CompanionChildWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_companion_child_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_companion_child_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widgets.CompanionBeaconWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_companion_beacon_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_companion_beacon_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widgets.CompanionJournalWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_companion_journal_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_companion_journal_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widgets.CompanionAnchorWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_companion_anchor_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_companion_anchor_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widgets.CompanionTasksWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_companion_tasks_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_companion_tasks_info" />
+        </receiver>
+
+
+        <receiver
             android:name=".widgets.CompassWidgetProvider"
             android:exported="true"
             android:label="@string/widget_compass_title">

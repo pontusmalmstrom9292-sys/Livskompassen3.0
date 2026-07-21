@@ -513,33 +513,41 @@
     },
     {
       "id": "MOD-WIDGET",
-      "namn": "Fyren + widget-routes",
+      "namn": "Fyren + Companion Widget OS",
       "zon": "Cross",
       "status": "locked",
       "globs": [
+        "src/widgets/**",
         "src/modules/core/ui/widget-icons/**",
         "src/modules/features/widgets/**",
         "src/modules/core/components/FyrenWidgetBar.tsx",
         "src/modules/core/components/FyrenSideQuickDock.tsx",
         "android/app/src/main/java/com/livskompassen/app/widgets/**",
         "android/app/src/main/res/layout/widget_*.xml",
-        "android/app/src/main/res/xml/widget_*_info.xml"
+        "android/app/src/main/res/xml/widget_*_info.xml",
+        "scripts/smoke_companion_widgets.mjs",
+        "scripts/smoke_widgets.mjs"
       ],
       "entryFiles": [
+        "src/widgets/index.ts",
+        "src/widgets/pack/CompanionHomeRail.tsx",
+        "src/widgets/pack/registerCorePack.ts",
+        "src/widgets/studio/WidgetStudioPage.tsx",
+        "src/modules/features/widgets/pages/WidgetCompanionSurfacePage.tsx",
         "src/modules/core/ui/widget-icons/FyrenShortcutMicIcon.tsx",
         "src/modules/features/widgets/pages/WidgetRecordPage.tsx",
         "src/modules/features/widgets/pages/WidgetModulerPage.tsx"
       ],
       "smoke": [
+        "smoke:companion-widgets",
         "smoke:widgets",
         "smoke:widget-ingest",
         "smoke:custom-modules"
       ],
       "snapshotKey": null,
-      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
-      "unlockedAt": "2026-07-21",
       "lockedAt": "2026-07-21",
-      "lockedCommit": "9b4c4cacc"
+      "lockedCommit": "a4e3a0ef3",
+      "notes": "Companion OS Locked UX §23 — borttagning kräver unlock-doc + Pontus OK. Byggvåg: docs/evaluations/2026-07-21-unlock-MOD-WIDGET-companion-os.md"
     },
     {
       "id": "MOD-CORE-MINNE",
