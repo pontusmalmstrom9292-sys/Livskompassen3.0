@@ -2,7 +2,7 @@
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
   "updatedAt": "2026-07-21T11:03:28.000Z",
-  "currentTaskId": "adaptation-prefs-polish",
+  "currentTaskId": "lazy-routes-admin-oracle",
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
     "ui-polish-v2-vardagen",
@@ -34,7 +34,8 @@
     "superdagbok-polish",
     "dossier-evidence-polish",
     "sos-recovery-polish",
-    "shared-tagg-selector-polish"
+    "shared-tagg-selector-polish",
+    "adaptation-prefs-polish"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],

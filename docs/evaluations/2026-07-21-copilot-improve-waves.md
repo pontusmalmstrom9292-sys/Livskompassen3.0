@@ -48,4 +48,6 @@
 
 | shared-tagg-selector-polish | 44px chips, keyboard, aria | TaggSelector | build, design-modules, predeploy:build | PASS |
 
+| adaptation-prefs-polish | Labels 44px, focus, Zero Footprint copy | AdaptationPrefs, ClearDevice, SystemStatus | build, adaptation, locked-ux, predeploy:build | PASS |
+
 > Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.
