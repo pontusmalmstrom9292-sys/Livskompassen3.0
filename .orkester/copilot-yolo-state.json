@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T10:58:14.000Z",
-  "currentTaskId": "dossier-evidence-polish",
+  "updatedAt": "2026-07-21T11:00:43.000Z",
+  "currentTaskId": "sos-recovery-polish",
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
     "ui-polish-v2-vardagen",
@@ -31,7 +31,8 @@
     "zen-resurser-overlay-polish",
     "grans-biff-polish",
     "widget-board-polish",
-    "superdagbok-polish"
+    "superdagbok-polish",
+    "dossier-evidence-polish"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],

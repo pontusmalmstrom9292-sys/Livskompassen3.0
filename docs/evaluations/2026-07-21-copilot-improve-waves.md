@@ -42,4 +42,6 @@
 
 | superdagbok-polish | Wizard 44px, tyst CSS, glow=blue smoke, archive path | ConfirmStep, TystDelegate, Archive, SuperModule, smoke | build, superdagbok-superhub, speglar, predeploy:build | PASS |
 
+| dossier-evidence-polish | WORM-stamp synlighet, 44px, felhints | Stamp, SpeglarEvidence, Compare, Dossier, VaultLogList | build, dossier, vault-worm, predeploy:build | PASS |
+
 > Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.
