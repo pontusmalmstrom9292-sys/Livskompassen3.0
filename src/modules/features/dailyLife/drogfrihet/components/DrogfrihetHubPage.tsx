@@ -136,7 +136,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
           <Button
             variant="accent"
             onClick={() => setSosOpen(true)}
-            className="--accent sticky top-0 z-10 w-full min-h-[56px] text-sm uppercase tracking-[0.14em] shadow-[0_8px_24px_-12px_rgba(0,0,0,0.45)]"
+            className="--accent sticky top-0 z-10 w-full min-h-14 text-sm font-semibold uppercase tracking-[var(--ds-letter-spacing-widest)] shadow-[0_8px_24px_-12px_rgba(0,0,0,0.45)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           >
             SOS — sug nu
           </Button>
@@ -253,7 +253,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
               <Button
                 variant="ghost"
                 onClick={() => setRealityCheckOpen(true)}
-                className="shrink-0 text-xs uppercase tracking-[0.14em]"
+                className={`shrink-0 min-h-11 ${textStyles.eyebrow} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55`}
               >
                 Öppna
               </Button>

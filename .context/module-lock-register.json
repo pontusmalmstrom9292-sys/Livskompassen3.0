@@ -445,7 +445,7 @@
       "unlockedAt": "2026-07-21",
       "notes": "Improve-only when locked. Dual-lock Recovery*. Familjen placement. SOS offline ZF. No streaks. Akut: 112 / 90101.",
       "lockedAt": "2026-07-21",
-      "lockedCommit": "e83b073f1"
+      "lockedCommit": "cc6b2bb0b"
     },
     {
       "id": "MOD-BACK-SYN",

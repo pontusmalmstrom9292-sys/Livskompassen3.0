@@ -14,3 +14,4 @@
 | 2026-07-21T12:53:35.000Z | inkast-review-queue-polish | PASS | build, inkast, inkast-fas2 | skeleton + eyebrow + focus |
 | 2026-07-21T12:54:37.000Z | widget-action-dashboard-polish | PASS | build, widgets, locked-ux | alert, eyebrow, motion-safe, tile focus |
 | 2026-07-21T12:55:43.000Z | fyren-edge-widget-polish | PASS | build, widgets, locked-ux | strip CSS touch/focus + QuickCapture close |
+| 2026-07-21T12:56:50.000Z | drogfrihet-hub-a11y-polish | PASS | build, design-modules, locked-ux, drogfrihet | SOS/banner focus + tokens |

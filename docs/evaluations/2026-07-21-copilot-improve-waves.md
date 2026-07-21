@@ -159,3 +159,8 @@
 - Fyren strip/action CSS: min-h-11, focus, reduced-motion/transparency
 - QuickCaptureOverlay close: 44px + focus-visible
 - Smoke: build, widgets, locked-ux PASS
+
+
+### drogfrihet-hub-a11y-polish — PASS (YOLO v9)
+- Hub SOS + Öppna: token tracking + focus; banners: min-h-11 focus links/CTAs
+- Smoke: build, design-modules, locked-ux, drogfrihet PASS
