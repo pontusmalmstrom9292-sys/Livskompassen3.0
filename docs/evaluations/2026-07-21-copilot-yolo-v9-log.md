@@ -7,3 +7,4 @@
 |-----------|------|--------|-------|----------|
 | 2026-07-21T12:41:01.000Z | g85-friction-d5-prep | PASS | cap:sync:prod, android-platform, android-prod-sync | Manuell G85 kvar |
 | 2026-07-21T12:42:01.000Z | adhoc-dialog-audit | PASS | design-debt, design-modules, locked-ux | Resurser=Sheet; 3 defer documented |
+| 2026-07-21T12:44:06.000Z | hub-eyebrow-sweep-remaining | PASS | design-modules, build | 8 files → textStyles.eyebrow |

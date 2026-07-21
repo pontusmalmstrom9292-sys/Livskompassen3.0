@@ -121,3 +121,8 @@
 ### adhoc-dialog-audit — PASS (YOLO v9)
 - ResurserOverlay already DS Sheet; 3 ad-hoc documented (dev×2 + QuickCapture defer)
 - Smoke: design-debt, design-modules, locked-ux PASS
+
+
+### hub-eyebrow-sweep-remaining — PASS (YOLO v9)
+- 8 hub/panel files → textStyles.eyebrow
+- Smoke: design-modules, build PASS
