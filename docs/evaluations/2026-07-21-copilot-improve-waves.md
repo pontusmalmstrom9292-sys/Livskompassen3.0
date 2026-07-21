@@ -143,3 +143,8 @@
 ### speglar-evidence-polish — PASS (YOLO v9)
 - SpeglarEvidencePanel + EvidenceCompareView: EmptyState, textStyles.eyebrow, focus-visible
 - Smoke: build, speglar, locked-ux PASS
+
+
+### inkast-review-queue-polish — PASS (YOLO v9)
+- InboxReviewQueue: HubPanelSkeleton, eyebrow, focus-visible; UnifiedHitlPreview eyebrows
+- Smoke: build, inkast, inkast-fas2 PASS

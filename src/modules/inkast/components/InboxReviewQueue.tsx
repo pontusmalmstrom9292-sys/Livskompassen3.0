@@ -2,9 +2,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Inbox } from 'lucide-react';
 import { clsx } from 'clsx';
-import { Button, Badge, type ButtonVariant } from '@/design-system';
+import { Button, Badge, textStyles, type ButtonVariant } from '@/design-system';
 import { BentoCard } from '@/shared/ui/BentoCard';
 import { EmptyState } from '@/core/ui/EmptyState';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { useStore } from '../../core/store';
 import {
   confirmInbox,
@@ -294,7 +295,7 @@ export function InboxReviewQueue({
         </p>
       )}
 
-      {loading && <p className="text-sm text-text-muted" role="status">Laddar…</p>}
+      {loading ? <HubPanelSkeleton className="mb-3" /> : null}
       {error && (
         <p
           role="alert"
@@ -311,7 +312,7 @@ export function InboxReviewQueue({
       {handlingLink && (
         <Link
           to={PLANERING_HANDLING_LINK}
-          className="mb-2 inline-flex min-h-[var(--ds-touch-target,2.75rem)] items-center text-xs text-accent underline-offset-2 hover:underline"
+          className="mb-2 inline-flex min-h-[var(--ds-touch-target,2.75rem)] items-center text-xs text-accent underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         >
           Öppna Handling (Kanban)
         </Link>
@@ -384,7 +385,7 @@ export function InboxReviewQueue({
             </p>
             <p className="mt-2 text-xs text-text-dim line-clamp-2">{item.summary}</p>
             {isPlaneringInboxItem(item) && (
-              <p className="mt-1 text-[10px] uppercase tracking-widest text-accent/80">
+              <p className={`mt-1 ${textStyles.eyebrow} text-accent/80`}>
                 Planering · kan bli uppgift i Handling
               </p>
             )}

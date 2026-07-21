@@ -1,7 +1,7 @@
 import { CheckCircle2, Loader2 } from 'lucide-react';
 import { clsx } from 'clsx';
 import type { ReactNode } from 'react';
-import { Button } from '@/design-system';
+import { Button, textStyles } from '@/design-system';
 
 type Props = {
   siloLabel: string;
@@ -51,11 +51,11 @@ export function UnifiedHitlPreview({
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 flex-1">
           {hitlBadge ? (
-            <span className="text-[10px] font-bold uppercase tracking-widest text-text-dim">
+            <span className={textStyles.eyebrow}>
               {hitlBadge}
             </span>
           ) : (
-            <span className="text-[10px] font-bold uppercase tracking-widest text-text-dim">
+            <span className={textStyles.eyebrow}>
               Föreslagen silo
             </span>
           )}
