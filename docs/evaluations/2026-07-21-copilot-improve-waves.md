@@ -17,3 +17,4 @@
 | hub-chrome-tile-unify | Hub chrome tile + EmptyState/Skeleton + 3 hubs | hub-chrome-tile.css, shells, EmptyState, HubPanelSkeleton, Ekonomi/Mabra/Arbetsliv SM | build, design-modules, orkester, predeploy:build | PASS |
 | lazy-routes-zones | Zone chunks Familjen+Valv + HubPanelSkeleton | vite.config, ValvetRoutePage, FamiljenPage | build, locked-ux, predeploy:build | PASS |
 | error-boundary-sweep | EmptyState Inkast/Arkiv/Planering (logTag redan OK) | ArchiveList/Calendar, PlaneringEmailRules, ReviewQueuePipeline | build, locked-ux, orkester, predeploy:build | PASS |
+| premium-polish-quickwins | premium CSS + HomeGreeting rose + Chameleon a11y | premium-polish.css, HomeGreeting, ChameleonLive | build, design-modules, obsidian-depth, predeploy:build | PASS |

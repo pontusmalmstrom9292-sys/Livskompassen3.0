@@ -27,10 +27,10 @@ export function HomeGreeting({ mockupCopy = false, variant = 'default' }: Props)
         </h1>
         <button
           type="button"
-          className="text-accent hover:text-accent-light transition-colors p-1 min-h-[44px] min-w-[44px] flex items-center justify-center"
+          className="flex min-h-11 min-w-11 items-center justify-center rounded-xl p-1 text-accent transition-colors hover:text-accent-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           aria-label="Notiser"
         >
-          <Bell className="w-5 h-5" />
+          <Bell className="h-5 w-5" aria-hidden />
         </button>
       </header>
 
@@ -51,11 +51,12 @@ export function HomeGreeting({ mockupCopy = false, variant = 'default' }: Props)
           </p>
         </div>
         {!isExecutive ? (
-          <div className="flex-shrink-0 ml-4">
+          <div className="home-greeting__rose ml-4 flex-shrink-0">
             <img
               src="/icons/b1-kanon-ros.svg"
-              alt="Kompassros"
-              className="w-14 h-14 object-contain animate-[spin_60s_linear_infinite] opacity-90 filter drop-shadow-[0_0_12px_rgba(212,175,55,0.2)]"
+              alt=""
+              aria-hidden
+              className="home-greeting__rose-img h-14 w-14 object-contain opacity-90"
             />
           </div>
         ) : null}

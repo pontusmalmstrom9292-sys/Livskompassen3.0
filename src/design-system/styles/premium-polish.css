@@ -663,6 +663,93 @@
     outline: var(--ds-focus-ring);
     outline-offset: var(--ds-focus-offset);
   }
+
+  /* ═══════════════════════════════════════════
+     HEM LAYOUT A — Wave 1 polish (2026-07-21)
+     ═══════════════════════════════════════════ */
+
+  .home-greeting__rose-img {
+    animation: home-greeting-rose-spin 60s linear infinite;
+    filter: drop-shadow(0 0 12px color-mix(in srgb, var(--ds-color-accent) 22%, transparent));
+  }
+
+  @keyframes home-greeting-rose-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .home-layout-a__tile {
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--ds-elevation-card);
+    transition:
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium),
+      transform var(--ds-duration-fast) var(--ds-ease-premium);
+  }
+
+  .home-layout-a__tile::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: var(--ds-glass-sheen);
+    opacity: 0.4;
+  }
+
+  .home-layout-a__tile:hover {
+    box-shadow: var(--ds-elevation-card-hover);
+  }
+
+  .user-widget-home-slot {
+    box-shadow: var(--ds-elevation-1);
+    border-color: color-mix(in srgb, var(--ds-color-accent) 14%, var(--ds-color-border));
+  }
+
+  /* Hub shells — Wave 3–6 shared depth (no layout change) */
+  .hjartat-page,
+  .familjen-hub,
+  .valv-bento-shell,
+  .mabra-bento-shell,
+  .planering-bento-shell {
+    --hub-polish-rim: color-mix(in srgb, var(--ds-color-accent) 12%, transparent);
+  }
+
+  .hjartat-page .calm-card,
+  .familjen-hub .calm-card,
+  .valv-bento-shell .calm-card,
+  .widget-shell__surface {
+    transition:
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  .widget-shell__surface:focus-within {
+    border-color: color-mix(in srgb, var(--ds-color-accent) 28%, var(--ds-color-border));
+    box-shadow: var(--ds-elevation-card-hover);
+  }
+
+  .chameleon-shell__delegate-viewport--morph {
+    transition: opacity var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  .chameleon-shell__zone-btn,
+  .chameleon-shell__mode-btn,
+  .chameleon-shell__exec-mode-pill {
+    transition:
+      background var(--ds-duration-fast) var(--ds-ease-premium),
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      transform var(--ds-duration-fast) var(--ds-ease-premium);
+  }
+
+  .chameleon-shell__zone-btn:active,
+  .chameleon-shell__mode-btn:active,
+  .chameleon-shell__exec-mode-pill:active {
+    transform: scale(var(--ds-press-scale));
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -674,13 +761,29 @@
 
   .bento-card:not(.module-bento-card--depth):hover,
   .ds-card--interactive:hover,
-  .exec-dock-bar__compass:hover {
+  .exec-dock-bar__compass:hover,
+  .home-layout-a__tile:hover {
     transform: none;
     filter: none;
   }
 
-  .basta-design__hero-img {
+  .basta-design__hero-img,
+  .home-greeting__rose-img {
     animation: none !important;
+  }
+
+  .home-layout-a__tile:active {
+    transform: none;
+  }
+
+  .chameleon-shell__delegate-viewport--morph {
+    transition: none !important;
+  }
+
+  .chameleon-shell__zone-btn:active,
+  .chameleon-shell__mode-btn:active,
+  .chameleon-shell__exec-mode-pill:active {
+    transform: none;
   }
 }
 
