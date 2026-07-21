@@ -124,17 +124,18 @@ export function CompassWidget({ pulseHint = false }: { pulseHint?: boolean }) {
     <WidgetCard
       size={size}
       material={cfg?.material ?? 'sapphire'}
-      className={widgetCardClass(cfg?.animation)}
+      className={[widgetCardClass(cfg?.animation), pulseHint ? 'cw-soft-focus' : ''].filter(Boolean).join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
         title="Kompassen"
-        subtitle={status ?? (menuOpen ? 'Välj riktning' : 'Välj check-in · håll för meny')}
+        subtitle={status ?? (menuOpen ? 'Välj riktning' : 'Check-in · håll för meny')}
         offline={!online}
         icon={<span aria-hidden>🧭</span>}
       />
       <button
         ref={roseBtnRef}
+        className="cw-metric-hit cw-metric-hit--ring"
         type="button"
         aria-label="Öppna kompassen"
         onClick={() => {
@@ -262,7 +263,7 @@ export function CompassWidget({ pulseHint = false }: { pulseHint?: boolean }) {
         Öppna kompass
       </WidgetButton>
       <div className="cw-trust-row" aria-live="polite">
-        {status ?? (online ? 'Håll för snabbmeny' : 'Offline — sparas lokalt')}
+        {status ?? (online ? 'Håll för snabbmeny · lugnt' : 'Offline — sparas lokalt')}
       </div>
     </WidgetCard>
   );

@@ -137,7 +137,7 @@ export function ChildFocusWidget({
     <WidgetCard
       size={cfg?.size ?? 'medium'}
       material={cfg?.material ?? 'sapphire'}
-      className={widgetCardClass(cfg?.animation)}
+      className={[widgetCardClass(cfg?.animation), pulseHint ? 'cw-soft-focus' : ''].filter(Boolean).join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
@@ -146,6 +146,9 @@ export function ChildFocusWidget({
         offline={!online}
         icon={<span aria-hidden>👦</span>}
       />
+      <p className="cw-eyebrow" style={{ letterSpacing: '0.08em', color: WidgetPalette.premiumGoldDim }}>
+        Dagens fråga
+      </p>
       <p style={{ margin: 0, color: WidgetPalette.textPrimary, fontSize: '1.05rem', lineHeight: 1.4 }}>
         {question}
       </p>
@@ -206,15 +209,8 @@ export function ChildFocusWidget({
               rows={2}
               aria-label="Svar"
               autoFocus
-              style={{
-                width: '100%',
-                border: 'none',
-                background: 'transparent',
-                color: WidgetPalette.textPrimary,
-                resize: 'none',
-                outline: 'none',
-                minHeight: WidgetTouch.minDp,
-              }}
+              className="cw-input"
+              style={{ minHeight: WidgetTouch.minDp }}
             />
           ) : (
             <p style={{ color: WidgetPalette.mutedText, margin: '0 0 0.5rem', fontSize: '0.85rem' }}>
@@ -239,7 +235,7 @@ export function ChildFocusWidget({
         </WidgetGlass>
       )}
       <div className="cw-trust-row" aria-live="polite">
-        {status ?? (online ? 'Ett kort svar räcker' : 'Offline — sparas lokalt')}
+        {status ?? (online ? 'Ett kort svar räcker · Valvet väntar' : 'Offline — sparas lokalt')}
       </div>
     </WidgetCard>
   );

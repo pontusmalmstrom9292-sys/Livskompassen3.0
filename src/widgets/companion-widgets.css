@@ -2,6 +2,11 @@
  * Companion Widget OS — Kap 6 Gold Standard visual layer.
  */
 
+:root {
+  --cw-touch-floor: 44px;
+}
+
+
 .cw-card {
   position: relative;
   display: flex;
@@ -460,3 +465,317 @@
   }
 }
 
+
+/* ── UI polish waves 2026-07-21 (Allowed polish) ── */
+
+.cw-eyebrow {
+  margin: 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cw-gold-dim, #9a7b2f);
+}
+
+.cw-chrome-btn,
+.cw-chrome-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: var(--cw-touch-floor, 44px);
+  min-width: var(--cw-touch-floor, 44px);
+  padding: 0.35rem 0.55rem;
+  margin: 0;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--cw-muted, #94a3b8);
+  font-size: 0.78rem;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.cw-chrome-link--gold {
+  color: var(--cw-gold-light, #fde68a);
+}
+
+.cw-chrome-btn:hover,
+.cw-chrome-link:hover {
+  color: var(--cw-gold-light, #fde68a);
+  background: color-mix(in srgb, var(--cw-gold, #d4af37) 8%, transparent);
+}
+
+.cw-chrome-btn:focus-visible,
+.cw-chrome-link:focus-visible,
+.cw-home-rail-collapsed:focus-visible,
+.cw-metric-hit:focus-visible,
+.cw-row-hit:focus-visible,
+.cw-input:focus-visible,
+.cw-studio-chip:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--cw-gold, #d4af37) 70%, transparent);
+  outline-offset: 2px;
+}
+
+.cw-home-rail__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.cw-home-rail__title {
+  margin: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cw-muted, #94a3b8);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.cw-home-rail__actions {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.cw-home-rail__body {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.cw-home-rail__banner {
+  margin: 0;
+  color: var(--cw-muted, #94a3b8);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.cw-home-rail-collapsed {
+  margin: 0;
+  padding: 0.75rem 0.95rem;
+  min-height: var(--cw-touch-floor, 44px);
+  text-align: left;
+  color: var(--cw-muted, #94a3b8);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--cw-gold, #d4af37) 16%, transparent);
+  background: var(--cw-deep-space, #020617);
+  cursor: pointer;
+  width: 100%;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.cw-home-rail-collapsed:hover {
+  border-color: color-mix(in srgb, var(--cw-gold, #d4af37) 28%, transparent);
+}
+
+.cw-empty {
+  display: grid;
+  gap: 0.55rem;
+  padding: 0.95rem 1.05rem;
+  border-radius: 16px;
+  border: 1px solid color-mix(in srgb, var(--cw-gold, #d4af37) 18%, transparent);
+  background:
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--cw-gold-light, #fde68a) 6%, transparent),
+      transparent 48%
+    ),
+    var(--cw-deep-space, #020617);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--cw-gold-light, #fde68a) 8%, transparent);
+}
+
+.cw-empty__title {
+  margin: 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--cw-gold-light, #fde68a) 82%, transparent);
+}
+
+.cw-empty__message {
+  margin: 0;
+  color: var(--cw-muted, #94a3b8);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.cw-empty__actions {
+  display: flex;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.cw-metric-hit,
+.cw-row-hit {
+  border: none;
+  background: transparent;
+  padding: 0.35rem 0.15rem;
+  margin: 0;
+  min-height: var(--cw-touch-floor, 44px);
+  width: 100%;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  border-radius: 10px;
+  transition: background 160ms ease;
+}
+
+.cw-metric-hit:hover,
+.cw-row-hit:hover {
+  background: color-mix(in srgb, var(--cw-gold, #d4af37) 6%, transparent);
+}
+
+.cw-metric-hit--ring {
+  width: auto;
+  margin-inline: auto;
+  padding: 0.35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cw-metric-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cw-muted, #94a3b8);
+  margin-bottom: 4px;
+}
+
+.cw-input {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: var(--cw-text, #f8fafc);
+  resize: none;
+  outline: none;
+  min-height: var(--cw-touch-min, 56px);
+  border-radius: 10px;
+  padding: 0.35rem 0.25rem;
+}
+
+.cw-input:focus-visible {
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--cw-gold, #d4af37) 12%, transparent);
+}
+
+.cw-pill {
+  min-height: max(2.35rem, var(--cw-touch-floor, 44px));
+}
+
+.cw-studio-chip {
+  min-height: var(--cw-touch-floor, 44px);
+}
+
+.cw-actions-row {
+  display: flex;
+  gap: 0.45rem;
+  margin-top: 0.35rem;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+
+.cw-home-pin-badge {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  z-index: 2;
+  font-size: 0.72rem;
+  color: var(--cw-gold-light, #fde68a);
+  letter-spacing: 0.06em;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .cw-card::before {
+    opacity: 0.2;
+  }
+
+  .cw-empty,
+  .cw-home-rail-collapsed {
+    background: var(--cw-obsidian, #0d0b09);
+  }
+
+  .cw-pill,
+  .cw-mood {
+    background: var(--cw-obsidian, #0d0b09);
+  }
+}
+
+@media (prefers-contrast: more) {
+  .cw-card {
+    border-color: color-mix(in srgb, var(--cw-gold, #d4af37) 55%, transparent);
+  }
+
+  .cw-trust-row,
+  .cw-eyebrow,
+  .cw-home-rail__title,
+  .cw-empty__message,
+  .cw-metric-label {
+    color: color-mix(in srgb, var(--cw-text, #f8fafc) 88%, var(--cw-muted, #94a3b8));
+  }
+
+  .cw-pill,
+  .cw-chrome-btn,
+  .cw-chrome-link,
+  .cw-home-rail-collapsed {
+    border-width: 1.5px;
+  }
+
+  .cw-btn:focus-visible,
+  .cw-pill:focus-visible,
+  .cw-chrome-btn:focus-visible,
+  .cw-chrome-link:focus-visible,
+  .cw-metric-hit:focus-visible,
+  .cw-row-hit:focus-visible {
+    outline-width: 3px;
+  }
+}
+
+@media (forced-colors: active) {
+  .cw-card,
+  .cw-empty,
+  .cw-home-rail-collapsed,
+  .cw-pill,
+  .cw-mood {
+    border: 1px solid CanvasText;
+    background: Canvas;
+    color: CanvasText;
+  }
+
+  .cw-chrome-link--gold,
+  .cw-mode-badge,
+  .cw-home-pin-badge {
+    color: LinkText;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cw-chrome-btn,
+  .cw-chrome-link,
+  .cw-home-rail-collapsed,
+  .cw-metric-hit,
+  .cw-row-hit,
+  .cw-input {
+    transition: none !important;
+  }
+
+  .cw-pulse-cta,
+  .cw-header__sync--offline {
+    animation: none !important;
+  }
+}

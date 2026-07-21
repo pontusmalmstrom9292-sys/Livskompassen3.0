@@ -7,6 +7,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
+import { EmptyState } from '@/core/ui/EmptyState';
 import '../companion-widgets.css';
 import { WidgetSyncStatusChip } from '../components/WidgetSyncStatusChip';
 import { WidgetButton } from '../components/WidgetButton';
@@ -130,28 +131,8 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
         opacity: surface.dimVisual ? 0.88 : 1,
       }}
     >
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          gap: '0.75rem',
-          flexWrap: 'wrap',
-        }}
-      >
-        <p
-          style={{
-            margin: 0,
-            fontSize: '0.72rem',
-            letterSpacing: '0.12em',
-            textTransform: 'uppercase',
-            color: WidgetPalette.mutedText,
-            display: 'flex',
-            alignItems: 'center',
-            gap: '0.5rem',
-            flexWrap: 'wrap',
-          }}
-        >
+      <div className="cw-home-rail__head">
+        <p className="cw-home-rail__title">
           <span>Companion · {surface.time.focusLabel}</span>
           {surface.smartTimeEnabled ? (
             <span
@@ -181,43 +162,22 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
             </span>
           ) : null}
         </p>
-        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+        <div className="cw-home-rail__actions">
           <WidgetSyncStatusChip />
           <button
             type="button"
+            className="cw-chrome-btn"
             onClick={toggleCollapsed}
             aria-expanded={!collapsed}
             aria-controls="cw-home-rail-body"
-            style={{
-              border: 'none',
-              background: 'transparent',
-              padding: 0,
-              fontSize: '0.78rem',
-              color: WidgetPalette.mutedText,
-              cursor: 'pointer',
-            }}
           >
             {collapsed ? 'Visa' : 'Dölj'}
           </button>
-          <Link
-            to="/installningar/widget-studio"
-            style={{
-              fontSize: '0.78rem',
-              color: WidgetPalette.premiumGoldLight,
-              textDecoration: 'none',
-            }}
-          >
+          <Link to="/installningar/widget-studio" className="cw-chrome-link cw-chrome-link--gold">
             Studio
           </Link>
           {import.meta.env.DEV ? (
-            <Link
-              to="/dev/companion-widgets"
-              style={{
-                fontSize: '0.78rem',
-                color: WidgetPalette.mutedText,
-                textDecoration: 'none',
-              }}
-            >
+            <Link to="/dev/companion-widgets" className="cw-chrome-link">
               Labb
             </Link>
           ) : null}
@@ -229,19 +189,6 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
           id="cw-home-rail-body"
           className="cw-home-rail-collapsed"
           onClick={toggleCollapsed}
-          style={{
-            margin: 0,
-            padding: '0.65rem 0.85rem',
-            textAlign: 'left',
-            color: WidgetPalette.mutedText,
-            fontSize: '0.88rem',
-            lineHeight: 1.4,
-            borderRadius: 14,
-            border: `1px solid color-mix(in srgb, ${WidgetPalette.premiumGold} 16%, transparent)`,
-            background: WidgetPalette.deepSpaceBlue,
-            cursor: 'pointer',
-            width: '100%',
-          }}
         >
           {ready
             ? featured.length > 0
@@ -250,63 +197,41 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
             : 'Laddar…'}
         </button>
       ) : (
-        <div id="cw-home-rail-body" style={{ display: 'grid', gap: '0.75rem' }}>
+        <div id="cw-home-rail-body" className="cw-home-rail__body">
       {surface.banner || (surface.smartTimeEnabled && surface.time.message) ? (
-        <p
-          style={{
-            margin: 0,
-            color: WidgetPalette.mutedText,
-            fontSize: '0.9rem',
-            lineHeight: 1.45,
-          }}
-        >
+        <p className="cw-home-rail__banner">
           {surface.banner || surface.time.message}
         </p>
       ) : null}
       {ready && featured.length === 0 ? (
-        <div
-          style={{
-            display: 'grid',
-            gap: '0.55rem',
-            padding: '0.85rem 1rem',
-            borderRadius: 16,
-            border: `1px solid color-mix(in srgb, ${WidgetPalette.premiumGold} 18%, transparent)`,
-            background: WidgetPalette.deepSpaceBlue,
-          }}
-        >
-          <p style={{ margin: 0, color: WidgetPalette.mutedText, fontSize: '0.9rem', lineHeight: 1.4 }}>
-            Inga Companion-widgets är på. Slå på två lugna defaults, eller öppna Studio.
-          </p>
-          <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap' }}>
-            <WidgetButton
-              variant="gold"
-              size="min"
-              onClick={() => {
-                void (async () => {
-                  await patchWidgetStudioConfig('quick_capture', { enabled: true });
-                  await patchWidgetStudioConfig('safe_harbor', { enabled: true });
-                  setSignals(readCompanionAiSignals());
-                })();
-              }}
-            >
-              Slå på Capture + Hamn
-            </WidgetButton>
-            <Link
-              to="/installningar/widget-studio"
-              style={{
-                alignSelf: 'center',
-                fontSize: '0.82rem',
-                color: WidgetPalette.premiumGoldLight,
-                textDecoration: 'none',
-              }}
-            >
-              Öppna Studio
-            </Link>
-          </div>
-        </div>
+        <EmptyState
+          title="Companion"
+          message="Inga Companion-widgets är på. Slå på två lugna defaults, eller öppna Studio."
+          className="cw-empty"
+          action={
+            <div className="cw-empty__actions">
+              <WidgetButton
+                variant="gold"
+                size="min"
+                onClick={() => {
+                  void (async () => {
+                    await patchWidgetStudioConfig('quick_capture', { enabled: true });
+                    await patchWidgetStudioConfig('safe_harbor', { enabled: true });
+                    setSignals(readCompanionAiSignals());
+                  })();
+                }}
+              >
+                Slå på Capture + Hamn
+              </WidgetButton>
+              <Link to="/installningar/widget-studio" className="cw-chrome-link cw-chrome-link--gold">
+                Öppna Studio
+              </Link>
+            </div>
+          }
+        />
       ) : null}
       {!ready ? (
-        <p style={{ margin: 0, color: WidgetPalette.mutedText, fontSize: '0.85rem' }}>
+        <p className="cw-home-rail__banner" aria-live="polite">
           Laddar Companion…
         </p>
       ) : null}
@@ -325,21 +250,7 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
             return (
               <div key={id} className="cw-home-pin-wrap" style={{ position: 'relative' }}>
                 {pinned ? (
-                  <span
-                    className="cw-home-pin-badge"
-                    aria-label="Fäst på Hem"
-                    title="Fäst på Hem"
-                    style={{
-                      position: 'absolute',
-                      top: 10,
-                      right: 12,
-                      zIndex: 2,
-                      fontSize: '0.72rem',
-                      color: WidgetPalette.premiumGoldLight,
-                      letterSpacing: '0.06em',
-                      pointerEvents: 'none',
-                    }}
-                  >
+                  <span className="cw-home-pin-badge" aria-label="Fäst på Hem" title="Fäst på Hem">
                     ✦ Fäst
                   </span>
                 ) : null}

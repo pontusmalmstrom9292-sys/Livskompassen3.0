@@ -55,12 +55,12 @@ export function DailyAnchorWidget({ pulseHint = false }: { pulseHint?: boolean }
     <WidgetCard
       size={cfg?.size ?? 'xs'}
       material={cfg?.material ?? 'sapphire'}
-      className={widgetCardClass(cfg?.animation, justDone && 'cw-check-burst')}
+      className={[widgetCardClass(cfg?.animation, justDone && 'cw-check-burst'), pulseHint ? 'cw-soft-focus' : ''].filter(Boolean).join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
         title="Dagens ankare"
-        subtitle={status ?? (done ? 'Klart idag' : 'Ett mikrosteg')}
+        subtitle={status ?? (done ? 'Klart idag' : 'Ett lugnt mikrosteg')}
         offline={!online}
       />
       <div style={{ display: 'grid', placeItems: 'center', gap: '0.55rem', flex: 1, textAlign: 'center' }}>

@@ -10,7 +10,6 @@ import { finishCompanionCapture } from '../core/finishCompanionCapture';
 import { useCompanionOnline } from '../core/useCompanionOnline';
 import { queueWidgetSync } from '../core/WidgetSync';
 import { routeWidgetAction } from '../core/WidgetRouter';
-import { WidgetPalette } from '../core/WidgetTheme';
 import { useStudioWidgetConfig } from '../studio/useStudioWidgetConfig';
 import { widgetCardClass } from '../studio/studioIdleClass';
 import { getWidgetStudioConfig } from '../studio/widgetStudioStore';
@@ -114,27 +113,21 @@ export function BeaconWidget({
     <WidgetCard
       size={size}
       material={cfg?.material ?? 'sapphire'}
-      className={widgetCardClass(cfg?.animation)}
+      className={[widgetCardClass(cfg?.animation), pulseHint ? 'cw-soft-focus' : ''].filter(Boolean).join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
         title="Fyren"
-        subtitle={status ?? 'Tryck på en rad för att justera'}
+        subtitle={status ?? 'Tryck en rad · justera lugnt'}
         offline={!online}
         icon={<span aria-hidden>💙</span>}
       />
       {info.showCapacity ? (
         <button
           type="button"
+          className="cw-metric-hit cw-metric-hit--ring"
           onClick={() => void nudge('capacity')}
           aria-label={`Justera kapacitet, nu ${metrics.capacity}`}
-          style={{
-            border: 'none',
-            background: 'transparent',
-            cursor: 'pointer',
-            padding: 0,
-            margin: '0 auto',
-          }}
         >
           <div ref={ringRef} style={{ position: 'relative', width: 96, height: 96 }}>
             <WidgetProgress variant="circular" value={metrics.capacity} label="Kapacitet" size={96} />
@@ -148,28 +141,11 @@ export function BeaconWidget({
           <button
             key={key}
             type="button"
+            className="cw-metric-hit"
             onClick={() => void nudge(key)}
             aria-label={`Justera ${label}, nu ${value}`}
-            style={{
-              border: 'none',
-              background: 'transparent',
-              padding: 0,
-              cursor: 'pointer',
-              textAlign: 'left',
-              color: 'inherit',
-            }}
           >
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                fontSize: '0.72rem',
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: WidgetPalette.mutedText,
-                marginBottom: 4,
-              }}
-            >
+            <div className="cw-metric-label">
               <span>{label}</span>
               <span>{value}</span>
             </div>
@@ -177,7 +153,7 @@ export function BeaconWidget({
           </button>
         ))}
       </div>
-      <div style={{ display: 'flex', gap: '0.45rem', marginTop: '0.35rem' }}>
+      <div className="cw-actions-row">
         <WidgetButton
           variant="gold"
           size="premium"
