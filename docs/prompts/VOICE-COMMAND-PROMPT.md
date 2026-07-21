@@ -2,7 +2,7 @@
 
 **Runtime-källa:** `functions/src/sharedRules.ts` → `VOICE_COMMAND_SYSTEM_PROMPT`
 **Callables:** `parseVoiceCommand`
-**Synkad:** 2026-07-20 · **Status:** produktion (läsbar spegel, ej runtime)
+**Synkad:** 2026-07-21 · **Status:** produktion (läsbar spegel, ej runtime)
 
 ---
 # VOICE COMMAND
