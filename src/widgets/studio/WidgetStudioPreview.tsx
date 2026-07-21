@@ -54,9 +54,10 @@ export function WidgetStudioPreview({ widgetId }: { widgetId: string }) {
 
   if (!Comp) {
     return (
-      <p style={{ color: WidgetPalette.mutedText, fontSize: '0.9rem' }}>
-        Ingen förhandsvisning för denna widget.
-      </p>
+      <div className="cw-empty" role="status">
+        <p className="cw-empty__title">Förhandsvisning</p>
+        <p className="cw-empty__message">Ingen förhandsvisning för denna widget.</p>
+      </div>
     );
   }
 
@@ -72,17 +73,7 @@ export function WidgetStudioPreview({ widgetId }: { widgetId: string }) {
           flexWrap: 'wrap',
         }}
       >
-        <p
-          style={{
-            margin: 0,
-            fontSize: '0.68rem',
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            color: WidgetPalette.premiumGoldDim,
-          }}
-        >
-          Förhandsvisning · interaktiv
-        </p>
+        <p className="cw-eyebrow">Förhandsvisning · interaktiv</p>
         <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
           <WidgetButton
             variant={on ? 'gold' : 'ghost'}

@@ -112,7 +112,7 @@ export function WidgetStudioModePanel({ smartAiEnabled }: { smartAiEnabled: bool
         <WidgetButton
           variant="quiet"
           size="min"
-          style={{ minHeight: WidgetTouch.minDp * 0.72 }}
+          style={{ minHeight: Math.max(44, Math.round(WidgetTouch.minDp * 0.72)) }}
           onClick={() =>
             void setDemoOverride({ energy: 25, stress: 40, sleep: 35, openTaskCount: 1 })
           }
@@ -122,7 +122,7 @@ export function WidgetStudioModePanel({ smartAiEnabled }: { smartAiEnabled: bool
         <WidgetButton
           variant="quiet"
           size="min"
-          style={{ minHeight: WidgetTouch.minDp * 0.72 }}
+          style={{ minHeight: Math.max(44, Math.round(WidgetTouch.minDp * 0.72)) }}
           onClick={() =>
             void setDemoOverride({ energy: 50, stress: 78, sleep: 60, openTaskCount: 2 })
           }
@@ -132,7 +132,7 @@ export function WidgetStudioModePanel({ smartAiEnabled }: { smartAiEnabled: bool
         <WidgetButton
           variant="ghost"
           size="min"
-          style={{ minHeight: WidgetTouch.minDp * 0.72 }}
+          style={{ minHeight: Math.max(44, Math.round(WidgetTouch.minDp * 0.72)) }}
           onClick={() => void setDemoOverride(null)}
         >
           Rensa demo

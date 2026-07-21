@@ -117,27 +117,24 @@ export function SafeHarborWidget({
     <WidgetCard
       size={cfg?.size ?? 'small'}
       material={cfg?.material ?? 'sapphire'}
-      className={widgetCardClass(cfg?.animation)}
+      className={[widgetCardClass(cfg?.animation), pulseHint ? 'cw-soft-focus' : ''].filter(Boolean).join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
         title="Trygg Hamn"
-        subtitle={status ?? 'Tryck för nästa mening'}
+        subtitle={status ?? 'Tryck · nästa lugna mening'}
         offline={!online}
         icon={<span aria-hidden>❤️</span>}
       />
       <button
         type="button"
+        className="cw-row-hit"
         onClick={() => void cycle()}
         aria-label="Byt mening"
         style={{
-          border: 'none',
-          background: 'transparent',
-          cursor: 'pointer',
-          padding: 0,
           width: '100%',
           flex: 1,
-          textAlign: 'left',
+          padding: 0,
         }}
       >
         <div

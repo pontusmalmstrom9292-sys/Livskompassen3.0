@@ -17,7 +17,7 @@ function WidgetActionDashboardInner() {
   return (
     <WidgetShell
       title="Åtgärder"
-      lead="Snabbinmatning — stämpel, reflektion, barnlogg. Synkas automatiskt."
+      lead="Snabbinmatning — stämpel, reflektion, barnlogg. Synkas tryggt när nätet finns."
     >
       <ActionDashboard userId={user?.uid} flushTick={flushTick} />
     </WidgetShell>

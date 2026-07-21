@@ -74,12 +74,12 @@ function Chip({
   return (
     <button
       type="button"
-      className={['cw-pill', active && 'cw-pill--active'].filter(Boolean).join(' ')}
+      className={['cw-pill', 'cw-studio-chip', active && 'cw-pill--active'].filter(Boolean).join(' ')}
       onClick={onClick}
       onDoubleClick={onDoubleClick}
       title={onDoubleClick ? 'Dubbelklicka för På/Av' : undefined}
       style={{
-        minHeight: WidgetTouch.minDp * 0.72,
+        minHeight: Math.max(44, Math.round(WidgetTouch.minDp * 0.72)),
         opacity: dimmed ? 0.45 : 1,
       }}
     >
@@ -116,7 +116,7 @@ function Editor({
         }
       />
 
-      <p style={labelStyle}>Hem</p>
+      <p className="cw-eyebrow">Hem</p>
       <div className="cw-pill-row">
         <Chip
           active={config.homePin}
@@ -125,14 +125,14 @@ function Editor({
         />
       </div>
 
-      <p style={labelStyle}>Storlek</p>
+      <p className="cw-eyebrow">Storlek</p>
       <div className="cw-pill-row">
         {SIZES.map((s) => (
           <Chip key={s} active={config.size === s} label={s.toUpperCase()} onClick={() => onChange({ size: s })} />
         ))}
       </div>
 
-      <p style={labelStyle}>Modul</p>
+      <p className="cw-eyebrow">Modul</p>
       <div className="cw-pill-row">
         {STUDIO_MODULES.map((m) => (
           <Chip
@@ -144,7 +144,7 @@ function Editor({
         ))}
       </div>
 
-      <p style={labelStyle}>Material</p>
+      <p className="cw-eyebrow">Material</p>
       <div className="cw-pill-row">
         {MATERIALS.map((m) => (
           <Chip
@@ -156,7 +156,7 @@ function Editor({
         ))}
       </div>
 
-      <p style={labelStyle}>Accent (låst palett)</p>
+      <p className="cw-eyebrow">Accent (låst palett)</p>
       <div className="cw-pill-row">
         {ACCENTS.map((a) => (
           <Chip
@@ -168,7 +168,7 @@ function Editor({
         ))}
       </div>
 
-      <p style={labelStyle}>Vilande rörelse</p>
+      <p className="cw-eyebrow">Vilande rörelse</p>
       <div className="cw-pill-row">
         {ANIMS.map((a) => (
           <Chip
@@ -180,7 +180,7 @@ function Editor({
         ))}
       </div>
 
-      <p style={labelStyle}>Information</p>
+      <p className="cw-eyebrow">Information</p>
       <div className="cw-pill-row">
         {(
           [
@@ -199,7 +199,7 @@ function Editor({
         ))}
       </div>
 
-      <p style={labelStyle}>Genvägar (max {maxBtn} för {config.size})</p>
+      <p className="cw-eyebrow">Genvägar (max {maxBtn} för {config.size})</p>
       <div className="cw-pill-row">
         {SHORTCUTS.map((s) => {
           const on = config.shortcuts.includes(s.id);
@@ -271,7 +271,7 @@ export function WidgetStudioPage() {
       }}
     >
       <p style={{ margin: 0, fontSize: '0.75rem' }}>
-        <Link to="/installningar" style={{ color: WidgetPalette.mutedText }}>
+        <Link to="/installningar" className="cw-chrome-link">
           Inställningar
         </Link>
         <span style={{ color: WidgetPalette.premiumGoldDim }}> · </span>
@@ -284,11 +284,12 @@ export function WidgetStudioPage() {
         lugn. {savedFlash ? 'Sparat lokalt.' : ''}
       </p>
       <p style={{ margin: '0 0 1rem', display: 'flex', gap: '0.85rem', flexWrap: 'wrap' }}>
-        <Link to="/" style={{ color: WidgetPalette.premiumGoldLight, fontSize: '0.82rem' }}>
+        <Link to="/" className="cw-chrome-link cw-chrome-link--gold">
           Öppna Hem
         </Link>
         <button
           type="button"
+          className="cw-chrome-btn"
           onClick={() => {
             try {
               localStorage.setItem('cw_home_rail_collapsed', '0');
@@ -297,14 +298,6 @@ export function WidgetStudioPage() {
             }
             setSavedFlash(true);
             window.setTimeout(() => setSavedFlash(false), 1200);
-          }}
-          style={{
-            border: 'none',
-            background: 'transparent',
-            padding: 0,
-            color: WidgetPalette.mutedText,
-            fontSize: '0.82rem',
-            cursor: 'pointer',
           }}
         >
           Visa Companion på Hem
