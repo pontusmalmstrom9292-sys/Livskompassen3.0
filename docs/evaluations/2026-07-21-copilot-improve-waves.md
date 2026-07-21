@@ -7,3 +7,4 @@
 | ui-polish-v3-hjartat | Hjärtat Dagbok + Speglar + Inkast | hjartat.css, reflektion-panel.css, dagbok-tyst-lage.css, InkastDirectPanel.tsx | build, locked-ux, design-modules, speglar | PASS |
 | ui-polish-v4-familjen | Familjen + Barnporten + ChildMoment | familjen.css, barnporten.css, ChildMomentTabs.tsx | build, locked-ux, design-modules, children | PASS |
 | ui-polish-v5-valv | Valv hub WORM-stamp + Mönster | valv.css, VaultWormEvidenceStamp.tsx, VaultMonsterPanel.tsx | build, locked-ux, design-modules, valv | PASS |
+| ui-polish-v6-widgets-chrome | Widgets + dock + header chrome | WidgetShell.css, floating-dock.css, coreLayoutChrome.css, executive-chrome.css | build, locked-ux, design-modules, widgets, basta-dock-lock | PASS |

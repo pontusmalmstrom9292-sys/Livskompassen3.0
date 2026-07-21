@@ -50,8 +50,8 @@
 
   .app-header__logo {
     @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl;
-    background: rgba(212, 175, 55, 0.1);
-    border: 1px solid rgba(212, 175, 55, 0.22);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
+    border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
   }
 
@@ -80,11 +80,11 @@
 
   .header-glass-btn--active {
     color: var(--color-accent-gold);
-    background: rgba(212, 175, 55, 0.14);
-    border-color: rgba(212, 175, 55, 0.38);
+    background: color-mix(in srgb, var(--accent) 14%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 38%, transparent);
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 0 20px rgba(212, 175, 55, 0.12);
+      0 0 20px color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
   .header-glass-btn--avatar {
@@ -95,6 +95,11 @@
     background: rgba(255, 255, 255, 0.06);
     border-color: rgba(255, 255, 255, 0.12);
     color: inherit;
+  }
+
+  .header-glass-btn:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .app-main {
@@ -164,12 +169,12 @@
 
   .livskompass-brand-lockup--inline .livskompass-brand-lockup__mark {
     filter: drop-shadow(0 2px 3px var(--color-glass-dark-50))
-      drop-shadow(0 0 14px rgba(212, 175, 55, 0.42));
+      drop-shadow(0 0 14px color-mix(in srgb, var(--accent) 42%, transparent));
   }
 
   .livskompass-brand-lockup--header .livskompass-brand-lockup__mark {
     filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4))
-      drop-shadow(0 0 6px rgba(212, 175, 55, 0.18));
+      drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 18%, transparent));
   }
 
   .livskompass-brand-lockup__title {
@@ -184,7 +189,7 @@
     font-weight: 700;
     letter-spacing: 0.3em;
     filter: drop-shadow(0 1px 2px var(--color-glass-dark-50))
-      drop-shadow(0 0 18px rgba(212, 175, 55, 0.28));
+      drop-shadow(0 0 18px color-mix(in srgb, var(--accent) 28%, transparent));
   }
 
   /* Header — solid guld (filter + background-clip:text = osynlig text i WebKit) */
@@ -267,7 +272,7 @@
     bottom: calc(3.75rem + env(safe-area-inset-bottom, 0px));
     max-height: min(72vh, 520px);
     overflow-y: auto;
-    border-color: rgba(212, 175, 55, 0.35);
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
     background: rgba(10, 10, 10, 0.72);
     backdrop-filter: blur(14px);
     box-shadow: -8px 0 32px var(--color-glass-dark-45);
@@ -282,14 +287,14 @@
   }
 
   .fyren-home-rail__row:hover {
-    background: rgba(212, 175, 55, 0.1);
+    background: color-mix(in srgb, var(--accent) 10%, transparent);
   }
 
   .fyren-home-rail__icon {
     @apply flex h-11 w-11 items-center justify-center rounded-full text-accent;
-    border: 1.5px solid rgba(212, 175, 55, 0.45);
+    border: 1.5px solid color-mix(in srgb, var(--accent) 45%, transparent);
     background: rgba(10, 10, 10, 0.65);
-    box-shadow: 0 0 12px rgba(212, 175, 55, 0.12);
+    box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 12%, transparent);
   }
 
   .fyren-home-rail__label {
@@ -351,7 +356,7 @@
       box-shadow:
         0 12px 40px rgba(0, 0, 0, 0.8),
         inset 0 1px 1px rgba(255, 255, 255, 0.06),
-        0 0 15px rgba(212, 175, 55, 0.06) !important;
+        0 0 15px color-mix(in srgb, var(--accent) 6%, transparent) !important;
       padding: 0.25rem 0.3rem !important;
       display: flex !important;
       align-items: center !important;
@@ -364,7 +369,7 @@
     .floating-dock .dock-hub-band__rail,
     .floating-dock .dock-hub-band__rail--zones {
       border-radius: 1.8rem !important;
-      border: 1px solid rgba(212, 175, 55, 0.45) !important;
+      border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent) !important;
       background: rgba(0, 0, 0, 0.5) !important;
       backdrop-filter: none !important;
       -webkit-backdrop-filter: none !important;
@@ -428,7 +433,7 @@
     }
 
     .floating-dock__side-btn.dock-nav-btn--active {
-      background: rgba(212, 175, 55, 0.06) !important;
+      background: color-mix(in srgb, var(--accent) 6%, transparent) !important;
     }
 
     .floating-dock__side-btn.dock-nav-btn--active::before {
@@ -440,7 +445,7 @@
       height: 1.35rem !important;
       width: 1.35rem !important;
       opacity: 0.75 !important;
-      color: rgba(212, 175, 55, 0.8) !important;
+      color: color-mix(in srgb, var(--accent) 80%, transparent) !important;
       transition: all 0.2s ease !important;
       filter: none !important;
       transform: none !important;
@@ -457,7 +462,7 @@
     .floating-dock__side-btn.dock-nav-btn--active .dock-nav-btn__drawer-l2 {
       opacity: 1 !important;
       color: #d4af37 !important;
-      filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6)) !important;
+      filter: drop-shadow(0 0 8px color-mix(in srgb, var(--accent) 60%, transparent)) !important;
       transform: scale(1.05) !important;
     }
 
@@ -468,7 +473,7 @@
       font-weight: 600 !important;
       text-transform: uppercase !important;
       letter-spacing: 0.02em !important;
-      color: rgba(212, 175, 55, 0.6) !important;
+      color: color-mix(in srgb, var(--accent) 60%, transparent) !important;
       margin-top: 0.25rem !important;
       text-align: center !important;
       width: 100% !important;
@@ -484,7 +489,7 @@
 
     .floating-dock__side-btn.dock-nav-btn--active .dock-nav-btn__label {
       color: #d4af37 !important;
-      text-shadow: 0 0 6px rgba(212, 175, 55, 0.2) !important;
+      text-shadow: 0 0 6px color-mix(in srgb, var(--accent) 20%, transparent) !important;
     }
 
     .floating-dock__side-btn--anteckning,
@@ -517,7 +522,7 @@
 
     .floating-dock__plate {
       background: rgba(15, 15, 20, 0.85) !important;
-      border: 1px solid rgba(212, 175, 55, 0.35) !important;
+      border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent) !important;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) !important;
       width: 2.5rem !important;
       height: 2.5rem !important;
@@ -532,33 +537,33 @@
       height: 1.6rem !important;
       width: 1.6rem !important;
       color: #d4af37 !important;
-      filter: drop-shadow(0 0 4px rgba(212,175,55,0.4)) !important;
+      filter: drop-shadow(0 0 4px color-mix(in srgb, var(--accent) 40%, transparent)) !important;
       transition: all 0.25s ease !important;
     }
 
     .floating-dock .dock-hub-band__center:hover .floating-dock__plate {
       border-color: #d4af37 !important;
-      box-shadow: 0 0 14px rgba(212,175,55,0.3) !important;
+      box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 30%, transparent) !important;
       transform: translateY(-1px) !important;
     }
 
     .floating-dock .dock-hub-band__center:hover .floating-dock__mark {
       color: #fde68a !important;
-      filter: drop-shadow(0 0 8px rgba(212,175,55,0.7)) !important;
+      filter: drop-shadow(0 0 8px color-mix(in srgb, var(--accent) 70%, transparent)) !important;
     }
 
     .floating-dock .dock-hub-band__center--active .floating-dock__plate,
     .floating-dock .dock-hub-band__center--holding .floating-dock__plate {
       border-color: #d4af37 !important;
-      background: rgba(212, 175, 55, 0.12) !important;
-      box-shadow: 0 0 18px rgba(212, 175, 55, 0.4) !important;
+      background: color-mix(in srgb, var(--accent) 12%, transparent) !important;
+      box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 40%, transparent) !important;
       transform: scale(1.05) !important;
     }
 
     .floating-dock .dock-hub-band__center--active .floating-dock__mark,
     .floating-dock .dock-hub-band__center--holding .floating-dock__mark {
       color: #d4af37 !important;
-      filter: drop-shadow(0 0 10px rgba(212,175,55,0.8)) !important;
+      filter: drop-shadow(0 0 10px color-mix(in srgb, var(--accent) 80%, transparent)) !important;
     }
 
     .floating-dock__center-label {
@@ -568,7 +573,7 @@
       font-size: 0.56rem !important;
       line-height: 1.1 !important;
       font-weight: 600 !important;
-      color: rgba(212, 175, 55, 0.6) !important;
+      color: color-mix(in srgb, var(--accent) 60%, transparent) !important;
       text-transform: uppercase !important;
       letter-spacing: 0.05em !important;
       pointer-events: none !important;
@@ -630,9 +635,14 @@
       border-color: rgba(255, 255, 255, 0.18);
     }
 
+    .module-hub-tile:focus-visible {
+      outline: var(--ds-focus-ring);
+      outline-offset: var(--ds-focus-offset);
+    }
+
     .module-hub-tile--active {
       @apply border-accent/40 text-accent;
-      background: rgba(212, 175, 55, 0.08);
+      background: color-mix(in srgb, var(--accent) 8%, transparent);
     }
 
     .module-hub-tile--center {
@@ -640,9 +650,9 @@
     }
 
     .module-hub-tile--gold.module-hub-tile--active {
-      border-color: rgba(212, 175, 55, 0.4);
+      border-color: color-mix(in srgb, var(--accent) 40%, transparent);
       color: var(--color-accent-gold);
-      background: rgba(212, 175, 55, 0.08);
+      background: color-mix(in srgb, var(--accent) 8%, transparent);
     }
 
     .module-hub-tile__icon {
@@ -659,6 +669,24 @@
 
     .module-hub-panel__close {
       @apply mt-3 w-full rounded-full border border-white/10 py-2 text-[10px] uppercase tracking-widest text-text-dim transition-colors hover:text-text-muted;
+    }
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .glass-header-bar,
+    .module-hub-panel {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .header-glass-btn {
+      transition: none;
     }
   }
 }
