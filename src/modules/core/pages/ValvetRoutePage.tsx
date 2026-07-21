@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { clsx } from 'clsx';
 import { ModuleShell } from '../layout/ModuleShell';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { NAV_PATHS } from '../navigation/navTruth';
 import { useMinWidthSm } from '../hooks/useMinWidthSm';
@@ -103,7 +104,7 @@ export function ValvetRoutePage() {
         )}
       >
         <main className="animate-fade-in">
-          <Suspense fallback={<div className="p-4 text-center text-sm text-text-muted">Laddar valv...</div>}>
+          <Suspense fallback={<HubPanelSkeleton label="Laddar Valvet…" lines={5} />}>
             <VaultPage
               vaultTab={canonTab}
               valvMode={canonMode}

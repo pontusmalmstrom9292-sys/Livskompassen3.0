@@ -15,3 +15,4 @@
 | drogfrihet-content-polish | DF content types + SOS focus | dfBankTypes, dfQuestionBank, dfQuoteBank, RecoveryUrgeSosModule | build, drogfrihet, drogfrihet-content | PASS |
 | economy-delegates-polish | Ekonomi delegates EmptyState/error/a11y | 5 delegates + EconomyModulePreviews | build, economy-vendor, locked-ux, predeploy:build | PASS |
 | hub-chrome-tile-unify | Hub chrome tile + EmptyState/Skeleton + 3 hubs | hub-chrome-tile.css, shells, EmptyState, HubPanelSkeleton, Ekonomi/Mabra/Arbetsliv SM | build, design-modules, orkester, predeploy:build | PASS |
+| lazy-routes-zones | Zone chunks Familjen+Valv + HubPanelSkeleton | vite.config, ValvetRoutePage, FamiljenPage | build, locked-ux, predeploy:build | PASS |
