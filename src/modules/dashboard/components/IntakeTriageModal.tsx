@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { X, CheckSquare, FolderPlus, Lock, Sparkles, AlertTriangle, Loader2 } from 'lucide-react';
 import { Modal } from '@/design-system';
 import { createPlanningTask } from '@/features/admin/planning/api/planningTasksApi';
+import { createProject } from '@/features/admin/projects/api/projectsApi';
+import { resolveProjectSaveError } from '@/features/admin/projects/utils/resolveProjectSaveError';
 import { useActiveProjects } from '@/features/admin/projects/hooks/useProjects';
 import { VaultService } from '@/core/firebase/VaultService';
-import { collection, addDoc, doc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, updateDoc, serverTimestamp } from 'firebase/firestore';
 import { db } from '@/core/firebase/firestore';
 
 interface IntakeTriageModalProps {
@@ -94,26 +96,22 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
     setIsSaving(true);
     setErrorMsg(null);
     try {
-      const projectRef = await addDoc(collection(db, 'projects'), {
-        userId,
-        ownerId: userId,
+      const projectId = await createProject(userId, {
         title: projectTitle.trim(),
         status: projectStatus,
-        createdAt: serverTimestamp(),
-        updatedAt: serverTimestamp(),
       });
 
       if (item.type === 'task') {
         const taskRef = doc(db, 'planning_tasks', item.id);
         await updateDoc(taskRef, {
-          projectId: projectRef.id,
+          projectId,
           updatedAt: serverTimestamp(),
         });
       }
       onClose();
     } catch (err: unknown) {
       console.error(err);
-      setErrorMsg(err instanceof Error ? err.message : 'Kunde inte skapa projektet.');
+      setErrorMsg(resolveProjectSaveError(err, 'project'));
     } finally {
       setIsSaving(false);
     }

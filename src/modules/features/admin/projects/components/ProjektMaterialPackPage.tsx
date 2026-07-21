@@ -139,7 +139,11 @@ export function ProjektMaterialPackPage() {
         <p className="mt-3 text-sm text-text-muted">Logga in för att spara egna genvägar.</p>
       )}
 
-      {saved && <p className="mt-2 text-xs text-accent">Sparat — synkas till dina andra enheter.</p>}
+      {saved && (
+        <p className="mt-2 text-xs text-accent" role="status" aria-live="polite">
+          Sparat — synkas till dina andra enheter.
+        </p>
+      )}
 
       <div className="mt-4 space-y-4">
         <div className="elongated-module space-y-2 p-3">
@@ -220,7 +224,7 @@ export function ProjektMaterialPackPage() {
                         key={key}
                         type="button"
                         disabled={!user || shortcuts.length >= 12 || already}
-                        className="group flex items-center gap-2 rounded-full border border-border-subtle bg-surface/50 px-3 py-1.5 text-xs transition-colors hover:border-accent/50 hover:bg-accent/10 disabled:opacity-30 disabled:hover:border-border-subtle disabled:hover:bg-surface/50"
+                        className="group inline-flex min-h-11 items-center gap-2 rounded-full border border-border-subtle bg-surface/50 px-3 text-xs transition-colors hover:border-accent/50 hover:bg-accent/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-30 disabled:hover:border-border-subtle disabled:hover:bg-surface/50"
                         title={row.routineTitle}
                         onClick={() => persist([...shortcuts, row.shortcut])}
                       >

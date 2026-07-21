@@ -13,6 +13,7 @@ import {
 import { db } from '@/core/firebase/firestore';
 import { assertOfflineWriteAllowed } from '@/core/firebase/offlineWritePolicy';
 import { FIRESTORE_COLLECTIONS } from '@/core/types/firestore';
+import { assertProjectWriteAuth } from '../utils/projectWriteAuth';
 import type { Project, ProjectBlockType, ProjectStatus } from '../types';
 
 type FirestoreProject = {
@@ -81,15 +82,21 @@ export function listenAllProjects(
 
 export async function createProject(
   userId: string,
-  input: { title: string; primaryBlockType?: ProjectBlockType },
+  input: { title: string; primaryBlockType?: ProjectBlockType; status?: ProjectStatus },
 ): Promise<string> {
   assertOfflineWriteAllowed(FIRESTORE_COLLECTIONS.projects);
+  const { uid } = assertProjectWriteAuth(userId);
+  const title = input.title.trim();
+  if (!title) {
+    throw new Error('Ge projektet ett namn.');
+  }
+  const status = input.status ?? 'active';
   const ref = collection(db, FIRESTORE_COLLECTIONS.projects);
   const docRef = await addDoc(ref, {
-    userId,
-    ownerId: userId,
-    title: input.title.trim(),
-    status: 'active' as const,
+    userId: uid,
+    ownerId: uid,
+    title,
+    status,
     ...(input.primaryBlockType ? { primaryBlockType: input.primaryBlockType } : {}),
     createdAt: serverTimestamp(),
     updatedAt: serverTimestamp(),

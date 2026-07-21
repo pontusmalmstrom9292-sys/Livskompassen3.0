@@ -18,3 +18,6 @@
 | lazy-routes-zones | Zone chunks Familjen+Valv + HubPanelSkeleton | vite.config, ValvetRoutePage, FamiljenPage | build, locked-ux, predeploy:build | PASS |
 | error-boundary-sweep | EmptyState Inkast/Arkiv/Planering (logTag redan OK) | ArchiveList/Calendar, PlaneringEmailRules, ReviewQueuePipeline | build, locked-ux, orkester, predeploy:build | PASS |
 | premium-polish-quickwins | premium CSS + HomeGreeting rose + Chameleon a11y | premium-polish.css, HomeGreeting, ChameleonLive | build, design-modules, obsidian-depth, predeploy:build | PASS |
+| projekt-blocks-polish | Projekt Ny/Detail a11y + blocks API auth | ProjektNy/Detail/MaterialPack, projectBlocksApi, utils/*, smoke_projects soft | build, projekt-regler, projects, predeploy:build | PASS |
+
+> Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.

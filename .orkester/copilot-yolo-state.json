@@ -1,7 +1,7 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T10:23:44.000Z",
+  "updatedAt": "2026-07-21T10:27:54.000Z",
   "currentTaskId": null,
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
@@ -19,7 +19,8 @@
     "hub-chrome-tile-unify",
     "lazy-routes-zones",
     "error-boundary-sweep",
-    "premium-polish-quickwins"
+    "premium-polish-quickwins",
+    "projekt-blocks-polish"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
