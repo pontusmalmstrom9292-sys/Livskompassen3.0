@@ -50,4 +50,6 @@
 
 | adaptation-prefs-polish | Labels 44px, focus, Zero Footprint copy | AdaptationPrefs, ClearDevice, SystemStatus | build, adaptation, locked-ux, predeploy:build | PASS |
 
+| lazy-routes-admin-oracle | vite chunks zone-planering/projects/oracle | vite.config.ts | build, locked-ux, predeploy:build | PASS |
+
 > Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.

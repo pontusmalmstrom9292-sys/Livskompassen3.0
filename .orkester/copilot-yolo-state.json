@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T11:03:28.000Z",
-  "currentTaskId": "lazy-routes-admin-oracle",
+  "updatedAt": "2026-07-21T11:05:34.000Z",
+  "currentTaskId": "chrome-header-polish",
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
     "ui-polish-v2-vardagen",
@@ -35,7 +35,8 @@
     "dossier-evidence-polish",
     "sos-recovery-polish",
     "shared-tagg-selector-polish",
-    "adaptation-prefs-polish"
+    "adaptation-prefs-polish",
+    "lazy-routes-admin-oracle"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],

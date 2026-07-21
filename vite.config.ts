@@ -99,6 +99,10 @@ export default defineConfig(({ mode }) => {
             if (id.includes('/modules/core/pages/FamiljenPage.tsx')) return 'zone-familjen'
             if (id.includes('/modules/core/pages/VardagenRoutePage.tsx')) return 'zone-vardagen'
             if (id.includes('/modules/core/pages/HjartatRoutePage.tsx')) return 'zone-hjartat'
+            // Admin + Oracle — separate from zone hubs (lazy-routes-admin-oracle)
+            if (id.includes('/modules/features/admin/planning/')) return 'zone-planering'
+            if (id.includes('/modules/features/admin/projects/')) return 'zone-projects'
+            if (id.includes('/modules/oracle/')) return 'zone-oracle'
           },
         },
       },
