@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T11:40:28.000Z",
-  "currentTaskId": "reflection-summary-polish",
+  "updatedAt": "2026-07-21T11:42:41.000Z",
+  "currentTaskId": "launcher-shell-polish",
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
     "ui-polish-v2-vardagen",
@@ -43,7 +43,8 @@
     "improve-waves-session-log-v2",
     "planering-integration-polish",
     "familjen-fysio-moment-polish",
-    "valv-monster-autonomous-polish"
+    "valv-monster-autonomous-polish",
+    "reflection-summary-polish"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [

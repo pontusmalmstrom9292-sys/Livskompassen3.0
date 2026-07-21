@@ -100,3 +100,5 @@
 | ekonomi-panels-deep-polish | tokens/44px Impuls+Matlåda+Saldo+DailySummary | Economy* panels, DailySummaryWidget | build+ekonomi+vendor PASS; smoke:payslip snapshot READ PERMISSION_DENIED (env) | FAIL |
 
 | valv-monster-autonomous-polish | Mönster bar a11y + AutonomousArchive tokens | VaultMonsterPanel, AutonomousArchivePanel | build, valv, pattern-library, vault-worm, predeploy:build | PASS |
+
+| reflection-summary-polish | tokens + reduced-motion Daily/Weekly summary | DailySummaryCard, WeeklySummary | build, locked-ux, design-modules, predeploy:build | PASS |
