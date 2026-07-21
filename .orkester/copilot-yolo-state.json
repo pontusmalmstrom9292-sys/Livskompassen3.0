@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T10:46:41.000Z",
-  "currentTaskId": "zen-resurser-overlay-polish",
+  "updatedAt": "2026-07-21T10:49:56.000Z",
+  "currentTaskId": "grans-biff-polish",
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
     "ui-polish-v2-vardagen",
@@ -27,7 +27,8 @@
     "oracle-dashboard-polish",
     "morning-compass-polish",
     "inkast-capture-polish",
-    "onboarding-barnporten-polish"
+    "onboarding-barnporten-polish",
+    "zen-resurser-overlay-polish"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],

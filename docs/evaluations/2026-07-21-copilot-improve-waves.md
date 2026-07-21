@@ -34,4 +34,6 @@
 
 | onboarding-barnporten-polish | a11y, 44px, EmptyState/skeleton | BarnportenWidget, ForalderTryggCard/Dashboard | build, children, hitl1, locked-ux, predeploy:build | PASS |
 
+| zen-resurser-overlay-polish | Focus, Esc, glass tokens, EmptyState | ZenModeOverlay, ResurserOverlay | build, locked-ux, design-modules, predeploy:build | PASS |
+
 > Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.
