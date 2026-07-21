@@ -312,7 +312,10 @@ export function InboxReviewQueue({
       )}
 
       {!loading && displayItems.length === 0 && (
-        <EmptyState message="Ingen väntande post i granskningskön. Nya filer från Drive eller inkast hamnar här för granskning." />
+        <EmptyState
+          title="Granskningskön är tom"
+          message="Ingen väntande post i granskningskön. Nya filer från Drive eller inkast hamnar här för granskning."
+        />
       )}
 
       <ul className="space-y-3">

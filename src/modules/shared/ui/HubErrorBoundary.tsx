@@ -8,6 +8,7 @@ type Props = {
   glow?: ErrorFallbackGlow;
   backTo?: string;
   backLabel?: string;
+  retryLabel?: string;
   logTag: string;
   errorBody?: string;
 };
@@ -34,6 +35,7 @@ export class HubErrorBoundary extends Component<Props, State> {
           body={this.props.errorBody}
           glow={this.props.glow ?? 'gold'}
           onRetry={() => this.setState({ error: null })}
+          retryLabel={this.props.retryLabel}
           backTo={this.props.backTo ?? NAV_PATHS.HOME}
           backLabel={this.props.backLabel ?? 'Till Hem'}
         />

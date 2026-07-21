@@ -69,9 +69,12 @@ export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalA
 
   const listBody =
     entries.length === 0 ? (
-      <EmptyState message="Inga poster ännu." />
+      <EmptyState title="Tidslinjen är tom" message="Inga poster ännu." />
     ) : filtered.length === 0 ? (
-      <EmptyState message="Inga träffar — prova ett annat sökord eller filter." />
+      <EmptyState
+        title="Inga träffar i filtret"
+        message="Inga träffar — prova ett annat sökord eller filter."
+      />
     ) : (
       <>
         {pinnedEntries.length > 0 && (

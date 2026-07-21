@@ -1,0 +1,3 @@
+| Våg | Område | Filer | Smoke | Resultat |
+|---|---|---|---|---|
+| 1 | UI-polish (EmptyState/ErrorFallback-konsistens) | `src/design-system/components/ErrorFallback.tsx`, `src/modules/core/ui/EmptyState.tsx`, `src/modules/shared/ui/HubErrorBoundary.tsx`, `src/modules/features/lifeJournal/diary/diary/components/JournalArchive.tsx`, `src/modules/inkast/components/InboxReviewQueue.tsx`, `src/modules/capture/CaptureSuperModule.tsx` | `smoke:locked-ux` PASS · `smoke:orkester` PASS · `npm run build` FAIL | Blockerad av TypeScript-fel i `src/modules/core/pages/HomePage.tsx` (TS2769: `HubErrorBoundary` saknar `logTag` i två anrop). |

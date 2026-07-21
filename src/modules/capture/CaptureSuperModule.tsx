@@ -197,7 +197,10 @@ function CaptureSuperModuleInner({
     return (
       <section id="inkast-lite" ref={sectionRef} className="scroll-mt-28">
         <BentoCard title="Inkast" description="Kräver inloggning">
-          <EmptyState message="Logga in för att klistra in eller ladda upp till rätt arkiv." />
+          <EmptyState
+            title="Inloggning krävs"
+            message="Logga in för att klistra in eller ladda upp till rätt arkiv."
+          />
         </BentoCard>
       </section>
     );
