@@ -109,7 +109,9 @@ export function EconomyMealPrepPanel() {
   return (
     <div className="space-y-5">
       <div>
-        <h3 className="text-sm font-semibold text-success">Blodsocker- & Energisäkring</h3>
+        <h3 className="font-display-serif text-[11px] font-medium uppercase tracking-[0.2em] text-success">
+          Blodsocker- & Energisäkring
+        </h3>
         <p className="mt-1 text-xs leading-relaxed text-text-muted">
           Preppa matlådor för att undvika exekutiva krascher och dyra impulsköp under stressiga
           logistikdagar.
@@ -143,7 +145,7 @@ export function EconomyMealPrepPanel() {
                 disabled={busy}
                 onClick={() => toggleItem(item.id)}
                 className={clsx(
-                  'mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-sm transition-colors',
+                  'mt-0.5 inline-flex min-h-11 min-w-11 flex-shrink-0 items-center justify-center rounded-sm transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
                   item.done
                     ? 'bg-success/20 text-success'
                     : 'border border-border-strong text-transparent hover:border-success/50',

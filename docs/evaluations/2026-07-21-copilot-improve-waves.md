@@ -89,3 +89,7 @@
 - EmptyState + DS Button + focus-visible; Vit/Historik eyebrow
 - smoke App Check i emotional-memory/payslip/stampla
 - Smoke: build, emotional-memory, mabra PASS
+
+### ekonomi-panels-deep-polish (retry) — PASS
+- Impulse EmptyState/focus; mealprep touch; quickbalance aria; DailySummary eyebrow
+- Smoke: build, ekonomi, economy-vendor, payslip PASS

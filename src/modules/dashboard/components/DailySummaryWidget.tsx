@@ -24,13 +24,13 @@ export function DailySummaryWidget() {
           <Sparkles className="h-4 w-4" />
         </div>
         <div>
-          <h3 className="text-sm font-semibold text-text">Dagens Sammanfattning</h3>
+          <h3 className="font-display-serif text-[11px] font-medium uppercase tracking-[0.2em] text-accent">Dagens Sammanfattning</h3>
           <p className="mt-1 text-xs leading-relaxed text-text-muted">
             Bra jobbat idag. Du har stämplat ut i tid från arbetet, loggat din sömn och hanterat 
             två inkommande händelser med Grey Rock. Kognitiv belastning är låg.
           </p>
           <div className="mt-3 flex gap-2">
-            <Button variant="accent" className="--accent text-[11px] px-3 py-1">Visa detaljer</Button>
+            <Button variant="accent" size="sm">Visa detaljer</Button>
           </div>
         </div>
       </div>

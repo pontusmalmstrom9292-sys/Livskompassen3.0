@@ -5,6 +5,7 @@ import { useStore } from '@/core/store';
 import { useEconomyLevel } from '@/features/economy/hooks/useEconomyLevel';
 import { EconomyGateway } from '@/features/economy/economy_gateway';
 import type { EconomyImpulseRow } from '@/core/types/firestore';
+import { EmptyState } from '@/core/ui/EmptyState';
 import { EKONOMI_IMPULS_LEAD } from '../ekonomiCopy';
 
 const READY_TICK_MS = 60_000;
@@ -149,7 +150,7 @@ export function EconomyImpulsePanel() {
         <p className="mt-1 text-xs leading-relaxed text-text-muted">{EKONOMI_IMPULS_LEAD}</p>
       </div>
 
-      {error && <p className="mb-2 text-xs text-danger">{error}</p>}
+      {error ? <p className="mb-2 text-xs text-danger" role="alert">{error}</p> : null}
 
       <div className="flex gap-2">
         <input
@@ -157,7 +158,7 @@ export function EconomyImpulsePanel() {
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           placeholder="T.ex. Nya hörlurar..."
-          className="input-glass min-h-11 flex-1 rounded-lg px-3 text-xs"
+          className="input-glass min-h-11 flex-1 rounded-lg px-3 text-xs focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           disabled={busy || !gateway}
         />
         <Button
@@ -226,7 +227,7 @@ export function EconomyImpulsePanel() {
                     type="button"
                     disabled={busy}
                     onClick={() => void handleRemove(item.id)}
-                    className="mt-2 text-[10px] text-text-dim hover:text-text"
+                    className="mt-2 inline-flex min-h-11 items-center text-[10px] text-text-dim hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                   >
                     Ta bort
                   </button>
@@ -236,7 +237,11 @@ export function EconomyImpulsePanel() {
           })}
         </ul>
       ) : (
-        <p className="text-xs text-text-dim">Inget parkerat — skriv ovan när impulsen kommer.</p>
+        <EmptyState
+          title="Tom kö"
+          message="Inget parkerat — skriv ovan när impulsen kommer."
+          className="border-0 bg-transparent p-0 shadow-none"
+        />
       )}
     </div>
   );

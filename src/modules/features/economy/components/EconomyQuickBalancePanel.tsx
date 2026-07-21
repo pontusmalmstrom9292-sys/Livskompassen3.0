@@ -26,7 +26,7 @@ export function EconomyQuickBalancePanel() {
   const saldoLabel = balance >= 0 ? `${balance} kr kvar` : `${Math.abs(balance)} kr under noll`;
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4" aria-busy={loading || saving}>
       <SaldoHero
         label="Snabbsaldo"
         amount={loading ? '— kr' : saldoLabel}
@@ -51,7 +51,7 @@ export function EconomyQuickBalancePanel() {
       </div>
 
       <div>
-        <p className="mb-2 text-[10px] uppercase tracking-wider text-text-dim">Snabbtillägg</p>
+        <p className="mb-2 font-display-serif text-[10px] font-medium uppercase tracking-[0.2em] text-text-dim">Snabbtillägg</p>
         <div className="grid grid-cols-2 gap-3">
           <button
             type="button"
