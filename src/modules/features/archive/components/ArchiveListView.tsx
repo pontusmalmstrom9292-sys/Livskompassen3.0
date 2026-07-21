@@ -10,7 +10,6 @@ import {
   ChevronDown, 
   ChevronUp, 
   Folder, 
-  FolderOpen, 
   AlertTriangle, 
   Lightbulb, 
   CheckSquare,
@@ -19,6 +18,8 @@ import {
   Lock
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { Button } from '@/design-system';
 
 interface ArchiveListViewProps {
   entries: ArchiveEntry[];
@@ -80,21 +81,21 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
         id: `${monthKey}-journal`,
         label: 'Dagboken',
         icon: Book,
-        colorClass: 'text-indigo-400',
+        colorClass: 'text-accent',
         entries: monthEntries.filter(e => e.type === 'journal'),
       },
       {
         id: `${monthKey}-vault`,
         label: 'Verklighetsvalvet',
         icon: Shield,
-        colorClass: 'text-purple-400',
+        colorClass: 'text-accent-secondary',
         entries: monthEntries.filter(e => e.type === 'vault'),
       },
       {
         id: `${monthKey}-red_flags`,
         label: '🚩 Röda flaggor',
         icon: AlertTriangle,
-        colorClass: 'text-rose-400',
+        colorClass: 'text-danger',
         entries: monthEntries.filter(e => e.tags?.includes('red_flag')),
       },
       {
@@ -108,7 +109,7 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
         id: `${monthKey}-boundaries`,
         label: '🛡️ Personliga Gränser',
         icon: CheckSquare,
-        colorClass: 'text-emerald-400',
+        colorClass: 'text-success',
         entries: monthEntries.filter(e => e.tags?.includes('boundary')),
       },
     ].filter(drawer => drawer.entries.length > 0);
@@ -116,22 +117,23 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
 
   if (entries.length === 0 && !loading) {
     return (
-      <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-        <div className="w-20 h-20 rounded-3xl bg-surface-2/70 border border-border/30 flex items-center justify-center shadow-lg mb-6 relative">
-          <div className="absolute inset-0 bg-indigo-500/10 blur-xl rounded-full" />
-          <FolderOpen className="w-10 h-10 text-text relative z-10" />
-        </div>
-        <h3 className="text-xl font-semibold mb-2 font-display-serif tracking-wide uppercase text-text">Ditt arkiv är tomt</h3>
-        <p className="text-text-muted text-sm max-w-xs mb-8 leading-relaxed">
-          När du skriver reflektioner eller sparar bevis i Valvet kommer de att samlas här på ett säkert och strukturerat sätt.
-        </p>
-        <button
-          onClick={() => navigate('/hjartat?tab=reflektion')}
-          className="flex items-center gap-2 px-6 py-3 rounded-full bg-surface-2 hover:bg-surface-3 border border-border/30 transition-all active:scale-95"
-        >
-          <PenLine className="w-4 h-4 text-accent" />
-          <span className="font-medium text-sm text-text">Skriv din första reflektion</span>
-        </button>
+      <div className="flex flex-col items-center justify-center px-4 py-12">
+        <EmptyState
+          className="max-w-sm text-center"
+          title="Ditt arkiv är tomt"
+          message="När du skriver reflektioner eller sparar bevis i Valvet samlas de här — säkert och strukturerat."
+          action={
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => navigate('/hjartat?tab=reflektion')}
+              className="inline-flex min-h-11 items-center gap-2 rounded-full border border-border/30 bg-surface-2 px-6 py-3 text-sm focus-visible:ring-2 focus-visible:ring-accent/40"
+            >
+              <PenLine className="h-4 w-4 text-accent" aria-hidden />
+              Skriv din första reflektion
+            </Button>
+          }
+        />
       </div>
     );
   }
@@ -166,8 +168,8 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                 className="flex w-full items-center justify-between p-4 bg-surface-2/70 hover:bg-surface-3/80 border border-border/30 rounded-2xl cursor-pointer transition-all duration-300 shadow-md backdrop-blur-xl text-left"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-indigo-500/10 flex items-center justify-center border border-indigo-500/20">
-                    <Folder className="w-5 h-5 text-indigo-400" />
+                  <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20">
+                    <Folder className="w-5 h-5 text-accent" />
                   </div>
                   <div>
                     <h3 className="text-sm font-semibold tracking-wider font-display-serif uppercase text-text">
@@ -213,7 +215,7 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                             <div className="flex items-center gap-3">
                               <DrawerIcon className={`w-4 h-4 ${drawer.colorClass}`} />
                               <span className="text-xs font-medium text-text">{drawer.label}</span>
-                              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-indigo-500/10 text-indigo-300 border border-indigo-500/20">
+                              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-accent/10 text-accent-light border border-accent/20">
                                 {drawer.entries.length}
                               </span>
                             </div>
@@ -240,11 +242,11 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                                   // Determine tag classes
                                   let ringClass = 'border border-border/20';
                                   if (entry.tags?.includes('red_flag')) {
-                                    ringClass = 'border border-rose-500/30 ring-1 ring-rose-500/10';
+                                    ringClass = 'border border-danger/30 ring-1 ring-danger/10';
                                   } else if (entry.tags?.includes('insight')) {
                                     ringClass = 'border border-amber-500/30 ring-1 ring-amber-500/10';
                                   } else if (entry.tags?.includes('boundary')) {
-                                    ringClass = 'border border-emerald-500/30 ring-1 ring-emerald-500/10';
+                                    ringClass = 'border border-success/30 ring-1 ring-emerald-500/10';
                                   }
 
                                   return (
@@ -256,12 +258,12 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                                       <div className="flex items-center justify-between">
                                         <div className="flex items-center gap-2">
                                           {entry.type === 'journal' ? (
-                                            <div className="flex items-center gap-1.5 text-indigo-400">
+                                            <div className="flex items-center gap-1.5 text-accent">
                                               <Book className="w-3.5 h-3.5" />
                                               <span className="text-[10px] font-bold uppercase tracking-wider">Dagbok</span>
                                             </div>
                                           ) : (
-                                            <div className="flex items-center gap-1.5 text-purple-400">
+                                            <div className="flex items-center gap-1.5 text-accent-secondary">
                                               <Shield className="w-3.5 h-3.5" />
                                               <span className="text-[10px] font-bold uppercase tracking-wider">Valvsbevis</span>
                                               <Lock className="w-3 h-3 ml-1 opacity-70" aria-label="WORM-skyddad" />
@@ -281,17 +283,17 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                                       {entry.tags && entry.tags.length > 0 && (
                                         <div className="flex flex-wrap gap-1.5">
                                           {entry.tags.includes('red_flag') && (
-                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-medium bg-rose-500/15 text-rose-300 border border-rose-500/20">
+                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-medium bg-danger/15 text-danger border border-danger/20">
                                               🚩 Röd flagg
                                             </span>
                                           )}
                                           {entry.tags.includes('insight') && (
-                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-medium bg-amber-500/15 text-amber-300 border border-amber-500/20">
+                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-medium bg-accent/15 text-accent-light border border-accent/20">
                                               💡 Insikt
                                             </span>
                                           )}
                                           {entry.tags.includes('boundary') && (
-                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-medium bg-emerald-500/15 text-emerald-300 border border-emerald-500/20">
+                                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-medium bg-success/15 text-success border border-success/20">
                                               🛡️ Gräns
                                             </span>
                                           )}
@@ -318,7 +320,7 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                                           )}
                                           {entry.action && (
                                             <div>
-                                              <span className="font-semibold text-indigo-400 uppercase tracking-wider block mb-0.5 text-[9px]">Vidtagen åtgärd</span>
+                                              <span className="font-semibold text-accent uppercase tracking-wider block mb-0.5 text-[9px]">Vidtagen åtgärd</span>
                                               <p className="text-text/90 select-text">
                                                 {entry.action}
                                               </p>
@@ -331,7 +333,7 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                                       {(entry.emotion || entry.mood) && (
                                         <div className="mt-2 pt-2 border-t border-border/10 flex items-center gap-2">
                                           <div className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-3 border border-border/20 text-[10px] text-text-muted">
-                                            <Heart className="w-3 h-3 text-rose-400/80" />
+                                            <Heart className="w-3 h-3 text-danger/80" />
                                             <span>Känsla/Mående: {entry.emotion || entry.mood}</span>
                                           </div>
                                         </div>

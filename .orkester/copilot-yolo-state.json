@@ -1,7 +1,7 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T10:16:43.000Z",
+  "updatedAt": "2026-07-21T10:21:34.000Z",
   "currentTaskId": null,
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
@@ -17,7 +17,8 @@
     "drogfrihet-content-polish",
     "economy-delegates-polish",
     "hub-chrome-tile-unify",
-    "lazy-routes-zones"
+    "lazy-routes-zones",
+    "error-boundary-sweep"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
