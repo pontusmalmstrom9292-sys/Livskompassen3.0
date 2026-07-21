@@ -98,3 +98,5 @@
 | emotional-memory-polish | tokens/44px/EmptyState Vit+Historik | MabraVitProjectsPanel, HistoryView/Chart | build+mabra PASS; smoke:emotional-memory LIVE WORM create PERMISSION_DENIED (env) | FAIL |
 
 | ekonomi-panels-deep-polish | tokens/44px Impuls+Matlåda+Saldo+DailySummary | Economy* panels, DailySummaryWidget | build+ekonomi+vendor PASS; smoke:payslip snapshot READ PERMISSION_DENIED (env) | FAIL |
+
+| valv-monster-autonomous-polish | Mönster bar a11y + AutonomousArchive tokens | VaultMonsterPanel, AutonomousArchivePanel | build, valv, pattern-library, vault-worm, predeploy:build | PASS |

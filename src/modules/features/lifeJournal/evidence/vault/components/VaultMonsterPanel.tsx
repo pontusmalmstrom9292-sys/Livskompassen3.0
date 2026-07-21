@@ -53,7 +53,7 @@ function BarRow({
     <button
       type="button"
       onClick={onSelect}
-      className="valv-monster-bar w-full space-y-1 rounded-lg border border-transparent px-1 py-1 text-left transition-colors hover:border-accent/25 hover:bg-accent/5"
+      className="valv-monster-bar min-h-11 w-full space-y-1 rounded-lg border border-transparent px-1 py-1.5 text-left transition-colors hover:border-accent/25 hover:bg-accent/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
       title={`Visa arkivposter med #${label}`}
       aria-label={`Filtrera arkivet på taktiken ${label}, ${count} träffar`}
     >
@@ -181,7 +181,11 @@ export function VaultMonsterPanel({ logs, userId, onTechniqueSelect }: Props) {
             Flow-assist (kompletterande)
           </button>
           <span className="text-[10px] text-text-dim">Bibliotek {libraryVersion}</span>
-          {rescanMsg ? <span className="text-[10px] text-text-muted">{rescanMsg}</span> : null}
+          {rescanMsg ? (
+            <span className="text-[10px] text-text-muted" role="status">
+              {rescanMsg}
+            </span>
+          ) : null}
         </div>
       </BentoCard>
 
