@@ -26,4 +26,6 @@
 
 | archive-hub-polish | Arkiv hub skeleton + token a11y | ArchiveHub (+ List/Calendar EmptyState tidigare) | build, locked-ux, design-modules, predeploy:build | PASS |
 
+| oracle-dashboard-polish | Oracle tokens + EmptyState + reduced-motion | OracleDashboard, DayForensics, CapacityChart | build, orkester, predeploy:build | PASS |
+
 > Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.

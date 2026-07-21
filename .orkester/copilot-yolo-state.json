@@ -1,7 +1,7 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T10:35:31.000Z",
+  "updatedAt": "2026-07-21T10:37:36.000Z",
   "currentTaskId": null,
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
@@ -23,7 +23,8 @@
     "projekt-blocks-polish",
     "improve-waves-session-log",
     "arbetsliv-hub-polish",
-    "archive-hub-polish"
+    "archive-hub-polish",
+    "oracle-dashboard-polish"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],

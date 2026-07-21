@@ -6,6 +6,7 @@ import { useOracleStore } from './OracleStore';
 import { useOracleMetrics } from './hooks/useOracleMetrics';
 import type { OracleMetricPoint } from './hooks/useOracleMetrics';
 import { PageSkeleton } from '../../components/layout/PageSkeleton';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 
 const OracleCapacityChartLazy = lazy(() =>
   import('./components/OracleCapacityChart').then((m) => ({ default: m.OracleCapacityChart })),
@@ -25,7 +26,7 @@ const QuickIntervention = ({ latestDataPoint }: { latestDataPoint: OracleMetricP
     <div className="mt-6 bg-surface border border-white/10 rounded-xl p-6 relative">
       <button 
         onClick={() => setDismissedDate(latestDataPoint.date)}
-        className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+        className="absolute top-4 right-4 inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-text-muted transition-colors hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         aria-label="Stäng"
       >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
@@ -33,7 +34,7 @@ const QuickIntervention = ({ latestDataPoint }: { latestDataPoint: OracleMetricP
         </svg>
       </button>
       <h3 className="text-lg font-semibold text-accent-light mb-2">Behöver uppmärksamhet</h3>
-      <p className="text-gray-300">
+      <p className="text-text-muted">
         Vagusnervåterställning: Prova 3 minuters djupt nynnande eller kallt vattenstänk.
       </p>
     </div>
@@ -51,19 +52,19 @@ const ActionableInsights = ({ latestDataPoint, allData }: { latestDataPoint: Ora
 
   return (
     <section className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md relative z-10 mt-8 space-y-6">
-      <h2 className="text-2xl font-semibold text-gray-100 mb-6">Analys och Mönster</h2>
+      <h2 className="text-2xl font-semibold text-text mb-6">Analys och Mönster</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Weekly Summary */}
         {weeklySummary && (
           <div className="bg-black/20 rounded-xl p-5 border border-white/5">
-            <h3 className="text-lg font-medium text-blue-300 mb-3 flex items-center gap-2">
+            <h3 className="text-lg font-medium text-accent-secondary mb-3 flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
               </svg>
               Sammanfattning
             </h3>
-            <p className="text-gray-300 leading-relaxed text-sm">
+            <p className="text-text-muted leading-relaxed text-sm">
               {weeklySummary}
             </p>
           </div>
@@ -72,13 +73,13 @@ const ActionableInsights = ({ latestDataPoint, allData }: { latestDataPoint: Ora
         {/* Actionable Advice */}
         {actionableAdvice && (
           <div className="bg-black/20 rounded-xl p-5 border border-white/5">
-            <h3 className="text-lg font-medium text-green-300 mb-3 flex items-center gap-2">
+            <h3 className="text-lg font-medium text-success mb-3 flex items-center gap-2">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" />
               </svg>
               Konkret Råd
             </h3>
-            <p className="text-gray-300 leading-relaxed text-sm">
+            <p className="text-text-muted leading-relaxed text-sm">
               {actionableAdvice}
             </p>
           </div>
@@ -97,8 +98,8 @@ const ActionableInsights = ({ latestDataPoint, allData }: { latestDataPoint: Ora
           <ul className="space-y-3">
             {detectedPatterns.map((p, idx) => (
               <li key={idx} className="flex items-center justify-between text-sm">
-                <span className="text-gray-300">{p.pattern}</span>
-                <span className="text-gray-500 font-mono bg-white/5 px-2 py-0.5 rounded text-xs">
+                <span className="text-text-muted">{p.pattern}</span>
+                <span className="text-text-dim font-mono bg-white/5 px-2 py-0.5 rounded text-xs">
                   {Math.round(p.confidence * 100)}% säkerhet
                 </span>
               </li>
@@ -111,7 +112,7 @@ const ActionableInsights = ({ latestDataPoint, allData }: { latestDataPoint: Ora
       {hasHighRisk && (
         <div className="bg-red-500/10 rounded-xl p-5 border border-red-500/20 mt-6 relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-red-500/5 to-transparent pointer-events-none" />
-          <h3 className="text-lg font-semibold text-red-400 mb-2 flex items-center gap-2">
+          <h3 className="text-lg font-semibold text-danger mb-2 flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
@@ -156,8 +157,8 @@ export default function OracleDashboard() {
           <header className="space-y-2">
             <div className="flex justify-between items-start">
               <div>
-                <h1 className="text-3xl font-bold tracking-tight text-gray-100">Mönsteroraklet</h1>
-                <p className="text-gray-400 mt-1">Visuella insikter över tid. Identifiera dina trender och korrelationer.</p>
+                <h1 className="text-3xl font-bold tracking-tight text-text">Mönsteroraklet</h1>
+                <p className="text-text-muted mt-1">Visuella insikter över tid. Identifiera dina trender och korrelationer.</p>
               </div>
               {import.meta.env.DEV && (
                 <button
@@ -165,7 +166,7 @@ export default function OracleDashboard() {
                     mockLoad();
                     setUseMock(true);
                   }}
-                  className="px-3 py-1.5 text-xs font-medium bg-white/5 hover:bg-white/10 border border-white/10 rounded-md transition-colors text-gray-400 hover:text-white"
+                  className="inline-flex min-h-11 items-center rounded-md border border-white/10 bg-white/5 px-3 text-xs font-medium text-text-muted transition-colors hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                 >
                   Simulera Data (Dev)
                 </button>
@@ -177,11 +178,7 @@ export default function OracleDashboard() {
             <h2 className="text-xl font-semibold mb-6">Kapacitet vs Stress (Senaste 7 dagarna)</h2>
             <div className="h-[400px] w-full relative z-20">
               <Suspense
-                fallback={
-                  <div className="flex h-full items-center justify-center text-sm text-gray-400">
-                    Laddar diagram…
-                  </div>
-                }
+                fallback={<HubPanelSkeleton label="Laddar diagram…" lines={3} className="h-full" />}
               >
                 <OracleCapacityChartLazy
                   dataPoints={dataPoints as OracleMetricPoint[]}
