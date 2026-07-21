@@ -96,3 +96,5 @@
 | familjen-fysio-moment-polish | 44px signaler/filter/tabs, aria, save feedback | FamiljenFysiologiDelegate, ChildMomentStunderPanel, ChildMomentTabs | build, child-moment, children, predeploy:build | PASS |
 
 | emotional-memory-polish | tokens/44px/EmptyState Vit+Historik | MabraVitProjectsPanel, HistoryView/Chart | build+mabra PASS; smoke:emotional-memory LIVE WORM create PERMISSION_DENIED (env) | FAIL |
+
+| ekonomi-panels-deep-polish | tokens/44px Impuls+Matlåda+Saldo+DailySummary | Economy* panels, DailySummaryWidget | build+ekonomi+vendor PASS; smoke:payslip snapshot READ PERMISSION_DENIED (env) | FAIL |

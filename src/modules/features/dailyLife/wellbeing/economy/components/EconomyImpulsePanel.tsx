@@ -157,14 +157,14 @@ export function EconomyImpulsePanel() {
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           placeholder="T.ex. Nya hörlurar..."
-          className="input-glass flex-1 rounded-lg px-3 py-1.5 text-xs"
+          className="input-glass min-h-11 flex-1 rounded-lg px-3 text-xs"
           disabled={busy || !gateway}
         />
         <Button
           variant="ghost"
           disabled={busy || !gateway || !draft.trim()}
           onClick={() => void handlePark()}
-          className="rounded-lg border border-border/50 bg-surface-3 px-3 py-1.5 text-xs"
+          className="min-h-11 rounded-lg border border-border/50 bg-surface-3 px-3 text-xs"
         >
           Parkera
         </Button>

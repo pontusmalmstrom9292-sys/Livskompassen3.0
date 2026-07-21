@@ -13,7 +13,7 @@ export function DailySummaryWidget() {
       <button
         type="button"
         onClick={() => setVisible(false)}
-        className="absolute right-2 top-2 p-1 text-text-dim hover:text-text transition-colors"
+        className="absolute right-2 top-2 inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-text-dim transition-colors hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         aria-label="Stäng sammanfattning"
       >
         <X className="h-4 w-4" />

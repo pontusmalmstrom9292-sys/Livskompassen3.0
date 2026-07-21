@@ -109,15 +109,23 @@ export function EconomyMealPrepPanel() {
   return (
     <div className="space-y-5">
       <div>
-        <h3 className="text-sm font-semibold text-emerald-400">Blodsocker- & Energisäkring</h3>
+        <h3 className="text-sm font-semibold text-success">Blodsocker- & Energisäkring</h3>
         <p className="mt-1 text-xs leading-relaxed text-text-muted">
           Preppa matlådor för att undvika exekutiva krascher och dyra impulsköp under stressiga
           logistikdagar.
         </p>
       </div>
 
-      {error && <p className="text-xs text-danger">{error}</p>}
-      {flash && <p className="text-xs text-emerald-400">{flash}</p>}
+      {error && (
+        <p className="text-xs text-danger" role="alert">
+          {error}
+        </p>
+      )}
+      {flash && (
+        <p className="text-xs text-success" role="status">
+          {flash}
+        </p>
+      )}
 
       {loading ? (
         <p className="flex items-center gap-2 text-xs text-text-dim">
@@ -137,8 +145,8 @@ export function EconomyMealPrepPanel() {
                 className={clsx(
                   'mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-sm transition-colors',
                   item.done
-                    ? 'bg-emerald-500/20 text-emerald-400'
-                    : 'border border-border-strong text-transparent hover:border-emerald-500/50',
+                    ? 'bg-success/20 text-success'
+                    : 'border border-border-strong text-transparent hover:border-success/50',
                 )}
                 aria-label={item.done ? 'Markerad' : 'Ej markerad'}
               >
@@ -163,7 +171,7 @@ export function EconomyMealPrepPanel() {
         type="button"
         disabled={busy || !user || !allDone}
         onClick={() => void handleMealPrepWin()}
-        className="flex w-full items-center justify-center gap-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 py-2.5 text-xs text-emerald-300 transition-colors hover:bg-emerald-500/20 disabled:opacity-40"
+        className="flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-success/30 bg-success/10 py-2.5 text-xs text-success transition-colors hover:bg-success/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-40"
       >
         <Utensils className="h-3.5 w-3.5" />
         Alla steg klara — logga matlåda (−{mealPreset} kr)
