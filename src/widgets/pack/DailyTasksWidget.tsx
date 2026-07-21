@@ -8,23 +8,46 @@ import { finishCompanionCapture } from '../core/finishCompanionCapture';
 import { queueWidgetSync } from '../core/WidgetSync';
 import { routeWidgetAction } from '../core/WidgetRouter';
 import { useCompanionOnline } from '../core/useCompanionOnline';
-import { WidgetPalette, WidgetTouch, WidgetMaterial } from '../core/WidgetTheme';
 import { useStudioWidgetConfig } from '../studio/useStudioWidgetConfig';
 import { widgetCardClass } from '../studio/studioIdleClass';
 
 const WIDGET_ID = 'daily_tasks';
 const FADE_MS = 300;
 
-export type DailyTask = { id: string; title: string; done?: boolean };
+export type DailyTask = { id: string; title: string; done?: boolean; time?: string };
 
 const DEFAULT_TASKS: DailyTask[] = [
-  { id: 't1', title: 'Drick ett glas vatten' },
-  { id: 't2', title: 'Ett mejl till skolan' },
-  { id: 't3', title: 'Fem minuters paus' },
+  { id: 't1', title: 'Samtal med skolan', time: '09:30' },
+  { id: 't2', title: 'Träning', time: '12:00' },
+  { id: 't3', title: 'Fem minuters paus', time: '15:00' },
 ];
+
+function BellGlyph() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M6 9a6 6 0 1 1 12 0c0 4 1.5 5.5 1.5 5.5H4.5S6 13 6 9z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path d="M10 19a2 2 0 0 0 4 0" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function ClockGlyph() {
+  return (
+    <svg className="cw-reminder-row__clock" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M12 8v4.5l3 1.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
+}
 
 /**
  * Dagens Uppgifter — max three (or one in AI single_task), cache-first complete.
+ * Mockup: påminnelselista + badge + Visa alla.
  */
 export function DailyTasksWidget({
   initial,
@@ -116,23 +139,38 @@ export function DailyTasksWidget({
   };
 
   const shown = tasks.slice(0, limit);
+  const badgeCount = shown.length;
+
   return (
     <WidgetCard
       size={cfg?.size ?? 'small'}
       material={cfg?.material ?? 'sapphire'}
-      className={[widgetCardClass(cfg?.animation), pulseHint ? 'cw-soft-focus' : ''].filter(Boolean).join(' ')}
+      className={[
+        'cw-card--hero',
+        widgetCardClass(cfg?.animation),
+        pulseHint ? 'cw-soft-focus' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
-        title="Dagens uppgifter"
+        title="Påminnelser"
         subtitle={status ?? 'Nästa lugna steg'}
         offline={!online}
-        icon={<span aria-hidden>📋</span>}
+        icon={<BellGlyph />}
+        trailing={
+          badgeCount > 0 ? (
+            <span className="cw-header-badge" aria-label={`${badgeCount} kvar`}>
+              {badgeCount}
+            </span>
+          ) : undefined
+        }
       />
-      <ul style={{ listStyle: 'none', margin: 0, padding: 0, display: 'grid', gap: '0.45rem' }}>
+      <ul className="cw-reminder-list">
         {shown.length === 0 ? (
           <li className="cw-empty" style={{ listStyle: 'none' }}>
-            <p className="cw-empty__title">Uppgifter</p>
+            <p className="cw-empty__title">Påminnelser</p>
             <p className="cw-empty__message">Allt klart för nu. Bra jobbat.</p>
             <div className="cw-empty__actions">
               <WidgetButton variant="quiet" size="min" onClick={() => void openPlanering()}>
@@ -141,59 +179,49 @@ export function DailyTasksWidget({
             </div>
           </li>
         ) : (
-          shown.map((task) => (
-            <li
-              key={task.id}
-              className={fadingId === task.id ? 'cw-task-fade' : undefined}
-            >
+          shown.map((task, i) => (
+            <li key={task.id} className={fadingId === task.id ? 'cw-task-fade' : undefined}>
               <button
                 type="button"
                 onClick={() => void complete(task.id)}
                 aria-label={`Markera klar: ${task.title}`}
                 disabled={fadingId != null}
                 className={[
+                  'cw-reminder-row',
                   'cw-row-hit',
                   pulseHint && shown[0]?.id === task.id && !fadingId ? 'cw-pulse-cta' : '',
                 ]
                   .filter(Boolean)
                   .join(' ')}
                 style={{
-                  width: '100%',
-                  minHeight: WidgetTouch.minDp,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.65rem',
-                  textAlign: 'left',
-                  borderRadius: 12,
-                  border: `1px solid color-mix(in srgb, ${WidgetPalette.premiumGold} 20%, transparent)`,
-                  background: WidgetPalette.deepSpaceBlue,
-                  boxShadow: WidgetMaterial.insetShadow,
-                  color: WidgetPalette.textPrimary,
-                  padding: '0.55rem 0.75rem',
                   cursor: fadingId ? 'wait' : 'pointer',
                   opacity: fadingId && fadingId !== task.id ? 0.55 : 1,
                 }}
               >
+                <ClockGlyph />
+                <span className="cw-reminder-row__meta">
+                  <span className="cw-reminder-row__time">{task.time ?? `Steg ${i + 1}`}</span>
+                  <span className="cw-reminder-row__title">{task.title}</span>
+                </span>
                 <span
+                  className={[
+                    'cw-reminder-row__check',
+                    fadingId === task.id ? 'cw-reminder-row__check--done' : '',
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
                   aria-hidden
-                  style={{
-                    width: 22,
-                    height: 22,
-                    borderRadius: 6,
-                    border: `1.5px solid ${WidgetPalette.premiumGold}`,
-                    flexShrink: 0,
-                    background:
-                      fadingId === task.id
-                        ? `color-mix(in srgb, ${WidgetPalette.premiumGold} 35%, transparent)`
-                        : 'transparent',
-                  }}
                 />
-                <span style={{ fontSize: '0.92rem', lineHeight: 1.3 }}>{task.title}</span>
               </button>
             </li>
           ))
         )}
       </ul>
+      {shown.length > 0 ? (
+        <button type="button" className="cw-link-cta" onClick={() => void openPlanering()}>
+          Visa alla
+        </button>
+      ) : null}
       <div className="cw-trust-row" aria-live="polite">
         {status ?? (online ? 'Ett steg i taget' : 'Offline — sparas lokalt')}
       </div>

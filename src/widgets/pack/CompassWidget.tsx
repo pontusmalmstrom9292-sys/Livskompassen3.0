@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { WidgetButton } from '../components/WidgetButton';
 import { WidgetCard } from '../components/WidgetCard';
 import { WidgetHeader } from '../components/WidgetHeader';
+import { WidgetProgress } from '../components/WidgetProgress';
 import {
   createLongPressController,
   dispatchWidgetGesture,
@@ -33,9 +34,27 @@ const QUICK_MENU: { label: string; moduleKey: string }[] = [
   { label: 'Planering', moduleKey: 'planering' },
 ];
 
+const INTENTIONS: Record<string, string> = {
+  morning: 'Närvaro i det jag gör',
+  midday: 'Ett steg i taget',
+  evening: 'Lugn avslutning',
+  night: 'Vila utan krav',
+  now: 'Närvaro i det jag gör',
+};
+
+function CompassGlyph() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M12 3v3M12 18v3M3 12h3M18 12h3" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <path d="m12 7 2.2 5.2L12 17l-2.2-4.8L12 7z" fill="currentColor" opacity="0.85" />
+    </svg>
+  );
+}
+
 /**
  * Kompassen — check-in i widgeten + öppna modul (bible 4.2 / 6.3).
- * Långtryck på skivan → dold snabbmeny.
+ * Mockup: guldring + cyan bloom + intention-CTA.
  */
 export function CompassWidget({ pulseHint = false }: { pulseHint?: boolean }) {
   const roseRef = useRef<HTMLDivElement>(null);
@@ -48,6 +67,8 @@ export function CompassWidget({ pulseHint = false }: { pulseHint?: boolean }) {
   const [status, setStatus] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const online = useCompanionOnline();
+  const intention = INTENTIONS[picked ?? period] ?? INTENTIONS.now;
+  const progress = picked ? 86 : period === 'morning' ? 42 : period === 'evening' ? 78 : 72;
 
   useEffect(() => {
     if (animation === 'breathe') setBreatheActive(roseRef.current, true);
@@ -91,6 +112,11 @@ export function CompassWidget({ pulseHint = false }: { pulseHint?: boolean }) {
     );
   };
 
+  const setIntention = async () => {
+    await checkIn('now');
+    await openModule('kompass');
+  };
+
   useEffect(() => {
     const last = getCached<{ period?: string }>(`widget:${WIDGET_ID}:last`);
     if (last?.period) setPicked(String(last.period) === period ? 'now' : String(last.period));
@@ -120,102 +146,112 @@ export function CompassWidget({ pulseHint = false }: { pulseHint?: boolean }) {
     };
   }, []);
 
+  const discSize = size === 'large' ? 152 : 128;
+
   return (
     <WidgetCard
       size={size}
       material={cfg?.material ?? 'sapphire'}
-      className={[widgetCardClass(cfg?.animation), pulseHint ? 'cw-soft-focus' : ''].filter(Boolean).join(' ')}
+      className={[
+        'cw-card--hero',
+        widgetCardClass(cfg?.animation),
+        pulseHint ? 'cw-soft-focus' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
-        title="Kompassen"
-        subtitle={status ?? (menuOpen ? 'Välj riktning' : 'Check-in · håll för meny')}
+        title="Dagens fokus"
+        subtitle={status ?? (menuOpen ? 'Välj riktning' : 'Din kompass för idag')}
         offline={!online}
-        icon={<span aria-hidden>🧭</span>}
+        icon={<CompassGlyph />}
       />
-      <button
-        ref={roseBtnRef}
-        className="cw-metric-hit cw-metric-hit--ring"
-        type="button"
-        aria-label="Öppna kompassen"
-        onClick={() => {
-          if (menuOpen) {
-            setMenuOpen(false);
-            setStatus(null);
-            return;
-          }
-          void openModule();
-        }}
-        style={{
-          flex: 1,
-          border: 'none',
-          background: 'transparent',
-          cursor: 'pointer',
-          display: 'grid',
-          placeItems: 'center',
-          minHeight: size === 'large' ? 180 : 140,
-          padding: 0,
-          touchAction: 'manipulation',
-        }}
-      >
-        <div
-          ref={roseRef}
-          className="cw-compass-disc"
-          style={{
-            width: size === 'large' ? 160 : 128,
-            height: size === 'large' ? 160 : 128,
-            borderRadius: '50%',
-            border: `2px solid ${WidgetPalette.premiumGold}`,
-            background: `
-              radial-gradient(circle at 30% 26%, color-mix(in srgb, ${WidgetPalette.premiumGoldLight} 34%, transparent), transparent 42%),
-              radial-gradient(circle at 70% 78%, rgba(0,0,0,0.45), transparent 48%),
-              linear-gradient(160deg, #1a2233 0%, ${WidgetPalette.deepSpaceBlue} 55%, #0a0e18 100%)
-            `,
-            boxShadow: `
-              ${WidgetMaterial.softBloom},
-              ${WidgetMaterial.glassLip},
-              inset 0 -10px 22px rgba(0,0,0,0.45),
-              inset 0 8px 16px color-mix(in srgb, ${WidgetPalette.premiumGoldLight} 12%, transparent)
-            `,
-            position: 'relative',
-            display: 'grid',
-            placeItems: 'center',
+      <div className="cw-pack-stage" style={{ minHeight: size === 'large' ? 168 : 148 }}>
+        <div className="cw-pack-stage__glow" aria-hidden />
+        <button
+          ref={roseBtnRef}
+          className="cw-compass-rose-btn cw-metric-hit cw-metric-hit--ring"
+          type="button"
+          aria-label="Öppna kompassen"
+          onClick={() => {
+            if (menuOpen) {
+              setMenuOpen(false);
+              setStatus(null);
+              return;
+            }
+            void openModule();
           }}
         >
-          <svg width="88%" height="88%" viewBox="0 0 100 100" aria-hidden>
-            <defs>
-              <linearGradient id="cw-needle-gold" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={WidgetPalette.premiumGoldLight} />
-                <stop offset="100%" stopColor={WidgetPalette.premiumGold} />
-              </linearGradient>
-            </defs>
-            {Array.from({ length: 12 }).map((_, i) => {
-              const a = (i * 30 * Math.PI) / 180;
-              const x1 = 50 + Math.sin(a) * 40;
-              const y1 = 50 - Math.cos(a) * 40;
-              const x2 = 50 + Math.sin(a) * 44;
-              const y2 = 50 - Math.cos(a) * 44;
-              return (
-                <line
-                  key={i}
-                  x1={x1}
-                  y1={y1}
-                  x2={x2}
-                  y2={y2}
-                  stroke={i % 3 === 0 ? WidgetPalette.premiumGold : WidgetPalette.premiumGoldDim}
-                  strokeWidth={i % 3 === 0 ? 1.4 : 0.7}
-                  opacity={i % 3 === 0 ? 0.95 : 0.45}
-                />
-              );
-            })}
-            <circle cx="50" cy="50" r="38" fill="none" stroke={WidgetPalette.premiumGoldDim} strokeWidth="0.8" opacity="0.55" />
-            <polygon points="50,14 53.2,50 50,47.5 46.8,50" fill="url(#cw-needle-gold)" />
-            <polygon points="50,86 53.2,50 50,52.5 46.8,50" fill={WidgetPalette.mutedText} opacity="0.55" />
-            <circle cx="50" cy="50" r="6" fill={WidgetPalette.deepSpaceBlue} stroke={WidgetPalette.premiumGold} strokeWidth="1.2" />
-            <circle cx="50" cy="50" r="2.6" fill={WidgetPalette.premiumGoldLight} />
-          </svg>
-        </div>
-      </button>
+          <div
+            ref={roseRef}
+            className="cw-compass-disc cw-compass-disc--hero"
+            style={{
+              width: discSize,
+              height: discSize,
+              background: `
+                radial-gradient(circle at 30% 26%, color-mix(in srgb, ${WidgetPalette.premiumGoldLight} 34%, transparent), transparent 42%),
+                radial-gradient(circle at 70% 78%, rgba(0,0,0,0.45), transparent 48%),
+                linear-gradient(160deg, #1a2233 0%, ${WidgetPalette.deepSpaceBlue} 55%, #0a0e18 100%)
+              `,
+              boxShadow: WidgetMaterial.glassLip,
+            }}
+          >
+            <svg width="88%" height="88%" viewBox="0 0 100 100" aria-hidden>
+              <defs>
+                <linearGradient id="cw-needle-gold" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor={WidgetPalette.premiumGoldLight} />
+                  <stop offset="100%" stopColor={WidgetPalette.premiumGold} />
+                </linearGradient>
+              </defs>
+              {Array.from({ length: 12 }).map((_, i) => {
+                const a = (i * 30 * Math.PI) / 180;
+                const x1 = 50 + Math.sin(a) * 40;
+                const y1 = 50 - Math.cos(a) * 40;
+                const x2 = 50 + Math.sin(a) * 44;
+                const y2 = 50 - Math.cos(a) * 44;
+                return (
+                  <line
+                    key={i}
+                    x1={x1}
+                    y1={y1}
+                    x2={x2}
+                    y2={y2}
+                    stroke={i % 3 === 0 ? WidgetPalette.premiumGold : WidgetPalette.premiumGoldDim}
+                    strokeWidth={i % 3 === 0 ? 1.4 : 0.7}
+                    opacity={i % 3 === 0 ? 0.95 : 0.45}
+                  />
+                );
+              })}
+              <circle
+                cx="50"
+                cy="50"
+                r="38"
+                fill="none"
+                stroke={WidgetPalette.premiumGoldDim}
+                strokeWidth="0.8"
+                opacity="0.55"
+              />
+              <polygon points="50,14 53.2,50 50,47.5 46.8,50" fill="url(#cw-needle-gold)" />
+              <polygon points="50,86 53.2,50 50,52.5 46.8,50" fill={WidgetPalette.mutedText} opacity="0.55" />
+              <circle
+                cx="50"
+                cy="50"
+                r="6"
+                fill={WidgetPalette.deepSpaceBlue}
+                stroke={WidgetPalette.premiumGold}
+                strokeWidth="1.2"
+              />
+              <circle cx="50" cy="50" r="2.6" fill={WidgetPalette.premiumGoldLight} />
+            </svg>
+          </div>
+        </button>
+      </div>
+      <div className="cw-intention-block">
+        <p className="cw-intention-block__label">Fokus för idag</p>
+        <p className="cw-intention-block__text">{intention}</p>
+        <WidgetProgress value={progress} label="Dagens fokus" />
+      </div>
       {menuOpen ? (
         <div className="cw-pill-row" role="menu" aria-label="Kompass snabbmeny">
           {QUICK_MENU.map((item) => (
@@ -259,8 +295,14 @@ export function CompassWidget({ pulseHint = false }: { pulseHint?: boolean }) {
           ))}
         </div>
       )}
-      <WidgetButton variant="quiet" size="min" fullWidth onClick={() => void openModule()}>
-        Öppna kompass
+      <WidgetButton
+        variant="gold"
+        size="premium"
+        fullWidth
+        className={pulseHint && !menuOpen ? 'cw-pulse-cta' : undefined}
+        onClick={() => void setIntention()}
+      >
+        Sätt intention
       </WidgetButton>
       <div className="cw-trust-row" aria-live="polite">
         {status ?? (online ? 'Håll för snabbmeny · lugnt' : 'Offline — sparas lokalt')}

@@ -9,18 +9,26 @@ import { finishCompanionCapture } from '../core/finishCompanionCapture';
 import { useCompanionOnline } from '../core/useCompanionOnline';
 import { queueWidgetSync } from '../core/WidgetSync';
 import { routeWidgetAction } from '../core/WidgetRouter';
-import { WidgetPalette, WidgetMaterial } from '../core/WidgetTheme';
+import { WidgetPalette } from '../core/WidgetTheme';
 import { useStudioWidgetConfig } from '../studio/useStudioWidgetConfig';
 import { widgetCardClass } from '../studio/studioIdleClass';
 
 const WIDGET_ID = 'safe_harbor';
 
 const AFFIRMATIONS = [
+  'Andas. Släpp taget. Var här nu.',
   'Du behöver inte lösa allt nu.',
   'Ett andetag. Sedan nästa.',
   'Du är en trygg hamn för dig själv.',
   'Det räcker att vara här.',
   'Lugn är också en handling.',
+];
+
+const QUICK_ACTIONS: { id: string; label: string; glyph: string; moduleKey?: string }[] = [
+  { id: 'breath', label: 'Andning', glyph: '🌬️' },
+  { id: 'focus', label: 'Fokus', glyph: '◎', moduleKey: 'mabra' },
+  { id: 'thanks', label: 'Tacksamhet', glyph: '✦', moduleKey: 'dagbok' },
+  { id: 'sleep', label: 'Sömn', glyph: '☾', moduleKey: 'mabra' },
 ];
 
 function pickAffirmation(index: number): string {
@@ -42,8 +50,22 @@ function initialIndex(): number {
   return daySeed % AFFIRMATIONS.length;
 }
 
+function HeartGlyph() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M12 20s-7-4.4-7-9.2A3.8 3.8 0 0 1 12 7.5a3.8 3.8 0 0 1 7 3.3C19 15.6 12 20 12 20z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 /**
  * Trygg Hamn — lotus + mening + andas-mikrosteg (bible 4.2 / 6.3).
+ * Mockup: lotus/glow + 4 quick icons.
  */
 export function SafeHarborWidget({
   text,
@@ -101,64 +123,58 @@ export function SafeHarborWidget({
     }, 4400);
   };
 
-  const open = async () => {
+  const open = async (moduleKey?: string) => {
     await dispatchWidgetGesture({ widgetId: WIDGET_ID, gesture: 'tap', action: 'open_module' });
+    const key = moduleKey ?? cfg?.moduleKey ?? 'hamn';
     await routeWidgetAction(
       {
         widgetId: WIDGET_ID,
         action: 'open_module',
-        detail: { moduleKey: cfg?.moduleKey ?? 'hamn' },
+        detail: { moduleKey: key },
       },
-      { moduleKey: cfg?.moduleKey ?? 'hamn' },
+      { moduleKey: key },
     );
+  };
+
+  const onQuick = async (id: string, moduleKey?: string) => {
+    if (id === 'breath') {
+      await breatheOnce();
+      return;
+    }
+    await open(moduleKey);
   };
 
   return (
     <WidgetCard
       size={cfg?.size ?? 'small'}
       material={cfg?.material ?? 'sapphire'}
-      className={[widgetCardClass(cfg?.animation), pulseHint ? 'cw-soft-focus' : ''].filter(Boolean).join(' ')}
+      className={[
+        'cw-card--hero',
+        widgetCardClass(cfg?.animation),
+        pulseHint ? 'cw-soft-focus' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
-        title="Trygg Hamn"
-        subtitle={status ?? 'Tryck · nästa lugna mening'}
+        title="Må bra"
+        subtitle={status ?? 'Andas. Släpp taget.'}
         offline={!online}
-        icon={<span aria-hidden>❤️</span>}
+        icon={<HeartGlyph />}
       />
       <button
         type="button"
         className="cw-row-hit"
         onClick={() => void cycle()}
         aria-label="Byt mening"
-        style={{
-          width: '100%',
-          flex: 1,
-          padding: 0,
-        }}
+        style={{ width: '100%', flex: 1, padding: 0, border: 'none', background: 'transparent' }}
       >
         <div
           ref={bodyRef}
-          className={breathing ? 'cw-lotus-wrap cw-anim-breathe' : 'cw-lotus-wrap'}
-          style={{
-            padding: '1rem',
-            borderRadius: 16,
-            background: WidgetMaterial.glassFillStrong,
-            boxShadow: WidgetMaterial.insetShadow,
-            border: `1px solid color-mix(in srgb, ${WidgetPalette.premiumGold} 18%, transparent)`,
-            minHeight: 108,
-            display: 'grid',
-            gap: '0.65rem',
-            placeItems: 'center',
-          }}
+          className={breathing ? 'cw-lotus-hero cw-lotus-wrap cw-anim-breathe' : 'cw-lotus-hero cw-lotus-wrap'}
         >
-          <svg
-            className="cw-lotus"
-            width="56"
-            height="56"
-            viewBox="0 0 64 64"
-            aria-hidden
-          >
+          <svg className="cw-lotus" width="64" height="64" viewBox="0 0 64 64" aria-hidden>
             <defs>
               <linearGradient id="cw-lotus-gold" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor={WidgetPalette.premiumGoldLight} />
@@ -182,21 +198,40 @@ export function SafeHarborWidget({
                 transform={`rotate(${deg} 32 34)`}
               />
             ))}
-            <circle cx="32" cy="34" r="5" fill={WidgetPalette.deepSpaceBlue} stroke={WidgetPalette.premiumGold} strokeWidth="1.2" />
+            <circle
+              cx="32"
+              cy="34"
+              r="5"
+              fill={WidgetPalette.deepSpaceBlue}
+              stroke={WidgetPalette.premiumGold}
+              strokeWidth="1.2"
+            />
           </svg>
-          <p
-            style={{
-              margin: 0,
-              color: WidgetPalette.mutedText,
-              fontSize: '1.02rem',
-              lineHeight: 1.55,
-              textAlign: 'center',
-            }}
-          >
-            {line}
-          </p>
+          <p className="cw-lotus-hero__text">{line}</p>
         </div>
       </button>
+      <div className="cw-quick-icons" role="group" aria-label="Snabba lugna steg">
+        {QUICK_ACTIONS.map((q) => (
+          <button
+            key={q.id}
+            type="button"
+            className={[
+              'cw-quick-icon',
+              pulseHint && !breathing && q.id === 'breath' ? 'cw-pulse-cta' : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+            onClick={() => void onQuick(q.id, q.moduleKey)}
+            disabled={breathing && q.id === 'breath'}
+            aria-label={q.label}
+          >
+            <span className="cw-quick-icon__glyph" aria-hidden>
+              {q.glyph}
+            </span>
+            <span>{q.label}</span>
+          </button>
+        ))}
+      </div>
       <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap' }}>
         <WidgetButton
           variant="ethereal"

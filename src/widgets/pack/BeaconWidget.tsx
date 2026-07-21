@@ -23,12 +23,34 @@ export type BeaconMetrics = {
   sleep: number;
 };
 
-const DEFAULT: BeaconMetrics = { energy: 62, stress: 38, capacity: 55, sleep: 70 };
+const DEFAULT: BeaconMetrics = { energy: 72, stress: 35, capacity: 68, sleep: 67 };
 
 type MetricKey = keyof BeaconMetrics;
 
+function BeaconGlyph() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M12 3v4M9 9h6l1 3H8l1-3zM10 12v6M14 12v6M7 21h10"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="12" cy="7.5" r="1.4" fill="currentColor" />
+    </svg>
+  );
+}
+
+function capacityState(value: number): string {
+  if (value >= 70) return 'Stabil';
+  if (value >= 45) return 'Lugn';
+  return 'Vila';
+}
+
 /**
  * Fyren — justera dagsform i widgeten (tryck på rad), spara lokalt + synk.
+ * Mockup: capacity-ring + centrumtext + energi/fokus/återhämtning.
  */
 export function BeaconWidget({
   metrics: initial,
@@ -51,6 +73,7 @@ export function BeaconWidget({
   };
   const size = cfg?.size ?? 'medium';
   const breathe = (cfg?.animation ?? 'breathe') === 'breathe';
+  const fokus = Math.max(5, Math.min(100, 100 - metrics.stress));
 
   useEffect(() => {
     setBreatheActive(ringRef.current, breathe);
@@ -68,7 +91,6 @@ export function BeaconWidget({
       const step = key === 'stress' ? -8 : 8;
       const nextVal = Math.max(5, Math.min(100, prev[key] + step));
       const next = { ...prev, [key]: nextVal };
-      /* Cache immediately so home rail AI reacts without waiting for Spara. */
       void setCached(`widget:${WIDGET_ID}:metrics`, next);
       return next;
     });
@@ -104,8 +126,8 @@ export function BeaconWidget({
   const rows = (
     [
       info.showEnergy ? (['energy', 'Energi', metrics.energy] as const) : null,
-      info.showStress ? (['stress', 'Stress', metrics.stress] as const) : null,
-      info.showSleep ? (['sleep', 'Sömn', metrics.sleep] as const) : null,
+      info.showStress ? (['stress', 'Fokus', fokus] as const) : null,
+      info.showSleep ? (['sleep', 'Återhämtning', metrics.sleep] as const) : null,
     ] as const
   ).filter(Boolean) as Array<readonly [MetricKey, string, number]>;
 
@@ -113,14 +135,20 @@ export function BeaconWidget({
     <WidgetCard
       size={size}
       material={cfg?.material ?? 'sapphire'}
-      className={[widgetCardClass(cfg?.animation), pulseHint ? 'cw-soft-focus' : ''].filter(Boolean).join(' ')}
+      className={[
+        'cw-card--hero',
+        widgetCardClass(cfg?.animation),
+        pulseHint ? 'cw-soft-focus' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
-        title="Fyren"
-        subtitle={status ?? 'Tryck en rad · justera lugnt'}
+        title="Kapacitet"
+        subtitle={status ?? 'Din inre fyr'}
         offline={!online}
-        icon={<span aria-hidden>💙</span>}
+        icon={<BeaconGlyph />}
       />
       {info.showCapacity ? (
         <button
@@ -129,14 +157,18 @@ export function BeaconWidget({
           onClick={() => void nudge('capacity')}
           aria-label={`Justera kapacitet, nu ${metrics.capacity}`}
         >
-          <div ref={ringRef} style={{ position: 'relative', width: 96, height: 96 }}>
-            <WidgetProgress variant="circular" value={metrics.capacity} label="Kapacitet" size={96} />
+          <div ref={ringRef} className="cw-capacity-ring" style={{ width: 112, height: 112 }}>
+            <WidgetProgress variant="circular" value={metrics.capacity} label="Kapacitet" size={112} />
+            <div className="cw-capacity-ring__center" aria-hidden>
+              <span className="cw-capacity-ring__pct">{Math.round(metrics.capacity)}%</span>
+              <span className="cw-capacity-ring__state">{capacityState(metrics.capacity)}</span>
+            </div>
           </div>
         </button>
       ) : (
         <div ref={ringRef} />
       )}
-      <div style={{ width: '100%', display: 'grid', gap: '0.55rem' }}>
+      <div className="cw-metric-stack">
         {rows.map(([key, label, value]) => (
           <button
             key={key}
@@ -163,8 +195,8 @@ export function BeaconWidget({
         >
           Spara
         </WidgetButton>
-        <WidgetButton variant="ghost" size="min" onClick={() => void open()} aria-label="Öppna Fyren">
-          Öppna
+        <WidgetButton variant="ghost" size="min" onClick={() => void open()} aria-label="Visa mer i Fyren">
+          Visa mer
         </WidgetButton>
       </div>
       <div className="cw-trust-row" aria-live="polite">

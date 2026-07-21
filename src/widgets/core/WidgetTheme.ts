@@ -62,9 +62,10 @@ export const WidgetTouch = {
 export const WidgetType = {
   headingTrackingEm: 0.18,
   headingTransform: 'uppercase' as const,
-  radiusCardPx: 20,
+  /** Mockup elevation — ~28px soft glass corners */
+  radiusCardPx: 28,
   radiusPillPx: 9999,
-  radiusWellPx: 14,
+  radiusWellPx: 16,
 } as const;
 
 /** CSS custom property names — apply once at shell root */
