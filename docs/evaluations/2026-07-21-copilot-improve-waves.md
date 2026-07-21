@@ -11,7 +11,7 @@
 |--------|-------|
 | Completed | 54 / 57 |
 | Failed (env, ej re-attempt) | 3 |
-| Slut-HEAD | *(uppdateras vid sista commit)* |
+| Slut-HEAD | `d3c76ddc9` |
 
 ### Failed (PERMISSION_DENIED — ingen rules-fix)
 
