@@ -64,3 +64,29 @@
 ### design-debt-metrics-update — PASS (2026-07-21)
 - docs/DASHBOARD.md: DS imports 267, btnPill/dsBtn 0, adHoc 3, indexCssLoc 61
 - Smoke: design-debt, build
+
+
+---
+
+## Session log v2 (2026-07-21 Cursor YOLO LOOP)
+
+**Status:** 36/57 completed · failed: 0 · skipped: 0  
+**HEAD vid v2:** efter `design-debt-metrics-update`  
+**Gate:** `npm run smoke:predeploy:build` (denna våg)
+
+| Våg-id | Område | Filer | Smoke | PASS/FAIL |
+|--------|--------|-------|-------|-----------|
+| copy-audit-quickfixes | NAMN-AUDIT: KASAM → kvällscheck | homeProactiveTriggers, compassWidgetLabels | build, copy-audit, predeploy:build, minnes-arkitekt | PASS |
+| design-debt-metrics-update | DASHBOARD metrics refresh | docs/DASHBOARD.md | design-debt, build | PASS |
+| improve-waves-session-log-v2 | Sessionlogg v2 + full gate | improve-waves.md, yolo-state | smoke:predeploy:build | PASS (denna rad) |
+
+### Sammanfattning v1→v2
+
+- Alla listade vågor i tabellen ovan + v1-tabellen: **PASS**
+- Design-debt: DS imports **267**, btnPill/dsBtn **0**, adHoc **3**, indexCssLoc **61**
+- PMIR orörd (rules/Locked UX)
+- Dirty tree kvar utanför YOLO-vågor — commit endast våg-filer
+
+### Nästa i kö
+
+`planering-integration-polish` → `familjen-fysio-moment-polish` → …
