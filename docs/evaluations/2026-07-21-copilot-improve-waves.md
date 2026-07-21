@@ -55,3 +55,8 @@
 | chrome-header-polish | Header 44px, VaultLockedGate spacing | coreLayoutChrome.css, VaultLockedGate | build, chrome-header, basta-dock-lock, predeploy:build | PASS |
 
 > Deploy-förslag (ej kört): hosting efter merge. PMIR senare: `isValidProjectCreate` / `isValidProjectBlockCreate` + video i firestore/storage.rules — se WARN i smoke:projects.
+
+### copy-audit-quickfixes — PASS (2026-07-21)
+- Fil: homeProactiveTriggers + compassWidgetLabels (`eveningWeakDimensionPrompt`)
+- Unlock/relock: MOD-CORE-MINNE
+- Smoke: copy-audit, build, predeploy:build, minnes-arkitekt, adaptation, orkester

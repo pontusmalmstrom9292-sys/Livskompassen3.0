@@ -95,10 +95,10 @@
         "smoke:weaver-hitl"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-20",
-      "lockedCommit": "c3a08cfdd",
-      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-HJ-DAGBOK.md",
-      "unlockedAt": "2026-07-18"
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "e83b073f1",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
+      "unlockedAt": "2026-07-21"
     },
     {
       "id": "MOD-HJ-INPUT",
@@ -116,10 +116,10 @@
         "smoke:locked-ux"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-20",
-      "lockedCommit": "c3a08cfdd",
-      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-HJ-INPUT.md",
-      "unlockedAt": "2026-07-18"
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "e83b073f1",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
+      "unlockedAt": "2026-07-21"
     },
     {
       "id": "MOD-HJ-SPEGLAR",
@@ -136,10 +136,10 @@
         "smoke:biff-rewrite"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-18",
-      "lockedCommit": "a752cbc12",
-      "unlockDoc": "docs/evaluations/2026-07-18-unlock-MOD-VALV-media-fas4.md",
-      "unlockedAt": "2026-07-18"
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "e83b073f1",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
+      "unlockedAt": "2026-07-21"
     },
     {
       "id": "MOD-VALV-HUB",
@@ -158,10 +158,10 @@
         "smoke:plausible-deniability"
       ],
       "snapshotKey": "valv",
-      "lockedAt": "2026-07-18",
-      "lockedCommit": "a752cbc12",
-      "unlockDoc": "docs/evaluations/2026-07-18-unlock-MOD-VALV-media-fas4.md",
-      "unlockedAt": "2026-07-18"
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "e83b073f1",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
+      "unlockedAt": "2026-07-21"
     },
     {
       "id": "MOD-VALV-INKAST",
@@ -180,10 +180,10 @@
         "smoke:inkast-lockdown"
       ],
       "snapshotKey": "inkast",
-      "lockedAt": "2026-07-20",
-      "lockedCommit": "c3a08cfdd",
-      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-VALV-INKAST.md",
-      "unlockedAt": "2026-07-18"
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "e83b073f1",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
+      "unlockedAt": "2026-07-21"
     },
     {
       "id": "MOD-VALV-ORKESTER",
@@ -219,8 +219,10 @@
         "smoke:design-modules"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-12",
-      "lockedCommit": "5d4cb0402"
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "e83b073f1",
+      "unlockedAt": "2026-07-21",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md"
     },
     {
       "id": "MOD-VARD-MABRA",
@@ -237,16 +239,16 @@
         "smoke:design-modules"
       ],
       "snapshotKey": null,
-      "unlockDoc": "docs/evaluations/2026-07-21-unlock-MOD-VARD-MABRA.md",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
       "unlockedAt": "2026-07-21",
       "lockedAt": "2026-07-21",
-      "lockedCommit": "0ff6cd5e3"
+      "lockedCommit": "e83b073f1"
     },
     {
       "id": "MOD-VARD-PLAN",
       "namn": "Planering P3 Kanban",
       "zon": "Vardagen",
-      "status": "developing",
+      "status": "locked",
       "globs": [
         "src/modules/features/admin/planning/**",
         "src/modules/planering/**"
@@ -258,9 +260,9 @@
         "smoke:locked-ux"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-20",
-      "lockedCommit": "c3a08cfdd",
-      "unlockDoc": "docs/evaluations/2026-07-21-unlock-MOD-VARD-PLAN-tab-bygg-w3.md",
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "e83b073f1",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
       "unlockedAt": "2026-07-21"
     },
     {
@@ -268,8 +270,8 @@
       "namn": "Ekonomi delegates",
       "zon": "Vardagen",
       "status": "locked",
-      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-VARD-EKO.md",
-      "unlockedAt": "2026-07-20",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
+      "unlockedAt": "2026-07-21",
       "globs": [
         "src/modules/features/dailyLife/wellbeing/economy/**"
       ],
@@ -280,16 +282,16 @@
         "smoke:design-modules"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-20",
-      "lockedCommit": "a920dd593"
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "e83b073f1"
     },
     {
       "id": "MOD-VARD-ARB",
       "namn": "Arbetsliv hub",
       "zon": "Vardagen",
       "status": "locked",
-      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-VARD-ARB.md",
-      "unlockedAt": "2026-07-20",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
+      "unlockedAt": "2026-07-21",
       "globs": [
         "src/modules/features/dailyLife/arbetsliv/**"
       ],
@@ -300,8 +302,8 @@
         "smoke:orkester"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-20",
-      "lockedCommit": "c3a08cfdd"
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "e83b073f1"
     },
     {
       "id": "MOD-FAM-HUB",
@@ -319,10 +321,10 @@
         "smoke:locked-ux"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-20",
-      "lockedCommit": "d2ce566d9",
-      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-FAM-HUB.md",
-      "unlockedAt": "2026-07-20"
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "e83b073f1",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
+      "unlockedAt": "2026-07-21"
     },
     {
       "id": "MOD-FAM-BARN",
@@ -340,10 +342,10 @@
         "smoke:barn-epistemik"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-20",
-      "lockedCommit": "576e16c5b",
-      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-FAM-BARN.md",
-      "unlockedAt": "2026-07-20"
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "e83b073f1",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
+      "unlockedAt": "2026-07-21"
     },
     {
       "id": "MOD-FAM-INCIDENT",
@@ -389,8 +391,10 @@
         "smoke:biff-rewrite"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-10",
-      "lockedCommit": "ac5d37623"
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "e83b073f1",
+      "unlockedAt": "2026-07-21",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md"
     },
     {
       "id": "MOD-FAM-BPORT",
@@ -408,9 +412,10 @@
         "smoke:locked-ux"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-20",
-      "lockedCommit": "c3a08cfdd",
-      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-FAM-BPORT.md"
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "e83b073f1",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
+      "unlockedAt": "2026-07-21"
     },
     {
       "id": "MOD-FAM-DROG",
@@ -436,11 +441,11 @@
         "smoke:locked-ux"
       ],
       "snapshotKey": null,
-      "unlockDoc": "docs/evaluations/2026-07-21-unlock-MOD-FAM-DROG-max-fcm-widget-buddy.md",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
       "unlockedAt": "2026-07-21",
       "notes": "Improve-only when locked. Dual-lock Recovery*. Familjen placement. SOS offline ZF. No streaks. Akut: 112 / 90101.",
       "lockedAt": "2026-07-21",
-      "lockedCommit": "0ff6cd5e3"
+      "lockedCommit": "e83b073f1"
     },
     {
       "id": "MOD-BACK-SYN",
@@ -510,7 +515,7 @@
       "id": "MOD-WIDGET",
       "namn": "Fyren + widget-routes",
       "zon": "Cross",
-      "status": "developing",
+      "status": "locked",
       "globs": [
         "src/modules/core/ui/widget-icons/**",
         "src/modules/features/widgets/**",
@@ -527,13 +532,14 @@
       ],
       "smoke": [
         "smoke:widgets",
-        "smoke:widget-ingest"
+        "smoke:widget-ingest",
+        "smoke:custom-modules"
       ],
       "snapshotKey": null,
-      "unlockDoc": "docs/evaluations/2026-07-21-unlock-MOD-WIDGET-egna-moduler-w1.md",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
       "unlockedAt": "2026-07-21",
       "lockedAt": "2026-07-21",
-      "lockedCommit": "0ff6cd5e3"
+      "lockedCommit": "e83b073f1"
     },
     {
       "id": "MOD-CORE-MINNE",
@@ -561,8 +567,8 @@
         "smoke:adaptation"
       ],
       "snapshotKey": "minnes-arkitekt",
-      "lockedAt": "2026-07-15",
-      "lockedCommit": "cc1b47f64"
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "d2a62940d"
     },
     {
       "id": "MOD-SHARED-MEDIA",

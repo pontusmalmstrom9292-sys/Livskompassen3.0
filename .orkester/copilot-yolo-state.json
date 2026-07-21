@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T11:08:02.000Z",
-  "currentTaskId": "copy-audit-quickfixes",
+  "updatedAt": "2026-07-21T11:25:24.000Z",
+  "currentTaskId": "design-debt-metrics-update",
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
     "ui-polish-v2-vardagen",
@@ -37,7 +37,8 @@
     "shared-tagg-selector-polish",
     "adaptation-prefs-polish",
     "lazy-routes-admin-oracle",
-    "chrome-header-polish"
+    "chrome-header-polish",
+    "copy-audit-quickfixes"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
@@ -100,5 +101,5 @@
     "g85-cap-sync-verify",
     "improve-waves-session-log-v3"
   ],
-  "taskStartSha": "980fe13ca"
+  "taskStartSha": "d2a62940d"
 }
