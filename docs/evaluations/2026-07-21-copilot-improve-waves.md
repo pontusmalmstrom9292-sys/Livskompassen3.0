@@ -169,3 +169,8 @@
 ### custom-modules-ui-polish — PASS (YOLO v9)
 - UserWidgetHomeSlot calm-card + eyebrow; ModulerAddForm preview + alerts
 - Smoke: build, custom-modules, widgets PASS
+
+
+### sos-akut-landing-polish — PASS (YOLO v9)
+- AkutLanding: calm-card, hierarchy, min-h-14/11 CTAs, focus-visible
+- Smoke: build, locked-ux, design-modules PASS
