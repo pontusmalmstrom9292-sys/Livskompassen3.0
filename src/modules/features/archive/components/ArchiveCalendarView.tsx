@@ -13,6 +13,7 @@ import {
 } from 'date-fns';
 import { sv } from 'date-fns/locale';
 import type { ArchiveEntry } from '../hooks/useArchiveData';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { ChevronLeft, ChevronRight, X, Book, Shield, Clock, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { EmptyState } from '@/core/ui/EmptyState';
@@ -130,9 +131,7 @@ export function ArchiveCalendarView({
       </div>
 
       {loading && (
-        <div className="text-center text-[10px] uppercase tracking-widest text-text-muted animate-pulse py-2">
-          Hämtar data...
-        </div>
+        <HubPanelSkeleton label="Hämtar kalender…" lines={2} className="py-2" />
       )}
 
       {/* Modal/Detaljvy för vald dag */}
@@ -142,7 +141,7 @@ export function ArchiveCalendarView({
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 15 }}
-            className="calm-card bg-surface-2/70 backdrop-blur-xl border border-border/30 rounded-3xl p-5 shadow-lg mt-4 relative glow-bottom-blue"
+            className="calm-card glow-bottom-blue relative mt-4 rounded-2xl p-4 sm:p-5"
           >
             <div className="flex items-center justify-between mb-4 border-b border-border/15 pb-3">
               <h3 className="text-sm font-semibold tracking-wider font-display-serif uppercase text-text">

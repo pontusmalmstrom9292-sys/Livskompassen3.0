@@ -84,7 +84,7 @@ export function ArbetslivInputSuperModule({ initialMode }: ArbetslivInputSuperMo
     <HubErrorBoundary title="Arbetsliv kunde inte laddas" glow="blue" logTag="ArbetslivInputSuperModule">
       <div className="arbetsliv-shell mx-auto max-w-5xl pb-12">
         <section
-          className="arbetsliv-shell__surface calm-card glow-bottom-blue overflow-hidden rounded-2xl border border-border/30 bg-surface-2/70 p-4 sm:p-5"
+          className="arbetsliv-shell__surface calm-card glow-bottom-blue overflow-hidden rounded-2xl p-4 sm:p-5"
           aria-label="Arbetsliv inmatningshub"
         >
           <header className="supermodule-hub-chrome mb-4 space-y-2 rounded-2xl px-3 py-3 sm:px-4">

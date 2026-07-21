@@ -14,7 +14,7 @@ export function EmptyState({ title, message, action, className }: EmptyStateProp
       role="status"
       aria-live="polite"
       className={cn(
-        'calm-card space-y-3 rounded-2xl border border-border/30 bg-surface-2/35 px-4 py-4 shadow-[0_1px_0_color-mix(in_srgb,var(--accent-light)_8%,transparent)_inset]',
+        'calm-card space-y-3 rounded-2xl px-4 py-4 shadow-[0_1px_0_color-mix(in_srgb,var(--accent-light)_8%,transparent)_inset]',
         className,
       )}
     >

@@ -155,7 +155,7 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
   return (
     <HubErrorBoundary title="Ekonomi kunde inte laddas" glow="gold" logTag="EkonomiInputSuperModule">
     <section
-      className="calm-card glow-bottom-gold overflow-hidden rounded-2xl border border-border/30 bg-surface-2/70 p-4 sm:p-5"
+      className="calm-card glow-bottom-gold overflow-hidden rounded-2xl p-4 sm:p-5"
       aria-label="Ekonomi inmatningshub"
     >
       <header className="supermodule-hub-chrome mb-4 flex items-start justify-between gap-3 rounded-2xl px-3 py-3 sm:px-4">

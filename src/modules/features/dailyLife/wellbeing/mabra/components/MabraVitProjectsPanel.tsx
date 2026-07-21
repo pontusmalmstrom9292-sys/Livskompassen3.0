@@ -9,7 +9,7 @@ type Props = {
 /** Fas 2 §3 — en rad per Vit-projekt, valfritt Senast. */
 export function MabraVitProjectsPanel({ lastSeen, onOpenProject }: Props) {
   return (
-    <section className="calm-card glow-bottom-green rounded-xl border border-border-strong bg-surface/25 p-4" aria-label="Fortsätt i Vit">
+    <section className="calm-card glow-bottom-green space-y-3 rounded-2xl p-4 sm:p-5" aria-label="Fortsätt i Vit">
       <h2 className="text-sm font-medium text-text">Fortsätt i Vit</h2>
       <p className="mt-1 text-xs text-text-dim">Identitetsarbete — ett projekt i taget. Akutverktyg finns ovan.</p>
       <ul className="mt-3 space-y-2">

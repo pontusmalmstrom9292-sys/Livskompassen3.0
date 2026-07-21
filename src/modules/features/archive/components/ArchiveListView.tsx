@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { format } from 'date-fns';
 import { sv } from 'date-fns/locale';
 import { useNavigate } from 'react-router-dom';
@@ -35,18 +35,25 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
   const [expandedDrawers, setExpandedDrawers] = useState<Record<string, boolean>>({});
 
   // Group entries by Year-Month
-  const groupedByMonth = entries.reduce<Record<string, { date: Date; entries: ArchiveEntry[] }>>((acc, entry) => {
-    if (!entry.createdAt) return acc;
-    const date = new Date(entry.createdAt.seconds * 1000);
-    const key = format(date, 'yyyy-MM');
-    if (!acc[key]) {
-      acc[key] = { date, entries: [] };
-    }
-    acc[key].entries.push(entry);
-    return acc;
-  }, {});
+  const groupedByMonth = useMemo(
+    () =>
+      entries.reduce<Record<string, { date: Date; entries: ArchiveEntry[] }>>((acc, entry) => {
+        if (!entry.createdAt) return acc;
+        const date = new Date(entry.createdAt.seconds * 1000);
+        const key = format(date, 'yyyy-MM');
+        if (!acc[key]) {
+          acc[key] = { date, entries: [] };
+        }
+        acc[key].entries.push(entry);
+        return acc;
+      }, {}),
+    [entries],
+  );
 
-  const sortedMonths = Object.keys(groupedByMonth).sort((a, b) => b.localeCompare(a));
+  const sortedMonths = useMemo(
+    () => Object.keys(groupedByMonth).sort((a, b) => b.localeCompare(a)),
+    [groupedByMonth],
+  );
 
   // Auto-expand the first shelf if capacity is normal and there are shelves available
   useEffect(() => {
@@ -252,7 +259,7 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                                   return (
                                     <div
                                       key={entry.id}
-                                      className={`calm-card bg-surface-2/70 backdrop-blur-xl rounded-2xl p-5 glow-bottom-blue flex flex-col gap-3 ${ringClass}`}
+                                      className={`calm-card glow-bottom-blue flex flex-col gap-3 rounded-2xl p-4 sm:p-5 ${ringClass}`}
                                     >
                                       {/* Entry header */}
                                       <div className="flex items-center justify-between">

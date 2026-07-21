@@ -63,7 +63,7 @@ export function WeeklyPulseWidget() {
   }, [user?.uid]);
 
   return (
-    <div className="calm-card rounded-2xl border border-border/30 bg-surface-2/40 p-4 space-y-4">
+    <div className="calm-card glow-bottom-green space-y-4 rounded-2xl p-4 sm:p-5">
       <h3 className="text-xs font-semibold uppercase tracking-wider text-text-dim flex items-center gap-2">
         <Activity className="h-3.5 w-3.5" />
         Veckans Energi

@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T08:30:00.000Z",
-  "updatedAt": "2026-07-21T12:25:00.000Z",
-  "currentTaskId": "calm-card-audit-fixes",
+  "updatedAt": "2026-07-21T14:30:00.000Z",
+  "currentTaskId": null,
   "completedTaskIds": [
     "build-fix-home-hub-boundary",
     "ui-polish-v2-vardagen",
@@ -49,7 +49,15 @@
     "ankare-dagens-supermodul-polish",
     "hamn-biff-epistemic-polish",
     "journal-wizard-polish",
-    "projects-hub-polish"
+    "projects-hub-polish",
+    "calm-card-audit-fixes",
+    "obsidian-depth-polish",
+    "loading-skeleton-sweep",
+    "reduced-motion-sweep",
+    "perf-memo-quickwins",
+    "modulvaljare-polish",
+    "g85-cap-sync-verify",
+    "improve-waves-session-log-v3"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [
