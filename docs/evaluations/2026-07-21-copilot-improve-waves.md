@@ -153,3 +153,9 @@
 ### widget-action-dashboard-polish — PASS (YOLO v9)
 - ActionDashboard + WidgetActionTile: role=alert, eyebrow, motion-safe, min-h-11/focus
 - Smoke: build, widgets, locked-ux PASS
+
+
+### fyren-edge-widget-polish — PASS (YOLO v9)
+- Fyren strip/action CSS: min-h-11, focus, reduced-motion/transparency
+- QuickCaptureOverlay close: 44px + focus-visible
+- Smoke: build, widgets, locked-ux PASS

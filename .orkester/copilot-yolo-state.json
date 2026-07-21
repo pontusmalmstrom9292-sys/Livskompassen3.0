@@ -1,8 +1,8 @@
 {
   "version": 2,
   "startedAt": "2026-07-21T12:39:16.000Z",
-  "updatedAt": "2026-07-21T12:54:37.000Z",
-  "currentTaskId": "fyren-edge-widget-polish",
+  "updatedAt": "2026-07-21T12:55:43.000Z",
+  "currentTaskId": "drogfrihet-hub-a11y-polish",
   "completedTaskIds": [
     "g85-friction-d5-prep",
     "adhoc-dialog-audit",
@@ -11,7 +11,8 @@
     "form-label-a11y-sweep",
     "speglar-evidence-polish",
     "inkast-review-queue-polish",
-    "widget-action-dashboard-polish"
+    "widget-action-dashboard-polish",
+    "fyren-edge-widget-polish"
   ],
   "skippedTaskIds": [],
   "failedTaskIds": [],
