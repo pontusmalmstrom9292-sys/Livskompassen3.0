@@ -85,13 +85,15 @@ export function BarnportenWidget({ childAlias, variant: variantOverride }: Props
           disabled={saving}
           className={clsx('barnporten-widget__arc', holdClass)}
           aria-label={tapLabel}
+          aria-busy={saving || undefined}
           style={holdStyle}
           onClick={onClick}
           {...pressHandlers}
         >
           <Heart
-            className="barnporten-widget__arc-icon h-5 w-5 fill-amber-200/90 text-amber-100"
+            className="barnporten-widget__arc-icon h-5 w-5 fill-accent/40 text-accent-light"
             strokeWidth={1.5}
+            aria-hidden
           />
         </button>
       </div>
@@ -110,11 +112,12 @@ export function BarnportenWidget({ childAlias, variant: variantOverride }: Props
           disabled={saving}
           className={clsx('barnporten-widget__compass', holdClass)}
           aria-label={tapLabel}
+          aria-busy={saving || undefined}
           style={holdStyle}
           onClick={onClick}
           {...pressHandlers}
         >
-          <BarnportenCompassMini className="h-4 w-4 text-amber-200" />
+          <BarnportenCompassMini className="h-4 w-4 text-accent-light" />
         </button>
       </div>
     );
@@ -128,11 +131,12 @@ export function BarnportenWidget({ childAlias, variant: variantOverride }: Props
         disabled={saving}
         className={clsx('barnporten-widget__star', holdClass)}
         aria-label={tapLabel}
+        aria-busy={saving || undefined}
         style={holdStyle}
         onClick={onClick}
         {...pressHandlers}
       >
-        <Star className="h-3.5 w-3.5 fill-amber-300/90 text-amber-200" strokeWidth={1.5} />
+        <Star className="h-3.5 w-3.5 fill-accent/50 text-accent-light" strokeWidth={1.5} aria-hidden />
       </button>
     </div>
   );
