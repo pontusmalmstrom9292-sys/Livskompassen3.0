@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '@/design-system';
 import { Check, Loader2, Plus, Trash2, X } from 'lucide-react';
@@ -81,8 +81,8 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
     }
   };
 
-  const open = openItems(list);
-  const done = list.items.filter((i) => i.done);
+  const open = useMemo(() => openItems(list), [list]);
+  const done = useMemo(() => list.items.filter((i) => i.done), [list.items]);
 
   return (
     <div className="planering-quicklist">
