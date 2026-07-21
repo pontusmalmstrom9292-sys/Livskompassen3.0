@@ -1,4 +1,5 @@
 import { useSOSStore } from '@/modules/core/store/sosStore';
+import { useStore } from '@/core/store';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { RecoveryUrgeSosModule } from '@/features/mabra/components/RecoveryUrgeSosModule';
 
@@ -9,6 +10,7 @@ import { RecoveryUrgeSosModule } from '@/features/mabra/components/RecoveryUrgeS
 export function SOSOverlay() {
   const isSOSActive = useSOSStore((s) => s.isSOSActive);
   const deactivateSOS = useSOSStore((s) => s.deactivateSOS);
+  const uid = useStore((s) => s.user?.uid);
 
   if (!isSOSActive) return null;
 
@@ -19,7 +21,7 @@ export function SOSOverlay() {
       logTag="SOSOverlay"
       errorBody="Stäng och öppna SOS igen. Du är trygg."
     >
-      <RecoveryUrgeSosModule onClose={deactivateSOS} />
+      <RecoveryUrgeSosModule uid={uid} onClose={deactivateSOS} />
     </HubErrorBoundary>
   );
 }

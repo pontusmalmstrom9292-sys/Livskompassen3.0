@@ -1,3 +1,4 @@
+/** @locked MOD-FAM-DROG — låst modul; unlock via docs/evaluations/*-unlock-MOD-FAM-DROG.md */
 const STORAGE_PREFIX = 'livskompassen_drogfrihet_start';
 export const DROGFRIHET_COUNTER_EVENT = 'livskompassen:drogfrihet-counter-changed';
 

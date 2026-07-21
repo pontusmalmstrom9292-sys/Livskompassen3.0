@@ -561,26 +561,27 @@
       filter: drop-shadow(0 0 10px rgba(212,175,55,0.8)) !important;
     }
 
-    .floating-dock__center-wrapper > span {
+    .floating-dock__center-label {
       position: absolute !important;
       bottom: -0.5rem !important;
-      font-size: 0.52rem !important;
+      margin-top: 0.25rem !important;
+      font-size: 0.56rem !important;
       line-height: 1.1 !important;
       font-weight: 600 !important;
       color: rgba(212, 175, 55, 0.6) !important;
       text-transform: uppercase !important;
-      letter-spacing: 0.02em !important;
+      letter-spacing: 0.05em !important;
       pointer-events: none !important;
       transition: color 0.2s ease !important;
       z-index: 20 !important;
     }
 
-    .floating-dock__center-wrapper:hover > span {
+    .floating-dock__center-wrapper:hover > .floating-dock__center-label {
       color: #fde68a !important;
     }
 
-    .floating-dock .dock-hub-band__center--active + span,
-    .floating-dock .dock-hub-band__center--holding + span {
+    .floating-dock .dock-hub-band__center--active + .floating-dock__center-label,
+    .floating-dock .dock-hub-band__center--holding + .floating-dock__center-label {
       color: #d4af37 !important;
     }
 

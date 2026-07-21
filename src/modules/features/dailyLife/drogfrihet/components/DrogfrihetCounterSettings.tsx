@@ -9,6 +9,9 @@ import {
   setDrogfrihetStartDateKey,
 } from '../lib/drogfrihetCounter';
 import { syncRecoveryProfileStartDate } from '../api/recoveryProfileService';
+import { setComebackPending } from '../lib/recoveryPlanLocal';
+import { COMEBACK_COPY, LAPSE_VS_RELAPSE } from '../content/aterfallContent';
+import { pushKpiEvent } from '../lib/recoveryKpiLocal';
 
 type Props = {
   uid?: string;
@@ -48,8 +51,8 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
         )}
 
         <p className="mt-3 text-xs text-text-dim">
-          Räknaren sparas lokalt på enheten (kopplat till ditt konto när du är inloggad). Återfall
-          utan skam — du väljer själv när du nollställer.
+          Räknaren sparas lokalt på enheten (kopplat till ditt konto när du är inloggad).{' '}
+          {LAPSE_VS_RELAPSE.lapse} {COMEBACK_COPY.lead}
         </p>
       </BentoCard>
 
@@ -73,6 +76,8 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
             resetDrogfrihetCounter(uid);
             setCustomDate(today);
             if (uid) void syncRecoveryProfileStartDate(uid, today);
+            setComebackPending(uid, true);
+            pushKpiEvent({ type: 'comeback', at: Date.now() }, uid);
             setConfirmReset(false);
           }}
           className="mt-2 w-full text-sm"
@@ -94,9 +99,10 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
             Nollställ räknare…
           </Button>
         ) : (
-          <div className="mt-3 space-y-2">
-            <p className="text-xs text-danger">
-              Detta tar bort räknaren eller sätter om från idag. Är du säker?
+            <div className="mt-3 space-y-2">
+            <p className="text-xs text-text-muted">
+              {LAPSE_VS_RELAPSE.ave} Efter nollställning får du en lugn “kom tillbaka”-yta i Drogfrihet —
+              ingen skam.
             </p>
             <Button
               variant="secondary"
@@ -106,6 +112,8 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
                 resetDrogfrihetCounter(uid);
                 setCustomDate(today);
                 if (uid) void syncRecoveryProfileStartDate(uid, today);
+                setComebackPending(uid, true);
+                pushKpiEvent({ type: 'comeback', at: Date.now() }, uid);
                 setConfirmReset(false);
               }}
             >

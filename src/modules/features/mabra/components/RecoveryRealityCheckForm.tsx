@@ -1,3 +1,4 @@
+/** @locked MOD-FAM-DROG — låst modul; unlock via docs/evaluations/*-unlock-MOD-FAM-DROG.md */
 import { Loader2 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ensureVitHub, saveVitEntry } from '@/core/firebase/vitHubFirestore';

@@ -1966,11 +1966,11 @@
     {
       "id": "kunskap-fact-df-004",
       "title": "Akut hjälp",
-      "content": "Vid akut fara: 113. Råd om vård: 1177. Psykiatrisk akutmottagning vid akut psykisk kris.",
+      "content": "Vid akut fara för liv: ring 112. Suicidtankar: 90101 (Mind). Råd om vård: 1177. Droghjälpen: 020-91 91 91.",
       "category": "beroende",
       "eventDate": null,
       "source": "kunskap_content_seed",
-      "citation_hint": "1177; SOS Alarm 113",
+      "citation_hint": "SOS Alarm 112; Mind 90101; 1177; Droghjälpen",
       "source_tier": "P1"
     },
     {

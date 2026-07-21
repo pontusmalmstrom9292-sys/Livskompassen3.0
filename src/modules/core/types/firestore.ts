@@ -395,20 +395,65 @@ export interface PayrollTaxTablePackDoc {
   createdAt: IsoDateTime;
 }
 
+/** Visuell preset för egna moduler (user_widgets contract v1). */
+export type UserWidgetStylePreset =
+  | 'midnight'
+  | 'gold_glass'
+  | 'photo_dim'
+  | 'minimal'
+  | 'celebration'
+  | 'focus';
+
+export type UserWidgetStatus = 'active' | 'archived';
+
+export type UserWidgetSchemaVersion = 1 | 2;
+
+export type UserWidgetShell = 'tile' | 'elongated' | 'card' | 'compact';
+
+/**
+ * Placement — samma union som PlaneringPinTargetId (planningPinRegistry).
+ * Inline här för att undvika core→features type-cykel i bundlers.
+ */
+export type UserWidgetSlotId =
+  | 'hem.brass.below-grid'
+  | 'familjen.barnfokus'
+  | 'familjen.livslogg'
+  | 'familjen.hamn'
+  | 'valv.logga'
+  | 'valv.kunskapsbank'
+  | 'vardagen.ekonomi'
+  | 'hjartat.dagbok'
+  | 'mabra.hub';
+
 export interface UserWidget {
   userId: string;
   ownerId: string;
   type: 'countdown' | 'checklist' | 'linked_savings' | 'quick_note';
   title: string;
+  /** Legacy pin-flagga — derive true när slotId är satt. */
   pinnedToHome: boolean;
   order: number;
+  /** Contract v1+ — default 1. */
+  schemaVersion?: UserWidgetSchemaVersion;
+  stylePreset?: UserWidgetStylePreset | null;
+  /** Kanon-placement; null = unpinned. */
+  slotId?: UserWidgetSlotId | null;
+  /** Soft-lock — default active. */
+  status?: UserWidgetStatus;
   config: {
     targetDate?: string;
+    /** ISO datetime för mer precis nedräkning (additiv). */
+    targetDateTime?: string;
     savingsGoalId?: string;
     checklistItems?: { id: string; text: string; done: boolean }[];
     noteText?: string;
+    caption?: string;
+    backgroundPath?: string;
+    backgroundAlt?: string;
+    shell?: UserWidgetShell;
   };
   createdAt: IsoDateTime;
+  updatedAt?: IsoDateTime;
 }
 
 export interface UserWidgetRow extends UserWidget {

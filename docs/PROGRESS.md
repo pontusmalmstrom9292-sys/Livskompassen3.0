@@ -1,3 +1,76 @@
+# 2026-07-21 — Egna moduler W0 (masterplan v2.2 godkänd)
+
+- Pontus OK: masterplan v2.2 «Egna moduler» — «godkänn v2.2 kör hela planen».
+- W0 startad (docs only + evals): frozen contract, PMIR `user_widgets` slotId/status, unlock MOD-WIDGET W1 + MOD-VARD-PLAN tab=bygg W3.
+- **Ingen** app-feature-UI i denna leverans.
+- Filer: `docs/specs/user-widgets-contract-v1.md` · `docs/evaluations/2026-07-21-pmir-user-widgets-slotid-status.md` · `docs/evaluations/2026-07-21-unlock-MOD-WIDGET-egna-moduler-w1.md` · `docs/evaluations/2026-07-21-unlock-MOD-VARD-PLAN-tab-bygg-w3.md` · masterplan W0 DoD uppdaterad.
+
+---
+
+# 2026-07-21 — YOLO app-wide UI polish (Wave 14, Home Layout A step-button motion)
+
+- `obsidian-calm-shells.css`: lade till DS-tokeniserad transition för `home-layout-a__step-btn` för konsekvent interaktionsmotion i Home Layout A.
+- Ändringen är visuell/ergonomisk och påverkar inte navigation eller funktion.
+- Verification: `npm run smoke:governance` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:locked-ux` PASS · `npm run build` PASS
+
+---
+
+# 2026-07-21 — YOLO app-wide UI polish (Wave 13, Home Layout A strip motion)
+
+- `obsidian-calm-shells.css`: la till DS-tokeniserad transition för `home-layout-a__strip` och utökade `prefers-reduced-motion` så strip också går transition-off.
+- Resultatet ger konsekvent motionpolicy för hela Home Layout A-interaktionsytan utan funktionsändring.
+- Verification: `npm run smoke:governance` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:locked-ux` PASS · `npm run build` PASS
+
+---
+
+# 2026-07-21 — YOLO app-wide UI polish (Wave 12, Home Layout A transition tokens)
+
+- `obsidian-calm-shells.css`: bytte hårdkodade `0.15s ease`-transitions till DS tokens (`--ds-duration-fast`, `--ds-ease-premium`) för `home-layout-a__snabbval-chip`, `home-layout-a__tile--icon` och `home-layout-a__link`.
+- Ger mer konsekvent motionbeteende mot resten av design-systemet, utan flödes-/layoutpåverkan.
+- Verification: `npm run smoke:governance` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:locked-ux` PASS · `npm run build` PASS
+
+---
+
+# 2026-07-21 — YOLO app-wide UI polish (Wave 11, Home Layout A reduced motion)
+
+- `obsidian-calm-shells.css`: lade till `@media (prefers-reduced-motion: reduce)` för Home Layout A där transition stängs av på snabbval/tile/step/link-kontroller.
+- Förbättringen minskar rörelse i interaktiva state-byten utan att ändra layout eller funktion.
+- Verification: `npm run smoke:governance` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:locked-ux` PASS · `npm run build` PASS
+
+---
+
+# 2026-07-21 — YOLO app-wide UI polish (Wave 10, Home Layout A focus-within)
+
+- `obsidian-calm-shells.css`: lade till `:focus-within` för `home-layout-a__hero-card` och `home-layout-a__tile` för tydligare fokusspårning när interna interaktiva element är aktiva.
+- Förbättringen är layout-neutral och sker i DS shell-lagret utan flödesändringar.
+- Verification: `npm run smoke:governance` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:locked-ux` PASS · `npm run build` PASS
+
+---
+
+# 2026-07-21 — YOLO app-wide UI polish (Wave 9, Home Layout A hero-inset focus)
+
+- `obsidian-calm-shells.css`: lade till explicit `:focus-visible` state för `home-layout-a__hero-inset` (DS focus-ring + tydligare border/glow) för bättre keyboard-läsbarhet i hero-inputen.
+- Ändringen är begränsad till DS shell-lager och påverkar inte flöden eller layout.
+- Verification: `npm run smoke:governance` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:locked-ux` PASS · `npm run build` PASS
+
+---
+
+# 2026-07-21 — YOLO app-wide UI polish (Wave 8, Home Layout A focus sweep)
+
+- `obsidian-calm-shells.css`: lade till tydliga `:focus-visible` states för Home Layout A-kontroller som tidigare bara hade hover/aktiv feedback (`home-layout-a__snabbval-chip`, `__tile--icon`, `__step-btn`, `__link`, `__strip`).
+- Förbättringen höjer tangentbordsnavigering och fokusspårning utan att ändra flöden eller layoutstruktur (DS shell-lager, minimal diff).
+- Verification: `npm run smoke:governance` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:locked-ux` PASS · `npm run build` PASS
+
+---
+
+# 2026-07-21 — YOLO app-wide UI polish (Wave 7, dock label hardening)
+
+- Floating dock hardening: center-label fick dedikerad klass (`floating-dock__center-label`) i stället för generisk `> span` selector, med något starkare läsbarhet och bättre selector-säkerhet.
+- Core chrome polish: selectors för hover/active label-state kopplades explicit till den nya center-label-klassen för säkrare framtida UI-utbyggnad.
+- Verification: `npm run smoke:basta-dock-lock` PASS · `npm run smoke:design-modules` PASS · `npm run smoke:locked-ux` PASS · `npm run build` PASS
+
+---
+
 # 2026-07-20 — Improvement wave B (B01, B04–B08)
 
 - **B01 G85:** Day N log section in checklist + eval session note (device verify = user).
@@ -2981,4 +3054,3 @@ Copy the template below for each entry. Newest first.
 **Validering:** verifySecurityComponents PASS · functions build+test PASS · test:unit 118 · smoke:locked-ux/orkester/functions-pin/agents-ui/weaver-hitl/mabra/design-modules PASS.
 
 **Kvar till Pontus:** G85 device Valv <3s · App Check Console · functions redeploy per gap-doc · Phase 10 visual sign-off.
-

@@ -92,6 +92,8 @@
     "smoke:rollout": "node scripts/smoke_rollout_cursor_native.mjs",
     "rollout:night": "node scripts/rollout_autorun.mjs",
     "smoke:locked-ux": "node scripts/smoke_locked_ux.mjs",
+    "smoke:drogfrihet": "node scripts/smoke_drogfrihet.mjs",
+    "smoke:drogfrihet-content": "node scripts/smoke_drogfrihet_content.mjs",
     "smoke:chrome-header": "node scripts/smoke_chrome_header.mjs",
     "smoke:basta-dock-lock": "node scripts/smoke_basta_dock_lock.mjs",
     "smoke:executive-home-visual": "node scripts/smoke_executive_home_visual.mjs",

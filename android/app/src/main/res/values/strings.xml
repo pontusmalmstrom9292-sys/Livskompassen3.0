@@ -61,6 +61,10 @@
     <string name="widget_moduler_title">Mina moduler</string>
     <string name="widget_moduler_sub">Nedräkning · Lista</string>
     <string name="widget_moduler_desc">Personliga moduler — nedräkning, checklista, sparmål och notiser</string>
+    <string name="widget_drogfrihet_akut_title">SOS Ankare</string>
+    <string name="widget_drogfrihet_akut_sub">Sug nu · landa</string>
+    <string name="widget_drogfrihet_akut_desc">One-tap SOS Ankare — öppnar Drogfrihet akutläge</string>
+    <string name="channel_drogfrihet">Drogfrihet-påminnelser</string>
 
     <string name="widget_utv_kort_title">Utvecklingskort</string>
     <string name="widget_utv_kort_desc">Dagens kort direkt på hemskärmen</string>

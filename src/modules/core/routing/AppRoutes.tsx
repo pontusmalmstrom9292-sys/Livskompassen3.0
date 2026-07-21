@@ -236,6 +236,10 @@ function RedirectDrogfrihetToFamiljen() {
   if (legacySubTab && DROGFRIHET_SUBTAB_IDS.has(legacySubTab)) {
     search.set('drogfrihetTab', legacySubTab);
   }
+  /** Våg 1: `/drogfrihet/akut` → öppna SOS Ankare */
+  if (location.pathname.includes('/akut') || params.get('akut') === '1') {
+    search.set('akut', '1');
+  }
   return (
     <Navigate
       to={{ pathname: NAV_PATHS.FAMILJEN, search: `?${search.toString()}` }}

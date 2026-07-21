@@ -1,3 +1,4 @@
+/** @locked MOD-FAM-DROG — låst modul; unlock via docs/evaluations/*-unlock-MOD-FAM-DROG.md */
 /** Akuta och planerade resurser — statisk text, inga API-anrop. */
 export type DrogfrihetResource = {
   id: string;
@@ -9,11 +10,18 @@ export type DrogfrihetResource = {
 
 export const DROGFRIHET_RESOURCES: readonly DrogfrihetResource[] = [
   {
-    id: 'res-113',
+    id: 'res-112',
     kind: 'akut',
-    title_sv: 'Akut — 113',
-    body_sv: 'Vid omedelbar fara för liv. Ring 113.',
-    href: 'tel:113',
+    title_sv: 'Akut — 112',
+    body_sv: 'Vid omedelbar fara för liv, överdos eller akut suicidrisk. Ring 112.',
+    href: 'tel:112',
+  },
+  {
+    id: 'res-90101',
+    kind: 'akut',
+    title_sv: 'Självmordslinjen — 90101',
+    body_sv: 'Tankar om att ta ditt liv eller oro för närstående. Mind, dygnet runt. Vid akut livsfara: ring 112.',
+    href: 'tel:90101',
   },
   {
     id: 'res-1177',
@@ -21,6 +29,20 @@ export const DROGFRIHET_RESOURCES: readonly DrogfrihetResource[] = [
     title_sv: '1177 Vårdguiden',
     body_sv: 'Råd om beroende och var du kan vända dig. Sök ”beroende” på 1177.se.',
     href: 'https://www.1177.se',
+  },
+  {
+    id: 'res-droghjalpen',
+    kind: 'stod',
+    title_sv: 'Droghjälpen — 020-91 91 91',
+    body_sv: 'Anonym rådgivning om droger (eStöd, Beroendecentrum Stockholm). Kostnadsfritt.',
+    href: 'tel:020919191',
+  },
+  {
+    id: 'res-alkoholhjalpen',
+    kind: 'stod',
+    title_sv: 'Alkoholhjälpen — 020-84 44 48',
+    body_sv: 'Anonym rådgivning om alkohol (eStöd). Kostnadsfritt.',
+    href: 'tel:020844448',
   },
   {
     id: 'res-beroende',
@@ -33,7 +55,7 @@ export const DROGFRIHET_RESOURCES: readonly DrogfrihetResource[] = [
     id: 'res-bris',
     kind: 'stod',
     title_sv: 'Mind — stödlinje',
-    body_sv: 'Mind erbjuder stöd via chatt och telefon för psykisk ohälsa. Se mind.se.',
+    body_sv: 'Mind erbjuder stöd via chatt och telefon för psykisk ohälsa. Se mind.se. Självmordslinjen: 90101.',
     href: 'https://mind.se',
   },
   {
@@ -46,4 +68,4 @@ export const DROGFRIHET_RESOURCES: readonly DrogfrihetResource[] = [
 ];
 
 export const DROGFRIHET_DISCLAIMER =
-  'Hubben ersätter inte medicinsk eller beroendevård. Vid akut kris: 113. Vid behov av behandling: kontakta 1177 eller din vårdcentral.';
+  'Hubben ersätter inte medicinsk eller beroendevård. Vid akut livsfara: 112. Suicidtankar: 90101 (eller 112 vid akut fara). Vid behov av behandling: 1177, Droghjälpen eller din vårdcentral.';

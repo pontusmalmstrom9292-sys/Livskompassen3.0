@@ -1,5 +1,14 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
+## 2026-07-21 — Egna moduler (masterplan v2.2)
+
+- [x] Pontus OK masterplan v2.2 «godkänn v2.2 kör hela planen»
+- [x] W0 docs: contract + PMIR + unlock W1/W3 (ingen feature-UI)
+- [ ] W1 feature: MOD-WIDGET motor (efter W0; separat kodvåg)
+- [ ] Rules deploy user_widgets PMIR — kräver separat Pontus «OK deploy»
+- [ ] W3 feature: Planering `?tab=bygg` (efter W1 DoD)
+
+
 # Premium UI Polish — TODO
 
 **Version:** 1.2 | **Last updated:** 2026-07-15
@@ -310,6 +319,14 @@ Each item is independently completable. Link files in Dashboard when done.
 - [x] YOLO app-wide UI polish Wave 4 — nav-drawer sections + Planering routines + MåBra collapsible + Reflektion panel contrast/focus/touch-target pass (2026-07-20)
 - [x] YOLO app-wide UI polish Wave 5 — dock hub/compass + Dagbok mode/handoff + adaptive-card focus/touch-target/contrast pass (2026-07-20)
 - [x] YOLO app-wide UI polish Wave 6 — executive home/header + Obsidian shell/glass focus-visible, touch-target and small-text contrast pass (2026-07-20)
+- [x] YOLO app-wide UI polish Wave 7 — dock center-label hardening och selector-säker polish i core chrome (2026-07-21)
+- [x] YOLO app-wide UI polish Wave 8 — Home Layout A keyboard focus-visible polish (snabbval/tile/step/link/strip) i DS shell-lager (2026-07-21)
+- [x] YOLO app-wide UI polish Wave 9 — Home Layout A hero-inset `:focus-visible` ring/contrast polish i DS shell-lager (2026-07-21)
+- [x] YOLO app-wide UI polish Wave 10 — Home Layout A `:focus-within` polish för hero-card och tile i DS shell-lager (2026-07-21)
+- [x] YOLO app-wide UI polish Wave 11 — Home Layout A reduced-motion polish (tar bort transition på interaktiva element vid `prefers-reduced-motion`) i DS shell-lager (2026-07-21)
+- [x] YOLO app-wide UI polish Wave 12 — Home Layout A transition-token polish (snabbval/tile/link) i DS shell-lager (2026-07-21)
+- [x] YOLO app-wide UI polish Wave 13 — Home Layout A strip transition-token + reduced-motion polish i DS shell-lager (2026-07-21)
+- [x] YOLO app-wide UI polish Wave 14 — Home Layout A step-button transition-token polish i DS shell-lager (2026-07-21)
 - [x] PMIR/defer dokumenterat i PROJECT_STATE (bygg ej utan Pontus OK)
 - [ ] Pontus: Android Studio → Run + Valv <3s bakgrund (enhetsgate)
 - [ ] Pontus visual sign-off compass (program Phase 10)

@@ -85,7 +85,7 @@ export function MabraRecoveryBanner() {
         </div>
       </div>
     </section>
-    {sosOpen ? <RecoveryUrgeSosModule onClose={() => setSosOpen(false)} /> : null}
+    {sosOpen ? <RecoveryUrgeSosModule uid={uid} onClose={() => setSosOpen(false)} /> : null}
     </>
   );
 }

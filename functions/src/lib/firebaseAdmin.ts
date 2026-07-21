@@ -16,6 +16,7 @@ import {
 } from 'firebase-admin/firestore';
 import { getAuth } from 'firebase-admin/auth';
 import { getStorage } from 'firebase-admin/storage';
+import { getMessaging } from 'firebase-admin/messaging';
 
 export type { Firestore, DocumentData };
 
@@ -44,6 +45,7 @@ export const admin = {
   firestore: firestoreFn,
   auth: () => getAuth(),
   storage: () => getStorage(),
+  messaging: () => getMessaging(),
 };
 
 /** Type namespace merge — keeps `admin.firestore.DocumentData` etc. working. */
@@ -55,4 +57,4 @@ export namespace admin {
   }
 }
 
-export { FieldValue, Timestamp, AggregateField, getFirestore, getAuth, getStorage };
+export { FieldValue, Timestamp, AggregateField, getFirestore, getAuth, getStorage, getMessaging };

@@ -20,7 +20,9 @@ import com.livskompassen.app.R;
 public class AppNotificationManager {
     public static final String CHANNEL_ID_VAULT = "sacred_vault_notifications";
     public static final String CHANNEL_ID_DAILY = "daily_reminders";
+    public static final String CHANNEL_ID_DROGFRIHET = "drogfrihet_reminders";
     private static final int NOTIFICATION_ID_PREMIUM = 1002;
+    private static final int NOTIFICATION_ID_DROGFRIHET = 1003;
 
     public static void createNotificationChannels(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -42,12 +44,47 @@ public class AppNotificationManager {
             );
             dailyChannel.setDescription("Påminnelser för din dagliga mix och reflektion.");
 
+            NotificationChannel dfChannel = new NotificationChannel(
+                    CHANNEL_ID_DROGFRIHET,
+                    context.getString(R.string.channel_drogfrihet),
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+            dfChannel.setDescription("Mjuka Drogfrihet-påminnelser och buddy-ping (opt-in).");
+
             NotificationManager manager = context.getSystemService(NotificationManager.class);
             if (manager != null) {
                 manager.createNotificationChannel(vaultChannel);
                 manager.createNotificationChannel(dailyChannel);
+                manager.createNotificationChannel(dfChannel);
             }
         }
+    }
+
+    /** Drogfrihet / SOS Ankare — öppnar /widget/drogfrihet-akut. */
+    public static void showDrogfrihetNotification(Context context, String title, String message, HapticManager hapticManager) {
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (manager == null) return;
+        if (hapticManager != null) hapticManager.reminderGentle();
+
+        Intent open = new Intent(context, com.livskompassen.app.MainActivity.class);
+        open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        open.putExtra("widget_path", "/widget/drogfrihet-akut");
+        PendingIntent openPi = PendingIntent.getActivity(
+                context, 41, open, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID_DROGFRIHET)
+                .setSmallIcon(R.drawable.ic_lock_sacred)
+                .setContentTitle(title != null ? title : "Livskompassen")
+                .setContentText(message != null ? message : "Ett ankare finns här.")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true)
+                .setContentIntent(openPi)
+                .setCategory(NotificationCompat.CATEGORY_REMINDER)
+                .setVisibility(NotificationCompat.VISIBILITY_PRIVATE)
+                .setColor(0xFDE68A)
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(message));
+
+        manager.notify(NOTIFICATION_ID_DROGFRIHET, builder.build());
     }
 
     /**

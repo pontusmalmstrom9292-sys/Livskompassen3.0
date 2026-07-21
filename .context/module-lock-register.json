@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-20",
+  "updatedAt": "2026-07-21",
   "modules": [
     {
       "id": "MOD-CORE-NAV",
@@ -20,9 +20,10 @@
         "smoke:chrome-header"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-20",
-      "lockedCommit": "d2ce566d9",
-      "unlockedAt": "2026-07-20"
+      "unlockedAt": "2026-07-21",
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-MOD-CORE-NAV-drogfrihet-akut.md",
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "0ff6cd5e3"
     },
     {
       "id": "MOD-CORE-CHROME",
@@ -236,15 +237,16 @@
         "smoke:design-modules"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-20",
-      "lockedCommit": "c3a08cfdd",
-      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-VARD-MABRA.md"
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-MOD-VARD-MABRA.md",
+      "unlockedAt": "2026-07-21",
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "0ff6cd5e3"
     },
     {
       "id": "MOD-VARD-PLAN",
       "namn": "Planering P3 Kanban",
       "zon": "Vardagen",
-      "status": "locked",
+      "status": "developing",
       "globs": [
         "src/modules/features/admin/planning/**",
         "src/modules/planering/**"
@@ -258,7 +260,8 @@
       "snapshotKey": null,
       "lockedAt": "2026-07-20",
       "lockedCommit": "c3a08cfdd",
-      "unlockDoc": "docs/evaluations/2026-07-20-unlock-MOD-VARD-PLAN.md"
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-MOD-VARD-PLAN-tab-bygg-w3.md",
+      "unlockedAt": "2026-07-21"
     },
     {
       "id": "MOD-VARD-EKO",
@@ -415,17 +418,29 @@
       "zon": "Familjen",
       "status": "locked",
       "globs": [
-        "src/modules/features/dailyLife/drogfrihet/**"
+        "src/modules/features/dailyLife/drogfrihet/**",
+        "src/modules/features/mabra/components/RecoveryUrgeSosModule.tsx",
+        "src/modules/features/mabra/components/RecoveryTwelveStepJournal.tsx",
+        "src/modules/features/mabra/components/RecoveryRealityCheckForm.tsx"
       ],
       "entryFiles": [
-        "src/modules/features/dailyLife/drogfrihet/components/DrogfrihetHubPage.tsx"
+        "src/modules/features/dailyLife/drogfrihet/components/DrogfrihetHubPage.tsx",
+        "src/modules/features/mabra/components/RecoveryUrgeSosModule.tsx",
+        "src/modules/features/dailyLife/drogfrihet/lib/drogfrihetCounter.ts",
+        "src/modules/features/dailyLife/drogfrihet/constants/resources.ts"
       ],
       "smoke": [
-        "smoke:design-modules"
+        "smoke:drogfrihet",
+        "smoke:drogfrihet-content",
+        "smoke:design-modules",
+        "smoke:locked-ux"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-10",
-      "lockedCommit": "ac5d37623"
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-MOD-FAM-DROG-max-fcm-widget-buddy.md",
+      "unlockedAt": "2026-07-21",
+      "notes": "Improve-only when locked. Dual-lock Recovery*. Familjen placement. SOS offline ZF. No streaks. Akut: 112 / 90101.",
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "0ff6cd5e3"
     },
     {
       "id": "MOD-BACK-SYN",
@@ -495,7 +510,7 @@
       "id": "MOD-WIDGET",
       "namn": "Fyren + widget-routes",
       "zon": "Cross",
-      "status": "locked",
+      "status": "developing",
       "globs": [
         "src/modules/core/ui/widget-icons/**",
         "src/modules/features/widgets/**",
@@ -515,10 +530,10 @@
         "smoke:widget-ingest"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-18",
-      "lockedCommit": "a752cbc12",
-      "unlockDoc": "docs/evaluations/2026-07-18-unlock-MOD-WIDGET-media-fas3.md",
-      "unlockedAt": "2026-07-18"
+      "unlockDoc": "docs/evaluations/2026-07-21-unlock-MOD-WIDGET-egna-moduler-w1.md",
+      "unlockedAt": "2026-07-21",
+      "lockedAt": "2026-07-21",
+      "lockedCommit": "0ff6cd5e3"
     },
     {
       "id": "MOD-CORE-MINNE",

@@ -1,6 +1,6 @@
 /** @locked MOD-FAM-DROG — låst modul; unlock via docs/evaluations/*-unlock-MOD-FAM-DROG.md */
 import { BookOpen, Brain, HeartHandshake, Shield, Sparkles, X } from 'lucide-react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { Button, Modal, textStyles } from '@/design-system';
 import { HubPageShell } from '@/core/layout/HubPageShell';
@@ -21,6 +21,23 @@ import { DROGFRIHET_FACTS } from '../constants/kunskapFacts';
 import { DROGFRIHET_DISCLAIMER, DROGFRIHET_RESOURCES } from '../constants/resources';
 import { pickDrogfrihetIdag } from '../lib/pickDrogfrihetIdag';
 import { DrogfrihetCounterBadge } from './DrogfrihetCounterBadge';
+import { RecoveryPlanPanel } from './RecoveryPlanPanel';
+import { ComebackBanner } from './ComebackBanner';
+import { EscalationBanner } from './EscalationBanner';
+import { ProgressionPanel } from './ProgressionPanel';
+import { MotivationContentDeck } from './MotivationContentDeck';
+import { NotifPrefsPanel } from './NotifPrefsPanel';
+import { BuddyContactPanel } from './BuddyContactPanel';
+import {
+  countSosOpensLast7Days,
+  isComebackPending,
+} from '../lib/recoveryPlanLocal';
+import {
+  isInCravingWindow,
+  loadNotifPrefs,
+  pickNotisForNow,
+} from '../lib/notifPrefsLocal';
+import { DF_NOTIS_BANK } from '../content/dfNotisBank';
 
 export type DrogfrihetTab = 'idag' | 'resurser' | 'reflektion' | 'kunskap' | 'steg';
 
@@ -68,11 +85,38 @@ function useDrogfrihetSubTab(embedded: boolean) {
 
 export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps = {}) {
   const { tabs, tab, setTab } = useDrogfrihetSubTab(embedded);
+  const [searchParams, setSearchParams] = useSearchParams();
   const user = useStore((s) => s.user);
   const idag = useMemo(() => pickDrogfrihetIdag({ uid: user?.uid }), [user?.uid]);
   const [reflectionIndex, setReflectionIndex] = useState(0);
   const [realityCheckOpen, setRealityCheckOpen] = useState(false);
   const [sosOpen, setSosOpen] = useState(false);
+  const [showPlan, setShowPlan] = useState(false);
+  const [comeback, setComeback] = useState(() => isComebackPending(user?.uid));
+  const sosCount7d = useMemo(() => countSosOpensLast7Days(user?.uid), [user?.uid, sosOpen]);
+  const softNotis = useMemo(() => {
+    const prefs = loadNotifPrefs(user?.uid);
+    if (!isInCravingWindow(prefs)) return null;
+    return pickNotisForNow(DF_NOTIS_BANK);
+  }, [user?.uid, sosOpen]);
+
+  /** Deep link: `/familjen?tab=drogfrihet&akut=1` eller legacy `/drogfrihet/akut`. */
+  useEffect(() => {
+    if (searchParams.get('akut') !== '1') return;
+    setSosOpen(true);
+    setSearchParams(
+      (prev) => {
+        const next = new URLSearchParams(prev);
+        next.delete('akut');
+        return next;
+      },
+      { replace: true },
+    );
+  }, [searchParams, setSearchParams]);
+
+  useEffect(() => {
+    setComeback(isComebackPending(user?.uid));
+  }, [user?.uid]);
 
   const reflectionCard = DROGFRIHET_CARDS[reflectionIndex % DROGFRIHET_CARDS.length]!;
 
@@ -89,14 +133,34 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
 
       {tab === 'idag' && (
         <>
-          <DrogfrihetCounterBadge uid={user?.uid} />
           <Button
-            variant="secondary"
+            variant="accent"
             onClick={() => setSosOpen(true)}
-            className="w-full text-sm uppercase tracking-[0.14em]"
+            className="--accent sticky top-0 z-10 w-full min-h-[56px] text-sm uppercase tracking-[0.14em] shadow-[0_8px_24px_-12px_rgba(0,0,0,0.45)]"
           >
             SOS — sug nu
           </Button>
+          {comeback ? (
+            <ComebackBanner
+              uid={user?.uid}
+              onOpenSos={() => {
+                setComeback(false);
+                setSosOpen(true);
+              }}
+              onOpenPlan={() => {
+                setComeback(false);
+                setShowPlan(true);
+              }}
+              onDismiss={() => setComeback(false)}
+            />
+          ) : null}
+          <EscalationBanner sosCount7d={sosCount7d} />
+          {softNotis ? (
+            <BentoCard title="Mjuk påminnelse" glow="green">
+              <p className="text-sm text-accent">{softNotis}</p>
+            </BentoCard>
+          ) : null}
+          <DrogfrihetCounterBadge uid={user?.uid} />
           <BentoCard title="Idag" icon={<HeartHandshake className="h-4 w-4" />} glow="green">
             <div className="home-module-panel__question-box">
               <p className="text-base text-accent">{idag.card.text_sv}</p>
@@ -106,6 +170,22 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
             </div>
             <p className="mt-3 text-xs text-text-muted">{DROGFRIHET_DISCLAIMER}</p>
           </BentoCard>
+          <MotivationContentDeck dateKey={idag.dateKey} />
+          {!showPlan ? (
+            <Button
+              type="button"
+              variant="secondary"
+              className="w-full min-h-[48px]"
+              onClick={() => setShowPlan(true)}
+            >
+              Min plan (If–Then · risk · varför)
+            </Button>
+          ) : (
+            <RecoveryPlanPanel uid={user?.uid} />
+          )}
+          <NotifPrefsPanel uid={user?.uid} />
+          <BuddyContactPanel uid={user?.uid} />
+          <ProgressionPanel uid={user?.uid} />
         </>
       )}
 
@@ -237,7 +317,9 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
     </Modal>
   );
 
-  const sosOverlay = sosOpen ? <RecoveryUrgeSosModule onClose={() => setSosOpen(false)} /> : null;
+  const sosOverlay = sosOpen ? (
+    <RecoveryUrgeSosModule uid={user?.uid} onClose={() => setSosOpen(false)} />
+  ) : null;
 
   if (embedded) {
     return (
@@ -268,7 +350,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
     <HubPageShell
       eyebrow="Drogfrihet"
       title="Nykterhet · ett steg i taget"
-      lead="Dagräknare, reflektion och fakta — nollställning bara under Inställningar. Akut: 113."
+      lead="Dagräknare, reflektion och fakta — nollställning bara under Inställningar. Akut: 112."
     >
       {body}
       {realityCheckOverlay}

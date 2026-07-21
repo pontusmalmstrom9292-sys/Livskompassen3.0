@@ -1,5 +1,6 @@
 import {
   Calendar,
+  HeartPulse,
   Image,
   List,
   Mic,
@@ -19,4 +20,10 @@ export const FYREN_HOME_QUICK_ACTIONS = [
   { id: 'planering', label: 'Planering', to: '/planering?tab=handling', Icon: Calendar },
   { id: 'morgon', label: 'Morgon', to: '/morgon', Icon: Sunrise },
   { id: 'ekonomi', label: 'Ekonomi', to: '/vardagen?tab=ekonomi', Icon: Wallet },
+  {
+    id: 'drogfrihet-akut',
+    label: 'SOS sug',
+    to: '/familjen?tab=drogfrihet&akut=1',
+    Icon: HeartPulse,
+  },
 ] as const;
