@@ -46,6 +46,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   @layer components {
+    .mabra-hub-collapsible__trigger,
+    .calm-collapsible__trigger,
     .mabra-hub-collapsible__chevron,
     .calm-collapsible__chevron {
       transition: none;
