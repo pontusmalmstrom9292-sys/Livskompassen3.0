@@ -37,7 +37,8 @@ Läs prompten och identifiera ämnet. Hänvisa till rätt specialist **innan** d
 | **SOS**, AkutLanding, panikflöde, krisresurser, 113/1177 | `/specialist-sos` | — |
 | **Onboarding**, AuthGate, Google Auth, ny-användarupplevelse | `/specialist-onboarding` | — |
 | **Röst-till-Valv**, tyst inspelning, ingestWidgetRecording, Fyren Edge | `/specialist-rost-till-valv` | — |
-| **Widgets**, Fyren, Companion OS (`src/widgets/**`, Studio, HomeRail, Android Companion-chips) — Locked UX §23 / `MOD-WIDGET` | `/specialist-widgets` | `companion-os-lock.mdc` |
+| **Widgets**, Fyren, Companion OS (`src/widgets/**`, Studio, HomeRail, Android Companion-chips) — Locked UX §23 / `MOD-WIDGET` | `/specialist-widgets` | `livskompassen-companion-widget-interact` · `companion-os-lock.mdc` |
+| **Interaktiv widget** — in-widget text/mood, checkbox, tap-to-record capture, overlay, “öppna inte appen” | `/specialist-widgets` → underagenter `interact-capture` / `interact-input` / `interact-actions` / `visual-parity` / `sync-bridge` | `livskompassen-companion-widget-interact` |
 | **Drogfrihet**, dagräknare, DF-REF-innehåll, krisresurser | `/specialist-drogfrihet` | — |
 | **Gräns-Arkitekten**, BIFF-Skölden, Brusfiltret, G14, Grey Rock | `/specialist-grans-arkitekten` | — |
 | **Repo-städ, audit, governance sync** | `/specialist-beslutsstod` · `/yolo-vakt` | `docs/audit/` |

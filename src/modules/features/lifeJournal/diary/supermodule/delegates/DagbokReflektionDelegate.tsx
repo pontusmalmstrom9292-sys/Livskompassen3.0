@@ -172,7 +172,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
                 )}>
                   {date.getDate()}
                 </span>
-                <span className="text-[10px] tracking-wider text-text-dim mt-1.5 font-medium">
+                <span className="text-[10px] tracking-wider text-text-muted mt-1.5 font-medium">
                   {getSwedishWeekday(date)}
                 </span>
               </button>
@@ -269,7 +269,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
                         <h4 className="text-xs tracking-wider font-semibold text-text">
                           {titleText}
                         </h4>
-                        <p className="text-[10px] text-text-dim mt-0.5">
+                        <p className="text-[10px] text-text-muted mt-0.5">
                           {relativeDateString}
                         </p>
                       </div>
@@ -391,7 +391,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
         defaultOpen={false}
         glow="gold"
       >
-        <div className="space-y-2 text-xs text-text-dim">
+        <div className="space-y-2 text-xs text-text-muted">
           <p>Ta det lugnt — ett litet steg i taget. Inget måste bli perfekt.</p>
           <p>
             Du kan spara bara känslan, skriva tre ord, eller hoppa över text helt när energin är låg.
@@ -423,7 +423,7 @@ export function DagbokArkivDelegate() {
         <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
           Minneslista
         </p>
-        <p className="text-xs text-text-dim">
+        <p className="text-xs text-text-muted">
           Dina sparade tankar — läs bara, inget att ändra.
         </p>
       </header>

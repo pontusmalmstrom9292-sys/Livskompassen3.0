@@ -92,7 +92,7 @@
   }
 
   .planering-bento-footer {
-    @apply mt-5 border-t border-white/5 pt-4 text-xs text-text-dim;
+    @apply mt-5 border-t border-white/5 pt-4 text-xs text-text-muted;
   }
 
   /* --- Guard bar --- */
@@ -185,7 +185,7 @@
   }
 
   .planering-kanban-column__count {
-    @apply rounded-full border border-accent/25 px-2 py-0.5 text-[10px] text-text-dim;
+    @apply rounded-full border border-accent/25 px-2 py-0.5 text-[10px] text-text-muted;
   }
 
   .planering-kanban-column__list {
@@ -242,7 +242,7 @@
   }
 
   .planering-task-card__add {
-    @apply flex items-center justify-center gap-1 rounded-xl border border-dashed py-2 text-xs text-text-dim transition-colors;
+    @apply flex items-center justify-center gap-1 rounded-xl border border-dashed py-2 text-xs text-text-muted transition-colors;
     min-height: var(--ds-touch-target);
     border-color: color-mix(in srgb, var(--accent) 30%, transparent);
   }
@@ -310,7 +310,7 @@
   }
 
   .planering-hub__section-title {
-    @apply text-[10px] font-semibold uppercase tracking-wider text-text-dim;
+    @apply text-[10px] font-semibold uppercase tracking-wider text-text-muted;
   }
 
   .planering-hub__section-grid {
@@ -404,7 +404,7 @@
   }
 
   .planering-hub__category-meta {
-    @apply text-[10px] font-medium uppercase tracking-wider text-text-dim;
+    @apply text-[10px] font-medium uppercase tracking-wider text-text-muted;
   }
 
   .planering-hub__category-chevron {
@@ -525,7 +525,7 @@
   }
 
   .planering-inbox-connect__status {
-    @apply flex shrink-0 items-center gap-1 rounded-full border border-border-strong px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-text-dim;
+    @apply flex shrink-0 items-center gap-1 rounded-full border border-border-strong px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-text-muted;
   }
 
   .planering-inbox-connect__status--on {
@@ -537,7 +537,7 @@
   }
 
   .planering-inbox-connect__note {
-    @apply mt-2 text-xs text-text-dim;
+    @apply mt-2 text-xs text-text-muted;
   }
 
   .planering-inbox-connect__badge {
@@ -553,7 +553,7 @@
   }
 
   .planering-inbox-calendar-preview__day-label {
-    @apply text-center text-[10px] font-semibold uppercase tracking-wider text-text-dim;
+    @apply text-center text-[10px] font-semibold uppercase tracking-wider text-text-muted;
   }
 
   .planering-inbox-calendar-preview__day-slot {
@@ -744,7 +744,7 @@
   }
 
   .planering-quicklist__empty {
-    @apply rounded-xl border border-dashed border-border-strong px-3 py-6 text-center text-sm text-text-dim;
+    @apply rounded-xl border border-dashed border-border-strong px-3 py-6 text-center text-sm text-text-muted;
   }
 
   .planering-quicklist__row {
@@ -774,7 +774,7 @@
   }
 
   .planering-quicklist__remove {
-    @apply inline-flex shrink-0 items-center justify-center rounded-full text-text-dim transition-colors hover:text-danger;
+    @apply inline-flex shrink-0 items-center justify-center rounded-full text-text-muted transition-colors hover:text-danger;
     min-height: var(--ds-touch-target);
     min-width: var(--ds-touch-target);
   }
@@ -789,7 +789,7 @@
   }
 
   .planering-quicklist__done-label {
-    @apply mb-2 text-[10px] font-semibold uppercase tracking-wider text-text-dim;
+    @apply mb-2 text-[10px] font-semibold uppercase tracking-wider text-text-muted;
   }
 
   .planering-quicklist__actions {
@@ -951,7 +951,7 @@
   }
 
   .planering-layout-picker__eyebrow {
-    @apply text-[10px] font-semibold uppercase tracking-widest text-text-dim;
+    @apply text-[10px] font-semibold uppercase tracking-widest text-text-muted;
   }
 
   .planering-layout-picker__lab-link {

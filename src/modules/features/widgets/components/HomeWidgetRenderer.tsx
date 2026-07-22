@@ -48,7 +48,7 @@ export function HomeWidgetRenderer({
 
   const renderCountdown = () => {
     const dateSource = widget.config.targetDateTime || widget.config.targetDate;
-    if (!dateSource) return <p className="text-xs text-text-dim">Inget datum satt.</p>;
+    if (!dateSource) return <p className="text-xs text-text-muted">Inget datum satt.</p>;
 
     const target = widget.config.targetDateTime
       ? new Date(widget.config.targetDateTime)
@@ -69,7 +69,7 @@ export function HomeWidgetRenderer({
             <p className="text-4xl font-display font-bold text-accent tracking-tight tabular-nums">
               {daysLeft}
             </p>
-            <p className="text-[10px] uppercase tracking-widest text-text-dim mt-1">
+            <p className="text-[10px] uppercase tracking-widest text-text-muted mt-1">
               {daysLeft === 1 ? 'dag kvar' : 'dagar kvar'}
             </p>
           </div>
@@ -85,7 +85,7 @@ export function HomeWidgetRenderer({
     if (loadingSavings) {
       return (
         <p
-          className="flex items-center justify-center gap-1.5 text-xs text-text-dim py-4"
+          className="flex items-center justify-center gap-1.5 text-xs text-text-muted py-4"
           aria-busy="true"
           aria-live="polite"
         >
@@ -97,7 +97,7 @@ export function HomeWidgetRenderer({
     const goal = savingsGoals.find((g) => g.id === widget.config.savingsGoalId);
     if (!goal) {
       return (
-        <p className="text-xs text-text-dim py-2">
+        <p className="text-xs text-text-muted py-2">
           Sparmålet hittades inte eller har raderats i Ekonomi.
         </p>
       );
@@ -119,7 +119,7 @@ export function HomeWidgetRenderer({
           />
         </div>
 
-        <div className="flex justify-between text-[11px] text-text-dim tabular-nums">
+        <div className="flex justify-between text-[11px] text-text-muted tabular-nums">
           <span>{goal.currentSek} kr</span>
           <span>Mål: {goal.targetSek} kr</span>
         </div>
@@ -143,7 +143,7 @@ export function HomeWidgetRenderer({
 
   const renderChecklist = () => {
     const items = widget.config.checklistItems ?? [];
-    if (items.length === 0) return <p className="text-xs text-text-dim py-2">Listan är tom.</p>;
+    if (items.length === 0) return <p className="text-xs text-text-muted py-2">Listan är tom.</p>;
 
     return (
       <ul className="space-y-1.5" role="list">
@@ -167,7 +167,7 @@ export function HomeWidgetRenderer({
             <span
               className={[
                 'text-xs leading-snug transition-all',
-                item.done ? 'text-text-dim line-through decoration-text-dim' : 'text-text-muted',
+                item.done ? 'text-text-muted line-through decoration-text-dim' : 'text-text-muted',
               ].join(' ')}
             >
               {item.text}

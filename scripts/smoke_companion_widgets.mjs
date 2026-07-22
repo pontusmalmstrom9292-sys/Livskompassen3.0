@@ -296,7 +296,9 @@ assert(androidStrings.includes('Andas här'), 'Android Hamn-sub måste vara lugn
 assert(
   androidStrings.includes('Tryck · håll tyst') ||
     androidStrings.includes('startar inspelning') ||
-    androidStrings.includes('Tryck mic'),
+    androidStrings.includes('Tryck mic') ||
+    androidStrings.includes('Håll 2 sek') ||
+    androidStrings.includes('spela in i widgeten'),
   'Android Capture-sub måste vara tydlig',
 );
 assert(androidStrings.includes('En rad räcker'), 'Android Dagbok-sub måste vara kort copy');
@@ -401,16 +403,39 @@ mustExist('src/widgets/smart/smartTimeContext.ts');
 mustExist('src/widgets/smart/widgetAiContext.ts');
 mustExist('src/widgets/smart/resolveHomeSurface.ts');
 
+const smartTime = mustExist('src/widgets/smart/smartTimeContext.ts');
+assert(smartTime.includes('msUntilNextPeriod'), 'Smart Time måste schemalägga periodgräns');
+assert(!/\bsetInterval\s*\(/.test(smartTime), 'Smart Time får inte använda setInterval');
+assert(smartTime.includes('morning') && smartTime.includes('night'), 'Smart Time saknar dygnsperioder');
+
+const widgetAi = mustExist('src/widgets/smart/widgetAiContext.ts');
+assert(widgetAi.includes('anchor_only'), 'AI saknar låg-energi-läge');
+assert(widgetAi.includes('harbor'), 'AI saknar stress→hamn-läge');
+assert(widgetAi.includes('single_task'), 'AI saknar overload→single_task');
+assert(widgetAi.includes('family') || widgetAi.includes('isBarnvecka'), 'AI saknar barnvecka');
+assert(widgetAi.includes('pauseProactive'), 'AI saknar pauseProactive');
+
+const homeSurface = mustExist('src/widgets/smart/resolveHomeSurface.ts');
+assert(homeSurface.includes('pauseProactive'), 'Home surface måste exponera pauseProactive');
+assert(homeSurface.includes('night') && homeSurface.includes('dimVisual'), 'Home surface måste dimma natt');
+
+const useSurface = mustExist('src/widgets/smart/useCompanionSurface.ts');
+assert(useSurface.includes('msUntilNextPeriod'), 'useCompanionSurface måste refresha på period');
+assert(!useSurface.includes('setInterval'), 'useCompanionSurface får inte setInterval');
+
+assert(homeRail.includes('cw-home-rail--dim') || homeRail.includes('dimVisual'), 'Hem-rail måste stödja dim');
+assert(homeRail.includes('pauseProactive'), 'Hem-rail måste respektera pauseProactive');
+assert(homeRail.includes('single_task') && homeRail.includes('maxVisible'), 'Hem-rail måste begränsa tasks i single_task');
+
+const studioSmart = mustExist('src/widgets/studio/WidgetStudioPage.tsx');
+assert(studioSmart.includes('smartTimeEnabled') && studioSmart.includes('smartAiEnabled'), 'Studio saknar Smart Time/AI toggles');
+
 const mood = mustExist('src/widgets/components/WidgetMoodCheckIn.tsx');
 assert(mood.includes('cw-mood'), 'Mood check-in saknar ansikts-UI');
 
 const guided = mustExist('src/widgets/studio/guidedCustomization.ts');
 assert(guided.includes('maxShortcutsForSize'), 'Guided customization saknar max-knappar');
 assert(guided.includes('guideWidgetConfig'), 'Guided customization saknar sanitizer');
-
-const ai = mustExist('src/widgets/smart/widgetAiContext.ts');
-assert(ai.includes('anchor_only'), 'AI saknar låg-energi-läge');
-assert(ai.includes('harbor'), 'AI saknar stress→hamn-läge');
 
 mustExist('src/widgets/smart/readCompanionSignals.ts');
 mustExist('src/widgets/components/WidgetSyncStatusChip.tsx');
@@ -460,6 +485,8 @@ mustExist('src/widgets/studio/WidgetStudioModePanel.tsx');
 const modePanel = mustExist('src/widgets/studio/WidgetStudioModePanel.tsx');
 assert(modePanel.includes('Demo: låg energi'), 'Lägespanel saknar energi-demo');
 assert(modePanel.includes('Rensa demo'), 'Lägespanel saknar rensa-demo');
+assert(modePanel.includes('många uppgifter') || modePanel.includes('openTaskCount: 8'), 'Studio saknar overload-demo');
+assert(modePanel.includes('barnvecka') || modePanel.includes('isBarnvecka: true'), 'Studio saknar barnvecka-demo');
 
 const androidViews = mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetViews.java');
 assert(androidViews.includes('substring') || androidViews.includes('40'), 'Android chip måste trunkera last_action');
@@ -468,6 +495,50 @@ assert(androidViews.includes('bindClick') || androidViews.includes('widget_icon'
 
 const androidLaunch = mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetLaunch.java');
 assert(androidLaunch.includes('setData') || androidLaunch.includes('livskompassen://'), 'WidgetLaunch måste ha unik data-URI per path');
+
+// WIS — Interactive Companion (broadcast / overlay / no primary MainActivity deep-link)
+mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetInteract.java');
+mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetActionReceiver.java');
+mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetOverlayActivity.java');
+mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetCaptureService.java');
+mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetCaptureStore.java');
+mustExist('android/app/src/main/res/layout/activity_widget_overlay.xml');
+assert(
+  mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetCaptureStore.java')
+    .includes('EncryptedFile') &&
+    mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetCaptureStore.java')
+      .includes('downloadToDownloads'),
+  'WidgetCaptureStore måste kryptera + tillåta Downloads-export',
+);
+mustExist('.cursor/skills/livskompassen-companion-widget-interact/SKILL.md');
+mustExist('.cursor/agents/specialist-widget-interact-capture.md');
+mustExist('.cursor/agents/specialist-widget-interact-input.md');
+mustExist('.cursor/agents/specialist-widget-interact-actions.md');
+mustExist('.cursor/agents/specialist-widget-visual-parity.md');
+mustExist('.cursor/agents/specialist-widget-sync-bridge.md');
+const wisViews = mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetViews.java');
+assert(wisViews.includes('WidgetInteract.overlayPendingIntent'), 'Capture/Note måste använda overlay');
+assert(wisViews.includes('WidgetInteract.broadcastPendingIntent'), 'Tasks/Harbor måste använda broadcast');
+assert(wisViews.includes('MODE_CAPTURE') && wisViews.includes('MODE_NOTE'), 'WIS modes saknas i WidgetViews');
+assert(wisViews.includes('ACT_TASK_TOGGLE'), 'Tasks måste ha in-place toggle');
+assert(wisViews.includes('WidgetCaptureService'), 'Capture måste använda bakgrundsservice');
+const wisManifest = mustExist('android/app/src/main/AndroidManifest.xml');
+assert(wisManifest.includes('WidgetOverlayActivity'), 'Manifest saknar WidgetOverlayActivity');
+assert(wisManifest.includes('WidgetActionReceiver'), 'Manifest saknar WidgetActionReceiver');
+assert(wisManifest.includes('WidgetCaptureService'), 'Manifest saknar WidgetCaptureService');
+assert(
+  wisManifest.includes('FOREGROUND_SERVICE_MICROPHONE') ||
+    wisManifest.includes('foregroundServiceType="microphone"'),
+  'Manifest saknar microphone FGS',
+);
+const wisBible = mustExist('widget_bible.md');
+assert(wisBible.includes('Android Interactivity Contract'), 'widget_bible saknar kap. 7 Interactivity Contract');
+const wisBridge = mustExist('src/widgets/core/companionWidgetBridge.ts');
+assert(wisBridge.includes('pullNativeWidgetQueues'), 'Bridge måste pulla native WIS-kö');
+assert(wisBridge.includes('getWidgetData'), 'Bridge måste referera getWidgetData');
+const wisSync = mustExist('src/widgets/core/WidgetSync.ts');
+assert(wisSync.includes('ingestNativeWidgetQueues') || wisSync.includes('pullNativeWidgetQueues'), 'WidgetSync måste ingest native queues');
+mustExist('docs/evaluations/2026-07-22-unlock-MOD-WIDGET-companion-interact.md');
 
 const surfaceAutostart = mustExist('src/modules/features/widgets/pages/WidgetCompanionSurfacePage.tsx');
 assert(surfaceAutostart.includes('autostart={autostart'), 'Capture-surface måste skicka autostart till QuickCapture');
@@ -555,6 +626,19 @@ assert(surfaceAuto.includes('autostart={') || surfaceAuto.includes('autostart=')
 assert(surfaceAuto.includes('autoVoice') && surfaceAuto.includes('autoPhoto'), 'Surface måste skicka note voice/photo');
 
 assert(androidViews.includes('companionCapture') && androidViews.includes('companionNote'), 'WidgetViews saknar rich companion helpers');
+assert(androidViews.includes('companionCompass') && androidViews.includes('companionBeacon'), 'WidgetViews saknar Compass/Beacon rich helpers');
+assert(
+  androidViews.includes('companionInbox') &&
+    androidViews.includes('companionTasks') &&
+    androidViews.includes('companionJournal'),
+  'WidgetViews saknar Inbox/Tasks/Journal rich helpers',
+);
+assert(
+  androidViews.includes('companionHarbor') &&
+    androidViews.includes('companionAnchor') &&
+    androidViews.includes('companionChild'),
+  'WidgetViews saknar Harbor/Anchor/Child rich helpers',
+);
 assert(captureProvider.includes('companionCapture'), 'Capture provider måste använda rich layout');
 
 const noteProvider = mustExist(
@@ -562,8 +646,121 @@ const noteProvider = mustExist(
 );
 assert(noteProvider.includes('companionNote'), 'Note provider måste använda rich layout');
 
-mustExist('android/app/src/main/res/layout/widget_companion_capture.xml');
-mustExist('android/app/src/main/res/layout/widget_companion_note.xml');
-mustExist('docs/design/COMPANION-ANDROID-RICH-WIDGETS.md');
+const compassProvider = mustExist(
+  'android/app/src/main/java/com/livskompassen/app/widgets/CompanionCompassWidgetProvider.java',
+);
+assert(compassProvider.includes('companionCompass'), 'Compass provider måste använda rich layout (ej chip)');
+assert(!compassProvider.includes('WidgetViews.chip('), 'Compass får inte använda chip()');
 
-console.log('[smoke:companion-widgets] PASS — live rail + studio preview + barnfokus/planering');
+const beaconProvider = mustExist(
+  'android/app/src/main/java/com/livskompassen/app/widgets/CompanionBeaconWidgetProvider.java',
+);
+assert(beaconProvider.includes('companionBeacon'), 'Beacon provider måste använda rich layout (ej chip)');
+assert(!beaconProvider.includes('WidgetViews.chip('), 'Beacon får inte använda chip()');
+
+const captureLayout = mustExist('android/app/src/main/res/layout/widget_companion_capture.xml');
+assert(captureLayout.includes('widget_waveform_ethereal'), 'Capture saknar ethereal waveform');
+assert(captureLayout.includes('widget_bg_gold_ring') || captureLayout.includes('gold_ring'), 'Capture saknar guldring');
+assert(captureLayout.includes('widget_companion_capture_trust') || captureLayout.includes('trust'), 'Capture saknar trust-rad');
+assert(captureLayout.includes('56dp') || captureLayout.includes('64dp'), 'Capture mic måste vara ≥56dp');
+
+mustExist('android/app/src/main/res/layout/widget_companion_note.xml');
+mustExist('android/app/src/main/res/layout/widget_companion_compass.xml');
+mustExist('android/app/src/main/res/layout/widget_companion_beacon.xml');
+mustExist('android/app/src/main/res/drawable/widget_waveform_ethereal.xml');
+mustExist('android/app/src/main/res/drawable/widget_compass_disc.xml');
+mustExist('android/app/src/main/res/values/colors.xml');
+
+const captureInfo = mustExist('android/app/src/main/res/xml/widget_companion_capture_info.xml');
+assert(captureInfo.includes('widget_companion_capture'), 'Capture info måste previewa rich layout');
+assert(captureInfo.includes('250dp'), 'Capture info minWidth/Height måste vara Small 250×110');
+
+const noteInfo = mustExist('android/app/src/main/res/xml/widget_companion_note_info.xml');
+assert(noteInfo.includes('widget_companion_note') && noteInfo.includes('250dp'), 'Note info måste vara rich 250×110');
+
+const compassInfo = mustExist('android/app/src/main/res/xml/widget_companion_compass_info.xml');
+assert(compassInfo.includes('widget_companion_compass'), 'Compass info måste previewa rich layout');
+assert(compassInfo.includes('250dp'), 'Compass info måste vara Large 250×250');
+
+const beaconInfo = mustExist('android/app/src/main/res/xml/widget_companion_beacon_info.xml');
+assert(beaconInfo.includes('widget_companion_beacon') && beaconInfo.includes('180dp'), 'Beacon info måste vara Medium 250×180');
+
+const colors = mustExist('android/app/src/main/res/values/colors.xml');
+assert(colors.includes('widget_ethereal') || colors.toLowerCase().includes('7ba3c9'), 'Android saknar ethereal color');
+assert(colors.includes('D4AF37') || colors.includes('d4af37'), 'Android widget_gold ska vara premium #d4af37');
+
+const compassTsx = mustExist('src/widgets/pack/CompassWidget.tsx');
+assert(!compassTsx.includes('boxShadow: WidgetMaterial.glassLip'), 'Compass hero får inte overridea bloom med glassLip');
+
+const cwCss = mustExist('src/widgets/companion-widgets.css');
+assert(cwCss.includes('var(--cw-bloom') || cwCss.includes('--cw-bloom'), 'Studio Gold CSS måste använda --cw-bloom');
+
+assert(studioPage.includes('maxBtn') && studioPage.includes('atCap'), 'Studio måste begränsa genvägar (guided max)');
+assert(studioPage.includes('cw-signature') || studioPage.includes('lugn, fokus'), 'Studio måste ha Kap 6-signatur');
+
+const richDoc = mustExist('docs/design/COMPANION-ANDROID-RICH-WIDGETS.md');
+assert(richDoc.includes('G85') || richDoc.includes('Motorola'), 'Rich-doc måste ha G85 pin-copy');
+assert(richDoc.includes('autostart'), 'Rich-doc måste nämna autostart');
+
+assert(install.includes('G85') || install.includes('Motorola'), 'Inställningar måste ha G85 pin-copy');
+
+const inboxProvider = mustExist(
+  'android/app/src/main/java/com/livskompassen/app/widgets/CompanionInboxWidgetProvider.java',
+);
+assert(inboxProvider.includes('companionInbox'), 'Inbox provider måste använda rich layout');
+assert(!inboxProvider.includes('WidgetViews.chip('), 'Inbox får inte använda chip()');
+
+const tasksProvider = mustExist(
+  'android/app/src/main/java/com/livskompassen/app/widgets/CompanionTasksWidgetProvider.java',
+);
+assert(tasksProvider.includes('companionTasks'), 'Tasks provider måste använda rich layout');
+
+const journalProvider = mustExist(
+  'android/app/src/main/java/com/livskompassen/app/widgets/CompanionJournalWidgetProvider.java',
+);
+assert(journalProvider.includes('companionJournal'), 'Journal provider måste använda rich layout');
+
+const inboxLayout = mustExist('android/app/src/main/res/layout/widget_companion_inbox.xml');
+assert(inboxLayout.includes('widget_companion_inbox_text'), 'Inbox saknar Text-knapp');
+assert(inboxLayout.includes('widget_companion_inbox_voice'), 'Inbox saknar Röst-knapp');
+assert(inboxLayout.includes('56dp'), 'Inbox knappar måste vara ≥56dp');
+
+mustExist('android/app/src/main/res/layout/widget_companion_tasks.xml');
+mustExist('android/app/src/main/res/layout/widget_companion_journal.xml');
+
+const inboxInfoXml = mustExist('android/app/src/main/res/xml/widget_companion_inbox_info.xml');
+assert(inboxInfoXml.includes('widget_companion_inbox') && inboxInfoXml.includes('250dp'), 'Inbox info måste vara Small 250×110');
+
+const surfaceInbox = mustExist('src/modules/features/widgets/pages/WidgetCompanionSurfacePage.tsx');
+assert(surfaceInbox.includes('autoText') && surfaceInbox.includes('autoLink'), 'Surface måste skicka inbox text/link');
+assert(surfaceInbox.includes('autoWrite'), 'Surface måste skicka journal write');
+
+const inboxTsx = mustExist('src/widgets/pack/InboxWidget.tsx');
+assert(inboxTsx.includes('autoVoice') && inboxTsx.includes('autoPhoto'), 'Inbox måste stödja voice/photo deep-links');
+
+const journalTsx = mustExist('src/widgets/pack/JournalWidget.tsx');
+assert(journalTsx.includes('autoWrite'), 'Journal måste stödja write deep-link');
+
+const harborProvider = mustExist(
+  'android/app/src/main/java/com/livskompassen/app/widgets/CompanionHarborWidgetProvider.java',
+);
+assert(harborProvider.includes('companionHarbor') && !harborProvider.includes('WidgetViews.chip('), 'Harbor måste vara rich');
+
+const anchorProvider = mustExist(
+  'android/app/src/main/java/com/livskompassen/app/widgets/CompanionAnchorWidgetProvider.java',
+);
+assert(anchorProvider.includes('companionAnchor'), 'Anchor måste vara rich');
+
+const childProvider = mustExist(
+  'android/app/src/main/java/com/livskompassen/app/widgets/CompanionChildWidgetProvider.java',
+);
+assert(childProvider.includes('companionChild'), 'Child måste vara rich');
+
+mustExist('android/app/src/main/res/layout/widget_companion_harbor.xml');
+mustExist('android/app/src/main/res/layout/widget_companion_anchor.xml');
+mustExist('android/app/src/main/res/layout/widget_companion_child.xml');
+
+const childInfoXml = mustExist('android/app/src/main/res/xml/widget_companion_child_info.xml');
+assert(childInfoXml.includes('180dp'), 'Child info måste vara Medium 250×180');
+
+console.log('[smoke:companion-widgets] PASS — live rail + studio preview + Våg1–5 rich + Smart/AI');

@@ -59,7 +59,7 @@ export function MabraRecoveryBanner() {
           </p>
           <p className="font-display text-base leading-snug text-text sm:text-lg text-wrap-pretty">{quote}</p>
           {counter.startDateKey ? (
-            <p className="text-[11px] text-text-dim">Sedan {counter.startDateKey}</p>
+            <p className="text-[11px] text-text-muted">Sedan {counter.startDateKey}</p>
           ) : null}
         </div>
 

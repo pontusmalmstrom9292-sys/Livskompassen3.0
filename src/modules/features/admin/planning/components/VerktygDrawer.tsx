@@ -58,7 +58,7 @@ function PlaneringExtraTools({ activeTab }: { activeTab?: PlaneringTab }) {
           aria-current={activeTab === tool.id ? 'page' : undefined}
         >
           <span className="text-sm text-text">{tool.label}</span>
-          <span className="mt-0.5 block text-xs text-text-dim">{tool.lead}</span>
+          <span className="mt-0.5 block text-xs text-text-muted">{tool.lead}</span>
         </Link>
       ))}
 

@@ -104,7 +104,7 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
             <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden />
             <div className="min-w-0 flex-1">
               <p className="text-text-muted leading-relaxed">{r.text}</p>
-              <span className="mt-1 inline-block text-[9px] uppercase tracking-wider text-text-dim">
+              <span className="mt-1 inline-block text-[9px] uppercase tracking-wider text-text-muted">
                 {r.category === 'trygghet'
                   ? 'Emotionell trygghet'
                   : r.category === 'granser'
@@ -115,7 +115,7 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
             <button
               type="button"
               onClick={() => setRules((prev) => prev.filter((x) => x.id !== r.id))}
-              className="text-xs text-text-dim hover:text-danger bg-transparent border-0 cursor-pointer"
+              className="text-xs text-text-muted hover:text-danger bg-transparent border-0 cursor-pointer"
               title="Ta bort regel"
             >
               ×
@@ -125,7 +125,7 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
       </div>
 
       <form onSubmit={handleAddRule} className="space-y-2 border-t border-border-strong/40 pt-4">
-        <p className="text-[10px] uppercase tracking-widest text-text-dim">Lägg till struktur</p>
+        <p className="text-[10px] uppercase tracking-widest text-text-muted">Lägg till struktur</p>
         <Input
           value={newRule}
           onChange={(e) => setNewRule(e.target.value)}
@@ -149,10 +149,10 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
       </form>
 
       <div className="mt-4 border-t border-border-strong/40 pt-4 space-y-2">
-        <p className="text-[10px] uppercase tracking-widest text-text-dim">
+        <p className="text-[10px] uppercase tracking-widest text-text-muted">
           Logga hur strukturen fungerar (Observation)
         </p>
-        <p className="text-xs text-text-dim leading-snug">
+        <p className="text-xs text-text-muted leading-snug">
           Notera hur {childAlias} reagerar på era rutiner. Spara t.ex. om barnet slappnar av, sover
           bättre eller uttrycker oro efter överlämning.
         </p>

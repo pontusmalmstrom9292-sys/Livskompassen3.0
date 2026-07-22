@@ -21,4 +21,5 @@ ext {
     androidxJunitVersion = '1.2.1'
     androidxEspressoCoreVersion = '3.6.1'
     cordovaAndroidVersion = '14.0.1'
+    kotlinVersion = '2.4.10'
 }

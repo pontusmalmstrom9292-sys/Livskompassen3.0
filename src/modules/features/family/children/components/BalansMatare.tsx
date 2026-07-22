@@ -17,13 +17,13 @@ export function BalansMatare({ result }: Props) {
         />
       </div>
       <div className="flex justify-between text-xs">
-        <span className="text-text-dim tabular-nums">
+        <span className="text-text-muted tabular-nums">
           {result.daysWithData} / {7} dagar med data
         </span>
         <span className="tabular-nums text-accent">{result.index}/100</span>
       </div>
       <p className="text-sm text-text-muted">{result.label}</p>
-      <p className="text-[10px] italic text-text-dim">
+      <p className="text-[10px] italic text-text-muted">
         Neutral aggregering för Den trygga hamnen — inte en dom.
       </p>
     </div>

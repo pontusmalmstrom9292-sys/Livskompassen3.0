@@ -211,7 +211,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
             <button
               type="button"
               onClick={() => setIsEditing(true)}
-              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-text-dim transition-colors hover:text-accent"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-text-muted transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50 motion-reduce:transition-none"
               aria-label="Redigera dagens ankare"
             >
               <Edit2 className="h-3.5 w-3.5" aria-hidden />
@@ -237,14 +237,14 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
 
       {isEditing ? (
         <div className="relative z-[1] mt-4 space-y-3">
-          <label htmlFor="home-layout-a-anchor" className="text-[10px] font-medium text-text-dim">
+          <label htmlFor="home-layout-a-anchor" className="text-[10px] font-medium text-text-muted">
             Dagens ankare
           </label>
           <textarea
             id="home-layout-a-anchor"
             className={clsx(
               insetClass,
-              'font-sans text-sm transition-all focus:border-accent/40 focus:outline-none focus:ring-1 focus:ring-accent/20',
+              'font-sans text-sm transition-colors focus:outline-none focus-visible:border-accent/40 focus-visible:ring-1 focus-visible:ring-accent/20 motion-reduce:transition-none',
             )}
             rows={3}
             placeholder="T.ex. lugnt samtal med barnen efter skolan …"
@@ -276,7 +276,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
       ) : (
         <button
           type="button"
-          className="relative z-[1] mt-4 w-full animate-fade-in text-left"
+          className="relative z-[1] mt-4 min-h-11 w-full animate-fade-in text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
           onClick={() => setIsEditing(true)}
         >
           <p

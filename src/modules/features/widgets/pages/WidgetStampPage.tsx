@@ -79,14 +79,14 @@ function WidgetStampInner() {
             <p className="text-sm font-medium text-text">
               {isClockedIn ? `Instämplad ${status.inTid || '—'}` : 'Inte instämplad'}
             </p>
-            <p className="text-xs text-text-dim">
+            <p className="text-xs text-text-muted">
               {status.dagensTimmar} h idag · {flexLeft} h flex kvar
             </p>
           </div>
         </div>
 
         {loading || (busy && (action === 'in' || action === 'out')) ? (
-          <p className="flex items-center justify-center gap-2 py-6 text-sm text-text-dim">
+          <p className="flex items-center justify-center gap-2 py-6 text-sm text-text-muted">
             <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
             Laddar…
           </p>

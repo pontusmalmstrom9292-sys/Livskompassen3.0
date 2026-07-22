@@ -77,7 +77,7 @@ export function FamiljenKunskapHubTab({ activeChild }: Props) {
         {childCitations.length > 0 && (
           <ul className="mt-3 space-y-2">
             {childCitations.map((c, i) => (
-              <li key={i} className="text-xs text-text-dim">
+              <li key={i} className="text-xs text-text-muted">
                 Barnlogg · {c.date} · {c.excerpt.slice(0, 80)}…
               </li>
             ))}
@@ -87,7 +87,7 @@ export function FamiljenKunskapHubTab({ activeChild }: Props) {
 
       <div className="flex items-start gap-2 rounded-2xl border border-gold/20 bg-gold/5 p-3">
         <Shield className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
-        <p className="text-xs text-text-dim">
+        <p className="text-xs text-text-muted">
           Barnloggar hålls i sin egen silo (Barnen). För anteckningar, använd Kunskapsvalvet, och för arkivbevis, använd{' '}
           <Link to="/valvet" className="text-accent hover:underline">
             Valv → Sök

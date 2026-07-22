@@ -70,7 +70,7 @@ export function FamiljenLivsloggTab({ shell }: Props) {
 
       <ChildrenLogsChat activeChild={activeChild as ChildAlias} />
 
-      <p className="text-center text-xs text-text-dim">
+      <p className="text-center text-xs text-text-muted">
         Bevis till Valv sker manuellt per stund —{' '}
         <Link to="/valvet?vaultTab=logga" className="hover:text-accent">
           öppna Valv

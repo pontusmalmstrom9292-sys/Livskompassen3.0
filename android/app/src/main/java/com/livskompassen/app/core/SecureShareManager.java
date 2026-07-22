@@ -156,6 +156,42 @@ public class SecureShareManager {
         }
     }
 
+    /**
+     * Shares an existing file via the system share sheet.
+     */
+    public void shareFile(File file, String displayName, String mimeType) {
+        try {
+            if (file == null || !file.exists()) {
+                LCLog.e("SecureShareManager: shareFile called with null or non-existent file");
+                return;
+            }
+
+            // We use FileProvider to share files from app's internal or cache dirs
+            Uri contentUri = FileProvider.getUriForFile(
+                    context,
+                    context.getPackageName() + ".fileprovider",
+                    file);
+
+            String type = (mimeType != null && !mimeType.trim().isEmpty())
+                    ? mimeType.trim()
+                    : "application/octet-stream";
+
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType(type);
+            intent.putExtra(Intent.EXTRA_STREAM, contentUri);
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            Intent chooser = Intent.createChooser(intent, "Exportera " + displayName);
+            chooser.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(chooser);
+
+            LCLog.d("SecureShareManager: File shared successfully (" + file.getName() + ").");
+        } catch (Exception e) {
+            LCLog.e("SecureShareManager: Failed to share file: " + e.getMessage());
+            Toast.makeText(context, "Kunde inte exportera filen.", Toast.LENGTH_LONG).show();
+        }
+    }
+
     private static String sanitizeFileName(String fileName, String fallback) {
         if (fileName == null || fileName.trim().isEmpty()) {
             return fallback;

@@ -1111,12 +1111,14 @@
 }
 
 .cw-compass-disc--hero {
+  /* Gold bloom via token — do not override with glassLip alone (Kap 6 Studio Gold) */
   box-shadow:
+    var(--cw-bloom, 0 0 36px rgba(2, 6, 23, 0.78), 0 0 28px rgba(212, 175, 55, 0.12)),
     0 0 0 2px color-mix(in srgb, var(--cw-gold, #d4af37) 70%, transparent),
     0 0 0 8px color-mix(in srgb, var(--cw-ethereal, #7ba3c9) 22%, transparent),
     0 0 36px color-mix(in srgb, var(--cw-ethereal, #7ba3c9) 28%, transparent),
     0 0 28px color-mix(in srgb, var(--cw-gold, #d4af37) 18%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--cw-gold-light, #fde68a) 18%, transparent),
+    var(--cw-lip, inset 0 1px 0 rgba(212, 175, 55, 0.2)),
     inset 0 -10px 22px rgba(0, 0, 0, 0.45);
 }
 
@@ -1428,6 +1430,16 @@
 
 .cw-home-rail {
   --cw-rail-bloom: 0 0 28px color-mix(in srgb, var(--cw-gold, #d4af37) 10%, transparent);
+  transition: opacity 0.55s ease, filter 0.55s ease;
+}
+
+.cw-home-rail--dim {
+  opacity: 0.88;
+  filter: saturate(0.92);
+}
+
+.cw-home-rail--pause .cw-home-rail__banner {
+  color: color-mix(in srgb, var(--cw-ethereal, #7ba3c9) 70%, var(--cw-muted, #94a3b8));
 }
 
 .cw-home-rail--elevated {

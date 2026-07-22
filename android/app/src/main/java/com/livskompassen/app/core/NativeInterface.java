@@ -76,6 +76,22 @@ public class NativeInterface {
     }
 
     /**
+     * Exporterar den krypterade diagnostikloggen via systemets share-sheet.
+     */
+    @JavascriptInterface
+    public void shareDiagnosticLog() {
+        DiagnosticManager diag = DiagnosticManager.getInstance();
+        if (diag != null) {
+            java.io.File logFile = diag.getLogFile();
+            if (logFile.exists()) {
+                shareManager.shareFile(logFile, "diagnostic_log.txt", "text/plain");
+            } else {
+                LCLog.w("shareDiagnosticLog: Log file does not exist.");
+            }
+        }
+    }
+
+    /**
      * Share a Base64 payload (PDF etc.) via the system share sheet.
      * Used by dossier export on Android WebView where window.open fails.
      */
@@ -183,7 +199,31 @@ public class NativeInterface {
 
     @JavascriptInterface
     public void setWidgetData(String key, String value) {
-        WidgetUpdateManager.updateWidgetContent(hapticManager.getContext(), key, value);
+        android.content.Context ctx = hapticManager.getContext();
+        // WIS queue/draft keys live unprefixed in SecurePrefs (overlay/receiver).
+        if (key != null && key.startsWith("widget_")) {
+            com.livskompassen.app.util.SecurePrefs.get(ctx)
+                .edit()
+                .putString(key, value == null ? "" : value)
+                .apply();
+            return;
+        }
+        WidgetUpdateManager.updateWidgetContent(ctx, key, value);
+    }
+
+    /**
+     * Read widget queue/draft keys (widget_*) or dynamic last_action_* for background sync.
+     * Additive WIS bridge — does not open UI.
+     */
+    @JavascriptInterface
+    public String getWidgetData(String key) {
+        if (key == null || key.isEmpty()) return "";
+        android.content.Context ctx = hapticManager.getContext();
+        if (key.startsWith("widget_")) {
+            return com.livskompassen.app.util.SecurePrefs.get(ctx).getString(key, "");
+        }
+        String scoped = WidgetUpdateManager.getWidgetContent(ctx, key);
+        return scoped == null ? "" : scoped;
     }
 
     @JavascriptInterface
@@ -194,6 +234,16 @@ public class NativeInterface {
     @JavascriptInterface
     public void indexShortcut(String id, String label, String path) {
         searchManager.indexGenvag(id, label, path);
+    }
+
+    @JavascriptInterface
+    public void searchShortcuts(String query) {
+        searchManager.queryGenvagar(query, results -> {
+            // Här kan vi skicka tillbaka resultaten till WebView via ett JS-anrop
+            // För enkelhets skull loggar vi dem just nu, 
+            // men i en fullständig impl. skulle vi köra webView.evaluateJavascript(...)
+            LCLog.d("NativeInterface: Search for '%s' found %d results", query, results.size());
+        });
     }
 
     @JavascriptInterface

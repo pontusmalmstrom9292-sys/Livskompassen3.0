@@ -48,7 +48,7 @@ export function KnowledgeCitationList({ citations, onCitationClick, activeCitati
             <span className="block text-xs font-medium text-text">
               {c.title} · {c.date}
             </span>
-            <span className="mt-1 block text-[10px] uppercase tracking-wider text-text-dim">
+            <span className="mt-1 block text-[10px] uppercase tracking-wider text-text-muted">
               {COLLECTION_LABEL[c.collection]} · {c.docId.slice(0, 8)}…
               {clickable ? actionHint : ''}
             </span>

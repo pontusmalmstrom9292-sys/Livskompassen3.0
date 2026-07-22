@@ -536,7 +536,14 @@
         "src/modules/features/widgets/pages/WidgetCompanionSurfacePage.tsx",
         "src/modules/core/ui/widget-icons/FyrenShortcutMicIcon.tsx",
         "src/modules/features/widgets/pages/WidgetRecordPage.tsx",
-        "src/modules/features/widgets/pages/WidgetModulerPage.tsx"
+        "src/modules/features/widgets/pages/WidgetModulerPage.tsx",
+        "android/app/src/main/java/com/livskompassen/app/widgets/WidgetInteract.java",
+        "android/app/src/main/java/com/livskompassen/app/widgets/WidgetActionReceiver.java",
+        "android/app/src/main/java/com/livskompassen/app/widgets/WidgetOverlayActivity.java",
+        "android/app/src/main/java/com/livskompassen/app/widgets/WidgetCaptureService.java",
+        "android/app/src/main/java/com/livskompassen/app/widgets/WidgetCaptureStore.java",
+        "widget_bible.md",
+        ".cursor/skills/livskompassen-companion-widget-interact/SKILL.md"
       ],
       "smoke": [
         "smoke:companion-widgets",
@@ -547,7 +554,7 @@
       "snapshotKey": null,
       "lockedAt": "2026-07-21",
       "lockedCommit": "a4e3a0ef3",
-      "notes": "Companion OS Locked UX §23 — borttagning kräver unlock-doc + Pontus OK. Byggvåg: docs/evaluations/2026-07-21-unlock-MOD-WIDGET-companion-os.md"
+      "notes": "Companion OS Locked UX §23 + WIS interact 2026-07-22 — borttagning kräver unlock-doc + Pontus OK. INTERACTIVE FIRST. Unlock-historik: 2026-07-21-companion-os · 2026-07-22-companion-interact"
     },
     {
       "id": "MOD-CORE-MINNE",

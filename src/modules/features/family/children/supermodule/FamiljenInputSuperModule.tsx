@@ -42,7 +42,7 @@ const FamiljenIncidentDelegate = lazy(() =>
 );
 
 function FamiljenDelegateFallback() {
-  return <p className="py-4 text-center text-xs text-text-dim">Laddar…</p>;
+  return <p className="py-4 text-center text-xs text-text-muted">Laddar…</p>;
 }
 
 export type FamiljenInputSuperModuleProps = {
@@ -112,7 +112,7 @@ export function FamiljenInputSuperModule({
             <h2 className="font-display-serif text-sm uppercase tracking-[0.18em] text-text sm:text-base">
               {activeMeta.label}
             </h2>
-            <p className="text-xs text-text-dim">{activeMeta.description}</p>
+            <p className="text-xs text-text-muted">{activeMeta.description}</p>
           </header>
           <ModuleHelpFromRegistry moduleId="familjen" mode={activeMode} />
         </div>

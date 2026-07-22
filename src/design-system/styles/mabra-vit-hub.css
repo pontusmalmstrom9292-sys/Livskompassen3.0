@@ -121,7 +121,7 @@
   }
 
   .mabra-vit-hub__zone-meta {
-    @apply text-[10px] font-medium uppercase tracking-wider text-text-dim;
+    @apply text-[10px] font-medium uppercase tracking-wider text-text-muted;
   }
 
   .mabra-vit-hub__zone-chevron {
@@ -207,8 +207,8 @@
   }
 
   .mabra-vit-hub__tile-lead {
-    @apply relative z-[1] line-clamp-2 text-[9px] leading-snug text-text-dim;
-    color: color-mix(in srgb, var(--text-dim) 86%, var(--text-muted));
+    @apply relative z-[1] line-clamp-2 text-[9px] leading-snug text-text-muted;
+    color: color-mix(in srgb, var(--text-muted) 86%, var(--text));
   }
 
   .mabra-vit-hub__low-energy {

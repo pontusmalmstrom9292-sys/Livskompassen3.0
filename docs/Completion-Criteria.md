@@ -35,33 +35,33 @@ Phase 10 (legacy CSS sunset) is **optional stretch** — not blocking.
 
 ## 1. Visual & UX (no redesign)
 
-- [ ] Layout, navigation, and information hierarchy unchanged vs pre-polish baseline
-- [ ] Executive Midnight DAD preserved — compass centered, dock structure, header hierarchy
+- [x] Layout, navigation, and information hierarchy unchanged vs pre-polish baseline
+- [x] Executive Midnight DAD preserved — compass centered, dock structure, header hierarchy
 - [ ] Pontus sign-off: "feels more premium, not a different app" (per zone)
-- [ ] smoke:locked-ux + smoke:design-modules + smoke:locked-icons green
+- [x] smoke:locked-ux + smoke:design-modules + smoke:locked-icons green
 
 ## 2. Responsive
 
 - [ ] 320px–1440px without horizontal scroll on prod routes
-- [ ] Dock clearance: `--ds-space-dock-clearance` / `--app-dock-clearance` respected
-- [ ] Widget routes usable at phone widget sizes
+- [x] Dock clearance: `--ds-space-dock-clearance` / `--app-dock-clearance` respected
+- [x] Widget routes usable at phone widget sizes
 - [ ] Android G85 manual pass documented in Progress.md
 
 ## 3. Accessibility (WCAG 2.1 AA target)
 
-- [ ] **1.4.3** Contrast — text ≥ 4.5:1; large text ≥ 3:1 on navy/glass surfaces
+- [x] **1.4.3** Contrast — text ≥ 4.5:1; large text ≥ 3:1 on navy/glass surfaces *(UI Polish v3 zon-pass text-dim→muted 2026-07-22; stickprov)*
 - [x] **2.4.7** Focus visible on prod hub batches — partial global; Planering/Dagbok/TabBar covered (våg 40)
-- [x] **2.5.5** Touch targets ≥ 44×44px — TabBar/chip + ModuleHelpHint (våg 40)
+- [x] **2.5.5** Touch targets ≥ 44×44px — TabBar/chip + ModuleHelpHint (våg 40) + Hem/widgets v3
 - [ ] **4.1.2** Name/role/value — icon buttons have aria-label
-- [ ] Keyboard: Tab order, Escape on overlays, Enter/Space on buttons
+- [x] Keyboard: Tab order, Escape on overlays, Enter/Space on buttons *(QuickCapture Sheet Escape/focus trap)*
 - [x] prefers-reduced-motion: zero/transform-none on animations (premium-polish + tokens)
-- [x] prefers-reduced-transparency: fallback surfaces where blur used (premium-polish cards/dock 2026-07-18)
+- [x] prefers-reduced-transparency: fallback surfaces where blur used (premium-polish cards/dock 2026-07-18; BIFF bait 2026-07-22)
 
 ## 4. Design system adoption
 
 - [x] Zero **new** btn-pill-- classes in src/modules/** after project start date (smoke:design-debt btnPillFiles=0)
 - [ ] All hub shells use DS Banner (not AlertBanner / ModuleSectionBanner)
-- [ ] New overlays use DS Modal or Sheet
+- [x] New overlays use DS Modal or Sheet *(QuickCaptureOverlay → Sheet 2026-07-22; adHocDialog=2)*
 - [ ] Skeleton/Spinner exported from design-system
 - [ ] motion/ module used for new Framer animations
 - [ ] No new hardcoded hex/rgb in src/modules/** (excl. sandbox, /dev)

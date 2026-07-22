@@ -56,20 +56,20 @@ export function ChildMomentOmPanel({ shell }: Props) {
           <button
             type="button"
             onClick={() => downloadBalansReportJson(exportBalansReport(activeChild, logs))}
-            className="text-xs uppercase tracking-widest text-text-dim hover:text-accent"
+            className="text-xs uppercase tracking-widest text-text-muted hover:text-accent"
           >
             Exportera rapport (JSON)
           </button>
           <button
             type="button"
             onClick={() => printBalansReport(exportBalansReport(activeChild, logs))}
-            className="text-xs uppercase tracking-widest text-text-dim hover:text-accent"
+            className="text-xs uppercase tracking-widest text-text-muted hover:text-accent"
           >
             Skriv ut / PDF
           </button>
           <Link
             to={`/dossier?sources=children_logs&child=${encodeURIComponent(activeChild)}`}
-            className="text-xs uppercase tracking-widest text-text-dim hover:text-accent"
+            className="text-xs uppercase tracking-widest text-text-muted hover:text-accent"
           >
             Dossier
           </Link>

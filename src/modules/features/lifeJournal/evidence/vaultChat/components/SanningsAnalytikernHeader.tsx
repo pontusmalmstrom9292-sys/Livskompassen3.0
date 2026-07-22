@@ -12,7 +12,7 @@ export function SanningsAnalytikernHeader() {
           Sannings-Analytikern
         </p>
         <h2 className="font-display text-lg text-text">Sök i Valvet</h2>
-        <p className="mt-1 text-xs text-text-dim">
+        <p className="mt-1 text-xs text-text-muted">
           Klinisk bevisföring mot gaslighting — teori utan WORM-stöd markeras tydligt.
         </p>
       </div>

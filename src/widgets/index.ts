@@ -88,6 +88,12 @@ export type { CompanionAndroidScope } from './core/companionWidgetBridge';
 export { pushCompanionWidgetStatus, flushCompanionWidgetStatus } from './core/companionWidgetBridge';
 export { finishCompanionCapture } from './core/finishCompanionCapture';
 export { formatBarnfokusCaptureText } from './core/companionBarnText';
+export {
+  FacetedCompassRose,
+  LighthouseArtwork,
+  LotusEmblem,
+  Anchor3DEmblem,
+} from './art';
 export { registerCorePack, CORE_PACK_DEFINITIONS } from './pack/registerCorePack';
 export { CompanionWidgetLabPage } from './pack/CompanionWidgetLabPage';
 export { CompanionHomeRail } from './pack/CompanionHomeRail';

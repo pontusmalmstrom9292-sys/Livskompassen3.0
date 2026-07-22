@@ -61,7 +61,7 @@ export function PlaneringFokusPanel() {
           {focusTask.microStep && <p className="text-xs text-text-muted">Uppgift: {focusTask.title}</p>}
         </div>
         {focusTask.dueAt && (
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">Deadline {focusTask.dueAt}</p>
+          <p className="text-[10px] uppercase tracking-widest text-text-muted">Deadline {focusTask.dueAt}</p>
         )}
 
         <ParalysBreakerWidget taskTitle={focusTask.title} />

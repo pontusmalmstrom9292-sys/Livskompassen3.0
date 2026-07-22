@@ -1,7 +1,20 @@
 # DOC-INDEX — var hittar jag vad?
 
-**Senast uppdaterad:** 2026-07-17 (doc-städ säkerhetskanon)  
+**Senast uppdaterad:** 2026-07-22 (docs-kanon + Cursor-index)  
 **Regel:** Om två filer säger olika saker — **`docs/PROJECT_STATE.md` vinner** för fas; GAP-register vinner för GAP; `.context/security.md` vinner för säkerhet.
+
+---
+
+## 0. Cursor-index (läs detta)
+
+[`.cursorignore`](../.cursorignore) indexerar **aktiv kanon**, inte hela historikhögen.
+
+| Cursor läser | Cursor indexerar inte |
+|--------------|------------------------|
+| Rot (`widget_bible.md`, `AGENTS.md`, …), `.context/`, `docs/*.md`, `docs/governance/`, `docs/specs/`, `docs/design/`, `.cursor/` | `docs/archive/**`, kalla `docs/evaluations/*`, `exports/**`, bifoga-/repomix-speglar |
+
+Inventering: [`evaluations/2026-07-22-md-inventory.md`](evaluations/2026-07-22-md-inventory.md)  
+DELETE-förslag (väntar Pontus-OK): [`evaluations/2026-07-22-md-delete-proposal.md`](evaluations/2026-07-22-md-delete-proposal.md)
 
 ---
 
@@ -12,6 +25,7 @@
 | Systemfas + aktivt program | [`docs/PROJECT_STATE.md`](PROJECT_STATE.md) (**Fas 24** · Premium UI Phase 10) |
 | AI-workflow / DoD | [`docs/AI-GOVERNANCE.md`](AI-GOVERNANCE.md) |
 | Fas 24-syntes | [`docs/evaluations/2026-06-25-app-plan-syntes.md`](evaluations/2026-06-25-app-plan-syntes.md) |
+| Widgets | [`widget_bible.md`](../widget_bible.md) · `docs/design/*WIDGET*` |
 | Säkerhet (WORM, ZF, Device Clear) | [`.context/security.md`](../.context/security.md) |
 | GAP / arkiv | [`docs/specs/modules/Arkiv-GAP-REGISTER.md`](specs/modules/Arkiv-GAP-REGISTER.md) |
 | Låst UX (får inte tas bort) | [`.context/locked-ux-features.md`](../.context/locked-ux-features.md) |
@@ -44,7 +58,10 @@
 |------|------|
 | `docs/archive/` | Historik — läs för kontext, bygg inte härifrån |
 | `docs/archive/2026-07-17-doc-städ/` | Doc-städ: FAS13–23 sprintar + YOLO v17–v23 (stubbar kvar i `docs/`) |
-| `docs/archive/design-2026-06/` | Reserverad för design-flytt (icons-proposals m.m.) |
+| `docs/archive/evaluations-pre-2026-07/` | Evaluations före juli 2026 (flytt 2026-07-22) |
+| `docs/archive/evaluations-2026-07-session-logs/` | Juli YOLO-/security-/drift-sessionloggar |
+| `docs/archive/external-ai-imports-2026-06/` | Research-/gap-importer från external-ai |
+| `docs/archive/design-2026-06/` | Design-lab (icons, themes, planering-variants PNG) |
 | `exports/` | **Regenereras** — bifoga till ChatBox, redigera inte manuellt |
 | `docs/external-ai/bifoga/` | Speglad kopia för ChatBox upload — `npm run chatbot:sync:bifoga` |
 | `exports/google-ai-pro/notebooklm/` | NotebookLM kärna-pack — `npm run notebooklm:sync` |

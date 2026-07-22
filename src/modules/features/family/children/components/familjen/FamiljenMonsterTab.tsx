@@ -37,7 +37,7 @@ export function FamiljenMonsterTab({ shell }: Props) {
         icon={<BarChart3 className="h-4 w-4" />}
         className="!p-4"
       >
-        <p className="text-xs text-text-dim">
+        <p className="text-xs text-text-muted">
           För SMS, BIFF och juridisk frekvens: använd Valv → Mönster (Pansaret).
         </p>
         <Link
@@ -61,7 +61,7 @@ export function FamiljenMonsterTab({ shell }: Props) {
             ))}
           </ul>
         )}
-        <p className="mt-3 text-xs text-text-dim">Fysiologi-poster: {physioCount}</p>
+        <p className="mt-3 text-xs text-text-muted">Fysiologi-poster: {physioCount}</p>
       </BentoCard>
 
       <BentoCard title="Hela familjen" className="!p-4">
@@ -69,11 +69,11 @@ export function FamiljenMonsterTab({ shell }: Props) {
           {familyCats.map(([cat, n]) => (
             <li key={cat} className="flex justify-between text-sm">
               <span className="text-text-muted">{cat}</span>
-              <span className="font-mono text-text-dim">{n}</span>
+              <span className="font-mono text-text-muted">{n}</span>
             </li>
           ))}
         </ul>
-        <p className="mt-3 text-xs text-text-dim">
+        <p className="mt-3 text-xs text-text-muted">
           Per barn:{' '}
           {CHILD_ALIASES.map(
             (c) => `${c} ${logs.filter((l) => l.childAlias === c).length}`,

@@ -265,7 +265,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
               Spelar in…
             </p>
             {speech.interim ? (
-              <p className="mt-2 text-xs text-text-dim">Hör: {speech.interim}</p>
+              <p className="mt-2 text-xs text-text-muted">Hör: {speech.interim}</p>
             ) : null}
             <WidgetButton
               type="button"
@@ -281,7 +281,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
         )}
 
         {recPhase === 'processing' && (
-          <p className="flex items-center justify-center gap-2 py-4 text-sm text-text-dim">
+          <p className="flex items-center justify-center gap-2 py-4 text-sm text-text-muted">
             <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
             Transkriberar och låser i Valvet…
           </p>
@@ -307,7 +307,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
               className="input-glass neu-inset min-h-11 w-full resize-none rounded-xl px-3 py-2 text-sm"
               disabled={saving}
             />
-            <p className="text-right text-[10px] text-text-dim">
+            <p className="text-right text-[10px] text-text-muted">
               {text.length}/{REFLECTION_MAX_CHARS}
             </p>
             <WidgetActionGrid columns={2}>
@@ -378,22 +378,22 @@ function WorkStampCard({ userId }: Props) {
           }`}
         >
           <Clock
-            className={`h-5 w-5 shrink-0 ${isClockedIn ? 'text-success' : 'text-text-dim'}`}
+            className={`h-5 w-5 shrink-0 ${isClockedIn ? 'text-success' : 'text-text-muted'}`}
             strokeWidth={1.5}
             aria-hidden
           />
           <div>
-            <p className={`text-sm font-medium ${isClockedIn ? 'text-success' : 'text-text-dim'}`}>
+            <p className={`text-sm font-medium ${isClockedIn ? 'text-success' : 'text-text-muted'}`}>
               {isClockedIn
                 ? `Instämplad ${status.inTid || formatStampTime(new Date())}`
                 : 'Inte instämplad'}
             </p>
-            <p className="text-xs text-text-dim">{status.dagensTimmar} h idag</p>
+            <p className="text-xs text-text-muted">{status.dagensTimmar} h idag</p>
           </div>
         </div>
 
         {loading ? (
-          <p className="flex items-center justify-center gap-2 py-4 text-sm text-text-dim">
+          <p className="flex items-center justify-center gap-2 py-4 text-sm text-text-muted">
             <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
             Laddar…
           </p>
@@ -560,9 +560,9 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
           className="input-glass neu-inset w-full resize-none rounded-xl px-3 py-2 text-sm"
         />
         {speech.interim ? (
-          <p className="text-xs text-text-dim">Hör: {speech.interim}</p>
+          <p className="text-xs text-text-muted">Hör: {speech.interim}</p>
         ) : null}
-        <p className="text-right text-[10px] text-text-dim">
+        <p className="text-right text-[10px] text-text-muted">
           {observation.length}/{STUND_MAX_CHARS}
         </p>
 
@@ -634,7 +634,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
               />
               <div className="min-w-0 flex-1">
                 <p className="text-xs text-success">Foto bifogat</p>
-                <p className="truncate text-[10px] text-text-dim">{attachedPhoto.file.name}</p>
+                <p className="truncate text-[10px] text-text-muted">{attachedPhoto.file.name}</p>
               </div>
               <WidgetButton
                 type="button"

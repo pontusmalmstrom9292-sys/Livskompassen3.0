@@ -16,7 +16,7 @@ type Props = {
 };
 
 function riskTone(score: number | null): string {
-  if (score == null) return 'text-text-dim';
+  if (score == null) return 'text-text-muted';
   const normalized = score > 1 ? score / 100 : score;
   if (normalized >= 0.7) return 'text-danger';
   if (normalized >= 0.4) return 'text-accent';
@@ -50,7 +50,7 @@ export function BiffTriagePanel({
       className="familjen-tab-surface !p-4"
     >
       {agentName && (
-        <p className="-mt-2 mb-3 text-right text-[10px] uppercase tracking-widest text-text-dim">
+        <p className="-mt-2 mb-3 text-right text-[10px] uppercase tracking-widest text-text-muted">
           {agentName}
         </p>
       )}
@@ -91,7 +91,7 @@ export function BiffTriagePanel({
           </section>
           <section aria-label="Känslomässiga beten">
             <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
-              <p className="text-[10px] uppercase tracking-widest text-text-dim">Beten — ignorera</p>
+              <p className="text-[10px] uppercase tracking-widest text-text-muted">Beten — ignorera</p>
               {hasBait && (
                 <Button
                   type="button"

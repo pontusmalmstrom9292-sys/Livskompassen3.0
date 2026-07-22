@@ -21,7 +21,7 @@ export function FamiljenInkastDelegate({ shell, onSaved }: FamiljenDelegateBaseP
     <div className="space-y-3 pt-2">
       <header className="mb-4 space-y-1">
         <p className={textStyles.eyebrow}>Inkast & granskningskö</p>
-        <p className="text-xs text-text-dim">
+        <p className="text-xs text-text-muted">
           Mata in barnobservation snabbt. AI föreslår silo — du granskar alltid innan spar i
           barnloggar. Ingen auto-promote till Valv.
         </p>

@@ -36,7 +36,7 @@ export function DagbokBurnDelegate() {
         <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
           Bränn
         </p>
-        <p className="text-xs text-text-dim">
+        <p className="text-xs text-text-muted">
           Dina ord förintas när du är klar. Zero Footprint – ingenting skickas till databasen.
         </p>
       </header>

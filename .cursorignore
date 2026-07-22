@@ -1,10 +1,38 @@
-# Livskompassen — Cursor @Codebase index tuning
-# Default: markdown/config text excluded from semantic index; un-ignore autorun kanon.
+# Livskompassen — Cursor index: kanon JA, historik/genererat NEJ
+# Mål: AI läser aktiv sanning (~rot, .context, docs living, specs, design KEEP).
+# Historik och regenererbara pack hålls utanför semantic index (snabbare @Codebase).
+# Syntax = gitignore. Rot-*.md, .context/, .cursor/ ignoreras INTE.
 
-*.md
-*.mdx
-!docs/FAS19-SPRINT-AUTORUN.md
+# --- Kall historik ---
+docs/archive/**
+
+# Evaluations: indexera endast unlock, fas24, juli-2026+ och nyckelplaner
+docs/evaluations/*
+!docs/evaluations/*unlock*
+!docs/evaluations/*fas24*
+!docs/evaluations/2026-07-*
+!docs/evaluations/2026-06-25-app-plan-syntes.md
 !docs/evaluations/2026-06-15-fas19-masterplan-v2.md
-!docs/ORKESTER-AUTORUN.md
-!docs/FAS13-SPRINT-AUTORUN.md
-!docs/MASTER-YOLO-AUTORUN.md
+!docs/evaluations/2026-06-26-fas24-masterplan-v2.md
+!docs/evaluations/2026-06-15-fas24-polish-vag.md
+# Undermappar i evaluations (rå research m.m.)
+docs/evaluations/*/
+
+# --- Genererade / speglade handoff-pack ---
+exports/**
+docs/external-ai/bifoga/**
+!docs/external-ai/bifoga/**/README.md
+!docs/external-ai/bifoga/**/00-LAS-MIG-FORST.md
+!docs/external-ai/bifoga/**/00-KANON-PASTE.txt
+docs/external-ai/gemini-kunskap/tier-3-repomix/**
+docs/external-ai/gemini-kunskap/tier-2-valfritt/**
+docs/external-ai/gemini-kunskap/gemini-kanon/**
+docs/external-ai/gemini-kunskap/notebooklm-kanon/**
+docs/external-ai/gemini-kunskap/0*.md
+docs/external-ai/gemini-kunskap/0*.txt
+
+# --- Övrigt brus ---
+*.mdx
+repomix-output*.txt
+repomix-output*.xml
+worktrees/**

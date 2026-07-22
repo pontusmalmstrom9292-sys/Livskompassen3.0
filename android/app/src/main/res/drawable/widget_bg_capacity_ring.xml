@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Fyren capacity-ring — ethereal activity glow -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <gradient
+        android:angle="135"
+        android:endColor="#FF020617"
+        android:startColor="#FF122033"
+        android:type="linear" />
+    <stroke
+        android:width="3dp"
+        android:color="#AA7BA3C9" />
+</shape>

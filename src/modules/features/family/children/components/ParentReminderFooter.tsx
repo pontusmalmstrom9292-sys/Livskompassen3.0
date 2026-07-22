@@ -18,9 +18,9 @@ export function ParentReminderFooter({ childAlias = 'barnet' }: Props) {
       </p>
       <p className="mt-2 text-xs text-accent/80">{parentPrompt.text_sv}</p>
       {parentPrompt.hint_sv ? (
-        <p className="mt-1 text-[10px] text-text-dim">{parentPrompt.hint_sv}</p>
+        <p className="mt-1 text-[10px] text-text-muted">{parentPrompt.hint_sv}</p>
       ) : null}
-      <p className="mt-1 text-xs text-text-dim">
+      <p className="mt-1 text-xs text-text-muted">
         Ett minne i taget räcker. Du behöver inte bevisa att du är en bra pappa varje kväll.
       </p>
     </BentoCard>

@@ -93,7 +93,7 @@ export function ChildMomentStunderPanel({ shell }: Props) {
                   </span>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-start justify-between gap-2">
-                      <p className="text-[10px] uppercase tracking-widest text-text-dim">
+                      <p className="text-[10px] uppercase tracking-widest text-text-muted">
                         {categoryLabel(log.category)} · {formatChildLogDate(log.createdAt, '—')}
                         {epistemicKind ? (
                           <span className="ml-2 text-accent-secondary/90">
@@ -119,7 +119,7 @@ export function ChildMomentStunderPanel({ shell }: Props) {
                           className="max-h-48 w-full object-cover"
                         />
                         {log.mediaCaption ? (
-                          <figcaption className="px-3 py-2 text-xs text-text-dim">
+                          <figcaption className="px-3 py-2 text-xs text-text-muted">
                             {log.mediaCaption}
                           </figcaption>
                         ) : null}
@@ -129,7 +129,7 @@ export function ChildMomentStunderPanel({ shell }: Props) {
                       <button
                         type="button"
                         onClick={() => setEvidenceForLogId(log.id!)}
-                        className="mt-2 text-xs uppercase tracking-widest text-text-dim hover:text-gold"
+                        className="mt-2 text-xs uppercase tracking-widest text-text-muted hover:text-gold"
                       >
                         Spara som bevis?
                       </button>

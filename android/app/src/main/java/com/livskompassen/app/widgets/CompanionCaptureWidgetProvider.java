@@ -5,9 +5,9 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 
 /**
- * Companion OS — Hemlig inspelning on home screen.
- * Rich RemoteViews (status key last_action_capture): mic → /widget/companion-capture?autostart=1 (web starts recording).
- * No core manager changes.
+ * Companion OS — Hemlig inspelning on home screen (WIS).
+ * Mic → FG {@link WidgetCaptureService} (background + locked screen). Status key last_action_capture.
+ * Second tap / notification Stoppa → save. Sync via SecurePrefs queue — no full app chrome.
  */
 public class CompanionCaptureWidgetProvider extends AppWidgetProvider {
     @Override

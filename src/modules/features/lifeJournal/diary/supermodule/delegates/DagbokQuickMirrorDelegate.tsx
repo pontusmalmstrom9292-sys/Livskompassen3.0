@@ -45,7 +45,7 @@ export function DagbokQuickMirrorDelegate({ onSaved }: DagbokQuickMirrorDelegate
         <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
           Snabb spegling
         </p>
-        <p className="text-xs text-text-dim">
+        <p className="text-xs text-text-muted">
           En snabb check-in — humör, valfria taggar, spara direkt. Spegling via journalQuickMirror.
         </p>
       </header>

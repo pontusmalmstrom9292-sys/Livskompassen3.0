@@ -42,7 +42,12 @@ Systemet ska alltid ha en dedikerad expert för varje del av appen. Den här reg
 - `specialist-theme-lab` — Design, tokens, ikoner
 - `specialist-onboarding` — Onboarding-flöde, AuthGate, auth-providers
 - `specialist-rost-till-valv` — Röst-till-Valv, tyst inspelning, ingestWidgetRecording
-- `specialist-widgets` — Widgets, FyrenWidgetBar, Åtgärder-widget, Action Dashboard
+- `specialist-widgets` — Widgets, FyrenWidgetBar, Åtgärder-widget, Action Dashboard, INTERACTIVE FIRST-dirigent
+- `specialist-widget-interact-capture` — Hemlig inspelning / ett tryck mic i widget
+- `specialist-widget-interact-input` — Text/mood/intention i WidgetOverlay
+- `specialist-widget-interact-actions` — Checkbox/play/toggle via BroadcastReceiver
+- `specialist-widget-visual-parity` — Glas/guld/mockup-paritet
+- `specialist-widget-sync-bridge` — Bakgrundssynk SecurePrefs / WidgetSync
 
 ### Verifiering & orkester
 - `specialist-verifier` — Slutverifiering
@@ -86,6 +91,7 @@ Inga kända luckor just nu. Alla befintliga app-områden har dedikerade speciali
 - `livskompassen-rag-retrieval` — RAG-sökning
 - `livskompassen-synapser-adk` — ADK-synapser
 - `livskompassen-theme-lab` — Design/tema
+- `livskompassen-companion-widget-interact` — 100 % interaktiva Companion-widgets (RemoteViews/overlay/sync)
 - `livskompassen-vector-search` — Vektorsökning
 
 ### Produkt/agenter (`.agents/skills/`)

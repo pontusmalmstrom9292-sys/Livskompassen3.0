@@ -33,24 +33,78 @@ const LABELS: Record<InboxKind, { label: string; icon: string }> = {
 /**
  * Inkast — text/länk inline, röst, foto, video — allt klickbart och sparande.
  */
-export function InboxWidget({ pulseHint = false }: { pulseHint?: boolean }) {
+export function InboxWidget({
+  pulseHint = false,
+  autoVoice = false,
+  autoPhoto = false,
+  autoText = false,
+  autoLink = false,
+}: {
+  pulseHint?: boolean;
+  autoVoice?: boolean;
+  autoPhoto?: boolean;
+  autoText?: boolean;
+  autoLink?: boolean;
+}) {
   const cfg = useStudioWidgetConfig(WIDGET_ID) ?? getWidgetStudioConfig(WIDGET_ID);
   const shortcuts = (cfg?.shortcuts?.length
     ? cfg.shortcuts
     : (['text', 'voice', 'photo', 'link'] as StudioShortcutId[])) as InboxKind[];
   const size = cfg?.size ?? 'small';
   const [panel, setPanel] = useState<'text' | 'link' | null>(null);
-  const [draft, setDraft] = useState('');
   const [status, setStatus] = useState<string | null>(null);
+  const [draft, setDraft] = useState('');
   const online = useCompanionOnline();
   const photoRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLInputElement>(null);
   const voice = useCompanionVoiceCapture('widget_inbox_voice');
+  const autoRan = useRef(false);
 
   useEffect(() => {
     if (!pulseHint) return;
     setPanel((prev) => prev ?? 'text');
   }, [pulseHint]);
+
+  useEffect(() => {
+    if (autoRan.current) return;
+    if (autoText) {
+      autoRan.current = true;
+      setPanel('text');
+      return;
+    }
+    if (autoLink) {
+      autoRan.current = true;
+      setPanel('link');
+      return;
+    }
+    if (autoPhoto) {
+      autoRan.current = true;
+      window.setTimeout(() => photoRef.current?.click(), 120);
+      return;
+    }
+    if (autoVoice) {
+      autoRan.current = true;
+      void (async () => {
+        await dispatchWidgetGesture({
+          widgetId: WIDGET_ID,
+          gesture: 'tap',
+          action: 'primary_capture',
+        });
+        const payload = await voice.toggle();
+        if (!payload) {
+          setStatus(voice.status);
+          return;
+        }
+        await setCached(`widget:${WIDGET_ID}:last`, { ...payload, at: Date.now() });
+        await queueWidgetSync({
+          type: 'capture',
+          source: 'widget_inbox_voice',
+          payload: payload as unknown as Record<string, unknown>,
+        });
+        finishCompanionCapture(setStatus, 'Röst uppladdad', { androidScope: 'inbox' });
+      })();
+    }
+  }, [autoText, autoLink, autoPhoto, autoVoice, voice]);
 
   useEffect(() => {
     if (!panel) return;

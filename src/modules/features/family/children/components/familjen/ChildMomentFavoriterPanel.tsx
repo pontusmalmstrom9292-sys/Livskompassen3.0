@@ -42,7 +42,7 @@ export function ChildMomentFavoriterPanel({ shell }: Props) {
                 <div className="flex items-start gap-2">
                   <Sparkles className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden />
                   <div>
-                    <p className="text-[10px] uppercase tracking-widest text-text-dim">
+                    <p className="text-[10px] uppercase tracking-widest text-text-muted">
                       {categoryLabel(log.category)} · {formatChildLogDate(log.createdAt, '—')}
                     </p>
                     <p className="mt-1 text-sm text-text-muted whitespace-pre-wrap">

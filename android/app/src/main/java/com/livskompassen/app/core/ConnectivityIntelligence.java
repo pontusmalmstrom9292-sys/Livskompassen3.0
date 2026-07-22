@@ -12,9 +12,35 @@ import com.livskompassen.app.util.LCLog;
  */
 public class ConnectivityIntelligence {
     private final ConnectivityManager cm;
+    private NetworkStatusListener listener;
+
+    public interface NetworkStatusListener {
+        void onNetworkChanged(boolean isMetered, boolean isRoaming);
+    }
 
     public ConnectivityIntelligence(Context context) {
         this.cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            cm.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
+                @Override
+                public void onCapabilitiesChanged(android.net.Network network, android.net.NetworkCapabilities caps) {
+                    if (listener != null) {
+                        listener.onNetworkChanged(isMetered(), isRoaming());
+                    }
+                }
+
+                @Override
+                public void onLost(android.net.Network network) {
+                    if (listener != null) {
+                        listener.onNetworkChanged(false, false); // Assume offline or unknown
+                    }
+                }
+            });
+        }
+    }
+
+    public void setNetworkStatusListener(NetworkStatusListener listener) {
+        this.listener = listener;
     }
 
     /**

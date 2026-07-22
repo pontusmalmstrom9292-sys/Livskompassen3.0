@@ -88,7 +88,7 @@ export function AdaptiveMemoryCards({
                 key={card.id}
                 className={`adaptive-card rounded-2xl border p-4 ${toneClass[card.tone]}`}
               >
-                <p className="text-[10px] uppercase tracking-widest text-text-dim">{card.title}</p>
+                <p className="text-[10px] uppercase tracking-widest text-text-muted">{card.title}</p>
                 <p className="mt-2 text-sm text-text-muted">{card.prompt}</p>
                 <ButtonLink
                   to={{

@@ -19,11 +19,11 @@ export function HamnTaktikLexikonBro({ signal, className = '' }: Props) {
       ].join(' ')}
     >
       {signal ? (
-        <p className="text-text-dim">
+        <p className="text-text-muted">
           <span className="text-accent/90">{signal.label}</span> — {signal.hint}
         </p>
       ) : (
-        <p className="text-text-dim">{HAMN_TAKTIK_LEXIKON_LEAD}</p>
+        <p className="text-text-muted">{HAMN_TAKTIK_LEXIKON_LEAD}</p>
       )}
       <ButtonLink
         to={vaultDrawerPath('kunskapsbank')}

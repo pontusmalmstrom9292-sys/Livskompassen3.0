@@ -77,7 +77,7 @@ export function FamiljenTillsammansTab({ shell }: Props) {
                   style={{ height: `${h}px` }}
                   title={`${count} stunder`}
                 />
-                <span className="text-[10px] text-text-dim">{familyWeekStats.labels[i]}</span>
+                <span className="text-[10px] text-text-muted">{familyWeekStats.labels[i]}</span>
               </div>
             );
           })}
@@ -93,7 +93,7 @@ export function FamiljenTillsammansTab({ shell }: Props) {
             return (
               <li key={name} className="flex justify-between text-sm">
                 <span className="text-text-muted">{name}</span>
-                <span className="text-text-dim">{count} stunder · 7 d</span>
+                <span className="text-text-muted">{count} stunder · 7 d</span>
               </li>
             );
           })}

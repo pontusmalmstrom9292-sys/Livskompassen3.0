@@ -15,6 +15,11 @@ import {
   removeSyncItem,
   type WidgetSyncQueueItem,
 } from './WidgetCache';
+import {
+  clearNativeWidgetQueueKey,
+  NATIVE_WIDGET_QUEUE_KEYS,
+  pullNativeWidgetQueues,
+} from './companionWidgetBridge';
 
 export type WidgetSyncTransport = (item: WidgetSyncQueueItem) => Promise<void>;
 
@@ -125,9 +130,13 @@ function scheduleFlush(): void {
 /**
  * Process durable queue once. Safe to call often; concurrent calls coalesce.
  * Skips entirely when offline or when no transport is registered.
+ * Also pulls native WIS overlay queues into the durable queue (background sync).
  */
 export async function flushWidgetSyncQueue(): Promise<{ flushed: number; failed: number }> {
   if (flushing) return { flushed: 0, failed: 0 };
+
+  await ingestNativeWidgetQueues();
+
   if (!transport) return { flushed: 0, failed: 0 };
   if (!isOnline()) return { flushed: 0, failed: 0 };
 
@@ -160,6 +169,22 @@ export async function flushWidgetSyncQueue(): Promise<{ flushed: number; failed:
   }
 
   return { flushed, failed };
+}
+
+/** Move native SecurePrefs WIS drafts into IndexedDB sync queue (no UI). */
+async function ingestNativeWidgetQueues(): Promise<void> {
+  const snapshot = pullNativeWidgetQueues();
+  for (const key of NATIVE_WIDGET_QUEUE_KEYS) {
+    const raw = snapshot[key];
+    if (!raw || !raw.trim()) continue;
+    const type = key.replace(/^widget_(queue|draft)_/, 'native_');
+    await enqueueSyncItem({
+      type,
+      source: 'android_wis',
+      payload: { key, raw },
+    });
+    clearNativeWidgetQueueKey(key);
+  }
 }
 
 /**

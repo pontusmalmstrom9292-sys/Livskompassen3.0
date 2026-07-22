@@ -75,7 +75,7 @@ export function HomeBrassDaySteps({ variant = 'calm' }: Props) {
                 <li key={task.id} className="group py-2 first:pt-1 last:pb-1">
                   <button
                     type="button"
-                    className="w-full flex items-center justify-between text-left disabled:opacity-50"
+                    className="flex min-h-11 w-full items-center justify-between py-1 text-left disabled:opacity-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
                     disabled={isBusy}
                     aria-label={`Markera klar: ${label}`}
                     onClick={() => void handleMarkDone(task)}
@@ -85,7 +85,7 @@ export function HomeBrassDaySteps({ variant = 'calm' }: Props) {
                         className={clsx(
                           "w-4 h-4 flex items-center justify-center rounded border transition-colors",
                           isWaiting 
-                            ? "border-dashed border-text-dim" 
+                            ? "border-dashed border-text-muted" 
                             : "border-accent/40 group-hover:border-accent bg-accent/5",
                           isBusy && "bg-accent/10"
                         )}
@@ -94,19 +94,19 @@ export function HomeBrassDaySteps({ variant = 'calm' }: Props) {
                         {isBusy ? (
                           <Loader2 className="w-2.5 h-2.5 animate-spin text-accent" />
                         ) : (
-                          <Check className="w-3 h-3 text-accent opacity-0 group-hover:opacity-100 transition-opacity" />
+                          <Check className="w-3 h-3 text-accent opacity-0 group-hover:opacity-100 transition-opacity motion-reduce:transition-none" />
                         )}
                       </span>
                       <span className={clsx(
                         "text-[11px] font-medium text-text",
-                        isWaiting && "text-text-dim italic"
+                        isWaiting && "text-text-muted italic"
                       )}>
                         {label}
                         {isWaiting ? ' (väntar)' : ''}
                       </span>
                     </div>
                     {task.dueAt && (
-                      <span className="text-[10px] text-text-dim font-mono">
+                      <span className="text-[10px] text-text-muted font-mono">
                         {formatDueTime(task.dueAt) || ''}
                       </span>
                     )}
@@ -122,7 +122,7 @@ export function HomeBrassDaySteps({ variant = 'calm' }: Props) {
         <Link 
           to={HOME_SUPERHUB_ROUTES.planeringHub} 
           className={clsx(
-            'text-[10px] font-semibold text-accent hover:text-accent-light transition-colors flex items-center gap-1',
+            'inline-flex min-h-11 items-center gap-1 text-[10px] font-semibold text-accent transition-colors hover:text-accent-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50',
             variant === 'executive' && 'uppercase tracking-wider',
           )}
         >

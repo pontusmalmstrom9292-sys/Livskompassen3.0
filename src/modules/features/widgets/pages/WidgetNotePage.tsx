@@ -88,7 +88,7 @@ function WidgetNoteInner() {
                   <WidgetButton type="button" variant="ghost" className="text-xs" onClick={() => setNoteMode('silo')}>
                     Byt silo
                   </WidgetButton>
-                  <span className="self-center text-[10px] uppercase tracking-widest text-text-dim">
+                  <span className="self-center text-[10px] uppercase tracking-widest text-text-muted">
                     {widgetSiloSaveLabel(silo).replace('Spara till ', '')}
                   </span>
                 </div>

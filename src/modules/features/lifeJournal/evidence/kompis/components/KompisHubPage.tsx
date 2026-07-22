@@ -68,7 +68,7 @@ export function KompisHubPage() {
               </span>
               <span className="min-w-0 flex-1">
                 <span className="block font-display-serif text-sm font-medium text-text">{label}</span>
-                <span className="mt-0.5 block text-xs text-text-dim">{hint}</span>
+                <span className="mt-0.5 block text-xs text-text-muted">{hint}</span>
               </span>
               <ChevronRight className="h-4 w-4 shrink-0 text-accent/55" strokeWidth={1.5} aria-hidden />
             </Link>
@@ -76,7 +76,7 @@ export function KompisHubPage() {
         ))}
       </ul>
 
-      <p className="text-center text-xs text-text-dim">
+      <p className="text-center text-xs text-text-muted">
         <Link to="/" className="text-accent hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50">
           Tillbaka till Hem
         </Link>

@@ -9,7 +9,7 @@ export function VaultSettingsPage() {
       eyebrow="Valv"
       title="Inställningar"
       lead="Automatiska regler för inkorgen och Valv-konfiguration."
-      headerAside={<Settings className="h-5 w-5 text-text-dim" strokeWidth={1.5} />}
+      headerAside={<Settings className="h-5 w-5 text-text-muted" strokeWidth={1.5} />}
       lockViewport
     >
       <div className="mx-auto max-w-5xl space-y-4 pb-12">

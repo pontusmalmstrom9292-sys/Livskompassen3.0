@@ -31,9 +31,9 @@ export function PlanningTaskDetail({ task, onClose, onMove, onSaveMicroStep }: P
       hideHeader={false}
     >
       {task.summary && <p className="text-sm text-text-muted">{task.summary}</p>}
-      {task.dueAt && <p className="mt-2 text-xs text-text-dim">Deadline: {task.dueAt}</p>}
+      {task.dueAt && <p className="mt-2 text-xs text-text-muted">Deadline: {task.dueAt}</p>}
 
-      <label className="mt-4 block text-[10px] uppercase tracking-widest text-text-dim">
+      <label className="mt-4 block text-[10px] uppercase tracking-widest text-text-muted">
         Status
         <select
           value={task.status}
@@ -49,7 +49,7 @@ export function PlanningTaskDetail({ task, onClose, onMove, onSaveMicroStep }: P
         </select>
       </label>
 
-      <label className="mt-4 block text-[10px] uppercase tracking-widest text-text-dim">
+      <label className="mt-4 block text-[10px] uppercase tracking-widest text-text-muted">
         Mikrosteg ({MICRO_STEP_PANEL_TITLE.toLowerCase()})
         <div className="mt-1 flex gap-2">
           <input

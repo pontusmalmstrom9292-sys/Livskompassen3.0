@@ -38,7 +38,7 @@ export function VaultOverviewPanel({ pendingInbox, onOpenReview }: Props) {
               {pendingInbox} väntar
             </button>
           ) : (
-            <span className="text-text-dim">— inget väntar</span>
+            <span className="text-text-muted">— inget väntar</span>
           )}
         </li>
         {localPending > 0 && (

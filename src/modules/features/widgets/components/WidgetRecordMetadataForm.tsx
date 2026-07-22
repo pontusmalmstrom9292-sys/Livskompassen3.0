@@ -41,7 +41,7 @@ export function WidgetRecordMetadataForm({
       <p className="font-display text-sm text-accent">{suggestedTitle}</p>
 
       <label className="block space-y-1">
-        <span className="text-xs uppercase tracking-widest text-text-dim">Vem (valfritt)</span>
+        <span className="text-xs uppercase tracking-widest text-text-muted">Vem (valfritt)</span>
         <Input
           type="text"
           className="input-glass w-full text-sm"
@@ -52,7 +52,7 @@ export function WidgetRecordMetadataForm({
       </label>
 
       <label className="block space-y-1">
-        <span className="text-xs uppercase tracking-widest text-text-dim">Vad</span>
+        <span className="text-xs uppercase tracking-widest text-text-muted">Vad</span>
         <Input
           type="text"
           className="input-glass w-full text-sm"
@@ -63,7 +63,7 @@ export function WidgetRecordMetadataForm({
       </label>
 
       <label className="block space-y-1">
-        <span className="text-xs uppercase tracking-widest text-text-dim">Varför (valfritt)</span>
+        <span className="text-xs uppercase tracking-widest text-text-muted">Varför (valfritt)</span>
         <TextArea
           className="input-glass neu-inset w-full resize-none text-sm"
           rows={2}

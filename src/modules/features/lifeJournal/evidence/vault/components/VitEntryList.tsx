@@ -19,7 +19,7 @@ type Props = {
 
 export function VitEntryList({ entries, emptyMessage, maxHeightClass = 'max-h-80' }: Props) {
   if (entries.length === 0) {
-    return <p className="mt-2 text-sm text-text-dim">{emptyMessage}</p>;
+    return <p className="mt-2 text-sm text-text-muted">{emptyMessage}</p>;
   }
 
   return (
@@ -29,7 +29,7 @@ export function VitEntryList({ entries, emptyMessage, maxHeightClass = 'max-h-80
           key={entry.id}
           className="rounded-lg border border-border-strong/60 bg-surface-2/40 px-3 py-2 text-sm"
         >
-          <p className="text-[10px] uppercase tracking-wide text-text-dim">
+          <p className="text-[10px] uppercase tracking-wide text-text-muted">
             {vitProjectTitle(entry.projectId)} · {KIND_LABELS[entry.kind]} · {entry.bankId} ·{' '}
             {formatEntryDate(entry)}
           </p>

@@ -18,8 +18,10 @@ function ShortcutCard({ item, onOpen }: { item: HomeSuperhubShortcut; onOpen: (t
       onClick={() => onOpen(item.to)}
       className={clsx(
         'home-superhub-shortcut calm-card glow-bottom-gold',
-        'flex flex-col gap-2 rounded-2xl border border-border/30 bg-surface-2/70 p-3 text-left',
+        'flex min-h-11 flex-col gap-2 rounded-2xl border border-border/30 bg-surface-2/70 p-3 text-left',
         'transition-colors hover:border-accent/40 hover:bg-surface-3/40',
+        'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50',
+        'motion-reduce:transition-none',
       )}
     >
       <Icon className="h-4 w-4 text-accent/80" aria-hidden />
@@ -40,7 +42,7 @@ export function HomeSuperhubShortcuts({ presetId }: Props) {
 
   return (
     <section className="home-superhub-shortcuts space-y-2" aria-label="Snabbinmatning">
-      <p className="font-display-serif text-[10px] uppercase tracking-[0.2em] text-text-dim">
+      <p className="font-display-serif text-[10px] uppercase tracking-[0.2em] text-text-muted">
         Snabbinmatning
       </p>
       <div

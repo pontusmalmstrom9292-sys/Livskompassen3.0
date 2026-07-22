@@ -252,6 +252,7 @@ dependencies {
     implementation libs.androidx.work
     implementation libs.androidx.appsearch
     implementation libs.androidx.appsearch.platform
+    implementation 'androidx.appsearch:appsearch-local-storage:1.1.0'
     annotationProcessor libs.androidx.appsearch.compiler
     implementation project(':capacitor-android')
     testImplementation libs.junit

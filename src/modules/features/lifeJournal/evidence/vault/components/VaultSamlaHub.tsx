@@ -75,7 +75,7 @@ export const VaultSamlaHub = memo(function VaultSamlaHub({
       />
 
       {onOpenGranska && pendingInbox === null ? (
-        <p className="flex items-center gap-2 text-xs text-text-dim">
+        <p className="flex items-center gap-2 text-xs text-text-muted">
           <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
           Räknar väntande poster…
         </p>
@@ -98,7 +98,7 @@ export const VaultSamlaHub = memo(function VaultSamlaHub({
         glow="blue"
       >
         <div id="vault-samla-entry" className="space-y-3">
-          <p className="text-xs text-text-dim">Tvåspalt eller enkel text — sparas oföränderligt i arkivet.</p>
+          <p className="text-xs text-text-muted">Tvåspalt eller enkel text — sparas oföränderligt i arkivet.</p>
           <VaultEntryForm userId={userId} saving={saving} onSave={(input) => saveLog(userId, input)} />
           {saveError ? <p className="text-sm text-danger">{saveError}</p> : null}
         </div>

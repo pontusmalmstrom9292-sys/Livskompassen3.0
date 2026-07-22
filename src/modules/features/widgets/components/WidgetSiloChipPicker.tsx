@@ -36,7 +36,7 @@ export function WidgetSiloChipPicker({ value, onChange }: Props) {
 
   return (
     <div className="widget-silo-picker space-y-2">
-      <p className="text-[10px] uppercase tracking-[0.18em] text-text-dim">Vart ska det landa?</p>
+      <p className="text-[10px] uppercase tracking-[0.18em] text-text-muted">Vart ska det landa?</p>
       <div
         role="radiogroup"
         aria-label="Välj silo före spar"

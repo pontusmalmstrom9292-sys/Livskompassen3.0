@@ -121,7 +121,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
           </span>
           <div>
             <p className="od-depth__bento-label">Barnfokus</p>
-            <p className="text-xs text-text-dim">Dagens fråga — trygg hamn, inte bevis</p>
+            <p className="text-xs text-text-muted">Dagens fråga — trygg hamn, inte bevis</p>
           </div>
         </div>
         <span className="od-depth__kind-chip">{kindLabel}</span>
@@ -136,7 +136,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
           <button
             type="button"
             onClick={anotherQuestion}
-            className="inline-flex min-h-11 items-center gap-1 text-xs text-text-dim transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+            className="inline-flex min-h-11 items-center gap-1 text-xs text-text-muted transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           >
             <RefreshCw className="h-3 w-3" />
             Annan fråga
@@ -144,7 +144,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
         </div>
         <p className="mt-2 text-sm font-medium leading-relaxed text-accent">{question.text}</p>
         {question.hint ? (
-          <p className="mt-1 text-xs text-text-dim">{question.hint}</p>
+          <p className="mt-1 text-xs text-text-muted">{question.hint}</p>
         ) : null}
       </div>
 
@@ -158,7 +158,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
             className={
               epistemicKind === kind
                 ? 'rounded-lg border border-accent/50 bg-surface-3 px-2.5 py-1 text-[10px] uppercase tracking-wider text-accent'
-                : 'rounded-lg border border-border px-2.5 py-1 text-[10px] uppercase tracking-wider text-text-dim hover:border-accent/30'
+                : 'rounded-lg border border-border px-2.5 py-1 text-[10px] uppercase tracking-wider text-text-muted hover:border-accent/30'
             }
           >
             {kind === 'citat' ? 'Barnets ord' : 'Min tolkning'}

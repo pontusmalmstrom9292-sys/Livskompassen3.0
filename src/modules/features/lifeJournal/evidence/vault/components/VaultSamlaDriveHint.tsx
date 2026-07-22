@@ -13,7 +13,7 @@ type Props = {
 export function VaultSamlaDriveHint({ pendingCount, onOpenQueue, embedded = false }: Props) {
   const body = (
     <>
-      <p className="text-xs text-text-dim">
+      <p className="text-xs text-text-muted">
         Filer från Google Drive sparas <strong className="font-normal text-text-muted">inte</strong>{' '}
         automatiskt som bevis. De hamnar i granskningskö — välj «→ Arkiv» när du är redo.
       </p>

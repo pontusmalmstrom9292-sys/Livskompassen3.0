@@ -199,19 +199,24 @@ function Editor({
         ))}
       </div>
 
-      <p className="cw-eyebrow">Genvägar (max {maxBtn} för {config.size})</p>
+      <p className="cw-eyebrow">
+        Genvägar (max {maxBtn} för {config.size} · Kap 4)
+      </p>
       <div className="cw-pill-row">
         {SHORTCUTS.map((s) => {
           const on = config.shortcuts.includes(s.id);
+          const atCap = !on && config.shortcuts.length >= maxBtn;
           return (
             <Chip
               key={s.id}
               active={on}
+              dimmed={atCap}
               label={s.label}
               onClick={() => {
+                if (atCap) return;
                 const next = on
                   ? config.shortcuts.filter((x) => x !== s.id)
-                  : [...config.shortcuts, s.id];
+                  : [...config.shortcuts, s.id].slice(0, maxBtn);
                 onChange({ shortcuts: next });
               }}
             />

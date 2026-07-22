@@ -80,7 +80,7 @@ export function PlaneringEmailRulesPanel() {
       </p>
 
       <BentoCard title="Föreslagna regler" description="Opt-in — inget läggs till automatiskt">
-        <p className="text-xs text-text-dim">
+        <p className="text-xs text-text-muted">
           Lägg till skola, myndighet m.fl. Du fyller själv i en separat regel för ex-partner (Hamn).
         </p>
         <Button
@@ -167,7 +167,7 @@ export function PlaneringEmailRulesPanel() {
         </div>
       </BentoCard>
 
-      {loading && <p className="text-sm text-text-dim">Laddar regler…</p>}
+      {loading && <p className="text-sm text-text-muted">Laddar regler…</p>}
       {error && <p className="text-sm text-danger">{error}</p>}
 
       {rules.length === 0 && !loading && (
@@ -204,7 +204,7 @@ export function PlaneringEmailRulesPanel() {
         ))}
       </ul>
 
-      <p className="text-xs text-text-dim">
+      <p className="text-xs text-text-muted">
         Projekt-automation:{' '}
         <Link to="/projekt/regler" className="text-accent">
           Regler under Projekt

@@ -71,7 +71,7 @@ export function ResurserOverlay({ open, onClose }: Props) {
       }
     >
       <label className="resurser-overlay__search mb-4 flex min-h-[44px] items-center gap-2 rounded-2xl border border-border/30 bg-surface-2/70 px-4 shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--accent)_6%,transparent)] backdrop-blur-md">
-        <Search className="h-4 w-4 shrink-0 text-text-dim" strokeWidth={1.5} aria-hidden />
+          <Search className="h-4 w-4 shrink-0 text-text-muted" strokeWidth={1.5} aria-hidden />
         <input
           ref={searchRef}
           type="search"

@@ -44,7 +44,7 @@ export function PlanningIntegrationPanel() {
             'flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-xl px-2 py-3 text-xs font-medium transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
             activeSubTab === 'email_rules'
               ? 'border border-accent/20 bg-accent/10 text-accent shadow-[0_0_15px_color-mix(in_srgb,var(--accent)_5%,transparent)]'
-              : 'border border-transparent text-text-dim hover:bg-surface-3 hover:text-text',
+              : 'border border-transparent text-text-muted hover:bg-surface-3 hover:text-text',
           )}
         >
           <Mail className="h-4 w-4" aria-hidden />
@@ -61,7 +61,7 @@ export function PlanningIntegrationPanel() {
             'flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-xl px-2 py-3 text-xs font-medium transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
             activeSubTab === 'calendar_sync'
               ? 'border border-accent/20 bg-accent/10 text-accent shadow-[0_0_15px_color-mix(in_srgb,var(--accent)_5%,transparent)]'
-              : 'border border-transparent text-text-dim hover:bg-surface-3 hover:text-text',
+              : 'border border-transparent text-text-muted hover:bg-surface-3 hover:text-text',
           )}
         >
           <Calendar className="h-4 w-4" aria-hidden />
@@ -96,7 +96,7 @@ export function PlanningIntegrationPanel() {
                 >
                   <div className="space-y-1">
                     <span className="text-xs font-medium text-text">{rule.label}</span>
-                    <div className="flex items-center gap-1.5 text-[10px] text-text-dim">
+                    <div className="flex items-center gap-1.5 text-[10px] text-text-muted">
                       <span>
                         Innehåller:{' '}
                         <strong className="font-mono text-text-muted">{rule.pattern}</strong>
@@ -107,13 +107,13 @@ export function PlanningIntegrationPanel() {
                       <span className="text-accent/90">{getRouteLabel(rule.route)}</span>
                     </div>
                   </div>
-                  <Lock className="h-4 w-4 text-text-dim/50" aria-hidden aria-label="Låst" />
+                  <Lock className="h-4 w-4 text-text-muted/50" aria-hidden aria-label="Låst" />
                 </li>
               ))}
             </ul>
 
             <div
-              className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-border-strong bg-surface-2 p-3 text-xs text-text-dim"
+              className="mt-4 flex items-center justify-center gap-2 rounded-xl border border-border-strong bg-surface-2 p-3 text-xs text-text-muted"
               role="status"
             >
               <Clock className="h-3.5 w-3.5" aria-hidden />

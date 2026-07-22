@@ -141,6 +141,21 @@ public class DiagnosticManager {
         }
     }
 
+    /**
+     * Tömmer loggbufferten och raderar loggfilen från disk.
+     */
+    public synchronized void clearLogs() {
+        logBuffer.clear();
+        File file = getLogFile();
+        if (file.exists()) {
+            if (file.delete()) {
+                android.util.Log.d("DiagnosticManager", "Black Box cleared.");
+            } else {
+                android.util.Log.e("DiagnosticManager", "Failed to clear Black Box.");
+            }
+        }
+    }
+
     public File getLogFile() {
         return new File(context.getFilesDir(), LOG_FILE_NAME);
     }

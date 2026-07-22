@@ -13,9 +13,9 @@ export function KunskapsbankHeader({ compact = false }: KunskapsbankHeaderProps)
         <div className="flex items-center gap-2 px-1">
           <BookOpen className="h-4 w-4 shrink-0 text-accent" aria-hidden />
           <p className="font-display text-sm text-accent">Kunskapsbanken</p>
-          <span className="text-[10px] text-text-dim">· Fakta och minne</span>
+          <span className="text-[10px] text-text-muted">· Fakta och minne</span>
         </div>
-        <p className="px-1 text-[10px] leading-relaxed text-text-dim">{VALV_KUNSKAP_SILO_HINT}</p>
+        <p className="px-1 text-[10px] leading-relaxed text-text-muted">{VALV_KUNSKAP_SILO_HINT}</p>
       </div>
     );
   }

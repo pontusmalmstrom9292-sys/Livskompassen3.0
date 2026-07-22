@@ -34,7 +34,7 @@ export function FamiljenFeatureCard({
       </span>
       <span className="min-w-0 flex-1">
         <span className="block font-display-serif text-sm font-medium text-text">{title}</span>
-        <span className="mt-0.5 block text-xs text-text-dim">{description}</span>
+        <span className="mt-0.5 block text-xs text-text-muted">{description}</span>
       </span>
       <ChevronRight className="h-4 w-4 shrink-0 text-accent/55" strokeWidth={1.5} aria-hidden />
       {bookmark ? (

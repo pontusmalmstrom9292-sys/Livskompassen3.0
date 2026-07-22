@@ -1,3 +1,26 @@
+# 2026-07-22 — Interaktiva Companion Widgets (WIS)
+
+- Agenter: 5× `specialist-widget-interact-*` + uppdaterad `specialist-widgets` (INTERACTIVE FIRST)
+- Skill: `.cursor/skills/livskompassen-companion-widget-interact/SKILL.md`
+- Bible: kap. 7 Android Interactivity Contract · Unlock: `docs/evaluations/2026-07-22-unlock-MOD-WIDGET-companion-interact.md`
+- Android: `WidgetInteract` / `WidgetActionReceiver` / `WidgetOverlayActivity` — Capture/Note/Tasks/kärn-10 utan primär MainActivity-deep-link
+- Sync: `getWidgetData` + `pullNativeWidgetQueues` → `WidgetSync.ingestNativeWidgetQueues`
+- Smoke: `npm run smoke:companion-widgets` PASS
+
+---
+
+# 2026-07-22 — UI Polish v3 (alla zoner, refine-only)
+
+- Wave 0 baseline: design-debt btnPill 0 · dsBtn 0 · adHocDialog **2** (was 3) · indexCssLoc 61 · DS imports 276 · calm-card PASS
+- Wave 1 Hem: touch/focus/kontrast (BrassDaySteps, LayoutA, SuperhubShortcuts, DagbokPanel, SOS opacity, exec-home toggle 44px, HeroKanon tabs/back, journal-rail «Visa alla», AdaptiveMemory/ReflektionHero muted) — dock/kompass-struktur orörd
+- Wave 2–6: zon-kontrast `text-text-dim`→`text-text-muted` (Planering/MåBra/Hjärtat/Familjen/Valv/Widgets) + zon-CSS (planering, familjen, WidgetShell, mabra/reflektion/dagbok/biff)
+- Wave 7: QuickCaptureOverlay → DS Sheet; BIFF reduced-transparency fallback
+- Unlock: `docs/evaluations/2026-07-22-unlock-MOD-UI-POLISH-V3.md` (approved: yes)
+- Smoke: locked-ux · design-modules · mabra · planering-superhub · children · widgets · module-lock PASS
+- G85 sign-off-pack (Pontus): öppna Hem → Vardagen → Hjärtat → Familjen → Valv → en widget; kolla kontrast, 44px-tryckytor, SOS synlig men diskret, Voice-to-Vault Sheet stängs med Escape
+
+---
+
 # 2026-07-21 — Full deploy (egna moduler + build-fix)
 
 ## 2026-07-21 — SAFE YOLO v2 `ui-polish-v2-vardagen` (MåBra + Planering)

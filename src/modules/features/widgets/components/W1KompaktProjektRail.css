@@ -45,7 +45,7 @@
   }
 
   .w1-kompakt-rail__label {
-    @apply max-w-full truncate text-center text-[7px] font-medium uppercase leading-tight tracking-wide text-text-dim;
+    @apply max-w-full truncate text-center text-[7px] font-medium uppercase leading-tight tracking-wide text-text-muted;
   }
 
   .w1-kompakt-rail__action--active .w1-kompakt-rail__label {

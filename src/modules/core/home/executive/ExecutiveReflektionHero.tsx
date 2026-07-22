@@ -82,7 +82,7 @@ export function ExecutiveReflektionHero() {
           <p className="text-center text-[10px] font-medium leading-snug text-accent sm:text-right">
             {DEFAULT_ASIDE.prompt}
           </p>
-          <p className="text-center text-[9px] leading-snug text-text-dim sm:text-right">
+          <p className="text-center text-[10px] leading-snug text-text-muted sm:text-right">
             {DEFAULT_ASIDE.foot}
           </p>
         </aside>

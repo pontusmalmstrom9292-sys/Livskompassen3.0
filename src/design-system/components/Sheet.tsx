@@ -123,7 +123,7 @@ export function Sheet({
                 {title}
               </h2>
               {description ? (
-                <p id={descId} className="mt-1 text-[length:var(--ds-font-size-xs)] text-text-dim">
+                <p id={descId} className="mt-1 text-[length:var(--ds-font-size-xs)] text-text-muted">
                   {description}
                 </p>
               ) : null}

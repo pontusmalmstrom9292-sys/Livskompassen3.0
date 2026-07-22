@@ -78,7 +78,7 @@ export function VaultDcapAlertsPanel({ gateOk }: Props) {
                 <p className="font-sans text-text">
                   Risk {alert.riskScore} · {formatRecommendedAction(alert.recommendedAction)}
                 </p>
-                <p className="mt-1 text-xs text-text-dim">
+                <p className="mt-1 text-xs text-text-muted">
                   Väntar på manuell granskning. Ingen rå text exponeras — endast risk och åtgärd.
                 </p>
               </div>

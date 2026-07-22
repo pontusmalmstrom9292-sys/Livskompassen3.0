@@ -29,7 +29,7 @@ export function HomeDagbokPanel() {
       </div>
       <Link
         to={HOME_SUPERHUB_ROUTES.hjartatArkiv}
-        className="inline-flex items-center gap-1 text-xs text-text-dim hover:text-accent"
+        className="inline-flex min-h-11 items-center gap-1 text-xs text-text-muted transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
       >
         Minneslista
         <ArrowRight className="h-3 w-3" aria-hidden />

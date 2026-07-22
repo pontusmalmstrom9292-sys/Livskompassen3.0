@@ -56,7 +56,7 @@ export function HomeHeroKanon({ onCheckInSaved }: Props) {
       title="Nödläge (Pansar)"
       aria-label="Nödläge"
       onClick={() => activate('manual', 1)}
-      className="absolute top-4 right-4 z-50 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full p-2 text-text-dim opacity-20 transition-all hover:text-accent hover:opacity-100"
+      className="absolute top-4 right-4 z-50 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full p-2 text-text-muted opacity-45 transition-opacity hover:text-accent hover:opacity-100 focus-visible:opacity-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50 motion-reduce:transition-none"
     >
       <Shield size={18} aria-hidden />
     </button>

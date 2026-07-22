@@ -26,14 +26,14 @@ export function TidshjulDetailCard({ entry, compact = false }: Props) {
       description={`${formatTidshjulLabel(entry)}${entry.category ? ` · ${entry.category}` : ''}`}
     >
       {entry.entryType && (
-        <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">{entry.entryType}</p>
+        <p className="mb-2 text-[10px] uppercase tracking-widest text-text-muted">{entry.entryType}</p>
       )}
       <p className="whitespace-pre-wrap text-sm text-text-muted">{entry.content}</p>
       {entry.tags && entry.tags.length > 0 && (
-        <p className="mt-3 text-xs text-text-dim">Taggar: {entry.tags.join(', ')}</p>
+        <p className="mt-3 text-xs text-text-muted">Taggar: {entry.tags.join(', ')}</p>
       )}
       {entry.source && (
-        <p className="mt-1 text-xs text-text-dim">Källa: {entry.source}</p>
+        <p className="mt-1 text-xs text-text-muted">Källa: {entry.source}</p>
       )}
     </BentoCard>
   );

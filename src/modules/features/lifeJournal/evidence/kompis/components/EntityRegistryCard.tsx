@@ -53,7 +53,7 @@ export function EntityRegistryCard() {
       description="KEY_ENTITIES · anti-hallucination (G9)"
       icon={<Users className="h-4 w-4 text-accent" />}
     >
-      <p className="mb-3 text-xs text-text-dim">
+      <p className="mb-3 text-xs text-text-muted">
         Personregister för assistenter — inte bevis. Nya personer läggs inte till automatiskt.
       </p>
 
@@ -68,7 +68,7 @@ export function EntityRegistryCard() {
               className="rounded-lg border border-border/60 bg-surface/40 px-3 py-2 text-sm"
             >
               <span className="font-medium text-text">{p.displayName}</span>
-              <span className="ml-2 text-xs text-text-dim">
+              <span className="ml-2 text-xs text-text-muted">
                 {ROLE_LABELS[p.role] ?? p.role}
               </span>
               {p.aliases.length > 0 && (
@@ -84,7 +84,7 @@ export function EntityRegistryCard() {
           <summary className="cursor-pointer text-text-muted hover:text-text">
             Kopplingar ({synapses.length})
           </summary>
-          <ul className="mt-2 space-y-2 text-xs text-text-dim">
+          <ul className="mt-2 space-y-2 text-xs text-text-muted">
             {synapses.map((s) => (
               <li key={s.title} className="rounded border border-border/40 px-2 py-1.5">
                 <span className="text-text-muted">[{s.category}]</span> {s.title}

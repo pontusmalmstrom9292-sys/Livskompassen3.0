@@ -15,12 +15,21 @@ public class BatteryManager {
     private final Context context;
     private final PowerManager powerManager;
     private boolean isPowerSaveMode = false;
+    private PowerSaveListener listener;
+
+    public interface PowerSaveListener {
+        void onPowerSaveModeChanged(boolean isEnabled);
+    }
 
     public BatteryManager(Context context) {
         this.context = context;
         this.powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
         updatePowerSaveStatus();
         registerBatteryReceiver();
+    }
+
+    public void setPowerSaveListener(PowerSaveListener listener) {
+        this.listener = listener;
     }
 
     private void registerBatteryReceiver() {
@@ -39,8 +48,14 @@ public class BatteryManager {
 
     private void updatePowerSaveStatus() {
         if (powerManager != null) {
-            isPowerSaveMode = powerManager.isPowerSaveMode();
-            LCLog.d("BatteryManager: Power Save Mode is " + (isPowerSaveMode ? "ON" : "OFF"));
+            boolean currentMode = powerManager.isPowerSaveMode();
+            if (currentMode != isPowerSaveMode) {
+                isPowerSaveMode = currentMode;
+                LCLog.d("BatteryManager: Power Save Mode is " + (isPowerSaveMode ? "ON" : "OFF"));
+                if (listener != null) {
+                    listener.onPowerSaveModeChanged(isPowerSaveMode);
+                }
+            }
         }
     }
 

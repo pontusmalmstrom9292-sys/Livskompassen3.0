@@ -108,7 +108,7 @@ export function KanslotempletParentCard({ activeChild, userId }: Props) {
             <button
               type="button"
               onClick={() => void load()}
-              className="text-text-dim hover:text-accent bg-transparent border-0 cursor-pointer"
+              className="text-text-muted hover:text-accent bg-transparent border-0 cursor-pointer"
               title="Uppdatera"
             >
               <RefreshCw className="h-3.5 w-3.5" />
@@ -117,7 +117,7 @@ export function KanslotempletParentCard({ activeChild, userId }: Props) {
 
           <div className="space-y-3 text-sm">
             <div>
-              <span className="text-[10px] uppercase tracking-widest text-text-dim">Möt känslan</span>
+              <span className="text-[10px] uppercase tracking-widest text-text-muted">Möt känslan</span>
               <p className="text-text-muted mt-0.5 leading-relaxed">{info.advice}</p>
             </div>
 
@@ -127,13 +127,13 @@ export function KanslotempletParentCard({ activeChild, userId }: Props) {
             </div>
 
             <div className="rounded-xl border border-border bg-surface-2 p-3">
-              <span className="text-[10px] uppercase tracking-widest text-text-dim">Föräldra-ankare</span>
-              <p className="text-text-dim mt-1 leading-relaxed italic">{info.parentGuard}</p>
+              <span className="text-[10px] uppercase tracking-widest text-text-muted">Föräldra-ankare</span>
+              <p className="text-text-muted mt-1 leading-relaxed italic">{info.parentGuard}</p>
             </div>
           </div>
 
           {latestLog?.createdAt && (
-            <p className="text-[9px] text-right text-text-dim uppercase tracking-wider">
+            <p className="text-[9px] text-right text-text-muted uppercase tracking-wider">
               Registrerat: {latestLog.createdAt.slice(0, 16).replace('T', ' ')}
             </p>
           )}

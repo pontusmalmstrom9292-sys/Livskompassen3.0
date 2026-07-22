@@ -39,8 +39,8 @@
   }
 
   .reflektion-field__label {
-    @apply mb-1.5 block text-[10px] uppercase tracking-[0.18em] text-text-dim;
-    color: color-mix(in srgb, var(--text-dim) 86%, #e2e8f0);
+    @apply mb-1.5 block text-[10px] uppercase tracking-[0.18em] text-text-muted;
+    color: color-mix(in srgb, var(--text-muted) 86%, var(--text));
   }
 
   .reflektion-feeling-select {
@@ -146,7 +146,7 @@
 
   .reflektion-mood-card__label {
     @apply max-w-full px-0.5 text-center text-[9px] font-medium leading-tight tracking-wide text-text-muted;
-    color: color-mix(in srgb, var(--text-muted) 88%, #e2e8f0);
+    color: color-mix(in srgb, var(--text-muted) 88%, var(--text));
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -232,7 +232,7 @@
   }
 
   .reflektion-write-tabs__tab {
-    @apply flex-1 rounded-lg border-0 py-2 text-xs font-medium text-text-dim transition-colors;
+    @apply flex-1 rounded-lg border-0 py-2 text-xs font-medium text-text-muted transition-colors;
     min-height: var(--ds-touch-target);
   }
 
@@ -275,7 +275,7 @@
   }
 
   .reflektion-tre-ord__count {
-    @apply mt-1 text-center text-xs text-text-dim;
+    @apply mt-1 text-center text-xs text-text-muted;
   }
 
   .reflektion-voice {
@@ -328,7 +328,7 @@
   }
 
   .reflektion-wizard-progress__label {
-    @apply text-[10px] font-medium uppercase tracking-[0.14em] text-text-dim;
+    @apply text-[10px] font-medium uppercase tracking-[0.14em] text-text-muted;
   }
 
   .reflektion-wizard-progress__step--current .reflektion-wizard-progress__label {
@@ -336,7 +336,7 @@
   }
 
   .reflektion-keyboard-hint {
-    @apply mt-3 text-center text-[11px] leading-relaxed text-text-dim;
+    @apply mt-3 text-center text-[11px] leading-relaxed text-text-muted;
   }
 }
 

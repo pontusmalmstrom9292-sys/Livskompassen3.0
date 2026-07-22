@@ -193,13 +193,13 @@ export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePane
                   </div>
                   <div className="flex items-center gap-2">
                     {node.count != null && (
-                      <span className="rounded-md bg-surface-3 px-1.5 py-0.5 text-[10px] text-text-dim">
+                      <span className="rounded-md bg-surface-3 px-1.5 py-0.5 text-[10px] text-text-muted">
                         {node.count}
                       </span>
                     )}
                     <ChevronRight
                       className={clsx(
-                        'h-3.5 w-3.5 text-text-dim transition-transform duration-200',
+                        'h-3.5 w-3.5 text-text-muted transition-transform duration-200',
                         isExpanded && 'rotate-90',
                       )}
                     />
@@ -222,9 +222,9 @@ export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePane
                   </span>
                   {(node.date || node.excerpt) && (
                     <div className="mt-0.5 flex items-center gap-2">
-                      {node.date && <span className="text-[9px] text-text-dim">{node.date}</span>}
+                      {node.date && <span className="text-[9px] text-text-muted">{node.date}</span>}
                       {node.excerpt && (
-                        <span className="max-w-[150px] truncate text-[9px] text-text-dim">
+                        <span className="max-w-[150px] truncate text-[9px] text-text-muted">
                           — {node.excerpt}
                         </span>
                       )}
@@ -286,7 +286,7 @@ export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePane
 
       <div className="flex min-h-[300px] flex-col gap-4 p-4 sm:p-5">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-dim" />
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
           <input
             type="search"
             value={searchQuery}
@@ -297,7 +297,7 @@ export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePane
         </div>
 
         {!user && (
-          <p className="py-8 text-center text-xs text-text-dim">Logga in för att se ditt arkiv.</p>
+          <p className="py-8 text-center text-xs text-text-muted">Logga in för att se ditt arkiv.</p>
         )}
 
         {user && loading && (
@@ -321,7 +321,7 @@ export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePane
             {filteredTree.length > 0 ? (
               renderTree(filteredTree)
             ) : (
-              <p className="py-8 text-center text-xs text-text-dim">
+              <p className="py-8 text-center text-xs text-text-muted">
                 {searchQuery.trim()
                   ? 'Inga träffar i arkivet.'
                   : 'Arkivet är tomt — inkast och uppladdningar hamnar här automatiskt.'}
@@ -330,7 +330,7 @@ export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePane
           </div>
         )}
 
-        <div className="flex items-center justify-between border-t border-border/30 pt-3 text-[10px] text-text-dim">
+        <div className="flex items-center justify-between border-t border-border/30 pt-3 text-[10px] text-text-muted">
           <span className="flex items-center gap-1">
             <Lock className="h-3 w-3" /> Krypterat och lokalt indexerat.
           </span>

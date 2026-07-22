@@ -274,7 +274,7 @@
   }
 
   .fyren-widget-bar__label {
-    @apply text-[10px] font-medium uppercase tracking-[var(--ds-letter-spacing-widest,0.14em)] text-text-dim;
+    @apply text-[10px] font-medium uppercase tracking-[var(--ds-letter-spacing-widest,0.14em)] text-text-muted;
   }
 
   .fyren-widget-bar__icon-shell {
@@ -411,7 +411,7 @@
   }
 
   .widget-home-module__delete.widget-btn--icon {
-    @apply min-h-0 px-2 py-1 text-text-dim hover:text-danger;
+    @apply inline-flex min-h-[var(--ds-touch-target)] min-w-[var(--ds-touch-target)] items-center justify-center px-2 py-1 text-text-muted hover:text-danger;
   }
 
   .widget-home-module__delete .widget-btn__label {

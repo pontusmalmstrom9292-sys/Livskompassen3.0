@@ -28,7 +28,7 @@ export function VitDevelopmentPanel({ stats }: Props) {
   return (
     <section className="calm-card p-4 sm:p-5" aria-label="Utveckling">
       <h2 className={`${textStyles.eyebrow} text-accent`}>Utveckling</h2>
-      <p className="mt-1 text-[10px] text-text-dim">{VIT_HUB_DEVELOPMENT_HINT}</p>
+      <p className="mt-1 text-[10px] text-text-muted">{VIT_HUB_DEVELOPMENT_HINT}</p>
 
       {stats.weeklyActivity.length > 0 ? (
         <div className="mt-4" role="img" aria-label="Aktivitet senaste fyra veckorna">
@@ -37,20 +37,20 @@ export function VitDevelopmentPanel({ stats }: Props) {
               const heightPct = week.count > 0 ? Math.max(12, (week.count / maxWeekCount) * 100) : 4;
               return (
                 <li key={week.weekKey} className="flex min-w-0 flex-1 flex-col items-center gap-1">
-                  <span className="text-[10px] tabular-nums text-text-dim">{week.count || '—'}</span>
+                  <span className="text-[10px] tabular-nums text-text-muted">{week.count || '—'}</span>
                   <div
                     className="w-full max-w-[2.5rem] rounded-t-md border border-border-strong/40 bg-accent/20 transition-[height]"
                     style={{ height: `${heightPct}px` }}
                     aria-hidden
                   />
-                  <span className="truncate text-[9px] uppercase tracking-wide text-text-dim">
+                  <span className="truncate text-[9px] uppercase tracking-wide text-text-muted">
                     {week.label}
                   </span>
                 </li>
               );
             })}
           </ul>
-          <p className="mt-2 text-[10px] text-text-dim">{VIT_HUB_STAT_DAYS_HINT}</p>
+          <p className="mt-2 text-[10px] text-text-muted">{VIT_HUB_STAT_DAYS_HINT}</p>
         </div>
       ) : null}
 

@@ -83,8 +83,10 @@ export function InstallningarPage() {
           <div className="space-y-2 rounded-2xl border border-accent/35 bg-surface-2/50 p-4">
             <p className="text-sm font-medium text-text">Companion OS</p>
             <p className="text-xs leading-relaxed text-text-dim">
-              Välj vilka widgets som syns på Hem. På Android: långtryck hemskärm → Widgets →
-              Livskompassen (Companion).
+              Välj vilka widgets som syns på Hem. På Motorola G85: långtryck hemskärm → Widgets →
+              Livskompassen → fäst Capture (mic), Note, Kompassen eller Fyren. Ett mic-tryck startar
+              inspelning utan extra steg. Ta bort och fäst om efter APK-uppdatering så rich-layout
+              syns.
             </p>
             <Link
               to="/installningar/widget-studio"

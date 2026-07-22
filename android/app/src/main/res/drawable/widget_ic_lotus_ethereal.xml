@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ethereal lotus approximation for Harbor -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="48"
+    android:viewportHeight="48">
+    <path
+        android:pathData="M24,38c-6,-4 -10,-10 -10,-16 0,-4 3,-7 7,-7 1.5,0 2.8,0.5 4,1.4 1.2,-0.9 2.5,-1.4 4,-1.4 4,0 7,3 7,7 0,6 -4,12 -12,16z"
+        android:strokeWidth="1.4"
+        android:strokeColor="#7BA3C9"
+        android:fillColor="#227BA3C9" />
+    <path
+        android:pathData="M24,12c2,4 2,8 0,14M18,16c3,3 5,7 6,12M30,16c-3,3 -5,7 -6,12"
+        android:strokeWidth="1.2"
+        android:strokeColor="#D4AF37"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+    <path
+        android:pathData="M14,28c4,-1 7,0 10,3 3,-3 6,-4 10,-3"
+        android:strokeWidth="1.2"
+        android:strokeColor="#7BA3C9"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000" />
+</vector>

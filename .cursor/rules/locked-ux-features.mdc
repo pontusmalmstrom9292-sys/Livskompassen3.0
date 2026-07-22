@@ -87,7 +87,8 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 
 - Register: [`.context/locked-ux-features.md`](../.context/locked-ux-features.md) §23 · modul `MOD-WIDGET`
 - Web: `src/widgets/**` · `CompanionHomeRail` på Hem · Widget Studio · 10-pack
-- Android: `Companion*WidgetProvider` · scoped `last_action_*` · deep-link `?focus=1` / `?autostart=1`
+- Android: `Companion*WidgetProvider` · WIS (`WidgetInteract`, overlay, receiver, `WidgetCaptureService`, `WidgetCaptureStore`)
+- Skill: `livskompassen-companion-widget-interact` · INTERACTIVE FIRST
 - Smoke: `npm run smoke:companion-widgets` (ingår i `smoke:locked-ux`)
 - Rule: [`companion-os-lock.mdc`](companion-os-lock.mdc)
 
@@ -100,4 +101,4 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 - Removing Barnporten spec, agents registry, or Valv HITL bridge design
 - Removing `BarnportenInboxPanel`, HITL prompt, or auto-promoting child logs to Valv
 - Removing «Mer för dig», `DevelopmentBentoWidget`, `home/dev/**`, MåBra-utvecklingskort, Inställningar faktapack-genväg, WH9 widget, chrome fusion, or «Dagens kort» shortcut without unlock `MOD-CORE-UTV` + Pontus OK
-- Removing `src/widgets/**`, `CompanionHomeRail`, Widget Studio, Companion Android chips, or `smoke:companion-widgets` without unlock `MOD-WIDGET` + Pontus OK
+- Removing `src/widgets/**`, `CompanionHomeRail`, Widget Studio, Companion Android chips, WIS interact-stack (`WidgetInteract`/`WidgetOverlayActivity`/`WidgetCaptureService`/`WidgetCaptureStore`), interact-skill, or `smoke:companion-widgets` without unlock `MOD-WIDGET` + Pontus OK

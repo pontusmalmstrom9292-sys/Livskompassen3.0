@@ -110,14 +110,14 @@ export function JournalMediaLightbox({
 
       <div className="space-y-2 px-4 py-4">
         {(meta || createdAt) && (
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">
+          <p className="text-[10px] uppercase tracking-widest text-text-muted">
             {[meta, createdAt ? formatJournalDate(createdAt) : null].filter(Boolean).join(' · ')}
           </p>
         )}
         {current.caption && <p className="text-sm text-text-muted">{current.caption}</p>}
-        {!current.caption && <p className="text-xs text-text-dim">{current.name}</p>}
+        {!current.caption && <p className="text-xs text-text-muted">{current.name}</p>}
         {safeItems.length > 1 && (
-          <p className="text-center text-xs text-text-dim">
+          <p className="text-center text-xs text-text-muted">
             {index + 1} / {safeItems.length}
           </p>
         )}

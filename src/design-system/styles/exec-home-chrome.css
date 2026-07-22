@@ -100,7 +100,8 @@
   align-items: center;
   gap: 0.45rem;
   margin-bottom: 0.35rem;
-  padding: 0.45rem 0.85rem;
+  min-height: var(--ds-touch-target, 2.75rem);
+  padding: 0.55rem 0.95rem;
   border-radius: 999px;
   border: 1px solid color-mix(in srgb, var(--accent) 28%, transparent);
   background: color-mix(in srgb, var(--surface-2) 88%, transparent);
@@ -110,7 +111,7 @@
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+  transition: border-color var(--ds-duration-fast, 0.2s) ease, color var(--ds-duration-fast, 0.2s) ease, background var(--ds-duration-fast, 0.2s) ease;
 }
 
 .exec-snabbstart-hub__toggle:focus-visible {
@@ -174,6 +175,11 @@
   .exec-snabbstart-hub__glow {
     animation: none;
     opacity: 0.8;
+  }
+
+  .exec-snabbstart-hub__toggle,
+  .exec-snabbstart-hub__toggle-chevron {
+    transition: none;
   }
 
   .exec-snabbstart-hub__satellite:active {
@@ -273,7 +279,7 @@
   font-size: 0.625rem;
   font-weight: 600;
   letter-spacing: 0.04em;
-  color: color-mix(in srgb, var(--text-muted) 88%, #e2e8f0);
+  color: color-mix(in srgb, var(--text-muted) 88%, var(--text));
   text-align: center;
   line-height: 1.2;
 }
@@ -366,7 +372,8 @@
 @media (prefers-reduced-motion: reduce) {
   .home-layout-a--executive .exec-surface-card,
   .exec-snabbstart-hub__inkast,
-  .exec-snabbstart-hub__satellite {
+  .exec-snabbstart-hub__satellite,
+  .exec-snabbstart-hub__toggle {
     transition: none;
   }
 

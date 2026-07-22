@@ -7,6 +7,7 @@ import android.widget.RemoteViews;
 
 import com.livskompassen.app.R;
 import com.livskompassen.app.core.WidgetUpdateManager;
+import com.livskompassen.app.util.SecurePrefs;
 
 /** Executive Midnight dock-style hemskärms-widgets (navy glass + guldkrets). */
 public final class WidgetViews {
@@ -43,6 +44,23 @@ public final class WidgetViews {
         views.setOnClickPendingIntent(R.id.widget_icon, pendingIntent);
         views.setOnClickPendingIntent(R.id.widget_title, pendingIntent);
         views.setOnClickPendingIntent(R.id.widget_subtitle, pendingIntent);
+    }
+
+    private static String liveText(Context context, String statusKey, int maxLen) {
+        String dynamic = null;
+        if (statusKey != null && !statusKey.isEmpty()) {
+            dynamic = WidgetUpdateManager.getWidgetContent(context, statusKey);
+        }
+        if (dynamic == null || dynamic.trim().isEmpty()) {
+            dynamic = WidgetUpdateManager.getWidgetContent(context, "last_action");
+        }
+        if (dynamic == null) return null;
+        String text = dynamic.trim();
+        if (text.isEmpty()) return null;
+        if (text.length() > maxLen) {
+            text = text.substring(0, Math.max(0, maxLen - 1)) + "…";
+        }
+        return text;
     }
 
     /** WH1 diskret — horisontell dock-kapsel, «Anteckningar» utåt. */
@@ -93,62 +111,272 @@ public final class WidgetViews {
     }
 
     /**
-     * Companion Capture — rich RemoteViews (Stamp pattern).
-     * Mic + root → autostart; Senaste → focus open. No Sacred core.
+     * Companion Capture — WIS: one tap starts FG background recording; second tap stops.
+     * Continues with screen locked. Senaste → secure library (download/share).
      */
     public static RemoteViews companionCapture(Context context) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_capture);
-        String dynamic = WidgetUpdateManager.getWidgetContent(context, "last_action_capture");
-        if (dynamic == null || dynamic.trim().isEmpty()) {
-            dynamic = WidgetUpdateManager.getWidgetContent(context, "last_action");
+        boolean recording = WidgetCaptureService.isRecording()
+            || SecurePrefs.get(context).getBoolean(WidgetCaptureService.PREF_RECORDING, false);
+        String dynamic = liveText(context, "last_action_capture", 40);
+        if (dynamic != null) {
+            views.setTextViewText(R.id.widget_companion_capture_sub, dynamic);
+        } else if (recording) {
+            views.setTextViewText(R.id.widget_companion_capture_sub,
+                context.getString(R.string.widget_companion_capture_recording_sub));
         }
-        if (dynamic != null && !dynamic.trim().isEmpty()) {
-            String text = dynamic.trim();
-            if (text.length() > 40) {
-                text = text.substring(0, 37) + "…";
-            }
-            views.setTextViewText(R.id.widget_companion_capture_sub, text);
-        }
+        PendingIntent primary = recording
+            ? WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_CAPTURE_STOP, "")
+            : WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_CAPTURE);
+        PendingIntent status = recording
+            ? WidgetInteract.broadcastPendingIntent(
+                context, WidgetInteract.ACT_CAPTURE_STATUS, "Spelar in… tryck för stopp")
+            : WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_CAPTURE_LIBRARY);
+        views.setOnClickPendingIntent(R.id.widget_companion_capture_mic, primary);
+        views.setOnClickPendingIntent(R.id.widget_companion_capture_root, primary);
+        views.setOnClickPendingIntent(R.id.widget_companion_capture_title, primary);
+        views.setOnClickPendingIntent(R.id.widget_companion_capture_recent, status);
+        return views;
+    }
+
+    /**
+     * Companion Note — WIS: compose/+ → overlay text; pills → in-place category; voice → capture overlay.
+     */
+    public static RemoteViews companionNote(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_note);
+        PendingIntent note = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_NOTE);
+        PendingIntent voice = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_CAPTURE);
+        String cat = WidgetActionReceiver.noteCategory(context);
+        applyNotePillHighlight(views, cat);
+        views.setOnClickPendingIntent(R.id.widget_companion_note_compose, note);
+        views.setOnClickPendingIntent(R.id.widget_companion_note_add, note);
+        views.setOnClickPendingIntent(R.id.widget_companion_note_root, note);
         views.setOnClickPendingIntent(
-            R.id.widget_companion_capture_mic,
-            WidgetLaunch.pendingIntent(context, "/widget/companion-capture?autostart=1")
+            R.id.widget_companion_note_pill_tanke,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_NOTE_CATEGORY, "tanke")
         );
         views.setOnClickPendingIntent(
-            R.id.widget_companion_capture_recent,
-            WidgetLaunch.pendingIntent(context, "/widget/companion-capture?focus=1")
+            R.id.widget_companion_note_pill_ide,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_NOTE_CATEGORY, "ide")
         );
         views.setOnClickPendingIntent(
-            R.id.widget_companion_capture_root,
-            WidgetLaunch.pendingIntent(context, "/widget/companion-capture?autostart=1")
+            R.id.widget_companion_note_pill_paminnelse,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_NOTE_CATEGORY, "paminnelse")
+        );
+        views.setOnClickPendingIntent(
+            R.id.widget_companion_note_pill_annat,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_NOTE_CATEGORY, "annat")
+        );
+        views.setOnClickPendingIntent(R.id.widget_companion_note_voice, voice);
+        // Photo still needs system picker — legacy secondary path
+        views.setOnClickPendingIntent(
+            R.id.widget_companion_note_photo,
+            WidgetInteract.legacyAppPendingIntent(context, "/widget/companion-note?photo=1")
+        );
+        return views;
+    }
+
+    private static void applyNotePillHighlight(RemoteViews views, String cat) {
+        float dim = 0.45f;
+        float on = 1f;
+        views.setFloat(R.id.widget_companion_note_pill_tanke, "setAlpha", "tanke".equals(cat) ? on : dim);
+        views.setFloat(R.id.widget_companion_note_pill_ide, "setAlpha", "ide".equals(cat) ? on : dim);
+        views.setFloat(R.id.widget_companion_note_pill_paminnelse, "setAlpha", "paminnelse".equals(cat) ? on : dim);
+        views.setFloat(R.id.widget_companion_note_pill_annat, "setAlpha", "annat".equals(cat) ? on : dim);
+    }
+
+    /**
+     * Companion Compass — intention CTA → overlay (no full app).
+     */
+    public static RemoteViews companionCompass(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_compass);
+        String dynamic = liveText(context, "last_action_compass", 48);
+        if (dynamic != null) {
+            views.setTextViewText(R.id.widget_companion_compass_intention, dynamic);
+        }
+        PendingIntent intention = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_INTENTION);
+        views.setOnClickPendingIntent(R.id.widget_companion_compass_root, intention);
+        views.setOnClickPendingIntent(R.id.widget_companion_compass_disc, intention);
+        views.setOnClickPendingIntent(R.id.widget_companion_compass_cta, intention);
+        views.setOnClickPendingIntent(R.id.widget_companion_compass_title, intention);
+        views.setOnClickPendingIntent(R.id.widget_companion_compass_intention, intention);
+        return views;
+    }
+
+    /**
+     * Companion Beacon — Visa mer → capacity note overlay.
+     */
+    public static RemoteViews companionBeacon(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_beacon);
+        String dynamic = liveText(context, "last_action_beacon", 24);
+        if (dynamic != null) {
+            views.setTextViewText(R.id.widget_companion_beacon_state, dynamic);
+        }
+        PendingIntent beacon = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_BEACON);
+        views.setOnClickPendingIntent(R.id.widget_companion_beacon_root, beacon);
+        views.setOnClickPendingIntent(R.id.widget_companion_beacon_ring, beacon);
+        views.setOnClickPendingIntent(R.id.widget_companion_beacon_cta, beacon);
+        views.setOnClickPendingIntent(R.id.widget_companion_beacon_title, beacon);
+        return views;
+    }
+
+    /**
+     * Companion Inbox — text → overlay; voice → capture overlay; photo/link secondary legacy.
+     */
+    public static RemoteViews companionInbox(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_inbox);
+        String dynamic = liveText(context, "last_action_inbox", 40);
+        if (dynamic != null) {
+            views.setTextViewText(R.id.widget_companion_inbox_sub, dynamic);
+        }
+        views.setOnClickPendingIntent(
+            R.id.widget_companion_inbox_text,
+            WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_INBOX_TEXT)
+        );
+        views.setOnClickPendingIntent(
+            R.id.widget_companion_inbox_voice,
+            WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_CAPTURE)
+        );
+        views.setOnClickPendingIntent(
+            R.id.widget_companion_inbox_photo,
+            WidgetInteract.legacyAppPendingIntent(context, "/widget/companion-inbox?photo=1")
+        );
+        views.setOnClickPendingIntent(
+            R.id.widget_companion_inbox_link,
+            WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_INBOX_TEXT)
+        );
+        views.setOnClickPendingIntent(
+            R.id.widget_companion_inbox_root,
+            WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_INBOX_TEXT)
         );
         return views;
     }
 
     /**
-     * Companion Note — compose / photo / voice / + with separate deep-links.
+     * Companion Tasks — row taps toggle done in-place; Visa alla expands state (no full app).
      */
-    public static RemoteViews companionNote(Context context) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_note);
+    public static RemoteViews companionTasks(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_tasks);
+        applyTaskRow(context, views, 0, R.id.widget_companion_tasks_row1,
+            R.string.widget_companion_tasks_row1, R.string.widget_companion_tasks_row1_done);
+        applyTaskRow(context, views, 1, R.id.widget_companion_tasks_row2,
+            R.string.widget_companion_tasks_row2, R.string.widget_companion_tasks_row2_done);
+        applyTaskRow(context, views, 2, R.id.widget_companion_tasks_row3,
+            R.string.widget_companion_tasks_row3, R.string.widget_companion_tasks_row3_done);
         views.setOnClickPendingIntent(
-            R.id.widget_companion_note_compose,
-            WidgetLaunch.pendingIntent(context, "/widget/companion-note?focus=1")
+            R.id.widget_companion_tasks_all,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_TASKS_EXPAND, "")
         );
         views.setOnClickPendingIntent(
-            R.id.widget_companion_note_photo,
-            WidgetLaunch.pendingIntent(context, "/widget/companion-note?photo=1")
+            R.id.widget_companion_tasks_title,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_TASKS_EXPAND, "")
         );
         views.setOnClickPendingIntent(
-            R.id.widget_companion_note_voice,
-            WidgetLaunch.pendingIntent(context, "/widget/companion-note?voice=1")
+            R.id.widget_companion_tasks_root,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_TASKS_EXPAND, "")
+        );
+        return views;
+    }
+
+    private static void applyTaskRow(
+        Context context,
+        RemoteViews views,
+        int index,
+        int rowId,
+        int openRes,
+        int doneRes
+    ) {
+        boolean done = WidgetActionReceiver.isTaskDone(context, index);
+        views.setTextViewText(rowId, context.getString(done ? doneRes : openRes));
+        views.setOnClickPendingIntent(
+            rowId,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_TASK_TOGGLE, String.valueOf(index))
+        );
+    }
+
+    /**
+     * Companion Journal — Skriv → overlay draft (no full app).
+     */
+    public static RemoteViews companionJournal(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_journal);
+        String dynamic = liveText(context, "last_action_journal", 80);
+        if (dynamic != null) {
+            views.setTextViewText(R.id.widget_companion_journal_quote, dynamic);
+        }
+        PendingIntent write = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_JOURNAL);
+        views.setOnClickPendingIntent(R.id.widget_companion_journal_write, write);
+        views.setOnClickPendingIntent(R.id.widget_companion_journal_root, write);
+        views.setOnClickPendingIntent(R.id.widget_companion_journal_quote, write);
+        views.setOnClickPendingIntent(R.id.widget_companion_journal_title, write);
+        return views;
+    }
+
+    /**
+     * Companion Harbor — mode pills in-place via broadcast.
+     */
+    public static RemoteViews companionHarbor(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_harbor);
+        String dynamic = liveText(context, "last_action_harbor", 60);
+        if (dynamic != null) {
+            views.setTextViewText(R.id.widget_companion_harbor_affirm, dynamic);
+        }
+        views.setOnClickPendingIntent(
+            R.id.widget_companion_harbor_breath,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_HARBOR_MODE, "breath")
         );
         views.setOnClickPendingIntent(
-            R.id.widget_companion_note_add,
-            WidgetLaunch.pendingIntent(context, "/widget/companion-note?focus=1")
+            R.id.widget_companion_harbor_focus,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_HARBOR_MODE, "focus")
         );
         views.setOnClickPendingIntent(
-            R.id.widget_companion_note_root,
-            WidgetLaunch.pendingIntent(context, "/widget/companion-note?focus=1")
+            R.id.widget_companion_harbor_thanks,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_HARBOR_MODE, "thanks")
         );
+        views.setOnClickPendingIntent(
+            R.id.widget_companion_harbor_sleep,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_HARBOR_MODE, "sleep")
+        );
+        PendingIntent breath = WidgetInteract.broadcastPendingIntent(
+            context, WidgetInteract.ACT_HARBOR_MODE, WidgetActionReceiver.harborMode(context)
+        );
+        views.setOnClickPendingIntent(R.id.widget_companion_harbor_root, breath);
+        views.setOnClickPendingIntent(R.id.widget_companion_harbor_lotus, breath);
+        views.setOnClickPendingIntent(R.id.widget_companion_harbor_affirm, breath);
+        views.setOnClickPendingIntent(R.id.widget_companion_harbor_title, breath);
+        return views;
+    }
+
+    /**
+     * Companion Anchor — Klar → mood check-in overlay; also supports done broadcast.
+     */
+    public static RemoteViews companionAnchor(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_anchor);
+        PendingIntent mood = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_MOOD);
+        PendingIntent done = WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_ANCHOR_DONE, "");
+        if (WidgetActionReceiver.isAnchorDone(context)) {
+            views.setTextViewText(R.id.widget_companion_anchor_done, "✓ Klar");
+        }
+        views.setOnClickPendingIntent(R.id.widget_companion_anchor_done, done);
+        views.setOnClickPendingIntent(R.id.widget_companion_anchor_root, mood);
+        views.setOnClickPendingIntent(R.id.widget_companion_anchor_icon, mood);
+        views.setOnClickPendingIntent(R.id.widget_companion_anchor_title, mood);
+        return views;
+    }
+
+    /**
+     * Companion Child — Svara → overlay (Barnfokus additive, no full app).
+     */
+    public static RemoteViews companionChild(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_child);
+        String dynamic = liveText(context, "last_action_child", 90);
+        if (dynamic != null) {
+            views.setTextViewText(R.id.widget_companion_child_question, dynamic);
+        }
+        PendingIntent answer = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_CHILD);
+        views.setOnClickPendingIntent(R.id.widget_companion_child_root, answer);
+        views.setOnClickPendingIntent(R.id.widget_companion_child_answer, answer);
+        views.setOnClickPendingIntent(R.id.widget_companion_child_question, answer);
+        views.setOnClickPendingIntent(R.id.widget_companion_child_title, answer);
         return views;
     }
 }

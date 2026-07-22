@@ -103,7 +103,7 @@ export function RecoveryTwelveStepJournal({ userId }: Props) {
               onClick={() => setExpandedStep(step.stepNumber)}
             >
               <span>
-                <span className="font-display-serif text-[10px] uppercase tracking-[0.2em] text-text-dim">
+                <span className="font-display-serif text-[10px] uppercase tracking-[0.2em] text-text-muted">
                   Steg {step.stepNumber} · {step.title}
                 </span>
                 {!isOpen ? (
@@ -142,7 +142,7 @@ export function RecoveryTwelveStepJournal({ userId }: Props) {
         );
       })}
       {error ? <p className="text-sm text-text-muted">{error}</p> : null}
-      {!userId ? <p className="text-sm text-text-dim">Logga in för att spara steg.</p> : null}
+      {!userId ? <p className="text-sm text-text-muted">Logga in för att spara steg.</p> : null}
     </section>
   );
 }

@@ -104,7 +104,7 @@ export function KampsparIngestForm({ onSaved, compact = false }: Props) {
     >
       <form onSubmit={handleSubmit} className="space-y-3">
         <div>
-          <label className="mb-1 block text-[10px] uppercase tracking-widest text-text-dim">Typ</label>
+          <label className="mb-1 block text-[10px] uppercase tracking-widest text-text-muted">Typ</label>
           <select
             value={entryType}
             onChange={(e) => setEntryType(e.target.value as KampsparEntryType)}
@@ -140,7 +140,7 @@ export function KampsparIngestForm({ onSaved, compact = false }: Props) {
 
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <div>
-            <label className="mb-1 block text-[10px] uppercase tracking-widest text-text-dim">Kategori</label>
+            <label className="mb-1 block text-[10px] uppercase tracking-widest text-text-muted">Kategori</label>
             <select
               value={categoryPreset}
               onChange={(e) => setCategoryPreset(e.target.value)}
@@ -155,7 +155,7 @@ export function KampsparIngestForm({ onSaved, compact = false }: Props) {
             </select>
           </div>
           <div>
-            <label className="mb-1 block text-[10px] uppercase tracking-widest text-text-dim">Datum</label>
+            <label className="mb-1 block text-[10px] uppercase tracking-widest text-text-muted">Datum</label>
             <input
               type="date"
               value={eventDate}
@@ -179,7 +179,7 @@ export function KampsparIngestForm({ onSaved, compact = false }: Props) {
         )}
 
         <div>
-          <label className="mb-1 block text-[10px] uppercase tracking-widest text-text-dim">Taggar</label>
+          <label className="mb-1 block text-[10px] uppercase tracking-widest text-text-muted">Taggar</label>
           <input
             type="text"
             value={tagsInput}
@@ -200,7 +200,7 @@ export function KampsparIngestForm({ onSaved, compact = false }: Props) {
           />
           <span className="text-sm text-text-muted">
             <Shield className="mb-0.5 inline h-3.5 w-3.5 text-gold" /> {SAVE_TO_VAULT_LABEL} ({IMMUTABLE_POST_SHORT})
-            <span className="mt-0.5 block text-xs text-text-dim">Explicit val — kopplas via sourceRef, blandas inte i sök.</span>
+            <span className="mt-0.5 block text-xs text-text-muted">Explicit val — kopplas via sourceRef, blandas inte i sök.</span>
           </span>
         </label>
 

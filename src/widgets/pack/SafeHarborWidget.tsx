@@ -9,9 +9,9 @@ import { finishCompanionCapture } from '../core/finishCompanionCapture';
 import { useCompanionOnline } from '../core/useCompanionOnline';
 import { queueWidgetSync } from '../core/WidgetSync';
 import { routeWidgetAction } from '../core/WidgetRouter';
-import { WidgetPalette } from '../core/WidgetTheme';
 import { useStudioWidgetConfig } from '../studio/useStudioWidgetConfig';
 import { widgetCardClass } from '../studio/studioIdleClass';
+import { LotusEmblem } from '../art/LotusEmblem';
 
 const WIDGET_ID = 'safe_harbor';
 
@@ -174,39 +174,7 @@ export function SafeHarborWidget({
           ref={bodyRef}
           className={breathing ? 'cw-lotus-hero cw-lotus-wrap cw-anim-breathe' : 'cw-lotus-hero cw-lotus-wrap'}
         >
-          <svg className="cw-lotus" width="64" height="64" viewBox="0 0 64 64" aria-hidden>
-            <defs>
-              <linearGradient id="cw-lotus-gold" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={WidgetPalette.premiumGoldLight} />
-                <stop offset="100%" stopColor={WidgetPalette.premiumGold} />
-              </linearGradient>
-              <radialGradient id="cw-lotus-core" cx="50%" cy="55%" r="45%">
-                <stop offset="0%" stopColor={WidgetPalette.etherealBlue} stopOpacity="0.55" />
-                <stop offset="100%" stopColor={WidgetPalette.deepSpaceBlue} stopOpacity="0" />
-              </radialGradient>
-            </defs>
-            <circle cx="32" cy="34" r="18" fill="url(#cw-lotus-core)" />
-            {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
-              <ellipse
-                key={deg}
-                cx="32"
-                cy="22"
-                rx="7"
-                ry="14"
-                fill="url(#cw-lotus-gold)"
-                opacity={0.72}
-                transform={`rotate(${deg} 32 34)`}
-              />
-            ))}
-            <circle
-              cx="32"
-              cy="34"
-              r="5"
-              fill={WidgetPalette.deepSpaceBlue}
-              stroke={WidgetPalette.premiumGold}
-              strokeWidth="1.2"
-            />
-          </svg>
+          <LotusEmblem size={64} />
           <p className="cw-lotus-hero__text">{line}</p>
         </div>
       </button>
