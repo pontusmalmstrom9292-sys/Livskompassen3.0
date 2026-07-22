@@ -39,28 +39,6 @@ const EXEC_SETTINGS_GROUPS: ExecutiveSettingsGroup[] = [
     ],
   },
   {
-    id: 'companion',
-    title: 'Companion OS',
-    rows: [
-      {
-        id: 'widget-studio',
-        label: 'Widget Studio',
-        icon: LayoutGrid,
-        href: '/installningar/widget-studio',
-      },
-      ...(import.meta.env.DEV
-        ? [
-            {
-              id: 'companion-lab',
-              label: 'Companion-labb',
-              icon: LayoutGrid,
-              href: '/dev/companion-widgets',
-            },
-          ]
-        : []),
-    ],
-  },
-  {
     id: 'support',
     title: 'Support',
     rows: [
@@ -101,15 +79,8 @@ export function InstallningarPage() {
 
       {tab === 'allmant' && (
         <div className="space-y-4">
-          {executiveSkin ? (
-            <ExecutiveSettingsList groups={EXEC_SETTINGS_GROUPS} />
-          ) : null}
-          <div className="glass-card space-y-4 rounded-[2rem] border border-border p-5">
-          <p className="text-sm text-text-muted">
-            Konto och inloggning: tryck på <strong className="text-text">låsikonen</strong> uppe till
-            höger i headern.
-          </p>
-          <div className="space-y-2 rounded-xl border border-border/80 bg-surface-2/40 p-3">
+          {/* Companion OS först — G85: synlig utan scroll */}
+          <div className="space-y-2 rounded-2xl border border-accent/35 bg-surface-2/50 p-4">
             <p className="text-sm font-medium text-text">Companion OS</p>
             <p className="text-xs leading-relaxed text-text-dim">
               Välj vilka widgets som syns på Hem. På Android: långtryck hemskärm → Widgets →
@@ -117,13 +88,13 @@ export function InstallningarPage() {
             </p>
             <Link
               to="/installningar/widget-studio"
-              className="flex min-h-11 items-center justify-between rounded-xl border border-border bg-surface-2/60 px-4 py-3 text-sm text-text transition-colors hover:border-accent/40"
+              className="flex min-h-12 items-center justify-between rounded-xl border border-accent/50 bg-surface-2/80 px-4 py-3 text-sm font-medium text-text transition-colors hover:border-accent"
             >
               <span className="flex items-center gap-2">
-                <LayoutGrid className="h-4 w-4 text-accent" strokeWidth={1.5} />
+                <LayoutGrid className="h-5 w-5 text-accent" strokeWidth={1.5} />
                 Widget Studio
               </span>
-              <span className="text-xs text-text-dim">Hem &amp; storlek</span>
+              <span className="text-xs text-accent">Öppna →</span>
             </Link>
             {import.meta.env.DEV ? (
               <Link
@@ -138,6 +109,14 @@ export function InstallningarPage() {
               </Link>
             ) : null}
           </div>
+          {executiveSkin ? (
+            <ExecutiveSettingsList groups={EXEC_SETTINGS_GROUPS} />
+          ) : null}
+          <div className="glass-card space-y-4 rounded-[2rem] border border-border p-5">
+          <p className="text-sm text-text-muted">
+            Konto och inloggning: tryck på <strong className="text-text">låsikonen</strong> uppe till
+            höger i headern.
+          </p>
           <label className="flex cursor-pointer items-center gap-3">
             <input
               type="checkbox"
