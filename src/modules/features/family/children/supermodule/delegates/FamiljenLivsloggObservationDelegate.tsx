@@ -119,7 +119,7 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
 
   return (
     <div className="space-y-3 pt-2">
-      <p className="text-xs uppercase tracking-widest text-text-dim">
+      <p className="text-xs uppercase tracking-widest text-text-muted">
         Steg 1 — Observation ({childAlias})
       </p>
 
@@ -147,7 +147,7 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
             className={
               epistemicKind === kind
                 ? 'rounded-lg border border-accent/50 bg-surface-3 px-2.5 py-1 text-[10px] uppercase tracking-wider text-accent'
-                : 'rounded-lg border border-border px-2.5 py-1 text-[10px] uppercase tracking-wider text-text-dim hover:border-accent/30'
+                : 'rounded-lg border border-border px-2.5 py-1 text-[10px] uppercase tracking-wider text-text-muted hover:border-accent/30'
             }
           >
             {kind === 'citat' ? 'Barnets ord (citat)' : 'Min observation (tolkning)'}
@@ -155,7 +155,7 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
         ))}
       </div>
 
-      <p className="text-xs text-text-dim leading-relaxed">
+      <p className="text-xs text-text-muted leading-relaxed">
         {epistemicKind === 'citat'
           ? 'Citat sparas med [citat]-prefix — vad barnet sa eller visade, ordagrant.'
           : 'Tolkning sparas med [tolkning]-prefix — din observation utan etikett på motpart.'}

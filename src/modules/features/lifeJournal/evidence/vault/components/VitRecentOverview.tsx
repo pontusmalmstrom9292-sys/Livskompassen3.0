@@ -29,7 +29,7 @@ export function VitRecentOverview({ entries, onOpenEntry }: Props) {
   return (
     <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="Senaste">
       <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">Senaste</h2>
-      <p className="mt-1 text-[10px] text-text-dim">{VIT_HUB_KRAVLOST}</p>
+      <p className="mt-1 text-[10px] text-text-muted">{VIT_HUB_KRAVLOST}</p>
       <VitEntryList entries={recent} emptyMessage="" maxHeightClass="max-h-none" />
       <ul className="mt-2 flex flex-wrap gap-2">
         {recent.map((entry) => (
@@ -43,7 +43,7 @@ export function VitRecentOverview({ entries, onOpenEntry }: Props) {
                   categoryId: 'all',
                 })
               }
-              className="rounded-full border border-border-strong px-3 py-1 text-[10px] text-text-dim transition hover:border-accent/30 hover:text-accent"
+              className="rounded-full border border-border-strong px-3 py-1 text-[10px] text-text-muted transition hover:border-accent/30 hover:text-accent"
             >
               Visa i listan
             </button>

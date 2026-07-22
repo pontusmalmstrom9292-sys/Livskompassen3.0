@@ -299,7 +299,7 @@ export function WidgetModulerAddForm({
           <span className="text-xs text-text-muted">Experimentera — visa alla typ- och stilval</span>
         </label>
       ) : (
-        <p className="rounded-lg border border-border/30 bg-surface-2/40 px-3 py-2 text-xs text-text-dim" role="status">
+        <p className="rounded-lg border border-border/30 bg-surface-2/40 px-3 py-2 text-xs text-text-muted" role="status">
           Experimentera öppnas vid högre kapacitet (nivå {capacity.cognitiveLevel} nu).
         </p>
       )}
@@ -343,7 +343,7 @@ export function WidgetModulerAddForm({
                 >
                   <span className="flex flex-col items-start gap-0.5 text-left">
                     <span>{preset.label_sv}</span>
-                    <span className="text-[10px] font-normal text-text-dim">{preset.lead_sv}</span>
+                    <span className="text-[10px] font-normal text-text-muted">{preset.lead_sv}</span>
                   </span>
                 </WidgetButton>
               );
@@ -365,7 +365,7 @@ export function WidgetModulerAddForm({
       </label>
 
       <label className="block space-y-1.5">
-        <span className="text-[11px] uppercase tracking-widest text-text-dim">Bildtext (valfritt)</span>
+        <span className="text-[11px] uppercase tracking-widest text-text-muted">Bildtext (valfritt)</span>
         <Input
           value={caption}
           onChange={(e) => setCaption(e.target.value)}
@@ -377,12 +377,12 @@ export function WidgetModulerAddForm({
       {type === 'countdown' ? (
         <>
           <label className="block space-y-1.5">
-            <span className="text-[11px] uppercase tracking-widest text-text-dim">Måldatum</span>
+            <span className="text-[11px] uppercase tracking-widest text-text-muted">Måldatum</span>
             <Input type="date" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} />
           </label>
           {showExperiment ? (
             <label className="block space-y-1.5">
-              <span className="text-[11px] uppercase tracking-widest text-text-dim">
+              <span className="text-[11px] uppercase tracking-widest text-text-muted">
                 Datum + tid (valfritt)
               </span>
               <Input
@@ -397,13 +397,13 @@ export function WidgetModulerAddForm({
 
       {type === 'linked_savings' ? (
         <label className="block space-y-1.5">
-          <span className="text-[11px] uppercase tracking-widest text-text-dim">Sparmål</span>
+          <span className="text-[11px] uppercase tracking-widest text-text-muted">Sparmål</span>
           {loadingGoals ? (
-            <p className="flex items-center gap-1.5 text-xs text-text-dim">
+            <p className="flex items-center gap-1.5 text-xs text-text-muted">
               <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden /> Läser sparmål…
             </p>
           ) : savingsGoals.length === 0 ? (
-            <p className="text-xs text-text-dim">Inga sparmål i Ekonomi ännu.</p>
+            <p className="text-xs text-text-muted">Inga sparmål i Ekonomi ännu.</p>
           ) : (
             <select
               className="widget-moduler-add__select"
@@ -422,7 +422,7 @@ export function WidgetModulerAddForm({
 
       {type === 'quick_note' ? (
         <label className="block space-y-1.5">
-          <span className="text-[11px] uppercase tracking-widest text-text-dim">Text</span>
+          <span className="text-[11px] uppercase tracking-widest text-text-muted">Text</span>
           <TextArea
             value={noteText}
             onChange={(e) => setNoteText(e.target.value)}

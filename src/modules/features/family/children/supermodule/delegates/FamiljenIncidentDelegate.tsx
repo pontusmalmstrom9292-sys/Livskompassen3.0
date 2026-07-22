@@ -85,21 +85,21 @@ export function FamiljenIncidentDelegate({ shell, onSaved }: FamiljenDelegateBas
         </p>
 
         <section className="space-y-1 rounded-lg border border-border/40 bg-surface/40 p-3">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-text-dim">Förklaring</p>
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-text-muted">Förklaring</p>
           <p className="text-sm text-text">{analysis.deepening}</p>
         </section>
 
         <section className="space-y-1 rounded-lg border border-border/40 bg-surface/40 p-3">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-text-dim">
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-text-muted">
             Vad du kan säga till {childAlias}
           </p>
           <p className="text-sm text-text">{analysis.childResponseScript}</p>
         </section>
 
         <section className="space-y-2 rounded-lg border border-border/40 bg-surface/40 p-3">
-          <p className="text-[10px] font-semibold uppercase tracking-wider text-text-dim">Frågekort</p>
+          <p className="text-[10px] font-semibold uppercase tracking-wider text-text-muted">Frågekort</p>
           <p className="text-sm font-medium text-text">{analysis.questionCard.question}</p>
-          <p className="text-xs text-text-dim">{analysis.questionCard.nextStep}</p>
+          <p className="text-xs text-text-muted">{analysis.questionCard.nextStep}</p>
           <Button
             type="button"
             variant="ghost"
@@ -147,7 +147,7 @@ export function FamiljenIncidentDelegate({ shell, onSaved }: FamiljenDelegateBas
         </div>
 
         {savedLogId && (
-          <p className="text-[10px] text-text-dim">Logg-id: {savedLogId.slice(0, 12)}…</p>
+          <p className="text-[10px] text-text-muted">Logg-id: {savedLogId.slice(0, 12)}…</p>
         )}
 
         <Button
@@ -168,7 +168,7 @@ export function FamiljenIncidentDelegate({ shell, onSaved }: FamiljenDelegateBas
 
   return (
     <div className="space-y-3 pt-2">
-      <p className="text-xs text-text-dim">
+      <p className="text-xs text-text-muted">
         Skriv fritt vad som hände. Du får stöd inom sekunder — sparas i barnens logg.
       </p>
 

@@ -63,7 +63,7 @@ export function WeaverApprovalPanel({ userId, journalEntryId, enabled = true }: 
 
   if (done === 'dismissed') {
     return (
-      <p className="mb-3 text-xs text-text-dim" role="status">
+      <p className="mb-3 text-xs text-text-muted" role="status">
         {VAVAREN_APPROVAL_DISMISS}
       </p>
     );
@@ -71,7 +71,7 @@ export function WeaverApprovalPanel({ userId, journalEntryId, enabled = true }: 
 
   if (waiting && !pending) {
     return (
-      <p className="mb-3 flex items-center gap-2 text-xs text-text-dim">
+      <p className="mb-3 flex items-center gap-2 text-xs text-text-muted">
         <Loader2 className="h-3.5 w-3.5 animate-spin" />
         {VAVAREN_APPROVAL_LOADING}
       </p>
@@ -111,9 +111,9 @@ export function WeaverApprovalPanel({ userId, journalEntryId, enabled = true }: 
   return (
     <div className="mb-3 space-y-2 rounded-xl border border-gold/25 bg-gold/5 px-3 py-3">
       <p className="text-sm text-text-muted">{VAVAREN_APPROVAL_TITLE}</p>
-      <p className="text-xs text-text-dim">{VAVAREN_APPROVAL_HINT}</p>
+      <p className="text-xs text-text-muted">{VAVAREN_APPROVAL_HINT}</p>
       {pending.sourceTextPreview ? (
-        <p className="text-xs italic text-text-dim/90">«{pending.sourceTextPreview}…»</p>
+        <p className="text-xs italic text-text-muted/90">«{pending.sourceTextPreview}…»</p>
       ) : null}
       <div className="flex flex-wrap gap-1">
         {normalizeStringArray(tags.emotions).map((e) => (

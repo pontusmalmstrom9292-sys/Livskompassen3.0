@@ -85,7 +85,7 @@ function WidgetBarnportenInner() {
             </WidgetButton>
             {error && <p className="text-sm text-danger">{error}</p>}
             <fieldset className="space-y-2 rounded-xl border border-amber-400/15 p-3">
-              <legend className="px-1 text-[10px] uppercase tracking-widest text-text-dim">
+              <legend className="px-1 text-[10px] uppercase tracking-widest text-text-muted">
                 Widget på den här enheten
               </legend>
               <div className="grid grid-cols-2 gap-2">

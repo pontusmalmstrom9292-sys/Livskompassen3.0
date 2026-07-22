@@ -240,7 +240,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
               <p className="text-center font-display-serif text-lg leading-relaxed text-accent">
                 {RECOVERY_SOS_ANCHOR_COPY.anchorLine}
               </p>
-              <p className="text-center text-xs text-text-dim">{ANCHOR_EXTRA.haltLine}</p>
+              <p className="text-center text-xs text-text-muted">{ANCHOR_EXTRA.haltLine}</p>
               <div className="flex flex-col gap-3">
                 <Button
                   type="button"
@@ -275,7 +275,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                       className="--ghost min-h-[48px] flex-col py-2 text-xs"
                     >
                       <span className="font-medium">{PROTOCOL_META[m].label}</span>
-                      <span className="normal-case tracking-normal text-text-dim opacity-80">
+                      <span className="normal-case tracking-normal text-text-muted opacity-80">
                         {PROTOCOL_META[m].lead}
                       </span>
                     </Button>
@@ -315,7 +315,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
           {screen === 'breathing' || screen === 'hold' ? (
             <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center">
               <div className="flex flex-col items-center space-y-6">
-                <p className="text-xs uppercase tracking-[0.2em] text-text-dim">4 · 7 · 8</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-text-muted">4 · 7 · 8</p>
                 <div className="relative flex h-52 w-52 items-center justify-center">
                   <div
                     aria-hidden
@@ -342,7 +342,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                     Jag är klar med andningen
                   </Button>
                 ) : (
-                  <p className="text-xs text-text-dim">Stäng när du vill.</p>
+                  <p className="text-xs text-text-muted">Stäng när du vill.</p>
                 )}
               </div>
             </div>
@@ -351,7 +351,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
           {screen === 'grounding' ? (
             <div className="flex w-full max-w-md flex-1 flex-col items-center justify-center">
               <div className="flex w-full flex-col items-center space-y-6">
-                <p className="text-xs uppercase tracking-[0.2em] text-text-dim">Jordning</p>
+                <p className="text-xs uppercase tracking-[0.2em] text-text-muted">Jordning</p>
                 <div className="flex gap-1.5" aria-hidden>
                   {GROUNDING_STEPS.map((_, i) => (
                     <span
@@ -362,13 +362,13 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                 </div>
                 <div className="w-full rounded-2xl border-[0.5px] border-border bg-surface-2/70 px-5 py-6 text-center backdrop-blur-sm">
                   <p className="font-display text-4xl tabular-nums text-accent">{groundStepData?.count}</p>
-                  <p className="mt-2 font-display-serif text-[10px] uppercase tracking-[0.2em] text-text-dim">
+                  <p className="mt-2 font-display-serif text-[10px] uppercase tracking-[0.2em] text-text-muted">
                     {groundStepData?.sense}
                   </p>
                   <p className="mt-4 text-base text-text">{groundStepData?.prompt}</p>
                   <p className="mt-2 text-sm text-text-muted">{groundStepData?.detail}</p>
                 </div>
-                <p className="text-sm text-text-dim">
+                <p className="text-sm text-text-muted">
                   Steg {groundStep + 1} av {GROUNDING_STEPS.length}
                 </p>
                 <Button
@@ -419,7 +419,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
 
           {screen === 'protocol' ? (
             <div className="flex w-full max-w-sm flex-1 flex-col justify-center gap-5">
-              <p className="text-center text-xs uppercase tracking-[0.2em] text-text-dim">
+              <p className="text-center text-xs uppercase tracking-[0.2em] text-text-muted">
                 {PROTOCOL_META[protocolMins].lead}
               </p>
               <p className="text-center font-display-serif text-lg text-accent">{protocolPrompt}</p>
@@ -461,7 +461,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
               <p className="text-center text-3xl tabular-nums text-accent" aria-live="polite">
                 {Math.floor(urgeSecondsLeft / 60)}:{String(urgeSecondsLeft % 60).padStart(2, '0')}
               </p>
-              <p className="text-center text-xs text-text-dim">{URGE_SURF_COPY.valuePrompt}</p>
+              <p className="text-center text-xs text-text-muted">{URGE_SURF_COPY.valuePrompt}</p>
               <div className="flex flex-wrap justify-center gap-2">
                 {[0, 2, 4, 6, 8, 10].map((n) => (
                   <button
@@ -477,7 +477,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                   </button>
                 ))}
               </div>
-              <p className="text-center text-[10px] text-text-dim">Intensitet 0–10 — valfritt</p>
+              <p className="text-center text-[10px] text-text-muted">Intensitet 0–10 — valfritt</p>
               <Button type="button" variant="secondary" onClick={() => setScreen('after')} className="--secondary min-h-[48px]">
                 {URGE_SURF_COPY.doneHint}
               </Button>
@@ -539,7 +539,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
             </div>
           ) : null}
 
-          <p className="mt-auto pt-6 text-center text-[11px] text-text-dim">
+          <p className="mt-auto pt-6 text-center text-[11px] text-text-muted">
             {RECOVERY_SOS_ANCHOR_COPY.emergencyHint}{' '}
             <a href="tel:112" className="text-danger underline-offset-2 hover:underline">
               {RECOVERY_SOS_ANCHOR_COPY.emergencyNumber}

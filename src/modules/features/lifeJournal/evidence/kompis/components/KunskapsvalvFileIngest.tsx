@@ -132,12 +132,12 @@ export function KunskapsvalvFileIngest({
       : 'rounded-2xl border border-border-subtle bg-surface/40 p-4';
 
   if (!user) {
-    return <p className="text-xs text-text-dim">Logga in för att ladda upp till Kunskapsvalvet.</p>;
+    return <p className="text-xs text-text-muted">Logga in för att ladda upp till Kunskapsvalvet.</p>;
   }
 
   return (
     <div className={shellClass}>
-      <p className="text-[10px] uppercase tracking-widest text-text-dim">
+      <p className="text-[10px] uppercase tracking-widest text-text-muted">
         Till Kunskapsvalvet (Minne)
       </p>
       <p className="mt-1 text-xs text-text-muted">

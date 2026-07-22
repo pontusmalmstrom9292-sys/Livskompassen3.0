@@ -108,7 +108,7 @@ export function VaultKunskapsbankPanel() {
         </CalmCollapsible>
       ) : null}
 
-      <p className="px-1 text-[10px] text-text-dim">
+      <p className="px-1 text-[10px] text-text-muted">
         Personregister:{' '}
         <Link to={vaultDrawerPath('aktorskarta')} className="text-accent/80 hover:text-accent">
           Aktörskarta

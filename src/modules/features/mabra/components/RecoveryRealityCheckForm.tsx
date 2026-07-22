@@ -316,7 +316,7 @@ export function RecoveryRealityCheckForm({ userId, onSaved, onComplete }: Props)
         </div>
 
         {step.kind === 'textarea' && step.field ? (
-          <label className="block text-xs text-text-dim">
+          <label className="block text-xs text-text-muted">
             <TextArea
               value={draft[step.field]}
               onChange={(e) => updateField(step.field as FieldKey, e.target.value)}
@@ -346,7 +346,7 @@ export function RecoveryRealityCheckForm({ userId, onSaved, onComplete }: Props)
               className="mt-4 w-full accent-accent"
               aria-label="Övertygelse intensitet 1 till 10"
             />
-            <div className="mt-2 flex justify-between text-[11px] text-text-dim">
+            <div className="mt-2 flex justify-between text-[11px] text-text-muted">
               <span>1</span>
               <span>10</span>
             </div>
@@ -359,7 +359,7 @@ export function RecoveryRealityCheckForm({ userId, onSaved, onComplete }: Props)
               <ul className="space-y-3 rounded-xl border-[0.5px] border-border bg-surface-2/60 p-4">
                 {summaryRows.map((row) => (
                   <li key={row.label} className="border-b-[0.5px] border-border/40 pb-3 last:border-0 last:pb-0">
-                    <p className="text-[10px] uppercase tracking-[0.16em] text-text-dim">{row.label}</p>
+                    <p className="text-[10px] uppercase tracking-[0.16em] text-text-muted">{row.label}</p>
                     <p className="mt-1 whitespace-pre-wrap text-sm text-text">{row.value}</p>
                   </li>
                 ))}
@@ -369,7 +369,7 @@ export function RecoveryRealityCheckForm({ userId, onSaved, onComplete }: Props)
             )}
 
             {!userId ? (
-              <p className="text-sm text-text-dim">{COPY.login}</p>
+              <p className="text-sm text-text-muted">{COPY.login}</p>
             ) : null}
 
             {saved ? (

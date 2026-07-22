@@ -37,7 +37,7 @@ const markdownComponents = {
     </div>
   ),
   thead: ({ ...props }: ComponentProps<'thead'>) => (
-    <thead className="border-b border-border/60 bg-surface-3/40 text-text-dim" {...props} />
+    <thead className="border-b border-border/60 bg-surface-3/40 text-text-muted" {...props} />
   ),
   th: ({ ...props }: ComponentProps<'th'>) => <th className="px-3 py-2 font-medium" {...props} />,
   td: ({ ...props }: ComponentProps<'td'>) => (
@@ -67,7 +67,7 @@ export function VaultKanonDocsPanel() {
           </div>
           <div className="min-w-0 flex-1">
             <h2 className="font-display text-base text-text">{VAULT_MAIN_TAB_LABELS.docs}</h2>
-            <p className="mt-0.5 text-xs text-text-dim">
+            <p className="mt-0.5 text-xs text-text-muted">
               {VALV_KUNSKAP_DRAWER_LEAF.docs} · statisk referens bakom PIN (ingen RAG)
             </p>
           </div>

@@ -25,7 +25,7 @@ export function VitMabraPassPanel({ stats }: Props) {
       <h2 className={textStyles.eyebrow}>
         MåBra-pass (symptom)
       </h2>
-      <p className="mt-1 text-[10px] text-text-dim">{VIT_HUB_MOOD_HINT}</p>
+      <p className="mt-1 text-[10px] text-text-muted">{VIT_HUB_MOOD_HINT}</p>
       <ul className="mt-3 space-y-2">
         {entries.map(([key, count]) => {
           const widthPct = Math.max(8, (count / maxCount) * 100);
@@ -33,7 +33,7 @@ export function VitMabraPassPanel({ stats }: Props) {
             <li key={key}>
               <div className="flex items-center justify-between gap-2 text-xs text-text-muted">
                 <span>{SYMPTOM_LABELS[key] ?? key}</span>
-                <span className="tabular-nums text-text-dim">{count}</span>
+                <span className="tabular-nums text-text-muted">{count}</span>
               </div>
               <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-surface-2">
                 <div

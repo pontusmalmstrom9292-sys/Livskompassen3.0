@@ -50,14 +50,14 @@ export function WeaverPendingVaultBanner({ userId, onApproved }: Props) {
 
   return (
     <div className="valv-pending-banner space-y-2">
-      <p className="text-xs text-text-dim">{VAVAREN_PENDING_VAULT_INTRO}</p>
+      <p className="text-xs text-text-muted">{VAVAREN_PENDING_VAULT_INTRO}</p>
       {rows.map((row) => (
         <div
           key={row.id}
           className="valv-pending-card rounded-xl border border-gold/25 bg-gold/5 px-3 py-3 text-sm"
         >
           <p className="text-text-muted">{VAVAREN_APPROVAL_TITLE}</p>
-          <p className="mt-1 text-xs text-text-dim">{VAVAREN_APPROVAL_HINT}</p>
+          <p className="mt-1 text-xs text-text-muted">{VAVAREN_APPROVAL_HINT}</p>
           <div className="mt-2 flex flex-wrap gap-1">
             {normalizeStringArray(row.weaverTags?.emotions).map((e) => (
               <span

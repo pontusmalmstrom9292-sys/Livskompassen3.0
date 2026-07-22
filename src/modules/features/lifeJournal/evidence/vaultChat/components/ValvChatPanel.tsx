@@ -105,7 +105,7 @@ function ChatBubble({
             isUser ? 'border-border bg-surface/80' : 'border-accent-secondary/30 bg-accent-secondary/15'
           }`}
         >
-          {isUser ? <User className="h-4 w-4 text-text-dim" /> : <Sparkles className="h-4 w-4 text-accent-secondary" />}
+          {isUser ? <User className="h-4 w-4 text-text-muted" /> : <Sparkles className="h-4 w-4 text-accent-secondary" />}
         </div>
         <div
           className={`rounded-[1.25rem] px-4 py-3 ${
@@ -127,7 +127,7 @@ function ChatBubble({
           {msg.role === 'assistant' && msg.citations && (
             <CitationList citations={msg.citations} onCitationClick={onCitationClick} />
           )}
-          <span className="mt-2 block text-right text-[9px] text-text-dim">{msg.timestamp}</span>
+          <span className="mt-2 block text-right text-[9px] text-text-muted">{msg.timestamp}</span>
         </div>
       </div>
     </div>
@@ -140,7 +140,7 @@ function ValvChatExtendedHints({
   onPickExample: (question: string) => void;
 }) {
   return (
-    <div className="space-y-3 text-xs text-text-dim">
+    <div className="space-y-3 text-xs text-text-muted">
       <p>{VAVAREN_VALVCHAT_HINT}</p>
       <p>{VALV_SILO_NO_CROSS_RAG}</p>
       <p>Källor länkas till låsta poster i Logga. Inget chattminne sparas efter stäng — Zero Footprint.</p>
@@ -210,7 +210,7 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
                 <ChatBubble key={msg.id} msg={msg} onCitationClick={handleSourceClick} />
               ))}
               {loading && (
-                <div className="calm-card flex items-center gap-2 rounded-2xl px-4 py-3 text-sm text-text-dim">
+                <div className="calm-card flex items-center gap-2 rounded-2xl px-4 py-3 text-sm text-text-muted">
                   <Loader2 className="h-4 w-4 animate-spin text-accent-secondary" /> Söker i arkivet…
                 </div>
               )}
@@ -271,14 +271,14 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
                 <FileText className="h-4 w-4 text-accent" />
                 <div>
                   <h3 className="text-sm font-semibold text-accent">Källgranskning · Låst post</h3>
-                  <p className="text-[9px] uppercase tracking-wider text-text-dim">ID: {previewLog.id}</p>
+                  <p className="text-[9px] uppercase tracking-wider text-text-muted">ID: {previewLog.id}</p>
                 </div>
               </div>
 
               <VaultWormEvidenceStamp createdAt={previewLog.createdAt} />
 
               <div className="space-y-3.5 text-sm">
-                <div className="grid grid-cols-2 gap-2 text-[10px] uppercase tracking-widest text-text-dim">
+                <div className="grid grid-cols-2 gap-2 text-[10px] uppercase tracking-widest text-text-muted">
                   <div>
                     <span>Kategori</span>
                     <p className="mt-0.5 font-semibold text-text">{previewLog.category ?? 'allmänt'}</p>
@@ -292,7 +292,7 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
                 </div>
 
                 <div>
-                  <span className="text-[10px] uppercase tracking-widest text-text-dim">Låst sanning</span>
+                  <span className="text-[10px] uppercase tracking-widest text-text-muted">Låst sanning</span>
                   <div className="mt-1 max-h-64 overflow-y-auto rounded-xl border border-border-strong bg-surface/40 p-3.5">
                     <p className="select-all whitespace-pre-wrap leading-relaxed text-text-muted">
                       {previewLog.truth}
@@ -303,7 +303,7 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
                 {previewLog.myReality && (
                   <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                     <div className="rounded-lg border border-border bg-surface-3/30 p-3">
-                      <span className="text-[9px] uppercase tracking-widest text-text-dim">Hens version</span>
+                      <span className="text-[9px] uppercase tracking-widest text-text-muted">Hens version</span>
                       <p className="mt-1 text-xs text-text-muted">{previewLog.theirVersion || '—'}</p>
                     </div>
                     <div className="rounded-lg border border-accent/20 bg-accent/5 p-3">

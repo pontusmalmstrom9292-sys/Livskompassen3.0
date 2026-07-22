@@ -180,8 +180,8 @@ export function VaultVitHubPanel({ userId }: Props) {
             <Sparkles className="h-4 w-4" aria-hidden />
             {VIT_VAULT_TAB_LABEL}
           </p>
-          <p className="mt-1 text-xs text-text-dim">{VIT_HUB_TAGLINE}</p>
-          <p className="mt-1 text-[10px] text-text-dim">{VIT_HUB_KRAVLOST}</p>
+          <p className="mt-1 text-xs text-text-muted">{VIT_HUB_TAGLINE}</p>
+          <p className="mt-1 text-[10px] text-text-muted">{VIT_HUB_KRAVLOST}</p>
         </div>
       </BentoCard>
 
@@ -253,7 +253,7 @@ export function VaultVitHubPanel({ userId }: Props) {
                   }`}
                 >
                   <span>{project.title}</span>
-                  <span className="shrink-0 text-xs text-text-dim">
+                  <span className="shrink-0 text-xs text-text-muted">
                     {count > 0 ? `${count} svar` : active ? 'Påbörjat' : '—'}
                   </span>
                 </button>
@@ -270,7 +270,7 @@ export function VaultVitHubPanel({ userId }: Props) {
 
       <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="Export">
         <h2 className={textStyles.eyebrow}>Export</h2>
-        <p className="mt-2 text-xs text-text-dim">
+        <p className="mt-2 text-xs text-text-muted">
           Till dig själv — inte dossier eller bevis mot ex.
           {activeFilterLabel ? ` Exporterar filter: ${activeFilterLabel}.` : null}
         </p>
@@ -316,7 +316,7 @@ function StatTile({
     <div className="rounded-xl border border-border-strong bg-surface-2/50 px-3 py-3 text-center">
       <p className="text-2xl font-medium tabular-nums text-accent">{value}</p>
       <p className={`${textStyles.eyebrow} mt-2`}>{label}</p>
-      {hint ? <p className="mt-1 text-[10px] text-text-dim">{hint}</p> : null}
+      {hint ? <p className="mt-1 text-[10px] text-text-muted">{hint}</p> : null}
     </div>
   );
 }

@@ -69,15 +69,15 @@ export function ParentMerPanel({ childAlias, logs }: Props) {
           {streak === 1 ? '' : 'ar'}
         </span>
         {open ? (
-          <ChevronUp className="h-4 w-4 shrink-0 text-text-dim" aria-hidden />
+          <ChevronUp className="h-4 w-4 shrink-0 text-text-muted" aria-hidden />
         ) : (
-          <ChevronDown className="h-4 w-4 shrink-0 text-text-dim" aria-hidden />
+          <ChevronDown className="h-4 w-4 shrink-0 text-text-muted" aria-hidden />
         )}
       </button>
 
       {open && (
         <div className="mt-3 space-y-4 border-t border-border/40 pt-3">
-          <p className="text-xs text-text-dim">
+          <p className="text-xs text-text-muted">
             Grey Rock / BIFF hör hemma i Hamn. Här kryssar du bara av för dig själv — sparas lokalt
             på enheten.
           </p>
@@ -96,7 +96,7 @@ export function ParentMerPanel({ childAlias, logs }: Props) {
                     />
                     <span>
                       <span className="block text-sm text-text">{m.label}</span>
-                      <span className="block text-xs text-text-dim">{m.hint}</span>
+                      <span className="block text-xs text-text-muted">{m.hint}</span>
                     </span>
                   </label>
                 </li>
@@ -114,10 +114,10 @@ export function ParentMerPanel({ childAlias, logs }: Props) {
           </Link>
 
           <div className="space-y-2 border-t border-border/40 pt-3">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-text-dim">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-text-muted">
               Export till kurator/jurist
             </p>
-            <p className="text-xs text-text-dim">
+            <p className="text-xs text-text-muted">
               Avidentifierad: Barn 1 / Barn 2. Ingen media. Beteende + datum.
             </p>
             <div className="flex flex-wrap gap-2">

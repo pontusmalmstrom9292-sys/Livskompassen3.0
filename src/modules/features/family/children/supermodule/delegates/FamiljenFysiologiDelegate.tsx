@@ -20,9 +20,9 @@ function SignalRow({
 }) {
   return (
     <div className="space-y-1">
-      <p className="text-xs text-text-dim">
+      <p className="text-xs text-text-muted">
         {label}
-        {invertHint && <span className="ml-1 text-text-dim/70">({invertHint})</span>}
+        {invertHint && <span className="ml-1 text-text-muted/70">({invertHint})</span>}
       </p>
       <div className="flex gap-1" role="group" aria-label={label}>
         {scales.map((s) => (
@@ -95,10 +95,10 @@ export function FamiljenFysiologiDelegate({ shell, onSaved }: FamiljenDelegateBa
   return (
     <div className="space-y-5 pt-2">
       <div className="space-y-1">
-        <p className="text-xs uppercase tracking-widest text-text-dim">
+        <p className="text-xs uppercase tracking-widest text-text-muted">
           Mätvärden ({childAlias})
         </p>
-        <p className="text-xs text-text-dim">
+        <p className="text-xs text-text-muted">
           Spåra mönster i sömn, oro och mat. Spara när du känner att dagens bild är tydlig.
         </p>
       </div>

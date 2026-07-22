@@ -60,7 +60,7 @@ export function ChildIncidentPulse({ childAlias, logs, balansIndex, balansDays }
 
         {themeLabels.length > 0 && (
           <div>
-            <p className="text-[10px] uppercase tracking-wider text-text-dim">Tematik (7 dagar)</p>
+            <p className="text-[10px] uppercase tracking-wider text-text-muted">Tematik (7 dagar)</p>
             <ul className="mt-1 flex flex-wrap gap-1.5">
               {themeLabels.map((label) => (
                 <li
@@ -75,7 +75,7 @@ export function ChildIncidentPulse({ childAlias, logs, balansIndex, balansDays }
         )}
 
         {latest && (
-          <p className="text-xs text-text-dim line-clamp-2">
+          <p className="text-xs text-text-muted line-clamp-2">
             Senaste:{' '}
             {(latest.observation ?? '').replace(/^\[(citat|tolkning)\]\s*/i, '').slice(0, 120)}
             {latestTags.length > 0 ? ` · ${latestTags.length} tagg(ar)` : ''}

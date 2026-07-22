@@ -37,7 +37,7 @@ export function VaultValvBreadcrumb({ zone, vaultTab }: VaultValvBreadcrumbProps
 
   return (
     <p
-      className="min-w-0 truncate text-xs uppercase tracking-widest text-text-dim"
+      className="min-w-0 truncate text-xs uppercase tracking-widest text-text-muted"
       aria-label={parts.join(', ')}
       title={parts.join(' · ')}
     >

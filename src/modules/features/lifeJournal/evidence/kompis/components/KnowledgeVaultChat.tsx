@@ -95,7 +95,7 @@ export function KnowledgeVaultChat({
   };
 
   if (authLoading) {
-    return <p className="text-sm text-text-dim">Ansluter...</p>;
+    return <p className="text-sm text-text-muted">Ansluter...</p>;
   }
 
   if (!isAuthenticated) {

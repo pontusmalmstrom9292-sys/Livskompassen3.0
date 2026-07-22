@@ -25,7 +25,7 @@ export function VivirStepView({ answers, onChange, onComplete }: Props) {
           {step.letter}
         </span>
         <div>
-          <p className="text-xs text-text-dim">
+          <p className="text-xs text-text-muted">
             Steg {stepIndex + 1} av {VIVIR_STEPS.length}
           </p>
           <p className="text-sm font-medium text-text-muted">{step.title}</p>

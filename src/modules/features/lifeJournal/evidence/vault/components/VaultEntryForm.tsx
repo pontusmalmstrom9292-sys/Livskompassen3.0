@@ -273,7 +273,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
       {mode === 'two_column' && (
         <div className="space-y-3">
           <div className="rounded-xl border border-border-subtle bg-surface/30 p-3">
-            <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">
+            <p className="mb-2 text-[10px] uppercase tracking-widest text-text-muted">
               Klistra hel sms-tråd
             </p>
             <textarea
@@ -312,7 +312,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
           </div>
         <div className="grid gap-3 sm:grid-cols-2">
           <div>
-            <p className="mb-1 text-[10px] uppercase tracking-widest text-text-dim">Hens version</p>
+            <p className="mb-1 text-[10px] uppercase tracking-widest text-text-muted">Hens version</p>
             <textarea
               value={theirVersion}
               onChange={(e) => setTheirVersion(e.target.value)}
@@ -322,7 +322,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
             />
           </div>
           <div>
-            <p className="mb-1 text-[10px] uppercase tracking-widest text-text-dim">Min verklighet</p>
+            <p className="mb-1 text-[10px] uppercase tracking-widest text-text-muted">Min verklighet</p>
             <textarea
               value={myReality}
               onChange={(e) => setMyReality(e.target.value)}
@@ -399,7 +399,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
             </select>
           </label>
           {selectedSignals.length > 0 && (
-            <div className="flex flex-wrap items-center gap-2 text-xs text-text-dim">
+            <div className="flex flex-wrap items-center gap-2 text-xs text-text-muted">
               <span>Valda: {selectedSignals.join(', ')}</span>
               <button
                 type="button"
@@ -421,7 +421,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
       )}
 
       <div className="glass-card space-y-2 p-3">
-        <p className="text-[10px] uppercase tracking-widest text-text-dim">Bifoga bevis</p>
+        <p className="text-[10px] uppercase tracking-widest text-text-muted">Bifoga bevis</p>
         <MediaAttachWithCaption
           disabled={busy}
           items={pendingMediaItems}
@@ -440,7 +440,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
         {attachError && <p className="text-xs text-danger">{attachError}</p>}
       </div>
 
-      <label className="flex items-center gap-2 text-xs text-text-dim">
+      <label className="flex items-center gap-2 text-xs text-text-muted">
         <input
           type="checkbox"
           checked={pinned}

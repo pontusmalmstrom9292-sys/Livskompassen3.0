@@ -347,8 +347,8 @@
   }
 
   .home-adaptive-compass__tab {
-    @apply rounded-lg px-2.5 py-1 font-display-serif text-[10px] font-medium uppercase tracking-[0.18em] transition-colors;
-    color: var(--text-dim);
+    @apply inline-flex min-h-[var(--ds-touch-target,2.75rem)] items-center rounded-lg px-2.5 py-1 font-display-serif text-[10px] font-medium uppercase tracking-[0.18em] transition-colors;
+    color: var(--text-muted);
   }
 
   .home-adaptive-compass__tab:hover {
@@ -462,7 +462,7 @@
   }
 
   .kompass-disc-card-hint {
-    @apply line-clamp-2 text-[9px] leading-snug text-text-dim;
+    @apply line-clamp-2 text-[10px] leading-snug text-text-muted;
   }
 
   .kompass-disc-card--gold {
@@ -511,7 +511,7 @@
   }
 
   .kompass-disc-back {
-    @apply mb-3 inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-accent/20 bg-surface/40 px-2 py-1 text-[10px] text-text-dim transition-colors;
+    @apply mb-3 inline-flex min-h-[var(--ds-touch-target,2.75rem)] cursor-pointer items-center gap-1.5 rounded-lg border border-accent/20 bg-surface/40 px-3 py-2 text-[10px] text-text-muted transition-colors;
   }
 
   .kompass-disc-back:hover {
@@ -676,8 +676,16 @@
     .home-hero-kanon__link,
     .home-hero-kanon__strip,
     .home-hero-kanon__tab,
-    .home-hero-kanon__chevron {
+    .home-hero-kanon__chevron,
+    .home-adaptive-compass__tab,
+    .home-adaptive-compass__inkast-reflection-link,
+    .kompass-disc-card,
+    .kompass-disc-back {
       transition: none !important;
+    }
+
+    .kompass-disc-card:hover {
+      transform: none;
     }
   }
 }

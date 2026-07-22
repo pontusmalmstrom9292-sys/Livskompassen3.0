@@ -98,7 +98,7 @@ export function ChildBirthDatePrompt({ userId, childAlias, onSaved }: Props) {
         <Calendar className="h-4 w-4 shrink-0 text-accent" aria-hidden />
         Födelsedatum för {childAlias} — så anpassas frågorna efter ålder.
       </p>
-      <label className="block text-xs text-text-dim" htmlFor={inputId}>
+      <label className="block text-xs text-text-muted" htmlFor={inputId}>
         Födelsedatum
         <input
           id={inputId}
@@ -120,7 +120,7 @@ export function ChildBirthDatePrompt({ userId, childAlias, onSaved }: Props) {
       <Button variant="secondary" size="sm" disabled={saving} onClick={() => void handleSave()}>
         {saving ? 'Sparar…' : 'Spara ålder'}
       </Button>
-      <p className="text-[10px] text-text-dim">Endast för dig — används till Barnfokus och Barnporten.</p>
+      <p className="text-[10px] text-text-muted">Endast för dig — används till Barnfokus och Barnporten.</p>
     </section>
   );
 }

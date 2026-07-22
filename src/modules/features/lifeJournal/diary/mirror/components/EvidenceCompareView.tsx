@@ -111,7 +111,7 @@ function SessionEvidenceList({
                       Låsta poster i arkivet
                     </a>
                   ) : (
-                    <p className="mt-1 text-[10px] text-text-dim">Endast i session — spara under ACT om du vill låsa.</p>
+                    <p className="mt-1 text-[10px] text-text-muted">Endast i session — spara under ACT om du vill låsa.</p>
                   )}
                 </div>
               </div>
@@ -143,7 +143,7 @@ function SessionPreview({ attachment }: { attachment: MediaAttachment }) {
       />
     );
   }
-  return <p className="text-xs text-text-dim">Bifogad fil</p>;
+  return <p className="text-xs text-text-muted">Bifogad fil</p>;
 }
 
 function VaultItem({ log, score }: { log: VaultLog & { id: string }; score: number }) {

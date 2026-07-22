@@ -80,7 +80,7 @@ export function JournalEntryCard({ entry, viewMode = 'tidslinje' }: JournalEntry
                 <div
                   className={
                     viewMode === 'galleri'
-                      ? 'flex min-h-[8rem] items-center justify-center gap-2 bg-surface/50 px-3 py-6 text-sm text-text-dim'
+                      ? 'flex min-h-[8rem] items-center justify-center gap-2 bg-surface/50 px-3 py-6 text-sm text-text-muted'
                       : 'flex h-14 w-14 items-center justify-center bg-surface/50'
                   }
                 >
@@ -104,7 +104,7 @@ export function JournalEntryCard({ entry, viewMode = 'tidslinje' }: JournalEntry
       className={`flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full transition-colors ${
         entry.isPinned
           ? 'bg-accent/10 text-accent hover:bg-accent/20'
-          : 'text-text-dim hover:text-text hover:bg-surface-3'
+          : 'text-text-muted hover:text-text hover:bg-surface-3'
       }`}
       aria-label={entry.isPinned ? 'Ta bort markering' : 'Fäst i toppen'}
       title={entry.isPinned ? 'Ta bort markering' : 'Fäst i toppen'}
@@ -121,7 +121,7 @@ export function JournalEntryCard({ entry, viewMode = 'tidslinje' }: JournalEntry
     return (
       <li className="glass-card overflow-hidden p-3 text-sm">
         <div className="flex items-start justify-between gap-2">
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">{meta}</p>
+          <p className="text-[10px] uppercase tracking-widest text-text-muted">{meta}</p>
           {pinAction}
         </div>
         {mediaFooter}
@@ -131,7 +131,7 @@ export function JournalEntryCard({ entry, viewMode = 'tidslinje' }: JournalEntry
             {entry.tags.slice(0, 6).map((t) => (
               <span
                 key={t}
-                className="rounded-md border border-border/40 px-2 py-0.5 text-[10px] text-text-dim"
+                className="rounded-md border border-border/40 px-2 py-0.5 text-[10px] text-text-muted"
               >
                 {t}
               </span>

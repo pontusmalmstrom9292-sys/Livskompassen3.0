@@ -51,7 +51,7 @@ Two levels — do not confuse them:
 
 Phase 0–9 baseline och migration **done**. Phase 10: `index.css` import-only; våg 111 legacy stubs **borttagna** (2026-07-11); `executive-chrome.css` kvar (dock/hem locked).
 
-**Next within program (after Fas P0 or non-blocking):** Pontus visual sign-off; completion-checklist (TODO §Completion); Playwright screenshot-baseline (stretch).
+**Next within program (after Fas P0 or non-blocking):** Pontus visual sign-off (G85); Completion residual (Banner/Skeleton/hex); Playwright screenshot-baseline (stretch). **UI Polish v3 (2026-07-22):** zon-kontrast + QuickCapture→Sheet — kod klar, väntar Pontus öga.
 
 ---
 

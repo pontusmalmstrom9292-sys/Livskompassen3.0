@@ -89,7 +89,7 @@ export function FamiljenLivsloggStundDelegate({ shell, onSaved }: FamiljenDelega
         <button
           type="button"
           onClick={resetForm}
-          className="text-xs text-text-dim hover:text-text underline decoration-border-strong underline-offset-4"
+          className="text-xs text-text-muted hover:text-text underline decoration-border-strong underline-offset-4"
         >
           Spara en till
         </button>
@@ -101,7 +101,7 @@ export function FamiljenLivsloggStundDelegate({ shell, onSaved }: FamiljenDelega
 
   return (
     <div className="space-y-3 pt-2">
-      <p className="text-xs uppercase tracking-widest text-text-dim">
+      <p className="text-xs uppercase tracking-widest text-text-muted">
         Vad vill du minnas? ({childAlias})
       </p>
 
@@ -129,7 +129,7 @@ export function FamiljenLivsloggStundDelegate({ shell, onSaved }: FamiljenDelega
         className="input-glass neu-inset w-full resize-none rounded-xl px-3 py-2"
       />
       <div className="flex items-center justify-between">
-        <p className="text-right text-[10px] text-text-dim w-full">
+        <p className="text-right text-[10px] text-text-muted w-full">
           {charCount}/{STUND_MAX_CHARS}
         </p>
       </div>
@@ -151,7 +151,7 @@ export function FamiljenLivsloggStundDelegate({ shell, onSaved }: FamiljenDelega
             />
             Spara som ankare
           </span>
-          <span className="mt-1 block text-xs text-text-dim">
+          <span className="mt-1 block text-xs text-text-muted">
             Visas som favorit och kan bli uthållen stund.
           </span>
         </span>

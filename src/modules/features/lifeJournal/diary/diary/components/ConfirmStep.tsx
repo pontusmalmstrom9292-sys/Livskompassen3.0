@@ -45,12 +45,12 @@ export function ConfirmStep({
       <div className="reflektion-preview">
         <p className="reflektion-preview__mood">
           {moodDef && <span aria-hidden>{moodDef.emoji} </span>}
-          <span className="text-text-dim">Känsla:</span> {mood}
+          <span className="text-text-muted">Känsla:</span> {mood}
         </p>
         <p className="reflektion-preview__text">{text}</p>
         {categoryLabel && (
           <p className="mt-2 text-xs text-text-muted">
-            <span className="text-text-dim">Kategori:</span> {categoryLabel}
+            <span className="text-text-muted">Kategori:</span> {categoryLabel}
           </p>
         )}
         {memorySummaries.length > 0 && (
@@ -68,7 +68,7 @@ export function ConfirmStep({
       {(showWeaveOptIn || onToggleTag) && (
         <CalmCollapsible title="Märkning & Minne" meta="Valfritt" defaultOpen={false} glow="gold">
           {showWeaveOptIn && VAVAREN_CONFIRM_HINT ? (
-            <p className="mb-3 text-xs text-text-dim">{VAVAREN_CONFIRM_HINT}</p>
+            <p className="mb-3 text-xs text-text-muted">{VAVAREN_CONFIRM_HINT}</p>
           ) : null}
 
           {onToggleTag && (
@@ -82,7 +82,7 @@ export function ConfirmStep({
                   className={`inline-flex min-h-11 items-center gap-1.5 rounded-full border px-3 text-xs font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
                     tags.includes('red_flag')
                       ? 'border-danger/50 bg-danger/20 text-danger shadow-[0_0_10px_color-mix(in_srgb,var(--danger)_20%,transparent)]'
-                      : 'border-border bg-surface-2/60 text-text-dim hover:bg-surface-3'
+                      : 'border-border bg-surface-2/60 text-text-muted hover:bg-surface-3'
                   }`}
                 >
                   🚩 Röd Flagg / Övertramp
@@ -94,7 +94,7 @@ export function ConfirmStep({
                   className={`inline-flex min-h-11 items-center gap-1.5 rounded-full border px-3 text-xs font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
                     tags.includes('insight')
                       ? 'border-accent/50 bg-accent/20 text-accent-light shadow-[0_0_10px_color-mix(in_srgb,var(--accent)_20%,transparent)]'
-                      : 'border-border bg-surface-2/60 text-text-dim hover:bg-surface-3'
+                      : 'border-border bg-surface-2/60 text-text-muted hover:bg-surface-3'
                   }`}
                 >
                   💡 Insikt
@@ -106,7 +106,7 @@ export function ConfirmStep({
                   className={`inline-flex min-h-11 items-center gap-1.5 rounded-full border px-3 text-xs font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
                     tags.includes('boundary')
                       ? 'border-success/50 bg-success/20 text-success shadow-[0_0_10px_color-mix(in_srgb,var(--success)_20%,transparent)]'
-                      : 'border-border bg-surface-2/60 text-text-dim hover:bg-surface-3'
+                      : 'border-border bg-surface-2/60 text-text-muted hover:bg-surface-3'
                   }`}
                 >
                   🛡️ Gränssättning

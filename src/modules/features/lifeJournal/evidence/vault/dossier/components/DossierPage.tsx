@@ -393,7 +393,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
 
         {step === 'period' && (
           <div className="space-y-4">
-            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
+            <p className="text-xs text-text-muted font-semibold uppercase tracking-wider">
               Steg 1 av 3 — Tidsperiod
             </p>
             <div className="grid gap-3 sm:grid-cols-2">
@@ -448,7 +448,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
 
         {step === 'sources' && (
           <div className="space-y-4">
-            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
+            <p className="text-xs text-text-muted font-semibold uppercase tracking-wider">
               Steg 2 av 3 — Källor & Filter
             </p>
             <label className="flex items-center gap-2 text-sm cursor-pointer">
@@ -507,7 +507,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
             <CalmCollapsible title="Valfria filter" meta="Taktik & kategori" defaultOpen={false} glow="blue">
               {techniqueTags.length > 0 ? (
                 <div className="mb-3">
-                  <p className="mb-2 text-xs text-text-dim">
+                  <p className="mb-2 text-xs text-text-muted">
                     Filtrera valv på taktik (sidecar-metadata)
                   </p>
                   <div className="flex flex-wrap gap-2">
@@ -533,7 +533,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
 
               {categoryTags.length > 0 ? (
                 <div>
-                  <p className="mb-2 text-xs text-text-dim">Filtrera på kategori/tag</p>
+                  <p className="mb-2 text-xs text-text-muted">Filtrera på kategori/tag</p>
                   <div className="flex flex-wrap gap-2">
                     {categoryTags.map((tag) => (
                       <button
@@ -555,7 +555,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
             </CalmCollapsible>
 
             <CalmCollapsible title="AI-förord & tidslinje" meta="Valfritt" defaultOpen={false} glow="blue">
-              <label className="flex cursor-pointer items-start gap-2 text-sm text-text-dim">
+              <label className="flex cursor-pointer items-start gap-2 text-sm text-text-muted">
                 <input
                   type="checkbox"
                   checked={includeAiForeword}
@@ -572,7 +572,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               </label>
 
               {includeAiForeword ? (
-                <label className="mt-3 flex cursor-pointer items-start gap-2 text-sm text-text-dim pl-1">
+                <label className="mt-3 flex cursor-pointer items-start gap-2 text-sm text-text-muted pl-1">
                   <input
                     type="checkbox"
                     checked={showTimelinePreview}
@@ -619,7 +619,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
 
         {step === 'review' && (
           <div className="space-y-4">
-            <p className="text-xs text-text-dim font-semibold uppercase tracking-wider">
+            <p className="text-xs text-text-muted font-semibold uppercase tracking-wider">
               Steg 3 av 3 — Bekräfta kronologiskt urval
             </p>
             {loadingDocs ? (
@@ -628,7 +628,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               <EmptyState message="Inga poster hittades för den valda tidsperioden och källorna. Gå tillbaka och utöka ditt sökfönster." />
             ) : (
               <div className="space-y-2">
-                <p className="text-xs text-text-dim">
+                <p className="text-xs text-text-muted">
                   Bocka av de rader du vill utesluta från exporten. Totalt {includedIds.size} av{' '}
                   {filteredDocs.length} valda.
                 </p>
@@ -649,7 +649,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                           <span className="block text-xs font-semibold text-accent">
                             {doc.title}
                           </span>
-                          <span className="text-[10px] text-text-dim">
+                          <span className="text-[10px] text-text-muted">
                             {doc.createdAt.slice(0, 10)} ·{' '}
                             {doc.kind.toUpperCase().replace('_', ' ')}
                           </span>
@@ -717,7 +717,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
             </div>
 
             <div className="rounded-xl border border-border-strong bg-surface-2 p-4 space-y-2 text-xs tabular-nums">
-              <p className="text-text-dim uppercase tracking-wider text-[10px]">
+              <p className="text-text-muted uppercase tracking-wider text-[10px]">
                 Äkthetsverifiering (låst post)
               </p>
               <div className="flex justify-between">
@@ -752,14 +752,14 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                         <span className="font-mono text-accent">{row.date}</span>
                         <span className="mt-0.5 block text-text-muted">{row.fact}</span>
                         {row.sourceRef && (
-                          <span className="mt-1 block font-mono text-[10px] text-text-dim">
+                          <span className="mt-1 block font-mono text-[10px] text-text-muted">
                             ref: {row.sourceRef}
                           </span>
                         )}
                       </li>
                     ))}
                   </ul>
-                  <p className="text-[10px] text-text-dim">
+                  <p className="text-[10px] text-text-muted">
                     Sammanfattning — bevisdelen i PDF är ordagrant WORM.
                   </p>
                 </div>

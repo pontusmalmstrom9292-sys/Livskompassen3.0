@@ -119,7 +119,7 @@ export function PlanningKanbanBoard() {
           <Brain
             className={[
               'h-4 w-4',
-              isOverloaded && cognitiveGuardEnabled ? 'text-accent animate-pulse' : 'text-text-dim',
+              isOverloaded && cognitiveGuardEnabled ? 'text-accent animate-pulse' : 'text-text-muted',
             ].join(' ')}
           />
           <span className="font-medium text-text-muted">
@@ -129,14 +129,14 @@ export function PlanningKanbanBoard() {
         <button
           type="button"
           onClick={toggleGuard}
-          className="flex cursor-pointer items-center gap-1.5 border-0 bg-transparent text-text-dim hover:text-accent"
+          className="flex min-h-11 cursor-pointer items-center gap-1.5 border-0 bg-transparent text-text-muted transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
           title={cognitiveGuardEnabled ? 'Avaktivera kognitiv avlastning' : 'Aktivera kognitiv avlastning'}
         >
           <span>Överbelastningsskydd:</span>
           {cognitiveGuardEnabled ? (
             <ToggleRight className="h-5 w-5 text-accent" />
           ) : (
-            <ToggleLeft className="h-5 w-5 text-text-dim" />
+            <ToggleLeft className="h-5 w-5 text-text-muted" />
           )}
         </button>
       </div>
@@ -225,7 +225,7 @@ export function PlanningKanbanBoard() {
 
       {quickColumn && (
         <div className="planering-quick-add">
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">
+          <p className="text-[10px] uppercase tracking-widest text-text-muted">
             Ny uppgift · {KANBAN_COLUMNS.find((c) => c.id === quickColumn)?.label}
           </p>
           <input
@@ -235,7 +235,7 @@ export function PlanningKanbanBoard() {
             className="input-glass mt-2 w-full text-sm"
             autoFocus
           />
-          <label className="mt-2 block text-left text-[10px] uppercase tracking-widest text-text-dim">
+          <label className="mt-2 block text-left text-[10px] uppercase tracking-widest text-text-muted">
             Deadline (valfritt)
             <input
               type="date"

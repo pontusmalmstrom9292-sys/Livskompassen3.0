@@ -43,7 +43,7 @@ function BrusfilterRiskBadge({
       className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] uppercase tracking-widest ${
         isWarning
           ? 'border-accent/35 bg-surface-3/60 text-accent/90'
-          : 'border-border/40 bg-surface-2/50 text-text-dim'
+          : 'border-border/40 bg-surface-2/50 text-text-muted'
       }`}
       aria-label={`DCAP riskpoäng ${riskScore}`}
     >
@@ -224,7 +224,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
           aria-label="Rå inkommande meddelande"
         />
         <div className="mt-1 flex items-center justify-between gap-2">
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">
+          <p className="text-[10px] uppercase tracking-widest text-text-muted">
             {rawInput.length}/{RAW_INPUT_MAX}
           </p>
           <Button
@@ -240,7 +240,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
         </div>
 
         {brusLoading && (
-          <p className="mt-3 flex items-center gap-2 text-sm text-text-dim" role="status">
+          <p className="mt-3 flex items-center gap-2 text-sm text-text-muted" role="status">
             <Loader2 className="h-4 w-4 animate-spin shrink-0" aria-hidden />
             Bearbetar med Brusfilter…
           </p>
@@ -270,7 +270,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
                 executorName="Gräns-Arkitekten"
               />
               {showBrusWarningBorder && (
-                <p className="text-[10px] uppercase tracking-widest text-text-dim">
+                <p className="text-[10px] uppercase tracking-widest text-text-muted">
                   Eskaleringsrisk — svara kort, ingen JADE
                 </p>
               )}
@@ -341,7 +341,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
               const tags = scanTechniquesForLog(log);
               return (
                 <li key={log.id} className="calm-card glow-bottom-blue border border-border/30 p-3 text-sm">
-                  <p className="text-[10px] uppercase tracking-widest text-text-dim">
+                  <p className="text-[10px] uppercase tracking-widest text-text-muted">
                     {log.category ?? 'dokument'} · {(log.createdAt ?? '').slice(0, 10)}
                   </p>
                   <p className="mt-1 line-clamp-2 text-text-muted">
@@ -402,7 +402,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
             )}
             {grans?.techniques?.length ? (
               <div>
-                <p className="text-xs uppercase tracking-widest text-text-dim">Taktiker</p>
+                <p className="text-xs uppercase tracking-widest text-text-muted">Taktiker</p>
                 <ul className="mt-1 list-inside list-disc text-text-muted">
                   {grans.techniques.map((t) => (
                     <li key={t}>{t}</li>
@@ -412,7 +412,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
             ) : null}
             {grans?.cleanFacts?.length ? (
               <div>
-                <p className="text-xs uppercase tracking-widest text-text-dim">Rena fakta</p>
+                <p className="text-xs uppercase tracking-widest text-text-muted">Rena fakta</p>
                 <ul className="mt-1 list-inside list-disc text-text-muted">
                   {grans.cleanFacts.map((f) => (
                     <li key={f}>{f}</li>
@@ -422,7 +422,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
             ) : null}
             {grans?.emotionalBait?.length ? (
               <div>
-                <p className="text-xs uppercase tracking-widest text-text-dim">Känslomässigt bete</p>
+                <p className="text-xs uppercase tracking-widest text-text-muted">Känslomässigt bete</p>
                 <ul className="mt-1 list-inside list-disc text-text-muted">
                   {grans.emotionalBait.map((b) => (
                     <li key={b}>{b}</li>

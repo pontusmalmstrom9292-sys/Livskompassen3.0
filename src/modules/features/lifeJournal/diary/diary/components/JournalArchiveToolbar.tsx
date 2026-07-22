@@ -48,7 +48,7 @@ export function JournalArchiveToolbar({
           className={`inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg text-sm transition-colors ${
             viewMode === 'tidslinje'
               ? 'bg-accent/15 text-accent'
-              : 'text-text-dim hover:text-text'
+              : 'text-text-muted hover:text-text'
           }`}
           aria-pressed={viewMode === 'tidslinje'}
           onClick={() => onViewModeChange('tidslinje')}
@@ -61,7 +61,7 @@ export function JournalArchiveToolbar({
           className={`inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg text-sm transition-colors ${
             viewMode === 'galleri'
               ? 'bg-accent/15 text-accent'
-              : 'text-text-dim hover:text-text'
+              : 'text-text-muted hover:text-text'
           }`}
           aria-pressed={viewMode === 'galleri'}
           onClick={() => onViewModeChange('galleri')}
@@ -73,7 +73,7 @@ export function JournalArchiveToolbar({
 
       <label className="journal-archive-search relative block">
         <Search
-          className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-dim"
+          className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted"
           aria-hidden
         />
         <Input
@@ -139,7 +139,7 @@ export function JournalArchiveToolbar({
       )}
 
       {allEntries.length > 0 && (
-        <p className="border-t border-border/30 pt-4 mt-2 text-center text-xs text-text-dim" aria-live="polite">
+        <p className="border-t border-border/30 pt-4 mt-2 text-center text-xs text-text-muted" aria-live="polite">
           Visar {filteredCount} av {allEntries.length}
         </p>
       )}

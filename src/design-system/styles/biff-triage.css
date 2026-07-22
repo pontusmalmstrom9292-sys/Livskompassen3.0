@@ -1,7 +1,7 @@
 /* BIFF triage — bait/fact reveal chrome — sunset från index.css våg 81 */
 @layer components {
   .biff-triage-bait {
-    @apply rounded-lg border border-border-strong bg-surface/80 px-3 py-2 text-sm leading-relaxed text-text-dim select-none;
+    @apply rounded-lg border border-border-strong bg-surface/80 px-3 py-2 text-sm leading-relaxed text-text-muted select-none;
     filter: blur(4px);
     user-select: none;
     pointer-events: none;
@@ -16,5 +16,18 @@
 
   .biff-triage-fact {
     @apply rounded-lg border border-success/25 bg-success/5 px-3 py-2 text-sm leading-relaxed text-text-muted;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .biff-triage-bait {
+      filter: none;
+      opacity: 0.45;
+    }
+
+    .biff-triage-bait--revealed {
+      opacity: 1;
+    }
   }
 }

@@ -19,12 +19,12 @@
   }
 
   .routines-panel__count {
-    @apply rounded-full border border-border-strong/80 px-1.5 py-0.5 text-[10px] tabular-nums text-text-dim;
-    color: color-mix(in srgb, var(--text-dim) 86%, var(--text-muted));
+    @apply rounded-full border border-border-strong/80 px-1.5 py-0.5 text-[10px] tabular-nums text-text-muted;
+    color: color-mix(in srgb, var(--text-muted) 86%, var(--text));
   }
 
   .routines-panel__chevron {
-    @apply shrink-0 text-text-dim transition-transform duration-200;
+    @apply shrink-0 text-text-muted transition-transform duration-200;
   }
 
   .routines-panel__chevron--open {

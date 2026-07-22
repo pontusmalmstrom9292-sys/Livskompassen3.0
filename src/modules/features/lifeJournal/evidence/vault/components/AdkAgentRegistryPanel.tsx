@@ -20,7 +20,7 @@ export function AdkAgentRegistryPanel() {
       glow="blue"
     >
       <div className="mb-3 flex items-center justify-between gap-2">
-        <p className="text-xs text-text-dim">
+        <p className="text-xs text-text-muted">
           {usedFallback
             ? 'Offline-läge — visar lokal lista tills molnet svarar.'
             : 'Hämtat från backend AgentCards (A2A).'}

@@ -83,7 +83,7 @@ export function JournalMemoryPicker({
         <div className="rounded-xl border border-accent/25 bg-surface/30 px-3 py-2">
           <div className="flex items-start justify-between gap-2">
             <p className="text-sm text-accent">
-              <span className="text-text-dim">Minne:</span> {file.name}
+              <span className="text-text-muted">Minne:</span> {file.name}
             </p>
             <Button
               type="button"
@@ -106,7 +106,7 @@ export function JournalMemoryPicker({
           )}
         </div>
       )}
-      <p className="text-xs text-text-dim">Ett minne per post. Personligt — inte juridiskt bevis.</p>
+      <p className="text-xs text-text-muted">Ett minne per post. Personligt — inte juridiskt bevis.</p>
     </div>
   );
 }

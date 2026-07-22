@@ -54,7 +54,7 @@ export function VaultAktorskartaPanel() {
           </div>
           <div className="min-w-0 flex-1">
             <h2 className="font-display text-base text-text">{VAULT_MAIN_TAB_LABELS.aktorskarta}</h2>
-            <p className="mt-0.5 text-xs text-text-dim">
+            <p className="mt-0.5 text-xs text-text-muted">
               {VALV_KUNSKAP_DRAWER_LEAF.aktorskarta} · personregister för assistenter (ej bevis)
             </p>
           </div>
@@ -88,7 +88,7 @@ export function VaultAktorskartaPanel() {
 
         {!loading && !error && userProfiles.length > 0 && (
           <section aria-label="Dina tillagda personer">
-            <h3 className="mb-2 text-xs uppercase tracking-widest text-text-dim">Dina tillagda personer</h3>
+            <h3 className="mb-2 text-xs uppercase tracking-widest text-text-muted">Dina tillagda personer</h3>
             <EntityProfileList profiles={userProfiles} />
           </section>
         )}
@@ -96,7 +96,7 @@ export function VaultAktorskartaPanel() {
 
       <section className="calm-card glow-bottom-blue p-4 sm:p-5" aria-label="Lägg till person">
         <h3 className="mb-1 text-xs uppercase tracking-widest text-accent">Lägg till person</h3>
-        <p className="mb-3 text-xs text-text-dim">Append-only — sparas permanent för agenter.</p>
+        <p className="mb-3 text-xs text-text-muted">Append-only — sparas permanent för agenter.</p>
         <EntityAddForm onSaved={load} />
       </section>
 
@@ -106,7 +106,7 @@ export function VaultAktorskartaPanel() {
         defaultOpen={false}
         glow="blue"
       >
-        <p className="mb-3 text-xs text-text-dim">
+        <p className="mb-3 text-xs text-text-muted">
           Fördefinierade aktörer från seed — inte dina manuella tillägg.
         </p>
         <EntityProfileList profiles={seedProfiles} emptyLabel="Inga seed-poster laddade." />
@@ -134,7 +134,7 @@ function EntityProfileList({
           className="rounded-lg border border-border/60 bg-surface/40 px-3 py-2 text-sm"
         >
           <span className="font-medium text-text">{profile.displayName}</span>
-          <span className="ml-2 text-xs text-text-dim">
+          <span className="ml-2 text-xs text-text-muted">
             {ENTITY_ROLE_LABELS[profile.role] ?? profile.role}
           </span>
           {profile.aliases.length > 0 && (

@@ -48,7 +48,7 @@ export function ChildrenLogsChat({ activeChild }: ChildrenLogsChatProps) {
         description={`Mönster-Arkivarien · endast ${activeChild}`}
         icon={<MessageCircle className="h-4 w-4" />}
       >
-        <p className="mb-3 text-xs text-text-dim">
+        <p className="mb-3 text-xs text-text-muted">
           Neutral dokumentation — inte Valv-ton. Läser endast children_logs.
         </p>
         <form onSubmit={handleSubmit} className="flex flex-col gap-3">
@@ -74,7 +74,7 @@ export function ChildrenLogsChat({ activeChild }: ChildrenLogsChatProps) {
             {citations.length > 0 && (
               <ul className="space-y-1 border-t border-border-strong pt-2">
                 {citations.map((c) => (
-                  <li key={c.docId} className="text-xs text-text-dim">
+                  <li key={c.docId} className="text-xs text-text-muted">
                     {c.childAlias} · {c.date} — {String(c.excerpt ?? '').slice(0, 80)}
                     {String(c.excerpt ?? '').length > 80 ? '…' : ''}
                   </li>

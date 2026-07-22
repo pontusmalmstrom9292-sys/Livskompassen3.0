@@ -71,7 +71,7 @@ const WidgetModulerBoard = lazy(() =>
 const WORK_TABS = new Set<PlaneringTab>(['handling', 'fokus', 'framsteg', 'inkorg', 'regler']);
 
 function PlaneringPanelFallback() {
-  return <p className="text-sm text-text-dim">Laddar planeringsvy…</p>;
+  return <p className="text-sm text-text-muted">Laddar planeringsvy…</p>;
 }
 
 /** B4 — P3 Kanban primär på Handling. Fler verktyg via CalmCollapsible (samma mönster som Valv A2). */

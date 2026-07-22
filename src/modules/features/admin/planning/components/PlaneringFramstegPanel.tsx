@@ -34,7 +34,7 @@ export function PlaneringFramstegPanel() {
             key={row.label}
             className="rounded-xl border border-accent/20 bg-surface/40 px-3 py-3 text-center"
           >
-            <p className="text-[10px] uppercase tracking-widest text-text-dim">{row.label}</p>
+            <p className="text-[10px] uppercase tracking-widest text-text-muted">{row.label}</p>
             <p
               className={`mt-1 font-display text-2xl ${
                 'warn' in row && row.warn ? 'text-danger' : 'text-accent'

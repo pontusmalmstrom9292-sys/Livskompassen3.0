@@ -63,7 +63,7 @@ export function EntityAddForm({ onSaved }: Props) {
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
       <div>
-        <label htmlFor="entity-name" className="mb-1 block text-xs text-text-dim">
+        <label htmlFor="entity-name" className="mb-1 block text-xs text-text-muted">
           Namn
         </label>
         <input
@@ -78,7 +78,7 @@ export function EntityAddForm({ onSaved }: Props) {
       </div>
 
       <div>
-        <label htmlFor="entity-role" className="mb-1 block text-xs text-text-dim">
+        <label htmlFor="entity-role" className="mb-1 block text-xs text-text-muted">
           Roll
         </label>
         <select
@@ -98,7 +98,7 @@ export function EntityAddForm({ onSaved }: Props) {
       </div>
 
       <div>
-        <label htmlFor="entity-aliases" className="mb-1 block text-xs text-text-dim">
+        <label htmlFor="entity-aliases" className="mb-1 block text-xs text-text-muted">
           Alias (valfritt, kommaseparerat)
         </label>
         <input
@@ -111,7 +111,7 @@ export function EntityAddForm({ onSaved }: Props) {
       </div>
 
       <div>
-        <label htmlFor="entity-notes" className="mb-1 block text-xs text-text-dim">
+        <label htmlFor="entity-notes" className="mb-1 block text-xs text-text-muted">
           Anteckning till agenter (valfritt)
         </label>
         <textarea

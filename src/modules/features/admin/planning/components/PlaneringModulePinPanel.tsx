@@ -95,7 +95,7 @@ export function PlaneringModulePinPanel({ title, content, onPinned }: Props) {
             <MapPin className="h-3.5 w-3.5" aria-hidden />
             Fäst modul i appen
           </p>
-          <p className="mt-1 text-xs text-text-dim">
+          <p className="mt-1 text-xs text-text-muted">
             Välj skärm och form — Hem, Barnfokus, Valv, Ekonomi m.fl.
           </p>
         </div>

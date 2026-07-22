@@ -84,7 +84,7 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
 
       <div className="grid gap-3 md:grid-cols-2">
         <div className="glass-card p-3">
-          <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">Känsla nu</p>
+          <p className="mb-2 text-[10px] uppercase tracking-widest text-text-muted">Känsla nu</p>
           <TextArea
             value={safeFeeling}
             onChange={(e) => {
@@ -115,7 +115,7 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
         </div>
 
         <div className={`glass-card p-3 ${usedAi ? 'glass-card--ai border-accent-ai/30' : 'border-accent/20'}`}>
-          <p className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-widest text-text-dim">
+          <p className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-widest text-text-muted">
             Spegling
             {usedAi ? <span className="text-accent-ai">AI</span> : null}
           </p>
@@ -140,7 +140,7 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
         </div>
       </div>
 
-      {mirrorHint ? <p className="text-xs text-text-dim">{mirrorHint}</p> : null}
+      {mirrorHint ? <p className="text-xs text-text-muted">{mirrorHint}</p> : null}
     </div>
   );
 }

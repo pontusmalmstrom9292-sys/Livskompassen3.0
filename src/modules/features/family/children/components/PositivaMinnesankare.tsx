@@ -37,7 +37,7 @@ export function PositivaMinnesankare({ logs, childAlias }: Props) {
               key={log.id}
               className="rounded-xl border border-border/30 bg-surface-2/40 p-3 text-sm text-text-muted"
             >
-              <p className="text-[10px] uppercase tracking-widest text-text-dim">
+              <p className="text-[10px] uppercase tracking-widest text-text-muted">
                 {log.category ?? 'minne'}
               </p>
               <p className="mt-1 whitespace-pre-wrap">{momentBody(log) || '—'}</p>

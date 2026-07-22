@@ -27,7 +27,7 @@ export function VaultWormEvidenceStamp({ createdAt, compact = false }: Props) {
           WORM · SERVER-TIDSSTÄMPEL · {formatStampDate(createdAt)}
         </p>
         {!compact ? (
-          <p className="valv-worm-stamp__disclaimer mt-0.5 text-[10px] leading-snug text-text-dim">
+          <p className="valv-worm-stamp__disclaimer mt-0.5 text-[10px] leading-snug text-text-muted">
             {VALV_WORM_EVIDENCE_DISCLAIMER}
           </p>
         ) : null}

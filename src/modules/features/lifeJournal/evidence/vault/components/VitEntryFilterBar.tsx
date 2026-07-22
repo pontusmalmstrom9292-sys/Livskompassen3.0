@@ -58,7 +58,7 @@ export function VitEntryFilterBar({
                 'rounded-full border px-3 py-1 text-xs transition',
                 active
                   ? 'border-accent/45 bg-accent/10 text-accent'
-                  : 'border-border-strong text-text-dim hover:border-accent/25',
+                  : 'border-border-strong text-text-muted hover:border-accent/25',
               )}
               aria-pressed={active}
             >
@@ -103,7 +103,7 @@ export function VitEntryFilterBar({
         </select>
       </label>
 
-      <p className="text-[10px] uppercase tracking-wider text-text-dim">
+      <p className="text-[10px] uppercase tracking-wider text-text-muted">
         Visar {filteredCount} av {totalCount}
         {hasActiveFilter ? (
           <>

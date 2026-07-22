@@ -108,7 +108,7 @@ export function SpeglingsSystem({ embedded: _embedded = false }: SpeglingsSystem
               Inställningar.
             </p>
             {!showForensic && (
-              <p className="text-xs text-text-dim">
+              <p className="text-xs text-text-muted">
                 Skriv känsla → Spegla → «Fortsätt till VIVIR». Bevisjämförelse kräver upplåst Valv
                 (Fyren 3 s).
               </p>
@@ -116,7 +116,7 @@ export function SpeglingsSystem({ embedded: _embedded = false }: SpeglingsSystem
             <div className="flex justify-end">
               <button
                 type="button"
-                className="min-h-[44px] rounded-lg px-3 text-xs text-text-dim underline-offset-2 hover:text-text-muted hover:underline"
+                className="min-h-[44px] rounded-lg px-3 text-xs text-text-muted underline-offset-2 hover:text-text-muted hover:underline"
                 aria-label="Rensa speglar-session"
                 onClick={handleClearSession}
               >
@@ -140,7 +140,7 @@ export function SpeglingsSystem({ embedded: _embedded = false }: SpeglingsSystem
           noHover
           className="hjartat-tab-panel"
         >
-          <p className="text-sm text-text-dim">
+          <p className="text-sm text-text-muted">
             Öppna Valv via Fyren (håll Hjärtat 3 sek) — samma session i en timme, inget extra PIN.
           </p>
         </BentoCard>
@@ -303,7 +303,7 @@ export function SpeglingsForensicPanel({ userId, initialFeeling = '' }: Forensic
             <button
               type="button"
               onClick={resetSession}
-              className="block text-xs uppercase tracking-widest text-text-dim hover:text-accent"
+              className="block text-xs uppercase tracking-widest text-text-muted hover:text-accent"
             >
               Ny kalibrering
             </button>

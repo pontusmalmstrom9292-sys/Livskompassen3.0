@@ -32,7 +32,7 @@ function BarRow({
   const width = max > 0 ? Math.round((count / max) * 100) : 0;
   const inner = (
     <>
-      <div className="flex justify-between text-xs text-text-dim">
+      <div className="flex justify-between text-xs text-text-muted">
         <span>{label}</span>
         <span>{count}</span>
       </div>
@@ -177,7 +177,7 @@ export function VaultMonsterPanel({ logs, userId, onTechniqueSelect }: Props) {
             ) : null}
             Flow-assist (kompletterande)
           </button>
-          <span className="text-[10px] text-text-dim">Bibliotek {libraryVersion}</span>
+          <span className="text-[10px] text-text-muted">Bibliotek {libraryVersion}</span>
           {rescanMsg ? (
             <span className="text-[10px] text-text-muted" role="status">
               {rescanMsg}

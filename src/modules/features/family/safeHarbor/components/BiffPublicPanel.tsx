@@ -150,7 +150,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
   return (
     <div className="familjen-tab-surface space-y-3">
       {fromSpeglar && (
-        <p className="text-xs text-text-dim">
+        <p className="text-xs text-text-muted">
           Text från Speglar är förifylld — redigera fritt innan du hämtar svar.
         </p>
       )}
@@ -191,7 +191,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
                     </li>
                   ))}
                 </ul>
-                <p className="text-[11px] leading-relaxed text-text-dim">
+                <p className="text-[11px] leading-relaxed text-text-muted">
                   Grey Rock: kort, sakligt, endast logistik. Ingen förklaring, inget försvar.
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -243,7 +243,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
           <div className="space-y-3 animate-in fade-in slide-in-from-right-2 duration-300">
             <BentoCard glow="blue" className="!p-3">
               <p className="text-xs font-medium text-accent">Steg 2: Brusfiltret</p>
-              <p className="mt-1 text-xs text-text-dim">
+              <p className="mt-1 text-xs text-text-muted">
                 Skala bort manipulation, anklagelser och lögner. Vad är den rent logistiska eller faktiska frågan? (t.ex. "När hämtar du barnen?")
               </p>
               <textarea
@@ -269,7 +269,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
           <div className="space-y-3 animate-in fade-in slide-in-from-right-2 duration-300">
             <BentoCard glow="indigo" className="!p-3">
               <p className="text-xs font-medium text-accent">Steg 3: Ditt mål</p>
-              <p className="mt-1 text-xs text-text-dim">
+              <p className="mt-1 text-xs text-text-muted">
                 Vad vill du uppnå med svaret? (t.ex. "Skydda min tid", "Dokumentera för Valvet", "Bara säga nej")
               </p>
               <textarea
@@ -311,7 +311,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
             agentName={agentName}
             theoryWithoutEvidence={theoryWithoutEvidence}
           />
-          <p className="mt-2 text-[11px] text-text-dim">
+          <p className="mt-2 text-[11px] text-text-muted">
             Grey Rock-tips: svara bara på kärnfrågan. Datum och logistik — inget JADE.
           </p>
           <Button
@@ -381,7 +381,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               Sortera till arkiv
             </Button>
           </div>
-          <p id="hamn-upload-hint" className="mt-2 text-[11px] leading-relaxed text-text-dim" role="note">
+          <p id="hamn-upload-hint" className="mt-2 text-[11px] leading-relaxed text-text-muted" role="note">
             {HAMN_UPLOAD_HINT}
           </p>
           {autosortNote && (
@@ -512,7 +512,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
   return (
     <div className="flex flex-col gap-4">
       <form onSubmit={handleSubmit} className="flex flex-col gap-3 relative">
-        <label className="mb-1 flex min-h-11 cursor-pointer items-center gap-2 text-[11px] text-text-dim hover:text-text">
+        <label className="mb-1 flex min-h-11 cursor-pointer items-center gap-2 text-[11px] text-text-muted hover:text-text">
           <input
             type="checkbox"
             checked={trainingMode}
@@ -549,7 +549,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
           <div className="space-y-3 animate-in fade-in slide-in-from-right-2 duration-300">
             <BentoCard glow="blue" className="!p-3">
               <p className="text-xs font-medium text-accent">Steg 2: Brusfiltret</p>
-              <p className="mt-1 text-xs text-text-dim">
+              <p className="mt-1 text-xs text-text-muted">
                 Skala bort manipulation och känslobrus. Vad är kärnfrågan?
               </p>
               <textarea
@@ -575,7 +575,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
           <div className="space-y-3 animate-in fade-in slide-in-from-right-2 duration-300">
             <BentoCard glow="indigo" className="!p-3">
               <p className="text-xs font-medium text-accent">Steg 3: Ditt mål</p>
-              <p className="mt-1 text-xs text-text-dim">
+              <p className="mt-1 text-xs text-text-muted">
                 Vad vill du uppnå med denna interaktion?
               </p>
               <textarea
@@ -641,7 +641,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
             </p>
           )}
           {riskScore !== null && (
-            <p className="text-[10px] text-text-dim">Riskpoäng: {riskScore}</p>
+            <p className="text-[10px] text-text-muted">Riskpoäng: {riskScore}</p>
           )}
           <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-text-muted">{reply}</p>
           <div className="mt-3 flex flex-wrap gap-2">
@@ -689,7 +689,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
             </Button>
           </div>
           {!trainingMode ? (
-            <p id="hamn-forensic-upload-hint" className="mt-2 text-[11px] leading-relaxed text-text-dim" role="note">
+            <p id="hamn-forensic-upload-hint" className="mt-2 text-[11px] leading-relaxed text-text-muted" role="note">
               {HAMN_UPLOAD_HINT}
             </p>
           ) : null}

@@ -31,7 +31,7 @@ export function OrkesterAgentTrio({ onAgentAction }: Props) {
 
   if (loading && display.length === 0) {
     return (
-      <p className="mb-4 flex items-center justify-center gap-2 py-4 text-xs text-text-dim">
+      <p className="mb-4 flex items-center justify-center gap-2 py-4 text-xs text-text-muted">
         <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />
         Laddar Orkester-trio…
       </p>

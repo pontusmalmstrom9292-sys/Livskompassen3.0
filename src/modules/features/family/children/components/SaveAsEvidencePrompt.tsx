@@ -74,7 +74,7 @@ export function SaveAsEvidencePrompt({
         <Shield className="h-4 w-4 text-gold" />
         Vill du spara samma observation som forensiskt bevis?
       </p>
-      <p className="text-xs text-text-dim">
+      <p className="text-xs text-text-muted">
         Inget sparas automatiskt. Du väljer explicit — neutral formulering rekommenderas.
       </p>
       {confirmOpen ? (

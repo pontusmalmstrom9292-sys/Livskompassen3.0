@@ -30,7 +30,7 @@ export function HamnModuleStack({ biffPanel, compassOnly = false }: Props) {
       <p className="rounded-lg border border-accent/25 bg-accent/5 px-3 py-2.5 text-sm text-text-muted">
         {advice}
       </p>
-      <p className="mt-2 text-[10px] uppercase tracking-widest text-text-dim">
+      <p className="mt-2 text-[10px] uppercase tracking-widest text-text-muted">
         Full check-in finns på Hem under samma tidskompass.
       </p>
     </>

@@ -417,7 +417,7 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
   const body = (
     <div
       ref={widgetRef}
-      className="relative space-y-3 transition-transform duration-200"
+      className="relative space-y-3 transition-transform duration-200 motion-reduce:transition-none"
       aria-label="Utvecklingskort"
       style={{ transform: `translateY(${pullY}px)` }}
       onTouchStart={onTouchStart}
@@ -427,11 +427,11 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
       {/* Pull Indicator */}
       {pullY > 10 && (
         <div
-          className="absolute -top-8 left-1/2 flex -translate-x-1/2 items-center justify-center transition-opacity"
+          className="absolute -top-8 left-1/2 flex -translate-x-1/2 items-center justify-center transition-opacity motion-reduce:transition-none"
           style={{ opacity: pullY / PULL_THRESHOLD }}
         >
           <div
-            className="h-6 w-6 rounded-full border-2 border-accent/40 bg-accent/10 transition-transform"
+            className="h-6 w-6 rounded-full border-2 border-accent/40 bg-accent/10 transition-transform motion-reduce:transition-none"
             style={{
               transform: `scale(${Math.min(pullY / PULL_THRESHOLD, 1.2)}) rotate(${pullY * 2}deg)`,
               borderColor: pullY >= PULL_THRESHOLD ? 'var(--accent)' : 'var(--accent-glow)',

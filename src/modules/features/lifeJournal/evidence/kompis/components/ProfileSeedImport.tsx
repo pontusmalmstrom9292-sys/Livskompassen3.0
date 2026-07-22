@@ -59,7 +59,7 @@ export function ProfileSeedImport({ entries, onImported }: Props) {
       title="Profil saknas i Kunskapsvalvet"
       description={`${profileSeedCount}/${SEED_TOTAL} poster — importera diagnoser, strategi, barn och coping till ditt konto`}
     >
-      <p className="mb-3 text-sm text-text-dim">
+      <p className="mb-3 text-sm text-text-muted">
         Terminal-seed hamnar på annat Firebase-konto. Denna knapp sparar profilen under ditt inloggade
         konto så chatten kan svara.
       </p>

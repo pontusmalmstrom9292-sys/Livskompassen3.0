@@ -41,7 +41,7 @@ export function SvartPaVittForm() {
     <BentoCard title="Svart på vitt" description="Hens version · Min verklighet">
       <div className="grid gap-3 md:grid-cols-2">
         <div>
-          <label className="text-[10px] uppercase tracking-widest text-text-dim">Hens version</label>
+          <label className="text-[10px] uppercase tracking-widest text-text-muted">Hens version</label>
           <TextArea
             value={theirVersion}
             onChange={(e) => setTheirVersion(e.target.value)}
@@ -52,7 +52,7 @@ export function SvartPaVittForm() {
           />
         </div>
         <div>
-          <label className="text-[10px] uppercase tracking-widest text-text-dim">Min verklighet</label>
+          <label className="text-[10px] uppercase tracking-widest text-text-muted">Min verklighet</label>
           <TextArea
             value={myReality}
             onChange={(e) => setMyReality(e.target.value)}

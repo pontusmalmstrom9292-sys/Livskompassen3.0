@@ -144,7 +144,7 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
       {subTab === 'oversikt' && (
         <div className="space-y-4">
           <KompassradPanel />
-          <p className="text-xs text-text-dim">
+          <p className="text-xs text-text-muted">
             BIFF och Grey Rock finns under fliken BIFF. Brusfilter (logistik vs beten) visas efter analys.
             Riskanalys och bevis under Valv → Hamn · Analys.
           </p>
@@ -161,7 +161,7 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
 
       {subTab === 'speglar' && (
         <BentoCard glow="indigo" className="!p-4 text-sm text-text-muted">
-          <p className="text-text-dim">
+          <p className="text-text-muted">
             Akut känslovalidering (ACT) och bevisjämförelse — innan du formulerar svar här.
           </p>
           <ButtonLink to={hjartatTabHref('speglar')} variant="accent" className="mt-3 inline-flex text-xs">
@@ -172,7 +172,7 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
 
       {subTab === 'barn' && (
         <BentoCard glow="indigo" className="!p-4 text-sm text-text-muted">
-          <p className="text-text-dim">
+          <p className="text-text-muted">
             Barnfokus och minnesankare ligger i Familjen — separat från ex-kommunikation.
           </p>
           <ButtonLink to="/familjen?tab=reflektion" variant="accent" className="mt-3 inline-flex text-xs">

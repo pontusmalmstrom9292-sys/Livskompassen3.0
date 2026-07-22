@@ -73,7 +73,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
       <div className="dagbok-tyst-lage" data-write-target="none">
         <button
           type="button"
-          className="mb-3 inline-flex min-h-11 items-center text-xs text-text-dim underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
+          className="mb-3 inline-flex min-h-11 items-center text-xs text-text-muted underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
           onClick={() => setShowBurn(false)}
         >
           ← Tillbaka till tyst läge
@@ -161,7 +161,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
       ) : null}
 
       <div className="dagbok-tyst-lage__mood mt-4">
-        <label className="text-xs text-text-dim" htmlFor="dagbok-tyst-mood">
+        <label className="text-xs text-text-muted" htmlFor="dagbok-tyst-mood">
           Hur känns det?
         </label>
         <select
@@ -180,7 +180,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
       </div>
 
       <div className="dagbok-tyst-lage__tre-ord">
-        <p className="text-xs text-text-dim">{DAGBOK_TYST_TRE_ORD_HINT}</p>
+        <p className="text-xs text-text-muted">{DAGBOK_TYST_TRE_ORD_HINT}</p>
         <input
           type="text"
           value={treOrd}
@@ -189,7 +189,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
           maxLength={48}
           aria-label="Tre ord"
         />
-        <p className="mt-1 text-[10px] text-text-dim">
+        <p className="mt-1 text-[10px] text-text-muted">
           {treOrd.trim() ? treOrd.trim().split(/\s+/).filter(Boolean).length : 0}/3 ord
         </p>
       </div>

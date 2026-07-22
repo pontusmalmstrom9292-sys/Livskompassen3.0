@@ -1,3 +1,13 @@
+## 2026-07-22 — UI Polish v3 (alla zoner)
+
+### Design debt (2026-07-22) — post QuickCapture Sheet
+- btn-pill--: **0** · ds-btn--: **0** · ad-hoc dialog: **2** (CustomCategoryFlow + FetchContentPacksFlow; QuickCapture = Sheet) · index.css LOC: **61**
+- DS imports: **276** · smoke:design-debt `2026-07-22T03:48:19.941Z`
+- Unlock: `docs/evaluations/2026-07-22-unlock-MOD-UI-POLISH-V3.md`
+- Smoke: locked-ux · design-modules · mabra · planering-superhub · children · widgets · module-lock **PASS**
+
+---
+
 ## 2026-07-21 — Premium UI Phase 0 debt baseline (YOLO v8)
 
 ### Design debt (2026-07-21) — Fas 24.C baseline refresh
@@ -92,7 +102,7 @@ Stickprov Completion **1.4.3**: body/lead på glass `text-text-dim` → `text-te
 | `src/modules/core/navigation/ResurserOverlay.tsx` | **Done** — DS `Sheet` (ej ad-hoc) |
 | `src/modules/core/home/dev/CustomCategoryFlow.tsx` | **Defer** — sandbox/dev |
 | `src/modules/core/home/dev/FetchContentPacksFlow.tsx` | **Defer** — sandbox/dev |
-| `src/modules/features/voiceToVault/components/QuickCaptureOverlay.tsx` | **Defer** — Voice-to-Vault AnimatePresence overlay; migrera till Sheet i separat våg |
+| `src/modules/features/voiceToVault/components/QuickCaptureOverlay.tsx` | **Done** — DS `Sheet` (UI Polish v3 2026-07-22) |
 | `NavigationDrawer.tsx` | **Excluded** — locked; ingen ombyggnad |
 
 

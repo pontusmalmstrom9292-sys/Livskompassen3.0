@@ -245,7 +245,7 @@ export function ReflectionStep({
               {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
               {isListening ? 'Stoppa' : 'Prata in'}
             </Button>
-            {interim && <span className="text-xs text-text-dim">Hör: {interim}</span>}
+            {interim && <span className="text-xs text-text-muted">Hör: {interim}</span>}
           </div>
           {error ? <p className="mt-1 text-xs text-danger" role="alert">{error}</p> : null}
         </CalmCollapsible>
@@ -276,7 +276,7 @@ export function ReflectionStep({
           onChange={(e) => onValidateOnlyChange?.(e.target.checked)}
           className="checkbox-glass"
         />
-        <label htmlFor="validateOnly" className="text-sm text-text-dim cursor-pointer select-none">
+        <label htmlFor="validateOnly" className="text-sm text-text-muted cursor-pointer select-none">
           Bara lyssna (inga råd eller lösningar)
         </label>
       </div>

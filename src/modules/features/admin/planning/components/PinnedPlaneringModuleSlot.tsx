@@ -116,7 +116,7 @@ function HomeHandlingTasks() {
 
   if (steps.length === 0) {
     return (
-      <p className="py-2 text-xs leading-relaxed text-text-dim">
+      <p className="py-2 text-xs leading-relaxed text-text-muted">
         Inga öppna uppgifter idag — fånga ett mikrosteg i Planering.
       </p>
     );
@@ -161,7 +161,7 @@ function HomePlaneringPanel() {
           <CalendarDays className="h-4 w-4 text-accent" strokeWidth={1.5} aria-hidden />
           <p className="mb-0 text-[9px] font-bold uppercase tracking-[0.2em] text-accent">Planering</p>
         </div>
-        <span className="inline-flex items-center gap-1 rounded-full border border-border/30 bg-surface-3/60 px-2 py-0.5 text-[10px] capitalize text-text-dim">
+        <span className="inline-flex items-center gap-1 rounded-full border border-border/30 bg-surface-3/60 px-2 py-0.5 text-[10px] capitalize text-text-muted">
           <CalendarDays className="h-3 w-3 text-accent" strokeWidth={1.5} aria-hidden />
           {todayLabel}
         </span>
@@ -194,7 +194,7 @@ function HomePlaneringPanel() {
       <div className="mt-3 min-h-[4rem]" role="tabpanel">
         {tab === 'handling' ? (
           <div className="space-y-2">
-            <p className="text-[10px] font-semibold uppercase tracking-wider text-text-dim">
+            <p className="text-[10px] font-semibold uppercase tracking-wider text-text-muted">
               Dagens uppgifter
             </p>
             <HomeHandlingTasks />

@@ -59,14 +59,14 @@ function WidgetShellFrame({
             {showAppLink || companion ? (
               <a href="/" className="widget-shell__brand" aria-label="Öppna Livskompassen">
                 <Compass className="h-4 w-4 text-accent" strokeWidth={1.65} />
-                <span className="text-[10px] uppercase tracking-[0.2em] text-text-dim">
+                <span className="text-[10px] uppercase tracking-[0.2em] text-text-muted">
                   {companion ? 'Companion' : 'Widget'}
                 </span>
               </a>
             ) : (
               <span className="widget-shell__brand widget-shell__brand--static">
                 <Compass className="h-4 w-4 text-accent" strokeWidth={1.65} aria-hidden />
-                <span className="text-[10px] uppercase tracking-[0.2em] text-text-dim">Widget</span>
+                <span className="text-[10px] uppercase tracking-[0.2em] text-text-muted">Widget</span>
               </span>
             )}
             <WidgetIconButton

@@ -95,7 +95,7 @@ export function JournalArchive({ entries, pageSize = 5, bare = false }: JournalA
             <section key={group.dayKey} aria-labelledby={`journal-day-${group.dayKey}`}>
               <h3
                 id={`journal-day-${group.dayKey}`}
-                className="journal-archive-day mb-3 text-xs font-medium uppercase tracking-widest text-text-dim"
+                className="journal-archive-day mb-3 text-xs font-medium uppercase tracking-widest text-text-muted"
               >
                 {group.label}
               </h3>

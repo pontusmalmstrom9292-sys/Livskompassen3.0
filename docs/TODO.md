@@ -1,5 +1,21 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
+## 2026-07-22 — UI Polish v3 (alla zoner)
+
+- [x] Wave 0 baseline smoke (design-debt, locked-ux, design-modules, calm-card)
+- [x] Wave 1 Hem polish (touch/focus/kontrast; ej dock/kompass-struktur)
+- [x] Wave 2 Vardagen/MåBra/Planering kontrast + touch gap-pass
+- [x] Wave 3 Hjärtat Dagbok/Speglar kontrast
+- [x] Wave 4 Familjen/Hamn/BIFF kontrast + reduced-transparency
+- [x] Wave 5 Valv UI kontrast (WORM-logik orörd)
+- [x] Wave 6 Widgets kontrast + touch
+- [x] Wave 7 QuickCapture → DS Sheet (adHocDialog 3→2)
+- [x] Unlock-eval `2026-07-22-unlock-MOD-UI-POLISH-V3.md`
+- [x] Docs: TODO / DASHBOARD / PROGRESS / Completion-Criteria stickprov
+- [ ] Pontus visual sign-off per zon (G85)
+- [ ] Pontus: Android Studio → Run + Valv <3s bakgrund
+
+
 ## 2026-07-21 — Egna moduler (masterplan v2.2)
 
 - [x] Pontus OK masterplan v2.2 «godkänn v2.2 kör hela planen»
@@ -271,12 +287,12 @@ Each item is independently completable. Link files in Dashboard when done.
 
 ## Completion
 
-- [ ] All Completion-Criteria.md sections checked
-- [ ] Dashboard all prod zones Done
+- [ ] All Completion-Criteria.md sections checked *(partial — UI Polish v3 bockade 1.x/2.x/3.x/4 Sheet 2026-07-22)*
+- [x] Dashboard all prod zones Done
 - [x] smoke:predeploy:build green (2026-07-11)
 - [x] yolo-vakt GO (MOD-WIDGET våg 4 — 2026-07-14)
 - [ ] Pontus sign-off
-- [ ] Final PROGRESS.md entry
+- [x] Final PROGRESS.md entry *(UI Polish v3 2026-07-22)*
 
 ## 2026-07-12 — Android Studio YOLO våg
 - Inkorg-flik touch + routing fix (GoraHubTabBar, TabBar)

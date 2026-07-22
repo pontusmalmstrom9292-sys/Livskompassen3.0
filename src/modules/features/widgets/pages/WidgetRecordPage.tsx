@@ -150,7 +150,7 @@ function WidgetRecordInner() {
           )}
 
           {!rec.speechSupported && rec.phase === 'idle' && (
-            <p className="text-xs text-text-dim">
+            <p className="text-xs text-text-muted">
               Transkription saknas i denna webbläsare — titel blir datumstämpel; ljudfil sparas ändå.
             </p>
           )}

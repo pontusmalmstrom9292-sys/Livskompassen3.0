@@ -43,7 +43,7 @@ function RingNodes({
   return (
     <>
       <span
-        className="pointer-events-none absolute left-1/2 top-1 text-[8px] uppercase tracking-widest text-text-dim"
+        className="pointer-events-none absolute left-1/2 top-1 text-[8px] uppercase tracking-widest text-text-muted"
         style={{
           transform: `translate(-50%, 0) translateY(${(50 - radiusPct) * 0.9}%)`,
         }}
@@ -79,7 +79,7 @@ function RingNodes({
                     : 'bg-accent-light'
               }`}
             />
-            <p className="mt-1 truncate text-center text-[9px] uppercase tracking-wider text-text-dim">
+            <p className="mt-1 truncate text-center text-[9px] uppercase tracking-wider text-text-muted">
               {formatTidshjulLabel(entry)}
             </p>
             <p className="truncate text-center text-[10px] text-text-muted">{entry.title}</p>
@@ -127,7 +127,7 @@ export function Tidshjulet({
 
       <div className="relative z-10 flex h-16 w-16 flex-col items-center justify-center rounded-full border border-surface-3 bg-bg shadow-xl shadow-black/50">
         <Compass className="h-7 w-7 text-accent" />
-        <span className="mt-0.5 text-[8px] uppercase tracking-widest text-text-dim">Nu</span>
+        <span className="mt-0.5 text-[8px] uppercase tracking-widest text-text-muted">Nu</span>
       </div>
 
       {rings.map((ring) => (

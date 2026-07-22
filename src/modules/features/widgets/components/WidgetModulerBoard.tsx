@@ -83,7 +83,7 @@ export function WidgetModulerBoard() {
               ? 'Inga moduler ännu — lägg till en nedan.'
               : `${activeWidgets.length} modul${activeWidgets.length === 1 ? '' : 'er'}`}
           </p>
-          <p className="text-[11px] text-text-dim" role="status">
+          <p className="text-[11px] text-text-muted" role="status">
             {capacity.canExperiment
               ? `Kapacitet nivå ${capacity.cognitiveLevel} — mallar och Experimentera tillgängliga.`
               : `Kapacitet nivå ${capacity.cognitiveLevel} — enkla mallar. Experimentera öppnas senare.`}
@@ -122,7 +122,7 @@ export function WidgetModulerBoard() {
             return (
               <div key={widget.id} className="widget-moduler-board__card space-y-1.5">
                 <div className="widget-moduler-board__meta flex flex-wrap items-center gap-2 px-1">
-                  <span className="text-[10px] uppercase tracking-widest text-text-dim">
+                  <span className="text-[10px] uppercase tracking-widest text-text-muted">
                     {preset.label_sv}
                   </span>
                   {pinned ? (

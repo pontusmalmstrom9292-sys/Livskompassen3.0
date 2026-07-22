@@ -57,21 +57,21 @@ export function InkorgPreviewSheet({ open, classification, saving, onConfirm, on
 
       <dl className="planering-inkorg-preview-sheet__summary mt-4 space-y-2 text-sm">
         <div>
-          <dt className="text-[10px] uppercase tracking-widest text-text-dim">Titel</dt>
+          <dt className="text-[10px] uppercase tracking-widest text-text-muted">Titel</dt>
           <dd className="text-text">{classification.title}</dd>
         </div>
         <div>
-          <dt className="text-[10px] uppercase tracking-widest text-text-dim">Kolumn</dt>
+          <dt className="text-[10px] uppercase tracking-widest text-text-muted">Kolumn</dt>
           <dd className="text-accent">{STATUS_LABELS[classification.suggestedStatus]}</dd>
         </div>
         {classification.dueAt && (
           <div>
-            <dt className="text-[10px] uppercase tracking-widest text-text-dim">Datum</dt>
+            <dt className="text-[10px] uppercase tracking-widest text-text-muted">Datum</dt>
             <dd className="text-text-muted">{formatPasteDueDate(classification.dueAt)}</dd>
           </div>
         )}
         <div>
-          <dt className="text-[10px] uppercase tracking-widest text-text-dim">Routing</dt>
+          <dt className="text-[10px] uppercase tracking-widest text-text-muted">Routing</dt>
           <dd className="mt-1 flex flex-wrap items-center gap-2">
             <Badge
               variant={inboxQueueStatusBadgeVariant(
@@ -82,7 +82,7 @@ export function InkorgPreviewSheet({ open, classification, saving, onConfirm, on
               → {classification.routeToHamn ? 'Hamn' : 'Handling'}
             </Badge>
             {classification.matchedRuleLabel ? (
-              <span className="text-xs text-text-dim">{classification.matchedRuleLabel}</span>
+              <span className="text-xs text-text-muted">{classification.matchedRuleLabel}</span>
             ) : null}
           </dd>
         </div>
