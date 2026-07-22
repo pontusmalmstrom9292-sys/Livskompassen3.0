@@ -30,3 +30,7 @@ Tillåt endast visuell dekoration från Gemini-mocken in i React Companion-pack:
 - npm run smoke:companion-widgets
 - npm run smoke:module-lock
 - npm run smoke:locked-ux
+
+## Applied
+
+Visual harvest staged 2026-07-22 — art module + pack wire + specular.
