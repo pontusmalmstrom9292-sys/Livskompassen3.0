@@ -1,19 +1,26 @@
 package com.livskompassen.app.core;
 
 import android.content.Context;
-import android.os.Build;
-import com.google.common.util.concurrent.ListenableFuture;
+import androidx.annotation.NonNull;
 import androidx.appsearch.app.AppSearchSession;
 import androidx.appsearch.app.PutDocumentsRequest;
+import androidx.appsearch.app.SearchResult;
+import androidx.appsearch.app.SearchResults;
+import androidx.appsearch.app.SearchSpec;
 import androidx.appsearch.app.SetSchemaRequest;
-import androidx.appsearch.platformstorage.PlatformStorage;
+import androidx.appsearch.localstorage.LocalStorage;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.livskompassen.app.util.LCLog;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 /**
  * THE VAULT SENTRY (SEARCH) - Våg 45.
  * Manages the on-device search index for quick navigation.
+ * Now compatible with older Android versions using LocalStorage.
  */
 public class SearchManager {
     private final Context context;
@@ -22,38 +29,38 @@ public class SearchManager {
 
     public SearchManager(Context context) {
         this.context = context;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            initSession();
-        }
+        initSession();
     }
 
     private void initSession() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PlatformStorage.SearchContext searchContext = new PlatformStorage.SearchContext.Builder(context, "livskompassen_db").build();
-            ListenableFuture<AppSearchSession> sessionFuture = PlatformStorage.createSearchSessionAsync(searchContext);
+        ListenableFuture<AppSearchSession> sessionFuture = LocalStorage.createSearchSessionAsync(
+                new LocalStorage.SearchContext.Builder(context, "livskompassen_db").build()
+        );
 
-            sessionFuture.addListener(() -> {
-                try {
-                    this.searchSession = sessionFuture.get();
-                    
-                    // Register the document schema
-                    searchSession.setSchemaAsync(new SetSchemaRequest.Builder()
-                            .addDocumentClasses(SearchDocument.class)
-                            .build());
-                    
-                    LCLog.d("SearchManager: AppSearch session and schema initialized.");
-                } catch (Exception e) {
-                    LCLog.e("SearchManager: Failed to init AppSearch: " + e.getMessage());
-                }
-            }, executor);
-        }
+        sessionFuture.addListener(() -> {
+            try {
+                this.searchSession = sessionFuture.get();
+                
+                // Register the document schema
+                searchSession.setSchemaAsync(new SetSchemaRequest.Builder()
+                        .addDocumentClasses(SearchDocument.class)
+                        .build());
+                
+                LCLog.d("SearchManager: AppSearch session and schema initialized.");
+            } catch (Exception e) {
+                LCLog.e("SearchManager: Failed to init AppSearch: " + e.getMessage());
+            }
+        }, executor);
     }
 
     /**
      * Indexerar en modul eller genväg i telefonens globala sök.
      */
     public void indexGenvag(String id, String label, String path) {
-        if (searchSession == null) return;
+        if (searchSession == null) {
+            LCLog.w("SearchManager: Session not ready, skipping index for " + label);
+            return;
+        }
 
         try {
             SearchDocument doc = new SearchDocument("shortcuts", id, label, path);
@@ -65,5 +72,41 @@ public class SearchManager {
         } catch (Exception e) {
             LCLog.e("SearchManager: Failed to index " + label + ": " + e.getMessage());
         }
+    }
+
+    /**
+     * Söker efter genvägar baserat på en söksträng.
+     */
+    public void queryGenvagar(String query, SearchCallback callback) {
+        if (searchSession == null) {
+            callback.onResult(new ArrayList<>());
+            return;
+        }
+
+        SearchSpec searchSpec = new SearchSpec.Builder()
+                .addFilterNamespaces("shortcuts")
+                .setSnippetCount(10)
+                .build();
+
+        SearchResults searchResults = searchSession.search(query, searchSpec);
+        ListenableFuture<List<SearchResult>> nextPagesFuture = searchResults.getNextPageAsync();
+
+        nextPagesFuture.addListener(() -> {
+            try {
+                List<SearchResult> results = nextPagesFuture.get();
+                List<SearchDocument> documents = new ArrayList<>();
+                for (SearchResult result : results) {
+                    documents.add(result.getGenericDocument().toDocumentClass(SearchDocument.class));
+                }
+                callback.onResult(documents);
+            } catch (Exception e) {
+                LCLog.e("SearchManager: Search failed: " + e.getMessage());
+                callback.onResult(new ArrayList<>());
+            }
+        }, executor);
+    }
+
+    public interface SearchCallback {
+        void onResult(List<SearchDocument> results);
     }
 }

@@ -76,6 +76,22 @@ public class NativeInterface {
     }
 
     /**
+     * Exporterar den krypterade diagnostikloggen via systemets share-sheet.
+     */
+    @JavascriptInterface
+    public void shareDiagnosticLog() {
+        DiagnosticManager diag = DiagnosticManager.getInstance();
+        if (diag != null) {
+            java.io.File logFile = diag.getLogFile();
+            if (logFile.exists()) {
+                shareManager.shareFile(logFile, "diagnostic_log.txt", "text/plain");
+            } else {
+                LCLog.w("shareDiagnosticLog: Log file does not exist.");
+            }
+        }
+    }
+
+    /**
      * Share a Base64 payload (PDF etc.) via the system share sheet.
      * Used by dossier export on Android WebView where window.open fails.
      */

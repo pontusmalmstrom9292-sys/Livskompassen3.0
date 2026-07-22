@@ -14,6 +14,7 @@ public class ParallaxManager implements SensorEventListener {
     private final SensorManager sensorManager;
     private final Sensor rotationSensor;
     private View targetView;
+    private boolean isPausedByBattery = false;
     
     private float baseTranslationX = 0;
     private float baseTranslationY = 0;
@@ -26,8 +27,21 @@ public class ParallaxManager implements SensorEventListener {
 
     public void start(View view) {
         this.targetView = view;
-        if (rotationSensor != null) {
+        if (!isPausedByBattery && rotationSensor != null) {
             sensorManager.registerListener(this, rotationSensor, SensorManager.SENSOR_DELAY_UI);
+        }
+    }
+
+    public void setBatteryPaused(boolean paused) {
+        this.isPausedByBattery = paused;
+        if (paused) {
+            stop();
+            if (targetView != null) {
+                targetView.setTranslationX(0);
+                targetView.setTranslationY(0);
+            }
+        } else if (targetView != null) {
+            start(targetView);
         }
     }
 

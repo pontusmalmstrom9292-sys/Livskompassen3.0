@@ -146,6 +146,21 @@ public class MainActivity extends BridgeActivity {
         connectivityIntelligence = new ConnectivityIntelligence(this);
         hapticManager.setBatteryManager(batteryManager);
 
+        connectivityIntelligence.setNetworkStatusListener((isMetered, isRoaming) -> {
+            if (getBridge() != null && getBridge().getWebView() != null) {
+                runOnUiThread(() -> {
+                    String js = String.format("window.dispatchEvent(new CustomEvent('livskompassen-network-change', {detail: {metered: %b, roaming: %b}}));", isMetered, isRoaming);
+                    getBridge().getWebView().evaluateJavascript(js, null);
+                });
+            }
+        });
+
+        batteryManager.setPowerSaveListener(isEnabled -> {
+            if (parallaxManager != null) {
+                parallaxManager.setBatteryPaused(isEnabled);
+            }
+        });
+
         systemUiManager = new SystemUiManager(this);
         systemUiManager.setSacredZone(true); // Start in Sacred Mode by default for safety
 
