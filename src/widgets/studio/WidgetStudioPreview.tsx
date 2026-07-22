@@ -15,7 +15,6 @@ import { JournalWidget } from '../pack/JournalWidget';
 import { QuickCaptureWidget } from '../pack/QuickCaptureWidget';
 import { QuickNoteWidget } from '../pack/QuickNoteWidget';
 import { SafeHarborWidget } from '../pack/SafeHarborWidget';
-import { WidgetPalette } from '../core/WidgetTheme';
 import { useStudioWidgetConfig } from './useStudioWidgetConfig';
 import { patchWidgetStudioConfig } from './widgetStudioStore';
 
@@ -54,14 +53,15 @@ export function WidgetStudioPreview({ widgetId }: { widgetId: string }) {
 
   if (!Comp) {
     return (
-      <p style={{ color: WidgetPalette.mutedText, fontSize: '0.9rem' }}>
-        Ingen förhandsvisning för denna widget.
-      </p>
+      <div className="cw-empty" role="status">
+        <p className="cw-empty__title">Förhandsvisning</p>
+        <p className="cw-empty__message">Ingen förhandsvisning för denna widget.</p>
+      </div>
     );
   }
 
   return (
-    <div id={ROOT_ID} aria-label="Förhandsvisning" style={{ marginTop: '0.35rem' }}>
+    <div id={ROOT_ID} className="cw-studio-preview-frame" aria-label="Förhandsvisning" style={{ marginTop: '0.35rem' }}>
       <div
         style={{
           display: 'flex',
@@ -72,17 +72,7 @@ export function WidgetStudioPreview({ widgetId }: { widgetId: string }) {
           flexWrap: 'wrap',
         }}
       >
-        <p
-          style={{
-            margin: 0,
-            fontSize: '0.68rem',
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            color: WidgetPalette.premiumGoldDim,
-          }}
-        >
-          Förhandsvisning · interaktiv
-        </p>
+        <p className="cw-eyebrow">Förhandsvisning · interaktiv</p>
         <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
           <WidgetButton
             variant={on ? 'gold' : 'ghost'}

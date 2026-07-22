@@ -57,7 +57,7 @@ function QueuedBanner({ count }: { count: number }) {
     <p
       role="status"
       aria-live="polite"
-      className="rounded-xl border border-accent/30 bg-accent/10 px-3 py-2 text-xs text-accent"
+      className={`rounded-xl border border-accent/30 bg-accent/10 px-3 py-2.5 min-h-11 flex items-center text-xs text-accent ${textStyles.eyebrow}`}
     >
       {count} {count === 1 ? 'post väntar' : 'poster väntar'} på synk — laddas upp när nätet finns.
     </p>
@@ -708,7 +708,7 @@ export function ActionDashboard({ userId, flushTick = 0 }: Props) {
   }, [refreshPending, flushTick]);
 
   return (
-    <div className="mx-auto flex max-w-2xl flex-col gap-4">
+    <div className="mx-auto flex max-w-2xl flex-col gap-4 widget-action-dashboard" data-cards="3">
       <QueuedBanner count={pendingCount} />
       <MultiToolCard userId={userId} onQueueChange={() => void refreshPending()} />
       <WorkStampCard userId={userId} />

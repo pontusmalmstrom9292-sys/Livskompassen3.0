@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { clsx } from 'clsx';
+import { textStyles } from '@/design-system';
 
 type Props = {
   title: string;
@@ -27,6 +28,7 @@ export function WidgetDashboardSection({
       <header className="widget-dashboard-section__header">
         {icon ? <span className="widget-dashboard-section__icon">{icon}</span> : null}
         <div>
+          <p className={`widget-dashboard-section__eyebrow ${textStyles.eyebrow}`}>Åtgärd</p>
           <h2 className="widget-dashboard-section__title">{title}</h2>
           {description ? <p className="widget-dashboard-section__desc">{description}</p> : null}
         </div>

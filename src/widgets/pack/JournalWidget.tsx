@@ -15,14 +15,34 @@ import { softFocusWidgetControl } from '../core/softFocusWidgetControl';
 import { useCompanionOnline } from '../core/useCompanionOnline';
 import { queueWidgetSync } from '../core/WidgetSync';
 import { routeWidgetAction } from '../core/WidgetRouter';
-import { WidgetPalette, WidgetTouch } from '../core/WidgetTheme';
+import { WidgetTouch } from '../core/WidgetTheme';
 import { useStudioWidgetConfig } from '../studio/useStudioWidgetConfig';
 import { widgetCardClass } from '../studio/studioIdleClass';
 
 const WIDGET_ID = 'journal';
 
+const DAILY_QUOTE = {
+  body: 'Att förstå sig själv är början på all förändring.',
+  attr: '— Okänd',
+};
+
+function BookGlyph() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <path
+        d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5V5.5z"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+      />
+      <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" stroke="currentColor" strokeWidth="1.5" />
+    </svg>
+  );
+}
+
 /**
  * Dagbok — check-in faces + one-line write in-widget (bible 4.2 / 6.4).
+ * Mockup: quote/smoke-yta + mood + SKRIV-CTA.
  */
 export function JournalWidget({ pulseHint = false }: { pulseHint?: boolean }) {
   const cfg = useStudioWidgetConfig(WIDGET_ID);
@@ -99,22 +119,31 @@ export function JournalWidget({ pulseHint = false }: { pulseHint?: boolean }) {
     <WidgetCard
       size={cfg?.size ?? 'small'}
       material={cfg?.material ?? 'sapphire'}
-      className={widgetCardClass(cfg?.animation)}
+      className={[
+        'cw-card--hero',
+        widgetCardClass(cfg?.animation),
+        pulseHint ? 'cw-soft-focus' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
-        title="Dagbok"
-        subtitle={status ?? 'Dagens check-in'}
+        title="Journal"
+        subtitle={status ?? 'Dagens lugna check-in'}
         offline={!online}
-        icon={<span aria-hidden>📓</span>}
+        icon={<BookGlyph />}
       />
+      {!writing ? (
+        <div className="cw-quote-smoke" aria-hidden={false}>
+          <p className="cw-quote-smoke__body">{DAILY_QUOTE.body}</p>
+          <p className="cw-quote-smoke__attr">{DAILY_QUOTE.attr}</p>
+        </div>
+      ) : null}
       <WidgetMoodCheckIn value={mood} onChange={(id) => void saveMood(id)} />
-      <p style={{ margin: 0, color: WidgetPalette.mutedText, fontSize: '0.9rem' }}>
-        {mood ? `Senaste känsla: ${moodFaceLabel(mood)}` : 'Reflektera i en minut.'}
-      </p>
       {writing ? (
         <div style={{ display: 'grid', gap: '0.55rem' }}>
-          <WidgetGlass inset style={{ padding: '0.65rem 0.75rem' }}>
+          <WidgetGlass inset className="cw-glass-well" style={{ padding: '0.65rem 0.75rem' }}>
             <textarea
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
@@ -122,20 +151,15 @@ export function JournalWidget({ pulseHint = false }: { pulseHint?: boolean }) {
               rows={2}
               aria-label="Snabb dagboksrad"
               autoFocus
+              className="cw-input"
               style={{
-                width: '100%',
-                resize: 'none',
-                border: 'none',
-                outline: 'none',
-                background: 'transparent',
-                color: WidgetPalette.textPrimary,
                 fontSize: '0.95rem',
                 lineHeight: 1.4,
                 minHeight: WidgetTouch.minDp * 0.85,
               }}
             />
           </WidgetGlass>
-          <div style={{ display: 'flex', gap: '0.45rem', flexWrap: 'wrap' }}>
+          <div className="cw-actions-row">
             <WidgetButton
               variant="gold"
               size="premium"
@@ -168,7 +192,7 @@ export function JournalWidget({ pulseHint = false }: { pulseHint?: boolean }) {
           className={pulseHint && !writing ? 'cw-pulse-cta' : undefined}
           onClick={() => setWriting(true)}
         >
-          Skriv
+          Skriv i dagboken
         </WidgetButton>
       )}
       <div className="cw-trust-row" aria-live="polite">

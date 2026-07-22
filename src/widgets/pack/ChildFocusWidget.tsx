@@ -137,18 +137,39 @@ export function ChildFocusWidget({
     <WidgetCard
       size={cfg?.size ?? 'medium'}
       material={cfg?.material ?? 'sapphire'}
-      className={widgetCardClass(cfg?.animation)}
+      className={[
+        'cw-card--hero',
+        widgetCardClass(cfg?.animation),
+        pulseHint ? 'cw-soft-focus' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
         title="Barnfokus"
         subtitle={status ?? (voice.recording ? 'Spelar in…' : 'Dagens fråga')}
         offline={!online}
-        icon={<span aria-hidden>👦</span>}
+        icon={
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
+            <circle cx="12" cy="8" r="3.2" stroke="currentColor" strokeWidth="1.5" />
+            <path
+              d="M5.5 19c1.2-3.2 3.4-4.8 6.5-4.8s5.3 1.6 6.5 4.8"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+            />
+          </svg>
+        }
       />
-      <p style={{ margin: 0, color: WidgetPalette.textPrimary, fontSize: '1.05rem', lineHeight: 1.4 }}>
-        {question}
-      </p>
+      <div className="cw-glass-well" style={{ display: 'grid', gap: '0.45rem' }}>
+        <p className="cw-eyebrow" style={{ letterSpacing: '0.08em', color: WidgetPalette.premiumGoldDim, margin: 0 }}>
+          Dagens fråga
+        </p>
+        <p style={{ margin: 0, color: WidgetPalette.textPrimary, fontSize: '1.05rem', lineHeight: 1.4 }}>
+          {question}
+        </p>
+      </div>
       {showRecent && last?.answer ? (
         <WidgetGlass inset style={{ padding: '0.75rem', marginTop: '0.5rem' }}>
           <p style={{ margin: 0, color: WidgetPalette.mutedText, fontSize: '0.85rem' }}>Senaste</p>
@@ -181,7 +202,7 @@ export function ChildFocusWidget({
           </WidgetButton>
         </div>
       ) : (
-        <WidgetGlass inset className="cw-anim-open" style={{ padding: '0.75rem', marginTop: 'auto' }}>
+        <WidgetGlass inset className="cw-anim-open cw-glass-well" style={{ padding: '0.75rem', marginTop: 'auto' }}>
           <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '0.5rem' }}>
             <WidgetButton
               variant={mode === 'text' ? 'gold' : 'quiet'}
@@ -206,15 +227,8 @@ export function ChildFocusWidget({
               rows={2}
               aria-label="Svar"
               autoFocus
-              style={{
-                width: '100%',
-                border: 'none',
-                background: 'transparent',
-                color: WidgetPalette.textPrimary,
-                resize: 'none',
-                outline: 'none',
-                minHeight: WidgetTouch.minDp,
-              }}
+              className="cw-input"
+              style={{ minHeight: WidgetTouch.minDp }}
             />
           ) : (
             <p style={{ color: WidgetPalette.mutedText, margin: '0 0 0.5rem', fontSize: '0.85rem' }}>
@@ -239,7 +253,7 @@ export function ChildFocusWidget({
         </WidgetGlass>
       )}
       <div className="cw-trust-row" aria-live="polite">
-        {status ?? (online ? 'Ett kort svar räcker' : 'Offline — sparas lokalt')}
+        {status ?? (online ? 'Ett kort svar räcker · Valvet väntar' : 'Offline — sparas lokalt')}
       </div>
     </WidgetCard>
   );

@@ -29,6 +29,13 @@ export type CompanionSurfaceId =
   | 'anchor'
   | 'tasks';
 
+type SurfaceRenderOpts = {
+  pulseHint: boolean;
+  autostart: boolean;
+  autoVoice: boolean;
+  autoPhoto: boolean;
+};
+
 type SurfaceMeta = {
   title: string;
   lead: string;
@@ -36,17 +43,19 @@ type SurfaceMeta = {
   dataWidget: string;
   /** CSS selector for soft focus after Android open */
   focusSelector: string;
-  render: (opts: { pulseHint: boolean }) => ReactNode;
+  render: (opts: SurfaceRenderOpts) => ReactNode;
 };
 
 const SURFACE: Record<CompanionSurfaceId, SurfaceMeta> = {
   capture: {
-    title: 'Quick Capture',
+    title: 'Hemlig inspelning',
     lead: 'Companion OS · röst till Valvet',
     rootId: 'cw-widget-capture-root',
     dataWidget: 'quick_capture',
     focusSelector: 'button[aria-label*="inspelning"]',
-    render: ({ pulseHint }) => <QuickCaptureWidget pulseHint={pulseHint} />,
+    render: ({ pulseHint, autostart }) => (
+      <QuickCaptureWidget pulseHint={pulseHint} autostart={autostart} />
+    ),
   },
   inbox: {
     title: 'Inkast',
@@ -57,12 +66,14 @@ const SURFACE: Record<CompanionSurfaceId, SurfaceMeta> = {
     render: ({ pulseHint }) => <InboxWidget pulseHint={pulseHint} />,
   },
   note: {
-    title: 'Snabbanteckning',
-    lead: 'Companion OS · text eller foto',
+    title: 'Snabba anteckningar',
+    lead: 'Companion OS · text, foto eller röst',
     rootId: 'cw-widget-note-root',
     dataWidget: 'quick_note',
     focusSelector: 'textarea',
-    render: ({ pulseHint }) => <QuickNoteWidget pulseHint={pulseHint} />,
+    render: ({ pulseHint, autoVoice, autoPhoto }) => (
+      <QuickNoteWidget pulseHint={pulseHint} autoVoice={autoVoice} autoPhoto={autoPhoto} />
+    ),
   },
   harbor: {
     title: 'Trygg Hamn',
@@ -128,14 +139,23 @@ type Props = {
   surface: CompanionSurfaceId;
   /** Soft-focus primary control after mount. */
   softFocus?: boolean;
-  /** Soft pulse CTA when opened from Android chip (capture/harbor/journal/anchor). */
+  /** Soft pulse CTA when opened from Android chip. */
   pulseHint?: boolean;
+  /** Capture: `?autostart=1` starts MediaRecorder (Fyren WH1 parity). */
+  autostart?: boolean;
+  /** Note: `?voice=1` starts voice once. */
+  autoVoice?: boolean;
+  /** Note: `?photo=1` opens camera once. */
+  autoPhoto?: boolean;
 };
 
 export function WidgetCompanionSurfacePage({
   surface,
   softFocus = false,
   pulseHint = false,
+  autostart = false,
+  autoVoice = false,
+  autoPhoto = false,
 }: Props) {
   const meta = SURFACE[surface];
   const booted = useRef(false);
@@ -147,19 +167,28 @@ export function WidgetCompanionSurfacePage({
   }, [meta.rootId]);
 
   useEffect(() => {
-    if (!softFocus) return;
+    /* Autostart owns the mic — skip soft-focus race. */
+    if (!softFocus || autostart || autoVoice || autoPhoto) return;
     return softFocusWidgetControl({
       rootSelector: `#${meta.rootId}`,
       focusSelector: `[data-widget="${meta.dataWidget}"] ${meta.focusSelector}`,
       attempts: 5,
       delayMs: 380,
     });
-  }, [softFocus, meta.rootId, meta.dataWidget, meta.focusSelector]);
+  }, [
+    softFocus,
+    autostart,
+    autoVoice,
+    autoPhoto,
+    meta.rootId,
+    meta.dataWidget,
+    meta.focusSelector,
+  ]);
 
   return (
     <WidgetShell title={meta.title} lead={meta.lead} companion>
       <div id={meta.rootId} className="px-3 pb-8 pt-2">
-        {meta.render({ pulseHint })}
+        {meta.render({ pulseHint, autostart, autoVoice, autoPhoto })}
       </div>
     </WidgetShell>
   );
@@ -181,29 +210,37 @@ const PULSE_SURFACES: CompanionSurfaceId[] = [
 function surfacePage(surface: CompanionSurfaceId) {
   return function CompanionSurfaceRoute() {
     const [params] = useSearchParams();
+    const autostart = params.get('autostart') === '1';
     const softFocus =
-      params.get('autostart') === '1' || params.get('focus') === '1';
-    const pulseHint = softFocus && PULSE_SURFACES.includes(surface);
+      autostart ||
+      params.get('focus') === '1' ||
+      params.get('voice') === '1' ||
+      params.get('photo') === '1';
+    const pulseHint = softFocus && !autostart && PULSE_SURFACES.includes(surface);
     return (
       <WidgetCompanionSurfacePage
         surface={surface}
         softFocus={softFocus}
         pulseHint={pulseHint}
+        autostart={surface === 'capture' ? autostart : false}
+        autoVoice={surface === 'note' ? params.get('voice') === '1' : false}
+        autoPhoto={surface === 'note' ? params.get('photo') === '1' : false}
       />
     );
   };
 }
 
-/** Back-compat wrapper for /widget/companion-capture */
+/** Back-compat wrapper for /widget/companion-capture — `?autostart=1` starts recording. */
 export function WidgetCompanionCapturePage() {
   const [params] = useSearchParams();
-  const softFocus =
-    params.get('autostart') === '1' || params.get('focus') === '1';
+  const autostart = params.get('autostart') === '1';
+  const softFocus = autostart || params.get('focus') === '1';
   return (
     <WidgetCompanionSurfacePage
       surface="capture"
       softFocus={softFocus}
-      pulseHint={softFocus}
+      pulseHint={softFocus && !autostart}
+      autostart={autostart}
     />
   );
 }

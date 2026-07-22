@@ -1,5 +1,6 @@
 import type { LucideIcon } from 'lucide-react';
 import { ChevronRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { clsx } from 'clsx';
 
 export type ExecutiveSettingsRow = {
@@ -47,12 +48,12 @@ export function ExecutiveSettingsList({ groups, className }: Props) {
               return (
                 <li key={row.id}>
                   {row.href ? (
-                    <a
-                      href={row.href}
+                    <Link
+                      to={row.href}
                       className="executive-settings__row flex min-h-[44px] items-center gap-3 px-4 py-3"
                     >
                       {inner}
-                    </a>
+                    </Link>
                   ) : (
                     <button
                       type="button"
