@@ -243,6 +243,12 @@ function main() {
     'specialist-innehall-dirigent.md',
     'specialist-mabra-curator.md',
     'specialist-kunskap-seed.md',
+    'specialist-valv-builder.md',
+    'specialist-valv-sjalvbygg-arkiv.md',
+    'specialist-valv-analys-pansar.md',
+    'specialist-valv-chat-dossier.md',
+    'specialist-valv-synapse-ingest.md',
+    'specialist-valv-kostnad-silo.md',
   ]) {
     assert(existsSync(resolve(root, '.cursor/agents', agent)), `saknar .cursor/agents/${agent}`);
   }

@@ -52,7 +52,19 @@ function main() {
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx',
     'ValvInputModePicker',
+    'InkastDirectPanel',
+    'suppressHubInkast',
+    "vaultTab === 'sok'",
+    'ValvSuperModule',
   );
+  assert(
+    !existsSync(
+      resolve(root, 'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvInboxZone.tsx'),
+    ),
+    'ValvInboxZone.tsx ska vara borttagen',
+  );
+  mustInclude('.context/locked-ux-features.md', '### 2b. Samla', 'suppressHubInkast');
+  mustInclude('.context/module-lock-register.json', 'MOD-VALV-SAMLA');
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts',
     'VALV_INPUT_MODES_MORE',

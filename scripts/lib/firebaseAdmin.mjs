@@ -35,15 +35,18 @@ export function loadFirebaseAdmin(projectId = 'gen-lang-client-0481875058') {
   assertAdminInstalled();
   const { initializeApp, getApps, getApp } = requireFromFunctions('firebase-admin/app');
   const { getAuth } = requireFromFunctions('firebase-admin/auth');
-  const { getFirestore } = requireFromFunctions('firebase-admin/firestore');
+  const { getFirestore, FieldValue, Timestamp } = requireFromFunctions('firebase-admin/firestore');
   const { getStorage } = requireFromFunctions('firebase-admin/storage');
 
   const app = getApps().length > 0 ? getApp() : initializeApp({ projectId });
 
+  /** Namespaced-compat: `admin.firestore.FieldValue` (modular v14+ has no default export). */
+  const firestore = Object.assign(() => getFirestore(app), { FieldValue, Timestamp });
+
   return {
     app,
     auth: () => getAuth(app),
-    firestore: () => getFirestore(app),
+    firestore,
     storage: () => getStorage(app),
   };
 }

@@ -1,3 +1,35 @@
+## 2026-07-22 — Valvet Samla-lås + cleanup (Cursor)
+
+- Locked UX §2b + `locked-ux-features.mdc` MUST NOT (Inkast-only förbjudet)
+- Ny modul-lås `MOD-VALV-SAMLA` (SuperModule/Samla/LogList) + unlock `2026-07-22-unlock-MOD-VALV-SAMLA.md`
+- Raderat `ValvInboxZone.tsx`; README/module_plan/SPEC synkade till `/valvet`
+- Smoke guards i `smoke_locked_ux` + `smoke_valv_mode`
+
+## 2026-07-22 — Valvet optimalitetshotfix (Cursor)
+
+- **Bug:** `valvMode=spara` dolde `ValvSamlaZone` → ingen arkivlista, `vaultTab=sok` nådde inte Valv-Chat
+- **Fix:** InkastDirectPanel + Samla parallellt (`suppressHubInkast`); `vaultTab=sok` når Valv-Chat via SuperModule (Orkester-fil orörd / modul-lås)
+- **Bug:** `loadFirebaseAdmin` saknade `FieldValue` → `smoke:dcap-alerts-worm` FAIL
+- **Fix:** namespaced-compat `firestore.FieldValue` / `Timestamp` i `scripts/lib/firebaseAdmin.mjs`
+- Docs: SPEC + verklighetsvalvet.md status; smoke valv-mode/locked-ux/dcap/inbox/orkester **PASS**
+
+## 2026-07-22 — Valvet full audit + 5 specialistagenter (Cursor)
+
+- Analys: Våg A inventering (UI ~78 filer, synapser, DCAP, gate) — **inga blockerande kod-GAP**
+- Ändringar: 5 `.cursor/agents/specialist-valv-*.md` · `auto-routing.mdc` · `agent-gap-scout.mdc` · `model-routing.mdc`
+- Eval: `docs/evaluations/2026-07-22-valvet-full-audit.md` **VERIFY PASS**
+- Smoke: locked-ux, valv-security/mode/valv, pattern-metadata, cost-guard, entities, dossier, kunskap, inbox, orkester, gcp:audit-apis — alla **PASS**
+- Kostnad: Vertex blockerad · budgetmall 100 SEK · `smoke:cost-guard` PASS
+
+## 2026-07-22 — Debug-runda (Cursor)
+
+- Lokal: `npm run build` · functions build · `smoke:predeploy:build` · G85 day1 verify (`verifySecurityComponents` + unit) **PASS**
+- Runtime browser: Hem · Valvet (biometri-gate) · Familjen · Hjärtat — inga konsolfel
+- Moln: `costCapGuard` ERROR = saknat Firestore-index på `ai_cost_log` (fail-open → AI funkar men taket loggar fel)
+- Fix: 3 composite indexes tillagda i `firestore.indexes.json` + skapade i prod (INITIALIZING → READY)
+- Capacitor: lokal assets (ingen remote `server.url`) synkad i android assets
+- Pending manuell: G85 Valv bakgrund &lt;3s + Google-auth utan reload
+
 ## 2026-07-22 — UI Polish V4 ×10 PASS 4 (samma vågor igen, ADD-only)
 
 - Fyren/Hem/SOS/Life OS presets + Planering/Dagbok/MåBra + Familjen/Projekt/Archive/KompassDiscovery

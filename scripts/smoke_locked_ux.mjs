@@ -203,8 +203,40 @@ function main() {
     'ValvInputModePicker',
     'InboxReviewQueue',
     'ValvSuperModule',
+    'InkastDirectPanel',
+    'suppressHubInkast',
     'onOpenGranska',
     'granska',
+  );
+  // §2b Samla lock — spara must NEVER be Inkast-only (regression 2026-07-22)
+  {
+    const superMod = read(
+      'src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx',
+    );
+    assert(
+      superMod.includes("activeMode === 'spara'") && superMod.includes('ValvSuperModule'),
+      'ValvInputSuperModule: spara-läge måste montera ValvSuperModule (Samla/arkiv/Sök)',
+    );
+    assert(
+      superMod.includes("vaultTab === 'sok'") || superMod.includes('vaultTab === \'sok\''),
+      'ValvInputSuperModule: måste dokumentera/hantera vaultTab === sok → ValvChat',
+    );
+  }
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx',
+    'VaultLogList',
+    'ValvChatPanel',
+    'VaultSamlaHub',
+    'getSamlaVaultTabBarItems',
+  );
+  mustInclude(
+    'src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx',
+    'highlightLogId',
+    'techniqueFilter',
+  );
+  assert(
+    !existsSync(resolve(root, 'src/modules/features/lifeJournal/evidence/vault/components/zones/ValvInboxZone.tsx')),
+    'ValvInboxZone.tsx ska vara borttagen (granska via valvMode=granska)',
   );
   mustInclude(
     'src/modules/features/lifeJournal/evidence/vault/supermodule/valvInputModes.ts',

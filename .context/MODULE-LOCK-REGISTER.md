@@ -23,3 +23,7 @@ npm run smoke:module-lock
 ```
 
 Regel: [`.cursor/rules/module-lock-guard.mdc`](../.cursor/rules/module-lock-guard.mdc)
+
+## MOD-VALV-SAMLA (2026-07-22)
+
+Valv Samla — Inkast + Arkivlista + Sök. Locked UX §2b. Globs: `vault/supermodule/**`, `ValvSamlaZone`, `ValvSuperModule`, `VaultSamlaHub`, `VaultLogList`. Smoke: `smoke:locked-ux` · `smoke:valv-mode`. Unlock: `docs/evaluations/2026-07-22-unlock-MOD-VALV-SAMLA.md`.

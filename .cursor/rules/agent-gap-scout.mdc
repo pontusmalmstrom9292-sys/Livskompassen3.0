@@ -11,6 +11,11 @@ Systemet ska alltid ha en dedikerad expert för varje del av appen. Den här reg
 
 ### Zonbyggare
 - `specialist-valv-builder` — Verklighetsvalvet (Z1)
+- `specialist-valv-sjalvbygg-arkiv` — G10 självbyggande arkiv / Inkast→Valv
+- `specialist-valv-analys-pansar` — Mönster / Orkester / Brusfilter
+- `specialist-valv-chat-dossier` — Valv-Chat + dossier-export
+- `specialist-valv-synapse-ingest` — Synapser som fyller Valvet
+- `specialist-valv-kostnad-silo` — ≤100 SEK/mån + silo-guard (readonly)
 - `specialist-hjartat-inkast-builder` — Hjärtat + Inkast (Z3+6)
 - `specialist-vardagen-builder` — Vardagen (Z4)
 - `specialist-familjen-hamn-builder` — Familjen + Hamn (Z5+2)

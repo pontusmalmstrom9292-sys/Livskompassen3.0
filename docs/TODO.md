@@ -1,5 +1,36 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
+## 2026-07-22 — Valvet Samla-lås + cleanup
+
+- [x] Locked UX §2b (Inkast+Arkiv+Sök) + smoke guards
+- [x] Modul-lås `MOD-VALV-SAMLA` + unlock-doc
+- [x] Raderat orphan `ValvInboxZone.tsx`
+- [x] Docs/README/module_plan route → `/valvet`
+- [ ] Pontus: G85 Valv bakgrund &lt;3s
+
+## 2026-07-22 — Valvet optimalitetshotfix
+
+- [x] Fix: Inkast-läge dolde arkivlista + Valv-Chat (`vaultTab=sok`)
+- [x] Fix: `firebaseAdmin` FieldValue → `smoke:dcap-alerts-worm` PASS
+- [x] Docs: Verklighetsvalvet-SPEC route → `/valvet`
+- [x] Smoke: valv-mode · locked-ux · dcap-alerts-worm · inbox · orkester PASS
+- [ ] Pontus: G85 Valv bakgrund &lt;3s (Fas 24 P0)
+
+## 2026-07-22 — Valvet full audit + 5 specialistagenter
+
+- [x] Våg A: inventering UI/silo/synaps/DCAP/säkerhet
+- [x] Eval: `docs/evaluations/2026-07-22-valvet-full-audit.md` **VERIFY PASS**
+- [x] Våg B: 5 agenter (`specialist-valv-sjalvbygg-arkiv` … `kostnad-silo`) + auto-routing
+- [x] Våg C: locked-ux · valv-* · pattern · cost-guard · entities · dossier · kunskap · inbox · orkester · gcp:audit-apis **PASS**
+- [ ] Pontus: G85 Valv bakgrund &lt;3s + valfritt `smoke:predeploy:live`
+
+## 2026-07-22 — Debug-runda
+
+- [x] Lokal build + smoke:predeploy:build + G85 day1 Android verify
+- [x] Browser runtime: Hem / Valvet / Familjen / Hjärtat
+- [x] Fix: `ai_cost_log` composite indexes (costCapGuard) — fil + moln create
+- [ ] Pontus: Android Studio Run på G85 — Valv bakgrund &lt;3s + Google-inloggning
+
 ## 2026-07-22 — Companion Kap. 6 ×10 Polish + legacy chip-rensning
 
 Unlock: [`evaluations/2026-07-22-unlock-MOD-WIDGET-legacy-chip-removal.md`](./evaluations/2026-07-22-unlock-MOD-WIDGET-legacy-chip-removal.md) (`approved: yes`)

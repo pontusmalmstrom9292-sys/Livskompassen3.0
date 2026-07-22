@@ -123,6 +123,11 @@ Subagents kan få explicit `model` i Task-anrop — endast slugs som Cursor expo
 | `yolo-vakt` | inherit | Read-only GO/NO-GO |
 | `specialist-security-auditor` | `claude-opus-4-8-thinking-high` | WORM, silo, rules |
 | `specialist-valv-builder` | `claude-4.6-sonnet-high-thinking` · Opus vid WORM | Z1 UI + bevis |
+| `specialist-valv-sjalvbygg-arkiv` | inherit · Opus vid WORM | G10 ingest HITL |
+| `specialist-valv-analys-pansar` | inherit | Mönster/Orkester |
+| `specialist-valv-chat-dossier` | inherit · Opus vid dossier | Valv-Chat + export |
+| `specialist-valv-synapse-ingest` | inherit | SynapseBus → Valv |
+| `specialist-valv-kostnad-silo` | inherit (readonly) | cost-guard + silo |
 | `specialist-adk-weaver` | `gpt-5.5-high` | SynapseBus, triggers |
 | `specialist-smoke-runner` | `gpt-5.4-high` | Build + smoke |
 | `bugbot` | inherit | Diff-granskning före merge |

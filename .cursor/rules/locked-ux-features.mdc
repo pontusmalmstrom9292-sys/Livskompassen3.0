@@ -28,6 +28,7 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 - `VaultKunskapsbankPanel` — all Kunskap UI behind PIN (no public `/vardagen?tab=kunskap`)
 - `VaultAktorskartaPanel` + `EntityAddForm` + `addEntityProfile` — manuell aktörskarta (G9), append-only metadata
 - `VaultMonsterPanel` / `VaultOrkesterPanel` — unchanged locked behavior
+- **Samla (§2b LÅST):** `valvMode=spara` MUST keep `ValvSuperModule`/`ValvSamlaZone` — never InkastDirectPanel-only. `vaultTab=sok` → ValvChat. Files: `ValvInputSuperModule`, `ValvSamlaZone`, `VaultLogList`
 
 ## Sidomeny (hamburger — design lock)
 
@@ -95,6 +96,7 @@ Canonical register: [`.context/locked-ux-features.md`](../.context/locked-ux-fea
 ## Forbidden without approval
 
 - Deleting `BARNFOKUS_QUESTIONS`, `FamiljenBarnfokusDelegate`, `FamiljenInputSuperModule`, `VaultMonsterPanel`, `VaultOrkesterPanel`, or `vaultPatternScan.ts`
+- Collapsing Valv `spara`-läge to InkastDirectPanel-only (must keep `ValvSuperModule` / `ValvSamlaZone` / `VaultLogList` / `vaultTab=sok` → ValvChat)
 - Replacing locked D1/M2 icons without updating `.context/locked-icons.md`
 - Collapsing Mönster/Orkester into Dossier-only or removing tab bar entries
 - Replacing optimistic middag save with “refresh only after server” (degrades ADHD-safe feedback)

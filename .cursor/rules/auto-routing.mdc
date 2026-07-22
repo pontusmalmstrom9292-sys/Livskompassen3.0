@@ -12,6 +12,11 @@ Läs prompten och identifiera ämnet. Hänvisa till rätt specialist **innan** d
 | Om uppgiften gäller… | Primär agent | Kompletterande skill |
 |---|---|---|
 | Valv, Mönster, Orkester, Inkast, vaultChat, WORM-evidence, Speglar, Hamn-upload | `/specialist-valv-builder` | `livskompassen-memory-silo-guard` |
+| Valv självbyggande arkiv, G10, Drive→bevis, inbox_queue HITL | `/specialist-valv-sjalvbygg-arkiv` | `livskompassen-synapser-adk` |
+| Valv Pansaret-analys, Mönster, Orkester, Brusfilter, patternScan | `/specialist-valv-analys-pansar` | — |
+| Valv-Chat, Sannings-Analytikern, dossier-export | `/specialist-valv-chat-dossier` | `livskompassen-rag-retrieval` |
+| Valv synaps-ingest, widget→reality_vault, weaver_pending | `/specialist-valv-synapse-ingest` | `livskompassen-synapser-adk` |
+| Valv kostnad ≤100 SEK, silo-guard, cost-guard | `/specialist-valv-kostnad-silo` | — |
 | Synapser, ADK, triggers, auto-ingest, Cloud Tasks, batch | `/specialist-adk-weaver` · skill `livskompassen-synapser-adk` | `livskompassen-synapser-adk` |
 | Firestore-regler, storage.rules, säkerhetsregler, WORM-enforcement | `/specialist-firestore-rules` | `livskompassen-memory-silo-guard` |
 | DCAP, routing, classifyInboxDocument, resolveExecutorId, riskklassning | `/specialist-dcap-routing` | — |

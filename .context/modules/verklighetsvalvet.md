@@ -2,6 +2,7 @@
 
 **Kanonisk kod:** `src/modules/features/lifeJournal/evidence/vault/`  
 **Sacred Feature (Sanningens Sköld).** **Route:** `/valvet?vaultTab=…` · **Legacy:** `/dagbok?tab=bevis`, `/valv` → redirect · **AuthGate:** ja  
+**Locked UX:** [`.context/locked-ux-features.md`](../locked-ux-features.md) §2 Pansaret + **§2b Samla** (Inkast+Arkiv+Sök — aldrig Inkast-only) · modul-lås `MOD-VALV-SAMLA`  
 **Spec (konsoliderad):** [`docs/specs/modules/Verklighetsvalvet-SPEC.md`](../../docs/specs/modules/Verklighetsvalvet-SPEC.md)
 
 ## Syfte
@@ -52,7 +53,7 @@
 
 | Klart | Delvis | Planerat |
 |-------|--------|----------|
-| Fyren, WebAuthn, PIN, WORM, 4 entry modes, media, röst, PDF/post, Valv-Chat, flik-lås, issueVaultSession | Zero Footprint idle | Klickbara citations, Drive→valv, Sanningens Ankare, CMEK, duress-PIN |
+| Fyren, WebAuthn, WORM, entry modes, media, röst, PDF/post, Valv-Chat, flik-lås, issueVaultSession, Zero Footprint (G17), Drive G10→rätt silo, klickbara citations, Sanningens Ankare | — | CMEK (infra), duress-PIN |
 
 ## Säkerhet
 

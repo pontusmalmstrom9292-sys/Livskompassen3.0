@@ -147,7 +147,7 @@ URL: `/valvet?valvMode=…&vaultTab=…` · legacy `?samlaView=granska` → `gra
 | `exportera` | `ValvExporteraZone` | `DossierPage` embedded |
 | `forensik` | `ValvForensikZone` | `VaultForensicPanel` × 6 |
 
-**Orphan (WIP):** `ValvInboxZone.tsx` — finns kvar men **importeras inte** efter borttaget `case 'inbox'`.
+**Orphan:** `ValvInboxZone.tsx` — **raderad 2026-07-22** (granska via SuperModule).
 
 ### 2.6 Drawer & externa länkar
 
@@ -285,7 +285,7 @@ WIP ersätter zon-TabBar med `ValvInputSuperModule` och mappar granska via:
 | `VaultSamlaHub.tsx` | Förenkla till **en** ingress: dropzone (`VaultInkastCompact`) + kompakt pending-badge → `onOpenGranska`. Flytta `VaultEntryForm` under fold "Manuell post". |
 | `ValvSamlaZone.tsx` | Behåll sub-TabBar `logga`/`sok` men med korrigerade labels; `onOpenGranska` oförändrat. |
 | `VaultOverviewPanel.tsx` | Minska länkar (Mönster/Orkester/Rapporter) — eller flytta till breadcrumb/drawer endast. |
-| `zones/ValvInboxZone.tsx` | **Ta bort** filen eller markera `@deprecated` re-export → `InboxReviewQueue` (ingen separat zon). |
+| `zones/ValvInboxZone.tsx` | **Borttagen 2026-07-22** — granska via `valvMode=granska` / `InboxReviewQueue`. |
 
 ### Fas 1C — Forensik progressive disclosure (polish)
 

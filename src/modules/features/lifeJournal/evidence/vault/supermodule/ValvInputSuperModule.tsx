@@ -1,3 +1,4 @@
+/** @locked MOD-VALV-SAMLA · @locked-ux Valv Samla — Inkast + Arkivlista + Sök; never Inkast-only in spara (see `.context/locked-ux-features.md` §2b) */
 import { useCallback, lazy, Suspense, type ReactNode } from 'react';
 import { ModuleHelpFromRegistry } from '@/core/help/ModuleHelpFromRegistry';
 import { BentoCard } from '@/shared/ui/BentoCard';
@@ -45,7 +46,7 @@ export type ValvInputSuperModuleProps = {
 /**
  * Canonical Valv navigation — primära lägen + «Mer…» (Fas 1B).
  * Granska ersätter separat inbox-zon och `?samlaView=granska`.
- * Spara (B1): InkastDirectPanel direkt — unified "en väg in", WORM-only append.
+ * Spara (B1): InkastDirectPanel på Arkiv-flik + Samla (lista/Sök) — aldrig dölja arkivet.
  */
 export function ValvInputSuperModule({
   activeMode,
@@ -85,15 +86,40 @@ export function ValvInputSuperModule({
       );
     }
 
+    /**
+     * Inkast (spara): B1 unified dropzone on Arkiv-flik, but NEVER hide Samla
+     * (Arkivlista / Sök). `vaultTab === 'sok'` must reach ValvChat — Orkester handoff.
+     */
     if (activeMode === 'spara') {
+      const showDirectInkast = vaultTab === 'logga';
+      // vaultTab === 'sok' → no InkastDirectPanel; ValvSuperModule → ValvChatPanel
       return (
         <ValvZoneSuspense>
-          <InkastDirectPanel
-            tone="valv"
-            sourceModule="valv_samla"
-            onQueued={() => setMode('granska')}
-            onPersistedBevis={(docId) => void onBevisConfirmed(docId)}
-            queueHintAsButton
+          {showDirectInkast ? (
+            <div className="mb-3">
+              <InkastDirectPanel
+                tone="valv"
+                sourceModule="valv_samla"
+                onQueued={() => setMode('granska')}
+                onPersistedBevis={(docId) => void onBevisConfirmed(docId)}
+                queueHintAsButton
+              />
+            </div>
+          ) : null}
+          <ValvSuperModule
+            variant="samla"
+            vaultTab={vaultTab}
+            userId={userId}
+            gateOk={gateOk}
+            highlightLogId={highlightLogId}
+            onBevisConfirmed={onBevisConfirmed}
+            onCitationClick={onCitationClick}
+            onVaultTabChange={onVaultTabChange}
+            onOpenGranska={() => setMode('granska')}
+            techniqueFilter={techniqueFilter}
+            onTechniqueSelect={onTechniqueSelect}
+            onClearTechniqueFilter={onClearTechniqueFilter}
+            suppressHubInkast={showDirectInkast}
           />
         </ValvZoneSuspense>
       );

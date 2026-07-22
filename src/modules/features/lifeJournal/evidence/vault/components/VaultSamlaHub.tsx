@@ -17,6 +17,8 @@ type Props = {
   onOpenGranska?: () => void;
   manualEntryOpen?: boolean;
   onManualEntryOpenChange?: (open: boolean) => void;
+  /** Parent already shows InkastDirectPanel — skip compact duplicate. */
+  suppressInkast?: boolean;
 };
 
 /** A2.1 — primär: Inkast + granska. Sekundär: manuell post + Drive (CalmCollapsible). */
@@ -26,6 +28,7 @@ export const VaultSamlaHub = memo(function VaultSamlaHub({
   onOpenGranska,
   manualEntryOpen,
   onManualEntryOpenChange,
+  suppressInkast = false,
 }: Props) {
   const [pendingInbox, setPendingInbox] = useState<number | null>(null);
   const [localPending, setLocalPending] = useState(0);
@@ -69,10 +72,12 @@ export const VaultSamlaHub = memo(function VaultSamlaHub({
 
   return (
     <div className="valv-samla-panel space-y-4">
-      <VaultInkastCompact
-        onQueued={openReview}
-        onPersistedBevis={handleBevisConfirmed}
-      />
+      {suppressInkast ? null : (
+        <VaultInkastCompact
+          onQueued={openReview}
+          onPersistedBevis={handleBevisConfirmed}
+        />
+      )}
 
       {onOpenGranska && pendingInbox === null ? (
         <p className="flex items-center gap-2 text-xs text-text-muted">

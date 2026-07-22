@@ -14,13 +14,13 @@ Konsoliderad till [`.context/modules/verklighetsvalvet.md`](../../../.context/mo
 
 | | |
 |---|---|
-| **Route (primär)** | `/dagbok?tab=bevis` — `VaultPage` inbäddad i `HjartatPage` |
-| **Redirect** | `/valv` → `/dagbok?tab=bevis` |
-| **AuthGate** | Ja (Firebase Auth) |
-| **Kluster** | Hjärtat (flikar: Reflektion \| Bevis \| Speglar) |
-| **Fyren (dold ingång)** | **3s långtryck** på **dock BookOpen** → WebAuthn (`authenticateVaultGate`) → `setVaultGate()` → `/dagbok?tab=bevis` |
-| **Synlig ingång idag** | Flik **Bevis** i Hjärtat + `ClusterGrid` länk — **svagare** plausible deniability (se §14) |
-| **Standalone `/valv`** | Kräver `hasVaultGate()` — annars instruktion om Fyren |
+| **Route (primär)** | `/valvet?vaultTab=…` — `ValvetRoutePage` → `VaultPage` (egen silo) |
+| **Redirect** | `/valv`, `/valvet` (legacy redirect), `/kunskap`, `/dossier` → `/valvet?vaultTab=…` |
+| **AuthGate** | Ja (Firebase Auth) + WebAuthn/biometri → `issueVaultSession` |
+| **Kluster** | Valv (separat route — **ingen** Bevis-flik på Hjärtat) |
+| **Fyren (dold ingång)** | **3s långtryck** på **dock BookOpen** → WebAuthn → `/valvet` |
+| **Synlig ingång** | Drawer Valv-sektion efter upplåsning; Resurser → Säkerhet |
+| **Direkt `/valvet`** | Kräver `hasVaultGate()` — annars `VaultLockedGate` + Fyren-instruktion |
 
 **Ingen egen Shield-ikon i dock** — Fyren sitter på BookOpen (Variant B i notebook = aktiv kod).
 
@@ -202,9 +202,9 @@ Prompts **endast** i [`functions/src/sharedRules.ts`](../../../functions/src/sha
 
 ## 11. Navigation
 
-- **Dock:** BookOpen kort klick → `/dagbok` (Reflektion); **Fyren** 3s → `/dagbok?tab=bevis`
+- **Dock:** BookOpen kort klick → `/dagbok` (Reflektion); **Fyren** 3s → `/valvet`
 - **Kluster:** Hjärtat — Reflektion \| Bevis \| Speglar
-- **Redirects:** `/valv` → `/dagbok?tab=bevis`
+- **Redirects:** `/valv` → `/valvet`
 - **ClusterGrid:** länk "Verklighetsvalvet" → `?tab=bevis` (synlig idag)
 - **Mål (§14):** dölj synlig Bevis-flik — endast Fyren
 

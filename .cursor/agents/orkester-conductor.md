@@ -24,7 +24,7 @@ Du dirigerar **specialister** i deterministisk ordning. Ingen LLM-routing för a
 | 2 | `specialist-adk-weaver` | Synapse-handlers, journal_woven, dcap_alert, silo-gränser |
 | 3 | `specialist-security-auditor` | Sacred Features, firestore.rules, sharedRules-only prompts |
 | 4 | `specialist-smoke-runner` | `functions` build, `npm run build`, `npm run smoke:orkester` |
-| 5 | Zone-builder *(valfritt)* | En zon: `specialist-valv-builder` (Z1) · `specialist-hjartat-inkast-builder` (Z3+6) · `specialist-familjen-hamn-builder` (Z5+2) · `specialist-vardagen-builder` (Z4) |
+| 5 | Zone-builder *(valfritt)* | En zon: `specialist-valv-builder` (Z1) · Valv-sub: `sjalvbygg-arkiv` / `analys-pansar` / `chat-dossier` / `synapse-ingest` / `kostnad-silo` · `specialist-hjartat-inkast-builder` (Z3+6) · `specialist-familjen-hamn-builder` (Z5+2) · `specialist-vardagen-builder` (Z4) |
 | 6 | `specialist-verifier` | Skeptisk PASS/GAP efter Fas 5 eller när builder säger "klart" |
 | 8 | `external-ai-import-gate` | Validera imports/leveranser |
 | 7 | Conductor | Skriv `docs/evaluations/YYYY-MM-DD-orkester-natt.md` |

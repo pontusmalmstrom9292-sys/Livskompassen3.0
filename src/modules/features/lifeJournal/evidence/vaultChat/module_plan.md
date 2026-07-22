@@ -4,7 +4,7 @@
 
 Valv-Chat — forensisk fråga/svar mot `reality_vault` (WORM). **Skild från** `/kunskap` KnowledgeVaultChat.
 
-**Ingång:** flik *Sök* i upplåst Verklighetsvalvet (`/dagbok?tab=bevis`)
+**Ingång:** flik *Sök* i upplåst Verklighetsvalvet (`/valvet?vaultTab=sok`)
 
 Canonical: `.context/modules/evidence/vaultChat.md` · Spec: `docs/specs/modules/Valv-Chat-SPEC.md`
 

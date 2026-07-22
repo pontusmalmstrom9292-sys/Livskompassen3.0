@@ -2,7 +2,7 @@
 
 ## Overview
 
-Sacred Feature: WORM evidence vault (Verklighetsvalvet / Sanningens Sköld). Route `/dagbok?tab=bevis`; redirect `/valv`. Dold ingång via Fyren (3s long-press BookOpen + WebAuthn + PIN).
+Sacred Feature + Locked UX §2/§2b (Samla Inkast+Arkiv+Sök): WORM evidence vault (Verklighetsvalvet / Sanningens Sköld). Route `/valvet?vaultTab=…`; legacy `/dagbok?tab=bevis` / `/valv` → redirect. Dold ingång via Fyren (3s long-press BookOpen + WebAuthn + PIN).
 
 Canonical: `.context/modules/evidence/vault.md` · Spec: `docs/specs/modules/Verklighetsvalvet-SPEC.md`
 
