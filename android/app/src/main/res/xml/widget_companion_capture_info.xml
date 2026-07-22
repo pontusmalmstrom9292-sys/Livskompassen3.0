@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Capture — min 1 plats, default 2×2. Krympbart utan funktionsbortfall. -->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:description="@string/widget_companion_capture_desc"
     android:initialLayout="@layout/widget_companion_capture"
-    android:minWidth="250dp"
+    android:minWidth="110dp"
     android:minHeight="110dp"
     android:previewLayout="@layout/widget_companion_capture"
     android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="2"
+    android:targetCellHeight="2"
     android:updatePeriodMillis="86400000"
     android:widgetCategory="home_screen" />

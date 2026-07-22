@@ -32,7 +32,7 @@ export function CognitiveGuardView({
         icon={<Brain className="h-4 w-4 text-accent" />}
         className="border-accent/30 shadow-accent-glow"
       >
-        <p className="mb-4 text-xs leading-relaxed text-text-dim">
+        <p className="mb-4 text-xs leading-relaxed text-text-muted">
           Du har många oavslutade uppgifter just nu. För att förhindra stressparalys har vi tillfälligt gömt
           dina andra kolumner. Gör klart denna enda sak först för att bygga positivt momentum.
         </p>
@@ -51,7 +51,7 @@ export function CognitiveGuardView({
         <div className="mt-4 space-y-3 border-t border-border pt-4">
           <label className="block text-xs text-text-muted">
             Ditt nästa mikrosteg ({MICRO_STEP_PANEL_TITLE.toLowerCase()})
-            <span className="mt-0.5 block text-[10px] text-text-dim">
+            <span className="mt-0.5 block text-[10px] text-text-muted">
               Bryt ner uppgiften till minsta möjliga handling för att komma igång.
             </span>
             <div className="mt-2 flex gap-2">

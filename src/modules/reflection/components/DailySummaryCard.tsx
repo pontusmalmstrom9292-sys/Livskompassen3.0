@@ -37,7 +37,7 @@ export const DailySummaryCard: React.FC<DailySummaryCardProps> = ({
 
       {isToday && focusPoints && focusPoints.some((p) => p.trim() !== '') && (
         <div className="mb-6 rounded-xl border border-border/30 bg-surface-3/40 p-4">
-          <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-dim">
+          <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">
             Dagens Fokus
           </h4>
           <ul className="space-y-2">
@@ -55,7 +55,7 @@ export const DailySummaryCard: React.FC<DailySummaryCardProps> = ({
       )}
 
       <div>
-        <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-dim">
+        <h4 className="mb-3 text-sm font-semibold uppercase tracking-wider text-text-muted">
           Insikter & Händelser
         </h4>
         {insights.length > 0 ? (
@@ -72,7 +72,7 @@ export const DailySummaryCard: React.FC<DailySummaryCardProps> = ({
                   {insight.text || insight.content || 'Ingen text angiven'}
                 </p>
                 {insight.createdAt && (
-                  <div className="mt-2 text-xs text-text-dim">
+                  <div className="mt-2 text-xs text-text-muted">
                     {insight.createdAt.toDate().toLocaleTimeString('sv-SE', {
                       hour: '2-digit',
                       minute: '2-digit',
@@ -83,7 +83,7 @@ export const DailySummaryCard: React.FC<DailySummaryCardProps> = ({
             ))}
           </div>
         ) : (
-          <p className="text-sm italic text-text-dim">Inga insikter loggade denna dag.</p>
+          <p className="text-sm italic text-text-muted">Inga insikter loggade denna dag.</p>
         )}
       </div>
     </motion.div>

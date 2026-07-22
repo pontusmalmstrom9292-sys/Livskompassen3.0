@@ -219,7 +219,7 @@ export function PlaneringPage() {
               to="/planering/input"
               variant="ghost"
               size="icon"
-              className="shrink-0 p-2"
+              className="shrink-0 min-h-11 min-w-11 p-2"
               title="Snabbinmatning"
               aria-label="Öppna planeringsinmatningshub"
             >
@@ -229,7 +229,7 @@ export function PlaneringPage() {
               to="/planering/kalender"
               variant="ghost"
               size="icon"
-              className="shrink-0 p-2"
+              className="shrink-0 min-h-11 min-w-11 p-2"
               title="Veckokalender"
               aria-label="Öppna veckokalender"
             >
@@ -240,7 +240,7 @@ export function PlaneringPage() {
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="shrink-0 p-2"
+                className="shrink-0 min-h-11 min-w-11 p-2"
                 onClick={() => navigate('/planering?tab=start')}
                 title="Välj verktyg"
                 aria-label="Öppna modulväljare"

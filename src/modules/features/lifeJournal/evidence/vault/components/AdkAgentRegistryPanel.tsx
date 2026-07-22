@@ -29,7 +29,7 @@ export function AdkAgentRegistryPanel() {
           type="button"
           variant="ghost"
           size="sm"
-          className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 text-[10px] uppercase tracking-widest disabled:opacity-50 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={() => void reload()}
           disabled={loading}
           aria-label="Uppdatera agentregistret"

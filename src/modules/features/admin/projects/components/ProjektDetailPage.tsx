@@ -213,7 +213,7 @@ export function ProjektDetailPage() {
         <div className="flex items-center justify-between">
           <Link
             to="/projekt"
-            className="min-h-11 inline-flex items-center text-xs text-text-dim hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+            className="min-h-11 inline-flex items-center text-xs text-text-muted hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             ← Projekt
           </Link>
@@ -260,7 +260,7 @@ export function ProjektDetailPage() {
         )}
         {blocks.map((block) => (
           <div key={block.id} className="elongated-module p-3 text-sm">
-            <p className="text-[10px] uppercase tracking-widest text-text-dim">
+            <p className="text-[10px] uppercase tracking-widest text-text-muted">
               {BLOCK_LABELS[block.type]}
             </p>
             <p className="mt-1 font-medium text-text">{block.title}</p>
@@ -296,7 +296,7 @@ export function ProjektDetailPage() {
       </div>
 
       <div className="space-y-2 rounded-xl border border-white/10 p-3">
-        <p className="text-[10px] uppercase tracking-widest text-text-dim">Lägg till block</p>
+        <p className="text-[10px] uppercase tracking-widest text-text-muted">Lägg till block</p>
         <div className="flex flex-wrap gap-2">
           <Button type="button" disabled={saving} variant="secondary" className="--secondary text-xs" onClick={() => { const title = window.prompt('Rubrik för lista:', 'Min lista'); if (title?.trim()) void addBlock('list', title.trim()); }}>
             Lista
@@ -309,7 +309,7 @@ export function ProjektDetailPage() {
           </Button>
         </div>
         <div className="mt-3 rounded-lg border border-white/10 p-2">
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">Media</p>
+          <p className="text-[10px] uppercase tracking-widest text-text-muted">Media</p>
           <ProjectMediaPicker disabled={saving} acceptVideo onPick={setPendingMedia} />
           <textarea
             className="input-glass mt-2 w-full text-sm"

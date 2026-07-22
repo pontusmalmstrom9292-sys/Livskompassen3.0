@@ -79,7 +79,7 @@ export function ResurserOverlay({ open, onClose }: Props) {
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Sök i resurser"
           aria-label="Sök i resurser"
-          className="min-w-0 flex-1 bg-transparent text-sm text-text placeholder:text-text-dim focus:outline-none focus-visible:ring-0"
+          className="min-w-0 flex-1 bg-transparent text-sm text-text placeholder:text-text-muted focus:outline-none focus-visible:ring-0"
         />
       </label>
 
@@ -112,9 +112,9 @@ export function ResurserOverlay({ open, onClose }: Props) {
                   </span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-sm font-medium text-text">{row.label}</span>
-                    <span className="block text-xs text-text-dim">{row.sub}</span>
+                    <span className="block text-xs text-text-muted">{row.sub}</span>
                   </span>
-                  <span className="text-text-dim" aria-hidden>
+                  <span className="text-text-muted" aria-hidden>
                     ›
                   </span>
                 </button>

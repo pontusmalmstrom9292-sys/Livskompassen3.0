@@ -127,7 +127,7 @@ export function EconomySavingsPanel({
       {error ? <p id="ekonomi-savings-error" className="mb-2 text-sm text-danger" role="alert">{error}</p> : null}
 
       {loading ? (
-        <p className="flex items-center gap-2 text-sm text-text-dim">
+        <p className="flex items-center gap-2 text-sm text-text-muted">
           <Loader2 className="h-4 w-4 animate-spin" /> Laddar…
         </p>
       ) : goals.length === 0 ? (
@@ -142,7 +142,7 @@ export function EconomySavingsPanel({
             return (
               <li key={goal.id}>
                 <BentoCard title={goal.title} glow="gold">
-                  <p className="text-sm text-text-dim">
+                  <p className="text-sm text-text-muted">
                     {goal.currentSek} / {goal.targetSek} kr
                   </p>
                   <div
@@ -178,7 +178,7 @@ export function EconomySavingsPanel({
                       size="icon"
                       disabled={busy || disabled}
                       onClick={() => void handleDelete(goal.id)}
-                      className="text-text-dim"
+                      className="text-text-muted"
                       aria-label={`Ta bort ${goal.title}`}
                     >
                       <Trash2 className="h-4 w-4" />
@@ -199,7 +199,7 @@ export function EconomySavingsPanel({
 
       {(!compact || goals.length === 0) && (
       <form onSubmit={(e) => void handleCreate(e)} className="mt-4 space-y-3 border-t border-border pt-4">
-        <p className="text-xs uppercase tracking-wider text-text-dim">Nytt sparmål</p>
+        <p className="text-xs uppercase tracking-wider text-text-muted">Nytt sparmål</p>
         <label htmlFor="ekonomi-goal-title" className="block text-xs text-text-muted">
           Namn
           <input

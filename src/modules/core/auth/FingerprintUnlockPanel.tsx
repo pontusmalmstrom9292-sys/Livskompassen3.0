@@ -43,7 +43,7 @@ export function FingerprintUnlockPanel({ compact = false, autoTry = false, onSuc
         {pending ? 'Verifierar…' : 'Lås upp med fingeravtryck'}
       </Button>
       {!compact && (
-        <p className="mt-3 text-center text-xs text-text-dim">
+        <p className="mt-3 text-center text-xs text-text-muted">
           Google-kontot är redan inloggat — fingeravtryck verifierar bara att det är du.
         </p>
       )}
@@ -63,7 +63,7 @@ export function FingerprintUnlockPanel({ compact = false, autoTry = false, onSuc
     <div className="glass-card rounded-[2rem] border border-border p-6">
       <Fingerprint className="mx-auto h-8 w-8 text-accent" strokeWidth={1.5} />
       <p className="mt-3 text-center text-sm font-medium text-text">Lås upp med fingeravtryck</p>
-      <p className="mt-1 text-center text-xs text-text-dim">
+      <p className="mt-1 text-center text-xs text-text-muted">
         Ditt Google-konto är redan inloggat — verifiera dig för att öppna appen.
       </p>
       <div className="mt-4">{body}</div>

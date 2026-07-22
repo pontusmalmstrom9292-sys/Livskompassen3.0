@@ -57,7 +57,7 @@ function WidgetShellFrame({
         <header className="widget-shell__header">
           <div className="flex items-start justify-between gap-3">
             {showAppLink || companion ? (
-              <a href="/" className="widget-shell__brand" aria-label="Öppna Livskompassen">
+              <a href="/" className="widget-shell__brand min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" aria-label="Öppna Livskompassen">
                 <Compass className="h-4 w-4 text-accent" strokeWidth={1.65} />
                 <span className="text-[10px] uppercase tracking-[0.2em] text-text-muted">
                   {companion ? 'Companion' : 'Widget'}

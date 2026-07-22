@@ -17,7 +17,7 @@ export function DrawerHomeQuickActions({ onNavigate }: Props) {
           <button
             key={id}
             type="button"
-            className="nav-drawer__quick-chip"
+            className="nav-drawer__quick-chip min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             aria-label={label}
             onClick={() => {
               navigate(to);

@@ -49,7 +49,7 @@ export function PlaneringWeekCalendar({ tasks, prepared = true }: Props) {
               </span>
               <div className="planering-inbox-calendar-preview__day-slot flex flex-col gap-1 p-1.5">
                 {dayTasks.length === 0 ? (
-                  <span className="text-[10px] text-text-dim">—</span>
+                  <span className="text-[10px] text-text-muted">—</span>
                 ) : (
                   dayTasks.map((task) => (
                     <span
@@ -81,7 +81,7 @@ export function PlaneringWeekCalendar({ tasks, prepared = true }: Props) {
         >
           Exportera ICS ({exportableCount})
         </Button>
-        <span className="text-xs text-text-dim">
+        <span className="text-xs text-text-muted">
           Manuell kalender — riktiga deadlines, inga mock-händelser.
         </span>
       </div>

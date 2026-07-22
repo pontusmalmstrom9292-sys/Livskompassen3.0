@@ -48,7 +48,7 @@ export function SchoolAgeModule() {
       </div>
 
       <div>
-        <label className="mb-1 block text-xs text-text-dim">Skolrelaterad social dynamik</label>
+        <label className="mb-1 block text-xs text-text-muted">Skolrelaterad social dynamik</label>
         <TextArea
           className="input-glass neu-inset w-full resize-none text-sm"
           rows={2}

@@ -138,8 +138,8 @@ export function MabraGoalPanel() {
   if (isLoading) {
     return (
       <BentoCard glow="gold" className="flex min-h-[8rem] items-center justify-center gap-2 p-6">
-        <Loader2 className="h-5 w-5 animate-spin text-text-dim" />
-        <span className="text-sm text-text-dim">{COPY.loading}</span>
+        <Loader2 className="h-5 w-5 animate-spin text-text-muted" />
+        <span className="text-sm text-text-muted">{COPY.loading}</span>
       </BentoCard>
     );
   }
@@ -147,7 +147,7 @@ export function MabraGoalPanel() {
   if (panelError && !result && !primaryGoal) {
     return (
       <BentoCard glow="gold" className="p-5">
-        <p className="text-sm text-text-dim">{getMabraRsdErrorCopy()}</p>
+        <p className="text-sm text-text-muted">{getMabraRsdErrorCopy()}</p>
       </BentoCard>
     );
   }
@@ -168,12 +168,12 @@ export function MabraGoalPanel() {
 
       {primaryGoal && !showDraft && (
         <div className="rounded-xl border border-accent/30 bg-surface-3/40 px-4 py-3">
-          <p className="text-xs uppercase tracking-wider text-text-dim">{COPY.activeGoal}</p>
+          <p className="text-xs uppercase tracking-wider text-text-muted">{COPY.activeGoal}</p>
           <p className="mt-1 text-base text-text">{primaryGoal.text}</p>
           <div className="mt-3 flex flex-wrap gap-2">
             <Button
               variant="ghost"
-              className="text-xs text-text-dim"
+              className="text-xs text-text-muted"
               onClick={beginCustomEdit}
               disabled={saving}
             >
@@ -182,7 +182,7 @@ export function MabraGoalPanel() {
             </Button>
             <Button
               variant="ghost"
-              className="text-xs text-text-dim"
+              className="text-xs text-text-muted"
               onClick={() => void handleClear()}
               disabled={saving}
             >
@@ -200,17 +200,17 @@ export function MabraGoalPanel() {
       )}
 
       {panelError && (
-        <p className="text-xs text-text-dim">{panelError}</p>
+        <p className="text-xs text-text-muted">{panelError}</p>
       )}
 
       {result?.capacityLevel === 1 && (
-        <p className="rounded-xl border border-border/30 bg-surface-3/40 px-3 py-2 text-xs text-text-dim">
+        <p className="rounded-xl border border-border/30 bg-surface-3/40 px-3 py-2 text-xs text-text-muted">
           {COPY.capacity1}
         </p>
       )}
 
       {(result?.suggestSimplify || result?.suggestMicroStep) && (
-        <div className="space-y-1 text-xs text-text-dim">
+        <div className="space-y-1 text-xs text-text-muted">
           {result.suggestSimplify && <p>{COPY.simplify}</p>}
           {result.suggestMicroStep && <p>{COPY.micro}</p>}
         </div>
@@ -218,7 +218,7 @@ export function MabraGoalPanel() {
 
       {showDraft ? (
         <div className="space-y-3 rounded-xl border border-border/30 bg-surface-2/60 p-4">
-          <label className="block text-xs uppercase tracking-wider text-text-dim">
+          <label className="block text-xs uppercase tracking-wider text-text-muted">
             {COPY.adjust}
           </label>
           <input
@@ -247,7 +247,7 @@ export function MabraGoalPanel() {
             </Button>
             <Button
               variant="ghost"
-              className="text-sm text-text-dim"
+              className="text-sm text-text-muted"
               onClick={() => void handleAssist()}
               disabled={saving || assistLoading}
             >
@@ -265,7 +265,7 @@ export function MabraGoalPanel() {
             </Button>
             <Button
               variant="ghost"
-              className="text-sm text-text-dim"
+              className="text-sm text-text-muted"
               onClick={cancelDraft}
               disabled={saving}
             >
@@ -273,21 +273,21 @@ export function MabraGoalPanel() {
               {COPY.cancel}
             </Button>
           </div>
-          {assistError && <p className="text-xs text-text-dim">{assistError}</p>}
+          {assistError && <p className="text-xs text-text-muted">{assistError}</p>}
         </div>
       ) : (
         <>
           {candidates.length === 0 ? (
             <div className="space-y-3">
-              <p className="rounded-xl border border-border/30 bg-surface-2/50 px-4 py-3 text-sm text-text-dim">
+              <p className="rounded-xl border border-border/30 bg-surface-2/50 px-4 py-3 text-sm text-text-muted">
                 {COPY.empty}
               </p>
-              <Button variant="ghost" className="text-sm text-text-dim" onClick={beginCustomEdit}>
+              <Button variant="ghost" className="text-sm text-text-muted" onClick={beginCustomEdit}>
                 {COPY.adjust}
               </Button>
               <Button
                 variant="ghost"
-                className="text-sm text-text-dim"
+                className="text-sm text-text-muted"
                 onClick={() => void handleAssist()}
                 disabled={assistLoading}
               >
@@ -302,7 +302,7 @@ export function MabraGoalPanel() {
                   className="rounded-xl border border-border/30 bg-surface-2/60 px-4 py-3"
                 >
                   <p className="text-base text-text">{candidate.text}</p>
-                  <p className="mt-1 text-xs text-text-dim">
+                  <p className="mt-1 text-xs text-text-muted">
                     Upprepning {candidate.count}× · {candidate.firstSeen} → {candidate.lastSeen}
                     {' · '}
                     Tillförlitlighet {Math.round(candidate.confidence * 100)}%

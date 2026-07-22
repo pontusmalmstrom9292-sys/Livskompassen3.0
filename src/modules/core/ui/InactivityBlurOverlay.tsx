@@ -40,7 +40,7 @@ export function InactivityBlurOverlay() {
           animate={{ opacity: 1, backdropFilter: 'blur(24px)' }}
           exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
           transition={{ duration: 1, ease: 'easeInOut' }}
-          className="pointer-events-auto fixed inset-0 z-[9999] bg-surface-base/30 outline-none"
+          className="pointer-events-auto fixed inset-0 z-[9999] bg-surface-base/30 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           role="button"
           tabIndex={0}
           aria-label="Tryck Escape eller klicka för att fortsätta"

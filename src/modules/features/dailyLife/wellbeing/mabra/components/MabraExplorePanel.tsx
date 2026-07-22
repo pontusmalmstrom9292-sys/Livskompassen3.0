@@ -218,9 +218,9 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
     <BentoCard title={COPY.eyebrow} icon={<Compass className="h-4 w-4" />} glow="green">
       <p className="mb-3 text-sm text-text-muted">{COPY.lead}</p>
       {capacityLevel === 1 ? (
-        <p className="mb-2 text-xs text-text-dim">Lugn kapacitet — lågenergi-filter är förvalt.</p>
+        <p className="mb-2 text-xs text-text-muted">Lugn kapacitet — lågenergi-filter är förvalt.</p>
       ) : null}
-      <p className="mb-2 text-xs text-text-dim">{COPY.filterHint}</p>
+      <p className="mb-2 text-xs text-text-muted">{COPY.filterHint}</p>
 
       <div className="mb-4 flex flex-wrap gap-2" role="group" aria-label="Filter för veckoutmaning">
         {FILTER_OPTIONS.map((opt) => {

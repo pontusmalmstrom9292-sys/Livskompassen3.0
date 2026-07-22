@@ -35,7 +35,7 @@ export type SkeletonStackProps = {
 export function SkeletonStack({ label = 'Laddar…', lines = 3, className }: SkeletonStackProps) {
   return (
     <div className={cn('ds-skeleton-stack space-y-3 py-4', className)} aria-busy="true" aria-label={label}>
-      <p className="flex items-center gap-2 text-xs text-text-dim">
+      <p className="flex items-center gap-2 text-xs text-text-muted">
         <Spinner size="sm" />
         {label}
       </p>

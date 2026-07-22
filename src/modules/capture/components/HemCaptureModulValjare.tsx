@@ -18,7 +18,7 @@ function PastePreviewMini() {
 
 function PhotoPreviewMini() {
   return (
-    <div className="flex items-center gap-2 text-[10px] text-text-dim">
+    <div className="flex items-center gap-2 text-[10px] text-text-muted">
       <span className="rounded border border-border/40 px-2 py-1">Kvitto</span>
       <span>→ granskningskö</span>
     </div>
@@ -81,7 +81,7 @@ export function HemCaptureModulValjare({ onSelect, onSkip }: Props) {
         <button
           type="button"
           onClick={skip}
-          className="min-h-[44px] touch-manipulation px-2 text-xs text-text-dim hover:text-text-muted active:scale-[0.98]"
+          className="min-h-[44px] touch-manipulation px-2 text-xs text-text-muted hover:text-text-muted active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           Gå direkt till skrivyta
         </button>

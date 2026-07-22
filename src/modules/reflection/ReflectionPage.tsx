@@ -38,7 +38,7 @@ const ReflectionPageContent: React.FC = () => {
               <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
                 Reflektion & Dagbok
               </h1>
-              <p className="text-white/60 mt-1">
+              <p className="text-text-muted mt-1">
                 En longitudinell vy över dina dagliga insikter och fokus.
               </p>
             </div>

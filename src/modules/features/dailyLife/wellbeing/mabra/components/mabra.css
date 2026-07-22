@@ -46,8 +46,12 @@
 
   .mabra-hub-shell button:focus-visible,
   .mabra-hub-shell a:focus-visible,
+  .mabra-hub-shell [role='button']:focus-visible,
+  .mabra-hub-shell [role='tab']:focus-visible,
   .mabra-bento-shell__content button:focus-visible,
-  .mabra-bento-shell__content a:focus-visible {
+  .mabra-bento-shell__content a:focus-visible,
+  .mabra-bento-shell__content [role='button']:focus-visible,
+  .mabra-bento-shell__content [role='tab']:focus-visible {
     outline: var(--ds-focus-ring);
     outline-offset: var(--ds-focus-offset);
   }
@@ -90,9 +94,18 @@
   .mabra-flow-shell__actions button:focus-visible,
   .mabra-flow-shell__actions a:focus-visible,
   .mabra-flow-shell__surface button:focus-visible,
-  .mabra-flow-shell__surface a:focus-visible {
+  .mabra-flow-shell__surface a:focus-visible,
+  .mabra-flow-shell__actions [role='button']:focus-visible,
+  .mabra-flow-shell__surface [role='button']:focus-visible {
     outline: var(--ds-focus-ring);
     outline-offset: var(--ds-focus-offset);
+  }
+
+  .mabra-flow-shell__actions button,
+  .mabra-flow-shell__actions a,
+  .mabra-hub-shell .ds-btn,
+  .mabra-hub-shell button {
+    min-height: var(--ds-touch-target);
   }
 
   .mabra-flow-card {
@@ -163,6 +176,69 @@
     .mabra-flow-shell__actions,
     .liv-launcher-page {
       transition: none;
+    }
+  }
+}
+
+/* Pass 3 deepen — ADD only */
+@layer components {
+  .mabra-hub:focus-within,
+  .mabra-hub-shell:focus-within,
+  .mabra-bento-shell__content:focus-within {
+    border-color: color-mix(in srgb, var(--accent, #fde68a) 28%, var(--border, transparent));
+  }
+
+  .mabra-hub button,
+  .mabra-hub a[href],
+  .mabra-hub [role='button'],
+  .mabra-hub [role='tab'],
+  .mabra-hub-shell button,
+  .mabra-hub-shell a[href],
+  .mabra-hub-shell [role='button'],
+  .mabra-hub-shell [role='tab'] {
+    min-height: var(--ds-touch-target, 2.75rem);
+  }
+
+  .mabra-hub button:focus-visible,
+  .mabra-hub a[href]:focus-visible,
+  .mabra-hub [role='button']:focus-visible,
+  .mabra-hub [role='tab']:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .mabra-hub,
+    .mabra-hub-shell,
+    .mabra-bento-shell__content,
+    .mabra-zone-pill {
+      transition: none;
+      animation: none;
+    }
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .mabra-hub,
+    .mabra-hub-shell,
+    .mabra-bento-shell__content {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background: color-mix(in srgb, var(--surface) 94%, #020617);
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  @layer components {
+    .mabra-hub,
+    .mabra-hub-shell,
+    .liv-launcher-page {
+      max-width: 100%;
+      overflow-x: clip;
     }
   }
 }

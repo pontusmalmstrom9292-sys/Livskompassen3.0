@@ -99,7 +99,7 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
 
   return (
     <div className="mt-4 w-full max-w-sm space-y-3 text-left">
-      <p className="text-center text-xs text-text-dim">{MABRA_COACH_COPY.hint}</p>
+      <p className="text-center text-xs text-text-muted">{MABRA_COACH_COPY.hint}</p>
 
       {!requested && (
         <>
@@ -133,7 +133,7 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
             </div>
           )}
           {speechError && <p className="text-center text-xs text-danger">{speechError}</p>}
-          <p className="text-center text-[10px] text-text-dim">{MABRA_COACH_COPY.noteHint}</p>
+          <p className="text-center text-[10px] text-text-muted">{MABRA_COACH_COPY.noteHint}</p>
           <Button
             variant="secondary"
             className="w-full disabled:opacity-50"
@@ -149,18 +149,18 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
         <div
           className={`glass-card p-4 ${usedAi ? 'glass-card--ai border-accent-ai/30' : 'border-border-strong'}`}
         >
-          <p className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-widest text-text-dim">
+          <p className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-widest text-text-muted">
             {MABRA_COACH_COPY.responseLabel}
             {usedAi && <span className="text-accent-ai">AI</span>}
           </p>
           {loading ? (
-            <p className="text-sm text-text-dim">{MABRA_COACH_COPY.loading}</p>
+            <p className="text-sm text-text-muted">{MABRA_COACH_COPY.loading}</p>
           ) : (
             <p className={`text-sm leading-relaxed ${usedAi ? 'text-accent-ai' : 'text-text-muted'}`}>
               {coachText}
             </p>
           )}
-          {error && <p className="mt-2 text-xs text-text-dim">{error}</p>}
+          {error && <p className="mt-2 text-xs text-text-muted">{error}</p>}
         </div>
       )}
     </div>

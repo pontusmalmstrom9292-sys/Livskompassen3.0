@@ -113,7 +113,7 @@ export function DrawerHubAccordion({
         aria-label={`${label}, ${isOpen ? 'fäll ihop' : 'fäll ut'}`}
         onClick={() => setIsOpen(!isOpen)}
         className={clsx(
-          'drawer-hub__trigger w-full justify-between',
+          'drawer-hub__trigger min-h-11 w-full justify-between focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
           triggerActive && 'drawer-hub__trigger--active',
           isOpen && 'drawer-hub__trigger--open',
         )}
@@ -143,7 +143,7 @@ export function DrawerHubAccordion({
                 role="link"
                 onClick={() => handleLinkClick(link.path)}
                 className={clsx(
-                  'drawer-hub__link nav-drawer__row--sub',
+                  'drawer-hub__link nav-drawer__row--sub min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
                   active && 'drawer-hub__link--active',
                 )}
               >

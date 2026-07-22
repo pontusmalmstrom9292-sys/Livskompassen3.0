@@ -37,7 +37,7 @@ Phase 10 (legacy CSS sunset) is **optional stretch** — not blocking.
 
 - [x] Layout, navigation, and information hierarchy unchanged vs pre-polish baseline
 - [x] Executive Midnight DAD preserved — compass centered, dock structure, header hierarchy
-- [ ] Pontus sign-off: "feels more premium, not a different app" (per zone)
+- [ ] Pontus sign-off: "feels more premium, not a different app" (per zone) — V4×10 kod Done 2026-07-22; väntar G85 öga
 - [x] smoke:locked-ux + smoke:design-modules + smoke:locked-icons green
 
 ## 2. Responsive

@@ -114,7 +114,7 @@ export function EkonomiSaldoDelegate({ userId }: EkonomiSaldoDelegateProps) {
       />
 
       <div className="space-y-2">
-        <div className="flex justify-between gap-3 text-xs tabular-nums text-text-dim">
+        <div className="flex justify-between gap-3 text-xs tabular-nums text-text-muted">
           <span>
             Förbrukat denna vecka:{' '}
             <strong className="text-text">{loading ? '—' : `${spentThisWeek} kr`}</strong>
@@ -140,7 +140,7 @@ export function EkonomiSaldoDelegate({ userId }: EkonomiSaldoDelegateProps) {
       </div>
 
       <div>
-        <p className="mb-2 text-[10px] uppercase tracking-wider text-text-dim">Snabbtillägg</p>
+        <p className="mb-2 text-[10px] uppercase tracking-wider text-text-muted">Snabbtillägg</p>
         <div className="grid grid-cols-2 gap-3">
           <button
             type="button"
@@ -162,10 +162,10 @@ export function EkonomiSaldoDelegate({ userId }: EkonomiSaldoDelegateProps) {
       </div>
 
       <form onSubmit={(event) => void handleCustomSubmit(event)} className="space-y-3.5">
-        <p className="text-[10px] uppercase tracking-wider text-text-dim">Eget belopp</p>
+        <p className="text-[10px] uppercase tracking-wider text-text-muted">Eget belopp</p>
         <div className="flex flex-wrap gap-3">
           <label className="flex min-w-[7rem] flex-1 flex-col gap-1.5">
-            <span className="text-[10px] text-text-dim">Belopp (kr)</span>
+            <span className="text-[10px] text-text-muted">Belopp (kr)</span>
             <input
               type="text"
               inputMode="decimal"
@@ -183,7 +183,7 @@ export function EkonomiSaldoDelegate({ userId }: EkonomiSaldoDelegateProps) {
             />
           </label>
           <label className="flex min-w-[10rem] flex-[2] flex-col gap-1.5">
-            <span className="text-[10px] text-text-dim">Etikett (valfritt)</span>
+            <span className="text-[10px] text-text-muted">Etikett (valfritt)</span>
             <input
               type="text"
               value={customLabel}
@@ -240,7 +240,7 @@ export function EkonomiSaldoDelegate({ userId }: EkonomiSaldoDelegateProps) {
       ) : null}
 
       <div className="border-t border-border/30 pt-4">
-        <p className="mb-3 text-[10px] uppercase tracking-wider text-text-dim">
+        <p className="mb-3 text-[10px] uppercase tracking-wider text-text-muted">
           Senaste transaktioner
         </p>
         {transactions.length === 0 ? (

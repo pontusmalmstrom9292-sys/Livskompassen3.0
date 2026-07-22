@@ -41,7 +41,7 @@ export function MemoryTestView() {
         </div>
 
         {isEmpty ? (
-          <p className="font-sans text-sm text-text-dim italic">
+          <p className="font-sans text-sm text-text-muted italic">
             Inget minne i lokalt tillstånd ännu.
           </p>
         ) : (

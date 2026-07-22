@@ -29,11 +29,11 @@ export function MabraNutritionCoachPanel({ uid }: Props) {
   if (requested) {
     return (
       <div className="mt-4 glass-card glass-card--ai border-accent-ai/30 p-4">
-        <p className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-widest text-text-dim">
+        <p className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-widest text-text-muted">
           Kost-Coach Svar <span className="text-accent-ai">AI</span>
         </p>
         {loading ? (
-          <p className="text-sm text-text-dim">Analyserar och hämtar evidensbaserade råd...</p>
+          <p className="text-sm text-text-muted">Analyserar och hämtar evidensbaserade råd...</p>
         ) : (
           <p className="text-sm leading-relaxed text-accent-ai">{coachText}</p>
         )}
@@ -43,7 +43,7 @@ export function MabraNutritionCoachPanel({ uid }: Props) {
 
   return (
     <div className="mt-4 w-full text-left">
-      <p className="mb-2 text-xs text-text-dim">Har du specifika sug eller svårt att få till en måltid? Fråga om ett tillägg.</p>
+      <p className="mb-2 text-xs text-text-muted">Har du specifika sug eller svårt att få till en måltid? Fråga om ett tillägg.</p>
       <TextArea
         value={note}
         onChange={(e) => setNote(e.target.value.slice(0, 300))}

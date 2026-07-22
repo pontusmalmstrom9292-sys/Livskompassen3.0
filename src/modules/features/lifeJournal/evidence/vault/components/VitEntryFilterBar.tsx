@@ -55,7 +55,7 @@ export function VitEntryFilterBar({
               type="button"
               onClick={() => onKindChange(option.id)}
               className={clsx(
-                'rounded-full border px-3 py-1 text-xs transition',
+                'min-h-11 rounded-full border px-3 py-1 text-xs transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
                 active
                   ? 'border-accent/45 bg-accent/10 text-accent'
                   : 'border-border-strong text-text-muted hover:border-accent/25',
@@ -109,7 +109,7 @@ export function VitEntryFilterBar({
           <>
             {' '}
             ·{' '}
-            <button type="button" onClick={onReset} className="text-accent underline-offset-2 hover:underline">
+            <button type="button" onClick={onReset} className="text-accent underline-offset-2 hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               Rensa filter
             </button>
           </>

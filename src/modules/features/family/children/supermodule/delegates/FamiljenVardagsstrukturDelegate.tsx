@@ -115,7 +115,7 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
             <button
               type="button"
               onClick={() => setRules((prev) => prev.filter((x) => x.id !== r.id))}
-              className="text-xs text-text-muted hover:text-danger bg-transparent border-0 cursor-pointer"
+              className="min-h-11 text-xs text-text-muted hover:text-danger bg-transparent border-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
               title="Ta bort regel"
             >
               ×

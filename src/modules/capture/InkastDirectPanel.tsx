@@ -314,7 +314,7 @@ export function InkastDirectPanel({
 
   const textareaClass = isValv
     ? 'input-glass w-full resize-none rounded-xl px-3 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50'
-    : 'w-full rounded-xl border border-border-subtle bg-surface/50 px-3 py-2 text-sm text-text placeholder:text-text-dim focus:border-accent/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50';
+    : 'w-full rounded-xl border border-border-subtle bg-surface/50 px-3 py-2 text-sm text-text placeholder:text-text-muted focus:border-accent/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50';
 
   return (
     <BentoCard
@@ -325,7 +325,7 @@ export function InkastDirectPanel({
       icon={<Inbox className="h-4 w-4 text-accent" />}
       glow={isValv ? undefined : 'gold'}
     >
-      <p className={clsx('text-xs text-text-dim', isValv ? 'mb-2' : 'mb-3')}>
+      <p className={clsx('text-xs text-text-muted', isValv ? 'mb-2' : 'mb-3')}>
         {isValv
           ? 'Hög säkerhet → granskningskö. Bekräfta «Arkiv» innan posten låses.'
           : 'Systemet föreslår Kunskap, Bevis eller Barnen. Osäkert hamnar i granskningskö — inget sparas i fel silo utan att du ser det.'}
@@ -356,7 +356,7 @@ export function InkastDirectPanel({
             disabled={loading || wormConfirmOpen || isListening}
           />
           {/* Fas 3: Teckenräknare */}
-          <p className="mt-0.5 text-right text-[11px] text-text-dim/40 pr-1">
+          <p className="mt-0.5 text-right text-[11px] text-text-muted/40 pr-1">
             {text.length} tecken
           </p>
           <div className="mt-3 space-y-1">
@@ -387,7 +387,7 @@ export function InkastDirectPanel({
         <Button
           variant={isValv ? 'secondary' : 'accent'}
           size="sm"
-          className="min-h-[var(--ds-touch-target,2.75rem)]"
+          className="min-h-[var(--ds-touch-target,2.75rem)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={loading || wormConfirmOpen || text.trim().length < 12}
           onClick={handlePasteSubmit}
         >
@@ -405,7 +405,7 @@ export function InkastDirectPanel({
         <Button
           variant="ghost"
           size="sm"
-          className="min-h-[var(--ds-touch-target,2.75rem)]"
+          className="min-h-[var(--ds-touch-target,2.75rem)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={loading || wormConfirmOpen || text.trim().length === 0}
           onClick={handleCopy}
           title="Kopiera text till urklipp"
@@ -423,7 +423,7 @@ export function InkastDirectPanel({
         <Button
           variant="ghost"
           size="sm"
-          className="min-h-[var(--ds-touch-target,2.75rem)]"
+          className="min-h-[var(--ds-touch-target,2.75rem)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={loading || wormConfirmOpen}
           onClick={() => inputRef.current?.click()}
         >
@@ -438,7 +438,7 @@ export function InkastDirectPanel({
             variant="ghost"
             size="sm"
             className={clsx(
-              'min-h-[var(--ds-touch-target,2.75rem)] transition-colors',
+              'min-h-[var(--ds-touch-target,2.75rem)] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
               isListening ? 'animate-pulse bg-danger/10 text-danger' : '',
             )}
             disabled={loading || wormConfirmOpen}
@@ -460,8 +460,8 @@ export function InkastDirectPanel({
           variant="ghost"
           size="sm"
           className={clsx(
-            'ml-auto min-h-[var(--ds-touch-target,2.75rem)]',
-            showBaraOrd ? 'text-accent' : 'text-text-dim',
+            'ml-auto min-h-[var(--ds-touch-target,2.75rem)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
+            showBaraOrd ? 'text-accent' : 'text-text-muted',
           )}
           onClick={() => setShowBaraOrd(!showBaraOrd)}
           disabled={loading || wormConfirmOpen}
@@ -471,7 +471,7 @@ export function InkastDirectPanel({
 
         {/* Fas 3: Bara Lyssna-toggle */}
         {!showBaraOrd && (
-          <label className="inline-flex min-h-[var(--ds-touch-target,2.75rem)] cursor-pointer select-none items-center gap-2 text-xs text-text-dim">
+          <label className="inline-flex min-h-[var(--ds-touch-target,2.75rem)] cursor-pointer select-none items-center gap-2 text-xs text-text-muted">
             <input
               type="checkbox"
               checked={baraLyssna}

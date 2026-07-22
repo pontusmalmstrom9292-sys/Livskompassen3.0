@@ -104,7 +104,7 @@ export function MabraMovementPanel({ uid, onComplete }: Props) {
         <p className="mt-2 text-sm text-text-muted">{COPY.doneLead}</p>
         <Button
           variant="ghost"
-          className="mt-4 w-full text-sm"
+          className="mt-4 w-full min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={() => {
             setActive(null);
             resetTimer();
@@ -125,10 +125,10 @@ export function MabraMovementPanel({ uid, onComplete }: Props) {
           {formatRemaining(remainingSec)}
         </p>
         <div className="mt-4 flex flex-col gap-2">
-          <Button variant="secondary" className="w-full" onClick={() => setPaused((p) => !p)}>
+          <Button variant="secondary" className="w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => setPaused((p) => !p)}>
             {paused ? COPY.resume : COPY.pause}
           </Button>
-          <Button variant="ghost" className="w-full text-sm" onClick={finish}>
+          <Button variant="ghost" className="w-full min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={finish}>
             {COPY.done}
           </Button>
         </div>
@@ -140,7 +140,7 @@ export function MabraMovementPanel({ uid, onComplete }: Props) {
     <BentoCard title={COPY.eyebrow} icon={<Activity className="h-4 w-4" />} glow="green">
       <p className="mb-3 text-sm text-text-muted">{COPY.lead}</p>
       {capacityLevel === 1 ? (
-        <p className="mb-3 text-xs text-text-dim">{COPY.level1Hint}</p>
+        <p className="mb-3 text-xs text-text-muted">{COPY.level1Hint}</p>
       ) : null}
       <div className="space-y-2">
         {visiblePrograms.map((program) => (
@@ -148,7 +148,7 @@ export function MabraMovementPanel({ uid, onComplete }: Props) {
             key={program.id}
             type="button"
             onClick={() => beginProgram(program)}
-            className="w-full rounded-xl border border-border bg-surface-2 px-4 py-3 text-left hover:border-accent/40 hover:bg-surface-3"
+            className="w-full min-h-11 rounded-xl border border-border bg-surface-2 px-4 py-3 text-left hover:border-accent/40 hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             <p className="text-sm font-medium text-accent">{program.title}</p>
             <p className="mt-1 text-xs text-text-muted">{program.lead}</p>
@@ -159,7 +159,7 @@ export function MabraMovementPanel({ uid, onComplete }: Props) {
         <p className="text-sm text-text-muted">Inga program tillgängliga just nu.</p>
       ) : null}
       {!uid ? (
-        <p className="mt-3 text-xs text-text-dim">Logga in för att spara session i molnet.</p>
+        <p className="mt-3 text-xs text-text-muted">Logga in för att spara session i molnet.</p>
       ) : null}
 
       {capacityLevel >= 2 ? (

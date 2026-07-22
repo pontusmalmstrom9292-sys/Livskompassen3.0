@@ -43,7 +43,7 @@ export function StepIndicator({ steps, currentKey, variant = 'gold-emerald' }: S
                     ? 'bg-accent/20 text-accent'
                     : isComplete
                       ? 'bg-success/15 text-success'
-                      : 'bg-surface-3 text-text-dim'
+                      : 'bg-surface-3 text-text-muted'
                 }`}
               >
                 {isComplete ? <Check className="h-3 w-3" /> : idx + 1}
@@ -54,7 +54,7 @@ export function StepIndicator({ steps, currentKey, variant = 'gold-emerald' }: S
                     ? 'text-accent'
                     : isComplete
                       ? 'text-success/80'
-                      : 'text-text-dim'
+                      : 'text-text-muted'
                 }`}
               >
                 {label}

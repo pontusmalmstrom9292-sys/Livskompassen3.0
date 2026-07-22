@@ -51,7 +51,7 @@ export function MabraFeelingCardsTool({ onBack }: Props) {
           </label>
         </>
       ) : (
-        <p className="mt-3 text-xs text-text-dim">Välj ett kort för en kort reflektion.</p>
+        <p className="mt-3 text-xs text-text-muted">Välj ett kort för en kort reflektion.</p>
       )}
     </MabraToolShell>
   );

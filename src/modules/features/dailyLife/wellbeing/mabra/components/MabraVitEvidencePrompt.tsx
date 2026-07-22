@@ -56,7 +56,7 @@ export function MabraVitEvidencePrompt({ userId, vitEntryId, summary, bankId, on
         <Shield className="h-4 w-4 text-gold" />
         Vill du bevara detta som evidens i Valvet?
       </p>
-      <p className="text-xs text-text-dim">Inget sparas automatiskt — endast om du väljer explicit.</p>
+      <p className="text-xs text-text-muted">Inget sparas automatiskt — endast om du väljer explicit.</p>
       {error ? <p className="text-sm text-danger">{error}</p> : null}
       <div className="flex flex-col gap-2 sm:flex-row">
         <Button

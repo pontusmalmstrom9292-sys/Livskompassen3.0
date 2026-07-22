@@ -80,12 +80,12 @@ export function ZenModeOverlay({ isOpen, onClose }: ZenModeOverlayProps) {
         <div className="flex items-center justify-between px-5 pb-2 pt-5">
           <div className="flex items-center gap-2 text-text-muted">
             <Brain size={16} className="text-accent/50" aria-hidden />
-            <span className="text-xs uppercase tracking-widest text-text-dim">Töm Huvudet</span>
+            <span className="text-xs uppercase tracking-widest text-text-muted">Töm Huvudet</span>
           </div>
           <button
             type="button"
             onClick={handleDiscard}
-            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-border/20 bg-white/[0.03] text-text-dim backdrop-blur-sm transition-colors hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-border/20 bg-white/[0.03] text-text-muted backdrop-blur-sm transition-colors hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
             aria-label="Stäng utan att spara"
             title="Stäng utan att spara"
           >
@@ -95,7 +95,7 @@ export function ZenModeOverlay({ isOpen, onClose }: ZenModeOverlayProps) {
 
         {/* Hjärtat av Zen Mode */}
         <div className="flex flex-1 flex-col items-center justify-center px-6 pb-8">
-          <p className="mb-4 text-xs tracking-wide text-text-dim/60">
+          <p className="mb-4 text-xs tracking-wide text-text-muted/60">
             Skriv allt som är i vägen. Inget kategoriseras, inget visas för andra.
           </p>
           <TextArea
@@ -118,7 +118,7 @@ export function ZenModeOverlay({ isOpen, onClose }: ZenModeOverlayProps) {
                 px-5 py-4 text-base text-text leading-relaxed
                 shadow-[inset_0_1px_0_0_color-mix(in_srgb,var(--accent)_8%,transparent)]
                 backdrop-blur-md
-                placeholder:text-text-dim/30
+                placeholder:text-text-muted/30
                 focus:border-accent/25 focus:outline-none
                 transition-colors
               "
@@ -126,7 +126,7 @@ export function ZenModeOverlay({ isOpen, onClose }: ZenModeOverlayProps) {
           />
 
           {/* Teckenräknare */}
-          <p className="mt-1.5 w-full max-w-lg self-end pr-1 text-right text-[11px] text-text-dim/40">
+          <p className="mt-1.5 w-full max-w-lg self-end pr-1 text-right text-[11px] text-text-muted/40">
             {text.length} tecken · ⌘/Ctrl+Enter sparar
           </p>
 
@@ -179,7 +179,7 @@ export function ZenModeOverlay({ isOpen, onClose }: ZenModeOverlayProps) {
           </div>
 
           {/* Zero Footprint-notering */}
-          <p className="mt-4 w-full max-w-lg text-center text-[10px] text-text-dim/30">
+          <p className="mt-4 w-full max-w-lg text-center text-[10px] text-text-muted/30">
             Zero Footprint · Ingenting sparas lokalt · Krypteras i transit · Esc stänger
           </p>
         </div>

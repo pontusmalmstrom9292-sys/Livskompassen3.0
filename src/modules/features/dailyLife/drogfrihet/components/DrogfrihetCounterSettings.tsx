@@ -50,7 +50,7 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
           <p className="text-sm text-text-muted">Ingen aktiv räknare på den här enheten.</p>
         )}
 
-        <p className="mt-3 text-xs text-text-dim">
+        <p className="mt-3 text-xs text-text-muted">
           Räknaren sparas lokalt på enheten (kopplat till ditt konto när du är inloggad).{' '}
           {LAPSE_VS_RELAPSE.lapse} {COMEBACK_COPY.lead}
         </p>
@@ -66,7 +66,7 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
             className="mt-1 w-full rounded-lg border border-border-strong bg-surface/40 px-3 py-2 text-sm text-text"
           />
         </label>
-        <Button variant="secondary" onClick={applyCustomDate} className="mt-3 w-full">
+        <Button variant="secondary" onClick={applyCustomDate} className="mt-3 w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Spara startdatum
         </Button>
         <Button
@@ -80,7 +80,7 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
             pushKpiEvent({ type: 'comeback', at: Date.now() }, uid);
             setConfirmReset(false);
           }}
-          className="mt-2 w-full text-sm"
+          className="mt-2 w-full text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           Starta från idag
         </Button>
@@ -94,7 +94,7 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
           <Button
             variant="ghost"
             onClick={() => setConfirmReset(true)}
-            className="mt-3 w-full text-sm text-danger"
+            className="mt-3 w-full text-sm text-danger min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             Nollställ räknare…
           </Button>
@@ -106,7 +106,7 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
             </p>
             <Button
               variant="secondary"
-              className="w-full"
+              className="w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => {
                 const today = new Date().toISOString().slice(0, 10);
                 resetDrogfrihetCounter(uid);
@@ -121,7 +121,7 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
             </Button>
             <Button
               variant="ghost"
-              className="w-full text-sm"
+              className="w-full text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => {
                 clearDrogfrihetCounter(uid);
                 setCustomDate('');
@@ -130,7 +130,7 @@ export function DrogfrihetCounterSettings({ uid }: Props) {
             >
               Ta bort räknaren helt
             </Button>
-            <Button variant="ghost" className="w-full text-sm" onClick={() => setConfirmReset(false)}>
+            <Button variant="ghost" className="w-full text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => setConfirmReset(false)}>
               Avbryt
             </Button>
           </div>

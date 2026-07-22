@@ -3,4 +3,82 @@
   .kompis-hub-page .glass-card {
     border-color: color-mix(in srgb, var(--accent) 20%, transparent);
   }
+
+  /* W11 residual — touch / focus / muted contrast */
+  .kompis-hub-page a.glass-card,
+  .kompis-hub-page button,
+  .kompis-hub-page [role='button'] {
+    min-height: var(--ds-touch-target, 2.75rem);
+  }
+
+  .kompis-hub-page a[href]:focus-visible,
+  .kompis-hub-page button:focus-visible,
+  .kompis-hub-page [role='button']:focus-visible,
+  .kompis-hub-page input:focus-visible,
+  .kompis-hub-page textarea:focus-visible {
+    outline: var(--ds-focus-ring, 2px solid color-mix(in srgb, var(--accent, #fde68a) 70%, transparent));
+    outline-offset: var(--ds-focus-offset, 2px);
+  }
+
+  .kompis-hub-page .glass-card:focus-within {
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+    box-shadow:
+      var(--ds-elevation-card, 0 8px 24px rgba(0, 0, 0, 0.28)),
+      0 0 0 1px color-mix(in srgb, var(--accent) 22%, transparent);
+  }
+
+  .kompis-hub-page .helper-text,
+  .kompis-hub-page .lede,
+  .kompis-hub-page .text-text-dim {
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kompis-hub-page .glass-card,
+    .kompis-hub-page a[href],
+    .kompis-hub-page button {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    .kompis-hub-page .glass-card,
+    .kompis-hub-page .calm-card {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background-color: color-mix(in srgb, var(--surface, #0d0b09) 94%, var(--surface-2, #1a1620));
+    }
+  }
+
+  @media (max-width: 360px) {
+    .kompis-hub-page {
+      max-width: 100vw;
+      overflow-x: clip;
+    }
+  }
+
+  /* Pass 3 deepen — ADD only */
+  .kompis-hub-page [role='tab']:focus-visible,
+  .kompis-hub-page select:focus-visible {
+    outline: var(--ds-focus-ring, 2px solid color-mix(in srgb, var(--accent, #fde68a) 70%, transparent));
+    outline-offset: var(--ds-focus-offset, 2px);
+  }
+
+  .kompis-hub-page [role='tab'],
+  .kompis-hub-page select {
+    min-height: var(--ds-touch-target, 2.75rem);
+  }
+
+  .kompis-hub-page .calm-card:focus-within {
+    border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kompis-hub-page .calm-card,
+    .kompis-hub-page [role='tab'] {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
 }

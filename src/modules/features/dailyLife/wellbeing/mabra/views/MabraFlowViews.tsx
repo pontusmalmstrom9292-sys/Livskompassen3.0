@@ -150,11 +150,10 @@ export const AddonView = memo(function AddonView() {
           onClick={() => {
             setAddonBreathing(true);
             navigate('/mabra/ovning/breathing');
-          }}
-        >
+          }} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           {BREATHING_ADDON_COPY.startLabel}
         </Button>
-        <Button variant="ghost" className="text-sm" onClick={() => void finishReframingSession()}>
+        <Button variant="ghost" className="text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => void finishReframingSession()}>
           {BREATHING_ADDON_COPY.skipLabel}
         </Button>
       </div>
@@ -207,7 +206,7 @@ export const CompleteView = memo(function CompleteView() {
             returnToHub(cat);
           }}
         />
-        {saveError && <p className="mt-2 text-sm text-text-dim">{saveError}</p>}
+        {saveError && <p className="mt-2 text-sm text-text-muted">{saveError}</p>}
       </div>
     </BentoCard>
   );

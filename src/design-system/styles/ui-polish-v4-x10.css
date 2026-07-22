@@ -1,0 +1,669 @@
+/**
+ * UI Polish V4 ×10 — global refine layer (locked chrome structure untouched).
+ * Loaded after premium-polish. Iteration depth encoded as additive passes.
+ * Unlock: docs/evaluations/2026-07-22-unlock-MOD-UI-POLISH-V4-X10.md
+ */
+
+@layer components {
+  /* ── I1: touch ≥ 44px for common interactive shells ── */
+  :where(
+    .hub-tab-bar button,
+    .hub-tab-bar [role='tab'],
+    .zone-tab-bar button,
+    .zone-tab-bar [role='tab'],
+    .supermodule-mode-btn,
+    .ds-chip,
+    .ds-btn,
+    .btn-pill,
+    .exec-home-pill,
+    .exec-home-btn,
+    .widget-shell__action,
+    .widget-shell__btn,
+    .liv-launcher-card a,
+    .barnporten-action,
+    .settings-tab-btn
+  ) {
+    min-height: 2.75rem; /* 44px */
+  }
+
+  /* Icon-only controls: square 44×44 */
+  :where(
+    .ds-icon-btn,
+    .header-icon-btn,
+    .widget-shell__icon-btn,
+    button.icon-only,
+    [data-touch-min='44']
+  ) {
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+  }
+
+  /* ── I2: reinforce focus-visible on zone surfaces ── */
+  :where(
+    .hub-panel button,
+    .hub-panel a[href],
+    .hub-panel [role='button'],
+    .hub-panel [role='tab'],
+    .valv-panel button,
+    .valv-panel a[href],
+    .familjen-hub button,
+    .familjen-page button,
+    .mabra-hub button,
+    .mabra-hub-shell button,
+    .planering-hub button,
+    .planering-route-page button,
+    .widget-shell button,
+    .widget-shell a[href],
+    .installningar-page button,
+    .installningar-page a[href],
+    .kompis-hub-page button,
+    .kompis-hub-page a[href],
+    .barnporten-page button,
+    .barnporten-page a[href]
+  ):focus-visible {
+    outline: var(--ds-focus-ring, 2px solid color-mix(in srgb, var(--accent, #fde68a) 70%, transparent));
+    outline-offset: var(--ds-focus-offset, 2px);
+  }
+
+  /* ── I3: focus-within depth on cards/panels ── */
+  :where(
+    .calm-card,
+    .glass-card,
+    .ds-card,
+    .bento-card,
+    .hub-panel,
+    .liv-launcher-card,
+    .widget-shell__card,
+    .adaptive-card,
+    .dashboard-card,
+    .archive-hub,
+    .morning-compass,
+    .morning-compass-shell,
+    .morning-compass-shell__surface,
+    .paralysis-breaker,
+    .paralysis-breaker__panel,
+    /* Pass 3 deepen — executive / drawer / fyren / elongated / supermodule */
+    .exec-home-card,
+    .exec-reflektion-hero,
+    .executive-settings__row,
+    .executive-checklist,
+    .nav-drawer__row,
+    .nav-drawer__row-wrap,
+    .drawer-hub__trigger,
+    .drawer-hub__link,
+    .fyren-header-quick__panel,
+    .fyren-header-quick__row,
+    .fyren-dock,
+    .fyren-dock-handle,
+    .elongated-module,
+    .supermodule-mode,
+    .supermodule-mode-btn
+  ):focus-within {
+    border-color: color-mix(in srgb, var(--accent, #fde68a) 35%, var(--border, transparent));
+    box-shadow:
+      var(--ds-elevation-card, 0 8px 24px rgba(0, 0, 0, 0.28)),
+      0 0 0 1px color-mix(in srgb, var(--accent, #fde68a) 22%, transparent);
+  }
+
+  /* ── I4: reduced motion ── */
+  @media (prefers-reduced-motion: reduce) {
+    :where(
+      .calm-card,
+      .glass-card,
+      .ds-card,
+      .hub-panel,
+      .widget-shell,
+      .liv-launcher-card,
+      .exec-home-pill,
+      .supermodule-mode-btn,
+      .dashboard-hub,
+      .dashboard-card,
+      .archive-hub,
+      .morning-compass,
+      .morning-compass-shell,
+      .morning-compass-shell__surface,
+      .paralysis-breaker,
+      .paralysis-breaker__panel,
+      .exec-home-card,
+      .exec-reflektion-hero,
+      .executive-settings__row,
+      .executive-checklist,
+      .nav-drawer__row,
+      .drawer-hub__trigger,
+      .drawer-hub__link,
+      .fyren-header-quick,
+      .fyren-header-quick__panel,
+      .fyren-header-quick__row,
+      .fyren-header-quick__toggle,
+      .fyren-dock,
+      .fyren-dock-handle,
+      .elongated-module,
+      .supermodule-mode,
+      .supermodule-mode-btn
+    ) {
+      transition: none !important;
+      animation: none !important;
+      transform: none !important;
+    }
+  }
+
+  /* ── I4: reduced transparency — solid fallbacks ── */
+  @media (prefers-reduced-transparency: reduce) {
+    :where(
+      .calm-card,
+      .glass-card,
+      .ds-card,
+      .glass-panel,
+      .hub-panel,
+      .widget-shell,
+      .executive-dock,
+      .basta-design-dock,
+      .nav-drawer,
+      .resurser-overlay,
+      .dashboard-hub,
+      .dashboard-card,
+      .archive-hub,
+      .morning-compass,
+      .morning-compass-shell,
+      .morning-compass-shell__surface,
+      .paralysis-breaker,
+      .paralysis-breaker__panel,
+      .exec-home-card,
+      .exec-reflektion-hero,
+      .executive-settings__group,
+      .fyren-header-quick__panel,
+      .fyren-dock,
+      .elongated-module,
+      .supermodule-mode
+    ) {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background-color: color-mix(in srgb, var(--surface, #0d0b09) 94%, var(--surface-2, #1a1620));
+    }
+  }
+
+  /* ── I6: 320px — prevent horizontal bleed on hubs ── */
+  @media (max-width: 360px) {
+    :where(
+      .hub-view,
+      .hub-panel,
+      .main-content,
+      .widget-shell,
+      .liv-launcher,
+      .valv-panel,
+      .familjen-hub,
+      .installningar-page,
+      .dashboard-hub,
+      .archive-hub,
+      .morning-compass,
+      .morning-compass-shell,
+      .executive-home-dashboard,
+      .executive-home-grid,
+      .exec-home-card,
+      .fyren-header-quick,
+      .fyren-header-quick__panel,
+      .fyren-dock,
+      .elongated-module,
+      .supermodule-mode
+    ) {
+      max-width: 100%;
+      overflow-x: clip;
+    }
+  }
+
+  /* Dock clearance for primary hubs */
+  :where(
+    .hub-view,
+    .main-content--with-dock,
+    [data-dock-clearance='1']
+  ) {
+    padding-bottom: max(
+      var(--ds-space-dock-clearance, var(--app-dock-clearance, 5.5rem)),
+      env(safe-area-inset-bottom, 0px)
+    );
+  }
+
+  /* ── I7: 4px rhythm helpers (opt-in classes) ── */
+  .v4-space-y {
+    display: flex;
+    flex-direction: column;
+    gap: var(--ds-space-3, 0.75rem);
+  }
+
+  .v4-eyebrow {
+    font-size: var(--ds-text-eyebrow, 0.6875rem);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted, color-mix(in srgb, var(--text) 72%, transparent));
+  }
+
+  /* ── I9: motion token defaults for cards/panels ── */
+  :where(
+    .calm-card,
+    .glass-card,
+    .ds-card,
+    .liv-launcher-card,
+    .dashboard-card,
+    .dashboard-widget,
+    .dashboard-hub,
+    .archive-hub,
+    .archive-shelf,
+    .morning-compass-shell,
+    .morning-compass-shell__surface,
+    .widget-shell__surface,
+    .hub-panel,
+    .exec-home-card,
+    .exec-reflektion-hero,
+    .executive-settings__row,
+    .executive-checklist,
+    .nav-drawer__row,
+    .drawer-hub__trigger,
+    .drawer-hub__link,
+    .fyren-header-quick__panel,
+    .fyren-header-quick__row,
+    .fyren-dock,
+    .elongated-module,
+    .supermodule-mode
+  ) {
+    transition-duration: var(--ds-duration-normal, 250ms);
+    transition-timing-function: var(--ds-ease-premium, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  :where(
+    .dashboard-card button,
+    .dashboard-widget button,
+    .archive-hub button,
+    .morning-compass-shell button,
+    .widget-action-tile,
+    .exec-home-btn,
+    .exec-home-pill,
+    .nav-drawer__row,
+    .drawer-hub__link,
+    .fyren-header-quick__toggle,
+    .fyren-header-quick__row,
+    .fyren-dock-handle,
+    .supermodule-mode-btn,
+    .elongated-module button,
+    .elongated-module a[href]
+  ) {
+    transition-duration: var(--ds-duration-fast, 150ms);
+    transition-timing-function: var(--ds-ease-premium, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  /* ── I10: micro-typography — muted body on navy ── */
+  :where(
+    .hub-panel p,
+    .hub-panel .lede,
+    .hub-panel .helper-text,
+    .valv-panel .helper-text,
+    .widget-shell__hint,
+    .supermodule-hint,
+    .installningar-page .helper-text,
+    .kompis-hub-page .helper-text,
+    .barnporten-page .helper-text,
+    .arbetsliv-delegate .helper-text
+  ) {
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
+  }
+
+  /* ── W6 Arbetsliv (no dedicated CSS) — shell a11y ── */
+  :where(
+    .arbetsliv-delegate button,
+    .arbetsliv-delegate a[href],
+    .arbetsliv-delegate [role='button'],
+    .arbetsliv-delegate input,
+    .arbetsliv-delegate select,
+    .arbetsliv-delegate textarea
+  ):focus-visible {
+    outline: var(--ds-focus-ring, 2px solid color-mix(in srgb, var(--accent, #fde68a) 70%, transparent));
+    outline-offset: var(--ds-focus-offset, 2px);
+  }
+
+  .arbetsliv-delegate :where(button, [role='button'], a[href]) {
+    min-height: 2.75rem;
+  }
+
+  .arbetsliv-delegate:focus-within {
+    border-color: color-mix(in srgb, var(--accent, #fde68a) 28%, var(--border, transparent));
+  }
+
+  /* ── I5: labelled controls keep clear focus ── */
+  button[aria-label]:focus-visible,
+  a[aria-label]:focus-visible {
+    outline: var(--ds-focus-ring, 2px solid color-mix(in srgb, var(--accent, #fde68a) 70%, transparent));
+    outline-offset: var(--ds-focus-offset, 2px);
+  }
+
+  /* ── I8: empty/loading region calm spacing ── */
+  :where(
+    .hub-empty-state,
+    [data-empty-state='true'],
+    .ds-empty,
+    .hub-panel-skeleton
+  ) {
+    padding: var(--ds-space-4, 1rem);
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
+  }
+
+  /* ── W3–W9 deepen: zone surfaces (Familjen / Valv / Planering / Ekonomi / Projekt) ── */
+  :where(
+    .familjen-page button,
+    .familjen-page a[href],
+    .familjen-tab-surface button,
+    .familjen-tab-surface a[href],
+    .valv-zone-stack button,
+    .valv-zone-stack a[href],
+    .valv-samla-panel button,
+    .economy-page-shell button,
+    .economy-page-shell a[href],
+    .planering-hub button,
+    .planering-hub a[href],
+    .planering-route-page button,
+    .planering-route-page a[href],
+    .routines-panel button,
+    .mabra-hub button,
+    .mabra-hub a[href],
+    .mabra-hub-shell button,
+    .mabra-hub-shell a[href]
+  ) {
+    min-height: 2.75rem;
+  }
+
+  :where(
+    .familjen-page,
+    .valv-zone-stack,
+    .economy-page-shell,
+    .planering-hub,
+    .planering-route-page,
+    .mabra-hub,
+    .mabra-hub-shell
+  ) :where(button, a[href], [role='button'], [role='tab']):focus-visible {
+    outline: var(--ds-focus-ring, 2px solid color-mix(in srgb, var(--accent, #fde68a) 70%, transparent));
+    outline-offset: var(--ds-focus-offset, 2px);
+  }
+
+  :where(
+    .familjen-page .helper-text,
+    .familjen-page .lede,
+    .valv-zone-stack .helper-text,
+    .valv-silo-notice,
+    .economy-page-shell .helper-text,
+    .planering-hub .helper-text,
+    .planering-route-page .helper-text,
+    .mabra-hub .helper-text,
+    .mabra-hub-shell .helper-text
+  ) {
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
+  }
+
+  /* ── Pass 3 deepen: executive / drawer / fyren / elongated touch + focus ── */
+  :where(
+    .exec-home-card button,
+    .exec-home-card a[href],
+    .exec-home-btn,
+    .exec-home-pill,
+    .executive-settings__row,
+    .nav-drawer__row,
+    .nav-drawer__row-expand,
+    .drawer-hub__trigger,
+    .drawer-hub__link,
+    .fyren-header-quick__toggle,
+    .fyren-header-quick__row,
+    .fyren-header-quick__hide,
+    .fyren-header-quick__dismiss,
+    .fyren-dock-handle,
+    .elongated-module button,
+    .elongated-module a[href],
+    .elongated-module [role='button'],
+    .supermodule-mode-btn
+  ) {
+    min-height: 2.75rem;
+  }
+
+  :where(
+    .exec-home-card button,
+    .exec-home-card a[href],
+    .exec-home-btn,
+    .exec-home-pill,
+    .executive-settings__row,
+    .nav-drawer__row,
+    .nav-drawer__row-expand,
+    .drawer-hub__trigger,
+    .drawer-hub__link,
+    .fyren-header-quick__toggle,
+    .fyren-header-quick__row,
+    .fyren-header-quick__hide,
+    .fyren-header-quick__dismiss,
+    .fyren-dock-handle,
+    .elongated-module button,
+    .elongated-module a[href],
+    .elongated-module [role='button'],
+    .supermodule-mode-btn
+  ):focus-visible {
+    outline: var(--ds-focus-ring, 2px solid color-mix(in srgb, var(--accent, #fde68a) 70%, transparent));
+    outline-offset: var(--ds-focus-offset, 2px);
+  }
+
+  /* ── Pass 4: chrome / hem / SOS / dagbok / mabra hooks ── */
+  :where(
+    .fyren-widget-bar button,
+    .fyren-widget-bar a[href],
+    .fyren-widget-bar [role='button'],
+    .fyren-widget-bar__action,
+    .fyren-header-strip button,
+    .fyren-header-strip__chip,
+    .home-adaptive-compass button,
+    .home-adaptive-compass a[href],
+    .home-adaptive-compass [role='button'],
+    .home-adaptive-compass [role='tab'],
+    .home-adaptive-compass__quick-btn,
+    .home-adaptive-compass__tab,
+    .home-adaptive-compass__inkast-toggle,
+    .hub-dropdown button,
+    .hub-dropdown a[href],
+    .hub-dropdown [role='button'],
+    .hub-dropdown-nav button,
+    .hub-dropdown-nav a[href],
+    .hub-dropdown-nav__trigger,
+    .hub-dropdown-nav__option,
+    .sos-trigger,
+    .dagbok-mode-nav button,
+    .dagbok-mode-nav__tab,
+    .journal-entry-card button,
+    .journal-entry-card a[href],
+    .mabra-modul-valjare button,
+    .mabra-modul-valjare a[href],
+    .mabra-modul-valjare [role='button'],
+    .familjen-child-chip,
+    .familjen-mode-picker__pills button,
+    .familjen-anchor-card,
+    .archive-shelf button,
+    .projekt-page-shell button,
+    .projekt-hub button,
+    .projekt-hub a[href],
+    .widget-stamp button,
+    .widget-stamp a[href],
+    .installningar-page button,
+    .installningar-page a[href]
+  ) {
+    min-height: 2.75rem;
+  }
+
+  :where(
+    .fyren-widget-bar button,
+    .fyren-widget-bar a[href],
+    .fyren-widget-bar [role='button'],
+    .fyren-widget-bar__action,
+    .fyren-header-strip button,
+    .fyren-header-strip__chip,
+    .home-adaptive-compass button,
+    .home-adaptive-compass a[href],
+    .home-adaptive-compass [role='button'],
+    .home-adaptive-compass [role='tab'],
+    .home-adaptive-compass__quick-btn,
+    .home-adaptive-compass__tab,
+    .home-adaptive-compass__inkast-toggle,
+    .hub-dropdown button,
+    .hub-dropdown a[href],
+    .hub-dropdown [role='button'],
+    .hub-dropdown-nav button,
+    .hub-dropdown-nav a[href],
+    .hub-dropdown-nav__trigger,
+    .hub-dropdown-nav__option,
+    .sos-trigger,
+    .dagbok-mode-nav button,
+    .dagbok-mode-nav__tab,
+    .journal-entry-card button,
+    .journal-entry-card a[href],
+    .mabra-modul-valjare button,
+    .mabra-modul-valjare a[href],
+    .mabra-modul-valjare [role='button'],
+    .familjen-child-chip,
+    .familjen-mode-picker__pills button,
+    .familjen-anchor-card,
+    .archive-shelf button,
+    .projekt-page-shell button,
+    .projekt-hub button,
+    .projekt-hub a[href],
+    .widget-stamp button,
+    .widget-stamp a[href],
+    .installningar-page button,
+    .installningar-page a[href],
+    .valv-page-shell button,
+    .valv-page-shell a[href],
+    .valv-zone-intro button
+  ):focus-visible {
+    outline: var(--ds-focus-ring, 2px solid color-mix(in srgb, var(--accent, #fde68a) 70%, transparent));
+    outline-offset: var(--ds-focus-offset, 2px);
+  }
+
+  :where(
+    .fyren-widget-bar,
+    .fyren-widget-bar__strip,
+    .fyren-header-strip,
+    .home-adaptive-compass,
+    .home-adaptive-compass__card,
+    .hub-dropdown,
+    .hub-dropdown-nav,
+    .dagbok-mode-nav,
+    .journal-entry-card,
+    .mabra-modul-valjare,
+    .archive-shelf,
+    .projekt-page-shell,
+    .projekt-hub,
+    .valv-page-shell,
+    .widget-stamp
+  ):focus-within {
+    border-color: color-mix(in srgb, var(--accent, #fde68a) 35%, var(--border, transparent));
+    box-shadow:
+      var(--ds-elevation-card, 0 8px 24px rgba(0, 0, 0, 0.28)),
+      0 0 0 1px color-mix(in srgb, var(--accent, #fde68a) 22%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(
+      .fyren-widget-bar,
+      .fyren-widget-bar__action,
+      .fyren-header-strip,
+      .fyren-header-strip__chip,
+      .home-adaptive-compass,
+      .home-adaptive-compass__card,
+      .home-adaptive-compass__quick-btn,
+      .home-adaptive-compass__tab,
+      .hub-dropdown,
+      .hub-dropdown-nav,
+      .hub-dropdown-nav__trigger,
+      .hub-dropdown-nav__option,
+      .sos-trigger,
+      .dagbok-mode-nav,
+      .dagbok-mode-nav__tab,
+      .journal-entry-card,
+      .mabra-modul-valjare,
+      .archive-shelf,
+      .projekt-hub,
+      .valv-page-shell,
+      .widget-stamp
+    ) {
+      transition: none !important;
+      animation: none !important;
+      transform: none !important;
+    }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    :where(
+      .fyren-widget-bar,
+      .fyren-widget-bar__strip,
+      .fyren-header-strip,
+      .home-adaptive-compass,
+      .home-adaptive-compass__card,
+      .hub-dropdown,
+      .hub-dropdown-nav,
+      .hub-dropdown-nav__menu,
+      .dagbok-mode-nav,
+      .journal-entry-card,
+      .mabra-modul-valjare,
+      .archive-shelf,
+      .projekt-hub,
+      .valv-page-shell,
+      .widget-stamp
+    ) {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background-color: color-mix(in srgb, var(--surface, #0d0b09) 94%, var(--surface-2, #1a1620));
+    }
+  }
+
+  @media (max-width: 360px) {
+    :where(
+      .fyren-widget-bar,
+      .fyren-widget-bar__strip,
+      .fyren-header-strip,
+      .home-adaptive-compass,
+      .hub-dropdown,
+      .hub-dropdown-nav,
+      .dagbok-mode-nav,
+      .journal-entry-card,
+      .mabra-modul-valjare,
+      .archive-shelf,
+      .projekt-page-shell,
+      .projekt-hub,
+      .valv-page-shell,
+      .widget-stamp,
+      .sos-trigger
+    ) {
+      max-width: 100%;
+      overflow-x: clip;
+    }
+  }
+
+  :where(
+    .fyren-widget-bar,
+    .fyren-header-strip,
+    .home-adaptive-compass__card,
+    .hub-dropdown-nav__trigger,
+    .hub-dropdown-nav__option,
+    .dagbok-mode-nav__tab,
+    .journal-entry-card,
+    .mabra-modul-valjare,
+    .archive-shelf,
+    .sos-trigger
+  ) {
+    transition-duration: var(--ds-duration-normal, 250ms);
+    transition-timing-function: var(--ds-ease-premium, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  :where(
+    .home-adaptive-compass .helper-text,
+    .home-adaptive-compass .lede,
+    .journal-entry-card .helper-text,
+    .mabra-modul-valjare .helper-text,
+    .mabra-modul-valjare p,
+    .dagbok-mode-nav + .helper-text,
+    .valv-page-shell .helper-text,
+    .projekt-hub .helper-text,
+    .archive-shelf .helper-text
+  ) {
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
+  }
+}

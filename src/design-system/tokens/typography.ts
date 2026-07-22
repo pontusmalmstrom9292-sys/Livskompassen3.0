@@ -30,14 +30,14 @@ export const typography = {
 /** Tailwind class presets for common text roles. */
 export const textStyles = {
   eyebrow:
-    'text-[length:var(--ds-font-size-2xs)] uppercase tracking-[var(--ds-letter-spacing-widest)] text-text-dim',
+    'text-[length:var(--ds-font-size-2xs)] uppercase tracking-[var(--ds-letter-spacing-widest)] text-text-muted',
   titleHub:
     'font-[family-name:var(--ds-font-display)] text-[length:var(--ds-font-size-xl)] font-light text-accent',
   titleSection:
     'font-[family-name:var(--ds-font-display)] text-[length:var(--ds-font-size-sm)] font-semibold text-accent',
   body: 'text-[length:var(--ds-font-size-sm)] text-text',
   label:
-    'text-[length:var(--ds-font-size-xs)] uppercase tracking-[var(--ds-letter-spacing-wide)] text-text-dim',
+    'text-[length:var(--ds-font-size-xs)] uppercase tracking-[var(--ds-letter-spacing-wide)] text-text-muted',
   chromeTitle:
     'font-[family-name:var(--ds-font-chrome)] tracking-[var(--ds-letter-spacing-wider)] uppercase text-accent',
 } as const;

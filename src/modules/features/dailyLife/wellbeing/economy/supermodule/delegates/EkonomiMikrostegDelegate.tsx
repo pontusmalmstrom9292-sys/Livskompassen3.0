@@ -39,7 +39,7 @@ export function EkonomiMikrostegDelegate({ userId }: EkonomiMikrostegDelegatePro
       </header>
 
       {!userId ? (
-        <p className="text-sm text-text-dim">Logga in för att fortsätta med ekonomi.</p>
+        <p className="text-sm text-text-muted">Logga in för att fortsätta med ekonomi.</p>
       ) : (
         <ul className="space-y-3" aria-label="Exempel på ekonomiska mikrosteg">
           {MIKROSTEG_EXAMPLES.map((step, index) => (
@@ -55,7 +55,7 @@ export function EkonomiMikrostegDelegate({ userId }: EkonomiMikrostegDelegatePro
                   <CircleDot className="h-3.5 w-3.5" />
                 </span>
                 <div className="min-w-0 flex-1">
-                  <p className="text-[10px] uppercase tracking-wider text-text-dim">
+                  <p className="text-[10px] uppercase tracking-wider text-text-muted">
                     Förslag {index + 1}
                   </p>
                   <p className="mt-1 text-sm text-text">{step.title}</p>
@@ -67,7 +67,7 @@ export function EkonomiMikrostegDelegate({ userId }: EkonomiMikrostegDelegatePro
         </ul>
       )}
 
-      <p className="text-center text-[10px] uppercase tracking-wider text-text-dim">
+      <p className="text-center text-[10px] uppercase tracking-wider text-text-muted">
         Inga poäng · inga streaks · bara struktur
       </p>
     </div>

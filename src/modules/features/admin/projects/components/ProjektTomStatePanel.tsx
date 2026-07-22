@@ -16,7 +16,7 @@ function NotePreviewMini() {
 
 function ImagePreviewMini() {
   return (
-    <div className="rounded-lg border border-dashed border-accent/25 bg-surface/30 px-3 py-4 text-center text-[10px] text-text-dim">
+    <div className="rounded-lg border border-dashed border-accent/25 bg-surface/30 px-3 py-4 text-center text-[10px] text-text-muted">
       Bild + caption
     </div>
   );
@@ -33,7 +33,7 @@ function TaskPreviewMini() {
 
 function VideoPreviewMini() {
   return (
-    <div className="rounded-lg border border-dashed border-accent-secondary/25 bg-surface/30 px-3 py-4 text-center text-[10px] text-text-dim">
+    <div className="rounded-lg border border-dashed border-accent-secondary/25 bg-surface/30 px-3 py-4 text-center text-[10px] text-text-muted">
       Kort video + caption
     </div>
   );

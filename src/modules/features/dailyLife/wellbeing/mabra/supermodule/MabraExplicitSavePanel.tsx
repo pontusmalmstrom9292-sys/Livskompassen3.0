@@ -96,7 +96,7 @@ export function MabraExplicitSavePanel({
       <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent">
         {COPY.title}
       </p>
-      <p className="mt-1 text-xs text-text-dim">{COPY.hint}</p>
+      <p className="mt-1 text-xs text-text-muted">{COPY.hint}</p>
 
       {!canSave ? (
         <p className="mt-3 text-sm text-text-muted">{COPY.empty}</p>
@@ -107,7 +107,7 @@ export function MabraExplicitSavePanel({
       )}
 
       {!userId ? (
-        <p className="mt-3 text-xs text-text-dim">{COPY.login}</p>
+        <p className="mt-3 text-xs text-text-muted">{COPY.login}</p>
       ) : (
         <div className="mt-4 flex flex-col gap-2 sm:flex-row">
           <Button
@@ -129,7 +129,7 @@ export function MabraExplicitSavePanel({
         </div>
       )}
 
-      {vitError ? <p className="mt-2 text-xs text-text-dim">{vitError}</p> : null}
+      {vitError ? <p className="mt-2 text-xs text-text-muted">{vitError}</p> : null}
     </div>
   );
 }

@@ -86,7 +86,7 @@ export function VaultDcapAlertsPanel({ gateOk }: Props) {
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="shrink-0 inline-flex items-center gap-1.5"
+                className="shrink-0 inline-flex items-center gap-1.5 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 disabled={busyId === alert.id}
                 onClick={() => void handleAcknowledge(alert.id)}
               >

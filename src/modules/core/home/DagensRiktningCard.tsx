@@ -38,7 +38,7 @@ export function DagensRiktningCard({ open, onOpenChange, onCheckInSaved }: Props
         <div className="dagens-riktning-card__actions">
           <button
             type="button"
-            className="dagens-riktning-card__cta"
+            className="dagens-riktning-card__cta min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             aria-expanded={open}
             onClick={() => onOpenChange(!open)}
           >

@@ -496,8 +496,12 @@ function main() {
     'widget_dock_strip',
   );
   mustInclude(
-    'android/app/src/main/java/com/livskompassen/app/widgets/NoteWidgetProvider.java',
-    'widget_ic_wh2_note',
+    'android/app/src/main/java/com/livskompassen/app/widgets/CompanionNoteWidgetProvider.java',
+    'CompanionNoteWidgetProvider',
+  );
+  mustInclude(
+    'android/app/src/main/res/layout/widget_companion_note.xml',
+    'widget_companion_note',
   );
   mustInclude('android/app/src/main/res/values/strings.xml', 'En rad → Inkast');
   mustInclude('src/modules/features/widgets/WidgetDeepLinkBridge.tsx', 'livskompassen-widget-nav', '__LIVSKOMPASSEN_WIDGET_PENDING__');

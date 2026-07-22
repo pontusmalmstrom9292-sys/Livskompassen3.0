@@ -19,7 +19,7 @@ export function SymptomHub({ onSelect, onOpenValues }: Props) {
           className="w-full rounded-xl border border-border-strong bg-surface/40 px-4 py-4 text-left transition hover:border-accent/30"
         >
           <p className="text-base font-medium text-accent">{option.label}</p>
-          <p className="mt-1 text-sm text-text-dim">{option.hint}</p>
+          <p className="mt-1 text-sm text-text-muted">{option.hint}</p>
         </button>
       ))}
       <Button variant="ghost" className="w-full text-sm" onClick={onOpenValues}>

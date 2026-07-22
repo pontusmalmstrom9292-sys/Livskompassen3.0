@@ -51,7 +51,7 @@ export function EconomyBudgetTab() {
           <BentoCard title="Profil" description="Veckobudget och matlåda-preset">
             <div className="flex flex-wrap gap-3 text-sm">
               <label className="flex flex-col gap-1">
-                <span className="text-text-dim">Veckobudget (kr)</span>
+                <span className="text-text-muted">Veckobudget (kr)</span>
                 <Input
                   type="number"
                   value={weeklyBudget}
@@ -61,7 +61,7 @@ export function EconomyBudgetTab() {
                 />
               </label>
               <label className="flex flex-col gap-1">
-                <span className="text-text-dim">Matlåda (kr)</span>
+                <span className="text-text-muted">Matlåda (kr)</span>
                 <Input
                   type="number"
                   value={mealPreset}
@@ -86,7 +86,7 @@ export function EconomyBudgetTab() {
           >
             {error && <p className="mb-2 text-sm text-danger">{error}</p>}
             {saving && (
-              <p className="mb-2 flex items-center gap-2 text-sm text-text-dim">
+              <p className="mb-2 flex items-center gap-2 text-sm text-text-muted">
                 <Loader2 className="h-4 w-4 animate-spin" /> Sparar…
               </p>
             )}
@@ -107,7 +107,7 @@ export function EconomyBudgetTab() {
         </div>
       </EconomyAdvancedGate>
 
-      <p className="text-center text-xs text-text-dim">
+      <p className="text-center text-xs text-text-muted">
         <Link to="/arbetsliv" className="text-accent hover:underline">
           Arbete & lön → Arbetsliv
         </Link>

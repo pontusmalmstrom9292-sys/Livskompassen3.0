@@ -34,26 +34,26 @@ export function WorkWeekSummary({
         />
       </div>
       {weekTypeLabel && (
-        <p className="mb-3 text-xs text-text-dim">
+        <p className="mb-3 text-xs text-text-muted">
           {weekTypeLabel} · {workHoursWeek} h arbete registrerat
         </p>
       )}
 
       {estimatedWeekPay != null && (
-        <p className="mb-3 text-sm text-text-dim">
+        <p className="mb-3 text-sm text-text-muted">
           Uppskattad lön denna vecka:{' '}
           <span className="font-medium text-text">{estimatedWeekPay} kr</span> ({workHoursWeek} h ×{' '}
           {hourlyRate} kr/h)
         </p>
       )}
       {hourlyRate <= 0 && (
-        <p className="mb-3 text-xs text-text-dim">
+        <p className="mb-3 text-xs text-text-muted">
           Timlön saknas — uppskattad veckolön visas när timlön är registrerad.
         </p>
       )}
 
-      <p className="mb-3 text-sm text-text-dim">{statusLine}</p>
-      <p className="mb-1 text-xs text-text-dim">{weekTotal} h totalt denna vecka (alla kategorier)</p>
+      <p className="mb-3 text-sm text-text-muted">{statusLine}</p>
+      <p className="mb-1 text-xs text-text-muted">{weekTotal} h totalt denna vecka (alla kategorier)</p>
     </>
   );
 }

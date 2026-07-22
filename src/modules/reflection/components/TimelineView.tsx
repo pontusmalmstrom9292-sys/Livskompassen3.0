@@ -2,8 +2,9 @@ import React, { useMemo } from 'react';
 import { useReflectionStore } from '../store/reflectionStore';
 import type { InsightData } from '../store/reflectionStore';
 import { DailySummaryCard } from './DailySummaryCard';
-import { Loader2, Calendar } from 'lucide-react';
 import { Timestamp } from 'firebase/firestore';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 
 interface GroupedData {
   [dateStr: string]: InsightData[];
@@ -43,12 +44,7 @@ export const TimelineView: React.FC = () => {
   });
 
   if (isLoading) {
-    return (
-      <div className="flex flex-col items-center justify-center py-20 text-white/50">
-        <Loader2 className="w-8 h-8 animate-spin mb-4 text-accent" />
-        <p className="tracking-widest uppercase text-xs">Laddar journal...</p>
-      </div>
-    );
+    return <HubPanelSkeleton label="Laddar journal…" lines={4} className="py-12" />;
   }
 
   if (error) {
@@ -61,15 +57,11 @@ export const TimelineView: React.FC = () => {
 
   if (insights.length === 0 && currentFocusPoints.filter(Boolean).length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-center">
-        <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-6">
-          <Calendar className="w-8 h-8 text-white/20" />
-        </div>
-        <h3 className="text-xl font-bold text-white mb-2">Ingen historik än</h3>
-        <p className="text-white/60 text-sm max-w-sm">
-          Här kommer dina dagliga insikter och reflektioner att samlas över tid för att ge dig ett långsiktigt perspektiv.
-        </p>
-      </div>
+      <EmptyState
+        className="mx-auto max-w-sm py-12 text-center"
+        title="Ingen historik än"
+        message="Här kommer dina dagliga insikter och reflektioner att samlas över tid för att ge dig ett långsiktigt perspektiv."
+      />
     );
   }
 

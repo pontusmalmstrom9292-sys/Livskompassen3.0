@@ -37,7 +37,7 @@ export function DurationPicker({ hub, value, onChange, onStart, onBack }: Props)
         </select>
       </label>
       {value === DEFAULT_MABRA_DURATION && copy.hint && (
-        <p className="text-xs text-text-dim">{copy.hint}</p>
+        <p className="text-xs text-text-muted">{copy.hint}</p>
       )}
       <div className="flex gap-2 pt-2">
         <Button variant="ghost" className="flex-1" onClick={onBack}>

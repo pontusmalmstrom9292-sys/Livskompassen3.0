@@ -96,7 +96,7 @@ export function ArbetslivInputSuperModule({ initialMode }: ArbetslivInputSuperMo
                 <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">
                   Inkomst & tid
                 </h2>
-                <p className="text-xs text-text-dim">
+                <p className="text-xs text-text-muted">
                   Stämpel, registrerade inkomster och veckoflex — ett läge i taget.
                 </p>
               </div>
@@ -126,7 +126,7 @@ export function ArbetslivInputSuperModule({ initialMode }: ArbetslivInputSuperMo
                   }`}
                 >
                   <span className="block font-medium">{mode.label}</span>
-                  <span className="block text-[10px] text-text-dim">{mode.description}</span>
+                  <span className="block text-[10px] text-text-muted">{mode.description}</span>
                 </button>
               );
             })}
@@ -139,7 +139,7 @@ export function ArbetslivInputSuperModule({ initialMode }: ArbetslivInputSuperMo
           <footer className="mt-4 border-t border-border/30 pt-3">
             <Link
               to="/vardagen?tab=ekonomi"
-              className="inline-flex min-h-11 items-center gap-1.5 text-xs text-text-dim transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+              className="inline-flex min-h-11 items-center gap-1.5 text-xs text-text-muted transition-colors hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               Privatekonomi
               <ArrowRight className="h-3 w-3" aria-hidden />

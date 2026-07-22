@@ -188,7 +188,7 @@ export function HubDropdownNav<T extends string>({
             aria-label={item.label}
             onClick={() => handleSelect(item.id)}
             className={clsx(
-              'hub-dropdown-nav__option group flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-all',
+              'hub-dropdown-nav__option group flex w-full min-h-11 items-center justify-between rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
               selected
                 ? 'bg-surface-3 text-text'
                 : 'text-text-muted hover:bg-surface-2 hover:text-text',
@@ -199,7 +199,7 @@ export function HubDropdownNav<T extends string>({
                 <span
                   className={clsx(
                     'shrink-0 transition-colors',
-                    selected ? GLOW_ICON[glowColor] : 'text-text-dim group-hover:text-text',
+                    selected ? GLOW_ICON[glowColor] : 'text-text-muted group-hover:text-text',
                   )}
                 >
                   {item.icon}
@@ -207,7 +207,7 @@ export function HubDropdownNav<T extends string>({
               ) : null}
               <span className="truncate">{item.label}</span>
             </div>
-            {selected ? <Check className="h-4 w-4 shrink-0 text-text-dim" aria-hidden /> : null}
+            {selected ? <Check className="h-4 w-4 shrink-0 text-text-muted" aria-hidden /> : null}
           </button>
         );
       })}
@@ -217,7 +217,7 @@ export function HubDropdownNav<T extends string>({
   return (
     <div
       className={clsx(
-        'hub-dropdown-nav relative w-full',
+        'hub-dropdown hub-dropdown-nav relative w-full',
         isOpen && 'hub-dropdown-nav--open',
       )}
       ref={rootRef}
@@ -230,7 +230,7 @@ export function HubDropdownNav<T extends string>({
         aria-label={ariaLabel}
         onClick={() => setOpen(!isOpen)}
         className={clsx(
-          'hub-dropdown-nav__trigger flex w-full min-h-[var(--ds-touch-target,2.75rem)] items-center justify-between rounded-2xl border bg-surface-2/70 p-3.5 backdrop-blur-xl transition-all duration-300',
+          'hub-dropdown-nav__trigger flex w-full min-h-11 items-center justify-between rounded-2xl border bg-surface-2/70 p-3.5 backdrop-blur-xl transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
           isOpen ? GLOW_OPEN[glowColor] : 'border-border/30 text-text hover:bg-surface-3/50',
         )}
       >
@@ -239,7 +239,7 @@ export function HubDropdownNav<T extends string>({
             <span
               className={clsx(
                 'shrink-0 transition-colors',
-                isOpen ? GLOW_ICON[glowColor] : 'text-text-dim',
+                isOpen ? GLOW_ICON[glowColor] : 'text-text-muted',
               )}
             >
               {activeItem.icon}
@@ -250,7 +250,7 @@ export function HubDropdownNav<T extends string>({
         <ChevronDown
           className={clsx(
             'h-4 w-4 shrink-0 transition-transform duration-300',
-            isOpen ? 'rotate-180' : 'text-text-dim',
+            isOpen ? 'rotate-180' : 'text-text-muted',
           )}
           aria-hidden
         />

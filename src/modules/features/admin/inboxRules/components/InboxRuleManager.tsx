@@ -117,17 +117,17 @@ export function InboxRuleManager() {
               </option>
             ))}
           </select>
-          <Button type="button" disabled={saving || !draft.label.trim() || !draft.pattern.trim()} variant="accent" className="--accent w-full text-sm" onClick={() => void handleAdd()}>
+          <Button type="button" disabled={saving || !draft.label.trim() || !draft.pattern.trim()} variant="accent" className="--accent w-full min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => void handleAdd()}>
             Spara regel
           </Button>
         </div>
       </BentoCard>
 
-      {loading && <p className="text-sm text-text-dim">Laddar regler…</p>}
+      {loading && <p className="text-sm text-text-muted">Laddar regler…</p>}
       {error && <p className="text-sm text-danger">{error}</p>}
 
       {rules.length === 0 && !loading && (
-        <p className="text-sm text-text-dim">Inga regler upplagda ännu.</p>
+        <p className="text-sm text-text-muted">Inga regler upplagda ännu.</p>
       )}
 
       <ul className="space-y-3">
@@ -146,17 +146,17 @@ export function InboxRuleManager() {
               {MATCH_TYPE_LABELS[rule.matchType]}: <span className="text-text">{rule.pattern}</span>
             </p>
             {rule.targetTags.length > 0 && (
-              <p className="text-xs text-text-dim">Taggar: {rule.targetTags.join(', ')}</p>
+              <p className="text-xs text-text-muted">Taggar: {rule.targetTags.join(', ')}</p>
             )}
             {rule.targetCategory && (
-              <p className="text-xs text-text-dim">Kategori: {rule.targetCategory}</p>
+              <p className="text-xs text-text-muted">Kategori: {rule.targetCategory}</p>
             )}
             {rule.targetRouting && (
               <p className="text-xs text-accent">Spara i: {ROUTING_LABELS[rule.targetRouting]}</p>
             )}
             <button
               type="button"
-              className="text-xs text-danger mt-2 inline-block"
+              className="mt-2 inline-block min-h-11 text-xs text-danger focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => void removeRule(rule.id)}
             >
               Ta bort

@@ -81,7 +81,7 @@ function ActionTile({
   return (
     <Link
       to={to}
-      className="fyren-widget-bar__action"
+      className="fyren-widget-bar__action min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
       aria-label={label}
       tabIndex={tabIndex}
       onClick={onNavigate}
@@ -118,7 +118,7 @@ export function FyrenWidgetBar() {
       {open ? (
         <button
           type="button"
-          className="fyren-widget-bar__backdrop"
+          className="fyren-widget-bar__backdrop focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           aria-label="Stäng Fyren"
           onClick={() => setOpen(false)}
         />
@@ -150,7 +150,7 @@ export function FyrenWidgetBar() {
           {sideQuickHidden ? (
             <button
               type="button"
-              className="fyren-widget-bar__action"
+              className="fyren-widget-bar__action min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
               aria-label="Visa sidofält"
               tabIndex={open ? 0 : -1}
               onClick={() => {
@@ -185,7 +185,7 @@ export function FyrenDockHandle({
     <button
       type="button"
       className={clsx(
-        'fyren-dock-handle',
+        'fyren-dock-handle min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
         open && 'fyren-dock-handle--open',
         isHolding && 'fyren-dock-handle--holding',
         className,

@@ -52,7 +52,7 @@ export function EmotionalMemoryView({
       />
 
       {userId ? (
-        <p className="text-xs text-text-dim">
+        <p className="text-xs text-text-muted">
           {VIT_HUB_LANDED}{' '}
           <Link
             to={vitHubFilteredLink('memory', projectId)}

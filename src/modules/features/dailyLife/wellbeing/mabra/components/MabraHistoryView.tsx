@@ -42,20 +42,26 @@ export function MabraHistoryView() {
 
   if (isLoading && history.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center py-12 text-text-muted">
-        <Loader2 className="w-8 h-8 animate-spin text-accent mb-3" />
-        <p className="text-sm font-sans">Laddar historik...</p>
+      <div
+        className="flex flex-col items-center justify-center py-12 text-text-muted"
+        aria-busy="true"
+      >
+        <Loader2 className="mb-3 h-8 w-8 animate-spin text-accent" aria-hidden />
+        <p className="font-sans text-sm">Laddar historik…</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="p-4 rounded-xl bg-danger/10 border border-danger/20 text-danger flex items-start gap-3 my-4">
-        <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+      <div
+        role="alert"
+        className="my-4 flex items-start gap-3 rounded-xl border border-danger/20 bg-danger/10 p-4 text-danger"
+      >
+        <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" aria-hidden />
         <div>
-          <h4 className="font-semibold text-sm">Ett fel uppstod</h4>
-          <p className="text-xs opacity-90 mt-1">{error}</p>
+          <h4 className="text-sm font-semibold">Ett fel uppstod</h4>
+          <p className="mt-1 text-xs opacity-90">{error}</p>
         </div>
       </div>
     );
@@ -63,7 +69,10 @@ export function MabraHistoryView() {
 
   if (!isLoading && history.length === 0) {
     return (
-      <EmptyState message="Ingen MåBra-historik ännu. Logga humör eller energi efter en session så visas trender här." />
+      <EmptyState
+        title="Ingen historik"
+        message="Ingen MåBra-historik ännu. Logga humör eller energi efter en session så visas trender här."
+      />
     );
   }
 
@@ -88,13 +97,13 @@ export function MabraHistoryView() {
     });
 
   return (
-    <div className="calm-card border border-border/20 bg-surface-2/40 rounded-3xl p-6 relative overflow-hidden transition-all duration-300">
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
+    <div className="calm-card relative overflow-hidden rounded-3xl border border-border/20 bg-surface-2/40 p-6 transition-all duration-300">
+      <div className="mb-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-          <h3 className="font-display-serif text-lg text-accent tracking-wide flex items-center gap-2">
+          <h3 className="font-display-serif text-[11px] font-medium uppercase tracking-[0.2em] text-accent">
             MåBra Historik
           </h3>
-          <p className="text-xs text-text-muted font-sans mt-0.5">
+          <p className="mt-1 font-sans text-xs leading-relaxed text-text-muted">
             Följ ditt välbefinnande över tid baserat på energi och humör.
           </p>
         </div>
@@ -129,7 +138,7 @@ export function MabraHistoryView() {
           {chartReady ? (
             <Suspense
               fallback={
-                <div className="flex h-full items-center justify-center text-xs text-text-dim">
+                <div className="flex h-full items-center justify-center text-xs text-text-muted">
                   Laddar diagram…
                 </div>
               }
@@ -137,7 +146,7 @@ export function MabraHistoryView() {
               <MabraHistoryChartLazy chartData={chartData} />
             </Suspense>
           ) : (
-            <div className="flex h-full items-center justify-center text-xs text-text-dim">
+            <div className="flex h-full items-center justify-center text-xs text-text-muted">
               Förbereder diagram…
             </div>
           )}

@@ -43,7 +43,7 @@ export function PlaneringInkorgCalendarPanel({
         {prepared ? (
           <PlaneringWeekCalendar tasks={tasks} prepared />
         ) : (
-          <p className="text-sm text-text-dim">
+          <p className="text-sm text-text-muted">
             Förbered Google Kalender ovan — då kan veckan fyllas utan att du hoppar mellan appar.
           </p>
         )}

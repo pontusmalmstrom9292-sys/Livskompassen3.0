@@ -90,11 +90,11 @@ export function KbtTransformatorPanel() {
       {result && (
         <div className="mt-4 grid gap-3">
           <div className="rounded-xl border border-border-strong bg-surface/40 p-3">
-            <p className="text-[10px] uppercase tracking-widest text-text-dim">Förvrängning</p>
+            <p className="text-[10px] uppercase tracking-widest text-text-muted">Förvrängning</p>
             <p className="mt-1 text-sm text-text-muted">{result.distortion}</p>
           </div>
           <div className="rounded-xl border border-border-strong bg-surface/40 p-3">
-            <p className="text-[10px] uppercase tracking-widest text-text-dim">Fakta</p>
+            <p className="text-[10px] uppercase tracking-widest text-text-muted">Fakta</p>
             <p className="mt-1 text-sm text-text-muted">{result.clinicalFact}</p>
           </div>
           <div className="rounded-xl border border-accent/25 bg-accent/5 p-3">

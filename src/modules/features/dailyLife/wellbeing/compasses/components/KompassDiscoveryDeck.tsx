@@ -27,7 +27,7 @@ export function KompassDiscoveryDeck({ className, variant = 'default', onSelect 
             role="listitem"
             className={clsx(
               `${prefix}-card`,
-              'calm-card bento-card !rounded-[14px] border-[2px] border-accent/20',
+              'calm-card bento-card !rounded-[14px] border-[2px] border-accent/20 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
               discoveryAccentGlowClass(cat.accent),
               `${prefix}-card--${cat.accent}`,
             )}

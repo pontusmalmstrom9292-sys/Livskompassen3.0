@@ -63,8 +63,8 @@ export function WeeklyPulseWidget() {
   }, [user?.uid]);
 
   return (
-    <div className="calm-card glow-bottom-green space-y-4 rounded-2xl p-4 sm:p-5">
-      <h3 className="text-xs font-semibold uppercase tracking-wider text-text-dim flex items-center gap-2">
+    <div className="dashboard-card calm-card glow-bottom-green space-y-4 rounded-2xl p-4 transition-[border-color,box-shadow] focus-within:border-accent/35 focus-within:ring-1 focus-within:ring-accent/20 sm:p-5">
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted flex items-center gap-2">
         <Activity className="h-3.5 w-3.5" />
         Veckans Energi
       </h3>
@@ -91,7 +91,7 @@ export function WeeklyPulseWidget() {
           })}
         </div>
       )}
-      <div className="flex justify-between text-[10px] uppercase tracking-widest text-text-dim px-1">
+      <div className="flex justify-between text-[10px] uppercase tracking-widest text-text-muted px-1">
         <span>6 dgr</span>
         <span>Idag</span>
       </div>

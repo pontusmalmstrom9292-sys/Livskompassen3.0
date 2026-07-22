@@ -110,7 +110,7 @@ export function QuickCapturePanel({ onDone, compact = false }: Props) {
               key={mood.id}
               type="button"
               onClick={() => handleMoodClick(mood.label)}
-              className="shrink-0 rounded-full border border-border bg-surface/50 px-3 py-1.5 text-sm text-text-muted transition-colors hover:border-accent/30 hover:bg-surface hover:text-text active:scale-95"
+              className="min-h-11 shrink-0 rounded-full border border-border bg-surface/50 px-3 py-1.5 text-sm text-text-muted transition-colors hover:border-accent/30 hover:bg-surface hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 active:scale-95"
             >
               {mood.emoji} {mood.label}
             </button>
@@ -122,7 +122,7 @@ export function QuickCapturePanel({ onDone, compact = false }: Props) {
         <button
           type="button"
           onClick={handleToggleRecording}
-          className={`flex h-14 w-14 shrink-0 items-center justify-center rounded-full transition-all ${
+          className={`flex h-14 w-14 min-h-11 shrink-0 items-center justify-center rounded-full transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
             isRecording
               ? 'animate-pulse border border-accent/50 bg-accent/20 text-accent shadow-[0_0_15px_rgba(212,175,55,0.3)]'
               : 'border border-accent/30 bg-accent/10 text-accent hover:bg-accent/20'
@@ -149,7 +149,7 @@ export function QuickCapturePanel({ onDone, compact = false }: Props) {
           <button
             type="button"
             onClick={reset}
-            className="px-3 py-2 text-sm text-text-muted transition-colors hover:text-text"
+            className="min-h-11 px-3 py-2 text-sm text-text-muted transition-colors hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             Rensa
           </button>
@@ -157,7 +157,7 @@ export function QuickCapturePanel({ onDone, compact = false }: Props) {
             type="button"
             onClick={() => void handleSubmit()}
             disabled={!transcript.trim() || isSubmitting}
-            className="flex items-center gap-2 rounded-xl bg-accent px-5 py-3 font-medium text-surface transition-colors hover:bg-accent-light disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex min-h-11 items-center gap-2 rounded-xl bg-accent px-5 py-3 font-medium text-surface transition-colors hover:bg-accent-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {isSubmitting ? (
               <Loader2 className="h-5 w-5 animate-spin" />

@@ -47,7 +47,7 @@ export function StampClockHomeSection() {
           <Clock className="h-4 w-4 shrink-0 text-accent" strokeWidth={1.5} aria-hidden />
           <div className="min-w-0 flex-1">
             <p className="truncate text-xs font-medium text-text">{statusLine}</p>
-            <p className="truncate text-[10px] text-text-dim">
+            <p className="truncate text-[10px] text-text-muted">
               {clock.isClockedIn ? clock.status.kat || 'Arbete' : clock.flexHint || 'Stämpla från hemskärmen'}
             </p>
           </div>
@@ -117,10 +117,10 @@ export function StampClockHomeSection() {
           </p>
         )}
         {clock.loading ? (
-          <p className="text-sm text-text-dim">Laddar…</p>
+          <p className="text-sm text-text-muted">Laddar…</p>
         ) : (
           <>
-            <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">
+            <p className="mb-2 text-[10px] uppercase tracking-widest text-text-muted">
               {clock.isClockedIn ? 'Pågående pass' : 'Inte instämplad'}
             </p>
             <StampClockControls

@@ -29,27 +29,27 @@ public class AppNotificationManager {
             // Sacred Vault Channel (Hög prioritet, diskret ljud om möjligt)
             NotificationChannel vaultChannel = new NotificationChannel(
                     CHANNEL_ID_VAULT,
-                    "Valv-aviseringar",
+                    context.getString(R.string.notification_channel_vault_name),
                     NotificationManager.IMPORTANCE_HIGH
             );
-            vaultChannel.setDescription("Viktiga säkerhetsnotiser rörande ditt valv.");
+            vaultChannel.setDescription(context.getString(R.string.notification_channel_vault_desc));
             vaultChannel.enableLights(true);
             vaultChannel.setLightColor(0xFDE68A); // Guld
 
             // Daily Reminders (Standard prioritet)
             NotificationChannel dailyChannel = new NotificationChannel(
                     CHANNEL_ID_DAILY,
-                    "Dagliga påminnelser",
+                    context.getString(R.string.notification_channel_daily_name),
                     NotificationManager.IMPORTANCE_DEFAULT
             );
-            dailyChannel.setDescription("Påminnelser för din dagliga mix och reflektion.");
+            dailyChannel.setDescription(context.getString(R.string.notification_channel_daily_desc));
 
             NotificationChannel dfChannel = new NotificationChannel(
                     CHANNEL_ID_DROGFRIHET,
                     context.getString(R.string.channel_drogfrihet),
                     NotificationManager.IMPORTANCE_DEFAULT
             );
-            dfChannel.setDescription("Mjuka Drogfrihet-påminnelser och buddy-ping (opt-in).");
+            dfChannel.setDescription(context.getString(R.string.notification_channel_drogfrihet_desc));
 
             NotificationManager manager = context.getSystemService(NotificationManager.class);
             if (manager != null) {
@@ -74,8 +74,8 @@ public class AppNotificationManager {
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID_DROGFRIHET)
                 .setSmallIcon(R.drawable.ic_lock_sacred)
-                .setContentTitle(title != null ? title : "Livskompassen")
-                .setContentText(message != null ? message : "Ett ankare finns här.")
+                .setContentTitle(title != null ? title : context.getString(R.string.app_name))
+                .setContentText(message != null ? message : context.getString(R.string.notification_drogfrihet_default_text))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
                 .setContentIntent(openPi)
@@ -102,8 +102,8 @@ public class AppNotificationManager {
 
         // Stealth Logic: Om skärmen är låst eller användaren valt hög sekretess, maskera innehåll
         boolean shouldMask = true; // Detta kan styras via en global inställning senare
-        String displayTitle = shouldMask ? "Livskompassen" : title;
-        String displayMessage = shouldMask ? "Skyddad avisering. Lås upp för att läsa." : message;
+        String displayTitle = shouldMask ? context.getString(R.string.app_name) : title;
+        String displayMessage = shouldMask ? context.getString(R.string.notification_masked_text) : message;
 
         // Intent för att låsa valvet direkt
         Intent lockIntent = new Intent(context, NotificationActionReceiver.class);
@@ -142,10 +142,10 @@ public class AppNotificationManager {
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(displayMessage));
 
         if (CHANNEL_ID_VAULT.equals(channelId)) {
-            builder.addAction(R.drawable.ic_lock_sacred, "Säkra Valvet", lockPendingIntent);
+            builder.addAction(R.drawable.ic_lock_sacred, context.getString(R.string.notification_action_lock_vault), lockPendingIntent);
         } else {
-            builder.addAction(R.drawable.ic_lock_sacred, "Klar", donePendingIntent);
-            builder.addAction(R.drawable.ic_error_outline, "Senare", snoozePendingIntent);
+            builder.addAction(R.drawable.ic_lock_sacred, context.getString(R.string.notification_action_done), donePendingIntent);
+            builder.addAction(R.drawable.ic_error_outline, context.getString(R.string.notification_action_later), snoozePendingIntent);
         }
 
         manager.notify(NOTIFICATION_ID_PREMIUM, builder.build());

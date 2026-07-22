@@ -75,8 +75,8 @@ export function MabraPulseWidget() {
 
   if (!user || loading) {
     return (
-      <div className="w-full bg-surface-2 border border-border/40 rounded-2xl p-5 animate-pulse">
-        <div className="h-6 w-48 bg-white/5 rounded" />
+      <div className="dashboard-card w-full animate-pulse rounded-2xl border border-border/40 bg-surface-2 p-5">
+        <div className="h-6 w-48 rounded bg-white/5" />
       </div>
     );
   }
@@ -89,7 +89,7 @@ export function MabraPulseWidget() {
     const isMabraSession = !!todaysActivity.session;
 
     return (
-      <div className="w-full bg-surface-2/40 border border-success/15 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 transition-all duration-300">
+      <div className="dashboard-card flex w-full flex-col items-start justify-between gap-4 rounded-2xl border border-success/15 bg-surface-2/40 p-4 transition-[border-color,box-shadow] duration-300 focus-within:border-accent/35 focus-within:ring-1 focus-within:ring-accent/20 sm:flex-row sm:items-center">
         <div className="flex items-start sm:items-center gap-3">
           <div className="p-2 bg-success/10 rounded-xl text-success">
             <CheckCircle className="w-5 h-5" />
@@ -107,22 +107,22 @@ export function MabraPulseWidget() {
             
             <div className="text-xs text-text-muted mt-0.5 space-y-1">
               {isMabraCheckin && (
-                <p className="text-text-dim">
+                <p className="text-text-muted">
                   Humör: <span className="font-semibold text-accent">{todaysActivity.checkIn.mood}/10</span> • Energinivå: <span className="font-semibold text-accent-ai">{todaysActivity.checkIn.energy}/10</span>
                 </p>
               )}
               {todaysActivity.checkIn?.taskNote && (
-                <p className="italic text-text-dim font-medium leading-relaxed">
+                <p className="italic text-text-muted font-medium leading-relaxed">
                   "{todaysActivity.checkIn.taskNote}"
                 </p>
               )}
               {isMabraSession && (
-                <p className="text-text-dim">
+                <p className="text-text-muted">
                   Genomförde {todaysActivity.session.exerciseType}-övning.
                 </p>
               )}
               {hasFocus && (
-                <p className="text-text-dim flex flex-wrap gap-x-2">
+                <p className="text-text-muted flex flex-wrap gap-x-2">
                   <span className="font-semibold text-text-muted/80">Fokus:</span>
                   <span>{threeFocusPoints.filter((p) => p && p.trim() !== '').join(' • ')}</span>
                 </p>
@@ -144,14 +144,14 @@ export function MabraPulseWidget() {
 
   // TILLSTÅND 1: Inte incheckad (Lugnande prompt)
   return (
-    <div className="w-full bg-surface-2 border border-border/40 rounded-2xl p-5 hover:shadow-accent-glow hover:border-accent/30 transition-all duration-300 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 group">
+    <div className="dashboard-card group flex w-full flex-col items-start justify-between gap-4 rounded-2xl border border-border/40 bg-surface-2 p-5 transition-all duration-300 hover:border-accent/30 hover:shadow-accent-glow focus-within:border-accent/35 focus-within:ring-1 focus-within:ring-accent/20 sm:flex-row sm:items-center">
       <div className="flex items-center gap-3.5">
         <div className="p-2.5 bg-accent-ai/10 rounded-xl text-accent-ai animate-pulse shrink-0">
           <Heart className="w-5 h-5 fill-accent-ai/20" />
         </div>
         <div>
           <h3 className="text-sm font-semibold text-white/95 leading-normal">Hur mår du just nu?</h3>
-          <p className="text-xs text-text-dim group-hover:text-text-muted transition-colors mt-0.5">
+          <p className="text-xs text-text-muted group-hover:text-text-muted transition-colors mt-0.5">
             {latestCheckIn && latestCheckIn.mood !== undefined && latestCheckIn.energy !== undefined ? (
               <>
                 Senaste: Humör {latestCheckIn.mood}/10 • Energinivå {latestCheckIn.energy}/10

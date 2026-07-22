@@ -54,7 +54,7 @@ export function HomeKompassDiscoverySection({
       <button
         type="button"
           className={clsx(
-            'home-kompass-discovery__explore calm-card bento-card !rounded-[14px] border-[2px] border-accent/22',
+            'home-kompass-discovery__explore calm-card bento-card !rounded-[14px] border-[2px] border-accent/22 min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
             deckOpen && 'home-kompass-discovery__explore--open glow-bottom-gold',
           )}
         aria-expanded={deckOpen}

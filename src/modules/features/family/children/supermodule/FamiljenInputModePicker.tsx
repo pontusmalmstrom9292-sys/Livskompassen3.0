@@ -32,7 +32,7 @@ export function FamiljenInputModePicker({ activeMode, onChange }: FamiljenInputM
               role="tab"
               aria-selected={isActive}
               onClick={() => onChange(mode.id)}
-              className={`od-depth__pill ${isActive ? 'od-depth__pill--active' : ''}`}
+              className={`od-depth__pill min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${isActive ? 'od-depth__pill--active' : ''}`}
               title={mode.description}
             >
               {mode.label}

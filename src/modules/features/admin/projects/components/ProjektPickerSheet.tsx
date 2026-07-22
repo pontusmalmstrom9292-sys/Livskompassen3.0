@@ -32,7 +32,7 @@ export function ProjektPickerSheet({ open, onClose }: Props) {
       title="Nytt projekt"
       ariaLabel="Nytt projekt"
       headerAction={
-        <button type="button" className="header-chrome-btn p-2" aria-label="Stäng" onClick={onClose}>
+        <button type="button" className="header-chrome-btn min-h-11 min-w-11 p-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55" aria-label="Stäng" onClick={onClose}>
           <X className="h-4 w-4" />
         </button>
       }
@@ -44,7 +44,7 @@ export function ProjektPickerSheet({ open, onClose }: Props) {
             <button
               key={tile.id}
               type="button"
-              className="elongated-module overflow-hidden flex flex-col items-center gap-2 p-4"
+              className="elongated-module overflow-hidden flex min-h-11 flex-col items-center gap-2 p-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
               onClick={() => pick(tile.id)}
             >
               <Icon className="h-6 w-6 text-accent" />

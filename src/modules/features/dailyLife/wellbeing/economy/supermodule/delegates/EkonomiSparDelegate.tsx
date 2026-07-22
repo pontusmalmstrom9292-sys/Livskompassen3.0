@@ -12,7 +12,7 @@ export function EkonomiSparDelegate({ userId }: EkonomiSparDelegateProps) {
   const hasUser = Boolean(userId);
 
   if (!hasUser) {
-    return <p className="text-sm text-text-dim">Logga in för att hantera sparmål.</p>;
+    return <p className="text-sm text-text-muted">Logga in för att hantera sparmål.</p>;
   }
 
   return (

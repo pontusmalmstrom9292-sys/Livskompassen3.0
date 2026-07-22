@@ -74,7 +74,7 @@ function Chip({
   return (
     <button
       type="button"
-      className={['cw-pill', 'cw-studio-chip', active && 'cw-pill--active'].filter(Boolean).join(' ')}
+      className={['cw-pill', 'cw-studio-chip', active && 'cw-pill--active', 'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40'].filter(Boolean).join(' ')}
       onClick={onClick}
       onDoubleClick={onDoubleClick}
       title={onDoubleClick ? 'Dubbelklicka för På/Av' : undefined}
@@ -126,6 +126,9 @@ function Editor({
       </div>
 
       <p className="cw-eyebrow">Storlek</p>
+      <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--cw-muted, #94a3b8)', lineHeight: 1.4 }}>
+        XS–Large i appen. På hemskärmen kan du alltid dra ihop widgeten till 1 plats — utan att tappa funktion.
+      </p>
       <div className="cw-pill-row">
         {SIZES.map((s) => (
           <Chip key={s} active={config.size === s} label={s.toUpperCase()} onClick={() => onChange({ size: s })} />
@@ -294,7 +297,7 @@ export function WidgetStudioPage() {
         </Link>
         <button
           type="button"
-          className="cw-chrome-btn"
+          className="cw-chrome-btn min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={() => {
             try {
               localStorage.setItem('cw_home_rail_collapsed', '0');

@@ -24,7 +24,7 @@ export function BuddyContactPanel({ uid }: Props) {
 
   return (
     <BentoCard title="Trygg person (1:1)" icon={<Users className="h-4 w-4" />} glow="green">
-      <p className="text-xs text-text-dim">
+      <p className="text-xs text-text-muted">
         Privat kontaktkort. Telefon stannar på enheten. Ingen feed, ingen Valv-dela.
       </p>
       <label className="mt-3 block text-xs text-text-muted">
@@ -52,7 +52,7 @@ export function BuddyContactPanel({ uid }: Props) {
         <Button
           type="button"
           variant="secondary"
-          className="min-h-[48px] flex-1"
+          className="min-h-[48px] flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={() => {
             saveBuddyContact(c, uid);
             setMsg('Sparat lokalt.');
@@ -62,12 +62,12 @@ export function BuddyContactPanel({ uid }: Props) {
           Spara
         </Button>
         {tel ? (
-          <a href={tel} className="inline-flex min-h-[48px] flex-1 items-center justify-center rounded-xl border-[0.5px] border-border bg-surface/50 px-3 text-sm text-accent">
+          <a href={tel} className="inline-flex min-h-[48px] flex-1 items-center justify-center rounded-xl border-[0.5px] border-border bg-surface/50 px-3 text-sm text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Ring
           </a>
         ) : null}
         {sms ? (
-          <a href={sms} className="inline-flex min-h-[48px] flex-1 items-center justify-center rounded-xl border-[0.5px] border-border bg-surface/50 px-3 text-sm text-accent">
+          <a href={sms} className="inline-flex min-h-[48px] flex-1 items-center justify-center rounded-xl border-[0.5px] border-border bg-surface/50 px-3 text-sm text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             SMS
           </a>
         ) : null}
@@ -78,7 +78,7 @@ export function BuddyContactPanel({ uid }: Props) {
           Din kod: <span className="font-medium text-accent">{c.buddyCodeMine}</span>
         </p>
       ) : (
-        <p className="mt-3 text-xs text-text-dim">Aktivera påminnelser för att få en buddy-kod.</p>
+        <p className="mt-3 text-xs text-text-muted">Aktivera påminnelser för att få en buddy-kod.</p>
       )}
 
       <label className="mt-2 block text-xs text-text-muted">
@@ -95,7 +95,7 @@ export function BuddyContactPanel({ uid }: Props) {
         <Button
           type="button"
           variant="secondary"
-          className="min-h-[48px] flex-1"
+          className="min-h-[48px] flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={busy || peerCode.trim().length < 4}
           onClick={() => {
             setBusy(true);
@@ -115,7 +115,7 @@ export function BuddyContactPanel({ uid }: Props) {
         <Button
           type="button"
           variant="accent"
-          className="min-h-[48px] flex-1"
+          className="min-h-[48px] flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={busy || !c.linked}
           onClick={() => {
             setBusy(true);

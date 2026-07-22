@@ -59,7 +59,7 @@ export function LivskompassHero({ onCenterPress, variant = 'compact', embedded =
     const compactInner = (
       <button
         type="button"
-        className="livskompass-hero__compact-bar"
+        className="livskompass-hero__compact-bar min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         aria-label="Checka in — Kognitiv sköld"
         onClick={() => onCenterPress?.()}
       >
@@ -147,7 +147,7 @@ export function LivskompassHero({ onCenterPress, variant = 'compact', embedded =
                   <button
                     type="button"
                     className={clsx(
-                      'livskompass-hero__orbit-node',
+                      'livskompass-hero__orbit-node min-h-11 min-w-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
                       open && 'livskompass-hero__orbit-node--open',
                     )}
                     aria-label={label}
@@ -171,7 +171,7 @@ export function LivskompassHero({ onCenterPress, variant = 'compact', embedded =
                     <p className="livskompass-hero__orbit-menu-blurb">{blurb}</p>
                     <button
                       type="button"
-                      className="livskompass-hero__orbit-menu-go"
+                      className="livskompass-hero__orbit-menu-go min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                       role="menuitem"
                       onClick={() => goOrbit(to)}
                     >
@@ -185,7 +185,7 @@ export function LivskompassHero({ onCenterPress, variant = 'compact', embedded =
 
             <button
               type="button"
-              className="livskompass-hero__center"
+              className="livskompass-hero__center min-h-11 min-w-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
               aria-label="Checka in — dagens kompass"
               onClick={(e) => {
                 e.stopPropagation();

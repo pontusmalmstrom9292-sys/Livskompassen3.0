@@ -211,7 +211,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
             type="button"
             variant="ghost"
             fullWidth
-            className="text-xs"
+            className="text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={() => {
               setRecPhase('idle');
               setRecTitle(null);
@@ -241,7 +241,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
           {!queued && (
             <p className="text-xs text-text-muted">Sparat i Valvet — öppna appen vid behov.</p>
           )}
-          <WidgetButton type="button" variant="ghost" fullWidth className="text-xs" onClick={() => setDone(false)}>
+          <WidgetButton type="button" variant="ghost" fullWidth className="text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => setDone(false)}>
             Ny reflektion
           </WidgetButton>
         </div>
@@ -272,7 +272,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
               variant="accent"
               fullWidth
               onClick={stopRecording}
-              className="mt-3 flex min-h-11 items-center justify-center gap-2"
+              className="mt-3 flex min-h-11 items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               <Square className="h-4 w-4" aria-hidden />
               Stoppa och spara i Valvet
@@ -316,7 +316,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
                 variant="ghost"
                 onClick={handleMicClick}
                 disabled={!speech.supported || !audio.supported || saving}
-                className="flex min-h-11 items-center justify-center gap-2 text-sm disabled:opacity-40"
+                className="flex min-h-11 items-center justify-center gap-2 text-sm disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 aria-label="Röstinspelning till Valvet"
               >
                 <Mic className="h-4 w-4" aria-hidden />
@@ -327,7 +327,7 @@ function MultiToolCard({ userId, onQueueChange }: Props) {
                 variant="accent"
                 onClick={() => void handleSaveText()}
                 disabled={saving || !text.trim()}
-                className="flex min-h-11 items-center justify-center gap-2 text-sm disabled:opacity-50"
+                className="flex min-h-11 items-center justify-center gap-2 text-sm disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               >
                 {saving ? (
                   <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
@@ -585,7 +585,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
                 speech.isListening
                   ? 'border-accent/50 bg-accent/20 text-accent'
                   : 'border-border/30 bg-surface-3/50 text-accent hover:border-accent/40 hover:bg-surface-3'
-              }`}
+              } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40`}
               aria-label="Röstinmatning för barnlogg"
               aria-pressed={speech.isListening}
             >
@@ -599,7 +599,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
           <button
             type="button"
             onClick={handleTextFocus}
-            className="flex h-11 w-11 items-center justify-center rounded-xl border border-border/30 bg-surface-3/50 text-accent transition motion-safe:active:scale-[0.97] hover:border-accent/40 hover:bg-surface-3"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-border/30 bg-surface-3/50 text-accent transition motion-safe:active:scale-[0.97] hover:border-accent/40 hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             aria-label="Textinmatning för barnlogg"
           >
             <PenLine className="h-5 w-5" aria-hidden />
@@ -611,7 +611,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
               attachedPhoto
                 ? 'border-success/50 bg-success/15 text-success'
                 : 'border-border/30 bg-surface-3/50 text-accent hover:border-accent/40 hover:bg-surface-3'
-            }`}
+            } focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40`}
             aria-label={attachedPhoto ? 'Foto bifogat — byt bild' : 'Ta foto med kamera'}
             aria-pressed={attachedPhoto != null}
           >
@@ -640,7 +640,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
                 type="button"
                 variant="ghost"
                 onClick={clearAttachedPhoto}
-                className="shrink-0 text-[10px]"
+                className="shrink-0 text-[10px] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               >
                 Ta bort
               </WidgetButton>
@@ -663,7 +663,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
           fullWidth
           onClick={() => void handleSave()}
           disabled={loading || (!observation.trim() && !attachedPhoto)}
-          className="flex min-h-11 items-center justify-center gap-2 disabled:opacity-50"
+          className="flex min-h-11 items-center justify-center gap-2 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           {loading ? (
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden />

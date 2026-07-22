@@ -134,7 +134,7 @@ const LogRow = memo(function LogRow({
           type="button"
           variant="ghost"
           size="sm"
-          className="shrink-0 py-1 px-2"
+          className="shrink-0 py-1 px-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={() => exportVaultRecordAsPdf(log)}
           title="Exportera som PDF (utskrift)"
           aria-label={`Exportera valvpost ${log.id.slice(0, 12)} som PDF`}
@@ -201,7 +201,7 @@ const LogRow = memo(function LogRow({
           href={log.evidenceUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="mt-3 inline-block text-xs text-accent-secondary hover:underline"
+          className="mt-3 inline-block text-xs text-accent-secondary hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           Visa bifogat bevis
         </a>
@@ -246,7 +246,7 @@ export const VaultLogList = memo(function VaultLogList({
     >
       {onLogFirstBevis && (
         <div className="mb-3 flex justify-end">
-          <Button type="button" variant="secondary" size="sm" onClick={onLogFirstBevis}>
+          <Button type="button" variant="secondary" size="sm" onClick={onLogFirstBevis} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Logga bevis
           </Button>
         </div>
@@ -306,8 +306,7 @@ export const VaultLogList = memo(function VaultLogList({
                     void loadMoreLogs(uid);
                   }
                 }}
-                disabled={loadingMore}
-              >
+                disabled={loadingMore} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 {loadingMore ? (
                   <>
                     <Loader2 className="mr-1 inline h-3 w-3 animate-spin" />

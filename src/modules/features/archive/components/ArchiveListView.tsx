@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { EmptyState } from '@/core/ui/EmptyState';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { Button } from '@/design-system';
 
 interface ArchiveListViewProps {
@@ -122,6 +123,10 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
     ].filter(drawer => drawer.entries.length > 0);
   };
 
+  if (entries.length === 0 && loading) {
+    return <HubPanelSkeleton label="Hämtar arkivhyllor…" lines={4} className="py-8" />;
+  }
+
   if (entries.length === 0 && !loading) {
     return (
       <div className="flex flex-col items-center justify-center px-4 py-12">
@@ -172,7 +177,7 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                 type="button"
                 onClick={() => toggleShelf(monthKey)}
                 aria-expanded={isShelfExpanded}
-                className="flex w-full items-center justify-between p-4 bg-surface-2/70 hover:bg-surface-3/80 border border-border/30 rounded-2xl cursor-pointer transition-all duration-300 shadow-md backdrop-blur-xl text-left"
+                className="flex w-full items-center justify-between p-4 bg-surface-2/70 hover:bg-surface-3/80 border border-border/30 rounded-2xl cursor-pointer transition-all duration-[var(--ds-duration-normal)] shadow-md backdrop-blur-xl text-left"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20">
@@ -217,7 +222,7 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                             type="button"
                             onClick={() => toggleDrawer(drawer.id)}
                             aria-expanded={isDrawerExpanded}
-                            className="flex w-full items-center justify-between p-3 rounded-xl border border-border/20 bg-surface-3/50 hover:bg-surface-3 cursor-pointer transition-all duration-200 text-left"
+                            className="flex w-full items-center justify-between p-3 rounded-xl border border-border/20 bg-surface-3/50 hover:bg-surface-3 cursor-pointer transition-all duration-[var(--ds-duration-fast)] text-left"
                           >
                             <div className="flex items-center gap-3">
                               <DrawerIcon className={`w-4 h-4 ${drawer.colorClass}`} />

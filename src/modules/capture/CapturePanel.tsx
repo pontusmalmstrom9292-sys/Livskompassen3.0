@@ -451,7 +451,7 @@ export function CapturePanel({
           {composeHint}
         </p>
       ) : domainHint ? (
-        <p className="mb-3 rounded-xl border border-border/30 bg-surface-2/60 px-3 py-2 text-xs text-text-dim">
+        <p className="mb-3 rounded-xl border border-border/30 bg-surface-2/60 px-3 py-2 text-xs text-text-muted">
           {domainHint}
         </p>
       ) : null}
@@ -477,8 +477,7 @@ export function CapturePanel({
                   variant="ghost"
                   size="sm"
                   disabled={phase !== 'compose'}
-                  onClick={() => fileInputRef.current?.click()}
-                >
+                  onClick={() => fileInputRef.current?.click()} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                   <span className="inline-flex items-center gap-1">
                     <FileUp className="h-3 w-3" />
                     En fil eller flera
@@ -504,7 +503,7 @@ export function CapturePanel({
                       <span className="truncate">{file.name}</span>
                       <button
                         type="button"
-                        className="shrink-0 text-text-dim hover:text-accent"
+                        className="shrink-0 text-text-muted hover:text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                         aria-label={`Ta bort ${file.name}`}
                         onClick={() => removePendingFile(index)}
                       >
@@ -521,18 +520,18 @@ export function CapturePanel({
             {canBrusfilter && hasText && !hasFiles && (
               <Button
                 variant="secondary"
-                className="inline-flex items-center gap-1.5"
+                className="inline-flex items-center gap-1.5 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={startBrusfilterStep}
               >
                 <Filter className="h-3.5 w-3.5" aria-hidden />
                 Filtrera brus först
               </Button>
             )}
-            <Button disabled={!canPreview} onClick={() => void handlePreview()}>
+            <Button disabled={!canPreview} onClick={() => void handlePreview()} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               Förhandsgranska
             </Button>
             {phase === 'done' && (
-              <Button variant="ghost" onClick={resetFlow}>
+              <Button variant="ghost" onClick={resetFlow} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 Nytt inkast
               </Button>
             )}
@@ -557,7 +556,7 @@ export function CapturePanel({
       {phase === 'analyzing' && (
         <div className="flex flex-col items-center gap-3 py-6">
           <CalmBreathingCircle size="md" />
-          <p className="text-sm text-text-dim">Sorterar…</p>
+          <p className="text-sm text-text-muted">Sorterar…</p>
         </div>
       )}
 
@@ -589,9 +588,9 @@ export function CapturePanel({
           </div>
           <div className="text-center">
             <h3 className="font-medium text-text">Sparar inkast...</h3>
-            <p className="mt-1 text-sm text-text-dim">Du kan ångra om du kom på något mer.</p>
+            <p className="mt-1 text-sm text-text-muted">Du kan ångra om du kom på något mer.</p>
           </div>
-          <Button variant="ghost" onClick={cancelDebounce} className="mt-2">
+          <Button variant="ghost" onClick={cancelDebounce} className="mt-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Ångra
           </Button>
         </div>
@@ -617,7 +616,7 @@ export function CapturePanel({
         <>
           {brusfilterBiffDraft && manualSilo === 'valv' && (
             <div className="mb-3 rounded-xl border border-border/30 bg-surface-2/60 px-3 py-2 text-xs text-text-muted">
-              <p className="font-medium text-text-dim">BIFF-utkast (kopiera separat — sparas inte i arkivet)</p>
+              <p className="font-medium text-text-muted">BIFF-utkast (kopiera separat — sparas inte i arkivet)</p>
               <p className="mt-1 whitespace-pre-wrap text-sm text-text">{brusfilterBiffDraft}</p>
             </div>
           )}
@@ -684,7 +683,7 @@ export function CapturePanel({
           {sourceModule === 'planering_inkorg' && lastBatch.queued > 0 && (
             <a
               href="#planering-inkast-ko"
-              className="inline-block text-xs text-accent underline-offset-2 hover:underline"
+              className="inline-block text-xs text-accent underline-offset-2 hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               Se kö nedan
             </a>

@@ -63,7 +63,7 @@ function WidgetFamiljenInner() {
                 key={alias}
                 type="button"
                 variant={child === alias ? 'accent' : 'ghost'}
-                className="flex-1 text-xs"
+                className="flex-1 text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={() => setChild(alias)}
               >
                 {alias}

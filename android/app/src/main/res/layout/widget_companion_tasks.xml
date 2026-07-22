@@ -7,8 +7,8 @@
     android:background="@drawable/widget_bg_premium_panel"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingHorizontal="12dp"
-    android:paddingVertical="10dp">
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="6dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -93,7 +93,7 @@
         android:contentDescription="@string/widget_companion_tasks_all"
         android:gravity="center"
         android:letterSpacing="0.1"
-        android:minHeight="44dp"
+        android:minHeight="56dp"
         android:paddingVertical="8dp"
         android:text="@string/widget_companion_tasks_all"
         android:textAllCaps="true"

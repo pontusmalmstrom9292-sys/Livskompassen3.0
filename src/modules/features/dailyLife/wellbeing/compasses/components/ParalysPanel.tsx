@@ -120,7 +120,7 @@ export function ParalysPanel({ onDone, embedded = false, simplified = false }: P
             )}
           >
             <p className="text-sm leading-relaxed text-text">{step.instruction}</p>
-            <p className="mt-2 text-[10px] text-text-dim">
+            <p className="mt-2 text-[10px] text-text-muted">
               ~{step.estimatedSeconds}s · {step.physicalAnchor}
             </p>
           </div>

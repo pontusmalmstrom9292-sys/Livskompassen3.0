@@ -162,8 +162,8 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full p-2 text-text-muted transition-colors hover:bg-surface-3 hover:text-white"
-            aria-label="Stäng"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full p-2 text-text-muted transition-colors hover:bg-surface-3 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+            aria-label="Stäng triage"
           >
             <X className="h-5 w-5" />
           </button>
@@ -171,7 +171,7 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
 
         <div className="relative z-10 flex-1 space-y-6 overflow-y-auto p-6 scrollbar-thin scrollbar-thumb-surface-3 md:p-8">
           <div className="space-y-2 rounded-2xl border border-border/30 bg-surface-2/70 p-4">
-            <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-text-dim">
+            <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-text-muted">
               <span>Källa: {item.source === 'voice_to_vault' ? 'Röstagent' : 'Manuell / System'}</span>
               <span>Typ: {item.type === 'task' ? 'Uppgift' : 'Valv-post'}</span>
             </div>
@@ -182,7 +182,7 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
             <button
               type="button"
               onClick={() => setActiveTab('task')}
-              className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
+              className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
                 activeTab === 'task'
                   ? 'border border-accent/20 bg-accent/15 text-accent'
                   : 'text-text-muted hover:bg-surface-3/50 hover:text-white'
@@ -194,7 +194,7 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
             <button
               type="button"
               onClick={() => setActiveTab('project')}
-              className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
+              className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
                 activeTab === 'project'
                   ? 'border border-accent/20 bg-accent/15 text-accent'
                   : 'text-text-muted hover:bg-surface-3/50 hover:text-white'
@@ -206,7 +206,7 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
             <button
               type="button"
               onClick={() => setActiveTab('vault')}
-              className={`flex flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all ${
+              className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-lg px-3 py-2 text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
                 activeTab === 'vault'
                   ? 'border border-accent/20 bg-accent/15 text-accent'
                   : 'text-text-muted hover:bg-surface-3/50 hover:text-white'
@@ -258,10 +258,10 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
                       key={statusOption}
                       type="button"
                       onClick={() => setTaskStatus(statusOption)}
-                      className={`rounded-lg border px-3 py-2.5 font-mono text-xs uppercase tracking-wider transition-all ${
+                      className={`min-h-11 rounded-lg border px-3 py-2.5 font-mono text-xs uppercase tracking-wider transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
                         taskStatus === statusOption
                           ? 'border-accent/40 bg-accent/15 text-accent shadow-sm'
-                          : 'border-border-strong bg-surface-3/30 text-text-dim hover:text-text-muted'
+                          : 'border-border-strong bg-surface-3/30 text-text-muted hover:text-text-muted'
                       }`}
                     >
                       {statusOption === 'todo' ? 'Att göra' : statusOption === 'waiting' ? 'Väntar' : 'Klar'}
@@ -275,16 +275,16 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
                   Koppla till befintligt projekt (Valfritt)
                 </label>
                 {projectsLoading ? (
-                  <div className="animate-pulse py-2 text-xs text-text-dim">Laddar projekt...</div>
+                  <div className="animate-pulse py-2 text-xs text-text-muted">Laddar projekt...</div>
                 ) : projects.length === 0 ? (
-                  <div className="py-1 text-xs text-text-dim">Inga aktiva projekt tillgängliga.</div>
+                  <div className="py-1 text-xs text-text-muted">Inga aktiva projekt tillgängliga.</div>
                 ) : (
                   <select
                     value={taskProjectId}
                     onChange={(e) => setTaskProjectId(e.target.value)}
                     className="w-full cursor-pointer rounded-xl border border-border-strong bg-surface-3/50 px-4 py-3 text-sm text-white transition-all focus:border-accent/50 focus:outline-none"
                   >
-                    <option value="" className="bg-obsidian-bg text-text-dim">
+                    <option value="" className="bg-obsidian-bg text-text-muted">
                       -- Inget projekt --
                     </option>
                     {projects.map((proj) => (
@@ -301,7 +301,7 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
                   type="button"
                   disabled={isSaving || !taskTitle.trim()}
                   onClick={handleSaveTask}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium tracking-wide text-obsidian-bg transition-all hover:bg-accent/90 disabled:bg-accent/40 disabled:text-obsidian-bg/50"
+                  className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium tracking-wide text-obsidian-bg transition-all hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:bg-accent/40 disabled:text-obsidian-bg/50"
                 >
                   {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <CheckSquare className="h-4 w-4" />}
                   {item.type === 'task' ? 'Uppdatera Uppgift' : 'Spara som Uppgift'}
@@ -333,10 +333,10 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
                       key={statusOption}
                       type="button"
                       onClick={() => setProjectStatus(statusOption)}
-                      className={`rounded-lg border px-3 py-2.5 font-mono text-xs uppercase tracking-wider transition-all ${
+                      className={`min-h-11 rounded-lg border px-3 py-2.5 font-mono text-xs uppercase tracking-wider transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
                         projectStatus === statusOption
                           ? 'border-accent/40 bg-accent/15 text-accent shadow-sm'
-                          : 'border-border-strong bg-surface-3/30 text-text-dim hover:text-text-muted'
+                          : 'border-border-strong bg-surface-3/30 text-text-muted hover:text-text-muted'
                       }`}
                     >
                       {statusOption === 'active' ? 'Aktivt' : statusOption === 'paused' ? 'Pausat' : 'Arkiverat'}
@@ -350,7 +350,7 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
                   type="button"
                   disabled={isSaving || !projectTitle.trim()}
                   onClick={handleSaveProject}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium tracking-wide text-obsidian-bg transition-all hover:bg-accent/90 disabled:bg-accent/40 disabled:text-obsidian-bg/50"
+                  className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium tracking-wide text-obsidian-bg transition-all hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:bg-accent/40 disabled:text-obsidian-bg/50"
                 >
                   {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <FolderPlus className="h-4 w-4" />}
                   Skapa Projekt
@@ -403,7 +403,7 @@ export function IntakeTriageModal({ isOpen, onClose, item, userId }: IntakeTriag
                       type="button"
                       disabled={isSaving || !vaultContent.trim()}
                       onClick={handleSaveVault}
-                      className="flex w-full items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium tracking-wide text-obsidian-bg transition-all hover:bg-accent/90 disabled:bg-accent/40 disabled:text-obsidian-bg/50"
+                      className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent py-3.5 font-medium tracking-wide text-obsidian-bg transition-all hover:bg-accent/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:bg-accent/40 disabled:text-obsidian-bg/50"
                     >
                       {isSaving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Lock className="h-4 w-4" />}
                       Försegla i Valvet (WORM)

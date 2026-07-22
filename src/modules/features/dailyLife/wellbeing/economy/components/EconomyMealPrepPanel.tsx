@@ -128,7 +128,7 @@ export function EconomyMealPrepPanel() {
       )}
 
       {loading ? (
-        <p className="flex items-center gap-2 text-xs text-text-dim">
+        <p className="flex items-center gap-2 text-xs text-text-muted">
           <Loader2 className="h-3.5 w-3.5 animate-spin" /> Laddar…
         </p>
       ) : (
@@ -143,7 +143,7 @@ export function EconomyMealPrepPanel() {
                 disabled={busy}
                 onClick={() => toggleItem(item.id)}
                 className={clsx(
-                  'mt-0.5 flex h-4 w-4 flex-shrink-0 items-center justify-center rounded-sm transition-colors',
+                  'mt-0.5 flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-60',
                   item.done
                     ? 'bg-success/20 text-success'
                     : 'border border-border-strong text-transparent hover:border-success/50',
@@ -156,7 +156,7 @@ export function EconomyMealPrepPanel() {
                 className={clsx(
                   'text-xs leading-relaxed transition-colors',
                   item.done
-                    ? 'text-text-dim line-through decoration-text-dim/50'
+                    ? 'text-text-muted line-through decoration-text-muted/50'
                     : 'text-text-muted',
                 )}
               >

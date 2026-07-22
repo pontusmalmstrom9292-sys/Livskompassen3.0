@@ -79,7 +79,8 @@
   }
 
   .vardagen-zone-intro__lead {
-    @apply text-xs leading-relaxed text-text-dim;
+    @apply text-xs leading-relaxed;
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
     text-wrap: pretty;
   }
 
@@ -158,9 +159,22 @@
   }
 
   .liv-launcher-page button:focus-visible,
-  .liv-launcher-page a:focus-visible {
+  .liv-launcher-page a:focus-visible,
+  .liv-launcher-page [role='button']:focus-visible,
+  .liv-launcher-page [role='tab']:focus-visible,
+  .vardagen-bento-shell__content button:focus-visible,
+  .vardagen-bento-shell__content a:focus-visible,
+  .vardagen-bento-shell__content [role='button']:focus-visible,
+  .vardagen-bento-shell__content [role='tab']:focus-visible {
     outline: var(--ds-focus-ring);
     outline-offset: var(--ds-focus-offset);
+  }
+
+  .vardagen-layer-switch__link,
+  .liv-launcher-page .ds-btn,
+  .liv-launcher-page button,
+  .liv-launcher-page a[href] {
+    min-height: var(--ds-touch-target);
   }
 }
 
@@ -170,7 +184,7 @@
     .liv-launcher-page {
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
-      background: color-mix(in srgb, var(--surface) 94%, #020617);
+      background: color-mix(in srgb, var(--surface) 94%, var(--bg, #020617));
     }
   }
 }

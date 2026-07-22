@@ -72,7 +72,7 @@ export function ExecutiveAnkareCard({ onSaved }: Props) {
         {!isEditing && anchor.trim() ? (
           <button
             type="button"
-            className="ml-auto inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-text-dim transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+            className="ml-auto inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-text-muted transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             aria-label="Redigera ankare"
             onClick={() => setIsEditing(true)}
           >
@@ -82,7 +82,7 @@ export function ExecutiveAnkareCard({ onSaved }: Props) {
           <Star className="ml-auto h-3.5 w-3.5 fill-accent text-accent" aria-hidden />
         )}
       </header>
-      <p className="mt-1 text-[10px] text-text-dim">Inte hela dagen — bara det viktigaste nu.</p>
+      <p className="mt-1 text-[10px] text-text-muted">Inte hela dagen — bara det viktigaste nu.</p>
 
       {isEditing ? (
         <div className="mt-3 space-y-2">
@@ -117,7 +117,7 @@ export function ExecutiveAnkareCard({ onSaved }: Props) {
           <p className="font-display-serif text-base tracking-wide text-accent-light">
             {anchor.trim() || 'Ett mikrosteg räcker.'}
           </p>
-          <p className="mt-1 text-[10px] text-text-dim">Inte hela dagen — bara det viktigaste nu.</p>
+          <p className="mt-1 text-[10px] text-text-muted">Inte hela dagen — bara det viktigaste nu.</p>
         </button>
       )}
     </article>

@@ -1,3 +1,102 @@
+## 2026-07-22 — UI Polish V4 ×10 PASS 4 (samma vågor igen, ADD-only)
+
+- Fyren/Hem/SOS/Life OS presets + Planering/Dagbok/MåBra + Familjen/Projekt/Archive/KompassDiscovery
+- ui-polish-v4-x10.css Pass 4 selectors; unlock Pass log
+- Smoke: design-debt · locked-ux · design-modules · widgets · planering · governance · build · **predeploy:build PASS** · UX GO
+- Pending: Pontus G85 touch/focus
+
+## 2026-07-22 — UI Polish V4 ×10 PASS 4 (Planering/Dagbok/MåBra ADD-only)
+
+- Unlock: `docs/evaluations/2026-07-22-unlock-MOD-UI-POLISH-V4-X10.md`
+- ADD only: `min-h-11` + `focus-visible:ring-accent/40` (+ aria on icon-only) — no UI removed
+- Zones: Planering (7) · Hjärtat/Dagbok (8) · MåBra (8) · QuickCapture · ArchiveShelf · KompassDiscoveryDeck/CardFlow
+- Skip: `/dev` sandbox
+- Pending parent: smoke:locked-ux · design-modules · G85 spotcheck
+
+## 2026-07-22 — UI Polish V4 ×10 PASS 3 (samma vågor igen, ADD-only)
+
+- Inget borttaget — samma I1–I10 × W0–W11 deepen igen
+- Pass 3: chrome/executive/drawer/fyren focus+touch+aria; zon CSS ADD; Speglar/Inkast/Drogfrihet/Hamn/Valv/Widgets/Arbetsliv/MåBra
+- Smoke PASS: design-debt · locked-ux · design-modules · widgets · planering-superhub · governance · build · **smoke:predeploy:build**
+- UX guardian: **GO**
+- Pending: Pontus G85 touch/focus spotcheck
+
+## 2026-07-22 — UI Polish V4 W3–W11 deepen pass 3
+
+- Unlock: `docs/evaluations/2026-07-22-unlock-MOD-UI-POLISH-V4-X10.md`
+- ADD polish only on interactive controls: Speglar/mirror · Inkast capture · Drogfrihet · Hamn/BIFF · Valv panels (UI) · InställningarPage · widget routes/studio · Arbetsliv · MabraFlowViews/MabraHubView
+- Pattern: `min-h-11` + `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40` · aria on icon-only where needed
+- No removal of tabs/modes/buttons/flows · sandbox/ThemeLab skipped
+- Verify: brace-aware tag scan 0 missing focus · esbuild on changed TSX PASS
+
+## 2026-07-22 — Companion: krympbara widgets (1 plats min)
+
+- Alla 10 `widget_companion_*_info.xml`: `minWidth/Height=110dp` + `resizeMode` + `targetCell*` (defaultstorlek kvar)
+- Layouts lite tätare (padding/disc) — **inga** knappar/funktioner borttagna
+- Studio: tipstext om hemskärms-resize · CSS density för XS
+- Smoke: companion PASS · MOD-WIDGET re-locked
+
+## 2026-07-22 — Capture: «Inspelning» + XS 1 plats
+
+- Rubrik: Hemlig inspelning → **Inspelning** (web + Android strings + overlay)
+- Android Capture: `minWidth/Height` **110dp**, `targetCellWidth/Height=2` (1 plats / 2×2), kompakt layout
+- Pack: `quick_capture` size **xs** · smoke assert 110dp · MOD-WIDGET re-locked
+- Smoke: companion-widgets · widgets · locked-ux **PASS**
+
+## 2026-07-22 — Companion Kap. 6 ×10 Polish + legacy chip-rensning
+
+- Unlock: `docs/evaluations/2026-07-22-unlock-MOD-WIDGET-legacy-chip-removal.md`
+- Web: `WidgetTheme` 1.2 (bloom/inset/tracking) + `companion-widgets.css` Kap 6 ×10 deepen (capture mic, note well/dock, mood, lotus, trust dots)
+- Android: capture 3 trust-kolumner · note pencil+56dp well · premium panel/gold ring/capacity ring · letterSpacing/CTA ≥56dp på companion layouts
+- Removed from picker: `CompassWidgetProvider` · `HamnWidgetProvider` · `NoteWidgetProvider` (+ `*_info.xml` + Manifest)
+- Smoke asserts updated (CompanionNote replaces legacy Note chip)
+- Smoke PASS: companion-widgets · widgets · locked-ux · lock_module MOD-WIDGET → locked
+
+## 2026-07-22 — UI Polish V4 ×10 FULL RE-RUN (alla 10 djup)
+
+- Re-körde I1–I10 × W0–W11 med faktiska deepen-pass (inte bara checkbox):
+  - I1/I2: touch 44px + focus-visible (auth, toast, archive, dashboard, morning, barnporten, BIFF, m.fl.)
+  - I3–I6: focus-within, reduced-m/t, aria, 320px overflow på hubbar
+  - I7–I10: tokens, EmptyState/Skeleton, motion, muted/hex-fallback i WidgetShell/compasses/vardagen
+  - W3–W9 andra pass: Familjen/Valv/Projekt/Ekonomi/MåBra/Planering
+- Smoke PASS: design-debt · locked-ux · design-modules · widgets · planering-superhub · mabra · governance · build · predeploy:build
+- UX guardian: **GO**
+- Pending: Pontus G85 visual (dock + Resurser + Hem/Familjen/Planering touch)
+
+## 2026-07-22 — UI Polish V4 W3–W9 second deepen (zone a11y)
+
+- Refine-only: min-h-11 + focus-visible + muted contrast on Familjen tabs, Valv chrome (Mönster/Orkester/Kunskap), Projekt, Ekonomi Superhub, MåBra input chrome, Planering icon/text controls
+- No WORM/routes/dock structure; `/dev` skipped
+- Verify: `npm run build` PASS · `smoke:locked-ux` PASS · `smoke:design-modules` PASS
+
+## 2026-07-22 — UI Polish V4 ×10 complete (kod)
+
+- Unlock `2026-07-22-unlock-MOD-UI-POLISH-V4-X10.md`
+- Global layer: `ui-polish-v4-x10.css` + `typography-utils` micro/stack helpers
+- I1: `text-text-dim`→`text-text-muted` (210 files / 592 hits, excl. /dev)
+- W1–W11: chrome + zon-CSS + widgets/Barnporten/Inställningar/Kompis/Arbetsliv a11y deepen
+- Depth I2–I10 encoded in DS CSS (focus / focus-within / reduced-m/t / 320px / tokens / empty / motion / micro)
+- Smoke PASS: build · locked-ux · design-modules · design-debt · basta-dock-lock · mabra · planering-superhub · children · widgets · governance · module-lock · **smoke:predeploy:build** · e2e-locked-ux
+- UX guardian: **GO** (refine-only)
+- Pending: Pontus G85 visual sign-off (header+dock touch once)
+
+## 2026-07-22 — UI Polish V4 ×10 kickoff + I1-W0
+
+- Unlock `2026-07-22-unlock-MOD-UI-POLISH-V4-X10.md` (`approved: yes`)
+- Docs: TODO checklist I1–I10×W0–W11 · DASHBOARD · PROJECT_STATE program row
+- Added `src/design-system/styles/ui-polish-v4-x10.css` + import in `index.css`
+- I1 contrast: `text-text-dim` → `text-text-muted` in 210 prod files (592 hits)
+- W0: `smoke:design-debt` PASS (btnPill 0, dsBtn 0, adHoc 2, indexCssLoc 62, DS 276) · `smoke:calm-card-audit` PASS
+# 2026-07-22 — Gemini visual harvest (Companion art)
+
+- `src/widgets/art/`: FacetedCompassRose, LighthouseArtwork, LotusEmblem, Anchor3DEmblem
+- Wired: Compass / Beacon / SafeHarbor / DailyAnchor
+- Specular edge `.cw-card::after` · bible Kap 6.2.1
+- Unlock: `docs/evaluations/2026-07-22-unlock-MOD-WIDGET-gemini-visual-harvest.md`
+- Smoke: companion-widgets · module-lock · locked-ux PASS
+
+---
+
 # 2026-07-22 — Interaktiva Companion Widgets (WIS)
 
 - Agenter: 5× `specialist-widget-interact-*` + uppdaterad `specialist-widgets` (INTERACTIVE FIRST)

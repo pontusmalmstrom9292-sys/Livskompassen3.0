@@ -23,7 +23,7 @@ type Props = {
 export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, userId }: Props) {
   return (
     <div className="space-y-4">
-      <Button variant="ghost" className="text-xs" onClick={onBack}>
+      <Button variant="ghost" className="min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={onBack}>
         Tillbaka till projekt
       </Button>
 
@@ -33,7 +33,7 @@ export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, use
           {project.vitHubLabel}
         </p>
         <p className="mt-2 text-sm text-text-muted">{VIT_HUB_TAGLINE}</p>
-        <p className="mt-1 text-xs text-text-dim">{VIT_HUB_KRAVLOST}</p>
+        <p className="mt-1 text-xs text-text-muted">{VIT_HUB_KRAVLOST}</p>
         <Link
           to={vitHubFilteredLink(undefined, project.id)}
           className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
@@ -49,7 +49,7 @@ export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, use
             key={kind}
             type="button"
             onClick={() => onSelectPlan(kind)}
-            className={`w-full rounded-xl border px-4 py-3 text-left text-sm transition ${
+            className={`w-full min-h-11 rounded-xl border px-4 py-3 text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
               selectedPlan === kind
                 ? 'border-accent/45 bg-accent/10 text-accent'
                 : 'border-border-strong text-text-muted hover:border-accent/25'
@@ -76,7 +76,7 @@ export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, use
         <VitMemoryFlowPanel userId={userId} projectId={project.id} />
       ) : null}
 
-      <p className="text-xs text-text-dim">
+      <p className="text-xs text-text-muted">
         Fler övningar finns på MåBra-hubben under kategorin Utveckling (Vit).
       </p>
     </div>

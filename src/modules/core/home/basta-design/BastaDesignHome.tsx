@@ -151,13 +151,13 @@ export function BastaDesignHome({ onCheckInSaved, developmentRefreshKey = 0 }: P
                   setFocusTab(t.id);
                   navigate(t.to);
                 }}
-                className={`basta-design__tab ${focusTab === t.id ? 'basta-design__tab--on' : 'basta-design__tab--off'}`}
+                className={`basta-design__tab min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${focusTab === t.id ? 'basta-design__tab--on' : 'basta-design__tab--off'}`}
               >
                 {t.label}
               </button>
             ))}
           </div>
-          <button type="button" className="basta-design__link" onClick={() => navigate('/familjen?tab=barnfokus')}>
+          <button type="button" className="basta-design__link min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55" onClick={() => navigate('/familjen?tab=barnfokus')}>
             Lär känna <ChevronRight size={12} aria-hidden />
           </button>
         </BastaCard>
@@ -204,11 +204,12 @@ export function BastaDesignHome({ onCheckInSaved, developmentRefreshKey = 0 }: P
             </>
           ) : (
             <p
-              className="basta-design__anchor-display"
+              className="basta-design__anchor-display min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
               onClick={() => setEditAnchor(true)}
               onKeyDown={(e) => e.key === 'Enter' && setEditAnchor(true)}
               role="button"
               tabIndex={0}
+              aria-label="Redigera dagens ankare"
             >
               {anchor.trim() || 'Ett mikrosteg räcker.'}
             </p>
@@ -228,7 +229,7 @@ export function BastaDesignHome({ onCheckInSaved, developmentRefreshKey = 0 }: P
                   setPlanTab(t.id);
                   navigate(t.to);
                 }}
-                className={`basta-design__tab ${planTab === t.id ? 'basta-design__tab--on' : 'basta-design__tab--off'}`}
+                className={`basta-design__tab min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${planTab === t.id ? 'basta-design__tab--on' : 'basta-design__tab--off'}`}
               >
                 {t.label.toUpperCase()}
               </button>
@@ -261,7 +262,7 @@ export function BastaDesignHome({ onCheckInSaved, developmentRefreshKey = 0 }: P
               })}
             </div>
           )}
-          <button type="button" className="basta-design__link basta-design__link--spaced" onClick={() => navigate('/planering')}>
+          <button type="button" className="basta-design__link basta-design__link--spaced min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55" onClick={() => navigate('/planering')}>
             <Plus size={10} aria-hidden /> Lägg till uppgift
           </button>
         </BastaCard>
@@ -270,7 +271,7 @@ export function BastaDesignHome({ onCheckInSaved, developmentRefreshKey = 0 }: P
       <motion.div {...staggerChild}>
         <div className="basta-design__notes-header">
           <BastaSectionLabel>Tidigare anteckningar</BastaSectionLabel>
-          <button type="button" className="basta-design__link basta-design__link--sm" onClick={() => navigate('/hjartat?tab=reflektion')}>
+          <button type="button" className="basta-design__link basta-design__link--sm min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55" onClick={() => navigate('/hjartat?tab=reflektion')}>
             Visa alla →
           </button>
         </div>

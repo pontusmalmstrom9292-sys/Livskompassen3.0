@@ -60,8 +60,8 @@ export function JournalEntryCard({ entry, viewMode = 'tidslinje' }: JournalEntry
               type="button"
               className={
                 viewMode === 'galleri'
-                  ? 'w-full overflow-hidden rounded-xl border border-border/50 text-left transition-opacity hover:opacity-95'
-                  : 'shrink-0 overflow-hidden rounded-lg border border-border/50 text-left'
+                  ? 'journal-entry-card__media min-h-11 w-full overflow-hidden rounded-xl border border-border/50 text-left transition-opacity hover:opacity-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40'
+                  : 'journal-entry-card__media min-h-11 shrink-0 overflow-hidden rounded-lg border border-border/50 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40'
               }
               onClick={() => openLightbox(i)}
               aria-label={att.caption || att.name || 'Visa bild'}
@@ -101,7 +101,7 @@ export function JournalEntryCard({ entry, viewMode = 'tidslinje' }: JournalEntry
     <button
       type="button"
       onClick={handleTogglePin}
-      className={`flex min-h-[44px] min-w-[44px] items-center justify-center rounded-full transition-colors ${
+      className={`journal-entry-card__pin flex min-h-11 min-h-[44px] min-w-[44px] items-center justify-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
         entry.isPinned
           ? 'bg-accent/10 text-accent hover:bg-accent/20'
           : 'text-text-muted hover:text-text hover:bg-surface-3'
@@ -119,7 +119,7 @@ export function JournalEntryCard({ entry, viewMode = 'tidslinje' }: JournalEntry
 
   if (viewMode === 'galleri') {
     return (
-      <li className="glass-card overflow-hidden p-3 text-sm">
+      <li className="journal-entry-card glass-card overflow-hidden p-3 text-sm">
         <div className="flex items-start justify-between gap-2">
           <p className="text-[10px] uppercase tracking-widest text-text-muted">{meta}</p>
           {pinAction}
@@ -154,6 +154,7 @@ export function JournalEntryCard({ entry, viewMode = 'tidslinje' }: JournalEntry
     <>
       <TimelineEntry
         as="li"
+        className="journal-entry-card"
         meta={meta}
         body={entry.text ?? ''}
         action={pinAction}

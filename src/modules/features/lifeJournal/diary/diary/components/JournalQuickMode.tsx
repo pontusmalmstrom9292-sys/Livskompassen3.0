@@ -103,8 +103,9 @@ export function JournalQuickMode({
             <button
               key={tag}
               type="button"
-              className="chip--active text-xs"
+              className="chip--active min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => onToggleTag(tag)}
+              aria-label={`Ta bort tagg ${tag}`}
             >
               {tag} ×
             </button>
@@ -140,7 +141,7 @@ export function JournalQuickMode({
       )}
 
       <div className="reflektion-actions">
-        <Button type="button" variant="accent" className="w-full" disabled={!canSave} onClick={handleSubmit}>
+        <Button type="button" variant="accent" className="w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" disabled={!canSave} onClick={handleSubmit}>
           {saving ? (
             <>
               <Loader2 className="mr-2 inline h-4 w-4 animate-spin" aria-hidden />

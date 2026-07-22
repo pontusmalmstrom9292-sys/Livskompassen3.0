@@ -33,11 +33,11 @@ export function ValvForensikZone({ tab, onTabChange, gateOk }: ValvForensikZoneP
           onChange={onTabChange}
         />
         {!showAllTabs ? (
-          <Button type="button" variant="ghost" size="sm" onClick={() => setShowAllTabs(true)}>
+          <Button type="button" variant="ghost" size="sm" onClick={() => setShowAllTabs(true)} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Visa fler
           </Button>
         ) : (
-          <Button type="button" variant="ghost" size="sm" onClick={() => setShowAllTabs(false)}>
+          <Button type="button" variant="ghost" size="sm" onClick={() => setShowAllTabs(false)} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Färre flikar
           </Button>
         )}

@@ -54,7 +54,7 @@ export function ElongatedModule({
         id={id}
         aria-expanded={expanded}
         onClick={onToggle}
-        className="elongated-module__trigger"
+        className="elongated-module__trigger min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
       >
         <span className="elongated-module__icon" aria-hidden>
           {timeIconSrc ? (

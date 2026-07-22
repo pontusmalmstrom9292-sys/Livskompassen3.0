@@ -83,7 +83,7 @@ export function BarnportenWidget({ childAlias, variant: variantOverride }: Props
         <button
           type="button"
           disabled={saving}
-          className={clsx('barnporten-widget__arc', holdClass)}
+          className={clsx('barnporten-widget__arc min-h-11 min-w-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40', holdClass)}
           aria-label={tapLabel}
           aria-busy={saving || undefined}
           style={holdStyle}
@@ -110,7 +110,7 @@ export function BarnportenWidget({ childAlias, variant: variantOverride }: Props
         <button
           type="button"
           disabled={saving}
-          className={clsx('barnporten-widget__compass', holdClass)}
+          className={clsx('barnporten-widget__compass min-h-11 min-w-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40', holdClass)}
           aria-label={tapLabel}
           aria-busy={saving || undefined}
           style={holdStyle}
@@ -129,7 +129,7 @@ export function BarnportenWidget({ childAlias, variant: variantOverride }: Props
       <button
         type="button"
         disabled={saving}
-        className={clsx('barnporten-widget__star', holdClass)}
+        className={clsx('barnporten-widget__star min-h-11 min-w-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40', holdClass)}
         aria-label={tapLabel}
         aria-busy={saving || undefined}
         style={holdStyle}

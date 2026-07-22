@@ -25,7 +25,7 @@ export function ExecutiveJournalHistoryRail() {
         <h3 className="exec-home-label mb-0">TIDIGARE ANTECKNINGAR</h3>
         <button
           type="button"
-          className="exec-journal-rail__all"
+          className="exec-journal-rail__all min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           onClick={() => navigate('/hjartat?tab=reflektion')}
         >
           Visa alla
@@ -33,7 +33,7 @@ export function ExecutiveJournalHistoryRail() {
         </button>
       </div>
       {recent.length === 0 ? (
-        <p className="px-1 text-xs text-text-dim italic">Inga tidigare anteckningar.</p>
+        <p className="px-1 text-xs text-text-muted italic">Inga tidigare anteckningar.</p>
       ) : (
         <div className="exec-journal-rail__scroll mt-3 flex gap-2.5 overflow-x-auto pb-1">
           {recent.map((entry) => {
@@ -45,8 +45,9 @@ export function ExecutiveJournalHistoryRail() {
               <button
                 key={entry.id}
                 type="button"
-                className="exec-journal-rail__card shrink-0"
+                className="exec-journal-rail__card min-h-11 shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                 onClick={() => navigate('/hjartat?tab=reflektion')}
+                aria-label={`Öppna anteckning: ${titleText}`}
               >
                 <span className="exec-journal-rail__icon" aria-hidden>
                   <BookOpen className="h-4 w-4" />

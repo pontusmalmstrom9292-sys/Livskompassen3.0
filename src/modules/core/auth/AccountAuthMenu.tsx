@@ -63,10 +63,10 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="absolute -right-2 -top-2 z-10 flex h-8 w-8 items-center justify-center rounded-full border border-border bg-bg text-text-dim"
-          aria-label="Stäng"
+          className="absolute -right-2 -top-2 z-10 flex min-h-11 min-w-11 items-center justify-center rounded-full border border-border bg-bg text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          aria-label="Stäng kontomeny"
         >
-          <X className="h-4 w-4" />
+          <X className="h-4 w-4" aria-hidden />
         </button>
 
         {!user || user.isAnonymous ? (
@@ -91,7 +91,7 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
               <ShieldCheck className="h-4 w-4 text-success" />
               <div>
                 <p className="text-sm font-medium text-text">Konto aktivt</p>
-                <p className="text-xs text-text-dim">Kunskapen följer ditt konto</p>
+                <p className="text-xs text-text-muted">Kunskapen följer ditt konto</p>
               </div>
             </div>
             <p className="truncate text-sm text-text-muted">{user.email}</p>
@@ -166,7 +166,7 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
           type="button"
           onClick={() => setOpen(true)}
           className={clsx(
-            'header-chrome-btn header-chrome-btn--round header-glass-btn header-glass-btn--kanon',
+            'header-chrome-btn header-chrome-btn--round header-glass-btn header-glass-btn--kanon focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
             chromeVariant === 'executive' && 'exec-header-shield',
           )}
           aria-expanded={open}
@@ -189,7 +189,7 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="header-glass-btn header-glass-btn--kanon"
+          className="header-glass-btn header-glass-btn--kanon focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           aria-expanded={open}
           aria-haspopup="dialog"
           aria-label={label}

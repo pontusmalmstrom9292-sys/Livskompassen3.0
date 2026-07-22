@@ -60,7 +60,7 @@ export function ParentMerPanel({ childAlias, logs }: Props) {
     >
       <button
         type="button"
-        className="flex min-h-11 w-full items-center justify-between gap-2 text-left text-sm text-text"
+        className="flex min-h-11 w-full items-center justify-between gap-2 text-left text-sm text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
@@ -107,7 +107,7 @@ export function ParentMerPanel({ childAlias, logs }: Props) {
           <Link
             to={`${NAV_PATHS.FAMILJEN}?tab=hamn`}
             onClick={() => markHamnVisitedFromBarnhub()}
-            className="inline-flex min-h-11 items-center gap-1.5 rounded-lg border border-border/50 px-3 text-xs font-medium text-text hover:bg-surface/60"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-lg border border-border/50 px-3 text-xs font-medium text-text hover:bg-surface/60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           >
             <Anchor className="h-4 w-4" aria-hidden />
             Öppna Hamn

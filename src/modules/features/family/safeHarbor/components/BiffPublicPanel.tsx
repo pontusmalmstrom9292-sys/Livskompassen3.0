@@ -199,7 +199,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
                     type="button"
                     variant="accent"
                     onClick={handleCleanToGreyRock}
-                    className="flex min-h-11 items-center gap-1.5 px-3 text-[11px]"
+                    className="flex min-h-11 items-center gap-1.5 px-3 text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   >
                     <Sparkles className="h-3.5 w-3.5" aria-hidden />
                     Städa till Grey Rock-mall
@@ -209,7 +209,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
                       type="button"
                       variant="ghost"
                       onClick={handleUndoGreyRock}
-                      className="min-h-11 px-3 text-[11px]"
+                      className="min-h-11 px-3 text-[11px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                     >
                       Ångra städning
                     </Button>
@@ -232,7 +232,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               variant="accent"
               onClick={() => setStep(2)} 
               disabled={!message.trim()} 
-              className="min-h-11 w-full"
+              className="min-h-11 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               Nästa: Brusfiltret
             </Button>
@@ -255,10 +255,10 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               />
             </BentoCard>
             <div className="flex gap-2">
-              <Button type="button" variant="secondary" onClick={() => setStep(1)} className="min-h-11 flex-1">
+              <Button type="button" variant="secondary" onClick={() => setStep(1)} className="min-h-11 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 Tillbaka
               </Button>
-              <Button type="button" variant="accent" onClick={() => setStep(3)} className="min-h-11 flex-1">
+              <Button type="button" variant="accent" onClick={() => setStep(3)} className="min-h-11 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 Nästa: Mål
               </Button>
             </div>
@@ -281,10 +281,10 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               />
             </BentoCard>
             <div className="flex gap-2">
-              <Button type="button" variant="secondary" onClick={() => setStep(2)} className="min-h-11 flex-1">
+              <Button type="button" variant="secondary" onClick={() => setStep(2)} className="min-h-11 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 Tillbaka
               </Button>
-              <Button type="submit" variant="accent" disabled={loading} className="min-h-11 flex-1">
+              <Button type="submit" variant="accent" disabled={loading} className="min-h-11 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
                 Få Grey Rock-svar
               </Button>
@@ -318,7 +318,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
             type="button"
             variant="accent"
             onClick={confirmReply}
-            className="mt-3 min-h-11 w-full text-sm"
+            className="mt-3 min-h-11 w-full text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             Visa Grey Rock-svar
           </Button>
@@ -356,7 +356,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               type="button"
               variant="accent"
               onClick={() => void handleCopyReply()}
-              className="min-h-11 text-xs"
+              className="min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               {copyCopied ? 'Kopierat ✓' : 'Kopiera svar'}
             </Button>
@@ -364,7 +364,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               type="button"
               variant="ghost"
               onClick={handleKlar}
-              className="min-h-11 text-xs"
+              className="min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               aria-label="Klar — rensa session (Zero Footprint)"
             >
               Klar — rensa
@@ -374,7 +374,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
               variant="ghost"
               onClick={() => void handleAutosortToArkiv()}
               disabled={autosorting || !message.trim()}
-              className="min-h-11 text-xs"
+              className="min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               aria-describedby="hamn-upload-hint"
             >
               {autosorting ? <Loader2 className="h-3 w-3 animate-spin" aria-hidden /> : null}
@@ -538,7 +538,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
               variant="accent"
               onClick={() => setStep(2)}
               disabled={!message.trim()}
-              className="min-h-11 w-full"
+              className="min-h-11 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               Nästa: Brusfiltret
             </Button>
@@ -561,10 +561,10 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
               />
             </BentoCard>
             <div className="flex gap-2">
-              <Button type="button" variant="secondary" onClick={() => setStep(1)} className="min-h-11 flex-1">
+              <Button type="button" variant="secondary" onClick={() => setStep(1)} className="min-h-11 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 Tillbaka
               </Button>
-              <Button type="button" variant="accent" onClick={() => setStep(3)} className="min-h-11 flex-1">
+              <Button type="button" variant="accent" onClick={() => setStep(3)} className="min-h-11 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 Nästa: Mål
               </Button>
             </div>
@@ -588,10 +588,10 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
               />
             </BentoCard>
             <div className="flex gap-2">
-              <Button type="button" variant="secondary" onClick={() => setStep(2)} className="min-h-11 flex-1">
+              <Button type="button" variant="secondary" onClick={() => setStep(2)} className="min-h-11 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 Tillbaka
               </Button>
-              <Button type="submit" variant="accent" disabled={loading} className="min-h-11 flex-1">
+              <Button type="submit" variant="accent" disabled={loading} className="min-h-11 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
                 Kör BIFF Triage
               </Button>
@@ -622,7 +622,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
             type="button"
             variant="accent"
             onClick={confirmReply}
-            className="mt-3 min-h-11 w-full text-sm"
+            className="mt-3 min-h-11 w-full text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             Visa Grey Rock-svar
           </Button>
@@ -652,7 +652,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
                   variant="ghost"
                   onClick={() => void handleAutosortToArkiv()}
                   disabled={autosorting || !message.trim()}
-                  className="flex min-h-11 items-center gap-2 text-xs"
+                  className="flex min-h-11 items-center gap-2 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   aria-describedby="hamn-forensic-upload-hint"
                 >
                   {autosorting ? <Loader2 className="h-3 w-3 animate-spin" aria-hidden /> : null}
@@ -663,7 +663,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
                   variant="secondary"
                   onClick={handleSaveAsEvidence}
                   disabled={savingEvidence || !user}
-                  className="flex min-h-11 items-center gap-2 text-xs"
+                  className="flex min-h-11 items-center gap-2 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 >
                   {savingEvidence ? (
                     <Loader2 className="h-3 w-3 animate-spin" aria-hidden />
@@ -682,7 +682,7 @@ export function HamnForensicPanel({ initialMessage = '' }: Props) {
               type="button"
               variant="ghost"
               onClick={handleKlar}
-              className="min-h-11 text-xs"
+              className="min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               aria-label="Klar — rensa session (Zero Footprint)"
             >
               Klar — rensa

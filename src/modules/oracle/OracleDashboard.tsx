@@ -99,7 +99,7 @@ const ActionableInsights = ({ latestDataPoint, allData }: { latestDataPoint: Ora
             {detectedPatterns.map((p, idx) => (
               <li key={idx} className="flex items-center justify-between text-sm">
                 <span className="text-text-muted">{p.pattern}</span>
-                <span className="text-text-dim font-mono bg-white/5 px-2 py-0.5 rounded text-xs">
+                <span className="text-text-muted font-mono bg-white/5 px-2 py-0.5 rounded text-xs">
                   {Math.round(p.confidence * 100)}% säkerhet
                 </span>
               </li>

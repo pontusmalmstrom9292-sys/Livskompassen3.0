@@ -78,7 +78,7 @@ export function MabraReflectionSuperhubPanel({
 
   return (
     <div className="space-y-1">
-      <p className="text-xs text-text-dim">
+      <p className="text-xs text-text-muted">
         {index + 1} / {total} — bläddra i din egen takt
       </p>
 
@@ -91,7 +91,7 @@ export function MabraReflectionSuperhubPanel({
 
       <label className="mt-4 block text-xs text-text-muted">
         Ditt svar (valfritt)
-        <span className="ml-1 text-text-dim">— inget fel svar, ett ord räcker</span>
+        <span className="ml-1 text-text-muted">— inget fel svar, ett ord räcker</span>
         <TextArea
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}
@@ -102,7 +102,7 @@ export function MabraReflectionSuperhubPanel({
         />
       </label>
       {answer.trim() ? (
-        <p className="mt-1 text-xs text-text-dim">
+        <p className="mt-1 text-xs text-text-muted">
           Sparat lokalt på enheten — molnet kräver knapp nedan.
         </p>
       ) : null}

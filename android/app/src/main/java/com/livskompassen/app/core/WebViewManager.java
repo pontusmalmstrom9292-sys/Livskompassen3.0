@@ -163,7 +163,7 @@ public class WebViewManager {
     private boolean validateFile(@NonNull Uri uri, boolean sensitiveCheck) {
         if (!"content".equals(uri.getScheme())) {
             LCLog.w("WebViewManager: Blocked non-content URI: " + uri.getScheme());
-            Toast.makeText(context, "Säkerhetsfel: Endast system-filer tillåts.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.web_error_file_blocked), Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -175,7 +175,7 @@ public class WebViewManager {
                     long size = cursor.getLong(sizeIndex);
                     if (size > 10 * 1024 * 1024) {
                         LCLog.w("WebViewManager: Blocked file too large: " + size + " bytes");
-                        Toast.makeText(context, "Filen är för stor (max 10MB).", Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, context.getString(R.string.web_error_file_too_large), Toast.LENGTH_LONG).show();
                         return false;
                     }
                 }
@@ -188,7 +188,7 @@ public class WebViewManager {
         if (sensitiveCheck) {
             if (!SecurityUtils.isLikelyTextFile(context, uri)) {
                 LCLog.e("WebViewManager: Blocked likely binary file for sensitive text request: " + uri.toString());
-                Toast.makeText(context, "Fel: Filen verkar vara binär eller skadad.", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, context.getString(R.string.web_error_binary_file), Toast.LENGTH_LONG).show();
                 return false;
             }
         }
@@ -282,7 +282,7 @@ public class WebViewManager {
             public void onReceivedSslError(WebView view, SslErrorHandler handler, android.net.http.SslError error) {
                 LCLog.e("FATAL: SSL Error Detected: " + error.toString());
                 handler.cancel();
-                showErrorPage("Säkerhetsfel", "Anslutningen är inte säker (SSL_ERROR).");
+                showErrorPage(context.getString(R.string.web_error_title_security), context.getString(R.string.web_error_ssl));
             }
 
             @Override
@@ -303,7 +303,7 @@ public class WebViewManager {
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
                 super.onReceivedError(view, request, error);
                 if (request.isForMainFrame()) {
-                    showErrorPage("Anslutningsfel", error.getDescription().toString());
+                    showErrorPage(context.getString(R.string.web_error_title_connection), error.getDescription().toString());
                 }
             }
 
@@ -311,7 +311,7 @@ public class WebViewManager {
             public void onReceivedHttpError(WebView view, WebResourceRequest request, WebResourceResponse errorResponse) {
                 super.onReceivedHttpError(view, request, errorResponse);
                 if (request.isForMainFrame() && errorResponse.getStatusCode() >= 400) {
-                    showErrorPage("Serverfel", "Status: " + errorResponse.getStatusCode());
+                    showErrorPage(context.getString(R.string.web_error_title_server), context.getString(R.string.web_error_status, errorResponse.getStatusCode()));
                 }
             }
 
@@ -322,7 +322,7 @@ public class WebViewManager {
                 } else {
                     LCLog.e("WebView Render Process Gone.");
                 }
-                showErrorPage("App-omstart krävs", "Webbvyn har slutat svara. Försök att starta om appen.");
+                showErrorPage(context.getString(R.string.web_error_title_restart), context.getString(R.string.web_error_render_gone));
                 return true;
             }
         });
@@ -330,13 +330,13 @@ public class WebViewManager {
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public boolean onJsAlert(WebView view, String url, String message, final android.webkit.JsResult result) {
-                dialogManager.showMessage("Livskompassen", message, () -> result.confirm());
+                dialogManager.showMessage(context.getString(R.string.app_name), message, () -> result.confirm());
                 return true;
             }
 
             @Override
             public boolean onJsConfirm(WebView view, String url, String message, final android.webkit.JsResult result) {
-                dialogManager.showConfirm("Bekräfta", message, confirmed -> {
+                dialogManager.showConfirm(context.getString(R.string.btn_confirm), message, confirmed -> {
                     if (confirmed) result.confirm();
                     else result.cancel();
                 });
@@ -381,7 +381,7 @@ public class WebViewManager {
                 // Environment Integrity Check
                 if (integrityManager != null && integrityManager.isEnvironmentHighRisk()) {
                     LCLog.e("WebViewManager: High risk environment detected. Blocking file picker.");
-                    Toast.makeText(context, "Säkerhetsvarning: Uppladdning begränsad i osäker miljö.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, context.getString(R.string.web_error_high_risk_upload), Toast.LENGTH_LONG).show();
                     WebViewManager.this.filePathCallback.onReceiveValue(null);
                     WebViewManager.this.filePathCallback = null;
                     return true;
@@ -427,7 +427,7 @@ public class WebViewManager {
                         }
                     }
 
-                    String title = sensitivePick ? "Välj Lönekontor-fil (.yaml, .json)" : "Välj fil";
+                    String title = sensitivePick ? context.getString(R.string.web_picker_title_sensitive) : context.getString(R.string.web_picker_title_default);
                     final Intent chooserIntent = Intent.createChooser(intent, title);
 
                     pendingSensitiveFilePick = sensitivePick;
@@ -480,7 +480,7 @@ public class WebViewManager {
             }
             LCLog.w("WebViewManager: unsupported download scheme: "
                     + url.substring(0, Math.min(32, url.length())));
-            Toast.makeText(context, "Den här filtypen kan inte laddas ner här.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, context.getString(R.string.web_error_download_type), Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -524,9 +524,9 @@ public class WebViewManager {
                 });
 
         BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Verifiera identitet")
-                .setSubtitle("Krävs för att ladda upp Lönekontor-data")
-                .setNegativeButtonText("Avbryt")
+                .setTitle(context.getString(R.string.web_auth_title))
+                .setSubtitle(context.getString(R.string.web_auth_subtitle))
+                .setNegativeButtonText(context.getString(R.string.btn_cancel))
                 .setAllowedAuthenticators(androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG | 
                                           androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL)
                 .build();
@@ -610,7 +610,7 @@ public class WebViewManager {
             if (audioManager.getMode() == AudioManager.MODE_IN_COMMUNICATION ||
                 audioManager.getMode() == AudioManager.MODE_IN_CALL) {
                 LCLog.w("WebViewManager: Microphone may be in use by another app!");
-                Toast.makeText(context, "Varning: Mikrofonen verkar användas av en annan app.", Toast.LENGTH_LONG).show();
+                Toast.makeText(context, context.getString(R.string.web_warning_mic_in_use), Toast.LENGTH_LONG).show();
             }
         }
 

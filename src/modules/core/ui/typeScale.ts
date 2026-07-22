@@ -10,7 +10,7 @@ export const typeScale = {
   leadHub: 'text-sm leading-relaxed text-text-muted',
   titleSection: 'font-display-serif text-sm font-semibold text-accent',
   body: 'text-sm text-text',
-  label: 'text-xs uppercase tracking-widest text-text-dim',
+  label: 'text-xs uppercase tracking-widest text-text-muted',
 } as const;
 
 export type TypeScaleKey = keyof typeof typeScale;

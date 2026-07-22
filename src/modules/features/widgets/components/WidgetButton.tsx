@@ -29,7 +29,7 @@ export function WidgetButton({
       variant={VARIANT_MAP[variant]}
       size="sm"
       className={clsx(
-        'widget-btn',
+        'widget-btn min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
         `widget-btn--${variant}`,
         fullWidth && 'widget-btn--full',
         className,
@@ -48,7 +48,10 @@ export function WidgetIconButton({ label, className, children, ...props }: Widge
   return (
     <button
       type="button"
-      className={clsx('widget-btn widget-btn--ghost widget-btn--icon', className)}
+      className={clsx(
+        'widget-btn widget-btn--ghost widget-btn--icon min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
+        className,
+      )}
       aria-label={label}
       {...props}
     >

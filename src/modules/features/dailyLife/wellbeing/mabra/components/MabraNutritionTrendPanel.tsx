@@ -16,8 +16,8 @@ export function MabraNutritionTrendPanel({ storageUid }: Props) {
 
   return (
     <div className="mt-4 rounded-xl border border-border-strong bg-surface/40 px-4 py-3">
-      <p className="text-xs font-medium uppercase tracking-wider text-text-dim">7 dagar — översikt</p>
-      <p className="mt-1 text-xs text-text-dim">
+      <p className="text-xs font-medium uppercase tracking-wider text-text-muted">7 dagar — översikt</p>
+      <p className="mt-1 text-xs text-text-muted">
         {NUTRITION_QUALITY_LABELS.good} · {NUTRITION_QUALITY_LABELS.ok} ·{' '}
         {NUTRITION_QUALITY_LABELS.poor}
       </p>
@@ -25,7 +25,7 @@ export function MabraNutritionTrendPanel({ storageUid }: Props) {
       <ul className="mt-4 space-y-2" aria-label="Näringsintag senaste veckan">
         {trend.map((day) => (
           <li key={day.dateKey} className="flex items-center gap-3">
-            <span className="w-8 shrink-0 text-xs text-text-dim">{formatDayLabel(day.dateKey)}</span>
+            <span className="w-8 shrink-0 text-xs text-text-muted">{formatDayLabel(day.dateKey)}</span>
             <div className="flex h-2 flex-1 overflow-hidden rounded-full bg-surface-3">
               {day.good > 0 ? (
                 <div
@@ -49,7 +49,7 @@ export function MabraNutritionTrendPanel({ storageUid }: Props) {
                 />
               ) : null}
             </div>
-            <span className="w-6 shrink-0 text-right text-xs tabular-nums text-text-dim">
+            <span className="w-6 shrink-0 text-right text-xs tabular-nums text-text-muted">
               {day.total || '—'}
             </span>
           </li>

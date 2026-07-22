@@ -61,7 +61,7 @@ function PinListBody({
           <li key={`${item.id}-${tick}`} className="planering-quicklist__row">
             <button
               type="button"
-              className="planering-quicklist__check"
+              className="planering-quicklist__check min-h-11 min-w-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               aria-label={`Klar: ${item.text}`}
               onClick={() => {
                 if (pin.content.kind !== 'list') return;
@@ -131,7 +131,7 @@ function HomeHandlingTasks() {
           <li key={task.id} className="planering-quicklist__row">
             <button
               type="button"
-              className={clsx('planering-quicklist__check', isBusy && 'planering-quicklist__check--on')}
+              className={clsx('planering-quicklist__check min-h-11 min-w-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40', isBusy && 'planering-quicklist__check--on')}
               aria-label={`Klar: ${label}`}
               disabled={isBusy}
               onClick={() => void handleMarkDone(task)}
@@ -181,7 +181,7 @@ function HomePlaneringPanel() {
             size="sm"
             aria-selected={tab === t.id}
             className={clsx(
-              'min-h-11 flex-1 px-2 text-[10px] font-semibold uppercase tracking-wider',
+              'min-h-11 flex-1 px-2 text-[10px] font-semibold uppercase tracking-wider focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
               tab === t.id && 'border-accent/40 bg-accent/10 text-accent',
             )}
             onClick={() => setTab(t.id)}

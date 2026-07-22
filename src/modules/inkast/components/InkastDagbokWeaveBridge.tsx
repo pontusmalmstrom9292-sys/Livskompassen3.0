@@ -81,7 +81,7 @@ export function InkastDagbokWeaveBridge({ journalEntryId, text, mood, onDone }: 
         <BookOpen className="h-4 w-4 text-accent" aria-hidden />
         Vill du spara en kort rad i Minne också?
       </p>
-      <p className="text-xs text-text-dim">
+      <p className="text-xs text-text-muted">
         Valfritt — dagboksposten är redan sparad. Inget vävs utan att du väljer explicit.
       </p>
       <div className="flex flex-col gap-2 sm:flex-row">

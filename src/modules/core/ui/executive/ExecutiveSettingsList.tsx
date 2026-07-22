@@ -42,7 +42,7 @@ export function ExecutiveSettingsList({ groups, className }: Props) {
                     </span>
                   ) : null}
                   <span className="flex-1 text-sm text-text">{row.label}</span>
-                  <ChevronRight className="h-4 w-4 shrink-0 text-text-dim" strokeWidth={1.5} />
+                  <ChevronRight className="h-4 w-4 shrink-0 text-text-muted" strokeWidth={1.5} />
                 </>
               );
               return (
@@ -50,14 +50,14 @@ export function ExecutiveSettingsList({ groups, className }: Props) {
                   {row.href ? (
                     <Link
                       to={row.href}
-                      className="executive-settings__row flex min-h-[44px] items-center gap-3 px-4 py-3"
+                      className="executive-settings__row flex min-h-11 items-center gap-3 px-4 py-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                     >
                       {inner}
                     </Link>
                   ) : (
                     <button
                       type="button"
-                      className="executive-settings__row flex min-h-[44px] w-full items-center gap-3 px-4 py-3 text-left"
+                      className="executive-settings__row flex min-h-11 w-full items-center gap-3 px-4 py-3 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                       onClick={row.onClick}
                     >
                       {inner}

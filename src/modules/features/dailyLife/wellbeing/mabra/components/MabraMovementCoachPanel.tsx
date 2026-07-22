@@ -29,11 +29,11 @@ export function MabraMovementCoachPanel({ uid }: Props) {
   if (requested) {
     return (
       <div className="mt-4 glass-card glass-card--ai border-accent-ai/30 p-4">
-        <p className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-widest text-text-dim">
+        <p className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-widest text-text-muted">
           Rörelse-Coach Svar <span className="text-accent-ai">AI</span>
         </p>
         {loading ? (
-          <p className="text-sm text-text-dim">Skapar ett anpassat mikropass...</p>
+          <p className="text-sm text-text-muted">Skapar ett anpassat mikropass...</p>
         ) : (
           <p className="text-sm leading-relaxed text-accent-ai">{coachText}</p>
         )}
@@ -43,7 +43,7 @@ export function MabraMovementCoachPanel({ uid }: Props) {
 
   return (
     <div className="mt-4 w-full text-left">
-      <p className="mb-2 text-xs text-text-dim">Vill du ha ett specifikt mikropass utformat för hur du känner dig just nu?</p>
+      <p className="mb-2 text-xs text-text-muted">Vill du ha ett specifikt mikropass utformat för hur du känner dig just nu?</p>
       <TextArea
         value={note}
         onChange={(e) => setNote(e.target.value.slice(0, 300))}

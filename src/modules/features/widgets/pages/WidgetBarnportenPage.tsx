@@ -94,7 +94,7 @@ function WidgetBarnportenInner() {
                     key={row.id}
                     type="button"
                     variant={variant === row.id ? 'accent' : 'ghost'}
-                    className="w-full text-left text-xs"
+                    className="w-full text-left text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                     aria-pressed={variant === row.id}
                     onClick={() => setVariant(row.id)}
                   >

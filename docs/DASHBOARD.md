@@ -1,3 +1,67 @@
+### 2026-07-22 — UI Polish V4 ×10 PASS 4
+- ADD-only touch/focus on Planering · Dagbok · MåBra · QuickCapture · Archive · KompassDiscovery
+- Inget borttaget · `/dev` skipped · G85 visual: pending Pontus
+
+### 2026-07-22 — UI Polish V4 ×10 PASS 3
+- Samma förbättringsvågor igen (ADD-only) · UX GO · design-debt 0/0/2/62
+- G85 visual: pending Pontus
+
+### 2026-07-22 — Companion Kap. 6 ×10 + chip-rensning
+- Status: **Done** · MOD-WIDGET re-locked · unlock legacy-chip-removal (`approved: yes`)
+- Polish: web `--cw-*` deepen + Android companion capture/note/insight layouts (Gold Standard kap. 6)
+- Bort: legacy chip `Compass` / `Hamn` / `Note` providers (dubbletter av Companion rich)
+- Smoke: `smoke:companion-widgets` · `smoke:widgets` · `smoke:locked-ux` · `smoke:module-lock` **PASS**
+- Nästa: Pontus G85 pin-test (visuell parity + Capture/Note/Tasks)
+
+### 2026-07-22 — UI Polish V4 ×10 FULL RE-RUN
+- Status: **kod Done** (andra varvet I1–I10) · UX guardian GO · smoke:predeploy:build PASS
+- design-debt: btnPill 0 · dsBtn 0 · adHoc 2 · indexCssLoc 62 · DS 276 (`2026-07-22T08:26:34.625Z`)
+- G85 visual: pending Pontus
+
+### Design debt (2026-07-22) — UI Polish V4 ×10 end metrics
+- btn-pill--: **0** · ds-btn--: **0** · ad-hoc dialog: **2** · index.css LOC: **62**
+- DS imports: **276** · smoke:design-debt `2026-07-22T07:42:36.290Z`
+- Circuit I1–I10 × W0–W11: **kod PASS** · G85 visual: pending Pontus
+
+### Design debt (2026-07-22) — UI Polish V4 W0 baseline
+- btn-pill--: **0** · ds-btn--: **0** · ad-hoc dialog: **2** · index.css LOC: **62**
+- DS imports: **276** · smoke:design-debt `2026-07-22T07:34:04.186Z`
+- calm-card-audit: **PASS**
+
+## 2026-07-22 — UI Polish V4 W3–W11 deepen pass 3
+
+- ADD-only a11y: `min-h-11` + `focus-visible:ring-accent/40` on Speglar, Inkast, Drogfrihet, Hamn/BIFF, Valv UI, Inställningar, Widgets routes, Arbetsliv, MabraFlow/Hub
+- No tabs/modes/flows removed · `/dev` skipped · no WORM
+- Verify: esbuild TSX batch PASS · zone focus-visible coverage 0 remaining gaps
+
+## 2026-07-22 — UI Polish V4 W3–W9 deepen pass 2
+
+- Zone a11y polish (Familjen/Valv/Projekt/Ekonomi/MåBra/Planering) — touch 44 + focus-visible + muted
+- Gates: build + locked-ux + design-modules PASS
+
+## 2026-07-22 — UI Polish V4 ×10
+
+- Program: **UI Polish V4 ×10** under Fas 24 (parallel med G85 daily driver)
+- Unlock: `docs/evaluations/2026-07-22-unlock-MOD-UI-POLISH-V4-X10.md` (`approved: yes`)
+- Circuit: W0–W11 × I1–I10 (120 slots) — refine only
+- Status: **Done (kod)** — I1–I10 × W0–W11 PASS smoke; G85 visual väntar Pontus
+- Metrics: refresh via `smoke:design-debt` on W0 / end of each I
+
+| Iter | Focus | Status |
+|------|-------|--------|
+| I1 | kontrast + 44px | **PASS** (kod+smoke) |
+| I2 | focus-visible | **PASS** (kod+smoke) |
+| I3 | focus-within | **PASS** (kod+smoke) |
+| I4 | reduced-motion/transparency | **PASS** (kod+smoke) |
+| I5 | aria-label | **PASS** (kod+smoke) |
+| I6 | 320px scroll | **PASS** (kod+smoke) |
+| I7 | token rhythm | **PASS** (kod+smoke) |
+| I8 | empty/loading | **PASS** (kod+smoke) |
+| I9 | motion tokens | **PASS** (kod+smoke) |
+| I10 | micro-typography | **PASS** (kod+smoke) |
+
+---
+
 ## 2026-07-22 — Interaktiva Companion Widgets (WIS)
 
 - INTERACTIVE FIRST: overlay + broadcast (ingen full app för primär write/record/toggle)

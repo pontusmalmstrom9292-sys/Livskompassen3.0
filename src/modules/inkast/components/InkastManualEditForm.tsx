@@ -59,7 +59,7 @@ export function InkastManualEditForm({
   return (
     <div className="flex flex-col gap-4 rounded-2xl border border-border/40 bg-surface-2/80 p-4 backdrop-blur-md">
       <div className="relative z-[var(--ds-z-raised)]">
-        <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-text-dim">
+        <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-text-muted">
           Välj arkiv
         </p>
         <HubDropdownNav
@@ -79,7 +79,7 @@ export function InkastManualEditForm({
 
       <div>
         <div className="mb-2 flex items-start justify-between gap-2">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-text-dim">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">
             Analys-tagg
           </p>
           <ModuleHelpFromRegistry moduleId="inkast_tags" />
@@ -94,7 +94,7 @@ export function InkastManualEditForm({
 
       {silo === 'barnen' && (
         <label htmlFor="inkast-manual-child" className="block">
-          <span className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-text-dim">
+          <span className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-text-muted">
             Barn
           </span>
           <select
@@ -112,7 +112,7 @@ export function InkastManualEditForm({
       )}
 
       <label htmlFor="inkast-manual-comment" className="block">
-        <span className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-text-dim">
+        <span className="mb-1.5 block text-[10px] font-bold uppercase tracking-widest text-text-muted">
           Kommentar / sammanfattning
         </span>
         <TextArea

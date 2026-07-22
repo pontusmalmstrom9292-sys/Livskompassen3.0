@@ -30,7 +30,7 @@ export function BastaDesignHeader({ accountOpen, onAccountOpenChange, onMenuClic
               <div className="design-pack-header__side design-pack-header__side--left">
                 <button
                   type="button"
-                  className="design-pack-header__menu header-chrome-btn header-chrome-btn--round"
+                  className="design-pack-header__menu header-chrome-btn header-chrome-btn--round min-h-11 min-w-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                   aria-label="Öppna meny"
                   onClick={onMenuClick}
                 >

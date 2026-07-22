@@ -66,10 +66,10 @@ export function MabraNutritionQuickLog({ storageUid, macroTracking = false, onLo
   return (
     <div className="rounded-xl border border-border bg-surface-2/80 px-4 py-3">
       <div className="flex items-center justify-between gap-2">
-        <p className="text-xs font-medium uppercase tracking-wider text-text-dim">Snabb logg</p>
-        <span className="text-xs text-text-dim">{todayCount} idag</span>
+        <p className="text-xs font-medium uppercase tracking-wider text-text-muted">Snabb logg</p>
+        <span className="text-xs text-text-muted">{todayCount} idag</span>
       </div>
-      <p className="mt-1 text-xs text-text-dim">Vad åt eller drack du? Ingen kaloriräkning.</p>
+      <p className="mt-1 text-xs text-text-muted">Vad åt eller drack du? Ingen kaloriräkning.</p>
 
       <div className="mt-3 flex gap-2">
         <Button
@@ -125,7 +125,7 @@ export function MabraNutritionQuickLog({ storageUid, macroTracking = false, onLo
 
       {showMacroFields ? (
         <div className="mt-3 grid grid-cols-3 gap-2">
-          <label className="block text-xs text-text-dim">
+          <label className="block text-xs text-text-muted">
             P (g)
             <input
               type="number"
@@ -138,7 +138,7 @@ export function MabraNutritionQuickLog({ storageUid, macroTracking = false, onLo
               className="input-glass mt-1 text-sm tabular-nums"
             />
           </label>
-          <label className="block text-xs text-text-dim">
+          <label className="block text-xs text-text-muted">
             F (g)
             <input
               type="number"
@@ -151,7 +151,7 @@ export function MabraNutritionQuickLog({ storageUid, macroTracking = false, onLo
               className="input-glass mt-1 text-sm tabular-nums"
             />
           </label>
-          <label className="block text-xs text-text-dim">
+          <label className="block text-xs text-text-muted">
             K (g)
             <input
               type="number"

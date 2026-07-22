@@ -275,7 +275,7 @@ export function WidgetModulerAddForm({
                   key={tpl.id}
                   type="button"
                   variant="secondary"
-                  className="widget-moduler-add__template min-h-11"
+                  className="widget-moduler-add__template min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   onClick={() => applyTemplate(tpl.id)}
                 >
                   <Icon className="h-3.5 w-3.5 shrink-0" strokeWidth={1.5} aria-hidden />
@@ -313,7 +313,7 @@ export function WidgetModulerAddForm({
               key={opt.id}
               type="button"
               variant={active ? 'accent' : 'secondary'}
-              className="widget-moduler-add__type"
+              className="widget-moduler-add__type min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => {
                 setType(opt.id);
                 setError(null);
@@ -338,7 +338,7 @@ export function WidgetModulerAddForm({
                   key={id}
                   type="button"
                   variant={active ? 'accent' : 'ghost'}
-                  className="widget-moduler-add__preset min-h-11"
+                  className="widget-moduler-add__preset min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   onClick={() => setStylePreset(id)}
                 >
                   <span className="flex flex-col items-start gap-0.5 text-left">

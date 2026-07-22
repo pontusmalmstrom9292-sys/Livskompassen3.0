@@ -103,7 +103,7 @@ export function InkastConfirmPanel({
         accentClass={accentClass}
         extraWarning={
           uiSilo === 'valv' ? (
-            <p className="mt-2 rounded-lg border border-accent/20 bg-surface-2/50 px-2 py-1.5 text-[11px] leading-relaxed text-text-dim">
+            <p className="mt-2 rounded-lg border border-accent/20 bg-surface-2/50 px-2 py-1.5 text-[11px] leading-relaxed text-text-muted">
               Arkiv = oföränderlig post. Beteende och datum — kan inte raderas efter godkännande.
             </p>
           ) : undefined

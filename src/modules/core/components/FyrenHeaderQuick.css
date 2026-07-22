@@ -132,7 +132,7 @@
   }
 
   .fyren-header-quick__hide {
-    @apply mx-auto mb-1.5 mt-0.5 flex h-8 w-8 items-center justify-center rounded-full border-0 bg-transparent text-text-dim transition-colors;
+    @apply mx-auto mb-1.5 mt-0.5 flex h-8 w-8 items-center justify-center rounded-full border-0 bg-transparent text-text-muted transition-colors;
     touch-action: manipulation;
   }
 

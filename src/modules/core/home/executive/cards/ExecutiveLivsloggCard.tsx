@@ -43,7 +43,7 @@ export function ExecutiveLivsloggCard({ activeChild = 'Kasper' }: Props) {
           <MessageCircle className="h-4 w-4 text-accent" strokeWidth={1.5} />
           <div className="min-w-0">
             <p className="exec-home-label mb-0">FRÅGA LIVSLOGGARNA</p>
-            <p className="mt-0.5 text-[9px] uppercase tracking-wider text-text-dim">
+            <p className="mt-0.5 text-[9px] uppercase tracking-wider text-text-muted">
               Mönster-arkivarien · endast {activeChild}
             </p>
           </div>
@@ -75,11 +75,11 @@ export function ExecutiveLivsloggCard({ activeChild = 'Kasper' }: Props) {
           <p className="mt-3 text-xs leading-relaxed text-text-muted line-clamp-4">{answer}</p>
         ) : null}
         {citations.length > 0 ? (
-          <p className="mt-1 text-[10px] text-text-dim">{citations.length} källor i livslogg</p>
+          <p className="mt-1 text-[10px] text-text-muted">{citations.length} källor i livslogg</p>
         ) : null}
         <button
           type="button"
-          className="exec-livslogg-fab"
+          className="exec-livslogg-fab inline-flex min-h-11 min-w-11 items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           aria-label="Skicka fråga"
           disabled={loading || !inputText.trim()}
           onClick={() => void handleAsk()}

@@ -41,7 +41,10 @@ export function W1EdgeQuickDock() {
 
       <button
         type="button"
-        className={clsx('w1-edge-quick-dock__tab', open && 'w1-edge-quick-dock__tab--open')}
+        className={clsx(
+          'w1-edge-quick-dock__tab min-h-11 min-w-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
+          open && 'w1-edge-quick-dock__tab--open',
+        )}
         aria-expanded={open}
         aria-label={open ? 'Stäng W1 snabbåtkomst' : 'Öppna W1 snabbåtkomst'}
         onClick={() => setOpen((value) => !value)}

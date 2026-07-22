@@ -191,7 +191,7 @@ export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
           </div>
 
           {loading ? (
-            <p className="flex items-center gap-2 text-sm text-text-dim" aria-busy="true">
+            <p className="flex items-center gap-2 text-sm text-text-muted" aria-busy="true">
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
               Laddar kö…
             </p>
@@ -214,7 +214,7 @@ export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
                     }`}
                   >
                     <p className="font-medium text-text">{item.label}</p>
-                    <p className={`mt-0.5 text-[10px] ${isReady ? 'text-accent/80' : 'text-text-dim'}`}>
+                    <p className={`mt-0.5 text-[10px] ${isReady ? 'text-accent/80' : 'text-text-muted'}`}>
                       Parkerad {item.parkedAt.slice(0, 10)}
                       {isReady ? ' · Dags att besluta' : ' · Vänta till imorgon'}
                     </p>
@@ -222,7 +222,7 @@ export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
                     {isReady ? (
                       <div className="mt-3 space-y-2.5">
                         <label className="flex flex-col gap-1.5">
-                          <span className="text-[10px] text-text-dim">Belopp om du köper (kr)</span>
+                          <span className="text-[10px] text-text-muted">Belopp om du köper (kr)</span>
                           <input
                             type="text"
                             inputMode="decimal"
@@ -278,7 +278,7 @@ export function EkonomiImpulsDelegate({ userId }: EkonomiImpulsDelegateProps) {
                         type="button"
                         disabled={inputsDisabled}
                         onClick={() => void removeImpulse(item.id)}
-                        className="mt-2 min-h-11 rounded-lg px-1 text-[10px] text-text-dim underline-offset-2 hover:text-text hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60"
+                        className="mt-2 min-h-11 rounded-lg px-1 text-[10px] text-text-muted underline-offset-2 hover:text-text hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60"
                       >
                         Ta bort
                       </button>

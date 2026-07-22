@@ -71,7 +71,7 @@ export function KompassDiscoveryCardFlow({
     return wrapFlow(
       <>
         <p className="text-sm text-text-muted">Kunde inte ladda kort — försök igen.</p>
-        <Button variant="ghost" onClick={onBack} className="mt-3 text-sm">
+        <Button variant="ghost" onClick={onBack} className="mt-3 min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Tillbaka
         </Button>
       </>,
@@ -116,7 +116,7 @@ export function KompassDiscoveryCardFlow({
 
   return wrapFlow(
     <>
-      <button type="button" onClick={onBack} className={clsx(`${prefix}-back`)}>
+      <button type="button" onClick={onBack} className={clsx(`${prefix}-back`, 'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40')}>
         <ArrowLeft className="h-3.5 w-3.5" strokeWidth={1.5} aria-hidden />
         Tillbaka
       </button>
@@ -145,11 +145,11 @@ export function KompassDiscoveryCardFlow({
             variant="secondary"
             disabled={saving}
             onClick={() => void handleSave()}
-            className="text-sm"
+            className="min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Spara till Vit'}
           </Button>
-          <Button variant="ghost" onClick={onDone} className="text-sm">
+          <Button variant="ghost" onClick={onDone} className="min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Hoppa över
           </Button>
         </div>
@@ -166,7 +166,7 @@ export function KompassDiscoveryCardFlow({
             />
           ) : null}
           {!userId ? (
-            <Button variant="ghost" onClick={onDone} className="mt-2 text-sm">
+            <Button variant="ghost" onClick={onDone} className="mt-2 min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               Klar
             </Button>
           ) : null}

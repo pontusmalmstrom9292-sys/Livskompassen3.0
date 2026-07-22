@@ -36,7 +36,7 @@ export function PlanningTaskCard({ task, onSelect }: Props) {
           {task.summary && (
             <p className="mt-1 line-clamp-2 text-xs text-text-muted">{task.summary}</p>
           )}
-          <div className="mt-2 flex flex-wrap gap-2 text-[10px] uppercase tracking-widest text-text-dim">
+          <div className="mt-2 flex flex-wrap gap-2 text-[10px] uppercase tracking-widest text-text-muted">
             <span>{SOURCE_LABELS[task.source] ?? task.source}</span>
             {task.dueAt && <span>{task.dueAt}</span>}
             {task.microStep && <span className="text-accent/80">Mikrosteg</span>}

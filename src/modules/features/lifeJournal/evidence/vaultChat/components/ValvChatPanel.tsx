@@ -46,7 +46,7 @@ function renderTextWithCitations(
             key={i}
             type="button"
             onClick={() => onCitationClick(citation.docId)}
-            className="inline-flex items-center justify-center px-1 py-0.5 mx-0.5 text-[10px] font-bold text-success border border-success/30 bg-success/10 rounded hover:bg-success/20 transition-colors cursor-pointer"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center mx-0.5 rounded border border-success/30 bg-success/10 px-1 py-0.5 text-[10px] font-bold text-success transition-colors hover:bg-success/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 cursor-pointer"
             title="Granska källan"
           >
             {part}
@@ -75,7 +75,7 @@ function CitationList({
             <button
               type="button"
               onClick={() => onCitationClick?.(c.docId)}
-              className="w-full rounded-lg border border-success/20 bg-success/5 p-2 text-left hover:opacity-90 cursor-pointer"
+              className="w-full cursor-pointer rounded-lg border border-success/20 bg-success/5 p-2 text-left hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               <span className="block text-[10px] text-success">
                 {c.date || 'datum saknas'} · {(c.docId ?? 'okänd').slice(0, 8)}… · Granska källa
@@ -151,7 +151,7 @@ function ValvChatExtendedHints({
             <li key={q}>
               <button
                 type="button"
-                className="w-full rounded-lg border border-border bg-surface-2/60 px-3 py-2 text-left text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3"
+                className="min-h-11 w-full rounded-lg border border-border bg-surface-2/60 px-3 py-2 text-left text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={() => onPickExample(q)}
               >
                 {q}

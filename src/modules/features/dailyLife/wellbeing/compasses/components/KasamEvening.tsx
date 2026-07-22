@@ -91,7 +91,7 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
         <p className="flex items-center justify-center gap-2 text-xs text-success">
           <Check className="h-4 w-4" /> Kvällskompass sparad.
         </p>
-        <p className="text-center text-[10px] text-text-dim">Gaslighting? Bro — inget sparas automatiskt.</p>
+        <p className="text-center text-[10px] text-text-muted">Gaslighting? Bro — inget sparas automatiskt.</p>
         <div className="flex flex-col gap-2">
           <ButtonLink to={hjartatTabHref('speglar')} variant="ghost" size="sm">
             Jämför känsla med fakta (Speglar)
@@ -143,7 +143,7 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
 
   const stepForm = (
     <>
-      <p className="text-center text-[10px] uppercase tracking-widest text-text-dim">
+      <p className="text-center text-[10px] uppercase tracking-widest text-text-muted">
         Steg {stepIndex + 1} av {KASAM_STEPS.length}: {current.label}
       </p>
       <p className="text-center text-xs text-text-muted">{current.question}</p>

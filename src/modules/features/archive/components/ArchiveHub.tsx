@@ -11,7 +11,6 @@ import { subMonths } from 'date-fns';
 import { useStore } from '@/core/store';
 import { 
   useCapacityScore, 
-  useIsCapacityLoading, 
   useListenToCapacityState,
   useIsEconomyAdvancedUnlocked
 } from '@/modules/core/store/useCapacityGate';
@@ -28,7 +27,6 @@ export function ArchiveHub() {
   const { exportArchive, isExporting, exportError } = useArchiveExport();
 
   const capacityScore = useCapacityScore();
-  const isCapacityLoading = useIsCapacityLoading();
   const listenToCapacityState = useListenToCapacityState();
   const isEconomyAdvancedUnlocked = useIsEconomyAdvancedUnlocked();
 
@@ -52,14 +50,14 @@ export function ArchiveHub() {
   };
 
   return (
-    <div className="min-h-screen bg-bg bg-gradient-to-b from-bg to-surface text-text font-sans selection:bg-accent/30">
+    <div className="archive-hub max-w-full min-h-screen overflow-x-clip bg-bg bg-gradient-to-b from-bg to-surface font-sans text-text selection:bg-accent/30">
       {/* Glow Effects */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute top-[-20%] left-[-10%] w-[70%] h-[70%] rounded-full bg-accent/10 blur-[120px]" />
-        <div className="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-accent/5 blur-[120px]" />
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+        <div className="absolute left-[-10%] top-[-20%] h-[70%] w-[70%] rounded-full bg-accent/10 blur-[120px]" />
+        <div className="absolute bottom-[-20%] right-[-10%] h-[60%] w-[60%] rounded-full bg-accent/5 blur-[120px]" />
       </div>
 
-      <div className="relative max-w-lg mx-auto px-4 pt-12 pb-24 min-h-[100dvh] max-h-[100dvh] overflow-y-auto overflow-x-hidden no-scrollbar z-10">
+      <div className="relative z-10 mx-auto max-h-[100dvh] min-h-[100dvh] max-w-lg overflow-x-clip overflow-y-auto px-4 pb-24 pt-12 no-scrollbar">
         
         {/* Header */}
         <header className="mb-8">
@@ -98,7 +96,7 @@ export function ArchiveHub() {
                 type="button"
                 onClick={() => setViewMode('list')}
                 aria-pressed={viewMode === 'list'}
-                className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
+                className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-[var(--ds-duration-normal)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
                   viewMode === 'list' 
                     ? 'border border-accent/30 bg-accent/15 text-text shadow-[0_2px_10px_color-mix(in_srgb,var(--accent)_15%,transparent)]' 
                     : 'text-text-muted hover:bg-surface-3/35 hover:text-text'
@@ -111,7 +109,7 @@ export function ArchiveHub() {
                 type="button"
                 onClick={() => setViewMode('calendar')}
                 aria-pressed={viewMode === 'calendar'}
-                className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
+                className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-[var(--ds-duration-normal)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
                   viewMode === 'calendar' 
                     ? 'border border-accent/30 bg-accent/15 text-text shadow-[0_2px_10px_color-mix(in_srgb,var(--accent)_15%,transparent)]' 
                     : 'text-text-muted hover:bg-surface-3/35 hover:text-text'
@@ -125,7 +123,7 @@ export function ArchiveHub() {
         </header>
 
         {/* Loading and Error States */}
-        {isCapacityLoading && entries.length === 0 && loading ? (
+        {entries.length === 0 && loading ? (
           <HubPanelSkeleton label="Ansluter till arkivet…" lines={4} className="py-8" />
         ) : (
           <>

@@ -47,7 +47,7 @@ export function CaptureBreathingWidget() {
     <div className="rounded-xl border border-border/30 bg-surface-2/40 overflow-hidden mt-3 transition-all">
       <button
         type="button"
-        className="flex w-full items-center justify-between px-3 py-2 text-xs text-text-muted hover:text-text hover:bg-surface-3 transition-colors"
+        className="flex w-full items-center justify-between px-3 py-2 text-xs text-text-muted hover:text-text hover:bg-surface-3 transition-colors min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         onClick={() => setExpanded(!expanded)}
       >
         <span className="flex items-center gap-2">
@@ -67,13 +67,13 @@ export function CaptureBreathingWidget() {
                   ? 'scale-110 border-accent/60 text-accent/80'
                   : phase === 'out'
                     ? 'scale-90 border-text-muted text-text-muted'
-                    : 'border-border text-text-dim'
+                    : 'border-border text-text-muted'
             }`}
           >
             <span className="font-mono text-xl">{timeLeft > 0 ? timeLeft : ''}</span>
           </div>
           <p className="text-sm font-medium tracking-wide text-text">{label}</p>
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">4s in · 7s håll · 8s ut</p>
+          <p className="text-[10px] uppercase tracking-widest text-text-muted">4s in · 7s håll · 8s ut</p>
         </div>
       )}
     </div>

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Kap 6 safirglas — Obsidian + soft gold stroke (ej skrikig yellow fill) -->
+<!-- Kap 6 safirglas ×10 — Obsidian + soft gold stroke + depth -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <gradient
         android:angle="165"
-        android:centerColor="#E60D0B09"
-        android:endColor="#F2020617"
-        android:startColor="#D91A2233"
+        android:centerColor="#F00D0B09"
+        android:endColor="#F8020617"
+        android:startColor="#E61A2233"
         android:type="linear" />
     <stroke
-        android:width="1.25dp"
-        android:color="#7AD4AF37" />
+        android:width="1.35dp"
+        android:color="#8AD4AF37" />
     <corners android:radius="28dp" />
 </shape>

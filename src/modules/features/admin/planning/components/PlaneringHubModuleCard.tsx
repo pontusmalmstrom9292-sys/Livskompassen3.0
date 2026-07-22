@@ -43,7 +43,7 @@ export function PlaneringHubModuleCard({
   );
 
   const cardClass = clsx(
-    'planering-tool-card',
+    'planering-tool-card min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
     toneClass[module.tone],
     size === 'compact' && 'planering-tool-card--compact',
     size === 'hero' && 'planering-tool-card--hero',

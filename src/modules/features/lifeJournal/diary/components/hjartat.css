@@ -69,7 +69,7 @@
   }
 
   .hjartat-zone-intro__lead {
-    @apply text-xs leading-relaxed text-text-dim;
+    @apply text-xs leading-relaxed text-text-muted;
     text-wrap: pretty;
   }
 

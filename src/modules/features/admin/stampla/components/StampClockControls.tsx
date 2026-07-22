@@ -17,6 +17,7 @@ export function StampClockControls({ isClockedIn, busy, compact, onStampIn, onSt
       className={compact ? 'flex gap-1.5' : 'grid grid-cols-2 gap-2'}
       role="group"
       aria-label="Stämpla in eller ut"
+      aria-busy={busy}
     >
       <Button type="button" disabled={busy || isClockedIn} onClick={onStampIn} variant={isClockedIn || busy ? 'ghost' : 'accent'} className={`${btnClass}${isClockedIn || busy ? ' opacity-40' : ''}`} aria-label={compact ? 'Stämpla in' : undefined}>
         {busy && !isClockedIn ? (

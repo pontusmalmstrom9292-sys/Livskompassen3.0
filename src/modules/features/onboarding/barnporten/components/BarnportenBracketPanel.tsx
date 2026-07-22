@@ -46,13 +46,13 @@ export function BarnportenBracketPanel({
             key={mood.id}
             type="button"
             disabled={disabled}
-            className="elongated-module flex flex-col items-center gap-1 p-3 text-center"
+            className="elongated-module flex min-h-11 flex-col items-center gap-1 p-3 text-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={() => onMood(`Humör: ${mood.label}`)}
           >
             <span className="text-2xl" aria-hidden>
               {mood.emoji}
             </span>
-            <span className="text-[10px] text-text-dim">{mood.label}</span>
+            <span className="text-[10px] text-text-muted">{mood.label}</span>
           </button>
         ))}
       </div>

@@ -132,16 +132,25 @@ assert(dockStrip.includes('widget_bg_premium_panel'), 'WH1 layout ska använda w
 const dockTile = readCanonical('android/app/src/main/res/layout/widget_dock_tile.xml');
 assert(dockTile.includes('widget_bg_premium_panel'), 'WH2 layout ska använda widget_bg_premium_panel');
 
-console.log('[smoke:widgets] Android WH1 discreet + WH2 inkast copy…');
+console.log('[smoke:widgets] Android WH1 discreet + Companion Note (legacy WH2 chip borttagen)…');
 const recordProvider = readCanonical('android/app/src/main/java/com/livskompassen/app/widgets/RecordWidgetProvider.java');
 assert(recordProvider.includes('discreetNote'), 'RecordWidgetProvider ska använda discreetNote');
 const recordInfo = readCanonical('android/app/src/main/res/xml/widget_record_info.xml');
 assert(recordInfo.includes('widget_dock_strip'), 'WH1 ska använda dock-strip layout');
-const noteProvider = readCanonical('android/app/src/main/java/com/livskompassen/app/widgets/NoteWidgetProvider.java');
-assert(noteProvider.includes('widget_ic_wh2_note'), 'NoteWidgetProvider ska ha unik WH2-ikon');
+const companionNoteProvider = readCanonical(
+  'android/app/src/main/java/com/livskompassen/app/widgets/CompanionNoteWidgetProvider.java',
+);
+assert(companionNoteProvider.includes('CompanionNoteWidgetProvider'), 'CompanionNoteWidgetProvider saknas');
+assert(
+  existsSync(resolve(root, 'android/app/src/main/res/layout/widget_companion_note.xml')),
+  'widget_companion_note layout saknas',
+);
 const androidStrings = readCanonical('android/app/src/main/res/values/strings.xml');
-assert(androidStrings.includes('En rad → Inkast'), 'WH2 Android subtitle ska peka Inkast');
-assert(androidStrings.includes('Snabbanteckning'), 'WH2 Android title ska vara Snabbanteckning');
+assert(androidStrings.includes('En rad → Inkast'), 'Discreet/note subtitle ska peka Inkast');
+assert(
+  androidStrings.includes('Snabbanteckning') || androidStrings.includes('Snabba anteckningar'),
+  'Note title strings saknas',
+);
 
 console.log('[smoke:widgets] Android WH7 Åtgärder…');
 const actionProvider = readCanonical('android/app/src/main/java/com/livskompassen/app/widgets/ActionDashboardWidgetProvider.java');

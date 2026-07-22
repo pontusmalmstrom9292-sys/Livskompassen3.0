@@ -126,7 +126,7 @@ function MabraDelegate({ mode }: { mode: MabraInputMode }) {
       );
     case 'inkast':
       if (!user?.uid) {
-        return <p className="chameleon-shell__hint text-sm text-text-dim">Logga in för inkast med granskning.</p>;
+        return <p className="chameleon-shell__hint text-sm text-text-muted">Logga in för inkast med granskning.</p>;
       }
       return <CaptureSuperModule variant="mabra" compact />;
     default:

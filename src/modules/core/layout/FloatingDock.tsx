@@ -164,7 +164,7 @@ export function FloatingDock() {
               <button
                 type="button"
                 className={clsx(
-                  'dock-hub-band__center floating-dock__center',
+                  'dock-hub-band__center floating-dock__center min-h-11 min-w-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
                   isHome && 'dock-hub-band__center--active',
                   isHolding && 'dock-hub-band__center--holding',
                 )}

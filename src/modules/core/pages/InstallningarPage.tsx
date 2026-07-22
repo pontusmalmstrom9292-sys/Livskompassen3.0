@@ -65,10 +65,11 @@ export function InstallningarPage() {
 
   return (
     <HubPageShell
+      className="installningar-page"
       eyebrow="Inställningar"
       title="Konto · tema · näring"
       lead="Känsliga val och utökade funktioner finns bara här."
-      headerAside={<Settings className="h-5 w-5 text-text-dim" strokeWidth={1.5} />}
+      headerAside={<Settings className="h-5 w-5 text-text-muted" strokeWidth={1.5} aria-hidden />}
       executiveHeader={executiveSkin}
     >
       <TabBar<InstallningarTab>
@@ -82,7 +83,7 @@ export function InstallningarPage() {
           {/* Companion OS först — G85: synlig utan scroll */}
           <div className="space-y-2 rounded-2xl border border-accent/35 bg-surface-2/50 p-4">
             <p className="text-sm font-medium text-text">Companion OS</p>
-            <p className="text-xs leading-relaxed text-text-dim">
+            <p className="text-xs leading-relaxed text-text-muted">
               Välj vilka widgets som syns på Hem. På Motorola G85: långtryck hemskärm → Widgets →
               Livskompassen → fäst Capture (mic), Note, Kompassen eller Fyren. Ett mic-tryck startar
               inspelning utan extra steg. Ta bort och fäst om efter APK-uppdatering så rich-layout
@@ -90,10 +91,10 @@ export function InstallningarPage() {
             </p>
             <Link
               to="/installningar/widget-studio"
-              className="flex min-h-12 items-center justify-between rounded-xl border border-accent/50 bg-surface-2/80 px-4 py-3 text-sm font-medium text-text transition-colors hover:border-accent"
+              className="flex min-h-12 items-center justify-between rounded-xl border border-accent/50 bg-surface-2/80 px-4 py-3 text-sm font-medium text-text transition-colors hover:border-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             >
               <span className="flex items-center gap-2">
-                <LayoutGrid className="h-5 w-5 text-accent" strokeWidth={1.5} />
+                <LayoutGrid className="h-5 w-5 text-accent" strokeWidth={1.5} aria-hidden />
                 Widget Studio
               </span>
               <span className="text-xs text-accent">Öppna →</span>
@@ -101,13 +102,13 @@ export function InstallningarPage() {
             {import.meta.env.DEV ? (
               <Link
                 to="/dev/companion-widgets"
-                className="flex min-h-11 items-center justify-between rounded-xl border border-border bg-surface-2/60 px-4 py-3 text-sm text-text transition-colors hover:border-accent/40"
+                className="flex min-h-11 items-center justify-between rounded-xl border border-border bg-surface-2/60 px-4 py-3 text-sm text-text transition-colors hover:border-accent/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
               >
                 <span className="flex items-center gap-2">
-                  <LayoutGrid className="h-4 w-4 text-accent" strokeWidth={1.5} />
+                  <LayoutGrid className="h-4 w-4 text-accent" strokeWidth={1.5} aria-hidden />
                   Companion-labb
                 </span>
-                <span className="text-xs text-text-dim">Testa alla 10</span>
+                <span className="text-xs text-text-muted">Testa alla 10</span>
               </Link>
             ) : null}
           </div>
@@ -119,10 +120,10 @@ export function InstallningarPage() {
             Konto och inloggning: tryck på <strong className="text-text">låsikonen</strong> uppe till
             höger i headern.
           </p>
-          <label className="flex cursor-pointer items-center gap-3">
+          <label className="flex min-h-11 cursor-pointer items-center gap-3 rounded-lg focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent/45">
             <input
               type="checkbox"
-              className="h-4 w-4 rounded border-border accent-accent"
+              className="h-5 w-5 shrink-0 rounded border-border accent-accent"
               checked={autoTheme}
               onChange={(e) => {
                 const next = e.target.checked;
@@ -132,12 +133,12 @@ export function InstallningarPage() {
             />
             <span className="text-sm text-text-muted">Automatiskt tema per modul</span>
           </label>
-          <p className="text-xs text-text-dim">Temat uppdateras när du byter sida.</p>
+          <p className="text-xs text-text-muted">Temat uppdateras när du byter sida.</p>
 
-          <label className="flex cursor-pointer items-start gap-3 border-t border-border pt-4">
+          <label className="flex min-h-11 cursor-pointer items-start gap-3 rounded-lg border-t border-border pt-4 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-accent/45">
             <input
               type="checkbox"
-              className="mt-0.5 h-4 w-4 rounded border-border accent-accent"
+              className="mt-0.5 h-5 w-5 shrink-0 rounded border-border accent-accent"
               checked={stampOnHome}
               onChange={(e) => {
                 const next = e.target.checked;
@@ -155,14 +156,15 @@ export function InstallningarPage() {
           <LifeHubPresetPicker activeId={presetId} onSelect={setPresetId} />
 
           <div className="space-y-2 border-t border-border pt-4">
-            <p className="text-[10px] font-semibold uppercase tracking-widest text-text-dim">
+            <p className="text-[10px] font-semibold uppercase tracking-widest text-text-muted">
               Utvecklingskort
             </p>
             <Button
               type="button"
               variant="ghost"
-              className="flex min-h-[44px] w-full items-center justify-start gap-2 text-left text-sm"
+              className="flex min-h-11 w-full items-center justify-start gap-2 text-left text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               disabled={!user?.uid}
+              aria-label="Uppdatera eller hämta faktapack"
               onClick={() => setPackOpen(true)}
             >
               <Package className="h-4 w-4 shrink-0 text-accent" aria-hidden />

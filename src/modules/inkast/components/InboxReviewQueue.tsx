@@ -288,7 +288,7 @@ export function InboxReviewQueue({
         </Button>
       )}
       {!compact && (
-        <p className="mb-3 text-xs text-text-dim">
+        <p className="mb-3 text-xs text-text-muted">
           Drive och oklara filer hamnar här. DCAP före AI — du väljer silo. Separata arkiv, ingen
           auto-promote barn→Valv.
           {prioritizeBevis ? ' Arkivförslag visas först.' : ''}
@@ -375,7 +375,7 @@ export function InboxReviewQueue({
             </div>
             <p className="mt-1 text-xs text-accent/90">{inboxReviewQueueRoutingLine(item)}</p>
             {domainHint && (
-              <p className="mt-1 text-xs text-text-dim">{domainHint}</p>
+              <p className="mt-1 text-xs text-text-muted">{domainHint}</p>
             )}
             <p className="mt-1 text-xs text-text-muted">
               {item.traumaSensitive ? 'Trauma · ' : ''}
@@ -383,7 +383,7 @@ export function InboxReviewQueue({
               {item.childAlias ? ` · Barn: ${item.childAlias}` : ''}
               {item.tags.length > 0 && ` · Taggar: ${item.tags.join(', ')}`}
             </p>
-            <p className="mt-2 text-xs text-text-dim line-clamp-2">{item.summary}</p>
+            <p className="mt-2 text-xs text-text-muted line-clamp-2">{item.summary}</p>
             {isPlaneringInboxItem(item) && (
               <p className={`mt-1 ${textStyles.eyebrow} text-accent/80`}>
                 Planering · kan bli uppgift i Handling

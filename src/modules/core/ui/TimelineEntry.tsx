@@ -9,6 +9,7 @@ type TimelineEntryProps = {
   action?: ReactNode;
   /** Optional media / footer below body (e.g. journal thumbnails). */
   footer?: ReactNode;
+  className?: string;
 };
 
 export function TimelineEntry({
@@ -18,13 +19,14 @@ export function TimelineEntry({
   as: Tag = 'li',
   action,
   footer,
+  className,
 }: TimelineEntryProps) {
   const displayBody = truncateAt > 0 ? truncateText(body, truncateAt) : body;
 
   return (
-    <Tag className="glass-card p-3 text-sm">
+    <Tag className={['glass-card p-3 text-sm', className].filter(Boolean).join(' ')}>
       <div className="flex items-start justify-between gap-2">
-        <p className="text-[10px] uppercase tracking-widest text-text-dim">{meta}</p>
+        <p className="text-[10px] uppercase tracking-widest text-text-muted">{meta}</p>
         {action}
       </div>
       <p className="mt-1 text-text-muted">{displayBody}</p>

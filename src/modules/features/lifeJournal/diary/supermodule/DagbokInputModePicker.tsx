@@ -30,7 +30,7 @@ export function DagbokInputModePicker({
               role="tab"
               aria-selected={isActive}
               onClick={() => onChange(mode.id)}
-              className={`od-depth__pill ${isActive ? 'od-depth__pill--active' : ''}`}
+              className={`od-depth__pill min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${isActive ? 'od-depth__pill--active' : ''}`}
               title={mode.description}
             >
               {mode.label}

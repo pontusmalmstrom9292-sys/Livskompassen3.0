@@ -71,7 +71,7 @@ Se [`locked-ux-features.mdc`](locked-ux-features.mdc) och `.context/locked-ux-fe
 - Barnporten kanon-UI · Sacred UX-borttagning
 - Mass-radering utan arkiv-först + Pontus OK
 - `functions/src/sharedRules.ts` / runtime-prompter utan PMIR ([`backend-agents.mdc`](backend-agents.mdc))
-- `APP_CHECK_ENFORCE` i Console (Pontus manuellt)
+- App Check Console-enforcement (Firestore/Storage/Auth) — **måste vara UNENFORCED** för single-user; aktivera ENFORCED endast med explicit Pontus PMIR OK. Gate: `npm run smoke:app-check-policy`. Functions-env `APP_CHECK_ENFORCE` håll `false`/unset.
 
 Merge/deploy: [`git-main-trunk.mdc`](git-main-trunk.mdc) · YOLO: [`yolo-vakt-gate.mdc`](yolo-vakt-gate.mdc).
 

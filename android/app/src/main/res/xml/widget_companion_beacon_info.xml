@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Beacon — min 1 plats, default 4×3. Krympbart utan funktionsbortfall. -->
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:description="@string/widget_companion_beacon_desc"
     android:initialLayout="@layout/widget_companion_beacon"
-    android:minWidth="250dp"
-    android:minHeight="180dp"
+    android:minWidth="110dp"
+    android:minHeight="110dp"
     android:previewLayout="@layout/widget_companion_beacon"
     android:resizeMode="horizontal|vertical"
+    android:targetCellWidth="4"
+    android:targetCellHeight="3"
     android:updatePeriodMillis="86400000"
     android:widgetCategory="home_screen" />

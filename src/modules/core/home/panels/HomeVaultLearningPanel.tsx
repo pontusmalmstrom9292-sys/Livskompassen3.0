@@ -115,7 +115,7 @@ export function HomeVaultLearningPanel({ mode, onSaved }: Props) {
     <RAGErrorBoundary fallbackTitle="Kunde inte hämta fråga från Kunskapsvalvet" glow="gold">
       <div className="home-module-panel">
         <div className="home-module-panel__question-box">
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">
+          <p className="text-[10px] uppercase tracking-widest text-text-muted">
             {mode === 'gap' ? 'Lucka i minnet' : 'Fråga från valvet'}
           </p>
           {loadingQ ? (
@@ -129,7 +129,7 @@ export function HomeVaultLearningPanel({ mode, onSaved }: Props) {
         </div>
 
         {mode === 'gap' && subject && (
-          <label className="mt-3 block text-xs text-text-dim">
+          <label className="mt-3 block text-xs text-text-muted">
             Person / begrepp
             <input
               value={subject}

@@ -7,8 +7,8 @@
     android:background="@drawable/widget_bg_premium_panel"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingHorizontal="12dp"
-    android:paddingVertical="10dp">
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="6dp">
 
     <TextView
         android:id="@+id/widget_companion_beacon_title"
@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:gravity="center"
-        android:letterSpacing="0.12"
+        android:letterSpacing="0.16"
         android:maxLines="1"
         android:text="@string/widget_companion_beacon_title"
         android:textAllCaps="true"
@@ -26,8 +26,8 @@
 
     <FrameLayout
         android:id="@+id/widget_companion_beacon_ring"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_marginTop="6dp"
         android:background="@drawable/widget_bg_capacity_ring"
         android:contentDescription="@string/widget_companion_beacon_capacity">
@@ -131,7 +131,7 @@
         android:contentDescription="@string/widget_companion_beacon_cta"
         android:gravity="center"
         android:letterSpacing="0.1"
-        android:minHeight="44dp"
+        android:minHeight="56dp"
         android:paddingVertical="8dp"
         android:text="@string/widget_companion_beacon_cta"
         android:textAllCaps="true"

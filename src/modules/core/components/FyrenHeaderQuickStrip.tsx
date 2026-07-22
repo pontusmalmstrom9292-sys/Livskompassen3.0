@@ -26,7 +26,7 @@ export function FyrenHeaderQuickStrip({ variant = 'inBar' }: Props) {
         <button
           key={id}
           type="button"
-          className="fyren-header-strip__chip"
+          className="fyren-header-strip__chip min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           aria-label={label}
           onClick={() => navigate(to)}
         >

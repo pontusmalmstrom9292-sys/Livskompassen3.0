@@ -13,7 +13,7 @@ export function SosMainTrigger() {
     <button
       type="button"
       onClick={activateSOS}
-      className="header-chrome-btn header-chrome-btn--round mr-1 self-start"
+      className="sos-trigger header-chrome-btn header-chrome-btn--round mr-1 min-h-11 min-w-11 self-start focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
       aria-label="Aktivera SOS-läge"
       title="SOS Ankare — andning och grundning"
     >

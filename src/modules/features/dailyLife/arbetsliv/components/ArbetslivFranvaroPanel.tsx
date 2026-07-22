@@ -105,7 +105,7 @@ export function ArbetslivFranvaroPanel({
 
   if (loading) {
     return (
-      <p className="flex items-center gap-2 text-sm text-text-dim">
+      <p className="flex items-center gap-2 text-sm text-text-muted">
         <Loader2 className="h-4 w-4 animate-spin" /> Laddar…
       </p>
     );
@@ -149,7 +149,7 @@ export function ArbetslivFranvaroPanel({
               <Button
                 variant="ghost"
                 size="sm"
-                className={mMode === 'heldag' ? 'ring-1 ring-accent-primary' : ''}
+                className={[mMode === 'heldag' ? 'ring-1 ring-accent-primary' : '', 'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40'].filter(Boolean).join(' ')}
                 onClick={() => setMMode('heldag')}
               >
                 Heldag
@@ -157,7 +157,7 @@ export function ArbetslivFranvaroPanel({
               <Button
                 variant="ghost"
                 size="sm"
-                className={mMode === 'timmar' ? 'ring-1 ring-accent-primary' : ''}
+                className={[mMode === 'timmar' ? 'ring-1 ring-accent-primary' : '', 'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40'].filter(Boolean).join(' ')}
                 onClick={() => setMMode('timmar')}
               >
                 Timmar
@@ -201,7 +201,7 @@ export function ArbetslivFranvaroPanel({
               </select>
             </div>
 
-            <Button disabled={busy} className="w-full" onClick={() => void saveManual()}>
+            <Button disabled={busy} className="w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => void saveManual()}>
               {busy ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : 'Spara i loggen'}
             </Button>
           </div>
@@ -222,7 +222,7 @@ export function ArbetslivFranvaroPanel({
                   />
                   <button
                     type="button"
-                    className="shrink-0 text-xs text-danger"
+                    className="shrink-0 text-xs text-danger min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                     onClick={() => void handleDelete(t.id)}
                   >
                     Radera

@@ -97,7 +97,7 @@ export function ReframingExercise({ onComplete, onExit, hubSymptom }: Props) {
   return (
     <div className="flex flex-col items-center space-y-6 py-4">
       <div className="w-full max-w-sm rounded-xl border border-border-strong bg-surface/40 px-5 py-6">
-        <p className="text-xs uppercase tracking-widest text-text-dim">{step.label}</p>
+        <p className="text-xs uppercase tracking-widest text-text-muted">{step.label}</p>
         <p className="mt-3 text-base text-accent">{step.prompt}</p>
         <p className="mt-2 text-sm text-text-muted">{step.detail}</p>
         <textarea
@@ -110,7 +110,7 @@ export function ReframingExercise({ onComplete, onExit, hubSymptom }: Props) {
               [step.stepKey]: e.target.value,
             }));
           }}
-          className="mt-4 w-full resize-none rounded-lg border border-border-strong bg-surface/60 px-3 py-2 text-sm text-text-default placeholder:text-text-dim focus:border-accent/40 focus:outline-none"
+          className="mt-4 w-full resize-none rounded-lg border border-border-strong bg-surface/60 px-3 py-2 text-sm text-text-default placeholder:text-text-muted focus:border-accent/40 focus:outline-none"
           placeholder={step.inputMode === 'text_optional' ? 'Valfritt…' : 'Skriv här…'}
           aria-label={step.prompt}
         />
@@ -125,7 +125,7 @@ export function ReframingExercise({ onComplete, onExit, hubSymptom }: Props) {
               {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
               {isListening ? 'Stoppa röst' : 'Tala in (sv-SE)'}
             </Button>
-            {interim && <span className="text-xs text-text-dim">Hör: {interim}</span>}
+            {interim && <span className="text-xs text-text-muted">Hör: {interim}</span>}
           </div>
         )}
         {error && <p className="mt-1 text-xs text-danger">{error}</p>}
@@ -136,7 +136,7 @@ export function ReframingExercise({ onComplete, onExit, hubSymptom }: Props) {
           />
         )}
       </div>
-      <p className="text-sm text-text-dim">
+      <p className="text-sm text-text-muted">
         Steg {stepIndex + 1} av {REFRAMING_STEPS.length}
       </p>
       <div className="flex w-full max-w-sm flex-col gap-2">

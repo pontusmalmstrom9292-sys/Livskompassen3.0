@@ -230,7 +230,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
           <Button
             type="button"
             variant="accent"
-            className="inline-flex items-center gap-2 disabled:opacity-50"
+            className="inline-flex min-h-11 items-center gap-2 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={() => void handleBrusfilter()}
             disabled={brusLoading || !rawInput.trim()}
           >
@@ -301,7 +301,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="mt-3 inline-flex items-center gap-1.5"
+                  className="mt-3 inline-flex min-h-11 items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   onClick={() => void handleCopyReply()}
                 >
                   {copiedReply ? (
@@ -383,7 +383,7 @@ export function VaultOrkesterPanel({ logs = [] }: Props) {
         <Button
           type="button"
           variant="accent"
-          className="mt-3 disabled:opacity-50"
+          className="mt-3 disabled:opacity-50 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={handleScan}
           disabled={loading || !thread.trim()}
         >

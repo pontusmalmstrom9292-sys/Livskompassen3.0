@@ -69,14 +69,14 @@ export function PlaneringTaskQuickDelegate({ onSaved }: PlaneringTaskQuickDelega
         <p className={textStyles.eyebrow}>
           Snabb uppgift
         </p>
-        <p className="text-xs text-text-dim">
+        <p className="text-xs text-text-muted">
           Ett steg i taget — sparas direkt i din planeringslista.
           {projectId ? ' Kopplad till aktivt projekt.' : ''}
         </p>
       </header>
 
       <label className="block space-y-1">
-        <span className="text-xs uppercase tracking-wider text-text-dim">Titel</span>
+        <span className="text-xs uppercase tracking-wider text-text-muted">Titel</span>
         <Input
           type="text"
           value={title}
@@ -89,7 +89,7 @@ export function PlaneringTaskQuickDelegate({ onSaved }: PlaneringTaskQuickDelega
 
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="block space-y-1">
-          <span className="text-xs uppercase tracking-wider text-text-dim">Kolumn</span>
+          <span className="text-xs uppercase tracking-wider text-text-muted">Kolumn</span>
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value as PlanningTaskStatus)}
@@ -104,7 +104,7 @@ export function PlaneringTaskQuickDelegate({ onSaved }: PlaneringTaskQuickDelega
         </label>
 
         <label className="block space-y-1">
-          <span className="text-xs uppercase tracking-wider text-text-dim">Förfaller (valfritt)</span>
+          <span className="text-xs uppercase tracking-wider text-text-muted">Förfaller (valfritt)</span>
           <Input
             type="date"
             value={dueAt}
@@ -129,7 +129,7 @@ export function PlaneringTaskQuickDelegate({ onSaved }: PlaneringTaskQuickDelega
       <button
         type="submit"
         disabled={saving || !title.trim()}
-        className="inline-flex items-center gap-2 rounded-xl border border-accent/40 bg-surface-3 px-4 py-2 text-xs font-medium text-accent transition-colors hover:border-accent/60 disabled:opacity-50"
+        className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-accent/40 bg-surface-3 px-4 py-2 text-xs font-medium text-accent transition-colors hover:border-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-50"
       >
         {saving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}
         Spara uppgift

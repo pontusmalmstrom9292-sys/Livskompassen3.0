@@ -68,7 +68,7 @@ export function ProjectMediaPicker({ disabled, onPick, acceptVideo = false }: Pr
         </p>
       )}
       {!fileName && !error && (
-        <p className="text-xs text-text-dim">Ingen fil vald än — tryck «Välj fil».</p>
+        <p className="text-xs text-text-muted">Ingen fil vald än — tryck «Välj fil».</p>
       )}
       
       {preview && !isVideo && (

@@ -33,3 +33,10 @@
 
 # Support for dynamic haptics & sensors
 -dontwarn android.hardware.**
+
+# Facebook (optional for capacitor-firebase-authentication)
+-dontwarn com.facebook.**
+
+# Firebase KTX (optional/legacy)
+-dontwarn com.google.firebase.ktx.**
+-dontwarn com.google.firebase.installations.ktx.**

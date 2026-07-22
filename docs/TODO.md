@@ -1,5 +1,188 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
+## 2026-07-22 — Companion Kap. 6 ×10 Polish + legacy chip-rensning
+
+Unlock: [`evaluations/2026-07-22-unlock-MOD-WIDGET-legacy-chip-removal.md`](./evaluations/2026-07-22-unlock-MOD-WIDGET-legacy-chip-removal.md) (`approved: yes`)
+
+- [x] Kap. 6 ×10 polish — web 10-pack (`companion-widgets.css` + `WidgetTheme` 1.2) + Android companion layouts/drawables
+- [x] Capture: 3 trust-rader (E2E / privat / endast du) · mic-ring deepen
+- [x] Note: inset well ≥56dp · dock · pencil header
+- [x] Insight/action: tracking + CTA ≥56dp · capacity ethereal ring
+- [x] Legacy chip bort: `CompassWidgetProvider` · `HamnWidgetProvider` · `NoteWidgetProvider` (+ info XML + Manifest)
+- [x] Behåll: Companion* · Record discreet · WH7/WH8/WH9 · Drogfrihet
+- [x] Smoke: companion-widgets · widgets · locked-ux · module-lock · MOD-WIDGET re-locked
+
+## 2026-07-22 — UI Polish V4 ×10 (hela appen)
+
+> **FULL RE-RUN PASS** 2026-07-22 — andra varvet I1–I10 deepen + smoke:predeploy:build. G85 visual väntar Pontus.
+>
+> **PASS 3 ADD-only** 2026-07-22 — samma vågor igen (inget borttaget). UX guardian GO.
+>
+> **PASS 4 ADD-only** 2026-07-22 — samma vågor igen. UX guardian GO.
+>
+> **PASS 4 ADD-only** 2026-07-22 — Planering · Hjärtat/Dagbok · MåBra · QuickCapture · ArchiveShelf · KompassDiscovery (`min-h-11` + `focus-visible` + icon aria).
+
+Unlock: [`evaluations/2026-07-22-unlock-MOD-UI-POLISH-V4-X10.md`](./evaluations/2026-07-22-unlock-MOD-UI-POLISH-V4-X10.md)
+
+**Djup:** I1 kontrast+44 · I2 focus-visible · I3 focus-within · I4 reduced-m/t · I5 aria · I6 320px · I7 tokens · I8 empty · I9 motion · I10 micro
+
+- [x] Pass 3 zone deepen W3–W11 — Speglar/Inkast/Drogfrihet/Hamn-BIFF/Valv UI/Inställningar/Widgets/Arbetsliv/MåBra (`min-h-11` + `focus-visible` + icon aria) — ADD only
+- [x] Pass 4 zone deepen — Planering (7) · Dagbok/Hjärtat (8) · MåBra (8) · QuickCapture/Archive/KompassDiscovery (4) — ADD only
+
+### Iteration checklist (W0–W11 × I1–I10)
+
+#### I1
+- [x] I1-W0 W0 Baseline
+- [x] I1-W1 W1 Chrome
+- [x] I1-W2 W2 Hem
+- [x] I1-W3 W3 Vardagen
+- [x] I1-W4 W4 MåBra
+- [x] I1-W5 W5 Planering
+- [x] I1-W6 W6 Arbetsliv
+- [x] I1-W7 W7 Hjärtat
+- [x] I1-W8 W8 Familjen
+- [x] I1-W9 W9 Valvet
+- [x] I1-W10 W10 Widgets
+- [x] I1-W11 W11 Residual
+
+#### I2
+- [x] I2-W0 W0 Baseline
+- [x] I2-W1 W1 Chrome
+- [x] I2-W2 W2 Hem
+- [x] I2-W3 W3 Vardagen
+- [x] I2-W4 W4 MåBra
+- [x] I2-W5 W5 Planering
+- [x] I2-W6 W6 Arbetsliv
+- [x] I2-W7 W7 Hjärtat
+- [x] I2-W8 W8 Familjen
+- [x] I2-W9 W9 Valvet
+- [x] I2-W10 W10 Widgets
+- [x] I2-W11 W11 Residual
+
+#### I3
+- [x] I3-W0 W0 Baseline
+- [x] I3-W1 W1 Chrome
+- [x] I3-W2 W2 Hem
+- [x] I3-W3 W3 Vardagen
+- [x] I3-W4 W4 MåBra
+- [x] I3-W5 W5 Planering
+- [x] I3-W6 W6 Arbetsliv
+- [x] I3-W7 W7 Hjärtat
+- [x] I3-W8 W8 Familjen
+- [x] I3-W9 W9 Valvet
+- [x] I3-W10 W10 Widgets
+- [x] I3-W11 W11 Residual
+
+#### I4
+- [x] I4-W0 W0 Baseline
+- [x] I4-W1 W1 Chrome
+- [x] I4-W2 W2 Hem
+- [x] I4-W3 W3 Vardagen
+- [x] I4-W4 W4 MåBra
+- [x] I4-W5 W5 Planering
+- [x] I4-W6 W6 Arbetsliv
+- [x] I4-W7 W7 Hjärtat
+- [x] I4-W8 W8 Familjen
+- [x] I4-W9 W9 Valvet
+- [x] I4-W10 W10 Widgets
+- [x] I4-W11 W11 Residual
+
+#### I5
+- [x] I5-W0 W0 Baseline
+- [x] I5-W1 W1 Chrome
+- [x] I5-W2 W2 Hem
+- [x] I5-W3 W3 Vardagen
+- [x] I5-W4 W4 MåBra
+- [x] I5-W5 W5 Planering
+- [x] I5-W6 W6 Arbetsliv
+- [x] I5-W7 W7 Hjärtat
+- [x] I5-W8 W8 Familjen
+- [x] I5-W9 W9 Valvet
+- [x] I5-W10 W10 Widgets
+- [x] I5-W11 W11 Residual
+
+#### I6
+- [x] I6-W0 W0 Baseline
+- [x] I6-W1 W1 Chrome
+- [x] I6-W2 W2 Hem
+- [x] I6-W3 W3 Vardagen
+- [x] I6-W4 W4 MåBra
+- [x] I6-W5 W5 Planering
+- [x] I6-W6 W6 Arbetsliv
+- [x] I6-W7 W7 Hjärtat
+- [x] I6-W8 W8 Familjen
+- [x] I6-W9 W9 Valvet
+- [x] I6-W10 W10 Widgets
+- [x] I6-W11 W11 Residual
+
+#### I7
+- [x] I7-W0 W0 Baseline
+- [x] I7-W1 W1 Chrome
+- [x] I7-W2 W2 Hem
+- [x] I7-W3 W3 Vardagen
+- [x] I7-W4 W4 MåBra
+- [x] I7-W5 W5 Planering
+- [x] I7-W6 W6 Arbetsliv
+- [x] I7-W7 W7 Hjärtat
+- [x] I7-W8 W8 Familjen
+- [x] I7-W9 W9 Valvet
+- [x] I7-W10 W10 Widgets
+- [x] I7-W11 W11 Residual
+
+#### I8
+- [x] I8-W0 W0 Baseline
+- [x] I8-W1 W1 Chrome
+- [x] I8-W2 W2 Hem
+- [x] I8-W3 W3 Vardagen
+- [x] I8-W4 W4 MåBra
+- [x] I8-W5 W5 Planering
+- [x] I8-W6 W6 Arbetsliv
+- [x] I8-W7 W7 Hjärtat
+- [x] I8-W8 W8 Familjen
+- [x] I8-W9 W9 Valvet
+- [x] I8-W10 W10 Widgets
+- [x] I8-W11 W11 Residual
+
+#### I9
+- [x] I9-W0 W0 Baseline
+- [x] I9-W1 W1 Chrome
+- [x] I9-W2 W2 Hem
+- [x] I9-W3 W3 Vardagen
+- [x] I9-W4 W4 MåBra
+- [x] I9-W5 W5 Planering
+- [x] I9-W6 W6 Arbetsliv
+- [x] I9-W7 W7 Hjärtat
+- [x] I9-W8 W8 Familjen
+- [x] I9-W9 W9 Valvet
+- [x] I9-W10 W10 Widgets
+- [x] I9-W11 W11 Residual
+
+#### I10
+- [x] I10-W0 W0 Baseline
+- [x] I10-W1 W1 Chrome
+- [x] I10-W2 W2 Hem
+- [x] I10-W3 W3 Vardagen
+- [x] I10-W4 W4 MåBra
+- [x] I10-W5 W5 Planering
+- [x] I10-W6 W6 Arbetsliv
+- [x] I10-W7 W7 Hjärtat
+- [x] I10-W8 W8 Familjen
+- [x] I10-W9 W9 Valvet
+- [x] I10-W10 W10 Widgets
+- [x] I10-W11 W11 Residual
+
+- [ ] Pontus G85 spotcheck after each iteration (/, /vardagen, /hjartat, /familjen, /valvet, 1 widget) — **kod+smoke PASS; väntar Pontus öga**
+- [x] I10 closeout: smoke:predeploy:build **PASS** + visual sign-off väntar Pontus
+
+---
+
+## 2026-07-22 — Gemini visual harvest (MOD-WIDGET)
+
+- [x] Art: FacetedCompassRose / Lighthouse / Lotus / Anchor3D → Compass, Beacon, Harbor, DailyAnchor
+- [x] Specular `.cw-card::after` + bible 6.2.1
+- [x] Unlock `2026-07-22-unlock-MOD-WIDGET-gemini-visual-harvest.md`
+- [ ] Pontus: Studio/Hem — kolla kompass-ros + fyren-bakgrund visuellt
+
 ## 2026-07-22 — Interaktiva Companion Widgets (WIS) — LÅST i MOD-WIDGET
 
 - [x] 5 underagenter + skill + INTERACTIVE FIRST

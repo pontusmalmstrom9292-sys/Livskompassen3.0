@@ -119,7 +119,7 @@
   }
 
   .home-greeting-module__profile {
-    @apply text-[10px] uppercase tracking-[0.18em] text-text-dim;
+    @apply text-[10px] uppercase tracking-[0.18em] text-text-muted;
   }
 
   .home-page--scenic .home-greeting-module {
@@ -241,7 +241,7 @@
   }
 
   .home-streak-chip__label {
-    @apply text-[9px] uppercase tracking-widest text-text-dim;
+    @apply text-[9px] uppercase tracking-widest text-text-muted;
   }
 
   .home-adaptive-compass__card--depth {
@@ -316,9 +316,14 @@
   }
 
   .home-adaptive-compass__quick-btn {
-    @apply flex cursor-pointer flex-col items-center justify-center gap-1.5 !rounded-[14px] border-[2px] border-accent/20 p-3.5 transition-all duration-300;
+    @apply flex cursor-pointer flex-col items-center justify-center gap-1.5 !rounded-[14px] border-[2px] border-accent/20 p-3.5;
+    min-height: var(--ds-touch-target, 2.75rem);
     background: color-mix(in srgb, var(--ds-glass-bg) 78%, transparent);
     box-shadow: var(--ds-elevation-card);
+    transition:
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      background var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium);
   }
 
   .home-adaptive-compass__quick-btn:hover {
@@ -347,12 +352,22 @@
   }
 
   .home-adaptive-compass__tab {
-    @apply inline-flex min-h-[var(--ds-touch-target,2.75rem)] items-center rounded-lg px-2.5 py-1 font-display-serif text-[10px] font-medium uppercase tracking-[0.18em] transition-colors;
+    @apply inline-flex items-center rounded-lg px-2.5 py-1 font-display-serif text-[10px] font-medium uppercase tracking-[0.18em];
+    min-height: var(--ds-touch-target, 2.75rem);
     color: var(--text-muted);
+    transition:
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      background var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .home-adaptive-compass__tab:hover {
     color: var(--text-muted);
+  }
+
+  .home-adaptive-compass__tab:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .home-adaptive-compass__tab--active {
@@ -384,7 +399,14 @@
   }
 
   .home-adaptive-compass__inkast-reflection-link {
-    @apply inline-flex min-h-[var(--ds-touch-target,2.75rem)] items-center text-[10px] uppercase tracking-wider text-accent/80 transition-colors hover:text-accent;
+    @apply inline-flex items-center text-[10px] uppercase tracking-wider text-accent/80 hover:text-accent;
+    min-height: var(--ds-touch-target, 2.75rem);
+    transition: color var(--ds-duration-fast) var(--ds-ease-premium);
+  }
+
+  .home-adaptive-compass__inkast-reflection-link:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .home-adaptive-compass__inkast--open {
@@ -392,9 +414,14 @@
   }
 
   .home-adaptive-compass__inkast-toggle {
-    @apply inline-flex w-full items-center justify-center gap-2 rounded-xl border px-3 py-2.5 text-xs font-medium tracking-wide text-text transition-colors;
+    @apply inline-flex w-full items-center justify-center gap-2 rounded-xl border px-3 py-2.5 text-xs font-medium tracking-wide text-text;
+    min-height: var(--ds-touch-target, 2.75rem);
     border-color: color-mix(in srgb, var(--accent) 30%, transparent);
     background: color-mix(in srgb, var(--ds-glass-bg) 76%, transparent);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background var(--ds-duration-fast) var(--ds-ease-premium),
+      color var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .home-adaptive-compass__inkast-toggle:hover {
@@ -402,8 +429,14 @@
     background: color-mix(in srgb, var(--accent) 10%, var(--surface-3));
   }
 
+  .home-adaptive-compass__inkast-toggle:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
   .home-adaptive-compass__inkast-chevron {
-    @apply h-3.5 w-3.5 text-accent transition-transform duration-200;
+    @apply h-3.5 w-3.5 text-accent;
+    transition: transform var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .home-adaptive-compass__inkast-chevron--open {
@@ -411,12 +444,23 @@
   }
 
   .home-kompass-discovery__explore {
-    @apply inline-flex w-full items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium tracking-wide text-text-muted transition-all duration-300;
+    @apply inline-flex w-full items-center justify-center gap-2 px-3 py-2.5 text-xs font-medium tracking-wide;
+    min-height: var(--ds-touch-target, 2.75rem);
+    color: var(--text-muted);
+    transition:
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      color var(--ds-duration-normal) var(--ds-ease-premium),
+      background var(--ds-duration-normal) var(--ds-ease-premium);
   }
 
   .home-kompass-discovery__explore:hover {
     border-color: color-mix(in srgb, var(--accent) 38%, transparent);
     color: var(--text);
+  }
+
+  .home-kompass-discovery__explore:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .home-kompass-discovery__explore--open {
@@ -425,7 +469,8 @@
   }
 
   .home-kompass-discovery__explore-chevron {
-    @apply h-3.5 w-3.5 text-accent/80 transition-transform duration-200;
+    @apply h-3.5 w-3.5 text-accent/80;
+    transition: transform var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .home-kompass-discovery__explore-chevron--open {
@@ -433,7 +478,7 @@
   }
 
   .kompass-disc-deck-lead {
-    @apply mb-2 text-[10px] leading-relaxed text-text-dim;
+    @apply mb-2 text-[10px] leading-relaxed text-text-muted;
   }
 
   .kompass-disc-grid {
@@ -449,12 +494,22 @@
   }
 
   .kompass-disc-card {
-    @apply flex min-h-[3.5rem] cursor-pointer flex-col items-start gap-0.5 rounded-[14px] p-2.5 text-left transition-all duration-300;
+    @apply flex cursor-pointer flex-col items-start gap-0.5 rounded-[14px] p-2.5 text-left;
+    min-height: max(3.5rem, var(--ds-touch-target, 2.75rem));
     border-width: 2px;
+    transition:
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      background var(--ds-duration-normal) var(--ds-ease-premium),
+      transform var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .kompass-disc-card:hover {
     @apply -translate-y-0.5 border-accent/40 bg-surface-3/80;
+  }
+
+  .kompass-disc-card:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .kompass-disc-card-label {
@@ -484,7 +539,7 @@
     border-bottom: 2px solid color-mix(in srgb, var(--accent) 42%, transparent);
   }
   .kompass-disc-card--mist {
-    border-bottom: 2px solid color-mix(in srgb, var(--text-dim) 45%, transparent);
+    border-bottom: 2px solid color-mix(in srgb, var(--text-muted) 45%, transparent);
   }
   .kompass-disc-card--sand {
     border-bottom: 2px solid color-mix(in srgb, var(--accent-light, var(--accent)) 28%, transparent);
@@ -496,7 +551,7 @@
     border-bottom: 2px solid color-mix(in srgb, var(--accent) 30%, transparent);
   }
   .kompass-disc-card--ash {
-    border-bottom: 2px solid color-mix(in srgb, var(--text-dim) 50%, transparent);
+    border-bottom: 2px solid color-mix(in srgb, var(--text-muted) 50%, transparent);
   }
   .kompass-disc-card--moss {
     border-bottom: 2px solid color-mix(in srgb, var(--success, #5a8264) 42%, transparent);
@@ -511,11 +566,23 @@
   }
 
   .kompass-disc-back {
-    @apply mb-3 inline-flex min-h-[var(--ds-touch-target,2.75rem)] cursor-pointer items-center gap-1.5 rounded-lg border border-accent/20 bg-surface/40 px-3 py-2 text-[10px] text-text-muted transition-colors;
+    @apply mb-3 inline-flex cursor-pointer items-center gap-1.5 rounded-lg border border-accent/20 bg-surface/40 px-3 py-2 text-[10px];
+    min-height: var(--ds-touch-target, 2.75rem);
+    color: var(--text-muted);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      background var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .kompass-disc-back:hover {
-    @apply border-accent/35 text-text-muted;
+    @apply border-accent/35;
+    color: var(--text-muted);
+  }
+
+  .kompass-disc-back:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .kompass-disc-flow-kicker {
@@ -531,7 +598,7 @@
   }
 
   .kompass-disc-flow-label {
-    @apply mt-3 block text-[10px] text-text-dim;
+    @apply mt-3 block text-[10px] text-text-muted;
   }
 
   .home-page--scenic .home-adaptive-compass__core {
@@ -628,7 +695,8 @@
   }
 
   .home-hero-kanon__dot {
-    @apply h-1.5 w-1.5 rounded-full bg-text-dim/35;
+    @apply h-1.5 w-1.5 rounded-full;
+    background: color-mix(in srgb, var(--text-muted) 35%, transparent);
   }
 
   .home-hero-kanon__dot--active {
@@ -640,7 +708,14 @@
   }
 
   .home-more__summary {
-    @apply cursor-pointer text-xs font-medium uppercase tracking-widest text-text-dim;
+    @apply cursor-pointer text-xs font-medium uppercase tracking-widest;
+    min-height: var(--ds-touch-target, 2.75rem);
+    color: var(--text-muted);
+  }
+
+  .home-more__summary:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .home-more[open] .home-more__summary {
@@ -678,7 +753,12 @@
     .home-hero-kanon__tab,
     .home-hero-kanon__chevron,
     .home-adaptive-compass__tab,
+    .home-adaptive-compass__quick-btn,
+    .home-adaptive-compass__inkast-toggle,
     .home-adaptive-compass__inkast-reflection-link,
+    .home-adaptive-compass__inkast-chevron,
+    .home-kompass-discovery__explore,
+    .home-kompass-discovery__explore-chevron,
     .kompass-disc-card,
     .kompass-disc-back {
       transition: none !important;
@@ -686,6 +766,21 @@
 
     .kompass-disc-card:hover {
       transform: none;
+    }
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .home-adaptive-compass__card--depth,
+    .home-adaptive-compass__quick-btn,
+    .home-adaptive-compass__tabs,
+    .home-adaptive-compass__inkast-toggle,
+    .home-page--scenic .home-greeting-module,
+    .livskompass-hero__panel {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background-color: color-mix(in srgb, var(--surface) 94%, var(--surface-2));
     }
   }
 }

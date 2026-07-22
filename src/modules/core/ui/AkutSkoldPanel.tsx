@@ -63,7 +63,7 @@ export function AkutSkoldPanel() {
         </div>
         <div>
           <h2 className="font-display-serif text-lg tracking-wide text-text">Kognitiv Sköld</h2>
-          <p className="text-xs font-medium uppercase tracking-wider text-text-dim">
+          <p className="text-xs font-medium uppercase tracking-wider text-text-muted">
             Systemet bär dig nu
           </p>
         </div>
@@ -77,10 +77,10 @@ export function AkutSkoldPanel() {
           type="button"
           onClick={() => setActiveTab('andas')}
           className={clsx(
-            'flex flex-1 items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all',
+            'flex min-h-11 flex-1 items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
             activeTab === 'andas'
               ? 'border border-accent-secondary/40 bg-accent-secondary/15 text-accent-light shadow-inner'
-              : 'text-text-dim hover:text-text-muted',
+              : 'text-text-muted hover:text-text-muted',
           )}
         >
           <Wind className="h-4 w-4" aria-hidden />
@@ -90,10 +90,10 @@ export function AkutSkoldPanel() {
           type="button"
           onClick={() => setActiveTab('verklighet')}
           className={clsx(
-            'flex flex-1 items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all',
+            'flex min-h-11 flex-1 items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
             activeTab === 'verklighet'
               ? 'border border-success/40 bg-success/15 text-success shadow-inner'
-              : 'text-text-dim hover:text-text-muted',
+              : 'text-text-muted hover:text-text-muted',
           )}
         >
           <Anchor className="h-4 w-4" aria-hidden />
@@ -103,10 +103,10 @@ export function AkutSkoldPanel() {
           type="button"
           onClick={() => setActiveTab('mikrosteg')}
           className={clsx(
-            'flex flex-1 items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all',
+            'flex min-h-11 flex-1 items-center justify-center gap-2 rounded-md px-3 py-2 text-sm font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
             activeTab === 'mikrosteg'
               ? 'border border-accent/30 bg-accent/15 text-accent shadow-inner'
-              : 'text-text-dim hover:text-text-muted',
+              : 'text-text-muted hover:text-text-muted',
           )}
         >
           <CheckCircle2 className="h-4 w-4" aria-hidden />
@@ -136,7 +136,7 @@ export function AkutSkoldPanel() {
               {breathPhase === 'håll' && 'Håll kvar...'}
               {breathPhase === 'ut' && 'Släpp ut långsamt...'}
             </h3>
-            <p className="text-sm text-text-dim">Sänker kortisolet. Du är säker.</p>
+            <p className="text-sm text-text-muted">Sänker kortisolet. Du är säker.</p>
           </div>
         )}
 
@@ -163,7 +163,7 @@ export function AkutSkoldPanel() {
             </p>
             <button
               type="button"
-              className="group w-full rounded-lg border border-accent/30 bg-accent/10 p-4 text-left transition-colors hover:bg-accent/20"
+              className="group min-h-11 w-full rounded-lg border border-accent/30 bg-accent/10 p-4 text-left transition-colors hover:bg-accent/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             >
               <div className="flex items-center gap-3">
                 <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-accent/50 group-hover:border-accent">
@@ -174,7 +174,7 @@ export function AkutSkoldPanel() {
             </button>
             <button
               type="button"
-              className="group w-full rounded-lg border border-border bg-surface-2/50 p-4 text-left transition-colors hover:bg-surface-3"
+              className="group min-h-11 w-full rounded-lg border border-border bg-surface-2/50 p-4 text-left transition-colors hover:bg-surface-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             >
               <div className="flex items-center gap-3">
                 <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-text-dim group-hover:border-text-muted">

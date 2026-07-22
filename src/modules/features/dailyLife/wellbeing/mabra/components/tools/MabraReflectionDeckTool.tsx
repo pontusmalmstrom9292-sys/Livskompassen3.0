@@ -53,13 +53,13 @@ export function MabraReflectionDeckTool({ onBack, initialBankId }: Props) {
       <p className="rounded-xl border border-border-strong bg-surface/40 px-4 py-5 text-base leading-relaxed text-text">
         {card?.text_sv}
       </p>
-      <p className="mt-2 text-center text-[10px] uppercase tracking-wider text-text-dim">
+      <p className="mt-2 text-center text-[10px] uppercase tracking-wider text-text-muted">
         {card?.lens}
       </p>
 
       <label className="mt-4 block text-xs text-text-muted">
         Ditt svar (valfritt)
-        <span className="ml-1 text-text-dim">— inget fel svar, ett ord räcker</span>
+        <span className="ml-1 text-text-muted">— inget fel svar, ett ord räcker</span>
         <textarea
           value={answer}
           onChange={(e) => setAnswer(e.target.value)}

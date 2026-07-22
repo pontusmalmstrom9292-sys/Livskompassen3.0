@@ -81,7 +81,7 @@ export function RoutinesPanel({ defaultOpen = false }: Props) {
     <section className="routines-panel" aria-label="Snabbstarter">
       <button
         type="button"
-        className="routines-panel__toggle"
+        className="routines-panel__toggle min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
       >
@@ -113,13 +113,13 @@ export function RoutinesPanel({ defaultOpen = false }: Props) {
             </select>
           </label>
           {pickedRoutine?.lead ? (
-            <p className="mt-2 text-xs text-text-dim">{pickedRoutine.lead}</p>
+            <p className="mt-2 text-xs text-text-muted">{pickedRoutine.lead}</p>
           ) : null}
           <Button
             type="button"
             variant="secondary"
             size="sm"
-            className="mt-3 w-full"
+            className="mt-3 w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             disabled={busyId !== null || !pickedRoutine}
             onClick={() => pickedRoutine && void onRun(pickedRoutine)}
           >

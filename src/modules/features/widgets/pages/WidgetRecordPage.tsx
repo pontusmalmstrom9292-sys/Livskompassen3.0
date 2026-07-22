@@ -92,7 +92,7 @@ function WidgetRecordInner() {
               type="button"
               variant="accent"
               fullWidth
-              className="widget-record__pulse py-4"
+              className="widget-record__pulse py-4 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => void rec.start()}
               disabled={!rec.recordSupported}
             >
@@ -109,7 +109,7 @@ function WidgetRecordInner() {
               {rec.interim && (
                 <p className="mt-2 text-xs text-text-muted line-clamp-3">{rec.interim}</p>
               )}
-              <WidgetButton type="button" variant="accent" fullWidth className="mt-4" onClick={rec.stop}>
+              <WidgetButton type="button" variant="accent" fullWidth className="mt-4 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={rec.stop}>
                 Stoppa
               </WidgetButton>
             </div>

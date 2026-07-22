@@ -13,7 +13,7 @@ export function EkonomiInkastDelegate({ userId }: EkonomiInkastDelegateProps) {
 
   if (!hasUser) {
     return (
-      <p className="text-sm text-text-dim">Logga in för att använda ekonomi-inkast med granskning.</p>
+      <p className="text-sm text-text-muted">Logga in för att använda ekonomi-inkast med granskning.</p>
     );
   }
 

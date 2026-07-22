@@ -50,7 +50,7 @@ export function BarnportenLevelTwoStage() {
           <ShieldCheck className="h-5 w-5 text-accent-ai mt-0.5 shrink-0" />
           <div>
             <h4 className="text-xs font-semibold text-accent-ai">BIFF / Grey Rock Skydd</h4>
-            <p className="text-[11px] text-text-dim mt-0.5">
+            <p className="text-[11px] text-text-muted mt-0.5">
               Avancerad kommunikationssköld aktiverad för att reducera affektiva konflikter.
             </p>
           </div>
@@ -60,7 +60,7 @@ export function BarnportenLevelTwoStage() {
           <Heart className="h-5 w-5 text-accent-ai mt-0.5 shrink-0" />
           <div>
             <h4 className="text-xs font-semibold text-accent-ai">Barnfokus & Speglar</h4>
-            <p className="text-[11px] text-text-dim mt-0.5">
+            <p className="text-[11px] text-text-muted mt-0.5">
               Realtidsvalidering av känslomässigt laddad input i det skyddade utkastlagret.
             </p>
           </div>
@@ -70,7 +70,7 @@ export function BarnportenLevelTwoStage() {
           <Layers className="h-5 w-5 text-accent-ai mt-0.5 shrink-0" />
           <div>
             <h4 className="text-xs font-semibold text-accent-ai">Orkester Presets</h4>
-            <p className="text-[11px] text-text-dim mt-0.5">
+            <p className="text-[11px] text-text-muted mt-0.5">
               Automatisk synkning av `foralder_trygg` mönster över familjens hubbar.
             </p>
           </div>
@@ -80,7 +80,7 @@ export function BarnportenLevelTwoStage() {
       <button
         type="button"
         onClick={handleDismiss}
-        className="w-full flex items-center justify-center gap-2 py-2 px-4 rounded-xl bg-accent hover:bg-accent-light text-obsidian-bg text-sm font-semibold transition-all shadow-md active:scale-95"
+        className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-obsidian-bg shadow-md transition-all hover:bg-accent-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 active:scale-95"
       >
         <CheckCircle className="h-4 w-4" />
         Bekräfta & Fortsätt

@@ -100,7 +100,7 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
           <Button
             type="button"
             variant="secondary"
-            className="mt-2 inline-flex items-center gap-2"
+            className="mt-2 inline-flex items-center gap-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={() => void handleMirror()}
             disabled={!safeFeeling.trim() || loading}
           >
@@ -125,7 +125,7 @@ export function ActCalibrationView({ feeling, journalMood, onFeelingChange, onCo
               <Button
                 type="button"
                 variant="accent"
-                className="mt-4 inline-flex w-full items-center justify-center gap-2"
+                className="mt-4 inline-flex w-full items-center justify-center gap-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={onContinue}
               >
                 Fortsätt till VIVIR

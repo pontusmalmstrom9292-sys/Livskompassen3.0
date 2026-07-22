@@ -52,7 +52,7 @@
         android:background="@drawable/widget_bg_stamp_pill"
         android:contentDescription="@string/widget_companion_anchor_done"
         android:gravity="center"
-        android:minHeight="44dp"
+        android:minHeight="56dp"
         android:paddingVertical="8dp"
         android:text="@string/widget_companion_anchor_done"
         android:textAllCaps="true"

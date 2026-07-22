@@ -164,7 +164,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
           <BentoCard title="Idag" icon={<HeartHandshake className="h-4 w-4" />} glow="green">
             <div className="home-module-panel__question-box">
               <p className="text-base text-accent">{idag.card.text_sv}</p>
-              <p className="mt-2 text-xs text-text-dim">
+              <p className="mt-2 text-xs text-text-muted">
                 Ett kort hela dagen ({idag.dateKey}). Inget fel svar — ett ord räcker om du skriver.
               </p>
             </div>
@@ -175,7 +175,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
             <Button
               type="button"
               variant="secondary"
-              className="w-full min-h-[48px]"
+              className="w-full min-h-[48px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => setShowPlan(true)}
             >
               Min plan (If–Then · risk · varför)
@@ -205,14 +205,14 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
                   href={r.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-2 inline-block text-sm text-accent hover:underline"
+                  className="mt-2 inline-block text-sm text-accent hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 >
                   Öppna
                 </a>
               ) : null}
             </BentoCard>
           ))}
-          <p className="text-xs text-text-dim">{DROGFRIHET_DISCLAIMER}</p>
+          <p className="text-xs text-text-muted">{DROGFRIHET_DISCLAIMER}</p>
         </div>
       )}
 
@@ -221,12 +221,12 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
           <BentoCard title="Reflektion" icon={<HeartHandshake className="h-4 w-4" />} glow="green">
             <div className="home-module-panel__question-box">
               <p className="text-base text-accent">{reflectionCard.text_sv}</p>
-              <p className="mt-2 text-xs text-text-dim">Inget fel svar — ett ord räcker.</p>
+              <p className="mt-2 text-xs text-text-muted">Inget fel svar — ett ord räcker.</p>
             </div>
             <div className="mt-4 flex gap-2">
               <Button
                 variant="secondary"
-                className="flex-1"
+                className="flex-1 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={() =>
                   setReflectionIndex((i) => (i + 1) % DROGFRIHET_CARDS.length)
                 }
@@ -270,14 +270,14 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
           {DROGFRIHET_FACTS.map((f) => (
             <BentoCard key={f.id} title={f.title_sv}>
               <p className="text-sm text-text-muted">{f.content_sv}</p>
-              <p className="mt-2 text-[10px] text-text-dim">
+              <p className="mt-2 text-[10px] text-text-muted">
                 {f.citation_hint} · tier {f.source_tier}
               </p>
             </BentoCard>
           ))}
           <p className="text-sm text-text-muted">
             Mer fakta bakom PIN:{' '}
-            <a href="/valvet?vaultTab=kunskapsbank" className="text-accent hover:underline">
+            <a href="/valvet?vaultTab=kunskapsbank" className="text-accent hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               Valv → Kunskapsbank
             </a>
           </p>
@@ -301,7 +301,7 @@ export function DrogfrihetHubPage({ embedded = false }: DrogfrihetHubPageProps =
           <button
             type="button"
             onClick={() => setRealityCheckOpen(false)}
-            className="rounded-xl border-[0.5px] border-border/60 p-2 text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3 hover:text-text"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl border-[0.5px] border-border/60 p-2 text-text-muted transition-colors hover:border-accent/30 hover:bg-surface-3 hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             aria-label="Stäng verklighetskontroll"
           >
             <X className="h-5 w-5" strokeWidth={1.5} />

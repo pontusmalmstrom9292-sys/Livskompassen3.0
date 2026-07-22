@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Companion Note — Kap 6 Gold: inset well · pills · cam/mic/+ -->
+<!-- Companion Note — Kap 6 Gold ×10: inset well · pills · cam/mic/+ · ≥56dp -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/widget_companion_note_root"
     android:layout_width="match_parent"
@@ -7,43 +7,57 @@
     android:background="@drawable/widget_bg_premium_panel"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingHorizontal="12dp"
-    android:paddingVertical="10dp">
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="6dp">
 
-    <TextView
-        android:id="@+id/widget_companion_note_title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
         android:gravity="center"
-        android:letterSpacing="0.12"
-        android:maxLines="1"
-        android:text="@string/widget_companion_note_title"
-        android:textAllCaps="true"
-        android:textColor="@color/widget_gold"
-        android:textSize="11sp"
-        android:textStyle="bold" />
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:contentDescription="@null"
+            android:src="@drawable/widget_ic_companion_note" />
+
+        <TextView
+            android:id="@+id/widget_companion_note_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:letterSpacing="0.16"
+            android:maxLines="1"
+            android:text="@string/widget_companion_note_title"
+            android:textAllCaps="true"
+            android:textColor="@color/widget_gold"
+            android:textSize="11sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/widget_companion_note_compose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/widget_bg_inset_well"
         android:contentDescription="@string/widget_companion_note_compose"
         android:gravity="center_vertical"
-        android:minHeight="44dp"
-        android:paddingHorizontal="12dp"
-        android:paddingVertical="10dp"
+        android:minHeight="56dp"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="12dp"
         android:text="@string/widget_companion_note_compose"
         android:textColor="@color/widget_muted"
-        android:textSize="12sp" />
+        android:textSize="13sp" />
 
     <LinearLayout
         android:id="@+id/widget_companion_note_pills"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -54,7 +68,7 @@
             android:layout_weight="1"
             android:background="@drawable/widget_bg_pill_category"
             android:gravity="center"
-            android:minHeight="44dp"
+            android:minHeight="48dp"
             android:paddingHorizontal="4dp"
             android:text="@string/widget_companion_note_pill_tanke"
             android:textColor="@color/widget_muted"
@@ -68,7 +82,7 @@
             android:layout_weight="1"
             android:background="@drawable/widget_bg_pill_category"
             android:gravity="center"
-            android:minHeight="44dp"
+            android:minHeight="48dp"
             android:paddingHorizontal="4dp"
             android:text="@string/widget_companion_note_pill_ide"
             android:textColor="@color/widget_muted"
@@ -82,7 +96,7 @@
             android:layout_weight="1"
             android:background="@drawable/widget_bg_pill_category"
             android:gravity="center"
-            android:minHeight="44dp"
+            android:minHeight="48dp"
             android:paddingHorizontal="4dp"
             android:text="@string/widget_companion_note_pill_paminnelse"
             android:textColor="@color/widget_muted"
@@ -96,7 +110,7 @@
             android:layout_weight="1"
             android:background="@drawable/widget_bg_pill_category"
             android:gravity="center"
-            android:minHeight="44dp"
+            android:minHeight="48dp"
             android:paddingHorizontal="4dp"
             android:text="@string/widget_companion_note_pill_annat"
             android:textColor="@color/widget_muted"
@@ -106,16 +120,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/widget_bg_stamp_pill_muted"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingHorizontal="6dp"
+        android:paddingVertical="4dp">
 
         <ImageView
             android:id="@+id/widget_companion_note_photo"
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:layout_weight="1"
-            android:background="@drawable/widget_bg_stamp_pill_muted"
             android:contentDescription="@string/widget_companion_note_photo"
             android:minHeight="56dp"
             android:padding="12dp"
@@ -126,9 +142,7 @@
             android:id="@+id/widget_companion_note_voice"
             android:layout_width="0dp"
             android:layout_height="56dp"
-            android:layout_marginStart="6dp"
             android:layout_weight="1"
-            android:background="@drawable/widget_bg_stamp_pill_muted"
             android:contentDescription="@string/widget_companion_note_voice"
             android:minHeight="56dp"
             android:padding="12dp"
@@ -139,7 +153,7 @@
             android:id="@+id/widget_companion_note_add"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginStart="6dp"
+            android:layout_marginStart="4dp"
             android:background="@drawable/widget_bg_stamp_pill"
             android:contentDescription="@string/widget_companion_note_add"
             android:gravity="center"

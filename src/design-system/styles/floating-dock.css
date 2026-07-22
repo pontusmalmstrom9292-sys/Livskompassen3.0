@@ -76,10 +76,10 @@
     );
     transform: none;
     transition:
-      border-color 0.16s ease,
-      box-shadow 0.16s ease,
-      transform 0.16s ease,
-      background 0.16s ease;
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium),
+      transform var(--ds-duration-fast) var(--ds-ease-premium),
+      background var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   /* Familj (Tab 2) — Executive Midnight: accent glass (no purple) */
@@ -119,7 +119,7 @@
 
   .floating-dock__side-btn .dock-nav-btn__label {
     @apply max-w-full truncate text-[9px] leading-tight tracking-wide;
-    color: color-mix(in srgb, var(--text-muted) 84%, var(--text-muted));
+    color: var(--text-muted);
   }
 
   .floating-dock__side-btn:focus-visible {
@@ -185,6 +185,7 @@
   .fyren-dock-handle {
     @apply pointer-events-auto relative z-[55] inline-flex items-center justify-center gap-1.5 border-0;
     min-width: 5.5rem;
+    min-height: var(--ds-touch-target, 2.75rem);
     padding: 0.28rem 0.85rem 0.34rem;
     margin-bottom: -0.1rem;
     border: 1px solid var(--accent);
@@ -204,10 +205,10 @@
     -webkit-user-select: none;
     user-select: none;
     transition:
-      transform 0.16s ease,
-      box-shadow 0.16s ease,
-      border-color 0.16s ease,
-      background 0.16s ease;
+      transform var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium),
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .fyren-dock-handle:focus-visible {
@@ -234,7 +235,7 @@
     @apply relative z-[1] h-3 w-3 shrink-0;
     color: var(--accent-light, var(--accent));
     filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent) 55%, transparent));
-    transition: transform 0.18s ease;
+    transition: transform var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .fyren-dock-handle:hover {
@@ -327,6 +328,20 @@
     .floating-dock .dock-hub-band__rail--zones > .dock-hub-band__center:hover,
     .fyren-dock-handle:hover {
       transform: none;
+    }
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .floating-dock .dock-hub-band__rail,
+    .fyren-dock-handle {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+
+    .fyren-dock-handle {
+      background: color-mix(in srgb, var(--surface-2) 96%, var(--bg));
     }
   }
 }

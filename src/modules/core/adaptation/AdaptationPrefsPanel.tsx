@@ -74,7 +74,7 @@ export function AdaptationPrefsPanel({ userId }: Props) {
       ) : null}
 
       <fieldset className="mt-4 space-y-2 border-0 p-0">
-        <legend className="text-xs font-medium uppercase tracking-wider text-text-dim">
+        <legend className="text-xs font-medium uppercase tracking-wider text-text-muted">
           Coach-ton
         </legend>
         {COACH_TONE_OPTIONS.map((opt) => (
@@ -99,7 +99,7 @@ export function AdaptationPrefsPanel({ userId }: Props) {
       </fieldset>
 
       <fieldset className="mt-4 space-y-2 border-0 p-0">
-        <legend className="text-xs font-medium uppercase tracking-wider text-text-dim">
+        <legend className="text-xs font-medium uppercase tracking-wider text-text-muted">
           UI-täthet
         </legend>
         {UI_DENSITY_OPTIONS.map((opt) => (
@@ -125,7 +125,7 @@ export function AdaptationPrefsPanel({ userId }: Props) {
 
       {semanticEnabled && semanticSummary ? (
         <div className="mt-4 rounded-xl border border-border/40 bg-surface/20 px-3 py-3">
-          <p className="text-xs font-medium uppercase tracking-wider text-text-dim">
+          <p className="text-xs font-medium uppercase tracking-wider text-text-muted">
             Coach-kontext (read-only)
           </p>
           <p className="mt-1 text-sm leading-relaxed text-text-muted">{semanticSummary}</p>

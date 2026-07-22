@@ -91,9 +91,9 @@ export function BarnportenPage() {
         <p className="text-xs uppercase tracking-widest text-accent/80">Barnporten</p>
         <h1 className="mt-1 text-2xl font-semibold text-accent-light">Din trygga hamn</h1>
         {isBarnportenDeviceLinked() ? (
-          <p className="mt-2 text-xs text-text-dim">Kopplad enhet · {activeChild}</p>
+          <p className="mt-2 text-xs text-text-muted">Kopplad enhet · {activeChild}</p>
         ) : (
-          <p className="mt-2 text-xs text-text-dim">Be pappa skanna QR under Familjen → Barnporten.</p>
+          <p className="mt-2 text-xs text-text-muted">Be pappa skanna QR under Familjen → Barnporten.</p>
         )}
       </header>
 
@@ -138,14 +138,15 @@ export function BarnportenPage() {
           <button
             type="button"
             disabled={saving}
-            className="elongated-module flex flex-col items-center gap-2 p-4"
+            className="barnporten-action elongated-module flex min-h-11 flex-col items-center justify-center gap-2 p-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+            aria-label="Prata — skicka meddelande"
             onClick={() => {
               const text = window.prompt('Vad vill du säga?', '') ?? '';
               if (text.trim()) void postLog('message', text.trim(), 'prata');
             }}
           >
-            <MessageCircle className="h-8 w-8 text-accent" />
-            <span className="text-sm">Prata</span>
+            <MessageCircle className="h-8 w-8 text-accent" aria-hidden />
+            <span className="text-sm text-text">Prata</span>
           </button>
         )}
         
@@ -153,39 +154,42 @@ export function BarnportenPage() {
           <button
             type="button"
             disabled={saving || !message.trim()}
-            className="elongated-module flex flex-col items-center gap-2 p-4"
+            className="barnporten-action elongated-module flex min-h-11 flex-col items-center justify-center gap-2 p-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+            aria-label="Skriv till pappa"
             onClick={() => void postLog('message', message.trim(), 'skriv')}
           >
-            <Heart className="h-8 w-8 text-accent" />
-            <span className="text-sm">Skriv till pappa</span>
+            <Heart className="h-8 w-8 text-accent" aria-hidden />
+            <span className="text-sm text-text">Skriv till pappa</span>
           </button>
         )}
 
         <button
           type="button"
           disabled={saving}
-          className="elongated-module flex flex-col items-center gap-2 p-4"
+          className="barnporten-action elongated-module flex min-h-11 flex-col items-center justify-center gap-2 p-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+          aria-label="Ange humör"
           onClick={() => {
             const mood = window.prompt('Humör 1–5:', '3') ?? '3';
             void postLog('mood', `Humör: ${mood}`, 'humor');
           }}
         >
-          <Smile className="h-8 w-8 text-accent" />
-          <span className="text-sm">Humör</span>
+          <Smile className="h-8 w-8 text-accent" aria-hidden />
+          <span className="text-sm text-text">Humör</span>
         </button>
 
         {(childBracket === 'pre_teen' || childBracket === 'teen') && (
           <button
             type="button"
             disabled={saving}
-            className="elongated-module flex flex-col items-center gap-2 p-4"
+            className="barnporten-action elongated-module flex min-h-11 flex-col items-center justify-center gap-2 p-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+            aria-label="Privat anteckning bara för mig"
             onClick={() => {
               const text = window.prompt('Bara för mig (privat):', '') ?? '';
               if (text.trim()) void postLog('private', text.trim(), 'privat');
             }}
           >
-            <Lock className="h-8 w-8 text-accent" />
-            <span className="text-sm">Bara för mig</span>
+            <Lock className="h-8 w-8 text-accent" aria-hidden />
+            <span className="text-sm text-text">Bara för mig</span>
           </button>
         )}
       </div>
@@ -194,7 +198,8 @@ export function BarnportenPage() {
         type="button"
         variant="secondary"
         disabled={saving}
-        className="mt-4 flex w-full items-center justify-center gap-2 text-sm"
+        className="barnporten-action mt-4 flex min-h-11 w-full items-center justify-center gap-2 text-sm"
+        aria-label="Allvarligt — kontakta trygg vuxen"
         onClick={() => {
           const text = window.prompt('Allvarligt — behöver prata med pappa:', '') ?? '';
           if (text.trim()) void postLog('message', text.trim(), 'allvarligt', true);

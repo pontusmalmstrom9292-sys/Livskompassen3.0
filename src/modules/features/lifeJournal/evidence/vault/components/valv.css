@@ -100,7 +100,7 @@
   }
 
   .valv-zone-intro__lead {
-    @apply text-xs leading-relaxed text-text-dim;
+    @apply text-xs leading-relaxed text-text-muted;
   }
 
   .valv-zone-strip {
@@ -128,7 +128,7 @@
   }
 
   .valv-forensic-lead {
-    @apply text-xs leading-relaxed text-text-dim;
+    @apply text-xs leading-relaxed text-text-muted;
     text-wrap: pretty;
   }
 
@@ -137,7 +137,7 @@
   }
 
   .valv-log-row {
-    @apply rounded-xl border p-3 text-sm transition-all duration-200;
+    @apply rounded-xl border p-3 text-sm;
     border-color: color-mix(in srgb, var(--accent) 22%, transparent);
     background: linear-gradient(
       165deg,
@@ -147,6 +147,10 @@
     box-shadow:
       inset 0 1px 0 rgba(255, 255, 255, 0.04),
       0 4px 14px -4px color-mix(in srgb, var(--bg) 45%, transparent);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium),
+      transform var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .valv-log-row:hover {
@@ -161,7 +165,12 @@
   }
 
   .valv-log-row button:focus-visible,
-  .valv-log-row a:focus-visible {
+  .valv-log-row a:focus-visible,
+  .valv-log-row [role='button']:focus-visible,
+  .valv-samla-panel button:focus-visible,
+  .valv-samla-panel a:focus-visible,
+  .valv-zone-stack button:focus-visible,
+  .valv-zone-stack a:focus-visible {
     outline: var(--ds-focus-ring);
     outline-offset: var(--ds-focus-offset);
   }
@@ -189,7 +198,7 @@
   }
 
   .valv-log-stamp {
-    @apply flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-text-dim;
+    @apply flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-widest text-text-muted;
   }
 
   .valv-worm-stamp {
@@ -213,17 +222,17 @@
   }
 
   .valv-worm-stamp__disclaimer {
-    @apply mt-1 text-[10px] leading-relaxed text-text-dim;
+    @apply mt-1 text-[10px] leading-relaxed text-text-muted;
   }
 
   .valv-silo-notice {
-    @apply rounded-lg border px-3 py-2 text-xs leading-relaxed text-text-dim;
+    @apply rounded-lg border px-3 py-2 text-xs leading-relaxed text-text-muted;
     border-color: color-mix(in srgb, var(--accent) 20%, transparent);
     background: var(--color-panel-obsidian-55);
   }
 
   .valv-log-meta {
-    @apply text-[10px] uppercase tracking-widest text-text-dim;
+    @apply text-[10px] uppercase tracking-widest text-text-muted;
   }
 
   .valv-samla-panel {
@@ -242,9 +251,15 @@
   }
 
   .valv-technique-filter-chip {
+    min-height: var(--ds-touch-target);
+    min-width: var(--ds-touch-target);
     border-color: var(--color-gold-35);
     background: color-mix(in srgb, var(--color-panel-ember-70) 35%, transparent);
     color: color-mix(in srgb, var(--color-accent-gold-70) 78%, #f8fafc);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium),
+      color var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .valv-technique-filter-chip:hover {
@@ -332,6 +347,21 @@
     border-color: color-mix(in srgb, var(--accent) 30%, transparent);
   }
 
+  /* W9 deepen — Mönster / Orkester / Kunskap chrome only */
+  .valv-zone-stack button,
+  .valv-zone-stack a[href],
+  .valv-zone-stack [role='button'],
+  .valv-samla-panel button,
+  .valv-samla-panel a[href] {
+    min-height: var(--ds-touch-target);
+  }
+
+  .valv-silo-notice,
+  .valv-worm-stamp__disclaimer,
+  .valv-log-meta {
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
+  }
+
   .valv-zone-intro:focus-within {
     border-color: color-mix(in srgb, var(--accent) 32%, transparent);
     box-shadow:
@@ -408,12 +438,58 @@
     .valv-samla-panel,
     .valv-samla-stack,
     .valv-zone-stack,
-    .valv-pending-banner {
+    .valv-pending-banner,
+    .valv-technique-filter-chip {
       transition: none;
     }
 
     .valv-log-row:hover {
       transform: none;
+    }
+  }
+}
+
+/* Pass 3 deepen — ADD only */
+@layer components {
+  .valv-samla-panel:focus-within,
+  .valv-zone-stack:focus-within,
+  .valv-monster-bar:focus-within {
+    border-color: color-mix(in srgb, var(--accent, #fde68a) 28%, var(--border, transparent));
+  }
+
+  .valv-monster-bar button:focus-visible,
+  .valv-pending-banner button:focus-visible,
+  .valv-pending-banner a[href]:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
+  .valv-monster-bar button,
+  .valv-pending-banner button,
+  .valv-pending-banner a[href] {
+    min-height: var(--ds-touch-target, 2.75rem);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .valv-monster-bar,
+    .valv-pending-banner,
+    .valv-technique-filter-chip {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background: color-mix(in srgb, var(--surface) 94%, #020617);
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  @layer components {
+    .valv-zone-stack,
+    .valv-samla-panel,
+    .valvet-route-page {
+      max-width: 100%;
+      overflow-x: clip;
     }
   }
 }

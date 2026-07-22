@@ -34,7 +34,7 @@ export function ExecutiveChecklistCard({
           <li key={item.id}>
             <button
               type="button"
-              className="executive-checklist__row flex w-full min-h-[44px] items-center gap-3 text-left"
+              className="executive-checklist__row flex min-h-[44px] w-full items-center gap-3 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => onToggle?.(item.id)}
               disabled={!onToggle}
             >
@@ -58,7 +58,7 @@ export function ExecutiveChecklistCard({
                 {item.label}
               </span>
               {item.time ? (
-                <span className="text-[10px] tabular-nums text-text-dim">{item.time}</span>
+                <span className="text-[10px] tabular-nums text-text-muted">{item.time}</span>
               ) : null}
             </button>
           </li>
@@ -67,7 +67,7 @@ export function ExecutiveChecklistCard({
       {onAdd ? (
         <button
           type="button"
-          className="executive-checklist__add mt-3 w-full min-h-[44px] rounded-xl border border-dashed border-border/30 text-xs font-semibold uppercase tracking-wider text-accent"
+          className="executive-checklist__add mt-3 min-h-[44px] w-full rounded-xl border border-dashed border-border/30 text-xs font-semibold uppercase tracking-wider text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={onAdd}
         >
           + Lägg till steg

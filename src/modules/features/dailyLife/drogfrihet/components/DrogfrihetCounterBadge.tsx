@@ -17,7 +17,7 @@ export function DrogfrihetCounterBadge({ uid }: Props) {
         <p className="text-sm text-text-muted">
           Räknaren är inte startad ännu.
         </p>
-        <p className="mt-2 text-xs text-text-dim">
+        <p className="mt-2 text-xs text-text-muted">
           Starta under{' '}
           <Link to="/installningar?tab=drogfrihet" className="text-accent hover:underline">
             Inställningar → Drogfrihet
@@ -36,7 +36,7 @@ export function DrogfrihetCounterBadge({ uid }: Props) {
         {counter.dayCount}
         <span className="ml-2 text-base font-sans text-text-muted">{dayLabel}</span>
       </p>
-      <p className="mt-2 text-xs text-text-dim">
+      <p className="mt-2 text-xs text-text-muted">
         Sedan {counter.startDateKey}. Ändra eller nollställ under{' '}
         <Link to="/installningar?tab=drogfrihet" className="text-accent hover:underline">
           Inställningar

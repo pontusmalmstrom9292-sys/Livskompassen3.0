@@ -142,7 +142,7 @@ export function ReflectionStep({
             aria-selected={mode === id}
             aria-controls={`reflektion-write-panel-${id}`}
             tabIndex={mode === id ? 0 : -1}
-            className={`reflektion-write-tabs__tab min-h-11 ${mode === id ? 'reflektion-write-tabs__tab--active' : ''}`}
+            className={`reflektion-write-tabs__tab min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${mode === id ? 'reflektion-write-tabs__tab--active' : ''}`}
             onClick={() => setMode(id)}
             onKeyDown={(e) => handleWriteTabKeyDown(e, id)}
           >
@@ -176,7 +176,7 @@ export function ReflectionStep({
               <button
                 key={p}
                 type="button"
-                className="reflektion-prompt-chip"
+                className="reflektion-prompt-chip min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={() => applyPrompt(p)}
               >
                 {p}
@@ -185,7 +185,7 @@ export function ReflectionStep({
             {moodPrompt && (
               <button
                 type="button"
-                className="reflektion-prompt-chip reflektion-prompt-chip--mood"
+                className="reflektion-prompt-chip reflektion-prompt-chip--mood min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={() => applyPrompt(moodPrompt)}
               >
                 {moodPrompt}
@@ -194,7 +194,7 @@ export function ReflectionStep({
           </div>
           <button
             type="button"
-            className="reflektion-shuffle"
+            className="reflektion-shuffle min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={() => applyPrompt(pickRandomPrompt())}
           >
             <Sparkles className="h-4 w-4" aria-hidden />
@@ -239,8 +239,10 @@ export function ReflectionStep({
             <Button
               type="button"
               variant="ghost"
+              className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={isListening ? stop : start}
               aria-pressed={isListening}
+              aria-label={isListening ? 'Stoppa röstinmatning' : 'Prata in'}
             >
               {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
               {isListening ? 'Stoppa' : 'Prata in'}
@@ -282,14 +284,14 @@ export function ReflectionStep({
       </div>
 
       <div className="reflektion-actions">
-        <Button type="button" variant="ghost" onClick={onBack}>
+        <Button type="button" variant="ghost" className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={onBack}>
           <ChevronLeft className="h-4 w-4" /> Tillbaka
         </Button>
-        <Button type="button" variant="secondary" disabled={!canContinue} onClick={onContinue} aria-keyshortcuts="Enter">
+        <Button type="button" variant="secondary" className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" disabled={!canContinue} onClick={onContinue} aria-keyshortcuts="Enter">
           Nästa <ChevronRight className="h-4 w-4" />
         </Button>
         {lowEnergyBridge && onSaveWithoutText && (
-          <Button type="button" variant="ghost" size="sm" disabled={saving} onClick={onSaveWithoutText}>
+          <Button type="button" variant="ghost" size="sm" className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" disabled={saving} onClick={onSaveWithoutText}>
             {MABRA_BRIDGE_LABELS.skipText}
           </Button>
         )}

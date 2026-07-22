@@ -39,7 +39,7 @@ export function ArbetslivFlexDelegate() {
 
   if (workStats.loading || hrLoading) {
     return (
-      <p className="flex items-center gap-2 text-sm text-text-dim">
+      <p className="flex items-center gap-2 text-sm text-text-muted">
         <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
         Laddar veckodata…
       </p>
@@ -67,7 +67,7 @@ export function ArbetslivFlexDelegate() {
           estimatedWeekPay={estimatedWeekPay}
           statusLine={statusLine}
         />
-        <p className="mt-3 text-xs text-text-dim">
+        <p className="mt-3 text-xs text-text-muted">
           Stämpla in/ut under fliken Stämpel. Lönespec finns under Valv (PIN).
         </p>
       </BentoCard>

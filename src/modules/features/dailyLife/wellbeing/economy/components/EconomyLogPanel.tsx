@@ -106,7 +106,7 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
     <div className="economy-log-shell space-y-4">
       {error && <p className="text-sm text-danger">{error}</p>}
       {loading && (
-        <p className="flex items-center gap-2 text-sm text-text-dim">
+        <p className="flex items-center gap-2 text-sm text-text-muted">
           <Loader2 className="h-4 w-4 animate-spin" /> Laddar logg…
         </p>
       )}
@@ -171,7 +171,7 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
                       {b.amountSek} kr
                       <button
                         type="button"
-                        className="ml-2 text-xs text-danger"
+                        className="ml-2 inline-flex min-h-11 items-center text-xs text-danger focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                         onClick={() => void deleteEconomyFixedBill(user!.uid, b.id).then(reload)}
                       >
                         Ta bort
@@ -214,7 +214,7 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
                     />
                     <button
                       type="button"
-                      className="shrink-0 text-xs text-danger"
+                      className="inline-flex min-h-11 shrink-0 items-center text-xs text-danger focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                       onClick={() => void deleteEconomyLedgerEntry(user!.uid, row.id).then(reload)}
                     >
                       Radera
@@ -225,7 +225,7 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
             )}
           </BentoCard>
 
-          <p className="text-xs text-text-dim">
+          <p className="text-xs text-text-muted">
             {scope === 'vardag'
               ? 'Jobbinkomst och lönespec registreras i Arbetsliv — inte här.'
               : 'Frånvaro (sjuk/VAB heldag) finns under Valv → Lön (PIN).'}

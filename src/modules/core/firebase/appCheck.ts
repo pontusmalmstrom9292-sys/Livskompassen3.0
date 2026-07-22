@@ -32,7 +32,8 @@ let lastTokenOk = false;
  * Single-user (Pontus): Valvet får INTE hard-fail när App Check-token saknas
  * (debug-APK / Play Integrity). Inloggning + biometri + firestore.rules skyddar data.
  * Server-enforce styrs separat via Functions `APP_CHECK_ENFORCE` (håll false).
- * Sätt true igen när Play Integrity + debug-token är stabila.
+ * Console Firestore App Check måste vara UNENFORCED — se `npm run smoke:app-check-policy`.
+ * Sätt ENFORCED / APP_CHECK_ENFORCE=true endast med explicit Pontus PMIR OK.
  */
 export const VALV_REQUIRES_APP_CHECK = false;
 
