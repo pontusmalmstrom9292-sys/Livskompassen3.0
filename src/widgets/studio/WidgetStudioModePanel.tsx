@@ -130,6 +130,37 @@ export function WidgetStudioModePanel({ smartAiEnabled }: { smartAiEnabled: bool
           Demo: stress
         </WidgetButton>
         <WidgetButton
+          variant="quiet"
+          size="min"
+          style={{ minHeight: Math.max(44, Math.round(WidgetTouch.minDp * 0.72)) }}
+          onClick={() =>
+            void setDemoOverride({
+              energy: 55,
+              stress: 40,
+              sleep: 60,
+              openTaskCount: 8,
+            })
+          }
+        >
+          Demo: många uppgifter
+        </WidgetButton>
+        <WidgetButton
+          variant="quiet"
+          size="min"
+          style={{ minHeight: Math.max(44, Math.round(WidgetTouch.minDp * 0.72)) }}
+          onClick={() =>
+            void setDemoOverride({
+              energy: 55,
+              stress: 35,
+              sleep: 65,
+              openTaskCount: 2,
+              isBarnvecka: true,
+            })
+          }
+        >
+          Demo: barnvecka
+        </WidgetButton>
+        <WidgetButton
           variant="ghost"
           size="min"
           style={{ minHeight: Math.max(44, Math.round(WidgetTouch.minDp * 0.72)) }}

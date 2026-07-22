@@ -20,6 +20,8 @@ export type CompanionHomeSurface = {
   featuredWidgetIds: string[];
   visibleWidgetIds: string[];
   dimVisual: boolean;
+  /** Bible 5.4 — pause proactive nudges when crash/stress. */
+  pauseProactive: boolean;
   banner: string;
   smartTimeEnabled: boolean;
   smartAiEnabled: boolean;
@@ -78,6 +80,11 @@ export function resolveHomeSurface(opts?: {
     featured = unique([...pinned, ...enabled]).slice(0, 3);
   }
 
+  /* Crash/stress: one calm surface (bible 5.4 pauseProactive). */
+  if (aiEnabled && ai.pauseProactive && featured.length > 1) {
+    featured = featured.slice(0, 1);
+  }
+
   const hide = new Set(aiEnabled ? ai.hideWidgetIds : []);
 
   let visible = enabled.filter((id) => !hide.has(id));
@@ -95,6 +102,10 @@ export function resolveHomeSurface(opts?: {
     studio.smartTimeEnabled && !(aiEnabled && ai.message) ? time.message : '',
   ].filter(Boolean);
 
+  /* Bible 5.3 night — dämpad profil when time layer on (AI dim still wins). */
+  const nightDim = studio.smartTimeEnabled && time.period === 'night';
+  const dimVisual = Boolean(ai.dimVisual || nightDim);
+
   return {
     period: time.period,
     time,
@@ -102,7 +113,8 @@ export function resolveHomeSurface(opts?: {
     mode: ai.mode,
     featuredWidgetIds: featured,
     visibleWidgetIds: visible,
-    dimVisual: ai.dimVisual,
+    dimVisual,
+    pauseProactive: aiEnabled ? ai.pauseProactive : false,
     banner: bannerParts[0] ?? '',
     smartTimeEnabled: studio.smartTimeEnabled,
     smartAiEnabled: aiEnabled,

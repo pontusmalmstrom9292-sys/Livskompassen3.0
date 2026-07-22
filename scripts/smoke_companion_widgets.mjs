@@ -401,16 +401,39 @@ mustExist('src/widgets/smart/smartTimeContext.ts');
 mustExist('src/widgets/smart/widgetAiContext.ts');
 mustExist('src/widgets/smart/resolveHomeSurface.ts');
 
+const smartTime = mustExist('src/widgets/smart/smartTimeContext.ts');
+assert(smartTime.includes('msUntilNextPeriod'), 'Smart Time måste schemalägga periodgräns');
+assert(!/\bsetInterval\s*\(/.test(smartTime), 'Smart Time får inte använda setInterval');
+assert(smartTime.includes('morning') && smartTime.includes('night'), 'Smart Time saknar dygnsperioder');
+
+const widgetAi = mustExist('src/widgets/smart/widgetAiContext.ts');
+assert(widgetAi.includes('anchor_only'), 'AI saknar låg-energi-läge');
+assert(widgetAi.includes('harbor'), 'AI saknar stress→hamn-läge');
+assert(widgetAi.includes('single_task'), 'AI saknar overload→single_task');
+assert(widgetAi.includes('family') || widgetAi.includes('isBarnvecka'), 'AI saknar barnvecka');
+assert(widgetAi.includes('pauseProactive'), 'AI saknar pauseProactive');
+
+const homeSurface = mustExist('src/widgets/smart/resolveHomeSurface.ts');
+assert(homeSurface.includes('pauseProactive'), 'Home surface måste exponera pauseProactive');
+assert(homeSurface.includes('night') && homeSurface.includes('dimVisual'), 'Home surface måste dimma natt');
+
+const useSurface = mustExist('src/widgets/smart/useCompanionSurface.ts');
+assert(useSurface.includes('msUntilNextPeriod'), 'useCompanionSurface måste refresha på period');
+assert(!useSurface.includes('setInterval'), 'useCompanionSurface får inte setInterval');
+
+assert(homeRail.includes('cw-home-rail--dim') || homeRail.includes('dimVisual'), 'Hem-rail måste stödja dim');
+assert(homeRail.includes('pauseProactive'), 'Hem-rail måste respektera pauseProactive');
+assert(homeRail.includes('single_task') && homeRail.includes('maxVisible'), 'Hem-rail måste begränsa tasks i single_task');
+
+const studioSmart = mustExist('src/widgets/studio/WidgetStudioPage.tsx');
+assert(studioSmart.includes('smartTimeEnabled') && studioSmart.includes('smartAiEnabled'), 'Studio saknar Smart Time/AI toggles');
+
 const mood = mustExist('src/widgets/components/WidgetMoodCheckIn.tsx');
 assert(mood.includes('cw-mood'), 'Mood check-in saknar ansikts-UI');
 
 const guided = mustExist('src/widgets/studio/guidedCustomization.ts');
 assert(guided.includes('maxShortcutsForSize'), 'Guided customization saknar max-knappar');
 assert(guided.includes('guideWidgetConfig'), 'Guided customization saknar sanitizer');
-
-const ai = mustExist('src/widgets/smart/widgetAiContext.ts');
-assert(ai.includes('anchor_only'), 'AI saknar låg-energi-läge');
-assert(ai.includes('harbor'), 'AI saknar stress→hamn-läge');
 
 mustExist('src/widgets/smart/readCompanionSignals.ts');
 mustExist('src/widgets/components/WidgetSyncStatusChip.tsx');
@@ -460,6 +483,8 @@ mustExist('src/widgets/studio/WidgetStudioModePanel.tsx');
 const modePanel = mustExist('src/widgets/studio/WidgetStudioModePanel.tsx');
 assert(modePanel.includes('Demo: låg energi'), 'Lägespanel saknar energi-demo');
 assert(modePanel.includes('Rensa demo'), 'Lägespanel saknar rensa-demo');
+assert(modePanel.includes('många uppgifter') || modePanel.includes('openTaskCount: 8'), 'Studio saknar overload-demo');
+assert(modePanel.includes('barnvecka') || modePanel.includes('isBarnvecka: true'), 'Studio saknar barnvecka-demo');
 
 const androidViews = mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetViews.java');
 assert(androidViews.includes('substring') || androidViews.includes('40'), 'Android chip måste trunkera last_action');
@@ -692,4 +717,4 @@ mustExist('android/app/src/main/res/layout/widget_companion_child.xml');
 const childInfoXml = mustExist('android/app/src/main/res/xml/widget_companion_child_info.xml');
 assert(childInfoXml.includes('180dp'), 'Child info måste vara Medium 250×180');
 
-console.log('[smoke:companion-widgets] PASS — live rail + studio preview + barnfokus/planering + Våg1–3 rich');
+console.log('[smoke:companion-widgets] PASS — live rail + studio preview + Våg1–5 rich + Smart/AI');

@@ -116,19 +116,29 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
         ? surface.featuredWidgetIds
         : surface.visibleWidgetIds
     ).filter((id) => id in WIDGET_MAP);
-    return ids.slice(0, Math.max(1, Math.min(2, max)));
-  }, [surface.featuredWidgetIds, surface.visibleWidgetIds, max]);
+    const cap = surface.pauseProactive ? 1 : Math.max(1, Math.min(2, max));
+    return ids.slice(0, cap);
+  }, [
+    surface.featuredWidgetIds,
+    surface.visibleWidgetIds,
+    surface.pauseProactive,
+    max,
+  ]);
 
   return (
     <section
       id={ROOT_ID}
-      className="cw-home-rail cw-home-rail--elevated"
+      className={[
+        'cw-home-rail',
+        'cw-home-rail--elevated',
+        surface.dimVisual ? 'cw-home-rail--dim' : '',
+        surface.pauseProactive ? 'cw-home-rail--pause' : '',
+      ]
+        .filter(Boolean)
+        .join(' ')}
       aria-label="Companion just nu"
-      style={{
-        display: 'grid',
-        gap: '0.75rem',
-        opacity: surface.dimVisual ? 0.88 : 1,
-      }}
+      data-cw-period={surface.period}
+      data-cw-mode={surface.mode}
     >
       <div className="cw-home-rail__head">
         <p className="cw-home-rail__title">
@@ -242,7 +252,9 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
             const pinned = getWidgetStudioState().widgets[id]?.homePin === true;
             const inner =
               id === 'daily_tasks' ? (
-                <CompanionDailyTasksHost maxVisible={surface.mode === 'single_task' ? 1 : 2} />
+                <CompanionDailyTasksHost
+                  maxVisible={surface.mode === 'single_task' ? 1 : 3}
+                />
               ) : (
                 <Comp />
               );

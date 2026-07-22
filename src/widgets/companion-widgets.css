@@ -1430,6 +1430,16 @@
 
 .cw-home-rail {
   --cw-rail-bloom: 0 0 28px color-mix(in srgb, var(--cw-gold, #d4af37) 10%, transparent);
+  transition: opacity 0.55s ease, filter 0.55s ease;
+}
+
+.cw-home-rail--dim {
+  opacity: 0.88;
+  filter: saturate(0.92);
+}
+
+.cw-home-rail--pause .cw-home-rail__banner {
+  color: color-mix(in srgb, var(--cw-ethereal, #7ba3c9) 70%, var(--cw-muted, #94a3b8));
 }
 
 .cw-home-rail--elevated {

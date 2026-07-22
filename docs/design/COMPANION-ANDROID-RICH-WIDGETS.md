@@ -49,11 +49,15 @@ Alla `info.xml`: `initialLayout` + `previewLayout` = rich (inte `widget_dock_til
 | G offline cache-first | WidgetCache ✅ |
 | H Shared OS + Android PI | WidgetLaunch Stamp ✅ |
 
-## Smoke
+## Gate C — Smart Time + Widget AI (Våg 5)
 
-```bash
-npm run smoke:companion-widgets
-npm run smoke:widgets
-npm run smoke:locked-ux
-cd android && ./gradlew :app:compileDebugJavaWithJavac
-```
+| Feature | Status |
+|---------|--------|
+| Smart Time 07/12/18/22 | `smartTimeContext` + Hem-rail period badge |
+| Night dim | `cw-home-rail--dim` when period=night |
+| Widget AI modes | harbor / single_task / family / anchor_only |
+| pauseProactive | max 1 featured på Hem |
+| Studio demos | låg energi · stress · många uppgifter · barnvecka |
+| No setInterval | timeout on period boundary only |
+
+Studio toggles: Inställningar → Widget Studio → Smarta lager.
