@@ -188,7 +188,7 @@ public class MainActivity extends BridgeActivity {
         
         projectionManager = new ProjectionManager(this, isProjecting -> {
             if (isProjecting) {
-                LCLog.w("MainActivity: Security warning - screen is being projected!");
+                LCLog.w(getString(R.string.log_security_projection_warning));
             }
         });
         projectionManager.start();
@@ -213,10 +213,10 @@ public class MainActivity extends BridgeActivity {
     }
 
     private void checkSecurityStatus() {
-        if (SecurityUtils.isRooted()) LCLog.w("Varning: Enheten är rootad.");
-        if (SecurityUtils.isAdbEnabled(this)) LCLog.w("Säkerhetsinfo: ADB-felsökning är aktiverat.");
-        if (SecurityUtils.isHookingDetected()) LCLog.e("KRITISKT: Hooking-verktyg detekterade!");
-        if (SecurityUtils.hasSuspiciousAccessibilityService(this)) LCLog.w("Varning: Misstänkt hjälpmedelstjänst aktiv.");
+        if (SecurityUtils.isRooted()) LCLog.w(getString(R.string.security_warning_rooted));
+        if (SecurityUtils.isAdbEnabled(this)) LCLog.w(getString(R.string.security_info_adb_enabled));
+        if (SecurityUtils.isHookingDetected()) LCLog.e(getString(R.string.security_critical_hooking_detected));
+        if (SecurityUtils.hasSuspiciousAccessibilityService(this)) LCLog.w(getString(R.string.security_warning_suspicious_accessibility));
     }
 
     private void handleInitialIntent(Intent intent) {
@@ -230,7 +230,7 @@ public class MainActivity extends BridgeActivity {
     private void handleShareIntent(Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null && !sharedText.isEmpty()) {
-            LCLog.d("MainActivity: Received shared text: " + sharedText);
+            LCLog.d(getString(R.string.log_received_shared_text, sharedText));
             // Pass to Web UI via Inkast route
             String path = "/planering/input?inputMode=inkast&shared_text=" + Uri.encode(sharedText);
             if (widgetNavigator != null) {
@@ -256,7 +256,7 @@ public class MainActivity extends BridgeActivity {
                 androidx.work.ExistingPeriodicWorkPolicy.KEEP,
                 refreshRequest
         );
-        LCLog.d("WorkManager: Scheduled periodic widget heartbeat.");
+        LCLog.d(getString(R.string.log_work_manager_scheduled));
     }
 
     private long lastBackPressTime = 0;
@@ -335,7 +335,7 @@ public class MainActivity extends BridgeActivity {
         shakeDetector = new ShakeDetector();
         shakeDetector.setOnShakeListener(count -> {
             if (count >= 2) {
-                LCLog.w("SHAKE PANIC DETECTED! Immediate lockdown triggered.");
+                LCLog.w(getString(R.string.log_shake_panic_detected));
                 hapticManager.error();
                 if (sacredLockManager != null) {
                     sacredLockManager.showLock();
@@ -430,7 +430,7 @@ public class MainActivity extends BridgeActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == PERMISSIONS_REQUEST_RECORD_AUDIO) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                LCLog.d("RECORD_AUDIO granted.");
+                LCLog.d(getString(R.string.log_record_audio_granted));
             }
         }
     }

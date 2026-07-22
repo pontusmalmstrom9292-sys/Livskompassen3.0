@@ -62,13 +62,13 @@ public class SacredLockManager {
         // Touch SecurePrefs first so degraded flag is accurate, then fail-closed.
         android.content.SharedPreferences prefs = SecurePrefs.get(activity);
         if (SecurePrefs.isDegraded()) {
-            LCLog.e("SacredLockManager: SecurePrefs degraded — forcing lock.");
+            LCLog.e(activity.getString(R.string.log_lock_secure_prefs_degraded));
             showLock();
             return;
         }
         boolean wasLocked = prefs.getBoolean(PREF_LOCKED_STATE, false);
         if (wasLocked) {
-            LCLog.d("SacredLockManager: Restoring persistent locked state.");
+            LCLog.d(activity.getString(R.string.log_lock_restoring_state));
             showLock();
         }
     }
@@ -79,7 +79,7 @@ public class SacredLockManager {
 
     public void setStealthMode(boolean active) {
         SecurePrefs.get(activity).edit().putBoolean("stealth_mode_active", active).apply();
-        LCLog.w("SacredLockManager: Stealth Mode state changed to " + active);
+        LCLog.w(activity.getString(R.string.log_lock_stealth_mode_changed, active));
     }
 
     private void setupUnlockButton() {
@@ -92,7 +92,7 @@ public class SacredLockManager {
                         long remainingSec = Math.max(1L, (deepLockRemainingMs() + 999L) / 1000L);
                         Toast.makeText(
                                 activity,
-                                "För många misslyckade försök. Vänta " + remainingSec + " s.",
+                                activity.getString(R.string.lock_too_many_attempts, remainingSec),
                                 Toast.LENGTH_LONG
                         ).show();
                         return;
@@ -167,7 +167,7 @@ public class SacredLockManager {
                     BACKGROUND_GRACE_MS
             );
             if (backgroundDuration > dynamicTimeout) {
-                LCLog.d("SacredLockManager: Idle timeout reached. Triggering lock.");
+                LCLog.d(activity.getString(R.string.log_lock_idle_timeout));
                 showLock();
             }
             lastBackgroundTime = 0L;
@@ -249,20 +249,20 @@ public class SacredLockManager {
 
         // Fail-closed: never unlock when biometrics/device credential are unavailable.
         if (canAuth != BiometricManager.BIOMETRIC_SUCCESS) {
-            LCLog.e("SacredLockManager: Auth unavailable (code=" + canAuth + "). Keeping Vault locked.");
+            LCLog.e(activity.getString(R.string.log_lock_auth_unavailable, canAuth));
             hapticManager.error();
             ensureLockedUi();
             Toast.makeText(
                     activity,
-                    "Valvet förblir låst. Aktivera fingeravtryck, ansikte eller PIN på telefonen.",
+                    activity.getString(R.string.lock_unavailable_message),
                     Toast.LENGTH_LONG
             ).show();
             return;
         }
 
         BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Lås upp Livskompassen")
-                .setSubtitle("Valvet kräver autentisering")
+                .setTitle(activity.getString(R.string.lock_prompt_title))
+                .setSubtitle(activity.getString(R.string.lock_prompt_subtitle))
                 .setAllowedAuthenticators(authenticators)
                 .build();
 
@@ -272,7 +272,7 @@ public class SacredLockManager {
                     public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
                         super.onAuthenticationSucceeded(result);
                         currentPrompt = null;
-                        LCLog.d("SacredLockManager: Biometric Auth SUCCESS");
+                        LCLog.d(activity.getString(R.string.log_lock_auth_success));
                         hapticManager.success();
                         resetFailedAttempts();
                         hideLock();
@@ -282,7 +282,7 @@ public class SacredLockManager {
                     public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                         super.onAuthenticationError(errorCode, errString);
                         currentPrompt = null;
-                        LCLog.w("SacredLockManager: Biometric Auth ERROR: " + errString);
+                        LCLog.w(activity.getString(R.string.log_lock_auth_error, errString));
                         hapticManager.error();
                         incrementFailedAttempts();
                         
@@ -294,7 +294,7 @@ public class SacredLockManager {
                     @Override
                     public void onAuthenticationFailed() {
                         super.onAuthenticationFailed();
-                        LCLog.w("SacredLockManager: Biometric Auth FAILED (Invalid finger/face)");
+                        LCLog.w(activity.getString(R.string.log_lock_auth_failed));
                         hapticManager.error();
                         incrementFailedAttempts();
                     }

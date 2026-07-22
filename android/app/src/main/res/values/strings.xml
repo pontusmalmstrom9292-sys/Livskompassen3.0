@@ -202,4 +202,64 @@
 
     <string name="shortcut_vault_short">Öppna Valvet</string>
     <string name="shortcut_vault_long">Öppna det säkra valvet</string>
+
+    <!-- Security Warnings -->
+    <string name="security_warning_rooted">Varning: Enheten är rootad.</string>
+    <string name="security_info_adb_enabled">Säkerhetsinfo: ADB-felsökning är aktiverat.</string>
+    <string name="security_critical_hooking_detected">KRITISKT: Hooking-verktyg detekterade!</string>
+    <string name="security_warning_suspicious_accessibility">Varning: Misstänkt hjälpmedelstjänst aktiv.</string>
+
+    <!-- Internal Logs -->
+    <string name="log_security_projection_warning">MainActivity: Security warning - screen is being projected!</string>
+    <string name="log_received_shared_text">MainActivity: Received shared text: %1$s</string>
+    <string name="log_work_manager_scheduled">WorkManager: Scheduled periodic widget heartbeat.</string>
+    <string name="log_shake_panic_detected">SHAKE PANIC DETECTED! Immediate lockdown triggered.</string>
+    <string name="log_record_audio_granted">RECORD_AUDIO granted.</string>
+
+    <!-- Notification Strings -->
+    <string name="notification_channel_vault_name">Valv-aviseringar</string>
+    <string name="notification_channel_vault_desc">Viktiga säkerhetsnotiser rörande ditt valv.</string>
+    <string name="notification_channel_daily_name">Dagliga påminnelser</string>
+    <string name="notification_channel_daily_desc">Påminnelser för din dagliga mix och reflektion.</string>
+    <string name="notification_channel_drogfrihet_desc">Mjuka Drogfrihet-påminnelser och buddy-ping (opt-in).</string>
+    <string name="notification_drogfrihet_default_text">Ett ankare finns här.</string>
+    <string name="notification_masked_text">Skyddad avisering. Lås upp för att läsa.</string>
+    <string name="notification_action_lock_vault">Säkra Valvet</string>
+    <string name="notification_action_done">Klar</string>
+    <string name="notification_action_later">Senare</string>
+
+    <!-- Sacred Lock Strings -->
+    <string name="lock_too_many_attempts">För många misslyckade försök. Vänta %1$d s.</string>
+    <string name="lock_unavailable_message">Valvet förblir låst. Aktivera fingeravtryck, ansikte eller PIN på telefonen.</string>
+    <string name="lock_prompt_title">Lås upp Livskompassen</string>
+    <string name="lock_prompt_subtitle">Valvet kräver autentisering</string>
+
+    <!-- Sacred Lock Logs -->
+    <string name="log_lock_secure_prefs_degraded">SacredLockManager: SecurePrefs degraded — forcing lock.</string>
+    <string name="log_lock_restoring_state">SacredLockManager: Restoring persistent locked state.</string>
+    <string name="log_lock_stealth_mode_changed">SacredLockManager: Stealth Mode state changed to %1$b</string>
+    <string name="log_lock_idle_timeout">SacredLockManager: Idle timeout reached. Triggering lock.</string>
+    <string name="log_lock_auth_unavailable">SacredLockManager: Auth unavailable (code=%1$d). Keeping Vault locked.</string>
+    <string name="log_lock_auth_success">SacredLockManager: Biometric Auth SUCCESS</string>
+    <string name="log_lock_auth_error">SacredLockManager: Biometric Auth ERROR: %1$s</string>
+    <string name="log_lock_auth_failed">SacredLockManager: Biometric Auth FAILED (Invalid finger/face)</string>
+
+    <!-- WebView Strings -->
+    <string name="web_error_file_blocked">Säkerhetsfel: Endast system-filer tillåts.</string>
+    <string name="web_error_file_too_large">Filen är för stor (max 10MB).</string>
+    <string name="web_error_binary_file">Fel: Filen verkar vara binär eller skadad.</string>
+    <string name="web_error_title_security">Säkerhetsfel</string>
+    <string name="web_error_ssl">Anslutningen är inte säker (SSL_ERROR).</string>
+    <string name="web_error_title_connection">Anslutningsfel</string>
+    <string name="web_error_title_server">Serverfel</string>
+    <string name="web_error_status">Status: %1$d</string>
+    <string name="web_error_title_restart">App-omstart krävs</string>
+    <string name="web_error_render_gone">Webbvyn har slutat svara. Försök att starta om appen.</string>
+    <string name="web_error_high_risk_upload">Säkerhetsvarning: Uppladdning begränsad i osäker miljö.</string>
+    <string name="web_picker_title_sensitive">Välj Lönekontor-fil (.yaml, .json)</string>
+    <string name="web_picker_title_default">Välj fil</string>
+    <string name="web_error_download_type">Den här filtypen kan inte laddas ner här.</string>
+    <string name="web_auth_title">Verifiera identitet</string>
+    <string name="web_auth_subtitle">Krävs för att ladda upp Lönekontor-data</string>
+    <string name="web_warning_mic_in_use">Varning: Mikrofonen verkar användas av en annan app.</string>
 </resources>
