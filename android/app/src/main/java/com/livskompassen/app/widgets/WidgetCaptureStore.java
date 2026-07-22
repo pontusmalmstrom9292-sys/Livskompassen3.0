@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.security.crypto.EncryptedFile;
 
 import com.livskompassen.app.R;
@@ -214,6 +215,7 @@ public final class WidgetCaptureStore {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.Q)
     private static void writeToMediaStoreDownloads(Context context, File source, String displayName)
             throws Exception {
         ContentResolver resolver = context.getContentResolver();
