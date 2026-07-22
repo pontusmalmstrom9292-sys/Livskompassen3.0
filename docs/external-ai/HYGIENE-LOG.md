@@ -17,6 +17,16 @@ Flytta/radera **inte** utan Pontus-OK + PMIR.
 | 2026-06-16 | Handoff | `docs/archive/root-2026-06/` (5 rot-md) | **ARCHIVE** | — | PMIR wave C |
 | 2026-06-16 | Handoff | Legacy `DagbokSuperModule` (features/diary) | **ARCHIVE** | `code-legacy-2026-06/` | LazyDiary → Hjärtat länk |
 
+| 2026-07-22 | Doc-kanon | `docs/external-ai/bifoga/` speglor (52 untracked), `gemini-kunskap` tier-2/3/kanon speglor, untracked `exports/**/*.md` | **DELETE (local regenerable)** | — | Spår B våg 1 — återskapas med chatbot:sync / gemini:sync / pack-skript. Tracked exports orörda → DELETE-lista våg 5. |
+
+| 2026-07-22 | Doc-kanon | `docs/evaluations/*` (249 st, pre-juli) | **ARCHIVE** | `docs/archive/evaluations-pre-2026-07/` | Spår B våg 2 — unlock/fas24/2026-07+ kvar |
+| 2026-07-22 | Doc-kanon | juli sessionloggar (154 st) | **ARCHIVE** | `docs/archive/evaluations-2026-07-session-logs/` | Spår B våg 3 — YOLO/security/drift/ux-guardian |
+| 2026-07-22 | Doc-kanon | `docs/external-ai/imports/research-*` m.fl. (23) | **ARCHIVE** | `docs/archive/external-ai-imports-2026-06/` | Spår B våg 3 — klistra-in-mål kvar |
+| 2026-07-22 | Doc-kanon | `docs/design/planering/variants/*.png` (4) | **ARCHIVE** | `docs/archive/design-2026-06/planering-variants/` | Spår B våg 3 — README-stub kvar |
+| 2026-07-22 | Doc-kanon | `.cursorignore` omskriven | **KEEP** | — | Spår A — kanon indexeras; archive/exports/kalla evals ut |
+
+| 2026-07-22 | Doc-kanon | 27 tracked `exports/**` (DELETE-förslag) | **DELETE** | — | Pontus-OK: `OK radera DELETE-förslag 2026-07-22`. README/LÄS-MIG kvar. |
+
 ## ChatBox PHASE-07 — granskade förslag (REJECT)
 
 | ChatBox föreslog | Beslut | Varför |

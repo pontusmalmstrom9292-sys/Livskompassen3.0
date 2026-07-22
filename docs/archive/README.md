@@ -6,6 +6,10 @@ Historiskt material — **läs-only**. Använd inte som aktiv sanning.
 
 | Mapp / fil | Beskrivning |
 |------------|-------------|
+| [`evaluations-pre-2026-07/`](evaluations-pre-2026-07/) | Evaluations före juli 2026 (docs-kanon 2026-07-22) |
+| [`evaluations-2026-07-session-logs/`](evaluations-2026-07-session-logs/) | Juli YOLO-/security-/drift-sessionloggar |
+| [`external-ai-imports-2026-06/`](external-ai-imports-2026-06/) | Research-/gap-importer från external-ai |
+| [`design-2026-06/planering-variants/`](design-2026-06/planering-variants/) | Planering mockup-PNG |
 | [`evaluations-fas19-2026-06/`](evaluations-fas19-2026-06/) | Hub-analyser + ombyggnad 2026-05-31 (Fas 19 prep) |
 | [`evaluations-fas19-6-2026-06/`](evaluations-fas19-6-2026-06/) | **Fas 19.6** arkiv-batch (2026-06-15) |
 | [`evaluations-fas20-2026-06/`](evaluations-fas20-2026-06/) | Maj–juni tidiga cursor-planer + 2026-06-06 byggpass |

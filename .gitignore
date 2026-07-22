@@ -146,3 +146,13 @@ __pycache__/
 .orkester/natt-ci-state.json
 .orkester/natt-ci-runs/
 .orkester-backup-cursor-hooks/
+
+# Regenerable handoff packs (docs-kanon 2026-07-22) — recreate via npm run *:pack
+# Tracked copies may still exist until Pontus OK on DELETE-proposal; ignore new locals.
+exports/antigravity/**
+!exports/antigravity/README.txt
+exports/repomix/**
+exports/chatbot-handoff/chatbot-pack-*.md
+exports/chatbot-handoff/ekonomi-dashboard-pack.md
+exports/chatbot-handoff/ui-design-pack.md
+exports/cursor-pipeline/*-pack.md
