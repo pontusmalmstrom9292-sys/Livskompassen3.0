@@ -6,9 +6,7 @@
     "allowMixedContent": false
   },
   "server": {
-    "androidScheme": "https",
-    "url": "https://gen-lang-client-0481875058.web.app",
-    "cleartext": false
+    "androidScheme": "https"
   },
   "plugins": {
     "FirebaseAuthentication": {
