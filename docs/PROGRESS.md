@@ -1,3 +1,18 @@
+## 2026-07-22 — UI Polish V4 ×10 PASS 4 (samma vågor igen, ADD-only)
+
+- Fyren/Hem/SOS/Life OS presets + Planering/Dagbok/MåBra + Familjen/Projekt/Archive/KompassDiscovery
+- ui-polish-v4-x10.css Pass 4 selectors; unlock Pass log
+- Smoke: design-debt · locked-ux · design-modules · widgets · planering · governance · build · **predeploy:build PASS** · UX GO
+- Pending: Pontus G85 touch/focus
+
+## 2026-07-22 — UI Polish V4 ×10 PASS 4 (Planering/Dagbok/MåBra ADD-only)
+
+- Unlock: `docs/evaluations/2026-07-22-unlock-MOD-UI-POLISH-V4-X10.md`
+- ADD only: `min-h-11` + `focus-visible:ring-accent/40` (+ aria on icon-only) — no UI removed
+- Zones: Planering (7) · Hjärtat/Dagbok (8) · MåBra (8) · QuickCapture · ArchiveShelf · KompassDiscoveryDeck/CardFlow
+- Skip: `/dev` sandbox
+- Pending parent: smoke:locked-ux · design-modules · G85 spotcheck
+
 ## 2026-07-22 — UI Polish V4 ×10 PASS 3 (samma vågor igen, ADD-only)
 
 - Inget borttaget — samma I1–I10 × W0–W11 deepen igen

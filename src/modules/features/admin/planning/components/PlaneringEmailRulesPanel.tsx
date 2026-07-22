@@ -87,7 +87,7 @@ export function PlaneringEmailRulesPanel() {
           type="button"
           variant="secondary"
           size="sm"
-          className="mt-3 w-full"
+          className="mt-3 w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={saving}
           onClick={() => void handleSuggest()}
         >
@@ -158,7 +158,7 @@ export function PlaneringEmailRulesPanel() {
             type="button"
             variant="accent"
             size="sm"
-            className="w-full"
+            className="w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             disabled={saving || !draft.label.trim() || !draft.pattern.trim()}
             onClick={() => void handleAdd()}
           >
@@ -195,7 +195,7 @@ export function PlaneringEmailRulesPanel() {
             <p className="text-xs text-accent">{ROUTE_LABELS[rule.route]}</p>
             <button
               type="button"
-              className="text-xs text-danger"
+              className="min-h-11 text-xs text-danger focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => void removeRule(rule.id)}
             >
               Ta bort

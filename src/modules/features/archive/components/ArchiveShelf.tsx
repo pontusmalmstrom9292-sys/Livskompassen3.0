@@ -15,8 +15,11 @@ export function ArchiveShelf({ title, subtitle, children, defaultOpen = false }:
   return (
     <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden mb-4 shadow-lg transition-colors duration-[var(--ds-duration-fast)] hover:bg-white/10 archive-shelf">
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full px-5 py-4 flex items-center justify-between focus:outline-none"
+        className="w-full min-h-11 px-5 py-4 flex items-center justify-between focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+        aria-expanded={isOpen}
+        aria-label={title}
       >
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">

@@ -32,7 +32,7 @@ export function MabraModulValjare({ onSelect, onSkip }: Props) {
   };
 
   return (
-    <div className="space-y-4" role="region" aria-label="Välj MåBra-pelare">
+    <div className="mabra-modul-valjare space-y-4" role="region" aria-label="Välj MåBra-pelare">
       <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent/90">
         MåBra 3.0
       </p>
@@ -51,7 +51,11 @@ export function MabraModulValjare({ onSelect, onSkip }: Props) {
         ))}
       </div>
       {onSkip ? (
-        <button type="button" onClick={skip} className="text-xs text-text-muted hover:text-text-muted">
+        <button
+          type="button"
+          onClick={skip}
+          className="min-h-11 text-xs text-text-muted hover:text-text-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+        >
           Visa alla zoner direkt
         </button>
       ) : null}

@@ -23,7 +23,10 @@ export function LifeHubPresetPicker({ activeId, onSelect }: Props) {
               type="button"
               role="option"
               aria-selected={active}
-              className={clsx('life-hub-picker__card', active && 'life-hub-picker__card--active')}
+              className={clsx(
+                'life-hub-picker__card min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
+                active && 'life-hub-picker__card--active',
+              )}
               onClick={() => onSelect(p.id)}
             >
               <span className="life-hub-picker__label">{p.label}</span>

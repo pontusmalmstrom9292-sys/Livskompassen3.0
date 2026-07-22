@@ -88,7 +88,7 @@ function ProjectRuleCard({
         <option value="create_task">Skapa uppgift i Handling</option>
         <option value="add_note">Lägg anteckning i projekt</option>
       </select>
-      <button type="button" className="text-xs text-danger" onClick={() => void onRemove()}>
+      <button type="button" className="min-h-11 text-xs text-danger focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55" onClick={() => void onRemove()}>
         Ta bort regel
       </button>
     </div>

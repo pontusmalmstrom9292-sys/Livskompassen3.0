@@ -89,7 +89,7 @@ export function FamiljenLivsloggStundDelegate({ shell, onSaved }: FamiljenDelega
         <button
           type="button"
           onClick={resetForm}
-          className="text-xs text-text-muted hover:text-text underline decoration-border-strong underline-offset-4"
+          className="min-h-11 text-xs text-text-muted hover:text-text underline decoration-border-strong underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         >
           Spara en till
         </button>
@@ -139,7 +139,7 @@ export function FamiljenLivsloggStundDelegate({ shell, onSaved }: FamiljenDelega
         role="switch"
         aria-checked={saveAsAnchor}
         onClick={() => setSaveAsAnchor((v) => !v)}
-        className={`familjen-anchor-card flex w-full items-center justify-between gap-3 text-left transition ${
+        className={`familjen-anchor-card flex min-h-11 w-full items-center justify-between gap-3 text-left transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
           saveAsAnchor ? 'ring-1 ring-accent/40' : ''
         }`}
       >

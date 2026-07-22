@@ -23,7 +23,7 @@ type Props = {
 export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, userId }: Props) {
   return (
     <div className="space-y-4">
-      <Button variant="ghost" className="text-xs" onClick={onBack}>
+      <Button variant="ghost" className="min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={onBack}>
         Tillbaka till projekt
       </Button>
 
@@ -49,7 +49,7 @@ export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, use
             key={kind}
             type="button"
             onClick={() => onSelectPlan(kind)}
-            className={`w-full rounded-xl border px-4 py-3 text-left text-sm transition ${
+            className={`w-full min-h-11 rounded-xl border px-4 py-3 text-left text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
               selectedPlan === kind
                 ? 'border-accent/45 bg-accent/10 text-accent'
                 : 'border-border-strong text-text-muted hover:border-accent/25'

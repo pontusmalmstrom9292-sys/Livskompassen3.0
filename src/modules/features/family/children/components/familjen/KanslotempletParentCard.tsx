@@ -108,8 +108,9 @@ export function KanslotempletParentCard({ activeChild, userId }: Props) {
             <button
               type="button"
               onClick={() => void load()}
-              className="text-text-muted hover:text-accent bg-transparent border-0 cursor-pointer"
+              className="min-h-11 min-w-11 text-text-muted hover:text-accent bg-transparent border-0 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
               title="Uppdatera"
+              aria-label="Uppdatera känsloläge"
             >
               <RefreshCw className="h-3.5 w-3.5" />
             </button>

@@ -64,3 +64,10 @@ npm run smoke:design-modules
 ```
 
 Plus zone smokes; W0 + end of each iteration: `smoke:design-debt`.
+
+## Pass log
+
+- PASS 1–2: initial circuit + FULL RE-RUN
+- PASS 3: ADD-only deepen (chrome/zones)
+- PASS 4: ADD-only deepen (Fyren/Hem/Planering/Dagbok/MåBra/Familjen/CSS) — still refine-only under this unlock
+

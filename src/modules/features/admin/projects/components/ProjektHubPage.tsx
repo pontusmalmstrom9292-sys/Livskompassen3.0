@@ -129,7 +129,7 @@ export function ProjektHubPage() {
       >
         <GoraHubTabBar />
 
-        <div className="space-y-4">
+        <div className="projekt-hub space-y-4">
           {!user && (
             <p className="text-sm text-text-muted">Logga in för att spara projekt.</p>
           )}

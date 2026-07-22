@@ -164,7 +164,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
                 key={key}
                 type="button"
                 onClick={() => setSelectedDateKey(key)}
-                className="flex flex-col items-center flex-1 min-w-[48px] p-1.5 rounded-2xl focus:outline-none transition-all"
+                className="flex min-h-11 flex-col items-center flex-1 min-w-[48px] p-1.5 rounded-2xl focus:outline-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 transition-all"
               >
                 <span className={clsx(
                   "w-10 h-10 flex items-center justify-center rounded-full text-sm font-semibold transition-all",
@@ -287,7 +287,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
           <button
             type="button"
             onClick={startWriting}
-            className="flex items-center gap-2 px-6 py-3 rounded-full border border-accent/40 text-accent text-xs font-semibold uppercase tracking-widest hover:bg-accent/5 hover:border-accent transition-all active:scale-95"
+            className="flex min-h-11 items-center gap-2 px-6 py-3 rounded-full border border-accent/40 text-accent text-xs font-semibold uppercase tracking-widest hover:bg-accent/5 hover:border-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 transition-all active:scale-95"
           >
             <Plus className="w-4 h-4" />
             Ny anteckning

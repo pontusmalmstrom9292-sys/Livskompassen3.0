@@ -20,7 +20,7 @@ export function DagbokModeNav({ mode, onModeChange }: DagbokModeNavProps) {
           <button
             key={m.id}
             type="button"
-            className={`dagbok-mode-nav__tab ${active ? 'dagbok-mode-nav__tab--active' : ''}`}
+            className={`dagbok-mode-nav__tab min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${active ? 'dagbok-mode-nav__tab--active' : ''}`}
             aria-current={active ? 'page' : undefined}
             onClick={() => onModeChange(m.id)}
           >

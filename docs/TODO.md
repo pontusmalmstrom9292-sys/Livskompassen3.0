@@ -17,12 +17,17 @@ Unlock: [`evaluations/2026-07-22-unlock-MOD-WIDGET-legacy-chip-removal.md`](./ev
 > **FULL RE-RUN PASS** 2026-07-22 — andra varvet I1–I10 deepen + smoke:predeploy:build. G85 visual väntar Pontus.
 >
 > **PASS 3 ADD-only** 2026-07-22 — samma vågor igen (inget borttaget). UX guardian GO.
+>
+> **PASS 4 ADD-only** 2026-07-22 — samma vågor igen. UX guardian GO.
+>
+> **PASS 4 ADD-only** 2026-07-22 — Planering · Hjärtat/Dagbok · MåBra · QuickCapture · ArchiveShelf · KompassDiscovery (`min-h-11` + `focus-visible` + icon aria).
 
 Unlock: [`evaluations/2026-07-22-unlock-MOD-UI-POLISH-V4-X10.md`](./evaluations/2026-07-22-unlock-MOD-UI-POLISH-V4-X10.md)
 
 **Djup:** I1 kontrast+44 · I2 focus-visible · I3 focus-within · I4 reduced-m/t · I5 aria · I6 320px · I7 tokens · I8 empty · I9 motion · I10 micro
 
 - [x] Pass 3 zone deepen W3–W11 — Speglar/Inkast/Drogfrihet/Hamn-BIFF/Valv UI/Inställningar/Widgets/Arbetsliv/MåBra (`min-h-11` + `focus-visible` + icon aria) — ADD only
+- [x] Pass 4 zone deepen — Planering (7) · Dagbok/Hjärtat (8) · MåBra (8) · QuickCapture/Archive/KompassDiscovery (4) — ADD only
 
 ### Iteration checklist (W0–W11 × I1–I10)
 

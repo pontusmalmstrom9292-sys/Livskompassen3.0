@@ -114,8 +114,9 @@ export function ValuesCompass({ userId, onDone, onExit }: Props) {
               <button
                 key={id}
                 type="button"
-                className="chip--active text-xs"
+                className="chip--active min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={() => toggle(id)}
+                aria-label={`Ta bort ${value.label}`}
               >
                 {value.label} ×
               </button>
@@ -144,10 +145,10 @@ export function ValuesCompass({ userId, onDone, onExit }: Props) {
       {error && <p className="text-sm text-danger">{error}</p>}
 
       <div className="flex w-full max-w-sm flex-col gap-2">
-        <Button variant="secondary" disabled={!canSave} onClick={handleSave}>
+        <Button variant="secondary" className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" disabled={!canSave} onClick={handleSave}>
           {saving ? 'Sparar…' : VALUES_COMPASS_COPY.saveLabel}
         </Button>
-        <Button variant="ghost" className="text-sm" onClick={onExit}>
+        <Button variant="ghost" className="min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={onExit}>
           Avsluta nu
         </Button>
       </div>

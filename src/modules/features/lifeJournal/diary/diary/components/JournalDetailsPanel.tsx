@@ -62,7 +62,7 @@ export function JournalDetailsPanel({
                   key={c.id}
                   type="button"
                   disabled={disabled}
-                  className={`reflektion-prompt-chip ${active ? 'reflektion-prompt-chip--active' : ''}`}
+                  className={`reflektion-prompt-chip min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${active ? 'reflektion-prompt-chip--active' : ''}`}
                   aria-pressed={active}
                   onClick={() => onCategoryChange(active ? undefined : c.id)}
                 >
@@ -80,7 +80,7 @@ export function JournalDetailsPanel({
               type="button"
               variant="ghost"
               size="icon"
-              className="shrink-0 min-h-11 min-w-11"
+              className="shrink-0 min-h-11 min-w-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               aria-label="Om formellt bevis i arkiv"
               aria-expanded={showVaultInfo}
               onClick={() => setShowVaultInfo((v) => !v)}

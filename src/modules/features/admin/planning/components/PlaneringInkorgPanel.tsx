@@ -206,7 +206,7 @@ export function PlaneringInkorgPanel() {
                 {pasteRoutingHint.matchedRuleLabel ?? 'ex/konflikt'} → Hamn, inte Handling.{' '}
                 <button
                   type="button"
-                  className="text-accent underline"
+                  className="min-h-11 text-accent underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   onClick={() => navigate('/familjen?tab=hamn')}
                 >
                   Öppna Trygg Hamn
@@ -216,7 +216,7 @@ export function PlaneringInkorgPanel() {
             {error && <p className="mt-2 text-sm text-danger">{error}</p>}
             <Button
               variant="accent"
-              className="mt-3 w-full"
+              className="mt-3 w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               disabled={!user || saving || !paste.trim()}
               onClick={() => void handleCreate()}
             >
@@ -234,7 +234,7 @@ export function PlaneringInkorgPanel() {
               Ex-brus och konflikt → Hamn (BIFF).{' '}
               <button
                 type="button"
-                className="text-accent underline"
+                className="min-h-11 text-accent underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={() => navigate('/planering?tab=regler')}
               >
                 E-postregler
@@ -244,7 +244,7 @@ export function PlaneringInkorgPanel() {
             <Button
               variant="ghost"
               size="sm"
-              className="mt-3 w-full"
+              className="mt-3 w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => navigate('/projekt/ny?from=inkast')}
             >
               Skapa projekt från inkorg (fas 3)

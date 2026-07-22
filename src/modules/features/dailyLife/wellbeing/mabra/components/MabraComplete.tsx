@@ -42,7 +42,7 @@ export function MabraComplete({
         </Link>
         <button
           type="button"
-          className="mabra-complete-strip__chip"
+          className="mabra-complete-strip__chip min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           role="listitem"
           onClick={onOpenReflectionCard}
         >
@@ -62,7 +62,7 @@ export function MabraComplete({
         </Link>
       </div>
 
-      <Button variant="secondary" className="mt-2" onClick={onDone}>
+      <Button variant="secondary" className="mt-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={onDone}>
         Klar
       </Button>
     </div>

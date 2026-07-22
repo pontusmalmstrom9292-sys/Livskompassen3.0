@@ -23,7 +23,7 @@ export function HubPresetSheet({ open, activeId, onSelect, onClose }: Props) {
       headerAction={
         <button
           type="button"
-          className="absolute right-3 top-3 rounded-full border border-border bg-bg p-1.5 text-text-muted"
+          className="absolute right-3 top-3 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-border bg-bg p-1.5 text-text-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           aria-label="Stäng"
           onClick={onClose}
         >

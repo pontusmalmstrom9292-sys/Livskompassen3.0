@@ -99,8 +99,10 @@ export function RecoveryTwelveStepJournal({ userId }: Props) {
           >
             <button
               type="button"
-              className="flex w-full items-center justify-between text-left"
+              className="flex min-h-11 w-full items-center justify-between text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => setExpandedStep(step.stepNumber)}
+              aria-expanded={isOpen}
+              aria-label={`Steg ${step.stepNumber}: ${step.title}`}
             >
               <span>
                 <span className="font-display-serif text-[10px] uppercase tracking-[0.2em] text-text-muted">
@@ -126,13 +128,13 @@ export function RecoveryTwelveStepJournal({ userId }: Props) {
                   placeholder="Ditt svar…"
                 />
                 <div className="flex gap-2">
-                  <Button type="button" disabled={!userId || savingStep === step.stepNumber} onClick={() => void handleSaveStep(step.stepNumber)} variant="secondary" className="--secondary inline-flex items-center gap-2 text-sm">
+                  <Button type="button" disabled={!userId || savingStep === step.stepNumber} onClick={() => void handleSaveStep(step.stepNumber)} variant="secondary" className="--secondary inline-flex min-h-11 items-center gap-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                     {savingStep === step.stepNumber ? (
                       <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
                     ) : null}
                     Spara steg
                   </Button>
-                  <Button type="button" variant="ghost" className="--ghost text-sm" onClick={() => setExpandedStep((s) => Math.min(12, s + 1)) }>
+                  <Button type="button" variant="ghost" className="--ghost min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => setExpandedStep((s) => Math.min(12, s + 1)) }>
                     Nästa utan spar
                   </Button>
                 </div>

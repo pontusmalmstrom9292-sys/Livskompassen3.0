@@ -18,8 +18,8 @@ export function FamiljenChildPicker({ activeChild, children, onChange }: Props) 
             onClick={() => onChange(name)}
             className={
               activeChild === name
-                ? 'familjen-child-chip familjen-child-chip--active'
-                : 'familjen-child-chip familjen-child-chip--idle'
+                ? 'familjen-child-chip familjen-child-chip--active min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55'
+                : 'familjen-child-chip familjen-child-chip--idle min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55'
             }
           >
             {name}

@@ -103,7 +103,7 @@ export function MaterialPackEditorSheet({ isOpen, onClose, presetId, hub, userId
                   className="w-full border-b border-white/10 bg-transparent px-1 py-1 text-sm text-white outline-none transition-colors focus:border-white/30"
                   placeholder="Namn på genväg..."
                 />
-                <div className="truncate px-1 font-mono text-[10px] text-white/40">
+                <div className="truncate px-1 font-mono text-[10px] text-text-muted">
                   {moduleLinkToString(resolveModuleLink(sc.target))}
                 </div>
               </div>
@@ -120,7 +120,7 @@ export function MaterialPackEditorSheet({ isOpen, onClose, presetId, hub, userId
           ))}
 
           {shortcuts.length === 0 && (
-            <p className="rounded-xl border border-white/5 bg-white/5 py-8 text-center text-sm italic text-white/40">
+            <p className="rounded-xl border border-white/5 bg-white/5 py-8 text-center text-sm italic text-text-muted">
               Inga genvägar tillagda än.
             </p>
           )}

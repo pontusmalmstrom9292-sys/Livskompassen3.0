@@ -443,4 +443,227 @@
     outline: var(--ds-focus-ring, 2px solid color-mix(in srgb, var(--accent, #fde68a) 70%, transparent));
     outline-offset: var(--ds-focus-offset, 2px);
   }
+
+  /* ── Pass 4: chrome / hem / SOS / dagbok / mabra hooks ── */
+  :where(
+    .fyren-widget-bar button,
+    .fyren-widget-bar a[href],
+    .fyren-widget-bar [role='button'],
+    .fyren-widget-bar__action,
+    .fyren-header-strip button,
+    .fyren-header-strip__chip,
+    .home-adaptive-compass button,
+    .home-adaptive-compass a[href],
+    .home-adaptive-compass [role='button'],
+    .home-adaptive-compass [role='tab'],
+    .home-adaptive-compass__quick-btn,
+    .home-adaptive-compass__tab,
+    .home-adaptive-compass__inkast-toggle,
+    .hub-dropdown button,
+    .hub-dropdown a[href],
+    .hub-dropdown [role='button'],
+    .hub-dropdown-nav button,
+    .hub-dropdown-nav a[href],
+    .hub-dropdown-nav__trigger,
+    .hub-dropdown-nav__option,
+    .sos-trigger,
+    .dagbok-mode-nav button,
+    .dagbok-mode-nav__tab,
+    .journal-entry-card button,
+    .journal-entry-card a[href],
+    .mabra-modul-valjare button,
+    .mabra-modul-valjare a[href],
+    .mabra-modul-valjare [role='button'],
+    .familjen-child-chip,
+    .familjen-mode-picker__pills button,
+    .familjen-anchor-card,
+    .archive-shelf button,
+    .projekt-page-shell button,
+    .projekt-hub button,
+    .projekt-hub a[href],
+    .widget-stamp button,
+    .widget-stamp a[href],
+    .installningar-page button,
+    .installningar-page a[href]
+  ) {
+    min-height: 2.75rem;
+  }
+
+  :where(
+    .fyren-widget-bar button,
+    .fyren-widget-bar a[href],
+    .fyren-widget-bar [role='button'],
+    .fyren-widget-bar__action,
+    .fyren-header-strip button,
+    .fyren-header-strip__chip,
+    .home-adaptive-compass button,
+    .home-adaptive-compass a[href],
+    .home-adaptive-compass [role='button'],
+    .home-adaptive-compass [role='tab'],
+    .home-adaptive-compass__quick-btn,
+    .home-adaptive-compass__tab,
+    .home-adaptive-compass__inkast-toggle,
+    .hub-dropdown button,
+    .hub-dropdown a[href],
+    .hub-dropdown [role='button'],
+    .hub-dropdown-nav button,
+    .hub-dropdown-nav a[href],
+    .hub-dropdown-nav__trigger,
+    .hub-dropdown-nav__option,
+    .sos-trigger,
+    .dagbok-mode-nav button,
+    .dagbok-mode-nav__tab,
+    .journal-entry-card button,
+    .journal-entry-card a[href],
+    .mabra-modul-valjare button,
+    .mabra-modul-valjare a[href],
+    .mabra-modul-valjare [role='button'],
+    .familjen-child-chip,
+    .familjen-mode-picker__pills button,
+    .familjen-anchor-card,
+    .archive-shelf button,
+    .projekt-page-shell button,
+    .projekt-hub button,
+    .projekt-hub a[href],
+    .widget-stamp button,
+    .widget-stamp a[href],
+    .installningar-page button,
+    .installningar-page a[href],
+    .valv-page-shell button,
+    .valv-page-shell a[href],
+    .valv-zone-intro button
+  ):focus-visible {
+    outline: var(--ds-focus-ring, 2px solid color-mix(in srgb, var(--accent, #fde68a) 70%, transparent));
+    outline-offset: var(--ds-focus-offset, 2px);
+  }
+
+  :where(
+    .fyren-widget-bar,
+    .fyren-widget-bar__strip,
+    .fyren-header-strip,
+    .home-adaptive-compass,
+    .home-adaptive-compass__card,
+    .hub-dropdown,
+    .hub-dropdown-nav,
+    .dagbok-mode-nav,
+    .journal-entry-card,
+    .mabra-modul-valjare,
+    .archive-shelf,
+    .projekt-page-shell,
+    .projekt-hub,
+    .valv-page-shell,
+    .widget-stamp
+  ):focus-within {
+    border-color: color-mix(in srgb, var(--accent, #fde68a) 35%, var(--border, transparent));
+    box-shadow:
+      var(--ds-elevation-card, 0 8px 24px rgba(0, 0, 0, 0.28)),
+      0 0 0 1px color-mix(in srgb, var(--accent, #fde68a) 22%, transparent);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    :where(
+      .fyren-widget-bar,
+      .fyren-widget-bar__action,
+      .fyren-header-strip,
+      .fyren-header-strip__chip,
+      .home-adaptive-compass,
+      .home-adaptive-compass__card,
+      .home-adaptive-compass__quick-btn,
+      .home-adaptive-compass__tab,
+      .hub-dropdown,
+      .hub-dropdown-nav,
+      .hub-dropdown-nav__trigger,
+      .hub-dropdown-nav__option,
+      .sos-trigger,
+      .dagbok-mode-nav,
+      .dagbok-mode-nav__tab,
+      .journal-entry-card,
+      .mabra-modul-valjare,
+      .archive-shelf,
+      .projekt-hub,
+      .valv-page-shell,
+      .widget-stamp
+    ) {
+      transition: none !important;
+      animation: none !important;
+      transform: none !important;
+    }
+  }
+
+  @media (prefers-reduced-transparency: reduce) {
+    :where(
+      .fyren-widget-bar,
+      .fyren-widget-bar__strip,
+      .fyren-header-strip,
+      .home-adaptive-compass,
+      .home-adaptive-compass__card,
+      .hub-dropdown,
+      .hub-dropdown-nav,
+      .hub-dropdown-nav__menu,
+      .dagbok-mode-nav,
+      .journal-entry-card,
+      .mabra-modul-valjare,
+      .archive-shelf,
+      .projekt-hub,
+      .valv-page-shell,
+      .widget-stamp
+    ) {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      background-color: color-mix(in srgb, var(--surface, #0d0b09) 94%, var(--surface-2, #1a1620));
+    }
+  }
+
+  @media (max-width: 360px) {
+    :where(
+      .fyren-widget-bar,
+      .fyren-widget-bar__strip,
+      .fyren-header-strip,
+      .home-adaptive-compass,
+      .hub-dropdown,
+      .hub-dropdown-nav,
+      .dagbok-mode-nav,
+      .journal-entry-card,
+      .mabra-modul-valjare,
+      .archive-shelf,
+      .projekt-page-shell,
+      .projekt-hub,
+      .valv-page-shell,
+      .widget-stamp,
+      .sos-trigger
+    ) {
+      max-width: 100%;
+      overflow-x: clip;
+    }
+  }
+
+  :where(
+    .fyren-widget-bar,
+    .fyren-header-strip,
+    .home-adaptive-compass__card,
+    .hub-dropdown-nav__trigger,
+    .hub-dropdown-nav__option,
+    .dagbok-mode-nav__tab,
+    .journal-entry-card,
+    .mabra-modul-valjare,
+    .archive-shelf,
+    .sos-trigger
+  ) {
+    transition-duration: var(--ds-duration-normal, 250ms);
+    transition-timing-function: var(--ds-ease-premium, cubic-bezier(0.22, 1, 0.36, 1));
+  }
+
+  :where(
+    .home-adaptive-compass .helper-text,
+    .home-adaptive-compass .lede,
+    .journal-entry-card .helper-text,
+    .mabra-modul-valjare .helper-text,
+    .mabra-modul-valjare p,
+    .dagbok-mode-nav + .helper-text,
+    .valv-page-shell .helper-text,
+    .projekt-hub .helper-text,
+    .archive-shelf .helper-text
+  ) {
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
+  }
 }

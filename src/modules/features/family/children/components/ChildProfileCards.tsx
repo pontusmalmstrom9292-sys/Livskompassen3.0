@@ -21,7 +21,7 @@ export function ChildProfileCards({ selected, onSelect }: Props) {
             <button
               type="button"
               onClick={() => onSelect(profile.alias)}
-              className="w-full text-left"
+              className="w-full min-h-11 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
               aria-pressed={active}
             >
               <p className="font-display text-lg text-accent">{profile.alias}</p>

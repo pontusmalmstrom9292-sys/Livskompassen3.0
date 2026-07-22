@@ -512,7 +512,7 @@ export function MorningCompass() {
           <button
             type="button"
             onClick={() => void handleClearCompass()}
-            className="inline-flex min-h-11 items-center gap-2 rounded-lg px-4 py-2 text-sm text-white/40 transition-colors hover:bg-white/5 hover:text-white/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+            className="inline-flex min-h-11 items-center gap-2 rounded-lg px-4 py-2 text-sm text-text-muted transition-colors hover:bg-white/5 hover:text-white/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             aria-label={isGoalLocked ? 'Rensa fria platser i Morgonkompassen' : 'Rensa Morgonkompassen'}
           >
             <Trash2 className="h-4 w-4" aria-hidden />

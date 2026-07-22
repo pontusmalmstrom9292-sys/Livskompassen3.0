@@ -129,7 +129,7 @@ export function PlaneringTaskQuickDelegate({ onSaved }: PlaneringTaskQuickDelega
       <button
         type="submit"
         disabled={saving || !title.trim()}
-        className="inline-flex items-center gap-2 rounded-xl border border-accent/40 bg-surface-3 px-4 py-2 text-xs font-medium text-accent transition-colors hover:border-accent/60 disabled:opacity-50"
+        className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-accent/40 bg-surface-3 px-4 py-2 text-xs font-medium text-accent transition-colors hover:border-accent/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-50"
       >
         {saving ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}
         Spara uppgift

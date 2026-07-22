@@ -179,7 +179,7 @@ export function HomeAdaptiveCompass({
               key={item.id}
               type="button"
               onClick={() => navigate(item.to)}
-              className="home-adaptive-compass__quick-btn"
+              className="home-adaptive-compass__quick-btn min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             >
               <Icon className="home-adaptive-compass__quick-icon" aria-hidden />
               <span className="home-adaptive-compass__quick-label">{item.label}</span>
@@ -246,7 +246,7 @@ export function HomeAdaptiveCompass({
                       aria-selected={activePhase === opt.id}
                       onClick={() => setManualPhase(opt.id)}
                       className={clsx(
-                        'home-adaptive-compass__tab',
+                        'home-adaptive-compass__tab min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
                         activePhase === opt.id && 'home-adaptive-compass__tab--active',
                       )}
                     >
@@ -316,7 +316,7 @@ export function HomeAdaptiveCompass({
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="mx-auto block"
+                          className="mx-auto block min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                           onClick={() => navigate(HOME_SUPERHUB_ROUTES.hjartatQuickMirror)}
                         >
                           Öppna Dagbok
@@ -325,7 +325,7 @@ export function HomeAdaptiveCompass({
                         <Button
                           variant="ghost"
                           size="sm"
-                          className="mx-auto block"
+                          className="mx-auto block min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                           onClick={() => navigate(HOME_SUPERHUB_ROUTES.hjartatReflektion)}
                         >
                           Öppna full reflektion i Hjärtat
@@ -365,7 +365,7 @@ export function HomeAdaptiveCompass({
                   {!inkastOpen ? (
                     <Link
                       to={HOME_SUPERHUB_ROUTES.hjartatReflektion}
-                      className="home-adaptive-compass__inkast-reflection-link"
+                      className="home-adaptive-compass__inkast-reflection-link min-h-11 inline-flex items-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                     >
                       <span className="sm:hidden">Hjärtat →</span>
                       <span className="hidden sm:inline">Öppna full reflektion i Hjärtat</span>
@@ -374,7 +374,7 @@ export function HomeAdaptiveCompass({
                 </div>
                 <button
                   type="button"
-                  className="home-adaptive-compass__inkast-toggle"
+                  className="home-adaptive-compass__inkast-toggle min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                   aria-expanded={inkastOpen}
                   onClick={() => setInkastOpen((open) => !open)}
                 >
@@ -400,7 +400,7 @@ export function HomeAdaptiveCompass({
           Hemprofil «{preset.label}» — check-in via{' '}
           <button
             type="button"
-            className="text-accent underline-offset-2 hover:underline"
+            className="min-h-11 text-accent underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             onClick={() => navigate('/vardagen?tab=kompasser')}
           >
             Kompasser

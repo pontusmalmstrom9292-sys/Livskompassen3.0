@@ -42,7 +42,7 @@ export function HomeExecutiveSnabbstart({ className }: Props) {
     >
       <button
         type="button"
-        className="exec-snabbstart-hub__toggle"
+        className="exec-snabbstart-hub__toggle min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         aria-expanded={snabbstartOpen}
         onClick={toggleSnabbstart}
       >
@@ -69,7 +69,7 @@ export function HomeExecutiveSnabbstart({ className }: Props) {
                   key={item.id}
                   type="button"
                   className={clsx(
-                    'exec-snabbstart-hub__satellite',
+                    'exec-snabbstart-hub__satellite min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
                     item.side === 'left'
                       ? 'exec-snabbstart-hub__satellite--left'
                       : 'exec-snabbstart-hub__satellite--right',
@@ -91,7 +91,7 @@ export function HomeExecutiveSnabbstart({ className }: Props) {
 
           <button
             type="button"
-            className="exec-snabbstart-hub__inkast"
+            className="exec-snabbstart-hub__inkast min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             onClick={() => navigate(HOME_SUPERHUB_ROUTES.planeringInkast)}
           >
             <Inbox className="h-4 w-4" strokeWidth={1.5} aria-hidden />

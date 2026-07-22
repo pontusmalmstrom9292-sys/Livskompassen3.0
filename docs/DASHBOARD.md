@@ -1,3 +1,7 @@
+### 2026-07-22 — UI Polish V4 ×10 PASS 4
+- ADD-only touch/focus on Planering · Dagbok · MåBra · QuickCapture · Archive · KompassDiscovery
+- Inget borttaget · `/dev` skipped · G85 visual: pending Pontus
+
 ### 2026-07-22 — UI Polish V4 ×10 PASS 3
 - Samma förbättringsvågor igen (ADD-only) · UX GO · design-debt 0/0/2/62
 - G85 visual: pending Pontus

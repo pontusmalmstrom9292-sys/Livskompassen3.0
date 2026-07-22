@@ -444,7 +444,7 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
         <Button
           type="button"
           variant="ghost"
-          className="min-h-[44px] flex-1 text-[10px] font-semibold uppercase tracking-widest"
+          className="min-h-11 flex-1 text-[10px] font-semibold uppercase tracking-widest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           onClick={() => setPackOpen(true)}
         >
           <Package className="mr-1.5 h-3.5 w-3.5" aria-hidden />
@@ -453,7 +453,7 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
         <Button
           type="button"
           variant="ghost"
-          className="min-h-[44px] flex-1 text-[10px] font-semibold uppercase tracking-widest"
+          className="min-h-11 flex-1 text-[10px] font-semibold uppercase tracking-widest focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           onClick={() => setCustomOpen(true)}
           disabled={customCategories.length >= 8}
         >
@@ -492,8 +492,8 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
               onClick={() => handleSelect(card)}
               className={
                 selectedSlot === card.slotKey
-                  ? 'min-h-[72px] rounded-xl border border-accent/40 bg-surface-3/60 px-2.5 py-2.5 text-left shadow-[0_0_20px_-8px_rgba(212,175,55,0.35)]'
-                  : 'min-h-[72px] rounded-xl border border-border/30 bg-surface-2/60 px-2.5 py-2.5 text-left transition-colors hover:border-accent/35 hover:bg-surface-3/50'
+                  ? 'min-h-[72px] rounded-xl border border-accent/40 bg-surface-3/60 px-2.5 py-2.5 text-left shadow-[0_0_20px_-8px_rgba(212,175,55,0.35)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55'
+                  : 'min-h-[72px] rounded-xl border border-border/30 bg-surface-2/60 px-2.5 py-2.5 text-left transition-colors hover:border-accent/35 hover:bg-surface-3/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55'
               }
             >
               {card.title_sv ? (
@@ -512,7 +512,7 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
       {!lowCapacity && mix.length > DEV_MIX_VISIBLE_INITIAL ? (
         <button
           type="button"
-          className="flex min-h-[44px] w-full items-center justify-center rounded-xl border border-border/30 bg-surface-2/50 px-3 py-2.5 text-[10px] font-semibold uppercase tracking-widest text-text-muted transition-colors hover:border-accent/30"
+          className="flex min-h-11 w-full items-center justify-center rounded-xl border border-border/30 bg-surface-2/50 px-3 py-2.5 text-[10px] font-semibold uppercase tracking-widest text-text-muted transition-colors hover:border-accent/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           onClick={() => setShowAll((v) => !v)}
         >
           {showAll ? 'Visa färre' : `Visa fler (${mix.length - DEV_MIX_VISIBLE_INITIAL})`}
@@ -542,7 +542,7 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
               Det här låter mer som Speglar-läge.{' '}
               <Link
                 to={{ pathname: NAV_PATHS.HJARTAT, search: '?tab=speglar' }}
-                className="text-accent underline-offset-2 hover:underline"
+                className="text-accent underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
               >
                 Öppna Speglar
               </Link>
@@ -552,7 +552,7 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
             <Button
               type="button"
               variant="secondary"
-              className="min-h-[44px] flex-1"
+              className="min-h-11 flex-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
               disabled={saving}
               onClick={() => void handleSave('answer')}
             >
@@ -561,7 +561,7 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
             <Button
               type="button"
               variant="ghost"
-              className="min-h-[44px] flex-1"
+              className="min-h-11 flex-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
               disabled={saving}
               onClick={() => void handleSave('done')}
             >
@@ -572,7 +572,7 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
               <Button
                 type="button"
                 variant="ghost"
-                className="min-h-[44px] flex-none"
+                className="min-h-11 min-w-11 flex-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                 onClick={handleShare}
                 aria-label="Dela mikrosteg"
               >

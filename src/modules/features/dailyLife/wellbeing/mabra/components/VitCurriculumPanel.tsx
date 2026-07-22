@@ -48,7 +48,7 @@ function ChapterExerciseButtons({
       </label>
       <Button
         variant="ghost"
-        className="w-full text-xs disabled:opacity-40"
+        className="w-full min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-40"
         disabled={!picked}
         onClick={() => {
           if (!picked) return;
@@ -75,7 +75,7 @@ function CurriculumDetail({
 }) {
   return (
     <div className="space-y-4">
-      <button type="button" onClick={onBack} className="text-xs text-accent hover:underline">
+      <button type="button" onClick={onBack} className="min-h-11 text-xs text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
         ← Alla kurser
       </button>
       <BentoCard title={curriculum.title} description={`Våg ${curriculum.wave} · ${curriculum.theme}`}>
@@ -152,7 +152,7 @@ export function VitCurriculumPanel({ onOpenReflection, onOpenPlay }: Props) {
       </label>
       <Button
         variant="secondary"
-        className="mt-3 w-full text-sm disabled:opacity-40"
+        className="mt-3 w-full min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-40"
         disabled={!pendingId}
         onClick={() => setSelectedId(pendingId)}
       >

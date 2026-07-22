@@ -146,8 +146,8 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
             onClick={() => setEpistemicKind(kind)}
             className={
               epistemicKind === kind
-                ? 'rounded-lg border border-accent/50 bg-surface-3 px-2.5 py-1 text-[10px] uppercase tracking-wider text-accent'
-                : 'rounded-lg border border-border px-2.5 py-1 text-[10px] uppercase tracking-wider text-text-muted hover:border-accent/30'
+                ? 'min-h-11 rounded-lg border border-accent/50 bg-surface-3 px-2.5 py-1 text-[10px] uppercase tracking-wider text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55'
+                : 'min-h-11 rounded-lg border border-border px-2.5 py-1 text-[10px] uppercase tracking-wider text-text-muted hover:border-accent/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55'
             }
           >
             {kind === 'citat' ? 'Barnets ord (citat)' : 'Min observation (tolkning)'}

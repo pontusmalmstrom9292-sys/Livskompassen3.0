@@ -188,7 +188,7 @@ export function HubDropdownNav<T extends string>({
             aria-label={item.label}
             onClick={() => handleSelect(item.id)}
             className={clsx(
-              'hub-dropdown-nav__option group flex w-full items-center justify-between rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-all',
+              'hub-dropdown-nav__option group flex w-full min-h-11 items-center justify-between rounded-xl px-3 py-2.5 text-left text-sm font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
               selected
                 ? 'bg-surface-3 text-text'
                 : 'text-text-muted hover:bg-surface-2 hover:text-text',
@@ -217,7 +217,7 @@ export function HubDropdownNav<T extends string>({
   return (
     <div
       className={clsx(
-        'hub-dropdown-nav relative w-full',
+        'hub-dropdown hub-dropdown-nav relative w-full',
         isOpen && 'hub-dropdown-nav--open',
       )}
       ref={rootRef}
@@ -230,7 +230,7 @@ export function HubDropdownNav<T extends string>({
         aria-label={ariaLabel}
         onClick={() => setOpen(!isOpen)}
         className={clsx(
-          'hub-dropdown-nav__trigger flex w-full min-h-[var(--ds-touch-target,2.75rem)] items-center justify-between rounded-2xl border bg-surface-2/70 p-3.5 backdrop-blur-xl transition-all duration-300',
+          'hub-dropdown-nav__trigger flex w-full min-h-11 items-center justify-between rounded-2xl border bg-surface-2/70 p-3.5 backdrop-blur-xl transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
           isOpen ? GLOW_OPEN[glowColor] : 'border-border/30 text-text hover:bg-surface-3/50',
         )}
       >

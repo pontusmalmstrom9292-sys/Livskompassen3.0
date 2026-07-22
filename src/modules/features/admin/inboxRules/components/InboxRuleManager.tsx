@@ -117,7 +117,7 @@ export function InboxRuleManager() {
               </option>
             ))}
           </select>
-          <Button type="button" disabled={saving || !draft.label.trim() || !draft.pattern.trim()} variant="accent" className="--accent w-full text-sm" onClick={() => void handleAdd()}>
+          <Button type="button" disabled={saving || !draft.label.trim() || !draft.pattern.trim()} variant="accent" className="--accent w-full min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => void handleAdd()}>
             Spara regel
           </Button>
         </div>
@@ -156,7 +156,7 @@ export function InboxRuleManager() {
             )}
             <button
               type="button"
-              className="text-xs text-danger mt-2 inline-block"
+              className="mt-2 inline-block min-h-11 text-xs text-danger focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => void removeRule(rule.id)}
             >
               Ta bort

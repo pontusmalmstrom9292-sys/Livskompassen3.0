@@ -67,7 +67,7 @@ export function NeuroNutritionHub() {
           type="button"
           onClick={() => setActiveTab('intag')}
           className={clsx(
-            'flex flex-1 items-center justify-center gap-2 rounded-md px-2 py-2 text-xs font-medium transition-all',
+            'flex min-h-11 flex-1 items-center justify-center gap-2 rounded-md px-2 py-2 text-xs font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
             activeTab === 'intag'
               ? 'border border-success/40 bg-success/15 text-success shadow-inner'
               : 'text-text-muted hover:text-text-muted',
@@ -80,7 +80,7 @@ export function NeuroNutritionHub() {
           type="button"
           onClick={() => setActiveTab('prepp')}
           className={clsx(
-            'flex flex-1 items-center justify-center gap-2 rounded-md px-2 py-2 text-xs font-medium transition-all',
+            'flex min-h-11 flex-1 items-center justify-center gap-2 rounded-md px-2 py-2 text-xs font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
             activeTab === 'prepp'
               ? 'border border-accent-secondary/40 bg-accent-secondary/15 text-accent-light shadow-inner'
               : 'text-text-muted hover:text-text-muted',
@@ -93,7 +93,7 @@ export function NeuroNutritionHub() {
           type="button"
           onClick={() => setActiveTab('inkop')}
           className={clsx(
-            'flex flex-1 items-center justify-center gap-2 rounded-md px-2 py-2 text-xs font-medium transition-all',
+            'flex min-h-11 flex-1 items-center justify-center gap-2 rounded-md px-2 py-2 text-xs font-medium transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
             activeTab === 'inkop'
               ? 'border border-accent/30 bg-accent/15 text-accent shadow-inner'
               : 'text-text-muted hover:text-text-muted',
@@ -110,7 +110,7 @@ export function NeuroNutritionHub() {
             <button
               type="button"
               onClick={() => toggleIntake('vatten')}
-              className="flex w-full items-center justify-between rounded-lg border border-border bg-surface-2/50 p-3 transition-colors hover:bg-surface-3"
+              className="flex min-h-11 w-full items-center justify-between rounded-lg border border-border bg-surface-2/50 p-3 transition-colors hover:bg-surface-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             >
               <div className="flex items-center gap-3">
                 <Droplets
@@ -139,7 +139,7 @@ export function NeuroNutritionHub() {
             <button
               type="button"
               onClick={() => toggleIntake('protein')}
-              className="flex w-full items-center justify-between rounded-lg border border-border bg-surface-2/50 p-3 transition-colors hover:bg-surface-3"
+              className="flex min-h-11 w-full items-center justify-between rounded-lg border border-border bg-surface-2/50 p-3 transition-colors hover:bg-surface-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             >
               <div className="flex items-center gap-3">
                 <Zap
@@ -168,7 +168,7 @@ export function NeuroNutritionHub() {
             <button
               type="button"
               onClick={() => toggleIntake('omega3')}
-              className="flex w-full items-center justify-between rounded-lg border border-border bg-surface-2/50 p-3 transition-colors hover:bg-surface-3"
+              className="flex min-h-11 w-full items-center justify-between rounded-lg border border-border bg-surface-2/50 p-3 transition-colors hover:bg-surface-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             >
               <div className="flex items-center gap-3">
                 <Brain
