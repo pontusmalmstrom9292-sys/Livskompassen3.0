@@ -13,6 +13,7 @@ import { routeWidgetAction } from '../core/WidgetRouter';
 import { useStudioWidgetConfig } from '../studio/useStudioWidgetConfig';
 import { widgetCardClass } from '../studio/studioIdleClass';
 import { getWidgetStudioConfig } from '../studio/widgetStudioStore';
+import { LighthouseArtwork } from '../art/LighthouseArtwork';
 
 const WIDGET_ID = 'beacon';
 
@@ -150,24 +151,30 @@ export function BeaconWidget({
         offline={!online}
         icon={<BeaconGlyph />}
       />
-      {info.showCapacity ? (
-        <button
-          type="button"
-          className="cw-metric-hit cw-metric-hit--ring"
-          onClick={() => void nudge('capacity')}
-          aria-label={`Justera kapacitet, nu ${metrics.capacity}`}
-        >
-          <div ref={ringRef} className="cw-capacity-ring" style={{ width: 112, height: 112 }}>
-            <WidgetProgress variant="circular" value={metrics.capacity} label="Kapacitet" size={112} />
-            <div className="cw-capacity-ring__center" aria-hidden>
-              <span className="cw-capacity-ring__pct">{Math.round(metrics.capacity)}%</span>
-              <span className="cw-capacity-ring__state">{capacityState(metrics.capacity)}</span>
+      <div className="cw-pack-stage cw-beacon-stage">
+        <div className="cw-beacon-stage__art" aria-hidden>
+          <LighthouseArtwork />
+        </div>
+        <div className="cw-pack-stage__glow" aria-hidden />
+        {info.showCapacity ? (
+          <button
+            type="button"
+            className="cw-metric-hit cw-metric-hit--ring cw-beacon-stage__ring"
+            onClick={() => void nudge('capacity')}
+            aria-label={`Justera kapacitet, nu ${metrics.capacity}`}
+          >
+            <div ref={ringRef} className="cw-capacity-ring" style={{ width: 112, height: 112 }}>
+              <WidgetProgress variant="circular" value={metrics.capacity} label="Kapacitet" size={112} />
+              <div className="cw-capacity-ring__center" aria-hidden>
+                <span className="cw-capacity-ring__pct">{Math.round(metrics.capacity)}%</span>
+                <span className="cw-capacity-ring__state">{capacityState(metrics.capacity)}</span>
+              </div>
             </div>
-          </div>
-        </button>
-      ) : (
-        <div ref={ringRef} />
-      )}
+          </button>
+        ) : (
+          <div ref={ringRef} />
+        )}
+      </div>
       <div className="cw-metric-stack">
         {rows.map(([key, label, value]) => (
           <button

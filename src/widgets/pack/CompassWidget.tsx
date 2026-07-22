@@ -13,10 +13,10 @@ import { finishCompanionCapture } from '../core/finishCompanionCapture';
 import { useCompanionOnline } from '../core/useCompanionOnline';
 import { queueWidgetSync } from '../core/WidgetSync';
 import { routeWidgetAction } from '../core/WidgetRouter';
-import { WidgetPalette } from '../core/WidgetTheme';
 import { useStudioWidgetConfig } from '../studio/useStudioWidgetConfig';
 import { widgetCardClass } from '../studio/studioIdleClass';
 import { resolveDayPeriod, type DayPeriod } from '../smart/smartTimeContext';
+import { FacetedCompassRose } from '../art/FacetedCompassRose';
 
 const WIDGET_ID = 'compass';
 
@@ -147,6 +147,16 @@ export function CompassWidget({ pulseHint = false }: { pulseHint?: boolean }) {
   }, []);
 
   const discSize = size === 'large' ? 152 : 128;
+  const roseAngle =
+    (picked ?? period) === 'morning'
+      ? 12
+      : (picked ?? period) === 'midday'
+        ? 78
+        : (picked ?? period) === 'evening'
+          ? 168
+          : (picked ?? period) === 'night'
+            ? 248
+            : 28;
 
   return (
     <WidgetCard
@@ -186,63 +196,9 @@ export function CompassWidget({ pulseHint = false }: { pulseHint?: boolean }) {
           <div
             ref={roseRef}
             className="cw-compass-disc cw-compass-disc--hero"
-            style={{
-              width: discSize,
-              height: discSize,
-              background: `
-                radial-gradient(circle at 30% 26%, color-mix(in srgb, ${WidgetPalette.premiumGoldLight} 34%, transparent), transparent 42%),
-                radial-gradient(circle at 70% 78%, rgba(0,0,0,0.45), transparent 48%),
-                linear-gradient(160deg, #1a2233 0%, ${WidgetPalette.deepSpaceBlue} 55%, #0a0e18 100%)
-              `,
-            }}
+            style={{ width: discSize, height: discSize }}
           >
-            <svg width="88%" height="88%" viewBox="0 0 100 100" aria-hidden>
-              <defs>
-                <linearGradient id="cw-needle-gold" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor={WidgetPalette.premiumGoldLight} />
-                  <stop offset="100%" stopColor={WidgetPalette.premiumGold} />
-                </linearGradient>
-              </defs>
-              {Array.from({ length: 12 }).map((_, i) => {
-                const a = (i * 30 * Math.PI) / 180;
-                const x1 = 50 + Math.sin(a) * 40;
-                const y1 = 50 - Math.cos(a) * 40;
-                const x2 = 50 + Math.sin(a) * 44;
-                const y2 = 50 - Math.cos(a) * 44;
-                return (
-                  <line
-                    key={i}
-                    x1={x1}
-                    y1={y1}
-                    x2={x2}
-                    y2={y2}
-                    stroke={i % 3 === 0 ? WidgetPalette.premiumGold : WidgetPalette.premiumGoldDim}
-                    strokeWidth={i % 3 === 0 ? 1.4 : 0.7}
-                    opacity={i % 3 === 0 ? 0.95 : 0.45}
-                  />
-                );
-              })}
-              <circle
-                cx="50"
-                cy="50"
-                r="38"
-                fill="none"
-                stroke={WidgetPalette.premiumGoldDim}
-                strokeWidth="0.8"
-                opacity="0.55"
-              />
-              <polygon points="50,14 53.2,50 50,47.5 46.8,50" fill="url(#cw-needle-gold)" />
-              <polygon points="50,86 53.2,50 50,52.5 46.8,50" fill={WidgetPalette.mutedText} opacity="0.55" />
-              <circle
-                cx="50"
-                cy="50"
-                r="6"
-                fill={WidgetPalette.deepSpaceBlue}
-                stroke={WidgetPalette.premiumGold}
-                strokeWidth="1.2"
-              />
-              <circle cx="50" cy="50" r="2.6" fill={WidgetPalette.premiumGoldLight} />
-            </svg>
+            <FacetedCompassRose angle={roseAngle} size={discSize} className="cw-compass-rose-art" />
           </div>
         </button>
       </div>

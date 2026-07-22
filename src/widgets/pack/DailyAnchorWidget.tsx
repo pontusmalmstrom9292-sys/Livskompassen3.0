@@ -9,6 +9,7 @@ import { useCompanionOnline } from '../core/useCompanionOnline';
 import { queueWidgetSync } from '../core/WidgetSync';
 import { useStudioWidgetConfig } from '../studio/useStudioWidgetConfig';
 import { widgetCardClass } from '../studio/studioIdleClass';
+import { Anchor3DEmblem } from '../art/Anchor3DEmblem';
 
 const WIDGET_ID = 'daily_anchor';
 
@@ -87,7 +88,7 @@ export function DailyAnchorWidget({ pulseHint = false }: { pulseHint?: boolean }
       />
       <div className="cw-anchor-hero">
         <span className="cw-anchor-hero__glyph" aria-hidden>
-          ⚓
+          <Anchor3DEmblem size={52} />
         </span>
         <p className="cw-intention-block__text" style={{ fontWeight: 500, fontSize: '0.95rem' }}>
           {done ? 'Du klarade dagens ankare.' : 'Sätt en lugn intention för dagen'}
