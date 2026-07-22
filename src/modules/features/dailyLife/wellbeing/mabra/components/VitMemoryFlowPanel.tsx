@@ -88,7 +88,7 @@ export function VitMemoryFlowPanel({ userId, projectId, onSaved }: Props) {
     <div className="space-y-3">
       <div className="home-module-panel__question-box">
         <p className="text-sm text-text-muted">{COPY.identityLabel}</p>
-        <p className="mt-1 text-xs text-text-dim">Uppvärmning: {pick.card.text_sv}</p>
+        <p className="mt-1 text-xs text-text-muted">Uppvärmning: {pick.card.text_sv}</p>
       </div>
 
       <label className="block text-xs text-text-muted">
@@ -125,12 +125,12 @@ export function VitMemoryFlowPanel({ userId, projectId, onSaved }: Props) {
         />
       </label>
 
-      <p className="text-center text-[10px] uppercase tracking-wider text-text-dim">
+      <p className="text-center text-[10px] uppercase tracking-wider text-text-muted">
         {pick.card.lens} · {pick.card.bankId}
       </p>
 
       {!userId ? (
-        <p className="text-xs text-text-dim">{COPY.login}</p>
+        <p className="text-xs text-text-muted">{COPY.login}</p>
       ) : (
         <Button
           variant="accent"

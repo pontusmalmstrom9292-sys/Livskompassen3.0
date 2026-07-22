@@ -103,9 +103,9 @@ export function VitChatFlowPanel({ userId, projectId, onSaved }: Props) {
   return (
     <div className="space-y-3">
       <div className="home-module-panel__question-box">
-        <p className="text-xs uppercase tracking-wider text-text-dim">Uppstart · {pick.card.bankId}</p>
+        <p className="text-xs uppercase tracking-wider text-text-muted">Uppstart · {pick.card.bankId}</p>
         <p className="mt-1 text-sm leading-relaxed text-accent">{pick.card.text_sv}</p>
-        <p className="mt-2 text-xs text-text-dim">{COPY.hint}</p>
+        <p className="mt-2 text-xs text-text-muted">{COPY.hint}</p>
       </div>
 
       <label className="block text-xs text-text-muted">
@@ -132,7 +132,7 @@ export function VitChatFlowPanel({ userId, projectId, onSaved }: Props) {
       ) : null}
 
       {!userId ? (
-        <p className="text-xs text-text-dim">{COPY.login}</p>
+        <p className="text-xs text-text-muted">{COPY.login}</p>
       ) : (
         <Button
           variant="accent"
@@ -153,7 +153,7 @@ export function VitChatFlowPanel({ userId, projectId, onSaved }: Props) {
 
       {coachReply ? (
         <div className="rounded-xl border border-border-strong bg-surface-2/50 px-4 py-3">
-          <p className="text-[10px] uppercase tracking-wider text-text-dim">Coach</p>
+          <p className="text-[10px] uppercase tracking-wider text-text-muted">Coach</p>
           <p className="mt-2 text-sm leading-relaxed text-text-muted">{coachReply}</p>
         </div>
       ) : null}

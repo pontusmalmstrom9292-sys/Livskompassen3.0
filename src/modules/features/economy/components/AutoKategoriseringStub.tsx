@@ -18,11 +18,11 @@ export function AutoKategoriseringStub() {
         
         <div className="rounded-xl border border-border/40 bg-surface-3/50 p-3">
           <div className="flex items-center justify-between text-xs mb-2">
-            <span className="text-text-dim">Ica Maxi (495 kr)</span>
+            <span className="text-text-muted">Ica Maxi (495 kr)</span>
             <span className="text-accent">→ Mat & Hushåll</span>
           </div>
           <div className="flex items-center justify-between text-xs">
-            <span className="text-text-dim">Netflix (109 kr)</span>
+            <span className="text-text-muted">Netflix (109 kr)</span>
             <span className="text-accent">→ Nöjen</span>
           </div>
         </div>

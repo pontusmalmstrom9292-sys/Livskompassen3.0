@@ -125,7 +125,7 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
       icon={<Lock className="h-4 w-4" />}
     >
       {!compact && (
-        <p className="mb-4 text-sm text-text-dim">
+        <p className="mb-4 text-sm text-text-muted">
           {mode === 'create'
             ? 'Om du redan importerat profil i Kunskapsvalvet behåller du allt — vi byter bara från anonym till e-post.'
             : 'Loggar du in på samma konto som tidigare följer Kunskapen med. Annat konto = annan data.'}
@@ -142,7 +142,7 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
         Fortsätt med Google
       </Button>
       {loginHint && (googlePrimary || mode === 'signin') && (
-        <p className="mb-3 text-center text-xs text-text-dim">
+        <p className="mb-3 text-center text-xs text-text-muted">
           Välj <span className="text-text-muted">{loginHint}</span> i Google-fönstret.
         </p>
       )}
@@ -166,7 +166,7 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
       )}
 
       {googlePrimary && isAppUnlockEnabled() && (
-        <p className="mb-3 text-center text-xs text-text-dim">
+        <p className="mb-3 text-center text-xs text-text-muted">
           Fingeravtryck är aktiverat — efter Google-inloggning räcker fingeravtryck vid nästa besök.
         </p>
       )}
@@ -179,13 +179,13 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
             setError(null);
             setSuccess(null);
           }}
-          className="mt-2 w-full text-center text-xs text-text-dim underline-offset-2 hover:text-text-muted hover:underline"
+          className="mt-2 min-h-11 w-full text-center text-xs text-text-muted underline-offset-2 hover:text-text-muted hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           Andra sätt
         </button>
       ) : (
         <>
-          {!compact && <p className="mb-3 text-center text-xs text-text-dim">eller med e-post</p>}
+          {!compact && <p className="mb-3 text-center text-xs text-text-muted">eller med e-post</p>}
 
           {compact && (
             <button
@@ -195,7 +195,7 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
                 setError(null);
                 setSuccess(null);
               }}
-              className="mb-3 w-full text-center text-xs text-text-dim underline-offset-2 hover:text-text-muted hover:underline"
+              className="mb-3 min-h-11 w-full text-center text-xs text-text-muted underline-offset-2 hover:text-text-muted hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               Tillbaka till Google
             </button>
@@ -226,7 +226,7 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
 
           <form onSubmit={handleSubmit} className="space-y-3">
             <div className="relative">
-              <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-dim" />
+              <Mail className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
               <input
                 type="email"
                 autoComplete="email"

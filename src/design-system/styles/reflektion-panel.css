@@ -1,7 +1,8 @@
 /* Dagbok — reflektion (lekfull, enkelt språk) — sunset från index.css våg 98 */
 @layer components {
   .reflektion-intro {
-    @apply text-center text-sm leading-relaxed text-text-muted;
+    @apply text-center text-sm leading-relaxed;
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
   }
 
   .reflektion-wizard {
@@ -44,7 +45,8 @@
   }
 
   .reflektion-feeling-select {
-    @apply w-full appearance-none rounded-xl border border-accent/20 px-3 py-2.5 text-sm text-text outline-none transition-[border-color,box-shadow];
+    @apply w-full appearance-none rounded-xl border border-accent/20 px-3 py-2.5 text-sm text-text outline-none;
+    min-height: var(--ds-touch-target, 2.75rem);
     background: linear-gradient(
       165deg,
       rgba(20, 28, 43, 0.78) 0%,
@@ -58,6 +60,9 @@
     background-repeat: no-repeat;
     background-position: right 0.75rem center;
     padding-right: 2.25rem;
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .reflektion-feeling-select:focus,
@@ -77,12 +82,17 @@
 
   .reflektion-actions__primary {
     @apply text-xs;
-    min-height: 2.75rem;
+    min-height: var(--ds-touch-target, 2.75rem);
   }
 
   .reflektion-actions__ghost {
-    @apply w-full rounded-xl border border-accent/15 bg-surface/20 px-3 py-2 text-text-muted transition-colors hover:border-accent/30 hover:text-accent;
+    @apply w-full rounded-xl border border-accent/15 bg-surface/20 px-3 py-2 hover:border-accent/30 hover:text-accent;
     min-height: var(--ds-touch-target, 2.75rem);
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
+    transition:
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .reflektion-actions__ghost:focus-visible {
@@ -99,7 +109,8 @@
   }
 
   .reflektion-panel__hint {
-    @apply mt-1 text-sm leading-relaxed text-text-muted;
+    @apply mt-1 text-sm leading-relaxed;
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
   }
 
   .reflektion-mood-grid {
@@ -107,13 +118,18 @@
   }
 
   .reflektion-mood-card {
-    @apply flex min-h-[3.1rem] flex-col items-center justify-center gap-0.5 rounded-xl border border-border-strong/90 px-1 py-1.5 transition-[transform,box-shadow,border-color,background];
+    @apply flex min-h-[3.1rem] flex-col items-center justify-center gap-0.5 rounded-xl border border-border-strong/90 px-1 py-1.5;
     min-height: var(--ds-touch-target);
     background: linear-gradient(
       165deg,
       rgba(22, 28, 26, 0.72) 0%,
       rgba(10, 14, 18, 0.55) 100%
     );
+    transition:
+      transform var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium),
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .reflektion-mood-card:focus-visible {
@@ -206,8 +222,13 @@
   }
 
   .reflektion-shuffle {
-    @apply mx-auto mb-2 flex items-center justify-center gap-1.5 rounded-full border border-border-strong/80 bg-surface/25 px-3 py-1.5 text-[10px] font-medium text-text-muted transition-colors hover:border-accent/35 hover:text-accent;
+    @apply mx-auto mb-2 flex items-center justify-center gap-1.5 rounded-full border border-border-strong/80 bg-surface/25 px-3 py-1.5 text-[10px] font-medium hover:border-accent/35 hover:text-accent;
     min-height: var(--ds-touch-target);
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
+    transition:
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .reflektion-shuffle:focus-visible {
@@ -225,6 +246,15 @@
 
   .reflektion-link-mabra {
     @apply text-center text-xs text-accent hover:underline;
+    min-height: var(--ds-touch-target);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .reflektion-link-mabra:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .reflektion-write-tabs {
@@ -232,8 +262,12 @@
   }
 
   .reflektion-write-tabs__tab {
-    @apply flex-1 rounded-lg border-0 py-2 text-xs font-medium text-text-muted transition-colors;
+    @apply flex-1 rounded-lg border-0 py-2 text-xs font-medium;
     min-height: var(--ds-touch-target);
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
+    transition:
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .reflektion-write-tabs__tab:focus-visible {
@@ -254,7 +288,12 @@
   }
 
   .reflektion-prompt-chip {
-    @apply min-h-[var(--ds-touch-target)] rounded-full border border-border-strong bg-surface/40 px-3 py-1.5 text-left text-xs text-text-muted transition-colors hover:border-accent/40 hover:text-accent;
+    @apply min-h-[var(--ds-touch-target)] rounded-full border border-border-strong bg-surface/40 px-3 py-1.5 text-left text-xs hover:border-accent/40 hover:text-accent;
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
+    transition:
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .reflektion-prompt-chip:focus-visible {
@@ -307,7 +346,12 @@
   }
 
   .reflektion-wizard-progress__step {
-    @apply flex min-h-11 min-w-[4.5rem] flex-col items-center justify-center gap-0.5 rounded-xl border border-transparent px-2 py-1.5 text-center transition-[border-color,background,opacity];
+    @apply flex min-h-11 min-w-[4.5rem] flex-col items-center justify-center gap-0.5 rounded-xl border border-transparent px-2 py-1.5 text-center;
+    min-height: var(--ds-touch-target);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium),
+      opacity var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .reflektion-wizard-progress__step--current {
@@ -353,6 +397,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   @layer components {
+    .reflektion-feeling-select,
+    .reflektion-actions__ghost,
     .reflektion-mood-card,
     .reflektion-shuffle,
     .reflektion-prompt-chip,

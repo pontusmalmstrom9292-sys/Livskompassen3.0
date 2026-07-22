@@ -34,7 +34,7 @@ export function DashboardPage({
           glow="gold"
           className="home-adaptive-compass__hub-head mx-auto mb-3 max-w-2xl rounded-[14px] border-[2px] border-accent/20 px-4 py-4 text-center"
         >
-          <p className="font-display-serif text-[10px] uppercase tracking-[0.26em] text-text-dim">Vardagen</p>
+          <p className="font-display-serif text-[10px] uppercase tracking-[0.26em] text-text-muted">Vardagen</p>
           <h2 className="font-display-serif text-sm uppercase tracking-[0.2em] text-accent">Mina kompasser</h2>
           <p className="mt-1 text-xs text-text-muted">Dygnsrytm — morgon, dag och kväll.</p>
         </BentoCard>

@@ -81,7 +81,7 @@ export function ValvSamlaZone({
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="valv-technique-filter-chip text-accent"
+                    className="valv-technique-filter-chip text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                     aria-pressed
                     onClick={onClearTechniqueFilter}
                   >
@@ -91,7 +91,7 @@ export function ValvSamlaZone({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className={anchorsOnly ? 'text-accent' : undefined}
+                  className={[anchorsOnly ? 'text-accent' : undefined, 'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40'].filter(Boolean).join(' ')}
                   aria-pressed={anchorsOnly}
                   onClick={() => setAnchorsOnly((v) => !v)}
                 >

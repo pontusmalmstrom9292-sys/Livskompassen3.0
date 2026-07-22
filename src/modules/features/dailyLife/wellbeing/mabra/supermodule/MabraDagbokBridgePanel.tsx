@@ -18,10 +18,10 @@ export function MabraDagbokBridgePanel() {
 
   return (
     <div className="space-y-3">
-      <p className="text-xs text-text-dim">{COPY.title}</p>
+      <p className="text-xs text-text-muted">{COPY.title}</p>
       <p className="text-sm text-text-muted">{COPY.hint}</p>
       {hasDraft ? (
-        <p className="rounded-lg border border-emerald-500/20 bg-surface/40 px-3 py-2 text-xs text-text-dim">
+        <p className="rounded-lg border border-emerald-500/20 bg-surface/40 px-3 py-2 text-xs text-text-muted">
           {COPY.draft}
         </p>
       ) : null}

@@ -113,7 +113,7 @@ export function RoutinesPanel({ defaultOpen = false }: Props) {
             </select>
           </label>
           {pickedRoutine?.lead ? (
-            <p className="mt-2 text-xs text-text-dim">{pickedRoutine.lead}</p>
+            <p className="mt-2 text-xs text-text-muted">{pickedRoutine.lead}</p>
           ) : null}
           <Button
             type="button"

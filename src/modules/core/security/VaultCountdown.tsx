@@ -30,7 +30,7 @@ export function VaultCountdown() {
 
   return (
     <div className={`flex items-center gap-2 text-xs font-mono rounded-lg px-2 py-1 border transition-colors ${
-      isWarning ? 'text-warning border-warning/30 bg-warning/10' : 'text-text-dim border-border/20 bg-surface-2/30'
+      isWarning ? 'text-warning border-warning/30 bg-warning/10' : 'text-text-muted border-border/20 bg-surface-2/30'
     }`}>
       <span className="opacity-50">Låses om:</span>
       <span>{minutes}:{seconds.toString().padStart(2, '0')}</span>

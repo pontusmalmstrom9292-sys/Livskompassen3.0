@@ -81,9 +81,9 @@ export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
     <div className="space-y-3">
       <div className="home-module-panel__question-box">
         <p className="text-base leading-relaxed text-accent">{pick.card.text_sv}</p>
-        <p className="mt-2 text-xs text-text-dim">{COPY.hint}</p>
+        <p className="mt-2 text-xs text-text-muted">{COPY.hint}</p>
       </div>
-      <p className="text-center text-[10px] uppercase tracking-wider text-text-dim">
+      <p className="text-center text-[10px] uppercase tracking-wider text-text-muted">
         {pick.card.lens} · {pick.card.bankId}
       </p>
 
@@ -105,7 +105,7 @@ export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
       </label>
 
       {!userId ? (
-        <p className="text-xs text-text-dim">{COPY.login}</p>
+        <p className="text-xs text-text-muted">{COPY.login}</p>
       ) : (
         <Button
           variant="accent"

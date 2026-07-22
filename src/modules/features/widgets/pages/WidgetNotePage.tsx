@@ -85,7 +85,7 @@ function WidgetNoteInner() {
             ) : (
               <div className="space-y-4">
                 <div className="widget-note-mode-row">
-                  <WidgetButton type="button" variant="ghost" className="text-xs" onClick={() => setNoteMode('silo')}>
+                  <WidgetButton type="button" variant="ghost" className="text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => setNoteMode('silo')}>
                     Byt silo
                   </WidgetButton>
                   <span className="self-center text-[10px] uppercase tracking-widest text-text-muted">
@@ -99,7 +99,7 @@ function WidgetNoteInner() {
                         key={alias}
                         type="button"
                         variant={child === alias ? 'accent' : 'ghost'}
-                        className="flex-1 text-xs"
+                        className="flex-1 text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                         onClick={() => setChild(alias)}
                       >
                         {alias}

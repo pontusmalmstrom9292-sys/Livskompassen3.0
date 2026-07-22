@@ -36,15 +36,16 @@ export function ParalysisBreaker() {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
-          className="fixed inset-0 z-50 flex flex-col items-center justify-center p-4 bg-[var(--bg-dusk)]/95 backdrop-blur-xl"
+          className="paralysis-breaker fixed inset-0 z-50 flex flex-col items-center justify-center overflow-x-clip bg-[var(--bg-dusk)]/95 p-4 backdrop-blur-xl"
         >
           <div className="absolute top-6 right-6">
             <button 
+              type="button"
               onClick={handleClose}
-              className="p-3 text-white/70 hover:text-white hover:bg-white/10 rounded-full transition-colors"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full p-3 text-white/70 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
               aria-label="Stäng Zen Mode"
             >
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="h-8 w-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -55,7 +56,7 @@ export function ParalysisBreaker() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.6, ease: "easeInOut", delay: 0.1 }}
-            className="w-full max-w-xl mx-auto space-y-8"
+            className="paralysis-breaker__panel mx-auto w-full max-w-xl space-y-8"
           >
             <div className="text-center space-y-4">
               <h2 className="text-4xl font-bold text-white tracking-tight">{MICRO_STEP_PANEL_TITLE}</h2>
@@ -76,7 +77,7 @@ export function ParalysisBreaker() {
               <button
                 onClick={handleBreakDown}
                 disabled={!taskInput.trim() || isLoading}
-                className="w-full py-4 text-lg font-medium text-white bg-white/10 hover:bg-white/20 disabled:opacity-50 disabled:hover:bg-white/10 rounded-2xl transition-colors flex items-center justify-center gap-2"
+                className="flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl bg-white/10 py-4 text-lg font-medium text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-50 disabled:hover:bg-white/10"
               >
                 {isLoading ? (
                   <>

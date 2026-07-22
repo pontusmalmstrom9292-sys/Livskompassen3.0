@@ -34,14 +34,14 @@ export function GroundingExercise({ onComplete, onExit }: Props) {
 
   return (
     <div className="flex flex-col items-center space-y-6 py-4">
-      <p className="text-xs uppercase tracking-widest text-text-dim">5–4–3–2–1</p>
+      <p className="text-xs uppercase tracking-widest text-text-muted">5–4–3–2–1</p>
       <div className="w-full max-w-sm rounded-xl border border-border-strong bg-surface/40 px-5 py-6 text-center">
         <p className="text-3xl font-medium tabular-nums text-accent">{step.count}</p>
-        <p className="mt-2 text-xs uppercase tracking-widest text-text-dim">{step.sense}</p>
+        <p className="mt-2 text-xs uppercase tracking-widest text-text-muted">{step.sense}</p>
         <p className="mt-4 text-base text-accent">{step.prompt}</p>
         <p className="mt-2 text-sm text-text-muted">{step.detail}</p>
       </div>
-      <p className="text-sm text-text-dim">
+      <p className="text-sm text-text-muted">
         Steg {stepIndex + 1} av {MB_PLAY_54321_STEPS.length}
       </p>
       <div className="flex w-full max-w-sm flex-col gap-2">

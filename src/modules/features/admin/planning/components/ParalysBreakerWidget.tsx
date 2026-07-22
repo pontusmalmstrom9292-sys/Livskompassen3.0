@@ -54,18 +54,18 @@ export function ParalysBreakerWidget({
   if (step) {
     return (
       <div className="mt-3 space-y-2 rounded-xl border border-accent/20 bg-accent/5 p-3 animate-in fade-in duration-300">
-        <p className="text-[10px] uppercase tracking-widest text-text-dim text-left">
+        <p className="text-[10px] uppercase tracking-widest text-text-muted text-left">
           {singleStep ? PLANERING_PARALYS_ONE_STEP : 'Dina mikrosteg'}
         </p>
         <p className="text-sm text-text leading-relaxed text-left">{step.instruction}</p>
-        <p className="text-[10px] text-text-dim text-left">
+        <p className="text-[10px] text-text-muted text-left">
           ~{step.estimatedSeconds}s · {step.physicalAnchor}
         </p>
         <p className="text-xs text-text-muted text-left">{PLANERING_PARALYS_CALM}</p>
         <button
           type="button"
           onClick={() => setStep(null)}
-          className="mt-1 text-[10px] text-text-dim hover:text-text transition-colors w-full text-center"
+          className="mt-1 inline-flex min-h-11 w-full items-center justify-center text-[10px] text-text-muted transition-colors hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         >
           Dölj
         </button>
@@ -79,7 +79,7 @@ export function ParalysBreakerWidget({
         type="button"
         onClick={() => void handleBreakdown()}
         disabled={loading || taskTitle.trim().length < 3}
-        className="flex items-center gap-1.5 text-xs text-text-dim hover:text-accent transition-colors disabled:opacity-50"
+        className="inline-flex min-h-11 items-center gap-1.5 text-xs text-text-muted transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-50"
       >
         {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : <Zap className="h-3 w-3" />}
         <span>{loading ? 'Hämtar steg…' : PLANERING_PARALYS_ONE_STEP}</span>

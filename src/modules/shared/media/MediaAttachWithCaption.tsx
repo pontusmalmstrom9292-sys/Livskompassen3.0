@@ -201,7 +201,7 @@ export function MediaAttachWithCaption({
           >
             <div className="flex items-start justify-between gap-2">
               <p className="text-sm text-accent">
-                <span className="text-text-dim">Bild {index + 1}:</span> {item.file.name}
+                <span className="text-text-muted">Bild {index + 1}:</span> {item.file.name}
               </p>
               <Button
                 type="button"
@@ -222,15 +222,15 @@ export function MediaAttachWithCaption({
                 className="mt-2 max-h-40 w-full rounded-lg border border-border/40 object-cover"
               />
             ) : (
-              <div className="mt-2 flex items-center gap-2 rounded-lg border border-border/40 bg-surface/50 px-3 py-4 text-sm text-text-dim">
+              <div className="mt-2 flex items-center gap-2 rounded-lg border border-border/40 bg-surface/50 px-3 py-4 text-sm text-text-muted">
                 <FileText className="h-5 w-5 text-accent" aria-hidden />
                 PDF
               </div>
             )}
             <label className="mt-2 block" htmlFor={`${baseId}-cap-${item.id}`}>
-              <span className="mb-1 flex items-center justify-between gap-2 text-xs text-text-dim">
+              <span className="mb-1 flex items-center justify-between gap-2 text-xs text-text-muted">
                 <span>Bildtext (valfritt)</span>
-                <span aria-hidden className="tabular-nums text-text-dim/60">
+                <span aria-hidden className="tabular-nums text-text-muted/60">
                   {item.caption.length}/{CAPTION_MAX_CHARS}
                 </span>
               </span>
@@ -266,7 +266,7 @@ export function MediaAttachWithCaption({
         </Button>
       )}
 
-      <p className="text-xs text-text-dim">
+      <p className="text-xs text-text-muted">
         {helperText}
         {enablePaste ? ' Du kan också klistra in en skärmdump här.' : ''}
       </p>

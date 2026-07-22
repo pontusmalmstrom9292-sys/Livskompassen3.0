@@ -152,7 +152,7 @@ export function VaultVitHubPanel({ userId }: Props) {
       <EmptyState
         message={error ?? 'Ingen data.'}
         action={
-          <Button type="button" variant="secondary" size="sm" onClick={() => void reload()}>
+          <Button type="button" variant="secondary" size="sm" onClick={() => void reload()} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Försök igen
           </Button>
         }
@@ -250,7 +250,7 @@ export function VaultVitHubPanel({ userId }: Props) {
                     isFiltered
                       ? 'border-accent/40 bg-accent/10 text-accent'
                       : 'border-border-strong/50 text-text hover:border-accent/25'
-                  }`}
+                  } min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40`}
                 >
                   <span>{project.title}</span>
                   <span className="shrink-0 text-xs text-text-muted">
@@ -279,7 +279,7 @@ export function VaultVitHubPanel({ userId }: Props) {
             type="button"
             variant="accent"
             size="sm"
-            className="inline-flex items-center gap-2"
+            className="inline-flex items-center gap-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={() => printVitHubReport(exportReport)}
             disabled={filteredEntries.length === 0}
           >
@@ -290,7 +290,7 @@ export function VaultVitHubPanel({ userId }: Props) {
             type="button"
             variant="ghost"
             size="sm"
-            className="inline-flex items-center gap-2"
+            className="inline-flex items-center gap-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={() => downloadVitHubReportJson(exportReport)}
             disabled={filteredEntries.length === 0}
           >

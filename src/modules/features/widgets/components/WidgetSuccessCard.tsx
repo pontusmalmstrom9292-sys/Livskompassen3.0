@@ -29,7 +29,7 @@ export function WidgetSuccessCard({
       </p>
       {detail ? <div className="widget-success-card__detail">{detail}</div> : null}
       {onAction ? (
-        <WidgetButton type="button" variant="ghost" fullWidth className="mt-3 text-xs" onClick={onAction}>
+        <WidgetButton type="button" variant="ghost" fullWidth className="mt-3 text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={onAction}>
           {actionLabel}
         </WidgetButton>
       ) : null}

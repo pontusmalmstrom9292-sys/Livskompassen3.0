@@ -77,7 +77,7 @@ export function WidgetRecordMetadataForm({
         type="button"
         variant="accent"
         fullWidth
-        className="flex items-center justify-center gap-2"
+        className="flex items-center justify-center gap-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         disabled={busy || submitting}
         onClick={() => void run(() => onLock({ vem, vad, varfor }))}
       >
@@ -89,7 +89,7 @@ export function WidgetRecordMetadataForm({
         type="button"
         variant="ghost"
         fullWidth
-        className="text-xs"
+        className="text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         disabled={busy || submitting}
         onClick={() => void run(onSkip)}
       >

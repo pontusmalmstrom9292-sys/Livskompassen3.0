@@ -134,7 +134,7 @@ export function WidgetModulerBoard() {
                   <WidgetButton
                     type="button"
                     variant="ghost"
-                    className="ml-auto min-h-11 text-xs"
+                    className="ml-auto min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                     onClick={() => void handleArchive(widget.id)}
                   >
                     <Archive className="h-3.5 w-3.5" aria-hidden />

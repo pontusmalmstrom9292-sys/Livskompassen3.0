@@ -199,7 +199,7 @@ export function HubDropdownNav<T extends string>({
                 <span
                   className={clsx(
                     'shrink-0 transition-colors',
-                    selected ? GLOW_ICON[glowColor] : 'text-text-dim group-hover:text-text',
+                    selected ? GLOW_ICON[glowColor] : 'text-text-muted group-hover:text-text',
                   )}
                 >
                   {item.icon}
@@ -207,7 +207,7 @@ export function HubDropdownNav<T extends string>({
               ) : null}
               <span className="truncate">{item.label}</span>
             </div>
-            {selected ? <Check className="h-4 w-4 shrink-0 text-text-dim" aria-hidden /> : null}
+            {selected ? <Check className="h-4 w-4 shrink-0 text-text-muted" aria-hidden /> : null}
           </button>
         );
       })}
@@ -239,7 +239,7 @@ export function HubDropdownNav<T extends string>({
             <span
               className={clsx(
                 'shrink-0 transition-colors',
-                isOpen ? GLOW_ICON[glowColor] : 'text-text-dim',
+                isOpen ? GLOW_ICON[glowColor] : 'text-text-muted',
               )}
             >
               {activeItem.icon}
@@ -250,7 +250,7 @@ export function HubDropdownNav<T extends string>({
         <ChevronDown
           className={clsx(
             'h-4 w-4 shrink-0 transition-transform duration-300',
-            isOpen ? 'rotate-180' : 'text-text-dim',
+            isOpen ? 'rotate-180' : 'text-text-muted',
           )}
           aria-hidden
         />

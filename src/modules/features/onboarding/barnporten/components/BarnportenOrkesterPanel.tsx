@@ -5,7 +5,7 @@ import { BARNPORTEN_AGENTS } from '../constants/barnportenAgents';
 export function BarnportenOrkesterPanel() {
   return (
     <div className="familjen-tab-surface">
-      <p className="text-[10px] uppercase tracking-widest text-text-dim">Barnens assistenter</p>
+      <p className="text-[10px] uppercase tracking-widest text-text-muted">Barnens assistenter</p>
       <ul className="mt-2 space-y-2 text-sm text-text-muted">
         {BARNPORTEN_AGENTS.map((a) => (
           <li key={a.id}>

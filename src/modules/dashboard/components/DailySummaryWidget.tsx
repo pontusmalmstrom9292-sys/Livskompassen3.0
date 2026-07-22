@@ -8,15 +8,15 @@ export function DailySummaryWidget() {
   if (!visible) return null;
 
   return (
-    <div className="relative overflow-hidden rounded-2xl border border-accent/30 bg-accent/5 p-4 animate-in fade-in slide-in-from-top-2">
+    <div className="dashboard-card relative overflow-hidden rounded-2xl border border-accent/30 bg-accent/5 p-4 animate-in fade-in slide-in-from-top-2 transition-[border-color,box-shadow] focus-within:border-accent/45 focus-within:ring-1 focus-within:ring-accent/25">
       <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-accent/10 blur-2xl" />
       <button
         type="button"
         onClick={() => setVisible(false)}
-        className="absolute right-2 top-2 inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-text-dim transition-colors hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+        className="absolute right-2 top-2 inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-text-muted transition-colors hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         aria-label="Stäng sammanfattning"
       >
-        <X className="h-4 w-4" />
+        <X className="h-4 w-4" aria-hidden />
       </button>
       
       <div className="flex items-start gap-3 relative z-10">

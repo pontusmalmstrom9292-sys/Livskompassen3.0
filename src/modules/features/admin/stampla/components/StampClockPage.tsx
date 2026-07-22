@@ -115,7 +115,7 @@ export function StampClockPage() {
     <div className="space-y-4">
       <header>
         <h1 className="font-display text-2xl text-text">Stämpelklocka</h1>
-        <p className="text-sm text-text-dim">In och ut — timmar sparas i Firestore.</p>
+        <p className="text-sm text-text-muted">In och ut — timmar sparas i Firestore.</p>
       </header>
 
       {error && <p className="text-sm text-danger">{error}</p>}
@@ -131,19 +131,19 @@ export function StampClockPage() {
 
       <BentoCard title="Stämpla" icon={<Clock className="h-4 w-4" />}>
         {loading && (
-          <p className="flex items-center gap-2 text-sm text-text-dim">
+          <p className="flex items-center gap-2 text-sm text-text-muted">
             <Loader2 className="h-4 w-4 animate-spin" /> Laddar…
           </p>
         )}
         {!loading && (
           <>
-            <p className="mb-3 text-sm text-text-dim">
+            <p className="mb-3 text-sm text-text-muted">
               {isClockedIn
                 ? `Pågående pass sedan ${status.inTid} (${status.kat})`
                 : `${status.dagensTimmar} h registrerade idag`}
             </p>
             <label className="mb-3 flex flex-col gap-1 text-sm">
-              <span className="text-text-dim">Kategori vid instämpling</span>
+              <span className="text-text-muted">Kategori vid instämpling</span>
               <select
                 value={stampCategory}
                 onChange={(e) => setStampCategory(e.target.value)}
@@ -191,7 +191,7 @@ export function StampClockPage() {
               key={d.datum}
               className={`rounded-lg border border-white/5 p-2 ${d.idag ? 'bg-accent-primary/10' : ''}`}
             >
-              <div className="text-text-dim">{d.namn}</div>
+              <div className="text-text-muted">{d.namn}</div>
               <div className="font-medium text-text">{d.timmar}h</div>
             </div>
           ))}
@@ -214,7 +214,7 @@ export function StampClockPage() {
         )}
       </BentoCard>
 
-      <p className="text-xs text-text-dim">
+      <p className="text-xs text-text-muted">
         Frånvaro, manuella pass och löneöversikt finns i Valvet under Lön (Fyren: håll Hjärtat 3 sek i modulhubben, sedan PIN).
       </p>
     </div>

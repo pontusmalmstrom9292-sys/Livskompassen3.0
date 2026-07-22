@@ -167,11 +167,11 @@ export function MabraNutritionPanel({ uid }: Props) {
       <MabraNutritionTodayList storageUid={storageUid} refreshKey={intakeVersion} />
 
       {loading ? (
-        <p className="mt-4 text-sm text-text-dim">Laddar dagens notering…</p>
+        <p className="mt-4 text-sm text-text-muted">Laddar dagens notering…</p>
       ) : (
         <>
           <div className="mt-4 rounded-xl border border-border bg-surface-2/80 px-4 py-3">
-            <p className="text-xs font-medium uppercase tracking-wider text-text-dim">{COPY.water}</p>
+            <p className="text-xs font-medium uppercase tracking-wider text-text-muted">{COPY.water}</p>
             <div className="mt-3 flex items-center justify-between gap-3">
               <Button
                 variant="ghost"
@@ -228,7 +228,7 @@ export function MabraNutritionPanel({ uid }: Props) {
 
           {capacityLevel >= 3 ? (
             <div className="mt-4 rounded-xl border border-border-strong bg-surface/40 px-4 py-3">
-              <p className="text-xs font-medium uppercase tracking-wider text-text-dim">{COPY.prepTitle}</p>
+              <p className="text-xs font-medium uppercase tracking-wider text-text-muted">{COPY.prepTitle}</p>
               <ul className="mt-2 space-y-2">
                 {PREP_ITEMS.map((item) => (
                   <li key={item}>
@@ -259,8 +259,8 @@ export function MabraNutritionPanel({ uid }: Props) {
         <MabraNutritionMacroPanel storageUid={storageUid} refreshKey={intakeVersion} />
       ) : null}
 
-      {saveError ? <p className="mt-2 text-xs text-text-dim">{saveError}</p> : null}
-      <p className="mt-4 text-xs text-text-dim">
+      {saveError ? <p className="mt-2 text-xs text-text-muted">{saveError}</p> : null}
+      <p className="mt-4 text-xs text-text-muted">
         Intagslogg sparas lokalt. {useCloud ? COPY.savedCloud : COPY.savedLocal}
       </p>
 

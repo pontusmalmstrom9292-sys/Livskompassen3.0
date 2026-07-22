@@ -25,7 +25,7 @@ function PayslipSection({
   if (lines.length === 0) return null;
   return (
     <div className="space-y-1.5 rounded-xl border border-border/50 bg-surface/30 p-3">
-      <p className="text-[10px] font-medium uppercase tracking-wider text-text-dim">{title}</p>
+      <p className="text-[10px] font-medium uppercase tracking-wider text-text-muted">{title}</p>
       <ul className="space-y-1">
         {lines.map((line, i) => (
           <li key={`${line.label}-${i}`} className="flex justify-between gap-3 text-sm">
@@ -106,14 +106,14 @@ export function EconomyPayslipCard() {
     >
       {error && <p className="mb-2 text-sm text-danger">{error}</p>}
       {loading ? (
-        <p className="flex items-center gap-2 text-sm text-text-dim">
+        <p className="flex items-center gap-2 text-sm text-text-muted">
           <Loader2 className="h-4 w-4 animate-spin" /> Laddar…
         </p>
       ) : payslip ? (
         <div className="space-y-3 text-sm">
-          <p className="text-text-dim">{payslip.periodLabel}</p>
+          <p className="text-text-muted">{payslip.periodLabel}</p>
           {payslip.agreementMeta?.name ? (
-            <p className="text-xs text-text-dim">Avtal: {payslip.agreementMeta.name}</p>
+            <p className="text-xs text-text-muted">Avtal: {payslip.agreementMeta.name}</p>
           ) : null}
 
           {employerLines.length > 0 ? (
@@ -142,17 +142,17 @@ export function EconomyPayslipCard() {
               <span>Totalt till bankkonto</span>
               <span className="tabular-nums text-accent">{formatSek(totalToBank)}</span>
             </p>
-            <p className="mt-1 text-[10px] text-text-dim">
+            <p className="mt-1 text-[10px] text-text-muted">
               Simulerad totalinkomst — FK/AGS är uppskattningar.
             </p>
           </div>
 
           {payslip.absenceDeductionSek > 0 && employerLines.length === 0 && (
-            <p className="text-xs text-text-dim">Frånvaroavdrag: {payslip.absenceDeductionSek} kr</p>
+            <p className="text-xs text-text-muted">Frånvaroavdrag: {payslip.absenceDeductionSek} kr</p>
           )}
         </div>
       ) : (
-        <p className="text-sm text-text-dim">Ingen lönespec ännu. Genereras automatiskt den 16:e kl 08:00.</p>
+        <p className="text-sm text-text-muted">Ingen lönespec ännu. Genereras automatiskt den 16:e kl 08:00.</p>
       )}
       <Button
         variant="ghost"

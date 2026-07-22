@@ -109,7 +109,9 @@
   }
 
   .barnporten-widget__compass {
-    @apply pointer-events-auto mr-2 flex h-10 w-10 items-center justify-center rounded-full border border-amber-300/30;
+    @apply pointer-events-auto mr-2 flex items-center justify-center rounded-full border border-amber-300/30;
+    min-height: var(--ds-touch-target);
+    min-width: var(--ds-touch-target);
     background: radial-gradient(circle at 35% 35%, rgba(251, 191, 36, 0.32), rgba(26, 20, 16, 0.82));
     box-shadow: 0 0 14px rgba(251, 191, 36, 0.22);
   }
@@ -128,7 +130,8 @@
   @layer components {
     .barnporten-widget__star,
     .barnporten-widget__compass,
-    .barnporten-widget__arc {
+    .barnporten-widget__arc,
+    .barnporten-action {
       transition: none;
     }
 
@@ -136,6 +139,38 @@
     .barnporten-widget__star--holding {
       box-shadow: 0 0 10px rgba(251, 191, 36, 0.28);
     }
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .barnporten-page .calm-card,
+  .barnporten-page .glass-card,
+  .barnporten-qr-panel {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--barnporten-surface, #1a1410);
+  }
+}
+
+@layer components {
+  .barnporten-action {
+    min-height: var(--ds-touch-target, 2.75rem);
+  }
+
+  .barnporten-action:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
+  .barnporten-page details > summary {
+    min-height: var(--ds-touch-target, 2.75rem);
+    display: flex;
+    align-items: center;
+  }
+
+  .barnporten-page details > summary:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 }
 [data-theme='J-barnporten-ljus'] .barnporten-page,

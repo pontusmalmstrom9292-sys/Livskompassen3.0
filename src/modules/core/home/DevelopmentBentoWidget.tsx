@@ -497,7 +497,7 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
               }
             >
               {card.title_sv ? (
-                <span className="block text-[10px] font-semibold uppercase tracking-wide text-text-dim">
+                <span className="block text-[10px] font-semibold uppercase tracking-wide text-text-muted">
                   {card.title_sv}
                 </span>
               ) : null}
@@ -522,7 +522,7 @@ export function DevelopmentBentoWidget({ refreshKey = 0, embedded = false }: Pro
       {selected ? (
         <article className="space-y-3 rounded-xl border border-accent/20 bg-surface-2/60 px-4 py-3">
           <p className="text-sm leading-relaxed text-text-muted">{selected.body_sv}</p>
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">
+          <p className="text-[10px] uppercase tracking-widest text-text-muted">
             {selected.title_sv ?? 'Mikrosteg'} ·{' '}
             {selected.content_class === 'PLAY' ? 'Lek' : 'Reflektion'}
           </p>

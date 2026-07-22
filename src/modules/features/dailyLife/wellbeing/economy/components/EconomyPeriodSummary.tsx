@@ -11,7 +11,7 @@ export function EconomyPeriodSummary({ summary, loading }: EconomyPeriodSummaryP
   if (loading || !summary) {
     return (
       <BentoCard title="Period" description="Laddar…">
-        <p className="text-sm text-text-dim">—</p>
+        <p className="text-sm text-text-muted">—</p>
       </BentoCard>
     );
   }
@@ -24,11 +24,11 @@ export function EconomyPeriodSummary({ summary, loading }: EconomyPeriodSummaryP
         <MetricTile label="Utgifter (logg)" value={`${summary.ledgerExpensesSek} kr`} hint="I perioden" />
         <MetricTile label="Inkomster (logg)" value={`${summary.ledgerIncomeSek} kr`} hint="I perioden" />
       </div>
-      <p className="text-sm text-text-dim">
+      <p className="text-sm text-text-muted">
         Rörliga i perioden: {summary.variableExpensesSek} kr · Uppskattat kvar:{' '}
         <span className="font-medium text-text">{summary.estimatedBalanceSek} kr</span>
       </p>
-      <p className="mt-1 text-xs text-text-dim">{summary.ledgerRowCount} loggrader i perioden</p>
+      <p className="mt-1 text-xs text-text-muted">{summary.ledgerRowCount} loggrader i perioden</p>
     </BentoCard>
   );
 }

@@ -1,3 +1,19 @@
+## 2026-07-22 — UI Polish V4 ×10 PASS 3 (samma vågor igen, ADD-only)
+
+- Inget borttaget — samma I1–I10 × W0–W11 deepen igen
+- Pass 3: chrome/executive/drawer/fyren focus+touch+aria; zon CSS ADD; Speglar/Inkast/Drogfrihet/Hamn/Valv/Widgets/Arbetsliv/MåBra
+- Smoke PASS: design-debt · locked-ux · design-modules · widgets · planering-superhub · governance · build · **smoke:predeploy:build**
+- UX guardian: **GO**
+- Pending: Pontus G85 touch/focus spotcheck
+
+## 2026-07-22 — UI Polish V4 W3–W11 deepen pass 3
+
+- Unlock: `docs/evaluations/2026-07-22-unlock-MOD-UI-POLISH-V4-X10.md`
+- ADD polish only on interactive controls: Speglar/mirror · Inkast capture · Drogfrihet · Hamn/BIFF · Valv panels (UI) · InställningarPage · widget routes/studio · Arbetsliv · MabraFlowViews/MabraHubView
+- Pattern: `min-h-11` + `focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40` · aria on icon-only where needed
+- No removal of tabs/modes/buttons/flows · sandbox/ThemeLab skipped
+- Verify: brace-aware tag scan 0 missing focus · esbuild on changed TSX PASS
+
 ## 2026-07-22 — Companion: krympbara widgets (1 plats min)
 
 - Alla 10 `widget_companion_*_info.xml`: `minWidth/Height=110dp` + `resizeMode` + `targetCell*` (defaultstorlek kvar)

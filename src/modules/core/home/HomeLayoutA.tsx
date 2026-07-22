@@ -328,13 +328,13 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
             </p>
             {(presetLabel ?? preset.label) ? (
               <p
-                className="home-greeting-module__profile text-[10px] text-text-dim"
+                className="home-greeting-module__profile text-[10px] text-text-muted"
                 aria-label={`Hemprofil: ${presetLabel ?? preset.label}`}
               >
                 {presetLabel ?? preset.label}
               </p>
             ) : null}
-            <p className="text-xs text-text-dim">{preset.lead}</p>
+            <p className="text-xs text-text-muted">{preset.lead}</p>
             <HomeStreakChip />
           </div>
         </CalmCollapsible>
@@ -413,7 +413,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
           </span>
           <div className="mt-2 flex flex-col">
             <span className="font-sans text-base font-bold leading-none text-text">{ritual.name}</span>
-            <span className="mt-1.5 flex items-center gap-1 text-[9px] font-medium text-text-dim">
+            <span className="mt-1.5 flex items-center gap-1 text-[9px] font-medium text-text-muted">
               {RitualIcon ? <RitualIcon className="h-3 w-3 text-accent" aria-hidden /> : null}
               {ritual.time}
             </span>

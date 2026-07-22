@@ -48,7 +48,7 @@ export function BastaDesignResurserWidget({
               <li key={row.id}>
                 <button
                   type="button"
-                  className="basta-resurser-widget__row"
+                  className="basta-resurser-widget__row focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   onClick={() => {
                     onToggle();
                     navigate(row.path);
@@ -66,14 +66,14 @@ export function BastaDesignResurserWidget({
             );
           })}
         </ul>
-        <button type="button" className="basta-resurser-widget__all" onClick={onOpenFull}>
+        <button type="button" className="basta-resurser-widget__all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={onOpenFull}>
           Alla resurser
         </button>
       </div>
 
       <button
         type="button"
-        className="basta-resurser-widget__tab"
+        className="basta-resurser-widget__tab focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         aria-expanded={open}
         aria-controls="basta-resurser-widget-panel"
         aria-label={open ? 'Stäng resurser' : 'Fäll ut resurser'}

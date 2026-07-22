@@ -4,6 +4,8 @@ import { VaultService } from '@/core/firebase/VaultService';
 import { hasVaultGate } from '@/core/auth/sessionService';
 import { useStore } from '@/core/store';
 import { CheckSquare, Lock, Mic, Clock, Sparkles } from 'lucide-react';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { IntakeTriageModal } from './IntakeTriageModal';
 
 export function RecentIntakeWidget() {
@@ -52,12 +54,12 @@ export function RecentIntakeWidget() {
   if (!user) return null;
 
   return (
-    <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md shadow-lg w-full">
+    <div className="dashboard-card w-full rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg backdrop-blur-md transition-[border-color,box-shadow] focus-within:border-accent/35 focus-within:ring-1 focus-within:ring-accent/20">
       <div className="flex items-center gap-3 mb-6 border-b border-white/5 pb-4">
         <Sparkles className="w-5 h-5 text-accent-ai animate-pulse" />
         <div>
           <h2 className="text-xl font-medium text-white/90">Senaste Intaget</h2>
-          <p className="text-xs text-text-dim mt-0.5">Analys och arkivering från röstagenten i realtid</p>
+          <p className="text-xs text-text-muted mt-0.5">Analys och arkivering från röstagenten i realtid</p>
         </div>
       </div>
 
@@ -69,15 +71,12 @@ export function RecentIntakeWidget() {
           </div>
 
           {tasksLoading ? (
-            <div className="space-y-3 flex-1 justify-center py-4">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="h-10 bg-white/5 rounded-xl animate-pulse" />
-              ))}
-            </div>
+            <HubPanelSkeleton label="Hämtar planering…" lines={3} />
           ) : !hasTasks ? (
-            <div className="flex flex-col items-center justify-center py-8 text-center bg-white/5 rounded-xl border border-white/5 border-dashed">
-              <p className="text-sm text-text-dim">Inga aktiva uppgifter just nu.</p>
-            </div>
+            <EmptyState
+              className="border-dashed border-border/25 bg-surface-2/30 py-6 text-center shadow-none"
+              message="Inga aktiva uppgifter just nu."
+            />
           ) : (
             <div className="space-y-3">
               {unresolvedTasks.map((task) => {
@@ -98,18 +97,18 @@ export function RecentIntakeWidget() {
                         projectId: task.projectId || '',
                       })
                     }
-                    className="cursor-pointer flex w-full items-start justify-between gap-3 p-3 rounded-xl bg-surface-2 border border-border/40 hover:border-border transition-all hover:bg-surface-3 group text-left"
+                    className="group flex w-full cursor-pointer items-start justify-between gap-3 rounded-xl border border-border/40 bg-surface-2 p-3 text-left transition-all duration-[var(--ds-duration-fast)] hover:border-border hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   >
                     <div className="flex items-start gap-2.5 min-w-0">
                       {isVoice ? (
                         <Mic className="w-4 h-4 text-accent-ai shrink-0 mt-0.5" />
                       ) : (
-                        <CheckSquare className="w-4 h-4 text-text-dim group-hover:text-text-muted shrink-0 mt-0.5" />
+                        <CheckSquare className="w-4 h-4 text-text-muted group-hover:text-text-muted shrink-0 mt-0.5" />
                       )}
                       <div className="min-w-0">
                         <p className="text-sm text-white/95 font-medium leading-normal break-words">{task.title}</p>
                         {task.summary && (
-                          <p className="text-xs text-text-dim mt-0.5 line-clamp-1">{task.summary}</p>
+                          <p className="text-xs text-text-muted mt-0.5 line-clamp-1">{task.summary}</p>
                         )}
                       </div>
                     </div>
@@ -121,7 +120,7 @@ export function RecentIntakeWidget() {
                         </span>
                       )}
                       {task.createdAt && (
-                        <span className="text-[10px] text-text-dim font-mono">
+                        <span className="text-[10px] text-text-muted font-mono">
                           {new Date(task.createdAt).toLocaleDateString('sv-SE', {
                             month: 'numeric',
                             day: 'numeric',
@@ -144,15 +143,12 @@ export function RecentIntakeWidget() {
             </div>
 
             {vaultLoading ? (
-              <div className="space-y-3 flex-1 justify-center py-4">
-                {[1, 2].map((i) => (
-                  <div key={i} className="h-14 bg-white/5 rounded-xl animate-pulse" />
-                ))}
-              </div>
+              <HubPanelSkeleton label="Hämtar poster…" lines={2} />
             ) : !hasVault ? (
-              <div className="flex flex-col items-center justify-center py-8 text-center bg-white/5 rounded-xl border border-white/5 border-dashed">
-                <p className="text-sm text-text-dim">Inga poster än.</p>
-              </div>
+              <EmptyState
+                className="border-dashed border-border/25 bg-surface-2/30 py-6 text-center shadow-none"
+                message="Inga poster än."
+              />
             ) : (
               <div className="space-y-3">
                 {vaultEntries.map((record) => {
@@ -171,11 +167,11 @@ export function RecentIntakeWidget() {
                           type: 'vault',
                         })
                       }
-                      className="cursor-pointer p-3.5 rounded-xl bg-surface-2 border border-border/40 hover:border-border transition-all hover:bg-surface-3 flex flex-col space-y-2 relative overflow-hidden group w-full text-left"
+                      className="group relative flex w-full cursor-pointer flex-col space-y-2 overflow-hidden rounded-xl border border-border/40 bg-surface-2 p-3.5 text-left transition-all duration-[var(--ds-duration-fast)] hover:border-border hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                     >
                       <div className="flex justify-between items-start gap-2">
-                        <div className="flex items-center gap-1.5 font-mono text-[10px] text-text-dim">
-                          <Clock className="w-3 h-3 text-text-dim" />
+                        <div className="flex items-center gap-1.5 font-mono text-[10px] text-text-muted">
+                          <Clock className="w-3 h-3 text-text-muted" />
                           <span>{record.timestamp ? record.timestamp.toLocaleString('sv-SE', { dateStyle: 'short', timeStyle: 'short' }) : 'Okänt datum'}</span>
                         </div>
                         <div className="flex items-center gap-1.5">
@@ -185,7 +181,7 @@ export function RecentIntakeWidget() {
                               {confidence}% tillförlitlighet
                             </span>
                           )}
-                          <Lock size={12} className="text-text-dim group-hover:text-text-muted transition-colors" />
+                          <Lock size={12} className="text-text-muted group-hover:text-text-muted transition-colors" />
                         </div>
                       </div>
 
@@ -195,8 +191,8 @@ export function RecentIntakeWidget() {
 
                       {isVoice && record.truth && record.truth !== record.content && (
                         <div className="pt-2 mt-1 border-t border-white/5">
-                          <p className="text-[10px] text-text-dim uppercase tracking-wider font-semibold">Ursprunglig transkription</p>
-                          <p className="text-xs text-text-dim italic mt-0.5 break-words">&quot;{record.truth}&quot;</p>
+                          <p className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Ursprunglig transkription</p>
+                          <p className="text-xs text-text-muted italic mt-0.5 break-words">&quot;{record.truth}&quot;</p>
                         </div>
                       )}
                     </button>

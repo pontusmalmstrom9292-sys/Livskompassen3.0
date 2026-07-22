@@ -40,12 +40,12 @@ export function StampClockWidget() {
       )}
 
       {clock.loading ? (
-        <p className="flex items-center gap-2 text-sm text-text-dim">
+        <p className="flex items-center gap-2 text-sm text-text-muted">
           <Loader2 className="h-4 w-4 animate-spin" /> Laddar…
         </p>
       ) : (
         <>
-          <p className="mb-2 text-[10px] uppercase tracking-widest text-text-dim">
+          <p className="mb-2 text-[10px] uppercase tracking-widest text-text-muted">
             {clock.isClockedIn ? 'Pågående pass' : 'Inte instämplad'}
           </p>
           <StampClockControls

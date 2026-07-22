@@ -59,7 +59,8 @@
   }
 
   .compass-quick-widget-rail__label {
-    @apply mb-2 text-[0.65rem] font-medium uppercase tracking-widest text-text-dim;
+    @apply mb-2 text-[0.65rem] font-medium uppercase tracking-widest;
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
     line-height: 1.35;
   }
 
@@ -101,6 +102,15 @@
     transform: translateY(0);
   }
 
+  .compass-quick-widget-rail button:focus-visible,
+  .compass-quick-widget-rail a:focus-visible,
+  .compass-module-block button:focus-visible,
+  .compass-module-block a:focus-visible,
+  .compass-module-block [role='button']:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
   .compass-quick-widget-rail--compact .compass-quick-widget-rail__label {
     @apply mb-1.5;
   }
@@ -111,7 +121,7 @@
     .compass-quick-widget-rail {
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
-      background: color-mix(in srgb, var(--surface) 94%, #020617);
+      background: color-mix(in srgb, var(--surface) 94%, var(--bg, #020617));
     }
   }
 }

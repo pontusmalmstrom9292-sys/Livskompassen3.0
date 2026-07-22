@@ -135,7 +135,7 @@ export function ProjektReglerPage() {
     >
       <GoraHubTabBar />
       <div className="flex flex-wrap gap-3 text-xs">
-        <Link to="/projekt" className="text-text-dim hover:text-accent">
+        <Link to="/projekt" className="text-text-muted hover:text-accent">
           ← Projekt
         </Link>
         <Link to="/planering?tab=regler" className="text-accent">
@@ -144,12 +144,12 @@ export function ProjektReglerPage() {
       </div>
 
       {!user && <p className="mt-3 text-sm text-text-muted">Logga in för att spara regler.</p>}
-      {loading && user && <p className="mt-3 text-sm text-text-dim">Laddar regler…</p>}
+      {loading && user && <p className="mt-3 text-sm text-text-muted">Laddar regler…</p>}
       {error && <p className="mt-2 text-xs text-danger">{error}</p>}
 
       <div className="home-module-stack mt-4">
         {!loading && rules.length === 0 && (
-          <p className="text-sm text-text-dim">Inga regler än. Lägg till en enkel När X → skapa uppgift.</p>
+          <p className="text-sm text-text-muted">Inga regler än. Lägg till en enkel När X → skapa uppgift.</p>
         )}
         {rules.map((rule) => (
           <ProjectRuleCard
@@ -165,7 +165,7 @@ export function ProjektReglerPage() {
         + Lägg till regel
       </Button>
 
-      <p className="mt-4 text-xs text-text-dim">
+      <p className="mt-4 text-xs text-text-muted">
         Granskningskö:{' '}
         <Link to="/planering?tab=inkorg" className="text-accent">
           Planering → Inkorg

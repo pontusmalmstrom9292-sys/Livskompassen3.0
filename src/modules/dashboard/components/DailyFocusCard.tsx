@@ -17,7 +17,7 @@ export function DailyFocusCard() {
   const hasFocusPoints = threeFocusPoints.some((p) => p.trim() !== '');
 
   return (
-    <div className="bg-white/5 border border-white/10 rounded-2xl p-6 backdrop-blur-md shadow-lg h-full flex flex-col">
+    <div className="dashboard-card flex h-full flex-col rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg backdrop-blur-md transition-[border-color,box-shadow] focus-within:border-accent/35 focus-within:ring-1 focus-within:ring-accent/20">
       <div className="flex items-center gap-3 mb-6">
         <Target className="w-6 h-6 text-blue-300" />
         <h2 className="text-xl font-medium tracking-wide">Dagens Fokus</h2>
@@ -47,7 +47,7 @@ export function DailyFocusCard() {
         </div>
       ) : (
         <div className="flex-1 flex flex-col items-center justify-center text-center p-6 bg-white/5 rounded-xl border border-white/5 border-dashed">
-          <p className="text-white/60 mb-4">Du har inte satt ditt fokus för idag än.</p>
+          <p className="text-text-muted mb-4">Du har inte satt ditt fokus för idag än.</p>
           <Link 
             to="/kompasser" 
             className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 text-blue-300 rounded-lg hover:bg-blue-500/30 transition-colors text-sm font-medium"

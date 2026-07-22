@@ -1,3 +1,7 @@
+### 2026-07-22 — UI Polish V4 ×10 PASS 3
+- Samma förbättringsvågor igen (ADD-only) · UX GO · design-debt 0/0/2/62
+- G85 visual: pending Pontus
+
 ### 2026-07-22 — Companion Kap. 6 ×10 + chip-rensning
 - Status: **Done** · MOD-WIDGET re-locked · unlock legacy-chip-removal (`approved: yes`)
 - Polish: web `--cw-*` deepen + Android companion capture/note/insight layouts (Gold Standard kap. 6)
@@ -19,6 +23,12 @@
 - btn-pill--: **0** · ds-btn--: **0** · ad-hoc dialog: **2** · index.css LOC: **62**
 - DS imports: **276** · smoke:design-debt `2026-07-22T07:34:04.186Z`
 - calm-card-audit: **PASS**
+
+## 2026-07-22 — UI Polish V4 W3–W11 deepen pass 3
+
+- ADD-only a11y: `min-h-11` + `focus-visible:ring-accent/40` on Speglar, Inkast, Drogfrihet, Hamn/BIFF, Valv UI, Inställningar, Widgets routes, Arbetsliv, MabraFlow/Hub
+- No tabs/modes/flows removed · `/dev` skipped · no WORM
+- Verify: esbuild TSX batch PASS · zone focus-visible coverage 0 remaining gaps
 
 ## 2026-07-22 — UI Polish V4 W3–W9 deepen pass 2
 

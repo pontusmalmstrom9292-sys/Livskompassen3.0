@@ -51,7 +51,7 @@ export function MabraModulValjare({ onSelect, onSkip }: Props) {
         ))}
       </div>
       {onSkip ? (
-        <button type="button" onClick={skip} className="text-xs text-text-dim hover:text-text-muted">
+        <button type="button" onClick={skip} className="text-xs text-text-muted hover:text-text-muted">
           Visa alla zoner direkt
         </button>
       ) : null}

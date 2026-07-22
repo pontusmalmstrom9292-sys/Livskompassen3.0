@@ -5,8 +5,12 @@
   }
 
   .routines-panel__toggle {
-    @apply flex w-full items-center gap-2 px-3 py-2 text-left text-xs text-text-muted transition-colors hover:text-text;
+    @apply flex w-full items-center gap-2 px-3 py-2 text-left text-xs hover:text-text;
     min-height: var(--ds-touch-target);
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
+    transition:
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .routines-panel__toggle:focus-visible {
@@ -19,12 +23,13 @@
   }
 
   .routines-panel__count {
-    @apply rounded-full border border-border-strong/80 px-1.5 py-0.5 text-[10px] tabular-nums text-text-muted;
-    color: color-mix(in srgb, var(--text-muted) 86%, var(--text));
+    @apply rounded-full border border-border-strong/80 px-1.5 py-0.5 text-[10px] tabular-nums;
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
   }
 
   .routines-panel__chevron {
-    @apply shrink-0 text-text-muted transition-transform duration-200;
+    @apply shrink-0 text-text-muted;
+    transition: transform var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .routines-panel__chevron--open {
@@ -40,9 +45,12 @@
   }
 
   .routines-panel__chip {
-    @apply inline-flex max-w-full items-center gap-1.5 rounded-full border border-border-strong/80 px-3 py-1.5 text-[11px] font-medium text-text transition-[border-color,background-color];
+    @apply inline-flex max-w-full items-center gap-1.5 rounded-full border border-border-strong/80 px-3 py-1.5 text-[11px] font-medium text-text;
     min-height: var(--ds-touch-target);
     background: color-mix(in srgb, var(--bg) 55%, transparent);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .routines-panel__chip:hover:not(:disabled) {

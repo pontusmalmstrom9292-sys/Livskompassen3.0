@@ -62,7 +62,7 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
           message="Logga in för att ställa in veckobudget och matlåda-preset."
         />
       ) : loading ? (
-        <p className="flex items-center gap-2 text-sm text-text-dim" aria-busy="true">
+        <p className="flex items-center gap-2 text-sm text-text-muted" aria-busy="true">
           <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
           Laddar profil…
         </p>
@@ -70,7 +70,7 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
         <form className="space-y-4" onSubmit={(event) => void handleSubmit(event)} aria-label="Ekonomiprofil">
           <div className="flex flex-wrap gap-4">
             <label className="flex min-w-[8rem] flex-1 flex-col gap-1.5">
-              <span className="text-[10px] uppercase tracking-wider text-text-dim">
+              <span className="text-[10px] uppercase tracking-wider text-text-muted">
                 Veckobudget (kr)
               </span>
               <Input
@@ -88,7 +88,7 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
               />
             </label>
             <label className="flex min-w-[8rem] flex-1 flex-col gap-1.5">
-              <span className="text-[10px] uppercase tracking-wider text-text-dim">
+              <span className="text-[10px] uppercase tracking-wider text-text-muted">
                 Matlåda-preset (kr)
               </span>
               <Input
@@ -107,7 +107,7 @@ export function EkonomiProfilDelegate({ userId }: EkonomiProfilDelegateProps) {
             </label>
           </div>
 
-          <p className="text-[10px] leading-relaxed text-text-dim">
+          <p className="text-[10px] leading-relaxed text-text-muted">
             Matlåda-preset används av Snabbsaldo och Neuro-kost. Veckobudget styr &quot;kvar att leva
             på&quot;-mätaren.
           </p>

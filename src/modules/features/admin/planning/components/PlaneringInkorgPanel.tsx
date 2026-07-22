@@ -230,7 +230,7 @@ export function PlaneringInkorgPanel() {
                 {captureNote}
               </p>
             )}
-            <p className="mt-3 text-xs text-text-dim">
+            <p className="mt-3 text-xs text-text-muted">
               Ex-brus och konflikt → Hamn (BIFF).{' '}
               <button
                 type="button"

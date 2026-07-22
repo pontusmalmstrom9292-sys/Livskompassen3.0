@@ -141,7 +141,7 @@ function CaptureSuperModuleInner({
             <Button
               variant="ghost"
               size="sm"
-              className="min-h-[var(--ds-touch-target,2.75rem)] text-text-dim"
+              className="min-h-[var(--ds-touch-target,2.75rem)] text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => setShowCapturePicker(true)}
             >
               Byt ingång

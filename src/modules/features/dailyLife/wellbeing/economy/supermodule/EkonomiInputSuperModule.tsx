@@ -58,7 +58,7 @@ function EkonomiModePlaceholder({ mode }: { mode: EkonomiInputMode }) {
     <div className="rounded-xl border border-border/50 bg-surface-3/30 p-6 text-center">
       <p className="font-display-serif text-sm uppercase tracking-[0.2em] text-accent">{meta.label}</p>
       <p className="mt-2 text-xs text-text-muted">{meta.description}</p>
-      <p className="mt-4 text-[10px] uppercase tracking-wider text-text-dim">
+      <p className="mt-4 text-[10px] uppercase tracking-wider text-text-muted">
         Delegate kommer i Fas 8B–8D
       </p>
     </div>
@@ -166,7 +166,7 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
           <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">
             Ett läge i taget
           </h2>
-          <p className="text-xs text-text-dim">
+          <p className="text-xs text-text-muted">
             Vardagsekonomi utan sidbyte — kapacitetsstyrd progressive disclosure.
           </p>
           {circuitBreakerActive ? (
@@ -201,7 +201,7 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
               }`}
             >
               <span className="block font-medium">{mode.label}</span>
-              <span className="block text-[10px] text-text-dim">{mode.description}</span>
+              <span className="block text-[10px] text-text-muted">{mode.description}</span>
             </button>
           );
         })}
@@ -218,7 +218,7 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
             }`}
           >
             <span className="block font-medium">Mer…</span>
-            <span className="block text-[10px] text-text-dim">Kuvert, spar, logg, inkast</span>
+            <span className="block text-[10px] text-text-muted">Kuvert, spar, logg, inkast</span>
           </button>
         ) : null}
 
@@ -238,7 +238,7 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
                 }`}
               >
                 <span className="block font-medium">{mode.label}</span>
-                <span className="block text-[10px] text-text-dim">{mode.description}</span>
+                <span className="block text-[10px] text-text-muted">{mode.description}</span>
               </button>
             );
           })}
@@ -255,7 +255,7 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
       <footer className="mt-4 border-t border-border/30 pt-3">
         <Link
           to="/arbetsliv/input"
-          className="inline-flex items-center gap-1.5 text-xs text-text-dim transition-colors hover:text-accent-secondary"
+          className="inline-flex items-center gap-1.5 text-xs text-text-muted transition-colors hover:text-accent-secondary"
         >
           Arbetsliv — stämpel & inkomster
           <ArrowRight className="h-3 w-3" aria-hidden />

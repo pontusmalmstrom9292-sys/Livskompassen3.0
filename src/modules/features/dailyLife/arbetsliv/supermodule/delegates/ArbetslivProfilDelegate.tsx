@@ -102,7 +102,7 @@ export function ArbetslivProfilDelegate() {
             message="Logga in för att ställa in lön, kollektivavtal och skatt."
           />
         ) : loading ? (
-          <p className="flex items-center gap-2 text-sm text-text-dim" aria-busy="true">
+          <p className="flex items-center gap-2 text-sm text-text-muted" aria-busy="true">
             <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
             Laddar löneprofil…
           </p>
@@ -110,7 +110,7 @@ export function ArbetslivProfilDelegate() {
           <form className="space-y-4" onSubmit={(e) => void handleSubmit(e)} aria-label="Löneinställningar">
             <BentoCard title="Dina tre inställningar" glow="gold" className="space-y-4">
               <label className="flex flex-col gap-1">
-                <span className="text-[10px] uppercase tracking-wider text-text-dim">
+                <span className="text-[10px] uppercase tracking-wider text-text-muted">
                   Grundlön (kr/mån)
                 </span>
                 <Input
@@ -128,7 +128,7 @@ export function ArbetslivProfilDelegate() {
               </label>
 
               <div className="rounded-xl border border-border/60 bg-surface/40 p-3">
-                <p className="mb-2 text-[10px] uppercase tracking-wider text-text-dim">
+                <p className="mb-2 text-[10px] uppercase tracking-wider text-text-muted">
                   Ny lön från datum
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -152,7 +152,7 @@ export function ArbetslivProfilDelegate() {
                   <Button
                     type="button"
                     variant="ghost"
-                    className="shrink-0"
+                    className="shrink-0 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                     onClick={() => appendSalaryTerm()}
                     aria-label="Lägg till lön från datum"
                   >
@@ -164,13 +164,13 @@ export function ArbetslivProfilDelegate() {
               <div className="flex items-center justify-between gap-3 rounded-xl border border-border/60 bg-surface/40 px-3 py-2">
                 <div>
                   <p className="text-sm text-text">Kollektivavtal</p>
-                  <p className="text-[10px] text-text-dim">Av = endast lag (12 % semester, ingen AGS)</p>
+                  <p className="text-[10px] text-text-muted">Av = endast lag (12 % semester, ingen AGS)</p>
                 </div>
                 <button
                   type="button"
                   role="switch"
                   aria-checked={collectiveAgreementEnabled}
-                  className={`relative h-7 w-12 rounded-full transition-colors ${collectiveAgreementEnabled ? 'bg-accent/80' : 'bg-surface-elevated'}`}
+                  className={`relative h-7 w-12 rounded-full transition-colors ${collectiveAgreementEnabled ? 'bg-accent/80' : 'bg-surface-elevated'} min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40`}
                   onClick={() => setCollectiveAgreementEnabled(!collectiveAgreementEnabled)}
                 >
                   <span
@@ -181,7 +181,7 @@ export function ArbetslivProfilDelegate() {
 
               {collectiveAgreementEnabled ? (
                 <label className="flex flex-col gap-1">
-                  <span className="text-[10px] uppercase tracking-wider text-text-dim">Avtal</span>
+                  <span className="text-[10px] uppercase tracking-wider text-text-muted">Avtal</span>
                   <select
                     className="input-glass w-full"
                     value={collectiveAgreementId}
@@ -198,7 +198,7 @@ export function ArbetslivProfilDelegate() {
 
               <div className="flex flex-wrap gap-3">
                 <label className="flex min-w-[6rem] flex-1 flex-col gap-1">
-                  <span className="text-[10px] uppercase tracking-wider text-text-dim">Skattetabell</span>
+                  <span className="text-[10px] uppercase tracking-wider text-text-muted">Skattetabell</span>
                   <Input
                     type="number"
                     min={1}
@@ -208,7 +208,7 @@ export function ArbetslivProfilDelegate() {
                   />
                 </label>
                 <label className="flex min-w-[6rem] flex-1 flex-col gap-1">
-                  <span className="text-[10px] uppercase tracking-wider text-text-dim">Kolumn</span>
+                  <span className="text-[10px] uppercase tracking-wider text-text-muted">Kolumn</span>
                   <select
                     className="input-glass w-full"
                     value={taxColumn}
@@ -248,7 +248,7 @@ export function ArbetslivProfilDelegate() {
                 <Button
                   type="button"
                   variant="secondary"
-                  className="min-h-11 flex-1 gap-2"
+                  className="min-h-11 flex-1 gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   disabled={isUploadBusy}
                   onClick={() => agreementInputRef.current?.click()}
                   aria-label="Uppdatera kollektivavtal — välj fil"
@@ -263,7 +263,7 @@ export function ArbetslivProfilDelegate() {
                 <Button
                   type="button"
                   variant="secondary"
-                  className="min-h-11 flex-1 gap-2"
+                  className="min-h-11 flex-1 gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   disabled={isUploadBusy}
                   onClick={() => taxInputRef.current?.click()}
                   aria-label="Uppdatera skattetabell — välj JSON-fil"
@@ -277,7 +277,7 @@ export function ArbetslivProfilDelegate() {
                 </Button>
               </div>
 
-              <p className="text-xs leading-relaxed text-text-dim">
+              <p className="text-xs leading-relaxed text-text-muted">
                 När Livs eller Skatteverket publicerar nytt: be AI om en fil från PDF, ladda upp här.
                 Programmet sköter resten.
               </p>
@@ -286,29 +286,29 @@ export function ArbetslivProfilDelegate() {
             <BentoCard title="Systemet räknar (read-only)" glow="blue" className="space-y-2 text-sm">
               <div className="grid gap-2 sm:grid-cols-2">
                 <p>
-                  <span className="text-text-dim">Timlön:</span>{' '}
+                  <span className="text-text-muted">Timlön:</span>{' '}
                   <span className="tabular-nums text-text">{formatSek(profile.hourlyRateSek)}/h</span>
                 </p>
                 <p>
-                  <span className="text-text-dim">SGI:</span>{' '}
+                  <span className="text-text-muted">SGI:</span>{' '}
                   <span className="tabular-nums text-text">{formatSek(profile.sgiAnnualSek)}/år</span>
                 </p>
                 <p className="sm:col-span-2">
-                  <span className="text-text-dim">Avtal:</span>{' '}
+                  <span className="text-text-muted">Avtal:</span>{' '}
                   <span className="text-text">{profile.agreementDisplayName}</span>
                 </p>
                 <p className="sm:col-span-2">
-                  <span className="text-text-dim">Nästa löneperiod:</span>{' '}
+                  <span className="text-text-muted">Nästa löneperiod:</span>{' '}
                   <span className="text-text">{profile.nextPayslipPeriod.label}</span>
                 </p>
               </div>
             </BentoCard>
 
             <BentoCard title="Preview denna period" glow="gold" className="space-y-1 text-sm">
-              <p className="text-[10px] uppercase tracking-wider text-text-dim">
+              <p className="text-[10px] uppercase tracking-wider text-text-muted">
                 Beräknad spec — jämför med arbetsgivarens
               </p>
-              <p className="text-text-dim">{preview.period.label}</p>
+              <p className="text-text-muted">{preview.period.label}</p>
               <p>
                 Arbete netto:{' '}
                 <span className="font-medium tabular-nums text-text">

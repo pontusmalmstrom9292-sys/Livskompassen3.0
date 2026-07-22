@@ -290,7 +290,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
               type="button"
               variant="ghost"
               size="sm"
-              className="mt-2"
+              className="mt-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               disabled={smsThreadPaste.trim().length < 20}
               onClick={() => {
                 const parsed = parseSmsThreadToTwoColumn(smsThreadPaste);
@@ -357,7 +357,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
                 />
                 <div className="mt-2 flex gap-2">
                   {idx > 0 && (
-                    <Button type="button" variant="ghost" onClick={() => setShieldStep(idx - 1)}>
+                    <Button type="button" variant="ghost" onClick={() => setShieldStep(idx - 1)} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                       Tillbaka
                     </Button>
                   )}
@@ -366,8 +366,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
                       type="button"
                       variant="secondary"
                       disabled={!value.trim()}
-                      onClick={() => setShieldStep(idx + 1)}
-                    >
+                      onClick={() => setShieldStep(idx + 1)} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                       Fortsätt
                     </Button>
                   ) : null}
@@ -403,7 +402,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
               <span>Valda: {selectedSignals.join(', ')}</span>
               <button
                 type="button"
-                className="text-accent/80 underline"
+                className="text-accent/80 underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={() => setSelectedSignals([])}
               >
                 Rensa
@@ -432,7 +431,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
           captionPlaceholder="t.ex. Isabelle skickade detta; igår sa hon…"
         />
         {supported && (
-          <Button type="button" variant="ghost" onClick={isListening ? stop : start} disabled={busy}>
+          <Button type="button" variant="ghost" onClick={isListening ? stop : start} disabled={busy} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
             Röstmemo
           </Button>
@@ -461,8 +460,7 @@ export function VaultEntryForm({ userId, saving, onSave }: VaultEntryFormProps) 
           type="button"
           variant="success"
           onClick={requestSave}
-          disabled={busy || !canSave}
-        >
+          disabled={busy || !canSave} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           <span className="inline-flex items-center gap-2">
             <span className="inline-flex h-4 w-4 shrink-0 items-center justify-center" aria-hidden>
               {busy || uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}

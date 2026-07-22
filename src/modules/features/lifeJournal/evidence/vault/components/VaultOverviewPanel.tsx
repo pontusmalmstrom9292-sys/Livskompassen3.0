@@ -34,7 +34,7 @@ export function VaultOverviewPanel({ pendingInbox, onOpenReview }: Props) {
           <Inbox className="h-3.5 w-3.5 text-gold" aria-hidden />
           Granskning i molnet
           {pendingInbox != null && pendingInbox > 0 ? (
-            <button type="button" className="text-gold underline-offset-2 hover:underline" onClick={onOpenReview}>
+            <button type="button" className="text-gold underline-offset-2 hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={onOpenReview}>
               {pendingInbox} väntar
             </button>
           ) : (

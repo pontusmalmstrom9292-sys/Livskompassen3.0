@@ -30,8 +30,8 @@ export function ExecutiveFocusCard() {
             aria-selected={pill.active}
             className={
               pill.active
-                ? 'exec-home-pill exec-home-pill--active'
-                : 'exec-home-pill'
+                ? 'exec-home-pill exec-home-pill--active min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55'
+                : 'exec-home-pill min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55'
             }
             onClick={() => navigate('/familjen?tab=reflektion')}
           >
@@ -41,7 +41,7 @@ export function ExecutiveFocusCard() {
       </div>
       <button
         type="button"
-        className="exec-home-card__footer-link mt-auto pt-3"
+        className="exec-home-card__footer-link mt-auto min-h-11 pt-3 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         onClick={() => navigate('/familjen?tab=barnfokus')}
         aria-label="Lär känna — öppna Barnfokus"
       >

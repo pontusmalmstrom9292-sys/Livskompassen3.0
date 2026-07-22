@@ -86,7 +86,7 @@ export function MabraCheckinModal({
             onClick={onClose}
             disabled={isLoading}
             aria-label="Stäng"
-            className="p-1.5 rounded-lg bg-surface/50 border border-border/10 text-text-muted hover:text-white hover:border-border/30 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg border border-border/10 bg-surface/50 p-1.5 text-text-muted transition-colors hover:border-border/30 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <X className="w-4 h-4" />
           </button>
@@ -114,7 +114,7 @@ export function MabraCheckinModal({
               onChange={(e) => setMood(Number(e.target.value))}
               className="w-full accent-accent bg-surface-3 h-1.5 rounded-lg appearance-none cursor-pointer"
             />
-            <div className="flex justify-between text-[10px] text-text-dim px-0.5">
+            <div className="flex justify-between text-[10px] text-text-muted px-0.5">
               <span>Lågt</span>
               <span>Balanserat</span>
               <span>Strålande</span>
@@ -140,7 +140,7 @@ export function MabraCheckinModal({
               onChange={(e) => setEnergy(Number(e.target.value))}
               className="w-full accent-accent-ai bg-surface-3 h-1.5 rounded-lg appearance-none cursor-pointer"
             />
-            <div className="flex justify-between text-[10px] text-text-dim px-0.5">
+            <div className="flex justify-between text-[10px] text-text-muted px-0.5">
               <span>Utmattad</span>
               <span>Jämn</span>
               <span>Laddad</span>
@@ -187,7 +187,7 @@ export function MabraCheckinModal({
           <button
             onClick={onClose}
             disabled={isLoading}
-            className="px-4 py-2 rounded-xl text-xs font-medium border border-border/20 text-text-muted hover:text-white hover:bg-surface-3 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex min-h-11 items-center rounded-xl border border-border/20 px-4 py-2 text-xs font-medium text-text-muted transition-all hover:bg-surface-3 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:cursor-not-allowed disabled:opacity-50"
           >
             Avbryt
           </button>
@@ -195,7 +195,7 @@ export function MabraCheckinModal({
         <button
           onClick={handleSave}
           disabled={isLoading}
-          className="px-5 py-2 rounded-xl text-xs font-semibold bg-accent hover:bg-accent-light text-obsidian-bg transition-all hover:shadow-accent-glow disabled:opacity-50 disabled:cursor-not-allowed"
+          className="inline-flex min-h-11 items-center rounded-xl bg-accent px-5 py-2 text-xs font-semibold text-obsidian-bg transition-all hover:bg-accent-light hover:shadow-accent-glow focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {isLoading ? 'Sparar...' : 'Spara'}
         </button>

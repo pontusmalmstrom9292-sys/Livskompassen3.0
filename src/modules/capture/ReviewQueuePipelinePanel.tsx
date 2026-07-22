@@ -127,7 +127,7 @@ export function ReviewQueuePipelinePanel({
       >
       {mode === 'summary' && isAuthenticated && (
         <section className="mb-4 rounded-xl border border-border/40 bg-surface/30 px-3 py-3">
-          <div className="mb-2 flex items-center gap-2 text-xs uppercase tracking-wider text-text-dim">
+          <div className="mb-2 flex items-center gap-2 text-xs uppercase tracking-wider text-text-muted">
             <Cloud className="h-3.5 w-3.5 text-accent/80" aria-hidden />
             Molnet
           </div>
@@ -210,7 +210,7 @@ export function ReviewQueuePipelinePanel({
 
       {localTotal > 0 && (
         <section className="rounded-xl border border-border/40 bg-surface/30 px-3 py-3">
-          <p className="mb-2 text-xs uppercase tracking-wider text-text-dim">Lokalt på enheten</p>
+          <p className="mb-2 text-xs uppercase tracking-wider text-text-muted">Lokalt på enheten</p>
           <ul className="space-y-2 text-sm">
             {pendingDrafts.map((d) => (
               <li key={d.id} className="rounded-xl border border-accent/20 bg-surface/40 px-3 py-2">
@@ -222,12 +222,12 @@ export function ReviewQueuePipelinePanel({
                   <p className="mt-1 text-xs text-amber-400/90">{d.errorMessage}</p>
                 )}
                 {retryingId === d.id ? (
-                  <span className="mt-2 inline-flex items-center gap-1.5 text-xs text-text-dim">
+                  <span className="mt-2 inline-flex items-center gap-1.5 text-xs text-text-muted">
                     <CalmBreathingCircle size="sm" label="Synkar" />
                     Synkar…
                   </span>
                 ) : (
-                  <Button variant="ghost" size="sm" className="mt-2" onClick={() => void handleRetry(d.id)}>
+                  <Button variant="ghost" size="sm" className="mt-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => void handleRetry(d.id)}>
                     Försök igen
                   </Button>
                 )}
@@ -262,12 +262,12 @@ export function ReviewQueuePipelinePanel({
                 </Badge>
                 <p className="mt-1 text-text-muted">{d.errorMessage ?? draftSummary(d)}</p>
                 {retryingId === d.id ? (
-                  <span className="mt-2 inline-flex items-center gap-1.5 text-xs text-text-dim">
+                  <span className="mt-2 inline-flex items-center gap-1.5 text-xs text-text-muted">
                     <CalmBreathingCircle size="sm" label="Synkar" />
                     Synkar…
                   </span>
                 ) : (
-                  <Button variant="ghost" size="sm" className="mt-2" onClick={() => void handleRetry(d.id)}>
+                  <Button variant="ghost" size="sm" className="mt-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => void handleRetry(d.id)}>
                     Försök igen
                   </Button>
                 )}

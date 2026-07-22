@@ -113,7 +113,7 @@ export const WeeklySummary: React.FC = () => {
 
           {insights.detectedPatterns && insights.detectedPatterns.length > 0 && (
             <div>
-              <h3 className="mb-3 flex items-center text-sm font-semibold uppercase tracking-wider text-text-dim">
+              <h3 className="mb-3 flex items-center text-sm font-semibold uppercase tracking-wider text-text-muted">
                 <Target className="mr-2 h-4 w-4" aria-hidden /> Observerade Mönster
               </h3>
               <div className="space-y-2">
@@ -123,7 +123,7 @@ export const WeeklySummary: React.FC = () => {
                     className="flex items-center justify-between rounded-lg border border-border/30 bg-surface-3/30 p-3"
                   >
                     <span className="text-sm text-text-muted">{p.pattern}</span>
-                    <span className="ml-4 whitespace-nowrap text-xs text-text-dim">
+                    <span className="ml-4 whitespace-nowrap text-xs text-text-muted">
                       {(p.confidence * 100).toFixed(0)}% säkerhet
                     </span>
                   </div>
@@ -134,7 +134,7 @@ export const WeeklySummary: React.FC = () => {
 
           {insights.focusVsSentiment && (
             <div>
-              <h3 className="mb-3 flex items-center text-sm font-semibold uppercase tracking-wider text-text-dim">
+              <h3 className="mb-3 flex items-center text-sm font-semibold uppercase tracking-wider text-text-muted">
                 <AlertTriangle className="mr-2 h-4 w-4 text-warning" aria-hidden /> Fokus vs Mående
               </h3>
               <p className="rounded-xl border border-warning/20 bg-warning/5 p-4 text-sm text-text-muted">
@@ -145,7 +145,7 @@ export const WeeklySummary: React.FC = () => {
 
           {insights.actionableAdvice && (
             <div>
-              <h3 className="mb-3 flex items-center text-sm font-semibold uppercase tracking-wider text-text-dim">
+              <h3 className="mb-3 flex items-center text-sm font-semibold uppercase tracking-wider text-text-muted">
                 <Lightbulb className="mr-2 h-4 w-4 text-accent-secondary" aria-hidden /> Råd Framåt
               </h3>
               <p className="rounded-xl border border-accent-secondary/20 bg-accent-secondary/5 p-4 text-sm text-text-muted">
@@ -157,7 +157,7 @@ export const WeeklySummary: React.FC = () => {
       )}
 
       {!insights && !loading && !error && (
-        <div className="p-8 text-center text-sm italic text-text-dim">
+        <div className="p-8 text-center text-sm italic text-text-muted">
           Tryck på knappen för att låta Mönster-Arkivarien analysera din senaste vecka.
         </div>
       )}

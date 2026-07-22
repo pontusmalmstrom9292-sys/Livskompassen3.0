@@ -14,7 +14,7 @@ export function EscalationBanner({ sosCount7d }: Props) {
   return (
     <BentoCard title={ESCALATION_COPY.title} glow="green">
       <p className="text-sm text-text-muted">{ESCALATION_COPY.lead}</p>
-      <p className="mt-2 text-xs text-text-dim">{ESCALATION_COPY.hint}</p>
+      <p className="mt-2 text-xs text-text-muted">{ESCALATION_COPY.hint}</p>
       <div className="mt-3 flex flex-wrap gap-3 text-sm">
         <a href="https://www.1177.se" target="_blank" rel="noopener noreferrer" className="inline-flex min-h-11 items-center text-accent underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55">
           1177

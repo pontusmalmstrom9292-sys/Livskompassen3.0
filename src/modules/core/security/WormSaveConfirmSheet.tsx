@@ -25,7 +25,7 @@ export function WormSaveConfirmSheet({ contextLabel, busy = false, onConfirm, on
         <Shield className="h-4 w-4 shrink-0 text-accent" aria-hidden />
         Oföränderlig post i arkivet
       </p>
-      <p className="text-xs leading-relaxed text-text-dim">
+      <p className="text-xs leading-relaxed text-text-muted">
         {contextLabel ? (
           <>
             <span className="text-text-muted">{contextLabel}</span>

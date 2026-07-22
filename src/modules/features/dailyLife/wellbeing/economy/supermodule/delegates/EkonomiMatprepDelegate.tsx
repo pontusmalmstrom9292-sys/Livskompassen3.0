@@ -115,7 +115,7 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
           message="Logga in för att bocka av matprep och registrera besparing."
         />
       ) : loading ? (
-        <p className="flex items-center gap-2 text-sm text-text-dim" aria-busy="true">
+        <p className="flex items-center gap-2 text-sm text-text-muted" aria-busy="true">
           <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
           Laddar checklista…
         </p>
@@ -151,7 +151,7 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
                   className={clsx(
                     'pt-2.5 text-xs leading-relaxed transition-colors',
                     item.done
-                      ? 'text-text-dim line-through decoration-text-dim/50'
+                      ? 'text-text-muted line-through decoration-text-muted/50'
                       : 'text-text-muted',
                   )}
                 >
@@ -167,7 +167,7 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
             aria-label="Registrera matprep"
           >
             <label className="flex flex-col gap-1.5">
-              <span className="text-[10px] uppercase tracking-wider text-text-dim">
+              <span className="text-[10px] uppercase tracking-wider text-text-muted">
                 Uppskattad besparing (kr)
               </span>
               <Input
@@ -186,7 +186,7 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
             </label>
 
             <label className="flex flex-col gap-1.5">
-              <span className="text-[10px] uppercase tracking-wider text-text-dim">
+              <span className="text-[10px] uppercase tracking-wider text-text-muted">
                 Anteckning (valfritt)
               </span>
               <Input
@@ -210,7 +210,7 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
                 'flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border py-2.5 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60',
                 allDone
                   ? 'border-success/30 bg-success/10 text-success hover:bg-success/20'
-                  : 'border-border/50 bg-surface-3/50 text-text-dim',
+                  : 'border-border/50 bg-surface-3/50 text-text-muted',
               )}
             >
               {saving || persisting ? (
@@ -230,7 +230,7 @@ export function EkonomiMatprepDelegate({ userId }: EkonomiMatprepDelegateProps) 
       )}
 
       {!allDone && hasUser && !loading && items.length > 0 ? (
-        <p className="text-[10px] text-text-dim" role="status">
+        <p className="text-[10px] text-text-muted" role="status">
           Bocka av alla steg innan du registrerar.
         </p>
       ) : null}

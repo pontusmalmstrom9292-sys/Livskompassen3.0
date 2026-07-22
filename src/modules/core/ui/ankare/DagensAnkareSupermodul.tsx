@@ -128,7 +128,7 @@ export function AnchorVariantForge({
                     'rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
                     selectedExerciseId === ex.id
                       ? 'border-accent/30 bg-accent/20 text-accent shadow-[0_0_10px_rgba(212,175,55,0.1)]'
-                      : 'border-transparent bg-surface-3/40 text-text-dim hover:bg-surface-3 hover:text-text-muted',
+                      : 'border-transparent bg-surface-3/40 text-text-muted hover:bg-surface-3 hover:text-text-muted',
                   )}
                 >
                   {ex.label}
@@ -308,12 +308,12 @@ export function AnchorVariantTactical({
                   {step.done ? (
                     <CheckCircle2 size={20} className="text-accent" strokeWidth={1.75} />
                   ) : (
-                    <Circle size={20} className="text-text-dim group-hover:text-text-muted" strokeWidth={1.75} />
+                    <Circle size={20} className="text-text-muted group-hover:text-text-muted" strokeWidth={1.75} />
                   )}
                 </div>
                 <span
                   className={`text-sm font-medium transition-all ${
-                    step.done ? 'text-text-dim line-through' : 'text-text'
+                    step.done ? 'text-text-muted line-through' : 'text-text'
                   }`}
                 >
                   {step.text}
@@ -342,7 +342,7 @@ export function DagensAnkareLabShell() {
   return (
     <div className="space-y-8">
       <section>
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-text-dim">
+        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-text-muted">
           Spår 1: Obsidian Forge (andning + intention)
         </h2>
         <AnchorVariantForge
@@ -352,7 +352,7 @@ export function DagensAnkareLabShell() {
         />
       </section>
       <section>
-        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-text-dim">
+        <h2 className="mb-3 text-xs font-semibold uppercase tracking-wider text-text-muted">
           Spår 2: Taktisk (mikrosteg &amp; framsteg)
         </h2>
         <AnchorVariantTactical />

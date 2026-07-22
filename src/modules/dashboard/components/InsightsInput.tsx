@@ -46,7 +46,7 @@ export function InsightsInput() {
   };
 
   return (
-    <div className="mb-8 p-6 bg-white/5 rounded-2xl border border-white/10 shadow-lg backdrop-blur-md">
+    <div className="dashboard-card mb-8 rounded-2xl border border-white/10 bg-white/5 p-6 shadow-lg backdrop-blur-md transition-[border-color,box-shadow] focus-within:border-accent/35 focus-within:ring-1 focus-within:ring-accent/20">
       <h2 className="text-xl font-semibold mb-4 text-white">Lägg till ny insikt</h2>
       
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -96,7 +96,7 @@ export function InsightsInput() {
         <button
           type="submit"
           disabled={isSubmitting || !title.trim() || !content.trim()}
-          className="w-full py-3 px-4 bg-white/10 hover:bg-white/20 disabled:bg-white/5 disabled:text-white/40 disabled:cursor-not-allowed border border-white/10 rounded-xl font-medium text-white transition-all shadow-sm"
+          className="min-h-11 w-full rounded-xl border border-white/10 bg-white/10 px-4 py-3 font-medium text-white shadow-sm transition-all hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:cursor-not-allowed disabled:bg-white/5 disabled:text-white/40"
         >
           {isSubmitting ? 'Sparar...' : 'Spara Insikt'}
         </button>

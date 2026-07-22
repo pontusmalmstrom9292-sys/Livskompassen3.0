@@ -25,9 +25,15 @@ export function MaterialPackShortcuts({ preset, hub, shortcutsOverride }: Props)
     return (
       <div className="life-hub-hint elongated-module p-3 text-sm" data-life-os="material-pack">
         <div className="flex items-center justify-between">
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">Profil · {preset.label}</p>
-          <button onClick={() => setIsEditorOpen(true)} className="p-1 text-text-muted hover:text-text hover:bg-white/5 rounded">
-            <Edit2 className="w-3 h-3" />
+          <p className="text-[10px] uppercase tracking-widest text-text-muted">Profil · {preset.label}</p>
+          <button
+            type="button"
+            onClick={() => setIsEditorOpen(true)}
+            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded p-1 text-text-muted transition-colors hover:bg-white/5 hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+            aria-label="Redigera genvägar"
+            title="Redigera genvägar"
+          >
+            <Edit2 className="h-3 w-3" aria-hidden />
           </button>
         </div>
         <p className="text-xs text-text-muted mt-2 italic">Inga genvägar. Lägg till via Redigera.</p>
@@ -47,9 +53,15 @@ export function MaterialPackShortcuts({ preset, hub, shortcutsOverride }: Props)
   return (
     <div className="life-hub-hint elongated-module p-3 text-sm" data-life-os="material-pack">
       <div className="flex items-center justify-between">
-        <p className="text-[10px] uppercase tracking-widest text-text-dim">Profil · {preset.label}</p>
-        <button onClick={() => setIsEditorOpen(true)} className="p-1 text-text-muted hover:text-text hover:bg-white/5 rounded" title="Redigera genvägar">
-          <Edit2 className="w-3 h-3" />
+        <p className="text-[10px] uppercase tracking-widest text-text-muted">Profil · {preset.label}</p>
+        <button
+          type="button"
+          onClick={() => setIsEditorOpen(true)}
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded p-1 text-text-muted transition-colors hover:bg-white/5 hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+          aria-label="Redigera genvägar"
+          title="Redigera genvägar"
+        >
+          <Edit2 className="h-3 w-3" aria-hidden />
         </button>
       </div>
       <ul className="mt-2 flex flex-col gap-1.5">

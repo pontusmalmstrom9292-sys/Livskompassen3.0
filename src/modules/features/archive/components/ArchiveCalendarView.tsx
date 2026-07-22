@@ -63,21 +63,21 @@ export function ArchiveCalendarView({
         <button
           type="button"
           onClick={handlePrevMonth}
-          className="p-2 hover:bg-surface-3 rounded-full transition-colors"
+          className="flex min-h-11 min-w-11 items-center justify-center rounded-full transition-colors hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           aria-label="Föregående månad"
         >
-          <ChevronLeft className="w-5 h-5 text-accent" />
+          <ChevronLeft className="h-5 w-5 text-accent" aria-hidden />
         </button>
-        <div className="text-sm font-semibold tracking-wider font-display-serif uppercase text-text">
+        <div className="font-display-serif text-sm font-semibold uppercase tracking-wider text-text">
           {format(currentMonthDate, 'MMMM yyyy', { locale: sv })}
         </div>
         <button
           type="button"
           onClick={handleNextMonth}
-          className="p-2 hover:bg-surface-3 rounded-full transition-colors"
+          className="flex min-h-11 min-w-11 items-center justify-center rounded-full transition-colors hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           aria-label="Nästa månad"
         >
-          <ChevronRight className="w-5 h-5 text-accent" />
+          <ChevronRight className="h-5 w-5 text-accent" aria-hidden />
         </button>
       </div>
 
@@ -104,9 +104,12 @@ export function ArchiveCalendarView({
             return (
               <button
                 key={i}
+                type="button"
                 onClick={() => setSelectedDate(day)}
+                aria-label={`${format(day, 'd MMMM yyyy', { locale: sv })}${hasEntries ? `, ${dayEntries.length} poster` : ''}`}
+                aria-pressed={Boolean(isSelected)}
                 className={`
-                  relative aspect-square flex flex-col items-center justify-center rounded-xl text-xs transition-all duration-200
+                  relative aspect-square flex min-h-11 min-w-11 flex-col items-center justify-center rounded-xl text-xs transition-all duration-[var(--ds-duration-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40
                   ${!isCurrentMonth ? 'text-text-muted/20 hover:bg-transparent cursor-default pointer-events-none' : 'text-text'}
                   ${isSelected 
                     ? 'bg-accent/15 border border-accent/40 text-text shadow-inner ring-1 ring-accent/20' 
@@ -115,11 +118,13 @@ export function ArchiveCalendarView({
                 `}
                 disabled={!isCurrentMonth}
               >
-                <span className={isSelected ? 'font-bold' : ''}>{format(day, 'd')}</span>
+                <span className={isSelected ? 'font-bold' : ''} aria-hidden>
+                  {format(day, 'd')}
+                </span>
                 
                 {/* Indikatorer */}
                 {hasEntries && isCurrentMonth && (
-                  <div className="absolute bottom-1.5 flex gap-1">
+                  <div className="absolute bottom-1.5 flex gap-1" aria-hidden>
                     {hasJournal && <div className="w-1.5 h-1.5 rounded-full bg-accent" />}
                     {hasVault && <div className="w-1.5 h-1.5 rounded-full bg-purple-400" />}
                   </div>
@@ -150,10 +155,10 @@ export function ArchiveCalendarView({
               <button
                 type="button"
                 onClick={() => setSelectedDate(null)}
-                className="p-1 hover:bg-surface-3 rounded-full transition text-text-muted hover:text-text"
+                className="flex min-h-11 min-w-11 items-center justify-center rounded-full text-text-muted transition hover:bg-surface-3 hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 aria-label="Stäng dagsdetalj"
               >
-                <X className="w-4 h-4" />
+                <X className="h-4 w-4" aria-hidden />
               </button>
             </div>
 

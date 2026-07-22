@@ -42,7 +42,7 @@ export function EconomyCapacityLockedNotice({
       </p>
 
       <div className="mt-5 rounded-lg bg-surface-3 p-4 border border-border/50 text-left">
-        <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-text-dim">
+        <div className="flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-text-muted">
           <span>Aktuell kapacitet</span>
           <span className="text-accent">{scorePercentage}%</span>
         </div>
@@ -52,7 +52,7 @@ export function EconomyCapacityLockedNotice({
             style={{ width: `${scorePercentage}%` }}
           />
         </div>
-        <p className="mt-3 flex items-center gap-1.5 text-xs text-text-dim">
+        <p className="mt-3 flex items-center gap-1.5 text-xs text-text-muted">
           <Sparkles className="h-3.5 w-3.5 text-accent-secondary shrink-0" />
           Gör dagliga MåBra-incheckningar för att öka din kognitiva kapacitet.
         </p>

@@ -35,10 +35,10 @@ export function EconomyQuickBalancePanel() {
 
       <div className="space-y-2">
         <div className="flex justify-between text-xs tabular-nums">
-          <span className="text-text-dim">
+          <span className="text-text-muted">
             Förbrukat denna vecka: <strong className="text-text">{spentThisWeek} kr</strong>
           </span>
-          <span className="text-text-dim">
+          <span className="text-text-muted">
             Kvar att leva på: <strong className="text-accent">{leftThisWeek} kr</strong>
           </span>
         </div>
@@ -51,7 +51,7 @@ export function EconomyQuickBalancePanel() {
       </div>
 
       <div>
-        <p className="mb-2 text-[10px] uppercase tracking-wider text-text-dim">Snabbtillägg</p>
+        <p className="mb-2 text-[10px] uppercase tracking-wider text-text-muted">Snabbtillägg</p>
         <div className="grid grid-cols-2 gap-3">
           <button
             type="button"
@@ -83,7 +83,7 @@ export function EconomyQuickBalancePanel() {
         </p>
       )}
       {saving && (
-        <p className="flex items-center gap-2 text-sm text-text-dim" role="status">
+        <p className="flex items-center gap-2 text-sm text-text-muted" role="status">
           <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> Sparar…
         </p>
       )}

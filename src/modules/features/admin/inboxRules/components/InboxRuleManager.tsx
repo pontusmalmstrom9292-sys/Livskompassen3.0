@@ -123,11 +123,11 @@ export function InboxRuleManager() {
         </div>
       </BentoCard>
 
-      {loading && <p className="text-sm text-text-dim">Laddar regler…</p>}
+      {loading && <p className="text-sm text-text-muted">Laddar regler…</p>}
       {error && <p className="text-sm text-danger">{error}</p>}
 
       {rules.length === 0 && !loading && (
-        <p className="text-sm text-text-dim">Inga regler upplagda ännu.</p>
+        <p className="text-sm text-text-muted">Inga regler upplagda ännu.</p>
       )}
 
       <ul className="space-y-3">
@@ -146,10 +146,10 @@ export function InboxRuleManager() {
               {MATCH_TYPE_LABELS[rule.matchType]}: <span className="text-text">{rule.pattern}</span>
             </p>
             {rule.targetTags.length > 0 && (
-              <p className="text-xs text-text-dim">Taggar: {rule.targetTags.join(', ')}</p>
+              <p className="text-xs text-text-muted">Taggar: {rule.targetTags.join(', ')}</p>
             )}
             {rule.targetCategory && (
-              <p className="text-xs text-text-dim">Kategori: {rule.targetCategory}</p>
+              <p className="text-xs text-text-muted">Kategori: {rule.targetCategory}</p>
             )}
             {rule.targetRouting && (
               <p className="text-xs text-accent">Spara i: {ROUTING_LABELS[rule.targetRouting]}</p>

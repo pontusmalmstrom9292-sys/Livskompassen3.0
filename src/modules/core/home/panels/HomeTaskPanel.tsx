@@ -18,7 +18,7 @@ export function HomeTaskPanel() {
         Snabb uppgift i Planering
       </ButtonLink>
       <div className="rounded-xl border border-border/30 bg-surface-2/50 p-3">
-        <p className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-wider text-text-dim">
+        <p className="mb-2 flex items-center gap-2 text-[10px] uppercase tracking-wider text-text-muted">
           <Zap className="h-3.5 w-3.5 text-accent/70" aria-hidden />
           {MICRO_STEP_PANEL_TITLE}
         </p>

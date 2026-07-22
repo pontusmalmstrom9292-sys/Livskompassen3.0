@@ -116,7 +116,7 @@ export function BarnportenQrPanel() {
         <Smartphone className="h-4 w-4 text-accent" aria-hidden />
         <p className="text-[10px] uppercase tracking-widest text-accent/90">Koppla barns telefon</p>
       </div>
-      <p className="text-xs text-text-dim">
+      <p className="text-xs text-text-muted">
         Skanna QR på barnens enhet (samma Google-konto inloggat). Koden gäller 15 min.
       </p>
 
@@ -153,13 +153,13 @@ export function BarnportenQrPanel() {
             Kod: <span className="font-mono text-accent">{token}</span>
             {expiresAt ? ` · gäller till ${expiresAt}` : null}
           </p>
-          <p className="break-all text-center text-[10px] text-text-dim">{pairUrl}</p>
+          <p className="break-all text-center text-[10px] text-text-muted">{pairUrl}</p>
         </div>
       ) : null}
 
       {devices.length > 0 ? (
         <div className="space-y-2 border-t border-white/10 pt-3">
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">Kopplade enheter</p>
+          <p className="text-[10px] uppercase tracking-widest text-text-muted">Kopplade enheter</p>
           <ul className="space-y-1 text-xs text-text-muted">
             {devices.map((d) => (
               <li key={d.id}>

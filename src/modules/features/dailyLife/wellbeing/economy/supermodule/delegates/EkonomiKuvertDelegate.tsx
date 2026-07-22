@@ -140,7 +140,7 @@ export function EkonomiKuvertDelegate({ userId }: EkonomiKuvertDelegateProps) {
           message="Logga in för att skapa kuvert och logga utgifter utan bankkoppling."
         />
       ) : loading ? (
-        <p className="flex items-center gap-2 text-sm text-text-dim" aria-busy="true">
+        <p className="flex items-center gap-2 text-sm text-text-muted" aria-busy="true">
           <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
           Laddar kuvert…
         </p>
@@ -157,10 +157,10 @@ export function EkonomiKuvertDelegate({ userId }: EkonomiKuvertDelegateProps) {
               onSubmit={(event) => void handleLogExpense(event)}
               aria-label="Logga kuvertutgift"
             >
-              <p className="text-[10px] uppercase tracking-wider text-text-dim">Logga utgift</p>
+              <p className="text-[10px] uppercase tracking-wider text-text-muted">Logga utgift</p>
 
               <label className="flex flex-col gap-1.5">
-                <span className="text-[10px] text-text-dim">Kuvert</span>
+                <span className="text-[10px] text-text-muted">Kuvert</span>
                 <select
                   value={selectedEnvelopeId}
                   disabled={inputsDisabled}
@@ -180,7 +180,7 @@ export function EkonomiKuvertDelegate({ userId }: EkonomiKuvertDelegateProps) {
               </label>
 
               <label className="flex flex-col gap-1.5">
-                <span className="text-[10px] text-text-dim">Belopp (kr)</span>
+                <span className="text-[10px] text-text-muted">Belopp (kr)</span>
                 <Input
                   type="text"
                   inputMode="decimal"
@@ -197,7 +197,7 @@ export function EkonomiKuvertDelegate({ userId }: EkonomiKuvertDelegateProps) {
               </label>
 
               <label className="flex flex-col gap-1.5">
-                <span className="text-[10px] text-text-dim">Etikett (valfritt)</span>
+                <span className="text-[10px] text-text-muted">Etikett (valfritt)</span>
                 <Input
                   type="text"
                   value={expenseLabel}

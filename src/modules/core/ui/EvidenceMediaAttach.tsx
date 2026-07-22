@@ -46,7 +46,7 @@ export function EvidenceMediaAttach({
 
   return (
     <div className="glass-card space-y-3 p-3">
-      <p className="text-[10px] uppercase tracking-widest text-text-dim">Bifoga bevis (valfritt)</p>
+      <p className="text-[10px] uppercase tracking-widest text-text-muted">Bifoga bevis (valfritt)</p>
       <p className="text-xs text-text-muted">
         Skärmdump, foto, ljud eller video — max {maxItems} filer. Valfri bildtext per fil.
       </p>
@@ -122,7 +122,7 @@ export function EvidenceMediaAttach({
               <AttachmentPreview attachment={item} />
               <div className="min-w-0 flex-1 space-y-2">
                 <p className="truncate text-xs text-text-muted">{item.file.name}</p>
-                <p className="text-[10px] uppercase tracking-widest text-text-dim">{item.kind}</p>
+                <p className="text-[10px] uppercase tracking-widest text-text-muted">{item.kind}</p>
                 {onCaptionChange && (
                   <textarea
                     className="input-glass w-full text-xs"
@@ -140,7 +140,7 @@ export function EvidenceMediaAttach({
                 type="button"
                 onClick={() => onRemove(item.id)}
                 disabled={disabled}
-                className="text-text-dim hover:text-danger"
+                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-md text-text-muted transition-colors hover:text-danger focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                 aria-label="Ta bort bilaga"
               >
                 <Trash2 className="h-4 w-4" />
@@ -150,7 +150,7 @@ export function EvidenceMediaAttach({
         </ul>
       )}
 
-      {atLimit && <p className="text-xs text-text-dim">Max antal bilagor nått.</p>}
+      {atLimit && <p className="text-xs text-text-muted">Max antal bilagor nått.</p>}
     </div>
   );
 }
@@ -186,7 +186,7 @@ function AttachmentPreview({ attachment }: { attachment: MediaAttachment }) {
 
   return (
     <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-md border border-border-strong bg-surface/50">
-      <FileUp className="h-5 w-5 text-text-dim" />
+      <FileUp className="h-5 w-5 text-text-muted" />
     </div>
   );
 }

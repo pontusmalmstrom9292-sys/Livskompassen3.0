@@ -102,14 +102,14 @@ export function RecoveryPlanPanel({ uid }: Props) {
   if (loading) {
     return (
       <BentoCard title="Min plan" icon={<Shield className="h-4 w-4" />} glow="green">
-        <p className="text-sm text-text-dim">Laddar…</p>
+        <p className="text-sm text-text-muted">Laddar…</p>
       </BentoCard>
     );
   }
 
   return (
     <BentoCard title="Min plan" icon={<Shield className="h-4 w-4" />} glow="green">
-      <p className="mb-3 text-xs text-text-dim">
+      <p className="mb-3 text-xs text-text-muted">
         If–Then och riskkarta sparas på enheten. Varför/kontakt synkas till din profil när du är inloggad.
       </p>
 
@@ -125,7 +125,7 @@ export function RecoveryPlanPanel({ uid }: Props) {
         />
       </label>
 
-      <p className={`mt-4 text-xs uppercase tracking-[0.14em] text-text-dim`}>{PLAN_COPY.ifThenTitle}</p>
+      <p className={`mt-4 text-xs uppercase tracking-[0.14em] text-text-muted`}>{PLAN_COPY.ifThenTitle}</p>
       <div className="mt-2 space-y-3">
         {plan.ifThen.map((row, i) => (
           <div key={i} className="grid gap-2 sm:grid-cols-2">
@@ -161,7 +161,7 @@ export function RecoveryPlanPanel({ uid }: Props) {
         ))}
       </div>
 
-      <p className="mt-4 text-xs uppercase tracking-[0.14em] text-text-dim">{PLAN_COPY.pptTitle}</p>
+      <p className="mt-4 text-xs uppercase tracking-[0.14em] text-text-muted">{PLAN_COPY.pptTitle}</p>
       <label className="mt-2 block text-xs text-text-muted">
         {PLAN_COPY.peopleHint}
         <input
@@ -222,7 +222,7 @@ export function RecoveryPlanPanel({ uid }: Props) {
         />
       </label>
 
-      <Button type="button" variant="secondary" onClick={() => void save()} className="mt-4 w-full min-h-[48px]">
+      <Button type="button" variant="secondary" onClick={() => void save()} className="mt-4 w-full min-h-[48px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
         {PLAN_COPY.save}
       </Button>
       {savedHint ? <p className="mt-2 text-center text-xs text-accent">{PLAN_COPY.saved}</p> : null}

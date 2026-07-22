@@ -1,6 +1,6 @@
 # Project State — Livskompassen v2
 
-**Version:** 1.4 · **Last updated:** 2026-07-20  
+**Version:** 1.4 · **Last updated:** 2026-07-22  
 **Rule:** Single source of truth for **system phase** and **active program**. AI assistants must read this before coding.
 
 ---
@@ -47,11 +47,13 @@ Two levels — do not confuse them:
 
 | Program | Program phase | Status | Docs |
 |---------|---------------|--------|------|
-| **Premium UI Polish** | Phase 10 — Legacy CSS sunset | In Progress | [`ROADMAP.md`](./ROADMAP.md), [`TODO.md`](./TODO.md), [`DASHBOARD.md`](./DASHBOARD.md) |
+| **Premium UI Polish** | Phase 10 + **UI Polish V4 ×10** | In Progress | [`ROADMAP.md`](./ROADMAP.md), [`TODO.md`](./TODO.md), [`DASHBOARD.md`](./DASHBOARD.md) |
 
 Phase 0–9 baseline och migration **done**. Phase 10: `index.css` import-only; våg 111 legacy stubs **borttagna** (2026-07-11); `executive-chrome.css` kvar (dock/hem locked).
 
-**Next within program (after Fas P0 or non-blocking):** Pontus visual sign-off (G85); Completion residual (Banner/Skeleton/hex); Playwright screenshot-baseline (stretch). **UI Polish v3 (2026-07-22):** zon-kontrast + QuickCapture→Sheet — kod klar, väntar Pontus öga.
+**Active polish program:** **UI Polish V4 ×10** — **kod Done** 2026-07-22 (I1–I10 × W0–W11) + **FULL RE-RUN** + **PASS 3 ADD-only** samma dag. Unlock `docs/evaluations/2026-07-22-unlock-MOD-UI-POLISH-V4-X10.md`. Parallel med Fas 24 P0 G85.
+
+**Next within program:** Pontus G85 visual sign-off (V4 + v3); Completion residual; Playwright stretch. Daily driver fortsätter.
 
 ---
 

@@ -24,7 +24,7 @@ export function SystemErrorBanner() {
         <p className="flex-1 text-sm text-text">{error}</p>
         <button
           type="button"
-          className="shrink-0 text-text-dim hover:text-text"
+          className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-md text-text-muted transition-colors hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           aria-label="Stäng felmeddelande"
           onClick={() => setError(null)}
         >

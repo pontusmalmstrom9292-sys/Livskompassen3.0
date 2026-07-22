@@ -33,7 +33,7 @@ export function NotifPrefsPanel({ uid }: Props) {
 
   return (
     <BentoCard title="Påminnelser (opt-in)" icon={<Bell className="h-4 w-4" />} glow="green">
-      <p className="text-xs text-text-dim">
+      <p className="text-xs text-text-muted">
         Opt-in. Quiet hours default 22–07. Android: lokal schemaläggning + FCM. Ingen jakt, max en
         mjuk nudge per dag.
       </p>
@@ -81,7 +81,7 @@ export function NotifPrefsPanel({ uid }: Props) {
       <Button
         type="button"
         variant="secondary"
-        className="mt-3 w-full min-h-[48px]"
+        className="mt-3 w-full min-h-[48px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         disabled={busy}
         onClick={() => {
           setBusy(true);
@@ -107,7 +107,7 @@ export function NotifPrefsPanel({ uid }: Props) {
       <Button
         type="button"
         variant="ghost"
-        className="mt-2 w-full min-h-[44px] text-xs"
+        className="mt-2 w-full min-h-[44px] text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         disabled={busy || !prefs.optIn}
         onClick={() => {
           setBusy(true);

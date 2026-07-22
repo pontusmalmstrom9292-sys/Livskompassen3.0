@@ -46,7 +46,10 @@ export function FamiljenFeatureCard({
   if (to) {
     return (
       <BentoCard glow="blue" className={clsx('relative !p-3 transition hover:bg-surface-3/30', className)}>
-        <Link to={to} className="flex items-center gap-3">
+        <Link
+          to={to}
+          className="flex min-h-11 items-center gap-3 rounded-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+        >
           {inner}
         </Link>
       </BentoCard>
@@ -55,7 +58,11 @@ export function FamiljenFeatureCard({
 
   return (
     <BentoCard glow="blue" className={clsx('relative !p-3 transition hover:bg-surface-3/30', className)}>
-      <button type="button" className="flex w-full items-center gap-3 text-left" onClick={onClick}>
+      <button
+        type="button"
+        className="flex min-h-11 w-full items-center gap-3 rounded-xl text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+        onClick={onClick}
+      >
         {inner}
       </button>
     </BentoCard>

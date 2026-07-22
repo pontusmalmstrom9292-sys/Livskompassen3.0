@@ -67,11 +67,11 @@ export function BiffRewriteButton({
           type="button"
           onClick={handleUndo}
           disabled={loading}
-          className="flex h-8 w-8 items-center justify-center rounded-full bg-surface/50 text-text-muted transition-colors hover:bg-surface hover:text-accent"
+          className="flex min-h-11 min-w-11 items-center justify-center rounded-full bg-surface/50 text-text-muted transition-colors hover:bg-surface hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           title="Ångra BIFF-analys"
           aria-label="Ångra BIFF-analys"
         >
-          <Undo2 className="h-4 w-4" />
+          <Undo2 className="h-4 w-4" aria-hidden />
         </button>
       )}
       <button
@@ -79,7 +79,7 @@ export function BiffRewriteButton({
         onClick={() => void handleRewrite()}
         disabled={!canRewrite}
         className={clsx(
-          'flex h-8 items-center gap-1.5 rounded-full px-2.5 text-xs transition-colors',
+          'flex min-h-11 items-center gap-1.5 rounded-full px-2.5 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
           loading
             ? 'bg-accent/15 text-accent'
             : 'bg-surface/50 text-text-muted hover:bg-accent/10 hover:text-accent',

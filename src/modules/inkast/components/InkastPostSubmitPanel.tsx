@@ -85,7 +85,7 @@ function OutcomeBody({
   if (kind === 'queued') {
     return (
       <>
-        <p className="text-xs leading-relaxed text-text-dim">
+        <p className="text-xs leading-relaxed text-text-muted">
           Inget sparas i arkiv förrän du godkänner i granskningskö. Ta din tid — inga påminnelser.
         </p>
         <p className="text-xs text-text-muted">{detail}</p>
@@ -109,7 +109,7 @@ function OutcomeBody({
   if (kind === 'worm') {
     return (
       <>
-        <p className="text-xs leading-relaxed text-text-dim">
+        <p className="text-xs leading-relaxed text-text-muted">
           Posten är låst permanent. Beteende och datum — kan inte raderas. Granska texten i arkivet om
           du vill dubbelkolla formuleringen.
         </p>
@@ -129,7 +129,7 @@ function OutcomeBody({
   if (kind === 'failed') {
     return (
       <>
-        <p className="text-xs text-text-dim">Inget material nådde arkivet. Försök igen eller klistra in manuellt.</p>
+        <p className="text-xs text-text-muted">Inget material nådde arkivet. Försök igen eller klistra in manuellt.</p>
         {result.errors.length > 0 && (
           <ul className="space-y-1 text-xs text-danger/90">
             {result.errors.map((e) => (
@@ -147,7 +147,7 @@ function OutcomeBody({
     <>
       <p className="text-xs text-text-muted">{detail}</p>
       {result.queued > 0 && (
-        <p className="text-xs text-text-dim">
+        <p className="text-xs text-text-muted">
           {result.queued} post{result.queued === 1 ? '' : 'er'} väntar fortfarande granskning.
         </p>
       )}
@@ -168,7 +168,7 @@ function OutcomeBody({
         </Link>
       )}
       {kind === 'mixed' && result.items.length > 1 && (
-        <ul className="mt-1 space-y-1 text-[11px] text-text-dim">
+        <ul className="mt-1 space-y-1 text-[11px] text-text-muted">
           {result.items.map((item) => {
             const dest =
               item.collection && COLLECTION_LABELS[item.collection]

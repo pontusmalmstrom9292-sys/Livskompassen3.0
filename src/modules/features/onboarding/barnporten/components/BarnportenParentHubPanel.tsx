@@ -38,7 +38,8 @@ export function BarnportenParentHubPanel({ activeChild }: Props) {
             <ButtonLink
               to="/barnporten"
               variant="accent"
-              className="mt-3 inline-flex items-center gap-2 text-xs"
+              className="mt-3 inline-flex min-h-11 items-center gap-2 text-xs"
+              aria-label="Öppna Barnporten i föräldraläge"
             >
               <ExternalLink className="h-3.5 w-3.5" aria-hidden />
               Öppna Barnporten (föräldraläge)
@@ -48,7 +49,7 @@ export function BarnportenParentHubPanel({ activeChild }: Props) {
       </BentoCard>
 
       <BarnportenQrPanel />
-      <p className="text-xs text-text-dim">Aktivt barn i hubben: {activeChild}</p>
+      <p className="text-xs text-text-muted">Aktivt barn i hubben: {activeChild}</p>
       <BarnportenInboxPanel />
       <BarnportenOrkesterPanel />
       </div>

@@ -135,7 +135,7 @@ export function ProjektHubPage() {
           )}
 
           {user && (
-            <ButtonLink to="/projekt/ny" variant="accent" className="--accent flex w-full items-center justify-center gap-2 py-3">
+            <ButtonLink to="/projekt/ny" variant="accent" className="--accent flex min-h-11 w-full items-center justify-center gap-2 py-3">
               <Plus className="h-4 w-4" />
               Nytt projekt
             </ButtonLink>
@@ -158,7 +158,7 @@ export function ProjektHubPage() {
 
           {showSearch && (
             <label className="relative block">
-              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-dim" />
+              <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-muted" />
               <input
                 type="search"
                 value={search}
@@ -200,16 +200,16 @@ export function ProjektHubPage() {
 
           <div className="space-y-2 border-t border-border/50 pt-4">
             <p className={textStyles.eyebrow}>Verktyg</p>
-            <ButtonLink to="/projekt/regler" variant="ghost" className="--ghost flex w-full items-center justify-center gap-2 text-sm">
+            <ButtonLink to="/projekt/regler" variant="ghost" className="--ghost flex min-h-11 w-full items-center justify-center gap-2 text-sm">
               <Settings2 className="h-4 w-4" />
               Regler & automation
             </ButtonLink>
-            <ButtonLink to="/projekt/genvagar" variant="ghost" className="--ghost flex w-full flex-col items-center justify-center gap-0.5 py-3 text-sm">
+            <ButtonLink to="/projekt/genvagar" variant="ghost" className="--ghost flex min-h-11 w-full flex-col items-center justify-center gap-0.5 py-3 text-sm">
               <span className="inline-flex items-center gap-2">
                 <Sparkles className="h-4 w-4" />
                 Genvägar per profil
               </span>
-              <span className="text-xs font-normal text-text-dim">
+              <span className="text-xs font-normal text-text-muted">
                 Anpassa knappar på Familjen, MåBra och Hamn
               </span>
             </ButtonLink>

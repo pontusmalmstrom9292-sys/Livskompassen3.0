@@ -29,7 +29,7 @@ export function VaultEconomyPanel() {
     <div className="space-y-4">
       {/* ─── Navigationsskal: rubrik, beskrivning, flikval ─────────────────── */}
       <BentoCard title="Lön och räkningar" icon={<Wallet className="h-4 w-4" />} description="PIN-skyddad">
-        <p className="mb-3 text-sm text-text-dim">
+        <p className="mb-3 text-sm text-text-muted">
           Pengar, logg och period finns i{' '}
           <Link to="/vardagen?tab=ekonomi" className="text-accent-primary underline">
             Vardagen → Ekonomi

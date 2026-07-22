@@ -211,7 +211,7 @@ function VaultPageInner({
               type="button"
               variant="ghost"
               size="sm"
-              className="flex items-center gap-1"
+              className="flex items-center gap-1 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => navigate('/valvet/installningar')}
               title="Valv-inställningar"
             >
@@ -221,7 +221,7 @@ function VaultPageInner({
               type="button"
               variant="ghost"
               size="sm"
-              className="flex items-center gap-1"
+              className="flex items-center gap-1 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={handleCloseToLayer1}
               title="Stäng valv — tillbaka till vardag"
             >

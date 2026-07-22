@@ -53,7 +53,7 @@ export function AuthGate({ children, variant = 'default', widgetTitle = 'Widget'
     }
     return (
       <BentoCard title="Laddar">
-        <p className="text-sm text-text-dim">Ansluter till Livskompassen...</p>
+        <p className="text-sm text-text-muted">Ansluter till Livskompassen...</p>
       </BentoCard>
     );
   }

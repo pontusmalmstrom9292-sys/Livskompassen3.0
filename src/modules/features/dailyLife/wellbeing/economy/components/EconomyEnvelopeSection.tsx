@@ -100,7 +100,7 @@ export function EconomyEnvelopeSection({ disabled = false }: { disabled?: boolea
       {error ? <p id="ekonomi-envelope-error" className="mb-2 text-sm text-danger" role="alert">{error}</p> : null}
 
       {loading ? (
-        <p className="flex items-center gap-2 text-sm text-text-dim">
+        <p className="flex items-center gap-2 text-sm text-text-muted">
           <Loader2 className="h-4 w-4 animate-spin" /> Laddar…
         </p>
       ) : envelopes.length === 0 ? (
@@ -117,7 +117,7 @@ export function EconomyEnvelopeSection({ disabled = false }: { disabled?: boolea
                 <div className="flex items-start justify-between gap-2">
                   <div>
                     <p className="font-medium text-text">{env.title}</p>
-                    <p className="text-sm text-text-dim">
+                    <p className="text-sm text-text-muted">
                       Kvar {left} kr av {env.allocatedSek} kr
                     </p>
                   </div>
@@ -126,7 +126,7 @@ export function EconomyEnvelopeSection({ disabled = false }: { disabled?: boolea
                     size="icon"
                     disabled={busy || disabled}
                     onClick={() => void handleDelete(env.id)}
-                    className="text-text-dim"
+                    className="text-text-muted"
                     aria-label={`Ta bort ${env.title}`}
                   >
                     <Trash2 className="h-4 w-4" />
@@ -154,7 +154,7 @@ export function EconomyEnvelopeSection({ disabled = false }: { disabled?: boolea
       )}
 
       <form onSubmit={(e) => void handleCreate(e)} className="mt-4 space-y-3 border-t border-border pt-4">
-        <p className="text-xs uppercase tracking-wider text-text-dim">Nytt kuvert</p>
+        <p className="text-xs uppercase tracking-wider text-text-muted">Nytt kuvert</p>
         <label htmlFor="ekonomi-envelope-title" className="block text-xs text-text-muted">
           Namn
           <input

@@ -44,7 +44,10 @@ export function ExecutivePlaneringCard() {
             type="button"
             role="tab"
             aria-selected={tab === t.id}
-            className={clsx('exec-planering-tabs__tab', tab === t.id && 'exec-planering-tabs__tab--active')}
+            className={clsx(
+              'exec-planering-tabs__tab min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
+              tab === t.id && 'exec-planering-tabs__tab--active',
+            )}
             onClick={() => setTab(t.id)}
           >
             {t.label}
@@ -57,13 +60,13 @@ export function ExecutivePlaneringCard() {
           <>
             <Link
               to={HOME_SUPERHUB_ROUTES.planeringHub}
-              className="exec-planering-task-row"
+              className="exec-planering-task-row min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             >
               <span className="exec-planering-task-row__icon" aria-hidden>
                 <LayoutList className="h-4 w-4" strokeWidth={1.5} />
               </span>
               <span className="min-w-0 flex-1">
-                <span className="block text-[10px] uppercase tracking-wider text-text-dim">
+                <span className="block text-[10px] uppercase tracking-wider text-text-muted">
                   Dagens uppgifter
                 </span>
                 <span className="block text-xs text-text-muted">
@@ -91,7 +94,10 @@ export function ExecutivePlaneringCard() {
         {tab === 'projekt' ? (
           <div className="space-y-2">
             <p className="text-xs text-text-muted">Projektlistor, anteckningar och bilder.</p>
-            <Link to="/projekt" className="exec-home-btn exec-home-btn--primary inline-flex">
+            <Link
+              to="/projekt"
+              className="exec-home-btn exec-home-btn--primary inline-flex min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+            >
               Öppna Projekt
             </Link>
           </div>
@@ -102,7 +108,7 @@ export function ExecutivePlaneringCard() {
             <p className="text-xs text-text-muted">Fånga tankar och inkast till Planering.</p>
             <Link
               to={HOME_SUPERHUB_ROUTES.planeringInkast}
-              className="exec-home-btn exec-home-btn--primary inline-flex"
+              className="exec-home-btn exec-home-btn--primary inline-flex min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             >
               Öppna Inkorg
             </Link>

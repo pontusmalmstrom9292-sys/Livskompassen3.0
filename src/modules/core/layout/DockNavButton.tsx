@@ -25,7 +25,7 @@ export function DockNavButton({
     <button
       type="button"
       className={clsx(
-        'dock-nav-btn',
+        'dock-nav-btn min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
         variant === 'side' && 'dock-nav-btn--side',
         active && 'dock-nav-btn--active',
         className,

@@ -168,7 +168,7 @@ export function EmotionalMemoryComponent({
           compact ? 'p-4' : 'p-6'
         }`}
       >
-        <p className="font-sans text-sm text-text-dim">{COPY.login}</p>
+        <p className="font-sans text-sm text-text-muted">{COPY.login}</p>
       </div>
     );
   }
@@ -198,7 +198,7 @@ export function EmotionalMemoryComponent({
       ) : null}
 
       {!showAdvancedControls && !isLocked ? (
-        <p className="font-sans text-xs text-text-dim">{COPY.lowCapacityHint}</p>
+        <p className="font-sans text-xs text-text-muted">{COPY.lowCapacityHint}</p>
       ) : null}
 
       <label
@@ -216,7 +216,7 @@ export function EmotionalMemoryComponent({
         rows={compact ? 4 : 6}
         placeholder={COPY.placeholder}
         disabled={inputsDisabled}
-        className="w-full resize-none rounded-xl border border-border bg-surface-primary px-4 py-3 font-sans text-text placeholder:text-text-dim focus:border-accent/40 focus:outline-none read-only:cursor-default read-only:opacity-90 disabled:opacity-50"
+        className="w-full resize-none rounded-xl border border-border bg-surface-primary px-4 py-3 font-sans text-text placeholder:text-text-muted focus:border-accent/40 focus:outline-none read-only:cursor-default read-only:opacity-90 disabled:opacity-50"
       />
 
       {showAdvancedControls ? (
@@ -233,7 +233,7 @@ export function EmotionalMemoryComponent({
               disabled={inputsDisabled}
               className="accent-accent disabled:opacity-50"
             />
-            <span className="text-text-dim">{intensity}</span>
+            <span className="text-text-muted">{intensity}</span>
           </label>
 
           <label className="flex flex-col gap-2 font-sans text-xs text-text-muted">

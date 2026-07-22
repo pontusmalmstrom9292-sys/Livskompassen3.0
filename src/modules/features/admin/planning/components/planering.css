@@ -193,7 +193,7 @@
   }
 
   .planering-task-card {
-    @apply relative w-full overflow-hidden rounded-2xl border p-3 text-left transition-all duration-200;
+    @apply relative w-full overflow-hidden rounded-2xl border p-3 text-left;
     border-color: color-mix(in srgb, var(--accent) 20%, transparent);
     background: linear-gradient(
       165deg,
@@ -201,8 +201,11 @@
       color-mix(in srgb, var(--bg) 75%, transparent) 100%
     );
     box-shadow: 0 6px 20px color-mix(in srgb, var(--bg) 35%, transparent), inset 0 1px 0 color-mix(in srgb, var(--text) 5%, transparent);
-    transition-duration: var(--ds-duration-fast);
-    transition-timing-function: var(--ds-ease-premium);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium),
+      transform var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .planering-task-card::before {
@@ -408,9 +411,8 @@
   }
 
   .planering-hub__category-chevron {
-    @apply h-4 w-4 shrink-0 text-accent/70 transition-transform duration-200;
-    transition-duration: var(--ds-duration-fast);
-    transition-timing-function: var(--ds-ease-premium);
+    @apply h-4 w-4 shrink-0 text-accent/70;
+    transition: transform var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .planering-hub__category--open .planering-hub__category-chevron {
@@ -513,7 +515,7 @@
   }
 
   .planering-inbox-connect__icon {
-    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-accent/25 bg-surface/30 text-accent;
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-accent/25 bg-surface/30 text-accent;
   }
 
   .planering-inbox-connect__title {
@@ -631,6 +633,12 @@
 
   .planering-cognitive-banner__cta {
     align-self: flex-start;
+    min-height: var(--ds-touch-target);
+  }
+
+  .planering-cognitive-banner__cta button,
+  .planering-cognitive-banner__cta a {
+    min-height: var(--ds-touch-target);
   }
 
   .planering-tool-card--compact {
@@ -658,7 +666,7 @@
   }
 
   .planering-tool-card {
-    @apply relative flex w-full flex-col gap-1 overflow-hidden rounded-3xl border p-4 text-left transition-all duration-300;
+    @apply relative flex w-full flex-col gap-1 overflow-hidden rounded-3xl border p-4 text-left;
     border-color: color-mix(in srgb, var(--accent) 15%, transparent);
     background: linear-gradient(
       180deg,
@@ -668,8 +676,11 @@
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
     box-shadow: 0 10px 30px color-mix(in srgb, var(--bg) 50%, transparent);
-    transition-duration: var(--ds-duration-normal);
-    transition-timing-function: var(--ds-ease-premium);
+    transition:
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium),
+      transform var(--ds-duration-normal) var(--ds-ease-premium),
+      background-color var(--ds-duration-normal) var(--ds-ease-premium);
   }
 
   button.planering-tool-card {
@@ -988,6 +999,15 @@
     outline-offset: var(--ds-focus-offset);
   }
 
+  .planering-pin-picker__layout-btn {
+    min-height: var(--ds-touch-target);
+  }
+
+  .planering-pin-picker__layout-btn:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
   .planering-layout-picker__chip--active {
     border-color: color-mix(in srgb, var(--accent) 55%, transparent);
     background: color-mix(in srgb, var(--accent) 12%, transparent);
@@ -1059,6 +1079,66 @@
     .planering-layout-picker__chip:hover {
       transform: none;
       filter: none;
+    }
+  }
+}
+
+/* Pass 3 deepen — ADD only */
+@layer components {
+  .planering-hub:focus-within,
+  .planering-route-page:focus-within,
+  .routines-panel:focus-within {
+    border-color: color-mix(in srgb, var(--accent, #fde68a) 22%, var(--border, transparent));
+  }
+
+  .routines-panel button:focus-visible,
+  .routines-panel a[href]:focus-visible,
+  .planering-hub button:focus-visible,
+  .planering-route-page a[href]:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
+  .routines-panel button,
+  .routines-panel a[href],
+  .planering-hub button,
+  .planering-route-page a[href] {
+    min-height: var(--ds-touch-target, 2.75rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .planering-hub,
+    .planering-route-page,
+    .routines-panel,
+    .planering-paralys-entry__toggle {
+      transition: none;
+      animation: none;
+    }
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .planering-hub,
+    .planering-route-page,
+    .routines-panel,
+    .planering-pin-panel {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      background: color-mix(in srgb, var(--surface) 94%, #020617);
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  @layer components {
+    .planering-hub,
+    .planering-route-page,
+    .planering-kanban-column {
+      max-width: 100%;
+      overflow-x: clip;
     }
   }
 }

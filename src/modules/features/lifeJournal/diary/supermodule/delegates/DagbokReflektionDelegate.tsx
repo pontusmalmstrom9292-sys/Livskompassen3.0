@@ -199,7 +199,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
               </p>
             </div>
             <div className="flex justify-between items-end mt-4">
-              <span className="text-xs text-white/60 font-mono">
+              <span className="text-xs text-text-muted font-mono">
                 {formatEntryTime(activeEntry)}
               </span>
               <span className="text-xs text-accent uppercase font-semibold tracking-wider">

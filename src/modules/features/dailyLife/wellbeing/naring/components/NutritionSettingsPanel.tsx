@@ -65,7 +65,7 @@ export function NutritionSettingsPanel({ uid }: Props) {
         <p className="text-sm text-text-muted">
           Diskret mat- och dryckeslogg i MåBra. Data stannar på enheten — ingen export till Valv.
         </p>
-        <p className="mt-2 text-xs text-text-dim">
+        <p className="mt-2 text-xs text-text-muted">
           Öppna via Vardagen → MåBra → Näring & vätska.
         </p>
         <ButtonLink to="/mabra/verktyg/nutrition" variant="secondary" className="--secondary mt-3 inline-flex w-full justify-center text-sm">
@@ -95,7 +95,7 @@ export function NutritionSettingsPanel({ uid }: Props) {
       </BentoCard>
 
       <BentoCard title="Utöka (valfritt)">
-        <p className="mb-3 flex items-start gap-2 text-xs text-text-dim">
+        <p className="mb-3 flex items-start gap-2 text-xs text-text-muted">
           <Info className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden />
           Mer funktioner syns först när du slår på dem här — inget extra brus från start.
         </p>
@@ -118,7 +118,7 @@ export function NutritionSettingsPanel({ uid }: Props) {
           ))}
         </ul>
         {prefs.macroTracking ? (
-          <p className="mt-3 rounded-xl border border-border bg-surface-2/60 px-3 py-2 text-xs text-text-dim">
+          <p className="mt-3 rounded-xl border border-border bg-surface-2/60 px-3 py-2 text-xs text-text-muted">
             P/F/K-fält visas vid matlogg i MåBra. Våg och dietmallar kommer i senare våg.
           </p>
         ) : null}

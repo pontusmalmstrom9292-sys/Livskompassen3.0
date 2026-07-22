@@ -70,7 +70,7 @@ export function NeuroNutritionHub() {
             'flex flex-1 items-center justify-center gap-2 rounded-md px-2 py-2 text-xs font-medium transition-all',
             activeTab === 'intag'
               ? 'border border-success/40 bg-success/15 text-success shadow-inner'
-              : 'text-text-dim hover:text-text-muted',
+              : 'text-text-muted hover:text-text-muted',
           )}
         >
           <Zap className="h-3.5 w-3.5" aria-hidden />
@@ -83,7 +83,7 @@ export function NeuroNutritionHub() {
             'flex flex-1 items-center justify-center gap-2 rounded-md px-2 py-2 text-xs font-medium transition-all',
             activeTab === 'prepp'
               ? 'border border-accent-secondary/40 bg-accent-secondary/15 text-accent-light shadow-inner'
-              : 'text-text-dim hover:text-text-muted',
+              : 'text-text-muted hover:text-text-muted',
           )}
         >
           <Utensils className="h-3.5 w-3.5" aria-hidden />
@@ -96,7 +96,7 @@ export function NeuroNutritionHub() {
             'flex flex-1 items-center justify-center gap-2 rounded-md px-2 py-2 text-xs font-medium transition-all',
             activeTab === 'inkop'
               ? 'border border-accent/30 bg-accent/15 text-accent shadow-inner'
-              : 'text-text-dim hover:text-text-muted',
+              : 'text-text-muted hover:text-text-muted',
           )}
         >
           <ShoppingCart className="h-3.5 w-3.5" aria-hidden />
@@ -114,7 +114,7 @@ export function NeuroNutritionHub() {
             >
               <div className="flex items-center gap-3">
                 <Droplets
-                  className={clsx('h-5 w-5', intake.vatten ? 'text-accent-light' : 'text-text-dim')}
+                  className={clsx('h-5 w-5', intake.vatten ? 'text-accent-light' : 'text-text-muted')}
                   aria-hidden
                 />
                 <div className="text-left">
@@ -126,13 +126,13 @@ export function NeuroNutritionHub() {
                   >
                     Hydrering (Kortisol-flush)
                   </p>
-                  <p className="text-xs text-text-dim">2 glas vatten direkt på morgonen.</p>
+                  <p className="text-xs text-text-muted">2 glas vatten direkt på morgonen.</p>
                 </div>
               </div>
               {intake.vatten ? (
                 <CheckCircle2 className="h-5 w-5 text-success" aria-hidden />
               ) : (
-                <Circle className="h-5 w-5 text-text-dim" aria-hidden />
+                <Circle className="h-5 w-5 text-text-muted" aria-hidden />
               )}
             </button>
 
@@ -143,7 +143,7 @@ export function NeuroNutritionHub() {
             >
               <div className="flex items-center gap-3">
                 <Zap
-                  className={clsx('h-5 w-5', intake.protein ? 'text-success' : 'text-text-dim')}
+                  className={clsx('h-5 w-5', intake.protein ? 'text-success' : 'text-text-muted')}
                   aria-hidden
                 />
                 <div className="text-left">
@@ -155,13 +155,13 @@ export function NeuroNutritionHub() {
                   >
                     Protein (Dopamin-bas)
                   </p>
-                  <p className="text-xs text-text-dim">Ägg, kvarg eller nötter före kl 10.</p>
+                  <p className="text-xs text-text-muted">Ägg, kvarg eller nötter före kl 10.</p>
                 </div>
               </div>
               {intake.protein ? (
                 <CheckCircle2 className="h-5 w-5 text-success" aria-hidden />
               ) : (
-                <Circle className="h-5 w-5 text-text-dim" aria-hidden />
+                <Circle className="h-5 w-5 text-text-muted" aria-hidden />
               )}
             </button>
 
@@ -172,7 +172,7 @@ export function NeuroNutritionHub() {
             >
               <div className="flex items-center gap-3">
                 <Brain
-                  className={clsx('h-5 w-5', intake.omega3 ? 'text-accent-secondary' : 'text-text-dim')}
+                  className={clsx('h-5 w-5', intake.omega3 ? 'text-accent-secondary' : 'text-text-muted')}
                   aria-hidden
                 />
                 <div className="text-left">
@@ -184,13 +184,13 @@ export function NeuroNutritionHub() {
                   >
                     Omega-3 (Anti-inflammation)
                   </p>
-                  <p className="text-xs text-text-dim">Dämpar hjärnans stressrespons.</p>
+                  <p className="text-xs text-text-muted">Dämpar hjärnans stressrespons.</p>
                 </div>
               </div>
               {intake.omega3 ? (
                 <CheckCircle2 className="h-5 w-5 text-accent-secondary" aria-hidden />
               ) : (
-                <Circle className="h-5 w-5 text-text-dim" aria-hidden />
+                <Circle className="h-5 w-5 text-text-muted" aria-hidden />
               )}
             </button>
           </div>

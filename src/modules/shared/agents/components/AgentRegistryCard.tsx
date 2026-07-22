@@ -35,7 +35,7 @@ export function AgentRegistryCard({
         <div className={compact ? '' : 'min-w-0 flex-1'}>
           <p className="text-xs font-medium text-accent">{agent.metadata.name}</p>
           {ui && (
-            <p className="mt-1 text-[10px] text-text-dim">
+            <p className="mt-1 text-[10px] text-text-muted">
               {ui.role} · {ui.focus}
             </p>
           )}
@@ -46,14 +46,14 @@ export function AgentRegistryCard({
           )}
         </div>
         {!compact && (
-          <span className="shrink-0 rounded-full border border-border/40 px-2 py-0.5 text-[10px] text-text-dim">
+          <span className="shrink-0 rounded-full border border-border/40 px-2 py-0.5 text-[10px] text-text-muted">
             v{agent.metadata.version}
           </span>
         )}
       </div>
 
       {!compact && (
-        <div className="mt-3 flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-widest text-text-dim">
+        <div className="mt-3 flex flex-wrap items-center gap-2 text-[10px] uppercase tracking-widest text-text-muted">
           {ui?.zoneLabel ? (
             <span className="rounded-full border border-border/30 px-2 py-0.5">{ui.zoneLabel}</span>
           ) : null}

@@ -118,11 +118,11 @@ export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSu
           <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">
             Ett läge i taget
           </h2>
-          <p className="text-xs text-text-dim">
+          <p className="text-xs text-text-muted">
             Byt läge utan att lämna sidan — molnet sparas endast när du trycker explicit.
           </p>
           {projectId ? (
-            <p className="text-[10px] uppercase tracking-wider text-text-dim">
+            <p className="text-[10px] uppercase tracking-wider text-text-muted">
               Projektkontext: {MABRA_PROJECTS.find((p) => p.id === projectId)?.title ?? projectId}
             </p>
           ) : null}
@@ -145,7 +145,7 @@ export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSu
               className={modeButtonClass(isActive)}
             >
               <span className="block font-medium">{mode.label}</span>
-              <span className="block text-[10px] text-text-dim">{mode.description}</span>
+              <span className="block text-[10px] text-text-muted">{mode.description}</span>
             </button>
           );
         })}
@@ -157,7 +157,7 @@ export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSu
           className={modeButtonClass(isMoreModeActive)}
         >
           <span className="block font-medium">Mer…</span>
-          <span className="block text-[10px] text-text-dim">Reflektion, dagbok & inkast</span>
+          <span className="block text-[10px] text-text-muted">Reflektion, dagbok & inkast</span>
         </button>
 
         {(showMoreModes || isMoreModeActive) &&
@@ -172,7 +172,7 @@ export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSu
                 className={modeButtonClass(isActive)}
               >
                 <span className="block font-medium">{mode.label}</span>
-                <span className="block text-[10px] text-text-dim">{mode.description}</span>
+                <span className="block text-[10px] text-text-muted">{mode.description}</span>
               </button>
             );
           })}
@@ -189,7 +189,7 @@ export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSu
                 className={modeButtonClass(isActive)}
               >
                 <span className="block font-medium">{mode.label}</span>
-                <span className="block text-[10px] text-text-dim">{mode.description}</span>
+                <span className="block text-[10px] text-text-muted">{mode.description}</span>
               </button>
             );
           })}
@@ -275,7 +275,7 @@ function MabraInputModeDelegate({
       }
       content = (
         <div className="space-y-3">
-          <p className="text-xs text-text-dim">
+          <p className="text-xs text-text-muted">
             Tematisk reflektion — AI föreslår arkiv. Du godkänner alltid innan spar (HITL).
           </p>
           <CaptureSuperModule variant="mabra" compact />

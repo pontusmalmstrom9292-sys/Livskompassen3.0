@@ -22,10 +22,16 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
             className="overflow-hidden"
           >
             <div className="flex flex-col gap-2 text-sm">
-              <Link to="/arbetsliv/input" className="text-accent-secondary hover:underline">
+              <Link
+                to="/arbetsliv/input"
+                className="inline-flex min-h-11 items-center text-accent-secondary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+              >
                 Öppna Arbetsliv-hubben
               </Link>
-              <Link to="/vardagen?tab=ekonomi&inputMode=logg" className="text-accent hover:underline">
+              <Link
+                to="/vardagen?tab=ekonomi&inputMode=logg"
+                className="inline-flex min-h-11 items-center text-accent hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+              >
                 Logg & fasta räkningar (privatekonomi)
               </Link>
             </div>

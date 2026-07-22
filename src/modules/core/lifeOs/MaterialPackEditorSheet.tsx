@@ -77,14 +77,14 @@ export function MaterialPackEditorSheet({ isOpen, onClose, presetId, hub, userId
       <div className="flex flex-shrink-0 items-center justify-between border-b border-border bg-surface-2 px-6 py-4">
         <div>
           <h2 className="text-lg font-medium text-white">Redigera genvägar</h2>
-          <p className="mt-1 text-xs uppercase tracking-widest text-white/50">
+          <p className="mt-1 text-xs uppercase tracking-widest text-text-muted">
             {hub} · Anpassa material
           </p>
         </div>
         <button
           type="button"
           onClick={onClose}
-          className="rounded-full p-2 text-white/50 transition-colors hover:bg-white/5 hover:text-white"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full p-2 text-text-muted transition-colors hover:bg-white/5 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           aria-label="Stäng"
         >
           <X className="h-5 w-5" />
@@ -110,8 +110,9 @@ export function MaterialPackEditorSheet({ isOpen, onClose, presetId, hub, userId
               <button
                 type="button"
                 onClick={() => handleRemove(i)}
-                className="rounded-lg p-2 text-red-400/70 transition-colors hover:bg-red-500/10 hover:text-red-400"
+                className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg p-2 text-red-400/70 transition-colors hover:bg-red-500/10 hover:text-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                 title="Ta bort genväg"
+                aria-label="Ta bort genväg"
               >
                 <Trash2 className="h-4 w-4" />
               </button>
@@ -126,7 +127,7 @@ export function MaterialPackEditorSheet({ isOpen, onClose, presetId, hub, userId
         </div>
 
         <div className="space-y-3 rounded-xl border border-white/5 bg-black/20 p-4">
-          <label className="flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-white/50">
+          <label className="flex items-center gap-2 text-xs font-medium uppercase tracking-wider text-text-muted">
             <Plus className="h-3 w-3" />
             Lägg till ny genväg
           </label>
@@ -151,7 +152,7 @@ export function MaterialPackEditorSheet({ isOpen, onClose, presetId, hub, userId
         <button
           type="button"
           onClick={handleRestoreDefaults}
-          className="flex items-center gap-2 text-xs text-text-muted transition-colors hover:text-text"
+          className="flex min-h-11 items-center gap-2 text-xs text-text-muted transition-colors hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         >
           <RotateCcw className="h-3 w-3" />
           Återställ

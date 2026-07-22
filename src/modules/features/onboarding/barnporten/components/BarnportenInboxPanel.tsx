@@ -6,6 +6,8 @@ import { collection, onSnapshot, query, where, limit } from 'firebase/firestore'
 import { db } from '@/core/firebase/firestore';
 import { FIRESTORE_COLLECTIONS } from '@/core/types/firestore';
 import { useStore } from '@/core/store';
+import { EmptyState } from '@/core/ui/EmptyState';
+import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { SaveAsEvidencePrompt } from '@/features/family/children/components/SaveAsEvidencePrompt';
 import type { ChildAlias } from '@/features/family/children/constants';
 
@@ -22,13 +24,17 @@ type InboxRow = {
 export function BarnportenInboxPanel() {
   const user = useStore((s) => s.user);
   const [rows, setRows] = useState<InboxRow[]>([]);
+  const [loading, setLoading] = useState(Boolean(user));
   const [promoteId, setPromoteId] = useState<string | null>(null);
 
   useEffect(() => {
     if (!user) {
       setRows([]);
+      setLoading(false);
       return;
     }
+    setLoading(true);
+    setRows([]);
     const ref = collection(db, FIRESTORE_COLLECTIONS.children_logs);
     const q = query(ref, where('ownerId', '==', user.uid), limit(50));
     return onSnapshot(
@@ -53,8 +59,12 @@ export function BarnportenInboxPanel() {
             .filter((r) => r.category.startsWith('barnporten') && !r.category.includes('privat'))
             .sort((a, b) => (b.createdAt ?? '').localeCompare(a.createdAt ?? '')),
         );
+        setLoading(false);
       },
-      () => setRows([]),
+      () => {
+        setRows([]);
+        setLoading(false);
+      },
     );
   }, [user]);
 
@@ -63,11 +73,14 @@ export function BarnportenInboxPanel() {
   return (
     <div className="familjen-tab-surface space-y-4">
       <div>
-        <p className="text-[10px] uppercase tracking-widest text-text-dim">Barnporten · Inkorg → Valv</p>
-        <p className="mt-1 text-xs italic text-text-dim">Skapa trygghet. Bygg tillit.</p>
+        <p className="text-[10px] uppercase tracking-widest text-text-muted">Barnporten · Inkorg → Valv</p>
+        <p className="mt-1 text-xs italic text-text-muted">Skapa trygghet. Bygg tillit.</p>
       </div>
 
-      {rows.length === 0 && <p className="text-sm text-text-dim">Inget från Barnporten än.</p>}
+      {loading ? <HubPanelSkeleton label="Laddar inkorg…" lines={3} /> : null}
+      {!loading && rows.length === 0 ? (
+        <EmptyState message="Inget från Barnporten än." />
+      ) : null}
 
       {rows.map((row) => (
         <div
@@ -76,8 +89,8 @@ export function BarnportenInboxPanel() {
           aria-label={`Meddelande från ${row.childAlias}`}
         >
           <div className="elongated-module space-y-2 border border-white/10 p-3">
-            <p className="text-[10px] uppercase tracking-widest text-text-dim">Inkorg</p>
-            <p className="text-xs text-text-dim">{row.childAlias}</p>
+            <p className="text-[10px] uppercase tracking-widest text-text-muted">Inkorg</p>
+            <p className="text-xs text-text-muted">{row.childAlias}</p>
             <p className="whitespace-pre-wrap text-sm text-text">{row.observation}</p>
             {row.visibility === 'vault_candidate' && (
               <p className="text-xs font-medium text-accent">Granska i Valv?</p>
@@ -85,7 +98,8 @@ export function BarnportenInboxPanel() {
             <Button
               type="button"
               variant="secondary"
-              className="text-xs"
+              className="min-h-11 text-xs"
+              aria-label={`Granska meddelande från ${row.childAlias} i arkiv`}
               onClick={() => setPromoteId(row.id)}
             >
               Granska i arkiv
@@ -98,7 +112,7 @@ export function BarnportenInboxPanel() {
 
           <div className="elongated-module space-y-2 border border-accent/25 p-3">
             <p className="text-[10px] uppercase tracking-widest text-accent/80">Valv</p>
-            <p className="text-xs text-text-dim">Klar för långtidslagring</p>
+            <p className="text-xs text-text-muted">Klar för långtidslagring</p>
             {promoteId === row.id ? (
               <>
                 <p className="flex items-start gap-1.5 text-xs text-text-muted">
@@ -113,7 +127,10 @@ export function BarnportenInboxPanel() {
                   category="barnporten"
                   onDone={() => setPromoteId(null)}
                 />
-                <Link to="/valvet" className="text-xs text-accent hover:underline">
+                <Link
+                  to="/valvet"
+                  className="inline-flex min-h-11 items-center text-xs text-accent hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+                >
                   Granska i Valv
                 </Link>
               </>
@@ -121,7 +138,8 @@ export function BarnportenInboxPanel() {
               <Button
                 type="button"
                 variant="accent"
-                className="text-xs"
+                className="min-h-11 text-xs"
+                aria-label={`Flytta meddelande från ${row.childAlias} till Valv`}
                 onClick={() => setPromoteId(row.id)}
               >
                 Flytta till Valv (HITL)

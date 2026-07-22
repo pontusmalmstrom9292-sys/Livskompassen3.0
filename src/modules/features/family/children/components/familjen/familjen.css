@@ -89,7 +89,8 @@
   }
 
   .familjen-zone-intro__lead {
-    @apply text-xs leading-relaxed text-text-muted;
+    @apply text-xs leading-relaxed;
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
     text-wrap: pretty;
   }
 
@@ -210,12 +211,18 @@
   }
 
   .familjen-child-picker-label {
-    @apply text-[10px] font-semibold uppercase tracking-[0.15em] text-text-muted;
+    @apply text-[10px] font-semibold uppercase tracking-[0.15em];
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
   }
 
   .familjen-child-chip {
-    @apply flex-1 rounded-2xl border py-2.5 text-sm font-medium backdrop-blur-md transition;
+    @apply flex-1 rounded-2xl border py-2.5 text-sm font-medium backdrop-blur-md;
     min-height: var(--ds-touch-target);
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium),
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .familjen-child-chip:focus-visible {
@@ -237,12 +244,56 @@
   }
 
   .child-moment-tab {
-    @apply inline-flex items-center rounded-full border px-3 text-xs font-medium transition;
+    @apply inline-flex items-center rounded-full border px-3 text-xs font-medium;
     min-height: var(--ds-touch-target);
     line-height: 1.2;
+    transition:
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium),
+      color var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .child-moment-tab:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
+  .barnfokus-fragan-panel button:focus-visible,
+  .barnfokus-fragan-panel a:focus-visible,
+  .familjen-tab-surface button:focus-visible,
+  .familjen-tab-surface a:focus-visible,
+  .familjen-input-hub button:focus-visible,
+  .familjen-input-hub a:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
+  .barnfokus-fragan-panel__cta .ds-btn,
+  .barnfokus-fragan-panel__cta button {
+    min-height: var(--ds-touch-target);
+  }
+
+  /* W8 deepen — remaining interactive hits in Familjen tabs */
+  .familjen-page button,
+  .familjen-page a[href],
+  .familjen-tab-panel button,
+  .familjen-tab-panel a[href],
+  .familjen-tab-surface button,
+  .familjen-tab-surface a[href],
+  .familjen-input-hub button,
+  .familjen-input-hub a[href] {
+    min-height: var(--ds-touch-target);
+  }
+
+  .familjen-page .lede,
+  .familjen-tab-surface .helper-text {
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
+  }
+
+  .familjen-page button:focus-visible,
+  .familjen-page a[href]:focus-visible,
+  .familjen-tab-panel button:focus-visible,
+  .familjen-tab-panel a[href]:focus-visible {
     outline: var(--ds-focus-ring);
     outline-offset: var(--ds-focus-offset);
   }
@@ -254,7 +305,8 @@
     .familjen-zone-intro,
     .familjen-tab-surface,
     .familjen-input-hub,
-    .barnfokus-fragan-panel {
+    .barnfokus-fragan-panel,
+    .familjen-child-chip {
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
       background: color-mix(in srgb, var(--surface) 94%, #020617);
@@ -265,8 +317,47 @@
 @media (prefers-reduced-motion: reduce) {
   @layer components {
     .familjen-layer-switch__link,
-    .familjen-child-chip {
+    .familjen-child-chip,
+    .child-moment-tab {
       transition: none;
+    }
+  }
+}
+
+/* Pass 3 deepen — ADD only */
+@layer components {
+  .familjen-tab-surface:focus-within,
+  .familjen-input-hub:focus-within,
+  .barnfokus-fragan-panel:focus-within {
+    border-color: color-mix(in srgb, var(--accent, #fde68a) 28%, var(--border, transparent));
+  }
+
+  .familjen-tab-surface [role='tab']:focus-visible,
+  .familjen-input-hub [role='button']:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .familjen-page,
+    .familjen-tab-surface,
+    .familjen-input-hub,
+    .barnfokus-fragan-panel {
+      transition: none;
+      animation: none;
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  @layer components {
+    .familjen-page,
+    .familjen-tab-surface,
+    .familjen-input-hub {
+      max-width: 100%;
+      overflow-x: clip;
     }
   }
 }

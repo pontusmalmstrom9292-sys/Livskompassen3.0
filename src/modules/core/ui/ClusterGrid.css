@@ -29,7 +29,7 @@
   }
 
   .module-card__chevron {
-    @apply text-text-dim;
+    @apply text-text-muted;
   }
 
   .module-card__modules {

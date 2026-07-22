@@ -69,14 +69,14 @@ export function PlaneringTaskQuickDelegate({ onSaved }: PlaneringTaskQuickDelega
         <p className={textStyles.eyebrow}>
           Snabb uppgift
         </p>
-        <p className="text-xs text-text-dim">
+        <p className="text-xs text-text-muted">
           Ett steg i taget — sparas direkt i din planeringslista.
           {projectId ? ' Kopplad till aktivt projekt.' : ''}
         </p>
       </header>
 
       <label className="block space-y-1">
-        <span className="text-xs uppercase tracking-wider text-text-dim">Titel</span>
+        <span className="text-xs uppercase tracking-wider text-text-muted">Titel</span>
         <Input
           type="text"
           value={title}
@@ -89,7 +89,7 @@ export function PlaneringTaskQuickDelegate({ onSaved }: PlaneringTaskQuickDelega
 
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="block space-y-1">
-          <span className="text-xs uppercase tracking-wider text-text-dim">Kolumn</span>
+          <span className="text-xs uppercase tracking-wider text-text-muted">Kolumn</span>
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value as PlanningTaskStatus)}
@@ -104,7 +104,7 @@ export function PlaneringTaskQuickDelegate({ onSaved }: PlaneringTaskQuickDelega
         </label>
 
         <label className="block space-y-1">
-          <span className="text-xs uppercase tracking-wider text-text-dim">Förfaller (valfritt)</span>
+          <span className="text-xs uppercase tracking-wider text-text-muted">Förfaller (valfritt)</span>
           <Input
             type="date"
             value={dueAt}

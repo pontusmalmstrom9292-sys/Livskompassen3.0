@@ -142,7 +142,7 @@ export function ProjektMaterialPackPage() {
     >
       <GoraHubTabBar />
       <div className="flex flex-wrap gap-3 text-xs">
-        <Link to="/projekt" className="text-text-dim hover:text-accent">
+        <Link to="/projekt" className="text-text-muted hover:text-accent">
           ← Projekt
         </Link>
         <Link to="/installningar" className="text-accent">
@@ -162,13 +162,13 @@ export function ProjektMaterialPackPage() {
 
       <div className="mt-4 space-y-4">
         <div className="elongated-module space-y-2 p-3">
-          <p className="text-[10px] uppercase tracking-widest text-text-dim">LifeHubPreset</p>
+          <p className="text-[10px] uppercase tracking-widest text-text-muted">LifeHubPreset</p>
           <LifeHubPresetPicker activeId={presetId} onSelect={setPresetId} />
           <p className="text-xs text-text-muted">{activePreset.lead}</p>
         </div>
 
         {availableHubs.length === 0 ? (
-          <p className="text-sm text-text-dim">
+          <p className="text-sm text-text-muted">
             Profilen &quot;{activePreset.label}&quot; har inga MaterialPack-hubbar. Välj t.ex. Förälder — trygg
             hamn.
           </p>
@@ -198,7 +198,7 @@ export function ProjektMaterialPackPage() {
             ) : (
             <>
 
-            <p className="text-xs text-text-dim">
+            <p className="text-xs text-text-muted">
               {hasOverride ? 'Egna genvägar (synkas mellan enheter).' : 'Standardgenvägar från appen.'}
               {' · '}
               Max 12.
@@ -260,7 +260,7 @@ export function ProjektMaterialPackPage() {
                         onClick={() => persist([...shortcuts, row.shortcut])}
                       >
                         <span className="font-medium text-text transition-colors group-hover:text-accent">{row.shortcut.label}</span>
-                        <span className="text-[10px] text-text-dim">· {row.routineTitle}</span>
+                        <span className="text-[10px] text-text-muted">· {row.routineTitle}</span>
                         {!already && <span className="ml-1 text-accent opacity-0 transition-opacity group-hover:opacity-100">+</span>}
                       </button>
                     );
@@ -303,7 +303,7 @@ export function ProjektMaterialPackPage() {
         )}
       </div>
 
-      <p className="mt-4 text-xs text-text-dim">
+      <p className="mt-4 text-xs text-text-muted">
         Genvägarna visas som MaterialPack på respektive hubsida när din aktiva profil matchar.
       </p>
     </HubPageShell>

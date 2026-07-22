@@ -43,7 +43,7 @@ export function VitRecentOverview({ entries, onOpenEntry }: Props) {
                   categoryId: 'all',
                 })
               }
-              className="rounded-full border border-border-strong px-3 py-1 text-[10px] text-text-muted transition hover:border-accent/30 hover:text-accent"
+              className="rounded-full border border-border-strong px-3 py-1 text-[10px] text-text-muted transition hover:border-accent/30 hover:text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               Visa i listan
             </button>

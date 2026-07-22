@@ -83,7 +83,7 @@ export function CardHeader({ title, description, icon, glow = 'gold', className,
           </h3>
         ) : null}
         {description ? (
-          <p className="mt-1 text-[length:var(--ds-font-size-2xs)] uppercase tracking-[var(--ds-letter-spacing-wide)] text-text-dim">
+          <p className="mt-1 text-[length:var(--ds-font-size-2xs)] uppercase tracking-[var(--ds-letter-spacing-wide)] text-text-muted">
             {description}
           </p>
         ) : null}

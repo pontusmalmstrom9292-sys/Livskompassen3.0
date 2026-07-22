@@ -32,7 +32,7 @@ export function PlaneringKalenderPage() {
             to="/planering?tab=inkorg&inbox=kalender"
             variant="ghost"
             size="sm"
-            className="shrink-0 p-2 text-text-muted hover:text-accent"
+            className="inline-flex min-h-11 shrink-0 items-center px-3 text-text-muted hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           >
             Inkorg
           </ButtonLink>
@@ -56,13 +56,13 @@ export function PlaneringKalenderPage() {
         className="mt-4"
       >
         {loading ? (
-          <p className="text-sm text-text-dim">Laddar uppgifter…</p>
+          <p className="text-sm text-text-muted">Laddar uppgifter…</p>
         ) : (
           <PlaneringWeekCalendar tasks={tasks} prepared={prepared} />
         )}
       </BentoCard>
 
-      <p className="mt-4 text-center text-xs text-text-dim">
+      <p className="mt-4 text-center text-xs text-text-muted">
         <Link to="/planering?tab=inkorg&inbox=kalender" className="text-accent/80 hover:text-accent">
           Tillbaka till Inkorg
         </Link>

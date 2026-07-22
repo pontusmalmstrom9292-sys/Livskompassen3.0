@@ -77,7 +77,7 @@ export function ValvZoneModulValjare({ onSelect, onSkip }: Props) {
           type="button"
           onClick={skip}
           aria-label="Hoppa över zonval och öppna Samla"
-          className="text-xs text-text-muted hover:text-text-muted"
+          className="text-xs text-text-muted hover:text-text-muted min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           Visa alla zoner direkt (Samla)
         </button>

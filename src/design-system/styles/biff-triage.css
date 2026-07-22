@@ -1,21 +1,32 @@
 /* BIFF triage — bait/fact reveal chrome — sunset från index.css våg 81 */
 @layer components {
   .biff-triage-bait {
-    @apply rounded-lg border border-border-strong bg-surface/80 px-3 py-2 text-sm leading-relaxed text-text-muted select-none;
+    @apply rounded-lg border border-border-strong bg-surface/80 px-3 py-2 text-sm leading-relaxed select-none;
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
     filter: blur(4px);
     user-select: none;
     pointer-events: none;
+    transition:
+      filter var(--ds-duration-normal) var(--ds-ease-premium),
+      opacity var(--ds-duration-normal) var(--ds-ease-premium);
   }
 
   .biff-triage-bait--revealed {
-    @apply rounded-lg border border-danger/20 bg-danger/5 px-3 py-2 text-sm leading-relaxed text-text-muted;
+    @apply rounded-lg border border-danger/20 bg-danger/5 px-3 py-2 text-sm leading-relaxed;
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
     filter: none;
     user-select: text;
     pointer-events: auto;
   }
 
+  .biff-triage-bait--revealed:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
   .biff-triage-fact {
-    @apply rounded-lg border border-success/25 bg-success/5 px-3 py-2 text-sm leading-relaxed text-text-muted;
+    @apply rounded-lg border border-success/25 bg-success/5 px-3 py-2 text-sm leading-relaxed;
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
   }
 }
 
@@ -28,6 +39,52 @@
 
     .biff-triage-bait--revealed {
       opacity: 1;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .biff-triage-bait,
+    .biff-triage-bait--revealed {
+      transition: none;
+    }
+  }
+}
+
+/* Pass 3 deepen — ADD only */
+@layer components {
+  .biff-triage-fact:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
+  .biff-triage-bait--revealed,
+  .biff-triage-fact {
+    min-height: var(--ds-touch-target, 2.75rem);
+  }
+
+  .biff-triage-panel:focus-within,
+  .biff-triage-card:focus-within {
+    border-color: color-mix(in srgb, var(--accent, #fde68a) 28%, var(--border, transparent));
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .biff-triage-fact {
+      background: color-mix(in srgb, var(--surface) 94%, #020617);
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  @layer components {
+    .biff-triage-bait,
+    .biff-triage-bait--revealed,
+    .biff-triage-fact {
+      max-width: 100%;
+      overflow-x: clip;
     }
   }
 }

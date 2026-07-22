@@ -68,16 +68,20 @@
   }
 
   .nav-drawer__mode-btn {
-    @apply flex-1 cursor-pointer rounded-[0.65rem] border-0 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] transition-colors;
-    min-height: var(--ds-touch-target);
+    @apply flex-1 cursor-pointer rounded-[0.65rem] border-0 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em];
+    min-height: var(--ds-touch-target, 2.75rem);
     color: var(--text-muted);
     background: transparent;
     touch-action: manipulation;
+    transition:
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      background var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .nav-drawer__mode-btn:focus-visible {
     outline: var(--ds-focus-ring);
-    outline-offset: -2px;
+    outline-offset: var(--ds-focus-offset, -2px);
   }
 
   .nav-drawer__mode-btn--active {
@@ -109,10 +113,13 @@
   }
 
   .nav-drawer__row-expand {
-    @apply flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg text-accent/60 transition-colors;
-    min-width: var(--ds-touch-target);
-    min-height: var(--ds-touch-target);
+    @apply flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-lg text-accent/60;
+    min-width: var(--ds-touch-target, 2.75rem);
+    min-height: var(--ds-touch-target, 2.75rem);
     touch-action: manipulation;
+    transition:
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      background var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .nav-drawer__row-expand:focus-visible {
@@ -147,12 +154,23 @@
   }
 
   .nav-drawer__row {
-    @apply relative z-10 flex min-h-[44px] w-full cursor-pointer items-center gap-3 rounded-xl border border-transparent px-3 py-2.5 text-left transition-all duration-200;
+    @apply relative z-10 flex w-full cursor-pointer items-center gap-3 rounded-xl border border-transparent px-3 py-2.5 text-left;
+    min-height: var(--ds-touch-target, 2.75rem);
     background: transparent;
     color: var(--text-muted);
     pointer-events: auto;
     touch-action: manipulation;
     -webkit-tap-highlight-color: rgba(212, 175, 55, 0.12);
+    transition:
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      background var(--ds-duration-fast) var(--ds-ease-premium),
+      border-color var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium);
+  }
+
+  .nav-drawer__row:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
   }
 
   .nav-drawer__row:hover {
@@ -232,5 +250,34 @@
 
   .nav-drawer__row--active .nav-drawer__row-chevron {
     @apply text-accent opacity-90;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .nav-drawer__mode,
+    .nav-drawer__scenic::after,
+    .nav-drawer__row-icon {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+
+    .nav-drawer__mode {
+      background: color-mix(in srgb, var(--surface-2) 96%, var(--surface));
+    }
+
+    .nav-drawer__scenic::after {
+      background: color-mix(in srgb, var(--bg) 88%, var(--surface));
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .nav-drawer__mode-btn,
+    .nav-drawer__row-expand,
+    .nav-drawer__row {
+      transition: none;
+    }
   }
 }

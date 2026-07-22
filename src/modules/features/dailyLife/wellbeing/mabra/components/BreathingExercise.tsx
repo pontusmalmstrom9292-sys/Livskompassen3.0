@@ -114,7 +114,7 @@ export function BreathingExercise({ durationMinutes, variant, onComplete, onExit
 
   return (
     <div className="flex flex-col items-center space-y-6 py-4">
-      <p className="text-xs uppercase tracking-widest text-text-dim">{copy.label}</p>
+      <p className="text-xs uppercase tracking-widest text-text-muted">{copy.label}</p>
       <p className="max-w-xs text-center text-sm text-text-muted">{copy.subtitle}</p>
       <motion.div
         initial={reducedMotion ? false : { scale: 0.9, opacity: 0.85 }}

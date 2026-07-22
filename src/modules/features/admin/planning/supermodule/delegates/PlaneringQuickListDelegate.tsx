@@ -34,7 +34,7 @@ export function PlaneringQuickListDelegate({
         <p className={textStyles.eyebrow}>
           Inköpslista
         </p>
-        <p className="text-xs text-text-dim">
+        <p className="text-xs text-text-muted">
           Lokal lista på enheten — sparas inte i molnet förrän du väljer &quot;Spara som projekt&quot;.
         </p>
       </header>

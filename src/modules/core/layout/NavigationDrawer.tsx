@@ -122,7 +122,7 @@ export const NavigationDrawer = memo(function NavigationDrawer() {
         <header className="nav-drawer__header">
           <button
             type="button"
-            className="nav-drawer__close"
+            className="nav-drawer__close min-h-11 min-w-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             aria-label="Stäng"
             onClick={onClose}
           >
@@ -156,7 +156,7 @@ export const NavigationDrawer = memo(function NavigationDrawer() {
                         type="button"
                         aria-label={`Gå till ${entry.label}`}
                         onClick={() => navigateDrawerPath(entry.path)}
-                        className="nav-drawer__recent-chip"
+                        className="nav-drawer__recent-chip min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                       >
                         {entry.label}
                       </button>
@@ -194,7 +194,10 @@ export const NavigationDrawer = memo(function NavigationDrawer() {
                     type="button"
                     aria-label={item.label}
                     onClick={() => handleVardagRowClick(item)}
-                    className={clsx('nav-drawer__row', active && 'nav-drawer__row--active')}
+                    className={clsx(
+                      'nav-drawer__row min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
+                      active && 'nav-drawer__row--active',
+                    )}
                   >
                     <span className="nav-drawer__row-icon">
                       <Icon className="h-4 w-4" aria-hidden />
@@ -224,7 +227,10 @@ export const NavigationDrawer = memo(function NavigationDrawer() {
                           type="button"
                           aria-label={item.label}
                           onClick={() => navigateDrawerPath(item.path)}
-                          className={clsx('nav-drawer__row', active && 'nav-drawer__row--active')}
+                          className={clsx(
+                            'nav-drawer__row min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
+                            active && 'nav-drawer__row--active',
+                          )}
                         >
                           <span className="nav-drawer__row-icon">
                             <Icon className="h-4 w-4" aria-hidden />
@@ -239,7 +245,7 @@ export const NavigationDrawer = memo(function NavigationDrawer() {
                   <button
                     type="button"
                     onClick={handleLockVaultImmediately}
-                    className="nav-drawer__lock-btn"
+                    className="nav-drawer__lock-btn min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
                     aria-label="Lås Valvet omedelbart och gå till startskärm"
                   >
                     <span className="nav-drawer__lock-icon">

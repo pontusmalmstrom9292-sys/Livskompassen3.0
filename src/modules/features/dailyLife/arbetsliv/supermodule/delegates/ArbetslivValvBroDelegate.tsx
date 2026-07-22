@@ -21,7 +21,7 @@ export function ArbetslivValvBroDelegate() {
         <p className="mb-3 text-sm text-text-muted">
           Nästa lönespec: <span className="text-text">16 {nextPayday.split(' ').slice(1).join(' ')}</span>
         </p>
-        <p className="mb-4 text-xs text-text-dim">
+        <p className="mb-4 text-xs text-text-muted">
           Sjukanmälan, VAB och full lönespec kräver PIN — öppnas i Valv, inte här.
         </p>
         <div className="flex flex-wrap gap-2">

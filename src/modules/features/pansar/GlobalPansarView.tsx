@@ -111,7 +111,7 @@ export const GlobalPansarView: React.FC = () => {
             <ShieldCheck size={20} className="text-accent" aria-hidden />
             <h2 className="text-sm font-medium text-text">Säker kognitiv dumpning</h2>
           </div>
-          <span className="rounded bg-surface-3/60 px-2 py-1 text-[10px] uppercase tracking-widest text-text-dim">
+          <span className="rounded bg-surface-3/60 px-2 py-1 text-[10px] uppercase tracking-widest text-text-muted">
             Nivå {pansarLevel}
           </span>
         </div>

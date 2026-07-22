@@ -60,14 +60,14 @@ export function ShortcutEditorRow({
             <div className="flex h-6 w-6 items-center justify-center rounded-full bg-accent/10 text-[10px] font-bold text-accent">
               {index + 1}
             </div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-text-dim">
+            <p className="text-xs font-semibold uppercase tracking-widest text-text-muted">
               Genväg
             </p>
           </div>
           <div className="flex gap-1">
             <button
               type="button"
-              className="rounded-lg p-1.5 text-text-muted transition-colors hover:bg-surface-hover hover:text-text disabled:opacity-30"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg p-1.5 text-text-muted transition-colors hover:bg-surface-hover hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-30"
               disabled={!user || index === 0}
               aria-label="Flytta upp"
               onClick={() => onMove(index, index - 1)}
@@ -76,7 +76,7 @@ export function ShortcutEditorRow({
             </button>
             <button
               type="button"
-              className="rounded-lg p-1.5 text-text-muted transition-colors hover:bg-surface-hover hover:text-text disabled:opacity-30"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg p-1.5 text-text-muted transition-colors hover:bg-surface-hover hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-30"
               disabled={!user || index === totalLength - 1}
               aria-label="Flytta ner"
               onClick={() => onMove(index, index + 1)}
@@ -88,7 +88,7 @@ export function ShortcutEditorRow({
 
         <div className="grid gap-3 sm:grid-cols-2">
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-widest text-text-dim">Etikett</label>
+            <label className="text-[10px] uppercase tracking-widest text-text-muted">Etikett</label>
             <input
               className="w-full rounded-xl border border-border-subtle bg-surface/60 px-3 py-2 text-sm text-text outline-none transition-colors hover:border-accent/30 focus:border-accent focus:bg-surface/80 focus:ring-1 focus:ring-accent/50"
               value={item.label}
@@ -99,7 +99,7 @@ export function ShortcutEditorRow({
           </div>
 
           <div className="space-y-1">
-            <label className="text-[10px] uppercase tracking-widest text-text-dim">Mål</label>
+            <label className="text-[10px] uppercase tracking-widest text-text-muted">Mål</label>
             <div className="relative">
               <select
                 className="w-full appearance-none rounded-xl border border-border-subtle bg-surface/60 px-3 py-2 pr-8 text-sm text-text outline-none transition-colors hover:border-accent/30 focus:border-accent focus:bg-surface/80 focus:ring-1 focus:ring-accent/50"
@@ -125,7 +125,7 @@ export function ShortcutEditorRow({
         </div>
 
         <div className="space-y-1 rounded-xl bg-surface/30 p-3 border border-border-subtle/50">
-          <label className="text-[10px] uppercase tracking-widest text-text-dim">Bankreferens (valfritt)</label>
+          <label className="text-[10px] uppercase tracking-widest text-text-muted">Bankreferens (valfritt)</label>
           <div className="relative mt-1">
             <select
               className="w-full appearance-none rounded-lg border border-border-subtle bg-surface/60 px-3 py-2 pr-8 text-xs text-text outline-none transition-colors hover:border-accent/30 focus:border-accent focus:bg-surface/80"
@@ -170,7 +170,7 @@ export function ShortcutEditorRow({
             <ChevronDown className="pointer-events-none absolute right-3 top-2.5 h-3.5 w-3.5 text-text-muted" />
           </div>
           {item.bankRef && labelForMaterialPackBankRef(item.bankRef) ? (
-            <p className="mt-1.5 text-[10px] text-text-dim">
+            <p className="mt-1.5 text-[10px] text-text-muted">
               Kuraterad bank — dokumentation, ingen auto-RAG.
             </p>
           ) : null}
@@ -179,7 +179,7 @@ export function ShortcutEditorRow({
         <div className="flex justify-end pt-1">
           <button
             type="button"
-            className="text-xs font-medium text-danger hover:text-danger-light transition-colors disabled:opacity-50"
+            className="inline-flex min-h-11 items-center text-xs font-medium text-danger transition-colors hover:text-danger-light focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-50"
             disabled={!user}
             onClick={() => onRemove(index)}
           >

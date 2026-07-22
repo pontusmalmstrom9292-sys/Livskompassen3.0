@@ -33,7 +33,7 @@ export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, use
           {project.vitHubLabel}
         </p>
         <p className="mt-2 text-sm text-text-muted">{VIT_HUB_TAGLINE}</p>
-        <p className="mt-1 text-xs text-text-dim">{VIT_HUB_KRAVLOST}</p>
+        <p className="mt-1 text-xs text-text-muted">{VIT_HUB_KRAVLOST}</p>
         <Link
           to={vitHubFilteredLink(undefined, project.id)}
           className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
@@ -76,7 +76,7 @@ export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, use
         <VitMemoryFlowPanel userId={userId} projectId={project.id} />
       ) : null}
 
-      <p className="text-xs text-text-dim">
+      <p className="text-xs text-text-muted">
         Fler övningar finns på MåBra-hubben under kategorin Utveckling (Vit).
       </p>
     </div>

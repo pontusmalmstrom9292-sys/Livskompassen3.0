@@ -34,7 +34,7 @@ export function KompassradPanel() {
       noHover
       className="rounded-[14px] border-[2px] border-accent/30 !p-4"
     >
-      <p className="font-display-serif text-[10px] uppercase tracking-[0.2em] text-text-dim">
+      <p className="font-display-serif text-[10px] uppercase tracking-[0.2em] text-text-muted">
         Kompassråd · {meta.label}
       </p>
       <p className="mt-1 font-display-serif text-base tracking-wide text-accent">{advice}</p>

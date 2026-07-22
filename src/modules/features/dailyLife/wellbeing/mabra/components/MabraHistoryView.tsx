@@ -129,7 +129,7 @@ export function MabraHistoryView() {
           {chartReady ? (
             <Suspense
               fallback={
-                <div className="flex h-full items-center justify-center text-xs text-text-dim">
+                <div className="flex h-full items-center justify-center text-xs text-text-muted">
                   Laddar diagram…
                 </div>
               }
@@ -137,7 +137,7 @@ export function MabraHistoryView() {
               <MabraHistoryChartLazy chartData={chartData} />
             </Suspense>
           ) : (
-            <div className="flex h-full items-center justify-center text-xs text-text-dim">
+            <div className="flex h-full items-center justify-center text-xs text-text-muted">
               Förbereder diagram…
             </div>
           )}

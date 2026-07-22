@@ -95,7 +95,7 @@ export function TaggSelector({ value, onChange, userId, disabled = false }: Prop
     <div className="flex flex-col gap-3">
       {selectedTags.length > 0 ? (
         <div className="rounded-xl border border-accent/25 bg-surface-3/40 px-3 py-2.5">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-text-dim">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-text-muted">
             Valda taggar ({selectedTags.length})
           </p>
           <div className="mt-1.5 flex flex-wrap gap-2">
@@ -122,12 +122,12 @@ export function TaggSelector({ value, onChange, userId, disabled = false }: Prop
               );
             })}
           </div>
-          <p className="mt-2 text-xs text-text-dim">
+          <p className="mt-2 text-xs text-text-muted">
             Klicka på en tagg ovan för att ta bort, eller välj fler nedan.
           </p>
         </div>
       ) : (
-        <p className="text-xs text-text-dim">Välj en eller flera taggar.</p>
+        <p className="text-xs text-text-muted">Välj en eller flera taggar.</p>
       )}
 
       <TabBar
@@ -139,7 +139,7 @@ export function TaggSelector({ value, onChange, userId, disabled = false }: Prop
 
       <div key={activeGroup} className="animate-fade-in flex flex-wrap gap-2">
         {visibleTags.length === 0 ? (
-          <p className="text-xs text-text-dim">
+          <p className="text-xs text-text-muted">
             {activeGroup === 'egen'
               ? 'Inga egna taggar ännu — skapa en nedan.'
               : 'Inga taggar i den här gruppen.'}
@@ -168,7 +168,7 @@ export function TaggSelector({ value, onChange, userId, disabled = false }: Prop
 
       {activeGroup === 'egen' ? (
         <div className="rounded-xl border border-border/30 bg-surface-2/50 p-3">
-          <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-text-dim">
+          <p className="mb-2 text-[10px] font-bold uppercase tracking-widest text-text-muted">
             Skapa egen tagg
           </p>
           <div className="flex flex-wrap gap-2">
@@ -203,7 +203,7 @@ export function TaggSelector({ value, onChange, userId, disabled = false }: Prop
             </Button>
           </div>
           {!userId ? (
-            <p className="mt-2 text-xs text-text-dim">Logga in för att spara egna taggar.</p>
+            <p className="mt-2 text-xs text-text-muted">Logga in för att spara egna taggar.</p>
           ) : null}
           {customError ? (
             <p className="mt-2 text-xs text-danger/90" role="alert">

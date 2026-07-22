@@ -31,14 +31,14 @@ export function MotivationContentDeck({ dateKey }: Props) {
     <div className="space-y-3">
       <BentoCard title="Coping idag" icon={<Sparkles className="h-4 w-4" />} glow="green">
         <p className="text-base text-accent">{quote.text_sv}</p>
-        <p className="mt-2 text-[10px] text-text-dim">{quote.id} · {quote.category}</p>
+        <p className="mt-2 text-[10px] text-text-muted">{quote.id} · {quote.category}</p>
       </BentoCard>
       <BentoCard title="Reflektionsfråga" glow="green">
         <p className="text-sm text-text-muted">{question.text_sv}</p>
         <Button
           type="button"
           variant="ghost"
-          className="mt-3 w-full min-h-[44px] text-sm"
+          className="mt-3 w-full min-h-[44px] text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={() => setQOffset((o) => o + 1)}
         >
           Nästa fråga

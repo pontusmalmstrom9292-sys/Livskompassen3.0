@@ -11,7 +11,7 @@ export function DrawerModeToggle({ showValvShell, onBackToVardag }: Props) {
     <div className="nav-drawer__mode" role="navigation" aria-label="Tillbaka från Valv">
       <button
         type="button"
-        className="nav-drawer__mode-btn nav-drawer__mode-btn--active nav-drawer__mode-btn--solo"
+        className="nav-drawer__mode-btn nav-drawer__mode-btn--active nav-drawer__mode-btn--solo min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         aria-label="Tillbaka till Vardag"
         onClick={onBackToVardag}
       >

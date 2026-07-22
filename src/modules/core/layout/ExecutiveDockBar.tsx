@@ -17,7 +17,10 @@ function ExecDockSide({ label, active, onClick, children }: SideProps) {
   return (
     <button
       type="button"
-      className={clsx('exec-dock-bar__side', active && 'exec-dock-bar__side--active')}
+      className={clsx(
+        'exec-dock-bar__side min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
+        active && 'exec-dock-bar__side--active',
+      )}
       aria-label={label}
       aria-current={active ? 'page' : undefined}
       onClick={onClick}
@@ -90,7 +93,7 @@ export function ExecutiveDockBar({
             <button
               type="button"
               className={clsx(
-                'exec-dock-bar__compass',
+                'exec-dock-bar__compass min-h-11 min-w-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
                 isHome && 'exec-dock-bar__compass--home',
                 isHolding && 'exec-dock-bar__compass--holding',
               )}
@@ -138,7 +141,7 @@ export function ExecutiveDockBar({
           <button
             type="button"
             className={clsx(
-              'exec-dock-bar__compass',
+              'exec-dock-bar__compass min-h-11 min-w-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
               isHome && 'exec-dock-bar__compass--home',
               snabbstartOpen && 'exec-dock-bar__compass--open',
               isHolding && 'exec-dock-bar__compass--holding',

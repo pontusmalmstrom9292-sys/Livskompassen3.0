@@ -61,9 +61,10 @@ export function KompisHubPage() {
           <li key={to}>
             <Link
               to={to}
-              className={`glass-card flex items-center gap-3 rounded-2xl p-4 transition-colors hover:border-accent/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50 ${primary ? 'ring-1 ring-accent/30' : ''}`}
+              className={`glass-card flex min-h-11 items-center gap-3 rounded-2xl p-4 transition-colors hover:border-accent/30 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50 ${primary ? 'ring-1 ring-accent/30' : ''}`}
+              aria-label={`${label}. ${hint}`}
             >
-              <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-accent/35 text-accent">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-accent/35 text-accent">
                 <Icon className="h-4 w-4" strokeWidth={1.5} aria-hidden />
               </span>
               <span className="min-w-0 flex-1">

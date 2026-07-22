@@ -140,7 +140,7 @@ export function MabraMovementPanel({ uid, onComplete }: Props) {
     <BentoCard title={COPY.eyebrow} icon={<Activity className="h-4 w-4" />} glow="green">
       <p className="mb-3 text-sm text-text-muted">{COPY.lead}</p>
       {capacityLevel === 1 ? (
-        <p className="mb-3 text-xs text-text-dim">{COPY.level1Hint}</p>
+        <p className="mb-3 text-xs text-text-muted">{COPY.level1Hint}</p>
       ) : null}
       <div className="space-y-2">
         {visiblePrograms.map((program) => (
@@ -159,7 +159,7 @@ export function MabraMovementPanel({ uid, onComplete }: Props) {
         <p className="text-sm text-text-muted">Inga program tillgängliga just nu.</p>
       ) : null}
       {!uid ? (
-        <p className="mt-3 text-xs text-text-dim">Logga in för att spara session i molnet.</p>
+        <p className="mt-3 text-xs text-text-muted">Logga in för att spara session i molnet.</p>
       ) : null}
 
       {capacityLevel >= 2 ? (

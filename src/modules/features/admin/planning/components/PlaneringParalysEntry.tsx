@@ -96,7 +96,7 @@ export function PlaneringParalysEntry({ defaultTaskTitle, onApplyStep }: Props) 
 
       {!step ? (
         <>
-          <label className="block text-[10px] uppercase tracking-widest text-text-dim">
+          <label className="block text-[10px] uppercase tracking-widest text-text-muted">
             Vad känns tungt?
             <Input
               type="text"
@@ -126,7 +126,7 @@ export function PlaneringParalysEntry({ defaultTaskTitle, onApplyStep }: Props) 
       ) : (
         <>
           <p className="text-sm leading-relaxed text-text">{step.instruction}</p>
-          <p className="text-[10px] text-text-dim">
+          <p className="text-[10px] text-text-muted">
             ~{step.estimatedSeconds}s · {step.physicalAnchor}
           </p>
           <p className="text-xs text-text-muted">{PLANERING_PARALYS_CALM}</p>

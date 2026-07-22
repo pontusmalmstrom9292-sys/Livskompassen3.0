@@ -105,7 +105,7 @@ function FamiljenHubToolbar({
           key={item.id}
           type="button"
           variant="ghost"
-          className="inline-flex items-center gap-1.5 text-xs uppercase tracking-wider text-text-muted hover:text-text"
+          className="inline-flex min-h-11 items-center gap-1.5 text-xs uppercase tracking-wider text-text-muted hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           onClick={() => onTabChange(item.id)}
         >
           {item.icon}
@@ -218,7 +218,7 @@ export function FamiljenPage() {
                   <p className="text-[10px] uppercase tracking-[0.18em] text-accent-secondary/80">
                     {tabPolish.eyebrow}
                   </p>
-                  <p className="mt-1 text-xs text-text-dim">{tabPolish.lead}</p>
+                  <p className="mt-1 text-xs text-text-muted">{tabPolish.lead}</p>
                 </BentoCard>
               )}
             </div>

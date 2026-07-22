@@ -41,11 +41,12 @@ export const Toast: React.FC<ToastProps> = ({ toast }) => {
       </p>
 
       <button
+        type="button"
         onClick={() => removeToast(toast.id)}
-        className="flex-shrink-0 p-1 rounded-md text-text-muted hover:text-text hover:bg-surface-3 transition-colors"
+        className="inline-flex min-h-11 min-w-11 flex-shrink-0 items-center justify-center rounded-md p-1 text-text-muted transition-colors hover:bg-surface-3 hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         aria-label="Stäng"
       >
-        <X className="w-4 h-4" />
+        <X className="h-4 w-4" aria-hidden />
       </button>
     </div>
   );

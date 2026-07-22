@@ -603,7 +603,7 @@
     }
 
     .hub-preset-sheet__close {
-      @apply absolute right-3 top-3 rounded-full border border-border bg-bg p-1.5 text-text-dim;
+      @apply absolute right-3 top-3 rounded-full border border-border bg-bg p-1.5 text-text-muted;
     }
 
     body.hub-preset-sheet-open {
@@ -664,11 +664,11 @@
     }
 
     .module-hub-tile__desc {
-      @apply text-[9px] text-text-dim;
+      @apply text-[9px] text-text-muted;
     }
 
     .module-hub-panel__close {
-      @apply mt-3 w-full rounded-full border border-white/10 py-2 text-[10px] uppercase tracking-widest text-text-dim transition-colors hover:text-text-muted;
+      @apply mt-3 w-full rounded-full border border-white/10 py-2 text-[10px] uppercase tracking-widest text-text-muted transition-colors hover:text-text-muted;
     }
   }
 }

@@ -81,7 +81,7 @@ export function EconomyOverviewPanel({ userId }: Props) {
                 'flex min-h-[var(--ds-touch-target)] shrink-0 items-center justify-center gap-1.5 rounded-lg px-2.5 py-2.5 text-[11px] font-medium transition-all duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50',
                 activeTab === id
                   ? 'border border-accent/20 bg-accent/10 text-accent shadow-[0_0_10px_rgba(212,175,55,0.05)]'
-                  : 'border border-transparent text-text-dim hover:bg-surface-3/50 hover:text-text',
+                  : 'border border-transparent text-text-muted hover:bg-surface-3/50 hover:text-text',
               )}
             >
               <Icon className="h-3.5 w-3.5" />

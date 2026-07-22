@@ -311,7 +311,7 @@ export const MabraHubView = memo(function MabraHubView({ inlineHub = false }: Ma
         <div className="flex justify-end">
           <Button
             variant="ghost"
-            className="text-xs text-text-dim"
+            className="text-xs text-text-muted min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={() => setShowHubPicker(true)}
           >
             Byt ingång

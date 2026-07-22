@@ -63,12 +63,12 @@ export function VaultLockedGate({ variant = 'screen', extra }: Props) {
   if (variant === 'card') {
     return (
       <div className="vault-locked-gate vault-locked-gate--card space-y-4">
-        <p className="text-sm leading-relaxed text-text-dim">{hint}</p>
+        <p className="text-sm leading-relaxed text-text-muted">{hint}</p>
 
         {busy ? (
           <div className="flex flex-col items-center justify-center py-4">
             <CalmBreathingCircle size="sm" />
-            <p className="mt-2 text-xs text-text-dim">Verifierar kryptografi...</p>
+            <p className="mt-2 text-xs text-text-muted">Verifierar kryptografi...</p>
           </div>
         ) : (
           <Button
@@ -91,7 +91,7 @@ export function VaultLockedGate({ variant = 'screen', extra }: Props) {
       {busy ? (
         <div className="mb-4 flex flex-col items-center">
           <CalmBreathingCircle size="md" />
-          <p className="mt-4 font-display text-sm uppercase tracking-widest text-text-dim">Låser upp</p>
+          <p className="mt-4 font-display text-sm uppercase tracking-widest text-text-muted">Låser upp</p>
         </div>
       ) : (
         <Shield className="mb-4 h-16 w-16 text-accent/20" aria-hidden />

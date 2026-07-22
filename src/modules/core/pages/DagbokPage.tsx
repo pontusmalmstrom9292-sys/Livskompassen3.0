@@ -76,7 +76,7 @@ export function DagbokPage() {
   const headerAside = layerTab === 'reflektion' ? (
     <button
       onClick={toggleWrite}
-      className="text-accent hover:text-accent-light transition-colors p-1"
+      className="inline-flex min-h-11 min-w-11 items-center justify-center p-1 text-accent transition-colors hover:text-accent-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       aria-label={isWriting ? "Stäng redigering" : "Skriv ny anteckning"}
     >
       <Pencil className="w-5 h-5" />

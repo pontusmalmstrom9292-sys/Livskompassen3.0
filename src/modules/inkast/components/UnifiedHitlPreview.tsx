@@ -62,12 +62,12 @@ export function UnifiedHitlPreview({
           <p className={clsx('mt-1.5 text-sm font-semibold', accentClass)}>{siloLabel}</p>
           {siloHint ? <p className="mt-1 text-xs text-text-muted">{siloHint}</p> : null}
           {siloDescription ? (
-            <p className="mt-1 text-xs leading-relaxed text-text-dim">{siloDescription}</p>
+            <p className="mt-1 text-xs leading-relaxed text-text-muted">{siloDescription}</p>
           ) : null}
           {typeof confidencePct === 'number' ? (
-            <p className="mt-2 text-xs text-text-dim">Säkerhet {confidencePct}%</p>
+            <p className="mt-2 text-xs text-text-muted">Säkerhet {confidencePct}%</p>
           ) : null}
-          {summary ? <p className="mt-2 text-xs text-text-dim line-clamp-3">{summary}</p> : null}
+          {summary ? <p className="mt-2 text-xs text-text-muted line-clamp-3">{summary}</p> : null}
           {extraWarning}
         </div>
         {previewLabel ? (
@@ -91,7 +91,7 @@ export function UnifiedHitlPreview({
         <Button variant="ghost" size="sm" onClick={onEdit} disabled={busy}>
           Ändra
         </Button>
-        <Button variant="ghost" size="sm" onClick={onDismiss} disabled={busy} className="text-text-dim">
+        <Button variant="ghost" size="sm" onClick={onDismiss} disabled={busy} className="text-text-muted">
           {dismissLabel}
         </Button>
       </div>

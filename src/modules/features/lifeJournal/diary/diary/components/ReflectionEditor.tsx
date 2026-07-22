@@ -86,17 +86,18 @@ export function ReflectionEditor({
           type="button"
           onClick={() => void handleSilentReflection()}
           disabled={silentLoading}
-          className="flex h-8 items-center gap-1 rounded-full bg-surface/50 px-2 text-[10px] uppercase tracking-wider text-text-muted hover:text-accent"
+          className="flex min-h-11 items-center gap-1 rounded-full bg-surface/50 px-2 text-[10px] uppercase tracking-wider text-text-muted hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           title="Tyst reflektion — ephemeral, sparas inte"
+          aria-label="Tyst reflektion"
         >
-          {silentLoading ? <MicOff className="h-3 w-3 animate-pulse" /> : <Sparkles className="h-3 w-3" />}
+          {silentLoading ? <MicOff className="h-3 w-3 animate-pulse" aria-hidden /> : <Sparkles className="h-3 w-3" aria-hidden />}
           Tyst
         </button>
         {isSupported && (
           <button
             type="button"
             onClick={toggleListening}
-            className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+            className={`flex min-h-11 min-w-11 items-center justify-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
               isListening
                 ? 'bg-accent/20 text-accent animate-pulse'
                 : 'bg-surface/50 text-text-muted hover:bg-surface hover:text-accent'

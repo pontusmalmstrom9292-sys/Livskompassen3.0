@@ -16,7 +16,7 @@ function DockSide({ label, active, onClick, children }: SideProps) {
   return (
     <button
       type="button"
-      className={clsx('basta-dock-bar__side', active && 'basta-dock-bar__side--active')}
+      className={clsx('basta-dock-bar__side focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40', active && 'basta-dock-bar__side--active')}
       aria-label={label}
       aria-current={active ? 'page' : undefined}
       onClick={onClick}
@@ -77,7 +77,7 @@ export function BastaDesignDockBar({
         <button
           type="button"
           className={clsx(
-            'basta-dock-bar__compass',
+            'basta-dock-bar__compass focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
             isHome && 'basta-dock-bar__compass--home',
             isHolding && 'basta-dock-bar__compass--holding',
           )}

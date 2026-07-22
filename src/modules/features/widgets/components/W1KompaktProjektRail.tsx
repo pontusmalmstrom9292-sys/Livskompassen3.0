@@ -73,7 +73,7 @@ function RailActionItem({
     return (
       <button
         type="button"
-        className={className}
+        className={[className, 'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40'].filter(Boolean).join(' ')}
         aria-label={label}
         onClick={() => {
           onNyttProjekt?.();

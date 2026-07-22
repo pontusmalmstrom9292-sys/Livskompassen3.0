@@ -19,7 +19,7 @@ export function MabraNutritionHubPrimary({ uid, onLogged }: Props) {
         </div>
         <div className="min-w-0 flex-1">
           <h2 className="font-display text-base text-text">Näring & vätska</h2>
-          <p className="mt-0.5 text-xs text-text-dim">Snabb logg — ingen kaloriräkning, ingen export till Valv</p>
+          <p className="mt-0.5 text-xs text-text-muted">Snabb logg — ingen kaloriräkning, ingen export till Valv</p>
         </div>
       </div>
 

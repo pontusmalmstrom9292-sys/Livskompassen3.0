@@ -111,7 +111,7 @@ export const DayForensicsPanel: React.FC<DayForensicsPanelProps> = ({ dataPoint,
                 {vaultEntries.map((entry, idx) => (
                   <li key={idx} className="bg-white/5 rounded-lg p-3 text-sm text-text-muted">
                     <p className="line-clamp-3">{entry.content || JSON.stringify(entry)}</p>
-                    <div className="mt-2 text-xs text-text-dim flex justify-between">
+                    <div className="mt-2 text-xs text-text-muted flex justify-between">
                        <span>{new Date(entry.createdAt || entry.timestamp).toLocaleTimeString('sv-SE', {hour: '2-digit', minute:'2-digit'})}</span>
                        <span className="text-accent/50 uppercase tracking-wider text-[10px]">WORM</span>
                     </div>

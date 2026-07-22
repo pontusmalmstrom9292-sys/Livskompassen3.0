@@ -177,7 +177,7 @@ export function EconomyImpulsePanel() {
       </div>
 
       {loading ? (
-        <p className="mt-3 flex items-center gap-2 text-xs text-text-dim">
+        <p className="mt-3 flex items-center gap-2 text-xs text-text-muted">
           <Loader2 className="h-3.5 w-3.5 animate-spin" /> Laddar…
         </p>
       ) : items.length > 0 ? (
@@ -192,7 +192,7 @@ export function EconomyImpulsePanel() {
                 }`}
               >
                 <p className="font-medium text-text">{item.label}</p>
-                <p className={`text-[10px] ${isReady ? 'text-accent/80' : 'text-text-dim'}`}>
+                <p className={`text-[10px] ${isReady ? 'text-accent/80' : 'text-text-muted'}`}>
                   Parkerad {item.parkedAt.slice(0, 10)}
                   {isReady ? ' · Dags att besluta' : ' · Vänta till imorgon'}
                 </p>
@@ -232,7 +232,7 @@ export function EconomyImpulsePanel() {
                     type="button"
                     disabled={busy}
                     onClick={() => void handleRemove(item.id)}
-                    className="mt-2 text-[10px] text-text-dim hover:text-text"
+                    className="mt-2 inline-flex min-h-11 items-center text-[10px] text-text-muted hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-50"
                   >
                     Ta bort
                   </button>
@@ -242,7 +242,7 @@ export function EconomyImpulsePanel() {
           })}
         </ul>
       ) : (
-        <p className="text-xs text-text-dim">Inget parkerat — skriv ovan när impulsen kommer.</p>
+        <p className="text-xs text-text-muted">Inget parkerat — skriv ovan när impulsen kommer.</p>
       )}
     </div>
   );

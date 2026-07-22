@@ -24,12 +24,12 @@ export function ProjektWidgetSheet({ isOpen, onClose }: Props) {
       <div className="flex flex-shrink-0 items-center justify-between border-b border-border bg-surface-2 px-6 py-4">
         <div>
           <h2 className="text-lg font-medium text-white">Projekt Widgets</h2>
-          <p className="mt-1 text-xs uppercase tracking-widest text-white/50">Snabbåtkomst till Life OS</p>
+          <p className="mt-1 text-xs uppercase tracking-widest text-text-muted">Snabbåtkomst till Life OS</p>
         </div>
         <button
           type="button"
           onClick={onClose}
-          className="rounded-full p-2 text-white/50 transition-colors hover:bg-white/5 hover:text-white"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full p-2 text-white/50 transition-colors hover:bg-white/5 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           aria-label="Stäng"
         >
           <X className="h-5 w-5" />
@@ -37,7 +37,7 @@ export function ProjektWidgetSheet({ isOpen, onClose }: Props) {
       </div>
 
       <SheetBody className="p-6">
-        <p className="mb-2 text-sm italic text-white/60">Fästa Life OS-widgets för detta projekt.</p>
+        <p className="mb-2 text-sm italic text-text-muted">Fästa Life OS-widgets för detta projekt.</p>
         <div className="space-y-4">
           <DailyFocusCard />
           <MabraPulseWidget />

@@ -30,7 +30,7 @@ export function StampClockPanel({
   return (
     <>
       <label className="mb-3 flex flex-col gap-1 text-sm">
-        <span className="text-text-dim">Kategori vid instämpling</span>
+        <span className="text-text-muted">Kategori vid instämpling</span>
         <select
           value={stampCategory}
           onChange={(e) => onStampCategoryChange(e.target.value)}

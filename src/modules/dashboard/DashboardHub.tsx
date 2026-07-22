@@ -41,13 +41,13 @@ function DashboardHubContent() {
   }
 
   return (
-    <div className="w-full h-full min-h-[80vh] bg-[var(--bg-dusk)] p-4 text-white transition-colors duration-300 relative sm:p-6 md:p-8">
-      <div className="max-w-6xl mx-auto space-y-8">
+    <div className="dashboard-hub relative h-full min-h-[80vh] w-full max-w-full overflow-x-clip bg-[var(--bg-dusk)] p-4 text-white transition-colors duration-300 sm:p-6 md:p-8">
+      <div className="mx-auto max-w-6xl space-y-8">
         <header className="flex items-center justify-between mb-4">
           <h1 className="text-3xl font-bold tracking-tight text-white/90">Dagens Översikt</h1>
           <button
             onClick={() => setZenMode(true)}
-            className="px-4 py-2 bg-surface-3/50 hover:bg-surface-3 text-text-muted hover:text-text border border-border/40 hover:border-border rounded-lg text-sm font-medium transition-all duration-300 shadow-[0_0_15px_rgba(0,0,0,0.5)]"
+            className="min-h-11 rounded-lg border border-border/40 bg-surface-3/50 px-4 py-2 text-sm font-medium text-text-muted shadow-[0_0_15px_rgba(0,0,0,0.5)] transition-all duration-300 hover:border-border hover:bg-surface-3 hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             Överväldigad?
           </button>

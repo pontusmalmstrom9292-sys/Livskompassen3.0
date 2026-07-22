@@ -35,8 +35,8 @@ export function SleepPhysiologyWidget({ onLogged }: Props) {
   };
 
   return (
-    <div className="calm-card rounded-2xl border border-border/30 bg-surface-2/40 p-4 space-y-3">
-      <h3 className="text-xs font-semibold uppercase tracking-wider text-text-dim flex items-center gap-2">
+    <div className="dashboard-card calm-card space-y-3 rounded-2xl border border-border/30 bg-surface-2/40 p-4 transition-[border-color,box-shadow] focus-within:border-accent/35 focus-within:ring-1 focus-within:ring-accent/20">
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-text-muted flex items-center gap-2">
         <Moon className="h-3.5 w-3.5" />
         Sömn & Energi
       </h3>
@@ -70,7 +70,7 @@ export function SleepPhysiologyWidget({ onLogged }: Props) {
       <button
         onClick={() => void handleSave()}
         disabled={saving || saved}
-        className="w-full rounded-xl border border-accent/30 bg-accent/10 px-3 py-2 text-xs font-medium text-accent transition-colors hover:bg-accent/20 disabled:opacity-50"
+        className="min-h-11 w-full rounded-xl border border-accent/30 bg-accent/10 px-3 py-2 text-xs font-medium text-accent transition-colors duration-[var(--ds-duration-fast)] hover:bg-accent/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-50"
       >
         {saved ? 'Loggat ✓' : saving ? 'Sparar…' : 'Logga'}
       </button>

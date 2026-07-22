@@ -34,7 +34,7 @@ function RiskBadge({
       className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] uppercase tracking-widest ${
         isWarning
           ? 'border-accent/35 bg-surface-3/60 text-accent/90'
-          : 'border-border/40 bg-surface-2/50 text-text-dim'
+          : 'border-border/40 bg-surface-2/50 text-text-muted'
       }`}
     >
       <Shield className="h-3 w-3 shrink-0 opacity-80" aria-hidden />
@@ -113,7 +113,7 @@ export function InkastBrusfilterPreview({ rawText, onAccept, onKeepOriginal, onB
         </p>
 
         {loading && (
-          <p className="flex items-center gap-2 py-3 text-sm text-text-dim" role="status">
+          <p className="flex items-center gap-2 py-3 text-sm text-text-muted" role="status">
             <Loader2 className="h-4 w-4 animate-spin shrink-0" aria-hidden />
             Filtrerar brus…
           </p>
@@ -149,7 +149,7 @@ export function InkastBrusfilterPreview({ rawText, onAccept, onKeepOriginal, onB
 
             <div className="grid gap-3 md:grid-cols-2">
               <div className="rounded-xl border border-border/30 bg-surface-2/50 p-3">
-                <p className="mb-1 text-[10px] uppercase tracking-widest text-text-dim">
+                <p className="mb-1 text-[10px] uppercase tracking-widest text-text-muted">
                   Isolerad logistik
                 </p>
                 <p className="whitespace-pre-wrap text-sm text-text-muted">
@@ -157,7 +157,7 @@ export function InkastBrusfilterPreview({ rawText, onAccept, onKeepOriginal, onB
                 </p>
               </div>
               <div className="rounded-xl border border-border/30 bg-surface-2/50 p-3">
-                <p className="mb-1 text-[10px] uppercase tracking-widest text-text-dim">
+                <p className="mb-1 text-[10px] uppercase tracking-widest text-text-muted">
                   BIFF-utkast (ej skickat)
                 </p>
                 <p className="whitespace-pre-wrap text-sm text-text">{result.biff_draft_reply}</p>

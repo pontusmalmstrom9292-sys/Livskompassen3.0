@@ -5,7 +5,7 @@
   }
 
   .nav-drawer__recent-title {
-    @apply px-2 py-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-text-dim;
+    @apply px-2 py-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-text-muted;
     color: color-mix(in srgb, var(--text-muted) 84%, #e2e8f0);
   }
 
@@ -119,7 +119,7 @@
   }
 
   .drawer-hub__chevron {
-    @apply h-4 w-4 shrink-0 text-text-dim transition-transform duration-300;
+    @apply h-4 w-4 shrink-0 text-text-muted transition-transform duration-300;
   }
 
   .drawer-hub__trigger--open .drawer-hub__chevron,

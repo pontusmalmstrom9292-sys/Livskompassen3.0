@@ -52,7 +52,7 @@ export function DagligMixPanel({ uid, onComplete }: Props) {
         <div className="space-y-3">
           <div className="home-module-panel__question-box">
             <p className="text-base text-accent">{mix.card.text_sv}</p>
-            <p className="mt-2 text-xs text-text-dim">{COPY.cardHint}</p>
+            <p className="mt-2 text-xs text-text-muted">{COPY.cardHint}</p>
           </div>
           <label className="block text-xs text-text-muted">
             Valfri rad (sparas inte i molnet)
@@ -75,7 +75,7 @@ export function DagligMixPanel({ uid, onComplete }: Props) {
           <div className="rounded-xl border border-border-strong bg-surface/40 px-4 py-3">
             <p className="text-sm font-medium text-accent">{mix.play.title_sv}</p>
             <p className="mt-2 text-sm text-text-muted">{mix.play.rule_sv}</p>
-            <p className="mt-2 text-xs text-text-dim">{COPY.playHint}</p>
+            <p className="mt-2 text-xs text-text-muted">{COPY.playHint}</p>
           </div>
           <div className="flex flex-col gap-2">
             <Button variant="secondary" onClick={finish}>

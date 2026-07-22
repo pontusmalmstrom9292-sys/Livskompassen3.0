@@ -29,7 +29,7 @@ export function AgentRoutingBadge({
 
   return (
     <p
-      className={`text-[10px] uppercase tracking-widest text-text-dim ${className}`.trim()}
+      className={`text-[10px] uppercase tracking-widest text-text-muted ${className}`.trim()}
       role="status"
     >
       Dirigerad av{' '}

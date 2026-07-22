@@ -53,7 +53,7 @@ export function MabraExerciseNotePanel({
     return (
       <div className="rounded-xl border border-border bg-surface/40 px-4 py-5 text-sm text-text-muted">
         <p className="font-medium text-text">{COPY.emptyTitle}</p>
-        <p className="mt-2 text-xs text-text-dim">{COPY.emptyDetail}</p>
+        <p className="mt-2 text-xs text-text-muted">{COPY.emptyDetail}</p>
         <Link
           to="/mabra/ovning/reframing"
           className="mt-4 inline-block text-xs text-accent underline-offset-2 hover:underline"
@@ -66,7 +66,7 @@ export function MabraExerciseNotePanel({
 
   return (
     <div className="space-y-3">
-      <p className="text-xs uppercase tracking-wider text-text-dim">{COPY.previewLabel}</p>
+      <p className="text-xs uppercase tracking-wider text-text-muted">{COPY.previewLabel}</p>
       <pre className="max-h-48 overflow-y-auto rounded-xl border border-border bg-surface/50 p-4 text-xs leading-relaxed text-text-muted whitespace-pre-wrap">
         {composedText}
       </pre>

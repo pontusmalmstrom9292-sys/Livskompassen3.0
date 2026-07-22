@@ -424,8 +424,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                 onClick={() => {
                   setDateTo(defaultDateRange().dateTo);
                   setDateFrom(shiftMonths(defaultDateRange().dateTo, -3));
-                }}
-              >
+                }} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 Senaste 3 månaderna
               </Button>
               <Button
@@ -435,12 +434,11 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                 onClick={() => {
                   setDateTo(defaultDateRange().dateTo);
                   setDateFrom(shiftMonths(defaultDateRange().dateTo, -6));
-                }}
-              >
+                }} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 Senaste 6 månaderna
               </Button>
             </div>
-            <Button type="button" variant="accent" className="w-full" onClick={() => setStep('sources')}>
+            <Button type="button" variant="accent" className="w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => setStep('sources')}>
               Fortsätt
             </Button>
           </div>
@@ -516,11 +514,12 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                         key={tag}
                         type="button"
                         onClick={() => toggleTechnique(tag)}
-                        className={
+                        className={[
+                          'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
                           techniqueFilter.includes(tag)
                             ? 'rounded-full border border-accent/40 bg-accent/15 px-3 py-1 text-xs text-accent cursor-pointer'
-                            : 'rounded-full border border-border px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-accent/25'
-                        }
+                            : 'rounded-full border border-border px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-accent/25',
+                        ].filter(Boolean).join(' ')}
                       >
                         {tag}
                       </button>
@@ -540,11 +539,12 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                         key={tag}
                         type="button"
                         onClick={() => toggleCategory(tag)}
-                        className={
+                        className={[
+                          'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
                           categoryFilter.includes(tag)
                             ? 'rounded-full bg-amber-500/25 px-3 py-1 text-xs text-amber-100 cursor-pointer border border-accent/40'
-                            : 'rounded-full border border-border px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-accent/25'
-                        }
+                            : 'rounded-full border border-border px-3 py-1 text-xs text-text-muted cursor-pointer hover:border-accent/25',
+                        ].filter(Boolean).join(' ')}
                       >
                         {tag}
                       </button>
@@ -600,14 +600,14 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
             </select>
 
             <div className="flex gap-2">
-              <Button type="button" variant="ghost" size="sm" className="flex-1" onClick={() => setStep('period')}>
+              <Button type="button" variant="ghost" size="sm" className="flex-1 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => setStep('period')}>
                 Tillbaka
               </Button>
               <Button
                 type="button"
                 variant="accent"
                 size="sm"
-                className="flex-1"
+                className="flex-1 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 disabled={sources.journal && !journalAck}
                 onClick={() => setStep('review')}
               >
@@ -677,7 +677,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
               </p>
             )}
             <div className="flex gap-2">
-              <Button type="button" variant="ghost" size="sm" className="flex-1" onClick={() => setStep('sources')}>
+              <Button type="button" variant="ghost" size="sm" className="flex-1 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => setStep('sources')}>
                 Tillbaka
               </Button>
               <button
@@ -691,7 +691,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                     void handleGenerateDossier();
                   }
                 }}
-                className="flex min-h-11 flex-1 cursor-pointer items-center justify-center rounded-lg bg-success/25 py-2 text-sm font-semibold text-success disabled:opacity-40"
+                className="flex min-h-11 flex-1 cursor-pointer items-center justify-center rounded-lg bg-success/25 py-2 text-sm font-semibold text-success disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               >
                 {generating ? (
                   <span className="inline-flex items-center justify-center gap-2">
@@ -770,7 +770,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                 type="button"
                 variant="accent"
                 size="sm"
-                className="flex-1 justify-center"
+                className="flex-1 justify-center min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={() => void handleGenerateDossier()}
               >
                 Skriv ut / Spara igen
@@ -779,7 +779,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="flex-1 justify-center"
+                className="flex-1 justify-center min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={clearSession}
               >
                 Klar — rensa från enheten

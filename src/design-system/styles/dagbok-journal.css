@@ -5,8 +5,13 @@
   }
 
   .dagbok-mode-nav__tab {
-    @apply flex-1 rounded-lg px-2 py-2 text-center text-xs font-medium tracking-wide text-text-muted transition-colors;
+    @apply flex-1 rounded-lg px-2 py-2 text-center text-xs font-medium tracking-wide;
     min-height: var(--ds-touch-target);
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
+    transition:
+      color var(--ds-duration-fast) var(--ds-ease-premium),
+      background-color var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .dagbok-mode-nav__tab:hover {
@@ -36,7 +41,7 @@
   /* Dagbok — Lager 1 → Reality Vault handoff (lugn, WCAG AA text) */
   .journal-handoff {
     @apply rounded-xl border border-border-strong bg-surface/50 p-4 text-sm;
-    animation: journal-handoff-in 0.35s ease-out;
+    animation: journal-handoff-in var(--ds-duration-normal) var(--ds-ease-premium);
   }
 
   @keyframes journal-handoff-in {
@@ -59,7 +64,8 @@
   }
 
   .journal-handoff__body {
-    @apply mb-3 leading-relaxed text-text-muted;
+    @apply mb-3 leading-relaxed;
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
   }
 
   .journal-handoff__cta {
@@ -74,5 +80,68 @@
   .journal-handoff__cta:focus-visible {
     outline: var(--ds-focus-ring);
     outline-offset: var(--ds-focus-offset);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .dagbok-mode-nav,
+    .journal-handoff {
+      background: color-mix(in srgb, var(--surface) 94%, #020617);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @layer components {
+    .dagbok-mode-nav__tab {
+      transition: none;
+    }
+
+    .journal-handoff {
+      animation: none;
+    }
+  }
+}
+
+/* Pass 3 deepen — ADD only */
+@layer components {
+  .dagbok-mode-nav:focus-within,
+  .journal-handoff:focus-within,
+  .journal-archive-scroll:focus-within {
+    border-color: color-mix(in srgb, var(--accent, #fde68a) 28%, var(--border, transparent));
+  }
+
+  .journal-archive-day:focus-visible,
+  .journal-archive-scroll button:focus-visible,
+  .journal-archive-scroll a[href]:focus-visible {
+    outline: var(--ds-focus-ring);
+    outline-offset: var(--ds-focus-offset);
+  }
+
+  .journal-archive-day,
+  .journal-archive-scroll button,
+  .journal-archive-scroll a[href] {
+    min-height: var(--ds-touch-target, 2.75rem);
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .journal-archive-scroll,
+    .journal-archive-day {
+      background: color-mix(in srgb, var(--surface) 94%, #020617);
+    }
+  }
+}
+
+@media (max-width: 360px) {
+  @layer components {
+    .dagbok-mode-nav,
+    .journal-handoff,
+    .journal-archive-scroll {
+      max-width: 100%;
+      overflow-x: clip;
+    }
   }
 }

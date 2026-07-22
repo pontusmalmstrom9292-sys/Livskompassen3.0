@@ -11,7 +11,7 @@ export function MabraVitProjectsPanel({ lastSeen, onOpenProject }: Props) {
   return (
     <section className="calm-card glow-bottom-green space-y-3 rounded-2xl p-4 sm:p-5" aria-label="Fortsätt i Vit">
       <h2 className="text-sm font-medium text-text">Fortsätt i Vit</h2>
-      <p className="mt-1 text-xs text-text-dim">Identitetsarbete — ett projekt i taget. Akutverktyg finns ovan.</p>
+      <p className="mt-1 text-xs text-text-muted">Identitetsarbete — ett projekt i taget. Akutverktyg finns ovan.</p>
       <ul className="mt-3 space-y-2">
         {MABRA_PROJECTS.map((project) => {
           const Icon = project.icon;
@@ -29,10 +29,10 @@ export function MabraVitProjectsPanel({ lastSeen, onOpenProject }: Props) {
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className="block text-sm font-medium text-text">{project.title}</span>
-                  <span className="block text-xs text-text-dim">{project.lead}</span>
+                  <span className="block text-xs text-text-muted">{project.lead}</span>
                 </span>
                 {seenLabel ? (
-                  <span className="shrink-0 text-[10px] uppercase tracking-wide text-text-dim">
+                  <span className="shrink-0 text-[10px] uppercase tracking-wide text-text-muted">
                     Senast: {seenLabel}
                   </span>
                 ) : null}

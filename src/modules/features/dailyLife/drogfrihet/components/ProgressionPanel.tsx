@@ -29,17 +29,17 @@ export function ProgressionPanel({ uid }: Props) {
   return (
     <div className="space-y-3">
       <BentoCard title="Progression (valfri)" icon={<BookOpen className="h-4 w-4" />} glow="green">
-        <p className="text-xs text-text-dim">Föreslår tempo — tvingar inte. Du kan hoppa fritt.</p>
+        <p className="text-xs text-text-muted">Föreslår tempo — tvingar inte. Du kan hoppa fritt.</p>
         <p className="mt-3 text-sm text-accent">
           Vecka {row.week}: {row.title_sv}
         </p>
         <p className="mt-1 text-sm text-text-muted">{row.focus_sv}</p>
-        <p className="mt-2 text-xs text-text-dim">Verktyg: {row.tools.join(' · ')}</p>
+        <p className="mt-2 text-xs text-text-muted">Verktyg: {row.tools.join(' · ')}</p>
         <div className="mt-3 flex gap-2">
           <Button
             type="button"
             variant="ghost"
-            className="flex-1 min-h-[44px]"
+            className="flex-1 min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             disabled={week <= 1}
             onClick={() => saveWeek(week - 1)}
           >
@@ -48,7 +48,7 @@ export function ProgressionPanel({ uid }: Props) {
           <Button
             type="button"
             variant="secondary"
-            className="flex-1 min-h-[44px]"
+            className="flex-1 min-h-[44px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             disabled={week >= 12}
             onClick={() => saveWeek(week + 1)}
           >
@@ -57,7 +57,7 @@ export function ProgressionPanel({ uid }: Props) {
         </div>
       </BentoCard>
       <BentoCard title="Din vecka (privat)" glow="green">
-        <p className="text-xs text-text-dim">Ingen jämförelse. Bara fakta för dig.</p>
+        <p className="text-xs text-text-muted">Ingen jämförelse. Bara fakta för dig.</p>
         <ul className="mt-2 space-y-1 text-sm text-text-muted">
           <li>Akut startade: {kpi.akutStarts}</li>
           <li>Akut avslutade: {kpi.akutCompletes}</li>

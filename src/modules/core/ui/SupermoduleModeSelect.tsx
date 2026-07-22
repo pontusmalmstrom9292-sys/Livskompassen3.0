@@ -60,7 +60,7 @@ export function SupermoduleModeSelect<T extends string>({
         onClick={() => onChange(mode.id)}
         aria-pressed={isActive}
         className={clsx(
-          'module-mode-select__btn',
+          'module-mode-select__btn min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
           isActive && GLOW_ACTIVE[glow],
         )}
       >
@@ -95,7 +95,7 @@ export function SupermoduleModeSelect<T extends string>({
             onClick={() => setShowMore((open) => !open)}
             aria-expanded={showMore || isMoreActive}
             className={clsx(
-              'module-mode-select__btn',
+              'module-mode-select__btn min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
               isMoreActive && GLOW_ACTIVE[glow],
             )}
           >

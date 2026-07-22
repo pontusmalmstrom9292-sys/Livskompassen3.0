@@ -356,7 +356,7 @@ export function HomeAdaptiveCompass({
                   <div className="home-adaptive-compass__inkast-title-row">
                     <div className="flex min-w-0 items-center gap-2">
                       <Sparkles className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden />
-                      <span className="truncate font-display-serif text-[10px] font-semibold uppercase tracking-[0.2em] text-text-dim">
+                      <span className="truncate font-display-serif text-[10px] font-semibold uppercase tracking-[0.2em] text-text-muted">
                         Smart Inkast
                       </span>
                     </div>
@@ -396,7 +396,7 @@ export function HomeAdaptiveCompass({
           </BentoCard>
         </div>
       ) : forgeActive ? null : (
-        <p className="text-center text-xs text-text-dim">
+        <p className="text-center text-xs text-text-muted">
           Hemprofil «{preset.label}» — check-in via{' '}
           <button
             type="button"

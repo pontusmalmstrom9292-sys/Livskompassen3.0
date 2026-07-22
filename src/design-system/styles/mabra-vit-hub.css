@@ -28,9 +28,9 @@
     cursor: pointer;
     touch-action: manipulation;
     transition:
-      transform 0.16s ease,
-      box-shadow 0.16s ease,
-      border-color 0.16s ease;
+      transform var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium),
+      border-color var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .mabra-vit-hub__chip::before {
@@ -55,16 +55,6 @@
       0 0 16px color-mix(in srgb, var(--accent) 14%, transparent),
       0 1px 0 color-mix(in srgb, var(--accent-light, var(--accent)) 20%, transparent) inset,
       0 -3px 9px color-mix(in srgb, var(--bg) 34%, transparent) inset;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .mabra-vit-hub__chip,
-    .mabra-vit-hub__chip:hover,
-    .mabra-vit-hub__chip:active {
-      transform: none;
-      transition: border-color var(--ds-duration-fast) var(--ds-ease-premium),
-        box-shadow var(--ds-duration-fast) var(--ds-ease-premium);
-    }
   }
 
   .mabra-vit-hub__chip:active {
@@ -125,7 +115,8 @@
   }
 
   .mabra-vit-hub__zone-chevron {
-    @apply h-4 w-4 shrink-0 text-accent/70 transition-transform duration-200;
+    @apply h-4 w-4 shrink-0 text-accent/70;
+    transition: transform var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .mabra-vit-hub__zone--open .mabra-vit-hub__zone-chevron {
@@ -154,9 +145,9 @@
     cursor: pointer;
     touch-action: manipulation;
     transition:
-      transform 0.16s ease,
-      box-shadow 0.16s ease,
-      border-color 0.16s ease;
+      transform var(--ds-duration-fast) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-fast) var(--ds-ease-premium),
+      border-color var(--ds-duration-fast) var(--ds-ease-premium);
   }
 
   .mabra-vit-hub__tile::before {
@@ -207,8 +198,8 @@
   }
 
   .mabra-vit-hub__tile-lead {
-    @apply relative z-[1] line-clamp-2 text-[9px] leading-snug text-text-muted;
-    color: color-mix(in srgb, var(--text-muted) 86%, var(--text));
+    @apply relative z-[1] line-clamp-2 text-[9px] leading-snug;
+    color: var(--text-muted, color-mix(in srgb, var(--text) 78%, transparent));
   }
 
   .mabra-vit-hub__low-energy {
@@ -228,13 +219,30 @@
   }
 }
 
+@media (prefers-reduced-transparency: reduce) {
+  @layer components {
+    .mabra-vit-hub__chip,
+    .mabra-vit-hub__tile,
+    .mabra-vit-hub__zone {
+      background: color-mix(in srgb, var(--surface) 94%, #020617);
+      box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 4%, transparent);
+    }
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   @layer components {
+    .mabra-vit-hub__chip,
     .mabra-vit-hub__tile,
-    .mabra-vit-hub__zone-trigger {
+    .mabra-vit-hub__zone,
+    .mabra-vit-hub__zone-trigger,
+    .mabra-vit-hub__zone-chevron {
       transition: none;
     }
 
+    .mabra-vit-hub__chip,
+    .mabra-vit-hub__chip:hover,
+    .mabra-vit-hub__chip:active,
     .mabra-vit-hub__tile:hover,
     .mabra-vit-hub__tile:active {
       transform: none;

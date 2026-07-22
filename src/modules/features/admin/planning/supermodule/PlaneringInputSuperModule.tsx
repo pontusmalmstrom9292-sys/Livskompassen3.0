@@ -72,7 +72,7 @@ export function PlaneringInputSuperModule({
           <h2 className="font-display-serif text-base uppercase tracking-[0.2em] text-text">
             Ett läge i taget
           </h2>
-          <p className="text-xs text-text-dim">
+          <p className="text-xs text-text-muted">
             Snabb uppgift, smart inkast eller inköpslista — byt läge utan sidbyte.
           </p>
         </div>
@@ -98,7 +98,7 @@ export function PlaneringInputSuperModule({
               }`}
             >
               <span className="block font-medium">{mode.label}</span>
-              <span className="block text-[10px] text-text-dim">{mode.description}</span>
+              <span className="block text-[10px] text-text-muted">{mode.description}</span>
             </button>
           );
         })}

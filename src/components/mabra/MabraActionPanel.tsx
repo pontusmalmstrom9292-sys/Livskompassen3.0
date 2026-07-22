@@ -40,7 +40,7 @@ export function MabraActionPanel() {
       <div className="calm-card p-6 border border-border/30 bg-surface-2/70 backdrop-blur-xl h-full flex flex-col justify-between">
         <div>
           <h2 className="font-display-serif text-lg text-accent mb-2">Snabbåtgärder</h2>
-          <p className="text-xs text-text-dim mb-6">
+          <p className="text-xs text-text-muted mb-6">
             Välj en aktivitet för att främja din kognitiva återhämtning och logga ditt mående.
           </p>
 
@@ -51,7 +51,7 @@ export function MabraActionPanel() {
                 <button
                   key={action.id}
                   onClick={action.onClick}
-                  className={`w-full text-left p-4 rounded-2xl bg-surface/40 border border-border/20 transition-all duration-300 transform hover:-translate-y-0.5 flex items-start gap-4 group ${action.bgGlow}`}
+                  className={`flex min-h-11 w-full transform items-start gap-4 rounded-2xl border border-border/20 bg-surface/40 p-4 text-left transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 group ${action.bgGlow}`}
                 >
                   <div className={`p-2.5 bg-surface-2 border border-border/10 rounded-xl ${action.color} shrink-0`}>
                     <Icon className="w-5 h-5" />
@@ -60,7 +60,7 @@ export function MabraActionPanel() {
                     <h3 className="text-sm font-semibold text-white/95 group-hover:text-accent transition-colors">
                       {action.title}
                     </h3>
-                    <p className="text-xs text-text-dim group-hover:text-text-muted transition-colors leading-relaxed">
+                    <p className="text-xs text-text-muted group-hover:text-text-muted transition-colors leading-relaxed">
                       {action.description}
                     </p>
                   </div>

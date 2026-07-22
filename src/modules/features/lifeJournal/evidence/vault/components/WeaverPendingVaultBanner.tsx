@@ -73,16 +73,14 @@ export function WeaverPendingVaultBanner({ userId, onApproved }: Props) {
               variant="accent"
               size="sm"
               disabled={busyId === row.id}
-              onClick={() => void handleApprove(row.id)}
-            >
+              onClick={() => void handleApprove(row.id)} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               Godkänn
             </Button>
             <Button
               variant="ghost"
               size="sm"
               disabled={busyId === row.id}
-              onClick={() => void handleDismiss(row.id)}
-            >
+              onClick={() => void handleDismiss(row.id)} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               Hoppa över
             </Button>
           </div>

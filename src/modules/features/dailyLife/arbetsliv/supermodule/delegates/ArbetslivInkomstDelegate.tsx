@@ -129,15 +129,15 @@ export function ArbetslivInkomstDelegate() {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
-            <Button disabled={busy} className="w-full" onClick={() => void save()}>
+            <Button disabled={busy} className="w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => void save()}>
               Spara inkomst
             </Button>
           </div>
         </BentoCard>
 
-        <BentoCard title="Inkomster i appen" glow="blue" className="overflow-hidden">
+        <BentoCard title="Inkomster i appen" glow="blue" className="overflow-hidden min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           {loading ? (
-            <p className="flex items-center gap-2 text-sm text-text-dim">
+            <p className="flex items-center gap-2 text-sm text-text-muted">
               <Loader2 className="h-4 w-4 animate-spin" aria-hidden />
               Laddar…
             </p>

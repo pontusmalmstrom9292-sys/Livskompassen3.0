@@ -24,7 +24,7 @@ export function TimelineEntry({
   return (
     <Tag className="glass-card p-3 text-sm">
       <div className="flex items-start justify-between gap-2">
-        <p className="text-[10px] uppercase tracking-widest text-text-dim">{meta}</p>
+        <p className="text-[10px] uppercase tracking-widest text-text-muted">{meta}</p>
         {action}
       </div>
       <p className="mt-1 text-text-muted">{displayBody}</p>

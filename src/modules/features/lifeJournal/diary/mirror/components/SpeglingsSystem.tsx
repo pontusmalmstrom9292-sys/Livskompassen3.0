@@ -116,7 +116,7 @@ export function SpeglingsSystem({ embedded: _embedded = false }: SpeglingsSystem
             <div className="flex justify-end">
               <button
                 type="button"
-                className="min-h-[44px] rounded-lg px-3 text-xs text-text-muted underline-offset-2 hover:text-text-muted hover:underline"
+                className="min-h-[44px] rounded-lg px-3 text-xs text-text-muted underline-offset-2 hover:text-text-muted hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 aria-label="Rensa speglar-session"
                 onClick={handleClearSession}
               >
@@ -303,7 +303,7 @@ export function SpeglingsForensicPanel({ userId, initialFeeling = '' }: Forensic
             <button
               type="button"
               onClick={resetSession}
-              className="block text-xs uppercase tracking-widest text-text-muted hover:text-accent"
+              className="block text-xs uppercase tracking-widest text-text-muted hover:text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               Ny kalibrering
             </button>
