@@ -1,3 +1,13 @@
+# 2026-07-22 — Gemini visual harvest (Companion art)
+
+- `src/widgets/art/`: FacetedCompassRose, LighthouseArtwork, LotusEmblem, Anchor3DEmblem
+- Wired: Compass / Beacon / SafeHarbor / DailyAnchor
+- Specular edge `.cw-card::after` · bible Kap 6.2.1
+- Unlock: `docs/evaluations/2026-07-22-unlock-MOD-WIDGET-gemini-visual-harvest.md`
+- Smoke: companion-widgets · module-lock · locked-ux PASS
+
+---
+
 # 2026-07-22 — Interaktiva Companion Widgets (WIS)
 
 - Agenter: 5× `specialist-widget-interact-*` + uppdaterad `specialist-widgets` (INTERACTIVE FIRST)

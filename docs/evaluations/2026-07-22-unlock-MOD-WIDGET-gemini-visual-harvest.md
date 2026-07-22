@@ -34,3 +34,7 @@ Tillåt endast visuell dekoration från Gemini-mocken in i React Companion-pack:
 ## Applied
 
 Visual harvest staged 2026-07-22 — art module + pack wire + specular.
+
+## Follow-up
+
+Specular + bible 6.2.1 + smoke art asserts applied.

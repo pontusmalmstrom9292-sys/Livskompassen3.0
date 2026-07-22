@@ -391,6 +391,16 @@ assert(css.includes('cw-mode-badge'), 'CSS saknar mode-badge');
 assert(css.includes('cw-pulse-cta'), 'CSS saknar pulse CTA');
 assert(css.includes('cw-lotus'), 'CSS saknar lotus');
 assert(css.includes('cw-check-burst'), 'CSS saknar ankare-checkmark');
+assert(css.includes('cw-card::after') || css.includes('.cw-card::after'), 'CSS saknar specular edge');
+assert(css.includes('cw-art-lighthouse'), 'CSS saknar lighthouse art');
+mustExist('src/widgets/art/FacetedCompassRose.tsx');
+mustExist('src/widgets/art/LighthouseArtwork.tsx');
+mustExist('src/widgets/art/LotusEmblem.tsx');
+mustExist('src/widgets/art/Anchor3DEmblem.tsx');
+assert(mustExist('src/widgets/pack/CompassWidget.tsx').includes('FacetedCompassRose'), 'Compass måste använda FacetedCompassRose');
+assert(mustExist('src/widgets/pack/BeaconWidget.tsx').includes('LighthouseArtwork'), 'Beacon måste använda LighthouseArtwork');
+assert(mustExist('src/widgets/pack/SafeHarborWidget.tsx').includes('LotusEmblem'), 'SafeHarbor måste använda LotusEmblem');
+assert(mustExist('src/widgets/pack/DailyAnchorWidget.tsx').includes('Anchor3DEmblem'), 'DailyAnchor måste använda Anchor3DEmblem');
 
 const anchorBurst = mustExist('src/widgets/pack/DailyAnchorWidget.tsx');
 assert(anchorBurst.includes('cw-check-burst') || anchorBurst.includes('justDone'), 'Ankare saknar checkmark-anim');
