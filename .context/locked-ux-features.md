@@ -498,15 +498,17 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 ---
 
 
-## 23. Companion Widget OS (Hem · Studio · Android-chips) — LÅST 2026-07-21
+## 23. Companion Widget OS (Hem · Studio · Android-chips · WIS) — LÅST 2026-07-21 · utökad 2026-07-22
 
 | | |
 |---|---|
-| **Syfte** | Companion OS — lugna hemskärms-/Hem-widgets (10-pack), Studio, synk, Android Companion-chips |
+| **Syfte** | Companion OS — lugna hemskärms-/Hem-widgets (10-pack), Studio, synk, Android Companion-chips + **100 % interaktiva** WIS-ytor |
 | **Web** | `src/widgets/**` · Hem: `CompanionHomeRail` · Studio: `/installningar/widget-studio` · Lab (DEV): `/dev/companion-widgets` |
 | **Ytor** | `/widget/companion-*` via `WidgetCompanionSurfacePage` (capture/inbox/note/harbor/compass/child/beacon/journal/anchor/tasks) |
 | **Pack** | Quick Capture · Inkast · Anteckning · Trygg Hamn · Kompass · Barnfokus · Fyren · Dagbok · Ankare · Uppgifter |
-| **Android** | `Companion*WidgetProvider` · `WidgetViews` scoped `last_action_*` · deep-link `?focus=1` / `?autostart=1` |
+| **Android** | `Companion*WidgetProvider` · `WidgetViews` · **WIS:** `WidgetInteract` · `WidgetActionReceiver` · `WidgetOverlayActivity` · `WidgetCaptureService` · `WidgetCaptureStore` (krypterad lokal förvaring) |
+| **Skill / agenter** | `livskompassen-companion-widget-interact` · `/specialist-widgets` + 5 interact-underagenter |
+| **Bible** | `widget_bible.md` (inkl. kap. 7 Android Interactivity Contract) |
 | **Modul** | `MOD-WIDGET` |
 | **Smoke** | `npm run smoke:companion-widgets` · ingår i `smoke:locked-ux` · `smoke:module-lock` |
 
@@ -517,9 +519,11 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 3. Widget Studio + lugna defaults + homePin (max 2).
 4. Alla 10 pack-widgets + `registerCorePack`.
 5. Android Companion-chips (10 providers) + scoped live-status.
-6. `smoke:companion-widgets` PASS före merge som rör Companion.
+6. **INTERACTIVE FIRST (WIS):** primär write/record/toggle får inte enbart deep-linka till full `MainActivity` — `WidgetInteract` / overlay / broadcast / `WidgetCaptureService` + säker `WidgetCaptureStore`.
+7. Skill `livskompassen-companion-widget-interact` + `specialist-widgets` INTERACTIVE FIRST-lag.
+8. `smoke:companion-widgets` PASS före merge som rör Companion.
 
-**Får inte:** radera `src/widgets/**`, `CompanionHomeRail`, Studio, Companion Android-providers, eller dölja Companion bakom feature-flag utan `docs/evaluations/*-unlock-MOD-WIDGET.md` med `approved: yes` + Pontus OK.
+**Får inte:** radera `src/widgets/**`, `CompanionHomeRail`, Studio, Companion Android-providers, WIS-filer (`WidgetInteract`, `WidgetActionReceiver`, `WidgetOverlayActivity`, `WidgetCaptureService`, `WidgetCaptureStore`), skill/agenter för interact, `widget_bible.md`, eller dölja Companion bakom feature-flag utan `docs/evaluations/*-unlock-MOD-WIDGET*.md` med `approved: yes` + Pontus OK.
 
 ---
 

@@ -1,7 +1,7 @@
 ---
 description: Companion Widget OS — Locked UX §23 / MOD-WIDGET — får inte tas bort
 alwaysApply: false
-globs: src/widgets/**,src/modules/features/widgets/pages/WidgetCompanion*.tsx,src/modules/core/pages/InstallningarPage.tsx,android/app/src/main/java/com/livskompassen/app/widgets/Companion*.java,android/app/src/main/java/com/livskompassen/app/widgets/WidgetViews.java,scripts/smoke_companion_widgets.mjs,.context/locked-ux-features.md
+globs: src/widgets/**,src/modules/features/widgets/pages/WidgetCompanion*.tsx,src/modules/core/pages/InstallningarPage.tsx,android/app/src/main/java/com/livskompassen/app/widgets/**,android/app/src/main/res/layout/widget_*.xml,android/app/src/main/res/layout/activity_widget_overlay.xml,scripts/smoke_companion_widgets.mjs,.context/locked-ux-features.md,widget_bible.md,.cursor/skills/livskompassen-companion-widget-interact/**,.cursor/agents/specialist-widget*.md
 ---
 
 # Companion Widget OS — LOCKED (§23)
@@ -10,10 +10,11 @@ Canonical: [`.context/locked-ux-features.md`](../../.context/locked-ux-features.
 
 ## Hard rules
 
-1. **Do not remove, hide behind feature flags, or rename** Companion OS surfaces without Pontus OK + unlock-doc `docs/evaluations/*-unlock-MOD-WIDGET.md` (`approved: yes`).
-2. Before merge touching `src/widgets/**` or Companion Android chips:  
+1. **Do not remove, hide behind feature flags, or rename** Companion OS surfaces without Pontus OK + unlock-doc `docs/evaluations/*-unlock-MOD-WIDGET*.md` (`approved: yes`).
+2. Before merge touching `src/widgets/**` or Companion Android / WIS:  
    `npm run smoke:companion-widgets` (also runs inside `npm run smoke:locked-ux`).
 3. Keep **Barnfokus** pool intact — Companion Barnfokus-widget is additive, never a replacement for Familjen Barnfokus (§12).
+4. **INTERACTIVE FIRST** — primär write/record/toggle får inte återgå till enbart `WidgetLaunch` → `MainActivity` utan ny unlock.
 
 ## Must keep
 
@@ -23,7 +24,11 @@ Canonical: [`.context/locked-ux-features.md`](../../.context/locked-ux-features.
 | Studio | `src/widgets/studio/WidgetStudioPage.tsx` |
 | Pack (10) | `src/widgets/pack/*Widget.tsx` + `registerCorePack.ts` |
 | Deep-links | `WidgetCompanionSurfacePage.tsx` → `/widget/companion-*` |
-| Android chips | `Companion*WidgetProvider.java` + `WidgetViews` scoped `last_action_*` |
+| Android chips | `Companion*WidgetProvider.java` + `WidgetViews` |
+| **WIS interact** | `WidgetInteract` · `WidgetActionReceiver` · `WidgetOverlayActivity` |
+| **WIS capture** | `WidgetCaptureService` · `WidgetCaptureStore` (krypterad lokal förvaring) |
+| Skill + dirigent | `livskompassen-companion-widget-interact` · `specialist-widgets` + interact-underagenter |
+| Bible | `widget_bible.md` (kap. 7 Interactivity Contract) |
 | Smoke | `scripts/smoke_companion_widgets.mjs` |
 
 ## Allowed polish (no unlock)
@@ -31,13 +36,16 @@ Canonical: [`.context/locked-ux-features.md`](../../.context/locked-ux-features.
 - Copy, CSS, pulse/soft-focus, trust-row, Studio preview toggles
 - New optional Studio flags that default **off** and do not hide the rail
 - Extending smoke assertions
+- Visual parity / touch ≥56 dp inom befintlig WIS
 
 ## Forbidden without unlock
 
 - Deleting `src/widgets/` or emptying the 10-pack
 - Removing `CompanionHomeRail` from Home / BastaDesign
 - Removing Widget Studio route or Inställningar entry
-- Removing Companion Android providers / deep-links
+- Removing Companion Android providers / WIS interact-stack
+- Removing secure capture store / background capture service
+- Replacing WIS with deep-link-only as primary path
 - Introducing `setInterval` idle loops in `WidgetSync`
 - Cross-RAG or Sacred bypass via widget transport
 
