@@ -1,3 +1,11 @@
+## 2026-07-22 — UI högerförskjutning + Projekt-look (Cursor)
+
+- **Bug:** telefonen panade/skiftade höger — `fixed` compass/watermarks med `150vw`/`140vw` blåste upp `scrollWidth`; `html`/`body` saknade overflow-x-lås
+- **Fix:** `overflow-x: hidden` på `html, body, #root`; rosor → `absolute` + `min(100%, …)` i ambient + Valv/Familjen/Vardagen/Hjärtat/MåBra/Planering
+- **Bug:** Projekt-mockups ljusa — `.elongated-module` CSS saknades efter index.css-sunset; dubbel `glow-bottom-gold` + `planering-tool-card` utan global stil
+- **Fix:** återställd elongated-module i `obsidian-calm-glass.css`; ny `planering-tool-card.css` i design-system; tomstate utan nested gold glow
+- Smoke: `smoke:design-modules` · `smoke:locked-ux` **PASS**
+
 ## 2026-07-22 — Valvet Samla-lås + cleanup (Cursor)
 
 - Locked UX §2b + `locked-ux-features.mdc` MUST NOT (Inkast-only förbjudet)

@@ -1,5 +1,13 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
+## 2026-07-22 — UI högerförskjutning + Projekt-look
+
+- [x] Overflow-x lock (`html`/`body`/`#root`) + compass/watermarks `absolute` + `%` (inte `*vw`)
+- [x] Återställd `.elongated-module` navy glass i `obsidian-calm-glass.css`
+- [x] Projekt-tomstate: global `planering-tool-card.css` + bort dubbel `glow-bottom-gold`
+- [x] Smoke: `smoke:design-modules` · `smoke:locked-ux` **PASS**
+- [ ] Pontus: G85 visuellt — ingen högerpan, Projekt samma mörka look som Hem
+
 ## 2026-07-22 — Valvet Samla-lås + cleanup
 
 - [x] Locked UX §2b (Inkast+Arkiv+Sök) + smoke guards

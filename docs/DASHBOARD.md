@@ -1,3 +1,9 @@
+### 2026-07-22 — UI högerförskjutning + Projekt-look
+- Overflow-x låst; ambient/hub-rosor `absolute` + `%` (inte `150vw`/`140vw`)
+- `.elongated-module` återställd (navy glass) · `planering-tool-card.css` global
+- Projekt-tomstate: ingen dubbel `glow-bottom-gold`
+- Smoke: design-modules · locked-ux **PASS** · G85 visual: pending Pontus
+
 ### 2026-07-22 — Valvet Samla-lås
 - §2b Locked UX + `MOD-VALV-SAMLA` · orphan `ValvInboxZone` bort
 - Smoke: locked-ux · valv-mode · module-lock (unlock doc)

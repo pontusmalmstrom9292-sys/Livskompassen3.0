@@ -1,4 +1,14 @@
 /* Ambient background + app shell — sunset från index.css våg 90 */
+
+/* G85 / WebView — lås horisontell scroll (compass/watermarks får inte blåsa upp scrollWidth) */
+html,
+body,
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
+}
+
 @layer components {
   .ambient-bg {
     position: fixed;
@@ -11,12 +21,12 @@
   }
 
   .ambient-bg__compass-rose {
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
     z-index: 1;
-    width: min(150vw, 1200px);
-    height: min(150vw, 1200px);
+    width: min(100%, 1200px);
+    height: min(100%, 1200px);
     max-width: 1200px;
     max-height: 1200px;
     transform: translate(-50%, -50%);
