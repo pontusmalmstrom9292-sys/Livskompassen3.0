@@ -1,5 +1,19 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
+## 2026-07-22 — Gold Standard hub + Companion parity (C + Ethereal Blue)
+
+Unlock: [`evaluations/2026-07-22-unlock-hub-gold-standard-layout.md`](./evaluations/2026-07-22-unlock-hub-gold-standard-layout.md) (`approved: yes`)
+
+- [x] Fas 0 unlock + docs
+- [x] Fas 1 Companion web 10-pack Kap 6 deepen
+- [x] Fas 1 Android layouts/drawables + v31 gold
+- [x] Fas 2 `gs-hub-card` design-system skin
+- [x] Fas 2 Dagbok + Fyren hub-skin
+- [x] Fas 2 Fokus + Familjen hub-skin
+- [x] Fas 3 ×15 specialist polish + PROGRESS
+- [x] Smoke: companion-widgets · locked-ux · design-modules
+- [ ] Pontus: G85 visual sign-off mot Gold Standard-mockuper
+
 ## 2026-07-22 — UI högerförskjutning + Projekt-look
 
 - [x] Overflow-x lock (`html`/`body`/`#root`) + compass/watermarks `absolute` + `%` (inte `*vw`)

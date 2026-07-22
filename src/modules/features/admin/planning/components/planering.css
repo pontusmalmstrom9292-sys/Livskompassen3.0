@@ -683,6 +683,45 @@
       background-color var(--ds-duration-normal) var(--ds-ease-premium);
   }
 
+  /* Gold Standard Fokus bridge */
+  .planering-tool-card.gs-hub-card,
+  .home-planering-panel.gs-hub-card,
+  .pinned-planering-module.gs-hub-card {
+    border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+    box-shadow:
+      0 0 36px color-mix(in srgb, var(--bg) 55%, transparent),
+      0 0 22px color-mix(in srgb, var(--accent) 12%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .pinned-planering-slot {
+    gap: 0.65rem;
+  }
+
+  .pinned-planering-slot .pinned-planering-module.gs-hub-card {
+    padding: 0.9rem 1rem;
+  }
+
+  .pinned-planering-module--compact.gs-hub-card {
+    padding: 0.65rem 0.85rem;
+  }
+
+  .planering-bento-shell .planering-tool-card.gs-hub-card {
+    border-color: color-mix(in srgb, var(--gs-gold-rim) 90%, var(--border));
+  }
+
+  .planering-bento-shell .planering-tool-card.gs-hub-card::before {
+    opacity: 0.78;
+  }
+
+  .planering-bento-shell .gs-hub-card__progress {
+    margin-top: 0.35rem;
+  }
+
+  .planering-bento-shell .gs-hub-card__timer {
+    margin-top: 0.5rem;
+  }
+
   button.planering-tool-card {
     @apply cursor-pointer text-inherit;
     font: inherit;

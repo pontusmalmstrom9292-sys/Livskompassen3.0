@@ -204,7 +204,7 @@ export function MabraGoalPanel() {
       )}
 
       {result?.capacityLevel === 1 && (
-        <p className="rounded-xl border border-border/30 bg-surface-3/40 px-3 py-2 text-xs text-text-muted">
+        <p className="mabra-insight-card gs-hub-card__well rounded-xl px-3 py-2 text-xs text-text-muted">
           {COPY.capacity1}
         </p>
       )}

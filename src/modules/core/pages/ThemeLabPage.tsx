@@ -125,6 +125,8 @@ export function ThemeLabPage() {
   const [homeLayout, setHomeLayout] = useState<ExecutiveHomeLayoutMode>(() =>
     getExecutiveHomeLayoutMode(),
   );
+  /** Round 13 — Gold Standard hub-card preview (default OFF) */
+  const [showGsHubPreview, setShowGsHubPreview] = useState(false);
   const previewPack =
     THEME_REGISTRY.find((t) => t.id === previewId) ??
     THEME_LAB_DRAFTS.find((t) => t.id === previewId) ??
@@ -194,6 +196,43 @@ export function ThemeLabPage() {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section className="glass-card p-4">
+        <h2 className="text-xs uppercase tracking-widest text-text-dim">Gold Standard hub-kort</h2>
+        <p className="mt-2 text-sm text-text-muted">
+          Preview av <code className="text-accent">gs-hub-card</code> (Kap 6 / Ethereal Blue). Av som
+          default — påverkar inte prod-flöden.
+        </p>
+        <label className="mt-3 flex min-h-11 cursor-pointer items-center gap-2 text-sm text-text">
+          <input
+            type="checkbox"
+            className="h-4 w-4 accent-[var(--accent)]"
+            checked={showGsHubPreview}
+            onChange={(e) => setShowGsHubPreview(e.target.checked)}
+          />
+          Visa GS-preview
+        </label>
+        {showGsHubPreview ? (
+          <article className="gs-hub-card mt-3" aria-label="Gold Standard preview">
+            <h3 className="gs-hub-card__title">Fyren</h3>
+            <p className="gs-hub-card__subtitle">Kapacitet · Ethereal Blue endast på ring</p>
+            <div className="gs-hub-card__ring-wrap mt-2">
+              <div className="gs-hub-card__ring" style={{ ['--gs-ring-pct' as string]: 72 }} />
+              <div className="gs-hub-card__ring-label">
+                <span className="text-sm font-semibold text-text">72%</span>
+                <span className="text-[10px] uppercase tracking-widest text-text-muted">Kapacitet</span>
+              </div>
+            </div>
+            <div className="gs-hub-card__progress mt-3">
+              <span className="gs-hub-card__progress-fill" style={{ width: '60%' }} />
+            </div>
+            <div className="gs-hub-card__footer mt-2">
+              <span>Theme Lab preview</span>
+              <span className="text-[color:var(--gs-ethereal)]">Ethereal</span>
+            </div>
+          </article>
+        ) : null}
       </section>
 
       <section className="glass-card p-4">

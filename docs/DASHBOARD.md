@@ -1,3 +1,11 @@
+### 2026-07-22 — Gold Standard hub + Companion (C + Ethereal Blue)
+- Unlock: [`2026-07-22-unlock-hub-gold-standard-layout.md`](./evaluations/2026-07-22-unlock-hub-gold-standard-layout.md)
+- Companion Kap 6 deepen (web 1.3.0 + Android v31 gold + live capacity ring)
+- Hub skin: `gs-hub-card` · Dagbok/Fyren/Fokus/Familjen presentation
+- ×15 polishrundor · Theme Lab GS-preview (default OFF)
+- Smoke: companion-widgets · locked-ux · design-modules · planering-superhub · children · mabra **PASS**
+- G85 visual vs mockup: pending Pontus · vid commit: inkludera 3 nya filer
+
 ### 2026-07-22 — UI högerförskjutning + Projekt-look
 - Overflow-x låst; ambient/hub-rosor `absolute` + `%` (inte `150vw`/`140vw`)
 - `.elongated-module` återställd (navy glass) · `planering-tool-card.css` global

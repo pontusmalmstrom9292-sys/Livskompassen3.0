@@ -212,6 +212,10 @@ public final class WidgetViews {
         if (dynamic != null) {
             views.setTextViewText(R.id.widget_companion_beacon_state, dynamic);
         }
+        views.setProgressBar(R.id.widget_companion_beacon_capacity_bar, 100, 72, false);
+        views.setProgressBar(R.id.widget_companion_beacon_energy_bar, 100, 72, false);
+        views.setProgressBar(R.id.widget_companion_beacon_fokus_bar, 100, 65, false);
+        views.setProgressBar(R.id.widget_companion_beacon_rest_bar, 100, 58, false);
         PendingIntent beacon = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_BEACON);
         views.setOnClickPendingIntent(R.id.widget_companion_beacon_root, beacon);
         views.setOnClickPendingIntent(R.id.widget_companion_beacon_ring, beacon);

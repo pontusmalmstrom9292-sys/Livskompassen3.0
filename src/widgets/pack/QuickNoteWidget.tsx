@@ -272,7 +272,11 @@ export function QuickNoteWidget({
           void onPhotoPicked(file);
         }}
       />
-      <div className={['cw-note-well', pulseHint ? 'cw-soft-focus' : ''].filter(Boolean).join(' ')}>
+      <div
+        className={['cw-note-well', 'cw-note-well--gs', pulseHint ? 'cw-soft-focus' : '']
+          .filter(Boolean)
+          .join(' ')}
+      >
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}

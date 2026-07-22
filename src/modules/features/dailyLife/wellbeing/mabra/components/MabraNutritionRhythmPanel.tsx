@@ -15,11 +15,14 @@ export function MabraNutritionRhythmPanel({ storageUid }: Props) {
   const insights = computeNutritionRhythmInsights(entries);
 
   return (
-    <div className="mt-4 rounded-xl border border-border-strong bg-surface/40 px-4 py-3">
+    <div className="mabra-insight-card mt-4 rounded-xl border border-border-strong bg-surface/40 px-4 py-3">
       <p className="text-xs font-medium uppercase tracking-wider text-text-muted">Måltidsrytm</p>
+      <div className="gs-hub-card__progress mt-3" role="presentation" aria-hidden>
+        <span className="gs-hub-card__progress-fill mabra-insight-card__progress-fill" />
+      </div>
       <ul className="mt-3 space-y-2">
         {insights.map((item) => (
-          <li key={item.id} className="text-sm leading-relaxed text-text-muted">
+          <li key={item.id} className="mabra-insight-card__line text-sm leading-relaxed text-text-muted">
             {item.message}
           </li>
         ))}

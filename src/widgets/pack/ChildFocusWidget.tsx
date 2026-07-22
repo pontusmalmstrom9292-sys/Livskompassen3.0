@@ -147,8 +147,8 @@ export function ChildFocusWidget({
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
-        title="Barnfokus"
-        subtitle={status ?? (voice.recording ? 'Spelar in…' : 'Dagens fråga')}
+        title="Familjen"
+        subtitle={status ?? (voice.recording ? 'Spelar in…' : 'Idag')}
         offline={!online}
         icon={
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -162,14 +162,26 @@ export function ChildFocusWidget({
           </svg>
         }
       />
+      <div className="cw-family-avatars" aria-hidden>
+        <span className="cw-family-avatars__dot cw-family-avatars__dot--gold" />
+        <span className="cw-family-avatars__dot cw-family-avatars__dot--gold" />
+        <span className="cw-family-avatars__dot" />
+        <span className="cw-family-avatars__add" aria-hidden>
+          +
+        </span>
+      </div>
       <div className="cw-glass-well" style={{ display: 'grid', gap: '0.45rem' }}>
-        <p className="cw-eyebrow" style={{ letterSpacing: '0.08em', color: WidgetPalette.premiumGoldDim, margin: 0 }}>
-          Dagens fråga
-        </p>
+        <p className="cw-eyebrow cw-eyebrow--gs">Dagens fråga</p>
         <p style={{ margin: 0, color: WidgetPalette.textPrimary, fontSize: '1.05rem', lineHeight: 1.4 }}>
           {question}
         </p>
       </div>
+      <ul className="cw-family-timeline" aria-label="Exempel på dagens rytm">
+        <li>
+          <span>Barnschema</span>
+          <span>Idag</span>
+        </li>
+      </ul>
       {showRecent && last?.answer ? (
         <WidgetGlass inset style={{ padding: '0.75rem', marginTop: '0.5rem' }}>
           <p style={{ margin: 0, color: WidgetPalette.mutedText, fontSize: '0.85rem' }}>Senaste</p>

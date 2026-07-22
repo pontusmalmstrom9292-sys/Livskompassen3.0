@@ -300,7 +300,7 @@ export const MabraHubView = memo(function MabraHubView({ inlineHub = false }: Ma
     <div className="mabra-hub-shell space-y-4">
       <MabraRecoveryBanner />
       {showHubPicker && (
-        <div className="calm-card glow-bottom-green overflow-hidden rounded-2xl p-4 sm:p-5">
+        <div className="calm-card gs-hub-card overflow-hidden rounded-2xl p-4 sm:p-5">
           <MabraModulValjare onSelect={handleModulChoice} onSkip={() => setShowHubPicker(false)} />
         </div>
       )}

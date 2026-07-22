@@ -310,7 +310,7 @@ export function DagbokReflektionDelegate({ onSaved }: DagbokReflektionDelegatePr
           resetFlow();
         }}
       >
-        <div className="reflektion-wizard" aria-live="polite">
+        <div className="reflektion-wizard hjartat-reflektion-wizard gs-hub-card" aria-live="polite">
           <p className="sr-only">
             Steg {JOURNAL_STEPS.findIndex((s) => s.key === step) + 1} av {JOURNAL_STEPS.length}:{' '}
             {JOURNAL_STEPS.find((s) => s.key === step)?.label}

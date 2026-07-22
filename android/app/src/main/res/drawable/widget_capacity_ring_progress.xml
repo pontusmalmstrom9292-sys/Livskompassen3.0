@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Live capacity ring — Ethereal Blue progress (Kap 6), LevelList-friendly ProgressBar -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#00000000" />
+            <stroke
+                android:width="4dp"
+                android:color="#33415580" />
+        </shape>
+    </item>
+    <item android:id="@android:id/progress">
+        <rotate
+            android:fromDegrees="-90"
+            android:toDegrees="270"
+            android:pivotX="50%"
+            android:pivotY="50%">
+            <shape
+                android:shape="ring"
+                android:innerRadiusRatio="2.6"
+                android:thicknessRatio="14"
+                android:useLevel="true">
+                <solid android:color="@color/widget_ethereal" />
+            </shape>
+        </rotate>
+    </item>
+</layer-list>

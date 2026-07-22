@@ -54,14 +54,51 @@
     );
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    /* Gold Standard skin bridge */
+    box-shadow:
+      0 0 28px color-mix(in srgb, var(--accent) 10%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--accent) 18%, transparent);
   }
 
-  .hjartat-zone-intro__header {
-    @apply mb-1 flex items-center gap-2;
+  .hjartat-zone-intro.gs-hub-card,
+  .hjartat-reflektion-wizard.gs-hub-card {
+    border-radius: 1.5rem;
   }
 
   .hjartat-zone-intro__eyebrow {
     @apply text-[10px] uppercase tracking-[0.18em] text-accent-light;
+    letter-spacing: 0.14em;
+  }
+
+  /* GS Dagbok mood / hero densitet inside Superhub skin */
+  .hjartat-zone-intro__gs-hero {
+    min-height: 3.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .hjartat-bento-shell .gs-hub-card__hero {
+    margin-bottom: 0.35rem;
+  }
+
+  .hjartat-bento-shell .reflektion-wizard.hjartat-reflektion-wizard.gs-hub-card {
+    border-color: var(--gs-gold-rim);
+    box-shadow:
+      0 0 32px color-mix(in srgb, var(--bg) 52%, transparent),
+      0 0 22px color-mix(in srgb, var(--accent) 11%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--gs-gold-light) 20%, transparent);
+  }
+
+  .hjartat-bento-shell .calm-card,
+  .hjartat-bento-shell .calm-card-midnight {
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+    box-shadow:
+      0 0 32px color-mix(in srgb, var(--bg) 55%, transparent),
+      0 0 18px color-mix(in srgb, var(--accent) 8%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--accent) 14%, transparent);
+  }
+
+  .hjartat-zone-intro__header {
+    @apply mb-1 flex items-center gap-2;
   }
 
   .hjartat-zone-intro__title {

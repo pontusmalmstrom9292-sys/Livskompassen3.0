@@ -3290,3 +3290,32 @@ Copy the template below for each entry. Newest first.
 **Validering:** verifySecurityComponents PASS · functions build+test PASS · test:unit 118 · smoke:locked-ux/orkester/functions-pin/agents-ui/weaver-hitl/mabra/design-modules PASS.
 
 **Kvar till Pontus:** G85 device Valv <3s · App Check Console · functions redeploy per gap-doc · Phase 10 visual sign-off.
+
+## 2026-07-22 — Gold Standard hub + Companion parity (C + Ethereal Blue)
+
+Unlock: `docs/evaluations/2026-07-22-unlock-hub-gold-standard-layout.md` (`approved: yes`)
+
+### Fas 0–2
+- Unlock presentation-only §11/12/15/17 + Companion Kap 6 deepen
+- Web 10-pack: Journal/Beacon/Fokus/Familjen/Capture deepen · `WidgetTheme` 1.3.0
+- Android: `values-v31` fixed Gold/Ethereal · Beacon live `ProgressBar` capacity ring
+- Design-system: `gold-standard-hub-card.css` (`gs-hub-card`) · wired ExamplePreviewCard + zone intros
+
+### Fas 3 — 15 polishrundor
+1. Capture guldstjärna (Hemlig inspelning + trust-rad)
+2. Note + Inbox guldrim/inset
+3. Beacon + Journal (råd-kort, mood, streak)
+4. Child + Tasks + Compass/Harbor/Anchor densitet
+5. Android RemoteViews guldrim/ringar
+6. Dagbok hub-skin (intro + reflektion calm-cards)
+7. Fyren/MåBra kapacitet ethereal
+8. Planering/Fokus pinned + tool cards
+9. Familjen zone + Barnfokus presentation (`--gs`)
+10. frontend-modul-auditor — tokens hub/companion
+11. ux-guardian — Superhub/WIS/Barnfokus pool intakt
+12. widget-visual-parity micro-gap
+13. Theme Lab GS-preview (default OFF) + VARIANTS.md
+14. smoke: companion-widgets · locked-ux · design-modules · planering-superhub · children · mabra **PASS**
+15. yolo-vakt: kod/smoke GO; commit måste inkludera 3 nya filer (untracked) vid merge
+
+Ethereal Blue `#7BA3C9` endast progress/waveform — ingen global teal.

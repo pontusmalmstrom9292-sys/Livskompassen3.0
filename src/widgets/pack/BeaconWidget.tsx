@@ -124,13 +124,23 @@ export function BeaconWidget({
     );
   };
 
+  const sleepHours = 5 + Math.round((metrics.sleep / 100) * 4);
+  const sleepMins = Math.round((metrics.sleep % 25) * 2.3);
+  const sleepLabel = `${sleepHours}h ${String(sleepMins).padStart(2, '0')}m`;
   const rows = (
     [
-      info.showEnergy ? (['energy', 'Energi', metrics.energy] as const) : null,
-      info.showStress ? (['stress', 'Fokus', fokus] as const) : null,
-      info.showSleep ? (['sleep', 'Återhämtning', metrics.sleep] as const) : null,
+      info.showEnergy ? (['energy', 'Energi', metrics.energy, metrics.energy >= 60 ? 'Bra' : 'Låg'] as const) : null,
+      info.showStress
+        ? ([
+            'stress',
+            'Stress',
+            metrics.stress,
+            metrics.stress <= 40 ? 'Låg' : metrics.stress <= 65 ? 'Måttlig' : 'Hög',
+          ] as const)
+        : null,
+      info.showSleep ? (['sleep', 'Sömn', metrics.sleep, sleepLabel] as const) : null,
     ] as const
-  ).filter(Boolean) as Array<readonly [MetricKey, string, number]>;
+  ).filter(Boolean) as Array<readonly [MetricKey, string, number, string]>;
 
   return (
     <WidgetCard
@@ -146,8 +156,8 @@ export function BeaconWidget({
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
-        title="Kapacitet"
-        subtitle={status ?? 'Din inre fyr'}
+        title="Fyren"
+        subtitle={status ?? 'Din inre kompass för kapacitet och balans'}
         offline={!online}
         icon={<BeaconGlyph />}
       />
@@ -175,22 +185,32 @@ export function BeaconWidget({
           <div ref={ringRef} />
         )}
       </div>
-      <div className="cw-metric-stack">
-        {rows.map(([key, label, value]) => (
+      <div className="cw-metric-stack cw-metric-stack--gs-row" role="group" aria-label="Dagsform">
+        {rows.map(([key, label, value, display]) => (
           <button
             key={key}
             type="button"
-            className="cw-metric-hit"
+            className={`cw-metric-hit cw-metric-hit--gs ${key === 'energy' ? 'cw-metric-hit--ethereal' : key === 'stress' ? 'cw-metric-hit--gold' : ''}`}
             onClick={() => void nudge(key)}
             aria-label={`Justera ${label}, nu ${value}`}
           >
             <div className="cw-metric-label">
               <span>{label}</span>
-              <span>{value}</span>
+              <span className="cw-metric-display">{display}</span>
             </div>
-            <WidgetProgress value={value} label={label} />
+            <WidgetProgress value={key === 'stress' ? fokus : value} label={label} />
           </button>
         ))}
+      </div>
+      <div className="cw-glass-well cw-beacon-advice" aria-live="polite">
+        <span className="cw-beacon-advice__label">Fyrens råd</span>
+        <p className="cw-beacon-advice__body">
+          {metrics.capacity >= 70
+            ? 'Du är på rätt väg. Fortsätt lyfta blicken.'
+            : metrics.capacity >= 45
+              ? 'Håll tempot lugnt. Ett steg i taget räcker.'
+              : 'Vila är också riktning. Skydda din energi idag.'}
+        </p>
       </div>
       <div className="cw-actions-row">
         <WidgetButton

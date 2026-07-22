@@ -155,7 +155,7 @@ function HomePlaneringPanel() {
   const todayLabel = weekdayLabel(new Date());
 
   return (
-    <article className="calm-card home-planering-panel p-4" aria-label="Planering">
+    <article className="calm-card home-planering-panel gs-hub-card p-4" aria-label="Planering">
       <header className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2">
           <CalendarDays className="h-4 w-4 text-accent" strokeWidth={1.5} aria-hidden />
@@ -270,7 +270,7 @@ function SinglePinnedModule({ pin }: { pin: PlaneringModulePin }) {
 
   if (pin.layout === 'compact') {
     return (
-      <div className="pinned-planering-module pinned-planering-module--compact calm-card px-3 py-2">
+      <div className="pinned-planering-module pinned-planering-module--compact calm-card gs-hub-card px-3 py-2">
         <p className="text-[10px] uppercase tracking-wider text-accent">{pin.title}</p>
         {pin.content.kind === 'list' ? <PinListBody pin={pin} compact /> : <PinNoteBody pin={pin} />}
       </div>
@@ -287,7 +287,7 @@ function SinglePinnedModule({ pin }: { pin: PlaneringModulePin }) {
       title={pin.title}
       description="Från Planering"
       glow="gold"
-      className={clsx('pinned-planering-module calm-card', cardClass)}
+      className={clsx('pinned-planering-module calm-card gs-hub-card', cardClass)}
     >
       {pin.content.kind === 'list' ? <PinListBody pin={pin} /> : <PinNoteBody pin={pin} />}
       <ButtonLink
