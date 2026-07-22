@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Companion Compass Large — Kap 6 Gold: disc · intention · progress · CTA -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_companion_compass_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_bg_premium_panel"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingHorizontal="14dp"
+    android:paddingVertical="12dp">
+
+    <TextView
+        android:id="@+id/widget_companion_compass_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:letterSpacing="0.14"
+        android:maxLines="1"
+        android:text="@string/widget_companion_compass_focus_title"
+        android:textAllCaps="true"
+        android:textColor="@color/widget_gold"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/widget_companion_compass_disc"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/widget_companion_compass_title"
+        android:scaleType="fitCenter"
+        android:src="@drawable/widget_compass_disc" />
+
+    <TextView
+        android:id="@+id/widget_companion_compass_intention"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="@string/widget_companion_compass_intention"
+        android:textColor="@color/widget_text"
+        android:textSize="12sp" />
+
+    <ProgressBar
+        android:id="@+id/widget_companion_compass_progress"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_marginTop="8dp"
+        android:indeterminate="false"
+        android:max="100"
+        android:progress="72"
+        android:progressDrawable="@drawable/widget_progress_gold" />
+
+    <TextView
+        android:id="@+id/widget_companion_compass_pct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:gravity="end"
+        android:text="@string/widget_companion_compass_pct"
+        android:textColor="@color/widget_gold_dim"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/widget_companion_compass_cta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/widget_bg_cta_outline"
+        android:contentDescription="@string/widget_companion_compass_cta"
+        android:gravity="center"
+        android:letterSpacing="0.1"
+        android:minHeight="48dp"
+        android:paddingVertical="10dp"
+        android:text="@string/widget_companion_compass_cta"
+        android:textAllCaps="true"
+        android:textColor="@color/widget_gold"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+</LinearLayout>

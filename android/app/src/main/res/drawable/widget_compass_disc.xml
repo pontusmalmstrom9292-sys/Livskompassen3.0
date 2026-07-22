@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Simplified compass rose for RemoteViews (Gold Standard approximation) -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <gradient
+                android:angle="160"
+                android:endColor="#FF0A0E18"
+                android:startColor="#FF1A2233"
+                android:type="linear" />
+            <stroke
+                android:width="2.5dp"
+                android:color="#CCD4AF37" />
+        </shape>
+    </item>
+    <item
+        android:bottom="18dp"
+        android:left="18dp"
+        android:right="18dp"
+        android:top="18dp">
+        <shape android:shape="oval">
+            <stroke
+                android:width="1dp"
+                android:color="#667BA3C9" />
+            <solid android:color="#00000000" />
+        </shape>
+    </item>
+    <item
+        android:bottom="36dp"
+        android:left="36dp"
+        android:right="36dp"
+        android:top="36dp">
+        <shape android:shape="oval">
+            <solid android:color="#D4AF37" />
+        </shape>
+    </item>
+</layer-list>

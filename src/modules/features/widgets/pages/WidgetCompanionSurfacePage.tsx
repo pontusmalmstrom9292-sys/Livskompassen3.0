@@ -34,6 +34,11 @@ type SurfaceRenderOpts = {
   autostart: boolean;
   autoVoice: boolean;
   autoPhoto: boolean;
+  /** Inbox: open text/link panel once. */
+  autoText?: boolean;
+  autoLink?: boolean;
+  /** Journal: open write draft once. */
+  autoWrite?: boolean;
 };
 
 type SurfaceMeta = {
@@ -63,7 +68,15 @@ const SURFACE: Record<CompanionSurfaceId, SurfaceMeta> = {
     rootId: 'cw-widget-inbox-root',
     dataWidget: 'inbox',
     focusSelector: '#cw-inbox-draft, button',
-    render: ({ pulseHint }) => <InboxWidget pulseHint={pulseHint} />,
+    render: ({ pulseHint, autoVoice, autoPhoto, autoText, autoLink }) => (
+      <InboxWidget
+        pulseHint={pulseHint}
+        autoVoice={autoVoice}
+        autoPhoto={autoPhoto}
+        autoText={autoText}
+        autoLink={autoLink}
+      />
+    ),
   },
   note: {
     title: 'Snabba anteckningar',
@@ -112,8 +125,10 @@ const SURFACE: Record<CompanionSurfaceId, SurfaceMeta> = {
     lead: 'Companion OS · check-in',
     rootId: 'cw-widget-journal-root',
     dataWidget: 'journal',
-    focusSelector: '.cw-mood',
-    render: ({ pulseHint }) => <JournalWidget pulseHint={pulseHint} />,
+    focusSelector: '.cw-mood, textarea[aria-label="Snabb dagboksrad"]',
+    render: ({ pulseHint, autoWrite }) => (
+      <JournalWidget pulseHint={pulseHint} autoWrite={autoWrite} />
+    ),
   },
   anchor: {
     title: 'Dagens Ankare',
@@ -143,10 +158,16 @@ type Props = {
   pulseHint?: boolean;
   /** Capture: `?autostart=1` starts MediaRecorder (Fyren WH1 parity). */
   autostart?: boolean;
-  /** Note: `?voice=1` starts voice once. */
+  /** Note/Inbox: `?voice=1` starts voice once. */
   autoVoice?: boolean;
-  /** Note: `?photo=1` opens camera once. */
+  /** Note/Inbox: `?photo=1` opens camera once. */
   autoPhoto?: boolean;
+  /** Inbox: `?text=1` opens text panel. */
+  autoText?: boolean;
+  /** Inbox: `?link=1` opens link panel. */
+  autoLink?: boolean;
+  /** Journal: `?write=1` opens draft. */
+  autoWrite?: boolean;
 };
 
 export function WidgetCompanionSurfacePage({
@@ -156,6 +177,9 @@ export function WidgetCompanionSurfacePage({
   autostart = false,
   autoVoice = false,
   autoPhoto = false,
+  autoText = false,
+  autoLink = false,
+  autoWrite = false,
 }: Props) {
   const meta = SURFACE[surface];
   const booted = useRef(false);
@@ -168,7 +192,7 @@ export function WidgetCompanionSurfacePage({
 
   useEffect(() => {
     /* Autostart owns the mic — skip soft-focus race. */
-    if (!softFocus || autostart || autoVoice || autoPhoto) return;
+    if (!softFocus || autostart || autoVoice || autoPhoto || autoText || autoLink || autoWrite) return;
     return softFocusWidgetControl({
       rootSelector: `#${meta.rootId}`,
       focusSelector: `[data-widget="${meta.dataWidget}"] ${meta.focusSelector}`,
@@ -180,6 +204,9 @@ export function WidgetCompanionSurfacePage({
     autostart,
     autoVoice,
     autoPhoto,
+    autoText,
+    autoLink,
+    autoWrite,
     meta.rootId,
     meta.dataWidget,
     meta.focusSelector,
@@ -188,7 +215,15 @@ export function WidgetCompanionSurfacePage({
   return (
     <WidgetShell title={meta.title} lead={meta.lead} companion>
       <div id={meta.rootId} className="px-3 pb-8 pt-2">
-        {meta.render({ pulseHint, autostart, autoVoice, autoPhoto })}
+        {meta.render({
+          pulseHint,
+          autostart,
+          autoVoice,
+          autoPhoto,
+          autoText,
+          autoLink,
+          autoWrite,
+        })}
       </div>
     </WidgetShell>
   );
@@ -211,20 +246,43 @@ function surfacePage(surface: CompanionSurfaceId) {
   return function CompanionSurfaceRoute() {
     const [params] = useSearchParams();
     const autostart = params.get('autostart') === '1';
+    const voice = params.get('voice') === '1';
+    const photo = params.get('photo') === '1';
+    const text = params.get('text') === '1';
+    const link = params.get('link') === '1';
+    const write = params.get('write') === '1';
     const softFocus =
       autostart ||
       params.get('focus') === '1' ||
-      params.get('voice') === '1' ||
-      params.get('photo') === '1';
-    const pulseHint = softFocus && !autostart && PULSE_SURFACES.includes(surface);
+      voice ||
+      photo ||
+      text ||
+      link ||
+      write;
+    const pulseHint =
+      softFocus &&
+      !autostart &&
+      !voice &&
+      !photo &&
+      !text &&
+      !link &&
+      !write &&
+      PULSE_SURFACES.includes(surface);
     return (
       <WidgetCompanionSurfacePage
         surface={surface}
         softFocus={softFocus}
         pulseHint={pulseHint}
         autostart={surface === 'capture' ? autostart : false}
-        autoVoice={surface === 'note' ? params.get('voice') === '1' : false}
-        autoPhoto={surface === 'note' ? params.get('photo') === '1' : false}
+        autoVoice={
+          surface === 'note' || surface === 'inbox' ? voice : false
+        }
+        autoPhoto={
+          surface === 'note' || surface === 'inbox' ? photo : false
+        }
+        autoText={surface === 'inbox' ? text : false}
+        autoLink={surface === 'inbox' ? link : false}
+        autoWrite={surface === 'journal' ? write : false}
       />
     );
   };

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Companion Beacon Medium — Kap 6 Gold: capacity ring · metrics · CTA -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_companion_beacon_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_bg_premium_panel"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="10dp">
+
+    <TextView
+        android:id="@+id/widget_companion_beacon_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:letterSpacing="0.12"
+        android:maxLines="1"
+        android:text="@string/widget_companion_beacon_title"
+        android:textAllCaps="true"
+        android:textColor="@color/widget_gold"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+
+    <FrameLayout
+        android:id="@+id/widget_companion_beacon_ring"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/widget_bg_capacity_ring"
+        android:contentDescription="@string/widget_companion_beacon_capacity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/widget_companion_beacon_pct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/widget_companion_beacon_pct"
+                android:textColor="@color/widget_gold_light"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/widget_companion_beacon_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0.06"
+                android:text="@string/widget_companion_beacon_state"
+                android:textAllCaps="true"
+                android:textColor="@color/widget_muted"
+                android:textSize="8sp" />
+        </LinearLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_companion_beacon_energy"
+            android:textColor="@color/widget_muted"
+            android:textSize="9sp" />
+
+        <ProgressBar
+            android:id="@+id/widget_companion_beacon_energy_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginTop="2dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="72"
+            android:progressDrawable="@drawable/widget_progress_ethereal" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/widget_companion_beacon_fokus"
+            android:textColor="@color/widget_muted"
+            android:textSize="9sp" />
+
+        <ProgressBar
+            android:id="@+id/widget_companion_beacon_fokus_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginTop="2dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="65"
+            android:progressDrawable="@drawable/widget_progress_gold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/widget_companion_beacon_rest"
+            android:textColor="@color/widget_muted"
+            android:textSize="9sp" />
+
+        <ProgressBar
+            android:id="@+id/widget_companion_beacon_rest_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginTop="2dp"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="58"
+            android:progressDrawable="@drawable/widget_progress_gold" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/widget_companion_beacon_cta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/widget_bg_cta_outline"
+        android:contentDescription="@string/widget_companion_beacon_cta"
+        android:gravity="center"
+        android:letterSpacing="0.1"
+        android:minHeight="44dp"
+        android:paddingVertical="8dp"
+        android:text="@string/widget_companion_beacon_cta"
+        android:textAllCaps="true"
+        android:textColor="@color/widget_gold"
+        android:textSize="11sp"
+        android:textStyle="bold" />
+</LinearLayout>

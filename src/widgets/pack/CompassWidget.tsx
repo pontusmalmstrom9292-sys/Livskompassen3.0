@@ -13,7 +13,7 @@ import { finishCompanionCapture } from '../core/finishCompanionCapture';
 import { useCompanionOnline } from '../core/useCompanionOnline';
 import { queueWidgetSync } from '../core/WidgetSync';
 import { routeWidgetAction } from '../core/WidgetRouter';
-import { WidgetPalette, WidgetMaterial } from '../core/WidgetTheme';
+import { WidgetPalette } from '../core/WidgetTheme';
 import { useStudioWidgetConfig } from '../studio/useStudioWidgetConfig';
 import { widgetCardClass } from '../studio/studioIdleClass';
 import { resolveDayPeriod, type DayPeriod } from '../smart/smartTimeContext';
@@ -194,7 +194,6 @@ export function CompassWidget({ pulseHint = false }: { pulseHint?: boolean }) {
                 radial-gradient(circle at 70% 78%, rgba(0,0,0,0.45), transparent 48%),
                 linear-gradient(160deg, #1a2233 0%, ${WidgetPalette.deepSpaceBlue} 55%, #0a0e18 100%)
               `,
-              boxShadow: WidgetMaterial.glassLip,
             }}
           >
             <svg width="88%" height="88%" viewBox="0 0 100 100" aria-hidden>

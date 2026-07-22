@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { WidgetButton } from '../components/WidgetButton';
 import { WidgetCard } from '../components/WidgetCard';
 import { WidgetGlass } from '../components/WidgetGlass';
@@ -44,7 +44,13 @@ function BookGlyph() {
  * Dagbok — check-in faces + one-line write in-widget (bible 4.2 / 6.4).
  * Mockup: quote/smoke-yta + mood + SKRIV-CTA.
  */
-export function JournalWidget({ pulseHint = false }: { pulseHint?: boolean }) {
+export function JournalWidget({
+  pulseHint = false,
+  autoWrite = false,
+}: {
+  pulseHint?: boolean;
+  autoWrite?: boolean;
+}) {
   const cfg = useStudioWidgetConfig(WIDGET_ID);
   const cached = getCached<{ mood?: MoodFaceId }>(`widget:${WIDGET_ID}:last`);
   const [mood, setMood] = useState<MoodFaceId | null>(cached?.mood ?? null);
@@ -52,6 +58,17 @@ export function JournalWidget({ pulseHint = false }: { pulseHint?: boolean }) {
   const [writing, setWriting] = useState(false);
   const [draft, setDraft] = useState('');
   const online = useCompanionOnline();
+  const writeRan = useRef(false);
+
+  useEffect(() => {
+    if (!autoWrite || writeRan.current) return;
+    writeRan.current = true;
+    setWriting(true);
+  }, [autoWrite]);
+
+  useEffect(() => {
+    if (pulseHint && !autoWrite) setWriting(true);
+  }, [pulseHint, autoWrite]);
 
   useEffect(() => {
     if (!writing) return;

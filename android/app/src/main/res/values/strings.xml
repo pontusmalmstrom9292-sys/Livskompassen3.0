@@ -42,8 +42,9 @@
     <string name="widget_note_desc">Snabblogg — default Inkast (välj silo i appen)</string>
 
     <string name="widget_companion_capture_title">Hemlig inspelning</string>
-    <string name="widget_companion_capture_sub">Tryck mic · startar inspelning</string>
+    <string name="widget_companion_capture_sub">Tryck mic · inspelning startar</string>
     <string name="widget_companion_capture_desc">Companion OS — spela in direkt från hemskärmen</string>
+    <string name="widget_companion_capture_trust">Privat · krypterad · endast du</string>
 
     <string name="widget_companion_capture_mic_cd">Starta hemlig inspelning</string>
     <string name="widget_companion_capture_recent">Senaste</string>
@@ -51,10 +52,18 @@
     <string name="widget_companion_note_photo">Foto</string>
     <string name="widget_companion_note_voice">Röst</string>
     <string name="widget_companion_note_add">Spara anteckning</string>
+    <string name="widget_companion_note_pill_tanke">Tanke</string>
+    <string name="widget_companion_note_pill_ide">Idé</string>
+    <string name="widget_companion_note_pill_paminnelse">Påminnelse</string>
+    <string name="widget_companion_note_pill_annat">Annat</string>
 
     <string name="widget_companion_inbox_title">Inkast</string>
     <string name="widget_companion_inbox_sub">Ett tryck</string>
     <string name="widget_companion_inbox_desc">Companion OS — text, röst eller foto till Inkast</string>
+    <string name="widget_companion_inbox_text">Text</string>
+    <string name="widget_companion_inbox_voice">Röst</string>
+    <string name="widget_companion_inbox_photo">Foto</string>
+    <string name="widget_companion_inbox_link">Länk</string>
 
     <string name="widget_companion_note_title">Snabba anteckningar</string>
     <string name="widget_companion_note_sub">Skriv · foto · röst</string>
@@ -63,24 +72,52 @@
     <string name="widget_companion_harbor_title">Trygg Hamn</string>
     <string name="widget_companion_harbor_sub">Andas här</string>
     <string name="widget_companion_harbor_desc">Companion OS — trygg hamn från hemskärmen</string>
+    <string name="widget_companion_harbor_affirm">Andas. Släpp taget. Var här nu.</string>
+    <string name="widget_companion_harbor_breath">Andning</string>
+    <string name="widget_companion_harbor_focus">Fokus</string>
+    <string name="widget_companion_harbor_thanks">Tack</string>
+    <string name="widget_companion_harbor_sleep">Sömn</string>
     <string name="widget_companion_compass_title">Kompassen</string>
     <string name="widget_companion_compass_sub">Håll för meny</string>
     <string name="widget_companion_compass_desc">Companion OS — kompassen från hemskärmen</string>
+    <string name="widget_companion_compass_focus_title">Dagens fokus</string>
+    <string name="widget_companion_compass_intention">Fokus för idag: Närvaro i det jag gör</string>
+    <string name="widget_companion_compass_pct">72%</string>
+    <string name="widget_companion_compass_cta">Sätt intention</string>
     <string name="widget_companion_child_title">Barnfokus</string>
     <string name="widget_companion_child_sub">Svara kort</string>
     <string name="widget_companion_child_desc">Companion OS — barnfokus från hemskärmen</string>
+    <string name="widget_companion_child_question">Vad skrattade Kasper åt idag?</string>
+    <string name="widget_companion_child_answer">Svara</string>
     <string name="widget_companion_beacon_title">Fyren</string>
     <string name="widget_companion_beacon_sub">Hur mår du?</string>
     <string name="widget_companion_beacon_desc">Companion OS — fyren från hemskärmen</string>
+    <string name="widget_companion_beacon_capacity">Kapacitet</string>
+    <string name="widget_companion_beacon_pct">68%</string>
+    <string name="widget_companion_beacon_state">Stabil</string>
+    <string name="widget_companion_beacon_energy">Energi</string>
+    <string name="widget_companion_beacon_fokus">Fokus</string>
+    <string name="widget_companion_beacon_rest">Återhämtning</string>
+    <string name="widget_companion_beacon_cta">Visa mer</string>
     <string name="widget_companion_journal_title">Dagbok</string>
     <string name="widget_companion_journal_sub">En rad räcker</string>
     <string name="widget_companion_journal_desc">Companion OS — dagbok från hemskärmen</string>
+    <string name="widget_companion_journal_quote">Att förstå sig själv är början på all förändring.</string>
+    <string name="widget_companion_journal_attr">— Okänd</string>
+    <string name="widget_companion_journal_write">Skriv i dagboken</string>
     <string name="widget_companion_anchor_title">Ankare</string>
     <string name="widget_companion_anchor_sub">Ett mikrosteg</string>
     <string name="widget_companion_anchor_desc">Companion OS — dagens ankare från hemskärmen</string>
+    <string name="widget_companion_anchor_micro">Ett mikrosteg räcker</string>
+    <string name="widget_companion_anchor_done">Klar</string>
     <string name="widget_companion_tasks_title">Uppgifter</string>
     <string name="widget_companion_tasks_sub">Nästa steg</string>
     <string name="widget_companion_tasks_desc">Companion OS — dagens uppgifter från hemskärmen</string>
+    <string name="widget_companion_tasks_badge">3</string>
+    <string name="widget_companion_tasks_row1">○  Samtal med skolan</string>
+    <string name="widget_companion_tasks_row2">○  Träning</string>
+    <string name="widget_companion_tasks_row3">○  Fem minuters paus</string>
+    <string name="widget_companion_tasks_all">Visa alla</string>
 
     <string name="widget_compass_title">Kompass</string>
     <string name="widget_compass_sub">Check-in nu</string>

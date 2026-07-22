@@ -3,9 +3,15 @@
     <color name="colorPrimary">#0D0B09</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FDE68A</color>
-    <color name="widget_gold">#FDE68A</color>
+    <!-- Kap 6 Gold Standard — premium gold primary; light only as highlight -->
+    <color name="widget_gold">#D4AF37</color>
+    <color name="widget_gold_light">#FDE68A</color>
+    <color name="widget_gold_dim">#9A7B2F</color>
+    <color name="widget_ethereal">#7BA3C9</color>
     <color name="widget_muted">#94A3B8</color>
+    <color name="widget_text">#F8FAFC</color>
     <color name="widget_background">#020617</color>
+    <color name="widget_obsidian">#0D0B09</color>
     <color name="widget_stroke">#D4AF37</color>
     <color name="widget_chip_start">#1A1816</color>
     <color name="widget_chip_end">#0D0B09</color>

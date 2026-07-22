@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Executive Midnight premium glaspanel — Obsidian Calm (#0D0B09) + Guld (#FDE68A) -->
+<!-- Kap 6 safirglas — Obsidian + soft gold stroke (ej skrikig yellow fill) -->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <gradient
         android:angle="165"
         android:centerColor="#E60D0B09"
-        android:endColor="#F2050403"
-        android:startColor="#D91A1816"
+        android:endColor="#F2020617"
+        android:startColor="#D91A2233"
         android:type="linear" />
     <stroke
-        android:width="1.5dp"
-        android:color="#AAFDE68A" />
-    <corners android:radius="24dp" />
+        android:width="1.25dp"
+        android:color="#7AD4AF37" />
+    <corners android:radius="28dp" />
 </shape>
