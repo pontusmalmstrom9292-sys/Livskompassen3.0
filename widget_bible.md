@@ -1004,8 +1004,24 @@ Muted Text (Grå/Vit): För all sekundär lästext. Hög läsbarhet, men låg ko
 Widgetarna ska kännas som fysiska, exklusiva föremål, inte platta digitala rutor.
 Glassmorphism (Mörkt Safirglas): Alla widget-kort ska ha en subtil transparens och en frostad bakgrundsoskärpa (background blur).
 Guldkant (The Golden Border): Varje huvudkort kantas av en 1px tunn, lysande guldkant. Detta skapar en tydlig, trygg inramning (en "container") för hjärnan.
+Specular Edge: En tunn topp-highlight (`.cw-card::after`) med `--cw-gold-light` — Gemini visual harvest; ingen Tailwind-wrapper.
 Inre Skuggor (Inset Shadows): Kritiska interaktionsytor, såsom textinmatningsfältet i Snabba Anteckningar eller bakgrunden för Kapacitet-cirkeln, ska använda inre skuggor. Detta skapar en illusion av att ytan är nedsänkt och "skyddad".
 Yttre Glow (Soft Bloom): Istället för hårda, svarta drop-shadows används en mycket mjuk, mörkblå yttre glöd för att separera widgeten från hemskärmen.
+
+
+### 6.2.1 Art assets (Studio / Hem)
+
+Dekorativ SVG under `src/widgets/art/` (tokeniserad via `WidgetPalette`, unika gradient-id via `useId`):
+
+| Asset | Widget |
+|---|---|
+| `FacetedCompassRose` | Compass |
+| `LighthouseArtwork` | Beacon (Fyren) bakgrund |
+| `LotusEmblem` | Safe Harbor |
+| `Anchor3DEmblem` | Daily Anchor |
+
+Android RemoteViews ingår **inte** i art-lagret (WIS oförändrad).
+
 
 ### 6.3 Typografi & Ikonografi
 

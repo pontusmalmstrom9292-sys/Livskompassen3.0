@@ -87,6 +87,15 @@
 - Added `src/design-system/styles/ui-polish-v4-x10.css` + import in `index.css`
 - I1 contrast: `text-text-dim` → `text-text-muted` in 210 prod files (592 hits)
 - W0: `smoke:design-debt` PASS (btnPill 0, dsBtn 0, adHoc 2, indexCssLoc 62, DS 276) · `smoke:calm-card-audit` PASS
+# 2026-07-22 — Gemini visual harvest (Companion art)
+
+- `src/widgets/art/`: FacetedCompassRose, LighthouseArtwork, LotusEmblem, Anchor3DEmblem
+- Wired: Compass / Beacon / SafeHarbor / DailyAnchor
+- Specular edge `.cw-card::after` · bible Kap 6.2.1
+- Unlock: `docs/evaluations/2026-07-22-unlock-MOD-WIDGET-gemini-visual-harvest.md`
+- Smoke: companion-widgets · module-lock · locked-ux PASS
+
+---
 
 # 2026-07-22 — Interaktiva Companion Widgets (WIS)
 

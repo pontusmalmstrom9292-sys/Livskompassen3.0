@@ -176,6 +176,12 @@ Unlock: [`evaluations/2026-07-22-unlock-MOD-UI-POLISH-V4-X10.md`](./evaluations/
 
 ---
 
+## 2026-07-22 — Gemini visual harvest (MOD-WIDGET)
+
+- [x] Art: FacetedCompassRose / Lighthouse / Lotus / Anchor3D → Compass, Beacon, Harbor, DailyAnchor
+- [x] Specular `.cw-card::after` + bible 6.2.1
+- [x] Unlock `2026-07-22-unlock-MOD-WIDGET-gemini-visual-harvest.md`
+- [ ] Pontus: Studio/Hem — kolla kompass-ros + fyren-bakgrund visuellt
 
 ## 2026-07-22 — Interaktiva Companion Widgets (WIS) — LÅST i MOD-WIDGET
 
