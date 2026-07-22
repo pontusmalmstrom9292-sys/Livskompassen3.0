@@ -40,7 +40,7 @@ Pre-flight: [`FAS24-PREFLIGHT-SUPERPROMPT.md`](../../docs/prompts/FAS24-PREFLIGH
 - Barnporten kanon-UI · Sacred / Locked UX borttagning
 - Mass-radering utan arkiv-först + Pontus OK
 - Gmail OAuth / Google Calendar · Genkit V1
-- `APP_CHECK_ENFORCE` i Console (Pontus manuellt)
+- App Check Console-enforcement — Firestore måste vara UNENFORCED (`smoke:app-check-policy`); ENFORCED endast med Pontus PMIR OK
 - Fas 22.3 BLOCKERAD utan [`mabra-3.0-c-phase2-pmir.md`](../../docs/evaluations/2026-06-18-mabra-3.0-c-phase2-pmir.md)
 
 ## Expertmodell per zon (Fas 19+)

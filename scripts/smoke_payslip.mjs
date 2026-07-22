@@ -43,6 +43,10 @@ async function main() {
     appId: env.VITE_FIREBASE_APP_ID,
   });
 
+  if (initSmokeAppCheck(app, env)) {
+    console.log('[smoke] App Check (debug token) initierad');
+  }
+
   const auth = getAuth(app);
   const db = getFirestore(app);
   const functions = getFunctions(app, 'europe-west1');
