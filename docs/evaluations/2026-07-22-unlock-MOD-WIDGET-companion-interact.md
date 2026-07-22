@@ -46,3 +46,14 @@ npm run smoke:locked-ux
 ## Rollback
 
 Återställ `WidgetViews` till `WidgetLaunch.pendingIntent` och inaktivera overlay/receiver i manifest om regression upptäcks.
+
+## Lock hardening (2026-07-22 senare)
+
+WIS är nu permanent del av MOD-WIDGET / Locked UX §23:
+- entryFiles i module-lock-register (WidgetInteract, Receiver, Overlay, CaptureService, CaptureStore)
+- smoke:locked-ux asserts WIS-filer + skill
+- companion-os-lock + locked-ux-features.mdc uppdaterade
+- Secure local capture (EncryptedFile) + Senaste/download/share
+
+Borttagning eller regress till enbart MainActivity-deep-link kräver ny unlock + Pontus OK.
+

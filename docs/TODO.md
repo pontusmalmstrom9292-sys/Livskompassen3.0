@@ -1,14 +1,11 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
-## 2026-07-22 — Interaktiva Companion Widgets (WIS)
+## 2026-07-22 — Interaktiva Companion Widgets (WIS) — LÅST i MOD-WIDGET
 
-- [x] 5 underagenter: interact-capture / input / actions / visual-parity / sync-bridge
-- [x] Skill `livskompassen-companion-widget-interact` + specialist-widgets INTERACTIVE FIRST
-- [x] widget_bible kap. 7 Android Interactivity Contract + unlock MOD-WIDGET companion-interact
-- [x] Native: WidgetInteract · WidgetActionReceiver · WidgetOverlayActivity
-- [x] Capture hold 2s · Note overlay · Tasks in-place toggle · mood check-in · kärn-10 overlay/broadcast
-- [x] Bakgrundssynk: getWidgetData + pullNativeWidgetQueues → WidgetSync
-- [x] smoke:companion-widgets PASS
+- [x] 5 underagenter + skill + INTERACTIVE FIRST
+- [x] Native WIS + bakgrundsinspelning + krypterad lokal store + export
+- [x] Locked UX §23 / companion-os-lock / module-lock entryFiles utökade
+- [x] smoke:companion-widgets + smoke:locked-ux WIS-asserts
 - [ ] Pontus G85: fäst Capture/Note/Tasks → verifiera ingen full app-chrome
 
 ## 2026-07-22 — UI Polish v3 (alla zoner)

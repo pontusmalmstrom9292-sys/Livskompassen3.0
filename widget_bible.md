@@ -1,4 +1,6 @@
 > **LOCKED UX §23 / MOD-WIDGET** — Companion Widget OS får inte tas bort. Unlock kräver `docs/evaluations/*-unlock-MOD-WIDGET.md` (`approved: yes`) + Pontus OK. Smoke: `npm run smoke:companion-widgets`.
+>
+> **@locked MOD-WIDGET** — låst modul; unlock via docs/evaluations/*-unlock-MOD-WIDGET*.md
 
 # Livskompassen Companion Widget Bible
 

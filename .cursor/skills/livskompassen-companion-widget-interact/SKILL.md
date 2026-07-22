@@ -9,7 +9,13 @@ description: >-
 
 # Companion Widget Interact
 
+**@locked MOD-WIDGET** — låst modul; unlock via `docs/evaluations/*-unlock-MOD-WIDGET*.md`
+
 **Locked UX:** §23 / `MOD-WIDGET` · **Bible:** `widget_bible.md` · **Dirigent:** `/specialist-widgets`
+
+## INTERACTIVE FIRST
+
+Companion homescreen widgets are **100 % interaktiva**. Primary write/record/toggle must not open full Capacitor `MainActivity` as the only path.
 
 ## When to use
 

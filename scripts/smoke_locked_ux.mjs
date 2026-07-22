@@ -1059,6 +1059,8 @@ function main() {
     'MOD-WIDGET',
     'CompanionHomeRail',
     'smoke:companion-widgets',
+    'INTERACTIVE FIRST',
+    'WidgetCaptureStore',
   );
   mustInclude(
     '.context/module-lock-register.json',
@@ -1066,6 +1068,9 @@ function main() {
     'src/widgets/**',
     'smoke:companion-widgets',
     'CompanionHomeRail.tsx',
+    'WidgetInteract.java',
+    'WidgetCaptureService.java',
+    'livskompassen-companion-widget-interact',
   );
   mustInclude(
     'src/widgets/pack/CompanionHomeRail.tsx',
@@ -1085,6 +1090,32 @@ function main() {
   mustInclude(
     'src/modules/features/widgets/pages/WidgetCompanionSurfacePage.tsx',
     'companion',
+  );
+  // WIS — interaktiva widgets (låsta)
+  mustInclude(
+    'android/app/src/main/java/com/livskompassen/app/widgets/WidgetInteract.java',
+    'WidgetInteract',
+    'overlayPendingIntent',
+    'broadcastPendingIntent',
+  );
+  mustInclude(
+    'android/app/src/main/java/com/livskompassen/app/widgets/WidgetCaptureService.java',
+    'WidgetCaptureService',
+    'FOREGROUND_SERVICE_TYPE_MICROPHONE',
+  );
+  mustInclude(
+    'android/app/src/main/java/com/livskompassen/app/widgets/WidgetCaptureStore.java',
+    'EncryptedFile',
+    'downloadToDownloads',
+  );
+  mustInclude(
+    '.cursor/skills/livskompassen-companion-widget-interact/SKILL.md',
+    '100 % interaktiv',
+    'INTERACTIVE FIRST',
+  );
+  mustInclude(
+    'widget_bible.md',
+    'Android Interactivity Contract',
   );
   mustInclude(
     'src/modules/core/home/basta-design/BastaDesignHome.tsx',

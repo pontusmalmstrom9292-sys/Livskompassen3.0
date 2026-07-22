@@ -23,6 +23,8 @@ import com.livskompassen.app.core.WidgetUpdateManager;
 import com.livskompassen.app.util.SecurePrefs;
 
 /**
+ * @locked MOD-WIDGET — låst modul; unlock via docs/evaluations/*-unlock-MOD-WIDGET*.md
+ *
  * Translucent widget surface — text / mood / intention / tap-to-record.
  * Capture uses {@link WidgetCaptureService} so recording continues with screen locked.
  * No Capacitor chrome, dock, or nav.
@@ -164,12 +166,13 @@ public class WidgetOverlayActivity extends Activity {
             R.id.widget_overlay_mood_5
         };
         for (int i = 0; i < ids.length; i++) {
+            final int index = i;
             final String mood = String.valueOf(i + 1);
             TextView btn = findViewById(ids[i]);
             btn.setOnClickListener(v -> {
                 selectedMood = mood;
                 status.setText(getString(R.string.widget_overlay_mood_selected, mood));
-                highlightMood(ids, i);
+                highlightMood(ids, index);
             });
         }
     }

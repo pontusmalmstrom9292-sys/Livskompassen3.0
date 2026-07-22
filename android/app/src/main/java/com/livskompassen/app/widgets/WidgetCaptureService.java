@@ -24,6 +24,8 @@ import java.io.File;
 import java.io.IOException;
 
 /**
+ * @locked MOD-WIDGET — låst modul; unlock via docs/evaluations/*-unlock-MOD-WIDGET*.md
+ *
  * Background capture for Companion Hemlig inspelning.
  * Continues while screen is locked or user leaves overlay — until STOP.
  * Lives in widgets/ (not Sacred core).

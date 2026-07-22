@@ -31,6 +31,8 @@ import java.util.Locale;
 import java.util.UUID;
 
 /**
+ * @locked MOD-WIDGET — låst modul; unlock via docs/evaluations/*-unlock-MOD-WIDGET*.md
+ *
  * Secure local vault for Companion widget recordings.
  * At rest: AES EncryptedFile under app-private files/.
  * Export: decrypt to temp → share sheet (phone/PC) or MediaStore Downloads.

@@ -11,6 +11,8 @@ import com.livskompassen.app.core.WidgetUpdateManager;
 import com.livskompassen.app.util.SecurePrefs;
 
 /**
+ * @locked MOD-WIDGET — låst modul; unlock via docs/evaluations/*-unlock-MOD-WIDGET*.md
+ *
  * In-place Companion widget actions — updates RemoteViews without opening MainActivity.
  */
 public class WidgetActionReceiver extends BroadcastReceiver {

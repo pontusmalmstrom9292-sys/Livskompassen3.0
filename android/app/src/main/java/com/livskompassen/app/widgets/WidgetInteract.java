@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.Uri;
 
 /**
+ * @locked MOD-WIDGET — låst modul; unlock via docs/evaluations/*-unlock-MOD-WIDGET*.md
+ *
  * Widget Interaction Surface (WIS) — primary path for Companion homescreen widgets.
  * Broadcast = in-place RemoteViews. Overlay = translucent input (no full app chrome).
  * {@link WidgetLaunch} remains legacy deep-link fallback only.
