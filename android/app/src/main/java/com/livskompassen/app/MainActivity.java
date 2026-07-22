@@ -131,16 +131,23 @@ public class MainActivity extends BridgeActivity {
         EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         
-        // Initialize Managers
+        initializeManagers();
+        setupShakePanic();
+        setupBackNavigation();
+        setupBackgroundWork();
+        
+        // Handle initial intent
+        handleInitialIntent(getIntent());
+    }
+
+    private void initializeManagers() {
         hapticManager = new HapticManager(this);
         batteryManager = new BatteryManager(this);
         connectivityIntelligence = new ConnectivityIntelligence(this);
         hapticManager.setBatteryManager(batteryManager);
 
         systemUiManager = new SystemUiManager(this);
-        
-        // Start in Sacred Mode by default for safety
-        systemUiManager.setSacredZone(true);
+        systemUiManager.setSacredZone(true); // Start in Sacred Mode by default for safety
 
         themeManager = new ThemeManager(systemUiManager);
         integrityManager = new IntegrityManager(this);
@@ -152,8 +159,6 @@ public class MainActivity extends BridgeActivity {
         integrityManager.setZoneManager(zoneManager);
         emergencyManager = new com.livskompassen.app.core.EmergencyManager(this);
         
-        setupShakePanic();
-
         memoryManager = new MemoryManager(this, getBridge());
         webViewManager = new WebViewManager(
                 this, getBridge(), getWindow().getDecorView(), hapticManager, integrityManager, systemUiManager, fileChooserLauncher);
@@ -165,10 +170,10 @@ public class MainActivity extends BridgeActivity {
         shareManager = new com.livskompassen.app.core.SecureShareManager(this);
         searchManager = new SearchManager(this);
         iconManager = new com.livskompassen.app.core.IconManager(this);
+        
         projectionManager = new ProjectionManager(this, isProjecting -> {
             if (isProjecting) {
                 LCLog.w("MainActivity: Security warning - screen is being projected!");
-                // I framtiden: Visa en speciell notis eller begränsa funktionalitet
             }
         });
         projectionManager.start();
@@ -187,19 +192,19 @@ public class MainActivity extends BridgeActivity {
             );
         }
 
-        // Apply Initial Theme
         themeManager.applyCircadianTheme();
 
+        checkSecurityStatus();
+    }
+
+    private void checkSecurityStatus() {
         if (SecurityUtils.isRooted()) LCLog.w("Varning: Enheten är rootad.");
         if (SecurityUtils.isAdbEnabled(this)) LCLog.w("Säkerhetsinfo: ADB-felsökning är aktiverat.");
         if (SecurityUtils.isHookingDetected()) LCLog.e("KRITISKT: Hooking-verktyg detekterade!");
         if (SecurityUtils.hasSuspiciousAccessibilityService(this)) LCLog.w("Varning: Misstänkt hjälpmedelstjänst aktiv.");
+    }
 
-        setupBackNavigation();
-        setupBackgroundWork();
-        
-        // Handle initial intent
-        Intent intent = getIntent();
+    private void handleInitialIntent(Intent intent) {
         if (intent != null && Intent.ACTION_SEND.equals(intent.getAction()) && "text/plain".equals(intent.getType())) {
             handleShareIntent(intent);
         } else {
@@ -239,11 +244,14 @@ public class MainActivity extends BridgeActivity {
         LCLog.d("WorkManager: Scheduled periodic widget heartbeat.");
     }
 
+    private long lastBackPressTime = 0;
+    private static final long BACK_PRESS_INTERVAL = 2000;
+
     private void setupBackNavigation() {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                if (sacredLockManager.isLocked()) return;
+                if (sacredLockManager != null && sacredLockManager.isLocked()) return;
 
                 if (getBridge() != null && getBridge().getWebView() != null) {
                     if (getBridge().getWebView().canGoBack()) {
@@ -257,8 +265,15 @@ public class MainActivity extends BridgeActivity {
                         return;
                     }
                 }
-                setEnabled(false);
-                getOnBackPressedDispatcher().onBackPressed();
+
+                if (lastBackPressTime + BACK_PRESS_INTERVAL > System.currentTimeMillis()) {
+                    setEnabled(false);
+                    getOnBackPressedDispatcher().onBackPressed();
+                } else {
+                    lastBackPressTime = System.currentTimeMillis();
+                    // Optional: Visa en toast här om det önskas, 
+                    // men enligt "discreet" UX i dev-notes skippar vi det för tillfället.
+                }
             }
         });
     }

@@ -197,6 +197,16 @@ public class NativeInterface {
     }
 
     @JavascriptInterface
+    public void searchShortcuts(String query) {
+        searchManager.queryGenvagar(query, results -> {
+            // Här kan vi skicka tillbaka resultaten till WebView via ett JS-anrop
+            // För enkelhets skull loggar vi dem just nu, 
+            // men i en fullständig impl. skulle vi köra webView.evaluateJavascript(...)
+            LCLog.d("NativeInterface: Search for '%s' found %d results", query, results.size());
+        });
+    }
+
+    @JavascriptInterface
     public void triggerPremiumNotification(String title, String message, String type) {
         // I framtiden: skicka med en boolean för 'sensitive' här
         String channelId = "sacred_vault_notifications".equals(type) ? 

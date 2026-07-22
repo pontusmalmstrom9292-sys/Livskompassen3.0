@@ -275,7 +275,7 @@ public final class SecurityUtils {
      */
     public static byte[] sanitizeYamlContent(byte[] content) {
         try {
-            String text = new String(content, "UTF-8");
+            String text = new String(content, java.nio.charset.StandardCharsets.UTF_8);
             String[] lines = text.split("\\r?\\n");
             StringBuilder sanitized = new StringBuilder();
             for (String line : lines) {
@@ -283,7 +283,7 @@ public final class SecurityUtils {
                     sanitized.append(line).append("\n");
                 }
             }
-            return sanitized.toString().getBytes("UTF-8");
+            return sanitized.toString().getBytes(java.nio.charset.StandardCharsets.UTF_8);
         } catch (Exception e) {
             return content; // Fallback to original on error
         }
