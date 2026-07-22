@@ -325,10 +325,11 @@ export function QuickCaptureWidget({
 
   return (
     <WidgetCard
-      size={cfg?.size ?? 'medium'}
+      size={cfg?.size ?? 'xs'}
       material={cfg?.material ?? 'sapphire'}
       className={[
         'cw-card--hero',
+        'cw-card--capture-xs',
         widgetCardClass(cfg?.animation),
         pulseHint && !autostart ? 'cw-soft-focus' : '',
       ]
@@ -337,13 +338,13 @@ export function QuickCaptureWidget({
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
-        title="Hemlig inspelning"
+        title="Inspelning"
         subtitle={
           recording
             ? silent
               ? 'Tyst… svep uppåt eller Avbryt'
               : 'Spelar in… svep uppåt eller Avbryt'
-            : (status ?? 'Tryck och håll för att spela in')
+            : (status ?? 'Tryck mic · inspelning startar')
         }
         offline={!online}
         icon={<LockGlyph />}

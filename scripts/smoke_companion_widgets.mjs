@@ -669,21 +669,59 @@ mustExist('android/app/src/main/res/layout/widget_companion_compass.xml');
 mustExist('android/app/src/main/res/layout/widget_companion_beacon.xml');
 mustExist('android/app/src/main/res/drawable/widget_waveform_ethereal.xml');
 mustExist('android/app/src/main/res/drawable/widget_compass_disc.xml');
+assert(
+  !existsSync(resolve(root, 'android/app/src/main/java/com/livskompassen/app/widgets/CompassWidgetProvider.java')),
+  'Legacy CompassWidgetProvider chip ska vara borttagen',
+);
+assert(
+  !existsSync(resolve(root, 'android/app/src/main/java/com/livskompassen/app/widgets/HamnWidgetProvider.java')),
+  'Legacy HamnWidgetProvider chip ska vara borttagen',
+);
+assert(
+  !existsSync(resolve(root, 'android/app/src/main/java/com/livskompassen/app/widgets/NoteWidgetProvider.java')),
+  'Legacy NoteWidgetProvider chip ska vara borttagen',
+);
 mustExist('android/app/src/main/res/values/colors.xml');
 
 const captureInfo = mustExist('android/app/src/main/res/xml/widget_companion_capture_info.xml');
 assert(captureInfo.includes('widget_companion_capture'), 'Capture info måste previewa rich layout');
-assert(captureInfo.includes('250dp'), 'Capture info minWidth/Height måste vara Small 250×110');
+assert(captureInfo.includes('110dp'), 'Capture min måste vara 110dp (kan ta 1 plats)');
+assert(captureInfo.includes('targetCellWidth="2"'), 'Capture default target 2×2');
 
 const noteInfo = mustExist('android/app/src/main/res/xml/widget_companion_note_info.xml');
-assert(noteInfo.includes('widget_companion_note') && noteInfo.includes('250dp'), 'Note info måste vara rich 250×110');
+assert(noteInfo.includes('widget_companion_note'), 'Note info måste previewa rich layout');
+assert(noteInfo.includes('minWidth="110dp"'), 'Note måste kunna krympa till 110dp');
+assert(noteInfo.includes('targetCellWidth="4"'), 'Note default target 4 celler bred');
+assert(noteInfo.includes('resizeMode="horizontal|vertical"'), 'Note måste vara resizebar');
 
 const compassInfo = mustExist('android/app/src/main/res/xml/widget_companion_compass_info.xml');
 assert(compassInfo.includes('widget_companion_compass'), 'Compass info måste previewa rich layout');
-assert(compassInfo.includes('250dp'), 'Compass info måste vara Large 250×250');
+assert(compassInfo.includes('minWidth="110dp"'), 'Compass måste kunna krympa till 110dp');
+assert(compassInfo.includes('targetCellWidth="4"') && compassInfo.includes('targetCellHeight="4"'), 'Compass default 4×4');
 
 const beaconInfo = mustExist('android/app/src/main/res/xml/widget_companion_beacon_info.xml');
-assert(beaconInfo.includes('widget_companion_beacon') && beaconInfo.includes('180dp'), 'Beacon info måste vara Medium 250×180');
+assert(beaconInfo.includes('widget_companion_beacon'), 'Beacon info måste previewa rich layout');
+assert(beaconInfo.includes('minWidth="110dp"'), 'Beacon måste kunna krympa till 110dp');
+assert(beaconInfo.includes('targetCellHeight="3"'), 'Beacon default target höjd 3');
+
+// Alla 10 companion info: min 110 + resize + targetCell
+for (const infoName of [
+  'widget_companion_capture_info.xml',
+  'widget_companion_note_info.xml',
+  'widget_companion_inbox_info.xml',
+  'widget_companion_journal_info.xml',
+  'widget_companion_tasks_info.xml',
+  'widget_companion_harbor_info.xml',
+  'widget_companion_beacon_info.xml',
+  'widget_companion_child_info.xml',
+  'widget_companion_compass_info.xml',
+  'widget_companion_anchor_info.xml',
+]) {
+  const body = mustExist(`android/app/src/main/res/xml/${infoName}`);
+  assert(body.includes('minWidth="110dp"') && body.includes('minHeight="110dp"'), `${infoName} saknar min 110×110`);
+  assert(body.includes('resizeMode="horizontal|vertical"'), `${infoName} saknar resize`);
+  assert(body.includes('targetCellWidth'), `${infoName} saknar targetCell (defaultstorlek)`);
+}
 
 const colors = mustExist('android/app/src/main/res/values/colors.xml');
 assert(colors.includes('widget_ethereal') || colors.toLowerCase().includes('7ba3c9'), 'Android saknar ethereal color');
@@ -729,7 +767,9 @@ mustExist('android/app/src/main/res/layout/widget_companion_tasks.xml');
 mustExist('android/app/src/main/res/layout/widget_companion_journal.xml');
 
 const inboxInfoXml = mustExist('android/app/src/main/res/xml/widget_companion_inbox_info.xml');
-assert(inboxInfoXml.includes('widget_companion_inbox') && inboxInfoXml.includes('250dp'), 'Inbox info måste vara Small 250×110');
+assert(inboxInfoXml.includes('widget_companion_inbox'), 'Inbox info måste previewa rich layout');
+assert(inboxInfoXml.includes('minWidth="110dp"'), 'Inbox måste kunna krympa till 110dp');
+assert(inboxInfoXml.includes('targetCellWidth="4"'), 'Inbox default target 4 celler');
 
 const surfaceInbox = mustExist('src/modules/features/widgets/pages/WidgetCompanionSurfacePage.tsx');
 assert(surfaceInbox.includes('autoText') && surfaceInbox.includes('autoLink'), 'Surface måste skicka inbox text/link');
@@ -761,6 +801,7 @@ mustExist('android/app/src/main/res/layout/widget_companion_anchor.xml');
 mustExist('android/app/src/main/res/layout/widget_companion_child.xml');
 
 const childInfoXml = mustExist('android/app/src/main/res/xml/widget_companion_child_info.xml');
-assert(childInfoXml.includes('180dp'), 'Child info måste vara Medium 250×180');
+assert(childInfoXml.includes('minWidth="110dp"'), 'Child måste kunna krympa till 110dp');
+assert(childInfoXml.includes('targetCellHeight="3"'), 'Child default target höjd 3');
 
 console.log('[smoke:companion-widgets] PASS — live rail + studio preview + Våg1–5 rich + Smart/AI');

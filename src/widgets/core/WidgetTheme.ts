@@ -4,7 +4,7 @@
  * UX Law 07 / 14 / 15: quiet, premium, consistent — no neon, no decoration noise.
  */
 
-export const WIDGET_THEME_VERSION = '1.1.0' as const;
+export const WIDGET_THEME_VERSION = '1.2.0' as const;
 
 /** Kapitel 6.1 — The Palette of Calm */
 export const WidgetPalette = {
@@ -39,14 +39,14 @@ export const WidgetMaterial = {
   /** 1px golden border */
   goldBorder: 'rgba(212, 175, 55, 0.48)',
   goldBorderSoft: 'rgba(212, 175, 55, 0.26)',
-  /** Soft bloom — dark-blue outer glow + gold hairline (mockup 15b) */
+  /** Soft bloom — Kap 6.2 Soft Bloom (mörkblå yttre glöd + guld-hårstrå) */
   softBloom:
-    '0 0 36px rgba(2, 6, 23, 0.78), 0 14px 36px rgba(2, 6, 23, 0.58), 0 0 28px rgba(212, 175, 55, 0.12), 0 0 1px rgba(212, 175, 55, 0.28)',
-  /** Inset well for protected input / capacity wells */
+    '0 0 42px rgba(2, 6, 23, 0.82), 0 16px 40px rgba(2, 6, 23, 0.62), 0 0 32px rgba(212, 175, 55, 0.14), 0 0 1px rgba(212, 175, 55, 0.32)',
+  /** Inset well for protected input / capacity wells (Kap 6.2) */
   insetShadow:
-    'inset 0 2px 10px rgba(0, 0, 0, 0.62), inset 0 1px 0 rgba(212, 175, 55, 0.1)',
+    'inset 0 3px 12px rgba(0, 0, 0, 0.68), inset 0 1px 0 rgba(212, 175, 55, 0.12)',
   /** Subtle top lip reflection */
-  glassLip: 'inset 0 1px 0 rgba(212, 175, 55, 0.2)',
+  glassLip: 'inset 0 1px 0 rgba(253, 230, 138, 0.22)',
   /** Matt metall alternate */
   matteMetalFill: 'rgba(18, 22, 32, 0.94)',
 } as const;
@@ -60,7 +60,7 @@ export const WidgetTouch = {
 
 /** Kapitel 6.3 — typography */
 export const WidgetType = {
-  headingTrackingEm: 0.18,
+  headingTrackingEm: 0.2,
   headingTransform: 'uppercase' as const,
   /** Mockup elevation — ~28px soft glass corners */
   radiusCardPx: 28,

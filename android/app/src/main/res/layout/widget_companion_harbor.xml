@@ -7,8 +7,8 @@
     android:background="@drawable/widget_bg_premium_panel"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingHorizontal="12dp"
-    android:paddingVertical="10dp">
+    android:paddingHorizontal="8dp"
+    android:paddingVertical="6dp">
 
     <TextView
         android:id="@+id/widget_companion_harbor_title"
@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:gravity="center"
-        android:letterSpacing="0.12"
+        android:letterSpacing="0.16"
         android:maxLines="1"
         android:text="@string/widget_companion_harbor_title"
         android:textAllCaps="true"
@@ -25,8 +25,8 @@
         android:textStyle="bold" />
 
     <FrameLayout
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_marginTop="6dp"
         android:background="@drawable/widget_bg_gold_ring"
         android:padding="10dp">
@@ -65,7 +65,7 @@
             android:layout_weight="1"
             android:background="@drawable/widget_bg_stamp_pill_muted"
             android:gravity="center"
-            android:minHeight="48dp"
+            android:minHeight="56dp"
             android:text="@string/widget_companion_harbor_breath"
             android:textColor="@color/widget_muted"
             android:textSize="9sp" />
@@ -78,7 +78,7 @@
             android:layout_weight="1"
             android:background="@drawable/widget_bg_stamp_pill_muted"
             android:gravity="center"
-            android:minHeight="48dp"
+            android:minHeight="56dp"
             android:text="@string/widget_companion_harbor_focus"
             android:textColor="@color/widget_muted"
             android:textSize="9sp" />
@@ -91,7 +91,7 @@
             android:layout_weight="1"
             android:background="@drawable/widget_bg_stamp_pill_muted"
             android:gravity="center"
-            android:minHeight="48dp"
+            android:minHeight="56dp"
             android:text="@string/widget_companion_harbor_thanks"
             android:textColor="@color/widget_muted"
             android:textSize="9sp" />
@@ -104,7 +104,7 @@
             android:layout_weight="1"
             android:background="@drawable/widget_bg_stamp_pill_muted"
             android:gravity="center"
-            android:minHeight="48dp"
+            android:minHeight="56dp"
             android:text="@string/widget_companion_harbor_sleep"
             android:textColor="@color/widget_muted"
             android:textSize="9sp" />

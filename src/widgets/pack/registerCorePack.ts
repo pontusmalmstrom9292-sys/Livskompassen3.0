@@ -3,7 +3,7 @@ import { registerWidget, type WidgetDefinition } from '../core/WidgetFramework';
 
 /** All 10 core pack definitions (WIDGET_BIBLE kap 4). */
 export const CORE_PACK_DEFINITIONS: WidgetDefinition[] = [
-  { id: 'quick_capture', title: 'Quick Capture', size: 'small', level: 1, moduleKey: 'inkast' },
+  { id: 'quick_capture', title: 'Inspelning', size: 'xs', level: 1, moduleKey: 'inkast' },
   { id: 'compass', title: 'Kompassen', size: 'large', level: 3, moduleKey: 'kompass' },
   { id: 'quick_note', title: 'Snabbanteckning', size: 'small', level: 1, moduleKey: 'inkast' },
   { id: 'inbox', title: 'Inkast', size: 'small', level: 1, moduleKey: 'inkast' },

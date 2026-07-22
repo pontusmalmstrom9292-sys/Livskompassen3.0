@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-21",
+  "updatedAt": "2026-07-22",
   "modules": [
     {
       "id": "MOD-CORE-NAV",
@@ -552,9 +552,11 @@
         "smoke:custom-modules"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-21",
-      "lockedCommit": "a4e3a0ef3",
-      "notes": "Companion OS Locked UX §23 + WIS interact 2026-07-22 — borttagning kräver unlock-doc + Pontus OK. INTERACTIVE FIRST. Unlock-historik: 2026-07-21-companion-os · 2026-07-22-companion-interact"
+      "lockedAt": "2026-07-22",
+      "lockedCommit": "ff3ef6382",
+      "notes": "Companion OS Locked UX §23 + WIS interact 2026-07-22 — borttagning kräver unlock-doc + Pontus OK. INTERACTIVE FIRST. Unlock-historik: 2026-07-21-companion-os · 2026-07-22-companion-interact",
+      "unlockedAt": "2026-07-22",
+      "unlockDoc": "docs/evaluations/2026-07-22-unlock-MOD-WIDGET-legacy-chip-removal.md"
     },
     {
       "id": "MOD-CORE-MINNE",

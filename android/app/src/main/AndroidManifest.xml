@@ -157,20 +157,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_record_info" />
         </receiver>
-
-        <receiver
-            android:name=".widgets.NoteWidgetProvider"
-            android:exported="true"
-            android:label="@string/widget_note_title">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_note_info" />
-        </receiver>
-
-        <receiver
+<receiver
             android:name=".widgets.CompanionCaptureWidgetProvider"
             android:exported="true"
             android:label="@string/widget_companion_capture_title">
@@ -288,33 +275,7 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_companion_tasks_info" />
         </receiver>
-
-
-        <receiver
-            android:name=".widgets.CompassWidgetProvider"
-            android:exported="true"
-            android:label="@string/widget_compass_title">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_compass_info" />
-        </receiver>
-
-        <receiver
-            android:name=".widgets.HamnWidgetProvider"
-            android:exported="true"
-            android:label="@string/widget_hamn_title">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/widget_hamn_info" />
-        </receiver>
-
-        <receiver
+<receiver
             android:name=".widgets.StampWidgetProvider"
             android:exported="true"
             android:label="@string/widget_stamp_title">

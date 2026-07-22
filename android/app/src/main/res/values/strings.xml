@@ -41,13 +41,16 @@
     <string name="widget_note_sub">En rad → Inkast</string>
     <string name="widget_note_desc">Snabblogg — default Inkast (välj silo i appen)</string>
 
-    <string name="widget_companion_capture_title">Hemlig inspelning</string>
+    <string name="widget_companion_capture_title">Inspelning</string>
     <string name="widget_companion_capture_sub">Tryck mic · inspelning startar</string>
     <string name="widget_companion_capture_recording_sub">Spelar in… tryck för att stoppa</string>
     <string name="widget_companion_capture_desc">Companion OS — spela in direkt från hemskärmen</string>
     <string name="widget_companion_capture_trust">Privat · krypterad · endast du</string>
+    <string name="widget_companion_capture_trust_e2e">End-to-end krypterad</string>
+    <string name="widget_companion_capture_trust_private">Helt privat</string>
+    <string name="widget_companion_capture_trust_you">Endast du har åtkomst</string>
 
-    <string name="widget_companion_capture_mic_cd">Starta hemlig inspelning</string>
+    <string name="widget_companion_capture_mic_cd">Starta inspelning</string>
     <string name="widget_companion_capture_recent">Senaste</string>
     <string name="widget_companion_note_compose">Skriv något snabbt…</string>
     <string name="widget_companion_note_photo">Foto</string>
@@ -62,7 +65,7 @@
     <string name="widget_overlay_close">Stäng</string>
     <string name="widget_overlay_save">Spara</string>
     <string name="widget_overlay_saved">Sparat lokalt · synkas i bakgrunden</string>
-    <string name="widget_overlay_capture_title">Hemlig inspelning</string>
+    <string name="widget_overlay_capture_title">Inspelning</string>
     <string name="widget_overlay_capture_hint">Inspelning fortsätter i bakgrunden — även med låst skärm</string>
     <string name="widget_overlay_capture_start_label">Tryck för att spela in</string>
     <string name="widget_overlay_capture_stop_label">Tryck för att stoppa</string>
