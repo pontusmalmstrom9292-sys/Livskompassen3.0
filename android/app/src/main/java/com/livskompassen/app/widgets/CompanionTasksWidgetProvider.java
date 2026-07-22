@@ -5,7 +5,7 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 
 /**
- * Companion OS — Uppgifter Small (max 3 rich rows). No core manager changes.
+ * Companion OS — Uppgifter Small (WIS). Row taps toggle done in-place via BroadcastReceiver.
  */
 public class CompanionTasksWidgetProvider extends AppWidgetProvider {
     @Override

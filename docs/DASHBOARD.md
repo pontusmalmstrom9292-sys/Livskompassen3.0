@@ -1,3 +1,12 @@
+## 2026-07-22 — Interaktiva Companion Widgets (WIS)
+
+- INTERACTIVE FIRST: overlay + broadcast (ingen full app för primär write/record/toggle)
+- Skill + 5 underagenter · bible kap. 7 · unlock MOD-WIDGET companion-interact (`approved: yes`)
+- Smoke: `smoke:companion-widgets` **PASS**
+- Nästa: Pontus G85 manuell pin-test (Capture hold · Note skriv · Tasks bocka)
+
+---
+
 ## 2026-07-22 — UI Polish v3 (alla zoner)
 
 ### Design debt (2026-07-22) — post QuickCapture Sheet

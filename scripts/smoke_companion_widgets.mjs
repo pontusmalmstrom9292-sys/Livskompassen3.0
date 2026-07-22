@@ -296,7 +296,9 @@ assert(androidStrings.includes('Andas här'), 'Android Hamn-sub måste vara lugn
 assert(
   androidStrings.includes('Tryck · håll tyst') ||
     androidStrings.includes('startar inspelning') ||
-    androidStrings.includes('Tryck mic'),
+    androidStrings.includes('Tryck mic') ||
+    androidStrings.includes('Håll 2 sek') ||
+    androidStrings.includes('spela in i widgeten'),
   'Android Capture-sub måste vara tydlig',
 );
 assert(androidStrings.includes('En rad räcker'), 'Android Dagbok-sub måste vara kort copy');
@@ -493,6 +495,50 @@ assert(androidViews.includes('bindClick') || androidViews.includes('widget_icon'
 
 const androidLaunch = mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetLaunch.java');
 assert(androidLaunch.includes('setData') || androidLaunch.includes('livskompassen://'), 'WidgetLaunch måste ha unik data-URI per path');
+
+// WIS — Interactive Companion (broadcast / overlay / no primary MainActivity deep-link)
+mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetInteract.java');
+mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetActionReceiver.java');
+mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetOverlayActivity.java');
+mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetCaptureService.java');
+mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetCaptureStore.java');
+mustExist('android/app/src/main/res/layout/activity_widget_overlay.xml');
+assert(
+  mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetCaptureStore.java')
+    .includes('EncryptedFile') &&
+    mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetCaptureStore.java')
+      .includes('downloadToDownloads'),
+  'WidgetCaptureStore måste kryptera + tillåta Downloads-export',
+);
+mustExist('.cursor/skills/livskompassen-companion-widget-interact/SKILL.md');
+mustExist('.cursor/agents/specialist-widget-interact-capture.md');
+mustExist('.cursor/agents/specialist-widget-interact-input.md');
+mustExist('.cursor/agents/specialist-widget-interact-actions.md');
+mustExist('.cursor/agents/specialist-widget-visual-parity.md');
+mustExist('.cursor/agents/specialist-widget-sync-bridge.md');
+const wisViews = mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetViews.java');
+assert(wisViews.includes('WidgetInteract.overlayPendingIntent'), 'Capture/Note måste använda overlay');
+assert(wisViews.includes('WidgetInteract.broadcastPendingIntent'), 'Tasks/Harbor måste använda broadcast');
+assert(wisViews.includes('MODE_CAPTURE') && wisViews.includes('MODE_NOTE'), 'WIS modes saknas i WidgetViews');
+assert(wisViews.includes('ACT_TASK_TOGGLE'), 'Tasks måste ha in-place toggle');
+assert(wisViews.includes('WidgetCaptureService'), 'Capture måste använda bakgrundsservice');
+const wisManifest = mustExist('android/app/src/main/AndroidManifest.xml');
+assert(wisManifest.includes('WidgetOverlayActivity'), 'Manifest saknar WidgetOverlayActivity');
+assert(wisManifest.includes('WidgetActionReceiver'), 'Manifest saknar WidgetActionReceiver');
+assert(wisManifest.includes('WidgetCaptureService'), 'Manifest saknar WidgetCaptureService');
+assert(
+  wisManifest.includes('FOREGROUND_SERVICE_MICROPHONE') ||
+    wisManifest.includes('foregroundServiceType="microphone"'),
+  'Manifest saknar microphone FGS',
+);
+const wisBible = mustExist('widget_bible.md');
+assert(wisBible.includes('Android Interactivity Contract'), 'widget_bible saknar kap. 7 Interactivity Contract');
+const wisBridge = mustExist('src/widgets/core/companionWidgetBridge.ts');
+assert(wisBridge.includes('pullNativeWidgetQueues'), 'Bridge måste pulla native WIS-kö');
+assert(wisBridge.includes('getWidgetData'), 'Bridge måste referera getWidgetData');
+const wisSync = mustExist('src/widgets/core/WidgetSync.ts');
+assert(wisSync.includes('ingestNativeWidgetQueues') || wisSync.includes('pullNativeWidgetQueues'), 'WidgetSync måste ingest native queues');
+mustExist('docs/evaluations/2026-07-22-unlock-MOD-WIDGET-companion-interact.md');
 
 const surfaceAutostart = mustExist('src/modules/features/widgets/pages/WidgetCompanionSurfacePage.tsx');
 assert(surfaceAutostart.includes('autostart={autostart'), 'Capture-surface måste skicka autostart till QuickCapture');

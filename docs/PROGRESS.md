@@ -1,3 +1,14 @@
+# 2026-07-22 — Interaktiva Companion Widgets (WIS)
+
+- Agenter: 5× `specialist-widget-interact-*` + uppdaterad `specialist-widgets` (INTERACTIVE FIRST)
+- Skill: `.cursor/skills/livskompassen-companion-widget-interact/SKILL.md`
+- Bible: kap. 7 Android Interactivity Contract · Unlock: `docs/evaluations/2026-07-22-unlock-MOD-WIDGET-companion-interact.md`
+- Android: `WidgetInteract` / `WidgetActionReceiver` / `WidgetOverlayActivity` — Capture/Note/Tasks/kärn-10 utan primär MainActivity-deep-link
+- Sync: `getWidgetData` + `pullNativeWidgetQueues` → `WidgetSync.ingestNativeWidgetQueues`
+- Smoke: `npm run smoke:companion-widgets` PASS
+
+---
+
 # 2026-07-22 — UI Polish v3 (alla zoner, refine-only)
 
 - Wave 0 baseline: design-debt btnPill 0 · dsBtn 0 · adHocDialog **2** (was 3) · indexCssLoc 61 · DS imports 276 · calm-card PASS

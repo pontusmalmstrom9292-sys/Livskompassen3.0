@@ -199,7 +199,31 @@ public class NativeInterface {
 
     @JavascriptInterface
     public void setWidgetData(String key, String value) {
-        WidgetUpdateManager.updateWidgetContent(hapticManager.getContext(), key, value);
+        android.content.Context ctx = hapticManager.getContext();
+        // WIS queue/draft keys live unprefixed in SecurePrefs (overlay/receiver).
+        if (key != null && key.startsWith("widget_")) {
+            com.livskompassen.app.util.SecurePrefs.get(ctx)
+                .edit()
+                .putString(key, value == null ? "" : value)
+                .apply();
+            return;
+        }
+        WidgetUpdateManager.updateWidgetContent(ctx, key, value);
+    }
+
+    /**
+     * Read widget queue/draft keys (widget_*) or dynamic last_action_* for background sync.
+     * Additive WIS bridge — does not open UI.
+     */
+    @JavascriptInterface
+    public String getWidgetData(String key) {
+        if (key == null || key.isEmpty()) return "";
+        android.content.Context ctx = hapticManager.getContext();
+        if (key.startsWith("widget_")) {
+            return com.livskompassen.app.util.SecurePrefs.get(ctx).getString(key, "");
+        }
+        String scoped = WidgetUpdateManager.getWidgetContent(ctx, key);
+        return scoped == null ? "" : scoped;
     }
 
     @JavascriptInterface

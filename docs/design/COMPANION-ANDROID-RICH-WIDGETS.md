@@ -32,9 +32,15 @@ Alla `info.xml`: `initialLayout` + `previewLayout` = rich (inte `widget_dock_til
 
 ## Routing
 
-- **voice** (Capture/Note/Inbox) → Valv WORM via app-session  
-- **text / foto / länk** → Inkast  
-- Ingen native MediaRecorder/POST från RemoteViews
+- **voice** (Capture) → lokal kö / Valv WORM via bakgrundssynk (overlay hold-to-record)
+- **text** → Inkast-kö via overlay (ingen full app)
+- **toggle** → BroadcastReceiver in-place
+- Photo still secondary deep-link (system picker)
+- Ingen Sacred `core/**`-omstrukturering
+
+## WIS (2026-07-22)
+
+Primary path: `WidgetInteract` → overlay | broadcast. See `widget_bible.md` §7 · skill `livskompassen-companion-widget-interact`.
 
 ## Gate A–H
 

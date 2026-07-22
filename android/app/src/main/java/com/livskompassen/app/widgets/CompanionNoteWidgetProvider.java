@@ -5,9 +5,8 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 
 /**
- * Companion OS — Snabba anteckningar on home screen.
- * Rich RemoteViews: compose / photo / voice / + with separate PendingIntents.
- * No core manager changes.
+ * Companion OS — Snabba anteckningar (WIS).
+ * Compose/+ → overlay text; category pills → in-place broadcast; voice → capture overlay.
  */
 public class CompanionNoteWidgetProvider extends AppWidgetProvider {
     @Override

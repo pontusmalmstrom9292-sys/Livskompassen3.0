@@ -1008,7 +1008,7 @@ Yttre Glow (Soft Bloom): Istället för hårda, svarta drop-shadows används en 
 ### 6.3 Typografi & Ikonografi
 
 Rubriker (Caps & Tracking): Huvudrubriker (t.ex. "HEMLIG INSPELNING", "DAGENS FOKUS") ska skrivas i versaler med generöst avstånd mellan bokstäverna (tracking). Detta tvingar ögat att sakta ner.
-Subtitlar: Enkel, ren sans-serif (t.ex. "Tryck och håll för att spela in").
+Subtitlar: Enkel, ren sans-serif (t.ex. "Tryck mic · inspelning startar").
 Ikoner: Alla ikoner (mikrofon, penna, lås, kompass) ska vara konsekventa i sin linjetjocklek och färgsatta i Premium Gold.
 3D-Element: Kärnsymboler som Kompassen och Lotusblomman får ha en upphöjd, detaljerad 3D-effekt som drar blicken till sig och fungerar som ett visuellt ankare.
 
@@ -1040,6 +1040,61 @@ Om ett designelement – en färg, en animation, eller en skugga – bryter mot 
 
 ---
 
+## 7. Android Interactivity Contract (WIS)
+
+**Status:** Kanon · **Skill:** `livskompassen-companion-widget-interact` · **Dirigent:** `/specialist-widgets`
+
+Hemskärms-widgets ska vara **100 % interaktiva**. Primär handling sker i widget-ytan. Synk sker i bakgrunden. Full Capacitor-shell (`MainActivity` + dock/nav) är **förbjuden** som primär väg för write / record / toggle.
+
+### 7.1 Godkända ytor
+
+| Yta | Teknik | Användning |
+|-----|--------|------------|
+| In-place RemoteViews | `PendingIntent.getBroadcast` → `WidgetActionReceiver` | Checkbox, play/pause, category-pill, harbor-läge, expand |
+| Widget Overlay | Translucent `WidgetOverlayActivity` (ingen dock/nav) | Text, mood, intention, hold-to-record UI |
+| Bakgrund | SecurePrefs-kö + `WidgetUpdateManager` / WorkManager | Synk till app/Firestore — öppnar **aldrig** UI |
+
+`WidgetLaunch` → `MainActivity` får endast användas som **sekundär** “öppna modul”-fallback.
+
+### 7.2 Gesture → implementation
+
+| Gest | Implementation | Underagent |
+|------|----------------|------------|
+| Toggle / checkbox | Broadcast + uppdatera RemoteViews | `/specialist-widget-interact-actions` |
+| Text / mood / intention | Overlay | `/specialist-widget-interact-input` |
+| Tap mic (ett tryck) | Startar WidgetCaptureService (FG) — fortsätter med låst skärm; andra trycket / notis Stoppa = spara | `/specialist-widget-interact-capture` |
+| Synk | Kö → bridge → callable/collection | `/specialist-widget-sync-bridge` |
+| Visuell parity | Layouts / drawables / pack | `/specialist-widget-visual-parity` |
+
+### 7.3 Dataflöde
+
+```text
+[Widget tap]
+    → Broadcast eller Overlay
+    → Lokal kö (SecurePrefs: widget_draft_* / widget_state_* / widget_queue_*)
+    → WidgetUpdateManager.last_action_* (RemoteViews refresh)
+    → Web WidgetSync / callable (när app/process synkar)
+    → Silo (Inkast / journal / reality_vault via server)
+```
+
+### 7.4 OS-gräns (RemoteViews)
+
+Android RemoteViews kan **inte** hosta React eller pålitlig EditText på hemskärmen. Därför är translucent overlay **del av widget-kontraktet**, inte “öppna appen”.
+
+### 7.5 Touch & tokens
+
+- Hit-area ≥ **56 dp** (G85)
+- Obsidian + Premium Gold; Ethereal Blue **scoped** till aktiv våg/progress/andning
+- Max 3 primära actions per yta
+
+### 7.6 Verifiering
+
+```bash
+npm run smoke:companion-widgets
+```
+
+Manuell G85: Capture hold · Note skriv i overlay · Tasks bocka · data syns efter bakgrundssynk utan full app-chrome.
+
 ---
 
 ## Relaterat
@@ -1048,6 +1103,8 @@ Om ett designelement – en färg, en animation, eller en skugga – bryter mot 
 |--------|------|
 | Locked UX §23 | `.context/locked-ux-features.md` |
 | Kod | `src/widgets/` |
+| Android WIS | `android/.../widgets/WidgetInteract.java` · `WidgetActionReceiver` · `WidgetOverlayActivity` |
+| Skill | `.cursor/skills/livskompassen-companion-widget-interact/SKILL.md` |
 | Studio-route | `/installningar/widget-studio` |
 | Smoke | `npm run smoke:companion-widgets` |
-| Unlock | `docs/evaluations/*-unlock-MOD-WIDGET.md` |
+| Unlock | `docs/evaluations/*-unlock-MOD-WIDGET*.md` |

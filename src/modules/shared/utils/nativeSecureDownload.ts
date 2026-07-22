@@ -11,6 +11,8 @@ export type LivskompassenNativeBridge = {
   userInteracted?: () => void;
   /** Persist home-screen widget payload (SecurePrefs → AppWidget update). */
   setWidgetData?: (key: string, value: string) => void;
+  /** Read WIS queue/draft or last_action_* for background sync (no UI). */
+  getWidgetData?: (key: string) => string;
   /** Dynamic app-icon shortcut for dagens utvecklingskort. */
   updateUtvecklingskortShortcut?: (text: string) => void;
   /** AppSearch — index drawer module for Android global search. */
