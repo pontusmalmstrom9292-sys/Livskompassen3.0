@@ -1,0 +1,1 @@
+keytool -exportcert -alias DITT_ALIAS -keystore DITT_RELEASE_VALV.jks | openssl sha256 -binary | base64
