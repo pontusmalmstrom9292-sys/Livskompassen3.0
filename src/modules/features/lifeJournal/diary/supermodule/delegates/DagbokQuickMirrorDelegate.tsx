@@ -50,7 +50,7 @@ export function DagbokQuickMirrorDelegate({ onSaved }: DagbokQuickMirrorDelegate
         </p>
       </header>
 
-      <div className="reflektion-wizard" aria-live="polite">
+      <div className="reflektion-wizard hjartat-reflektion-wizard gs-hub-card" aria-live="polite">
         <JournalQuickMode
           mood={mood}
           tags={tags}

@@ -146,26 +146,27 @@ export function JournalWidget({
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
-        title="Journal"
-        subtitle={status ?? 'Dagens lugna check-in'}
+        title="Dagbok"
+        subtitle={status ?? 'Hur har din dag varit?'}
         offline={!online}
         icon={<BookGlyph />}
       />
       {!writing ? (
-        <div className="cw-quote-smoke" aria-hidden={false}>
+        <div className="cw-quote-smoke cw-journal-hero" aria-hidden={false}>
           <p className="cw-quote-smoke__body">{DAILY_QUOTE.body}</p>
           <p className="cw-quote-smoke__attr">{DAILY_QUOTE.attr}</p>
         </div>
       ) : null}
       <WidgetMoodCheckIn value={mood} onChange={(id) => void saveMood(id)} />
       {writing ? (
-        <div style={{ display: 'grid', gap: '0.55rem' }}>
-          <WidgetGlass inset className="cw-glass-well" style={{ padding: '0.65rem 0.75rem' }}>
+        <div className="cw-journal-compose">
+          <WidgetGlass inset className="cw-glass-well cw-journal-compose__well">
             <textarea
               value={draft}
-              onChange={(e) => setDraft(e.target.value)}
-              placeholder="En rad räcker…"
+              onChange={(e) => setDraft(e.target.value.slice(0, 300))}
+              placeholder="Tacksam för…"
               rows={2}
+              maxLength={300}
               aria-label="Snabb dagboksrad"
               autoFocus
               className="cw-input"
@@ -175,6 +176,9 @@ export function JournalWidget({
                 minHeight: WidgetTouch.minDp * 0.85,
               }}
             />
+            <p className="cw-char-count" aria-live="polite">
+              {draft.length}/300
+            </p>
           </WidgetGlass>
           <div className="cw-actions-row">
             <WidgetButton
@@ -184,7 +188,7 @@ export function JournalWidget({
               onClick={() => void saveLine()}
               disabled={!draft.trim()}
             >
-              Spara rad
+              Ny anteckning +
             </WidgetButton>
             <WidgetButton variant="quiet" size="min" onClick={() => void openFull()}>
               Öppna hela
@@ -209,11 +213,14 @@ export function JournalWidget({
           className={pulseHint && !writing ? 'cw-pulse-cta' : undefined}
           onClick={() => setWriting(true)}
         >
-          Skriv i dagboken
+          Ny anteckning +
         </WidgetButton>
       )}
-      <div className="cw-trust-row" aria-live="polite">
-        {status ?? (online ? 'En rad räcker · sparas tryggt' : 'Offline — sparas lokalt')}
+      <div className="cw-trust-row cw-trust-row--split" aria-live="polite">
+        <span>{status ?? (online ? 'Senaste anteckning: idag' : 'Offline — sparas lokalt')}</span>
+        <span className="cw-streak" aria-label="Streak">
+          Streak
+        </span>
       </div>
     </WidgetCard>
   );

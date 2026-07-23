@@ -4,7 +4,7 @@
  * UX Law 07 / 14 / 15: quiet, premium, consistent — no neon, no decoration noise.
  */
 
-export const WIDGET_THEME_VERSION = '1.2.0' as const;
+export const WIDGET_THEME_VERSION = '1.3.0' as const;
 
 /** Kapitel 6.1 — The Palette of Calm */
 export const WidgetPalette = {

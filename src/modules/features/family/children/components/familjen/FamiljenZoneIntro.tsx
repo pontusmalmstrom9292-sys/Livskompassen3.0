@@ -32,7 +32,15 @@ export function FamiljenZoneIntro({ activeTab }: Props) {
   );
 
   return (
-    <section className="familjen-zone-intro" aria-label="Familjen zonöversikt">
+    <section className="familjen-zone-intro gs-hub-card" aria-label="Familjen zonöversikt">
+      <div
+        className="gs-hub-card__avatar-row gs-hub-card__avatar-row--schema familjen-zone-intro__schema"
+        aria-hidden
+      >
+        <span className="gs-hub-card__avatar" />
+        <span className="gs-hub-card__avatar gs-hub-card__avatar--dim" />
+        <span className="gs-hub-card__avatar gs-hub-card__avatar--dim gs-hub-card__avatar--sm" />
+      </div>
       <div className="familjen-zone-intro__header">
         <span className="familjen-zone-intro__eyebrow">Zon</span>
         <span className="familjen-zone-intro__title">{FAMILJEN_LAYER_LABELS[activeTab]}</span>

@@ -4,7 +4,7 @@
 
 @layer components {
   .familjen-bento-shell {
-    @apply relative isolate min-h-0;
+    @apply relative isolate min-h-0 overflow-x-hidden;
     background-color: var(--color-obsidian-surface);
     background-image: var(--zone-gradient-familjen);
   }
@@ -20,9 +20,9 @@
   }
 
   .familjen-bg-rose {
-    @apply pointer-events-none fixed left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 text-accent;
-    width: min(140vw, 1100px);
-    height: min(140vw, 1100px);
+    @apply pointer-events-none absolute left-1/2 top-1/2 z-0 -translate-x-1/2 -translate-y-1/2 text-accent;
+    width: min(100%, 1100px);
+    height: min(100%, 1100px);
     max-width: 1100px;
     max-height: 1100px;
     opacity: 0.04;
@@ -46,6 +46,44 @@
     );
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    box-shadow:
+      0 0 28px color-mix(in srgb, var(--accent) 10%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--accent) 16%, transparent);
+  }
+
+  .familjen-page__header.gs-hub-card,
+  .familjen-bento-shell .gs-hub-card {
+    border-radius: 1.5rem;
+  }
+
+  .familjen-bento-shell .calm-card {
+    border-color: color-mix(in srgb, var(--accent) 26%, transparent);
+    box-shadow:
+      0 0 28px color-mix(in srgb, var(--bg) 50%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--accent) 12%, transparent);
+  }
+
+  .familjen-bento-shell .gs-hub-card__avatar-row {
+    margin: 0.35rem 0;
+  }
+
+  .familjen-zone-intro__schema {
+    margin-bottom: 0.25rem;
+  }
+
+  .familjen-bento-shell .barnfokus-fragan-panel--gs .barnfokus-fragan-panel__question,
+  .familjen-bento-shell .barnfokus-fragan-panel--gs .od-depth__question-card {
+    border-radius: 1rem;
+    border: 1px solid var(--gs-gold-rim);
+    box-shadow:
+      inset 0 1px 0 color-mix(in srgb, var(--gs-gold-light) 16%, transparent),
+      0 0 20px color-mix(in srgb, var(--accent) 8%, transparent);
+  }
+
+  .familjen-bento-shell .barnfokus-fragan-panel--gs .familjen-child-chip--active {
+    box-shadow:
+      0 0 22px color-mix(in srgb, var(--accent) 18%, transparent),
+      inset 0 0 0 1px color-mix(in srgb, var(--gs-gold-light) 22%, transparent);
   }
 
   .familjen-page__card {
@@ -74,6 +112,13 @@
     );
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    box-shadow:
+      0 0 28px color-mix(in srgb, var(--accent) 10%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--accent) 16%, transparent);
+  }
+
+  .familjen-zone-intro.gs-hub-card {
+    border-radius: 1.5rem;
   }
 
   .familjen-zone-intro__header {

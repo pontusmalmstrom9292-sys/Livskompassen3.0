@@ -1,6 +1,7 @@
 # verklighetsvalvet
 
-> Sacred Feature — Sanningens Sköld. WORM-bevisbank (Lager 2) mot gaslighting.
+> Sacred Feature — Sanningens Sköld. WORM-bevisbank (Lager 2) mot gaslighting.  
+> **Locked UX:** `.context/locked-ux-features.md` §2 + §2b (Samla Inkast+Arkiv+Sök).
 
 ## Syfte
 
@@ -10,22 +11,24 @@ Append-only, tidsstämplade sanningar. Skild från Dagbok (Lager 1). Plausible d
 
 | | |
 |---|---|
-| **Route** | `/dagbok?tab=bevis` (redirect `/valv`) |
-| **AuthGate** | ja |
-| **Fyren** | 3s long-press BookOpen → WebAuthn → PIN → bevis |
-| **Flik Bevis** | Synlig idag; mål: endast Fyren |
+| **Route** | `/valvet?vaultTab=…` (`ValvetRoutePage` → `VaultPage`) |
+| **Legacy redirects** | `/valv`, `/dagbok?tab=bevis` → `/valvet` |
+| **AuthGate** | ja + WebAuthn/biometri → `issueVaultSession` |
+| **Fyren** | 3s long-press BookOpen → WebAuthn → `/valvet` |
 
 ## Viktiga filer
 
 | Fil | Roll |
 |-----|------|
-| `components/VaultPage.tsx` | PIN, flikar Logga \| Sök |
+| `components/VaultPage.tsx` | Gate, zon-chrome, SuperModule |
+| `supermodule/ValvInputSuperModule.tsx` | **§2b LÅST** — Inkast + Samla (aldrig Inkast-only) |
+| `components/zones/ValvSamlaZone.tsx` | Arkivlista + Sök (ValvChat) |
 | `components/VaultEntryForm.tsx` | 4 inmatningslägen + media + röst |
 | `components/VaultLogList.tsx` | Append-only lista + PDF/post |
 | `utils/exportVaultRecord.ts` | Klient-PDF per post |
 | `types/vaultEntry.ts` | Entry-typer |
 
-**Valv-Chat:** `../evidence/vaultChat/` (Sök-flik)
+**Valv-Chat:** `../vaultChat/` (flik `vaultTab=sok`)
 
 ## Data
 
@@ -36,30 +39,10 @@ Append-only, tidsstämplade sanningar. Skild från Dagbok (Lager 1). Plausible d
 **Klient:** `saveVaultLog`, `uploadVaultEvidence`  
 **Callable:** `valvChatQuery` (via valv_chatt)
 
-## Beror på
+## Smoke
 
-- `core` — PinGate, WebAuthn, EvidenceMediaAttach, firestore
-- `valv_chatt` — Sök-flik i VaultPage
-
-## Kopplingar
-
-- **Dagbok** — Hjärtat-kluster, Vävaren
-- **Speglings_system** — EvidenceCompare
-- **safe_harbor** — spara BIFF som bevis
-- **dossier** — aggregering till PDF
-
-## Minne / AI
-
-| | |
-|---|---|
-| **Permanent lagring** | `reality_vault` — WORM, glömmer inte |
-| **RAG / chatt** | Valv-Chat via `valvChatQuery` (**deploy saknas i prod**) |
-| **PDF / samlad export** | per post + Dossier |
-| **Planerat** | klickbara citations |
-
-## Mer läsning
-
-- [module_plan.md](./module_plan.md)
-- [Kontext (.context)](../../../.context/modules/evidence/vault.md)
-- [Verklighetsvalvet-SPEC](../../../docs/specs/modules/Verklighetsvalvet-SPEC.md)
-- [valv_chatt README](../evidence/vaultChat/README.md)
+```bash
+npm run smoke:locked-ux
+npm run smoke:valv-mode
+npm run smoke:valv-security
+```

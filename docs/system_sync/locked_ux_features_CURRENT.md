@@ -31,7 +31,18 @@ Dessa är **inte** Sacred Features i säkerhetslagret, men de är **låsta produ
 | **P1 Brusfilter (LOCK 2026-06-17)** | `processBrusfilter` callable + panel i `VaultOrkesterPanel` — DCAP + logistik + BIFF-utkast, **ingen auto-WORM** |
 | **Kunskapsbank** | `VaultKunskapsbankPanel` — `KunskapPage` + `FamiljenKunskapHubTab` (U1 silos) |
 | **Aktörskarta (G9)** | `VaultAktorskartaPanel` + `EntityAddForm` + `addEntityProfile` — manuella personer, append-only metadata för agenter (ej RAG, ej publik meny) |
-| **Smoke** | `npm run smoke:locked-ux` · `npm run smoke:entities` · manuell #20 i `docs/SMOKE_CHECKLIST.md` |
+| **Smoke** | `npm run smoke:locked-ux` · `npm run smoke:entities` · `npm run smoke:valv-mode` · manuell #20 i `docs/SMOKE_CHECKLIST.md` |
+
+### 2b. Samla — Inkast + Arkivlista + Sök (LÅST 2026-07-22)
+
+| | |
+|---|---|
+| **Invariant** | `valvMode=spara` får **aldrig** dölja Samla. InkastDirectPanel (B1) + `ValvSuperModule`/`ValvSamlaZone` samtidigt. |
+| **Arkiv** | `vaultTab=logga` → `VaultLogList` + Weaver-banner + manuell post (hub) synliga |
+| **Sök** | `vaultTab=sok` → `ValvChatPanel` / Sannings-Analytikern — Orkester-handoff `/valvet?vaultTab=sok` måste nå chat |
+| **Kod** | `ValvInputSuperModule` · `ValvSuperModule` · `ValvSamlaZone` · `VaultSamlaHub` (`suppressHubInkast`) · `VaultLogList` |
+| **MUST NOT** | Rendera endast `InkastDirectPanel` i spara-läge utan `ValvSuperModule`; ta bort `VaultLogList` / Samla-TabBar / `vaultTab=sok` |
+| **Smoke** | `smoke:locked-ux` · `smoke:valv-mode` (kräver `suppressHubInkast` + `vaultTab === 'sok'`) |
 
 ---
 

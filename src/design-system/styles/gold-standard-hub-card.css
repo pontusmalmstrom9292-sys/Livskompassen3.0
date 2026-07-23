@@ -1,0 +1,393 @@
+/**
+ * Gold Standard hub card — presentation skin (Scope C unlock 2026-07-22).
+ * Mirrors Companion Kap 6: safirglas, guldrim, specular, Ethereal Blue progress only.
+ * --gs-ethereal is a scoped COLOR-POLICY exception (living progress), not global accent.
+ */
+
+:root {
+  --gs-ethereal: #7ba3c9;
+  --gs-ethereal-dim: color-mix(in srgb, var(--gs-ethereal) 42%, transparent);
+  --gs-gold-rim: color-mix(in srgb, var(--accent, #d4af37) 48%, transparent);
+  --gs-gold-light: color-mix(in srgb, var(--accent, #d4af37) 72%, #fde68a);
+}
+
+.gs-hub-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.05rem 1.1rem;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  border: 1px solid var(--gs-gold-rim);
+  background:
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--accent, #d4af37) 8%, transparent) 0%,
+      transparent 42%,
+      color-mix(in srgb, var(--surface, #0d0b09) 55%, transparent) 100%
+    ),
+    color-mix(in srgb, var(--surface-raised, #12141c) 88%, transparent);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow:
+    0 0 42px color-mix(in srgb, var(--surface, #0d0b09) 82%, transparent),
+    0 16px 40px color-mix(in srgb, var(--surface, #0d0b09) 55%, transparent),
+    0 0 28px color-mix(in srgb, var(--accent, #d4af37) 12%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--gs-gold-light) 22%, transparent);
+  color: var(--text, #f8fafc);
+}
+
+.gs-hub-card::after {
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 1.25rem;
+  right: 1.25rem;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--gs-gold-light) 55%, transparent) 50%,
+    transparent 100%
+  );
+  opacity: 0.85;
+  z-index: 2;
+}
+
+.gs-hub-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.gs-hub-card__title {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent, #d4af37);
+}
+
+.gs-hub-card__subtitle {
+  margin: 0.15rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-muted, #94a3b8);
+}
+
+.gs-hub-card__hero {
+  position: relative;
+  min-height: 5.5rem;
+  border-radius: 1rem;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--border, #334155) 55%, transparent);
+  background:
+    radial-gradient(
+      ellipse at 30% 20%,
+      color-mix(in srgb, var(--accent, #d4af37) 18%, transparent),
+      transparent 55%
+    ),
+    linear-gradient(
+      165deg,
+      color-mix(in srgb, var(--surface, #0d0b09) 40%, #1a2236) 0%,
+      var(--surface, #0d0b09) 100%
+    );
+}
+
+.gs-hub-card__well {
+  border-radius: 0.9rem;
+  padding: 0.75rem 0.85rem;
+  background: color-mix(in srgb, var(--surface, #0d0b09) 72%, transparent);
+  box-shadow:
+    inset 0 3px 12px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 color-mix(in srgb, var(--accent, #d4af37) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border, #334155) 40%, transparent);
+  min-height: 44px;
+}
+
+.gs-hub-card__progress {
+  height: 0.45rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--surface, #0d0b09) 80%, transparent);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+
+.gs-hub-card__progress-fill {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--gs-ethereal) 75%, #0d0b09),
+    var(--gs-ethereal)
+  );
+  box-shadow: 0 0 12px var(--gs-ethereal-dim);
+}
+
+.gs-hub-card__ring {
+  --gs-ring-size: 6.5rem;
+  --gs-ring-pct: 72;
+  width: var(--gs-ring-size);
+  height: var(--gs-ring-size);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(
+    var(--gs-ethereal) calc(var(--gs-ring-pct) * 1%),
+    color-mix(in srgb, var(--surface, #0d0b09) 85%, transparent) 0
+  );
+  box-shadow:
+    0 0 24px var(--gs-ethereal-dim),
+    inset 0 0 0 1px color-mix(in srgb, var(--accent, #d4af37) 22%, transparent);
+}
+
+.gs-hub-card__ring::before {
+  content: '';
+  width: calc(var(--gs-ring-size) - 0.85rem);
+  height: calc(var(--gs-ring-size) - 0.85rem);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--surface-raised, #12141c) 94%, transparent);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.55);
+}
+
+.gs-hub-card__ring-label {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  pointer-events: none;
+}
+
+.gs-hub-card__ring-wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+}
+
+.gs-hub-card__metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.gs-hub-card__metric {
+  text-align: center;
+  padding: 0.45rem 0.25rem;
+  border-radius: 0.75rem;
+  background: color-mix(in srgb, var(--surface, #0d0b09) 45%, transparent);
+  min-height: 44px;
+}
+
+.gs-hub-card__metric-label {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted, #94a3b8);
+}
+
+.gs-hub-card__metric-value {
+  display: block;
+  margin-top: 0.2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text, #f8fafc);
+}
+
+.gs-hub-card__metric-value--ethereal {
+  color: var(--gs-ethereal);
+}
+
+.gs-hub-card__metric-value--gold {
+  color: var(--accent, #d4af37);
+}
+
+.gs-hub-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  font-size: 0.72rem;
+  color: var(--text-muted, #94a3b8);
+  padding-top: 0.25rem;
+  border-top: 1px solid color-mix(in srgb, var(--border, #334155) 35%, transparent);
+}
+
+.gs-hub-card__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.55rem 1.1rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent, #d4af37) 55%, transparent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--accent, #d4af37) 92%, #fff) 0%,
+    color-mix(in srgb, var(--accent, #d4af37) 78%, #7a5c14) 100%
+  );
+  color: var(--surface, #0d0b09);
+  font-size: 0.8rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--accent, #d4af37) 28%, transparent);
+  touch-action: manipulation;
+}
+
+.gs-hub-card__cta:focus-visible {
+  outline: 2px solid var(--accent, #d4af37);
+  outline-offset: 2px;
+}
+
+.gs-hub-card__mood-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.35rem;
+}
+
+.gs-hub-card__mood {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  min-width: 44px;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--border, #334155) 50%, transparent);
+  background: color-mix(in srgb, var(--surface, #0d0b09) 55%, transparent);
+  color: var(--text-muted, #94a3b8);
+  font-size: 0.65rem;
+  touch-action: manipulation;
+}
+
+.gs-hub-card__mood--active {
+  border-color: color-mix(in srgb, var(--accent, #d4af37) 70%, transparent);
+  background: color-mix(in srgb, var(--accent, #d4af37) 22%, transparent);
+  color: var(--accent, #d4af37);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--accent, #d4af37) 35%, transparent);
+}
+
+.gs-hub-card__avatar-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.gs-hub-card__avatar {
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 999px;
+  border: 2px solid color-mix(in srgb, var(--accent, #d4af37) 65%, transparent);
+  background: color-mix(in srgb, var(--surface, #0d0b09) 70%, #1e293b);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent, #d4af37) 22%, transparent);
+}
+
+.gs-hub-card__avatar--dim {
+  opacity: 0.72;
+  border-color: color-mix(in srgb, var(--accent, #d4af37) 38%, transparent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--accent, #d4af37) 12%, transparent);
+}
+
+.gs-hub-card__avatar--sm {
+  width: 2.65rem;
+  height: 2.65rem;
+}
+
+.gs-hub-card__avatar-row--schema {
+  gap: 0.45rem;
+  margin-top: 0.15rem;
+}
+
+.gs-hub-card__avatar-row--schema .gs-hub-card__avatar {
+  width: 2.85rem;
+  height: 2.85rem;
+}
+
+.gs-hub-card__timeline {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gs-hub-card__timeline-item {
+  display: grid;
+  grid-template-columns: 3.25rem 1fr;
+  gap: 0.5rem;
+  align-items: baseline;
+  font-size: 0.8rem;
+}
+
+.gs-hub-card__timeline-time {
+  color: var(--accent, #d4af37);
+  font-variant-numeric: tabular-nums;
+}
+
+.gs-hub-card__timer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 1rem;
+  background: color-mix(in srgb, var(--surface, #0d0b09) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gs-ethereal) 28%, transparent);
+}
+
+.gs-hub-card__timer-value {
+  font-size: 1.65rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--text, #f8fafc);
+}
+
+.gs-hub-card__timer-play {
+  width: 3rem;
+  height: 3rem;
+  min-width: 44px;
+  min-height: 44px;
+  border-radius: 999px;
+  border: none;
+  background: radial-gradient(circle at 35% 30%, #9ec4e0, var(--gs-ethereal));
+  color: var(--surface, #0d0b09);
+  box-shadow: 0 0 20px var(--gs-ethereal-dim);
+  touch-action: manipulation;
+}
+
+/* Additive tile bridge — ExamplePreviewCard / planering-tool-card */
+.planering-tool-card.gs-hub-card,
+.calm-card.gs-hub-card {
+  /* keep tile grid sizing; deepen rim/bloom only */
+  border-color: color-mix(in srgb, var(--gs-gold-rim) 88%, var(--border, transparent));
+}
+
+.hjartat-bento-shell .calm-card.gs-hub-card,
+.mabra-bento-shell .calm-card.gs-hub-card,
+.familjen-bento-shell .calm-card.gs-hub-card {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .gs-hub-card {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: var(--surface-raised, #12141c);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gs-hub-card__progress-fill,
+  .gs-hub-card__mood--active,
+  .gs-hub-card__cta {
+    box-shadow: none;
+  }
+}

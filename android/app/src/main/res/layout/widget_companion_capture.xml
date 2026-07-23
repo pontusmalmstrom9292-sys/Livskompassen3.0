@@ -130,11 +130,11 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:gravity="center"
-            android:letterSpacing="0.04"
+            android:letterSpacing="0.05"
             android:maxLines="1"
             android:text="@string/widget_companion_capture_trust"
             android:textAllCaps="true"
-            android:textColor="@color/widget_muted"
+            android:textColor="@color/widget_gold_dim"
             android:textSize="6sp" />
     </LinearLayout>
 </LinearLayout>

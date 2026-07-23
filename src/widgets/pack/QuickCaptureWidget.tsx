@@ -338,7 +338,7 @@ export function QuickCaptureWidget({
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
-        title="Inspelning"
+        title="Hemlig inspelning"
         subtitle={
           recording
             ? silent
@@ -419,7 +419,7 @@ export function QuickCaptureWidget({
           </WidgetButton>
         )}
       </div>
-      <div className="cw-trust-row" aria-live="polite">
+      <div className="cw-trust-row cw-capture-trust" aria-live="polite">
         {status ? (
           <span>{status}</span>
         ) : (

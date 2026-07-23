@@ -1,0 +1,120 @@
+/**
+ * Shared dark glass tool cards — used by ExamplePreviewCard across hubs
+ * (Projekt, Planering, Hem capture, Valv, MåBra, Ekonomi).
+ * Extracted so Projekt/tomstate get the same depth without importing planering.css.
+ */
+
+@layer components {
+  .planering-tool-card--compact {
+    @apply p-3;
+  }
+
+  .planering-tool-card--hero {
+    @apply min-h-[7rem] p-5;
+  }
+
+  .planering-tool-card--tile {
+    @apply aspect-square items-center justify-center p-3 text-center;
+  }
+
+  .planering-tool-card--soon {
+    @apply cursor-not-allowed opacity-55;
+  }
+
+  .planering-tool-card--amber {
+    border-color: color-mix(in srgb, var(--warning) 28%, transparent);
+  }
+
+  .planering-tool-card--rose {
+    border-color: color-mix(in srgb, var(--danger) 28%, transparent);
+  }
+
+  .planering-tool-card {
+    @apply relative flex w-full flex-col gap-1 overflow-hidden rounded-3xl border p-4 text-left;
+    border-color: color-mix(in srgb, var(--accent) 15%, transparent);
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface-2) 60%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 80%, transparent) 100%
+    );
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: 0 10px 30px color-mix(in srgb, var(--bg) 50%, transparent);
+    transition:
+      border-color var(--ds-duration-normal) var(--ds-ease-premium),
+      box-shadow var(--ds-duration-normal) var(--ds-ease-premium),
+      transform var(--ds-duration-normal) var(--ds-ease-premium),
+      background-color var(--ds-duration-normal) var(--ds-ease-premium);
+  }
+
+  button.planering-tool-card {
+    @apply cursor-pointer text-inherit;
+    font: inherit;
+  }
+
+  .planering-tool-card:hover {
+    @apply -translate-y-0.5;
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+    box-shadow:
+      0 15px 40px color-mix(in srgb, var(--bg) 60%, transparent),
+      0 0 20px color-mix(in srgb, var(--accent) 5%, transparent);
+  }
+
+  .planering-tool-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(
+      155deg,
+      color-mix(in srgb, var(--accent) 7%, transparent),
+      transparent 34%
+    );
+    opacity: 0.65;
+  }
+
+  .planering-tool-card__emoji {
+    @apply text-2xl leading-none;
+  }
+
+  .planering-tool-card__icon-wrap {
+    @apply absolute right-3 top-3 text-accent/50;
+  }
+
+  .planering-tool-card__title {
+    @apply pr-8 text-base font-semibold text-accent;
+  }
+
+  .planering-tool-card__lead {
+    @apply text-xs leading-relaxed text-text-muted;
+  }
+
+  .planering-tool-card__badge {
+    @apply mt-1 inline-flex w-fit rounded-full border border-success/35 bg-success/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-success/90;
+  }
+
+  .planering-tool-card--gold:hover {
+    box-shadow: 0 0 20px color-mix(in srgb, var(--accent) 15%, transparent);
+  }
+
+  .planering-tool-card > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .planering-tool-card--emerald:hover {
+    box-shadow: 0 0 20px color-mix(in srgb, var(--accent-secondary, #2dd4bf) 12%, transparent);
+  }
+
+  .planering-tool-card--indigo {
+    border-color: color-mix(in srgb, var(--accent) 18%, transparent);
+  }
+
+  .planering-tool-card--lavender {
+    border-color: color-mix(in srgb, var(--accent-ai, #a78bfa) 22%, transparent);
+  }
+
+  .planering-tool-card__preview {
+    background: color-mix(in srgb, var(--surface) 40%, transparent);
+  }
+}

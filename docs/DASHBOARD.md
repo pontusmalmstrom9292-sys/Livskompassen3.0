@@ -1,3 +1,38 @@
+### 2026-07-22 — Gold Standard hub + Companion (C + Ethereal Blue)
+- Unlock: [`2026-07-22-unlock-hub-gold-standard-layout.md`](./evaluations/2026-07-22-unlock-hub-gold-standard-layout.md)
+- Companion Kap 6 deepen (web 1.3.0 + Android v31 gold + live capacity ring)
+- Hub skin: `gs-hub-card` · Dagbok/Fyren/Fokus/Familjen presentation
+- ×15 polishrundor · Theme Lab GS-preview (default OFF)
+- Smoke: companion-widgets · locked-ux · design-modules · planering-superhub · children · mabra **PASS**
+- G85 visual vs mockup: pending Pontus · vid commit: inkludera 3 nya filer
+
+### 2026-07-22 — UI högerförskjutning + Projekt-look
+- Overflow-x låst; ambient/hub-rosor `absolute` + `%` (inte `150vw`/`140vw`)
+- `.elongated-module` återställd (navy glass) · `planering-tool-card.css` global
+- Projekt-tomstate: ingen dubbel `glow-bottom-gold`
+- Smoke: design-modules · locked-ux **PASS** · G85 visual: pending Pontus
+
+### 2026-07-22 — Valvet Samla-lås
+- §2b Locked UX + `MOD-VALV-SAMLA` · orphan `ValvInboxZone` bort
+- Smoke: locked-ux · valv-mode · module-lock (unlock doc)
+
+### 2026-07-22 — Valvet optimalitetshotfix
+- Inkast+Samla: arkivlista + Sök synliga igen · Orkester→Sök fungerar via SuperModule (utan låst Orkester-fil)
+- Admin FieldValue → dcap-alerts-worm **PASS** · SPEC `/valvet`
+- Eval: [`2026-07-22-valvet-full-audit.md`](./evaluations/2026-07-22-valvet-full-audit.md)
+
+### 2026-07-22 — Valvet full audit
+- **VERIFY PASS** — självbyggande arkiv, Pansaret, synapser, gate/WORM, kostnad
+- Eval: [`2026-07-22-valvet-full-audit.md`](./evaluations/2026-07-22-valvet-full-audit.md)
+- Nya agenter: `specialist-valv-sjalvbygg-arkiv` · `analys-pansar` · `chat-dossier` · `synapse-ingest` · `kostnad-silo`
+- Smoke: locked-ux · valv-* · cost-guard · inbox · orkester · gcp:audit-apis **PASS**
+- Residual: Spec-route-docs-drift · G85 Valv &lt;3s (Pontus)
+
+### 2026-07-22 — Debug-runda
+- Lokal build + smoke:predeploy:build + Android security **PASS**
+- Fix: `ai_cost_log` Firestore-index (costCapGuard) skapat i molnet
+- G85 manuell: Valv bakgrund &lt;3s kvar
+
 ### 2026-07-22 — UI Polish V4 ×10 PASS 4
 - ADD-only touch/focus on Planering · Dagbok · MåBra · QuickCapture · Archive · KompassDiscovery
 - Inget borttaget · `/dev` skipped · G85 visual: pending Pontus

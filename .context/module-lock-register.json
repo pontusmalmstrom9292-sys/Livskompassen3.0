@@ -164,6 +164,32 @@
       "unlockedAt": "2026-07-21"
     },
     {
+      "id": "MOD-VALV-SAMLA",
+      "namn": "Valv Samla — Inkast + Arkiv + Sök",
+      "zon": "Valv",
+      "status": "locked",
+      "globs": [
+        "src/modules/features/lifeJournal/evidence/vault/supermodule/**",
+        "src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx",
+        "src/modules/features/lifeJournal/evidence/vault/components/ValvSuperModule.tsx",
+        "src/modules/features/lifeJournal/evidence/vault/components/VaultSamlaHub.tsx",
+        "src/modules/features/lifeJournal/evidence/vault/components/VaultLogList.tsx"
+      ],
+      "entryFiles": [
+        "src/modules/features/lifeJournal/evidence/vault/supermodule/ValvInputSuperModule.tsx",
+        "src/modules/features/lifeJournal/evidence/vault/components/zones/ValvSamlaZone.tsx"
+      ],
+      "smoke": [
+        "smoke:locked-ux",
+        "smoke:valv-mode"
+      ],
+      "snapshotKey": "valv-samla",
+      "lockedAt": "2026-07-22",
+      "lockedCommit": "19be252a2",
+      "unlockDoc": "docs/evaluations/2026-07-22-unlock-MOD-VALV-SAMLA.md",
+      "notes": "§2b Locked UX — spara must keep ValvSuperModule; vaultTab=sok → ValvChat"
+    },
+    {
       "id": "MOD-VALV-INKAST",
       "namn": "Inkast, capture, inbox-kö",
       "zon": "Valv",

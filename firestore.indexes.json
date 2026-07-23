@@ -154,6 +154,31 @@
           "vectorConfig": { "dimension": 768, "flat": {} }
         }
       ]
+    },
+    {
+      "collectionGroup": "ai_cost_log",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "createdAt", "order": "ASCENDING" },
+        { "fieldPath": "estimatedCostUsd", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "ai_cost_log",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "ASCENDING" },
+        { "fieldPath": "estimatedCostUsd", "order": "ASCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "ai_cost_log",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "ASCENDING" }
+      ]
     }
   ],
   "fieldOverrides": []

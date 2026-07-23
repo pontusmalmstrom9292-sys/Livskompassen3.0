@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Material You Dynamic Colors (Android 12+) -->
-    <color name="widget_background">@android:color/system_neutral1_900</color>
-    <color name="widget_stroke">@android:color/system_accent1_200</color>
-    <color name="widget_gold">@android:color/system_accent1_100</color>
-    <color name="widget_muted">@android:color/system_neutral2_300</color>
-    <color name="widget_chip_start">@android:color/system_neutral1_800</color>
-    <color name="widget_chip_end">@android:color/system_neutral1_900</color>
+    <!--
+      Gold Standard (widget_bible Kap 6) — do NOT remap to Material You.
+      Fixed Obsidian / Premium Gold / Ethereal Blue so API 31+ keeps Companion parity.
+    -->
+    <color name="widget_background">#0D0B09</color>
+    <color name="widget_stroke">#D4AF37</color>
+    <color name="widget_gold">#D4AF37</color>
+    <color name="widget_gold_light">#FDE68A</color>
+    <color name="widget_gold_dim">#9A7B2F</color>
+    <color name="widget_ethereal">#7BA3C9</color>
+    <color name="widget_muted">#94A3B8</color>
+    <color name="widget_chip_start">#121620</color>
+    <color name="widget_chip_end">#0D0B09</color>
 </resources>

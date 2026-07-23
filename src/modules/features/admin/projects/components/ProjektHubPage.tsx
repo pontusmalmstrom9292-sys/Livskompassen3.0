@@ -171,7 +171,7 @@ export function ProjektHubPage() {
           )}
 
           {user && !loading && total === 0 && (
-            <div className="calm-card glow-bottom-gold overflow-hidden rounded-2xl p-4 sm:p-5">
+            <div className="calm-card overflow-hidden rounded-2xl p-4 sm:p-5">
               <ProjektTomStatePanel />
             </div>
           )}

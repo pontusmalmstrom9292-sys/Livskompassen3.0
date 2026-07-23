@@ -35,7 +35,7 @@ Samma `vaultTab`-IDs och callables som tidigare. Endast **zon-navigation** (fär
 
 | Källa | Trigger | Effekt |
 |-------|---------|--------|
-| Dagbok | `shouldShowValvHandoff` | `HandoffBox` → `/dagbok?tab=bevis` |
+| Dagbok | `shouldShowValvHandoff` | `HandoffBox` → `/valvet` |
 | Hamn BIFF | samma | HandoffBox efter klistra-in |
 | Valv logga | samma + `shouldSuggestVaultPatternScan` | Handoff + länk till Mönster |
 

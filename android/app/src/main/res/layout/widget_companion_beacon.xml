@@ -26,11 +26,21 @@
 
     <FrameLayout
         android:id="@+id/widget_companion_beacon_ring"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_marginTop="6dp"
-        android:background="@drawable/widget_bg_capacity_ring"
         android:contentDescription="@string/widget_companion_beacon_capacity">
+
+        <ProgressBar
+            android:id="@+id/widget_companion_beacon_capacity_bar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:indeterminate="false"
+            android:max="100"
+            android:progress="72"
+            android:progressDrawable="@drawable/widget_capacity_ring_progress"
+            android:background="@drawable/widget_bg_capacity_ring" />
 
         <LinearLayout
             android:layout_width="match_parent"

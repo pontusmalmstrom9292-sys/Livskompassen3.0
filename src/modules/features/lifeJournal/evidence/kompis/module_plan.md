@@ -6,7 +6,7 @@
 
 User-facing AI navigator: KompisAvatar, Knowledge Vault chat (Minne RAG), Tidshjulet, Minne ingest.
 
-**Route:** Valv PIN → `/dagbok?tab=bevis&vaultTab=kunskapsbank` (legacy `/kunskap` och `?tab=kunskap` redirect hit)
+**Route:** Valv PIN → `/valvet?vaultTab=kunskapsbank` (legacy `/kunskap` och `?tab=kunskap` redirect hit)
 
 ## Files
 

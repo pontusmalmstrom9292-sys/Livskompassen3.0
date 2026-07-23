@@ -32,7 +32,8 @@ export function HjartatZoneIntro({ layerTab }: Props) {
   const [searchParams] = useSearchParams();
 
   return (
-    <section className="hjartat-zone-intro" aria-label="Hjärtat zonöversikt">
+    <section className="hjartat-zone-intro gs-hub-card" aria-label="Hjärtat zonöversikt">
+      <div className="gs-hub-card__hero hjartat-zone-intro__gs-hero" aria-hidden />
       <div className="hjartat-zone-intro__header">
         <span className="hjartat-zone-intro__eyebrow">Zon</span>
         <span className="hjartat-zone-intro__title">{HJARTAT_LAYER_LABELS[layerTab]}</span>

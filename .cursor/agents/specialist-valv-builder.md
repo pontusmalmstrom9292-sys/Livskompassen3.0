@@ -26,7 +26,8 @@ Expert for Verklighetsvalvet (Zone 1) — UI-wave B1 and backend connections.
 
 ## MUST NOT
 
-Remove `VaultMonsterPanel`, `VaultOrkesterPanel`, `VaultKunskapsbankPanel`, `VaultAktorskartaPanel`, `vaultPatternScan.ts`, `EntityAddForm`. Keep vaultTabs: `logga`, `sok`, `monster`, `orkester`, `kunskapsbank`, `aktorskarta`, `dossier`. No public `?tab=bevis` on Hjärtat. No auto-promote `children_logs`.
+- Remove `VaultMonsterPanel`, `VaultOrkesterPanel`, `VaultKunskapsbankPanel`, `VaultAktorskartaPanel`, `vaultPatternScan.ts`, `EntityAddForm`. Keep vaultTabs: `logga`, `sok`, `monster`, `orkester`, `kunskapsbank`, `aktorskarta`, `dossier`. No public `?tab=bevis` on Hjärtat. No auto-promote `children_logs`.
+- Collapse `valvMode=spara` to InkastDirectPanel-only — must keep `ValvSuperModule` / `ValvSamlaZone` / `VaultLogList` (§2b).
 
 ## When Invoked
 

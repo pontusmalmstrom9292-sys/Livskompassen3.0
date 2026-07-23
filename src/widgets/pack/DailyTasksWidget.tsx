@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { WidgetButton } from '../components/WidgetButton';
 import { WidgetCard } from '../components/WidgetCard';
 import { WidgetHeader } from '../components/WidgetHeader';
+import { WidgetProgress } from '../components/WidgetProgress';
 import { dispatchWidgetGesture, triggerWidgetHaptic } from '../core/WidgetActions';
 import { getCached, setCached } from '../core/WidgetCache';
 import { finishCompanionCapture } from '../core/finishCompanionCapture';
@@ -140,6 +141,8 @@ export function DailyTasksWidget({
 
   const shown = tasks.slice(0, limit);
   const badgeCount = shown.length;
+  const focusTitle = shown[0]?.title ?? 'Nästa lugna steg';
+  const focusProgress = Math.max(8, Math.min(92, Math.round(((3 - shown.length) / 3) * 100 + (shown.length ? 20 : 80))));
 
   return (
     <WidgetCard
@@ -155,8 +158,8 @@ export function DailyTasksWidget({
       data-widget={WIDGET_ID}
     >
       <WidgetHeader
-        title="Påminnelser"
-        subtitle={status ?? 'Nästa lugna steg'}
+        title="Fokus"
+        subtitle={status ?? 'Dagens riktning'}
         offline={!online}
         icon={<BellGlyph />}
         trailing={
@@ -167,10 +170,18 @@ export function DailyTasksWidget({
           ) : undefined
         }
       />
+      <div className="cw-focus-block">
+        <p className="cw-focus-block__label">Dagens fokus</p>
+        <p className="cw-focus-block__title">{focusTitle}</p>
+        <WidgetProgress value={focusProgress} label="Fokusprogress" />
+        <p className="cw-focus-block__pct" aria-hidden>
+          {focusProgress}%
+        </p>
+      </div>
       <ul className="cw-reminder-list">
         {shown.length === 0 ? (
           <li className="cw-empty" style={{ listStyle: 'none' }}>
-            <p className="cw-empty__title">Påminnelser</p>
+            <p className="cw-empty__title">Fokus</p>
             <p className="cw-empty__message">Allt klart för nu. Bra jobbat.</p>
             <div className="cw-empty__actions">
               <WidgetButton variant="quiet" size="min" onClick={() => void openPlanering()}>
@@ -217,13 +228,28 @@ export function DailyTasksWidget({
           ))
         )}
       </ul>
+      <div className="cw-focus-timer" aria-label="Fokuspass visuellt">
+        <div>
+          <p className="cw-focus-timer__label">Fokuspass · 1 av 4</p>
+          <p className="cw-focus-timer__value">25:00</p>
+        </div>
+        <button
+          type="button"
+          className="cw-focus-timer__play"
+          aria-label="Öppna Planering för fokuspass"
+          onClick={() => void openPlanering()}
+        >
+          ▶
+        </button>
+      </div>
       {shown.length > 0 ? (
         <button type="button" className="cw-link-cta" onClick={() => void openPlanering()}>
           Visa alla
         </button>
       ) : null}
-      <div className="cw-trust-row" aria-live="polite">
-        {status ?? (online ? 'Ett steg i taget' : 'Offline — sparas lokalt')}
+      <div className="cw-trust-row cw-trust-row--split" aria-live="polite">
+        <span>{status ?? (online ? 'Fokus idag' : 'Offline — sparas lokalt')}</span>
+        <span className="cw-streak">Streak</span>
       </div>
     </WidgetCard>
   );

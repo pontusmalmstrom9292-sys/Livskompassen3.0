@@ -64,7 +64,7 @@ Får **inte** tas bort vid refaktor. Register: [`.context/locked-ux-features.md`
 | Feature | Route | Verifiering |
 |---------|-------|-------------|
 | **Middagsfrågan** | `/familjen` | Smoke #19 · minneslista + `category: middag` |
-| **Valv Mönster** | `/dagbok?tab=bevis` → flik Mönster | Smoke #20 · `VaultMonsterPanel` |
+| **Valv Mönster** | `/valvet?vaultTab=monster` | Smoke #20 · `VaultMonsterPanel` |
 | **Valv Orkester** | samma → flik Orkester | Smoke #20 · SMS mönstersökning |
 
 ---

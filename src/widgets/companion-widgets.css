@@ -1799,3 +1799,387 @@
 .cw-card--small {
   gap: 0.65rem;
 }
+
+/* ——— Gold Standard deepen 2026-07-22 (Kap 6 / Scope C) ——— */
+
+.cw-metric-stack--gs-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.cw-metric-hit--gs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-height: max(3.5rem, var(--cw-touch-floor, 44px));
+  padding: 0.45rem 0.4rem;
+  border-radius: 0.85rem;
+  background: color-mix(in srgb, var(--cw-obsidian, #0d0b09) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--cw-gold, #d4af37) 18%, transparent);
+}
+
+.cw-metric-hit--gs .cw-metric-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cw-muted, #94a3b8);
+}
+
+.cw-metric-display {
+  font-size: 0.85rem;
+  font-weight: 650;
+  letter-spacing: 0.01em;
+  text-transform: none;
+  color: var(--cw-text, #f8fafc);
+}
+
+.cw-metric-hit--ethereal .cw-metric-display {
+  color: var(--cw-ethereal, #7ba3c9);
+}
+
+.cw-metric-hit--gold .cw-metric-display {
+  color: var(--cw-gold, #d4af37);
+}
+
+.cw-beacon-advice {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.65rem 0.75rem;
+}
+
+.cw-beacon-advice__label {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cw-gold-dim, #9a7b2f);
+}
+
+.cw-beacon-advice__body {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  color: var(--cw-text, #f8fafc);
+}
+
+.cw-journal-hero {
+  min-height: 4.25rem;
+  border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, var(--cw-gold, #d4af37) 22%, transparent);
+}
+
+.cw-char-count {
+  margin: 0.35rem 0 0;
+  text-align: right;
+  font-size: 0.65rem;
+  color: var(--cw-muted, #94a3b8);
+  font-variant-numeric: tabular-nums;
+}
+
+.cw-trust-row--split {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.cw-streak {
+  color: var(--cw-gold, #d4af37);
+  letter-spacing: 0.04em;
+}
+
+.cw-focus-block {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 1rem;
+  background:
+    linear-gradient(
+      165deg,
+      color-mix(in srgb, var(--cw-deep-space, #020617) 40%, transparent),
+      color-mix(in srgb, var(--cw-obsidian, #0d0b09) 80%, transparent)
+    );
+  border: 1px solid color-mix(in srgb, var(--cw-ethereal, #7ba3c9) 22%, transparent);
+}
+
+.cw-focus-block__label {
+  margin: 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cw-gold-dim, #9a7b2f);
+}
+
+.cw-focus-block__title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--cw-text, #f8fafc);
+}
+
+.cw-focus-block__pct {
+  margin: 0;
+  font-size: 0.7rem;
+  color: var(--cw-ethereal, #7ba3c9);
+  font-variant-numeric: tabular-nums;
+}
+
+.cw-focus-timer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, var(--cw-ethereal, #7ba3c9) 28%, transparent);
+  background: color-mix(in srgb, var(--cw-obsidian, #0d0b09) 55%, transparent);
+}
+
+.cw-focus-timer__label {
+  margin: 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cw-muted, #94a3b8);
+}
+
+.cw-focus-timer__value {
+  margin: 0.1rem 0 0;
+  font-size: 1.55rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+  color: var(--cw-text, #f8fafc);
+}
+
+.cw-focus-timer__play {
+  width: 3rem;
+  height: 3rem;
+  min-width: max(3rem, var(--cw-touch-floor, 44px));
+  min-height: max(3rem, var(--cw-touch-floor, 44px));
+  border-radius: 999px;
+  border: none;
+  background: radial-gradient(
+    circle at 35% 30%,
+    color-mix(in srgb, var(--cw-ethereal, #7ba3c9) 85%, #fff),
+    var(--cw-ethereal, #7ba3c9)
+  );
+  color: var(--cw-obsidian, #0d0b09);
+  font-size: 0.85rem;
+  box-shadow: 0 0 18px color-mix(in srgb, var(--cw-ethereal, #7ba3c9) 40%, transparent);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.cw-focus-timer__play:focus-visible {
+  outline: 2px solid var(--cw-gold, #d4af37);
+  outline-offset: 2px;
+}
+
+.cw-family-avatars {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.cw-family-avatars__dot,
+.cw-family-avatars__add {
+  width: 2.65rem;
+  height: 2.65rem;
+  min-width: max(2.65rem, var(--cw-touch-floor, 44px));
+  min-height: max(2.65rem, var(--cw-touch-floor, 44px));
+  border-radius: 999px;
+  border: 1.5px solid color-mix(in srgb, var(--cw-gold, #d4af37) 35%, transparent);
+  background: color-mix(in srgb, var(--cw-deep-space, #020617) 70%, #1e293b);
+}
+
+.cw-family-avatars__dot--gold {
+  border-color: color-mix(in srgb, var(--cw-gold, #d4af37) 75%, transparent);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--cw-gold, #d4af37) 28%, transparent);
+}
+
+.cw-family-avatars__add {
+  display: grid;
+  place-items: center;
+  color: var(--cw-gold, #d4af37);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.cw-family-timeline {
+  margin: 0;
+  padding: 0.45rem 0.55rem;
+  list-style: none;
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--cw-gold, #d4af37) 18%, transparent);
+  background: color-mix(in srgb, var(--cw-obsidian, #0d0b09) 45%, transparent);
+}
+
+.cw-family-timeline li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--cw-muted, #94a3b8);
+}
+
+.cw-family-timeline li span:first-child {
+  color: var(--cw-gold-dim, #9a7b2f);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.62rem;
+}
+
+/* ── Gold Standard polish rounds 1–5 (2026-07-22) — visual parity micro, no flow ── */
+
+/* R1 — Quick Capture: mic well, trust row, guldrim */
+.cw-capture-stage::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 54%;
+  width: 7.5rem;
+  height: 7.5rem;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--cw-gold, #d4af37) 14%, transparent) 0%,
+    transparent 68%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.cw-capture-mic {
+  position: relative;
+  z-index: 1;
+}
+
+.cw-card--hero .cw-capture-mic:not(.cw-capture-mic--live) {
+  box-shadow:
+    0 0 0 2.5px color-mix(in srgb, var(--cw-gold, #d4af37) 82%, transparent),
+    0 0 0 9px color-mix(in srgb, var(--cw-gold, #d4af37) 22%, transparent),
+    0 0 42px color-mix(in srgb, var(--cw-gold, #d4af37) 36%, transparent),
+    0 10px 28px rgba(2, 6, 23, 0.55),
+    inset 0 1px 0 color-mix(in srgb, var(--cw-gold-light, #fde68a) 30%, transparent),
+    inset 0 -12px 20px rgba(0, 0, 0, 0.5);
+}
+
+.cw-capture-trust {
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-top: 0.2rem;
+  border-top: 1px solid color-mix(in srgb, var(--cw-gold, #d4af37) 12%, transparent);
+}
+
+.cw-capture-trust span::before {
+  width: 5px;
+  height: 5px;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--cw-gold, #d4af37) 45%, transparent);
+}
+
+/* R2 — Note: inset field polish */
+.cw-note-well--gs:focus-within {
+  border-color: color-mix(in srgb, var(--cw-gold, #d4af37) 32%, transparent);
+  box-shadow:
+    var(--cw-inset, inset 0 3px 12px rgba(0, 0, 0, 0.68)),
+    inset 0 1px 0 color-mix(in srgb, var(--cw-gold-light, #fde68a) 12%, transparent),
+    0 0 18px color-mix(in srgb, var(--cw-gold, #d4af37) 12%, transparent);
+}
+
+.cw-note-well--gs .cw-input::placeholder {
+  letter-spacing: 0.02em;
+  opacity: 0.72;
+}
+
+.cw-note-well--gs .cw-input {
+  color: var(--cw-text, #f8fafc);
+}
+
+/* R3 — Beacon + Journal: caps/tracking, advice + quote spacing */
+.cw-card--hero .cw-header > div > p {
+  letter-spacing: 0.025em;
+}
+
+.cw-beacon-advice {
+  margin-top: 0.15rem;
+  gap: 0.35rem;
+  border: 1px solid color-mix(in srgb, var(--cw-gold, #d4af37) 16%, transparent);
+}
+
+.cw-beacon-advice__label {
+  letter-spacing: 0.14em;
+}
+
+.cw-journal-hero.cw-quote-smoke {
+  padding: 0.75rem 0.85rem;
+  gap: 0.4rem;
+}
+
+.cw-quote-smoke__attr {
+  letter-spacing: 0.08em;
+}
+
+.cw-journal-compose {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.cw-journal-compose__well {
+  padding: 0.65rem 0.75rem;
+}
+
+/* R4 — Child, Tasks, Compass/Harbor/Anchor density + tracking */
+.cw-eyebrow--gs {
+  margin: 0;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-size: 0.62rem;
+  color: var(--cw-gold-dim, #9a7b2f);
+}
+
+.cw-reminder-row__time {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.62rem;
+}
+
+.cw-reminder-row__title {
+  letter-spacing: 0.015em;
+}
+
+.cw-intention-block__label {
+  letter-spacing: 0.12em;
+}
+
+.cw-anchor-hero {
+  gap: 0.65rem;
+}
+
+.cw-anchor-hero .cw-intention-block__text {
+  letter-spacing: 0.02em;
+  text-align: center;
+  max-width: 16rem;
+}
+
+.cw-lotus-hero__text {
+  letter-spacing: 0.02em;
+}
+
+.cw-card[data-widget='compass'] .cw-pill-row {
+  gap: 0.4rem;
+}
+
+.cw-card[data-widget='daily_tasks'] .cw-focus-block {
+  gap: 0.4rem;
+}
+
+.cw-card[data-widget='child_focus'] .cw-glass-well {
+  padding: 0.65rem 0.75rem;
+  gap: 0.5rem;
+}

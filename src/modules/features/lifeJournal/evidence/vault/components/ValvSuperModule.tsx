@@ -34,6 +34,8 @@ export type ValvSuperModuleProps = {
   techniqueFilter?: string | null;
   onTechniqueSelect?: (technique: string) => void;
   onClearTechniqueFilter?: () => void;
+  /** Parent already rendered InkastDirectPanel — hide duplicate in VaultSamlaHub. */
+  suppressHubInkast?: boolean;
 };
 
 /**
@@ -53,6 +55,7 @@ export function ValvSuperModule({
   techniqueFilter,
   onTechniqueSelect,
   onClearTechniqueFilter,
+  suppressHubInkast = false,
 }: ValvSuperModuleProps) {
   switch (variant) {
     case 'samla': {
@@ -69,6 +72,7 @@ export function ValvSuperModule({
           onOpenGranska={onOpenGranska}
           techniqueFilter={techniqueFilter}
           onClearTechniqueFilter={onClearTechniqueFilter}
+          suppressHubInkast={suppressHubInkast}
         />
       );
     }

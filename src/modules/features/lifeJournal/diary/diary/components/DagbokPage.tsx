@@ -213,7 +213,7 @@ export function DagbokPage({
             <p className="reflektion-intro mb-4 mt-4">
               En snabb check-in — humör, valfria taggar, spara direkt.
             </p>
-            <div className="reflektion-wizard" aria-live="polite">
+            <div className="reflektion-wizard hjartat-reflektion-wizard gs-hub-card" aria-live="polite">
               <JournalQuickMode
                 mood={mood}
                 tags={tags}
@@ -241,7 +241,7 @@ export function DagbokPage({
                 setMode('reflektera');
               }}
             >
-              <div className="reflektion-wizard" aria-live="polite">
+              <div className="reflektion-wizard hjartat-reflektion-wizard gs-hub-card" aria-live="polite">
                 <DagbokWizardProgress step={step} />
                 <p className="sr-only">
                   Steg {JOURNAL_STEPS.findIndex((s) => s.key === step) + 1} av {JOURNAL_STEPS.length}:{' '}

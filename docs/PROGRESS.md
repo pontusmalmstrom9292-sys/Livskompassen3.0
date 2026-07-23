@@ -1,3 +1,43 @@
+## 2026-07-22 — UI högerförskjutning + Projekt-look (Cursor)
+
+- **Bug:** telefonen panade/skiftade höger — `fixed` compass/watermarks med `150vw`/`140vw` blåste upp `scrollWidth`; `html`/`body` saknade overflow-x-lås
+- **Fix:** `overflow-x: hidden` på `html, body, #root`; rosor → `absolute` + `min(100%, …)` i ambient + Valv/Familjen/Vardagen/Hjärtat/MåBra/Planering
+- **Bug:** Projekt-mockups ljusa — `.elongated-module` CSS saknades efter index.css-sunset; dubbel `glow-bottom-gold` + `planering-tool-card` utan global stil
+- **Fix:** återställd elongated-module i `obsidian-calm-glass.css`; ny `planering-tool-card.css` i design-system; tomstate utan nested gold glow
+- Smoke: `smoke:design-modules` · `smoke:locked-ux` **PASS**
+
+## 2026-07-22 — Valvet Samla-lås + cleanup (Cursor)
+
+- Locked UX §2b + `locked-ux-features.mdc` MUST NOT (Inkast-only förbjudet)
+- Ny modul-lås `MOD-VALV-SAMLA` (SuperModule/Samla/LogList) + unlock `2026-07-22-unlock-MOD-VALV-SAMLA.md`
+- Raderat `ValvInboxZone.tsx`; README/module_plan/SPEC synkade till `/valvet`
+- Smoke guards i `smoke_locked_ux` + `smoke_valv_mode`
+
+## 2026-07-22 — Valvet optimalitetshotfix (Cursor)
+
+- **Bug:** `valvMode=spara` dolde `ValvSamlaZone` → ingen arkivlista, `vaultTab=sok` nådde inte Valv-Chat
+- **Fix:** InkastDirectPanel + Samla parallellt (`suppressHubInkast`); `vaultTab=sok` når Valv-Chat via SuperModule (Orkester-fil orörd / modul-lås)
+- **Bug:** `loadFirebaseAdmin` saknade `FieldValue` → `smoke:dcap-alerts-worm` FAIL
+- **Fix:** namespaced-compat `firestore.FieldValue` / `Timestamp` i `scripts/lib/firebaseAdmin.mjs`
+- Docs: SPEC + verklighetsvalvet.md status; smoke valv-mode/locked-ux/dcap/inbox/orkester **PASS**
+
+## 2026-07-22 — Valvet full audit + 5 specialistagenter (Cursor)
+
+- Analys: Våg A inventering (UI ~78 filer, synapser, DCAP, gate) — **inga blockerande kod-GAP**
+- Ändringar: 5 `.cursor/agents/specialist-valv-*.md` · `auto-routing.mdc` · `agent-gap-scout.mdc` · `model-routing.mdc`
+- Eval: `docs/evaluations/2026-07-22-valvet-full-audit.md` **VERIFY PASS**
+- Smoke: locked-ux, valv-security/mode/valv, pattern-metadata, cost-guard, entities, dossier, kunskap, inbox, orkester, gcp:audit-apis — alla **PASS**
+- Kostnad: Vertex blockerad · budgetmall 100 SEK · `smoke:cost-guard` PASS
+
+## 2026-07-22 — Debug-runda (Cursor)
+
+- Lokal: `npm run build` · functions build · `smoke:predeploy:build` · G85 day1 verify (`verifySecurityComponents` + unit) **PASS**
+- Runtime browser: Hem · Valvet (biometri-gate) · Familjen · Hjärtat — inga konsolfel
+- Moln: `costCapGuard` ERROR = saknat Firestore-index på `ai_cost_log` (fail-open → AI funkar men taket loggar fel)
+- Fix: 3 composite indexes tillagda i `firestore.indexes.json` + skapade i prod (INITIALIZING → READY)
+- Capacitor: lokal assets (ingen remote `server.url`) synkad i android assets
+- Pending manuell: G85 Valv bakgrund &lt;3s + Google-auth utan reload
+
 ## 2026-07-22 — UI Polish V4 ×10 PASS 4 (samma vågor igen, ADD-only)
 
 - Fyren/Hem/SOS/Life OS presets + Planering/Dagbok/MåBra + Familjen/Projekt/Archive/KompassDiscovery
@@ -3250,3 +3290,32 @@ Copy the template below for each entry. Newest first.
 **Validering:** verifySecurityComponents PASS · functions build+test PASS · test:unit 118 · smoke:locked-ux/orkester/functions-pin/agents-ui/weaver-hitl/mabra/design-modules PASS.
 
 **Kvar till Pontus:** G85 device Valv <3s · App Check Console · functions redeploy per gap-doc · Phase 10 visual sign-off.
+
+## 2026-07-22 — Gold Standard hub + Companion parity (C + Ethereal Blue)
+
+Unlock: `docs/evaluations/2026-07-22-unlock-hub-gold-standard-layout.md` (`approved: yes`)
+
+### Fas 0–2
+- Unlock presentation-only §11/12/15/17 + Companion Kap 6 deepen
+- Web 10-pack: Journal/Beacon/Fokus/Familjen/Capture deepen · `WidgetTheme` 1.3.0
+- Android: `values-v31` fixed Gold/Ethereal · Beacon live `ProgressBar` capacity ring
+- Design-system: `gold-standard-hub-card.css` (`gs-hub-card`) · wired ExamplePreviewCard + zone intros
+
+### Fas 3 — 15 polishrundor
+1. Capture guldstjärna (Hemlig inspelning + trust-rad)
+2. Note + Inbox guldrim/inset
+3. Beacon + Journal (råd-kort, mood, streak)
+4. Child + Tasks + Compass/Harbor/Anchor densitet
+5. Android RemoteViews guldrim/ringar
+6. Dagbok hub-skin (intro + reflektion calm-cards)
+7. Fyren/MåBra kapacitet ethereal
+8. Planering/Fokus pinned + tool cards
+9. Familjen zone + Barnfokus presentation (`--gs`)
+10. frontend-modul-auditor — tokens hub/companion
+11. ux-guardian — Superhub/WIS/Barnfokus pool intakt
+12. widget-visual-parity micro-gap
+13. Theme Lab GS-preview (default OFF) + VARIANTS.md
+14. smoke: companion-widgets · locked-ux · design-modules · planering-superhub · children · mabra **PASS**
+15. yolo-vakt: kod/smoke GO; commit måste inkludera 3 nya filer (untracked) vid merge
+
+Ethereal Blue `#7BA3C9` endast progress/waveform — ingen global teal.

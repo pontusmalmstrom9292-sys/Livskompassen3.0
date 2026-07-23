@@ -1,3 +1,4 @@
+/** @locked MOD-VALV-SAMLA · @locked-ux Valv Samla — Arkivlista + Sök (ValvChat); see `.context/locked-ux-features.md` §2b */
 import { useEffect, useState } from 'react';
 import { Button } from '@/design-system';
 import { TabBar } from '@/core/ui/TabBar';
@@ -22,6 +23,8 @@ export type ValvSamlaZoneProps = {
   onOpenGranska?: () => void;
   techniqueFilter?: string | null;
   onClearTechniqueFilter?: () => void;
+  /** Parent already rendered InkastDirectPanel — hide duplicate compact inkast. */
+  suppressHubInkast?: boolean;
 };
 
 export function ValvSamlaZone({
@@ -35,6 +38,7 @@ export function ValvSamlaZone({
   onOpenGranska,
   techniqueFilter = null,
   onClearTechniqueFilter,
+  suppressHubInkast = false,
 }: ValvSamlaZoneProps) {
   const [anchorsOnly, setAnchorsOnly] = useState(false);
   const [manualEntryOpen, setManualEntryOpen] = useState(false);
@@ -73,6 +77,7 @@ export function ValvSamlaZone({
               onOpenGranska={onOpenGranska}
               manualEntryOpen={manualEntryOpen}
               onManualEntryOpenChange={setManualEntryOpen}
+              suppressInkast={suppressHubInkast}
             />
             <div className="valv-samla-filter-row flex flex-wrap items-center justify-between gap-2 px-0.5">
               <p className="text-xs font-medium uppercase tracking-wider text-text-muted">Arkivlista</p>

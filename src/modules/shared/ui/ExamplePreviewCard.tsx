@@ -31,9 +31,9 @@ export function ExamplePreviewCard({
 }: ExamplePreviewCardProps) {
   return (
     <article
-      className={`planering-tool-card planering-tool-card--tile calm-card glow-bottom-gold ${TONE_CLASS[tone]}${disabled ? ' opacity-60' : ''}`}
+      className={`planering-tool-card planering-tool-card--tile calm-card gs-hub-card ${TONE_CLASS[tone]}${disabled ? ' opacity-60' : ''}`}
     >
-      <div className="planering-tool-card__preview mb-3 rounded-xl border border-border/30 bg-surface/40 p-3">
+      <div className="planering-tool-card__preview mb-3 rounded-xl border border-border/30 p-3">
         {preview}
       </div>
       <h3 className="font-display-serif text-sm tracking-wide text-accent">{title}</h3>

@@ -51,9 +51,11 @@ Two levels — do not confuse them:
 
 Phase 0–9 baseline och migration **done**. Phase 10: `index.css` import-only; våg 111 legacy stubs **borttagna** (2026-07-11); `executive-chrome.css` kvar (dock/hem locked).
 
-**Active polish program:** **UI Polish V4 ×10** — **kod Done** 2026-07-22 (I1–I10 × W0–W11) + **FULL RE-RUN** + **PASS 3–4 ADD-only** samma dag. Unlock `docs/evaluations/2026-07-22-unlock-MOD-UI-POLISH-V4-X10.md`. Parallel med Fas 24 P0 G85.
+**Active polish program:** **UI Polish V4 ×10** (kod Done) + **Gold Standard hub/Companion** (kod Done 2026-07-22, Scope C + Ethereal Blue). Unlock hub layout [`evaluations/2026-07-22-unlock-hub-gold-standard-layout.md`](./evaluations/2026-07-22-unlock-hub-gold-standard-layout.md). Parallel med Fas 24 P0 G85.
 
-**Next within program:** Pontus G85 visual sign-off (V4 + v3); Completion residual; Playwright stretch. Daily driver fortsätter.
+**Active visual wave:** **Gold Standard** — smoke PASS; väntar Pontus G85 visual sign-off mot mockuper.
+
+**Next within program:** Pontus G85 visual sign-off (V4 + GS); Completion residual; Playwright stretch. Daily driver fortsätter.
 
 ---
 

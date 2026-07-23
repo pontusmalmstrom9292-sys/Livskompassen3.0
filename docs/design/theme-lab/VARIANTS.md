@@ -1,9 +1,10 @@
 # Theme Lab — variantbeslut
 
-**Uppdaterad:** 2026-06-15 (R-E-hamn-remix prod default)
+**Uppdaterad:** 2026-07-22 (Gold Standard hub-card preview)
 
 | ID | Label | Status | Test / beslut |
 |----|-------|--------|----------------|
+| `GS-hub-card` | Gold Standard hub-kort | **preview lab** | `/dev/theme-lab` → «Visa GS-preview» (default OFF) · Ethereal Blue endast progress · unlock `2026-07-22-unlock-hub-gold-standard-layout.md` |
 | `R-E-hamn-remix` | E + Hamn remix | **GODKÄND prod** | **default 2026-06-15** — Tema E guld + D1 chrome (mix-E) |
 | `D1-hamn-kompass` | Design Hamn & kompass | **experiment** | Hamn orbit + ref-hamn |
 | `D2-familjen-kort` | Design Familjen | **experiment** | Radkort + ref-familjen.png |
