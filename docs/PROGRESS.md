@@ -1,3 +1,23 @@
+## 2026-07-23 — Silo-glow kill-switch (hela appen)
+
+- CSS: `.glow-bottom-*` visuellt inert i `obsidian-calm-glass.css` (+ Nordic/Aurora/MåBra overrides)
+- DS: Card/CalmCollapsible/Modal/Sheet/ErrorFallback/LivLauncherGrid/discoveryAccentGlow — ingen glow-klass
+- `glow`-API kvar (smoke/compat); ingen gul/blå/grön botten-bloom
+- Smoke: `locked-ux` · `design-modules` PASS
+
+## 2026-07-23 — Familjen header: bort guldet-glow
+
+- `FamiljenPage`: Välj barn + Barnfokus-intro `BentoCard` utan `glow` (ingen `glow-bottom-gold`)
+- Scope: endast header-korten; flikpaneler orörda
+- Smoke: `locked-ux` PASS
+
+## 2026-07-23 — Auth unlock (inloggning “Något gick fel”)
+
+- Root cause (logcat G85): `stopAuraFlow` → `MemoryManager.scrub()` WebView.clearCache off UI thread
+- Fix: AuraFlow stop utan scrub; NativeInterface try/catch; JS try/catch; breathing stop endast efter start
+- AuthErrorBoundary recovery + Capacitor hoppar web-WebAuthn
+- Verifierat: compileDebugJavaWithJavac · smoke:auth-login · build:web · cap sync
+
 ## 2026-07-23 — Edge AI → WORM consumer
 
 - Listener `livskompassen-intelligence` + `intelligenceConsumer.ts`

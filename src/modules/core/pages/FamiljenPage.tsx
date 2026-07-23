@@ -204,7 +204,7 @@ export function FamiljenPage() {
             <div className="familjen-page__header space-y-4">
               <FamiljenZoneIntro activeTab={activeTab} />
               {showChildPicker && (
-                <BentoCard glow="blue" noHover className="familjen-page__card !p-3">
+                <BentoCard noHover className="familjen-page__card !p-3">
                   <FamiljenChildPicker
                     activeChild={shell.activeChild}
                     children={shell.childAliases}
@@ -214,7 +214,7 @@ export function FamiljenPage() {
               )}
 
               {tabPolish && (
-                <BentoCard glow="blue" noHover className="familjen-page__card !p-3 sm:!p-4">
+                <BentoCard noHover className="familjen-page__card !p-3 sm:!p-4">
                   <p className="text-[10px] uppercase tracking-[0.18em] text-accent-secondary/80">
                     {tabPolish.eyebrow}
                   </p>

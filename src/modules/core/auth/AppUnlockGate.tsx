@@ -5,6 +5,7 @@ import { useStore } from '../store';
 import { isAppUnlockSupported } from './appUnlock';
 import { FingerprintUnlockPanel } from './FingerprintUnlockPanel';
 import { isAppUnlockEnabled, isAppUnlockedThisSession, markAppUnlockedThisSession } from './appUnlockPrefs';
+import { isCapacitorNative } from './capacitorPlatform';
 
 type Props = {
   children: ReactNode;
@@ -23,7 +24,9 @@ export function AppUnlockGate({ children }: Props) {
     return <>{children}</>;
   }
 
+  // Capacitor: SacredLockManager äger biometri — web-WebAuthn-gate får inte blockera efter Google-login.
   const needsUnlock =
+    !isCapacitorNative() &&
     !isLoading &&
     !!user &&
     !user.isAnonymous &&

@@ -1,3 +1,15 @@
+### 2026-07-23 — Silo-glow bort överallt
+- CSS kill-switch + DS-defaults (Modal/Sheet/Card m.m.) — ingen botten-bloom
+- Smoke: `locked-ux` · `design-modules` PASS
+
+### 2026-07-23 — Familjen header glow bort
+- Välj barn + Barnfokus-intro utan `glow-bottom-gold` (match övriga hubbar)
+- Smoke: `locked-ux` PASS
+
+### 2026-07-23 — Auth unlock (G85)
+- Fix: AuthErrorBoundary recovery + Capacitor hoppar web-fingeravtrycksgate
+- Väntar: Pontus Run på telefon efter cap sync
+
 ### 2026-07-23 — UI Polish V10 ×10 Widgets
 - Supernoggrant: Companion pack + Studio + Fyren + ActionDashboard
 - CSS touch floor 44px · WidgetButton aria · smoke companion/widgets/locked-ux

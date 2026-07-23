@@ -42,6 +42,7 @@ export async function syncAuthUserToStore(user: User): Promise<void> {
     uid: user.uid,
     email: user.email ?? undefined,
     isAnonymous: user.isAnonymous,
+    emailVerified: user.emailVerified,
   });
   clearSkipAnonymousFlag();
 }

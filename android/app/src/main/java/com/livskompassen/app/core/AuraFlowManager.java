@@ -10,7 +10,6 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.Looper;
-import com.livskompassen.app.MainActivity;
 import com.livskompassen.app.util.LCLog;
 
 /**
@@ -45,29 +44,45 @@ public class AuraFlowManager implements SensorEventListener {
         if (isRunning) return;
         isRunning = true;
         LCLog.d("AuraFlow: Starting immersive breathing guidance.");
-        
-        if (lightSensor != null) {
-            sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        try {
+            if (lightSensor != null && sensorManager != null) {
+                sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+            }
+            audioManager.start();
+            runCycle();
+        } catch (Exception e) {
+            isRunning = false;
+            LCLog.e("AuraFlow: startFlow failed: " + e.getMessage());
         }
-        
-        audioManager.start();
-        runCycle();
     }
 
+    /**
+     * Stop breathing guidance. Must never throw into the WebView bridge —
+     * JS calls this on every inactive breathing mount/cleanup.
+     * Do NOT scrub MemoryManager here (WebView clearCache off UI thread crashed auth boot).
+     */
     public void stopFlow() {
         isRunning = false;
-        sensorManager.unregisterListener(this);
-        if (colorAnimator != null) colorAnimator.cancel();
-        audioManager.stop();
+        try {
+            if (sensorManager != null) {
+                sensorManager.unregisterListener(this);
+            }
+        } catch (Exception ignored) {}
+        try {
+            if (colorAnimator != null) colorAnimator.cancel();
+        } catch (Exception ignored) {}
+        try {
+            audioManager.stop();
+        } catch (Exception ignored) {}
         mainHandler.removeCallbacksAndMessages(null);
-        systemUiManager.setStatusBarTheme("#0D0B09", true); // Reset to standard
-        systemUiManager.setEdgeGlow("#000000", 0f); // Disable glow
-        
-        // Våg 271: Memory scrub on session end
-        if (context instanceof MainActivity) {
-            MemoryManager mm = ((MainActivity) context).getMemoryManager();
-            if (mm != null) mm.scrub();
-        }
+        mainHandler.post(() -> {
+            try {
+                systemUiManager.setStatusBarTheme("#0D0B09", true);
+                systemUiManager.setEdgeGlow("#000000", 0f);
+            } catch (Exception e) {
+                LCLog.e("AuraFlow: stopFlow UI reset failed: " + e.getMessage());
+            }
+        });
     }
 
     @Override

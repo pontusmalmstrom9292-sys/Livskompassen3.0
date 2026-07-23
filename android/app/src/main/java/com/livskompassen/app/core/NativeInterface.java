@@ -139,12 +139,20 @@ public class NativeInterface {
 
     @JavascriptInterface
     public void startAuraFlow() {
-        auraFlowManager.startFlow();
+        try {
+            if (auraFlowManager != null) auraFlowManager.startFlow();
+        } catch (Exception e) {
+            LCLog.e("NativeInterface.startAuraFlow: " + e.getMessage());
+        }
     }
 
     @JavascriptInterface
     public void stopAuraFlow() {
-        auraFlowManager.stopFlow();
+        try {
+            if (auraFlowManager != null) auraFlowManager.stopFlow();
+        } catch (Exception e) {
+            LCLog.e("NativeInterface.stopAuraFlow: " + e.getMessage());
+        }
     }
 
     @JavascriptInterface

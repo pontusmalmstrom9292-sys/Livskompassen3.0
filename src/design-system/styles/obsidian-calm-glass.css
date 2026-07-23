@@ -137,91 +137,26 @@
     pointer-events: none;
   }
 
-  /* —— Silo-botten-glow —— */
-  .glow-bottom-gold {
-    border-bottom-width: 2px;
-    border-bottom-color: color-mix(in srgb, var(--accent) 70%, transparent);
-    box-shadow:
-      0 4px 20px -2px rgba(212, 175, 55, 0.35),
-      0 14px 36px -8px rgba(212, 175, 55, 0.22);
-  }
-
-  .glow-bottom-blue {
-    border-bottom-width: 2px;
-    border-bottom-color: color-mix(in srgb, var(--accent) 70%, transparent);
-    box-shadow:
-      0 4px 20px -2px rgba(212, 175, 55, 0.35),
-      0 14px 36px -8px rgba(212, 175, 55, 0.22);
-  }
-
-  .glow-bottom-green {
-    border-bottom-width: 1px;
-    border-bottom-color: var(--border);
-    box-shadow: inset 0 -1px 0 color-mix(in srgb, var(--border) 80%, transparent);
-  }
-
+  /* —— Silo-botten-glow (kill-switch: visuellt inert, klassnamn kvar för legacy) —— */
+  .glow-bottom-gold,
+  .glow-bottom-blue,
+  .glow-bottom-green,
   .glow-bottom-danger {
-    border-bottom-width: 2px;
-    --tw-border-opacity: 1;
-    border-bottom-color: color-mix(in srgb, var(--danger) 65%, transparent);
-    box-shadow: 0 4px 20px -2px color-mix(in srgb, var(--danger) 28%, transparent);
+    border-bottom-width: inherit;
+    border-bottom-color: inherit;
+    box-shadow: none;
   }
 
-  /* Subtil gradient i kortets nedre kant (under innehåll) */
   .calm-card.glow-bottom-gold::after,
-  .glass-card.glow-bottom-gold::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 3.5rem;
-    pointer-events: none;
-    background: linear-gradient(
-      to top,
-      rgba(212, 175, 55, 0.14),
-      transparent
-    );
-    z-index: 0;
-  }
-
+  .glass-card.glow-bottom-gold::after,
   .calm-card.glow-bottom-blue::after,
-  .glass-card.glow-bottom-blue::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 3.5rem;
-    pointer-events: none;
-    background: linear-gradient(
-      to top,
-      rgba(212, 175, 55, 0.14),
-      transparent
-    );
-    z-index: 0;
-  }
-
+  .glass-card.glow-bottom-blue::after,
   .calm-card.glow-bottom-green::after,
-  .glass-card.glow-bottom-green::after {
-    display: none;
-  }
-
+  .glass-card.glow-bottom-green::after,
   .calm-card.glow-bottom-danger::after,
   .glass-card.glow-bottom-danger::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 3.5rem;
-    pointer-events: none;
-    background: linear-gradient(
-      to top,
-      color-mix(in srgb, var(--danger) 14%, transparent),
-      transparent
-    );
-    z-index: 0;
+    display: none;
+    content: none;
   }
 
   .calm-card > *,

@@ -27,7 +27,6 @@ export function useBreathingCycle(exercise: BreathingExercise, active: boolean) 
     if (!active || exercise.phases.length === 0) {
       setPhase('idle');
       setPhaseIndex(0);
-      stopAuraFlowNative();
       return;
     }
 
