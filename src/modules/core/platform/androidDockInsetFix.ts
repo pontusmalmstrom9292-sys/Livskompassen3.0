@@ -44,6 +44,8 @@ function readCapacitorSafeBottomPx(): number {
  * Capacitor SystemBars: safe-area ska bara ligga på shell (gestyrad), inte i nav-baren.
  * Dubbel padding på bar gav ~1 cm gap; noll på shell gav "för långt ned".
  */
+let trimCallCount = 0;
+
 export function trimAndroidBastaDockInsets(): void {
   if (!isAndroidCapacitorShell()) return;
 
@@ -56,6 +58,33 @@ export function trimAndroidBastaDockInsets(): void {
 
   const safeBottom = readCapacitorSafeBottomPx();
   const shellBottom = Math.max(SHELL_BOTTOM_FALLBACK_PX, Math.round(safeBottom));
+  trimCallCount += 1;
+
+  // #region agent log
+  const trimData = {
+    trimCallCount,
+    safeBottom,
+    shellBottom,
+    envSafe: getComputedStyle(root).getPropertyValue('env(safe-area-inset-bottom)') || 'n/a',
+    cssVar: root.style.getPropertyValue('--lk-android-shell-inset'),
+    shellPad: shell.style.paddingBottom,
+    barPad: bar.style.paddingBottom,
+  };
+  console.warn('[DBG-118fef]', 'androidDockInsetFix.ts:trim', 'dock inset trim', trimData);
+  fetch('http://127.0.0.1:7891/ingest/e2aa352c-17db-4fb0-8a3f-df79408d16d3', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '118fef' },
+    body: JSON.stringify({
+      sessionId: '118fef',
+      runId: 'post-fix',
+      hypothesisId: 'D',
+      location: 'androidDockInsetFix.ts:trim',
+      message: 'dock inset trim',
+      data: trimData,
+      timestamp: Date.now(),
+    }),
+  }).catch(() => {});
+  // #endregion
 
   root.style.setProperty('--lk-android-shell-inset', `${shellBottom}px`);
   shell.style.setProperty('padding-bottom', `${shellBottom}px`, 'important');

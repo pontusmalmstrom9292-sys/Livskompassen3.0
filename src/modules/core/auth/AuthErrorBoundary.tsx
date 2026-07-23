@@ -28,6 +28,28 @@ export class AuthErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, info: ErrorInfo): void {
     console.error('[AuthErrorBoundary]', error, info.componentStack);
+    // #region agent log
+    const data = {
+      message: error?.message?.slice(0, 200) ?? null,
+      name: error?.name ?? null,
+      stackTop: error?.stack?.split('\n').slice(0, 4).join(' | ') ?? null,
+      componentStackTop: info.componentStack?.split('\n').slice(0, 6).join(' | ') ?? null,
+    };
+    console.warn('[DBG-4bae45]', 'AuthErrorBoundary.tsx:catch', 'auth render crash', data);
+    fetch('http://127.0.0.1:7891/ingest/e2aa352c-17db-4fb0-8a3f-df79408d16d3', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '4bae45' },
+      body: JSON.stringify({
+        sessionId: '4bae45',
+        runId: 'pre-fix',
+        hypothesisId: 'F',
+        location: 'AuthErrorBoundary.tsx:catch',
+        message: 'auth render crash',
+        data,
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
   }
 
   private handleRetry = (): void => {

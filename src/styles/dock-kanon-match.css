@@ -11,6 +11,15 @@
   background: transparent !important;
 }
 
+/*
+ * design-packs-chrome sätter --app-dock-clearance på .app-shell med högre specificitet
+ * (html[data-design-pack] .app-shell). Dock-shell-variabeln ärvs inte till .app-main —
+ * utan denna override blir mainPadBottom ~140px medan dockan sitter tight → tom glipa / "för högt".
+ */
+html[data-design-pack] .app-shell--basta-design {
+  --app-dock-clearance: calc(8.15rem + env(safe-area-inset-bottom, 0px) + 0.85rem);
+}
+
 .dock-shell--basta-v2::before {
   content: '';
   position: absolute;
@@ -488,7 +497,8 @@
 
 /* Motorola G85 / smal mobil — dock närmare underkant, mindre kompass-protrusion */
 @media (max-width: 639px) {
-  .app-shell--basta-design {
+  .app-shell--basta-design,
+  html[data-design-pack] .app-shell--basta-design {
     --app-dock-clearance: calc(7.35rem + env(safe-area-inset-bottom, 0px) + 0.5rem);
   }
 
@@ -530,7 +540,8 @@
  * Capacitor Android — safe-area på shell (gestyrad), inte i nav-baren.
  * Dubbel padding i bar = ~1 cm gap; noll shell = för långt ned.
  */
-html.platform-capacitor-android .app-shell--basta-design {
+html.platform-capacitor-android .app-shell--basta-design,
+html.platform-capacitor-android[data-design-pack] .app-shell--basta-design {
   --app-dock-clearance: calc(7.35rem + 0.35rem + var(--lk-android-shell-inset, 0.625rem));
 }
 

@@ -63,6 +63,91 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
     if (!user) setMenuOpen(false);
   }, [user, setMenuOpen]);
 
+  useEffect(() => {
+    const dbg = (hypothesisId: string, locationTag: string, message: string, data: Record<string, unknown>) => {
+      // #region agent log
+      const payload = { sessionId: '118fef', runId: 'post-fix', hypothesisId, location: locationTag, message, data, timestamp: Date.now() };
+      console.warn('[DBG-118fef]', locationTag, message, data);
+      fetch('http://127.0.0.1:7891/ingest/e2aa352c-17db-4fb0-8a3f-df79408d16d3', { method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '118fef' }, body: JSON.stringify(payload) }).catch(() => {});
+      // #endregion
+    };
+
+    const sample = (reason: string) => {
+      const body = document.body;
+      const html = document.documentElement;
+      const island = document.querySelector('.calm-scroll-island') as HTMLElement | null;
+      const hubLock = document.querySelector('.hub-view-lock') as HTMLElement | null;
+      const dockBar = document.querySelector('.basta-dock-bar--v2, .floating-dock, .exec-dock-bar') as HTMLElement | null;
+      const bodyCs = getComputedStyle(body);
+      const htmlCs = getComputedStyle(html);
+      const scrollEl = document.scrollingElement;
+      dbg('A', 'MainLayout.tsx:scrollSample', 'scroll/lock sample', {
+        reason,
+        path: location.pathname,
+        bodyOverflow: bodyCs.overflow,
+        bodyOverflowY: bodyCs.overflowY,
+        htmlOverflow: htmlCs.overflow,
+        htmlOverflowY: htmlCs.overflowY,
+        bodyClasses: body.className,
+        htmlClasses: html.className,
+        scrollTop: scrollEl?.scrollTop ?? null,
+        scrollH: scrollEl?.scrollHeight ?? null,
+        clientH: scrollEl?.clientHeight ?? null,
+        canWindowScroll: !!scrollEl && scrollEl.scrollHeight > scrollEl.clientHeight + 2,
+        island: island
+          ? {
+              sh: island.scrollHeight,
+              ch: island.clientHeight,
+              st: island.scrollTop,
+              oy: getComputedStyle(island).overflowY,
+              canScroll: island.scrollHeight > island.clientHeight + 2,
+            }
+          : null,
+        hubLock: hubLock
+          ? {
+              mh: getComputedStyle(hubLock).maxHeight,
+              oh: getComputedStyle(hubLock).overflow,
+              h: Math.round(hubLock.getBoundingClientRect().height),
+            }
+          : null,
+        dockBarPe: dockBar ? getComputedStyle(dockBar).pointerEvents : null,
+      });
+      if (island) {
+        dbg('B', 'MainLayout.tsx:island', 'calm-scroll-island metrics', {
+          path: location.pathname,
+          scrollHeight: island.scrollHeight,
+          clientHeight: island.clientHeight,
+          canScroll: island.scrollHeight > island.clientHeight + 2,
+          parentOverflow: island.parentElement ? getComputedStyle(island.parentElement).overflow : 'n/a',
+        });
+      }
+    };
+
+    sample('mount');
+    const onScroll = () => sample('scroll');
+    const onTouch = (e: TouchEvent) => {
+      const t = e.target as HTMLElement | null;
+      const dockHit = !!t?.closest?.('.dock-shell, .basta-dock-bar, .floating-dock, .exec-dock-bar');
+      dbg('C', 'MainLayout.tsx:touchstart', 'touch target', {
+        dockHit,
+        tag: t?.tagName ?? null,
+        cls: typeof t?.className === 'string' ? t.className.slice(0, 120) : null,
+        y: e.touches[0]?.clientY ?? null,
+        innerH: window.innerHeight,
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    document.addEventListener('touchstart', onTouch, { passive: true, capture: true });
+    const t1 = window.setTimeout(() => sample('t+1s'), 1000);
+    const t3 = window.setTimeout(() => sample('t+3s'), 3000);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      document.removeEventListener('touchstart', onTouch, true);
+      window.clearTimeout(t1);
+      window.clearTimeout(t3);
+    };
+  }, [location.pathname]);
+
   return (
     <FyrenWidgetProvider>
     <FyrenHeaderQuickProvider>

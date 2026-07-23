@@ -1,7 +1,15 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const ACTIVITY_EVENTS = ['pointerdown', 'keydown', 'touchstart', 'scroll'] as const;
+/** Any of these clears the privacy blur — must include wheel/touchmove so scroll never feels "stuck". */
+const ACTIVITY_EVENTS = [
+  'pointerdown',
+  'keydown',
+  'touchstart',
+  'touchmove',
+  'scroll',
+  'wheel',
+] as const;
 const BLUR_IDLE_MS = 30 * 1000; // 30 seconds for stealth blur
 
 export function InactivityBlurOverlay() {
@@ -30,8 +38,6 @@ export function InactivityBlurOverlay() {
     };
   }, []);
 
-  const dismiss = () => setIsBlurred(false);
-
   return (
     <AnimatePresence>
       {isBlurred && (
@@ -39,18 +45,10 @@ export function InactivityBlurOverlay() {
           initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
           animate={{ opacity: 1, backdropFilter: 'blur(24px)' }}
           exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-          transition={{ duration: 1, ease: 'easeInOut' }}
-          className="pointer-events-auto fixed inset-0 z-[9999] bg-surface-base/30 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
-          role="button"
-          tabIndex={0}
-          aria-label="Tryck Escape eller klicka för att fortsätta"
-          onClick={dismiss}
-          onKeyDown={(e) => {
-            if (e.key === 'Escape' || e.key === 'Enter' || e.key === ' ' || e.key === 'Tab') {
-              e.preventDefault();
-              dismiss();
-            }
-          }}
+          transition={{ duration: 0.45, ease: 'easeInOut' }}
+          /* Visual-only: never capture hits — scroll/tap must reach the page (window listeners clear blur). */
+          className="pointer-events-none fixed inset-0 z-[9999] bg-surface-base/30"
+          aria-hidden
         />
       )}
     </AnimatePresence>
