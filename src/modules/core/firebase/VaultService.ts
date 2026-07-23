@@ -38,6 +38,25 @@ export type VaultHistoryEntry = Partial<Omit<VaultLog, 'userId' | 'createdAt'>> 
   confidence?: number;
 };
 
+/**
+ * Normalises the date of a VaultHistoryEntry to a `Date` object.
+ * Handles the three timestamp shapes that may appear in stored entries:
+ * 1. `createdAt` — ISO string (normalised by getVaultHistory / initializeVaultListener)
+ * 2. `timestamp` — legacy raw Firestore Timestamp (object with `.toDate()`)
+ * 3. `timestamp` — plain Date or ISO string from older entries
+ */
+export function getVaultEntryDate(entry: VaultHistoryEntry): Date {
+  if (entry.createdAt) {
+    return new Date(entry.createdAt);
+  }
+  const ts = entry.timestamp;
+  if (ts == null) return new Date();
+  if (ts instanceof Date) return ts;
+  if (typeof ts === 'object' && typeof ts.toDate === 'function') return ts.toDate();
+  if (typeof ts === 'string') return new Date(ts);
+  return new Date();
+}
+
 /** Legacy inkast/triage — `content`/`source` mappas till `truth`/`action` om saknas. */
 export type VaultSaveRecordInput = {
   content?: string;

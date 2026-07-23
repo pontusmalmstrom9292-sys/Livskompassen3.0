@@ -1,7 +1,7 @@
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { EmptyState } from '@/core/ui/EmptyState';
 import React, { useEffect, useState } from 'react';
-import { VaultService, type VaultHistoryEntry } from '../../core/firebase/VaultService';
+import { VaultService, getVaultEntryDate, type VaultHistoryEntry } from '../../core/firebase/VaultService';
 import { getAllTimeEntriesForEconomyReadOnly } from '../../core/firebase/arbetslivFirestore';
 import { useStore } from '../../core/store';
 import type { OracleMetricPoint } from '../hooks/useOracleMetrics';
@@ -37,20 +37,7 @@ export const DayForensicsPanel: React.FC<DayForensicsPanelProps> = ({ dataPoint,
         const targetDate = dataPoint.isoDate;
 
         const filteredVault = allVault.filter(entry => {
-          let dateObj = new Date();
-          if (entry.createdAt) {
-            // createdAt is normalized to an ISO string by VaultService
-            dateObj = new Date(entry.createdAt);
-          } else if (entry.timestamp != null) {
-            const ts = entry.timestamp;
-            if (ts instanceof Date) {
-              dateObj = ts;
-            } else if (typeof ts === 'object' && typeof ts.toDate === 'function') {
-              dateObj = ts.toDate();
-            } else {
-              dateObj = new Date(ts as string);
-            }
-          }
+          const dateObj = getVaultEntryDate(entry);
           return dateObj.toISOString().split('T')[0] === targetDate;
         });
 
@@ -122,7 +109,7 @@ export const DayForensicsPanel: React.FC<DayForensicsPanelProps> = ({ dataPoint,
                   <li key={idx} className="bg-white/5 rounded-lg p-3 text-sm text-text-muted">
                    <p className="line-clamp-3">{entry.content ?? JSON.stringify(entry)}</p>
                     <div className="mt-2 text-xs text-text-muted flex justify-between">
-                      <span>{new Date(entry.createdAt ?? (entry.timestamp instanceof Date ? entry.timestamp.toISOString() : String(entry.timestamp ?? ''))).toLocaleTimeString('sv-SE', {hour: '2-digit', minute:'2-digit'})}</span>
+                      <span>{getVaultEntryDate(entry).toLocaleTimeString('sv-SE', {hour: '2-digit', minute:'2-digit'})}</span>
                        <span className="text-accent/50 uppercase tracking-wider text-[10px]">WORM</span>
                     </div>
                   </li>

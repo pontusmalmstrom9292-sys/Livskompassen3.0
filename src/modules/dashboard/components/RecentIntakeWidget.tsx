@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { usePlanningTasks } from '@/features/admin/planning/hooks/usePlanningTasks';
-import { VaultService, type VaultHistoryEntry } from '@/core/firebase/VaultService';
+import { VaultService, getVaultEntryDate, type VaultHistoryEntry } from '@/core/firebase/VaultService';
 import { hasVaultGate } from '@/core/auth/sessionService';
 import { useStore } from '@/core/store';
 import { CheckSquare, Lock, Mic, Clock, Sparkles } from 'lucide-react';
@@ -40,15 +40,7 @@ export function RecentIntakeWidget() {
     const unsubscribe = VaultService.initializeVaultListener(user.uid, (data) => {
       const mapped: VaultDisplayEntry[] = data.map((item) => {
         const content = item.content ?? item.text ?? item.observation ?? item.label ?? 'Ingen text';
-        const rawTs = item.timestamp;
-        const timestamp =
-          rawTs != null
-            ? typeof rawTs === 'object' && 'toDate' in rawTs && typeof rawTs.toDate === 'function'
-              ? rawTs.toDate()
-              : new Date(rawTs as string | Date)
-            : item.createdAt
-              ? new Date(item.createdAt)
-              : new Date();
+        const timestamp = getVaultEntryDate(item);
         return { ...item, content, timestamp };
       });
       setVaultEntries(mapped.slice(0, 3));
