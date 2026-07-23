@@ -1,3 +1,10 @@
+## 2026-07-23 — Android CI ML Kit-fix (Copilot)
+
+- GitHub Actions `Android CI` run `30008547997` failade på `IntelligenceManager.java` med `package com.google.mlkit.nl.languageid does not exist`
+- Fix: lade till `com.google.mlkit:language-id:17.0.6` i `android/app/build.gradle`
+- Lokal verifiering försökt via `./android/gradlew -p android lint assembleDebug test`, men sandboxen kunde inte nå `dl.google.com`
+- Nästa expected signal: grön remote `Android CI` på samma compile-path
+
 ## 2026-07-23 — Companion OS Hemskärm + Studio Gold Våg 1–4 (Cursor)
 
 - Rich 10-pack RemoteViews + WIS multi-PI redan på plats; polish: ≥56 dp (Note/Harbor/Tasks/CTA), soft bloom `widget_bg_premium_panel`, inset well depth, Capture waveform alpha vid recording

@@ -1,5 +1,12 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
+## 2026-07-23 — Android CI ML Kit-fix
+
+- [x] Bekräftat fel i GitHub Actions `Android CI` (`run 30008547997`): `IntelligenceManager.java` saknade ML Kit Language ID dependency
+- [x] Lagt till `com.google.mlkit:language-id:17.0.6` i `/android/app/build.gradle`
+- [x] Försökt lokal Android-validering (`./android/gradlew -p android lint assembleDebug test`)
+- [ ] Verifiera grön Android CI efter nästa remote körning
+
 ## 2026-07-23 — Companion OS Hemskärm + Studio Gold (Våg 1–4)
 
 Unlock: `2026-07-21-unlock-MOD-WIDGET-companion-android-interact.md` (`approved: yes`)
