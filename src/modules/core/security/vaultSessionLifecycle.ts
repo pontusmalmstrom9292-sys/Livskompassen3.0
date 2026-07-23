@@ -3,6 +3,7 @@ import { clearAllVaultZones, hasVaultGate, invalidateServerSession } from '../au
 import { ensureVaultServerSession } from '../auth/vaultServerSession';
 import { useStore } from '../store';
 import { useVaultStore } from '../store/useVaultStore';
+import { clearLastIntelligence } from '@/modules/shared/utils/nativeMindAura';
 
 type EndVaultSessionOptions = {
   /** Default true — rensar Vertex-cache + Firestore vault_session. */
@@ -17,6 +18,7 @@ export async function endVaultSession(options?: EndVaultSessionOptions): Promise
   clearAllVaultZones();
   useVaultStore.getState().clearClientCache();
   clearSpeglarSession();
+  clearLastIntelligence();
   useStore.getState().setVaultUnlocked(false);
   if (closeDrawer) {
     useStore.getState().setActiveDrawer(null);

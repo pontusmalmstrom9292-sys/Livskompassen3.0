@@ -4,44 +4,81 @@ import android.animation.ArgbEvaluator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Color;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Handler;
 import android.os.Looper;
+import com.livskompassen.app.MainActivity;
 import com.livskompassen.app.util.LCLog;
 
 /**
- * THE AURA FLOW (ZENITH BREATHING) - Våg 112.
+ * THE AURA FLOW (ZENITH BREATHING) - Våg 112 / Våg 280 (Ambient).
  * Synchronizes visual edge-glow and haptic waves for guided breathing.
+ * Now light-aware: dims visuals in dark environments.
  */
-public class AuraFlowManager {
+public class AuraFlowManager implements SensorEventListener {
     private final Context context;
     private final HapticManager hapticManager;
     private final SystemUiManager systemUiManager;
+    private final AuraAudioManager audioManager;
+    private final SensorManager sensorManager;
+    private final Sensor lightSensor;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private ValueAnimator colorAnimator;
     
     private boolean isRunning = false;
     private int breathCycle = 0; // 0=In, 1=Hold, 2=Out, 3=Hold
-    
+    private float ambientLightLux = 100f; // Default room light
+
     public AuraFlowManager(Context context, HapticManager hapticManager, SystemUiManager systemUiManager) {
         this.context = context;
         this.hapticManager = hapticManager;
         this.systemUiManager = systemUiManager;
+        this.audioManager = new AuraAudioManager();
+        this.sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        this.lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
     }
 
     public void startFlow() {
         if (isRunning) return;
         isRunning = true;
         LCLog.d("AuraFlow: Starting immersive breathing guidance.");
+        
+        if (lightSensor != null) {
+            sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        }
+        
+        audioManager.start();
         runCycle();
     }
 
     public void stopFlow() {
         isRunning = false;
+        sensorManager.unregisterListener(this);
         if (colorAnimator != null) colorAnimator.cancel();
+        audioManager.stop();
         mainHandler.removeCallbacksAndMessages(null);
         systemUiManager.setStatusBarTheme("#0D0B09", true); // Reset to standard
         systemUiManager.setEdgeGlow("#000000", 0f); // Disable glow
+        
+        // Våg 271: Memory scrub on session end
+        if (context instanceof MainActivity) {
+            MemoryManager mm = ((MainActivity) context).getMemoryManager();
+            if (mm != null) mm.scrub();
+        }
     }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_LIGHT) {
+            ambientLightLux = event.values[0];
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
     private void animateStatusColor(String fromHex, String toHex, long duration) {
         if (colorAnimator != null) colorAnimator.cancel();
@@ -56,10 +93,13 @@ public class AuraFlowManager {
             String hex = String.format("#%06X", (0xFFFFFF & color));
             systemUiManager.setStatusBarTheme(hex, false);
             
-            // Våg 143: Sync Edge Glow alpha with color transition
+            // Våg 281: Ambient-aware Edge Glow intensity
             float fraction = animator.getAnimatedFraction();
-            float alpha = (breathCycle == 0) ? (fraction * 0.3f) : ((1f - fraction) * 0.3f);
-            systemUiManager.setEdgeGlow(hex, alpha);
+            float baseAlpha = (breathCycle == 0) ? (fraction * 0.3f) : ((1f - fraction) * 0.3f);
+            
+            // Dim in dark rooms (Lux < 10) to avoid blinding
+            float ambientScale = ambientLightLux < 10f ? 0.35f : 1.0f;
+            systemUiManager.setEdgeGlow(hex, baseAlpha * ambientScale);
         });
         colorAnimator.start();
     }
@@ -76,7 +116,8 @@ public class AuraFlowManager {
         switch (breathCycle) {
             case 0: // Inhale
                 animateStatusColor("#0D0B09", "#FDE68A", inhale); 
-                hapticManager.liquidPulse();
+                hapticManager.heartbeatPulse();
+                audioManager.setBreathingState(true);
                 duration = inhale;
                 break;
             case 1: // Hold
@@ -84,7 +125,8 @@ public class AuraFlowManager {
                 break;
             case 2: // Exhale
                 animateStatusColor("#FDE68A", "#7BA3C9", exhale);
-                hapticManager.liquidPulse();
+                hapticManager.heartbeatPulse();
+                audioManager.setBreathingState(false);
                 duration = exhale;
                 break;
             case 3: // Hold

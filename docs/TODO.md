@@ -108,7 +108,7 @@ Plan: Fas24 Companion Waves (implement)
 - [x] v65: Sacred deep-lock + escapeJs `"` + VISIBILITY_PRIVATE + KeyRecovery TEE retry
 - [x] v66: Ghost exit waits biometric unlock callback
 - [x] HUMAN prep: `docs/evaluations/2026-07-23-g85-device-ready-pack.md` (device-ready, not G85 PASS)
-- [x] v67–v68: Edge AI Mind/Aura bridges (no WORM consumer)
+- [x] v67–v68: Edge AI Mind/Aura bridges + WORM consumer (`edgeTags` → classification.tags)
 - [x] Unlock MOD-WIDGET Smart Time/Widget AI (`approved: yes`)
 - [x] Våg 5: `SmartTimePeriods` 07/12/18/22 + night dim (no ThemeManager)
 - [x] Våg 6: `WidgetAiModes` + `pushCompanionAiSnapshot` (heuristics only)

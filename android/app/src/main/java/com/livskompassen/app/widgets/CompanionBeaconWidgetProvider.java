@@ -12,7 +12,7 @@ public class CompanionBeaconWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager manager, int[] appWidgetIds) {
         for (int widgetId : appWidgetIds) {
-            manager.updateAppWidget(widgetId, WidgetViews.companionBeacon(context));
+            manager.updateAppWidget(widgetId, WidgetViews.largeBeacon(context));
         }
     }
 }

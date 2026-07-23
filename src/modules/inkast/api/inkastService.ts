@@ -4,7 +4,6 @@ import type { InboxClassification, InboxRouting } from '@/features/lifeJournal/e
 import type { UserTagRow } from '@/core/types/firestore';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
-import { analyzeIntelligenceNative } from '@/modules/shared/utils/nativeMindAura';
 
 /** Universell tagg-matris — fyra grupper (CEO-taxonomi). */
 export type InkastTagGroupId = 'narcissism' | 'barn' | 'personligt' | 'egen';
@@ -417,6 +416,8 @@ const submitInkastLiteCallable = httpsCallable<
     manualTags?: string[];
     manualComment?: string;
     manualChildAlias?: string;
+    /** Non-PII Edge AI tags (edge:silo:*, edge:stress) — merged server-side into WORM tags. */
+    edgeTags?: string[];
   },
   SubmitInkastLiteResult
 >(functions, 'submitInkastLite');
@@ -456,10 +457,20 @@ export async function submitInkastLite(input: {
   manualChildAlias?: string;
 }): Promise<SubmitInkastLiteResult> {
   try {
+    let edgeTags: string[] | undefined;
     if (input.text?.trim()) {
-      analyzeIntelligenceNative(input.text);
+      const { analyzeIntelligenceNativeAsync } = await import('@/modules/shared/utils/nativeMindAura');
+      const { buildEdgeWormTags, installIntelligenceConsumer } = await import(
+        '@/modules/shared/utils/intelligenceConsumer'
+      );
+      installIntelligenceConsumer();
+      const edge = await analyzeIntelligenceNativeAsync(input.text);
+      if (edge) edgeTags = buildEdgeWormTags(edge);
     }
-    const payload = withVaultSessionPayload(input);
+    const payload = withVaultSessionPayload({
+      ...input,
+      ...(edgeTags?.length ? { edgeTags } : {}),
+    });
     const result = await submitInkastLiteCallable(payload);
     return parseSubmitInkastLiteResult(result.data);
   } catch (error) {

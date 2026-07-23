@@ -1,7 +1,9 @@
 # Project State — Livskompassen v2
 
-**Version:** 1.4 · **Last updated:** 2026-07-22  
+**Version:** 1.4 · **Last updated:** 2026-07-23  
 **Rule:** Single source of truth for **system phase** and **active program**. AI assistants must read this before coding.
+
+**Android baseline:** `1.0-titanium Omni-Zenith` (see `.cursorrules` Titanium locks). System phase remains **Fas 24**.
 
 ---
 

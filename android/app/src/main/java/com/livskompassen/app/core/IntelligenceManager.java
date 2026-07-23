@@ -36,7 +36,7 @@ public class IntelligenceManager {
                     + "\\d{1,2}[/:.-]\\d{1,2}([/:.-]\\d{2,4})?)\\b");
 
     public interface IntelligenceCallback {
-        void onResult(String silo, String language, List<String> entities);
+        void onResult(String silo, String language, List<String> entities, boolean highStress);
     }
 
     public IntelligenceManager(Context context) {
@@ -54,20 +54,22 @@ public class IntelligenceManager {
     /**
      * Analyserar text lokalt och föreslår ett silo (Tanke, Idé, Handling).
      * Entity Extraction (datum/tid) + svensk keyword-enrichment.
+     * Våg 300: Stress-detektering tillagd.
      */
     public void analyzeIntent(String text, IntelligenceCallback callback) {
         if (text == null || text.trim().isEmpty()) {
-            callback.onResult("tanke", "und", new ArrayList<>());
+            callback.onResult("tanke", "und", new ArrayList<>(), false);
             return;
         }
 
         languageIdentifier.identifyLanguage(text)
             .addOnSuccessListener(languageCode -> {
                 String silo = classifySilo(text.toLowerCase(Locale.getDefault()));
+                boolean highStress = detectStress(text.toLowerCase(Locale.getDefault()));
 
                 if (batteryManager.shouldReducePerformance()) {
                     List<String> entities = enrichSwedishDateEntities(text, new ArrayList<>());
-                    callback.onResult(silo, languageCode, entities);
+                    callback.onResult(silo, languageCode, entities, highStress);
                     return;
                 }
 
@@ -80,17 +82,24 @@ public class IntelligenceManager {
                             entities.add(entityTypeLabel(type) + ":" + annotation.getAnnotatedText());
                         }
                         entities = enrichSwedishDateEntities(text, entities);
-                        LCLog.d("Intelligence: lang=" + languageCode + ", silo=" + silo + ", entities=" + entities.size());
-                        callback.onResult(silo, languageCode, entities);
+                        LCLog.d("Intelligence: lang=" + languageCode + ", silo=" + silo + ", stress=" + highStress);
+                        callback.onResult(silo, languageCode, entities, highStress);
                     })
                     .addOnFailureListener(e -> {
                         List<String> entities = enrichSwedishDateEntities(text, new ArrayList<>());
-                        callback.onResult(silo, languageCode, entities);
+                        callback.onResult(silo, languageCode, entities, highStress);
                     });
             })
             .addOnFailureListener(e -> {
-                callback.onResult("tanke", "und", enrichSwedishDateEntities(text, new ArrayList<>()));
+                callback.onResult("tanke", "und", enrichSwedishDateEntities(text, new ArrayList<>()), false);
             });
+    }
+
+    private boolean detectStress(String text) {
+        // Våg 301: Nyckelordsbaserad stressdetektering
+        return text.contains("stress") || text.contains("panik") || text.contains("ångest") || 
+               text.contains("orkar inte") || text.contains("för mycket") || text.contains("kaos") ||
+               text.contains("hjärtklappning") || text.contains("pressad");
     }
 
     @NonNull

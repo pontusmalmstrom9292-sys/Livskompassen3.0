@@ -1,3 +1,18 @@
+## 2026-07-23 — Edge AI → WORM consumer
+
+- Listener `livskompassen-intelligence` + `intelligenceConsumer.ts`
+- `submitInkastLite` awaits Edge AI (~900ms), sends `edgeTags` (non-PII)
+- Server `mergeEdgeTagsIntoClassification` — tags into WORM, routing/DCAP orörd
+- Zero Footprint: `clearLastIntelligence` on vault session end
+
+## 2026-07-23 — Titanium Omni-Zenith seal (Android)
+
+- GhostLaunch (`*#*#1234#*#*`) → Ghost Mode via `EXTRA_GHOST_ENTRY`; 3s exit-gest orörd
+- HardwareAwareness: USB_STATE + SIM_STATE_CHANGED registered
+- `verifySecurityComponents`: Aura/Intelligence/Ghost + StrongBox/silo/ghost markers; assembleDebug PASS
+- Companion 12-pack: 12/10 padding; rich layouts IDs+PI + `@string/`; `.cursorrules` locked **1.0-titanium Omni-Zenith**
+- Residual (documented): KeyRecovery unused wrap; Integrity heal narrow; SECRET_CODE OEM
+
 ## 2026-07-23 — UI Polish V10 ×10 Widgets (autonom)
 
 - Unlock V10 MOD-WIDGET · Companion CSS + pack aria + Studio + Fyren + features/widgets

@@ -5,6 +5,7 @@ import android.os.Build;
 import android.webkit.JavascriptInterface;
 import com.livskompassen.app.util.LCLog;
 import com.livskompassen.app.MainActivity;
+import com.livskompassen.app.R;
 import com.livskompassen.app.core.FloatingInkastService;
 import com.livskompassen.app.core.KeyRecoveryManager;
 
@@ -59,10 +60,15 @@ public class NativeInterface {
 
     @JavascriptInterface
     public void analyzeIntelligence(String text) {
-        intelligenceManager.analyzeIntent(text, (silo, lang, entities) -> {
-            dispatchIntelligenceResult(silo, lang, entities, text);
+        intelligenceManager.analyzeIntent(text, (silo, lang, entities, highStress) -> {
+            dispatchIntelligenceResult(silo, lang, entities, text, highStress);
 
             // Gated + throttled actionable notif (no spam / no surprise shade dumps)
+            if (highStress) {
+                // Våg 305: Immediate soft intervention for stress
+                AppNotificationManager.showDrogfrihetNotification(hapticManager.getContext(), "Andas ut", "Det verkar vara mycket nu. Vill du landa i Hamnen?", hapticManager);
+            }
+
             if (!"handling".equals(silo) || entities == null || entities.isEmpty()) return;
             boolean hasSchedule = false;
             for (String e : entities) {
@@ -93,8 +99,8 @@ public class NativeInterface {
         });
     }
 
-    private void dispatchIntelligenceResult(String silo, String lang, java.util.List<String> entities, String text) {
-        LCLog.d("Intelligence Result: silo=%s, lang=%s, entities=%d", silo, lang, entities != null ? entities.size() : 0);
+    private void dispatchIntelligenceResult(String silo, String lang, java.util.List<String> entities, String text, boolean highStress) {
+        LCLog.d("Intelligence Result: silo=%s, lang=%s, stress=%b", silo, lang, highStress);
         android.content.Context ctx = hapticManager.getContext();
         if (!(ctx instanceof MainActivity)) return;
         MainActivity activity = (MainActivity) ctx;
@@ -112,6 +118,7 @@ public class NativeInterface {
                     + "silo:'" + escapeJs(silo) + "',"
                     + "lang:'" + escapeJs(lang) + "',"
                     + "entities:" + entJson + ","
+                    + "stress:" + highStress + ","
                     + "text:'" + escapeJs(text != null && text.length() > 200 ? text.substring(0, 200) : text) + "'"
                     + "}}));";
             activity.getBridge().getWebView().evaluateJavascript(js, null);
@@ -179,6 +186,17 @@ public class NativeInterface {
                 LCLog.w("shareDiagnosticLog: Log file does not exist.");
             }
         }
+    }
+
+    /**
+     * Våg 181: Öppnar den nativa Black Box-utforskaren.
+     */
+    @JavascriptInterface
+    public void openDiagnosticViewer() {
+        android.content.Context ctx = hapticManager.getContext();
+        Intent intent = new Intent(ctx, DiagnosticViewerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ctx.startActivity(intent);
     }
 
     /**
@@ -285,6 +303,11 @@ public class NativeInterface {
     @JavascriptInterface
     public void triggerRecordingHaptic() {
         hapticManager.recordingPulse();
+    }
+
+    @JavascriptInterface
+    public void triggerUiEcho() {
+        hapticManager.uiEcho();
     }
 
     @JavascriptInterface
@@ -424,5 +447,43 @@ public class NativeInterface {
     public void scheduleDrogfrihetNudges(boolean optIn, int quietStart, int quietEnd, int craveStart, int craveEnd) {
         DrogfrihetNudgeScheduler.applyPrefs(
                 hapticManager.getContext(), optIn, quietStart, quietEnd, craveStart, craveEnd);
+    }
+
+    /**
+     * Våg 191: Exponerar Module Pinning till Web-appen.
+     */
+    @JavascriptInterface
+    public void pinModule(String moduleId) {
+        if (moduleId == null) return;
+        
+        String label, path;
+        int iconRes;
+
+        switch (moduleId) {
+            case "valv":
+                label = "Valvet";
+                path = "/valv";
+                iconRes = R.drawable.ic_lock_sacred;
+                break;
+            case "anteckningar":
+                label = "Mina Anteckningar";
+                path = "/widget/anteckning";
+                iconRes = R.drawable.widget_ic_wh2_note;
+                break;
+            case "hamn":
+                label = "Hamnen";
+                path = "/widget/hamn";
+                iconRes = R.drawable.widget_ic_companion_harbor;
+                break;
+            case "kompass":
+                label = "Kompassen";
+                path = "/widget/kompass";
+                iconRes = R.drawable.widget_chip_kompass;
+                break;
+            default:
+                return;
+        }
+
+        shortcutManager.requestPinShortcut(moduleId, label, path, iconRes);
     }
 }

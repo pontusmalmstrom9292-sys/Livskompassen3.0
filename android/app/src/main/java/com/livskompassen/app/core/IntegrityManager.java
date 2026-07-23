@@ -97,4 +97,33 @@ public class IntegrityManager {
     public boolean isEnvironmentHighRisk() {
         return getSecurityScore() < 50;
     }
+
+    /**
+     * Våg 320: Self-Healing Integrity Audit.
+     * Performs a background check of critical system state and pro-actively
+     * resets non-sensitive metadata if it appears inconsistent.
+     */
+    public void performSelfHealAudit() {
+        com.livskompassen.app.util.LCLog.d("IntegrityManager: Starting Self-Healing Audit.");
+        
+        // 1. Check if Sacred Lock state is inconsistent
+        android.content.SharedPreferences prefs = com.livskompassen.app.util.SecurePrefs.get(context);
+        boolean locked = prefs.getBoolean("sacred_lock_state", false);
+        
+        if (isTampered() && !locked) {
+            com.livskompassen.app.util.LCLog.e("IntegrityManager: TAMPERING DETECTED while unlocked. Forcing HEAL (Lockdown).");
+            prefs.edit().putBoolean("sacred_lock_state", true).apply();
+            WidgetUpdateManager.refreshAllWidgets(context);
+        }
+
+        // 2. Audit usage patterns (reset if corrupted)
+        try {
+            int currentHour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY);
+            String key = "usage_hour_" + currentHour;
+            if (prefs.getInt(key, 0) < 0) {
+                com.livskompassen.app.util.LCLog.w("IntegrityManager: Negative usage count detected. Healing state.");
+                prefs.edit().putInt(key, 0).apply();
+            }
+        } catch (Exception ignored) {}
+    }
 }

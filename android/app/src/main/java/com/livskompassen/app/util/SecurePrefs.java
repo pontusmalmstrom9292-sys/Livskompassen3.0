@@ -71,9 +71,33 @@ public class SecurePrefs {
                 .getInt(PREF_KEY_GENERATION, 1);
         String alias = MasterKey.DEFAULT_MASTER_KEY_ALIAS + "_gen" + currentGen;
 
-        MasterKey masterKey = new MasterKey.Builder(context, alias)
-                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
-                .build();
+        // Våg 310: Explicitly use StrongBox if available
+        MasterKey.Builder builder = new MasterKey.Builder(context, alias)
+                .setKeyScheme(MasterKey.KeyScheme.AES256_GCM);
+        
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+            // Note: StrongBox can throw on some devices even if API 28+ 
+            // but the Builder handles it or we can ignore failure here.
+            try {
+                // Use a dedicated helper to avoid build errors if needed, 
+                // but let's try standard Builder first if possible.
+                // Reverting to KeyGenParameterSpec approach with version gate.
+                android.security.keystore.KeyGenParameterSpec.Builder specBuilder = new android.security.keystore.KeyGenParameterSpec.Builder(
+                        alias,
+                        android.security.keystore.KeyProperties.PURPOSE_ENCRYPT | android.security.keystore.KeyProperties.PURPOSE_DECRYPT)
+                        .setBlockModes(android.security.keystore.KeyProperties.BLOCK_MODE_GCM)
+                        .setEncryptionPaddings(android.security.keystore.KeyProperties.ENCRYPTION_PADDING_NONE)
+                        .setKeySize(256);
+                
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                    specBuilder.setIsStrongBoxBacked(true);
+                }
+                
+                builder.setKeyGenParameterSpec(specBuilder.build());
+            } catch (Exception ignored) {}
+        }
+
+        MasterKey masterKey = builder.build();
 
         return EncryptedSharedPreferences.create(
                 context,

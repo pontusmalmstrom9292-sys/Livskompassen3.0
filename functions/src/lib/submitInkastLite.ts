@@ -56,6 +56,8 @@ export type SubmitInkastLiteInput = {
   manualTags?: string[];
   manualComment?: string;
   manualChildAlias?: string;
+  /** Non-PII Edge AI tags from on-device ML Kit (never override routing). */
+  edgeTags?: string[];
 };
 
 export type SubmitInkastLiteItemResult = {
@@ -155,6 +157,22 @@ async function finalizeClassification(
   const resolved = await classification;
   if (manual) return resolved;
   return applyInkastConfidenceGate(resolved);
+}
+
+/** Merge on-device Edge AI tags into classification without changing routing/DCAP. */
+export function mergeEdgeTagsIntoClassification(
+  classification: InboxClassification,
+  edgeTags: string[] | undefined
+): InboxClassification {
+  if (!edgeTags?.length) return classification;
+  const cleaned = edgeTags
+    .filter((t) => typeof t === 'string' && t.startsWith('edge:'))
+    .map((t) => t.trim().slice(0, 48))
+    .filter(Boolean)
+    .slice(0, 6);
+  if (!cleaned.length) return classification;
+  const tags = [...new Set([...classification.tags, ...cleaned])].slice(0, 12);
+  return { ...classification, tags };
 }
 
 function isPlainTextMime(mimeType: string, fileName: string): boolean {
@@ -265,7 +283,8 @@ async function processOneInkastFile(
   manual: ManualInkastOverride | undefined,
   geminiApiKey: string | undefined,
   hasVaultSession: boolean,
-  isVerified: boolean
+  isVerified: boolean,
+  edgeTags?: string[]
 ): Promise<SubmitInkastLiteItemResult> {
   let buffer: Buffer;
   try {
@@ -292,9 +311,12 @@ async function processOneInkastFile(
 
   const classifyBlob = buildInboxClassifyBlob(analysisText, sourceModule);
 
-  const classification = await finalizeClassification(
-    resolveClassification(classifyBlob, job.fileName, analysisText, manual, geminiApiKey),
-    manual
+  const classification = mergeEdgeTagsIntoClassification(
+    await finalizeClassification(
+      resolveClassification(classifyBlob, job.fileName, analysisText, manual, geminiApiKey),
+      manual
+    ),
+    edgeTags
   );
 
   const effectiveOptIn = manual ? true : optInTrauma;
@@ -331,7 +353,8 @@ async function processTextInkast(
   manual: ManualInkastOverride | undefined,
   geminiApiKey: string | undefined,
   hasVaultSession: boolean,
-  isVerified: boolean
+  isVerified: boolean,
+  edgeTags?: string[]
 ): Promise<SubmitInkastLiteItemResult> {
   const analysisText = stripInjectedSourceModuleFromText(text.trim());
   if (analysisText.length < 12) {
@@ -343,9 +366,12 @@ async function processTextInkast(
 
   const classifyBlob = buildInboxClassifyBlob(analysisText, sourceModule);
 
-  const classification = await finalizeClassification(
-    resolveClassification(classifyBlob, fileName, analysisText, manual, geminiApiKey),
-    manual
+  const classification = mergeEdgeTagsIntoClassification(
+    await finalizeClassification(
+      resolveClassification(classifyBlob, fileName, analysisText, manual, geminiApiKey),
+      manual
+    ),
+    edgeTags
   );
 
   const effectiveOptIn = manual ? true : optInTrauma;
@@ -411,7 +437,8 @@ export async function submitInkastLiteForUser(
         manual,
         geminiApiKey,
         hasVaultSession,
-        isVerified
+        isVerified,
+        input.edgeTags
       );
       items.push(item);
     } catch (err) {
@@ -430,7 +457,8 @@ export async function submitInkastLiteForUser(
           manual,
           geminiApiKey,
           hasVaultSession,
-          isVerified
+          isVerified,
+          input.edgeTags
         );
         items.push(item);
       } catch (err) {

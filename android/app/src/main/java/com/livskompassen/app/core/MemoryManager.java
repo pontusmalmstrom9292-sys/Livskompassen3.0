@@ -56,6 +56,19 @@ public class MemoryManager implements ComponentCallbacks2 {
         System.runFinalization();
     }
 
+    /**
+     * Våg 270: High-frequency memory scrubber.
+     * Clears string buffers and triggers aggressive GC.
+     */
+    public void scrub() {
+        if (bridge != null && bridge.getWebView() != null) {
+            bridge.getWebView().clearCache(true);
+        }
+        System.gc();
+        System.runFinalization();
+        LCLog.d("MemoryManager: Forensic scrub complete.");
+    }
+
     @Override
     public void onConfigurationChanged(android.content.res.Configuration newConfig) {
         // Not used

@@ -154,4 +154,23 @@ public class HapticManager {
             vibrator.vibrate(VibrationEffect.createOneShot(100, 100)); // En mjukare puls
         }
     }
+
+    /** Våg 175: Heartbeat double-pulse for Aura Flow */
+    public void heartbeatPulse() {
+        if (isLowPower()) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            long[] pattern = {0, 10, 50, 10}; 
+            int[] amplitudes = {0, 100, 0, 160};
+            vibrator.vibrate(VibrationEffect.createWaveform(pattern, amplitudes, -1));
+        }
+    }
+
+    /** Våg 235: UI Echo — ultra-subtle tactile material feel */
+    public void uiEcho() {
+        if (isLowPower()) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // One-shot, very low amplitude
+            vibrator.vibrate(VibrationEffect.createOneShot(5, 30));
+        }
+    }
 }

@@ -36,6 +36,12 @@ public class SystemUiManager {
         this.audioManager = (AudioManager) activity.getSystemService(android.content.Context.AUDIO_SERVICE);
         this.edgeGlowL = activity.findViewById(R.id.edge_glow_left);
         this.edgeGlowR = activity.findViewById(R.id.edge_glow_right);
+        
+        // Våg 250: Immersive Cutout Mastery
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            window.getAttributes().layoutInDisplayCutoutMode = 
+                WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
+        }
     }
 
     /**

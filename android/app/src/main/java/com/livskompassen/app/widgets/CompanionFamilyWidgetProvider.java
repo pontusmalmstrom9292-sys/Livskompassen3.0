@@ -3,15 +3,16 @@ package com.livskompassen.app.widgets;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
+import android.widget.RemoteViews;
 
-/**
- * Companion OS — Dagbok Small (quote + Skriv). No core manager changes.
- */
-public class CompanionJournalWidgetProvider extends AppWidgetProvider {
+import com.livskompassen.app.R;
+
+/** Companion Family Large — avatars + timeline */
+public class CompanionFamilyWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager manager, int[] appWidgetIds) {
         for (int widgetId : appWidgetIds) {
-            manager.updateAppWidget(widgetId, WidgetViews.largeJournal(context));
+            manager.updateAppWidget(widgetId, WidgetViews.largeFamily(context));
         }
     }
 }

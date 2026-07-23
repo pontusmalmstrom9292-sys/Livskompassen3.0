@@ -46,6 +46,9 @@ public class SacredLockManager {
     private Runnable countdownRunnable;
     /** One-shot: run after successful biometric unlock (e.g. ghost-mode exit). */
     private Runnable unlockSuccessListener;
+    private boolean highSecurityPending = false;
+    private int highSecuritySteps = 0;
+    private Runnable highSecurityAction;
     
     private long lastBackgroundTime = 0L;
     private boolean isLocked = false;
@@ -343,11 +346,16 @@ public class SacredLockManager {
                         LCLog.d(activity.getString(R.string.log_lock_auth_success));
                         hapticManager.success();
                         resetFailedAttempts();
-                        hideLock();
-                        Runnable pending = unlockSuccessListener;
-                        unlockSuccessListener = null;
-                        if (pending != null) {
-                            mainHandler.post(pending);
+                        
+                        if (highSecurityPending) {
+                            handleHighSecuritySuccess();
+                        } else {
+                            hideLock();
+                            Runnable pending = unlockSuccessListener;
+                            unlockSuccessListener = null;
+                            if (pending != null) {
+                                mainHandler.post(pending);
+                            }
                         }
                     }
 
@@ -356,6 +364,7 @@ public class SacredLockManager {
                         super.onAuthenticationError(errorCode, errString);
                         currentPrompt = null;
                         LCLog.w(activity.getString(R.string.log_lock_auth_error, errString));
+                        highSecurityPending = false;
                         
                         if (errorCode == BiometricPrompt.ERROR_LOCKOUT || errorCode == BiometricPrompt.ERROR_LOCKOUT_PERMANENT) {
                             hapticManager.error();
@@ -379,6 +388,39 @@ public class SacredLockManager {
                 });
 
         currentPrompt.authenticate(promptInfo);
+    }
+
+    /**
+     * Våg 225: Biometric Step-up for critical actions (Export, Wipe).
+     * Requires 2 successful scans with a mandatory delay.
+     */
+    public void authenticateHighSecurity(Runnable action) {
+        this.highSecurityAction = action;
+        this.highSecurityPending = true;
+        this.highSecuritySteps = 1;
+        
+        Toast.makeText(activity, "Steg 1: Verifiera identitet", Toast.LENGTH_SHORT).show();
+        authenticate();
+    }
+
+    private void handleHighSecuritySuccess() {
+        if (highSecuritySteps == 1) {
+            highSecuritySteps = 2;
+            Toast.makeText(activity, "Vänta 3s för slutgiltig verifiering...", Toast.LENGTH_LONG).show();
+            hapticManager.tick(null);
+            
+            mainHandler.postDelayed(() -> {
+                Toast.makeText(activity, "Steg 2: Slutgiltig bekräftelse", Toast.LENGTH_SHORT).show();
+                authenticate();
+            }, 3000L);
+        } else if (highSecuritySteps == 2) {
+            highSecurityPending = false;
+            highSecuritySteps = 0;
+            if (highSecurityAction != null) {
+                highSecurityAction.run();
+                highSecurityAction = null;
+            }
+        }
     }
 
     private void showVisualDistress() {

@@ -7,7 +7,8 @@
     android:background="@drawable/widget_bg_premium_panel"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="10dp">
 
     <ImageView
         android:id="@+id/widget_companion_anchor_icon"
@@ -53,7 +54,7 @@
         android:contentDescription="@string/widget_companion_anchor_done"
         android:gravity="center"
         android:minHeight="56dp"
-        android:paddingVertical="8dp"
+        android:paddingVertical="10dp"
         android:text="@string/widget_companion_anchor_done"
         android:textAllCaps="true"
         android:textColor="@color/widget_background"

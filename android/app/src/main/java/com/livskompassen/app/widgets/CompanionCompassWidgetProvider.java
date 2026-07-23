@@ -12,7 +12,7 @@ public class CompanionCompassWidgetProvider extends AppWidgetProvider {
     @Override
     public void onUpdate(Context context, AppWidgetManager manager, int[] appWidgetIds) {
         for (int widgetId : appWidgetIds) {
-            manager.updateAppWidget(widgetId, WidgetViews.companionCompass(context));
+            manager.updateAppWidget(widgetId, WidgetViews.largeCompass(context));
         }
     }
 }

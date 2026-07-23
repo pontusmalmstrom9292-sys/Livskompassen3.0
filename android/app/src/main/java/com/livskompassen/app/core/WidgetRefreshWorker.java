@@ -30,6 +30,12 @@ public class WidgetRefreshWorker extends Worker {
             // Ensures widgets know they are still connected to the system.
             // Also ensures circadian themes are applied even if user hasn't opened app.
             WidgetUpdateManager.refreshAllWidgets(context);
+            
+            // Våg 216: Adaptive Pre-warming
+            checkUsagePreWarm(context);
+
+            // Våg 321: Background Integrity Audit
+            new IntegrityManager(context).performSelfHealAudit();
 
             // 2. Scheduled content cleanup (Maintenance)
             // Cleanup old temporary capture files if they weren't deleted
@@ -53,6 +59,19 @@ public class WidgetRefreshWorker extends Worker {
         } catch (Exception e) {
             LCLog.e("WidgetRefreshWorker: Failed", e);
             return Result.retry();
+        }
+    }
+
+    private void checkUsagePreWarm(Context context) {
+        int nextHour = (java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY) + 1) % 24;
+        String key = "usage_hour_" + nextHour;
+        android.content.SharedPreferences prefs = com.livskompassen.app.util.SecurePrefs.get(context);
+        int usageCount = prefs.getInt(key, 0);
+
+        if (usageCount > 5) { // Threshold for habit detection
+            LCLog.d("WidgetRefreshWorker: High usage predicted for next hour. Pre-warming components.");
+            // Signal to MainActivity via a silent broadcast or set a flag
+            prefs.edit().putBoolean("pre_warm_requested", true).apply();
         }
     }
 }
