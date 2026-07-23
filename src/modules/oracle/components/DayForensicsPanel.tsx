@@ -1,10 +1,14 @@
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { EmptyState } from '@/core/ui/EmptyState';
 import React, { useEffect, useState } from 'react';
-import { VaultService } from '../../core/firebase/VaultService';
+import { VaultService, getVaultEntryDate, type VaultHistoryEntry } from '../../core/firebase/VaultService';
 import { getAllTimeEntriesForEconomyReadOnly } from '../../core/firebase/arbetslivFirestore';
 import { useStore } from '../../core/store';
 import type { OracleMetricPoint } from '../hooks/useOracleMetrics';
+import type { TimeEntryRow } from '../../core/types/firestore';
+
+/** Extends TimeEntryRow with legacy display-only fields that may exist in Firestore. */
+type TimeDisplayEntry = TimeEntryRow & { client?: string; project?: string };
 
 interface DayForensicsPanelProps {
   dataPoint: OracleMetricPoint;
@@ -13,8 +17,8 @@ interface DayForensicsPanelProps {
 
 export const DayForensicsPanel: React.FC<DayForensicsPanelProps> = ({ dataPoint, onClose }) => {
   const user = useStore(s => s.user);
-  const [vaultEntries, setVaultEntries] = useState<any[]>([]);
-  const [timeEntries, setTimeEntries] = useState<any[]>([]);
+  const [vaultEntries, setVaultEntries] = useState<VaultHistoryEntry[]>([]);
+  const [timeEntries, setTimeEntries] = useState<TimeDisplayEntry[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -33,18 +37,11 @@ export const DayForensicsPanel: React.FC<DayForensicsPanelProps> = ({ dataPoint,
         const targetDate = dataPoint.isoDate;
 
         const filteredVault = allVault.filter(entry => {
-          let dateObj = new Date();
-          if (entry.createdAt && typeof entry.createdAt.toDate === 'function') {
-            dateObj = entry.createdAt.toDate();
-          } else if (entry.createdAt) {
-            dateObj = new Date(entry.createdAt);
-          } else if (entry.timestamp) {
-            dateObj = entry.timestamp instanceof Date ? entry.timestamp : new Date(entry.timestamp);
-          }
+          const dateObj = getVaultEntryDate(entry);
           return dateObj.toISOString().split('T')[0] === targetDate;
         });
 
-        const filteredTime = allTime.filter(entry => entry.date === targetDate);
+        const filteredTime: TimeDisplayEntry[] = allTime.filter(entry => entry.date === targetDate);
 
         setVaultEntries(filteredVault);
         setTimeEntries(filteredTime);
@@ -110,9 +107,9 @@ export const DayForensicsPanel: React.FC<DayForensicsPanelProps> = ({ dataPoint,
               <ul className="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
                 {vaultEntries.map((entry, idx) => (
                   <li key={idx} className="bg-white/5 rounded-lg p-3 text-sm text-text-muted">
-                    <p className="line-clamp-3">{entry.content || JSON.stringify(entry)}</p>
+                   <p className="line-clamp-3">{entry.content ?? entry.truth ?? entry.action ?? '—'}</p>
                     <div className="mt-2 text-xs text-text-muted flex justify-between">
-                       <span>{new Date(entry.createdAt || entry.timestamp).toLocaleTimeString('sv-SE', {hour: '2-digit', minute:'2-digit'})}</span>
+                      <span>{getVaultEntryDate(entry).toLocaleTimeString('sv-SE', {hour: '2-digit', minute:'2-digit'})}</span>
                        <span className="text-accent/50 uppercase tracking-wider text-[10px]">WORM</span>
                     </div>
                   </li>
