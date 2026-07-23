@@ -107,6 +107,7 @@ export function DailyAnchorWidget({ pulseHint = false }: { pulseHint?: boolean }
             size="premium"
             fullWidth
             className={pulseHint && !done ? 'cw-pulse-cta' : undefined}
+            aria-label="Sätt dagens intention"
             onClick={() => void complete()}
           >
             Sätt intention

@@ -34,7 +34,7 @@ export function ImmersiveExperienceShell({ title, onExit, themeId, children }: P
       >
         <header className="flex shrink-0 items-center justify-between border-b border-white/5 px-4 py-3 pt-[max(0.75rem,env(safe-area-inset-top))]">
           {title ? <h2 className="text-sm font-medium text-text">{title}</h2> : <span aria-hidden />}
-          <Button type="button" onClick={onExit} variant="ghost" className="--ghost inline-flex items-center gap-1.5 text-xs">
+          <Button type="button" onClick={onExit} variant="ghost" className="--ghost inline-flex min-h-11 items-center gap-1.5 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             <X className="h-4 w-4" aria-hidden />
             Avsluta
           </Button>

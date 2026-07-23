@@ -28,7 +28,7 @@ export function ArbetslivValvBroDelegate() {
           <ButtonLink
             to={vaultDrawerPath('arbetsliv_lon')}
             variant="ghost"
-            className="inline-flex items-center gap-2 text-xs"
+            className="inline-flex min-h-11 items-center gap-2 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             <Wallet className="h-3.5 w-3.5 text-accent-secondary" aria-hidden />
             Lönespec i Valv
@@ -36,7 +36,7 @@ export function ArbetslivValvBroDelegate() {
           <ButtonLink
             to={vaultDrawerPath('arbetsliv_franvaro')}
             variant="ghost"
-            className="inline-flex items-center gap-2 text-xs"
+            className="inline-flex min-h-11 items-center gap-2 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             <Shield className="h-3.5 w-3.5 text-accent-secondary" aria-hidden />
             Frånvaro i Valv

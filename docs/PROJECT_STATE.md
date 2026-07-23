@@ -1,7 +1,9 @@
 # Project State — Livskompassen v2
 
-**Version:** 1.4 · **Last updated:** 2026-07-22  
+**Version:** 1.4 · **Last updated:** 2026-07-23  
 **Rule:** Single source of truth for **system phase** and **active program**. AI assistants must read this before coding.
+
+**Android baseline:** `1.0-titanium Omni-Zenith` (see `.cursorrules` Titanium locks). System phase remains **Fas 24**.
 
 ---
 
@@ -16,7 +18,7 @@ Two levels — do not confuse them:
 
 **Conflict rule:** System phase (Fas N) wins over program phase. Program work must not violate Fas scope or PMIR gates.
 
-**Single next step (Fas 24 wins):** **P0 G85 7-day daily driver — STARTED 2026-07-18** (day 1). Install/verify Valv on phone if not already (Android Studio Run). Phase 10 visual sign-off waits (program-only).
+**Single next step (Fas 24 wins):** **Pontus G85 one-pass** — Android Studio Run → Capture mic → Valv bakgrund &lt;3s (checklist + [`g85-device-ready-pack.md`](./evaluations/2026-07-23-g85-device-ready-pack.md)). Agent release-runway **PASS** 2026-07-23; visual: [`g85-visual-signoff-handoff.md`](./evaluations/2026-07-23-g85-visual-signoff-handoff.md). Deploy SKIP tills `OK deploy`.
 
 ---
 
@@ -87,10 +89,11 @@ Phase 0–9 baseline och migration **done**. Phase 10: `index.css` import-only; 
 
 ## Minne Sacred (Evigt Minne)
 
-**Status:** aktiv programvåg **v55–v62** (supersäker YOLO).  
+**Status:** **v55–v62 DONE** (deploy 2026-07-18) — se [`evaluations/2026-07-18-minne-v62-deploy.md`](./evaluations/2026-07-18-minne-v62-deploy.md).  
 **Stack:** Firestore Native `findNearest` + Gemini embeddings 768 + lexical hybrid — **ingen Vertex**.  
-**Tryck Build:** `npm run minne:yolo:build` (auto till v60).  
-**Fraser:** `OK rules` → v61 Admin-only create · `OK deploy` → v62 functions.  
+**Rules:** Admin-only create `kampspar`/`kb_docs` (`allow create: if false` i `firestore.rules`) — v61 **deployad**.  
+**Functions:** v62 **deployad** (inkl. `promoteKbDocToKampspar`).  
+**Fraser (historik):** `OK rules` / `OK deploy` redan körda 2026-07-18 — ej pending.  
 **Konstitution:** [`.context/minne-sacred-features.md`](../.context/minne-sacred-features.md)  
 **Cost:** `aiplatform` blocked forever · runbook `docs/runbooks/VECTOR-SEARCH-DECOMMISSION.md`.
 
@@ -110,6 +113,13 @@ Phase 0–9 baseline och migration **done**. Phase 10: `index.css` import-only; 
 | AI Governance system | v1.4 (Fas 24 P0 G85 started) | 2026-07-18 |
 | G85 7d started | **day 1** · App Check Valv fix + debug APK ready | 2026-07-18 |
 | Fas24+Companion Smart waves (kod) | **device-ready** (not G85 PASS) · commit `3e9cc5991` | 2026-07-23 — [`g85-device-ready-pack.md`](./evaluations/2026-07-23-g85-device-ready-pack.md) |
+| Release readiness runway | Agent PASS · G85 Enhetsgate pending Pontus | 2026-07-23 — SOS ZF · RemoteViews lint · Minne docs DONE |
+| UI Polish V5 ×10 | kod Done (autonom) · G85 visual pending | 2026-07-23 — unlock V5 · focus/touch deepen |
+| UI Polish V6 ×10 | kod Done (autonom) | 2026-07-23 — unlock V6 · residual deepen |
+| UI Polish V7 ×10 | kod Done (autonom) | 2026-07-23 — unlock V7 · third deepen |
+| UI Polish V8 ×10 | kod Done (autonom) | 2026-07-23 — unlock V8 · fourth deepen |
+| UI Polish V9 ×10 | kod Done (autonom) | 2026-07-23 — unlock V9 · fifth deepen |
+| UI Polish V10 Widgets ×10 | kod Done (autonom) | 2026-07-23 — unlock V10 · supernoggrant widgets |
 | Planering/Valv premium polish batch | **PASS** | 2026-07-20 — inkorg/connect polish, Valv pending/log focus states, reduced-transparency fallback, Valv PDF aria-label |
 | Valv a11y sweep (contrast/keyboard) | **PASS** | 2026-07-20 — Escape i zonväljare, mönster + Drive aria-label, gold-on-navy contrast pass |
 | MåBra UI polish (vit-hub) | **PASS** | 2026-07-20 — chip/tile focus-visible, touch-target, contrast + reduced-transparency fallback |

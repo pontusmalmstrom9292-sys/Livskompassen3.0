@@ -18,7 +18,13 @@ export function SpeechMicRow({ onAppend, className = '' }: Props) {
 
   return (
     <div className={`flex flex-wrap items-center gap-2 ${className}`}>
-      <Button type="button" onClick={isListening ? stop : start} variant="ghost" className="--ghost text-sm" aria-pressed={isListening}>
+      <Button
+        type="button"
+        onClick={isListening ? stop : start}
+        variant="ghost"
+        className="--ghost text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        aria-pressed={isListening}
+      >
         {isListening ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
         {isListening ? 'Stoppa röst' : 'Tala in (sv-SE)'}
       </Button>

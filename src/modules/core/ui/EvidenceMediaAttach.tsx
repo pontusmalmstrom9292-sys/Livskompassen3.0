@@ -52,20 +52,20 @@ export function EvidenceMediaAttach({
       </p>
 
       <div className="flex flex-wrap gap-2">
-        <Button type="button" onClick={pickGallery} disabled={disabled || atLimit} variant="ghost" className="--ghost">
+        <Button type="button" onClick={pickGallery} disabled={disabled || atLimit} variant="ghost" className="--ghost min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           <ImagePlus className="h-4 w-4" />
           Fil / skärmdump
         </Button>
-        <Button type="button" onClick={pickCamera} disabled={disabled || atLimit} variant="ghost" className="--ghost">
+        <Button type="button" onClick={pickCamera} disabled={disabled || atLimit} variant="ghost" className="--ghost min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           <Camera className="h-4 w-4" />
           Ta foto
         </Button>
-        <Button type="button" onClick={pickMedia} disabled={disabled || atLimit} variant="ghost" className="--ghost">
+        <Button type="button" onClick={pickMedia} disabled={disabled || atLimit} variant="ghost" className="--ghost min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           <Video className="h-4 w-4" />
           Ljud / video
         </Button>
         {recordSupported && (
-          <Button type="button" onClick={isRecording ? stop : start} disabled={disabled || atLimit} variant="ghost" className="--ghost">
+          <Button type="button" onClick={isRecording ? stop : start} disabled={disabled || atLimit} variant="ghost" className="--ghost min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
             {isRecording ? 'Stoppa inspelning' : 'Spela in ljud'}
           </Button>

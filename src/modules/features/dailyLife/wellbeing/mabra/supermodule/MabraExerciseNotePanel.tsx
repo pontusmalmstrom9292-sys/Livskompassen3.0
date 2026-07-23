@@ -56,7 +56,7 @@ export function MabraExerciseNotePanel({
         <p className="mt-2 text-xs text-text-muted">{COPY.emptyDetail}</p>
         <Link
           to="/mabra/ovning/reframing"
-          className="mt-4 inline-block text-xs text-accent underline-offset-2 hover:underline"
+          className="mt-4 inline-flex min-h-11 items-center text-xs text-accent underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           {COPY.reframingLink}
         </Link>

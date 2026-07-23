@@ -134,7 +134,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
               type="button"
               variant="ghost"
               size="sm"
-              className="min-h-11"
+              className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => {
                 const words = diaryDraft.trim().split(/\s+/).filter(Boolean).slice(0, 3).join(' ');
                 setTreOrd(words);
@@ -147,7 +147,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
               type="button"
               variant="ghost"
               size="sm"
-              className="min-h-11"
+              className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => {
                 clearDiaryDraft();
                 setDraftDismissed(true);
@@ -198,7 +198,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
         <Button
           type="button"
           variant="accent"
-          className="min-h-12 w-full"
+          className="min-h-12 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={!activeMood || saving}
           onClick={() => void handleSave()}
         >
@@ -208,7 +208,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
           type="button"
           variant="ghost"
           size="sm"
-          className="min-h-11 w-full"
+          className="min-h-11 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={!activeMood || saving}
           onClick={() => void handleMoodOnly()}
         >
@@ -218,7 +218,7 @@ export function DagbokTystDelegate({ onSaved, onSwitchToBurn }: DagbokTystDelega
           type="button"
           variant="ghost"
           size="sm"
-          className="flex min-h-11 w-full items-center justify-center gap-2 text-text-muted"
+          className="flex min-h-11 w-full items-center justify-center gap-2 text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={() => {
             if (onSwitchToBurn) {
               onSwitchToBurn();

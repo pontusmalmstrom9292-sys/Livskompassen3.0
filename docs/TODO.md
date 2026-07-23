@@ -1,6 +1,104 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
 
+## 2026-07-23 — UI Polish V10 ×10 Widgets (autonom, supernoggrant)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V10-WIDGETS-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V10-WIDGETS-X10.md) (`approved: yes` · MOD-WIDGET)
+
+- [x] W1 WidgetButton / QuickAction / MoodCheckIn defaults
+- [x] W2 companion-widgets.css — touch floor 44 + unified focus + reduced-motion
+- [x] W3–W5 Companion 10-pack aria-labels (Inbox→Beacon + HomeRail)
+- [x] W6 Widget Studio page/mode/preview
+- [x] W7–W8 features/widgets pages + ActionDashboard + Moduler forms
+- [x] W9 FyrenWidgetBar / SideQuickDock
+- [x] W10 smoke:companion-widgets · widgets · locked-ux
+
+## 2026-07-23 — UI Polish V9 ×10 (autonom)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V9-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V9-X10.md) (`approved: yes`)
+
+- [x] W1 Core chrome (drawer, Fyren, Zen, AuthGate)
+- [x] W2 Home executive / ankare
+- [x] W3 Archive / Familjen / ekonomi stub
+- [x] W4 Dagbok / Valv dossier / kunskap
+- [x] W5–W9 residual (AccountAuth, StampClock, Ekonomi)
+- [x] W10 smoke
+
+## 2026-07-23 — UI Polish V8 ×10 (autonom)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V8-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V8-X10.md) (`approved: yes`)
+
+- [x] W1 Capture/Inkast
+- [x] W2 Dashboard/widgets/studio
+- [x] W3 Planering residual
+- [x] W4 Projekt residual
+- [x] W5 MåBra tools/vit
+- [x] W6 Ekonomi/Arbetsliv/Drogfrihet
+- [x] W7 Familjen/Dagbok
+- [x] W8 Valv kunskap/ekonomi
+- [x] W9 residual sweep
+- [x] W10 smoke
+
+## 2026-07-23 — UI Polish V7 ×10 (autonom)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V7-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V7-X10.md) (`approved: yes`)
+
+- [x] W1 Projekt hub/detail/ny
+- [x] W2 Planering residual (pin/kanban/inkorg)
+- [x] W3 Core chrome/home
+- [x] W4 Media attach
+- [x] W5 MåBra residual
+- [x] W6 Drogfrihet/Arbetsliv/Näring
+- [x] W7 Dagbok residual
+- [x] W8 Barnporten
+- [x] W9 Ekonomi/Valv/Hamn/widgets residual
+- [x] W10 smoke
+
+## 2026-07-23 — UI Polish V6 ×10 (autonom)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V6-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V6-X10.md) (`approved: yes`)
+
+- [x] W1 Core gates (HomeLayoutA, Worm, EvidenceMedia)
+- [x] W2 Inkast / HITL
+- [x] W3 MåBra residual (+ Nutrition focus)
+- [x] W4 Planering residual
+- [x] W5 Dagbok residual
+- [x] W6 Familjen / Barnporten
+- [x] W7 Valv-chat / Pansar
+- [x] W8 Emotionellt minne
+- [x] W9 Projekt + shared shell
+- [x] W10 smoke
+
+## 2026-07-23 — UI Polish V5 ×10 (autonom)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V5-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V5-X10.md) (`approved: yes`)
+
+- [x] W1 Hem/chrome — focus + min-h-11
+- [x] W2 MåBra panels
+- [x] W3 Vardagen/recovery
+- [x] W4 Planering
+- [x] W5 Hjärtat/Dagbok
+- [x] W6 Familjen/Hamn
+- [x] W7 Valv UI (citation)
+- [x] W8 Widgets pack
+- [x] W9 Ekonomi deepen
+- [x] W10 Settings + smoke
+
+## 2026-07-23 — Release readiness runway (agent)
+
+Plan: Release-readiness audit
+
+- [x] Agent: G85 device-ready pack + checklist day-6 prep (Enhetsgate = Pontus)
+- [x] Recovery SOS ZF: `clearRecoveryLocalStorage` i Device Clear + logout
+- [x] Android CI: RemoteViews lint-fix (`<View>` → ImageView i Capture/Note/Tasks)
+- [x] Minne v61/v62 doc-synk: DONE (deploy 2026-07-18) — waves PAUS → DONE
+- [x] Visual sign-off handoff: `evaluations/2026-07-23-g85-visual-signoff-handoff.md`
+- [x] PMIR park hold: Genkit V1 · Familje-PIN · G18 · `/gora` · Gmail/Calendar · Life OS Fas D — **bygg inte**
+- [ ] Pontus: G85 Enhetsgate + Capture one-pass (checklist)
+- [ ] Pontus: day 1–7 logg → stäng Fas 24 P0
+- [ ] Pontus: Gold/V4/Companion visual sign-off
+- [x] Valfritt: `smoke:predeploy:live` + yolo-vakt **GO** (merge runway) — deploy fortfarande SKIP
+
 ## 2026-07-23 — Fas 24 close + Companion Våg 5–7 (Cursor)
 
 Plan: Fas24 Companion Waves (implement)
@@ -10,7 +108,7 @@ Plan: Fas24 Companion Waves (implement)
 - [x] v65: Sacred deep-lock + escapeJs `"` + VISIBILITY_PRIVATE + KeyRecovery TEE retry
 - [x] v66: Ghost exit waits biometric unlock callback
 - [x] HUMAN prep: `docs/evaluations/2026-07-23-g85-device-ready-pack.md` (device-ready, not G85 PASS)
-- [x] v67–v68: Edge AI Mind/Aura bridges (no WORM consumer)
+- [x] v67–v68: Edge AI Mind/Aura bridges + WORM consumer (`edgeTags` → classification.tags)
 - [x] Unlock MOD-WIDGET Smart Time/Widget AI (`approved: yes`)
 - [x] Våg 5: `SmartTimePeriods` 07/12/18/22 + night dim (no ThemeManager)
 - [x] Våg 6: `WidgetAiModes` + `pushCompanionAiSnapshot` (heuristics only)

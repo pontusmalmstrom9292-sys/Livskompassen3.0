@@ -138,7 +138,13 @@ export function AdaptationPrefsPanel({ userId }: Props) {
             <strong className="text-text">Paralys-läge</strong> förenklar Hem till ett mikrosteg i taget
             — bra när kapaciteten är låg.
           </p>
-          <Button type="button" variant="ghost" className="mt-2 min-h-11 text-xs" disabled={saving} onClick={dismissParalysTip}>
+          <Button
+            type="button"
+            variant="ghost"
+            className="mt-2 min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+            disabled={saving}
+            onClick={dismissParalysTip}
+          >
             Dölj tipset
           </Button>
         </div>

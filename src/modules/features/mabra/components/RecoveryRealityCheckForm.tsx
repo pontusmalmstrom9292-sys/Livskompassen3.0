@@ -393,7 +393,7 @@ export function RecoveryRealityCheckForm({ userId, onSaved, onComplete }: Props)
 
       <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:justify-between">
         {stepIndex > 0 ? (
-          <Button type="button" onClick={handleBack} variant="ghost" className="--ghost text-sm">
+          <Button type="button" onClick={handleBack} variant="ghost" className="--ghost text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             {COPY.back}
           </Button>
         ) : (
@@ -401,15 +401,15 @@ export function RecoveryRealityCheckForm({ userId, onSaved, onComplete }: Props)
         )}
 
         {stepIndex < TOTAL_STEPS - 1 ? (
-          <Button type="button" onClick={handleNext} variant="secondary" className="--secondary sm:ml-auto">
+          <Button type="button" onClick={handleNext} variant="secondary" className="--secondary sm:ml-auto min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             {COPY.next}
           </Button>
         ) : (
           <div className="flex w-full flex-col gap-2 sm:ml-auto sm:w-auto sm:flex-row">
-            <Button type="button" onClick={handleReset} variant="ghost" className="--ghost text-sm">
+            <Button type="button" onClick={handleReset} variant="ghost" className="--ghost text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               {COPY.doneWithoutSave}
             </Button>
-            <Button type="button" onClick={() => void handleSave()} disabled={!userId || saving || saved || summaryRows.length === 0} variant="secondary" className="--secondary inline-flex items-center justify-center gap-2">
+            <Button type="button" onClick={() => void handleSave()} disabled={!userId || saving || saved || summaryRows.length === 0} variant="secondary" className="--secondary inline-flex items-center justify-center gap-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               {saving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
               {COPY.save}
             </Button>

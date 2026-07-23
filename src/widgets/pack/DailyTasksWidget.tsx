@@ -184,7 +184,12 @@ export function DailyTasksWidget({
             <p className="cw-empty__title">Fokus</p>
             <p className="cw-empty__message">Allt klart för nu. Bra jobbat.</p>
             <div className="cw-empty__actions">
-              <WidgetButton variant="quiet" size="min" onClick={() => void openPlanering()}>
+              <WidgetButton
+                variant="quiet"
+                size="min"
+                aria-label="Öppna Planering"
+                onClick={() => void openPlanering()}
+              >
                 Öppna Planering
               </WidgetButton>
             </div>
@@ -201,6 +206,7 @@ export function DailyTasksWidget({
                   'cw-reminder-row',
                   'cw-row-hit',
                   pulseHint && shown[0]?.id === task.id && !fadingId ? 'cw-pulse-cta' : '',
+                  'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
                 ]
                   .filter(Boolean)
                   .join(' ')}
@@ -235,7 +241,7 @@ export function DailyTasksWidget({
         </div>
         <button
           type="button"
-          className="cw-focus-timer__play"
+          className="cw-focus-timer__play min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           aria-label="Öppna Planering för fokuspass"
           onClick={() => void openPlanering()}
         >
@@ -243,13 +249,20 @@ export function DailyTasksWidget({
         </button>
       </div>
       {shown.length > 0 ? (
-        <button type="button" className="cw-link-cta" onClick={() => void openPlanering()}>
+        <button
+          type="button"
+          className="cw-link-cta min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          aria-label="Visa alla uppgifter i Planering"
+          onClick={() => void openPlanering()}
+        >
           Visa alla
         </button>
       ) : null}
       <div className="cw-trust-row cw-trust-row--split" aria-live="polite">
         <span>{status ?? (online ? 'Fokus idag' : 'Offline — sparas lokalt')}</span>
-        <span className="cw-streak">Streak</span>
+        <span className="cw-streak" aria-label="Streak, kommer snart">
+          Streak
+        </span>
       </div>
     </WidgetCard>
   );

@@ -177,7 +177,7 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                 type="button"
                 onClick={() => toggleShelf(monthKey)}
                 aria-expanded={isShelfExpanded}
-                className="flex w-full items-center justify-between p-4 bg-surface-2/70 hover:bg-surface-3/80 border border-border/30 rounded-2xl cursor-pointer transition-all duration-[var(--ds-duration-normal)] shadow-md backdrop-blur-xl text-left"
+                className="flex w-full items-center justify-between p-4 bg-surface-2/70 hover:bg-surface-3/80 border border-border/30 rounded-2xl cursor-pointer transition-all duration-[var(--ds-duration-normal)] shadow-md backdrop-blur-xl text-left min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20">
@@ -222,7 +222,7 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                             type="button"
                             onClick={() => toggleDrawer(drawer.id)}
                             aria-expanded={isDrawerExpanded}
-                            className="flex w-full items-center justify-between p-3 rounded-xl border border-border/20 bg-surface-3/50 hover:bg-surface-3 cursor-pointer transition-all duration-[var(--ds-duration-fast)] text-left"
+                            className="flex w-full items-center justify-between p-3 rounded-xl border border-border/20 bg-surface-3/50 hover:bg-surface-3 cursor-pointer transition-all duration-[var(--ds-duration-fast)] text-left min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                           >
                             <div className="flex items-center gap-3">
                               <DrawerIcon className={`w-4 h-4 ${drawer.colorClass}`} />
@@ -373,7 +373,7 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
         <button
           onClick={onLoadMore}
           disabled={loading}
-          className="px-6 py-2 rounded-full bg-surface-2 hover:bg-surface-3 border border-border/30 text-xs font-semibold uppercase tracking-wider text-text transition-colors disabled:opacity-50"
+          className="px-6 py-2 rounded-full bg-surface-2 hover:bg-surface-3 border border-border/30 text-xs font-semibold uppercase tracking-wider text-text transition-colors disabled:opacity-50 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           {loading ? 'Hämtar...' : 'Ladda äldre hylla'}
         </button>

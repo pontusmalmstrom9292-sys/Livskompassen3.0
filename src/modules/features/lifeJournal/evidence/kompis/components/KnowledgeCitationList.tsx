@@ -39,7 +39,7 @@ export function KnowledgeCitationList({ citations, onCitationClick, activeCitati
             type="button"
             onClick={() => onCitationClick?.(c.docId, c.collection)}
             disabled={!clickable}
-            className={`w-full rounded-xl border p-3 text-left transition-colors hover:border-accent/30 disabled:cursor-default disabled:opacity-90 ${
+            className={`min-h-11 w-full rounded-xl border p-3 text-left transition-colors hover:border-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:cursor-default disabled:opacity-90 ${
               isActive
                 ? 'border-accent/60 bg-accent/10 ring-2 ring-accent/40'
                 : 'border-border bg-surface/40'

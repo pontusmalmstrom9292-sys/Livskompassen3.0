@@ -176,7 +176,7 @@ export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePane
                 <button
                   type="button"
                   onClick={() => toggleFolder(node.id)}
-                  className="group flex w-full items-center justify-between rounded-lg p-2 transition-colors hover:bg-surface-3/50"
+                  className="group flex min-h-11 w-full items-center justify-between rounded-lg p-2 transition-colors hover:bg-surface-3/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 >
                   <div className="flex items-center gap-2">
                     {isExpanded ? (
@@ -238,7 +238,7 @@ export function AutonomousArchivePanel({ sharedKampspar }: AutonomousArchivePane
                     disabled={promotingId === node.docId}
                     aria-label="Spara i Minne"
                     title="Spara i Minne"
-                    className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg border border-accent/25 bg-accent/10 text-accent transition-colors hover:bg-accent/20 disabled:opacity-50"
+                    className="inline-flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-lg border border-accent/25 bg-accent/10 text-accent transition-colors hover:bg-accent/20 disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   >
                     {promotingId === node.docId ? (
                       <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden />

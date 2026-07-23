@@ -63,11 +63,11 @@ export function PlaneringKalenderPage() {
       </BentoCard>
 
       <p className="mt-4 text-center text-xs text-text-muted">
-        <Link to="/planering?tab=inkorg&inbox=kalender" className="text-accent/80 hover:text-accent">
+        <Link to="/planering?tab=inkorg&inbox=kalender" className="text-accent/80 hover:text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Tillbaka till Inkorg
         </Link>
         {' · '}
-        <Link to="/planering?tab=handling" className="text-accent/80 hover:text-accent">
+        <Link to="/planering?tab=handling" className="text-accent/80 hover:text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Handling (Kanban)
         </Link>
       </p>

@@ -31,7 +31,7 @@ export function CompassQuickWidgetRail({ flow, compact = false, className }: Pro
           <Link
             key={w.id}
             to={w.href}
-            className="compass-quick-widget-rail__chip"
+            className="compass-quick-widget-rail__chip min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             role="listitem"
             title={w.siloNote}
           >

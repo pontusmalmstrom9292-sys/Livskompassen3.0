@@ -123,7 +123,7 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
             <div className="flex flex-wrap items-center justify-center gap-2">
               <Button
                 variant="ghost"
-                className="text-sm"
+                className="text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={isListening ? stopSpeech : startSpeech}
                 aria-pressed={isListening}
               >
@@ -136,7 +136,7 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
           <p className="text-center text-[10px] text-text-muted">{MABRA_COACH_COPY.noteHint}</p>
           <Button
             variant="secondary"
-            className="w-full disabled:opacity-50"
+            className="w-full disabled:opacity-50 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={() => void handleCoach()}
             disabled={loading}
           >

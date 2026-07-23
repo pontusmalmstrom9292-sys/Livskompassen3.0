@@ -77,7 +77,7 @@ export function VaultKanonDocsPanel() {
           to={vaultDrawerPath('kunskapsbank')}
           variant="ghost"
           size="sm"
-          className="mb-4 inline-flex items-center gap-2"
+          className="mb-4 inline-flex items-center gap-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           <BookOpen className="h-3 w-3" />
           Till Kunskapsbank

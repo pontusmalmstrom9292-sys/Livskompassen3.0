@@ -74,11 +74,19 @@ export function MabraReflectionDeckTool({ onBack, initialBankId }: Props) {
       ) : null}
 
       <div className="mt-4 flex gap-2">
-        <Button variant="ghost" className="flex-1 text-sm" onClick={prev}>
+        <Button
+          variant="ghost"
+          className="flex-1 text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          onClick={prev}
+        >
           <ChevronLeft className="mr-1 inline h-4 w-4" />
           Förra
         </Button>
-        <Button variant="secondary" className="flex-1 text-sm" onClick={next}>
+        <Button
+          variant="secondary"
+          className="flex-1 text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          onClick={next}
+        >
           Nästa
           <ChevronRight className="ml-1 inline h-4 w-4" />
         </Button>

@@ -34,7 +34,7 @@ export function MemoryTestView() {
             type="button"
             onClick={resetMemory}
             disabled={isEmpty}
-            className="rounded-lg border border-border px-3 py-1 font-sans text-xs text-text-muted transition-colors hover:border-accent/40 disabled:cursor-not-allowed disabled:opacity-40"
+            className="min-h-11 rounded-lg border border-border px-3 py-1 font-sans text-xs text-text-muted transition-colors hover:border-accent/40 disabled:cursor-not-allowed disabled:opacity-40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             Återställ
           </button>

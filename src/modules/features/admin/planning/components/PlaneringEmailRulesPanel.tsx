@@ -206,7 +206,7 @@ export function PlaneringEmailRulesPanel() {
 
       <p className="text-xs text-text-muted">
         Projekt-automation:{' '}
-        <Link to="/projekt/regler" className="text-accent">
+        <Link to="/projekt/regler" className="text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Regler under Projekt
         </Link>
         . Gmail-synk aktiveras i senare fas.

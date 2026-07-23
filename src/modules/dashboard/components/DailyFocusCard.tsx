@@ -50,7 +50,7 @@ export function DailyFocusCard() {
           <p className="text-text-muted mb-4">Du har inte satt ditt fokus för idag än.</p>
           <Link 
             to="/kompasser" 
-            className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 text-blue-300 rounded-lg hover:bg-blue-500/30 transition-colors text-sm font-medium"
+            className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 text-blue-300 rounded-lg hover:bg-blue-500/30 transition-colors text-sm font-medium min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             Öppna Morgonkompassen
             <ArrowRight className="w-4 h-4" />

@@ -136,7 +136,7 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
         variant="ghost"
         disabled={loading || googleLoading}
         onClick={() => void handleGoogle()}
-        className="mb-4 flex w-full items-center justify-center gap-2 border border-border"
+        className="mb-4 flex min-h-11 w-full items-center justify-center gap-2 border border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       >
         {googleLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
         Fortsätt med Google
@@ -148,7 +148,7 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
       )}
 
       {googlePrimary && isAppUnlockSupported() && !isAppUnlockEnabled() && (
-        <label className="mb-3 flex cursor-pointer items-start gap-3 rounded-2xl border border-border/60 px-3 py-2.5">
+        <label className="mb-3 flex min-h-11 cursor-pointer items-start gap-3 rounded-2xl border border-border/60 px-3 py-2.5 focus-within:outline-none focus-within:ring-2 focus-within:ring-accent/40">
           <input
             type="checkbox"
             className="mt-0.5 h-4 w-4 rounded border-border accent-accent"
@@ -204,6 +204,7 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
           <div className="mb-4 flex gap-2">
             <Button
               variant={mode === 'create' ? 'success' : 'ghost'}
+              className="min-h-11 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => {
                 setMode('create');
                 setError(null);
@@ -214,6 +215,7 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
             </Button>
             <Button
               variant={mode === 'signin' ? 'success' : 'ghost'}
+              className="min-h-11 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => {
                 setMode('signin');
                 setError(null);
@@ -257,7 +259,12 @@ export function EmailAuthPanel({ compact = false, defaultMode = 'create', onSucc
                 disabled={loading}
               />
             )}
-            <Button type="submit" variant="success" disabled={loading} className="flex w-full items-center justify-center gap-2">
+            <Button
+              type="submit"
+              variant="success"
+              disabled={loading}
+              className="flex min-h-11 w-full items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+            >
               {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
               {mode === 'create' ? 'Skapa konto och spara' : 'Logga in'}
             </Button>

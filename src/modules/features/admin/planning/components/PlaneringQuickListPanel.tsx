@@ -98,7 +98,7 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && addItem()}
         />
-        <Button type="button" variant="secondary" className="shrink-0" onClick={addItem}>
+        <Button type="button" variant="secondary" className="shrink-0 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={addItem}>
           <Plus className="h-4 w-4" />
           Lägg till
         </Button>
@@ -109,7 +109,7 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
           <li key={item.id} className="planering-quicklist__row">
             <button
               type="button"
-              className="planering-quicklist__check"
+              className="planering-quicklist__check min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               aria-label={`Markera klar: ${item.text}`}
               onClick={() => setList(toggleQuickListItem(listId, item.id))}
             >
@@ -118,7 +118,7 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
             <span className="planering-quicklist__text">{item.text}</span>
             <button
               type="button"
-              className="planering-quicklist__remove"
+              className="planering-quicklist__remove min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               aria-label={`Ta bort ${item.text}`}
               onClick={() => setList(removeQuickListItem(listId, item.id))}
             >
@@ -140,7 +140,7 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
               <li key={item.id} className="planering-quicklist__row planering-quicklist__row--done">
                 <button
                   type="button"
-                  className="planering-quicklist__check planering-quicklist__check--on"
+                  className="planering-quicklist__check planering-quicklist__check--on min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   aria-label={`Ångra: ${item.text}`}
                   onClick={() => setList(toggleQuickListItem(listId, item.id))}
                 >
@@ -149,7 +149,7 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
                 <span className="planering-quicklist__text">{item.text}</span>
                 <button
                   type="button"
-                  className="planering-quicklist__remove"
+                  className="planering-quicklist__remove min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   aria-label={`Ta bort ${item.text}`}
                   onClick={() => setList(removeQuickListItem(listId, item.id))}
                 >
@@ -162,7 +162,7 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
             type="button"
             variant="ghost"
             size="sm"
-            className="mt-2 w-full"
+            className="mt-2 w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={() => setList(clearDoneQuickListItems(listId))}
           >
             Rensa klara
@@ -174,7 +174,7 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
         <Button
           type="button"
           variant="secondary"
-          className="w-full"
+          className="w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={saving}
           onClick={() => void saveAsProject()}
         >
@@ -196,11 +196,15 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
 
       <p className="text-center text-xs text-text-muted">
         Vill du bygga mer?{' '}
-        <Link to="/admin/projects/ny" className="text-accent hover:underline">
+        <Link to="/admin/projects/ny" className="text-accent hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Starta eget projekt
         </Link>
         {' · '}
-        <button type="button" className="text-accent hover:underline" onClick={refresh}>
+        <button
+          type="button"
+          className="min-h-11 text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          onClick={refresh}
+        >
           Uppdatera
         </button>
       </p>

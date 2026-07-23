@@ -65,10 +65,11 @@ export function InkastDagbokWeaveBridge({ journalEntryId, text, mood, onDone }: 
         <ButtonLink
           to={{ pathname: VALV_KUNSKAP_INBOX_LINK.pathname, search: VALV_KUNSKAP_INBOX_LINK.search }}
           variant="ghost"
+          className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           Öppna Kunskapsbank (Valv)
         </ButtonLink>
-        <Button variant="secondary" onClick={onDone} className="mt-2">
+        <Button variant="secondary" onClick={onDone} className="mt-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Klar
         </Button>
       </div>
@@ -85,10 +86,18 @@ export function InkastDagbokWeaveBridge({ journalEntryId, text, mood, onDone }: 
         Valfritt — dagboksposten är redan sparad. Inget vävs utan att du väljer explicit.
       </p>
       <div className="flex flex-col gap-2 sm:flex-row">
-        <Button variant="secondary" onClick={handleWeave}>
+        <Button
+          variant="secondary"
+          onClick={handleWeave}
+          className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        >
           Ja, spara i Minne
         </Button>
-        <Button variant="ghost" onClick={onDone}>
+        <Button
+          variant="ghost"
+          onClick={onDone}
+          className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        >
           Nej, bara dagbok
         </Button>
       </div>

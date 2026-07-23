@@ -164,7 +164,7 @@ export function StampClockPage() {
                 disabled={busy || isClockedIn}
                 onClick={() => void stamp('IN')}
                 variant={isClockedIn || busy ? 'ghost' : 'accent'}
-                className={`min-h-11${isClockedIn || busy ? ' opacity-40' : ''}`}
+                className={`min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40${isClockedIn || busy ? ' opacity-40' : ''}`}
               >
                 Stämpla in
               </Button>
@@ -173,7 +173,7 @@ export function StampClockPage() {
                 disabled={busy || !isClockedIn}
                 onClick={() => void stamp('UT')}
                 variant={isClockedIn && !busy ? 'secondary' : 'ghost'}
-                className={`min-h-11 inline-flex items-center justify-center gap-2${isClockedIn && !busy ? '' : ' opacity-40'}`}
+                className={`min-h-11 inline-flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40${isClockedIn && !busy ? '' : ' opacity-40'}`}
                 aria-label="Gick hem — avsluta arbetsdagen"
               >
                 <Home className="h-4 w-4" aria-hidden />

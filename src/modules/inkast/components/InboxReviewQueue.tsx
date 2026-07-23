@@ -281,7 +281,7 @@ export function InboxReviewQueue({
         <Button
           variant="ghost"
           size="sm"
-          className="mb-3 min-h-[var(--ds-touch-target,2.75rem)]"
+          className="mb-3 min-h-[var(--ds-touch-target,2.75rem)] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={onBack}
         >
           ← Tillbaka till logga
@@ -345,6 +345,7 @@ export function InboxReviewQueue({
               className: clsx(
                 'min-h-[var(--ds-touch-target,2.75rem)] text-xs',
                 proposed && 'ring-1 ring-accent/40',
+                'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
               ),
               size: 'sm' as const,
             };
@@ -429,7 +430,7 @@ export function InboxReviewQueue({
                 </Button>
                 <Button
                   size="sm"
-                  className="min-h-[var(--ds-touch-target,2.75rem)]"
+                  className="min-h-[var(--ds-touch-target,2.75rem)] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   disabled={busyId === item.id}
                   onClick={() => {
                     void handlePlanering(item).then(() => setEditingId(null));
@@ -440,7 +441,7 @@ export function InboxReviewQueue({
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="min-h-[var(--ds-touch-target,2.75rem)]"
+                  className="min-h-[var(--ds-touch-target,2.75rem)] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   disabled={busyId === item.id}
                   onClick={() => setEditingId(null)}
                 >

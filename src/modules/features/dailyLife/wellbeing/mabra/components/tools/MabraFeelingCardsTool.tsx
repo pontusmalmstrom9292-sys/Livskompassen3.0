@@ -21,7 +21,7 @@ export function MabraFeelingCardsTool({ onBack }: Props) {
           <button
             key={card.id}
             type="button"
-            className={`mabra-feel-card ${selectedId === card.id ? 'mabra-feel-card--active' : ''}`}
+            className={`mabra-feel-card min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${selectedId === card.id ? 'mabra-feel-card--active' : ''}`}
             aria-pressed={selectedId === card.id}
             onClick={() => setSelectedId(card.id)}
           >

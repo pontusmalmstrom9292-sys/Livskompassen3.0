@@ -77,6 +77,8 @@ function Chip({
       className={['cw-pill', 'cw-studio-chip', active && 'cw-pill--active', 'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40'].filter(Boolean).join(' ')}
       onClick={onClick}
       onDoubleClick={onDoubleClick}
+      aria-label={label}
+      aria-pressed={active}
       title={onDoubleClick ? 'Dubbelklicka för På/Av' : undefined}
       style={{
         minHeight: Math.max(44, Math.round(WidgetTouch.minDp * 0.72)),
@@ -279,7 +281,7 @@ export function WidgetStudioPage() {
       }}
     >
       <p style={{ margin: 0, fontSize: '0.75rem' }}>
-        <Link to="/installningar" className="cw-chrome-link">
+        <Link to="/installningar" className="cw-chrome-link min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Inställningar
         </Link>
         <span style={{ color: WidgetPalette.premiumGoldDim }}> · </span>
@@ -292,12 +294,13 @@ export function WidgetStudioPage() {
         lugn. {savedFlash ? 'Sparat lokalt.' : ''}
       </p>
       <p style={{ margin: '0 0 1rem', display: 'flex', gap: '0.85rem', flexWrap: 'wrap' }}>
-        <Link to="/" className="cw-chrome-link cw-chrome-link--gold">
+        <Link to="/" className="cw-chrome-link cw-chrome-link--gold min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Öppna Hem
         </Link>
         <button
           type="button"
           className="cw-chrome-btn min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          aria-label="Visa Companion-railen på Hem"
           onClick={() => {
             try {
               localStorage.setItem('cw_home_rail_collapsed', '0');
@@ -411,6 +414,7 @@ export function WidgetStudioPage() {
         <WidgetButton
           variant="quiet"
           size="min"
+          aria-label="Återställ lugna widget-defaults"
           onClick={() => {
             void resetStudioToCalmDefaults().then((next) => {
               setState(next);
@@ -421,10 +425,21 @@ export function WidgetStudioPage() {
         >
           Lugna defaults
         </WidgetButton>
-        <WidgetButton variant="ghost" size="premium" onClick={() => { window.location.href = '/dev/companion-widgets'; }}>
+        <WidgetButton
+          variant="ghost"
+          size="premium"
+          aria-label="Öppna Companion widget-labb"
+          onClick={() => { window.location.href = '/dev/companion-widgets'; }}
+        >
           Öppna labb
         </WidgetButton>
-        <WidgetButton variant="gold" size="premium" fullWidth onClick={() => { window.location.href = '/installningar'; }}>
+        <WidgetButton
+          variant="gold"
+          size="premium"
+          fullWidth
+          aria-label="Tillbaka till Inställningar"
+          onClick={() => { window.location.href = '/installningar'; }}
+        >
           Tillbaka
         </WidgetButton>
       </div>

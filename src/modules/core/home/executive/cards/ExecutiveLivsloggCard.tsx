@@ -59,14 +59,14 @@ export function ExecutiveLivsloggCard({ activeChild = 'Kasper' }: Props) {
         <div className="mt-3 flex flex-wrap gap-2">
           <Button
             size="sm"
-            className="inline-flex items-center gap-1.5"
+            className="inline-flex items-center gap-1.5 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             disabled={loading || !inputText.trim()}
             onClick={() => void handleAsk()}
           >
             <Sparkles className="h-3.5 w-3.5" />
             {loading ? 'Söker…' : 'Fråga'}
           </Button>
-          <Button variant="ghost" size="sm" onClick={() => navigate('/familjen?tab=livslogg')}>
+          <Button variant="ghost" size="sm" className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => navigate('/familjen?tab=livslogg')}>
             Utforska
           </Button>
         </div>

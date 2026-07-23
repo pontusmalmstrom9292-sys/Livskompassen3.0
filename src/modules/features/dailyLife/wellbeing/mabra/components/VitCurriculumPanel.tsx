@@ -101,7 +101,12 @@ function CurriculumDetail({
           {curriculum.broLinks && curriculum.broLinks.length > 0 && (
             <div className="flex flex-wrap gap-2 border-t border-border-strong pt-4">
               {curriculum.broLinks.map((link) => (
-                <ButtonLink key={link.route} to={link.route} variant="ghost" className="text-xs">
+                <ButtonLink
+                  key={link.route}
+                  to={link.route}
+                  variant="ghost"
+                  className="min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+                >
                   {link.label}
                 </ButtonLink>
               ))}

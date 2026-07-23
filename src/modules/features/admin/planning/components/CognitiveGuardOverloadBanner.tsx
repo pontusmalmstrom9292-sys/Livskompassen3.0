@@ -19,7 +19,7 @@ export function CognitiveGuardOverloadBanner({ activeCount }: Props) {
           Du har {activeCount} oavslutade uppgifter — Pansarläge visas på Handling (ett steg i taget).
         </p>
       </div>
-      <ButtonLink to="/planering?tab=handling" variant="accent" size="sm" className="shrink-0 text-center">
+      <ButtonLink to="/planering?tab=handling" variant="accent" size="sm" className="shrink-0 text-center min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
         Öppna Handling
       </ButtonLink>
     </div>

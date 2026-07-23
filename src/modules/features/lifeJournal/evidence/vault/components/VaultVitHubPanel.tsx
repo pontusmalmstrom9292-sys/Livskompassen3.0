@@ -215,7 +215,7 @@ export function VaultVitHubPanel({ userId }: Props) {
           <EmptyState
             message="Inga sparade svar ännu."
             action={
-              <ButtonLink to={mabraHref} variant="secondary" size="sm">
+              <ButtonLink to={mabraHref} variant="secondary" size="sm" className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 Öppna MåBra
               </ButtonLink>
             }
@@ -261,7 +261,7 @@ export function VaultVitHubPanel({ userId }: Props) {
             );
           })}
         </ul>
-        <ButtonLink to={mabraHref} variant="ghost" size="sm" className="mt-3 inline-flex">
+        <ButtonLink to={mabraHref} variant="ghost" size="sm" className="mt-3 inline-flex min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Fortsätt i MåBra
         </ButtonLink>
       </section>

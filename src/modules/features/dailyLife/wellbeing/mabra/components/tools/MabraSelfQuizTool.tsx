@@ -41,7 +41,7 @@ export function MabraSelfQuizTool({ onBack }: Props) {
           <Button
             key={r.id}
             variant="ghost"
-            className={`text-sm ${answered === r.id ? 'border-accent/40 text-accent' : ''}`}
+            className={`min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${answered === r.id ? 'border-accent/40 text-accent' : ''}`}
             disabled={answered !== null}
             onClick={() => setAnswered(r.id)}
           >
@@ -61,7 +61,11 @@ export function MabraSelfQuizTool({ onBack }: Props) {
               placeholder="Ett ord räcker…"
             />
           </label>
-          <Button variant="secondary" className="mt-4 w-full" onClick={nextQuestion}>
+          <Button
+            variant="secondary"
+            className="mt-4 min-h-11 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+            onClick={nextQuestion}
+          >
             Nästa fråga
           </Button>
         </>

@@ -172,6 +172,12 @@ export const submitInkastLite = onCall(
       typeof request.data?.manualComment === 'string' ? request.data.manualComment : undefined;
     const manualChildAlias =
       typeof request.data?.manualChildAlias === 'string' ? request.data.manualChildAlias : undefined;
+    const edgeTags = Array.isArray(request.data?.edgeTags)
+      ? request.data.edgeTags
+          .filter((v: unknown) => typeof v === 'string' && String(v).startsWith('edge:'))
+          .map((v: string) => v.trim().slice(0, 48))
+          .slice(0, 6)
+      : undefined;
 
 
     const normalizedSourceModule = normalizeInkastSourceModule(sourceModule);
@@ -222,6 +228,7 @@ export const submitInkastLite = onCall(
           manualTags,
           manualComment,
           manualChildAlias,
+          edgeTags,
         },
         geminiApiKey.value(),
         hasVaultSession,

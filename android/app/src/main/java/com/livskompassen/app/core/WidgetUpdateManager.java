@@ -12,6 +12,7 @@ import com.livskompassen.app.widgets.CompanionCaptureWidgetProvider;
 import com.livskompassen.app.widgets.CompanionChildWidgetProvider;
 import com.livskompassen.app.widgets.CompanionCheckInWidgetProvider;
 import com.livskompassen.app.widgets.CompanionCompassWidgetProvider;
+import com.livskompassen.app.widgets.CompanionFamilyWidgetProvider;
 import com.livskompassen.app.widgets.CompanionHarborWidgetProvider;
 import com.livskompassen.app.widgets.CompanionInboxWidgetProvider;
 import com.livskompassen.app.widgets.CompanionJournalWidgetProvider;
@@ -41,6 +42,7 @@ public class WidgetUpdateManager {
         CompanionAnchorWidgetProvider.class,
         CompanionTasksWidgetProvider.class,
         CompanionCheckInWidgetProvider.class,
+        CompanionFamilyWidgetProvider.class,
     };
     
     /**
@@ -103,6 +105,8 @@ public class WidgetUpdateManager {
             case "last_action_mood":
             case "last_action_checkin":
                 return CompanionCheckInWidgetProvider.class;
+            case "last_action_family":
+                return CompanionFamilyWidgetProvider.class;
             default:
                 return null;
         }

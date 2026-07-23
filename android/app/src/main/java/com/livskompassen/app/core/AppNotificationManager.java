@@ -127,6 +127,12 @@ public class AppNotificationManager {
         PendingIntent donePendingIntent = PendingIntent.getBroadcast(context, 2, doneIntent,
                 PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
+        // Action: Clear Clipboard (Våg 14)
+        Intent clearIntent = new Intent(context, NotificationActionReceiver.class);
+        clearIntent.setAction(NotificationActionReceiver.ACTION_CLEAR_CLIPBOARD);
+        PendingIntent clearPendingIntent = PendingIntent.getBroadcast(context, 5, clearIntent,
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
         // Action: Remind in 1h
         Intent snoozeIntent = new Intent(context, NotificationActionReceiver.class);
         snoozeIntent.setAction(NotificationActionReceiver.ACTION_REMINDER_SNOOZE);
@@ -146,6 +152,7 @@ public class AppNotificationManager {
 
         if (CHANNEL_ID_VAULT.equals(channelId)) {
             builder.addAction(R.drawable.ic_lock_sacred, context.getString(R.string.notification_action_lock_vault), lockPendingIntent);
+            builder.addAction(R.drawable.ic_error_outline, "Rensa Urklipp", clearPendingIntent);
         } else {
             builder.addAction(R.drawable.ic_lock_sacred, context.getString(R.string.notification_action_done), donePendingIntent);
             builder.addAction(R.drawable.ic_error_outline, context.getString(R.string.notification_action_later), snoozePendingIntent);

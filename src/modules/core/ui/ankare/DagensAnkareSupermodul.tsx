@@ -125,7 +125,7 @@ export function AnchorVariantForge({
                   aria-pressed={selectedExerciseId === ex.id}
                   onClick={() => setSelectedExerciseId(ex.id)}
                   className={clsx(
-                    'rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+                    'rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-wider transition-all duration-300 min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
                     selectedExerciseId === ex.id
                       ? 'border-accent/30 bg-accent/20 text-accent shadow-[0_0_10px_rgba(212,175,55,0.1)]'
                       : 'border-transparent bg-surface-3/40 text-text-muted hover:bg-surface-3 hover:text-text-muted',
@@ -215,7 +215,7 @@ export function AnchorVariantForge({
           className="input-glass mb-3 w-full text-sm"
         />
         {error ? <p className="mb-2 text-center text-xs text-danger">{error}</p> : null}
-        <Button type="button" onClick={onSave} disabled={disabled || saving || intention.trim().length < 2} variant="accent" className="--accent w-full text-xs disabled:opacity-40">
+        <Button type="button" onClick={onSave} disabled={disabled || saving || intention.trim().length < 2} variant="accent" className="--accent w-full text-xs disabled:opacity-40 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           {saving ? (
             <Loader2 className="mx-auto h-4 w-4 animate-spin" />
           ) : (
@@ -252,7 +252,7 @@ export function AnchorVariantTactical({
       <button
         type="button"
         onClick={() => setExpanded((v) => !v)}
-        className="flex w-full items-center justify-between bg-gradient-to-b from-surface-3/50 to-transparent p-5 text-left transition-colors hover:bg-surface-3/80"
+        className="flex w-full items-center justify-between bg-gradient-to-b from-surface-3/50 to-transparent p-5 text-left transition-colors hover:bg-surface-3/80 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       >
         <div className="flex-1">
           <div className="mb-1 flex items-center gap-2">

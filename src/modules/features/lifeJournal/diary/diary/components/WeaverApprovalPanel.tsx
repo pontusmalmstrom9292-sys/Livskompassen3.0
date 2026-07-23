@@ -140,10 +140,24 @@ export function WeaverApprovalPanel({ userId, journalEntryId, enabled = true }: 
       </div>
       {error ? <p className="text-xs text-danger">{error}</p> : null}
       <div className="flex flex-wrap gap-2">
-        <Button type="button" variant="accent" size="sm" disabled={busy} onClick={() => void handleApprove()}>
+        <Button
+          type="button"
+          variant="accent"
+          size="sm"
+          className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          disabled={busy}
+          onClick={() => void handleApprove()}
+        >
           {VAVAREN_APPROVAL_APPROVE_BUTTON}
         </Button>
-        <Button type="button" variant="ghost" size="sm" disabled={busy} onClick={() => void handleDismiss()}>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          disabled={busy}
+          onClick={() => void handleDismiss()}
+        >
           Hoppa över
         </Button>
       </div>

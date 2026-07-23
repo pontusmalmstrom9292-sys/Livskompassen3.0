@@ -185,17 +185,24 @@ export function JournalWidget({
               variant="gold"
               size="premium"
               fullWidth
+              aria-label="Spara ny dagboksanteckning"
               onClick={() => void saveLine()}
               disabled={!draft.trim()}
             >
               Ny anteckning +
             </WidgetButton>
-            <WidgetButton variant="quiet" size="min" onClick={() => void openFull()}>
+            <WidgetButton
+              variant="quiet"
+              size="min"
+              aria-label="Öppna hela dagboken"
+              onClick={() => void openFull()}
+            >
               Öppna hela
             </WidgetButton>
             <WidgetButton
               variant="ghost"
               size="min"
+              aria-label="Avbryt ny anteckning"
               onClick={() => {
                 setWriting(false);
                 setDraft('');
@@ -211,6 +218,7 @@ export function JournalWidget({
           size="premium"
           fullWidth
           className={pulseHint && !writing ? 'cw-pulse-cta' : undefined}
+          aria-label="Skriv ny dagboksanteckning"
           onClick={() => setWriting(true)}
         >
           Ny anteckning +

@@ -64,7 +64,7 @@ PMIR (`firestore.rules`, Barnporten kanon, `--apply`, …) → SKIP + blocker-ev
 | W0 | WIDGETS-GOLD | DONE (main) | Companion Våg 1–4 already merged |
 | 63 | CI-PREDEPLOY | DONE | language-id + unlock hygiene |
 | 65–66 | SACRED-GHOST | DONE | deep-lock, escapeJs, ghost exit-after-unlock |
-| 67–68 | EDGE-AURA | DONE | Mind/Aura bridges, no WORM consumer |
+| 67–68 | EDGE-AURA | DONE | Mind/Aura bridges + WORM consumer (`edgeTags`) |
 | 5–7 | COMPANION-SMART | DONE (kod) | Smart Time + Widget AI heuristics + Studio opt-in |
 | HUMAN | G85-P0 | OPEN | device-ready pack — Pontus phone pass |
 
@@ -78,8 +78,8 @@ PMIR (`firestore.rules`, Barnporten kanon, `--apply`, …) → SKIP + blocker-ev
 | 58 | MINNE-M3-GATES | JA | confirm→kunskap + HITL promote |
 | 59 | MINNE-M4-ARCHIVE | JA | GCS archive dry-run |
 | 60 | MINNE-GATE | JA | readyForRules hard stop |
-| 61 | MINNE-RULES | PAUS | Admin-only create (OK rules) |
-| 62 | MINNE-DEPLOY | PAUS | functions deploy (OK deploy) |
+| 61 | MINNE-RULES | **DONE** 2026-07-18 | Admin-only create (`OK rules` → deploy PASS) |
+| 62 | MINNE-DEPLOY | **DONE** 2026-07-18 | functions + firestore (`OK deploy` → PASS) |
 
 Historik v34–v48: `npm run sdk:yolo:full` (klar).
 

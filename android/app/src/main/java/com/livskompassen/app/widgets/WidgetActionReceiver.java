@@ -72,9 +72,30 @@ public class WidgetActionReceiver extends BroadcastReceiver {
             case WidgetInteract.ACT_MOOD_CHECK:
                 setMoodCheck(context, prefs, param);
                 break;
+            case WidgetInteract.ACT_POMODORO_TOGGLE:
+                togglePomodoro(context, prefs);
+                break;
             default:
                 break;
         }
+    }
+
+    private static void togglePomodoro(Context context, SharedPreferences prefs) {
+        boolean active = prefs.getBoolean("widget_pomodoro_active", false);
+        long base = prefs.getLong("widget_pomodoro_base", 0);
+        SharedPreferences.Editor ed = prefs.edit();
+        if (!active) {
+            // 25 min countdown from now
+            base = System.currentTimeMillis() + 25L * 60L * 1000L;
+            ed.putLong("widget_pomodoro_base", base);
+            ed.putBoolean("widget_pomodoro_active", true);
+            WidgetUpdateManager.updateWidgetContent(context, "last_action_compass", "Fokuspass igång");
+        } else {
+            ed.putBoolean("widget_pomodoro_active", false);
+            WidgetUpdateManager.updateWidgetContent(context, "last_action_compass", "Fokuspass pausat");
+        }
+        ed.apply();
+        refreshProvider(context, CompanionCompassWidgetProvider.class);
     }
 
     private static void setMoodCheck(Context context, SharedPreferences prefs, String param) {
@@ -85,6 +106,7 @@ public class WidgetActionReceiver extends BroadcastReceiver {
 
         WidgetUpdateManager.updateWidgetContent(context, "last_action_mood", "Humör valt: " + param);
         refreshProvider(context, CompanionCheckInWidgetProvider.class);
+        refreshProvider(context, CompanionJournalWidgetProvider.class);
     }
 
     private static void toggleTask(Context context, SharedPreferences prefs, String param) {

@@ -1,73 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Companion Compass Large — Kap 6 Gold: disc · intention · progress · CTA -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/widget_companion_compass_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/widget_bg_premium_panel"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingHorizontal="10dp"
-    android:paddingVertical="8dp">
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="10dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/widget_chip_kompass"
+                android:contentDescription="@null" />
+
+            <TextView
+                android:id="@+id/widget_companion_compass_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:letterSpacing="0.18"
+                android:text="@string/widget_compass_focus_label"
+                android:textAllCaps="true"
+                android:textColor="@color/widget_gold_light"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <ImageView
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:src="@drawable/widget_chip_kompass" />
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_error_outline"
+            android:alpha="0.5"
+            android:contentDescription="@null" />
+    </RelativeLayout>
 
-        <TextView
-            android:id="@+id/widget_companion_compass_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:letterSpacing="0.18"
-            android:text="@string/widget_compass_header"
-            android:textAllCaps="true"
-            android:textColor="@color/widget_gold_light"
-            android:textSize="10sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/widget_compass_hint"
-            android:textColor="@color/widget_muted"
-            android:textSize="8sp" />
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/widget_companion_compass_disc"
-        android:layout_width="84dp"
-        android:layout_height="84dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:src="@drawable/widget_compass_disc"
-        android:contentDescription="@string/widget_compass_header" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:gravity="center"
-        android:text="Fokus för idag"
-        android:textColor="@color/widget_muted"
-        android:textSize="9sp" />
-
-    <TextView
-        android:id="@+id/widget_companion_compass_intention"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:gravity="center"
-        android:text="Närvaro i det jag gör"
-        android:textColor="@color/widget_text"
-        android:textSize="12sp"
-        android:textStyle="bold" />
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_compass_today_label"
+            android:textColor="@color/widget_gold_light"
+            android:textSize="8sp"
+            android:textAllCaps="true" />
+        <TextView
+            android:id="@+id/widget_compass_intention"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_compass_intention_demo"
+            android:textColor="@color/widget_text"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -80,33 +82,175 @@
             android:id="@+id/widget_companion_compass_progress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="0dp"
-            android:layout_height="4dp"
+            android:layout_height="6dp"
             android:layout_weight="1"
             android:max="100"
-            android:progress="72"
-            android:progressDrawable="@drawable/widget_progress_gold" />
+            android:progress="60"
+            android:progressDrawable="@drawable/widget_progress_ethereal" />
 
         <TextView
-            android:id="@+id/widget_companion_compass_pct"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="72%"
-            android:textColor="@color/widget_gold_dim"
-            android:textSize="9sp" />
+            android:text="@string/widget_compass_pct_demo"
+            android:textColor="@color/widget_muted"
+            android:textSize="10sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/widget_companion_compass_cta"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:background="@drawable/widget_bg_cta_outline"
-        android:gravity="center"
-        android:minHeight="56dp"
-        android:text="@string/widget_btn_intention"
-        android:textAllCaps="true"
-        android:textColor="@color/widget_gold_light"
-        android:textSize="10sp"
-        android:textStyle="bold" />
+        android:background="@drawable/widget_bg_inset_well"
+        android:padding="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_compass_next_label"
+            android:textColor="@color/widget_yellow"
+            android:textSize="8sp"
+            android:textAllCaps="true" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:text="@string/widget_compass_next_step"
+                android:textColor="@color/widget_text"
+                android:textSize="10sp" />
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_error_outline"
+                app:tint="@color/widget_gold_light" />
+        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:text="@string/widget_compass_next_when"
+            android:textColor="@color/widget_muted"
+            android:textSize="8sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/widget_bg_inset_well"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/widget_compass_session_label"
+                android:textColor="@color/widget_yellow"
+                android:textSize="8sp"
+                android:textAllCaps="true" />
+            <Chronometer
+                android:id="@+id/widget_compass_timer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/widget_compass_timer_demo"
+                android:textColor="@color/widget_text"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/widget_compass_pomodoro_meta"
+                android:textColor="@color/widget_muted"
+                android:textSize="8sp" />
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/widget_compass_play"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:src="@drawable/ic_lock_sacred"
+            android:background="@drawable/widget_bg_gold_ring"
+            android:padding="8dp"
+            android:contentDescription="@string/widget_compass_session_label"
+            app:tint="@color/widget_teal" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/widget_compass_btn_dnd"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/widget_bg_pill_category"
+            android:gravity="center"
+            android:paddingVertical="8dp"
+            android:text="@string/widget_compass_btn_dnd"
+            android:textColor="@color/widget_muted"
+            android:textSize="8sp" />
+        <TextView
+            android:id="@+id/widget_compass_btn_note"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="6dp"
+            android:background="@drawable/widget_bg_pill_category"
+            android:gravity="center"
+            android:paddingVertical="8dp"
+            android:text="@string/widget_compass_btn_note"
+            android:textColor="@color/widget_muted"
+            android:textSize="8sp" />
+        <TextView
+            android:id="@+id/widget_compass_btn_reward"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/widget_bg_pill_category"
+            android:gravity="center"
+            android:paddingVertical="8dp"
+            android:text="@string/widget_compass_btn_reward"
+            android:textColor="@color/widget_muted"
+            android:textSize="8sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_compass_focus_today"
+            android:textColor="@color/widget_gold_light"
+            android:textSize="8sp" />
+        <FrameLayout android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/widget_chip_kompass"
+            android:contentDescription="@null" />
+        <FrameLayout android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_compass_streak"
+            android:textColor="@color/widget_fire"
+            android:textSize="8sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
 </LinearLayout>

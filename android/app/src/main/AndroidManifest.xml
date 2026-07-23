@@ -116,6 +116,13 @@
             android:theme="@style/AppTheme.WidgetOverlay"
             android:windowSoftInputMode="adjustResize" />
 
+        <!-- Black Box Explorer — native log viewer -->
+        <activity
+            android:name=".core.DiagnosticViewerActivity"
+            android:label="Black Box Explorer"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
+
         <receiver
             android:name=".widgets.WidgetActionReceiver"
             android:exported="false">
@@ -167,6 +174,25 @@
         <receiver
             android:name=".core.NotificationActionReceiver"
             android:exported="false" />
+
+        <receiver
+            android:name=".core.HardwareAwarenessReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.HEADSET_PLUG" />
+                <action android:name="android.hardware.usb.action.USB_STATE" />
+                <action android:name="android.intent.action.SIM_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".core.GhostLaunchReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SECRET_CODE" />
+                <data android:scheme="android_secret_code" android:host="1234" />
+            </intent-filter>
+        </receiver>
 
         <receiver
             android:name=".widgets.RecordWidgetProvider"
@@ -296,6 +322,18 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_companion_tasks_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widgets.CompanionFamilyWidgetProvider"
+            android:exported="true"
+            android:label="Familjen">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_companion_family_info" />
         </receiver>
 
         <receiver

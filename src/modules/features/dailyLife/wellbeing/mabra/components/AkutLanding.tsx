@@ -18,14 +18,14 @@ export function AkutLanding({ onContinue, onExit }: Props) {
       <div className="flex w-full max-w-sm flex-col gap-3">
         <Button
           variant="secondary"
-          className="min-h-14 w-full text-base focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+          className="min-h-14 w-full text-base focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={onContinue}
         >
           {AKUT_LANDING_COPY.continueLabel}
         </Button>
         <Button
           variant="ghost"
-          className="min-h-11 w-full text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+          className="min-h-11 w-full text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={onExit}
         >
           {AKUT_LANDING_COPY.exitLabel}

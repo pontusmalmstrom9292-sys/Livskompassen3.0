@@ -16,13 +16,17 @@ export function SymptomHub({ onSelect, onOpenValues }: Props) {
           key={option.id}
           type="button"
           onClick={() => onSelect(option.id)}
-          className="w-full rounded-xl border border-border-strong bg-surface/40 px-4 py-4 text-left transition hover:border-accent/30"
+          className="min-h-11 w-full rounded-xl border border-border-strong bg-surface/40 px-4 py-4 text-left transition hover:border-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           <p className="text-base font-medium text-accent">{option.label}</p>
           <p className="mt-1 text-sm text-text-muted">{option.hint}</p>
         </button>
       ))}
-      <Button variant="ghost" className="w-full text-sm" onClick={onOpenValues}>
+      <Button
+        variant="ghost"
+        className="min-h-11 w-full text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        onClick={onOpenValues}
+      >
         {VALUES_COMPASS_COPY.hubLinkLabel}
       </Button>
     </div>

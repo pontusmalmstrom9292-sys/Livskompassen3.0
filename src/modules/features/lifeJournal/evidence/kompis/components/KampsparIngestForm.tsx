@@ -207,7 +207,7 @@ export function KampsparIngestForm({ onSaved, compact = false }: Props) {
         <Button
           type="submit"
           variant="success"
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={loading || !title.trim() || !content.trim() || !user}
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}

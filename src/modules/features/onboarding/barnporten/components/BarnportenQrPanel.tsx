@@ -126,7 +126,7 @@ export function BarnportenQrPanel() {
             key={alias}
             type="button"
             variant={childAlias === alias ? 'accent' : 'ghost'}
-            className="text-xs"
+            className="min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={() => setChildAlias(alias)}
           >
             {alias}
@@ -137,7 +137,7 @@ export function BarnportenQrPanel() {
       <Button
         type="button"
         variant="secondary"
-        className="w-full text-sm"
+        className="min-h-11 w-full text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         disabled={loading}
         onClick={() => void handleCreate()}
       >

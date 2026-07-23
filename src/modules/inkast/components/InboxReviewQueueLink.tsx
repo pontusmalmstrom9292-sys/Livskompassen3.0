@@ -19,7 +19,7 @@ export function InboxReviewQueueLink({ compact = false, className = '' }: Props)
           G10-granskning sker i{' '}
           <Link
             to={VALV_SAMLA_GRANSKA_LINK}
-            className="font-medium text-accent underline-offset-2 hover:underline"
+            className="font-medium text-accent underline-offset-2 hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             Valv → Samla → granskningskö
           </Link>

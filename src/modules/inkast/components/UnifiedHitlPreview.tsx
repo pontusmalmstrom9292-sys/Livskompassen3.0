@@ -79,7 +79,7 @@ export function UnifiedHitlPreview({
 
       <div className="flex flex-wrap gap-2">
         <Button
-          className="flex flex-1 items-center justify-center gap-2"
+          className="flex flex-1 items-center justify-center gap-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           size="sm"
           onClick={onConfirm}
           disabled={busy}
@@ -88,10 +88,16 @@ export function UnifiedHitlPreview({
           <CheckCircle2 className="h-4 w-4" aria-hidden />
           {confirmLabel}
         </Button>
-        <Button variant="ghost" size="sm" onClick={onEdit} disabled={busy}>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onEdit}
+          disabled={busy}
+          className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        >
           Ändra
         </Button>
-        <Button variant="ghost" size="sm" onClick={onDismiss} disabled={busy} className="text-text-muted">
+        <Button variant="ghost" size="sm" onClick={onDismiss} disabled={busy} className="text-text-muted min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           {dismissLabel}
         </Button>
       </div>

@@ -21,7 +21,7 @@ export function PlaneringHubLayoutPicker({ activeId, onSelect, compact }: Props)
       <div className="planering-layout-picker__head">
         <p className="planering-layout-picker__eyebrow">Hubb-layout</p>
         {!compact ? (
-          <Link to="/dev/hub-lab" className="planering-layout-picker__lab-link">
+          <Link to="/dev/hub-lab" className="planering-layout-picker__lab-link min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Hub Lab ↗
           </Link>
         ) : null}

@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi;
 
 import com.livskompassen.app.MainActivity;
 import com.livskompassen.app.R;
+import com.livskompassen.app.util.LCLog;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +55,33 @@ public class ShortcutManager {
             this.lastText = text;
         }
         updateAllShortcuts();
+    }
+
+    /**
+     * Våg 190: Begär att fästa en specifik modul på hemskärmen.
+     */
+    public void requestPinShortcut(String id, String label, String path, int iconRes) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return;
+
+        android.content.pm.ShortcutManager shortcutManager =
+                context.getSystemService(android.content.pm.ShortcutManager.class);
+
+        if (shortcutManager == null || !shortcutManager.isRequestPinShortcutSupported()) {
+            return;
+        }
+
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.putExtra("widget_path", path);
+
+        ShortcutInfo pinShortcutInfo = new ShortcutInfo.Builder(context, id)
+                .setShortLabel(label)
+                .setIcon(Icon.createWithResource(context, iconRes))
+                .setIntent(intent)
+                .build();
+
+        shortcutManager.requestPinShortcut(pinShortcutInfo, null);
+        LCLog.d("ShortcutManager: Requested pin for " + label);
     }
 
     private void updateAllShortcuts() {

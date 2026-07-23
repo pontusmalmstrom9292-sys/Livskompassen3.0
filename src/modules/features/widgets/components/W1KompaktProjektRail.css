@@ -23,9 +23,12 @@
   }
 
   .w1-kompakt-rail__action:hover,
-  .w1-kompakt-rail__action:focus-visible,
   .w1-kompakt-rail__action--active {
     @apply text-accent;
+  }
+
+  .w1-kompakt-rail__action:focus-visible {
+    @apply text-accent outline-none ring-2 ring-accent/40;
   }
 
   .w1-kompakt-rail__icon-shell {

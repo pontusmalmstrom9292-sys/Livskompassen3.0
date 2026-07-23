@@ -91,13 +91,13 @@ function OutcomeBody({
         <p className="text-xs text-text-muted">{detail}</p>
         {showQueueCta &&
           (queueHintAsButton && onOpenReviewQueue ? (
-            <Button variant="secondary" size="sm" onClick={onOpenReviewQueue}>
+            <Button variant="secondary" size="sm" className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={onOpenReviewQueue}>
               Öppna granskningskö
             </Button>
           ) : (
             <Link
               to={VALV_SAMLA_GRANSKA_LINK}
-              className="inline-block text-xs text-accent underline-offset-2 hover:underline"
+              className="inline-block text-xs text-accent underline-offset-2 hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               {tone === 'valv' ? 'Granska i Samla' : 'Granska i Arkiv (efter PIN)'}
             </Link>
@@ -117,7 +117,7 @@ function OutcomeBody({
         {destinationLink && (
           <Link
             to={{ pathname: destinationLink.pathname, search: destinationLink.search }}
-            className="inline-block text-xs text-accent underline-offset-2 hover:underline"
+            className="inline-block text-xs text-accent underline-offset-2 hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             {destinationLink.label}
           </Link>
@@ -154,7 +154,7 @@ function OutcomeBody({
       {showQueueCta && result.queued > 0 && (
         <Link
           to={VALV_SAMLA_GRANSKA_LINK}
-          className="inline-block text-xs text-accent underline-offset-2 hover:underline"
+          className="inline-block text-xs text-accent underline-offset-2 hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           Öppna granskningskö
         </Link>
@@ -162,7 +162,7 @@ function OutcomeBody({
       {destinationLink && primary.action === 'persisted' && (
         <Link
           to={{ pathname: destinationLink.pathname, search: destinationLink.search }}
-          className="inline-block text-xs text-accent underline-offset-2 hover:underline"
+          className="inline-block text-xs text-accent underline-offset-2 hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           {destinationLink.label}
         </Link>

@@ -136,7 +136,7 @@ export function MabraPulseWidget() {
 
         <Link
           to="/mabra"
-          className="text-xs text-text-muted hover:text-white transition-colors flex items-center gap-1.5 px-3 py-1.5 bg-white/5 rounded-lg border border-white/5 hover:border-white/10 shrink-0 self-end sm:self-auto"
+          className="text-xs text-text-muted hover:text-white transition-colors flex items-center gap-1.5 px-3 py-1.5 bg-white/5 rounded-lg border border-white/5 hover:border-white/10 shrink-0 self-end sm:self-auto min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           Öppna MåBra
           <ArrowRight className="w-3.5 h-3.5" />
@@ -168,7 +168,7 @@ export function MabraPulseWidget() {
 
       <Link
         to="/mabra"
-        className="text-xs font-semibold text-accent-ai bg-accent-ai/10 hover:bg-accent-ai/20 border border-accent-ai/20 hover:border-accent-ai/30 px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 shrink-0 shadow-sm shadow-accent-ai/5"
+        className="text-xs font-semibold text-accent-ai bg-accent-ai/10 hover:bg-accent-ai/20 border border-accent-ai/20 hover:border-accent-ai/30 px-4 py-2 rounded-xl transition-all flex items-center gap-1.5 shrink-0 shadow-sm shadow-accent-ai/5 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       >
         Checka in
         <Sparkles className="w-3.5 h-3.5 text-accent-ai" />

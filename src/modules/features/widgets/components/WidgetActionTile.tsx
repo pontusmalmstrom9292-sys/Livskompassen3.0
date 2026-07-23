@@ -27,12 +27,13 @@ export function WidgetActionTile({
       disabled={disabled}
       onClick={onClick}
       className={clsx(
-        'widget-action-tile min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
+        'widget-action-tile min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
         active && 'widget-action-tile--on',
         disabled && 'widget-action-tile--disabled',
         className,
       )}
       aria-pressed={active}
+      aria-label={label}
     >
       <span className="widget-action-tile__icon" aria-hidden>
         <Icon className="h-5 w-5" strokeWidth={1.5} />

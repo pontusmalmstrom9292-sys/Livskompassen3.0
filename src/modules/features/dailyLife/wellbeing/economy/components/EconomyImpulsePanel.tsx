@@ -170,7 +170,7 @@ export function EconomyImpulsePanel() {
           variant="ghost"
           disabled={busy || !gateway || !draft.trim()}
           onClick={() => void handlePark()}
-          className="min-h-11 rounded-lg border border-border/50 bg-surface-3 px-3 text-xs"
+          className="min-h-11 rounded-lg border border-border/50 bg-surface-3 px-3 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           Parkera
         </Button>
@@ -203,7 +203,7 @@ export function EconomyImpulsePanel() {
                         variant="secondary"
                         disabled={busy || isLowCapacity}
                         onClick={() => void handleResolve(item.id, 'bought')}
-                        className="px-2 py-1 text-[10px] disabled:opacity-50"
+                        className="px-2 py-1 text-[10px] disabled:opacity-50 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                       >
                         Fortfarande ja
                       </Button>
@@ -211,7 +211,7 @@ export function EconomyImpulsePanel() {
                         variant="ghost"
                         disabled={busy}
                         onClick={() => void handleResolve(item.id, 'skipped')}
-                        className="px-2 py-1 text-[10px]"
+                        className="px-2 py-1 text-[10px] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                       >
                         Strunt i det
                       </Button>
@@ -232,7 +232,7 @@ export function EconomyImpulsePanel() {
                     type="button"
                     disabled={busy}
                     onClick={() => void handleRemove(item.id)}
-                    className="mt-2 inline-flex min-h-11 items-center text-[10px] text-text-muted hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-50"
+                    className="mt-2 inline-flex min-h-11 items-center text-[10px] text-text-muted hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-50"
                   >
                     Ta bort
                   </button>

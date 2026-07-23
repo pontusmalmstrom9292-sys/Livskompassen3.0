@@ -104,7 +104,7 @@ export function FamiljenIncidentDelegate({ shell, onSaved }: FamiljenDelegateBas
             type="button"
             variant="ghost"
             size="sm"
-            className="min-h-11"
+            className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={() => {
               markCardSkipped(analysis.questionCard.id);
               setRawText('');
@@ -132,14 +132,14 @@ export function FamiljenIncidentDelegate({ shell, onSaved }: FamiljenDelegateBas
         <div className="flex flex-wrap gap-2 pt-1">
           <Link
             to={`${NAV_PATHS.FAMILJEN}?tab=hamn`}
-            className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-lg border border-border/50 px-3 text-xs font-medium text-text hover:bg-surface/60"
+            className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-lg border border-border/50 px-3 text-xs font-medium text-text hover:bg-surface/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             <Anchor className="h-4 w-4" aria-hidden />
             Svara ex (Hamn)
           </Link>
           <Link
             to={`${NAV_PATHS.HJARTAT}?tab=speglar`}
-            className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-lg border border-border/50 px-3 text-xs font-medium text-text hover:bg-surface/60"
+            className="inline-flex min-h-11 items-center justify-center gap-1.5 rounded-lg border border-border/50 px-3 text-xs font-medium text-text hover:bg-surface/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             <Heart className="h-4 w-4" aria-hidden />
             Speglar
@@ -153,7 +153,7 @@ export function FamiljenIncidentDelegate({ shell, onSaved }: FamiljenDelegateBas
         <Button
           type="button"
           variant="ghost"
-          className="min-h-11 w-full"
+          className="min-h-11 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={() => {
             setRawText('');
             setStep('form');
@@ -179,7 +179,7 @@ export function FamiljenIncidentDelegate({ shell, onSaved }: FamiljenDelegateBas
             type="button"
             size="sm"
             variant={epistemicKind === kind ? 'accent' : 'ghost'}
-            className="min-h-11"
+            className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={() => setEpistemicKind(kind)}
           >
             {kind === 'citat' ? 'Citat' : 'Tolkning'}
@@ -211,7 +211,7 @@ export function FamiljenIncidentDelegate({ shell, onSaved }: FamiljenDelegateBas
 
       <Button
         type="button"
-        className="min-h-11 w-full"
+        className="min-h-11 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         disabled={!rawText.trim() || loading}
         onClick={() => void handleAnalyzeAndSave()}
       >

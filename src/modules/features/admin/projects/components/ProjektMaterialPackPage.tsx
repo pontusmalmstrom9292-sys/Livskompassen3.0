@@ -142,10 +142,10 @@ export function ProjektMaterialPackPage() {
     >
       <GoraHubTabBar />
       <div className="flex flex-wrap gap-3 text-xs">
-        <Link to="/projekt" className="text-text-muted hover:text-accent">
+        <Link to="/projekt" className="text-text-muted hover:text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           ← Projekt
         </Link>
-        <Link to="/installningar" className="text-accent">
+        <Link to="/installningar" className="text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Byt aktiv profil (Inställningar)
         </Link>
       </div>
@@ -270,11 +270,11 @@ export function ProjektMaterialPackPage() {
             )}
 
             <div className="flex flex-wrap items-center gap-3 mt-2">
-              <Button type="button" disabled={!user || shortcuts.length >= 12} variant="accent" className="--accent shadow-lg shadow-accent/20" onClick={() => persist([...shortcuts, newShortcut()])}>
+              <Button type="button" disabled={!user || shortcuts.length >= 12} variant="accent" className="--accent shadow-lg shadow-accent/20 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => persist([...shortcuts, newShortcut()])}>
                 + Lägg till genväg
               </Button>
               {hasOverride && (
-                <Button type="button" disabled={!user} variant="ghost" className="--ghost" onClick={resetToDefault}>
+                <Button type="button" disabled={!user} variant="ghost" className="--ghost min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={resetToDefault}>
                   Återställ standard
                 </Button>
               )}

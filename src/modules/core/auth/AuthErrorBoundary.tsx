@@ -28,7 +28,12 @@ export class AuthErrorBoundary extends Component<Props, State> {
           <p className="text-sm text-text-muted">
             Något gick fel vid inloggning. Prova att ladda om sidan.
           </p>
-          <Button type="button" variant="secondary" onClick={() => window.location.reload()}>
+          <Button
+            type="button"
+            variant="secondary"
+            className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+            onClick={() => window.location.reload()}
+          >
             Ladda om
           </Button>
         </div>

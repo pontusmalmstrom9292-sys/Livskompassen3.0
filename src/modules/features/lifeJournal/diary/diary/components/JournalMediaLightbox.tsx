@@ -53,7 +53,7 @@ export function JournalMediaLightbox({
           type="button"
           variant="ghost"
           size="icon"
-          className="absolute right-2 top-2 z-10 min-h-11 min-w-11 bg-surface/80"
+          className="absolute right-2 top-2 z-10 min-h-11 min-w-11 bg-surface/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           aria-label="Stäng"
           onClick={onClose}
         >
@@ -86,7 +86,7 @@ export function JournalMediaLightbox({
               type="button"
               variant="ghost"
               size="icon"
-              className="pointer-events-auto min-h-11 min-w-11 bg-surface/70 disabled:opacity-30"
+              className="pointer-events-auto min-h-11 min-w-11 bg-surface/70 disabled:opacity-30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               aria-label="Föregående bild"
               disabled={!canPrev}
               onClick={() => setIndex((i) => Math.max(0, i - 1))}
@@ -97,7 +97,7 @@ export function JournalMediaLightbox({
               type="button"
               variant="ghost"
               size="icon"
-              className="pointer-events-auto min-h-11 min-w-11 bg-surface/70 disabled:opacity-30"
+              className="pointer-events-auto min-h-11 min-w-11 bg-surface/70 disabled:opacity-30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               aria-label="Nästa bild"
               disabled={!canNext}
               onClick={() => setIndex((i) => Math.min(safeItems.length - 1, i + 1))}

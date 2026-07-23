@@ -39,6 +39,7 @@ import com.livskompassen.app.core.DiagnosticManager;
 import com.livskompassen.app.core.EmergencyManager;
 import com.livskompassen.app.core.FocusManager;
 import com.livskompassen.app.core.ForensicGuard;
+import com.livskompassen.app.core.GhostLaunchReceiver;
 import com.livskompassen.app.core.HapticManager;
 import com.livskompassen.app.core.HealthSentinel;
 import com.livskompassen.app.core.IconManager;
@@ -145,6 +146,13 @@ public class MainActivity extends BridgeActivity {
         EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         
+        // Våg 200: Titanium Inset Mastery — seamless full-screen obsidian
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
+            androidx.core.graphics.Insets bars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars());
+            v.setPadding(0, 0, 0, bars.bottom); // Only pad bottom for navigation bar if needed, or keep 0 for full bleed
+            return insets;
+        });
+
         initializeManagers();
         setupShakePanic();
         setupBackNavigation();
@@ -343,9 +351,13 @@ public class MainActivity extends BridgeActivity {
         stealthDummyOverlay = findViewById(R.id.stealth_dummy_container);
         ghostModeOverlay = findViewById(R.id.ghost_mode_container);
 
-        // Våg 155: Stealth Alias detection
+        // Våg 155: Stealth Alias detection + GhostLaunch secret-code entry
         android.content.ComponentName cn = getComponentName();
-        if (cn != null && cn.getClassName().endsWith(".StealthActivity")) {
+        Intent entryIntent = getIntent();
+        boolean ghostFromDialer = entryIntent != null
+            && entryIntent.getBooleanExtra(GhostLaunchReceiver.EXTRA_GHOST_ENTRY, false);
+        if (ghostFromDialer
+            || (cn != null && cn.getClassName().endsWith(".StealthActivity"))) {
             enterGhostMode();
         }
 
@@ -530,6 +542,17 @@ public class MainActivity extends BridgeActivity {
         super.onResume();
         updateTaskDescription(false);
         if (stealthDummyOverlay != null) stealthDummyOverlay.setVisibility(View.GONE);
+        
+        // Våg 215: Log usage pattern for pre-warming
+        new Thread(() -> {
+            int hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY);
+            String key = "usage_hour_" + hour;
+            android.content.SharedPreferences prefs = SecurityUtils.isSignatureAllowlisted(this) 
+                ? com.livskompassen.app.util.SecurePrefs.get(this) : getSharedPreferences("pattern", MODE_PRIVATE);
+            int count = prefs.getInt(key, 0);
+            prefs.edit().putInt(key, count + 1).apply();
+        }).start();
+
         if (sensorManager != null && shakeDetector != null) {
             sensorManager.registerListener(shakeDetector, 
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), 

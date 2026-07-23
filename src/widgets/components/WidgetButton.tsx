@@ -71,7 +71,7 @@ export function WidgetButton({
       ref={ref}
       type={type}
       disabled={disabled}
-      className={['cw-btn', `cw-btn--${variant}`, fullWidth && 'cw-btn--full', className]
+      className={['cw-btn', `cw-btn--${variant}`, fullWidth && 'cw-btn--full', 'cw-btn--touch', className]
         .filter(Boolean)
         .join(' ')}
       style={{

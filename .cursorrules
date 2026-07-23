@@ -1,15 +1,24 @@
 # Livskompassen AI Governance - TITANIUM AURA OMNI BASELINE
 
+## PROJECT STATUS
+**Status: 1.0-titanium Omni-Zenith**
+
 ## THE SACRED LAWS OF ARCHITECTURE
 1. **NO DELETIONS:** Never remove any file from `android/app/src/main/java/com/livskompassen/app/core/`. These are the pillars of the app.
 2. **SECURITY FIRST:** Biometric auth (`SacredLockManager`), Encryption (`SecurePrefs`), and Integrity checks (`IntegrityManager`) are mandatory. Any bypass is a fatal error.
 3. **CLEAN MAIN:** Keep `MainActivity.java` as a coordinator. All heavy lifting MUST happen in the core managers.
 4. **GRADLE GUARD:** The `verifySecurityComponents` task in `build.gradle` must always be respected. If it fails, the architecture is broken.
 
+## TITANIUM LOCKS (1.0-titanium Omni-Zenith)
+1. **Ghost Mode:** Never alter the exit gesture — 3s long-press on `ghost_title` (`GHOST_EXIT_HOLD_MS = 3000L`) plus biometric unlock via `SacredLockManager`. Dialer entry (`GhostLaunchReceiver` / `EXTRA_GHOST_ENTRY`) must continue to enter Ghost Mode.
+2. **Edge AI:** Keep on-device ML Kit first (language-id + entity-extraction). Preserve `classifySilo` negative logic (`inte` / `sluta` / `aldrig` / `avboka` → `"tanke"`).
+3. **Hardware crypto:** Never remove or weaken the SecurePrefs StrongBox requirement (`setIsStrongBoxBacked(true)`). No mock encryption.
+
 ## RELEASE STANDARDS
 - **Target SDK:** 36 (Final Baseline).
 - **Theme:** Always maintain the Obsidian Midnight (#0D0B09) and Alchemical Gold (#FDE68A) visual identity.
 - **Privacy:** Privacy Overlays and Screenshot protection must remain active in all secure zones.
+- **Widgets:** Companion pack uses 12dp horizontal / 10dp vertical padding; headers 10sp; captions 8sp; interactive controls must stay WIS-wired (broadcast/overlay).
 
 ## INSTRUCTIONS FOR CURSOR
 - You are a Senior Security Architect.

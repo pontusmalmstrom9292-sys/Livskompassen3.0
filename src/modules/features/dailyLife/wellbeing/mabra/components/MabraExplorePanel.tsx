@@ -259,7 +259,7 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
           <div className="flex flex-col gap-2">
             <Button
               variant="secondary"
-              className="w-full"
+              className="w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               disabled={saving}
               onClick={() => void handleComplete()}
             >
@@ -267,7 +267,7 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
             </Button>
             <Button
               variant="ghost"
-              className="text-sm"
+              className="text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               disabled={saving || skipCount >= EXPLORE_MAX_SKIPS}
               onClick={handleSkip}
             >
@@ -280,7 +280,7 @@ export function MabraExplorePanel({ uid, onComplete }: Props) {
           <p className="text-sm text-text-muted">{COPY.empty}</p>
           <Button
             variant="secondary"
-            className="w-full"
+            className="w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             disabled={saving}
             onClick={() => void handleRegenerate()}
           >

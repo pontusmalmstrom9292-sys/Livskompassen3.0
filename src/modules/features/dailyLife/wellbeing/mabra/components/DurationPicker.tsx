@@ -40,10 +40,18 @@ export function DurationPicker({ hub, value, onChange, onStart, onBack }: Props)
         <p className="text-xs text-text-muted">{copy.hint}</p>
       )}
       <div className="flex gap-2 pt-2">
-        <Button variant="ghost" className="flex-1" onClick={onBack}>
+        <Button
+          variant="ghost"
+          className="flex-1 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          onClick={onBack}
+        >
           Tillbaka
         </Button>
-        <Button variant="secondary" className="flex-1" onClick={onStart}>
+        <Button
+          variant="secondary"
+          className="flex-1 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          onClick={onStart}
+        >
           {copy.startLabel}
         </Button>
       </div>
