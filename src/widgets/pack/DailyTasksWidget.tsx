@@ -201,6 +201,7 @@ export function DailyTasksWidget({
                   'cw-reminder-row',
                   'cw-row-hit',
                   pulseHint && shown[0]?.id === task.id && !fadingId ? 'cw-pulse-cta' : '',
+                  'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
                 ]
                   .filter(Boolean)
                   .join(' ')}
@@ -235,7 +236,7 @@ export function DailyTasksWidget({
         </div>
         <button
           type="button"
-          className="cw-focus-timer__play"
+          className="cw-focus-timer__play min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           aria-label="Öppna Planering för fokuspass"
           onClick={() => void openPlanering()}
         >
@@ -243,7 +244,11 @@ export function DailyTasksWidget({
         </button>
       </div>
       {shown.length > 0 ? (
-        <button type="button" className="cw-link-cta" onClick={() => void openPlanering()}>
+        <button
+          type="button"
+          className="cw-link-cta min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          onClick={() => void openPlanering()}
+        >
           Visa alla
         </button>
       ) : null}

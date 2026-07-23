@@ -46,10 +46,15 @@ export function StampClockPanel({
       </label>
 
       <div className="mb-4 grid grid-cols-2 gap-2">
-        <Button disabled={busy || instamplad} onClick={onStampIn} className="disabled:opacity-40">
+        <Button disabled={busy || instamplad} onClick={onStampIn} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-40">
           Stämpla in
         </Button>
-        <Button variant="ghost" disabled={busy || !canStampOut} onClick={onStampOut} className="disabled:opacity-40">
+        <Button
+          variant="ghost"
+          disabled={busy || !canStampOut}
+          onClick={onStampOut}
+          className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-40"
+        >
           Stämpla ut
         </Button>
       </div>

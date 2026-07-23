@@ -45,10 +45,18 @@ export function GroundingExercise({ onComplete, onExit }: Props) {
         Steg {stepIndex + 1} av {MB_PLAY_54321_STEPS.length}
       </p>
       <div className="flex w-full max-w-sm flex-col gap-2">
-        <Button variant="secondary" onClick={handleNext}>
+        <Button
+          variant="secondary"
+          className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          onClick={handleNext}
+        >
           {isLast ? 'Klar' : 'Gå vidare'}
         </Button>
-        <Button variant="ghost" className="text-sm" onClick={onExit}>
+        <Button
+          variant="ghost"
+          className="text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          onClick={onExit}
+        >
           Avsluta nu
         </Button>
       </div>

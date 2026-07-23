@@ -1,3 +1,8 @@
+### 2026-07-23 — UI Polish V5 ×10
+- ADD-only focus-visible + min-h-11 across Hem→Settings (10 waves)
+- Unlock V5 approved (chat) · ~44 filer
+- Smoke: locked-ux · design-modules · companion-widgets · module-lock **PASS** · design-debt btnPill 0
+
 ### 2026-07-23 — Release readiness runway
 - Recovery SOS ZF i Device Clear + logout (`clearRecoveryLocalStorage`)
 - Android RemoteViews lint: `<View>` → ImageView (Capture/Note/Tasks)

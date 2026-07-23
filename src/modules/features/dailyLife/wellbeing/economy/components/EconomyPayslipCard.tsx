@@ -158,7 +158,7 @@ export function EconomyPayslipCard() {
         variant="ghost"
         disabled={busy || !user}
         onClick={() => void generate()}
-        className="mt-3 w-full text-sm"
+        className="mt-3 min-h-11 w-full text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       >
         {busy ? 'Genererar…' : 'Generera lönespec nu'}
       </Button>

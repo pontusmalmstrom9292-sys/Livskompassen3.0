@@ -66,7 +66,7 @@ export function ParalysPanel({ onDone, embedded = false, simplified = false }: P
         <Button
           disabled={taskText.trim().length < 2}
           onClick={onDone}
-          className="mt-3 w-full text-xs disabled:opacity-40"
+          className="mt-3 w-full text-xs disabled:opacity-40 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           size="sm"
         >
           Klart för nu
@@ -88,7 +88,7 @@ export function ParalysPanel({ onDone, embedded = false, simplified = false }: P
         <Button
           disabled={loading}
           onClick={() => loadSteps(false)}
-          className="mt-3 w-full text-xs disabled:opacity-40"
+          className="mt-3 w-full text-xs disabled:opacity-40 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           size="sm"
         >
           {loading ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : 'Hjälp mig börja'}
@@ -139,14 +139,31 @@ export function ParalysPanel({ onDone, embedded = false, simplified = false }: P
       )}
       <div className="flex flex-col gap-2">
         {hasMore && (
-          <Button variant="ghost" disabled={loading} onClick={() => setCursor((c) => c + BATCH_SIZE)} size="sm">
+          <Button
+            variant="ghost"
+            disabled={loading}
+            onClick={() => setCursor((c) => c + BATCH_SIZE)}
+            size="sm"
+            className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          >
             Nästa steg i listan
           </Button>
         )}
-        <Button variant="secondary" disabled={loading} onClick={() => loadSteps(true)} size="sm">
+        <Button
+          variant="secondary"
+          disabled={loading}
+          onClick={() => loadSteps(true)}
+          size="sm"
+          className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Ge mig 3 till'}
         </Button>
-        <Button variant="success" onClick={onDone} size="sm">
+        <Button
+          variant="success"
+          onClick={onDone}
+          size="sm"
+          className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        >
           Klar
         </Button>
       </div>

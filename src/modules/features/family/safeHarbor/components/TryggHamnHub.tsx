@@ -72,7 +72,7 @@ function HamnBiffWorkflow({
         <ButtonLink
           to={hjartatTabHref('speglar')}
           variant="accent"
-          className="mt-3 inline-flex min-h-11 items-center text-xs"
+          className="mt-3 inline-flex min-h-11 items-center text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           Öppna Speglar
         </ButtonLink>
@@ -164,7 +164,11 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
           <p className="text-text-muted">
             Akut känslovalidering (ACT) och bevisjämförelse — innan du formulerar svar här.
           </p>
-          <ButtonLink to={hjartatTabHref('speglar')} variant="accent" className="mt-3 inline-flex text-xs">
+          <ButtonLink
+            to={hjartatTabHref('speglar')}
+            variant="accent"
+            className="mt-3 inline-flex min-h-11 items-center text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          >
             Öppna Speglar
           </ButtonLink>
         </BentoCard>
@@ -175,7 +179,11 @@ export const TryggHamnHub = memo(function TryggHamnHub({ initialMessage = '', em
           <p className="text-text-muted">
             Barnfokus och minnesankare ligger i Familjen — separat från ex-kommunikation.
           </p>
-          <ButtonLink to="/familjen?tab=reflektion" variant="accent" className="mt-3 inline-flex text-xs">
+          <ButtonLink
+            to="/familjen?tab=reflektion"
+            variant="accent"
+            className="mt-3 inline-flex min-h-11 items-center text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          >
             Öppna Familjen
           </ButtonLink>
         </BentoCard>

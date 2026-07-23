@@ -105,7 +105,12 @@ export function AdaptiveMemoryCards({
             ))}
           </div>
           {cards.length > initialVisibleCount ? (
-            <Button variant="ghost" size="sm" onClick={() => setExpanded((v) => !v)}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setExpanded((v) => !v)}
+              className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+            >
               {expanded ? 'Visa färre' : `Visa mer (${cards.length - initialVisibleCount})`}
             </Button>
           ) : null}

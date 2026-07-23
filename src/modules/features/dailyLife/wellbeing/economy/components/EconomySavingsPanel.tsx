@@ -178,7 +178,7 @@ export function EconomySavingsPanel({
                       size="icon"
                       disabled={busy || disabled}
                       onClick={() => void handleDelete(goal.id)}
-                      className="text-text-muted"
+                      className="min-h-11 text-text-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                       aria-label={`Ta bort ${goal.title}`}
                     >
                       <Trash2 className="h-4 w-4" />
@@ -243,7 +243,7 @@ export function EconomySavingsPanel({
             />
           </label>
         </div>
-        <Button type="submit" variant="secondary" disabled={busy || disabled || !user} className="w-full text-sm">
+        <Button type="submit" variant="secondary" disabled={busy || disabled || !user} className="min-h-11 w-full text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           {busy ? 'Sparar…' : 'Skapa sparmål'}
         </Button>
       </form>

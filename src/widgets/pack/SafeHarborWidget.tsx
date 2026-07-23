@@ -165,7 +165,7 @@ export function SafeHarborWidget({
       />
       <button
         type="button"
-        className="cw-row-hit"
+        className="cw-row-hit min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         onClick={() => void cycle()}
         aria-label="Byt mening"
         style={{ width: '100%', flex: 1, padding: 0, border: 'none', background: 'transparent' }}
@@ -186,6 +186,7 @@ export function SafeHarborWidget({
             className={[
               'cw-quick-icon',
               pulseHint && !breathing && q.id === 'breath' ? 'cw-pulse-cta' : '',
+              'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
             ]
               .filter(Boolean)
               .join(' ')}

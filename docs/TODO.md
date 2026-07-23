@@ -1,6 +1,21 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
 
+## 2026-07-23 — UI Polish V5 ×10 (autonom)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V5-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V5-X10.md) (`approved: yes`)
+
+- [x] W1 Hem/chrome — focus + min-h-11
+- [x] W2 MåBra panels
+- [x] W3 Vardagen/recovery
+- [x] W4 Planering
+- [x] W5 Hjärtat/Dagbok
+- [x] W6 Familjen/Hamn
+- [x] W7 Valv UI (citation)
+- [x] W8 Widgets pack
+- [x] W9 Ekonomi deepen
+- [x] W10 Settings + smoke
+
 ## 2026-07-23 — Release readiness runway (agent)
 
 Plan: Release-readiness audit

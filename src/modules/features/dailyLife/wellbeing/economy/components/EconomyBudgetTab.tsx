@@ -41,7 +41,7 @@ export function EconomyBudgetTab() {
         variant="ghost"
         disabled={saving || !user}
         onClick={() => void quickAdd('Vinst — du gjorde det', 0, 'vinst')}
-        className="w-full text-sm"
+        className="min-h-11 w-full text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       >
         Vinst-knapp — markera ett litet steg
       </Button>

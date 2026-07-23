@@ -117,7 +117,13 @@ export function ChildBirthDatePrompt({ userId, childAlias, onSaved }: Props) {
           {error}
         </p>
       ) : null}
-      <Button variant="secondary" size="sm" disabled={saving} onClick={() => void handleSave()}>
+      <Button
+        variant="secondary"
+        size="sm"
+        disabled={saving}
+        onClick={() => void handleSave()}
+        className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+      >
         {saving ? 'Sparar…' : 'Spara ålder'}
       </Button>
       <p className="text-[10px] text-text-muted">Endast för dig — används till Barnfokus och Barnporten.</p>

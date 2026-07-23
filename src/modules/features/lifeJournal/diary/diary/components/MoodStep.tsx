@@ -76,7 +76,7 @@ export function MoodStep({
             type="button"
             disabled={!mood || saving}
             onClick={onSaveMoodOnly}
-            className="reflektion-actions__ghost text-sm"
+            className="reflektion-actions__ghost min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             {saving ? (
               <Loader2 className="mx-auto h-4 w-4 animate-spin" aria-hidden />

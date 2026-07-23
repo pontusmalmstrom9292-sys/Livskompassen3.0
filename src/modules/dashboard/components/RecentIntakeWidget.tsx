@@ -104,7 +104,7 @@ export function RecentIntakeWidget() {
                         projectId: task.projectId || '',
                       })
                     }
-                    className="group flex w-full cursor-pointer items-start justify-between gap-3 rounded-xl border border-border/40 bg-surface-2 p-3 text-left transition-all duration-[var(--ds-duration-fast)] hover:border-border hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+                    className="group flex w-full min-h-11 cursor-pointer items-start justify-between gap-3 rounded-xl border border-border/40 bg-surface-2 p-3 text-left transition-all duration-[var(--ds-duration-fast)] hover:border-border hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   >
                     <div className="flex items-start gap-2.5 min-w-0">
                       {isVoice ? (
@@ -174,7 +174,7 @@ export function RecentIntakeWidget() {
                           type: 'vault',
                         })
                       }
-                      className="group relative flex w-full cursor-pointer flex-col space-y-2 overflow-hidden rounded-xl border border-border/40 bg-surface-2 p-3.5 text-left transition-all duration-[var(--ds-duration-fast)] hover:border-border hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+                      className="group relative flex w-full min-h-11 cursor-pointer flex-col space-y-2 overflow-hidden rounded-xl border border-border/40 bg-surface-2 p-3.5 text-left transition-all duration-[var(--ds-duration-fast)] hover:border-border hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                     >
                       <div className="flex justify-between items-start gap-2">
                         <div className="flex items-center gap-1.5 font-mono text-[10px] text-text-muted">

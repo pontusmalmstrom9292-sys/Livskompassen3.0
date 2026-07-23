@@ -43,7 +43,7 @@ export function MabraVitEvidencePrompt({ userId, vitEntryId, summary, bankId, on
         <ButtonLink to="/valvet" variant="ghost" className="text-sm">
           Öppna {VAULT_UI_NAME}
         </ButtonLink>
-        <Button variant="secondary" className="mt-2 text-sm" onClick={onDone}>
+        <Button variant="secondary" className="mt-2 text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={onDone}>
           Klar
         </Button>
       </div>
@@ -61,13 +61,17 @@ export function MabraVitEvidencePrompt({ userId, vitEntryId, summary, bankId, on
       <div className="flex flex-col gap-2 sm:flex-row">
         <Button
           variant="secondary"
-          className="text-sm"
+          className="text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={saving}
           onClick={() => void handleSave()}
         >
           {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Spara som bevis'}
         </Button>
-        <Button variant="ghost" className="text-sm" onClick={onDone}>
+        <Button
+          variant="ghost"
+          className="text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          onClick={onDone}
+        >
           Nej tack
         </Button>
       </div>

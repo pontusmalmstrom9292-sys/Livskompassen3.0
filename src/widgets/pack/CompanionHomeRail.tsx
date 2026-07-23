@@ -192,7 +192,7 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
           <WidgetSyncStatusChip />
           <button
             type="button"
-            className="cw-chrome-btn"
+            className="cw-chrome-btn min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={toggleCollapsed}
             aria-expanded={!collapsed}
             aria-controls="cw-home-rail-body"
@@ -213,7 +213,7 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
         <button
           type="button"
           id="cw-home-rail-body"
-          className="cw-home-rail-collapsed"
+          className="cw-home-rail-collapsed min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={toggleCollapsed}
         >
           {ready

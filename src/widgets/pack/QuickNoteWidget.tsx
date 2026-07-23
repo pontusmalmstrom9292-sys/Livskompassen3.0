@@ -241,7 +241,7 @@ export function QuickNoteWidget({
           <div className="cw-header-chrome">
             <button
               type="button"
-              className="cw-header-chrome__btn"
+              className="cw-header-chrome__btn min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               aria-label={pinned ? 'Ta bort fästning på Hem' : 'Fäst på Hem'}
               aria-pressed={pinned}
               onClick={() => void togglePin()}
@@ -297,7 +297,13 @@ export function QuickNoteWidget({
           <button
             key={p}
             type="button"
-            className={['cw-pill', pill === p && 'cw-pill--active'].filter(Boolean).join(' ')}
+            className={[
+              'cw-pill',
+              pill === p && 'cw-pill--active',
+              'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
+            ]
+              .filter(Boolean)
+              .join(' ')}
             onClick={() => setPill(p)}
           >
             {p}
@@ -307,7 +313,11 @@ export function QuickNoteWidget({
       <div className="cw-note-dock">
         <button
           type="button"
-          className={['cw-note-tool', pill === 'Idé' ? 'cw-note-tool--active' : '']
+          className={[
+            'cw-note-tool',
+            pill === 'Idé' ? 'cw-note-tool--active' : '',
+            'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
+          ]
             .filter(Boolean)
             .join(' ')}
           aria-label="Kategori Idé"
@@ -319,7 +329,7 @@ export function QuickNoteWidget({
         {showPhoto ? (
           <button
             type="button"
-            className="cw-note-tool"
+            className="cw-note-tool min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             aria-label="Bild"
             onClick={() => fileRef.current?.click()}
           >
@@ -332,6 +342,7 @@ export function QuickNoteWidget({
             className={[
               'cw-note-tool',
               voice.recording ? 'cw-note-tool--active' : '',
+              'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
             ]
               .filter(Boolean)
               .join(' ')}
@@ -343,7 +354,13 @@ export function QuickNoteWidget({
         ) : null}
         <button
           type="button"
-          className={['cw-note-add', pulseHint ? 'cw-pulse-cta' : ''].filter(Boolean).join(' ')}
+          className={[
+            'cw-note-add',
+            pulseHint ? 'cw-pulse-cta' : '',
+            'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
+          ]
+            .filter(Boolean)
+            .join(' ')}
           aria-label="Spara anteckning"
           disabled={!text.trim()}
           onClick={() => void save()}
