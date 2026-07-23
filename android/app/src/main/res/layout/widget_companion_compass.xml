@@ -237,13 +237,13 @@
             android:text="@string/widget_compass_focus_today"
             android:textColor="@color/widget_gold_light"
             android:textSize="8sp" />
-        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
+        <FrameLayout android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" />
         <ImageView
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/widget_chip_kompass"
             android:contentDescription="@null" />
-        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
+        <FrameLayout android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
