@@ -255,7 +255,7 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
       <footer className="mt-4 border-t border-border/30 pt-3">
         <Link
           to="/arbetsliv/input"
-          className="inline-flex items-center gap-1.5 text-xs text-text-muted transition-colors hover:text-accent-secondary"
+          className="inline-flex min-h-11 items-center gap-1.5 text-xs text-text-muted transition-colors hover:text-accent-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           Arbetsliv — stämpel & inkomster
           <ArrowRight className="h-3 w-3" aria-hidden />

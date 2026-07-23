@@ -17,7 +17,7 @@ export function VaultPatternHandoff({ className = '' }: { className?: string }) 
       <p className="journal-handoff__body">
         När du har flera poster kan Mönster-fliken visa upprepningar över tid. Inget körs automatiskt.
       </p>
-      <ButtonLink to={vaultDrawerPath('monster')} variant="ghost" className="journal-handoff__cta">
+      <ButtonLink to={vaultDrawerPath('monster')} variant="ghost" className="journal-handoff__cta min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
         Öppna Mönster →
       </ButtonLink>
     </aside>

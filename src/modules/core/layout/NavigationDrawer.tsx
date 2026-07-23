@@ -104,7 +104,7 @@ export const NavigationDrawer = memo(function NavigationDrawer() {
     <>
       <button
         type="button"
-        className="nav-drawer__backdrop"
+        className="nav-drawer__backdrop focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         aria-label="Stäng meny"
         onClick={onClose}
       />

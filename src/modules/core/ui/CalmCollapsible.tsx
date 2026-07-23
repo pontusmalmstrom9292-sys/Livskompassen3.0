@@ -50,7 +50,7 @@ export function CalmCollapsible({
     >
       <button
         type="button"
-        className="calm-collapsible__trigger"
+        className="calm-collapsible__trigger min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         aria-expanded={open}
         aria-controls={bodyId}
         onClick={toggle}

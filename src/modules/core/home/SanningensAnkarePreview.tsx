@@ -74,7 +74,7 @@ export function SanningensAnkarePreview() {
         </span>
       </div>
       <p className="text-sm leading-relaxed text-text-muted">{truncateTruth(anchor.truth)}</p>
-      <ButtonLink to="/valvet?vaultTab=logga" variant="ghost" className="mt-2 inline-flex text-[10px]">
+      <ButtonLink to="/valvet?vaultTab=logga" variant="ghost" className="mt-2 inline-flex text-[10px] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
         Öppna i Valv
       </ButtonLink>
     </div>

@@ -148,7 +148,7 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
                   setSigningOut(false);
                 }
               }}
-              className="mt-4 flex items-center gap-2 text-sm"
+              className="mt-4 flex items-center gap-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               <LogOut className="h-4 w-4" />
               Logga ut
@@ -166,7 +166,7 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
           type="button"
           onClick={() => setOpen(true)}
           className={clsx(
-            'header-chrome-btn header-chrome-btn--round header-glass-btn header-glass-btn--kanon focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
+            'header-chrome-btn header-chrome-btn--round header-glass-btn header-glass-btn--kanon min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
             chromeVariant === 'executive' && 'exec-header-shield',
           )}
           aria-expanded={open}
@@ -189,7 +189,7 @@ export function AccountAuthMenu({ open: controlledOpen, onOpenChange, compactTri
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="header-glass-btn header-glass-btn--kanon focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          className="header-glass-btn header-glass-btn--kanon min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           aria-expanded={open}
           aria-haspopup="dialog"
           aria-label={label}

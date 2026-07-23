@@ -89,7 +89,7 @@ export function MoodStep({
         )}
 
         {!lowEnergyBridge && mood && HEAVY_MOODS.has(mood) && (
-          <Link to="/vardagen?tab=mabra" className="reflektion-link-mabra">
+          <Link to="/vardagen?tab=mabra" className="reflektion-link-mabra inline-flex min-h-11 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Kroppen behöver paus först? → MåBra
           </Link>
         )}

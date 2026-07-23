@@ -1,6 +1,17 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
 
+## 2026-07-23 — UI Polish V9 ×10 (autonom)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V9-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V9-X10.md) (`approved: yes`)
+
+- [x] W1 Core chrome (drawer, Fyren, Zen, AuthGate)
+- [x] W2 Home executive / ankare
+- [x] W3 Archive / Familjen / ekonomi stub
+- [x] W4 Dagbok / Valv dossier / kunskap
+- [x] W5–W9 residual (AccountAuth, StampClock, Ekonomi)
+- [x] W10 smoke
+
 ## 2026-07-23 — UI Polish V8 ×10 (autonom)
 
 Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V8-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V8-X10.md) (`approved: yes`)

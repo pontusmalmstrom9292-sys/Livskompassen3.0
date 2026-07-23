@@ -227,7 +227,7 @@ function FyrenHeaderQuickPanel() {
       {open ? (
         <button
           type="button"
-          className="fyren-header-quick__dismiss"
+          className="fyren-header-quick__dismiss min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           aria-label="Stäng snabbåtkomst"
           onClick={() => setOpen(false)}
         />

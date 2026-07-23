@@ -1,3 +1,7 @@
+### 2026-07-23 — UI Polish V9 ×10
+- Fifth deepen: remaining chrome/home/Valv dossier gaps (~32 filer)
+- Unlock V9 · smoke locked-ux / design-modules / companion / module-lock
+
 ### 2026-07-23 — UI Polish V8 ×10
 - Fourth deepen: Capture, Inkast, MåBra tools, widgets studio, Valv kunskap
 - Unlock V8 · smoke locked-ux / design-modules / companion / module-lock
