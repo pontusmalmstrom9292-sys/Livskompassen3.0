@@ -672,7 +672,10 @@ const captureLayout = mustExist('android/app/src/main/res/layout/widget_companio
 assert(captureLayout.includes('widget_waveform_ethereal'), 'Capture saknar ethereal waveform');
 assert(captureLayout.includes('widget_bg_gold_ring') || captureLayout.includes('gold_ring'), 'Capture saknar guldring');
 assert(captureLayout.includes('widget_companion_capture_trust') || captureLayout.includes('trust'), 'Capture saknar trust-rad');
-assert(captureLayout.includes('56dp') || captureLayout.includes('64dp'), 'Capture mic måste vara ≥56dp');
+assert(
+  /(?:56|64|72)dp/.test(captureLayout),
+  'Capture mic måste vara ≥56dp',
+);
 
 mustExist('android/app/src/main/res/layout/widget_companion_note.xml');
 mustExist('android/app/src/main/res/layout/widget_companion_compass.xml');

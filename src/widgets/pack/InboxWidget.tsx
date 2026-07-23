@@ -294,7 +294,7 @@ export function InboxWidget({
             className="cw-input"
             style={{
               fontSize: '0.95rem',
-              minHeight: 44,
+              minHeight: WidgetTouch.minDp,
             }}
           />
           <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.45rem' }}>

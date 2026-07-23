@@ -4,7 +4,7 @@
  * UX Law 07 / 14 / 15: quiet, premium, consistent — no neon, no decoration noise.
  */
 
-export const WIDGET_THEME_VERSION = '1.3.0' as const;
+export const WIDGET_THEME_VERSION = '1.3.1' as const;
 
 /** Kapitel 6.1 — The Palette of Calm */
 export const WidgetPalette = {
@@ -41,7 +41,7 @@ export const WidgetMaterial = {
   goldBorderSoft: 'rgba(212, 175, 55, 0.26)',
   /** Soft bloom — Kap 6.2 Soft Bloom (mörkblå yttre glöd + guld-hårstrå) */
   softBloom:
-    '0 0 42px rgba(2, 6, 23, 0.82), 0 16px 40px rgba(2, 6, 23, 0.62), 0 0 32px rgba(212, 175, 55, 0.14), 0 0 1px rgba(212, 175, 55, 0.32)',
+    '0 0 48px rgba(2, 6, 23, 0.88), 0 18px 44px rgba(2, 6, 23, 0.64), 0 0 36px rgba(212, 175, 55, 0.16), 0 0 1px rgba(212, 175, 55, 0.38)',
   /** Inset well for protected input / capacity wells (Kap 6.2) */
   insetShadow:
     'inset 0 3px 12px rgba(0, 0, 0, 0.68), inset 0 1px 0 rgba(212, 175, 55, 0.12)',
@@ -88,6 +88,7 @@ export const WidgetCssVars = {
   '--cw-inset': WidgetMaterial.insetShadow,
   '--cw-lip': WidgetMaterial.glassLip,
   '--cw-touch-min': `${WidgetTouch.minDp}px`,
+  '--cw-touch-floor': `${WidgetTouch.minDp}px`,
   '--cw-touch-premium': `${WidgetTouch.premiumMinDp}px`,
   '--cw-radius-card': `${WidgetType.radiusCardPx}px`,
   '--cw-heading-tracking': `${WidgetType.headingTrackingEm}em`,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { WidgetPalette } from '../core/WidgetTheme';
+import { WidgetPalette, WidgetTouch } from '../core/WidgetTheme';
 import { triggerWidgetHaptic } from '../core/WidgetActions';
 import { useWidgetSyncStatus } from '../core/useWidgetSyncStatus';
 
@@ -69,7 +69,7 @@ export function WidgetSyncStatusChip() {
         fontSize: '0.72rem',
         letterSpacing: '0.04em',
         cursor: flushing ? 'wait' : 'pointer',
-        minHeight: 36,
+        minHeight: WidgetTouch.minDp,
         opacity: flushing ? 0.85 : 1,
       }}
     >

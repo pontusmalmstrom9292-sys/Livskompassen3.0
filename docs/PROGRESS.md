@@ -1,3 +1,14 @@
+## 2026-07-23 — Widget UI Polish ×10 (Cursor · visual-parity)
+
+- Gate F: `--cw-touch-floor` 56px, mood/pills/CTA, Android check-in faces, Tasks «VISA ALLA»
+- Kap 6: padding 12/10 parity, caps/tracking, trust/signature gold-dim, Anchor guldring
+- Smoke: `smoke:companion-widgets` · `smoke:locked-ux` **PASS**
+- Residual: Pontus G85 visual sign-off; merge widgets-only (exkludera dirty `core/**`)
+
+## 2026-07-23 — Zenith Precision Wave (Android Omni)
+
+Cursor: Security (Panic onNewIntent + forceDeepLock, DefaultLauncherActivity alias-only, orphan deep-lock), Ghost (3s hold + Sacred Lock on exit), Mind (entity DATE_TIME map + SV enrich + throttle + Inkast bridge), Aura (pause stop + useBreathingCycle), Widgets G85/DS/circadian. Gates: `verifySecurityComponents` PASS · `smoke:companion-widgets` PASS · `smoke:android-platform` PASS · minSdk 26 (ML Kit).
+
 ## 2026-07-23 — Companion OS Hemskärm + Studio Gold Våg 1–4 (Cursor)
 
 - Rich 10-pack RemoteViews + WIS multi-PI redan på plats; polish: ≥56 dp (Note/Harbor/Tasks/CTA), soft bloom `widget_bg_premium_panel`, inset well depth, Capture waveform alpha vid recording

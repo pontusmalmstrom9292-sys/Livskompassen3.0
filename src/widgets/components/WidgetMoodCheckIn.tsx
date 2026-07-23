@@ -1,5 +1,5 @@
 import { triggerWidgetHaptic } from '../core/WidgetActions';
-import { WidgetPalette } from '../core/WidgetTheme';
+import { WidgetPalette, WidgetTouch } from '../core/WidgetTheme';
 
 export type MoodFaceId = 'very_low' | 'low' | 'ok' | 'good' | 'great';
 
@@ -19,7 +19,7 @@ export type WidgetMoodCheckInProps = {
 /**
  * Dagens Check-in — five faces (WIDGET_BIBLE 6.4).
  * Inactive: inset muted. Active: gold lift + soft shadow.
- * Touch floor 44px for mockup parity.
+ * Touch floor ≥56 dp (G85 Gate F / bible 6).
  */
 export function WidgetMoodCheckIn({ value, onChange }: WidgetMoodCheckInProps) {
   return (
@@ -35,7 +35,7 @@ export function WidgetMoodCheckIn({ value, onChange }: WidgetMoodCheckInProps) {
             aria-label={face.label}
             title={face.label}
             className={['cw-mood', active && 'cw-mood--active'].filter(Boolean).join(' ')}
-            style={{ minWidth: 44, minHeight: 44 }}
+            style={{ minWidth: WidgetTouch.minDp, minHeight: WidgetTouch.minDp }}
             onClick={() => {
               triggerWidgetHaptic('light');
               onChange(face.id);

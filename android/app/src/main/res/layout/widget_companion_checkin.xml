@@ -6,8 +6,8 @@
     android:background="@drawable/widget_bg_premium_panel"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingHorizontal="10dp"
-    android:paddingVertical="8dp">
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:letterSpacing="0.18"
+            android:letterSpacing="0.22"
             android:text="@string/widget_checkin_header"
             android:textAllCaps="true"
             android:textColor="@color/widget_gold_light"
@@ -50,9 +50,11 @@
 
         <TextView
             android:id="@+id/widget_mood_1"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:background="@drawable/widget_bg_pill_category"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:minHeight="56dp"
+            android:background="@drawable/widget_bg_mood_inset"
             android:gravity="center"
             android:text="☹️"
             android:textSize="20sp"
@@ -61,10 +63,12 @@
 
         <TextView
             android:id="@+id/widget_mood_2"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:minHeight="56dp"
             android:layout_marginStart="6dp"
-            android:background="@drawable/widget_bg_pill_category"
+            android:background="@drawable/widget_bg_mood_inset"
             android:gravity="center"
             android:text="🙁"
             android:textSize="20sp"
@@ -73,10 +77,12 @@
 
         <TextView
             android:id="@+id/widget_mood_3"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:minHeight="56dp"
             android:layout_marginStart="6dp"
-            android:background="@drawable/widget_bg_pill_category"
+            android:background="@drawable/widget_bg_mood_inset"
             android:gravity="center"
             android:text="😐"
             android:textSize="20sp"
@@ -85,10 +91,12 @@
 
         <TextView
             android:id="@+id/widget_mood_4"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:minHeight="56dp"
             android:layout_marginStart="6dp"
-            android:background="@drawable/widget_bg_pill_category"
+            android:background="@drawable/widget_bg_mood_inset"
             android:gravity="center"
             android:text="🙂"
             android:textSize="20sp"
@@ -97,8 +105,10 @@
 
         <TextView
             android:id="@+id/widget_mood_5"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:minHeight="56dp"
             android:layout_marginStart="6dp"
             android:background="@drawable/widget_bg_gold_ring"
             android:gravity="center"
@@ -115,8 +125,8 @@
         android:layout_weight="1"
         android:background="@drawable/widget_bg_inset_well"
         android:gravity="top|start"
-        android:paddingHorizontal="10dp"
-        android:paddingVertical="8dp"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="10dp"
         android:text="Lägg till en kort notis..."
         android:textColor="@color/widget_muted"
         android:textSize="11sp" />
@@ -125,10 +135,10 @@
         android:id="@+id/widget_companion_checkin_save"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/widget_bg_cta_outline"
         android:gravity="center"
-        android:minHeight="44dp"
+        android:minHeight="56dp"
         android:text="@string/widget_checkin_save"
         android:textAllCaps="true"
         android:textColor="@color/widget_gold_light"

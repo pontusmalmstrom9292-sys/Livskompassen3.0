@@ -7,8 +7,8 @@
     android:background="@drawable/widget_bg_premium_panel"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingHorizontal="8dp"
-    android:paddingVertical="6dp">
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,14 +19,15 @@
         <ImageView
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:src="@drawable/widget_ic_companion_beacon" />
+            android:src="@drawable/widget_ic_companion_beacon"
+            android:contentDescription="@null" />
 
         <TextView
             android:id="@+id/widget_companion_beacon_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:letterSpacing="0.18"
+            android:letterSpacing="0.22"
             android:text="@string/widget_beacon_header"
             android:textAllCaps="true"
             android:textColor="@color/widget_gold_light"
@@ -43,9 +44,11 @@
 
     <FrameLayout
         android:id="@+id/widget_companion_beacon_ring"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="108dp"
+        android:layout_height="108dp"
         android:layout_marginTop="10dp"
+        android:background="@drawable/widget_bg_gold_ring"
+        android:padding="5dp"
         android:contentDescription="@string/widget_beacon_header">
 
         <ProgressBar
@@ -77,9 +80,11 @@
                 android:id="@+id/widget_companion_beacon_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:letterSpacing="0.1"
                 android:text="Stabil"
+                android:textAllCaps="true"
                 android:textColor="@color/widget_gold_dim"
-                android:textSize="10sp" />
+                android:textSize="9sp" />
         </LinearLayout>
     </FrameLayout>
 
@@ -136,6 +141,7 @@
         android:layout_marginTop="12dp"
         android:background="@drawable/widget_bg_cta_outline"
         android:gravity="center"
+        android:letterSpacing="0.14"
         android:minHeight="56dp"
         android:text="@string/widget_btn_more"
         android:textAllCaps="true"

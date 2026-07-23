@@ -7,28 +7,36 @@
     android:background="@drawable/widget_bg_premium_panel"
     android:gravity="center"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="10dp">
 
-    <ImageView
-        android:id="@+id/widget_companion_anchor_icon"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:contentDescription="@string/widget_companion_anchor_title"
-        android:scaleType="fitCenter"
-        android:src="@drawable/widget_ic_anchor_gold" />
+    <FrameLayout
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="@drawable/widget_bg_gold_ring"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/widget_companion_anchor_icon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/widget_companion_anchor_title"
+            android:scaleType="fitCenter"
+            android:src="@drawable/widget_ic_anchor_gold" />
+    </FrameLayout>
 
     <TextView
         android:id="@+id/widget_companion_anchor_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="6dp"
         android:ellipsize="end"
         android:gravity="center"
-        android:letterSpacing="0.08"
+        android:letterSpacing="0.18"
         android:maxLines="1"
         android:text="@string/widget_companion_anchor_title"
         android:textAllCaps="true"
-        android:textColor="@color/widget_gold"
+        android:textColor="@color/widget_gold_light"
         android:textSize="10sp"
         android:textStyle="bold" />
 
@@ -42,7 +50,7 @@
         android:maxLines="2"
         android:text="@string/widget_companion_anchor_micro"
         android:textColor="@color/widget_muted"
-        android:textSize="10sp" />
+        android:textSize="8sp" />
 
     <TextView
         android:id="@+id/widget_companion_anchor_done"
@@ -52,6 +60,7 @@
         android:background="@drawable/widget_bg_stamp_pill"
         android:contentDescription="@string/widget_companion_anchor_done"
         android:gravity="center"
+        android:letterSpacing="0.12"
         android:minHeight="56dp"
         android:paddingVertical="8dp"
         android:text="@string/widget_companion_anchor_done"

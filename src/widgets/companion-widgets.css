@@ -3,7 +3,8 @@
  */
 
 :root {
-  --cw-touch-floor: 44px;
+  /* G85 Gate F / bible 6 + UX Law 05 — floor aligns with WidgetTouch.minDp */
+  --cw-touch-floor: 56px;
 }
 
 
@@ -209,16 +210,20 @@
 .cw-trust-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem 0.85rem;
+  gap: 0.5rem 1rem;
   justify-content: center;
-  font-size: 0.62rem;
-  letter-spacing: 0.06em;
-  color: var(--cw-muted, #94a3b8);
+  align-items: center;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--cw-gold-dim, #9a7b2f);
   text-transform: uppercase;
 }
 
 .cw-trust-row span {
-  opacity: 0.85;
+  opacity: 0.88;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28rem;
 }
 
 .cw-pill-row {
@@ -228,13 +233,14 @@
 }
 
 .cw-pill {
-  min-height: 2.35rem;
-  padding: 0.35rem 0.8rem;
+  min-height: var(--cw-touch-floor, 56px);
+  padding: 0.45rem 0.9rem;
   border-radius: 9999px;
   border: 1px solid color-mix(in srgb, var(--cw-gold, #d4af37) 22%, transparent);
   background: color-mix(in srgb, var(--cw-deep-space, #020617) 88%, transparent);
   color: var(--cw-muted, #94a3b8);
   font-size: 0.75rem;
+  letter-spacing: 0.04em;
   cursor: pointer;
   transition: border-color 180ms ease, color 180ms ease, box-shadow 180ms ease;
 }
@@ -306,10 +312,10 @@
 .cw-signature {
   margin-top: 1.5rem;
   text-align: center;
-  font-size: 0.62rem;
-  letter-spacing: 0.16em;
+  font-size: 0.6rem;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: color-mix(in srgb, var(--cw-muted, #94a3b8) 80%, transparent);
+  color: color-mix(in srgb, var(--cw-gold-dim, #9a7b2f) 72%, var(--cw-muted, #94a3b8));
 }
 
 .cw-lab-grid {
@@ -503,8 +509,8 @@
   align-items: center;
   justify-content: center;
   gap: 0.35rem;
-  min-height: var(--cw-touch-floor, 44px);
-  min-width: var(--cw-touch-floor, 44px);
+  min-height: var(--cw-touch-floor, 56px);
+  min-width: var(--cw-touch-floor, 56px);
   padding: 0.35rem 0.55rem;
   margin: 0;
   border: none;
@@ -584,7 +590,7 @@
 .cw-home-rail-collapsed {
   margin: 0;
   padding: 0.75rem 0.95rem;
-  min-height: var(--cw-touch-floor, 44px);
+  min-height: var(--cw-touch-floor, 56px);
   text-align: left;
   color: var(--cw-muted, #94a3b8);
   font-size: 0.88rem;
@@ -645,7 +651,7 @@
   background: transparent;
   padding: 0.35rem 0.15rem;
   margin: 0;
-  min-height: var(--cw-touch-floor, 44px);
+  min-height: var(--cw-touch-floor, 56px);
   width: 100%;
   cursor: pointer;
   text-align: left;
@@ -695,11 +701,11 @@
 }
 
 .cw-pill {
-  min-height: max(2.35rem, var(--cw-touch-floor, 44px));
+  min-height: max(2.35rem, var(--cw-touch-floor, 56px));
 }
 
 .cw-studio-chip {
-  min-height: var(--cw-touch-floor, 44px);
+  min-height: var(--cw-touch-floor, 56px);
 }
 
 .cw-actions-row {
@@ -979,8 +985,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: var(--cw-touch-floor, 44px);
-  min-height: var(--cw-touch-floor, 44px);
+  min-width: var(--cw-touch-floor, 56px);
+  min-height: var(--cw-touch-floor, 56px);
   border: none;
   border-radius: 12px;
   background: transparent;
@@ -1157,8 +1163,8 @@
   place-items: center;
   padding: 0;
   touch-action: manipulation;
-  min-width: var(--cw-touch-floor, 44px);
-  min-height: var(--cw-touch-floor, 44px);
+  min-width: var(--cw-touch-floor, 56px);
+  min-height: var(--cw-touch-floor, 56px);
 }
 
 .cw-compass-disc {
@@ -1274,8 +1280,8 @@
   align-items: center;
   justify-content: center;
   gap: 0.25rem;
-  min-height: var(--cw-touch-floor, 44px);
-  min-width: var(--cw-touch-floor, 44px);
+  min-height: var(--cw-touch-floor, 56px);
+  min-width: var(--cw-touch-floor, 56px);
   padding: 0.4rem 0.2rem;
   border-radius: 14px;
   border: 1px solid color-mix(in srgb, var(--cw-gold, #d4af37) 16%, transparent);
@@ -1360,7 +1366,7 @@
 
 .cw-reminder-row {
   width: 100%;
-  min-height: var(--cw-touch-floor, 44px);
+  min-height: var(--cw-touch-floor, 56px);
   display: flex;
   align-items: center;
   gap: 0.65rem;
@@ -1431,7 +1437,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: var(--cw-touch-floor, 44px);
+  min-height: var(--cw-touch-floor, 56px);
   width: 100%;
   border: none;
   background: transparent;
@@ -1506,8 +1512,8 @@
 .cw-home-rail--elevated .cw-chrome-btn,
 .cw-home-rail--elevated .cw-chrome-link,
 .cw-home-rail--elevated .cw-home-rail-collapsed {
-  min-height: var(--cw-touch-floor, 44px);
-  min-width: var(--cw-touch-floor, 44px);
+  min-height: var(--cw-touch-floor, 56px);
+  min-width: var(--cw-touch-floor, 56px);
 }
 
 .cw-home-rail__head {
@@ -1527,8 +1533,8 @@
 }
 
 .cw-mood {
-  min-width: var(--cw-touch-floor, 44px);
-  min-height: var(--cw-touch-floor, 44px);
+  min-width: var(--cw-touch-floor, 56px);
+  min-height: var(--cw-touch-floor, 56px);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1776,13 +1782,13 @@
 }
 
 .cw-card--xs .cw-pill {
-  min-height: max(2.1rem, var(--cw-touch-floor, 44px));
+  min-height: max(2.1rem, var(--cw-touch-floor, 56px));
   padding: 0.28rem 0.65rem;
   font-size: 0.7rem;
 }
 
 .cw-card--xs .cw-mood {
-  min-height: var(--cw-touch-floor, 44px);
+  min-height: var(--cw-touch-floor, 56px);
   font-size: 1rem;
 }
 
@@ -1812,7 +1818,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  min-height: max(3.5rem, var(--cw-touch-floor, 44px));
+  min-height: max(3.5rem, var(--cw-touch-floor, 56px));
   padding: 0.45rem 0.4rem;
   border-radius: 0.85rem;
   background: color-mix(in srgb, var(--cw-obsidian, #0d0b09) 55%, transparent);
@@ -1959,8 +1965,8 @@
 .cw-focus-timer__play {
   width: 3rem;
   height: 3rem;
-  min-width: max(3rem, var(--cw-touch-floor, 44px));
-  min-height: max(3rem, var(--cw-touch-floor, 44px));
+  min-width: max(3rem, var(--cw-touch-floor, 56px));
+  min-height: max(3rem, var(--cw-touch-floor, 56px));
   border-radius: 999px;
   border: none;
   background: radial-gradient(
@@ -1990,8 +1996,8 @@
 .cw-family-avatars__add {
   width: 2.65rem;
   height: 2.65rem;
-  min-width: max(2.65rem, var(--cw-touch-floor, 44px));
-  min-height: max(2.65rem, var(--cw-touch-floor, 44px));
+  min-width: max(2.65rem, var(--cw-touch-floor, 56px));
+  min-height: max(2.65rem, var(--cw-touch-floor, 56px));
   border-radius: 999px;
   border: 1.5px solid color-mix(in srgb, var(--cw-gold, #d4af37) 35%, transparent);
   background: color-mix(in srgb, var(--cw-deep-space, #020617) 70%, #1e293b);
@@ -2183,3 +2189,298 @@
   padding: 0.65rem 0.75rem;
   gap: 0.5rem;
 }
+
+/* ── Visual parity R1–R5 (2026-07-23) — Kap 6 Gold Standard ── */
+
+.cw-card {
+  box-shadow:
+    var(--cw-bloom, 0 0 42px rgba(2, 6, 23, 0.82), 0 16px 40px rgba(2, 6, 23, 0.62), 0 0 32px rgba(212, 175, 55, 0.14)),
+    0 0 0 1px color-mix(in srgb, var(--cw-gold, #d4af37) 42%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--cw-gold-light, #fde68a) 18%, transparent);
+  backdrop-filter: blur(var(--cw-glass-blur, 22px));
+  -webkit-backdrop-filter: blur(var(--cw-glass-blur, 22px));
+  background: var(--cw-glass, rgba(5, 11, 20, 0.9));
+}
+
+.cw-header__title,
+.cw-eyebrow,
+.cw-mode-badge {
+  letter-spacing: var(--cw-heading-tracking, 0.2em);
+  text-transform: uppercase;
+}
+
+/* R2 — Capture mic bloom + note dock gold */
+.cw-capture-mic {
+  width: max(6.5rem, var(--cw-touch-premium, 64px));
+  height: max(6.5rem, var(--cw-touch-premium, 64px));
+  min-width: max(6.5rem, var(--cw-touch-premium, 64px));
+  min-height: max(6.5rem, var(--cw-touch-premium, 64px));
+}
+
+.cw-capture-wave span {
+  background: linear-gradient(
+    180deg,
+    var(--cw-ethereal, #7ba3c9),
+    color-mix(in srgb, var(--cw-ethereal, #7ba3c9) 35%, transparent)
+  );
+}
+
+.cw-trust-row {
+  letter-spacing: 0.1em;
+}
+
+.cw-pill {
+  min-height: var(--cw-touch-floor, 56px);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.68rem;
+}
+
+.cw-note-add {
+  min-width: var(--cw-touch-floor, 56px);
+  min-height: var(--cw-touch-floor, 56px);
+}
+
+.cw-note-tool {
+  min-width: var(--cw-touch-floor, 56px);
+  min-height: var(--cw-touch-floor, 56px);
+}
+
+/* R3 — Compass/Beacon disc depth */
+.cw-compass-disc--hero,
+.cw-beacon-stage__ring {
+  filter: drop-shadow(0 0 22px color-mix(in srgb, var(--cw-gold, #d4af37) 28%, transparent));
+}
+
+.cw-btn--premium,
+.cw-btn[data-variant='primary'],
+.cw-btn[data-variant='gold'] {
+  min-height: var(--cw-touch-floor, 56px);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* R4 — Inbox / Tasks / Journal row rhythm */
+.cw-row-hit,
+.cw-reminder-row {
+  min-height: var(--cw-touch-floor, 56px);
+}
+
+.cw-input {
+  min-height: var(--cw-touch-floor, 56px);
+}
+
+.cw-journal-hero {
+  box-shadow:
+    var(--cw-inset, inset 0 3px 12px rgba(0, 0, 0, 0.68)),
+    inset 0 1px 0 color-mix(in srgb, var(--cw-gold-light, #fde68a) 10%, transparent);
+}
+
+/* R5 — Harbor lotus / Anchor / Check-in mood rings */
+.cw-lotus-wrap,
+.cw-lotus-hero {
+  filter: drop-shadow(0 0 16px color-mix(in srgb, var(--cw-ethereal, #7ba3c9) 36%, transparent));
+}
+
+.cw-anchor-hero__glyph {
+  width: max(3.5rem, var(--cw-touch-floor, 56px));
+  height: max(3.5rem, var(--cw-touch-floor, 56px));
+  min-width: max(3.5rem, var(--cw-touch-floor, 56px));
+  min-height: max(3.5rem, var(--cw-touch-floor, 56px));
+}
+
+.cw-mood {
+  min-width: 0;
+  min-height: var(--cw-touch-floor, 56px);
+  aspect-ratio: 1;
+}
+
+.cw-quick {
+  min-width: var(--cw-touch-floor, 56px);
+  min-height: var(--cw-touch-floor, 56px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cw-card {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+}
+
+/* ── Gold Standard polish rounds 6–10 (2026-07-23) — touch locked 56; glass/ethereal/type ── */
+
+/* R6 — touch parity: chrome & pills never under floor */
+.cw-header-chrome__btn {
+  width: var(--cw-touch-floor, 56px);
+  height: var(--cw-touch-floor, 56px);
+  min-width: var(--cw-touch-floor, 56px);
+  min-height: var(--cw-touch-floor, 56px);
+}
+
+.cw-pill {
+  min-height: var(--cw-touch-floor, 56px);
+}
+
+.cw-card {
+  gap: 0.85rem;
+}
+
+.cw-card--hero,
+.cw-card--medium,
+.cw-card--large,
+.cw-card--small {
+  gap: 0.85rem;
+}
+
+/* R7 — specular + bloom + glass depth (Studio ↔ Android safirglas) */
+.cw-card {
+  box-shadow: var(--cw-bloom, 0 0 42px rgba(2, 6, 23, 0.82), 0 16px 40px rgba(2, 6, 23, 0.62), 0 0 32px rgba(212, 175, 55, 0.14));
+}
+
+.cw-card::after {
+  left: 1.15rem;
+  right: 1.15rem;
+  height: 1.5px;
+  opacity: 0.92;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--cw-gold-light, #fde68a) 72%, transparent) 50%,
+    transparent 100%
+  );
+}
+
+.cw-studio-preview-frame {
+  box-shadow:
+    var(--cw-bloom, 0 0 42px rgba(2, 6, 23, 0.82)),
+    0 0 0 1px color-mix(in srgb, var(--cw-gold, #d4af37) 22%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--cw-gold-light, #fde68a) 12%, transparent);
+  backdrop-filter: blur(var(--cw-glass-blur, 22px));
+  -webkit-backdrop-filter: blur(var(--cw-glass-blur, 22px));
+}
+
+.cw-glass,
+.cw-glass-well,
+.cw-note-well {
+  box-shadow:
+    var(--cw-inset, inset 0 3px 12px rgba(0, 0, 0, 0.68)),
+    var(--cw-lip, inset 0 1px 0 rgba(253, 230, 138, 0.22));
+}
+
+.cw-card--hero {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--cw-gold, #d4af37) 48%, transparent),
+    var(--cw-bloom, 0 0 42px rgba(2, 6, 23, 0.82), 0 0 32px rgba(212, 175, 55, 0.14)),
+    0 20px 44px rgba(2, 6, 23, 0.58),
+    inset 0 1px 0 color-mix(in srgb, var(--cw-gold-light, #fde68a) 16%, transparent);
+}
+
+/* R8 — Ethereal Blue ONLY waveform / progress / breathing (strip decorative cyan) */
+.cw-mode-badge--period {
+  border-color: color-mix(in srgb, var(--cw-gold, #d4af37) 28%, transparent);
+  color: var(--cw-gold-light, #fde68a);
+}
+
+.cw-pack-stage__glow {
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--cw-gold, #d4af37) 18%, transparent),
+    transparent 68%
+  );
+}
+
+.cw-compass-disc--hero {
+  box-shadow:
+    var(--cw-bloom, 0 0 36px rgba(2, 6, 23, 0.78), 0 0 28px rgba(212, 175, 55, 0.12)),
+    0 0 0 2px color-mix(in srgb, var(--cw-gold, #d4af37) 70%, transparent),
+    0 0 0 8px color-mix(in srgb, var(--cw-gold, #d4af37) 16%, transparent),
+    0 0 28px color-mix(in srgb, var(--cw-gold, #d4af37) 22%, transparent),
+    var(--cw-lip, inset 0 1px 0 rgba(212, 175, 55, 0.2)),
+    inset 0 -10px 22px rgba(0, 0, 0, 0.45);
+}
+
+.cw-quote-smoke {
+  background:
+    radial-gradient(ellipse at 20% 10%, color-mix(in srgb, var(--cw-gold, #d4af37) 10%, transparent), transparent 45%),
+    radial-gradient(ellipse at 80% 90%, color-mix(in srgb, var(--cw-gold-dim, #9a7b2f) 10%, transparent), transparent 50%),
+    linear-gradient(165deg, rgba(15, 23, 42, 0.92), rgba(2, 6, 23, 0.96));
+}
+
+.cw-home-rail--pause .cw-home-rail__banner {
+  color: var(--cw-muted, #94a3b8);
+}
+
+.cw-quick-icon__glyph {
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--cw-gold, #d4af37) 28%, transparent));
+}
+
+.cw-focus-block {
+  border-color: color-mix(in srgb, var(--cw-gold, #d4af37) 18%, transparent);
+}
+
+.cw-focus-block__pct {
+  color: var(--cw-gold-dim, #9a7b2f);
+}
+
+.cw-metric-hit--ethereal .cw-metric-display {
+  /* capacity / living metric — ethereal allowed */
+  color: var(--cw-ethereal, #7ba3c9);
+}
+
+/* R9 — typography: caps+tracking headers, muted secondary, trust/signature */
+.cw-header__title,
+.cw-eyebrow,
+.cw-empty__title,
+.cw-home-rail__title,
+.cw-intention-block__label,
+.cw-beacon-advice__label,
+.cw-focus-block__label,
+.cw-focus-timer__label,
+.cw-metric-label,
+.cw-link-cta,
+.cw-mode-badge {
+  letter-spacing: var(--cw-heading-tracking, 0.2em);
+  text-transform: uppercase;
+}
+
+.cw-header__title {
+  font-weight: 650;
+  color: var(--cw-gold-light, #fde68a);
+}
+
+.cw-header p,
+.cw-capture-hold-hint,
+.cw-empty__message,
+.cw-home-rail__banner,
+.cw-lotus-hero__text,
+.cw-char-count {
+  color: var(--cw-muted, #94a3b8);
+}
+
+.cw-trust-row {
+  justify-content: center;
+  gap: 0.55rem 1.05rem;
+  padding-top: 0.35rem;
+  margin-top: 0.15rem;
+  border-top: 1px solid color-mix(in srgb, var(--cw-gold, #d4af37) 10%, transparent);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--cw-muted, #94a3b8) 92%, transparent);
+}
+
+.cw-signature {
+  margin-top: 1.35rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-size: 0.58rem;
+  color: color-mix(in srgb, var(--cw-gold-dim, #9a7b2f) 80%, var(--cw-muted, #94a3b8));
+}
+
+.cw-btn--premium,
+.cw-btn[data-variant='primary'],
+.cw-btn--gold {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+

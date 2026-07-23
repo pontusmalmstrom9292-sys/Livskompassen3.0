@@ -84,7 +84,7 @@ export function WidgetStudioPreview({ widgetId }: { widgetId: string }) {
             {on ? 'På Hem' : 'Av'}
           </WidgetButton>
           <WidgetButton
-            variant={pinned ? 'ethereal' : 'quiet'}
+            variant={pinned ? 'gold' : 'quiet'}
             size="min"
             onClick={() => {
               void patchWidgetStudioConfig(widgetId, { homePin: !pinned });
@@ -93,7 +93,7 @@ export function WidgetStudioPreview({ widgetId }: { widgetId: string }) {
             {pinned ? '✦ Fäst' : 'Fäst'}
           </WidgetButton>
           <WidgetButton
-            variant={pulse ? 'ethereal' : 'quiet'}
+            variant={pulse ? 'gold' : 'quiet'}
             size="min"
             aria-pressed={pulse}
             onClick={() => setPulse((v) => !v)}

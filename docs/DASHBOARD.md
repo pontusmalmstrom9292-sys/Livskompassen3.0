@@ -1,3 +1,10 @@
+### 2026-07-23 — Widget UI Polish ×10
+- Gate F 56 dp låst (CSS + Mood + Studio + Android check-in) · Journal input ≥56
+- Kap 6: padding/caps/trust · Anchor guldring · ethereal scoped
+- Smoke: companion-widgets · locked-ux **PASS** · G85 visual: pending Pontus
+- Follow-up: Journal input ≥56 · Capture mic `minHeight` 56 + smoke accepterar 72dp
+- Merge: widgets/layouts only — exkludera dirty `android/.../core/**`
+
 ### 2026-07-22 — Gold Standard hub + Companion (C + Ethereal Blue)
 - Unlock: [`2026-07-22-unlock-hub-gold-standard-layout.md`](./evaluations/2026-07-22-unlock-hub-gold-standard-layout.md)
 - Companion Kap 6 deepen (web 1.3.0 + Android v31 gold + live capacity ring)

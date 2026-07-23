@@ -7,8 +7,8 @@
     android:background="@drawable/widget_bg_premium_panel"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingHorizontal="10dp"
-    android:paddingVertical="8dp">
+    android:paddingHorizontal="12dp"
+    android:paddingVertical="10dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,14 +19,15 @@
         <ImageView
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:src="@drawable/widget_chip_kompass" />
+            android:src="@drawable/widget_chip_kompass"
+            android:contentDescription="@null" />
 
         <TextView
             android:id="@+id/widget_companion_compass_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:letterSpacing="0.18"
+            android:letterSpacing="0.22"
             android:text="@string/widget_compass_header"
             android:textAllCaps="true"
             android:textColor="@color/widget_gold_light"
@@ -41,13 +42,20 @@
             android:textSize="8sp" />
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/widget_companion_compass_disc"
-        android:layout_width="84dp"
-        android:layout_height="84dp"
+    <FrameLayout
+        android:layout_width="96dp"
+        android:layout_height="96dp"
         android:layout_marginTop="8dp"
-        android:src="@drawable/widget_compass_disc"
-        android:contentDescription="@string/widget_compass_header" />
+        android:background="@drawable/widget_bg_gold_ring"
+        android:padding="6dp">
+
+        <ImageView
+            android:id="@+id/widget_companion_compass_disc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/widget_compass_disc"
+            android:contentDescription="@string/widget_compass_header" />
+    </FrameLayout>
 
     <TextView
         android:layout_width="match_parent"
