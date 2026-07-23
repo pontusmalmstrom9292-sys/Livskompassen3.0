@@ -1,3 +1,10 @@
+## 2026-07-23 — Auth unlock (inloggning “Något gick fel”)
+
+- AuthErrorBoundary: retry + rensa Firebase-session / WebAuthn-prefs
+- Capacitor: ingen web-WebAuthn AppUnlockGate (SacredLock)
+- emailVerified synkas vid Google-login; Hem mood/text slice defensivt
+- Verifierat: `smoke:auth-login` · build:web · cap sync android
+
 ## 2026-07-23 — Edge AI → WORM consumer
 
 - Listener `livskompassen-intelligence` + `intelligenceConsumer.ts`

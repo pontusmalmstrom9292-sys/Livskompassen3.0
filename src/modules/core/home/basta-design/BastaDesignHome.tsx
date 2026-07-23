@@ -65,12 +65,16 @@ export function BastaDesignHome({ onCheckInSaved, developmentRefreshKey = 0 }: P
 
   const notes = useMemo(
     () =>
-      entries.slice(0, 3).map((e) => ({
-        id: e.id,
-        date: journalEntryDate(e).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' }),
-        type: e.mood ? e.mood.slice(0, 5) : 'Ant',
-        title: e.text?.slice(0, 48) || 'Anteckning',
-      })),
+      entries.slice(0, 3).map((e) => {
+        const moodLabel = typeof e.mood === 'string' && e.mood.length > 0 ? e.mood.slice(0, 5) : 'Ant';
+        const titleText = typeof e.text === 'string' && e.text.length > 0 ? e.text.slice(0, 48) : 'Anteckning';
+        return {
+          id: e.id,
+          date: journalEntryDate(e).toLocaleDateString('sv-SE', { day: 'numeric', month: 'short' }),
+          type: moodLabel,
+          title: titleText,
+        };
+      }),
     [entries],
   );
 

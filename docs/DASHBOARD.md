@@ -1,3 +1,7 @@
+### 2026-07-23 — Auth unlock (G85)
+- Fix: AuthErrorBoundary recovery + Capacitor hoppar web-fingeravtrycksgate
+- Väntar: Pontus Run på telefon efter cap sync
+
 ### 2026-07-23 — UI Polish V10 ×10 Widgets
 - Supernoggrant: Companion pack + Studio + Fyren + ActionDashboard
 - CSS touch floor 44px · WidgetButton aria · smoke companion/widgets/locked-ux

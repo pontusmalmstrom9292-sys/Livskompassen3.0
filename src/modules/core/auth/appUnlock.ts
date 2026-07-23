@@ -4,6 +4,7 @@ import {
   markAppUnlockedThisSession,
   setAppUnlockEnabled,
 } from './appUnlockPrefs';
+import { isCapacitorNative } from './capacitorPlatform';
 
 function randomChallenge(): BufferSource {
   const buf = new ArrayBuffer(32);
@@ -16,8 +17,15 @@ function rpId(): string {
   return host === '127.0.0.1' ? 'localhost' : host;
 }
 
+/**
+ * WebAuthn fingeravtryck — endast i vanlig webbläsare.
+ * På Capacitor Android/iOS sköter SacredLockManager biometri; WebAuthn i WebView
+ * ger ofta trasig gate efter Google-inloggning.
+ */
 export function isAppUnlockSupported(): boolean {
-  return typeof window !== 'undefined' && !!window.PublicKeyCredential;
+  if (typeof window === 'undefined') return false;
+  if (isCapacitorNative()) return false;
+  return !!window.PublicKeyCredential;
 }
 
 /** Registrera eller verifiera fingeravtryck / Face ID för app-upplåsning. */
