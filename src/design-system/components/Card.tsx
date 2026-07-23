@@ -9,7 +9,7 @@ export type CardProps = HTMLAttributes<HTMLElement> & {
   variant?: 'default' | 'hero';
   /** Subtle hover lift */
   interactive?: boolean;
-  /** Silo bottom glow — maps to legacy glow-bottom-* */
+  /** Silo bottom glow — deprecated no-op (kill-switch; API kept for callers/smoke) */
   glow?: CardGlow;
   /** Skip default padding */
   bare?: boolean;
@@ -17,11 +17,12 @@ export type CardProps = HTMLAttributes<HTMLElement> & {
   depth?: boolean;
 };
 
+/** @deprecated Glow is visually disabled app-wide; prop kept for API/smoke compat. */
 const GLOW_CLASS: Record<CardGlow, string> = {
-  gold: 'glow-bottom-gold',
-  blue: 'glow-bottom-gold',
-  green: 'glow-bottom-gold',
-  indigo: 'glow-bottom-gold',
+  gold: '',
+  blue: '',
+  green: '',
+  indigo: '',
 };
 
 /**

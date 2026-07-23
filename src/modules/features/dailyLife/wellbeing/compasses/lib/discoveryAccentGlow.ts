@@ -20,8 +20,8 @@ export function discoveryAccentGlow(accent: DiscoveryAccent): CalmCardGlow {
   return ACCENT_GLOW[accent];
 }
 
-/** CSS glow-klass för deck-knappar (Executive Midnight — enhetlig guld). */
+/** CSS glow-klass — disabled app-wide (returns empty). */
 export function discoveryAccentGlowClass(accent: DiscoveryAccent): string {
   void accent;
-  return 'glow-bottom-gold';
+  return '';
 }

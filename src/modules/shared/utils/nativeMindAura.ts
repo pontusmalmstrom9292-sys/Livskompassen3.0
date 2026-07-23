@@ -117,9 +117,17 @@ export function analyzeIntelligenceNative(text: string): void {
 }
 
 export function startAuraFlowNative(): void {
-  getMindAuraNative()?.startAuraFlow?.();
+  try {
+    getMindAuraNative()?.startAuraFlow?.();
+  } catch (err) {
+    console.warn('[nativeMindAura] startAuraFlow failed', err);
+  }
 }
 
 export function stopAuraFlowNative(): void {
-  getMindAuraNative()?.stopAuraFlow?.();
+  try {
+    getMindAuraNative()?.stopAuraFlow?.();
+  } catch (err) {
+    console.warn('[nativeMindAura] stopAuraFlow failed', err);
+  }
 }

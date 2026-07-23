@@ -45,17 +45,15 @@
   box-shadow: none;
 }
 
-/* —— Silo glow → silver hairline bottom —— */
-[data-theme='R-A-nordic-precision'] .glow-bottom-silver {
-  box-shadow: inset 0 -1px 0 rgba(148, 163, 184, 0.35);
-}
-
+/* —— Silo glow kill-switch (tema får inte återinföra bloom) —— */
+[data-theme='R-A-nordic-precision'] .glow-bottom-silver,
 [data-theme='R-A-nordic-precision'] .glow-bottom-gold,
 [data-theme='R-A-nordic-precision'] .glow-bottom-blue,
-[data-theme='R-A-nordic-precision'] .glow-bottom-green {
-  border-bottom-width: 1px;
-  border-bottom-color: rgba(148, 163, 184, 0.35);
-  box-shadow: inset 0 -1px 0 rgba(148, 163, 184, 0.25);
+[data-theme='R-A-nordic-precision'] .glow-bottom-green,
+[data-theme='R-A-nordic-precision'] .glow-bottom-danger {
+  border-bottom-width: inherit;
+  border-bottom-color: inherit;
+  box-shadow: none;
 }
 
 [data-theme='R-A-nordic-precision'] .calm-card.glow-bottom-blue::after,
@@ -64,7 +62,8 @@
 [data-theme='R-A-nordic-precision'] .glass-card.glow-bottom-gold::after,
 [data-theme='R-A-nordic-precision'] .calm-card.glow-bottom-green::after,
 [data-theme='R-A-nordic-precision'] .glass-card.glow-bottom-green::after {
-  background: linear-gradient(to top, rgba(148, 163, 184, 0.08), transparent);
+  display: none;
+  content: none;
 }
 
 /* —— Primär CTA: isblå —— */

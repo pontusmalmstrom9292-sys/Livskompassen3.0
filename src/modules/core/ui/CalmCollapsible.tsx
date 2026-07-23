@@ -38,14 +38,14 @@ export function CalmCollapsible({
     onOpenChange?.(next);
   };
 
+  void glow; // API/smoke compat — silo glow disabled app-wide
+
   return (
     <section
       className={clsx(
         'calm-collapsible',
         open && 'calm-collapsible--open',
         variant === 'card' && 'calm-card',
-        glow === 'gold' && 'glow-bottom-gold',
-        (glow === 'blue' || glow === 'green') && 'glow-bottom-gold',
       )}
     >
       <button

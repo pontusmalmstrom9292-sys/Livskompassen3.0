@@ -1,13 +1,25 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
+## 2026-07-23 — Silo-glow bort överallt
+
+- [x] CSS kill-switch `.glow-bottom-*` (+ tema/mabra)
+- [x] DS/centrala mappers: ingen glow-klass (API kvar)
+- [x] `smoke:locked-ux` · `smoke:design-modules` PASS
+
+## 2026-07-23 — Familjen header glow bort
+
+- [x] Ta bort `glow="blue"` från Välj barn + Barnfokus-intro i `FamiljenPage`
+- [x] `smoke:locked-ux` PASS
 
 ## 2026-07-23 — Auth unlock (G85 / inloggningskrasch)
 
 - [x] AuthErrorBoundary: Försök igen + Rensa inloggning (visar feltext)
 - [x] WebAuthn-app-unlock avstängd på Capacitor (SacredLock äger biometri)
 - [x] syncAuthUserToStore sätter `emailVerified` · Hem anteckningar mood-safe
-- [x] `smoke:auth-login` PASS · `build:web` + `cap sync android`
-- [ ] Pontus: Android Studio Run på G85 → Google-inloggning
+- [x] **Root cause:** `stopAuraFlow` → `MemoryManager.scrub()` clearCache off-UI-thread → AuthErrorBoundary
+- [x] AuraFlow stop utan scrub · bridge try/catch · breathing stop bara efter start
+- [x] `compileDebugJavaWithJavac` PASS · build:web + cap sync
+- [ ] Pontus: Android Studio Run på G85 → bekräfta hem utan felsida
 
 ## 2026-07-23 — UI Polish V10 ×10 Widgets (autonom, supernoggrant)
 
