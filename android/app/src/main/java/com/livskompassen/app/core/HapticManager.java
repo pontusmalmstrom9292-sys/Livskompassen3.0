@@ -30,9 +30,19 @@ public class HapticManager {
         return context;
     }
 
+    public boolean isLowPower() {
+        return batteryManager != null && batteryManager.shouldReducePerformance();
+    }
+
     /** Mjuk bekräftelse (t.ex. vid lyckad upplåsning) */
     public void success() {
-        if (batteryManager != null && batteryManager.shouldReducePerformance()) return;
+        if (isLowPower()) {
+            // Förenklad haptik vid lågt batteri
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                vibrator.vibrate(VibrationEffect.createOneShot(10, 50));
+            }
+            return;
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             long[] pattern = {0, 10, 40, 20}; // Dubbel mjuk puls
@@ -54,9 +64,67 @@ public class HapticManager {
             view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
         }
     }
+
+    /** Mekaniskt klick-känsla (t.ex. för emojier i Check-in) */
+    public void mechanicalClick(View view) {
+        if (view != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                view.performHapticFeedback(HapticFeedbackConstants.CONFIRM);
+            } else {
+                view.performHapticFeedback(HapticFeedbackConstants.CONTEXT_CLICK);
+            }
+            return;
+        }
+        // No view — fall back to short vibration (BatteryManager gated)
+        if (isLowPower()) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(12, 80));
+        }
+    }
+
+    /** Flytande, mjuk vibration (t.ex. för andningsövningar) */
+    public void liquidPulse() {
+        if (isLowPower()) return;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            long[] pattern = {0, 100, 50, 100};
+            int[] amplitudes = {0, 30, 0, 45};
+            vibrator.vibrate(VibrationEffect.createWaveform(pattern, amplitudes, -1));
+        }
+    }
+
+    /** Skarp markering (t.ex. när ett värde ändras i en slider) */
+    public void tick(View view) {
+        if (view != null) {
+            view.performHapticFeedback(HapticFeedbackConstants.CLOCK_TICK);
+        }
+    }
+
+    /** Våg 145: Tematisk haptik baserat på dygnsrytm */
+    public void triggerThematic(String theme) {
+        if (isLowPower()) return;
+        
+        switch (theme != null ? theme.toUpperCase() : "DAY") {
+            case "MORNING":
+                success(); // Light and energetic
+                break;
+            case "DAY":
+                mechanicalClick(null); // Sharp and focused
+                break;
+            case "DUSK":
+                liquidPulse(); // Soft and transitioning
+                break;
+            case "NIGHT":
+                reminderGentle(); // Very subtle
+                break;
+            default:
+                lightClick(null);
+        }
+    }
     
     /** Dubbelpuls för navigering */
     public void navigate() {
+        if (isLowPower()) return; // Skippa navigations-haptik vid lågt batteri
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             long[] pattern = {0, 5, 20, 5}; 
             int[] amplitudes = {0, 30, 0, 40};
