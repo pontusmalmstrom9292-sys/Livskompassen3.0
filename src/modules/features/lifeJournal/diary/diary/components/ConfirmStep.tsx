@@ -136,8 +136,8 @@ export function ConfirmStep({
         <Button
           type="button"
           variant="ghost"
+          className="min-h-[var(--ds-touch-target,2.75rem)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={onBack}
-          className="min-h-[var(--ds-touch-target,2.75rem)]"
         >
           <ChevronLeft className="h-4 w-4" aria-hidden /> Ändra
         </Button>
@@ -146,7 +146,7 @@ export function ConfirmStep({
           variant="success"
           onClick={() => void onSave()}
           disabled={saving || Boolean(memoryError)}
-          className="min-h-[var(--ds-touch-target,2.75rem)]"
+          className="min-h-[var(--ds-touch-target,2.75rem)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           aria-keyshortcuts="Enter"
         >
           {saving ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}

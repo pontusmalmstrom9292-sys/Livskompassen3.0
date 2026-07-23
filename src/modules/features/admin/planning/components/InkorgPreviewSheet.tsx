@@ -93,11 +93,11 @@ export function InkorgPreviewSheet({ open, classification, saving, onConfirm, on
           variant="accent"
           disabled={saving || classification.routeToHamn}
           onClick={onConfirm}
-          className="min-h-11 flex-1"
+          className="min-h-11 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           {saving ? 'Sparar…' : 'Skapa uppgift'}
         </Button>
-        <Button variant="ghost" onClick={onCancel} className="min-h-11 flex-1">
+        <Button variant="ghost" onClick={onCancel} className="min-h-11 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Tillbaka
         </Button>
       </SheetFooter>

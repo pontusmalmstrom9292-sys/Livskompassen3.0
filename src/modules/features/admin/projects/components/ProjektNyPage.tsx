@@ -184,7 +184,7 @@ export function ProjektNyPage() {
         >
           {saving ? 'Skapar…' : 'Skapa projekt med fil'}
         </Button>
-        <ButtonLink to="/projekt" variant="ghost" className="--ghost mt-4 inline-flex text-sm">
+        <ButtonLink to="/projekt" variant="ghost" className="--ghost mt-4 inline-flex text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Avbryt
         </ButtonLink>
       </HubPageShell>
@@ -245,10 +245,10 @@ export function ProjektNyPage() {
         })}
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
-        <ButtonLink to="/projekt/regler" variant="ghost" className="--ghost text-sm">
+        <ButtonLink to="/projekt/regler" variant="ghost" className="--ghost text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Regler
         </ButtonLink>
-        <ButtonLink to="/projekt" variant="ghost" className="--ghost text-sm">
+        <ButtonLink to="/projekt" variant="ghost" className="--ghost text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Tillbaka
         </ButtonLink>
       </div>

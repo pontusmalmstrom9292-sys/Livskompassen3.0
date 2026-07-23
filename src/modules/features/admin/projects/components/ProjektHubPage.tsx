@@ -135,7 +135,7 @@ export function ProjektHubPage() {
           )}
 
           {user && (
-            <ButtonLink to="/projekt/ny" variant="accent" className="--accent flex min-h-11 w-full items-center justify-center gap-2 py-3">
+            <ButtonLink to="/projekt/ny" variant="accent" className="--accent flex min-h-11 w-full items-center justify-center gap-2 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               <Plus className="h-4 w-4" />
               Nytt projekt
             </ButtonLink>
@@ -200,11 +200,11 @@ export function ProjektHubPage() {
 
           <div className="space-y-2 border-t border-border/50 pt-4">
             <p className={textStyles.eyebrow}>Verktyg</p>
-            <ButtonLink to="/projekt/regler" variant="ghost" className="--ghost flex min-h-11 w-full items-center justify-center gap-2 text-sm">
+            <ButtonLink to="/projekt/regler" variant="ghost" className="--ghost flex min-h-11 w-full items-center justify-center gap-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               <Settings2 className="h-4 w-4" />
               Regler & automation
             </ButtonLink>
-            <ButtonLink to="/projekt/genvagar" variant="ghost" className="--ghost flex min-h-11 w-full flex-col items-center justify-center gap-0.5 py-3 text-sm">
+            <ButtonLink to="/projekt/genvagar" variant="ghost" className="--ghost flex min-h-11 w-full flex-col items-center justify-center gap-0.5 py-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               <span className="inline-flex items-center gap-2">
                 <Sparkles className="h-4 w-4" />
                 Genvägar per profil

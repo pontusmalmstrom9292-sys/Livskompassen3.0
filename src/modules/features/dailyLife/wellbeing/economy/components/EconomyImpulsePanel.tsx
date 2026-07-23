@@ -232,7 +232,7 @@ export function EconomyImpulsePanel() {
                     type="button"
                     disabled={busy}
                     onClick={() => void handleRemove(item.id)}
-                    className="mt-2 inline-flex min-h-11 items-center text-[10px] text-text-muted hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-50"
+                    className="mt-2 inline-flex min-h-11 items-center text-[10px] text-text-muted hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-50"
                   >
                     Ta bort
                   </button>

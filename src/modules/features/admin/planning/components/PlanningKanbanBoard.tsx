@@ -248,13 +248,13 @@ export function PlanningKanbanBoard() {
             <Button
               variant="accent"
               size="sm"
-              className="flex-1"
+              className="flex-1 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               disabled={saving || !quickTitle.trim()}
               onClick={() => void submitQuickAdd()}
             >
               Spara
             </Button>
-            <Button variant="ghost" size="sm" onClick={() => setQuickColumn(null)}>
+            <Button variant="ghost" size="sm" className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => setQuickColumn(null)}>
               Avbryt
             </Button>
           </div>

@@ -114,6 +114,7 @@ Phase 0–9 baseline och migration **done**. Phase 10: `index.css` import-only; 
 | Release readiness runway | Agent PASS · G85 Enhetsgate pending Pontus | 2026-07-23 — SOS ZF · RemoteViews lint · Minne docs DONE |
 | UI Polish V5 ×10 | kod Done (autonom) · G85 visual pending | 2026-07-23 — unlock V5 · focus/touch deepen |
 | UI Polish V6 ×10 | kod Done (autonom) | 2026-07-23 — unlock V6 · residual deepen |
+| UI Polish V7 ×10 | kod Done (autonom) | 2026-07-23 — unlock V7 · third deepen |
 | Planering/Valv premium polish batch | **PASS** | 2026-07-20 — inkorg/connect polish, Valv pending/log focus states, reduced-transparency fallback, Valv PDF aria-label |
 | Valv a11y sweep (contrast/keyboard) | **PASS** | 2026-07-20 — Escape i zonväljare, mönster + Drive aria-label, gold-on-navy contrast pass |
 | MåBra UI polish (vit-hub) | **PASS** | 2026-07-20 — chip/tile focus-visible, touch-target, contrast + reduced-transparency fallback |

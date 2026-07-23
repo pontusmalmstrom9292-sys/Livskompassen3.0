@@ -136,7 +136,7 @@ export function VitChatFlowPanel({ userId, projectId, onSaved }: Props) {
       ) : (
         <Button
           variant="accent"
-          className="w-full text-sm"
+          className="min-h-11 w-full text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={() => void handleSend()}
           disabled={sending}
         >

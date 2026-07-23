@@ -194,7 +194,7 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
               type="button"
               onClick={() => setActiveMode(mode.id)}
               aria-pressed={isActive}
-              className={`min-h-[44px] rounded-lg px-3 py-2 text-left text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50 ${
+              className={`min-h-[44px] rounded-lg px-3 py-2 text-left text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
                 isActive
                   ? 'border border-accent/20 bg-accent/10 text-accent'
                   : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
@@ -211,7 +211,7 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
             type="button"
             onClick={() => setShowMoreModes((open) => !open)}
             aria-expanded={showMoreModes || isMoreModeActive}
-            className={`min-h-[44px] rounded-lg px-3 py-2 text-left text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50 ${
+            className={`min-h-[44px] rounded-lg px-3 py-2 text-left text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
               isMoreModeActive
                 ? 'border border-accent/20 bg-accent/10 text-accent'
                 : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'
@@ -231,7 +231,7 @@ export function EkonomiInputSuperModule({ userId }: EkonomiInputSuperModuleProps
                 type="button"
                 onClick={() => setActiveMode(mode.id)}
                 aria-pressed={isActive}
-                className={`min-h-[44px] rounded-lg px-3 py-2 text-left text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50 ${
+                className={`min-h-[44px] rounded-lg px-3 py-2 text-left text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
                   isActive
                     ? 'border border-accent/20 bg-accent/10 text-accent'
                     : 'border border-transparent text-text-muted hover:border-border hover:bg-surface-3 hover:text-text'

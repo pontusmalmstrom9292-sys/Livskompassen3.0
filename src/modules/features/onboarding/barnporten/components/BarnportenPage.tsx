@@ -138,7 +138,7 @@ export function BarnportenPage() {
           <button
             type="button"
             disabled={saving}
-            className="barnporten-action elongated-module flex min-h-11 flex-col items-center justify-center gap-2 p-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+            className="barnporten-action elongated-module flex min-h-11 flex-col items-center justify-center gap-2 p-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             aria-label="Prata — skicka meddelande"
             onClick={() => {
               const text = window.prompt('Vad vill du säga?', '') ?? '';
@@ -154,7 +154,7 @@ export function BarnportenPage() {
           <button
             type="button"
             disabled={saving || !message.trim()}
-            className="barnporten-action elongated-module flex min-h-11 flex-col items-center justify-center gap-2 p-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+            className="barnporten-action elongated-module flex min-h-11 flex-col items-center justify-center gap-2 p-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             aria-label="Skriv till pappa"
             onClick={() => void postLog('message', message.trim(), 'skriv')}
           >
@@ -166,7 +166,7 @@ export function BarnportenPage() {
         <button
           type="button"
           disabled={saving}
-          className="barnporten-action elongated-module flex min-h-11 flex-col items-center justify-center gap-2 p-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+          className="barnporten-action elongated-module flex min-h-11 flex-col items-center justify-center gap-2 p-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           aria-label="Ange humör"
           onClick={() => {
             const mood = window.prompt('Humör 1–5:', '3') ?? '3';
@@ -181,7 +181,7 @@ export function BarnportenPage() {
           <button
             type="button"
             disabled={saving}
-            className="barnporten-action elongated-module flex min-h-11 flex-col items-center justify-center gap-2 p-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+            className="barnporten-action elongated-module flex min-h-11 flex-col items-center justify-center gap-2 p-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             aria-label="Privat anteckning bara för mig"
             onClick={() => {
               const text = window.prompt('Bara för mig (privat):', '') ?? '';
@@ -198,7 +198,7 @@ export function BarnportenPage() {
         type="button"
         variant="secondary"
         disabled={saving}
-        className="barnporten-action mt-4 flex min-h-11 w-full items-center justify-center gap-2 text-sm"
+        className="barnporten-action mt-4 flex min-h-11 w-full items-center justify-center gap-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         aria-label="Allvarligt — kontakta trygg vuxen"
         onClick={() => {
           const text = window.prompt('Allvarligt — behöver prata med pappa:', '') ?? '';

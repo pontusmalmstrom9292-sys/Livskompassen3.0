@@ -53,7 +53,7 @@ function BarRow({
     <button
       type="button"
       onClick={onSelect}
-      className="valv-monster-bar min-h-11 w-full space-y-1 rounded-lg border border-transparent px-1 py-1.5 text-left transition-colors hover:border-accent/25 hover:bg-accent/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+      className="valv-monster-bar min-h-11 w-full space-y-1 rounded-lg border border-transparent px-1 py-1.5 text-left transition-colors hover:border-accent/25 hover:bg-accent/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       title={`Visa arkivposter med #${label}`}
       aria-label={`Filtrera arkivet på taktiken ${label}, ${count} träffar`}
     >
@@ -155,7 +155,7 @@ export function VaultMonsterPanel({ logs, userId, onTechniqueSelect }: Props) {
             type="button"
             disabled={!userId || rescanning || assisting}
             onClick={() => void handleRescan()}
-            className="inline-flex min-h-11 items-center gap-1.5 rounded-lg border border-accent/30 bg-accent/5 px-3 text-xs text-accent hover:bg-accent/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-40"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-lg border border-accent/30 bg-accent/5 px-3 text-xs text-accent hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-40"
             aria-label="Skanna om valvposter och uppdatera mönster-metadata"
           >
             {rescanning ? (
@@ -169,7 +169,7 @@ export function VaultMonsterPanel({ logs, userId, onTechniqueSelect }: Props) {
             type="button"
             disabled={!userId || rescanning || assisting}
             onClick={() => void handleFlowAssist()}
-            className="inline-flex min-h-11 items-center gap-1.5 rounded-lg border border-border/50 bg-surface-3/40 px-3 text-xs text-text-muted hover:border-accent/30 hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-40"
+            className="inline-flex min-h-11 items-center gap-1.5 rounded-lg border border-border/50 bg-surface-3/40 px-3 text-xs text-text-muted hover:border-accent/30 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-40"
             aria-label="Kör kompletterande flow-assist för mönster-metadata"
           >
             {assisting ? (

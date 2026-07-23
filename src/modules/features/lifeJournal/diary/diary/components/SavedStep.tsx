@@ -32,12 +32,23 @@ export function SavedStep({
           <Check className="h-5 w-5" />
           <span className="text-sm">{DAGBOK_TYST_DONE_LABEL}</span>
         </div>
-        <Button type="button" variant="accent" className="w-full sm:w-auto" onClick={onNewEntry}>
+        <Button
+          type="button"
+          variant="accent"
+          className="min-h-11 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 sm:w-auto"
+          onClick={onNewEntry}
+        >
           Klart
         </Button>
         <CalmCollapsible title="Om du vill …" meta="Valfritt" defaultOpen={false} glow="gold">
           <div className="flex flex-wrap gap-2">
-            <Button type="button" variant="ghost" size="sm" onClick={onNewEntry}>
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+              onClick={onNewEntry}
+            >
               Ny post
             </Button>
             <ButtonLink
@@ -45,6 +56,7 @@ export function SavedStep({
               state={{ journalContext }}
               variant="ghost"
               size="sm"
+              className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               Känslospegeln
             </ButtonLink>
@@ -68,14 +80,19 @@ export function SavedStep({
         />
       ) : null}
       <div className="flex flex-wrap gap-2">
-        <Button type="button" variant="accent" onClick={onNewEntry}>
+        <Button
+          type="button"
+          variant="accent"
+          className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          onClick={onNewEntry}
+        >
           Ny post
         </Button>
         <ButtonLink
           to={hjartatTabHref('speglar')}
           state={{ journalContext }}
           variant="ghost"
-          className="border-accent-secondary/40 text-accent-secondary hover:bg-accent-secondary/10"
+          className="min-h-11 border-accent-secondary/40 text-accent-secondary hover:bg-accent-secondary/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           Känns det som gaslighting? → Gå till Speglar
         </ButtonLink>

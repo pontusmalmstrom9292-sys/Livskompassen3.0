@@ -1,6 +1,21 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
 
+## 2026-07-23 — UI Polish V7 ×10 (autonom)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V7-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V7-X10.md) (`approved: yes`)
+
+- [x] W1 Projekt hub/detail/ny
+- [x] W2 Planering residual (pin/kanban/inkorg)
+- [x] W3 Core chrome/home
+- [x] W4 Media attach
+- [x] W5 MåBra residual
+- [x] W6 Drogfrihet/Arbetsliv/Näring
+- [x] W7 Dagbok residual
+- [x] W8 Barnporten
+- [x] W9 Ekonomi/Valv/Hamn/widgets residual
+- [x] W10 smoke
+
 ## 2026-07-23 — UI Polish V6 ×10 (autonom)
 
 Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V6-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V6-X10.md) (`approved: yes`)

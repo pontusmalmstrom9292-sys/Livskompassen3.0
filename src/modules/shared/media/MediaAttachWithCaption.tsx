@@ -207,7 +207,7 @@ export function MediaAttachWithCaption({
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="min-h-11 min-w-11 shrink-0"
+                className="min-h-11 min-w-11 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 aria-label={`Ta bort bild ${index + 1}`}
                 disabled={disabled}
                 onClick={() => removeAt(item.id)}
@@ -255,7 +255,7 @@ export function MediaAttachWithCaption({
           type="button"
           variant="secondary"
           size="sm"
-          className="inline-flex min-h-11 w-full items-center justify-center gap-2"
+          className="inline-flex min-h-11 w-full items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={disabled}
           onClick={() => inputRef.current?.click()}
         >

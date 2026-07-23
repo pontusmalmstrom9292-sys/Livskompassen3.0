@@ -143,7 +143,7 @@ export function EconomyMealPrepPanel() {
                 disabled={busy}
                 onClick={() => toggleItem(item.id)}
                 className={clsx(
-                  'mt-0.5 flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-60',
+                  'mt-0.5 flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-60',
                   item.done
                     ? 'bg-success/20 text-success'
                     : 'border border-border-strong text-transparent hover:border-success/50',
@@ -171,7 +171,7 @@ export function EconomyMealPrepPanel() {
         type="button"
         disabled={busy || !user || !allDone}
         onClick={() => void handleMealPrepWin()}
-        className="flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-success/30 bg-success/10 py-2.5 text-xs text-success transition-colors hover:bg-success/20 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 disabled:opacity-40"
+        className="flex min-h-11 w-full items-center justify-center gap-2 rounded-lg border border-success/30 bg-success/10 py-2.5 text-xs text-success transition-colors hover:bg-success/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-40"
       >
         <Utensils className="h-3.5 w-3.5" />
         Alla steg klara — logga matlåda (−{mealPreset} kr)

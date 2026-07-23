@@ -98,7 +98,7 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
           onChange={(e) => setDraft(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && addItem()}
         />
-        <Button type="button" variant="secondary" className="shrink-0" onClick={addItem}>
+        <Button type="button" variant="secondary" className="shrink-0 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={addItem}>
           <Plus className="h-4 w-4" />
           Lägg till
         </Button>
@@ -162,7 +162,7 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
             type="button"
             variant="ghost"
             size="sm"
-            className="mt-2 w-full"
+            className="mt-2 w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={() => setList(clearDoneQuickListItems(listId))}
           >
             Rensa klara
@@ -174,7 +174,7 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
         <Button
           type="button"
           variant="secondary"
-          className="w-full"
+          className="w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={saving}
           onClick={() => void saveAsProject()}
         >

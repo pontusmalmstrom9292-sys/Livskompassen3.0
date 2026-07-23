@@ -13,7 +13,7 @@ export function HomeDagbokPanel() {
       <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
         <ButtonLink
           to={HOME_SUPERHUB_ROUTES.hjartatQuickMirror}
-          className="inline-flex items-center justify-center gap-2"
+          className="inline-flex items-center justify-center gap-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           <PenLine className="h-4 w-4" aria-hidden />
           Snabb spegling
@@ -21,7 +21,7 @@ export function HomeDagbokPanel() {
         <ButtonLink
           to={HOME_SUPERHUB_ROUTES.hjartatReflektion}
           variant="ghost"
-          className="inline-flex items-center justify-center gap-2"
+          className="inline-flex items-center justify-center gap-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           <BookOpen className="h-4 w-4" aria-hidden />
           Reflektera steg för steg

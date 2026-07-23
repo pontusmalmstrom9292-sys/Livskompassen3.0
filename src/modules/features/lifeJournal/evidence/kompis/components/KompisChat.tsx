@@ -99,9 +99,10 @@ export function KompisChat() {
         {EXPERTS.map((expert) => (
           <button
             key={expert.id}
+            type="button"
             onClick={() => setSelectedExpert(expert.id)}
             className={clsx(
-              "px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 border",
+              'min-h-11 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-200 border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
               selectedExpert === expert.id 
                 ? "bg-accent/20 border-accent/50 text-accent shadow-[0_0_10px_rgba(var(--accent),0.2)]" 
                 : "bg-surface border-border/30 text-text-muted hover:text-text hover:border-border/60"
@@ -190,7 +191,7 @@ export function KompisChat() {
           <button
             type="submit"
             disabled={isLoading || !inputText.trim()}
-            className="absolute right-2 bottom-2 p-2 rounded-full text-accent hover:bg-accent/10 disabled:opacity-50 disabled:hover:bg-transparent transition-colors"
+            className="absolute right-2 bottom-2 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full p-2 text-accent hover:bg-accent/10 disabled:opacity-50 disabled:hover:bg-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             aria-label="Skicka meddelande"
           >
             <Send className="h-4 w-4" />

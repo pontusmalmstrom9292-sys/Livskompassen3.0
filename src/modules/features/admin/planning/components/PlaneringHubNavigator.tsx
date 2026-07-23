@@ -73,7 +73,7 @@ export function PlaneringHubNavigator({
             >
               <button
                 type="button"
-                className="planering-hub__category-trigger"
+                className="planering-hub__category-trigger min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 aria-expanded={isOpen}
                 onClick={() => setOpenCategory(isOpen ? null : cat)}
               >

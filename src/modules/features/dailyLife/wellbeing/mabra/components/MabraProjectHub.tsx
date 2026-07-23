@@ -68,13 +68,17 @@ export function MabraProjectHub({ onSelectProject, onSelectAkut, onOpenValues }:
       <ButtonLink
         to={VAULT_VIT_TAB_LINK}
         variant="ghost"
-        className="inline-flex w-full items-center justify-center gap-2 text-sm"
+        className="inline-flex min-h-11 w-full items-center justify-center gap-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       >
         <Archive className="h-4 w-4" aria-hidden />
         {VIT_HUB_VAULT_LINK}
       </ButtonLink>
 
-      <Button variant="ghost" className="w-full text-sm" onClick={onOpenValues}>
+      <Button
+        variant="ghost"
+        className="min-h-11 w-full text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        onClick={onOpenValues}
+      >
         {VALUES_COMPASS_COPY.hubLinkLabel}
       </Button>
     </div>
