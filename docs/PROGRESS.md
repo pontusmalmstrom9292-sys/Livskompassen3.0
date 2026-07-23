@@ -1,3 +1,12 @@
+## 2026-07-23 — Companion OS Hemskärm + Studio Gold Våg 1–4 (Cursor)
+
+- Rich 10-pack RemoteViews + WIS multi-PI redan på plats; polish: ≥56 dp (Note/Harbor/Tasks/CTA), soft bloom `widget_bg_premium_panel`, inset well depth, Capture waveform alpha vid recording
+- Fix: duplicate `setMoodCheck` i `WidgetActionReceiver` → android compile PASS
+- Docs: `COMPANION-ANDROID-RICH-WIDGETS.md` targetCell/min-tabell
+- Smoke: `smoke:companion-widgets` · `smoke:widgets` · `smoke:locked-ux` **PASS**
+- Compile: `:app:compileDebugJavaWithJavac` **PASS**
+- Våg 5+ Smart/AI **DEFER** · YOLO: Companion-scope OK; dirty `core/**` måste exkluderas från merge
+
 ## 2026-07-22 — UI högerförskjutning + Projekt-look (Cursor)
 
 - **Bug:** telefonen panade/skiftade höger — `fixed` compass/watermarks med `150vw`/`140vw` blåste upp `scrollWidth`; `html`/`body` saknade overflow-x-lås

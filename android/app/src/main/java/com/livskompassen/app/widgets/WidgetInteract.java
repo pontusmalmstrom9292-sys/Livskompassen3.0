@@ -42,6 +42,7 @@ public final class WidgetInteract {
     public static final String ACT_CAPTURE_TOGGLE = "capture.toggle";
     public static final String ACT_CAPTURE_DOWNLOAD = "capture.download";
     public static final String ACT_CAPTURE_SHARE = "capture.share";
+    public static final String ACT_MOOD_CHECK = "mood.check";
 
     private WidgetInteract() {}
 

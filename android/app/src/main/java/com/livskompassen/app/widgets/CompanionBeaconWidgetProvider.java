@@ -6,7 +6,7 @@ import android.content.Context;
 
 /**
  * Companion OS — Fyren Medium on home screen (rich Gold RemoteViews).
- * Opens /widget/companion-beacon. No core manager changes.
+ * Capacity CTA → WIS overlay (MODE_BEACON). No Sacred core/** changes.
  */
 public class CompanionBeaconWidgetProvider extends AppWidgetProvider {
     @Override

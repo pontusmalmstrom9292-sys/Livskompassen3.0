@@ -13,7 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
+        android:gravity="center_vertical"
         android:orientation="horizontal">
 
         <ImageView
@@ -24,34 +24,38 @@
 
         <TextView
             android:id="@+id/widget_companion_note_title"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="6dp"
-            android:ellipsize="end"
-            android:gravity="center"
+            android:layout_weight="1"
             android:letterSpacing="0.16"
-            android:maxLines="1"
-            android:text="@string/widget_companion_note_title"
+            android:text="@string/widget_note_header"
             android:textAllCaps="true"
-            android:textColor="@color/widget_gold"
-            android:textSize="11sp"
+            android:textColor="@color/widget_gold_light"
+            android:textSize="10sp"
             android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_note_hint"
+            android:textColor="@color/widget_muted"
+            android:textSize="8sp" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/widget_companion_note_compose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/widget_bg_inset_well"
-        android:contentDescription="@string/widget_companion_note_compose"
-        android:gravity="center_vertical"
-        android:minHeight="56dp"
-        android:paddingHorizontal="14dp"
-        android:paddingVertical="12dp"
+        android:gravity="top|start"
+        android:minHeight="64dp"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="10dp"
         android:text="@string/widget_companion_note_compose"
         android:textColor="@color/widget_muted"
-        android:textSize="13sp" />
+        android:textSize="12sp" />
 
     <LinearLayout
         android:id="@+id/widget_companion_note_pills"
@@ -64,12 +68,11 @@
         <TextView
             android:id="@+id/widget_companion_note_pill_tanke"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="32dp"
             android:layout_weight="1"
             android:background="@drawable/widget_bg_pill_category"
             android:gravity="center"
-            android:minHeight="56dp"
-            android:paddingHorizontal="4dp"
+            android:minHeight="32dp"
             android:text="@string/widget_companion_note_pill_tanke"
             android:textColor="@color/widget_muted"
             android:textSize="9sp" />
@@ -77,13 +80,12 @@
         <TextView
             android:id="@+id/widget_companion_note_pill_ide"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="6dp"
             android:layout_weight="1"
             android:background="@drawable/widget_bg_pill_category"
             android:gravity="center"
-            android:minHeight="56dp"
-            android:paddingHorizontal="4dp"
+            android:minHeight="32dp"
             android:text="@string/widget_companion_note_pill_ide"
             android:textColor="@color/widget_muted"
             android:textSize="9sp" />
@@ -91,13 +93,12 @@
         <TextView
             android:id="@+id/widget_companion_note_pill_paminnelse"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="6dp"
             android:layout_weight="1"
             android:background="@drawable/widget_bg_pill_category"
             android:gravity="center"
-            android:minHeight="56dp"
-            android:paddingHorizontal="4dp"
+            android:minHeight="32dp"
             android:text="@string/widget_companion_note_pill_paminnelse"
             android:textColor="@color/widget_muted"
             android:textSize="9sp" />
@@ -105,13 +106,12 @@
         <TextView
             android:id="@+id/widget_companion_note_pill_annat"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="6dp"
             android:layout_weight="1"
             android:background="@drawable/widget_bg_pill_category"
             android:gravity="center"
-            android:minHeight="56dp"
-            android:paddingHorizontal="4dp"
+            android:minHeight="32dp"
             android:text="@string/widget_companion_note_pill_annat"
             android:textColor="@color/widget_muted"
             android:textSize="9sp" />
@@ -120,48 +120,44 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/widget_bg_stamp_pill_muted"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingHorizontal="6dp"
-        android:paddingVertical="4dp">
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/widget_companion_note_photo"
-            android:layout_width="0dp"
+            android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_weight="1"
-            android:contentDescription="@string/widget_companion_note_photo"
-            android:minHeight="56dp"
-            android:padding="12dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/widget_ic_wh2_note" />
+            android:background="@drawable/widget_bg_pill_category"
+            android:padding="14dp"
+            android:src="@drawable/widget_ic_wh2_note"
+            android:alpha="0.8"
+            android:contentDescription="@string/widget_companion_note_photo" />
 
         <ImageView
             android:id="@+id/widget_companion_note_voice"
-            android:layout_width="0dp"
+            android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_weight="1"
-            android:contentDescription="@string/widget_companion_note_voice"
-            android:minHeight="56dp"
-            android:padding="12dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/widget_ic_companion_mic" />
+            android:layout_marginStart="12dp"
+            android:background="@drawable/widget_bg_pill_category"
+            android:padding="14dp"
+            android:src="@drawable/widget_ic_companion_mic"
+            android:alpha="0.8"
+            android:contentDescription="@string/widget_companion_note_voice" />
+
+        <View android:layout_width="0dp" android:layout_height="1dp" android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/widget_companion_note_add"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_marginStart="4dp"
-            android:background="@drawable/widget_bg_stamp_pill"
-            android:contentDescription="@string/widget_companion_note_add"
+            android:background="@drawable/widget_bg_gold_ring"
             android:gravity="center"
-            android:minWidth="56dp"
             android:minHeight="56dp"
             android:text="+"
-            android:textColor="@color/widget_background"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textColor="@color/widget_gold_light"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:contentDescription="@string/widget_companion_note_add" />
     </LinearLayout>
 </LinearLayout>

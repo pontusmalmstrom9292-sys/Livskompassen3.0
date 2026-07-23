@@ -14,11 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
         <ImageView
-            android:layout_width="12dp"
-            android:layout_height="12dp"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:contentDescription="@null"
             android:src="@drawable/widget_ic_lock_gold" />
 
@@ -26,28 +26,24 @@
             android:id="@+id/widget_companion_capture_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:ellipsize="end"
-            android:letterSpacing="0.14"
-            android:maxLines="1"
-            android:text="@string/widget_companion_capture_title"
+            android:layout_marginTop="4dp"
+            android:letterSpacing="0.2"
+            android:text="@string/widget_capture_header"
             android:textAllCaps="true"
-            android:textColor="@color/widget_gold"
-            android:textSize="9sp"
+            android:textColor="@color/widget_gold_light"
+            android:textSize="10sp"
             android:textStyle="bold" />
-    </LinearLayout>
 
-    <!-- Sub used as dynamic status (recording) — compact -->
-    <TextView
-        android:id="@+id/widget_companion_capture_sub"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:maxLines="1"
-        android:text="@string/widget_companion_capture_sub"
-        android:textColor="@color/widget_muted"
-        android:textSize="8sp" />
+        <TextView
+            android:id="@+id/widget_companion_capture_sub"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:gravity="center"
+            android:text="@string/widget_capture_hint"
+            android:textColor="@color/widget_muted"
+            android:textSize="9sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -59,34 +55,31 @@
         <ImageView
             android:id="@+id/widget_companion_capture_wave_l"
             android:layout_width="0dp"
-            android:layout_height="28dp"
+            android:layout_height="32dp"
             android:layout_weight="1"
+            android:alpha="0.6"
             android:contentDescription="@null"
-            android:scaleType="fitCenter"
             android:src="@drawable/widget_waveform_ethereal" />
 
         <FrameLayout
             android:id="@+id/widget_companion_capture_mic"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginHorizontal="4dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginHorizontal="8dp"
             android:background="@drawable/widget_bg_gold_ring"
-            android:contentDescription="@string/widget_companion_capture_mic_cd"
-            android:minWidth="56dp"
-            android:minHeight="56dp"
-            android:padding="4dp">
+            android:padding="6dp">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/widget_bg_mic_inset"
-                android:padding="10dp">
+                android:padding="12dp">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:alpha="0.9"
                     android:contentDescription="@null"
-                    android:scaleType="fitCenter"
                     android:src="@drawable/widget_ic_companion_mic" />
             </FrameLayout>
         </FrameLayout>
@@ -94,47 +87,61 @@
         <ImageView
             android:id="@+id/widget_companion_capture_wave_r"
             android:layout_width="0dp"
-            android:layout_height="28dp"
+            android:layout_height="32dp"
             android:layout_weight="1"
+            android:alpha="0.6"
             android:contentDescription="@null"
-            android:scaleType="fitCenter"
             android:scaleX="-1"
             android:src="@drawable/widget_waveform_ethereal" />
     </LinearLayout>
 
-    <!-- Keep id for WIS PendingIntent; compact status chip -->
     <TextView
         android:id="@+id/widget_companion_capture_recent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/widget_companion_capture_recent"
         android:gravity="center"
-        android:letterSpacing="0.06"
-        android:maxLines="1"
-        android:minHeight="20dp"
-        android:text="@string/widget_companion_capture_recent"
-        android:textAllCaps="true"
+        android:text="@string/widget_capture_footer"
         android:textColor="@color/widget_muted"
         android:textSize="8sp" />
 
-    <!-- Kap 6.4 trust — en rad i XS -->
     <LinearLayout
         android:id="@+id/widget_companion_capture_trust"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="4dp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
             android:gravity="center"
-            android:letterSpacing="0.05"
-            android:maxLines="1"
-            android:text="@string/widget_companion_capture_trust"
-            android:textAllCaps="true"
-            android:textColor="@color/widget_gold_dim"
-            android:textSize="6sp" />
+            android:orientation="vertical">
+            <ImageView android:layout_width="10dp" android:layout_height="10dp" android:src="@drawable/widget_ic_shield_tiny" android:alpha="0.7" android:contentDescription="@null"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/widget_companion_capture_trust_e2e" android:textSize="7sp" android:textColor="@color/widget_gold_dim" android:gravity="center" android:textAllCaps="true"/>
+        </LinearLayout>
+
+        <View android:layout_width="20dp" android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView android:layout_width="10dp" android:layout_height="10dp" android:src="@drawable/widget_ic_lock_gold" android:alpha="0.7" android:contentDescription="@null"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/widget_companion_capture_trust_private" android:textSize="7sp" android:textColor="@color/widget_gold_dim" android:gravity="center" android:textAllCaps="true"/>
+        </LinearLayout>
+
+        <View android:layout_width="20dp" android:layout_height="1dp"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical">
+            <ImageView android:layout_width="10dp" android:layout_height="10dp" android:src="@drawable/widget_ic_shield_tiny" android:alpha="0.7" android:contentDescription="@null"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/widget_companion_capture_trust_you" android:textSize="7sp" android:textColor="@color/widget_gold_dim" android:gravity="center" android:textAllCaps="true"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
