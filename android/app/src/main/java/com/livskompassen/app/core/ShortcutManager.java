@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.pm.ShortcutInfo;
 import android.graphics.drawable.Icon;
 import android.os.Build;
+import androidx.annotation.RequiresApi;
+
 import com.livskompassen.app.MainActivity;
 import com.livskompassen.app.R;
 import java.util.ArrayList;
@@ -19,9 +21,18 @@ public class ShortcutManager {
     private final Context context;
     private String lastPath = "";
     private String lastText = "";
+    private ThemeManager.CircadianPhase currentPhase = ThemeManager.CircadianPhase.DAY;
 
     public ShortcutManager(Context context) {
         this.context = context;
+    }
+
+    /**
+     * Våg 130: Uppdaterar genvägar baserat på dygnsrytm.
+     */
+    public void updateContextualShortcuts(ThemeManager.CircadianPhase phase) {
+        this.currentPhase = phase;
+        updateAllShortcuts();
     }
 
     /**
@@ -55,7 +66,10 @@ public class ShortcutManager {
 
         List<ShortcutInfo> shortcuts = new ArrayList<>();
 
-        // 1. Resume Shortcut
+        // 1. Contextual Shortcut (Based on Phase)
+        addContextualShortcut(shortcuts);
+
+        // 2. Resume Shortcut
         if (lastPath != null && !lastPath.isEmpty()) {
             Intent intent = new Intent(context, MainActivity.class);
             intent.setAction(Intent.ACTION_VIEW);
@@ -69,7 +83,7 @@ public class ShortcutManager {
                     .build());
         }
 
-        // 2. Utvecklingskort Shortcut → open Mer för dig
+        // 3. Utvecklingskort Shortcut → open Mer för dig
         if (lastText != null && !lastText.isEmpty()) {
             Intent intent = new Intent(context, MainActivity.class);
             intent.setAction(Intent.ACTION_VIEW);
@@ -85,7 +99,50 @@ public class ShortcutManager {
         }
 
         if (!shortcuts.isEmpty()) {
-            shortcutManager.setDynamicShortcuts(shortcuts);
+            // Android allows up to 4 dynamic shortcuts
+            List<ShortcutInfo> result = shortcuts;
+            if (result.size() > 4) {
+                result = result.subList(0, 4);
+            }
+            shortcutManager.setDynamicShortcuts(result);
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N_MR1)
+    private void addContextualShortcut(List<ShortcutInfo> list) {
+        String id, label, path;
+        int iconRes;
+
+        switch (currentPhase) {
+            case MORNING:
+                id = "ctx_morning";
+                label = "Morgonmix";
+                path = "/mix/morgon";
+                iconRes = R.drawable.widget_chip_kompass;
+                break;
+            case DUSK:
+            case NIGHT:
+                id = "ctx_evening";
+                label = "Kvällsrutin";
+                path = "/rutin/kvall";
+                iconRes = R.drawable.widget_ic_lotus_ethereal;
+                break;
+            default:
+                id = "ctx_day";
+                label = "Dagens Fokus";
+                path = "/widget/kompass";
+                iconRes = R.drawable.widget_ic_anchor_gold;
+                break;
+        }
+
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setAction(Intent.ACTION_VIEW);
+        intent.putExtra("widget_path", path);
+
+        list.add(new ShortcutInfo.Builder(context, id)
+                .setShortLabel(label)
+                .setIcon(Icon.createWithResource(context, iconRes))
+                .setIntent(intent)
+                .build());
     }
 }

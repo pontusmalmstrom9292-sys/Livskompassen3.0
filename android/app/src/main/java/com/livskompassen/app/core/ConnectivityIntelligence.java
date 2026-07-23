@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import com.livskompassen.app.util.LCLog;
 
 /**
@@ -13,6 +15,12 @@ import com.livskompassen.app.util.LCLog;
 public class ConnectivityIntelligence {
     private final ConnectivityManager cm;
     private NetworkStatusListener listener;
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    private Runnable pendingNotify;
+    private boolean lastMetered;
+    private boolean lastRoaming;
+    private boolean hasSnapshot;
+    private static final long DEBOUNCE_MS = 3000L;
 
     public interface NetworkStatusListener {
         void onNetworkChanged(boolean isMetered, boolean isRoaming);
@@ -24,36 +32,48 @@ public class ConnectivityIntelligence {
             cm.registerDefaultNetworkCallback(new ConnectivityManager.NetworkCallback() {
                 @Override
                 public void onCapabilitiesChanged(android.net.Network network, android.net.NetworkCapabilities caps) {
-                    if (listener != null) {
-                        listener.onNetworkChanged(isMetered(), isRoaming());
-                    }
+                    scheduleNotify(isMetered(), isRoaming());
                 }
 
                 @Override
                 public void onLost(android.net.Network network) {
-                    if (listener != null) {
-                        listener.onNetworkChanged(false, false); // Assume offline or unknown
-                    }
+                    scheduleNotify(false, false);
                 }
             });
         }
+    }
+
+    private void scheduleNotify(boolean metered, boolean roaming) {
+        if (hasSnapshot && metered == lastMetered && roaming == lastRoaming) {
+            return;
+        }
+        if (pendingNotify != null) {
+            mainHandler.removeCallbacks(pendingNotify);
+        }
+        pendingNotify = () -> {
+            pendingNotify = null;
+            if (hasSnapshot && metered == lastMetered && roaming == lastRoaming) {
+                return;
+            }
+            lastMetered = metered;
+            lastRoaming = roaming;
+            hasSnapshot = true;
+            if (listener != null) {
+                listener.onNetworkChanged(metered, roaming);
+            }
+        };
+        mainHandler.postDelayed(pendingNotify, DEBOUNCE_MS);
     }
 
     public void setNetworkStatusListener(NetworkStatusListener listener) {
         this.listener = listener;
     }
 
-    /**
-     * Kontrollerar om anslutningen är 'Metered' (t.ex. mobildata).
-     */
     public boolean isMetered() {
         if (cm == null) return false;
         return cm.isActiveNetworkMetered();
     }
 
-    /**
-     * Kontrollerar om vi är på Roaming (utomlands).
-     */
     public boolean isRoaming() {
         if (cm == null) return false;
         android.net.Network network = cm.getActiveNetwork();

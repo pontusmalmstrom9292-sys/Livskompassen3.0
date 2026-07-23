@@ -1,3 +1,11 @@
+## 2026-07-23 — Fas 24 + Companion Våg 5–7 (Cursor)
+
+- Implemented plan Fas24 Companion Waves: Sacred/Panic/Ghost hygiene, Edge AI bridges, Smart Time Android, Widget AI heuristics RemoteViews, Studio AI opt-in default off
+- Unlock docs: MOD-WIDGET Smart/AI, MOD-CORE-UTV, MOD-VALV-INKAST, fas24-android-sacred-core
+- G85: agent device-ready pack only — **not** claiming device PASS
+- Smoke: companion-widgets · locked-ux · android-platform · inbox · verifySecurityComponents · compileDebug **PASS**
+- MOD-WIDGET re-locked 2026-07-23
+
 ## 2026-07-23 — Android CI ML Kit-fix (Copilot)
 
 - GitHub Actions `Android CI` run `30008547997` failade på `IntelligenceManager.java` med `package com.google.mlkit.nl.languageid does not exist`

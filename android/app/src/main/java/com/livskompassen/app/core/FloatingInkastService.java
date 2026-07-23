@@ -52,10 +52,16 @@ public class FloatingInkastService extends Service {
         params.y = 100;
 
         ImageView closeButton = floatingView.findViewById(R.id.close_bubble);
-        closeButton.setOnClickListener(view -> stopSelf());
+        HapticManager haptic = new HapticManager(this);
+        
+        closeButton.setOnClickListener(view -> {
+            haptic.lightClick(view);
+            stopSelf();
+        });
 
         ImageView bubbleIcon = floatingView.findViewById(R.id.bubble_icon);
         bubbleIcon.setOnClickListener(view -> {
+            haptic.success();
             Intent intent = new Intent(FloatingInkastService.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("widget_path", "/planering/input?inputMode=inkast");

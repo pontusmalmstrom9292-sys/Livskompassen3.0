@@ -31,8 +31,12 @@ public class PanicTileService extends TileService {
         super.onClick();
         LCLog.w("PanicTileService: EMERGENCY LOCKDOWN TRIGGERED.");
 
-        // 1. Force locked state in prefs
-        SecurePrefs.get(this).edit().putBoolean("sacred_lock_state", true).apply();
+        // 1. Force locked + deep-lock cooldown in SecurePrefs (fail-closed before Activity may warm-start)
+        SecurePrefs.get(this).edit()
+                .putBoolean("sacred_lock_state", true)
+                .putInt("failed_biometric_attempts", 5)
+                .putLong("deep_lock_until_ms", System.currentTimeMillis() + 60_000L)
+                .apply();
         
         // 2. Clear sensitive status in widgets
         WidgetUpdateManager.updateWidgetContent(this, "last_action", "Systemet säkrat");
@@ -42,7 +46,12 @@ public class PanicTileService extends TileService {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("emergency_lock", true);
         
-        // We use a broadcast or specific extra that MainActivity handles in onNewIntent
-        startActivityAndCollapse(intent);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            android.app.PendingIntent pi = android.app.PendingIntent.getActivity(this, 999, intent, 
+                android.app.PendingIntent.FLAG_IMMUTABLE | android.app.PendingIntent.FLAG_UPDATE_CURRENT);
+            startActivityAndCollapse(pi);
+        } else {
+            startActivityAndCollapse(intent);
+        }
     }
 }

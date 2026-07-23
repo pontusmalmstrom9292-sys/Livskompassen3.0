@@ -1,3 +1,9 @@
+### 2026-07-23 — Fas 24 close + Companion Våg 5–7
+- Sacred ghost-exit fix · escapeJs · VISIBILITY_PRIVATE · KeyRecovery TEE retry
+- SmartTimePeriods + WidgetAiModes + AI bridge · Studio AI default off
+- MOD-WIDGET re-locked · device-ready pack (G85 PASS pending Pontus)
+- Smoke: companion-widgets · locked-ux · android-platform · inbox · compileDebug **PASS**
+
 ### 2026-07-23 — Android CI ML Kit-fix
 - GitHub Actions `Android CI` run **30008547997** failade på `IntelligenceManager.java` eftersom `com.google.mlkit.nl.languageid` inte fanns på classpath
 - Fix: `com.google.mlkit:language-id:17.0.6` tillagd i `/android/app/build.gradle`

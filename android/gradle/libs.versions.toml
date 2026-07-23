@@ -1,6 +1,6 @@
 [versions]
 # SDK Versions - High Stability (must match variables.gradle; AGP 8.13 max recommended = 36)
-minSdk = "24"
+minSdk = "26"
 targetSdk = "36"
 compileSdk = "36"
 

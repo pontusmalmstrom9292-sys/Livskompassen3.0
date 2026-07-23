@@ -63,7 +63,7 @@ android {
     
     defaultConfig {
         applicationId = "com.livskompassen.app"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode 1
         versionName "1.0-titanium"
@@ -261,8 +261,11 @@ dependencies {
     implementation project(':capacitor-cordova-android-plugins')
     implementation libs.google.play.integrity
     implementation libs.google.play.services.tasks
-    implementation 'com.google.mlkit:language-id:17.0.6'
     implementation 'com.google.firebase:firebase-messaging:24.1.1'
+
+    // Våg 110: Edge AI & Aura Flow (Free on-device ML)
+    implementation 'com.google.mlkit:language-id:17.0.6'
+    implementation 'com.google.mlkit:entity-extraction:16.0.0-beta6'
 }
 
 apply from: 'capacitor.build.gradle'

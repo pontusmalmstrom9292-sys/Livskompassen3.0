@@ -19,8 +19,15 @@ public final class WidgetViews {
      */
     private static void applyLiveSubtitle(Context context, RemoteViews views, String statusKey) {
         String dynamic = null;
-        if (statusKey != null && !statusKey.isEmpty()) {
-            dynamic = WidgetUpdateManager.getWidgetContent(context, statusKey);
+        // Widget AI banner wins when calm modes are active (bible 5.4).
+        String aiBanner = WidgetAiModes.banner(context);
+        if (!aiBanner.isEmpty() && WidgetAiModes.resolveMode(context) != WidgetAiModes.AiMode.NORMAL) {
+            dynamic = aiBanner;
+        }
+        if (dynamic == null || dynamic.trim().isEmpty()) {
+            if (statusKey != null && !statusKey.isEmpty()) {
+                dynamic = WidgetUpdateManager.getWidgetContent(context, statusKey);
+            }
         }
         if (dynamic == null || dynamic.trim().isEmpty()) {
             dynamic = WidgetUpdateManager.getWidgetContent(context, "last_action");
@@ -34,10 +41,13 @@ public final class WidgetViews {
         views.setTextViewText(R.id.widget_subtitle, text);
         views.setViewVisibility(R.id.widget_subtitle, View.VISIBLE);
         
-        // Våg 92: Apply circadian tint to dynamic subtitles
-        int color = android.graphics.Color.parseColor(
-            new com.livskompassen.app.core.ThemeManager(null).getWidgetAccentColor());
-        views.setTextColor(R.id.widget_subtitle, color);
+        // Våg 5 Smart Time: circadian tint (smartTimeContext periods — no ThemeManager)
+        views.setTextColor(R.id.widget_subtitle, SmartTimePeriods.accentColorInt());
+        float alpha = SmartTimePeriods.titleAlpha();
+        if (WidgetAiModes.dimVisual(context)) {
+            alpha = Math.min(alpha, 0.8f);
+        }
+        views.setFloat(R.id.widget_subtitle, "setAlpha", alpha);
     }
 
     /**
@@ -145,6 +155,7 @@ public final class WidgetViews {
         views.setOnClickPendingIntent(R.id.widget_companion_capture_root, primary);
         views.setOnClickPendingIntent(R.id.widget_companion_capture_title, primary);
         views.setOnClickPendingIntent(R.id.widget_companion_capture_recent, status);
+        applyCircadianAccent(views, R.id.widget_companion_capture_title);
         return views;
     }
 
@@ -377,6 +388,7 @@ public final class WidgetViews {
         views.setOnClickPendingIntent(R.id.widget_companion_harbor_root, breath);
         views.setOnClickPendingIntent(R.id.widget_companion_harbor_lotus, breath);
         views.setOnClickPendingIntent(R.id.widget_companion_harbor_title, breath);
+        applyCircadianAccent(views, R.id.widget_companion_harbor_title);
         return views;
     }
 
@@ -432,6 +444,7 @@ public final class WidgetViews {
         // Våg 96: Highlight selected mood in-place
         String selectedMood = SecurePrefs.get(context).getString("widget_state_mood", "5");
         applyMoodHighlight(views, selectedMood);
+        applyCircadianAccent(views, R.id.widget_companion_checkin_title, R.id.widget_companion_checkin_save);
         
         PendingIntent save = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_MOOD);
         views.setOnClickPendingIntent(R.id.widget_companion_checkin_root, save);
@@ -450,14 +463,30 @@ public final class WidgetViews {
     private static void applyMoodHighlight(RemoteViews views, String mood) {
         float dim = 0.4f;
         float on = 1f;
-        views.setFloat(R.id.widget_mood_1, "setAlpha", "1".equals(mood) ? on : dim);
-        views.setFloat(R.id.widget_mood_2, "setAlpha", "2".equals(mood) ? on : dim);
-        views.setFloat(R.id.widget_mood_3, "setAlpha", "3".equals(mood) ? on : dim);
-        views.setFloat(R.id.widget_mood_4, "setAlpha", "4".equals(mood) ? on : dim);
-        views.setFloat(R.id.widget_mood_5, "setAlpha", "5".equals(mood) ? on : dim);
-        
-        // Also update background ring for 5 if selected (matches design default)
-        views.setInt(R.id.widget_mood_5, "setBackgroundResource", 
-            "5".equals(mood) ? R.drawable.widget_bg_gold_ring : R.drawable.widget_bg_pill_category);
+        int[] ids = {
+            R.id.widget_mood_1, R.id.widget_mood_2, R.id.widget_mood_3,
+            R.id.widget_mood_4, R.id.widget_mood_5
+        };
+        for (int i = 0; i < ids.length; i++) {
+            String key = String.valueOf(i + 1);
+            boolean selected = key.equals(mood);
+            views.setFloat(ids[i], "setAlpha", selected ? on : dim);
+            views.setInt(ids[i], "setBackgroundResource",
+                selected ? R.drawable.widget_bg_gold_ring : R.drawable.widget_bg_pill_category);
+        }
+    }
+
+    /**
+     * Circadian accent on Companion title / CTA text views.
+     * Uses {@link SmartTimePeriods} (aligned with smartTimeContext.ts).
+     * Night: slight title dim (alpha) — does not clear PendingIntent / WIS.
+     */
+    private static void applyCircadianAccent(RemoteViews views, int... viewIds) {
+        int color = SmartTimePeriods.accentColorInt();
+        float alpha = SmartTimePeriods.titleAlpha();
+        for (int id : viewIds) {
+            views.setTextColor(id, color);
+            views.setFloat(id, "setAlpha", alpha);
+        }
     }
 }

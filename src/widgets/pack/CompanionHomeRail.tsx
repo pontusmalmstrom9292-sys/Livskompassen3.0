@@ -12,6 +12,7 @@ import '../companion-widgets.css';
 import { WidgetSyncStatusChip } from '../components/WidgetSyncStatusChip';
 import { WidgetButton } from '../components/WidgetButton';
 import { bootCompanionSurface } from '../core/bootCompanionSurface';
+import { pushCompanionAiSnapshot } from '../core/companionWidgetBridge';
 import { subscribeWidgetCache } from '../core/WidgetCache';
 import { setWidgetModuleNavigator } from '../core/WidgetRouter';
 import { useCompanionSurface } from '../smart/useCompanionSurface';
@@ -67,6 +68,22 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
   const [ready, setReady] = useState(false);
   const [studioTick, setStudioTick] = useState(0);
   const [collapsed, setCollapsed] = useState(readCollapsed);
+
+  useEffect(() => {
+    pushCompanionAiSnapshot({
+      enabled: surface.smartAiEnabled,
+      mode: surface.mode,
+      banner: surface.banner,
+      dimVisual: surface.dimVisual,
+      pauseProactive: surface.pauseProactive,
+    });
+  }, [
+    surface.smartAiEnabled,
+    surface.mode,
+    surface.banner,
+    surface.dimVisual,
+    surface.pauseProactive,
+  ]);
 
   const toggleCollapsed = () => {
     setCollapsed((prev) => {
