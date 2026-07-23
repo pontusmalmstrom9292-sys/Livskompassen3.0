@@ -1,9 +1,17 @@
+<<<<<<< HEAD
 ### 2026-07-23 — Widget UI Polish ×10
 - Gate F 56 dp låst (CSS + Mood + Studio + Android check-in) · Journal input ≥56
 - Kap 6: padding/caps/trust · Anchor guldring · ethereal scoped
 - Smoke: companion-widgets · locked-ux **PASS** · G85 visual: pending Pontus
 - Follow-up: Journal input ≥56 · Capture mic `minHeight` 56 + smoke accepterar 72dp
 - Merge: widgets/layouts only — exkludera dirty `android/.../core/**`
+=======
+### 2026-07-23 — Android CI ML Kit-fix
+- GitHub Actions `Android CI` run **30008547997** failade på `IntelligenceManager.java` eftersom `com.google.mlkit.nl.languageid` inte fanns på classpath
+- Fix: `com.google.mlkit:language-id:17.0.6` tillagd i `/android/app/build.gradle`
+- Lokal Gradle-validering försökt: `./android/gradlew -p android lint assembleDebug test` blockerad av sandbox-DNS mot `dl.google.com`
+- Nästa verifiering: fjärrkörning av `Android CI`
+>>>>>>> origin/main
 
 ### 2026-07-22 — Gold Standard hub + Companion (C + Ethereal Blue)
 - Unlock: [`2026-07-22-unlock-hub-gold-standard-layout.md`](./evaluations/2026-07-22-unlock-hub-gold-standard-layout.md)
