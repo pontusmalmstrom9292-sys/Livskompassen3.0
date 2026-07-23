@@ -26,12 +26,18 @@ export class RiskAnalysisService {
     const conflictMap = new Map<string, number>();
     vaultEntries.forEach(entry => {
       let dateObj = new Date();
-      if (entry.createdAt && typeof entry.createdAt.toDate === 'function') {
-        dateObj = entry.createdAt.toDate();
-      } else if (entry.createdAt) {
+      if (entry.createdAt) {
+        // createdAt is normalised to an ISO string by VaultService.getVaultHistory
         dateObj = new Date(entry.createdAt);
-      } else if (entry.timestamp) { // for new WORM records
-        dateObj = entry.timestamp instanceof Date ? entry.timestamp : new Date(entry.timestamp);
+      } else if (entry.timestamp != null) {
+        const ts = entry.timestamp;
+        if (ts instanceof Date) {
+          dateObj = ts;
+        } else if (typeof ts === 'object' && typeof ts.toDate === 'function') {
+          dateObj = ts.toDate();
+        } else {
+          dateObj = new Date(ts as string);
+        }
       }
       
       const dateStr = dateObj.toISOString().split('T')[0];

@@ -13,6 +13,24 @@
     "src/modules/features/**/*",
     "src/modules/features/admin/projects/**/*",
     "src/modules/morning/**/*.ts",
-    "src/modules/morning/**/*.tsx"
+    "src/modules/morning/**/*.tsx",
+    "src/modules/capture/**/*.ts",
+    "src/modules/capture/**/*.tsx",
+    "src/modules/dashboard/**/*.ts",
+    "src/modules/dashboard/**/*.tsx",
+    "src/modules/inkast/**/*.ts",
+    "src/modules/inkast/**/*.tsx",
+    "src/modules/oracle/**/*.ts",
+    "src/modules/oracle/**/*.tsx",
+    "src/modules/reflection/**/*.ts",
+    "src/modules/reflection/**/*.tsx",
+    "src/modules/sandbox/**/*.ts",
+    "src/modules/sandbox/**/*.tsx",
+    "src/modules/shell/**/*.ts",
+    "src/modules/shell/**/*.tsx",
+    "src/modules/support/**/*.ts",
+    "src/modules/support/**/*.tsx",
+    "src/modules/valv_ekonomi/**/*.ts",
+    "src/modules/valv_ekonomi/**/*.tsx"
   ]
 }

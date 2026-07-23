@@ -13,7 +13,7 @@ export function secureQuery(ref: CollectionReference<DocumentData, DocumentData>
 
 export interface DashboardData {
   id: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface DashboardStore {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { usePlanningTasks } from '@/features/admin/planning/hooks/usePlanningTasks';
-import { VaultService } from '@/core/firebase/VaultService';
+import { VaultService, type VaultHistoryEntry } from '@/core/firebase/VaultService';
 import { hasVaultGate } from '@/core/auth/sessionService';
 import { useStore } from '@/core/store';
 import { CheckSquare, Lock, Mic, Clock, Sparkles } from 'lucide-react';
@@ -8,13 +8,26 @@ import { EmptyState } from '@/core/ui/EmptyState';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { IntakeTriageModal } from './IntakeTriageModal';
 
+type VaultDisplayEntry = VaultHistoryEntry & { content: string; timestamp: Date };
+
+type SelectedItem = {
+  id: string;
+  title?: string;
+  content: string;
+  summary?: string;
+  source?: string;
+  type: 'task' | 'vault';
+  status?: string;
+  projectId?: string;
+} | null;
+
 export function RecentIntakeWidget() {
   const { tasks, loading: tasksLoading, user } = usePlanningTasks();
   const isVaultUnlocked = useStore((s) => s.ui.isVaultUnlocked);
   const vaultSessionOpen = isVaultUnlocked || hasVaultGate();
-  const [vaultEntries, setVaultEntries] = useState<any[]>([]);
+  const [vaultEntries, setVaultEntries] = useState<VaultDisplayEntry[]>([]);
   const [vaultLoading, setVaultLoading] = useState(true);
-  const [selectedItem, setSelectedItem] = useState<any | null>(null);
+  const [selectedItem, setSelectedItem] = useState<SelectedItem>(null);
 
   useEffect(() => {
     if (!user?.uid || !vaultSessionOpen) {
@@ -25,16 +38,18 @@ export function RecentIntakeWidget() {
 
     setVaultLoading(true);
     const unsubscribe = VaultService.initializeVaultListener(user.uid, (data) => {
-      const mapped = data.map((item) => {
-        const content = item.content || item.text || item.observation || item.label || 'Ingen text';
-        const timestamp = item.timestamp
-          ? (item.timestamp.toDate ? item.timestamp.toDate() : new Date(item.timestamp))
-          : (item.createdAt ? new Date(item.createdAt) : new Date());
-        return {
-          ...item,
-          content,
-          timestamp,
-        };
+      const mapped: VaultDisplayEntry[] = data.map((item) => {
+        const content = item.content ?? item.text ?? item.observation ?? item.label ?? 'Ingen text';
+        const rawTs = item.timestamp;
+        const timestamp =
+          rawTs != null
+            ? typeof rawTs === 'object' && 'toDate' in rawTs && typeof rawTs.toDate === 'function'
+              ? rawTs.toDate()
+              : new Date(rawTs as string | Date)
+            : item.createdAt
+              ? new Date(item.createdAt)
+              : new Date();
+        return { ...item, content, timestamp };
       });
       setVaultEntries(mapped.slice(0, 3));
       setVaultLoading(false);

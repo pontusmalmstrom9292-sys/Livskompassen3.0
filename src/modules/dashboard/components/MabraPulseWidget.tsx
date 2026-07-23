@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useStore } from '@/core/store';
-import { listMabraSessionsRecent } from '@/core/firebase/firestore';
+import { listMabraSessionsRecent, type CheckInRow } from '@/core/firebase/firestore';
 import { useMabraStore } from '@/modules/features/dailyLife/wellbeing/mabra/store/mabraStore';
 import { useMorningCompassStore } from '@/modules/morning/morningStore';
+import type { MabraSession } from '@/core/types/firestore';
 import { Heart, CheckCircle, ArrowRight, Sparkles } from 'lucide-react';
+
+type TodaysSession = Pick<MabraSession, 'hubSymptom' | 'exerciseType' | 'createdAt'>;
 
 export function MabraPulseWidget() {
   const user = useStore((s) => s.user);
@@ -15,8 +18,8 @@ export function MabraPulseWidget() {
   const [isCheckedIn, setIsCheckedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const [todaysActivity, setTodaysActivity] = useState<{
-    checkIn?: any;
-    session?: any;
+    checkIn?: CheckInRow | null;
+    session?: TodaysSession;
   }>({});
 
   useEffect(() => {
@@ -108,7 +111,7 @@ export function MabraPulseWidget() {
             <div className="text-xs text-text-muted mt-0.5 space-y-1">
               {isMabraCheckin && (
                 <p className="text-text-muted">
-                  Humör: <span className="font-semibold text-accent">{todaysActivity.checkIn.mood}/10</span> • Energinivå: <span className="font-semibold text-accent-ai">{todaysActivity.checkIn.energy}/10</span>
+                  Humör: <span className="font-semibold text-accent">{todaysActivity.checkIn?.mood}/10</span> • Energinivå: <span className="font-semibold text-accent-ai">{todaysActivity.checkIn?.energy}/10</span>
                 </p>
               )}
               {todaysActivity.checkIn?.taskNote && (
@@ -118,7 +121,7 @@ export function MabraPulseWidget() {
               )}
               {isMabraSession && (
                 <p className="text-text-muted">
-                  Genomförde {todaysActivity.session.exerciseType}-övning.
+                  Genomförde {todaysActivity.session?.exerciseType}-övning.
                 </p>
               )}
               {hasFocus && (

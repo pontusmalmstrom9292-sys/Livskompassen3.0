@@ -19,6 +19,25 @@ export interface VaultRecord {
   ownerId: string;
 }
 
+/**
+ * Shape returned by `getVaultHistory` / `initializeVaultListener`.
+ * Carries all VaultLog fields (except userId) plus a string-normalised createdAt
+ * and legacy display-only fields that some older entries may have.
+ */
+export type VaultHistoryEntry = Partial<Omit<VaultLog, 'userId' | 'createdAt'>> & {
+  id: string;
+  createdAt?: string;
+  /** Legacy text field used by older entries. */
+  content?: string;
+  text?: string;
+  observation?: string;
+  label?: string;
+  /** Raw Firestore timestamp before normalisation (used by some callers). */
+  timestamp?: Date | string | { toDate?: () => Date };
+  source?: string;
+  confidence?: number;
+};
+
 /** Legacy inkast/triage — `content`/`source` mappas till `truth`/`action` om saknas. */
 export type VaultSaveRecordInput = {
   content?: string;
@@ -148,7 +167,7 @@ export class VaultService {
     return saveVaultLog(userId, normalizeVaultSaveInput(data));
   }
 
-  static async getVaultHistory(userId: string): Promise<any[]> {
+  static async getVaultHistory(userId: string): Promise<VaultHistoryEntry[]> {
     const ref = collection(db, this.COLLECTION_NAME);
     const q = query(
       ref,
@@ -163,11 +182,11 @@ export class VaultService {
         id: d.id,
         ...row,
         createdAt: row.createdAt?.toDate ? row.createdAt.toDate().toISOString() : row.createdAt,
-      };
+      } as VaultHistoryEntry;
     });
   }
 
-  static initializeVaultListener(userId: string, onUpdate: (records: any[]) => void): () => void {
+  static initializeVaultListener(userId: string, onUpdate: (records: VaultHistoryEntry[]) => void): () => void {
     const ref = collection(db, this.COLLECTION_NAME);
     const q = query(
       ref,
@@ -178,13 +197,13 @@ export class VaultService {
     return onSnapshot(
       q,
       (snap) => {
-        const records = snap.docs.map((d) => {
+        const records: VaultHistoryEntry[] = snap.docs.map((d) => {
           const row = d.data();
           return {
             id: d.id,
             ...row,
             createdAt: row.createdAt?.toDate ? row.createdAt.toDate().toISOString() : row.createdAt,
-          };
+          } as VaultHistoryEntry;
         });
         onUpdate(records);
       },
