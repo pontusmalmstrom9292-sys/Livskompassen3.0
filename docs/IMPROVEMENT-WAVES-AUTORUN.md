@@ -57,6 +57,17 @@ PMIR (`firestore.rules`, Barnporten kanon, `--apply`, …) → SKIP + blocker-ev
 | 54 | SLUTGATE-FARDIG | yolo-vakt | predeploy:build GO/NO-GO |
 
 
+## Vågor v63+ (Fas 24 Android + Companion Smart) — 2026-07-23
+
+| V | ID | Status | Fokus |
+|---|-----|--------|--------|
+| W0 | WIDGETS-GOLD | DONE (main) | Companion Våg 1–4 already merged |
+| 63 | CI-PREDEPLOY | DONE | language-id + unlock hygiene |
+| 65–66 | SACRED-GHOST | DONE | deep-lock, escapeJs, ghost exit-after-unlock |
+| 67–68 | EDGE-AURA | DONE | Mind/Aura bridges, no WORM consumer |
+| 5–7 | COMPANION-SMART | DONE (kod) | Smart Time + Widget AI heuristics + Studio opt-in |
+| HUMAN | G85-P0 | OPEN | device-ready pack — Pontus phone pass |
+
 ## Vågor v55–v62 (Evigt Minne)
 
 | V | ID | Auto? | Fokus |

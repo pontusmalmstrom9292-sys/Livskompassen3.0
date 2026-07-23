@@ -4,6 +4,7 @@ import type { InboxClassification, InboxRouting } from '@/features/lifeJournal/e
 import type { UserTagRow } from '@/core/types/firestore';
 import { NAV_PATHS } from '@/core/navigation/navTruth';
 import { withVaultSessionPayload } from '@/core/auth/vaultServerSession';
+import { analyzeIntelligenceNative } from '@/modules/shared/utils/nativeMindAura';
 
 /** Universell tagg-matris — fyra grupper (CEO-taxonomi). */
 export type InkastTagGroupId = 'narcissism' | 'barn' | 'personligt' | 'egen';
@@ -455,6 +456,9 @@ export async function submitInkastLite(input: {
   manualChildAlias?: string;
 }): Promise<SubmitInkastLiteResult> {
   try {
+    if (input.text?.trim()) {
+      analyzeIntelligenceNative(input.text);
+    }
     const payload = withVaultSessionPayload(input);
     const result = await submitInkastLiteCallable(payload);
     return parseSubmitInkastLiteResult(result.data);

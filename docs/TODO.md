@@ -1,5 +1,22 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
+
+## 2026-07-23 — Fas 24 close + Companion Våg 5–7 (Cursor)
+
+Plan: Fas24 Companion Waves (implement)
+
+- [x] W0: Gold Våg 1–4 already on main (`4e931001f`) — no core bundled
+- [x] v63: ML Kit language-id in build.gradle; smoke:predeploy:build PASS; unlock docs
+- [x] v65: Sacred deep-lock + escapeJs `"` + VISIBILITY_PRIVATE + KeyRecovery TEE retry
+- [x] v66: Ghost exit waits biometric unlock callback
+- [x] HUMAN prep: `docs/evaluations/2026-07-23-g85-device-ready-pack.md` (device-ready, not G85 PASS)
+- [x] v67–v68: Edge AI Mind/Aura bridges (no WORM consumer)
+- [x] Unlock MOD-WIDGET Smart Time/Widget AI (`approved: yes`)
+- [x] Våg 5: `SmartTimePeriods` 07/12/18/22 + night dim (no ThemeManager)
+- [x] Våg 6: `WidgetAiModes` + `pushCompanionAiSnapshot` (heuristics only)
+- [x] Våg 7: Studio `smartAiEnabled` default **off** (opt-in) + re-lock MOD-WIDGET
+- [ ] Pontus: G85 one-pass (Capture pin + Valv <3s) — see device-ready pack
+
 ## 2026-07-23 — Android CI ML Kit-fix
 
 - [x] Bekräftat fel i GitHub Actions `Android CI` (`run 30008547997`): `IntelligenceManager.java` saknade ML Kit Language ID dependency
@@ -19,7 +36,7 @@ Unlock: `2026-07-21-unlock-MOD-WIDGET-companion-android-interact.md` (`approved:
 - [x] YOLO: GO (widgets-only) — `docs/evaluations/2026-07-23-yolo-companion-os-gold-waves.md`
 - [x] Våg 5+ Smart Time / Widget AI — **DEFER**
 - [ ] Pontus: G85 pin Capture → ett mic-tryck → inspelning (visuell sign-off)
-- [ ] Merge: commit **endast** `widgets/**` + layouts/drawables/docs — **exkludera** dirty `android/.../core/**` tills separat review
+- [x] Merge: Gold Våg 1–4 already committed; Smart/AI waves unlocked 2026-07-23 + layouts/drawables/docs — **exkludera** dirty `android/.../core/**` tills separat review
 
 ## 2026-07-22 — Gold Standard hub + Companion parity (C + Ethereal Blue)
 

@@ -54,8 +54,26 @@ public class DiagnosticManager {
 
         // Flush direkt vid fel eller när bufferten är full
         if ("ERROR".equals(level) || logBuffer.size() >= BUFFER_FLUSH_THRESHOLD) {
+            if ("ERROR".equals(level)) {
+                captureHealthSnapshot();
+            }
             flushToDisk();
         }
+    }
+
+    /**
+     * Sparar en ögonblicksbild av systemets hälsa i loggen.
+     */
+    private void captureHealthSnapshot() {
+        Runtime runtime = Runtime.getRuntime();
+        long usedMem = (runtime.totalMemory() - runtime.freeMemory()) / 1024 / 1024;
+        long maxMem = runtime.maxMemory() / 1024 / 1024;
+        
+        String snapshot = String.format(Locale.US, 
+            "HEALTH SNAPSHOT: Memory %dMB/%dMB used", usedMem, maxMem);
+        
+        String timeStamp = dateFormat.format(new Date());
+        logBuffer.add(String.format("[%s] [INFO] %s", timeStamp, snapshot));
     }
 
     /**

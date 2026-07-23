@@ -12,6 +12,8 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import com.livskompassen.app.R;
 
+import java.util.Locale;
+
 /**
  * THE NOTIFIER - Våg 60.
  * @locked TITANIUM-BASE-CORE
@@ -23,6 +25,7 @@ public class AppNotificationManager {
     public static final String CHANNEL_ID_DROGFRIHET = "drogfrihet_reminders";
     private static final int NOTIFICATION_ID_PREMIUM = 1002;
     private static final int NOTIFICATION_ID_DROGFRIHET = 1003;
+    private static final int NOTIFICATION_ID_ACTIONABLE = 1004;
 
     public static void createNotificationChannels(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -149,5 +152,47 @@ public class AppNotificationManager {
         }
 
         manager.notify(NOTIFICATION_ID_PREMIUM, builder.build());
+    }
+
+    /**
+     * Våg 160: AI-driven actionable notification with smart buttons.
+     */
+    public static void showActionableNotification(Context context, String title, String message, java.util.List<String> entities) {
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (manager == null) return;
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID_DAILY)
+                .setSmallIcon(R.drawable.ic_lock_sacred)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+                .setCategory(NotificationCompat.CATEGORY_REMINDER)
+                .setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
+
+        boolean hasDate = false;
+        if (entities != null) {
+            for (String entity : entities) {
+                if (entity == null) continue;
+                String upper = entity.toUpperCase(Locale.US);
+                if (upper.startsWith("DATE_TIME:") || upper.startsWith("DATE:") || upper.startsWith("TIME:")) {
+                    hasDate = true;
+                    break;
+                }
+            }
+        }
+
+        if (hasDate) {
+            Intent cal = new Intent(Intent.ACTION_INSERT)
+                    .setData(android.net.Uri.parse("content://com.android.calendar/events"))
+                    .putExtra("title", title)
+                    .putExtra("description", message);
+            PendingIntent calPi = PendingIntent.getActivity(context, 100, cal, 
+                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+            
+            builder.addAction(R.drawable.ic_error_outline, "Planera", calPi);
+        }
+
+        manager.notify(NOTIFICATION_ID_ACTIONABLE, builder.build());
     }
 }

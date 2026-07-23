@@ -123,4 +123,31 @@
             android:contentDescription="@string/app_name" />
     </LinearLayout>
 
+    <include
+        layout="@layout/layout_stealth_dummy"
+        android:id="@+id/stealth_dummy_container"
+        android:visibility="gone" />
+
+    <include
+        layout="@layout/layout_ghost_mode"
+        android:id="@+id/ghost_mode_container"
+        android:visibility="gone" />
+
+    <!-- Våg 141: Edge Glow for Aura Flow (Widened for Gradient in Våg 150) -->
+    <View
+        android:id="@+id/edge_glow_left"
+        android:layout_width="24dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#00000000"
+        android:visibility="gone" />
+
+    <View
+        android:id="@+id/edge_glow_right"
+        android:layout_width="24dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:background="#00000000"
+        android:visibility="gone" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

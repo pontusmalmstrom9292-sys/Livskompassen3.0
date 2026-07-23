@@ -32,6 +32,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!-- MainActivity stays always-enabled (deep links / share / widgets / Panic). Launcher icons are aliases. -->
         <activity
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode|density"
             android:name=".MainActivity"
@@ -40,11 +41,6 @@
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -72,6 +68,21 @@
                 android:resource="@xml/shortcuts" />
 
         </activity>
+
+        <!-- Default home-screen launcher alias (toggle with StealthActivity — never disable MainActivity) -->
+        <activity-alias
+            android:name=".DefaultLauncherActivity"
+            android:enabled="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:targetActivity=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
 
         <!-- Stealth Alias: Ser ut som en vanlig antecknings-app -->
         <activity-alias
@@ -134,6 +145,17 @@
             android:name=".core.QuickNoteTileService"
             android:icon="@drawable/widget_ic_wh2_note"
             android:label="Snabbanteckning"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name=".core.PanicTileService"
+            android:icon="@drawable/ic_lock_sacred"
+            android:label="Säkra Nu"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
             android:exported="true">
             <intent-filter>
@@ -274,6 +296,18 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_companion_tasks_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widgets.CompanionCheckInWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_overlay_mood_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_companion_checkin_info" />
         </receiver>
 <receiver
             android:name=".widgets.StampWidgetProvider"

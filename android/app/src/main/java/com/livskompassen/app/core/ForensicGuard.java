@@ -13,6 +13,8 @@ import com.livskompassen.app.util.LCLog;
 public class ForensicGuard {
     private final Activity activity;
     private final SacredLockManager lockManager;
+    private int violationCount = 0;
+    private static final int MAX_VIOLATIONS = 3;
 
     public ForensicGuard(Activity activity, SacredLockManager lockManager) {
         this.activity = activity;
@@ -25,9 +27,16 @@ public class ForensicGuard {
     public void startMonitoring() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             activity.registerScreenCaptureCallback(activity.getMainExecutor(), () -> {
-                LCLog.w("ForensicGuard: Screen capture detected! Triggering security lockdown.");
+                violationCount++;
+                LCLog.w("ForensicGuard: Screen capture detected! violationCount=" + violationCount);
+                
                 if (lockManager != null) {
-                    lockManager.showLock();
+                    if (violationCount >= MAX_VIOLATIONS) {
+                        LCLog.e("ForensicGuard: CRITICAL THRESHOLD REACHED. Forcing deep lock.");
+                        lockManager.forceDeepLock();
+                    } else {
+                        lockManager.showLock();
+                    }
                 }
                 // Trigger a panic haptic if available
                 new HapticManager(activity).error();

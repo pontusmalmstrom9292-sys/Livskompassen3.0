@@ -19,6 +19,13 @@ export type LivskompassenNativeBridge = {
   indexShortcut?: (id: string, label: string, path: string) => void;
   /** Edge-to-edge: sync Android status/nav bar with app theme. */
   setSystemTheme?: (colorHex: string, isDark: boolean) => void;
+  /** Edge AI — local silo/entity analysis (event: livskompassen-intelligence). */
+  analyzeIntelligence?: (text: string) => void;
+  startAuraFlow?: () => void;
+  stopAuraFlow?: () => void;
+  triggerThematicHaptic?: (theme: string) => void;
+  setStealthMode?: (active: boolean) => void;
+  setAppIconStealth?: (active: boolean) => void;
 };
 
 declare global {

@@ -43,6 +43,9 @@ public class SacredLockManager {
     private final IntegrityManager integrityManager;
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private BiometricPrompt currentPrompt;
+    private Runnable countdownRunnable;
+    /** One-shot: run after successful biometric unlock (e.g. ghost-mode exit). */
+    private Runnable unlockSuccessListener;
     
     private long lastBackgroundTime = 0L;
     private boolean isLocked = false;
@@ -56,6 +59,11 @@ public class SacredLockManager {
         
         setupUnlockButton();
         restoreState();
+    }
+
+    /** Register a one-shot callback invoked after {@link #hideLock()} on auth success. */
+    public void setOnUnlockSuccess(Runnable listener) {
+        this.unlockSuccessListener = listener;
     }
 
     private void restoreState() {
@@ -89,12 +97,6 @@ public class SacredLockManager {
                 btnUnlock.setOnClickListener(v -> {
                     if (isDeepLocked()) {
                         hapticManager.error();
-                        long remainingSec = Math.max(1L, (deepLockRemainingMs() + 999L) / 1000L);
-                        Toast.makeText(
-                                activity,
-                                activity.getString(R.string.lock_too_many_attempts, remainingSec),
-                                Toast.LENGTH_LONG
-                        ).show();
                         return;
                     }
                     hapticManager.lightClick(v);
@@ -104,19 +106,56 @@ public class SacredLockManager {
         }
     }
 
+    private void startCountdownTimer() {
+        if (countdownRunnable != null) mainHandler.removeCallbacks(countdownRunnable);
+        
+        countdownRunnable = new Runnable() {
+            @Override
+            public void run() {
+                long remaining = deepLockRemainingMs();
+                if (remaining > 0) {
+                    long sec = (remaining + 999L) / 1000L;
+                    updateUnlockButtonText(activity.getString(R.string.lock_too_many_attempts, sec));
+                    mainHandler.postDelayed(this, 1000L);
+                } else {
+                    resetFailedAttempts();
+                    updateUnlockButtonText(activity.getString(R.string.btn_unlock));
+                }
+            }
+        };
+        mainHandler.post(countdownRunnable);
+    }
+
+    private void updateUnlockButtonText(String text) {
+        if (lockContainer != null) {
+            Button btnUnlock = lockContainer.findViewById(R.id.btn_unlock);
+            if (btnUnlock != null) btnUnlock.setText(text);
+        }
+    }
+
     private boolean isDeepLocked() {
         long untilMs = SecurePrefs.get(activity).getLong(PREF_DEEP_LOCK_UNTIL_MS, 0L);
         long now = System.currentTimeMillis();
         if (untilMs > now) {
+            startCountdownTimer();
             return true;
         }
         if (untilMs > 0L) {
             // Cooldown expired — clear fail count so the user can try again.
             resetFailedAttempts();
+            updateUnlockButtonText(activity.getString(R.string.btn_unlock));
             return false;
         }
         int attempts = SecurePrefs.get(activity).getInt(PREF_FAILED_ATTEMPTS, 0);
-        return attempts >= 5;
+        if (attempts >= 5) {
+            // Orphan state (attempts≥5, untilMs==0): restore cooldown — never countdown-reset-to-unlock.
+            SecurePrefs.get(activity).edit()
+                    .putLong(PREF_DEEP_LOCK_UNTIL_MS, now + DEEP_LOCK_COOLDOWN_MS)
+                    .apply();
+            startCountdownTimer();
+            return true;
+        }
+        return false;
     }
 
     private long deepLockRemainingMs() {
@@ -130,11 +169,34 @@ public class SacredLockManager {
         android.content.SharedPreferences.Editor edit = prefs.edit().putInt(PREF_FAILED_ATTEMPTS, attempts);
         if (attempts >= 5) {
             edit.putLong(PREF_DEEP_LOCK_UNTIL_MS, System.currentTimeMillis() + DEEP_LOCK_COOLDOWN_MS);
+            startCountdownTimer();
         }
         edit.apply();
     }
 
+    /**
+     * Forensic / panic path: force deep lock via SecurePrefs only (never plaintext prefs).
+     */
+    public void forceDeepLock() {
+        SecurePrefs.get(activity).edit()
+                .putInt(PREF_FAILED_ATTEMPTS, 5)
+                .putLong(PREF_DEEP_LOCK_UNTIL_MS, System.currentTimeMillis() + DEEP_LOCK_COOLDOWN_MS)
+                .apply();
+        startCountdownTimer();
+        showLock();
+    }
+
+    /** Unified panic entry — deep=true uses cooldown + lock UI. */
+    public void triggerPanic(boolean deep) {
+        if (deep) {
+            forceDeepLock();
+        } else {
+            showLock();
+        }
+    }
+
     private void resetFailedAttempts() {
+        if (countdownRunnable != null) mainHandler.removeCallbacks(countdownRunnable);
         SecurePrefs.get(activity).edit()
                 .putInt(PREF_FAILED_ATTEMPTS, 0)
                 .putLong(PREF_DEEP_LOCK_UNTIL_MS, 0L)
@@ -142,6 +204,7 @@ public class SacredLockManager {
     }
 
     public void onPause() {
+        if (countdownRunnable != null) mainHandler.removeCallbacks(countdownRunnable);
         // Do NOT cancelAuthentication() here — BiometricPrompt pauses the Activity.
         // Cancelling mid-prompt aborts unlock and feels like a Valvet kickout.
         lastBackgroundTime = System.currentTimeMillis();
@@ -150,12 +213,14 @@ public class SacredLockManager {
     public void onResume() {
         if (isLocked) {
             showLock();
+            if (isDeepLocked()) startCountdownTimer();
             return;
         }
         
         // Våg 48: If we were in the middle of auth, re-trigger it
         if (lockContainer != null && lockContainer.getVisibility() == View.VISIBLE) {
-            authenticate();
+            if (isDeepLocked()) startCountdownTimer();
+            else authenticate();
             return;
         }
 
@@ -178,6 +243,9 @@ public class SacredLockManager {
         isLocked = true;
         saveState(true);
 
+        // Våg 83: Re-verify integrity on every Vault lock to prevent runtime tampering
+        IdentityManager.verifyAppIntegrity(activity);
+
         // Våg 49: Request memory sanitization immediately on lock
         if (activity instanceof com.livskompassen.app.MainActivity) {
             MemoryManager mm = ((com.livskompassen.app.MainActivity) activity).getMemoryManager();
@@ -196,7 +264,8 @@ public class SacredLockManager {
                 lockContainer.setVisibility(View.VISIBLE);
                 lockContainer.animate().alpha(1f).setDuration(200).start();
                 
-                authenticate();
+                if (isDeepLocked()) startCountdownTimer();
+                else authenticate();
             }
         });
     }
@@ -204,6 +273,7 @@ public class SacredLockManager {
     public void hideLock() {
         isLocked = false;
         saveState(false);
+        if (countdownRunnable != null) mainHandler.removeCallbacks(countdownRunnable);
         mainHandler.post(() -> {
             if (lockContainer != null && lockContainer.getVisibility() == View.VISIBLE) {
                 lockContainer.animate().alpha(0f).setDuration(300).withEndAction(() -> 
@@ -234,6 +304,7 @@ public class SacredLockManager {
             if (lockContainer != null) {
                 lockContainer.setAlpha(1f);
                 lockContainer.setVisibility(View.VISIBLE);
+                updateUnlockButtonText(activity.getString(R.string.lock_unavailable_message));
             }
         });
     }
@@ -243,6 +314,8 @@ public class SacredLockManager {
     }
 
     public void authenticate() {
+        if (isDeepLocked()) return;
+        
         BiometricManager biometricManager = BiometricManager.from(activity);
         int authenticators = BiometricManager.Authenticators.BIOMETRIC_STRONG | BiometricManager.Authenticators.DEVICE_CREDENTIAL;
         int canAuth = biometricManager.canAuthenticate(authenticators);
@@ -252,11 +325,6 @@ public class SacredLockManager {
             LCLog.e(activity.getString(R.string.log_lock_auth_unavailable, canAuth));
             hapticManager.error();
             ensureLockedUi();
-            Toast.makeText(
-                    activity,
-                    activity.getString(R.string.lock_unavailable_message),
-                    Toast.LENGTH_LONG
-            ).show();
             return;
         }
 
@@ -276,6 +344,11 @@ public class SacredLockManager {
                         hapticManager.success();
                         resetFailedAttempts();
                         hideLock();
+                        Runnable pending = unlockSuccessListener;
+                        unlockSuccessListener = null;
+                        if (pending != null) {
+                            mainHandler.post(pending);
+                        }
                     }
 
                     @Override
@@ -283,8 +356,13 @@ public class SacredLockManager {
                         super.onAuthenticationError(errorCode, errString);
                         currentPrompt = null;
                         LCLog.w(activity.getString(R.string.log_lock_auth_error, errString));
-                        hapticManager.error();
-                        incrementFailedAttempts();
+                        
+                        if (errorCode == BiometricPrompt.ERROR_LOCKOUT || errorCode == BiometricPrompt.ERROR_LOCKOUT_PERMANENT) {
+                            hapticManager.error();
+                            incrementFailedAttempts();
+                        } else if (errorCode != BiometricPrompt.ERROR_USER_CANCELED && errorCode != BiometricPrompt.ERROR_NEGATIVE_BUTTON) {
+                            hapticManager.error();
+                        }
                         
                         if (isDeepLocked()) {
                             showVisualDistress();

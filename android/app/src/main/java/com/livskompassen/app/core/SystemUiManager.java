@@ -1,10 +1,12 @@
 package com.livskompassen.app.core;
 
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.media.AudioAttributes;
 import android.media.AudioFocusRequest;
 import android.media.AudioManager;
 import android.os.Build;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import androidx.annotation.NonNull;
@@ -12,6 +14,7 @@ import androidx.core.view.WindowCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.livskompassen.app.R;
 import com.livskompassen.app.util.LCLog;
 
 /**
@@ -23,12 +26,54 @@ public class SystemUiManager {
     private final FragmentActivity activity;
     private final Window window;
     private final AudioManager audioManager;
+    private final View edgeGlowL;
+    private final View edgeGlowR;
     private AudioFocusRequest lockFocusRequest;
 
     public SystemUiManager(FragmentActivity activity) {
         this.activity = activity;
         this.window = activity.getWindow();
         this.audioManager = (AudioManager) activity.getSystemService(android.content.Context.AUDIO_SERVICE);
+        this.edgeGlowL = activity.findViewById(R.id.edge_glow_left);
+        this.edgeGlowR = activity.findViewById(R.id.edge_glow_right);
+    }
+
+    /**
+     * Våg 150: Soft gradient aura on screen edges.
+     */
+    public void setEdgeGlow(String colorHex, float alpha) {
+        activity.runOnUiThread(() -> {
+            if (edgeGlowL == null || edgeGlowR == null) return;
+            
+            if (alpha <= 0) {
+                edgeGlowL.setVisibility(View.GONE);
+                edgeGlowR.setVisibility(View.GONE);
+            } else {
+                try {
+                    int color = Color.parseColor(colorHex);
+                    int transparent = Color.argb(0, Color.red(color), Color.green(color), Color.blue(color));
+                    
+                    // Left Gradient
+                    GradientDrawable leftGrad = new GradientDrawable(
+                        GradientDrawable.Orientation.LEFT_RIGHT,
+                        new int[] {color, transparent}
+                    );
+                    edgeGlowL.setBackground(leftGrad);
+                    
+                    // Right Gradient
+                    GradientDrawable rightGrad = new GradientDrawable(
+                        GradientDrawable.Orientation.RIGHT_LEFT,
+                        new int[] {color, transparent}
+                    );
+                    edgeGlowR.setBackground(rightGrad);
+
+                    edgeGlowL.setAlpha(alpha);
+                    edgeGlowR.setAlpha(alpha);
+                    edgeGlowL.setVisibility(View.VISIBLE);
+                    edgeGlowR.setVisibility(View.VISIBLE);
+                } catch (Exception ignored) {}
+            }
+        });
     }
 
     /**
