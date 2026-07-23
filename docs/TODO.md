@@ -1,6 +1,5 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
-<<<<<<< HEAD
 ## 2026-07-23 — Widget UI Polish ×10 (Kap 6 / Gate F)
 
 - [x] R1–5: Capture/Note/Compass/Beacon/Inbox/Tasks/Journal/Harbor/Anchor/Child/Check-in
@@ -9,14 +8,13 @@
 - [x] R10: `smoke:companion-widgets` + `smoke:locked-ux` **PASS**
 - [ ] Pontus: G85 visuell sign-off (fäst Capture + Note på hemskärm)
 - [ ] Merge: endast widgets/layouts — **exkludera** dirty `android/.../core/**`
-=======
+
 ## 2026-07-23 — Android CI ML Kit-fix
 
 - [x] Bekräftat fel i GitHub Actions `Android CI` (`run 30008547997`): `IntelligenceManager.java` saknade ML Kit Language ID dependency
 - [x] Lagt till `com.google.mlkit:language-id:17.0.6` i `/android/app/build.gradle`
 - [x] Försökt lokal Android-validering (`./android/gradlew -p android lint assembleDebug test`)
 - [ ] Verifiera grön Android CI efter nästa remote körning
->>>>>>> origin/main
 
 ## 2026-07-23 — Companion OS Hemskärm + Studio Gold (Våg 1–4)
 

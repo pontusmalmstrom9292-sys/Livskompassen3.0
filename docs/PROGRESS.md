@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ## 2026-07-23 — Widget UI Polish ×10 (Cursor · visual-parity)
 
 - Gate F: `--cw-touch-floor` 56px, mood/pills/CTA, Android check-in faces, Tasks «VISA ALLA»
@@ -9,14 +8,13 @@
 ## 2026-07-23 — Zenith Precision Wave (Android Omni)
 
 Cursor: Security (Panic onNewIntent + forceDeepLock, DefaultLauncherActivity alias-only, orphan deep-lock), Ghost (3s hold + Sacred Lock on exit), Mind (entity DATE_TIME map + SV enrich + throttle + Inkast bridge), Aura (pause stop + useBreathingCycle), Widgets G85/DS/circadian. Gates: `verifySecurityComponents` PASS · `smoke:companion-widgets` PASS · `smoke:android-platform` PASS · minSdk 26 (ML Kit).
-=======
+
 ## 2026-07-23 — Android CI ML Kit-fix (Copilot)
 
 - GitHub Actions `Android CI` run `30008547997` failade på `IntelligenceManager.java` med `package com.google.mlkit.nl.languageid does not exist`
 - Fix: lade till `com.google.mlkit:language-id:17.0.6` i `android/app/build.gradle`
 - Lokal verifiering försökt via `./android/gradlew -p android lint assembleDebug test`, men sandboxen kunde inte nå `dl.google.com`
 - Nästa expected signal: grön remote `Android CI` på samma compile-path
->>>>>>> origin/main
 
 ## 2026-07-23 — Companion OS Hemskärm + Studio Gold Våg 1–4 (Cursor)
 
