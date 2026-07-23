@@ -180,7 +180,7 @@ export function FamiljenBarnfokusDelegate({ shell, onSaved }: FamiljenDelegateBa
           type="button"
           onClick={handleSave}
           disabled={loading || !answer.trim()}
-          className="od-depth__cta w-full disabled:cursor-not-allowed disabled:opacity-45"
+          className="od-depth__cta w-full disabled:cursor-not-allowed disabled:opacity-45 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           <span className="od-depth__cta-glow" aria-hidden />
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}

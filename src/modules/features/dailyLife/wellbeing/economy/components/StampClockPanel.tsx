@@ -73,7 +73,10 @@ export function StampClockPanel({
         </div>
       )}
 
-      <Link to="/arbetsliv" className="text-xs text-accent-primary hover:underline">
+      <Link
+        to="/arbetsliv"
+        className="inline-flex min-h-11 items-center text-xs text-accent-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+      >
         Full stämpelvy och veckokalender →
       </Link>
     </>

@@ -163,7 +163,7 @@ export function VitChatFlowPanel({ userId, projectId, onSaved }: Props) {
           {VIT_HUB_LANDED}{' '}
           <Link
             to={vitHubFilteredLink('chat_turn', projectId)}
-            className="text-accent underline-offset-2 hover:underline"
+            className="inline-flex min-h-11 items-center text-accent underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             {VIT_HUB_VAULT_LINK}
           </Link>

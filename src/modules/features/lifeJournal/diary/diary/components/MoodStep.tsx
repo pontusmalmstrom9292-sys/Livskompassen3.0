@@ -58,7 +58,7 @@ export function MoodStep({
           disabled={!mood}
           onClick={onContinue}
           aria-keyshortcuts="Enter"
-          className="od-depth__cta reflektion-actions__primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+          className="od-depth__cta reflektion-actions__primary min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           {lowEnergyBridge ? (
             <>

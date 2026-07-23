@@ -92,6 +92,7 @@ export function EconomyOverviewPanel({ userId }: Props) {
         <Button
           variant="ghost"
           size="icon"
+          className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={() => setShowPicker(true)}
           title="Välj verktyg"
           aria-label="Öppna modulväljare"
@@ -103,7 +104,7 @@ export function EconomyOverviewPanel({ userId }: Props) {
             to="/ekonomi/avancerad"
             variant="ghost"
             size="icon"
-            className="flex items-center justify-center border border-accent/20 bg-accent/5 hover:bg-accent/10 hover:text-accent transition-colors rounded-lg"
+            className="flex min-h-11 items-center justify-center border border-accent/20 bg-accent/5 hover:bg-accent/10 hover:text-accent transition-colors rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             title="Avancerad instrumentpanel"
             aria-label="Gå till avancerad ekonomi"
           >

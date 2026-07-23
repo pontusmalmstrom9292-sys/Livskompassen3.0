@@ -53,7 +53,7 @@ export function MabraNutritionCoachPanel({ uid }: Props) {
       />
       <Button
         variant="secondary"
-        className="w-full"
+        className="min-h-11 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         onClick={() => void handleCoach()}
         disabled={loading || !uid}
       >

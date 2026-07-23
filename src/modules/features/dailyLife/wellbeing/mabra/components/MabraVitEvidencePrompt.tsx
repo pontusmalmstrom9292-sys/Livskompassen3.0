@@ -40,7 +40,11 @@ export function MabraVitEvidencePrompt({ userId, vitEntryId, summary, bankId, on
     return (
       <div className="mt-4 space-y-2 rounded-xl border border-success/30 bg-success/5 px-4 py-3">
         <p className="text-sm text-success">Sparat som bevis med länk till Vit-posten.</p>
-        <ButtonLink to="/valvet" variant="ghost" className="text-sm">
+        <ButtonLink
+          to="/valvet"
+          variant="ghost"
+          className="min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        >
           Öppna {VAULT_UI_NAME}
         </ButtonLink>
         <Button variant="secondary" className="mt-2 text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={onDone}>

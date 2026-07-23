@@ -1,3 +1,9 @@
+## 2026-07-23 — UI Polish V8 ×10 (autonom)
+
+- Unlock V8 · ~60 filer · ADD focus/touch
+- Waves: Capture/Inkast → Dashboard/widgets → Planering/Projekt → MåBra → Ekonomi/Familjen → Valv residual
+- Smoke: locked-ux · design-modules · companion · module-lock
+
 ## 2026-07-23 — UI Polish V7 ×10 (autonom)
 
 - Unlock V7 · ~50+ filer · ADD focus/touch

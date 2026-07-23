@@ -153,7 +153,7 @@ export function KunskapsvalvFileIngest({
       <Button
         type="button"
         variant="secondary"
-        className="mt-3 inline-flex items-center gap-2"
+        className="mt-3 inline-flex items-center gap-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         disabled={loading}
         onClick={() => inputRef.current?.click()}
       >

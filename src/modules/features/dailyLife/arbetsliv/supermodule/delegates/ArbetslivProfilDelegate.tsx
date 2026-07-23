@@ -333,7 +333,7 @@ export function ArbetslivProfilDelegate() {
               </p>
             </BentoCard>
 
-            <Button type="submit" disabled={saving || isUploadBusy} className="min-h-11 w-full focus-visible:ring-2 focus-visible:ring-accent/40">
+            <Button type="submit" disabled={saving || isUploadBusy} className="min-h-11 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               {saving ? (
                 <span className="inline-flex items-center gap-2">
                   <Loader2 className="h-4 w-4 animate-spin" aria-hidden />

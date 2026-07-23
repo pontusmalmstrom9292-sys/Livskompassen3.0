@@ -135,10 +135,10 @@ export function ProjektReglerPage() {
     >
       <GoraHubTabBar />
       <div className="flex flex-wrap gap-3 text-xs">
-        <Link to="/projekt" className="text-text-muted hover:text-accent">
+        <Link to="/projekt" className="text-text-muted hover:text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           ← Projekt
         </Link>
-        <Link to="/planering?tab=regler" className="text-accent">
+        <Link to="/planering?tab=regler" className="text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           E-postregler (Planering)
         </Link>
       </div>
@@ -167,7 +167,7 @@ export function ProjektReglerPage() {
 
       <p className="mt-4 text-xs text-text-muted">
         Granskningskö:{' '}
-        <Link to="/planering?tab=inkorg" className="text-accent">
+        <Link to="/planering?tab=inkorg" className="text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Planering → Inkorg
         </Link>
         . Gmail OAuth är avsiktligt utanför P2.

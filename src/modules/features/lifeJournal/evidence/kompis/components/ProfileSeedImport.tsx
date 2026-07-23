@@ -67,7 +67,7 @@ export function ProfileSeedImport({ entries, onImported }: Props) {
       <Button
         type="button"
         variant="success"
-        className="flex items-center gap-2"
+        className="flex items-center gap-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         onClick={handleImport}
         disabled={loading}
       >

@@ -47,7 +47,7 @@ export function InkorgPreviewSheet({ open, classification, saving, onConfirm, on
             {classification.matchedRuleLabel ?? 'Ex/konflikt'} — routing till Hamn, inte Handling.{' '}
             <Link
               to="/familjen?tab=hamn"
-              className="text-accent underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+              className="text-accent underline min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             >
               Öppna Trygg Hamn
             </Link>

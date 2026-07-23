@@ -84,7 +84,7 @@ export function ChildIncidentPulse({ childAlias, logs, balansIndex, balansDays }
 
         <Link
           to={`${NAV_PATHS.FAMILJEN}?tab=reflektion&inputMode=incident`}
-          className="inline-flex min-h-11 items-center gap-1.5 rounded-lg border border-border/50 px-3 text-xs font-medium text-text hover:bg-surface/60"
+          className="inline-flex min-h-11 items-center gap-1.5 rounded-lg border border-border/50 px-3 text-xs font-medium text-text hover:bg-surface/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           <Sparkles className="h-4 w-4" aria-hidden />
           Skriv vad som hände

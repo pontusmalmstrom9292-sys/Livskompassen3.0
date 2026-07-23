@@ -1,3 +1,7 @@
+### 2026-07-23 — UI Polish V8 ×10
+- Fourth deepen: Capture, Inkast, MåBra tools, widgets studio, Valv kunskap
+- Unlock V8 · smoke locked-ux / design-modules / companion / module-lock
+
 ### 2026-07-23 — UI Polish V7 ×10
 - Third deepen: Projekt, Planering pin, MåBra, Barnporten, Ekonomi residual
 - Unlock V7 · smoke locked-ux / design-modules / companion / module-lock

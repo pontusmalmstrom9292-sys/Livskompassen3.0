@@ -196,7 +196,7 @@ export function PlaneringQuickListPanel({ listId = 'inkop', onHomePinChange }: P
 
       <p className="text-center text-xs text-text-muted">
         Vill du bygga mer?{' '}
-        <Link to="/admin/projects/ny" className="text-accent hover:underline">
+        <Link to="/admin/projects/ny" className="text-accent hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Starta eget projekt
         </Link>
         {' · '}

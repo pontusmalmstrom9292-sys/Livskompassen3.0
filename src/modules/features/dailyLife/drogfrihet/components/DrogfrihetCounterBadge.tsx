@@ -19,7 +19,7 @@ export function DrogfrihetCounterBadge({ uid }: Props) {
         </p>
         <p className="mt-2 text-xs text-text-muted">
           Starta under{' '}
-          <Link to="/installningar?tab=drogfrihet" className="text-accent hover:underline">
+          <Link to="/installningar?tab=drogfrihet" className="inline-flex min-h-11 items-center text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Inställningar → Drogfrihet
           </Link>
           . Ingen nollställning här — så du inte råkar.
@@ -38,7 +38,7 @@ export function DrogfrihetCounterBadge({ uid }: Props) {
       </p>
       <p className="mt-2 text-xs text-text-muted">
         Sedan {counter.startDateKey}. Ändra eller nollställ under{' '}
-        <Link to="/installningar?tab=drogfrihet" className="text-accent hover:underline">
+        <Link to="/installningar?tab=drogfrihet" className="inline-flex min-h-11 items-center text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Inställningar
         </Link>
         .

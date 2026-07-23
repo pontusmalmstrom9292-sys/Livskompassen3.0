@@ -144,11 +144,11 @@ export function PlanningKanbanBoard() {
       {projectId && (
         <p className="rounded-2xl border border-accent/25 bg-accent/5 px-4 py-2 text-xs text-text-muted">
           Visar uppgifter för projekt.{' '}
-          <Link to={`/admin/projects/${projectId}`} className="text-accent">
+          <Link to={`/admin/projects/${projectId}`} className="text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Öppna projekt
           </Link>
           {' · '}
-          <Link to="/planering" className="text-accent">
+          <Link to="/planering" className="text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Visa alla
           </Link>
         </p>

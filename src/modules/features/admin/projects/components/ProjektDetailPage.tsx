@@ -236,7 +236,7 @@ export function ProjektDetailPage() {
         />
         <p className="mt-1 text-xs text-text-muted">
           Uppgifter med status hamnar i{' '}
-          <Link to={`/planering?projectId=${projectId}`} className="text-accent">
+          <Link to={`/planering?projectId=${projectId}`} className="text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Handling
           </Link>
         </p>

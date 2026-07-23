@@ -162,7 +162,7 @@ export function ReviewQueuePipelinePanel({
                 <strong className="font-medium text-text">→ Handling</strong> i{' '}
                 <Link
                   to={VALV_SAMLA_GRANSKA_LINK}
-                  className="font-medium text-accent underline-offset-2 hover:underline"
+                  className="font-medium text-accent underline-offset-2 hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 >
                   Valv → Samla → granskningskö
                 </Link>
@@ -171,7 +171,7 @@ export function ReviewQueuePipelinePanel({
               {prioritizePlanering && planeringCloudCount > 0 && (
                 <Link
                   to={PLANERING_HANDLING_LINK}
-                  className="mb-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
+                  className="mb-2 inline-block text-xs text-accent underline-offset-2 hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 >
                   Öppna Handling (Kanban)
                 </Link>
@@ -198,7 +198,7 @@ export function ReviewQueuePipelinePanel({
               {cloudTotal > CLOUD_PREVIEW_LIMIT && (
                 <Link
                   to={VALV_SAMLA_GRANSKA_LINK}
-                  className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
+                  className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 >
                   Visa alla ({cloudTotal}) i Valv
                 </Link>
@@ -247,7 +247,7 @@ export function ReviewQueuePipelinePanel({
                   {destinationLink && (
                     <Link
                       to={{ pathname: destinationLink.pathname, search: destinationLink.search }}
-                      className="mt-1 inline-block text-xs text-accent underline-offset-2 hover:underline"
+                      className="mt-1 inline-block text-xs text-accent underline-offset-2 hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                     >
                       {destinationLink.label}
                     </Link>

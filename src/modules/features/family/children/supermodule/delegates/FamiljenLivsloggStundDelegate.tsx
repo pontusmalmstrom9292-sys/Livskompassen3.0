@@ -89,7 +89,7 @@ export function FamiljenLivsloggStundDelegate({ shell, onSaved }: FamiljenDelega
         <button
           type="button"
           onClick={resetForm}
-          className="min-h-11 text-xs text-text-muted hover:text-text underline decoration-border-strong underline-offset-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+          className="min-h-11 text-xs text-text-muted hover:text-text underline decoration-border-strong underline-offset-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           Spara en till
         </button>
@@ -139,7 +139,7 @@ export function FamiljenLivsloggStundDelegate({ shell, onSaved }: FamiljenDelega
         role="switch"
         aria-checked={saveAsAnchor}
         onClick={() => setSaveAsAnchor((v) => !v)}
-        className={`familjen-anchor-card flex min-h-11 w-full items-center justify-between gap-3 text-left transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
+        className={`familjen-anchor-card flex min-h-11 w-full items-center justify-between gap-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
           saveAsAnchor ? 'ring-1 ring-accent/40' : ''
         }`}
       >
@@ -173,7 +173,7 @@ export function FamiljenLivsloggStundDelegate({ shell, onSaved }: FamiljenDelega
         variant="accent"
         onClick={handleSave}
         disabled={loading || !observation.trim()}
-        className="disabled:opacity-50"
+        className="disabled:opacity-50 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       >
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
         Spara stund

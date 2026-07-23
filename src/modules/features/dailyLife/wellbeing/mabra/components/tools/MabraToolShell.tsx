@@ -21,7 +21,11 @@ export function MabraToolShell({
 }: Props) {
   const inner = (
     <div className="space-y-3">
-      <button type="button" onClick={onBack} className="planering-back-link">
+      <button
+        type="button"
+        onClick={onBack}
+        className="planering-back-link min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+      >
         <ChevronLeft className="h-4 w-4" />
         Tillbaka till MåBra
       </button>

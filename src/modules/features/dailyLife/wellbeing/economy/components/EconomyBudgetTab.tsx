@@ -108,7 +108,10 @@ export function EconomyBudgetTab() {
       </EconomyAdvancedGate>
 
       <p className="text-center text-xs text-text-muted">
-        <Link to="/arbetsliv" className="text-accent hover:underline">
+        <Link
+          to="/arbetsliv"
+          className="inline-flex min-h-11 items-center text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        >
           Arbete & lön → Arbetsliv
         </Link>
       </p>

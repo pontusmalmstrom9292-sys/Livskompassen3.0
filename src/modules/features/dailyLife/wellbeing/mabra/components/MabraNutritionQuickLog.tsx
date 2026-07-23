@@ -75,7 +75,7 @@ export function MabraNutritionQuickLog({ storageUid, macroTracking = false, onLo
         <Button
           variant="ghost"
           className={clsx(
-            'flex flex-1 items-center justify-center gap-1.5 text-xs',
+            'flex min-h-11 flex-1 items-center justify-center gap-1.5 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
             kind === 'food' && 'border-success/40 bg-success/10 text-success',
           )}
           onClick={() => setKind('food')}
@@ -86,7 +86,7 @@ export function MabraNutritionQuickLog({ storageUid, macroTracking = false, onLo
         <Button
           variant="ghost"
           className={clsx(
-            'flex flex-1 items-center justify-center gap-1.5 text-xs',
+            'flex min-h-11 flex-1 items-center justify-center gap-1.5 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
             kind === 'drink' && 'border-accent-secondary/40 bg-accent-secondary/10 text-accent-light',
           )}
           onClick={() => setKind('drink')}
@@ -112,7 +112,7 @@ export function MabraNutritionQuickLog({ storageUid, macroTracking = false, onLo
             type="button"
             onClick={() => setQuality(opt.value)}
             className={clsx(
-              'inline-flex min-h-11 items-center rounded-xl border px-3 text-xs transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
+              'inline-flex min-h-11 items-center rounded-xl border px-3 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
               quality === opt.value
                 ? 'border-accent/40 bg-accent/10 text-accent'
                 : 'border-border bg-surface/40 text-text-muted hover:border-border-strong',
@@ -167,7 +167,11 @@ export function MabraNutritionQuickLog({ storageUid, macroTracking = false, onLo
         </div>
       ) : null}
 
-      <Button variant="secondary" className="mt-3 w-full text-sm" onClick={handleSave}>
+      <Button
+        variant="secondary"
+        className="mt-3 min-h-11 w-full text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        onClick={handleSave}
+      >
         {savedFlash ? 'Sparat ✓' : 'Spara intag'}
       </Button>
     </div>

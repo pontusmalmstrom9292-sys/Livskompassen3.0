@@ -222,7 +222,7 @@ export function FamiljenLivsloggObservationDelegate({ shell, onSaved }: Familjen
           variant="accent"
           onClick={handleSave}
           disabled={loading || !observation.trim()}
-          className="disabled:opacity-50 mt-2"
+          className="disabled:opacity-50 mt-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Plus className="h-4 w-4" />}
           Spara livslogg

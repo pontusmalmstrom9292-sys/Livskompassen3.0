@@ -50,7 +50,7 @@ function ProjectRow({
     <div className="elongated-module elongated-module--gold flex items-center gap-2 p-4">
       <Link
         to={`/admin/projects/${project.id}`}
-        className="flex min-w-0 flex-1 items-center gap-3 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+        className="flex min-w-0 flex-1 items-center gap-3 rounded-lg min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
       >
         <Icon className="h-5 w-5 shrink-0 text-accent" />
         <span className="min-w-0 flex-1">

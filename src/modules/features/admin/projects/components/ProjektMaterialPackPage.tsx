@@ -142,10 +142,10 @@ export function ProjektMaterialPackPage() {
     >
       <GoraHubTabBar />
       <div className="flex flex-wrap gap-3 text-xs">
-        <Link to="/projekt" className="text-text-muted hover:text-accent">
+        <Link to="/projekt" className="text-text-muted hover:text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           ← Projekt
         </Link>
-        <Link to="/installningar" className="text-accent">
+        <Link to="/installningar" className="text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Byt aktiv profil (Inställningar)
         </Link>
       </div>

@@ -279,7 +279,7 @@ export function WidgetStudioPage() {
       }}
     >
       <p style={{ margin: 0, fontSize: '0.75rem' }}>
-        <Link to="/installningar" className="cw-chrome-link">
+        <Link to="/installningar" className="cw-chrome-link min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Inställningar
         </Link>
         <span style={{ color: WidgetPalette.premiumGoldDim }}> · </span>
@@ -292,7 +292,7 @@ export function WidgetStudioPage() {
         lugn. {savedFlash ? 'Sparat lokalt.' : ''}
       </p>
       <p style={{ margin: '0 0 1rem', display: 'flex', gap: '0.85rem', flexWrap: 'wrap' }}>
-        <Link to="/" className="cw-chrome-link cw-chrome-link--gold">
+        <Link to="/" className="cw-chrome-link cw-chrome-link--gold min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Öppna Hem
         </Link>
         <button
