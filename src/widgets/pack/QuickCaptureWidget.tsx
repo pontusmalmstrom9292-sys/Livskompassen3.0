@@ -402,6 +402,7 @@ export function QuickCaptureWidget({
           <WidgetButton
             variant="ghost"
             size="min"
+            aria-label="Avbryt inspelning"
             onClick={() => {
               void cancelRecording();
             }}

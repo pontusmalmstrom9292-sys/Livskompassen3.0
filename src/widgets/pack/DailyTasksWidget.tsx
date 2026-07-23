@@ -184,7 +184,12 @@ export function DailyTasksWidget({
             <p className="cw-empty__title">Fokus</p>
             <p className="cw-empty__message">Allt klart för nu. Bra jobbat.</p>
             <div className="cw-empty__actions">
-              <WidgetButton variant="quiet" size="min" onClick={() => void openPlanering()}>
+              <WidgetButton
+                variant="quiet"
+                size="min"
+                aria-label="Öppna Planering"
+                onClick={() => void openPlanering()}
+              >
                 Öppna Planering
               </WidgetButton>
             </div>
@@ -247,6 +252,7 @@ export function DailyTasksWidget({
         <button
           type="button"
           className="cw-link-cta min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          aria-label="Visa alla uppgifter i Planering"
           onClick={() => void openPlanering()}
         >
           Visa alla
@@ -254,7 +260,9 @@ export function DailyTasksWidget({
       ) : null}
       <div className="cw-trust-row cw-trust-row--split" aria-live="polite">
         <span>{status ?? (online ? 'Fokus idag' : 'Offline — sparas lokalt')}</span>
-        <span className="cw-streak">Streak</span>
+        <span className="cw-streak" aria-label="Streak, kommer snart">
+          Streak
+        </span>
       </div>
     </WidgetCard>
   );

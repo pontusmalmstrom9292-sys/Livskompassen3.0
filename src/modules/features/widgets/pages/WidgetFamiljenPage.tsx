@@ -74,7 +74,7 @@ function WidgetFamiljenInner() {
             value={text}
             onChange={(e) => setText(e.target.value)}
             rows={3}
-            className="input-glass neu-inset w-full resize-none text-sm"
+            className="input-glass neu-inset w-full resize-none text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             placeholder="Kort observation…"
           />
           <WidgetButton

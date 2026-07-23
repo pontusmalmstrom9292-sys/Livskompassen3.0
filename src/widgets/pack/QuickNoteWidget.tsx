@@ -304,6 +304,8 @@ export function QuickNoteWidget({
             ]
               .filter(Boolean)
               .join(' ')}
+            aria-pressed={pill === p}
+            aria-label={`Kategori ${p}`}
             onClick={() => setPill(p)}
           >
             {p}

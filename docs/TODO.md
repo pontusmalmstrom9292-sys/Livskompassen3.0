@@ -1,6 +1,18 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
 
+## 2026-07-23 — UI Polish V10 ×10 Widgets (autonom, supernoggrant)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V10-WIDGETS-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V10-WIDGETS-X10.md) (`approved: yes` · MOD-WIDGET)
+
+- [x] W1 WidgetButton / QuickAction / MoodCheckIn defaults
+- [x] W2 companion-widgets.css — touch floor 44 + unified focus + reduced-motion
+- [x] W3–W5 Companion 10-pack aria-labels (Inbox→Beacon + HomeRail)
+- [x] W6 Widget Studio page/mode/preview
+- [x] W7–W8 features/widgets pages + ActionDashboard + Moduler forms
+- [x] W9 FyrenWidgetBar / SideQuickDock
+- [x] W10 smoke:companion-widgets · widgets · locked-ux
+
 ## 2026-07-23 — UI Polish V9 ×10 (autonom)
 
 Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V9-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V9-X10.md) (`approved: yes`)

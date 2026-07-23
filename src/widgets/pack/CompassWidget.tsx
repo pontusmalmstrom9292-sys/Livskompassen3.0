@@ -214,6 +214,7 @@ export function CompassWidget({ pulseHint = false }: { pulseHint?: boolean }) {
               key={item.moduleKey}
               type="button"
               className="cw-pill cw-pill--active min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+              aria-label={`Öppna ${item.label}`}
               onClick={() => void openModule(item.moduleKey)}
             >
               {item.label}
@@ -222,6 +223,7 @@ export function CompassWidget({ pulseHint = false }: { pulseHint?: boolean }) {
           <WidgetButton
             variant="ghost"
             size="min"
+            aria-label="Stäng kompassmeny"
             onClick={() => {
               setMenuOpen(false);
               setStatus(null);
@@ -245,6 +247,8 @@ export function CompassWidget({ pulseHint = false }: { pulseHint?: boolean }) {
                 .filter(Boolean)
                 .join(' ')}
               onClick={() => void checkIn(c.id)}
+              aria-pressed={picked === c.id || (!picked && c.id === period)}
+              aria-label={`Check-in ${c.label}`}
             >
               {c.label}
             </button>
@@ -256,6 +260,7 @@ export function CompassWidget({ pulseHint = false }: { pulseHint?: boolean }) {
         size="premium"
         fullWidth
         className={pulseHint && !menuOpen ? 'cw-pulse-cta' : undefined}
+        aria-label="Sätt dagens fokusintention"
         onClick={() => void setIntention()}
       >
         Sätt intention

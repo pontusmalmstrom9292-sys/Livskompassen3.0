@@ -206,15 +206,16 @@ export function SafeHarborWidget({
           variant="ethereal"
           size="min"
           className={pulseHint && !breathing ? 'cw-pulse-cta' : undefined}
+          aria-label={breathing ? 'Andningsövning pågår' : 'Starta kort andningsövning'}
           onClick={() => void breatheOnce()}
           disabled={breathing}
         >
           {breathing ? 'Andas…' : 'Andas'}
         </WidgetButton>
-        <WidgetButton variant="quiet" size="min" onClick={() => void cycle()}>
+        <WidgetButton variant="quiet" size="min" aria-label="Byt trygg mening" onClick={() => void cycle()}>
           Byt mening
         </WidgetButton>
-        <WidgetButton variant="gold" size="min" fullWidth onClick={() => void open()}>
+        <WidgetButton variant="gold" size="min" fullWidth aria-label="Öppna Trygg Hamn" onClick={() => void open()}>
           Öppna Hamn
         </WidgetButton>
       </div>

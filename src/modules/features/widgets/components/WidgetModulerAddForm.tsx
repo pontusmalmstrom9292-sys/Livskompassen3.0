@@ -371,6 +371,7 @@ export function WidgetModulerAddForm({
           onChange={(e) => setCaption(e.target.value)}
           placeholder="Kort rad under titeln…"
           maxLength={200}
+          className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         />
       </label>
 
@@ -378,7 +379,7 @@ export function WidgetModulerAddForm({
         <>
           <label className="block space-y-1.5">
             <span className="text-[11px] uppercase tracking-widest text-text-muted">Måldatum</span>
-            <Input type="date" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} />
+            <Input type="date" value={targetDate} onChange={(e) => setTargetDate(e.target.value)} className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" />
           </label>
           {showExperiment ? (
             <label className="block space-y-1.5">
@@ -389,6 +390,7 @@ export function WidgetModulerAddForm({
                 type="datetime-local"
                 value={targetDateTime}
                 onChange={(e) => setTargetDateTime(e.target.value)}
+                className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               />
             </label>
           ) : null}
@@ -406,7 +408,7 @@ export function WidgetModulerAddForm({
             <p className="text-xs text-text-muted">Inga sparmål i Ekonomi ännu.</p>
           ) : (
             <select
-              className="widget-moduler-add__select"
+              className="widget-moduler-add__select min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               value={savingsGoalId}
               onChange={(e) => setSavingsGoalId(e.target.value)}
             >
@@ -428,6 +430,7 @@ export function WidgetModulerAddForm({
             onChange={(e) => setNoteText(e.target.value)}
             placeholder="Kort påminnelse eller citat…"
             rows={3}
+            className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           />
         </label>
       ) : null}

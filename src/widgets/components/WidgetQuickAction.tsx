@@ -30,7 +30,7 @@ export function WidgetQuickAction({
       type={type}
       disabled={disabled}
       aria-label={label}
-      className={['cw-quick', className].filter(Boolean).join(' ')}
+      className={['cw-quick', 'cw-quick--touch', className].filter(Boolean).join(' ')}
       style={{
         minHeight: WidgetTouch.premiumMinDp,
         minWidth: WidgetTouch.premiumMinDp,

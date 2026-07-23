@@ -1,3 +1,9 @@
+## 2026-07-23 — UI Polish V10 ×10 Widgets (autonom)
+
+- Unlock V10 MOD-WIDGET · Companion CSS + pack aria + Studio + Fyren + features/widgets
+- Header chrome btn ≥44px · unified cw-* focus-visible · reduced-motion
+- Smoke: companion-widgets · widgets · locked-ux · module-lock
+
 ## 2026-07-23 — UI Polish V9 ×10 (autonom)
 
 - Unlock V9 · ~32 filer · ADD focus/touch (diminishing residual)

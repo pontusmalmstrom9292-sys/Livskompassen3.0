@@ -117,6 +117,7 @@ Phase 0–9 baseline och migration **done**. Phase 10: `index.css` import-only; 
 | UI Polish V7 ×10 | kod Done (autonom) | 2026-07-23 — unlock V7 · third deepen |
 | UI Polish V8 ×10 | kod Done (autonom) | 2026-07-23 — unlock V8 · fourth deepen |
 | UI Polish V9 ×10 | kod Done (autonom) | 2026-07-23 — unlock V9 · fifth deepen |
+| UI Polish V10 Widgets ×10 | kod Done (autonom) | 2026-07-23 — unlock V10 · supernoggrant widgets |
 | Planering/Valv premium polish batch | **PASS** | 2026-07-20 — inkorg/connect polish, Valv pending/log focus states, reduced-transparency fallback, Valv PDF aria-label |
 | Valv a11y sweep (contrast/keyboard) | **PASS** | 2026-07-20 — Escape i zonväljare, mönster + Drive aria-label, gold-on-navy contrast pass |
 | MåBra UI polish (vit-hub) | **PASS** | 2026-07-20 — chip/tile focus-visible, touch-target, contrast + reduced-transparency fallback |

@@ -298,7 +298,7 @@ export function InboxWidget({
             }}
           />
           <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.45rem' }}>
-            <WidgetButton variant="quiet" size="min" onClick={() => setPanel(null)}>
+            <WidgetButton variant="quiet" size="min" aria-label="Avbryt inkast" onClick={() => setPanel(null)}>
               Avbryt
             </WidgetButton>
             <WidgetButton
@@ -306,6 +306,7 @@ export function InboxWidget({
               size="premium"
               fullWidth
               className={pulseHint ? 'cw-pulse-cta' : undefined}
+              aria-label={panel === 'link' ? 'Spara länk till inkast' : 'Spara text till inkast'}
               onClick={() => void saveTextOrLink()}
             >
               Spara

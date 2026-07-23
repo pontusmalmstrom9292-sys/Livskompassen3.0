@@ -1,3 +1,7 @@
+### 2026-07-23 — UI Polish V10 ×10 Widgets
+- Supernoggrant: Companion pack + Studio + Fyren + ActionDashboard
+- CSS touch floor 44px · WidgetButton aria · smoke companion/widgets/locked-ux
+
 ### 2026-07-23 — UI Polish V9 ×10
 - Fifth deepen: remaining chrome/home/Valv dossier gaps (~32 filer)
 - Unlock V9 · smoke locked-ux / design-modules / companion / module-lock

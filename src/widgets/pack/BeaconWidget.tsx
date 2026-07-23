@@ -218,6 +218,7 @@ export function BeaconWidget({
           size="premium"
           fullWidth
           className={pulseHint ? 'cw-pulse-cta' : undefined}
+          aria-label="Spara dagsform till Fyren"
           onClick={() => void save()}
         >
           Spara

@@ -128,7 +128,7 @@ function FyrenQuickBreathingRow({
   return (
     <button
       type="button"
-      className="fyren-header-quick__row min-h-11 min-w-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+      className="fyren-header-quick__row min-h-11 min-w-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       aria-pressed={active}
       aria-label={active ? 'Stoppa andningsövning' : 'Starta andningsövning'}
       onClick={() => onActiveChange(!active)}
@@ -258,7 +258,7 @@ function FyrenHeaderQuickPanel() {
                 <Link
                   key={action.id}
                   to={action.to}
-                  className="fyren-header-quick__row min-h-11 min-w-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+                  className="fyren-header-quick__row min-h-11 min-w-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   aria-label={label}
                   onClick={() => setOpen(false)}
                 >
@@ -273,7 +273,7 @@ function FyrenHeaderQuickPanel() {
 
           <button
             type="button"
-            className="fyren-header-quick__hide inline-flex min-h-11 min-w-11 items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+            className="fyren-header-quick__hide inline-flex min-h-11 min-w-11 items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             aria-label="Dölj snabbåtkomst"
             onClick={() => {
               setBreathingActive(false);
@@ -366,7 +366,7 @@ export function FyrenHeaderQuickToggle() {
         ref={toggleBtnRef as Ref<HTMLButtonElement>}
         type="button"
         className={clsx(
-          'header-chrome-btn header-chrome-btn--round fyren-header-quick__toggle min-h-11 min-w-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
+          'header-chrome-btn header-chrome-btn--round fyren-header-quick__toggle min-h-11 min-w-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
           executive && 'fyren-header-quick__toggle--executive',
           open && 'fyren-header-quick__toggle--open',
         )}

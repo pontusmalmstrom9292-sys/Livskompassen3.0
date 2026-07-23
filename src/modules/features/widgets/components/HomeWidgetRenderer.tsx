@@ -154,7 +154,7 @@ export function HomeWidgetRenderer({
               disabled={!interactive || busy}
               onClick={() => void toggleChecklistItem(item.id)}
               className={[
-                'widget-home-check flex shrink-0 items-center justify-center rounded-lg border text-accent transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
+                'widget-home-check flex shrink-0 items-center justify-center rounded-lg border text-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
                 'min-h-[var(--ds-touch-target,2.75rem)] min-w-[var(--ds-touch-target,2.75rem)]',
                 item.done
                   ? 'border-accent bg-accent/10'

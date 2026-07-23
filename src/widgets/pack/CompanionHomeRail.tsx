@@ -196,6 +196,7 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
             onClick={toggleCollapsed}
             aria-expanded={!collapsed}
             aria-controls="cw-home-rail-body"
+            aria-label={collapsed ? 'Visa Companion-sektion' : 'Dölj Companion-sektion'}
           >
             {collapsed ? 'Visa' : 'Dölj'}
           </button>
@@ -215,6 +216,7 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
           id="cw-home-rail-body"
           className="cw-home-rail-collapsed min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={toggleCollapsed}
+          aria-label="Visa Companion-widgets på Hem"
         >
           {ready
             ? featured.length > 0
@@ -239,6 +241,7 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
               <WidgetButton
                 variant="gold"
                 size="min"
+                aria-label="Slå på Capture- och Hamn-widgets på Hem"
                 onClick={() => {
                   void (async () => {
                     await patchWidgetStudioConfig('quick_capture', { enabled: true });
