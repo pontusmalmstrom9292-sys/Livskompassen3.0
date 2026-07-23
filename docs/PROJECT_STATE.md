@@ -109,6 +109,7 @@ Phase 0–9 baseline och migration **done**. Phase 10: `index.css` import-only; 
 | Fas 24 build sequence through 23E | **done** | 2026-06-25 |
 | AI Governance system | v1.4 (Fas 24 P0 G85 started) | 2026-07-18 |
 | G85 7d started | **day 1** · App Check Valv fix + debug APK ready | 2026-07-18 |
+| Fas24+Companion Smart waves (kod) | **device-ready** (not G85 PASS) · commit `3e9cc5991` | 2026-07-23 — [`g85-device-ready-pack.md`](./evaluations/2026-07-23-g85-device-ready-pack.md) |
 | Planering/Valv premium polish batch | **PASS** | 2026-07-20 — inkorg/connect polish, Valv pending/log focus states, reduced-transparency fallback, Valv PDF aria-label |
 | Valv a11y sweep (contrast/keyboard) | **PASS** | 2026-07-20 — Escape i zonväljare, mönster + Drive aria-label, gold-on-navy contrast pass |
 | MåBra UI polish (vit-hub) | **PASS** | 2026-07-20 — chip/tile focus-visible, touch-target, contrast + reduced-transparency fallback |
