@@ -10,35 +10,51 @@
     android:paddingHorizontal="8dp"
     android:paddingVertical="6dp">
 
-    <TextView
-        android:id="@+id/widget_companion_beacon_title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
         android:gravity="center"
-        android:letterSpacing="0.16"
-        android:maxLines="1"
-        android:text="@string/widget_companion_beacon_title"
-        android:textAllCaps="true"
-        android:textColor="@color/widget_gold"
-        android:textSize="11sp"
-        android:textStyle="bold" />
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/widget_ic_companion_beacon" />
+
+        <TextView
+            android:id="@+id/widget_companion_beacon_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:letterSpacing="0.18"
+            android:text="@string/widget_beacon_header"
+            android:textAllCaps="true"
+            android:textColor="@color/widget_gold_light"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_beacon_hint"
+            android:textColor="@color/widget_muted"
+            android:textSize="8sp" />
+    </LinearLayout>
 
     <FrameLayout
         android:id="@+id/widget_companion_beacon_ring"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="6dp"
-        android:contentDescription="@string/widget_companion_beacon_capacity">
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/widget_beacon_header">
 
         <ProgressBar
             android:id="@+id/widget_companion_beacon_capacity_bar"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:indeterminate="false"
             android:max="100"
-            android:progress="72"
+            android:progress="68"
             android:progressDrawable="@drawable/widget_capacity_ring_progress"
             android:background="@drawable/widget_bg_capacity_ring" />
 
@@ -52,100 +68,78 @@
                 android:id="@+id/widget_companion_beacon_pct"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/widget_companion_beacon_pct"
-                android:textColor="@color/widget_gold_light"
-                android:textSize="16sp"
+                android:text="68%"
+                android:textColor="@color/widget_text"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/widget_companion_beacon_state"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:letterSpacing="0.06"
-                android:text="@string/widget_companion_beacon_state"
-                android:textAllCaps="true"
-                android:textColor="@color/widget_muted"
-                android:textSize="8sp" />
+                android:text="Stabil"
+                android:textColor="@color/widget_gold_dim"
+                android:textSize="10sp" />
         </LinearLayout>
     </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="vertical">
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="4dp">
 
-        <TextView
+        <!-- Energi -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/widget_companion_beacon_energy"
-            android:textColor="@color/widget_muted"
-            android:textSize="9sp" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <ImageView android:layout_width="10dp" android:layout_height="10dp" android:src="@drawable/widget_ic_anchor_gold" android:alpha="0.7" android:contentDescription="@null"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:layout_weight="1" android:text="@string/widget_companion_beacon_energy" android:textColor="@color/widget_muted" android:textSize="9sp" />
+            <ProgressBar android:id="@+id/widget_companion_beacon_energy_bar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="60dp" android:layout_height="3dp" android:progress="72" android:progressDrawable="@drawable/widget_progress_ethereal" />
+            <TextView android:layout_width="25dp" android:layout_height="wrap_content" android:gravity="end" android:text="72%" android:textColor="@color/widget_muted" android:textSize="8sp" />
+        </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/widget_companion_beacon_energy_bar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:layout_marginTop="2dp"
-            android:indeterminate="false"
-            android:max="100"
-            android:progress="72"
-            android:progressDrawable="@drawable/widget_progress_ethereal" />
-
-        <TextView
+        <!-- Fokus -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@string/widget_companion_beacon_fokus"
-            android:textColor="@color/widget_muted"
-            android:textSize="9sp" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <ImageView android:layout_width="10dp" android:layout_height="10dp" android:src="@drawable/widget_chip_kompass" android:alpha="0.7" android:contentDescription="@null"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:layout_weight="1" android:text="@string/widget_companion_beacon_fokus" android:textColor="@color/widget_muted" android:textSize="9sp" />
+            <ProgressBar android:id="@+id/widget_companion_beacon_fokus_bar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="60dp" android:layout_height="3dp" android:progress="65" android:progressDrawable="@drawable/widget_progress_gold" />
+            <TextView android:layout_width="25dp" android:layout_height="wrap_content" android:gravity="end" android:text="65%" android:textColor="@color/widget_muted" android:textSize="8sp" />
+        </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/widget_companion_beacon_fokus_bar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:layout_marginTop="2dp"
-            android:indeterminate="false"
-            android:max="100"
-            android:progress="65"
-            android:progressDrawable="@drawable/widget_progress_gold" />
-
-        <TextView
+        <!-- Återhämtning -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@string/widget_companion_beacon_rest"
-            android:textColor="@color/widget_muted"
-            android:textSize="9sp" />
-
-        <ProgressBar
-            android:id="@+id/widget_companion_beacon_rest_bar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:layout_marginTop="2dp"
-            android:indeterminate="false"
-            android:max="100"
-            android:progress="58"
-            android:progressDrawable="@drawable/widget_progress_gold" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <ImageView android:layout_width="10dp" android:layout_height="10dp" android:src="@drawable/widget_ic_lotus_ethereal" android:alpha="0.7" android:contentDescription="@null"/>
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:layout_weight="1" android:text="@string/widget_companion_beacon_rest" android:textColor="@color/widget_muted" android:textSize="9sp" />
+            <ProgressBar android:id="@+id/widget_companion_beacon_rest_bar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="60dp" android:layout_height="3dp" android:progress="67" android:progressDrawable="@drawable/widget_progress_gold" />
+            <TextView android:layout_width="25dp" android:layout_height="wrap_content" android:gravity="end" android:text="67%" android:textColor="@color/widget_muted" android:textSize="8sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <TextView
         android:id="@+id/widget_companion_beacon_cta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/widget_bg_cta_outline"
-        android:contentDescription="@string/widget_companion_beacon_cta"
         android:gravity="center"
-        android:letterSpacing="0.1"
         android:minHeight="56dp"
-        android:paddingVertical="8dp"
-        android:text="@string/widget_companion_beacon_cta"
+        android:text="@string/widget_btn_more"
         android:textAllCaps="true"
-        android:textColor="@color/widget_gold"
-        android:textSize="11sp"
+        android:textColor="@color/widget_gold_light"
+        android:textSize="10sp"
         android:textStyle="bold" />
 </LinearLayout>

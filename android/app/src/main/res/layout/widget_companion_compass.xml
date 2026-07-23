@@ -10,76 +10,103 @@
     android:paddingHorizontal="10dp"
     android:paddingVertical="8dp">
 
-    <TextView
-        android:id="@+id/widget_companion_compass_title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ellipsize="end"
         android:gravity="center"
-        android:letterSpacing="0.18"
-        android:maxLines="1"
-        android:text="@string/widget_companion_compass_focus_title"
-        android:textAllCaps="true"
-        android:textColor="@color/widget_gold"
-        android:textSize="11sp"
-        android:textStyle="bold" />
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/widget_chip_kompass" />
+
+        <TextView
+            android:id="@+id/widget_companion_compass_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:letterSpacing="0.18"
+            android:text="@string/widget_compass_header"
+            android:textAllCaps="true"
+            android:textColor="@color/widget_gold_light"
+            android:textSize="10sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/widget_compass_hint"
+            android:textColor="@color/widget_muted"
+            android:textSize="8sp" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/widget_companion_compass_disc"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
-        android:layout_marginTop="10dp"
-        android:contentDescription="@string/widget_companion_compass_title"
-        android:scaleType="fitCenter"
-        android:src="@drawable/widget_compass_disc" />
+        android:layout_width="84dp"
+        android:layout_height="84dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/widget_compass_disc"
+        android:contentDescription="@string/widget_compass_header" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:gravity="center"
+        android:text="Fokus för idag"
+        android:textColor="@color/widget_muted"
+        android:textSize="9sp" />
 
     <TextView
         android:id="@+id/widget_companion_compass_intention"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:ellipsize="end"
+        android:layout_marginTop="2dp"
         android:gravity="center"
-        android:maxLines="2"
-        android:text="@string/widget_companion_compass_intention"
+        android:text="Närvaro i det jag gör"
         android:textColor="@color/widget_text"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
-    <ProgressBar
-        android:id="@+id/widget_companion_compass_progress"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:layout_marginTop="8dp"
-        android:indeterminate="false"
-        android:max="100"
-        android:progress="72"
-        android:progressDrawable="@drawable/widget_progress_gold" />
-
-    <TextView
-        android:id="@+id/widget_companion_compass_pct"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:gravity="end"
-        android:text="@string/widget_companion_compass_pct"
-        android:textColor="@color/widget_gold_dim"
-        android:textSize="10sp" />
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ProgressBar
+            android:id="@+id/widget_companion_compass_progress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="4dp"
+            android:layout_weight="1"
+            android:max="100"
+            android:progress="72"
+            android:progressDrawable="@drawable/widget_progress_gold" />
+
+        <TextView
+            android:id="@+id/widget_companion_compass_pct"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="72%"
+            android:textColor="@color/widget_gold_dim"
+            android:textSize="9sp" />
+    </LinearLayout>
 
     <TextView
         android:id="@+id/widget_companion_compass_cta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/widget_bg_cta_outline"
-        android:contentDescription="@string/widget_companion_compass_cta"
         android:gravity="center"
-        android:letterSpacing="0.1"
         android:minHeight="56dp"
-        android:paddingVertical="10dp"
-        android:text="@string/widget_companion_compass_cta"
+        android:text="@string/widget_btn_intention"
         android:textAllCaps="true"
-        android:textColor="@color/widget_gold"
-        android:textSize="11sp"
+        android:textColor="@color/widget_gold_light"
+        android:textSize="10sp"
         android:textStyle="bold" />
 </LinearLayout>

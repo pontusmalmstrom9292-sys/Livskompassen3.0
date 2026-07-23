@@ -6,7 +6,7 @@ import android.content.Context;
 
 /**
  * Companion OS — Kompassen Large on home screen (rich Gold RemoteViews).
- * Opens /widget/companion-compass. No core manager changes.
+ * Intention CTA → WIS overlay (MODE_INTENTION). No Sacred core/** changes.
  */
 public class CompanionCompassWidgetProvider extends AppWidgetProvider {
     @Override

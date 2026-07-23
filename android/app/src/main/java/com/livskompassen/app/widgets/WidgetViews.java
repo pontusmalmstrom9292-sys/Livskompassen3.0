@@ -33,6 +33,11 @@ public final class WidgetViews {
         }
         views.setTextViewText(R.id.widget_subtitle, text);
         views.setViewVisibility(R.id.widget_subtitle, View.VISIBLE);
+        
+        // Våg 92: Apply circadian tint to dynamic subtitles
+        int color = android.graphics.Color.parseColor(
+            new com.livskompassen.app.core.ThemeManager(null).getWidgetAccentColor());
+        views.setTextColor(R.id.widget_subtitle, color);
     }
 
     /**
@@ -125,6 +130,10 @@ public final class WidgetViews {
             views.setTextViewText(R.id.widget_companion_capture_sub,
                 context.getString(R.string.widget_companion_capture_recording_sub));
         }
+        // Kap 6: ethereal waveform brighter while recording (activity accent only)
+        float waveAlpha = recording ? 1f : 0.55f;
+        views.setFloat(R.id.widget_companion_capture_wave_l, "setAlpha", waveAlpha);
+        views.setFloat(R.id.widget_companion_capture_wave_r, "setAlpha", waveAlpha);
         PendingIntent primary = recording
             ? WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_CAPTURE_STOP, "")
             : WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_CAPTURE);
@@ -190,10 +199,19 @@ public final class WidgetViews {
      */
     public static RemoteViews companionCompass(Context context) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_compass);
-        String dynamic = liveText(context, "last_action_compass", 48);
-        if (dynamic != null) {
-            views.setTextViewText(R.id.widget_companion_compass_intention, dynamic);
+        
+        // Våg 97: Mask sensitive intention if Vault is locked
+        boolean locked = SecurePrefs.get(context).getBoolean("sacred_lock_state", false);
+        
+        if (locked) {
+            views.setTextViewText(R.id.widget_companion_compass_intention, "Dagens fokus är dolt");
+        } else {
+            String dynamic = liveText(context, "last_action_compass", 48);
+            if (dynamic != null) {
+                views.setTextViewText(R.id.widget_companion_compass_intention, dynamic);
+            }
         }
+
         PendingIntent intention = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_INTENTION);
         views.setOnClickPendingIntent(R.id.widget_companion_compass_root, intention);
         views.setOnClickPendingIntent(R.id.widget_companion_compass_disc, intention);
@@ -303,10 +321,20 @@ public final class WidgetViews {
      */
     public static RemoteViews companionJournal(Context context) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_journal);
-        String dynamic = liveText(context, "last_action_journal", 80);
-        if (dynamic != null) {
-            views.setTextViewText(R.id.widget_companion_journal_quote, dynamic);
+        
+        // Våg 95: Mask sensitive content if Vault is locked
+        boolean locked = SecurePrefs.get(context).getBoolean("sacred_lock_state", false);
+        
+        if (locked) {
+            views.setTextViewText(R.id.widget_companion_journal_quote, "Journalen är låst");
+            views.setTextViewText(R.id.widget_companion_journal_attr, "Lås upp för att läsa");
+        } else {
+            String dynamic = liveText(context, "last_action_journal", 80);
+            if (dynamic != null) {
+                views.setTextViewText(R.id.widget_companion_journal_quote, dynamic);
+            }
         }
+
         PendingIntent write = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_JOURNAL);
         views.setOnClickPendingIntent(R.id.widget_companion_journal_write, write);
         views.setOnClickPendingIntent(R.id.widget_companion_journal_root, write);
@@ -324,6 +352,8 @@ public final class WidgetViews {
         if (dynamic != null) {
             views.setTextViewText(R.id.widget_companion_harbor_affirm, dynamic);
         }
+        
+        // Bind all 4 harbor modes
         views.setOnClickPendingIntent(
             R.id.widget_companion_harbor_breath,
             WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_HARBOR_MODE, "breath")
@@ -340,12 +370,12 @@ public final class WidgetViews {
             R.id.widget_companion_harbor_sleep,
             WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_HARBOR_MODE, "sleep")
         );
+        
         PendingIntent breath = WidgetInteract.broadcastPendingIntent(
             context, WidgetInteract.ACT_HARBOR_MODE, WidgetActionReceiver.harborMode(context)
         );
         views.setOnClickPendingIntent(R.id.widget_companion_harbor_root, breath);
         views.setOnClickPendingIntent(R.id.widget_companion_harbor_lotus, breath);
-        views.setOnClickPendingIntent(R.id.widget_companion_harbor_affirm, breath);
         views.setOnClickPendingIntent(R.id.widget_companion_harbor_title, breath);
         return views;
     }
@@ -372,15 +402,62 @@ public final class WidgetViews {
      */
     public static RemoteViews companionChild(Context context) {
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_child);
-        String dynamic = liveText(context, "last_action_child", 90);
-        if (dynamic != null) {
-            views.setTextViewText(R.id.widget_companion_child_question, dynamic);
+        
+        // Våg 98: Mask sensitive child focus if Vault is locked
+        boolean locked = SecurePrefs.get(context).getBoolean("sacred_lock_state", false);
+        
+        if (locked) {
+            views.setTextViewText(R.id.widget_companion_child_question, "Barnfokus är dolt");
+        } else {
+            String dynamic = liveText(context, "last_action_child", 90);
+            if (dynamic != null) {
+                views.setTextViewText(R.id.widget_companion_child_question, dynamic);
+            }
         }
+
         PendingIntent answer = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_CHILD);
         views.setOnClickPendingIntent(R.id.widget_companion_child_root, answer);
         views.setOnClickPendingIntent(R.id.widget_companion_child_answer, answer);
         views.setOnClickPendingIntent(R.id.widget_companion_child_question, answer);
         views.setOnClickPendingIntent(R.id.widget_companion_child_title, answer);
         return views;
+    }
+
+    /**
+     * Companion Check-in — Emoji targets + Save overlay.
+     */
+    public static RemoteViews companionCheckIn(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_checkin);
+        
+        // Våg 96: Highlight selected mood in-place
+        String selectedMood = SecurePrefs.get(context).getString("widget_state_mood", "5");
+        applyMoodHighlight(views, selectedMood);
+        
+        PendingIntent save = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_MOOD);
+        views.setOnClickPendingIntent(R.id.widget_companion_checkin_root, save);
+        views.setOnClickPendingIntent(R.id.widget_companion_checkin_save, save);
+        views.setOnClickPendingIntent(R.id.widget_companion_checkin_note, save);
+        
+        views.setOnClickPendingIntent(R.id.widget_mood_1, WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_MOOD_CHECK, "1"));
+        views.setOnClickPendingIntent(R.id.widget_mood_2, WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_MOOD_CHECK, "2"));
+        views.setOnClickPendingIntent(R.id.widget_mood_3, WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_MOOD_CHECK, "3"));
+        views.setOnClickPendingIntent(R.id.widget_mood_4, WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_MOOD_CHECK, "4"));
+        views.setOnClickPendingIntent(R.id.widget_mood_5, WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_MOOD_CHECK, "5"));
+
+        return views;
+    }
+
+    private static void applyMoodHighlight(RemoteViews views, String mood) {
+        float dim = 0.4f;
+        float on = 1f;
+        views.setFloat(R.id.widget_mood_1, "setAlpha", "1".equals(mood) ? on : dim);
+        views.setFloat(R.id.widget_mood_2, "setAlpha", "2".equals(mood) ? on : dim);
+        views.setFloat(R.id.widget_mood_3, "setAlpha", "3".equals(mood) ? on : dim);
+        views.setFloat(R.id.widget_mood_4, "setAlpha", "4".equals(mood) ? on : dim);
+        views.setFloat(R.id.widget_mood_5, "setAlpha", "5".equals(mood) ? on : dim);
+        
+        // Also update background ring for 5 if selected (matches design default)
+        views.setInt(R.id.widget_mood_5, "setBackgroundResource", 
+            "5".equals(mood) ? R.drawable.widget_bg_gold_ring : R.drawable.widget_bg_pill_category);
     }
 }

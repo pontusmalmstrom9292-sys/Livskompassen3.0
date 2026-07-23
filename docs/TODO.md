@@ -1,5 +1,19 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
+## 2026-07-23 — Companion OS Hemskärm + Studio Gold (Våg 1–4)
+
+Unlock: `2026-07-21-unlock-MOD-WIDGET-companion-android-interact.md` (`approved: yes`)
+
+- [x] Våg 1: Capture/Note elev. + Compass/Beacon rich + Studio `--cw-bloom` + G85 pin-docs
+- [x] Våg 2–3: Inbox/Tasks/Journal + Harbor/Anchor/Child rich RV (multi-PI / WIS)
+- [x] Gate F: primära hit-targets ≥56 dp (note/harbor/tasks/CTA)
+- [x] Soft bloom panel + inset well depth; waveform alpha vid recording
+- [x] Smoke: companion-widgets · widgets · locked-ux · android compile **PASS**
+- [x] YOLO: GO (widgets-only) — `docs/evaluations/2026-07-23-yolo-companion-os-gold-waves.md`
+- [x] Våg 5+ Smart Time / Widget AI — **DEFER**
+- [ ] Pontus: G85 pin Capture → ett mic-tryck → inspelning (visuell sign-off)
+- [ ] Merge: commit **endast** `widgets/**` + layouts/drawables/docs — **exkludera** dirty `android/.../core/**` tills separat review
+
 ## 2026-07-22 — Gold Standard hub + Companion parity (C + Ethereal Blue)
 
 Unlock: [`evaluations/2026-07-22-unlock-hub-gold-standard-layout.md`](./evaluations/2026-07-22-unlock-hub-gold-standard-layout.md) (`approved: yes`)

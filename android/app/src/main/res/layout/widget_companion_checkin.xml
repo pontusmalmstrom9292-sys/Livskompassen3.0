@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:letterSpacing="0.18"
-            android:text="DAGENS CHECK-IN"
+            android:text="@string/widget_checkin_header"
             android:textAllCaps="true"
             android:textColor="@color/widget_gold_light"
             android:textSize="10sp"
@@ -36,7 +36,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hur är läget just nu?"
+            android:text="@string/widget_checkin_hint"
             android:textColor="@color/widget_muted"
             android:textSize="8sp" />
     </LinearLayout>
@@ -56,7 +56,8 @@
             android:gravity="center"
             android:text="☹️"
             android:textSize="20sp"
-            android:alpha="0.4" />
+            android:alpha="0.4"
+            android:contentDescription="Mycket dåligt" />
 
         <TextView
             android:id="@+id/widget_mood_2"
@@ -67,7 +68,8 @@
             android:gravity="center"
             android:text="🙁"
             android:textSize="20sp"
-            android:alpha="0.4" />
+            android:alpha="0.4"
+            android:contentDescription="Dåligt" />
 
         <TextView
             android:id="@+id/widget_mood_3"
@@ -78,7 +80,8 @@
             android:gravity="center"
             android:text="😐"
             android:textSize="20sp"
-            android:alpha="0.4" />
+            android:alpha="0.4"
+            android:contentDescription="Okej" />
 
         <TextView
             android:id="@+id/widget_mood_4"
@@ -89,7 +92,8 @@
             android:gravity="center"
             android:text="🙂"
             android:textSize="20sp"
-            android:alpha="0.4" />
+            android:alpha="0.4"
+            android:contentDescription="Bra" />
 
         <TextView
             android:id="@+id/widget_mood_5"
@@ -99,7 +103,8 @@
             android:background="@drawable/widget_bg_gold_ring"
             android:gravity="center"
             android:text="😊"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:contentDescription="Utmärkt" />
     </LinearLayout>
 
     <TextView
@@ -124,7 +129,7 @@
         android:background="@drawable/widget_bg_cta_outline"
         android:gravity="center"
         android:minHeight="44dp"
-        android:text="SPARA"
+        android:text="@string/widget_checkin_save"
         android:textAllCaps="true"
         android:textColor="@color/widget_gold_light"
         android:textSize="10sp"

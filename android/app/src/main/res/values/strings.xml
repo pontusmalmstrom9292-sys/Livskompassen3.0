@@ -203,6 +203,29 @@
     <string name="widget_utv_kort_title">Utvecklingskort</string>
     <string name="widget_utv_kort_desc">Dagens kort direkt på hemskärmen</string>
 
+    <!-- Redesign Strings -->
+    <string name="widget_capture_header">HEMLIG INSPELNING</string>
+    <string name="widget_capture_hint">Tryck och håll för att spela in</string>
+    <string name="widget_capture_footer">Håll intryckt i 2 sekunder</string>
+    <string name="widget_note_header">SNABBA ANTECKNINGAR</string>
+    <string name="widget_note_hint">Fånga dina tankar direkt</string>
+    <string name="widget_compass_header">DAGENS FOKUS</string>
+    <string name="widget_compass_hint">Din kompass för idag</string>
+    <string name="widget_beacon_header">KAPACITET</string>
+    <string name="widget_beacon_hint">Din inre fyr</string>
+    <string name="widget_harbor_header">MÅ BRA</string>
+    <string name="widget_harbor_hint">Små steg, stor skillnad</string>
+    <string name="widget_tasks_header">PÅMINNELSER</string>
+    <string name="widget_journal_header">JOURNAL</string>
+    <string name="widget_journal_hint">Din plats för reflektion</string>
+    <string name="widget_checkin_header">DAGENS CHECK-IN</string>
+    <string name="widget_checkin_hint">Hur är läget just nu?</string>
+    <string name="widget_checkin_save">SPARA</string>
+    <string name="widget_btn_all">VISA ALLA</string>
+    <string name="widget_btn_more">VISA MER</string>
+    <string name="widget_btn_intention">SÄTT INTENTION</string>
+    <string name="widget_btn_write">SKRIV I DAGBOKEN</string>
+
     <string name="shortcut_vault_short">Öppna Valvet</string>
     <string name="shortcut_vault_long">Öppna det säkra valvet</string>
 

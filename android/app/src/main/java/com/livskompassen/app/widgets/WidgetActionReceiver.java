@@ -69,9 +69,22 @@ public class WidgetActionReceiver extends BroadcastReceiver {
             case WidgetInteract.ACT_CAPTURE_SHARE:
                 WidgetCaptureStore.shareToDevice(context, param);
                 break;
+            case WidgetInteract.ACT_MOOD_CHECK:
+                setMoodCheck(context, prefs, param);
+                break;
             default:
                 break;
         }
+    }
+
+    private static void setMoodCheck(Context context, SharedPreferences prefs, String param) {
+        prefs.edit().putString("widget_state_mood", param).apply();
+        
+        // Våg 91: Mechanical haptics for mood selection
+        new com.livskompassen.app.core.HapticManager(context).mechanicalClick(null);
+
+        WidgetUpdateManager.updateWidgetContent(context, "last_action_mood", "Humör valt: " + param);
+        refreshProvider(context, CompanionCheckInWidgetProvider.class);
     }
 
     private static void toggleTask(Context context, SharedPreferences prefs, String param) {
@@ -99,6 +112,10 @@ public class WidgetActionReceiver extends BroadcastReceiver {
     private static void setHarborMode(Context context, SharedPreferences prefs, String param) {
         String mode = param == null || param.isEmpty() ? "breath" : param;
         prefs.edit().putString(PREF_HARBOR_MODE, mode).apply();
+        
+        // Våg 90: Liquid haptics for Harbor transitions
+        new com.livskompassen.app.core.HapticManager(context).liquidPulse();
+        
         String label;
         switch (mode) {
             case "focus":
@@ -122,6 +139,9 @@ public class WidgetActionReceiver extends BroadcastReceiver {
         prefs.edit().putBoolean("widget_state_anchor_done", true)
             .putLong("widget_state_anchor_done_at", System.currentTimeMillis())
             .apply();
+            
+        new com.livskompassen.app.core.HapticManager(context).success();
+        
         WidgetUpdateManager.updateWidgetContent(context, "last_action_anchor", "Ankare markerat ✓");
         refreshProvider(context, CompanionAnchorWidgetProvider.class);
     }
@@ -129,6 +149,9 @@ public class WidgetActionReceiver extends BroadcastReceiver {
     private static void toggleTasksExpand(Context context, SharedPreferences prefs) {
         boolean expanded = prefs.getBoolean(PREF_TASKS_EXPANDED, false);
         prefs.edit().putBoolean(PREF_TASKS_EXPANDED, !expanded).apply();
+        
+        new com.livskompassen.app.core.HapticManager(context).navigate();
+        
         WidgetUpdateManager.updateWidgetContent(context, "last_action_tasks",
             !expanded ? "Visar uppgifter" : "Kompakt lista");
         refreshProvider(context, CompanionTasksWidgetProvider.class);
