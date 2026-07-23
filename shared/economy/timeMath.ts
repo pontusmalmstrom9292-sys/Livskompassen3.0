@@ -45,15 +45,15 @@ export function normalizeClock(clock: string): string {
 
 export function parseDateOnly(dateStr: string): Date {
   if (!dateStr || typeof dateStr !== 'string') {
-    throw new Error(`parseDateOnly: ogiltigt indata (fick "${dateStr}")`);
+    throw new Error(`parseDateOnly: ogiltigt indata (fick "${String(dateStr)}")`);
   }
   const parts = dateStr.split('-');
   if (parts.length !== 3) {
-    throw new Error(`parseDateOnly: ogiltigt datumformat "${dateStr}" — förväntar YYYY-MM-DD`);
+    throw new Error(`parseDateOnly: ogiltigt datumformat "${String(dateStr)}" — förväntar YYYY-MM-DD`);
   }
   const [y, m, d] = parts.map(Number);
   if (Number.isNaN(y) || Number.isNaN(m) || Number.isNaN(d)) {
-    throw new Error(`parseDateOnly: ogiltigt datumformat "${dateStr}" — förväntar YYYY-MM-DD`);
+    throw new Error(`parseDateOnly: ogiltigt datumformat "${String(dateStr)}" — förväntar YYYY-MM-DD`);
   }
   return new Date(y, m - 1, d, 12, 0, 0);
 }
