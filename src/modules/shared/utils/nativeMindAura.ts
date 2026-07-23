@@ -70,7 +70,8 @@ export function analyzeIntelligenceNativeAsync(
 
   ensureConsumerInstalled();
   const bridge = getMindAuraNative();
-  if (!bridge?.analyzeIntelligence) return Promise.resolve(null);
+  const analyze = bridge?.analyzeIntelligence;
+  if (!analyze) return Promise.resolve(null);
 
   return new Promise((resolve) => {
     let settled = false;
@@ -100,7 +101,7 @@ export function analyzeIntelligenceNativeAsync(
     const timer = window.setTimeout(() => finish(getLastIntelligence()), timeoutMs);
     window.addEventListener(INTELLIGENCE_EVENT, onEvent as EventListener);
     try {
-      bridge.analyzeIntelligence(t);
+      analyze(t);
     } catch {
       finish(null);
     }
