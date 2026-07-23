@@ -18,7 +18,7 @@ export function MabraPulseWidget() {
   const [isCheckedIn, setIsCheckedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const [todaysActivity, setTodaysActivity] = useState<{
-    checkIn?: CheckInRow | null;
+    checkIn?: CheckInRow;
     session?: TodaysSession;
   }>({});
 

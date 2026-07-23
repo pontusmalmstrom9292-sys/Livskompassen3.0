@@ -107,7 +107,7 @@ export const DayForensicsPanel: React.FC<DayForensicsPanelProps> = ({ dataPoint,
               <ul className="space-y-3 max-h-60 overflow-y-auto pr-2 custom-scrollbar">
                 {vaultEntries.map((entry, idx) => (
                   <li key={idx} className="bg-white/5 rounded-lg p-3 text-sm text-text-muted">
-                   <p className="line-clamp-3">{entry.content ?? JSON.stringify(entry)}</p>
+                   <p className="line-clamp-3">{entry.content ?? entry.truth ?? entry.action ?? '—'}</p>
                     <div className="mt-2 text-xs text-text-muted flex justify-between">
                       <span>{getVaultEntryDate(entry).toLocaleTimeString('sv-SE', {hour: '2-digit', minute:'2-digit'})}</span>
                        <span className="text-accent/50 uppercase tracking-wider text-[10px]">WORM</span>

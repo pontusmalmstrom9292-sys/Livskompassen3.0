@@ -23,8 +23,9 @@ export interface VaultRecord {
  * Shape returned by `getVaultHistory` / `initializeVaultListener`.
  * Carries all VaultLog fields (except userId) plus a string-normalised createdAt
  * and legacy display-only fields that some older entries may have.
+ * `id` is always present (the Firestore document id).
  */
-export type VaultHistoryEntry = Partial<Omit<VaultLog, 'userId' | 'createdAt'>> & {
+export interface VaultHistoryEntry extends Partial<Omit<VaultLog, 'userId' | 'createdAt'>> {
   id: string;
   createdAt?: string;
   /** Legacy text field used by older entries. */
@@ -36,7 +37,7 @@ export type VaultHistoryEntry = Partial<Omit<VaultLog, 'userId' | 'createdAt'>> 
   timestamp?: Date | string | { toDate?: () => Date };
   source?: string;
   confidence?: number;
-};
+}
 
 /**
  * Normalises the date of a VaultHistoryEntry to a `Date` object.
