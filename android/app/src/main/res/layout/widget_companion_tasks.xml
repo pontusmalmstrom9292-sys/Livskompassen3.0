@@ -63,7 +63,7 @@
             <ImageView android:layout_width="12dp" android:layout_height="12dp" android:src="@drawable/widget_ic_lock_gold" android:alpha="0.6" android:contentDescription="@null"/>
             <TextView android:layout_width="35dp" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:text="10:00" android:textColor="@color/widget_muted" android:textSize="9sp"/>
             <TextView android:id="@+id/widget_companion_tasks_row1" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:minHeight="56dp" android:text="Samtal med skolan" android:textColor="@color/widget_text" android:textSize="10sp"/>
-            <View android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/widget_bg_pill_category" android:alpha="0.5"/>
+            <ImageView android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/widget_bg_pill_category" android:alpha="0.5" android:contentDescription="@null" android:importantForAccessibility="no"/>
         </LinearLayout>
 
         <LinearLayout
@@ -75,7 +75,7 @@
             <ImageView android:layout_width="12dp" android:layout_height="12dp" android:src="@drawable/widget_ic_lock_gold" android:alpha="0.6" android:contentDescription="@null"/>
             <TextView android:layout_width="35dp" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:text="15:30" android:textColor="@color/widget_muted" android:textSize="9sp"/>
             <TextView android:id="@+id/widget_companion_tasks_row2" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:minHeight="56dp" android:text="Träning" android:textColor="@color/widget_text" android:textSize="10sp"/>
-            <View android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/widget_bg_pill_category" android:alpha="0.5"/>
+            <ImageView android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/widget_bg_pill_category" android:alpha="0.5" android:contentDescription="@null" android:importantForAccessibility="no"/>
         </LinearLayout>
 
         <LinearLayout
@@ -87,7 +87,7 @@
             <ImageView android:layout_width="12dp" android:layout_height="12dp" android:src="@drawable/widget_ic_lock_gold" android:alpha="0.6" android:contentDescription="@null"/>
             <TextView android:layout_width="35dp" android:layout_height="wrap_content" android:layout_marginStart="6dp" android:text="20:00" android:textColor="@color/widget_muted" android:textSize="9sp"/>
             <TextView android:id="@+id/widget_companion_tasks_row3" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1" android:gravity="center_vertical" android:minHeight="56dp" android:text="Kvällsrutin" android:textColor="@color/widget_text" android:textSize="10sp"/>
-            <View android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/widget_bg_pill_category" android:alpha="0.5"/>
+            <ImageView android:layout_width="12dp" android:layout_height="12dp" android:background="@drawable/widget_bg_pill_category" android:alpha="0.5" android:contentDescription="@null" android:importantForAccessibility="no"/>
         </LinearLayout>
     </LinearLayout>
 

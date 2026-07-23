@@ -123,7 +123,7 @@ flowchart TB
 | Andnings-/grounding-progress | RAM / befintliga övningskomponenter | Unmount SOS |
 | **Ingen** auto-persist | — | — |
 
-**Device Clear-gap (känd):** utöka `clearDeviceSession` + logout med prefix `livskompassen_recovery_sos_*` vid implementation (PMIR).
+**Device Clear:** **done** 2026-07-23 — `clearRecoveryLocalStorage` via `clearDeviceSession` + `signOutUser` (prefix `livskompassen_recovery_*`).
 
 ### 3.5 Valfri WORM efter SOS (inte akut)
 

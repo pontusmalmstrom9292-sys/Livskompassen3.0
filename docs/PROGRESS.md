@@ -1,3 +1,11 @@
+## 2026-07-23 — Release readiness runway (agent)
+
+- `clearRecoveryLocalStorage.ts` + Device Clear / `signOutUser` (MABRA-CAT8 gap closed)
+- Companion layouts: RemoteViews-legal spacers (lint RemoteViewLayout)
+- Docs: PROJECT_STATE Minne DONE · IMPROVEMENT-WAVES v61/v62 DONE · G85 checklist day-6 · visual signoff handoff
+- PMIR park: Genkit V1, Familje-PIN, G18, /gora, Gmail/Calendar, Life OS Fas D — hold
+- Fas 24 P0: still awaits Pontus G85 Enhetsgate + 7d log (agent cannot close)
+
 ## 2026-07-23 — Fas 24 + Companion Våg 5–7 (Cursor)
 
 - Implemented plan Fas24 Companion Waves: Sacred/Panic/Ghost hygiene, Edge AI bridges, Smart Time Android, Widget AI heuristics RemoteViews, Studio AI opt-in default off

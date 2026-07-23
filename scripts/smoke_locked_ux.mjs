@@ -978,6 +978,17 @@ function main() {
   mustInclude(
     'src/modules/core/security/clearDeviceSession.ts',
     'clearDeviceSession',
+  );
+  mustInclude(
+    'src/modules/core/security/clearDeviceSession.ts',
+    'clearRecoveryLocalStorage',
+  );
+  mustInclude(
+    'src/modules/core/security/clearRecoveryLocalStorage.ts',
+    'livskompassen_recovery_',
+  );
+  mustInclude(
+    'src/modules/core/security/clearDeviceSession.ts',
     'clearAllDrafts',
   );
   mustInclude('src/modules/core/pages/InstallningarPage.tsx', 'ClearDevicePanel');

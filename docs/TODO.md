@@ -1,6 +1,21 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
 
+## 2026-07-23 — Release readiness runway (agent)
+
+Plan: Release-readiness audit
+
+- [x] Agent: G85 device-ready pack + checklist day-6 prep (Enhetsgate = Pontus)
+- [x] Recovery SOS ZF: `clearRecoveryLocalStorage` i Device Clear + logout
+- [x] Android CI: RemoteViews lint-fix (`<View>` → ImageView i Capture/Note/Tasks)
+- [x] Minne v61/v62 doc-synk: DONE (deploy 2026-07-18) — waves PAUS → DONE
+- [x] Visual sign-off handoff: `evaluations/2026-07-23-g85-visual-signoff-handoff.md`
+- [x] PMIR park hold: Genkit V1 · Familje-PIN · G18 · `/gora` · Gmail/Calendar · Life OS Fas D — **bygg inte**
+- [ ] Pontus: G85 Enhetsgate + Capture one-pass (checklist)
+- [ ] Pontus: day 1–7 logg → stäng Fas 24 P0
+- [ ] Pontus: Gold/V4/Companion visual sign-off
+- [x] Valfritt: `smoke:predeploy:live` + yolo-vakt **GO** (merge runway) — deploy fortfarande SKIP
+
 ## 2026-07-23 — Fas 24 close + Companion Våg 5–7 (Cursor)
 
 Plan: Fas24 Companion Waves (implement)

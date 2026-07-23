@@ -5,6 +5,8 @@ Status: **device-ready** (NOT G85 PASS — Pontus must run on phone)
 
 ## Machine prep (done)
 
+- 2026-07-23 release runway: RemoteViews `<View>` → ImageView (Capture/Note/Tasks lint) · Recovery SOS ZF in Device Clear/logout · Minne v61/v62 doc-synk DONE
+
 - Gold Companion Våg 1–4 already on main
 - Smart Time / Widget AI Android + web bridge smoke PASS
 - Sacred Lock ghost-exit race fixed (unlock callback)
