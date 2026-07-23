@@ -1,3 +1,9 @@
+### 2026-07-23 — Android CI ML Kit-fix
+- GitHub Actions `Android CI` run **30008547997** failade på `IntelligenceManager.java` eftersom `com.google.mlkit.nl.languageid` inte fanns på classpath
+- Fix: `com.google.mlkit:language-id:17.0.6` tillagd i `/android/app/build.gradle`
+- Lokal Gradle-validering försökt: `./android/gradlew -p android lint assembleDebug test` blockerad av sandbox-DNS mot `dl.google.com`
+- Nästa verifiering: fjärrkörning av `Android CI`
+
 ### 2026-07-22 — Gold Standard hub + Companion (C + Ethereal Blue)
 - Unlock: [`2026-07-22-unlock-hub-gold-standard-layout.md`](./evaluations/2026-07-22-unlock-hub-gold-standard-layout.md)
 - Companion Kap 6 deepen (web 1.3.0 + Android v31 gold + live capacity ring)

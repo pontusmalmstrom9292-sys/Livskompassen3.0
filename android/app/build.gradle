@@ -261,6 +261,7 @@ dependencies {
     implementation project(':capacitor-cordova-android-plugins')
     implementation libs.google.play.integrity
     implementation libs.google.play.services.tasks
+    implementation 'com.google.mlkit:language-id:17.0.6'
     implementation 'com.google.firebase:firebase-messaging:24.1.1'
 }
 
