@@ -171,7 +171,7 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
                       {b.amountSek} kr
                       <button
                         type="button"
-                        className="ml-2 inline-flex min-h-11 items-center text-xs text-danger focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+                        className="ml-2 inline-flex min-h-11 items-center text-xs text-danger focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                         onClick={() => void deleteEconomyFixedBill(user!.uid, b.id).then(reload)}
                       >
                         Ta bort
@@ -214,7 +214,7 @@ export function EconomyLogPanel({ onChanged, scope = 'all' }: EconomyLogPanelPro
                     />
                     <button
                       type="button"
-                      className="inline-flex min-h-11 shrink-0 items-center text-xs text-danger focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+                      className="inline-flex min-h-11 shrink-0 items-center text-xs text-danger focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                       onClick={() => void deleteEconomyLedgerEntry(user!.uid, row.id).then(reload)}
                     >
                       Radera

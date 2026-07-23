@@ -412,6 +412,21 @@ mustExist('src/widgets/components/WidgetMoodCheckIn.tsx');
 mustExist('src/widgets/smart/smartTimeContext.ts');
 mustExist('src/widgets/smart/widgetAiContext.ts');
 mustExist('src/widgets/smart/resolveHomeSurface.ts');
+mustExist('android/app/src/main/java/com/livskompassen/app/widgets/SmartTimePeriods.java');
+mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetAiModes.java');
+
+const androidSmart = mustExist('android/app/src/main/java/com/livskompassen/app/widgets/SmartTimePeriods.java');
+assert(androidSmart.includes('07') || androidSmart.includes('HOUR_OF_DAY'), 'Android Smart Time saknar dygnsgräns');
+assert(androidSmart.includes('ACCENT_NIGHT') || androidSmart.includes('#7BA3C9'), 'Android Smart Time saknar night accent');
+assert(!androidSmart.includes('ThemeManager'), 'Android Smart Time får inte bero på ThemeManager');
+
+const androidAi = mustExist('android/app/src/main/java/com/livskompassen/app/widgets/WidgetAiModes.java');
+assert(androidAi.includes('anchor_only') || androidAi.includes('ANCHOR_ONLY'), 'Android AI saknar anchor_only');
+assert(androidAi.includes('widget_ai_'), 'Android AI måste använda widget_ai_ SecurePrefs-nycklar');
+
+const bridgeAi = mustExist('src/widgets/core/companionWidgetBridge.ts');
+assert(bridgeAi.includes('pushCompanionAiSnapshot'), 'Bridge saknar pushCompanionAiSnapshot');
+assert(bridgeAi.includes('widget_ai_mode'), 'Bridge måste skriva widget_ai_mode');
 
 const smartTime = mustExist('src/widgets/smart/smartTimeContext.ts');
 assert(smartTime.includes('msUntilNextPeriod'), 'Smart Time måste schemalägga periodgräns');

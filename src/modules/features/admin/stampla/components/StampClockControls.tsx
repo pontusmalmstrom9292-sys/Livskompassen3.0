@@ -10,7 +10,9 @@ type Props = {
 };
 
 export function StampClockControls({ isClockedIn, busy, compact, onStampIn, onStampOut }: Props) {
-  const btnClass = compact ? 'min-h-11 px-3 text-xs' : 'min-h-11 text-sm';
+  const btnClass = compact
+    ? 'min-h-11 px-3 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40'
+    : 'min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40';
 
   return (
     <div

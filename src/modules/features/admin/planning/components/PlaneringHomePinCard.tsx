@@ -32,7 +32,7 @@ export function PlaneringHomePinCard() {
             <li key={item.id} className="planering-quicklist__row">
               <button
                 type="button"
-                className="planering-quicklist__check"
+                className="planering-quicklist__check min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 aria-label={`Klar: ${item.text}`}
                 onClick={() => {
                   setList(toggleQuickListItem(pin.listId, item.id));
@@ -50,7 +50,7 @@ export function PlaneringHomePinCard() {
         to="/planering?tab=inkop"
         variant="ghost"
         size="sm"
-        className="mt-3 flex w-full items-center justify-center gap-1"
+        className="mt-3 flex w-full items-center justify-center gap-1 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       >
         Öppna listan
         <ChevronRight className="h-4 w-4" />

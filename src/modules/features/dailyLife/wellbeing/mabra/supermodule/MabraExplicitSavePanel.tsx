@@ -112,7 +112,7 @@ export function MabraExplicitSavePanel({
         <div className="mt-4 flex flex-col gap-2 sm:flex-row">
           <Button
             variant="secondary"
-            className="flex-1 text-sm disabled:opacity-50"
+            className="flex-1 text-sm disabled:opacity-50 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             disabled={!canSave || savingVit || vitSaved}
             onClick={() => void handleSaveToVit()}
           >
@@ -120,7 +120,7 @@ export function MabraExplicitSavePanel({
           </Button>
           <Button
             variant="ghost"
-            className="flex-1 text-sm disabled:opacity-50"
+            className="flex-1 text-sm disabled:opacity-50 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             disabled={!canSave}
             onClick={handleBridgeToDagbok}
           >

@@ -39,7 +39,7 @@ export function DesignPackCenterHeader({
       <div className="design-pack-header__side design-pack-header__side--left">
         <button
           type="button"
-          className="design-pack-header__menu header-chrome-btn header-chrome-btn--round focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          className="design-pack-header__menu header-chrome-btn header-chrome-btn--round min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           aria-label="Öppna meny"
           aria-expanded={menuExpanded}
           onClick={onMenuClick}

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { BreathPhase, BreathingExercise } from './breathingExercises';
+import { startAuraFlowNative, stopAuraFlowNative } from '@/modules/shared/utils/nativeMindAura';
 
 export type BreathingVisual = {
   ringScale: number;
@@ -29,6 +30,8 @@ export function useBreathingCycle(exercise: BreathingExercise, active: boolean) 
       return;
     }
 
+    startAuraFlowNative();
+
     let timeoutId: ReturnType<typeof setTimeout> | undefined;
     let cancelled = false;
 
@@ -49,6 +52,7 @@ export function useBreathingCycle(exercise: BreathingExercise, active: boolean) 
     return () => {
       cancelled = true;
       if (timeoutId) clearTimeout(timeoutId);
+      stopAuraFlowNative();
     };
   }, [active, exercise.id, exercise.phases]);
 

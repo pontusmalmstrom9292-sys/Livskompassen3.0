@@ -333,7 +333,7 @@ export function BiffPublicPanel({ initialMessage = '' }: Props) {
             action={
               <Link
                 to={vaultDrawerPath('hamn_analys')}
-                className="inline-flex min-h-11 items-center text-sm text-accent underline-offset-2 hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+                className="inline-flex min-h-11 items-center text-sm text-accent underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               >
                 Valv → Hamn · Analys
               </Link>

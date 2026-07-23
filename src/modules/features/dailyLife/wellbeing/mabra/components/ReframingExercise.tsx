@@ -118,7 +118,7 @@ export function ReframingExercise({ onComplete, onExit, hubSymptom }: Props) {
           <div className="mt-2 flex flex-wrap items-center gap-2">
             <Button
               variant="ghost"
-              className="text-sm"
+              className="text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={isListening ? stop : start}
               aria-pressed={isListening}
             >
@@ -140,10 +140,18 @@ export function ReframingExercise({ onComplete, onExit, hubSymptom }: Props) {
         Steg {stepIndex + 1} av {REFRAMING_STEPS.length}
       </p>
       <div className="flex w-full max-w-sm flex-col gap-2">
-        <Button variant="secondary" onClick={handleNext}>
+        <Button
+          variant="secondary"
+          className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          onClick={handleNext}
+        >
           {isLast ? 'Klar' : 'Gå vidare'}
         </Button>
-        <Button variant="ghost" className="text-sm" onClick={handleExit}>
+        <Button
+          variant="ghost"
+          className="text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          onClick={handleExit}
+        >
           Avsluta nu
         </Button>
       </div>

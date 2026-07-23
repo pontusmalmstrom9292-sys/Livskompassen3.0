@@ -31,7 +31,10 @@ export function VaultEconomyPanel() {
       <BentoCard title="Lön och räkningar" icon={<Wallet className="h-4 w-4" />} description="PIN-skyddad">
         <p className="mb-3 text-sm text-text-muted">
           Pengar, logg och period finns i{' '}
-          <Link to="/vardagen?tab=ekonomi" className="text-accent-primary underline">
+          <Link
+            to="/vardagen?tab=ekonomi"
+            className="inline-flex min-h-11 items-center text-accent-primary underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          >
             Vardagen → Ekonomi
           </Link>
           . Här: frånvaro och tidshistorik under PIN.

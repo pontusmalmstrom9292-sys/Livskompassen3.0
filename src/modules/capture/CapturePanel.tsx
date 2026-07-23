@@ -654,7 +654,7 @@ export function CapturePanel({
           {destinationLink && (
             <Link
               to={{ pathname: destinationLink.pathname, search: destinationLink.search }}
-              className="inline-block text-xs text-accent underline-offset-2 hover:underline"
+              className="inline-block text-xs text-accent underline-offset-2 hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               {destinationLink.label}
             </Link>
@@ -662,7 +662,7 @@ export function CapturePanel({
           {lastBatch.queued > 0 && (
             <Link
               to={{ pathname: VALV_SAMLA_GRANSKA_LINK.pathname, search: VALV_SAMLA_GRANSKA_LINK.search }}
-              className="inline-block text-xs text-accent underline-offset-2 hover:underline"
+              className="inline-block text-xs text-accent underline-offset-2 hover:underline min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               Öppna granskningskö
             </Link>

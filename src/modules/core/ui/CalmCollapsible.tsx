@@ -38,19 +38,19 @@ export function CalmCollapsible({
     onOpenChange?.(next);
   };
 
+  void glow; // API/smoke compat — silo glow disabled app-wide
+
   return (
     <section
       className={clsx(
         'calm-collapsible',
         open && 'calm-collapsible--open',
         variant === 'card' && 'calm-card',
-        glow === 'gold' && 'glow-bottom-gold',
-        (glow === 'blue' || glow === 'green') && 'glow-bottom-gold',
       )}
     >
       <button
         type="button"
-        className="calm-collapsible__trigger"
+        className="calm-collapsible__trigger min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         aria-expanded={open}
         aria-controls={bodyId}
         onClick={toggle}

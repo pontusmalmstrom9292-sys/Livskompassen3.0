@@ -62,7 +62,7 @@
         android:gravity="center"
         android:letterSpacing="0.12"
         android:minHeight="56dp"
-        android:paddingVertical="8dp"
+        android:paddingVertical="10dp"
         android:text="@string/widget_companion_anchor_done"
         android:textAllCaps="true"
         android:textColor="@color/widget_background"

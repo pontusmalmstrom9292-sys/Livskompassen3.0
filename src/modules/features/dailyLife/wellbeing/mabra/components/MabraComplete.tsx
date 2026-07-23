@@ -37,7 +37,11 @@ export function MabraComplete({
         role="list"
         aria-label="Nästa steg"
       >
-        <Link to={dagbokTo} className="mabra-complete-strip__chip" role="listitem">
+        <Link
+          to={dagbokTo}
+          className="mabra-complete-strip__chip min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          role="listitem"
+        >
           {dagbokLabel}
         </Link>
         <button
@@ -51,13 +55,17 @@ export function MabraComplete({
         {hasPendingExerciseNote() ? (
           <Link
             to="/mabra/input?inputMode=exercise_note"
-            className="mabra-complete-strip__chip"
+            className="mabra-complete-strip__chip min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             role="listitem"
           >
             Spara övningsutkast
           </Link>
         ) : null}
-        <Link to="/vardagen" className="mabra-complete-strip__chip" role="listitem">
+        <Link
+          to="/vardagen"
+          className="mabra-complete-strip__chip min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          role="listitem"
+        >
           {COMPLETE_LANDING_STRIP.evening}
         </Link>
       </div>

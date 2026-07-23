@@ -13,7 +13,11 @@ export function BarnportenOrkesterPanel() {
           </li>
         ))}
       </ul>
-      <ButtonLink to="/valvet?vaultTab=orkester" variant="ghost" className="mt-3 inline-flex text-xs">
+      <ButtonLink
+        to="/valvet?vaultTab=orkester"
+        variant="ghost"
+        className="mt-3 inline-flex min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+      >
         Öppna meddelande-analys i arkiv
       </ButtonLink>
     </div>

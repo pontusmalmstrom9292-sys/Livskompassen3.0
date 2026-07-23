@@ -32,6 +32,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!-- MainActivity stays always-enabled (deep links / share / widgets / Panic). Launcher icons are aliases. -->
         <activity
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|smallestScreenSize|screenLayout|uiMode|density"
             android:name=".MainActivity"
@@ -40,11 +41,6 @@
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -72,6 +68,21 @@
                 android:resource="@xml/shortcuts" />
 
         </activity>
+
+        <!-- Default home-screen launcher alias (toggle with StealthActivity — never disable MainActivity) -->
+        <activity-alias
+            android:name=".DefaultLauncherActivity"
+            android:enabled="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:roundIcon="@mipmap/ic_launcher_round"
+            android:targetActivity=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
 
         <!-- Stealth Alias: Ser ut som en vanlig antecknings-app -->
         <activity-alias
@@ -104,6 +115,13 @@
             android:taskAffinity=""
             android:theme="@style/AppTheme.WidgetOverlay"
             android:windowSoftInputMode="adjustResize" />
+
+        <!-- Black Box Explorer — native log viewer -->
+        <activity
+            android:name=".core.DiagnosticViewerActivity"
+            android:label="Black Box Explorer"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false" />
 
         <receiver
             android:name=".widgets.WidgetActionReceiver"
@@ -141,10 +159,40 @@
             </intent-filter>
         </service>
 
+        <service
+            android:name=".core.PanicTileService"
+            android:icon="@drawable/ic_lock_sacred"
+            android:label="Säkra Nu"
+            android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.quicksettings.action.QS_TILE" />
+            </intent-filter>
+        </service>
+
         <!-- Native hemskärms-widgets WH1–WH4 -->
         <receiver
             android:name=".core.NotificationActionReceiver"
             android:exported="false" />
+
+        <receiver
+            android:name=".core.HardwareAwarenessReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.intent.action.HEADSET_PLUG" />
+                <action android:name="android.hardware.usb.action.USB_STATE" />
+                <action android:name="android.intent.action.SIM_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".core.GhostLaunchReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SECRET_CODE" />
+                <data android:scheme="android_secret_code" android:host="1234" />
+            </intent-filter>
+        </receiver>
 
         <receiver
             android:name=".widgets.RecordWidgetProvider"
@@ -274,6 +322,30 @@
             <meta-data
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_companion_tasks_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widgets.CompanionFamilyWidgetProvider"
+            android:exported="true"
+            android:label="Familjen">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_companion_family_info" />
+        </receiver>
+
+        <receiver
+            android:name=".widgets.CompanionCheckInWidgetProvider"
+            android:exported="true"
+            android:label="@string/widget_overlay_mood_title">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_companion_checkin_info" />
         </receiver>
 <receiver
             android:name=".widgets.StampWidgetProvider"

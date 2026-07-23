@@ -3,11 +3,95 @@
 - Gate F: `--cw-touch-floor` 56px, mood/pills/CTA, Android check-in faces, Tasks «VISA ALLA»
 - Kap 6: padding 12/10 parity, caps/tracking, trust/signature gold-dim, Anchor guldring
 - Smoke: `smoke:companion-widgets` · `smoke:locked-ux` **PASS**
-- Residual: Pontus G85 visual sign-off; merge widgets-only (exkludera dirty `core/**`)
+- Merge: Kap 6 polish + main interactive layout IDs (beacon/compass/journal)
 
-## 2026-07-23 — Zenith Precision Wave (Android Omni)
+## 2026-07-23 — Silo-glow kill-switch (hela appen)
 
-Cursor: Security (Panic onNewIntent + forceDeepLock, DefaultLauncherActivity alias-only, orphan deep-lock), Ghost (3s hold + Sacred Lock on exit), Mind (entity DATE_TIME map + SV enrich + throttle + Inkast bridge), Aura (pause stop + useBreathingCycle), Widgets G85/DS/circadian. Gates: `verifySecurityComponents` PASS · `smoke:companion-widgets` PASS · `smoke:android-platform` PASS · minSdk 26 (ML Kit).
+- CSS: `.glow-bottom-*` visuellt inert i `obsidian-calm-glass.css` (+ Nordic/Aurora/MåBra overrides)
+- DS: Card/CalmCollapsible/Modal/Sheet/ErrorFallback/LivLauncherGrid/discoveryAccentGlow — ingen glow-klass
+- `glow`-API kvar (smoke/compat); ingen gul/blå/grön botten-bloom
+- Smoke: `locked-ux` · `design-modules` PASS
+
+## 2026-07-23 — Familjen header: bort guldet-glow
+
+- `FamiljenPage`: Välj barn + Barnfokus-intro `BentoCard` utan `glow` (ingen `glow-bottom-gold`)
+- Scope: endast header-korten; flikpaneler orörda
+- Smoke: `locked-ux` PASS
+
+## 2026-07-23 — Auth unlock (inloggning “Något gick fel”)
+
+- Root cause (logcat G85): `stopAuraFlow` → `MemoryManager.scrub()` WebView.clearCache off UI thread
+- Fix: AuraFlow stop utan scrub; NativeInterface try/catch; JS try/catch; breathing stop endast efter start
+- AuthErrorBoundary recovery + Capacitor hoppar web-WebAuthn
+- Verifierat: compileDebugJavaWithJavac · smoke:auth-login · build:web · cap sync
+
+## 2026-07-23 — Edge AI → WORM consumer
+
+- Listener `livskompassen-intelligence` + `intelligenceConsumer.ts`
+- `submitInkastLite` awaits Edge AI (~900ms), sends `edgeTags` (non-PII)
+- Server `mergeEdgeTagsIntoClassification` — tags into WORM, routing/DCAP orörd
+- Zero Footprint: `clearLastIntelligence` on vault session end
+
+## 2026-07-23 — Titanium Omni-Zenith seal (Android)
+
+- GhostLaunch (`*#*#1234#*#*`) → Ghost Mode via `EXTRA_GHOST_ENTRY`; 3s exit-gest orörd
+- HardwareAwareness: USB_STATE + SIM_STATE_CHANGED registered
+- `verifySecurityComponents`: Aura/Intelligence/Ghost + StrongBox/silo/ghost markers; assembleDebug PASS
+- Companion 12-pack: 12/10 padding; rich layouts IDs+PI + `@string/`; `.cursorrules` locked **1.0-titanium Omni-Zenith**
+- Residual (documented): KeyRecovery unused wrap; Integrity heal narrow; SECRET_CODE OEM
+
+## 2026-07-23 — UI Polish V10 ×10 Widgets (autonom)
+
+- Unlock V10 MOD-WIDGET · Companion CSS + pack aria + Studio + Fyren + features/widgets
+- Header chrome btn ≥44px · unified cw-* focus-visible · reduced-motion
+- Smoke: companion-widgets · widgets · locked-ux · module-lock
+
+## 2026-07-23 — UI Polish V9 ×10 (autonom)
+
+- Unlock V9 · ~32 filer · ADD focus/touch (diminishing residual)
+- Waves: Core chrome → Home executive → Archive/Familjen → Dagbok/Valv → residual
+- Smoke: locked-ux · design-modules · companion · module-lock
+
+## 2026-07-23 — UI Polish V8 ×10 (autonom)
+
+- Unlock V8 · ~60 filer · ADD focus/touch
+- Waves: Capture/Inkast → Dashboard/widgets → Planering/Projekt → MåBra → Ekonomi/Familjen → Valv residual
+- Smoke: locked-ux · design-modules · companion · module-lock
+
+## 2026-07-23 — UI Polish V7 ×10 (autonom)
+
+- Unlock V7 · ~50+ filer · ADD focus/touch
+- Waves: Projekt → Planering → Core → Media → MåBra → Drogfrihet/Arbetsliv → Dagbok → Barnporten → Ekonomi/Valv residual
+- Smoke: locked-ux · design-modules · companion · module-lock
+
+## 2026-07-23 — UI Polish V6 ×10 (autonom)
+
+- Unlock V6 · ~30 filer · ADD focus-visible + min-h-11
+- Waves: Core → Inkast → MåBra → Planering → Dagbok → Familjen → Valv/Pansar → Emotionellt → Projekt/shared
+- Smoke: locked-ux · design-modules · companion · module-lock
+
+## 2026-07-23 — UI Polish V5 ×10 (autonom)
+
+- Unlock: `docs/evaluations/2026-07-23-unlock-MOD-UI-POLISH-V5-X10.md`
+- Waves W1–W10: ADD `min-h-11` + `focus-visible:ring-accent/40` (native button + DS Button className)
+- Zones: Hem, MåBra, Vardagen, Planering, Hjärtat, Familjen/Hamn, Valv UI, Widgets pack, Ekonomi, Settings
+- No redesign / no locked UX structure / no WORM
+
+## 2026-07-23 — Release readiness runway (agent)
+
+- `clearRecoveryLocalStorage.ts` + Device Clear / `signOutUser` (MABRA-CAT8 gap closed)
+- Companion layouts: RemoteViews-legal spacers (lint RemoteViewLayout)
+- Docs: PROJECT_STATE Minne DONE · IMPROVEMENT-WAVES v61/v62 DONE · G85 checklist day-6 · visual signoff handoff
+- PMIR park: Genkit V1, Familje-PIN, G18, /gora, Gmail/Calendar, Life OS Fas D — hold
+- Fas 24 P0: still awaits Pontus G85 Enhetsgate + 7d log (agent cannot close)
+
+## 2026-07-23 — Fas 24 + Companion Våg 5–7 (Cursor)
+
+- Implemented plan Fas24 Companion Waves: Sacred/Panic/Ghost hygiene, Edge AI bridges, Smart Time Android, Widget AI heuristics RemoteViews, Studio AI opt-in default off
+- Unlock docs: MOD-WIDGET Smart/AI, MOD-CORE-UTV, MOD-VALV-INKAST, fas24-android-sacred-core
+- G85: agent device-ready pack only — **not** claiming device PASS
+- Smoke: companion-widgets · locked-ux · android-platform · inbox · verifySecurityComponents · compileDebug **PASS**
+- MOD-WIDGET re-locked 2026-07-23
 
 ## 2026-07-23 — Android CI ML Kit-fix (Copilot)
 

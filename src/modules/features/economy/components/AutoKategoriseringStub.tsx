@@ -30,7 +30,7 @@ export function AutoKategoriseringStub() {
         <Button
           disabled
           variant="ghost"
-          className="w-full text-xs opacity-50 cursor-not-allowed"
+          className="w-full text-xs opacity-50 cursor-not-allowed min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           Aktivera integration (Kommer snart)
         </Button>

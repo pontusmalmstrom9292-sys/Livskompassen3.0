@@ -94,6 +94,50 @@
   outline-offset: 2px;
 }
 
+/* V10 — unified interactive floor + focus for all Companion controls */
+.cw-btn--touch,
+.cw-quick--touch,
+.cw-mood--touch,
+.cw-note-tool,
+.cw-note-add,
+.cw-quick-icon,
+.cw-link-cta,
+.cw-focus-timer__play,
+.cw-mic-hit,
+.cw-capture-mic,
+button.cw-pill,
+button.cw-metric-hit,
+button.cw-row-hit {
+  min-height: max(var(--cw-touch-floor, 44px), 2.75rem);
+}
+
+.cw-note-tool:focus-visible,
+.cw-note-add:focus-visible,
+.cw-quick-icon:focus-visible,
+.cw-link-cta:focus-visible,
+.cw-focus-timer__play:focus-visible,
+.cw-mic-hit:focus-visible,
+.cw-capture-mic:focus-visible,
+.cw-btn--touch:focus-visible,
+.cw-quick--touch:focus-visible,
+.cw-mood--touch:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--cw-gold, #d4af37) 70%, transparent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cw-btn,
+  .cw-pill,
+  .cw-quick,
+  .cw-mood,
+  .cw-note-tool,
+  .cw-anim-press,
+  .cw-anim-compass {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
 .cw-anim-press {
   transform: scale(var(--cw-press-scale, 0.97));
   transition: transform var(--cw-press-ms, 120ms) var(--cw-ease-premium, cubic-bezier(0.22, 1, 0.36, 1));
@@ -1064,10 +1108,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 2.35rem;
-  height: 2.35rem;
-  min-width: 2.35rem;
-  min-height: 2.35rem;
+  width: max(2.75rem, var(--cw-touch-floor, 44px));
+  height: max(2.75rem, var(--cw-touch-floor, 44px));
+  min-width: max(2.75rem, var(--cw-touch-floor, 44px));
+  min-height: max(2.75rem, var(--cw-touch-floor, 44px));
   border-radius: 10px;
   border: 1px solid color-mix(in srgb, var(--cw-gold, #d4af37) 22%, transparent);
   background: color-mix(in srgb, var(--cw-deep-space, #020617) 80%, transparent);

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Companion Journal Small — quote + SKRIV (rich multi-PI) -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/widget_companion_journal_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,96 +10,235 @@
     android:paddingHorizontal="12dp"
     android:paddingVertical="10dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/widget_ic_companion_journal"
+                android:contentDescription="@null" />
+
+            <TextView
+                android:id="@+id/widget_companion_journal_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:letterSpacing="0.18"
+                android:text="@string/widget_journal_header"
+                android:textAllCaps="true"
+                android:textColor="@color/widget_gold_light"
+                android:textSize="10sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <ImageView
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:src="@drawable/widget_ic_companion_journal"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/ic_error_outline"
+            android:alpha="0.5"
+            android:contentDescription="@null" />
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/widget_journal_question"
+        android:textColor="@color/widget_gold_light"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/widget_journal_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/splash"
+            android:alpha="0.8"
             android:contentDescription="@null" />
 
-        <TextView
-            android:id="@+id/widget_companion_journal_title"
-            android:layout_width="wrap_content"
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="8dp"
+            android:src="@drawable/widget_ic_wh2_note"
+            android:background="@drawable/widget_bg_gold_ring"
+            android:padding="4dp"
+            android:contentDescription="@null" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/widget_journal_mood_1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:letterSpacing="0.18"
-            android:text="@string/widget_journal_header"
-            android:textAllCaps="true"
-            android:textColor="@color/widget_gold_light"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView android:layout_width="32dp" android:layout_height="32dp" android:gravity="center" android:text="@string/widget_mood_emoji_1" android:textSize="18sp" android:alpha="0.6"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/widget_journal_mood_1" android:textSize="8sp" android:textColor="@color/widget_muted" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/widget_journal_mood_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:background="@drawable/widget_bg_mood_selected"
+            android:paddingVertical="4dp"
+            android:orientation="vertical">
+            <TextView android:layout_width="32dp" android:layout_height="32dp" android:gravity="center" android:text="@string/widget_mood_emoji_2" android:textSize="18sp"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/widget_journal_mood_2" android:textSize="8sp" android:textColor="@color/widget_gold_light" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/widget_journal_mood_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView android:layout_width="32dp" android:layout_height="32dp" android:gravity="center" android:text="@string/widget_mood_emoji_3" android:textSize="18sp" android:alpha="0.6"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/widget_journal_mood_3" android:textSize="8sp" android:textColor="@color/widget_muted" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/widget_journal_mood_4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView android:layout_width="32dp" android:layout_height="32dp" android:gravity="center" android:text="@string/widget_mood_emoji_4" android:textSize="18sp" android:alpha="0.6"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/widget_journal_mood_4" android:textSize="8sp" android:textColor="@color/widget_muted" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/widget_journal_mood_5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+            <TextView android:layout_width="32dp" android:layout_height="32dp" android:gravity="center" android:text="@string/widget_mood_emoji_5" android:textSize="18sp" android:alpha="0.6"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/widget_journal_mood_5" android:textSize="8sp" android:textColor="@color/widget_muted" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/widget_journal_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_weight="1"
+        android:background="@drawable/widget_bg_inset_well"
+        android:gravity="top|start"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="10dp"
+        android:text="@string/widget_journal_sample_note"
+        android:textColor="@color/widget_text"
+        android:textSize="10sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="@string/widget_journal_char_count"
+        android:textColor="@color/widget_muted"
+        android:textSize="8sp"
+        android:layout_marginTop="2dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/widget_journal_mic"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/widget_ic_companion_mic"
+            android:background="@drawable/widget_bg_pill_category"
+            android:padding="8dp"
+            android:contentDescription="@string/widget_companion_capture_mic_cd" />
+
+        <TextView
+            android:id="@+id/widget_companion_journal_write"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginHorizontal="12dp"
+            android:layout_weight="1"
+            android:background="@drawable/widget_bg_gold_gradient"
+            android:gravity="center"
+            android:text="@string/widget_journal_new_note"
+            android:textColor="@color/widget_background"
             android:textSize="10sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/widget_journal_hint"
-            android:textColor="@color/widget_muted"
-            android:textSize="8sp" />
+        <ImageView
+            android:id="@+id/widget_journal_child"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@drawable/widget_ic_companion_child"
+            android:background="@drawable/widget_bg_pill_category"
+            android:padding="8dp"
+            android:contentDescription="@string/widget_companion_child_title" />
     </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1"
-        android:background="@drawable/widget_bg_inset_well">
+        android:layout_height="1dp"
+        android:layout_marginTop="12dp"
+        android:background="#11FFFFFF" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingHorizontal="16dp"
-            android:paddingVertical="12dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="“"
-                android:textColor="@color/widget_gold_dim"
-                android:textSize="32sp"
-                android:textStyle="bold"
-                android:layout_gravity="start"/>
-
-            <TextView
-                android:id="@+id/widget_companion_journal_quote"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-16dp"
-                android:gravity="center"
-                android:text="Att förstå sig själv är början på all förändring."
-                android:textColor="@color/widget_text"
-                android:textSize="13sp"
-                android:textStyle="italic" />
-
-            <TextView
-                android:id="@+id/widget_companion_journal_attr"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:text="– Okänd"
-                android:textColor="@color/widget_gold_dim"
-                android:textSize="9sp" />
-        </LinearLayout>
-    </FrameLayout>
-
-    <TextView
-        android:id="@+id/widget_companion_journal_write"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/widget_bg_cta_outline"
-        android:gravity="center"
-        android:minHeight="56dp"
-        android:text="@string/widget_btn_write"
-        android:textAllCaps="true"
-        android:textColor="@color/widget_gold_light"
-        android:textSize="10sp"
-        android:textStyle="bold" />
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/widget_journal_last_note" android:textSize="8sp" android:textColor="@color/widget_muted" android:textAllCaps="true"/>
+            <TextView android:id="@+id/widget_journal_footer_last" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/widget_journal_last_time" android:textSize="8sp" android:textColor="@color/widget_text" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/widget_journal_streak" android:textSize="8sp" android:textColor="@color/widget_muted" android:textAllCaps="true" android:layout_gravity="center_vertical"/>
+            <TextView android:id="@+id/widget_journal_footer_streak" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginStart="4dp" android:text="@string/widget_journal_streak_days" android:textSize="8sp" android:textColor="@color/widget_text" android:textStyle="bold" android:layout_gravity="center_vertical" />
+            <ImageView android:layout_width="12dp" android:layout_height="12dp" android:layout_marginStart="4dp" android:src="@drawable/ic_error_outline" app:tint="@color/widget_fire" android:layout_gravity="center_vertical" android:contentDescription="@null" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

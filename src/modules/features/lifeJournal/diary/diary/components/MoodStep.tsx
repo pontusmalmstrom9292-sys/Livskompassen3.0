@@ -58,7 +58,7 @@ export function MoodStep({
           disabled={!mood}
           onClick={onContinue}
           aria-keyshortcuts="Enter"
-          className="od-depth__cta reflektion-actions__primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+          className="od-depth__cta reflektion-actions__primary min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           {lowEnergyBridge ? (
             <>
@@ -76,7 +76,7 @@ export function MoodStep({
             type="button"
             disabled={!mood || saving}
             onClick={onSaveMoodOnly}
-            className="reflektion-actions__ghost text-sm"
+            className="reflektion-actions__ghost min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             {saving ? (
               <Loader2 className="mx-auto h-4 w-4 animate-spin" aria-hidden />
@@ -89,7 +89,7 @@ export function MoodStep({
         )}
 
         {!lowEnergyBridge && mood && HEAVY_MOODS.has(mood) && (
-          <Link to="/vardagen?tab=mabra" className="reflektion-link-mabra">
+          <Link to="/vardagen?tab=mabra" className="reflektion-link-mabra inline-flex min-h-11 items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Kroppen behöver paus först? → MåBra
           </Link>
         )}

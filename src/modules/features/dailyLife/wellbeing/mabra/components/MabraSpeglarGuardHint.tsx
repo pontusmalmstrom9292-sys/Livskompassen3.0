@@ -21,10 +21,19 @@ export function MabraSpeglarGuardHint({ className = '', onStay }: Props) {
         <p className="text-sm leading-relaxed text-text-muted">{MABRA_SPEGLAR_GUARD_COPY.message}</p>
       </div>
       <div className="mt-3 flex flex-wrap gap-2">
-        <Button autoFocus variant="secondary" className="text-sm" onClick={onStay}>
+        <Button
+          autoFocus
+          variant="secondary"
+          className="min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          onClick={onStay}
+        >
           {MABRA_SPEGLAR_GUARD_COPY.stayLabel}
         </Button>
-        <ButtonLink to={hjartatTabHref('speglar')} variant="ghost" className="text-sm">
+        <ButtonLink
+          to={hjartatTabHref('speglar')}
+          variant="ghost"
+          className="min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        >
           {MABRA_SPEGLAR_GUARD_COPY.goLabel}
         </ButtonLink>
       </div>

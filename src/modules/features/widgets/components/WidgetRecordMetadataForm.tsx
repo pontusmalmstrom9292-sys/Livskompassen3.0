@@ -44,7 +44,7 @@ export function WidgetRecordMetadataForm({
         <span className="text-xs uppercase tracking-widest text-text-muted">Vem (valfritt)</span>
         <Input
           type="text"
-          className="input-glass w-full text-sm"
+          className="input-glass w-full text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           placeholder="t.ex. barn, ex, arbetsgivare"
           value={vem}
           onChange={(e) => setVem(e.target.value)}
@@ -55,7 +55,7 @@ export function WidgetRecordMetadataForm({
         <span className="text-xs uppercase tracking-widest text-text-muted">Vad</span>
         <Input
           type="text"
-          className="input-glass w-full text-sm"
+          className="input-glass w-full text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           placeholder="kort fakta om händelsen"
           value={vad}
           onChange={(e) => setVad(e.target.value)}
@@ -65,7 +65,7 @@ export function WidgetRecordMetadataForm({
       <label className="block space-y-1">
         <span className="text-xs uppercase tracking-widest text-text-muted">Varför (valfritt)</span>
         <TextArea
-          className="input-glass neu-inset w-full resize-none text-sm"
+          className="input-glass neu-inset w-full resize-none text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           rows={2}
           placeholder="varför du loggar detta"
           value={varfor}

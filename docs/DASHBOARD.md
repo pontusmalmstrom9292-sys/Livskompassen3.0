@@ -2,8 +2,59 @@
 - Gate F 56 dp låst (CSS + Mood + Studio + Android check-in) · Journal input ≥56
 - Kap 6: padding/caps/trust · Anchor guldring · ethereal scoped
 - Smoke: companion-widgets · locked-ux **PASS** · G85 visual: pending Pontus
-- Follow-up: Journal input ≥56 · Capture mic `minHeight` 56 + smoke accepterar 72dp
-- Merge: widgets/layouts only — exkludera dirty `android/.../core/**`
+- Merge: widgets/layouts + main interactive IDs — Sacred core från main
+
+### 2026-07-23 — Silo-glow bort överallt
+- CSS kill-switch + DS-defaults (Modal/Sheet/Card m.m.) — ingen botten-bloom
+- Smoke: `locked-ux` · `design-modules` PASS
+
+### 2026-07-23 — Familjen header glow bort
+- Välj barn + Barnfokus-intro utan `glow-bottom-gold` (match övriga hubbar)
+- Smoke: `locked-ux` PASS
+
+### 2026-07-23 — Auth unlock (G85)
+- Fix: AuthErrorBoundary recovery + Capacitor hoppar web-fingeravtrycksgate
+- Väntar: Pontus Run på telefon efter cap sync
+
+### 2026-07-23 — UI Polish V10 ×10 Widgets
+- Supernoggrant: Companion pack + Studio + Fyren + ActionDashboard
+- CSS touch floor 44px · WidgetButton aria · smoke companion/widgets/locked-ux
+
+### 2026-07-23 — UI Polish V9 ×10
+- Fifth deepen: remaining chrome/home/Valv dossier gaps (~32 filer)
+- Unlock V9 · smoke locked-ux / design-modules / companion / module-lock
+
+### 2026-07-23 — UI Polish V8 ×10
+- Fourth deepen: Capture, Inkast, MåBra tools, widgets studio, Valv kunskap
+- Unlock V8 · smoke locked-ux / design-modules / companion / module-lock
+
+### 2026-07-23 — UI Polish V7 ×10
+- Third deepen: Projekt, Planering pin, MåBra, Barnporten, Ekonomi residual
+- Unlock V7 · smoke locked-ux / design-modules / companion / module-lock
+
+### 2026-07-23 — UI Polish V6 ×10
+- Second deepen: Inkast, Dagbok, Valv-chat, SOS, Projekt, Barnporten, shared shell
+- Unlock V6 · smoke locked-ux / design-modules / companion / module-lock
+
+### 2026-07-23 — UI Polish V5 ×10
+- ADD-only focus-visible + min-h-11 across Hem→Settings (10 waves)
+- Unlock V5 approved (chat) · ~44 filer
+- Smoke: locked-ux · design-modules · companion-widgets · module-lock **PASS** · design-debt btnPill 0
+
+### 2026-07-23 — Release readiness runway
+- Recovery SOS ZF i Device Clear + logout (`clearRecoveryLocalStorage`)
+- Android RemoteViews lint: `<View>` → ImageView (Capture/Note/Tasks)
+- Minne v61/v62: doc-synk **DONE** (deploy 2026-07-18) — waves PAUS→DONE
+- G85: device-ready + visual handoff; Enhetsgate/7d/visual = Pontus
+- PMIR park hold aktiv (ingen Genkit/PIN/OAuth/Life D)
+- Smoke: `locked-ux` · `companion-widgets` · `governance` · `predeploy:live` **PASS** · yolo-vakt **GO** (merge)
+- Android `lintDebug` **PASS** (RemoteViews + Panic/Vault tile suppress)
+
+### 2026-07-23 — Fas 24 close + Companion Våg 5–7
+- Sacred ghost-exit fix · escapeJs · VISIBILITY_PRIVATE · KeyRecovery TEE retry
+- SmartTimePeriods + WidgetAiModes + AI bridge · Studio AI default off
+- MOD-WIDGET re-locked · device-ready pack (G85 PASS pending Pontus)
+- Smoke: companion-widgets · locked-ux · android-platform · inbox · compileDebug **PASS**
 
 ### 2026-07-23 — Android CI ML Kit-fix
 - GitHub Actions `Android CI` run **30008547997** failade på `IntelligenceManager.java` eftersom `com.google.mlkit.nl.languageid` inte fanns på classpath

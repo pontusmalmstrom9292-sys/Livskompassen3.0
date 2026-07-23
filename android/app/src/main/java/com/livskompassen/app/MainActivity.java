@@ -11,8 +11,10 @@ import com.livskompassen.app.core.ShakeDetector;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.AnticipateInterpolator;
 
 import androidx.activity.EdgeToEdge;
@@ -37,9 +39,12 @@ import com.livskompassen.app.core.DiagnosticManager;
 import com.livskompassen.app.core.EmergencyManager;
 import com.livskompassen.app.core.FocusManager;
 import com.livskompassen.app.core.ForensicGuard;
+import com.livskompassen.app.core.GhostLaunchReceiver;
 import com.livskompassen.app.core.HapticManager;
 import com.livskompassen.app.core.HealthSentinel;
 import com.livskompassen.app.core.IconManager;
+import com.livskompassen.app.core.IntelligenceManager;
+import com.livskompassen.app.core.AuraFlowManager;
 import com.livskompassen.app.core.IdentityManager;
 import com.livskompassen.app.core.ProjectionManager;
 import com.livskompassen.app.core.IntegrityManager;
@@ -60,6 +65,9 @@ import com.livskompassen.app.util.AppCheckDebugBootstrap;
 import com.livskompassen.app.util.LCLog;
 import com.livskompassen.app.util.SecurityUtils;
 
+import android.widget.TextView;
+import java.util.Random;
+
 public class MainActivity extends BridgeActivity {
     private static final int PERMISSIONS_REQUEST_RECORD_AUDIO = 1001;
 
@@ -75,7 +83,6 @@ public class MainActivity extends BridgeActivity {
     private SystemUiManager systemUiManager;
     private ThemeManager themeManager;
     private SessionSentry sessionSentry;
-    private com.livskompassen.app.core.EmergencyManager emergencyManager;
     private ShortcutManager shortcutManager;
     private com.livskompassen.app.core.BackupManager backupManager;
     private FocusManager focusManager;
@@ -89,8 +96,15 @@ public class MainActivity extends BridgeActivity {
     private ForensicGuard forensicGuard;
     private HealthSentinel healthSentinel;
     private ShakeDetector shakeDetector;
+    private IntelligenceManager intelligenceManager;
+    private AuraFlowManager auraFlowManager;
     private SensorManager sensorManager;
     private View privacyOverlay;
+    private View stealthDummyOverlay;
+    private View ghostModeOverlay;
+    private static final long GHOST_EXIT_HOLD_MS = 3000L;
+    private final Handler ghostExitHandler = new Handler(Looper.getMainLooper());
+    private Runnable ghostExitRunnable;
 
     public ShortcutManager getShortcutManager() { return shortcutManager; }
     public MemoryManager getMemoryManager() { return memoryManager; }
@@ -124,6 +138,7 @@ public class MainActivity extends BridgeActivity {
         new Thread(() -> {
             DiagnosticManager.init(this);
             IdentityManager.verifyAppIntegrity(this);
+            com.livskompassen.app.core.KeyRecoveryManager.prepareRecoveryHardware(this);
             AppNotificationManager.createNotificationChannels(this);
         }).start();
 
@@ -131,6 +146,13 @@ public class MainActivity extends BridgeActivity {
         EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         
+        // Våg 200: Titanium Inset Mastery — seamless full-screen obsidian
+        androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
+            androidx.core.graphics.Insets bars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars());
+            v.setPadding(0, 0, 0, bars.bottom); // Only pad bottom for navigation bar if needed, or keep 0 for full bleed
+            return insets;
+        });
+
         initializeManagers();
         setupShakePanic();
         setupBackNavigation();
@@ -138,6 +160,116 @@ public class MainActivity extends BridgeActivity {
         
         // Handle initial intent
         handleInitialIntent(getIntent());
+    }
+
+    private void updateTaskDescription(boolean stealth) {
+        if (stealth) {
+            // Våg 140: Randomize fake notes content for realistic stealth
+            randomizeStealthContent();
+
+            // Våg 125: Neutral title and generic system icon for switcher stealth
+            setTaskDescription(new android.app.ActivityManager.TaskDescription(
+                "Anteckningar", 
+                android.graphics.BitmapFactory.decodeResource(getResources(), R.drawable.widget_ic_note_discreet),
+                0 // Use default color
+            ));
+        } else {
+            setTaskDescription(new android.app.ActivityManager.TaskDescription("Livskompassen"));
+        }
+    }
+
+    private void randomizeStealthContent() {
+        if (stealthDummyOverlay == null) return;
+        
+        String[][] listPool = {
+            {"Handla mat", "Ring tandläkaren", "Hämta paket", "Träning kl 18"},
+            {"Köpa mjölk", "Tvätta bilen", "Boka klipptid", "Middag hos mamma"},
+            {"Fixa kranen", "Svara på mail", "Skicka faktura", "Löpning 5km"},
+            {"Städa källaren", "Vattna blommor", "Handla födelsedagspresent", "Soporna!"}
+        };
+        
+        int index = new Random().nextInt(listPool.length);
+        String[] items = listPool[index];
+        
+        TextView t1 = stealthDummyOverlay.findViewById(R.id.stealth_dummy_item_1);
+        TextView t2 = stealthDummyOverlay.findViewById(R.id.stealth_dummy_item_2);
+        TextView t3 = stealthDummyOverlay.findViewById(R.id.stealth_dummy_item_3);
+        TextView t4 = stealthDummyOverlay.findViewById(R.id.stealth_dummy_item_4);
+        
+        if (t1 != null) t1.setText("• " + items[0]);
+        if (t2 != null) t2.setText("• " + items[1]);
+        if (t3 != null) t3.setText("• " + items[2]);
+        if (t4 != null) t4.setText("• " + items[3]);
+    }
+
+    private void enterGhostMode() {
+        if (ghostModeOverlay == null) return;
+        ghostModeOverlay.setVisibility(View.VISIBLE);
+        ghostModeOverlay.setClickable(true);
+        ghostModeOverlay.setFocusable(true);
+
+        View title = ghostModeOverlay.findViewById(R.id.ghost_title);
+        if (title != null) {
+            title.setContentDescription("Anteckningar");
+            // Secret exit: hold title for 3s (default long-press is ~500ms — too easy).
+            title.setOnTouchListener((v, event) -> {
+                switch (event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        cancelGhostExitHold();
+                        ghostExitRunnable = this::requestGhostExit;
+                        ghostExitHandler.postDelayed(ghostExitRunnable, GHOST_EXIT_HOLD_MS);
+                        return true;
+                    case MotionEvent.ACTION_MOVE:
+                        // Cancel if finger drifts off the title bounds
+                        if (event.getX() < 0 || event.getY() < 0
+                                || event.getX() > v.getWidth() || event.getY() > v.getHeight()) {
+                            cancelGhostExitHold();
+                        }
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        cancelGhostExitHold();
+                        return true;
+                    default:
+                        return false;
+                }
+            });
+        }
+
+        LCLog.w("GHOST MODE ACTIVE: Real UI is hidden.");
+    }
+
+    private void cancelGhostExitHold() {
+        if (ghostExitRunnable != null) {
+            ghostExitHandler.removeCallbacks(ghostExitRunnable);
+            ghostExitRunnable = null;
+        }
+    }
+
+    /**
+     * Fail-closed: show Sacred Lock first; only dismiss ghost facade after unlock succeeds.
+     * Immediate exitGhostMode would race and reveal the real UI before biometrics.
+     */
+    private void requestGhostExit() {
+        cancelGhostExitHold();
+        if (sacredLockManager == null) {
+            LCLog.e("GHOST EXIT ABORTED: SacredLockManager missing — keeping facade.");
+            return;
+        }
+        sacredLockManager.setOnUnlockSuccess(this::exitGhostMode);
+        sacredLockManager.showLock();
+    }
+
+    private void exitGhostMode() {
+        cancelGhostExitHold();
+        if (ghostModeOverlay == null) return;
+        ghostModeOverlay.animate().alpha(0f).setDuration(400).withEndAction(() -> {
+            ghostModeOverlay.setVisibility(View.GONE);
+            ghostModeOverlay.setAlpha(1f);
+            ghostModeOverlay.setClickable(false);
+        }).start();
+        if (hapticManager != null) hapticManager.success();
+        LCLog.d("GHOST MODE EXIT: Restoring real UI behind Sacred Lock.");
     }
 
     private void initializeManagers() {
@@ -149,8 +281,16 @@ public class MainActivity extends BridgeActivity {
         connectivityIntelligence.setNetworkStatusListener((isMetered, isRoaming) -> {
             if (getBridge() != null && getBridge().getWebView() != null) {
                 runOnUiThread(() -> {
-                    String js = String.format("window.dispatchEvent(new CustomEvent('livskompassen-network-change', {detail: {metered: %b, roaming: %b}}));", isMetered, isRoaming);
+                    String js = String.format(
+                        "window.dispatchEvent(new CustomEvent('livskompassen-network-change', {" +
+                        "detail: { metered: %b, roaming: %b }" +
+                        "}));", isMetered, isRoaming);
                     getBridge().getWebView().evaluateJavascript(js, null);
+                    
+                    if (!isMetered) {
+                        getBridge().getWebView().evaluateJavascript(
+                            "window.dispatchEvent(new CustomEvent('livskompassen-pre-cache'));", null);
+                    }
                 });
             }
         });
@@ -172,7 +312,7 @@ public class MainActivity extends BridgeActivity {
         zoneManager = new ZoneManager(this);
         parallaxManager = new ParallaxManager(this);
         integrityManager.setZoneManager(zoneManager);
-        emergencyManager = new com.livskompassen.app.core.EmergencyManager(this);
+        com.livskompassen.app.core.EmergencyManager emergencyManager = new com.livskompassen.app.core.EmergencyManager(this);
         
         memoryManager = new MemoryManager(this, getBridge());
         webViewManager = new WebViewManager(
@@ -180,11 +320,21 @@ public class MainActivity extends BridgeActivity {
         sacredLockManager = new SacredLockManager(this, getBridge(), getWindow().getDecorView(), hapticManager, integrityManager);
         sessionSentry = new SessionSentry(getBridge(), sacredLockManager);
         shortcutManager = new ShortcutManager(this);
+
+        // Våg 131: Connect Theme to Shortcuts
+        themeManager.setOnPhaseChangeListener(phase -> {
+            if (shortcutManager != null) {
+                shortcutManager.updateContextualShortcuts(phase);
+            }
+        });
+
         backupManager = new com.livskompassen.app.core.BackupManager(this);
         focusManager = new FocusManager(this);
         shareManager = new com.livskompassen.app.core.SecureShareManager(this);
         searchManager = new SearchManager(this);
         iconManager = new com.livskompassen.app.core.IconManager(this);
+        intelligenceManager = new IntelligenceManager(this);
+        auraFlowManager = new AuraFlowManager(this, hapticManager, systemUiManager);
         
         projectionManager = new ProjectionManager(this, isProjecting -> {
             if (isProjecting) {
@@ -198,11 +348,23 @@ public class MainActivity extends BridgeActivity {
 
         widgetNavigator = new WidgetNavigator(getBridge(), getWindow().getDecorView());
         privacyOverlay = findViewById(R.id.privacy_overlay);
+        stealthDummyOverlay = findViewById(R.id.stealth_dummy_container);
+        ghostModeOverlay = findViewById(R.id.ghost_mode_container);
+
+        // Våg 155: Stealth Alias detection + GhostLaunch secret-code entry
+        android.content.ComponentName cn = getComponentName();
+        Intent entryIntent = getIntent();
+        boolean ghostFromDialer = entryIntent != null
+            && entryIntent.getBooleanExtra(GhostLaunchReceiver.EXTRA_GHOST_ENTRY, false);
+        if (ghostFromDialer
+            || (cn != null && cn.getClassName().endsWith(".StealthActivity"))) {
+            enterGhostMode();
+        }
 
         // High-performance Bridge
         if (getBridge() != null && getBridge().getWebView() != null) {
             getBridge().getWebView().addJavascriptInterface(
-                new NativeInterface(hapticManager, systemUiManager, integrityManager, themeManager, sessionSentry, emergencyManager, shortcutManager, backupManager, focusManager, shareManager, connectivityIntelligence, sacredLockManager, healthSentinel, searchManager, iconManager, projectionManager),
+                new NativeInterface(hapticManager, systemUiManager, integrityManager, themeManager, sessionSentry, emergencyManager, shortcutManager, backupManager, focusManager, shareManager, connectivityIntelligence, sacredLockManager, healthSentinel, searchManager, iconManager, projectionManager, intelligenceManager, auraFlowManager),
                 "LivskompassenNative"
             );
         }
@@ -219,7 +381,19 @@ public class MainActivity extends BridgeActivity {
         if (SecurityUtils.hasSuspiciousAccessibilityService(this)) LCLog.w(getString(R.string.security_warning_suspicious_accessibility));
     }
 
+    private void handleEmergencyLock(Intent intent) {
+        if (intent == null || !intent.getBooleanExtra("emergency_lock", false)) return;
+        intent.removeExtra("emergency_lock");
+        if (sacredLockManager != null) {
+            sacredLockManager.triggerPanic(true);
+        }
+    }
+
     private void handleInitialIntent(Intent intent) {
+        if (intent != null && intent.getBooleanExtra("emergency_lock", false)) {
+            handleEmergencyLock(intent);
+            return;
+        }
         if (intent != null && Intent.ACTION_SEND.equals(intent.getAction()) && "text/plain".equals(intent.getType())) {
             handleShareIntent(intent);
         } else {
@@ -266,6 +440,9 @@ public class MainActivity extends BridgeActivity {
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
+                if (ghostModeOverlay != null && ghostModeOverlay.getVisibility() == View.VISIBLE) {
+                    return; // Ghost facade: back must not reveal the real UI
+                }
                 if (sacredLockManager != null && sacredLockManager.isLocked()) return;
 
                 if (getBridge() != null && getBridge().getWebView() != null) {
@@ -319,7 +496,11 @@ public class MainActivity extends BridgeActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         setIntent(intent);
-        // Handle share intent if present
+        // Warm PanicTile (singleTask + CLEAR_TOP) lands here — must deep-lock.
+        if (intent != null && intent.getBooleanExtra("emergency_lock", false)) {
+            handleEmergencyLock(intent);
+            return;
+        }
         if (Intent.ACTION_SEND.equals(intent.getAction()) && "text/plain".equals(intent.getType())) {
             handleShareIntent(intent);
             return;
@@ -333,13 +514,25 @@ public class MainActivity extends BridgeActivity {
     private void setupShakePanic() {
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         shakeDetector = new ShakeDetector();
-        shakeDetector.setOnShakeListener(count -> {
-            if (count >= 2) {
-                LCLog.w(getString(R.string.log_shake_panic_detected));
-                hapticManager.error();
-                if (sacredLockManager != null) {
-                    sacredLockManager.showLock();
+        shakeDetector.setOnShakeListener(new ShakeDetector.OnShakeListener() {
+            @Override
+            public void onShake(int count) {
+                if (count >= 2) {
+                    LCLog.w(getString(R.string.log_shake_panic_detected));
+                    if (hapticManager != null) hapticManager.error();
+                    if (sacredLockManager != null) {
+                        sacredLockManager.triggerPanic(true);
+                    }
                 }
+            }
+
+            @Override
+            public void onTripleTap() {
+                LCLog.w("Silent Panic triggered via Triple-Tap.");
+                if (sacredLockManager != null) {
+                    sacredLockManager.triggerPanic(true);
+                }
+                if (hapticManager != null) hapticManager.tick(null);
             }
         });
     }
@@ -347,6 +540,19 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onResume() {
         super.onResume();
+        updateTaskDescription(false);
+        if (stealthDummyOverlay != null) stealthDummyOverlay.setVisibility(View.GONE);
+        
+        // Våg 215: Log usage pattern for pre-warming
+        new Thread(() -> {
+            int hour = java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY);
+            String key = "usage_hour_" + hour;
+            android.content.SharedPreferences prefs = SecurityUtils.isSignatureAllowlisted(this) 
+                ? com.livskompassen.app.util.SecurePrefs.get(this) : getSharedPreferences("pattern", MODE_PRIVATE);
+            int count = prefs.getInt(key, 0);
+            prefs.edit().putInt(key, count + 1).apply();
+        }).start();
+
         if (sensorManager != null && shakeDetector != null) {
             sensorManager.registerListener(shakeDetector, 
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER), 
@@ -387,6 +593,12 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onPause() {
         super.onPause();
+        cancelGhostExitHold();
+        if (auraFlowManager != null) {
+            auraFlowManager.stopFlow();
+        }
+        updateTaskDescription(true);
+        if (stealthDummyOverlay != null) stealthDummyOverlay.setVisibility(View.VISIBLE);
         if (sensorManager != null) {
             sensorManager.unregisterListener(shakeDetector);
         }
@@ -412,6 +624,10 @@ public class MainActivity extends BridgeActivity {
 
     @Override
     public void onDestroy() {
+        cancelGhostExitHold();
+        if (auraFlowManager != null) {
+            auraFlowManager.stopFlow();
+        }
         if (projectionManager != null) projectionManager.stop();
         if (memoryManager != null) memoryManager.unregister();
         super.onDestroy();
@@ -420,7 +636,9 @@ public class MainActivity extends BridgeActivity {
     @Override
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
-        if (level >= TRIM_MEMORY_MODERATE && getBridge() != null && getBridge().getWebView() != null) {
+        // Delegated to MemoryManager which is registered via registerComponentCallbacks.
+        // Direct cleanup here is redundant but kept as a thin safety layer for high-priority moderate trim.
+        if (level == TRIM_MEMORY_MODERATE && getBridge() != null && getBridge().getWebView() != null) {
             getBridge().getWebView().clearCache(false);
         }
     }

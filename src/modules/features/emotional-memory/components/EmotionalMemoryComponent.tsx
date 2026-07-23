@@ -259,7 +259,7 @@ export function EmotionalMemoryComponent({
           <button
             type="button"
             onClick={handleStartNewEntry}
-            className="rounded-xl border border-border bg-surface-3 px-5 py-2 font-sans text-sm text-accent transition-colors hover:border-accent/40"
+            className="rounded-xl border border-border bg-surface-3 px-5 py-2 font-sans text-sm text-accent transition-colors hover:border-accent/40 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             {COPY.newEntry}
           </button>
@@ -267,7 +267,7 @@ export function EmotionalMemoryComponent({
           <button
             type="submit"
             disabled={isEmpty || saving}
-            className="rounded-xl border border-border bg-surface-3 px-5 py-2 font-sans text-sm text-accent transition-colors hover:border-accent/40 disabled:cursor-not-allowed disabled:opacity-40"
+            className="rounded-xl border border-border bg-surface-3 px-5 py-2 font-sans text-sm text-accent transition-colors hover:border-accent/40 disabled:cursor-not-allowed disabled:opacity-40 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             {saving ? (
               <>

@@ -5,6 +5,7 @@ import android.os.Build;
 import android.webkit.JavascriptInterface;
 import com.livskompassen.app.util.LCLog;
 import com.livskompassen.app.MainActivity;
+import com.livskompassen.app.R;
 import com.livskompassen.app.core.FloatingInkastService;
 import com.livskompassen.app.core.KeyRecoveryManager;
 
@@ -30,8 +31,13 @@ public class NativeInterface {
     private final SearchManager searchManager;
     private final IconManager iconManager;
     private final ProjectionManager projectionManager;
+    private final IntelligenceManager intelligenceManager;
+    private final AuraFlowManager auraFlowManager;
+    private long lastActionableNotifMs = 0L;
+    private int lastActionableNotifHash = 0;
+    private static final long ACTIONABLE_NOTIF_COOLDOWN_MS = 10 * 60 * 1000L;
 
-    public NativeInterface(HapticManager hapticManager, SystemUiManager systemUiManager, IntegrityManager integrityManager, ThemeManager themeManager, SessionSentry sessionSentry, EmergencyManager emergencyManager, ShortcutManager shortcutManager, BackupManager backupManager, FocusManager focusManager, SecureShareManager shareManager, ConnectivityIntelligence connectivityIntelligence, SacredLockManager sacredLockManager, HealthSentinel healthSentinel, SearchManager searchManager, IconManager iconManager, ProjectionManager projectionManager) {
+    public NativeInterface(HapticManager hapticManager, SystemUiManager systemUiManager, IntegrityManager integrityManager, ThemeManager themeManager, SessionSentry sessionSentry, EmergencyManager emergencyManager, ShortcutManager shortcutManager, BackupManager backupManager, FocusManager focusManager, SecureShareManager shareManager, ConnectivityIntelligence connectivityIntelligence, SacredLockManager sacredLockManager, HealthSentinel healthSentinel, SearchManager searchManager, IconManager iconManager, ProjectionManager projectionManager, IntelligenceManager intelligenceManager, AuraFlowManager auraFlowManager) {
         this.hapticManager = hapticManager;
         this.systemUiManager = systemUiManager;
         this.integrityManager = integrityManager;
@@ -48,6 +54,105 @@ public class NativeInterface {
         this.searchManager = searchManager;
         this.iconManager = iconManager;
         this.projectionManager = projectionManager;
+        this.intelligenceManager = intelligenceManager;
+        this.auraFlowManager = auraFlowManager;
+    }
+
+    @JavascriptInterface
+    public void analyzeIntelligence(String text) {
+        intelligenceManager.analyzeIntent(text, (silo, lang, entities, highStress) -> {
+            dispatchIntelligenceResult(silo, lang, entities, text, highStress);
+
+            // Gated + throttled actionable notif (no spam / no surprise shade dumps)
+            if (highStress) {
+                // Våg 305: Immediate soft intervention for stress
+                AppNotificationManager.showDrogfrihetNotification(hapticManager.getContext(), "Andas ut", "Det verkar vara mycket nu. Vill du landa i Hamnen?", hapticManager);
+            }
+
+            if (!"handling".equals(silo) || entities == null || entities.isEmpty()) return;
+            boolean hasSchedule = false;
+            for (String e : entities) {
+                if (e != null) {
+                    String u = e.toUpperCase();
+                    if (u.startsWith("DATE_TIME:") || u.startsWith("DATE:") || u.startsWith("TIME:")) {
+                        hasSchedule = true;
+                        break;
+                    }
+                }
+            }
+            if (!hasSchedule) return;
+
+            long now = System.currentTimeMillis();
+            int hash = (text != null ? text : "").hashCode();
+            if (hash == lastActionableNotifHash && (now - lastActionableNotifMs) < ACTIONABLE_NOTIF_COOLDOWN_MS) {
+                return;
+            }
+            if ((now - lastActionableNotifMs) < ACTIONABLE_NOTIF_COOLDOWN_MS) {
+                return;
+            }
+            lastActionableNotifMs = now;
+            lastActionableNotifHash = hash;
+
+            // Mask body in shade — full text stays in WebView event only
+            AppNotificationManager.showActionableNotification(
+                hapticManager.getContext(), "Ny handling", "Öppna Inkast för detaljer", entities);
+        });
+    }
+
+    private void dispatchIntelligenceResult(String silo, String lang, java.util.List<String> entities, String text, boolean highStress) {
+        LCLog.d("Intelligence Result: silo=%s, lang=%s, stress=%b", silo, lang, highStress);
+        android.content.Context ctx = hapticManager.getContext();
+        if (!(ctx instanceof MainActivity)) return;
+        MainActivity activity = (MainActivity) ctx;
+        activity.runOnUiThread(() -> {
+            if (activity.getBridge() == null || activity.getBridge().getWebView() == null) return;
+            StringBuilder entJson = new StringBuilder("[");
+            if (entities != null) {
+                for (int i = 0; i < entities.size(); i++) {
+                    if (i > 0) entJson.append(',');
+                    entJson.append('"').append(escapeJs(entities.get(i))).append('"');
+                }
+            }
+            entJson.append(']');
+            String js = "window.dispatchEvent(new CustomEvent('livskompassen-intelligence',{detail:{"
+                    + "silo:'" + escapeJs(silo) + "',"
+                    + "lang:'" + escapeJs(lang) + "',"
+                    + "entities:" + entJson + ","
+                    + "stress:" + highStress + ","
+                    + "text:'" + escapeJs(text != null && text.length() > 200 ? text.substring(0, 200) : text) + "'"
+                    + "}}));";
+            activity.getBridge().getWebView().evaluateJavascript(js, null);
+        });
+    }
+
+    private static String escapeJs(String s) {
+        if (s == null) return "";
+        return s
+                .replace("\\", "\\\\")
+                .replace("'", "\\'")
+                .replace("\"", "\\\"")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r")
+                .replace("\u2028", "\\u2028")
+                .replace("\u2029", "\\u2029");
+    }
+
+    @JavascriptInterface
+    public void startAuraFlow() {
+        try {
+            if (auraFlowManager != null) auraFlowManager.startFlow();
+        } catch (Exception e) {
+            LCLog.e("NativeInterface.startAuraFlow: " + e.getMessage());
+        }
+    }
+
+    @JavascriptInterface
+    public void stopAuraFlow() {
+        try {
+            if (auraFlowManager != null) auraFlowManager.stopFlow();
+        } catch (Exception e) {
+            LCLog.e("NativeInterface.stopAuraFlow: " + e.getMessage());
+        }
     }
 
     @JavascriptInterface
@@ -89,6 +194,17 @@ public class NativeInterface {
                 LCLog.w("shareDiagnosticLog: Log file does not exist.");
             }
         }
+    }
+
+    /**
+     * Våg 181: Öppnar den nativa Black Box-utforskaren.
+     */
+    @JavascriptInterface
+    public void openDiagnosticViewer() {
+        android.content.Context ctx = hapticManager.getContext();
+        Intent intent = new Intent(ctx, DiagnosticViewerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        ctx.startActivity(intent);
     }
 
     /**
@@ -198,6 +314,16 @@ public class NativeInterface {
     }
 
     @JavascriptInterface
+    public void triggerUiEcho() {
+        hapticManager.uiEcho();
+    }
+
+    @JavascriptInterface
+    public void triggerThematicHaptic(String theme) {
+        hapticManager.triggerThematic(theme);
+    }
+
+    @JavascriptInterface
     public void setWidgetData(String key, String value) {
         android.content.Context ctx = hapticManager.getContext();
         // WIS queue/draft keys live unprefixed in SecurePrefs (overlay/receiver).
@@ -257,6 +383,7 @@ public class NativeInterface {
     @JavascriptInterface
     public void setStealthMode(boolean active) {
         sacredLockManager.setStealthMode(active);
+        iconManager.setStealthIcon(active);
     }
 
     @JavascriptInterface
@@ -328,5 +455,43 @@ public class NativeInterface {
     public void scheduleDrogfrihetNudges(boolean optIn, int quietStart, int quietEnd, int craveStart, int craveEnd) {
         DrogfrihetNudgeScheduler.applyPrefs(
                 hapticManager.getContext(), optIn, quietStart, quietEnd, craveStart, craveEnd);
+    }
+
+    /**
+     * Våg 191: Exponerar Module Pinning till Web-appen.
+     */
+    @JavascriptInterface
+    public void pinModule(String moduleId) {
+        if (moduleId == null) return;
+        
+        String label, path;
+        int iconRes;
+
+        switch (moduleId) {
+            case "valv":
+                label = "Valvet";
+                path = "/valv";
+                iconRes = R.drawable.ic_lock_sacred;
+                break;
+            case "anteckningar":
+                label = "Mina Anteckningar";
+                path = "/widget/anteckning";
+                iconRes = R.drawable.widget_ic_wh2_note;
+                break;
+            case "hamn":
+                label = "Hamnen";
+                path = "/widget/hamn";
+                iconRes = R.drawable.widget_ic_companion_harbor;
+                break;
+            case "kompass":
+                label = "Kompassen";
+                path = "/widget/kompass";
+                iconRes = R.drawable.widget_chip_kompass;
+                break;
+            default:
+                return;
+        }
+
+        shortcutManager.requestPinShortcut(moduleId, label, path, iconRes);
     }
 }

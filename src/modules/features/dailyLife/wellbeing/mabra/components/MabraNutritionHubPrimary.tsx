@@ -25,7 +25,11 @@ export function MabraNutritionHubPrimary({ uid, onLogged }: Props) {
 
       <MabraNutritionQuickLog storageUid={storageUid} onLogged={onLogged} />
 
-      <ButtonLink to="/mabra/verktyg/nutrition" variant="ghost" className="mt-3 inline-flex text-xs">
+      <ButtonLink
+        to="/mabra/verktyg/nutrition"
+        variant="ghost"
+        className="mt-3 inline-flex min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+      >
         Öppna full näring-vy
       </ButtonLink>
     </section>

@@ -6,8 +6,144 @@
 - [x] R6: `--cw-touch-floor` 56px · mood/pills/CTA ≥56 · Android check-in faces ≥56
 - [x] R7–9: padding parity 12/10 · caps/tracking · trust/signature gold-dim · Anchor guldring
 - [x] R10: `smoke:companion-widgets` + `smoke:locked-ux` **PASS**
+- [x] Merge-konflikter mot main lösta (interactive layout IDs + Gate F)
 - [ ] Pontus: G85 visuell sign-off (fäst Capture + Note på hemskärm)
-- [ ] Merge: endast widgets/layouts — **exkludera** dirty `android/.../core/**`
+
+
+## 2026-07-23 — Silo-glow bort överallt
+
+- [x] CSS kill-switch `.glow-bottom-*` (+ tema/mabra)
+- [x] DS/centrala mappers: ingen glow-klass (API kvar)
+- [x] `smoke:locked-ux` · `smoke:design-modules` PASS
+
+## 2026-07-23 — Familjen header glow bort
+
+- [x] Ta bort `glow="blue"` från Välj barn + Barnfokus-intro i `FamiljenPage`
+- [x] `smoke:locked-ux` PASS
+
+## 2026-07-23 — Auth unlock (G85 / inloggningskrasch)
+
+- [x] AuthErrorBoundary: Försök igen + Rensa inloggning (visar feltext)
+- [x] WebAuthn-app-unlock avstängd på Capacitor (SacredLock äger biometri)
+- [x] syncAuthUserToStore sätter `emailVerified` · Hem anteckningar mood-safe
+- [x] **Root cause:** `stopAuraFlow` → `MemoryManager.scrub()` clearCache off-UI-thread → AuthErrorBoundary
+- [x] AuraFlow stop utan scrub · bridge try/catch · breathing stop bara efter start
+- [x] `compileDebugJavaWithJavac` PASS · build:web + cap sync
+- [ ] Pontus: Android Studio Run på G85 → bekräfta hem utan felsida
+
+## 2026-07-23 — UI Polish V10 ×10 Widgets (autonom, supernoggrant)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V10-WIDGETS-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V10-WIDGETS-X10.md) (`approved: yes` · MOD-WIDGET)
+
+- [x] W1 WidgetButton / QuickAction / MoodCheckIn defaults
+- [x] W2 companion-widgets.css — touch floor 44 + unified focus + reduced-motion
+- [x] W3–W5 Companion 10-pack aria-labels (Inbox→Beacon + HomeRail)
+- [x] W6 Widget Studio page/mode/preview
+- [x] W7–W8 features/widgets pages + ActionDashboard + Moduler forms
+- [x] W9 FyrenWidgetBar / SideQuickDock
+- [x] W10 smoke:companion-widgets · widgets · locked-ux
+
+## 2026-07-23 — UI Polish V9 ×10 (autonom)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V9-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V9-X10.md) (`approved: yes`)
+
+- [x] W1 Core chrome (drawer, Fyren, Zen, AuthGate)
+- [x] W2 Home executive / ankare
+- [x] W3 Archive / Familjen / ekonomi stub
+- [x] W4 Dagbok / Valv dossier / kunskap
+- [x] W5–W9 residual (AccountAuth, StampClock, Ekonomi)
+- [x] W10 smoke
+
+## 2026-07-23 — UI Polish V8 ×10 (autonom)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V8-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V8-X10.md) (`approved: yes`)
+
+- [x] W1 Capture/Inkast
+- [x] W2 Dashboard/widgets/studio
+- [x] W3 Planering residual
+- [x] W4 Projekt residual
+- [x] W5 MåBra tools/vit
+- [x] W6 Ekonomi/Arbetsliv/Drogfrihet
+- [x] W7 Familjen/Dagbok
+- [x] W8 Valv kunskap/ekonomi
+- [x] W9 residual sweep
+- [x] W10 smoke
+
+## 2026-07-23 — UI Polish V7 ×10 (autonom)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V7-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V7-X10.md) (`approved: yes`)
+
+- [x] W1 Projekt hub/detail/ny
+- [x] W2 Planering residual (pin/kanban/inkorg)
+- [x] W3 Core chrome/home
+- [x] W4 Media attach
+- [x] W5 MåBra residual
+- [x] W6 Drogfrihet/Arbetsliv/Näring
+- [x] W7 Dagbok residual
+- [x] W8 Barnporten
+- [x] W9 Ekonomi/Valv/Hamn/widgets residual
+- [x] W10 smoke
+
+## 2026-07-23 — UI Polish V6 ×10 (autonom)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V6-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V6-X10.md) (`approved: yes`)
+
+- [x] W1 Core gates (HomeLayoutA, Worm, EvidenceMedia)
+- [x] W2 Inkast / HITL
+- [x] W3 MåBra residual (+ Nutrition focus)
+- [x] W4 Planering residual
+- [x] W5 Dagbok residual
+- [x] W6 Familjen / Barnporten
+- [x] W7 Valv-chat / Pansar
+- [x] W8 Emotionellt minne
+- [x] W9 Projekt + shared shell
+- [x] W10 smoke
+
+## 2026-07-23 — UI Polish V5 ×10 (autonom)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V5-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V5-X10.md) (`approved: yes`)
+
+- [x] W1 Hem/chrome — focus + min-h-11
+- [x] W2 MåBra panels
+- [x] W3 Vardagen/recovery
+- [x] W4 Planering
+- [x] W5 Hjärtat/Dagbok
+- [x] W6 Familjen/Hamn
+- [x] W7 Valv UI (citation)
+- [x] W8 Widgets pack
+- [x] W9 Ekonomi deepen
+- [x] W10 Settings + smoke
+
+## 2026-07-23 — Release readiness runway (agent)
+
+Plan: Release-readiness audit
+
+- [x] Agent: G85 device-ready pack + checklist day-6 prep (Enhetsgate = Pontus)
+- [x] Recovery SOS ZF: `clearRecoveryLocalStorage` i Device Clear + logout
+- [x] Android CI: RemoteViews lint-fix (`<View>` → ImageView i Capture/Note/Tasks)
+- [x] Minne v61/v62 doc-synk: DONE (deploy 2026-07-18) — waves PAUS → DONE
+- [x] Visual sign-off handoff: `evaluations/2026-07-23-g85-visual-signoff-handoff.md`
+- [x] PMIR park hold: Genkit V1 · Familje-PIN · G18 · `/gora` · Gmail/Calendar · Life OS Fas D — **bygg inte**
+- [ ] Pontus: G85 Enhetsgate + Capture one-pass (checklist)
+- [ ] Pontus: day 1–7 logg → stäng Fas 24 P0
+- [ ] Pontus: Gold/V4/Companion visual sign-off
+- [x] Valfritt: `smoke:predeploy:live` + yolo-vakt **GO** (merge runway) — deploy fortfarande SKIP
+
+## 2026-07-23 — Fas 24 close + Companion Våg 5–7 (Cursor)
+
+Plan: Fas24 Companion Waves (implement)
+
+- [x] W0: Gold Våg 1–4 already on main (`4e931001f`) — no core bundled
+- [x] v63: ML Kit language-id in build.gradle; smoke:predeploy:build PASS; unlock docs
+- [x] v65: Sacred deep-lock + escapeJs `"` + VISIBILITY_PRIVATE + KeyRecovery TEE retry
+- [x] v66: Ghost exit waits biometric unlock callback
+- [x] HUMAN prep: `docs/evaluations/2026-07-23-g85-device-ready-pack.md` (device-ready, not G85 PASS)
+- [x] v67–v68: Edge AI Mind/Aura bridges + WORM consumer (`edgeTags` → classification.tags)
+- [x] Unlock MOD-WIDGET Smart Time/Widget AI (`approved: yes`)
+- [x] Våg 5: `SmartTimePeriods` 07/12/18/22 + night dim (no ThemeManager)
+- [x] Våg 6: `WidgetAiModes` + `pushCompanionAiSnapshot` (heuristics only)
+- [x] Våg 7: Studio `smartAiEnabled` default **off** (opt-in) + re-lock MOD-WIDGET
+- [ ] Pontus: G85 one-pass (Capture pin + Valv <3s) — see device-ready pack
 
 ## 2026-07-23 — Android CI ML Kit-fix
 
@@ -28,7 +164,7 @@ Unlock: `2026-07-21-unlock-MOD-WIDGET-companion-android-interact.md` (`approved:
 - [x] YOLO: GO (widgets-only) — `docs/evaluations/2026-07-23-yolo-companion-os-gold-waves.md`
 - [x] Våg 5+ Smart Time / Widget AI — **DEFER**
 - [ ] Pontus: G85 pin Capture → ett mic-tryck → inspelning (visuell sign-off)
-- [ ] Merge: commit **endast** `widgets/**` + layouts/drawables/docs — **exkludera** dirty `android/.../core/**` tills separat review
+- [x] Merge: Gold Våg 1–4 already committed; Smart/AI waves unlocked 2026-07-23 + layouts/drawables/docs — **exkludera** dirty `android/.../core/**` tills separat review
 
 ## 2026-07-22 — Gold Standard hub + Companion parity (C + Ethereal Blue)
 

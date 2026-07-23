@@ -134,3 +134,29 @@ export function clearNativeWidgetQueueKey(key: (typeof NATIVE_WIDGET_QUEUE_KEYS)
     /* ignore */
   }
 }
+
+export type CompanionAiBridgeSnapshot = {
+  enabled: boolean;
+  mode: string;
+  banner: string;
+  dimVisual: boolean;
+  pauseProactive: boolean;
+};
+
+/**
+ * Push Widget AI heuristic snapshot to SecurePrefs for Android RemoteViews.
+ * Local only — never WORM / RAG.
+ */
+export function pushCompanionAiSnapshot(snap: CompanionAiBridgeSnapshot): void {
+  try {
+    const native = getLivskompassenNative();
+    if (!native?.setWidgetData) return;
+    native.setWidgetData('widget_ai_enabled', snap.enabled ? '1' : '0');
+    native.setWidgetData('widget_ai_mode', snap.mode || 'normal');
+    native.setWidgetData('widget_ai_banner', (snap.banner || '').slice(0, 48));
+    native.setWidgetData('widget_ai_dim', snap.dimVisual ? '1' : '0');
+    native.setWidgetData('widget_ai_pause', snap.pauseProactive ? '1' : '0');
+  } catch {
+    /* bridge optional */
+  }
+}

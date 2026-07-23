@@ -24,10 +24,19 @@ public class ThemeManager {
         }
     }
 
+    public interface OnPhaseChangeListener {
+        void onPhaseChanged(CircadianPhase newPhase);
+    }
+
     private final SystemUiManager systemUiManager;
+    private OnPhaseChangeListener listener;
 
     public ThemeManager(SystemUiManager systemUiManager) {
         this.systemUiManager = systemUiManager;
+    }
+
+    public void setOnPhaseChangeListener(OnPhaseChangeListener listener) {
+        this.listener = listener;
     }
 
     /**
@@ -51,5 +60,23 @@ public class ThemeManager {
         
         systemUiManager.setStatusBarTheme(phase.colorHex, true); // true = dark mode (light icons)
         systemUiManager.setNavigationBarTheme(phase.colorHex, true);
+        
+        if (listener != null) {
+            listener.onPhaseChanged(phase);
+        }
+    }
+
+    /**
+     * Returnerar accentfärg baserat på dygnsfas för Widgets.
+     */
+    public String getWidgetAccentColor() {
+        CircadianPhase phase = getCurrentPhase();
+        switch (phase) {
+            case MORNING: return "#FDE68A"; // Guld-ljus
+            case DAY:     return "#D4AF37"; // Standard guld
+            case DUSK:    return "#9A7B2F"; // Dovt guld
+            case NIGHT:   return "#7BA3C9"; // Ethereal blå (nattvänlig)
+            default:      return "#D4AF37";
+        }
     }
 }

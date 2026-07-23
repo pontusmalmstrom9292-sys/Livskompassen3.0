@@ -5,6 +5,10 @@
 
 Logga endast. Kodfixar går via improvement waves / Agent — inte här.
 
+**Agent prep 2026-07-23:** RemoteViews lint-fix (Companion Capture/Note/Tasks) · Recovery SOS ZF · device-ready pack · Minne v61/v62 doc-synk. Status: **device-ready** — Enhetsgate-kryss = Pontus på telefon.
+
+Pack: [`evaluations/2026-07-23-g85-device-ready-pack.md`](./evaluations/2026-07-23-g85-device-ready-pack.md)
+
 ---
 
 ## Enhetsgate (gör day 1)
@@ -13,6 +17,7 @@ Logga endast. Kodfixar går via improvement waves / Agent — inte här.
 - [ ] Öppna Valvet → lås upp
 - [ ] App till bakgrund **< 3 sekunder** → tillbaka **utan kickout**
 - [ ] App Check: ingen HTTP 400 i logcat vid Valv-anrop
+- [ ] Capture pin → ett mic-tryck → inspelning (ingen full app-chrome)
 
 ## Day N log (dag 1–7)
 
@@ -20,12 +25,12 @@ Kryssa **Enhetsgate** ovan dag 1. Logga sedan en rad per dag — friktion eller 
 
 | Dag | Datum | Anteckning (friktion / OK) |
 |-----|-------|----------------------------|
-| 1 | 2026-07-18 | |
+| 1 | 2026-07-18 | Startad — manuell Enhetsgate kvar |
 | 2 | | |
 | 3 | | |
 | 4 | | |
 | 5 | 2026-07-21 | Prep PASS (cap:sync:prod + android smokes YOLO v9) — manuell G85 mikro-check kvar |
-| 6 | | |
+| 6 | 2026-07-23 | Agent release-runway PASS (lint RemoteViews + ZF SOS + docs). **Pontus one-pass kvar** |
 | 7 | | |
 
 ## Spot-checks (valfritt men bra)
@@ -34,6 +39,8 @@ Kryssa **Enhetsgate** ovan dag 1. Logga sedan en rad per dag — friktion eller 
 - [ ] Fyren WH1 / WH2
 - [ ] `/vardagen` + `/familjen` scroll utan låst UX-brott
 - [ ] Offline: Valv/dagbok-skriv blockeras i flygplansläge
+- [ ] Gold/V4 visual: Dagbok eller Familjen vs mockup (premium, inte ny app)
+- [ ] Companion Note/Tasks: in-widget, ingen full chrome
 
 ## När P0 är klar
 

@@ -60,7 +60,7 @@ export function StampClockHomeSection() {
           />
           <button
             type="button"
-            className="stamp-home-strip__expand min-h-11 min-w-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+            className="stamp-home-strip__expand min-h-11 min-w-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             aria-label="Visa stämpelklocka"
             aria-expanded={false}
             onClick={() => setCollapsed(false)}
@@ -81,7 +81,7 @@ export function StampClockHomeSection() {
       <div className="stamp-home-expanded__toolbar">
         <button
           type="button"
-          className="stamp-home-expanded__hide min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+          className="stamp-home-expanded__hide min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           aria-label="Minimera stämpelklocka"
           aria-expanded
           onClick={() => setCollapsed(true)}
@@ -91,7 +91,7 @@ export function StampClockHomeSection() {
         </button>
         <Link
           to="/widget/stampla"
-          className="stamp-home-expanded__widget-link min-h-11 inline-flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+          className="stamp-home-expanded__widget-link min-h-11 inline-flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           <Smartphone className="h-3 w-3" strokeWidth={1.5} aria-hidden />
           Hemskärms-widget
@@ -133,7 +133,7 @@ export function StampClockHomeSection() {
         )}
         <Link
           to="/arbetsliv"
-          className="mt-3 inline-flex min-h-11 items-center text-xs text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/50"
+          className="mt-3 inline-flex min-h-11 items-center text-xs text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           Full vy i Arbetsliv →
         </Link>

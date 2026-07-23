@@ -204,7 +204,7 @@ function HomePlaneringPanel() {
         {tab === 'projekt' ? (
           <div className="space-y-2 py-1">
             <p className="text-xs text-text-muted">Projektlistor, anteckningar och bilder.</p>
-            <ButtonLink to="/projekt" variant="ghost" size="sm" className="inline-flex">
+            <ButtonLink to="/projekt" variant="ghost" size="sm" className="inline-flex min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               Öppna Projekt
               <ChevronRight className="ml-1 h-3.5 w-3.5" aria-hidden />
             </ButtonLink>
@@ -214,7 +214,7 @@ function HomePlaneringPanel() {
         {tab === 'habit' ? (
           <div className="space-y-2 py-1">
             <p className="text-xs text-text-muted">Rutiner och vanor — ett steg i taget.</p>
-            <ButtonLink to="/planering?tab=fokus" variant="ghost" size="sm" className="inline-flex">
+            <ButtonLink to="/planering?tab=fokus" variant="ghost" size="sm" className="inline-flex min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               Öppna Fokus
               <ChevronRight className="ml-1 h-3.5 w-3.5" aria-hidden />
             </ButtonLink>
@@ -224,7 +224,7 @@ function HomePlaneringPanel() {
         {tab === 'makro' ? (
           <div className="space-y-2 py-1">
             <p className="text-xs text-text-muted">Makron och näring — lugnt överblick.</p>
-            <ButtonLink to="/vardagen?tab=mabra" variant="ghost" size="sm" className="inline-flex">
+            <ButtonLink to="/vardagen?tab=mabra" variant="ghost" size="sm" className="inline-flex min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               Öppna MåBra
               <ChevronRight className="ml-1 h-3.5 w-3.5" aria-hidden />
             </ButtonLink>
@@ -236,7 +236,7 @@ function HomePlaneringPanel() {
         to={HOME_SUPERHUB_ROUTES.planeringHub}
         variant="ghost"
         size="sm"
-        className="mt-3 flex w-full items-center justify-center gap-1"
+        className="mt-3 flex w-full items-center justify-center gap-1 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       >
         <LayoutList className="h-3.5 w-3.5" aria-hidden />
         Öppna Planering
@@ -261,7 +261,7 @@ function SinglePinnedModule({ pin }: { pin: PlaneringModulePin }) {
         onToggle={() => setExpanded((v) => !v)}
       >
         {pin.content.kind === 'list' ? <PinListBody pin={pin} /> : <PinNoteBody pin={pin} />}
-        <ButtonLink to={editLink} variant="ghost" size="sm" className="mt-2 inline-flex">
+        <ButtonLink to={editLink} variant="ghost" size="sm" className="mt-2 inline-flex min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Redigera i Planering
         </ButtonLink>
       </ElongatedModule>
@@ -294,7 +294,7 @@ function SinglePinnedModule({ pin }: { pin: PlaneringModulePin }) {
         to={editLink}
         variant="ghost"
         size="sm"
-        className="mt-3 flex w-full items-center justify-center gap-1"
+        className="mt-3 flex w-full items-center justify-center gap-1 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       >
         Öppna i Planering
         <ChevronRight className="h-4 w-4" />

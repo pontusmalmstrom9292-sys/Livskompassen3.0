@@ -97,7 +97,7 @@ export function AdaptiveMemoryCards({
                     hash: card.hash ? `#${card.hash.replace(/^#/, '')}` : '',
                   }}
                   variant="ghost"
-                  className="mt-3 inline-flex text-xs"
+                  className="mt-3 inline-flex text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 >
                   {card.actionLabel}
                 </ButtonLink>
@@ -105,7 +105,12 @@ export function AdaptiveMemoryCards({
             ))}
           </div>
           {cards.length > initialVisibleCount ? (
-            <Button variant="ghost" size="sm" onClick={() => setExpanded((v) => !v)}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setExpanded((v) => !v)}
+              className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+            >
               {expanded ? 'Visa färre' : `Visa mer (${cards.length - initialVisibleCount})`}
             </Button>
           ) : null}

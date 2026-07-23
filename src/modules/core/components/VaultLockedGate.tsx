@@ -74,7 +74,7 @@ export function VaultLockedGate({ variant = 'screen', extra }: Props) {
           <Button
             type="button"
             variant="accent"
-            className="min-h-11 w-full"
+            className="min-h-11 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             disabled={busy}
             onClick={tryUnlock}
           >
@@ -106,7 +106,7 @@ export function VaultLockedGate({ variant = 'screen', extra }: Props) {
         <Button
           type="button"
           variant="accent"
-          className="mt-6 min-h-11"
+          className="mt-6 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={busy}
           onClick={tryUnlock}
         >

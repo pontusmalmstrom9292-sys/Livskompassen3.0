@@ -24,7 +24,7 @@ export function PlanningTaskCard({ task, onSelect }: Props) {
     <button
       type="button"
       onClick={() => onSelect(task)}
-      className="planering-task-card"
+      className="planering-task-card min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
     >
       <div className="flex items-start gap-2">
         <Icon className="mt-0.5 h-4 w-4 shrink-0 text-accent/80" aria-hidden />

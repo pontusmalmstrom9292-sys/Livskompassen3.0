@@ -47,10 +47,21 @@ public class SearchManager {
                         .build());
                 
                 LCLog.d("SearchManager: AppSearch session and schema initialized.");
+                
+                // Våg 100: Pre-index standard modules for Omni search
+                indexStandardModules();
             } catch (Exception e) {
                 LCLog.e("SearchManager: Failed to init AppSearch: " + e.getMessage());
             }
         }, executor);
+    }
+
+    private void indexStandardModules() {
+        indexGenvag("mod_valv", "Valvet", "/valv");
+        indexGenvag("mod_hamn", "Hamn", "/widget/hamn");
+        indexGenvag("mod_kompass", "Kompass", "/widget/kompass");
+        indexGenvag("mod_dagbok", "Dagbok", "/widget/journal");
+        indexGenvag("mod_inkast", "Inkast", "/planering/input?inputMode=inkast");
     }
 
     /**

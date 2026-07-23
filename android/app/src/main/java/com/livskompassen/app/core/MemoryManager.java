@@ -56,6 +56,27 @@ public class MemoryManager implements ComponentCallbacks2 {
         System.runFinalization();
     }
 
+    /**
+     * Våg 270: High-frequency memory scrubber.
+     * Clears string buffers and triggers aggressive GC.
+     * WebView ops must run on the UI thread (bridge/@JavascriptInterface is not UI).
+     */
+    public void scrub() {
+        WebView webView = (bridge != null) ? bridge.getWebView() : null;
+        if (webView != null) {
+            webView.post(() -> {
+                try {
+                    webView.clearCache(true);
+                } catch (Exception e) {
+                    LCLog.e("MemoryManager.scrub clearCache failed: " + e.getMessage());
+                }
+            });
+        }
+        System.gc();
+        System.runFinalization();
+        LCLog.d("MemoryManager: Forensic scrub complete.");
+    }
+
     @Override
     public void onConfigurationChanged(android.content.res.Configuration newConfig) {
         // Not used

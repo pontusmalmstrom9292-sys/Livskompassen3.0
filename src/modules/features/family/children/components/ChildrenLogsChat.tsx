@@ -60,7 +60,12 @@ export function ChildrenLogsChat({ activeChild }: ChildrenLogsChatProps) {
             className="input-glass"
             disabled={loading}
           />
-          <Button type="submit" variant="secondary" disabled={loading || !inputText.trim()}>
+          <Button
+            type="submit"
+            variant="secondary"
+            disabled={loading || !inputText.trim()}
+            className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          >
             {loading ? 'Söker…' : 'Ställ fråga'}
           </Button>
         </form>

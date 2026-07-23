@@ -24,13 +24,13 @@ export function EconomyPage({ embedded = false }: EconomyPageProps) {
             <div className="flex flex-col gap-2 text-sm">
               <Link
                 to="/arbetsliv/input"
-                className="inline-flex min-h-11 items-center text-accent-secondary hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+                className="inline-flex min-h-11 items-center text-accent-secondary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               >
                 Öppna Arbetsliv-hubben
               </Link>
               <Link
                 to="/vardagen?tab=ekonomi&inputMode=logg"
-                className="inline-flex min-h-11 items-center text-accent hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+                className="inline-flex min-h-11 items-center text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               >
                 Logg & fasta räkningar (privatekonomi)
               </Link>

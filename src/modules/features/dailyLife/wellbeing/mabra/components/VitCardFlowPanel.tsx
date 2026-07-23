@@ -109,7 +109,7 @@ export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
       ) : (
         <Button
           variant="accent"
-          className="w-full text-sm"
+          className="min-h-11 w-full text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={() => void handleSave()}
           disabled={saving}
         >
@@ -129,7 +129,7 @@ export function VitCardFlowPanel({ userId, projectId, onSaved }: Props) {
           {VIT_HUB_LANDED}{' '}
           <Link
             to={vitHubFilteredLink('card', projectId)}
-            className="text-accent underline-offset-2 hover:underline"
+            className="inline-flex min-h-11 items-center text-accent underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             {VIT_HUB_VAULT_LINK}
           </Link>

@@ -47,7 +47,7 @@ export function InkorgPreviewSheet({ open, classification, saving, onConfirm, on
             {classification.matchedRuleLabel ?? 'Ex/konflikt'} — routing till Hamn, inte Handling.{' '}
             <Link
               to="/familjen?tab=hamn"
-              className="text-accent underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+              className="text-accent underline min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             >
               Öppna Trygg Hamn
             </Link>
@@ -93,11 +93,11 @@ export function InkorgPreviewSheet({ open, classification, saving, onConfirm, on
           variant="accent"
           disabled={saving || classification.routeToHamn}
           onClick={onConfirm}
-          className="min-h-11 flex-1"
+          className="min-h-11 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           {saving ? 'Sparar…' : 'Skapa uppgift'}
         </Button>
-        <Button variant="ghost" onClick={onCancel} className="min-h-11 flex-1">
+        <Button variant="ghost" onClick={onCancel} className="min-h-11 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
           Tillbaka
         </Button>
       </SheetFooter>

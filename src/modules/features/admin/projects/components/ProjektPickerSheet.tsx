@@ -56,7 +56,7 @@ export function ProjektPickerSheet({ open, onClose }: Props) {
       <Button
         variant="ghost"
         size="sm"
-        className="mt-3 w-full"
+        className="mt-3 w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         onClick={() => {
           onClose();
           navigate('/projekt/regler');

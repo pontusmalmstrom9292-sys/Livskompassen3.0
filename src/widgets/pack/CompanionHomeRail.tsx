@@ -12,6 +12,7 @@ import '../companion-widgets.css';
 import { WidgetSyncStatusChip } from '../components/WidgetSyncStatusChip';
 import { WidgetButton } from '../components/WidgetButton';
 import { bootCompanionSurface } from '../core/bootCompanionSurface';
+import { pushCompanionAiSnapshot } from '../core/companionWidgetBridge';
 import { subscribeWidgetCache } from '../core/WidgetCache';
 import { setWidgetModuleNavigator } from '../core/WidgetRouter';
 import { useCompanionSurface } from '../smart/useCompanionSurface';
@@ -67,6 +68,22 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
   const [ready, setReady] = useState(false);
   const [studioTick, setStudioTick] = useState(0);
   const [collapsed, setCollapsed] = useState(readCollapsed);
+
+  useEffect(() => {
+    pushCompanionAiSnapshot({
+      enabled: surface.smartAiEnabled,
+      mode: surface.mode,
+      banner: surface.banner,
+      dimVisual: surface.dimVisual,
+      pauseProactive: surface.pauseProactive,
+    });
+  }, [
+    surface.smartAiEnabled,
+    surface.mode,
+    surface.banner,
+    surface.dimVisual,
+    surface.pauseProactive,
+  ]);
 
   const toggleCollapsed = () => {
     setCollapsed((prev) => {
@@ -175,18 +192,19 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
           <WidgetSyncStatusChip />
           <button
             type="button"
-            className="cw-chrome-btn"
+            className="cw-chrome-btn min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={toggleCollapsed}
             aria-expanded={!collapsed}
             aria-controls="cw-home-rail-body"
+            aria-label={collapsed ? 'Visa Companion-sektion' : 'Dölj Companion-sektion'}
           >
             {collapsed ? 'Visa' : 'Dölj'}
           </button>
-          <Link to="/installningar/widget-studio" className="cw-chrome-link cw-chrome-link--gold">
+          <Link to="/installningar/widget-studio" className="cw-chrome-link cw-chrome-link--gold min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Studio
           </Link>
           {import.meta.env.DEV ? (
-            <Link to="/dev/companion-widgets" className="cw-chrome-link">
+            <Link to="/dev/companion-widgets" className="cw-chrome-link min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               Labb
             </Link>
           ) : null}
@@ -196,8 +214,9 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
         <button
           type="button"
           id="cw-home-rail-body"
-          className="cw-home-rail-collapsed"
+          className="cw-home-rail-collapsed min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={toggleCollapsed}
+          aria-label="Visa Companion-widgets på Hem"
         >
           {ready
             ? featured.length > 0
@@ -222,6 +241,7 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
               <WidgetButton
                 variant="gold"
                 size="min"
+                aria-label="Slå på Capture- och Hamn-widgets på Hem"
                 onClick={() => {
                   void (async () => {
                     await patchWidgetStudioConfig('quick_capture', { enabled: true });
@@ -232,7 +252,7 @@ function CompanionHomeRailBody({ max = 2 }: { max?: number }) {
               >
                 Slå på Capture + Hamn
               </WidgetButton>
-              <Link to="/installningar/widget-studio" className="cw-chrome-link cw-chrome-link--gold">
+              <Link to="/installningar/widget-studio" className="cw-chrome-link cw-chrome-link--gold min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 Öppna Studio
               </Link>
             </div>

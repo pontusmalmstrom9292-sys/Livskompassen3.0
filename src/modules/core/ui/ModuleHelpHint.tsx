@@ -186,7 +186,7 @@ export function ModuleHelpHint({ title, lines, action, className }: Props) {
         <ButtonLink
           to={{ pathname: action.to, search: action.search ?? '' }}
           variant="ghost"
-          className="--ghost mt-3 inline-flex min-h-[var(--ds-touch-target,2.75rem)] text-xs"
+          className="--ghost mt-3 inline-flex min-h-[var(--ds-touch-target,2.75rem)] text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={() => setOpen(false)}
         >
           {action.label} →

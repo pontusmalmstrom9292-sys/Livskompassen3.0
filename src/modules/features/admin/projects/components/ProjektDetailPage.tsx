@@ -198,7 +198,7 @@ export function ProjektDetailPage() {
           title="Saknas"
           message="Projektet hittades inte."
           action={
-            <ButtonLink to="/projekt" variant="ghost" className="--ghost min-h-11 text-sm">
+            <ButtonLink to="/projekt" variant="ghost" className="--ghost min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               Tillbaka
             </ButtonLink>
           }
@@ -236,7 +236,7 @@ export function ProjektDetailPage() {
         />
         <p className="mt-1 text-xs text-text-muted">
           Uppgifter med status hamnar i{' '}
-          <Link to={`/planering?projectId=${projectId}`} className="text-accent">
+          <Link to={`/planering?projectId=${projectId}`} className="text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Handling
           </Link>
         </p>
@@ -272,7 +272,7 @@ export function ProjektDetailPage() {
                   className="max-h-56 w-full rounded-lg border border-white/10 object-cover"
                 />
                 {!block.content && (
-                  <Button type="button" disabled={ocrRunningId === block.id} onClick={() => void handleOcr(block.id)} variant="ghost" className="--ghost text-xs">
+                  <Button type="button" disabled={ocrRunningId === block.id} onClick={() => void handleOcr(block.id)} variant="ghost" className="--ghost text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                     {ocrRunningId === block.id ? 'Läser text...' : 'Läs ut text (OCR)'}
                   </Button>
                 )}
@@ -287,7 +287,7 @@ export function ProjektDetailPage() {
             )}
             {block.content && <p className="mt-2 whitespace-pre-wrap text-text-muted">{block.content}</p>}
             {block.type === 'task' && block.planningTaskId && (
-              <ButtonLink to={`/planering?tab=handling&picked=1&projectId=${projectId}`} variant="secondary" className="--secondary mt-2 inline-flex text-xs">
+              <ButtonLink to={`/planering?tab=handling&picked=1&projectId=${projectId}`} variant="secondary" className="--secondary mt-2 inline-flex text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 Öppna i kanban
               </ButtonLink>
             )}
@@ -298,13 +298,13 @@ export function ProjektDetailPage() {
       <div className="space-y-2 rounded-xl border border-white/10 p-3">
         <p className="text-[10px] uppercase tracking-widest text-text-muted">Lägg till block</p>
         <div className="flex flex-wrap gap-2">
-          <Button type="button" disabled={saving} variant="secondary" className="--secondary text-xs" onClick={() => { const title = window.prompt('Rubrik för lista:', 'Min lista'); if (title?.trim()) void addBlock('list', title.trim()); }}>
+          <Button type="button" disabled={saving} variant="secondary" className="--secondary text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => { const title = window.prompt('Rubrik för lista:', 'Min lista'); if (title?.trim()) void addBlock('list', title.trim()); }}>
             Lista
           </Button>
-          <Button type="button" disabled={saving} variant="secondary" className="--secondary text-xs" onClick={() => void addBlock('note', 'Anteckning', noteDraft || undefined)}>
+          <Button type="button" disabled={saving} variant="secondary" className="--secondary text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => void addBlock('note', 'Anteckning', noteDraft || undefined)}>
             Anteckning
           </Button>
-          <Button type="button" disabled={saving} variant="secondary" className="--secondary text-xs" onClick={() => void addKanbanTask()}>
+          <Button type="button" disabled={saving} variant="secondary" className="--secondary text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => void addKanbanTask()}>
             Uppgift → Handling
           </Button>
         </div>
@@ -322,7 +322,7 @@ export function ProjektDetailPage() {
             type="button"
             disabled={saving || !pendingMedia}
             variant="accent"
-            className="--accent mt-2 min-h-11 text-xs"
+            className="--accent mt-2 min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             aria-busy={saving}
             onClick={() => void addMediaBlock()}
           >
@@ -343,7 +343,7 @@ export function ProjektDetailPage() {
             value={newListItem}
             onChange={(e) => setNewListItem(e.target.value)}
           />
-          <Button type="button" disabled={saving || !newListItem.trim()} variant="secondary" className="--secondary text-xs" onClick={() => { void addBlock('list', newListItem.trim()); setNewListItem(''); }}>
+          <Button type="button" disabled={saving || !newListItem.trim()} variant="secondary" className="--secondary text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => { void addBlock('list', newListItem.trim()); setNewListItem(''); }}>
             + punkt
           </Button>
         </div>

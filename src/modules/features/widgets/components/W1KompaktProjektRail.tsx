@@ -91,7 +91,10 @@ function RailActionItem({
   return (
     <Link
       to={action.to}
-      className={className}
+      className={clsx(
+        className,
+        'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
+      )}
       aria-label={label}
       aria-current={active ? 'page' : undefined}
       onClick={onNavigate}

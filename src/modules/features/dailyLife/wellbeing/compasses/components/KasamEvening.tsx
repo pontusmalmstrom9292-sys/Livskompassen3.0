@@ -102,7 +102,12 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
           <ButtonLink to="/vardagen?tab=mabra" variant="ghost" size="sm">
             Landning (MåBra)
           </ButtonLink>
-          <Button variant="success" size="sm" onClick={onKlar}>
+          <Button
+            variant="success"
+            size="sm"
+            className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+            onClick={onKlar}
+          >
             Klar
           </Button>
         </div>
@@ -133,7 +138,11 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
           <ButtonLink to="/familjen" variant="ghost">
             Livslogg barnen
           </ButtonLink>
-          <Button variant="success" onClick={onKlar}>
+          <Button
+            variant="success"
+            className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+            onClick={onKlar}
+          >
             Klar
           </Button>
         </div>
@@ -162,7 +171,7 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
         <Button
           variant="secondary"
           onClick={handleNext}
-          className={embedded ? 'w-full text-xs' : 'mt-4'}
+          className={`${embedded ? 'w-full text-xs' : 'mt-4'} min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40`}
           size={embedded ? 'sm' : 'md'}
         >
           Nästa
@@ -172,7 +181,7 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
           variant={embedded ? 'accent' : 'success'}
           disabled={saving}
           onClick={() => void handleSave()}
-          className={embedded ? 'w-full text-xs disabled:opacity-40' : 'mt-4'}
+          className={`${embedded ? 'w-full text-xs disabled:opacity-40' : 'mt-4'} min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40`}
           size={embedded ? 'sm' : 'md'}
         >
           {saving ? <Loader2 className="mx-auto h-4 w-4 animate-spin" /> : 'Spara kväll'}

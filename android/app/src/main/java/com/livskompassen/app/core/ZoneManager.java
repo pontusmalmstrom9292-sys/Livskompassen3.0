@@ -29,7 +29,34 @@ public class ZoneManager {
         String currentSsid = getCurrentWifiSSID();
         String safeSsid = SecurePrefs.get(context).getString(PREF_SAFE_WIFI_SSID, null);
         
-        return currentSsid != null && currentSsid.equals(safeSsid);
+        boolean inside = currentSsid != null && currentSsid.equals(safeSsid);
+        
+        // Våg 220: Pro-active Privacy Zenith
+        if (!inside && wasInside) {
+            triggerPrivacyLockdown();
+        }
+        wasInside = inside;
+        
+        return inside;
+    }
+
+    private boolean wasInside = true;
+
+    private void triggerPrivacyLockdown() {
+        LCLog.w("ZoneManager: Left Safe Zone. Triggering pro-active privacy lockdown.");
+        
+        // 1. Clear sensitive notifications
+        android.app.NotificationManager nm = (android.app.NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (nm != null) {
+            nm.cancel(1002); // Premium Notification ID
+            nm.cancel(1004); // Actionable Notification ID
+        }
+
+        // 2. Force lock if not already locked
+        SecurePrefs.get(context).edit().putBoolean("sacred_lock_state", true).apply();
+        
+        // 3. Refresh widgets to masked state
+        WidgetUpdateManager.refreshAllWidgets(context);
     }
 
     private String getCurrentWifiSSID() {

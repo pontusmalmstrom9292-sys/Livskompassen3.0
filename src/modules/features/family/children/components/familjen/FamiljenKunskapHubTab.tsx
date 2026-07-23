@@ -59,7 +59,7 @@ export function FamiljenKunskapHubTab({ activeChild }: Props) {
             type="submit"
             variant="accent"
             disabled={loading || !query.trim()}
-            className="inline-flex items-center justify-center gap-2 disabled:opacity-50"
+            className="inline-flex min-h-11 items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-50"
           >
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
             Sök och analysera

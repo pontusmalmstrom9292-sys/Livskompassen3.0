@@ -101,7 +101,7 @@ export function ProjektTomStatePanel() {
           onStart={() => go('task')}
         />
       </div>
-      <Button type="button" variant="ghost" className="--ghost w-full text-sm" onClick={() => setPickerOpen(true)}>
+      <Button type="button" variant="ghost" className="--ghost min-h-11 w-full text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={() => setPickerOpen(true)}>
         Välj typ i sheet (samma som widget)
       </Button>
       <ProjektPickerSheet open={pickerOpen} onClose={() => setPickerOpen(false)} />

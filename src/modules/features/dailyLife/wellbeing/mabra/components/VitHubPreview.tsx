@@ -36,7 +36,7 @@ export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, use
         <p className="mt-1 text-xs text-text-muted">{VIT_HUB_KRAVLOST}</p>
         <Link
           to={vitHubFilteredLink(undefined, project.id)}
-          className="mt-2 inline-block text-xs text-accent underline-offset-2 hover:underline"
+          className="mt-2 inline-flex min-h-11 items-center text-xs text-accent underline-offset-2 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           {VIT_HUB_VAULT_LINK}
         </Link>

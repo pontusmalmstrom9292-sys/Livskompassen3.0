@@ -70,7 +70,7 @@ export function MaterialPackShortcuts({ preset, hub, shortcutsOverride }: Props)
           const to = `${link.pathname}${link.search ?? ''}${link.hash ?? ''}`;
           return (
             <li key={`${item.label}-${to}`}>
-              <ButtonLink to={to} variant="accent" className="--accent inline-flex w-full justify-center text-xs">
+              <ButtonLink to={to} variant="accent" className="--accent inline-flex w-full justify-center text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 {item.label}
               </ButtonLink>
             </li>

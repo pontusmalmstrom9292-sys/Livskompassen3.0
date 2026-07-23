@@ -77,7 +77,7 @@ export function KbtTransformatorPanel() {
 
       <Button
         variant="accent"
-        className="mt-3 w-full disabled:opacity-50"
+        className="mt-3 min-h-11 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-50"
         onClick={() => void handleTransform()}
         disabled={loading || !trimmed}
       >

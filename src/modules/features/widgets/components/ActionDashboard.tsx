@@ -527,7 +527,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
         <select
           value={childAlias}
           onChange={(e) => setChildAlias(e.target.value as ChildAlias)}
-          className="input-glass w-full rounded-xl px-3 py-2 text-sm"
+          className="input-glass w-full rounded-xl px-3 py-2 text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           aria-label="Välj barn"
         >
           {CHILD_ALIASES.map((alias) => (
@@ -540,7 +540,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
         <select
           value={category}
           onChange={(e) => setCategory(e.target.value as LivsloggCategory)}
-          className="input-glass w-full rounded-xl px-3 py-2 text-sm"
+          className="input-glass w-full rounded-xl px-3 py-2 text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           aria-label="Välj kategori"
         >
           {LIVSLOGG_CATEGORIES.map((c) => (
@@ -557,7 +557,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
           rows={4}
           maxLength={STUND_MAX_CHARS}
           placeholder="Vad hände? En kort observation…"
-          className="input-glass neu-inset w-full resize-none rounded-xl px-3 py-2 text-sm"
+          className="input-glass neu-inset w-full resize-none rounded-xl px-3 py-2 text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         />
         {speech.interim ? (
           <p className="text-xs text-text-muted">Hör: {speech.interim}</p>
@@ -646,7 +646,7 @@ function ChildLivsloggCard({ userId, onQueueChange }: Props) {
               </WidgetButton>
             </div>
             <textarea
-              className="input-glass w-full text-sm"
+              className="input-glass w-full text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               rows={2}
               maxLength={500}
               placeholder="Bildtext (valfritt)…"

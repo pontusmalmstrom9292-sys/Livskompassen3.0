@@ -265,7 +265,7 @@
 
   .fyren-widget-bar__action {
     @apply inline-flex min-h-11 min-w-[4.5rem] flex-col items-center justify-center gap-1 rounded-xl border border-border/25 bg-surface-2/70 px-2 py-2 text-center text-text transition;
-    @apply focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40;
   }
 
   /* fyren-polish-2026-07-21 */
@@ -278,8 +278,8 @@
   }
 
   .fyren-dock-handle:focus-visible {
-    outline: 2px solid color-mix(in srgb, var(--accent, #d4af37) 70%, transparent);
-    outline-offset: 2px;
+    outline: none;
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent, #d4af37) 40%, transparent);
   }
 
 

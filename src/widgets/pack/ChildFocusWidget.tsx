@@ -191,6 +191,7 @@ export function ChildFocusWidget({
           <WidgetButton
             variant="quiet"
             size="min"
+            aria-label="Stäng senaste logg"
             onClick={() => setShowRecent(false)}
             style={{ marginTop: '0.5rem' }}
           >
@@ -205,6 +206,7 @@ export function ChildFocusWidget({
             size="premium"
             fullWidth
             className={pulseHint && !open ? 'cw-pulse-cta' : undefined}
+            aria-label="Svara på barnfokusfråga"
             onClick={() => setOpen(true)}
           >
             Svara
@@ -215,10 +217,16 @@ export function ChildFocusWidget({
         </div>
       ) : (
         <WidgetGlass inset className="cw-anim-open cw-glass-well" style={{ padding: '0.75rem', marginTop: 'auto' }}>
-          <div style={{ display: 'flex', gap: '0.4rem', marginBottom: '0.5rem' }}>
+          <div
+            style={{ display: 'flex', gap: '0.4rem', marginBottom: '0.5rem' }}
+            role="group"
+            aria-label="Inmatningssätt"
+          >
             <WidgetButton
               variant={mode === 'text' ? 'gold' : 'quiet'}
               size="min"
+              aria-pressed={mode === 'text'}
+              aria-label="Skriv svar som text"
               onClick={() => setMode('text')}
             >
               Text
@@ -226,6 +234,8 @@ export function ChildFocusWidget({
             <WidgetButton
               variant={mode === 'voice' ? 'gold' : 'quiet'}
               size="min"
+              aria-pressed={mode === 'voice'}
+              aria-label="Spela in röstsvar"
               onClick={() => setMode('voice')}
             >
               Röst
@@ -250,13 +260,23 @@ export function ChildFocusWidget({
             </p>
           )}
           <div style={{ display: 'flex', gap: '0.4rem' }}>
-            <WidgetButton variant="quiet" size="min" onClick={() => setOpen(false)}>
+            <WidgetButton
+              variant="quiet"
+              size="min"
+              aria-label="Stäng svarsfält"
+              onClick={() => setOpen(false)}
+            >
               Stäng
             </WidgetButton>
             <WidgetButton
               variant="gold"
               size="premium"
               fullWidth
+              aria-label={
+                mode === 'voice' && voice.recording
+                  ? 'Stoppa inspelning och spara röstsvar'
+                  : 'Spara svar till barnlogg'
+              }
               onClick={() => void (mode === 'voice' ? submitVoice() : submitText())}
             >
               {mode === 'voice' && voice.recording ? 'Stoppa' : 'Spara'}

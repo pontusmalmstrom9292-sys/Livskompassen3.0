@@ -56,7 +56,7 @@ export function VaultKunskapsbankPanel() {
               type="button"
               variant="secondary"
               size="sm"
-              className="inline-flex items-center gap-1.5"
+              className="inline-flex items-center gap-1.5 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => entriesMeta?.reload()}
               disabled={entriesMeta?.loading}
             >
@@ -77,7 +77,12 @@ export function VaultKunskapsbankPanel() {
           <EmptyState
             message="Lägg till rutiner, milstolpar eller fakta under Tidshjulet. Därefter kan du ställa frågor i Kunskapsvalv-fliken."
             action={
-              <Button type="button" variant="secondary" onClick={() => setRequestTab('tidshjul')}>
+              <Button
+                type="button"
+                variant="secondary"
+                className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+                onClick={() => setRequestTab('tidshjul')}
+              >
                 Öppna Tidshjulet
               </Button>
             }
@@ -110,7 +115,10 @@ export function VaultKunskapsbankPanel() {
 
       <p className="px-1 text-[10px] text-text-muted">
         Personregister:{' '}
-        <Link to={vaultDrawerPath('aktorskarta')} className="text-accent/80 hover:text-accent">
+        <Link
+          to={vaultDrawerPath('aktorskarta')}
+          className="inline-flex min-h-11 items-center text-accent/80 hover:text-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        >
           Aktörskarta
         </Link>
       </p>

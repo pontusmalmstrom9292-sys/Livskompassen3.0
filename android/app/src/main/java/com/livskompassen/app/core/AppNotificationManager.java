@@ -12,6 +12,8 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import com.livskompassen.app.R;
 
+import java.util.Locale;
+
 /**
  * THE NOTIFIER - Våg 60.
  * @locked TITANIUM-BASE-CORE
@@ -23,6 +25,7 @@ public class AppNotificationManager {
     public static final String CHANNEL_ID_DROGFRIHET = "drogfrihet_reminders";
     private static final int NOTIFICATION_ID_PREMIUM = 1002;
     private static final int NOTIFICATION_ID_DROGFRIHET = 1003;
+    private static final int NOTIFICATION_ID_ACTIONABLE = 1004;
 
     public static void createNotificationChannels(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -124,6 +127,12 @@ public class AppNotificationManager {
         PendingIntent donePendingIntent = PendingIntent.getBroadcast(context, 2, doneIntent,
                 PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
 
+        // Action: Clear Clipboard (Våg 14)
+        Intent clearIntent = new Intent(context, NotificationActionReceiver.class);
+        clearIntent.setAction(NotificationActionReceiver.ACTION_CLEAR_CLIPBOARD);
+        PendingIntent clearPendingIntent = PendingIntent.getBroadcast(context, 5, clearIntent,
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
         // Action: Remind in 1h
         Intent snoozeIntent = new Intent(context, NotificationActionReceiver.class);
         snoozeIntent.setAction(NotificationActionReceiver.ACTION_REMINDER_SNOOZE);
@@ -143,11 +152,54 @@ public class AppNotificationManager {
 
         if (CHANNEL_ID_VAULT.equals(channelId)) {
             builder.addAction(R.drawable.ic_lock_sacred, context.getString(R.string.notification_action_lock_vault), lockPendingIntent);
+            builder.addAction(R.drawable.ic_error_outline, "Rensa Urklipp", clearPendingIntent);
         } else {
             builder.addAction(R.drawable.ic_lock_sacred, context.getString(R.string.notification_action_done), donePendingIntent);
             builder.addAction(R.drawable.ic_error_outline, context.getString(R.string.notification_action_later), snoozePendingIntent);
         }
 
         manager.notify(NOTIFICATION_ID_PREMIUM, builder.build());
+    }
+
+    /**
+     * Våg 160: AI-driven actionable notification with smart buttons.
+     */
+    public static void showActionableNotification(Context context, String title, String message, java.util.List<String> entities) {
+        NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (manager == null) return;
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(context, CHANNEL_ID_DAILY)
+                .setSmallIcon(R.drawable.ic_lock_sacred)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+                .setCategory(NotificationCompat.CATEGORY_REMINDER)
+                .setVisibility(NotificationCompat.VISIBILITY_PRIVATE);
+
+        boolean hasDate = false;
+        if (entities != null) {
+            for (String entity : entities) {
+                if (entity == null) continue;
+                String upper = entity.toUpperCase(Locale.US);
+                if (upper.startsWith("DATE_TIME:") || upper.startsWith("DATE:") || upper.startsWith("TIME:")) {
+                    hasDate = true;
+                    break;
+                }
+            }
+        }
+
+        if (hasDate) {
+            Intent cal = new Intent(Intent.ACTION_INSERT)
+                    .setData(android.net.Uri.parse("content://com.android.calendar/events"))
+                    .putExtra("title", title)
+                    .putExtra("description", message);
+            PendingIntent calPi = PendingIntent.getActivity(context, 100, cal, 
+                    PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+            
+            builder.addAction(R.drawable.ic_error_outline, "Planera", calPi);
+        }
+
+        manager.notify(NOTIFICATION_ID_ACTIONABLE, builder.build());
     }
 }

@@ -50,7 +50,7 @@ function ProjectRow({
     <div className="elongated-module elongated-module--gold flex items-center gap-2 p-4">
       <Link
         to={`/admin/projects/${project.id}`}
-        className="flex min-w-0 flex-1 items-center gap-3 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+        className="flex min-w-0 flex-1 items-center gap-3 rounded-lg min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
       >
         <Icon className="h-5 w-5 shrink-0 text-accent" />
         <span className="min-w-0 flex-1">
@@ -135,7 +135,7 @@ export function ProjektHubPage() {
           )}
 
           {user && (
-            <ButtonLink to="/projekt/ny" variant="accent" className="--accent flex min-h-11 w-full items-center justify-center gap-2 py-3">
+            <ButtonLink to="/projekt/ny" variant="accent" className="--accent flex min-h-11 w-full items-center justify-center gap-2 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               <Plus className="h-4 w-4" />
               Nytt projekt
             </ButtonLink>
@@ -200,11 +200,11 @@ export function ProjektHubPage() {
 
           <div className="space-y-2 border-t border-border/50 pt-4">
             <p className={textStyles.eyebrow}>Verktyg</p>
-            <ButtonLink to="/projekt/regler" variant="ghost" className="--ghost flex min-h-11 w-full items-center justify-center gap-2 text-sm">
+            <ButtonLink to="/projekt/regler" variant="ghost" className="--ghost flex min-h-11 w-full items-center justify-center gap-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               <Settings2 className="h-4 w-4" />
               Regler & automation
             </ButtonLink>
-            <ButtonLink to="/projekt/genvagar" variant="ghost" className="--ghost flex min-h-11 w-full flex-col items-center justify-center gap-0.5 py-3 text-sm">
+            <ButtonLink to="/projekt/genvagar" variant="ghost" className="--ghost flex min-h-11 w-full flex-col items-center justify-center gap-0.5 py-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
               <span className="inline-flex items-center gap-2">
                 <Sparkles className="h-4 w-4" />
                 Genvägar per profil

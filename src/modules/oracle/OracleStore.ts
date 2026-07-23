@@ -17,6 +17,9 @@ export interface OracleDataPoint {
   detectedPatterns?: Pattern[];
   mabraSessionsCount?: number;
   mabraSessionTypes?: string[];
+  totalHoursWorked?: number;
+  conflictCount?: number;
+  isHighRiskCorrelation?: boolean;
 }
 
 export interface OracleState {
@@ -62,11 +65,11 @@ export const useOracleStore = create<OracleState>((set) => ({
         mabraSessionTypes: [],
         totalHoursWorked: 9.5,
         conflictCount: 0,
-        isHighRiskCorrelation: true
-      } as any,
-      { date: '2 Jun', isoDate: '2026-06-02', stressLevel: 75, capacity: 45, mabraSessionsCount: 1, mabraSessionTypes: ['4-7-8 Andning'], totalHoursWorked: 7, conflictCount: 0, isHighRiskCorrelation: false } as any,
-      { date: '3 Jun', isoDate: '2026-06-03', stressLevel: 60, capacity: 50, mabraSessionsCount: 0, mabraSessionTypes: [], totalHoursWorked: 8, conflictCount: 0, isHighRiskCorrelation: false } as any,
-      { date: '4 Jun', isoDate: '2026-06-04', stressLevel: 85, capacity: 60, mabraSessionsCount: 2, mabraSessionTypes: ['Vagusnervåterställning', 'Akutlandning'], totalHoursWorked: 7.5, conflictCount: 1, isHighRiskCorrelation: true } as any,
+        isHighRiskCorrelation: true,
+      },
+      { date: '2 Jun', isoDate: '2026-06-02', stressLevel: 75, capacity: 45, mabraSessionsCount: 1, mabraSessionTypes: ['4-7-8 Andning'], totalHoursWorked: 7, conflictCount: 0, isHighRiskCorrelation: false },
+      { date: '3 Jun', isoDate: '2026-06-03', stressLevel: 60, capacity: 50, mabraSessionsCount: 0, mabraSessionTypes: [], totalHoursWorked: 8, conflictCount: 0, isHighRiskCorrelation: false },
+      { date: '4 Jun', isoDate: '2026-06-04', stressLevel: 85, capacity: 60, mabraSessionsCount: 2, mabraSessionTypes: ['Vagusnervåterställning', 'Akutlandning'], totalHoursWorked: 7.5, conflictCount: 1, isHighRiskCorrelation: true },
       { 
         date: '5 Jun', 
         isoDate: '2026-06-05',
@@ -80,10 +83,10 @@ export const useOracleStore = create<OracleState>((set) => ({
         mabraSessionTypes: ['Reframing'],
         totalHoursWorked: 6,
         conflictCount: 0,
-        isHighRiskCorrelation: false
-      } as any,
-      { date: '6 Jun', isoDate: '2026-06-06', stressLevel: 35, capacity: 80, mabraSessionsCount: 0, mabraSessionTypes: [], totalHoursWorked: 0, conflictCount: 0, isHighRiskCorrelation: false } as any,
-      { date: '7 Jun', isoDate: '2026-06-07', stressLevel: 45, capacity: 75, mabraSessionsCount: 1, mabraSessionTypes: ['4-7-8 Andning'], totalHoursWorked: 0, conflictCount: 0, isHighRiskCorrelation: false } as any,
+        isHighRiskCorrelation: false,
+      },
+      { date: '6 Jun', isoDate: '2026-06-06', stressLevel: 35, capacity: 80, mabraSessionsCount: 0, mabraSessionTypes: [], totalHoursWorked: 0, conflictCount: 0, isHighRiskCorrelation: false },
+      { date: '7 Jun', isoDate: '2026-06-07', stressLevel: 45, capacity: 75, mabraSessionsCount: 1, mabraSessionTypes: ['4-7-8 Andning'], totalHoursWorked: 0, conflictCount: 0, isHighRiskCorrelation: false },
     ];
     set({ dataPoints: mockData, isLoading: false, error: null });
   }

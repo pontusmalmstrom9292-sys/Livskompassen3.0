@@ -96,7 +96,7 @@ export function ExecutiveAnkareCard({ onSaved }: Props) {
           />
           <button
             type="button"
-            className="exec-home-btn exec-home-btn--primary min-h-11"
+            className="exec-home-btn exec-home-btn--primary min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             disabled={saving}
             onClick={() => void handleSave()}
           >

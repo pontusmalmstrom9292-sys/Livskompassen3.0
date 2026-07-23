@@ -19,26 +19,25 @@ public class IconManager {
     }
 
     /**
-     * Switch between the official icon and the stealth icon.
+     * Switch launcher icons via activity-aliases only.
+     * MainActivity stays enabled so deep links, share, widgets, and PanicTile keep working.
      */
     public void setStealthIcon(boolean useStealth) {
         PackageManager pm = context.getPackageManager();
-        
-        ComponentName defaultComponent = new ComponentName(packageName, packageName + ".MainActivity");
+
+        ComponentName defaultLauncher = new ComponentName(packageName, packageName + ".DefaultLauncherActivity");
         ComponentName stealthComponent = new ComponentName(packageName, packageName + ".StealthActivity");
 
         if (useStealth) {
-            // Enable Stealth, Disable Default
-            pm.setComponentEnabledSetting(stealthComponent, 
+            pm.setComponentEnabledSetting(stealthComponent,
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-            pm.setComponentEnabledSetting(defaultComponent, 
+            pm.setComponentEnabledSetting(defaultLauncher,
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
             LCLog.w("IconManager: Switched to STEALTH ICON (Notes)");
         } else {
-            // Enable Default, Disable Stealth
-            pm.setComponentEnabledSetting(defaultComponent, 
+            pm.setComponentEnabledSetting(defaultLauncher,
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
-            pm.setComponentEnabledSetting(stealthComponent, 
+            pm.setComponentEnabledSetting(stealthComponent,
                 PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
             LCLog.d("IconManager: Restored OFFICIAL ICON");
         }

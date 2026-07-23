@@ -162,7 +162,7 @@ export function ZenModeOverlay({ isOpen, onClose }: ZenModeOverlayProps) {
               type="button"
               onClick={handleDiscard}
               variant="ghost"
-              className="min-h-[var(--ds-touch-target,2.75rem)] text-sm"
+              className="min-h-[var(--ds-touch-target,2.75rem)] text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               disabled={saving}
             >
               Kasta & Stäng
@@ -171,7 +171,7 @@ export function ZenModeOverlay({ isOpen, onClose }: ZenModeOverlayProps) {
               type="button"
               onClick={() => void handleSaveAndClose()}
               variant="accent"
-              className="min-h-[var(--ds-touch-target,2.75rem)] text-sm"
+              className="min-h-[var(--ds-touch-target,2.75rem)] text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               disabled={saving || text.trim().length < MIN_LENGTH}
             >
               {saving ? 'Sparar…' : 'Spara & Stäng'}

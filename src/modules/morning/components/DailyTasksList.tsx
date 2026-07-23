@@ -54,7 +54,7 @@ export function DailyTasksList() {
           action={
             <Link
               to="/planering?tab=handling&picked=1"
-              className="inline-flex min-h-11 items-center text-xs text-accent hover:text-accent-light"
+              className="inline-flex min-h-11 items-center text-xs text-accent hover:text-accent-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               Öppna Handling
             </Link>
@@ -101,7 +101,7 @@ export function DailyTasksList() {
           {openTodos.length > 1 ? (
             <p className="text-center text-xs text-text-muted">
               +{openTodos.length - 1} till i Handling ·{' '}
-              <Link to="/planering?tab=handling&picked=1" className="text-accent/80 hover:text-accent">
+              <Link to="/planering?tab=handling&picked=1" className="text-accent/80 hover:text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 Visa alla
               </Link>
             </p>

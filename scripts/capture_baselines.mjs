@@ -14,7 +14,6 @@ import { fileURLToPath } from 'url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 
-<<<<<<< HEAD
 function resolvePort(argv, env) {
   const isValidPort = (value) => {
     const parsed = Number.parseInt(String(value), 10);
@@ -32,9 +31,6 @@ function resolvePort(argv, env) {
 }
 
 const port = resolvePort(process.argv.slice(2), process.env);
-=======
-const port = process.argv.find((a) => a.match(/^\d{4}$/)) ?? '5174';
->>>>>>> origin/main
 const base = `http://127.0.0.1:${port}`;
 const outDir = resolve(root, 'docs/design/baselines');
 
@@ -59,11 +55,7 @@ async function run() {
   try {
     ({ chromium } = await import('@playwright/test'));
   } catch {
-<<<<<<< HEAD
     console.error('[baselines] Playwright not installed — run: npm install, then npx playwright install chromium');
-=======
-    console.error('[baselines] Playwright not installed — run: npx playwright install chromium');
->>>>>>> origin/main
     process.exit(1);
   }
 
@@ -89,12 +81,8 @@ async function run() {
         console.log(`[baselines] ✓ ${route.path} @ ${vp.label}`);
         captured++;
       } catch (err) {
-<<<<<<< HEAD
         const message = err instanceof Error ? err.message : String(err);
         console.warn(`[baselines] ✗ ${route.path} @ ${vp.label}: ${message}`);
-=======
-        console.warn(`[baselines] ✗ ${route.path} @ ${vp.label}: ${err.message}`);
->>>>>>> origin/main
       }
     }
 

@@ -19,8 +19,15 @@ public final class WidgetViews {
      */
     private static void applyLiveSubtitle(Context context, RemoteViews views, String statusKey) {
         String dynamic = null;
-        if (statusKey != null && !statusKey.isEmpty()) {
-            dynamic = WidgetUpdateManager.getWidgetContent(context, statusKey);
+        // Widget AI banner wins when calm modes are active (bible 5.4).
+        String aiBanner = WidgetAiModes.banner(context);
+        if (!aiBanner.isEmpty() && WidgetAiModes.resolveMode(context) != WidgetAiModes.AiMode.NORMAL) {
+            dynamic = aiBanner;
+        }
+        if (dynamic == null || dynamic.trim().isEmpty()) {
+            if (statusKey != null && !statusKey.isEmpty()) {
+                dynamic = WidgetUpdateManager.getWidgetContent(context, statusKey);
+            }
         }
         if (dynamic == null || dynamic.trim().isEmpty()) {
             dynamic = WidgetUpdateManager.getWidgetContent(context, "last_action");
@@ -34,10 +41,13 @@ public final class WidgetViews {
         views.setTextViewText(R.id.widget_subtitle, text);
         views.setViewVisibility(R.id.widget_subtitle, View.VISIBLE);
         
-        // Våg 92: Apply circadian tint to dynamic subtitles
-        int color = android.graphics.Color.parseColor(
-            new com.livskompassen.app.core.ThemeManager(null).getWidgetAccentColor());
-        views.setTextColor(R.id.widget_subtitle, color);
+        // Våg 5 Smart Time: circadian tint (smartTimeContext periods — no ThemeManager)
+        views.setTextColor(R.id.widget_subtitle, SmartTimePeriods.accentColorInt());
+        float alpha = SmartTimePeriods.titleAlpha();
+        if (WidgetAiModes.dimVisual(context)) {
+            alpha = Math.min(alpha, 0.8f);
+        }
+        views.setFloat(R.id.widget_subtitle, "setAlpha", alpha);
     }
 
     /**
@@ -145,6 +155,7 @@ public final class WidgetViews {
         views.setOnClickPendingIntent(R.id.widget_companion_capture_root, primary);
         views.setOnClickPendingIntent(R.id.widget_companion_capture_title, primary);
         views.setOnClickPendingIntent(R.id.widget_companion_capture_recent, status);
+        applyCircadianAccent(views, R.id.widget_companion_capture_title);
         return views;
     }
 
@@ -198,48 +209,14 @@ public final class WidgetViews {
      * Companion Compass — intention CTA → overlay (no full app).
      */
     public static RemoteViews companionCompass(Context context) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_compass);
-        
-        // Våg 97: Mask sensitive intention if Vault is locked
-        boolean locked = SecurePrefs.get(context).getBoolean("sacred_lock_state", false);
-        
-        if (locked) {
-            views.setTextViewText(R.id.widget_companion_compass_intention, "Dagens fokus är dolt");
-        } else {
-            String dynamic = liveText(context, "last_action_compass", 48);
-            if (dynamic != null) {
-                views.setTextViewText(R.id.widget_companion_compass_intention, dynamic);
-            }
-        }
-
-        PendingIntent intention = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_INTENTION);
-        views.setOnClickPendingIntent(R.id.widget_companion_compass_root, intention);
-        views.setOnClickPendingIntent(R.id.widget_companion_compass_disc, intention);
-        views.setOnClickPendingIntent(R.id.widget_companion_compass_cta, intention);
-        views.setOnClickPendingIntent(R.id.widget_companion_compass_title, intention);
-        views.setOnClickPendingIntent(R.id.widget_companion_compass_intention, intention);
-        return views;
+        return largeCompass(context);
     }
 
     /**
      * Companion Beacon — Visa mer → capacity note overlay.
      */
     public static RemoteViews companionBeacon(Context context) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_beacon);
-        String dynamic = liveText(context, "last_action_beacon", 24);
-        if (dynamic != null) {
-            views.setTextViewText(R.id.widget_companion_beacon_state, dynamic);
-        }
-        views.setProgressBar(R.id.widget_companion_beacon_capacity_bar, 100, 72, false);
-        views.setProgressBar(R.id.widget_companion_beacon_energy_bar, 100, 72, false);
-        views.setProgressBar(R.id.widget_companion_beacon_fokus_bar, 100, 65, false);
-        views.setProgressBar(R.id.widget_companion_beacon_rest_bar, 100, 58, false);
-        PendingIntent beacon = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_BEACON);
-        views.setOnClickPendingIntent(R.id.widget_companion_beacon_root, beacon);
-        views.setOnClickPendingIntent(R.id.widget_companion_beacon_ring, beacon);
-        views.setOnClickPendingIntent(R.id.widget_companion_beacon_cta, beacon);
-        views.setOnClickPendingIntent(R.id.widget_companion_beacon_title, beacon);
-        return views;
+        return largeBeacon(context);
     }
 
     /**
@@ -320,27 +297,7 @@ public final class WidgetViews {
      * Companion Journal — Skriv → overlay draft (no full app).
      */
     public static RemoteViews companionJournal(Context context) {
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_journal);
-        
-        // Våg 95: Mask sensitive content if Vault is locked
-        boolean locked = SecurePrefs.get(context).getBoolean("sacred_lock_state", false);
-        
-        if (locked) {
-            views.setTextViewText(R.id.widget_companion_journal_quote, "Journalen är låst");
-            views.setTextViewText(R.id.widget_companion_journal_attr, "Lås upp för att läsa");
-        } else {
-            String dynamic = liveText(context, "last_action_journal", 80);
-            if (dynamic != null) {
-                views.setTextViewText(R.id.widget_companion_journal_quote, dynamic);
-            }
-        }
-
-        PendingIntent write = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_JOURNAL);
-        views.setOnClickPendingIntent(R.id.widget_companion_journal_write, write);
-        views.setOnClickPendingIntent(R.id.widget_companion_journal_root, write);
-        views.setOnClickPendingIntent(R.id.widget_companion_journal_quote, write);
-        views.setOnClickPendingIntent(R.id.widget_companion_journal_title, write);
-        return views;
+        return largeJournal(context);
     }
 
     /**
@@ -377,6 +334,7 @@ public final class WidgetViews {
         views.setOnClickPendingIntent(R.id.widget_companion_harbor_root, breath);
         views.setOnClickPendingIntent(R.id.widget_companion_harbor_lotus, breath);
         views.setOnClickPendingIntent(R.id.widget_companion_harbor_title, breath);
+        applyCircadianAccent(views, R.id.widget_companion_harbor_title);
         return views;
     }
 
@@ -432,6 +390,7 @@ public final class WidgetViews {
         // Våg 96: Highlight selected mood in-place
         String selectedMood = SecurePrefs.get(context).getString("widget_state_mood", "5");
         applyMoodHighlight(views, selectedMood);
+        applyCircadianAccent(views, R.id.widget_companion_checkin_title, R.id.widget_companion_checkin_save);
         
         PendingIntent save = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_MOOD);
         views.setOnClickPendingIntent(R.id.widget_companion_checkin_root, save);
@@ -450,14 +409,134 @@ public final class WidgetViews {
     private static void applyMoodHighlight(RemoteViews views, String mood) {
         float dim = 0.4f;
         float on = 1f;
-        views.setFloat(R.id.widget_mood_1, "setAlpha", "1".equals(mood) ? on : dim);
-        views.setFloat(R.id.widget_mood_2, "setAlpha", "2".equals(mood) ? on : dim);
-        views.setFloat(R.id.widget_mood_3, "setAlpha", "3".equals(mood) ? on : dim);
-        views.setFloat(R.id.widget_mood_4, "setAlpha", "4".equals(mood) ? on : dim);
-        views.setFloat(R.id.widget_mood_5, "setAlpha", "5".equals(mood) ? on : dim);
-        
-        // Also update background ring for 5 if selected (matches design default)
-        views.setInt(R.id.widget_mood_5, "setBackgroundResource", 
-            "5".equals(mood) ? R.drawable.widget_bg_gold_ring : R.drawable.widget_bg_pill_category);
+        int[] ids = {
+            R.id.widget_mood_1, R.id.widget_mood_2, R.id.widget_mood_3,
+            R.id.widget_mood_4, R.id.widget_mood_5
+        };
+        for (int i = 0; i < ids.length; i++) {
+            String key = String.valueOf(i + 1);
+            boolean selected = key.equals(mood);
+            views.setFloat(ids[i], "setAlpha", selected ? on : dim);
+            views.setInt(ids[i], "setBackgroundResource",
+                selected ? R.drawable.widget_bg_gold_ring : R.drawable.widget_bg_pill_category);
+        }
+    }
+
+    /**
+     * Circadian accent on Companion title / CTA text views.
+     * Uses {@link SmartTimePeriods} (aligned with smartTimeContext.ts).
+     * Night: slight title dim (alpha) — does not clear PendingIntent / WIS.
+     */
+    private static void applyCircadianAccent(RemoteViews views, int... viewIds) {
+        int color = SmartTimePeriods.accentColorInt();
+        float alpha = SmartTimePeriods.titleAlpha();
+        for (int id : viewIds) {
+            views.setTextColor(id, color);
+            views.setFloat(id, "setAlpha", alpha);
+        }
+    }
+
+    /**
+     * Companion Journal Large — Image + Moods + Note + Actions.
+     */
+    public static RemoteViews largeJournal(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_journal);
+
+        boolean locked = SecurePrefs.get(context).getBoolean("sacred_lock_state", false);
+        if (locked) {
+            views.setTextViewText(R.id.widget_journal_content, context.getString(R.string.widget_journal_locked));
+            views.setViewVisibility(R.id.widget_journal_image, View.GONE);
+        } else {
+            String note = liveText(context, "last_action_journal", 120);
+            if (note != null) views.setTextViewText(R.id.widget_journal_content, note);
+        }
+
+        PendingIntent write = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_JOURNAL);
+        PendingIntent capture = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_CAPTURE);
+        PendingIntent child = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_CHILD);
+        views.setOnClickPendingIntent(R.id.widget_companion_journal_write, write);
+        views.setOnClickPendingIntent(R.id.widget_companion_journal_root, write);
+        views.setOnClickPendingIntent(R.id.widget_companion_journal_title, write);
+        views.setOnClickPendingIntent(R.id.widget_journal_content, write);
+        views.setOnClickPendingIntent(R.id.widget_journal_mic, capture);
+        views.setOnClickPendingIntent(R.id.widget_journal_child, child);
+        views.setOnClickPendingIntent(R.id.widget_journal_mood_1,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_MOOD_CHECK, "1"));
+        views.setOnClickPendingIntent(R.id.widget_journal_mood_2,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_MOOD_CHECK, "2"));
+        views.setOnClickPendingIntent(R.id.widget_journal_mood_3,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_MOOD_CHECK, "3"));
+        views.setOnClickPendingIntent(R.id.widget_journal_mood_4,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_MOOD_CHECK, "4"));
+        views.setOnClickPendingIntent(R.id.widget_journal_mood_5,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_MOOD_CHECK, "5"));
+
+        return views;
+    }
+
+    /**
+     * Companion Beacon Large — Lighthouse + Ring + Metrics.
+     */
+    public static RemoteViews largeBeacon(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_beacon);
+        views.setProgressBar(R.id.widget_companion_beacon_capacity_bar, 100, 72, false);
+        PendingIntent beacon = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_BEACON);
+        views.setOnClickPendingIntent(R.id.widget_companion_beacon_root, beacon);
+        views.setOnClickPendingIntent(R.id.widget_companion_beacon_ring, beacon);
+        views.setOnClickPendingIntent(R.id.widget_companion_beacon_cta, beacon);
+        views.setOnClickPendingIntent(R.id.widget_companion_beacon_title, beacon);
+        return views;
+    }
+
+    /**
+     * Companion Compass Large — Project focus + Pomodoro.
+     */
+    public static RemoteViews largeCompass(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_compass);
+        boolean locked = SecurePrefs.get(context).getBoolean("sacred_lock_state", false);
+        if (locked) {
+            views.setTextViewText(R.id.widget_compass_intention, "Dagens fokus är dolt");
+        } else {
+            String focus = liveText(context, "last_action_compass", 50);
+            if (focus != null) views.setTextViewText(R.id.widget_compass_intention, focus);
+        }
+
+        long base = SecurePrefs.get(context).getLong("widget_pomodoro_base", 0);
+        boolean active = SecurePrefs.get(context).getBoolean("widget_pomodoro_active", false);
+
+        if (base > 0) {
+            views.setChronometerCountDown(R.id.widget_compass_timer, true);
+            views.setChronometer(R.id.widget_compass_timer, base, null, active);
+        }
+
+        PendingIntent intention = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_INTENTION);
+        PendingIntent note = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_NOTE);
+        PendingIntent reward = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_MOOD);
+        views.setOnClickPendingIntent(R.id.widget_companion_compass_root, intention);
+        views.setOnClickPendingIntent(R.id.widget_companion_compass_title, intention);
+        views.setOnClickPendingIntent(R.id.widget_compass_intention, intention);
+        views.setOnClickPendingIntent(R.id.widget_compass_btn_dnd,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_HARBOR_MODE, "focus"));
+        views.setOnClickPendingIntent(R.id.widget_compass_btn_note, note);
+        views.setOnClickPendingIntent(R.id.widget_compass_btn_reward, reward);
+        views.setOnClickPendingIntent(R.id.widget_compass_play,
+            WidgetInteract.broadcastPendingIntent(context, WidgetInteract.ACT_POMODORO_TOGGLE, ""));
+        return views;
+    }
+
+    /**
+     * Companion Family Large — Avatars + Timeline.
+     */
+    public static RemoteViews largeFamily(Context context) {
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_companion_family);
+        PendingIntent family = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_CHILD);
+        PendingIntent note = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_NOTE);
+        PendingIntent journal = WidgetInteract.overlayPendingIntent(context, WidgetInteract.MODE_JOURNAL);
+        views.setOnClickPendingIntent(R.id.widget_companion_family_root, family);
+        views.setOnClickPendingIntent(R.id.widget_companion_family_title, family);
+        views.setOnClickPendingIntent(R.id.widget_family_btn_log, family);
+        views.setOnClickPendingIntent(R.id.widget_family_btn_message, note);
+        views.setOnClickPendingIntent(R.id.widget_family_btn_memories, journal);
+        return views;
     }
 }

@@ -75,7 +75,7 @@ export function PlaneringWeekCalendar({ tasks, prepared = true }: Props) {
           type="button"
           variant="ghost"
           size="sm"
-          className="disabled:opacity-40"
+          className="disabled:opacity-40 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={exportableCount === 0}
           onClick={() => downloadPlaneringIcs(tasks)}
         >

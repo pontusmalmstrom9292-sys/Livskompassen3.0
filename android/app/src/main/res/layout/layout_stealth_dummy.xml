@@ -7,6 +7,7 @@
     android:padding="20dp">
 
     <TextView
+        android:id="@+id/stealth_dummy_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Mina Anteckningar"
@@ -27,6 +28,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/stealth_dummy_item_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="• Handla mat"
@@ -35,6 +37,7 @@
             android:padding="10dp" />
 
         <TextView
+            android:id="@+id/stealth_dummy_item_2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="• Ring tandläkaren"
@@ -43,6 +46,7 @@
             android:padding="10dp" />
 
         <TextView
+            android:id="@+id/stealth_dummy_item_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="• Hämta paket"
@@ -51,6 +55,7 @@
             android:padding="10dp" />
 
         <TextView
+            android:id="@+id/stealth_dummy_item_4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="• Träning kl 18"

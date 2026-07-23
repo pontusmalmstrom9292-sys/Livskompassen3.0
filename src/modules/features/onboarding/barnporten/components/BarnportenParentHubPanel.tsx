@@ -38,7 +38,7 @@ export function BarnportenParentHubPanel({ activeChild }: Props) {
             <ButtonLink
               to="/barnporten"
               variant="accent"
-              className="mt-3 inline-flex min-h-11 items-center gap-2 text-xs"
+              className="mt-3 inline-flex min-h-11 items-center gap-2 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               aria-label="Öppna Barnporten i föräldraläge"
             >
               <ExternalLink className="h-3.5 w-3.5" aria-hidden />

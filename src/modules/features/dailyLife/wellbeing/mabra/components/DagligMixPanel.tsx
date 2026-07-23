@@ -64,7 +64,11 @@ export function DagligMixPanel({ uid, onComplete }: Props) {
               placeholder="Ett ord räcker…"
             />
           </label>
-          <Button variant="secondary" className="w-full" onClick={() => setStep('play')}>
+          <Button
+            variant="secondary"
+            className="w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+            onClick={() => setStep('play')}
+          >
             {COPY.next}
           </Button>
         </div>
@@ -78,10 +82,18 @@ export function DagligMixPanel({ uid, onComplete }: Props) {
             <p className="mt-2 text-xs text-text-muted">{COPY.playHint}</p>
           </div>
           <div className="flex flex-col gap-2">
-            <Button variant="secondary" onClick={finish}>
+            <Button
+              variant="secondary"
+              className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+              onClick={finish}
+            >
               {COPY.finish}
             </Button>
-            <Button variant="ghost" className="text-sm" onClick={finish}>
+            <Button
+              variant="ghost"
+              className="text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+              onClick={finish}
+            >
               {COPY.skipPlay}
             </Button>
           </div>

@@ -360,7 +360,7 @@ export function DossierPage({ embedded = false }: { embedded?: boolean }) {
             Dossier kräver upplåst Valv (Fyren). I bottenmenyn: tryck på <strong>Hjärtat</strong>{' '}
             (bok-ikonen) och <strong>håll 3 sekunder</strong>, eller öppna Valvet och tryck <strong>Lås upp Valvet (biometri)</strong>.
           </p>
-          <ButtonLink to="/valvet" variant="secondary" size="sm" className="inline-flex">
+          <ButtonLink to="/valvet" variant="secondary" size="sm" className="inline-flex min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Öppna Arkiv
           </ButtonLink>
         </BentoCard>

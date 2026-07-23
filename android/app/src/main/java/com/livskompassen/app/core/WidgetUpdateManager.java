@@ -10,7 +10,9 @@ import com.livskompassen.app.widgets.CompanionAnchorWidgetProvider;
 import com.livskompassen.app.widgets.CompanionBeaconWidgetProvider;
 import com.livskompassen.app.widgets.CompanionCaptureWidgetProvider;
 import com.livskompassen.app.widgets.CompanionChildWidgetProvider;
+import com.livskompassen.app.widgets.CompanionCheckInWidgetProvider;
 import com.livskompassen.app.widgets.CompanionCompassWidgetProvider;
+import com.livskompassen.app.widgets.CompanionFamilyWidgetProvider;
 import com.livskompassen.app.widgets.CompanionHarborWidgetProvider;
 import com.livskompassen.app.widgets.CompanionInboxWidgetProvider;
 import com.livskompassen.app.widgets.CompanionJournalWidgetProvider;
@@ -39,6 +41,8 @@ public class WidgetUpdateManager {
         CompanionJournalWidgetProvider.class,
         CompanionAnchorWidgetProvider.class,
         CompanionTasksWidgetProvider.class,
+        CompanionCheckInWidgetProvider.class,
+        CompanionFamilyWidgetProvider.class,
     };
     
     /**
@@ -47,25 +51,32 @@ public class WidgetUpdateManager {
     public static void updateWidgetContent(Context context, String key, String value) {
         SharedPreferences prefs = SecurePrefs.get(context);
         prefs.edit().putString(PREF_WIDGET_DATA_PREFIX + key, value).apply();
-        
+
+        // Prefer scoped refresh (battery) — full refresh only for global last_action / unknown keys.
+        Class<?> scoped = companionProviderForStatusKey(key);
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
-
+        if (scoped != null) {
+            refreshProvider(context, manager, scoped);
+            return;
+        }
         if ("last_action".equals(key)) {
-            for (Class<?> provider : LIVE_STATUS_WIDGETS) {
-                refreshProvider(context, manager, provider);
-            }
-        } else if (key != null && key.startsWith("last_action_")) {
-            Class<?> scoped = companionProviderForStatusKey(key);
-            if (scoped != null) {
-                refreshProvider(context, manager, scoped);
-            }
-        } else {
-            refreshProvider(context, manager, RecordWidgetProvider.class);
+            refreshAllWidgets(context);
+            return;
         }
+        // AI / misc SecurePrefs-driven keys: refresh live Companion pack once.
+        refreshAllWidgets(context);
+    }
 
-        if ("utv_kort_body".equals(key)) {
-            refreshProvider(context, manager, UtvecklingskortWidgetProvider.class);
+    /**
+     * Tvingar fram en uppdatering av alla widgets (t.ex. vid dygnsrytmsbyte).
+     */
+    public static void refreshAllWidgets(Context context) {
+        AppWidgetManager manager = AppWidgetManager.getInstance(context);
+        for (Class<?> provider : LIVE_STATUS_WIDGETS) {
+            refreshProvider(context, manager, provider);
         }
+        refreshProvider(context, manager, UtvecklingskortWidgetProvider.class);
+        refreshProvider(context, manager, RecordWidgetProvider.class);
     }
 
     /** Map last_action_* → Companion AppWidgetProvider. */
@@ -91,6 +102,11 @@ public class WidgetUpdateManager {
                 return CompanionAnchorWidgetProvider.class;
             case "last_action_tasks":
                 return CompanionTasksWidgetProvider.class;
+            case "last_action_mood":
+            case "last_action_checkin":
+                return CompanionCheckInWidgetProvider.class;
+            case "last_action_family":
+                return CompanionFamilyWidgetProvider.class;
             default:
                 return null;
         }

@@ -54,7 +54,7 @@ export function ExecutiveReflektionHero() {
             </>
           )}
           <Button
-            className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider"
+            className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={goWrite}
           >
             <PenLine className="h-3.5 w-3.5" strokeWidth={1.5} />

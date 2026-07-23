@@ -169,7 +169,7 @@ export function BeaconWidget({
         {info.showCapacity ? (
           <button
             type="button"
-            className="cw-metric-hit cw-metric-hit--ring cw-beacon-stage__ring"
+            className="cw-metric-hit cw-metric-hit--ring cw-beacon-stage__ring min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={() => void nudge('capacity')}
             aria-label={`Justera kapacitet, nu ${metrics.capacity}`}
           >
@@ -190,7 +190,7 @@ export function BeaconWidget({
           <button
             key={key}
             type="button"
-            className={`cw-metric-hit cw-metric-hit--gs ${key === 'energy' ? 'cw-metric-hit--ethereal' : key === 'stress' ? 'cw-metric-hit--gold' : ''}`}
+            className={`cw-metric-hit cw-metric-hit--gs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${key === 'energy' ? 'cw-metric-hit--ethereal' : key === 'stress' ? 'cw-metric-hit--gold' : ''}`}
             onClick={() => void nudge(key)}
             aria-label={`Justera ${label}, nu ${value}`}
           >
@@ -218,6 +218,7 @@ export function BeaconWidget({
           size="premium"
           fullWidth
           className={pulseHint ? 'cw-pulse-cta' : undefined}
+          aria-label="Spara dagsform till Fyren"
           onClick={() => void save()}
         >
           Spara

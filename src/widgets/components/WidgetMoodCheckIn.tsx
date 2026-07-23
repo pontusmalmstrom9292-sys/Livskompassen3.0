@@ -34,7 +34,7 @@ export function WidgetMoodCheckIn({ value, onChange }: WidgetMoodCheckInProps) {
             aria-checked={active}
             aria-label={face.label}
             title={face.label}
-            className={['cw-mood', active && 'cw-mood--active'].filter(Boolean).join(' ')}
+            className={['cw-mood', 'cw-mood--touch', active && 'cw-mood--active'].filter(Boolean).join(' ')}
             style={{ minWidth: WidgetTouch.minDp, minHeight: WidgetTouch.minDp }}
             onClick={() => {
               triggerWidgetHaptic('light');

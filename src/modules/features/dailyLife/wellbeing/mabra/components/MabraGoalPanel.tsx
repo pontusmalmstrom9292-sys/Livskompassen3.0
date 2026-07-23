@@ -173,7 +173,7 @@ export function MabraGoalPanel() {
           <div className="mt-3 flex flex-wrap gap-2">
             <Button
               variant="ghost"
-              className="text-xs text-text-muted"
+              className="text-xs text-text-muted min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={beginCustomEdit}
               disabled={saving}
             >
@@ -182,7 +182,7 @@ export function MabraGoalPanel() {
             </Button>
             <Button
               variant="ghost"
-              className="text-xs text-text-muted"
+              className="text-xs text-text-muted min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => void handleClear()}
               disabled={saving}
             >
@@ -232,7 +232,7 @@ export function MabraGoalPanel() {
           <div className="flex flex-wrap gap-2">
             <Button
               variant="ghost"
-              className="text-sm"
+              className="text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => void handleConfirm()}
               disabled={saving || !draftText.trim()}
             >
@@ -247,7 +247,7 @@ export function MabraGoalPanel() {
             </Button>
             <Button
               variant="ghost"
-              className="text-sm text-text-muted"
+              className="text-sm text-text-muted min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => void handleAssist()}
               disabled={saving || assistLoading}
             >
@@ -265,7 +265,7 @@ export function MabraGoalPanel() {
             </Button>
             <Button
               variant="ghost"
-              className="text-sm text-text-muted"
+              className="text-sm text-text-muted min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={cancelDraft}
               disabled={saving}
             >
@@ -282,12 +282,12 @@ export function MabraGoalPanel() {
               <p className="rounded-xl border border-border/30 bg-surface-2/50 px-4 py-3 text-sm text-text-muted">
                 {COPY.empty}
               </p>
-              <Button variant="ghost" className="text-sm text-text-muted" onClick={beginCustomEdit}>
+              <Button variant="ghost" className="text-sm text-text-muted min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={beginCustomEdit}>
                 {COPY.adjust}
               </Button>
               <Button
                 variant="ghost"
-                className="text-sm text-text-muted"
+                className="text-sm text-text-muted min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={() => void handleAssist()}
                 disabled={assistLoading}
               >
@@ -309,7 +309,7 @@ export function MabraGoalPanel() {
                   </p>
                   <Button
                     variant="ghost"
-                    className="mt-3 text-xs"
+                    className="mt-3 text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                     onClick={() => beginSelection(candidate)}
                     disabled={saving}
                   >

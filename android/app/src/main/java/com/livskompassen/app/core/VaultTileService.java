@@ -1,5 +1,6 @@
 package com.livskompassen.app.core;
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
@@ -27,19 +28,21 @@ public class VaultTileService extends TileService {
     }
 
     @Override
+    @SuppressLint("StartActivityAndCollapseDeprecated")
     public void onClick() {
         super.onClick();
         LCLog.d("VaultTileService: Tile clicked, launching Vault.");
-        
+
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.putExtra("widget_path", "/valv");
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            PendingIntent pendingIntent = PendingIntent.getActivity(
+        PendingIntent pendingIntent = PendingIntent.getActivity(
                 this, 0, intent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
             startActivityAndCollapse(pendingIntent);
         } else {
+            // Pre-API 34: only Intent overload exists (lint suppressed — version-gated)
             startActivityAndCollapse(intent);
         }
     }

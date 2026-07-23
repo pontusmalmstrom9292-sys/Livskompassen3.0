@@ -19,6 +19,45 @@ export interface VaultRecord {
   ownerId: string;
 }
 
+/**
+ * Shape returned by `getVaultHistory` / `initializeVaultListener`.
+ * Carries all VaultLog fields (except userId) plus a string-normalised createdAt
+ * and legacy display-only fields that some older entries may have.
+ * `id` is always present (the Firestore document id).
+ */
+export interface VaultHistoryEntry extends Partial<Omit<VaultLog, 'userId' | 'createdAt'>> {
+  id: string;
+  createdAt?: string;
+  /** Legacy text field used by older entries. */
+  content?: string;
+  text?: string;
+  observation?: string;
+  label?: string;
+  /** Raw Firestore timestamp before normalisation (used by some callers). */
+  timestamp?: Date | string | { toDate?: () => Date };
+  source?: string;
+  confidence?: number;
+}
+
+/**
+ * Normalises the date of a VaultHistoryEntry to a `Date` object.
+ * Handles the three timestamp shapes that may appear in stored entries:
+ * 1. `createdAt` — ISO string (normalised by getVaultHistory / initializeVaultListener)
+ * 2. `timestamp` — legacy raw Firestore Timestamp (object with `.toDate()`)
+ * 3. `timestamp` — plain Date or ISO string from older entries
+ */
+export function getVaultEntryDate(entry: VaultHistoryEntry): Date {
+  if (entry.createdAt) {
+    return new Date(entry.createdAt);
+  }
+  const ts = entry.timestamp;
+  if (ts == null) return new Date();
+  if (ts instanceof Date) return ts;
+  if (typeof ts === 'object' && typeof ts.toDate === 'function') return ts.toDate();
+  if (typeof ts === 'string') return new Date(ts);
+  return new Date();
+}
+
 /** Legacy inkast/triage — `content`/`source` mappas till `truth`/`action` om saknas. */
 export type VaultSaveRecordInput = {
   content?: string;
@@ -148,7 +187,7 @@ export class VaultService {
     return saveVaultLog(userId, normalizeVaultSaveInput(data));
   }
 
-  static async getVaultHistory(userId: string): Promise<any[]> {
+  static async getVaultHistory(userId: string): Promise<VaultHistoryEntry[]> {
     const ref = collection(db, this.COLLECTION_NAME);
     const q = query(
       ref,
@@ -163,11 +202,11 @@ export class VaultService {
         id: d.id,
         ...row,
         createdAt: row.createdAt?.toDate ? row.createdAt.toDate().toISOString() : row.createdAt,
-      };
+      } as VaultHistoryEntry;
     });
   }
 
-  static initializeVaultListener(userId: string, onUpdate: (records: any[]) => void): () => void {
+  static initializeVaultListener(userId: string, onUpdate: (records: VaultHistoryEntry[]) => void): () => void {
     const ref = collection(db, this.COLLECTION_NAME);
     const q = query(
       ref,
@@ -178,13 +217,13 @@ export class VaultService {
     return onSnapshot(
       q,
       (snap) => {
-        const records = snap.docs.map((d) => {
+        const records: VaultHistoryEntry[] = snap.docs.map((d) => {
           const row = d.data();
           return {
             id: d.id,
             ...row,
             createdAt: row.createdAt?.toDate ? row.createdAt.toDate().toISOString() : row.createdAt,
-          };
+          } as VaultHistoryEntry;
         });
         onUpdate(records);
       },

@@ -90,7 +90,7 @@ export function Modal({
         aria-labelledby={!hideHeader && dialogLabel ? titleId : undefined}
         aria-describedby={description ? descId : undefined}
         tabIndex={-1}
-        className={cn('ds-modal-panel ds-card glow-bottom-gold outline-none', panelClassName)}
+        className={cn('ds-modal-panel ds-card outline-none', panelClassName)}
       >
         {!hideHeader && dialogLabel ? (
           <div className="flex items-start justify-between gap-[var(--ds-space-3)]">

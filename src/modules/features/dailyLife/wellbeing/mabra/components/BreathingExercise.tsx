@@ -134,7 +134,11 @@ export function BreathingExercise({ durationMinutes, variant, onComplete, onExit
       <p className="text-sm text-text-muted">
         {isPanic ? `Tid kvar: ${secondsLeft}s` : `Cykel ${cycleCount + 1} · ca ${secondsLeft}s kvar`}
       </p>
-      <Button variant="ghost" className="text-sm" onClick={handleExit}>
+      <Button
+        variant="ghost"
+        className="min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        onClick={handleExit}
+      >
         Avsluta nu
       </Button>
     </div>

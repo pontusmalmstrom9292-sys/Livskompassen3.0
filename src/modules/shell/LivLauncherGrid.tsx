@@ -35,11 +35,12 @@ type LauncherCardDef = {
 const LAUNCHER_CARD_CLASS =
   'liv-launcher-card calm-card text-left transition-colors min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55';
 
+/** @deprecated Glow disabled app-wide; prop kept for card defs API. */
 const GLOW_CLASS: Record<CalmCardGlow, string> = {
-  gold: 'glow-bottom-gold',
-  blue: 'glow-bottom-gold',
-  green: 'glow-bottom-green',
-  indigo: 'glow-bottom-gold',
+  gold: '',
+  blue: '',
+  green: '',
+  indigo: '',
 };
 
 export const LIV_LAUNCHER_CARDS: readonly LauncherCardDef[] = [

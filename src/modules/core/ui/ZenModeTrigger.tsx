@@ -24,6 +24,7 @@ export function ZenModeTrigger() {
           px-3 py-2 text-[11px] text-text-muted
           shadow-lg hover:border-accent/30 hover:text-text
           transition-all duration-200
+          min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40
         "
         title="Töm Huvudet – distraktionsfritt läge"
         aria-label="Öppna Töm Huvudet-läge"

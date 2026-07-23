@@ -6,8 +6,9 @@ export interface InsightData {
   id: string;
   createdAt?: Timestamp;
   text?: string;
+  content?: string;
   category?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface ReflectionState {

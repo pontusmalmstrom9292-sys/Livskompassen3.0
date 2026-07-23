@@ -24,7 +24,7 @@ export function PlanningTaskDetail({ task, onClose, onMove, onSaveMicroStep }: P
       ariaLabel={task.title}
       panelClassName="max-w-md border-accent/25"
       headerAction={
-        <Button type="button" variant="ghost" size="icon" className="min-h-11 min-w-11" onClick={onClose} aria-label="Stäng">
+        <Button type="button" variant="ghost" size="icon" className="min-h-11 min-w-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={onClose} aria-label="Stäng">
           <X className="h-4 w-4" />
         </Button>
       }
@@ -70,7 +70,7 @@ export function PlanningTaskDetail({ task, onClose, onMove, onSaveMicroStep }: P
       <Button
         type="button"
         variant="secondary"
-        className="mt-3 min-h-11 w-full"
+        className="mt-3 min-h-11 w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         onClick={() => onSaveMicroStep(microStep)}
       >
         Spara mikrosteg

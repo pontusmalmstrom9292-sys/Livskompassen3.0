@@ -73,7 +73,7 @@ export function PlaneringInboxConnectionCard({
         <Button
           type="button"
           variant="accent"
-          className="mt-3 w-full disabled:opacity-50"
+          className="mt-3 w-full disabled:opacity-50 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={disabled}
           onClick={onPrepare}
         >
@@ -89,7 +89,7 @@ export function PlaneringInboxConnectionCard({
       ) : (
         <div className="mt-3 flex flex-wrap gap-2">
           <span className="planering-inbox-connect__badge">Synk kommer snart</span>
-          <Button type="button" variant="ghost" size="sm" onClick={onDisconnect}>
+          <Button type="button" variant="ghost" size="sm" className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={onDisconnect}>
             Koppla bort
           </Button>
         </div>

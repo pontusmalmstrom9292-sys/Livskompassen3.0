@@ -75,7 +75,7 @@ export function AuthGate({ children, variant = 'default', widgetTitle = 'Widget'
           )}
         </p>
         {variant === 'widget' && (
-          <ButtonLink to="/" variant="accent" className="mt-4 inline-flex min-h-11 items-center text-sm">
+          <ButtonLink to="/" variant="accent" className="mt-4 inline-flex min-h-11 items-center text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Öppna Livskompassen
           </ButtonLink>
         )}

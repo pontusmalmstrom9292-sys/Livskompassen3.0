@@ -63,7 +63,7 @@ android {
     
     defaultConfig {
         applicationId = "com.livskompassen.app"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode 1
         versionName "1.0-titanium"
@@ -133,6 +133,11 @@ tasks.register("verifySecurityComponents") {
             "src/main/java/com/livskompassen/app/core/ProjectionManager.java",
             "src/main/java/com/livskompassen/app/core/IconManager.java",
             "src/main/java/com/livskompassen/app/core/ShakeDetector.java",
+            "src/main/java/com/livskompassen/app/core/AuraFlowManager.java",
+            "src/main/java/com/livskompassen/app/core/AuraAudioManager.java",
+            "src/main/java/com/livskompassen/app/core/IntelligenceManager.java",
+            "src/main/java/com/livskompassen/app/core/GhostLaunchReceiver.java",
+            "src/main/java/com/livskompassen/app/core/HardwareAwarenessReceiver.java",
             "src/main/java/com/livskompassen/app/util/SecurePrefs.java",
             "src/main/java/com/livskompassen/app/util/SecurityUtils.java",
             "src/main/java/com/livskompassen/app/util/NavigationUtils.java",
@@ -147,6 +152,9 @@ tasks.register("verifySecurityComponents") {
         // Locked Titanium file-upload guard markers (must remain in baseline).
         def webViewMgr = project.file("src/main/java/com/livskompassen/app/core/WebViewManager.java").text
         def securityUtils = project.file("src/main/java/com/livskompassen/app/util/SecurityUtils.java").text
+        def securePrefs = project.file("src/main/java/com/livskompassen/app/util/SecurePrefs.java").text
+        def intelligenceMgr = project.file("src/main/java/com/livskompassen/app/core/IntelligenceManager.java").text
+        def mainActivity = project.file("src/main/java/com/livskompassen/app/MainActivity.java").text
         def requiredMarkers = [
             [webViewMgr, "setFilterTouchesWhenObscured(true)", "WebViewManager tapjacking filter"],
             [webViewMgr, "pendingSensitiveFilePick", "WebViewManager sensitive pick tracking"],
@@ -154,14 +162,21 @@ tasks.register("verifySecurityComponents") {
             [webViewMgr, "showPrivacyOverlay", "WebViewManager privacy overlay"],
             [securityUtils, "calculateFileHash", "SecurityUtils forensic hash"],
             [securityUtils, "isLikelyTextFile", "SecurityUtils MIME sniff"],
-            [securityUtils, "getUriSource", "SecurityUtils URI source audit"]
+            [securityUtils, "getUriSource", "SecurityUtils URI source audit"],
+            [securePrefs, "setIsStrongBoxBacked(true)", "SecurePrefs StrongBox binding"],
+            [intelligenceMgr, "text.contains(\"inte\")", "IntelligenceManager silo negative logic"],
+            [intelligenceMgr, "text.contains(\"sluta\")", "IntelligenceManager silo negative logic sluta"],
+            [intelligenceMgr, "text.contains(\"aldrig\")", "IntelligenceManager silo negative logic aldrig"],
+            [intelligenceMgr, "text.contains(\"avboka\")", "IntelligenceManager silo negative logic avboka"],
+            [mainActivity, "GHOST_EXIT_HOLD_MS = 3000L", "Ghost Mode 3s exit hold"],
+            [mainActivity, "EXTRA_GHOST_ENTRY", "GhostLaunch dialer entry"]
         ]
         requiredMarkers.each { entry ->
             if (!entry[0].contains(entry[1])) {
                 throw new GradleException("FATAL: ARCHITECTURE VIOLATION. Missing locked marker (${entry[2]}): ${entry[1]}")
             }
         }
-        println("Titanium Aura Omni Baseline: ALL COMPONENTS VERIFIED.")
+        println("Titanium Omni-Zenith: ALL COMPONENTS VERIFIED.")
     }
 }
 
@@ -261,8 +276,11 @@ dependencies {
     implementation project(':capacitor-cordova-android-plugins')
     implementation libs.google.play.integrity
     implementation libs.google.play.services.tasks
-    implementation 'com.google.mlkit:language-id:17.0.6'
     implementation 'com.google.firebase:firebase-messaging:24.1.1'
+
+    // Våg 110: Edge AI & Aura Flow (Free on-device ML)
+    implementation 'com.google.mlkit:language-id:17.0.6'
+    implementation 'com.google.mlkit:entity-extraction:16.0.0-beta6'
 }
 
 apply from: 'capacitor.build.gradle'

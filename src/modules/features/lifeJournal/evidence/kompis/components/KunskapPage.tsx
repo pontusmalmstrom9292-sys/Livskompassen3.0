@@ -222,7 +222,7 @@ export function KunskapPage({
                   type="button"
                   variant="secondary"
                   size="sm"
-                  className="inline-flex items-center gap-1.5"
+                  className="inline-flex items-center gap-1.5 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   onClick={() => reloadEntries()}
                   disabled={loadingEntries}
                 >

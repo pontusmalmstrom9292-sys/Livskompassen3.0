@@ -368,6 +368,7 @@ export function QuickCaptureWidget({
             'cw-capture-mic',
             recording ? 'cw-capture-mic--live' : '',
             pulseHint && !recording && !autostart ? 'cw-pulse-cta' : '',
+            'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
           ]
             .filter(Boolean)
             .join(' ')}
@@ -401,6 +402,7 @@ export function QuickCaptureWidget({
           <WidgetButton
             variant="ghost"
             size="min"
+            aria-label="Avbryt inspelning"
             onClick={() => {
               void cancelRecording();
             }}

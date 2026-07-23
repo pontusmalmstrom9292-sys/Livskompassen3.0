@@ -50,6 +50,7 @@ export function WidgetSyncStatusChip() {
     <button
       type="button"
       disabled={flushing}
+      className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       onClick={() => {
         if (flushing) return;
         triggerWidgetHaptic('light');

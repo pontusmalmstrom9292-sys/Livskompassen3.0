@@ -67,7 +67,7 @@ export function buildDefaultStudioState(): WidgetStudioState {
     version: 1,
     updatedAt: Date.now(),
     smartTimeEnabled: true,
-    smartAiEnabled: true,
+    smartAiEnabled: false,
     widgets,
   };
 }
@@ -134,7 +134,7 @@ export async function resetStudioToCalmDefaults(): Promise<WidgetStudioState> {
   return saveWidgetStudioState({
     ...memory,
     smartTimeEnabled: true,
-    smartAiEnabled: true,
+    smartAiEnabled: false,
     widgets,
   });
 }

@@ -416,6 +416,8 @@ const submitInkastLiteCallable = httpsCallable<
     manualTags?: string[];
     manualComment?: string;
     manualChildAlias?: string;
+    /** Non-PII Edge AI tags (edge:silo:*, edge:stress) — merged server-side into WORM tags. */
+    edgeTags?: string[];
   },
   SubmitInkastLiteResult
 >(functions, 'submitInkastLite');
@@ -455,7 +457,20 @@ export async function submitInkastLite(input: {
   manualChildAlias?: string;
 }): Promise<SubmitInkastLiteResult> {
   try {
-    const payload = withVaultSessionPayload(input);
+    let edgeTags: string[] | undefined;
+    if (input.text?.trim()) {
+      const { analyzeIntelligenceNativeAsync } = await import('@/modules/shared/utils/nativeMindAura');
+      const { buildEdgeWormTags, installIntelligenceConsumer } = await import(
+        '@/modules/shared/utils/intelligenceConsumer'
+      );
+      installIntelligenceConsumer();
+      const edge = await analyzeIntelligenceNativeAsync(input.text);
+      if (edge) edgeTags = buildEdgeWormTags(edge);
+    }
+    const payload = withVaultSessionPayload({
+      ...input,
+      ...(edgeTags?.length ? { edgeTags } : {}),
+    });
     const result = await submitInkastLiteCallable(payload);
     return parseSubmitInkastLiteResult(result.data);
   } catch (error) {

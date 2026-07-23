@@ -142,7 +142,7 @@ export function FamiljenVardagsstrukturDelegate({ shell, onSaved }: FamiljenDele
             <option value="granser">Gränssättning</option>
             <option value="rutin">Vardagsrutin</option>
           </select>
-          <Button type="submit" variant="secondary" className="shrink-0 text-xs py-2">
+          <Button type="submit" variant="secondary" className="shrink-0 text-xs py-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             <Plus className="h-3 w-3" /> Lägg till
           </Button>
         </div>

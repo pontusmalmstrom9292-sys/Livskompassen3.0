@@ -68,7 +68,11 @@ export function NutritionSettingsPanel({ uid }: Props) {
         <p className="mt-2 text-xs text-text-muted">
           Öppna via Vardagen → MåBra → Näring & vätska.
         </p>
-        <ButtonLink to="/mabra/verktyg/nutrition" variant="secondary" className="--secondary mt-3 inline-flex w-full justify-center text-sm">
+        <ButtonLink
+          to="/mabra/verktyg/nutrition"
+          variant="secondary"
+          className="--secondary mt-3 inline-flex min-h-11 w-full justify-center text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        >
           Öppna snabb logg
         </ButtonLink>
       </BentoCard>

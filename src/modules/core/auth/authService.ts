@@ -17,6 +17,7 @@ import { toast } from '../store/toastStore';
 import { FirebaseError } from 'firebase/app';
 import { clearSpeglarSession } from '@/features/lifeJournal/diary/mirror/utils/speglarSessionStorage';
 import { clearMaterialPackLocalCache } from '../lifeOs/materialPackApi';
+import { clearRecoveryLocalStorage } from '../security/clearRecoveryLocalStorage';
 import { isCapacitorNative } from './capacitorPlatform';
 import { capacitorGoogleSignIn, capacitorNativeSignOut } from './nativeGoogleAuth';
 import {
@@ -41,6 +42,7 @@ export async function syncAuthUserToStore(user: User): Promise<void> {
     uid: user.uid,
     email: user.email ?? undefined,
     isAnonymous: user.isAnonymous,
+    emailVerified: user.emailVerified,
   });
   clearSkipAnonymousFlag();
 }
@@ -224,6 +226,7 @@ export async function signOutUser(): Promise<void> {
   await endVaultSession();
   clearSpeglarSession();
   clearAppUnlockSession();
+  clearRecoveryLocalStorage(uid);
   if (uid) clearMaterialPackLocalCache(uid);
   if (uid) {
     await flushActionDashboardQueue(uid).catch(() => undefined);

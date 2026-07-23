@@ -77,6 +77,8 @@ export function WidgetStudioPreview({ widgetId }: { widgetId: string }) {
           <WidgetButton
             variant={on ? 'gold' : 'ghost'}
             size="min"
+            aria-pressed={on}
+            aria-label={on ? 'Widget aktiv på Hem — stäng av' : 'Widget av på Hem — slå på'}
             onClick={() => {
               void patchWidgetStudioConfig(widgetId, { enabled: !on });
             }}
@@ -86,6 +88,8 @@ export function WidgetStudioPreview({ widgetId }: { widgetId: string }) {
           <WidgetButton
             variant={pinned ? 'gold' : 'quiet'}
             size="min"
+            aria-pressed={pinned}
+            aria-label={pinned ? 'Ta bort fästning på Hem' : 'Fäst widget på Hem'}
             onClick={() => {
               void patchWidgetStudioConfig(widgetId, { homePin: !pinned });
             }}
@@ -96,6 +100,7 @@ export function WidgetStudioPreview({ widgetId }: { widgetId: string }) {
             variant={pulse ? 'gold' : 'quiet'}
             size="min"
             aria-pressed={pulse}
+            aria-label={pulse ? 'Stäng pulse-hint i förhandsvisning' : 'Visa pulse-hint i förhandsvisning'}
             onClick={() => setPulse((v) => !v)}
           >
             {pulse ? 'Pulse på' : 'Pulse'}

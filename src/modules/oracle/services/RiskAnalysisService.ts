@@ -1,5 +1,5 @@
 import { OracleService } from './OracleService';
-import { VaultService } from '../../core/firebase/VaultService';
+import { VaultService, getVaultEntryDate } from '../../core/firebase/VaultService';
 import { getAllTimeEntriesForEconomyReadOnly } from '../../core/firebase/arbetslivFirestore';
 import type { OracleDataPoint } from '../OracleStore';
 
@@ -25,16 +25,7 @@ export class RiskAnalysisService {
 
     const conflictMap = new Map<string, number>();
     vaultEntries.forEach(entry => {
-      let dateObj = new Date();
-      if (entry.createdAt && typeof entry.createdAt.toDate === 'function') {
-        dateObj = entry.createdAt.toDate();
-      } else if (entry.createdAt) {
-        dateObj = new Date(entry.createdAt);
-      } else if (entry.timestamp) { // for new WORM records
-        dateObj = entry.timestamp instanceof Date ? entry.timestamp : new Date(entry.timestamp);
-      }
-      
-      const dateStr = dateObj.toISOString().split('T')[0];
+      const dateStr = getVaultEntryDate(entry).toISOString().split('T')[0];
       const contentStr = JSON.stringify(entry).toLowerCase();
       let isConflict = false;
       

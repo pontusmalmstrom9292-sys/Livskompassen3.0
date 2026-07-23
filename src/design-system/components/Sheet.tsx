@@ -108,7 +108,7 @@ export function Sheet({
         aria-describedby={description ? descId : undefined}
         tabIndex={-1}
         className={cn(
-          'ds-sheet-panel ds-card glow-bottom-gold outline-none',
+          'ds-sheet-panel ds-card outline-none',
           size === 'tall' && 'ds-sheet-panel--tall',
           panelClassName,
         )}

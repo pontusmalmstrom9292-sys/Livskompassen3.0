@@ -58,10 +58,19 @@ export function SaveAsEvidencePrompt({
     return (
       <div className="mt-4 space-y-2 rounded-xl border border-success/30 bg-success/5 px-4 py-3">
         <p className="text-sm text-success">Sparat som bevis med länk till livsloggen.</p>
-        <ButtonLink to="/valvet" variant="ghost" className="text-sm">
+        <ButtonLink
+          to="/valvet"
+          variant="ghost"
+          className="min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        >
           Öppna {VAULT_UI_NAME}
         </ButtonLink>
-        <Button type="button" variant="secondary" onClick={onDone} className="mt-2 text-sm">
+        <Button
+          type="button"
+          variant="secondary"
+          onClick={onDone}
+          className="mt-2 min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        >
           Klar
         </Button>
       </div>
@@ -91,11 +100,11 @@ export function SaveAsEvidencePrompt({
             variant="secondary"
             disabled={saving}
             onClick={() => setConfirmOpen(true)}
-            className="text-sm"
+            className="min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             Spara som bevis
           </Button>
-          <Button type="button" variant="ghost" onClick={onDone} className="text-sm">
+          <Button type="button" variant="ghost" onClick={onDone} className="min-h-11 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             Nej, bara livslogg
           </Button>
         </div>

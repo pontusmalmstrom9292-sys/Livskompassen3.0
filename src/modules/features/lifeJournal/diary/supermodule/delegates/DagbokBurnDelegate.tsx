@@ -58,7 +58,7 @@ export function DagbokBurnDelegate() {
             disabled={burning || !text.trim()}
             variant="accent"
             className={clsx(
-              'shadow-sm transition-all flex items-center gap-2',
+              'shadow-sm transition-all flex items-center gap-2 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
               burning && 'border-red-500 bg-red-500 text-white',
             )}
           >

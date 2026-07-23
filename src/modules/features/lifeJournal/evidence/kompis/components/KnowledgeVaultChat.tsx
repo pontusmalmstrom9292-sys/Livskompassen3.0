@@ -123,20 +123,20 @@ export function KnowledgeVaultChat({
       >
         {/* NY KOD: Snabbknappar / Genvägar */}
         <div className="mb-4 flex flex-wrap gap-2">
-          <ButtonLink to="/hjartat" variant="ghost" size="sm" className="hover:bg-white/5">
+          <ButtonLink to="/hjartat" variant="ghost" size="sm" className="min-h-11 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             📖 Dagboken
           </ButtonLink>
-          <ButtonLink to="/familjen" variant="ghost" size="sm" className="hover:bg-white/5">
+          <ButtonLink to="/familjen" variant="ghost" size="sm" className="min-h-11 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             🧸 Barnens logg
           </ButtonLink>
-          <ButtonLink to="/planering" variant="ghost" size="sm" className="hover:bg-white/5">
+          <ButtonLink to="/planering" variant="ghost" size="sm" className="min-h-11 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
             📝 Ny Planering
           </ButtonLink>
           <Button
             type="button"
             variant="ghost"
             size="sm"
-            className="hover:bg-white/5"
+            className="min-h-11 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             onClick={() => setInputText('Kan du hjälpa mig att bryta ner en stor uppgift i mindre steg: ')}
           >
             ⚡ Bryt ner uppgift
@@ -153,7 +153,7 @@ export function KnowledgeVaultChat({
             className="input-glass"
             disabled={isLoading}
           />
-          <Button type="submit" variant="secondary" className="self-end" disabled={isLoading}>
+          <Button type="submit" variant="secondary" className="min-h-11 self-end focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" disabled={isLoading}>
             {isLoading ? 'Söker...' : 'Skicka fråga'}
           </Button>
         </form>
@@ -166,7 +166,7 @@ export function KnowledgeVaultChat({
                 type="button"
                 variant="secondary"
                 size="sm"
-                className="inline-flex items-center gap-1.5"
+                className="inline-flex min-h-11 items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={handleRetry}
                 disabled={isLoading}
               >
@@ -182,7 +182,7 @@ export function KnowledgeVaultChat({
             <h3 className="mb-2 font-display font-semibold text-accent">Svar</h3>
             <p className="whitespace-pre-wrap text-text-muted">{aiResponse}</p>
             {moduleRoute && (
-              <ButtonLink to={moduleRoute.path} variant="secondary" size="sm" className="mt-4 inline-flex">
+              <ButtonLink to={moduleRoute.path} variant="secondary" size="sm" className="mt-4 inline-flex min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 Öppna {moduleRoute.label}
               </ButtonLink>
             )}

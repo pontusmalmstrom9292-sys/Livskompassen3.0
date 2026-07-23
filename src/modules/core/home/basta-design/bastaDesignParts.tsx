@@ -72,7 +72,7 @@ export function BastaButton({
     <Button
       variant={dsVariant}
       size={dsSize}
-      className={cn(BASTA_BTN_CLASS[variant], className)}
+      className={cn(BASTA_BTN_CLASS[variant], className, "min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40")}
       {...rest}
     >
       {children}
