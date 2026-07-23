@@ -81,7 +81,7 @@ function Chip({
       aria-pressed={active}
       title={onDoubleClick ? 'Dubbelklicka för På/Av' : undefined}
       style={{
-        minHeight: Math.max(44, Math.round(WidgetTouch.minDp * 0.72)),
+        minHeight: WidgetTouch.minDp,
         opacity: dimmed ? 0.45 : 1,
       }}
     >

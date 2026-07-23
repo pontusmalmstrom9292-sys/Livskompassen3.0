@@ -65,8 +65,9 @@ export function WidgetHeader({
             style={{
               margin: '0.2rem 0 0',
               fontSize: '0.8rem',
-              color: WidgetPalette.mutedText,
-              lineHeight: 1.3,
+            letterSpacing: '0.02em',
+            color: WidgetPalette.mutedText,
+            lineHeight: 1.35,
             }}
           >
             {subtitle}

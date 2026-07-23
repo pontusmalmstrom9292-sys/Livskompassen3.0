@@ -20,9 +20,17 @@
         android:maxLines="1"
         android:text="@string/widget_companion_child_title"
         android:textAllCaps="true"
-        android:textColor="@color/widget_gold"
+        android:textColor="@color/widget_gold_light"
         android:textSize="10sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/widget_companion_child_sub"
+        android:textColor="@color/widget_muted"
+        android:textSize="8sp" />
 
     <TextView
         android:id="@+id/widget_companion_child_question"

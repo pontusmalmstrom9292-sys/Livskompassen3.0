@@ -173,7 +173,7 @@ export function JournalWidget({
               style={{
                 fontSize: '0.95rem',
                 lineHeight: 1.4,
-                minHeight: WidgetTouch.minDp * 0.85,
+                minHeight: WidgetTouch.minDp,
               }}
             />
             <p className="cw-char-count" aria-live="polite">

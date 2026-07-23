@@ -86,7 +86,7 @@ export function WidgetStudioPreview({ widgetId }: { widgetId: string }) {
             {on ? 'På Hem' : 'Av'}
           </WidgetButton>
           <WidgetButton
-            variant={pinned ? 'ethereal' : 'quiet'}
+            variant={pinned ? 'gold' : 'quiet'}
             size="min"
             aria-pressed={pinned}
             aria-label={pinned ? 'Ta bort fästning på Hem' : 'Fäst widget på Hem'}
@@ -97,7 +97,7 @@ export function WidgetStudioPreview({ widgetId }: { widgetId: string }) {
             {pinned ? '✦ Fäst' : 'Fäst'}
           </WidgetButton>
           <WidgetButton
-            variant={pulse ? 'ethereal' : 'quiet'}
+            variant={pulse ? 'gold' : 'quiet'}
             size="min"
             aria-pressed={pulse}
             aria-label={pulse ? 'Stäng pulse-hint i förhandsvisning' : 'Visa pulse-hint i förhandsvisning'}

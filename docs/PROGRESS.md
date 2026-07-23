@@ -1,3 +1,10 @@
+## 2026-07-23 — Widget UI Polish ×10 (Cursor · visual-parity)
+
+- Gate F: `--cw-touch-floor` 56px, mood/pills/CTA, Android check-in faces, Tasks «VISA ALLA»
+- Kap 6: padding 12/10 parity, caps/tracking, trust/signature gold-dim, Anchor guldring
+- Smoke: `smoke:companion-widgets` · `smoke:locked-ux` **PASS**
+- Merge: Kap 6 polish + main interactive layout IDs (beacon/compass/journal)
+
 ## 2026-07-23 — Silo-glow kill-switch (hela appen)
 
 - CSS: `.glow-bottom-*` visuellt inert i `obsidian-calm-glass.css` (+ Nordic/Aurora/MåBra overrides)

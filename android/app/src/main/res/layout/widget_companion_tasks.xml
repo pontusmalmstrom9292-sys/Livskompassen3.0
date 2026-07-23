@@ -20,7 +20,8 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:src="@drawable/ic_lock_sacred"
-            android:alpha="0.8" />
+            android:alpha="0.8"
+            android:contentDescription="@null" />
 
         <TextView
             android:id="@+id/widget_companion_tasks_title"
@@ -28,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:letterSpacing="0.1"
+            android:letterSpacing="0.18"
             android:text="@string/widget_tasks_header"
             android:textAllCaps="true"
             android:textColor="@color/widget_gold_light"
@@ -96,10 +97,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:background="@drawable/widget_bg_cta_outline"
         android:gravity="center"
+        android:letterSpacing="0.14"
+        android:minHeight="56dp"
         android:text="@string/widget_btn_all"
         android:textAllCaps="true"
-        android:textColor="@color/widget_gold_dim"
-        android:textSize="9sp"
+        android:textColor="@color/widget_gold_light"
+        android:textSize="10sp"
         android:textStyle="bold" />
 </LinearLayout>

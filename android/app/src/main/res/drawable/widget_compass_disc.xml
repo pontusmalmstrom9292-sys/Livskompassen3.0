@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Simplified compass rose for RemoteViews (Gold Standard approximation) -->
+<!-- Kap 6 Compass — disc depth: gold rim · inset · ethereal ring · gold gem -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
+        <shape android:shape="oval">
+            <solid android:color="#28D4AF37" />
+        </shape>
+    </item>
+    <item
+        android:bottom="2dp"
+        android:left="2dp"
+        android:right="2dp"
+        android:top="2dp">
         <shape android:shape="oval">
             <gradient
                 android:angle="160"
@@ -9,29 +18,33 @@
                 android:startColor="#FF1A2233"
                 android:type="linear" />
             <stroke
-                android:width="2.5dp"
-                android:color="#CCD4AF37" />
+                android:width="2.75dp"
+                android:color="#E0D4AF37" />
         </shape>
     </item>
     <item
-        android:bottom="18dp"
-        android:left="18dp"
-        android:right="18dp"
-        android:top="18dp">
+        android:bottom="16dp"
+        android:left="16dp"
+        android:right="16dp"
+        android:top="16dp">
         <shape android:shape="oval">
             <stroke
-                android:width="1dp"
-                android:color="#667BA3C9" />
+                android:width="1.25dp"
+                android:color="#887BA3C9" />
             <solid android:color="#00000000" />
         </shape>
     </item>
     <item
-        android:bottom="36dp"
-        android:left="36dp"
-        android:right="36dp"
-        android:top="36dp">
+        android:bottom="34dp"
+        android:left="34dp"
+        android:right="34dp"
+        android:top="34dp">
         <shape android:shape="oval">
-            <solid android:color="#D4AF37" />
+            <gradient
+                android:angle="135"
+                android:endColor="#FF9A7B2F"
+                android:startColor="#FFFDE68A"
+                android:type="linear" />
         </shape>
     </item>
 </layer-list>

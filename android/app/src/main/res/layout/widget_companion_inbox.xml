@@ -20,7 +20,7 @@
         android:maxLines="1"
         android:text="@string/widget_companion_inbox_title"
         android:textAllCaps="true"
-        android:textColor="@color/widget_gold"
+        android:textColor="@color/widget_gold_light"
         android:textSize="10sp"
         android:textStyle="bold" />
 
@@ -34,7 +34,7 @@
         android:maxLines="1"
         android:text="@string/widget_companion_inbox_sub"
         android:textColor="@color/widget_muted"
-        android:textSize="10sp" />
+        android:textSize="8sp" />
 
     <LinearLayout
         android:layout_width="match_parent"

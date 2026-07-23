@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Ethereal waveform — aktivitet endast (Kap 6.1) -->
+<!-- Ethereal waveform — aktivitet endast (Kap 6.1 scoped blue) -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="48dp"
-    android:height="32dp"
+    android:height="36dp"
     android:viewportWidth="48"
-    android:viewportHeight="32">
+    android:viewportHeight="36">
     <path
-        android:pathData="M2,16 L5,10 L8,22 L11,8 L14,24 L17,12 L20,20 L23,6 L26,26 L29,14 L32,18 L35,9 L38,23 L41,11 L46,16"
-        android:strokeWidth="1.6"
+        android:pathData="M2,18 L5,10 L8,26 L11,8 L14,28 L17,12 L20,24 L23,6 L26,30 L29,14 L32,22 L35,9 L38,27 L41,11 L46,18"
+        android:strokeWidth="1.8"
         android:strokeColor="#7BA3C9"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
         android:fillColor="#00000000" />
     <path
-        android:pathData="M2,16 L5,13 L8,19 L11,12 L14,20 L17,14 L20,17 L23,11 L26,21 L29,15 L32,16 L35,13 L38,18 L41,14 L46,16"
-        android:strokeWidth="1.1"
-        android:strokeColor="#667BA3C9"
+        android:pathData="M2,18 L5,14 L8,22 L11,12 L14,24 L17,15 L20,20 L23,11 L26,25 L29,16 L32,19 L35,13 L38,22 L41,15 L46,18"
+        android:strokeWidth="1.15"
+        android:strokeColor="#887BA3C9"
         android:strokeLineCap="round"
         android:fillColor="#00000000" />
 </vector>

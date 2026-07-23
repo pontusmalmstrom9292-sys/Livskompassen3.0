@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Guldring runt mic — Kap 6 Capture ×10 -->
-<shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval">
-    <gradient
-        android:angle="135"
-        android:endColor="#FF070B12"
-        android:startColor="#FF1A2233"
-        android:type="linear" />
-    <stroke
-        android:width="3.25dp"
-        android:color="#F0D4AF37" />
-</shape>
+<!-- Kap 6 guldring — mic / mood active / lotus / CTA discs -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#30D4AF37" />
+        </shape>
+    </item>
+    <item
+        android:bottom="1.5dp"
+        android:left="1.5dp"
+        android:right="1.5dp"
+        android:top="1.5dp">
+        <shape android:shape="oval">
+            <gradient
+                android:angle="135"
+                android:endColor="#FF070B12"
+                android:startColor="#FF1A2233"
+                android:type="linear" />
+            <stroke
+                android:width="2.75dp"
+                android:color="#F0D4AF37" />
+        </shape>
+    </item>
+</layer-list>

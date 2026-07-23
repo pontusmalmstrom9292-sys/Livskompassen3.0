@@ -1,5 +1,15 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
+## 2026-07-23 — Widget UI Polish ×10 (Kap 6 / Gate F)
+
+- [x] R1–5: Capture/Note/Compass/Beacon/Inbox/Tasks/Journal/Harbor/Anchor/Child/Check-in
+- [x] R6: `--cw-touch-floor` 56px · mood/pills/CTA ≥56 · Android check-in faces ≥56
+- [x] R7–9: padding parity 12/10 · caps/tracking · trust/signature gold-dim · Anchor guldring
+- [x] R10: `smoke:companion-widgets` + `smoke:locked-ux` **PASS**
+- [x] Merge-konflikter mot main lösta (interactive layout IDs + Gate F)
+- [ ] Pontus: G85 visuell sign-off (fäst Capture + Note på hemskärm)
+
+
 ## 2026-07-23 — Silo-glow bort överallt
 
 - [x] CSS kill-switch `.glow-bottom-*` (+ tema/mabra)

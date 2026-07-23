@@ -12,7 +12,7 @@ import { softFocusWidgetControl } from '../core/softFocusWidgetControl';
 import { useCompanionOnline } from '../core/useCompanionOnline';
 import { useCompanionVoiceCapture } from '../core/useCompanionVoiceCapture';
 import { queueWidgetSync } from '../core/WidgetSync';
-import { WidgetPalette } from '../core/WidgetTheme';
+import { WidgetPalette, WidgetTouch } from '../core/WidgetTheme';
 import { useStudioWidgetConfig } from '../studio/useStudioWidgetConfig';
 import { widgetCardClass } from '../studio/studioIdleClass';
 import { getWidgetStudioConfig } from '../studio/widgetStudioStore';
@@ -294,7 +294,7 @@ export function InboxWidget({
             className="cw-input"
             style={{
               fontSize: '0.95rem',
-              minHeight: 44,
+              minHeight: WidgetTouch.minDp,
             }}
           />
           <div style={{ display: 'flex', gap: '0.4rem', marginTop: '0.45rem' }}>

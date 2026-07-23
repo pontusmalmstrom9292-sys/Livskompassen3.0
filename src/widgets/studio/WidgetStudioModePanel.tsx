@@ -112,7 +112,7 @@ export function WidgetStudioModePanel({ smartAiEnabled }: { smartAiEnabled: bool
         <WidgetButton
           variant="quiet"
           size="min"
-          style={{ minHeight: Math.max(44, Math.round(WidgetTouch.minDp * 0.72)) }}
+          style={{ minHeight: WidgetTouch.minDp }}
           aria-label="Demo: låg energi — visa ankare-läge"
           onClick={() =>
             void setDemoOverride({ energy: 25, stress: 40, sleep: 35, openTaskCount: 1 })
@@ -123,7 +123,7 @@ export function WidgetStudioModePanel({ smartAiEnabled }: { smartAiEnabled: bool
         <WidgetButton
           variant="quiet"
           size="min"
-          style={{ minHeight: Math.max(44, Math.round(WidgetTouch.minDp * 0.72)) }}
+          style={{ minHeight: WidgetTouch.minDp }}
           aria-label="Demo: hög stress — visa Hamn-läge"
           onClick={() =>
             void setDemoOverride({ energy: 50, stress: 78, sleep: 60, openTaskCount: 2 })
@@ -134,7 +134,7 @@ export function WidgetStudioModePanel({ smartAiEnabled }: { smartAiEnabled: bool
         <WidgetButton
           variant="quiet"
           size="min"
-          style={{ minHeight: Math.max(44, Math.round(WidgetTouch.minDp * 0.72)) }}
+          style={{ minHeight: WidgetTouch.minDp }}
           aria-label="Demo: många uppgifter — ett steg i taget"
           onClick={() =>
             void setDemoOverride({
@@ -150,7 +150,7 @@ export function WidgetStudioModePanel({ smartAiEnabled }: { smartAiEnabled: bool
         <WidgetButton
           variant="quiet"
           size="min"
-          style={{ minHeight: Math.max(44, Math.round(WidgetTouch.minDp * 0.72)) }}
+          style={{ minHeight: WidgetTouch.minDp }}
           aria-label="Demo: barnvecka — familjeläge"
           onClick={() =>
             void setDemoOverride({
@@ -167,7 +167,7 @@ export function WidgetStudioModePanel({ smartAiEnabled }: { smartAiEnabled: bool
         <WidgetButton
           variant="ghost"
           size="min"
-          style={{ minHeight: Math.max(44, Math.round(WidgetTouch.minDp * 0.72)) }}
+          style={{ minHeight: WidgetTouch.minDp }}
           aria-label="Rensa demo-läge och återgå till riktiga signaler"
           onClick={() => void setDemoOverride(null)}
         >

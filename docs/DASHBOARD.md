@@ -1,3 +1,9 @@
+### 2026-07-23 — Widget UI Polish ×10
+- Gate F 56 dp låst (CSS + Mood + Studio + Android check-in) · Journal input ≥56
+- Kap 6: padding/caps/trust · Anchor guldring · ethereal scoped
+- Smoke: companion-widgets · locked-ux **PASS** · G85 visual: pending Pontus
+- Merge: widgets/layouts + main interactive IDs — Sacred core från main
+
 ### 2026-07-23 — Silo-glow bort överallt
 - CSS kill-switch + DS-defaults (Modal/Sheet/Card m.m.) — ingen botten-bloom
 - Smoke: `locked-ux` · `design-modules` PASS
