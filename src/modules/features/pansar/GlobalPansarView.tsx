@@ -76,7 +76,7 @@ export const GlobalPansarView: React.FC = () => {
             onClick={handleUnlock}
             disabled={isUnlocking}
             variant="accent"
-            className="flex w-full min-h-11 items-center justify-center gap-2"
+            className="flex w-full min-h-11 items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             {isUnlocking ? <Loader2 size={16} className="animate-spin" aria-hidden /> : <LockOpen size={16} aria-hidden />}
             <span>{isUnlocking ? 'Verifierar...' : 'Verifiera med biometri'}</span>
@@ -93,7 +93,7 @@ export const GlobalPansarView: React.FC = () => {
             onClick={() => setShowUnlockGate(false)}
             disabled={isUnlocking}
             variant="ghost"
-            className="mt-2 w-full min-h-11 text-xs"
+            className="mt-2 w-full min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           >
             Avbryt
           </Button>
@@ -128,7 +128,7 @@ export const GlobalPansarView: React.FC = () => {
           type="button"
           onClick={handleSaveInkast}
           disabled={!inkastText.trim() || isSaving}
-          className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-accent/25 bg-accent/10 py-3 text-accent transition-colors hover:bg-accent/20 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl border border-accent/25 bg-accent/10 py-3 text-accent transition-colors hover:bg-accent/20 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
           {isSaving ? <Loader2 size={18} className="animate-spin" aria-hidden /> : <Send size={18} aria-hidden />}
           <span>{saveSuccess ? 'Sparat till valvet' : 'Spara till Inkast'}</span>

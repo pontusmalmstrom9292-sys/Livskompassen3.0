@@ -75,7 +75,7 @@ function CitationList({
             <button
               type="button"
               onClick={() => onCitationClick?.(c.docId)}
-              className="w-full cursor-pointer rounded-lg border border-success/20 bg-success/5 p-2 text-left hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+              className="w-full cursor-pointer rounded-lg border border-success/20 bg-success/5 p-2 text-left hover:opacity-90 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             >
               <span className="block text-[10px] text-success">
                 {c.date || 'datum saknas'} · {(c.docId ?? 'okänd').slice(0, 8)}… · Granska källa
@@ -233,7 +233,7 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
               type="submit"
               variant="secondary"
               size="icon"
-              className="flex shrink-0 items-center gap-1 self-end"
+              className="flex shrink-0 min-h-11 items-center gap-1 self-end focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               disabled={loading || !draft.trim()}
               aria-label="Skicka fråga"
             >
@@ -260,7 +260,7 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="absolute right-4 top-4 rounded-full border border-border bg-bg"
+                className="absolute right-4 top-4 min-h-11 min-w-11 rounded-full border border-border bg-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={() => setPreviewLog(null)}
                 aria-label="Stäng källgranskning"
               >
@@ -332,7 +332,7 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
                     type="button"
                     variant="accent"
                     size="sm"
-                    className="flex-1"
+                    className="min-h-11 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                     onClick={() => {
                       if (onCitationClick) onCitationClick(previewLog.id);
                       setPreviewLog(null);
@@ -344,7 +344,7 @@ export function ValvChatPanel({ active, onCitationClick, logs = [] }: ValvChatPa
                     type="button"
                     variant="ghost"
                     size="sm"
-                    className="flex-1"
+                    className="min-h-11 flex-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                     onClick={() => setPreviewLog(null)}
                   >
                     Stäng

@@ -125,7 +125,7 @@ export function ParentMerPanel({ childAlias, logs }: Props) {
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="min-h-11"
+                className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={onExportJson}
               >
                 <Download className="mr-1.5 h-4 w-4" aria-hidden />
@@ -135,7 +135,7 @@ export function ParentMerPanel({ childAlias, logs }: Props) {
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="min-h-11"
+                className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={onExportPrint}
               >
                 Skriv ut / PDF

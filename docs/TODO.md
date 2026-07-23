@@ -1,6 +1,21 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
 
+## 2026-07-23 — UI Polish V6 ×10 (autonom)
+
+Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V6-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V6-X10.md) (`approved: yes`)
+
+- [x] W1 Core gates (HomeLayoutA, Worm, EvidenceMedia)
+- [x] W2 Inkast / HITL
+- [x] W3 MåBra residual (+ Nutrition focus)
+- [x] W4 Planering residual
+- [x] W5 Dagbok residual
+- [x] W6 Familjen / Barnporten
+- [x] W7 Valv-chat / Pansar
+- [x] W8 Emotionellt minne
+- [x] W9 Projekt + shared shell
+- [x] W10 smoke
+
 ## 2026-07-23 — UI Polish V5 ×10 (autonom)
 
 Unlock: [`evaluations/2026-07-23-unlock-MOD-UI-POLISH-V5-X10.md`](./evaluations/2026-07-23-unlock-MOD-UI-POLISH-V5-X10.md) (`approved: yes`)

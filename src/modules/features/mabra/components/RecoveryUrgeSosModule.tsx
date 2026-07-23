@@ -246,7 +246,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                   type="button"
                   onClick={() => setScreen('breathing')}
                   variant="accent"
-                  className="--accent flex min-h-[56px] flex-col items-center gap-1 py-4"
+                  className="--accent flex min-h-[56px] flex-col items-center gap-1 py-4 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 >
                   <span>{RECOVERY_SOS_ANCHOR_COPY.breatheLabel}</span>
                   <span className="text-xs font-normal normal-case tracking-normal opacity-80">
@@ -257,7 +257,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                   type="button"
                   onClick={() => setScreen('grounding')}
                   variant="secondary"
-                  className="--secondary flex min-h-[56px] flex-col items-center gap-1 py-4"
+                  className="--secondary flex min-h-[56px] flex-col items-center gap-1 py-4 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 >
                   <span>{RECOVERY_SOS_ANCHOR_COPY.groundLabel}</span>
                   <span className="text-xs font-normal normal-case tracking-normal opacity-80">
@@ -272,7 +272,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                       type="button"
                       variant="ghost"
                       onClick={() => openProtocol(m)}
-                      className="--ghost min-h-[48px] flex-col py-2 text-xs"
+                      className="--ghost min-h-[48px] flex-col py-2 text-xs min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                     >
                       <span className="font-medium">{PROTOCOL_META[m].label}</span>
                       <span className="normal-case tracking-normal text-text-muted opacity-80">
@@ -285,7 +285,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                   type="button"
                   variant="ghost"
                   onClick={() => setScreen('urgeSurf')}
-                  className="--ghost min-h-[48px] py-3 text-sm"
+                  className="--ghost min-h-[48px] py-3 text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 >
                   {ANCHOR_EXTRA.urgeLabel}
                 </Button>
@@ -293,7 +293,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                   type="button"
                   variant="ghost"
                   onClick={() => setScreen('halt')}
-                  className="--ghost min-h-[48px] py-3 text-sm"
+                  className="--ghost min-h-[48px] py-3 text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 >
                   {ANCHOR_EXTRA.haltLabel}
                 </Button>
@@ -301,11 +301,11 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                   type="button"
                   variant="ghost"
                   onClick={() => setScreen('antiBuy')}
-                  className="--ghost min-h-[48px] py-3 text-sm"
+                  className="--ghost min-h-[48px] py-3 text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 >
                   {ANCHOR_EXTRA.antiBuyLabel}
                 </Button>
-                <Button type="button" onClick={onClose} variant="ghost" className="--ghost py-3 text-sm">
+                <Button type="button" onClick={onClose} variant="ghost" className="--ghost py-3 text-sm min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                   {RECOVERY_SOS_ANCHOR_COPY.closeLabel}
                 </Button>
               </div>
@@ -337,7 +337,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                     type="button"
                     variant="secondary"
                     onClick={() => setScreen('after')}
-                    className="--secondary min-h-[48px]"
+                    className="--secondary min-h-[48px] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   >
                     Jag är klar med andningen
                   </Button>
@@ -375,7 +375,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                   type="button"
                   onClick={handleGroundNext}
                   variant="secondary"
-                  className="--secondary w-full max-w-sm min-h-[48px]"
+                  className="--secondary w-full max-w-sm min-h-[48px] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 >
                   {isLastGroundStep ? 'Klar — vidare' : 'Nästa'}
                 </Button>
@@ -398,7 +398,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                         onClick={() =>
                           setHaltChecked((prev) => ({ ...prev, [item.id]: !prev[item.id] }))
                         }
-                        className={`flex w-full min-h-[52px] flex-col items-start rounded-2xl border-[0.5px] px-4 py-3 text-left transition-colors ${
+                        className={`flex w-full min-h-[52px] flex-col items-start rounded-2xl border-[0.5px] px-4 py-3 text-left transition-colors min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 ${
                           on ? 'border-accent/40 bg-accent/10' : 'border-border bg-surface-2/60'
                         }`}
                       >
@@ -411,7 +411,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                   );
                 })}
               </ul>
-              <Button type="button" variant="accent" onClick={() => setScreen('after')} className="--accent min-h-[48px]">
+              <Button type="button" variant="accent" onClick={() => setScreen('after')} className="--accent min-h-[48px] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 Vidare
               </Button>
             </div>
@@ -433,7 +433,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                   type="button"
                   variant="secondary"
                   onClick={() => setProtocolStep((s) => s + 1)}
-                  className="--secondary min-h-[48px]"
+                  className="--secondary min-h-[48px] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 >
                   Nästa prompt
                 </Button>
@@ -442,12 +442,12 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                     type="button"
                     variant="accent"
                     onClick={() => setScreen('urgeSurf')}
-                    className="--accent min-h-[48px]"
+                    className="--accent min-h-[48px] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                   >
                     Starta urge surfing
                   </Button>
                 ) : null}
-                <Button type="button" variant="ghost" onClick={() => setScreen('after')} className="--ghost min-h-[48px]">
+                <Button type="button" variant="ghost" onClick={() => setScreen('after')} className="--ghost min-h-[48px] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                   Jag klarade detta
                 </Button>
               </div>
@@ -488,7 +488,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
             <div className="flex w-full max-w-sm flex-1 flex-col justify-center gap-5">
               <p className="text-center font-display-serif text-lg text-accent">{ANTI_BUY_COPY.lead}</p>
               <p className="text-center text-sm text-text-muted">{ANTI_BUY_COPY.line}</p>
-              <Button type="button" variant="accent" onClick={() => setScreen('after')} className="--accent min-h-[48px]">
+              <Button type="button" variant="accent" onClick={() => setScreen('after')} className="--accent min-h-[48px] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
                 Jag väntar
               </Button>
             </div>
@@ -502,7 +502,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                 type="button"
                 variant="secondary"
                 onClick={() => setScreen('hold')}
-                className="min-h-[52px]"
+                className="min-h-[52px] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               >
                 {AFTER_COPY.stay}
               </Button>
@@ -532,7 +532,7 @@ export function RecoveryUrgeSosModule({ onClose, uid }: Props) {
                   pushKpiEvent({ type: 'akut_complete', at: Date.now() }, uid);
                   onClose();
                 }}
-                className="min-h-[48px]"
+                className="min-h-[48px] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               >
                 {AFTER_COPY.done}
               </Button>

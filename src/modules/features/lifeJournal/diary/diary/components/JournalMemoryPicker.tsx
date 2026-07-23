@@ -72,7 +72,7 @@ export function JournalMemoryPicker({
           type="button"
           variant="secondary"
           size="sm"
-          className="inline-flex w-full items-center justify-center gap-2"
+          className="inline-flex w-full min-h-11 items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           disabled={disabled}
           onClick={() => inputRef.current?.click()}
         >
@@ -89,7 +89,7 @@ export function JournalMemoryPicker({
               type="button"
               variant="ghost"
               size="icon"
-              className="shrink-0"
+              className="shrink-0 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               aria-label="Ta bort fil"
               disabled={disabled}
               onClick={clear}

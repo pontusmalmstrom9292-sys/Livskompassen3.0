@@ -103,7 +103,8 @@ export function PlaneringModulePinPanel({ title, content, onPinned }: Props) {
           type="button"
           variant="ghost"
           size="sm"
-          className={clsx('shrink-0', open && 'text-accent')}
+          className={clsx('shrink-0', open && 'text-accent',
+                'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',)}
           aria-expanded={open}
           aria-controls="planering-pin-panel-form"
           aria-label={open ? 'Stäng fäst-panel' : 'Öppna fäst-panel'}
@@ -125,7 +126,7 @@ export function PlaneringModulePinPanel({ title, content, onPinned }: Props) {
             onContextKeyChange={setContextKey}
             compact
           />
-          <Button type="button" variant="accent" size="sm" className="w-full" onClick={handlePin}>
+          <Button type="button" variant="accent" size="sm" className="w-full min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={handlePin}>
             Fäst modul här
           </Button>
         </div>
@@ -145,7 +146,7 @@ export function PlaneringModulePinPanel({ title, content, onPinned }: Props) {
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="shrink-0 px-2 py-1 text-[10px]"
+                className="shrink-0 px-2 py-1 text-[10px] min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 aria-label={`Ta bort fäste från ${planeringPinTargetLabel(pin.targetId, pin.contextKey)}`}
                 onClick={() => handleRemove(pin.id)}
               >

@@ -1,3 +1,9 @@
+## 2026-07-23 — UI Polish V6 ×10 (autonom)
+
+- Unlock V6 · ~30 filer · ADD focus-visible + min-h-11
+- Waves: Core → Inkast → MåBra → Planering → Dagbok → Familjen → Valv/Pansar → Emotionellt → Projekt/shared
+- Smoke: locked-ux · design-modules · companion · module-lock
+
 ## 2026-07-23 — UI Polish V5 ×10 (autonom)
 
 - Unlock: `docs/evaluations/2026-07-23-unlock-MOD-UI-POLISH-V5-X10.md`

@@ -255,7 +255,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
           />
           <div className="flex flex-wrap items-center gap-2">
             <Button
-              className="text-[10px] font-semibold uppercase tracking-wider"
+              className="text-[10px] font-semibold uppercase tracking-wider min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               disabled={saving}
               onClick={() => void handleAnchorSave()}
             >
@@ -264,7 +264,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
             {anchor.trim() ? (
               <Button
                 variant="ghost"
-                className="text-[10px] font-semibold uppercase tracking-wider"
+                className="text-[10px] font-semibold uppercase tracking-wider min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={() => setIsEditing(false)}
               >
                 Avbryt
@@ -369,6 +369,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
                 className={clsx(
                   cardClass,
                   'home-layout-a__tile flex min-h-[5.5rem] flex-col items-center justify-center gap-2 p-4 transition-all hover:border-accent/30 active:scale-[0.98]',
+                  'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
                 )}
               >
                 <Icon className="h-5 w-5 text-accent" aria-hidden />
@@ -388,6 +389,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
           className={clsx(
             cardClass,
             'home-layout-a__tile flex min-h-24 flex-col justify-between p-3.5 text-left transition-all hover:border-accent/30 active:scale-[0.98]',
+            'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
           )}
         >
           <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-accent">
@@ -406,6 +408,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
           className={clsx(
             cardClass,
             'home-layout-a__tile flex min-h-24 flex-col justify-between p-3.5 text-left transition-all hover:border-accent/30 active:scale-[0.98]',
+            'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
           )}
         >
           <span className="text-[9px] font-bold uppercase tracking-[0.12em] text-accent">
@@ -428,6 +431,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
         className={clsx(
           cardClass,
           'home-layout-a__tile flex w-full items-center justify-between p-4 text-left transition-all hover:border-accent/30 active:scale-[0.99]',
+          'min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
         )}
       >
         <div className="space-y-1">

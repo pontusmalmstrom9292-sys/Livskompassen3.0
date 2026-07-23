@@ -75,7 +75,7 @@ export function PlaneringParalysEntry({ defaultTaskTitle, onApplyStep }: Props) 
         <Button
           variant="ghost"
           size="sm"
-          className="planering-paralys-entry__toggle mt-2 inline-flex items-center gap-1.5"
+          className="planering-paralys-entry__toggle mt-2 inline-flex items-center gap-1.5 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
           onClick={() => {
             setOpen(true);
             if (defaultTaskTitle && !context.trim()) {
@@ -111,14 +111,19 @@ export function PlaneringParalysEntry({ defaultTaskTitle, onApplyStep }: Props) 
             <Button
               variant="accent"
               size="sm"
-              className="inline-flex items-center gap-1.5"
+              className="inline-flex items-center gap-1.5 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               disabled={loading}
               onClick={() => void handleFetch()}
             >
               {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}
               {PLANERING_PARALYS_ONE_STEP}
             </Button>
-            <Button variant="ghost" size="sm" onClick={handleDismiss}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleDismiss}
+              className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+            >
               Stäng
             </Button>
           </div>
@@ -132,12 +137,23 @@ export function PlaneringParalysEntry({ defaultTaskTitle, onApplyStep }: Props) 
           <p className="text-xs text-text-muted">{PLANERING_PARALYS_CALM}</p>
           <div className="flex flex-wrap gap-2">
             {onApplyStep ? (
-              <Button variant="accent" size="sm" disabled={applying} onClick={() => void handleApply()}>
+              <Button
+                variant="accent"
+                size="sm"
+                disabled={applying}
+                onClick={() => void handleApply()}
+                className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+              >
                 {applying ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null}
                 Lägg i Att göra
               </Button>
             ) : null}
-            <Button variant="ghost" size="sm" onClick={handleDismiss}>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={handleDismiss}
+              className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+            >
               Klart
             </Button>
           </div>

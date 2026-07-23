@@ -1,3 +1,7 @@
+### 2026-07-23 — UI Polish V6 ×10
+- Second deepen: Inkast, Dagbok, Valv-chat, SOS, Projekt, Barnporten, shared shell
+- Unlock V6 · smoke locked-ux / design-modules / companion / module-lock
+
 ### 2026-07-23 — UI Polish V5 ×10
 - ADD-only focus-visible + min-h-11 across Hem→Settings (10 waves)
 - Unlock V5 approved (chat) · ~44 filer

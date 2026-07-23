@@ -65,7 +65,7 @@ export function CognitiveGuardView({
               <Button
                 variant="secondary"
                 size="sm"
-                className="shrink-0"
+                className="shrink-0 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 onClick={() => handleSaveMicroStep(focusTask.id)}
                 disabled={busyTaskId === focusTask.id}
               >
@@ -84,7 +84,7 @@ export function CognitiveGuardView({
             <Button
               variant="success"
               size="sm"
-              className="flex-1 justify-center"
+              className="flex-1 justify-center min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               onClick={() => handleCompleteFocusTask(focusTask.id)}
               disabled={busyTaskId === focusTask.id}
             >
@@ -95,7 +95,7 @@ export function CognitiveGuardView({
               )}
               Markera klar
             </Button>
-            <Button variant="ghost" size="sm" className="flex-1 justify-center" onClick={toggleGuard}>
+            <Button variant="ghost" size="sm" className="flex-1 justify-center min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40" onClick={toggleGuard}>
               Visa hela tavlan ändå
             </Button>
           </div>

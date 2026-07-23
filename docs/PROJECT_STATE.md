@@ -113,6 +113,7 @@ Phase 0–9 baseline och migration **done**. Phase 10: `index.css` import-only; 
 | Fas24+Companion Smart waves (kod) | **device-ready** (not G85 PASS) · commit `3e9cc5991` | 2026-07-23 — [`g85-device-ready-pack.md`](./evaluations/2026-07-23-g85-device-ready-pack.md) |
 | Release readiness runway | Agent PASS · G85 Enhetsgate pending Pontus | 2026-07-23 — SOS ZF · RemoteViews lint · Minne docs DONE |
 | UI Polish V5 ×10 | kod Done (autonom) · G85 visual pending | 2026-07-23 — unlock V5 · focus/touch deepen |
+| UI Polish V6 ×10 | kod Done (autonom) | 2026-07-23 — unlock V6 · residual deepen |
 | Planering/Valv premium polish batch | **PASS** | 2026-07-20 — inkorg/connect polish, Valv pending/log focus states, reduced-transparency fallback, Valv PDF aria-label |
 | Valv a11y sweep (contrast/keyboard) | **PASS** | 2026-07-20 — Escape i zonväljare, mönster + Drive aria-label, gold-on-navy contrast pass |
 | MåBra UI polish (vit-hub) | **PASS** | 2026-07-20 — chip/tile focus-visible, touch-target, contrast + reduced-transparency fallback |

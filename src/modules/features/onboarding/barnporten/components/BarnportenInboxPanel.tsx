@@ -98,7 +98,7 @@ export function BarnportenInboxPanel() {
             <Button
               type="button"
               variant="secondary"
-              className="min-h-11 text-xs"
+              className="min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
               aria-label={`Granska meddelande från ${row.childAlias} i arkiv`}
               onClick={() => setPromoteId(row.id)}
             >
@@ -138,7 +138,7 @@ export function BarnportenInboxPanel() {
               <Button
                 type="button"
                 variant="accent"
-                className="min-h-11 text-xs"
+                className="min-h-11 text-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
                 aria-label={`Flytta meddelande från ${row.childAlias} till Valv`}
                 onClick={() => setPromoteId(row.id)}
               >
