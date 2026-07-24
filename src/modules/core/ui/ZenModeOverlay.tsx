@@ -12,7 +12,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Brain } from 'lucide-react';
 import { submitInkastLite } from '@/modules/inkast/api/inkastService';
 import { useStore } from '@/core/store';
-import { Button, Modal, TextArea } from '@/design-system';
+import { Button, Modal, TextArea, useDsReducedMotion } from '@/design-system';
 import {
   immersiveModalOverlayClass,
   immersiveModalPanelClass,
@@ -31,6 +31,7 @@ export function ZenModeOverlay({ isOpen, onClose }: ZenModeOverlayProps) {
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const userId = useStore((s) => s.user?.uid);
+  const reducedMotion = useDsReducedMotion();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const initialFocusRef = textareaRef as RefObject<HTMLElement>;
 
@@ -82,15 +83,17 @@ export function ZenModeOverlay({ isOpen, onClose }: ZenModeOverlayProps) {
             <Brain size={16} className="text-accent/50" aria-hidden />
             <span className="text-xs uppercase tracking-widest text-text-muted">Töm Huvudet</span>
           </div>
-          <button
+          <Button
             type="button"
+            variant="ghost"
+            size="icon"
             onClick={handleDiscard}
-            className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-border/20 bg-white/[0.03] text-text-muted backdrop-blur-sm transition-colors hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
+            className="rounded-full border border-border/20 bg-white/[0.03] text-text-muted backdrop-blur-sm transition-colors hover:text-text"
             aria-label="Stäng utan att spara"
             title="Stäng utan att spara"
           >
             <X size={16} aria-hidden />
-          </button>
+          </Button>
         </div>
 
         {/* Hjärtat av Zen Mode */}
@@ -134,8 +137,8 @@ export function ZenModeOverlay({ isOpen, onClose }: ZenModeOverlayProps) {
           <AnimatePresence>
             {saved && (
               <motion.p
-                initial={{ opacity: 0, y: 4 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={reducedMotion ? false : { opacity: 0, y: 4 }}
+                animate={reducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 className="mt-2 text-sm text-success/80"
                 role="status"
@@ -145,8 +148,8 @@ export function ZenModeOverlay({ isOpen, onClose }: ZenModeOverlayProps) {
             )}
             {error && (
               <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
+                initial={reducedMotion ? false : { opacity: 0 }}
+                animate={reducedMotion ? { opacity: 1 } : { opacity: 1 }}
                 exit={{ opacity: 0 }}
                 className="mt-2 rounded-lg border border-accent/25 bg-accent/10 px-3 py-2 text-sm text-accent-light"
                 role="alert"

@@ -39,6 +39,27 @@ page.on('pageerror', (err) => {
   consoleErrors.push({ text: `PAGEERROR: ${err.message}`.slice(0, 300), url: page.url(), t: Date.now() });
 });
 
+async function settleBoot(page) {
+  // Wait out Vite dep re-opt / lazy chunks — up to ~8s for "Laddar…" to clear
+  for (let i = 0; i < 16; i++) {
+    await page.waitForTimeout(500);
+    const txt = ((await page.locator('body').innerText().catch(() => '')) || '').trim();
+    if (!/^Laddar Livskompassen/i.test(txt) || txt.length > 80) break;
+  }
+}
+
+function isSplashStuck(bodySnippet) {
+  return /Laddar Livskompassen/i.test(bodySnippet) && bodySnippet.length < 80;
+}
+
+function hadTransientNetwork(errorsSince) {
+  return errorsSince.some((e) =>
+    /ERR_NETWORK_CHANGED|ERR_CONNECTION_RESET|ERR_CONNECTION_REFUSED|Failed to fetch dynamically imported module|net::ERR_/i.test(
+      e.text,
+    ),
+  );
+}
+
 for (const path of ROUTES) {
   const url = `${BASE}${path}`;
   const started = Date.now();
@@ -50,17 +71,25 @@ for (const path of ROUTES) {
   const beforeErr = consoleErrors.length;
 
   try {
-    const res = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 25_000 });
-    // Wait out Vite dep re-opt / lazy chunks — up to ~8s for "Laddar…" to clear
-    for (let i = 0; i < 16; i++) {
-      await page.waitForTimeout(500);
-      const txt = ((await page.locator('body').innerText().catch(() => '')) || '').trim();
-      if (!/^Laddar Livskompassen/i.test(txt) || txt.length > 80) break;
-    }
+    let res = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 25_000 });
+    await settleBoot(page);
     title = await page.title();
     bodySnippet = ((await page.locator('body').innerText().catch(() => '')) || '').slice(0, 180);
     hasAuthBoundary = /Något gick fel vid inloggning/i.test(bodySnippet);
-    hasLoadingStuck = /Laddar Livskompassen/i.test(bodySnippet) && bodySnippet.length < 80;
+    hasLoadingStuck = isSplashStuck(bodySnippet);
+
+    // Cold-boot flake: network blip left static splash — one hard retry
+    const midErr = consoleErrors.slice(beforeErr);
+    if (hasLoadingStuck && hadTransientNetwork(midErr)) {
+      await page.waitForTimeout(600);
+      res = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 25_000 });
+      await settleBoot(page);
+      title = await page.title();
+      bodySnippet = ((await page.locator('body').innerText().catch(() => '')) || '').slice(0, 180);
+      hasAuthBoundary = /Något gick fel vid inloggning/i.test(bodySnippet);
+      hasLoadingStuck = isSplashStuck(bodySnippet);
+    }
+
     if (!res || !res.ok()) status = `http-${res?.status() ?? 'none'}`;
     if (hasAuthBoundary) status = 'auth-boundary';
     if (hasLoadingStuck) status = 'loading-stuck';

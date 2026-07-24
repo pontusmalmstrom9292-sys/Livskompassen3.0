@@ -1,5 +1,46 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
+## 2026-07-24 — Arkivvy motion polish
+
+- [x] Arkivhubb, lista, kalender och shelf respekterar reduced-motion
+- [x] Samlade övergångar för vybyte och detaljpaneler i arkivet
+
+## 2026-07-24 — Rest of app DS sweep (5 waves)
+
+- [x] Wave 1: CustomCategoryFlow använder DS Input för textfält
+- [x] Wave 2: FetchContentPacksFlow använder DS Button för packval
+- [x] Wave 3: ZenModeOverlay använder DS Button + reduced-motion
+- [x] Wave 4: ParalysisBreaker använder DS Button/Input + reduced-motion
+- [x] Wave 5: Button text casing normaliserad i flöden
+
+## 2026-07-24 — Arkivvy DS button sweep (5 waves)
+
+- [x] Wave 1: Arkivexport använder DS Button
+- [x] Wave 2: Arkivvy-toggles använder DS Button
+- [x] Wave 3: Kalenderkontroller + detaljstängning använder DS Button
+- [x] Wave 4: Arkiv shelf använder DS Button
+- [x] Wave 5: Arkiv drawers använder DS Button
+- [x] Wave 6: Kalendern markerar dagens datum tydligare
+
+## 2026-07-24 — Arkiv list button polish
+
+- [x] Load more-knappen i arkivet använder design-systemets Button
+- [x] Minskar en lokal knappvariant i arkivflödet
+
+## 2026-07-24 — Arkivvy glow cleanup
+
+- [x] Ta bort kvarvarande `glow-bottom-blue` från arkivlistan och kalenderdetaljen
+- [x] Aligna arkivvy med glow-kill-switch/premium polish-linjen
+
+## 2026-07-24 — QA Harden Tier A (fix)
+
+- [x] getSnapshot-cache `planeringInboxConnections` (React infinite loop)
+- [x] Touch ≥44px checkboxar: WidgetModulerAddForm + Widget Studio
+- [x] hub-sweep: retry vid `ERR_NETWORK_CHANGED` / splash-stuck
+- [x] device exhaustive: soft-fail vid timeout + 0 UI-fel (Tier B DEVICE_HARNESS)
+- [x] smoke: companion-widgets · locked-ux · design-modules PASS
+- [ ] Pontus: `npm run qa:harden` igen (valfritt USB)
+
 ## 2026-07-24 — UI QA Harden Loop (gratis)
 
 - [x] W0: tap-press chrome-first · scroll-probe exit≠0 · `.cursor/qa-harden/latest.json`

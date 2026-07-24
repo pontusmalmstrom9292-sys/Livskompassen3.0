@@ -2,60 +2,6 @@
   "findings": [
     {
       "tier": "A",
-      "code": "NO_SCROLL_SURFACE",
-      "source": "scroll-probe",
-      "path": "/vardagen?tab=mabra",
-      "detail": "NO_SCROLL_SURFACE",
-      "swedish": "Scrollproblem på /vardagen?tab=mabra: NO_SCROLL_SURFACE.",
-      "recipe": "NO_SCROLL_SURFACE"
-    },
-    {
-      "tier": "A",
-      "code": "TOUCH_TOO_SMALL",
-      "source": "tap-press",
-      "path": "page:/installningar→on",
-      "detail": "touch-too-small 20×20",
-      "swedish": "Tryckyta för liten: page:/installningar→on (touch-too-small 20×20).",
-      "recipe": "TOUCH_TOO_SMALL"
-    },
-    {
-      "tier": "A",
-      "code": "TOUCH_TOO_SMALL",
-      "source": "tap-press",
-      "path": "page:/installningar?tab=allmant→on",
-      "detail": "touch-too-small 20×20",
-      "swedish": "Tryckyta för liten: page:/installningar?tab=allmant→on (touch-too-small 20×20).",
-      "recipe": "TOUCH_TOO_SMALL"
-    },
-    {
-      "tier": "A",
-      "code": "TOUCH_TOO_SMALL",
-      "source": "tap-press",
-      "path": "page:/installningar?tab=naring→on",
-      "detail": "touch-too-small 13×16",
-      "swedish": "Tryckyta för liten: page:/installningar?tab=naring→on (touch-too-small 13×16).",
-      "recipe": "TOUCH_TOO_SMALL"
-    },
-    {
-      "tier": "A",
-      "code": "TOUCH_TOO_SMALL",
-      "source": "tap-press",
-      "path": "page:/installningar?tab=naring→on",
-      "detail": "touch-too-small 15×16",
-      "swedish": "Tryckyta för liten: page:/installningar?tab=naring→on (touch-too-small 15×16).",
-      "recipe": "TOUCH_TOO_SMALL"
-    },
-    {
-      "tier": "A",
-      "code": "TOUCH_TOO_SMALL",
-      "source": "tap-press",
-      "path": "page:/widget/moduler→on",
-      "detail": "touch-too-small 16×16",
-      "swedish": "Tryckyta för liten: page:/widget/moduler→on (touch-too-small 16×16).",
-      "recipe": "TOUCH_TOO_SMALL"
-    },
-    {
-      "tier": "A",
       "code": "CRASH_OR_STUCK",
       "source": "tap-press-console",
       "path": "",
@@ -68,15 +14,13 @@
       "code": "DEVICE_FAIL",
       "source": "device-probe",
       "path": "android",
-      "detail": "device=ZY22L8WFBX · exhaustive FAIL",
-      "swedish": "Telefon-test misslyckades: device=ZY22L8WFBX · exhaustive FAIL."
+      "detail": "device=ZY22L8WFBX · maestro FAIL · exhaustive FAIL",
+      "swedish": "Telefon-test misslyckades: device=ZY22L8WFBX · maestro FAIL · exhaustive FAIL."
     }
   ],
   "fix": {
     "applied": 0,
     "notes": [
-      "1 scroll findings → agent queue (hub uses document scroll by design; no blind CSS).",
-      "TOUCH_TOO_SMALL ×5 → polish-pass (content) + dock orörd (chrome-lock).",
       "1 crash/hub findings need agent inspection (no blind recipe). Wrote queue for Cursor."
     ]
   }

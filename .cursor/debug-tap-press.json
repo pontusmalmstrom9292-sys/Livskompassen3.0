@@ -1,45 +1,14 @@
 {
   "probe": "tap-press",
   "mode": "exhaustive-crawl",
-  "base": "http://127.0.0.1:5174",
-  "at": "2026-07-24T07:58:19.814Z",
+  "base": "http://127.0.0.1:5175",
+  "at": "2026-07-24T11:13:23.460Z",
   "routesVisited": 83,
   "maxTapsPerPage": 12,
   "scrollPasses": 2,
-  "actions": 651,
-  "issueCount": 5,
-  "issues": [
-    {
-      "action": "page:/installningar→on",
-      "detail": "touch-too-small 20×20",
-      "url": "http://127.0.0.1:5174/installningar",
-      "code": "TOUCH_TOO_SMALL"
-    },
-    {
-      "action": "page:/installningar?tab=allmant→on",
-      "detail": "touch-too-small 20×20",
-      "url": "http://127.0.0.1:5174/installningar?tab=allmant",
-      "code": "TOUCH_TOO_SMALL"
-    },
-    {
-      "action": "page:/installningar?tab=naring→on",
-      "detail": "touch-too-small 13×16",
-      "url": "http://127.0.0.1:5174/installningar?tab=naring",
-      "code": "TOUCH_TOO_SMALL"
-    },
-    {
-      "action": "page:/installningar?tab=naring→on",
-      "detail": "touch-too-small 15×16",
-      "url": "http://127.0.0.1:5174/installningar?tab=naring",
-      "code": "TOUCH_TOO_SMALL"
-    },
-    {
-      "action": "page:/widget/moduler→on",
-      "detail": "touch-too-small 16×16",
-      "url": "http://127.0.0.1:5174/widget/moduler",
-      "code": "TOUCH_TOO_SMALL"
-    }
-  ],
+  "actions": 439,
+  "issueCount": 0,
+  "issues": [],
   "touchAudit": [
     {
       "name": "Anteckning",
@@ -72,36 +41,36 @@
       "ok": true
     }
   ],
-  "consoleErrorCount": 161,
+  "consoleErrorCount": 46,
   "consoleErrors": [
     "The result of getSnapshot should be cached to avoid an infinite loop",
-    "%o\n\n%s\n\n%s\n Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.1:5174",
-    "[LivLauncherPage] Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.",
-    "[fetchMorningAnchor] failed: FirebaseError: internal",
-    "[fetchMorningAnchor] failed: FirebaseError: internal",
-    "The result of getSnapshot should be cached to avoid an infinite loop",
-    "%o\n\n%s\n\n%s\n Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.1:5174",
+    "%o\n\n%s\n\n%s\n Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.1:5175",
     "[LivLauncherPage] Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.",
     "The result of getSnapshot should be cached to avoid an infinite loop",
-    "%o\n\n%s\n\n%s\n Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.1:5174",
+    "%o\n\n%s\n\n%s\n Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.1:5175",
+    "[LivLauncherPage] Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.",
+    "%o\n\n%s\n\n%s\n Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.1:5175",
     "[LivLauncherPage] Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.",
     "The result of getSnapshot should be cached to avoid an infinite loop",
-    "%o\n\n%s\n\n%s\n Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.1:5174",
-    "[LivLauncherPage] Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.",
-    "The result of getSnapshot should be cached to avoid an infinite loop",
-    "%o\n\n%s\n\n%s\n Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.1:5174",
-    "[LivLauncherPage] Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.",
-    "The result of getSnapshot should be cached to avoid an infinite loop",
-    "%o\n\n%s\n\n%s\n Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.1:5174",
-    "[LivLauncherPage] Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0."
+    "%o\n\n%s\n\n%s\n Error: Cannot include a '?' character in a manually specified `to.pathname` field [{\"pathname\":\"/arbetsliv/input?inputMode=stampla\",\"search\":\"\"}].  Please separate it out to the `to.search` field. Alternatively you may provide the full path as a string in <Link to=\"..",
+    "[ArbetslivInputSuperModule] Error: Cannot include a '?' character in a manually specified `to.pathname` field [{\"pathname\":\"/arbetsliv/input?inputMode=stampla\",\"search\":\"\"}].  Please separate it out to the `to.search` field. Alternatively you may provide the full path as a string",
+    "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. T",
+    "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. T",
+    "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. T",
+    "[AdaptationStore] recordSignal: FirebaseError: internal",
+    "[AdaptationStore] recordSignal: FirebaseError: internal",
+    "[AdaptationStore] recordSignal: FirebaseError: internal",
+    "[AdaptationStore] recordSignal: FirebaseError: internal",
+    "[AdaptationStore] recordSignal: FirebaseError: internal",
+    "[AdaptationStore] recordSignal: FirebaseError: internal"
   ],
-  "authNoiseCount": 135,
+  "authNoiseCount": 37,
   "results": [
     {
       "action": "dock:Hamn(short)",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/",
+      "urlAfter": "http://127.0.0.1:5175/",
       "touch": {
         "w": 106,
         "h": 106,
@@ -112,7 +81,7 @@
       "action": "header:resurser-open",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/",
+      "urlAfter": "http://127.0.0.1:5175/",
       "touch": {
         "w": 44,
         "h": 44,
@@ -123,7 +92,7 @@
       "action": "header:alla-resurser",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/",
+      "urlAfter": "http://127.0.0.1:5175/",
       "touch": {
         "w": 185,
         "h": 44,
@@ -134,7 +103,7 @@
       "action": "header:resurser-close",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/",
+      "urlAfter": "http://127.0.0.1:5175/",
       "touch": {
         "w": 44,
         "h": 44,
@@ -145,7 +114,7 @@
       "action": "drawer:Startskärm",
       "ok": true,
       "detail": "ok-already-home",
-      "urlAfter": "http://127.0.0.1:5174/",
+      "urlAfter": "http://127.0.0.1:5175/",
       "touch": {
         "w": 192,
         "h": 44,
@@ -156,7 +125,7 @@
       "action": "drawer:Snabb-inkast",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/#inkast-lite",
+      "urlAfter": "http://127.0.0.1:5175/#inkast-lite",
       "touch": {
         "w": 192,
         "h": 44,
@@ -167,7 +136,7 @@
       "action": "drawer:Kompasser",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen",
+      "urlAfter": "http://127.0.0.1:5175/vardagen",
       "touch": {
         "w": 192,
         "h": 44,
@@ -183,7 +152,7 @@
       "action": "drawer:Planering",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=handling",
+      "urlAfter": "http://127.0.0.1:5175/planering?tab=handling",
       "touch": {
         "w": 192,
         "h": 44,
@@ -194,7 +163,7 @@
       "action": "drawer:Arbetsliv",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/arbetsliv/input",
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input",
       "touch": {
         "w": 192,
         "h": 44,
@@ -205,7 +174,7 @@
       "action": "drawer:Ekonomi",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=ekonomi",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=ekonomi",
       "touch": {
         "w": 192,
         "h": 44,
@@ -216,7 +185,7 @@
       "action": "drawer:Barnfokus",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=reflektion",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=reflektion",
       "touch": {
         "w": 192,
         "h": 44,
@@ -227,25 +196,25 @@
       "action": "drawer:Livslogg",
       "ok": true,
       "detail": "skip-flaky (locator.click: Timeout 4000ms exceeded.\n)",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=reflektion"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=reflektion"
     },
     {
       "action": "drawer:Tillsammans",
       "ok": true,
       "detail": "skip-flaky (locator.click: Timeout 4000ms exceeded.\n)",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=reflektion"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=reflektion"
     },
     {
       "action": "drawer:Barnporten",
       "ok": true,
       "detail": "skip-flaky (locator.click: Timeout 4000ms exceeded.\n)",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=reflektion"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=reflektion"
     },
     {
       "action": "drawer:Trygg hamn",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=hamn",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn",
       "touch": {
         "w": 192,
         "h": 44,
@@ -256,13 +225,13 @@
       "action": "drawer:Drogfrihet",
       "ok": true,
       "detail": "skip-flaky (locator.click: Timeout 4000ms exceeded.\n)",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=hamn"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn"
     },
     {
       "action": "drawer:Allmänt",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=allmant",
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=allmant",
       "touch": {
         "w": 192,
         "h": 44,
@@ -273,7 +242,7 @@
       "action": "drawer:Näring",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=naring",
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=naring",
       "touch": {
         "w": 192,
         "h": 44,
@@ -284,7 +253,7 @@
       "action": "drawer:Drogfrihet",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=drogfrihet",
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=drogfrihet",
       "touch": {
         "w": 192,
         "h": 44,
@@ -295,7 +264,7 @@
       "action": "dock:Familj",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen",
+      "urlAfter": "http://127.0.0.1:5175/familjen",
       "touch": {
         "w": 54,
         "h": 53,
@@ -306,7 +275,7 @@
       "action": "dock:Ventil",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat",
+      "urlAfter": "http://127.0.0.1:5175/hjartat",
       "touch": {
         "w": 54,
         "h": 53,
@@ -317,7 +286,7 @@
       "action": "dock:Inkast",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering/input?inputMode=inkast",
+      "urlAfter": "http://127.0.0.1:5175/planering/input?inputMode=inkast",
       "touch": {
         "w": 54,
         "h": 53,
@@ -328,7 +297,7 @@
       "action": "dock:Anteckning",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/anteckning",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
       "touch": {
         "w": 68,
         "h": 53,
@@ -339,96 +308,30 @@
       "action": "route:/",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/"
+      "urlAfter": "http://127.0.0.1:5175/"
     },
     {
       "action": "page:/→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/"
+      "urlAfter": "http://127.0.0.1:5175/"
     },
     {
-      "action": "page:/→Skriv nu",
+      "action": "page:/:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion&write=true",
-      "touch": {
-        "w": 124,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/→Barnfokus",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnfokus",
-      "touch": {
-        "w": 60,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/→Ny stund",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=mabra",
-      "touch": {
-        "w": 59,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/→Fysiologi",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=mabra",
-      "touch": {
-        "w": 59,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/→Mer…",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion",
-      "touch": {
-        "w": 43,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/→Lär känna",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnfokus",
-      "touch": {
-        "w": 72,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/:summary",
-      "ok": true,
-      "detail": "tapped=6 unique=19 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/dashboard",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/dashboard"
+      "urlAfter": "http://127.0.0.1:5175/dashboard"
     },
     {
       "action": "page:/dashboard→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/dashboard"
+      "urlAfter": "http://127.0.0.1:5175/dashboard"
     },
     {
       "action": "page:/dashboard:controls",
@@ -439,33 +342,13 @@
       "action": "route:/kompis",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/kompis"
+      "urlAfter": "http://127.0.0.1:5175/kompis"
     },
     {
       "action": "page:/kompis→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/kompis"
-    },
-    {
-      "action": "page:/kompis→Empatisk & lyssnande",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/kompis→Validerar utan att ge råd",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/kompis→Motverkar gaslighting",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/kompis→Bryter paralys",
-      "ok": true,
-      "detail": "skip-not-found"
+      "urlAfter": "http://127.0.0.1:5175/kompis"
     },
     {
       "action": "page:/kompis→Kunskapsbank. Direkt till Va",
@@ -473,299 +356,110 @@
       "detail": "skip-not-found"
     },
     {
+      "action": "page:/kompis→Trygg hamn. BIFF och Grey Ro",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/kompis→Planering · Handling. Kanban",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/kompis→Mabra. Andning, jordning och",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
       "action": "page:/kompis:summary",
       "ok": true,
-      "detail": "tapped=5 unique=18 sacred-skips=1"
+      "detail": "tapped=4 unique=17 sacred-skips=1"
     },
     {
       "action": "route:/morgon",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/morgon"
+      "urlAfter": "http://127.0.0.1:5175/morgon"
     },
     {
       "action": "page:/morgon→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/morgon"
-    },
-    {
-      "action": "page:/morgon→skip:Lås upp Valvet (biometri",
-      "ok": true,
-      "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/morgon"
+      "urlAfter": "http://127.0.0.1:5175/morgon"
     },
     {
       "action": "page:/morgon:controls",
       "ok": true,
-      "detail": "no-tappable (sacred-skips=2)"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/vardagen",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/vardagen"
+      "urlAfter": "http://127.0.0.1:5175/vardagen"
     },
     {
       "action": "page:/vardagen→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/vardagen"
+      "urlAfter": "http://127.0.0.1:5175/vardagen"
     },
     {
-      "action": "page:/vardagen→Hjälp: Vardagsstart",
+      "action": "page:/vardagen:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen→Kompasser",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen",
-      "touch": {
-        "w": 85,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen→Ekonomi",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=ekonomi",
-      "touch": {
-        "w": 71,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen→Mabra",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=mabra",
-      "touch": {
-        "w": 60,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen→KompasserDygns-Kompassen — m",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen",
-      "touch": {
-        "w": 409,
-        "h": 109,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen→EkonomiBudget, sparmål, sald",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=ekonomi",
-      "touch": {
-        "w": 409,
-        "h": 109,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen:summary",
-      "ok": true,
-      "detail": "tapped=6 unique=18 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/vardagen?tab=kompasser",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=kompasser"
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=kompasser"
     },
     {
       "action": "page:/vardagen?tab=kompasser→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=kompasser"
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=kompasser"
     },
     {
-      "action": "page:/vardagen?tab=kompasser→Hjälp: Vardagsstart",
+      "action": "page:/vardagen?tab=kompasser:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=kompasser",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen?tab=kompasser→Kompasser",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen",
-      "touch": {
-        "w": 85,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen?tab=kompasser→Ekonomi",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=ekonomi",
-      "touch": {
-        "w": 71,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen?tab=kompasser→Mabra",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=mabra",
-      "touch": {
-        "w": 60,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen?tab=kompasser→KompasserDygns-Kompassen — m",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen",
-      "touch": {
-        "w": 409,
-        "h": 109,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen?tab=kompasser→EkonomiBudget, sparmål, sald",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=ekonomi",
-      "touch": {
-        "w": 409,
-        "h": 109,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen?tab=kompasser:summary",
-      "ok": true,
-      "detail": "tapped=6 unique=18 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/vardagen?tab=mabra",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=mabra"
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra"
     },
     {
       "action": "page:/vardagen?tab=mabra→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=mabra"
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra"
     },
     {
-      "action": "page:/vardagen?tab=mabra→Hjälp: Vardagsstart",
+      "action": "page:/vardagen?tab=mabra:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=mabra",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen?tab=mabra→Kompasser",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen",
-      "touch": {
-        "w": 85,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen?tab=mabra→Ekonomi",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=ekonomi",
-      "touch": {
-        "w": 71,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen?tab=mabra→Mabra",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=mabra",
-      "touch": {
-        "w": 60,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen?tab=mabra→KompasserDygns-Kompassen — m",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen",
-      "touch": {
-        "w": 324,
-        "h": 109,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen?tab=mabra→EkonomiBudget, sparmål, sald",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=ekonomi",
-      "touch": {
-        "w": 324,
-        "h": 109,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/vardagen?tab=mabra:summary",
-      "ok": true,
-      "detail": "tapped=6 unique=18 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/vardagen?tab=ekonomi",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=ekonomi"
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=ekonomi"
     },
     {
       "action": "page:/vardagen?tab=ekonomi→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=ekonomi"
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=ekonomi"
     },
     {
       "action": "page:/vardagen?tab=ekonomi→Försök igen",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=ekonomi",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=ekonomi",
       "touch": {
         "w": 113,
         "h": 44,
@@ -776,7 +470,7 @@
       "action": "page:/vardagen?tab=ekonomi→Till Hem",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/",
+      "urlAfter": "http://127.0.0.1:5175/",
       "touch": {
         "w": 88,
         "h": 44,
@@ -792,13 +486,13 @@
       "action": "route:/mabra",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/mabra"
+      "urlAfter": "http://127.0.0.1:5175/mabra"
     },
     {
       "action": "page:/mabra→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/mabra"
+      "urlAfter": "http://127.0.0.1:5175/mabra"
     },
     {
       "action": "page:/mabra:controls",
@@ -809,13 +503,13 @@
       "action": "route:/mabra/akut",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/mabra/akut"
+      "urlAfter": "http://127.0.0.1:5175/mabra/akut"
     },
     {
       "action": "page:/mabra/akut→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/mabra/akut"
+      "urlAfter": "http://127.0.0.1:5175/mabra/akut"
     },
     {
       "action": "page:/mabra/akut:controls",
@@ -826,337 +520,121 @@
       "action": "route:/mabra/tid",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/mabra/tid"
+      "urlAfter": "http://127.0.0.1:5175/mabra/tid"
     },
     {
       "action": "page:/mabra/tid→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/mabra/tid"
+      "urlAfter": "http://127.0.0.1:5175/mabra/tid"
     },
     {
-      "action": "page:/mabra/tid→Liv och göra",
+      "action": "page:/mabra/tid:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen",
-      "touch": {
-        "w": 161,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/mabra/tid:summary",
-      "ok": true,
-      "detail": "tapped=1 unique=12 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/mabra/varderingar",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/mabra/varderingar"
+      "urlAfter": "http://127.0.0.1:5175/mabra/varderingar"
     },
     {
       "action": "page:/mabra/varderingar→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/mabra/varderingar"
+      "urlAfter": "http://127.0.0.1:5175/mabra/varderingar"
     },
     {
-      "action": "page:/mabra/varderingar→Liv och göra",
+      "action": "page:/mabra/varderingar:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen",
-      "touch": {
-        "w": 161,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/mabra/varderingar:summary",
-      "ok": true,
-      "detail": "tapped=1 unique=12 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/mabra/input",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/mabra/input"
+      "urlAfter": "http://127.0.0.1:5175/mabra/input"
     },
     {
       "action": "page:/mabra/input→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/mabra/input"
+      "urlAfter": "http://127.0.0.1:5175/mabra/input"
     },
     {
-      "action": "page:/mabra/input→Liv och göra",
+      "action": "page:/mabra/input:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen",
-      "touch": {
-        "w": 161,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/mabra/input→Hjälp: Mabra",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/mabra/input",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/mabra/input→Check-inHumör och energi",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/mabra/input",
-      "touch": {
-        "w": 111,
-        "h": 50,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/mabra/input→skip:KänslominneSpara hur det",
-      "ok": true,
-      "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/mabra/input"
-    },
-    {
-      "action": "page:/mabra/input→FrågekortVit reflektion",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/mabra/input?inputMode=vit_card",
-      "touch": {
-        "w": 86,
-        "h": 50,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/mabra/input→Lär tillsammansChatt med coa",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/mabra/input?inputMode=vit_chat",
-      "touch": {
-        "w": 116,
-        "h": 50,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/mabra/input→Känslominne (Vit)Vit-minnesa",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/mabra/input?inputMode=vit_memory",
-      "touch": {
-        "w": 129,
-        "h": 50,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/mabra/input→Mer…Reflektion, dagbok & ink",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/mabra/input",
-      "touch": {
-        "w": 154,
-        "h": 50,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/mabra/input:summary",
-      "ok": true,
-      "detail": "tapped=7 unique=19 sacred-skips=2"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/mabra/recovery/sos",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/mabra/recovery/sos"
+      "urlAfter": "http://127.0.0.1:5175/mabra/recovery/sos"
     },
     {
       "action": "page:/mabra/recovery/sos→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/mabra/recovery/sos"
+      "urlAfter": "http://127.0.0.1:5175/mabra/recovery/sos"
     },
     {
-      "action": "page:/mabra/recovery/sos→Liv och göra",
+      "action": "page:/mabra/recovery/sos:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen",
-      "touch": {
-        "w": 161,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/mabra/recovery/sos→Andas4-7-8 — följ cirkeln",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/mabra/recovery/sos",
-      "touch": {
-        "w": 358,
-        "h": 70,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/mabra/recovery/sos→Jordning5-4-3-2-1 — ett steg",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/mabra/recovery/sos→1 minStopp & landa",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/mabra/recovery/sos→3 minDelay + byt kanal",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/mabra/recovery/sos→10 minUrge surf + plan",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/mabra/recovery/sos→Urge surfing",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/mabra/recovery/sos→HALT-check",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/mabra/recovery/sos→Anti-köp (15 min)",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/mabra/recovery/sos→Stäng",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/mabra/recovery/sos:summary",
-      "ok": true,
-      "detail": "tapped=10 unique=24 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/planering",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/planering"
+      "urlAfter": "http://127.0.0.1:5175/planering"
     },
     {
       "action": "page:/planering→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/planering"
+      "urlAfter": "http://127.0.0.1:5175/planering"
     },
     {
-      "action": "page:/planering→Liv och göra",
+      "action": "page:/planering:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen",
-      "touch": {
-        "w": 161,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/planering→Öppna planeringsinmatningshu",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering/input",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/planering→Öppna veckokalender",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering/kalender",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/planering→Handling",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=handling",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/planering→Projekt",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/planering→Inkorg",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=inkorg",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/planering:summary",
-      "ok": true,
-      "detail": "tapped=6 unique=18 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/planering?tab=handling",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=handling"
+      "urlAfter": "http://127.0.0.1:5175/planering?tab=handling"
     },
     {
       "action": "page:/planering?tab=handling→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=handling"
+      "urlAfter": "http://127.0.0.1:5175/planering?tab=handling"
     },
     {
-      "action": "page:/planering?tab=handling→Liv och göra",
+      "action": "page:/planering?tab=handling:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/planering/kalender",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/planering/kalender"
+    },
+    {
+      "action": "page:/planering/kalender→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/planering/kalender"
+    },
+    {
+      "action": "page:/planering/kalender→Liv och göra",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen",
+      "urlAfter": "http://127.0.0.1:5175/vardagen",
       "touch": {
         "w": 161,
         "h": 44,
@@ -1164,93 +642,32 @@
       }
     },
     {
-      "action": "page:/planering?tab=handling→Öppna planeringsinmatningshu",
+      "action": "page:/planering/kalender→Inkorg",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering/input",
+      "urlAfter": "http://127.0.0.1:5175/planering?tab=inkorg&inbox=kalender",
       "touch": {
-        "w": 44,
+        "w": 70,
         "h": 44,
         "ok": true
       }
     },
     {
-      "action": "page:/planering?tab=handling→Öppna veckokalender",
+      "action": "page:/planering/kalender:summary",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering/kalender",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/planering?tab=handling→Handling",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=handling",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/planering?tab=handling→Projekt",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/planering?tab=handling→Inkorg",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=inkorg",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/planering?tab=handling:summary",
-      "ok": true,
-      "detail": "tapped=6 unique=18 sacred-skips=1"
-    },
-    {
-      "action": "route:/planering/kalender",
-      "ok": true,
-      "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/planering/kalender"
-    },
-    {
-      "action": "page:/planering/kalender→skip:Hamn. Håll tre sekunder ",
-      "ok": true,
-      "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/planering/kalender"
-    },
-    {
-      "action": "page:/planering/kalender:controls",
-      "ok": true,
-      "detail": "no-tappable (sacred-skips=1)"
+      "detail": "tapped=2 unique=13 sacred-skips=1"
     },
     {
       "action": "route:/planering/input",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/planering/input"
+      "urlAfter": "http://127.0.0.1:5175/planering/input"
     },
     {
       "action": "page:/planering/input→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/planering/input"
+      "urlAfter": "http://127.0.0.1:5175/planering/input"
     },
     {
       "action": "page:/planering/input:controls",
@@ -1261,13 +678,13 @@
       "action": "route:/arbetsliv",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/arbetsliv"
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv"
     },
     {
       "action": "page:/arbetsliv→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/arbetsliv"
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv"
     },
     {
       "action": "page:/arbetsliv:controls",
@@ -1278,13 +695,13 @@
       "action": "route:/arbetsliv/input",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/arbetsliv/input"
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input"
     },
     {
       "action": "page:/arbetsliv/input→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/arbetsliv/input"
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input"
     },
     {
       "action": "page:/arbetsliv/input:controls",
@@ -1295,77 +712,36 @@
       "action": "route:/arbetsliv/input?inputMode=tid",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/arbetsliv/input?inputMode=tid"
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=tid"
     },
     {
       "action": "page:/arbetsliv/input?inputMode=tid→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/arbetsliv/input?inputMode=tid"
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=tid"
     },
     {
-      "action": "page:/arbetsliv/input?inputMode=tid→Hjälp: Arbetsliv",
+      "action": "page:/arbetsliv/input?inputMode=tid:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/arbetsliv/input?inputMode=tid",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/arbetsliv/input?inputMode=tid→Lönespec i Valv",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/arbetsliv/input?inputMode=tid→Frånvaro i Valv",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/arbetsliv/input?inputMode=tid→StämpelStämpla in och ut — f",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/arbetsliv/input?inputMode=tid→LönekontorLön, avtal, skatt ",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/arbetsliv/input?inputMode=tid→InkomsterLön, FK, omvårdnads",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/arbetsliv/input?inputMode=tid→Tid & flexVeckosaldo (read-o",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/arbetsliv/input?inputMode=tid:summary",
-      "ok": true,
-      "detail": "tapped=7 unique=19 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/arbetsliv/input?inputMode=inkomster",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/arbetsliv/input?inputMode=inkomster"
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=inkomster"
     },
     {
       "action": "page:/arbetsliv/input?inputMode=inkomster→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/arbetsliv/input?inputMode=inkomster"
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=inkomster"
     },
     {
       "action": "page:/arbetsliv/input?inputMode=inkomster→Hjälp: Arbetsliv",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/arbetsliv/input?inputMode=inkomster",
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=inkomster",
       "touch": {
         "w": 44,
         "h": 44,
@@ -1411,71 +787,30 @@
       "action": "route:/arbetsliv/input?inputMode=stampla",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/arbetsliv/input?inputMode=stampla"
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=stampla"
     },
     {
       "action": "page:/arbetsliv/input?inputMode=stampla→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/arbetsliv/input?inputMode=stampla"
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=stampla"
     },
     {
-      "action": "page:/arbetsliv/input?inputMode=stampla→Hjälp: Arbetsliv",
+      "action": "page:/arbetsliv/input?inputMode=stampla:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/arbetsliv/input?inputMode=stampla",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/arbetsliv/input?inputMode=stampla→Lönespec i Valv",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/arbetsliv/input?inputMode=stampla→Frånvaro i Valv",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/arbetsliv/input?inputMode=stampla→StämpelStämpla in och ut — f",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/arbetsliv/input?inputMode=stampla→LönekontorLön, avtal, skatt ",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/arbetsliv/input?inputMode=stampla→InkomsterLön, FK, omvårdnads",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/arbetsliv/input?inputMode=stampla→Tid & flexVeckosaldo (read-o",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/arbetsliv/input?inputMode=stampla:summary",
-      "ok": true,
-      "detail": "tapped=7 unique=18 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/familjen",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/familjen"
+      "urlAfter": "http://127.0.0.1:5175/familjen"
     },
     {
       "action": "page:/familjen→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/familjen"
+      "urlAfter": "http://127.0.0.1:5175/familjen"
     },
     {
       "action": "page:/familjen:controls",
@@ -1486,560 +821,87 @@
       "action": "route:/familjen?tab=reflektion",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=reflektion"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=reflektion"
     },
     {
       "action": "page:/familjen?tab=reflektion→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=reflektion"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=reflektion"
     },
     {
-      "action": "page:/familjen?tab=reflektion→Hjälp: Förälder-hub",
+      "action": "page:/familjen?tab=reflektion:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=reflektion",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=reflektion→Livslogg",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=livslogg",
-      "touch": {
-        "w": 116,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=reflektion→Tillsammans",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=tillsammans",
-      "touch": {
-        "w": 146,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=reflektion→Barnporten",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnporten",
-      "touch": {
-        "w": 139,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=reflektion→Trygg Hamn (BIFF)",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=hamn",
-      "touch": {
-        "w": 181,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=reflektion→Drogfrihet",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 134,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=reflektion→Barnfokus",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen",
-      "touch": {
-        "w": 80,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=reflektion→Livslogg",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=livslogg",
-      "touch": {
-        "w": 70,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=reflektion→Tillsammans",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=tillsammans",
-      "touch": {
-        "w": 92,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=reflektion→Barnporten",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnporten",
-      "touch": {
-        "w": 85,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=reflektion→Hamn",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=hamn",
-      "touch": {
-        "w": 57,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=reflektion→Drogfrihet",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 80,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=reflektion:summary",
-      "ok": true,
-      "detail": "tapped=12 unique=23 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/familjen?tab=livslogg",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=livslogg"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=livslogg"
     },
     {
       "action": "page:/familjen?tab=livslogg→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=livslogg"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=livslogg"
     },
     {
-      "action": "page:/familjen?tab=livslogg→Hjälp: Förälder-hub",
+      "action": "page:/familjen?tab=livslogg:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=livslogg",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=livslogg→Dagens Barnfokus",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=reflektion",
-      "touch": {
-        "w": 188,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=livslogg→Tillsammans",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=tillsammans",
-      "touch": {
-        "w": 146,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=livslogg→Barnporten",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnporten",
-      "touch": {
-        "w": 139,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=livslogg→Trygg Hamn (BIFF)",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=hamn",
-      "touch": {
-        "w": 181,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=livslogg→Drogfrihet",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 134,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=livslogg→Barnfokus",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen",
-      "touch": {
-        "w": 80,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=livslogg→Livslogg",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=livslogg",
-      "touch": {
-        "w": 70,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=livslogg→Tillsammans",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=tillsammans",
-      "touch": {
-        "w": 92,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=livslogg→Barnporten",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnporten",
-      "touch": {
-        "w": 85,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=livslogg→Hamn",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=hamn",
-      "touch": {
-        "w": 57,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=livslogg→Drogfrihet",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 80,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=livslogg:summary",
-      "ok": true,
-      "detail": "tapped=12 unique=23 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/familjen?tab=tillsammans",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=tillsammans"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=tillsammans"
     },
     {
       "action": "page:/familjen?tab=tillsammans→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=tillsammans"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=tillsammans"
     },
     {
-      "action": "page:/familjen?tab=tillsammans→Hjälp: Förälder-hub",
+      "action": "page:/familjen?tab=tillsammans:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=tillsammans",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=tillsammans→Välj vy i Familjen",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=tillsammans",
-      "touch": {
-        "w": 344,
-        "h": 50,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=tillsammans→Barnfokus",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen",
-      "touch": {
-        "w": 80,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=tillsammans→Livslogg",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=livslogg",
-      "touch": {
-        "w": 70,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=tillsammans→Tillsammans",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=tillsammans",
-      "touch": {
-        "w": 92,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=tillsammans→Barnporten",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnporten",
-      "touch": {
-        "w": 85,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=tillsammans→Hamn",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=hamn",
-      "touch": {
-        "w": 57,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=tillsammans→Drogfrihet",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 80,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=tillsammans→Tid tillsammansKvalitetstid ",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=reflektion",
-      "touch": {
-        "w": 264,
-        "h": 54,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=tillsammans:summary",
-      "ok": true,
-      "detail": "tapped=9 unique=21 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/familjen?tab=barnporten",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnporten"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnporten"
     },
     {
       "action": "page:/familjen?tab=barnporten→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnporten"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnporten"
     },
     {
-      "action": "page:/familjen?tab=barnporten→Hjälp: Förälder-hub",
+      "action": "page:/familjen?tab=barnporten:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnporten",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=barnporten→Välj vy i Familjen",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnporten",
-      "touch": {
-        "w": 344,
-        "h": 50,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=barnporten→Barnfokus",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen",
-      "touch": {
-        "w": 80,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=barnporten→Livslogg",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=livslogg",
-      "touch": {
-        "w": 70,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=barnporten→Tillsammans",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=tillsammans",
-      "touch": {
-        "w": 92,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=barnporten→Barnporten",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnporten",
-      "touch": {
-        "w": 85,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=barnporten→Hamn",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=hamn",
-      "touch": {
-        "w": 57,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=barnporten→Drogfrihet",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 80,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=barnporten→Kasper",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnporten",
-      "touch": {
-        "w": 153,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=barnporten→Arvid",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnporten",
-      "touch": {
-        "w": 153,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=barnporten:summary",
-      "ok": true,
-      "detail": "tapped=10 unique=21 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/familjen?tab=hamn",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=hamn"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn"
     },
     {
       "action": "page:/familjen?tab=hamn→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=hamn"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn"
     },
     {
       "action": "page:/familjen?tab=hamn→Hjälp: Förälder-hub",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=hamn",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn",
       "touch": {
         "w": 44,
         "h": 44,
@@ -2050,7 +912,7 @@
       "action": "page:/familjen?tab=hamn→Välj vy i Familjen",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=hamn",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn",
       "touch": {
         "w": 344,
         "h": 50,
@@ -2061,7 +923,7 @@
       "action": "page:/familjen?tab=hamn→Barnfokus",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen",
+      "urlAfter": "http://127.0.0.1:5175/familjen",
       "touch": {
         "w": 80,
         "h": 44,
@@ -2072,7 +934,7 @@
       "action": "page:/familjen?tab=hamn→Livslogg",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=livslogg",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=livslogg",
       "touch": {
         "w": 70,
         "h": 44,
@@ -2083,7 +945,7 @@
       "action": "page:/familjen?tab=hamn→Tillsammans",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=tillsammans",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=tillsammans",
       "touch": {
         "w": 92,
         "h": 44,
@@ -2094,7 +956,7 @@
       "action": "page:/familjen?tab=hamn→Barnporten",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnporten",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnporten",
       "touch": {
         "w": 85,
         "h": 44,
@@ -2105,7 +967,7 @@
       "action": "page:/familjen?tab=hamn→Hamn",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=hamn",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn",
       "touch": {
         "w": 57,
         "h": 44,
@@ -2116,7 +978,7 @@
       "action": "page:/familjen?tab=hamn→Drogfrihet",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=drogfrihet",
       "touch": {
         "w": 80,
         "h": 44,
@@ -2132,162 +994,30 @@
       "action": "route:/familjen?tab=drogfrihet",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=drogfrihet"
     },
     {
       "action": "page:/familjen?tab=drogfrihet→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=drogfrihet"
     },
     {
-      "action": "page:/familjen?tab=drogfrihet→Hjälp: Förälder-hub",
+      "action": "page:/familjen?tab=drogfrihet:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=drogfrihet→Välj vy i Familjen",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 344,
-        "h": 50,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=drogfrihet→Barnfokus",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen",
-      "touch": {
-        "w": 80,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=drogfrihet→Livslogg",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=livslogg",
-      "touch": {
-        "w": 70,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=drogfrihet→Tillsammans",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=tillsammans",
-      "touch": {
-        "w": 92,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=drogfrihet→Barnporten",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnporten",
-      "touch": {
-        "w": 85,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=drogfrihet→Hamn",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=hamn",
-      "touch": {
-        "w": 57,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=drogfrihet→Drogfrihet",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 80,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=drogfrihet→Hjälp: Drogfrihet",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=drogfrihet→Idag",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 58,
-        "h": 54,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=drogfrihet→12 steg",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet&drogfrihetTab=steg",
-      "touch": {
-        "w": 58,
-        "h": 54,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=drogfrihet→Stöd",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet&drogfrihetTab=resurser",
-      "touch": {
-        "w": 58,
-        "h": 54,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/familjen?tab=drogfrihet:summary",
-      "ok": true,
-      "detail": "tapped=12 unique=23 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/barnporten",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/barnporten"
+      "urlAfter": "http://127.0.0.1:5175/barnporten"
     },
     {
       "action": "page:/barnporten→🙂Glad",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/barnporten",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
       "touch": {
         "w": 92,
         "h": 77,
@@ -2298,7 +1028,7 @@
       "action": "page:/barnporten→😢Ledsen",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/barnporten",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
       "touch": {
         "w": 92,
         "h": 77,
@@ -2309,7 +1039,7 @@
       "action": "page:/barnporten→😠Arg",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/barnporten",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
       "touch": {
         "w": 92,
         "h": 77,
@@ -2320,7 +1050,7 @@
       "action": "page:/barnporten→😴Trött",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/barnporten",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
       "touch": {
         "w": 92,
         "h": 77,
@@ -2331,7 +1061,7 @@
       "action": "page:/barnporten→😟Orolig",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/barnporten",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
       "touch": {
         "w": 92,
         "h": 77,
@@ -2342,7 +1072,7 @@
       "action": "page:/barnporten→Andas lugnt (3 andetag)",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/barnporten",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
       "touch": {
         "w": 292,
         "h": 58,
@@ -2353,7 +1083,7 @@
       "action": "page:/barnporten→Ange humör",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/barnporten",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
       "touch": {
         "w": 157,
         "h": 94,
@@ -2364,7 +1094,7 @@
       "action": "page:/barnporten→Återställ (Nivå 1)",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/barnporten",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
       "touch": {
         "w": 118,
         "h": 44,
@@ -2375,7 +1105,7 @@
       "action": "page:/barnporten→Tvinga Nivå 2",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/barnporten",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
       "touch": {
         "w": 103,
         "h": 44,
@@ -2396,287 +1126,47 @@
       "action": "route:/hjartat",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/hjartat"
-    },
-    {
-      "action": "page:/hjartat→Skriv ny anteckning",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?write=true",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/hjartat→Dagbok",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/hjartat→Speglar",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/hjartat→Hjälp: Reflektera — journal",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/hjartat→skip:Steg för steg — humör, t",
-      "ok": true,
-      "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/hjartat"
-    },
-    {
-      "action": "page:/hjartat→Känsla + valfri rad + spegli",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/hjartat→skip:Läs dina sparade tankar",
-      "ok": true,
-      "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/hjartat"
-    },
-    {
-      "action": "page:/hjartat→Ventilera och förstör (Zero ",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/hjartat→Låt AI validera och spegla d",
-      "ok": true,
-      "detail": "skip-not-found"
+      "urlAfter": "http://127.0.0.1:5175/hjartat"
     },
     {
       "action": "page:/hjartat→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/hjartat"
+      "urlAfter": "http://127.0.0.1:5175/hjartat"
     },
     {
-      "action": "page:/hjartat→18Lör",
+      "action": "page:/hjartat:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat",
-      "touch": {
-        "w": 48,
-        "h": 73,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/hjartat→19Sön",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat",
-      "touch": {
-        "w": 48,
-        "h": 73,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/hjartat→20Mån",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat",
-      "touch": {
-        "w": 48,
-        "h": 73,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/hjartat→21Tis",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat",
-      "touch": {
-        "w": 48,
-        "h": 73,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/hjartat→22Ons",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat",
-      "touch": {
-        "w": 48,
-        "h": 73,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/hjartat:summary",
-      "ok": true,
-      "detail": "tapped=12 unique=25 sacred-skips=3"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/hjartat?tab=reflektion",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion"
-    },
-    {
-      "action": "page:/hjartat?tab=reflektion→Skriv ny anteckning",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion&write=true",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/hjartat?tab=reflektion→Dagbok",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/hjartat?tab=reflektion→Speglar",
-      "ok": true,
-      "detail": "skip-not-found"
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion"
     },
     {
       "action": "page:/hjartat?tab=reflektion→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion"
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion"
     },
     {
-      "action": "page:/hjartat?tab=reflektion→Hjälp: Reflektera — journal",
+      "action": "page:/hjartat?tab=reflektion:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion",
-      "touch": {
-        "w": 44,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/hjartat?tab=reflektion→skip:Steg för steg — humör, t",
-      "ok": true,
-      "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion"
-    },
-    {
-      "action": "page:/hjartat?tab=reflektion→Känsla + valfri rad + spegli",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion&inputMode=quick_mirror",
-      "touch": {
-        "w": 129,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/hjartat?tab=reflektion→skip:Läs dina sparade tankar",
-      "ok": true,
-      "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion"
-    },
-    {
-      "action": "page:/hjartat?tab=reflektion→Ventilera och förstör (Zero ",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion&inputMode=burn",
-      "touch": {
-        "w": 66,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/hjartat?tab=reflektion→Låt AI validera och spegla d",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=speglar",
-      "touch": {
-        "w": 129,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/hjartat?tab=reflektion→18Lör",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion",
-      "touch": {
-        "w": 48,
-        "h": 73,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/hjartat?tab=reflektion→19Sön",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion",
-      "touch": {
-        "w": 48,
-        "h": 73,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/hjartat?tab=reflektion→20Mån",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion",
-      "touch": {
-        "w": 48,
-        "h": 73,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/hjartat?tab=reflektion→21Tis",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion",
-      "touch": {
-        "w": 48,
-        "h": 73,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/hjartat?tab=reflektion→22Ons",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion",
-      "touch": {
-        "w": 48,
-        "h": 73,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/hjartat?tab=reflektion:summary",
-      "ok": true,
-      "detail": "tapped=12 unique=25 sacred-skips=3"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/hjartat?tab=speglar",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=speglar"
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=speglar"
     },
     {
       "action": "page:/hjartat?tab=speglar→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=speglar"
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=speglar"
     },
     {
       "action": "page:/hjartat?tab=speglar:controls",
@@ -2687,13 +1177,13 @@
       "action": "route:/orakel",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/orakel"
+      "urlAfter": "http://127.0.0.1:5175/orakel"
     },
     {
       "action": "page:/orakel→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/orakel"
+      "urlAfter": "http://127.0.0.1:5175/orakel"
     },
     {
       "action": "page:/orakel:controls",
@@ -2704,19 +1194,19 @@
       "action": "route:/reflection",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/reflection"
-    },
-    {
-      "action": "page:/reflection→skip:Lås upp Valvet (biometri",
-      "ok": true,
-      "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/reflection"
+      "urlAfter": "http://127.0.0.1:5175/reflection"
     },
     {
       "action": "page:/reflection→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/reflection"
+      "urlAfter": "http://127.0.0.1:5175/reflection"
+    },
+    {
+      "action": "page:/reflection→skip:Lås upp Valvet (biometri",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/reflection"
     },
     {
       "action": "page:/reflection:controls",
@@ -2727,13 +1217,19 @@
       "action": "route:/biochem",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/biochem"
+      "urlAfter": "http://127.0.0.1:5175/biochem"
+    },
+    {
+      "action": "page:/biochem→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/biochem"
     },
     {
       "action": "page:/biochem→Intag",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/biochem",
+      "urlAfter": "http://127.0.0.1:5175/biochem",
       "touch": {
         "w": 52,
         "h": 44,
@@ -2744,7 +1240,7 @@
       "action": "page:/biochem→Krasch-Prep",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/biochem",
+      "urlAfter": "http://127.0.0.1:5175/biochem",
       "touch": {
         "w": 69,
         "h": 44,
@@ -2755,7 +1251,7 @@
       "action": "page:/biochem→Inköp",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/biochem",
+      "urlAfter": "http://127.0.0.1:5175/biochem",
       "touch": {
         "w": 55,
         "h": 44,
@@ -2781,7 +1277,7 @@
       "action": "page:/biochem→Vagusnerv-stimulans",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/biochem",
+      "urlAfter": "http://127.0.0.1:5175/biochem",
       "touch": {
         "w": 284,
         "h": 44,
@@ -2797,7 +1293,7 @@
       "action": "page:/biochem→RSD Akut-Grounding",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/biochem",
+      "urlAfter": "http://127.0.0.1:5175/biochem",
       "touch": {
         "w": 284,
         "h": 44,
@@ -2805,60 +1301,27 @@
       }
     },
     {
-      "action": "page:/biochem→skip:Hamn. Håll tre sekunder ",
-      "ok": true,
-      "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/biochem"
-    },
-    {
-      "action": "page:/biochem→Intag",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/biochem",
-      "touch": {
-        "w": 52,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/biochem→Krasch-Prep",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/biochem",
-      "touch": {
-        "w": 69,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/biochem→Inköp",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
       "action": "page:/biochem:summary",
       "ok": true,
-      "detail": "tapped=12 unique=23 sacred-skips=1"
+      "detail": "tapped=9 unique=20 sacred-skips=1"
     },
     {
       "action": "route:/inkast",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/"
+      "urlAfter": "http://127.0.0.1:5175/"
     },
     {
       "action": "page:/inkast→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/"
+      "urlAfter": "http://127.0.0.1:5175/"
     },
     {
       "action": "page:/inkast→Skriv nu",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion&write=true",
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion&write=true",
       "touch": {
         "w": 124,
         "h": 44,
@@ -2869,7 +1332,7 @@
       "action": "page:/inkast→Barnfokus",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnfokus",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnfokus",
       "touch": {
         "w": 60,
         "h": 44,
@@ -2880,7 +1343,7 @@
       "action": "page:/inkast→Ny stund",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=mabra",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra",
       "touch": {
         "w": 59,
         "h": 44,
@@ -2891,7 +1354,7 @@
       "action": "page:/inkast→Fysiologi",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=mabra",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra",
       "touch": {
         "w": 59,
         "h": 44,
@@ -2902,7 +1365,7 @@
       "action": "page:/inkast→Mer…",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion",
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion",
       "touch": {
         "w": 43,
         "h": 44,
@@ -2913,7 +1376,7 @@
       "action": "page:/inkast→Lär känna",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnfokus",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnfokus",
       "touch": {
         "w": 72,
         "h": 44,
@@ -2929,682 +1392,155 @@
       "action": "route:/projekt",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/projekt"
+      "urlAfter": "http://127.0.0.1:5175/projekt"
     },
     {
       "action": "page:/projekt→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/projekt"
+      "urlAfter": "http://127.0.0.1:5175/projekt"
     },
     {
-      "action": "page:/projekt→Handling",
+      "action": "page:/projekt:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=handling",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt→Projekt",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt→Inkorg",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=inkorg",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt→skip:Nytt projekt",
-      "ok": true,
-      "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/projekt"
-    },
-    {
-      "action": "page:/projekt→Regler & automation",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/projekt→Genvägar per profilAnpassa k",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/projekt:summary",
-      "ok": true,
-      "detail": "tapped=5 unique=17 sacred-skips=2"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/projekt/ny",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/projekt/ny"
+      "urlAfter": "http://127.0.0.1:5175/projekt/ny"
     },
     {
       "action": "page:/projekt/ny→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/projekt/ny"
+      "urlAfter": "http://127.0.0.1:5175/projekt/ny"
     },
     {
-      "action": "page:/projekt/ny→Handling",
+      "action": "page:/projekt/ny:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=handling",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/ny→Projekt",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/ny→Inkorg",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=inkorg",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/ny→Lista",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt/ny",
-      "touch": {
-        "w": 358,
-        "h": 74,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/ny→Bild",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt/ny?type=image",
-      "touch": {
-        "w": 358,
-        "h": 74,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/ny→Video",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt/ny?type=video",
-      "touch": {
-        "w": 358,
-        "h": 74,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/ny→Uppgift → Handling",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt/ny",
-      "touch": {
-        "w": 358,
-        "h": 74,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/ny:summary",
-      "ok": true,
-      "detail": "tapped=7 unique=21 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/projekt/regler",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/projekt/regler"
+      "urlAfter": "http://127.0.0.1:5175/projekt/regler"
     },
     {
       "action": "page:/projekt/regler→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/projekt/regler"
+      "urlAfter": "http://127.0.0.1:5175/projekt/regler"
     },
     {
-      "action": "page:/projekt/regler→Handling",
+      "action": "page:/projekt/regler:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=handling",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/regler→Projekt",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/regler→Inkorg",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=inkorg",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/regler→← Projekt",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt",
-      "touch": {
-        "w": 54,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/regler→E-postregler (Planering)",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=regler",
-      "touch": {
-        "w": 136,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/regler→Planering → Inkorg",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/projekt/regler:summary",
-      "ok": true,
-      "detail": "tapped=6 unique=17 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/projekt/genvagar",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/projekt/genvagar"
+      "urlAfter": "http://127.0.0.1:5175/projekt/genvagar"
     },
     {
       "action": "page:/projekt/genvagar→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/projekt/genvagar"
+      "urlAfter": "http://127.0.0.1:5175/projekt/genvagar"
     },
     {
-      "action": "page:/projekt/genvagar→Handling",
+      "action": "page:/projekt/genvagar:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=handling",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/genvagar→Projekt",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/genvagar→Inkorg",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=inkorg",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/genvagar→← Projekt",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt",
-      "touch": {
-        "w": 54,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/genvagar→Byt aktiv profil (Inställnin",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar",
-      "touch": {
-        "w": 162,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/genvagar→Förälder — trygg hamnFamilje",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt/genvagar",
-      "touch": {
-        "w": 332,
-        "h": 48,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/genvagar→Rehab — låg stimulusMabra, K",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt/genvagar",
-      "touch": {
-        "w": 332,
-        "h": 48,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/genvagar→Vardag & arbetePlanering, st",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt/genvagar",
-      "touch": {
-        "w": 332,
-        "h": 48,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/genvagar→MinimalBara det nödvändiga p",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt/genvagar",
-      "touch": {
-        "w": 283,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/projekt/genvagar:summary",
-      "ok": true,
-      "detail": "tapped=9 unique=22 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/installningar",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/installningar"
+      "urlAfter": "http://127.0.0.1:5175/installningar"
     },
     {
       "action": "page:/installningar→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/installningar"
+      "urlAfter": "http://127.0.0.1:5175/installningar"
     },
     {
-      "action": "page:/installningar→Allmänt",
+      "action": "page:/installningar:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar→Näring",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=naring",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar→Drogfrihet",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=drogfrihet",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar→Widget StudioÖppna →",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar/widget-studio",
-      "touch": {
-        "w": 324,
-        "h": 48,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar→Companion-labbTesta alla 10",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/dev/companion-widgets",
-      "touch": {
-        "w": 324,
-        "h": 46,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar→on",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar",
-      "touch": {
-        "w": 20,
-        "h": 20,
-        "ok": false
-      }
-    },
-    {
-      "action": "page:/installningar:summary",
-      "ok": true,
-      "detail": "tapped=6 unique=18 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/installningar?tab=allmant",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=allmant"
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=allmant"
     },
     {
       "action": "page:/installningar?tab=allmant→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=allmant"
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=allmant"
     },
     {
-      "action": "page:/installningar?tab=allmant→Allmänt",
+      "action": "page:/installningar?tab=allmant:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar?tab=allmant→Näring",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=naring",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar?tab=allmant→Drogfrihet",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=drogfrihet",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar?tab=allmant→Widget StudioÖppna →",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar/widget-studio",
-      "touch": {
-        "w": 324,
-        "h": 48,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar?tab=allmant→Companion-labbTesta alla 10",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/dev/companion-widgets",
-      "touch": {
-        "w": 324,
-        "h": 46,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar?tab=allmant→on",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=allmant",
-      "touch": {
-        "w": 20,
-        "h": 20,
-        "ok": false
-      }
-    },
-    {
-      "action": "page:/installningar?tab=allmant:summary",
-      "ok": true,
-      "detail": "tapped=6 unique=18 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/installningar?tab=naring",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=naring"
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=naring"
     },
     {
       "action": "page:/installningar?tab=naring→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=naring"
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=naring"
     },
     {
-      "action": "page:/installningar?tab=naring→Allmänt",
+      "action": "page:/installningar?tab=naring:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar?tab=naring→Näring",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=naring",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar?tab=naring→Drogfrihet",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=drogfrihet",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar?tab=naring→Öppna snabb logg",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/mabra/verktyg/nutrition",
-      "touch": {
-        "w": 316,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar?tab=naring→on",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=naring",
-      "touch": {
-        "w": 13,
-        "h": 16,
-        "ok": false
-      }
-    },
-    {
-      "action": "page:/installningar?tab=naring→on",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=naring",
-      "touch": {
-        "w": 15,
-        "h": 16,
-        "ok": false
-      }
-    },
-    {
-      "action": "page:/installningar?tab=naring:summary",
-      "ok": true,
-      "detail": "tapped=6 unique=17 sacred-skips=1"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/installningar?tab=drogfrihet",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=drogfrihet"
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=drogfrihet"
     },
     {
       "action": "page:/installningar?tab=drogfrihet→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=drogfrihet"
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=drogfrihet"
     },
     {
-      "action": "page:/installningar?tab=drogfrihet→Allmänt",
+      "action": "page:/installningar?tab=drogfrihet:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar?tab=drogfrihet→Näring",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=naring",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar?tab=drogfrihet→Drogfrihet",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=drogfrihet",
-      "touch": {
-        "w": 114,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar?tab=drogfrihet→skip:Spara startdatum",
-      "ok": true,
-      "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=drogfrihet"
-    },
-    {
-      "action": "page:/installningar?tab=drogfrihet→Starta från idag",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar?tab=drogfrihet",
-      "touch": {
-        "w": 316,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/installningar?tab=drogfrihet:summary",
-      "ok": true,
-      "detail": "tapped=4 unique=16 sacred-skips=2"
+      "detail": "no-tappable (sacred-skips=1)"
     },
     {
       "action": "route:/installningar/widget-studio",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/installningar/widget-studio"
+      "urlAfter": "http://127.0.0.1:5175/installningar/widget-studio"
+    },
+    {
+      "action": "page:/installningar/widget-studio→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/installningar/widget-studio"
     },
     {
       "action": "page:/installningar/widget-studio→Inställningar",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar",
+      "urlAfter": "http://127.0.0.1:5175/installningar",
       "touch": {
         "w": 89,
         "h": 56,
@@ -3615,7 +1551,7 @@
       "action": "page:/installningar/widget-studio→Öppna Hem",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/",
+      "urlAfter": "http://127.0.0.1:5175/",
       "touch": {
         "w": 88,
         "h": 56,
@@ -3626,7 +1562,7 @@
       "action": "page:/installningar/widget-studio→Visa Companion-railen på Hem",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/installningar/widget-studio",
+      "urlAfter": "http://127.0.0.1:5175/installningar/widget-studio",
       "touch": {
         "w": 163,
         "h": 56,
@@ -3634,73 +1570,42 @@
       }
     },
     {
-      "action": "page:/installningar/widget-studio→on",
+      "action": "page:/installningar/widget-studio→Tidsstyrd kontext (morgon → ",
       "ok": true,
       "detail": "skip-not-found"
     },
     {
-      "action": "page:/installningar/widget-studio→on",
+      "action": "page:/installningar/widget-studio→Lugnt AI-stöd (stress / ener",
       "ok": true,
       "detail": "skip-not-found"
     },
     {
-      "action": "page:/installningar/widget-studio→on",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/installningar/widget-studio→skip:Hamn. Håll tre sekunder ",
-      "ok": true,
-      "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/installningar/widget-studio"
-    },
-    {
-      "action": "page:/installningar/widget-studio→Öppna Hem",
+      "action": "page:/installningar/widget-studio→Barnvecka just nu",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/",
+      "urlAfter": "http://127.0.0.1:5175/installningar/widget-studio",
       "touch": {
-        "w": 88,
+        "w": 56,
         "h": 56,
         "ok": true
       }
     },
     {
-      "action": "page:/installningar/widget-studio→Visa Companion-railen på Hem",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/installningar/widget-studio→on",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/installningar/widget-studio→on",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/installningar/widget-studio→on",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
       "action": "page:/installningar/widget-studio:summary",
       "ok": true,
-      "detail": "tapped=11 unique=28 sacred-skips=1"
+      "detail": "tapped=6 unique=21 sacred-skips=1"
     },
     {
       "action": "route:/valvet",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/valvet"
+      "urlAfter": "http://127.0.0.1:5175/valvet?valvMode=spara&vaultTab=logga"
     },
     {
       "action": "page:/valvet→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/valvet"
+      "urlAfter": "http://127.0.0.1:5175/valvet?valvMode=spara&vaultTab=logga"
     },
     {
       "action": "page:/valvet:controls",
@@ -3711,13 +1616,13 @@
       "action": "route:/valvet/installningar",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/valvet/installningar"
+      "urlAfter": "http://127.0.0.1:5175/valvet/installningar"
     },
     {
       "action": "page:/valvet/installningar→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/valvet/installningar"
+      "urlAfter": "http://127.0.0.1:5175/valvet/installningar"
     },
     {
       "action": "page:/valvet/installningar:controls",
@@ -3728,13 +1633,19 @@
       "action": "route:/sos",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/"
+      "urlAfter": "http://127.0.0.1:5175/"
+    },
+    {
+      "action": "page:/sos→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/"
     },
     {
       "action": "page:/sos→Skriv nu",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion&write=true",
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion&write=true",
       "touch": {
         "w": 124,
         "h": 44,
@@ -3744,28 +1655,52 @@
     {
       "action": "page:/sos→Barnfokus",
       "ok": true,
-      "detail": "skip-not-found"
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnfokus",
+      "touch": {
+        "w": 60,
+        "h": 44,
+        "ok": true
+      }
     },
     {
       "action": "page:/sos→Ny stund",
       "ok": true,
-      "detail": "skip-not-found"
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra",
+      "touch": {
+        "w": 59,
+        "h": 44,
+        "ok": true
+      }
     },
     {
       "action": "page:/sos→Fysiologi",
       "ok": true,
-      "detail": "skip-not-found"
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra",
+      "touch": {
+        "w": 59,
+        "h": 44,
+        "ok": true
+      }
     },
     {
       "action": "page:/sos→Mer…",
       "ok": true,
-      "detail": "skip-not-found"
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion",
+      "touch": {
+        "w": 43,
+        "h": 44,
+        "ok": true
+      }
     },
     {
       "action": "page:/sos→Lär känna",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnfokus",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnfokus",
       "touch": {
         "w": 72,
         "h": 44,
@@ -3773,38 +1708,21 @@
       }
     },
     {
-      "action": "page:/sos→skip:Hamn. Håll tre sekunder ",
-      "ok": true,
-      "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/"
-    },
-    {
-      "action": "page:/sos→Skriv nu",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion&write=true",
-      "touch": {
-        "w": 124,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
       "action": "page:/sos:summary",
       "ok": true,
-      "detail": "tapped=7 unique=22 sacred-skips=1"
+      "detail": "tapped=6 unique=20 sacred-skips=1"
     },
     {
       "action": "route:/widget/anteckning",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/anteckning"
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning"
     },
     {
       "action": "page:/widget/anteckning→Dagbok",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/anteckning",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
       "touch": {
         "w": 84,
         "h": 44,
@@ -3815,7 +1733,7 @@
       "action": "page:/widget/anteckning→Bevis",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/anteckning",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
       "touch": {
         "w": 67,
         "h": 44,
@@ -3826,7 +1744,7 @@
       "action": "page:/widget/anteckning→Barn",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/anteckning",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
       "touch": {
         "w": 65,
         "h": 44,
@@ -3837,7 +1755,7 @@
       "action": "page:/widget/anteckning→Mabra",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/anteckning",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
       "touch": {
         "w": 76,
         "h": 44,
@@ -3848,7 +1766,7 @@
       "action": "page:/widget/anteckning→Planering",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/anteckning",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
       "touch": {
         "w": 104,
         "h": 44,
@@ -3859,7 +1777,7 @@
       "action": "page:/widget/anteckning→Fortsätt till text",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/anteckning",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
       "touch": {
         "w": 324,
         "h": 44,
@@ -3880,13 +1798,13 @@
       "action": "route:/widget/inspelning",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/inspelning"
+      "urlAfter": "http://127.0.0.1:5175/widget/inspelning"
     },
     {
       "action": "page:/widget/inspelning→Jag förstår — fortsätt",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/inspelning",
+      "urlAfter": "http://127.0.0.1:5175/widget/inspelning",
       "touch": {
         "w": 290,
         "h": 44,
@@ -3897,7 +1815,7 @@
       "action": "page:/widget/inspelning→Starta inspelning",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/inspelning",
+      "urlAfter": "http://127.0.0.1:5175/widget/inspelning",
       "touch": {
         "w": 324,
         "h": 50,
@@ -3913,13 +1831,13 @@
       "action": "route:/widget/kompass",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/kompass"
+      "urlAfter": "http://127.0.0.1:5175/widget/kompass"
     },
     {
-      "action": "page:/widget/kompass→Morgonkompass●Ett mikrosteg ",
+      "action": "page:/widget/kompass→MorgonkompassEtt mikrosteg f",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/kompass",
+      "urlAfter": "http://127.0.0.1:5175/widget/kompass",
       "touch": {
         "w": 322,
         "h": 63,
@@ -3927,23 +1845,27 @@
       }
     },
     {
+      "action": "page:/widget/kompass→Dagskompass●Kroppscheck — an",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/kompass→Kunskapsbank — inget auto-sp",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/kompass→Planering — manuell start",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
       "action": "page:/widget/kompass→Dagbok — flyttas inte automa",
       "ok": true,
       "detail": "skip-not-found"
     },
     {
-      "action": "page:/widget/kompass→skip:Låst post när du sparar ",
-      "ok": true,
-      "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/widget/kompass"
-    },
-    {
-      "action": "page:/widget/kompass→Mabra — reflektion och lek",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/widget/kompass→Snabb dagbok — vävning är se",
+      "action": "page:/widget/kompass→Mikrosteg via planering",
       "ok": true,
       "detail": "skip-not-found"
     },
@@ -3951,7 +1873,7 @@
       "action": "page:/widget/kompass→Dagbok — flyttas inte automa",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/anteckning",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
       "touch": {
         "w": 90,
         "h": 44,
@@ -3962,7 +1884,7 @@
       "action": "page:/widget/kompass→skip:Låst post när du sparar ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/widget/kompass"
+      "urlAfter": "http://127.0.0.1:5175/widget/kompass"
     },
     {
       "action": "page:/widget/kompass→Mabra — reflektion och lek",
@@ -3975,31 +1897,21 @@
       "detail": "skip-not-found"
     },
     {
-      "action": "page:/widget/kompass→DagskompassKroppscheck — anp",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/widget/kompass→KvällskompassTre korta steg ",
-      "ok": true,
-      "detail": "skip-not-found"
-    },
-    {
       "action": "page:/widget/kompass:summary",
       "ok": true,
-      "detail": "tapped=9 unique=12 sacred-skips=2"
+      "detail": "tapped=9 unique=13 sacred-skips=1"
     },
     {
       "action": "route:/widget/hamn",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/hamn"
+      "urlAfter": "http://127.0.0.1:5175/widget/hamn"
     },
     {
       "action": "page:/widget/hamn→Valv → Hamn · Analys",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/valvet?vaultTab=hamn_analys&valvMode=mer",
+      "urlAfter": "http://127.0.0.1:5175/valvet?vaultTab=hamn_analys&valvMode=mer",
       "touch": {
         "w": 145,
         "h": 44,
@@ -4010,7 +1922,7 @@
       "action": "page:/widget/hamn→Taktik-lexikon (Valv · PIN)",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/valvet?vaultTab=kunskapsbank&valvMode=kunskap",
+      "urlAfter": "http://127.0.0.1:5175/valvet?vaultTab=kunskapsbank&valvMode=kunskap",
       "touch": {
         "w": 225,
         "h": 44,
@@ -4026,13 +1938,13 @@
       "action": "route:/widget/familjen",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/familjen"
+      "urlAfter": "http://127.0.0.1:5175/widget/familjen"
     },
     {
       "action": "page:/widget/familjen→Kasper",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/familjen",
+      "urlAfter": "http://127.0.0.1:5175/widget/familjen",
       "touch": {
         "w": 158,
         "h": 44,
@@ -4043,7 +1955,7 @@
       "action": "page:/widget/familjen→Arvid",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/familjen",
+      "urlAfter": "http://127.0.0.1:5175/widget/familjen",
       "touch": {
         "w": 158,
         "h": 44,
@@ -4059,35 +1971,24 @@
       "action": "route:/widget/stampla",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/stampla"
+      "urlAfter": "http://127.0.0.1:5175/widget/stampla"
     },
     {
-      "action": "page:/widget/stampla→Stämpla in",
+      "action": "page:/widget/stampla:controls",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/stampla",
-      "touch": {
-        "w": 141,
-        "h": 58,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/widget/stampla:summary",
-      "ok": true,
-      "detail": "tapped=1 unique=2 sacred-skips=0"
+      "detail": "no-tappable (sacred-skips=0)"
     },
     {
       "action": "route:/widget/barnporten",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/barnporten"
+      "urlAfter": "http://127.0.0.1:5175/widget/barnporten"
     },
     {
       "action": "page:/widget/barnporten→Stjärn-prickDiskret prick ne",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/barnporten",
+      "urlAfter": "http://127.0.0.1:5175/widget/barnporten",
       "touch": {
         "w": 145,
         "h": 94,
@@ -4098,7 +1999,7 @@
       "action": "page:/widget/barnporten→Hjärta-bågeNedre kant — bra ",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/barnporten",
+      "urlAfter": "http://127.0.0.1:5175/widget/barnporten",
       "touch": {
         "w": 145,
         "h": 94,
@@ -4109,7 +2010,7 @@
       "action": "page:/widget/barnporten→Kompass-miniLiten kompass ne",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/barnporten",
+      "urlAfter": "http://127.0.0.1:5175/widget/barnporten",
       "touch": {
         "w": 145,
         "h": 94,
@@ -4120,7 +2021,7 @@
       "action": "page:/widget/barnporten→Ingen widgetEndast PWA-ikon ",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/barnporten",
+      "urlAfter": "http://127.0.0.1:5175/widget/barnporten",
       "touch": {
         "w": 145,
         "h": 94,
@@ -4136,13 +2037,13 @@
       "action": "route:/widget/snabbval",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/snabbval"
+      "urlAfter": "http://127.0.0.1:5175/widget/snabbval"
     },
     {
       "action": "page:/widget/snabbval→DagbokSkriv en rad — neutral",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/snabbval",
+      "urlAfter": "http://127.0.0.1:5175/widget/snabbval",
       "touch": {
         "w": 322,
         "h": 63,
@@ -4168,7 +2069,7 @@
       "action": "page:/widget/snabbval→Snabb spegling",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat/input?inputMode=quick_mirror",
+      "urlAfter": "http://127.0.0.1:5175/hjartat/input?inputMode=quick_mirror",
       "touch": {
         "w": 294,
         "h": 44,
@@ -4209,13 +2110,13 @@
       "action": "route:/widget/voice-vault",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/voice-vault"
+      "urlAfter": "http://127.0.0.1:5175/widget/voice-vault"
     },
     {
       "action": "page:/widget/voice-vault→🙂 Lugn",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/voice-vault",
+      "urlAfter": "http://127.0.0.1:5175/widget/voice-vault",
       "touch": {
         "w": 81,
         "h": 44,
@@ -4226,7 +2127,7 @@
       "action": "page:/widget/voice-vault→😊 Glad",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/voice-vault",
+      "urlAfter": "http://127.0.0.1:5175/widget/voice-vault",
       "touch": {
         "w": 78,
         "h": 44,
@@ -4237,7 +2138,7 @@
       "action": "page:/widget/voice-vault→😴 Trött",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/voice-vault",
+      "urlAfter": "http://127.0.0.1:5175/widget/voice-vault",
       "touch": {
         "w": 79,
         "h": 44,
@@ -4248,7 +2149,7 @@
       "action": "page:/widget/voice-vault→😬 Spänd",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/voice-vault",
+      "urlAfter": "http://127.0.0.1:5175/widget/voice-vault",
       "touch": {
         "w": 90,
         "h": 44,
@@ -4259,7 +2160,7 @@
       "action": "page:/widget/voice-vault→Starta inspelning",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/voice-vault",
+      "urlAfter": "http://127.0.0.1:5175/widget/voice-vault",
       "touch": {
         "w": 56,
         "h": 56,
@@ -4270,7 +2171,7 @@
       "action": "page:/widget/voice-vault→Rensa",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/voice-vault",
+      "urlAfter": "http://127.0.0.1:5175/widget/voice-vault",
       "touch": {
         "w": 65,
         "h": 44,
@@ -4286,19 +2187,19 @@
       "action": "route:/widget/projekt",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/projekt"
+      "urlAfter": "http://127.0.0.1:5175/widget/projekt"
     },
     {
       "action": "page:/widget/projekt→skip:Nytt projekt",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/widget/projekt"
+      "urlAfter": "http://127.0.0.1:5175/widget/projekt"
     },
     {
       "action": "page:/widget/projekt→Lista",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/projekt",
+      "urlAfter": "http://127.0.0.1:5175/widget/projekt",
       "touch": {
         "w": 48,
         "h": 56,
@@ -4309,7 +2210,7 @@
       "action": "page:/widget/projekt→Bild",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/projekt",
+      "urlAfter": "http://127.0.0.1:5175/widget/projekt",
       "touch": {
         "w": 48,
         "h": 56,
@@ -4320,7 +2221,7 @@
       "action": "page:/widget/projekt→Stäng",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/projekt",
+      "urlAfter": "http://127.0.0.1:5175/widget/projekt",
       "touch": {
         "w": 44,
         "h": 44,
@@ -4331,7 +2232,7 @@
       "action": "page:/widget/projekt→Tyst inspelning",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/inspelning?autostart=1&discreet=1",
+      "urlAfter": "http://127.0.0.1:5175/widget/inspelning?autostart=1&discreet=1",
       "touch": {
         "w": 48,
         "h": 56,
@@ -4342,9 +2243,9 @@
       "action": "page:/widget/projekt→Lista",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt/ny?type=list&from=widget",
+      "urlAfter": "http://127.0.0.1:5175/projekt/ny?type=list&from=widget",
       "touch": {
-        "w": 154,
+        "w": 153,
         "h": 86,
         "ok": true
       }
@@ -4353,7 +2254,7 @@
       "action": "page:/widget/projekt→Planering",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=handling&picked=1",
+      "urlAfter": "http://127.0.0.1:5175/planering?tab=handling&picked=1",
       "touch": {
         "w": 48,
         "h": 56,
@@ -4364,7 +2265,7 @@
       "action": "page:/widget/projekt→Lås upp",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/valvet",
+      "urlAfter": "http://127.0.0.1:5175/valvet",
       "touch": {
         "w": 48,
         "h": 56,
@@ -4375,7 +2276,34 @@
       "action": "page:/widget/projekt→Bild",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt/ny?type=image&from=widget",
+      "urlAfter": "http://127.0.0.1:5175/projekt/ny?type=image&from=widget",
+      "touch": {
+        "w": 153,
+        "h": 86,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/projekt→Video",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/projekt→Uppgift",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/projekt/ny?type=task&from=widget",
+      "touch": {
+        "w": 154,
+        "h": 86,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/projekt→Bild",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/projekt/ny?type=image&from=widget",
       "touch": {
         "w": 154,
         "h": 86,
@@ -4386,18 +2314,7 @@
       "action": "page:/widget/projekt→Video",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt/ny?type=video&from=widget",
-      "touch": {
-        "w": 154,
-        "h": 86,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/widget/projekt→Uppgift",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/projekt/ny?type=task&from=widget",
+      "urlAfter": "http://127.0.0.1:5175/projekt/ny?type=video&from=widget",
       "touch": {
         "w": 154,
         "h": 86,
@@ -4407,19 +2324,19 @@
     {
       "action": "page:/widget/projekt:summary",
       "ok": true,
-      "detail": "tapped=10 unique=15 sacred-skips=1"
+      "detail": "tapped=12 unique=17 sacred-skips=1"
     },
     {
       "action": "route:/widget/aktioner",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/aktioner"
+      "urlAfter": "http://127.0.0.1:5175/widget/aktioner"
     },
     {
       "action": "page:/widget/aktioner→Röstinspelning till Valvet",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/aktioner",
+      "urlAfter": "http://127.0.0.1:5175/widget/aktioner",
       "touch": {
         "w": 290,
         "h": 44,
@@ -4427,21 +2344,32 @@
       }
     },
     {
+      "action": "page:/widget/aktioner→Stämpla in",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/aktioner",
+      "touch": {
+        "w": 141,
+        "h": 58,
+        "ok": true
+      }
+    },
+    {
       "action": "page:/widget/aktioner:summary",
       "ok": true,
-      "detail": "tapped=1 unique=2 sacred-skips=0"
+      "detail": "tapped=2 unique=3 sacred-skips=0"
     },
     {
       "action": "route:/widget/moduler",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/moduler"
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler"
     },
     {
       "action": "page:/widget/moduler→Ny modul",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/moduler",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
       "touch": {
         "w": 115,
         "h": 44,
@@ -4452,7 +2380,7 @@
       "action": "page:/widget/moduler→Semester",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/moduler",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
       "touch": {
         "w": 158,
         "h": 44,
@@ -4463,7 +2391,7 @@
       "action": "page:/widget/moduler→Deadline",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/moduler",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
       "touch": {
         "w": 158,
         "h": 44,
@@ -4474,7 +2402,7 @@
       "action": "page:/widget/moduler→Fokus",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/moduler",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
       "touch": {
         "w": 158,
         "h": 44,
@@ -4485,7 +2413,7 @@
       "action": "page:/widget/moduler→Firande",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/moduler",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
       "touch": {
         "w": 158,
         "h": 44,
@@ -4496,7 +2424,7 @@
       "action": "page:/widget/moduler→Minimal",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/moduler",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
       "touch": {
         "w": 158,
         "h": 44,
@@ -4507,7 +2435,7 @@
       "action": "page:/widget/moduler→Foto",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/moduler",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
       "touch": {
         "w": 158,
         "h": 44,
@@ -4515,21 +2443,21 @@
       }
     },
     {
-      "action": "page:/widget/moduler→on",
+      "action": "page:/widget/moduler→Experimentera — visa alla ty",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/moduler",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
       "touch": {
-        "w": 16,
-        "h": 16,
-        "ok": false
+        "w": 44,
+        "h": 44,
+        "ok": true
       }
     },
     {
       "action": "page:/widget/moduler→Nedräkning",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/moduler",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
       "touch": {
         "w": 158,
         "h": 44,
@@ -4540,7 +2468,7 @@
       "action": "page:/widget/moduler→Checklista",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/moduler",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
       "touch": {
         "w": 158,
         "h": 44,
@@ -4551,7 +2479,7 @@
       "action": "page:/widget/moduler→Sparmål",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/moduler",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
       "touch": {
         "w": 158,
         "h": 44,
@@ -4562,7 +2490,7 @@
       "action": "page:/widget/moduler→Snabbnotis",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/moduler",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
       "touch": {
         "w": 158,
         "h": 44,
@@ -4578,134 +2506,50 @@
       "action": "route:/widget/drogfrihet-akut",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet&akut=1"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=drogfrihet&akut=1"
     },
     {
       "action": "page:/widget/drogfrihet-akut→skip:Hamn. Håll tre sekunder ",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet&akut=1"
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=drogfrihet&akut=1"
     },
     {
-      "action": "page:/widget/drogfrihet-akut→Andas4-7-8 — följ cirkeln",
+      "action": "page:/widget/drogfrihet-akut→Hjälp: Förälder-hub",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=drogfrihet",
       "touch": {
-        "w": 358,
-        "h": 70,
+        "w": 44,
+        "h": 44,
         "ok": true
       }
     },
     {
       "action": "page:/widget/drogfrihet-akut→Välj vy i Familjen",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 344,
-        "h": 50,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/widget/drogfrihet-akut→Jordning5-4-3-2-1 — ett steg",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 356,
-        "h": 70,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/widget/drogfrihet-akut→1 minStopp & landa",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 114,
-        "h": 74,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/widget/drogfrihet-akut→3 minDelay + byt kanal",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 114,
-        "h": 74,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/widget/drogfrihet-akut→10 minUrge surf + plan",
-      "ok": true,
       "detail": "skip-not-found"
-    },
-    {
-      "action": "page:/widget/drogfrihet-akut→Urge surfing",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 358,
-        "h": 46,
-        "ok": true
-      }
     },
     {
       "action": "page:/widget/drogfrihet-akut→Barnfokus",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen",
-      "touch": {
-        "w": 80,
-        "h": 44,
-        "ok": true
-      }
+      "detail": "skip-not-found"
     },
     {
       "action": "page:/widget/drogfrihet-akut→Livslogg",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=livslogg",
-      "touch": {
-        "w": 70,
-        "h": 44,
-        "ok": true
-      }
+      "detail": "skip-not-found"
     },
     {
       "action": "page:/widget/drogfrihet-akut→Tillsammans",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=tillsammans&akut=1",
-      "touch": {
-        "w": 92,
-        "h": 44,
-        "ok": true
-      }
-    },
-    {
-      "action": "page:/widget/drogfrihet-akut→HALT-check",
-      "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=drogfrihet",
-      "touch": {
-        "w": 353,
-        "h": 45,
-        "ok": true
-      }
+      "detail": "skip-not-found"
     },
     {
       "action": "page:/widget/drogfrihet-akut→Barnporten",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=barnporten",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnporten&akut=1",
       "touch": {
         "w": 85,
         "h": 44,
@@ -4713,21 +2557,37 @@
       }
     },
     {
+      "action": "page:/widget/drogfrihet-akut→Hamn",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn",
+      "touch": {
+        "w": 57,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/drogfrihet-akut→Drogfrihet",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
       "action": "page:/widget/drogfrihet-akut:summary",
       "ok": true,
-      "detail": "tapped=12 unique=24 sacred-skips=1"
+      "detail": "tapped=8 unique=19 sacred-skips=1"
     },
     {
       "action": "route:/widget/companion-capture",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-capture"
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-capture"
     },
     {
       "action": "page:/widget/companion-capture→Starta röstinspelning",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-capture",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-capture",
       "touch": {
         "w": 76,
         "h": 76,
@@ -4738,7 +2598,7 @@
       "action": "page:/widget/companion-capture→Öppna senaste inspelning",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-capture",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-capture",
       "touch": {
         "w": 99,
         "h": 56,
@@ -4754,13 +2614,13 @@
       "action": "route:/widget/companion-inbox",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-inbox"
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-inbox"
     },
     {
       "action": "page:/widget/companion-inbox→Text",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-inbox",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-inbox",
       "touch": {
         "w": 125,
         "h": 66,
@@ -4781,7 +2641,7 @@
       "action": "page:/widget/companion-inbox→Avbryt inkast",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-inbox",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-inbox",
       "touch": {
         "w": 69,
         "h": 64,
@@ -4792,7 +2652,7 @@
       "action": "page:/widget/companion-inbox→skip:Spara text till inkast",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-inbox"
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-inbox"
     },
     {
       "action": "page:/widget/companion-inbox→Text",
@@ -4818,13 +2678,13 @@
       "action": "route:/widget/companion-note",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-note"
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note"
     },
     {
       "action": "page:/widget/companion-note→Fäst på Hem",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-note",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note",
       "touch": {
         "w": 56,
         "h": 56,
@@ -4835,7 +2695,7 @@
       "action": "page:/widget/companion-note→Kategori Tanke",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-note",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note",
       "touch": {
         "w": 70,
         "h": 44,
@@ -4846,7 +2706,7 @@
       "action": "page:/widget/companion-note→Kategori Idé",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-note",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note",
       "touch": {
         "w": 50,
         "h": 44,
@@ -4857,7 +2717,7 @@
       "action": "page:/widget/companion-note→Kategori Påminnelse",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-note",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note",
       "touch": {
         "w": 106,
         "h": 44,
@@ -4868,7 +2728,7 @@
       "action": "page:/widget/companion-note→Kategori Annat",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-note",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note",
       "touch": {
         "w": 72,
         "h": 44,
@@ -4878,8 +2738,29 @@
     {
       "action": "page:/widget/companion-note→Kategori Idé",
       "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-note→Bild",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-note→Spela in röst",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-note→skip:Ta bort fästning på Hem",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note"
+    },
+    {
+      "action": "page:/widget/companion-note→Kategori Idé",
+      "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-note",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note",
       "touch": {
         "w": 56,
         "h": 44,
@@ -4890,7 +2771,7 @@
       "action": "page:/widget/companion-note→Bild",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-note",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note",
       "touch": {
         "w": 56,
         "h": 44,
@@ -4901,7 +2782,7 @@
       "action": "page:/widget/companion-note→Spela in röst",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-note",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note",
       "touch": {
         "w": 56,
         "h": 44,
@@ -4909,27 +2790,21 @@
       }
     },
     {
-      "action": "page:/widget/companion-note→skip:Ta bort fästning på Hem",
-      "ok": true,
-      "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-note"
-    },
-    {
       "action": "page:/widget/companion-note:summary",
       "ok": true,
-      "detail": "tapped=8 unique=11 sacred-skips=1"
+      "detail": "tapped=11 unique=14 sacred-skips=1"
     },
     {
       "action": "route:/widget/companion-harbor",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-harbor"
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-harbor"
     },
     {
       "action": "page:/widget/companion-harbor→Byt mening",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-harbor",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-harbor",
       "touch": {
         "w": 258,
         "h": 127,
@@ -4940,7 +2815,7 @@
       "action": "page:/widget/companion-harbor→Andning",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-harbor",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-harbor",
       "touch": {
         "w": 60,
         "h": 50,
@@ -4951,7 +2826,7 @@
       "action": "page:/widget/companion-harbor→Fokus",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=mabra",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra",
       "touch": {
         "w": 60,
         "h": 50,
@@ -4962,7 +2837,7 @@
       "action": "page:/widget/companion-harbor→Tacksamhet",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion",
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion",
       "touch": {
         "w": 60,
         "h": 50,
@@ -4973,7 +2848,7 @@
       "action": "page:/widget/companion-harbor→Sömn",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/vardagen?tab=mabra",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra",
       "touch": {
         "w": 60,
         "h": 50,
@@ -4983,13 +2858,7 @@
     {
       "action": "page:/widget/companion-harbor→Starta kort andningsövning",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-harbor",
-      "touch": {
-        "w": 86,
-        "h": 56,
-        "ok": true
-      }
+      "detail": "skip-not-found"
     },
     {
       "action": "page:/widget/companion-harbor→Byt trygg mening",
@@ -4999,13 +2868,7 @@
     {
       "action": "page:/widget/companion-harbor→Öppna Trygg Hamn",
       "ok": true,
-      "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/familjen?tab=hamn",
-      "touch": {
-        "w": 258,
-        "h": 56,
-        "ok": true
-      }
+      "detail": "skip-not-found"
     },
     {
       "action": "page:/widget/companion-harbor:summary",
@@ -5016,13 +2879,13 @@
       "action": "route:/widget/companion-compass",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-compass"
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-compass"
     },
     {
       "action": "page:/widget/companion-compass→Öppna kompassen",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/",
+      "urlAfter": "http://127.0.0.1:5175/",
       "touch": {
         "w": 152,
         "h": 152,
@@ -5033,7 +2896,7 @@
       "action": "page:/widget/companion-compass→Check-in Morgon",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-compass",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-compass",
       "touch": {
         "w": 84,
         "h": 44,
@@ -5044,7 +2907,7 @@
       "action": "page:/widget/companion-compass→Check-in Dag",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-compass",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-compass",
       "touch": {
         "w": 55,
         "h": 44,
@@ -5055,7 +2918,7 @@
       "action": "page:/widget/companion-compass→Check-in Kväll",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-compass",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-compass",
       "touch": {
         "w": 68,
         "h": 44,
@@ -5066,7 +2929,7 @@
       "action": "page:/widget/companion-compass→Check-in Nu",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-compass",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-compass",
       "touch": {
         "w": 48,
         "h": 44,
@@ -5077,7 +2940,7 @@
       "action": "page:/widget/companion-compass→Sätt dagens fokusintention",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/",
+      "urlAfter": "http://127.0.0.1:5175/",
       "touch": {
         "w": 258,
         "h": 64,
@@ -5093,13 +2956,13 @@
       "action": "route:/widget/companion-child",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-child"
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-child"
     },
     {
       "action": "page:/widget/companion-child→Svara på barnfokusfråga",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-child",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-child",
       "touch": {
         "w": 175,
         "h": 64,
@@ -5115,7 +2978,7 @@
       "action": "page:/widget/companion-child→Skriv svar som text",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-child",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-child",
       "touch": {
         "w": 78,
         "h": 56,
@@ -5126,7 +2989,7 @@
       "action": "page:/widget/companion-child→Spela in röstsvar",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-child",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-child",
       "touch": {
         "w": 71,
         "h": 56,
@@ -5142,7 +3005,7 @@
       "action": "page:/widget/companion-child→skip:Spara svar till barnlogg",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-child"
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-child"
     },
     {
       "action": "page:/widget/companion-child:summary",
@@ -5153,13 +3016,13 @@
       "action": "route:/widget/companion-beacon",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-beacon"
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-beacon"
     },
     {
       "action": "page:/widget/companion-beacon→Justera kapacitet, nu 68",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-beacon",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-beacon",
       "touch": {
         "w": 123,
         "h": 123,
@@ -5185,7 +3048,7 @@
       "action": "page:/widget/companion-beacon→skip:Spara dagsform till Fyre",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-beacon"
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-beacon"
     },
     {
       "action": "page:/widget/companion-beacon→Visa mer i Fyren",
@@ -5196,7 +3059,7 @@
       "action": "page:/widget/companion-beacon→Justera kapacitet, nu 76",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-beacon",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-beacon",
       "touch": {
         "w": 123,
         "h": 123,
@@ -5222,7 +3085,7 @@
       "action": "page:/widget/companion-beacon→skip:Spara dagsform till Fyre",
       "ok": true,
       "detail": "skip-sacred-or-write",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-beacon"
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-beacon"
     },
     {
       "action": "page:/widget/companion-beacon→Visa mer i Fyren",
@@ -5238,13 +3101,13 @@
       "action": "route:/widget/companion-journal",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-journal"
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal"
     },
     {
       "action": "page:/widget/companion-journal→Tungt",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-journal",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
       "touch": {
         "w": 56,
         "h": 56,
@@ -5255,7 +3118,7 @@
       "action": "page:/widget/companion-journal→Lågt",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-journal",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
       "touch": {
         "w": 56,
         "h": 56,
@@ -5266,7 +3129,7 @@
       "action": "page:/widget/companion-journal→Okej",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-journal",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
       "touch": {
         "w": 56,
         "h": 56,
@@ -5277,7 +3140,7 @@
       "action": "page:/widget/companion-journal→Bra",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-journal",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
       "touch": {
         "w": 56,
         "h": 56,
@@ -5288,7 +3151,7 @@
       "action": "page:/widget/companion-journal→Ljust",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-journal",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
       "touch": {
         "w": 56,
         "h": 56,
@@ -5299,7 +3162,7 @@
       "action": "page:/widget/companion-journal→Skriv ny dagboksanteckning",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-journal",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
       "touch": {
         "w": 258,
         "h": 64,
@@ -5310,7 +3173,7 @@
       "action": "page:/widget/companion-journal→Ljust",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-journal",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
       "touch": {
         "w": 56,
         "h": 56,
@@ -5321,7 +3184,7 @@
       "action": "page:/widget/companion-journal→Tungt",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-journal",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
       "touch": {
         "w": 56,
         "h": 56,
@@ -5332,7 +3195,7 @@
       "action": "page:/widget/companion-journal→Lågt",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-journal",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
       "touch": {
         "w": 56,
         "h": 56,
@@ -5343,7 +3206,7 @@
       "action": "page:/widget/companion-journal→Okej",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-journal",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
       "touch": {
         "w": 56,
         "h": 56,
@@ -5354,7 +3217,7 @@
       "action": "page:/widget/companion-journal→Bra",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-journal",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
       "touch": {
         "w": 56,
         "h": 56,
@@ -5365,7 +3228,7 @@
       "action": "page:/widget/companion-journal→Öppna hela dagboken",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/hjartat?tab=reflektion",
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion",
       "touch": {
         "w": 124,
         "h": 56,
@@ -5381,13 +3244,13 @@
       "action": "route:/widget/companion-anchor",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-anchor"
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-anchor"
     },
     {
       "action": "page:/widget/companion-anchor→Sätt dagens intention",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-anchor",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-anchor",
       "touch": {
         "w": 256,
         "h": 64,
@@ -5403,13 +3266,13 @@
       "action": "route:/widget/companion-tasks",
       "ok": true,
       "detail": "loaded",
-      "urlAfter": "http://127.0.0.1:5174/widget/companion-tasks"
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-tasks"
     },
     {
       "action": "page:/widget/companion-tasks→Öppna Planering",
       "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=handling",
+      "urlAfter": "http://127.0.0.1:5175/planering?tab=handling",
       "touch": {
         "w": 164,
         "h": 56,
@@ -5419,8 +3282,13 @@
     {
       "action": "page:/widget/companion-tasks→Öppna Planering för fokuspas",
       "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-tasks→Öppna Planering för fokuspas",
+      "ok": true,
       "detail": "ok",
-      "urlAfter": "http://127.0.0.1:5174/planering?tab=handling",
+      "urlAfter": "http://127.0.0.1:5175/planering?tab=handling",
       "touch": {
         "w": 56,
         "h": 48,
@@ -5430,7 +3298,7 @@
     {
       "action": "page:/widget/companion-tasks:summary",
       "ok": true,
-      "detail": "tapped=2 unique=4 sacred-skips=0"
+      "detail": "tapped=3 unique=5 sacred-skips=0"
     },
     {
       "action": "route:/dev/theme-lab",

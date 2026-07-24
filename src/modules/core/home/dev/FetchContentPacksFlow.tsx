@@ -123,9 +123,10 @@ export function FetchContentPacksFlow({
                 const newer = packHasNewerVersion(pack, versions);
                 return (
                   <li key={pack.id}>
-                    <button
+                    <Button
                       type="button"
-                      className="flex min-h-[44px] w-full flex-col items-start rounded-xl border border-border/30 bg-surface-2/60 px-3 py-2.5 text-left transition-colors hover:border-accent/35"
+                      variant="ghost"
+                      className="flex min-h-[44px] w-full flex-col items-start rounded-xl border border-border/30 bg-surface-2/60 px-3 py-2.5 text-left normal-case tracking-normal transition-colors hover:border-accent/35"
                       onClick={() => handlePick(pack)}
                     >
                       <span className="text-sm font-medium text-text">
@@ -140,7 +141,7 @@ export function FetchContentPacksFlow({
                       <span className="mt-1 text-[10px] uppercase tracking-widest text-text-dim">
                         gratis · i appen
                       </span>
-                    </button>
+                    </Button>
                   </li>
                 );
               })}

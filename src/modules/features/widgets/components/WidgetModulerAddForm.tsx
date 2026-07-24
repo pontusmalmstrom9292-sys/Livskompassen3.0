@@ -293,7 +293,8 @@ export function WidgetModulerAddForm({
             type="checkbox"
             checked={experimentMode}
             onChange={(e) => setExperimentMode(e.target.checked)}
-            className="h-4 w-4 accent-[var(--accent)]"
+            aria-label="Experimentera — visa alla typ- och stilval"
+            className="h-11 w-11 shrink-0 accent-[var(--accent)]"
           />
           <FlaskConical className="h-3.5 w-3.5 text-accent" aria-hidden />
           <span className="text-xs text-text-muted">Experimentera — visa alla typ- och stilval</span>
@@ -441,7 +442,8 @@ export function WidgetModulerAddForm({
             type="checkbox"
             checked={pinToHome}
             onChange={(e) => setPinToHome(e.target.checked)}
-            className="accent-[var(--accent)]"
+            aria-label="Fäst på Hem (under rutnätet)"
+            className="h-11 w-11 shrink-0 accent-[var(--accent)]"
           />
           <Pin className="h-3.5 w-3.5 text-accent" aria-hidden />
           <span className="text-xs text-text-muted">Fäst på Hem (under rutnätet)</span>

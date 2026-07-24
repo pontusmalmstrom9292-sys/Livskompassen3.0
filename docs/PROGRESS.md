@@ -1,3 +1,43 @@
+## 2026-07-24 — QA Harden Tier A fix
+
+- `planeringInboxConnections`: stabil snapshot-cache → stoppar `getSnapshot should be cached`
+- Touch: Moduler Experimentera/Fäst + Studio-checkboxar ≥44/56 dp + aria-label
+- `debug_hub_sweep`: en retry vid nätverksflake + splash-stuck
+- `debug_device_probe` + classify: exhaustive timeout utan UI-fel → soft-fail / Tier B `DEVICE_HARNESS`
+- Smoke: companion-widgets · locked-ux · design-modules **PASS**
+
+## 2026-07-24 — Rest of app DS sweep (5 waves)
+
+- Wave 1: CustomCategoryFlow → DS Input
+- Wave 2: FetchContentPacksFlow → DS Button
+- Wave 3: ZenModeOverlay → DS Button + reduced-motion
+- Wave 4: ParalysisBreaker → DS Button/Input + reduced-motion
+- Wave 5: text-case cleanup i flöden
+
+## 2026-07-24 — Arkivvy DS button sweep (5 waves)
+
+- Wave 1: exportknapp → DS Button
+- Wave 2: vy-toggles → DS Button
+- Wave 3: kalenderkontroller + detaljstängning → DS Button
+- Wave 4: shelf-header → DS Button
+- Wave 5: drawer-toggles → DS Button
+- Wave 6: dagens datum markeras tydligare i kalendern
+
+## 2026-07-24 — Arkiv list button polish
+
+- Arkivets load-more-knapp flyttad till design-systemets Button
+- Mindre lokal styling i arkivflödet
+
+## 2026-07-24 — Arkivvy motion polish
+
+- Samlat reduced-motion-stöd för arkivhubb, kalender, lista och shelf
+- Enhetligare vyövergångar i arkivet utan layoutändring
+
+## 2026-07-24 — Arkivvy glow cleanup
+
+- Rensade kvarvarande `glow-bottom-blue` från arkivlistan och kalenderdetaljen
+- Arkivvyn följer nu glow-kill-switch-linjen
+
 ## 2026-07-24 — Android dock ~1 cm för högt
 
 - Rotorsak: MainActivity pad `bars.bottom` + Capacitor/androidDockInsetFix safe-area = dubbel inset

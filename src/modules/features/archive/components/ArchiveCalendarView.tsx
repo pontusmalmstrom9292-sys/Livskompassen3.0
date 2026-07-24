@@ -17,6 +17,7 @@ import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { ChevronLeft, ChevronRight, X, Book, Shield, Clock, Heart } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { EmptyState } from '@/core/ui/EmptyState';
+import { Button, useDsReducedMotion } from '@/design-system';
 
 interface ArchiveCalendarViewProps {
   entries: ArchiveEntry[];
@@ -32,6 +33,8 @@ export function ArchiveCalendarView({
   loading
 }: ArchiveCalendarViewProps) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const reducedMotion = useDsReducedMotion();
+  const today = new Date();
 
   // Bygg kalender-grid
   const monthStart = startOfMonth(currentMonthDate);
@@ -55,30 +58,42 @@ export function ArchiveCalendarView({
   const handleNextMonth = () => onChangeMonth(addMonths(currentMonthDate, 1));
 
   const selectedEntries = selectedDate ? getEntriesForDay(selectedDate) : [];
+  const selectedDayMotion = reducedMotion
+    ? { initial: false as const, animate: { opacity: 1 }, exit: { opacity: 1 }, transition: { duration: 0 } }
+    : {
+        initial: { opacity: 0, y: 15 },
+        animate: { opacity: 1, y: 0 },
+        exit: { opacity: 0, y: 15 },
+        transition: { duration: 0.25, ease: 'easeOut' as const },
+      };
 
   return (
     <div className="flex flex-col gap-4 pb-20">
       {/* Kalender Header */}
       <div className="flex items-center justify-between bg-surface-2/70 backdrop-blur-xl border border-border/30 rounded-2xl p-4 shadow-md">
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="icon"
           onClick={handlePrevMonth}
-          className="flex min-h-11 min-w-11 items-center justify-center rounded-full transition-colors hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          className="rounded-full transition-colors hover:bg-surface-3"
           aria-label="Föregående månad"
         >
           <ChevronLeft className="h-5 w-5 text-accent" aria-hidden />
-        </button>
+        </Button>
         <div className="font-display-serif text-sm font-semibold uppercase tracking-wider text-text">
           {format(currentMonthDate, 'MMMM yyyy', { locale: sv })}
         </div>
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="icon"
           onClick={handleNextMonth}
-          className="flex min-h-11 min-w-11 items-center justify-center rounded-full transition-colors hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          className="rounded-full transition-colors hover:bg-surface-3"
           aria-label="Nästa månad"
         >
           <ChevronRight className="h-5 w-5 text-accent" aria-hidden />
-        </button>
+        </Button>
       </div>
 
       {/* Kalender Grid */}
@@ -93,6 +108,7 @@ export function ArchiveCalendarView({
         <div className="grid grid-cols-7 gap-1">
           {calendarDays.map((day, i) => {
             const isCurrentMonth = isSameMonth(day, monthStart);
+            const isToday = isSameDay(day, today);
             const dayEntries = getEntriesForDay(day);
             const hasEntries = dayEntries.length > 0;
             const isSelected = selectedDate && isSameDay(day, selectedDate);
@@ -108,6 +124,7 @@ export function ArchiveCalendarView({
                 onClick={() => setSelectedDate(day)}
                 aria-label={`${format(day, 'd MMMM yyyy', { locale: sv })}${hasEntries ? `, ${dayEntries.length} poster` : ''}`}
                 aria-pressed={Boolean(isSelected)}
+                aria-current={isToday ? 'date' : undefined}
                 className={`
                   relative aspect-square flex min-h-11 min-w-11 flex-col items-center justify-center rounded-xl text-xs transition-all duration-[var(--ds-duration-fast)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40
                   ${!isCurrentMonth ? 'text-text-muted/20 hover:bg-transparent cursor-default pointer-events-none' : 'text-text'}
@@ -115,6 +132,7 @@ export function ArchiveCalendarView({
                     ? 'bg-accent/15 border border-accent/40 text-text shadow-inner ring-1 ring-accent/20' 
                     : isCurrentMonth ? 'hover:bg-surface-3/50 border border-transparent' : ''
                   }
+                  ${isToday && !isSelected ? 'ring-1 ring-accent/20' : ''}
                 `}
                 disabled={!isCurrentMonth}
               >
@@ -143,23 +161,23 @@ export function ArchiveCalendarView({
       <AnimatePresence mode="wait">
         {selectedDate && (
           <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 15 }}
-            className="calm-card glow-bottom-blue relative mt-4 rounded-2xl p-4 sm:p-5"
+            {...selectedDayMotion}
+            className="calm-card relative mt-4 rounded-2xl p-4 sm:p-5"
           >
             <div className="flex items-center justify-between mb-4 border-b border-border/15 pb-3">
               <h3 className="text-sm font-semibold tracking-wider font-display-serif uppercase text-text">
                 {format(selectedDate, 'EEEE d MMMM', { locale: sv })}
               </h3>
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="icon"
                 onClick={() => setSelectedDate(null)}
-                className="flex min-h-11 min-w-11 items-center justify-center rounded-full text-text-muted transition hover:bg-surface-3 hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+                className="rounded-full text-text-muted transition hover:bg-surface-3 hover:text-text"
                 aria-label="Stäng dagsdetalj"
               >
                 <X className="h-4 w-4" aria-hidden />
-              </button>
+              </Button>
             </div>
 
             {selectedEntries.length === 0 ? (

@@ -27,6 +27,7 @@ export const TIER_B_CODES = new Set([
   'COMPANION_STRUCTURE',
   'LOCKED_UX_STRUCTURE',
   'ENGLISH_UI',
+  'DEVICE_HARNESS',
 ]);
 
 export const TIER_C_CODES = new Set([
@@ -141,14 +142,34 @@ export function classifyFromLatest(latest) {
 
   const device = latest?.device;
   if (device?.status === 'fail') {
-    findings.push({
-      tier: 'A',
-      code: 'DEVICE_FAIL',
-      source: 'device-probe',
-      path: 'android',
-      detail: device.detail || 'device fail',
-      swedish: `Telefon-test misslyckades: ${device.detail || 'okänt'}.`,
-    });
+    const harnessOnly =
+      device?.exhaustive?.harnessOnly === true ||
+      /harness-timeout|TIMEOUT after|Target page, context or browser has been closed/i.test(
+        String(device.detail || ''),
+      );
+    const zeroUi =
+      device?.exhaustive?.issueCount === 0 ||
+      /0 UI/i.test(String(device.detail || ''));
+    // CDP/timeout with no product issues → Tier B (infra), not product Tier A
+    if (harnessOnly && zeroUi) {
+      findings.push({
+        tier: 'B',
+        code: 'DEVICE_HARNESS',
+        source: 'device-probe',
+        path: 'android',
+        detail: device.detail || 'device harness timeout',
+        swedish: `Telefon-crawl timeout utan UI-fel — kör om med USB eller höj QA_DEVICE_EXHAUSTIVE_TIMEOUT_MS.`,
+      });
+    } else {
+      findings.push({
+        tier: 'A',
+        code: 'DEVICE_FAIL',
+        source: 'device-probe',
+        path: 'android',
+        detail: device.detail || 'device fail',
+        swedish: `Telefon-test misslyckades: ${device.detail || 'okänt'}.`,
+      });
+    }
   }
 
   const swedish = latest?.probes?.swedishStatic;

@@ -2,6 +2,23 @@
   "findings": [
     {
       "tier": "A",
+      "code": "LOADING_STUCK",
+      "source": "hub-sweep",
+      "path": "/",
+      "detail": "loading-stuck",
+      "swedish": "Sidan / svarade fel (loading-stuck)."
+    },
+    {
+      "tier": "A",
+      "code": "TOUCH_TOO_SMALL",
+      "source": "tap-press",
+      "path": "page:/widget/moduler→on",
+      "detail": "touch-too-small 16×16",
+      "swedish": "Tryckyta för liten: page:/widget/moduler→on (touch-too-small 16×16).",
+      "recipe": "TOUCH_TOO_SMALL"
+    },
+    {
+      "tier": "A",
       "code": "CRASH_OR_STUCK",
       "source": "tap-press-console",
       "path": "",
@@ -14,14 +31,15 @@
       "code": "DEVICE_FAIL",
       "source": "device-probe",
       "path": "android",
-      "detail": "device=ZY22L8WFBX · maestro FAIL · reused",
-      "swedish": "Telefon-test misslyckades: device=ZY22L8WFBX · maestro FAIL · reused."
+      "detail": "device=ZY22L8WFBX · exhaustive FAIL",
+      "swedish": "Telefon-test misslyckades: device=ZY22L8WFBX · exhaustive FAIL."
     }
   ],
   "fix": {
     "applied": 0,
     "notes": [
-      "1 crash/hub findings need agent inspection (no blind recipe). Wrote queue for Cursor."
+      "TOUCH_TOO_SMALL ×1 → polish-pass (content) + dock orörd (chrome-lock).",
+      "2 crash/hub findings need agent inspection (no blind recipe). Wrote queue for Cursor."
     ]
   }
 }

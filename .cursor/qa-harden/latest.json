@@ -1,17 +1,17 @@
 {
   "schema": "qa-harden/v1",
-  "at": "2026-07-24T07:58:26.642Z",
+  "at": "2026-07-24T11:13:26.150Z",
   "kind": "qa-harden-final",
-  "base": "http://127.0.0.1:5174",
+  "base": "http://127.0.0.1:5175",
   "rounds": [
     {
       "round": 1,
-      "suiteExit": 1,
-      "tierA": 8,
+      "suiteExit": 0,
+      "tierA": 2,
       "tierB": 0,
       "device": "fail",
       "recipes": 0,
-      "polish": 1,
+      "polish": 0,
       "smokeLocked": 0,
       "smokeDesign": 0
     }
@@ -20,60 +20,6 @@
     "findings": [
       {
         "tier": "A",
-        "code": "NO_SCROLL_SURFACE",
-        "source": "scroll-probe",
-        "path": "/vardagen?tab=mabra",
-        "detail": "NO_SCROLL_SURFACE",
-        "swedish": "Scrollproblem på /vardagen?tab=mabra: NO_SCROLL_SURFACE.",
-        "recipe": "NO_SCROLL_SURFACE"
-      },
-      {
-        "tier": "A",
-        "code": "TOUCH_TOO_SMALL",
-        "source": "tap-press",
-        "path": "page:/installningar→on",
-        "detail": "touch-too-small 20×20",
-        "swedish": "Tryckyta för liten: page:/installningar→on (touch-too-small 20×20).",
-        "recipe": "TOUCH_TOO_SMALL"
-      },
-      {
-        "tier": "A",
-        "code": "TOUCH_TOO_SMALL",
-        "source": "tap-press",
-        "path": "page:/installningar?tab=allmant→on",
-        "detail": "touch-too-small 20×20",
-        "swedish": "Tryckyta för liten: page:/installningar?tab=allmant→on (touch-too-small 20×20).",
-        "recipe": "TOUCH_TOO_SMALL"
-      },
-      {
-        "tier": "A",
-        "code": "TOUCH_TOO_SMALL",
-        "source": "tap-press",
-        "path": "page:/installningar?tab=naring→on",
-        "detail": "touch-too-small 13×16",
-        "swedish": "Tryckyta för liten: page:/installningar?tab=naring→on (touch-too-small 13×16).",
-        "recipe": "TOUCH_TOO_SMALL"
-      },
-      {
-        "tier": "A",
-        "code": "TOUCH_TOO_SMALL",
-        "source": "tap-press",
-        "path": "page:/installningar?tab=naring→on",
-        "detail": "touch-too-small 15×16",
-        "swedish": "Tryckyta för liten: page:/installningar?tab=naring→on (touch-too-small 15×16).",
-        "recipe": "TOUCH_TOO_SMALL"
-      },
-      {
-        "tier": "A",
-        "code": "TOUCH_TOO_SMALL",
-        "source": "tap-press",
-        "path": "page:/widget/moduler→on",
-        "detail": "touch-too-small 16×16",
-        "swedish": "Tryckyta för liten: page:/widget/moduler→on (touch-too-small 16×16).",
-        "recipe": "TOUCH_TOO_SMALL"
-      },
-      {
-        "tier": "A",
         "code": "CRASH_OR_STUCK",
         "source": "tap-press-console",
         "path": "",
@@ -86,67 +32,13 @@
         "code": "DEVICE_FAIL",
         "source": "device-probe",
         "path": "android",
-        "detail": "device=ZY22L8WFBX · exhaustive FAIL",
-        "swedish": "Telefon-test misslyckades: device=ZY22L8WFBX · exhaustive FAIL."
+        "detail": "device=ZY22L8WFBX · maestro FAIL · exhaustive FAIL",
+        "swedish": "Telefon-test misslyckades: device=ZY22L8WFBX · maestro FAIL · exhaustive FAIL."
       }
     ],
     "tierA": [
       {
         "tier": "A",
-        "code": "NO_SCROLL_SURFACE",
-        "source": "scroll-probe",
-        "path": "/vardagen?tab=mabra",
-        "detail": "NO_SCROLL_SURFACE",
-        "swedish": "Scrollproblem på /vardagen?tab=mabra: NO_SCROLL_SURFACE.",
-        "recipe": "NO_SCROLL_SURFACE"
-      },
-      {
-        "tier": "A",
-        "code": "TOUCH_TOO_SMALL",
-        "source": "tap-press",
-        "path": "page:/installningar→on",
-        "detail": "touch-too-small 20×20",
-        "swedish": "Tryckyta för liten: page:/installningar→on (touch-too-small 20×20).",
-        "recipe": "TOUCH_TOO_SMALL"
-      },
-      {
-        "tier": "A",
-        "code": "TOUCH_TOO_SMALL",
-        "source": "tap-press",
-        "path": "page:/installningar?tab=allmant→on",
-        "detail": "touch-too-small 20×20",
-        "swedish": "Tryckyta för liten: page:/installningar?tab=allmant→on (touch-too-small 20×20).",
-        "recipe": "TOUCH_TOO_SMALL"
-      },
-      {
-        "tier": "A",
-        "code": "TOUCH_TOO_SMALL",
-        "source": "tap-press",
-        "path": "page:/installningar?tab=naring→on",
-        "detail": "touch-too-small 13×16",
-        "swedish": "Tryckyta för liten: page:/installningar?tab=naring→on (touch-too-small 13×16).",
-        "recipe": "TOUCH_TOO_SMALL"
-      },
-      {
-        "tier": "A",
-        "code": "TOUCH_TOO_SMALL",
-        "source": "tap-press",
-        "path": "page:/installningar?tab=naring→on",
-        "detail": "touch-too-small 15×16",
-        "swedish": "Tryckyta för liten: page:/installningar?tab=naring→on (touch-too-small 15×16).",
-        "recipe": "TOUCH_TOO_SMALL"
-      },
-      {
-        "tier": "A",
-        "code": "TOUCH_TOO_SMALL",
-        "source": "tap-press",
-        "path": "page:/widget/moduler→on",
-        "detail": "touch-too-small 16×16",
-        "swedish": "Tryckyta för liten: page:/widget/moduler→on (touch-too-small 16×16).",
-        "recipe": "TOUCH_TOO_SMALL"
-      },
-      {
-        "tier": "A",
         "code": "CRASH_OR_STUCK",
         "source": "tap-press-console",
         "path": "",
@@ -159,8 +51,8 @@
         "code": "DEVICE_FAIL",
         "source": "device-probe",
         "path": "android",
-        "detail": "device=ZY22L8WFBX · exhaustive FAIL",
-        "swedish": "Telefon-test misslyckades: device=ZY22L8WFBX · exhaustive FAIL."
+        "detail": "device=ZY22L8WFBX · maestro FAIL · exhaustive FAIL",
+        "swedish": "Telefon-test misslyckades: device=ZY22L8WFBX · maestro FAIL · exhaustive FAIL."
       }
     ],
     "tierB": [],
