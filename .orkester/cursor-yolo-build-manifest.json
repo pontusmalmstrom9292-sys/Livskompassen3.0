@@ -585,6 +585,28 @@
         "functions",
         "OK deploy"
       ]
+    },
+    {
+      "version": 63,
+      "id": "QA-HARDEN-LOOP",
+      "title": "UI QA Harden Loop — detect/classify/Tier A/device SKIP",
+      "agent": "sync-g85-ui-qa",
+      "plan": "Kör npm run qa:harden. Tier A = scroll/crash/touch CSS via recipes + sync-scroll-shell. Tier B → pontus md. Aldrig long-press Valv, rules, Ghost. Deploy SKIP.",
+      "smoke": [
+        "npm run qa:harden:fast",
+        "npm run smoke:locked-ux",
+        "npm run smoke:design-modules"
+      ],
+      "pmir": false,
+      "deploy": "none",
+      "class": "ui",
+      "keywords": [
+        "qa-harden",
+        "debug:ui-suite",
+        "scroll",
+        "maestro",
+        "Fas 24"
+      ]
     }
   ]
 }

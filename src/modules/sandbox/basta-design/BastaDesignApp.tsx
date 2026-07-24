@@ -476,7 +476,7 @@ function DagbokScreen() {
   );
 }
 
-function InstallningarScreen() {
+function InställningarScreen() {
   const sections = [
     { title: 'Konto & Profil', items: ['Profil', 'Prenumeration', 'Säkerhet & lösenord'] },
     { title: 'Upplevelse', items: ['Notifikationer', 'Tema', 'Språk & region'] },
@@ -550,7 +550,7 @@ export function BastaDesignApp() {
     ekonomi: <EkonomScreen />,
     resurser: <ResurserScreen />,
     dagbok: <DagbokScreen />,
-    installningar: <InstallningarScreen />,
+    installningar: <InställningarScreen />,
   };
 
   const dockItems: { id: TabId; label: string; icon: React.ReactNode; fab?: boolean }[] = [

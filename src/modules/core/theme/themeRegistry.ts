@@ -78,7 +78,7 @@ export const THEME_REGISTRY: ThemePack[] = [
   {
     id: 'I-skymning',
     label: 'Nordic Skymning',
-    description: 'Aurora glass — MåBra, KBT (modul-scoped mint).',
+    description: 'Aurora glass — Mabra, KBT (modul-scoped mint).',
     background: 'aurora',
     preview: '/design/themes/I-architect-vault/03-nordic-skymning.png',
     cssVars: {
@@ -328,7 +328,7 @@ export const THEME_REGISTRY: ThemePack[] = [
   },
   {
     id: 'J-mabra-lavendel',
-    label: 'MåBra Lavendel',
+    label: 'Mabra Lavendel',
     description: 'Vit zon / Transformatorn — lavendel + guld (ej turkos).',
     background: 'texture-stone',
     preview: '/design/themes/G-varm-hamn/06-kbt-transformator.png',

@@ -102,7 +102,7 @@ export function HomeLayoutA({ onCheckInSaved, variant = 'calm', presetLabel, hid
           setIsEditing(false);
         }
 
-        // 2. Närvaro (MåBra checkin)
+        // 2. Närvaro (Mabra checkin)
         const foundMabra = history.find((c) => c.questionId === 'mabra_checkin');
         if (foundMabra && foundMabra.energy !== undefined) {
           setPresenceVal(`${foundMabra.energy}/10`);

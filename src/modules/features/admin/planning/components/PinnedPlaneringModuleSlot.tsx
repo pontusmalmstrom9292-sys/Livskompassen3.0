@@ -225,7 +225,7 @@ function HomePlaneringPanel() {
           <div className="space-y-2 py-1">
             <p className="text-xs text-text-muted">Makron och näring — lugnt överblick.</p>
             <ButtonLink to="/vardagen?tab=mabra" variant="ghost" size="sm" className="inline-flex min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
-              Öppna MåBra
+              Öppna Mabra
               <ChevronRight className="ml-1 h-3.5 w-3.5" aria-hidden />
             </ButtonLink>
           </div>

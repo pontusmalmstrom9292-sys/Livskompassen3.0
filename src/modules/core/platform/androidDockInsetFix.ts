@@ -5,10 +5,13 @@ const DOCK_BAR_SELECTOR = '.basta-dock-bar--v2';
 /** Intern luft under etiketter — aldrig safe-area här (orsakade ~1 cm gap). */
 const BAR_BOTTOM_PX = '4px';
 /** Minsta lyft om Capacitor inte hunnit injicera än. */
-const SHELL_BOTTOM_FALLBACK_PX = 10;
+const SHELL_BOTTOM_FALLBACK_PX = 4;
 
 let trimObserver: MutationObserver | null = null;
 let trimScheduled = false;
+let applyingTrim = false;
+let lastAppliedShellBottom = -1;
+let lastAppliedSafeBottom = -1;
 
 /** Capacitor Android WebView (https://localhost) eller native platform. */
 export function isAndroidCapacitorShell(): boolean {
@@ -42,13 +45,20 @@ function readCapacitorSafeBottomPx(): number {
 
 /**
  * Capacitor SystemBars: safe-area ska bara ligga på shell (gestyrad), inte i nav-baren.
- * Dubbel padding på bar gav ~1 cm gap; noll på shell gav "för långt ned".
+ * MainActivity MUST stay full-bleed (content padding-bottom = 0) — native pad + this
+ * trim stacked ~1 cm gap. Dubbel padding på bar gav samma gap; noll på shell (utan
+ * native pad) gav "för långt ned".
+ *
+ * Idempotent — skippar om värden oförändrade (undviker MutationObserver↔style-loop
+ * som körde trim varje rAF och gav hackig scroll).
  */
 export function trimAndroidBastaDockInsets(): void {
   if (!isAndroidCapacitorShell()) return;
 
   const root = document.documentElement;
-  root.classList.add('platform-capacitor-android');
+  if (!root.classList.contains('platform-capacitor-android')) {
+    root.classList.add('platform-capacitor-android');
+  }
 
   const shell = document.querySelector<HTMLElement>(DOCK_SHELL_SELECTOR);
   const bar = document.querySelector<HTMLElement>(DOCK_BAR_SELECTOR);
@@ -57,20 +67,39 @@ export function trimAndroidBastaDockInsets(): void {
   const safeBottom = readCapacitorSafeBottomPx();
   const shellBottom = Math.max(SHELL_BOTTOM_FALLBACK_PX, Math.round(safeBottom));
 
-  root.style.setProperty('--lk-android-shell-inset', `${shellBottom}px`);
-  shell.style.setProperty('padding-bottom', `${shellBottom}px`, 'important');
-  shell.style.setProperty('padding-top', '0px', 'important');
+  const unchanged =
+    safeBottom === lastAppliedSafeBottom &&
+    shellBottom === lastAppliedShellBottom &&
+    root.style.getPropertyValue('--lk-android-shell-inset') === `${shellBottom}px` &&
+    shell.style.paddingBottom === `${shellBottom}px` &&
+    bar.style.paddingBottom === BAR_BOTTOM_PX;
 
-  bar.style.setProperty('padding-bottom', BAR_BOTTOM_PX, 'important');
+  if (unchanged) return;
 
-  bar.querySelectorAll<HTMLElement>('.basta-dock-bar__side').forEach((side) => {
-    side.style.setProperty('padding-bottom', '0px', 'important');
-    side.style.setProperty('min-height', 'unset', 'important');
-  });
+  lastAppliedSafeBottom = safeBottom;
+  lastAppliedShellBottom = shellBottom;
+
+  applyingTrim = true;
+  try {
+    root.style.setProperty('--lk-android-shell-inset', `${shellBottom}px`);
+    shell.style.setProperty('padding-bottom', `${shellBottom}px`, 'important');
+    shell.style.setProperty('padding-top', '0px', 'important');
+    bar.style.setProperty('padding-bottom', BAR_BOTTOM_PX, 'important');
+
+    bar.querySelectorAll<HTMLElement>('.basta-dock-bar__side').forEach((side) => {
+      side.style.setProperty('padding-bottom', '0px', 'important');
+      side.style.setProperty('min-height', 'unset', 'important');
+    });
+  } finally {
+    // Allow nested observers to settle before accepting new mutations.
+    requestAnimationFrame(() => {
+      applyingTrim = false;
+    });
+  }
 }
 
 function scheduleTrim(): void {
-  if (trimScheduled) return;
+  if (trimScheduled || applyingTrim) return;
   trimScheduled = true;
   requestAnimationFrame(() => {
     trimScheduled = false;
@@ -83,17 +112,31 @@ export function watchAndroidDockInsetFix(): () => void {
   if (!isAndroidCapacitorShell()) return () => undefined;
 
   markAndroidShellHtml();
+  lastAppliedShellBottom = -1;
+  lastAppliedSafeBottom = -1;
   scheduleTrim();
 
   const root = document.documentElement;
-  trimObserver = new MutationObserver(() => scheduleTrim());
-  trimObserver.observe(root, { attributes: true, attributeFilter: ['style', 'class'] });
+  // Only class changes on <html> — NOT style (our own --lk-android-shell-inset writes).
+  trimObserver = new MutationObserver(() => {
+    if (applyingTrim) return;
+    scheduleTrim();
+  });
+  trimObserver.observe(root, { attributes: true, attributeFilter: ['class'] });
 
   window.addEventListener('resize', scheduleTrim);
   window.visualViewport?.addEventListener('resize', scheduleTrim);
 
-  const bodyObserver = new MutationObserver(() => scheduleTrim());
-  bodyObserver.observe(document.body, { childList: true, subtree: true });
+  // Dock may mount late — watch only direct body children, not full subtree thrash.
+  const bodyObserver = new MutationObserver(() => {
+    if (applyingTrim) return;
+    scheduleTrim();
+  });
+  bodyObserver.observe(document.body, { childList: true, subtree: false });
+
+  // One delayed pass after Capacitor SystemBars injects CSS vars.
+  const t1 = window.setTimeout(() => scheduleTrim(), 400);
+  const t2 = window.setTimeout(() => scheduleTrim(), 1200);
 
   return () => {
     trimObserver?.disconnect();
@@ -101,5 +144,7 @@ export function watchAndroidDockInsetFix(): () => void {
     bodyObserver.disconnect();
     window.removeEventListener('resize', scheduleTrim);
     window.visualViewport?.removeEventListener('resize', scheduleTrim);
+    window.clearTimeout(t1);
+    window.clearTimeout(t2);
   };
 }

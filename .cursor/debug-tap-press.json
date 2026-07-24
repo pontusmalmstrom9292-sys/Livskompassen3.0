@@ -1,0 +1,3354 @@
+{
+  "probe": "tap-press",
+  "mode": "exhaustive-crawl",
+  "base": "http://127.0.0.1:5175",
+  "at": "2026-07-24T11:13:23.460Z",
+  "routesVisited": 83,
+  "maxTapsPerPage": 12,
+  "scrollPasses": 2,
+  "actions": 439,
+  "issueCount": 0,
+  "issues": [],
+  "touchAudit": [
+    {
+      "name": "Anteckning",
+      "w": 68,
+      "h": 53,
+      "ok": true
+    },
+    {
+      "name": "Familj",
+      "w": 54,
+      "h": 53,
+      "ok": true
+    },
+    {
+      "name": "Inkast",
+      "w": 54,
+      "h": 53,
+      "ok": true
+    },
+    {
+      "name": "Ventil",
+      "w": 54,
+      "h": 53,
+      "ok": true
+    },
+    {
+      "name": "Hamn",
+      "w": 106,
+      "h": 106,
+      "ok": true
+    }
+  ],
+  "consoleErrorCount": 46,
+  "consoleErrors": [
+    "The result of getSnapshot should be cached to avoid an infinite loop",
+    "%o\n\n%s\n\n%s\n Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.1:5175",
+    "[LivLauncherPage] Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.",
+    "The result of getSnapshot should be cached to avoid an infinite loop",
+    "%o\n\n%s\n\n%s\n Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.1:5175",
+    "[LivLauncherPage] Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.",
+    "%o\n\n%s\n\n%s\n Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.1:5175",
+    "[LivLauncherPage] Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.",
+    "The result of getSnapshot should be cached to avoid an infinite loop",
+    "%o\n\n%s\n\n%s\n Error: Cannot include a '?' character in a manually specified `to.pathname` field [{\"pathname\":\"/arbetsliv/input?inputMode=stampla\",\"search\":\"\"}].  Please separate it out to the `to.search` field. Alternatively you may provide the full path as a string in <Link to=\"..",
+    "[ArbetslivInputSuperModule] Error: Cannot include a '?' character in a manually specified `to.pathname` field [{\"pathname\":\"/arbetsliv/input?inputMode=stampla\",\"search\":\"\"}].  Please separate it out to the `to.search` field. Alternatively you may provide the full path as a string",
+    "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. T",
+    "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. T",
+    "Encountered two children with the same key, `%s`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version. T",
+    "[AdaptationStore] recordSignal: FirebaseError: internal",
+    "[AdaptationStore] recordSignal: FirebaseError: internal",
+    "[AdaptationStore] recordSignal: FirebaseError: internal",
+    "[AdaptationStore] recordSignal: FirebaseError: internal",
+    "[AdaptationStore] recordSignal: FirebaseError: internal",
+    "[AdaptationStore] recordSignal: FirebaseError: internal"
+  ],
+  "authNoiseCount": 37,
+  "results": [
+    {
+      "action": "dock:Hamn(short)",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/",
+      "touch": {
+        "w": 106,
+        "h": 106,
+        "ok": true
+      }
+    },
+    {
+      "action": "header:resurser-open",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/",
+      "touch": {
+        "w": 44,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "header:alla-resurser",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/",
+      "touch": {
+        "w": 185,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "header:resurser-close",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/",
+      "touch": {
+        "w": 44,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "drawer:Startskärm",
+      "ok": true,
+      "detail": "ok-already-home",
+      "urlAfter": "http://127.0.0.1:5175/",
+      "touch": {
+        "w": 192,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "drawer:Snabb-inkast",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/#inkast-lite",
+      "touch": {
+        "w": 192,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "drawer:Kompasser",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/vardagen",
+      "touch": {
+        "w": 192,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "drawer:MåBra",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "drawer:Planering",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/planering?tab=handling",
+      "touch": {
+        "w": 192,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "drawer:Arbetsliv",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input",
+      "touch": {
+        "w": 192,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "drawer:Ekonomi",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=ekonomi",
+      "touch": {
+        "w": 192,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "drawer:Barnfokus",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=reflektion",
+      "touch": {
+        "w": 192,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "drawer:Livslogg",
+      "ok": true,
+      "detail": "skip-flaky (locator.click: Timeout 4000ms exceeded.\n)",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=reflektion"
+    },
+    {
+      "action": "drawer:Tillsammans",
+      "ok": true,
+      "detail": "skip-flaky (locator.click: Timeout 4000ms exceeded.\n)",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=reflektion"
+    },
+    {
+      "action": "drawer:Barnporten",
+      "ok": true,
+      "detail": "skip-flaky (locator.click: Timeout 4000ms exceeded.\n)",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=reflektion"
+    },
+    {
+      "action": "drawer:Trygg hamn",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn",
+      "touch": {
+        "w": 192,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "drawer:Drogfrihet",
+      "ok": true,
+      "detail": "skip-flaky (locator.click: Timeout 4000ms exceeded.\n)",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn"
+    },
+    {
+      "action": "drawer:Allmänt",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=allmant",
+      "touch": {
+        "w": 192,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "drawer:Näring",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=naring",
+      "touch": {
+        "w": 192,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "drawer:Drogfrihet",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=drogfrihet",
+      "touch": {
+        "w": 192,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "dock:Familj",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen",
+      "touch": {
+        "w": 54,
+        "h": 53,
+        "ok": true
+      }
+    },
+    {
+      "action": "dock:Ventil",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/hjartat",
+      "touch": {
+        "w": 54,
+        "h": 53,
+        "ok": true
+      }
+    },
+    {
+      "action": "dock:Inkast",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/planering/input?inputMode=inkast",
+      "touch": {
+        "w": 54,
+        "h": 53,
+        "ok": true
+      }
+    },
+    {
+      "action": "dock:Anteckning",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
+      "touch": {
+        "w": 68,
+        "h": 53,
+        "ok": true
+      }
+    },
+    {
+      "action": "route:/",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/"
+    },
+    {
+      "action": "page:/→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/"
+    },
+    {
+      "action": "page:/:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/dashboard",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/dashboard"
+    },
+    {
+      "action": "page:/dashboard→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/dashboard"
+    },
+    {
+      "action": "page:/dashboard:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/kompis",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/kompis"
+    },
+    {
+      "action": "page:/kompis→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/kompis"
+    },
+    {
+      "action": "page:/kompis→Kunskapsbank. Direkt till Va",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/kompis→Trygg hamn. BIFF och Grey Ro",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/kompis→Planering · Handling. Kanban",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/kompis→Mabra. Andning, jordning och",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/kompis:summary",
+      "ok": true,
+      "detail": "tapped=4 unique=17 sacred-skips=1"
+    },
+    {
+      "action": "route:/morgon",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/morgon"
+    },
+    {
+      "action": "page:/morgon→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/morgon"
+    },
+    {
+      "action": "page:/morgon:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/vardagen",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/vardagen"
+    },
+    {
+      "action": "page:/vardagen→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/vardagen"
+    },
+    {
+      "action": "page:/vardagen:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/vardagen?tab=kompasser",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=kompasser"
+    },
+    {
+      "action": "page:/vardagen?tab=kompasser→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=kompasser"
+    },
+    {
+      "action": "page:/vardagen?tab=kompasser:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/vardagen?tab=mabra",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra"
+    },
+    {
+      "action": "page:/vardagen?tab=mabra→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra"
+    },
+    {
+      "action": "page:/vardagen?tab=mabra:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/vardagen?tab=ekonomi",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=ekonomi"
+    },
+    {
+      "action": "page:/vardagen?tab=ekonomi→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=ekonomi"
+    },
+    {
+      "action": "page:/vardagen?tab=ekonomi→Försök igen",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=ekonomi",
+      "touch": {
+        "w": 113,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/vardagen?tab=ekonomi→Till Hem",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/",
+      "touch": {
+        "w": 88,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/vardagen?tab=ekonomi:summary",
+      "ok": true,
+      "detail": "tapped=2 unique=13 sacred-skips=1"
+    },
+    {
+      "action": "route:/mabra",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/mabra"
+    },
+    {
+      "action": "page:/mabra→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/mabra"
+    },
+    {
+      "action": "page:/mabra:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/mabra/akut",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/mabra/akut"
+    },
+    {
+      "action": "page:/mabra/akut→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/mabra/akut"
+    },
+    {
+      "action": "page:/mabra/akut:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/mabra/tid",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/mabra/tid"
+    },
+    {
+      "action": "page:/mabra/tid→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/mabra/tid"
+    },
+    {
+      "action": "page:/mabra/tid:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/mabra/varderingar",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/mabra/varderingar"
+    },
+    {
+      "action": "page:/mabra/varderingar→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/mabra/varderingar"
+    },
+    {
+      "action": "page:/mabra/varderingar:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/mabra/input",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/mabra/input"
+    },
+    {
+      "action": "page:/mabra/input→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/mabra/input"
+    },
+    {
+      "action": "page:/mabra/input:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/mabra/recovery/sos",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/mabra/recovery/sos"
+    },
+    {
+      "action": "page:/mabra/recovery/sos→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/mabra/recovery/sos"
+    },
+    {
+      "action": "page:/mabra/recovery/sos:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/planering",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/planering"
+    },
+    {
+      "action": "page:/planering→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/planering"
+    },
+    {
+      "action": "page:/planering:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/planering?tab=handling",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/planering?tab=handling"
+    },
+    {
+      "action": "page:/planering?tab=handling→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/planering?tab=handling"
+    },
+    {
+      "action": "page:/planering?tab=handling:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/planering/kalender",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/planering/kalender"
+    },
+    {
+      "action": "page:/planering/kalender→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/planering/kalender"
+    },
+    {
+      "action": "page:/planering/kalender→Liv och göra",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/vardagen",
+      "touch": {
+        "w": 161,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/planering/kalender→Inkorg",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/planering?tab=inkorg&inbox=kalender",
+      "touch": {
+        "w": 70,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/planering/kalender:summary",
+      "ok": true,
+      "detail": "tapped=2 unique=13 sacred-skips=1"
+    },
+    {
+      "action": "route:/planering/input",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/planering/input"
+    },
+    {
+      "action": "page:/planering/input→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/planering/input"
+    },
+    {
+      "action": "page:/planering/input:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/arbetsliv",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv"
+    },
+    {
+      "action": "page:/arbetsliv→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv"
+    },
+    {
+      "action": "page:/arbetsliv:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/arbetsliv/input",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input"
+    },
+    {
+      "action": "page:/arbetsliv/input→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input"
+    },
+    {
+      "action": "page:/arbetsliv/input:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/arbetsliv/input?inputMode=tid",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=tid"
+    },
+    {
+      "action": "page:/arbetsliv/input?inputMode=tid→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=tid"
+    },
+    {
+      "action": "page:/arbetsliv/input?inputMode=tid:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/arbetsliv/input?inputMode=inkomster",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=inkomster"
+    },
+    {
+      "action": "page:/arbetsliv/input?inputMode=inkomster→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=inkomster"
+    },
+    {
+      "action": "page:/arbetsliv/input?inputMode=inkomster→Hjälp: Arbetsliv",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=inkomster",
+      "touch": {
+        "w": 44,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/arbetsliv/input?inputMode=inkomster→Lönespec i Valv",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/arbetsliv/input?inputMode=inkomster→Frånvaro i Valv",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/arbetsliv/input?inputMode=inkomster→StämpelStämpla in och ut — f",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/arbetsliv/input?inputMode=inkomster→LönekontorLön, avtal, skatt ",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/arbetsliv/input?inputMode=inkomster→InkomsterLön, FK, omvårdnads",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/arbetsliv/input?inputMode=inkomster→Tid & flexVeckosaldo (read-o",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/arbetsliv/input?inputMode=inkomster:summary",
+      "ok": true,
+      "detail": "tapped=7 unique=18 sacred-skips=1"
+    },
+    {
+      "action": "route:/arbetsliv/input?inputMode=stampla",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=stampla"
+    },
+    {
+      "action": "page:/arbetsliv/input?inputMode=stampla→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=stampla"
+    },
+    {
+      "action": "page:/arbetsliv/input?inputMode=stampla:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/familjen",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/familjen"
+    },
+    {
+      "action": "page:/familjen→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/familjen"
+    },
+    {
+      "action": "page:/familjen:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/familjen?tab=reflektion",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=reflektion"
+    },
+    {
+      "action": "page:/familjen?tab=reflektion→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=reflektion"
+    },
+    {
+      "action": "page:/familjen?tab=reflektion:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/familjen?tab=livslogg",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=livslogg"
+    },
+    {
+      "action": "page:/familjen?tab=livslogg→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=livslogg"
+    },
+    {
+      "action": "page:/familjen?tab=livslogg:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/familjen?tab=tillsammans",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=tillsammans"
+    },
+    {
+      "action": "page:/familjen?tab=tillsammans→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=tillsammans"
+    },
+    {
+      "action": "page:/familjen?tab=tillsammans:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/familjen?tab=barnporten",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnporten"
+    },
+    {
+      "action": "page:/familjen?tab=barnporten→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnporten"
+    },
+    {
+      "action": "page:/familjen?tab=barnporten:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/familjen?tab=hamn",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn"
+    },
+    {
+      "action": "page:/familjen?tab=hamn→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn"
+    },
+    {
+      "action": "page:/familjen?tab=hamn→Hjälp: Förälder-hub",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn",
+      "touch": {
+        "w": 44,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/familjen?tab=hamn→Välj vy i Familjen",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn",
+      "touch": {
+        "w": 344,
+        "h": 50,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/familjen?tab=hamn→Barnfokus",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen",
+      "touch": {
+        "w": 80,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/familjen?tab=hamn→Livslogg",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=livslogg",
+      "touch": {
+        "w": 70,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/familjen?tab=hamn→Tillsammans",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=tillsammans",
+      "touch": {
+        "w": 92,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/familjen?tab=hamn→Barnporten",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnporten",
+      "touch": {
+        "w": 85,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/familjen?tab=hamn→Hamn",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn",
+      "touch": {
+        "w": 57,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/familjen?tab=hamn→Drogfrihet",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=drogfrihet",
+      "touch": {
+        "w": 80,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/familjen?tab=hamn:summary",
+      "ok": true,
+      "detail": "tapped=8 unique=20 sacred-skips=1"
+    },
+    {
+      "action": "route:/familjen?tab=drogfrihet",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=drogfrihet"
+    },
+    {
+      "action": "page:/familjen?tab=drogfrihet→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=drogfrihet"
+    },
+    {
+      "action": "page:/familjen?tab=drogfrihet:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/barnporten",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/barnporten"
+    },
+    {
+      "action": "page:/barnporten→🙂Glad",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
+      "touch": {
+        "w": 92,
+        "h": 77,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/barnporten→😢Ledsen",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
+      "touch": {
+        "w": 92,
+        "h": 77,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/barnporten→😠Arg",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
+      "touch": {
+        "w": 92,
+        "h": 77,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/barnporten→😴Trött",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
+      "touch": {
+        "w": 92,
+        "h": 77,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/barnporten→😟Orolig",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
+      "touch": {
+        "w": 92,
+        "h": 77,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/barnporten→Andas lugnt (3 andetag)",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
+      "touch": {
+        "w": 292,
+        "h": 58,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/barnporten→Ange humör",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
+      "touch": {
+        "w": 157,
+        "h": 94,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/barnporten→Återställ (Nivå 1)",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
+      "touch": {
+        "w": 118,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/barnporten→Tvinga Nivå 2",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/barnporten",
+      "touch": {
+        "w": 103,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/barnporten→Allvarligt — kontakta trygg ",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/barnporten:summary",
+      "ok": true,
+      "detail": "tapped=10 unique=19 sacred-skips=0"
+    },
+    {
+      "action": "route:/hjartat",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/hjartat"
+    },
+    {
+      "action": "page:/hjartat→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/hjartat"
+    },
+    {
+      "action": "page:/hjartat:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/hjartat?tab=reflektion",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion"
+    },
+    {
+      "action": "page:/hjartat?tab=reflektion→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion"
+    },
+    {
+      "action": "page:/hjartat?tab=reflektion:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/hjartat?tab=speglar",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=speglar"
+    },
+    {
+      "action": "page:/hjartat?tab=speglar→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=speglar"
+    },
+    {
+      "action": "page:/hjartat?tab=speglar:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/orakel",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/orakel"
+    },
+    {
+      "action": "page:/orakel→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/orakel"
+    },
+    {
+      "action": "page:/orakel:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/reflection",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/reflection"
+    },
+    {
+      "action": "page:/reflection→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/reflection"
+    },
+    {
+      "action": "page:/reflection→skip:Lås upp Valvet (biometri",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/reflection"
+    },
+    {
+      "action": "page:/reflection:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=2)"
+    },
+    {
+      "action": "route:/biochem",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/biochem"
+    },
+    {
+      "action": "page:/biochem→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/biochem"
+    },
+    {
+      "action": "page:/biochem→Intag",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/biochem",
+      "touch": {
+        "w": 52,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/biochem→Krasch-Prep",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/biochem",
+      "touch": {
+        "w": 69,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/biochem→Inköp",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/biochem",
+      "touch": {
+        "w": 55,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/biochem→Vatten + Salt",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/biochem→Protein (Dopamin)",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/biochem→Komplexa Kolh.",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/biochem→Vagusnerv-stimulans",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/biochem",
+      "touch": {
+        "w": 284,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/biochem→Fysiologisk Suck",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/biochem→RSD Akut-Grounding",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/biochem",
+      "touch": {
+        "w": 284,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/biochem:summary",
+      "ok": true,
+      "detail": "tapped=9 unique=20 sacred-skips=1"
+    },
+    {
+      "action": "route:/inkast",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/"
+    },
+    {
+      "action": "page:/inkast→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/"
+    },
+    {
+      "action": "page:/inkast→Skriv nu",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion&write=true",
+      "touch": {
+        "w": 124,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/inkast→Barnfokus",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnfokus",
+      "touch": {
+        "w": 60,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/inkast→Ny stund",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra",
+      "touch": {
+        "w": 59,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/inkast→Fysiologi",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra",
+      "touch": {
+        "w": 59,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/inkast→Mer…",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion",
+      "touch": {
+        "w": 43,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/inkast→Lär känna",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnfokus",
+      "touch": {
+        "w": 72,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/inkast:summary",
+      "ok": true,
+      "detail": "tapped=6 unique=20 sacred-skips=1"
+    },
+    {
+      "action": "route:/projekt",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/projekt"
+    },
+    {
+      "action": "page:/projekt→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/projekt"
+    },
+    {
+      "action": "page:/projekt:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/projekt/ny",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/projekt/ny"
+    },
+    {
+      "action": "page:/projekt/ny→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/projekt/ny"
+    },
+    {
+      "action": "page:/projekt/ny:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/projekt/regler",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/projekt/regler"
+    },
+    {
+      "action": "page:/projekt/regler→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/projekt/regler"
+    },
+    {
+      "action": "page:/projekt/regler:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/projekt/genvagar",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/projekt/genvagar"
+    },
+    {
+      "action": "page:/projekt/genvagar→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/projekt/genvagar"
+    },
+    {
+      "action": "page:/projekt/genvagar:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/installningar",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/installningar"
+    },
+    {
+      "action": "page:/installningar→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/installningar"
+    },
+    {
+      "action": "page:/installningar:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/installningar?tab=allmant",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=allmant"
+    },
+    {
+      "action": "page:/installningar?tab=allmant→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=allmant"
+    },
+    {
+      "action": "page:/installningar?tab=allmant:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/installningar?tab=naring",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=naring"
+    },
+    {
+      "action": "page:/installningar?tab=naring→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=naring"
+    },
+    {
+      "action": "page:/installningar?tab=naring:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/installningar?tab=drogfrihet",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=drogfrihet"
+    },
+    {
+      "action": "page:/installningar?tab=drogfrihet→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/installningar?tab=drogfrihet"
+    },
+    {
+      "action": "page:/installningar?tab=drogfrihet:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/installningar/widget-studio",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/installningar/widget-studio"
+    },
+    {
+      "action": "page:/installningar/widget-studio→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/installningar/widget-studio"
+    },
+    {
+      "action": "page:/installningar/widget-studio→Inställningar",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/installningar",
+      "touch": {
+        "w": 89,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/installningar/widget-studio→Öppna Hem",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/",
+      "touch": {
+        "w": 88,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/installningar/widget-studio→Visa Companion-railen på Hem",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/installningar/widget-studio",
+      "touch": {
+        "w": 163,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/installningar/widget-studio→Tidsstyrd kontext (morgon → ",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/installningar/widget-studio→Lugnt AI-stöd (stress / ener",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/installningar/widget-studio→Barnvecka just nu",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/installningar/widget-studio",
+      "touch": {
+        "w": 56,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/installningar/widget-studio:summary",
+      "ok": true,
+      "detail": "tapped=6 unique=21 sacred-skips=1"
+    },
+    {
+      "action": "route:/valvet",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/valvet?valvMode=spara&vaultTab=logga"
+    },
+    {
+      "action": "page:/valvet→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/valvet?valvMode=spara&vaultTab=logga"
+    },
+    {
+      "action": "page:/valvet:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/valvet/installningar",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/valvet/installningar"
+    },
+    {
+      "action": "page:/valvet/installningar→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/valvet/installningar"
+    },
+    {
+      "action": "page:/valvet/installningar:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=1)"
+    },
+    {
+      "action": "route:/sos",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/"
+    },
+    {
+      "action": "page:/sos→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/"
+    },
+    {
+      "action": "page:/sos→Skriv nu",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion&write=true",
+      "touch": {
+        "w": 124,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/sos→Barnfokus",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnfokus",
+      "touch": {
+        "w": 60,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/sos→Ny stund",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra",
+      "touch": {
+        "w": 59,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/sos→Fysiologi",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra",
+      "touch": {
+        "w": 59,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/sos→Mer…",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion",
+      "touch": {
+        "w": 43,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/sos→Lär känna",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnfokus",
+      "touch": {
+        "w": 72,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/sos:summary",
+      "ok": true,
+      "detail": "tapped=6 unique=20 sacred-skips=1"
+    },
+    {
+      "action": "route:/widget/anteckning",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning"
+    },
+    {
+      "action": "page:/widget/anteckning→Dagbok",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
+      "touch": {
+        "w": 84,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/anteckning→Bevis",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
+      "touch": {
+        "w": 67,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/anteckning→Barn",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
+      "touch": {
+        "w": 65,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/anteckning→Mabra",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
+      "touch": {
+        "w": 76,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/anteckning→Planering",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
+      "touch": {
+        "w": 104,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/anteckning→Fortsätt till text",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
+      "touch": {
+        "w": 324,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/anteckning→Byt silo",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/anteckning:summary",
+      "ok": true,
+      "detail": "tapped=7 unique=9 sacred-skips=0"
+    },
+    {
+      "action": "route:/widget/inspelning",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/inspelning"
+    },
+    {
+      "action": "page:/widget/inspelning→Jag förstår — fortsätt",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/inspelning",
+      "touch": {
+        "w": 290,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/inspelning→Starta inspelning",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/inspelning",
+      "touch": {
+        "w": 324,
+        "h": 50,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/inspelning:summary",
+      "ok": true,
+      "detail": "tapped=2 unique=3 sacred-skips=0"
+    },
+    {
+      "action": "route:/widget/kompass",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/kompass"
+    },
+    {
+      "action": "page:/widget/kompass→MorgonkompassEtt mikrosteg f",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/kompass",
+      "touch": {
+        "w": 322,
+        "h": 63,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/kompass→Dagskompass●Kroppscheck — an",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/kompass→Kunskapsbank — inget auto-sp",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/kompass→Planering — manuell start",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/kompass→Dagbok — flyttas inte automa",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/kompass→Mikrosteg via planering",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/kompass→Dagbok — flyttas inte automa",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
+      "touch": {
+        "w": 90,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/kompass→skip:Låst post när du sparar ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/widget/kompass"
+    },
+    {
+      "action": "page:/widget/kompass→Mabra — reflektion och lek",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/kompass→Snabb dagbok — vävning är se",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/kompass:summary",
+      "ok": true,
+      "detail": "tapped=9 unique=13 sacred-skips=1"
+    },
+    {
+      "action": "route:/widget/hamn",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/hamn"
+    },
+    {
+      "action": "page:/widget/hamn→Valv → Hamn · Analys",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/valvet?vaultTab=hamn_analys&valvMode=mer",
+      "touch": {
+        "w": 145,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/hamn→Taktik-lexikon (Valv · PIN)",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/valvet?vaultTab=kunskapsbank&valvMode=kunskap",
+      "touch": {
+        "w": 225,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/hamn:summary",
+      "ok": true,
+      "detail": "tapped=2 unique=3 sacred-skips=0"
+    },
+    {
+      "action": "route:/widget/familjen",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/familjen"
+    },
+    {
+      "action": "page:/widget/familjen→Kasper",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/familjen",
+      "touch": {
+        "w": 158,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/familjen→Arvid",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/familjen",
+      "touch": {
+        "w": 158,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/familjen:summary",
+      "ok": true,
+      "detail": "tapped=2 unique=3 sacred-skips=0"
+    },
+    {
+      "action": "route:/widget/stampla",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/stampla"
+    },
+    {
+      "action": "page:/widget/stampla:controls",
+      "ok": true,
+      "detail": "no-tappable (sacred-skips=0)"
+    },
+    {
+      "action": "route:/widget/barnporten",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/barnporten"
+    },
+    {
+      "action": "page:/widget/barnporten→Stjärn-prickDiskret prick ne",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/barnporten",
+      "touch": {
+        "w": 145,
+        "h": 94,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/barnporten→Hjärta-bågeNedre kant — bra ",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/barnporten",
+      "touch": {
+        "w": 145,
+        "h": 94,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/barnporten→Kompass-miniLiten kompass ne",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/barnporten",
+      "touch": {
+        "w": 145,
+        "h": 94,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/barnporten→Ingen widgetEndast PWA-ikon ",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/barnporten",
+      "touch": {
+        "w": 145,
+        "h": 94,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/barnporten:summary",
+      "ok": true,
+      "detail": "tapped=4 unique=6 sacred-skips=0"
+    },
+    {
+      "action": "route:/widget/snabbval",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/snabbval"
+    },
+    {
+      "action": "page:/widget/snabbval→DagbokSkriv en rad — neutral",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/snabbval",
+      "touch": {
+        "w": 322,
+        "h": 63,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/snabbval→UppgiftEtt mikrosteg i taget",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/snabbval→Testa digValvet lär känna di",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/snabbval→LuckorFyll i det som saknas",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/snabbval→Snabb spegling",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/hjartat/input?inputMode=quick_mirror",
+      "touch": {
+        "w": 294,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/snabbval→Reflektera steg för steg",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/snabbval→Minneslista",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/snabbval→UppgiftEtt mikrosteg i taget",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/snabbval→Testa digValvet lär känna di",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/snabbval→LuckorFyll i det som saknas",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/snabbval:summary",
+      "ok": true,
+      "detail": "tapped=10 unique=11 sacred-skips=0"
+    },
+    {
+      "action": "route:/widget/voice-vault",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/voice-vault"
+    },
+    {
+      "action": "page:/widget/voice-vault→🙂 Lugn",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/voice-vault",
+      "touch": {
+        "w": 81,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/voice-vault→😊 Glad",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/voice-vault",
+      "touch": {
+        "w": 78,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/voice-vault→😴 Trött",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/voice-vault",
+      "touch": {
+        "w": 79,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/voice-vault→😬 Spänd",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/voice-vault",
+      "touch": {
+        "w": 90,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/voice-vault→Starta inspelning",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/voice-vault",
+      "touch": {
+        "w": 56,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/voice-vault→Rensa",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/voice-vault",
+      "touch": {
+        "w": 65,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/voice-vault:summary",
+      "ok": true,
+      "detail": "tapped=6 unique=7 sacred-skips=0"
+    },
+    {
+      "action": "route:/widget/projekt",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/projekt"
+    },
+    {
+      "action": "page:/widget/projekt→skip:Nytt projekt",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/widget/projekt"
+    },
+    {
+      "action": "page:/widget/projekt→Lista",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/projekt",
+      "touch": {
+        "w": 48,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/projekt→Bild",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/projekt",
+      "touch": {
+        "w": 48,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/projekt→Stäng",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/projekt",
+      "touch": {
+        "w": 44,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/projekt→Tyst inspelning",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/inspelning?autostart=1&discreet=1",
+      "touch": {
+        "w": 48,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/projekt→Lista",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/projekt/ny?type=list&from=widget",
+      "touch": {
+        "w": 153,
+        "h": 86,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/projekt→Planering",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/planering?tab=handling&picked=1",
+      "touch": {
+        "w": 48,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/projekt→Lås upp",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/valvet",
+      "touch": {
+        "w": 48,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/projekt→Bild",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/projekt/ny?type=image&from=widget",
+      "touch": {
+        "w": 153,
+        "h": 86,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/projekt→Video",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/projekt→Uppgift",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/projekt/ny?type=task&from=widget",
+      "touch": {
+        "w": 154,
+        "h": 86,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/projekt→Bild",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/projekt/ny?type=image&from=widget",
+      "touch": {
+        "w": 154,
+        "h": 86,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/projekt→Video",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/projekt/ny?type=video&from=widget",
+      "touch": {
+        "w": 154,
+        "h": 86,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/projekt:summary",
+      "ok": true,
+      "detail": "tapped=12 unique=17 sacred-skips=1"
+    },
+    {
+      "action": "route:/widget/aktioner",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/aktioner"
+    },
+    {
+      "action": "page:/widget/aktioner→Röstinspelning till Valvet",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/aktioner",
+      "touch": {
+        "w": 290,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/aktioner→Stämpla in",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/aktioner",
+      "touch": {
+        "w": 141,
+        "h": 58,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/aktioner:summary",
+      "ok": true,
+      "detail": "tapped=2 unique=3 sacred-skips=0"
+    },
+    {
+      "action": "route:/widget/moduler",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler"
+    },
+    {
+      "action": "page:/widget/moduler→Ny modul",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
+      "touch": {
+        "w": 115,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/moduler→Semester",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
+      "touch": {
+        "w": 158,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/moduler→Deadline",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
+      "touch": {
+        "w": 158,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/moduler→Fokus",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
+      "touch": {
+        "w": 158,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/moduler→Firande",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
+      "touch": {
+        "w": 158,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/moduler→Minimal",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
+      "touch": {
+        "w": 158,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/moduler→Foto",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
+      "touch": {
+        "w": 158,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/moduler→Experimentera — visa alla ty",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
+      "touch": {
+        "w": 44,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/moduler→Nedräkning",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
+      "touch": {
+        "w": 158,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/moduler→Checklista",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
+      "touch": {
+        "w": 158,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/moduler→Sparmål",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
+      "touch": {
+        "w": 158,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/moduler→Snabbnotis",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/moduler",
+      "touch": {
+        "w": 158,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/moduler:summary",
+      "ok": true,
+      "detail": "tapped=12 unique=13 sacred-skips=0"
+    },
+    {
+      "action": "route:/widget/drogfrihet-akut",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=drogfrihet&akut=1"
+    },
+    {
+      "action": "page:/widget/drogfrihet-akut→skip:Hamn. Håll tre sekunder ",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=drogfrihet&akut=1"
+    },
+    {
+      "action": "page:/widget/drogfrihet-akut→Hjälp: Förälder-hub",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=drogfrihet",
+      "touch": {
+        "w": 44,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/drogfrihet-akut→Välj vy i Familjen",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/drogfrihet-akut→Barnfokus",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/drogfrihet-akut→Livslogg",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/drogfrihet-akut→Tillsammans",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/drogfrihet-akut→Barnporten",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnporten&akut=1",
+      "touch": {
+        "w": 85,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/drogfrihet-akut→Hamn",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn",
+      "touch": {
+        "w": 57,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/drogfrihet-akut→Drogfrihet",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/drogfrihet-akut:summary",
+      "ok": true,
+      "detail": "tapped=8 unique=19 sacred-skips=1"
+    },
+    {
+      "action": "route:/widget/companion-capture",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-capture"
+    },
+    {
+      "action": "page:/widget/companion-capture→Starta röstinspelning",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-capture",
+      "touch": {
+        "w": 76,
+        "h": 76,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-capture→Öppna senaste inspelning",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-capture",
+      "touch": {
+        "w": 99,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-capture:summary",
+      "ok": true,
+      "detail": "tapped=2 unique=4 sacred-skips=0"
+    },
+    {
+      "action": "route:/widget/companion-inbox",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-inbox"
+    },
+    {
+      "action": "page:/widget/companion-inbox→Text",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-inbox",
+      "touch": {
+        "w": 125,
+        "h": 66,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-inbox→Röst",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-inbox→Foto",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-inbox→Avbryt inkast",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-inbox",
+      "touch": {
+        "w": 69,
+        "h": 64,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-inbox→skip:Spara text till inkast",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-inbox"
+    },
+    {
+      "action": "page:/widget/companion-inbox→Text",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-inbox→Röst",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-inbox→Foto",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-inbox:summary",
+      "ok": true,
+      "detail": "tapped=7 unique=10 sacred-skips=1"
+    },
+    {
+      "action": "route:/widget/companion-note",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note"
+    },
+    {
+      "action": "page:/widget/companion-note→Fäst på Hem",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note",
+      "touch": {
+        "w": 56,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-note→Kategori Tanke",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note",
+      "touch": {
+        "w": 70,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-note→Kategori Idé",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note",
+      "touch": {
+        "w": 50,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-note→Kategori Påminnelse",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note",
+      "touch": {
+        "w": 106,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-note→Kategori Annat",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note",
+      "touch": {
+        "w": 72,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-note→Kategori Idé",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-note→Bild",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-note→Spela in röst",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-note→skip:Ta bort fästning på Hem",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note"
+    },
+    {
+      "action": "page:/widget/companion-note→Kategori Idé",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note",
+      "touch": {
+        "w": 56,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-note→Bild",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note",
+      "touch": {
+        "w": 56,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-note→Spela in röst",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-note",
+      "touch": {
+        "w": 56,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-note:summary",
+      "ok": true,
+      "detail": "tapped=11 unique=14 sacred-skips=1"
+    },
+    {
+      "action": "route:/widget/companion-harbor",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-harbor"
+    },
+    {
+      "action": "page:/widget/companion-harbor→Byt mening",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-harbor",
+      "touch": {
+        "w": 258,
+        "h": 127,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-harbor→Andning",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-harbor",
+      "touch": {
+        "w": 60,
+        "h": 50,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-harbor→Fokus",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra",
+      "touch": {
+        "w": 60,
+        "h": 50,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-harbor→Tacksamhet",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion",
+      "touch": {
+        "w": 60,
+        "h": 50,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-harbor→Sömn",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra",
+      "touch": {
+        "w": 60,
+        "h": 50,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-harbor→Starta kort andningsövning",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-harbor→Byt trygg mening",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-harbor→Öppna Trygg Hamn",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-harbor:summary",
+      "ok": true,
+      "detail": "tapped=8 unique=10 sacred-skips=0"
+    },
+    {
+      "action": "route:/widget/companion-compass",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-compass"
+    },
+    {
+      "action": "page:/widget/companion-compass→Öppna kompassen",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/",
+      "touch": {
+        "w": 152,
+        "h": 152,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-compass→Check-in Morgon",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-compass",
+      "touch": {
+        "w": 84,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-compass→Check-in Dag",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-compass",
+      "touch": {
+        "w": 55,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-compass→Check-in Kväll",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-compass",
+      "touch": {
+        "w": 68,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-compass→Check-in Nu",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-compass",
+      "touch": {
+        "w": 48,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-compass→Sätt dagens fokusintention",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/",
+      "touch": {
+        "w": 258,
+        "h": 64,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-compass:summary",
+      "ok": true,
+      "detail": "tapped=6 unique=8 sacred-skips=0"
+    },
+    {
+      "action": "route:/widget/companion-child",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-child"
+    },
+    {
+      "action": "page:/widget/companion-child→Svara på barnfokusfråga",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-child",
+      "touch": {
+        "w": 175,
+        "h": 64,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-child→Senaste logg",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-child→Skriv svar som text",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-child",
+      "touch": {
+        "w": 78,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-child→Spela in röstsvar",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-child",
+      "touch": {
+        "w": 71,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-child→Stäng svarsfält",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-child→skip:Spara svar till barnlogg",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-child"
+    },
+    {
+      "action": "page:/widget/companion-child:summary",
+      "ok": true,
+      "detail": "tapped=5 unique=8 sacred-skips=1"
+    },
+    {
+      "action": "route:/widget/companion-beacon",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-beacon"
+    },
+    {
+      "action": "page:/widget/companion-beacon→Justera kapacitet, nu 68",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-beacon",
+      "touch": {
+        "w": 123,
+        "h": 123,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-beacon→Justera Energi, nu 72",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-beacon→Justera Stress, nu 35",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-beacon→Justera Sömn, nu 67",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-beacon→skip:Spara dagsform till Fyre",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-beacon"
+    },
+    {
+      "action": "page:/widget/companion-beacon→Visa mer i Fyren",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-beacon→Justera kapacitet, nu 76",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-beacon",
+      "touch": {
+        "w": 123,
+        "h": 123,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-beacon→Justera Energi, nu 72",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-beacon→Justera Stress, nu 35",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-beacon→Justera Sömn, nu 67",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-beacon→skip:Spara dagsform till Fyre",
+      "ok": true,
+      "detail": "skip-sacred-or-write",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-beacon"
+    },
+    {
+      "action": "page:/widget/companion-beacon→Visa mer i Fyren",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-beacon:summary",
+      "ok": true,
+      "detail": "tapped=10 unique=14 sacred-skips=2"
+    },
+    {
+      "action": "route:/widget/companion-journal",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal"
+    },
+    {
+      "action": "page:/widget/companion-journal→Tungt",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
+      "touch": {
+        "w": 56,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-journal→Lågt",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
+      "touch": {
+        "w": 56,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-journal→Okej",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
+      "touch": {
+        "w": 56,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-journal→Bra",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
+      "touch": {
+        "w": 56,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-journal→Ljust",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
+      "touch": {
+        "w": 56,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-journal→Skriv ny dagboksanteckning",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
+      "touch": {
+        "w": 258,
+        "h": 64,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-journal→Ljust",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
+      "touch": {
+        "w": 56,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-journal→Tungt",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
+      "touch": {
+        "w": 56,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-journal→Lågt",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
+      "touch": {
+        "w": 56,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-journal→Okej",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
+      "touch": {
+        "w": 56,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-journal→Bra",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-journal",
+      "touch": {
+        "w": 56,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-journal→Öppna hela dagboken",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion",
+      "touch": {
+        "w": 124,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-journal:summary",
+      "ok": true,
+      "detail": "tapped=12 unique=14 sacred-skips=0"
+    },
+    {
+      "action": "route:/widget/companion-anchor",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-anchor"
+    },
+    {
+      "action": "page:/widget/companion-anchor→Sätt dagens intention",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-anchor",
+      "touch": {
+        "w": 256,
+        "h": 64,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-anchor:summary",
+      "ok": true,
+      "detail": "tapped=1 unique=3 sacred-skips=0"
+    },
+    {
+      "action": "route:/widget/companion-tasks",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "http://127.0.0.1:5175/widget/companion-tasks"
+    },
+    {
+      "action": "page:/widget/companion-tasks→Öppna Planering",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/planering?tab=handling",
+      "touch": {
+        "w": 164,
+        "h": 56,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-tasks→Öppna Planering för fokuspas",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "page:/widget/companion-tasks→Öppna Planering för fokuspas",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5175/planering?tab=handling",
+      "touch": {
+        "w": 56,
+        "h": 48,
+        "ok": true
+      }
+    },
+    {
+      "action": "page:/widget/companion-tasks:summary",
+      "ok": true,
+      "detail": "tapped=3 unique=5 sacred-skips=0"
+    },
+    {
+      "action": "route:/dev/theme-lab",
+      "ok": true,
+      "detail": "skip-dev-web-light"
+    },
+    {
+      "action": "route:/dev/themes",
+      "ok": true,
+      "detail": "skip-dev-web-light"
+    },
+    {
+      "action": "route:/dev/hub-lab",
+      "ok": true,
+      "detail": "skip-dev-web-light"
+    },
+    {
+      "action": "route:/dev/basta-design",
+      "ok": true,
+      "detail": "skip-dev-web-light"
+    },
+    {
+      "action": "route:/dev/design-freeport",
+      "ok": true,
+      "detail": "skip-dev-web-light"
+    },
+    {
+      "action": "route:/dev/obsidian-depth",
+      "ok": true,
+      "detail": "skip-dev-web-light"
+    },
+    {
+      "action": "route:/dev/obsidian-forge",
+      "ok": true,
+      "detail": "skip-dev-web-light"
+    },
+    {
+      "action": "route:/dev/obsidian-depth-v2",
+      "ok": true,
+      "detail": "skip-dev-web-light"
+    },
+    {
+      "action": "route:/dev/dagens-ankare",
+      "ok": true,
+      "detail": "skip-dev-web-light"
+    },
+    {
+      "action": "route:/dev/companion-widgets",
+      "ok": true,
+      "detail": "skip-dev-web-light"
+    }
+  ]
+}

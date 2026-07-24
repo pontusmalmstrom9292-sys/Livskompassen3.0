@@ -1,0 +1,31 @@
+{
+  "at": "2026-07-24T11:13:24.232Z",
+  "round": 1,
+  "prompt": "Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta inte förrän koden är helt felfri och appen går att använda. Lead UI polish: elevating consistency without Locked UX redesign.",
+  "findings": [
+    {
+      "tier": "A",
+      "code": "CRASH_OR_STUCK",
+      "source": "tap-press-console",
+      "path": "",
+      "detail": "The result of getSnapshot should be cached to avoid an infinite loop",
+      "swedish": "Sidan kastade ett fel i konsolen.",
+      "recipe": "CRASH_OR_STUCK"
+    },
+    {
+      "tier": "A",
+      "code": "DEVICE_FAIL",
+      "source": "device-probe",
+      "path": "android",
+      "detail": "device=ZY22L8WFBX · maestro FAIL · exhaustive FAIL",
+      "swedish": "Telefon-test misslyckades: device=ZY22L8WFBX · maestro FAIL · exhaustive FAIL."
+    }
+  ],
+  "polishFiles": [],
+  "agents": [
+    "sync-scroll-shell",
+    "sync-chrome-lock",
+    "sync-g85-ui-qa",
+    "specialist-ux-guardian"
+  ]
+}

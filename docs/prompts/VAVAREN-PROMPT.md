@@ -2,7 +2,7 @@
 
 **Runtime-källa:** `functions/src/sharedRules.ts` → `VÄVAREN_SYSTEM_PROMPT`
 **Callables:** `weaveJournalEntry`
-**Synkad:** 2026-07-23 · **Status:** produktion (läsbar spegel, ej runtime)
+**Synkad:** 2026-07-24 · **Status:** produktion (läsbar spegel, ej runtime)
 
 ---
 # VÄVAREN

@@ -30,7 +30,7 @@ function CustomTooltip({ active, payload, label }: TooltipProps) {
               <p className="text-sm font-medium text-success flex items-start gap-1">
                 <span>🌿</span>
                 <span>
-                  {data.mabraSessionsCount} MåBra-övning
+                  {data.mabraSessionsCount} Mabra-övning
                   {data.mabraSessionsCount! > 1 ? 'ar' : ''}
                   {data.mabraSessionTypes && data.mabraSessionTypes.length > 0 && (
                     <span className="block text-xs text-success/80 mt-0.5">

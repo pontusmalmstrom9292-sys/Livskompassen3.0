@@ -57,7 +57,7 @@ export const VALV_KANON_CONTENT_MD = `## Innehåll (U6)
 | Klass | Zon | Exempel |
 |-------|-----|---------|
 | FACT | Kunskap | \`cn-*\`, \`bh-*\` taktik-kort |
-| REFLECTION / PLAY | MåBra / Vit | frågekort, lek |
+| REFLECTION / PLAY | Mabra / Vit | frågekort, lek |
 | EVIDENCE | Valv / Barnen | bevis, observationer |
 
 Prod-coach parafrasar bank med \`bankId\` — inga nya FACT-kort utan godkänd content-bank.

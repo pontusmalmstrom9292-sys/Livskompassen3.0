@@ -20,7 +20,7 @@ export function VitRecentOverview({ entries, onOpenEntry }: Props) {
         <h2 className="text-xs font-medium uppercase tracking-wider text-text-muted">Senaste</h2>
         <EmptyState
           className="mt-2 !border-0 !bg-transparent !p-0 !shadow-none"
-          message="Inget sparat ännu — börja i MåBra när du vill."
+          message="Inget sparat ännu — börja i Mabra när du vill."
         />
       </section>
     );

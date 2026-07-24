@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { RecoveryUrgeSosModule } from '@/features/mabra/components/RecoveryUrgeSosModule';
 
-/** Fas 23C — direkt SOS-route från MåBra-hub (`/mabra/recovery/sos`). */
+/** Fas 23C — direkt SOS-route från Mabra-hub (`/mabra/recovery/sos`). */
 export function RecoverySosView() {
   const navigate = useNavigate();
   return (
@@ -10,9 +10,9 @@ export function RecoverySosView() {
       title="SOS Ankare kunde inte laddas"
       glow="gold"
       logTag="RecoverySosView"
-      errorBody="Gå tillbaka till MåBra och öppna SOS igen."
+      errorBody="Gå tillbaka till Mabra och öppna SOS igen."
       backTo="/mabra"
-      backLabel="Till MåBra"
+      backLabel="Till Mabra"
     >
       <RecoveryUrgeSosModule onClose={() => navigate('/mabra', { replace: true })} />
     </HubErrorBoundary>

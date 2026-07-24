@@ -67,7 +67,7 @@ export function MabraPulseWidget() {
           session: todaysSession,
         });
       } catch (err) {
-        console.error('Kunde inte läsa av MåBra-puls:', err);
+        console.error('Kunde inte läsa av Mabra-puls:', err);
       } finally {
         setLoading(false);
       }
@@ -102,9 +102,9 @@ export function MabraPulseWidget() {
               {isMorningCompass 
                 ? 'Morgonkompassen lagd' 
                 : isMabraSession 
-                ? 'MåBra-session genomförd' 
+                ? 'Mabra-session genomförd' 
                 : isMabraCheckin
-                ? 'MåBra-incheckning klar'
+                ? 'Mabra-incheckning klar'
                 : 'Incheckad för idag'}
             </h3>
             
@@ -138,7 +138,7 @@ export function MabraPulseWidget() {
           to="/mabra"
           className="text-xs text-text-muted hover:text-white transition-colors flex items-center gap-1.5 px-3 py-1.5 bg-white/5 rounded-lg border border-white/5 hover:border-white/10 shrink-0 self-end sm:self-auto min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
         >
-          Öppna MåBra
+          Öppna Mabra
           <ArrowRight className="w-3.5 h-3.5" />
         </Link>
       </div>

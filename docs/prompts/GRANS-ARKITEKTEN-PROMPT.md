@@ -3,7 +3,7 @@
 **Runtime-källa:** `functions/src/sharedRules.ts` → `GRANS_ARKITEKTEN_SYSTEM_PROMPT`
 **Agent-ID:** `agent_grans_arkitekten`
 **Callables:** `analyzeMessage`
-**Synkad:** 2026-07-23 · **Status:** produktion (läsbar spegel, ej runtime)
+**Synkad:** 2026-07-24 · **Status:** produktion (läsbar spegel, ej runtime)
 
 ---
 # GRANS ARKITEKTEN

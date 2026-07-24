@@ -28,7 +28,7 @@ const FORALDER_NAV: HomeQuickNavItem[] = [
 ];
 
 const REHAB_NAV: HomeQuickNavItem[] = [
-  { id: 'mabra', label: 'MåBra', to: HOME_SUPERHUB_ROUTES.mabraInput, icon: Brain },
+  { id: 'mabra', label: 'Mabra', to: HOME_SUPERHUB_ROUTES.mabraInput, icon: Brain },
   { id: 'dagbok', label: 'Dagbok', to: HOME_SUPERHUB_ROUTES.hjartatReflektion, icon: BookOpen },
   { id: 'kompasser', label: 'Kompasser', to: '/vardagen?tab=kompasser', icon: CalendarDays },
 ];
@@ -42,7 +42,7 @@ const VARDAG_NAV: HomeQuickNavItem[] = [
 
 const MINIMAL_NAV: HomeQuickNavItem[] = [
   { id: 'dagbok', label: 'Dagbok', to: HOME_SUPERHUB_ROUTES.hjartatQuickMirror, icon: BookOpen },
-  { id: 'mabra', label: 'MåBra', to: HOME_SUPERHUB_ROUTES.mabraInput, icon: Brain },
+  { id: 'mabra', label: 'Mabra', to: HOME_SUPERHUB_ROUTES.mabraInput, icon: Brain },
 ];
 
 /** Snabbnav på Hem — filtreras av LifeHub-preset (Obsidian Calm, inga streaks). */

@@ -1,3 +1,46 @@
+### 2026-07-24 — Rest of app DS sweep (5 waves)
+- CustomCategoryFlow, FetchContentPacksFlow, ZenModeOverlay, ParalysisBreaker
+- DS inputs/buttons + reduced-motion + text-case cleanup
+
+### 2026-07-24 — Arkivvy DS button sweep (5 waves)
+- Export, view toggles, calendar controls, shelves, drawers → DS Button
+- Samlad knappkonsistens i arkivet, utan layoutbyte
+- Today marker added to archive calendar cells
+
+### 2026-07-24 — Arkiv list button polish
+- Archive load-more button now uses DS Button variant
+- One less local button skin in archive flow
+
+### 2026-07-24 — Arkivvy motion polish
+- Arkivhubb/lista/kalender/shelf: reduced-motion + enhetliga vyövergångar
+- Visuellt lugnare arkivvyer, ingen layoutändring
+
+### 2026-07-24 — Arkivvy glow cleanup
+- Removed residual `glow-bottom-blue` from archive list/calendar detail cards
+- Arkivvy nu i linje med glow-kill-switch
+
+### 2026-07-24 — QA Harden Tier A fix
+- Planering inbox getSnapshot-cache · checkbox touch 44/56 · hub-sweep network-retry · device soft-fail
+- Smoke: companion-widgets · locked-ux · design-modules **PASS**
+
+### 2026-07-24 — Android dock inset (G85)
+- Dubbel safe-area bort (native + web) — dock närmare nederkant
+- Smoke: android-platform · basta-dock-lock **PASS** · G85: build:web + cap sync
+
+### 2026-07-24 — Ethereal Blue utan glow (moduler)
+- Kategori-pills + hub-kort: ethereal `#7BA3C9`, ingen guldig bloom
+- Familjen + GS-hub-card + OD selection chrome
+- Pontus produktbeslut · dock/kompass guld kvar
+
+### 2026-07-24 — Privacy-blur bort
+- Idle-blur bort · Android pause-täckning av · Sacred/FLAG_SECURE ej default
+- Känsliga filval behåller biometric + overlay · G85: build:web + cap sync
+
+### 2026-07-24 — UI QA Harden Loop
+- `npm run qa:harden` · debug:ui-suite · device-probe SKIP utan USB
+- Tier A auto (scroll CSS) · Tier B pontus-md · deploy SKIP
+- Docs: `QA-HARDEN-LOOP.md` · agents sync-* Fas 24
+
 ### 2026-07-23 — Widget UI Polish ×10
 - Gate F 56 dp låst (CSS + Mood + Studio + Android check-in) · Journal input ≥56
 - Kap 6: padding/caps/trust · Anchor guldring · ethereal scoped
@@ -497,3 +540,6 @@ Stickprov Completion **1.4.3**: body/lead på glass `text-text-dim` → `text-te
 - Release clears stale App Check debug SharedPreferences
 - smoke:android-platform expanded (dist-leak, ZF appStateChange)
 - Eval: docs/evaluations/2026-07-17-g85-appcheck-yolo.md
+
+### 2026-07-24 — Familjen zon-ringar bort
+- Tre dekorativa avatar-ringar i zon-intro borttagna

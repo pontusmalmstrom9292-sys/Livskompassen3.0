@@ -1,5 +1,5 @@
 /**
- * Recovery / drogfrihet MåBra-slice — canonical barrel for `@/features/mabra/*`.
+ * Recovery / drogfrihet Mabra-slice — canonical barrel for `@/features/mabra/*`.
  * Hub UI lives under `dailyLife/wellbeing/mabra`.
  */
 export { MabraRecoveryBanner } from './components/MabraRecoveryBanner';

@@ -116,6 +116,11 @@ assert('android dock safe-area override', dockCss.includes('platform-capacitor-a
 
 const dockFix = read('src/modules/core/platform/androidDockInsetFix.ts');
 assert('android dock inset trim', dockFix.includes('trimAndroidBastaDockInsets'));
+assert(
+  'MainActivity full-bleed bottom (no stacked systemBars pad)',
+  /setPadding\(\s*0\s*,\s*0\s*,\s*0\s*,\s*0\s*\)/.test(mainActivity) &&
+    !/setPadding\(\s*0\s*,\s*0\s*,\s*0\s*,\s*bars\.bottom\s*\)/.test(mainActivity),
+);
 
 assert(
   'appCheck debugTokenFromEnv DEV-guard',

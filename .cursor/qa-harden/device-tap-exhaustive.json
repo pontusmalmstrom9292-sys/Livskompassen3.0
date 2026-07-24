@@ -1,0 +1,12 @@
+{
+  "probe": "device-tap-exhaustive",
+  "at": "2026-07-24T11:08:05.064Z",
+  "status": "fail",
+  "detail": "appen startade inte (pid saknas)",
+  "serial": "ZY22L8WFBX",
+  "routesVisited": 0,
+  "actions": 0,
+  "issueCount": 0,
+  "issues": [],
+  "results": []
+}

@@ -16,7 +16,7 @@ export function getHeaderPageLabel(pathname: string, search = ''): string | null
   }
   if (pathname.startsWith('/planering')) return 'Göra';
   if (pathname.startsWith('/projekt')) return 'Projekt';
-  if (pathname.startsWith('/mabra')) return 'MåBra';
+  if (pathname.startsWith('/mabra')) return 'Mabra';
   if (pathname.startsWith('/drogfrihet')) return 'Drogfrihet';
   if (pathname.startsWith('/kunskap')) return 'Kunskap';
   if (pathname.startsWith('/vardagen')) return 'Vardagen';

@@ -1,3 +1,71 @@
+## 2026-07-24 — QA Harden Tier A fix
+
+- `planeringInboxConnections`: stabil snapshot-cache → stoppar `getSnapshot should be cached`
+- Touch: Moduler Experimentera/Fäst + Studio-checkboxar ≥44/56 dp + aria-label
+- `debug_hub_sweep`: en retry vid nätverksflake + splash-stuck
+- `debug_device_probe` + classify: exhaustive timeout utan UI-fel → soft-fail / Tier B `DEVICE_HARNESS`
+- Smoke: companion-widgets · locked-ux · design-modules **PASS**
+
+## 2026-07-24 — Rest of app DS sweep (5 waves)
+
+- Wave 1: CustomCategoryFlow → DS Input
+- Wave 2: FetchContentPacksFlow → DS Button
+- Wave 3: ZenModeOverlay → DS Button + reduced-motion
+- Wave 4: ParalysisBreaker → DS Button/Input + reduced-motion
+- Wave 5: text-case cleanup i flöden
+
+## 2026-07-24 — Arkivvy DS button sweep (5 waves)
+
+- Wave 1: exportknapp → DS Button
+- Wave 2: vy-toggles → DS Button
+- Wave 3: kalenderkontroller + detaljstängning → DS Button
+- Wave 4: shelf-header → DS Button
+- Wave 5: drawer-toggles → DS Button
+- Wave 6: dagens datum markeras tydligare i kalendern
+
+## 2026-07-24 — Arkiv list button polish
+
+- Arkivets load-more-knapp flyttad till design-systemets Button
+- Mindre lokal styling i arkivflödet
+
+## 2026-07-24 — Arkivvy motion polish
+
+- Samlat reduced-motion-stöd för arkivhubb, kalender, lista och shelf
+- Enhetligare vyövergångar i arkivet utan layoutändring
+
+## 2026-07-24 — Arkivvy glow cleanup
+
+- Rensade kvarvarande `glow-bottom-blue` från arkivlistan och kalenderdetaljen
+- Arkivvyn följer nu glow-kill-switch-linjen
+
+## 2026-07-24 — Android dock ~1 cm för högt
+
+- Rotorsak: MainActivity pad `bars.bottom` + Capacitor/androidDockInsetFix safe-area = dubbel inset
+- Fix: MainActivity full-bleed `setPadding(0,0,0,0)`; CSS fallback `--lk-android-shell-inset` → 4px
+- Smoke: `smoke:android-platform` · `smoke:basta-dock-lock` **PASS**
+- Kräver: `npm run build:web && npx cap sync android` + Run på G85
+
+## 2026-07-24 — Ethereal Blue utan glow (moduler/val)
+
+- Problem: Familjen kategori-pills + hub-mockups lysande guldiga
+- Fix: `.od-depth__pill*` / mode-select / GS-hub-card / Familjen CSS → Ethereal `#7BA3C9`, ingen yttre glow
+- Lock: `.context/locked-obsidian-depth.md` + `COLOR-POLICY.md` (Pontus OK)
+- Guld kvar: primär CTA + dock/kompass
+
+## 2026-07-24 — Privacy-blur bort (skärm suddig)
+
+- Webb: `InactivityBlurOverlay` borttagen från `App.tsx` (+ fil raderad)
+- Android: ingen privacy/stealth-täckning i `onPause` (känsliga filval behåller overlay)
+- Android: `setSacredZone(false)` som default — FLAG_SECURE endast vid känsliga picks
+- Kräver: `npm run build:web && npx cap sync android` + Run på G85
+
+## 2026-07-24 — UI QA Harden Loop
+
+- Scripts: `qa_harden.mjs`, `debug_*` → `.cursor/qa-harden/`; Tier A/B/C classify + recipes
+- Agents: `sync-chrome-lock` · `sync-scroll-shell` · `sync-g85-ui-qa` · `sync-companion-gold` · `sync-fas24-ui-verifier`
+- Device: ADB + Maestro optional SKIP · dok `docs/QA-HARDEN-LOOP.md` · wave v63
+- Tryck Build: `npm run qa:harden`
+
 ## 2026-07-23 — Widget UI Polish ×10 (Cursor · visual-parity)
 
 - Gate F: `--cw-touch-floor` 56px, mood/pills/CTA, Android check-in faces, Tasks «VISA ALLA»
@@ -3430,3 +3498,6 @@ Unlock: `docs/evaluations/2026-07-22-unlock-hub-gold-standard-layout.md` (`appro
 15. yolo-vakt: kod/smoke GO; commit måste inkludera 3 nya filer (untracked) vid merge
 
 Ethereal Blue `#7BA3C9` endast progress/waveform — ingen global teal.
+
+## 2026-07-24 — Familjen: bort tre dekorativa ringar
+- FamiljenZoneIntro avatar-schema bort · smoke locked-ux/governance PASS

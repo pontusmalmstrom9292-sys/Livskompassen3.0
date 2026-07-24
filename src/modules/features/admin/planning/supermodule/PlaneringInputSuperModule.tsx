@@ -104,7 +104,7 @@ export function PlaneringInputSuperModule({
         })}
       </nav>
 
-      <div className="calm-scroll-island superhub-scroll-island pr-1">
+      <div className="planering-input-shell__delegate pr-1">
         <PlaneringInputModeDelegate mode={activeMode} onSaved={handleDelegateSaved} />
       </div>
     </BentoCard>

@@ -22,7 +22,7 @@ export const CONTENT_PACK_CATALOG: readonly ContentPack[] = [
     id: 'pack_p0_core',
     version: 1,
     title_sv: 'Grundpack — mikrosteg',
-    lead_sv: 'Blandade reflektions- och lekkort från MåBra KEEP.',
+    lead_sv: 'Blandade reflektions- och lekkort från Mabra KEEP.',
     topicTags: ['utveckling', 'reflektion', 'lek', 'vardag'],
     tier: 'P0',
     status: 'available',

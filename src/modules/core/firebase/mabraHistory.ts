@@ -21,12 +21,12 @@ function normalizeCreatedAt(value: unknown): string {
 }
 
 /**
- * Hämtar historik för MåBra-incheckningar (questionId == 'mabra_checkin')
+ * Hämtar historik för Mabra-incheckningar (questionId == 'mabra_checkin')
  * för en specifik användare sorterat efter skapad-datum i fallande ordning.
  * 
  * @param userId Användarens unika ID
  * @param limitCount Maximalt antal incheckningar som ska hämtas (standard: 30)
- * @returns En lista med MåBra-incheckningar
+ * @returns En lista med Mabra-incheckningar
  */
 export async function getMabraHistory(
   userId: string,

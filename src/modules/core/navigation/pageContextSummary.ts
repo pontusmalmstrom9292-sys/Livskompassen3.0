@@ -74,7 +74,7 @@ export function getPageContextSummary(pathname: string, search: string): PageCon
     return { title: 'Arbetsliv', body: 'Stämpla, tid och löneunderlag.' };
   }
   if (pathname.startsWith('/mabra')) {
-    return { title: 'MåBra', body: 'Övningar och kort stöd — utvecklingszon Vit.' };
+    return { title: 'Mabra', body: 'Övningar och kort stöd — utvecklingszon Vit.' };
   }
   if (pathname.startsWith('/projekt')) {
     return { title: 'Projekt', body: 'Listor, anteckningar och egna planer.' };

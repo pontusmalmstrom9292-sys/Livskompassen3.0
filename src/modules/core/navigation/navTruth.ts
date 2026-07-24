@@ -104,7 +104,7 @@ export const NAV_TRUTH: NavTruthEntry[] = [
   },
   {
     id: 'vardagen_mabra',
-    label: 'MåBra',
+    label: 'Mabra',
     path: '/vardagen?tab=mabra',
     section: 'vardag',
     inDrawer: false,

@@ -139,6 +139,16 @@
     "test:agents-ui": "vitest run src/modules/shared/agents/utils/resolveExecutorDisplay.test.ts src/modules/shared/agents/utils/routingBadgeText.test.ts",
     "test:economy": "vitest run shared/economy src/modules/features/dailyLife/wellbeing/economy/rules",
     "test:unit": "vitest run src/modules/shared/agents/utils/resolveExecutorDisplay.test.ts src/modules/shared/agents/utils/routingBadgeText.test.ts shared/economy src/modules/features/dailyLife/wellbeing/economy/rules shared/evolution/capacityScore.test.ts src/modules/features/family/children/utils/childObservationEpistemics.test.ts src/modules/features/admin/projects/projectHubFilters.test.ts src/modules/features/admin/planning/rules/pasteClassifier.test.ts src/modules/shared/utils/secureExport.test.ts",
+    "debug:hub-sweep": "node scripts/debug_hub_sweep.mjs",
+    "debug:scroll-probe": "node scripts/debug_scroll_probe.mjs",
+    "debug:tap-press": "node scripts/debug_tap_press.mjs",
+    "debug:ui-suite": "node scripts/debug_ui_suite.mjs",
+    "debug:device-probe": "node scripts/debug_device_probe.mjs",
+    "debug:device-tap": "node scripts/debug_device_tap_exhaustive.mjs",
+    "debug:full-crawl": "node scripts/debug_ui_suite.mjs",
+    "qa:harden": "node scripts/qa_harden.mjs --rounds=2",
+    "qa:harden:detect": "node scripts/qa_harden.mjs --detect-only --no-smoke --no-device",
+    "qa:harden:fast": "node scripts/qa_harden.mjs --rounds=1 --no-device --early-stop",
     "test:e2e": "playwright test",
     "test:e2e:locked-ux": "playwright test e2e/locked-ux-public.spec.ts e2e/obsidian-calm-tokens.spec.ts",
     "test:e2e:install": "playwright install chromium",
@@ -316,7 +326,9 @@
     "natt:secure": "node scripts/natt-ci.mjs",
     "sdk:natt-ci": "node scripts/sdk-natt-ci.mjs",
     "setup:env": "node scripts/setup_env_from_google_services.mjs",
-    "smoke:child-incident": "node scripts/smoke_child_incident.mjs"
+    "smoke:child-incident": "node scripts/smoke_child_incident.mjs",
+    "debug:swedish": "node scripts/debug_swedish_static.mjs",
+    "debug:ui-consistency": "node scripts/debug_ui_consistency.mjs"
   },
   "dependencies": {
     "@aparajita/capacitor-biometric-auth": "^10.0.0",

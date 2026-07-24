@@ -29,7 +29,7 @@ export const NAVIGATION_STRUCTURE = {
     icon: 'sun',
     tabs: {
       compasses: { id: 'compasses', label: 'Kompasser', path: '?tab=kompasser' },
-      mabra: { id: 'mabra', label: 'MåBra', path: '/mabra' },
+      mabra: { id: 'mabra', label: 'Mabra', path: '/mabra' },
       handling: { id: 'handling', label: 'Planering', path: '/planering?tab=handling' },
       arbetsliv: { id: 'arbetsliv', label: 'Arbetsliv', path: '/arbetsliv' },
       economy: { id: 'economy', label: 'Ekonomi', path: '?tab=ekonomi' },

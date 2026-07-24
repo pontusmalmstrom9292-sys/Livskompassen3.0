@@ -21,6 +21,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { EmptyState } from '@/core/ui/EmptyState';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { Button } from '@/design-system';
+import { useDsReducedMotion } from '@/design-system';
 
 interface ArchiveListViewProps {
   entries: ArchiveEntry[];
@@ -32,6 +33,7 @@ interface ArchiveListViewProps {
 
 export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = false, capacityScore }: ArchiveListViewProps) {
   const navigate = useNavigate();
+  const reducedMotion = useDsReducedMotion();
   const [expandedShelves, setExpandedShelves] = useState<Record<string, boolean>>({});
   const [expandedDrawers, setExpandedDrawers] = useState<Record<string, boolean>>({});
 
@@ -123,6 +125,23 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
     ].filter(drawer => drawer.entries.length > 0);
   };
 
+  const shelfMotion = reducedMotion
+    ? { initial: false as const, animate: { height: 'auto', opacity: 1 }, exit: { height: 'auto', opacity: 1 }, transition: { duration: 0 } }
+    : {
+        initial: { height: 0, opacity: 0 },
+        animate: { height: 'auto', opacity: 1 },
+        exit: { height: 0, opacity: 0 },
+        transition: { duration: 0.25, ease: 'easeInOut' as const },
+      };
+  const drawerMotion = reducedMotion
+    ? { initial: false as const, animate: { height: 'auto', opacity: 1 }, exit: { height: 'auto', opacity: 1 }, transition: { duration: 0 } }
+    : {
+        initial: { height: 0, opacity: 0 },
+        animate: { height: 'auto', opacity: 1 },
+        exit: { height: 0, opacity: 0 },
+        transition: { duration: 0.2, ease: 'easeInOut' as const },
+      };
+
   if (entries.length === 0 && loading) {
     return <HubPanelSkeleton label="Hämtar arkivhyllor…" lines={4} className="py-8" />;
   }
@@ -173,11 +192,12 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
           return (
             <div key={monthKey} className="flex flex-col gap-2">
               {/* Shelf header card (Hylla) */}
-              <button
+              <Button
                 type="button"
+                variant="ghost"
                 onClick={() => toggleShelf(monthKey)}
                 aria-expanded={isShelfExpanded}
-                className="flex w-full items-center justify-between p-4 bg-surface-2/70 hover:bg-surface-3/80 border border-border/30 rounded-2xl cursor-pointer transition-all duration-[var(--ds-duration-normal)] shadow-md backdrop-blur-xl text-left min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+                className="flex w-full items-center justify-between rounded-2xl border border-border/30 bg-surface-2/70 p-4 text-left normal-case tracking-normal shadow-md backdrop-blur-xl transition-all duration-[var(--ds-duration-normal)] hover:bg-surface-3/80"
               >
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center border border-accent/20">
@@ -199,16 +219,13 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                     <ChevronDown className="w-5 h-5 text-accent" />
                   )}
                 </div>
-              </button>
+              </Button>
 
               {/* Drawers under this shelf */}
               <AnimatePresence initial={false}>
                 {isShelfExpanded && (
                   <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.25, ease: 'easeInOut' }}
+                    {...shelfMotion}
                     className="overflow-hidden flex flex-col gap-2 pl-4 border-l border-border/20 ml-5"
                   >
                     {monthDrawers.map((drawer) => {
@@ -218,11 +235,12 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                       return (
                         <div key={drawer.id} className="flex flex-col gap-2 mt-1">
                           {/* Drawer pulling row */}
-                          <button
+                          <Button
                             type="button"
+                            variant="ghost"
                             onClick={() => toggleDrawer(drawer.id)}
                             aria-expanded={isDrawerExpanded}
-                            className="flex w-full items-center justify-between p-3 rounded-xl border border-border/20 bg-surface-3/50 hover:bg-surface-3 cursor-pointer transition-all duration-[var(--ds-duration-fast)] text-left min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+                            className="flex w-full items-center justify-between rounded-xl border border-border/20 bg-surface-3/50 p-3 text-left normal-case tracking-normal transition-all duration-[var(--ds-duration-fast)] hover:bg-surface-3"
                           >
                             <div className="flex items-center gap-3">
                               <DrawerIcon className={`w-4 h-4 ${drawer.colorClass}`} />
@@ -238,16 +256,13 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                                 <ChevronDown className="w-4 h-4 text-text-muted" />
                               )}
                             </div>
-                          </button>
+                          </Button>
 
                           {/* Drawer Content */}
                           <AnimatePresence initial={false}>
                             {isDrawerExpanded && (
                               <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: 'auto', opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                transition={{ duration: 0.2, ease: 'easeInOut' }}
+                                {...drawerMotion}
                                 className="overflow-hidden flex flex-col gap-3 pl-3 pt-1 pb-2"
                               >
                                 {drawer.entries.map((entry) => {
@@ -264,7 +279,7 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
                                   return (
                                     <div
                                       key={entry.id}
-                                      className={`calm-card glow-bottom-blue flex flex-col gap-3 rounded-2xl p-4 sm:p-5 ${ringClass}`}
+                                      className={`calm-card flex flex-col gap-3 rounded-2xl p-4 sm:p-5 ${ringClass}`}
                                     >
                                       {/* Entry header */}
                                       <div className="flex items-center justify-between">
@@ -370,13 +385,15 @@ export function ArchiveListView({ entries, loading, onLoadMore, hideLoadMore = f
       {/* Load more / pagination */}
       {!hideLoadMore && (
       <div className="pt-6 flex justify-center">
-        <button
+        <Button
+          type="button"
+          variant="ghost"
           onClick={onLoadMore}
           disabled={loading}
-          className="px-6 py-2 rounded-full bg-surface-2 hover:bg-surface-3 border border-border/30 text-xs font-semibold uppercase tracking-wider text-text transition-colors disabled:opacity-50 min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+          className="min-h-11 rounded-full px-6 text-xs"
         >
           {loading ? 'Hämtar...' : 'Ladda äldre hylla'}
-        </button>
+        </Button>
       </div>
       )}
     </div>

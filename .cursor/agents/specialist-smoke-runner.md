@@ -30,7 +30,10 @@ npm run smoke:innehall
 npm run smoke:orkester
 npm run smoke:locked-ux
 npm run smoke:design-modules
+npm run qa:harden:fast
 ```
+
+UI QA Harden (Fas 24): `docs/QA-HARDEN-LOOP.md` · `sync-g85-ui-qa`.
 
 Nätverks-smokes (valfritt om credentials finns):
 

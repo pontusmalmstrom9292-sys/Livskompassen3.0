@@ -542,7 +542,7 @@ export function ThemeLabPage() {
             { label: 'Trygg hamn', Icon: Anchor },
             { label: 'Valv', Icon: ValvArchIcon },
             { label: 'Planering', Icon: Calendar },
-            { label: 'MåBra', Icon: Sparkles },
+            { label: 'Mabra', Icon: Sparkles },
             { label: 'Inställningar', Icon: Settings },
           ].map(({ label, Icon }) => (
             <li key={label} className="flex items-center gap-3 text-text-muted">

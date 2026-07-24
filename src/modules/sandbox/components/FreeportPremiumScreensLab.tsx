@@ -13,7 +13,7 @@ import { FreeportProfilLab } from './FreeportProfilLab';
 import { FreeportHemLab } from './FreeportHemLab';
 import { FreeportDagbokLab } from './FreeportDagbokLab';
 import { FreeportEkonomiLab } from './FreeportEkonomiLab';
-import { FreeportInstallningarLab } from './FreeportInstallningarLab';
+import { FreeportInställningarLab } from './FreeportInstallningarLab';
 
 export type PremiumScreenId =
   | 'hem'
@@ -100,7 +100,7 @@ export function FreeportPremiumScreensLab({ onStatus }: Props) {
       {screen === 'aktorskarta' ? <FreeportAktorskartaLab onStatus={onStatus} /> : null}
       {screen === 'dossier' ? <FreeportDossierLab onStatus={onStatus} /> : null}
       {screen === 'profil' ? <FreeportProfilLab onStatus={onStatus} /> : null}
-      {screen === 'installningar' ? <FreeportInstallningarLab onStatus={onStatus} /> : null}
+      {screen === 'installningar' ? <FreeportInställningarLab onStatus={onStatus} /> : null}
     </div>
   );
 }

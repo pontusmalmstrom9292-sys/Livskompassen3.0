@@ -1,0 +1,53 @@
+/**
+ * QA Harden auto-polish (Fas 1) — content touch floor + calm chip spacing.
+ * Does NOT touch BastaDesign dock / chrome-lock / Valv.
+ * Generated/maintained by scripts/lib/qa_harden_polish_pass.mjs
+ */
+
+/* Hub content chips & tabs (not fixed dock) */
+.hub-tabs button,
+.calm-tabs button,
+.familjen-layer-switch button,
+[data-tab]:not([data-dock-item]),
+.nav-truth-tab,
+.hub-chip,
+.calm-chip,
+.mabra-chip,
+.super-module-mode-chip {
+  min-height: max(var(--ds-touch-target, 2.75rem), 44px);
+  min-width: max(var(--ds-touch-target, 2.75rem), 44px);
+}
+
+/* Content CTA row — breathing room without redesign */
+.hub-content .btn-pill,
+.calm-scroll-island .btn-pill,
+[data-scroll-island] .btn-pill {
+  min-height: max(var(--ds-touch-target, 2.75rem), 44px);
+  padding-inline: max(0.85rem, 12px);
+}
+
+/* Soft focus ring for keyboard / a11y polish */
+.hub-content button:focus-visible,
+.calm-scroll-island button:focus-visible,
+[data-scroll-island] button:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--ds-gold, #fde68a) 55%, transparent);
+  outline-offset: 2px;
+}
+
+/* Mockup button parity — gold accent + secondary calm (content only, not dock) */
+.calm-scroll-island .btn-pill--accent,
+.calm-scroll-island .ui-cta-gold,
+[data-scroll-island] .btn-pill--accent,
+[data-scroll-island] .ui-cta-gold,
+.hub-content .btn-pill--accent,
+.hub-content .ui-cta-gold {
+  color: var(--ds-gold, #fde68a) !important;
+  border-color: color-mix(in srgb, var(--ds-gold, #fde68a) 45%, transparent) !important;
+}
+
+.calm-scroll-island .btn-pill--secondary,
+[data-scroll-island] .btn-pill--secondary,
+.hub-content .btn-pill--secondary {
+  min-height: max(var(--ds-touch-target, 2.75rem), 44px);
+  border-radius: var(--ds-radius-pill, 999px);
+}

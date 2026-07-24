@@ -99,7 +99,7 @@ export const useMabraStore = create<MabraState>()((set) => ({
           id: docId,
           userId,
           questionId: 'mabra_checkin',
-          questionText: 'MåBra Incheckning',
+          questionText: 'Mabra Incheckning',
           optionSelected: 'completed',
           taskCategory: 'wellbeing',
           taskNote: checkIn.notes || '',

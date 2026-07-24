@@ -9,7 +9,7 @@ type Props = {
   showZonePill?: boolean;
 };
 
-/** Obsidian Calm Bento — visuellt skal för MåBra-hubben (smaragd silo). */
+/** Obsidian Calm Bento — visuellt skal för Mabra-hubben (smaragd silo). */
 export function MabraBentoShell({ children, className, showZonePill = true }: Props) {
   return (
     <div className={clsx('mabra-bento-shell', className)}>
@@ -17,7 +17,7 @@ export function MabraBentoShell({ children, className, showZonePill = true }: Pr
       <div className="mabra-bento-shell__content">
         {showZonePill ? (
           <div className="mabra-zone-strip" aria-hidden>
-            <span className="mabra-zone-pill">MåBra</span>
+            <span className="mabra-zone-pill">Mabra</span>
           </div>
         ) : null}
         {children}

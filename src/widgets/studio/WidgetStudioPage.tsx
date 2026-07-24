@@ -112,6 +112,8 @@ function Editor({
               type="checkbox"
               checked={config.enabled}
               onChange={(e) => onChange({ enabled: e.target.checked })}
+              aria-label={`${title} på`}
+              style={{ width: WidgetTouch.minDp, height: WidgetTouch.minDp, flexShrink: 0 }}
             />
             På
           </label>
@@ -325,6 +327,8 @@ export function WidgetStudioPage() {
             type="checkbox"
             checked={state.smartTimeEnabled}
             onChange={(e) => void setStudioSmartFlags({ smartTimeEnabled: e.target.checked })}
+            aria-label="Tidsstyrd kontext (morgon → natt)"
+            style={{ width: WidgetTouch.minDp, height: WidgetTouch.minDp, flexShrink: 0 }}
           />
           Tidsstyrd kontext (morgon → natt)
         </label>
@@ -333,6 +337,8 @@ export function WidgetStudioPage() {
             type="checkbox"
             checked={state.smartAiEnabled}
             onChange={(e) => void setStudioSmartFlags({ smartAiEnabled: e.target.checked })}
+            aria-label="Lugnt AI-stöd (stress / energi / barnvecka)"
+            style={{ width: WidgetTouch.minDp, height: WidgetTouch.minDp, flexShrink: 0 }}
           />
           Lugnt AI-stöd (stress / energi / barnvecka)
         </label>
@@ -347,6 +353,8 @@ export function WidgetStudioPage() {
               setSavedFlash(true);
               window.setTimeout(() => setSavedFlash(false), 1200);
             }}
+            aria-label="Barnvecka just nu"
+            style={{ width: WidgetTouch.minDp, height: WidgetTouch.minDp, flexShrink: 0 }}
           />
           Barnvecka just nu
         </label>

@@ -62,7 +62,7 @@ export const HERO_ORBIT_SLOTS: OrbitSlotConfig[] = [
     icon: 'utveckling',
     label: 'Personlig utveckling',
     shortLabel: 'Utveckling',
-    blurb: 'Övningar · MåBra',
+    blurb: 'Övningar · Mabra',
     to: '/vardagen?tab=mabra',
     angle: 180,
     ring: 'cardinal',

@@ -24,3 +24,10 @@
     animation: calm-breath-box 16s ease-in-out infinite;
   }
 }
+
+/* qa-harden-touch-boost — Fas 1 auto-polish (content buttons) */
+button:not([data-dock-item]):not(.basta-dock-item),
+[role="tab"],
+[role="button"]:not([data-dock-item]) {
+  min-height: max(var(--ds-touch-target, 2.75rem), 2.5rem);
+}

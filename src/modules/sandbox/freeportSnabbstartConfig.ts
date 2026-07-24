@@ -78,7 +78,7 @@ export const SNABBSTART_CATALOG: SnabbstartCatalogEntry[] = [
   },
   {
     id: 'mabra',
-    label: 'MåBra',
+    label: 'Mabra',
     icon: Heart,
     defaultEnabled: false,
     morph: { zone: 'vardagen', module: 'mabra', mode: 'checkin' },

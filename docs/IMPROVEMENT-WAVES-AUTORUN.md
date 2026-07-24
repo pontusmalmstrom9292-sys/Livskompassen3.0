@@ -1,8 +1,10 @@
 # Improvement Waves Autorun — Fas 24 → färdig
 
 **Syfte:** Ett kommando som kör nästa förbättringsvåg säkert (smoke → yolo-vakt → branch-commit).  
-**Aktiv:** v49–v62 (Evigt Minne v55–v62) · Manifest: [`.orkester/cursor-yolo-build-manifest.json`](../.orkester/cursor-yolo-build-manifest.json)  
+**Aktiv:** v49–v63 (Evigt Minne v55–v62 · **QA Harden v63**) · Manifest: [`.orkester/cursor-yolo-build-manifest.json`](../.orkester/cursor-yolo-build-manifest.json)  
 **State:** [`.orkester/wave-machine-state.json`](../.orkester/wave-machine-state.json)
+
+QA Harden (gratis UI-loop): [`docs/QA-HARDEN-LOOP.md`](./QA-HARDEN-LOOP.md) · `npm run qa:harden`
 
 ---
 

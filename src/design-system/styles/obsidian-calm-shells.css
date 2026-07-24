@@ -193,12 +193,19 @@
     color: var(--bento-accent-emerald);
   }
 
-  /* —— Hub: ingen sid-scroll, island-scroll —— */
-  .hub-view-lock {
+  /* —— Hub layout —— */
+  /*
+   * Document scroll only. Nested hub-view-lock + calm-scroll-island caused:
+   * - dead window scroll (html lock / overflow hidden)
+   * - dual-scroll jank (winΔ≈46 + islandΔ=350 at 720×410 — debug 118fef)
+   * - tiny island (hubMh 174px) when viewport short but width >639
+   */
+  .hub-view-lock,
+  .hub-view-lock--fit {
     display: flex;
     flex-direction: column;
-    max-height: calc(100dvh - var(--app-dock-clearance, 8.5rem) - 5.75rem);
-    overflow: hidden;
+    max-height: none;
+    overflow: visible;
   }
 
   .hub-view-lock .hub-page-shell__header,
@@ -211,30 +218,14 @@
     flex: 1 1 auto;
     flex-direction: column;
     min-height: 0;
-    overflow: hidden;
+    overflow: visible;
   }
 
-  /* Stricter one-viewport fit — mobile hub modules */
-  @media (max-width: 639px) {
-    .hub-view-lock {
-      max-height: calc(100dvh - var(--app-dock-clearance, 8.5rem) - 4.25rem);
-    }
-
-    .hub-view-lock--fit {
-      max-height: calc(100dvh - var(--app-dock-clearance, 8.5rem) - 3.5rem);
-    }
-
-    .hub-view-lock--fit .module-shell__stack {
-      padding-bottom: 0.5rem;
-    }
-
-    .hub-view-lock--fit .hub-page-shell__footer {
-      padding-top: 0.5rem;
-    }
-  }
-
+  .hub-view-lock .calm-scroll-island,
   .hub-view-lock--fit .calm-scroll-island {
+    flex: none;
     max-height: none;
+    overflow: visible;
   }
 
   .calm-scroll-island {
@@ -244,6 +235,11 @@
     overflow-y: auto;
     overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
+  }
+
+  /* When NOT inside hub-view-lock, island may still scroll (home/executive). */
+  .hub-view-lock .calm-scroll-island {
+    overflow-y: visible;
   }
 
   /* Familjen superhub — flow följer yttre calm-scroll-island (ingen nested scroll) */
@@ -938,3 +934,6 @@
     padding-right: max(0.5rem, env(safe-area-inset-right, 0px));
   }
 }
+
+/* (qa-harden scroll-guard removed — hub-view-lock uses document scroll by design; see § Hub layout above) */
+

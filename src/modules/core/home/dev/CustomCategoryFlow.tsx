@@ -4,7 +4,7 @@
  */
 import { useEffect, useMemo, useState } from 'react';
 import { Loader2, Plus } from 'lucide-react';
-import { Button, TextArea } from '@/design-system';
+import { Button, Input, TextArea } from '@/design-system';
 import { useNativeHaptics } from '@/shared/utils/nativeHaptics';
 import { mergeEvolutionHub } from '@/core/firebase/evolutionLedgerFirestore';
 import { useEvolutionStore } from '@/core/store/useEvolutionStore';
@@ -135,12 +135,12 @@ export function CustomCategoryFlow({ open, onClose, userId, onSaved }: Props) {
               <span className="text-[10px] font-semibold uppercase tracking-widest text-text-dim">
                 Namn
               </span>
-              <input
+              <Input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 maxLength={40}
-                className="min-h-[44px] w-full rounded-xl border border-border/30 bg-surface-2/60 px-3 text-sm text-text"
+                className="min-h-[44px] w-full rounded-xl border-border/30 bg-surface-2/60 px-3 text-sm text-text"
                 placeholder="T.ex. Simning"
                 aria-label="Kategorinamn"
               />
@@ -149,12 +149,12 @@ export function CustomCategoryFlow({ open, onClose, userId, onSaved }: Props) {
               <span className="text-[10px] font-semibold uppercase tracking-widest text-text-dim">
                 Kort beskrivning (valfritt)
               </span>
-              <input
+              <Input
                 type="text"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 maxLength={120}
-                className="min-h-[44px] w-full rounded-xl border border-border/30 bg-surface-2/60 px-3 text-sm text-text"
+                className="min-h-[44px] w-full rounded-xl border-border/30 bg-surface-2/60 px-3 text-sm text-text"
                 placeholder="Vad vill du lära dig?"
                 aria-label="Beskrivning"
               />

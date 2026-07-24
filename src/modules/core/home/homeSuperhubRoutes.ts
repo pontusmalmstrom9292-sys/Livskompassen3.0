@@ -49,7 +49,7 @@ const SHORTCUTS = {
   },
   mabra: {
     id: 'superhub-mabra',
-    label: 'MåBra',
+    label: 'Mabra',
     lead: 'Andning och reflektion',
     to: HOME_SUPERHUB_ROUTES.mabraInput,
     icon: Brain,

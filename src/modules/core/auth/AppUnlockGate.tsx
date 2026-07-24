@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Modal } from '@/design-system';
 import { useStore } from '../store';
@@ -20,13 +20,11 @@ export function AppUnlockGate({ children }: Props) {
 
   const isWidgetRoute = location.pathname.startsWith('/widget');
 
-  if (isWidgetRoute) {
-    return <>{children}</>;
-  }
-
   // Capacitor: SacredLockManager äger biometri — web-WebAuthn-gate får inte blockera efter Google-login.
+  const isNative = isCapacitorNative();
   const needsUnlock =
-    !isCapacitorNative() &&
+    !isWidgetRoute &&
+    !isNative &&
     !isLoading &&
     !!user &&
     !user.isAnonymous &&
@@ -34,6 +32,41 @@ export function AppUnlockGate({ children }: Props) {
     isAppUnlockSupported() &&
     !isAppUnlockedThisSession() &&
     !dismissed;
+
+  useEffect(() => {
+    if (isWidgetRoute) return;
+    // #region agent log
+    const data = {
+      isNative,
+      isLoading,
+      hasUser: !!user,
+      isAnonymous: user?.isAnonymous ?? null,
+      unlockEnabled: isAppUnlockEnabled(),
+      unlockSupported: isAppUnlockSupported(),
+      unlockedSession: isAppUnlockedThisSession(),
+      needsUnlock,
+      path: location.pathname,
+    };
+    console.warn('[DBG-4bae45]', 'AppUnlockGate.tsx:gate', 'unlock gate decision', data);
+    fetch('http://127.0.0.1:7891/ingest/e2aa352c-17db-4fb0-8a3f-df79408d16d3', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '4bae45' },
+      body: JSON.stringify({
+        sessionId: '4bae45',
+        runId: 'pre-fix',
+        hypothesisId: 'G',
+        location: 'AppUnlockGate.tsx:gate',
+        message: 'unlock gate decision',
+        data,
+        timestamp: Date.now(),
+      }),
+    }).catch(() => {});
+    // #endregion
+  }, [isWidgetRoute, isNative, isLoading, user, needsUnlock, location.pathname]);
+
+  if (isWidgetRoute) {
+    return <>{children}</>;
+  }
 
   if (!needsUnlock) {
     return <>{children}</>;

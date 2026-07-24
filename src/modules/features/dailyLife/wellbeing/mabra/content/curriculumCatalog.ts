@@ -1,5 +1,5 @@
 /**
- * Vit curriculum — Kunskap FACT-kapitel + MåBra bankIds (blandat format).
+ * Vit curriculum — Kunskap FACT-kapitel + Mabra bankIds (blandat format).
  * Källa: docs/content/CONTENT-WAVES.md · Kunskap-CONTENT-SEED.md
  */
 
@@ -196,7 +196,7 @@ export const CURRICULUMS: readonly VitCurriculum[] = [
     ],
     broLinks: [
       { label: 'Kunskapsbank', route: '/valvet?vaultTab=kunskapsbank' },
-      { label: 'MåBra känslor', route: '/vardagen?tab=mabra' },
+      { label: 'Mabra känslor', route: '/vardagen?tab=mabra' },
     ],
   },
   {
@@ -324,7 +324,7 @@ export const CURRICULUMS: readonly VitCurriculum[] = [
         kunskapFactId: 'kunskap-fact-004',
         factTitleSv: 'Ett litet steg',
         factSummarySv:
-          'Vid låg kapacitet räcker ett steg — inte en hel plan. MåBra föreslår mikromål, inte prestation.',
+          'Vid låg kapacitet räcker ett steg — inte en hel plan. Mabra föreslår mikromål, inte prestation.',
         citationHint: 'product_copy',
         exercises: [
           { bankId: 'C-goal-01', kind: 'reflection' },

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { FreeportDagbokLab } from './FreeportDagbokLab';
 import { FreeportEkonomiLab } from './FreeportEkonomiLab';
 import { FreeportHemLab } from './FreeportHemLab';
-import { FreeportInstallningarLab } from './FreeportInstallningarLab';
+import { FreeportInställningarLab } from './FreeportInstallningarLab';
 import { FreeportResurserLab } from './FreeportResurserLab';
 
 type FptiScreenId = 'hem' | 'ekonomi' | 'resurser' | 'dagbok' | 'installningar';
@@ -55,7 +55,7 @@ export function FreeportFptiRefLab({ onStatus }: Props) {
       {screen === 'ekonomi' ? <FreeportEkonomiLab onStatus={onStatus} /> : null}
       {screen === 'resurser' ? <FreeportResurserLab onStatus={onStatus} /> : null}
       {screen === 'dagbok' ? <FreeportDagbokLab onStatus={onStatus} /> : null}
-      {screen === 'installningar' ? <FreeportInstallningarLab onStatus={onStatus} /> : null}
+      {screen === 'installningar' ? <FreeportInställningarLab onStatus={onStatus} /> : null}
     </div>
   );
 }

@@ -85,8 +85,8 @@ const BarnportenPage = lazy(() =>
 const ForalderTryggContainer = lazy(() =>
   import('@/features/onboarding/barnporten').then((m) => ({ default: m.ForalderTryggContainer })),
 );
-const InstallningarPage = lazy(() =>
-  import('../pages/InstallningarPage').then((m) => ({ default: m.InstallningarPage })),
+const InställningarPage = lazy(() =>
+  import('../pages/InstallningarPage').then((m) => ({ default: m.InställningarPage })),
 );
 const ThemePreviewPage = lazy(() =>
   import('../pages/ThemePreviewPage').then((m) => ({ default: m.ThemePreviewPage })),
@@ -269,11 +269,6 @@ function RedirectArkivToValvet() {
   return <Navigate to={`${NAV_PATHS.VALVET}?vaultTab=logga`} replace />;
 }
 
-/** Legacy `/mabra` root → Vardagen MåBra-flik; under-rutter behålls via `/mabra/*`. */
-function RedirectMabraRootToVardagen() {
-  return <Navigate to={`${NAV_PATHS.VARDAGEN}?tab=mabra`} replace />;
-}
-
 /** Legacy `/liv` och `/liv?tab=…` → launcher eller fullsid-route. */
 function RedirectLivToVardagen() {
   const location = useLocation();
@@ -356,7 +351,6 @@ export function AppRoutes() {
                   </ProtectedModule>
                 }
               />
-              <Route path="/mabra" element={<RedirectMabraRootToVardagen />} />
               <Route
                 path="/mabra/*"
                 element={
@@ -563,7 +557,7 @@ export function AppRoutes() {
                 path="/installningar"
                 element={
                   <ProtectedModule>
-                    <InstallningarPage />
+                    <InställningarPage />
                   </ProtectedModule>
                 }
               />

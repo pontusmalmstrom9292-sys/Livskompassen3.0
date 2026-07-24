@@ -89,7 +89,7 @@ function resolveLevel(
 
 /**
  * Kanonisk hook — tri-gate (user_capability_state + user_economy_status + evolution_hub)
- * och nivåupplösning med circuit breaker via MåBra-checkins senaste 48h.
+ * och nivåupplösning med circuit breaker via Mabra-checkins senaste 48h.
  */
 export function useEconomyLevel(userId: string | undefined): EconomyLevelState {
   const listenToCapacityState = useListenToCapacityState();

@@ -26,7 +26,7 @@ const GROUPS = [
 type Props = { onStatus?: (msg: string) => void };
 
 /** INSTÄLLNINGAR — pixel-match skärm 5. Ingen «Valv»-exponering (S7). */
-export function FreeportInstallningarLab({ onStatus }: Props) {
+export function FreeportInställningarLab({ onStatus }: Props) {
   const [navActive, setNavActive] = useState<ExecutiveNavId>('mer');
 
   return (

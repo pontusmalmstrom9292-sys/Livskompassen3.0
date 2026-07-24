@@ -85,7 +85,7 @@ function vardagenSlots(pathname: string, search: string): HubContextSlot[] {
     },
     {
       id: 'mabra',
-      label: 'MåBra',
+      label: 'Mabra',
       to: '/vardagen?tab=mabra',
       icon: 'sparkles',
       active:

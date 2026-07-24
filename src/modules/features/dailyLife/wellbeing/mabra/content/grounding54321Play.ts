@@ -1,4 +1,4 @@
-/** Våg 28 — prod-wire för 5-4-3-2-1 grounding (MåBra PLAY). Kanon: Mabra-CONTENT-BANK MB-PLAY-54321 */
+/** Våg 28 — prod-wire för 5-4-3-2-1 grounding (Mabra PLAY). Kanon: Mabra-CONTENT-BANK MB-PLAY-54321 */
 export const MB_PLAY_54321_BANK_ID = 'MB-PLAY-54321';
 
 export type GroundingStep = {

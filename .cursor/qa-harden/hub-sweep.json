@@ -1,0 +1,2139 @@
+{
+  "base": "http://127.0.0.1:5175",
+  "at": "2026-07-24T11:09:09.891Z",
+  "routes": 83,
+  "failures": [],
+  "routesWithConsoleErrors": [
+    {
+      "path": "/kompis",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 709,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/morgon",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 707,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/vardagen",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 723,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/vardagen?tab=kompasser",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 723,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/vardagen?tab=mabra",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 699,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/vardagen?tab=ekonomi",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 718,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/mabra",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 703,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/mabra/akut",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 700,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/mabra/tid",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 706,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/mabra/varderingar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 695,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/mabra/input",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 707,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/mabra/recovery/sos",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 699,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/planering",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 702,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/planering?tab=handling",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 702,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/planering/kalender",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 699,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/planering/input",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 713,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/arbetsliv",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 704,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/arbetsliv/input",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 698,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/arbetsliv/input?inputMode=tid",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 705,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/arbetsliv/input?inputMode=inkomster",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 714,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/arbetsliv/input?inputMode=stampla",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 697,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/familjen",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 700,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/familjen?tab=reflektion",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 702,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/familjen?tab=livslogg",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 698,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/familjen?tab=tillsammans",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 699,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/familjen?tab=barnporten",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 699,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/familjen?tab=hamn",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 698,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/familjen?tab=drogfrihet",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 698,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/barnporten",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 702,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nBARNPORTEN\n\nDin trygga hamn\n\nBe pappa skanna QR under Familjen → Barnporten.\n\nSMÅBARNSLÄGE — KASPER\n\nPeka på humör eller ta en kort andningspaus.\n\n🙂\nGlad\n😢\nLedsen\n"
+    },
+    {
+      "path": "/hjartat",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 702,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nSynkar ändringar…\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDö"
+    },
+    {
+      "path": "/hjartat?tab=reflektion",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 769,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/hjartat?tab=speglar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 697,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/orakel",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 714,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/reflection",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 706,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/biochem",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 699,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/inkast",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 848,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSKRIV NU\n\nReflektionsfråga\n\nDu är den trygga hamnen — även när världen kän"
+    },
+    {
+      "path": "/projekt",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 774,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/projekt/ny",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 703,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/projekt/regler",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 705,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/projekt/genvagar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 701,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/installningar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 709,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/installningar?tab=allmant",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 703,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/installningar?tab=naring",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 701,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/installningar?tab=drogfrihet",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 698,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/installningar/widget-studio",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 719,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nInställningar · Widget Studio · Mina Widgets\n\nWidget Studio\n\nFrihet inom trygga ramar — omöjligt att göra fel. På Hem: Dölj/Visa Companion när du vill lugn.\n\nÖppna H"
+    },
+    {
+      "path": "/valvet",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 704,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/valvet/installningar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 697,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/sos",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 725,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSKRIV NU\n\nReflektionsfråga\n\nDu är den trygga hamnen — även när världen kän"
+    },
+    {
+      "path": "/widget/anteckning",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 854,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nSnabbanteckning\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/inspelning",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 708,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nAnteckningar\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/kompass",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 760,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nKompass\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/hamn",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 707,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nHamn · BIFF\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/familjen",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 703,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nBarnobs\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/stampla",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 704,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nStämpel\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/barnporten",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 705,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nBarnporten\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/snabbval",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 706,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nDagbok\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/voice-vault",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 704,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nBevis-röst\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/projekt",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 697,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nNytt projekt\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/aktioner",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 707,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nÅtgärder\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/moduler",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 702,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nMina moduler\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/drogfrihet-akut",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 707,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nSOS Ankare\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/companion-capture",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 709,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nHemlig inspelning\n\nCompanion OS · röst till Valvet\n\nHEMLIG INSPELNING\n\nTryck mic · inspelning startar\n\nSenaste\nEND-TO-END KRYPTERAD\nHELT PRIVAT\nENDA"
+    },
+    {
+      "path": "/widget/companion-inbox",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 701,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nInkast\n\nCompanion OS · ett tryck\n\nINKAST\n\nEtt tryck. Klart.\n\n✏️\nTEXT\n🎤\nRÖST\n📷\nFOTO\nEND-TO-END KRYPTERAD\nHELT PRIVAT\nENDAST DU HAR ÅTKOMST"
+    },
+    {
+      "path": "/widget/companion-note",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 705,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nSnabba anteckningar\n\nCompanion OS · text, foto eller röst\n\nSNABBA ANTECKNINGAR\n\nSkriv något snabbt…\n\nTANKE\nIDÉ\nPÅMINNELSE\nANNAT\n+\nEND-TO-END KRYPTER"
+    },
+    {
+      "path": "/widget/companion-harbor",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 706,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nTrygg Hamn\n\nCompanion OS · lugn yta\n\nMÅ BRA\n\nAndas. Släpp taget.\n\nAndas. Släpp taget. Var här nu.\n\n🌬️\nANDNING\n◎\nFOKUS\n✦\nTACKSAMHET\n☾\nSÖMN\nAndas\nByt"
+    },
+    {
+      "path": "/widget/companion-compass",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 709,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nKompassen\n\nCompanion OS · navet\n\nDAGENS FOKUS\n\nDin kompass för idag\n\nN\nS\nW\nE\n\nFOKUS FÖR IDAG\n\nEtt steg i taget\n\nMORGON\nDAG\nKVÄLL\nNU\nSÄTT INTENTION\nH"
+    },
+    {
+      "path": "/widget/companion-child",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 705,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nBarnfokus\n\nCompanion OS · dagens fråga\n\nFAMILJEN\n\nIdag\n\n+\n\nDAGENS FRÅGA\n\nVilket ord eller ljud fastnade i huvudet idag?\n\nBARNSCHEMA\nIdag\nSVARA\nSenas"
+    },
+    {
+      "path": "/widget/companion-beacon",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 732,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nFyren\n\nCompanion OS · dagsform\n\nFYREN\n\nDin inre kompass för kapacitet och balans\n\n68%\nLUGN\nENERGI\nBra\nSTRESS\nLåg\nSÖMN\n8h 39m\nFYRENS RÅD\n\nHåll tempot"
+    },
+    {
+      "path": "/widget/companion-journal",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 708,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nDagbok\n\nCompanion OS · check-in\n\nDAGBOK\n\nHur har din dag varit?\n\nAtt förstå sig själv är början på all förändring.\n\n— Okänd\n\n😔\n😕\n😐\n🙂\n😊\nNY ANTEC"
+    },
+    {
+      "path": "/widget/companion-anchor",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 706,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nDagens Ankare\n\nCompanion OS · ett steg\n\nDAGENS ANKARE\n\nEtt lugnt mikrosteg\n\nSätt en lugn intention för dagen\n\nSÄTT INTENTION\nETT MIKROSTEG RÄCKER"
+    },
+    {
+      "path": "/widget/companion-tasks",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 703,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nDagens uppgifter\n\nCompanion OS · nästa steg\n\nFOKUS\n\nDagens riktning\n\nDAGENS FOKUS\n\nNästa lugna steg\n\n92%\n\nFOKUS\n\nAllt klart för nu. Bra jobbat.\n\nÖpp"
+    },
+    {
+      "path": "/dev/theme-lab",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 791,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nSynkar ändringar…\nTheme Lab\n\nProd-tema låst: endast Bästa design är aktiv i hela appen. Förhandsvisning här nedan påverkar inte prod.\n\nENKEL SKIN-VÄLJARE\nOBSIDIAN DEP"
+    },
+    {
+      "path": "/dev/themes",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 980,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nTheme Pack Preview\n\nProd-tema är låst till Bästa design i hela appen.\n\nTHEME LAB\nTILL HEM\n\nME-BASTA-DESIGN\n\nBästa design\n\nEnda prod-tema — marin #07101D, guld #D4AF37"
+    },
+    {
+      "path": "/dev/hub-lab",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 821,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar…\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/dev/basta-design",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 705,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "← Prod\nFIGMA-REF · MOCKDATA\nTheme Lab\nLIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSkriv nu\n\nReflektionsfråga\n\nDu är de"
+    },
+    {
+      "path": "/dev/design-freeport",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 705,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "← Prod\nSANDBOX · EJ PROD\nDepth v2\nDESIGN FREEPORT\n\nHem (Modell A) är kanon — live Chameleon + kompassmodul. FP-TI ref är statiska pixel-mockar. Prod på / är orörd.\n\nVarm koppar\nNeu"
+    },
+    {
+      "path": "/dev/obsidian-depth",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 975,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nLÅST · 2026-06-14\n\nOBSIDIAN DEPTH\n\nLåst kanon för fylligare 3D — glassmorphism, taktil djup, guldaccenter endast. Knappar, menyer och widget förfinas separat. Välj t"
+    },
+    {
+      "path": "/dev/obsidian-forge",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 725,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nUTVÄRDERING · 2026-06-14\n\nOBSIDIAN FORGE\n\nSyntes av fem referensmockups — grafit + guld, hero + bento + chrome. Ej prod-default. Godkänn i Theme Lab innan wire till "
+    },
+    {
+      "path": "/dev/obsidian-depth-v2",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 708,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nUPPGRADERING · HEM V3 + OD\n\nOBSIDIAN DEPTH V2\n\nSamma glas/guld/3D som Obsidian Depth — plus det vi byggde i Hem v3: supermoduler, dagens fokus i hub, 12 utvecklingsk"
+    },
+    {
+      "path": "/dev/dagens-ankare",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 711,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nSANDBOX · HEM V3\n\nDagens Ankare\n\nForge (andning: box / 4-7-8 / 4-2-6) + Taktisk (mikrosteg). Testa på Hem → Morgon-flik.\n\nHEM\nOBSIDIAN FORGE\nHTML MERGE\nSPÅR 1: OBSID"
+    },
+    {
+      "path": "/dev/companion-widgets",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 762,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nCOMPANION WIDGET OS\n\nLab — smart yta\n\nMotor igång · Paus & återhämtning · Lunch, vatten eller ett mikrosteg mot stress.\n\nWidget Studio\nHem\nNORMALT\nHÖG STRESS\nÖVERLAS"
+    }
+  ],
+  "results": [
+    {
+      "path": "/",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 1525,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar…\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/dashboard",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 950,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/kompis",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 709,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/morgon",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 707,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/vardagen",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 723,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/vardagen?tab=kompasser",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 723,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/vardagen?tab=mabra",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 699,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/vardagen?tab=ekonomi",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 718,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/mabra",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 703,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/mabra/akut",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 700,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/mabra/tid",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 706,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/mabra/varderingar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 695,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/mabra/input",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 707,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/mabra/recovery/sos",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 699,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/planering",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 702,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/planering?tab=handling",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 702,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/planering/kalender",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 699,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/planering/input",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 713,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/arbetsliv",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 704,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/arbetsliv/input",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 698,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/arbetsliv/input?inputMode=tid",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 705,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/arbetsliv/input?inputMode=inkomster",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 714,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/arbetsliv/input?inputMode=stampla",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 697,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/familjen",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 700,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/familjen?tab=reflektion",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 702,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/familjen?tab=livslogg",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 698,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/familjen?tab=tillsammans",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 699,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/familjen?tab=barnporten",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 699,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/familjen?tab=hamn",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 698,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/familjen?tab=drogfrihet",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 698,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/barnporten",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 702,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nBARNPORTEN\n\nDin trygga hamn\n\nBe pappa skanna QR under Familjen → Barnporten.\n\nSMÅBARNSLÄGE — KASPER\n\nPeka på humör eller ta en kort andningspaus.\n\n🙂\nGlad\n😢\nLedsen\n"
+    },
+    {
+      "path": "/hjartat",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 702,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nSynkar ändringar…\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDö"
+    },
+    {
+      "path": "/hjartat?tab=reflektion",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 769,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/hjartat?tab=speglar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 697,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/orakel",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 714,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/reflection",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 706,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/biochem",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 699,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/inkast",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 848,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSKRIV NU\n\nReflektionsfråga\n\nDu är den trygga hamnen — även när världen kän"
+    },
+    {
+      "path": "/projekt",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 774,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/projekt/ny",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 703,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/projekt/regler",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 705,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/projekt/genvagar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 701,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/installningar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 709,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/installningar?tab=allmant",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 703,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/installningar?tab=naring",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 701,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/installningar?tab=drogfrihet",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 698,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/installningar/widget-studio",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 719,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nInställningar · Widget Studio · Mina Widgets\n\nWidget Studio\n\nFrihet inom trygga ramar — omöjligt att göra fel. På Hem: Dölj/Visa Companion när du vill lugn.\n\nÖppna H"
+    },
+    {
+      "path": "/valvet",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 704,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/valvet/installningar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 697,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/sos",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 725,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSKRIV NU\n\nReflektionsfråga\n\nDu är den trygga hamnen — även när världen kän"
+    },
+    {
+      "path": "/widget/anteckning",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 854,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nSnabbanteckning\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/inspelning",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 708,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nAnteckningar\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/kompass",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 760,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nKompass\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/hamn",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 707,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nHamn · BIFF\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/familjen",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 703,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nBarnobs\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/stampla",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 704,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nStämpel\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/barnporten",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 705,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nBarnporten\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/snabbval",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 706,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nDagbok\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/voice-vault",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 704,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nBevis-röst\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/projekt",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 697,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nNytt projekt\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/aktioner",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 707,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nÅtgärder\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/moduler",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 702,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nMina moduler\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/drogfrihet-akut",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 707,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "WIDGET\nDÖLJ NU — NEUTRAL HEM\nSOS Ankare\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nFörbereder widget…"
+    },
+    {
+      "path": "/widget/companion-capture",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 709,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nHemlig inspelning\n\nCompanion OS · röst till Valvet\n\nHEMLIG INSPELNING\n\nTryck mic · inspelning startar\n\nSenaste\nEND-TO-END KRYPTERAD\nHELT PRIVAT\nENDA"
+    },
+    {
+      "path": "/widget/companion-inbox",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 701,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nInkast\n\nCompanion OS · ett tryck\n\nINKAST\n\nEtt tryck. Klart.\n\n✏️\nTEXT\n🎤\nRÖST\n📷\nFOTO\nEND-TO-END KRYPTERAD\nHELT PRIVAT\nENDAST DU HAR ÅTKOMST"
+    },
+    {
+      "path": "/widget/companion-note",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 705,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nSnabba anteckningar\n\nCompanion OS · text, foto eller röst\n\nSNABBA ANTECKNINGAR\n\nSkriv något snabbt…\n\nTANKE\nIDÉ\nPÅMINNELSE\nANNAT\n+\nEND-TO-END KRYPTER"
+    },
+    {
+      "path": "/widget/companion-harbor",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 706,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nTrygg Hamn\n\nCompanion OS · lugn yta\n\nMÅ BRA\n\nAndas. Släpp taget.\n\nAndas. Släpp taget. Var här nu.\n\n🌬️\nANDNING\n◎\nFOKUS\n✦\nTACKSAMHET\n☾\nSÖMN\nAndas\nByt"
+    },
+    {
+      "path": "/widget/companion-compass",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 709,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nKompassen\n\nCompanion OS · navet\n\nDAGENS FOKUS\n\nDin kompass för idag\n\nN\nS\nW\nE\n\nFOKUS FÖR IDAG\n\nEtt steg i taget\n\nMORGON\nDAG\nKVÄLL\nNU\nSÄTT INTENTION\nH"
+    },
+    {
+      "path": "/widget/companion-child",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 705,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nBarnfokus\n\nCompanion OS · dagens fråga\n\nFAMILJEN\n\nIdag\n\n+\n\nDAGENS FRÅGA\n\nVilket ord eller ljud fastnade i huvudet idag?\n\nBARNSCHEMA\nIdag\nSVARA\nSenas"
+    },
+    {
+      "path": "/widget/companion-beacon",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 732,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nFyren\n\nCompanion OS · dagsform\n\nFYREN\n\nDin inre kompass för kapacitet och balans\n\n68%\nLUGN\nENERGI\nBra\nSTRESS\nLåg\nSÖMN\n8h 39m\nFYRENS RÅD\n\nHåll tempot"
+    },
+    {
+      "path": "/widget/companion-journal",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 708,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nDagbok\n\nCompanion OS · check-in\n\nDAGBOK\n\nHur har din dag varit?\n\nAtt förstå sig själv är början på all förändring.\n\n— Okänd\n\n😔\n😕\n😐\n🙂\n😊\nNY ANTEC"
+    },
+    {
+      "path": "/widget/companion-anchor",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 706,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nDagens Ankare\n\nCompanion OS · ett steg\n\nDAGENS ANKARE\n\nEtt lugnt mikrosteg\n\nSätt en lugn intention för dagen\n\nSÄTT INTENTION\nETT MIKROSTEG RÄCKER"
+    },
+    {
+      "path": "/widget/companion-tasks",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 703,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "COMPANION\nDÖLJ NU — NEUTRAL HEM\nDagens uppgifter\n\nCompanion OS · nästa steg\n\nFOKUS\n\nDagens riktning\n\nDAGENS FOKUS\n\nNästa lugna steg\n\n92%\n\nFOKUS\n\nAllt klart för nu. Bra jobbat.\n\nÖpp"
+    },
+    {
+      "path": "/dev/theme-lab",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 791,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nSynkar ändringar…\nTheme Lab\n\nProd-tema låst: endast Bästa design är aktiv i hela appen. Förhandsvisning här nedan påverkar inte prod.\n\nENKEL SKIN-VÄLJARE\nOBSIDIAN DEP"
+    },
+    {
+      "path": "/dev/themes",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 980,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nTheme Pack Preview\n\nProd-tema är låst till Bästa design i hela appen.\n\nTHEME LAB\nTILL HEM\n\nME-BASTA-DESIGN\n\nBästa design\n\nEnda prod-tema — marin #07101D, guld #D4AF37"
+    },
+    {
+      "path": "/dev/hub-lab",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 821,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar…\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/dev/basta-design",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 705,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "← Prod\nFIGMA-REF · MOCKDATA\nTheme Lab\nLIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSkriv nu\n\nReflektionsfråga\n\nDu är de"
+    },
+    {
+      "path": "/dev/design-freeport",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 705,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "← Prod\nSANDBOX · EJ PROD\nDepth v2\nDESIGN FREEPORT\n\nHem (Modell A) är kanon — live Chameleon + kompassmodul. FP-TI ref är statiska pixel-mockar. Prod på / är orörd.\n\nVarm koppar\nNeu"
+    },
+    {
+      "path": "/dev/obsidian-depth",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 975,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nLÅST · 2026-06-14\n\nOBSIDIAN DEPTH\n\nLåst kanon för fylligare 3D — glassmorphism, taktil djup, guldaccenter endast. Knappar, menyer och widget förfinas separat. Välj t"
+    },
+    {
+      "path": "/dev/obsidian-forge",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 725,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nUTVÄRDERING · 2026-06-14\n\nOBSIDIAN FORGE\n\nSyntes av fem referensmockups — grafit + guld, hero + bento + chrome. Ej prod-default. Godkänn i Theme Lab innan wire till "
+    },
+    {
+      "path": "/dev/obsidian-depth-v2",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 708,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nUPPGRADERING · HEM V3 + OD\n\nOBSIDIAN DEPTH V2\n\nSamma glas/guld/3D som Obsidian Depth — plus det vi byggde i Hem v3: supermoduler, dagens fokus i hub, 12 utvecklingsk"
+    },
+    {
+      "path": "/dev/dagens-ankare",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 711,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nSANDBOX · HEM V3\n\nDagens Ankare\n\nForge (andning: box / 4-7-8 / 4-2-6) + Taktisk (mikrosteg). Testa på Hem → Morgon-flik.\n\nHEM\nOBSIDIAN FORGE\nHTML MERGE\nSPÅR 1: OBSID"
+    },
+    {
+      "path": "/dev/companion-widgets",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 762,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 1,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=ed371882:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+      ],
+      "bodySnippet": "LIVSKOMPASSEN\n\nCOMPANION WIDGET OS\n\nLab — smart yta\n\nMotor igång · Paus & återhämtning · Lunch, vatten eller ett mikrosteg mot stress.\n\nWidget Studio\nHem\nNORMALT\nHÖG STRESS\nÖVERLAS"
+    }
+  ],
+  "probe": "hub-sweep"
+}

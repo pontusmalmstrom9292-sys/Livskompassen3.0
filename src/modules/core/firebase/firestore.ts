@@ -213,7 +213,7 @@ export async function saveMabraCheckIn(
   const ref = collection(db, FIRESTORE_COLLECTIONS.checkins);
   const payload = {
     questionId: 'mabra_checkin',
-    questionText: 'MåBra Incheckning',
+    questionText: 'Mabra Incheckning',
     optionSelected: 'completed',
     taskCategory: 'wellbeing',
     taskNote: checkIn.notes || '',

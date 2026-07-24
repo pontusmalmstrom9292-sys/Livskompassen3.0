@@ -32,7 +32,7 @@ import { Button } from '@/design-system';
 
 const HUB_LABELS: Record<MaterialPackHub, string> = {
   familjen: 'Familjen',
-  mabra: 'MåBra',
+  mabra: 'Mabra',
   hamn: 'Trygg hamn',
 };
 
@@ -138,7 +138,7 @@ export function ProjektMaterialPackPage() {
     <HubPageShell
       eyebrow="Göra"
       title="Genvägar per profil"
-      lead="Redigera MaterialPack-genvägar på Familjen, MåBra och Hamn — synkas mellan enheter när du är inloggad."
+      lead="Redigera MaterialPack-genvägar på Familjen, Mabra och Hamn — synkas mellan enheter när du är inloggad."
     >
       <GoraHubTabBar />
       <div className="flex flex-wrap gap-3 text-xs">

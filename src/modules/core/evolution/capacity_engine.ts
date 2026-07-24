@@ -36,7 +36,7 @@ export function calculateScoreFromDocs(docs: any[]): number {
 }
 
 /**
- * Calculates a 7-day moving average capacity score based on MåBra checkins.
+ * Calculates a 7-day moving average capacity score based on Mabra checkins.
  * Returns a normalized value between 0 and 1.
  * Uses cached queries when possible for efficiency.
  *

@@ -26,7 +26,7 @@ import { FetchContentPacksFlow } from '../home/dev/FetchContentPacksFlow';
 import { CustomCategoryFlow } from '../home/dev/CustomCategoryFlow';
 import { Button } from '@/design-system';
 
-export type InstallningarTab = 'allmant' | 'naring' | 'drogfrihet';
+export type InställningarTab = 'allmant' | 'naring' | 'drogfrihet';
 
 const EXEC_SETTINGS_GROUPS: ExecutiveSettingsGroup[] = [
   {
@@ -48,9 +48,9 @@ const EXEC_SETTINGS_GROUPS: ExecutiveSettingsGroup[] = [
   },
 ];
 
-export function InstallningarPage() {
+export function InställningarPage() {
   const { tabs, activeTab, setTab } = useHubTab('installningar');
-  const tab = (activeTab || 'allmant') as InstallningarTab;
+  const tab = (activeTab || 'allmant') as InställningarTab;
   const user = useStore((s) => s.user);
   const { themeId } = useTheme();
   const executiveSkin = isMidnightExecutiveTheme(themeId);
@@ -72,8 +72,8 @@ export function InstallningarPage() {
       headerAside={<Settings className="h-5 w-5 text-text-muted" strokeWidth={1.5} aria-hidden />}
       executiveHeader={executiveSkin}
     >
-      <TabBar<InstallningarTab>
-        tabs={tabs as TabBarItem<InstallningarTab>[]}
+      <TabBar<InställningarTab>
+        tabs={tabs as TabBarItem<InställningarTab>[]}
         active={tab}
         onChange={(id) => setTab(id)}
       />

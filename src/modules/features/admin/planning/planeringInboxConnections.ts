@@ -41,7 +41,7 @@ export const PLANERING_INBOX_PROVIDER_META: Record<
 };
 
 function parseStored(raw: string | null): PlaneringInboxConnectionsState {
-  if (!raw) return { ...DEFAULT_STATE };
+  if (!raw) return DEFAULT_STATE;
   try {
     const data = JSON.parse(raw) as Partial<PlaneringInboxConnectionsState>;
     return {
@@ -49,21 +49,27 @@ function parseStored(raw: string | null): PlaneringInboxConnectionsState {
       google_calendar: { ...DEFAULT_STATE.google_calendar, ...data.google_calendar },
     };
   } catch {
-    return { ...DEFAULT_STATE };
+    return DEFAULT_STATE;
   }
 }
 
+/** Stable ref for useSyncExternalStore — never return a fresh object from getSnapshot. */
+let snapshotCache: PlaneringInboxConnectionsState | null = null;
+
 export function readPlaneringInboxConnections(): PlaneringInboxConnectionsState {
+  if (snapshotCache) return snapshotCache;
   try {
-    return parseStored(localStorage.getItem(STORAGE_KEY));
+    snapshotCache = parseStored(localStorage.getItem(STORAGE_KEY));
   } catch {
-    return { ...DEFAULT_STATE };
+    snapshotCache = DEFAULT_STATE;
   }
+  return snapshotCache;
 }
 
 export function writePlaneringInboxConnections(
   next: PlaneringInboxConnectionsState,
 ): void {
+  snapshotCache = next;
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
   } catch {

@@ -34,7 +34,7 @@ const DESTINATIONS: KompisDestination[] = [
   },
   {
     to: '/mabra',
-    label: 'MåBra',
+    label: 'Mabra',
     hint: 'Andning, jordning och daglig mix.',
     icon: Sparkles,
   },
@@ -78,7 +78,10 @@ export function KompisHubPage() {
       </ul>
 
       <p className="text-center text-xs text-text-muted">
-        <Link to="/" className="text-accent hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50">
+        <Link
+          to="/"
+          className="inline-flex min-h-11 min-w-[2.75rem] items-center justify-center px-3 text-accent hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
+        >
           Tillbaka till Hem
         </Link>
       </p>

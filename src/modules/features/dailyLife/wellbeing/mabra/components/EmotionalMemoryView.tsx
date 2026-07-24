@@ -18,7 +18,7 @@ type EmotionalMemoryViewProps = {
 };
 
 /**
- * MåBra wrapper — delegerar inmatning till låst WORM-komponent.
+ * Mabra wrapper — delegerar inmatning till låst WORM-komponent.
  * capacity och ownerId hanteras internt av EmotionalMemoryComponent
  * (useCapacityGate + useStore); wrappern skickar inte dessa som props.
  */

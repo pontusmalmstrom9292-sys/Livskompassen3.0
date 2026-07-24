@@ -25,7 +25,7 @@ export const RESURSER_NAV_ROWS: ResurserNavRow[] = [
   { id: 'hem', label: 'Hem', sub: 'Dagens kompass', path: '/', icon: Home, zone: 'hem' },
   { id: 'ekonomi', label: 'Ekonomi', sub: 'Konton & flöde', path: '/vardagen?tab=ekonomi', icon: Wallet, zone: 'vardagen' },
   { id: 'plan', label: 'Planering', sub: 'Vecka & projekt', path: '/planering', icon: LayoutGrid, zone: 'vardagen' },
-  { id: 'mabra', label: 'MåBra', sub: 'Check-in & verktyg', path: '/vardagen?tab=mabra', icon: Heart, zone: 'vardagen' },
+  { id: 'mabra', label: 'Mabra', sub: 'Check-in & verktyg', path: '/vardagen?tab=mabra', icon: Heart, zone: 'vardagen' },
   { id: 'dagbok', label: 'Dagbok', sub: 'Reflektion', path: '/hjartat', icon: BookOpen, zone: 'hjartat' },
   { id: 'familjen', label: 'Familjen', sub: 'Barnfokus & hamn', path: '/familjen', icon: Users, zone: 'familjen' },
   { id: 'valv', label: 'Säkerhet', sub: 'Efter upplåsning', path: '/valvet', icon: Shield, zone: 'valv' },

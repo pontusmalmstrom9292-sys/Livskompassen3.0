@@ -214,7 +214,7 @@ export const MABRA_COACH_COPY = {
   noteHint: 'Max 500 tecken. Konflikt eller gaslighting → Speglar.',
   buttonLabel: 'Få ett kort svar',
   loading: 'Ett ögonblick…',
-  responseLabel: 'Måbra-coach',
+  responseLabel: 'Mabra-coach',
   speglarLinkLabel: 'Öppna Speglar',
   offlineFallback:
     'Övningen är gjord. Du behöver inte prestera mer just nu — det du tog hand om räcker som steg.',
@@ -222,7 +222,7 @@ export const MABRA_COACH_COPY = {
 } as const;
 
 export const MABRA_SPEGLAR_REDIRECT_MESSAGE =
-  'Det här passar bättre i Speglar — validering och spegling kring konflikt och gaslighting. Måbra fokuserar på inåtvänd återhämtning efter övningen.';
+  'Det här passar bättre i Speglar — validering och spegling kring konflikt och gaslighting. Mabra fokuserar på inåtvänd återhämtning efter övningen.';
 
 export const MABRA_SPEGLAR_GUARD_COPY = {
   ariaLabel: 'Förslag om Speglar',

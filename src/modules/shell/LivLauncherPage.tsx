@@ -97,11 +97,11 @@ export function LivLauncherPage() {
         headerAside={<ModuleHelpFromRegistry moduleId="hub_vardagen" />}
       >
         <VardagenBentoShell>
-          <div className="liv-launcher-page mx-auto flex max-w-5xl min-h-0 flex-1 flex-col">
-            <div className="shrink-0 space-y-4">
+          <div className="liv-launcher-page calm-scroll-island mx-auto flex max-w-5xl flex-col">
+            <div className="space-y-4">
               <CognitiveLoadStrip
                 label="Ett steg i taget"
-                hint="Tryck ett kort. Kompass, ekonomi och MåBra visas här; projekt och arbetsliv öppnas på egna sidor."
+                hint="Tryck ett kort. Kompass, ekonomi och Mabra visas här; projekt och arbetsliv öppnas på egna sidor."
               />
 
               <HubErrorBoundary
@@ -121,7 +121,7 @@ export function LivLauncherPage() {
               </HubErrorBoundary>
             </div>
 
-            <main className="liv-launcher-page__surface calm-scroll-island mt-2 min-h-0 flex-1 pb-4 animate-fade-in">
+            <main className="liv-launcher-page__surface mt-2 pb-4 animate-fade-in">
               <LivLauncherTabContent
                 activeTab={activeTab}
                 userId={user?.uid ?? ''}

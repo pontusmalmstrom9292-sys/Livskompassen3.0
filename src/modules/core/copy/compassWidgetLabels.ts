@@ -1,6 +1,6 @@
 /**
  * Kompass-widget och relaterad UI-copy (NAMN-AUDIT v2 batch 1).
- * Importeras av widget-katalog, paneler och MåBra — inga duplicerade strängar.
+ * Importeras av widget-katalog, paneler och Mabra — inga duplicerade strängar.
  */
 
 /** Kvälls-widget — ersätter «KASAM» i user-facing UI. */
@@ -34,7 +34,7 @@ export const MICRO_STEP_ACTION_LABEL = 'Ett litet steg' as const;
 /** Widget-etiketter */
 export const FEELING_CARDS_LABEL = 'Känsla & lek' as const;
 
-/** Kompass-widget — MåBra snabbstart (legacy etikett i katalog). */
+/** Kompass-widget — Mabra snabbstart (legacy etikett i katalog). */
 export const KANSLOKORT_WIDGET_LABEL = 'Känslokort' as const;
 
 export const NEXT_STEP_LABEL = 'Nästa steg' as const;

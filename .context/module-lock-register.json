@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updatedAt": "2026-07-23",
+  "updatedAt": "2026-07-24",
   "modules": [
     {
       "id": "MOD-CORE-NAV",
@@ -347,8 +347,8 @@
         "smoke:locked-ux"
       ],
       "snapshotKey": null,
-      "lockedAt": "2026-07-21",
-      "lockedCommit": "ba5d5b2cc",
+      "lockedAt": "2026-07-24",
+      "lockedCommit": "152eeb86d",
       "unlockDoc": "docs/evaluations/2026-07-21-unlock-ui-polish-waves.md",
       "unlockedAt": "2026-07-21"
     },

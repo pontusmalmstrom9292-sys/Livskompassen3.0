@@ -30,7 +30,7 @@ const PREF_ROWS: PrefRow[] = [
   {
     key: 'trendView',
     title: 'Veckoöversikt',
-    description: 'Visa 7-dagars mönster i MåBra → Näring & vätska.',
+    description: 'Visa 7-dagars mönster i Mabra → Näring & vätska.',
     advanced: true,
   },
   {
@@ -63,10 +63,10 @@ export function NutritionSettingsPanel({ uid }: Props) {
     <div className="space-y-4">
       <BentoCard title="Näring & intag" icon={<Droplets className="h-4 w-4" />} glow="green">
         <p className="text-sm text-text-muted">
-          Diskret mat- och dryckeslogg i MåBra. Data stannar på enheten — ingen export till Valv.
+          Diskret mat- och dryckeslogg i Mabra. Data stannar på enheten — ingen export till Valv.
         </p>
         <p className="mt-2 text-xs text-text-muted">
-          Öppna via Vardagen → MåBra → Näring & vätska.
+          Öppna via Vardagen → Mabra → Näring & vätska.
         </p>
         <ButtonLink
           to="/mabra/verktyg/nutrition"
@@ -123,7 +123,7 @@ export function NutritionSettingsPanel({ uid }: Props) {
         </ul>
         {prefs.macroTracking ? (
           <p className="mt-3 rounded-xl border border-border bg-surface-2/60 px-3 py-2 text-xs text-text-muted">
-            P/F/K-fält visas vid matlogg i MåBra. Våg och dietmallar kommer i senare våg.
+            P/F/K-fält visas vid matlogg i Mabra. Våg och dietmallar kommer i senare våg.
           </p>
         ) : null}
       </BentoCard>

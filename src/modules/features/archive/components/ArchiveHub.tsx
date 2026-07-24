@@ -9,6 +9,7 @@ import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { motion, AnimatePresence } from 'framer-motion';
 import { subMonths } from 'date-fns';
 import { useStore } from '@/core/store';
+import { Button, useDsReducedMotion } from '@/design-system';
 import { 
   useCapacityScore, 
   useListenToCapacityState,
@@ -20,6 +21,7 @@ type ViewMode = 'list' | 'calendar';
 export function ArchiveHub() {
   const h = hubHeaderClasses();
   const user = useStore(s => s.user);
+  const reducedMotion = useDsReducedMotion();
   const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [currentMonthDate, setCurrentMonthDate] = useState<Date>(new Date());
   
@@ -49,6 +51,15 @@ export function ArchiveHub() {
     setCurrentMonthDate(prevMonth);
   };
 
+  const viewTransition = reducedMotion ? { duration: 0 } : { duration: 0.25, ease: 'easeOut' as const };
+  const viewMotionProps = reducedMotion
+    ? { initial: false as const, animate: { opacity: 1 }, exit: { opacity: 1 } }
+    : {
+        initial: { opacity: 0, x: 15 },
+        animate: { opacity: 1, x: 0 },
+        exit: { opacity: 0, x: 15 },
+      };
+
   return (
     <div className="archive-hub max-w-full min-h-screen overflow-x-clip bg-bg bg-gradient-to-b from-bg to-surface font-sans text-text selection:bg-accent/30">
       {/* Glow Effects */}
@@ -72,11 +83,13 @@ export function ArchiveHub() {
               </div>
             </div>
 
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="icon"
               onClick={exportArchive}
               disabled={isExporting}
-              className="flex min-h-11 min-w-11 items-center justify-center rounded-2xl border border-border/30 bg-surface-2/85 shadow-sm transition-all hover:bg-surface-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 disabled:opacity-50"
+              className="rounded-2xl border border-border/30 bg-surface-2/85 shadow-sm transition-all hover:bg-surface-3 disabled:opacity-50"
               title="Exportera hela arkivet till textfil"
               aria-label="Exportera hela arkivet till textfil"
               aria-busy={isExporting}
@@ -86,38 +99,34 @@ export function ArchiveHub() {
               ) : (
                 <Download className="w-5 h-5 text-text-muted hover:text-text transition-colors" />
               )}
-            </button>
+            </Button>
           </div>
 
           {/* Toggle Switch */}
           {isEconomyAdvancedUnlocked && (
             <div className="flex p-1 bg-surface-2/60 backdrop-blur-md rounded-2xl border border-border/25 w-full relative z-10">
-              <button
+              <Button
                 type="button"
+                variant={viewMode === 'list' ? 'accent' : 'ghost'}
+                size="sm"
                 onClick={() => setViewMode('list')}
                 aria-pressed={viewMode === 'list'}
-                className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-[var(--ds-duration-normal)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
-                  viewMode === 'list' 
-                    ? 'border border-accent/30 bg-accent/15 text-text shadow-[0_2px_10px_color-mix(in_srgb,var(--accent)_15%,transparent)]' 
-                    : 'text-text-muted hover:bg-surface-3/35 hover:text-text'
-                }`}
+                className="flex-1 rounded-xl border border-transparent px-3 text-xs normal-case tracking-wider"
               >
                 <List className="h-4 w-4" aria-hidden />
                 <span>Hyllor & Lådor</span>
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
+                variant={viewMode === 'calendar' ? 'accent' : 'ghost'}
+                size="sm"
                 onClick={() => setViewMode('calendar')}
                 aria-pressed={viewMode === 'calendar'}
-                className={`flex min-h-11 flex-1 items-center justify-center gap-2 rounded-xl py-2 text-xs font-semibold uppercase tracking-wider transition-all duration-[var(--ds-duration-normal)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55 ${
-                  viewMode === 'calendar' 
-                    ? 'border border-accent/30 bg-accent/15 text-text shadow-[0_2px_10px_color-mix(in_srgb,var(--accent)_15%,transparent)]' 
-                    : 'text-text-muted hover:bg-surface-3/35 hover:text-text'
-                }`}
+                className="flex-1 rounded-xl border border-transparent px-3 text-xs normal-case tracking-wider"
               >
                 <Calendar className="h-4 w-4" aria-hidden />
                 <span>Kalender</span>
-              </button>
+              </Button>
             </div>
           )}
         </header>
@@ -142,10 +151,14 @@ export function ArchiveHub() {
                 {(!isEconomyAdvancedUnlocked || viewMode === 'list') ? (
                   <motion.div
                     key="list"
-                    initial={{ opacity: 0, x: -15 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -15 }}
-                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                    {...(reducedMotion
+                      ? { initial: false as const, animate: { opacity: 1 }, exit: { opacity: 1 } }
+                      : {
+                          initial: { opacity: 0, x: -15 },
+                          animate: { opacity: 1, x: 0 },
+                          exit: { opacity: 0, x: -15 },
+                        })}
+                    transition={viewTransition}
                   >
                     <ArchiveListView 
                       entries={entries} 
@@ -157,10 +170,8 @@ export function ArchiveHub() {
                 ) : (
                   <motion.div
                     key="calendar"
-                    initial={{ opacity: 0, x: 15 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: 15 }}
-                    transition={{ duration: 0.25, ease: 'easeOut' }}
+                    {...viewMotionProps}
+                    transition={viewTransition}
                   >
                     <ArchiveCalendarView 
                       entries={entries} 

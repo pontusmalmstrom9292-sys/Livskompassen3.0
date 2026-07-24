@@ -20,4 +20,4 @@ export const VIT_HUB_DEVELOPMENT_HINT =
   'Aktivitet per kalendervecka — speglar sparade svar, inte prestation eller streak.';
 
 export const VIT_HUB_MOOD_HINT =
-  'MåBra-pass senaste 30 dagarna — symptom vid start, inte klinisk skala.';
+  'Mabra-pass senaste 30 dagarna — symptom vid start, inte klinisk skala.';

@@ -67,11 +67,11 @@ const clusters: Cluster[] = [
   },
   {
     to: '/mabra',
-    label: 'Måbra',
+    label: 'Mabra',
     desc: 'KBT, självmedkänsla och små vanor.',
     icon: Sparkles,
     tone: 'lavender',
-    modules: [{ label: 'Måbra-sidan', to: '/mabra' }],
+    modules: [{ label: 'Mabra-sidan', to: '/mabra' }],
   },
 ];
 

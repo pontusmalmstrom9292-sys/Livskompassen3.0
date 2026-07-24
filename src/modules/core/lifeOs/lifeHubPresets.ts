@@ -54,7 +54,7 @@ export const LIFE_HUB_PRESETS: LifeHubPreset[] = [
   {
     id: 'rehab_lag',
     label: 'Rehab — låg stimulus',
-    lead: 'MåBra, Kompasser och dagbok — mindre brus.',
+    lead: 'Mabra, Kompasser och dagbok — mindre brus.',
     materials: {
       home_inkast: false,
       home_stamp: false,

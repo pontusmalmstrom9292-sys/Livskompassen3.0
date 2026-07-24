@@ -1,7 +1,7 @@
 /**
  * ZenModeTrigger.tsx
  * Flytande knapp (bottom-right) som öppnar ZenModeOverlay.
- * Monteras i AppShell bredvid InactivityBlurOverlay.
+ * Monteras i AppShell.
  */
 import { useState } from 'react';
 import { BrainCircuit } from 'lucide-react';

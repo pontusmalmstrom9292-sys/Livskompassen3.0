@@ -1,0 +1,197 @@
+{
+  "base": "http://127.0.0.1:5173",
+  "at": "2026-07-24T01:24:17.094Z",
+  "actions": 14,
+  "issueCount": 7,
+  "issues": [
+    {
+      "action": "dock:Hamn(short)",
+      "detail": "locator.waitFor: Timeout 4000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: /Hamn\\. Håll tre sekunder för Valv/i }).firs",
+      "url": "http://127.0.0.1:5173/widget/anteckning"
+    },
+    {
+      "action": "header:resurser-open",
+      "detail": "locator.waitFor: Timeout 4000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: /Fäll ut resurser/i }).first() to be visible",
+      "url": "http://127.0.0.1:5173/widget/anteckning"
+    },
+    {
+      "action": "drawer:open→MåBra",
+      "detail": "locator.waitFor: Timeout 4000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: /Öppna meny/i }).first() to be visible\n",
+      "url": "http://127.0.0.1:5173/widget/anteckning"
+    },
+    {
+      "action": "drawer:open→Ekonomi",
+      "detail": "locator.waitFor: Timeout 4000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: /Öppna meny/i }).first() to be visible\n",
+      "url": "http://127.0.0.1:5173/widget/anteckning"
+    },
+    {
+      "action": "drawer:open→Barnfokus",
+      "detail": "locator.waitFor: Timeout 4000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: /Öppna meny/i }).first() to be visible\n",
+      "url": "http://127.0.0.1:5173/widget/anteckning"
+    },
+    {
+      "action": "drawer:open→Speglar",
+      "detail": "locator.waitFor: Timeout 4000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: /Öppna meny/i }).first() to be visible\n",
+      "url": "http://127.0.0.1:5173/widget/anteckning"
+    },
+    {
+      "action": "drawer:open→Inställningar",
+      "detail": "locator.waitFor: Timeout 4000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: /Öppna meny/i }).first() to be visible\n",
+      "url": "http://127.0.0.1:5173/widget/anteckning"
+    }
+  ],
+  "touchAudit": [
+    {
+      "name": "Anteckning",
+      "w": 68,
+      "h": 53,
+      "ok": true
+    },
+    {
+      "name": "Familj",
+      "w": 54,
+      "h": 53,
+      "ok": true
+    },
+    {
+      "name": "Inkast",
+      "w": 54,
+      "h": 53,
+      "ok": true
+    },
+    {
+      "name": "Ventil",
+      "w": 54,
+      "h": 53,
+      "ok": true
+    },
+    {
+      "name": "Hamn",
+      "w": 106,
+      "h": 106,
+      "ok": true
+    }
+  ],
+  "consoleErrorCount": 3,
+  "consoleErrors": [
+    "The result of getSnapshot should be cached to avoid an infinite loop",
+    "%o\n\n%s\n\n%s\n Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0.1:5173",
+    "[LivLauncherPage] Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate. React limits the number of nested updates to prevent infinite loops.\n    at getRootForUpdatedFiber (http://127.0.0."
+  ],
+  "authNoiseCount": 0,
+  "results": [
+    {
+      "action": "dock:Familj",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5173/familjen",
+      "touch": {
+        "w": 54,
+        "h": 53,
+        "ok": true
+      }
+    },
+    {
+      "action": "dock:Ventil",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5173/hjartat",
+      "touch": {
+        "w": 54,
+        "h": 53,
+        "ok": true
+      }
+    },
+    {
+      "action": "dock:Inkast",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5173/planering/input?inputMode=inkast",
+      "touch": {
+        "w": 54,
+        "h": 53,
+        "ok": true
+      }
+    },
+    {
+      "action": "dock:Anteckning",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5173/widget/anteckning",
+      "touch": {
+        "w": 68,
+        "h": 53,
+        "ok": true
+      }
+    },
+    {
+      "action": "dock:Hamn(short)",
+      "ok": false,
+      "detail": "locator.waitFor: Timeout 4000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: /Hamn\\. Håll tre sekunder för Valv/i }).firs",
+      "urlAfter": "http://127.0.0.1:5173/widget/anteckning"
+    },
+    {
+      "action": "header:resurser-open",
+      "ok": false,
+      "detail": "locator.waitFor: Timeout 4000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: /Fäll ut resurser/i }).first() to be visible",
+      "urlAfter": "http://127.0.0.1:5173/widget/anteckning"
+    },
+    {
+      "action": "drawer:open→MåBra",
+      "ok": false,
+      "detail": "locator.waitFor: Timeout 4000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: /Öppna meny/i }).first() to be visible\n",
+      "urlAfter": "http://127.0.0.1:5173/widget/anteckning"
+    },
+    {
+      "action": "drawer:open→Ekonomi",
+      "ok": false,
+      "detail": "locator.waitFor: Timeout 4000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: /Öppna meny/i }).first() to be visible\n",
+      "urlAfter": "http://127.0.0.1:5173/widget/anteckning"
+    },
+    {
+      "action": "drawer:open→Barnfokus",
+      "ok": false,
+      "detail": "locator.waitFor: Timeout 4000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: /Öppna meny/i }).first() to be visible\n",
+      "urlAfter": "http://127.0.0.1:5173/widget/anteckning"
+    },
+    {
+      "action": "drawer:open→Speglar",
+      "ok": false,
+      "detail": "locator.waitFor: Timeout 4000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: /Öppna meny/i }).first() to be visible\n",
+      "urlAfter": "http://127.0.0.1:5173/widget/anteckning"
+    },
+    {
+      "action": "drawer:open→Inställningar",
+      "ok": false,
+      "detail": "locator.waitFor: Timeout 4000ms exceeded.\nCall log:\n  - waiting for getByRole('button', { name: /Öppna meny/i }).first() to be visible\n",
+      "urlAfter": "http://127.0.0.1:5173/widget/anteckning"
+    },
+    {
+      "action": "hub-tab:/familjen:/Barnfokus|Reflektion|Ha",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5173/familjen?tab=livslogg",
+      "touch": {
+        "w": 129,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "hub-tab:/hjartat:/Reflektion|Speglar|Dagbok/i",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "hub-tab:/vardagen:/MåBra|Ekonomi|Kompasser",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "http://127.0.0.1:5173/vardagen?tab=ekonomi",
+      "touch": {
+        "w": 79,
+        "h": 48,
+        "ok": true
+      }
+    }
+  ]
+}

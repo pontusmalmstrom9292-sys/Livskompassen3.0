@@ -146,10 +146,12 @@ public class MainActivity extends BridgeActivity {
         EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         
-        // Våg 200: Titanium Inset Mastery — seamless full-screen obsidian
+        // Våg 200: Titanium Inset Mastery — full-bleed edge-to-edge.
+        // MUST keep bottom padding 0: Capacitor + androidDockInsetFix already apply
+        // --safe-area-inset-bottom on the dock shell. Padding bars.bottom here
+        // stacked a second inset and lifted the dock ~1 cm above the screen edge.
         androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
-            androidx.core.graphics.Insets bars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars());
-            v.setPadding(0, 0, 0, bars.bottom); // Only pad bottom for navigation bar if needed, or keep 0 for full bleed
+            v.setPadding(0, 0, 0, 0);
             return insets;
         });
 
@@ -302,7 +304,9 @@ public class MainActivity extends BridgeActivity {
         });
 
         systemUiManager = new SystemUiManager(this);
-        systemUiManager.setSacredZone(true); // Start in Sacred Mode by default for safety
+        // FLAG_SECURE only for sensitive picks / Valv — not whole-app default.
+        // Always-on Sacred made recents/shade look "blurred" and blocked QA taps.
+        systemUiManager.setSacredZone(false);
 
         themeManager = new ThemeManager(systemUiManager);
         integrityManager = new IntegrityManager(this);
@@ -597,15 +601,17 @@ public class MainActivity extends BridgeActivity {
         if (auraFlowManager != null) {
             auraFlowManager.stopFlow();
         }
+        // Privacy/stealth full-screen covers on pause removed — they made the UI
+        // look "blurred"/blocked on brief pauses (shade, Maestro, biometrics) and
+        // felt broken on G85. Sensitive file picks still use WebViewManager overlay.
+        // Recents title stealth (updateTaskDescription) stays.
         updateTaskDescription(true);
-        if (stealthDummyOverlay != null) stealthDummyOverlay.setVisibility(View.VISIBLE);
         if (sensorManager != null) {
             sensorManager.unregisterListener(shakeDetector);
         }
         if (parallaxManager != null) {
             parallaxManager.stop();
         }
-        if (privacyOverlay != null) privacyOverlay.setVisibility(View.VISIBLE);
         if (sacredLockManager != null) {
             sacredLockManager.onPause();
         }

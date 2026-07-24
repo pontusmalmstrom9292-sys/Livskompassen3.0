@@ -62,7 +62,7 @@ function cardMatchesZone(card: HemV3DevCard, zone: FreeportZoneId): boolean {
       card.to.includes('mabra') ||
       card.to.includes('vardagen') ||
       card.actionLabel === 'Planering' ||
-      card.actionLabel === 'MåBra'
+      card.actionLabel === 'Mabra'
     );
   }
   return card.to.includes('familjen') || card.actionLabel === 'Familjen' || card.actionLabel === 'Trygg Hamn';

@@ -28,7 +28,7 @@ const CAPACITY_MOCK: Record<
     coach: 'Du är här. Välj ett läge som passar din energi idag.',
   },
   high: {
-    coach: 'Full MåBra-hub — frågekort, reflektion och anteckning tillgängliga.',
+    coach: 'Full Mabra-hub — frågekort, reflektion och anteckning tillgängliga.',
   },
 };
 
@@ -71,7 +71,7 @@ export function FreeportMabraHub({ lowCapacity = false, onStatus }: Props) {
   const setMode = useCallback(
     (mode: MabraInputMode) => {
       setTarget({ zone: 'vardagen', module: 'mabra', mode });
-      onStatus?.(`MåBra: ${mode}`);
+      onStatus?.(`Mabra: ${mode}`);
     },
     [onStatus],
   );
@@ -79,7 +79,7 @@ export function FreeportMabraHub({ lowCapacity = false, onStatus }: Props) {
   return (
     <div>
       <div className="design-freeport__exec-hub-scenic">
-        <p className="design-freeport__exec-label">MåBra hub</p>
+        <p className="design-freeport__exec-label">Mabra hub</p>
         <h3 className="design-freeport__exec-hub-scenic-title">Ett steg i taget</h3>
       </div>
       <div className="design-freeport__exec-honeycomb" aria-hidden>
@@ -90,7 +90,7 @@ export function FreeportMabraHub({ lowCapacity = false, onStatus }: Props) {
         ))}
       </div>
       <section className="design-freeport__section">
-        <p className="design-freeport__section-title">MåBra — hub-layouter</p>
+        <p className="design-freeport__section-title">Mabra — hub-layouter</p>
         <p className="design-freeport__hint mt-1">{layout.lead}</p>
         {!lowCapacity ? (
           <div className="design-freeport__layout-picker">

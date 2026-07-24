@@ -68,7 +68,7 @@ function parseProjectId(value: string | null): MabraProjectId | undefined {
 }
 
 /**
- * Canonical router for MåBra Universal Input Hub (Fas 6A→6D).
+ * Canonical router for Mabra Universal Input Hub (Fas 6A→6D).
  * Thin delegate — no direct Firestore writes in this file.
  */
 export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSuperModuleProps) {
@@ -108,7 +108,7 @@ export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSu
   return (
     <section
       className="calm-card glow-bottom-green overflow-hidden rounded-2xl border border-border bg-surface-2/70 p-4 sm:p-5"
-      aria-label="MåBra inmatningshub"
+      aria-label="Mabra inmatningshub"
     >
       <header className="supermodule-hub-chrome mb-4 flex items-start justify-between gap-3 rounded-2xl px-3 py-3 sm:px-4">
         <div className="min-w-0 flex-1 space-y-1">

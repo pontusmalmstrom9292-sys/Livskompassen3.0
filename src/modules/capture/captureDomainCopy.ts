@@ -11,7 +11,7 @@ export function inkastSourceModuleHint(sourceModule: string): string | null {
     case 'hem_capture':
       return 'Smart Inkast — AI föreslår arkiv. Du godkänner alltid innan spar.';
     case 'mabra_inkast':
-      return 'MåBra inkast — tematisk reflektion. Granska och godkänn innan spar (HITL).';
+      return 'Mabra inkast — tematisk reflektion. Granska och godkänn innan spar (HITL).';
     case 'familjen':
     case 'barnfokus':
     case 'barnen':

@@ -35,7 +35,7 @@ export type Mabra30Pillar = {
   previewLines: string[];
 };
 
-/** MåBra 3.0 L0 — åtta pelare (M3.0-B/C). */
+/** Mabra 3.0 L0 — åtta pelare (M3.0-B/C). */
 export const MABRA_30_PILLARS: Mabra30Pillar[] = [
   {
     id: 'k1_personal',

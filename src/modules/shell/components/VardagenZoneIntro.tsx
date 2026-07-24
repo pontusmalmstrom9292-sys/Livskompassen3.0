@@ -14,7 +14,7 @@ type Props = {
 const INLINE_TABS: { id: VardagenInlineTab; label: string }[] = [
   { id: 'kompasser', label: 'Kompasser' },
   { id: 'ekonomi', label: 'Ekonomi' },
-  { id: 'mabra', label: 'MåBra' },
+  { id: 'mabra', label: 'Mabra' },
 ];
 
 function tabHref(tab: VardagenInlineTab, searchParams: URLSearchParams): string {
@@ -39,7 +39,7 @@ export function VardagenZoneIntro({ activeTab }: Props) {
         <span className="vardagen-zone-intro__title">{VARDAGEN_LAYER_LABELS[activeTab]}</span>
       </div>
       <p className="vardagen-zone-intro__lead">{VARDAGEN_LAYER_INGRESS[activeTab]}</p>
-      <nav className="vardagen-layer-switch" aria-label="Växla Kompasser, Ekonomi och MåBra">
+      <nav className="vardagen-layer-switch" aria-label="Växla Kompasser, Ekonomi och Mabra">
         {INLINE_TABS.map(({ id, label }) => (
           <Link
             key={id}

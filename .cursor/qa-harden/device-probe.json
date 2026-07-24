@@ -1,0 +1,24 @@
+{
+  "probe": "device",
+  "at": "2026-07-24T11:07:22.626Z",
+  "status": "fail",
+  "detail": "device=ZY22L8WFBX · maestro FAIL · exhaustive FAIL",
+  "devices": [
+    "ZY22L8WFBX"
+  ],
+  "maestro": {
+    "flow": "smoke-full-public",
+    "exit": 1,
+    "out": "Running on ZY22L8WFBX\n > Flow smoke-full-public\nLaunch app \"com.livskompassen.app\"... COMPLETED\nWait for animation to end within 8000 ms... COMPLETED\nTap on (Optional) \".*\", Index: 0... COMPLETED\nTap on (Optional) id: .*... COMPLETED\nTap on (Optional) \"Öppna meny\"...\n==== Debug output (logs & screenshots) ====\n\n/Users/Livskompassen/.maestro/tests/2026-07-24_130728\nException in thread \"Thread-5\" java.io.IOException: Command failed (host:transport:ZY22L8WFBX): device 'ZY22L8WFBX' not found\n\tat dadb.adbserver.AdbServer.send$dadb(AdbServer.kt:103)\n\tat dadb.adbserver.AdbServerDadb.open(AdbServer.kt:148)\n\tat dadb.Dadb$DefaultImpls.openShell(Dadb.kt:42)\n\tat dadb.adbserver.AdbServerDadb.openShell(AdbServer.kt:122)\n\tat dadb.Dadb$DefaultImpls.shell(Dadb.kt:35)\n\tat dadb.adbserver.AdbServerDadb.shell(AdbServer.kt:122)\n\tat maestro.android.AndroidDeviceConnection.shell(AndroidDeviceConnection.kt:152)\n\tat maestro.drivers.AndroidDriver.shell(AndroidDriver.kt:1292)\n\tat maestro.drivers.AndroidDriver.isPackageInstalled(AndroidDriver.kt:1275)\n\tat maestro.drivers.AndroidDriver.bestEffortUninstall(AndroidDriver.kt:1250)\n\tat maestro.drivers.AndroidDriver.uninstallMaestroDriverApp$lambda$87(AndroidDriver."
+  },
+  "logcatFatal": [],
+  "screenshot": "/Users/Livskompassen/StudioProjects/Livskompassen3.0/.cursor/qa-harden/device-home.png",
+  "exhaustive": {
+    "exit": 1,
+    "status": "fail",
+    "detail": "appen startade inte (pid saknas)",
+    "routesVisited": 0,
+    "actions": 0,
+    "issueCount": 0
+  }
+}

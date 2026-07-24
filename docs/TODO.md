@@ -1,5 +1,57 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
+## 2026-07-24 — Arkivvy motion polish
+
+- [x] Arkivhubb, lista, kalender och shelf respekterar reduced-motion
+- [x] Samlade övergångar för vybyte och detaljpaneler i arkivet
+
+## 2026-07-24 — Rest of app DS sweep (5 waves)
+
+- [x] Wave 1: CustomCategoryFlow använder DS Input för textfält
+- [x] Wave 2: FetchContentPacksFlow använder DS Button för packval
+- [x] Wave 3: ZenModeOverlay använder DS Button + reduced-motion
+- [x] Wave 4: ParalysisBreaker använder DS Button/Input + reduced-motion
+- [x] Wave 5: Button text casing normaliserad i flöden
+
+## 2026-07-24 — Arkivvy DS button sweep (5 waves)
+
+- [x] Wave 1: Arkivexport använder DS Button
+- [x] Wave 2: Arkivvy-toggles använder DS Button
+- [x] Wave 3: Kalenderkontroller + detaljstängning använder DS Button
+- [x] Wave 4: Arkiv shelf använder DS Button
+- [x] Wave 5: Arkiv drawers använder DS Button
+- [x] Wave 6: Kalendern markerar dagens datum tydligare
+
+## 2026-07-24 — Arkiv list button polish
+
+- [x] Load more-knappen i arkivet använder design-systemets Button
+- [x] Minskar en lokal knappvariant i arkivflödet
+
+## 2026-07-24 — Arkivvy glow cleanup
+
+- [x] Ta bort kvarvarande `glow-bottom-blue` från arkivlistan och kalenderdetaljen
+- [x] Aligna arkivvy med glow-kill-switch/premium polish-linjen
+
+## 2026-07-24 — QA Harden Tier A (fix)
+
+- [x] getSnapshot-cache `planeringInboxConnections` (React infinite loop)
+- [x] Touch ≥44px checkboxar: WidgetModulerAddForm + Widget Studio
+- [x] hub-sweep: retry vid `ERR_NETWORK_CHANGED` / splash-stuck
+- [x] device exhaustive: soft-fail vid timeout + 0 UI-fel (Tier B DEVICE_HARNESS)
+- [x] smoke: companion-widgets · locked-ux · design-modules PASS
+- [ ] Pontus: `npm run qa:harden` igen (valfritt USB)
+
+## 2026-07-24 — UI QA Harden Loop (gratis)
+
+- [x] W0: tap-press chrome-first · scroll-probe exit≠0 · `.cursor/qa-harden/latest.json`
+- [x] W1: 5 sync-experter (chrome/scroll/g85/companion/fas24-verifier)
+- [x] W2–W3: `npm run qa:harden` detect→klass→Tier A recipes→smoke
+- [x] W4: `debug:device-probe` + `.maestro/smoke-dock.yaml` (USB SKIP)
+- [x] W5: `docs/QA-HARDEN-LOOP.md` · manifest v63
+- [x] Privacy-blur bort (idle overlay + Android pause-täckning + Sacred ej default)
+- [x] Android dock ~1 cm gap: MainActivity full-bleed (ingen dubbel systemBars-pad)
+- [ ] Pontus: `npm run build:web && npx cap sync android` → Run G85 · kolla dock mot nederkant · sedan `npm run qa:harden`
+
 ## 2026-07-23 — Widget UI Polish ×10 (Kap 6 / Gate F)
 
 - [x] R1–5: Capture/Note/Compass/Beacon/Inbox/Tasks/Journal/Harbor/Anchor/Child/Check-in
@@ -15,6 +67,13 @@
 - [x] CSS kill-switch `.glow-bottom-*` (+ tema/mabra)
 - [x] DS/centrala mappers: ingen glow-klass (API kvar)
 - [x] `smoke:locked-ux` · `smoke:design-modules` PASS
+
+## 2026-07-24 — Ethereal Blue utan glow (moduler/val)
+
+- [x] Kategori-/läges-pills: guldig glow → Ethereal `#7BA3C9` (inset endast)
+- [x] Familjen hub + GS-hub-card: guldrim/bloom → ethereal lugn
+- [x] `locked-obsidian-depth` + COLOR-POLICY uppdaterade (Pontus OK)
+- [x] Unlock + re-lock `MOD-FAM-HUB` · smoke: `obsidian-depth` · `locked-ux` · `design-modules` · `governance` PASS
 
 ## 2026-07-23 — Familjen header glow bort
 

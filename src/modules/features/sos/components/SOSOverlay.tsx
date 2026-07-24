@@ -4,7 +4,7 @@ import { HubErrorBoundary } from '@/shared/ui/HubErrorBoundary';
 import { RecoveryUrgeSosModule } from '@/features/mabra/components/RecoveryUrgeSosModule';
 
 /**
- * Global SOS — samma ankare/andning/grounding som MåBra Recovery SOS.
+ * Global SOS — samma ankare/andning/grounding som Mabra Recovery SOS.
  * Behåller krisresurser via RecoveryUrgeSosModule (ingen separat andnings-overlay).
  */
 export function SOSOverlay() {

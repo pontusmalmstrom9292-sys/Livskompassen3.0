@@ -1,0 +1,347 @@
+{
+  "probe": "scroll-probe",
+  "base": "http://127.0.0.1:5175",
+  "at": "2026-07-24T11:09:20.445Z",
+  "results": [
+    {
+      "path": "/",
+      "window": {
+        "tag": "HTML",
+        "cls": "",
+        "sh": 1643,
+        "ch": 844,
+        "st": 0,
+        "can": true,
+        "oy": "auto",
+        "pe": "auto",
+        "touchAction": "auto",
+        "overscroll": "auto",
+        "h": 1643,
+        "top": 0,
+        "bottom": 1643
+      },
+      "island": null,
+      "hubLock": null,
+      "dock": {
+        "pe": "none",
+        "bottom": 844,
+        "top": 768,
+        "h": 76
+      },
+      "nestedScrollables": [],
+      "bodyOverflowY": "auto",
+      "htmlOverflowY": "auto",
+      "tests": {
+        "windowScrollDelta": 400,
+        "islandMovedOnWindowScroll": 0,
+        "islandScrollDelta": 0,
+        "windowMovedOnIslandScroll": 0,
+        "islandWheelDelta": 0
+      }
+    },
+    {
+      "path": "/familjen",
+      "window": {
+        "tag": "HTML",
+        "cls": "",
+        "sh": 1133,
+        "ch": 844,
+        "st": 0,
+        "can": true,
+        "oy": "auto",
+        "pe": "auto",
+        "touchAction": "auto",
+        "overscroll": "auto",
+        "h": 1133,
+        "top": 0,
+        "bottom": 1133
+      },
+      "island": null,
+      "hubLock": null,
+      "dock": {
+        "pe": "none",
+        "bottom": 844,
+        "top": 768,
+        "h": 76
+      },
+      "nestedScrollables": [],
+      "bodyOverflowY": "auto",
+      "htmlOverflowY": "auto",
+      "tests": {
+        "windowScrollDelta": 289,
+        "islandMovedOnWindowScroll": 0,
+        "islandScrollDelta": 0,
+        "windowMovedOnIslandScroll": 0,
+        "islandWheelDelta": 0
+      }
+    },
+    {
+      "path": "/hjartat",
+      "window": {
+        "tag": "HTML",
+        "cls": "",
+        "sh": 1369,
+        "ch": 844,
+        "st": 0,
+        "can": true,
+        "oy": "auto",
+        "pe": "auto",
+        "touchAction": "auto",
+        "overscroll": "auto",
+        "h": 1369,
+        "top": 0,
+        "bottom": 1369
+      },
+      "island": {
+        "tag": "DIV",
+        "cls": "calm-scroll-island space-y-4",
+        "sh": 1057,
+        "ch": 1057,
+        "st": 0,
+        "can": false,
+        "oy": "visible",
+        "pe": "auto",
+        "touchAction": "auto",
+        "overscroll": "contain",
+        "h": 1057,
+        "top": 198,
+        "bottom": 1254
+      },
+      "hubLock": {
+        "tag": "DIV",
+        "cls": "hub-page-shell hub-page-shell--obsidian-bento flex min-h-0 flex-col gap-4 hub-view-lock hub-view-loc",
+        "sh": 1117,
+        "ch": 1117,
+        "st": 0,
+        "can": false,
+        "oy": "visible",
+        "pe": "auto",
+        "touchAction": "auto",
+        "overscroll": "auto",
+        "h": 1117,
+        "top": 138,
+        "bottom": 1254
+      },
+      "dock": {
+        "pe": "none",
+        "bottom": 844,
+        "top": 768,
+        "h": 76
+      },
+      "nestedScrollables": [],
+      "bodyOverflowY": "auto",
+      "htmlOverflowY": "auto",
+      "tests": {
+        "windowScrollDelta": 400,
+        "islandMovedOnWindowScroll": 0,
+        "islandScrollDelta": 0,
+        "windowMovedOnIslandScroll": 0,
+        "islandWheelDelta": 0
+      }
+    },
+    {
+      "path": "/planering",
+      "window": {
+        "tag": "HTML",
+        "cls": "",
+        "sh": 2701,
+        "ch": 844,
+        "st": 0,
+        "can": true,
+        "oy": "auto",
+        "pe": "auto",
+        "touchAction": "auto",
+        "overscroll": "auto",
+        "h": 2701,
+        "top": 0,
+        "bottom": 2701
+      },
+      "island": {
+        "tag": "DIV",
+        "cls": "calm-scroll-island space-y-4",
+        "sh": 2142,
+        "ch": 2142,
+        "st": 0,
+        "can": false,
+        "oy": "visible",
+        "pe": "auto",
+        "touchAction": "auto",
+        "overscroll": "contain",
+        "h": 2142,
+        "top": 443,
+        "bottom": 2585
+      },
+      "hubLock": {
+        "tag": "DIV",
+        "cls": "hub-page-shell hub-page-shell--obsidian-bento flex min-h-0 flex-col gap-4 hub-page-shell--depth hub-",
+        "sh": 2448,
+        "ch": 2448,
+        "st": 0,
+        "can": false,
+        "oy": "visible",
+        "pe": "auto",
+        "touchAction": "auto",
+        "overscroll": "auto",
+        "h": 2448,
+        "top": 138,
+        "bottom": 2585
+      },
+      "dock": {
+        "pe": "none",
+        "bottom": 844,
+        "top": 768,
+        "h": 76
+      },
+      "nestedScrollables": [],
+      "bodyOverflowY": "auto",
+      "htmlOverflowY": "auto",
+      "tests": {
+        "windowScrollDelta": 400,
+        "islandMovedOnWindowScroll": 0,
+        "islandScrollDelta": 0,
+        "windowMovedOnIslandScroll": 0,
+        "islandWheelDelta": 0
+      }
+    },
+    {
+      "path": "/vardagen?tab=mabra",
+      "window": {
+        "tag": "HTML",
+        "cls": "",
+        "sh": 3640,
+        "ch": 844,
+        "st": 0,
+        "can": true,
+        "oy": "auto",
+        "pe": "auto",
+        "touchAction": "auto",
+        "overscroll": "auto",
+        "h": 3640,
+        "top": 0,
+        "bottom": 3640
+      },
+      "island": {
+        "tag": "DIV",
+        "cls": "liv-launcher-page calm-scroll-island mx-auto flex max-w-5xl flex-col",
+        "sh": 3195,
+        "ch": 3195,
+        "st": 0,
+        "can": false,
+        "oy": "visible",
+        "pe": "auto",
+        "touchAction": "auto",
+        "overscroll": "contain",
+        "h": 3197,
+        "top": 327,
+        "bottom": 3524
+      },
+      "hubLock": {
+        "tag": "DIV",
+        "cls": "hub-page-shell hub-page-shell--obsidian-bento flex min-h-0 flex-col gap-4 hub-page-shell--depth hub-",
+        "sh": 3387,
+        "ch": 3387,
+        "st": 0,
+        "can": false,
+        "oy": "visible",
+        "pe": "auto",
+        "touchAction": "auto",
+        "overscroll": "auto",
+        "h": 3387,
+        "top": 138,
+        "bottom": 3524
+      },
+      "dock": {
+        "pe": "none",
+        "bottom": 844,
+        "top": 768,
+        "h": 76
+      },
+      "nestedScrollables": [],
+      "bodyOverflowY": "auto",
+      "htmlOverflowY": "auto",
+      "tests": {
+        "windowScrollDelta": 400,
+        "islandMovedOnWindowScroll": 0,
+        "islandScrollDelta": 0,
+        "windowMovedOnIslandScroll": 0,
+        "islandWheelDelta": 0
+      }
+    },
+    {
+      "path": "/",
+      "window": {
+        "tag": "HTML",
+        "cls": "",
+        "sh": 1717,
+        "ch": 844,
+        "st": 0,
+        "can": true,
+        "oy": "auto",
+        "pe": "auto",
+        "touchAction": "auto",
+        "overscroll": "auto",
+        "h": 1717,
+        "top": 0,
+        "bottom": 1717
+      },
+      "island": null,
+      "hubLock": null,
+      "dock": {
+        "pe": "none",
+        "bottom": 844,
+        "top": 768,
+        "h": 76
+      },
+      "nestedScrollables": [],
+      "bodyOverflowY": "auto",
+      "htmlOverflowY": "auto",
+      "tests": {
+        "windowScrollDelta": 400,
+        "islandMovedOnWindowScroll": 0,
+        "islandScrollDelta": 0,
+        "windowMovedOnIslandScroll": 0,
+        "islandWheelDelta": 0
+      }
+    }
+  ],
+  "routeIssues": [
+    {
+      "path": "/",
+      "issues": [],
+      "hard": []
+    },
+    {
+      "path": "/familjen",
+      "issues": [],
+      "hard": []
+    },
+    {
+      "path": "/hjartat",
+      "issues": [
+        "DOC_SCROLL_OK"
+      ],
+      "hard": []
+    },
+    {
+      "path": "/planering",
+      "issues": [
+        "DOC_SCROLL_OK"
+      ],
+      "hard": []
+    },
+    {
+      "path": "/vardagen?tab=mabra",
+      "issues": [
+        "DOC_SCROLL_OK"
+      ],
+      "hard": []
+    },
+    {
+      "path": "/",
+      "issues": [],
+      "hard": []
+    }
+  ],
+  "hardFailCount": 0,
+  "hardFails": []
+}

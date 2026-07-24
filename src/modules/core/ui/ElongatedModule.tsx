@@ -26,7 +26,7 @@ type Props = {
   id?: string;
 };
 
-/** Avlång modulrad — Hem/Hamn/MåBra. Se docs/design/KOMPASS-MODUL-SPEC.md */
+/** Avlång modulrad — Hem/Hamn/Mabra. Se docs/design/KOMPASS-MODUL-SPEC.md */
 export function ElongatedModule({
   title,
   lead,

@@ -188,7 +188,7 @@ export function VaultVitHubPanel({ userId }: Props) {
       <section className="grid gap-3 sm:grid-cols-3" aria-label="Statistik">
         <StatTile label="Sparade svar" value={stats.totalEntries} />
         <StatTile label={VIT_HUB_STAT_DAYS_LABEL} value={stats.activeDays} hint={VIT_HUB_STAT_DAYS_HINT} />
-        <StatTile label="MåBra-pass" value={stats.sessionCount} hint="Senaste 30" />
+        <StatTile label="Mabra-pass" value={stats.sessionCount} hint="Senaste 30" />
       </section>
 
       <VitRecentOverview entries={entries} onOpenEntry={applyFilter} />
@@ -216,7 +216,7 @@ export function VaultVitHubPanel({ userId }: Props) {
             message="Inga sparade svar ännu."
             action={
               <ButtonLink to={mabraHref} variant="secondary" size="sm" className="min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
-                Öppna MåBra
+                Öppna Mabra
               </ButtonLink>
             }
           />
@@ -262,7 +262,7 @@ export function VaultVitHubPanel({ userId }: Props) {
           })}
         </ul>
         <ButtonLink to={mabraHref} variant="ghost" size="sm" className="mt-3 inline-flex min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
-          Fortsätt i MåBra
+          Fortsätt i Mabra
         </ButtonLink>
       </section>
 

@@ -180,7 +180,7 @@ export class OracleService {
       }
 
       const mabraSessionsCount = mabraData.length;
-      const mabraSessionTypes = mabraData.map((s) => String(s.exerciseType || 'MåBra-Övning'));
+      const mabraSessionTypes = mabraData.map((s) => String(s.exerciseType || 'Mabra-Övning'));
 
       results.push({
         date: displayDateStr,

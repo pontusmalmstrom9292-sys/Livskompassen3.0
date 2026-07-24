@@ -33,7 +33,7 @@ export function getMoodDef(label: string): MoodDef | undefined {
   return MOOD_CATALOG.find((m) => m.label === label);
 }
 
-/** Humör som ofta behöver kropp/MåBra först — diskret länk. */
+/** Humör som ofta behöver kropp/Mabra först — diskret länk. */
 export const HEAVY_MOODS = new Set(['Låg', 'Spänd', 'Oro', 'Arg', 'Överväldigad']);
 
 export const JOURNAL_STEPS: { key: JournalStep; label: string; emoji: string }[] = [

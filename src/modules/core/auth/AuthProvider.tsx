@@ -47,6 +47,31 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const handleAuthUser = async (firebaseUser: User | null) => {
       window.clearTimeout(loadingWatchdog);
+      // #region agent log
+      {
+        const data = {
+          hasUser: !!firebaseUser,
+          isAnonymous: firebaseUser?.isAnonymous ?? null,
+          emailVerified: firebaseUser?.emailVerified ?? null,
+          capacitorAndroid: isCapacitorAndroid(),
+          unlockSupported: isAppUnlockSupported(),
+        };
+        console.warn('[DBG-4bae45]', 'AuthProvider.tsx:handleAuthUser', 'auth state', data);
+        fetch('http://127.0.0.1:7891/ingest/e2aa352c-17db-4fb0-8a3f-df79408d16d3', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-Debug-Session-Id': '4bae45' },
+          body: JSON.stringify({
+            sessionId: '4bae45',
+            runId: 'pre-fix',
+            hypothesisId: 'F',
+            location: 'AuthProvider.tsx:handleAuthUser',
+            message: 'auth state',
+            data,
+            timestamp: Date.now(),
+          }),
+        }).catch(() => {});
+      }
+      // #endregion
       if (firebaseUser) {
         if (isEmailAuthRequired() && firebaseUser.isAnonymous) {
           try {

@@ -54,7 +54,7 @@ export function EconomyCapacityLockedNotice({
         </div>
         <p className="mt-3 flex items-center gap-1.5 text-xs text-text-muted">
           <Sparkles className="h-3.5 w-3.5 text-accent-secondary shrink-0" />
-          Gör dagliga MåBra-incheckningar för att öka din kognitiva kapacitet.
+          Gör dagliga Mabra-incheckningar för att öka din kognitiva kapacitet.
         </p>
       </div>
     </div>

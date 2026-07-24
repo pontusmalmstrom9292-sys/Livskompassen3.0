@@ -12,7 +12,7 @@ export const LIV_LAUNCHER_EXTERNAL: Record<string, string> = {
   tidrapportering: '/arbetsliv',
 };
 
-/** MåBra hybrid-8 (M3.0-B) visas inline med pelarkort — djup-länkar via `/mabra/*`. */
+/** Mabra hybrid-8 (M3.0-B) visas inline med pelarkort — djup-länkar via `/mabra/*`. */
 export const LIV_LAUNCHER_INLINE_TABS = new Set(['kompasser', 'ekonomi', 'mabra']);
 
 export function resolveLivLegacyTabRedirect(tab: string | null): string | null {

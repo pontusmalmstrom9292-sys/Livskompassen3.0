@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown, ChevronUp, Folder } from 'lucide-react';
+import { Button, useDsReducedMotion } from '@/design-system';
 
 interface ArchiveShelfProps {
   title: string;
@@ -11,13 +12,23 @@ interface ArchiveShelfProps {
 
 export function ArchiveShelf({ title, subtitle, children, defaultOpen = false }: ArchiveShelfProps) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const reducedMotion = useDsReducedMotion();
+  const shelfMotion = reducedMotion
+    ? { initial: false as const, animate: { height: 'auto', opacity: 1 }, exit: { height: 'auto', opacity: 1 }, transition: { duration: 0 } }
+    : {
+        initial: { height: 0, opacity: 0 },
+        animate: { height: 'auto', opacity: 1 },
+        exit: { height: 0, opacity: 0 },
+        transition: { duration: 0.25, ease: 'easeInOut' as const },
+      };
 
   return (
     <div className="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden mb-4 shadow-lg transition-colors duration-[var(--ds-duration-fast)] hover:bg-white/10 archive-shelf">
-      <button
+      <Button
         type="button"
+        variant="ghost"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full min-h-11 px-5 py-4 flex items-center justify-between focus:outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
+        className="w-full justify-between rounded-2xl px-5 py-4 text-left normal-case tracking-normal"
         aria-expanded={isOpen}
         aria-label={title}
       >
@@ -33,15 +44,12 @@ export function ArchiveShelf({ title, subtitle, children, defaultOpen = false }:
         <div>
           {isOpen ? <ChevronUp className="w-5 h-5 text-text-muted" /> : <ChevronDown className="w-5 h-5 text-text-muted" />}
         </div>
-      </button>
+      </Button>
 
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.25, ease: 'easeInOut' }}
+            {...shelfMotion}
           >
             <div className="px-5 pb-5 pt-2 border-t border-white/5">
               {children}
