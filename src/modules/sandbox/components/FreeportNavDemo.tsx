@@ -29,7 +29,7 @@ export function FreeportNavDemo({ lowCapacity = false }: Props) {
       const hint =
         card.actionLabel === 'Planering'
           ? 'task_quick'
-          : card.actionLabel === 'MåBra'
+          : card.actionLabel === 'Mabra'
             ? 'checkin'
             : card.actionLabel === 'Dagbok'
               ? 'reflektion'

@@ -1,0 +1,163 @@
+# Maestro — full public crawl on G85 via drawer (no Valv PIN / no long-press).
+appId: com.livskompassen.app
+---
+- launchApp:
+    clearState: false
+- waitForAnimationToEnd:
+    timeout: 8000
+
+# Open menu
+- tapOn:
+    text: ".*"
+    index: 0
+    optional: true
+- tapOn:
+    id: ".*"
+    optional: true
+
+# Try hamburger via common a11y
+- tapOn:
+    text: "Öppna meny"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2000
+
+# —— Hem ——
+- tapOn:
+    text: "Hem — Skriv"
+    optional: true
+- tapOn:
+    text: "Startskärm"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2000
+
+# —— Liv och göra ——
+- tapOn:
+    text: "Öppna meny"
+    optional: true
+- tapOn:
+    text: "Liv och göra"
+    optional: true
+- tapOn:
+    text: "Kompasser"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2500
+- tapOn:
+    text: "Öppna meny"
+    optional: true
+- tapOn:
+    text: "Liv och göra"
+    optional: true
+- tapOn:
+    text: "MåBra"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2500
+- tapOn:
+    text: "Öppna meny"
+    optional: true
+- tapOn:
+    text: "Liv och göra"
+    optional: true
+- tapOn:
+    text: "Planering"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2500
+- tapOn:
+    text: "Öppna meny"
+    optional: true
+- tapOn:
+    text: "Liv och göra"
+    optional: true
+- tapOn:
+    text: "Arbetsliv"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2500
+- tapOn:
+    text: "Öppna meny"
+    optional: true
+- tapOn:
+    text: "Liv och göra"
+    optional: true
+- tapOn:
+    text: "Ekonomi"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2500
+
+# —— Familj ——
+- tapOn:
+    text: "Öppna meny"
+    optional: true
+- tapOn:
+    text: "Familj och gränser"
+    optional: true
+- tapOn:
+    text: "Barnfokus"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2500
+- tapOn:
+    text: "Öppna meny"
+    optional: true
+- tapOn:
+    text: "Familj och gränser"
+    optional: true
+- tapOn:
+    text: "Trygg hamn"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2500
+- tapOn:
+    text: "Öppna meny"
+    optional: true
+- tapOn:
+    text: "Familj och gränser"
+    optional: true
+- tapOn:
+    text: "Drogfrihet"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2500
+
+# —— Inställningar ——
+- tapOn:
+    text: "Öppna meny"
+    optional: true
+- tapOn:
+    text: "Inställningar"
+    optional: true
+- tapOn:
+    text: "Allmänt"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2500
+
+# —— Dock ——
+- tapOn:
+    text: "Familj"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    text: "Ventil"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    text: "Inkast"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    text: "Anteckning"
+    optional: true
+- waitForAnimationToEnd:
+    timeout: 2000
+- tapOn:
+    point: "50%,92%"
+    optional: true

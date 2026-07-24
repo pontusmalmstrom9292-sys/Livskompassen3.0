@@ -71,7 +71,7 @@ export function MabraHistoryView() {
     return (
       <EmptyState
         title="Ingen historik"
-        message="Ingen MåBra-historik ännu. Logga humör eller energi efter en session så visas trender här."
+        message="Ingen Mabra-historik ännu. Logga humör eller energi efter en session så visas trender här."
       />
     );
   }
@@ -101,7 +101,7 @@ export function MabraHistoryView() {
       <div className="mb-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h3 className="font-display-serif text-[11px] font-medium uppercase tracking-[0.2em] text-accent">
-            MåBra Historik
+            Mabra Historik
           </h3>
           <p className="mt-1 font-sans text-xs leading-relaxed text-text-muted">
             Följ ditt välbefinnande över tid baserat på energi och humör.

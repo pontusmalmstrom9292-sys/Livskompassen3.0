@@ -1,14 +1,16 @@
 /**
  * Gold Standard hub card — presentation skin (Scope C unlock 2026-07-22).
- * Mirrors Companion Kap 6: safirglas, guldrim, specular, Ethereal Blue progress only.
- * --gs-ethereal is a scoped COLOR-POLICY exception (living progress), not global accent.
+ * Mirrors Companion Kap 6: safirglas, Ethereal Blue selection chrome (Pontus 2026-07-24).
+ * Ingen guldig yttre glow på kort/val — Ethereal `#7BA3C9` är modulernas lugna accent.
  */
 
 :root {
   --gs-ethereal: #7ba3c9;
   --gs-ethereal-dim: color-mix(in srgb, var(--gs-ethereal) 42%, transparent);
-  --gs-gold-rim: color-mix(in srgb, var(--accent, #d4af37) 48%, transparent);
-  --gs-gold-light: color-mix(in srgb, var(--accent, #d4af37) 72%, #fde68a);
+  --gs-ethereal-rim: color-mix(in srgb, var(--gs-ethereal) 32%, transparent);
+  --gs-ethereal-light: color-mix(in srgb, var(--gs-ethereal) 72%, #e2eef8);
+  --gs-gold-rim: var(--gs-ethereal-rim);
+  --gs-gold-light: var(--gs-ethereal-light);
 }
 
 .gs-hub-card {
@@ -20,11 +22,11 @@
   isolation: isolate;
   overflow: hidden;
   border-radius: 1.5rem;
-  border: 1px solid var(--gs-gold-rim);
+  border: 1px solid var(--gs-ethereal-rim);
   background:
     linear-gradient(
       145deg,
-      color-mix(in srgb, var(--accent, #d4af37) 8%, transparent) 0%,
+      color-mix(in srgb, var(--gs-ethereal) 8%, transparent) 0%,
       transparent 42%,
       color-mix(in srgb, var(--surface, #0d0b09) 55%, transparent) 100%
     ),
@@ -32,10 +34,8 @@
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   box-shadow:
-    0 0 42px color-mix(in srgb, var(--surface, #0d0b09) 82%, transparent),
     0 16px 40px color-mix(in srgb, var(--surface, #0d0b09) 55%, transparent),
-    0 0 28px color-mix(in srgb, var(--accent, #d4af37) 12%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--gs-gold-light) 22%, transparent);
+    inset 0 1px 0 color-mix(in srgb, var(--gs-ethereal-light) 18%, transparent);
   color: var(--text, #f8fafc);
 }
 
@@ -50,10 +50,10 @@
   background: linear-gradient(
     90deg,
     transparent 0%,
-    color-mix(in srgb, var(--gs-gold-light) 55%, transparent) 50%,
+    color-mix(in srgb, var(--gs-ethereal-light) 45%, transparent) 50%,
     transparent 100%
   );
-  opacity: 0.85;
+  opacity: 0.7;
   z-index: 2;
 }
 
@@ -68,7 +68,7 @@
   font-weight: 650;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent, #d4af37);
+  color: var(--gs-ethereal);
 }
 
 .gs-hub-card__subtitle {
@@ -86,7 +86,7 @@
   background:
     radial-gradient(
       ellipse at 30% 20%,
-      color-mix(in srgb, var(--accent, #d4af37) 18%, transparent),
+      color-mix(in srgb, var(--gs-ethereal) 14%, transparent),
       transparent 55%
     ),
     linear-gradient(
@@ -102,7 +102,7 @@
   background: color-mix(in srgb, var(--surface, #0d0b09) 72%, transparent);
   box-shadow:
     inset 0 3px 12px rgba(0, 0, 0, 0.55),
-    inset 0 1px 0 color-mix(in srgb, var(--accent, #d4af37) 12%, transparent);
+    inset 0 1px 0 color-mix(in srgb, var(--gs-ethereal) 10%, transparent);
   border: 1px solid color-mix(in srgb, var(--border, #334155) 40%, transparent);
   min-height: 44px;
 }
@@ -124,7 +124,7 @@
     color-mix(in srgb, var(--gs-ethereal) 75%, #0d0b09),
     var(--gs-ethereal)
   );
-  box-shadow: 0 0 12px var(--gs-ethereal-dim);
+  box-shadow: none;
 }
 
 .gs-hub-card__ring {
@@ -140,8 +140,8 @@
     color-mix(in srgb, var(--surface, #0d0b09) 85%, transparent) 0
   );
   box-shadow:
-    0 0 24px var(--gs-ethereal-dim),
-    inset 0 0 0 1px color-mix(in srgb, var(--accent, #d4af37) 22%, transparent);
+    0 0 12px var(--gs-ethereal-dim),
+    inset 0 0 0 1px color-mix(in srgb, var(--gs-ethereal) 22%, transparent);
 }
 
 .gs-hub-card__ring::before {
@@ -203,7 +203,7 @@
 }
 
 .gs-hub-card__metric-value--gold {
-  color: var(--accent, #d4af37);
+  color: var(--gs-ethereal);
 }
 
 .gs-hub-card__footer {
@@ -226,22 +226,22 @@
   min-width: 44px;
   padding: 0.55rem 1.1rem;
   border-radius: 999px;
-  border: 1px solid color-mix(in srgb, var(--accent, #d4af37) 55%, transparent);
+  border: 1px solid color-mix(in srgb, var(--gs-ethereal) 45%, transparent);
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, var(--accent, #d4af37) 92%, #fff) 0%,
-    color-mix(in srgb, var(--accent, #d4af37) 78%, #7a5c14) 100%
+    color-mix(in srgb, var(--gs-ethereal) 88%, #fff) 0%,
+    color-mix(in srgb, var(--gs-ethereal) 72%, #1a3350) 100%
   );
   color: var(--surface, #0d0b09);
   font-size: 0.8rem;
   font-weight: 650;
   letter-spacing: 0.02em;
-  box-shadow: 0 0 18px color-mix(in srgb, var(--accent, #d4af37) 28%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, white 22%, transparent);
   touch-action: manipulation;
 }
 
 .gs-hub-card__cta:focus-visible {
-  outline: 2px solid var(--accent, #d4af37);
+  outline: 2px solid var(--gs-ethereal);
   outline-offset: 2px;
 }
 
@@ -266,10 +266,10 @@
 }
 
 .gs-hub-card__mood--active {
-  border-color: color-mix(in srgb, var(--accent, #d4af37) 70%, transparent);
-  background: color-mix(in srgb, var(--accent, #d4af37) 22%, transparent);
-  color: var(--accent, #d4af37);
-  box-shadow: 0 0 16px color-mix(in srgb, var(--accent, #d4af37) 35%, transparent);
+  border-color: color-mix(in srgb, var(--gs-ethereal) 55%, transparent);
+  background: color-mix(in srgb, var(--gs-ethereal) 16%, transparent);
+  color: var(--gs-ethereal);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gs-ethereal) 14%, transparent);
 }
 
 .gs-hub-card__avatar-row {
@@ -283,15 +283,15 @@
   width: 3.25rem;
   height: 3.25rem;
   border-radius: 999px;
-  border: 2px solid color-mix(in srgb, var(--accent, #d4af37) 65%, transparent);
+  border: 2px solid color-mix(in srgb, var(--gs-ethereal) 48%, transparent);
   background: color-mix(in srgb, var(--surface, #0d0b09) 70%, #1e293b);
-  box-shadow: 0 0 14px color-mix(in srgb, var(--accent, #d4af37) 22%, transparent);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gs-ethereal) 12%, transparent);
 }
 
 .gs-hub-card__avatar--dim {
   opacity: 0.72;
-  border-color: color-mix(in srgb, var(--accent, #d4af37) 38%, transparent);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--accent, #d4af37) 12%, transparent);
+  border-color: color-mix(in srgb, var(--gs-ethereal) 28%, transparent);
+  box-shadow: none;
 }
 
 .gs-hub-card__avatar--sm {
@@ -326,7 +326,7 @@
 }
 
 .gs-hub-card__timeline-time {
-  color: var(--accent, #d4af37);
+  color: var(--gs-ethereal);
   font-variant-numeric: tabular-nums;
 }
 
@@ -358,15 +358,15 @@
   border: none;
   background: radial-gradient(circle at 35% 30%, #9ec4e0, var(--gs-ethereal));
   color: var(--surface, #0d0b09);
-  box-shadow: 0 0 20px var(--gs-ethereal-dim);
+  box-shadow: inset 0 1px 0 color-mix(in srgb, white 20%, transparent);
   touch-action: manipulation;
 }
 
 /* Additive tile bridge — ExamplePreviewCard / planering-tool-card */
 .planering-tool-card.gs-hub-card,
 .calm-card.gs-hub-card {
-  /* keep tile grid sizing; deepen rim/bloom only */
-  border-color: color-mix(in srgb, var(--gs-gold-rim) 88%, var(--border, transparent));
+  /* keep tile grid sizing; ethereal rim only */
+  border-color: color-mix(in srgb, var(--gs-ethereal-rim) 88%, var(--border, transparent));
 }
 
 .hjartat-bento-shell .calm-card.gs-hub-card,

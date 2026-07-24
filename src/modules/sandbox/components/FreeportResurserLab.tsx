@@ -18,7 +18,7 @@ const ROWS = [
   { id: 'hem', label: 'Hem', sub: 'Dagens kompass', icon: Home, zone: 'hem' },
   { id: 'ekonomi', label: 'Ekonomi', sub: 'Konton & flöde', icon: Wallet, zone: 'vardagen' },
   { id: 'plan', label: 'Planering', sub: 'Vecka & projekt', icon: LayoutGrid, zone: 'vardagen' },
-  { id: 'mabra', label: 'MåBra', sub: 'Check-in & verktyg', icon: Heart, zone: 'vardagen' },
+  { id: 'mabra', label: 'Mabra', sub: 'Check-in & verktyg', icon: Heart, zone: 'vardagen' },
   { id: 'dagbok', label: 'Dagbok', sub: 'Reflektion', icon: BookOpen, zone: 'hjartat' },
   { id: 'familjen', label: 'Familjen', sub: 'Barnfokus & hamn', icon: Users, zone: 'familjen' },
   { id: 'valv', label: 'Säkerhet', sub: 'Efter upplåsning', icon: Shield, zone: 'valv' },

@@ -1,7 +1,7 @@
 /**
  * Offline Firestore write policy — persistence köar till IndexedDB och synkar när nät finns.
  *
- * - **Tillåtet:** vardagsdata (dagbok, planering, projekt, MåBra, ekonomi/tid) som får ligga i SDK-kön.
+ * - **Tillåtet:** vardagsdata (dagbok, planering, projekt, Mabra, ekonomi/tid) som får ligga i SDK-kön.
  * - **Blockerat:** Valv + barnloggar (evidens/WORM-känsligt — ingen tyst kö innan server validerat).
  *
  * Server-regler i `firestore.rules` gäller vid commit; misslyckade writes loggas av SDK.

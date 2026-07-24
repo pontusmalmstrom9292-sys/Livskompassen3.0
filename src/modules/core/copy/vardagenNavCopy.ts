@@ -7,7 +7,7 @@ export type VardagenInlineTab = 'kompasser' | 'ekonomi' | 'mabra';
 export const VARDAGEN_LAYER_LABELS: Record<VardagenInlineTab, string> = {
   kompasser: 'Kompasser',
   ekonomi: 'Ekonomi',
-  mabra: 'MåBra',
+  mabra: 'Mabra',
 };
 
 export const VARDAGEN_LAYER_INGRESS: Record<VardagenInlineTab, string> = {

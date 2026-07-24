@@ -90,7 +90,7 @@ export function MabraVitHub({
         </select>
       </label>
 
-      <nav className="mabra-vit-hub__zones" aria-label="MåBra verktyg">
+      <nav className="mabra-vit-hub__zones" aria-label="Mabra verktyg">
         {allGroups.map((group) => {
           const isOpen = openCategory === group.category;
           return (

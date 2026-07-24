@@ -63,5 +63,5 @@ export const STUDIO_MODULES: { id: StudioModuleKey; label: string }[] = [
   { id: 'barn', label: 'Familjen' },
   { id: 'planering', label: 'Planering' },
   { id: 'kompass', label: 'Kompassen' },
-  { id: 'mabra', label: 'MåBra' },
+  { id: 'mabra', label: 'Mabra' },
 ];

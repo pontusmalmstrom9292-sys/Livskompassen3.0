@@ -1,15 +1,17 @@
-# Färgpolicy — inga blå/turkosa accenter (globalt)
+# Färgpolicy — Ethereal Blue för modulval; guld sparsamt
 
-**Datum:** 2026-05-23 · uppdaterad **2026-05-25** (Theme Pack I + J hub-auto)  
-**Beslut:** Avveckla indigo, cyan, teal, electric blue i **kärn-UI** (Valv, Widget, BIFF, dock).
+**Datum:** 2026-05-23 · uppdaterad **2026-07-24** (Pontus: ingen guldig glow på mockups/moduler)  
+**Beslut:** Avveckla indigo, cyan, teal, electric blue i **kärn-UI** (Valv chrome, Widget brand, BIFF-dock).  
+**Undantag (godkänt):** **Ethereal Blue** `#7BA3C9` för hub-kort, kategori-/läges-pills och modul-selection — **utan massa glow**.
 
 ## Ersättning
 
 | Tidigare | Ny riktning |
 |----------|-------------|
-| `--accent-secondary: #818cf8` (indigo) | Guld `#d4af37` eller varm amber `#f59e0b` |
+| `--accent-secondary: #818cf8` (indigo) | Ethereal `#7BA3C9` (moduler/val) eller guld `#d4af37` (kompass/CTA) |
 | Cyber Emerald `#2dd4bf` som primär | Endast **success**-state sparsamt, eller varm grön `#6b8f71` |
 | Tema C / E aurora blå-grön | **Theme Pack I** + F/G/H mockups |
+| Guldig glow på kategori-pills | Ethereal rim + inset — **ingen** `0 0 Nx` bloom |
 
 ## Aktiva teman — runtime (Theme Pack I)
 

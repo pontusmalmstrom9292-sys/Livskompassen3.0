@@ -62,7 +62,7 @@ const FocusPointRow = memo(function FocusPointRow({
           {showValidatedBadge && (
             <span className="mb-1 inline-flex items-center gap-1 rounded-full border border-accent/30 bg-accent/10 px-2 py-0.5 text-[10px] uppercase tracking-wider text-accent">
               <ShieldCheck className="h-3 w-3" />
-              MåBra-validerat
+              Mabra-validerat
             </span>
           )}
           <input
@@ -339,7 +339,7 @@ export function MorningCompass() {
           <h1 className="text-3xl font-light tracking-wide text-white/90">Morgonkompassen</h1>
           <p className="text-sm font-light text-text-muted">
             {isGoalLocked
-              ? 'Ditt MåBra-mål leder kompassen. Två fria platser till.'
+              ? 'Ditt Mabra-mål leder kompassen. Två fria platser till.'
               : 'Dina 3 viktigaste saker idag. Inget mer.'}
           </p>
           <div

@@ -2,7 +2,7 @@ import { LifeBuoy } from 'lucide-react';
 import { useLocation } from 'react-router-dom';
 import { useSOSStore } from '@/modules/core/store/sosStore';
 
-/** SOS — första barn i app-main (inte header). Öppnar samma SOS Ankare som MåBra. */
+/** SOS — första barn i app-main (inte header). Öppnar samma SOS Ankare som Mabra. */
 export function SosMainTrigger() {
   const location = useLocation();
   const activateSOS = useSOSStore((s) => s.activateSOS);

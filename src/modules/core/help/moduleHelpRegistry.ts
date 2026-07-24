@@ -191,13 +191,13 @@ const REGISTRY: Record<string, ModuleHelpEntry> = {
   },
 
   mabra: {
-    title: 'MåBra',
+    title: 'Mabra',
     lines: [
       { label: 'Sparas', text: 'checkins, mabra_sessions — inte Kunskap-valvet.' },
       { label: 'Vit-zon', text: 'REFLECTION/PLAY — ingen cross-RAG till kampspar.' },
       { label: 'Explicit', text: 'Inget sparas förrän du trycker Spara.' },
     ],
-    action: { label: 'MåBra input', to: HOME_SUPERHUB_ROUTES.mabraInput },
+    action: { label: 'Mabra input', to: HOME_SUPERHUB_ROUTES.mabraInput },
   },
 
   planering: {
@@ -289,16 +289,16 @@ const REGISTRY: Record<string, ModuleHelpEntry> = {
     title: 'Låg stimulus',
     lines: [
       { label: 'Profil', text: 'Andning och korta steg — inget måste presteras.' },
-      { label: 'Tips', text: 'MåBra check-in före tunga beslut.' },
+      { label: 'Tips', text: 'Mabra check-in före tunga beslut.' },
     ],
-    action: { label: 'Öppna MåBra', to: '/mabra' },
+    action: { label: 'Öppna Mabra', to: '/mabra' },
     presetGate: { presetIds: ['rehab_lag'], materialKey: 'mabra_hub_hint' },
   },
 
   hub_vardagen: {
     title: 'Vardagsstart',
     lines: [
-      { label: 'Ett steg', text: 'Kompass, ekonomi och MåBra visas här — projekt och arbetsliv öppnas på egna sidor.' },
+      { label: 'Ett steg', text: 'Kompass, ekonomi och Mabra visas här — projekt och arbetsliv öppnas på egna sidor.' },
       { label: 'Tips', text: 'Börja med Dygns-Kompassen om dagen känns otydlig.' },
     ],
     action: { label: 'Öppna planering', to: '/planering' },

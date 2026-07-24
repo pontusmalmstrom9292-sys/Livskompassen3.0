@@ -1,6 +1,7 @@
 @import './design-system/tokens/css/variables.css';
 @import './design-system/styles/components.css';
 @import './design-system/styles/premium-polish.css';
+@import './design-system/styles/qa-harden-auto-polish.css';
 @import './design-system/styles/ui-polish-v4-x10.css';
 @import './design-system/styles/hub-chrome-tile.css';
 @import './design-system/styles/dock-hub-band.css';

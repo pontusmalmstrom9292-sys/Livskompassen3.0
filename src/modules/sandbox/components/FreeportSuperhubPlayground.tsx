@@ -29,7 +29,7 @@ type LiveTab = 'hjartat' | 'planering' | 'mabra' | 'familjen';
 const TABS: { id: LiveTab; label: string; defaultMode: string }[] = [
   { id: 'hjartat', label: 'Hjärtat', defaultMode: 'reflektion' },
   { id: 'planering', label: 'Planering', defaultMode: 'task_quick' },
-  { id: 'mabra', label: 'MåBra', defaultMode: 'checkin' },
+  { id: 'mabra', label: 'Mabra', defaultMode: 'checkin' },
   { id: 'familjen', label: 'Familjen', defaultMode: 'barnfokus' },
 ];
 

@@ -85,7 +85,7 @@ function cardsFromMorning(option: string): AdaptiveMemoryCard[] {
           id: 'morning-breath',
           title: 'Morgon — andning',
           prompt: 'Du valde lugn start. Vill du köra 4-7-8 i två minuter nu?',
-          actionLabel: 'Måbra',
+          actionLabel: 'Mabra',
           to: HOME_SUPERHUB_ROUTES.mabraInput,
           tone: 'lavender',
         },
@@ -131,7 +131,7 @@ function cardsFromMorning(option: string): AdaptiveMemoryCard[] {
             option === 'forge_grounded'
               ? 'Du landade med andning. Vill du köra 4-7-8 en gång till om pulsen är hög?'
               : 'Du satte dagens prioritet. Ett kort andningssteg kan sänka bruset innan dagen tar fart.',
-          actionLabel: 'Måbra',
+          actionLabel: 'Mabra',
           to: HOME_SUPERHUB_ROUTES.mabraInput,
           tone: 'lavender',
         },
@@ -157,7 +157,7 @@ function cardsFromDay(option: string): AdaptiveMemoryCard[] {
           id: 'day-tired',
           title: 'Dag — trött',
           prompt: 'Kroppen signalerar trötthet. Ett kort andningssteg kan sänka pulsen.',
-          actionLabel: 'Måbra',
+          actionLabel: 'Mabra',
           to: HOME_SUPERHUB_ROUTES.mabraInput,
           tone: 'lavender',
         },

@@ -210,7 +210,7 @@ export function ProjektHubPage() {
                 Genvägar per profil
               </span>
               <span className="text-xs font-normal text-text-muted">
-                Anpassa knappar på Familjen, MåBra och Hamn
+                Anpassa knappar på Familjen, Mabra och Hamn
               </span>
             </ButtonLink>
           </div>

@@ -30,12 +30,12 @@ export const CHAMELEON_ZONES: ChameleonZoneDef[] = [
   {
     id: 'vardagen',
     label: 'Vardagen',
-    lead: 'Planering, MåBra, ekonomi',
+    lead: 'Planering, Mabra, ekonomi',
     modes: [
       { id: 'task_quick', label: 'Snabb uppgift', description: 'Att göra' },
       { id: 'inkast', label: 'Inkast', description: 'Smart fångst' },
       { id: 'quick_list', label: 'Inköpslista', description: 'Snabb lista' },
-      { id: 'checkin', label: 'MåBra check-in', description: 'Humör och energi' },
+      { id: 'checkin', label: 'Mabra check-in', description: 'Humör och energi' },
     ],
   },
   {

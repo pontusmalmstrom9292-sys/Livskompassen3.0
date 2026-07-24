@@ -12,7 +12,7 @@ export const WIDGET_SILO_CHIPS: WidgetSiloChip[] = [
   { id: 'dagbok', label: 'Dagbok', hint: 'Reflektion i Hjärtat' },
   { id: 'bevis', label: 'Bevis', hint: 'WORM i Valvet' },
   { id: 'barn', label: 'Barn', hint: 'Barnlogg — inte auto-Valv' },
-  { id: 'mabra', label: 'MåBra', hint: 'Vit-zon reflektion' },
+  { id: 'mabra', label: 'Mabra', hint: 'Vit-zon reflektion' },
   { id: 'planering', label: 'Planering', hint: 'Uppgift i P3' },
 ];
 
@@ -31,7 +31,7 @@ export function widgetSiloDoneCopy(silo: WidgetSiloId, childAlias?: string): { m
     case 'barn':
       return { message: `Sparat till ${childAlias ?? 'barn'}s logg`, linkTo: '/familjen', linkLabel: 'Öppna Familjen' };
     case 'mabra':
-      return { message: 'Sparat i MåBra Vit', linkTo: '/mabra', linkLabel: 'Öppna MåBra' };
+      return { message: 'Sparat i Mabra Vit', linkTo: '/mabra', linkLabel: 'Öppna Mabra' };
     case 'planering':
       return { message: 'Uppgift skapad', linkTo: '/planering?tab=handling', linkLabel: 'Öppna Planering' };
   }

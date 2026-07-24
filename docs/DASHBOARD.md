@@ -1,3 +1,12 @@
+### 2026-07-24 — Ethereal Blue utan glow (moduler)
+- Kategori-pills + hub-kort: ethereal `#7BA3C9`, ingen guldig bloom
+- Familjen + GS-hub-card + OD selection chrome
+- Pontus produktbeslut · dock/kompass guld kvar
+
+### 2026-07-24 — Privacy-blur bort
+- Idle-blur bort · Android pause-täckning av · Sacred/FLAG_SECURE ej default
+- Känsliga filval behåller biometric + overlay · G85: build:web + cap sync
+
 ### 2026-07-24 — UI QA Harden Loop
 - `npm run qa:harden` · debug:ui-suite · device-probe SKIP utan USB
 - Tier A auto (scroll CSS) · Tier B pontus-md · deploy SKIP
@@ -502,3 +511,6 @@ Stickprov Completion **1.4.3**: body/lead på glass `text-text-dim` → `text-te
 - Release clears stale App Check debug SharedPreferences
 - smoke:android-platform expanded (dist-leak, ZF appStateChange)
 - Eval: docs/evaluations/2026-07-17-g85-appcheck-yolo.md
+
+### 2026-07-24 — Familjen zon-ringar bort
+- Tre dekorativa avatar-ringar i zon-intro borttagna

@@ -13,7 +13,7 @@ type Props = {
   stats: VitHubStats;
 };
 
-/** P5 — MåBra-pass per symptom (senaste 30), deterministisk — inte humör-skala. */
+/** P5 — Mabra-pass per symptom (senaste 30), deterministisk — inte humör-skala. */
 export function VitMabraPassPanel({ stats }: Props) {
   if (stats.sessionCount === 0) return null;
 
@@ -21,9 +21,9 @@ export function VitMabraPassPanel({ stats }: Props) {
   const maxCount = Math.max(1, ...entries.map(([, c]) => c));
 
   return (
-    <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="MåBra-pass">
+    <section className="rounded-xl border border-border bg-surface/30 p-4" aria-label="Mabra-pass">
       <h2 className={textStyles.eyebrow}>
-        MåBra-pass (symptom)
+        Mabra-pass (symptom)
       </h2>
       <p className="mt-1 text-[10px] text-text-muted">{VIT_HUB_MOOD_HINT}</p>
       <ul className="mt-3 space-y-2">

@@ -129,7 +129,7 @@ export function ChildMomentStunderPanel({ shell }: Props) {
                       <button
                         type="button"
                         onClick={() => setEvidenceForLogId(log.id!)}
-                        className="mt-2 text-xs uppercase tracking-widest text-text-muted hover:text-gold"
+                        className="mt-2 text-xs uppercase tracking-widest text-text-muted hover:text-[color:var(--gs-ethereal)]"
                       >
                         Spara som bevis?
                       </button>

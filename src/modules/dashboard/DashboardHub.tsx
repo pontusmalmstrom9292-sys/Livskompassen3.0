@@ -75,7 +75,7 @@ function DashboardHubContent() {
           </div>
         </div>
 
-        {/* Proaktiv MåBra-puls */}
+        {/* Proaktiv Mabra-puls */}
         <div className="w-full">
           <MabraPulseWidget />
         </div>

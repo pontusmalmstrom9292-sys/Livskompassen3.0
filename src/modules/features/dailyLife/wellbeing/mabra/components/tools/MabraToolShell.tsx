@@ -27,7 +27,7 @@ export function MabraToolShell({
         className="planering-back-link min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
       >
         <ChevronLeft className="h-4 w-4" />
-        Tillbaka till MåBra
+        Tillbaka till Mabra
       </button>
       <BentoCard title={title} description={description}>
         {children}

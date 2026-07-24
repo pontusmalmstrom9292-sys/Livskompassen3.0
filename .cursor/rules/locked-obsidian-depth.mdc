@@ -16,7 +16,8 @@ Canonical: [`.context/locked-obsidian-depth.md`](../../.context/locked-obsidian-
 ## MUST
 
 - Preserve glassmorphism + tactile 3D on `.od-depth__bento-card`, `.od-depth__cta`, `.od-depth__dock`
-- Keep gold-only accent (`#d4af37`) in OD shell — no rainbow/indigo primary chrome
+- Selection chrome (pills/mode-select): Ethereal Blue `#7BA3C9` utan yttre glow (Pontus 2026-07-24)
+- Guld kvar på `.od-depth__cta` + dock/kompass — ingen guldig bloom på kategori-val
 - Run `npm run smoke:obsidian-depth` when touching locked files
 - Route `/dev/obsidian-depth` stays available as canonical reference
 
@@ -25,6 +26,7 @@ Canonical: [`.context/locked-obsidian-depth.md`](../../.context/locked-obsidian-
 - Remove or flatten Obsidian Depth to plain calm-card without product OK
 - Delete `obsidian-depth-*.png` kanon images or mockup page without registry update
 - Change `OD-obsidian-depth` theme pack without updating `VARIANTS.md`
+- Återinföra guldig glow på `.od-depth__pill--active` / mode-select
 
 ## Separate work (allowed)
 

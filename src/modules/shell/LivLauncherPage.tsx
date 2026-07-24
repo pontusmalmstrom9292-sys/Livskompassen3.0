@@ -101,7 +101,7 @@ export function LivLauncherPage() {
             <div className="space-y-4">
               <CognitiveLoadStrip
                 label="Ett steg i taget"
-                hint="Tryck ett kort. Kompass, ekonomi och MåBra visas här; projekt och arbetsliv öppnas på egna sidor."
+                hint="Tryck ett kort. Kompass, ekonomi och Mabra visas här; projekt och arbetsliv öppnas på egna sidor."
               />
 
               <HubErrorBoundary

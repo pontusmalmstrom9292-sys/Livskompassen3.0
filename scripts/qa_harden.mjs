@@ -3,7 +3,9 @@
  *
  * Usage:
  *   npm run qa:harden
- *   node scripts/qa_harden.mjs [baseUrl] [--rounds=5] [--no-smoke] [--no-device] [--detect-only]
+ *   node scripts/qa_harden.mjs [baseUrl] [--rounds=3] [--no-smoke] [--no-device] [--detect-only] [--early-stop]
+ *
+ * Default: 3 rounds, phone first then web each round (both). Stops early only with --early-stop.
  */
 import { spawnSync, spawn } from 'node:child_process';
 import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
@@ -20,10 +22,12 @@ import {
 } from './lib/qa_harden_io.mjs';
 import { classifyFromLatest, swedishSummary } from './lib/qa_harden_classify.mjs';
 import { applyTierARecipes } from './lib/qa_harden_tier_a_recipes.mjs';
+import { applyPolishPass } from './lib/qa_harden_polish_pass.mjs';
 
 const args = process.argv.slice(2);
 const roundsArg = args.find((a) => a.startsWith('--rounds='));
-const MAX_ROUNDS = roundsArg ? Math.max(1, Number(roundsArg.split('=')[1]) || 5) : 5;
+const MAX_ROUNDS = roundsArg ? Math.max(1, Number(roundsArg.split('=')[1]) || 3) : 3;
+const EARLY_STOP = args.includes('--early-stop');
 const NO_SMOKE = args.includes('--no-smoke');
 const NO_DEVICE = args.includes('--no-device');
 const DETECT_ONLY = args.includes('--detect-only');
@@ -130,13 +134,12 @@ let lastClassified = { findings: [], tierA: [], tierB: [], tierC: [] };
 
 for (let round = 1; round <= MAX_ROUNDS; round++) {
   console.log(`\n######## QA HARDEN ROUND ${round}/${MAX_ROUNDS} ########`);
+  console.log('[qa:harden] Ordning: telefon → webb');
 
-  const suite = runNode('scripts/debug_ui_suite.mjs', [BASE]);
-  const suiteExit = suite.status ?? 1;
-
+  // —— 1) Telefon först (USB) ——
   let device = { status: 'skipped', detail: 'no-device flag' };
-  // Always run a fresh device probe each round (reuse caused sticky false FAIL)
   if (!NO_DEVICE) {
+    console.log('[qa:harden] Telefon-probe…');
     runNode('scripts/debug_device_probe.mjs', []);
     const deviceJson = resolve(QA_DIR, 'device-probe.json');
     if (existsSync(deviceJson)) {
@@ -148,7 +151,13 @@ for (let round = 1; round <= MAX_ROUNDS; round++) {
     } else {
       device = { status: 'skip', detail: 'no device-probe output' };
     }
+    console.log(`[qa:harden] Telefon: ${device.status} — ${device.detail || ''}`);
   }
+
+  // —— 2) Webb (hub + scroll + tap) ——
+  console.log('[qa:harden] Webb-suite…');
+  const suite = runNode('scripts/debug_ui_suite.mjs', [BASE]);
+  const suiteExit = suite.status ?? 1;
 
   const latestRaw = readLatest() || {};
   const latest = writeLatest({
@@ -199,7 +208,15 @@ for (let round = 1; round <= MAX_ROUNDS; round++) {
   }
 
   if (lastClassified.tierA.length === 0) {
-    console.log('[qa:harden] No Tier A findings — stop loop');
+    console.log(
+      EARLY_STOP
+        ? '[qa:harden] No Tier A findings — early-stop'
+        : `[qa:harden] No Tier A findings — fortsätter (runda ${round}/${MAX_ROUNDS})`,
+    );
+    const polish = applyPolishPass([], { round });
+    writeJson(`polish-round-${round}.json`, polish);
+    console.log(`[qa:harden] polish applied=${polish.applied}`);
+    for (const n of polish.notes) console.log(`  · ${n}`);
     if (!NO_SMOKE) {
       console.log('[qa:harden] Smoke gate…');
       const s1 = runNpm('smoke:locked-ux');
@@ -207,7 +224,9 @@ for (let round = 1; round <= MAX_ROUNDS; round++) {
       roundLogs[roundLogs.length - 1].smokeLocked = s1.status ?? 1;
       roundLogs[roundLogs.length - 1].smokeDesign = s2.status ?? 1;
     }
-    break;
+    roundLogs[roundLogs.length - 1].polish = polish.applied;
+    if (EARLY_STOP) break;
+    continue;
   }
 
   const fix = applyTierARecipes(lastClassified.tierA);
@@ -215,34 +234,42 @@ for (let round = 1; round <= MAX_ROUNDS; round++) {
   console.log(`[qa:harden] recipes applied=${fix.applied}`);
   for (const n of fix.notes) console.log(`  · ${n}`);
 
+  const polish = applyPolishPass(lastClassified.tierA, { round });
+  writeJson(`polish-round-${round}.json`, polish);
+  console.log(`[qa:harden] polish applied=${polish.applied}`);
+  for (const n of polish.notes) console.log(`  · ${n}`);
+  roundLogs[roundLogs.length - 1].recipes = fix.applied;
+  roundLogs[roundLogs.length - 1].polish = polish.applied;
+
   writeJson('tier-a-agent-queue.json', {
     at: new Date().toISOString(),
     round,
     prompt:
-      'Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta inte förrän koden är helt felfri och appen går att använda.',
+      'Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta inte förrän koden är helt felfri och appen går att använda. Lead UI polish: elevating consistency without Locked UX redesign.',
     findings: lastClassified.tierA,
-    agents: ['sync-scroll-shell', 'sync-chrome-lock', 'sync-g85-ui-qa'],
+    polishFiles: polish.files,
+    agents: ['sync-scroll-shell', 'sync-chrome-lock', 'sync-g85-ui-qa', 'specialist-ux-guardian'],
   });
 
   if (!NO_SMOKE) {
-    console.log('[qa:harden] Smoke after recipes…');
+    console.log('[qa:harden] Smoke after recipes+polish…');
     const s1 = runNpm('smoke:locked-ux');
     const s2 = runNpm('smoke:design-modules');
     roundLogs[roundLogs.length - 1].smokeLocked = s1.status ?? 1;
     roundLogs[roundLogs.length - 1].smokeDesign = s2.status ?? 1;
   }
 
-  if (fix.applied === 0) {
+  // Default: always continue through all rounds (phone→web ×3). Early exit only with --early-stop.
+  if (EARLY_STOP && fix.applied === 0 && polish.applied === 0) {
     const onlyNoise = lastClassified.tierA.every((f) =>
       ['CRASH_OR_STUCK', 'PAGEERROR', 'TOUCH_TOO_SMALL'].includes(f.code),
     );
     if (onlyNoise || lastClassified.tierA.length === 0) {
-      console.log('[qa:harden] No further auto-recipes — stop (queue left for Cursor)');
+      console.log('[qa:harden] No further auto-recipes — early-stop (queue left for Cursor)');
       break;
     }
-    console.log('[qa:harden] No recipe changes — re-detect next round');
-    continue;
   }
+  console.log(`[qa:harden] Nästa runda ${round + 1 <= MAX_ROUNDS ? round + 1 : '(klar)'}…`);
 }
 
 writeLatest({

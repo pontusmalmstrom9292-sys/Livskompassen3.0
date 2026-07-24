@@ -19,7 +19,7 @@ const MAX_TAPS_PER_PAGE = Math.max(8, Number(process.env.QA_MAX_TAPS_PER_PAGE ||
 const SCROLL_PASSES = Math.max(1, Number(process.env.QA_SCROLL_PASSES || 5));
 /** Only Sacred / irreversible / write — everything else is tapped. */
 const SKIP_TAP_RE =
-  /håll tre sekunder|håll tre|långtryck|logga ut|radera|ta bort|töm (allt|korg|arkiv)|lås valv|biometr|fingeravtryck|ansikts|publicera|deploy|spara|skicka|bekräfta radering|permanent/i;
+  /håll tre sekunder|håll tre|långtryck|logga ut|radera|ta bort|töm (allt|korg|arkiv)|lås valv|biometr|fingeravtryck|ansikts|publicera|deploy|spara|skicka|bekräfta radering|permanent|projektnamn|nytt projekt|skapa projekt|uppgiftstitel|rubrik för|välj fil|ladda upp/i;
 /** Global chrome already covered in dock/drawer pass — skip on per-route (unless QA_CHROME_EVERY_PAGE=1). */
 const CHROME_TAP_RE =
   /öppna meny|stäng meny|fäll ut resurser|stäng resurser|alla resurser|konto och inloggning|kompis —|aktivera sos|tvingad upplåsning|system status|dölj snabb|^anteckning$|^familj$|^ventil$|^inkast$|hamn\. håll/i;
@@ -97,6 +97,15 @@ const context = await browser.newContext({
     'Mozilla/5.0 (Linux; Android 14; moto g85) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
 });
 const page = await context.newPage();
+
+/** Dismiss native prompt/alert/confirm (Projekt uses window.prompt — black system box). */
+page.on('dialog', async (dialog) => {
+  try {
+    await dialog.dismiss();
+  } catch {
+    /* already closed */
+  }
+});
 
 const consoleErrors = [];
 page.on('console', (msg) => {

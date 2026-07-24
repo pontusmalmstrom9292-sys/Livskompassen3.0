@@ -35,7 +35,7 @@ export const HEM_V3_DEVELOPMENT_CARDS: HemV3DevCard[] = [
     title: 'Närvaro',
     hint: 'Kropp',
     body: 'Andas 4–6 tre gånger innan nästa val.',
-    actionLabel: 'MåBra',
+    actionLabel: 'Mabra',
     to: HOME_SUPERHUB_ROUTES.mabraInput,
   },
   {
@@ -61,7 +61,7 @@ export const HEM_V3_DEVELOPMENT_CARDS: HemV3DevCard[] = [
     title: 'Vila',
     hint: 'Plan',
     body: '20 min utan skärm — inte belöning, bara kapacitet.',
-    actionLabel: 'MåBra',
+    actionLabel: 'Mabra',
     to: HOME_SUPERHUB_ROUTES.mabraInput,
   },
   {
@@ -69,7 +69,7 @@ export const HEM_V3_DEVELOPMENT_CARDS: HemV3DevCard[] = [
     title: 'Lär dig',
     hint: 'Reflektion',
     body: 'Allostatic load minskar med regelbunden sömn — ett litet steg räcker.',
-    actionLabel: 'MåBra',
+    actionLabel: 'Mabra',
     to: HOME_SUPERHUB_ROUTES.mabraInput,
   },
   {
@@ -77,7 +77,7 @@ export const HEM_V3_DEVELOPMENT_CARDS: HemV3DevCard[] = [
     title: 'Quiz',
     hint: 'Fråga',
     body: 'Vilket behov stod bakom din senaste reaktion — trygghet eller kontroll?',
-    actionLabel: 'MåBra',
+    actionLabel: 'Mabra',
     to: HOME_SUPERHUB_ROUTES.mabraInput,
   },
   {
@@ -94,7 +94,7 @@ export const HEM_V3_DEVELOPMENT_CARDS: HemV3DevCard[] = [
     title: 'Kropp',
     hint: 'Mikrosteg',
     body: 'Drick ett glas vatten. Markera att du gjort det.',
-    actionLabel: 'MåBra',
+    actionLabel: 'Mabra',
     to: HOME_SUPERHUB_ROUTES.mabraInput,
   },
   {

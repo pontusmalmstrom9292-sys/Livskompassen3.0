@@ -85,8 +85,8 @@ export function FamiljenKunskapHubTab({ activeChild }: Props) {
         )}
       </BentoCard>
 
-      <div className="flex items-start gap-2 rounded-2xl border border-gold/20 bg-gold/5 p-3">
-        <Shield className="mt-0.5 h-4 w-4 shrink-0 text-gold" />
+      <div className="flex items-start gap-2 rounded-2xl border border-[color:color-mix(in_srgb,var(--gs-ethereal)_28%,transparent)] bg-[color:color-mix(in_srgb,var(--gs-ethereal)_8%,transparent)] p-3">
+        <Shield className="mt-0.5 h-4 w-4 shrink-0 text-[color:var(--gs-ethereal)]" />
         <p className="text-xs text-text-muted">
           Barnloggar hålls i sin egen silo (Barnen). För anteckningar, använd Kunskapsvalvet, och för arkivbevis, använd{' '}
           <Link to="/valvet" className="text-accent hover:underline">

@@ -1,7 +1,7 @@
 import type { MabraProgress } from '../types/firestore';
 
 /**
- * Calculates a capacity score based on MåBra progress data.
+ * Calculates a capacity score based on Mabra progress data.
  * Currently bases the score on the number of defined core values.
  * Prepared for future 7-day trend calculations.
  *

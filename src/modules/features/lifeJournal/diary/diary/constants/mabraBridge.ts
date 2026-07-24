@@ -21,23 +21,23 @@ export const MABRA_BRIDGE_INTRO: Record<
   { title: string; detail: string }
 > = {
   panic_rsd: {
-    title: 'Du kom från Måbra.',
+    title: 'Du kom från Mabra.',
     detail: 'Välj humör — en kort rad är valfritt.',
   },
   self_critical: {
-    title: 'Du kom från Måbra.',
+    title: 'Du kom från Mabra.',
     detail: 'En kort insikt räcker. Eller spara bara humör.',
   },
   find_self: {
-    title: 'Du kom från Måbra.',
+    title: 'Du kom från Mabra.',
     detail: 'Humör räcker om du är trött.',
   },
 };
 
 export const MABRA_MOOD_ONLY_TEXT: Record<MabraBridgeHub, string> = {
-  panic_rsd: 'Måbra — panik/RSD (humör)',
-  self_critical: 'Måbra — självkritik (humör)',
-  find_self: 'Måbra — hitta mig (humör)',
+  panic_rsd: 'Mabra — panik/RSD (humör)',
+  self_critical: 'Mabra — självkritik (humör)',
+  find_self: 'Mabra — hitta mig (humör)',
 };
 
 export const MABRA_BRIDGE_LABELS = {

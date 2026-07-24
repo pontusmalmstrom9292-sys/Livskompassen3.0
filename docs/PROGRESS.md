@@ -1,3 +1,17 @@
+## 2026-07-24 — Ethereal Blue utan glow (moduler/val)
+
+- Problem: Familjen kategori-pills + hub-mockups lysande guldiga
+- Fix: `.od-depth__pill*` / mode-select / GS-hub-card / Familjen CSS → Ethereal `#7BA3C9`, ingen yttre glow
+- Lock: `.context/locked-obsidian-depth.md` + `COLOR-POLICY.md` (Pontus OK)
+- Guld kvar: primär CTA + dock/kompass
+
+## 2026-07-24 — Privacy-blur bort (skärm suddig)
+
+- Webb: `InactivityBlurOverlay` borttagen från `App.tsx` (+ fil raderad)
+- Android: ingen privacy/stealth-täckning i `onPause` (känsliga filval behåller overlay)
+- Android: `setSacredZone(false)` som default — FLAG_SECURE endast vid känsliga picks
+- Kräver: `npm run build:web && npx cap sync android` + Run på G85
+
 ## 2026-07-24 — UI QA Harden Loop
 
 - Scripts: `qa_harden.mjs`, `debug_*` → `.cursor/qa-harden/`; Tier A/B/C classify + recipes
@@ -3437,3 +3451,6 @@ Unlock: `docs/evaluations/2026-07-22-unlock-hub-gold-standard-layout.md` (`appro
 15. yolo-vakt: kod/smoke GO; commit måste inkludera 3 nya filer (untracked) vid merge
 
 Ethereal Blue `#7BA3C9` endast progress/waveform — ingen global teal.
+
+## 2026-07-24 — Familjen: bort tre dekorativa ringar
+- FamiljenZoneIntro avatar-schema bort · smoke locked-ux/governance PASS

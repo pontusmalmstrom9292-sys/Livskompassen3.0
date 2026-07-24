@@ -78,7 +78,7 @@ export function FreeportCheckinLab({ onStatus }: Props) {
       <p className="design-freeport__sandbox-note">
         <Link to="/" className="design-freeport__link">← Prod</Link>
         {' · '}
-        Prod: /vardagen · MåBra
+        Prod: /vardagen · Mabra
       </p>
     </ExecutivePhoneShell>
   );

@@ -1,4 +1,4 @@
-/* MåBra — Vit hub (zoner + snabbstart) — sunset från index.css våg 76 */
+/* Mabra — Vit hub (zoner + snabbstart) — sunset från index.css våg 76 */
 @layer components {
   .mabra-vit-hub {
     @apply space-y-4;
@@ -248,4 +248,11 @@
       transform: none;
     }
   }
+}
+
+/* qa-harden-touch-boost — Fas 1 auto-polish (content buttons) */
+button:not([data-dock-item]):not(.basta-dock-item),
+[role="tab"],
+[role="button"]:not([data-dock-item]) {
+  min-height: max(var(--ds-touch-target, 2.75rem), 2.5rem);
 }

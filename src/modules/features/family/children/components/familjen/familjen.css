@@ -38,7 +38,7 @@
 
   .familjen-page__header {
     @apply rounded-2xl border p-4;
-    border-color: color-mix(in srgb, var(--accent) 20%, transparent);
+    border-color: color-mix(in srgb, var(--gs-ethereal) 22%, transparent);
     background: linear-gradient(
       180deg,
       var(--color-panel-obsidian-55) 0%,
@@ -46,9 +46,7 @@
     );
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    box-shadow:
-      0 0 28px color-mix(in srgb, var(--accent) 10%, transparent),
-      inset 0 1px 0 color-mix(in srgb, var(--accent) 16%, transparent);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gs-ethereal) 12%, transparent);
   }
 
   .familjen-page__header.gs-hub-card,
@@ -57,33 +55,21 @@
   }
 
   .familjen-bento-shell .calm-card {
-    border-color: color-mix(in srgb, var(--accent) 26%, transparent);
+    border-color: color-mix(in srgb, var(--gs-ethereal) 24%, transparent);
     box-shadow:
       0 0 28px color-mix(in srgb, var(--bg) 50%, transparent),
-      inset 0 1px 0 color-mix(in srgb, var(--accent) 12%, transparent);
-  }
-
-  .familjen-bento-shell .gs-hub-card__avatar-row {
-    margin: 0.35rem 0;
-  }
-
-  .familjen-zone-intro__schema {
-    margin-bottom: 0.25rem;
+      inset 0 1px 0 color-mix(in srgb, var(--gs-ethereal) 10%, transparent);
   }
 
   .familjen-bento-shell .barnfokus-fragan-panel--gs .barnfokus-fragan-panel__question,
   .familjen-bento-shell .barnfokus-fragan-panel--gs .od-depth__question-card {
     border-radius: 1rem;
-    border: 1px solid var(--gs-gold-rim);
-    box-shadow:
-      inset 0 1px 0 color-mix(in srgb, var(--gs-gold-light) 16%, transparent),
-      0 0 20px color-mix(in srgb, var(--accent) 8%, transparent);
+    border: 1px solid color-mix(in srgb, var(--gs-ethereal) 28%, transparent);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gs-ethereal) 14%, transparent);
   }
 
   .familjen-bento-shell .barnfokus-fragan-panel--gs .familjen-child-chip--active {
-    box-shadow:
-      0 0 22px color-mix(in srgb, var(--accent) 18%, transparent),
-      inset 0 0 0 1px color-mix(in srgb, var(--gs-gold-light) 22%, transparent);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gs-ethereal) 28%, transparent);
   }
 
   .familjen-page__card {
@@ -95,26 +81,25 @@
   }
 
   .familjen-zone-pill {
-    @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em] text-accent;
+    @apply rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.1em];
     line-height: 1.25;
-    border-color: var(--color-accent-gold-35);
+    color: var(--gs-ethereal);
+    border-color: color-mix(in srgb, var(--gs-ethereal) 35%, transparent);
     background: var(--color-shell-scrim);
     text-wrap: balance;
   }
 
   .familjen-zone-intro {
     @apply rounded-2xl border px-3 py-2;
-    border-color: color-mix(in srgb, var(--accent) 20%, transparent);
+    border-color: color-mix(in srgb, var(--gs-ethereal) 22%, transparent);
     background: linear-gradient(
       180deg,
-      color-mix(in srgb, var(--accent) 12%, transparent) 0%,
+      color-mix(in srgb, var(--gs-ethereal) 10%, transparent) 0%,
       var(--color-panel-obsidian-65) 100%
     );
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    box-shadow:
-      0 0 28px color-mix(in srgb, var(--accent) 10%, transparent),
-      inset 0 1px 0 color-mix(in srgb, var(--accent) 16%, transparent);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gs-ethereal) 12%, transparent);
   }
 
   .familjen-zone-intro.gs-hub-card {
@@ -126,7 +111,8 @@
   }
 
   .familjen-zone-intro__eyebrow {
-    @apply text-[10px] uppercase tracking-[0.18em] text-accent;
+    @apply text-[10px] uppercase tracking-[0.18em];
+    color: var(--gs-ethereal);
   }
 
   .familjen-zone-intro__title {
@@ -147,7 +133,7 @@
     @apply inline-flex items-center justify-center rounded-full border px-3 py-1 text-[11px] font-medium text-text-muted transition-colors;
     min-height: var(--ds-touch-target);
     line-height: 1.2;
-    border-color: color-mix(in srgb, var(--accent) 20%, transparent);
+    border-color: color-mix(in srgb, var(--gs-ethereal) 20%, transparent);
     background: var(--color-shell-scrim-35);
     transition:
       border-color var(--ds-duration-fast) var(--ds-ease-premium),
@@ -161,21 +147,21 @@
   }
 
   .familjen-layer-switch__link:hover {
-    @apply text-accent;
-    border-color: var(--color-accent-gold-35);
+    color: var(--gs-ethereal);
+    border-color: color-mix(in srgb, var(--gs-ethereal) 35%, transparent);
   }
 
   .familjen-layer-switch__link--active {
-    @apply text-accent;
-    border-color: var(--color-accent-gold-35);
+    color: var(--gs-ethereal);
+    border-color: color-mix(in srgb, var(--gs-ethereal) 42%, transparent);
     background: var(--color-shell-scrim);
-    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 4%, transparent);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gs-ethereal) 12%, transparent);
   }
 
   .familjen-zone-intro:focus-within {
-    border-color: var(--color-accent-gold-35);
+    border-color: color-mix(in srgb, var(--gs-ethereal) 35%, transparent);
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, var(--accent) 10%, transparent),
+      inset 0 1px 0 color-mix(in srgb, var(--gs-ethereal) 10%, transparent),
       0 14px 32px -22px color-mix(in srgb, var(--bg) 76%, transparent);
   }
 
@@ -276,8 +262,10 @@
   }
 
   .familjen-child-chip--active {
-    @apply border-accent/45 bg-accent/10 text-accent-light;
-    box-shadow: 0 0 28px color-mix(in srgb, var(--accent) 15%, transparent);
+    border-color: color-mix(in srgb, var(--gs-ethereal) 42%, transparent);
+    background: color-mix(in srgb, var(--gs-ethereal) 10%, transparent);
+    color: color-mix(in srgb, var(--gs-ethereal) 88%, white);
+    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--gs-ethereal) 14%, transparent);
   }
 
   .familjen-child-chip--idle {
@@ -374,7 +362,7 @@
   .familjen-tab-surface:focus-within,
   .familjen-input-hub:focus-within,
   .barnfokus-fragan-panel:focus-within {
-    border-color: color-mix(in srgb, var(--accent, #fde68a) 28%, var(--border, transparent));
+    border-color: color-mix(in srgb, var(--gs-ethereal, #7ba3c9) 28%, var(--border, transparent));
   }
 
   .familjen-tab-surface [role='tab']:focus-visible,

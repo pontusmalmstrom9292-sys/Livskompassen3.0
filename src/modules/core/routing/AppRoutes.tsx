@@ -85,8 +85,8 @@ const BarnportenPage = lazy(() =>
 const ForalderTryggContainer = lazy(() =>
   import('@/features/onboarding/barnporten').then((m) => ({ default: m.ForalderTryggContainer })),
 );
-const InstallningarPage = lazy(() =>
-  import('../pages/InstallningarPage').then((m) => ({ default: m.InstallningarPage })),
+const InställningarPage = lazy(() =>
+  import('../pages/InstallningarPage').then((m) => ({ default: m.InställningarPage })),
 );
 const ThemePreviewPage = lazy(() =>
   import('../pages/ThemePreviewPage').then((m) => ({ default: m.ThemePreviewPage })),
@@ -557,7 +557,7 @@ export function AppRoutes() {
                 path="/installningar"
                 element={
                   <ProtectedModule>
-                    <InstallningarPage />
+                    <InställningarPage />
                   </ProtectedModule>
                 }
               />

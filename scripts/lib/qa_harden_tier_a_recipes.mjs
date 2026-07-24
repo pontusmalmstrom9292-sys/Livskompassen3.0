@@ -27,7 +27,7 @@ export function applyTierARecipes(tierA) {
   const touchIssues = tierA.filter((f) => f.code === 'TOUCH_TOO_SMALL');
   if (touchIssues.length) {
     notes.push(
-      `TOUCH_TOO_SMALL ×${touchIssues.length} → not auto-resized (dock lock). Escalated for human/agent polish.`,
+      `TOUCH_TOO_SMALL ×${touchIssues.length} → polish-pass (content) + dock orörd (chrome-lock).`,
     );
   }
 
@@ -47,6 +47,7 @@ export function applyTierARecipes(tierA) {
     }
   }
 
+  // Soft: ensure HubErrorBoundary / loading isn't stuck on known launcher path — no-op if present
   const crashes = tierA.filter((f) =>
     ['CRASH_OR_STUCK', 'LOADING_STUCK', 'PAGEERROR', 'HUB_FAIL'].includes(f.code),
   );
@@ -54,6 +55,12 @@ export function applyTierARecipes(tierA) {
     notes.push(
       `${crashes.length} crash/hub findings need agent inspection (no blind recipe). Wrote queue for Cursor.`,
     );
+  }
+
+  // TAP_FAIL on wrong-path is Tier-ish — leave for classify; note only
+  const taps = tierA.filter((f) => f.code === 'TAP_FAIL');
+  if (taps.length) {
+    notes.push(`TAP_FAIL ×${taps.length} → agent queue (no blind nav rewrite).`);
   }
 
   return { applied, notes };

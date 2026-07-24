@@ -31,7 +31,7 @@ const PANELS: { id: PanelId; label: string }[] = [
   { id: 'hem', label: 'Hem (Modell A)' },
   { id: 'basta-design', label: 'Bästa design' },
   { id: 'hjartat', label: 'Hjärtat hub' },
-  { id: 'mabra', label: 'MåBra hub' },
+  { id: 'mabra', label: 'Mabra hub' },
   { id: 'familjen', label: 'Familjen hub' },
   { id: 'planering', label: 'Planering hub' },
   { id: 'live', label: 'Supermoduler (full)' },

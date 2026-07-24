@@ -2,6 +2,8 @@
 
 **Status:** Låst 2026-06-14. Ändring av skalet kräver explicit produktbeslut + uppdatering av denna fil och smoke.
 
+**Produktbeslut 2026-07-24 (Pontus):** Val-/kategori-chrome (`.od-depth__pill*`, `.od-depth__mode-select*`, `.module-mode-select__btn--active-*`) använder **Ethereal Blue** `#7BA3C9` **utan yttre glow**. Guld kvar på primär CTA (`.od-depth__cta`) och dock/kompass.
+
 ## Vad som är låst
 
 | Element | Kod / fil |
@@ -16,9 +18,10 @@
 
 ## Designregler (låsta)
 
-1. **Guld endast** som accent i Obsidian Depth-skalet — ingen regnbåg, neon eller indigo som primär chrome.
+1. **Guld** på primär CTA + dock/kompass i OD-skalet. **Ethereal Blue** på läges-/kategori-val (pills/select) — ingen guldig bloom.
 2. **Glassmorphism + taktil 3D** på kort och primär CTA ska bevaras (inre highlight, mjuk skugga, grafit→obsidian).
 3. **Cinzel** för zonrubriker/hälsning; **Inter** för bröd i mockup-skalet.
+4. **Ingen yttre glow** på selection chrome (endast subtil inset-kant).
 
 ## Vad som INTE är låst (fortsatt förfiningsarbete)
 
@@ -35,5 +38,5 @@
 ## MUST NOT
 
 - Ta bort eller förenkla Obsidian Depth till platt Obsidian Calm utan godkännande
-- Ersätta guld-only med silo-regnbåg i OD-skalet
+- Återinföra guldig glow på kategori/läges-pills
 - Radera mockup-rutt eller kanon-PNG utan uppdatering av register

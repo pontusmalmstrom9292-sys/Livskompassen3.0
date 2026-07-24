@@ -13,6 +13,8 @@
 npm run qa:harden
 ```
 
+**Standard:** **3 rundor** · varje runda **telefon först → webb** · USB om telefon finns (annars SKIP telefon, webb körs ändå).
+
 Scriptet hittar automatiskt Vite på 5173–5178 (högsta porten först, t.ex. 5175).
 
 **Exhaustive crawl:** besöker **alla katalog-vyer** (~83: hubs, widgets, MåBra, dev-lab) + hela menyn + **varje synlig knapp/länk/flik i innehållet** (scrollar flera gånger, upp till 48 tryck/sida). Chrome (dock/meny) testas en gång först. Hoppar Sacred/skriv: Valv långtryck, biometri, logga ut, spara/radera. Dev-lab-touch &lt;44px = varning, inte produkt-FAIL. Telefon: Maestro `smoke-full-public` (drawer + dock).
@@ -40,10 +42,23 @@ Delar:
 | Kommando | Vad |
 |----------|-----|
 | `npm run debug:ui-suite` | hub-sweep → scroll-probe → tap-press |
-| `npm run debug:device-probe` | USB G85 / Maestro dock (fräscht varje gång) — **SKIP** utan telefon. Full crawl: `QA_DEVICE_FULL=1` |
-| `npm run qa:harden` | loop max 5 · Tier A recipes · smoke |
+| `npm run debug:device-probe` | USB G85 / Maestro dock (fräscht varje gång) — **SKIP** utan telefon. Full: `QA_DEVICE_FULL=1`. Knapp-crawl: `QA_DEVICE_EXHAUSTIVE=1` |
+| `npm run qa:harden` | **3 rundor** · telefon→webb · Tier A recipes · smoke |
 
 ---
+
+## Extra kontroller (hela appen)
+
+Varje webb-suite kör nu även:
+1. **Svenska** — stavfel, förbjudna ord, konstig text (+ auto-fix stavfel)
+2. **Knapp-paritet** — tryckstorlek + guld/mockup-färg i content (dock orörd)
+3. Exhaustive vyer + knappar (katalog ~83 routes)
+
+## Auto-polish (Fas 1)
+
+Efter **varje** runda (även utan fel): recipes → **UI polish-pass** → smoke.
+- Content tryckytor / fokusringar via `qa-harden-auto-polish.css` (dock orörd)
+- Stäng: `QA_AUTO_POLISH=0`
 
 ## Vad som auto-fixas (Tier A)
 
@@ -79,7 +94,11 @@ Live dock: **Anteckning · Familj · Hamn · Ventil · Inkast** (Resurser i head
    · Standard: Maestro **dock** (fräscht varje omgång).  
    · Lång crawl: `QA_DEVICE_FULL=1 npm run debug:device-probe`
 
-Utan telefon: webb-roboten är **källan för varje knapp/vy**. Telefonen bekräftar dock/meny. Sacred-zoner kan ge svarta screenshots (`FLAG_SECURE`) — förväntat.
+På telefonen: Maestro **dock** varje omgång (fräscht). Valfri knaprobot via USB (WebView CDP): `QA_DEVICE_EXHAUSTIVE=1 npm run debug:device-probe` (eller `npm run debug:device-tap`). Dev-lab på telefon: `QA_DEVICE_DEV=1`.
+
+```bash
+npm run debug:device-tap
+```
 
 ---
 

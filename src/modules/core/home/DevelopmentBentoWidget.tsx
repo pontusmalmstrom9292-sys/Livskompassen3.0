@@ -1,6 +1,6 @@
 /**
  * @locked MOD-CORE-UTV — låst modul; unlock via docs/evaluations/*-unlock-MOD-CORE-UTV.md
- * Utvecklingskort — fällbar spontan Bento-mix (Hem + MåBra).
+ * Utvecklingskort — fällbar spontan Bento-mix (Hem + Mabra).
  * 6→12–16 självblandade kort; Klar → bankId aldrig igen; packs + egna kategorier.
  * Ingen cross-RAG, ingen runtime-AI-fakta.
  */

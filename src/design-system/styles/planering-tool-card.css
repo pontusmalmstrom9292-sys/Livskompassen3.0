@@ -1,6 +1,6 @@
 /**
  * Shared dark glass tool cards — used by ExamplePreviewCard across hubs
- * (Projekt, Planering, Hem capture, Valv, MåBra, Ekonomi).
+ * (Projekt, Planering, Hem capture, Valv, Mabra, Ekonomi).
  * Extracted so Projekt/tomstate get the same depth without importing planering.css.
  */
 

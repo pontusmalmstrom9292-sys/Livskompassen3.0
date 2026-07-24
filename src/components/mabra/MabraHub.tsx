@@ -10,11 +10,11 @@ function MabraHubContent() {
     >
       <div className="max-w-6xl mx-auto space-y-8">
         <header className="flex items-center justify-between mb-4">
-          <h1 className="font-display-serif text-3xl text-accent tracking-wide">MåBra</h1>
+          <h1 className="font-display-serif text-3xl text-accent tracking-wide">Mabra</h1>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Vänster kolumn: MåBra-puls */}
+          {/* Vänster kolumn: Mabra-puls */}
           <div className="flex flex-col h-full">
             <MabraPulseWidget />
           </div>

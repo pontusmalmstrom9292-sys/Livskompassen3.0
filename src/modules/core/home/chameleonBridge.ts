@@ -31,7 +31,7 @@ export function resolveCardToChameleon(card: HemV3DevCard): ChameleonTarget {
       return { zone: 'hjartat', module: 'dagbok', mode: 'reflektion' };
     case 'Speglar':
       return { zone: 'hjartat', module: 'dagbok', mode: 'quick_mirror' };
-    case 'MåBra':
+    case 'Mabra':
       return { zone: 'vardagen', module: 'mabra', mode: 'checkin' satisfies MabraInputMode };
     case 'Planering':
       return { zone: 'vardagen', module: 'planering', mode: 'task_quick' };

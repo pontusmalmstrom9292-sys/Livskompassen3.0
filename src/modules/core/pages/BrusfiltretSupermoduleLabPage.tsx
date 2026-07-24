@@ -218,7 +218,7 @@ export function BrusfiltretSupermoduleLabPage() {
         <h2 className="text-xs uppercase tracking-widest text-text-dim">Nästa steg (ej kodat)</h2>
         <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-text-muted">
           <li>Wire shell till `/widget/hamn` efter godkännande i Theme Lab</li>
-          <li>Variant C (MåBra emerald) och D (Valv gold) — separata lab-routes</li>
+          <li>Variant C (Mabra emerald) och D (Valv gold) — separata lab-routes</li>
           <li>Behåll en primär CTA per flik — se BRUSFILTRET-MODUL-KANON.md</li>
         </ul>
       </section>

@@ -1,6 +1,6 @@
 @tailwind components;
 
-/* MåBra hub — Obsidian Calm Bento (smaragd silo) */
+/* Mabra hub — Obsidian Calm Bento (smaragd silo) */
 
 @layer components {
   .mabra-bento-shell {
@@ -154,7 +154,7 @@
     text-wrap: balance;
   }
 
-  /* Gold Standard Fyren/kapacitet skin on MåBra cards */
+  /* Gold Standard Fyren/kapacitet skin on Mabra cards */
   .mabra-bento-shell .calm-card,
   .mabra-bento-shell .gs-hub-card {
     border-color: color-mix(in srgb, var(--accent) 28%, transparent);
@@ -172,7 +172,7 @@
     margin-top: 0.35rem;
   }
 
-  /* Glow kill-switch — ingen botten-bloom på MåBra-kort */
+  /* Glow kill-switch — ingen botten-bloom på Mabra-kort */
   .mabra-bento-shell .calm-card.glow-bottom-green {
     border-bottom-color: inherit;
     box-shadow: none;

@@ -21,7 +21,7 @@ type Props = {
   onOpenValues: () => void;
 };
 
-/** MåBra — avlånga rader: akut + egna projekt. */
+/** Mabra — avlånga rader: akut + egna projekt. */
 export function MabraProjectHub({ onSelectProject, onSelectAkut, onOpenValues }: Props) {
   return (
     <div className="space-y-5">

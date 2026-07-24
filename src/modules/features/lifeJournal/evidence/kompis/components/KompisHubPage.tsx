@@ -34,7 +34,7 @@ const DESTINATIONS: KompisDestination[] = [
   },
   {
     to: '/mabra',
-    label: 'MåBra',
+    label: 'Mabra',
     hint: 'Andning, jordning och daglig mix.',
     icon: Sparkles,
   },

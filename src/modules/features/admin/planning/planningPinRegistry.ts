@@ -83,8 +83,8 @@ export const PLANNING_PIN_TARGETS: PlaneringPinTargetDef[] = [
   },
   {
     id: 'mabra.hub',
-    group: 'MåBra',
-    label: 'MåBra-start',
+    group: 'Mabra',
+    label: 'Mabra-start',
     lead: 'Under verktygsväljaren.',
     contextKind: false,
   },
@@ -95,7 +95,7 @@ export const PLANNING_PIN_LAYOUTS: {
   label: string;
   lead: string;
 }[] = [
-  { id: 'elongated', label: 'Avlång', lead: 'Som Hamn/MåBra — en rad, expandera.' },
+  { id: 'elongated', label: 'Avlång', lead: 'Som Hamn/Mabra — en rad, expandera.' },
   { id: 'tile', label: 'Fyrkant', lead: 'Kompakt kort i rutnät.' },
   { id: 'card', label: 'Större kort', lead: 'Mer yta för text och lista.' },
   { id: 'compact', label: 'Smal remsa', lead: 'Horisontell punktlista.' },

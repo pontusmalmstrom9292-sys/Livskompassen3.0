@@ -79,7 +79,7 @@ export function MabraCheckinModal({
       ) : null}
 
       <div className={`flex items-center justify-between ${isInline ? 'mb-4' : 'mb-6'}`}>
-        <h2 className="font-display-serif text-lg text-accent tracking-wide">Ny MåBra-incheckning</h2>
+        <h2 className="font-display-serif text-lg text-accent tracking-wide">Ny Mabra-incheckning</h2>
         {!isInline ? (
           <button
             type="button"
@@ -209,7 +209,7 @@ export function MabraCheckinModal({
     <Modal
       open={isOpen}
       onClose={onClose}
-      ariaLabel="Ny MåBra-incheckning"
+      ariaLabel="Ny Mabra-incheckning"
       hideHeader
       panelClassName="max-w-md border-0 bg-transparent p-0 shadow-none backdrop-blur-none"
     >

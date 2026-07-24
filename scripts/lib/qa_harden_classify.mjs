@@ -12,6 +12,11 @@ export const TIER_A_CODES = new Set([
   'PAGEERROR',
   'HUB_FAIL',
   'CTA_OVERLOAD',
+  'SWEDISH_TYPO',
+  'BANNED_COPY',
+  'BUTTON_TOUCH',
+  'BUTTON_COLOR_DRIFT',
+  'WEIRD_UI',
 ]);
 
 export const TIER_B_CODES = new Set([
@@ -21,6 +26,7 @@ export const TIER_B_CODES = new Set([
   'VALV_FLOW',
   'COMPANION_STRUCTURE',
   'LOCKED_UX_STRUCTURE',
+  'ENGLISH_UI',
 ]);
 
 export const TIER_C_CODES = new Set([
@@ -143,6 +149,42 @@ export function classifyFromLatest(latest) {
       detail: device.detail || 'device fail',
       swedish: `Telefon-test misslyckades: ${device.detail || 'okänt'}.`,
     });
+  }
+
+  const swedish = latest?.probes?.swedishStatic;
+  if (swedish?.issues?.length) {
+    for (const i of swedish.issues.slice(0, 40)) {
+      const code = i.code || 'SWEDISH_TYPO';
+      findings.push({
+        tier: code === 'ENGLISH_UI' ? 'B' : 'A',
+        code,
+        source: 'swedish-static',
+        path: i.path,
+        detail: i.detail,
+        swedish: i.swedish || `${code}: ${i.detail}`,
+        recipe: code === 'SWEDISH_TYPO' ? 'SWEDISH_TYPO' : undefined,
+      });
+    }
+  }
+
+  const uiCon = latest?.probes?.uiConsistency;
+  if (uiCon?.issues?.length) {
+    for (const i of uiCon.issues.slice(0, 40)) {
+      const code = i.code || 'BUTTON_TOUCH';
+      findings.push({
+        tier: code === 'ENGLISH_UI' ? 'B' : 'A',
+        code,
+        source: 'ui-consistency',
+        path: i.path,
+        detail: i.detail,
+        swedish: i.swedish || `${code} på ${i.path}`,
+        recipe: ['BUTTON_TOUCH', 'BUTTON_COLOR_DRIFT'].includes(code)
+          ? 'BUTTON_PARITY'
+          : code === 'SWEDISH_TYPO'
+            ? 'SWEDISH_TYPO'
+            : undefined,
+      });
+    }
   }
 
   // Cognitive proxy: too many primary CTAs counted in tap body snippets — optional future

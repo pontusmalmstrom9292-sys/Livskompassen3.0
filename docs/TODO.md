@@ -7,7 +7,8 @@
 - [x] W2–W3: `npm run qa:harden` detect→klass→Tier A recipes→smoke
 - [x] W4: `debug:device-probe` + `.maestro/smoke-dock.yaml` (USB SKIP)
 - [x] W5: `docs/QA-HARDEN-LOOP.md` · manifest v63
-- [ ] Pontus: kör `npm run qa:harden` · valfritt plugga G85
+- [x] Privacy-blur bort (idle overlay + Android pause-täckning + Sacred ej default)
+- [ ] Pontus: `npm run build:web && npx cap sync android` → Run G85 · sedan `npm run qa:harden`
 
 ## 2026-07-23 — Widget UI Polish ×10 (Kap 6 / Gate F)
 
@@ -24,6 +25,13 @@
 - [x] CSS kill-switch `.glow-bottom-*` (+ tema/mabra)
 - [x] DS/centrala mappers: ingen glow-klass (API kvar)
 - [x] `smoke:locked-ux` · `smoke:design-modules` PASS
+
+## 2026-07-24 — Ethereal Blue utan glow (moduler/val)
+
+- [x] Kategori-/läges-pills: guldig glow → Ethereal `#7BA3C9` (inset endast)
+- [x] Familjen hub + GS-hub-card: guldrim/bloom → ethereal lugn
+- [x] `locked-obsidian-depth` + COLOR-POLICY uppdaterade (Pontus OK)
+- [x] Unlock + re-lock `MOD-FAM-HUB` · smoke: `obsidian-depth` · `locked-ux` · `design-modules` · `governance` PASS
 
 ## 2026-07-23 — Familjen header glow bort
 

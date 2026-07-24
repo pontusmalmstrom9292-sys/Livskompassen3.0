@@ -1,5 +1,5 @@
 /**
- * Zero Footprint — rensa lokala MåBra recovery/SOS-nycklar.
+ * Zero Footprint — rensa lokala Mabra recovery/SOS-nycklar.
  * Keys speglar `recoveryPlanLocal.ts` (utan att röra låst MOD-FAM-DROG).
  */
 

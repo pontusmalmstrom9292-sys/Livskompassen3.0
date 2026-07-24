@@ -1,0 +1,153 @@
+{
+  "probe": "device-tap-exhaustive",
+  "at": "2026-07-24T03:29:42.939Z",
+  "status": "fail",
+  "detail": "page.evaluate: Target page, context or browser has been closed",
+  "serial": "ZY22L8WFBX",
+  "routesVisited": 1,
+  "actions": 16,
+  "issueCount": 0,
+  "issues": [],
+  "results": [
+    {
+      "action": "device:home",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "https://localhost/"
+    },
+    {
+      "action": "device:dock:Anteckning",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "https://localhost/widget/anteckning"
+    },
+    {
+      "action": "device:dock:Familj",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "https://localhost/familjen"
+    },
+    {
+      "action": "device:dock:Ventil",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "https://localhost/widget/anteckning"
+    },
+    {
+      "action": "device:dock:Inkast",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "https://localhost/familjen"
+    },
+    {
+      "action": "device:route:/",
+      "ok": true,
+      "detail": "loaded",
+      "urlAfter": "https://localhost/"
+    },
+    {
+      "action": "device:/→Skriv nu",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "https://localhost/hjartat?tab=reflektion&write=true",
+      "touch": {
+        "w": 124,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "device:/→Barnfokus",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "https://localhost/familjen?tab=reflektion&inputMode=barnfokus",
+      "touch": {
+        "w": 60,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "device:/→Ny stund",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "https://localhost/vardagen?tab=mabra",
+      "touch": {
+        "w": 59,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "device:/→Fysiologi",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "https://localhost/vardagen?tab=mabra",
+      "touch": {
+        "w": 59,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "device:/→Mer…",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "https://localhost/hjartat?tab=reflektion",
+      "touch": {
+        "w": 43,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "device:/→Lär känna",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "https://localhost/familjen?tab=reflektion&inputMode=barnfokus",
+      "touch": {
+        "w": 72,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "device:/→Skriv nu",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "https://localhost/hjartat?tab=reflektion&write=true",
+      "touch": {
+        "w": 124,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "device:/→Barnfokus",
+      "ok": true,
+      "detail": "skip-not-found"
+    },
+    {
+      "action": "device:/→Ny stund",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "https://localhost/vardagen?tab=mabra",
+      "touch": {
+        "w": 59,
+        "h": 44,
+        "ok": true
+      }
+    },
+    {
+      "action": "device:/→Fysiologi",
+      "ok": true,
+      "detail": "ok",
+      "urlAfter": "https://localhost/vardagen?tab=mabra",
+      "touch": {
+        "w": 59,
+        "h": 44,
+        "ok": true
+      }
+    }
+  ]
+}

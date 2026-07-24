@@ -77,7 +77,7 @@ export function VitHubPreview({ project, selectedPlan, onSelectPlan, onBack, use
       ) : null}
 
       <p className="text-xs text-text-muted">
-        Fler övningar finns på MåBra-hubben under kategorin Utveckling (Vit).
+        Fler övningar finns på Mabra-hubben under kategorin Utveckling (Vit).
       </p>
     </div>
   );

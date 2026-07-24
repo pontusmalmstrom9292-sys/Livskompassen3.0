@@ -21,7 +21,7 @@ const RecoverySosView = lazy(() =>
 );
 
 function MabraSuspense({ children }: { children: ReactNode }) {
-  return <Suspense fallback={<HubPanelSkeleton label="Laddar MåBra…" lines={4} />}>{children}</Suspense>;
+  return <Suspense fallback={<HubPanelSkeleton label="Laddar Mabra…" lines={4} />}>{children}</Suspense>;
 }
 
 export function MabraRoutes() {

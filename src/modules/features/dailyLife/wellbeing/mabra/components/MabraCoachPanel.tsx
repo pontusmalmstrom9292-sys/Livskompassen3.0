@@ -109,7 +109,7 @@ export function MabraCoachPanel({ hub, exerciseType }: Props) {
             placeholder={MABRA_COACH_COPY.notePlaceholder}
             rows={2}
             className="input-glass text-left"
-            aria-label="Valfri rad till Måbra-coach"
+            aria-label="Valfri rad till Mabra-coach"
           />
           {(showGuardPrompt || guardActive) && (
             <MabraSpeglarGuardHint

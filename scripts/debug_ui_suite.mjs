@@ -10,9 +10,11 @@ import { writeLatest, writeJson, QA_DIR, ROOT } from './lib/qa_harden_io.mjs';
 const BASE = process.argv[2] || 'http://127.0.0.1:5173';
 
 const steps = [
+  ['swedish-static', 'scripts/debug_swedish_static.mjs'],
   ['hub-sweep', 'scripts/debug_hub_sweep.mjs'],
   ['scroll-probe', 'scripts/debug_scroll_probe.mjs'],
   ['tap-press', 'scripts/debug_tap_press.mjs'],
+  ['ui-consistency', 'scripts/debug_ui_consistency.mjs'],
 ];
 
 const stepResults = [];
@@ -43,6 +45,8 @@ const probes = {
   hubSweep: loadProbe('hub-sweep'),
   scrollProbe: loadProbe('scroll-probe'),
   tapPress: loadProbe('tap-press'),
+  swedishStatic: loadProbe('swedish-static'),
+  uiConsistency: loadProbe('ui-consistency'),
 };
 
 const latest = writeLatest({

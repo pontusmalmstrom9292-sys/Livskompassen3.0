@@ -165,7 +165,7 @@ export function VitCurriculumPanel({ onOpenReflection, onOpenPlay }: Props) {
       </Button>
       <p className="mt-3 flex items-center gap-2 text-[10px] text-text-muted">
         <Sparkles className="h-3 w-3" aria-hidden />
-        FACT från Kunskap-seed — övningar från MåBra-bank (U6).
+        FACT från Kunskap-seed — övningar från Mabra-bank (U6).
       </p>
     </BentoCard>
   );

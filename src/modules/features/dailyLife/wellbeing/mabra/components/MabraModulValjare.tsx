@@ -19,7 +19,7 @@ function PillarPreviewMini({ lines }: { lines: string[] }) {
   );
 }
 
-/** MåBra 3.0 L0 — åtta pelarkort (M3.0-B). ingen streak. */
+/** Mabra 3.0 L0 — åtta pelarkort (M3.0-B). ingen streak. */
 export function MabraModulValjare({ onSelect, onSkip }: Props) {
   const go = (choice: MabraModulChoice) => {
     markMabraModulValjareSeen();
@@ -32,9 +32,9 @@ export function MabraModulValjare({ onSelect, onSkip }: Props) {
   };
 
   return (
-    <div className="mabra-modul-valjare space-y-4" role="region" aria-label="Välj MåBra-pelare">
+    <div className="mabra-modul-valjare space-y-4" role="region" aria-label="Välj Mabra-pelare">
       <p className="font-display-serif text-xs uppercase tracking-[0.2em] text-accent/90">
-        MåBra 3.0
+        Mabra 3.0
       </p>
       <p className="text-sm text-text-muted">Välj pelare — ett val i taget.</p>
       <div className="grid gap-3 sm:grid-cols-2">

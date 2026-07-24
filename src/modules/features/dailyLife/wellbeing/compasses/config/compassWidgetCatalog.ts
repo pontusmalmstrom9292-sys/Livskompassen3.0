@@ -35,7 +35,7 @@ export const COMPASS_WIDGET_CATALOG: Record<CompassFlow, CompassWidgetDef[]> = {
       label: KANSLOKORT_WIDGET_LABEL,
       href: '/mabra',
       contentClass: 'PLAY',
-      siloNote: 'MåBra — reflektion och lek',
+      siloNote: 'Mabra — reflektion och lek',
     },
     {
       id: 'snabb-dagbok',

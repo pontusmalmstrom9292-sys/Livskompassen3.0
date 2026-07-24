@@ -1,38 +1,33 @@
 {
   "probe": "scroll-probe",
   "base": "http://127.0.0.1:5175",
-  "at": "2026-07-24T02:38:45.213Z",
+  "at": "2026-07-24T06:48:58.073Z",
   "results": [
     {
       "path": "/",
       "window": {
         "tag": "HTML",
         "cls": "",
-        "sh": 1643,
+        "sh": 844,
         "ch": 844,
         "st": 0,
-        "can": true,
+        "can": false,
         "oy": "auto",
         "pe": "auto",
         "touchAction": "auto",
         "overscroll": "auto",
-        "h": 1643,
+        "h": 844,
         "top": 0,
-        "bottom": 1643
+        "bottom": 844
       },
       "island": null,
       "hubLock": null,
-      "dock": {
-        "pe": "none",
-        "bottom": 844,
-        "top": 768,
-        "h": 76
-      },
+      "dock": null,
       "nestedScrollables": [],
       "bodyOverflowY": "auto",
       "htmlOverflowY": "auto",
       "tests": {
-        "windowScrollDelta": 400,
+        "windowScrollDelta": 0,
         "islandMovedOnWindowScroll": 0,
         "islandScrollDelta": 0,
         "windowMovedOnIslandScroll": 0,
@@ -44,59 +39,26 @@
       "window": {
         "tag": "HTML",
         "cls": "",
-        "sh": 4960,
+        "sh": 844,
         "ch": 844,
         "st": 0,
-        "can": true,
+        "can": false,
         "oy": "auto",
         "pe": "auto",
         "touchAction": "auto",
         "overscroll": "auto",
-        "h": 4960,
+        "h": 844,
         "top": 0,
-        "bottom": 4960
+        "bottom": 844
       },
-      "island": {
-        "tag": "DIV",
-        "cls": "calm-scroll-island space-y-4",
-        "sh": 4592,
-        "ch": 4592,
-        "st": 0,
-        "can": false,
-        "oy": "visible",
-        "pe": "auto",
-        "touchAction": "auto",
-        "overscroll": "contain",
-        "h": 4592,
-        "top": 252,
-        "bottom": 4844
-      },
-      "hubLock": {
-        "tag": "DIV",
-        "cls": "hub-page-shell hub-page-shell--obsidian-bento flex min-h-0 flex-col gap-4 hub-page-shell--depth hub-",
-        "sh": 4707,
-        "ch": 4707,
-        "st": 0,
-        "can": false,
-        "oy": "visible",
-        "pe": "auto",
-        "touchAction": "auto",
-        "overscroll": "auto",
-        "h": 4707,
-        "top": 138,
-        "bottom": 4844
-      },
-      "dock": {
-        "pe": "none",
-        "bottom": 844,
-        "top": 768,
-        "h": 76
-      },
+      "island": null,
+      "hubLock": null,
+      "dock": null,
       "nestedScrollables": [],
       "bodyOverflowY": "auto",
       "htmlOverflowY": "auto",
       "tests": {
-        "windowScrollDelta": 400,
+        "windowScrollDelta": 0,
         "islandMovedOnWindowScroll": 0,
         "islandScrollDelta": 0,
         "windowMovedOnIslandScroll": 0,
@@ -108,59 +70,26 @@
       "window": {
         "tag": "HTML",
         "cls": "",
-        "sh": 1369,
+        "sh": 844,
         "ch": 844,
         "st": 0,
-        "can": true,
+        "can": false,
         "oy": "auto",
         "pe": "auto",
         "touchAction": "auto",
         "overscroll": "auto",
-        "h": 1369,
+        "h": 844,
         "top": 0,
-        "bottom": 1369
+        "bottom": 844
       },
-      "island": {
-        "tag": "DIV",
-        "cls": "calm-scroll-island space-y-4",
-        "sh": 1057,
-        "ch": 1057,
-        "st": 0,
-        "can": false,
-        "oy": "visible",
-        "pe": "auto",
-        "touchAction": "auto",
-        "overscroll": "contain",
-        "h": 1057,
-        "top": 198,
-        "bottom": 1254
-      },
-      "hubLock": {
-        "tag": "DIV",
-        "cls": "hub-page-shell hub-page-shell--obsidian-bento flex min-h-0 flex-col gap-4 hub-view-lock hub-view-loc",
-        "sh": 1117,
-        "ch": 1117,
-        "st": 0,
-        "can": false,
-        "oy": "visible",
-        "pe": "auto",
-        "touchAction": "auto",
-        "overscroll": "auto",
-        "h": 1117,
-        "top": 138,
-        "bottom": 1254
-      },
-      "dock": {
-        "pe": "none",
-        "bottom": 844,
-        "top": 768,
-        "h": 76
-      },
+      "island": null,
+      "hubLock": null,
+      "dock": null,
       "nestedScrollables": [],
       "bodyOverflowY": "auto",
       "htmlOverflowY": "auto",
       "tests": {
-        "windowScrollDelta": 400,
+        "windowScrollDelta": 0,
         "islandMovedOnWindowScroll": 0,
         "islandScrollDelta": 0,
         "windowMovedOnIslandScroll": 0,
@@ -172,59 +101,26 @@
       "window": {
         "tag": "HTML",
         "cls": "",
-        "sh": 2701,
+        "sh": 844,
         "ch": 844,
         "st": 0,
-        "can": true,
+        "can": false,
         "oy": "auto",
         "pe": "auto",
         "touchAction": "auto",
         "overscroll": "auto",
-        "h": 2701,
+        "h": 844,
         "top": 0,
-        "bottom": 2701
+        "bottom": 844
       },
-      "island": {
-        "tag": "DIV",
-        "cls": "calm-scroll-island space-y-4",
-        "sh": 2142,
-        "ch": 2142,
-        "st": 0,
-        "can": false,
-        "oy": "visible",
-        "pe": "auto",
-        "touchAction": "auto",
-        "overscroll": "contain",
-        "h": 2142,
-        "top": 443,
-        "bottom": 2585
-      },
-      "hubLock": {
-        "tag": "DIV",
-        "cls": "hub-page-shell hub-page-shell--obsidian-bento flex min-h-0 flex-col gap-4 hub-page-shell--depth hub-",
-        "sh": 2448,
-        "ch": 2448,
-        "st": 0,
-        "can": false,
-        "oy": "visible",
-        "pe": "auto",
-        "touchAction": "auto",
-        "overscroll": "auto",
-        "h": 2448,
-        "top": 138,
-        "bottom": 2585
-      },
-      "dock": {
-        "pe": "none",
-        "bottom": 844,
-        "top": 768,
-        "h": 76
-      },
+      "island": null,
+      "hubLock": null,
+      "dock": null,
       "nestedScrollables": [],
       "bodyOverflowY": "auto",
       "htmlOverflowY": "auto",
       "tests": {
-        "windowScrollDelta": 400,
+        "windowScrollDelta": 0,
         "islandMovedOnWindowScroll": 0,
         "islandScrollDelta": 0,
         "windowMovedOnIslandScroll": 0,
@@ -236,59 +132,26 @@
       "window": {
         "tag": "HTML",
         "cls": "",
-        "sh": 3640,
+        "sh": 844,
         "ch": 844,
         "st": 0,
-        "can": true,
+        "can": false,
         "oy": "auto",
         "pe": "auto",
         "touchAction": "auto",
         "overscroll": "auto",
-        "h": 3640,
+        "h": 844,
         "top": 0,
-        "bottom": 3640
+        "bottom": 844
       },
-      "island": {
-        "tag": "DIV",
-        "cls": "liv-launcher-page calm-scroll-island mx-auto flex max-w-5xl flex-col",
-        "sh": 3195,
-        "ch": 3195,
-        "st": 0,
-        "can": false,
-        "oy": "visible",
-        "pe": "auto",
-        "touchAction": "auto",
-        "overscroll": "contain",
-        "h": 3197,
-        "top": 327,
-        "bottom": 3524
-      },
-      "hubLock": {
-        "tag": "DIV",
-        "cls": "hub-page-shell hub-page-shell--obsidian-bento flex min-h-0 flex-col gap-4 hub-page-shell--depth hub-",
-        "sh": 3387,
-        "ch": 3387,
-        "st": 0,
-        "can": false,
-        "oy": "visible",
-        "pe": "auto",
-        "touchAction": "auto",
-        "overscroll": "auto",
-        "h": 3387,
-        "top": 138,
-        "bottom": 3524
-      },
-      "dock": {
-        "pe": "none",
-        "bottom": 844,
-        "top": 768,
-        "h": 76
-      },
+      "island": null,
+      "hubLock": null,
+      "dock": null,
       "nestedScrollables": [],
       "bodyOverflowY": "auto",
       "htmlOverflowY": "auto",
       "tests": {
-        "windowScrollDelta": 400,
+        "windowScrollDelta": 0,
         "islandMovedOnWindowScroll": 0,
         "islandScrollDelta": 0,
         "windowMovedOnIslandScroll": 0,
@@ -296,35 +159,30 @@
       }
     },
     {
-      "path": "/",
+      "path": "/inkast",
       "window": {
         "tag": "HTML",
         "cls": "",
-        "sh": 1717,
+        "sh": 844,
         "ch": 844,
         "st": 0,
-        "can": true,
+        "can": false,
         "oy": "auto",
         "pe": "auto",
         "touchAction": "auto",
         "overscroll": "auto",
-        "h": 1717,
+        "h": 844,
         "top": 0,
-        "bottom": 1717
+        "bottom": 844
       },
       "island": null,
       "hubLock": null,
-      "dock": {
-        "pe": "none",
-        "bottom": 844,
-        "top": 768,
-        "h": 76
-      },
+      "dock": null,
       "nestedScrollables": [],
       "bodyOverflowY": "auto",
       "htmlOverflowY": "auto",
       "tests": {
-        "windowScrollDelta": 400,
+        "windowScrollDelta": 0,
         "islandMovedOnWindowScroll": 0,
         "islandScrollDelta": 0,
         "windowMovedOnIslandScroll": 0,
@@ -335,43 +193,114 @@
   "routeIssues": [
     {
       "path": "/",
-      "issues": [],
-      "hard": []
+      "issues": [
+        "NO_SCROLL_SURFACE"
+      ],
+      "hard": [
+        "NO_SCROLL_SURFACE"
+      ]
     },
     {
       "path": "/familjen",
       "issues": [
-        "DOC_SCROLL_OK"
+        "NO_SCROLL_SURFACE"
       ],
-      "hard": []
+      "hard": [
+        "NO_SCROLL_SURFACE"
+      ]
     },
     {
       "path": "/hjartat",
       "issues": [
-        "DOC_SCROLL_OK"
+        "NO_SCROLL_SURFACE"
       ],
-      "hard": []
+      "hard": [
+        "NO_SCROLL_SURFACE"
+      ]
     },
     {
       "path": "/planering",
       "issues": [
-        "DOC_SCROLL_OK"
+        "NO_SCROLL_SURFACE"
       ],
-      "hard": []
+      "hard": [
+        "NO_SCROLL_SURFACE"
+      ]
     },
     {
       "path": "/vardagen?tab=mabra",
       "issues": [
-        "DOC_SCROLL_OK"
+        "NO_SCROLL_SURFACE"
       ],
-      "hard": []
+      "hard": [
+        "NO_SCROLL_SURFACE"
+      ]
     },
     {
-      "path": "/",
-      "issues": [],
-      "hard": []
+      "path": "/inkast",
+      "issues": [
+        "NO_SCROLL_SURFACE"
+      ],
+      "hard": [
+        "NO_SCROLL_SURFACE"
+      ]
     }
   ],
-  "hardFailCount": 0,
-  "hardFails": []
+  "hardFailCount": 6,
+  "hardFails": [
+    {
+      "path": "/",
+      "issues": [
+        "NO_SCROLL_SURFACE"
+      ],
+      "hard": [
+        "NO_SCROLL_SURFACE"
+      ]
+    },
+    {
+      "path": "/familjen",
+      "issues": [
+        "NO_SCROLL_SURFACE"
+      ],
+      "hard": [
+        "NO_SCROLL_SURFACE"
+      ]
+    },
+    {
+      "path": "/hjartat",
+      "issues": [
+        "NO_SCROLL_SURFACE"
+      ],
+      "hard": [
+        "NO_SCROLL_SURFACE"
+      ]
+    },
+    {
+      "path": "/planering",
+      "issues": [
+        "NO_SCROLL_SURFACE"
+      ],
+      "hard": [
+        "NO_SCROLL_SURFACE"
+      ]
+    },
+    {
+      "path": "/vardagen?tab=mabra",
+      "issues": [
+        "NO_SCROLL_SURFACE"
+      ],
+      "hard": [
+        "NO_SCROLL_SURFACE"
+      ]
+    },
+    {
+      "path": "/inkast",
+      "issues": [
+        "NO_SCROLL_SURFACE"
+      ],
+      "hard": [
+        "NO_SCROLL_SURFACE"
+      ]
+    }
+  ]
 }

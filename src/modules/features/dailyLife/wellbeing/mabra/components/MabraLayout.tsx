@@ -16,14 +16,14 @@ export const MabraLayout = memo(function MabraLayout() {
   const { themeId } = useTheme();
   const executiveHeader = isMidnightExecutiveTheme(themeId);
 
-  // Rensa state vid unmount (när användaren lämnar hela MåBra-modulen)
+  // Rensa state vid unmount (när användaren lämnar hela Mabra-modulen)
   useEffect(() => {
     return () => reset();
   }, [reset]);
 
   return (
     <HubErrorBoundary
-      title="MåBra kunde inte laddas"
+      title="Mabra kunde inte laddas"
       errorBody={getMabraRsdErrorCopy()}
       glow="green"
       backTo={NAV_PATHS.VARDAGEN}
@@ -31,7 +31,7 @@ export const MabraLayout = memo(function MabraLayout() {
       logTag="MabraPage"
     >
       <HubPageShell
-        eyebrow="MåBra"
+        eyebrow="Mabra"
         title="För dig — ett steg i taget"
         lead="Snabbstart och zoner — tillbaka öppnar samma zon igen."
         headerAside={<LivBackLink />}

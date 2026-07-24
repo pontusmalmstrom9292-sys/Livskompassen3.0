@@ -10,7 +10,7 @@ export type DagbokSuperVariant = 'reflektion' | 'forensic-readonly' | 'mabra-bri
 
 export type DagbokSuperModuleProps = {
   variant: DagbokSuperVariant;
-  /** MåBra superhub — projektkontext för lågenergi-bro (Fas 6D). */
+  /** Mabra superhub — projektkontext för lågenergi-bro (Fas 6D). */
   mabraBridgeHub?: MabraBridgeHub | null;
 };
 

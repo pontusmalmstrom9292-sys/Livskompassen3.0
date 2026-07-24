@@ -1,4 +1,4 @@
-/** MåBra hub-layouter — sandbox (FP-TI-S4). */
+/** Mabra hub-layouter — sandbox (FP-TI-S4). */
 
 export type MabraHubLayoutId = 'checkin-fokus' | 'kort-grid' | 'reflektion-lista' | 'paralys-panel';
 

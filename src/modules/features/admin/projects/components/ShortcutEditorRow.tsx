@@ -149,7 +149,7 @@ export function ShortcutEditorRow({
                 </optgroup>
               ) : null}
               {bankRefGroups.reflection.length > 0 ? (
-                <optgroup label="Reflektion (MåBra-bank)" className="bg-surface font-semibold text-accent">
+                <optgroup label="Reflektion (Mabra-bank)" className="bg-surface font-semibold text-accent">
                   {bankRefGroups.reflection.map((opt) => (
                     <option key={opt.value} value={opt.value} className="text-text font-normal">
                       {opt.label}
@@ -158,7 +158,7 @@ export function ShortcutEditorRow({
                 </optgroup>
               ) : null}
               {bankRefGroups.play.length > 0 ? (
-                <optgroup label="Lek (MåBra-bank)" className="bg-surface font-semibold text-accent">
+                <optgroup label="Lek (Mabra-bank)" className="bg-surface font-semibold text-accent">
                   {bankRefGroups.play.map((opt) => (
                     <option key={opt.value} value={opt.value} className="text-text font-normal">
                       {opt.label}

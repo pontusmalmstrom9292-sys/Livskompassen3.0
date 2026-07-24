@@ -339,7 +339,7 @@ export const DOSSIER_PRINT_STYLES = `
 `;
 
 /**
- * MåBra/Vit hub export — disclaimer-ruta (Obsidian Calm print, slate tokens).
+ * Mabra/Vit hub export — disclaimer-ruta (Obsidian Calm print, slate tokens).
  */
 export const VIT_HUB_PRINT_STYLES = `
   .disclaimer-box {

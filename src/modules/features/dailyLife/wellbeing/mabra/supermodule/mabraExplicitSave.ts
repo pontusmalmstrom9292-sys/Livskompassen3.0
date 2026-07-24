@@ -38,8 +38,8 @@ export function composeExerciseNoteText(note: MabraPendingExerciseNote): string 
   if (lines.length === 0) return '';
   const header =
     note.exerciseType === 'reframing'
-      ? 'MåBra — reframing (utkast)'
-      : `MåBra — ${note.exerciseType}`;
+      ? 'Mabra — reframing (utkast)'
+      : `Mabra — ${note.exerciseType}`;
   return `${header}\n\n${lines.join('\n')}`;
 }
 

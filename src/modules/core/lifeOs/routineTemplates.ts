@@ -47,7 +47,7 @@ export const ROUTINE_TEMPLATES: RoutineTemplate[] = [
   {
     id: 'morgon_rehab',
     title: 'Morgon — låg stimulus',
-    lead: 'Kompass, sedan MåBra. Inget måste bli klart.',
+    lead: 'Kompass, sedan Mabra. Inget måste bli klart.',
     presetIds: ['rehab_lag'],
     steps: [
       {
@@ -57,7 +57,7 @@ export const ROUTINE_TEMPLATES: RoutineTemplate[] = [
       },
       {
         kind: 'navigate',
-        label: 'MåBra',
+        label: 'Mabra',
         target: { module: 'mabra' },
       },
       {

@@ -100,7 +100,7 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
             Dokumentera neutralt (Bevis)
           </ButtonLink>
           <ButtonLink to="/vardagen?tab=mabra" variant="ghost" size="sm">
-            Landning (MåBra)
+            Landning (Mabra)
           </ButtonLink>
           <Button
             variant="success"
@@ -133,7 +133,7 @@ export function KasamEvening({ userId, onKlar, onSaved, embedded = false }: Prop
         </BentoCard>
         <div className="flex flex-col gap-2">
           <ButtonLink to="/vardagen?tab=mabra" variant="ghost">
-            Landning (MåBra)
+            Landning (Mabra)
           </ButtonLink>
           <ButtonLink to="/familjen" variant="ghost">
             Livslogg barnen

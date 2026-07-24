@@ -3,7 +3,7 @@
  * Usage: node scripts/debug_device_probe.mjs
  */
 import { spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { writeJson, ROOT, QA_DIR, ensureQaDir } from './lib/qa_harden_io.mjs';
 
@@ -133,6 +133,60 @@ if (maestro && flow) {
   };
   result.status = fatal.some((l) => /FATAL EXCEPTION/i.test(l)) ? 'fail' : 'pass';
   if (!maestro) result.detail += ' · maestro SKIP';
+}
+
+// Exhaustive every-button crawl on phone WebView (CDP) — default ON with USB.
+// Disable: QA_DEVICE_EXHAUSTIVE=0
+const wantExhaustive = process.env.QA_DEVICE_EXHAUSTIVE !== '0';
+result.exhaustive = null;
+if (wantExhaustive && ready.length > 0) {
+  const exhaustScript = resolve(ROOT, 'scripts/debug_device_tap_exhaustive.mjs');
+  if (existsSync(exhaustScript)) {
+    console.log('[device] Running exhaustive WebView tap crawl (CDP)…');
+    // Keep screen awake during long CDP crawl
+    adb(['shell', 'input', 'keyevent', 'KEYCODE_WAKEUP']);
+    adb(['shell', 'svc', 'power', 'stayon', 'true']);
+    const exTimeout = Number(process.env.QA_DEVICE_EXHAUSTIVE_TIMEOUT_MS || 900_000);
+    const ex = spawnSync(process.execPath, [exhaustScript], {
+      cwd: ROOT,
+      encoding: 'utf8',
+      timeout: exTimeout,
+      env: {
+        ...process.env,
+        QA_DEVICE_SERIAL: ready[0],
+        PATH: `${process.env.HOME}/Library/Android/sdk/platform-tools:${process.env.PATH || ''}`,
+      },
+    });
+    adb(['shell', 'svc', 'power', 'stayon', 'false']);
+    const timedOut = ex.error && ex.error.code === 'ETIMEDOUT';
+    let exJson = null;
+    const exPath = resolve(QA_DIR, 'device-tap-exhaustive.json');
+    if (existsSync(exPath)) {
+      try {
+        exJson = JSON.parse(readFileSync(exPath, 'utf8'));
+      } catch {
+        exJson = null;
+      }
+    }
+    result.exhaustive = {
+      exit: timedOut ? 124 : (ex.status ?? 1),
+      status: timedOut ? 'fail' : exJson?.status || (ex.status === 0 ? 'pass' : 'fail'),
+      detail: timedOut
+        ? `TIMEOUT after ${exTimeout}ms`
+        : exJson?.detail || ((ex.stdout || '') + (ex.stderr || '')).slice(-400),
+      routesVisited: exJson?.routesVisited ?? null,
+      actions: exJson?.actions ?? null,
+      issueCount: exJson?.issueCount ?? null,
+    };
+    if (result.exhaustive.status === 'fail') {
+      result.status = 'fail';
+      result.detail += ' · exhaustive FAIL';
+    } else {
+      result.detail += ` · exhaustive ${result.exhaustive.routesVisited || 0} vyer / ${result.exhaustive.actions || 0} tryck`;
+    }
+    if (ex.stdout) console.log(ex.stdout.slice(-1500));
+    if (ex.stderr) console.log(ex.stderr.slice(-500));
+  }
 }
 
 writeJson('device-probe.json', result);

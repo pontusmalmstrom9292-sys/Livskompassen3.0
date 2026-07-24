@@ -41,7 +41,7 @@ export const PRODUCT_AGENT_UI_META: Record<string, ProductAgentUiMeta> = {
   agent_rsd_kylaren: {
     role: 'Alternativ',
     focus: 'Kalla triggers',
-    zoneLabel: 'Vardagen · MåBra',
+    zoneLabel: 'Vardagen · Mabra',
   },
   agent_uppgifts_krossaren: {
     role: 'Atomisering',
