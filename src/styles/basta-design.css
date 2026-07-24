@@ -192,10 +192,111 @@ html[data-theme='ME-basta-design'] {
 }
 
 .basta-design__card {
-  border-radius: var(--bd-radius-xl);
-  border: 1px solid var(--bd-border);
-  background: var(--bd-card);
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--bd-radius-xl, var(--ds-radius-2xl));
+  border: 1px solid color-mix(in srgb, var(--bd-accent, var(--accent)) 62%, transparent);
+  background:
+    linear-gradient(
+      165deg,
+      color-mix(in srgb, var(--surface-3, var(--surface-2)) 55%, transparent) 0%,
+      color-mix(in srgb, var(--bd-card, var(--surface-2)) 72%, transparent) 48%,
+      color-mix(in srgb, var(--bg) 55%, var(--bd-card, var(--surface-2))) 100%
+    );
   padding: 1rem;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--accent-light) 22%, transparent),
+    inset 0 -14px 36px color-mix(in srgb, var(--bg) 45%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent),
+    0 14px 36px -12px color-mix(in srgb, var(--bg) 75%, transparent);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  transition:
+    border-color var(--ds-duration-normal, 250ms) var(--ds-ease-premium, ease),
+    box-shadow var(--ds-duration-normal, 250ms) var(--ds-ease-premium, ease);
+}
+
+.basta-design__card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 4%;
+  right: 4%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--accent-light) 70%, transparent),
+    transparent
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.basta-design__card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--accent-light) 10%, transparent) 0%,
+      transparent 38%,
+      transparent 100%
+    );
+  opacity: 0.85;
+}
+
+.basta-design__card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Modul-identitet — skin only */
+.basta-design__card--fokus {
+  border-color: color-mix(in srgb, var(--accent) 48%, transparent);
+}
+
+.basta-design__card--fokus .basta-design__card-title {
+  letter-spacing: 0.04em;
+}
+
+.basta-design__card--familjen {
+  border-color: color-mix(in srgb, var(--accent-light) 38%, var(--ds-card-rim-gold));
+  box-shadow:
+    var(--ds-card-inset-depth),
+    0 0 0 1px color-mix(in srgb, var(--accent-light) 22%, transparent),
+    0 12px 32px -10px var(--ds-ambient-falloff);
+}
+
+.basta-design__card--mabra {
+  border-color: color-mix(in srgb, var(--accent-ai, var(--accent)) 28%, var(--ds-card-rim-gold));
+}
+
+.basta-design__card--ankare .basta-design__textarea,
+.basta-design__card--dagbok .basta-design__textarea {
+  border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface-2) 55%, transparent) 0%,
+      color-mix(in srgb, var(--bg) 40%, transparent) 100%
+    );
+  box-shadow: inset 0 1px 0 color-mix(in srgb, var(--accent-light) 8%, transparent);
+}
+
+.basta-design__card--planering {
+  border-color: color-mix(in srgb, var(--accent) 36%, transparent);
+}
+
+.basta-design__card--fyren {
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  box-shadow:
+    var(--ds-elevation-card),
+    0 0 24px color-mix(in srgb, var(--ds-glow-cta) 35%, transparent);
 }
 
 .basta-design__gold-divider {
@@ -233,13 +334,23 @@ html[data-theme='ME-basta-design'] {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: var(--bd-radius);
-  background: var(--bd-accent);
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--accent-light) 88%, #fff) 0%,
+    var(--bd-accent, var(--accent)) 100%
+  );
   color: var(--bd-accent-fg);
   font-family: var(--bd-font-display);
   font-size: 0.75rem;
   font-weight: 500;
   letter-spacing: 0.05em;
   cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--accent-light) 35%, transparent),
+    0 0 14px var(--ds-glow-cta, transparent);
+  transition:
+    transform var(--ds-duration-fast, 150ms) var(--ds-ease-premium, ease),
+    box-shadow var(--ds-duration-normal, 250ms) var(--ds-ease-premium, ease);
 }
 
 .basta-design__btn-ghost {
@@ -247,12 +358,16 @@ html[data-theme='ME-basta-design'] {
   align-items: center;
   gap: 0.25rem;
   padding: 0.375rem 0.75rem;
-  border: none;
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
   border-radius: var(--bd-radius);
-  background: rgba(255, 255, 255, 0.05);
+  background: color-mix(in srgb, var(--glass, var(--surface-2)) 55%, transparent);
   color: var(--bd-text-muted);
   font-size: 0.75rem;
   cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition:
+    border-color var(--ds-duration-fast, 150ms) var(--ds-ease-premium, ease),
+    color var(--ds-duration-fast, 150ms) var(--ds-ease-premium, ease);
 }
 
 .basta-design__link {
@@ -269,8 +384,13 @@ html[data-theme='ME-basta-design'] {
 .basta-design__hero {
   position: relative;
   min-height: 12.5rem;
-  border-radius: var(--bd-radius-xl);
+  border-radius: var(--bd-radius-xl, var(--ds-radius-2xl));
   overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--accent-light) 25%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent),
+    0 16px 40px -14px color-mix(in srgb, var(--bg) 80%, transparent);
 }
 
 .basta-design__hero-img {
@@ -769,13 +889,12 @@ html[data-theme='ME-basta-design'] {
   position: absolute;
   inset: -0.15rem;
   border-radius: 9999px;
-  border: 1px solid color-mix(in srgb, var(--bd-accent) 35%, transparent);
+  border: 1px solid color-mix(in srgb, var(--bd-accent, var(--accent)) 35%, transparent);
   box-shadow:
-    0 0 24px color-mix(in srgb, var(--bd-accent) 45%, transparent),
-    0 0 8px color-mix(in srgb, var(--bd-accent) 28%, transparent),
-    0 10px 28px rgba(0, 0, 0, 0.65);
+    var(--ds-card-inset-depth),
+    0 0 18px var(--ds-glow-compass, transparent),
+    0 10px 28px color-mix(in srgb, var(--bg) 55%, transparent);
   pointer-events: none;
-  animation: bd-compass-pulse 3.5s ease-in-out infinite;
 }
 
 .basta-dock-bar__compass--home::before {
@@ -886,20 +1005,21 @@ html[data-theme='ME-basta-design'] {
   position: relative;
   margin-inline: auto;
   width: min(100%, 26rem);
-  border-radius: 0.65rem;
-  border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+  border-radius: 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, transparent);
   background: linear-gradient(
     180deg,
     color-mix(in srgb, var(--surface-3) 94%, var(--surface-2)) 0%,
-    color-mix(in srgb, var(--surface) 90%, var(--bg)) 48%,
-    color-mix(in srgb, var(--bg) 96%, #020617) 100%
+    color-mix(in srgb, var(--surface) 88%, var(--bg)) 48%,
+    color-mix(in srgb, var(--bg) 96%, transparent) 100%
   );
-  backdrop-filter: blur(10px) saturate(1.08);
-  -webkit-backdrop-filter: blur(10px) saturate(1.08);
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
   box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--accent) 36%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, var(--bg) 50%, transparent),
-    0 8px 24px color-mix(in srgb, var(--bg) 82%, transparent);
+    inset 0 1px 0 color-mix(in srgb, var(--accent-light) 28%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--bg) 45%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--accent) 16%, transparent),
+    0 12px 32px -10px color-mix(in srgb, var(--bg) 70%, transparent);
 }
 
 .basta-design__header-crown::before {
@@ -908,7 +1028,9 @@ html[data-theme='ME-basta-design'] {
   inset: 0;
   border-radius: inherit;
   pointer-events: none;
-  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-light) 12%, transparent);
+  background: var(--ds-glass-sheen);
+  opacity: 0.35;
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent-light) 14%, transparent);
 }
 
 [data-theme='ME-basta-design'] .design-pack-header--basta-ref {

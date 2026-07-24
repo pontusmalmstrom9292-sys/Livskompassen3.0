@@ -135,7 +135,7 @@ export function BarnportenPage() {
 
       <div className="grid grid-cols-2 gap-3">
         {childBracket !== 'toddler_preschool' && (
-          <button
+          <Button
             type="button"
             disabled={saving}
             className="barnporten-action elongated-module flex min-h-11 flex-col items-center justify-center gap-2 p-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
@@ -147,11 +147,11 @@ export function BarnportenPage() {
           >
             <MessageCircle className="h-8 w-8 text-accent" aria-hidden />
             <span className="text-sm text-text">Prata</span>
-          </button>
+          </Button>
         )}
         
         {childBracket !== 'toddler_preschool' && (
-          <button
+          <Button
             type="button"
             disabled={saving || !message.trim()}
             className="barnporten-action elongated-module flex min-h-11 flex-col items-center justify-center gap-2 p-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
@@ -160,10 +160,10 @@ export function BarnportenPage() {
           >
             <Heart className="h-8 w-8 text-accent" aria-hidden />
             <span className="text-sm text-text">Skriv till pappa</span>
-          </button>
+          </Button>
         )}
 
-        <button
+        <Button
           type="button"
           disabled={saving}
           className="barnporten-action elongated-module flex min-h-11 flex-col items-center justify-center gap-2 p-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
@@ -175,10 +175,10 @@ export function BarnportenPage() {
         >
           <Smile className="h-8 w-8 text-accent" aria-hidden />
           <span className="text-sm text-text">Humör</span>
-        </button>
+        </Button>
 
         {(childBracket === 'pre_teen' || childBracket === 'teen') && (
-          <button
+          <Button
             type="button"
             disabled={saving}
             className="barnporten-action elongated-module flex min-h-11 flex-col items-center justify-center gap-2 p-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
@@ -190,7 +190,7 @@ export function BarnportenPage() {
           >
             <Lock className="h-8 w-8 text-accent" aria-hidden />
             <span className="text-sm text-text">Bara för mig</span>
-          </button>
+          </Button>
         )}
       </div>
 

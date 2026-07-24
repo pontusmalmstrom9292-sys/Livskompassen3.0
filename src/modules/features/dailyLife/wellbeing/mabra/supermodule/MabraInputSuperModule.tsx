@@ -3,6 +3,7 @@ import { useCallback, useMemo, useState, lazy, Suspense, type ReactNode } from '
 import { useSearchParams } from 'react-router-dom';
 import { HubPanelSkeleton } from '@/core/ui/HubPanelSkeleton';
 import { useStore } from '@/core/store';
+import { Button } from '@/design-system';
 import { MABRA_PROJECTS, type MabraProjectId } from '../constants/mabraProjects';
 import {
   DEFAULT_MABRA_INPUT_MODE,
@@ -45,7 +46,7 @@ const CaptureSuperModule = lazy(() =>
 );
 
 const MODE_BUTTON_BASE =
-  'min-h-[44px] rounded-lg px-3 py-2 text-left text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-2';
+  'min-h-[44px] rounded-lg px-3 py-2 text-left text-xs normal-case tracking-normal transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-2';
 
 function modeButtonClass(isActive: boolean) {
   return `${MODE_BUTTON_BASE} ${
@@ -137,43 +138,49 @@ export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSu
         {MABRA_INPUT_MODES_PRIMARY.map((mode) => {
           const isActive = activeMode === mode.id;
           return (
-            <button
+            <Button
               key={mode.id}
               type="button"
+              variant={isActive ? 'accent' : 'ghost'}
+              size="sm"
               onClick={() => setActiveMode(mode.id)}
               aria-pressed={isActive}
               className={modeButtonClass(isActive)}
             >
               <span className="block font-medium">{mode.label}</span>
               <span className="block text-[10px] text-text-muted">{mode.description}</span>
-            </button>
+            </Button>
           );
         })}
 
-        <button
+        <Button
           type="button"
+          variant={showMoreModes || isMoreModeActive ? 'accent' : 'ghost'}
+          size="sm"
           onClick={() => setShowMoreModes((open) => !open)}
           aria-expanded={showMoreModes || isMoreModeActive}
           className={modeButtonClass(isMoreModeActive)}
         >
           <span className="block font-medium">Mer…</span>
           <span className="block text-[10px] text-text-muted">Reflektion, dagbok & inkast</span>
-        </button>
+        </Button>
 
         {(showMoreModes || isMoreModeActive) &&
           MABRA_INPUT_MODES_MORE.map((mode) => {
             const isActive = activeMode === mode.id;
             return (
-              <button
+              <Button
                 key={mode.id}
                 type="button"
+                variant={isActive ? 'accent' : 'ghost'}
+                size="sm"
                 onClick={() => setActiveMode(mode.id)}
                 aria-pressed={isActive}
                 className={modeButtonClass(isActive)}
               >
                 <span className="block font-medium">{mode.label}</span>
                 <span className="block text-[10px] text-text-muted">{mode.description}</span>
-              </button>
+              </Button>
             );
           })}
 
@@ -181,16 +188,18 @@ export function MabraInputSuperModule({ projectId: projectIdProp }: MabraInputSu
           MABRA_INPUT_MODES_FAS6D.map((mode) => {
             const isActive = activeMode === mode.id;
             return (
-              <button
+              <Button
                 key={mode.id}
                 type="button"
+                variant={isActive ? 'accent' : 'ghost'}
+                size="sm"
                 onClick={() => setActiveMode(mode.id)}
                 aria-pressed={isActive}
                 className={modeButtonClass(isActive)}
               >
                 <span className="block font-medium">{mode.label}</span>
                 <span className="block text-[10px] text-text-muted">{mode.description}</span>
-              </button>
+              </Button>
             );
           })}
       </nav>

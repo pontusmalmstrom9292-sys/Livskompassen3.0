@@ -126,44 +126,12 @@
     box-shadow: var(--ds-elevation-card-hover);
   }
 
-  /* Basta prod cards */
+  /* Basta prod cards — defer to basta-design.css Wallet object (avoid flattening) */
   .basta-design__card {
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--ds-elevation-card);
     transition:
       border-color var(--ds-duration-normal) var(--ds-ease-premium),
       box-shadow var(--ds-duration-normal) var(--ds-ease-premium),
       transform var(--ds-duration-normal) var(--ds-ease-premium);
-  }
-
-  .basta-design__card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      color-mix(in srgb, var(--bd-accent) 45%, transparent),
-      transparent
-    );
-    pointer-events: none;
-  }
-
-  .basta-design__card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    background: radial-gradient(
-      ellipse 90% 55% at 50% -10%,
-      color-mix(in srgb, var(--bd-accent) 8%, transparent),
-      transparent 62%
-    );
   }
 
   .basta-design__card:active {
@@ -191,7 +159,8 @@
 
   .module-section-banner--depth,
   .ds-banner {
-    box-shadow: var(--ds-shadow-md);
+    box-shadow: var(--ds-elevation-wallet, var(--ds-shadow-md));
+    border-color: var(--ds-card-rim-gold, color-mix(in srgb, var(--ds-color-accent) 42%, transparent));
   }
 
   .alert-banner--info,
@@ -207,21 +176,22 @@
 
   .design-pack-header,
   .basta-design__header-crown {
-    backdrop-filter: blur(var(--ds-blur-md)) saturate(var(--ds-glass-saturate));
-    -webkit-backdrop-filter: blur(var(--ds-blur-md)) saturate(var(--ds-glass-saturate));
+    backdrop-filter: blur(var(--ds-blur-lg, 16px)) saturate(var(--ds-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--ds-blur-lg, 16px)) saturate(var(--ds-glass-saturate));
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, var(--ds-color-accent-light) 16%, transparent),
-      0 8px 24px -12px var(--ds-ambient-falloff);
+      var(--ds-card-inset-depth),
+      0 0 0 1px var(--ds-card-rim-gold),
+      0 10px 28px -12px var(--ds-ambient-falloff);
   }
 
   .design-pack-header__title,
   .basta-design__header-title {
-    text-shadow: 0 0 20px color-mix(in srgb, var(--ds-color-accent) 28%, transparent);
+    text-shadow: 0 0 18px color-mix(in srgb, var(--ds-glow-cta) 55%, transparent);
   }
 
   .design-pack-header__ornament span,
   .basta-design__header-ornament-line {
-    box-shadow: 0 0 8px color-mix(in srgb, var(--ds-color-accent) 35%, transparent);
+    box-shadow: 0 0 6px color-mix(in srgb, var(--ds-glow-cta) 40%, transparent);
   }
 
   .header-chrome-btn,

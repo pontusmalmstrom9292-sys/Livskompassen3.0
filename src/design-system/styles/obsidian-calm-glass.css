@@ -5,11 +5,17 @@
  */
 
 @layer components {
-  /* —— Bas: Obsidian Calm Bento glass —— */
+  /* —— Bas: Obsidian Calm Bento glass — Wallet object —— */
   .calm-card {
-    @apply relative overflow-hidden rounded-3xl border border-border/30 bg-surface-2/60 backdrop-blur-xl;
+    @apply relative overflow-hidden rounded-3xl backdrop-blur-xl;
+    border: 1px solid var(--ds-card-rim-gold, color-mix(in srgb, var(--accent) 42%, transparent));
+    background: var(--ds-wallet-surface, color-mix(in srgb, var(--glass) 78%, var(--surface-2)));
     box-shadow: var(--ds-elevation-card, 0 10px 30px rgba(0, 0, 0, 0.5));
-    -webkit-backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(var(--ds-glass-blur, 24px));
+    transition:
+      border-color var(--ds-duration-normal, 250ms) var(--ds-ease-premium, ease),
+      box-shadow var(--ds-duration-normal, 250ms) var(--ds-ease-premium, ease),
+      transform var(--ds-duration-fast, 150ms) var(--ds-ease-premium, ease);
   }
 
   /* —— Midnight Gold: Platta, strama kort utan glows —— */
@@ -52,14 +58,14 @@
     background: linear-gradient(
       90deg,
       transparent,
-      color-mix(in srgb, var(--text) 10%, transparent),
+      var(--ds-card-rim-champagne, color-mix(in srgb, var(--accent-light) 32%, transparent)),
       transparent
     );
     pointer-events: none;
     z-index: 1;
   }
 
-  /* Sheen + inner rim (overrides premium-polish ::after — same cascade, fuller depth) */
+  /* Sheen + Wallet inset depth */
   .calm-card::after,
   .glass-card::after {
     content: '';
@@ -69,15 +75,21 @@
     pointer-events: none;
     z-index: 0;
     background: var(--ds-glass-sheen);
-    opacity: 0.55;
-    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--accent-light) 6%, transparent);
+    opacity: 0.48;
+    box-shadow: var(--ds-card-inset-depth);
   }
 
   /* Legacy-alias — samma yta som calm-card */
   .glass-card {
-    @apply relative overflow-hidden rounded-3xl border border-border/30 bg-surface-2/60 backdrop-blur-xl;
+    @apply relative overflow-hidden rounded-3xl backdrop-blur-xl;
+    border: 1px solid var(--ds-card-rim-gold, color-mix(in srgb, var(--accent) 42%, transparent));
+    background: var(--ds-wallet-surface, color-mix(in srgb, var(--glass) 78%, var(--surface-2)));
     box-shadow: var(--ds-elevation-card, 0 10px 30px rgba(0, 0, 0, 0.5));
-    -webkit-backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(var(--ds-glass-blur, 24px));
+    transition:
+      border-color var(--ds-duration-normal, 250ms) var(--ds-ease-premium, ease),
+      box-shadow var(--ds-duration-normal, 250ms) var(--ds-ease-premium, ease),
+      transform var(--ds-duration-fast, 150ms) var(--ds-ease-premium, ease);
   }
 
   .glass-card::before {
@@ -90,7 +102,7 @@
     background: linear-gradient(
       90deg,
       transparent,
-      color-mix(in srgb, var(--text) 10%, transparent),
+      var(--ds-card-rim-champagne, color-mix(in srgb, var(--accent-light) 32%, transparent)),
       transparent
     );
     pointer-events: none;
@@ -116,9 +128,12 @@
   }
 
   .glass-hero {
-    @apply relative overflow-hidden rounded-3xl border border-border/30 backdrop-blur-xl;
-    background: color-mix(in srgb, var(--glass-hero) 35%, rgba(2, 6, 23, 0.92));
-    box-shadow: 0 0 48px var(--accent-glow);
+    @apply relative overflow-hidden rounded-3xl backdrop-blur-xl;
+    border: 1px solid var(--ds-card-rim-gold, color-mix(in srgb, var(--accent) 42%, transparent));
+    background: color-mix(in srgb, var(--glass-hero) 35%, var(--bg));
+    box-shadow:
+      var(--ds-elevation-card),
+      0 0 28px var(--ds-glow-cta, var(--accent-glow));
   }
 
   .glass-hero::before {
@@ -198,17 +213,22 @@
     display: none;
   }
 
-  /* —— Elongated module (navy glass) — restored after index.css sunset —— */
+  /* —— Elongated module (navy glass / Wallet rim) —— */
   .elongated-module {
-    @apply overflow-hidden rounded-[0.875rem] transition-colors;
-    border: 1.5px solid color-mix(in srgb, var(--accent) 22%, transparent);
-    background: color-mix(in srgb, var(--surface) 48%, transparent);
-    box-shadow: inset 0 1px 0 color-mix(in srgb, var(--text) 5%, transparent);
+    @apply overflow-hidden rounded-[0.875rem];
+    border: 1px solid var(--ds-card-rim-gold, color-mix(in srgb, var(--accent) 42%, transparent));
+    background: var(--ds-wallet-surface, color-mix(in srgb, var(--surface) 48%, transparent));
+    box-shadow: var(--ds-elevation-wallet, var(--ds-elevation-card));
+    transition:
+      border-color var(--ds-duration-normal, 250ms) var(--ds-ease-premium, ease),
+      box-shadow var(--ds-duration-normal, 250ms) var(--ds-ease-premium, ease),
+      background var(--ds-duration-normal, 250ms) var(--ds-ease-premium, ease);
   }
 
   .elongated-module--expanded {
-    border-color: color-mix(in srgb, var(--accent) 34%, transparent);
-    background: color-mix(in srgb, var(--surface) 62%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 48%, transparent);
+    background: color-mix(in srgb, var(--ds-wallet-surface, var(--surface)) 88%, var(--surface-2));
+    box-shadow: var(--ds-elevation-card);
   }
 
   .elongated-module__trigger {
@@ -291,5 +311,20 @@
 
   .home-module-stack {
     @apply flex flex-col gap-2.5;
+  }
+
+  .home-module-panel--dagbok .home-module-panel__lead {
+    color: var(--text-muted);
+    line-height: var(--ds-line-height-relaxed, 1.625);
+  }
+
+  .home-module-panel__well {
+    border-color: var(--ds-card-rim-gold, color-mix(in srgb, var(--accent) 28%, transparent)) !important;
+    background: var(--ds-wallet-surface, color-mix(in srgb, var(--surface-2) 70%, transparent)) !important;
+    box-shadow: var(--ds-card-inset-depth);
+  }
+
+  .home-module-panel--fokus .home-module-panel__lead {
+    letter-spacing: 0.01em;
   }
 }

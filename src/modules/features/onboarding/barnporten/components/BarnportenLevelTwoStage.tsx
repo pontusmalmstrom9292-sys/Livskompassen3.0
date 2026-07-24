@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { Sparkles, ShieldCheck, Heart, Layers, CheckCircle } from 'lucide-react';
+import { Button } from '@/design-system';
 import { useEvolutionStore } from '@/core/store/useEvolutionStore';
 
 export function BarnportenLevelTwoStage() {
@@ -77,14 +78,15 @@ export function BarnportenLevelTwoStage() {
         </div>
       </div>
 
-      <button
+      <Button
         type="button"
+        variant="accent"
         onClick={handleDismiss}
         className="flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-accent px-4 py-2 text-sm font-semibold text-obsidian-bg shadow-md transition-all hover:bg-accent-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 active:scale-95"
       >
         <CheckCircle className="h-4 w-4" />
         Bekräfta & Fortsätt
-      </button>
+      </Button>
     </motion.div>
   );
 }

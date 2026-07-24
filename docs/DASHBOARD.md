@@ -1,3 +1,20 @@
+### 2026-07-24 — Premium UI hel våg (Wallet skin)
+- Tokens + calm-card/banner/hem/header/dock — inspiration från referensmocks
+- Locked UX struktur/etiketter orörda · MåBra lavendel kvar
+- Smoke: design-modules · basta-dock-lock · locked-ux · calm-card-audit **PASS**
+
+### 2026-07-24 — Mabra/Barnporten DS sweep (5 waves)
+- MabraInputSuperModule, MabraModulValjare, BarnportenLevelTwoStage, ForalderTryggCard
+- Lägesval och actions följer DS Button-linjen
+
+### 2026-07-24 — Barnporten/MåBra DS sweep (5 waves)
+- BarnportenWidget, BarnportenPage, MabraLowEnergyToggle
+- DS Buttons + touch/focus parity, inga flowändringar
+
+### 2026-07-24 — Executive home DS sweep (5 waves)
+- Ankare, Fokus, Planering, Livslogg → DS primitives
+- Hemkorten får jämnare touch/focus utan flowändring
+
 ### 2026-07-24 — Rest of app DS sweep (5 waves)
 - CustomCategoryFlow, FetchContentPacksFlow, ZenModeOverlay, ParalysisBreaker
 - DS inputs/buttons + reduced-motion + text-case cleanup

@@ -2,6 +2,7 @@ import type { CSSProperties } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Heart, Star } from 'lucide-react';
 import { clsx } from 'clsx';
+import { Button } from '@/design-system';
 import {
   type BarnportenWidgetVariant,
   BARNPORTEN_WIDGET_DEFAULT,
@@ -80,8 +81,10 @@ export function BarnportenWidget({ childAlias, variant: variantOverride }: Props
         aria-label="Barnporten-widget"
       >
         <BarnportenWidgetToast status={status} />
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="icon"
           disabled={saving}
           className={clsx('barnporten-widget__arc min-h-11 min-w-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40', holdClass)}
           aria-label={tapLabel}
@@ -95,7 +98,7 @@ export function BarnportenWidget({ childAlias, variant: variantOverride }: Props
             strokeWidth={1.5}
             aria-hidden
           />
-        </button>
+        </Button>
       </div>
     );
   }
@@ -107,8 +110,10 @@ export function BarnportenWidget({ childAlias, variant: variantOverride }: Props
         aria-label="Barnporten-widget"
       >
         <BarnportenWidgetToast status={status} />
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="icon"
           disabled={saving}
           className={clsx('barnporten-widget__compass min-h-11 min-w-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40', holdClass)}
           aria-label={tapLabel}
@@ -118,7 +123,7 @@ export function BarnportenWidget({ childAlias, variant: variantOverride }: Props
           {...pressHandlers}
         >
           <BarnportenCompassMini className="h-4 w-4 text-accent-light" />
-        </button>
+        </Button>
       </div>
     );
   }
@@ -126,8 +131,10 @@ export function BarnportenWidget({ childAlias, variant: variantOverride }: Props
   return (
     <div className="barnporten-widget barnporten-widget--cb1" aria-label="Barnporten-widget">
       <BarnportenWidgetToast status={status} />
-      <button
+      <Button
         type="button"
+        variant="ghost"
+        size="icon"
         disabled={saving}
         className={clsx('barnporten-widget__star min-h-11 min-w-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40', holdClass)}
         aria-label={tapLabel}
@@ -137,7 +144,7 @@ export function BarnportenWidget({ childAlias, variant: variantOverride }: Props
         {...pressHandlers}
       >
         <Star className="h-3.5 w-3.5 fill-accent/50 text-accent-light" strokeWidth={1.5} aria-hidden />
-      </button>
+      </Button>
     </div>
   );
 }

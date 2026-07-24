@@ -1,9 +1,44 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
+## 2026-07-24 — Premium UI hel våg (Wallet skin)
+
+- [x] Wallet-tokens (`--card-rim-gold`, `--card-inset-depth`, `--glow-compass`, `--glow-cta`)
+- [x] `calm-card` / `glass-card` elevaterade till Wallet-objekt
+- [x] Banner section + ModuleSectionBanner Wallet-material
+- [x] Hem-widgets skin (Dagbok/Fokus/Familjen/Fyren/MåBra) — logik orörd; lavendel kvar
+- [x] Header crown material polish (struktur orörd)
+- [x] Dock capsule + tokeniserad BastaDesignDockCompass, sparsam glow
+- [x] Smoke: design-modules · basta-dock-lock · locked-ux · calm-card-audit **PASS**
+- [ ] Pontus: visuell sign-off Premium UI hel våg (G85)
+
 ## 2026-07-24 — Arkivvy motion polish
 
 - [x] Arkivhubb, lista, kalender och shelf respekterar reduced-motion
 - [x] Samlade övergångar för vybyte och detaljpaneler i arkivet
+
+## 2026-07-24 — Mabra/Barnporten DS sweep (5 waves)
+
+- [x] Wave 1: MabraInputSuperModule använder DS Button för lägesval
+- [x] Wave 2: MabraModulValjare skip använder DS Button
+- [x] Wave 3: BarnportenLevelTwoStage använder DS Button
+- [x] Wave 4: ForalderTryggCard använder DS Button
+- [x] Wave 5: normal-case/trackning rättas i Mabra mode buttons
+
+## 2026-07-24 — Barnporten/MåBra DS sweep (5 waves)
+
+- [x] Wave 1: BarnportenWidget använder DS Button för widget controls
+- [x] Wave 2: BarnportenPage använder DS Button för action cards
+- [x] Wave 3: MabraLowEnergyToggle använder DS Button
+- [x] Wave 4: touch/focus parity i Barnporten/MåBra controls
+- [x] Wave 5: behåller befintlig flow och prompt-logik
+
+## 2026-07-24 — Executive home DS sweep (5 waves)
+
+- [x] Wave 1: ExecutiveAnkareCard använder DS Button/TextArea
+- [x] Wave 2: ExecutiveFocusCard använder DS Button för pills/footer
+- [x] Wave 3: ExecutivePlaneringCard använder DS Button/ButtonLink
+- [x] Wave 4: ExecutiveLivsloggCard använder DS TextArea/Button
+- [x] Wave 5: Executive cards får jämnare touch/focus-beteende
 
 ## 2026-07-24 — Rest of app DS sweep (5 waves)
 

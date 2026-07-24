@@ -4,6 +4,9 @@ export const elevation = {
   2: 'var(--ds-elevation-2)',
   3: 'var(--ds-elevation-3)',
   4: 'var(--ds-elevation-4)',
+  card: 'var(--ds-elevation-card)',
+  cardHover: 'var(--ds-elevation-card-hover)',
+  wallet: 'var(--ds-elevation-wallet)',
   dock: 'var(--ds-elevation-dock)',
 } as const;
 

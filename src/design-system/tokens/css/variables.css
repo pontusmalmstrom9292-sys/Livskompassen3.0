@@ -122,6 +122,26 @@
   --ds-focus-ring: 2px solid color-mix(in srgb, var(--ds-color-accent) 55%, transparent);
   --ds-focus-offset: 2px;
 
+  /* —— Wallet / Premium object material (alias — no parallel hex) —— */
+  --card-rim-gold: color-mix(in srgb, var(--ds-color-accent) 58%, transparent);
+  --card-rim-champagne: color-mix(in srgb, var(--ds-color-accent-light) 48%, transparent);
+  --card-inset-depth:
+    inset 0 1px 0 color-mix(in srgb, var(--ds-color-accent-light) 18%, transparent),
+    inset 0 -12px 32px color-mix(in srgb, var(--ds-color-bg) 42%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 50%, transparent);
+  --wallet-surface: color-mix(in srgb, var(--ds-glass-bg) 62%, var(--ds-color-surface-2));
+  --champagne: var(--ds-color-accent-light);
+  --glow-compass: color-mix(in srgb, var(--ds-color-accent) 38%, transparent);
+  --glow-cta: color-mix(in srgb, var(--ds-color-accent) 28%, transparent);
+  --status-positive-calm: var(--ds-color-success);
+  --ds-card-rim-gold: var(--card-rim-gold);
+  --ds-card-rim-champagne: var(--card-rim-champagne);
+  --ds-card-inset-depth: var(--card-inset-depth);
+  --ds-wallet-surface: var(--wallet-surface);
+  --ds-glow-compass: var(--glow-compass);
+  --ds-glow-cta: var(--glow-cta);
+  --ds-status-positive-calm: var(--status-positive-calm);
+
   /* —— Elevation (layered shadows) —— */
   --ds-elevation-0: none;
   --ds-elevation-1:
@@ -142,33 +162,39 @@
     inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 22%, transparent),
     0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 14%, transparent),
     0 20px 44px -12px var(--ds-ambient-falloff),
-    0 8px 24px -8px color-mix(in srgb, var(--ds-color-accent-glow) 65%, transparent);
+    0 8px 24px -8px color-mix(in srgb, var(--ds-color-accent-glow) 40%, transparent);
   --ds-elevation-card:
-    inset 0 1px 0 var(--ds-glass-highlight),
-    inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 28%, transparent),
-    0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 5%, transparent),
+    var(--ds-card-inset-depth),
+    0 0 0 1px var(--ds-card-rim-gold),
     0 12px 32px -10px var(--ds-ambient-falloff),
     0 4px 16px -6px color-mix(in srgb, var(--ds-color-bg) 70%, transparent);
   --ds-elevation-card-hover:
-    inset 0 1px 0 color-mix(in srgb, var(--ds-color-text) 14%, transparent),
-    inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 22%, transparent),
-    0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 14%, transparent),
-    0 20px 44px -12px var(--ds-ambient-falloff),
-    0 8px 24px -8px color-mix(in srgb, var(--ds-color-accent-glow) 65%, transparent);
+    inset 0 1px 0 color-mix(in srgb, var(--ds-color-accent-light) 14%, transparent),
+    inset 0 -10px 28px color-mix(in srgb, var(--ds-color-bg) 30%, transparent),
+    0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 28%, transparent),
+    0 18px 40px -12px var(--ds-ambient-falloff),
+    0 6px 18px -8px color-mix(in srgb, var(--ds-glow-cta) 45%, transparent);
   --ds-elevation-dock:
     inset 0 1px 0 color-mix(in srgb, var(--ds-color-accent-light) 22%, transparent),
     inset 0 -1px 0 color-mix(in srgb, var(--ds-color-bg) 35%, transparent),
-    0 -8px 32px color-mix(in srgb, var(--ds-color-accent) 12%, transparent),
+    0 -6px 24px color-mix(in srgb, var(--ds-glow-compass) 55%, transparent),
     0 16px 48px -10px color-mix(in srgb, var(--ds-color-bg) 58%, transparent),
-    0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 8%, transparent);
+    0 0 0 1px color-mix(in srgb, var(--ds-color-accent) 10%, transparent);
+  --ds-elevation-wallet:
+    var(--ds-card-inset-depth),
+    0 0 0 1px var(--ds-card-rim-champagne),
+    0 10px 28px -12px var(--ds-ambient-falloff);
 
   /* —— Shadow (semantic) —— */
   --ds-shadow-sm: var(--ds-elevation-1);
   --ds-shadow-md: var(--ds-elevation-2);
   --ds-shadow-lg: var(--ds-elevation-card);
   --ds-shadow-xl: var(--ds-elevation-card-hover);
+  --ds-shadow-wallet: var(--ds-elevation-wallet);
   --ds-shadow-accent-glow: 0 0 16px var(--ds-color-accent-glow);
   --ds-shadow-accent-glow-lg: 0 0 32px var(--ds-color-accent-glow);
+  --ds-shadow-compass-glow: 0 0 20px var(--ds-glow-compass);
+  --ds-shadow-cta-glow: 0 0 14px var(--ds-glow-cta);
 
   /* —— Animation —— */
   --ds-duration-instant: 0ms;

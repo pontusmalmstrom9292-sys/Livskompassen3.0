@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { Lock, ShieldCheck, ChevronRight } from 'lucide-react';
+import { Button } from '@/design-system';
 
 export interface ForalderTryggCardProps {
   barnportenLevel: number;
@@ -24,14 +25,15 @@ export function ForalderTryggCard({ barnportenLevel }: ForalderTryggCardProps) {
             <p className="text-xs text-text-muted">Tre spetsar för en stabil vardag</p>
           </div>
         </div>
-        <button
+        <Button
           type="button"
+          variant="ghost"
           onClick={() => navigate('/barnporten/foralder-trygg')}
           className="mt-1 inline-flex min-h-[var(--ds-touch-target,2.75rem)] items-center justify-between rounded-xl bg-surface-3 px-4 py-2 text-sm font-medium text-obsidian-indigo transition-colors hover:bg-surface-3/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/50"
         >
           <span>Åtkomst</span>
           <ChevronRight className="h-4 w-4" aria-hidden />
-        </button>
+        </Button>
       </div>
     );
   }
