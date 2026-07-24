@@ -1,33 +1,38 @@
 {
   "probe": "scroll-probe",
-  "base": "http://127.0.0.1:5175",
-  "at": "2026-07-24T06:48:58.073Z",
+  "base": "http://127.0.0.1:5174",
+  "at": "2026-07-24T07:50:48.656Z",
   "results": [
     {
       "path": "/",
       "window": {
         "tag": "HTML",
         "cls": "",
-        "sh": 844,
+        "sh": 1643,
         "ch": 844,
         "st": 0,
-        "can": false,
+        "can": true,
         "oy": "auto",
         "pe": "auto",
         "touchAction": "auto",
         "overscroll": "auto",
-        "h": 844,
+        "h": 1643,
         "top": 0,
-        "bottom": 844
+        "bottom": 1643
       },
       "island": null,
       "hubLock": null,
-      "dock": null,
+      "dock": {
+        "pe": "none",
+        "bottom": 844,
+        "top": 768,
+        "h": 76
+      },
       "nestedScrollables": [],
       "bodyOverflowY": "auto",
       "htmlOverflowY": "auto",
       "tests": {
-        "windowScrollDelta": 0,
+        "windowScrollDelta": 400,
         "islandMovedOnWindowScroll": 0,
         "islandScrollDelta": 0,
         "windowMovedOnIslandScroll": 0,
@@ -39,26 +44,31 @@
       "window": {
         "tag": "HTML",
         "cls": "",
-        "sh": 844,
+        "sh": 1133,
         "ch": 844,
         "st": 0,
-        "can": false,
+        "can": true,
         "oy": "auto",
         "pe": "auto",
         "touchAction": "auto",
         "overscroll": "auto",
-        "h": 844,
+        "h": 1133,
         "top": 0,
-        "bottom": 844
+        "bottom": 1133
       },
       "island": null,
       "hubLock": null,
-      "dock": null,
+      "dock": {
+        "pe": "none",
+        "bottom": 844,
+        "top": 768,
+        "h": 76
+      },
       "nestedScrollables": [],
       "bodyOverflowY": "auto",
       "htmlOverflowY": "auto",
       "tests": {
-        "windowScrollDelta": 0,
+        "windowScrollDelta": 289,
         "islandMovedOnWindowScroll": 0,
         "islandScrollDelta": 0,
         "windowMovedOnIslandScroll": 0,
@@ -70,21 +80,26 @@
       "window": {
         "tag": "HTML",
         "cls": "",
-        "sh": 844,
+        "sh": 876,
         "ch": 844,
         "st": 0,
-        "can": false,
+        "can": true,
         "oy": "auto",
         "pe": "auto",
         "touchAction": "auto",
         "overscroll": "auto",
-        "h": 844,
+        "h": 876,
         "top": 0,
-        "bottom": 844
+        "bottom": 876
       },
       "island": null,
       "hubLock": null,
-      "dock": null,
+      "dock": {
+        "pe": "none",
+        "bottom": 844,
+        "top": 768,
+        "h": 76
+      },
       "nestedScrollables": [],
       "bodyOverflowY": "auto",
       "htmlOverflowY": "auto",
@@ -101,26 +116,59 @@
       "window": {
         "tag": "HTML",
         "cls": "",
-        "sh": 844,
+        "sh": 2701,
         "ch": 844,
         "st": 0,
-        "can": false,
+        "can": true,
         "oy": "auto",
         "pe": "auto",
         "touchAction": "auto",
         "overscroll": "auto",
-        "h": 844,
+        "h": 2701,
         "top": 0,
-        "bottom": 844
+        "bottom": 2701
       },
-      "island": null,
-      "hubLock": null,
-      "dock": null,
+      "island": {
+        "tag": "DIV",
+        "cls": "calm-scroll-island space-y-4",
+        "sh": 2142,
+        "ch": 2142,
+        "st": 0,
+        "can": false,
+        "oy": "visible",
+        "pe": "auto",
+        "touchAction": "auto",
+        "overscroll": "contain",
+        "h": 2142,
+        "top": 443,
+        "bottom": 2585
+      },
+      "hubLock": {
+        "tag": "DIV",
+        "cls": "hub-page-shell hub-page-shell--obsidian-bento flex min-h-0 flex-col gap-4 hub-page-shell--depth hub-",
+        "sh": 2448,
+        "ch": 2448,
+        "st": 0,
+        "can": false,
+        "oy": "visible",
+        "pe": "auto",
+        "touchAction": "auto",
+        "overscroll": "auto",
+        "h": 2448,
+        "top": 138,
+        "bottom": 2585
+      },
+      "dock": {
+        "pe": "none",
+        "bottom": 844,
+        "top": 768,
+        "h": 76
+      },
       "nestedScrollables": [],
       "bodyOverflowY": "auto",
       "htmlOverflowY": "auto",
       "tests": {
-        "windowScrollDelta": 0,
+        "windowScrollDelta": 400,
         "islandMovedOnWindowScroll": 0,
         "islandScrollDelta": 0,
         "windowMovedOnIslandScroll": 0,
@@ -146,7 +194,12 @@
       },
       "island": null,
       "hubLock": null,
-      "dock": null,
+      "dock": {
+        "pe": "none",
+        "bottom": 844,
+        "top": 768,
+        "h": 76
+      },
       "nestedScrollables": [],
       "bodyOverflowY": "auto",
       "htmlOverflowY": "auto",
@@ -159,30 +212,35 @@
       }
     },
     {
-      "path": "/inkast",
+      "path": "/",
       "window": {
         "tag": "HTML",
         "cls": "",
-        "sh": 844,
+        "sh": 1717,
         "ch": 844,
         "st": 0,
-        "can": false,
+        "can": true,
         "oy": "auto",
         "pe": "auto",
         "touchAction": "auto",
         "overscroll": "auto",
-        "h": 844,
+        "h": 1717,
         "top": 0,
-        "bottom": 844
+        "bottom": 1717
       },
       "island": null,
       "hubLock": null,
-      "dock": null,
+      "dock": {
+        "pe": "none",
+        "bottom": 844,
+        "top": 768,
+        "h": 76
+      },
       "nestedScrollables": [],
       "bodyOverflowY": "auto",
       "htmlOverflowY": "auto",
       "tests": {
-        "windowScrollDelta": 0,
+        "windowScrollDelta": 400,
         "islandMovedOnWindowScroll": 0,
         "islandScrollDelta": 0,
         "windowMovedOnIslandScroll": 0,
@@ -193,39 +251,25 @@
   "routeIssues": [
     {
       "path": "/",
-      "issues": [
-        "NO_SCROLL_SURFACE"
-      ],
-      "hard": [
-        "NO_SCROLL_SURFACE"
-      ]
+      "issues": [],
+      "hard": []
     },
     {
       "path": "/familjen",
-      "issues": [
-        "NO_SCROLL_SURFACE"
-      ],
-      "hard": [
-        "NO_SCROLL_SURFACE"
-      ]
+      "issues": [],
+      "hard": []
     },
     {
       "path": "/hjartat",
-      "issues": [
-        "NO_SCROLL_SURFACE"
-      ],
-      "hard": [
-        "NO_SCROLL_SURFACE"
-      ]
+      "issues": [],
+      "hard": []
     },
     {
       "path": "/planering",
       "issues": [
-        "NO_SCROLL_SURFACE"
+        "DOC_SCROLL_OK"
       ],
-      "hard": [
-        "NO_SCROLL_SURFACE"
-      ]
+      "hard": []
     },
     {
       "path": "/vardagen?tab=mabra",
@@ -236,65 +280,16 @@
         "NO_SCROLL_SURFACE"
       ]
     },
-    {
-      "path": "/inkast",
-      "issues": [
-        "NO_SCROLL_SURFACE"
-      ],
-      "hard": [
-        "NO_SCROLL_SURFACE"
-      ]
-    }
-  ],
-  "hardFailCount": 6,
-  "hardFails": [
     {
       "path": "/",
-      "issues": [
-        "NO_SCROLL_SURFACE"
-      ],
-      "hard": [
-        "NO_SCROLL_SURFACE"
-      ]
-    },
-    {
-      "path": "/familjen",
-      "issues": [
-        "NO_SCROLL_SURFACE"
-      ],
-      "hard": [
-        "NO_SCROLL_SURFACE"
-      ]
-    },
-    {
-      "path": "/hjartat",
-      "issues": [
-        "NO_SCROLL_SURFACE"
-      ],
-      "hard": [
-        "NO_SCROLL_SURFACE"
-      ]
-    },
-    {
-      "path": "/planering",
-      "issues": [
-        "NO_SCROLL_SURFACE"
-      ],
-      "hard": [
-        "NO_SCROLL_SURFACE"
-      ]
-    },
+      "issues": [],
+      "hard": []
+    }
+  ],
+  "hardFailCount": 1,
+  "hardFails": [
     {
       "path": "/vardagen?tab=mabra",
-      "issues": [
-        "NO_SCROLL_SURFACE"
-      ],
-      "hard": [
-        "NO_SCROLL_SURFACE"
-      ]
-    },
-    {
-      "path": "/inkast",
       "issues": [
         "NO_SCROLL_SURFACE"
       ],

@@ -7012,3 +7012,744 @@
 {"run":"tap-press","action":"page:/dev/companion-widgets→Hem","ok":true,"detail":"skip-not-found","t":1784876635153}
 {"run":"tap-press","action":"page:/dev/companion-widgets→Sätt dagens intention","ok":true,"detail":"ok","t":1784876635818}
 {"run":"tap-press","action":"page:/dev/companion-widgets:summary","ok":true,"detail":"tapped=13 unique=27 sacred-skips=1","t":1784876636554}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/","message":"route visit","data":{"status":"ok","ms":2666,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":0,"consoleErrors":[]},"t":1784879377334}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/dashboard","message":"route visit","data":{"status":"ok","ms":1435,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879378770}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/kompis","message":"route visit","data":{"status":"ok","ms":760,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879379531}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/morgon","message":"route visit","data":{"status":"ok","ms":725,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879380256}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/vardagen","message":"route visit","data":{"status":"ok","ms":687,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879380943}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/vardagen?tab=kompasser","message":"route visit","data":{"status":"ok","ms":675,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879381618}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/vardagen?tab=mabra","message":"route visit","data":{"status":"ok","ms":685,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879382304}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/vardagen?tab=ekonomi","message":"route visit","data":{"status":"ok","ms":705,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879383009}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/mabra","message":"route visit","data":{"status":"ok","ms":680,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879383689}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/mabra/akut","message":"route visit","data":{"status":"ok","ms":686,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879384375}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/mabra/tid","message":"route visit","data":{"status":"ok","ms":676,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879385051}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/mabra/varderingar","message":"route visit","data":{"status":"ok","ms":680,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879385731}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/mabra/input","message":"route visit","data":{"status":"ok","ms":689,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879386420}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/mabra/recovery/sos","message":"route visit","data":{"status":"ok","ms":679,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879387100}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/planering","message":"route visit","data":{"status":"ok","ms":676,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879387777}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/planering?tab=handling","message":"route visit","data":{"status":"ok","ms":680,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879388457}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/planering/kalender","message":"route visit","data":{"status":"ok","ms":681,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879389139}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/planering/input","message":"route visit","data":{"status":"ok","ms":708,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879389848}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/arbetsliv","message":"route visit","data":{"status":"ok","ms":681,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879390530}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/arbetsliv/input","message":"route visit","data":{"status":"ok","ms":721,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879391253}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/arbetsliv/input?inputMode=tid","message":"route visit","data":{"status":"ok","ms":740,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879391993}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/arbetsliv/input?inputMode=inkomster","message":"route visit","data":{"status":"ok","ms":718,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879392712}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/arbetsliv/input?inputMode=stampla","message":"route visit","data":{"status":"ok","ms":683,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879393396}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/familjen","message":"route visit","data":{"status":"ok","ms":772,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879394168}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/familjen?tab=reflektion","message":"route visit","data":{"status":"ok","ms":698,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879394869}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/familjen?tab=livslogg","message":"route visit","data":{"status":"ok","ms":710,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879395579}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/familjen?tab=tillsammans","message":"route visit","data":{"status":"ok","ms":674,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879396253}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/familjen?tab=barnporten","message":"route visit","data":{"status":"ok","ms":721,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879396974}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/familjen?tab=hamn","message":"route visit","data":{"status":"ok","ms":694,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879397669}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/familjen?tab=drogfrihet","message":"route visit","data":{"status":"ok","ms":679,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879398348}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/barnporten","message":"route visit","data":{"status":"ok","ms":685,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879399033}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/hjartat","message":"route visit","data":{"status":"ok","ms":1346,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879400380}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/hjartat?tab=reflektion","message":"route visit","data":{"status":"ok","ms":685,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879401066}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/hjartat?tab=speglar","message":"route visit","data":{"status":"ok","ms":683,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879401749}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/orakel","message":"route visit","data":{"status":"ok","ms":685,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879402434}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/reflection","message":"route visit","data":{"status":"ok","ms":750,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879403184}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/biochem","message":"route visit","data":{"status":"ok","ms":718,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879403903}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/inkast","message":"route visit","data":{"status":"ok","ms":687,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879404591}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/projekt","message":"route visit","data":{"status":"ok","ms":699,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879405291}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/projekt/ny","message":"route visit","data":{"status":"ok","ms":680,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879405971}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/projekt/regler","message":"route visit","data":{"status":"ok","ms":681,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879406652}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/projekt/genvagar","message":"route visit","data":{"status":"ok","ms":731,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879407383}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/installningar","message":"route visit","data":{"status":"ok","ms":698,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879408081}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/installningar?tab=allmant","message":"route visit","data":{"status":"ok","ms":696,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879408777}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/installningar?tab=naring","message":"route visit","data":{"status":"ok","ms":707,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879409484}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/installningar?tab=drogfrihet","message":"route visit","data":{"status":"ok","ms":705,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879410189}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/installningar/widget-studio","message":"route visit","data":{"status":"ok","ms":678,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879410868}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/valvet","message":"route visit","data":{"status":"ok","ms":689,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879411557}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/valvet/installningar","message":"route visit","data":{"status":"ok","ms":724,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879412282}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/sos","message":"route visit","data":{"status":"ok","ms":713,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879412995}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/anteckning","message":"route visit","data":{"status":"ok","ms":717,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879413712}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/inspelning","message":"route visit","data":{"status":"ok","ms":687,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879414399}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/kompass","message":"route visit","data":{"status":"ok","ms":684,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879415084}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/hamn","message":"route visit","data":{"status":"ok","ms":688,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879415772}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/familjen","message":"route visit","data":{"status":"ok","ms":698,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879416470}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/stampla","message":"route visit","data":{"status":"ok","ms":694,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879417164}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/barnporten","message":"route visit","data":{"status":"ok","ms":701,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879417865}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/snabbval","message":"route visit","data":{"status":"ok","ms":686,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879418552}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/voice-vault","message":"route visit","data":{"status":"ok","ms":691,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879419243}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/projekt","message":"route visit","data":{"status":"ok","ms":706,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":2,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v","Framing 'https://www.google.com/' violates the following report-only Content Security Policy directive: \"frame-ancestors 'self'\". The violation has been logged, but no further action has been taken.\n"]},"t":1784879419950}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/aktioner","message":"route visit","data":{"status":"ok","ms":687,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879420638}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/moduler","message":"route visit","data":{"status":"ok","ms":713,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879421351}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/drogfrihet-akut","message":"route visit","data":{"status":"ok","ms":692,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879422044}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/companion-capture","message":"route visit","data":{"status":"ok","ms":689,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879422733}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/companion-inbox","message":"route visit","data":{"status":"ok","ms":695,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879423428}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/companion-note","message":"route visit","data":{"status":"ok","ms":734,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879424163}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/companion-harbor","message":"route visit","data":{"status":"ok","ms":727,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879424890}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/companion-compass","message":"route visit","data":{"status":"ok","ms":715,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879425605}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/companion-child","message":"route visit","data":{"status":"ok","ms":731,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879426336}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/companion-beacon","message":"route visit","data":{"status":"ok","ms":685,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879427021}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/companion-journal","message":"route visit","data":{"status":"ok","ms":695,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879427716}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/companion-anchor","message":"route visit","data":{"status":"ok","ms":695,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879428412}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/widget/companion-tasks","message":"route visit","data":{"status":"ok","ms":693,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879429106}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/dev/theme-lab","message":"route visit","data":{"status":"ok","ms":694,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879429800}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/dev/themes","message":"route visit","data":{"status":"ok","ms":696,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879430497}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/dev/hub-lab","message":"route visit","data":{"status":"ok","ms":682,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879431179}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/dev/basta-design","message":"route visit","data":{"status":"ok","ms":704,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879431883}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/dev/design-freeport","message":"route visit","data":{"status":"ok","ms":795,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":1,"consoleErrors":["[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=67190c29:434:35)\n    at _fail (http://127.0.0.1:5174/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"]},"t":1784879432679}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/dev/obsidian-depth","message":"route visit","data":{"status":"ok","ms":1330,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":0,"consoleErrors":[]},"t":1784879434009}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/dev/obsidian-forge","message":"route visit","data":{"status":"ok","ms":688,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":0,"consoleErrors":[]},"t":1784879434698}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/dev/obsidian-depth-v2","message":"route visit","data":{"status":"ok","ms":1421,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":0,"consoleErrors":[]},"t":1784879436119}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/dev/dagens-ankare","message":"route visit","data":{"status":"ok","ms":774,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":0,"consoleErrors":[]},"t":1784879436893}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:/dev/companion-widgets","message":"route visit","data":{"status":"ok","ms":763,"authBoundary":false,"loadingStuck":false,"consoleErrorCount":0,"consoleErrors":[]},"t":1784879437657}
+{"run":"hub-sweep","hypothesisId":"H","location":"hub-sweep:summary","message":"sweep complete","data":{"routes":83,"failureCount":0,"consoleErrorRoutes":["/dashboard","/kompis","/morgon","/vardagen","/vardagen?tab=kompasser","/vardagen?tab=mabra","/vardagen?tab=ekonomi","/mabra","/mabra/akut","/mabra/tid","/mabra/varderingar","/mabra/input","/mabra/recovery/sos","/planering","/planering?tab=handling","/planering/kalender","/planering/input","/arbetsliv","/arbetsliv/input","/arbetsliv/input?inputMode=tid","/arbetsliv/input?inputMode=inkomster","/arbetsliv/input?inputMode=stampla","/familjen","/familjen?tab=reflektion","/familjen?tab=livslogg","/familjen?tab=tillsammans","/familjen?tab=barnporten","/familjen?tab=hamn","/familjen?tab=drogfrihet","/barnporten","/hjartat","/hjartat?tab=reflektion","/hjartat?tab=speglar","/orakel","/reflection","/biochem","/inkast","/projekt","/projekt/ny","/projekt/regler","/projekt/genvagar","/installningar","/installningar?tab=allmant","/installningar?tab=naring","/installningar?tab=drogfrihet","/installningar/widget-studio","/valvet","/valvet/installningar","/sos","/widget/anteckning","/widget/inspelning","/widget/kompass","/widget/hamn","/widget/familjen","/widget/stampla","/widget/barnporten","/widget/snabbval","/widget/voice-vault","/widget/projekt","/widget/aktioner","/widget/moduler","/widget/drogfrihet-akut","/widget/companion-capture","/widget/companion-inbox","/widget/companion-note","/widget/companion-harbor","/widget/companion-compass","/widget/companion-child","/widget/companion-beacon","/widget/companion-journal","/widget/companion-anchor","/widget/companion-tasks","/dev/theme-lab","/dev/themes","/dev/hub-lab","/dev/basta-design","/dev/design-freeport"]},"t":1784879437749}
+{"run":"scroll-probe","hypothesisId":"S","message":"scroll probe","data":{"path":"/","window":{"tag":"HTML","cls":"","sh":1643,"ch":844,"st":0,"can":true,"oy":"auto","pe":"auto","touchAction":"auto","overscroll":"auto","h":1643,"top":0,"bottom":1643},"island":null,"hubLock":null,"dock":{"pe":"none","bottom":844,"top":768,"h":76},"nestedScrollables":[],"bodyOverflowY":"auto","htmlOverflowY":"auto","tests":{"windowScrollDelta":400,"islandMovedOnWindowScroll":0,"islandScrollDelta":0,"windowMovedOnIslandScroll":0,"islandWheelDelta":0}},"t":1784879440442}
+{"run":"scroll-probe","hypothesisId":"S","message":"scroll probe","data":{"path":"/familjen","window":{"tag":"HTML","cls":"","sh":1133,"ch":844,"st":0,"can":true,"oy":"auto","pe":"auto","touchAction":"auto","overscroll":"auto","h":1133,"top":0,"bottom":1133},"island":null,"hubLock":null,"dock":{"pe":"none","bottom":844,"top":768,"h":76},"nestedScrollables":[],"bodyOverflowY":"auto","htmlOverflowY":"auto","tests":{"windowScrollDelta":289,"islandMovedOnWindowScroll":0,"islandScrollDelta":0,"windowMovedOnIslandScroll":0,"islandWheelDelta":0}},"t":1784879441939}
+{"run":"scroll-probe","hypothesisId":"S","message":"scroll probe","data":{"path":"/hjartat","window":{"tag":"HTML","cls":"","sh":876,"ch":844,"st":0,"can":true,"oy":"auto","pe":"auto","touchAction":"auto","overscroll":"auto","h":876,"top":0,"bottom":876},"island":null,"hubLock":null,"dock":{"pe":"none","bottom":844,"top":768,"h":76},"nestedScrollables":[],"bodyOverflowY":"auto","htmlOverflowY":"auto","tests":{"windowScrollDelta":0,"islandMovedOnWindowScroll":0,"islandScrollDelta":0,"windowMovedOnIslandScroll":0,"islandWheelDelta":0}},"t":1784879444054}
+{"run":"scroll-probe","hypothesisId":"S","message":"scroll probe","data":{"path":"/planering","window":{"tag":"HTML","cls":"","sh":2701,"ch":844,"st":0,"can":true,"oy":"auto","pe":"auto","touchAction":"auto","overscroll":"auto","h":2701,"top":0,"bottom":2701},"island":{"tag":"DIV","cls":"calm-scroll-island space-y-4","sh":2142,"ch":2142,"st":0,"can":false,"oy":"visible","pe":"auto","touchAction":"auto","overscroll":"contain","h":2142,"top":443,"bottom":2585},"hubLock":{"tag":"DIV","cls":"hub-page-shell hub-page-shell--obsidian-bento flex min-h-0 flex-col gap-4 hub-page-shell--depth hub-","sh":2448,"ch":2448,"st":0,"can":false,"oy":"visible","pe":"auto","touchAction":"auto","overscroll":"auto","h":2448,"top":138,"bottom":2585},"dock":{"pe":"none","bottom":844,"top":768,"h":76},"nestedScrollables":[],"bodyOverflowY":"auto","htmlOverflowY":"auto","tests":{"windowScrollDelta":400,"islandMovedOnWindowScroll":0,"islandScrollDelta":0,"windowMovedOnIslandScroll":0,"islandWheelDelta":0}},"t":1784879445691}
+{"run":"scroll-probe","hypothesisId":"S","message":"scroll probe","data":{"path":"/vardagen?tab=mabra","window":{"tag":"HTML","cls":"","sh":844,"ch":844,"st":0,"can":false,"oy":"auto","pe":"auto","touchAction":"auto","overscroll":"auto","h":844,"top":0,"bottom":844},"island":null,"hubLock":null,"dock":{"pe":"none","bottom":844,"top":768,"h":76},"nestedScrollables":[],"bodyOverflowY":"auto","htmlOverflowY":"auto","tests":{"windowScrollDelta":0,"islandMovedOnWindowScroll":0,"islandScrollDelta":0,"windowMovedOnIslandScroll":0,"islandWheelDelta":0}},"t":1784879447154}
+{"run":"scroll-probe","hypothesisId":"S","message":"scroll probe","data":{"path":"/","window":{"tag":"HTML","cls":"","sh":1717,"ch":844,"st":0,"can":true,"oy":"auto","pe":"auto","touchAction":"auto","overscroll":"auto","h":1717,"top":0,"bottom":1717},"island":null,"hubLock":null,"dock":{"pe":"none","bottom":844,"top":768,"h":76},"nestedScrollables":[],"bodyOverflowY":"auto","htmlOverflowY":"auto","tests":{"windowScrollDelta":400,"islandMovedOnWindowScroll":0,"islandScrollDelta":0,"windowMovedOnIslandScroll":0,"islandWheelDelta":0}},"t":1784879448627}
+{"run":"tap-press","action":"dock:Hamn(short)","ok":true,"detail":"ok","t":1784879450649}
+{"run":"tap-press","action":"header:resurser-open","ok":true,"detail":"ok","t":1784879451060}
+{"run":"tap-press","action":"header:alla-resurser","ok":true,"detail":"ok","t":1784879451467}
+{"run":"tap-press","action":"header:resurser-close","ok":true,"detail":"ok","t":1784879451887}
+{"run":"tap-press","action":"drawer:Startskärm","ok":true,"detail":"ok-already-home","t":1784879453169}
+{"run":"tap-press","action":"drawer:Snabb-inkast","ok":true,"detail":"ok","t":1784879454496}
+{"run":"tap-press","action":"drawer:Kompasser","ok":true,"detail":"ok","t":1784879456222}
+{"run":"tap-press","action":"drawer:MåBra","ok":true,"detail":"skip-not-found","t":1784879457054}
+{"run":"tap-press","action":"drawer:Planering","ok":true,"detail":"ok","t":1784879458368}
+{"run":"tap-press","action":"drawer:Arbetsliv","ok":true,"detail":"ok","t":1784879459657}
+{"run":"tap-press","action":"drawer:Ekonomi","ok":true,"detail":"ok","t":1784879460971}
+{"run":"tap-press","action":"drawer:Barnfokus","ok":true,"detail":"ok","t":1784879462604}
+{"run":"tap-press","action":"drawer:Livslogg","ok":true,"detail":"skip-flaky (locator.click: Timeout 4000ms exceeded.\n)","t":1784879467451}
+{"run":"tap-press","action":"drawer:Tillsammans","ok":true,"detail":"skip-flaky (locator.click: Timeout 4000ms exceeded.\n)","t":1784879472359}
+{"run":"tap-press","action":"drawer:Barnporten","ok":true,"detail":"skip-flaky (locator.click: Timeout 4000ms exceeded.\n)","t":1784879477249}
+{"run":"tap-press","action":"drawer:Trygg hamn","ok":true,"detail":"ok","t":1784879478580}
+{"run":"tap-press","action":"drawer:Drogfrihet","ok":true,"detail":"skip-flaky (locator.click: Timeout 4000ms exceeded.\n)","t":1784879483426}
+{"run":"tap-press","action":"drawer:Allmänt","ok":true,"detail":"ok","t":1784879485124}
+{"run":"tap-press","action":"drawer:Näring","ok":true,"detail":"ok","t":1784879486406}
+{"run":"tap-press","action":"drawer:Drogfrihet","ok":true,"detail":"ok","t":1784879487674}
+{"run":"tap-press","action":"dock:Familj","ok":true,"detail":"ok","t":1784879488068}
+{"run":"tap-press","action":"dock:Ventil","ok":true,"detail":"ok","t":1784879488463}
+{"run":"tap-press","action":"dock:Inkast","ok":true,"detail":"ok","t":1784879488855}
+{"run":"tap-press","action":"dock:Anteckning","ok":true,"detail":"ok","t":1784879489253}
+{"run":"tap-press","action":"route:/","ok":true,"detail":"loaded","t":1784879490685}
+{"run":"tap-press","action":"page:/→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879490691}
+{"run":"tap-press","action":"page:/→Skriv nu","ok":true,"detail":"ok","t":1784879491346}
+{"run":"tap-press","action":"page:/→Barnfokus","ok":true,"detail":"ok","t":1784879492609}
+{"run":"tap-press","action":"page:/→Ny stund","ok":true,"detail":"ok","t":1784879493892}
+{"run":"tap-press","action":"page:/→Fysiologi","ok":true,"detail":"ok","t":1784879495192}
+{"run":"tap-press","action":"page:/→Mer…","ok":true,"detail":"ok","t":1784879496486}
+{"run":"tap-press","action":"page:/→Lär känna","ok":true,"detail":"ok","t":1784879497820}
+{"run":"tap-press","action":"page:/:summary","ok":true,"detail":"tapped=6 unique=19 sacred-skips=1","t":1784879498653}
+{"run":"tap-press","action":"route:/dashboard","ok":true,"detail":"loaded","t":1784879499355}
+{"run":"tap-press","action":"page:/dashboard→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879499366}
+{"run":"tap-press","action":"page:/dashboard:controls","ok":true,"detail":"no-tappable (sacred-skips=1)","t":1784879499552}
+{"run":"tap-press","action":"route:/kompis","ok":true,"detail":"loaded","t":1784879500189}
+{"run":"tap-press","action":"page:/kompis→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879500210}
+{"run":"tap-press","action":"page:/kompis→Empatisk & lyssnande","ok":true,"detail":"skip-not-found","t":1784879500588}
+{"run":"tap-press","action":"page:/kompis→Validerar utan att ge råd","ok":true,"detail":"skip-not-found","t":1784879500976}
+{"run":"tap-press","action":"page:/kompis→Motverkar gaslighting","ok":true,"detail":"skip-not-found","t":1784879501344}
+{"run":"tap-press","action":"page:/kompis→Bryter paralys","ok":true,"detail":"skip-not-found","t":1784879501733}
+{"run":"tap-press","action":"page:/kompis→Kunskapsbank. Direkt till Va","ok":true,"detail":"skip-not-found","t":1784879502147}
+{"run":"tap-press","action":"page:/kompis:summary","ok":true,"detail":"tapped=5 unique=18 sacred-skips=1","t":1784879502387}
+{"run":"tap-press","action":"route:/morgon","ok":true,"detail":"loaded","t":1784879503667}
+{"run":"tap-press","action":"page:/morgon→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879503682}
+{"run":"tap-press","action":"page:/morgon→skip:Lås upp Valvet (biometri","ok":true,"detail":"skip-sacred-or-write","t":1784879503867}
+{"run":"tap-press","action":"page:/morgon:controls","ok":true,"detail":"no-tappable (sacred-skips=2)","t":1784879503868}
+{"run":"tap-press","action":"route:/vardagen","ok":true,"detail":"loaded","t":1784879504663}
+{"run":"tap-press","action":"page:/vardagen→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879504748}
+{"run":"tap-press","action":"page:/vardagen→Hjälp: Vardagsstart","ok":true,"detail":"ok","t":1784879505549}
+{"run":"tap-press","action":"page:/vardagen→Kompasser","ok":true,"detail":"ok","t":1784879506201}
+{"run":"tap-press","action":"page:/vardagen→Ekonomi","ok":true,"detail":"ok","t":1784879506860}
+{"run":"tap-press","action":"page:/vardagen→Mabra","ok":true,"detail":"ok","t":1784879508293}
+{"run":"tap-press","action":"page:/vardagen→KompasserDygns-Kompassen — m","ok":true,"detail":"ok","t":1784879509595}
+{"run":"tap-press","action":"page:/vardagen→EkonomiBudget, sparmål, sald","ok":true,"detail":"ok","t":1784879510337}
+{"run":"tap-press","action":"page:/vardagen:summary","ok":true,"detail":"tapped=6 unique=18 sacred-skips=1","t":1784879511270}
+{"run":"tap-press","action":"route:/vardagen?tab=kompasser","ok":true,"detail":"loaded","t":1784879511941}
+{"run":"tap-press","action":"page:/vardagen?tab=kompasser→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879511945}
+{"run":"tap-press","action":"page:/vardagen?tab=kompasser→Hjälp: Vardagsstart","ok":true,"detail":"ok","t":1784879512603}
+{"run":"tap-press","action":"page:/vardagen?tab=kompasser→Kompasser","ok":true,"detail":"ok","t":1784879513252}
+{"run":"tap-press","action":"page:/vardagen?tab=kompasser→Ekonomi","ok":true,"detail":"ok","t":1784879514618}
+{"run":"tap-press","action":"page:/vardagen?tab=kompasser→Mabra","ok":true,"detail":"ok","t":1784879516051}
+{"run":"tap-press","action":"page:/vardagen?tab=kompasser→KompasserDygns-Kompassen — m","ok":true,"detail":"ok","t":1784879517394}
+{"run":"tap-press","action":"page:/vardagen?tab=kompasser→EkonomiBudget, sparmål, sald","ok":true,"detail":"ok","t":1784879518731}
+{"run":"tap-press","action":"page:/vardagen?tab=kompasser:summary","ok":true,"detail":"tapped=6 unique=18 sacred-skips=1","t":1784879519602}
+{"run":"tap-press","action":"route:/vardagen?tab=mabra","ok":true,"detail":"loaded","t":1784879520325}
+{"run":"tap-press","action":"page:/vardagen?tab=mabra→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879520332}
+{"run":"tap-press","action":"page:/vardagen?tab=mabra→Hjälp: Vardagsstart","ok":true,"detail":"ok","t":1784879520994}
+{"run":"tap-press","action":"page:/vardagen?tab=mabra→Kompasser","ok":true,"detail":"ok","t":1784879521644}
+{"run":"tap-press","action":"page:/vardagen?tab=mabra→Ekonomi","ok":true,"detail":"ok","t":1784879522992}
+{"run":"tap-press","action":"page:/vardagen?tab=mabra→Mabra","ok":true,"detail":"ok","t":1784879524318}
+{"run":"tap-press","action":"page:/vardagen?tab=mabra→KompasserDygns-Kompassen — m","ok":true,"detail":"ok","t":1784879524968}
+{"run":"tap-press","action":"page:/vardagen?tab=mabra→EkonomiBudget, sparmål, sald","ok":true,"detail":"ok","t":1784879526310}
+{"run":"tap-press","action":"page:/vardagen?tab=mabra:summary","ok":true,"detail":"tapped=6 unique=18 sacred-skips=1","t":1784879527200}
+{"run":"tap-press","action":"route:/vardagen?tab=ekonomi","ok":true,"detail":"loaded","t":1784879527882}
+{"run":"tap-press","action":"page:/vardagen?tab=ekonomi→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879527886}
+{"run":"tap-press","action":"page:/vardagen?tab=ekonomi→Försök igen","ok":true,"detail":"ok","t":1784879528678}
+{"run":"tap-press","action":"page:/vardagen?tab=ekonomi→Till Hem","ok":true,"detail":"ok","t":1784879529329}
+{"run":"tap-press","action":"page:/vardagen?tab=ekonomi:summary","ok":true,"detail":"tapped=2 unique=13 sacred-skips=1","t":1784879530279}
+{"run":"tap-press","action":"route:/mabra","ok":true,"detail":"loaded","t":1784879531188}
+{"run":"tap-press","action":"page:/mabra→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879531193}
+{"run":"tap-press","action":"page:/mabra:controls","ok":true,"detail":"no-tappable (sacred-skips=1)","t":1784879531378}
+{"run":"tap-press","action":"route:/mabra/akut","ok":true,"detail":"loaded","t":1784879533200}
+{"run":"tap-press","action":"page:/mabra/akut→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879533203}
+{"run":"tap-press","action":"page:/mabra/akut:controls","ok":true,"detail":"no-tappable (sacred-skips=1)","t":1784879533392}
+{"run":"tap-press","action":"route:/mabra/tid","ok":true,"detail":"loaded","t":1784879534116}
+{"run":"tap-press","action":"page:/mabra/tid→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879534121}
+{"run":"tap-press","action":"page:/mabra/tid→Liv och göra","ok":true,"detail":"ok","t":1784879534780}
+{"run":"tap-press","action":"page:/mabra/tid:summary","ok":true,"detail":"tapped=1 unique=12 sacred-skips=1","t":1784879535786}
+{"run":"tap-press","action":"route:/mabra/varderingar","ok":true,"detail":"loaded","t":1784879536834}
+{"run":"tap-press","action":"page:/mabra/varderingar→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879536851}
+{"run":"tap-press","action":"page:/mabra/varderingar→Liv och göra","ok":true,"detail":"ok","t":1784879537541}
+{"run":"tap-press","action":"page:/mabra/varderingar:summary","ok":true,"detail":"tapped=1 unique=12 sacred-skips=1","t":1784879538539}
+{"run":"tap-press","action":"route:/mabra/input","ok":true,"detail":"loaded","t":1784879539317}
+{"run":"tap-press","action":"page:/mabra/input→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879539322}
+{"run":"tap-press","action":"page:/mabra/input→Liv och göra","ok":true,"detail":"ok","t":1784879539979}
+{"run":"tap-press","action":"page:/mabra/input→Hjälp: Mabra","ok":true,"detail":"ok","t":1784879541332}
+{"run":"tap-press","action":"page:/mabra/input→Check-inHumör och energi","ok":true,"detail":"ok","t":1784879541982}
+{"run":"tap-press","action":"page:/mabra/input→skip:KänslominneSpara hur det","ok":true,"detail":"skip-sacred-or-write","t":1784879542164}
+{"run":"tap-press","action":"page:/mabra/input→FrågekortVit reflektion","ok":true,"detail":"ok","t":1784879542632}
+{"run":"tap-press","action":"page:/mabra/input→Lär tillsammansChatt med coa","ok":true,"detail":"ok","t":1784879543969}
+{"run":"tap-press","action":"page:/mabra/input→Känslominne (Vit)Vit-minnesa","ok":true,"detail":"ok","t":1784879545468}
+{"run":"tap-press","action":"page:/mabra/input→Mer…Reflektion, dagbok & ink","ok":true,"detail":"ok","t":1784879546894}
+{"run":"tap-press","action":"page:/mabra/input:summary","ok":true,"detail":"tapped=7 unique=19 sacred-skips=2","t":1784879547076}
+{"run":"tap-press","action":"route:/mabra/recovery/sos","ok":true,"detail":"loaded","t":1784879547719}
+{"run":"tap-press","action":"page:/mabra/recovery/sos→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879547724}
+{"run":"tap-press","action":"page:/mabra/recovery/sos→Liv och göra","ok":true,"detail":"ok","t":1784879548392}
+{"run":"tap-press","action":"page:/mabra/recovery/sos→Andas4-7-8 — följ cirkeln","ok":true,"detail":"ok","t":1784879549747}
+{"run":"tap-press","action":"page:/mabra/recovery/sos→Jordning5-4-3-2-1 — ett steg","ok":true,"detail":"skip-not-found","t":1784879550114}
+{"run":"tap-press","action":"page:/mabra/recovery/sos→1 minStopp & landa","ok":true,"detail":"skip-not-found","t":1784879550479}
+{"run":"tap-press","action":"page:/mabra/recovery/sos→3 minDelay + byt kanal","ok":true,"detail":"skip-not-found","t":1784879550844}
+{"run":"tap-press","action":"page:/mabra/recovery/sos→10 minUrge surf + plan","ok":true,"detail":"skip-not-found","t":1784879551210}
+{"run":"tap-press","action":"page:/mabra/recovery/sos→Urge surfing","ok":true,"detail":"skip-not-found","t":1784879551576}
+{"run":"tap-press","action":"page:/mabra/recovery/sos→HALT-check","ok":true,"detail":"skip-not-found","t":1784879551942}
+{"run":"tap-press","action":"page:/mabra/recovery/sos→Anti-köp (15 min)","ok":true,"detail":"skip-not-found","t":1784879552308}
+{"run":"tap-press","action":"page:/mabra/recovery/sos→Stäng","ok":true,"detail":"skip-not-found","t":1784879552677}
+{"run":"tap-press","action":"page:/mabra/recovery/sos:summary","ok":true,"detail":"tapped=10 unique=24 sacred-skips=1","t":1784879552860}
+{"run":"tap-press","action":"route:/planering","ok":true,"detail":"loaded","t":1784879553652}
+{"run":"tap-press","action":"page:/planering→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879553657}
+{"run":"tap-press","action":"page:/planering→Liv och göra","ok":true,"detail":"ok","t":1784879554310}
+{"run":"tap-press","action":"page:/planering→Öppna planeringsinmatningshu","ok":true,"detail":"ok","t":1784879555612}
+{"run":"tap-press","action":"page:/planering→Öppna veckokalender","ok":true,"detail":"ok","t":1784879556899}
+{"run":"tap-press","action":"page:/planering→Handling","ok":true,"detail":"ok","t":1784879558231}
+{"run":"tap-press","action":"page:/planering→Projekt","ok":true,"detail":"ok","t":1784879559530}
+{"run":"tap-press","action":"page:/planering→Inkorg","ok":true,"detail":"ok","t":1784879560863}
+{"run":"tap-press","action":"page:/planering:summary","ok":true,"detail":"tapped=6 unique=18 sacred-skips=1","t":1784879561811}
+{"run":"tap-press","action":"route:/planering?tab=handling","ok":true,"detail":"loaded","t":1784879562727}
+{"run":"tap-press","action":"page:/planering?tab=handling→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879562747}
+{"run":"tap-press","action":"page:/planering?tab=handling→Liv och göra","ok":true,"detail":"ok","t":1784879563434}
+{"run":"tap-press","action":"page:/planering?tab=handling→Öppna planeringsinmatningshu","ok":true,"detail":"ok","t":1784879564766}
+{"run":"tap-press","action":"page:/planering?tab=handling→Öppna veckokalender","ok":true,"detail":"ok","t":1784879566080}
+{"run":"tap-press","action":"page:/planering?tab=handling→Handling","ok":true,"detail":"ok","t":1784879567485}
+{"run":"tap-press","action":"page:/planering?tab=handling→Projekt","ok":true,"detail":"ok","t":1784879568134}
+{"run":"tap-press","action":"page:/planering?tab=handling→Inkorg","ok":true,"detail":"ok","t":1784879569455}
+{"run":"tap-press","action":"page:/planering?tab=handling:summary","ok":true,"detail":"tapped=6 unique=18 sacred-skips=1","t":1784879570296}
+{"run":"tap-press","action":"route:/planering/kalender","ok":true,"detail":"loaded","t":1784879570964}
+{"run":"tap-press","action":"page:/planering/kalender→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879570967}
+{"run":"tap-press","action":"page:/planering/kalender:controls","ok":true,"detail":"no-tappable (sacred-skips=1)","t":1784879571150}
+{"run":"tap-press","action":"route:/planering/input","ok":true,"detail":"loaded","t":1784879571872}
+{"run":"tap-press","action":"page:/planering/input→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879571875}
+{"run":"tap-press","action":"page:/planering/input:controls","ok":true,"detail":"no-tappable (sacred-skips=1)","t":1784879572059}
+{"run":"tap-press","action":"route:/arbetsliv","ok":true,"detail":"loaded","t":1784879572711}
+{"run":"tap-press","action":"page:/arbetsliv→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879572713}
+{"run":"tap-press","action":"page:/arbetsliv:controls","ok":true,"detail":"no-tappable (sacred-skips=1)","t":1784879572897}
+{"run":"tap-press","action":"route:/arbetsliv/input","ok":true,"detail":"loaded","t":1784879573614}
+{"run":"tap-press","action":"page:/arbetsliv/input→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879573618}
+{"run":"tap-press","action":"page:/arbetsliv/input:controls","ok":true,"detail":"no-tappable (sacred-skips=1)","t":1784879573809}
+{"run":"tap-press","action":"route:/arbetsliv/input?inputMode=tid","ok":true,"detail":"loaded","t":1784879574472}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=tid→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879574475}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=tid→Hjälp: Arbetsliv","ok":true,"detail":"ok","t":1784879575144}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=tid→Lönespec i Valv","ok":true,"detail":"skip-not-found","t":1784879575511}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=tid→Frånvaro i Valv","ok":true,"detail":"skip-not-found","t":1784879575876}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=tid→StämpelStämpla in och ut — f","ok":true,"detail":"skip-not-found","t":1784879576242}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=tid→LönekontorLön, avtal, skatt ","ok":true,"detail":"skip-not-found","t":1784879576608}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=tid→InkomsterLön, FK, omvårdnads","ok":true,"detail":"skip-not-found","t":1784879576975}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=tid→Tid & flexVeckosaldo (read-o","ok":true,"detail":"skip-not-found","t":1784879577342}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=tid:summary","ok":true,"detail":"tapped=7 unique=19 sacred-skips=1","t":1784879577524}
+{"run":"tap-press","action":"route:/arbetsliv/input?inputMode=inkomster","ok":true,"detail":"loaded","t":1784879578227}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=inkomster→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879578231}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=inkomster→Hjälp: Arbetsliv","ok":true,"detail":"ok","t":1784879578996}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=inkomster→Lönespec i Valv","ok":true,"detail":"skip-not-found","t":1784879579361}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=inkomster→Frånvaro i Valv","ok":true,"detail":"skip-not-found","t":1784879579725}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=inkomster→StämpelStämpla in och ut — f","ok":true,"detail":"skip-not-found","t":1784879580090}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=inkomster→LönekontorLön, avtal, skatt ","ok":true,"detail":"skip-not-found","t":1784879580458}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=inkomster→InkomsterLön, FK, omvårdnads","ok":true,"detail":"skip-not-found","t":1784879580824}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=inkomster→Tid & flexVeckosaldo (read-o","ok":true,"detail":"skip-not-found","t":1784879581191}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=inkomster:summary","ok":true,"detail":"tapped=7 unique=18 sacred-skips=1","t":1784879581373}
+{"run":"tap-press","action":"route:/arbetsliv/input?inputMode=stampla","ok":true,"detail":"loaded","t":1784879582137}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=stampla→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879582181}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=stampla→Hjälp: Arbetsliv","ok":true,"detail":"ok","t":1784879582893}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=stampla→Lönespec i Valv","ok":true,"detail":"skip-not-found","t":1784879583258}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=stampla→Frånvaro i Valv","ok":true,"detail":"skip-not-found","t":1784879583624}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=stampla→StämpelStämpla in och ut — f","ok":true,"detail":"skip-not-found","t":1784879583990}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=stampla→LönekontorLön, avtal, skatt ","ok":true,"detail":"skip-not-found","t":1784879584357}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=stampla→InkomsterLön, FK, omvårdnads","ok":true,"detail":"skip-not-found","t":1784879584724}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=stampla→Tid & flexVeckosaldo (read-o","ok":true,"detail":"skip-not-found","t":1784879585091}
+{"run":"tap-press","action":"page:/arbetsliv/input?inputMode=stampla:summary","ok":true,"detail":"tapped=7 unique=18 sacred-skips=1","t":1784879585274}
+{"run":"tap-press","action":"route:/familjen","ok":true,"detail":"loaded","t":1784879586489}
+{"run":"tap-press","action":"page:/familjen→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879586518}
+{"run":"tap-press","action":"page:/familjen:controls","ok":true,"detail":"no-tappable (sacred-skips=1)","t":1784879586813}
+{"run":"tap-press","action":"route:/familjen?tab=reflektion","ok":true,"detail":"loaded","t":1784879587798}
+{"run":"tap-press","action":"page:/familjen?tab=reflektion→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879587816}
+{"run":"tap-press","action":"page:/familjen?tab=reflektion→Hjälp: Förälder-hub","ok":true,"detail":"ok","t":1784879588532}
+{"run":"tap-press","action":"page:/familjen?tab=reflektion→Livslogg","ok":true,"detail":"ok","t":1784879589182}
+{"run":"tap-press","action":"page:/familjen?tab=reflektion→Tillsammans","ok":true,"detail":"ok","t":1784879590593}
+{"run":"tap-press","action":"page:/familjen?tab=reflektion→Barnporten","ok":true,"detail":"ok","t":1784879591999}
+{"run":"tap-press","action":"page:/familjen?tab=reflektion→Trygg Hamn (BIFF)","ok":true,"detail":"ok","t":1784879593310}
+{"run":"tap-press","action":"page:/familjen?tab=reflektion→Drogfrihet","ok":true,"detail":"ok","t":1784879594661}
+{"run":"tap-press","action":"page:/familjen?tab=reflektion→Barnfokus","ok":true,"detail":"ok","t":1784879595982}
+{"run":"tap-press","action":"page:/familjen?tab=reflektion→Livslogg","ok":true,"detail":"ok","t":1784879597711}
+{"run":"tap-press","action":"page:/familjen?tab=reflektion→Tillsammans","ok":true,"detail":"ok","t":1784879599843}
+{"run":"tap-press","action":"page:/familjen?tab=reflektion→Barnporten","ok":true,"detail":"ok","t":1784879601666}
+{"run":"tap-press","action":"page:/familjen?tab=reflektion→Hamn","ok":true,"detail":"ok","t":1784879603109}
+{"run":"tap-press","action":"page:/familjen?tab=reflektion→Drogfrihet","ok":true,"detail":"ok","t":1784879604545}
+{"run":"tap-press","action":"page:/familjen?tab=reflektion:summary","ok":true,"detail":"tapped=12 unique=23 sacred-skips=1","t":1784879605454}
+{"run":"tap-press","action":"route:/familjen?tab=livslogg","ok":true,"detail":"loaded","t":1784879606146}
+{"run":"tap-press","action":"page:/familjen?tab=livslogg→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879606151}
+{"run":"tap-press","action":"page:/familjen?tab=livslogg→Hjälp: Förälder-hub","ok":true,"detail":"ok","t":1784879606811}
+{"run":"tap-press","action":"page:/familjen?tab=livslogg→Dagens Barnfokus","ok":true,"detail":"ok","t":1784879607460}
+{"run":"tap-press","action":"page:/familjen?tab=livslogg→Tillsammans","ok":true,"detail":"ok","t":1784879608781}
+{"run":"tap-press","action":"page:/familjen?tab=livslogg→Barnporten","ok":true,"detail":"ok","t":1784879610127}
+{"run":"tap-press","action":"page:/familjen?tab=livslogg→Trygg Hamn (BIFF)","ok":true,"detail":"ok","t":1784879611449}
+{"run":"tap-press","action":"page:/familjen?tab=livslogg→Drogfrihet","ok":true,"detail":"ok","t":1784879612781}
+{"run":"tap-press","action":"page:/familjen?tab=livslogg→Barnfokus","ok":true,"detail":"ok","t":1784879614115}
+{"run":"tap-press","action":"page:/familjen?tab=livslogg→Livslogg","ok":true,"detail":"ok","t":1784879615460}
+{"run":"tap-press","action":"page:/familjen?tab=livslogg→Tillsammans","ok":true,"detail":"ok","t":1784879616111}
+{"run":"tap-press","action":"page:/familjen?tab=livslogg→Barnporten","ok":true,"detail":"ok","t":1784879617463}
+{"run":"tap-press","action":"page:/familjen?tab=livslogg→Hamn","ok":true,"detail":"ok","t":1784879618829}
+{"run":"tap-press","action":"page:/familjen?tab=livslogg→Drogfrihet","ok":true,"detail":"ok","t":1784879620255}
+{"run":"tap-press","action":"page:/familjen?tab=livslogg:summary","ok":true,"detail":"tapped=12 unique=23 sacred-skips=1","t":1784879621232}
+{"run":"tap-press","action":"route:/familjen?tab=tillsammans","ok":true,"detail":"loaded","t":1784879621944}
+{"run":"tap-press","action":"page:/familjen?tab=tillsammans→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879621947}
+{"run":"tap-press","action":"page:/familjen?tab=tillsammans→Hjälp: Förälder-hub","ok":true,"detail":"ok","t":1784879622608}
+{"run":"tap-press","action":"page:/familjen?tab=tillsammans→Välj vy i Familjen","ok":true,"detail":"ok","t":1784879623273}
+{"run":"tap-press","action":"page:/familjen?tab=tillsammans→Barnfokus","ok":true,"detail":"ok","t":1784879623927}
+{"run":"tap-press","action":"page:/familjen?tab=tillsammans→Livslogg","ok":true,"detail":"ok","t":1784879625327}
+{"run":"tap-press","action":"page:/familjen?tab=tillsammans→Tillsammans","ok":true,"detail":"ok","t":1784879626748}
+{"run":"tap-press","action":"page:/familjen?tab=tillsammans→Barnporten","ok":true,"detail":"ok","t":1784879627399}
+{"run":"tap-press","action":"page:/familjen?tab=tillsammans→Hamn","ok":true,"detail":"ok","t":1784879628741}
+{"run":"tap-press","action":"page:/familjen?tab=tillsammans→Drogfrihet","ok":true,"detail":"ok","t":1784879630131}
+{"run":"tap-press","action":"page:/familjen?tab=tillsammans→Tid tillsammansKvalitetstid ","ok":true,"detail":"ok","t":1784879631512}
+{"run":"tap-press","action":"page:/familjen?tab=tillsammans:summary","ok":true,"detail":"tapped=9 unique=21 sacred-skips=1","t":1784879632404}
+{"run":"tap-press","action":"route:/familjen?tab=barnporten","ok":true,"detail":"loaded","t":1784879633055}
+{"run":"tap-press","action":"page:/familjen?tab=barnporten→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879633060}
+{"run":"tap-press","action":"page:/familjen?tab=barnporten→Hjälp: Förälder-hub","ok":true,"detail":"ok","t":1784879633721}
+{"run":"tap-press","action":"page:/familjen?tab=barnporten→Välj vy i Familjen","ok":true,"detail":"ok","t":1784879634382}
+{"run":"tap-press","action":"page:/familjen?tab=barnporten→Barnfokus","ok":true,"detail":"ok","t":1784879635032}
+{"run":"tap-press","action":"page:/familjen?tab=barnporten→Livslogg","ok":true,"detail":"ok","t":1784879636385}
+{"run":"tap-press","action":"page:/familjen?tab=barnporten→Tillsammans","ok":true,"detail":"ok","t":1784879637730}
+{"run":"tap-press","action":"page:/familjen?tab=barnporten→Barnporten","ok":true,"detail":"ok","t":1784879639093}
+{"run":"tap-press","action":"page:/familjen?tab=barnporten→Hamn","ok":true,"detail":"ok","t":1784879639747}
+{"run":"tap-press","action":"page:/familjen?tab=barnporten→Drogfrihet","ok":true,"detail":"ok","t":1784879641074}
+{"run":"tap-press","action":"page:/familjen?tab=barnporten→Kasper","ok":true,"detail":"ok","t":1784879642365}
+{"run":"tap-press","action":"page:/familjen?tab=barnporten→Arvid","ok":true,"detail":"ok","t":1784879643024}
+{"run":"tap-press","action":"page:/familjen?tab=barnporten:summary","ok":true,"detail":"tapped=10 unique=21 sacred-skips=1","t":1784879643207}
+{"run":"tap-press","action":"route:/familjen?tab=hamn","ok":true,"detail":"loaded","t":1784879643888}
+{"run":"tap-press","action":"page:/familjen?tab=hamn→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879643893}
+{"run":"tap-press","action":"page:/familjen?tab=hamn→Hjälp: Förälder-hub","ok":true,"detail":"ok","t":1784879644552}
+{"run":"tap-press","action":"page:/familjen?tab=hamn→Välj vy i Familjen","ok":true,"detail":"ok","t":1784879645213}
+{"run":"tap-press","action":"page:/familjen?tab=hamn→Barnfokus","ok":true,"detail":"ok","t":1784879645862}
+{"run":"tap-press","action":"page:/familjen?tab=hamn→Livslogg","ok":true,"detail":"ok","t":1784879647244}
+{"run":"tap-press","action":"page:/familjen?tab=hamn→Tillsammans","ok":true,"detail":"ok","t":1784879648564}
+{"run":"tap-press","action":"page:/familjen?tab=hamn→Barnporten","ok":true,"detail":"ok","t":1784879649909}
+{"run":"tap-press","action":"page:/familjen?tab=hamn→Hamn","ok":true,"detail":"ok","t":1784879651282}
+{"run":"tap-press","action":"page:/familjen?tab=hamn→Drogfrihet","ok":true,"detail":"ok","t":1784879651933}
+{"run":"tap-press","action":"page:/familjen?tab=hamn:summary","ok":true,"detail":"tapped=8 unique=20 sacred-skips=1","t":1784879652806}
+{"run":"tap-press","action":"route:/familjen?tab=drogfrihet","ok":true,"detail":"loaded","t":1784879653472}
+{"run":"tap-press","action":"page:/familjen?tab=drogfrihet→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879653475}
+{"run":"tap-press","action":"page:/familjen?tab=drogfrihet→Hjälp: Förälder-hub","ok":true,"detail":"ok","t":1784879654133}
+{"run":"tap-press","action":"page:/familjen?tab=drogfrihet→Välj vy i Familjen","ok":true,"detail":"ok","t":1784879654790}
+{"run":"tap-press","action":"page:/familjen?tab=drogfrihet→Barnfokus","ok":true,"detail":"ok","t":1784879655442}
+{"run":"tap-press","action":"page:/familjen?tab=drogfrihet→Livslogg","ok":true,"detail":"ok","t":1784879657027}
+{"run":"tap-press","action":"page:/familjen?tab=drogfrihet→Tillsammans","ok":true,"detail":"ok","t":1784879658375}
+{"run":"tap-press","action":"page:/familjen?tab=drogfrihet→Barnporten","ok":true,"detail":"ok","t":1784879659723}
+{"run":"tap-press","action":"page:/familjen?tab=drogfrihet→Hamn","ok":true,"detail":"ok","t":1784879661063}
+{"run":"tap-press","action":"page:/familjen?tab=drogfrihet→Drogfrihet","ok":true,"detail":"ok","t":1784879662394}
+{"run":"tap-press","action":"page:/familjen?tab=drogfrihet→Hjälp: Drogfrihet","ok":true,"detail":"ok","t":1784879663061}
+{"run":"tap-press","action":"page:/familjen?tab=drogfrihet→Idag","ok":true,"detail":"ok","t":1784879663711}
+{"run":"tap-press","action":"page:/familjen?tab=drogfrihet→12 steg","ok":true,"detail":"ok","t":1784879664360}
+{"run":"tap-press","action":"page:/familjen?tab=drogfrihet→Stöd","ok":true,"detail":"ok","t":1784879665765}
+{"run":"tap-press","action":"page:/familjen?tab=drogfrihet:summary","ok":true,"detail":"tapped=12 unique=23 sacred-skips=1","t":1784879666665}
+{"run":"tap-press","action":"route:/barnporten","ok":true,"detail":"loaded","t":1784879667288}
+{"run":"tap-press","action":"page:/barnporten→🙂Glad","ok":true,"detail":"ok","t":1784879667955}
+{"run":"tap-press","action":"page:/barnporten→😢Ledsen","ok":true,"detail":"ok","t":1784879668609}
+{"run":"tap-press","action":"page:/barnporten→😠Arg","ok":true,"detail":"ok","t":1784879669262}
+{"run":"tap-press","action":"page:/barnporten→😴Trött","ok":true,"detail":"ok","t":1784879669917}
+{"run":"tap-press","action":"page:/barnporten→😟Orolig","ok":true,"detail":"ok","t":1784879670573}
+{"run":"tap-press","action":"page:/barnporten→Andas lugnt (3 andetag)","ok":true,"detail":"ok","t":1784879671228}
+{"run":"tap-press","action":"page:/barnporten→Ange humör","ok":true,"detail":"ok","t":1784879671896}
+{"run":"tap-press","action":"page:/barnporten→Återställ (Nivå 1)","ok":true,"detail":"ok","t":1784879672546}
+{"run":"tap-press","action":"page:/barnporten→Tvinga Nivå 2","ok":true,"detail":"ok","t":1784879673194}
+{"run":"tap-press","action":"page:/barnporten→Allvarligt — kontakta trygg ","ok":true,"detail":"skip-not-found","t":1784879673560}
+{"run":"tap-press","action":"page:/barnporten:summary","ok":true,"detail":"tapped=10 unique=19 sacred-skips=0","t":1784879673742}
+{"run":"tap-press","action":"route:/hjartat","ok":true,"detail":"loaded","t":1784879674434}
+{"run":"tap-press","action":"page:/hjartat→Skriv ny anteckning","ok":true,"detail":"ok","t":1784879674733}
+{"run":"tap-press","action":"page:/hjartat→Dagbok","ok":true,"detail":"skip-not-found","t":1784879675383}
+{"run":"tap-press","action":"page:/hjartat→Speglar","ok":true,"detail":"skip-not-found","t":1784879675386}
+{"run":"tap-press","action":"page:/hjartat→Hjälp: Reflektera — journal","ok":true,"detail":"skip-not-found","t":1784879675388}
+{"run":"tap-press","action":"page:/hjartat→skip:Steg för steg — humör, t","ok":true,"detail":"skip-sacred-or-write","t":1784879675388}
+{"run":"tap-press","action":"page:/hjartat→Känsla + valfri rad + spegli","ok":true,"detail":"skip-not-found","t":1784879675389}
+{"run":"tap-press","action":"page:/hjartat→skip:Läs dina sparade tankar","ok":true,"detail":"skip-sacred-or-write","t":1784879675389}
+{"run":"tap-press","action":"page:/hjartat→Ventilera och förstör (Zero ","ok":true,"detail":"skip-not-found","t":1784879675431}
+{"run":"tap-press","action":"page:/hjartat→Låt AI validera och spegla d","ok":true,"detail":"skip-not-found","t":1784879675437}
+{"run":"tap-press","action":"page:/hjartat→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879675438}
+{"run":"tap-press","action":"page:/hjartat→18Lör","ok":true,"detail":"ok","t":1784879676105}
+{"run":"tap-press","action":"page:/hjartat→19Sön","ok":true,"detail":"ok","t":1784879676756}
+{"run":"tap-press","action":"page:/hjartat→20Mån","ok":true,"detail":"ok","t":1784879677407}
+{"run":"tap-press","action":"page:/hjartat→21Tis","ok":true,"detail":"ok","t":1784879678059}
+{"run":"tap-press","action":"page:/hjartat→22Ons","ok":true,"detail":"ok","t":1784879678708}
+{"run":"tap-press","action":"page:/hjartat:summary","ok":true,"detail":"tapped=12 unique=25 sacred-skips=3","t":1784879678891}
+{"run":"tap-press","action":"route:/hjartat?tab=reflektion","ok":true,"detail":"loaded","t":1784879679612}
+{"run":"tap-press","action":"page:/hjartat?tab=reflektion→Skriv ny anteckning","ok":true,"detail":"ok","t":1784879679955}
+{"run":"tap-press","action":"page:/hjartat?tab=reflektion→Dagbok","ok":true,"detail":"skip-not-found","t":1784879680691}
+{"run":"tap-press","action":"page:/hjartat?tab=reflektion→Speglar","ok":true,"detail":"skip-not-found","t":1784879680692}
+{"run":"tap-press","action":"page:/hjartat?tab=reflektion→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879680692}
+{"run":"tap-press","action":"page:/hjartat?tab=reflektion→Hjälp: Reflektera — journal","ok":true,"detail":"ok","t":1784879681371}
+{"run":"tap-press","action":"page:/hjartat?tab=reflektion→skip:Steg för steg — humör, t","ok":true,"detail":"skip-sacred-or-write","t":1784879681554}
+{"run":"tap-press","action":"page:/hjartat?tab=reflektion→Känsla + valfri rad + spegli","ok":true,"detail":"ok","t":1784879682023}
+{"run":"tap-press","action":"page:/hjartat?tab=reflektion→skip:Läs dina sparade tankar","ok":true,"detail":"skip-sacred-or-write","t":1784879683043}
+{"run":"tap-press","action":"page:/hjartat?tab=reflektion→Ventilera och förstör (Zero ","ok":true,"detail":"ok","t":1784879683512}
+{"run":"tap-press","action":"page:/hjartat?tab=reflektion→Låt AI validera och spegla d","ok":true,"detail":"ok","t":1784879684879}
+{"run":"tap-press","action":"page:/hjartat?tab=reflektion→18Lör","ok":true,"detail":"ok","t":1784879686192}
+{"run":"tap-press","action":"page:/hjartat?tab=reflektion→19Sön","ok":true,"detail":"ok","t":1784879686842}
+{"run":"tap-press","action":"page:/hjartat?tab=reflektion→20Mån","ok":true,"detail":"ok","t":1784879687493}
+{"run":"tap-press","action":"page:/hjartat?tab=reflektion→21Tis","ok":true,"detail":"ok","t":1784879688143}
+{"run":"tap-press","action":"page:/hjartat?tab=reflektion→22Ons","ok":true,"detail":"ok","t":1784879688793}
+{"run":"tap-press","action":"page:/hjartat?tab=reflektion:summary","ok":true,"detail":"tapped=12 unique=25 sacred-skips=3","t":1784879688974}
+{"run":"tap-press","action":"route:/hjartat?tab=speglar","ok":true,"detail":"loaded","t":1784879689638}
+{"run":"tap-press","action":"page:/hjartat?tab=speglar→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879689641}
+{"run":"tap-press","action":"page:/hjartat?tab=speglar:controls","ok":true,"detail":"no-tappable (sacred-skips=1)","t":1784879689824}
+{"run":"tap-press","action":"route:/orakel","ok":true,"detail":"loaded","t":1784879690481}
+{"run":"tap-press","action":"page:/orakel→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879690484}
+{"run":"tap-press","action":"page:/orakel:controls","ok":true,"detail":"no-tappable (sacred-skips=1)","t":1784879690670}
+{"run":"tap-press","action":"route:/reflection","ok":true,"detail":"loaded","t":1784879691376}
+{"run":"tap-press","action":"page:/reflection→skip:Lås upp Valvet (biometri","ok":true,"detail":"skip-sacred-or-write","t":1784879691425}
+{"run":"tap-press","action":"page:/reflection→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879691425}
+{"run":"tap-press","action":"page:/reflection:controls","ok":true,"detail":"no-tappable (sacred-skips=2)","t":1784879691614}
+{"run":"tap-press","action":"route:/biochem","ok":true,"detail":"loaded","t":1784879692271}
+{"run":"tap-press","action":"page:/biochem→Intag","ok":true,"detail":"ok","t":1784879692559}
+{"run":"tap-press","action":"page:/biochem→Krasch-Prep","ok":true,"detail":"ok","t":1784879692847}
+{"run":"tap-press","action":"page:/biochem→Inköp","ok":true,"detail":"ok","t":1784879693138}
+{"run":"tap-press","action":"page:/biochem→Vatten + Salt","ok":true,"detail":"skip-not-found","t":1784879693139}
+{"run":"tap-press","action":"page:/biochem→Protein (Dopamin)","ok":true,"detail":"skip-not-found","t":1784879693140}
+{"run":"tap-press","action":"page:/biochem→Komplexa Kolh.","ok":true,"detail":"skip-not-found","t":1784879693141}
+{"run":"tap-press","action":"page:/biochem→Vagusnerv-stimulans","ok":true,"detail":"ok","t":1784879693426}
+{"run":"tap-press","action":"page:/biochem→Fysiologisk Suck","ok":true,"detail":"skip-not-found","t":1784879693427}
+{"run":"tap-press","action":"page:/biochem→RSD Akut-Grounding","ok":true,"detail":"ok","t":1784879693714}
+{"run":"tap-press","action":"page:/biochem→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879693714}
+{"run":"tap-press","action":"page:/biochem→Intag","ok":true,"detail":"ok","t":1784879694371}
+{"run":"tap-press","action":"page:/biochem→Krasch-Prep","ok":true,"detail":"ok","t":1784879695023}
+{"run":"tap-press","action":"page:/biochem→Inköp","ok":true,"detail":"skip-not-found","t":1784879695389}
+{"run":"tap-press","action":"page:/biochem:summary","ok":true,"detail":"tapped=12 unique=23 sacred-skips=1","t":1784879695571}
+{"run":"tap-press","action":"route:/inkast","ok":true,"detail":"loaded","t":1784879696342}
+{"run":"tap-press","action":"page:/inkast→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879696356}
+{"run":"tap-press","action":"page:/inkast→Skriv nu","ok":true,"detail":"ok","t":1784879697814}
+{"run":"tap-press","action":"page:/inkast→Barnfokus","ok":true,"detail":"ok","t":1784879699902}
+{"run":"tap-press","action":"page:/inkast→Ny stund","ok":true,"detail":"ok","t":1784879702014}
+{"run":"tap-press","action":"page:/inkast→Fysiologi","ok":true,"detail":"ok","t":1784879704106}
+{"run":"tap-press","action":"page:/inkast→Mer…","ok":true,"detail":"ok","t":1784879706177}
+{"run":"tap-press","action":"page:/inkast→Lär känna","ok":true,"detail":"ok","t":1784879708445}
+{"run":"tap-press","action":"page:/inkast:summary","ok":true,"detail":"tapped=6 unique=20 sacred-skips=1","t":1784879709336}
+{"run":"tap-press","action":"route:/projekt","ok":true,"detail":"loaded","t":1784879710038}
+{"run":"tap-press","action":"page:/projekt→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879710041}
+{"run":"tap-press","action":"page:/projekt→Handling","ok":true,"detail":"ok","t":1784879710693}
+{"run":"tap-press","action":"page:/projekt→Projekt","ok":true,"detail":"ok","t":1784879712041}
+{"run":"tap-press","action":"page:/projekt→Inkorg","ok":true,"detail":"ok","t":1784879712690}
+{"run":"tap-press","action":"page:/projekt→skip:Nytt projekt","ok":true,"detail":"skip-sacred-or-write","t":1784879713627}
+{"run":"tap-press","action":"page:/projekt→Regler & automation","ok":true,"detail":"skip-not-found","t":1784879713811}
+{"run":"tap-press","action":"page:/projekt→Genvägar per profilAnpassa k","ok":true,"detail":"skip-not-found","t":1784879714176}
+{"run":"tap-press","action":"page:/projekt:summary","ok":true,"detail":"tapped=5 unique=17 sacred-skips=2","t":1784879714359}
+{"run":"tap-press","action":"route:/projekt/ny","ok":true,"detail":"loaded","t":1784879715062}
+{"run":"tap-press","action":"page:/projekt/ny→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879715066}
+{"run":"tap-press","action":"page:/projekt/ny→Handling","ok":true,"detail":"ok","t":1784879715720}
+{"run":"tap-press","action":"page:/projekt/ny→Projekt","ok":true,"detail":"ok","t":1784879717054}
+{"run":"tap-press","action":"page:/projekt/ny→Inkorg","ok":true,"detail":"ok","t":1784879718348}
+{"run":"tap-press","action":"page:/projekt/ny→Lista","ok":true,"detail":"ok","t":1784879719712}
+{"run":"tap-press","action":"page:/projekt/ny→Bild","ok":true,"detail":"ok","t":1784879720361}
+{"run":"tap-press","action":"page:/projekt/ny→Video","ok":true,"detail":"ok","t":1784879721723}
+{"run":"tap-press","action":"page:/projekt/ny→Uppgift → Handling","ok":true,"detail":"ok","t":1784879723141}
+{"run":"tap-press","action":"page:/projekt/ny:summary","ok":true,"detail":"tapped=7 unique=21 sacred-skips=1","t":1784879723323}
+{"run":"tap-press","action":"route:/projekt/regler","ok":true,"detail":"loaded","t":1784879724025}
+{"run":"tap-press","action":"page:/projekt/regler→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879724064}
+{"run":"tap-press","action":"page:/projekt/regler→Handling","ok":true,"detail":"ok","t":1784879724723}
+{"run":"tap-press","action":"page:/projekt/regler→Projekt","ok":true,"detail":"ok","t":1784879726097}
+{"run":"tap-press","action":"page:/projekt/regler→Inkorg","ok":true,"detail":"ok","t":1784879727490}
+{"run":"tap-press","action":"page:/projekt/regler→← Projekt","ok":true,"detail":"ok","t":1784879728805}
+{"run":"tap-press","action":"page:/projekt/regler→E-postregler (Planering)","ok":true,"detail":"ok","t":1784879730245}
+{"run":"tap-press","action":"page:/projekt/regler→Planering → Inkorg","ok":true,"detail":"skip-not-found","t":1784879731377}
+{"run":"tap-press","action":"page:/projekt/regler:summary","ok":true,"detail":"tapped=6 unique=17 sacred-skips=1","t":1784879731559}
+{"run":"tap-press","action":"route:/projekt/genvagar","ok":true,"detail":"loaded","t":1784879732235}
+{"run":"tap-press","action":"page:/projekt/genvagar→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879732239}
+{"run":"tap-press","action":"page:/projekt/genvagar→Handling","ok":true,"detail":"ok","t":1784879732900}
+{"run":"tap-press","action":"page:/projekt/genvagar→Projekt","ok":true,"detail":"ok","t":1784879734263}
+{"run":"tap-press","action":"page:/projekt/genvagar→Inkorg","ok":true,"detail":"ok","t":1784879735628}
+{"run":"tap-press","action":"page:/projekt/genvagar→← Projekt","ok":true,"detail":"ok","t":1784879737011}
+{"run":"tap-press","action":"page:/projekt/genvagar→Byt aktiv profil (Inställnin","ok":true,"detail":"ok","t":1784879738373}
+{"run":"tap-press","action":"page:/projekt/genvagar→Förälder — trygg hamnFamilje","ok":true,"detail":"ok","t":1784879739709}
+{"run":"tap-press","action":"page:/projekt/genvagar→Rehab — låg stimulusMabra, K","ok":true,"detail":"ok","t":1784879740386}
+{"run":"tap-press","action":"page:/projekt/genvagar→Vardag & arbetePlanering, st","ok":true,"detail":"ok","t":1784879741040}
+{"run":"tap-press","action":"page:/projekt/genvagar→MinimalBara det nödvändiga p","ok":true,"detail":"ok","t":1784879741693}
+{"run":"tap-press","action":"page:/projekt/genvagar:summary","ok":true,"detail":"tapped=9 unique=22 sacred-skips=1","t":1784879741875}
+{"run":"tap-press","action":"route:/installningar","ok":true,"detail":"loaded","t":1784879742626}
+{"run":"tap-press","action":"page:/installningar→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879742645}
+{"run":"tap-press","action":"page:/installningar→Allmänt","ok":true,"detail":"ok","t":1784879743396}
+{"run":"tap-press","action":"page:/installningar→Näring","ok":true,"detail":"ok","t":1784879744045}
+{"run":"tap-press","action":"page:/installningar→Drogfrihet","ok":true,"detail":"ok","t":1784879745374}
+{"run":"tap-press","action":"page:/installningar→Widget StudioÖppna →","ok":true,"detail":"ok","t":1784879746739}
+{"run":"tap-press","action":"page:/installningar→Companion-labbTesta alla 10","ok":true,"detail":"ok","t":1784879748054}
+{"run":"tap-press","action":"page:/installningar→on","ok":true,"detail":"ok","t":1784879749453}
+{"run":"tap-press","action":"page:/installningar:summary","ok":true,"detail":"tapped=6 unique=18 sacred-skips=1","t":1784879749636}
+{"run":"tap-press","action":"route:/installningar?tab=allmant","ok":true,"detail":"loaded","t":1784879750337}
+{"run":"tap-press","action":"page:/installningar?tab=allmant→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879750340}
+{"run":"tap-press","action":"page:/installningar?tab=allmant→Allmänt","ok":true,"detail":"ok","t":1784879750990}
+{"run":"tap-press","action":"page:/installningar?tab=allmant→Näring","ok":true,"detail":"ok","t":1784879752361}
+{"run":"tap-press","action":"page:/installningar?tab=allmant→Drogfrihet","ok":true,"detail":"ok","t":1784879753736}
+{"run":"tap-press","action":"page:/installningar?tab=allmant→Widget StudioÖppna →","ok":true,"detail":"ok","t":1784879755084}
+{"run":"tap-press","action":"page:/installningar?tab=allmant→Companion-labbTesta alla 10","ok":true,"detail":"ok","t":1784879756458}
+{"run":"tap-press","action":"page:/installningar?tab=allmant→on","ok":true,"detail":"ok","t":1784879757958}
+{"run":"tap-press","action":"page:/installningar?tab=allmant:summary","ok":true,"detail":"tapped=6 unique=18 sacred-skips=1","t":1784879758140}
+{"run":"tap-press","action":"route:/installningar?tab=naring","ok":true,"detail":"loaded","t":1784879758809}
+{"run":"tap-press","action":"page:/installningar?tab=naring→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879758811}
+{"run":"tap-press","action":"page:/installningar?tab=naring→Allmänt","ok":true,"detail":"ok","t":1784879759463}
+{"run":"tap-press","action":"page:/installningar?tab=naring→Näring","ok":true,"detail":"ok","t":1784879760786}
+{"run":"tap-press","action":"page:/installningar?tab=naring→Drogfrihet","ok":true,"detail":"ok","t":1784879761437}
+{"run":"tap-press","action":"page:/installningar?tab=naring→Öppna snabb logg","ok":true,"detail":"ok","t":1784879762775}
+{"run":"tap-press","action":"page:/installningar?tab=naring→on","ok":true,"detail":"ok","t":1784879764137}
+{"run":"tap-press","action":"page:/installningar?tab=naring→on","ok":true,"detail":"ok","t":1784879764790}
+{"run":"tap-press","action":"page:/installningar?tab=naring:summary","ok":true,"detail":"tapped=6 unique=17 sacred-skips=1","t":1784879764973}
+{"run":"tap-press","action":"route:/installningar?tab=drogfrihet","ok":true,"detail":"loaded","t":1784879765707}
+{"run":"tap-press","action":"page:/installningar?tab=drogfrihet→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879765713}
+{"run":"tap-press","action":"page:/installningar?tab=drogfrihet→Allmänt","ok":true,"detail":"ok","t":1784879766374}
+{"run":"tap-press","action":"page:/installningar?tab=drogfrihet→Näring","ok":true,"detail":"ok","t":1784879767691}
+{"run":"tap-press","action":"page:/installningar?tab=drogfrihet→Drogfrihet","ok":true,"detail":"ok","t":1784879768990}
+{"run":"tap-press","action":"page:/installningar?tab=drogfrihet→skip:Spara startdatum","ok":true,"detail":"skip-sacred-or-write","t":1784879769173}
+{"run":"tap-press","action":"page:/installningar?tab=drogfrihet→Starta från idag","ok":true,"detail":"ok","t":1784879769643}
+{"run":"tap-press","action":"page:/installningar?tab=drogfrihet:summary","ok":true,"detail":"tapped=4 unique=16 sacred-skips=2","t":1784879769825}
+{"run":"tap-press","action":"route:/installningar/widget-studio","ok":true,"detail":"loaded","t":1784879770490}
+{"run":"tap-press","action":"page:/installningar/widget-studio→Inställningar","ok":true,"detail":"ok","t":1784879770778}
+{"run":"tap-press","action":"page:/installningar/widget-studio→Öppna Hem","ok":true,"detail":"ok","t":1784879771802}
+{"run":"tap-press","action":"page:/installningar/widget-studio→Visa Companion-railen på Hem","ok":true,"detail":"ok","t":1784879772819}
+{"run":"tap-press","action":"page:/installningar/widget-studio→on","ok":true,"detail":"skip-not-found","t":1784879772821}
+{"run":"tap-press","action":"page:/installningar/widget-studio→on","ok":true,"detail":"skip-not-found","t":1784879772822}
+{"run":"tap-press","action":"page:/installningar/widget-studio→on","ok":true,"detail":"skip-not-found","t":1784879772823}
+{"run":"tap-press","action":"page:/installningar/widget-studio→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879772823}
+{"run":"tap-press","action":"page:/installningar/widget-studio→Öppna Hem","ok":true,"detail":"ok","t":1784879773473}
+{"run":"tap-press","action":"page:/installningar/widget-studio→Visa Companion-railen på Hem","ok":true,"detail":"skip-not-found","t":1784879774504}
+{"run":"tap-press","action":"page:/installningar/widget-studio→on","ok":true,"detail":"skip-not-found","t":1784879774877}
+{"run":"tap-press","action":"page:/installningar/widget-studio→on","ok":true,"detail":"skip-not-found","t":1784879775251}
+{"run":"tap-press","action":"page:/installningar/widget-studio→on","ok":true,"detail":"skip-not-found","t":1784879775617}
+{"run":"tap-press","action":"page:/installningar/widget-studio:summary","ok":true,"detail":"tapped=11 unique=28 sacred-skips=1","t":1784879775800}
+{"run":"tap-press","action":"route:/valvet","ok":true,"detail":"loaded","t":1784879776496}
+{"run":"tap-press","action":"page:/valvet→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879776574}
+{"run":"tap-press","action":"page:/valvet:controls","ok":true,"detail":"no-tappable (sacred-skips=1)","t":1784879776818}
+{"run":"tap-press","action":"route:/valvet/installningar","ok":true,"detail":"loaded","t":1784879778765}
+{"run":"tap-press","action":"page:/valvet/installningar→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879778778}
+{"run":"tap-press","action":"page:/valvet/installningar:controls","ok":true,"detail":"no-tappable (sacred-skips=1)","t":1784879778962}
+{"run":"tap-press","action":"route:/sos","ok":true,"detail":"loaded","t":1784879779708}
+{"run":"tap-press","action":"page:/sos→Skriv nu","ok":true,"detail":"ok","t":1784879780728}
+{"run":"tap-press","action":"page:/sos→Barnfokus","ok":true,"detail":"skip-not-found","t":1784879782460}
+{"run":"tap-press","action":"page:/sos→Ny stund","ok":true,"detail":"skip-not-found","t":1784879783845}
+{"run":"tap-press","action":"page:/sos→Fysiologi","ok":true,"detail":"skip-not-found","t":1784879785270}
+{"run":"tap-press","action":"page:/sos→Mer…","ok":true,"detail":"skip-not-found","t":1784879786674}
+{"run":"tap-press","action":"page:/sos→Lär känna","ok":true,"detail":"ok","t":1784879788303}
+{"run":"tap-press","action":"page:/sos→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879788993}
+{"run":"tap-press","action":"page:/sos→Skriv nu","ok":true,"detail":"ok","t":1784879790385}
+{"run":"tap-press","action":"page:/sos:summary","ok":true,"detail":"tapped=7 unique=22 sacred-skips=1","t":1784879791283}
+{"run":"tap-press","action":"route:/widget/anteckning","ok":true,"detail":"loaded","t":1784879791997}
+{"run":"tap-press","action":"page:/widget/anteckning→Dagbok","ok":true,"detail":"ok","t":1784879792288}
+{"run":"tap-press","action":"page:/widget/anteckning→Bevis","ok":true,"detail":"ok","t":1784879792576}
+{"run":"tap-press","action":"page:/widget/anteckning→Barn","ok":true,"detail":"ok","t":1784879792864}
+{"run":"tap-press","action":"page:/widget/anteckning→Mabra","ok":true,"detail":"ok","t":1784879793152}
+{"run":"tap-press","action":"page:/widget/anteckning→Planering","ok":true,"detail":"ok","t":1784879793440}
+{"run":"tap-press","action":"page:/widget/anteckning→Fortsätt till text","ok":true,"detail":"ok","t":1784879793731}
+{"run":"tap-press","action":"page:/widget/anteckning→Byt silo","ok":true,"detail":"skip-not-found","t":1784879794099}
+{"run":"tap-press","action":"page:/widget/anteckning:summary","ok":true,"detail":"tapped=7 unique=9 sacred-skips=0","t":1784879794281}
+{"run":"tap-press","action":"route:/widget/inspelning","ok":true,"detail":"loaded","t":1784879794973}
+{"run":"tap-press","action":"page:/widget/inspelning→Jag förstår — fortsätt","ok":true,"detail":"ok","t":1784879795261}
+{"run":"tap-press","action":"page:/widget/inspelning→Starta inspelning","ok":true,"detail":"ok","t":1784879795922}
+{"run":"tap-press","action":"page:/widget/inspelning:summary","ok":true,"detail":"tapped=2 unique=3 sacred-skips=0","t":1784879796104}
+{"run":"tap-press","action":"route:/widget/kompass","ok":true,"detail":"loaded","t":1784879796913}
+{"run":"tap-press","action":"page:/widget/kompass→Morgonkompass●Ett mikrosteg ","ok":true,"detail":"ok","t":1784879797203}
+{"run":"tap-press","action":"page:/widget/kompass→Dagbok — flyttas inte automa","ok":true,"detail":"skip-not-found","t":1784879797204}
+{"run":"tap-press","action":"page:/widget/kompass→skip:Låst post när du sparar ","ok":true,"detail":"skip-sacred-or-write","t":1784879797204}
+{"run":"tap-press","action":"page:/widget/kompass→Mabra — reflektion och lek","ok":true,"detail":"skip-not-found","t":1784879797205}
+{"run":"tap-press","action":"page:/widget/kompass→Snabb dagbok — vävning är se","ok":true,"detail":"skip-not-found","t":1784879797205}
+{"run":"tap-press","action":"page:/widget/kompass→Dagbok — flyttas inte automa","ok":true,"detail":"ok","t":1784879797854}
+{"run":"tap-press","action":"page:/widget/kompass→skip:Låst post när du sparar ","ok":true,"detail":"skip-sacred-or-write","t":1784879798690}
+{"run":"tap-press","action":"page:/widget/kompass→Mabra — reflektion och lek","ok":true,"detail":"skip-not-found","t":1784879798874}
+{"run":"tap-press","action":"page:/widget/kompass→Snabb dagbok — vävning är se","ok":true,"detail":"skip-not-found","t":1784879799253}
+{"run":"tap-press","action":"page:/widget/kompass→DagskompassKroppscheck — anp","ok":true,"detail":"skip-not-found","t":1784879799619}
+{"run":"tap-press","action":"page:/widget/kompass→KvällskompassTre korta steg ","ok":true,"detail":"skip-not-found","t":1784879799985}
+{"run":"tap-press","action":"page:/widget/kompass:summary","ok":true,"detail":"tapped=9 unique=12 sacred-skips=2","t":1784879800167}
+{"run":"tap-press","action":"route:/widget/hamn","ok":true,"detail":"loaded","t":1784879800846}
+{"run":"tap-press","action":"page:/widget/hamn→Valv → Hamn · Analys","ok":true,"detail":"ok","t":1784879801134}
+{"run":"tap-press","action":"page:/widget/hamn→Taktik-lexikon (Valv · PIN)","ok":true,"detail":"ok","t":1784879802073}
+{"run":"tap-press","action":"page:/widget/hamn:summary","ok":true,"detail":"tapped=2 unique=3 sacred-skips=0","t":1784879802960}
+{"run":"tap-press","action":"route:/widget/familjen","ok":true,"detail":"loaded","t":1784879803601}
+{"run":"tap-press","action":"page:/widget/familjen→Kasper","ok":true,"detail":"ok","t":1784879803889}
+{"run":"tap-press","action":"page:/widget/familjen→Arvid","ok":true,"detail":"ok","t":1784879804176}
+{"run":"tap-press","action":"page:/widget/familjen:summary","ok":true,"detail":"tapped=2 unique=3 sacred-skips=0","t":1784879804360}
+{"run":"tap-press","action":"route:/widget/stampla","ok":true,"detail":"loaded","t":1784879805049}
+{"run":"tap-press","action":"page:/widget/stampla→Stämpla in","ok":true,"detail":"ok","t":1784879805708}
+{"run":"tap-press","action":"page:/widget/stampla:summary","ok":true,"detail":"tapped=1 unique=2 sacred-skips=0","t":1784879805891}
+{"run":"tap-press","action":"route:/widget/barnporten","ok":true,"detail":"loaded","t":1784879806531}
+{"run":"tap-press","action":"page:/widget/barnporten→Stjärn-prickDiskret prick ne","ok":true,"detail":"ok","t":1784879806820}
+{"run":"tap-press","action":"page:/widget/barnporten→Hjärta-bågeNedre kant — bra ","ok":true,"detail":"ok","t":1784879807108}
+{"run":"tap-press","action":"page:/widget/barnporten→Kompass-miniLiten kompass ne","ok":true,"detail":"ok","t":1784879807397}
+{"run":"tap-press","action":"page:/widget/barnporten→Ingen widgetEndast PWA-ikon ","ok":true,"detail":"ok","t":1784879807686}
+{"run":"tap-press","action":"page:/widget/barnporten:summary","ok":true,"detail":"tapped=4 unique=6 sacred-skips=0","t":1784879807870}
+{"run":"tap-press","action":"route:/widget/snabbval","ok":true,"detail":"loaded","t":1784879808508}
+{"run":"tap-press","action":"page:/widget/snabbval→DagbokSkriv en rad — neutral","ok":true,"detail":"ok","t":1784879808800}
+{"run":"tap-press","action":"page:/widget/snabbval→UppgiftEtt mikrosteg i taget","ok":true,"detail":"skip-not-found","t":1784879808801}
+{"run":"tap-press","action":"page:/widget/snabbval→Testa digValvet lär känna di","ok":true,"detail":"skip-not-found","t":1784879808802}
+{"run":"tap-press","action":"page:/widget/snabbval→LuckorFyll i det som saknas","ok":true,"detail":"skip-not-found","t":1784879808802}
+{"run":"tap-press","action":"page:/widget/snabbval→Snabb spegling","ok":true,"detail":"ok","t":1784879809455}
+{"run":"tap-press","action":"page:/widget/snabbval→Reflektera steg för steg","ok":true,"detail":"skip-not-found","t":1784879810524}
+{"run":"tap-press","action":"page:/widget/snabbval→Minneslista","ok":true,"detail":"skip-not-found","t":1784879810891}
+{"run":"tap-press","action":"page:/widget/snabbval→UppgiftEtt mikrosteg i taget","ok":true,"detail":"skip-not-found","t":1784879811257}
+{"run":"tap-press","action":"page:/widget/snabbval→Testa digValvet lär känna di","ok":true,"detail":"skip-not-found","t":1784879811622}
+{"run":"tap-press","action":"page:/widget/snabbval→LuckorFyll i det som saknas","ok":true,"detail":"skip-not-found","t":1784879811990}
+{"run":"tap-press","action":"page:/widget/snabbval:summary","ok":true,"detail":"tapped=10 unique=11 sacred-skips=0","t":1784879812173}
+{"run":"tap-press","action":"route:/widget/voice-vault","ok":true,"detail":"loaded","t":1784879812877}
+{"run":"tap-press","action":"page:/widget/voice-vault→🙂 Lugn","ok":true,"detail":"ok","t":1784879813168}
+{"run":"tap-press","action":"page:/widget/voice-vault→😊 Glad","ok":true,"detail":"ok","t":1784879813473}
+{"run":"tap-press","action":"page:/widget/voice-vault→😴 Trött","ok":true,"detail":"ok","t":1784879813764}
+{"run":"tap-press","action":"page:/widget/voice-vault→😬 Spänd","ok":true,"detail":"ok","t":1784879814053}
+{"run":"tap-press","action":"page:/widget/voice-vault→Starta inspelning","ok":true,"detail":"ok","t":1784879814341}
+{"run":"tap-press","action":"page:/widget/voice-vault→Rensa","ok":true,"detail":"ok","t":1784879814627}
+{"run":"tap-press","action":"page:/widget/voice-vault:summary","ok":true,"detail":"tapped=6 unique=7 sacred-skips=0","t":1784879814813}
+{"run":"tap-press","action":"route:/widget/projekt","ok":true,"detail":"loaded","t":1784879815522}
+{"run":"tap-press","action":"page:/widget/projekt→skip:Nytt projekt","ok":true,"detail":"skip-sacred-or-write","t":1784879815536}
+{"run":"tap-press","action":"page:/widget/projekt→Lista","ok":true,"detail":"ok","t":1784879815871}
+{"run":"tap-press","action":"page:/widget/projekt→Bild","ok":true,"detail":"ok","t":1784879816157}
+{"run":"tap-press","action":"page:/widget/projekt→Stäng","ok":true,"detail":"ok","t":1784879816450}
+{"run":"tap-press","action":"page:/widget/projekt→Tyst inspelning","ok":true,"detail":"ok","t":1784879816739}
+{"run":"tap-press","action":"page:/widget/projekt→Lista","ok":true,"detail":"ok","t":1784879817762}
+{"run":"tap-press","action":"page:/widget/projekt→Planering","ok":true,"detail":"ok","t":1784879818893}
+{"run":"tap-press","action":"page:/widget/projekt→Lås upp","ok":true,"detail":"ok","t":1784879819950}
+{"run":"tap-press","action":"page:/widget/projekt→Bild","ok":true,"detail":"ok","t":1784879820916}
+{"run":"tap-press","action":"page:/widget/projekt→Video","ok":true,"detail":"ok","t":1784879821889}
+{"run":"tap-press","action":"page:/widget/projekt→Uppgift","ok":true,"detail":"ok","t":1784879822855}
+{"run":"tap-press","action":"page:/widget/projekt:summary","ok":true,"detail":"tapped=10 unique=15 sacred-skips=1","t":1784879823687}
+{"run":"tap-press","action":"route:/widget/aktioner","ok":true,"detail":"loaded","t":1784879824374}
+{"run":"tap-press","action":"page:/widget/aktioner→Röstinspelning till Valvet","ok":true,"detail":"ok","t":1784879824663}
+{"run":"tap-press","action":"page:/widget/aktioner:summary","ok":true,"detail":"tapped=1 unique=2 sacred-skips=0","t":1784879824848}
+{"run":"tap-press","action":"route:/widget/moduler","ok":true,"detail":"loaded","t":1784879825498}
+{"run":"tap-press","action":"page:/widget/moduler→Ny modul","ok":true,"detail":"ok","t":1784879825793}
+{"run":"tap-press","action":"page:/widget/moduler→Semester","ok":true,"detail":"ok","t":1784879826454}
+{"run":"tap-press","action":"page:/widget/moduler→Deadline","ok":true,"detail":"ok","t":1784879827115}
+{"run":"tap-press","action":"page:/widget/moduler→Fokus","ok":true,"detail":"ok","t":1784879827774}
+{"run":"tap-press","action":"page:/widget/moduler→Firande","ok":true,"detail":"ok","t":1784879828433}
+{"run":"tap-press","action":"page:/widget/moduler→Minimal","ok":true,"detail":"ok","t":1784879829093}
+{"run":"tap-press","action":"page:/widget/moduler→Foto","ok":true,"detail":"ok","t":1784879829753}
+{"run":"tap-press","action":"page:/widget/moduler→on","ok":true,"detail":"ok","t":1784879830417}
+{"run":"tap-press","action":"page:/widget/moduler→Nedräkning","ok":true,"detail":"ok","t":1784879831083}
+{"run":"tap-press","action":"page:/widget/moduler→Checklista","ok":true,"detail":"ok","t":1784879831747}
+{"run":"tap-press","action":"page:/widget/moduler→Sparmål","ok":true,"detail":"ok","t":1784879832415}
+{"run":"tap-press","action":"page:/widget/moduler→Snabbnotis","ok":true,"detail":"ok","t":1784879833118}
+{"run":"tap-press","action":"page:/widget/moduler:summary","ok":true,"detail":"tapped=12 unique=13 sacred-skips=0","t":1784879833301}
+{"run":"tap-press","action":"route:/widget/drogfrihet-akut","ok":true,"detail":"loaded","t":1784879834083}
+{"run":"tap-press","action":"page:/widget/drogfrihet-akut→skip:Hamn. Håll tre sekunder ","ok":true,"detail":"skip-sacred-or-write","t":1784879834101}
+{"run":"tap-press","action":"page:/widget/drogfrihet-akut→Andas4-7-8 — följ cirkeln","ok":true,"detail":"ok","t":1784879835556}
+{"run":"tap-press","action":"page:/widget/drogfrihet-akut→Välj vy i Familjen","ok":true,"detail":"ok","t":1784879837698}
+{"run":"tap-press","action":"page:/widget/drogfrihet-akut→Jordning5-4-3-2-1 — ett steg","ok":true,"detail":"ok","t":1784879839725}
+{"run":"tap-press","action":"page:/widget/drogfrihet-akut→1 minStopp & landa","ok":true,"detail":"ok","t":1784879841769}
+{"run":"tap-press","action":"page:/widget/drogfrihet-akut→3 minDelay + byt kanal","ok":true,"detail":"ok","t":1784879843826}
+{"run":"tap-press","action":"page:/widget/drogfrihet-akut→10 minUrge surf + plan","ok":true,"detail":"skip-not-found","t":1784879845691}
+{"run":"tap-press","action":"page:/widget/drogfrihet-akut→Urge surfing","ok":true,"detail":"ok","t":1784879848358}
+{"run":"tap-press","action":"page:/widget/drogfrihet-akut→Barnfokus","ok":true,"detail":"ok","t":1784879850449}
+{"run":"tap-press","action":"page:/widget/drogfrihet-akut→Livslogg","ok":true,"detail":"ok","t":1784879852524}
+{"run":"tap-press","action":"page:/widget/drogfrihet-akut→Tillsammans","ok":true,"detail":"ok","t":1784879854685}
+{"run":"tap-press","action":"page:/widget/drogfrihet-akut→HALT-check","ok":true,"detail":"ok","t":1784879856757}
+{"run":"tap-press","action":"page:/widget/drogfrihet-akut→Barnporten","ok":true,"detail":"ok","t":1784879858823}
+{"run":"tap-press","action":"page:/widget/drogfrihet-akut:summary","ok":true,"detail":"tapped=12 unique=24 sacred-skips=1","t":1784879859784}
+{"run":"tap-press","action":"route:/widget/companion-capture","ok":true,"detail":"loaded","t":1784879860493}
+{"run":"tap-press","action":"page:/widget/companion-capture→Starta röstinspelning","ok":true,"detail":"ok","t":1784879860783}
+{"run":"tap-press","action":"page:/widget/companion-capture→Öppna senaste inspelning","ok":true,"detail":"ok","t":1784879861071}
+{"run":"tap-press","action":"page:/widget/companion-capture:summary","ok":true,"detail":"tapped=2 unique=4 sacred-skips=0","t":1784879861255}
+{"run":"tap-press","action":"route:/widget/companion-inbox","ok":true,"detail":"loaded","t":1784879861931}
+{"run":"tap-press","action":"page:/widget/companion-inbox→Text","ok":true,"detail":"ok","t":1784879862233}
+{"run":"tap-press","action":"page:/widget/companion-inbox→Röst","ok":true,"detail":"skip-not-found","t":1784879862234}
+{"run":"tap-press","action":"page:/widget/companion-inbox→Foto","ok":true,"detail":"skip-not-found","t":1784879862235}
+{"run":"tap-press","action":"page:/widget/companion-inbox→Avbryt inkast","ok":true,"detail":"ok","t":1784879862896}
+{"run":"tap-press","action":"page:/widget/companion-inbox→skip:Spara text till inkast","ok":true,"detail":"skip-sacred-or-write","t":1784879863079}
+{"run":"tap-press","action":"page:/widget/companion-inbox→Text","ok":true,"detail":"skip-not-found","t":1784879863262}
+{"run":"tap-press","action":"page:/widget/companion-inbox→Röst","ok":true,"detail":"skip-not-found","t":1784879863629}
+{"run":"tap-press","action":"page:/widget/companion-inbox→Foto","ok":true,"detail":"skip-not-found","t":1784879863997}
+{"run":"tap-press","action":"page:/widget/companion-inbox:summary","ok":true,"detail":"tapped=7 unique=10 sacred-skips=1","t":1784879864179}
+{"run":"tap-press","action":"route:/widget/companion-note","ok":true,"detail":"loaded","t":1784879864866}
+{"run":"tap-press","action":"page:/widget/companion-note→Fäst på Hem","ok":true,"detail":"ok","t":1784879865156}
+{"run":"tap-press","action":"page:/widget/companion-note→Kategori Tanke","ok":true,"detail":"ok","t":1784879865443}
+{"run":"tap-press","action":"page:/widget/companion-note→Kategori Idé","ok":true,"detail":"ok","t":1784879865731}
+{"run":"tap-press","action":"page:/widget/companion-note→Kategori Påminnelse","ok":true,"detail":"ok","t":1784879866019}
+{"run":"tap-press","action":"page:/widget/companion-note→Kategori Annat","ok":true,"detail":"ok","t":1784879866307}
+{"run":"tap-press","action":"page:/widget/companion-note→Kategori Idé","ok":true,"detail":"ok","t":1784879866593}
+{"run":"tap-press","action":"page:/widget/companion-note→Bild","ok":true,"detail":"ok","t":1784879866880}
+{"run":"tap-press","action":"page:/widget/companion-note→Spela in röst","ok":true,"detail":"ok","t":1784879867194}
+{"run":"tap-press","action":"page:/widget/companion-note→skip:Ta bort fästning på Hem","ok":true,"detail":"skip-sacred-or-write","t":1784879867395}
+{"run":"tap-press","action":"page:/widget/companion-note:summary","ok":true,"detail":"tapped=8 unique=11 sacred-skips=1","t":1784879867395}
+{"run":"tap-press","action":"route:/widget/companion-harbor","ok":true,"detail":"loaded","t":1784879868079}
+{"run":"tap-press","action":"page:/widget/companion-harbor→Byt mening","ok":true,"detail":"ok","t":1784879868369}
+{"run":"tap-press","action":"page:/widget/companion-harbor→Andning","ok":true,"detail":"ok","t":1784879868654}
+{"run":"tap-press","action":"page:/widget/companion-harbor→Fokus","ok":true,"detail":"ok","t":1784879869390}
+{"run":"tap-press","action":"page:/widget/companion-harbor→Tacksamhet","ok":true,"detail":"ok","t":1784879870763}
+{"run":"tap-press","action":"page:/widget/companion-harbor→Sömn","ok":true,"detail":"ok","t":1784879872159}
+{"run":"tap-press","action":"page:/widget/companion-harbor→Starta kort andningsövning","ok":true,"detail":"ok","t":1784879873087}
+{"run":"tap-press","action":"page:/widget/companion-harbor→Byt trygg mening","ok":true,"detail":"skip-not-found","t":1784879873088}
+{"run":"tap-press","action":"page:/widget/companion-harbor→Öppna Trygg Hamn","ok":true,"detail":"ok","t":1784879873787}
+{"run":"tap-press","action":"page:/widget/companion-harbor:summary","ok":true,"detail":"tapped=8 unique=10 sacred-skips=0","t":1784879874721}
+{"run":"tap-press","action":"route:/widget/companion-compass","ok":true,"detail":"loaded","t":1784879875402}
+{"run":"tap-press","action":"page:/widget/companion-compass→Öppna kompassen","ok":true,"detail":"ok","t":1784879876136}
+{"run":"tap-press","action":"page:/widget/companion-compass→Check-in Morgon","ok":true,"detail":"ok","t":1784879877070}
+{"run":"tap-press","action":"page:/widget/companion-compass→Check-in Dag","ok":true,"detail":"ok","t":1784879877361}
+{"run":"tap-press","action":"page:/widget/companion-compass→Check-in Kväll","ok":true,"detail":"ok","t":1784879877652}
+{"run":"tap-press","action":"page:/widget/companion-compass→Check-in Nu","ok":true,"detail":"ok","t":1784879877974}
+{"run":"tap-press","action":"page:/widget/companion-compass→Sätt dagens fokusintention","ok":true,"detail":"ok","t":1784879879312}
+{"run":"tap-press","action":"page:/widget/companion-compass:summary","ok":true,"detail":"tapped=6 unique=8 sacred-skips=0","t":1784879880230}
+{"run":"tap-press","action":"route:/widget/companion-child","ok":true,"detail":"loaded","t":1784879880880}
+{"run":"tap-press","action":"page:/widget/companion-child→Svara på barnfokusfråga","ok":true,"detail":"ok","t":1784879881169}
+{"run":"tap-press","action":"page:/widget/companion-child→Senaste logg","ok":true,"detail":"skip-not-found","t":1784879881170}
+{"run":"tap-press","action":"page:/widget/companion-child→Skriv svar som text","ok":true,"detail":"ok","t":1784879881823}
+{"run":"tap-press","action":"page:/widget/companion-child→Spela in röstsvar","ok":true,"detail":"ok","t":1784879882486}
+{"run":"tap-press","action":"page:/widget/companion-child→Stäng svarsfält","ok":true,"detail":"skip-not-found","t":1784879882853}
+{"run":"tap-press","action":"page:/widget/companion-child→skip:Spara svar till barnlogg","ok":true,"detail":"skip-sacred-or-write","t":1784879883035}
+{"run":"tap-press","action":"page:/widget/companion-child:summary","ok":true,"detail":"tapped=5 unique=8 sacred-skips=1","t":1784879883035}
+{"run":"tap-press","action":"route:/widget/companion-beacon","ok":true,"detail":"loaded","t":1784879883746}
+{"run":"tap-press","action":"page:/widget/companion-beacon→Justera kapacitet, nu 68","ok":true,"detail":"ok","t":1784879884044}
+{"run":"tap-press","action":"page:/widget/companion-beacon→Justera Energi, nu 72","ok":true,"detail":"skip-not-found","t":1784879884045}
+{"run":"tap-press","action":"page:/widget/companion-beacon→Justera Stress, nu 35","ok":true,"detail":"skip-not-found","t":1784879884046}
+{"run":"tap-press","action":"page:/widget/companion-beacon→Justera Sömn, nu 67","ok":true,"detail":"skip-not-found","t":1784879884047}
+{"run":"tap-press","action":"page:/widget/companion-beacon→skip:Spara dagsform till Fyre","ok":true,"detail":"skip-sacred-or-write","t":1784879884047}
+{"run":"tap-press","action":"page:/widget/companion-beacon→Visa mer i Fyren","ok":true,"detail":"skip-not-found","t":1784879884048}
+{"run":"tap-press","action":"page:/widget/companion-beacon→Justera kapacitet, nu 76","ok":true,"detail":"ok","t":1784879884702}
+{"run":"tap-press","action":"page:/widget/companion-beacon→Justera Energi, nu 72","ok":true,"detail":"skip-not-found","t":1784879885069}
+{"run":"tap-press","action":"page:/widget/companion-beacon→Justera Stress, nu 35","ok":true,"detail":"skip-not-found","t":1784879885436}
+{"run":"tap-press","action":"page:/widget/companion-beacon→Justera Sömn, nu 67","ok":true,"detail":"skip-not-found","t":1784879885803}
+{"run":"tap-press","action":"page:/widget/companion-beacon→skip:Spara dagsform till Fyre","ok":true,"detail":"skip-sacred-or-write","t":1784879885986}
+{"run":"tap-press","action":"page:/widget/companion-beacon→Visa mer i Fyren","ok":true,"detail":"skip-not-found","t":1784879886171}
+{"run":"tap-press","action":"page:/widget/companion-beacon:summary","ok":true,"detail":"tapped=10 unique=14 sacred-skips=2","t":1784879886354}
+{"run":"tap-press","action":"route:/widget/companion-journal","ok":true,"detail":"loaded","t":1784879886995}
+{"run":"tap-press","action":"page:/widget/companion-journal→Tungt","ok":true,"detail":"ok","t":1784879887285}
+{"run":"tap-press","action":"page:/widget/companion-journal→Lågt","ok":true,"detail":"ok","t":1784879887570}
+{"run":"tap-press","action":"page:/widget/companion-journal→Okej","ok":true,"detail":"ok","t":1784879887857}
+{"run":"tap-press","action":"page:/widget/companion-journal→Bra","ok":true,"detail":"ok","t":1784879888145}
+{"run":"tap-press","action":"page:/widget/companion-journal→Ljust","ok":true,"detail":"ok","t":1784879888434}
+{"run":"tap-press","action":"page:/widget/companion-journal→Skriv ny dagboksanteckning","ok":true,"detail":"ok","t":1784879888739}
+{"run":"tap-press","action":"page:/widget/companion-journal→Ljust","ok":true,"detail":"ok","t":1784879889397}
+{"run":"tap-press","action":"page:/widget/companion-journal→Tungt","ok":true,"detail":"ok","t":1784879890049}
+{"run":"tap-press","action":"page:/widget/companion-journal→Lågt","ok":true,"detail":"ok","t":1784879890703}
+{"run":"tap-press","action":"page:/widget/companion-journal→Okej","ok":true,"detail":"ok","t":1784879891356}
+{"run":"tap-press","action":"page:/widget/companion-journal→Bra","ok":true,"detail":"ok","t":1784879892010}
+{"run":"tap-press","action":"page:/widget/companion-journal→Öppna hela dagboken","ok":true,"detail":"ok","t":1784879893107}
+{"run":"tap-press","action":"page:/widget/companion-journal:summary","ok":true,"detail":"tapped=12 unique=14 sacred-skips=0","t":1784879894089}
+{"run":"tap-press","action":"route:/widget/companion-anchor","ok":true,"detail":"loaded","t":1784879894733}
+{"run":"tap-press","action":"page:/widget/companion-anchor→Sätt dagens intention","ok":true,"detail":"ok","t":1784879895019}
+{"run":"tap-press","action":"page:/widget/companion-anchor:summary","ok":true,"detail":"tapped=1 unique=3 sacred-skips=0","t":1784879895204}
+{"run":"tap-press","action":"route:/widget/companion-tasks","ok":true,"detail":"loaded","t":1784879895824}
+{"run":"tap-press","action":"page:/widget/companion-tasks→Öppna Planering","ok":true,"detail":"ok","t":1784879896563}
+{"run":"tap-press","action":"page:/widget/companion-tasks→Öppna Planering för fokuspas","ok":true,"detail":"ok","t":1784879897943}
+{"run":"tap-press","action":"page:/widget/companion-tasks:summary","ok":true,"detail":"tapped=2 unique=4 sacred-skips=0","t":1784879898817}
+{"run":"tap-press","action":"route:/dev/theme-lab","ok":true,"detail":"skip-dev-web-light","t":1784879898817}
+{"run":"tap-press","action":"route:/dev/themes","ok":true,"detail":"skip-dev-web-light","t":1784879898817}
+{"run":"tap-press","action":"route:/dev/hub-lab","ok":true,"detail":"skip-dev-web-light","t":1784879898818}
+{"run":"tap-press","action":"route:/dev/basta-design","ok":true,"detail":"skip-dev-web-light","t":1784879898818}
+{"run":"tap-press","action":"route:/dev/design-freeport","ok":true,"detail":"skip-dev-web-light","t":1784879898818}
+{"run":"tap-press","action":"route:/dev/obsidian-depth","ok":true,"detail":"skip-dev-web-light","t":1784879898818}
+{"run":"tap-press","action":"route:/dev/obsidian-forge","ok":true,"detail":"skip-dev-web-light","t":1784879898818}
+{"run":"tap-press","action":"route:/dev/obsidian-depth-v2","ok":true,"detail":"skip-dev-web-light","t":1784879898818}
+{"run":"tap-press","action":"route:/dev/dagens-ankare","ok":true,"detail":"skip-dev-web-light","t":1784879898818}
+{"run":"tap-press","action":"route:/dev/companion-widgets","ok":true,"detail":"skip-dev-web-light","t":1784879898818}

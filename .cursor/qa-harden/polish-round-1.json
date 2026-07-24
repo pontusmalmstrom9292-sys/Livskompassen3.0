@@ -1,0 +1,11 @@
+{
+  "applied": 1,
+  "notes": [
+    "polish-pass round=1",
+    "Touch boost in src/design-system/styles/capture-breath.css",
+    "swedish-autofix exit=0  === SWEDISH STATIC === issues=0 autofixes=0 autofix=true "
+  ],
+  "files": [
+    "src/design-system/styles/capture-breath.css"
+  ]
+}

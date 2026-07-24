@@ -1,20 +1,87 @@
 {
-  "at": "2026-07-24T02:40:37.580Z",
-  "round": 3,
-  "prompt": "Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta inte förrän koden är helt felfri och appen går att använda.",
+  "at": "2026-07-24T07:58:20.603Z",
+  "round": 1,
+  "prompt": "Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta inte förrän koden är helt felfri och appen går att använda. Lead UI polish: elevating consistency without Locked UX redesign.",
   "findings": [
+    {
+      "tier": "A",
+      "code": "NO_SCROLL_SURFACE",
+      "source": "scroll-probe",
+      "path": "/vardagen?tab=mabra",
+      "detail": "NO_SCROLL_SURFACE",
+      "swedish": "Scrollproblem på /vardagen?tab=mabra: NO_SCROLL_SURFACE.",
+      "recipe": "NO_SCROLL_SURFACE"
+    },
+    {
+      "tier": "A",
+      "code": "TOUCH_TOO_SMALL",
+      "source": "tap-press",
+      "path": "page:/installningar→on",
+      "detail": "touch-too-small 20×20",
+      "swedish": "Tryckyta för liten: page:/installningar→on (touch-too-small 20×20).",
+      "recipe": "TOUCH_TOO_SMALL"
+    },
+    {
+      "tier": "A",
+      "code": "TOUCH_TOO_SMALL",
+      "source": "tap-press",
+      "path": "page:/installningar?tab=allmant→on",
+      "detail": "touch-too-small 20×20",
+      "swedish": "Tryckyta för liten: page:/installningar?tab=allmant→on (touch-too-small 20×20).",
+      "recipe": "TOUCH_TOO_SMALL"
+    },
+    {
+      "tier": "A",
+      "code": "TOUCH_TOO_SMALL",
+      "source": "tap-press",
+      "path": "page:/installningar?tab=naring→on",
+      "detail": "touch-too-small 13×16",
+      "swedish": "Tryckyta för liten: page:/installningar?tab=naring→on (touch-too-small 13×16).",
+      "recipe": "TOUCH_TOO_SMALL"
+    },
+    {
+      "tier": "A",
+      "code": "TOUCH_TOO_SMALL",
+      "source": "tap-press",
+      "path": "page:/installningar?tab=naring→on",
+      "detail": "touch-too-small 15×16",
+      "swedish": "Tryckyta för liten: page:/installningar?tab=naring→on (touch-too-small 15×16).",
+      "recipe": "TOUCH_TOO_SMALL"
+    },
+    {
+      "tier": "A",
+      "code": "TOUCH_TOO_SMALL",
+      "source": "tap-press",
+      "path": "page:/widget/moduler→on",
+      "detail": "touch-too-small 16×16",
+      "swedish": "Tryckyta för liten: page:/widget/moduler→on (touch-too-small 16×16).",
+      "recipe": "TOUCH_TOO_SMALL"
+    },
+    {
+      "tier": "A",
+      "code": "CRASH_OR_STUCK",
+      "source": "tap-press-console",
+      "path": "",
+      "detail": "The result of getSnapshot should be cached to avoid an infinite loop",
+      "swedish": "Sidan kastade ett fel i konsolen.",
+      "recipe": "CRASH_OR_STUCK"
+    },
     {
       "tier": "A",
       "code": "DEVICE_FAIL",
       "source": "device-probe",
       "path": "android",
-      "detail": "device=ZY22L8WFBX · maestro FAIL · reused",
-      "swedish": "Telefon-test misslyckades: device=ZY22L8WFBX · maestro FAIL · reused."
+      "detail": "device=ZY22L8WFBX · exhaustive FAIL",
+      "swedish": "Telefon-test misslyckades: device=ZY22L8WFBX · exhaustive FAIL."
     }
+  ],
+  "polishFiles": [
+    "src/design-system/styles/capture-breath.css"
   ],
   "agents": [
     "sync-scroll-shell",
     "sync-chrome-lock",
-    "sync-g85-ui-qa"
+    "sync-g85-ui-qa",
+    "specialist-ux-guardian"
   ]
 }
