@@ -1,3 +1,7 @@
+### 2026-07-24 — Android dock inset (G85)
+- Dubbel safe-area bort (native + web) — dock närmare nederkant
+- Smoke: android-platform · basta-dock-lock **PASS** · G85: build:web + cap sync
+
 ### 2026-07-24 — Ethereal Blue utan glow (moduler)
 - Kategori-pills + hub-kort: ethereal `#7BA3C9`, ingen guldig bloom
 - Familjen + GS-hub-card + OD selection chrome

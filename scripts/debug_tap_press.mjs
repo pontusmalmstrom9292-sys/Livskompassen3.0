@@ -15,8 +15,12 @@ import { PUBLIC_ROUTES, DRAWER_FULL_TOUR } from './lib/qa_public_routes.mjs';
 const BASE = process.argv[2] || 'http://127.0.0.1:5173';
 const LEGACY_OUT = resolve('.cursor/debug-tap-press.json');
 const TOUCH_FLOOR = 44;
-const MAX_TAPS_PER_PAGE = Math.max(8, Number(process.env.QA_MAX_TAPS_PER_PAGE || 48));
-const SCROLL_PASSES = Math.max(1, Number(process.env.QA_SCROLL_PASSES || 5));
+const MAX_TAPS_PER_PAGE = Math.max(
+  4,
+  Number(process.env.QA_MAX_TAPS_PER_PAGE || process.env.QA_WEB_MAX_TAPS || 12),
+);
+const SCROLL_PASSES = Math.max(1, Number(process.env.QA_SCROLL_PASSES || process.env.QA_WEB_SCROLL_PASSES || 2));
+const SKIP_DEV = process.env.QA_SKIP_DEV_ROUTES === '1' || process.env.QA_WEB_LIGHT === '1';
 /** Only Sacred / irreversible / write — everything else is tapped. */
 const SKIP_TAP_RE =
   /håll tre sekunder|håll tre|långtryck|logga ut|radera|ta bort|töm (allt|korg|arkiv)|lås valv|biometr|fingeravtryck|ansikts|publicera|deploy|spara|skicka|bekräfta radering|permanent|projektnamn|nytt projekt|skapa projekt|uppgiftstitel|rubrik för|välj fil|ladda upp/i;
@@ -371,6 +375,10 @@ async function scrollPageDown(page) {
 
 // —— EVERY catalog route: load + tap EVERY visible control (scroll passes) ——
 for (const route of PUBLIC_ROUTES) {
+  if (SKIP_DEV && route.path.startsWith('/dev/')) {
+    record(`route:${route.path}`, { ok: true, detail: 'skip-dev-web-light' });
+    continue;
+  }
   await page.goto(`${BASE}${route.path}`, { waitUntil: 'domcontentloaded', timeout: 20_000 }).catch(() => null);
   await waitAppReady(page);
 

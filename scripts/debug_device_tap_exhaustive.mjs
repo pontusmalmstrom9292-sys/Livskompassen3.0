@@ -17,8 +17,14 @@ ensureQaDir();
 const PACKAGE = 'com.livskompassen.app';
 const CDP_PORT = Number(process.env.QA_CDP_PORT || 9222);
 const ORIGIN = 'https://localhost';
-const MAX_TAPS_PER_PAGE = Math.max(4, Number(process.env.QA_MAX_TAPS_PER_PAGE || 24));
-const SCROLL_PASSES = Math.max(1, Number(process.env.QA_SCROLL_PASSES || 4));
+const MAX_TAPS_PER_PAGE = Math.max(
+  4,
+  Number(process.env.QA_MAX_TAPS_PER_PAGE || process.env.QA_PHONE_MAX_TAPS || 40),
+);
+const SCROLL_PASSES = Math.max(
+  1,
+  Number(process.env.QA_SCROLL_PASSES || process.env.QA_PHONE_SCROLL_PASSES || 6),
+);
 const TOUCH_FLOOR = 44;
 const SKIP_TAP_RE =
   /håll tre sekunder|håll tre|långtryck|logga ut|radera|ta bort|töm (allt|korg|arkiv)|lås valv|biometr|fingeravtryck|ansikts|publicera|deploy|spara|skicka|bekräfta radering|permanent|projektnamn|nytt projekt|skapa projekt|uppgiftstitel|rubrik för|välj fil|ladda upp/i;
@@ -296,8 +302,8 @@ try {
   }
 
   for (const route of PUBLIC_ROUTES) {
-    // Skip heavy /dev labs on phone by default (still visit hubs+widgets)
-    if (route.path.startsWith('/dev/') && process.env.QA_DEVICE_DEV !== '1') {
+    // Skip heavy /dev labs on phone only if QA_DEVICE_DEV=0 (default: include — phone-primary)
+    if (route.path.startsWith('/dev/') && process.env.QA_DEVICE_DEV === '0') {
       record(`device:route:${route.path}`, { ok: true, detail: 'skip-dev-on-phone' });
       continue;
     }

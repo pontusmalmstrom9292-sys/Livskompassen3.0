@@ -90,9 +90,9 @@ if (shot.status === 0 && shot.stdout && shot.stdout.length > 1000) {
   result.screenshot = SCREENSHOT;
 }
 
-// Maestro: dock by default (stable). Full crawl only with QA_DEVICE_FULL=1.
+// Maestro: full public crawl by default (phone-primary). Dock-only: QA_DEVICE_FULL=0
 const maestro = which('maestro');
-const wantFull = process.env.QA_DEVICE_FULL === '1';
+const wantFull = process.env.QA_DEVICE_FULL !== '0';
 const flow = wantFull && existsSync(MAESTRO_FLOW_FULL)
   ? MAESTRO_FLOW_FULL
   : existsSync(MAESTRO_FLOW)

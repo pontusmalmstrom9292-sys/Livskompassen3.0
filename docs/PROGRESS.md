@@ -1,3 +1,10 @@
+## 2026-07-24 — Android dock ~1 cm för högt
+
+- Rotorsak: MainActivity pad `bars.bottom` + Capacitor/androidDockInsetFix safe-area = dubbel inset
+- Fix: MainActivity full-bleed `setPadding(0,0,0,0)`; CSS fallback `--lk-android-shell-inset` → 4px
+- Smoke: `smoke:android-platform` · `smoke:basta-dock-lock` **PASS**
+- Kräver: `npm run build:web && npx cap sync android` + Run på G85
+
 ## 2026-07-24 — Ethereal Blue utan glow (moduler/val)
 
 - Problem: Familjen kategori-pills + hub-mockups lysande guldiga

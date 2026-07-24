@@ -167,7 +167,10 @@ export function ProjektReglerPage() {
 
       <p className="mt-4 text-xs text-text-muted">
         Granskningskö:{' '}
-        <Link to="/planering?tab=inkorg" className="text-accent min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40">
+        <Link
+          to="/planering?tab=inkorg"
+          className="inline-flex min-h-11 items-center px-1 text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
+        >
           Planering → Inkorg
         </Link>
         . Gmail OAuth är avsiktligt utanför P2.

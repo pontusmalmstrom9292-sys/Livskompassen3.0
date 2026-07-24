@@ -19,5 +19,4 @@ export { ModuleSectionBanner } from './ModuleSectionBanner';
 export { ModuleCompactFooter } from './ModuleCompactFooter';
 export { TimelineEntry } from './TimelineEntry';
 export { ClusterGrid } from './ClusterGrid';
-export { InactivityBlurOverlay } from './InactivityBlurOverlay';
 export { DESIGN, BUTTON_VARIANTS } from './tokens';

@@ -45,7 +45,9 @@ function readCapacitorSafeBottomPx(): number {
 
 /**
  * Capacitor SystemBars: safe-area ska bara ligga på shell (gestyrad), inte i nav-baren.
- * Dubbel padding på bar gav ~1 cm gap; noll på shell gav "för långt ned".
+ * MainActivity MUST stay full-bleed (content padding-bottom = 0) — native pad + this
+ * trim stacked ~1 cm gap. Dubbel padding på bar gav samma gap; noll på shell (utan
+ * native pad) gav "för långt ned".
  *
  * Idempotent — skippar om värden oförändrade (undviker MutationObserver↔style-loop
  * som körde trim varje rAF och gav hackig scroll).

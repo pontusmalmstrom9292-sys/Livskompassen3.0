@@ -9,13 +9,20 @@ import { writeLatest, writeJson, QA_DIR, ROOT } from './lib/qa_harden_io.mjs';
 
 const BASE = process.argv[2] || 'http://127.0.0.1:5173';
 
+const WEB_LIGHT = process.env.QA_WEB_LIGHT === '1';
+
 const steps = [
   ['swedish-static', 'scripts/debug_swedish_static.mjs'],
   ['hub-sweep', 'scripts/debug_hub_sweep.mjs'],
   ['scroll-probe', 'scripts/debug_scroll_probe.mjs'],
   ['tap-press', 'scripts/debug_tap_press.mjs'],
-  ['ui-consistency', 'scripts/debug_ui_consistency.mjs'],
 ];
+// Full web consistency is expensive — phone covers deep UI; web light skips this.
+if (!WEB_LIGHT) {
+  steps.push(['ui-consistency', 'scripts/debug_ui_consistency.mjs']);
+} else {
+  console.log('[ui-suite] QA_WEB_LIGHT=1 — skip ui-consistency (telefon är primär)');
+}
 
 const stepResults = [];
 let failed = 0;

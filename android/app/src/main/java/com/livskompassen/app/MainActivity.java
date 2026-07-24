@@ -146,10 +146,12 @@ public class MainActivity extends BridgeActivity {
         EdgeToEdge.enable(this);
         super.onCreate(savedInstanceState);
         
-        // Våg 200: Titanium Inset Mastery — seamless full-screen obsidian
+        // Våg 200: Titanium Inset Mastery — full-bleed edge-to-edge.
+        // MUST keep bottom padding 0: Capacitor + androidDockInsetFix already apply
+        // --safe-area-inset-bottom on the dock shell. Padding bars.bottom here
+        // stacked a second inset and lifted the dock ~1 cm above the screen edge.
         androidx.core.view.ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content), (v, insets) -> {
-            androidx.core.graphics.Insets bars = insets.getInsets(androidx.core.view.WindowInsetsCompat.Type.systemBars());
-            v.setPadding(0, 0, 0, bars.bottom); // Only pad bottom for navigation bar if needed, or keep 0 for full bleed
+            v.setPadding(0, 0, 0, 0);
             return insets;
         });
 

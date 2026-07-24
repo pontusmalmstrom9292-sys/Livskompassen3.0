@@ -538,17 +538,18 @@ html[data-design-pack] .app-shell--basta-design {
 
 /*
  * Capacitor Android — safe-area på shell (gestyrad), inte i nav-baren.
- * Dubbel padding i bar = ~1 cm gap; noll shell = för långt ned.
+ * Native MainActivity = full bleed; --lk-android-shell-inset from androidDockInsetFix.
+ * Default 4px matchar SHELL_BOTTOM_FALLBACK tills Capacitor injicerat vars.
  */
 html.platform-capacitor-android .app-shell--basta-design,
 html.platform-capacitor-android[data-design-pack] .app-shell--basta-design {
-  --app-dock-clearance: calc(6.85rem + 0.25rem + var(--lk-android-shell-inset, 0.5rem));
+  --app-dock-clearance: calc(6.85rem + 0.25rem + var(--lk-android-shell-inset, 4px));
 }
 
 html.platform-capacitor-android .dock-shell.dock-shell--basta-design,
 html.platform-capacitor-android .dock-shell.dock-shell--basta-v2 {
-  --app-dock-clearance: calc(6.85rem + 0.25rem + var(--lk-android-shell-inset, 0.5rem));
-  padding: 0 0.35rem var(--lk-android-shell-inset, 0.5rem) !important;
+  --app-dock-clearance: calc(6.85rem + 0.25rem + var(--lk-android-shell-inset, 4px));
+  padding: 0 0.35rem var(--lk-android-shell-inset, 4px) !important;
 }
 
 html.platform-capacitor-android .dock-shell--basta-v2::before {

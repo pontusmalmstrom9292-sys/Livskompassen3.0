@@ -7,8 +7,9 @@
   /* W11 residual — touch / focus / muted contrast */
   .kompis-hub-page a.glass-card,
   .kompis-hub-page button,
-  .kompis-hub-page [role='button'] {
-    min-height: var(--ds-touch-target, 2.75rem);
+  .kompis-hub-page [role='button'],
+  .kompis-hub-page a[href] {
+    min-height: max(var(--ds-touch-target, 2.75rem), 44px);
   }
 
   .kompis-hub-page a[href]:focus-visible,

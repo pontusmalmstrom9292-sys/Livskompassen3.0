@@ -3,9 +3,10 @@
  *
  * Usage:
  *   npm run qa:harden
- *   node scripts/qa_harden.mjs [baseUrl] [--rounds=3] [--no-smoke] [--no-device] [--detect-only] [--early-stop]
+ *   node scripts/qa_harden.mjs [baseUrl] [--rounds=2] [--no-smoke] [--no-device] [--detect-only] [--early-stop]
  *
- * Default: 3 rounds, phone first then web each round (both). Stops early only with --early-stop.
+ * Default: 2 rounds, phone-first + phone-heavy (full Maestro + exhaustive taps).
+ * Web is lighter (fewer taps, skip /dev + ui-consistency). Stops early only with --early-stop.
  */
 import { spawnSync, spawn } from 'node:child_process';
 import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
@@ -26,11 +27,22 @@ import { applyPolishPass } from './lib/qa_harden_polish_pass.mjs';
 
 const args = process.argv.slice(2);
 const roundsArg = args.find((a) => a.startsWith('--rounds='));
-const MAX_ROUNDS = roundsArg ? Math.max(1, Number(roundsArg.split('=')[1]) || 3) : 3;
+const MAX_ROUNDS = roundsArg ? Math.max(1, Number(roundsArg.split('=')[1]) || 2) : 2;
 const EARLY_STOP = args.includes('--early-stop');
 const NO_SMOKE = args.includes('--no-smoke');
 const NO_DEVICE = args.includes('--no-device');
 const DETECT_ONLY = args.includes('--detect-only');
+
+/** Phone-heavy defaults for every harden run (override with env). */
+process.env.QA_DEVICE_EXHAUSTIVE = process.env.QA_DEVICE_EXHAUSTIVE ?? '1';
+process.env.QA_DEVICE_FULL = process.env.QA_DEVICE_FULL ?? '1';
+process.env.QA_DEVICE_DEV = process.env.QA_DEVICE_DEV ?? '1';
+process.env.QA_WEB_LIGHT = process.env.QA_WEB_LIGHT ?? '1';
+// Phone gets deeper crawl; web stays light unless overridden
+if (!process.env.QA_PHONE_MAX_TAPS) process.env.QA_PHONE_MAX_TAPS = '40';
+if (!process.env.QA_PHONE_SCROLL_PASSES) process.env.QA_PHONE_SCROLL_PASSES = '6';
+if (!process.env.QA_WEB_MAX_TAPS) process.env.QA_WEB_MAX_TAPS = '12';
+if (!process.env.QA_WEB_SCROLL_PASSES) process.env.QA_WEB_SCROLL_PASSES = '2';
 
 function portInUse(port) {
   return new Promise((resolvePort) => {
@@ -67,11 +79,11 @@ async function resolveBase() {
   return 'http://127.0.0.1:5173';
 }
 
-function runNode(script, scriptArgs = []) {
+function runNode(script, scriptArgs = [], extraEnv = {}) {
   return spawnSync(process.execPath, [resolve(ROOT, script), ...scriptArgs], {
     cwd: ROOT,
     stdio: 'inherit',
-    env: process.env,
+    env: { ...process.env, ...extraEnv },
   });
 }
 
@@ -134,13 +146,19 @@ let lastClassified = { findings: [], tierA: [], tierB: [], tierC: [] };
 
 for (let round = 1; round <= MAX_ROUNDS; round++) {
   console.log(`\n######## QA HARDEN ROUND ${round}/${MAX_ROUNDS} ########`);
-  console.log('[qa:harden] Ordning: telefon → webb');
+  console.log('[qa:harden] Ordning: telefon (tung) → webb (lätt)');
 
   // —— 1) Telefon först (USB) ——
   let device = { status: 'skipped', detail: 'no-device flag' };
   if (!NO_DEVICE) {
-    console.log('[qa:harden] Telefon-probe…');
-    runNode('scripts/debug_device_probe.mjs', []);
+    console.log('[qa:harden] Telefon-probe (full Maestro + exhaustive knappar)…');
+    runNode('scripts/debug_device_probe.mjs', [], {
+      QA_DEVICE_EXHAUSTIVE: process.env.QA_DEVICE_EXHAUSTIVE || '1',
+      QA_DEVICE_FULL: process.env.QA_DEVICE_FULL || '1',
+      QA_DEVICE_DEV: process.env.QA_DEVICE_DEV || '1',
+      QA_MAX_TAPS_PER_PAGE: process.env.QA_PHONE_MAX_TAPS || '40',
+      QA_SCROLL_PASSES: process.env.QA_PHONE_SCROLL_PASSES || '6',
+    });
     const deviceJson = resolve(QA_DIR, 'device-probe.json');
     if (existsSync(deviceJson)) {
       try {
@@ -154,9 +172,14 @@ for (let round = 1; round <= MAX_ROUNDS; round++) {
     console.log(`[qa:harden] Telefon: ${device.status} — ${device.detail || ''}`);
   }
 
-  // —— 2) Webb (hub + scroll + tap) ——
-  console.log('[qa:harden] Webb-suite…');
-  const suite = runNode('scripts/debug_ui_suite.mjs', [BASE]);
+  // —— 2) Webb (lättare) ——
+  console.log('[qa:harden] Webb-suite (lätt)…');
+  const suite = runNode('scripts/debug_ui_suite.mjs', [BASE], {
+    QA_WEB_LIGHT: process.env.QA_WEB_LIGHT || '1',
+    QA_MAX_TAPS_PER_PAGE: process.env.QA_WEB_MAX_TAPS || '12',
+    QA_SCROLL_PASSES: process.env.QA_WEB_SCROLL_PASSES || '2',
+    QA_SKIP_DEV_ROUTES: '1',
+  });
   const suiteExit = suite.status ?? 1;
 
   const latestRaw = readLatest() || {};

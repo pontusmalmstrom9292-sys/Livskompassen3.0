@@ -13,7 +13,7 @@
 npm run qa:harden
 ```
 
-**Standard:** **3 rundor** · varje runda **telefon först → webb** · USB om telefon finns (annars SKIP telefon, webb körs ändå).
+**Standard:** **2 rundor** · **telefon = primär** (full Maestro + fler knaptryck, inkl. /dev) · webb = lätt (färre tryck, hoppar /dev + ui-consistency).
 
 Scriptet hittar automatiskt Vite på 5173–5178 (högsta porten först, t.ex. 5175).
 
@@ -43,7 +43,7 @@ Delar:
 |----------|-----|
 | `npm run debug:ui-suite` | hub-sweep → scroll-probe → tap-press |
 | `npm run debug:device-probe` | USB G85 / Maestro dock (fräscht varje gång) — **SKIP** utan telefon. Full: `QA_DEVICE_FULL=1`. Knapp-crawl: `QA_DEVICE_EXHAUSTIVE=1` |
-| `npm run qa:harden` | **3 rundor** · telefon→webb · Tier A recipes · smoke |
+| `npm run qa:harden` | **2 rundor** · telefon→webb · Tier A recipes · smoke |
 
 ---
 

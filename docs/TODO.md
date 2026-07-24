@@ -8,7 +8,8 @@
 - [x] W4: `debug:device-probe` + `.maestro/smoke-dock.yaml` (USB SKIP)
 - [x] W5: `docs/QA-HARDEN-LOOP.md` · manifest v63
 - [x] Privacy-blur bort (idle overlay + Android pause-täckning + Sacred ej default)
-- [ ] Pontus: `npm run build:web && npx cap sync android` → Run G85 · sedan `npm run qa:harden`
+- [x] Android dock ~1 cm gap: MainActivity full-bleed (ingen dubbel systemBars-pad)
+- [ ] Pontus: `npm run build:web && npx cap sync android` → Run G85 · kolla dock mot nederkant · sedan `npm run qa:harden`
 
 ## 2026-07-23 — Widget UI Polish ×10 (Kap 6 / Gate F)
 
