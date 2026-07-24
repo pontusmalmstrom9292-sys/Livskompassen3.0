@@ -1,3 +1,10 @@
+## 2026-07-24 — UI QA Harden Loop
+
+- Scripts: `qa_harden.mjs`, `debug_*` → `.cursor/qa-harden/`; Tier A/B/C classify + recipes
+- Agents: `sync-chrome-lock` · `sync-scroll-shell` · `sync-g85-ui-qa` · `sync-companion-gold` · `sync-fas24-ui-verifier`
+- Device: ADB + Maestro optional SKIP · dok `docs/QA-HARDEN-LOOP.md` · wave v63
+- Tryck Build: `npm run qa:harden`
+
 ## 2026-07-23 — Widget UI Polish ×10 (Cursor · visual-parity)
 
 - Gate F: `--cw-touch-floor` 56px, mood/pills/CTA, Android check-in faces, Tasks «VISA ALLA»

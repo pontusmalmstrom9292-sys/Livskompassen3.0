@@ -1,0 +1,2677 @@
+{
+  "schema": "qa-harden/v1",
+  "at": "2026-07-24T02:40:37.454Z",
+  "kind": "ui-suite",
+  "base": "http://127.0.0.1:5175",
+  "failedSteps": 0,
+  "stepResults": [
+    {
+      "name": "hub-sweep",
+      "exit": 0
+    },
+    {
+      "name": "scroll-probe",
+      "exit": 0
+    },
+    {
+      "name": "tap-press",
+      "exit": 0
+    }
+  ],
+  "probes": {
+    "hubSweep": {
+      "base": "http://127.0.0.1:5175",
+      "at": "2026-07-24T02:38:33.574Z",
+      "routes": 39,
+      "failures": [],
+      "routesWithConsoleErrors": [
+        {
+          "path": "/vardagen",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 842,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/vardagen?tab=kompasser",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 999,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/vardagen?tab=mabra",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 801,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/vardagen?tab=ekonomi",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 779,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/mabra",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 772,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/planering",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 907,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/planering?tab=handling",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 761,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/planering/kalender",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 753,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/arbetsliv",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 761,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/arbetsliv/input",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 740,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/arbetsliv/input?inputMode=tid",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 725,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/arbetsliv/input?inputMode=inkomster",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 908,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/arbetsliv/input?inputMode=stampla",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 843,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/familjen",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 751,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/familjen?tab=reflektion",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 781,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/familjen?tab=livslogg",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 834,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/familjen?tab=tillsammans",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 782,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/familjen?tab=barnporten",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 793,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/familjen?tab=hamn",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 732,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/familjen?tab=drogfrihet",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 737,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/hjartat",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 722,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/hjartat?tab=reflektion",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 743,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/hjartat?tab=speglar",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 834,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/inkast",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 853,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSKRIV NU\n\nReflektionsfråga\n\nDu är den trygga hamnen — även när världen kän"
+        },
+        {
+          "path": "/planering/input",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 822,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/projekt",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 754,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/projekt/ny",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 797,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/projekt/regler",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 803,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/installningar",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 745,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 3,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v",
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+        },
+        {
+          "path": "/installningar?tab=allmant",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 1248,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+        },
+        {
+          "path": "/installningar?tab=naring",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 1087,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+        },
+        {
+          "path": "/installningar?tab=drogfrihet",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 780,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+        },
+        {
+          "path": "/installningar/widget-studio",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 735,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nInställningar · Widget Studio · Mina Widgets\n\nWidget Studio\n\nFrihet inom trygga ramar — omöjligt att göra fel. På "
+        },
+        {
+          "path": "/widget/anteckning",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 749,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nSnabbanteckning\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLog"
+        },
+        {
+          "path": "/sos",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 730,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSKRIV NU\n\nReflektionsfr"
+        },
+        {
+          "path": "/valvet",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 792,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+        },
+        {
+          "path": "/kompis",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 745,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+        },
+        {
+          "path": "/dashboard",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 751,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+        }
+      ],
+      "results": [
+        {
+          "path": "/",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 1390,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 0,
+          "consoleErrors": [],
+          "bodySnippet": "LIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSKRIV NU\n\nReflektionsfråga\n\nDu är den trygga hamnen — även när världen kän"
+        },
+        {
+          "path": "/vardagen",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 842,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/vardagen?tab=kompasser",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 999,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/vardagen?tab=mabra",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 801,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/vardagen?tab=ekonomi",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 779,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/mabra",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 772,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/planering",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 907,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/planering?tab=handling",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 761,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/planering/kalender",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 753,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/arbetsliv",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 761,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/arbetsliv/input",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 740,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/arbetsliv/input?inputMode=tid",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 725,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/arbetsliv/input?inputMode=inkomster",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 908,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/arbetsliv/input?inputMode=stampla",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 843,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/familjen",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 751,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/familjen?tab=reflektion",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 781,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/familjen?tab=livslogg",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 834,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/familjen?tab=tillsammans",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 782,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/familjen?tab=barnporten",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 793,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/familjen?tab=hamn",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 732,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/familjen?tab=drogfrihet",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 737,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/hjartat",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 722,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/hjartat?tab=reflektion",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 743,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/hjartat?tab=speglar",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 834,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/inkast",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 853,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSKRIV NU\n\nReflektionsfråga\n\nDu är den trygga hamnen — även när världen kän"
+        },
+        {
+          "path": "/planering/input",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 822,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/projekt",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 754,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/projekt/ny",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 797,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/projekt/regler",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 803,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 1,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v"
+          ],
+          "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+        },
+        {
+          "path": "/installningar",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 745,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 3,
+          "consoleErrors": [
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v",
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+        },
+        {
+          "path": "/installningar?tab=allmant",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 1248,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+        },
+        {
+          "path": "/installningar?tab=naring",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 1087,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+        },
+        {
+          "path": "/installningar?tab=drogfrihet",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 780,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+        },
+        {
+          "path": "/installningar/widget-studio",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 735,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nInställningar · Widget Studio · Mina Widgets\n\nWidget Studio\n\nFrihet inom trygga ramar — omöjligt att göra fel. På "
+        },
+        {
+          "path": "/widget/anteckning",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 749,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nSnabbanteckning\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLog"
+        },
+        {
+          "path": "/sos",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 730,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSKRIV NU\n\nReflektionsfr"
+        },
+        {
+          "path": "/valvet",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 792,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+        },
+        {
+          "path": "/kompis",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 745,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+        },
+        {
+          "path": "/dashboard",
+          "status": "ok",
+          "title": "Livskompassen v2",
+          "ms": 751,
+          "authBoundary": false,
+          "loadingStuck": false,
+          "consoleErrorCount": 2,
+          "consoleErrors": [
+            "Failed to load resource: the server responded with a status of 400 ()",
+            "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+          ],
+          "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+        }
+      ],
+      "probe": "hub-sweep"
+    },
+    "scrollProbe": {
+      "probe": "scroll-probe",
+      "base": "http://127.0.0.1:5175",
+      "at": "2026-07-24T02:38:45.213Z",
+      "results": [
+        {
+          "path": "/",
+          "window": {
+            "tag": "HTML",
+            "cls": "",
+            "sh": 1643,
+            "ch": 844,
+            "st": 0,
+            "can": true,
+            "oy": "auto",
+            "pe": "auto",
+            "touchAction": "auto",
+            "overscroll": "auto",
+            "h": 1643,
+            "top": 0,
+            "bottom": 1643
+          },
+          "island": null,
+          "hubLock": null,
+          "dock": {
+            "pe": "none",
+            "bottom": 844,
+            "top": 768,
+            "h": 76
+          },
+          "nestedScrollables": [],
+          "bodyOverflowY": "auto",
+          "htmlOverflowY": "auto",
+          "tests": {
+            "windowScrollDelta": 400,
+            "islandMovedOnWindowScroll": 0,
+            "islandScrollDelta": 0,
+            "windowMovedOnIslandScroll": 0,
+            "islandWheelDelta": 0
+          }
+        },
+        {
+          "path": "/familjen",
+          "window": {
+            "tag": "HTML",
+            "cls": "",
+            "sh": 4960,
+            "ch": 844,
+            "st": 0,
+            "can": true,
+            "oy": "auto",
+            "pe": "auto",
+            "touchAction": "auto",
+            "overscroll": "auto",
+            "h": 4960,
+            "top": 0,
+            "bottom": 4960
+          },
+          "island": {
+            "tag": "DIV",
+            "cls": "calm-scroll-island space-y-4",
+            "sh": 4592,
+            "ch": 4592,
+            "st": 0,
+            "can": false,
+            "oy": "visible",
+            "pe": "auto",
+            "touchAction": "auto",
+            "overscroll": "contain",
+            "h": 4592,
+            "top": 252,
+            "bottom": 4844
+          },
+          "hubLock": {
+            "tag": "DIV",
+            "cls": "hub-page-shell hub-page-shell--obsidian-bento flex min-h-0 flex-col gap-4 hub-page-shell--depth hub-",
+            "sh": 4707,
+            "ch": 4707,
+            "st": 0,
+            "can": false,
+            "oy": "visible",
+            "pe": "auto",
+            "touchAction": "auto",
+            "overscroll": "auto",
+            "h": 4707,
+            "top": 138,
+            "bottom": 4844
+          },
+          "dock": {
+            "pe": "none",
+            "bottom": 844,
+            "top": 768,
+            "h": 76
+          },
+          "nestedScrollables": [],
+          "bodyOverflowY": "auto",
+          "htmlOverflowY": "auto",
+          "tests": {
+            "windowScrollDelta": 400,
+            "islandMovedOnWindowScroll": 0,
+            "islandScrollDelta": 0,
+            "windowMovedOnIslandScroll": 0,
+            "islandWheelDelta": 0
+          }
+        },
+        {
+          "path": "/hjartat",
+          "window": {
+            "tag": "HTML",
+            "cls": "",
+            "sh": 1369,
+            "ch": 844,
+            "st": 0,
+            "can": true,
+            "oy": "auto",
+            "pe": "auto",
+            "touchAction": "auto",
+            "overscroll": "auto",
+            "h": 1369,
+            "top": 0,
+            "bottom": 1369
+          },
+          "island": {
+            "tag": "DIV",
+            "cls": "calm-scroll-island space-y-4",
+            "sh": 1057,
+            "ch": 1057,
+            "st": 0,
+            "can": false,
+            "oy": "visible",
+            "pe": "auto",
+            "touchAction": "auto",
+            "overscroll": "contain",
+            "h": 1057,
+            "top": 198,
+            "bottom": 1254
+          },
+          "hubLock": {
+            "tag": "DIV",
+            "cls": "hub-page-shell hub-page-shell--obsidian-bento flex min-h-0 flex-col gap-4 hub-view-lock hub-view-loc",
+            "sh": 1117,
+            "ch": 1117,
+            "st": 0,
+            "can": false,
+            "oy": "visible",
+            "pe": "auto",
+            "touchAction": "auto",
+            "overscroll": "auto",
+            "h": 1117,
+            "top": 138,
+            "bottom": 1254
+          },
+          "dock": {
+            "pe": "none",
+            "bottom": 844,
+            "top": 768,
+            "h": 76
+          },
+          "nestedScrollables": [],
+          "bodyOverflowY": "auto",
+          "htmlOverflowY": "auto",
+          "tests": {
+            "windowScrollDelta": 400,
+            "islandMovedOnWindowScroll": 0,
+            "islandScrollDelta": 0,
+            "windowMovedOnIslandScroll": 0,
+            "islandWheelDelta": 0
+          }
+        },
+        {
+          "path": "/planering",
+          "window": {
+            "tag": "HTML",
+            "cls": "",
+            "sh": 2701,
+            "ch": 844,
+            "st": 0,
+            "can": true,
+            "oy": "auto",
+            "pe": "auto",
+            "touchAction": "auto",
+            "overscroll": "auto",
+            "h": 2701,
+            "top": 0,
+            "bottom": 2701
+          },
+          "island": {
+            "tag": "DIV",
+            "cls": "calm-scroll-island space-y-4",
+            "sh": 2142,
+            "ch": 2142,
+            "st": 0,
+            "can": false,
+            "oy": "visible",
+            "pe": "auto",
+            "touchAction": "auto",
+            "overscroll": "contain",
+            "h": 2142,
+            "top": 443,
+            "bottom": 2585
+          },
+          "hubLock": {
+            "tag": "DIV",
+            "cls": "hub-page-shell hub-page-shell--obsidian-bento flex min-h-0 flex-col gap-4 hub-page-shell--depth hub-",
+            "sh": 2448,
+            "ch": 2448,
+            "st": 0,
+            "can": false,
+            "oy": "visible",
+            "pe": "auto",
+            "touchAction": "auto",
+            "overscroll": "auto",
+            "h": 2448,
+            "top": 138,
+            "bottom": 2585
+          },
+          "dock": {
+            "pe": "none",
+            "bottom": 844,
+            "top": 768,
+            "h": 76
+          },
+          "nestedScrollables": [],
+          "bodyOverflowY": "auto",
+          "htmlOverflowY": "auto",
+          "tests": {
+            "windowScrollDelta": 400,
+            "islandMovedOnWindowScroll": 0,
+            "islandScrollDelta": 0,
+            "windowMovedOnIslandScroll": 0,
+            "islandWheelDelta": 0
+          }
+        },
+        {
+          "path": "/vardagen?tab=mabra",
+          "window": {
+            "tag": "HTML",
+            "cls": "",
+            "sh": 3640,
+            "ch": 844,
+            "st": 0,
+            "can": true,
+            "oy": "auto",
+            "pe": "auto",
+            "touchAction": "auto",
+            "overscroll": "auto",
+            "h": 3640,
+            "top": 0,
+            "bottom": 3640
+          },
+          "island": {
+            "tag": "DIV",
+            "cls": "liv-launcher-page calm-scroll-island mx-auto flex max-w-5xl flex-col",
+            "sh": 3195,
+            "ch": 3195,
+            "st": 0,
+            "can": false,
+            "oy": "visible",
+            "pe": "auto",
+            "touchAction": "auto",
+            "overscroll": "contain",
+            "h": 3197,
+            "top": 327,
+            "bottom": 3524
+          },
+          "hubLock": {
+            "tag": "DIV",
+            "cls": "hub-page-shell hub-page-shell--obsidian-bento flex min-h-0 flex-col gap-4 hub-page-shell--depth hub-",
+            "sh": 3387,
+            "ch": 3387,
+            "st": 0,
+            "can": false,
+            "oy": "visible",
+            "pe": "auto",
+            "touchAction": "auto",
+            "overscroll": "auto",
+            "h": 3387,
+            "top": 138,
+            "bottom": 3524
+          },
+          "dock": {
+            "pe": "none",
+            "bottom": 844,
+            "top": 768,
+            "h": 76
+          },
+          "nestedScrollables": [],
+          "bodyOverflowY": "auto",
+          "htmlOverflowY": "auto",
+          "tests": {
+            "windowScrollDelta": 400,
+            "islandMovedOnWindowScroll": 0,
+            "islandScrollDelta": 0,
+            "windowMovedOnIslandScroll": 0,
+            "islandWheelDelta": 0
+          }
+        },
+        {
+          "path": "/",
+          "window": {
+            "tag": "HTML",
+            "cls": "",
+            "sh": 1717,
+            "ch": 844,
+            "st": 0,
+            "can": true,
+            "oy": "auto",
+            "pe": "auto",
+            "touchAction": "auto",
+            "overscroll": "auto",
+            "h": 1717,
+            "top": 0,
+            "bottom": 1717
+          },
+          "island": null,
+          "hubLock": null,
+          "dock": {
+            "pe": "none",
+            "bottom": 844,
+            "top": 768,
+            "h": 76
+          },
+          "nestedScrollables": [],
+          "bodyOverflowY": "auto",
+          "htmlOverflowY": "auto",
+          "tests": {
+            "windowScrollDelta": 400,
+            "islandMovedOnWindowScroll": 0,
+            "islandScrollDelta": 0,
+            "windowMovedOnIslandScroll": 0,
+            "islandWheelDelta": 0
+          }
+        }
+      ],
+      "routeIssues": [
+        {
+          "path": "/",
+          "issues": [],
+          "hard": []
+        },
+        {
+          "path": "/familjen",
+          "issues": [
+            "DOC_SCROLL_OK"
+          ],
+          "hard": []
+        },
+        {
+          "path": "/hjartat",
+          "issues": [
+            "DOC_SCROLL_OK"
+          ],
+          "hard": []
+        },
+        {
+          "path": "/planering",
+          "issues": [
+            "DOC_SCROLL_OK"
+          ],
+          "hard": []
+        },
+        {
+          "path": "/vardagen?tab=mabra",
+          "issues": [
+            "DOC_SCROLL_OK"
+          ],
+          "hard": []
+        },
+        {
+          "path": "/",
+          "issues": [],
+          "hard": []
+        }
+      ],
+      "hardFailCount": 0,
+      "hardFails": []
+    },
+    "tapPress": {
+      "probe": "tap-press",
+      "mode": "full-crawl",
+      "base": "http://127.0.0.1:5175",
+      "at": "2026-07-24T02:40:37.316Z",
+      "routesVisited": 83,
+      "actions": 190,
+      "issueCount": 0,
+      "issues": [],
+      "touchAudit": [
+        {
+          "name": "Anteckning",
+          "w": 68,
+          "h": 53,
+          "ok": true
+        },
+        {
+          "name": "Familj",
+          "w": 54,
+          "h": 53,
+          "ok": true
+        },
+        {
+          "name": "Inkast",
+          "w": 54,
+          "h": 53,
+          "ok": true
+        },
+        {
+          "name": "Ventil",
+          "w": 54,
+          "h": 53,
+          "ok": true
+        },
+        {
+          "name": "Hamn",
+          "w": 106,
+          "h": 106,
+          "ok": true
+        }
+      ],
+      "consoleErrorCount": 79,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "Failed to load resource: the server responded with a status of 400 ()"
+      ],
+      "authNoiseCount": 88,
+      "results": [
+        {
+          "action": "dock:Hamn(short)",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/",
+          "touch": {
+            "w": 106,
+            "h": 106,
+            "ok": true
+          }
+        },
+        {
+          "action": "header:resurser-open",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/",
+          "touch": {
+            "w": 44,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "header:alla-resurser",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/",
+          "touch": {
+            "w": 185,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "header:resurser-close",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/",
+          "touch": {
+            "w": 44,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "drawer:Startskärm",
+          "ok": true,
+          "detail": "ok-already-home",
+          "urlAfter": "http://127.0.0.1:5175/",
+          "touch": {
+            "w": 192,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "drawer:Snabb-inkast",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/#inkast-lite",
+          "touch": {
+            "w": 192,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "drawer:Kompasser",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/vardagen",
+          "touch": {
+            "w": 192,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "drawer:MåBra",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra",
+          "touch": {
+            "w": 192,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "drawer:Planering",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/planering?tab=handling",
+          "touch": {
+            "w": 192,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "drawer:Arbetsliv",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/arbetsliv/input",
+          "touch": {
+            "w": 192,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "drawer:Ekonomi",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/vardagen?tab=ekonomi",
+          "touch": {
+            "w": 192,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "drawer:Barnfokus",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/familjen?tab=reflektion",
+          "touch": {
+            "w": 192,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "drawer:Livslogg",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/familjen?tab=livslogg",
+          "touch": {
+            "w": 192,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "drawer:Tillsammans",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/familjen?tab=tillsammans",
+          "touch": {
+            "w": 192,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "drawer:Barnporten",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnporten",
+          "touch": {
+            "w": 192,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "drawer:Trygg hamn",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn",
+          "touch": {
+            "w": 192,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "drawer:Drogfrihet",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/familjen?tab=drogfrihet",
+          "touch": {
+            "w": 192,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "drawer:Allmänt",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/installningar?tab=allmant",
+          "touch": {
+            "w": 192,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "drawer:Näring",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/installningar?tab=naring",
+          "touch": {
+            "w": 192,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "drawer:Drogfrihet",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/installningar?tab=drogfrihet",
+          "touch": {
+            "w": 192,
+            "h": 44,
+            "ok": true
+          }
+        },
+        {
+          "action": "dock:Familj",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/familjen",
+          "touch": {
+            "w": 54,
+            "h": 53,
+            "ok": true
+          }
+        },
+        {
+          "action": "dock:Ventil",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/hjartat",
+          "touch": {
+            "w": 54,
+            "h": 53,
+            "ok": true
+          }
+        },
+        {
+          "action": "dock:Inkast",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/planering/input?inputMode=inkast",
+          "touch": {
+            "w": 54,
+            "h": 53,
+            "ok": true
+          }
+        },
+        {
+          "action": "dock:Anteckning",
+          "ok": true,
+          "detail": "ok",
+          "urlAfter": "http://127.0.0.1:5175/widget/anteckning",
+          "touch": {
+            "w": 68,
+            "h": 53,
+            "ok": true
+          }
+        },
+        {
+          "action": "route:/",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/"
+        },
+        {
+          "action": "page:/:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/dashboard",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/dashboard"
+        },
+        {
+          "action": "page:/dashboard:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/kompis",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/kompis"
+        },
+        {
+          "action": "page:/kompis:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/morgon",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/morgon"
+        },
+        {
+          "action": "page:/morgon:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/vardagen",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/vardagen"
+        },
+        {
+          "action": "page:/vardagen:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/vardagen?tab=kompasser",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/vardagen?tab=kompasser"
+        },
+        {
+          "action": "page:/vardagen?tab=kompasser:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/vardagen?tab=mabra",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/vardagen?tab=mabra"
+        },
+        {
+          "action": "page:/vardagen?tab=mabra:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/vardagen?tab=ekonomi",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/vardagen?tab=ekonomi"
+        },
+        {
+          "action": "page:/vardagen?tab=ekonomi:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/mabra",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/mabra"
+        },
+        {
+          "action": "page:/mabra:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/mabra/akut",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/mabra/akut"
+        },
+        {
+          "action": "page:/mabra/akut:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/mabra/tid",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/mabra/tid"
+        },
+        {
+          "action": "page:/mabra/tid:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/mabra/varderingar",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/mabra/varderingar"
+        },
+        {
+          "action": "page:/mabra/varderingar:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/mabra/input",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/mabra/input"
+        },
+        {
+          "action": "page:/mabra/input:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/mabra/recovery/sos",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/mabra/recovery/sos"
+        },
+        {
+          "action": "page:/mabra/recovery/sos:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/planering",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/planering"
+        },
+        {
+          "action": "page:/planering:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/planering?tab=handling",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/planering?tab=handling"
+        },
+        {
+          "action": "page:/planering?tab=handling:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/planering/kalender",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/planering/kalender"
+        },
+        {
+          "action": "page:/planering/kalender:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/planering/input",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/planering/input"
+        },
+        {
+          "action": "page:/planering/input:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/arbetsliv",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/arbetsliv"
+        },
+        {
+          "action": "page:/arbetsliv:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/arbetsliv/input",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/arbetsliv/input"
+        },
+        {
+          "action": "page:/arbetsliv/input:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/arbetsliv/input?inputMode=tid",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=tid"
+        },
+        {
+          "action": "page:/arbetsliv/input?inputMode=tid:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/arbetsliv/input?inputMode=inkomster",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=inkomster"
+        },
+        {
+          "action": "page:/arbetsliv/input?inputMode=inkomster:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/arbetsliv/input?inputMode=stampla",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/arbetsliv/input?inputMode=stampla"
+        },
+        {
+          "action": "page:/arbetsliv/input?inputMode=stampla:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/familjen",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/familjen"
+        },
+        {
+          "action": "page:/familjen:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/familjen?tab=reflektion",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/familjen?tab=reflektion"
+        },
+        {
+          "action": "page:/familjen?tab=reflektion:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/familjen?tab=livslogg",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/familjen?tab=livslogg"
+        },
+        {
+          "action": "page:/familjen?tab=livslogg:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/familjen?tab=tillsammans",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/familjen?tab=tillsammans"
+        },
+        {
+          "action": "page:/familjen?tab=tillsammans:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/familjen?tab=barnporten",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/familjen?tab=barnporten"
+        },
+        {
+          "action": "page:/familjen?tab=barnporten:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/familjen?tab=hamn",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/familjen?tab=hamn"
+        },
+        {
+          "action": "page:/familjen?tab=hamn:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/familjen?tab=drogfrihet",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/familjen?tab=drogfrihet"
+        },
+        {
+          "action": "page:/familjen?tab=drogfrihet:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/barnporten",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/barnporten"
+        },
+        {
+          "action": "page:/barnporten:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/hjartat",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/hjartat"
+        },
+        {
+          "action": "page:/hjartat:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/hjartat?tab=reflektion",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/hjartat?tab=reflektion"
+        },
+        {
+          "action": "page:/hjartat?tab=reflektion:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/hjartat?tab=speglar",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/hjartat?tab=speglar"
+        },
+        {
+          "action": "page:/hjartat?tab=speglar:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/orakel",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/orakel"
+        },
+        {
+          "action": "page:/orakel:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/reflection",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/reflection"
+        },
+        {
+          "action": "page:/reflection:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/biochem",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/biochem"
+        },
+        {
+          "action": "page:/biochem:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/inkast",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/"
+        },
+        {
+          "action": "page:/inkast:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/projekt",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/projekt"
+        },
+        {
+          "action": "page:/projekt:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/projekt/ny",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/projekt/ny"
+        },
+        {
+          "action": "page:/projekt/ny:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/projekt/regler",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/projekt/regler"
+        },
+        {
+          "action": "page:/projekt/regler:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/projekt/genvagar",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/projekt/genvagar"
+        },
+        {
+          "action": "page:/projekt/genvagar:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/installningar",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/installningar"
+        },
+        {
+          "action": "page:/installningar:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/installningar?tab=allmant",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/installningar?tab=allmant"
+        },
+        {
+          "action": "page:/installningar?tab=allmant:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/installningar?tab=naring",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/installningar?tab=naring"
+        },
+        {
+          "action": "page:/installningar?tab=naring:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/installningar?tab=drogfrihet",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/installningar?tab=drogfrihet"
+        },
+        {
+          "action": "page:/installningar?tab=drogfrihet:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/installningar/widget-studio",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/installningar/widget-studio"
+        },
+        {
+          "action": "page:/installningar/widget-studio:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/valvet",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/valvet"
+        },
+        {
+          "action": "page:/valvet:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/valvet/installningar",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/valvet/installningar"
+        },
+        {
+          "action": "page:/valvet/installningar:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/sos",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/"
+        },
+        {
+          "action": "page:/sos:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/anteckning",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/anteckning"
+        },
+        {
+          "action": "page:/widget/anteckning:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/inspelning",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/inspelning"
+        },
+        {
+          "action": "page:/widget/inspelning:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/kompass",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/kompass"
+        },
+        {
+          "action": "page:/widget/kompass:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/hamn",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/hamn"
+        },
+        {
+          "action": "page:/widget/hamn:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/familjen",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/familjen"
+        },
+        {
+          "action": "page:/widget/familjen:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/stampla",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/stampla"
+        },
+        {
+          "action": "page:/widget/stampla:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/barnporten",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/barnporten"
+        },
+        {
+          "action": "page:/widget/barnporten:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/snabbval",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/snabbval"
+        },
+        {
+          "action": "page:/widget/snabbval:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/voice-vault",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/voice-vault"
+        },
+        {
+          "action": "page:/widget/voice-vault:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/projekt",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/projekt"
+        },
+        {
+          "action": "page:/widget/projekt:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/aktioner",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/aktioner"
+        },
+        {
+          "action": "page:/widget/aktioner:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/moduler",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/moduler"
+        },
+        {
+          "action": "page:/widget/moduler:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/drogfrihet-akut",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/drogfrihet-akut"
+        },
+        {
+          "action": "page:/widget/drogfrihet-akut:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/companion-capture",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/companion-capture"
+        },
+        {
+          "action": "page:/widget/companion-capture:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/companion-inbox",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/companion-inbox"
+        },
+        {
+          "action": "page:/widget/companion-inbox:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/companion-note",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/companion-note"
+        },
+        {
+          "action": "page:/widget/companion-note:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/companion-harbor",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/companion-harbor"
+        },
+        {
+          "action": "page:/widget/companion-harbor:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/companion-compass",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/companion-compass"
+        },
+        {
+          "action": "page:/widget/companion-compass:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/companion-child",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/companion-child"
+        },
+        {
+          "action": "page:/widget/companion-child:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/companion-beacon",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/companion-beacon"
+        },
+        {
+          "action": "page:/widget/companion-beacon:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/companion-journal",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/companion-journal"
+        },
+        {
+          "action": "page:/widget/companion-journal:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/companion-anchor",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/companion-anchor"
+        },
+        {
+          "action": "page:/widget/companion-anchor:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/widget/companion-tasks",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/widget/companion-tasks"
+        },
+        {
+          "action": "page:/widget/companion-tasks:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/dev/theme-lab",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/dev/theme-lab"
+        },
+        {
+          "action": "page:/dev/theme-lab:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/dev/themes",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/dev/themes"
+        },
+        {
+          "action": "page:/dev/themes:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/dev/hub-lab",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/dev/hub-lab"
+        },
+        {
+          "action": "page:/dev/hub-lab:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/dev/basta-design",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/dev/basta-design"
+        },
+        {
+          "action": "page:/dev/basta-design:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/dev/design-freeport",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/dev/design-freeport"
+        },
+        {
+          "action": "page:/dev/design-freeport:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/dev/obsidian-depth",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/dev/obsidian-depth"
+        },
+        {
+          "action": "page:/dev/obsidian-depth:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/dev/obsidian-forge",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/dev/obsidian-forge"
+        },
+        {
+          "action": "page:/dev/obsidian-forge:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/dev/obsidian-depth-v2",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/dev/obsidian-depth-v2"
+        },
+        {
+          "action": "page:/dev/obsidian-depth-v2:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/dev/dagens-ankare",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/dev/dagens-ankare"
+        },
+        {
+          "action": "page:/dev/dagens-ankare:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        },
+        {
+          "action": "route:/dev/companion-widgets",
+          "ok": true,
+          "detail": "loaded",
+          "urlAfter": "http://127.0.0.1:5175/dev/companion-widgets"
+        },
+        {
+          "action": "page:/dev/companion-widgets:tabs",
+          "ok": true,
+          "detail": "no-hub-tabs"
+        }
+      ]
+    }
+  }
+}

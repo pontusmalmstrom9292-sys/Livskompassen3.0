@@ -39,7 +39,7 @@ export function MabraRoutes() {
         <Route path="ovning/tillagg" element={<MabraSuspense><AddonView /></MabraSuspense>} />
         <Route path="input" element={<MabraSuspense><MabraInputSuperModuleLazy /></MabraSuspense>} />
         <Route path="klart" element={<MabraSuspense><CompleteView /></MabraSuspense>} />
-        <Route path="*" element={<Navigate to="/mabra" replace />} />
+        <Route path="*" element={<Navigate to="." replace />} />
       </Route>
     </Routes>
   );

@@ -1,0 +1,2305 @@
+{
+  "base": "http://127.0.0.1:5175",
+  "at": "2026-07-24T03:00:14.174Z",
+  "routes": 83,
+  "failures": [],
+  "routesWithConsoleErrors": [
+    {
+      "path": "/",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 2553,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSKRIV NU\n\nReflektionsfr"
+    },
+    {
+      "path": "/dashboard",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 1247,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/kompis",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 805,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/morgon",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 775,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/vardagen",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 822,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/vardagen?tab=kompasser",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 838,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/vardagen?tab=mabra",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 773,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/vardagen?tab=ekonomi",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 758,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/mabra",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 720,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/mabra/akut",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 753,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/mabra/tid",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 741,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/mabra/varderingar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 725,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/mabra/input",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 722,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/mabra/recovery/sos",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 764,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/planering",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 742,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/planering?tab=handling",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 1018,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/planering/kalender",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 702,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/planering/input",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 817,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/arbetsliv",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 722,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/arbetsliv/input",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 720,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/arbetsliv/input?inputMode=tid",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 721,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/arbetsliv/input?inputMode=inkomster",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 720,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/arbetsliv/input?inputMode=stampla",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 715,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/familjen",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 782,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/familjen?tab=reflektion",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 879,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/familjen?tab=livslogg",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 817,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/familjen?tab=tillsammans",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 844,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/familjen?tab=barnporten",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 738,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/familjen?tab=hamn",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 721,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/familjen?tab=drogfrihet",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 723,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/barnporten",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 716,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nBARNPORTEN\n\nDin trygga hamn\n\nBe pappa skanna QR under Familjen → Barnporten.\n\nSMÅBARNSLÄGE — KASPER\n\nPeka på humör"
+    },
+    {
+      "path": "/hjartat",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 709,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/hjartat?tab=speglar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 709,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 3,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/orakel",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 707,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/reflection",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 812,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/biochem",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 712,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/inkast",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 885,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSKRIV NU\n\nReflektionsfr"
+    },
+    {
+      "path": "/projekt",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 791,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/projekt/ny",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 721,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/projekt/regler",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 810,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/projekt/genvagar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 772,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/installningar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 750,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/installningar?tab=allmant",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 794,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/installningar?tab=naring",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 763,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/installningar?tab=drogfrihet",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 743,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/installningar/widget-studio",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 733,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nInställningar · Widget Studio · Mina Widgets\n\nWidget Studio\n\nFrihet inom trygga ramar — omöjligt att göra fel. På "
+    },
+    {
+      "path": "/valvet",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 808,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/valvet/installningar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 794,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/sos",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 811,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSKRIV NU\n\nReflektionsfr"
+    },
+    {
+      "path": "/widget/anteckning",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 738,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nSnabbanteckning\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLog"
+    },
+    {
+      "path": "/widget/inspelning",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 731,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nAnteckningar\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga "
+    },
+    {
+      "path": "/widget/kompass",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 839,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nKompass\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga in vi"
+    },
+    {
+      "path": "/widget/hamn",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 920,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nHamn · BIFF\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga i"
+    },
+    {
+      "path": "/widget/familjen",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 1207,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nBarnobs\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga in vi"
+    },
+    {
+      "path": "/widget/stampla",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 793,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nStämpel\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga in vi"
+    },
+    {
+      "path": "/widget/barnporten",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 795,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nBarnporten\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga in"
+    },
+    {
+      "path": "/widget/snabbval",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 729,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nDagbok\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga in via"
+    },
+    {
+      "path": "/widget/voice-vault",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 734,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nBevis-röst\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga in"
+    },
+    {
+      "path": "/widget/projekt",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 747,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nNytt projekt\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga "
+    },
+    {
+      "path": "/widget/aktioner",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 856,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nÅtgärder\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga in v"
+    },
+    {
+      "path": "/widget/moduler",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 755,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nMina moduler\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga "
+    },
+    {
+      "path": "/widget/drogfrihet-akut",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 731,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nSOS Ankare\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga in"
+    },
+    {
+      "path": "/widget/companion-capture",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 725,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nHemlig inspelning\n\nCompanion OS · röst till Valvet\n\nHEMLIG INSPELNING\n\nTryck mic · inspelning sta"
+    },
+    {
+      "path": "/widget/companion-inbox",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 795,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nInkast\n\nCompanion OS · ett tryck\n\nINKAST\n\nEtt tryck. Klart.\n\n✏️\nTEXT\n🎤\nRÖST\n📷\nFOTO\nEND-TO-END K"
+    },
+    {
+      "path": "/widget/companion-note",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 836,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nSnabba anteckningar\n\nCompanion OS · text, foto eller röst\n\nSNABBA ANTECKNINGAR\n\nSkriv något snabb"
+    },
+    {
+      "path": "/widget/companion-harbor",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 720,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nTrygg Hamn\n\nCompanion OS · lugn yta\n\nMÅ BRA\n\nAndas. Släpp taget.\n\nAndas. Släpp taget. Var här nu."
+    },
+    {
+      "path": "/widget/companion-compass",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 780,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nKompassen\n\nCompanion OS · navet\n\nDAGENS FOKUS\n\nDin kompass för idag\n\nN\nS\nW\nE\n\nFOKUS FÖR IDAG\n\nVil"
+    },
+    {
+      "path": "/widget/companion-child",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 776,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nBarnfokus\n\nCompanion OS · dagens fråga\n\nFAMILJEN\n\nIdag\n\n+\n\nDAGENS FRÅGA\n\nVilket ord eller ljud fa"
+    },
+    {
+      "path": "/widget/companion-beacon",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 872,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nFyren\n\nCompanion OS · dagsform\n\nFYREN\n\nDin inre kompass för kapacitet och balans\n\n68%\nLUGN\nENERGI"
+    },
+    {
+      "path": "/widget/companion-journal",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 760,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nDagbok\n\nCompanion OS · check-in\n\nDAGBOK\n\nHur har din dag varit?\n\nAtt förstå sig själv är början p"
+    },
+    {
+      "path": "/widget/companion-anchor",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 831,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nDagens Ankare\n\nCompanion OS · ett steg\n\nDAGENS ANKARE\n\nEtt lugnt mikrosteg\n\nSätt en lugn intentio"
+    },
+    {
+      "path": "/widget/companion-tasks",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 780,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nDagens uppgifter\n\nCompanion OS · nästa steg\n\nFOKUS\n\nDagens riktning\n\nDAGENS FOKUS\n\nNästa lugna st"
+    },
+    {
+      "path": "/dev/theme-lab",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 717,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nTheme Lab\n\nProd-tema låst: endast Bästa design är aktiv i hela appen. Förhandsvisning här nedan påverkar inte prod."
+    },
+    {
+      "path": "/dev/themes",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 726,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nTheme Pack Preview\n\nProd-tema är låst till Bästa design i hela appen.\n\nTHEME LAB\nTILL HEM\n\nME-BASTA-DESIGN\n\nBästa d"
+    },
+    {
+      "path": "/dev/hub-lab",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 759,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nHub Lab\n\nÅtta planeringshubbar med olika verktyg, layout och färger. Valet sparas och syns på /planering.\n\nÖPPNA PL"
+    },
+    {
+      "path": "/dev/basta-design",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 811,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\n← Prod\nFIGMA-REF · MOCKDATA\nTheme Lab\nLIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldri"
+    },
+    {
+      "path": "/dev/design-freeport",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 1206,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\n← Prod\nSANDBOX · EJ PROD\nDepth v2\nDESIGN FREEPORT\n\nHem (Modell A) är kanon — live Chameleon + kompassmodul. FP-TI ref är statiska"
+    },
+    {
+      "path": "/dev/obsidian-depth",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 2064,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nLÅST · 2026-06-14\n\nOBSIDIAN DEPTH\n\nLåst kanon för fylligare 3D — glassmorphism, taktil djup, guldaccenter endast. "
+    },
+    {
+      "path": "/dev/obsidian-forge",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 3108,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nSynkar ändringar…\n\nUTVÄRDERING · 2026-06-14\n\nOBSIDIAN FORGE\n\nSyntes av fem referensmockups — grafit + guld, hero + "
+    },
+    {
+      "path": "/dev/obsidian-depth-v2",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 1159,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nUPPGRADERING · HEM V3 + OD\n\nOBSIDIAN DEPTH V2\n\nSamma glas/guld/3D som Obsidian Depth — plus det vi byggde i Hem v3"
+    },
+    {
+      "path": "/dev/companion-widgets",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 885,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 3,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nCOMPANION WIDGET OS\n\nLab — smart yta\n\nMotor igång · Nedvarvning · Reflektera i en minut — eller bara andas.\n\nWidge"
+    }
+  ],
+  "results": [
+    {
+      "path": "/",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 2553,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSKRIV NU\n\nReflektionsfr"
+    },
+    {
+      "path": "/dashboard",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 1247,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/kompis",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 805,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/morgon",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 775,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/vardagen",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 822,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/vardagen?tab=kompasser",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 838,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/vardagen?tab=mabra",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 773,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/vardagen?tab=ekonomi",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 758,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/mabra",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 720,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/mabra/akut",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 753,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/mabra/tid",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 741,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/mabra/varderingar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 725,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/mabra/input",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 722,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/mabra/recovery/sos",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 764,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/planering",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 742,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/planering?tab=handling",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 1018,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/planering/kalender",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 702,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/planering/input",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 817,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/arbetsliv",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 722,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/arbetsliv/input",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 720,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/arbetsliv/input?inputMode=tid",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 721,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/arbetsliv/input?inputMode=inkomster",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 720,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/arbetsliv/input?inputMode=stampla",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 715,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/familjen",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 782,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/familjen?tab=reflektion",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 879,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/familjen?tab=livslogg",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 817,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/familjen?tab=tillsammans",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 844,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/familjen?tab=barnporten",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 738,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/familjen?tab=hamn",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 721,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/familjen?tab=drogfrihet",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 723,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/barnporten",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 716,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nBARNPORTEN\n\nDin trygga hamn\n\nBe pappa skanna QR under Familjen → Barnporten.\n\nSMÅBARNSLÄGE — KASPER\n\nPeka på humör"
+    },
+    {
+      "path": "/hjartat",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 709,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/hjartat?tab=reflektion",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 721,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "bodySnippet": "LIVSKOMPASSEN\nLaddar\n\nAnsluter till Livskompassen...\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndning\nDagbok\nBevis-rad\nBarnobs\nBevis-röst\nHamn\nPlanering\nMorgon\nLås upp\nDölj snabbåtkomst"
+    },
+    {
+      "path": "/hjartat?tab=speglar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 709,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 3,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/orakel",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 707,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/reflection",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 812,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/biochem",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 712,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/inkast",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 885,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSKRIV NU\n\nReflektionsfr"
+    },
+    {
+      "path": "/projekt",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 791,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/projekt/ny",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 721,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/projekt/regler",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 810,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/projekt/genvagar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 772,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/installningar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 750,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/installningar?tab=allmant",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 794,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/installningar?tab=naring",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 763,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/installningar?tab=drogfrihet",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 743,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/installningar/widget-studio",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 733,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nInställningar · Widget Studio · Mina Widgets\n\nWidget Studio\n\nFrihet inom trygga ramar — omöjligt att göra fel. På "
+    },
+    {
+      "path": "/valvet",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 808,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/valvet/installningar",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 794,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nInloggning krävs\n\nTryck på Konto uppe till höger i headern för att logga in.\n\nANTECKNING\nFAMILJ\nVENTIL\nINKAST\nAndni"
+    },
+    {
+      "path": "/sos",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 811,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldrig bortkastad.\n\nSKRIV NU\n\nReflektionsfr"
+    },
+    {
+      "path": "/widget/anteckning",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 738,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nSnabbanteckning\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLog"
+    },
+    {
+      "path": "/widget/inspelning",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 731,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nAnteckningar\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga "
+    },
+    {
+      "path": "/widget/kompass",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 839,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nKompass\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga in vi"
+    },
+    {
+      "path": "/widget/hamn",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 920,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nHamn · BIFF\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga i"
+    },
+    {
+      "path": "/widget/familjen",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 1207,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nBarnobs\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga in vi"
+    },
+    {
+      "path": "/widget/stampla",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 793,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nStämpel\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga in vi"
+    },
+    {
+      "path": "/widget/barnporten",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 795,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nBarnporten\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga in"
+    },
+    {
+      "path": "/widget/snabbval",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 729,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nDagbok\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga in via"
+    },
+    {
+      "path": "/widget/voice-vault",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 734,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nBevis-röst\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga in"
+    },
+    {
+      "path": "/widget/projekt",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 747,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nNytt projekt\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga "
+    },
+    {
+      "path": "/widget/aktioner",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 856,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nÅtgärder\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga in v"
+    },
+    {
+      "path": "/widget/moduler",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 755,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nMina moduler\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga "
+    },
+    {
+      "path": "/widget/drogfrihet-akut",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 731,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nWIDGET\nDÖLJ NU — NEUTRAL HEM\nSOS Ankare\n\nFristående genväg — sessionen är redan kopplad i bakgrunden.\n\nInloggning krävs\n\nLogga in"
+    },
+    {
+      "path": "/widget/companion-capture",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 725,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nHemlig inspelning\n\nCompanion OS · röst till Valvet\n\nHEMLIG INSPELNING\n\nTryck mic · inspelning sta"
+    },
+    {
+      "path": "/widget/companion-inbox",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 795,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nInkast\n\nCompanion OS · ett tryck\n\nINKAST\n\nEtt tryck. Klart.\n\n✏️\nTEXT\n🎤\nRÖST\n📷\nFOTO\nEND-TO-END K"
+    },
+    {
+      "path": "/widget/companion-note",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 836,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nSnabba anteckningar\n\nCompanion OS · text, foto eller röst\n\nSNABBA ANTECKNINGAR\n\nSkriv något snabb"
+    },
+    {
+      "path": "/widget/companion-harbor",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 720,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nTrygg Hamn\n\nCompanion OS · lugn yta\n\nMÅ BRA\n\nAndas. Släpp taget.\n\nAndas. Släpp taget. Var här nu."
+    },
+    {
+      "path": "/widget/companion-compass",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 780,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nKompassen\n\nCompanion OS · navet\n\nDAGENS FOKUS\n\nDin kompass för idag\n\nN\nS\nW\nE\n\nFOKUS FÖR IDAG\n\nVil"
+    },
+    {
+      "path": "/widget/companion-child",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 776,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nBarnfokus\n\nCompanion OS · dagens fråga\n\nFAMILJEN\n\nIdag\n\n+\n\nDAGENS FRÅGA\n\nVilket ord eller ljud fa"
+    },
+    {
+      "path": "/widget/companion-beacon",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 872,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nFyren\n\nCompanion OS · dagsform\n\nFYREN\n\nDin inre kompass för kapacitet och balans\n\n68%\nLUGN\nENERGI"
+    },
+    {
+      "path": "/widget/companion-journal",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 760,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nDagbok\n\nCompanion OS · check-in\n\nDAGBOK\n\nHur har din dag varit?\n\nAtt förstå sig själv är början p"
+    },
+    {
+      "path": "/widget/companion-anchor",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 831,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nDagens Ankare\n\nCompanion OS · ett steg\n\nDAGENS ANKARE\n\nEtt lugnt mikrosteg\n\nSätt en lugn intentio"
+    },
+    {
+      "path": "/widget/companion-tasks",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 780,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nCOMPANION\nDÖLJ NU — NEUTRAL HEM\nDagens uppgifter\n\nCompanion OS · nästa steg\n\nFOKUS\n\nDagens riktning\n\nDAGENS FOKUS\n\nNästa lugna st"
+    },
+    {
+      "path": "/dev/theme-lab",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 717,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nTheme Lab\n\nProd-tema låst: endast Bästa design är aktiv i hela appen. Förhandsvisning här nedan påverkar inte prod."
+    },
+    {
+      "path": "/dev/themes",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 726,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nTheme Pack Preview\n\nProd-tema är låst till Bästa design i hela appen.\n\nTHEME LAB\nTILL HEM\n\nME-BASTA-DESIGN\n\nBästa d"
+    },
+    {
+      "path": "/dev/hub-lab",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 759,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nHub Lab\n\nÅtta planeringshubbar med olika verktyg, layout och färger. Valet sparas och syns på /planering.\n\nÖPPNA PL"
+    },
+    {
+      "path": "/dev/basta-design",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 811,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\n← Prod\nFIGMA-REF · MOCKDATA\nTheme Lab\nLIVSKOMPASSEN\n\nDAGENS REFLEKTION\n\nStanna upp.\nKänn efter.\n\nEn stund för dig själv,\när aldri"
+    },
+    {
+      "path": "/dev/design-freeport",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 1206,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\n← Prod\nSANDBOX · EJ PROD\nDepth v2\nDESIGN FREEPORT\n\nHem (Modell A) är kanon — live Chameleon + kompassmodul. FP-TI ref är statiska"
+    },
+    {
+      "path": "/dev/obsidian-depth",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 2064,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nLÅST · 2026-06-14\n\nOBSIDIAN DEPTH\n\nLåst kanon för fylligare 3D — glassmorphism, taktil djup, guldaccenter endast. "
+    },
+    {
+      "path": "/dev/obsidian-forge",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 3108,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\nSynkar ändringar…\n\nUTVÄRDERING · 2026-06-14\n\nOBSIDIAN FORGE\n\nSyntes av fem referensmockups — grafit + guld, hero + "
+    },
+    {
+      "path": "/dev/obsidian-depth-v2",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 1159,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 2,
+      "consoleErrors": [
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nUPPGRADERING · HEM V3 + OD\n\nOBSIDIAN DEPTH V2\n\nSamma glas/guld/3D som Obsidian Depth — plus det vi byggde i Hem v3"
+    },
+    {
+      "path": "/dev/dagens-ankare",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 744,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 0,
+      "consoleErrors": [],
+      "bodySnippet": "LIVSKOMPASSEN\n\nSANDBOX · HEM V3\n\nDagens Ankare\n\nForge (andning: box / 4-7-8 / 4-2-6) + Taktisk (mikrosteg). Testa på Hem → Morgon-flik.\n\nHEM\nOBSIDIAN FORGE\nHTML MERGE\nSPÅR 1: OBSID"
+    },
+    {
+      "path": "/dev/companion-widgets",
+      "status": "ok",
+      "title": "Livskompassen v2",
+      "ms": 885,
+      "authBoundary": false,
+      "loadingStuck": false,
+      "consoleErrorCount": 3,
+      "consoleErrors": [
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/network-request-failed).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v",
+        "Failed to load resource: the server responded with a status of 400 ()",
+        "[AuthProvider] Anonymous sign-in failed FirebaseError: Firebase: Error (auth/too-many-requests).\n    at createErrorInternal (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d38c9f:434:35)\n    at _fail (http://127.0.0.1:5175/node_modules/.vite/deps/index.esm-oQe8PXWX.js?v=e6d3"
+      ],
+      "bodySnippet": "För många försök. Vänta en stund och försök igen.\n\nLIVSKOMPASSEN\n\nCOMPANION WIDGET OS\n\nLab — smart yta\n\nMotor igång · Nedvarvning · Reflektera i en minut — eller bara andas.\n\nWidge"
+    }
+  ],
+  "probe": "hub-sweep"
+}

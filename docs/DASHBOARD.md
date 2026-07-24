@@ -1,3 +1,8 @@
+### 2026-07-24 — UI QA Harden Loop
+- `npm run qa:harden` · debug:ui-suite · device-probe SKIP utan USB
+- Tier A auto (scroll CSS) · Tier B pontus-md · deploy SKIP
+- Docs: `QA-HARDEN-LOOP.md` · agents sync-* Fas 24
+
 ### 2026-07-23 — Widget UI Polish ×10
 - Gate F 56 dp låst (CSS + Mood + Studio + Android check-in) · Journal input ≥56
 - Kap 6: padding/caps/trust · Anchor guldring · ethereal scoped

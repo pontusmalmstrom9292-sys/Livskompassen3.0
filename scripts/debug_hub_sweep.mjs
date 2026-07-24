@@ -3,45 +3,20 @@
  * Usage: node scripts/debug_hub_sweep.mjs [baseUrl]
  */
 import { chromium } from 'playwright';
-import { appendFileSync, writeFileSync } from 'node:fs';
+import { writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import { appendNdjson, writeJson, ensureQaDir } from './lib/qa_harden_io.mjs';
+import { PUBLIC_ROUTE_PATHS } from './lib/qa_public_routes.mjs';
 
 const BASE = process.argv[2] || 'http://127.0.0.1:5173';
-const LOG = resolve('.cursor/debug-4bae45.log');
-const OUT = resolve('.cursor/debug-hub-sweep-4bae45.json');
+const OUT = resolve('.cursor/debug-hub-sweep.json');
 
-const ROUTES = [
-  '/',
-  '/familjen',
-  '/familjen?tab=reflektion',
-  '/familjen?tab=hamn',
-  '/hjartat',
-  '/hjartat?tab=speglar',
-  '/vardagen',
-  '/vardagen?tab=mabra',
-  '/vardagen?tab=ekonomi',
-  '/planering',
-  '/planering?tab=handling',
-  '/arbetsliv/input',
-  '/inkast',
-  '/projekt',
-  '/installningar',
-  '/mabra',
-  '/valvet',
-  '/sos',
-];
+ensureQaDir();
+
+const ROUTES = PUBLIC_ROUTE_PATHS;
 
 function dbg(hypothesisId, location, message, data) {
-  const line = JSON.stringify({
-    sessionId: '4bae45',
-    runId: 'hub-sweep',
-    hypothesisId,
-    location,
-    message,
-    data,
-    timestamp: Date.now(),
-  });
-  appendFileSync(LOG, `${line}\n`);
+  appendNdjson({ run: 'hub-sweep', hypothesisId, location, message, data });
 }
 
 const results = [];
@@ -76,7 +51,12 @@ for (const path of ROUTES) {
 
   try {
     const res = await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 25_000 });
-    await page.waitForTimeout(1800);
+    // Wait out Vite dep re-opt / lazy chunks — up to ~8s for "Laddar…" to clear
+    for (let i = 0; i < 16; i++) {
+      await page.waitForTimeout(500);
+      const txt = ((await page.locator('body').innerText().catch(() => '')) || '').trim();
+      if (!/^Laddar Livskompassen/i.test(txt) || txt.length > 80) break;
+    }
     title = await page.title();
     bodySnippet = ((await page.locator('body').innerText().catch(() => '')) || '').slice(0, 180);
     hasAuthBoundary = /Något gick fel vid inloggning/i.test(bodySnippet);
@@ -88,7 +68,9 @@ for (const path of ROUTES) {
     status = `nav-error: ${e instanceof Error ? e.message.slice(0, 120) : String(e)}`;
   }
 
-  const newErrors = consoleErrors.slice(beforeErr);
+  const newErrors = consoleErrors
+    .slice(beforeErr)
+    .filter((e) => !/504 \(Outdated Optimize Dep\)/i.test(e.text));
   const row = {
     path,
     status,
@@ -124,7 +106,9 @@ const summary = {
   routesWithConsoleErrors: results.filter((r) => r.consoleErrorCount > 0),
   results,
 };
+summary.probe = 'hub-sweep';
 writeFileSync(OUT, JSON.stringify(summary, null, 2));
+writeJson('hub-sweep.json', summary);
 dbg('H', 'hub-sweep:summary', 'sweep complete', {
   routes: summary.routes,
   failureCount: summary.failures.length,
@@ -139,5 +123,5 @@ for (const f of summary.failures) {
 for (const r of summary.routesWithConsoleErrors) {
   console.log(` WARN ${r.path} console×${r.consoleErrorCount}: ${r.consoleErrors[0] || ''}`);
 }
-console.log(`Wrote ${OUT}`);
+console.log(`Wrote ${OUT} + .cursor/qa-harden/hub-sweep.json`);
 process.exit(summary.failures.length ? 1 : 0);

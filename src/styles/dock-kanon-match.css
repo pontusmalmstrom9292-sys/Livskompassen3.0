@@ -4,20 +4,20 @@
 .dock-shell.dock-shell--basta-design,
 .dock-shell.dock-shell--basta-v2 {
   --dock-stack-height: 7.35rem;
-  --app-dock-clearance: calc(8.15rem + env(safe-area-inset-bottom, 0px) + 0.85rem);
+  --app-dock-clearance: calc(7.5rem + env(safe-area-inset-bottom, 0px) + 0.5rem);
   isolation: isolate;
   z-index: 60;
-  padding: 0 0.35rem max(0.45rem, env(safe-area-inset-bottom)) !important;
+  padding: 0 0.35rem max(0.2rem, env(safe-area-inset-bottom, 0px)) !important;
   background: transparent !important;
 }
 
 /*
  * design-packs-chrome sätter --app-dock-clearance på .app-shell med högre specificitet
  * (html[data-design-pack] .app-shell). Dock-shell-variabeln ärvs inte till .app-main —
- * utan denna override blir mainPadBottom ~140px medan dockan sitter tight → tom glipa / "för högt".
+ * utan denna override blir mainPadBottom för stor → tom glipa / "för högt".
  */
 html[data-design-pack] .app-shell--basta-design {
-  --app-dock-clearance: calc(8.15rem + env(safe-area-inset-bottom, 0px) + 0.85rem);
+  --app-dock-clearance: calc(7.5rem + env(safe-area-inset-bottom, 0px) + 0.5rem);
 }
 
 .dock-shell--basta-v2::before {
@@ -49,8 +49,8 @@ html[data-design-pack] .app-shell--basta-design {
 .basta-dock-bar--v2 {
   grid-template-columns: 1.15fr 1.15fr minmax(7.35rem, 1.85fr) 1.15fr 1.15fr;
   min-height: 2.65rem;
-  padding: 1.95rem 0.55rem 0.52rem;
-  padding-bottom: calc(0.48rem + env(safe-area-inset-bottom, 0px));
+  padding: 1.55rem 0.55rem 0.28rem;
+  padding-bottom: 0.28rem;
   border-radius: 0.65rem;
   border: 1px solid color-mix(in srgb, var(--bd-accent, #d4af37) 34%, transparent);
   background: linear-gradient(
@@ -499,13 +499,13 @@ html[data-design-pack] .app-shell--basta-design {
 @media (max-width: 639px) {
   .app-shell--basta-design,
   html[data-design-pack] .app-shell--basta-design {
-    --app-dock-clearance: calc(7.35rem + env(safe-area-inset-bottom, 0px) + 0.5rem);
+    --app-dock-clearance: calc(6.85rem + env(safe-area-inset-bottom, 0px) + 0.35rem);
   }
 
   .dock-shell.dock-shell--basta-design,
   .dock-shell.dock-shell--basta-v2 {
-    --dock-stack-height: 6.75rem;
-    --app-dock-clearance: calc(7.35rem + env(safe-area-inset-bottom, 0px) + 0.5rem);
+    --dock-stack-height: 6.35rem;
+    --app-dock-clearance: calc(6.85rem + env(safe-area-inset-bottom, 0px) + 0.35rem);
     padding: 0 0.35rem max(0.08rem, env(safe-area-inset-bottom, 0px)) !important;
   }
 
@@ -515,8 +515,8 @@ html[data-design-pack] .app-shell--basta-design {
 
   .basta-dock-bar--v2 {
     grid-template-columns: 1.15fr 1.15fr minmax(6.75rem, 1.85fr) 1.15fr 1.15fr;
-    padding-top: 1.45rem;
-    padding-bottom: calc(0.22rem + env(safe-area-inset-bottom, 0px));
+    padding-top: 1.15rem;
+    padding-bottom: 0.12rem;
   }
 
   .basta-dock-bar--v2 .basta-dock-bar__compass-slot {
@@ -526,7 +526,7 @@ html[data-design-pack] .app-shell--basta-design {
   .basta-dock-bar--v2 .basta-dock-bar__compass {
     width: 6.65rem;
     height: 6.65rem;
-    margin-top: -4.55rem;
+    margin-top: -4.15rem;
     margin-bottom: 0;
   }
 
@@ -542,13 +542,13 @@ html[data-design-pack] .app-shell--basta-design {
  */
 html.platform-capacitor-android .app-shell--basta-design,
 html.platform-capacitor-android[data-design-pack] .app-shell--basta-design {
-  --app-dock-clearance: calc(7.35rem + 0.35rem + var(--lk-android-shell-inset, 0.625rem));
+  --app-dock-clearance: calc(6.85rem + 0.25rem + var(--lk-android-shell-inset, 0.5rem));
 }
 
 html.platform-capacitor-android .dock-shell.dock-shell--basta-design,
 html.platform-capacitor-android .dock-shell.dock-shell--basta-v2 {
-  --app-dock-clearance: calc(7.35rem + 0.35rem + var(--lk-android-shell-inset, 0.625rem));
-  padding: 0 0.35rem var(--lk-android-shell-inset, 0.625rem) !important;
+  --app-dock-clearance: calc(6.85rem + 0.25rem + var(--lk-android-shell-inset, 0.5rem));
+  padding: 0 0.35rem var(--lk-android-shell-inset, 0.5rem) !important;
 }
 
 html.platform-capacitor-android .dock-shell--basta-v2::before {
@@ -580,8 +580,8 @@ html.platform-capacitor-android .basta-resurser-widget--header {
 
 @media (max-width: 639px) {
   html.platform-capacitor-android .basta-dock-bar--v2 {
-    padding-top: 1.35rem;
-    padding-bottom: 0.25rem !important;
+    padding-top: 1.1rem;
+    padding-bottom: 0.12rem !important;
   }
 }
 
@@ -603,7 +603,7 @@ html.platform-capacitor-android .app-main {
   width: 100%;
 }
 
-/* Vertikal scroll i hubbar — tillåt pan-y, men ingen bounce/vit glow */
+/* Vertikal scroll — pan-y, ingen bounce/vit glow (ingen document-lock — bröt Hem/Inkast) */
 html.platform-capacitor-android,
 html.platform-capacitor-android body {
   overscroll-behavior: none;

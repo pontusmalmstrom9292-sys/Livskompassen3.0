@@ -1,0 +1,20 @@
+{
+  "at": "2026-07-24T02:40:37.580Z",
+  "round": 3,
+  "prompt": "Jämför dina ändringar mot hela projektets kontext. Arbeta autonomt och sluta inte förrän koden är helt felfri och appen går att använda.",
+  "findings": [
+    {
+      "tier": "A",
+      "code": "DEVICE_FAIL",
+      "source": "device-probe",
+      "path": "android",
+      "detail": "device=ZY22L8WFBX · maestro FAIL · reused",
+      "swedish": "Telefon-test misslyckades: device=ZY22L8WFBX · maestro FAIL · reused."
+    }
+  ],
+  "agents": [
+    "sync-scroll-shell",
+    "sync-chrome-lock",
+    "sync-g85-ui-qa"
+  ]
+}

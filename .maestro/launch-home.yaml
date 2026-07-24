@@ -1,0 +1,4 @@
+appId: com.livskompassen.app
+---
+- launchApp
+- assertVisible: "Livskompassen"

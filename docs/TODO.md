@@ -1,5 +1,14 @@
 > **AI Governance:** Read [`PROJECT_STATE.md`](./PROJECT_STATE.md) and [`AI-GOVERNANCE.md`](./AI-GOVERNANCE.md) before work. Update this file after every completed task.
 
+## 2026-07-24 — UI QA Harden Loop (gratis)
+
+- [x] W0: tap-press chrome-first · scroll-probe exit≠0 · `.cursor/qa-harden/latest.json`
+- [x] W1: 5 sync-experter (chrome/scroll/g85/companion/fas24-verifier)
+- [x] W2–W3: `npm run qa:harden` detect→klass→Tier A recipes→smoke
+- [x] W4: `debug:device-probe` + `.maestro/smoke-dock.yaml` (USB SKIP)
+- [x] W5: `docs/QA-HARDEN-LOOP.md` · manifest v63
+- [ ] Pontus: kör `npm run qa:harden` · valfritt plugga G85
+
 ## 2026-07-23 — Widget UI Polish ×10 (Kap 6 / Gate F)
 
 - [x] R1–5: Capture/Note/Compass/Beacon/Inbox/Tasks/Journal/Harbor/Anchor/Child/Check-in

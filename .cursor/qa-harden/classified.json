@@ -1,0 +1,24 @@
+{
+  "findings": [
+    {
+      "tier": "A",
+      "code": "DEVICE_FAIL",
+      "source": "device-probe",
+      "path": "android",
+      "detail": "device=ZY22L8WFBX · maestro FAIL · reused",
+      "swedish": "Telefon-test misslyckades: device=ZY22L8WFBX · maestro FAIL · reused."
+    }
+  ],
+  "tierA": [
+    {
+      "tier": "A",
+      "code": "DEVICE_FAIL",
+      "source": "device-probe",
+      "path": "android",
+      "detail": "device=ZY22L8WFBX · maestro FAIL · reused",
+      "swedish": "Telefon-test misslyckades: device=ZY22L8WFBX · maestro FAIL · reused."
+    }
+  ],
+  "tierB": [],
+  "tierC": []
+}

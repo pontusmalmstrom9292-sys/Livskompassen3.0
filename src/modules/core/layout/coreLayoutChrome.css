@@ -332,6 +332,12 @@
       padding-bottom: max(0.7rem, env(safe-area-inset-bottom)) !important;
     }
 
+    /* Basta v2 — always tight to bottom (0.7rem left a visible gap at width>639). */
+    .dock-shell.dock-shell--basta-design.dock-shell--basta-v2,
+    .dock-shell.dock-shell--basta-v2 {
+      padding-bottom: max(0.08rem, env(safe-area-inset-bottom, 0px)) !important;
+    }
+
     @media (max-width: 639px) {
       .dock-shell.dock-shell--basta-design,
       .dock-shell.dock-shell--basta-v2 {
@@ -340,7 +346,7 @@
 
       html.platform-capacitor-android .dock-shell.dock-shell--basta-design,
       html.platform-capacitor-android .dock-shell.dock-shell--basta-v2 {
-        padding-bottom: var(--lk-android-shell-inset, 0.625rem) !important;
+        padding-bottom: var(--lk-android-shell-inset, 0.5rem) !important;
       }
     }
 

@@ -1,0 +1,16 @@
+{
+  "probe": "device",
+  "at": "2026-07-24T02:31:44.623Z",
+  "status": "pass",
+  "detail": "device=ZY22L8WFBX",
+  "devices": [
+    "ZY22L8WFBX"
+  ],
+  "maestro": {
+    "flow": "smoke-full-public",
+    "exit": 0,
+    "out": "Running on ZY22L8WFBX\n > Flow smoke-full-public\nLaunch app \"com.livskompassen.app\"... COMPLETED\nWait for animation to end within 8000 ms... COMPLETED\nTap on (Optional) \".*\", Index: 0... COMPLETED\nTap on (Optional) id: .*... COMPLETED\nTap on (Optional) \"Öppna meny\"... COMPLETED\nWait for animation to end within 2000 ms... COMPLETED\nTap on (Optional) \"Hem — Skriv\"... WARNED\n\n\n Warning: Element not found: Text matching regex: Hem — Skriv\nTap on (Optional) \"Startskärm\"... COMPLETED\nWait for animation to end within 2000 ms... COMPLETED\nTap on (Optional) \"Öppna meny\"... COMPLETED\nTap on (Optional) \"Liv och göra\"... WARNED\n\n\n Warning: Element not found: Text matching regex: Liv och göra\nTap on (Optional) \"Kompasser\"... WARNED\n\n\n Warning: Element not found: Text matching regex: Kompasser\nWait for animation to end within 2500 ms... COMPLETED\nTap on (Optional) \"Öppna meny\"... COMPLETED\nTap on (Optional) \"Liv och göra\"... WARNED\n\n\n Warning: Element not found: Text matching regex: Liv och göra\nTap on (Optional) \"MåBra\"... WARNED\n\n\n Warning: Element not found: Text matching regex: MåBra\nWait for animation to end within 2500 ms... COMPLETED\nTap on (Optional) \"Öppna meny\"... COMPLETED\nTap on (Opti"
+  },
+  "logcatFatal": [],
+  "screenshot": "/Users/Livskompassen/StudioProjects/Livskompassen3.0/.cursor/qa-harden/device-home.png"
+}

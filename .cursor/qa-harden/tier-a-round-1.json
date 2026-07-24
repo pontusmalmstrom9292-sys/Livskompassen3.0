@@ -1,0 +1,46 @@
+{
+  "findings": [
+    {
+      "tier": "A",
+      "code": "NO_SCROLL_SURFACE",
+      "source": "scroll-probe",
+      "path": "/familjen",
+      "detail": "NO_SCROLL_SURFACE",
+      "swedish": "Scrollproblem på /familjen: NO_SCROLL_SURFACE.",
+      "recipe": "NO_SCROLL_SURFACE"
+    },
+    {
+      "tier": "A",
+      "code": "NO_SCROLL_SURFACE",
+      "source": "scroll-probe",
+      "path": "/hjartat",
+      "detail": "NO_SCROLL_SURFACE",
+      "swedish": "Scrollproblem på /hjartat: NO_SCROLL_SURFACE.",
+      "recipe": "NO_SCROLL_SURFACE"
+    },
+    {
+      "tier": "A",
+      "code": "CRASH_OR_STUCK",
+      "source": "tap-press-console",
+      "path": "",
+      "detail": "The result of getSnapshot should be cached to avoid an infinite loop",
+      "swedish": "Sidan kastade ett fel i konsolen.",
+      "recipe": "CRASH_OR_STUCK"
+    },
+    {
+      "tier": "A",
+      "code": "DEVICE_FAIL",
+      "source": "device-probe",
+      "path": "android",
+      "detail": "device=ZY22L8WFBX · maestro FAIL",
+      "swedish": "Telefon-test misslyckades: device=ZY22L8WFBX · maestro FAIL."
+    }
+  ],
+  "fix": {
+    "applied": 0,
+    "notes": [
+      "2 scroll findings → agent queue (hub uses document scroll by design; no blind CSS).",
+      "1 crash/hub findings need agent inspection (no blind recipe). Wrote queue for Cursor."
+    ]
+  }
+}

@@ -132,7 +132,7 @@ export function ArbetslivInputSuperModule({ initialMode }: ArbetslivInputSuperMo
             })}
           </nav>
 
-          <div className="calm-scroll-island superhub-scroll-island pr-1">
+          <div className="arbetsliv-shell__delegate pr-1">
             <ArbetslivInputModeDelegate mode={activeMode} />
           </div>
 

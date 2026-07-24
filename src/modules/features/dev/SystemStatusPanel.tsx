@@ -45,7 +45,7 @@ export const SystemStatusPanel: React.FC = () => {
   };
 
   return (
-    <div className="fixed bottom-4 left-4 z-50 p-3 rounded-xl bg-surface-2/80 border border-border/40 shadow-lg backdrop-blur-md text-xs text-text-muted w-56">
+    <div className="fixed top-[max(4.5rem,env(safe-area-inset-top))] left-4 z-50 p-3 rounded-xl bg-surface-2/80 border border-border/40 shadow-lg backdrop-blur-md text-xs text-text-muted w-56">
       <h4 className="text-accent font-display text-[10px] uppercase tracking-[0.15em] mb-2">
         System Status
       </h4>
