@@ -1,3 +1,4 @@
+import { Button } from '@/design-system';
 import { LOW_ENERGY_COPY } from '../constants';
 
 type Props = {
@@ -10,8 +11,10 @@ export function MabraLowEnergyToggle({ enabled, onChange }: Props) {
   return (
     <label className="mabra-low-energy-toggle">
       <span className="mabra-low-energy-toggle__label">{LOW_ENERGY_COPY.toggleLabel}</span>
-      <button
+      <Button
         type="button"
+        variant="ghost"
+        size="icon"
         role="switch"
         aria-checked={enabled}
         aria-label={LOW_ENERGY_COPY.toggleLabel}
@@ -19,7 +22,7 @@ export function MabraLowEnergyToggle({ enabled, onChange }: Props) {
         onClick={() => onChange(!enabled)}
       >
         <span className="mabra-low-energy-toggle__thumb" aria-hidden />
-      </button>
+      </Button>
     </label>
   );
 }

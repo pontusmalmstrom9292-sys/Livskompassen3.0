@@ -16,6 +16,22 @@
 - [x] Arkivhubb, lista, kalender och shelf respekterar reduced-motion
 - [x] Samlade övergångar för vybyte och detaljpaneler i arkivet
 
+## 2026-07-24 — Mabra/Barnporten DS sweep (5 waves)
+
+- [x] Wave 1: MabraInputSuperModule använder DS Button för lägesval
+- [x] Wave 2: MabraModulValjare skip använder DS Button
+- [x] Wave 3: BarnportenLevelTwoStage använder DS Button
+- [x] Wave 4: ForalderTryggCard använder DS Button
+- [x] Wave 5: normal-case/trackning rättas i Mabra mode buttons
+
+## 2026-07-24 — Barnporten/MåBra DS sweep (5 waves)
+
+- [x] Wave 1: BarnportenWidget använder DS Button för widget controls
+- [x] Wave 2: BarnportenPage använder DS Button för action cards
+- [x] Wave 3: MabraLowEnergyToggle använder DS Button
+- [x] Wave 4: touch/focus parity i Barnporten/MåBra controls
+- [x] Wave 5: behåller befintlig flow och prompt-logik
+
 ## 2026-07-24 — Executive home DS sweep (5 waves)
 
 - [x] Wave 1: ExecutiveAnkareCard använder DS Button/TextArea

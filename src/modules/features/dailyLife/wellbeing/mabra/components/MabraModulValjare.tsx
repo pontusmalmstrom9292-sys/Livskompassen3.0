@@ -1,4 +1,5 @@
 import { ExamplePreviewCard } from '@/shared/ui/ExamplePreviewCard';
+import { Button } from '@/design-system';
 import { markMabraModulValjareSeen } from '../lib/mabraModulValjareStorage';
 import { MABRA_30_PILLARS, type MabraModulChoice } from '../lib/mabra30Pillars';
 
@@ -51,13 +52,14 @@ export function MabraModulValjare({ onSelect, onSkip }: Props) {
         ))}
       </div>
       {onSkip ? (
-        <button
+        <Button
           type="button"
+          variant="ghost"
           onClick={skip}
           className="min-h-11 text-xs text-text-muted hover:text-text-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
         >
           Visa alla zoner direkt
-        </button>
+        </Button>
       ) : null}
     </div>
   );

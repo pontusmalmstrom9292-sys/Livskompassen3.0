@@ -126,44 +126,12 @@
     box-shadow: var(--ds-elevation-card-hover);
   }
 
-  /* Basta prod cards */
+  /* Basta prod cards — defer to basta-design.css Wallet object (avoid flattening) */
   .basta-design__card {
-    position: relative;
-    overflow: hidden;
-    box-shadow: var(--ds-elevation-card);
     transition:
       border-color var(--ds-duration-normal) var(--ds-ease-premium),
       box-shadow var(--ds-duration-normal) var(--ds-ease-premium),
       transform var(--ds-duration-normal) var(--ds-ease-premium);
-  }
-
-  .basta-design__card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      color-mix(in srgb, var(--bd-accent) 45%, transparent),
-      transparent
-    );
-    pointer-events: none;
-  }
-
-  .basta-design__card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    pointer-events: none;
-    background: radial-gradient(
-      ellipse 90% 55% at 50% -10%,
-      color-mix(in srgb, var(--bd-accent) 8%, transparent),
-      transparent 62%
-    );
   }
 
   .basta-design__card:active {

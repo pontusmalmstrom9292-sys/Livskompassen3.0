@@ -16,6 +16,22 @@
 - `debug_device_probe` + classify: exhaustive timeout utan UI-fel → soft-fail / Tier B `DEVICE_HARNESS`
 - Smoke: companion-widgets · locked-ux · design-modules **PASS**
 
+## 2026-07-24 — Mabra/Barnporten DS sweep (5 waves)
+
+- Wave 1: MabraInputSuperModule → DS Button för lägesval
+- Wave 2: MabraModulValjare → DS Button för skip
+- Wave 3: BarnportenLevelTwoStage → DS Button
+- Wave 4: ForalderTryggCard → DS Button
+- Wave 5: normal-case/trackning i Mabra mode buttons
+
+## 2026-07-24 — Barnporten/MåBra DS sweep (5 waves)
+
+- Wave 1: BarnportenWidget → DS Button
+- Wave 2: BarnportenPage → DS Button
+- Wave 3: MabraLowEnergyToggle → DS Button
+- Wave 4: touch/focus parity i barnporten och MåBra
+- Wave 5: prompt/logik orörd
+
 ## 2026-07-24 — Executive home DS sweep (5 waves)
 
 - Wave 1: ExecutiveAnkareCard → DS Button/TextArea

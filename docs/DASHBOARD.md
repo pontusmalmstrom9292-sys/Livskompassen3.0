@@ -3,6 +3,14 @@
 - Locked UX struktur/etiketter orörda · MåBra lavendel kvar
 - Smoke: design-modules · basta-dock-lock · locked-ux · calm-card-audit **PASS**
 
+### 2026-07-24 — Mabra/Barnporten DS sweep (5 waves)
+- MabraInputSuperModule, MabraModulValjare, BarnportenLevelTwoStage, ForalderTryggCard
+- Lägesval och actions följer DS Button-linjen
+
+### 2026-07-24 — Barnporten/MåBra DS sweep (5 waves)
+- BarnportenWidget, BarnportenPage, MabraLowEnergyToggle
+- DS Buttons + touch/focus parity, inga flowändringar
+
 ### 2026-07-24 — Executive home DS sweep (5 waves)
 - Ankare, Fokus, Planering, Livslogg → DS primitives
 - Hemkorten får jämnare touch/focus utan flowändring
