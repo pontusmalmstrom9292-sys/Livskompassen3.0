@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { CalendarDays, ChevronRight, LayoutList } from 'lucide-react';
 import { clsx } from 'clsx';
+import { Button, ButtonLink } from '@/design-system';
 import { usePlanningTasks } from '@/features/admin/planning/hooks/usePlanningTasks';
 import { homeStepLabel, pickHomeDaySteps } from '@/features/admin/planning/utils/pickHomeDaySteps';
 import { HOME_SUPERHUB_ROUTES } from '../homeSuperhubRoutes';
@@ -39,27 +39,27 @@ export function ExecutivePlaneringCard() {
 
       <div className="exec-planering-tabs mt-3" role="tablist" aria-label="Planering">
         {TABS.map((t) => (
-          <button
+          <Button
             key={t.id}
             type="button"
+            variant={tab === t.id ? 'accent' : 'ghost'}
+            size="sm"
             role="tab"
             aria-selected={tab === t.id}
-            className={clsx(
-              'exec-planering-tabs__tab min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55',
-              tab === t.id && 'exec-planering-tabs__tab--active',
-            )}
+            className={clsx('exec-planering-tabs__tab min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55', tab === t.id && 'exec-planering-tabs__tab--active')}
             onClick={() => setTab(t.id)}
           >
             {t.label}
-          </button>
+          </Button>
         ))}
       </div>
 
       <div className="mt-4 min-h-[4.5rem]" aria-busy={loading || undefined}>
         {tab === 'handling' ? (
           <>
-            <Link
+            <ButtonLink
               to={HOME_SUPERHUB_ROUTES.planeringHub}
+              variant="ghost"
               className="exec-planering-task-row min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             >
               <span className="exec-planering-task-row__icon" aria-hidden>
@@ -78,7 +78,7 @@ export function ExecutivePlaneringCard() {
                 </span>
               </span>
               <ChevronRight className="h-4 w-4 shrink-0 text-accent" strokeWidth={1.75} aria-hidden />
-            </Link>
+            </ButtonLink>
             {!loading && steps.length > 0 ? (
               <ul className="mt-2 space-y-1.5 pl-1">
                 {steps.map((task) => (
@@ -94,24 +94,26 @@ export function ExecutivePlaneringCard() {
         {tab === 'projekt' ? (
           <div className="space-y-2">
             <p className="text-xs text-text-muted">Projektlistor, anteckningar och bilder.</p>
-            <Link
+            <ButtonLink
               to="/projekt"
+              variant="accent"
               className="exec-home-btn exec-home-btn--primary inline-flex min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             >
               Öppna Projekt
-            </Link>
+            </ButtonLink>
           </div>
         ) : null}
 
         {tab === 'inkorg' ? (
           <div className="space-y-2">
             <p className="text-xs text-text-muted">Fånga tankar och inkast till Planering.</p>
-            <Link
+            <ButtonLink
               to={HOME_SUPERHUB_ROUTES.planeringInkast}
+              variant="accent"
               className="exec-home-btn exec-home-btn--primary inline-flex min-h-11 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             >
               Öppna Inkorg
-            </Link>
+            </ButtonLink>
           </div>
         ) : null}
       </div>

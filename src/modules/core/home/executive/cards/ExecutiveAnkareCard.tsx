@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Anchor, Edit2, Star } from 'lucide-react';
+import { Button, TextArea } from '@/design-system';
 import { saveCheckIn, getRecentCheckIns } from '@/core/firebase/firestore';
 import { useStore } from '@/core/store';
 import { HOME_SUPERHUB_ROUTES } from '../../homeSuperhubRoutes';
@@ -70,14 +71,16 @@ export function ExecutiveAnkareCard({ onSaved }: Props) {
         <Anchor className="h-4 w-4 text-accent" strokeWidth={1.5} />
         <p className="exec-home-label mb-0">DAGENS ANKARE</p>
         {!isEditing && anchor.trim() ? (
-          <button
+          <Button
             type="button"
+            variant="ghost"
+            size="icon"
             className="ml-auto inline-flex min-h-11 min-w-11 items-center justify-center rounded-lg text-text-muted transition-colors hover:text-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             aria-label="Redigera ankare"
             onClick={() => setIsEditing(true)}
           >
             <Edit2 className="h-3.5 w-3.5" />
-          </button>
+          </Button>
         ) : (
           <Star className="ml-auto h-3.5 w-3.5 fill-accent text-accent" aria-hidden />
         )}
@@ -86,7 +89,7 @@ export function ExecutiveAnkareCard({ onSaved }: Props) {
 
       {isEditing ? (
         <div className="mt-3 space-y-2">
-          <textarea
+          <TextArea
             className="exec-home-input min-h-11 w-full resize-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
             rows={2}
             placeholder="Ett mikrosteg räcker."
@@ -94,14 +97,15 @@ export function ExecutiveAnkareCard({ onSaved }: Props) {
             onChange={(e) => setAnchor(e.target.value)}
             aria-label="Dagens ankare"
           />
-          <button
+          <Button
             type="button"
+            variant="accent"
             className="exec-home-btn exec-home-btn--primary min-h-11 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40"
             disabled={saving}
             onClick={() => void handleSave()}
           >
             {saving ? 'Sparar…' : 'Spara ankare'}
-          </button>
+          </Button>
           {error ? (
             <p className="text-xs text-danger" role="alert">
               {error}
@@ -109,8 +113,9 @@ export function ExecutiveAnkareCard({ onSaved }: Props) {
           ) : null}
         </div>
       ) : (
-        <button
+        <Button
           type="button"
+          variant="ghost"
           className="mt-3 min-h-11 w-full rounded-lg text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           onClick={() => setIsEditing(true)}
         >
@@ -118,7 +123,7 @@ export function ExecutiveAnkareCard({ onSaved }: Props) {
             {anchor.trim() || 'Ett mikrosteg räcker.'}
           </p>
           <p className="mt-1 text-[10px] text-text-muted">Inte hela dagen — bara det viktigaste nu.</p>
-        </button>
+        </Button>
       )}
     </article>
   );

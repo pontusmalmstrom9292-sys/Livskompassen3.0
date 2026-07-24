@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MessageCircle, Send, Sparkles } from 'lucide-react';
-import { Button } from '@/design-system';
+import { Button, TextArea } from '@/design-system';
 import { callChildrenLogsQuery, type ChildrenLogCitation } from '@/features/family/children/api/childrenLogsService';
 import type { ChildAlias } from '@/features/family/children/constants';
 import { RAGErrorBoundary } from '@/shared/ui/RAGErrorBoundary';
@@ -48,7 +48,7 @@ export function ExecutiveLivsloggCard({ activeChild = 'Kasper' }: Props) {
             </p>
           </div>
         </header>
-        <textarea
+        <TextArea
           value={inputText}
           onChange={(e) => setInputText(e.target.value)}
           placeholder="T.ex. Hur har sömnen varit senaste veckan?"
@@ -77,15 +77,17 @@ export function ExecutiveLivsloggCard({ activeChild = 'Kasper' }: Props) {
         {citations.length > 0 ? (
           <p className="mt-1 text-[10px] text-text-muted">{citations.length} källor i livslogg</p>
         ) : null}
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="icon"
           className="exec-livslogg-fab inline-flex min-h-11 min-w-11 items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent/55"
           aria-label="Skicka fråga"
           disabled={loading || !inputText.trim()}
           onClick={() => void handleAsk()}
         >
           <Send className="h-4 w-4" strokeWidth={1.5} />
-        </button>
+        </Button>
       </article>
     </RAGErrorBoundary>
   );

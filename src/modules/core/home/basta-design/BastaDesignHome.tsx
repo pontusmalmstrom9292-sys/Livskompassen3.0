@@ -142,7 +142,7 @@ export function BastaDesignHome({ onCheckInSaved, developmentRefreshKey = 0 }: P
       </motion.div>
 
       <motion.div className="basta-design__grid-2" {...staggerChild}>
-        <BastaCard>
+        <BastaCard className="basta-design__card--fokus basta-design__card--familjen">
           <BastaCardHeader icon={<Target size={14} />} label="Dagens fokus" />
           <h3 className="basta-design__card-title">Barnfokus</h3>
           <p className="basta-design__card-meta">Dagens fokus — ett steg i taget</p>
@@ -166,7 +166,7 @@ export function BastaDesignHome({ onCheckInSaved, developmentRefreshKey = 0 }: P
           </button>
         </BastaCard>
 
-        <BastaCard>
+        <BastaCard className="basta-design__card--mabra basta-design__card--fyren">
           <BastaCardHeader icon={<MessageSquare size={14} />} label="Fråga livscoachen" />
           <p className="basta-design__card-meta">Har du någon fråga du vill ställa?</p>
           <div className="basta-design__coach-bubble">Hur har det gått den senaste veckan?</div>
@@ -182,7 +182,7 @@ export function BastaDesignHome({ onCheckInSaved, developmentRefreshKey = 0 }: P
       </motion.div>
 
       <motion.div {...staggerChild}>
-        <BastaCard>
+        <BastaCard className="basta-design__card--ankare basta-design__card--dagbok">
           <BastaCardHeader
             icon={<Anchor size={14} />}
             label="Dagens ankare"
@@ -222,7 +222,7 @@ export function BastaDesignHome({ onCheckInSaved, developmentRefreshKey = 0 }: P
       </motion.div>
 
       <motion.div {...staggerChild}>
-        <BastaCard>
+        <BastaCard className="basta-design__card--planering basta-design__card--fokus">
           <BastaCardHeader icon={<Target size={14} />} label="Planering" />
           <div className="basta-design__tabs-row basta-design__tabs-row--plan">
             {planTabs.map((t) => (
@@ -280,7 +280,7 @@ export function BastaDesignHome({ onCheckInSaved, developmentRefreshKey = 0 }: P
           </button>
         </div>
         {notes.length === 0 ? (
-          <BastaCard>
+          <BastaCard className="basta-design__card--dagbok">
             <p className="basta-design__card-meta">Inga anteckningar ännu.</p>
             <BastaButton type="button" onClick={() => navigate('/hjartat?tab=reflektion&write=true')}>
               Skriv första raden
@@ -289,7 +289,7 @@ export function BastaDesignHome({ onCheckInSaved, developmentRefreshKey = 0 }: P
         ) : (
           <div className="basta-design__notes-list">
             {notes.map((n) => (
-              <BastaCard key={n.id} className="basta-design__note-row">
+              <BastaCard key={n.id} className="basta-design__note-row basta-design__card--dagbok">
                 <div className="basta-design__note-main">
                   <span className="basta-design__badge">{n.type}</span>
                   <span className="basta-design__note-title">{n.title}</span>

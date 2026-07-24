@@ -6,7 +6,7 @@ import { HOME_SUPERHUB_ROUTES } from '../homeSuperhubRoutes';
 /** Hem — bro till Superdagbok (ingen duplicerad journal-form). */
 export function HomeDagbokPanel() {
   return (
-    <div className="home-module-panel space-y-4">
+    <div className="home-module-panel home-module-panel--dagbok space-y-4">
       <p className="home-module-panel__lead">
         Skriv i Superdagbok — reflektion, snabb spegling eller minneslista på ett ställe.
       </p>

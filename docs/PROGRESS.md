@@ -1,3 +1,13 @@
+## 2026-07-24 — Premium UI hel våg (Wallet skin)
+
+- Wallet-tokens i `variables.css` + glass/elevation/shadow TS
+- `calm-card`/`glass-card`/`elongated-module`: guldram + inset, mindre bloom
+- Banner section Wallet · BastaDesign hem-kort identity skins · header crown · dock v2 capsule
+- `BastaDesignDockCompass` tokeniserad (inga fria hex) · sparsam `--glow-compass`
+- Familjen/MåBra skin via rim-tokens (lavendel behållen)
+- Smoke: design-modules · basta-dock-lock · locked-ux · calm-card-audit **PASS**
+- Eval: `docs/evaluations/2026-07-24-premium-ui-hel-vag-wallet-skin.md`
+
 ## 2026-07-24 — QA Harden Tier A fix
 
 - `planeringInboxConnections`: stabil snapshot-cache → stoppar `getSnapshot should be cached`
@@ -5,6 +15,14 @@
 - `debug_hub_sweep`: en retry vid nätverksflake + splash-stuck
 - `debug_device_probe` + classify: exhaustive timeout utan UI-fel → soft-fail / Tier B `DEVICE_HARNESS`
 - Smoke: companion-widgets · locked-ux · design-modules **PASS**
+
+## 2026-07-24 — Executive home DS sweep (5 waves)
+
+- Wave 1: ExecutiveAnkareCard → DS Button/TextArea
+- Wave 2: ExecutiveFocusCard → DS Button
+- Wave 3: ExecutivePlaneringCard → DS Button/ButtonLink
+- Wave 4: ExecutiveLivsloggCard → DS TextArea/Button
+- Wave 5: touch/focus parity i executive home cards
 
 ## 2026-07-24 — Rest of app DS sweep (5 waves)
 

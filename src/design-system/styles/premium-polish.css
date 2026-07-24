@@ -191,7 +191,8 @@
 
   .module-section-banner--depth,
   .ds-banner {
-    box-shadow: var(--ds-shadow-md);
+    box-shadow: var(--ds-elevation-wallet, var(--ds-shadow-md));
+    border-color: var(--ds-card-rim-gold, color-mix(in srgb, var(--ds-color-accent) 42%, transparent));
   }
 
   .alert-banner--info,
@@ -207,21 +208,22 @@
 
   .design-pack-header,
   .basta-design__header-crown {
-    backdrop-filter: blur(var(--ds-blur-md)) saturate(var(--ds-glass-saturate));
-    -webkit-backdrop-filter: blur(var(--ds-blur-md)) saturate(var(--ds-glass-saturate));
+    backdrop-filter: blur(var(--ds-blur-lg, 16px)) saturate(var(--ds-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--ds-blur-lg, 16px)) saturate(var(--ds-glass-saturate));
     box-shadow:
-      inset 0 1px 0 color-mix(in srgb, var(--ds-color-accent-light) 16%, transparent),
-      0 8px 24px -12px var(--ds-ambient-falloff);
+      var(--ds-card-inset-depth),
+      0 0 0 1px var(--ds-card-rim-gold),
+      0 10px 28px -12px var(--ds-ambient-falloff);
   }
 
   .design-pack-header__title,
   .basta-design__header-title {
-    text-shadow: 0 0 20px color-mix(in srgb, var(--ds-color-accent) 28%, transparent);
+    text-shadow: 0 0 18px color-mix(in srgb, var(--ds-glow-cta) 55%, transparent);
   }
 
   .design-pack-header__ornament span,
   .basta-design__header-ornament-line {
-    box-shadow: 0 0 8px color-mix(in srgb, var(--ds-color-accent) 35%, transparent);
+    box-shadow: 0 0 6px color-mix(in srgb, var(--ds-glow-cta) 40%, transparent);
   }
 
   .header-chrome-btn,

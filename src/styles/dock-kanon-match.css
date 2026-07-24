@@ -51,19 +51,16 @@ html[data-design-pack] .app-shell--basta-design {
   min-height: 2.65rem;
   padding: 1.55rem 0.55rem 0.28rem;
   padding-bottom: 0.28rem;
-  border-radius: 0.65rem;
-  border: 1px solid color-mix(in srgb, var(--bd-accent, #d4af37) 34%, transparent);
+  border-radius: 0.75rem;
+  border: 1px solid var(--ds-card-rim-gold, color-mix(in srgb, var(--bd-accent, var(--accent)) 42%, transparent));
   background: linear-gradient(
     180deg,
-    color-mix(in srgb, #1a2438 92%, #132035) 0%,
-    color-mix(in srgb, #090c16 98%, #020617) 100%
+    color-mix(in srgb, var(--surface-3, var(--surface-2)) 92%, var(--bg)) 0%,
+    color-mix(in srgb, var(--bg) 98%, transparent) 100%
   );
-  backdrop-filter: blur(10px) saturate(1.08);
-  -webkit-backdrop-filter: blur(10px) saturate(1.08);
-  box-shadow:
-    inset 0 1px 0 color-mix(in srgb, var(--bd-accent, #d4af37) 38%, transparent),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.45),
-    0 8px 24px rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(var(--ds-blur-lg, 16px)) saturate(var(--ds-glass-saturate, 1.12));
+  -webkit-backdrop-filter: blur(var(--ds-blur-lg, 16px)) saturate(var(--ds-glass-saturate, 1.12));
+  box-shadow: var(--ds-elevation-dock);
 }
 
 .basta-dock-bar--v2::before {
@@ -138,22 +135,18 @@ html[data-design-pack] .app-shell--basta-design {
   color: inherit;
   background: linear-gradient(
     165deg,
-    color-mix(in srgb, #2f3a4e 85%, var(--bd-accent, #d4af37)) 0%,
-    color-mix(in srgb, #0a0e16 92%, #000) 100%
+    color-mix(in srgb, var(--surface-3, var(--surface-2)) 85%, var(--bd-accent, var(--accent))) 0%,
+    color-mix(in srgb, var(--bg) 92%, transparent) 100%
   );
-  border: 1px solid color-mix(in srgb, var(--bd-accent, #d4af37) 32%, transparent);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    inset 0 -2px 5px rgba(0, 0, 0, 0.45),
-    0 2px 6px rgba(0, 0, 0, 0.4);
+  border: 1px solid var(--ds-card-rim-gold, color-mix(in srgb, var(--bd-accent, var(--accent)) 32%, transparent));
+  box-shadow: var(--ds-card-inset-depth);
 }
 
 .basta-dock-bar--v2 .basta-dock-bar__side--active .basta-dock-bar__icon-well {
-  border-color: color-mix(in srgb, var(--bd-accent, #d4af37) 55%, transparent);
+  border-color: color-mix(in srgb, var(--bd-accent, var(--accent)) 55%, transparent);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.14),
-    inset 0 -2px 5px rgba(0, 0, 0, 0.35),
-    0 0 12px color-mix(in srgb, var(--bd-accent, #d4af37) 28%, transparent);
+    var(--ds-card-inset-depth),
+    0 0 10px var(--ds-glow-cta, transparent);
 }
 
 .basta-dock-bar--v2 .basta-dock-bar__icon {
@@ -161,11 +154,11 @@ html[data-design-pack] .app-shell--basta-design {
   width: 1.375rem;
   height: 1.375rem;
   opacity: 1;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+  filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--bg) 70%, transparent));
 }
 
 .basta-dock-bar--v2 .basta-dock-bar__side--active .basta-dock-bar__icon {
-  filter: drop-shadow(0 0 6px color-mix(in srgb, var(--bd-accent, #d4af37) 55%, transparent));
+  filter: drop-shadow(0 0 5px var(--ds-glow-cta, transparent));
 }
 
 /* Kompass fyller mittfältet */
@@ -187,12 +180,12 @@ html[data-design-pack] .app-shell--basta-design {
 .basta-dock-bar--v2 .basta-dock-bar__compass::before {
   inset: 0;
   border-width: 2px;
-  border-color: color-mix(in srgb, var(--bd-accent, #d4af37) 58%, transparent);
+  border-color: color-mix(in srgb, var(--bd-accent, var(--accent)) 48%, transparent);
   box-shadow:
-    inset 0 2px 8px rgba(255, 255, 255, 0.1),
-    inset 0 -4px 10px rgba(0, 0, 0, 0.52),
-    0 0 24px color-mix(in srgb, var(--bd-accent, #d4af37) 48%, transparent),
-    0 12px 26px rgba(0, 0, 0, 0.58);
+    var(--ds-card-inset-depth),
+    0 0 18px var(--ds-glow-compass, transparent),
+    0 12px 26px color-mix(in srgb, var(--bg) 58%, transparent);
+  animation: none;
 }
 
 .basta-dock-bar--v2 .basta-dock-bar__compass-mark {
@@ -200,7 +193,11 @@ html[data-design-pack] .app-shell--basta-design {
   height: 100%;
   max-width: 7.15rem;
   max-height: 7.15rem;
-  filter: drop-shadow(0 4px 16px rgba(0, 0, 0, 0.58));
+  filter: drop-shadow(0 4px 14px color-mix(in srgb, var(--bg) 55%, transparent));
+}
+
+.basta-dock-compass__ring {
+  stroke: color-mix(in srgb, var(--accent-light, var(--accent)) 28%, transparent);
 }
 
 .basta-dock-bar--v2 .basta-dock-bar__side:nth-child(1)::after,

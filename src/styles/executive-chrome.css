@@ -413,16 +413,15 @@
 
 [data-theme='ME-midnight-executive'] :is(.exec-reflektion-hero, .exec-home-card),
 [data-theme='ME-basta-design'] :is(.exec-reflektion-hero, .exec-home-card) {
-  border-color: color-mix(in srgb, var(--accent) 18%, transparent);
-  background:
-    linear-gradient(165deg, color-mix(in srgb, var(--ds-glass-bg) 88%, transparent) 0%, color-mix(in srgb, var(--surface) 96%, transparent) 100%);
+  border-color: var(--ds-card-rim-gold, color-mix(in srgb, var(--accent) 42%, transparent));
+  background: var(--ds-wallet-surface, linear-gradient(165deg, color-mix(in srgb, var(--ds-glass-bg) 88%, transparent) 0%, color-mix(in srgb, var(--surface) 96%, transparent) 100%));
   box-shadow: var(--ds-elevation-card);
   backdrop-filter: blur(var(--ds-glass-blur)) saturate(var(--ds-glass-saturate));
   -webkit-backdrop-filter: blur(var(--ds-glass-blur)) saturate(var(--ds-glass-saturate));
 }
 
 [data-theme='ME-midnight-executive'] .exec-home-card {
-  border: 1px solid color-mix(in srgb, var(--accent) 18%, transparent);
+  border: 1px solid var(--ds-card-rim-gold, color-mix(in srgb, var(--accent) 42%, transparent));
   border-radius: 1.25rem;
   /* Glass från :is(.exec-reflektion-hero, .exec-home-card) — ingen flat surface-2 override */
   padding: 1rem 1.1rem;
